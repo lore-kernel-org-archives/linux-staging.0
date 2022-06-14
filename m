@@ -1,220 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B1F185F;
-	Tue, 14 Jun 2022 14:09:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A27EC3411B;
-	Tue, 14 Jun 2022 14:09:26 +0000 (UTC)
-Message-ID: <0c656c92-f029-bc02-6026-23649836d080@xs4all.nl>
-Date: Tue, 14 Jun 2022 16:09:24 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F84A7A
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 14:43:01 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25EBYGvv028312;
+	Tue, 14 Jun 2022 14:42:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=WZLWm2GRDxVCnTzecoazH8KRURQbZ9zm2EbOl26CxGI=;
+ b=g/NRIjRogFWKhLGHwl9dMyNeQ2M+si73k9m5ZwQGmDQU8FfKg/T64BPxdgyMsvRw9vPV
+ QZEm7KAXXUE3PhxSfxNsZ0US7Z1xmpeD68G/pvjIOyoB05Q9qnE2A+JcsAs3KOZTZKJ7
+ ak1hdZm1ZwIHGc4+Wv7XoGUKH+dG4TosRpti6dGXd426/BeGIoVQryJMXn9Hj7oFPMDr
+ lf44Uti5l9NyZxHhP/WyxwI7ct30SwxunE9I3gQi/0yNWc2DWv455HC33ECN25Je1G3j
+ euuLOBGFLDVvjKyceLrb28LNa+AdoWpBJqNNF1m9TWUT/HALV8V6pg3KdrmBX0hP4fSD Fw== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjns60ys-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Jun 2022 14:42:59 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25EEaNFT010415;
+	Tue, 14 Jun 2022 14:42:58 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gpr296y39-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Jun 2022 14:42:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WmN6wYvzChi37Ht9NCabYjPS7UoywPUIOQSiycT9Q97EfckEyTxm33jOLBpn6Wi56MwWXe7dFwB6Cm+VqcNTAKJvcLJr1xyFjvkUSO1H6/7ZmH0ROSyLXnOCj5YQZJj3KM4BNVOENqveJbpc2hgoxEAvfsNOlcLp4p7gqdY+ggaL69n87wUJpY+RSwsynD8NS2X80Nus/7Cqn99r7a87QYU+Ip3aesezeK0Gz1UpudI+7b20DlTjvmCBnXndiTkaCTPn68J0mndQtI5rA/lEzGAVyYQyCAcvs3zMrd36/B0KW3CzzYh/yUOJfz69u5tOGUPAxD8BA2qXIM9vP/gOmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WZLWm2GRDxVCnTzecoazH8KRURQbZ9zm2EbOl26CxGI=;
+ b=kZubjUKTqVSxiMor1VARR2ZRRMoTyrKx+L1x/5BGXxQ5V+X+r4pWGa7dq2EDFG7Vrf5Qv3/bSPiMqQNaRfh7CYBAEU5J0WbJiv+1lNPWsLQNGB+Vzuw+GSuuUwB1oAFlDD3gfT4T4yYKYQn50uOQg/82Pd9Nd+1EnOlBAWd4JcsaGqV/F883or83YSI2V68DjQNz0FOxC2Dn4347OnxjA7JCWDoe88QME9Lqlhs0wrfnHonhW2vm41iQwPF4UYXvkOvq817v9JhY6saRm4YBp+AVntL6oBkAffpqEf99gL+Uy8NNkDgEcKa193UaO4Hp3ZwnaXtxa/kLTKjcwED3ZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WZLWm2GRDxVCnTzecoazH8KRURQbZ9zm2EbOl26CxGI=;
+ b=RKEjf607994JyEPOdiJDO5uBZCZOS8q+ZkFVfjsNkIH4oF3lnVlaaPc7QVgjh7pL87d9YKwFfDd2wSwrdNvb/XKjB3XTd+u1AdKFq74XGFbFjCDQFU3n6+UaFqolFL99YoEz5kHoUOAaxnB6JNs4RcCfBX9cXE8uB471HeXI8Lk=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CH0PR10MB5244.namprd10.prod.outlook.com
+ (2603:10b6:610:d9::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Tue, 14 Jun
+ 2022 14:42:57 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5332.020; Tue, 14 Jun 2022
+ 14:42:57 +0000
+Date: Tue, 14 Jun 2022 17:42:45 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: daniel watson <ozzloy@challenge-bot.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] staging: r8188eu: remove leading '_' on
+ _rtw_IOL_append_WB_cmd
+Message-ID: <20220614091654.GI2146@kadam>
+References: <cover.1655171591.git.ozzloy@challenge-bot.com>
+ <a1596a62d8e63afbe6a645919a349a8402277c5f.1655171591.git.ozzloy@challenge-bot.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a1596a62d8e63afbe6a645919a349a8402277c5f.1655171591.git.ozzloy@challenge-bot.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MRXP264CA0044.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:14::32) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v8 15/17] media: uapi: HEVC: fix padding in v4l2 control
- structures
-Content-Language: en-US
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@collabora.com
-References: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
- <20220614083614.240641-16-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220614083614.240641-16-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 94b59a3c-ab21-499c-c1ee-08da4e142bd5
+X-MS-TrafficTypeDiagnostic: CH0PR10MB5244:EE_
+X-Microsoft-Antispam-PRVS: 
+	<CH0PR10MB52444E7D104F396A0B05ED818EAA9@CH0PR10MB5244.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	fyWKkepCFDrBzORNGu+VsR7u7iS3f0/K0cm91ILyVtT3M3g2RWwx1Vv6PHjiqNNMTOiOOS/wF2Xm0VOISShtoliJS6bjhWa0dAnaQTJnpfqRSuuSIn5lJRpZPMH05FsMZ8kob39x26+aoBe/en7HBjZsvypr1Bot/eeQdZTdubzIvjRfQhiz0N4Irjf8sCbwLZJ1ac796idmFTTUwN2PcAJTXrI3IzO/MItD/2YhERdiCwZd3lXVUbxOekF8CU1TLykgUfAcZam3vIbGNR6tN8Z3NWHl2SpRbMXpfkyXFbijJbUOkg/meNtyrixQUREM5nXCYpBnMIHuylVpbPJhXvQWA5bjlgYvdPKHiAYini/B14EM9womBoSOrM4QyWyL7NIbRvEhAxCwiUPU5zFuPVNRwC3vXiII1irzuxZzgjPnacvl0zjyOqCkkndMRqKHCdZR+WLJkp4Nn7oS0jHLKBw2RZeONurnQISUexChyYEzsGkEpQG6xAXSdW63qoLtbCQ2zqBAhhM78UI7vMNfl4FJM9fmVLEJ6ImbrSJ9uTdXF0DaHJjxxrhpWGUrhd4Y2/gsaruXg1iqiytL0Ak/VVLI31KopJeNVTxS018r+B/smpBg5+H7thpswYSaQ5VzF3HMpXAK6pj+fxCrQuIN5+VY7Jg8UVUjTzkGBpbCCEHCNHc5MZ54hKs63+1oPyx6XLDuDDvs5oG6t6A/KqMeHA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(26005)(6512007)(38350700002)(9686003)(6666004)(38100700002)(6486002)(66946007)(6506007)(83380400001)(52116002)(4744005)(44832011)(5660300002)(33716001)(33656002)(6916009)(66476007)(2906002)(8676002)(54906003)(316002)(1076003)(186003)(508600001)(8936002)(4326008)(86362001)(66556008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?vOY+3IpMOqi5Jmyn6H6u6gOx11mOmsWZwB7quZf5cMvA0/SlBMRb0UtY6A0h?=
+ =?us-ascii?Q?OkVGBKzdCdHUOJKFeHjJW8GaUyY+GIL73w6bUr908GxLNHeU6zRhbCLNqmXs?=
+ =?us-ascii?Q?Is1bsRfMhb0EFBTE7yAIyAsvzv1CFBzuA1CF8qA4UBODiiJOIZSmOQsRP2UR?=
+ =?us-ascii?Q?Bqfd/PrcCkkWrzJ7Oc08G2RsZkw5xpD7a0YX/SklIlm6bK68iRupG9qvDsoo?=
+ =?us-ascii?Q?3eC0xhbhX4WLDDaYs780TTvjQFxW7aoyR3vOG92DUYNJU2ph6DQSgTTT9PHo?=
+ =?us-ascii?Q?jaz7LASKEpJvhvERSzazvFriqAUybxufeBGxJ+RfJQYkTKahd65TjcWMua9o?=
+ =?us-ascii?Q?2LyEzwgqh2b4WybPMuPiNlGsSuFEBgk8KyX349scoZkrwesZ7wip7lMnRHbd?=
+ =?us-ascii?Q?/ozb8btb/NnH5Q8djQYCEQJ8kcaTbWsZAXN/sn9R3nqgFALQmK8v78YAB4rt?=
+ =?us-ascii?Q?WR8k9Uo7Z+IuGaxxW6+2VQfu8TMXbEu5wjZgZsAP3zrfaQVr/8qcZa/HlHr2?=
+ =?us-ascii?Q?6XtehkuzIOqAJSbKHdmDiSzZcja+eWi5G1Ei/0OMZ9mdIf9KbKMylpDOY4e5?=
+ =?us-ascii?Q?a4CDZj5rJDFwzxQoGb36iCNaNyaTPuU/WzH9fVVwYeZTJjq04l2ItkBrMEKr?=
+ =?us-ascii?Q?1/rhtwUYzgJMdR/ilO5mNraFJfH3gooDrCViOQ4HNJmLMxbl7zAXrxKw79cO?=
+ =?us-ascii?Q?fqblST/ailCqh9jucUB9eBbE3bQydG2tJFfDybfW/BSDURc+XTRbK8TIoiU/?=
+ =?us-ascii?Q?3nQRw3noR36St8Vu4YOkSfsLCRGwhNLka9wni9l0fbyIPMU76IUGA1Rih6DI?=
+ =?us-ascii?Q?eKUrk7niWTWuG2Xj2nClWWSpXV9DGXUBLFZaBw9x/kaqoZjhAm0We7KrfOAN?=
+ =?us-ascii?Q?Kd0mFxeNNGX2rY6+Ay8TrgB6ncHGk6halKoNEs49Ydtr79DCGtzu/S/M4scZ?=
+ =?us-ascii?Q?DrVoixvu+FCTJI8NEWiEtTWHEcIr1uEndtLVLiWzz0MZsSQ1klaRdqqr1bL5?=
+ =?us-ascii?Q?EimPgR0Js2/qmf3uzGK7o/G9fFPoULbjhDiaBpZ84o9KThiwYeRKOC2ieSnK?=
+ =?us-ascii?Q?VH5lWie1C8pRfOgbTEvB54aMFhC7T9CTFxGSE0qSuFrVVF9EWeYkb141I9Hd?=
+ =?us-ascii?Q?nmsHtElj8TRrh9sfniQz5W9zV47rIdft7Le2PyvtbG04N0YhTENMGGBc6iGW?=
+ =?us-ascii?Q?3qtMyWhz/Q61MQHQFgfWoRHAcdbyDJNGPUciJzStdO95FCmJoOI06zVh6h9B?=
+ =?us-ascii?Q?YUpvvrA+I0it+YFsgb3jcaYz7Oa32dW+jO6IHCaqoG4ge14vzzpsQInvcJb6?=
+ =?us-ascii?Q?kUMXb0gSvAAb7uxNvrT5hC5/P+Kd+Qf0eYYM3lQI4YvAeDZOrjaLBdiyw1k8?=
+ =?us-ascii?Q?oAcSEPe34bD4w7acVMeXtgAgyPG8SCkMLEBZC9lEfimyYJuZ7L5Ve5Xaf+Td?=
+ =?us-ascii?Q?SNqzjoMkwQrA81ZjaGkiau+jSGoHHuCPzgLoceAR+5kq6tTR4PuCpOPBRZ7e?=
+ =?us-ascii?Q?ntDaryYtG1rb1mgetjq5ezuiPfUTyoybrqK2SfdWZWj/Komjp7bBZ92qjKQ4?=
+ =?us-ascii?Q?ff5BjPt6Sebfo5Ty/+6ItLcgKtHqVHnX7QZyhLJ1eOfFWP+UHbIMlHJGdI2d?=
+ =?us-ascii?Q?SXDbkaJ9OdhyxSlbIsXnm0ccRhYSEno4ZdxgjZVI/4RejfnENVYzfeKVgKI5?=
+ =?us-ascii?Q?uS8dXI4fn8ruV5oJYeiTkSC926wfxwH8w8ROE8U5I4yML9YgJdXGOZh9t5Km?=
+ =?us-ascii?Q?27XB1xnXcHtq2As1nZGmerwTLlBlbpQ=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94b59a3c-ab21-499c-c1ee-08da4e142bd5
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2022 14:42:57.0900
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rSGvaoR6cMe/MGTn3h0K6jTnC/E/vThTZC44txi/rQCn4Pz02Eyr5Tt8WU8hpaBm0OA9qBmKT56phRzjKOaBOwwrQAdTIpDNysooBOXRcfI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5244
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-06-14_05:2022-06-13,2022-06-14 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 adultscore=0
+ mlxlogscore=836 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206140057
+X-Proofpoint-GUID: RkPOlgEbnKYYTo1-zlr7YCKx5CfiNiN5
+X-Proofpoint-ORIG-GUID: RkPOlgEbnKYYTo1-zlr7YCKx5CfiNiN5
 
-On 6/14/22 10:36, Benjamin Gaignard wrote:
-> Fix padding where needed to remove holes and stay align on cache boundaries
+On Mon, Jun 13, 2022 at 07:07:30PM -0700, daniel watson wrote:
+> From: Daniel Watson <ozzloy@challenge-bot.com>
+> 
+> name the function rtw_IOL_append_WB_cmd and call it directly,
+> instead of using wrapper macro
+> 
+> delete wrapper macro, which is not needed
+> 
+> NOTE: code compiles, not tested on hardware
 
-align -> aligned
+Don't put this kind of comment in the commit message.  Put it under the
+--- cut off line.
 
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Signed-off-by: Daniel Watson <ozzloy@challenge-bot.com>
 > ---
->  .../media/v4l/ext-ctrls-codec.rst             |  6 +++---
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  9 ---------
->  include/media/hevc-ctrls.h                    | 19 ++++++++++++-------
->  3 files changed, 15 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 05228e280f66..48a8825a001b 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3509,9 +3509,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->      * - __u8
->        - ``num_active_dpb_entries``
->        - The number of entries in ``dpb``.
-> -    * - struct :c:type:`v4l2_hevc_dpb_entry`
-> -      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-> -      - The decoded picture buffer, for meta-data about reference frames.
->      * - __u8
->        - ``num_poc_st_curr_before``
->        - The number of reference pictures in the short-term set that come before
-> @@ -3535,6 +3532,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->        - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->        - PocLtCurr as described in section 8.3.2 "Decoding process for reference
->          picture set": provides the index of the long term references in DPB array.
-> +    * - struct :c:type:`v4l2_hevc_dpb_entry`
-> +      - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
-> +      - The decoded picture buffer, for meta-data about reference frames.
->      * - __u64
->        - ``flags``
->        - See :ref:`Decode Parameters Flags <hevc_decode_params_flags>`
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index c5c5407584ff..fb68786c498b 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -824,20 +824,11 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  		if (p_hevc_decode_params->num_active_dpb_entries >
->  		    V4L2_HEVC_DPB_ENTRIES_NUM_MAX)
->  			return -EINVAL;
-> -
-> -		for (i = 0; i < p_hevc_decode_params->num_active_dpb_entries;
-> -		     i++) {
-> -			struct v4l2_hevc_dpb_entry *dpb_entry =
-> -				&p_hevc_decode_params->dpb[i];
-> -
-> -			zero_padding(*dpb_entry);
-> -		}
->  		break;
->  
->  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->  		p_hevc_slice_params = p;
->  
-> -		zero_padding(p_hevc_slice_params->pred_weight_table);
->  		zero_padding(*p_hevc_slice_params);
->  		break;
->  
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index efc0412ac41e..9abca1a75bd4 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -133,7 +133,9 @@ struct v4l2_ctrl_hevc_sps {
->  	__u8	chroma_format_idc;
->  	__u8	sps_max_sub_layers_minus1;
->  
-> +	__u8	reserved[6];
->  	__u64	flags;
-> +	__u8	padding[24];
+  ^^^
+Here.
 
-Why are there 24 padding bytes at the end? For future use? If so, what is
-the rationale for '24'? Is it likely that new fields will be added in future
-HEVC revisions? Or is it in case we forget something?
+You don't even really need to tell us that you compiled the code,
+because we take that as a given.
 
-It's missing kerneldoc comments as well: it should state that the application
-must zero this.
+regards,
+dan carpenter
 
-Why mix 'reserved' with 'padding'? It's odd to see both names in a single
-struct.
-
-In any case, this patch goes beyond 'fixing padding', it is doing more.
-
-If you really want to add space for future use at the end of structs,
-then do that in a separate patch together with a rationale for it.
-
-Regards,
-
-	Hans
-
->  };
->  
->  #define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
-> @@ -210,9 +212,10 @@ struct v4l2_ctrl_hevc_pps {
->  	__s8	pps_beta_offset_div2;
->  	__s8	pps_tc_offset_div2;
->  	__u8	log2_parallel_merge_level_minus2;
-> +	__u8	reserved[9];
->  
-> -	__u8	padding[4];
->  	__u64	flags;
-> +	__u8	padding[56];
->  };
->  
->  #define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
-> @@ -245,8 +248,8 @@ struct v4l2_hevc_dpb_entry {
->  	__u64	timestamp;
->  	__u8	flags;
->  	__u8	field_pic;
-> +	__u16	reserved;
->  	__s32	pic_order_cnt_val;
-> -	__u8	padding[2];
->  };
->  
->  /**
-> @@ -285,8 +288,6 @@ struct v4l2_hevc_pred_weight_table {
->  	__s8	delta_chroma_weight_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
->  	__s8	chroma_offset_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
->  
-> -	__u8	padding[6];
-> -
->  	__u8	luma_log2_weight_denom;
->  	__s8	delta_chroma_log2_weight_denom;
->  };
-> @@ -381,18 +382,20 @@ struct v4l2_ctrl_hevc_slice_params {
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
->  	__u8	pic_struct;
->  
-> +	__u8	reserved0[3];
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
->  	__u32	slice_segment_addr;
->  	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u16	short_term_ref_pic_set_size;
->  	__u16	long_term_ref_pic_set_size;
-> -	__u8	padding;
->  
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
->  	struct v4l2_hevc_pred_weight_table pred_weight_table;
->  
-> +	__u8	reserved1[2];
->  	__u64	flags;
-> +	__u8	padding[40];
->  };
->  
->  #define V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC		0x1
-> @@ -408,7 +411,6 @@ struct v4l2_ctrl_hevc_slice_params {
->   * @long_term_ref_pic_set_size: specifies the size of long-term reference
->   *				pictures set include in the SPS of the first slice
->   * @num_active_dpb_entries: the number of entries in dpb
-> - * @dpb: the decoded picture buffer, for meta-data about reference frames
->   * @num_poc_st_curr_before: the number of reference pictures in the short-term
->   *			    set that come before the current frame
->   * @num_poc_st_curr_after: the number of reference pictures in the short-term
-> @@ -419,6 +421,7 @@ struct v4l2_ctrl_hevc_slice_params {
->   * @poc_st_curr_after: provides the index of the short term after references
->   *		       in DPB array
->   * @poc_lt_curr: provides the index of the long term references in DPB array
-> + * @dpb: the decoded picture buffer, for meta-data about reference frames
->   * @flags: see V4L2_HEVC_DECODE_PARAM_FLAG_{}
->   */
->  struct v4l2_ctrl_hevc_decode_params {
-> @@ -426,14 +429,16 @@ struct v4l2_ctrl_hevc_decode_params {
->  	__u16	short_term_ref_pic_set_size;
->  	__u16	long_term_ref_pic_set_size;
->  	__u8	num_active_dpb_entries;
-> -	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u8	num_poc_st_curr_before;
->  	__u8	num_poc_st_curr_after;
->  	__u8	num_poc_lt_curr;
->  	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> +	__u8	reserved[4];
-> +	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->  	__u64	flags;
-> +	__u8	padding[56];
->  };
->  
->  /**
 
