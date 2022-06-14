@@ -1,88 +1,60 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from hust.edu.cn (unknown [202.114.0.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB04185F
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 13:18:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="364953088"
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="364953088"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 06:18:17 -0700
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="535560943"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 06:18:11 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1o16Qq-000cOy-MD;
-	Tue, 14 Jun 2022 16:18:08 +0300
-Date: Tue, 14 Jun 2022 16:18:08 +0300
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	"andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 00/40] media: atomisp: Various hmm and other cleanups
-Message-ID: <YqiKkMFp5k23ESVP@smile.fi.intel.com>
-References: <20220613195137.8117-1-hdegoede@redhat.com>
- <CAHp75VcLfeN+y3S=AkMDjUyB3oS1k0j7pu4Ts7D9K35F3UkEbw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE848185F
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 13:34:27 +0000 (UTC)
+Received: from localhost.localdomain ([172.16.0.254])
+	(user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+	by mx1.hust.edu.cn  with ESMTP id 25EDWoU6010890-25EDWoU9010890
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 14 Jun 2022 21:32:54 +0800
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Martin Kaiser <martin@kaiser.cx>,
+        Michael Straube <straube.linux@gmail.com>,
+        Pavel Skripkin <paskripkin@gmail.com>
+Cc: Dongliang Mu <mudongliangabcd@gmail.com>, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] driver: r8188eu: remove NULL check before vfree
+Date: Tue, 14 Jun 2022 21:32:29 +0800
+Message-Id: <20220614133239.147076-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VcLfeN+y3S=AkMDjUyB3oS1k0j7pu4Ts7D9K35F3UkEbw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
 
-On Tue, Jun 14, 2022 at 11:25:07AM +0200, Andy Shevchenko wrote:
-> On Mon, Jun 13, 2022 at 9:51 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Hi All,
-> >
-> > I want to start writing a libcamera pipeline handler for the atomisp2,
-> > but before I can do that I first need to fix mmap support in  atomisp2.
-> >
-> > My plan for this is to port the atomisp2 handler to videobuf2. To do that
-> > I first need to understand the existing memory/buffer management so I've
-> > started with cleaning up the hmm code (with a bit of a detour here and
-> > there).
-> >
-> > This series is the result of that. There are likely more cleanups to
-> > follow, but I've to focus on some other things for a bit. I hope to be
-> > able to return to the cleanups + an eventual videobuf2 conversion soon.
-> 
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> 
-> For patches 1-8: The code wise it's good clean up, functionality it
-> might be that intention was to implement it as some point, but looking
-> into (internal) history of the driver development I believe it would
-> require some firmware changes which is impossible for upstreamed
-> version of the driver and as you noticed never productized that time.
-> Hence, good that we got less LoCs after all.
-> 
-> For patches 9-13: I believe that patch 10 and 9 should be swapped in
-> the series. Logically you drop caller first followed by (unused)
-> callee.
-> 
-> For the rest: To be continued...
+From: Dongliang Mu <mudongliangabcd@gmail.com>
 
-For the rest:
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+vfree can handle NULL pointer as its argument.
+According to coccinelle isnullfree check, remove NULL check
+before vfree operation.
 
-I believe a couple of comments are easy to address, may keep my tag there.
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+v1->v2: fix the logic change in the patch v1
+ drivers/staging/r8188eu/os_dep/usb_intf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index 68869c5daeff..cc2b44f60c46 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -372,7 +372,7 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
+ free_adapter:
+ 	if (pnetdev)
+ 		rtw_free_netdev(pnetdev);
+-	else if (padapter)
++	else
+ 		vfree(padapter);
+ 
+ 	return NULL;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.35.1
 
