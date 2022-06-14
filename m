@@ -1,12 +1,12 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4BB1851;
-	Tue, 14 Jun 2022 10:28:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9200CC3411B;
-	Tue, 14 Jun 2022 10:28:28 +0000 (UTC)
-Message-ID: <3a886196-5f35-8b59-cfc5-f99b92ea85e0@xs4all.nl>
-Date: Tue, 14 Jun 2022 12:28:26 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1C47C;
+	Tue, 14 Jun 2022 12:28:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62D73C3411B;
+	Tue, 14 Jun 2022 12:28:03 +0000 (UTC)
+Message-ID: <366fca22-e22d-9963-423b-252274fa9d9e@xs4all.nl>
+Date: Tue, 14 Jun 2022 14:28:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -15,7 +15,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH v8 00/17] Move HEVC stateless controls out of staging
+Subject: Re: [PATCH v8 04/17] media: uapi: HEVC: Add missing fields in HEVC
+ controls
 Content-Language: en-US
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
@@ -27,173 +28,138 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  kernel@collabora.com
 References: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
+ <20220614083614.240641-5-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220614083614.240641-5-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Benjamin,
-
-On 6/14/22 10:35, Benjamin Gaignard wrote:
-> This series aims to make HEVC uapi stable and usable for hardware
-> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
-> and 2 out of the tree drivers (rkvdec and RPI).
+On 6/14/22 10:36, Benjamin Gaignard wrote:
+> Complete the HEVC controls with missing fields from H.265 specifications.
+> Even if these fields aren't used by the current mainlined drivers
+> they will be required for (at least) the rkvdec driver.
 > 
-> version 8:
-> - Same than v7 but rebased on media_stage/master
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 6:
+> - Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+>   in v4l2_ctrl_hevc_decode_params structure.
+> 
+>  .../media/v4l/ext-ctrls-codec.rst             | 32 +++++++++++++++++++
+>  include/media/hevc-ctrls.h                    |  8 ++++-
+>  2 files changed, 39 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 6183f43f4d73..aa7556e200c9 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2683,6 +2683,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      :stub-columns: 0
+>      :widths:       1 1 2
+>  
+> +    * - __u8
+> +      - ``video_parameter_set_id``
+> +      - Specifies the value of the vps_video_parameter_set_id of the active VPS
+> +        as descibed in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
 
-I get the following documentation warning:
+descibed -> described
 
-Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-flag-dynamic-array
-
-The new flag needs to be added to Documentation/userspace-api/media/videodev2.h.rst.exceptions.
-
-I also get these kerneldoc warnings:
-
-kerneldoc: WARNINGS
-include/uapi/linux/v4l2-controls.h:2123: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_sps'
-include/uapi/linux/v4l2-controls.h:2123: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_sps'
-include/uapi/linux/v4l2-controls.h:2203: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_pps'
-include/uapi/linux/v4l2-controls.h:2203: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_pps'
-include/uapi/linux/v4l2-controls.h:2237: warning: Function parameter or member 'reserved' not described in 'v4l2_hevc_dpb_entry'
-include/uapi/linux/v4l2-controls.h:2339: warning: cannot understand function prototype: 'struct v4l2_ctrl_hevc_slice_params '
-include/uapi/linux/v4l2-controls.h:2425: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_decode_params'
-include/uapi/linux/v4l2-controls.h:2425: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_decode_params'
-
-Run 'scripts/kernel-doc -none include/uapi/linux/v4l2-controls.h' to get these warnings.
-
-The "cannot understand function prototype" warning is because
-
-/**
- * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
-
-is missing 'struct' before 'v4l2_ctrl_hevc_slice_params'.
-
-After adding that I get these warnings:
-
-include/uapi/linux/v4l2-controls.h:2123: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_sps'
-include/uapi/linux/v4l2-controls.h:2123: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_sps'
-include/uapi/linux/v4l2-controls.h:2203: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_pps'
-include/uapi/linux/v4l2-controls.h:2203: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_pps'
-include/uapi/linux/v4l2-controls.h:2237: warning: Function parameter or member 'reserved' not described in 'v4l2_hevc_dpb_entry'
-include/uapi/linux/v4l2-controls.h:2382: warning: Function parameter or member 'reserved0' not described in 'v4l2_ctrl_hevc_slice_params'
-include/uapi/linux/v4l2-controls.h:2382: warning: Function parameter or member 'reserved1' not described in 'v4l2_ctrl_hevc_slice_params'
-include/uapi/linux/v4l2-controls.h:2382: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_slice_params'
-include/uapi/linux/v4l2-controls.h:2425: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_decode_params'
-include/uapi/linux/v4l2-controls.h:2425: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_decode_params'
+This same typo occurs several times in this patch and in patch 17/17.
 
 Regards,
 
 	Hans
 
-> 
-> This version has been tested with these branches:
-> - GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
-> - Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V8
-> 
-> version 7:
-> - Apply Jernej patches for Cedrus about bit offset definition and
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
-> - Based on media_tree/master
-> 
-> version 6:
-> - Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
->   in v4l2_ctrl_hevc_decode_params structure.
-> - Change slice_pic_order_cnt type to s32 to match with PoC type.
-> - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
-> - Add a define for max slices count
-> - Stop using Hantro dedicated control.
-> 
-> With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
-> which was 77/147 before, is now 141/147.
-> The 10-bits series will comes after this because of it dependency to
-> uAPI change. If you are curious you can find the WIP branch here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V7
-> 
-> The 6 failing tests are:
-> - PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
-> - WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
->   difference exist on 5 decoded frames. Some pixels values are no the same 
->   the very end of few lines.
-> 
-> version 6:
-> - Stop using Hantro dedicated control and compute the number
->   of bytes to skip inside the driver.
-> - Rebased on media_tree/master
-> 
-> version 5:
-> - Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
->   hevc_dpb_entry structure
-> - Add defines for SEI pic_struct values (patch 4)
-> - Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
-> - Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
->   documentation (patch 8)
-> - Rebased on v5-18-rc1
-> 
-> GStreamer H265 decoder plugin aligned with HEVC uAPI v5:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
-> 
-> Version 4:
-> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
-> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
-> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> - Fix space/tab issue in kernel-doc
-> - Add patch to change data_bit_offset definition
-> - Fix hantro-media SPDX license
-> - put controls under stateless section in v4l2-ctrls-defs.c
-> 
-> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> 
-> Benjamin Gaignard (14):
->   media: uapi: HEVC: Add missing fields in HEVC controls
->   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
->     prefix
->   media: uapi: HEVC: Change pic_order_cnt definition in
->     v4l2_hevc_dpb_entry
->   media: uapi: HEVC: Add SEI pic struct flags
->   media: uapi: HEVC: Add documentation to uAPI structure
->   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
->     dynamic array
->   media: uapi: Move parsed HEVC pixel format out of staging
->   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
->   media: uapi: Move the HEVC stateless control type out of staging
->   media: controls: Log HEVC stateless control in .std_log
->   media: hantro: Stop using Hantro dedicated control
->   media: uapi: HEVC: fix padding in v4l2 control structures
->   media: uapi: Change data_bit_offset definition
->   media: uapi: move HEVC stateless controls out of staging
-> 
-> Hans Verkuil (3):
->   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->   v4l2-ctrls: add support for dynamically allocated arrays.
->   vivid: add dynamic array test control
-> 
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
->  .../media/v4l/pixfmt-compressed.rst           |   7 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
->  .../media/v4l/vidioc-queryctrl.rst            |   8 +
->  .../media/videodev2.h.rst.exceptions          |   5 +
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 206 +++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
->  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  62 +-
->  .../staging/media/hantro/hantro_g2_hevc_dec.c |  69 +-
->  drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
->  drivers/staging/media/hantro/hantro_hw.h      |   4 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  25 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
->  .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
->  include/media/hevc-ctrls.h                    | 250 -----
->  include/media/v4l2-ctrls.h                    |  48 +-
->  include/uapi/linux/v4l2-controls.h            | 458 +++++++++
->  include/uapi/linux/videodev2.h                |  13 +
->  24 files changed, 1848 insertions(+), 1220 deletions(-)
->  delete mode 100644 include/media/hevc-ctrls.h
-> 
+> +        of H.265 specifications.
+> +    * - __u8
+> +      - ``seq_parameter_set_id``
+> +      - Provides an identifier for the SPS for reference by other syntax elements
+> +        as descibed in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
+> +        of H.265 specifications.
+>      * - __u16
+>        - ``pic_width_in_luma_samples``
+>        -
+> @@ -2822,6 +2832,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      :stub-columns: 0
+>      :widths:       1 1 2
+>  
+> +    * - __u8
+> +      - ``pic_parameter_set_id``
+> +      - Identifies the PPS for reference by other syntax elements.
+>      * - __u8
+>        - ``num_extra_slice_header_bits``
+>        -
+> @@ -3048,6 +3061,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u8
+>        - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>        - The list of L1 reference elements as indices in the DPB.
+> +    * - __u16
+> +      - ``short_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the short-term reference picture set, described as st_ref_pic_set()
+> +        in the specification, included in the slice header or SPS (section 7.3.6.1).
+> +    * - __u16
+> +      - ``long_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the long-term reference picture set include in the slice header
+> +        or SPS. It is the number of bits in the conditional block if(long_term_ref_pics_present_flag)
+> +        in section 7.3.6.1 of the specification.
+>      * - __u8
+>        - ``padding``
+>        - Applications and drivers must set this to zero.
+> @@ -3385,6 +3407,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        - ``pic_order_cnt_val``
+>        - PicOrderCntVal as described in section 8.3.1 "Decoding process
+>          for picture order count" of the specification.
+> +    * - __u16
+> +      - ``short_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the short-term reference picture set, of the first slice
+> +        described as st_ref_pic_set() in the specification, included in the slice header
+> +        or SPS (section 7.3.6.1).
+> +    * - __u16
+> +      - ``long_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the long-term reference picture set, of the first slice
+> +        included in the slice header or SPS. It is the number of bits in the conditional block
+> +        if(long_term_ref_pics_present_flag) in section 7.3.6.1 of the specification.
+>      * - __u8
+>        - ``num_active_dpb_entries``
+>        - The number of entries in ``dpb``.
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index 01ccda48d8c5..752a8d10782c 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
+>  /* The controls are not stable at the moment and will likely be reworked. */
+>  struct v4l2_ctrl_hevc_sps {
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+> +	__u8	video_parameter_set_id;
+> +	__u8	seq_parameter_set_id;
+>  	__u16	pic_width_in_luma_samples;
+>  	__u16	pic_height_in_luma_samples;
+>  	__u8	bit_depth_luma_minus8;
+> @@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
+>  
+>  struct v4l2_ctrl_hevc_pps {
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+> +	__u8	pic_parameter_set_id;
+>  	__u8	num_extra_slice_header_bits;
+>  	__u8	num_ref_idx_l0_default_active_minus1;
+>  	__u8	num_ref_idx_l1_default_active_minus1;
+> @@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	slice_segment_addr;
+>  	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>  	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+> -
+> +	__u16	short_term_ref_pic_set_size;
+> +	__u16	long_term_ref_pic_set_size;
+>  	__u8	padding;
+>  
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+> @@ -214,6 +218,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>  
+>  struct v4l2_ctrl_hevc_decode_params {
+>  	__s32	pic_order_cnt_val;
+> +	__u16	short_term_ref_pic_set_size;
+> +	__u16	long_term_ref_pic_set_size;
+>  	__u8	num_active_dpb_entries;
+>  	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>  	__u8	num_poc_st_curr_before;
 
