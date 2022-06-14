@@ -1,114 +1,208 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9121FAB
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 15:59:17 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id v19so12305354edd.4
-        for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 08:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=M3gbMv3CLEVw18Z0+GMlsuJYkcEWg9M+cqo68PHCY1Q=;
-        b=M7DlVTelkdRHSDTdXFbXqRTjSfrVHM80gWUzdQlAvt08aiyANcUKt2xnHvWIr+Or/V
-         n6qHxtuSWdt9ut4qX/tDFnF/GY9fm5ttHMpFHymlI1JkPNoBMLChV+buibbtUWVjo/wN
-         9K/0rmRExU2x20F4AejBPwpUCBY71lJMEM5PBJrtmkWEcL4AYmHI8VyvGMdOKQGmkfxk
-         a38PKwQLbZn0fuAc9m0xSDLWCrwJzmPBXckQdQ9P7p7ZCxp2zlfpKzBNnFSGiq4xwyyB
-         VXePc4WMNsCiClY3QJBFuez50bAj8T4Icp99/L3CacjhQKL3+IBROWHtnto+8DAFqbOx
-         0AoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=M3gbMv3CLEVw18Z0+GMlsuJYkcEWg9M+cqo68PHCY1Q=;
-        b=4GrPljyxjijiPMhcHn7IPjyxo+z7MJXMGz4dZHcbJe9/OkgAL+lSDy14dEoA4GsSfU
-         O2mjm91Qv5b3NBmpVkIcXnskwNXmVQANN4dTfBrxHkPrKi01NPEuOREAQk2+RpicQm/3
-         4LQuXAA4rK4HTsfcsUbz8RVbkvKyKjByHwQwYkKydMjyMSnoLanJVWmgU4uV5fvfGdsw
-         bxv0zeivVk05ln+O3/aZSEp0PtMXBt8FjzEBxMNLQvrHXe9moeMeoiVHZKGK+KtDY7rM
-         46HG102109PAlliQPRF5coEbiUqnj6dfndZiQJ0i272zmhKSokC2+zJ1AKW0GWCxQI/k
-         rdwA==
-X-Gm-Message-State: AJIora8lYCdrcq2XWCmJOLhEJwwKgxl9Hb7CmwSfJev1t3dgArgviD+q
-	ygmq+a6QV3tUC3EUgRTZxKg=
-X-Google-Smtp-Source: AGRyM1vAU0DxLPxLYMT9nMistjkeFzzHUlxwynL+MUrAjKN8Oez6KHUFzkRMcICzL3aFAJoVfPiGlA==
-X-Received: by 2002:a05:6402:388b:b0:42b:5f20:c616 with SMTP id fd11-20020a056402388b00b0042b5f20c616mr6903288edb.50.1655222355575;
-        Tue, 14 Jun 2022 08:59:15 -0700 (PDT)
-Received: from nam-dell.fritz.box ([2a02:8109:afbf:ed88:c58b:f186:2720:bdac])
-        by smtp.gmail.com with ESMTPSA id qk10-20020a170906d9ca00b006fed93bf71fsm5327928ejb.18.2022.06.14.08.59.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 08:59:15 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@oracle.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	namcaov@gmail.com,
-	phil@philpotter.co.uk,
-	Larry.Finger@lwfinger.net,
-	paskripkin@gmail.com
-Subject: [PATCH v3 2/2] staging: r8188eu: remove unused macros
-Date: Tue, 14 Jun 2022 17:58:45 +0200
-Message-Id: <a7f700c0688a16bb697fb693894f4c16594fd483.1655220367.git.namcaov@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1655220367.git.namcaov@gmail.com>
-References: <cover.1655220367.git.namcaov@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46A07A
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 16:14:58 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0749866015D7;
+	Tue, 14 Jun 2022 17:14:55 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1655223297;
+	bh=v1oVMG8D/TcLecVQ+c4GKl6+Ukw1Is0dn6GvtnEkISg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=W4VeWv0nm+oDDfqZcEv6yfok1w2Hs2fCLK9Ii52uXYaSGHd0trXIq40lS2QB+W7XV
+	 w+1UbfMWtydh/+IdJkElC07injuWO/FOQ1KD6nkRYrBW/mR2BbqCK2WkzxScUqJNnd
+	 o3cqeAsIJaMFaY8q9Q4f5eL7wh5r6rQALkmzzPrXKyXBt3HZEbAmuOzMIgDjf/I04U
+	 qO8DeoLY0AGLA41mvyj9VbmjoJinqsBndmsK/ik1qddG+L/z0wETtE8kyAzUSxhKW5
+	 0IkdtonfvXbnz1Prl+urYtL0JQnM3t0uDFIBn4DYwG3zHEFrgG3HIEiNChwX2qNlR+
+	 tvDyQZZ3s1FAA==
+Message-ID: <46211420a76c7608c34cd6b3569f41accdfd08a1.camel@collabora.com>
+Subject: Re: [PATCH v1 2/5] media: rkvdec: Add an ops to check for decode
+ errors
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Ezequiel
+ Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@collabora.com, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Tue, 14 Jun 2022 12:14:47 -0400
+In-Reply-To: <fed8b2cf-3098-0690-dc40-796dbe0ff424@xs4all.nl>
+References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+	 <20220610125215.240539-3-nicolas.dufresne@collabora.com>
+	 <fed8b2cf-3098-0690-dc40-796dbe0ff424@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Remove LE_BITS_TO_1BYTE and relevant macros because they are not used
-anywhere.
+Le mardi 14 juin 2022 =C3=A0 16:44 +0200, Hans Verkuil a =C3=A9crit=C2=A0:
+> On 6/10/22 14:52, Nicolas Dufresne wrote:
+> > This optional internal ops allow each codec to do their own
+> > error status checking. The presence of an error is reported
+> > using the ERROR buffer state. This patch have no functional
+> > changes.
+>=20
+> If a buffer is returned with state ERROR, then that means that it is
+> seriously corrupt and userspace is expected to drop it. You might still
+> want to show it for debugging purposes, but the normal action is to drop =
+it.
 
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/r8188eu/include/basic_types.h | 31 -------------------
- 1 file changed, 31 deletions(-)
+The discussion should be around the ERROR flag, and not the error state. Er=
+ror
+state is just an internal thing that have no meaning API wise, but turns ou=
+t to
+be the only way to get the ERROR flag to be set. With that in mind, this is=
+ not
+what V4L2_BUF_FLAG_ERROR specification says:
 
-diff --git a/drivers/staging/r8188eu/include/basic_types.h b/drivers/staging/r8188eu/include/basic_types.h
-index cfd15ac1d9c0..0b71e2c6e41a 100644
---- a/drivers/staging/r8188eu/include/basic_types.h
-+++ b/drivers/staging/r8188eu/include/basic_types.h
-@@ -13,37 +13,6 @@ typedef void (*proc_t)(void *);
- /*  TODO: Macros Below are Sync from SD7-Driver. It is necessary
-  * to check correctness */
- 
--/*
-- *	Call endian free function when
-- *		1. Read/write packet content.
-- *		2. Before write integer to IO.
-- *		3. After read integer from IO.
--*/
--
--/* Convert little data endian to host ordering */
--#define EF1BYTE(_val)		\
--	((u8)(_val))
--
--/* Create a bit mask  */
--#define BIT_LEN_MASK_8(__bitlen) \
--	(0xFF >> (8 - (__bitlen)))
--
--/*Description:
-- * Return 4-byte value in host byte ordering from
-- * 4-byte pointer in little-endian system.
-- */
--#define LE_P1BYTE_TO_HOST_1BYTE(__pstart) \
--	(EF1BYTE(*((u8 *)(__pstart))))
--
--/*Description:
--Translate subfield (continuous bits in little-endian) of 4-byte
--value to host byte ordering.*/
--#define LE_BITS_TO_1BYTE(__pstart, __bitoffset, __bitlen) \
--	( \
--		(LE_P1BYTE_TO_HOST_1BYTE(__pstart) >> (__bitoffset)) & \
--		BIT_LEN_MASK_8(__bitlen) \
--	)
--
- #define	N_BYTE_ALIGMENT(__value, __aligment) ((__aligment == 1) ? \
- 	(__value) : (((__value + __aligment - 1) / __aligment) * __aligment))
- 
--- 
-2.25.1
+> When this flag is set, the buffer has been dequeued successfully, althoug=
+h
+> the data might have been corrupted. This is recoverable, streaming may
+> continue as normal and the buffer may be reused normally. Drivers set=C2=
+=A0
+> this flag when the VIDIOC_DQBUF ioctl is called.
+
+For me "seriously corrupt" and "might have been corrupted" is very differen=
+t.
+
+>=20
+> So this is not a valid approach for a decoder that can still produce a
+> decent picture, albeit with macroblock artifacts.
+>=20
+> A separate control that can be returned as part of the request and contai=
+ns
+> some sort of error indication would be more appropriate.
+>=20
+> Buffer state ERROR is really meant for e.g. DMA errors and it shouldn't
+> be mixed with decode errors that still produce a valid picture.
+
+The ERROR flag has been used for many years by the UVC driver to indicate a
+partially received image (possibly due to DMA error). That driver went even
+further and set the bytesused to the amount of bytes that was received. How=
+ this
+have been interpreted (mostly due to how the spec around ERROR flag is writ=
+ten)
+in GStreamer is that the buffer contains "some valid" data unless payload s=
+ize
+is 0.
+
+As explained earlier, the decision to display "some valid" data is not some=
+thing
+we should decided for our users. This should be left to the application to
+decide. Same goes for GStreamer, if a buffer exist but has "some valid data=
+", we
+have a GST_BUFFER_FLAG_CORRUPTED flag for it. It is then up for the applica=
+tion
+to drop if needed for the application. I'm pretty sure some stateful decode=
+rs
+also behaves like this (simply because an error is an error, regardless of =
+the
+nature of it).
+
+It might be different today, but few years ago, dropping or not dropping wa=
+s the
+main difference between Apple Facetime (dropping) and the other video strea=
+ming
+applications. One would freeze, the other would show "some valid data".
+
+If you look at the outcome of a partially corrupted decoded images and the
+outcome of a mid-frame DMA error (typically from a camera stream), you'll f=
+ind
+that these are visually the same. So it is unfair to consider these two err=
+or so
+different that a new mechanism must be added. In my opinion, adding RO cont=
+rols
+to signal these corruption only make sense if the hardware can provide deta=
+iled
+reports of what is corrupted (list/range of macro-blocks, or CTU that are
+affected). Then you could measure the level of corruption, but in reality, =
+I
+doubt there would be a vast usage of this, specially that the report will l=
+ikely
+be inconsistent due to limited HW support.
+
+Finally, in the bitstream decoder world, including all software decoders I'=
+ve
+worked with, the decode is a success only if all bits are perfectly decoded=
+.
+This is the baseline for good vs bad. Userland expected an image, and whate=
+ver
+happened, in real-time scenario, it must send an image. Sending a corrupted
+image, or sending the previously good image remains a decision to be made b=
+y
+application. As application exist around the implemented mechanism here, I'=
+d
+prefer to go for that rather then adding a new API.
+
+Nicolas
+
+>=20
+> Regards,
+>=20
+> 	Hans
+>=20
+> >=20
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > ---
+> >  drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++----
+> >  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+> >  2 files changed, 8 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/me=
+dia/rkvdec/rkvdec.c
+> > index 7bab7586918c..7e76f8b72885 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> > @@ -950,6 +950,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *=
+rkvdec)
+> >  static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+> >  {
+> >  	struct rkvdec_dev *rkvdec =3D priv;
+> > +	struct rkvdec_ctx *ctx;
+> >  	enum vb2_buffer_state state;
+> >  	u32 status;
+> > =20
+> > @@ -958,12 +959,13 @@ static irqreturn_t rkvdec_irq_handler(int irq, vo=
+id *priv)
+> >  		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+> > =20
+> >  	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+> > -	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
+> > -		struct rkvdec_ctx *ctx;
+> > +	ctx =3D v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+> > =20
+> > -		ctx =3D v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+> > +	if (ctx->coded_fmt_desc->ops->check_error_info)
+> > +		state =3D ctx->coded_fmt_desc->ops->check_error_info(ctx);
+> > +
+> > +	if (cancel_delayed_work(&rkvdec->watchdog_work))
+> >  		rkvdec_job_finish(ctx, state);
+> > -	}
+> > =20
+> >  	return IRQ_HANDLED;
+> >  }
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/me=
+dia/rkvdec/rkvdec.h
+> > index 633335ebb9c4..4ae8e6c6b03c 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec.h
+> > +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> > @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+> >  		     struct vb2_v4l2_buffer *dst_buf,
+> >  		     enum vb2_buffer_state result);
+> >  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+> > +	/* called from IRQ handler */
+> > +	int (*check_error_info)(struct rkvdec_ctx *ctx);
+> >  };
+> > =20
+> >  struct rkvdec_coded_fmt_desc {
+>=20
 
