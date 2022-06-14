@@ -1,41 +1,41 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994FC1FA9
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 15:59:16 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id c2so12293298edf.5
-        for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 08:59:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9121FAB
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 15:59:17 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id v19so12305354edd.4
+        for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 08:59:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GpSEw9c3r7sQWr+egbMOGl5Yu6roLaX7F/5rz4bUGTw=;
-        b=ev+JeJYBY/IfjhesmJo4M5OfE/Tk8HXWwSSXslzrDH3gDLtzs9Wx/r8VU4c3UfEGTT
-         oDbe0qvBT8zlehwyDLdzN7e18bs2pIA+L1R9iFDhmZAZYJfw69zDu1abw6YDhFt+BFIU
-         Qi/sUrpCVV9amBgB1PXCdGa8mrfX2OXgMYE+spzfLHXu54cyibgMyg93sEslnEjF14bB
-         EB5dN8/VFd1GnGnQ6Yj+kQJzk7+44J74ZTXTg7Qq729V/ObSHu5zgmFe8VzjqAeYXAkc
-         VPzCk42L6QOHFxhp9hK/KMtiHsFDYBMwE6ZQtwqPaO5jcbz5HJS38Y+EoDxJYHkS4YhO
-         7pEg==
+        bh=M3gbMv3CLEVw18Z0+GMlsuJYkcEWg9M+cqo68PHCY1Q=;
+        b=M7DlVTelkdRHSDTdXFbXqRTjSfrVHM80gWUzdQlAvt08aiyANcUKt2xnHvWIr+Or/V
+         n6qHxtuSWdt9ut4qX/tDFnF/GY9fm5ttHMpFHymlI1JkPNoBMLChV+buibbtUWVjo/wN
+         9K/0rmRExU2x20F4AejBPwpUCBY71lJMEM5PBJrtmkWEcL4AYmHI8VyvGMdOKQGmkfxk
+         a38PKwQLbZn0fuAc9m0xSDLWCrwJzmPBXckQdQ9P7p7ZCxp2zlfpKzBNnFSGiq4xwyyB
+         VXePc4WMNsCiClY3QJBFuez50bAj8T4Icp99/L3CacjhQKL3+IBROWHtnto+8DAFqbOx
+         0AoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GpSEw9c3r7sQWr+egbMOGl5Yu6roLaX7F/5rz4bUGTw=;
-        b=LDNG+60aW8z4jkwA5isbc3tgyhmO/7xRau0EMxdNnt+pyPeO7O6STN3L2ka4LqAAUC
-         oGiumr6UfXwBNYcdOPEFUHRCXZOs+wf2MNJBcSO3HAB4OoSEP+yDZd6MRvt0IFnlJXea
-         EopZE1LYnkwFL/D6AO4460ppAw6d7sgb4bipQg4yNsZjJmOFpq5gXcfDJbVBSPihMVg1
-         OucHDm33LFzcsciH87+2M+CRYpx23OnzRU9ondUVGMJAeDBwwXlYvC46kwjuN0WOS+9H
-         VkU8kKyl0Xx2gb4JxeSkGT86rh1UVXUHn+r8YADYUoX+T2BsglW/gxlejeAxXEK+8Wss
-         pUFw==
-X-Gm-Message-State: AJIora/+DVEqwtKW1GELeU2XewBg6S1Bv+1xJ4RmdXcfEuhJCSNTmlcF
-	+ScY/AB1k7juT+lDHIQyu1npSL0sWgY=
-X-Google-Smtp-Source: ABdhPJwNoT0Ob31bmrxxQpJr7W+KbgZ1IHbwDtGK9fNKcqLLS7rk4rkGYk7XNfskl2zOx6xkHpFkPA==
-X-Received: by 2002:a05:6402:350f:b0:42f:68f9:ae5 with SMTP id b15-20020a056402350f00b0042f68f90ae5mr7134117edd.36.1655222354856;
-        Tue, 14 Jun 2022 08:59:14 -0700 (PDT)
+        bh=M3gbMv3CLEVw18Z0+GMlsuJYkcEWg9M+cqo68PHCY1Q=;
+        b=4GrPljyxjijiPMhcHn7IPjyxo+z7MJXMGz4dZHcbJe9/OkgAL+lSDy14dEoA4GsSfU
+         O2mjm91Qv5b3NBmpVkIcXnskwNXmVQANN4dTfBrxHkPrKi01NPEuOREAQk2+RpicQm/3
+         4LQuXAA4rK4HTsfcsUbz8RVbkvKyKjByHwQwYkKydMjyMSnoLanJVWmgU4uV5fvfGdsw
+         bxv0zeivVk05ln+O3/aZSEp0PtMXBt8FjzEBxMNLQvrHXe9moeMeoiVHZKGK+KtDY7rM
+         46HG102109PAlliQPRF5coEbiUqnj6dfndZiQJ0i272zmhKSokC2+zJ1AKW0GWCxQI/k
+         rdwA==
+X-Gm-Message-State: AJIora8lYCdrcq2XWCmJOLhEJwwKgxl9Hb7CmwSfJev1t3dgArgviD+q
+	ygmq+a6QV3tUC3EUgRTZxKg=
+X-Google-Smtp-Source: AGRyM1vAU0DxLPxLYMT9nMistjkeFzzHUlxwynL+MUrAjKN8Oez6KHUFzkRMcICzL3aFAJoVfPiGlA==
+X-Received: by 2002:a05:6402:388b:b0:42b:5f20:c616 with SMTP id fd11-20020a056402388b00b0042b5f20c616mr6903288edb.50.1655222355575;
+        Tue, 14 Jun 2022 08:59:15 -0700 (PDT)
 Received: from nam-dell.fritz.box ([2a02:8109:afbf:ed88:c58b:f186:2720:bdac])
         by smtp.gmail.com with ESMTPSA id qk10-20020a170906d9ca00b006fed93bf71fsm5327928ejb.18.2022.06.14.08.59.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 08:59:14 -0700 (PDT)
+        Tue, 14 Jun 2022 08:59:15 -0700 (PDT)
 From: Nam Cao <namcaov@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -45,9 +45,9 @@ Cc: dan.carpenter@oracle.com,
 	phil@philpotter.co.uk,
 	Larry.Finger@lwfinger.net,
 	paskripkin@gmail.com
-Subject: [PATCH v3 1/2] staging: r8188eu: replace confusing macros
-Date: Tue, 14 Jun 2022 17:58:44 +0200
-Message-Id: <e697e47aad21362f68d148d2351e6d49f4fa9eaf.1655220367.git.namcaov@gmail.com>
+Subject: [PATCH v3 2/2] staging: r8188eu: remove unused macros
+Date: Tue, 14 Jun 2022 17:58:45 +0200
+Message-Id: <a7f700c0688a16bb697fb693894f4c16594fd483.1655220367.git.namcaov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655220367.git.namcaov@gmail.com>
 References: <cover.1655220367.git.namcaov@gmail.com>
@@ -59,62 +59,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The macro GET_TX_REPORT_TYPE1_RERTY_0 and similar macros are not
-obvious on what they are doing. Replace them with clearer codes.
+Remove LE_BITS_TO_1BYTE and relevant macros because they are not used
+anywhere.
 
 Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
- drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c  | 12 ++++++------
- .../staging/r8188eu/include/Hal8188ERateAdaptive.h  | 13 -------------
- 2 files changed, 6 insertions(+), 19 deletions(-)
+ drivers/staging/r8188eu/include/basic_types.h | 31 -------------------
+ 1 file changed, 31 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c b/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
-index 3cefdf90d6e0..1e04de3a6622 100644
---- a/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
-+++ b/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
-@@ -614,12 +614,12 @@ void ODM_RA_TxRPT2Handle_8188E(struct odm_dm_struct *dm_odm, u8 *TxRPT_Buf, u16
+diff --git a/drivers/staging/r8188eu/include/basic_types.h b/drivers/staging/r8188eu/include/basic_types.h
+index cfd15ac1d9c0..0b71e2c6e41a 100644
+--- a/drivers/staging/r8188eu/include/basic_types.h
++++ b/drivers/staging/r8188eu/include/basic_types.h
+@@ -13,37 +13,6 @@ typedef void (*proc_t)(void *);
+ /*  TODO: Macros Below are Sync from SD7-Driver. It is necessary
+  * to check correctness */
  
- 		pRAInfo = &dm_odm->RAInfo[MacId];
- 		if (valid) {
--			pRAInfo->RTY[0] = (u16)GET_TX_REPORT_TYPE1_RERTY_0(pBuffer);
--			pRAInfo->RTY[1] = (u16)GET_TX_REPORT_TYPE1_RERTY_1(pBuffer);
--			pRAInfo->RTY[2] = (u16)GET_TX_REPORT_TYPE1_RERTY_2((u8 *)pBuffer);
--			pRAInfo->RTY[3] = (u16)GET_TX_REPORT_TYPE1_RERTY_3(pBuffer);
--			pRAInfo->RTY[4] = (u16)GET_TX_REPORT_TYPE1_RERTY_4(pBuffer);
--			pRAInfo->DROP =   (u16)GET_TX_REPORT_TYPE1_DROP_0(pBuffer);
-+			pRAInfo->RTY[0] = le16_to_cpup((__le16 *)pBuffer);
-+			pRAInfo->RTY[1] = pBuffer[2];
-+			pRAInfo->RTY[2] = pBuffer[3];
-+			pRAInfo->RTY[3] = pBuffer[4];
-+			pRAInfo->RTY[4] = pBuffer[5];
-+			pRAInfo->DROP = pBuffer[6];
- 			pRAInfo->TOTAL = pRAInfo->RTY[0] + pRAInfo->RTY[1] +
- 					 pRAInfo->RTY[2] + pRAInfo->RTY[3] +
- 					 pRAInfo->RTY[4] + pRAInfo->DROP;
-diff --git a/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h b/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
-index 20d73ca781e8..c571ad9478ea 100644
---- a/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
-+++ b/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
-@@ -22,19 +22,6 @@
- 	le32_to_cpu((*(__le32 *)(__rxstatusdesc + 16))
- #define GET_TX_RPT2_DESC_MACID_VALID_2_88E(__rxstatusdesc)	\
- 	le32_to_cpu((*(__le32 *)(__rxstatusdesc + 20))
+-/*
+- *	Call endian free function when
+- *		1. Read/write packet content.
+- *		2. Before write integer to IO.
+- *		3. After read integer from IO.
+-*/
 -
--#define GET_TX_REPORT_TYPE1_RERTY_0(__paddr)			\
--	le16_get_bits(*(__le16 *)__paddr, GENMASK(15, 0))
--#define GET_TX_REPORT_TYPE1_RERTY_1(__paddr)			\
--	LE_BITS_TO_1BYTE(__paddr + 2, 0, 8)
--#define GET_TX_REPORT_TYPE1_RERTY_2(__paddr)			\
--	LE_BITS_TO_1BYTE(__paddr + 3, 0, 8)
--#define GET_TX_REPORT_TYPE1_RERTY_3(__paddr)			\
--	LE_BITS_TO_1BYTE(__paddr + 4, 0, 8)
--#define GET_TX_REPORT_TYPE1_RERTY_4(__paddr)			\
--	LE_BITS_TO_1BYTE(__paddr + 5, 0, 8)
--#define GET_TX_REPORT_TYPE1_DROP_0(__paddr)			\
--	LE_BITS_TO_1BYTE(__paddr + 6, 0, 8)
- /*  End rate adaptive define */
+-/* Convert little data endian to host ordering */
+-#define EF1BYTE(_val)		\
+-	((u8)(_val))
+-
+-/* Create a bit mask  */
+-#define BIT_LEN_MASK_8(__bitlen) \
+-	(0xFF >> (8 - (__bitlen)))
+-
+-/*Description:
+- * Return 4-byte value in host byte ordering from
+- * 4-byte pointer in little-endian system.
+- */
+-#define LE_P1BYTE_TO_HOST_1BYTE(__pstart) \
+-	(EF1BYTE(*((u8 *)(__pstart))))
+-
+-/*Description:
+-Translate subfield (continuous bits in little-endian) of 4-byte
+-value to host byte ordering.*/
+-#define LE_BITS_TO_1BYTE(__pstart, __bitoffset, __bitlen) \
+-	( \
+-		(LE_P1BYTE_TO_HOST_1BYTE(__pstart) >> (__bitoffset)) & \
+-		BIT_LEN_MASK_8(__bitlen) \
+-	)
+-
+ #define	N_BYTE_ALIGMENT(__value, __aligment) ((__aligment == 1) ? \
+ 	(__value) : (((__value + __aligment - 1) / __aligment) * __aligment))
  
- int ODM_RAInfo_Init_all(struct odm_dm_struct *dm_odm);
 -- 
 2.25.1
 
