@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CFD3D9F
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 20:50:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8A03D99
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 20:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1655326255;
+	s=mimecast20190719; t=1655326260;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ycIILxJA+RnfwC8ZPDDauRKf6IpTvt6KV5DLrCFQmJE=;
-	b=KqDifFQXsHzcmFSuxfw/rgGov8mF0ls9kide2o6etC8qfD+mwU4NFUgJ5LnhrlLTeHHdP5
-	ZO5Ys7sacMV5t3qV1e6Ya1/OmuKyGrFQ7T3U06WWd2hlnhd6Cjfun5PEN7HvfAFJxE8x0+
-	3EDu2TasxFPdRZvuiCR+vqiGFN1LI0o=
+	bh=om4wonvZVlTVMBBis5t+mHgTh4vhCpc21QdAQd+2nsQ=;
+	b=Ian6ww3qUBYjlVpOMYn5Z0fgvigJInB230AxMG+JN49BN/jZ/M/bcWJECNgyOU01T90cdV
+	T5OOjE8MlIsEx1tlbCNkiAva9Oqk5mzcqORedsAvaWitIWlfr18eKVDo7PrY+aVjH5djiH
+	b/casnAaOqIyhcFdO6Ar4LFbQEfSeJ4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-N2ODAB4KPM6vfPsZjmv9vQ-1; Wed, 15 Jun 2022 16:50:49 -0400
-X-MC-Unique: N2ODAB4KPM6vfPsZjmv9vQ-1
+ us-mta-256-zJ937xLvP9uU4tNFCFokEQ-1; Wed, 15 Jun 2022 16:50:55 -0400
+X-MC-Unique: zJ937xLvP9uU4tNFCFokEQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46C5285A580;
-	Wed, 15 Jun 2022 20:50:49 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B358285A585;
+	Wed, 15 Jun 2022 20:50:54 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.27])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A845F18EB3;
-	Wed, 15 Jun 2022 20:50:47 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1E5F618EA9;
+	Wed, 15 Jun 2022 20:50:53 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v2 05/40] media: atomisp: drop contiguous argument from frame_create()
-Date: Wed, 15 Jun 2022 22:50:02 +0200
-Message-Id: <20220615205037.16549-6-hdegoede@redhat.com>
+Subject: [PATCH v2 08/40] media: atomisp: drop ATOMISP_MAP_FLAG_CONTIGUOUS
+Date: Wed, 15 Jun 2022 22:50:05 +0200
+Message-Id: <20220615205037.16549-9-hdegoede@redhat.com>
 In-Reply-To: <20220615205037.16549-1-hdegoede@redhat.com>
 References: <20220615205037.16549-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,69 +53,46 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 
-Drop the contiguous argument from frame_create()
-all callers always passes false.
+Drop the ATOMISP_MAP_FLAG_CONTIGUOUS hmm_alloc flag. After the contiguous
+flag removal done in previous patches in this series it is never set.
+
+And hmm_alloc already did a WARN_ON on the flag and otherwise ignored it,
+proving that contiguous support was already never used.
 
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/runtime/frame/src/frame.c   | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/staging/media/atomisp/include/linux/atomisp.h | 3 +--
+ drivers/staging/media/atomisp/pci/hmm/hmm.c           | 2 --
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 4f9c8b839da2..af23fbb831d6 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -84,7 +84,6 @@ static struct ia_css_frame *frame_create(unsigned int width,
- 	enum ia_css_frame_format format,
- 	unsigned int padded_width,
- 	unsigned int raw_bit_depth,
--	bool contiguous,
- 	bool valid);
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+index 22c4103b0385..a6ec9691afb2 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+@@ -915,8 +915,7 @@ struct atomisp_acc_map {
  
- static unsigned
-@@ -215,7 +214,6 @@ int ia_css_frame_create_from_info(struct ia_css_frame **frame,
- 			  info->format,
- 			  info->padded_width,
- 			  info->raw_bit_depth,
--			  false,
- 			  false);
- 	if (!me) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
-@@ -492,7 +490,7 @@ int ia_css_frame_allocate_with_buffer_size(struct ia_css_frame **frame,
- 	int err;
- 	struct ia_css_frame *me = frame_create(0, 0,
- 					       IA_CSS_FRAME_FORMAT_NUM,/* Not valid format yet */
--					       0, 0, false, false);
-+					       0, 0, false);
+ #define ATOMISP_MAP_FLAG_NOFLUSH	0x0001	/* Do not flush cache */
+ #define ATOMISP_MAP_FLAG_CACHED		0x0002	/* Enable cache */
+-#define ATOMISP_MAP_FLAG_CONTIGUOUS	0x0004
+-#define ATOMISP_MAP_FLAG_CLEARED	0x0008
++#define ATOMISP_MAP_FLAG_CLEARED	0x0004
  
- 	if (!me)
- 		return -ENOMEM;
-@@ -780,7 +778,6 @@ static int frame_allocate_with_data(struct ia_css_frame **frame,
- 					       format,
- 					       padded_width,
- 					       raw_bit_depth,
--					       false,
- 					       true);
+ struct atomisp_acc_state {
+ 	__u32 flags;			/* Flags, see list below */
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index 54188197c3dc..a4722155ddef 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -230,8 +230,6 @@ ia_css_ptr hmm_alloc(size_t bytes, enum hmm_bo_type type,
+ 	bool cached = attrs & ATOMISP_MAP_FLAG_CACHED;
+ 	int ret;
  
- 	if (!me)
-@@ -810,7 +807,6 @@ static struct ia_css_frame *frame_create(unsigned int width,
- 	enum ia_css_frame_format format,
- 	unsigned int padded_width,
- 	unsigned int raw_bit_depth,
--	bool contiguous,
- 	bool valid)
- {
- 	struct ia_css_frame *me = kvmalloc(sizeof(*me), GFP_KERNEL);
-@@ -824,7 +820,7 @@ static struct ia_css_frame *frame_create(unsigned int width,
- 	me->info.format = format;
- 	me->info.padded_width = padded_width;
- 	me->info.raw_bit_depth = raw_bit_depth;
--	me->contiguous = contiguous;
-+	me->contiguous = false;
- 	me->valid = valid;
- 	me->data_bytes = 0;
- 	me->data = mmgr_NULL;
+-	WARN_ON(attrs & ATOMISP_MAP_FLAG_CONTIGUOUS);
+-
+ 	/*
+ 	 * Check if we are initialized. In the ideal world we wouldn't need
+ 	 * this but we can tackle it once the driver is a lot cleaner
 -- 
 2.36.0
 
