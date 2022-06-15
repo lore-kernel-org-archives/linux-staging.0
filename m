@@ -1,62 +1,56 @@
-Received: from m15114.mail.126.com (m15114.mail.126.com [220.181.15.114])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AAF37A
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 14:53:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=K8J33
-	8CcV+Vs6sGN9NqJ7u8qxxibdbG33N46mOqZXQU=; b=AWta8vvARSpdQWXEYRFrn
-	7h0LeAVZFoLZnNlHYDMpFdTfKSFPNV9kmgtDVPXnugMBrTStzLX0r8xJZQi3nZy7
-	k+teNLUiwDVW+/8Nq/KXsXiIFfNQjjB8mSH/IEg8cyCIUW52JuhEdt5b0yVp9dYb
-	VRXL9Z6S3WnfxS0ehHfffs=
-Received: from localhost.localdomain (unknown [124.16.139.61])
-	by smtp7 (Coremail) with SMTP id DsmowAB3t_b46qliAspwDQ--.46989S2;
-	Wed, 15 Jun 2022 22:21:45 +0800 (CST)
-From: Liang He <windhl@126.com>
-To: gregkh@linuxfoundation.org,
-	geert+renesas@glider.be
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	windhl@126.com
-Subject: [PATCH] drivers: staging: board: Add missing of_node_put() in board.c
-Date: Wed, 15 Jun 2022 22:21:44 +0800
-Message-Id: <20220615142144.3968617-1-windhl@126.com>
-X-Mailer: git-send-email 2.25.1
+Received: from challenge-bot.com (ozzloy.lifeafterking.org [208.85.243.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC007A
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 17:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=challenge-bot.com; s=20180430; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	 bh=55zlIXYUbXtl7SzLvjogB+Y/GM8hMsZIeb8tJz2Oe34=; b=hXAMuF2mpiGaDpCI4b8UN/cMF
+	o043XI0B1Kmt7pX/TbIu6T4bD0fi8IcZC1jepmJgb7j/5AgGKcniMkcuUf2oDnfHXmaCua51ojOJt
+	w+7r+gc21aSH9je0r3tfij1Rx/vOi3EtXEPDnJbPAaoLTImJMCM1+uqjcJ1v3w7/bESnQ=;
+Received: from ozzloy by challenge-bot.com with local (Exim 4.92)
+	(envelope-from <ozzloy@challenge-bot.com>)
+	id 1o1WdQ-0005eO-Qg; Wed, 15 Jun 2022 10:16:52 -0700
+Date: Wed, 15 Jun 2022 10:16:52 -0700
+From: daniel watson <ozzloy@challenge-bot.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] call rtw_IOL_append_*_cmd directly
+Message-ID: <YqoUBIPfaW1lf4UK@challenge-bot.com>
+References: <cover.1655249804.git.ozzloy@challenge-bot.com>
+ <20220615083715.GM2146@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:DsmowAB3t_b46qliAspwDQ--.46989S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKF4UJFyUGr1UXw1kZw17Awb_yoWxtrg_KF
-	1Iqr97Jryqkr1xt3sxAr13XryIvF4xWF4kX3Wxtw4fGF48AF4fGa4qqr9rJa4kGa12vFy7
-	C3WkAw4Syr43XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_znQ7UUUUU==
-X-Originating-IP: [124.16.139.61]
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/xtbBGgohF1-HZTceNQAAsH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220615083715.GM2146@kadam>
 
-In board_staging_gic_setup_xlate(), of_find_compatible_node() return
-a node pointer with refcount incremented. We should use of_node_put()
-when it is not used anymore.
+On Wed, Jun 15, 2022 at 11:37:15AM +0300, Dan Carpenter wrote:
+> On Tue, Jun 14, 2022 at 05:49:24PM -0700, daniel watson wrote:
+> > From: Daniel Watson <ozzloy@challenge-bot.com>
+> > 
+> > This patchset calls the rtw_IOL_append_*_cmd group of functions
+> > directly and removes the #define wrappers.
+> > 
+> 
+> Looks good, thanks!
+> 
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> 
+> regards,
+> dan carpenter
+>
 
-Signed-off-by: Liang He <windhl@126.com>
----
- drivers/staging/board/board.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/staging/board/board.c b/drivers/staging/board/board.c
-index f980af037345..408448c202a2 100644
---- a/drivers/staging/board/board.c
-+++ b/drivers/staging/board/board.c
-@@ -67,6 +67,8 @@ int __init board_staging_gic_setup_xlate(const char *gic_match,
- 	if (!irqc_node)
- 		return -ENOENT;
- 
-+	of_node_put(irqc_node);
-+
- 	irqc_base = base;
- 	return 0;
- }
--- 
-2.25.1
-
+Thanks!  I noticed a typo in the first commit message.
+I'll send a v3 to fix it.
