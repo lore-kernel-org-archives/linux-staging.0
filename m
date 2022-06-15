@@ -1,92 +1,46 @@
-Received: from challenge-bot.com (ozzloy.lifeafterking.org [208.85.243.232])
+Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACA6187F
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 00:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=challenge-bot.com; s=20180430; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=0Q3FHgAu/LszUBpsWqPLEtKOSAyaNdoFckgppE/2eXg=; b=lYSowu9/Ue/dI80FFtSO0ucXNv
-	Kuwz+v5SYD4w6e2cRkbzaq8/APMwimMU4rcEllbJoTbhUSnvgDrf5O990GfqjE4W4/zOnGpdSaMmN
-	AbGsEyunSUOfQqzRiRcE6HkgtWdS5AJzt4FLwRV1YIV7VG3oUNfIqR7jRblBeoE2mmZ8=;
-Received: from ozzloy by challenge-bot.com with local (Exim 4.92)
-	(envelope-from <ozzloy@challenge-bot.com>)
-	id 1o1HDu-0002Sz-3F; Tue, 14 Jun 2022 17:49:30 -0700
-From: daniel watson <ozzloy@challenge-bot.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Daniel Watson <ozzloy@challenge-bot.com>
-Subject: [PATCH v2 2/4] staging: r8188eu: call rtw_IOL_append_WW_cmd directly
-Date: Tue, 14 Jun 2022 17:49:26 -0700
-Message-Id: <a7890db856c8838b63d201c19950927e75f886b8.1655249804.git.ozzloy@challenge-bot.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1655249804.git.ozzloy@challenge-bot.com>
-References: <cover.1655249804.git.ozzloy@challenge-bot.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58E37C
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 08:14:00 +0000 (UTC)
+Received: by mail.olerise.pl (Postfix, from userid 1001)
+	id 5D6AD23E7B; Wed, 15 Jun 2022 10:00:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
+	t=1655280178; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
+	h=Date:From:To:Subject:From;
+	b=PniwB7OXn6aF6eE6UPSf7xmqotBZqNyPFBw4c7FF9vTFIMQyj3BtvlqxgKFsxu/td
+	 eqbF3GDOtj6fjy0qv4bN5kakaxkT7jt6HKSFF2dmQewZOF/K2u5Q627jeTU/re9FTF
+	 4MQ/AAm7ekhGW49YB7+QFFxHsbow99G2rhT8QqPWV5vxBrVIv9XElhgo98eYMJru/c
+	 +obvahhNEKoDgaBaWg/2L4u/x+F9nP0Yjlcrli0/e0nkE6QVGnEwVD8FYj7f9YPokg
+	 mbbRqtoHqmp9zeffLZz71Rsmyfxc+f8KHo2vq/EWz6Wjj2F457Fz7WsglgwM8krTXm
+	 lTw72zyskgCCg==
+Received: by mail.olerise.pl for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 08:00:27 GMT
+Message-ID: <20220615084500-0.1.f.82of.0.4l4hhlom1c@olerise.pl>
+Date: Wed, 15 Jun 2022 08:00:27 GMT
+From: =?UTF-8?Q?"Przemys=C5=82aw_Wr=C3=B3blewski"?= <przemyslaw.wroblewski@olerise.pl>
+To: <linux-staging@lists.linux.dev>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.olerise.pl
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Daniel Watson <ozzloy@challenge-bot.com>
+Dzie=C5=84 dobry,
 
-Call rtw_IOL_append_WW_cmd directly, instead of using wrapper macro.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-Delete wrapper macro, which is not needed.
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-Signed-off-by: Daniel Watson <ozzloy@challenge-bot.com>
----
-Changes in v2:
-  - Make the commit message clearer
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
-Note: This code has not been run on hardware.
 
- drivers/staging/r8188eu/core/rtw_iol.c    | 2 +-
- drivers/staging/r8188eu/include/rtw_iol.h | 6 ++----
- 2 files changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
-index 8c990b1af5a70..7292bab126074 100644
---- a/drivers/staging/r8188eu/core/rtw_iol.c
-+++ b/drivers/staging/r8188eu/core/rtw_iol.c
-@@ -81,7 +81,7 @@ int rtw_IOL_append_WB_cmd(struct xmit_frame *xmit_frame, u16 addr, u8 value, u8
- 	return rtw_IOL_append_cmds(xmit_frame, (u8 *)&cmd, cmd.length);
- }
- 
--int _rtw_IOL_append_WW_cmd(struct xmit_frame *xmit_frame, u16 addr, u16 value, u16 mask)
-+int rtw_IOL_append_WW_cmd(struct xmit_frame *xmit_frame, u16 addr, u16 value, u16 mask)
- {
- 	struct ioreg_cfg cmd = {8, IOREG_CMD_WW_REG, 0x0, 0x0, 0x0};
- 
-diff --git a/drivers/staging/r8188eu/include/rtw_iol.h b/drivers/staging/r8188eu/include/rtw_iol.h
-index a648f9ba50a62..c99d7d5151099 100644
---- a/drivers/staging/r8188eu/include/rtw_iol.h
-+++ b/drivers/staging/r8188eu/include/rtw_iol.h
-@@ -43,14 +43,12 @@ void read_efuse_from_txpktbuf(struct adapter *adapter, int bcnhead,
- 
- int rtw_IOL_append_WB_cmd(struct xmit_frame *xmit_frame, u16 addr,
- 			  u8 value, u8 mask);
--int _rtw_IOL_append_WW_cmd(struct xmit_frame *xmit_frame, u16 addr,
--			   u16 value, u16 mask);
-+int rtw_IOL_append_WW_cmd(struct xmit_frame *xmit_frame, u16 addr,
-+			  u16 value, u16 mask);
- int _rtw_IOL_append_WD_cmd(struct xmit_frame *xmit_frame, u16 addr,
- 			   u32 value, u32 mask);
- int _rtw_IOL_append_WRF_cmd(struct xmit_frame *xmit_frame, u8 rf_path,
- 			    u16 addr, u32 value, u32 mask);
--#define rtw_IOL_append_WW_cmd(xmit_frame, addr, value, mask)		\
--	_rtw_IOL_append_WW_cmd((xmit_frame), (addr), (value),(mask))
- #define rtw_IOL_append_WD_cmd(xmit_frame, addr, value, mask)		\
- 	_rtw_IOL_append_WD_cmd((xmit_frame), (addr), (value), (mask))
- #define rtw_IOL_append_WRF_cmd(xmit_frame, rf_path, addr, value, mask)	\
--- 
-2.34.1
-
+Pozdrawiam,
+Przemys=C5=82aw Wr=C3=B3blewski
