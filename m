@@ -1,205 +1,100 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084A87A
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 19:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655322606; x=1686858606;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jBZXiGn2WqVLxecW6QE1v9L/SpOLkZw3RsnqZsFZLFU=;
-  b=NG+aQalXUw1NbSjZra74Bk1/ffihPId3fRAhQpaEvdp7EtqYlTwVQ7KN
-   eKtvr8fIRr+cKqhxPzv6tf9S6Ck0gTecjJDSD92Khgrf/FUHPvEJzKCJZ
-   hzjTd61QycFJh3vQ8B5AeU6SmIkzOuxVPKiT3ubHkaWCRYBez2DJehh3G
-   jimpzkDNv1FwiTuNsLmSUwytfxjqaKl1M1efzWK3KiZ74wKwVOse7qJnl
-   iwa/v4+Drb6p37m0HB+dNBLQsyWmkBI9AOU+Rru3NOTGliz76tWTwQZhd
-   YxJ2oVBuz9O3XefCPxpDPB68TnJWlgNzd4zzCmdIimUyzaot+bfo4qEjv
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="279140502"
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
-   d="scan'208";a="279140502"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 12:49:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
-   d="scan'208";a="713095483"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 15 Jun 2022 12:49:50 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1o1Z1R-000N8u-To;
-	Wed, 15 Jun 2022 19:49:49 +0000
-Date: Thu, 16 Jun 2022 03:49:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-staging@lists.linux.dev, amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD SUCCESS
- 6012273897fefb12566580efedee10bb06e5e6ed
-Message-ID: <62aa37ae.yalJnDwm6FNPklVK%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4318F2903;
+	Wed, 15 Jun 2022 20:44:57 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id n28so17868658edb.9;
+        Wed, 15 Jun 2022 13:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Tp4oIh2zYtBi2+RpvWEIz+CScSVPRmmdz9pJqOF/be0=;
+        b=frLOPTAHpOW6WM+y8qwoZMCwMS51iwCN9CSULQFC+7vgTcnCxnQHN9Xby4N7qbkAdo
+         LGs8h+xgkrkDVPqB7yJTZgIDNimJ6khTRoo5I3kER5tqQRN5I0wvjkU9wzFoNEoQz5eV
+         dg+yMeWxL5qd97o6PEsS9YeeV5pkWyIAfP2B5ChFUC0wvfX1H+j/8BPMYmSUiEg0IBAM
+         Bfhd7JN8oO7Q/TSmcUVQtBCfupH0MYL2QQnTyjlFtYiYlynHBzLA2J4cD0TOFtI3tKcb
+         07QmU1885KJnriYYcPA1mn58jFG8K1ZdEzpq4dJTCy4CZmP9LAZWxPzLt9B2GETu7oOE
+         cVtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Tp4oIh2zYtBi2+RpvWEIz+CScSVPRmmdz9pJqOF/be0=;
+        b=gRgaQ20XIyKHcN3k5VIn+9OxWupybqK1m1IEqULEWpchqSgKh2cXZ7GG7z/6N0v2qm
+         p0e8NF2h64kJNlxOF1HwCOG8MlzsnTfokvmTlZhMLlTjhYmDmfqBkizYNNxtVLtGXB+U
+         hN8LGdnHpGxwrYbLfmV1fGdgGewLl90OYAKT64NHxs1NLHGEdJ8cVRmD7VQzQ0c7MWzm
+         1YYmVF3Bl6lhFYgCFIyc/CwUav6nYNGh57t3bJgwj/o4N+cb7eWT92o2JYy/B7TRLPXl
+         E5tWNTlr367ariRkGQmyEie8/TN030M5lEIwx6wvM/LTDp4cPJbxtM+wsABbyv57/j3o
+         LGLA==
+X-Gm-Message-State: AJIora+xgmecCV15x4vJCbWhDtwvME7mLAhFQeDrdbF+CgVVaabZ59vT
+	NeV5tN3CvPFCUrEG5larSog=
+X-Google-Smtp-Source: AGRyM1uQSv1o4AubDZMBfsKjQPuH2QynVWB1oxR/lAPoCnd7YAvz8HbUwnIEOBUBdtfG4T0zFOerdA==
+X-Received: by 2002:aa7:c457:0:b0:42d:bd18:4ef with SMTP id n23-20020aa7c457000000b0042dbd1804efmr2116460edr.112.1655325895465;
+        Wed, 15 Jun 2022 13:44:55 -0700 (PDT)
+Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id h16-20020a1709060f5000b00711d0b41bcfsm6777291ejj.0.2022.06.15.13.44.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 13:44:55 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	hverkuil-cisco@xs4all.nl,
+	benjamin.gaignard@collabora.com,
+	nicolas.dufresne@collabora.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] media: cedrus: fix HEVC decoding
+Date: Wed, 15 Jun 2022 22:44:34 +0200
+Message-Id: <20220615204436.137377-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 6012273897fefb12566580efedee10bb06e5e6ed  Add linux-next specific files for 20220615
+After detailed comparison of register names to vendor library I noticed
+that one register has completely different name. After some testing I
+discovered that it was misnamed and used incorrectly. This patch series
+fixes it. With that, 3 more reference bitstreams are now correctly
+decoded. It is also possible that this fixes instability issue I had
+after decoding such bitstreams. Running Fluster test suite very often
+locked up my board, but after applying this fix, I never experienced it
+again. It might still be completely coincidental, but I doubt this is
+the case.
 
-Warning reports:
+Note: Patch 2 clashes with HEVC uAPI destaging. In current form, it can
+be easily backported. However, there are few users of Cedrus HEVC and
+skipping this fix wouldn't be that bad.
 
-https://lore.kernel.org/llvm/202206151803.AN0dJvGe-lkp@intel.com
-https://lore.kernel.org/llvm/202206152336.qCDzjUHG-lkp@intel.com
-https://lore.kernel.org/llvm/202206160206.7v6ivUDZ-lkp@intel.com
+Please let me know which way to go:
+1) wait for destaging, send rebased v2 and not care about backporting
+2) merge before destaging, but v9 of HEVC uAPI destaging would need to
+   be rebased.
+3) something else?
 
-Unverified Warning (likely false positive, please contact us if interested):
+Best regards,
+Jernej
 
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9139:27: warning: variable 'abo' set but not used [-Wunused-but-set-variable]
+Jernej Skrabec (2):
+  media: cedrus: h265: Fix flag name
+  media: cedrus: h265: Fix logic for not low delay flag
 
-Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- arm-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- ia64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- m68k-allmodconfig
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- m68k-allyesconfig
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- mips-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- nios2-allyesconfig
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- parisc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- powerpc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- powerpc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- riscv-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- s390-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|-- sh-allmodconfig
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- sparc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- x86_64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-`-- xtensa-allyesconfig
-    |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
-    `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-
-clang_recent_errors
-`-- x86_64-randconfig-a005-20220613
-    |-- vmlinux.o:warning:objtool:__ct_user_enter:call-to-ftrace_likely_update()-leaves-.noinstr.text-section
-    |-- vmlinux.o:warning:objtool:ct_idle_enter:call-to-ftrace_likely_update()-leaves-.noinstr.text-section
-    |-- vmlinux.o:warning:objtool:ct_idle_exit:call-to-ftrace_likely_update()-leaves-.noinstr.text-section
-    |-- vmlinux.o:warning:objtool:ct_irq_enter:call-to-ftrace_likely_update()-leaves-.noinstr.text-section
-    |-- vmlinux.o:warning:objtool:ct_irq_exit:call-to-ftrace_likely_update()-leaves-.noinstr.text-section
-    `-- vmlinux.o:warning:objtool:ct_nmi_enter:call-to-ftrace_likely_update()-leaves-.noinstr.text-section
-
-elapsed time: 809m
-
-configs tested: 55
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-arm64                            allyesconfig
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-alpha                               defconfig
-csky                                defconfig
-nios2                            allyesconfig
-alpha                            allyesconfig
-arc                                 defconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-s390                             allyesconfig
-parisc64                            defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                          allyesconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-riscv                            allmodconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-x86_64                           rhel-8.3-syz
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  | 29 ++++++++++++++++++-
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  |  3 +-
+ 2 files changed, 29 insertions(+), 3 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.36.1
+
