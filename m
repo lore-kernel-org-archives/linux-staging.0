@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89933FE0
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 20:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685193FDD
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 20:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1655326268;
+	s=mimecast20190719; t=1655326276;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mOuqoy6G7oDdh5nvH0GFZG4b1fTZx7w1CFHhC2sXeCU=;
-	b=SiD/vPRu2H2O/zktXaquLDr6EUQQYKIvukmw5hPEXypfpLFHopKyx2SZDbbOY9yynaw44o
-	IM4DOyQ2RievBQ3DO0tT90gP7OjtYo4RGsmOBk7//ZjIZSlLxdJVaaSab7GwzdLfDnWPkG
-	9Z9jrDXrcj7i6u6Ae6y+Uf8BxpRbAKQ=
+	bh=ApxeItTV/pUcoSPpJRQ+3smPLlej3mH0XRizPdTvcCs=;
+	b=PiDO/9NMaDLssIH197fL1wzCIY0Wu1Z88Rc+LG4DkmlpFg5CFNIl6BNqha2s+QIyTshqoP
+	m3uiECsYLhAwe8xg4WipbMwr2IJokyJ289NDLo9rfVtq1bj4hgtKW/frfaS0bc0Acf9FAv
+	7dB8uDKLCQA2/DzP4LBkZhpvRFpfmCg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-304-VIw_oMF0OeW_N6qjf3n2zg-1; Wed, 15 Jun 2022 16:51:04 -0400
-X-MC-Unique: VIw_oMF0OeW_N6qjf3n2zg-1
+ us-mta-517-tb9EkIITNIq6t0u0-gGdTg-1; Wed, 15 Jun 2022 16:51:10 -0400
+X-MC-Unique: tb9EkIITNIq6t0u0-gGdTg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA19C299E776;
-	Wed, 15 Jun 2022 20:51:03 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 719A1382ECC1;
+	Wed, 15 Jun 2022 20:51:09 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.27])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1B22D111F5;
-	Wed, 15 Jun 2022 20:51:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D1D0618EA9;
+	Wed, 15 Jun 2022 20:51:07 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v2 13/40] media: atomisp: remove pool related kernel cmdline options
-Date: Wed, 15 Jun 2022 22:50:10 +0200
-Message-Id: <20220615205037.16549-14-hdegoede@redhat.com>
+Subject: [PATCH v2 16/40] media: atomisp: removed unused hmm_bo_get_page_info() function
+Date: Wed, 15 Jun 2022 22:50:13 +0200
+Message-Id: <20220615205037.16549-17-hdegoede@redhat.com>
 In-Reply-To: <20220615205037.16549-1-hdegoede@redhat.com>
 References: <20220615205037.16549-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,56 +53,69 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 
-Since we have removed the hmm pools these are completely meaningless now.
+hmm_bo_get_page_info() is not used anywhere, remove it.
 
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/include/hmm/hmm.h |  2 --
- .../staging/media/atomisp/pci/atomisp_v4l2.c    | 17 -----------------
- 2 files changed, 19 deletions(-)
+ .../media/atomisp/include/hmm/hmm_bo.h        |  6 -----
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 26 -------------------
+ 2 files changed, 32 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm.h b/drivers/staging/media/atomisp/include/hmm/hmm.h
-index 5d72e2baa1f2..37366e333744 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm.h
-@@ -87,8 +87,6 @@ ia_css_ptr hmm_host_vaddr_to_hrt_vaddr(const void *ptr);
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+index 1e9ccfd64c00..eba1ddcb7e64 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+@@ -232,12 +232,6 @@ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
+ void hmm_bo_free_pages(struct hmm_buffer_object *bo);
+ int hmm_bo_page_allocated(struct hmm_buffer_object *bo);
+ 
+-/*
+- * get physical page info of the bo.
+- */
+-int hmm_bo_get_page_info(struct hmm_buffer_object *bo,
+-			 struct hmm_page_object **page_obj, int *pgnr);
+-
+ /*
+  * bind/unbind the physical pages to a virtual address space.
   */
- int hmm_mmap(struct vm_area_struct *vma, ia_css_ptr virt);
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 1f0e62182fa3..72124a38c756 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -975,32 +975,6 @@ int hmm_bo_page_allocated(struct hmm_buffer_object *bo)
+ 	return bo->status & HMM_BO_PAGE_ALLOCED;
+ }
  
--extern bool dypool_enable;
--extern unsigned int dypool_pgnr;
- extern struct hmm_bo_device bo_device;
- 
- #endif
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 0ec3f5b98ae1..88d8dd6ff0c4 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -59,23 +59,6 @@ static uint skip_fwload;
- module_param(skip_fwload, uint, 0644);
- MODULE_PARM_DESC(skip_fwload, "Skip atomisp firmware load");
- 
--/* set reserved memory pool size in page */
--static unsigned int repool_pgnr = 32768;
--module_param(repool_pgnr, uint, 0644);
--MODULE_PARM_DESC(repool_pgnr,
--		 "Set the reserved memory pool size in page (default:32768)");
+-/*
+- * get physical page info of the bo.
+- */
+-int hmm_bo_get_page_info(struct hmm_buffer_object *bo,
+-			 struct hmm_page_object **page_obj, int *pgnr)
+-{
+-	check_bo_null_return(bo, -EINVAL);
 -
--/* set dynamic memory pool size in page */
--unsigned int dypool_pgnr = UINT_MAX;
--module_param(dypool_pgnr, uint, 0644);
--MODULE_PARM_DESC(dypool_pgnr,
--		 "Set the dynamic memory pool size in page (default: unlimited)");
+-	mutex_lock(&bo->mutex);
 -
--bool dypool_enable = true;
--module_param(dypool_enable, bool, 0644);
--MODULE_PARM_DESC(dypool_enable,
--		 "dynamic memory pool enable/disable (default:enabled)");
+-	check_bo_status_yes_goto(bo, HMM_BO_PAGE_ALLOCED, status_err);
 -
- /* memory optimization: deferred firmware loading */
- bool defer_fw_load;
- module_param(defer_fw_load, bool, 0644);
+-	*page_obj = bo->page_obj;
+-	*pgnr = bo->pgnr;
+-
+-	mutex_unlock(&bo->mutex);
+-
+-	return 0;
+-
+-status_err:
+-	dev_err(atomisp_dev,
+-		"buffer object not page allocated yet.\n");
+-	mutex_unlock(&bo->mutex);
+-	return -EINVAL;
+-}
+-
+ /*
+  * bind the physical pages to a virtual address space.
+  */
 -- 
 2.36.0
 
