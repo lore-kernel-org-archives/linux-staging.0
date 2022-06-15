@@ -1,41 +1,41 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8142CA7;
-	Wed, 15 Jun 2022 20:44:58 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id cn20so5463951edb.6;
-        Wed, 15 Jun 2022 13:44:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AE33D9A;
+	Wed, 15 Jun 2022 20:44:59 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id me5so25569704ejb.2;
+        Wed, 15 Jun 2022 13:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NK4/Hf2pXq8vs+whlyiQe78XKedAQVOQEImTLUfGWOc=;
-        b=OstEOMN8l+7npy77KUmPSRCg2LzLv1OR1shAiljV1nNYHy9d/m1pThZxIcx+Kjmnfj
-         ZAScAe4SUfnFwWjLjeJGYAWYy59O1Ml8HXLsS7644REPqg9673p6c87WEWXW3gxlofJQ
-         QrPywh6GbNd+HcWGKYidKe3NugaQbky+dvkolOrEKvd0zIKvECvUDQ6wcfPU6h3zxdko
-         WeKuaGwweoEg43gUJcQwrQ+RmdCD7Nw3CEIB5XVIrOLAj8lW3mJb2Z2m9DM7WStLFEPZ
-         oaqDHcxgwShOgctMEUEPva7Tup/ZeFA3cizW/ZcjNpfg0sGQUBNj6fnOVxkOMu34sUiV
-         p2Hg==
+        bh=UkPUwKTnaS1+NO9Nch9w26K0HXt37ZbuHwCJgvzas6w=;
+        b=KZTaP/UUBSfkhES3uwAifaBHD+8KYHaDPTIaHC0+kMWiVl0Dc4uQj3rHyguuW0b+e6
+         xn2qMFMVoYg0WdHpwEkLRsR8SHg7l/B/B64UMrTxDBHQg0P6se89zaIIJJvuyNzTP7/w
+         6R7wtGC5qIwCkTMRWOfvuQKys0nG5fqFfS3KkDp6XsKO+NEUGxFbjqt7QJNvpBNsLPky
+         DmG5EbDEUvJO88gfr2a6shjEq2I3cMZHIY5Vkque0II4Nyy5yC2VVUNU/xlp8qqJh6QK
+         fBHpPqfHDiL1YiM1Ty4YKVXPO8NrjUK2s16XzBB03W2tP9OhsfEkxn2DckHRMIK/2tcJ
+         VayQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NK4/Hf2pXq8vs+whlyiQe78XKedAQVOQEImTLUfGWOc=;
-        b=SPqGnOC5n+wv6/Z9Kw+/LVXjxgtRgz86ZqETFF6vSIRAwXIdJpPuiwMRkdUBETNJ1b
-         +l0slHu69mpp4FtEDGowgMib7e9Ukjut3n8ummnoYUCc4uLj0sMptp1hVqYbWV0PWiV3
-         tAUSZCiXqdByfSKc/KR9wBvfa8vo+i49nKICnOgJUWnERQ1XqMWYi8dBzyRSNWsaKh1N
-         9o2a4HyU3b5G7GgVnwLbiMfSP3FtzgaAEjHfEaaixd7XcEbxAXGV53vdsy7xxZrig8Np
-         lJd3wDGS0GpAv7ZKQwPIFcouR6gDv2RjG490UMH3w/JDB+TgSSIhzKSLpNVEUhiPFi8R
-         TNsQ==
-X-Gm-Message-State: AJIora/++fS7tTebTpdzxXVT5RQzJ4yDsOSX9yOpBb4qO/ZrXfPDlx01
-	eMafiL2JJfYaI8Tcgkp1VA4=
-X-Google-Smtp-Source: AGRyM1v+txm9b7SzlUcjBJURyyLsNCjRqLfWXvxRuKU4XIbf2Gz0hrB3Tn174dc3BSTZxOxoduxPrg==
-X-Received: by 2002:aa7:d052:0:b0:42d:d114:43f7 with SMTP id n18-20020aa7d052000000b0042dd11443f7mr2046980edo.320.1655325896550;
-        Wed, 15 Jun 2022 13:44:56 -0700 (PDT)
+        bh=UkPUwKTnaS1+NO9Nch9w26K0HXt37ZbuHwCJgvzas6w=;
+        b=oLnQJE+A5KU/Rkqpdaw4eLhpq+XOal3pECFrw0zkgBR3igM6FnRpPi6xU0wqml17iY
+         yu0psgj+CdocuIVGUl1FHtDlsdFQ4ZDJCnR6oq/yLBalMPHk2ZKO66N9/VToCzKTo2SW
+         cl+M3K7GVqSDbEDaVYoTgAZPM3oQ3FsU+wuNoljn/IE8MKlRw7m+ltVL4KsJUkJjX7Tu
+         Z6NUsxQHbJsSEkQHh/LeJWsiPdtse+LKbr2Qt78O81/YvKeJzyRzI4AyF0HMhD4fFc1J
+         o67RjJGi5aE23r5mWvqNOg7Zf+Ea1nwfGyUyTYzu+FFNw0mAtW+2gvWW69FvK9ZQHMTO
+         RAJg==
+X-Gm-Message-State: AJIora8kQcAHTbf/Nb8rzSwoEkBNWuliuraR7VgAGVVcbuyoym8YVPWx
+	y7YNQz5OTnCAD1DVQxmDBGU=
+X-Google-Smtp-Source: AGRyM1vx9khoEZtrG2EZUYe5/IW0+vYV2Dvx6Hyuvnil2j5foF+MmkFd0Ik/E0DR03tXnXp2EQ0hFg==
+X-Received: by 2002:a17:907:ea6:b0:708:1282:cbe8 with SMTP id ho38-20020a1709070ea600b007081282cbe8mr1588469ejc.520.1655325897664;
+        Wed, 15 Jun 2022 13:44:57 -0700 (PDT)
 Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id h16-20020a1709060f5000b00711d0b41bcfsm6777291ejj.0.2022.06.15.13.44.55
+        by smtp.gmail.com with ESMTPSA id h16-20020a1709060f5000b00711d0b41bcfsm6777291ejj.0.2022.06.15.13.44.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 13:44:56 -0700 (PDT)
+        Wed, 15 Jun 2022 13:44:57 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com
@@ -52,9 +52,9 @@ Cc: mchehab@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] media: cedrus: h265: Fix flag name
-Date: Wed, 15 Jun 2022 22:44:35 +0200
-Message-Id: <20220615204436.137377-2-jernej.skrabec@gmail.com>
+Subject: [PATCH 2/2] media: cedrus: h265: Fix logic for not low delay flag
+Date: Wed, 15 Jun 2022 22:44:36 +0200
+Message-Id: <20220615204436.137377-3-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220615204436.137377-1-jernej.skrabec@gmail.com>
 References: <20220615204436.137377-1-jernej.skrabec@gmail.com>
@@ -66,61 +66,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Bit 21 in register 0x24 (slice header info 1) actually represents
-negated version of low delay flag. This can be seen in vendor Cedar
-library source code. While this flag is not part of the standard, it can
-be found in reference HEVC implementation.
+Now that we know real purpose of "not low delay" flag, logic for
+applying this flag should be fixed too. According to vendor and
+reference implementation, low delay is signaled when POC of current
+frame is lower than POC of at least one reference of a slice.
 
-Fix macro name and change it to flag.
+Implement mentioned logic and invert it to conform to flag meaning. Also
+don't apply flag for I frames. They don't have any reference.
+
+This fixes decoding of 3 reference bitstreams.
 
 Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 4 +++-
- drivers/staging/media/sunxi/cedrus/cedrus_regs.h | 3 +--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  | 27 ++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 44f385be9f6c..2febdf7a97fe 100644
+index 2febdf7a97fe..3f50043093be 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -559,7 +559,6 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+@@ -301,6 +301,31 @@ static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
+ 		}
+ }
  
- 	reg = VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_TC_OFFSET_DIV2(slice_params->slice_tc_offset_div2) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_BETA_OFFSET_DIV2(slice_params->slice_beta_offset_div2) |
--	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_POC_BIGEST_IN_RPS_ST(decode_params->num_poc_st_curr_after == 0) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CR_QP_OFFSET(slice_params->slice_cr_qp_offset) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CB_QP_OFFSET(slice_params->slice_cb_qp_offset) |
- 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_QP_DELTA(slice_params->slice_qp_delta);
-@@ -572,6 +571,9 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
++static int cedrus_h265_is_low_delay(struct cedrus_run *run)
++{
++	const struct v4l2_ctrl_hevc_slice_params *slice_params;
++	const struct v4l2_hevc_dpb_entry *dpb;
++	s32 poc;
++	int i;
++
++	slice_params = run->h265.slice_params;
++	poc = run->h265.decode_params->pic_order_cnt_val;
++	dpb = run->h265.decode_params->dpb;
++
++	for (i = 0; i < slice_params->num_ref_idx_l0_active_minus1 + 1; i++)
++		if (dpb[slice_params->ref_idx_l0[i]].pic_order_cnt[0] > poc)
++			return 1;
++
++	if (slice_params->slice_type != V4L2_HEVC_SLICE_TYPE_B)
++		return 0;
++
++	for (i = 0; i < slice_params->num_ref_idx_l1_active_minus1 + 1; i++)
++		if (dpb[slice_params->ref_idx_l1[i]].pic_order_cnt[0] > poc)
++			return 1;
++
++	return 0;
++}
++
+ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+ 			      struct cedrus_run *run)
+ {
+@@ -571,7 +596,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
  				V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED,
  				slice_params->flags);
  
-+	if (decode_params->num_poc_st_curr_after == 0)
-+		reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_NOT_LOW_DELAY;
-+
+-	if (decode_params->num_poc_st_curr_after == 0)
++	if (slice_params->slice_type != V4L2_HEVC_SLICE_TYPE_I && !cedrus_h265_is_low_delay(run))
+ 		reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_NOT_LOW_DELAY;
+ 
  	cedrus_write(dev, VE_DEC_H265_DEC_SLICE_HDR_INFO1, reg);
- 
- 	chroma_log2_weight_denom = pred_weight_table->luma_log2_weight_denom +
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-index bdb062ad8682..d81f7513ade0 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -377,13 +377,12 @@
- 
- #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED BIT(23)
- #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED BIT(22)
-+#define VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_NOT_LOW_DELAY BIT(21)
- 
- #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_TC_OFFSET_DIV2(v) \
- 	SHIFT_AND_MASK_BITS(v, 31, 28)
- #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_BETA_OFFSET_DIV2(v) \
- 	SHIFT_AND_MASK_BITS(v, 27, 24)
--#define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_POC_BIGEST_IN_RPS_ST(v) \
--	((v) ? BIT(21) : 0)
- #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CR_QP_OFFSET(v) \
- 	SHIFT_AND_MASK_BITS(v, 20, 16)
- #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CB_QP_OFFSET(v) \
 -- 
 2.36.1
 
