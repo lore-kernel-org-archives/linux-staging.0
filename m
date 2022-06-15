@@ -1,20 +1,20 @@
 Received: from challenge-bot.com (ozzloy.lifeafterking.org [208.85.243.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CB47A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E63C2913
 	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 17:17:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=challenge-bot.com; s=20180430; h=Content-Transfer-Encoding:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=mxlPCZ+TCo9rjngJAxk2JBd7q9Ja8RZEj1mwABWaau0=; b=rcsIHRUNLuWqvanX6FalgUohyZ
-	I51RGwV6xcCwHJkLPSn+YqGFaGFBnbYtG8nbncwbho+pp8vPPYjOwgr20MZzTdzEboQjaOMWD1jUi
-	6DvLzYloMF2wBWa6GB6NmENcsoDx5HmQ1EfftQ8bZzsnSnA5zgIea4NkVKnk4rxD/wJ0=;
+	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=FgBxiGnfGrCDvBNxSUTPi2WkWIMaKs3eEhesYlN4HNQ=; b=Ud8UiChSQh/KM827G6GFOfbKFR
+	Z726YXmATZMgmO0rLFjWphayLhbEKitum67LIhMoYIv2xUkpjrbd9Tj2OlypC9CCdFpTr4DJFedrf
+	KHQbTpYJuGTb6O89HtlQYJMrOUZTRSd2dzSCBNI3Z1kQVa2NzH0YQqzM/41nigBDdgFc=;
 Received: from ozzloy by challenge-bot.com with local (Exim 4.92)
 	(envelope-from <ozzloy@challenge-bot.com>)
-	id 1o1Wdd-0005iN-Jd; Wed, 15 Jun 2022 10:17:05 -0700
+	id 1o1Wdd-0005iU-PG; Wed, 15 Jun 2022 10:17:05 -0700
 From: daniel watson <ozzloy@challenge-bot.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -22,10 +22,12 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Daniel Watson <ozzloy@challenge-bot.com>
-Subject: [PATCH v3 0/4] call rtw_IOL_append_*_cmd directly
-Date: Wed, 15 Jun 2022 10:16:59 -0700
-Message-Id: <cover.1655312169.git.ozzloy@challenge-bot.com>
+Subject: [PATCH v3 1/4] staging: r8188eu: call rtw_IOL_append_WB_cmd directly
+Date: Wed, 15 Jun 2022 10:17:00 -0700
+Message-Id: <e0002dcce35e78a4c7308515f68e473cad2f290b.1655312169.git.ozzloy@challenge-bot.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1655312169.git.ozzloy@challenge-bot.com>
+References: <cover.1655312169.git.ozzloy@challenge-bot.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,19 +38,59 @@ Content-Transfer-Encoding: 8bit
 
 From: Daniel Watson <ozzloy@challenge-bot.com>
 
-This patchset calls the rtw_IOL_append_*_cmd group of functions
-directly and removes the #define wrappers.
+Call rtw_IOL_append_WB_cmd directly, instead of using wrapper macro.
 
-Daniel Watson (4):
-  staging: r8188eu: call rtw_IOL_append_WB_cmd directly
-  staging: r8188eu: call rtw_IOL_append_WW_cmd directly
-  staging: r8188eu: call rtw_IOL_append_WD_cmd directly
-  staging: r8188eu: call rtw_IOL_append_WRF_cmd directly
+Delete wrapper macro, which is not needed.
 
- drivers/staging/r8188eu/core/rtw_iol.c    |  8 ++++----
- drivers/staging/r8188eu/include/rtw_iol.h | 24 ++++++++---------------
- 2 files changed, 12 insertions(+), 20 deletions(-)
+Signed-off-by: Daniel Watson <ozzloy@challenge-bot.com>
+---
+Changes in v2:
+  - Make the commit message clearer
+Changes in v3:
+  - fix typo in first line "Call rtf..." -> "Call rtw..."
 
+Note: This code has not been run on hardware.
+
+ drivers/staging/r8188eu/core/rtw_iol.c    | 2 +-
+ drivers/staging/r8188eu/include/rtw_iol.h | 6 ++----
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
+index af8e84a41b851..8c990b1af5a70 100644
+--- a/drivers/staging/r8188eu/core/rtw_iol.c
++++ b/drivers/staging/r8188eu/core/rtw_iol.c
+@@ -67,7 +67,7 @@ bool rtw_IOL_applied(struct adapter  *adapter)
+ 	return false;
+ }
+ 
+-int _rtw_IOL_append_WB_cmd(struct xmit_frame *xmit_frame, u16 addr, u8 value, u8 mask)
++int rtw_IOL_append_WB_cmd(struct xmit_frame *xmit_frame, u16 addr, u8 value, u8 mask)
+ {
+ 	struct ioreg_cfg cmd = {8, IOREG_CMD_WB_REG, 0x0, 0x0, 0x0};
+ 
+diff --git a/drivers/staging/r8188eu/include/rtw_iol.h b/drivers/staging/r8188eu/include/rtw_iol.h
+index fb88ebc1dabb1..a648f9ba50a62 100644
+--- a/drivers/staging/r8188eu/include/rtw_iol.h
++++ b/drivers/staging/r8188eu/include/rtw_iol.h
+@@ -41,16 +41,14 @@ int rtw_IOL_append_END_cmd(struct xmit_frame *xmit_frame);
+ void read_efuse_from_txpktbuf(struct adapter *adapter, int bcnhead,
+ 			      u8 *content, u16 *size);
+ 
+-int _rtw_IOL_append_WB_cmd(struct xmit_frame *xmit_frame, u16 addr,
+-			   u8 value, u8 mask);
++int rtw_IOL_append_WB_cmd(struct xmit_frame *xmit_frame, u16 addr,
++			  u8 value, u8 mask);
+ int _rtw_IOL_append_WW_cmd(struct xmit_frame *xmit_frame, u16 addr,
+ 			   u16 value, u16 mask);
+ int _rtw_IOL_append_WD_cmd(struct xmit_frame *xmit_frame, u16 addr,
+ 			   u32 value, u32 mask);
+ int _rtw_IOL_append_WRF_cmd(struct xmit_frame *xmit_frame, u8 rf_path,
+ 			    u16 addr, u32 value, u32 mask);
+-#define rtw_IOL_append_WB_cmd(xmit_frame, addr, value, mask)		\
+-	_rtw_IOL_append_WB_cmd((xmit_frame), (addr), (value) ,(mask))
+ #define rtw_IOL_append_WW_cmd(xmit_frame, addr, value, mask)		\
+ 	_rtw_IOL_append_WW_cmd((xmit_frame), (addr), (value),(mask))
+ #define rtw_IOL_append_WD_cmd(xmit_frame, addr, value, mask)		\
 -- 
 2.34.1
 
