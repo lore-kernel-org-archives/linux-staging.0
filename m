@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574653FE0
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 20:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F493FDD
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 20:51:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1655326284;
+	s=mimecast20190719; t=1655326288;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZzDz3ujbXlYIVJvxzyxAtHT4COLiuf6NM8n4cMvisCQ=;
-	b=ZJtKD4sWFbKiFFZKl4iP82CGv2IcHlbrrfdgC/PsBWGnI2lcLg3y2cUOCTFMUgQYk686ZP
-	Srz2O4+hEx0S9Pqoi4jmSejDE8KNik9DlWWkmBJx7ZZtzH1H3EB0bB7qddQH3ZhiqnByoL
-	TIKYJ4002aFanWQYUnA73lX9Ty6n9Ww=
+	bh=wLEDgXyK7g2XPltXOqEMT4vvvBIc8zK3FcC2/zzaTUs=;
+	b=bqyKl0RdRaFasAVFDxwD5Ol2KT9AoFZVB3Ph3WyNM+nDKrQ1SqvH7O+etuKLdloThrlrbX
+	u6pzI4pPBR06uMQGqYu7Co6EUsycDEYzjQQMlBPzn004Nu9WlM46LU5c2jsm2ZiNaKcu+H
+	su4+ft6McIQrvl/qm+pr0cOqeOBpV5c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-206-U1dKOg2nP12fnZZn03pMMQ-1; Wed, 15 Jun 2022 16:51:17 -0400
-X-MC-Unique: U1dKOg2nP12fnZZn03pMMQ-1
+ us-mta-610-qCR5UGBRMgahV6Jh0xL33Q-1; Wed, 15 Jun 2022 16:51:22 -0400
+X-MC-Unique: qCR5UGBRMgahV6Jh0xL33Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D75A4811E75;
-	Wed, 15 Jun 2022 20:51:16 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D6DA85A587;
+	Wed, 15 Jun 2022 20:51:22 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.27])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 43B081131D;
-	Wed, 15 Jun 2022 20:51:15 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B2C79111F5;
+	Wed, 15 Jun 2022 20:51:20 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v2 20/40] media: atomisp: remove unused atomisp_*css_* functions
-Date: Wed, 15 Jun 2022 22:50:17 +0200
-Message-Id: <20220615205037.16549-21-hdegoede@redhat.com>
+Subject: [PATCH v2 23/40] media: atomisp: remove atomisp_is_acc_enabled()
+Date: Wed, 15 Jun 2022 22:50:20 +0200
+Message-Id: <20220615205037.16549-24-hdegoede@redhat.com>
 In-Reply-To: <20220615205037.16549-1-hdegoede@redhat.com>
 References: <20220615205037.16549-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,302 +53,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 
-With the removal of the ACC ioctls and atomisp_acc.c a whole bunch
-of atomisp_*css_* functions is no longer used, remove them.
+atomisp_is_acc_enabled() always returns false now, remove it.
 
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/pci/atomisp_compat.h        |  25 --
- .../media/atomisp/pci/atomisp_compat_css20.c  | 217 ------------------
- .../media/atomisp/pci/atomisp_subdev.h        |   1 -
- 3 files changed, 243 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c   | 4 ++--
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 5 -----
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.h | 1 -
+ 3 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-index 64c1bf0943e6..07569f47498d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-@@ -442,33 +442,8 @@ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index d8b3896a267a..04643eb2dff0 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -538,7 +538,7 @@ irqreturn_t atomisp_isr(int irq, void *dev)
  
- int atomisp_css_update_stream(struct atomisp_sub_device *asd);
+ 	clear_irq_reg(isp);
  
--int atomisp_css_create_acc_pipe(struct atomisp_sub_device *asd);
--
--int atomisp_css_start_acc_pipe(struct atomisp_sub_device *asd);
--
--int atomisp_css_stop_acc_pipe(struct atomisp_sub_device *asd);
--
--void atomisp_css_destroy_acc_pipe(struct atomisp_sub_device *asd);
--
--int atomisp_css_load_acc_extension(struct atomisp_sub_device *asd,
--				   struct ia_css_fw_info *fw,
--				   enum ia_css_pipe_id pipe_id,
--				   unsigned int type);
--
--void atomisp_css_unload_acc_extension(struct atomisp_sub_device *asd,
--				      struct ia_css_fw_info *fw,
--				      enum ia_css_pipe_id pipe_id);
--
--int atomisp_css_wait_acc_finish(struct atomisp_sub_device *asd);
--
- void atomisp_css_acc_done(struct atomisp_sub_device *asd);
+-	if (!atomisp_streaming_count(isp) && !atomisp_is_acc_enabled(isp))
++	if (!atomisp_streaming_count(isp))
+ 		goto out_nowake;
  
--int atomisp_css_load_acc_binary(struct atomisp_sub_device *asd,
--				struct ia_css_fw_info *fw,
--				unsigned int index);
--
--void atomisp_css_unload_acc_binary(struct atomisp_sub_device *asd);
--
- struct atomisp_acc_fw;
- int atomisp_css_set_acc_parameters(struct atomisp_acc_fw *acc_fw);
+ 	for (i = 0; i < isp->num_of_streams; i++) {
+@@ -1837,7 +1837,7 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
  
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 89002df530b3..51b31e6c4811 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -3828,25 +3828,6 @@ void atomisp_css_acc_done(struct atomisp_sub_device *asd)
- 	complete(&asd->acc.acc_done);
+ 	spin_lock_irqsave(&isp->lock, flags);
+ 
+-	if (!atomisp_streaming_count(isp) && !atomisp_is_acc_enabled(isp)) {
++	if (!atomisp_streaming_count(isp)) {
+ 		spin_unlock_irqrestore(&isp->lock, flags);
+ 		return IRQ_HANDLED;
+ 	}
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 725b3b1562b1..73906902600c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -624,11 +624,6 @@ unsigned int atomisp_streaming_count(struct atomisp_device *isp)
+ 	return sum;
  }
  
--int atomisp_css_wait_acc_finish(struct atomisp_sub_device *asd)
+-unsigned int atomisp_is_acc_enabled(struct atomisp_device *isp)
 -{
--	int ret = 0;
--	struct atomisp_device *isp = asd->isp;
--
--	/* Unlock the isp mutex taken in IOCTL handler before sleeping! */
--	rt_mutex_unlock(&isp->mutex);
--	if (wait_for_completion_interruptible_timeout(&asd->acc.acc_done,
--		ATOMISP_ISP_TIMEOUT_DURATION) == 0) {
--		dev_err(isp->dev, "<%s: completion timeout\n", __func__);
--		ia_css_debug_dump_sp_sw_debug_info();
--		ia_css_debug_dump_debug_info(__func__);
--		ret = -EIO;
--	}
--	rt_mutex_lock(&isp->mutex);
--
--	return ret;
+-	return 0;
 -}
 -
- /* Set the ACC binary arguments */
- int atomisp_css_set_acc_parameters(struct atomisp_acc_fw *acc_fw)
- {
-@@ -3865,204 +3846,6 @@ int atomisp_css_set_acc_parameters(struct atomisp_acc_fw *acc_fw)
- 	return 0;
- }
+ /*
+  * get input are used to get current primary/secondary camera
+  */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
+index 412bfcf33c0f..d85e0d697a4e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
+@@ -57,7 +57,6 @@ extern const struct v4l2_ioctl_ops atomisp_file_ioctl_ops;
  
--/* Load acc binary extension */
--int atomisp_css_load_acc_extension(struct atomisp_sub_device *asd,
--				   struct ia_css_fw_info *fw,
--				   enum ia_css_pipe_id pipe_id,
--				   unsigned int type)
--{
--	struct ia_css_fw_info **hd;
--
--	fw->next = NULL;
--	hd = &(asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
--	       .pipe_configs[pipe_id].acc_extension);
--	while (*hd)
--		hd = &(*hd)->next;
--	*hd = fw;
--
--	asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
--	.update_pipe[pipe_id] = true;
--	return 0;
--}
--
--/* Unload acc binary extension */
--void atomisp_css_unload_acc_extension(struct atomisp_sub_device *asd,
--				      struct ia_css_fw_info *fw,
--				      enum ia_css_pipe_id pipe_id)
--{
--	struct ia_css_fw_info **hd;
--
--	hd = &(asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
--	       .pipe_configs[pipe_id].acc_extension);
--	while (*hd && *hd != fw)
--		hd = &(*hd)->next;
--	if (!*hd) {
--		dev_err(asd->isp->dev, "did not find acc fw for removal\n");
--		return;
--	}
--	*hd = fw->next;
--	fw->next = NULL;
--
--	asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
--	.update_pipe[pipe_id] = true;
--}
--
--int atomisp_css_create_acc_pipe(struct atomisp_sub_device *asd)
--{
--	struct atomisp_device *isp = asd->isp;
--	struct ia_css_pipe_config *pipe_config;
--	struct atomisp_stream_env *stream_env =
--		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
--
--	if (stream_env->acc_stream) {
--		if (stream_env->acc_stream_state == CSS_STREAM_STARTED) {
--			if (ia_css_stream_stop(stream_env->acc_stream)
--			    != 0) {
--				dev_err(isp->dev, "stop acc_stream failed.\n");
--				return -EBUSY;
--			}
--		}
--
--		if (ia_css_stream_destroy(stream_env->acc_stream)
--		    != 0) {
--			dev_err(isp->dev, "destroy acc_stream failed.\n");
--			return -EBUSY;
--		}
--		stream_env->acc_stream = NULL;
--	}
--
--	pipe_config = &stream_env->pipe_configs[IA_CSS_PIPE_ID_ACC];
--	ia_css_pipe_config_defaults(pipe_config);
--	asd->acc.acc_stages = kzalloc(MAX_ACC_STAGES *
--				      sizeof(void *), GFP_KERNEL);
--	if (!asd->acc.acc_stages)
--		return -ENOMEM;
--	pipe_config->acc_stages = asd->acc.acc_stages;
--	pipe_config->mode = IA_CSS_PIPE_MODE_ACC;
--	pipe_config->num_acc_stages = 0;
--
--	/*
--	 * We delay the ACC pipeline creation to atomisp_css_start_acc_pipe,
--	 * because pipe configuration will soon be changed by
--	 * atomisp_css_load_acc_binary()
--	 */
--	return 0;
--}
--
--int atomisp_css_start_acc_pipe(struct atomisp_sub_device *asd)
--{
--	struct atomisp_device *isp = asd->isp;
--	struct atomisp_stream_env *stream_env =
--		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
--	struct ia_css_pipe_config *pipe_config =
--		    &stream_env->pipe_configs[IA_CSS_PIPE_ID_ACC];
--
--	if (ia_css_pipe_create(pipe_config,
--			       &stream_env->pipes[IA_CSS_PIPE_ID_ACC]) != 0) {
--		dev_err(isp->dev, "%s: ia_css_pipe_create failed\n",
--			__func__);
--		return -EBADE;
--	}
--
--	memset(&stream_env->acc_stream_config, 0,
--	       sizeof(struct ia_css_stream_config));
--	if (ia_css_stream_create(&stream_env->acc_stream_config, 1,
--				 &stream_env->pipes[IA_CSS_PIPE_ID_ACC],
--				 &stream_env->acc_stream) != 0) {
--		dev_err(isp->dev, "%s: create acc_stream error.\n", __func__);
--		return -EINVAL;
--	}
--	stream_env->acc_stream_state = CSS_STREAM_CREATED;
--
--	init_completion(&asd->acc.acc_done);
--	asd->acc.pipeline = stream_env->pipes[IA_CSS_PIPE_ID_ACC];
--
--	atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_MAX, false);
--
--	if (ia_css_start_sp()) {
--		dev_err(isp->dev, "start sp error.\n");
--		return -EIO;
--	}
--
--	if (ia_css_stream_start(stream_env->acc_stream)
--	    != 0) {
--		dev_err(isp->dev, "acc_stream start error.\n");
--		return -EIO;
--	}
--
--	stream_env->acc_stream_state = CSS_STREAM_STARTED;
--	return 0;
--}
--
--int atomisp_css_stop_acc_pipe(struct atomisp_sub_device *asd)
--{
--	struct atomisp_stream_env *stream_env =
--		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
--	if (stream_env->acc_stream_state == CSS_STREAM_STARTED) {
--		ia_css_stream_stop(stream_env->acc_stream);
--		stream_env->acc_stream_state = CSS_STREAM_STOPPED;
--	}
--	return 0;
--}
--
--void atomisp_css_destroy_acc_pipe(struct atomisp_sub_device *asd)
--{
--	struct atomisp_stream_env *stream_env =
--		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL];
--	if (stream_env->acc_stream) {
--		if (ia_css_stream_destroy(stream_env->acc_stream)
--		    != 0)
--			dev_warn(asd->isp->dev,
--				 "destroy acc_stream failed.\n");
--		stream_env->acc_stream = NULL;
--	}
--
--	if (stream_env->pipes[IA_CSS_PIPE_ID_ACC]) {
--		if (ia_css_pipe_destroy(stream_env->pipes[IA_CSS_PIPE_ID_ACC])
--		    != 0)
--			dev_warn(asd->isp->dev,
--				 "destroy ACC pipe failed.\n");
--		stream_env->pipes[IA_CSS_PIPE_ID_ACC] = NULL;
--		stream_env->update_pipe[IA_CSS_PIPE_ID_ACC] = false;
--		ia_css_pipe_config_defaults(
--		    &stream_env->pipe_configs[IA_CSS_PIPE_ID_ACC]);
--		ia_css_pipe_extra_config_defaults(
--		    &stream_env->pipe_extra_configs[IA_CSS_PIPE_ID_ACC]);
--	}
--	asd->acc.pipeline = NULL;
--
--	/* css 2.0 API limitation: ia_css_stop_sp() could be only called after
--	 * destroy all pipes
--	 */
--	ia_css_stop_sp();
--
--	kfree(asd->acc.acc_stages);
--	asd->acc.acc_stages = NULL;
--
--	atomisp_freq_scaling(asd->isp, ATOMISP_DFS_MODE_LOW, false);
--}
--
--int atomisp_css_load_acc_binary(struct atomisp_sub_device *asd,
--				struct ia_css_fw_info *fw,
--				unsigned int index)
--{
--	struct ia_css_pipe_config *pipe_config =
--		    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
--		    .pipe_configs[IA_CSS_PIPE_ID_ACC];
--
--	if (index >= MAX_ACC_STAGES) {
--		dev_dbg(asd->isp->dev, "%s: index(%d) out of range\n",
--			__func__, index);
--		return -ENOMEM;
--	}
--
--	pipe_config->acc_stages[index] = fw;
--	pipe_config->num_acc_stages = index + 1;
--	pipe_config->acc_num_execs = 1;
--
--	return 0;
--}
--
- static struct atomisp_sub_device *__get_atomisp_subdev(
-     struct ia_css_pipe *css_pipe,
-     struct atomisp_device *isp,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index c2f3ea2c5076..f1e87c3a9dfa 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -325,7 +325,6 @@ struct atomisp_sub_device {
- 	struct {
- 		struct ia_css_pipe *pipeline;
- 		struct completion acc_done;
--		void *acc_stages;
- 	} acc;
+ unsigned int atomisp_streaming_count(struct atomisp_device *isp);
  
- 	struct atomisp_subdev_params params;
+-unsigned int atomisp_is_acc_enabled(struct atomisp_device *isp);
+ /* compat_ioctl for 32bit userland app and 64bit kernel */
+ long atomisp_compat_ioctl32(struct file *file,
+ 			    unsigned int cmd, unsigned long arg);
 -- 
 2.36.0
 
