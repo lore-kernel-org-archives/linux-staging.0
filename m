@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF4C3FE1
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 20:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB083FE1
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jun 2022 20:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1655326282;
+	s=mimecast20190719; t=1655326284;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nUYi7Ckw2Q2pURaEKFD2znHfUk4a0Cqt4wBZGLQ+F2E=;
-	b=Mcz5DkNizXcFbcyJegjltbKBHcDU4iWeEysR1+PZqsXMsLqS5VYJhImG7DPN5upwaWddsB
-	u+IHwB577DMH7WXF1O2DGRVcmfW15TeeSFovllGfHlLA6l1bx8nsoTZAyURjiQS4rNfZcu
-	tIDTYs4a5ROR5MBKFBusAOntu8cy4T8=
+	bh=DOGsHPFBbgfyOB5YS/i0tFlmJ7V8OIZ658LY9rBpbto=;
+	b=F3xBeiaCC0j7ZTGb4Z7szmkHitOQ+3uXzxJ3awrATi2U+s0mPmk9aOo+Y3hSooNlcKxj5m
+	tJTNLpIrC+qv0yiUjje3kNAzGExU60VA0wOL9c5ZehaIY57r4chQ05knyuCMq1mml5fCMe
+	fgaiYGhm6gxbw4TTypPDc2MI0t3YUcA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-LCNIl70XNpGeRS60h8fCHA-1; Wed, 15 Jun 2022 16:51:19 -0400
-X-MC-Unique: LCNIl70XNpGeRS60h8fCHA-1
+ us-mta-479-l3uU4SPyNC2ApwDolR1Xsw-1; Wed, 15 Jun 2022 16:51:08 -0400
+X-MC-Unique: l3uU4SPyNC2ApwDolR1Xsw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD2F685A588;
-	Wed, 15 Jun 2022 20:51:18 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C711101E166;
+	Wed, 15 Jun 2022 20:51:07 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.27])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 185C0111F5;
-	Wed, 15 Jun 2022 20:51:16 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E3A271131D;
+	Wed, 15 Jun 2022 20:51:05 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -39,9 +39,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v2 21/40] media: atomisp: asc.acc.pipeline is always NULL
-Date: Wed, 15 Jun 2022 22:50:18 +0200
-Message-Id: <20220615205037.16549-22-hdegoede@redhat.com>
+Subject: [PATCH v2 15/40] media: atomisp: drop hmm_page_type
+Date: Wed, 15 Jun 2022 22:50:12 +0200
+Message-Id: <20220615205037.16549-16-hdegoede@redhat.com>
 In-Reply-To: <20220615205037.16549-1-hdegoede@redhat.com>
 References: <20220615205037.16549-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,77 +53,111 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 
-With the removal of the ACC ioctls and atomisp_acc.c asc.acc.pipeline
-never gets set, so it is always NULL.
-
-Remove asc.acc.pipeline and drop checks for it being NULL / !NULL.
+Since the hmm-pool code has been removed this now always gets set
+to HMM_PAGE_TYPE_GENERAL, so just remove it.
 
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c          | 3 ---
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 3 +--
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c        | 6 ------
- drivers/staging/media/atomisp/pci/atomisp_subdev.h       | 1 -
- 4 files changed, 1 insertion(+), 12 deletions(-)
+ .../media/atomisp/include/hmm/hmm_bo.h        |  7 ----
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 42 +++++++------------
+ 2 files changed, 15 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 18f063393433..d8b3896a267a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1888,9 +1888,6 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
- 		    && isp->sw_contex.file_input)
- 			v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
- 					 video, s_stream, 1);
--		/* FIXME! FIX ACC implementation */
--		if (asd->acc.pipeline && css_pipe_done[asd->index])
--			atomisp_css_acc_done(asd);
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+index b9bae51e3814..1e9ccfd64c00 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+@@ -81,12 +81,6 @@ enum hmm_bo_type {
+ 	HMM_BO_LAST,
+ };
+ 
+-enum hmm_page_type {
+-	HMM_PAGE_TYPE_RESERVED,
+-	HMM_PAGE_TYPE_DYNAMIC,
+-	HMM_PAGE_TYPE_GENERAL,
+-};
+-
+ #define	HMM_BO_MASK		0x1
+ #define	HMM_BO_FREE		0x0
+ #define	HMM_BO_ALLOCED	0x1
+@@ -123,7 +117,6 @@ struct hmm_bo_device {
+ 
+ struct hmm_page_object {
+ 	struct page		*page;
+-	enum hmm_page_type	type;
+ };
+ 
+ struct hmm_buffer_object {
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 0118c0b5acc8..1f0e62182fa3 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -631,32 +631,22 @@ static void free_private_bo_pages(struct hmm_buffer_object *bo,
+ 	int i, ret;
+ 
+ 	for (i = 0; i < free_pgnr; i++) {
+-		switch (bo->page_obj[i].type) {
+-		case HMM_PAGE_TYPE_RESERVED:
+-			break;
+-		case HMM_PAGE_TYPE_DYNAMIC:
+-		case HMM_PAGE_TYPE_GENERAL:
+-		default:
+-			ret = set_pages_wb(bo->page_obj[i].page, 1);
+-			if (ret)
+-				dev_err(atomisp_dev,
+-					"set page to WB err ...ret = %d\n",
+-					ret);
+-			/*
+-			W/A: set_pages_wb seldom return value = -EFAULT
+-			indicate that address of page is not in valid
+-			range(0xffff880000000000~0xffffc7ffffffffff)
+-			then, _free_pages would panic; Do not know why page
+-			address be valid,it maybe memory corruption by lowmemory
+-			*/
+-			if (!ret) {
+-				__free_pages(bo->page_obj[i].page, 0);
+-			}
+-			break;
++		ret = set_pages_wb(bo->page_obj[i].page, 1);
++		if (ret)
++			dev_err(atomisp_dev,
++				"set page to WB err ...ret = %d\n",
++				ret);
++		/*
++		W/A: set_pages_wb seldom return value = -EFAULT
++		indicate that address of page is not in valid
++		range(0xffff880000000000~0xffffc7ffffffffff)
++		then, _free_pages would panic; Do not know why page
++		address be valid,it maybe memory corruption by lowmemory
++		*/
++		if (!ret) {
++			__free_pages(bo->page_obj[i].page, 0);
+ 		}
  	}
- 	dev_dbg(isp->dev, "<%s\n", __func__);
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 51b31e6c4811..646404a71d18 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -3857,8 +3857,7 @@ static struct atomisp_sub_device *__get_atomisp_subdev(
- 
- 	for (i = 0; i < isp->num_of_streams; i++) {
- 		asd = &isp->asd[i];
--		if (asd->streaming == ATOMISP_DEVICE_STREAMING_DISABLED &&
--		    !asd->acc.pipeline)
-+		if (asd->streaming == ATOMISP_DEVICE_STREAMING_DISABLED)
- 			continue;
- 		for (j = 0; j < ATOMISP_INPUT_STREAM_NUM; j++) {
- 			stream_env = &asd->stream_env[j];
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 69deeb55613f..725b3b1562b1 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -626,12 +626,6 @@ unsigned int atomisp_streaming_count(struct atomisp_device *isp)
- 
- unsigned int atomisp_is_acc_enabled(struct atomisp_device *isp)
- {
--	unsigned int i;
 -
--	for (i = 0; i < isp->num_of_streams; i++)
--		if (isp->asd[i].acc.pipeline)
--			return 1;
--
- 	return 0;
+-	return;
  }
  
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index f1e87c3a9dfa..f611fd47b85d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -323,7 +323,6 @@ struct atomisp_sub_device {
- 	struct v4l2_ctrl *disable_dz;
+ /*Allocate pages which will be used only by ISP*/
+@@ -755,9 +745,8 @@ static int alloc_private_pages(struct hmm_buffer_object *bo,
+ 				}
+ 			}
  
- 	struct {
--		struct ia_css_pipe *pipeline;
- 		struct completion acc_done;
- 	} acc;
+-			for (j = 0; j < blk_pgnr; j++) {
++			for (j = 0; j < blk_pgnr; j++, i++) {
+ 				bo->page_obj[i].page = pages + j;
+-				bo->page_obj[i++].type = HMM_PAGE_TYPE_GENERAL;
+ 			}
  
+ 			pgnr -= blk_pgnr;
+@@ -878,7 +867,6 @@ static int alloc_user_pages(struct hmm_buffer_object *bo,
+ 
+ 	for (i = 0; i < bo->pgnr; i++) {
+ 		bo->page_obj[i].page = pages[i];
+-		bo->page_obj[i].type = HMM_PAGE_TYPE_GENERAL;
+ 	}
+ 
+ 	return 0;
 -- 
 2.36.0
 
