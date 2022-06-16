@@ -1,74 +1,67 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF2D7A
-	for <linux-staging@lists.linux.dev>; Thu, 16 Jun 2022 10:20:32 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id D4483CE27C
-	for <linux-staging@lists.linux.dev>; Thu, 16 Jun 2022 10:00:37 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 03C4E1BF209;
-	Thu, 16 Jun 2022 10:00:28 +0000 (UTC)
-From: Jacopo Mondi <jacopo+renesas@jmondi.org>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>
-Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5577A
+	for <linux-staging@lists.linux.dev>; Thu, 16 Jun 2022 10:26:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E1B3C34114;
+	Thu, 16 Jun 2022 10:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1655375187;
+	bh=DlICX59c9sC83k5bboEQmQIRUuMZyKR0KmarW+Dr/e4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XRVJNeoYslOvTmLinuMgCPK4IaWQinMMcyqxRIrSkvobShbmHWFrhDOYepAHIl7mM
+	 /mLfGxM/Yx6FqHCOfpAEfkbWpHMkhD6kjr5sbKQb5twY3K3ifGItjkKXzYbBrDNGZx
+	 8sBFrxFaP/kx2gGuJi2Sq7bhLFTaYMk9sapgDofg=
+Date: Thu, 16 Jun 2022 12:26:18 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
 	Andrea Merello <andrea.merello@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 0/2] staging: iio: imu: Add CEVA BNO08x through the staging tree
-Date: Thu, 16 Jun 2022 12:00:04 +0200
-Message-Id: <20220616100006.22045-1-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.35.1
+	Magnus Damm <magnus.damm@gmail.com>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH 2/2] staging: iio: imu: Add CEVA BNO08x driver
+Message-ID: <YqsFSrg+Q+jdsId/@kroah.com>
+References: <20220616100006.22045-1-jacopo+renesas@jmondi.org>
+ <20220616100006.22045-3-jacopo+renesas@jmondi.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616100006.22045-3-jacopo+renesas@jmondi.org>
 
-Hello,
-   this series adds support for the CEVA BNO08x Sensor Hub through the staging
-tree.
+On Thu, Jun 16, 2022 at 12:00:06PM +0200, Jacopo Mondi wrote:
+> From: Jacopo Mondi <jacopo@jmondi.org>
+> 
+> Add support for CEVA BNO08x Sensor Hub.
+> 
+> The BNO08X family (BNO080/85/86) is a System in Package (SiP) that
+> integrates a triaxial accelerometer, triaxial gyroscope, magnetometer
+> and a 32-bit ARM Cortex-M0+ microcontroller running CEVA's SH-2
+> firmware.
+> 
+> Datasheet:
+> https://www.ceva-dsp.com/wp-content/uploads/2019/10/BNO080_085-Datasheet.pdf
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  MAINTAINERS                             |   7 +
+>  drivers/staging/iio/Kconfig             |   1 +
+>  drivers/staging/iio/Makefile            |   1 +
+>  drivers/staging/iio/imu/bno08x/Kconfig  |  11 +
+>  drivers/staging/iio/imu/bno08x/Makefile |   3 +
+>  drivers/staging/iio/imu/bno08x/bno08x.c | 618 ++++++++++++++++++++++++
 
-The driver currently only support reading a rotation vector in quaternion, which
-is just one of the many features supported by the device.
+Why are you adding a new driver to staging/iio/ and not to the real part
+of the kernel?  What needs to be done to it to get it out of here?
 
-What's relevant here is the protocol handling part, which is used to exposed a
-triggered buffer and direct access IIO interfaces. The BNO08x family implements
-a packed-based protocol which requires parsing on the driver side. This driver
-implements such parsing routine by copying the full received packets and
-synchronize the possible multiple consumers which might want to access the data.
+I'd prefer that we not add any new iio drivers if at all possible,
+please fix them up properly and merge them to the correct location.
 
-Sent through the staging tree as the HW platform I used to test is not available
-anymore and I cannot guarantee maintainership of the driver.
+thanks,
 
-However I hope the driver can serve as a useful reference for future
-developments.
-
-Thanks
-  j
-
-Jacopo Mondi (2):
-  dt-bindings: staging: iio: imu: Document CEVA BNO08x
-  staging: iio: imu: Add CEVA BNO08x driver
-
- .../bindings/staging/iio/imu/ceva,bno08x.yaml |  63 ++
- MAINTAINERS                                   |   7 +
- drivers/staging/iio/Kconfig                   |   1 +
- drivers/staging/iio/Makefile                  |   1 +
- drivers/staging/iio/imu/bno08x/Kconfig        |  11 +
- drivers/staging/iio/imu/bno08x/Makefile       |   3 +
- drivers/staging/iio/imu/bno08x/bno08x.c       | 618 ++++++++++++++++++
- 7 files changed, 704 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/staging/iio/imu/ceva,bno08x.yaml
- create mode 100644 drivers/staging/iio/imu/bno08x/Kconfig
- create mode 100644 drivers/staging/iio/imu/bno08x/Makefile
- create mode 100644 drivers/staging/iio/imu/bno08x/bno08x.c
-
---
-2.35.1
-
+greg k-h
