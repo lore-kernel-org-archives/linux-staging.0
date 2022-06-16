@@ -1,83 +1,80 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9847A
-	for <linux-staging@lists.linux.dev>; Thu, 16 Jun 2022 05:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655356271; x=1686892271;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=NkEFYvNXfkRiyQzrKr5w73UFu/bNjvCsd8osZsw1FkQ=;
-  b=Wq5Wbr5j20sn2CgBp1V83crUtBiroXWV06ScgHoTxBgfvFlPg1mmqNvo
-   d3f+NQgHx5zWAC4CdqTiMCTDx7xOQvHoFFm/KDGFCmPynC1YVwz3KPvUf
-   QdAFsW9tC314fJSapnN5G/G3oj0OuKYMh9j/iJteIFzKSxD6akjyRzTbZ
-   JDa8Wbsj+goGQWRmIEx6cjU6IEUjj+NLY6Rgyz8CRFo1MdIDBdjI4mezm
-   +ZAHlhq2PKGlF6lfU37QQVnnuvIFagDR6MY66Zb0QZaH9iEzJvCm+r6EA
-   se8ZDauOW1R2JKRcv9JEW7rkDWthcSYE1P2DPWBIGjCq29bw7h4M4uIWS
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="262187908"
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; 
-   d="scan'208";a="262187908"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 22:11:10 -0700
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; 
-   d="scan'208";a="641365226"
-Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.249.174.230]) ([10.249.174.230])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 22:11:05 -0700
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 8cb8311e95e3bb58bd84d6350365f14a718faa6d
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "open list:DRM DRIVER FOR QEMU'S CIRRUS DEVICE"
- <virtualization@lists.linux-foundation.org>,
- Networking <netdev@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-riscv <linux-riscv@lists.infradead.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- linux-pci <linux-pci@vger.kernel.org>, linux-parport@lists.infradead.org,
- linux-omap <linux-omap@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- kvm list <kvm@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- bpf <bpf@vger.kernel.org>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
- <CAK8P3a10aGYNr=nKZVzv+1n_DRibSCCkoCLuTDtmhZskBMWfyw@mail.gmail.com>
-From: "Chen, Rong A" <rong.a.chen@intel.com>
-Message-ID: <7a9f0c2d-f1e9-dd2f-6836-26d08bfa45a0@intel.com>
-Date: Thu, 16 Jun 2022 13:11:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5CD7A;
+	Thu, 16 Jun 2022 07:14:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A597C34114;
+	Thu, 16 Jun 2022 07:14:07 +0000 (UTC)
+Message-ID: <39a83a7e-caaf-1dac-1072-72cd2f5d8bf5@xs4all.nl>
+Date: Thu, 16 Jun 2022 09:14:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a10aGYNr=nKZVzv+1n_DRibSCCkoCLuTDtmhZskBMWfyw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 0/2] media: cedrus: fix HEVC decoding
 Content-Language: en-US
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org, wens@csie.org, samuel@sholland.org,
+ benjamin.gaignard@collabora.com, nicolas.dufresne@collabora.com,
+ gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220615204436.137377-1-jernej.skrabec@gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220615204436.137377-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/26/2022 4:32 PM, Arnd Bergmann wrote:
-> On Wed, May 25, 2022 at 11:35 PM kernel test robot <lkp@intel.com> wrote:
->> .__mulsi3.o.cmd: No such file or directory
->> Makefile:686: arch/h8300/Makefile: No such file or directory
->> Makefile:765: arch/h8300/Makefile: No such file or directory
->> arch/Kconfig:10: can't open file "arch/h8300/Kconfig"
+On 6/15/22 22:44, Jernej Skrabec wrote:
+> After detailed comparison of register names to vendor library I noticed
+> that one register has completely different name. After some testing I
+> discovered that it was misnamed and used incorrectly. This patch series
+> fixes it. With that, 3 more reference bitstreams are now correctly
+> decoded. It is also possible that this fixes instability issue I had
+> after decoding such bitstreams. Running Fluster test suite very often
+> locked up my board, but after applying this fix, I never experienced it
+> again. It might still be completely coincidental, but I doubt this is
+> the case.
 > 
-> Please stop building h8300  after the asm-generic tree is merged, the
-> architecture is getting removed.
+> Note: Patch 2 clashes with HEVC uAPI destaging. In current form, it can
+> be easily backported. However, there are few users of Cedrus HEVC and
+> skipping this fix wouldn't be that bad.
 > 
->          Arnd
+> Please let me know which way to go:
+> 1) wait for destaging, send rebased v2 and not care about backporting
+
+Let's go with 1. There is not much point in backporting since destaging
+the HEVC API will also change it, so userspace will need to adapt. It's
+a staging driver anyway (although hopefully not for long).
+
+If you post a v2 on top of the latest series from Benjamin, then that
+should almost certainly work fine when Benjamin posts what will hopefully
+be the final version of his series. When it is all OK, then I put both in
+the same PR.
+
+Regards,
+
+	Hans
+
+> 2) merge before destaging, but v9 of HEVC uAPI destaging would need to
+>    be rebased.
+> 3) something else?
 > 
-
-Hi Arnd,
-
-Thanks for the advice, we have stopped building h8300 for new kernel.
-
-Best Regards,
-Rong Chen
+> Best regards,
+> Jernej
+> 
+> Jernej Skrabec (2):
+>   media: cedrus: h265: Fix flag name
+>   media: cedrus: h265: Fix logic for not low delay flag
+> 
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 29 ++++++++++++++++++-
+>  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  3 +-
+>  2 files changed, 29 insertions(+), 3 deletions(-)
+> 
