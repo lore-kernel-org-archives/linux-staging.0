@@ -1,68 +1,70 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72FE291F
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jun 2022 09:45:14 +0000 (UTC)
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.53])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LPYyF19rzzjXbg;
-	Fri, 17 Jun 2022 17:43:33 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by dggpeml500022.china.huawei.com
- (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 17 Jun
- 2022 17:45:06 +0800
-From: Zhang Zekun <zhangzekun11@huawei.com>
-To: <ezequiel@vanguardiasur.com.ar>, <mchehab@kernel.org>,
-	<gregkh@linuxfoundation.org>
-CC: <linux-media@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] media:rkvdec:Remove redundant memset
-Date: Fri, 17 Jun 2022 09:39:25 +0000
-Message-ID: <20220617093925.44985-1-zhangzekun11@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A34B2F25
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jun 2022 09:53:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 925A7C3411B;
+	Fri, 17 Jun 2022 09:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1655459610;
+	bh=cUiHKQNlCgY+BQSZHof8X01yx5BXsQD0YVh2ujqS/+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sZjpC8zAq45HR1sQftYIsWGYp/fCn4s+u+cA1LWqlXA9ALTWxoehhEPorewt9jy/h
+	 NXKd7w5QQpNQZcyy6Ukt2IefEaaoGJAO30VRuJ0CcgROKmPCv6KGvnZyfdY+WYkgNi
+	 EkDnA/MUJMTvR8Z/Sw62h/vReT943Zf+6Uz6CwLE=
+Date: Fri, 17 Jun 2022 11:53:28 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Adrien Thierry <athierry@redhat.com>
+Cc: Florian Fainelli <f.fainelli@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vchiq_arm: check vchiq_instance for NULL before
+ dereferencing
+Message-ID: <YqxPGOJIzkd466HM@kroah.com>
+References: <20220614182544.690630-1-athierry@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.208]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500022.china.huawei.com (7.185.36.66)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220614182544.690630-1-athierry@redhat.com>
 
-As dma_alloc_coherent() will return a zeroed buffer, we
-don't need to memset the returned buffer.
-priv_tbl = dma_alloc_coherent() and count_tbl = dma_alloc_coherent()
-should be enough.
+On Tue, Jun 14, 2022 at 02:25:44PM -0400, Adrien Thierry wrote:
+> In service_callback(), the vchiq_instance is checked for NULL after
+> dereferencing it. Switch the order of those operations.
+> 
+> This was reported by https://lore.kernel.org/all/Yqc+Oavmh0zMRVPQ@kili/
+> 
+> I moved the NULL check before the call to rcu_read_lock() since access
+> to the vchiq_instance is not RCU-protected (the RCU is only used to
+> access the vchiq_service).
+> 
+> Signed-off-by: Adrien Thierry <athierry@redhat.com>
+> ---
+>  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 3bcb893d14a1..ba1f86799b7f 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1058,6 +1058,9 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+>  
+>  	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+>  
+> +	if (!instance || instance->closing)
+> +		return VCHIQ_SUCCESS;
+> +
 
--see commit 750afb08ca71 ("cross-tree: phase out dma_zalloc_coherent()")
+How can instance ever be NULL?
 
-Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
----
- drivers/staging/media/rkvdec/rkvdec-vp9.c | 2 --
- 1 file changed, 2 deletions(-)
+And closing needs to be checked under a lock, right?
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-vp9.c b/drivers/staging/media/rkvdec/rkvdec-vp9.c
-index 311a12656072..c2f42e76be10 100644
---- a/drivers/staging/media/rkvdec/rkvdec-vp9.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-vp9.c
-@@ -1015,7 +1015,6 @@ static int rkvdec_vp9_start(struct rkvdec_ctx *ctx)
- 
- 	vp9_ctx->priv_tbl.size = sizeof(*priv_tbl);
- 	vp9_ctx->priv_tbl.cpu = priv_tbl;
--	memset(priv_tbl, 0, sizeof(*priv_tbl));
- 
- 	count_tbl = dma_alloc_coherent(rkvdec->dev, RKVDEC_VP9_COUNT_SIZE,
- 				       &vp9_ctx->count_tbl.dma, GFP_KERNEL);
-@@ -1026,7 +1025,6 @@ static int rkvdec_vp9_start(struct rkvdec_ctx *ctx)
- 
- 	vp9_ctx->count_tbl.size = RKVDEC_VP9_COUNT_SIZE;
- 	vp9_ctx->count_tbl.cpu = count_tbl;
--	memset(count_tbl, 0, sizeof(*count_tbl));
- 	rkvdec_init_v4l2_vp9_count_tbl(ctx);
- 
- 	return 0;
--- 
-2.17.1
+thanks,
 
+greg k-h
