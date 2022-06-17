@@ -1,86 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887137F
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jun 2022 08:15:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC2F0C3411B;
-	Fri, 17 Jun 2022 08:15:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1655453714;
-	bh=VNrHOYlngN9BjqwFqVMKldZsuLMNEh+W1VBvqJXopb4=;
-	h=Date:From:To:Cc:Subject:From;
-	b=sa7mM+OLUzN4SbCus82sNM5VOFI99u3yN2xrG3NDmm1dVdF/LT2Yxl/pu2sV2TbI6
-	 vB2QTQx4U0RhvqHbcReQxRZ/hrfM4Y2XDnZGRakfiESMBtNfNd0iD1Dms8lyN4Iu2W
-	 nS25MABDLlZUpIUJoXSmPgsQOGrRrLuoBXyHRFmM=
-Date: Fri, 17 Jun 2022 10:15:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver fixes for 5.19-rc3
-Message-ID: <Yqw4DynMEtAcZVim@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA977F;
+	Fri, 17 Jun 2022 08:35:55 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:faf2:1a12:f903:cc5e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0BDEA660179A;
+	Fri, 17 Jun 2022 09:35:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1655454953;
+	bh=7x8/8HIIJI7T1pseYga/Y7jcduOcSFuotK39n2h+Ncw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=iOfLp4XMB9xXSuz6oTsB0aRx934JkSWZ51zGng/ukPDKfdybILfVJJZ0nmPa6/RZY
+	 eMdP1POd1Ym9GBcqh7PMgJcCRgKqCIvdCPEAIMThsdoOtqnipEnehFRfoAo3NNu1ro
+	 /VP8MsnOqcfFjKEKWoPGfslTPVZvROFkpewa5knFsiaKQi4JS/nZ83deSyxIePBFi+
+	 +CK/4urNOvAeFE904IX9vZ3UkVHb3gn+7TE/LorDzqnLJbaW+mj8XInU5yWPe3ldeT
+	 0D480VWpUgs+2Zl5ec1JhxrKrVAL/AZOl3rlpiOYR8mNAVCRso0xI5pnWcmrSD+Uk1
+	 QJaYPaptlwD7g==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 00/17] Move HEVC stateless controls out of staging
+Date: Fri, 17 Jun 2022 10:35:28 +0200
+Message-Id: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
+version 9:
+- Reword some commit message
+- Use fls()
+- Remove useless padding at the end of hevc structures
+- Reword all _minus* field description
+- change CVS to codec video sequence
+- Fix various typo
+- Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
+- fix the waring reported by 'scripts/kernel-doc -none
+  include/uapi/linux/v4l2-controls.h'
 
-are available in the Git repository at:
+This version has been tested with these branches:
+- GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+- Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V9
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.19-rc3
+With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
+which was 77/147 before, is now 141/147.
+The 10-bits series will comes after this because of it dependency to
+uAPI change. If you are curious you can find the WIP branch here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V9
 
-for you to fetch changes up to cd756dafd86ee3a4969906086f3c2537e0c6d9d0:
+The 6 failing tests are:
+- PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
+- WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
+  difference exist on 5 decoded frames. Some pixels values are no the same 
+  the very end of few lines.
 
-  staging: Also remove the Unisys visorbus.h (2022-06-10 15:36:49 +0200)
+version 8:
+- Same than v7 but rebased on media_stage/master
 
-----------------------------------------------------------------
-Staging driver fixes for 5.19-rc3
+version 7:
+- Apply Jernej patches for Cedrus about bit offset definition and
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
+- Based on media_tree/master
 
-Here are some small staging driver fixes for 5.19-rc3 that resolve
-reported issues:
-	- remove visorbus.h which was forgotten in the -rc1 merge where
-	  the code that used it was removed
-	- olpc_dcon: mark as broken to allow the DRM developers to
-	  evolve the fbdev api properly without having to deal with this
-	  obsolete driver.  It will be removed soon if no one steps up
-	  to adopt it and fix the issues with it.
-	- rtl8723bs driver fix
-	- r8188eu driver fix to resolve many reports of the driver being
-	  broken with -rc1.
+version 6:
+- Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+  in v4l2_ctrl_hevc_decode_params structure.
+- Change slice_pic_order_cnt type to s32 to match with PoC type.
+- Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+- Add a define for max slices count
+- Stop using Hantro dedicated control.
 
-All of these have been in linux-next for a while with no reported
-issues.
+version 5:
+- Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+  hevc_dpb_entry structure
+- Add defines for SEI pic_struct values (patch 4)
+- Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+- Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+  documentation (patch 8)
+- Rebased on v5-18-rc1
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Version 4:
+- Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+- Fix space/tab issue in kernel-doc
+- Add patch to change data_bit_offset definition
+- Fix hantro-media SPDX license
+- put controls under stateless section in v4l2-ctrls-defs.c
 
-----------------------------------------------------------------
-Javier Martinez Canillas (1):
-      staging: olpc_dcon: mark driver as broken
+Benjamin Gaignard (14):
+  media: uapi: HEVC: Add missing fields in HEVC controls
+  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+    prefix
+  media: uapi: HEVC: Change pic_order_cnt definition in
+    v4l2_hevc_dpb_entry
+  media: uapi: HEVC: Add SEI pic struct flags
+  media: uapi: HEVC: Add documentation to uAPI structure
+  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+    dynamic array
+  media: uapi: Move parsed HEVC pixel format out of staging
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+  media: uapi: Move the HEVC stateless control type out of staging
+  media: controls: Log HEVC stateless control in .std_log
+  media: hantro: Stop using Hantro dedicated control
+  media: uapi: HEVC: fix padding in v4l2 control structures
+  media: uapi: Change data_bit_offset definition
+  media: uapi: move HEVC stateless controls out of staging
 
-Kees Cook (1):
-      staging: rtl8723bs: Allocate full pwep structure
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
 
-Larry Finger (1):
-      staging: r8188eu: Fix warning of array overflow in ioctl_linux.c
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+ .../media/v4l/pixfmt-compressed.rst           |   7 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/videodev2.h.rst.exceptions          |   6 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 ++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
+ include/media/hevc-ctrls.h                    | 250 -----
+ include/media/v4l2-ctrls.h                    |  48 +-
+ include/uapi/linux/v4l2-controls.h            | 459 +++++++++
+ include/uapi/linux/videodev2.h                |  13 +
+ 24 files changed, 1826 insertions(+), 1226 deletions(-)
+ delete mode 100644 include/media/hevc-ctrls.h
 
-Peter Robinson (1):
-      staging: Also remove the Unisys visorbus.h
+-- 
+2.32.0
 
-Phillip Potter (1):
-      staging: r8188eu: fix rtw_alloc_hwxmits error detection for now
-
- drivers/staging/olpc_dcon/Kconfig              |   2 +-
- drivers/staging/r8188eu/core/rtw_xmit.c        |  20 +-
- drivers/staging/r8188eu/os_dep/ioctl_linux.c   |   2 +-
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c |   6 +-
- include/linux/visorbus.h                       | 344 -------------------------
- 5 files changed, 11 insertions(+), 363 deletions(-)
- delete mode 100644 include/linux/visorbus.h
