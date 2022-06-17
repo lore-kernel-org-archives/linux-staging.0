@@ -1,53 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3333201
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jun 2022 15:00:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C75F3C3411B;
-	Fri, 17 Jun 2022 15:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655478007;
-	bh=juLM2aFEds/UTQ9zKpiZl6fHy3OD50rorZXIxQMu4u0=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=DFSS+9WVQJ4QLdR0rACtsY3BPIcwaIrs6TZCDOqbqrlBJACFrb3gtHS0NtcAxpdXi
-	 dlY5yCrVPsQWvJ6lH2mLmodg9geor37k/wH3E40pIO+P1kjALT25yNFVDoqcKR9jXL
-	 +qymzQswNg/f+izW/HEsDOTJWaSPDKNn5R88mEtm/FB+pwRsYd0d8alwwH5W+cAiPp
-	 +prgUUjNZKpzMvcxifnc+c4lwbgeHCs+aKaEKNXm4fbkq5C1z11qI2wR43FtRmrWnz
-	 3nXlLt8LkvFtN0nLbQI/0V4bEljhXG/OHgZEafY7E9vJu/TQ06mYZnfHy91iIqKGYD
-	 MuFwJx2oyR0BQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A8573FD99FF;
-	Fri, 17 Jun 2022 15:00:07 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fixes for 5.19-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Yqw4DynMEtAcZVim@kroah.com>
-References: <Yqw4DynMEtAcZVim@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <Yqw4DynMEtAcZVim@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.19-rc3
-X-PR-Tracked-Commit-Id: cd756dafd86ee3a4969906086f3c2537e0c6d9d0
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9afc441c3c9c56f80468c097d25eb1a2a14f0c95
-Message-Id: <165547800763.17120.871695222925102794.pr-tracker-bot@kernel.org>
-Date: Fri, 17 Jun 2022 15:00:07 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EE733C7
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jun 2022 17:36:48 +0000 (UTC)
+Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.226])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LPm3k3wPhz67M7g;
+	Sat, 18 Jun 2022 01:18:58 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 17 Jun 2022 19:20:41 +0200
+Received: from localhost (10.81.209.131) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.24; Fri, 17 Jun
+ 2022 18:20:40 +0100
+Date: Fri, 17 Jun 2022 18:20:37 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jacopo Mondi
+	<jacopo+renesas@jmondi.org>, Jonathan Cameron <jic23@kernel.org>, "Lars-Peter
+ Clausen" <lars@metafoo.de>, Andrea Merello <andrea.merello@gmail.com>,
+	"Magnus Damm" <magnus.damm@gmail.com>, <linux-iio@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, Vincent Whitchurch
+	<vincent.whitchurch@axis.com>
+Subject: Re: [PATCH 2/2] staging: iio: imu: Add CEVA BNO08x driver
+Message-ID: <20220617182037.00007469@Huawei.com>
+In-Reply-To: <20220616123014.ogdutud3lsnqmexa@uno.localdomain>
+References: <20220616100006.22045-1-jacopo+renesas@jmondi.org>
+	<20220616100006.22045-3-jacopo+renesas@jmondi.org>
+	<YqsFSrg+Q+jdsId/@kroah.com>
+	<20220616103634.vkb7nkn555a5evlw@uno.localdomain>
+	<YqsMmmqhN3WEx1Lq@kroah.com>
+	<20220616123014.ogdutud3lsnqmexa@uno.localdomain>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.81.209.131]
+X-ClientProxiedBy: lhreml709-chm.china.huawei.com (10.201.108.58) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 
-The pull request you sent on Fri, 17 Jun 2022 10:15:11 +0200:
+On Thu, 16 Jun 2022 14:30:14 +0200
+Jacopo Mondi <jacopo@jmondi.org> wrote:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.19-rc3
+> Hi Greg
+> 
+> On Thu, Jun 16, 2022 at 12:57:30PM +0200, Greg Kroah-Hartman wrote:
+> > On Thu, Jun 16, 2022 at 12:36:34PM +0200, Jacopo Mondi wrote:  
+> > > Hi Greg
+> > >
+> > > On Thu, Jun 16, 2022 at 12:26:18PM +0200, Greg Kroah-Hartman wrote:  
+> > > > On Thu, Jun 16, 2022 at 12:00:06PM +0200, Jacopo Mondi wrote:  
+> > > > > From: Jacopo Mondi <jacopo@jmondi.org>
+> > > > >
+> > > > > Add support for CEVA BNO08x Sensor Hub.
+> > > > >
+> > > > > The BNO08X family (BNO080/85/86) is a System in Package (SiP) that
+> > > > > integrates a triaxial accelerometer, triaxial gyroscope, magnetometer
+> > > > > and a 32-bit ARM Cortex-M0+ microcontroller running CEVA's SH-2
+> > > > > firmware.
+> > > > >
+> > > > > Datasheet:
+> > > > > https://www.ceva-dsp.com/wp-content/uploads/2019/10/BNO080_085-Datasheet.pdf
+> > > > >
+> > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > > ---
+> > > > >  MAINTAINERS                             |   7 +
+> > > > >  drivers/staging/iio/Kconfig             |   1 +
+> > > > >  drivers/staging/iio/Makefile            |   1 +
+> > > > >  drivers/staging/iio/imu/bno08x/Kconfig  |  11 +
+> > > > >  drivers/staging/iio/imu/bno08x/Makefile |   3 +
+> > > > >  drivers/staging/iio/imu/bno08x/bno08x.c | 618 ++++++++++++++++++++++++  
+> > > >
+> > > > Why are you adding a new driver to staging/iio/ and not to the real part
+> > > > of the kernel?  What needs to be done to it to get it out of here?  
+> > >
+> > > Mostly because I don't have access to the hw development platform
+> > > anymore, and the one I had was not reliable enough for any further
+> > > development anyway.
+> > >
+> > > I went for staging as I cannot guarantee I can test any requested
+> > > change on the series.
+> > >
+> > > I'm afraid this is a "take it or leave it" series, and as the driver
+> > > does anyway work (even if for a single feature) I thought it was worth
+> > > sending it upstream anyway.  
+> >
+> > Sure, but staging is not a dumping ground, if you want to submit it and
+> > run away, I can't take it here, sorry.
+> >
+> > Perhaps just let this live as a patch on the mailing list and if anyone
+> > else wants to pick it up and maintain it, they can do so.  
+> 
+> That would be fine with me. Dan already had a comment, let's see if
+> Jonathan or others from the IIO subsystem have more and see what to
+> do.
+>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/9afc441c3c9c56f80468c097d25eb1a2a14f0c95
+We can do a superficial review, but I'm thinking the same as Greg - maybe
+just living on the mailing list until someone has hardware and can test is
+the best plan long term.  Note, one option would be to emulate it. We've done
+that for a few bits of hard to setup or hard to acquire hardware where we
+want to be able to refactor the code.  Also because it's nice to have CI :)
+Vincent's (+CC) Roadtest is great for that though this device may be a bit complex
+to easily emulate.
 
-Thank you!
+https://lore.kernel.org/all/20220311162445.346685-1-vincent.whitchurch@axis.com/
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Jonathan
+
+> Thanks
+>    j
+> >
+> > thanks,
+> >
+> > greg k-h  
+
