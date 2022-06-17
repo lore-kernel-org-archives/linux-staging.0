@@ -1,100 +1,53 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F3F2F25
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jun 2022 12:04:52 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:faf2:1a12:f903:cc5e] (unknown [IPv6:2a01:e0a:120:3210:faf2:1a12:f903:cc5e])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 57E84660179A;
-	Fri, 17 Jun 2022 13:04:50 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1655467490;
-	bh=9LT9TBmpX+iklRTLTEkirvb5pG6BvIzQn9IYxu2sTaw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NyJ3FZJq1G1P2Gl7/FhAwV7gF4sq+eOFpT62CN+8ZaTweGSe7f/u8//yPqBwvLmyY
-	 nepzxZmDcbjFrbQSWrRGnx8uxyV+ZK0xB2MRnA172wWAX+kmxk3Rvuwh8C//cpYWwk
-	 iL4OPgwfYE2uTtDrl3mmlQmrxow4Z4QtGlG8XOG0LfQzf3KTON6BAEMM5EkNZTsfWK
-	 94+7C0CL+bzU+Jx+faW0V3bqDZKymVLud1zjEjDSFLTqxZ7OGoMePB2SjKz2p6lDNz
-	 jPlW3YTbxRlLz2gey+pscn0n4ZzXQKoTr34W5lsN0qF1BJfSi7v3ct+J5WcFZC0FUS
-	 29DL/ZJIr9MIA==
-Message-ID: <5ad90377-a9b1-f73a-e15b-ae553202f2a8@collabora.com>
-Date: Fri, 17 Jun 2022 14:04:48 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3333201
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jun 2022 15:00:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C75F3C3411B;
+	Fri, 17 Jun 2022 15:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655478007;
+	bh=juLM2aFEds/UTQ9zKpiZl6fHy3OD50rorZXIxQMu4u0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=DFSS+9WVQJ4QLdR0rACtsY3BPIcwaIrs6TZCDOqbqrlBJACFrb3gtHS0NtcAxpdXi
+	 dlY5yCrVPsQWvJ6lH2mLmodg9geor37k/wH3E40pIO+P1kjALT25yNFVDoqcKR9jXL
+	 +qymzQswNg/f+izW/HEsDOTJWaSPDKNn5R88mEtm/FB+pwRsYd0d8alwwH5W+cAiPp
+	 +prgUUjNZKpzMvcxifnc+c4lwbgeHCs+aKaEKNXm4fbkq5C1z11qI2wR43FtRmrWnz
+	 3nXlLt8LkvFtN0nLbQI/0V4bEljhXG/OHgZEafY7E9vJu/TQ06mYZnfHy91iIqKGYD
+	 MuFwJx2oyR0BQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A8573FD99FF;
+	Fri, 17 Jun 2022 15:00:07 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fixes for 5.19-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Yqw4DynMEtAcZVim@kroah.com>
+References: <Yqw4DynMEtAcZVim@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <Yqw4DynMEtAcZVim@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.19-rc3
+X-PR-Tracked-Commit-Id: cd756dafd86ee3a4969906086f3c2537e0c6d9d0
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9afc441c3c9c56f80468c097d25eb1a2a14f0c95
+Message-Id: <165547800763.17120.871695222925102794.pr-tracker-bot@kernel.org>
+Date: Fri, 17 Jun 2022 15:00:07 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 0/7] media: hantro: Add 10-bit support
-Content-Language: en-US
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com, gregkh@linuxfoundation.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org
-References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20220616202513.351039-1-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+The pull request you sent on Fri, 17 Jun 2022 10:15:11 +0200:
 
-Le 16/06/2022 à 22:25, Jernej Skrabec a écrit :
-> This series adds support for 10-bit format handling in Hantro driver.
-> Most patches adjust postproc behaviour to be more universal. There is
-> a lot of assumptions, which need to be replaced with more generalized.
->
-> Tested on Allwinner H6. Tested with vp92-2-20-10bit-yuv420.webm sample,
-> which produces correct checksum.
->
-> Please take a look.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.19-rc3
 
-I have send a complementary series to this one to enable 10-bit
-for HEVC on Hantro/G2 on IMX8MQ.
-With these two patchset I'm able to decode all the 10-bit conformance
-test files.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9afc441c3c9c56f80468c097d25eb1a2a14f0c95
 
-For this series:
-Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Thank you!
 
->
-> Best regards,
-> Jernej
->
-> Changes from RFC:
-> - fixed typo in function name
-> - removed merged patch (P010 format)
-> - removed broken patch (sunxi frequency change)
-> - added new patch (media: hantro: postproc: Properly calculate chroma offset)
-> - added r-b from Ezequiel
->
-> Ezequiel Garcia (1):
->    media: Add P010 tiled format
->
-> Jernej Skrabec (6):
->    media: hantro: Support format filtering by depth
->    media: hantro: postproc: Fix buffer size calculation
->    media: hantro: postproc: Fix legacy regs configuration
->    media: hantro: postproc: Properly calculate chroma offset
->    media: hantro: Store VP9 bit depth in context
->    media: hantro: sunxi: Enable 10-bit decoding
->
->   drivers/media/v4l2-core/v4l2-common.c         |  1 +
->   drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->   drivers/staging/media/hantro/hantro.h         |  4 ++
->   drivers/staging/media/hantro/hantro_drv.c     | 23 +++++++++
->   .../staging/media/hantro/hantro_g2_vp9_dec.c  |  8 ---
->   .../staging/media/hantro/hantro_postproc.c    | 38 +++++++++++---
->   drivers/staging/media/hantro/hantro_v4l2.c    | 50 +++++++++++++++++--
->   drivers/staging/media/hantro/hantro_v4l2.h    |  3 ++
->   drivers/staging/media/hantro/sunxi_vpu_hw.c   | 27 ++++++++++
->   include/uapi/linux/videodev2.h                |  1 +
->   10 files changed, 136 insertions(+), 20 deletions(-)
->
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
