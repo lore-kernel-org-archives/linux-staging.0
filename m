@@ -1,85 +1,148 @@
-Received: from sonic312-25.consmr.mail.ir2.yahoo.com (sonic312-25.consmr.mail.ir2.yahoo.com [77.238.178.96])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EC27B
-	for <linux-staging@lists.linux.dev>; Sat, 18 Jun 2022 08:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1655541182; bh=kSar2hWiBkoVOEa4noYo0cNiILJDpvElY8v8U36VPZo=; h=Date:From:To:Subject:References:From:Subject:Reply-To; b=jpcDaaZHGyb9a6gwAzk9cTngS8Fadnvqfzhg/I2g8tnB8oD2Wvo/OyHP3KG0Jm6CoT8d92S7Mn3S36XyAgJ9gnVJWuUAD02yrDDcLNlx6/cak2/kcO7pKfMVq38sQomn+XCjKO7mSOmb51niiBguRXJkUCYnmToF+eBgJz0itC1XWRJn3VxwWLDqfc7jT1cPIjTMAA1UCcaqHlE6i7BMT7n64QrvrV37NZDVpAY67i/74MuAH5sCVw/7o1CMutNQPf4sU6uc4lIoXAUT2QkKPM+h+aCBtXHOP+VF7q4Pk03GR2joiLoCr/c5KxX/v8WQ3nNTn+RUUrIU3CIARrxEbw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1655541182; bh=mMpEco0/RyiMRSR+CN6di6+o2SRfbyAPlBuzuayFEUk=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=JyN9XApnMwWAMTTpJpf5zgO8L+C49WQ30TfmsFXYzY0oztKE0e+uUcClu8MCRvmJCQu/GoNzbabjcRcxBfaVgZZP2la67Z9cnOn9GIRwRyB9+qfnHD/u0HF5fQJ1vYvg+2f9I/qZbxRDqI4CXbvX028o3NN6OrclAhbagGtXsVAsavdBqPP4Cr/nF0CZIARks38Ziqy/RZ1YBAZ4+muz0nuSc//VXTZbkzCo1W9w1qKnUuMgB/Eg6MT+Pn0iiuqr/Lu7/CSqynMl65CCxAcfspcxOL917emKbclSubX2lQj/68/4ECFWrVOxxZbziQ8XzqWWiK6lyWvprxNBbOpmQQ==
-X-YMail-OSG: o3c1XxkVM1knUENTURr5r5vuEUdJBVQmx.hn11n8X_5r__xZx7KaXQ.QcDYW4vD
- 7qm6IGiup3NLIX03P130BVheE6MX.JwVYNKAF.X6sGua39B7TVqmT5VLHsGG_yMlpYW47ARfJafi
- cRAl0pGwIKgjc.30coLR1fTZKz4JJtOisWcJ8gnYsLU0txgwJ6opqf8DMl9BpSI6VozdEsLQOtUj
- zYY_.4B613YJRB39ehbsme.1Bo1ngSPD.vmjcKAS5N.kYbmALjEnLXiP98eGJHnhQU1cqySK.aby
- xXsVAnkknFgeXxXkxwctfNK6wxLeZ0.xu7cMpuiz5Y9nf7fOY2l0aW4UxZLnQYnZKMwAWTvJORSN
- FlpOk9QPvi8KtlOUPY.U6Kk4e5ibTnwKFJYtAr_Sk1VEEoQiD1.JkdKfArNBudWf7CgCS0G5hSxg
- BxoLjZnH93jWwdLex0uJNBea2g9tM77NjWIac6g9pbFRmztlbaC1i9kTaUx7Du8tWZLAdwNqEFYN
- ziSVqRmpNtagPok58DqK1rQhgnJWTgY11tDo6GqtJaejdmJ5VGq7WYluKUWbpGFiMNOG9zIfw0jg
- 3oOA6gAhfm7Z0h9ifEO0JwbSHHROH49qYwd.57v8KGVFCbciHTGfSH6pT1YUMCv1.BEbC_KQ_qtk
- Un3QAW3IMKHz8bHKtmGDZTbVhjkxFM7eN5fM2HGfuxnUuCAlxQRdU4OtemZaeJewR4MnnfG_X5aJ
- 6vnyFydvdzfyp3TEo.fz_z8aEl7MHWdKhuelTdHYhyISigwJryMkszUbUoz32oyqdeiFWT_h4KO2
- VbsaAWEt.Bh7bJtAPPWPZ.QfcF1THMy4dlphPCxkG6c0L8Eyw_fD_fUV7DdLGGZLfHYAVtJBSgZk
- N2ehOO4raGIltJWLh7W_2i3f5iAqn_vMYJy4a5FDQdsSTyQ6xKmkBDap8G74QFVGlnV7QD62WfhN
- wAXX5qJQYheyr7eDkLiEL1Hfmm3AI_qss5b2.RgPrqC5768lGElIHvjE6S5G4Z1PAZbY2dXeyqKB
- 6aWYRRgDdeo.l3SP1G9Uv7tm4MX2Xim7ijTnKmk26LrflylhSO6E9Vw9wKmBSlShKO7HD6mZv4Fx
- _6tKs.L3hTBw0KggOlRj.F0jEBm87TD7VkuQT3mlojDnDch8hag2X6VcGUeCFNb8EqcQjcf2sDsa
- BYHG7y794UY5CbwOrUZjKLjdd3olsI1TDBp8X7_S65688GR7QMt174fPSQjAagvxwNmqK0CVgx1o
- mOEX9Su.Wy6OXJW7rdVjou3ISgZqYMZLXUpo5xBZTobDgwccEQs_h1GhVybHyK_txhUUFr5AqHs8
- DdNuNUd_q1JT5HqJRc3idht3Jj07Bb_JPvlbc1LjPtOKHhxAUXMD.tdyxKNK_kELyUZRLHxYX7wB
- CHQnA7lr3To.h7qXYyNRmFjmbJ_fR3tW2rSqtRHHjfPVYV7kf3pP2LdgQNmUbFtOFdW9CJE3LWeo
- Txn3VQUAVmxUrEgOjrYI.AxYKK57H0XpX_NXJW28R4Y7TpI7uvjmQNQdDCCVphwWsPt6uioT8RFW
- 3UceY6c.7WW3Q7sIPBLXn1euumYlCfcrWyL8IexLebw4_aySC275QBiX5Uv6MMvtLpFy7rW9mMIz
- xVXXTHkLfW.SkC3gjIVB4UtlubrihrA1oNlP3IuYsIC59B1VpIoEavOCn7OmxRTmgNX_CdLtXtsO
- mUnxl31XjnhMNFkxYBPo1zt2NEZKQDEwujJiz60iKCtRgm91KpE63iiOvD7uZo9mFdjrnqbc3ShR
- bXOE1gdxsbWsvXQNNa15EZ1KTRgpb2FyYsr89PEq.IpQGNVkEwevRfARpa1NbE6gC1Y1Fea9MnKA
- 9jzFnnkA6l0SDsK7ckuElpf0TL8V3YPqi5fRuky7f8m4z9tfn.VL6UPqMXJG3Mt5HsVcPcDoIzk9
- BF3uc0nQ0HvAfHNEKRqcecSxDrqTfJJfzVNZ3DWsW9QYVqbUkCiMGBbwiNlATF50pxMUK4r._u94
- Ag4CswqSn7eWHyBuCYA9.gUtHxO7Qupny7Rs8Qlwyu0D8AM3xBCT_KS8oXTfHqmlh2lZvW.XZbCT
- qge9cIJY8pLo0B6Qf6ZngqI_acjp8Wyv._87B5dksfP2MqTBHD1iHMBiSFkHk6ibW.Wzh30LNtbj
- _Hq1bGShBkffsQTyt2NoNsgTHozNQOdXwMcfkNG3Li3M-
-X-Sonic-MF: <petersenarne@yahoo.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Sat, 18 Jun 2022 08:33:02 +0000
-Received: by hermes--canary-production-ir2-c9bf9d9bc-brwkd (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID efded038e7861accead3662d180fdfb3;
-          Sat, 18 Jun 2022 08:32:59 +0000 (UTC)
-Date: Sat, 18 Jun 2022 10:32:57 +0200
-From: Arne Petersen <petersenarne@yahoo.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: sm750fb: fix CamelCase function parameter
-Message-ID: <Yq2NufHtWbuXCjWE@ubuntu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29A87B
+	for <linux-staging@lists.linux.dev>; Sat, 18 Jun 2022 09:00:51 +0000 (UTC)
+Received: from localhost.localdomain ([37.4.249.155]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1N5G5b-1nag5b0d5J-011CtC; Sat, 18 Jun 2022 11:00:38 +0200
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peter Robinson <pbrobinson@gmail.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Gaston Gonzalez <gascoar@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Subject: [PATCH RFC] staging: vchiq: provide testing instructions
+Date: Sat, 18 Jun 2022 11:00:02 +0200
+Message-Id: <20220618090002.20663-1-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-References: <Yq2NufHtWbuXCjWE.ref@ubuntu>
-X-Mailer: WebService/1.1.20280 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:1HrNdWdIUWuWs9K1Glfo9N2C+oGKtKjAw6QgQjoeqr7/lqAaBYO
+ klOpAeAsYDOuRlxuJ/SiehhGihYLP4yYo16ZmCwERCRelwQ6C13kbTaEhc7VMx5H2KMuXe3
+ nFGxqSQMGTQ3+rM6sjMJ2rQRh/Wrd41kRARpqqEl8PMAIwS+9n3aPR5tOdT+PI8DV9o3eTp
+ rnJNsT+DTW99Pb2pYSrrw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WX5uRx6/GC4=:gN+3Pc0bcMxgk8+6WVhek+
+ UqOkpDySp+H4bRiXTCw5Cv37RkZuaZq8jBDVjEnG6I8c6HrQkMzdkdJCgP3B6v0E6Dx5xLyVs
+ JwrZM+T+8nd9gdgMGrxlaqoBSkTDevuPYKwdjSgVqHdjgAXEM3xYOt+Nx3s7k5Ufrjgvm11QT
+ UcZuzLPvs5ygAYV33A4KD3my8L/U9qsLW4lk+StBVyup3ZjJLhtPP6Q3kisw/ZeTZnHSQOdJb
+ KYHb5JWxEeGPH8wve+XUCHOq8+DeDoSpPNAeteEJTQyb3MOuXchzZw8LqVdIiaSP1nVwoi6GW
+ Hpyo1UjjFTuzBf2IhhyeXE7fiXCH4f5/PYleSjJsjoC0ugKMgg9cgxm04hfEnE5zPvehD2Lji
+ 8tac1gLUORWs68LVtsbkGcD08BNntDlgp3kv1PU6UN0J0/aW+PVvk+yyZrJu1GCwOhVx6zqF2
+ GnAlqPteZAvHYgA+DI1M1SgrFTXs37xUm4v79SDzk1LzOIhTg0H2zHO00DxExm0UU/4O+ncr7
+ xQrR/ihBWXrUWUQPuPlEXvB13hRcnPV814gO9QslK7P4VTXfk9yW3GLm4U1N/fDdWlq1PXQOv
+ vDGsPu367l6VWsL4Eqf1+qJtDhCpaspSAbJdR7Mp+G0saxYcrwCHaACSwUeIAdqBeUfF51Ksd
+ YSKj0TjJ4HCU0nRemuMdIQaEbXO2zGhbFg7ow2xb4EN7cTyagVz46q9yAFaeUr21woqBtY1Fm
+ nvIO7hPG0Tn5tcYIrcyeky+5dolnkL+67558ErBcdw4Qcc+LliY4RThYlqE=
 
-Change function parameter in header file from powerMode to mode,
-now identical to c file function declaration. Issue found by checkpatch.
+This small document should to help kernel developer to test their
+changes on the VCHIQ driver.
 
-Signed-off-by: Arne Petersen <petersenarne@yahoo.com>
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/staging/sm750fb/ddk750_power.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../staging/vc04_services/interface/TESTING   | 82 +++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 drivers/staging/vc04_services/interface/TESTING
 
-diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
-index 7002567a47d2..63c9e8b6ffb3 100644
---- a/drivers/staging/sm750fb/ddk750_power.h
-+++ b/drivers/staging/sm750fb/ddk750_power.h
-@@ -15,7 +15,7 @@ enum dpms {
- }
- 
- void ddk750_set_dpms(enum dpms state);
--void sm750_set_power_mode(unsigned int powerMode);
-+void sm750_set_power_mode(unsigned int mode);
- void sm750_set_current_gate(unsigned int gate);
- 
- /*
+diff --git a/drivers/staging/vc04_services/interface/TESTING b/drivers/staging/vc04_services/interface/TESTING
+new file mode 100644
+index 000000000000..a6d63efcbcb9
+--- /dev/null
++++ b/drivers/staging/vc04_services/interface/TESTING
+@@ -0,0 +1,82 @@
++This document contains some hints to test the function of the VCHIQ driver
++without having additional hardware to the Raspberry Pi.
++
++* Requirements & limitations
++
++Testing the VCHIQ driver requires a Raspberry Pi with one of the following SoC:
++  - BCM2835 ( e.g. Raspberry Pi Zero W )
++  - BCM2836 ( e.g. Raspberry Pi 2 )
++  - BCM2837 ( e.g. Raspberry Pi 3 B+ )
++
++The BCM2711 used in the Raspberry Pi 4 is currently not supported in the
++mainline kernel.
++
++There are no specific requirements to the VideoCore firmware to get VCHIQ
++working.
++
++The test scenarios described in this document based on the tool vchiq_test.
++Its source code is available here: https://github.com/raspberrypi/userland
++
++* Configuration
++
++Here are the most common kernel configurations:
++
++ 1. BCM2835 target SoC (ARM 32 bit)
++
++    Just use bcm2835_defconfig which already has VCHIQ enabled.
++
++ 2. BCM2836/7 target SoC (ARM 32 bit)
++
++    Use the multi_v7_defconfig as a base and then enable all VCHIQ options.
++
++ 3. BCM2837 target SoC (ARM 64 bit)
++
++    Use the defconfig as a base and then enable all VCHIQ options.
++
++* Scenarios
++
++ * Initial test
++
++   Check the driver is probed and /dev/vchiq is created
++
++ * Functional test
++
++   Command: vchiq_test -f 10
++
++   Expected output:
++   Functional test - iters:10
++   ======== iteration 1 ========
++   Testing bulk transfer for alignment.
++   Testing bulk transfer at PAGE_SIZE.
++   ...
++
++ * Ping test
++
++   Command: vchiq_test -p 1
++
++   Expected output:
++   Ping test - service:echo, iters:1, version 3
++   vchi ping (size 0) -> 57.000000us
++   vchi ping (size 0, 0 async, 0 oneway) -> 122.000000us
++   vchi bulk (size 0, 0 async, 0 oneway) -> 546.000000us
++   vchi bulk (size 0, 0 oneway) -> 230.000000us
++   vchi ping (size 0) -> 49.000000us
++   vchi ping (size 0, 0 async, 0 oneway) -> 70.000000us
++   vchi bulk (size 0, 0 async, 0 oneway) -> 296.000000us
++   vchi bulk (size 0, 0 oneway) -> 266.000000us
++   vchi ping (size 0, 1 async, 0 oneway) -> 65.000000us
++   vchi bulk (size 0, 0 oneway) -> 456.000000us
++   vchi ping (size 0, 2 async, 0 oneway) -> 74.000000us
++   vchi bulk (size 0, 0 oneway) -> 640.000000us
++   vchi ping (size 0, 10 async, 0 oneway) -> 125.000000us
++   vchi bulk (size 0, 0 oneway) -> 2309.000000us
++   vchi ping (size 0, 0 async, 1 oneway) -> 70.000000us
++   vchi ping (size 0, 0 async, 2 oneway) -> 76.000000us
++   vchi ping (size 0, 0 async, 10 oneway) -> 105.000000us
++   vchi ping (size 0, 10 async, 10 oneway) -> 165.000000us
++   vchi ping (size 0, 100 async, 0 oneway) -> nanus
++   vchi bulk (size 0, 0 oneway) -> nanus
++   vchi ping (size 0, 0 async, 100 oneway) -> nanus
++   vchi ping (size 0, 100 async, 100 oneway) -> infus
++   vchi ping (size 0, 200 async, 0 oneway) -> infus
++   ...
 -- 
-2.34.1
+2.25.1
 
