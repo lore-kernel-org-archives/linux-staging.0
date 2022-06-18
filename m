@@ -1,26 +1,50 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29A87B
-	for <linux-staging@lists.linux.dev>; Sat, 18 Jun 2022 09:00:51 +0000 (UTC)
-Received: from localhost.localdomain ([37.4.249.155]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N5G5b-1nag5b0d5J-011CtC; Sat, 18 Jun 2022 11:00:38 +0200
-From: Stefan Wahren <stefan.wahren@i2se.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Peter Robinson <pbrobinson@gmail.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Gaston Gonzalez <gascoar@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH RFC] staging: vchiq: provide testing instructions
-Date: Sat, 18 Jun 2022 11:00:02 +0200
-Message-Id: <20220618090002.20663-1-stefan.wahren@i2se.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B41F7B
+	for <linux-staging@lists.linux.dev>; Sat, 18 Jun 2022 20:45:13 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id k7so6582460plg.7
+        for <linux-staging@lists.linux.dev>; Sat, 18 Jun 2022 13:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gKaVM+0QMGax/rhBtZVVyBor0BK65j3JTrJ7MKdrLpk=;
+        b=RPGhczN7etWK46U3ehU0iRJFtb/x2LggYWn7KPmol85I0Mwp0qk2VjDzFuWEBBmYUk
+         R+4nm9Vs++3/EVRAz9Y/4jgXnNu13bGmxWtIjrgGpvOxBXGyKzbzohrKZ+jNcMy3OMQW
+         W5HxNyO5JsOabU4prXYsSFHuX4B7DfmqEiPjNkMq1Qz/JGki9wrJacxfAcNRqQZkQP7c
+         xPk1TZs39GzVg644pSulLPeTtsxHZFQwFnsTjbugRepwzBgEoc4N1UMxGloPmb2V+nHU
+         Uz7m5Vea3gmER+MTG6ZPvkD+56MgKbLg5zdMN+4PINrDk5Av2yp10skIK3kIK9cCW7gG
+         OrOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gKaVM+0QMGax/rhBtZVVyBor0BK65j3JTrJ7MKdrLpk=;
+        b=ywBbh2z/eN5mziFvN9MUgu3N+6pztdsKXCSm3kc7WqAQjpP0voTMOTFrYOUoYjcPn3
+         uRe2Zyke+fkrDUgpKRQmUm6FcR5ijiF6d2rbdNyGXtqOs3VkM61jJ8+2Wrn6fyfiJnhK
+         LYQdHZ7TemRLSLM1FI5UsiTmwD2IybZPeMIllKiwXbkkaSkwHYwkhF9Coud0TcnyseSa
+         OFw3+uxV8OBpK+9YTE+e2lAAfSaX/HrEQGzSY1t4VyEm1wcVBX5XZdrmKCYl5ozPPu60
+         CcQe5hH1pNmfeXG+F/QMVB39LV/8yGhE6u8erDaaZHsbtBstUa0whiPLfln0x2Gdv/wf
+         0RbQ==
+X-Gm-Message-State: AJIora/NNE8yMqXvyOEZJ8hB0h13no24qBd25CsWonJMqRXm1rKE6bFf
+	5PZUSjsomD2tlf0WFI6QSMM=
+X-Google-Smtp-Source: AGRyM1sJil//Af9lvbnYSBnHWR4zmgT9Oxr23a9RzjK/ZAwFQ6haYB5TJtEe6lopkEr9r0lDVg7hhA==
+X-Received: by 2002:a17:90a:31cf:b0:1c9:f9b8:68c7 with SMTP id j15-20020a17090a31cf00b001c9f9b868c7mr29021287pjf.34.1655585112724;
+        Sat, 18 Jun 2022 13:45:12 -0700 (PDT)
+Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
+        by smtp.gmail.com with ESMTPSA id e23-20020a170902ed9700b001678dcb4c5asm5798544plj.100.2022.06.18.13.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jun 2022 13:45:12 -0700 (PDT)
+From: Chang Yu <marcus.yu.56@gmail.com>
+To: Larry.Finger@lwfinger.net
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chang Yu <marcus.yu.56@gmail.com>
+Subject: [PATCH] Staging: r8188eu: core: rtw_xmit: Fixed a few coding style issues
+Date: Sat, 18 Jun 2022 13:44:54 -0700
+Message-Id: <20220618204454.16071-1-marcus.yu.56@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,121 +52,150 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1HrNdWdIUWuWs9K1Glfo9N2C+oGKtKjAw6QgQjoeqr7/lqAaBYO
- klOpAeAsYDOuRlxuJ/SiehhGihYLP4yYo16ZmCwERCRelwQ6C13kbTaEhc7VMx5H2KMuXe3
- nFGxqSQMGTQ3+rM6sjMJ2rQRh/Wrd41kRARpqqEl8PMAIwS+9n3aPR5tOdT+PI8DV9o3eTp
- rnJNsT+DTW99Pb2pYSrrw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WX5uRx6/GC4=:gN+3Pc0bcMxgk8+6WVhek+
- UqOkpDySp+H4bRiXTCw5Cv37RkZuaZq8jBDVjEnG6I8c6HrQkMzdkdJCgP3B6v0E6Dx5xLyVs
- JwrZM+T+8nd9gdgMGrxlaqoBSkTDevuPYKwdjSgVqHdjgAXEM3xYOt+Nx3s7k5Ufrjgvm11QT
- UcZuzLPvs5ygAYV33A4KD3my8L/U9qsLW4lk+StBVyup3ZjJLhtPP6Q3kisw/ZeTZnHSQOdJb
- KYHb5JWxEeGPH8wve+XUCHOq8+DeDoSpPNAeteEJTQyb3MOuXchzZw8LqVdIiaSP1nVwoi6GW
- Hpyo1UjjFTuzBf2IhhyeXE7fiXCH4f5/PYleSjJsjoC0ugKMgg9cgxm04hfEnE5zPvehD2Lji
- 8tac1gLUORWs68LVtsbkGcD08BNntDlgp3kv1PU6UN0J0/aW+PVvk+yyZrJu1GCwOhVx6zqF2
- GnAlqPteZAvHYgA+DI1M1SgrFTXs37xUm4v79SDzk1LzOIhTg0H2zHO00DxExm0UU/4O+ncr7
- xQrR/ihBWXrUWUQPuPlEXvB13hRcnPV814gO9QslK7P4VTXfk9yW3GLm4U1N/fDdWlq1PXQOv
- vDGsPu367l6VWsL4Eqf1+qJtDhCpaspSAbJdR7Mp+G0saxYcrwCHaACSwUeIAdqBeUfF51Ksd
- YSKj0TjJ4HCU0nRemuMdIQaEbXO2zGhbFg7ow2xb4EN7cTyagVz46q9yAFaeUr21woqBtY1Fm
- nvIO7hPG0Tn5tcYIrcyeky+5dolnkL+67558ErBcdw4Qcc+LliY4RThYlqE=
 
-This small document should to help kernel developer to test their
-changes on the VCHIQ driver.
+Fixed a few coding style issues and spelling errors in the comments.
 
-Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
 ---
- .../staging/vc04_services/interface/TESTING   | 82 +++++++++++++++++++
- 1 file changed, 82 insertions(+)
- create mode 100644 drivers/staging/vc04_services/interface/TESTING
+ drivers/staging/r8188eu/core/rtw_xmit.c | 28 ++++++++++---------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/TESTING b/drivers/staging/vc04_services/interface/TESTING
-new file mode 100644
-index 000000000000..a6d63efcbcb9
---- /dev/null
-+++ b/drivers/staging/vc04_services/interface/TESTING
-@@ -0,0 +1,82 @@
-+This document contains some hints to test the function of the VCHIQ driver
-+without having additional hardware to the Raspberry Pi.
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 3d8e9dea7651..943422141c8b 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -16,16 +16,13 @@ static u8 RFC1042_OUI[P80211_OUI_LEN] = { 0x00, 0x00, 0x00 };
+ 
+ static void _init_txservq(struct tx_servq *ptxservq)
+ {
+-
+ 	INIT_LIST_HEAD(&ptxservq->tx_pending);
+ 	rtw_init_queue(&ptxservq->sta_pending);
+ 	ptxservq->qcnt = 0;
+-
+ }
+ 
+ void	_rtw_init_sta_xmit_priv(struct sta_xmit_priv *psta_xmitpriv)
+ {
+-
+ 	memset((unsigned char *)psta_xmitpriv, 0, sizeof(struct sta_xmit_priv));
+ 	spin_lock_init(&psta_xmitpriv->lock);
+ 	_init_txservq(&psta_xmitpriv->be_q);
+@@ -34,7 +31,6 @@ void	_rtw_init_sta_xmit_priv(struct sta_xmit_priv *psta_xmitpriv)
+ 	_init_txservq(&psta_xmitpriv->vo_q);
+ 	INIT_LIST_HEAD(&psta_xmitpriv->legacy_dz);
+ 	INIT_LIST_HEAD(&psta_xmitpriv->apsd);
+-
+ }
+ 
+ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+@@ -300,6 +296,7 @@ static void update_attrib_vcs_info(struct adapter *padapter, struct xmit_frame *
+ 			/* check HT op mode */
+ 			if (pattrib->ht_en) {
+ 				u8 htopmode = pmlmeinfo->HT_protection;
 +
-+* Requirements & limitations
+ 				if ((pmlmeext->cur_bwmode && (htopmode == 2 || htopmode == 3)) ||
+ 				    (!pmlmeext->cur_bwmode && htopmode == 3)) {
+ 					pattrib->vcs_mode = RTS_CTS;
+@@ -446,10 +443,11 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 
+ 	pattrib->pktlen = pktfile.pkt_len;
+ 
+-	if (ETH_P_IP == pattrib->ether_type) {
++	if (pattrib->ether_type == ETH_P_IP) {
+ 		/*  The following is for DHCP and ARP packet, we use cck1M to tx these packets and let LPS awake some time */
+ 		/*  to prevent DHCP protocol fail */
+ 		u8 tmp[24];
 +
-+Testing the VCHIQ driver requires a Raspberry Pi with one of the following SoC:
-+  - BCM2835 ( e.g. Raspberry Pi Zero W )
-+  - BCM2836 ( e.g. Raspberry Pi 2 )
-+  - BCM2837 ( e.g. Raspberry Pi 3 B+ )
-+
-+The BCM2711 used in the Raspberry Pi 4 is currently not supported in the
-+mainline kernel.
-+
-+There are no specific requirements to the VideoCore firmware to get VCHIQ
-+working.
-+
-+The test scenarios described in this document based on the tool vchiq_test.
-+Its source code is available here: https://github.com/raspberrypi/userland
-+
-+* Configuration
-+
-+Here are the most common kernel configurations:
-+
-+ 1. BCM2835 target SoC (ARM 32 bit)
-+
-+    Just use bcm2835_defconfig which already has VCHIQ enabled.
-+
-+ 2. BCM2836/7 target SoC (ARM 32 bit)
-+
-+    Use the multi_v7_defconfig as a base and then enable all VCHIQ options.
-+
-+ 3. BCM2837 target SoC (ARM 64 bit)
-+
-+    Use the defconfig as a base and then enable all VCHIQ options.
-+
-+* Scenarios
-+
-+ * Initial test
-+
-+   Check the driver is probed and /dev/vchiq is created
-+
-+ * Functional test
-+
-+   Command: vchiq_test -f 10
-+
-+   Expected output:
-+   Functional test - iters:10
-+   ======== iteration 1 ========
-+   Testing bulk transfer for alignment.
-+   Testing bulk transfer at PAGE_SIZE.
-+   ...
-+
-+ * Ping test
-+
-+   Command: vchiq_test -p 1
-+
-+   Expected output:
-+   Ping test - service:echo, iters:1, version 3
-+   vchi ping (size 0) -> 57.000000us
-+   vchi ping (size 0, 0 async, 0 oneway) -> 122.000000us
-+   vchi bulk (size 0, 0 async, 0 oneway) -> 546.000000us
-+   vchi bulk (size 0, 0 oneway) -> 230.000000us
-+   vchi ping (size 0) -> 49.000000us
-+   vchi ping (size 0, 0 async, 0 oneway) -> 70.000000us
-+   vchi bulk (size 0, 0 async, 0 oneway) -> 296.000000us
-+   vchi bulk (size 0, 0 oneway) -> 266.000000us
-+   vchi ping (size 0, 1 async, 0 oneway) -> 65.000000us
-+   vchi bulk (size 0, 0 oneway) -> 456.000000us
-+   vchi ping (size 0, 2 async, 0 oneway) -> 74.000000us
-+   vchi bulk (size 0, 0 oneway) -> 640.000000us
-+   vchi ping (size 0, 10 async, 0 oneway) -> 125.000000us
-+   vchi bulk (size 0, 0 oneway) -> 2309.000000us
-+   vchi ping (size 0, 0 async, 1 oneway) -> 70.000000us
-+   vchi ping (size 0, 0 async, 2 oneway) -> 76.000000us
-+   vchi ping (size 0, 0 async, 10 oneway) -> 105.000000us
-+   vchi ping (size 0, 10 async, 10 oneway) -> 165.000000us
-+   vchi ping (size 0, 100 async, 0 oneway) -> nanus
-+   vchi bulk (size 0, 0 oneway) -> nanus
-+   vchi ping (size 0, 0 async, 100 oneway) -> nanus
-+   vchi ping (size 0, 100 async, 100 oneway) -> infus
-+   vchi ping (size 0, 200 async, 0 oneway) -> infus
-+   ...
+ 		_rtw_pktfile_read(&pktfile, &tmp[0], 24);
+ 		pattrib->dhcp_pkt = 0;
+ 		if (pktfile.pkt_len > 282) {/* MINIMUM_DHCP_PACKET_SIZE) { */
+@@ -628,7 +626,7 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 				if (pframe[1] & 2)  /* From Ds == 1 */
+ 					rtw_secmicappend(&micdata, &pframe[24], 6);
+ 				else
+-				rtw_secmicappend(&micdata, &pframe[10], 6);
++					rtw_secmicappend(&micdata, &pframe[10], 6);
+ 			} else {	/* ToDS == 0 */
+ 				rtw_secmicappend(&micdata, &pframe[4], 6);   /* DA */
+ 				if (pframe[1] & 2)  /* From Ds == 1 */
+@@ -954,12 +952,11 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 			mpdu_len -= llc_sz;
+ 		}
+ 
+-		if ((pattrib->icv_len > 0) && (pattrib->bswenc)) {
++		if ((pattrib->icv_len > 0) && (pattrib->bswenc))
+ 			mpdu_len -= pattrib->icv_len;
+-		}
+ 
+ 		if (bmcst) {
+-			/*  don't do fragment to broadcat/multicast packets */
++			/*  don't do fragment to broadcast/multicast packets */
+ 			mem_sz = _rtw_pktfile_read(&pktfile, pframe, pattrib->pktlen);
+ 		} else {
+ 			mem_sz = _rtw_pktfile_read(&pktfile, pframe, mpdu_len);
+@@ -1069,7 +1066,6 @@ void rtw_update_protection(struct adapter *padapter, u8 *ie, uint ie_len)
+ 		}
+ 		break;
+ 	}
+-
+ }
+ 
+ void rtw_count_tx_stats(struct adapter *padapter, struct xmit_frame *pxmitframe, int sz)
+@@ -1316,7 +1312,6 @@ void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pfram
+ 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
+ 	}
+ 	spin_unlock_bh(&pframequeue->lock);
+-
+ }
+ 
+ s32 rtw_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe)
+@@ -1515,7 +1510,6 @@ void rtw_init_hwxmits(struct hw_xmit *phwxmit, int entry)
+ 
+ 	for (i = 0; i < entry; i++, phwxmit++)
+ 		phwxmit->accnt = 0;
+-
+ }
+ 
+ static int rtw_br_client_tx(struct adapter *padapter, struct sk_buff **pskb)
+@@ -1742,7 +1736,7 @@ int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_fra
+ 	bool bmcst = is_multicast_ether_addr(pattrib->ra);
+ 
+ 	if (!check_fwstate(pmlmepriv, WIFI_AP_STATE))
+-	    return ret;
++		return ret;
+ 
+ 	if (pattrib->psta)
+ 		psta = pattrib->psta;
+@@ -1770,8 +1764,8 @@ int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_fra
+ 
+ 			pstapriv->tim_bitmap |= BIT(0);/*  */
+ 			pstapriv->sta_dz_bitmap |= BIT(0);
+-
+-			update_beacon(padapter, _TIM_IE_, NULL, false);/* tx bc/mc packets after upate bcn */
++			/* tx bc/mc packets after update bcn */
++			update_beacon(padapter, _TIM_IE_, NULL, false);
+ 
+ 			ret = true;
+ 		}
+@@ -1821,7 +1815,7 @@ int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_fra
+ 				pstapriv->tim_bitmap |= BIT(psta->aid);
+ 
+ 				if (psta->sleepq_len == 1) {
+-					/* upate BCN for TIM IE */
++					/* update BCN for TIM IE */
+ 					update_beacon(padapter, _TIM_IE_, NULL, false);
+ 				}
+ 			}
+@@ -2090,7 +2084,7 @@ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *pst
+ 		if ((psta->sleepq_ac_len == 0) && (!psta->has_legacy_ac) && (wmmps_ac)) {
+ 			pstapriv->tim_bitmap &= ~BIT(psta->aid);
+ 
+-			/* upate BCN for TIM IE */
++			/* update BCN for TIM IE */
+ 			update_beacon(padapter, _TIM_IE_, NULL, false);
+ 		}
+ 	}
 -- 
-2.25.1
+2.36.1
 
