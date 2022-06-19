@@ -1,50 +1,50 @@
 Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B2A7B
-	for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 19:42:54 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id cv13so5743835pjb.4
-        for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 12:42:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28FE7B
+	for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 19:42:56 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id g16-20020a17090a7d1000b001ea9f820449so8900426pjl.5
+        for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 12:42:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5yhbMYbX4HtRbzfEZJFo8LMvIa5s7zM2myB/V/KkweM=;
-        b=Yy/mGjXKRM7R5k3PY1YFCGE0du4sujyFxeyANLLNCMTtbH+D1CVDSswsskmtK+2a/p
-         CSXJAYS+qcRgqAkaJJQzi5RhFrbmGgmJgyvpIKzpT0b3CyFId/bpE2aKxRY0kzoP60ht
-         PVbiE9Uq17Q40A3LJOFPb+PlphuYJkVXMjfQUDwKxkOOjpzyaeP/jyJ2LnlkIc5OmAGW
-         gqegbLrPTZxaGRf4mxCKcWv+14YVoLqkZDQhexsuX6UM6ayn9Y2i/QzRINuMhP24x0bH
-         VjptmHic8Vin1k4LoyHZpDwYakw44xBlJuEFM+TsXXHBgtpV2gh+K+pN/HTNH0xDEJHa
-         hbLA==
+        bh=yjFKNxuzMVouA/d7fakclf85AnSbfILJPYcTGegW5qw=;
+        b=UwCbSawCcCT1UcHKQ3M2FG2+4vDf7xUy5BppVWuP8zcEKMltcHzlCAU9goZZhKkMuK
+         GfjHBPV8O9uLFM2m9jImf+0vJfn4Sl07FyTaDimQwH7vHiqg87j+tfXRYOCOYFPYyUWt
+         608BGhM6JUS1iTw7GI1JxTlUYSwTlphnMW9L461Fo25xd3kZf8LUCfAL5WC/I50THChc
+         b9iQQenIDMvMqRnqmHhFDWwh/AvdAS/BeE1jkF1Z1DFJmctUDJmcHs/tXr5dbNLWELMY
+         iCoXmQyZROu8bUcW0fHaKdKf+saodmPhJvQUied7GtTgkM3pJ0feN5cBPwNpyAwYZwgu
+         Brhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5yhbMYbX4HtRbzfEZJFo8LMvIa5s7zM2myB/V/KkweM=;
-        b=g2duTV5lyzhoXNL1mQsnhUVINhYa50sZbN3qPYMJYZVnboUZhUdM0X/96/2UBXs5Kp
-         19J7EaTVWi1Db/rmQEBzGLxOOw/EfrGBtR7MauOOTi6hI9oFe3Y0T4lFonJTDla3BaRQ
-         hEsSv1RgfPDUCMGdKaraAQ9Zou6zqleVJUBZi54fqUNkOcpTd2rrc5duEj/G0+crJbeh
-         kwl8wp7pdBcaCEQXdG2aYjMk6WFFbi9RljmqEWOsnvYz40QloPnNdy503RqSNSnrMXwC
-         0+i8jgfimeoDH+8yDk/VGhK3DljisqY44+aRRUk0X3izCparZhykBS3/uMUZAw8oj1FL
-         um+w==
-X-Gm-Message-State: AJIora8I0pH0HEISD9+7Sxe+GsMO8cF2nno9WurX7mP0sllwguemLR85
-	gT4nF7k0o6Jbnqr98rhYnCwF0qYwxIxqpS7G
-X-Google-Smtp-Source: AGRyM1vQ72ZXZU1v51U4BZ0gIX1RMl7fcXKPbeGXpZBkq5C5G/h3PY58XOL60Q4LLgg5AKHC6zEMAg==
-X-Received: by 2002:a17:90b:4c07:b0:1e8:2961:e318 with SMTP id na7-20020a17090b4c0700b001e82961e318mr22787751pjb.151.1655667774538;
-        Sun, 19 Jun 2022 12:42:54 -0700 (PDT)
+        bh=yjFKNxuzMVouA/d7fakclf85AnSbfILJPYcTGegW5qw=;
+        b=YkgmMb0nu3E4JkOk+bGCJ40LWN7hwlzCc7Y1uXkYlUwLfyA/sY3s/4cfItXyiBfPZA
+         CRh5+DtdlRUfBZBf+2LMwFn0lPeulPmeOhu9Eetm4MeK10Niu5IXhBXndyeZgLlgUI6J
+         qfr6uU8DpvHXWv8N0uNEn46vhI2LFS68/h1gei/rJcsVDgdT8JFlT4zWIkRy+lLlqncZ
+         06jZYBY1ACvZr3FOc5I5suSJmwF7WFWsxsVRJS5ZRhxsK+jQ4zIi8vK925cuKdnYXRC+
+         JbpFzavfUZnpl4cbAQvWVvFWUnCNsAd8DJ9ZJN5Qgu+OjvrYufizjZm9vzk0vKRTVatr
+         qUoA==
+X-Gm-Message-State: AJIora/gDwSXf86yEdxuWwKSBKKmzp085Yr+HtL0e9RghclDlyKinRH4
+	RKVhvF8SmMaBJl/+QQBFB28J9dHREpjylFWh
+X-Google-Smtp-Source: AGRyM1sB6AxmQpzfGNf7BsMzM2Ds5TDND0OugBJof33s1XvvM2leHIW8TPCsJ7tM0vdaZnhc0TKb0Q==
+X-Received: by 2002:a17:902:bc84:b0:167:80c6:aedd with SMTP id bb4-20020a170902bc8400b0016780c6aeddmr20759705plb.97.1655667776376;
+        Sun, 19 Jun 2022 12:42:56 -0700 (PDT)
 Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
-        by smtp.gmail.com with ESMTPSA id p12-20020a637f4c000000b003fc4001fd5fsm7483584pgn.10.2022.06.19.12.42.53
+        by smtp.gmail.com with ESMTPSA id q3-20020a170902edc300b0016370e1af6bsm7129923plk.128.2022.06.19.12.42.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:42:54 -0700 (PDT)
+        Sun, 19 Jun 2022 12:42:55 -0700 (PDT)
 From: Chang Yu <marcus.yu.56@gmail.com>
 To: Larry.Finger@lwfinger.net,
 	paskripkin@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Chang Yu <marcus.yu.56@gmail.com>
-Subject: [PATCH v2 2/5] Staging: r8188eu: core: rtw_xmit: Fixed two indentation coding style issues.
-Date: Sun, 19 Jun 2022 12:42:28 -0700
-Message-Id: <6b0e3efe83bf06ea60cdbe27f31f6f3aa1058f01.1655666628.git.marcus.yu.56@gmail.com>
+Subject: [PATCH v2 3/5] Staging: r8188eu: core: rtw_xmit: Fixed some spelling errors in the comments
+Date: Sun, 19 Jun 2022 12:42:29 -0700
+Message-Id: <8d2f49631551b53ad970c9165cceb845c4d60b75.1655666628.git.marcus.yu.56@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1655666628.git.marcus.yu.56@gmail.com>
 References: <cover.1655666628.git.marcus.yu.56@gmail.com>
@@ -56,35 +56,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixed two indentation issues.
+Fixed the spelling of "broadcast" and "update" in the comments.
 
 Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_xmit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 1aa284453ab2..2bc059808a71 100644
+index 2bc059808a71..73eb2f01c176 100644
 --- a/drivers/staging/r8188eu/core/rtw_xmit.c
 +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -626,7 +626,7 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
- 				if (pframe[1] & 2)  /* From Ds == 1 */
- 					rtw_secmicappend(&micdata, &pframe[24], 6);
- 				else
--				rtw_secmicappend(&micdata, &pframe[10], 6);
-+					rtw_secmicappend(&micdata, &pframe[10], 6);
- 			} else {	/* ToDS == 0 */
- 				rtw_secmicappend(&micdata, &pframe[4], 6);   /* DA */
- 				if (pframe[1] & 2)  /* From Ds == 1 */
-@@ -1737,7 +1737,7 @@ int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_fra
- 	bool bmcst = is_multicast_ether_addr(pattrib->ra);
+@@ -957,7 +957,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 		}
  
- 	if (!check_fwstate(pmlmepriv, WIFI_AP_STATE))
--	    return ret;
-+		return ret;
+ 		if (bmcst) {
+-			/*  don't do fragment to broadcat/multicast packets */
++			/*  don't do fragment to broadcast/multicast packets */
+ 			mem_sz = _rtw_pktfile_read(&pktfile, pframe, pattrib->pktlen);
+ 		} else {
+ 			mem_sz = _rtw_pktfile_read(&pktfile, pframe, mpdu_len);
+@@ -1765,8 +1765,8 @@ int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_fra
  
- 	if (pattrib->psta)
- 		psta = pattrib->psta;
+ 			pstapriv->tim_bitmap |= BIT(0);/*  */
+ 			pstapriv->sta_dz_bitmap |= BIT(0);
+-
+-			update_beacon(padapter, _TIM_IE_, NULL, false);/* tx bc/mc packets after upate bcn */
++			/* tx bc/mc packets after update bcn */
++			update_beacon(padapter, _TIM_IE_, NULL, false);
+ 
+ 			ret = true;
+ 		}
+@@ -1816,7 +1816,7 @@ int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_fra
+ 				pstapriv->tim_bitmap |= BIT(psta->aid);
+ 
+ 				if (psta->sleepq_len == 1) {
+-					/* upate BCN for TIM IE */
++					/* update BCN for TIM IE */
+ 					update_beacon(padapter, _TIM_IE_, NULL, false);
+ 				}
+ 			}
+@@ -2085,7 +2085,7 @@ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *pst
+ 		if ((psta->sleepq_ac_len == 0) && (!psta->has_legacy_ac) && (wmmps_ac)) {
+ 			pstapriv->tim_bitmap &= ~BIT(psta->aid);
+ 
+-			/* upate BCN for TIM IE */
++			/* update BCN for TIM IE */
+ 			update_beacon(padapter, _TIM_IE_, NULL, false);
+ 		}
+ 	}
 -- 
 2.36.1
 
