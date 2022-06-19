@@ -1,76 +1,81 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2697B
-	for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 13:27:24 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id c30so9255363ljr.9
-        for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 06:27:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013EC7B
+	for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 19:42:50 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id go6so3621232pjb.0
+        for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 12:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=USwIgojHd+4gk/AHbWFfWMNbK7HorsIidQTsMQSbCVU=;
-        b=Q/hemLjSDMFkO9Tg2NsP1VHpDtRMriHHdj38JIvhf5xuu2VMIEranCy3wePWG/sOwL
-         g2ipGRj5Q0JlVqylTQuFi0DqLS2hhbkikTIR7XdWkuSsI+a3dwVSNgDxdvo1N6K1V/qN
-         Lp6d0mKXIdday0bhE4F+C3tGVeu/fel5UujWfGf8p4bU23F7xBV1FYGwOMj4/pqdN9Zn
-         aJe844J0GEwbElzCJ4fypWgjAqWuLH9QpXDveA7IarAw4aTFj22h9jb2kdC7SHpIpUEV
-         xe/jmnXzFAcVUToTNmklLXjQ4a5XUP5HybuECVzsYV+sAD3qwxxr7OIgTS5ivumn81lX
-         FQHg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=nCs87Dk/aKCfwCETT4OMFZvnQ0qo0jo5IYu3+Wptn0s=;
+        b=fwYlDqRSLxTMl5+ku1DyMIQBOAuUnuVibTqYnRU3/vT2MIXjw2jzjVP+CG8tOerlZm
+         DAS9S4Ze26zFEPbEE02guXPqS3OsObT3HuUe9UuTC4NScQ5ErHgIBikdhyWO5rBpHV8R
+         BFzI6ygy7/JmFitOivznMsErlWTuXlNKLmUWLMZbFCfjpMziwTa8xwxpMuWtZdwVaETK
+         RKX/Kt+xOoh/GMk6UpROcB7652pvOydb7MnWMN+jWCZNcub++mY/6O2+Dh4iipfP2YN+
+         A7o7OV4cspXKvytT7VnliUtOt0WTh1pxrDZ3vglyTCPQRs4Tcp8qeP3/BUJ3umOUUFJF
+         feqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=USwIgojHd+4gk/AHbWFfWMNbK7HorsIidQTsMQSbCVU=;
-        b=Z7cWE1+VGH5CyVr83CoL7X+YtXEID6t0ERCuZ3LiYUZNl2kLbxm2OrKfT5bHVMnq59
-         muMuAV/tMyWf1l2rzWCqss+jVTP6KuNxKF3bnHETD4aXfw7sd9N+s2029sRZTgw4xWSP
-         WwVavzSQyA6QM2edQUbWO3HQfdIvD+0G7Q9xoEst34dt8+jLApJTtOWTqYz7ZAdnkfId
-         a9dq9nUS9jfS2Mz6caauVONSWNfYLzCMftcBOQmObuCBHO7kwwe/w4o0VqHdSRejynib
-         BhaF/UxOGZRNY6v5a+7ZTGkmg1U2/H/YjVRFec96YGz2ZXcs2NPn1EE2el5es3rUdHku
-         j6dw==
-X-Gm-Message-State: AJIora9XF88lNWV8iGbK9hR5PGdaVvh/gNA2kEav8MEJVFBzwp7ac96p
-	zD1ObxiC/bPkdFkS+k7RPwQ=
-X-Google-Smtp-Source: AGRyM1u0JcyUxScgBS8laLu9CqwZlVR9LIrBtuS8pvs986OuPSuedixO1Df3jfGCZsSe8Y02oyijgA==
-X-Received: by 2002:a2e:b0c6:0:b0:255:7c46:16b7 with SMTP id g6-20020a2eb0c6000000b002557c4616b7mr9577251ljl.383.1655645242642;
-        Sun, 19 Jun 2022 06:27:22 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.229.27])
-        by smtp.gmail.com with ESMTPSA id d18-20020a193852000000b0047f5f292485sm594946lfj.68.2022.06.19.06.27.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Jun 2022 06:27:22 -0700 (PDT)
-Message-ID: <91c9a0de-76f8-37fb-31b4-4401a6e35d48@gmail.com>
-Date: Sun, 19 Jun 2022 16:27:21 +0300
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nCs87Dk/aKCfwCETT4OMFZvnQ0qo0jo5IYu3+Wptn0s=;
+        b=fX2SQPwpg6DzwvjJRiG1BeVzORoz+cWipSOw/oWk2nKGvmTgEwEF57HbmtrIWv7q5l
+         s9iMHzHH054nmixlOhiRICYExFxt1lRunbPmMecIHRpwqvrIZuuqtOB8RgX8JvIt9xQc
+         n0UVq4bsvRzoOwz77bQMHl7C9UROH9oBkT+Pb5wM/B9cSc4wtF+UzUDMO4pGcq0gZJfr
+         G07UQJ5pg1h3PME+N4/V7tIoDISBfW8eKCLZjeKZ2zuNPy4afHGl8kGgEVx+bZhSxA/R
+         trClMCagHFFIUZj9v9LYUFMe+1mPk43holL5ytG5/v6WY0/odwDjjlqp0R+L1jQlKCKj
+         fBVA==
+X-Gm-Message-State: AJIora97YcilTNH74biADw3fDqWmcWCsTmFEphowSwhP0NRhpguxjP/+
+	cz/c57+vmmDDKQ1bCRqpDCI=
+X-Google-Smtp-Source: AGRyM1segxxj5LTL7p0h4ydvGeT/uE/ijZCyoz+pBMMGd4fYW0IoeUCmajONVnjUqJviS7CNCvt60g==
+X-Received: by 2002:a17:902:a405:b0:167:97e4:6038 with SMTP id p5-20020a170902a40500b0016797e46038mr20419475plq.144.1655667770304;
+        Sun, 19 Jun 2022 12:42:50 -0700 (PDT)
+Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
+        by smtp.gmail.com with ESMTPSA id j16-20020a17090a7e9000b001e2afd35791sm6732389pjl.18.2022.06.19.12.42.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jun 2022 12:42:49 -0700 (PDT)
+From: Chang Yu <marcus.yu.56@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	paskripkin@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chang Yu <marcus.yu.56@gmail.com>
+Subject: [PATCH v2 0/5] Fixed some coding style issues and spelling
+Date: Sun, 19 Jun 2022 12:42:26 -0700
+Message-Id: <cover.1655666628.git.marcus.yu.56@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220618204454.16071-1-marcus.yu.56@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] Staging: r8188eu: core: rtw_xmit: Fixed a few coding
- style issues
-Content-Language: en-US
-To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220618204454.16071-1-marcus.yu.56@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220618204454.16071-1-marcus.yu.56@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Chang,
+Fixed a few coding style issues and some spelling errors in the
+comments.
 
-On 6/18/22 23:44, Chang Yu wrote:
-> Fixed a few coding style issues and spelling errors in the comments.
-> 
-> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
-> ---
+Changes in v2:
+Separated the original big patch into 5 smaller patches so that each
+clean up is in its own patch.
 
-You are doing a lot of different changes in one patch. Please, separate 
-each clean up into its own patch
+Chang Yu (5):
+  Staging: r8188eu: core: rtw_xmit: Fixed some whitespace coding style
+    issues
+  Staging: r8188eu: core: rtw_xmit: Fixed two indentation coding style
+    issues.
+  Staging: r8188eu: core: rtw_xmit: Fixed some spelling errors in the
+    comments
+  Staging: r8188eu: core: rtw_xmit: Fixed a brace coding style issue
+  Staging: r8188eu: core: rtw_xmit: Fixed a coding style issue
 
+ drivers/staging/r8188eu/core/rtw_xmit.c | 28 ++++++++++---------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
+-- 
+2.36.1
 
-
-Thanks,
---Pavel Skripkin
