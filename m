@@ -1,93 +1,76 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2889F7B
-	for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 07:06:54 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id a17so5206286pls.6
-        for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 00:06:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2697B
+	for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 13:27:24 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id c30so9255363ljr.9
+        for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 06:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dBOTVmXLQ2WKVyNjwokSzfRoYEMv13f63lC25hv8tCg=;
-        b=kv/n5h+HsLgab5rbqx8L5hyByiAvtbnjwWOvatO+vB/+cfMeU41JwNbGrphOvQY87U
-         EtL9oILYzXCf8KhKs12s8XVUVr1F/aw7Oegnp6LaGgbetuisKUGGjNJ1KadzbBoH5yvO
-         QveX6/c0nAUaY0rVzcFetLONb/NUCqwoJlzxr60OW3YfqZAd2yaDdSiKex52TwkxB/jp
-         jbf0qrImyyYswFdFAFXgtKL0b9847i+rFSUP0QJ/msh213xnwiktOOPXwLg0/5vyS9yx
-         k2PfzOX7WM3agoCkkNHP1OnNeoLcxa4onWEHrVPDD1tgx0tcfAPmDj7DccTcoLDzC0JR
-         horQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=USwIgojHd+4gk/AHbWFfWMNbK7HorsIidQTsMQSbCVU=;
+        b=Q/hemLjSDMFkO9Tg2NsP1VHpDtRMriHHdj38JIvhf5xuu2VMIEranCy3wePWG/sOwL
+         g2ipGRj5Q0JlVqylTQuFi0DqLS2hhbkikTIR7XdWkuSsI+a3dwVSNgDxdvo1N6K1V/qN
+         Lp6d0mKXIdday0bhE4F+C3tGVeu/fel5UujWfGf8p4bU23F7xBV1FYGwOMj4/pqdN9Zn
+         aJe844J0GEwbElzCJ4fypWgjAqWuLH9QpXDveA7IarAw4aTFj22h9jb2kdC7SHpIpUEV
+         xe/jmnXzFAcVUToTNmklLXjQ4a5XUP5HybuECVzsYV+sAD3qwxxr7OIgTS5ivumn81lX
+         FQHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=dBOTVmXLQ2WKVyNjwokSzfRoYEMv13f63lC25hv8tCg=;
-        b=DcOhLLRHrtgw1+nNdjqvEWFbi7Xi/Swh2NGVCjoM409FV+LRkkZw6WpMApXouqSbYT
-         aMmQo+ACBcrLOC3rzcdxFAJPFC42/lfpsrwZ4ujJ48l8Yjr2YByNJOWbSYIleO+p+Pgl
-         7/M0LquriQ6PvhB3s5z4jFIH298OdX9F6rSsB99L6aB+BAhjJqhb1Q7N2e2y1qgzSqAO
-         FwJHm5zY9QusUnRA/PlsuqtXI8e4M4lqW5oOaOrWUwW/S/mu/wfLITWrfEV/xkZuB1pn
-         VKKuBb7b68HbRQqArjaYTrF+c80nUXvAgsf9HiVgvty0mOgaIk6ACbnMrUOP1U7vkbqt
-         z98g==
-X-Gm-Message-State: AJIora80BXvsVPV5fj0CiVQ0ZreyWyfQsyw/qnfYAa+wOEbJQJROtf9c
-	IBse9R0fdvJs4Co/pq2Q1lc=
-X-Google-Smtp-Source: AGRyM1tECeVojpK1m+jhYMvz7IJirM4TRLEFk0/vXE7K/q8ZRRWuyq2tw3mPIzYtJQoNhW4+djLQ1A==
-X-Received: by 2002:a17:90b:38c1:b0:1ea:8403:9305 with SMTP id nn1-20020a17090b38c100b001ea84039305mr19778992pjb.11.1655622413496;
-        Sun, 19 Jun 2022 00:06:53 -0700 (PDT)
-Received: from localhost.localdomain ([122.167.211.160])
-        by smtp.gmail.com with ESMTPSA id w9-20020a17090a8a0900b001ec798b0dc4sm3681555pjn.38.2022.06.19.00.06.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 00:06:53 -0700 (PDT)
-From: Souptick Joarder <jrdr.linux@gmail.com>
-To: martyn@welchs.me.uk,
-	manohar.vanga@gmail.com,
-	gregkh@linuxfoundation.org,
-	alexandre.belloni@bootlin.com,
-	rafael@kernel.org,
-	mathieu.poirier@linaro.org,
-	u.kleine-koenig@pengutronix.de,
-	arnd@arndb.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	"Souptick Joarder (HPE)" <jrdr.linux@gmail.com>,
-	Kernel test robot <lkp@intel.com>
-Subject: [PATCH] vme: Added NULL check for bridge
-Date: Sun, 19 Jun 2022 12:36:45 +0530
-Message-Id: <20220619070645.100947-1-jrdr.linux@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=USwIgojHd+4gk/AHbWFfWMNbK7HorsIidQTsMQSbCVU=;
+        b=Z7cWE1+VGH5CyVr83CoL7X+YtXEID6t0ERCuZ3LiYUZNl2kLbxm2OrKfT5bHVMnq59
+         muMuAV/tMyWf1l2rzWCqss+jVTP6KuNxKF3bnHETD4aXfw7sd9N+s2029sRZTgw4xWSP
+         WwVavzSQyA6QM2edQUbWO3HQfdIvD+0G7Q9xoEst34dt8+jLApJTtOWTqYz7ZAdnkfId
+         a9dq9nUS9jfS2Mz6caauVONSWNfYLzCMftcBOQmObuCBHO7kwwe/w4o0VqHdSRejynib
+         BhaF/UxOGZRNY6v5a+7ZTGkmg1U2/H/YjVRFec96YGz2ZXcs2NPn1EE2el5es3rUdHku
+         j6dw==
+X-Gm-Message-State: AJIora9XF88lNWV8iGbK9hR5PGdaVvh/gNA2kEav8MEJVFBzwp7ac96p
+	zD1ObxiC/bPkdFkS+k7RPwQ=
+X-Google-Smtp-Source: AGRyM1u0JcyUxScgBS8laLu9CqwZlVR9LIrBtuS8pvs986OuPSuedixO1Df3jfGCZsSe8Y02oyijgA==
+X-Received: by 2002:a2e:b0c6:0:b0:255:7c46:16b7 with SMTP id g6-20020a2eb0c6000000b002557c4616b7mr9577251ljl.383.1655645242642;
+        Sun, 19 Jun 2022 06:27:22 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.229.27])
+        by smtp.gmail.com with ESMTPSA id d18-20020a193852000000b0047f5f292485sm594946lfj.68.2022.06.19.06.27.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Jun 2022 06:27:22 -0700 (PDT)
+Message-ID: <91c9a0de-76f8-37fb-31b4-4401a6e35d48@gmail.com>
+Date: Sun, 19 Jun 2022 16:27:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] Staging: r8188eu: core: rtw_xmit: Fixed a few coding
+ style issues
+Content-Language: en-US
+To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220618204454.16071-1-marcus.yu.56@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220618204454.16071-1-marcus.yu.56@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Souptick Joarder (HPE)" <jrdr.linux@gmail.com>
+Hi Chang,
 
-Kernel test robot throws below warning ->
-drivers/staging/vme_user/vme.c:662:20: warning: dereference
-of NULL 'bridge' [CWE-476] [-Wanalyzer-null-dereference]
+On 6/18/22 23:44, Chang Yu wrote:
+> Fixed a few coding style issues and spelling errors in the comments.
+> 
+> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+> ---
 
-Added a NULL check.
+You are doing a lot of different changes in one patch. Please, separate 
+each clean up into its own patch
 
-Reported-by: Kernel test robot <lkp@intel.com>
-Signed-off-by: Souptick Joarder (HPE) <jrdr.linux@gmail.com>
----
- drivers/staging/vme_user/vme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index b5555683a069..ede774f2fe5a 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -659,7 +659,7 @@ ssize_t vme_master_read(struct vme_resource *resource, void *buf, size_t count,
- 	struct vme_master_resource *image;
- 	size_t length;
- 
--	if (!bridge->master_read) {
-+	if (bridge && !bridge->master_read) {
- 		printk(KERN_WARNING "Reading from resource not supported\n");
- 		return -EINVAL;
- 	}
--- 
-2.25.1
 
+
+Thanks,
+--Pavel Skripkin
