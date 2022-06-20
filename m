@@ -1,122 +1,77 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80C5A57
-	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 14:05:19 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id k24so13759712oij.2
-        for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 07:05:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204822580
+	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 17:20:10 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id fd6so13287323edb.5
+        for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 10:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vXVWDTnjO5iC5dEoRI4X2EQajSgnoxnE0S9FMk/nHYU=;
-        b=NbkOEcR0dzXkLTMiHTHvNRRd4rEdnU+Lu1co9BuL9idLgD9YJn57kxjahkLCi9nA4g
-         ePESFqVcfoiS0stnNjRdsQYtu4OG2a9egIevdIN3qIiqIWPzPYKMCxg2jrEcoC2s+Be0
-         sbFTl2vTUH30+60YCoRRzEe6PvmKKWbGTBedUaELE86637ZFnGqQ96nUExzsGH1P7crr
-         a7QViE8xQXkevkISzpgAM7Zr5Eo1GEiUPNbJ8fBMhnRCc7wjsvlOv3ag7cuO7unPOc9K
-         pN6ELKTqquaA5tSGDWBW3v4jSCjQe46zyg+4RL+is6/yhPWw/dZqrx9wn9MpX+nZNSXd
-         T6PQ==
+        bh=hL7ahHjXLTtDBm4Zo1lgep1oM+nfQRKvYlwijREaM3Q=;
+        b=LgttyniPQt4WnC8F+XhtOu3KXpbw+EU1ypNXIZNZ6sejWgT6UdE0Js2EgBn/mh/4v7
+         V3BTvIYUuv/VyQnPASBHgiUTEBm+V49O/Bp1h6lL0kDyP2FFU9n2Y1yXBDmviqiOj8cV
+         WxNqLrVOqJL1Al2G4YDwIED9c4JrMR0WxIECLn/E9KRvbyx52awl1se6QxAxGNW5f5au
+         BV3z3maRflaA/J/0d5Kwohtz0gr4BIdBiHQ4vYiTC+HH01/HNcnAhe22+NvX9hOzVYwU
+         9xJ+86noDsiBwF7haFzlwYt5g9TJQcnBeXfLAXGVteoH9kQXjj9s4KyNuvwRYxGaT63U
+         VyIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vXVWDTnjO5iC5dEoRI4X2EQajSgnoxnE0S9FMk/nHYU=;
-        b=OS+CKIbCBGFrNYCo+dI6UwVijAjoS7BYLn6SXlWTczA3+a96SMFXdejs24v/SDRBcX
-         CbgP84gx3Vnfi59zS3RTv6giVIYdT3igcuy/HGhU5KFCZ1ucvTHDeyK7JvuD4dn1fz0f
-         eey9ckKpt0q0aX1YO716PslBRMqf+mAS7+I5wJCDGnudRpCpwZ1eNoUqWfpSncvsT018
-         gKKhGI75+PSVKkqYmU42dbljokCK2htENmTZRZM9mVP2EoHM4pEhqlDhOMcSwIE5WdzX
-         LrpbBPY7MJC9xKGYdgmu1UbOdBXe8qBbsSi2Fr/UP5H33RzzweyByZfAAMNMHB4sNCnP
-         vOJA==
-X-Gm-Message-State: AOAM531qIb9YC2mpZZ7WtVH0ZUhR4ZT6xeQMVFL38IDc5HHLEqIOmbEk
-	e9FD2xXgJHUXbPU7RFc5b+s=
-X-Google-Smtp-Source: ABdhPJyofx0pIxDjkceVGFBbyDpm8AtEBzdR6BLYffZCMarobpN+BC08EpFVKQirxsz+dDA0pi28JQ==
-X-Received: by 2002:a05:6808:1989:b0:32e:9e58:7733 with SMTP id bj9-20020a056808198900b0032e9e587733mr15579850oib.270.1655733918795;
-        Mon, 20 Jun 2022 07:05:18 -0700 (PDT)
-Received: from [192.168.1.108] ([216.130.59.33])
-        by smtp.gmail.com with ESMTPSA id r23-20020a056830419700b0060c03836d04sm7651254otu.77.2022.06.20.07.05.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jun 2022 07:05:18 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <5396e576-0fbe-430c-d983-a2f4b1569f09@lwfinger.net>
-Date: Mon, 20 Jun 2022 09:05:17 -0500
+        bh=hL7ahHjXLTtDBm4Zo1lgep1oM+nfQRKvYlwijREaM3Q=;
+        b=WCtUi14ZR/YNUx/SphJEM850GDpLRwIgXt6t60r/BjxblmlS2FlVLTzY3ct/pBKwuH
+         LsaIOrz3amS/MmaCnuYyRUL1OIjO+yLRyq54Vwkyga3LJSzzyIyYBj2pMmZrwokcH2MQ
+         o1ZTiFoGfxbhhGOPBOfJ/0G4KnU+ng3DEG3ElG9X3YssecHVKJLNTRy4sAZPIy1q2SWT
+         VvpEqPT1SAqSrtKLRhOtREjk1SkhH5sI/eclLTA+71C4SYceFi2spnI8UXCT3jTwSBKe
+         izARkHfaQtT2HzjHe4/CeOH2GYH4uUhalPqJgFYH9GcEz9tPPOS+Rrh6Ms6LJw6QO2GG
+         HCNw==
+X-Gm-Message-State: AJIora8v6XYT1ldGwDbusYG9UQQP30lNMrJLFMdZnz77OFru6rTWTik4
+	3imOnj6sqoPsIl4U9tk1kpY=
+X-Google-Smtp-Source: AGRyM1s332Opp7vmMFHI71MQj8TqEt5Gtku8OuHELM9Cl2EAnzPta/OJ7HE1WBA3utEFgT6XVF0S2Q==
+X-Received: by 2002:a05:6402:3224:b0:435:80fd:333 with SMTP id g36-20020a056402322400b0043580fd0333mr7518995eda.76.1655745608289;
+        Mon, 20 Jun 2022 10:20:08 -0700 (PDT)
+Received: from nam-dell.fritz.box ([2a02:8109:afbf:ed88:9959:ca73:b489:46f5])
+        by smtp.gmail.com with ESMTPSA id b9-20020a1709063ca900b0072232a898f1sm3409066ejh.103.2022.06.20.10.20.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jun 2022 10:20:07 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	namcaov@gmail.com,
+	phil@philpotter.co.uk,
+	Larry.Finger@lwfinger.net,
+	paskripkin@gmail.com
+Subject: [PATCH 0/2] get rid of useless header file
+Date: Mon, 20 Jun 2022 19:19:32 +0200
+Message-Id: <cover.1655745123.git.namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1] staging: r8188eu: an incorrect return value made the
- function always return fail
-Content-Language: en-US
-To: Kate Hsuan <hpa@redhat.com>, Hans de Goede <hdegoede@redhat.com>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Michael Straube <straube.linux@gmail.com>,
- "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220620085413.948265-1-hpa@redhat.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <20220620085413.948265-1-hpa@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/20/22 03:54, Kate Hsuan wrote:
-> Since _SUCCESS (1) and _FAIL (0) are used to indicate the status of the
-> functions. The previous commit 8ae7bf782eacad803f752c83a183393b0a67127b
-> fixed and prevented dereferencing a NULL pointer through checking the
-> return pointer. The NULL pointer check work properly but the return
-> values (-ENOMEM on fail and 0 on success). This work fixed the return
-> values to make sure the caller function will return the correct status.
-> 
-> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=2097526
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_xmit.c | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index f4e9f6102539..2f8720db21d9 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -180,10 +180,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
->   	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
->   
->   	res = rtw_alloc_hwxmits(padapter);
-> -	if (res) {
-> -		res = _FAIL;
-> +	if (res == _FAIL)
->   		goto exit;
-> -	}
->   
->   	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
->   
+The stuffs in basic_types.h are either not used, or already defined in
+the kernel. Get rid of it.
 
-This problem was fixed in mid May with commit 5b7419ae1d20 ("staging: r8188eu: 
-fix rtw_alloc_hwxmits error detection for now"). The fix was
+Nam Cao (2):
+  staging: r8188eu: replace N_BYTE_ALIGMENT with ALIGN
+  staging: r8188eu: remove basic_types.h
 
-@@ -178,8 +178,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct 
-adapter *padapter)
+ drivers/staging/r8188eu/core/rtw_recv.c       |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  6 +++---
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |  2 +-
+ drivers/staging/r8188eu/include/basic_types.h | 19 -------------------
+ .../staging/r8188eu/include/osdep_service.h   |  1 -
+ drivers/staging/r8188eu/os_dep/xmit_linux.c   |  2 +-
+ 6 files changed, 6 insertions(+), 26 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/include/basic_types.h
 
-         pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
-
--       res = rtw_alloc_hwxmits(padapter);
--       if (res) {
-+       if (rtw_alloc_hwxmits(padapter)) {
-                 res = _FAIL;
-                 goto exit;
-         }
-
-The "for now" part is that Phillip plans to get rid of _FAIL and _SUCCESS, and 
-replace the logic with a normal 1 for fail, etc.; however, this will be a major 
-change that must be done carefully.
-
-In any case NACK for this patch.
-
-Larry
-
-
+-- 
+2.25.1
 
