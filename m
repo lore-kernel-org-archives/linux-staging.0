@@ -1,175 +1,122 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4168181B
-	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 13:41:11 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1o3He1-0002eB-Dc; Mon, 20 Jun 2022 15:40:45 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1o3Hdv-00040a-Fb; Mon, 20 Jun 2022 15:40:39 +0200
-Date: Mon, 20 Jun 2022 15:40:39 +0200
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Peter Geis <pgwipeout@gmail.com>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	Liang Chen <cl@rock-chips.com>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: Re: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
-Message-ID: <20220620134039.GG21590@pengutronix.de>
-References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
- <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
- <2438841.KJ31GcehEG@archbook>
- <20220429232047.GG7671@pengutronix.de>
- <0414bb0816eef95961fe47de96f97f925d29228f.camel@ndufresne.ca>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80C5A57
+	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 14:05:19 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id k24so13759712oij.2
+        for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 07:05:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=vXVWDTnjO5iC5dEoRI4X2EQajSgnoxnE0S9FMk/nHYU=;
+        b=NbkOEcR0dzXkLTMiHTHvNRRd4rEdnU+Lu1co9BuL9idLgD9YJn57kxjahkLCi9nA4g
+         ePESFqVcfoiS0stnNjRdsQYtu4OG2a9egIevdIN3qIiqIWPzPYKMCxg2jrEcoC2s+Be0
+         sbFTl2vTUH30+60YCoRRzEe6PvmKKWbGTBedUaELE86637ZFnGqQ96nUExzsGH1P7crr
+         a7QViE8xQXkevkISzpgAM7Zr5Eo1GEiUPNbJ8fBMhnRCc7wjsvlOv3ag7cuO7unPOc9K
+         pN6ELKTqquaA5tSGDWBW3v4jSCjQe46zyg+4RL+is6/yhPWw/dZqrx9wn9MpX+nZNSXd
+         T6PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=vXVWDTnjO5iC5dEoRI4X2EQajSgnoxnE0S9FMk/nHYU=;
+        b=OS+CKIbCBGFrNYCo+dI6UwVijAjoS7BYLn6SXlWTczA3+a96SMFXdejs24v/SDRBcX
+         CbgP84gx3Vnfi59zS3RTv6giVIYdT3igcuy/HGhU5KFCZ1ucvTHDeyK7JvuD4dn1fz0f
+         eey9ckKpt0q0aX1YO716PslBRMqf+mAS7+I5wJCDGnudRpCpwZ1eNoUqWfpSncvsT018
+         gKKhGI75+PSVKkqYmU42dbljokCK2htENmTZRZM9mVP2EoHM4pEhqlDhOMcSwIE5WdzX
+         LrpbBPY7MJC9xKGYdgmu1UbOdBXe8qBbsSi2Fr/UP5H33RzzweyByZfAAMNMHB4sNCnP
+         vOJA==
+X-Gm-Message-State: AOAM531qIb9YC2mpZZ7WtVH0ZUhR4ZT6xeQMVFL38IDc5HHLEqIOmbEk
+	e9FD2xXgJHUXbPU7RFc5b+s=
+X-Google-Smtp-Source: ABdhPJyofx0pIxDjkceVGFBbyDpm8AtEBzdR6BLYffZCMarobpN+BC08EpFVKQirxsz+dDA0pi28JQ==
+X-Received: by 2002:a05:6808:1989:b0:32e:9e58:7733 with SMTP id bj9-20020a056808198900b0032e9e587733mr15579850oib.270.1655733918795;
+        Mon, 20 Jun 2022 07:05:18 -0700 (PDT)
+Received: from [192.168.1.108] ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id r23-20020a056830419700b0060c03836d04sm7651254otu.77.2022.06.20.07.05.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jun 2022 07:05:18 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <5396e576-0fbe-430c-d983-a2f4b1569f09@lwfinger.net>
+Date: Mon, 20 Jun 2022 09:05:17 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uc35eWnScqDcQrv5"
-Content-Disposition: inline
-In-Reply-To: <0414bb0816eef95961fe47de96f97f925d29228f.camel@ndufresne.ca>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1] staging: r8188eu: an incorrect return value made the
+ function always return fail
+Content-Language: en-US
+To: Kate Hsuan <hpa@redhat.com>, Hans de Goede <hdegoede@redhat.com>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>,
+ "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220620085413.948265-1-hpa@redhat.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <20220620085413.948265-1-hpa@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 6/20/22 03:54, Kate Hsuan wrote:
+> Since _SUCCESS (1) and _FAIL (0) are used to indicate the status of the
+> functions. The previous commit 8ae7bf782eacad803f752c83a183393b0a67127b
+> fixed and prevented dereferencing a NULL pointer through checking the
+> return pointer. The NULL pointer check work properly but the return
+> values (-ENOMEM on fail and 0 on success). This work fixed the return
+> values to make sure the caller function will return the correct status.
+> 
+> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=2097526
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_xmit.c | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+> index f4e9f6102539..2f8720db21d9 100644
+> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
+> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+> @@ -180,10 +180,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+>   	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
+>   
+>   	res = rtw_alloc_hwxmits(padapter);
+> -	if (res) {
+> -		res = _FAIL;
+> +	if (res == _FAIL)
+>   		goto exit;
+> -	}
+>   
+>   	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+>   
+
+This problem was fixed in mid May with commit 5b7419ae1d20 ("staging: r8188eu: 
+fix rtw_alloc_hwxmits error detection for now"). The fix was
+
+@@ -178,8 +178,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct 
+adapter *padapter)
+
+         pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
+
+-       res = rtw_alloc_hwxmits(padapter);
+-       if (res) {
++       if (rtw_alloc_hwxmits(padapter)) {
+                 res = _FAIL;
+                 goto exit;
+         }
+
+The "for now" part is that Phillip plans to get rid of _FAIL and _SUCCESS, and 
+replace the logic with a normal 1 for fail, etc.; however, this will be a major 
+change that must be done carefully.
+
+In any case NACK for this patch.
+
+Larry
 
 
---uc35eWnScqDcQrv5
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Nicolas,
-Hi Andrzej,
-
-On Mon, May 02, 2022 at 08:20:50AM -0400, Nicolas Dufresne wrote:
->Le samedi 30 avril 2022 =E0 01:20 +0200, Michael Grzeschik a =E9crit=A0:
->> Since the RK3568 seems to get more and more of attention at the moment
->> I would like to ask if somebody is planning to write support the RKVENC
->> in mainline. That is the VEPU540 core refered to in the RK3568 TRM.
->>
->> I would start with that in the next weeks, taking the bootlin H1 support
->> as an reference to handle the request_api for the encoder part. Which is
->> currently completely untouched in mainline AFAIK.
->
->I'm very happy to ear you'd be interest in helping with this. I'm adding A=
-ndrzej
->in CC, as he started some base work using VP8 encoder on RK3399 (same HW f=
-ound
->on other RK SoC) to make this possible. Note that these are a new type of
->encoders and a specification is needed to ensure they all have a coherent =
-work-
->flow. The first step was obviously to have working prototype, Bootlin star=
-ted
->with H264 (but never posted anything on the mailing list). I'm under the
->impression they have abandoned it. Andrzej have decided to use VP8 as it is
->simpler. The prototype should help understand the basic flow of an encoder=
- and
->produce a specification for this.
-
-I just have tested the bootlin v4l2-h264-encoder stack on the rk3399
-with v5.19-rc2. It is working as expected.
-
-Since there have been some rumours about using the VEPU121 core on the
-rk3568, which could have h264 support as well. I have tested this
-stack on that core as well.
-
-The findings are; It is producing some data, but the stream created
-is not possible to be decoded. Tested with vlc and gstreamer.
-
-Be it due to misconfiguration or the core is really not h264 capable.
-
-Find the latest code here:
-
-https://git.pengutronix.de/cgit/mgr/linux/log/?h=3Dv5.19/topic/rk3568-vepu-=
-h264-stateless-bootlin
-
->From there, the "easy" part is to make per codec controls, to configure the
->encoder. Demonstrating fixed QP, this is about were I believe Bootlin stop=
-ped.
-
-I have seen that the userspace tool is filling in some initial values
-in the PPS and SPS headers, which are not adjustable. I bet you refer to th=
-at.
-
->And I personally believe some OSS userland (not just tests) that can handle
->multiple reference, perhaps more advance GOP pattern and some basic rate c=
-ontrol
->would help build confidence in the uAPI.
-
-I found the following CTRL Types being defined in the bootlin stack
-for the request API.
-
-V4L2_CID_STATELESS_H264_ENCODE_PARAMS
-V4L2_CID_STATELESS_H264_ENCODE_RC
-V4L2_CID_STATELESS_H264_ENCODE_FEEDBACK
-
-The FEEDBACK CID is the information we gain after one frame was
-encoded. With this data the RC (Rate Control) parameter is prepared for
-the next frame.
-
-You mean to have some user interface to make the rate control user
-configurable?
-
->Let us know how we can help, we should >void doing the same thing, as
->this is already quite a large project that can easily take over a year
->to become mainline ready.
-
-It would probably help to share some codebase. If you already have
-something for that rkvenc codec, be it VP8 support. It would probably
-make sense for me to build up on that. Or to discuss common code
-patterns on structures.
-
-Michael
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---uc35eWnScqDcQrv5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmKweNQACgkQC+njFXoe
-LGT11RAAnVZ0A6JKPjgbTZ/1C64OH4qCrOEQTTgTjxGPByN1DdSUNxLlC6ImI93g
-ntqqVZL5ZEH7YDcP60ckHU2Z8CfsGDz1vGLjkP6NwcErjO+3jEu7Y5m3fajJ+xqL
-Jzzm7x3NM1X0lB8aTzwOQ0HdUirA9m6Vd4lvGy8e+M/73SaXLAWlv5CsfONXfuQB
-pamaG6u76JwcgopgmhFBOyxj7TFWrzHIwXJ8DdQTLz3/1fKcQ9/ESyilhbSKjuzh
-/BIHvjJ6Zv3dMfSefrr6tdiyftopOFz4XlxkdKwqKzcgSfiBmiOmCkLqHm+UQcA+
-P5wq+bSjoXRj5chsQ/LfqsUBt9tERP16lZQ/on6Wg7LCfG/rdXcEUrrXoffOyr54
-1KRyjgUzTXLL1nu/e/OK7ar5ZD+Nb5I3/DFNlIgdNRCKX7pS2RKruLyHU2u4T4om
-S3q9u+vfx4D3Aug2Zgtb771sRZJDhn7jvpuiQB+B5nEeGtRzZzAy702IoBJgu1Qx
-4XYYwNC9a1pA4Ywl9P+az5pw+9zZ0cPdt5mPcNI9iHz4L7xXNTZ+HhiMc/GKp4d3
-IhkFkhMBLDcGmQgO8BedhjqSHOP9H3eAOpN/91xoDkSpRWKfhqV8meIgCkQ96haW
-cKsgq2jQqLWq1YcTnE1nIlpspJP5wd87KaHVjTaAcy54jt59hzE=
-=v/bQ
------END PGP SIGNATURE-----
-
---uc35eWnScqDcQrv5--
