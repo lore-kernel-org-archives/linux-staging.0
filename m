@@ -1,187 +1,91 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A303D6E;
-	Mon, 20 Jun 2022 19:56:34 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id j5-20020a05600c1c0500b0039c5dbbfa48so8259153wms.5;
-        Mon, 20 Jun 2022 12:56:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DACD3D6E
+	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 20:02:13 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id h65so14217588oia.11
+        for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 13:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8JXpksGN8on+hs1kw2vF/ANqrZgfrCyZJ79yotiZS7o=;
-        b=Jxj0yKO8OaskheKCkkfQI5jMOBb26izi/IghJ+NTGUFIzOOsB0CmFD4RPNwUNtaLof
-         /C3hAXGVclJM0vR6lh8CDHU4GMMT9xyh7RiksMHIaBii/MzeZK68bgHz+LcafyrE+gMc
-         mMfCsWH9mQASrfIFkwr05Wrot/6BG81EdYq7EXv40E5YmGAMSUXSS3w0ZBtBKg6LYTZ3
-         HtU+cy5glXehl52TcQI/z1P1oNg9rBXNQ87Dxw7DoGIEGaj2SKzjVcwdP+nKFoP63sGx
-         0f4eyLLsx9Sux8ZhyLxge2I8edbegqFVWISeEpE8uHp9q2Ea9hY+homqRtUzV/v2T3mA
-         gwew==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=XZYTVNN3OTIFAKlJr31QtDNYvtTZSjURUEwd4yxlavE=;
+        b=IuJJXPocprRwnIMc5qD8E0ArJ9j4zrbdncIaUPN6SHFiyJROFTTfiQ4fWadbPTup+d
+         lyXWq7eKwk76iJz90VgOMKvpLQ1Q7j+RygtKUZlFCS13F4apJfy5w3oKi2E0DDQZrUSl
+         WLro7uhGls+p++NMILOPKPMgqoViBBF/qn5cBIZGBRMX3B6MJyK+iZYAaaPsSrN+V9Dj
+         OPz1wpegOSVmr6xAGV8+VH9H+cY7zmsg5KSSPNtuqtqvNyevVQwFWmdO4E9Bf5sBRGE8
+         0aZLFqQvK9xh8V/8+DXbLTehnUl3/6HSJK+oladrYWSbISfHb6tl2EWBJaPWWD1GUHhG
+         D3Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8JXpksGN8on+hs1kw2vF/ANqrZgfrCyZJ79yotiZS7o=;
-        b=VqLm/H5oU4w3Dz2o6kB8Pti3FwaZzHEPg2P2YdACbcBpYWvUlQ1CjXd7qulS8YBSCw
-         GlvjwMj5vCh/DPNbGjccxHJraaXiDIlvnyjoFiY9nRLI59tZuYrxiMI5dNpqkus+xq2q
-         L7AW3dJjJs/Q+NeAQ99p3mEG15t9IDm3sBSbVaLz0ybnD7imtojluRwhKqwa/2FjNVlh
-         nkFcdaO0qTBk1QXNHs3H/vSBXvPioKoKC0v0udJM/4X4yfjZhuPMFQRU4KQ9h+BRf06+
-         kNqNwb7/0Mq2H/dH7l0/IEk9XM29S3oKGwkVdwgeQbooS5+mdWAmjjImJUhUZRktWLxW
-         yfvg==
-X-Gm-Message-State: AJIora/jFyEvK7p6Mefd/9rZJKHoQxVTnjMslLWQj59jRWSKJpsP0/S5
-	5jJrowPh/OzfeNuIkcvQk6Q=
-X-Google-Smtp-Source: AGRyM1tt9bsEk8NgI/kpR3VLu38LafWZxQsfbYJmfVaV9kJuFMh9wfpKKuSUoIKnZ9fjpDuLI2I8ZQ==
-X-Received: by 2002:a1c:7206:0:b0:39c:4d16:683f with SMTP id n6-20020a1c7206000000b0039c4d16683fmr25813689wmc.197.1655754993183;
-        Mon, 20 Jun 2022 12:56:33 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id t9-20020adfe109000000b0021018642ff8sm14293461wrz.76.2022.06.20.12.56.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 12:56:32 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v9 00/17] Move HEVC stateless controls out of staging
-Date: Mon, 20 Jun 2022 21:56:30 +0200
-Message-ID: <5830902.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
-References: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=XZYTVNN3OTIFAKlJr31QtDNYvtTZSjURUEwd4yxlavE=;
+        b=08hJxdTcGhTSf76PE+wlV6n9yRoPCh/1BXlAwpRk6AELAqDD6fN5BkFJzhzH6CnsY9
+         2uYGW1wVriwmsSjJR69vGQpoClgENS5xicv1XWlrtTY3D4o3E1iWog7/vsvAfvDxXSMW
+         BUNa5LOa6hczF8jTz0xQ75qpQoKXfActqs96O/r4ZBCsyXWDIP+/lfDu5gvDIrfSxu1t
+         5S9XYrVszMeQjUNoFr99QTVODmGJXGi8b27fQq1DcqP85apjXJbCQNdpketLiZgtNLxX
+         0hwCMDmd40A2pLehupUXu089wPtcdwLTsvYK1IdZffK++iLcuMkUDtpjeLOf3QY8qUKA
+         ke0Q==
+X-Gm-Message-State: AOAM530ymgHHfHitkAhalo0xDEd5fwb0FZtwa/EKekAXk3EZMnkdcaUc
+	Ad4ExfZwlRVm97aIwSOxF7w=
+X-Google-Smtp-Source: ABdhPJzUcP6Xsquvvp31yhoKLnPS5U+zovKalrAzvTPyCdjqjdcvxUC1lxc61U6Ui+Crb/cWMQdINg==
+X-Received: by 2002:a05:6808:1999:b0:32f:2fc:aed1 with SMTP id bj25-20020a056808199900b0032f02fcaed1mr17560674oib.255.1655755332744;
+        Mon, 20 Jun 2022 13:02:12 -0700 (PDT)
+Received: from [192.168.1.108] ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id s204-20020aca45d5000000b0032f662af5d5sm7928355oia.1.2022.06.20.13.02.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jun 2022 13:02:11 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <3a73a59c-29a1-5f96-ad0b-476c46587fcd@lwfinger.net>
+Date: Mon, 20 Jun 2022 15:02:10 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 0/2] get rid of useless header file
+Content-Language: en-US
+To: Nam Cao <namcaov@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ phil@philpotter.co.uk, paskripkin@gmail.com
+References: <cover.1655745123.git.namcaov@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <cover.1655745123.git.namcaov@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Dne petek, 17. junij 2022 ob 10:35:28 CEST je Benjamin Gaignard napisal(a):
-> This series aims to make HEVC uapi stable and usable for hardware
-> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
-> and 2 out of the tree drivers (rkvdec and RPI).
+On 6/20/22 12:19, Nam Cao wrote:
+> The stuffs in basic_types.h are either not used, or already defined in
+> the kernel. Get rid of it.
+> 
+> Nam Cao (2):
+>    staging: r8188eu: replace N_BYTE_ALIGMENT with ALIGN
+>    staging: r8188eu: remove basic_types.h
+> 
+>   drivers/staging/r8188eu/core/rtw_recv.c       |  2 +-
+>   drivers/staging/r8188eu/core/rtw_xmit.c       |  6 +++---
+>   drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |  2 +-
+>   drivers/staging/r8188eu/include/basic_types.h | 19 -------------------
+>   .../staging/r8188eu/include/osdep_service.h   |  1 -
+>   drivers/staging/r8188eu/os_dep/xmit_linux.c   |  2 +-
+>   6 files changed, 6 insertions(+), 26 deletions(-)
+>   delete mode 100644 drivers/staging/r8188eu/include/basic_types.h
+> 
 
-Whole series is:
-Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+For future patch sets, please include the "staging: r8188eu:" part of the 
+subject of the cover letter. It makes it easier to sort out the rest of the 
+patches; however,it is not necessary to resubmit this one.
 
-Best regards,
-Jernej
+The two patchesw are fine.
 
-> 
-> version 9:
-> - Reword some commit message
-> - Use fls()
-> - Remove useless padding at the end of hevc structures
-> - Reword all _minus* field description
-> - change CVS to codec video sequence
-> - Fix various typo
-> - Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
-> - fix the waring reported by 'scripts/kernel-doc -none
->   include/uapi/linux/v4l2-controls.h'
-> 
-> This version has been tested with these branches:
-> - GStreamer:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_ali
-> gned_with_kernel_5.15 - Linux:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAP
-> I_V9
-> 
-> With patches to decode 10-bits bitstream and produce P010 frames the Fluster
-> score which was 77/147 before, is now 141/147.
-> The 10-bits series will comes after this because of it dependency to
-> uAPI change. If you are curious you can find the WIP branch here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HE
-> VC_UAPI_V9
-> 
-> The 6 failing tests are:
-> - PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro
-> hardware. - WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually
-> ok but some difference exist on 5 decoded frames. Some pixels values are no
-> the same the very end of few lines.
-> 
-> version 8:
-> - Same than v7 but rebased on media_stage/master
-> 
-> version 7:
-> - Apply Jernej patches for Cedrus about bit offset definition and
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
-> - Based on media_tree/master
-> 
-> version 6:
-> - Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
->   in v4l2_ctrl_hevc_decode_params structure.
-> - Change slice_pic_order_cnt type to s32 to match with PoC type.
-> - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
-> - Add a define for max slices count
-> - Stop using Hantro dedicated control.
-> 
-> version 5:
-> - Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
->   hevc_dpb_entry structure
-> - Add defines for SEI pic_struct values (patch 4)
-> - Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
-> - Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
->   documentation (patch 8)
-> - Rebased on v5-18-rc1
-> 
-> Version 4:
-> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
-> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
-> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> - Fix space/tab issue in kernel-doc
-> - Add patch to change data_bit_offset definition
-> - Fix hantro-media SPDX license
-> - put controls under stateless section in v4l2-ctrls-defs.c
-> 
-> Benjamin Gaignard (14):
->   media: uapi: HEVC: Add missing fields in HEVC controls
->   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
->     prefix
->   media: uapi: HEVC: Change pic_order_cnt definition in
->     v4l2_hevc_dpb_entry
->   media: uapi: HEVC: Add SEI pic struct flags
->   media: uapi: HEVC: Add documentation to uAPI structure
->   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
->     dynamic array
->   media: uapi: Move parsed HEVC pixel format out of staging
->   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
->   media: uapi: Move the HEVC stateless control type out of staging
->   media: controls: Log HEVC stateless control in .std_log
->   media: hantro: Stop using Hantro dedicated control
->   media: uapi: HEVC: fix padding in v4l2 control structures
->   media: uapi: Change data_bit_offset definition
->   media: uapi: move HEVC stateless controls out of staging
-> 
-> Hans Verkuil (3):
->   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->   v4l2-ctrls: add support for dynamically allocated arrays.
->   vivid: add dynamic array test control
-> 
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
->  .../media/v4l/pixfmt-compressed.rst           |   7 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
->  .../media/v4l/vidioc-queryctrl.rst            |   8 +
->  .../media/videodev2.h.rst.exceptions          |   6 +
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 ++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
->  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  62 +-
->  .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
->  drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
->  drivers/staging/media/hantro/hantro_hw.h      |   4 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
->  .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
->  include/media/hevc-ctrls.h                    | 250 -----
->  include/media/v4l2-ctrls.h                    |  48 +-
->  include/uapi/linux/v4l2-controls.h            | 459 +++++++++
->  include/uapi/linux/videodev2.h                |  13 +
->  24 files changed, 1826 insertions(+), 1226 deletions(-)
->  delete mode 100644 include/media/hevc-ctrls.h
+Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
 
+Thanks,
 
-
-
+Larry
