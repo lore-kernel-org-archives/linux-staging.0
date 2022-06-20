@@ -1,55 +1,59 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF10728E2
-	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 17:20:34 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id g26so1065412ejb.5
-        for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 10:20:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B043A34;
+	Mon, 20 Jun 2022 17:55:31 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id g27so9043670wrb.10;
+        Mon, 20 Jun 2022 10:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ISO3ngQzzJ4OiP9AbNGdrSFXdCPVGHs+T2TYP1Gv8y4=;
-        b=gL/K5nrO7bkVCfckZHGKWvkEiCtlD4+9JeLW20YA1eNZfFtnI/R9dfx4lSNW+sgJsT
-         9r4VTHCVZNxIxE00gqLF/7URAO1Yd45Qv8RznywWuGF5JLW0+d3Zl44eTie9dTK8nFiN
-         i4dJTuK5ec7Eng2zd+1xLts5kUzc2nuqWTJ+NsnrDlahohq3Ijr4V0kymerf3DiNxDWA
-         3AIcDESRyCZh4Wov+MilLogWKukFmEETX9oYsCe3SUkY5d3XWpj0D5ulmzTAastmk4xL
-         +LXs9rv4NJKvLlmT1X5h6nE/A0We/qxho0LSW1Bec1IunPDr3OJuLaXZjJ9VVz42Tb8g
-         6bzA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7Dx8kHYChInXA05yvjMTh5hDqDoL/JwqTYniVb/CEJw=;
+        b=RWKEkdXq+lSk+dmdI6Iot8rAZyvslodnYkpKOvXWK2K1boPyqJvZE44FF88y2Emvbm
+         +yXvUSTM8IH/gOAuYmyJYphk7VLlg7HcDGNSypDuEOXopHleVoqItdbjuY63AZUlEiKq
+         eruxK5ScWYaLkwaR/E9jz8q8dmkHsUHfErc9XoD9L806hmBH7bC1TOB5kt1f2+K5PPHM
+         YdpP1Gb/liecVdKNGquPCsbpStcSZrlH5QL27wGGjHxrEVclvULkCb07YHNXt1YaQIge
+         Cj6PwnXTktHdBFWyPTrHDx2tW2JM7jmqXrLFwX8qtRxQTLXjrtYRrlwdMkAGuFZ3whhJ
+         EesA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ISO3ngQzzJ4OiP9AbNGdrSFXdCPVGHs+T2TYP1Gv8y4=;
-        b=Tk35UFmvY9CedfBOTKtvhexkpPUWypvfxHiCd5TitjV8x8FEbOw+M4yleteID5iBhH
-         yrI+GACCVKBw86UsbKoGLb4nwJMqn0HAalqZ/C7QhtWmA5u7igNvYeBByTC8052ZiP1I
-         iaIwB4+NEk20vNECPrAXBrhR1kXrGLt1Jp381yCTjXyjmPH0vfuvKORewZA/AJW9dckh
-         DxG1DTNsJAlPVK8MBAjt38nWD9z0kbkii3R+U11wefM2j+XyBW4PS2JfuIDXOTqHfpKu
-         JOjt1cG1ITfydDPrjLT2KtORqgfND4ubs67aM+2RhHm4cc6GMxuFQ7bwBUbfcBP/OT8O
-         eYCQ==
-X-Gm-Message-State: AJIora9ZyYJF8jxOGA84ckMEVnaH0qn2bnWPIuGIGlPo6TLRUW1j9CIL
-	QK5F8oq3sohzq56f/NwhTdE=
-X-Google-Smtp-Source: AGRyM1tXK7vcBCjf16rmiqeAXws/YXjlSneQHNLgna5Hyi1cjtU26yvhCMIlOEK4ryxarzyPftr7+A==
-X-Received: by 2002:a17:906:604f:b0:718:e9e8:9d2a with SMTP id p15-20020a170906604f00b00718e9e89d2amr21421812ejj.315.1655745633101;
-        Mon, 20 Jun 2022 10:20:33 -0700 (PDT)
-Received: from nam-dell.fritz.box ([2a02:8109:afbf:ed88:9959:ca73:b489:46f5])
-        by smtp.gmail.com with ESMTPSA id b9-20020a1709063ca900b0072232a898f1sm3409066ejh.103.2022.06.20.10.20.32
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7Dx8kHYChInXA05yvjMTh5hDqDoL/JwqTYniVb/CEJw=;
+        b=ToPeY422e6UK580IIQzMNKTkYrBW0+2Mh5pyDWTSeRKkl67QgA/ujnlTHKjA0Sgfds
+         iZr0DAxgl7PqxvGSrd6gYy5iADXnE88eZZuRXR331uhoaMxeHoOCY1LFmYp7B7UOr46T
+         gf8pKYUObWM++WYhIgzxZ724hvAcLwYFJC/neAbx0WCcnAkaAyklljfikNAfHoxLyYcG
+         Q8F4VRCHFcE4rY3+efKGSAoSHT9RlT53i7eVAJn9XDbJkMSlUm8Lj8ilFWOPanQLExL1
+         Wl4KvPNihf5HQN65z1alhd4E1SWBLTgHD+qsII23C3x2L3zItQXkCGrS2b2PCvI+86RW
+         o1Bg==
+X-Gm-Message-State: AJIora+1WFKKWFnAwY5YPcquJOW28ckbsy/7iz8mDFBKC2pLMSTxene1
+	tIzInYSoQY3V0zmq0BSX4d8=
+X-Google-Smtp-Source: AGRyM1tf6dHvP/4piBoIAhMdMxtYQKzRiL3AmGmYpf47aENlwuoGJoCvcq7wTdgbldWLXnoiTG8NnQ==
+X-Received: by 2002:a5d:5250:0:b0:21b:8b4e:ee54 with SMTP id k16-20020a5d5250000000b0021b8b4eee54mr9248694wrc.624.1655747729719;
+        Mon, 20 Jun 2022 10:55:29 -0700 (PDT)
+Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id 184-20020a1c02c1000000b0039db31f6372sm19620752wmc.2.2022.06.20.10.55.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 10:20:32 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+        Mon, 20 Jun 2022 10:55:29 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	samuel@sholland.org
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	namcaov@gmail.com,
-	phil@philpotter.co.uk,
-	Larry.Finger@lwfinger.net,
-	paskripkin@gmail.com
-Subject: [PATCH 2/2] staging: r8188eu: remove basic_types.h
-Date: Mon, 20 Jun 2022 19:19:34 +0200
-Message-Id: <1b8200420a2a1b7276f49eb3c2768ef39d641713.1655745123.git.namcaov@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1655745123.git.namcaov@gmail.com>
-References: <cover.1655745123.git.namcaov@gmail.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/7] media: cedrus: h265: Implement tiles support
+Date: Mon, 20 Jun 2022 19:55:10 +0200
+Message-Id: <20220620175517.648767-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,53 +62,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove file basic_types.h because the content of this file is not used
-anywhere.
+Now that we have full and stable HEVC uAPI, let's implement last big
+missing piece of HEVC in Cedrus - tiles support. This is done in
+last patch. Before that, there are bug fixes (patch 1 & 2, previously
+submitted separately in [1]), error handling improvements (patch 3, 4)
+and added helper for dealing with dynamic arrays (patch 5).
 
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/r8188eu/include/basic_types.h | 19 -------------------
- .../staging/r8188eu/include/osdep_service.h   |  1 -
- 2 files changed, 20 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/basic_types.h
+These patches are based on top of [2].
 
-diff --git a/drivers/staging/r8188eu/include/basic_types.h b/drivers/staging/r8188eu/include/basic_types.h
-deleted file mode 100644
-index 0b71e2c6e41a..000000000000
---- a/drivers/staging/r8188eu/include/basic_types.h
-+++ /dev/null
-@@ -1,19 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef __BASIC_TYPES_H__
--#define __BASIC_TYPES_H__
--
--#include <linux/types.h>
--#define NDIS_OID uint
--
--typedef void (*proc_t)(void *);
--
--/* port from fw */
--/*  TODO: Macros Below are Sync from SD7-Driver. It is necessary
-- * to check correctness */
--
--#define	N_BYTE_ALIGMENT(__value, __aligment) ((__aligment == 1) ? \
--	(__value) : (((__value + __aligment - 1) / __aligment) * __aligment))
--
--#endif /* __BASIC_TYPES_H__ */
-diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index f1a703643e74..1d97d5be46d5 100644
---- a/drivers/staging/r8188eu/include/osdep_service.h
-+++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -5,7 +5,6 @@
- #define __OSDEP_SERVICE_H_
- 
- #include <linux/sched/signal.h>
--#include "basic_types.h"
- 
- #define _FAIL		0
- #define _SUCCESS	1
+Final fluster score with this series is 125/147. 11 bitstreams are
+MAIN10, which is not yet properly supported. 5 bitstreams need better
+memory management with auxiliary buffers (wip patches exists). 4 are
+too big and 2 probably fails due to ffmpeg implementation.
+
+Used ffmpeg source is in [3].
+
+Note - Cedrus driver currently supports only one slice per request since
+HW takes data for 1 slice only. This can be improved by loading data for
+next slice automatically after HW signalled end of decoding. Something
+for later.
+
+Please take a look.
+
+Best regards,
+Jernej
+
+[1] https://patchwork.linuxtv.org/project/linux-media/list/?series=8187
+[2] https://patchwork.linuxtv.org/project/linux-media/list/?series=8208
+[3] https://github.com/jernejsk/FFmpeg/commits/hevc-mainline
+
+Jernej Skrabec (7):
+  media: cedrus: h265: Fix flag name
+  media: cedrus: h265: Fix logic for not low delay flag
+  media: cedrus: Improve error messages for controls
+  media: cedrus: Add error handling for failed setup
+  media: cedrus: h265: Add a couple of error checks
+  media: cedrus: Add helper for determining number of elements
+  media: cedrus: h265: Implement support for tiles
+
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  28 +++-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   7 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  25 ++-
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |   5 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  | 153 ++++++++++++++++--
+ .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   4 +-
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  |   3 +-
+ .../staging/media/sunxi/cedrus/cedrus_vp8.c   |   5 +-
+ 8 files changed, 204 insertions(+), 26 deletions(-)
+
 -- 
-2.25.1
+2.36.1
 
