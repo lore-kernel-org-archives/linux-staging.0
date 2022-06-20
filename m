@@ -1,85 +1,59 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from challenge-bot.com (ozzloy.lifeafterking.org [208.85.243.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F117B
-	for <linux-staging@lists.linux.dev>; Sun, 19 Jun 2022 20:25:17 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o31Tj-0001i2-RS; Sun, 19 Jun 2022 22:25:03 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o31Td-001Vpv-6C; Sun, 19 Jun 2022 22:24:58 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o31Td-00HRae-Vz; Sun, 19 Jun 2022 22:24:57 +0200
-Date: Sun, 19 Jun 2022 22:24:50 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Song Chen <chensong_2000@189.cn>
-Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
-	thierry.reding@gmail.com, lee.jones@linaro.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-	elder@ieee.org, elder@linaro.org
-Subject: Re: [PATCH v6] staging: greybus: introduce pwm_ops::apply
-Message-ID: <20220619202450.c2ixwemrbwp2sazt@pengutronix.de>
-References: <1647597432-27586-1-git-send-email-chensong_2000@189.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5250658
+	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 05:45:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=challenge-bot.com; s=20180430; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=k/JE7khECPHeL4KbK8eILNTPXaqQJUz1cfs0FJ5Axo8=; b=g3j8sXg0JyTR8b48IJoGtSROiI
+	oTa912LyGyTSHe9CdK/DvHMTqRdzScwWiRT19uBmud7nBPSgV5B79QS9g5yNF3ZFU+l3dU8vzA9yv
+	0Iuw3ZNmHV0KAgjUogEBq2/d4Qz1peMV+WKoOlUtIhy/SGqeAguMIfrD/VZNT28mtGRg=;
+Received: from ozzloy by challenge-bot.com with local (Exim 4.92)
+	(envelope-from <ozzloy@challenge-bot.com>)
+	id 1o3AE9-00014D-00; Sun, 19 Jun 2022 22:45:33 -0700
+From: daniel watson <ozzloy@challenge-bot.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Daniel Watson <ozzloy@challenge-bot.com>
+Subject: [PATCH] staging: rtl8723bs: remove trailing whitespace
+Date: Sun, 19 Jun 2022 22:45:29 -0700
+Message-Id: <20220620054529.4019-1-ozzloy@challenge-bot.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5jkw6rzfmqkhrj35"
-Content-Disposition: inline
-In-Reply-To: <1647597432-27586-1-git-send-email-chensong_2000@189.cn>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+From: Daniel Watson <ozzloy@challenge-bot.com>
 
---5jkw6rzfmqkhrj35
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+remove trailing whitespace found by checkpatch
 
-Hello,
+Signed-off-by: Daniel Watson <ozzloy@challenge-bot.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Mar 18, 2022 at 05:57:12PM +0800, Song Chen wrote:
-> Introduce newer .apply function in pwm_ops to replace legacy operations
-> including enable, disable, config and set_polarity.
->=20
-> This guarantees atomic changes of the pwm controller configuration.
->=20
-> Signed-off-by: Song Chen <chensong_2000@189.cn>
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 1bdbd0971f731..f878b04076d86 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -960,7 +960,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		return _FAIL;
+ 
+ 	frame_type = GetFrameSubType(pframe);
+-	if (frame_type == WIFI_ASSOCREQ) 
++	if (frame_type == WIFI_ASSOCREQ)
+ 		ie_offset = _ASOCREQ_IE_OFFSET_;
+ 	else /*  WIFI_REASSOCREQ */
+ 		ie_offset = _REASOCREQ_IE_OFFSET_;
+-- 
+2.34.1
 
-for the record: This patch was applied by Greg, I'm marking it as
-"handled elsewhere" in the pwm patchwork.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---5jkw6rzfmqkhrj35
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmKvhg8ACgkQwfwUeK3K
-7AmNLQgAgW5qLr1UcrL5DrcIQNINK32n730Ls2hUGI/4QcZxbJfI+42XR2JJAtY8
-zGdWSiy7adHCdo4xPHTCGYYfYvP56MMFe3+5pgvrgvP+wjg6b40vmthvZJT5njZU
-LO30ySHraprHm9ju74JLWacI+ChO5ecDbj2kbDvTMftnWd5t7UkpkIH5dcMdOtso
-kEpXl5GtpYXDle+1vhgqT+Goy2103t4YF2s4ArfikN/kSxlCQ2eWHWTMkprkILGm
-0h5HrrMEmcuLD8PHqk2n0tqrjNcZHVvMatdRnXEG1jzzv53eTrOrvT1IRvfxM1F+
-sPsuSMuSIxxWQ0B4PNjjJVCGAM2SVg==
-=5fqr
------END PGP SIGNATURE-----
-
---5jkw6rzfmqkhrj35--
