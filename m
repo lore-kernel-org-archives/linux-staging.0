@@ -1,178 +1,99 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9F57F6
-	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 08:50:35 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25K6NdjA013171;
-	Mon, 20 Jun 2022 08:50:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=JrBfPbX9rEcyHKhZ9PcSbuuCt1egGYhBWgM8xQNyktQ=;
- b=PAbbmEqpbwhfJHf/SJ4S2k21tDV/tHYaXapAIjz9tmXoG0AxT9a9476UFGAV5mBr6dhI
- 72GzvYJa+RhdFshbfB4m9+i6UIfeYJa/LyIDJzz5aBIeIsW7/JIbVWRLJbt3oJ94YoD8
- OIHOCK7LW4IIqqZPqCH/6/9H2tQ/Gae6JpJNeaQTAK+SdA6coIEmSVuo6J1pkd+t1mjk
- KpG8zdP6iWtHlebSS2aOYAY/pyy+4yZA3wZrOYClec51MVV5RWKno2aeDgK+ZEGMK3pE
- eLVdD8a1Cy6JJ59Vf9nekkfvTWNBzE9iAWXsJ9/cIoyXq4Lkt3alN79XoOiGJESyxejg Gw== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs54cjs5g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 20 Jun 2022 08:50:13 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25K8jpdI002821;
-	Mon, 20 Jun 2022 08:50:13 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtkftbsrp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 20 Jun 2022 08:50:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XZW9olU2f+y6AsAsvWdqtiPGknd8rDe+ZXOdSJ3Q1q7E4Qaas3qQ7iQDDSuhI8V9cH6vkWJ5wrVsv74OfKVjU0NRVvMyj0/1IJu0gzi3YYkyzqGmue2Tq8t+5VJkNr2uCkHjgcFUbupHhQUx1ISNkKdipxNSpztfsXaaSjl0tkZ/CDkSYTNEtKqUQ1PUIvRidVPINoZOH9+u1ZtGbedzcWMwX/RqqEl4uK/Mo9zYUn/i/5qQeDp4TABWlAEjklm52/jUjrAAJIwBpjpQ8PJPtW3gj4FmVpH92ATr+PhzAji28bra2KuJxLEIakL6rHK/eSBIrAQExQszOVu2XlapxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JrBfPbX9rEcyHKhZ9PcSbuuCt1egGYhBWgM8xQNyktQ=;
- b=mMB/MYZ7jlIqIO7pdAxZYk4dqlBfJTDcYMQjaLIR/XRdAMgQvWeI+UaH1Vz8JNVRQ7L4WJcwpr3aN2BW9vylgvaQ9m9IRYYYKxD/vSIyjIN/C3BPXg3/Fv0GQqEmBEdcDqohswTg9QEDXKZf1h1+qvAGjfDMiDz2SQMCxjBQvzPXjGCEeGHqB9Rgl8ohCfQIj9uyWA9jsPqapUP/b2xVRKSy3Ih+A1VqvD2rE+KowM2/96Ml4mVqX1+pk913nihq7kG5/b9QICMfr4iIAgH4P9CGu6X0ruI3HYWZGVciWYJKRHK7GlAH3IkxxsbULl8GG1GJLg0MUDhQZ2k1PgGJrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JrBfPbX9rEcyHKhZ9PcSbuuCt1egGYhBWgM8xQNyktQ=;
- b=IZNlyiBh6UKxNdaWurnsbJVavGbRylaB7CzDS63viaNqeO9Nas5nb/I7V1PLhqtoE7KSs4rT1MifVcRCGI94aF2F6j2vEsb3ui8jQ10NtMonGnqlzzmMvmRhMarXCWvc1bx1dyIAV7VnK4MEIshY9hrBcEguaU2RfokuQU9qAJY=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BYAPR10MB2710.namprd10.prod.outlook.com
- (2603:10b6:a02:b5::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.19; Mon, 20 Jun
- 2022 08:50:11 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5353.018; Mon, 20 Jun 2022
- 08:50:11 +0000
-Date: Mon, 20 Jun 2022 11:49:49 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Souptick Joarder <jrdr.linux@gmail.com>
-Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com, gregkh@linuxfoundation.org,
-        alexandre.belloni@bootlin.com, rafael@kernel.org,
-        mathieu.poirier@linaro.org, u.kleine-koenig@pengutronix.de,
-        arnd@arndb.de, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev, Kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] vme: Added NULL check for bridge
-Message-ID: <20220620084949.GG16517@kadam>
-References: <20220619070645.100947-1-jrdr.linux@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220619070645.100947-1-jrdr.linux@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0035.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::19)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31727F6
+	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 08:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1655715290;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tK/eeW1pWNOA//wEcdfUutwvJ2rc5cXMd97zpjA0M+4=;
+	b=a+3zTTr6MTrKJoD1H4I4OxqVShpSV1uz+MNbNIrfSrvjjmsBuGPU+hM47RX+7af8U3VIUc
+	5mqlQZJ6nPoBVQcgUG45hN/blWoT6w2fV4gB6eRyPt08rcYzmzkbnFWzMe5h4h6fCJ/CGX
+	biwI17IPF85NDOvDnkrb4W//HKAJjlM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-6-_ftH40seO0WtuyAGUR1exA-1; Mon, 20 Jun 2022 04:54:39 -0400
+X-MC-Unique: _ftH40seO0WtuyAGUR1exA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A08929ABA38;
+	Mon, 20 Jun 2022 08:54:39 +0000 (UTC)
+Received: from fedora-t480.redhat.com (unknown [10.67.24.34])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A8DC19D5F;
+	Mon, 20 Jun 2022 08:54:33 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	"Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v1] staging: r8188eu: an incorrect return value made the function always return fail
+Date: Mon, 20 Jun 2022 16:54:13 +0800
+Message-Id: <20220620085413.948265-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e0ce2b1b-2fce-494d-5760-08da5299e25f
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2710:EE_
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR10MB2710AA880011FB973F6833178EB09@BYAPR10MB2710.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	zIW18ZCqvJzHkbLqr2c/xwAahch5ev/M0virZ1F6e5WWhxtyjpn3SFAKsR5pap4NgbuxbYIxYDoB8mrc06FChiZ6AYVsbnKODYhnDq/+YWL0XlLWdIVpiQgMhIEUm04gquVreh+0yakpwguMwxXhc/Eb4vM0VceB9YMLmW0IkFkvMQdgPPZ/ufTKJ8C78gFdqN5vGzhE50kvoSFXhAuhHVwmaQSbyMI0BBJJSkBQBGJreykMrpWxgKm7k0dy3MsaY0HZS3de84sYts13gKZbPrmY1K/6d3NCWZzHstklaYUc8oZzZU+LULVvqix2triyYSGthcckNmv6ZsyRy+Q4SqZkcxLmtS7gZVJzRhRupQDJYam4BGD5MvakqjAfBDA9jW8T7avSSmA3vdaU6HJ0yAa42nCsoTwagczU16ab5f5z93Zrp5qIpoXfJYBPExvkj3DolGCPrpTASS1h/Pa4vwHozLlSX+IbAwlp7n2TxwU9G0zntzvjK3F9oqE9kMswbVBhVlVZEMsrKEU6n8jio9yD8QJxDC7md7YZuZrJcgLocGXzEGNUjbMZros00Mw65gUTaPeVyoWor/QBKqos3pVfApcpDo9GTi3ysKzg6nAwBpd0Kei96mL40L1uEHVgHyRIUCDyJB9FXtaj5AD3uOkB8SzmK0QUiPu3OOzbxIxB0TFxg+iiQ76eE91Z9HHDoKP9NYjFyg2BHuIL1mTcwA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(136003)(366004)(376002)(346002)(39860400002)(396003)(52116002)(4326008)(44832011)(86362001)(8676002)(6916009)(6506007)(6486002)(9686003)(66556008)(38350700002)(2906002)(6512007)(66476007)(66946007)(26005)(7416002)(8936002)(186003)(478600001)(38100700002)(6666004)(83380400001)(5660300002)(316002)(33656002)(41300700001)(1076003)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hvoRPbaCmmcAqLciS09xgSnJp6DV5UcS8CwY55mEoFRd76Mc8O6AL22cE3PC?=
- =?us-ascii?Q?Hb6iZ2KzDK1vwOb7A+p0OG/LdtBE3vNg1PzEDB62PIpv30CnruoiiHKQExxG?=
- =?us-ascii?Q?KRn7ajG8AY9Wz/wo+TUICFeR3YG5BpW+pSoT182Y2suMwLFJPd2wjS/E37Hs?=
- =?us-ascii?Q?UcsVKxMh8EgOkQq6/JapQSoEBH2gR6aWVIW0EToaUtz/JencwRtWSeuxRShN?=
- =?us-ascii?Q?Daff8Lyiae7PlZa6x9Yu9fnJhXsBlvT0emzdLWd2lDdWbAadoTZPz97K0d1W?=
- =?us-ascii?Q?5RqZQ02Y+LlGxT+P/zvqigb41TZWSL1S4EiqWrwF7HoQ7lMvvm7+B1eqLUEp?=
- =?us-ascii?Q?37VzXR2AsdFkx4DcpnlyytK05mtdZ91V9i6xJaY8SISy/1nRty7a2ywiM/6d?=
- =?us-ascii?Q?Ly+v50wTWS1Y5iVtkCXNDqmQ47jVc8smGeCMZ2nGLBvLUHUU64GRCP8MiQuI?=
- =?us-ascii?Q?8uCthOIIMYcmpAX08KBLgHmpmXAGp/ZW1pAzWaAnJ9aXrTK/UKT4wZ1sdAHO?=
- =?us-ascii?Q?1MZI6eEIkFixEX8vyUAYbS3J5VjW5h4fKdL4zkh41aVUWeEZW7bzpce5Il4O?=
- =?us-ascii?Q?KOR2J2vF4uSjUdnShNzsPGCn2Lh7tYxKIppLrnZdlT7+vCdkFRfLPYy8O7UY?=
- =?us-ascii?Q?GAZM+Vog56tYieyobdN9GA6Tw1OHSzMRveBC0K0MDMvH/uWtXekUeiAp0+cP?=
- =?us-ascii?Q?HNZhOoB2l6BWVwohrVfgnuzg/MV3jF4F/tN/y8gz0cUXrr9vktjyiBtrIAqs?=
- =?us-ascii?Q?hbR4VboNDPgPy5MDJ8JV73D1+E1Ar3cmKgwPs1vmupFmC6G0Pv9yC6Tx51yu?=
- =?us-ascii?Q?IJht7Q2v1A2rqP1a4HCcU8KLHIcra5r/CUersDSQhNLh/HjrGa9ML1AziFGq?=
- =?us-ascii?Q?5rAzNOGdbYKFqCZJZiNpsp28/s2rNJVLONNHxV5sdsQ/mtLFXowoUJPplimw?=
- =?us-ascii?Q?fbijqS4FZ8Q4OYJxobgFSK7iDsZJBmakNmiWsh+/3+m3w84+REpHB6y5j9xx?=
- =?us-ascii?Q?8VXA85v+x7VTOAwmikYuULEIrzEKX5cyLNgdkFspiP9iOT//U104T2Zw0Tob?=
- =?us-ascii?Q?0Zk61LMQf58VkD8xRCVgfuXOK+2p02o+bH4Nr6skEhi68VDVMA4dCLbTvhuQ?=
- =?us-ascii?Q?xFpn8HddZIvQgXh2xDHelJ64/31trVr8qj6z6TF0b1/dDDK3fGlmdfn/s+5J?=
- =?us-ascii?Q?IYxCqAhG2T+MNV+U/Oi0Z9iqGcOCnIGfYQzz5s1otVR5h9uG9mgRqpFualpe?=
- =?us-ascii?Q?txwg4CJE774ehMHqlVoYqFqj4wq+ic5B/lEI9KL0MrvumL4KzPDaYsnDlB1t?=
- =?us-ascii?Q?6M0wSazx0XY7kvibHmuW6rglMT3RkCZ6ZtPfjwkB+KSA2jd7SlOGLd1BQOA6?=
- =?us-ascii?Q?6Jnu1XnNtKUJa4qRJnHr23SKekgSmRokYpBV/VV3o7zKV/eOrpGyM9mfTDnL?=
- =?us-ascii?Q?IF2cBYEgixLnW6F8HOb4Yv+cPeiWwh8co7n/B9jkfxOOkCWEXxJvfjsjyBXk?=
- =?us-ascii?Q?5YKAnsVyV+McbwMmvreKKOVA1TV9AxEMBrqz/wscjzMFrRYukAe5Ixd0jfjV?=
- =?us-ascii?Q?2K7FKOqfM4qORSf9DDGJsSCjZEWd5YiluIxBtX7Ob3dwVC6Y2FIXJSl7t+93?=
- =?us-ascii?Q?NlSjW32I2b/Vr0WMC7zqz86fTa1/xGoLdaxmMKKOtlHvbdm5eEtACZGpp3SI?=
- =?us-ascii?Q?rbkBTtcEKdicrDL9dzO0f043pw7FxC5+i4GoEnIuuEy2PXQs36UHGE2Rsgh8?=
- =?us-ascii?Q?r8wsVo3fDdu3BpuRWbCGNGzNsJTEaos=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0ce2b1b-2fce-494d-5760-08da5299e25f
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2022 08:50:11.3187
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QnAv1WjpkbJavfYKv4qyynePLE8kquKeodImfR+duZqU6dm+MQNyyKEpQvDXaa3MbyciYKaNBP2MfQL6ouIuWKkRm6gSwKHYi7E6Mqffsow=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2710
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-20_04:2022-06-17,2022-06-20 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
- mlxlogscore=999 suspectscore=0 adultscore=0 phishscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206200041
-X-Proofpoint-GUID: 21V1oU1jxoLQS2XaqJQ7eD4DDMHUMi-L
-X-Proofpoint-ORIG-GUID: 21V1oU1jxoLQS2XaqJQ7eD4DDMHUMi-L
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 
-On Sun, Jun 19, 2022 at 12:36:45PM +0530, Souptick Joarder wrote:
-> From: "Souptick Joarder (HPE)" <jrdr.linux@gmail.com>
-> 
-> Kernel test robot throws below warning ->
-> drivers/staging/vme_user/vme.c:662:20: warning: dereference
-> of NULL 'bridge' [CWE-476] [-Wanalyzer-null-dereference]
-> 
-> Added a NULL check.
-> 
-> Reported-by: Kernel test robot <lkp@intel.com>
-> Signed-off-by: Souptick Joarder (HPE) <jrdr.linux@gmail.com>
-> ---
->  drivers/staging/vme_user/vme.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-> index b5555683a069..ede774f2fe5a 100644
-> --- a/drivers/staging/vme_user/vme.c
-> +++ b/drivers/staging/vme_user/vme.c
-> @@ -659,7 +659,7 @@ ssize_t vme_master_read(struct vme_resource *resource, void *buf, size_t count,
->  	struct vme_master_resource *image;
->  	size_t length;
->  
-> -	if (!bridge->master_read) {
-> +	if (bridge && !bridge->master_read) {
+Since _SUCCESS (1) and _FAIL (0) are used to indicate the status of the
+functions. The previous commit 8ae7bf782eacad803f752c83a183393b0a67127b
+fixed and prevented dereferencing a NULL pointer through checking the
+return pointer. The NULL pointer check work properly but the return
+values (-ENOMEM on fail and 0 on success). This work fixed the return
+values to make sure the caller function will return the correct status.
 
-This patch does not help anything.  If "bridge" is NULL here then the
-kernel will just crash later in the function.  Smatch complains about it
-now:
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=2097526
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
+---
+ drivers/staging/r8188eu/core/rtw_xmit.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-drivers/staging/vme_user/vme.c:688 vme_master_read() error: we previously assumed 'bridge' could be null (see line 666)
-
-However, I don't believe that bridge can actually be NULL here.  We do
-not write code just to silence that static checker false positives.  Fix
-the checker instead.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index f4e9f6102539..2f8720db21d9 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -180,10 +180,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
+ 
+ 	res = rtw_alloc_hwxmits(padapter);
+-	if (res) {
+-		res = _FAIL;
++	if (res == _FAIL)
+ 		goto exit;
+-	}
+ 
+ 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+ 
+@@ -1510,7 +1508,7 @@ int rtw_alloc_hwxmits(struct adapter *padapter)
+ 
+ 	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
+ 	if (!pxmitpriv->hwxmits)
+-		return -ENOMEM;
++		return _FAIL;
+ 
+ 	hwxmits = pxmitpriv->hwxmits;
+ 
+@@ -1528,7 +1526,7 @@ int rtw_alloc_hwxmits(struct adapter *padapter)
+ 	} else {
+ 	}
+ 
+-	return 0;
++	return _SUCCESS;
+ }
+ 
+ void rtw_free_hwxmits(struct adapter *padapter)
+-- 
+2.36.1
 
