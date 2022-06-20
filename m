@@ -1,41 +1,41 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359B53237;
-	Mon, 20 Jun 2022 17:55:36 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id c21so15709812wrb.1;
-        Mon, 20 Jun 2022 10:55:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB873205;
+	Mon, 20 Jun 2022 17:55:37 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id s1so15686088wra.9;
+        Mon, 20 Jun 2022 10:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=v1dAKvkkLglJ9uDTaYyQQ++nei7aPjDhg2NRvQrXzs4=;
-        b=PXCuyOY2oGeqe/2u5291BK7g8iwGzcFWgQdxNTLpEHH5MebO0ENGpfV/osCNwwbFLr
-         PKswyNH2KUJXyRp8MkFMIHG3szK5meQQGQxkkmkDvj5tkGmFM3Nfm3qEs1lWk3xvEbko
-         X5yzXkjjtxNIX06ku0aHcKOIl9CcOCA8Q21DfiNxHRy2VsjOIZqYBLKYJtP7mU+AzgpP
-         pxtvWwWsggyw6c4kkQtrSVDbmQrWL9XTalf5tj2tZZzir0tbyoxC7pY1Z9Q/M1biDvGt
-         SGAUEuBoS1obEqxsf+jhO5uTNI8LbSb+MrgIonIyKDgKdZD4FO5nAwYqGNDK1odGUyj3
-         GDJw==
+        bh=jAE816XO6VphxEuAFtyQWbCCtJPUMXYblVqNrF0iAD0=;
+        b=EjeBvCJQTY+EP5xtkOeq06z4jqZO6QnTRjA0gabAPlGhSRDpNsrn1q+fWqg6VbQZCv
+         D5JS7lnPYgCf+q8DOQpXVljhTT1WJMU6a4hdMh+2OdrTyWdrzFTo8GEhr936m4L10koo
+         qdxV//MmmPL5IjwdwC06oF3I4YghZlM2Nlnp3jAi9/xDA21fucQrDANY51ICxGaMqFE5
+         9lJmKXFfVr6JpVAxp1scG4VTtwKTroTUNk2T8qAmchLeVCqslJNw2U/vf4KiB60BeOrk
+         pHsOn9RErSosIyP1azI/AUjFu6UgHfrweLf+d5yYlAI1ZbCz9pwH2q4quxKSXdzq+JAe
+         WR3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=v1dAKvkkLglJ9uDTaYyQQ++nei7aPjDhg2NRvQrXzs4=;
-        b=KNEkXXhCUgliFXeVmvcYJPWeUTvI6ldk7rZZf+atVOypDJB4Bj3+CT4mFIZx9hsYIk
-         evdsAR4TZhzVdWa8N1Jj1cl6XXTyafJf3BW6d++PjGs4ud7B2T0fdgMVuCO/4ElIaHzl
-         Ni59E5Fkrg8M+sVSpTqF7whfe0bsQEClwtgX7jj3yP3RbApD9Ln9mFknSg2GT3laf70r
-         FeOVB6OOdChMwd8RLBJmV173ssCP9EFUbOgrp/G2pKLvXJJvIxM91HNOG5UfnM5Z1CbG
-         GHeMQCjSt26z8B7Gsg1odFaMZl3W1fXUfZt37PK5hHtwpZd6/UAZtxx6agM2kPAbttCi
-         64ug==
-X-Gm-Message-State: AJIora8GCxmiPU2bVG1kSiDKEFM6vpozGh9T+LROBvQqRzLsr9G7vOBW
-	/WQsaoRJiFvzWMURTF4nwpI=
-X-Google-Smtp-Source: AGRyM1vyZHQwsEYRHeXGomkhfnEuVX5Kk/SEGY68XLVA2CO6m/m9uFmxMRCt3nyAUTLTrl4yqMbXuA==
-X-Received: by 2002:a05:6000:ca:b0:21b:8082:7518 with SMTP id q10-20020a05600000ca00b0021b80827518mr17634297wrx.124.1655747734550;
-        Mon, 20 Jun 2022 10:55:34 -0700 (PDT)
+        bh=jAE816XO6VphxEuAFtyQWbCCtJPUMXYblVqNrF0iAD0=;
+        b=qEQfIc7NltKF2H/tFwynDSel5MIZU3ntVADqhMpTjqBR6Td9m/yhXAP2fNIUptXY1r
+         M7DE4x8IL3kjkeIpceePTtywpgcCI+86mKXGcX9rf70cITfQAaynUs4shWaY4GR7b/I2
+         XGTtv9kJNfpXQ1rp8QrosDXaAyxgTLwDep+2hm5H3klmtoPghjnZngmzqbbA4n+KVVud
+         rvYSzfAQ//vTWCSYw31JmrR9aC7BD9lh96zlWq8pm89P8nqbTPB436+tbBe2BZL9fuES
+         eag8Ln3N4IV3Mxv3vhmcSeObZ19//uq9BPoIb/E/SHUB7d/KFNWIIcI6h6rJRp2AgjKi
+         OxVg==
+X-Gm-Message-State: AJIora+fqPx80eyW7J6i7Vrw1Rk+crHnrsQXNWuwHznaR0wZ+dsFXvp6
+	DVuFGD15QR5fKDDiQOkbiiT+hZf9o9g=
+X-Google-Smtp-Source: AGRyM1uzYFeRmPExq2bdZPq2d3BODGUt8CJhpH6WPmqRMAMe3MzAwr61mxnFobDHbuDcKZ/xOE15MA==
+X-Received: by 2002:adf:f7c7:0:b0:21b:9452:e8fe with SMTP id a7-20020adff7c7000000b0021b9452e8femr2386433wrq.640.1655747735690;
+        Mon, 20 Jun 2022 10:55:35 -0700 (PDT)
 Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id 184-20020a1c02c1000000b0039db31f6372sm19620752wmc.2.2022.06.20.10.55.33
+        by smtp.gmail.com with ESMTPSA id 184-20020a1c02c1000000b0039db31f6372sm19620752wmc.2.2022.06.20.10.55.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 10:55:34 -0700 (PDT)
+        Mon, 20 Jun 2022 10:55:35 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com,
@@ -50,9 +50,9 @@ Cc: mchehab@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 4/7] media: cedrus: Add error handling for failed setup
-Date: Mon, 20 Jun 2022 19:55:14 +0200
-Message-Id: <20220620175517.648767-5-jernej.skrabec@gmail.com>
+Subject: [PATCH 5/7] media: cedrus: h265: Add a couple of error checks
+Date: Mon, 20 Jun 2022 19:55:15 +0200
+Message-Id: <20220620175517.648767-6-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220620175517.648767-1-jernej.skrabec@gmail.com>
 References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
@@ -64,186 +64,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-During decoding setup stage for complex codecs like HEVC driver can
-detect inconsistent values in controls or some other task, like
-allocating memory, can fail.
-
-Currently setup stage has no way of signalling error. Change return type
-of setup callback to int and if returned value is not zero, skip
-decoding and finish job immediately with error flag.
-
-While currently there is only one place when setup can fail, it's
-expected that there will be more such cases in the future, when HEVC
-decoding is improved.
+Now that we have infrastructure for reporting errors, let's add two
+checks, which will make sure slice can be actually decoded.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  2 +-
- .../staging/media/sunxi/cedrus/cedrus_dec.c   | 21 ++++++++++++++-----
- .../staging/media/sunxi/cedrus/cedrus_h264.c  |  5 +++--
- .../staging/media/sunxi/cedrus/cedrus_h265.c  |  8 +++----
- .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |  4 +++-
- .../staging/media/sunxi/cedrus/cedrus_vp8.c   |  5 +++--
- 6 files changed, 30 insertions(+), 15 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index 3bc094eb497f..d2b697a9ded2 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -162,7 +162,7 @@ struct cedrus_dec_ops {
- 	void (*irq_clear)(struct cedrus_ctx *ctx);
- 	void (*irq_disable)(struct cedrus_ctx *ctx);
- 	enum cedrus_irq_status (*irq_status)(struct cedrus_ctx *ctx);
--	void (*setup)(struct cedrus_ctx *ctx, struct cedrus_run *run);
-+	int (*setup)(struct cedrus_ctx *ctx, struct cedrus_run *run);
- 	int (*start)(struct cedrus_ctx *ctx);
- 	void (*stop)(struct cedrus_ctx *ctx);
- 	void (*trigger)(struct cedrus_ctx *ctx);
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-index aabe6253078e..b0944abaacbd 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -28,6 +28,7 @@ void cedrus_device_run(void *priv)
- 	struct cedrus_dev *dev = ctx->dev;
- 	struct cedrus_run run = {};
- 	struct media_request *src_req;
-+	int error;
- 
- 	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
- 	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-@@ -89,16 +90,26 @@ void cedrus_device_run(void *priv)
- 
- 	cedrus_dst_format_set(dev, &ctx->dst_fmt);
- 
--	dev->dec_ops[ctx->current_codec]->setup(ctx, &run);
-+	error = dev->dec_ops[ctx->current_codec]->setup(ctx, &run);
-+	if (error)
-+		v4l2_err(&ctx->dev->v4l2_dev,
-+			 "Failed to setup decoding job: %d\n", error);
- 
- 	/* Complete request(s) controls if needed. */
- 
- 	if (src_req)
- 		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
- 
--	dev->dec_ops[ctx->current_codec]->trigger(ctx);
-+	/* Trigger decoding if setup went well, bail out otherwise. */
-+	if (!error) {
-+		dev->dec_ops[ctx->current_codec]->trigger(ctx);
- 
--	/* Start the watchdog timer. */
--	schedule_delayed_work(&dev->watchdog_work,
--			      msecs_to_jiffies(2000));
-+		/* Start the watchdog timer. */
-+		schedule_delayed_work(&dev->watchdog_work,
-+				      msecs_to_jiffies(2000));
-+	} else {
-+		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
-+						 ctx->fh.m2m_ctx,
-+						 VB2_BUF_STATE_ERROR);
-+	}
- }
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index d8fb93035470..c345e67ba9bc 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -493,8 +493,7 @@ static void cedrus_h264_irq_disable(struct cedrus_ctx *ctx)
- 		     reg & ~VE_H264_CTRL_INT_MASK);
- }
- 
--static void cedrus_h264_setup(struct cedrus_ctx *ctx,
--			      struct cedrus_run *run)
-+static int cedrus_h264_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- {
- 	struct cedrus_dev *dev = ctx->dev;
- 
-@@ -510,6 +509,8 @@ static void cedrus_h264_setup(struct cedrus_ctx *ctx,
- 	cedrus_write_frame_list(ctx, run);
- 
- 	cedrus_set_params(ctx, run);
-+
-+	return 0;
- }
- 
- static int cedrus_h264_start(struct cedrus_ctx *ctx)
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 46119912c387..cfde4ccf6011 100644
+index cfde4ccf6011..99020b9f9ff8 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -326,8 +326,7 @@ static int cedrus_h265_is_low_delay(struct cedrus_run *run)
- 	return 0;
- }
- 
--static void cedrus_h265_setup(struct cedrus_ctx *ctx,
--			      struct cedrus_run *run)
-+static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- {
- 	struct cedrus_dev *dev = ctx->dev;
- 	const struct v4l2_ctrl_hevc_sps *sps;
-@@ -385,8 +384,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 		if (!ctx->codec.h265.mv_col_buf) {
- 			ctx->codec.h265.mv_col_buf_size = 0;
--			// TODO: Abort the process here.
--			return;
-+			return -ENOMEM;
- 		}
- 	}
- 
-@@ -703,6 +701,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	/* Enable appropriate interruptions. */
- 	cedrus_write(dev, VE_DEC_H265_CTRL, VE_DEC_H265_CTRL_IRQ_MASK);
+@@ -435,9 +435,17 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+ 	 * instead of start of slice data. Padding is 8 bits at most (one bit set to 1 and
+ 	 * at most seven bits set to 0), so we have to inspect only one byte before slice data.
+ 	 */
 +
-+	return 0;
- }
- 
- static int cedrus_h265_start(struct cedrus_ctx *ctx)
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-index 5dad2f296c6d..4cfc4a3c8a7f 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-@@ -48,7 +48,7 @@ static void cedrus_mpeg2_irq_disable(struct cedrus_ctx *ctx)
- 	cedrus_write(dev, VE_DEC_MPEG_CTRL, reg);
- }
- 
--static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
-+static int cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- {
- 	const struct v4l2_ctrl_mpeg2_sequence *seq;
- 	const struct v4l2_ctrl_mpeg2_picture *pic;
-@@ -185,6 +185,8 @@ static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 	      VE_DEC_MPEG_CTRL_MC_CACHE_EN;
- 
- 	cedrus_write(dev, VE_DEC_MPEG_CTRL, reg);
++	if (slice_params->data_byte_offset == 0)
++		return -EOPNOTSUPP;
 +
-+	return 0;
- }
+ 	padding = (u8 *)vb2_plane_vaddr(&run->src->vb2_buf, 0) +
+ 		slice_params->data_byte_offset - 1;
  
- static void cedrus_mpeg2_trigger(struct cedrus_ctx *ctx)
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-index f4016684b32d..3f750d1795b6 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-@@ -651,8 +651,7 @@ static void cedrus_vp8_irq_disable(struct cedrus_ctx *ctx)
- 		     reg & ~VE_H264_CTRL_INT_MASK);
- }
- 
--static void cedrus_vp8_setup(struct cedrus_ctx *ctx,
--			     struct cedrus_run *run)
-+static int cedrus_vp8_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- {
- 	const struct v4l2_ctrl_vp8_frame *slice = run->vp8.frame_params;
- 	struct vb2_queue *cap_q = &ctx->fh.m2m_ctx->cap_q_ctx.q;
-@@ -855,6 +854,8 @@ static void cedrus_vp8_setup(struct cedrus_ctx *ctx,
- 		ctx->codec.vp8.last_sharpness_level =
- 			slice->lf.sharpness_level;
- 	}
++	/* at least one bit must be set in that byte */
++	if (*padding == 0)
++		return -EINVAL;
 +
-+	return 0;
- }
- 
- static int cedrus_vp8_start(struct cedrus_ctx *ctx)
+ 	for (count = 0; count < 8; count++)
+ 		if (*padding & (1 << count))
+ 			break;
 -- 
 2.36.1
 
