@@ -1,41 +1,41 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B043A34;
-	Mon, 20 Jun 2022 17:55:31 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id g27so9043670wrb.10;
-        Mon, 20 Jun 2022 10:55:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DB03205;
+	Mon, 20 Jun 2022 17:55:32 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id g27so9043747wrb.10;
+        Mon, 20 Jun 2022 10:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7Dx8kHYChInXA05yvjMTh5hDqDoL/JwqTYniVb/CEJw=;
-        b=RWKEkdXq+lSk+dmdI6Iot8rAZyvslodnYkpKOvXWK2K1boPyqJvZE44FF88y2Emvbm
-         +yXvUSTM8IH/gOAuYmyJYphk7VLlg7HcDGNSypDuEOXopHleVoqItdbjuY63AZUlEiKq
-         eruxK5ScWYaLkwaR/E9jz8q8dmkHsUHfErc9XoD9L806hmBH7bC1TOB5kt1f2+K5PPHM
-         YdpP1Gb/liecVdKNGquPCsbpStcSZrlH5QL27wGGjHxrEVclvULkCb07YHNXt1YaQIge
-         Cj6PwnXTktHdBFWyPTrHDx2tW2JM7jmqXrLFwX8qtRxQTLXjrtYRrlwdMkAGuFZ3whhJ
-         EesA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=IIGvFdI/wJ4/LBOf7PZx+JpLogMq9gYH/QS1CnB4btI=;
+        b=SniQDHgjVfXKBSGsUuDwSkfqHypta48g5YrJl77DFnz9lDLxN/KW8s3NVjF0xwIB1E
+         MspMRJdwEUs/mTnQ2JalZYRQu7KIa/zJfFLUBAb9FuY9zj8M7tnNlFGU86Zcs5g7GVFA
+         2B2526v1crqcHHSumSR7pfRFshcdw1AydSmmr8cg1EN19U8bAsidLJBsPwSoRfnCFz4I
+         iRG9oWQrRufKxNXX25H7wzYJB7xBAsZVi4ihZ/PldsdeOwUgTFG53NumpzRxOaBr9h2k
+         o9eD6nUDWS5SZW91nRUOQ62Ma46UNNTiSE6DO/RTB387NMpx9ADSXSiVEZlPIEGXMku8
+         7dVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7Dx8kHYChInXA05yvjMTh5hDqDoL/JwqTYniVb/CEJw=;
-        b=ToPeY422e6UK580IIQzMNKTkYrBW0+2Mh5pyDWTSeRKkl67QgA/ujnlTHKjA0Sgfds
-         iZr0DAxgl7PqxvGSrd6gYy5iADXnE88eZZuRXR331uhoaMxeHoOCY1LFmYp7B7UOr46T
-         gf8pKYUObWM++WYhIgzxZ724hvAcLwYFJC/neAbx0WCcnAkaAyklljfikNAfHoxLyYcG
-         Q8F4VRCHFcE4rY3+efKGSAoSHT9RlT53i7eVAJn9XDbJkMSlUm8Lj8ilFWOPanQLExL1
-         Wl4KvPNihf5HQN65z1alhd4E1SWBLTgHD+qsII23C3x2L3zItQXkCGrS2b2PCvI+86RW
-         o1Bg==
-X-Gm-Message-State: AJIora+1WFKKWFnAwY5YPcquJOW28ckbsy/7iz8mDFBKC2pLMSTxene1
-	tIzInYSoQY3V0zmq0BSX4d8=
-X-Google-Smtp-Source: AGRyM1tf6dHvP/4piBoIAhMdMxtYQKzRiL3AmGmYpf47aENlwuoGJoCvcq7wTdgbldWLXnoiTG8NnQ==
-X-Received: by 2002:a5d:5250:0:b0:21b:8b4e:ee54 with SMTP id k16-20020a5d5250000000b0021b8b4eee54mr9248694wrc.624.1655747729719;
-        Mon, 20 Jun 2022 10:55:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IIGvFdI/wJ4/LBOf7PZx+JpLogMq9gYH/QS1CnB4btI=;
+        b=PNcMypUoLryfIlmvuRYY0/QRbWtwIayT+uopo09xUqTi8x1re+PxDxtrcGrIS7KDIr
+         ZkPvkLxnRqtHbGv4bQnnC/iqw6kzt1IgsHBk4p2EciUVdyhpumVPk9IvmsjjO8nUt0GR
+         el0udQk8U2PHLTRijOKae8WegShFVmQvWfr2xrWOP2qYv3G+8zFilx+3m9B+HONB1UZk
+         xf9VXEUKftU5eG6CM+vtYAT8okn++p5PnEaq3J++aZY7YcGN+gFTLswFM4lKc2Eu5zIW
+         +s4SuPvhc4skOgGr0BBpD/0QzEzGWd+RpfJ23uO31lHaL3mm5NfPQw83xKoKfGcI0VW5
+         Uxxg==
+X-Gm-Message-State: AJIora8ZcYfA40rP/TV29lN1PIIlGf7wy9Tkim+BFKaDKop1GU3aap5i
+	2gaFf+inIX8Yvr/ra6djpUw=
+X-Google-Smtp-Source: AGRyM1ufCg7KEptfMe5HeaGDv+eQ7f13H7/55G33w2XYZBwqxHDxoDuZ2UX8gz0YB/Putqu5tQ5zcA==
+X-Received: by 2002:a05:6000:2a4:b0:219:2aad:51ce with SMTP id l4-20020a05600002a400b002192aad51cemr23651238wry.719.1655747731160;
+        Mon, 20 Jun 2022 10:55:31 -0700 (PDT)
 Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id 184-20020a1c02c1000000b0039db31f6372sm19620752wmc.2.2022.06.20.10.55.28
+        by smtp.gmail.com with ESMTPSA id 184-20020a1c02c1000000b0039db31f6372sm19620752wmc.2.2022.06.20.10.55.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 10:55:29 -0700 (PDT)
+        Mon, 20 Jun 2022 10:55:30 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com,
@@ -50,10 +50,12 @@ Cc: mchehab@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 0/7] media: cedrus: h265: Implement tiles support
-Date: Mon, 20 Jun 2022 19:55:10 +0200
-Message-Id: <20220620175517.648767-1-jernej.skrabec@gmail.com>
+Subject: [PATCH 1/7] media: cedrus: h265: Fix flag name
+Date: Mon, 20 Jun 2022 19:55:11 +0200
+Message-Id: <20220620175517.648767-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220620175517.648767-1-jernej.skrabec@gmail.com>
+References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,54 +64,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that we have full and stable HEVC uAPI, let's implement last big
-missing piece of HEVC in Cedrus - tiles support. This is done in
-last patch. Before that, there are bug fixes (patch 1 & 2, previously
-submitted separately in [1]), error handling improvements (patch 3, 4)
-and added helper for dealing with dynamic arrays (patch 5).
+Bit 21 in register 0x24 (slice header info 1) actually represents
+negated version of low delay flag. This can be seen in vendor Cedar
+library source code. While this flag is not part of the standard, it can
+be found in reference HEVC implementation.
 
-These patches are based on top of [2].
+Fix macro name and change it to flag.
 
-Final fluster score with this series is 125/147. 11 bitstreams are
-MAIN10, which is not yet properly supported. 5 bitstreams need better
-memory management with auxiliary buffers (wip patches exists). 4 are
-too big and 2 probably fails due to ffmpeg implementation.
+Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 4 +++-
+ drivers/staging/media/sunxi/cedrus/cedrus_regs.h | 3 +--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-Used ffmpeg source is in [3].
-
-Note - Cedrus driver currently supports only one slice per request since
-HW takes data for 1 slice only. This can be improved by loading data for
-next slice automatically after HW signalled end of decoding. Something
-for later.
-
-Please take a look.
-
-Best regards,
-Jernej
-
-[1] https://patchwork.linuxtv.org/project/linux-media/list/?series=8187
-[2] https://patchwork.linuxtv.org/project/linux-media/list/?series=8208
-[3] https://github.com/jernejsk/FFmpeg/commits/hevc-mainline
-
-Jernej Skrabec (7):
-  media: cedrus: h265: Fix flag name
-  media: cedrus: h265: Fix logic for not low delay flag
-  media: cedrus: Improve error messages for controls
-  media: cedrus: Add error handling for failed setup
-  media: cedrus: h265: Add a couple of error checks
-  media: cedrus: Add helper for determining number of elements
-  media: cedrus: h265: Implement support for tiles
-
- drivers/staging/media/sunxi/cedrus/cedrus.c   |  28 +++-
- drivers/staging/media/sunxi/cedrus/cedrus.h   |   7 +-
- .../staging/media/sunxi/cedrus/cedrus_dec.c   |  25 ++-
- .../staging/media/sunxi/cedrus/cedrus_h264.c  |   5 +-
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 153 ++++++++++++++++--
- .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   4 +-
- .../staging/media/sunxi/cedrus/cedrus_regs.h  |   3 +-
- .../staging/media/sunxi/cedrus/cedrus_vp8.c   |   5 +-
- 8 files changed, 204 insertions(+), 26 deletions(-)
-
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+index 7b67cb4621cf..9ee6f0f111e5 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -576,7 +576,6 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+ 
+ 	reg = VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_TC_OFFSET_DIV2(slice_params->slice_tc_offset_div2) |
+ 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_BETA_OFFSET_DIV2(slice_params->slice_beta_offset_div2) |
+-	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_POC_BIGEST_IN_RPS_ST(decode_params->num_poc_st_curr_after == 0) |
+ 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CR_QP_OFFSET(slice_params->slice_cr_qp_offset) |
+ 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CB_QP_OFFSET(slice_params->slice_cb_qp_offset) |
+ 	      VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_QP_DELTA(slice_params->slice_qp_delta);
+@@ -589,6 +588,9 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+ 				V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED,
+ 				slice_params->flags);
+ 
++	if (decode_params->num_poc_st_curr_after == 0)
++		reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_NOT_LOW_DELAY;
++
+ 	cedrus_write(dev, VE_DEC_H265_DEC_SLICE_HDR_INFO1, reg);
+ 
+ 	chroma_log2_weight_denom = pred_weight_table->luma_log2_weight_denom +
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+index bdb062ad8682..d81f7513ade0 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+@@ -377,13 +377,12 @@
+ 
+ #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED BIT(23)
+ #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED BIT(22)
++#define VE_DEC_H265_DEC_SLICE_HDR_INFO1_FLAG_SLICE_NOT_LOW_DELAY BIT(21)
+ 
+ #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_TC_OFFSET_DIV2(v) \
+ 	SHIFT_AND_MASK_BITS(v, 31, 28)
+ #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_BETA_OFFSET_DIV2(v) \
+ 	SHIFT_AND_MASK_BITS(v, 27, 24)
+-#define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_POC_BIGEST_IN_RPS_ST(v) \
+-	((v) ? BIT(21) : 0)
+ #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CR_QP_OFFSET(v) \
+ 	SHIFT_AND_MASK_BITS(v, 20, 16)
+ #define VE_DEC_H265_DEC_SLICE_HDR_INFO1_SLICE_CB_QP_OFFSET(v) \
 -- 
 2.36.1
 
