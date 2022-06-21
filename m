@@ -1,89 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5AA8EA4
-	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 09:14:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B25C3411C;
-	Tue, 21 Jun 2022 09:14:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655802842;
-	bh=pL3F/GzW42CiWS3Yg7kxKAhUPHN0SvH5MN8TC9Ak5Ys=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MxZR/FXJDErptEmSt8w5bbP3lzcw8Pa0UN3pNctXJj6XoJvXKNRHYLFmLeAHT8Hne
-	 Y/vk8BjMpi+WlbfYL86H4bdjt/F9w7JUoAOri+UriPenbf4hAsVTB25nDTGDumShI+
-	 2DOqbBwF8z3abaBH9vr9PjQooQ9aP9RMYdHd/D665Ga/nlAcNu9J9eJByO1OMXIhuu
-	 QaKhvfvg1Redd8RR4HPWUrNv2A9PrayetJotZPEAAad7nos1kPNyw4xuii2mXg3fYc
-	 iO80v43tNR84DXygZxj7AFi7P2p7y6NDh8HLFA/OWa13KKl2rZ1RXWvZH6BAa1x3tp
-	 r7C2oCfMU6Arg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1o3ZxL-0001jL-LK; Tue, 21 Jun 2022 11:13:56 +0200
-Date: Tue, 21 Jun 2022 11:13:55 +0200
-From: Johan Hovold <johan@kernel.org>
-To: keliu <liuke94@huawei.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
-	gregkh@linuxfoundation.org, vireshk@kernel.org,
-	pure.logic@nexus-software.ie, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [greybus-dev] [PATCH] staging: greybus: Directly use
- ida_alloc()/free()
-Message-ID: <YrGL0zLpdzGbcWE4@hovoldconsulting.com>
-References: <20220527063528.2356712-1-liuke94@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA53A41
+	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 14:36:47 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id o7so27984828eja.1
+        for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 07:36:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=GJLwzs2N2pKacf0ZdpQ3Wu/SeO3mykpG6QqRYLAhfmk=;
+        b=N6BE6BxVqA8S6MZ6jXtPrW+5fvbwqzTVoAHhh3M6wcy6Cp3FV3fMh6BLMAvKVNnIfu
+         N3CoCOxglGEajhXHoucNcwECSyZ/r+5cwTJu0HYMEaNbYQEZAXIf0ZLUR3VVuqXCKy/M
+         +cPfNworLHTQ6NGyNeJOo4OYiEmoloxSMmG7tq/orOseY2bXZvl0/T7T3dv/VDsT6jP5
+         TF8L4ho8OddkWkPEJ/HtUuM8JU1NqfqYsQpQdrNW+1GuxdhOSAKbdjT6TtYj82lAIH68
+         avk9dDAYHsqPI4Kwg6aZPdtWGSyJDDhDzeVgox8yE0RAvGFjz6ykgpn2s6NlcobiiEBB
+         LnJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=GJLwzs2N2pKacf0ZdpQ3Wu/SeO3mykpG6QqRYLAhfmk=;
+        b=ivquWSIKouf+8GXPH2zsruDqfnDSR85jkeInvC/GArW7hV9bVcoi9hLJMz0FMsxdZO
+         NdlErn7vANWxJuKu9IA9vgStWy034h8h2PS9jXkfG7FDi3cLwNmxKVtTzgeeX9duDWzl
+         3Kp6PpqULkTlLHC2+h3rCmOehYdDpBXbBNM/mihZrMnv3LIylhThZisI46TsvlaC+LDL
+         m4aTKsUFoxaBKq2GPzpI2KueYcazU7U73eCTfrtH0j2UAq6C/ODOaBzIpov7gQ4Tf1kb
+         4VCgKYX/VBwH1xY9nfmQOv2DYUYKHozCoIbA0cHScBwQzQa8KnX1EV2kldG1bkE+h3Rn
+         9K3g==
+X-Gm-Message-State: AJIora/GzGVv+e4mbILka2nXyCkiMzYXAEy/c7B1j9+LkLL/0xi0NKkM
+	jknMRqs5alK3scIgquEa/SpmiRhMvNam5lrC+oU=
+X-Google-Smtp-Source: AGRyM1sgOphI4tXDIE/cP6e1t4c0owyLW5pNlViUlFMGQUq41Aw+paKFZiYauH2ZneR1k5TX7rpbx+1VF9WS4NhuzOI=
+X-Received: by 2002:a17:906:9b96:b0:711:d21c:1b0b with SMTP id
+ dd22-20020a1709069b9600b00711d21c1b0bmr26352742ejc.365.1655822205405; Tue, 21
+ Jun 2022 07:36:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220527063528.2356712-1-liuke94@huawei.com>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Tue, 21 Jun 2022 22:36:04 +0800
+Message-ID: <CAD-N9QVVKUDFKMSxUc-smcz0B_7PrjN3DPku+cDM3ZKDn0XLBA@mail.gmail.com>
+Subject: Unitialized Variable and Null Pointer Dereference bug in gb_bootrom_get_firmware
+To: vireshk@kernel.org, Johan Hovold <johan@kernel.org>, elder@kernel.org, 
+	Greg KH <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 27, 2022 at 06:35:28AM +0000, keliu wrote:
-> Use ida_alloc()/ida_free() instead of deprecated
-> ida_simple_get()/ida_simple_remove() .
-> 
-> Signed-off-by: keliu <liuke94@huawei.com>
+Hi maintainers,
 
-Is "keliu" really your full legal name?
+I would like to send one bug report.
 
-> ---
->  drivers/staging/greybus/audio_manager.c  |  8 ++++----
->  drivers/staging/greybus/authentication.c |  4 ++--
->  drivers/staging/greybus/fw-download.c    |  4 ++--
->  drivers/staging/greybus/fw-management.c  | 12 ++++++------
->  drivers/staging/greybus/gbphy.c          |  4 ++--
->  drivers/staging/greybus/loopback.c       |  6 +++---
->  drivers/staging/greybus/raw.c            |  6 +++---
->  drivers/staging/greybus/vibrator.c       |  6 +++---
->  8 files changed, 25 insertions(+), 25 deletions(-)
- 
-> diff --git a/drivers/staging/greybus/authentication.c b/drivers/staging/greybus/authentication.c
-> index 297e69f011c7..01dd1cd958ea 100644
-> --- a/drivers/staging/greybus/authentication.c
-> +++ b/drivers/staging/greybus/authentication.c
-> @@ -348,7 +348,7 @@ int gb_cap_connection_init(struct gb_connection *connection)
->  err_del_cdev:
->  	cdev_del(&cap->cdev);
->  err_remove_ida:
-> -	ida_simple_remove(&cap_minors_map, minor);
-> +	ida_free(&cap_minors_map, minor);
->  err_connection_disable:
->  	gb_connection_disable(connection);
->  err_list_del:
-> @@ -372,7 +372,7 @@ void gb_cap_connection_exit(struct gb_connection *connection)
->  
->  	device_destroy(cap_class, cap->dev_num);
->  	cdev_del(&cap->cdev);
-> -	ida_simple_remove(&cap_minors_map, MINOR(cap->dev_num));
-> +	ida_free(&cap_minors_map, MINOR(cap->dev_num));
->  
->  	/*
->  	 * Disallow any new ioctl operations on the char device and wait for
+In gb_bootrom_get_firmware, if the first branch is satisfied, it will
+go to queue_work, leading to the dereference of uninitialized const
+variable "fw". If the second branch is satisfied, it will go to unlock
+with fw as NULL pointer, leading to a NULL Pointer Dereference.
 
-The above looks incomplete since you do not change the ida_simple_get()
-in gb_cap_connection_init().
+The Fixes commit should be [1], introducing the dereference of "fw" in
+the error handling code.
 
-Please check for any similar mistakes throughout.
+I am not sure how to fix this bug. Any comment on removing the
+dereference of fw?
 
-Johan
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a4293e1d4e6416477976ee3bd248589d3fc4bb19
+
+--
+My best regards to you.
+
+     No System Is Safe!
+     Dongliang Mu
