@@ -1,84 +1,89 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC133D6E
-	for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 20:04:46 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id mf9so2866255ejb.0
-        for <linux-staging@lists.linux.dev>; Mon, 20 Jun 2022 13:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XwA7zkpBKMOa7D6ahvef+MzrRp6DsCvkHXwYy4FzqiI=;
-        b=P2gDeGV3k/r7RAKVxZ9/QjwPRwuf0EMwLboNOSL223k+Gy49GmkW1W/fLLx7Y0qDHZ
-         WnxwAJzRMBaMcKMjPmfDELUOztgKWAVbPXieRedDs0mUv+gKTHVHuarBJfkzWeJMBuiR
-         qkSbMOpdJb8tf9gOc+yvpv+9inlxaySAoKjq4d0V8eqgU6oBcXoGDVE5N9XSkVir12g6
-         QSGe1nC+VZRi624UrQIORS93a8wkeT8/jPpCcqhVDgjRyXiEauODN0Urx1jZez7GhjaA
-         2b2hG132gR1ihRmeSjtkrUH0eaXx9OfdDNWQEzLBqML7nBUr2EH2U4tIquZ1ch5wcPXa
-         87sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=XwA7zkpBKMOa7D6ahvef+MzrRp6DsCvkHXwYy4FzqiI=;
-        b=Zw2CfSgJU01hs0v2Xn+hmF5Ub57EKCDYHo/mK2G4y0kitVMDCa8PWZELvAMCuEzJuh
-         +34AAEYvq01f9S/0sDyR56ZsuFNgxlzJr6AQC9JPaqlcox61EUL5X8aJqXQJz771VOVG
-         Qz7MciBek/+7icZN2GIQRXDy4sXYTvDu/ETNwxMxKoyEwhFT44ixFzJa6gJvfKw/H4id
-         8p/k5j71VQja4QScxeb9ASvQQa1ojp+nTpW3u/UQRGQBpfurvgtztJGbTjg7U5FD8n7f
-         tZkzktswBCnXFJPNuAi00kIDQylnrL7bB+y0YTHJxsA0S3VwdMpyWi9xCAyxeyugp/2E
-         o6rw==
-X-Gm-Message-State: AJIora9404fqnbOFurSMu5NI0ja8fHBYchr6d6pyrF+qY8TybEUGxmGP
-	oqEJ6Eir2tSH+WDDVBxUGc8=
-X-Google-Smtp-Source: AGRyM1sY14201r8EiKcD4MYti4igobBBgrd4ld+Bv0vP7AV1cqCnfFzQ7WYB2chx1Ihz20IWlwayTQ==
-X-Received: by 2002:a17:906:74c2:b0:722:e1e2:edea with SMTP id z2-20020a17090674c200b00722e1e2edeamr370227ejl.658.1655755485204;
-        Mon, 20 Jun 2022 13:04:45 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id kw2-20020a170907770200b007121361d54asm6561454ejc.25.2022.06.20.13.04.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jun 2022 13:04:44 -0700 (PDT)
-Message-ID: <f1731d4c-e66a-b7e0-d460-7729a41d1cd2@gmail.com>
-Date: Mon, 20 Jun 2022 22:04:42 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5AA8EA4
+	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 09:14:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B25C3411C;
+	Tue, 21 Jun 2022 09:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655802842;
+	bh=pL3F/GzW42CiWS3Yg7kxKAhUPHN0SvH5MN8TC9Ak5Ys=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MxZR/FXJDErptEmSt8w5bbP3lzcw8Pa0UN3pNctXJj6XoJvXKNRHYLFmLeAHT8Hne
+	 Y/vk8BjMpi+WlbfYL86H4bdjt/F9w7JUoAOri+UriPenbf4hAsVTB25nDTGDumShI+
+	 2DOqbBwF8z3abaBH9vr9PjQooQ9aP9RMYdHd/D665Ga/nlAcNu9J9eJByO1OMXIhuu
+	 QaKhvfvg1Redd8RR4HPWUrNv2A9PrayetJotZPEAAad7nos1kPNyw4xuii2mXg3fYc
+	 iO80v43tNR84DXygZxj7AFi7P2p7y6NDh8HLFA/OWa13KKl2rZ1RXWvZH6BAa1x3tp
+	 r7C2oCfMU6Arg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1o3ZxL-0001jL-LK; Tue, 21 Jun 2022 11:13:56 +0200
+Date: Tue, 21 Jun 2022 11:13:55 +0200
+From: Johan Hovold <johan@kernel.org>
+To: keliu <liuke94@huawei.com>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
+	gregkh@linuxfoundation.org, vireshk@kernel.org,
+	pure.logic@nexus-software.ie, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [greybus-dev] [PATCH] staging: greybus: Directly use
+ ida_alloc()/free()
+Message-ID: <YrGL0zLpdzGbcWE4@hovoldconsulting.com>
+References: <20220527063528.2356712-1-liuke94@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 0/5] Fixed some coding style issues and spelling
-Content-Language: en-US
-To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net,
- paskripkin@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1655666628.git.marcus.yu.56@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1655666628.git.marcus.yu.56@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220527063528.2356712-1-liuke94@huawei.com>
 
-On 6/19/22 21:42, Chang Yu wrote:
-> Fixed a few coding style issues and some spelling errors in the
-> comments.
+On Fri, May 27, 2022 at 06:35:28AM +0000, keliu wrote:
+> Use ida_alloc()/ida_free() instead of deprecated
+> ida_simple_get()/ida_simple_remove() .
 > 
-> Changes in v2:
-> Separated the original big patch into 5 smaller patches so that each
-> clean up is in its own patch.
-> 
-> Chang Yu (5):
->    Staging: r8188eu: core: rtw_xmit: Fixed some whitespace coding style
->      issues
->    Staging: r8188eu: core: rtw_xmit: Fixed two indentation coding style
->      issues.
->    Staging: r8188eu: core: rtw_xmit: Fixed some spelling errors in the
->      comments
->    Staging: r8188eu: core: rtw_xmit: Fixed a brace coding style issue
->    Staging: r8188eu: core: rtw_xmit: Fixed a coding style issue
-> 
->   drivers/staging/r8188eu/core/rtw_xmit.c | 28 ++++++++++---------------
->   1 file changed, 11 insertions(+), 17 deletions(-)
-> 
+> Signed-off-by: keliu <liuke94@huawei.com>
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150 
-Adapter
+Is "keliu" really your full legal name?
+
+> ---
+>  drivers/staging/greybus/audio_manager.c  |  8 ++++----
+>  drivers/staging/greybus/authentication.c |  4 ++--
+>  drivers/staging/greybus/fw-download.c    |  4 ++--
+>  drivers/staging/greybus/fw-management.c  | 12 ++++++------
+>  drivers/staging/greybus/gbphy.c          |  4 ++--
+>  drivers/staging/greybus/loopback.c       |  6 +++---
+>  drivers/staging/greybus/raw.c            |  6 +++---
+>  drivers/staging/greybus/vibrator.c       |  6 +++---
+>  8 files changed, 25 insertions(+), 25 deletions(-)
+ 
+> diff --git a/drivers/staging/greybus/authentication.c b/drivers/staging/greybus/authentication.c
+> index 297e69f011c7..01dd1cd958ea 100644
+> --- a/drivers/staging/greybus/authentication.c
+> +++ b/drivers/staging/greybus/authentication.c
+> @@ -348,7 +348,7 @@ int gb_cap_connection_init(struct gb_connection *connection)
+>  err_del_cdev:
+>  	cdev_del(&cap->cdev);
+>  err_remove_ida:
+> -	ida_simple_remove(&cap_minors_map, minor);
+> +	ida_free(&cap_minors_map, minor);
+>  err_connection_disable:
+>  	gb_connection_disable(connection);
+>  err_list_del:
+> @@ -372,7 +372,7 @@ void gb_cap_connection_exit(struct gb_connection *connection)
+>  
+>  	device_destroy(cap_class, cap->dev_num);
+>  	cdev_del(&cap->cdev);
+> -	ida_simple_remove(&cap_minors_map, MINOR(cap->dev_num));
+> +	ida_free(&cap_minors_map, MINOR(cap->dev_num));
+>  
+>  	/*
+>  	 * Disallow any new ioctl operations on the char device and wait for
+
+The above looks incomplete since you do not change the ida_simple_get()
+in gb_cap_connection_init().
+
+Please check for any similar mistakes throughout.
+
+Johan
