@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40A0749B
-	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 20:49:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98021C3411C;
-	Tue, 21 Jun 2022 20:49:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748EDEC1
+	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 20:50:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56194C3411C;
+	Tue, 21 Jun 2022 20:50:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655844580;
+	s=k20201202; t=1655844618;
 	bh=3PjshUGZxQk6YNxZZzX8HOQM3GtVU4b/kpi+bYMZqLo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ERZHEjzaHhxfzsIaC3UKyRHLWneYx8aqYljMw86xjs9f6m13caBtDIlNce2MMTtkL
-	 TnduaaajOd7sIA+pg3P4fEurIE+/koXkb7+N7WZ0b+AFGi6H6px3BFEV2EqEjUpvvx
-	 NA1xTpixnLcyqzL0ehfU1TJiEAy6HSZoqPhzgL2u1gcljRTBKTQ2UZ5kRMP9hgLb/w
-	 AAfKqVWujNSAeHAicSK0fNctlkayEfNZ/4zPata8zG3sMGJj4duin3ar44Gn3MUBW/
-	 ecY5+rqhKzuPSJpMrQGy4VNHNqZ1fEfgYtEp5v2OkpQ/0oID4R5snBlsEihmzMIFb1
-	 TZluFN2FJthdQ==
+	b=aqzpAkUXNxZcNlnjkgH4DcavXrtt1DD5T9cHBtrMMDplc9Fan6BbzefKNOuITuUtN
+	 0le0R3OcE0+yc6phnXxS4Ob8fnjZz9d/rcdJnYATdFRE8FQ2I48rs3bH122pVQ+yCn
+	 dagJqEM55Fdt3P0lkyQRzYTMHs1i/1G88RvCBANnk1L1oD2Za93AshDuCrPx0JAK9a
+	 7WUjdzXqknhWqKul/b8lwMkXX8wqrURSDi8ofJFQPlvoEV2c+uL5Hvx8Wh2Q2smVhH
+	 tX1Zu3K6twau5iGjiXU3lkcYywRI6mwL0kfm1E7Aojbt36B0k+1xqvT7gi552LMODS
+	 NeaQfIPmFgLxw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -26,12 +26,12 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Sasha Levin <sashal@kernel.org>,
 	straube.linux@gmail.com,
 	arnd@arndb.de
-Subject: [PATCH AUTOSEL 5.18 03/22] staging: rtl8723bs: Allocate full pwep structure
-Date: Tue, 21 Jun 2022 16:49:09 -0400
-Message-Id: <20220621204928.249907-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 03/20] staging: rtl8723bs: Allocate full pwep structure
+Date: Tue, 21 Jun 2022 16:49:53 -0400
+Message-Id: <20220621205010.250185-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220621204928.249907-1-sashal@kernel.org>
-References: <20220621204928.249907-1-sashal@kernel.org>
+In-Reply-To: <20220621205010.250185-1-sashal@kernel.org>
+References: <20220621205010.250185-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
