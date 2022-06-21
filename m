@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748EDEC1
-	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 20:50:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56194C3411C;
-	Tue, 21 Jun 2022 20:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2840F7499
+	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 20:50:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AF03C341C5;
+	Tue, 21 Jun 2022 20:50:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655844618;
-	bh=3PjshUGZxQk6YNxZZzX8HOQM3GtVU4b/kpi+bYMZqLo=;
+	s=k20201202; t=1655844648;
+	bh=UuFhUl4vF9VERPH2Y+GiPCjf7uTaIG3fyCT8TXt7Ed4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aqzpAkUXNxZcNlnjkgH4DcavXrtt1DD5T9cHBtrMMDplc9Fan6BbzefKNOuITuUtN
-	 0le0R3OcE0+yc6phnXxS4Ob8fnjZz9d/rcdJnYATdFRE8FQ2I48rs3bH122pVQ+yCn
-	 dagJqEM55Fdt3P0lkyQRzYTMHs1i/1G88RvCBANnk1L1oD2Za93AshDuCrPx0JAK9a
-	 7WUjdzXqknhWqKul/b8lwMkXX8wqrURSDi8ofJFQPlvoEV2c+uL5Hvx8Wh2Q2smVhH
-	 tX1Zu3K6twau5iGjiXU3lkcYywRI6mwL0kfm1E7Aojbt36B0k+1xqvT7gi552LMODS
-	 NeaQfIPmFgLxw==
+	b=N0/DI3Ucl34oFhkYEgRtQ7yxh4UneCqPbPIThWxSnWVWGb5qTBRANBf0RVCXJfkzg
+	 5Fs31YsWhIxTr7tjCtNa7t3k6sHTdrVE3Bek5uCTfF0BquOhnM9UCO90y61cWfv9CV
+	 wQRrgkIc7qOTEcV/SLra6nskPvAB/2ElBFO1lc365IFL4QID/XYZw/SlxZLJZXdqzm
+	 jbU8b9ufu2QOBR4DssfE2hV2O1VdRsWBhMYx6cP/vPJtzH4bwz/yp8iUj5hQqBCqf+
+	 pfpFAxONDdbyrTIZnaD3GHr2cWnCo7MS1bgc9gvEDULr9X5ZajpgobBkp+W2vj+aX/
+	 +42BcRLshqEJw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -26,12 +26,12 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Sasha Levin <sashal@kernel.org>,
 	straube.linux@gmail.com,
 	arnd@arndb.de
-Subject: [PATCH AUTOSEL 5.17 03/20] staging: rtl8723bs: Allocate full pwep structure
-Date: Tue, 21 Jun 2022 16:49:53 -0400
-Message-Id: <20220621205010.250185-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 03/17] staging: rtl8723bs: Allocate full pwep structure
+Date: Tue, 21 Jun 2022 16:50:26 -0400
+Message-Id: <20220621205041.250426-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220621205010.250185-1-sashal@kernel.org>
-References: <20220621205010.250185-1-sashal@kernel.org>
+In-Reply-To: <20220621205041.250426-1-sashal@kernel.org>
+References: <20220621205041.250426-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-index ece97e37ac91..30374a820496 100644
+index 295121c268bd..4ec3910d1fcf 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-@@ -90,7 +90,8 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+@@ -104,7 +104,8 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
  		if (wep_key_len > 0) {
  			wep_key_len = wep_key_len <= 5 ? 5 : 13;
  			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, key_material);
@@ -81,7 +81,7 @@ index ece97e37ac91..30374a820496 100644
  			if (!pwep) {
  				ret = -ENOMEM;
  				goto exit;
-@@ -582,7 +583,8 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
+@@ -596,7 +597,8 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
  		if (wep_key_len > 0) {
  			wep_key_len = wep_key_len <= 5 ? 5 : 13;
  			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, key_material);
