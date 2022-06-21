@@ -1,56 +1,222 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9BCEDD
-	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 14:40:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5CE7C341C0;
-	Tue, 21 Jun 2022 14:40:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655822442;
-	bh=w320+wuqbFHvuGQ3W4guubYrnJKxDF19Xrl56Eu3yHE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RutlupmvxTM2WBwYvITX5xNCm/wKJpI1hJPG0OmWn1IjpLSP9S5Iipo8ivtuNZa4N
-	 SREWd6vu3fuliQ3quyD4ngv9hfRsSPJwe7og85nudLkf5uosLDZU/FDofT/Ih0DpdQ
-	 qO5Nm12xtVGTxffcoEdNz/BVAmwvl5ZbrD9R/2ZgXQtrqO+4IrCESYxy3aPR0922bF
-	 LfunBWPeels2/RJolz24Xc2RHqsK8Ep/RJqsuV3XNyah0Imp31NC/FUBAdAml2QYfd
-	 JSMEvt3F77KtVcXwjB+pj6MS8gprWfJjbUBfGB6O63rqbtTPYfCctPYcJ3LBB6Z6Nb
-	 Xf9pQZO9CTIwg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1o3f3V-00078B-8q; Tue, 21 Jun 2022 16:40:37 +0200
-Date: Tue, 21 Jun 2022 16:40:37 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: vireshk@kernel.org, elder@kernel.org,
-	Greg KH <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: Unitialized Variable and Null Pointer Dereference bug in
- gb_bootrom_get_firmware
-Message-ID: <YrHYZb2BT8fQMcaR@hovoldconsulting.com>
-References: <CAD-N9QVVKUDFKMSxUc-smcz0B_7PrjN3DPku+cDM3ZKDn0XLBA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E2DEDD
+	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 14:44:33 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id cs6so16177901qvb.6
+        for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 07:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=UjVnf+9L7ZC1WLXqq85gCxdmWfMAHHI4/tuT2zIFjbg=;
+        b=hTosMnsYfB/KMIWaoOr0Qoc70DK9OmDeFVXrjKGJRmGkpYdNkyQ13BJ8DjhdIOVUAr
+         7Fm2jAy9UdQYGDR3KBQPztNFt4beLoxlXPy55l3S19aDoNKWZGY2VXQrQiAR2gXHQbqn
+         lPEIEzTuQlYSlOvjuLogY3Prv8nzjp+XtAgmrKMvd2L6blRgg09pKHV4Rw8GVHY0zRUA
+         eKFaM8C2PEncf5K207+AJlASQaLY3coOMQWi+W0PvYM7lTh4Cbkk5qrHAoXikJTMXMFu
+         heMMjDYlJucj6N2Gt23ZkP4bgvF1CUneZf2WpaKD+EfXvPvx5ByYxmxfnTxy+hPw2ikk
+         6v8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=UjVnf+9L7ZC1WLXqq85gCxdmWfMAHHI4/tuT2zIFjbg=;
+        b=E1qqgznLa/0aE8L+ykYuP4biBiWBLMfjrTPRlPUuWzV78uR3pS5qBmdPLZ5wx4OQ0E
+         tuJIWbA7WJgyUKFKcMSv8wQWHl3J38Ta3qwWHDiKO0ZJWqc7nJmGu55T8oU/5L8yKhwO
+         7bfb2yrrnNgvCxkYq8Jo9iuJE4QWqD2VtwhaYlBwJsGKnrU5HtTbs4bsFL/PVcZcNzMz
+         vCUHNWpC9SR0Alf9cSBIInNcM90g+jOThMAK+c1l4A06nCxn3mMqt9qW15NJaTmrFgAb
+         WjktEoaBbOoIGzAcD4u63rZgUtZcgcVgVfAQuWtemZKPpS1d3rFSfAbvZLt9tO/fBO4M
+         k5kw==
+X-Gm-Message-State: AJIora83PpDBSxvY54ed/oX/mafAOacK/izs+Oep/OYlaH4Q1vgQENeh
+	ZAV6t/n3LaOt/kf3Gak2Wp/BJA==
+X-Google-Smtp-Source: AGRyM1uuiep9kSnI+2x3DKsy14BVrRGzdFdJNl2BFfSWIJ9LXRGbqS0glKXWf6n4g4jO31eE39T6nw==
+X-Received: by 2002:a05:622a:1b09:b0:305:2a33:38bd with SMTP id bb9-20020a05622a1b0900b003052a3338bdmr24109023qtb.346.1655822671988;
+        Tue, 21 Jun 2022 07:44:31 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id s12-20020a05620a0bcc00b006a68fdc2d18sm13702813qki.130.2022.06.21.07.44.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jun 2022 07:44:31 -0700 (PDT)
+Message-ID: <72fb06db282db1377b3d7ac1adf3987b26ac30c8.camel@ndufresne.ca>
+Subject: Re: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Michael Grzeschik <mgr@pengutronix.de>
+Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Geis
+ <pgwipeout@gmail.com>, Michael Riesch <michael.riesch@wolfvision.net>,
+ Liang Chen <cl@rock-chips.com>,  linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,  devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, Kever Yang <kever.yang@rock-chips.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Date: Tue, 21 Jun 2022 10:44:29 -0400
+In-Reply-To: <20220620134039.GG21590@pengutronix.de>
+References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
+	 <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
+	 <2438841.KJ31GcehEG@archbook> <20220429232047.GG7671@pengutronix.de>
+	 <0414bb0816eef95961fe47de96f97f925d29228f.camel@ndufresne.ca>
+	 <20220620134039.GG21590@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD-N9QVVKUDFKMSxUc-smcz0B_7PrjN3DPku+cDM3ZKDn0XLBA@mail.gmail.com>
 
-On Tue, Jun 21, 2022 at 10:36:04PM +0800, Dongliang Mu wrote:
-> Hi maintainers,
-> 
-> I would like to send one bug report.
-> 
-> In gb_bootrom_get_firmware, if the first branch is satisfied, it will
-> go to queue_work, leading to the dereference of uninitialized const
-> variable "fw". If the second branch is satisfied, it will go to unlock
-> with fw as NULL pointer, leading to a NULL Pointer Dereference.
+Le lundi 20 juin 2022 =C3=A0 15:40 +0200, Michael Grzeschik a =C3=A9crit=C2=
+=A0:
+> Hi Nicolas,
+> Hi Andrzej,
+>=20
+> On Mon, May 02, 2022 at 08:20:50AM -0400, Nicolas Dufresne wrote:
+> > Le samedi 30 avril 2022 =C3=A0 01:20 +0200, Michael Grzeschik a =C3=A9c=
+rit=C2=A0:
+> > > Since the RK3568 seems to get more and more of attention at the momen=
+t
+> > > I would like to ask if somebody is planning to write support the RKVE=
+NC
+> > > in mainline. That is the VEPU540 core refered to in the RK3568 TRM.
+> > >=20
+> > > I would start with that in the next weeks, taking the bootlin H1 supp=
+ort
+> > > as an reference to handle the request_api for the encoder part. Which=
+ is
+> > > currently completely untouched in mainline AFAIK.
+> >=20
+> > I'm very happy to ear you'd be interest in helping with this. I'm addin=
+g Andrzej
+> > in CC, as he started some base work using VP8 encoder on RK3399 (same H=
+W found
+> > on other RK SoC) to make this possible. Note that these are a new type =
+of
+> > encoders and a specification is needed to ensure they all have a cohere=
+nt work-
+> > flow. The first step was obviously to have working prototype, Bootlin s=
+tarted
+> > with H264 (but never posted anything on the mailing list). I'm under th=
+e
+> > impression they have abandoned it. Andrzej have decided to use VP8 as i=
+t is
+> > simpler. The prototype should help understand the basic flow of an enco=
+der and
+> > produce a specification for this.
+>=20
+> I just have tested the bootlin v4l2-h264-encoder stack on the rk3399
+> with v5.19-rc2. It is working as expected.
+>=20
+> Since there have been some rumours about using the VEPU121 core on the
+> rk3568, which could have h264 support as well. I have tested this
+> stack on that core as well.
+>=20
+> The findings are; It is producing some data, but the stream created
+> is not possible to be decoded. Tested with vlc and gstreamer.
 
-This sounds like the false positive that checkers keep tripping over.
+Oh well, I'd say unless vendor document it, we'll not going to just enable =
+it
+there. There is another (and faster) encoder there with an vendor but fully=
+ Open
+Source stack anyway. Thanks for the extra step here.
 
-Please double check your analysis and search the archives first.
+>=20
+> Be it due to misconfiguration or the core is really not h264 capable.
+>=20
+> Find the latest code here:
+>=20
+> https://git.pengutronix.de/cgit/mgr/linux/log/?h=3Dv5.19/topic/rk3568-vep=
+u-h264-stateless-bootlin
+>=20
+> > From there, the "easy" part is to make per codec controls, to configure=
+ the
+> > encoder. Demonstrating fixed QP, this is about were I believe Bootlin s=
+topped.
+>=20
+> I have seen that the userspace tool is filling in some initial values
+> in the PPS and SPS headers, which are not adjustable. I bet you refer to =
+that.
+>=20
+> > And I personally believe some OSS userland (not just tests) that can ha=
+ndle
+> > multiple reference, perhaps more advance GOP pattern and some basic rat=
+e control
+> > would help build confidence in the uAPI.
+>=20
+> I found the following CTRL Types being defined in the bootlin stack
+> for the request API.
+>=20
+> V4L2_CID_STATELESS_H264_ENCODE_PARAMS
+> V4L2_CID_STATELESS_H264_ENCODE_RC
+> V4L2_CID_STATELESS_H264_ENCODE_FEEDBACK
+>=20
+> The FEEDBACK CID is the information we gain after one frame was
+> encoded. With this data the RC (Rate Control) parameter is prepared for
+> the next frame.
+>=20
+> You mean to have some user interface to make the rate control user
+> configurable?
 
-Johan
+RC feedback controls are going to all be vendor specific. This one cannot b=
+e
+called with a generic name like "ENCODE_FEEDBACK" since it is not generic. =
+In
+fact, news Hantro chip don't have this feedback, they have something else b=
+ut it
+is not used by the vendor software (not open source, but you can find leaks=
+ I
+suppose). They only use the size of the compressed frames, and do RC in sof=
+tware
+there.
+
+In addition to that, with the current trend, "feedback" controls would have=
+ to
+use RO Request, so that one can still queue multiple encode and be able to =
+match
+the feedback to a specific request/frame.
+
+>=20
+> > Let us know how we can help, we should >void doing the same thing, as
+> > this is already quite a large project that can easily take over a year
+> > to become mainline ready.
+>=20
+> It would probably help to share some codebase. If you already have
+> something for that rkvenc codec, be it VP8 support. It would probably
+> make sense for me to build up on that. Or to discuss common code
+> patterns on structures.
+
+We are doing the exercise with VP8 using the original Hantro G1 design, as =
+fond
+on IMX8MQ and RK3288. Though we only test on NXP boards at the moment.
+
+Andrzej is on vacation this week, I'll check with him why hist draft isn't
+accessible to the public. Meanwhile, the userland / GStreamer part is draft=
+ed
+(careful its a draft) here:
+
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/WIP_V4L2=
+_VP8_STATELESS_ENCODER
+
+Currently we are still working on very basic bit of the puzzle, understandi=
+ng
+the problem in order to produce a proper Stateless Encoder specification. A=
+s an
+example, the Hantro VP8 encoder brought interesting aspect, as an example i=
+t
+produces 2 buffers. Shall we offset these into 1 buffer, shall we use plane=
+s to
+zero copy that to user, or shall we memcpy in the driver .. Shall the VP8 f=
+rame
+header be produced by the driver (even though the HW don't produce it) or s=
+hall
+we have more stateless VP8 format for both cases. Its a big series of tiny
+things like this that we need to study and weight, and compare against othe=
+r
+Hardware designs.
+
+regards,
+Nicolas
+
