@@ -1,80 +1,71 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E9A10E8
-	for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 02:19:54 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id h34-20020a17090a29a500b001eb01527d9eso14494603pjd.3
-        for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 19:19:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF8010FF
+	for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 04:53:06 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id a14so5446369pgh.11
+        for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 21:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=i45DVLAIIMqvEaWYSwpuIS0opgqSETmmCquiuddLo3M=;
-        b=Yu8c3qPoGd9CjhIdUnKjJvIoMxC2nNX/Mru2clcLp3/ITzfLfUlRn3Iu2L4fNAKV70
-         1CFdLWSOT9pT6VYzb4RUMdVOSVdL1dXMMHL+14FEERrz/24ZA8sVzZIdB5SHvJxWXVbA
-         i1askW7E3vUWrxly6vPW0Yj2PVEeS0lfFAi1g4d75YEnNntWqYiJhEEBCId9oTRG2Xsb
-         Rxp2zL82cB85i5js+0n34BoZgcbJ7RZbbPlCFE8oK3/R4cCkY3ZVlujQADO0W5LrsbZe
-         y8O0lc4nTlzNzt4K+hZWUcSD5n0ruebDCxZOB8Oyc0UXbZArBIWOp6+fOOBORUeXQPxb
-         +YEQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w9EQSFAmGXcDrJ+8KvwBniXihEiKbTD4fg4mnulBGQI=;
+        b=Xyw17Y3qjDWE4vSIypgVuX9bQ9sZi6CPLD/Eza5LjkapM9acZyPli1ynaA+DQqjY3W
+         gCaa3x5cCo72VpFySOF11t2rmt3ZC0vdlEC0R19XbxF+K6WjE0ACpW02nrk2sh2PXXoj
+         4IvRXROrmPT2QrRjP9nwE4UBcs9YPpeIBr1Jr81P4JtcyLF08eabIKBGV/rvGEymEJIw
+         YvZZ1CWDLKePA9yF7s6q16jZXogr/d822xmifGs+BYmgGVvFvP+LEU4RzcG8U4QxkpFD
+         eop6OC732YnW9bEvcGPf4KjThJGn8vGEUtpFPn3iFJILwhYl249Ir01uFanQ8bvyLCpJ
+         YAYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=i45DVLAIIMqvEaWYSwpuIS0opgqSETmmCquiuddLo3M=;
-        b=wR8aKd9i1F1MmFlPAKr0NFl9lT2TyZigZ/SnDY7TR/IH05be6CvR4aYa0CtF7Hio20
-         fCRA1zWaahKslpaQtfc8Sa9ZtW48aRjYpqmeq/c9eF2nVpxXHC8b6vQD6lY87dGcdHHU
-         Si+kppixFdIh1JHG49rNVgvvcBbdVyQx6KI5DNaywP+0zYGfJM2XmLYXUXGVNakMjHje
-         /IZC2dYbz4T7xlolcKCCkrGQTh23QpG000yv3sU5n/79OvTbTBzji+KC/El9k2zoLbP6
-         NS4924WRWAXKBW1fzaOlw2Y9+wfgNRPk1InBUfka1Tlw6rTE3JcATRb7589OpuzAcPz8
-         tM0g==
-X-Gm-Message-State: AJIora/asv080jG+KHpzvdYhox7kfDMHSe0++ROSjQYuZg4TztM77FGP
-	kTSvFyvJtCeeD1eYbekHgmECuw==
-X-Google-Smtp-Source: AGRyM1uyDHTiR9BRAHTk5PB8yY3a141K8XcjfoLDdtVyLPfIuAK30qHwHmtDuh9+hMyXQGj04hVhZg==
-X-Received: by 2002:a17:90b:3802:b0:1e3:3f3a:3621 with SMTP id mq2-20020a17090b380200b001e33f3a3621mr47404875pjb.65.1655864394421;
-        Tue, 21 Jun 2022 19:19:54 -0700 (PDT)
-Received: from localhost ([122.172.201.58])
-        by smtp.gmail.com with ESMTPSA id c18-20020a170902c2d200b0015e8d4eb1dfsm11350332pla.41.2022.06.21.19.19.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w9EQSFAmGXcDrJ+8KvwBniXihEiKbTD4fg4mnulBGQI=;
+        b=cAkpiy4ZKS7y8PZLHkDMWAElRQfB8qHy1ZF14wQsRW7IWnA6xkrXjZ9BsMMWTsOUtF
+         852UMVsy67XPUA7QFTlAiTxoHte2r7DXLgfFYogBHoA2C9wIBXWeHpNJrfEm6gZtLhW7
+         lf9gYDlBwH/Gl4QHsHZaOh8dIt3GYbQZk1FxxANzFMog1lf0u6gkUz93+l8iJJgKKT7t
+         uzRaKdzDmtWk65N1ARMXXmDmLZEdDMqd4gD4+T+iksj7XUp86CotHI15yxPLvIpO8lXy
+         6IcnrCTzv9qY8TnvlB8K28z89vmWO4mQprTKwLf9CahqX/dr+w8uYm+DcG3HQvuu6/Rp
+         wdXw==
+X-Gm-Message-State: AJIora9YuBiQPMj0pVKiNZDikJccDvHVNIoJv++MdQ22ZZK/NSU6iobk
+	d5uiziMTCGmWZqAovtU+nz0=
+X-Google-Smtp-Source: AGRyM1syBzoM+gI6UQ4DBoZL4CiYhlBCCwEeMwNtoGMrlP28Ob7tqNkCvtNhsP1WfsODlFIOVOdNig==
+X-Received: by 2002:a63:e114:0:b0:3fd:97a1:7a5 with SMTP id z20-20020a63e114000000b003fd97a107a5mr1336117pgh.178.1655873586539;
+        Tue, 21 Jun 2022 21:53:06 -0700 (PDT)
+Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
+        by smtp.gmail.com with ESMTPSA id b193-20020a6334ca000000b0040c95aeae26sm6791013pga.12.2022.06.21.21.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 19:19:53 -0700 (PDT)
-Date: Wed, 22 Jun 2022 07:49:51 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Dongliang Mu <mudongliangabcd@gmail.com>, vireshk@kernel.org,
-	elder@kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: Unitialized Variable and Null Pointer Dereference bug in
- gb_bootrom_get_firmware
-Message-ID: <20220622021951.gni6cnvriogg6onj@vireshk-i7>
-References: <CAD-N9QVVKUDFKMSxUc-smcz0B_7PrjN3DPku+cDM3ZKDn0XLBA@mail.gmail.com>
- <YrHYZb2BT8fQMcaR@hovoldconsulting.com>
+        Tue, 21 Jun 2022 21:53:06 -0700 (PDT)
+From: Chang Yu <marcus.yu.56@gmail.com>
+To: Larry.Finger@lwfinger.net
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chang Yu <marcus.yu.56@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: Fixed some coding style issues
+Date: Tue, 21 Jun 2022 21:52:29 -0700
+Message-Id: <cover.1655872968.git.marcus.yu.56@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YrHYZb2BT8fQMcaR@hovoldconsulting.com>
+Content-Transfer-Encoding: 8bit
 
-On 21-06-22, 16:40, Johan Hovold wrote:
-> On Tue, Jun 21, 2022 at 10:36:04PM +0800, Dongliang Mu wrote:
-> > Hi maintainers,
-> > 
-> > I would like to send one bug report.
-> > 
-> > In gb_bootrom_get_firmware, if the first branch is satisfied, it will
-> > go to queue_work, leading to the dereference of uninitialized const
-> > variable "fw". If the second branch is satisfied, it will go to unlock
-> > with fw as NULL pointer, leading to a NULL Pointer Dereference.
-> 
-> This sounds like the false positive that checkers keep tripping over.
-> 
-> Please double check your analysis and search the archives first.
+Fixed a few coding style issues as per checkpatch.pl and kernel coding
+style guidelines.
 
-And everytime I get this report, I wonder if I should change the code to be a
-bit simpler :)
+Chang Yu (5):
+  staging: r8188eu: Fixed a function declaration coding style issue
+  staging: r8188eu: Fixed two brace coding style issues
+  staging: r8188eu: Fixed two whitespace coding style issues
+  staging: r8188eu: Fixed comment style
+  staging: r8188eu: Fixed some blank line coding style issues
+
+ drivers/staging/r8188eu/core/rtw_recv.c | 38 +++++++++++++++----------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
 
 -- 
-viresh
+2.36.1
+
