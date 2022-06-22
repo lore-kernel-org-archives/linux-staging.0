@@ -1,180 +1,80 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6EE1C0C
-	for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 23:22:26 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id e40so8910380eda.2
-        for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 16:22:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E9A10E8
+	for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 02:19:54 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id h34-20020a17090a29a500b001eb01527d9eso14494603pjd.3
+        for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 19:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6C+HzdvnmDTu8XOljcOnXRbyprFx36b3IfhRieOMMeo=;
-        b=kc7ILBdqRI13JYxlU8Trik1Ro/e/jxvaRdIf/oKr5Ro47P9ktgxa23xtjA/dumVZco
-         UTXNOCr7vOpYx1xWMrfSbBckMTHK+bgfjhFAFPHaAmyvRzYf/rttl/ey2LdLgN2EXZb5
-         mfwTd4kOSHrNb33qbqPyUMAzdguRgwroxRT5SkQh4wSdIojcuws0uB3syNUFkkBMpKBK
-         ojGqa9JdOO4PrLIunx6QB6Ds2Ay+b3Igtjs2U7O89B27FXxO4QjPDw829JROLdU+e7KO
-         2L+bbcVTLkhF0WuQLWY3FpBZCCLAOdKlUMzjDvAyG0+pxUvC7yUzBjunUkNYTh7J0Ank
-         SCNQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=i45DVLAIIMqvEaWYSwpuIS0opgqSETmmCquiuddLo3M=;
+        b=Yu8c3qPoGd9CjhIdUnKjJvIoMxC2nNX/Mru2clcLp3/ITzfLfUlRn3Iu2L4fNAKV70
+         1CFdLWSOT9pT6VYzb4RUMdVOSVdL1dXMMHL+14FEERrz/24ZA8sVzZIdB5SHvJxWXVbA
+         i1askW7E3vUWrxly6vPW0Yj2PVEeS0lfFAi1g4d75YEnNntWqYiJhEEBCId9oTRG2Xsb
+         Rxp2zL82cB85i5js+0n34BoZgcbJ7RZbbPlCFE8oK3/R4cCkY3ZVlujQADO0W5LrsbZe
+         y8O0lc4nTlzNzt4K+hZWUcSD5n0ruebDCxZOB8Oyc0UXbZArBIWOp6+fOOBORUeXQPxb
+         +YEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6C+HzdvnmDTu8XOljcOnXRbyprFx36b3IfhRieOMMeo=;
-        b=CvWPG78KcPLgdXv9aW52WwW4RUGMZWDricpgasicXUbJM3mFlMigjf/h+TOXs2KaiV
-         xO3oRtDeOoTcuUzcLMoUxEU/ecOZLINmfy7AxnyWVTRG1KS02WHIl51egJsxbJs6dTjY
-         2DZldZR7c3XRjQBH/YYKTIMEzKgA1UeNte4vRwJVKPGFw/NhBwRO30PP/z/q0OgF/ae8
-         eByjMw4/i/NwHVSOE/R9Z5LE8DrrvqfpkyV8PxzkjGw+NiTSu27OtWN1gczYFv5bUGUY
-         GKtNi/PRVug4vG6MpMGuoVoIDxWnHgLBdMmE4/jYp5YBTcxhyGsyTSg66ZjvmpGuOv8l
-         kl7g==
-X-Gm-Message-State: AJIora/ipETkbI/C03CKT6/2MWxrBDdlXVsiK3FKN9A0QRSH9dovI2jj
-	C9RP5NwEymJqk3w/Gi3vwzPK2V8JZ7gH7bxhnqU=
-X-Google-Smtp-Source: AGRyM1tk4dyOxRMQ2zNMeK9u6f7mbpssmmo02VF4dqazq9eyZI6lgzn5DALDBm2WkAUjXW3qMnJXwUHKncWrsmlT5es=
-X-Received: by 2002:a05:6402:1249:b0:435:5e0c:20ac with SMTP id
- l9-20020a056402124900b004355e0c20acmr659770edw.100.1655853745231; Tue, 21 Jun
- 2022 16:22:25 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=i45DVLAIIMqvEaWYSwpuIS0opgqSETmmCquiuddLo3M=;
+        b=wR8aKd9i1F1MmFlPAKr0NFl9lT2TyZigZ/SnDY7TR/IH05be6CvR4aYa0CtF7Hio20
+         fCRA1zWaahKslpaQtfc8Sa9ZtW48aRjYpqmeq/c9eF2nVpxXHC8b6vQD6lY87dGcdHHU
+         Si+kppixFdIh1JHG49rNVgvvcBbdVyQx6KI5DNaywP+0zYGfJM2XmLYXUXGVNakMjHje
+         /IZC2dYbz4T7xlolcKCCkrGQTh23QpG000yv3sU5n/79OvTbTBzji+KC/El9k2zoLbP6
+         NS4924WRWAXKBW1fzaOlw2Y9+wfgNRPk1InBUfka1Tlw6rTE3JcATRb7589OpuzAcPz8
+         tM0g==
+X-Gm-Message-State: AJIora/asv080jG+KHpzvdYhox7kfDMHSe0++ROSjQYuZg4TztM77FGP
+	kTSvFyvJtCeeD1eYbekHgmECuw==
+X-Google-Smtp-Source: AGRyM1uyDHTiR9BRAHTk5PB8yY3a141K8XcjfoLDdtVyLPfIuAK30qHwHmtDuh9+hMyXQGj04hVhZg==
+X-Received: by 2002:a17:90b:3802:b0:1e3:3f3a:3621 with SMTP id mq2-20020a17090b380200b001e33f3a3621mr47404875pjb.65.1655864394421;
+        Tue, 21 Jun 2022 19:19:54 -0700 (PDT)
+Received: from localhost ([122.172.201.58])
+        by smtp.gmail.com with ESMTPSA id c18-20020a170902c2d200b0015e8d4eb1dfsm11350332pla.41.2022.06.21.19.19.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jun 2022 19:19:53 -0700 (PDT)
+Date: Wed, 22 Jun 2022 07:49:51 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Dongliang Mu <mudongliangabcd@gmail.com>, vireshk@kernel.org,
+	elder@kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: Unitialized Variable and Null Pointer Dereference bug in
+ gb_bootrom_get_firmware
+Message-ID: <20220622021951.gni6cnvriogg6onj@vireshk-i7>
+References: <CAD-N9QVVKUDFKMSxUc-smcz0B_7PrjN3DPku+cDM3ZKDn0XLBA@mail.gmail.com>
+ <YrHYZb2BT8fQMcaR@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAD-N9QVVKUDFKMSxUc-smcz0B_7PrjN3DPku+cDM3ZKDn0XLBA@mail.gmail.com>
- <20220621145523.GJ16517@kadam>
-In-Reply-To: <20220621145523.GJ16517@kadam>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Wed, 22 Jun 2022 07:21:58 +0800
-Message-ID: <CAD-N9QWi4BxSxCX01zoDVWP1oZwW6vgSyi7TOLbqzR_ZsH-pjg@mail.gmail.com>
-Subject: Re: Unitialized Variable and Null Pointer Dereference bug in gb_bootrom_get_firmware
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: vireshk@kernel.org, Johan Hovold <johan@kernel.org>, elder@kernel.org, 
-	Greg KH <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YrHYZb2BT8fQMcaR@hovoldconsulting.com>
 
-On Tue, Jun 21, 2022 at 10:55 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
+On 21-06-22, 16:40, Johan Hovold wrote:
 > On Tue, Jun 21, 2022 at 10:36:04PM +0800, Dongliang Mu wrote:
 > > Hi maintainers,
-> >
+> > 
 > > I would like to send one bug report.
-> >
+> > 
 > > In gb_bootrom_get_firmware, if the first branch is satisfied, it will
 > > go to queue_work, leading to the dereference of uninitialized const
 > > variable "fw". If the second branch is satisfied, it will go to unlock
 > > with fw as NULL pointer, leading to a NULL Pointer Dereference.
-> >
-> > The Fixes commit should be [1], introducing the dereference of "fw" in
-> > the error handling code.
-> >
-> > I am not sure how to fix this bug. Any comment on removing the
-> > dereference of fw?
-> >
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a4293e1d4e6416477976ee3bd248589d3fc4bb19
->
-> No, there is no bug there.  It is a static checker false positive.
->
-> When you are reporting static checker warnings then please at least
-> mention it is from static analsysis so we can know what we are dealing
-> with.
+> 
+> This sounds like the false positive that checkers keep tripping over.
+> 
+> Please double check your analysis and search the archives first.
 
-Thanks Dan. I will do it next time.
+And everytime I get this report, I wonder if I should change the code to be a
+bit simpler :)
 
-I am just playing fun with the built-in coccinelle script. Static
-analysis has many false positives. Sorry for my false alarm.
-
-Thanks for your valuable feedback.
-
->
-> Here is the code.
->
-> drivers/staging/greybus/bootrom.c
->    241  static int gb_bootrom_get_firmware(struct gb_operation *op)
->    242  {
->    243          struct gb_bootrom *bootrom = gb_connection_get_data(op->connection);
->    244          const struct firmware *fw;
->                                       ^^^
->
->
->    245          struct gb_bootrom_get_firmware_request *firmware_request;
->    246          struct gb_bootrom_get_firmware_response *firmware_response;
->    247          struct device *dev = &op->connection->bundle->dev;
->    248          unsigned int offset, size;
->    249          enum next_request_type next_request;
->    250          int ret = 0;
->    251
->    252          /* Disable timeouts */
->    253          gb_bootrom_cancel_timeout(bootrom);
->    254
->    255          if (op->request->payload_size != sizeof(*firmware_request)) {
->    256                  dev_err(dev, "%s: Illegal size of get firmware request (%zu %zu)\n",
->    257                          __func__, op->request->payload_size,
->    258                          sizeof(*firmware_request));
->    259                  ret = -EINVAL;
->    260                  goto queue_work;
->
-> "ret" is -EINVAL.  "fw" is uninitialized.
->
->    261          }
->    262
->    263          mutex_lock(&bootrom->mutex);
->    264
->    265          fw = bootrom->fw;
->    266          if (!fw) {
->    267                  dev_err(dev, "%s: firmware not available\n", __func__);
->    268                  ret = -EINVAL;
->    269                  goto unlock;
->
-> "ret" is -EINVAL.  "fw" is NULL.
->
->    270          }
->    271
->
-> For the rest "fw" is valid.
->
->    272          firmware_request = op->request->payload;
->    273          offset = le32_to_cpu(firmware_request->offset);
->    274          size = le32_to_cpu(firmware_request->size);
->    275
->    276          if (offset >= fw->size || size > fw->size - offset) {
->    277                  dev_warn(dev, "bad firmware request (offs = %u, size = %u)\n",
->    278                           offset, size);
->    279                  ret = -EINVAL;
->    280                  goto unlock;
->    281          }
->    282
->    283          if (!gb_operation_response_alloc(op, sizeof(*firmware_response) + size,
->    284                                           GFP_KERNEL)) {
->    285                  dev_err(dev, "%s: error allocating response\n", __func__);
->    286                  ret = -ENOMEM;
->    287                  goto unlock;
->    288          }
->    289
->    290          firmware_response = op->response->payload;
->    291          memcpy(firmware_response->data, fw->data + offset, size);
->    292
->    293          dev_dbg(dev, "responding with firmware (offs = %u, size = %u)\n",
->    294                  offset, size);
->    295
->    296  unlock:
->    297          mutex_unlock(&bootrom->mutex);
->    298
->    299  queue_work:
->    300          /* Refresh timeout */
->    301          if (!ret && (offset + size == fw->size))
->                     ^^^^^
-> The "!ret" is only true when "fw" is valid.
->
->
->    302                  next_request = NEXT_REQ_READY_TO_BOOT;
->    303          else
->    304                  next_request = NEXT_REQ_GET_FIRMWARE;
->    305
->    306          gb_bootrom_set_timeout(bootrom, next_request, NEXT_REQ_TIMEOUT_MS);
->    307
->    308          return ret;
->    309  }
->
-> regards,
-> dan carpenter
->
+-- 
+viresh
