@@ -1,49 +1,49 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9430C10FF
-	for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 04:53:10 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id t21so8762172pfq.1
-        for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 21:53:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D9D10FF
+	for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 04:53:12 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id w6so7859855pfw.5
+        for <linux-staging@lists.linux.dev>; Tue, 21 Jun 2022 21:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=miDHh8TIXvhG9iaGpB6jefg7h3ay42uNe8cnWKGwUNM=;
-        b=H6++axkvJgfmn6n3LaeDwik2qAP91cPX6DQctcDvpgU3kkAk+jCelu+FO8wdZfLNNB
-         lWha5g2gfEYAMNBiq0hhdWD1na1d8OkqCzZDpAbTYFDDZVY/G6rnJm1Y3AScVQh9Sefy
-         lPVxWHIQr8NYwfAgTKHBff33VgMiO6xNmpeCSNSlhuxLO6Qgzb06148N5XO3OiTSnNhz
-         uEizQwa/LOb6D9DOL4HzowJ/L9MluKz7prOYrjE9/2osMcc9dB7AxEt5UmeiuBROsT6n
-         5MI30fGl5UC8/n4ypmTGfhzlcpyG22lrgjnk7WZUdTqIt0iQP0qNS+Q+1hBD9DNYmKmB
-         3NSQ==
+        bh=BxvmsU5m8dUdexI+F5twWDTTNh+JWXM865vqfEysxx0=;
+        b=Mq7oXFbEQcnHGEQtngIIAPELIYUoo/5Gwkd5Sphhu2G4H4b9vVYsVcRnVM9uKmBoZv
+         hyPio4D9Sew8/ko03NSJiWydLl4XfJ4yhMh0Dplh27Z3IxJhg8Kf9xigGM1SCQygMTrE
+         SWY0wDknwKDwUYMm4fOjil784KcmTncjqT8XMsMBwqY8EbPtlsBNfAelbLBvpwU27fK7
+         cHe7V8sgV0WZGxuIWEXfy49JlS5f2AmEpFJBFEk/vIia6YPkoB/QzNJD2FFf6B8Kk8n9
+         17vMbJIajX0U2wvKgyFwwHaEL3qz/u+ME+/0BxA2t1hVlHKCBq0tUWuIsJQne+m2nyHo
+         DhjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=miDHh8TIXvhG9iaGpB6jefg7h3ay42uNe8cnWKGwUNM=;
-        b=OZbUPkULiWRHIxIpbEOISrHNNxX47HCAzsG/Ia3foHAa3qWAUbw1GflLnLxCOQEdaK
-         e7JW0W+FK60kzgV4I7MLlaAie0EYgrLGWjI2e/V+elVeTJqlK98x75qOkqLkc6pC1YDD
-         9e4qGnt8XeI1Fu9PFRdaO7IBW5+mt0w/n1+bBCESPGwxiXX1DcLA5oyNd4KqB5FKzGYy
-         HQ+pi2bQtuKiUHhctPm7UzItXzRQAKFrxUBxwrWIH0rnT7aUesC7WryfUdDRU1lKJoKd
-         VzyEjADfJ915zq8snuPUZRW96ZbwbhTak67Ta5qdAnp/jbK8ej/duwm/XIpQGmA6Q3X+
-         So2Q==
-X-Gm-Message-State: AJIora+o782pgmmVudltti5MMSl6naJSD+Z/lyIBnSr04WPxiGM5tq/R
-	62PU7M4ViOXJjMALcDSA3MA=
-X-Google-Smtp-Source: AGRyM1sfWuGFQ0cMtpUQWtwL/DSxT6D90LTQzU8iTv8hKDvHwDOE5PCYCmL1jj+1hsXVdN3jKYTqyQ==
-X-Received: by 2002:a05:6a00:16c7:b0:520:6ede:2539 with SMTP id l7-20020a056a0016c700b005206ede2539mr33230812pfc.46.1655873590035;
-        Tue, 21 Jun 2022 21:53:10 -0700 (PDT)
+        bh=BxvmsU5m8dUdexI+F5twWDTTNh+JWXM865vqfEysxx0=;
+        b=opeU1jU/UcJ2mhNPfNDKfBJWu9B5DZqzvuXlrsB321rRX6EJECXBI/mczSFICnRaqk
+         l8Z7Z+veVvTzHMCRy2J212jJvCCL211QZ4pdil+bR70uKILvv6vWKpZgy5o03nlASSry
+         HSw/VcJe2pWjAfGvfu6XLtXczUWjC0tbDHvsbORbRWO+lh0m/ttyyt/WkCGww2cDJpFl
+         XTj/aLJ8hLkpfd6oUWE4TRXSCYl/wdoTSdsKyQ2IZPPO49OKQhHVzpxl3AS9Te/KyUa2
+         JYMOf2oaBluJRH4jJfpwa/EfKKbrfO+SNdxKUfW4cO58O1BjS0v2T9qs/bx3fEuSQCpw
+         d/ew==
+X-Gm-Message-State: AJIora/ni1MAIbb8Hh8gBW8TeohHRL3l4SZHeRn5bc4bY9OHY1AMZYFh
+	ijjdprWuMnBaAlUZq7rVyVAnjqJRZ4LSrg==
+X-Google-Smtp-Source: AGRyM1unzEkZ+0rqye8e6MIZjZeRlNhrkw9JMlqQKIVoGDonvDQ/bOvFhlSiBjcYbjQGDVLFcKun5A==
+X-Received: by 2002:a63:fc01:0:b0:403:af21:9729 with SMTP id j1-20020a63fc01000000b00403af219729mr1377939pgi.54.1655873591805;
+        Tue, 21 Jun 2022 21:53:11 -0700 (PDT)
 Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
-        by smtp.gmail.com with ESMTPSA id j2-20020a170902da8200b00163e4410b82sm333812plx.239.2022.06.21.21.53.09
+        by smtp.gmail.com with ESMTPSA id h4-20020a62de04000000b0051bb61c0eacsm3938518pfg.20.2022.06.21.21.53.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 21:53:09 -0700 (PDT)
+        Tue, 21 Jun 2022 21:53:11 -0700 (PDT)
 From: Chang Yu <marcus.yu.56@gmail.com>
 To: Larry.Finger@lwfinger.net
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Chang Yu <marcus.yu.56@gmail.com>
-Subject: [PATCH 2/5] staging: r8188eu: Fixed two brace coding style issues
-Date: Tue, 21 Jun 2022 21:52:31 -0700
-Message-Id: <f08a494f324cf5a3b5ed73aab6b3a432cb1da67b.1655872968.git.marcus.yu.56@gmail.com>
+Subject: [PATCH 3/5] staging: r8188eu: Fixed two whitespace coding style issues
+Date: Tue, 21 Jun 2022 21:52:32 -0700
+Message-Id: <68cb57799d9139740f94eed9080e2d08c522e74c.1655872968.git.marcus.yu.56@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1655872968.git.marcus.yu.56@gmail.com>
 References: <cover.1655872968.git.marcus.yu.56@gmail.com>
@@ -55,34 +55,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed two pairs of unnecessary curly braces as per checkpatch.pl
+Replaced spaces with tabs as per checkpatch.pl
 
 Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 7e2f5c2f9111..38b7905dc88f 100644
+index 38b7905dc88f..d42ff210ee81 100644
 --- a/drivers/staging/r8188eu/core/rtw_recv.c
 +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1365,13 +1365,12 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
- 		a_len -= nSubframe_Length;
- 		if (a_len != 0) {
- 			padding_len = 4 - ((nSubframe_Length + ETH_HLEN) & (4 - 1));
--			if (padding_len == 4) {
-+			if (padding_len == 4)
- 				padding_len = 0;
--			}
+@@ -17,11 +17,11 @@ static u8 SNAP_ETH_TYPE_APPLETALK_AARP[2] = {0x80, 0xf3};
  
--			if (a_len < padding_len) {
-+			if (a_len < padding_len)
- 				goto exit;
--			}
-+
- 			pdata += padding_len;
- 			a_len -= padding_len;
- 		}
+ /* Bridge-Tunnel header (for EtherTypes ETH_P_AARP and ETH_P_IPX) */
+ static u8 rtw_bridge_tunnel_header[] = {
+-       0xaa, 0xaa, 0x03, 0x00, 0x00, 0xf8
++	0xaa, 0xaa, 0x03, 0x00, 0x00, 0xf8
+ };
+ 
+ static u8 rtw_rfc1042_header[] = {
+-       0xaa, 0xaa, 0x03, 0x00, 0x00, 0x00
++	0xaa, 0xaa, 0x03, 0x00, 0x00, 0x00
+ };
+ 
+ void rtw_signal_stat_timer_hdl(struct timer_list *t);
 -- 
 2.36.1
 
