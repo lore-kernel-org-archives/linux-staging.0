@@ -1,419 +1,76 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498FF23A8
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 20:33:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656016422; x=1687552422;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=xVP6IBvS10VcE/UoVWHMP5OyXkvp5D6taRQrJ8Y7uqU=;
-  b=KxArRrOD+s1IQ2DC39Wmod8dnM4esqoMx6EiySeVrk+w4K7oaPpu9aHq
-   BYGGfLYLgezUKNYY3o9rbbUluZ2ZcUkiW7oZI+cWnbzG58FKygOve/FOs
-   zDdvQctfUteM6PEXMsnpmgTAGxlWURDh5IlsJunZqJWk2DdyijXQST+lz
-   P8TXO4mxhpLQMwXOZC0eNoT6yY7e7RonmabAyUTtvjqrO03CzLqTdAcHr
-   OnSYaJuWXowCO3zNhztJFnGU7/UFikvd0NCoVL3Ci/Nhn3/GPgnELen35
-   z/QQnejKUdl+YFsApBG56EX3OnOZV8/E/J1am9o3A+AIDXhvy5IfhkhYW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="344824256"
-X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; 
-   d="scan'208";a="344824256"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2022 13:33:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,217,1650956400"; 
-   d="scan'208";a="621456992"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 23 Jun 2022 13:33:38 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1o4TWE-00035o-0j;
-	Thu, 23 Jun 2022 20:33:38 +0000
-Date: Fri, 24 Jun 2022 04:33:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-xfs@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-scsi@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-mediatek@lists.infradead.org, kvm@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 08897940f458ee55416cf80ab13d2d8b9f20038e
-Message-ID: <62b4ce20.4xihIb4cSyCXNJ12%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3C923A8
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 21:21:31 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id g26so807244ejb.5
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 14:21:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kOwhwkA5mmXw3hkTfHa38fc0GYwltKnM7rb5bb5xfwY=;
+        b=K6N2zpb6B0fPuw75VVTJv5/Iau7yInQabYZ/WS1X3wrgt+vdkOMKnLtdS1F/b5AfDa
+         140WIQmRymqMN3Q5DWpYinTh3T/DzER4L2BidCyIHe3rYDTU5vsJLWrRGg46TkW6E/0n
+         thhTOrvDKW5qUCS1Vy7Qg71Lprh1ozNoVAVbPm6ZWDW0IsaD7Px2sO+fafVYr/yGmqhK
+         bEZHeIifHM4KZJtWj/BL9IigNmh+Lz8vXVQwnrGaqeqqn84K1FEKAbzZRWE04tMqGFZR
+         6odJwWPIegCI8l3F7oqvstsrjS7YLG7VUHcSVWeh3lFzAj1F6Uxaxoplu4M1Q/kgV5WD
+         3BXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kOwhwkA5mmXw3hkTfHa38fc0GYwltKnM7rb5bb5xfwY=;
+        b=FOQSX2LXKD6ia2LTCxtfG6wG5W78bytGMWBjwqGKsB2C3AlFgHpb8g/YFH2ZNF0pdd
+         Z2hLERq/Jj/ZbNGZQtj37tsmtn0NIP2gFrqGDAt+RJyLW4BIYNRrpo3C5Vj1t+su5iMO
+         UC00TAS1UEjyAe9oZH/me+N1Yzq0Jb3jzS7ZpL5xvXYgj80Xzcy6eisokUi70wnN+dVQ
+         szq47YeJZrlm2lGs3ec6IDmzC50IJOe+SKFx7VZnKfI6KkJDMUN/HBBv/xd/vVqMK9n+
+         01iwrJtGNdybOtBNnRsTe0VFNVdtTVrmb2XQv7Lp42oEptFhdQmQ2ZvXIA+1dSRqDEBn
+         pMRw==
+X-Gm-Message-State: AJIora+v3Nu8C+n3M/ouGnzD21pcnxelEJ5dagzfVSXyelMV5dH2Xd0Y
+	V/Gj4/g8xpp2wmHc0XQXUpf9ckInN5NbJACtzi8=
+X-Google-Smtp-Source: AGRyM1uoYqqSYjAVeHYAlR6Uez4eMhH3clKFNosLdDojQKG+unYQyjNftVHnB9lfhiDL6K3fSsG4goeUohnXhQUa8LA=
+X-Received: by 2002:a17:907:2d09:b0:722:f0bf:ac26 with SMTP id
+ gs9-20020a1709072d0900b00722f0bfac26mr10248592ejc.77.1656019289957; Thu, 23
+ Jun 2022 14:21:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <cover.1655975970.git.f3sch.git@outlook.com> <13b32131cd00a1f0b8793657a24ada71240a8350.1655975970.git.f3sch.git@outlook.com>
+In-Reply-To: <13b32131cd00a1f0b8793657a24ada71240a8350.1655975970.git.f3sch.git@outlook.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 23 Jun 2022 23:20:49 +0200
+Message-ID: <CAHp75VcQcKaYUP_JsmTFOY-pbOR39+TMw=5ADbb2BRGoMijCMw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] Staging: rtl8192e: Cleaning up error handling
+To: Felix Schlepper <f3sch.git@outlook.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 08897940f458ee55416cf80ab13d2d8b9f20038e  Add linux-next specific files for 20220623
+On Thu, Jun 23, 2022 at 10:44 PM Felix Schlepper <f3sch.git@outlook.com> wrote:
+>
+> Moved error handling to one common block.
+> This removes double checking if all txb->fragments[]
+> were initialized.
+> The original code worked fine, but this is cleaner.
 
-Error/Warning reports:
+...
 
-https://lore.kernel.org/linux-mm/202206212029.Yr5m7Cd3-lkp@intel.com
-https://lore.kernel.org/linux-mm/202206212033.3lgl72Fw-lkp@intel.com
-https://lore.kernel.org/lkml/202206071511.FI7WLdZo-lkp@intel.com
+> +err_free:
+> +       while (--i >= 0)
 
-Error/Warning: (recently discovered and may have been fixed)
+  while (i--)
 
-arch/powerpc/kernel/interrupt.c:542:55: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-arch/powerpc/kernel/interrupt.c:542:55: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:1025:33: warning: variable 'pre_connection_type' set but not used [-Wunused-but-set-variable]
-net/ipv6/raw.c:335:25: warning: variable 'saddr' set but not used [-Wunused-but-set-variable]
-net/ipv6/raw.c:335:32: warning: variable 'saddr' set but not used [-Wunused-but-set-variable]
-net/ipv6/raw.c:335:33: warning: variable 'daddr' set but not used [-Wunused-but-set-variable]
-net/ipv6/raw.c:335:40: warning: variable 'daddr' set but not used [-Wunused-but-set-variable]
+will suffice.
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/ufs/host/ufs-mediatek.c:1391:5: sparse: sparse: symbol 'ufs_mtk_runtime_suspend' was not declared. Should it be static?
-drivers/ufs/host/ufs-mediatek.c:1405:5: sparse: sparse: symbol 'ufs_mtk_runtime_resume' was not declared. Should it be static?
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allmodconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- alpha-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- arm-aspeed_g5_defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- arm-defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- arm-u8500_defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- arm64-randconfig-s031-20220622
-|   |-- drivers-misc-lkdtm-cfi.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
-|   |-- drivers-ufs-host-ufs-mediatek.c:sparse:sparse:symbol-ufs_mtk_runtime_resume-was-not-declared.-Should-it-be-static
-|   |-- drivers-ufs-host-ufs-mediatek.c:sparse:sparse:symbol-ufs_mtk_runtime_suspend-was-not-declared.-Should-it-be-static
-|   |-- drivers-vfio-pci-vfio_pci_config.c:sparse:sparse:restricted-pci_power_t-degrades-to-integer
-|   |-- fs-xfs-xfs_file.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-vm_fault_t-usertype-ret-got-int
-|   |-- fs-xfs-xfs_file.c:sparse:sparse:incorrect-type-in-return-expression-(different-base-types)-expected-int-got-restricted-vm_fault_t
-|   `-- kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-lockdep_map-const-lock-got-struct-lockdep_map-noderef-__rcu
-|-- i386-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|   `-- ntb_perf.c:(.text):undefined-reference-to-__umoddi3
-|-- i386-debian-10.3
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-debian-10.3-kselftests
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a001
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|   `-- ntb_perf.c:(.text):undefined-reference-to-__umoddi3
-|-- i386-randconfig-a003
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a005
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a012
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a014
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a016
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-m021
-|   |-- arch-x86-events-core.c-init_hw_perf_events()-warn:missing-error-code-err
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- ia64-allmodconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- m68k-allmodconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- m68k-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- m68k-atari_defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- m68k-sun3x_defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- microblaze-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- microblaze-randconfig-r013-20220622
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- mips-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- mips-decstation_r4k_defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- openrisc-randconfig-r021-20220622
-|   |-- pcs-xpcs.c:(.text):undefined-reference-to-phylink_mii_c22_pcs_decode_state
-|   `-- pcs-xpcs.c:(.text):undefined-reference-to-phylink_mii_c22_pcs_encode_advertisement
-|-- openrisc-randconfig-s032-20220622
-|   |-- fs-xfs-xfs_file.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-vm_fault_t-usertype-ret-got-int
-|   `-- kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-lockdep_map-const-lock-got-struct-lockdep_map-noderef-__rcu
-|-- parisc64-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- powerpc-allmodconfig
-|   |-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- powerpc-allnoconfig
-|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
-|-- powerpc-arches_defconfig
-|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
-|-- powerpc-mgcoge_defconfig
-|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
-|-- powerpc-ppc6xx_defconfig
-|   |-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- powerpc-randconfig-r001-20220622
-|   `-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
-|-- powerpc-taishan_defconfig
-|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
-|-- riscv-rv32_defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- sh-allmodconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- sh-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- sparc-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- sparc-randconfig-r003-20220622
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-a002
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   |-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|   |-- pcs-xpcs.c:(.text):undefined-reference-to-phylink_mii_c22_pcs_decode_state
-|   `-- pcs-xpcs.c:(.text):undefined-reference-to-phylink_mii_c22_pcs_encode_advertisement
-|-- x86_64-randconfig-a004
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-a006
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-a011
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-a013
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-m001
-|   |-- arch-x86-events-core.c-init_hw_perf_events()-warn:missing-error-code-err
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-rhel-8.3
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-rhel-8.3-func
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-rhel-8.3-kselftests
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-rhel-8.3-kunit
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-`-- x86_64-rhel-8.3-syz
-    |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-    `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-
-clang_recent_errors
-|-- arm-colibri_pxa300_defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- hexagon-randconfig-r045-20220622
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a002
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a004
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a011
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- i386-randconfig-a013
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- mips-malta_kvm_defconfig
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-a001
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-a003
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-a012
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-|-- x86_64-randconfig-a014
-|   |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-|   `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-`-- x86_64-randconfig-a016
-    |-- net-ipv6-raw.c:warning:variable-daddr-set-but-not-used
-    `-- net-ipv6-raw.c:warning:variable-saddr-set-but-not-used
-
-elapsed time: 726m
-
-configs tested: 89
-configs skipped: 3
-
-gcc tested configs:
-arm                                 defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-m68k                          atari_defconfig
-arc                    vdk_hs38_smp_defconfig
-sh                             espt_defconfig
-m68k                        m5407c3_defconfig
-arm                         lubbock_defconfig
-powerpc                     taishan_defconfig
-mips                 decstation_r4k_defconfig
-sh                                  defconfig
-powerpc                      arches_defconfig
-nios2                         10m50_defconfig
-sh                        sh7785lcr_defconfig
-powerpc                      ppc6xx_defconfig
-arm                       aspeed_g5_defconfig
-arm                           u8500_defconfig
-xtensa                              defconfig
-m68k                          sun3x_defconfig
-arm                          pxa3xx_defconfig
-sh                           se7206_defconfig
-ia64                             allmodconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-sh                               allmodconfig
-i386                              debian-10.3
-i386                   debian-10.3-kselftests
-i386                                defconfig
-i386                             allyesconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-arc                  randconfig-r043-20220622
-arc                  randconfig-r043-20220623
-riscv                randconfig-r042-20220623
-s390                 randconfig-r044-20220623
-riscv                             allnoconfig
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
-
-clang tested configs:
-mips                           ip22_defconfig
-powerpc                          g5_defconfig
-arm                  colibri_pxa300_defconfig
-mips                           ip28_defconfig
-arm                     am200epdkit_defconfig
-powerpc                      katmai_defconfig
-powerpc                 xes_mpc85xx_defconfig
-mips                      malta_kvm_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-i386                          randconfig-a013
-i386                          randconfig-a015
-i386                          randconfig-a011
-hexagon              randconfig-r041-20220623
-hexagon              randconfig-r041-20220622
-s390                 randconfig-r044-20220622
-hexagon              randconfig-r045-20220622
-riscv                randconfig-r042-20220622
-hexagon              randconfig-r045-20220623
+> +               dev_kfree_skb_any(txb->fragments[i]);
+> +       kfree(txb);
+> +
+> +       return NULL;
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+With Best Regards,
+Andy Shevchenko
