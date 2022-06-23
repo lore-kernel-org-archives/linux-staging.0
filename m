@@ -1,91 +1,92 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9C143D2
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 04:21:24 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id u12so38411387eja.8
-        for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 21:21:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9192C1842
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 04:39:15 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id a17so15168579pls.6
+        for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 21:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=UvEF84n19lSXOqhpJPPSQblDfpd6XZf1X0P1snbWIog=;
-        b=Vl9rLwUwaeKipQIahhDvfesL7mLKD5q5lG+qEJ+AyqMb/Xw5nUurD3i3YIkSpsfHF9
-         Ypp7wduhLoSWdVOuDBEF3w86EKbL650iusZN0MRzJoARloBjmDf7l63cuUCYDebI/DgM
-         6bQ+eSHEKrXqoiO59CBd0G8idqfUVJvpjOdomBL3X2rKwXFDhVxd7NH42QsOFXAjt3eQ
-         B9mKPH0NufWSXD7/QLoqk2z8vHtLn5g3GTwuADCAqpKTeYg1XJRZWdC71MwrGKJ14JQE
-         EhWzEQS3SzdDkmR4d2Lncqw6Q9t3D9MnWfYAuqq9rakTfgbv0HKvjHANVFAEO7H9Sh5k
-         79ZQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XtCc+UQQpUTja7HKmiItYlG8yACqKBWw8JAx2Em2Ros=;
+        b=gh/igH2UBmB6266V7qY6S0bv21sMThSqiv6qST2OQV19Ker6WZI12/ZPsn5LmqqWMh
+         t6B8o2aZQ4nJA7ak3aUREkh7KGQ2hNRtyoR81bZ+A8Fi4z4McsyrgQekTQcMCI70UI2n
+         3RQWqjbp2T4yiGZpV+UYo3SmGTABIUT9W/o/7PhDpLAGwt+LqOCdHqUxWN8rIWno2h1A
+         yaR7HwLh5gimH4pkP8R4TyB0BRQgj5Vk/qAzYMVTFTvdrtlzi9MU2P0Ov9lbzA5ajnZ9
+         JG6THSs9MWkC6Ho5PsIOCjSN6xRoh9MdEFq94l8qNCd/kXfvxnaFM83nULrqV7QslcN2
+         EuNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UvEF84n19lSXOqhpJPPSQblDfpd6XZf1X0P1snbWIog=;
-        b=M3tAkqWBcz+iAaoOA0CNYTQCIee7RgzjWZTuYRElJ6bDaHThXcs26Qxwc4dwQMFX8r
-         kAFaBbTlE7Ad3XvpT6dfh/KKLSOgNnPTaM5gndXyfWhs5ITbHCQwcf4uXamtLf+1b1Q8
-         4hTjJearTw/l9AKvHVuoxOPT6yTwunkYnVSZsKvW5ihs3+76hrCHmTvzAtbhadf/d9qF
-         Qav388AXElSiHiui1xN+07S/grRfwZCVG9XSFO5sDdcVoP3kXDhwTguw93/jXDRYSx4Q
-         +13s6JqSRex/4ilB5r4pobfL8tA0WtnN5HKpq2y6sbBEtu6TetjJwsP9T2quHzFW1vCd
-         l4Bg==
-X-Gm-Message-State: AJIora8YSYbqNFXsuXS58Eoos9LJ/0v1kWIM/zzKqZsW5t1JjLDoU333
-	r7hFa8PxsxFs2Yvf4MY4rhY=
-X-Google-Smtp-Source: AGRyM1tcKwNKAopT/HBbeTPOpaKjfT3ou8JklgW1MgoCthPWnzDd8ytOhYyfoiOuT1VAZsPHz51DLw==
-X-Received: by 2002:a17:906:7292:b0:712:3880:3e7b with SMTP id b18-20020a170906729200b0071238803e7bmr6143374ejl.118.1655958083170;
-        Wed, 22 Jun 2022 21:21:23 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2e:6923:8d97:93cc:4023:b7a9? (p200300c78f2e69238d9793cc4023b7a9.dip0.t-ipconnect.de. [2003:c7:8f2e:6923:8d97:93cc:4023:b7a9])
-        by smtp.gmail.com with ESMTPSA id w26-20020a50fa9a000000b0043575ae2051sm10806022edr.62.2022.06.22.21.21.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 21:21:22 -0700 (PDT)
-Message-ID: <be6cc1a5-3eab-d0d0-fd93-68afeed7d7a1@gmail.com>
-Date: Thu, 23 Jun 2022 06:21:21 +0200
+        bh=XtCc+UQQpUTja7HKmiItYlG8yACqKBWw8JAx2Em2Ros=;
+        b=qHN6pWfx2dTdqHmezFfII0H4SbCpekiJ0FpjMpol3fw5oQurNz0YkR879EzcNZUXr9
+         B3Zxg2WH1cwcRLVxYZeRO61/Eqdi3wgvTnVLymxLm01SRKmDYUAHW4noxkoy7ekJSrU4
+         1XLOc07r6M+Rwppq2b7Ap5SShEh5HOs/lzfzuSzaHZ76ccAIsvJm3mvd5tTs9UKa3FMc
+         KACMByjUvRTuRfwEPQfcRpjetgBuS1a9IhsTq8zhSDW8524e1VnPPALG9evhKBk8hgcX
+         ELOLF1S5CCi3du+YO41NNkcqXx5HWg7YVhRp+FZ6qHo62kkQ7ucuBRB+NF6xc78rfPTa
+         pN5w==
+X-Gm-Message-State: AJIora9f3rB74StZn3O3Re+hRDnuCd4gLCAHsjW3LCpD/bg75HAEqC6x
+	tmgSf5cpsAofofrcSNvUUGg=
+X-Google-Smtp-Source: AGRyM1tjtG0nx/M7CuMI6QIDU2GQemBYxqdzHLv+78X41ahZcFZtCvvQIaaUbp3aAN3pC5NPVKezhw==
+X-Received: by 2002:a17:90a:c984:b0:1ec:747b:da32 with SMTP id w4-20020a17090ac98400b001ec747bda32mr1975850pjt.216.1655959154953;
+        Wed, 22 Jun 2022 21:39:14 -0700 (PDT)
+Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
+        by smtp.gmail.com with ESMTPSA id a66-20020a621a45000000b005251759afbasm9041385pfa.65.2022.06.22.21.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jun 2022 21:39:14 -0700 (PDT)
+From: Chang Yu <marcus.yu.56@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	philipp.g.hortmann@gmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Chang Yu <marcus.yu.56@gmail.com>
+Subject: [PATCH v2] staging: r8188eu: Make rtw_signal_stat_timer_hdl a static function
+Date: Wed, 22 Jun 2022 21:38:55 -0700
+Message-Id: <20220623043855.407208-1-marcus.yu.56@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] staging: r8188eu: Make rtw_signal_stat_timer_hdl a static
- function
-Content-Language: en-US
-To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220623022425.395000-1-marcus.yu.56@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220623022425.395000-1-marcus.yu.56@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/23/22 04:24, Chang Yu wrote:
-> Make rtw_signal_stat_timer_hdl a static function instead of a global
-> function.
-> 
-> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> index cc91638a085d..599d3e55be76 100644
-> --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> @@ -24,7 +24,7 @@ static u8 rtw_rfc1042_header[] = {
->   	0xaa, 0xaa, 0x03, 0x00, 0x00, 0x00
->   };
->   
-> -void rtw_signal_stat_timer_hdl(struct timer_list *t);
-> +static void rtw_signal_stat_timer_hdl(struct timer_list *t);
->   
->   void _rtw_init_sta_recv_priv(struct sta_recv_priv *psta_recvpriv)
->   {
+Make rtw_signal_stat_timer_hdl a static function instead of a global
+function.
 
-Hi,
+Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+---
+Changes in v2:
+Added static for the definition as well
 
-thanks for your patch. I think you need the "static" for the declaration 
-and the definition of the function. So it is missing in line 1789.
+ drivers/staging/r8188eu/core/rtw_recv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks for your support.
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index cc91638a085d..6564e82ddd66 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -24,7 +24,7 @@ static u8 rtw_rfc1042_header[] = {
+ 	0xaa, 0xaa, 0x03, 0x00, 0x00, 0x00
+ };
+ 
+-void rtw_signal_stat_timer_hdl(struct timer_list *t);
++static void rtw_signal_stat_timer_hdl(struct timer_list *t);
+ 
+ void _rtw_init_sta_recv_priv(struct sta_recv_priv *psta_recvpriv)
+ {
+@@ -1794,7 +1794,7 @@ s32 rtw_recv_entry(struct recv_frame *precvframe)
+ 	return ret;
+ }
+ 
+-void rtw_signal_stat_timer_hdl(struct timer_list *t)
++static void rtw_signal_stat_timer_hdl(struct timer_list *t)
+ {
+ 	struct adapter *adapter = from_timer(adapter, t, recvpriv.signal_stat_timer);
+ 	struct recv_priv *recvpriv = &adapter->recvpriv;
+-- 
+2.36.1
 
-Bye Philipp
