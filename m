@@ -1,130 +1,136 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C4A1861
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 07:05:41 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N737AE004652;
-	Thu, 23 Jun 2022 07:05:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=ho9FxlPra/r+MpwyLglk445Fk402rDbfI71+Ms+WXj0=;
- b=KgSeFnkEvBCKU4NEwqVL3R91DpBR5RBISs8joK8+Kiq/nkSWFyAbicjpo5wGffEokxBc
- ptpDZ6EfYdzGnyzA5UBV7NW3m++WL6nyBr63wU8H+LWpkg9E7+HcjKla17gn5xK4n4Yu
- ZAFW57MrdiAQV9AezFbiVb6uwi7Zpxb++wwIJhUMIzBOIztYPXB/MwMH2DqshAr5Pm29
- CgWb5LzMhPw7Q75FUkO4tShGqazLC9PoGzer9NzaN1juRUnGs+qydeYpXSS/tZoLRth2
- GD93TFjDVH4SNpCH2QVKtiXygR8ciDiyTOQtZXfXbSJKFLNpY2g/einyeTmST+84OK0/ NA== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs54ct8dg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Jun 2022 07:05:40 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25N710Kk029633;
-	Thu, 23 Jun 2022 07:05:39 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gtf5ecb2f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Jun 2022 07:05:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NEgGowdGkrPu0tYI6qKpJ51HI/8mEgZ3ixBDkcOWGcXl/7SpS7G1B4S+mLDd2iDwLT3pwfSrmq1Tff5E7cqQ6ic3K1uzOE+ZRPCShGOu299BaXRAY4MZTsuX1lvCu7TBP5RanLDeUKEzh5hvdCxdt+ghCbnfWXzrKE7TR/Im/kRRDFmU1L893ss++PyauHPvAyHfKtmglTnK1sqqNvbNVp2TjghMQQUKwSvfjzUGGMCzyF44YdSddh9vSuEVPxMF5HDKwxtvwxh4YaCIWoabFOmFIL4ezxyt4o7/AU+9Lprm73X98nNheMySYcbMpA107N2jTPQt1aKM6PrqELcvZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ho9FxlPra/r+MpwyLglk445Fk402rDbfI71+Ms+WXj0=;
- b=nvQBk72Pbzp692WaWhCw3Mr4M3jXz+WsqLdfURq8YZ48vsRCGjqDGSjnmiZJNaOkjWm3pfuM5//xR5870xXSA9HIFk0vnaGtd8xBbde4cDd8Ug7jyM88T4YGmdeRkY8SKwWwhqCdy+ANwkm0pCVgsvfx6tbvvjWYG/bu3/Ulgz/v9gwjNeOprP6xpT0oQLe8wmK2I4nU866ew0JQ1bmHr1lV/Shy1etMybFZsx2g2LJ3pBy7vbHWEyi+aBb+m1ZDrGEpf8hzz0cahtv+b9PnbsqxAKV4ENGD6X4pL/OlGGsPhmxLprje2f2e6/bO4cbXtbIhXke2DYNFRhGgbXKWlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ho9FxlPra/r+MpwyLglk445Fk402rDbfI71+Ms+WXj0=;
- b=RFS316TPvLUFIdsP7PuwC+6nzoYZGIJRfcpE0idk9ww151uud10rRVB9dVFqkv2bEjtGK4YSWTbh4lWdTMdBpX4cw8Yuoi1mhp/jzGrrqqxbSSFr0AQh0+FUAScH8e5z0jmQQOIwyxKUsRPbFFB267mlNyukG0L9kcAcq9yYrXo=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1566.namprd10.prod.outlook.com
- (2603:10b6:300:27::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15; Thu, 23 Jun
- 2022 07:05:37 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
- 07:05:37 +0000
-Date: Thu, 23 Jun 2022 10:05:19 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Felix Schlepper <f3sch.git@outlook.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] Staging: rtl8192e: Using kzalloc and delete memset
-Message-ID: <20220623070519.GP16517@kadam>
-References: <cover.1655909205.git.f3sch.git@outlook.com>
- <AM9P190MB12995D1FF1EECE4C633A865FA5B29@AM9P190MB1299.EURP190.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9P190MB12995D1FF1EECE4C633A865FA5B29@AM9P190MB1299.EURP190.PROD.OUTLOOK.COM>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0015.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::20)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7489F1876
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 09:45:14 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id E37133200931;
+	Thu, 23 Jun 2022 05:45:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Thu, 23 Jun 2022 05:45:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1655977512; x=1656063912; bh=9CJDM0A9Po
+	pOEbceLv4YsZ9qKapm4Vh+qLdtKoQ8nko=; b=ii3zNbrv9eQtCgTRBHIB7+oFe0
+	FdIXWVGAAVS/qoJgt6aWITIm2SxoTVj/AtND0aL44DQjmL1ze/Q0HFy91hMOy96a
+	XZ3WiymvgT3/JMzLBvNTotUGWBRS9BBab3/QAZ2hBIYf7R4sR7szSAGukW6WuQhm
+	5u9faG58GLNQZDmyBX9CMgwMaCtf0PQ5AEnwUCASay7doueEVg+VvFNDOqEvHXP+
+	zeHPwo8tPALHZr4dxa4ujeMRF+NIfE5LLgj1csQRBoI5vwLPTke3JzU8ECkbOQ2s
+	VCwAg6Uy1OJPhk7hc93b+CAF2l7s9vZObabVkGTAKe0Kfz3alb1Vkm8uJ1AA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1655977512; x=1656063912; bh=9CJDM0A9PopOEbceLv4YsZ9qKapm
+	4Vh+qLdtKoQ8nko=; b=tYArWmbka2HIxRs2V4F8nxnIyero7DpCnyASejSThqSA
+	Qz5nFmZGFqexNY1rSOMKRf2V4uQdizG0b6BYDm4oqmd4t2EAU84rXEtWjbKNPuci
+	ZVooPRczXsvYG4brZaA0QNIq7ZovpPKLi5TxcvGodMn2aMTY2gzaMOZE3cMVwoMQ
+	h/CK6l0BB2lV45sQ/oXzRThsUrW736SptLA0I5PpmGw1acYLxU9jo7sRWBGLeTXG
+	CV1qXfhom9X5otQWMbT0+y48EYAQDExnV/BV2ttL1FirzAw0NOuIVWlOKBWazdGH
+	NxgOnxyYogcj7Kd0HxodXjMsmTryvXQeDcDu8Io18w==
+X-ME-Sender: <xms:Jza0Yvu2OcBMpHnmeXV6-BWz_3AujlRV5iH83eiCVkRqxwFVR_Ogmw>
+    <xme:Jza0YgeHUlR5eyqTAWZ2rteojySBivEVVJxOGsCZDfcfgJkOX0vlcbTJPkRWD6Zxc
+    6UHDzOi84eAbQ>
+X-ME-Received: <xmr:Jza0YiwgSJCWFF-sIjX93VATTGjuvAY2kxUm3CFOHJd-110o3MaUmmCapyH-vBxUeQNibdF7LjXz_QX2tg2yKBj-mXNX-aQK>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
+    ertddttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhm
+    qeenucggtffrrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekje
+    euhfdtueefhffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:Jza0YuOmEFGHVFmLlvX6xca72Lnzjxangp6pt5Jm63zXj_7ykVgzww>
+    <xmx:Jza0Yv_Ejml3sVu7escx9LpgxexntMs0SI2jG0-K9DWR7iAjfir7xA>
+    <xmx:Jza0YuWWwXRznzVYaC4ui6U8SbhSz-lX6IU5IpEzrF2CkWf41-jovA>
+    <xmx:KDa0YrRrL36skR1P8dnkDKWZaAEoJYbe1O45RjlpyIi08pxizyHZSg>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Jun 2022 05:45:11 -0400 (EDT)
+Date: Thu, 23 Jun 2022 11:45:07 +0200
+From: Greg KH <greg@kroah.com>
+To: Chang Yu <marcus.yu.56@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: combine nested if statements into
+ one
+Message-ID: <YrQ2Izg1b399yJou@kroah.com>
+References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+ <20220623051404.410632-1-marcus.yu.56@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 15ae0932-38c2-4046-71f1-08da54e6c633
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1566:EE_
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB156674446FA9CAD0EF7AA9628EB59@MWHPR10MB1566.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Kvz8uDmRFGdKaQ1WS0o8P9qYL2cXTeodH3Ti8YqG42psHlAPKJ45UB3M94gFJ7dOau4FYfAn3jJCSsahR/ry1tsyYt7qKrst4KO5DjB+Q3yrxOQzWLSGxTeJAguxHYvU4i2s6WNjnV6LP7UZrixWU0OWroXpmzDJiGGy8UvWc91yr44FwB/QDOBHC0MseOH92H5JIF0d9H2EPhMR7CL1ZfIEqbLn42B0jja5pQ/S11jGk9twfEEoxpYLNYSn/NUInHQ/R87gh4vxusbWixpojlNfEFDlBHyB5Yp8ubQtSi083+57Pa2Odk+eS7muYFhQphk5nqsCWkdUT9JpoNE0GygFEtaZ9jqNY/QTdP4+Gs4y70CZcNkurWvg1d7tFui55RC/p9vKU6D2eKDandk4VysjARn6r1UZpPb/eScqXYzoJnjcPvRyaJIyGRVHjh0worb2Ea9lZf+7A53jVzXRnz7QrHa+LjJNo2cpTDXKxpugGwxkjmnDc1cQmRiJxTDd6Q3Ysqou7ZGlteJqVIZPtK5wH0EezxrbElUt+d2XC6aRdEdkEQTFKZc/l9Q5ciHBGz97TkeGW1+yxSQfHFXRp2NwFlidNAFVYb1/SGFjpNISMK5IkUbOuviAHBRtZiLLBLu3H8T6HFlUIaHOSYPnHinMxOH1DL4ZwNMIbsbcv3Kl8ZSr7pYIeWE1MEDzPKRfZVjwVTDhNH+R4Op9PtC/1kSt1kw1quRIUT4tx9dMbjVq2K8SuMhFnaSMi+lMXgjaq0SflM2cPKcn2fNWukhs2Q==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(39860400002)(346002)(136003)(376002)(366004)(396003)(38350700002)(26005)(6512007)(6486002)(38100700002)(9686003)(83380400001)(186003)(86362001)(41300700001)(478600001)(33656002)(6666004)(316002)(66946007)(66556008)(4326008)(66476007)(52116002)(33716001)(6916009)(4744005)(2906002)(5660300002)(8936002)(44832011)(6506007)(1076003)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	bLWy+3uFgEazvf20B4dm++NsFVpm0zUaVS4lCe2VMulNeAMZT8umWHRrmyeHl2pMjVohpltGNyIYGeDbE2XI5D7itM6y9Hpq/3L/06hNUTDYpI7686i0jSsrXct8e5RJ3athiJjSUrok/3JzHFmSzOhvRLgahufBIJVnTml/e/hDdSbS1yp1zrr2/wNiODqswhkiKgExc1/UvUSIZs56adpBVItcJl4I4dB/UfzouepX3bVAX20s5eLQnC4RGDeQ5eDSU7OFkdNfV7j6oXv2v65iRdg9pZ/FcY76u+JDBVFgWoWbs1mGvxfLRxNIPR+0rx6hx8zOTtH1rMmR558VOahq5/2oAh2NgN0MGgpqYDJNpzFp5WvJRmxNO9hAWb9qYqt9O2l8yK+BiltKPzVlFAITqH590O3KuC/bZmKlvZMGCLknhmW8ZwSTIFeIk8Inkh53OF1I0KG6C6Gq9Wq7XOOnI1pom3m0YbHC3fb+Ln4tMi8lNbBbhnoJOilDSQuZM60uEBGi2/oR4dQjZWwNWg8VfLkHY41LEqaj15mdNp/FTG+sA88HF5sp1tUul98CKNZL08k/WYmXme3UsCFHy94ooAiSwnqZcL/2N+k8qt7WbsJeNS39ucqX3rhezzguKKd0O5Wbml9fkoOAtO//oUKB2DWTt4ck3YgfUyQjz5MQNxSZWS8F6X2CMsqdfTFtjGXVFgBaBeg9dbh7dgM9MblJ1ohCi1/7Zfiwmmk82DxdFJ5qlUpBXXN39rnkSJ1Q
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15ae0932-38c2-4046-71f1-08da54e6c633
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 07:05:37.2380
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZS5WteM6spefFRHj5K457hZCnSOLFZ7X3l121l94HTptWBG7A9kJVrUpAqxSa8cGuSvcZ6dEWuMGfMj7AQgWxLnwXaZa6U6lr52LDn/sZeU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1566
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-23_03:2022-06-22,2022-06-23 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206230026
-X-Proofpoint-GUID: Mz8TQ88T8NKWw29uOwF9YIB_V95aFHou
-X-Proofpoint-ORIG-GUID: Mz8TQ88T8NKWw29uOwF9YIB_V95aFHou
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220623051404.410632-1-marcus.yu.56@gmail.com>
 
-On Wed, Jun 22, 2022 at 05:12:45PM +0200, Felix Schlepper wrote:
-> By using kzalloc, we can delete a memset and avoid
-> memory initialization defects.
->
+On Wed, Jun 22, 2022 at 10:14:04PM -0700, Chang Yu wrote:
+> Combine two nested if statements into a single one
+> 
+> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+> ---
+> Changes in v2:
+> Added a pair of parentheses to make operator precedence explicit.
+> 
+>  drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+> index 6564e82ddd66..020bc212532f 100644
+> --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> @@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
+>  
+>  	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
+>  
+> -	if (padapter) {
+> -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
+> -				precvpriv->free_recvframe_cnt++;
+> -	}
+> +	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
+> +		precvpriv->free_recvframe_cnt++;
+>  
+>  	spin_unlock_bh(&pfree_recv_queue->lock);
+>  
+> -- 
+> 2.36.1
+> 
+> 
 
-This commit message is slightly confusing.  The "avoid memory
-initialization defects" bit is very vague.
+Hi,
 
-The difference between the original code and patched code is that the
-patched code zeroes out the txb->fragments[] array.  The original code
-worked.  The new code is slightly cleaner, but also slower.  Whatever,
-either way is fine.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-But just state it clearly in the commit message.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-  "By using kzalloc, we can delete a memset.  The practical difference
-   is that using kzalloc() will zero out the txb->fragments[] array.
-   The original code worked fine, but zeroing everything seems nicer."
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
 
-regards,
-dan carpenter
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
 
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
