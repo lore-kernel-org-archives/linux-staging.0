@@ -1,92 +1,182 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C3E1857
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 05:53:25 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id z11so20771647edp.9
-        for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 22:53:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=kcwJ6iz0WSRqkk4otNBkZUgi8EG0jqf80hBxBcLJjoI=;
-        b=fw1jQ2idkZYe6jKTepYjZZxhD5giE5xmrVbaEL98EFHaGhs4KpxpLZgXV2E+ZzgVeE
-         oMMh+qhpElWo0b5AGkujeZNW/sJx3VlXvuAowr+oxIq4cV1DfMKSr74Yhjhd5Tx2Zhqh
-         uh2/CSeRAyVHmBcX0HZR3VHrdsyiaAKqPjCbJwnmWW1aeam455jrHGHKwZSaQbkgPYt1
-         VoSy90kfmNFRVeLRDKB7NmN/6G9taLBkyCb28b0IRgfe8pRR7Y4AXn1e887kVoRJ9DAQ
-         ainC/Q4GSwL56yLXeKNcZDrMdHyFWEi1GnSUUCyq8+Bst+wlT8I4Gf7kmRcWlWSLX5AL
-         8aLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=kcwJ6iz0WSRqkk4otNBkZUgi8EG0jqf80hBxBcLJjoI=;
-        b=LvlAEtJMgYWIjP2oNKJYlL4oDxR3F+vK8WJPIfB1iZsF0je6W5vZeBewumA7pxqqIN
-         yZ2W0e6wkVGr0ommPVsi5uWdhaYpMesCDyT4FJM9qL/gSla6Kfbj7fHRVm7EahztswVE
-         4GStAkm3uUl3kSteDZZGNtnSET5V4gNBorjGmCaq8M9LK//l3SmLt8piZ57Uv/e6nmW3
-         R2ueOf8j5Vhb6Z0DOfCq/FKLzTSW59ggp7/bMB7DIWBUjDAZPd45eSMK3bal0Z1bGS/e
-         Bm9yK6mGX9NcE1ODvO6aWLOCRHuL7iMIFGsNvq2ckmxFhF7Bkd2DgX0nN+CaU8iKsyqp
-         rw2A==
-X-Gm-Message-State: AJIora/iygrkAboa/+zTtezEGSpTXpuyB0P2DC+uwgQzuRBzYAsQme0+
-	jLo42BZQaFDM5g2I2Ka9gGY=
-X-Google-Smtp-Source: AGRyM1u/0UVLNbC6rm1zOkyTAmn61viyenIsLAhw8yIHE1PtF2FEAPRS8XTizxeuck1l8LAh4MgbJw==
-X-Received: by 2002:a05:6402:274a:b0:435:9807:7752 with SMTP id z10-20020a056402274a00b0043598077752mr8606211edd.63.1655963603696;
-        Wed, 22 Jun 2022 22:53:23 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id 10-20020a170906318a00b00711aed17047sm10162207ejy.28.2022.06.22.22.53.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 22:53:23 -0700 (PDT)
-Message-ID: <02cc4538-73c4-9f0f-45d9-29f867143df7@gmail.com>
-Date: Thu, 23 Jun 2022 07:53:21 +0200
+Received: from zg8tmtyylji0my4xnjqunzqa.icoremail.net (zg8tmtyylji0my4xnjqunzqa.icoremail.net [162.243.164.74])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 5BF8043DE
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 06:08:25 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [106.117.82.161])
+	by mail-app3 (Coremail) with SMTP id cC_KCgCHV8gwAbRiBPKyAA--.23207S2;
+	Thu, 23 Jun 2022 13:59:20 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org
+Cc: davem@davemloft.net,
+	alexander.deucher@amd.com,
+	kuba@kernel.org,
+	broonie@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH v2] staging: rtl8192u: Fix sleep in atomic context bug in dm_fsync_timer_callback
+Date: Thu, 23 Jun 2022 13:59:12 +0800
+Message-Id: <20220623055912.84138-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cC_KCgCHV8gwAbRiBPKyAA--.23207S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKF15Wr15trykGw1fAry5urg_yoW7Kry3p3
+	ya9w1xAr4UZF4jk3WDAa1DZF1rK3ykGas3G3WkJw4FvrnavF1DXa4vyryUJFW5XrZ09w13
+	Z348ZF43u3WDKr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUka14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+	JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GrWl
+	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+	6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUP5rcUUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgsKAVZdtaW8yQAKsm
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2] staging: r8188eu: combine nested if statements into
- one
-Content-Language: en-US
-To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220623051404.410632-1-marcus.yu.56@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220623051404.410632-1-marcus.yu.56@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 6/23/22 07:14, Chang Yu wrote:
-> Combine two nested if statements into a single one
-> 
-> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
-> ---
-> Changes in v2:
-> Added a pair of parentheses to make operator precedence explicit.
-> 
->   drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> index 6564e82ddd66..020bc212532f 100644
-> --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> @@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
->   
->   	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
->   
-> -	if (padapter) {
-> -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
-> -				precvpriv->free_recvframe_cnt++;
-> -	}
-> +	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
-> +		precvpriv->free_recvframe_cnt++;
->   
->   	spin_unlock_bh(&pfree_recv_queue->lock);
->   
+There are sleep in atomic context bugs when dm_fsync_timer_callback is
+executing. The root cause is that the memory allocation functions with
+GFP_KERNEL or GFP_NOIO parameters are called in dm_fsync_timer_callback
+which is a timer handler. The call paths that could trigger bugs are
+shown below:
 
+    (interrupt context)
+dm_fsync_timer_callback
+  write_nic_byte
+    kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+    usb_control_msg
+      kmalloc(.., GFP_NOIO); //may sleep
+  write_nic_dword
+    kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+    usb_control_msg
+      kmalloc(.., GFP_NOIO); //may sleep
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+This patch uses delayed work to replace timer and moves the operations
+that may sleep into the delayed work in order to mitigate bugs.
+
+Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+Changes in v2:
+  - Use delayed work to replace timer.
+
+ drivers/staging/rtl8192u/r8192U.h    |  2 +-
+ drivers/staging/rtl8192u/r8192U_dm.c | 38 +++++++++++++---------------
+ drivers/staging/rtl8192u/r8192U_dm.h |  2 +-
+ 3 files changed, 20 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
+index 14ca00a2789..1942cb84937 100644
+--- a/drivers/staging/rtl8192u/r8192U.h
++++ b/drivers/staging/rtl8192u/r8192U.h
+@@ -1013,7 +1013,7 @@ typedef struct r8192_priv {
+ 	bool		bis_any_nonbepkts;
+ 	bool		bcurrent_turbo_EDCA;
+ 	bool		bis_cur_rdlstate;
+-	struct timer_list fsync_timer;
++	struct delayed_work fsync_work;
+ 	bool bfsync_processing;	/* 500ms Fsync timer is active or not */
+ 	u32	rate_record;
+ 	u32	rateCountDiffRecord;
+diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
+index 725bf5ca9e3..0fcfcaa6500 100644
+--- a/drivers/staging/rtl8192u/r8192U_dm.c
++++ b/drivers/staging/rtl8192u/r8192U_dm.c
+@@ -2578,19 +2578,20 @@ static void dm_init_fsync(struct net_device *dev)
+ 	priv->ieee80211->fsync_seconddiff_ratethreshold = 200;
+ 	priv->ieee80211->fsync_state = Default_Fsync;
+ 	priv->framesyncMonitor = 1;	/* current default 0xc38 monitor on */
+-	timer_setup(&priv->fsync_timer, dm_fsync_timer_callback, 0);
++	INIT_DELAYED_WORK(&priv->fsync_work, dm_fsync_work_callback);
+ }
+ 
+ static void dm_deInit_fsync(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = ieee80211_priv(dev);
+ 
+-	del_timer_sync(&priv->fsync_timer);
++	cancel_delayed_work_sync(&priv->fsync_work);
+ }
+ 
+-void dm_fsync_timer_callback(struct timer_list *t)
++void dm_fsync_work_callback(struct work_struct *work)
+ {
+-	struct r8192_priv *priv = from_timer(priv, t, fsync_timer);
++	struct r8192_priv *priv =
++	    container_of(work, struct r8192_priv, fsync_work.work);
+ 	struct net_device *dev = priv->ieee80211->dev;
+ 	u32 rate_index, rate_count = 0, rate_count_diff = 0;
+ 	bool		bSwitchFromCountDiff = false;
+@@ -2657,17 +2658,16 @@ void dm_fsync_timer_callback(struct timer_list *t)
+ 			}
+ 		}
+ 		if (bDoubleTimeInterval) {
+-			if (timer_pending(&priv->fsync_timer))
+-				del_timer_sync(&priv->fsync_timer);
+-			priv->fsync_timer.expires = jiffies +
+-				msecs_to_jiffies(priv->ieee80211->fsync_time_interval*priv->ieee80211->fsync_multiple_timeinterval);
+-			add_timer(&priv->fsync_timer);
++			cancel_delayed_work_sync(&priv->fsync_work);
++			schedule_delayed_work(&priv->fsync_work,
++					      msecs_to_jiffies(priv
++					      ->ieee80211->fsync_time_interval *
++					      priv->ieee80211->fsync_multiple_timeinterval));
+ 		} else {
+-			if (timer_pending(&priv->fsync_timer))
+-				del_timer_sync(&priv->fsync_timer);
+-			priv->fsync_timer.expires = jiffies +
+-				msecs_to_jiffies(priv->ieee80211->fsync_time_interval);
+-			add_timer(&priv->fsync_timer);
++			cancel_delayed_work_sync(&priv->fsync_work);
++			schedule_delayed_work(&priv->fsync_work,
++					      msecs_to_jiffies(priv
++					      ->ieee80211->fsync_time_interval));
+ 		}
+ 	} else {
+ 		/* Let Register return to default value; */
+@@ -2695,7 +2695,7 @@ static void dm_EndSWFsync(struct net_device *dev)
+ 	struct r8192_priv *priv = ieee80211_priv(dev);
+ 
+ 	RT_TRACE(COMP_HALDM, "%s\n", __func__);
+-	del_timer_sync(&(priv->fsync_timer));
++	cancel_delayed_work_sync(&priv->fsync_work);
+ 
+ 	/* Let Register return to default value; */
+ 	if (priv->bswitch_fsync) {
+@@ -2736,11 +2736,9 @@ static void dm_StartSWFsync(struct net_device *dev)
+ 		if (priv->ieee80211->fsync_rate_bitmap &  rateBitmap)
+ 			priv->rate_record += priv->stats.received_rate_histogram[1][rateIndex];
+ 	}
+-	if (timer_pending(&priv->fsync_timer))
+-		del_timer_sync(&priv->fsync_timer);
+-	priv->fsync_timer.expires = jiffies +
+-			msecs_to_jiffies(priv->ieee80211->fsync_time_interval);
+-	add_timer(&priv->fsync_timer);
++	cancel_delayed_work_sync(&priv->fsync_work);
++	schedule_delayed_work(&priv->fsync_work,
++			      msecs_to_jiffies(priv->ieee80211->fsync_time_interval));
+ 
+ 	write_nic_dword(dev, rOFDM0_RxDetector2, 0x465c12cd);
+ }
+diff --git a/drivers/staging/rtl8192u/r8192U_dm.h b/drivers/staging/rtl8192u/r8192U_dm.h
+index 0b2a1c68859..2159018b4e3 100644
+--- a/drivers/staging/rtl8192u/r8192U_dm.h
++++ b/drivers/staging/rtl8192u/r8192U_dm.h
+@@ -166,7 +166,7 @@ void dm_force_tx_fw_info(struct net_device *dev,
+ void dm_init_edca_turbo(struct net_device *dev);
+ void dm_rf_operation_test_callback(unsigned long data);
+ void dm_rf_pathcheck_workitemcallback(struct work_struct *work);
+-void dm_fsync_timer_callback(struct timer_list *t);
++void dm_fsync_work_callback(struct work_struct *work);
+ void dm_cck_txpower_adjust(struct net_device *dev, bool  binch14);
+ void dm_shadow_init(struct net_device *dev);
+ void dm_initialize_txpower_tracking(struct net_device *dev);
+-- 
+2.17.1
+
