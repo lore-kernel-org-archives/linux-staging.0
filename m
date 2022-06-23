@@ -1,63 +1,27 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7489F1876
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 09:45:14 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id E37133200931;
-	Thu, 23 Jun 2022 05:45:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Thu, 23 Jun 2022 05:45:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1655977512; x=1656063912; bh=9CJDM0A9Po
-	pOEbceLv4YsZ9qKapm4Vh+qLdtKoQ8nko=; b=ii3zNbrv9eQtCgTRBHIB7+oFe0
-	FdIXWVGAAVS/qoJgt6aWITIm2SxoTVj/AtND0aL44DQjmL1ze/Q0HFy91hMOy96a
-	XZ3WiymvgT3/JMzLBvNTotUGWBRS9BBab3/QAZ2hBIYf7R4sR7szSAGukW6WuQhm
-	5u9faG58GLNQZDmyBX9CMgwMaCtf0PQ5AEnwUCASay7doueEVg+VvFNDOqEvHXP+
-	zeHPwo8tPALHZr4dxa4ujeMRF+NIfE5LLgj1csQRBoI5vwLPTke3JzU8ECkbOQ2s
-	VCwAg6Uy1OJPhk7hc93b+CAF2l7s9vZObabVkGTAKe0Kfz3alb1Vkm8uJ1AA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1655977512; x=1656063912; bh=9CJDM0A9PopOEbceLv4YsZ9qKapm
-	4Vh+qLdtKoQ8nko=; b=tYArWmbka2HIxRs2V4F8nxnIyero7DpCnyASejSThqSA
-	Qz5nFmZGFqexNY1rSOMKRf2V4uQdizG0b6BYDm4oqmd4t2EAU84rXEtWjbKNPuci
-	ZVooPRczXsvYG4brZaA0QNIq7ZovpPKLi5TxcvGodMn2aMTY2gzaMOZE3cMVwoMQ
-	h/CK6l0BB2lV45sQ/oXzRThsUrW736SptLA0I5PpmGw1acYLxU9jo7sRWBGLeTXG
-	CV1qXfhom9X5otQWMbT0+y48EYAQDExnV/BV2ttL1FirzAw0NOuIVWlOKBWazdGH
-	NxgOnxyYogcj7Kd0HxodXjMsmTryvXQeDcDu8Io18w==
-X-ME-Sender: <xms:Jza0Yvu2OcBMpHnmeXV6-BWz_3AujlRV5iH83eiCVkRqxwFVR_Ogmw>
-    <xme:Jza0YgeHUlR5eyqTAWZ2rteojySBivEVVJxOGsCZDfcfgJkOX0vlcbTJPkRWD6Zxc
-    6UHDzOi84eAbQ>
-X-ME-Received: <xmr:Jza0YiwgSJCWFF-sIjX93VATTGjuvAY2kxUm3CFOHJd-110o3MaUmmCapyH-vBxUeQNibdF7LjXz_QX2tg2yKBj-mXNX-aQK>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefjedgvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
-    ertddttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhm
-    qeenucggtffrrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekje
-    euhfdtueefhffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:Jza0YuOmEFGHVFmLlvX6xca72Lnzjxangp6pt5Jm63zXj_7ykVgzww>
-    <xmx:Jza0Yv_Ejml3sVu7escx9LpgxexntMs0SI2jG0-K9DWR7iAjfir7xA>
-    <xmx:Jza0YuWWwXRznzVYaC4ui6U8SbhSz-lX6IU5IpEzrF2CkWf41-jovA>
-    <xmx:KDa0YrRrL36skR1P8dnkDKWZaAEoJYbe1O45RjlpyIi08pxizyHZSg>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Jun 2022 05:45:11 -0400 (EDT)
-Date: Thu, 23 Jun 2022 11:45:07 +0200
-From: Greg KH <greg@kroah.com>
-To: Chang Yu <marcus.yu.56@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: combine nested if statements into
- one
-Message-ID: <YrQ2Izg1b399yJou@kroah.com>
-References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
- <20220623051404.410632-1-marcus.yu.56@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DFD43F4
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 09:46:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A417C341C6;
+	Thu, 23 Jun 2022 09:46:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1655977604;
+	bh=YWP8xQl28FqLrVoNh1JnPPBf3z5SkmXcUdzYiHP2f7k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gjtv+PjCDpxCyJtM19H3WCoRUbPRJ6X3nmxXRGq7LpG/Ias3TIY3bQk6vsTF0lPWy
+	 Ac9WflSk2BxdX2HLvW3izOiHYz/v8axaZDYgPmopeiN0BfnajkbAf0/46n1SHjVNUC
+	 5QItwP4uR9P1wkhPKXp2WqZ684TF3ihhl4Fa2phI=
+Date: Thu, 23 Jun 2022 11:46:41 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Duoming Zhou <duoming@zju.edu.cn>
+Cc: linux-staging@lists.linux.dev, davem@davemloft.net,
+	alexander.deucher@amd.com, kuba@kernel.org, broonie@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8192u: Fix sleep in atomic context bug in
+ dm_fsync_timer_callback
+Message-ID: <YrQ2gXtX2FOkyNgu@kroah.com>
+References: <20220623055912.84138-1-duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,71 +30,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220623051404.410632-1-marcus.yu.56@gmail.com>
+In-Reply-To: <20220623055912.84138-1-duoming@zju.edu.cn>
 
-On Wed, Jun 22, 2022 at 10:14:04PM -0700, Chang Yu wrote:
-> Combine two nested if statements into a single one
+On Thu, Jun 23, 2022 at 01:59:12PM +0800, Duoming Zhou wrote:
+> There are sleep in atomic context bugs when dm_fsync_timer_callback is
+> executing. The root cause is that the memory allocation functions with
+> GFP_KERNEL or GFP_NOIO parameters are called in dm_fsync_timer_callback
+> which is a timer handler. The call paths that could trigger bugs are
+> shown below:
 > 
-> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+>     (interrupt context)
+> dm_fsync_timer_callback
+>   write_nic_byte
+>     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+>     usb_control_msg
+>       kmalloc(.., GFP_NOIO); //may sleep
+>   write_nic_dword
+>     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+>     usb_control_msg
+>       kmalloc(.., GFP_NOIO); //may sleep
+> 
+> This patch uses delayed work to replace timer and moves the operations
+> that may sleep into the delayed work in order to mitigate bugs.
+> 
+> Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 > ---
 > Changes in v2:
-> Added a pair of parentheses to make operator precedence explicit.
-> 
->  drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> index 6564e82ddd66..020bc212532f 100644
-> --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> @@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
->  
->  	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
->  
-> -	if (padapter) {
-> -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
-> -				precvpriv->free_recvframe_cnt++;
-> -	}
-> +	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
-> +		precvpriv->free_recvframe_cnt++;
->  
->  	spin_unlock_bh(&pfree_recv_queue->lock);
->  
-> -- 
-> 2.36.1
-> 
-> 
+>   - Use delayed work to replace timer.
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Did you test this with real hardware to verify it still works?
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
