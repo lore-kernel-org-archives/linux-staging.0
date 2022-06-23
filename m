@@ -1,167 +1,69 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32E443FE
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 11:53:51 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-f2a4c51c45so26285735fac.9
-        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 04:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XSwofcGG+SuHZWjrcw4RCNPkMyXc7hvkKah+C3xh1WY=;
-        b=vpoPxNjXWrU9nkPNyRtHurU6kHESQTp+i6RaSWdF1/oI2TiHgWSaRUOwwSyWlGs7Rg
-         MWfR/45XHtMSk2oR1KvVuPu7dkFqOkAv7XtznKxA8hpRQEYfCCPwi9CwSehF1qvj9JT9
-         0drhGVMjzBbEdiNg+TE0urW03QT7hmqYAg/CpR4hBJ4jf5B4dp45OfknorHeBRBhddjK
-         FQTfEL8UkKkyn9+LT3a7S7YVZu08e5pJqu31bTSDHW3InYof+zowTqQgAYhjGwrA6PvI
-         4g6ZfQx9Z4hDF0Uf470iS14506I9h0/5pQx3Rj++3ip/D3ZLVIMlB/QIQe4hrjizhMl9
-         Pw0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XSwofcGG+SuHZWjrcw4RCNPkMyXc7hvkKah+C3xh1WY=;
-        b=bsetLdar76RxibulkoHae/HDndSqBOsLAfrH8VRDR5sRGb/DZnRxPjU3txHLMwP5ZM
-         Xir4qFTFQ3Yr0IdBCxoAuKa/7+eS2Z5/mIW4wP6Xh1PygxpdXsgQ6Gt1Z36m6GEymWCY
-         ZykkXa2a3sjAuNvBPntWIQb+Nz7r56LpO7Hv/qskUdj/yjeA2spvnoHpWkLf+9q011dj
-         s3HFhuXbc1nTdsyGeE/moTiIyzYTyqjgTnF1hnFPgex7pNnnEgqvtN8PHdaIwhVK6SqJ
-         ARRtu4BwBeISeRd8yORtxsXHch/D6I4nD9E/vGTAUJXilvmTU0fwR9rxlz1F9dgdmRPR
-         99Kg==
-X-Gm-Message-State: AJIora+65O5Hy0/c1EZ32AXzjShbo6s4uWQo8KEjfSwgy0qGG9jpXrjo
-	R4CRyHRjdyFv7Cpq4aus6+WW+g==
-X-Google-Smtp-Source: AGRyM1uUfHwTgGd1byknrOoPAeDPrqoAhY+P3IumHMsnT2THZTV0C6LIrL7B2BG/Fu7TllSLOQ+6TQ==
-X-Received: by 2002:a05:6870:b48d:b0:101:c750:a4b0 with SMTP id y13-20020a056870b48d00b00101c750a4b0mr2200530oap.204.1655985230967;
-        Thu, 23 Jun 2022 04:53:50 -0700 (PDT)
-Received: from eze-laptop ([186.13.97.222])
-        by smtp.gmail.com with ESMTPSA id eb10-20020a056870a88a00b000f5f4ad194bsm12189484oab.25.2022.06.23.04.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 04:53:31 -0700 (PDT)
-Date: Thu, 23 Jun 2022 08:53:12 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 2/3] media: hantro: Add support for RK356x encoder
-Message-ID: <YrRUKD17Wtf5ik0r@eze-laptop>
-References: <20220612155346.16288-1-frattaroli.nicolas@gmail.com>
- <20220612155346.16288-3-frattaroli.nicolas@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDB51C2E
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 12:05:43 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-146-HnQgmSMqM4G6rapeFXaBOQ-1; Thu, 23 Jun 2022 13:05:41 +0100
+X-MC-Unique: HnQgmSMqM4G6rapeFXaBOQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Thu, 23 Jun 2022 13:05:40 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.036; Thu, 23 Jun 2022 13:05:40 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Philipp Hortmann' <philipp.g.hortmann@gmail.com>, Chang Yu
+	<marcus.yu.56@gmail.com>, "Larry.Finger@lwfinger.net"
+	<Larry.Finger@lwfinger.net>
+CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] staging: r8188eu: combine nested if statements into one
+Thread-Topic: [PATCH] staging: r8188eu: combine nested if statements into one
+Thread-Index: AQHYhr/Y2ulJ9o927EK/4or2W1xFka1c4+jQ
+Date: Thu, 23 Jun 2022 12:05:40 +0000
+Message-ID: <06893216a5a04d7e84dfe3e132d333f6@AcuMS.aculab.com>
+References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+ <d50c16c1-0bc2-fdc4-16ab-0c27df824ffb@gmail.com>
+In-Reply-To: <d50c16c1-0bc2-fdc4-16ab-0c27df824ffb@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220612155346.16288-3-frattaroli.nicolas@gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Hi Nicolas,
+Li4uDQo+IFNlZW1zIHRvIHdvcmsuIEJ1dCB0aGUgcnVsZXMgd2hpY2ggb3BlcmF0aW9uIGlzIGRv
+bmUgZmlyc3QgJiYgb3IgPT0gYXJlDQo+IG5vdCB0b28gZWFzeS4NCg0KVGhleSBhcmUgdGhlIHdh
+eSBhcm91bmQgeW91IHdhbnQgdGhlbSB0byBiZS4NCj09IGdlbmVyYXRlcyBhIHRydXRoIHZhbHVl
+Lg0KJiYgYW5kIHx8IGNvbXBhcmUgdHJ1dGggdmFsdWVzLA0KDQpUaGUgb25seSAnd3JvbmcnIG9w
+ZXJhdG9yIHByaW9yaXRpZXMgYXJlICYgYW5kIHwuDQpUaGUgc2hvcnQtY2lyY3VpdGluZyAmJiBh
+bmQgfHwgd2VyZW4ndCBpbiB0aGUgdmVyeSBlYXJseQ0KdmVyc2lvbnMgb2YgQyAtIHRoZSBiaXR3
+aXNlICYgYW5kIHwgd2VyZSB1c2VkLg0KV2hlbiBLJlIgYWRkZWQgJiYgYW5kIHx8IHRoZXkgbGVm
+dCB0aGUgcHJpb3JpdGllcyBvZiAmIGFuIHwgYWxvbmUuDQpJIHRoZXkgdGhleSd2ZSBsYXRlciBz
+YWlkIHRoZXkgc2hvdWxkIGhhdmUgYml0dGVuIHRoZSBidWxsZXQNCmFuZCBjaGFuZ2VkIHRoZSBw
+cmlvcml0aWVzIGFuZCBhbGwgdGhlIGV4aXN0aW5nIEMgY29kZQ0KDQo+IEkgd291bGQgcHJlZmVy
+IHRvIGhhdmU6DQo+IA0KPiBpZiAocGFkYXB0ZXIgJiYgKHBmcmVlX3JlY3ZfcXVldWUgPT0gZnJl
+ZV9yZWN2X3F1ZXVlKSkNCj4gDQo+IFNvIGl0IGlzIHZlcnkgZWFzeSB0byByZWFkIHdoYXQgaXMg
+ZXZhbHVhdGVkIGZpcnN0Lg0KDQpUaGF0IGp1c3Qgc3RhcnRzIGFkZGluZyB0b28gbWFueSAoKSBh
+bmQgbWFrZXMgbW9yZSBjb21wbGV4DQpjb25kaXRpb25hbHMgaGFyZCB0byByZWFkLg0KDQoJRGF2
+aWQNCg0KPiANCj4gQnV0IHRoaXMgaXMganVzdCBteSBvcGluaW9uIGFuZCBkb2VzIG5vdCBoYXZl
+IHRvIGJlIHJpZ2h0Lg0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KPiANCj4gQnllIFBo
+aWxpcHANCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
+dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
+OTczODYgKFdhbGVzKQ0K
 
-On Sun, Jun 12, 2022 at 05:53:45PM +0200, Nicolas Frattaroli wrote:
-> The RK3566 and RK3568 SoCs come with a small Hantro instance which is
-> solely dedicated to encoding. This patch adds the necessary structs to
-> the Hantro driver to allow the JPEG encoder of it to function.
-> 
-> Through some sleuthing through the vendor's MPP source code and after
-> closer inspection of the TRM, it was determined that the hardware likely
-> supports VP8 and H.264 as well.
-> 
-> Tested with the following GStreamer command:
-> 
-> gst-launch-1.0 videotestsrc ! v4l2jpegenc ! matroskamux ! \
->                filesink location=foo.mkv
-> 
-> Signed-off-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
-Thanks,
-Ezequiel
-
-> ---
->  drivers/staging/media/hantro/hantro_drv.c     |  1 +
->  drivers/staging/media/hantro/hantro_hw.h      |  1 +
->  .../staging/media/hantro/rockchip_vpu_hw.c    | 25 +++++++++++++++++++
->  3 files changed, 27 insertions(+)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index ac232b5f7825..1112e8d0c821 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -638,6 +638,7 @@ static const struct of_device_id of_hantro_match[] = {
->  	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
->  	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
->  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
-> +	{ .compatible = "rockchip,rk3568-vepu", .data = &rk3568_vepu_variant, },
->  	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 52a960f6fa4a..8c7eb5591446 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -306,6 +306,7 @@ extern const struct hantro_variant rk3066_vpu_variant;
->  extern const struct hantro_variant rk3288_vpu_variant;
->  extern const struct hantro_variant rk3328_vpu_variant;
->  extern const struct hantro_variant rk3399_vpu_variant;
-> +extern const struct hantro_variant rk3568_vepu_variant;
->  extern const struct hantro_variant rk3568_vpu_variant;
->  extern const struct hantro_variant sama5d4_vdec_variant;
->  extern const struct hantro_variant sunxi_vpu_variant;
-> diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> index fc96501f3bc8..b39813d53e57 100644
-> --- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> @@ -417,6 +417,14 @@ static const struct hantro_codec_ops rk3399_vpu_codec_ops[] = {
->  	},
->  };
->  
-> +static const struct hantro_codec_ops rk3568_vepu_codec_ops[] = {
-> +	[HANTRO_MODE_JPEG_ENC] = {
-> +		.run = rockchip_vpu2_jpeg_enc_run,
-> +		.reset = rockchip_vpu2_enc_reset,
-> +		.done = rockchip_vpu2_jpeg_enc_done,
-> +	},
-> +};
-> +
->  /*
->   * VPU variant.
->   */
-> @@ -439,6 +447,10 @@ static const struct hantro_irq rockchip_vpu2_irqs[] = {
->  	{ "vdpu", rockchip_vpu2_vdpu_irq },
->  };
->  
-> +static const struct hantro_irq rk3568_vepu_irqs[] = {
-> +	{ "vepu", rockchip_vpu2_vepu_irq },
-> +};
-> +
->  static const char * const rk3066_vpu_clk_names[] = {
->  	"aclk_vdpu", "hclk_vdpu",
->  	"aclk_vepu", "hclk_vepu"
-> @@ -545,6 +557,19 @@ const struct hantro_variant rk3399_vpu_variant = {
->  	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
->  };
->  
-> +const struct hantro_variant rk3568_vepu_variant = {
-> +	.enc_offset = 0x0,
-> +	.enc_fmts = rockchip_vpu_enc_fmts,
-> +	.num_enc_fmts = ARRAY_SIZE(rockchip_vpu_enc_fmts),
-> +	.codec = HANTRO_JPEG_ENCODER,
-> +	.codec_ops = rk3568_vepu_codec_ops,
-> +	.irqs = rk3568_vepu_irqs,
-> +	.num_irqs = ARRAY_SIZE(rk3568_vepu_irqs),
-> +	.init = rockchip_vpu_hw_init,
-> +	.clk_names = rockchip_vpu_clk_names,
-> +	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
-> +};
-> +
->  const struct hantro_variant rk3568_vpu_variant = {
->  	.dec_offset = 0x400,
->  	.dec_fmts = rk3399_vpu_dec_fmts,
-> -- 
-> 2.36.1
-> 
