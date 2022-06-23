@@ -1,92 +1,100 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9192C1842
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 04:39:15 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id a17so15168579pls.6
-        for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 21:39:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A8743D7
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 04:58:34 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id pk21so15438085ejb.2
+        for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 21:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XtCc+UQQpUTja7HKmiItYlG8yACqKBWw8JAx2Em2Ros=;
-        b=gh/igH2UBmB6266V7qY6S0bv21sMThSqiv6qST2OQV19Ker6WZI12/ZPsn5LmqqWMh
-         t6B8o2aZQ4nJA7ak3aUREkh7KGQ2hNRtyoR81bZ+A8Fi4z4McsyrgQekTQcMCI70UI2n
-         3RQWqjbp2T4yiGZpV+UYo3SmGTABIUT9W/o/7PhDpLAGwt+LqOCdHqUxWN8rIWno2h1A
-         yaR7HwLh5gimH4pkP8R4TyB0BRQgj5Vk/qAzYMVTFTvdrtlzi9MU2P0Ov9lbzA5ajnZ9
-         JG6THSs9MWkC6Ho5PsIOCjSN6xRoh9MdEFq94l8qNCd/kXfvxnaFM83nULrqV7QslcN2
-         EuNg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=eoUDrMh+erUbdaGJmsTl+ZRL/9QjZmm3J/nLPRs3FRA=;
+        b=pdeYcyzIM/EeuiIsOGwFOug2CFDdImgKiroLQPKSUymMzgHK9YYCTF2BAEsz6plaEM
+         z0t15pKe5c+FRjMrZ4RmmazpMaPT6a1ytZfgwbCxLAmQoceyLHCTouUvmwJhA5HnLfd8
+         g0xY9rpDI7/aCcCgsX0C9LS/458kRbfPQhI5W+bQK1qtZDxfmMrFWwPLb4GqYV4ZQvu1
+         zTG2z8MozpRuOheZ0gHBhjs2Z1hN3C6t5GSw1SIwCKmVidLUp60WvgQLkQGS+WORZ3Th
+         dNY1bsxYk6MAH3rTqsmDEhn6DY5QnO4wYb+BCh9wDLUkxKF2zuZGvW9TN2wuc+BElU02
+         /M/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=XtCc+UQQpUTja7HKmiItYlG8yACqKBWw8JAx2Em2Ros=;
-        b=qHN6pWfx2dTdqHmezFfII0H4SbCpekiJ0FpjMpol3fw5oQurNz0YkR879EzcNZUXr9
-         B3Zxg2WH1cwcRLVxYZeRO61/Eqdi3wgvTnVLymxLm01SRKmDYUAHW4noxkoy7ekJSrU4
-         1XLOc07r6M+Rwppq2b7Ap5SShEh5HOs/lzfzuSzaHZ76ccAIsvJm3mvd5tTs9UKa3FMc
-         KACMByjUvRTuRfwEPQfcRpjetgBuS1a9IhsTq8zhSDW8524e1VnPPALG9evhKBk8hgcX
-         ELOLF1S5CCi3du+YO41NNkcqXx5HWg7YVhRp+FZ6qHo62kkQ7ucuBRB+NF6xc78rfPTa
-         pN5w==
-X-Gm-Message-State: AJIora9f3rB74StZn3O3Re+hRDnuCd4gLCAHsjW3LCpD/bg75HAEqC6x
-	tmgSf5cpsAofofrcSNvUUGg=
-X-Google-Smtp-Source: AGRyM1tjtG0nx/M7CuMI6QIDU2GQemBYxqdzHLv+78X41ahZcFZtCvvQIaaUbp3aAN3pC5NPVKezhw==
-X-Received: by 2002:a17:90a:c984:b0:1ec:747b:da32 with SMTP id w4-20020a17090ac98400b001ec747bda32mr1975850pjt.216.1655959154953;
-        Wed, 22 Jun 2022 21:39:14 -0700 (PDT)
-Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
-        by smtp.gmail.com with ESMTPSA id a66-20020a621a45000000b005251759afbasm9041385pfa.65.2022.06.22.21.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jun 2022 21:39:14 -0700 (PDT)
-From: Chang Yu <marcus.yu.56@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	philipp.g.hortmann@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Chang Yu <marcus.yu.56@gmail.com>
-Subject: [PATCH v2] staging: r8188eu: Make rtw_signal_stat_timer_hdl a static function
-Date: Wed, 22 Jun 2022 21:38:55 -0700
-Message-Id: <20220623043855.407208-1-marcus.yu.56@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        bh=eoUDrMh+erUbdaGJmsTl+ZRL/9QjZmm3J/nLPRs3FRA=;
+        b=Jc1V9d8CMLXIHPtXnhYYFFqPdSAOyiV09RHkeIU9s71uDh8MfMB5fLRaOEaHo6sknW
+         svHS31o9e6Gwws5kdhLoenpr7n7G/rYGHnvJJpRV5/X13QZEF8mtXtfGRjN+pDQrWwPi
+         wfa0W+wv6s6muZP4e+sZcVcXgUQ9z3bDW0gtsFgISWdMQEyiy8+H+/6Sqp1LzjRVhfJT
+         9xAShmWEvTqHfwo7XAtkl06dIrKxEeX8/hxfjiEs9qcXobIaK30/QpKOxmjsM2E2oRlY
+         8QTEv3PEHotU/01bNA/aZayDTrfG4TLqJWgPVTo1WnjXKn+lZe3gSAZb36IzqJClebLn
+         V30w==
+X-Gm-Message-State: AJIora+EpO1t4HgknptTWdRosKmy2lJSHNiATNsggYURix036qEKFOlJ
+	dg33JbmaIsKeGgmb4o3q4t4=
+X-Google-Smtp-Source: AGRyM1unO018+yZqKcHgMCl7hjTKn1obDbpp6FC73SYGcurEyYlhY8u1mzBcFu9wOCW10r6IW2/AfQ==
+X-Received: by 2002:a17:907:3f04:b0:6e8:4b0e:438d with SMTP id hq4-20020a1709073f0400b006e84b0e438dmr6341869ejc.391.1655960312999;
+        Wed, 22 Jun 2022 21:58:32 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2e:6923:8d97:93cc:4023:b7a9? (p200300c78f2e69238d9793cc4023b7a9.dip0.t-ipconnect.de. [2003:c7:8f2e:6923:8d97:93cc:4023:b7a9])
+        by smtp.gmail.com with ESMTPSA id ff10-20020a1709069c0a00b006fec69696a0sm9970539ejc.220.2022.06.22.21.58.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jun 2022 21:58:32 -0700 (PDT)
+Message-ID: <d50c16c1-0bc2-fdc4-16ab-0c27df824ffb@gmail.com>
+Date: Thu, 23 Jun 2022 06:58:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] staging: r8188eu: combine nested if statements into one
+Content-Language: en-US
+To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Make rtw_signal_stat_timer_hdl a static function instead of a global
-function.
+On 6/23/22 05:15, Chang Yu wrote:
+> -	if (padapter) {
+> -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
+> -				precvpriv->free_recvframe_cnt++;
+> -	}
+> +	if (padapter && pfree_recv_queue == &precvpriv->free_recv_queue)
+> +		precvpriv->free_recvframe_cnt++;
 
-Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
----
-Changes in v2:
-Added static for the definition as well
+Hi
 
- drivers/staging/r8188eu/core/rtw_recv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+tested with:
+#include <stdio.h>
+int main() {
+     char padapter = 1;
+     int pfree_recv_queue = 256;
+     int free_recv_queue = 256;
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index cc91638a085d..6564e82ddd66 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -24,7 +24,7 @@ static u8 rtw_rfc1042_header[] = {
- 	0xaa, 0xaa, 0x03, 0x00, 0x00, 0x00
- };
- 
--void rtw_signal_stat_timer_hdl(struct timer_list *t);
-+static void rtw_signal_stat_timer_hdl(struct timer_list *t);
- 
- void _rtw_init_sta_recv_priv(struct sta_recv_priv *psta_recvpriv)
- {
-@@ -1794,7 +1794,7 @@ s32 rtw_recv_entry(struct recv_frame *precvframe)
- 	return ret;
- }
- 
--void rtw_signal_stat_timer_hdl(struct timer_list *t)
-+static void rtw_signal_stat_timer_hdl(struct timer_list *t)
- {
- 	struct adapter *adapter = from_timer(adapter, t, recvpriv.signal_stat_timer);
- 	struct recv_priv *recvpriv = &adapter->recvpriv;
--- 
-2.36.1
+     if (padapter) {
+     	if (pfree_recv_queue == free_recv_queue)
+             printf("Executed before patch: 
+precvpriv->free_recvframe_cnt++;\n");
+     }
 
+     if (padapter && pfree_recv_queue == free_recv_queue)
+		printf("Executed after patch: precvpriv->free_recvframe_cnt++;\n");
+
+    return 0;
+}
+
+Seems to work. But the rules which operation is done first && or == are 
+not too easy. I would prefer to have:
+
+if (padapter && (pfree_recv_queue == free_recv_queue))
+
+So it is very easy to read what is evaluated first.
+
+But this is just my opinion and does not have to be right.
+
+Thanks for your patch.
+
+Bye Philipp
