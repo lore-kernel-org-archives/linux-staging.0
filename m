@@ -1,100 +1,88 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A8743D7
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 04:58:34 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id pk21so15438085ejb.2
-        for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 21:58:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE44043D8
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 05:14:36 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id k12-20020a17090a404c00b001eaabc1fe5dso1452165pjg.1
+        for <linux-staging@lists.linux.dev>; Wed, 22 Jun 2022 22:14:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=eoUDrMh+erUbdaGJmsTl+ZRL/9QjZmm3J/nLPRs3FRA=;
-        b=pdeYcyzIM/EeuiIsOGwFOug2CFDdImgKiroLQPKSUymMzgHK9YYCTF2BAEsz6plaEM
-         z0t15pKe5c+FRjMrZ4RmmazpMaPT6a1ytZfgwbCxLAmQoceyLHCTouUvmwJhA5HnLfd8
-         g0xY9rpDI7/aCcCgsX0C9LS/458kRbfPQhI5W+bQK1qtZDxfmMrFWwPLb4GqYV4ZQvu1
-         zTG2z8MozpRuOheZ0gHBhjs2Z1hN3C6t5GSw1SIwCKmVidLUp60WvgQLkQGS+WORZ3Th
-         dNY1bsxYk6MAH3rTqsmDEhn6DY5QnO4wYb+BCh9wDLUkxKF2zuZGvW9TN2wuc+BElU02
-         /M/Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ls9hvwuUqtcL6CqYob/ByEfPEYjTHPxmgj5hdQsgzm4=;
+        b=kyfmQSmCpsjYYdL7jn90nALrRXSCuqzIsFH3u2VRXfKfeCKSf7QIvbbq3cus2lYWd5
+         8jvQ1JU+g1AcrYhHP7TgB5k2LO7jlQ6Gkt9oI/AKK5nfD307Uv7hkm1hVwQsNP0Ael8P
+         P+nAYmmb+4MulutY3BZ/fLsAM1nrnfWJ2cbS3qdvUxKV+eXxigVxA7vQbjW6CjFpJpkB
+         QI0KyfnoZOZEivz324whZRrj4bJxjzFZreYfV5SX5qkNlzaeYeWHreuoFvHpHVGhHmxJ
+         nmuNOXEEONtBu2wtDUlPZJeVWNFdSc0/RDb9/rqJPVJq7IMG/75zSAZTd2fiXWiZW9i0
+         uwEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=eoUDrMh+erUbdaGJmsTl+ZRL/9QjZmm3J/nLPRs3FRA=;
-        b=Jc1V9d8CMLXIHPtXnhYYFFqPdSAOyiV09RHkeIU9s71uDh8MfMB5fLRaOEaHo6sknW
-         svHS31o9e6Gwws5kdhLoenpr7n7G/rYGHnvJJpRV5/X13QZEF8mtXtfGRjN+pDQrWwPi
-         wfa0W+wv6s6muZP4e+sZcVcXgUQ9z3bDW0gtsFgISWdMQEyiy8+H+/6Sqp1LzjRVhfJT
-         9xAShmWEvTqHfwo7XAtkl06dIrKxEeX8/hxfjiEs9qcXobIaK30/QpKOxmjsM2E2oRlY
-         8QTEv3PEHotU/01bNA/aZayDTrfG4TLqJWgPVTo1WnjXKn+lZe3gSAZb36IzqJClebLn
-         V30w==
-X-Gm-Message-State: AJIora+EpO1t4HgknptTWdRosKmy2lJSHNiATNsggYURix036qEKFOlJ
-	dg33JbmaIsKeGgmb4o3q4t4=
-X-Google-Smtp-Source: AGRyM1unO018+yZqKcHgMCl7hjTKn1obDbpp6FC73SYGcurEyYlhY8u1mzBcFu9wOCW10r6IW2/AfQ==
-X-Received: by 2002:a17:907:3f04:b0:6e8:4b0e:438d with SMTP id hq4-20020a1709073f0400b006e84b0e438dmr6341869ejc.391.1655960312999;
-        Wed, 22 Jun 2022 21:58:32 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2e:6923:8d97:93cc:4023:b7a9? (p200300c78f2e69238d9793cc4023b7a9.dip0.t-ipconnect.de. [2003:c7:8f2e:6923:8d97:93cc:4023:b7a9])
-        by smtp.gmail.com with ESMTPSA id ff10-20020a1709069c0a00b006fec69696a0sm9970539ejc.220.2022.06.22.21.58.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 21:58:32 -0700 (PDT)
-Message-ID: <d50c16c1-0bc2-fdc4-16ab-0c27df824ffb@gmail.com>
-Date: Thu, 23 Jun 2022 06:58:31 +0200
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ls9hvwuUqtcL6CqYob/ByEfPEYjTHPxmgj5hdQsgzm4=;
+        b=6YzaBdkj3h0KQUJFfdLj9sD3YRoRs05y1ABWEG7vGznxGFHwOAl+ZlCjpdE/S3NAyh
+         1umIP10yOE/u7fwVon/sdyM6w//CUNpNU3VoZe0ebOHFCCdiWm6zqz2M4nJ1IjxRWf3E
+         M63FCBiOfE7cc9SIlNcEIHIDUaIm2MklFug6apJtUDoXnujsgdRF2YQnx/M3V+flJwAv
+         LcnMBaiimzjI3qMd0YM7ocSm98fpIzf2814ArXBnlvfQl/WL4gU4cBWm/NeEjg6MkW9W
+         c0pgaa0oe1oUlZzba1lDhrwqE1mVByFs8MGj+Y8DGb86bnGuUYIuOra5nOtC+5yEn1SQ
+         suSA==
+X-Gm-Message-State: AJIora+JCw19Nw/JCQzvY6TR/DFI8KQrtHU3hnIBBiIlIQuVX828+/pE
+	GnvqppHtualzlMBnjusBjicZ/tl5D27uSA==
+X-Google-Smtp-Source: AGRyM1uAxPHhfCJYCgRNEaq5XQtzwprlgYiOK6tmeNSOFsF0j8QXUgWcrmWLJtU8glJWlEDWMSrpzg==
+X-Received: by 2002:a17:903:2347:b0:16a:33cd:5308 with SMTP id c7-20020a170903234700b0016a33cd5308mr13824497plh.122.1655961276305;
+        Wed, 22 Jun 2022 22:14:36 -0700 (PDT)
+Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
+        by smtp.gmail.com with ESMTPSA id w22-20020a1709026f1600b001676f87473fsm13735730plk.302.2022.06.22.22.14.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jun 2022 22:14:35 -0700 (PDT)
+From: Chang Yu <marcus.yu.56@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chang Yu <marcus.yu.56@gmail.com>
+Subject: [PATCH v2] staging: r8188eu: combine nested if statements into one
+Date: Wed, 22 Jun 2022 22:14:04 -0700
+Message-Id: <20220623051404.410632-1-marcus.yu.56@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] staging: r8188eu: combine nested if statements into one
-Content-Language: en-US
-To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220623031515.402691-1-marcus.yu.56@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/23/22 05:15, Chang Yu wrote:
-> -	if (padapter) {
-> -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
-> -				precvpriv->free_recvframe_cnt++;
-> -	}
-> +	if (padapter && pfree_recv_queue == &precvpriv->free_recv_queue)
-> +		precvpriv->free_recvframe_cnt++;
+Combine two nested if statements into a single one
 
-Hi
+Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+---
+Changes in v2:
+Added a pair of parentheses to make operator precedence explicit.
 
-tested with:
-#include <stdio.h>
-int main() {
-     char padapter = 1;
-     int pfree_recv_queue = 256;
-     int free_recv_queue = 256;
+ drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-     if (padapter) {
-     	if (pfree_recv_queue == free_recv_queue)
-             printf("Executed before patch: 
-precvpriv->free_recvframe_cnt++;\n");
-     }
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 6564e82ddd66..020bc212532f 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
+ 
+ 	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
+ 
+-	if (padapter) {
+-		if (pfree_recv_queue == &precvpriv->free_recv_queue)
+-				precvpriv->free_recvframe_cnt++;
+-	}
++	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
++		precvpriv->free_recvframe_cnt++;
+ 
+ 	spin_unlock_bh(&pfree_recv_queue->lock);
+ 
+-- 
+2.36.1
 
-     if (padapter && pfree_recv_queue == free_recv_queue)
-		printf("Executed after patch: precvpriv->free_recvframe_cnt++;\n");
-
-    return 0;
-}
-
-Seems to work. But the rules which operation is done first && or == are 
-not too easy. I would prefer to have:
-
-if (padapter && (pfree_recv_queue == free_recv_queue))
-
-So it is very easy to read what is evaluated first.
-
-But this is just my opinion and does not have to be right.
-
-Thanks for your patch.
-
-Bye Philipp
