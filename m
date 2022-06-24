@@ -1,76 +1,103 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3C923A8
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 21:21:31 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id g26so807244ejb.5
-        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 14:21:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9551FC8
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 03:30:47 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id d5so951060plo.12
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 20:30:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kOwhwkA5mmXw3hkTfHa38fc0GYwltKnM7rb5bb5xfwY=;
-        b=K6N2zpb6B0fPuw75VVTJv5/Iau7yInQabYZ/WS1X3wrgt+vdkOMKnLtdS1F/b5AfDa
-         140WIQmRymqMN3Q5DWpYinTh3T/DzER4L2BidCyIHe3rYDTU5vsJLWrRGg46TkW6E/0n
-         thhTOrvDKW5qUCS1Vy7Qg71Lprh1ozNoVAVbPm6ZWDW0IsaD7Px2sO+fafVYr/yGmqhK
-         bEZHeIifHM4KZJtWj/BL9IigNmh+Lz8vXVQwnrGaqeqqn84K1FEKAbzZRWE04tMqGFZR
-         6odJwWPIegCI8l3F7oqvstsrjS7YLG7VUHcSVWeh3lFzAj1F6Uxaxoplu4M1Q/kgV5WD
-         3BXQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=e9j3ytzEFZdgs9pD00F5uMmUOICZVul5nelc96kxzOE=;
+        b=V8QH6bcQSaB1wI4zt9W+joGhoSL9D14kaIndS2oCQDv1JFMHuyB/HFhnLbXu2nM0Kh
+         C+qKsIed+RXY8Jq3WBcGLU1TuU6ICjFjc77KcZD8OjgvsbEckD/v2REMsuspSgNV59Dv
+         weO09i6G31i/LgkkTX0D4en15QY2POIBgOSISPxk5DjSbvb0DGpfPMVAKl/KoRRKjmv3
+         ULfj+GkjHp9KjIjypCJolaq3s6mPgW7Y0zoK/e8EvPxoeS1Sv75r5bbzYc1oK4eSICJ+
+         vWZzJO8kOCM3WkaxEJUfblj7D5nMGNlT3A3m+b0czAJke1devYNkGdpc/SzD5/b6Olt0
+         fkoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kOwhwkA5mmXw3hkTfHa38fc0GYwltKnM7rb5bb5xfwY=;
-        b=FOQSX2LXKD6ia2LTCxtfG6wG5W78bytGMWBjwqGKsB2C3AlFgHpb8g/YFH2ZNF0pdd
-         Z2hLERq/Jj/ZbNGZQtj37tsmtn0NIP2gFrqGDAt+RJyLW4BIYNRrpo3C5Vj1t+su5iMO
-         UC00TAS1UEjyAe9oZH/me+N1Yzq0Jb3jzS7ZpL5xvXYgj80Xzcy6eisokUi70wnN+dVQ
-         szq47YeJZrlm2lGs3ec6IDmzC50IJOe+SKFx7VZnKfI6KkJDMUN/HBBv/xd/vVqMK9n+
-         01iwrJtGNdybOtBNnRsTe0VFNVdtTVrmb2XQv7Lp42oEptFhdQmQ2ZvXIA+1dSRqDEBn
-         pMRw==
-X-Gm-Message-State: AJIora+v3Nu8C+n3M/ouGnzD21pcnxelEJ5dagzfVSXyelMV5dH2Xd0Y
-	V/Gj4/g8xpp2wmHc0XQXUpf9ckInN5NbJACtzi8=
-X-Google-Smtp-Source: AGRyM1uoYqqSYjAVeHYAlR6Uez4eMhH3clKFNosLdDojQKG+unYQyjNftVHnB9lfhiDL6K3fSsG4goeUohnXhQUa8LA=
-X-Received: by 2002:a17:907:2d09:b0:722:f0bf:ac26 with SMTP id
- gs9-20020a1709072d0900b00722f0bfac26mr10248592ejc.77.1656019289957; Thu, 23
- Jun 2022 14:21:29 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=e9j3ytzEFZdgs9pD00F5uMmUOICZVul5nelc96kxzOE=;
+        b=xiQ1rwi1r68SgNvyJ3grPEu2ilM3BD82n8PQLUJXMRRVmv5oWH7GJRSKrz7PoeSAyh
+         BJpOkWT3OG7a0dB0mUmhBQd2BRMooURUP5a/qmQdDhy1Sjq+QMbISqs+UAqxg/aggjEw
+         ydtnvq2At6RoGZTjiNGs9arj8fXf5VpzchJIeefC3Ca7xIQsTeiGUGkYNULyrR3GNhBT
+         coTnZRvtPicHW6m0lg8wX3OehWP4StVWPHj8ad/MAbsnHDK7ZG++qmW1tR2NXX6Ckbt6
+         ycOxrw1EoPfU2+JqOUANOsUkRs9VS4Clje5CoqwchTV6AsnXwhwG5wb86zWPduAgiJjq
+         eVGA==
+X-Gm-Message-State: AJIora+FsYZcchjMxdK0QkNrZe2n0shMbF5AxruQqfcFb1HopNohCUvN
+	HgXh5uzu7c2mCrmiwxJxaPs=
+X-Google-Smtp-Source: AGRyM1tgrOTNFUC2591jNk+wk5DSFaCUCQEYkk5RDxnX6oNB8da3t81P1mGggF1g+qf9M7rvM1hSDg==
+X-Received: by 2002:a17:902:db11:b0:16a:567f:12aa with SMTP id m17-20020a170902db1100b0016a567f12aamr7169946plx.172.1656041446820;
+        Thu, 23 Jun 2022 20:30:46 -0700 (PDT)
+Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
+        by smtp.gmail.com with ESMTPSA id h15-20020a170902680f00b00161e50e2245sm550462plk.178.2022.06.23.20.30.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jun 2022 20:30:46 -0700 (PDT)
+Date: Thu, 23 Jun 2022 20:30:30 -0700
+From: Chang Yu <marcus.yu.56@gmail.com>
+To: David Laight <David.Laight@aculab.com>
+Cc: 'Philipp Hortmann' <philipp.g.hortmann@gmail.com>,
+	"Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: r8188eu: combine nested if statements into one
+Message-ID: <YrUv1sPuny1M1Orh@zephyrus-g14.localdomain>
+References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+ <d50c16c1-0bc2-fdc4-16ab-0c27df824ffb@gmail.com>
+ <06893216a5a04d7e84dfe3e132d333f6@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1655975970.git.f3sch.git@outlook.com> <13b32131cd00a1f0b8793657a24ada71240a8350.1655975970.git.f3sch.git@outlook.com>
-In-Reply-To: <13b32131cd00a1f0b8793657a24ada71240a8350.1655975970.git.f3sch.git@outlook.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 23 Jun 2022 23:20:49 +0200
-Message-ID: <CAHp75VcQcKaYUP_JsmTFOY-pbOR39+TMw=5ADbb2BRGoMijCMw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] Staging: rtl8192e: Cleaning up error handling
-To: Felix Schlepper <f3sch.git@outlook.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <06893216a5a04d7e84dfe3e132d333f6@AcuMS.aculab.com>
 
-On Thu, Jun 23, 2022 at 10:44 PM Felix Schlepper <f3sch.git@outlook.com> wrote:
->
-> Moved error handling to one common block.
-> This removes double checking if all txb->fragments[]
-> were initialized.
-> The original code worked fine, but this is cleaner.
+On Thu, Jun 23, 2022 at 12:05:40PM +0000, David Laight wrote:
+> ...
+> > Seems to work. But the rules which operation is done first && or == are
+> > not too easy.
+> 
+> They are the way around you want them to be.
+> == generates a truth value.
+> && and || compare truth values,
+> 
+> The only 'wrong' operator priorities are & and |.
+> The short-circuiting && and || weren't in the very early
+> versions of C - the bitwise & and | were used.
+> When K&R added && and || they left the priorities of & an | alone.
+> I they they've later said they should have bitten the bullet
+> and changed the priorities and all the existing C code
+> 
+> > I would prefer to have:
+> > 
+> > if (padapter && (pfree_recv_queue == free_recv_queue))
+> > 
+> > So it is very easy to read what is evaluated first.
+> 
+> That just starts adding too many () and makes more complex
+> conditionals hard to read.
+> 
+> 	David
+> 
+> > 
+> > But this is just my opinion and does not have to be right.
+> > 
+> > Thanks for your patch.
+> > 
+> > Bye Philipp
+> 
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
 
-...
-
-> +err_free:
-> +       while (--i >= 0)
-
-  while (i--)
-
-will suffice.
-
-> +               dev_kfree_skb_any(txb->fragments[i]);
-> +       kfree(txb);
-> +
-> +       return NULL;
-
--- 
-With Best Regards,
-Andy Shevchenko
+In my humble opinion it just boils down to personal preference in this
+case. The kernel coding style guidlines don't seem to have a definitive
+gold standard regarding this. I will leave the patch as-is for now, but
+if anybody feels strongly that the () needs to be removed please feel
+free to let me know and I'll make the change.
