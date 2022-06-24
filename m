@@ -1,62 +1,54 @@
-Received: from relay2.uni-heidelberg.de (relay2.uni-heidelberg.de [129.206.119.212])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFD92906
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 13:55:06 +0000 (UTC)
-X-IPAS-Result: =?us-ascii?q?A2DwBAA6wbViffxkzoFaHgEBCxIMggQLhHyUEAEBAQaMb?=
- =?us-ascii?q?wOHHIonggcBAQEBAQEBAQEJQgQBAT0BAooPJzYHDgECBAEBAQEDAgMBAQEBA?=
- =?us-ascii?q?QEDAQEGAQEBAQEHBBQBASM8J4V1hkMGJwsBRhBRVxmCeAIBAYJmAQMwrH0yg?=
- =?us-ascii?q?QGGWQGBP4FlgT2JV4UfgUCBEIEVM4M1hRGFbgSZRwoDCQQHBUYXEk4xIQJFC?=
- =?us-ascii?q?xwBCAYGBwEIAQUIKAQCAQEBBgUYFAEDAQETEgUTDAcoChICEgwKGwcHAwsFM?=
- =?us-ascii?q?g0CDgcBAQwPAQIPAwECEQEHAgkSCAYPKwgDAQEDAQcBAgIDIAsCAxYJBwgCA?=
- =?us-ascii?q?QIFAgIBAw8BCAocEhAUAgQNBB4JAggBAhkeLAcCAgQOAyMdCAsKAw4DBAMBE?=
- =?us-ascii?q?AIYBwIBFQEFAgQIBAEDBgMIFRkBDScEBwMSAg0BBgECBgEBBQUBAxgIAxQDB?=
- =?us-ascii?q?QECCAMWBwECIQUKJgkEDQMBIhsCAwMBBBsKAgECAgUWBQIBAQIDAgYVBgICP?=
- =?us-ascii?q?y8RHQ0IBAgECRIcIwECDAEEAQIHLwUELQIBAR4EBQEFDwIIAQEWAgYEAwICA?=
- =?us-ascii?q?wEBAgEWAhAIAggnFwcTMxkBBTcUDg8BAwYIGRwiBwkHBQYWAw4VJx4pBQcRE?=
- =?us-ascii?q?hsPBA0NCjQgFiQBAQ4FAwESGREOBxQKUyYhFRAGASsWAwQBAwMCBhwBAgMlA?=
- =?us-ascii?q?hIGDgUBIh0Zmm8gexOBRJN4rm0Hg1EQAaA1lmICkgCWcKJuhE41gTMIOoFMT?=
- =?us-ascii?q?SODOFEZD5xyczsCBgsBAQMJjwEBAQ?=
-IronPort-Data: A9a23:UZY6FK6sPbwuOpiRlBCorAxRtKXHchMFZxGqfqrLsTDasY5as4F+v
- jMWXWrTa/yMM2D9ftl+Ydu19ElT65bQyIdkGVE/rSw0Zn8b8sCt6faxdxqvZXPMcqUvb67FA
- +E2MISowBUcFyeEzvuVGuG96yE6j8lkf5KkYAL+EngZqTRMFWFw03qPp8Zj2tQy2YbjX1vX0
- T/Pi5S31GGNimYc3l08tvrrRCNH5JwebxtB4zTSzdgS1LPvvyF94KA3fMldHFOgKmVgJdNWc
- s6YpF2PEsM1yD92Yj+tuu6TnkTn2dc+NyDW4pZdc/DKbhSvOkXe345jXMfwZ3u7hB2tgdRu1
- edWlKCIcl80GaTwxMsHEBhHRnQW0a1uoNcrIFC6uM2XlxSAbn3thvVjDU07OYcV4OkxDWwmG
- f4wcWpcKErb2aTvmOr9ELQ27iggBJCD0Ic3oXpgyTzBFfs8aYvfXqmM+NlZmTc9h8xDGfzTf
- cVfZTcHgBHoOkARaw1IUs5v9AuuriPSSjZKpwqKn61t30rf6xND7YbfH/OAL7RmQu0OwhjE/
- Duel4jjOTkVLtGQyjqt9nOqm//Bmj79VIsOFbq+sPlwjzW7wm0VFQ1TTkeyrvi/hWa6WslDM
- AoQ+ywzve4++VLDZtemRBa45nGFojYbRsZUFOo5rgqKz8L85wefG3hBTTNbbtEinNE5SCZs1
- VKTmd7tQzt1v9WopWm1876VqWvrfzUTLCoCaC4IQA8P7sPs5o0+5v7Scjp9OIqrisLoKyrR/
- wix9DUZjolPotRI1rruqDgrnAmQjpTOSwc04CDeUWSk8h51aeaZi2qAtAezARFocdfxc7WRg
- JQXs5TPsLlWUvlhgATdHrVVRdlF8t7YaGW0vLJ5I3U23xiAk5JJVaBd4T1zIE1kKMlsldTBP
- h6K41s5CHN7FnKmYKkyXCllEdg2wK3qGM7qPs04g/JLa5l1LFbB4SdvIE6d3mzglEIhi655N
- ZrznSeQ4ZQyV/QPINmeHrl1PVoXKsYWnj+7qXfTk03P7FZmTCTJIYrpymemYOEj97+jqw7I6
- dtZPMbi40wBDbOmOniPq99LdgtiwZ0H6Xbe9ZY/mgmrfFQOJY3dI6CJqV/cU9Y9zvkLz7mgE
- o+VAxcElgaXaYL7xfWiMSw9NOm2Bf6TXFoxMCgzIFvgxn4if4u196YDZtMxcKU48/ZgpcOYv
- NFaE/hs9s9nFG+dkxxDNsaVkWCXXE727SqUITGfaSQyF7Y4AVOUkjMSVle0qXNm4+venZdWn
- oBMISuBEMRaGVg9XZ2IAB9tpnvo1UUgdCtJdxOgCrFulI/EquCG9wSZYicLHvwx
-IronPort-HdrOrdr: A9a23:+S/gpqkzBCbdZSkcJUV8eFEVXGfpDfIV3DAbv31ZSRFFG/Fw9v
- re5cjzsCWftN9/YgBEpTntAtjjfZqYz+8X3WBzB9aftWvdyQ+VxehZhOOI/9SjIU3DH4VmpM
- BdmsZFebvN5JtB4foSIjPULz/t+ra6GWmT69vj8w==
-X-IronPort-Anti-Spam-Filtered: true
-Received: from mail01.uni-heidelberg.de ([129.206.100.252])
-  by relay2.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Jun 2022 15:55:04 +0200
-Received: from localhost (ip2505f6aa.dynamic.kabel-deutschland.de [37.5.246.170])
-	(Authenticated sender: ln194)
-	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id D408330011A56;
-	Fri, 24 Jun 2022 15:55:03 +0200 (CEST)
-From: Felix Schlepper <f3sch.git@outlook.com>
-To: gregkh@linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63213187F
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 14:46:06 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id 9so2616751pgd.7
+        for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 07:46:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=P2/ZUB7oMjRi4mWz7GISV//OG0C6Rw4pa93uJjRJoLE=;
+        b=cv9VFUtYV8T4e+mp175bx7Pp36y3ZFRfAd9NS/h93UDVgSqUgMkoL4ciTDunw+KHf2
+         OM9zvPx5Vc7iNh/YsP9smHPncTfprachdijQaqcgjksFYdhZlMOSPiecL/cIAlkn2b4n
+         2uMOpEsQpEoPAfcYDPoLc6MB8LVMjrbMxwA6NqiCiaj6jCCFAc55mgXyT8Fmr3asI6Xr
+         aGCVquLmSOkdGucSO8WE3/WH4uIV4kj1+iBDRYEaGDK9qeSGj594CUXo6t1oPVunpDc3
+         EpihAHwmyn6W81eFQIzOq7YxdItnsmBDCGy/xSdNxtzvaNhHhoQ92+bdF4Ls3mkqMy15
+         WJYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=P2/ZUB7oMjRi4mWz7GISV//OG0C6Rw4pa93uJjRJoLE=;
+        b=ewfHM0YFWS4E08uPh7t3nPcuJO91Pt8AQPLave0XWk8S0OvNzq+LZVcAi1kZ4hu74m
+         tHY/MMtpiC0lZifp90iUyrBFqhokKW0eQj1V7E8kmpiMtkezWUZe+D9vEZeMPkLYjtK+
+         JWzFoLqUMLFh31G+lQdXkkKuK4EgCoh6Sr5WMDFM38lkCx+qiw6dHaeiEtYgKBRzoQIC
+         3p0GWkiOAsmHUnbSESgfiUMKYkoVoOUricEfzPagtBonHIiH0wnIi+4DckIXJq/wOcJo
+         oP6BhCgmJrpMO8zO1sGVFkdqXMHXGSWc6NRM/1zkIDXzj3ys12GlfIH9Xrtr23cBge+g
+         jEeA==
+X-Gm-Message-State: AJIora8KtKEq8/Q4pwB/bACXTEgrS0ZqlBrRjp6SfvXuHjcBWgOw91am
+	4RNJAD1R7dasLGWkn9aA60k=
+X-Google-Smtp-Source: AGRyM1ttyBiwFUVc/hayeCduTn6f5RWPpfxphjBVZoYPLPit1q6tiZ1Utfb86reVfJj8ASQ7rojRFQ==
+X-Received: by 2002:a63:7848:0:b0:40c:a54c:f60b with SMTP id t69-20020a637848000000b0040ca54cf60bmr12363315pgc.411.1656081965726;
+        Fri, 24 Jun 2022 07:46:05 -0700 (PDT)
+Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
+        by smtp.gmail.com with ESMTPSA id s7-20020a17090302c700b00168e83eda56sm1928868plk.3.2022.06.24.07.46.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jun 2022 07:46:05 -0700 (PDT)
+From: Chang Yu <marcus.yu.56@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Felix Schlepper <f3sch.git@outlook.com>
-Subject: [PATCH v5 3/3] Staging: rtl8192e: Cleaning up error handling
-Date: Fri, 24 Jun 2022 15:54:55 +0200
-Message-Id: <13b32131cd00a1f0b8793657a24ada71240a8350.1656078068.git.f3sch.git@outlook.com>
+	Chang Yu <marcus.yu.56@gmail.com>
+Subject: [PATCH v4] staging: r8188eu: core/rtw_recv.c: clean up nested if statements
+Date: Fri, 24 Jun 2022 07:45:26 -0700
+Message-Id: <20220624144526.437322-1-marcus.yu.56@gmail.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1656078068.git.f3sch.git@outlook.com>
-References: <cover.1656078068.git.f3sch.git@outlook.com>
+In-Reply-To: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,50 +57,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Moved error handling to one common block.
-This removes double checking if all txb->fragments[]
-were initialized.
-The original code worked fine, but this is cleaner.
+Combine two nested if statements into a single one to fix indentation
+issue and improve readability, as suggested by checkpatch.pl
 
-Signed-off-by: Felix Schlepper <f3sch.git@outlook.com>
+Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib_tx.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Changes in v4:
+ - Added missing change log and resend
 
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 1307cf55741a..42f81b23a144 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -214,19 +214,19 @@ static struct rtllib_txb *rtllib_alloc_txb(int nr_frags, int txb_size,
+Changes in v3:
+ - Modified subject and description to be more descriptive
+
+Changes in v2:
+ - Added a pair of parentheses to make operator precedence explicit
+
+
+ drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 6564e82ddd66..020bc212532f 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
  
- 	for (i = 0; i < nr_frags; i++) {
- 		txb->fragments[i] = dev_alloc_skb(txb_size);
--		if (unlikely(!txb->fragments[i])) {
--			i--;
--			break;
--		}
-+		if (unlikely(!txb->fragments[i]))
-+			goto err_free;
- 		memset(txb->fragments[i]->cb, 0, sizeof(txb->fragments[i]->cb));
- 	}
--	if (unlikely(i != nr_frags)) {
--		while (i >= 0)
--			dev_kfree_skb_any(txb->fragments[i--]);
--		kfree(txb);
--		return NULL;
+ 	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
+ 
+-	if (padapter) {
+-		if (pfree_recv_queue == &precvpriv->free_recv_queue)
+-				precvpriv->free_recvframe_cnt++;
 -	}
-+
- 	return txb;
-+
-+err_free:
-+	while (--i >= 0)
-+		dev_kfree_skb_any(txb->fragments[i]);
-+	kfree(txb);
-+
-+	return NULL;
- }
++	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
++		precvpriv->free_recvframe_cnt++;
  
- static int rtllib_classify(struct sk_buff *skb, u8 bIsAmsdu)
+ 	spin_unlock_bh(&pfree_recv_queue->lock);
+ 
 -- 
 2.36.1
 
