@@ -1,174 +1,61 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FA023A1
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 06:00:14 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id k12-20020a17090a404c00b001eaabc1fe5dso4785135pjg.1
-        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 23:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uimkzAFvcCn6LmBe0H4g6mnvfSts12AX8ni/w00kSmM=;
-        b=SQm20SgxcSPcAMHx6AALhB6/LPblXYzlzH/2P0+6iPKuORASlQR4CpoHQdMstCxfc1
-         gskYCZ1/7yw5qwu/aRKMCpyN9FpqNH7439V5kkq+Hoy+DKDQ3/kKj4RdU6u5HghKdT3e
-         tR4G5EwM89ErU/jJGHFhC9ioUj+kbklk6kFdn912L3DN6yNewpXmIvAbGyB349xOCjnq
-         cC4o4iMfDiMvKlvp7l+FM4pzbZMM+iHhIVGAI7rl2gDM00Pd/g670INFP+5AcJp8msVl
-         snuo1g2+57ltLW8wB72axgAVRNTd9zeYt4dNnrmXTyyI0sSXG1SRcSGqSABbxI6NtWxj
-         yjkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uimkzAFvcCn6LmBe0H4g6mnvfSts12AX8ni/w00kSmM=;
-        b=1WJMflf0qMpLTh4bAWhdSy3HvNu1OQ4XB+oYFz/COgY0zloHd7j8b8JTy0qJBIz1MP
-         5OzlbIjPYWlM8pslBJdLwE69uFWDl3iJkPPv08dhYa07ysUHxhrKePsy3SutWRPRTpFF
-         VcYJwwFC5ZRhHaK7mPQfQN1C4Kq+YVwr1v+0dXxMQlW/DPWmOb/AbsdzrgBgps6IFw65
-         +jOJZCHtSXeNFERwUn9tcBD9bB5ntdHai10JfmE617rmhvJKX//ko5L54WWZbrUz8zZ/
-         nSwnvZJv+kAJSTHESt+YkJ79QJS2ngYfZlnHTb05HnyXRQLYWkGhHI+CD93Ftpuz2oYO
-         fRZA==
-X-Gm-Message-State: AJIora9pTW5dF1hXFpUsGETVfDyFpwh3kVrsXUUjay42DvU3V3kOHL3q
-	h3pkxqmvlEZSYLXSvXUpxes=
-X-Google-Smtp-Source: AGRyM1tFAYdjU63NJ6WDTJ89bLPZQ89svNimoGxkVeiMs/8YA2XRUSZA8iPFknzuAkYQVvV39V/+TA==
-X-Received: by 2002:a17:90b:2bcc:b0:1ec:89c6:be9b with SMTP id ru12-20020a17090b2bcc00b001ec89c6be9bmr2154831pjb.74.1656050414224;
-        Thu, 23 Jun 2022 23:00:14 -0700 (PDT)
-Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
-        by smtp.gmail.com with ESMTPSA id 3-20020a17090a0cc300b001ec9dce6f10sm2961837pjt.38.2022.06.23.23.00.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 23:00:13 -0700 (PDT)
-Date: Thu, 23 Jun 2022 22:59:58 -0700
-From: Chang Yu <marcus.yu.56@gmail.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg KH <greg@kroah.com>, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, marcus.yu.56@gmail.com
-Subject: Re: [PATCH v2] staging: r8188eu: combine nested if statements into
- one
-Message-ID: <YrVS3qjADYGxuYwq@zephyrus-g14.localdomain>
-References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
- <20220623051404.410632-1-marcus.yu.56@gmail.com>
- <YrQ2Izg1b399yJou@kroah.com>
- <YrUw3lejTP0UyWmt@zephyrus-g14.localdomain>
- <4e0d3b62-ceb4-5848-446f-6552ab16f852@gmail.com>
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A729823A1
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 06:10:53 +0000 (UTC)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Fri, 24 Jun 2022 14:02:56
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.190.70.246]
+Date: Fri, 24 Jun 2022 14:02:56 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Greg KH" <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, davem@davemloft.net, 
+	alexander.deucher@amd.com, kuba@kernel.org, broonie@kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8192u: Fix sleep in atomic context bug
+ in dm_fsync_timer_callback
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <YrQ2gXtX2FOkyNgu@kroah.com>
+References: <20220623055912.84138-1-duoming@zju.edu.cn>
+ <YrQ2gXtX2FOkyNgu@kroah.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4e0d3b62-ceb4-5848-446f-6552ab16f852@gmail.com>
+Message-ID: <1ddff589.e0f1.181944e6c1a.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:cC_KCgDXT0OQU7VieOfKAA--.1674W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYLAVZdtaYJ8wACsu
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Fri, Jun 24, 2022 at 07:47:12AM +0200, Philipp Hortmann wrote:
-> On 6/24/22 05:34, Chang Yu wrote:
-> > On Thu, Jun 23, 2022 at 11:45:07AM +0200, Greg KH wrote:
-> > > On Wed, Jun 22, 2022 at 10:14:04PM -0700, Chang Yu wrote:
-> > > > Combine two nested if statements into a single one
-> > > > 
-> > > > Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
-> > > > ---
-> > > > Changes in v2:
-> > > > Added a pair of parentheses to make operator precedence explicit.
-> > > > 
-> > > >   drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
-> > > >   1 file changed, 2 insertions(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> > > > index 6564e82ddd66..020bc212532f 100644
-> > > > --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> > > > +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> > > > @@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
-> > > >   	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
-> > > > -	if (padapter) {
-> > > > -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
-> > > > -				precvpriv->free_recvframe_cnt++;
-> > > > -	}
-> > > > +	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
-> > > > +		precvpriv->free_recvframe_cnt++;
-> > > >   	spin_unlock_bh(&pfree_recv_queue->lock);
-> > > > -- 
-> > > > 2.36.1
-> > > > 
-> > > > 
-> > > 
-> > > Hi,
-> > > 
-> > > This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-> > > a patch that has triggered this response.  He used to manually respond
-> > > to these common problems, but in order to save his sanity (he kept
-> > > writing the same thing over and over, yet to different people), I was
-> > > created.  Hopefully you will not take offence and will fix the problem
-> > > in your patch and resubmit it so that it can be accepted into the Linux
-> > > kernel tree.
-> > > 
-> > > You are receiving this message because of the following common error(s)
-> > > as indicated below:
-> > > 
-> > > - You did not specify a description of why the patch is needed, or
-> > >    possibly, any description at all, in the email body.  Please read the
-> > >    section entitled "The canonical patch format" in the kernel file,
-> > >    Documentation/SubmittingPatches for what is needed in order to
-> > >    properly describe the change.
-> > > 
-> > > - You did not write a descriptive Subject: for the patch, allowing Greg,
-> > >    and everyone else, to know what this patch is all about.  Please read
-> > >    the section entitled "The canonical patch format" in the kernel file,
-> > >    Documentation/SubmittingPatches for what a proper Subject: line should
-> > >    look like.
-> > > 
-> > > If you wish to discuss this problem further, or you have questions about
-> > > how to resolve this issue, please feel free to respond to this email and
-> > > Greg will reply once he has dug out from the pending patches received
-> > > from other developers.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h's patch email bot
-> > 
-> > I'm not entirely sure how to fix this. I checked the original patch
-> > again and the subject and the body looks OK to me. I'm still a newbie so
-> > I might have missed a couple of things. It would be greatly appreciated
-> > if someone could point out what's missing.
-> > 
-> 
-> description:
-> You wrote what you did in the description. Even when the why can be likely
-> answered as well it is not sufficient for Greg K-H.
-> 
-> I propose something like:
-> Combine two nested if statements into a single one to increase readability.
-> 
-> Or
-> 
-> Combine two nested if statements into a single one to shorten code.
-> 
-> subject:
-> I am guessing. The subject could may be remain but I think it is to general.
-> Please consider that we can have multiple of this subjects what is not good.
-> How to know which patch is which?
-> 
-> I propose something like:
-> staging: r8188eu: combine nested if statements in function xxxx
-> 
-> Or
-> 
-> staging: r8188eu: combine nested if statements in file xxxx
-> 
-> 
-> But consider that the patches that were accepted do also have a not so
-> specific subject. The description was very clear about the "why". There the
-> reason was always checkpatch.
-> 
-> Bye Philipp
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-
-Thank you very much for the valuable input. I will reword the subject
-and the description and re-send the patch momentarily.
+SGVsbG8sCgpPbiBUaHUsIDIzIEp1biAyMDIyIDExOjQ2OjQxICswMjAwIEdyZWcgS0ggd3JvdGU6
+Cgo+IE9uIFRodSwgSnVuIDIzLCAyMDIyIGF0IDAxOjU5OjEyUE0gKzA4MDAsIER1b21pbmcgWmhv
+dSB3cm90ZToKPiA+IFRoZXJlIGFyZSBzbGVlcCBpbiBhdG9taWMgY29udGV4dCBidWdzIHdoZW4g
+ZG1fZnN5bmNfdGltZXJfY2FsbGJhY2sgaXMKPiA+IGV4ZWN1dGluZy4gVGhlIHJvb3QgY2F1c2Ug
+aXMgdGhhdCB0aGUgbWVtb3J5IGFsbG9jYXRpb24gZnVuY3Rpb25zIHdpdGgKPiA+IEdGUF9LRVJO
+RUwgb3IgR0ZQX05PSU8gcGFyYW1ldGVycyBhcmUgY2FsbGVkIGluIGRtX2ZzeW5jX3RpbWVyX2Nh
+bGxiYWNrCj4gPiB3aGljaCBpcyBhIHRpbWVyIGhhbmRsZXIuIFRoZSBjYWxsIHBhdGhzIHRoYXQg
+Y291bGQgdHJpZ2dlciBidWdzIGFyZQo+ID4gc2hvd24gYmVsb3c6Cj4gPiAKPiA+ICAgICAoaW50
+ZXJydXB0IGNvbnRleHQpCj4gPiBkbV9mc3luY190aW1lcl9jYWxsYmFjawo+ID4gICB3cml0ZV9u
+aWNfYnl0ZQo+ID4gICAgIGt6YWxsb2Moc2l6ZW9mKGRhdGEpLCBHRlBfS0VSTkVMKTsgLy9tYXkg
+c2xlZXAKPiA+ICAgICB1c2JfY29udHJvbF9tc2cKPiA+ICAgICAgIGttYWxsb2MoLi4sIEdGUF9O
+T0lPKTsgLy9tYXkgc2xlZXAKPiA+ICAgd3JpdGVfbmljX2R3b3JkCj4gPiAgICAga3phbGxvYyhz
+aXplb2YoZGF0YSksIEdGUF9LRVJORUwpOyAvL21heSBzbGVlcAo+ID4gICAgIHVzYl9jb250cm9s
+X21zZwo+ID4gICAgICAga21hbGxvYyguLiwgR0ZQX05PSU8pOyAvL21heSBzbGVlcAo+ID4gCj4g
+PiBUaGlzIHBhdGNoIHVzZXMgZGVsYXllZCB3b3JrIHRvIHJlcGxhY2UgdGltZXIgYW5kIG1vdmVz
+IHRoZSBvcGVyYXRpb25zCj4gPiB0aGF0IG1heSBzbGVlcCBpbnRvIHRoZSBkZWxheWVkIHdvcmsg
+aW4gb3JkZXIgdG8gbWl0aWdhdGUgYnVncy4KPiA+IAo+ID4gRml4ZXM6IDhmYzg1OThlNjFmNiAo
+IlN0YWdpbmc6IEFkZGVkIFJlYWx0ZWsgcnRsODE5MnUgZHJpdmVyIHRvIHN0YWdpbmciKQo+ID4g
+U2lnbmVkLW9mZi1ieTogRHVvbWluZyBaaG91IDxkdW9taW5nQHpqdS5lZHUuY24+Cj4gPiAtLS0K
+PiA+IENoYW5nZXMgaW4gdjI6Cj4gPiAgIC0gVXNlIGRlbGF5ZWQgd29yayB0byByZXBsYWNlIHRp
+bWVyLgo+IAo+IERpZCB5b3UgdGVzdCB0aGlzIHdpdGggcmVhbCBoYXJkd2FyZSB0byB2ZXJpZnkg
+aXQgc3RpbGwgd29ya3M/CgpJIGFtIHRlc3RpbmcgdGhpcyBhbmQgSSB3aWxsIGdpdmUgeW91IGZl
+ZWRiYWNrIHdpdGhpbiBvbmUgb3IgdHdvIGRheXMuCgpCZXN0IHJlZ2FyZHMsCkR1b21pbmcgWmhv
+dQ==
