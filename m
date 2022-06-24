@@ -1,160 +1,114 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F8723A1
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 05:21:41 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25O4TmML012429;
-	Fri, 24 Jun 2022 05:21:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=8XQbKOyOyQ1us+BdT3t/Vob5HHoZ4nkpIGvPjW/6OyA=;
- b=dSTaA3hTvRamOba2X1G7XkYkBfsO+lwO5bv4Ob8F8C4g4WkQXOgAXabDW66vecv82oMm
- OrkRv3xFo8vLqJ1mSVbkcDWvSe+Lm1wlL1DVjhibpXbWin29GH6ocr+jwJRGWm8JTGfd
- MKLfapxvEOao3twPDW52tu2l3HpHN0QVmInRw8gLhGjeYs8aeajifHHIpJ/z6mMJ8n62
- M9DDcf9aOmZQ1C1aVFP/pei4IjP1Akr7uVWk/oth4jT/vxUiOG4449lEI5SLmosHfIzF
- ZzKuys85z53HLHFwnQrJ23yJ5L7bQpaQEjcukOaJsBqp06ZbMyz1I/XhLD8IQdrhtvWF Cw== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs5g24yeq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Jun 2022 05:21:39 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25O5Af0u012203;
-	Fri, 24 Jun 2022 05:21:38 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtd9wwxnq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Jun 2022 05:21:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FvX+C+w+EdpmE7l5xAUlNtkx5gQ77RRezpurke5RE3IdwTeOGCcPykswQSBGR3E3heAheJSUcY++k7NeJrF0l7JdE1gtwIFGOTTgDkYRdG/vj6MGQ76FrGDFYJ5cinMUffu7UUzpxEsislmfWTcPZdZxasMAfCiW4mWT97C+JctylkRdcf4xJcGqU8EgR8/z/pwtA5SaMPM5682CUIqzabNU+Z/7mILIpI8BWO9QWhOvQoCksK/H9sUhcwQaOscGSgIYZwEbYQteDAdj52U6yqRwhZQTJ2h3O77XNhL4ahWB6W54QEFgO4kJN8H0myppURw3Gju4A2gI6GVz82x1qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8XQbKOyOyQ1us+BdT3t/Vob5HHoZ4nkpIGvPjW/6OyA=;
- b=Tx5IBD9+pxHUk1zx1qWLafQTKHBHBhIaHBZEjbLHSoCVSE86d0gOglgnclcT0yfpEY/SkpQGzkuDcV56Kkb02+5TxxzYIsSSPNrq88bqxmWOtXlaBZZWAmeFVDeXJ7fUX5x7nZmltyDtUfgUCKky7FnhPr+/k3HvaPl7DzGq4GJTEpOO32JkV7P0lUwnf5K0icY8k99yVGPUuuip5+m0amOrkXyh3RAS0q4+5zZT7LWMgFUI5XqrZm6my1MFdT3nSCB8v883dEVZ/5r7+5XAOVaWEe2enpBkhR61DEN/KDqCGxpKZItGP1ddhS47I4Zs7xOofdT/7gRejpY+C0AELw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3133023A1
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 05:26:24 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id e2so1893564edv.3
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 22:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8XQbKOyOyQ1us+BdT3t/Vob5HHoZ4nkpIGvPjW/6OyA=;
- b=FeXHRy+4K5KjODXI5UGxUGKWnQDRuDQYSQgUawx2NlDbTc/0Lmy42BfpkMYxuMoTXowExJxpqIv5a8pRFSVjbGzB1heM5JdxWYdhYyOK9WyUGooBqy9E28CIR2FjeJi1icXvo+Wlkr2EUuBWN4cCwpy6K3RAR4wgo2N+p3m3A30=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BN7PR10MB2610.namprd10.prod.outlook.com
- (2603:10b6:406:c0::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15; Fri, 24 Jun
- 2022 05:21:36 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5373.015; Fri, 24 Jun 2022
- 05:21:36 +0000
-Date: Fri, 24 Jun 2022 08:21:18 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Felix Schlepper <f3sch.git@outlook.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 3/3] Staging: rtl8192e: Cleaning up error handling
-Message-ID: <20220624052118.GT16517@kadam>
-References: <cover.1655975970.git.f3sch.git@outlook.com>
- <13b32131cd00a1f0b8793657a24ada71240a8350.1655975970.git.f3sch.git@outlook.com>
- <CAHp75VcQcKaYUP_JsmTFOY-pbOR39+TMw=5ADbb2BRGoMijCMw@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VcQcKaYUP_JsmTFOY-pbOR39+TMw=5ADbb2BRGoMijCMw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0049.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::12)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=E0Vio1eDOkHCcMuXx/FcwjAfZ6Sibb/sL0zggNnOows=;
+        b=G/tc/RNPaZ6l83AwA1tcUrgdw7mje1k9HRjFQBAvwC63C7P2av4Oo5/DpHgSKD/fF4
+         45zVPiQu70XFNkMBJEpV31uRusXcW3mC/VhA5rFObvkQQ3ZSWK2Hlv+up2311Jx3f2DM
+         KKbPLHvcT97Qpase7OMgTA5ED1dRJScP9kMxqBvkHCb4MJlYX9w/B16MqdLvCChiqTZU
+         7NzjUGAA3xjgeK2tT+EUeAIRO4uMpia1SNrl5NZbZlUSm0dvwOEOkj9TZ0+D525FTnMh
+         f9NjDx3edndcBST3VEqEDmh26i1cz95Jv7e1rrIB+t8NWodi9L7xCjJ+XEllS0M7rfRN
+         VXvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=E0Vio1eDOkHCcMuXx/FcwjAfZ6Sibb/sL0zggNnOows=;
+        b=7m+W6qYuIsTdTrH/89W2rz2h7qmRNkpQADp4Mo17q8JOPxPy1/l19od7pv3dM+o/Um
+         JFHtKMIVXIYQVMNjwzIuwL/ovCLF3xaVB0Zb6b2IBh15ERpo9OMGLiCVC56fe7iWcx4m
+         yZpDtbRCwwMhF3OJ9SAOOXy4fSUdrUQ6tiAPqDiAquRvs6Bpn9T5tM0bQbs5mBRmcqzB
+         bhhN8FiKhRpxVXNGy2O/NccNfMnbuKdd/3eiVXhIllKSVb7krpBVwD21nAM7i4b85861
+         uxvzZKuLcdV2mNYqOx3Gqi1Ic/2DUKDtfUNiuqlfTcSfi/gbwRmllQRLTEsBSTbZutoR
+         6gMg==
+X-Gm-Message-State: AJIora9LfU1LXLLdieK3iu19/3qoc8xIjwxv95o+8742sWWNGGBIjjFn
+	+nWB+QyYy2lE+jbKnapoGZs=
+X-Google-Smtp-Source: AGRyM1u3KX85pJU0WyD0yEuLGGnkt7ZHD6RDuyG/cFW8XyUoNND3EQO+zMAA/kjcGChMcjukFk5rXg==
+X-Received: by 2002:aa7:d685:0:b0:435:7910:f110 with SMTP id d5-20020aa7d685000000b004357910f110mr14842540edr.247.1656048382372;
+        Thu, 23 Jun 2022 22:26:22 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2e:6903:8f42:a6e8:b267:63e? (p200300c78f2e69038f42a6e8b267063e.dip0.t-ipconnect.de. [2003:c7:8f2e:6903:8f42:a6e8:b267:63e])
+        by smtp.gmail.com with ESMTPSA id z8-20020a170906434800b00722f2a0944fsm490619ejm.107.2022.06.23.22.26.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jun 2022 22:26:21 -0700 (PDT)
+Message-ID: <ac6d83d6-c8b0-e0bd-10aa-a49897679edb@gmail.com>
+Date: Fri, 24 Jun 2022 07:26:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9d7d945c-de0f-4882-18ec-08da55a16884
-X-MS-TrafficTypeDiagnostic: BN7PR10MB2610:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+3EZsMNJ6GOVznK8yYsO8dWjCKrM0zwLknRB0c3z5gtbNlpQYwhmcsBtShV866MAgzaBY07YaxyR8nCoqd2csfxztHlsGX5JEBjC0Rt/wougnlAE0NXPXNeUscMqUmV635TSDSUbMszPaDJvstCjZKFU3ewubAkVa7SncVWi6cU5epbHDPtVNc4gH1XELuF1GocBhEWQpu4udm1qhC+g0oYGSIj5gcNKAtheGnEvEfkOqlqq5QwEFgnjnGsX6sapLUOf6ukzeRin5F9yDy4NNdc1NMjSpPd+usAQM4bI2l+lFVCGDU9nZVPLHeQSmGmJnOglsdm1CJXkE750KnHQMXFSBetsOZsA18n9DFT2T9Y+4586/QH+luk1MqCNoahLlIkt/0UdvhOavgF5MNwFUrj0bKTAs5iyxVmJV9Hz5p62/GpD9uJKTOXfGmY7k37bMa0YzQoujqmTC3E4ZlfzeJHk46Rc6pIqKRALoiKFXvsgTizgBzrgaCBmSnYxdKvrILlyktQZA4HVk2erqPGGtkDV+WbZTdoz3dVIYIY4rmkhD/UeQYpdYOnjIdYRx1pi5TpTCbh8Z6XizkMTu4JdqHMRptO84fk6/c7Y5pEd1rHMXSpXT7vWq+/d9wFwqsceRhjfV+f0iEV2zWN0elVxuxmayI4T0UT1Zu3+QFHPAZJOezCphTN5SlQRfSBAAmjlF08oIKIUTg80S7lHbdg85XsJboTeWgBEAm/wbZWz1RoKg1OG3pzdbCenLNzK8lCUPHzssgvqIizI/AbLt0zj9cwQU2+qEhiiPLoOQkFg/bc=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(396003)(346002)(136003)(376002)(39860400002)(366004)(66476007)(9686003)(6512007)(8676002)(66556008)(4744005)(478600001)(52116002)(4326008)(8936002)(66946007)(26005)(45080400002)(5660300002)(44832011)(86362001)(53546011)(6506007)(6486002)(33656002)(41300700001)(54906003)(6916009)(33716001)(186003)(38350700002)(38100700002)(1076003)(6666004)(83380400001)(2906002)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?IQ6brmtgva0SNhkDIL8kunywtfPIDQvBCtYpPywqBu9a6H8htjA7FIXpuwCD?=
- =?us-ascii?Q?bAlUvgrOeRQRW4eF44xxFFucnrRLAMWWl1CprSFqtRnaTv66gmR4sEd380Mn?=
- =?us-ascii?Q?7BH3hbf3B6TQ2hOy9TkPsGR9i7zKUdO158FSPgt39FKaJEo0STSaqI5x3NOg?=
- =?us-ascii?Q?SvToLRfsLjKiXBSN04a2r/Ta9UyERFSDR5ssTD0SzOllNZpPoCvf0i2GMT8S?=
- =?us-ascii?Q?KLQcplw6DaJAX/L5ZFu6ycOH77oyNq2LYi9o4+p//YWuK1yhzvAcxEnQpOtj?=
- =?us-ascii?Q?YQPNrQcZflKYEJvJEGHjRQp+QQ4spD2UO46FBc+Rfq9ltBIulFUOakGoN6+O?=
- =?us-ascii?Q?FHTmOHPtW4er26+vLBgnDTzmEWrJGVoQpmbxDdb4W0vRzw2GsaZVifsS/YC5?=
- =?us-ascii?Q?tLjCBUyIh8k519wvlwLZPTycgkFIAXtHl0DUac7WwKGugMB80aLJsCHO0dcU?=
- =?us-ascii?Q?4q6kuTNalgkoBu4Xj/TapGOnavGVPLMiWWI/u3DRdpC0nZq8hxjz2JVe5KyF?=
- =?us-ascii?Q?SqhI9T0Q6p9GNltQB48FQsLVPeonHRN1XaAV8J6fY58b6TyAp5QmrOUaUvCt?=
- =?us-ascii?Q?/4+7kRtSCWojYXRmrg1L+WLiFBw0h1Ae4VBofITEf6WSVwjCJWQmoUkzZoPG?=
- =?us-ascii?Q?KoHcHcgYJSXEeoZsiHBI2/+nxX1DHFo1F8+Hq4VK7IjPI7VtN6c5osrGTtYO?=
- =?us-ascii?Q?yAj7GmqlxqRA1KM+iKA7RLBeW9fHxL+DyE3wLhWd1u0RtiI4Ls5eiCFy9RJS?=
- =?us-ascii?Q?+HUrKmlhN9lp7oKIic5Abx0zemAQaWopj6QTpemUpZ3nK6Sob6okTBxrk5hh?=
- =?us-ascii?Q?HIom4EsyIh1T1hIv+52RuOIUpbTLz1Z3HGHBSfkYtNdLzu69OA/c4GuS142k?=
- =?us-ascii?Q?ByF8ha0R2TrQtukMmek2mtnYOnt4GURJdLJ45Ku22vbxzNtudxD2zo+E6iXH?=
- =?us-ascii?Q?I2mbcld5Q+YZ10iqtgqUFVW6XOltr0JxZMl8lGrUc3WUyz7y31XFTkWOveXS?=
- =?us-ascii?Q?jQEqXoYB9+V+YGN6iMpSGA+oFmaLoBl/kc3S936pRncINBQ5/+j4ut1CIDTo?=
- =?us-ascii?Q?rXmUSjN8Z+aY2PiQbVrV8goWYUTp43eNlxb9tq+O9PQdujVZYjHc+GAU+T5o?=
- =?us-ascii?Q?3jI3vEsARAKHH3b3HMAWkHyvua8VFxvPMmUmSklcIpq6hLzLW5RDWH6L8+ki?=
- =?us-ascii?Q?dxCwTmRuYxAhIS4zRe2fWag64Y8VXoKKZycofZDsvmfoTjYEF2C/iTu5v171?=
- =?us-ascii?Q?PMIZr1hyQHeZJ9v/M8CoJOFtvt3ISzEtDPUb2w/H18r3tsXDToxPUdOc9lRC?=
- =?us-ascii?Q?bMQinA4aVpqG/p4TrQWZZm+TWb7/nHdbBAT4l9Q89WapN2Mc5zGa27KKBwXY?=
- =?us-ascii?Q?F/tUXkS7Rgl9tncwdd3PhryI1BYlNgaX4ZtABm1g915uu5FN42cWrcVIRQgS?=
- =?us-ascii?Q?z/fqEkEtWzZxY5UH2bNKNOw9EdSPbDFVsLNiyAc4MS5a8cOzkEEwpeXnAek+?=
- =?us-ascii?Q?IS5BlT8VEVLwHdTDbc4yWHI3YUXhtOL9tMHWg27BezLnpYy7cSP3brg85neO?=
- =?us-ascii?Q?W8TIPiK2stJWp6+cSoEIKeVuxwqcPseWPZY2XamsEzuwA+l25Xmd67dPWCvt?=
- =?us-ascii?Q?fA=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d7d945c-de0f-4882-18ec-08da55a16884
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2022 05:21:36.3398
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NvGTik4KwyateqJbXlUxcMp1S69Hne9p4xaRG9on91YpGHATZf8DA957uvTHJw7ILEo/ztp9ZCR33cRdxb+/Zsm+vgazkiVKXWheBKyCywQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR10MB2610
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-24_03:2022-06-23,2022-06-24 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=953 suspectscore=0
- phishscore=0 malwarescore=0 mlxscore=0 spamscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206240019
-X-Proofpoint-GUID: lQqWREJET9mKm0r4Z0fSxLrPdcUJEOvg
-X-Proofpoint-ORIG-GUID: lQqWREJET9mKm0r4Z0fSxLrPdcUJEOvg
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] staging: r8188eu: combine nested if statements into one
+Content-Language: en-US
+To: Chang Yu <marcus.yu.56@gmail.com>, David Laight <David.Laight@aculab.com>
+Cc: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+ <d50c16c1-0bc2-fdc4-16ab-0c27df824ffb@gmail.com>
+ <06893216a5a04d7e84dfe3e132d333f6@AcuMS.aculab.com>
+ <YrUv1sPuny1M1Orh@zephyrus-g14.localdomain>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <YrUv1sPuny1M1Orh@zephyrus-g14.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 23, 2022 at 11:20:49PM +0200, Andy Shevchenko wrote:
-> On Thu, Jun 23, 2022 at 10:44 PM Felix Schlepper <f3sch.git@outlook.com> wrote:
-> >
-> > Moved error handling to one common block.
-> > This removes double checking if all txb->fragments[]
-> > were initialized.
-> > The original code worked fine, but this is cleaner.
+On 6/24/22 05:30, Chang Yu wrote:
+> On Thu, Jun 23, 2022 at 12:05:40PM +0000, David Laight wrote:
+>> ...
+>>> Seems to work. But the rules which operation is done first && or == are
+>>> not too easy.
+>>
+>> They are the way around you want them to be.
+>> == generates a truth value.
+>> && and || compare truth values,
+>>
+>> The only 'wrong' operator priorities are & and |.
+>> The short-circuiting && and || weren't in the very early
+>> versions of C - the bitwise & and | were used.
+>> When K&R added && and || they left the priorities of & an | alone.
+>> I they they've later said they should have bitten the bullet
+>> and changed the priorities and all the existing C code
+>>
+>>> I would prefer to have:
+>>>
+>>> if (padapter && (pfree_recv_queue == free_recv_queue))
+>>>
+>>> So it is very easy to read what is evaluated first.
+>>
+>> That just starts adding too many () and makes more complex
+>> conditionals hard to read.
+>>
+>> 	David
+>>
+>>>
+>>> But this is just my opinion and does not have to be right.
+>>>
+>>> Thanks for your patch.
+>>>
+>>> Bye Philipp
+>>
+>> -
+>> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+>> Registration No: 1397386 (Wales)
 > 
-> ...
-> 
-> > +err_free:
-> > +       while (--i >= 0)
-> 
->   while (i--)
-> 
-> will suffice.
-> 
+> In my humble opinion it just boils down to personal preference in this
+> case. The kernel coding style guidlines don't seem to have a definitive
+> gold standard regarding this. I will leave the patch as-is for now, but
+> if anybody feels strongly that the () needs to be removed please feel
+> free to let me know and I'll make the change.
 
-Either one is fine.  You prefer this format.  I prefer that other
-format.  I told Felix he could use either format without expressing any
-bias and he chose my format.  That means he loves me more.
+Please consider that the person you want to sign-of for this patch is 
+most likely Greg K-H. I propose to fix first what he is asking for.
 
-regards,
-dan carpenter
+Bye Philipp
+
