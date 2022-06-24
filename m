@@ -1,99 +1,261 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA41F7C
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 18:01:44 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id fd6so4532942edb.5
-        for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 11:01:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=FihH+wFZdHJzWdAHO5W9L+MEXrCjKPFXmbCyP+M30fc=;
-        b=CfgI1rTukijr/p19JI7e9i/2E8rGCaNwtR63+EGnzZQdw3kfOo75LFCH8sm5OrZU+h
-         yVfD+TuO+K2UfqyURxxTXLnV2sH0dBr3kGYBdUvFM2+sxlbxuYm3YI57KUSBXi4L3Q+J
-         R33opJx/huDwfocZTx3naQjd6b0xK4xVIPsE52Cci0GHpW79/doJv6s9Bw+Ni853gTkv
-         xV5t/D7uKH9Psp46Kh1C9RXSEfBDE5cPmYDE07Ss9/euZrTHI+6lZdAVhWOouc55yd/M
-         uwnwrOJ7OOMBHbMLdWt1Iiv4GlnD7amK/jWdG4zmm0Bx1Sv7zIyX5QJY1yVg8dUFxoVX
-         mT3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FihH+wFZdHJzWdAHO5W9L+MEXrCjKPFXmbCyP+M30fc=;
-        b=anBnFfLf2Pzc3RpcU2roq7TRLRP+Qg9cLGgIhpwtTS3XxK4o3NKjaqJRivLAvnkJQY
-         Cz6aiDSJ8l9KnrDTLfIqQJ89fEKKe9ZeLqNGbLtkBS0ntfO/TpqQ5JEtW/5ikABX3F3+
-         9TPw55NzfSKbtwo2jiumRu1TaEGP2km/xBlqNH4rwos3ySE7MqYmqW+jTRMvaR1RTdb2
-         g866n9tyAUkICQa5JeWNXdTNYOYEwgPP5Rrw2YFO3sQ2DGZtT5f0rbfSo+SIX6gLFGtq
-         rjTQrvYjUOcUpZjtaBPml3xhzwOd6zr+//uauHpBgx6Q2wsfugzhkglDjT8Z0xpWpYBT
-         irbw==
-X-Gm-Message-State: AJIora+JRpL+iESJculZVH2Hw9mvPGd2/SsKFJ1TyxjkMz2GG/940O+i
-	WBusf7jmF2NIUdf5emSOAYQ=
-X-Google-Smtp-Source: AGRyM1td++ElRAofxZa9qKQ/SuYdcx8iXCAN3JnpO5oQCuWWgdSayAZaLIykYwWrH0+Plit+9wT68g==
-X-Received: by 2002:a05:6402:2706:b0:430:6238:78d5 with SMTP id y6-20020a056402270600b00430623878d5mr329759edd.413.1656093702880;
-        Fri, 24 Jun 2022 11:01:42 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id x10-20020a170906298a00b00705cd37fd5asm1489202eje.72.2022.06.24.11.01.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jun 2022 11:01:42 -0700 (PDT)
-Message-ID: <50badb0b-0cac-d935-02bf-f05403f6d765@gmail.com>
-Date: Fri, 24 Jun 2022 20:01:41 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC74746A2;
+	Fri, 24 Jun 2022 20:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656102027; x=1687638027;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5yir5qsDWmJvpcLu8qopoQ2H2wrhCorETTzmzNRdNeU=;
+  b=DfBSv5hImO05Cr0wbpMO6B2WHyt3SgHDsjYSl8D2J0crrNgFcCrw8NKr
+   Ztfe//KKx8DB15UnvzjoXgXN31q8dJP1y2ZnWotprzZ7qkZYAwk2nAbKA
+   92BSbGZKyjoLQ/s9pEm9v5rWxvFo2EEgXzMDJJf9i2EAag1ne+FbztCQ4
+   1Z4Fw1sFfoZWog/mKLY3uwiJQuSnoE97d50+6H7D6db8yeN/4iTS3oIQA
+   UXOtEo48VTfZC8Fh7BX0LRILO1NubvO0lE4z/P/et3fkEENtU2u8WD3kK
+   A2b7Gf2fPgChPi4yIZI+NqlmagiRSglUilQ8m6vfkSsWKYBoTFTDC7gUO
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10388"; a="345082782"
+X-IronPort-AV: E=Sophos;i="5.92,220,1650956400"; 
+   d="scan'208";a="345082782"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2022 13:20:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,220,1650956400"; 
+   d="scan'208";a="589124453"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 24 Jun 2022 13:20:23 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o4pmw-0004ff-Tx;
+	Fri, 24 Jun 2022 20:20:22 +0000
+Date: Sat, 25 Jun 2022 04:20:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: ntb@lists.linux.dev, netdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev,
+ linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 2f9cb3d3bd73fc2225d66aa8fcffb632ed3eb235
+Message-ID: <62b61c74.3Kp+9QDweGyj9KVR%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v4] staging: r8188eu: core/rtw_recv.c: clean up nested if
- statements
-Content-Language: en-US
-To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220624144526.437322-1-marcus.yu.56@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220624144526.437322-1-marcus.yu.56@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-On 6/24/22 16:45, Chang Yu wrote:
-> Combine two nested if statements into a single one to fix indentation
-> issue and improve readability, as suggested by checkpatch.pl
-> 
-> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
-> ---
-> Changes in v4:
->   - Added missing change log and resend
-> 
-> Changes in v3:
->   - Modified subject and description to be more descriptive
-> 
-> Changes in v2:
->   - Added a pair of parentheses to make operator precedence explicit
-> 
-> 
->   drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> index 6564e82ddd66..020bc212532f 100644
-> --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> @@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
->   
->   	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
->   
-> -	if (padapter) {
-> -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
-> -				precvpriv->free_recvframe_cnt++;
-> -	}
-> +	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
-> +		precvpriv->free_recvframe_cnt++;
->   
->   	spin_unlock_bh(&pfree_recv_queue->lock);
->   
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 2f9cb3d3bd73fc2225d66aa8fcffb632ed3eb235  Add linux-next specific files for 20220624
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Error/Warning reports:
+
+https://lore.kernel.org/llvm/202206221813.Dn1s6uuh-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+arch/powerpc/kernel/interrupt.c:542:55: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
+arch/powerpc/kernel/interrupt.c:542:55: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:1025:33: warning: variable 'pre_connection_type' set but not used [-Wunused-but-set-variable]
+drivers/ntb/test/ntb_perf.c:1145: undefined reference to `__umoddi3'
+drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for function 'pci_read' [-Wmissing-prototypes]
+drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for function 'pci_write' [-Wmissing-prototypes]
+include/linux/fs.h:1656: warning: expecting prototype for i_gid_into_mnt(). Prototype was for i_gid_into_vfsgid() instead
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+drivers/net/pcs/pcs-xpcs.c:1031: undefined reference to `phylink_mii_c22_pcs_decode_state'
+drivers/net/pcs/pcs-xpcs.c:832: undefined reference to `phylink_mii_c22_pcs_encode_advertisement'
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arc-randconfig-m031-20220624
+|   |-- drivers-gpu-drm-vc4-vc4_perfmon.c-vc4_perfmon_get()-warn:variable-dereferenced-before-check-perfmon-(see-line-)
+|   `-- drivers-gpu-drm-vc4-vc4_perfmon.c-vc4_perfmon_get_values_ioctl()-warn:variable-dereferenced-before-check-perfmon-(see-line-)
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arm64-buildonly-randconfig-r004-20220624
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|-- i386-allnoconfig
+|   `-- include-linux-fs.h:warning:expecting-prototype-for-i_gid_into_mnt().-Prototype-was-for-i_gid_into_vfsgid()-instead
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|   `-- ntb_perf.c:(.text):undefined-reference-to-__umoddi3
+|-- i386-randconfig-a001
+|   `-- ntb_perf.c:(.text):undefined-reference-to-__umoddi3
+|-- i386-randconfig-a005
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- i386-randconfig-m021
+|   `-- arch-x86-events-core.c-init_hw_perf_events()-warn:missing-error-code-err
+|-- ia64-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- m68k-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- m68k-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- microblaze-randconfig-r006-20220624
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-ntb-test-ntb_perf.c:undefined-reference-to-__umoddi3
+|-- mips-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- nios2-randconfig-r016-20220624
+|   |-- drivers-net-pcs-pcs-xpcs.c:undefined-reference-to-phylink_mii_c22_pcs_decode_state
+|   `-- drivers-net-pcs-pcs-xpcs.c:undefined-reference-to-phylink_mii_c22_pcs_encode_advertisement
+|-- powerpc-allmodconfig
+|   |-- ERROR:__umoddi3-drivers-ntb-test-ntb_perf.ko-undefined
+|   |-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- powerpc-allnoconfig
+|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
+|-- powerpc-asp8347_defconfig
+|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
+|-- powerpc-mpc834x_mds_defconfig
+|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
+|-- powerpc-randconfig-r002-20220624
+|   `-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
+|-- powerpc-randconfig-r032-20220624
+|   `-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
+|-- sh-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- sparc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- sparc-randconfig-r011-20220624
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|-- x86_64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- x86_64-randconfig-a002
+|   |-- pcs-xpcs.c:(.text):undefined-reference-to-phylink_mii_c22_pcs_decode_state
+|   `-- pcs-xpcs.c:(.text):undefined-reference-to-phylink_mii_c22_pcs_encode_advertisement
+`-- xtensa-allyesconfig
+    |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
+    |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+    `-- ntb_perf.c:(.text):undefined-reference-to-__umoddi3
+
+clang_recent_errors
+|-- hexagon-randconfig-r001-20220624
+|   `-- drivers-ufs-host-tc-dwc-g210-pltfrm.c:warning:unused-variable-tc_dwc_g210_pltfm_match
+`-- x86_64-allyesconfig
+    |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-function-pci_read
+    `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-function-pci_write
+
+elapsed time: 728m
+
+configs tested: 84
+configs skipped: 3
+
+gcc tested configs:
+arm                                 defconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+powerpc                     asp8347_defconfig
+mips                           ip32_defconfig
+s390                          debug_defconfig
+sparc                            allyesconfig
+openrisc                  or1klitex_defconfig
+sh                                  defconfig
+m68k                          multi_defconfig
+sh                      rts7751r2d1_defconfig
+xtensa                       common_defconfig
+microblaze                          defconfig
+arm                          iop32x_defconfig
+arm                        realview_defconfig
+arm                        keystone_defconfig
+m68k                         apollo_defconfig
+parisc64                            defconfig
+arm                       aspeed_g5_defconfig
+powerpc                 mpc834x_mds_defconfig
+riscv                             allnoconfig
+riscv                    nommu_k210_defconfig
+i386                   debian-10.3-kselftests
+riscv                          rv32_defconfig
+riscv                    nommu_virt_defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+sh                               allmodconfig
+powerpc                           allnoconfig
+m68k                             allyesconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+m68k                             allmodconfig
+i386                                defconfig
+i386                             allyesconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+arc                  randconfig-r043-20220624
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+
+clang tested configs:
+arm                                 defconfig
+powerpc                     ksi8560_defconfig
+powerpc                       ebony_defconfig
+powerpc                     kilauea_defconfig
+powerpc                     kmeter1_defconfig
+x86_64                           allyesconfig
+arm                           omap1_defconfig
+arm                         s3c2410_defconfig
+powerpc                      walnut_defconfig
+mips                   sb1250_swarm_defconfig
+powerpc                      pmac32_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a014
+x86_64                        randconfig-a012
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+hexagon              randconfig-r045-20220624
+riscv                randconfig-r042-20220624
+hexagon              randconfig-r041-20220624
+s390                 randconfig-r044-20220624
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
