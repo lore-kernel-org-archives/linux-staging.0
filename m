@@ -1,134 +1,99 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2EC7C
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 16:39:55 +0000 (UTC)
-Received: from localhost.localdomain ([37.4.249.155]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mdevh-1nVAXk2mJt-00ZdtC; Fri, 24 Jun 2022 18:39:41 +0200
-From: Stefan Wahren <stefan.wahren@i2se.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Peter Robinson <pbrobinson@gmail.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Gaston Gonzalez <gascoar@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH] staging: vchiq_arm: Add missing memory barrier comments
-Date: Fri, 24 Jun 2022 18:39:02 +0200
-Message-Id: <20220624163902.6913-1-stefan.wahren@i2se.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA41F7C
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 18:01:44 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id fd6so4532942edb.5
+        for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 11:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FihH+wFZdHJzWdAHO5W9L+MEXrCjKPFXmbCyP+M30fc=;
+        b=CfgI1rTukijr/p19JI7e9i/2E8rGCaNwtR63+EGnzZQdw3kfOo75LFCH8sm5OrZU+h
+         yVfD+TuO+K2UfqyURxxTXLnV2sH0dBr3kGYBdUvFM2+sxlbxuYm3YI57KUSBXi4L3Q+J
+         R33opJx/huDwfocZTx3naQjd6b0xK4xVIPsE52Cci0GHpW79/doJv6s9Bw+Ni853gTkv
+         xV5t/D7uKH9Psp46Kh1C9RXSEfBDE5cPmYDE07Ss9/euZrTHI+6lZdAVhWOouc55yd/M
+         uwnwrOJ7OOMBHbMLdWt1Iiv4GlnD7amK/jWdG4zmm0Bx1Sv7zIyX5QJY1yVg8dUFxoVX
+         mT3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=FihH+wFZdHJzWdAHO5W9L+MEXrCjKPFXmbCyP+M30fc=;
+        b=anBnFfLf2Pzc3RpcU2roq7TRLRP+Qg9cLGgIhpwtTS3XxK4o3NKjaqJRivLAvnkJQY
+         Cz6aiDSJ8l9KnrDTLfIqQJ89fEKKe9ZeLqNGbLtkBS0ntfO/TpqQ5JEtW/5ikABX3F3+
+         9TPw55NzfSKbtwo2jiumRu1TaEGP2km/xBlqNH4rwos3ySE7MqYmqW+jTRMvaR1RTdb2
+         g866n9tyAUkICQa5JeWNXdTNYOYEwgPP5Rrw2YFO3sQ2DGZtT5f0rbfSo+SIX6gLFGtq
+         rjTQrvYjUOcUpZjtaBPml3xhzwOd6zr+//uauHpBgx6Q2wsfugzhkglDjT8Z0xpWpYBT
+         irbw==
+X-Gm-Message-State: AJIora+JRpL+iESJculZVH2Hw9mvPGd2/SsKFJ1TyxjkMz2GG/940O+i
+	WBusf7jmF2NIUdf5emSOAYQ=
+X-Google-Smtp-Source: AGRyM1td++ElRAofxZa9qKQ/SuYdcx8iXCAN3JnpO5oQCuWWgdSayAZaLIykYwWrH0+Plit+9wT68g==
+X-Received: by 2002:a05:6402:2706:b0:430:6238:78d5 with SMTP id y6-20020a056402270600b00430623878d5mr329759edd.413.1656093702880;
+        Fri, 24 Jun 2022 11:01:42 -0700 (PDT)
+Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
+        by smtp.gmail.com with ESMTPSA id x10-20020a170906298a00b00705cd37fd5asm1489202eje.72.2022.06.24.11.01.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jun 2022 11:01:42 -0700 (PDT)
+Message-ID: <50badb0b-0cac-d935-02bf-f05403f6d765@gmail.com>
+Date: Fri, 24 Jun 2022 20:01:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6D+6xb9DkEyOjZJDjNMI4PRhQSrvNC/CPkzqV7neEO07RhlSVUE
- /tQBDLZnHOyaQU14YpBxgxEwum/hy+djXvdMofN/KOlgPwhFmR98gOu7vfGLRlpM4g3VlOg
- xTOmCC8JrY5u3v6Aagi9mrhT6FPlGIe3pCVqF74H5rwH8t6FIRzdjycXSrTXs6r6KpY7Gya
- qCpfyXHjAk/gIQbVq7/XQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:z+hyA4DojEQ=:hrBOoCm/jfh20e7X+4roJV
- EXO6khWHtPH4/NYFtawUagne99qwQiVih8mO12hq1ou9euX2VhsWFKtFf4Za5W53JIs4EUP4y
- tdTPn4Ghb6oOwXdDFbmDWrR8kIrFciYZ83ijEmZod8/pEK3XWuEDg24G/DyD1nPhzLTLcJMkd
- YCZ44GtFSyE48pkABdPIGtO/oSY5pdbHoRlMXSgG/t6/N8Z9PgGtAs0hBR9i9VHW3VgUbhBsV
- wraGgDHy/W4ZMd6A9b1Rjceb+idKgmhePqlHb40oSEBO/SGFrxU8dxvYteOIb9wKa0lgge2is
- XEmLNJsKfbMtJZLF3ZAMubmB1WJ1oMgsViVdUHHDkbRVneCMIpJgMHl+YJ3wYFVi0NBJtVNvX
- DEzQ/SfGC5NrhgZ2tJ4Ee5U9sv/cJuNdRFQAuwrFLiMWDJNTGMVVG1NJODa9ltlW2Ao+SikCN
- DPsV0w9AWFzJKXcKX2+3Gl5AHwxeAajLDk801469BUr8AUQ1outkSfa8dR6vcWNdpn8tn1IuD
- UNpHsYrFOVeb3z8StnHc68PEfvYXFmipXzWApdZG7lAUv/kcScnHv1ijX0R+qPFt9Ik5xpag9
- /7tXvFJyRc2z1r6P+X/icxTAiZjvvr1+zydQkKzIQBbiEUs9+t2LwR+ILRAm08w2x1R56XC4l
- +5Lv6q5Z1UFh+QOWnkP1g8HNVR6nauvTlIl3tYCE427x7j3L5Q1GoxkGIvVLLci3AW57qCko8
- Nmte26vxSJHyDZn3Y+3TQZ1+1jwDNE+4+w0BRn0UAS/ctTOwl+xQdeq7hk0=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4] staging: r8188eu: core/rtw_recv.c: clean up nested if
+ statements
+Content-Language: en-US
+To: Chang Yu <marcus.yu.56@gmail.com>, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220624144526.437322-1-marcus.yu.56@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220624144526.437322-1-marcus.yu.56@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Phil Elwell <phil@raspberrypi.com>
+On 6/24/22 16:45, Chang Yu wrote:
+> Combine two nested if statements into a single one to fix indentation
+> issue and improve readability, as suggested by checkpatch.pl
+> 
+> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+> ---
+> Changes in v4:
+>   - Added missing change log and resend
+> 
+> Changes in v3:
+>   - Modified subject and description to be more descriptive
+> 
+> Changes in v2:
+>   - Added a pair of parentheses to make operator precedence explicit
+> 
+> 
+>   drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+> index 6564e82ddd66..020bc212532f 100644
+> --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> @@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
+>   
+>   	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
+>   
+> -	if (padapter) {
+> -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
+> -				precvpriv->free_recvframe_cnt++;
+> -	}
+> +	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
+> +		precvpriv->free_recvframe_cnt++;
+>   
+>   	spin_unlock_bh(&pfree_recv_queue->lock);
+>   
 
-One of points on the TODO list was to comment the memory barriers.
-This patch addresses the missing ones in order to help reviewers.
-
-Signed-off-by: Phil Elwell <phil@raspberrypi.com>
-Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
-Link: https://github.com/raspberrypi/linux/pull/5066
----
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c        | 4 ++++
- .../vc04_services/interface/vchiq_arm/vchiq_core.c       | 9 +++++++++
- 2 files changed, 13 insertions(+)
-
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 3bcb893d14a1..dc33490ba7fb 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -602,6 +602,10 @@ static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_state *
- void
- remote_event_signal(struct remote_event *event)
- {
-+	/*
-+	 * Ensure that all writes to shared data structures have completed
-+	 * before signalling the peer.
-+	 */
- 	wmb();
- 
- 	event->fired = 1;
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 7b9c100eb74d..45ed30bfdbf5 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -528,6 +528,7 @@ remote_event_wait(wait_queue_head_t *wq, struct remote_event *event)
- 			return 0;
- 		}
- 		event->armed = 0;
-+		/* Ensure that the peer sees that we are not waiting (armed == 0). */
- 		wmb();
- 	}
- 
-@@ -650,6 +651,7 @@ request_poll(struct vchiq_state *state, struct vchiq_service *service,
- 
- skip_service:
- 	state->poll_needed = 1;
-+	/* Ensure the slot handler thread sees the poll_needed flag. */
- 	wmb();
- 
- 	/* ... and ensure the slot handler runs. */
-@@ -1156,6 +1158,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
- 
- 	remote_event_wait(&state->sync_release_event, &local->sync_release);
- 
-+	/* Ensure that reads don't overtake the remote_event_wait. */
- 	rmb();
- 
- 	header = (struct vchiq_header *)SLOT_DATA_FROM_INDEX(state,
-@@ -1959,6 +1962,7 @@ slot_handler_func(void *v)
- 		DEBUG_TRACE(SLOT_HANDLER_LINE);
- 		remote_event_wait(&state->trigger_event, &local->trigger);
- 
-+		/* Ensure that reads don't overtake the remote_event_wait. */
- 		rmb();
- 
- 		DEBUG_TRACE(SLOT_HANDLER_LINE);
-@@ -2021,6 +2025,7 @@ sync_func(void *v)
- 
- 		remote_event_wait(&state->sync_trigger_event, &local->sync_trigger);
- 
-+		/* Ensure that reads don't overtake the remote_event_wait. */
- 		rmb();
- 
- 		msgid = header->msgid;
-@@ -3081,6 +3086,10 @@ enum vchiq_status vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned
- 	if (vchiq_prepare_bulk_data(instance, bulk, offset, uoffset, size, dir))
- 		goto unlock_error_exit;
- 
-+	/*
-+	 * Ensure that the bulk data record is visible to the peer
-+	 * before proceeding.
-+	 */
- 	wmb();
- 
- 	vchiq_log_info(vchiq_core_log_level, "%d: bt (%d->%d) %cx %x@%pad %pK",
--- 
-2.25.1
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
