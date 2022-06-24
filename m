@@ -1,157 +1,175 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0C723A1
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 05:40:01 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25O4V8g0031401;
-	Fri, 24 Jun 2022 05:39:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=21vwsX0ey5vabasqt+VzQTbStEY/+HvIYkMrzwwqHTY=;
- b=TpXP7uF3lj1euLYyhB86jnr98Y8jnnfMVgGAFSFAChbuEpH9avCFvj0tXEWpu1K91eLm
- GP2fH/rkMcaS38YLyn/CK7NbdI3Q0eYa+rAq6Betn5cm0jal53V6k+KQMh+ByiVm4o4H
- 826Jpr+lQABaA3zwcx7kk/3vVuRfUkLMboG7QTn3xL92pofuhT6ILzXCHLoZv7lMaXas
- SWonMOoxGoqq0MT4D0Elzv3UwbQ8SgwD7qj0yZ+3g2u8zY+Npo7hjdenhhiaiMBm6/Zp
- vnu428D0RXeWGZhImKPWpHZ+/WvhXj5/8xBX7I3+pk+CthNGKqlp2DrSegmQ1hFmYGOT +g== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs78u4uu9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Jun 2022 05:39:51 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25O5acSC018294;
-	Fri, 24 Jun 2022 05:39:51 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gth907kd8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 Jun 2022 05:39:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O6EO004RkYwPWTznXZv1sZFnQkh+v+AnDK1G2SrZqFw5B07dqCqofvGGaYik+HtluEHsBg+8J/YR7K70vgTFQ2x2GNtrhlvYHl5MTPD1j64wAEu4h0pkmj5ShgVJz38vmqGfImbz6KsMLCk8IJNTgeObV7D31XUMjYr25nOHn3aoUs7Avue2zWNtaC3m/ve5eNOeBvOe+SAImPGvilpjJqEDYjffXuL3aHagu3m5TEhb4zr27qqMYWT8DYiSC6BmAS7OECq8MJV6dRG0eVkqnLCKaT2znpskw9SXE1z0vtWjF0BSw795uxEY3ADm8sksHrJReUb5GPtS0ppzSL7znw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=21vwsX0ey5vabasqt+VzQTbStEY/+HvIYkMrzwwqHTY=;
- b=Vk4L2jG40aL5n7sFlvDpMTsLtOSa/7kD1uv3RFuRj/H6tDt0KcvBT7wViBAt93qeockzjFGMGTfW5/Y62I2Qkw2iVoROWFyuLWANXX4PlilQgLLb5ziZfpeGY5EIVgDDExfZTtvqyV1b2RO6TnzycNYMQUOSZ/e/8c9pPL0YMKt+OE7JIVnolAXGv/coVZwqlpEp2UIyJGC0jNhTTUTnq/2sS53MYLqUOlLIj9avZnKfvWB8XPDQhg3b06YcekE+EYyV+C61/50mxmX6MHuZLEfYx1xKjZ5yip8vk3MPmLt3+d3zbdMr7B477Igb1QGrbqwN44Yft7hDJBCk8g8+UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD9323A1
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 05:47:14 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id q6so2435476eji.13
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 22:47:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=21vwsX0ey5vabasqt+VzQTbStEY/+HvIYkMrzwwqHTY=;
- b=A7n0Tz5GfSk/OVvkv3O9nSZ30lE9BfA4Izf2BsBB7PrJbTthoDFeJ16X/OtDCOBbR/TGgfV+3HBeF2rtb0iZjJEN/nkK119Ri8kcUwDtHYqBHyn/ZGZbsZgF7zy0y//VtZtyR2LICAwB/cM6wAJPhnoNfkP0po3YKOCPYBNK7mo=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MN2PR10MB3485.namprd10.prod.outlook.com
- (2603:10b6:208:10e::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Fri, 24 Jun
- 2022 05:39:48 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5373.015; Fri, 24 Jun 2022
- 05:39:48 +0000
-Date: Fri, 24 Jun 2022 08:39:30 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Chang Yu <marcus.yu.56@gmail.com>
-Cc: Greg KH <greg@kroah.com>, Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: combine nested if statements into
- one
-Message-ID: <20220624053930.GU16517@kadam>
-References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
- <20220623051404.410632-1-marcus.yu.56@gmail.com>
- <YrQ2Izg1b399yJou@kroah.com>
- <YrUw3lejTP0UyWmt@zephyrus-g14.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YrUw3lejTP0UyWmt@zephyrus-g14.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNXP275CA0042.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::30)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=abZ/yTYs0ZwLRlsQiZNgXIB/kfxOpHs4jVotD4dmbgw=;
+        b=gZIdoDgHmaxSVYNIVrQhhqeqMbOFxuBGIGTazSY1poz6u4oFVnujKzefwOPJYJuOqk
+         YIKizMhO+vYAGoJcn+m4og7xvq2rjrHnPYfOkmuQvSuLxSI8RDssKaKscuYBPTCn1zTe
+         43UjG42vDRIRWJQYRVDsobPy3vi65PU/TE2nHw7qEh3QvQUDprom1hkSY8OtgNY1U4F0
+         9i8AGAF2HBs+YS9OQZdhNul8m2KKEzSPQ7Ypdam1LnSMPhhBDvINtxWAympsCVR5TEBS
+         BCBA3LKQaKf14XQp59dw6Y/VyQ3t98e4bjOg2FA1KT9F3dqQ5F4X+/kgbXVm/AJVQ9vW
+         6Diw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=abZ/yTYs0ZwLRlsQiZNgXIB/kfxOpHs4jVotD4dmbgw=;
+        b=1tAjr3u5ivBvuULkVsuIocBjkMV5sjK1rEBk1oTXOYX03LQpXbGOa9mZWcwEaDIld3
+         B3U1aURzzun/Qru9jwABz7vtLfOndoYYvDimGYxmHJu9VmZ6syL0ag5tbT1G7TVhHPwR
+         L6BzRScxfzVwXhhLeEBKUi5sfaShqFv//JgdfvMtpufHEcQ0X6J7lD2mM7r6g5WtwlQ7
+         obwpqw/BpOxIkCAz/wuE259TEptadOxBAcwmzf6sDYR0zWvz84jiS3qzuK2U2Nd5y/Ta
+         wLmzgMfyXbYo29IPxVNXQyeesmKexQV9UF2K8T0Ig44KZ7M5cxizFMN1jscN4+vyvh4/
+         VbVA==
+X-Gm-Message-State: AJIora8E29wdxPNmJoRClb2HIiaD3QfByCKyiVnCEcc44oIbZNZ7GTOa
+	aIiZeuByeNgrjzUsfpmIT0s=
+X-Google-Smtp-Source: AGRyM1tzgdT7WzRgqABYFO31+RZTzcofzQVtDoQev2UpD1fM2a6nTQiKyGPjZDvNGjZikqWSnDI2AA==
+X-Received: by 2002:a17:906:3c07:b0:718:e1a7:b834 with SMTP id h7-20020a1709063c0700b00718e1a7b834mr11467688ejg.635.1656049633376;
+        Thu, 23 Jun 2022 22:47:13 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2e:6903:8f42:a6e8:b267:63e? (p200300c78f2e69038f42a6e8b267063e.dip0.t-ipconnect.de. [2003:c7:8f2e:6903:8f42:a6e8:b267:63e])
+        by smtp.gmail.com with ESMTPSA id jz27-20020a17090775fb00b006fecf74395bsm544100ejc.8.2022.06.23.22.47.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jun 2022 22:47:13 -0700 (PDT)
+Message-ID: <4e0d3b62-ceb4-5848-446f-6552ab16f852@gmail.com>
+Date: Fri, 24 Jun 2022 07:47:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 382b666c-2ddd-4fd3-6e6c-08da55a3f386
-X-MS-TrafficTypeDiagnostic: MN2PR10MB3485:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	KnE+K+z4Ra3uLzkF8gaZFNNWrufHN/IUIWGs0S2zyL6SjAC6BTzqIUH/S/kqdCVEcj7OoLiTMPhLrWX/hjK9RarwzJ1E/IDq8N+MUDWumaINR98lAsgSzGntOvu6SvXIE3QO3dMCkTb+uJTCBl9IEeBQ0lQDjvKIcuTdye2ANoJg9dUJim83pcZQdTPRLwF6SM44LGgRMEE9VQNx24PQHC5wj6K177eS2V7vFezkqJMUkPB9GBxqZQ5IWC1LaJsMSoDufFQwAC//wTwRd0omuJ100Ti+tD7LIuATPEVNBMWiqw2pXM5NhSL4o5fmVqSetdt6TjmmYiBk6FZIkLEN/14cfCj/GfACbEpfGLP9PzO6dL8tYJBFPDMpnjvs+PqPkEkCVjzafrTEPOC8jshctR/GUFj9iu0eoqmFbhLVr7CtwPatfFHSj/mpH1YQxtl7rlNHgv/b39GfAsbM8K1EGdynQxCh6QRFby0QcL1mRptOjW/F0WiKN1KJm6ETak/Oncyqu1UTfos67tJP1sUmnSaoM3jG9bleTgxLkbxYUm0Dhy0cv7mgZi9ndPnDFhKAfA7IlGv8HYl9U9qdrNPnPrTSOt2clBswUgerPdwViFDopL/KeY9fABH53vp3I80oR5V1HXTM5eMh6jQUMlf2me8rjDJU+udGcSU6z2/6flSxL3rlseOk8jzKAKLF4xSYARkEKdr5TMajgy3iEi8pRP/rz9cazmmREUEcYg19mSNhmd+8OizyON36CcIC4OpQAbfpugWQ+67xiVpJ7n/TAgFE9i6WpkC5DZQmYJAEs2k=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(39860400002)(396003)(136003)(346002)(366004)(376002)(66476007)(66946007)(4326008)(8676002)(44832011)(4744005)(66556008)(6916009)(86362001)(1076003)(5660300002)(33716001)(8936002)(186003)(6506007)(83380400001)(38100700002)(38350700002)(52116002)(9686003)(6512007)(6666004)(41300700001)(26005)(33656002)(2906002)(316002)(478600001)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Qa6veGI8NYDJsNJRUUVAwToMlxEpHmtNePLwNBK4+L8InG/NikGIRRG0T0OC?=
- =?us-ascii?Q?9XwjbHpu1tDTPaaIwT2A98R3UEmPp+Y0fiKM/E5sYLE4CsaAeTRo+19oViz4?=
- =?us-ascii?Q?C/rARqvD2DhxoTGJ31ZjJF+wh5MlI4V1yeJOYavBH7tvv+Xtw+pMQeCuXKPP?=
- =?us-ascii?Q?GCTPFHNgvS3AibI9xHXOaJ6pV87Va5AoZJb85vAo1xKm7JgJ/OG9A14chRm2?=
- =?us-ascii?Q?yUpPvRp+aF8Fd/m+ZSpJ9uhqadUKazsswYZxDw9qUmSPzYSXPyl8Sdhpo5m6?=
- =?us-ascii?Q?KzPnf598DxuucybKOAM6n4c5KIOT5EAxcK3Z/QpXEUGDQkPfK2Xv1pFv49tP?=
- =?us-ascii?Q?vgsQyVKQwFcVipiaC4ldHm8XxAp3HZp0w52XAMTL3SwKWtejRh8f2z//Q5Jo?=
- =?us-ascii?Q?E9ukml6itZ3dh0TN3t81L1mynsrhaMWSG+16231mGkSsDQNPTx0FsLvNAxAl?=
- =?us-ascii?Q?O2AIN1L+Qpcm0Hqe5aTtEUivOzz/NmBj4GqroUs2e5mpma4VBEqPwIn+KFqr?=
- =?us-ascii?Q?Nn4A9+KYmQF1lBJaxmqQHEPjVPwgezjoCMJzU9ILoiMZ2VbgBIm/H8RuzA9E?=
- =?us-ascii?Q?k3LGT1nOeXuENg9Pjnb7y0T/gY75TMmEc99KXxRB95ucZG9OClTA/AN2iyhh?=
- =?us-ascii?Q?rFlJOTqk+tWrCv70A2uwkRhq7PFILwdL+fXscCiTRiqEMza1qqWYSIhEpdsA?=
- =?us-ascii?Q?Bl76zagf92a5x//V4/QZX4vWXtY5lwmxOlopNTsY29Z1R0L0icd/m2MjzZs6?=
- =?us-ascii?Q?JRXee3sIME9caoVPf/M7FG5w75CxrlyjJ7edDV0VvSQsSKD/03pL/VuY5x7j?=
- =?us-ascii?Q?MVRxs6Ka5+wdISY3AN1uDcweyQDT9hndG+zlK/+715gqfzvUznSn6eJmed6V?=
- =?us-ascii?Q?H1ytinqmN6yDqq9BA6dAg9Pwi6a3OntspmIzZsLBiXWMcKhQEzq/KQVgXpkZ?=
- =?us-ascii?Q?VWkwKp3Q5Q4FZXWUy5jxnrqpynhOU1IE7qemS+BCGoW1e0KZB/QVzu1E4rtT?=
- =?us-ascii?Q?WD5AZkXaKgt2R6azmCsklx3B/IWWdaLDNkAhBC6rNdcCaLlTT/Xtp+l0lPXV?=
- =?us-ascii?Q?LDoZljog8KgduzG+JCCJt9veuMNRnzptwgDrXDDWgUlAcKsO3BMdL3wXqP30?=
- =?us-ascii?Q?HPTQY69uVLjh+VmxJSJQRyQMDCBtERdDJLNHn0QN1u37O9P6vIVe0R08CY6h?=
- =?us-ascii?Q?1/tiuSUvEGJ5E4GqObauvClUTsDJlZZtrNjd4t4HHDWSfI4MDuQlLnqfu/oq?=
- =?us-ascii?Q?95FYkhMgFlHRusMB5p4VnWQxJZ1JFNpLIEC3cCxoj+09mzDhybhPimPrP6d5?=
- =?us-ascii?Q?uHW0zCxDFnHNoQXqQ5KAym+ac2RmBDkfJvaeTqEsOD2K9qTyTS+csKTYl3Jd?=
- =?us-ascii?Q?bRR7sEbd5vbAAP4uk2KfEyUWL7wWux0yUQUdYX2NR6bVQpyNVtvO0E1b7/vm?=
- =?us-ascii?Q?jVrms4EHLAX6P6wgyCXAti2eAC+YblW1RV90dN7nQWQ39W5GfkY3H3hKWxw1?=
- =?us-ascii?Q?nYajmFl83skYYsTWmK30pu42jrxmU12On0zVLQfVsme9sOqQmsiLj931zlEr?=
- =?us-ascii?Q?HauhW+n4l1JPmnkb8WrV3LFqaG359A8NCuY40vYq0TDflujvw2uK6phrjM4k?=
- =?us-ascii?Q?vg=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 382b666c-2ddd-4fd3-6e6c-08da55a3f386
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2022 05:39:48.6924
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 46viGUc/z3Ko6uTc3G9vTOcYq5gnriudtctzWBvpnZ3IXxTuT0IO2Oy5sdWqlb4TyhzgYaIz5+MsCMCVjhsw0EC6qLo/SdHRfEzjmNU1ywU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3485
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-24_03:2022-06-23,2022-06-24 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 mlxscore=0
- phishscore=0 adultscore=0 suspectscore=0 mlxlogscore=715 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206240020
-X-Proofpoint-GUID: unQ_Ne6mzJl56QrTLwgc-rve2xhlE2ry
-X-Proofpoint-ORIG-GUID: unQ_Ne6mzJl56QrTLwgc-rve2xhlE2ry
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2] staging: r8188eu: combine nested if statements into
+ one
+Content-Language: en-US
+To: Chang Yu <marcus.yu.56@gmail.com>, Greg KH <greg@kroah.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+ <20220623051404.410632-1-marcus.yu.56@gmail.com> <YrQ2Izg1b399yJou@kroah.com>
+ <YrUw3lejTP0UyWmt@zephyrus-g14.localdomain>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <YrUw3lejTP0UyWmt@zephyrus-g14.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 23, 2022 at 08:34:54PM -0700, Chang Yu wrote:
-> > - You did not specify a description of why the patch is needed,
->
+On 6/24/22 05:34, Chang Yu wrote:
+> On Thu, Jun 23, 2022 at 11:45:07AM +0200, Greg KH wrote:
+>> On Wed, Jun 22, 2022 at 10:14:04PM -0700, Chang Yu wrote:
+>>> Combine two nested if statements into a single one
+>>>
+>>> Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+>>> ---
+>>> Changes in v2:
+>>> Added a pair of parentheses to make operator precedence explicit.
+>>>
+>>>   drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
+>>>   1 file changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+>>> index 6564e82ddd66..020bc212532f 100644
+>>> --- a/drivers/staging/r8188eu/core/rtw_recv.c
+>>> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+>>> @@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
+>>>   
+>>>   	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
+>>>   
+>>> -	if (padapter) {
+>>> -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
+>>> -				precvpriv->free_recvframe_cnt++;
+>>> -	}
+>>> +	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
+>>> +		precvpriv->free_recvframe_cnt++;
+>>>   
+>>>   	spin_unlock_bh(&pfree_recv_queue->lock);
+>>>   
+>>> -- 
+>>> 2.36.1
+>>>
+>>>
+>>
+>> Hi,
+>>
+>> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+>> a patch that has triggered this response.  He used to manually respond
+>> to these common problems, but in order to save his sanity (he kept
+>> writing the same thing over and over, yet to different people), I was
+>> created.  Hopefully you will not take offence and will fix the problem
+>> in your patch and resubmit it so that it can be accepted into the Linux
+>> kernel tree.
+>>
+>> You are receiving this message because of the following common error(s)
+>> as indicated below:
+>>
+>> - You did not specify a description of why the patch is needed, or
+>>    possibly, any description at all, in the email body.  Please read the
+>>    section entitled "The canonical patch format" in the kernel file,
+>>    Documentation/SubmittingPatches for what is needed in order to
+>>    properly describe the change.
+>>
+>> - You did not write a descriptive Subject: for the patch, allowing Greg,
+>>    and everyone else, to know what this patch is all about.  Please read
+>>    the section entitled "The canonical patch format" in the kernel file,
+>>    Documentation/SubmittingPatches for what a proper Subject: line should
+>>    look like.
+>>
+>> If you wish to discuss this problem further, or you have questions about
+>> how to resolve this issue, please feel free to respond to this email and
+>> Greg will reply once he has dug out from the pending patches received
+>> from other developers.
+>>
+>> thanks,
+>>
+>> greg k-h's patch email bot
+> 
 > I'm not entirely sure how to fix this. I checked the original patch
 > again and the subject and the body looks OK to me. I'm still a newbie so
 > I might have missed a couple of things. It would be greatly appreciated
 > if someone could point out what's missing.
+> 
 
-What's the advantage of combining if statements?  Out of all the if
-statements in the kernel why did you pick that one?  Probably it's
-because the indenting was wrong, no?
+description:
+You wrote what you did in the description. Even when the why can be 
+likely answered as well it is not sufficient for Greg K-H.
 
-Write the commit message like this:
+I propose something like:
+Combine two nested if statements into a single one to increase readability.
 
-[PATCH v3] staging: r8188eu: clean up if statement
+Or
 
-I noticed that the if statement was strange and the code was indented
-too far.  It is cleaner to combine both if statements as well.
+Combine two nested if statements into a single one to shorten code.
 
-regards,
-dan carpenter
+subject:
+I am guessing. The subject could may be remain but I think it is to 
+general. Please consider that we can have multiple of this subjects what 
+is not good. How to know which patch is which?
+
+I propose something like:
+staging: r8188eu: combine nested if statements in function xxxx
+
+Or
+
+staging: r8188eu: combine nested if statements in file xxxx
+
+
+But consider that the patches that were accepted do also have a not so 
+specific subject. The description was very clear about the "why". There 
+the reason was always checkpatch.
+
+Bye Philipp
+
+
+
+
+
+
+
+
