@@ -1,61 +1,87 @@
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A729823A1
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 06:10:53 +0000 (UTC)
-Received: by ajax-webmail-mail-app3 (Coremail) ; Fri, 24 Jun 2022 14:02:56
- +0800 (GMT+08:00)
-X-Originating-IP: [10.190.70.246]
-Date: Fri, 24 Jun 2022 14:02:56 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: duoming@zju.edu.cn
-To: "Greg KH" <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, davem@davemloft.net, 
-	alexander.deucher@amd.com, kuba@kernel.org, broonie@kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192u: Fix sleep in atomic context bug
- in dm_fsync_timer_callback
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <YrQ2gXtX2FOkyNgu@kroah.com>
-References: <20220623055912.84138-1-duoming@zju.edu.cn>
- <YrQ2gXtX2FOkyNgu@kroah.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D7523A1
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 06:27:53 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id dw10-20020a17090b094a00b001ed00a16eb4so1901136pjb.2
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 23:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=souzsk9ifgaOyhU9GyyRqJqftjYrRuWLP0PcFjYsfu8=;
+        b=KyEw12z175h99BsAPf+680LU1Vw0hBAVoNyKMZ4NUwuf+4nIXSThxl/0N55GHg2y8o
+         8kqU6KP7vF31ek/SIIZRj9KSjD/p1SdUc5XKkR96tv+Y9Qg01Sx3YAlD72NtYheZP38s
+         oZp2QBfDJMcfcinxmS0Z7OwvrTrjkH7/MPN3Y4c3pousqF3/jt3oleM2Hld5QUgs/8lD
+         kAsyOSG2uPj2YKcNzqWtciHRUKouUkgILH84cBIwuJJYfvQU/Ba9tM1uPcXErka4hru0
+         T41gFV8rGj2MDjE7p3GKz0jeG91od8JHErxUiac3XQgmIG9xTto7syEnX6HeFVDoHsjY
+         md8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=souzsk9ifgaOyhU9GyyRqJqftjYrRuWLP0PcFjYsfu8=;
+        b=fq6FVUhVKULTUJIBI/s3BkhPvfw7ASgDfJWprGYKt0J6mWPiqgnTjulIzrH9Hwpuy4
+         prEDiHBKxunFx3TQ1LsgGU8raxHD/tXmuXvJ+VT/CXFAwjcE+bRtHVDLRrZrlm37ptN2
+         AGp3z1QNeXw9VgNjeu8OD1G2vh3JHkT6IjNFIdX1QXwJQBXqmlLH3JOUjRR3Ok4KEg3p
+         6OLgAEddf+Lvw4MURxJ+Zgidhm9OIdgvclgepOx4DiOY22j3WOD+/m9GihY214WrnkZY
+         NL67tuI0SchJYNircmvaMKjDVLpmlPM5Ke2tVQOiuxr+UyBA+WxCDbaVm0aISSTmauR2
+         mgGw==
+X-Gm-Message-State: AJIora+YCT8A/GUJuC4vqqQTU7RPYtYxvSdWGqDXIqO+1rGb4ioXZDGT
+	62CZu1h6oHKi3+rj71fR/R1NXPmqWu3RvQ==
+X-Google-Smtp-Source: AGRyM1vFrewjQ48AKeMSGqOtzS022Czh3FVGN2IYms/9D0wWur/GvFJ9xtZEUMTZOtbLzkC9uhM7SA==
+X-Received: by 2002:a17:902:e5d0:b0:16a:6f96:ec5 with SMTP id u16-20020a170902e5d000b0016a6f960ec5mr109836plf.72.1656052072909;
+        Thu, 23 Jun 2022 23:27:52 -0700 (PDT)
+Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
+        by smtp.gmail.com with ESMTPSA id n22-20020a17090a161600b001ecd48b80a2sm3118421pja.5.2022.06.23.23.27.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jun 2022 23:27:52 -0700 (PDT)
+From: Chang Yu <marcus.yu.56@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chang Yu <marcus.yu.56@gmail.com>
+Subject: [PATCH v3] staging: r8188eu: core/rtw_recv.c: clean up nested if statements
+Date: Thu, 23 Jun 2022 23:27:05 -0700
+Message-Id: <20220624062705.436690-1-marcus.yu.56@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220623031515.402691-1-marcus.yu.56@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <1ddff589.e0f1.181944e6c1a.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:cC_KCgDXT0OQU7VieOfKAA--.1674W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYLAVZdtaYJ8wACsu
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Transfer-Encoding: 8bit
 
-SGVsbG8sCgpPbiBUaHUsIDIzIEp1biAyMDIyIDExOjQ2OjQxICswMjAwIEdyZWcgS0ggd3JvdGU6
-Cgo+IE9uIFRodSwgSnVuIDIzLCAyMDIyIGF0IDAxOjU5OjEyUE0gKzA4MDAsIER1b21pbmcgWmhv
-dSB3cm90ZToKPiA+IFRoZXJlIGFyZSBzbGVlcCBpbiBhdG9taWMgY29udGV4dCBidWdzIHdoZW4g
-ZG1fZnN5bmNfdGltZXJfY2FsbGJhY2sgaXMKPiA+IGV4ZWN1dGluZy4gVGhlIHJvb3QgY2F1c2Ug
-aXMgdGhhdCB0aGUgbWVtb3J5IGFsbG9jYXRpb24gZnVuY3Rpb25zIHdpdGgKPiA+IEdGUF9LRVJO
-RUwgb3IgR0ZQX05PSU8gcGFyYW1ldGVycyBhcmUgY2FsbGVkIGluIGRtX2ZzeW5jX3RpbWVyX2Nh
-bGxiYWNrCj4gPiB3aGljaCBpcyBhIHRpbWVyIGhhbmRsZXIuIFRoZSBjYWxsIHBhdGhzIHRoYXQg
-Y291bGQgdHJpZ2dlciBidWdzIGFyZQo+ID4gc2hvd24gYmVsb3c6Cj4gPiAKPiA+ICAgICAoaW50
-ZXJydXB0IGNvbnRleHQpCj4gPiBkbV9mc3luY190aW1lcl9jYWxsYmFjawo+ID4gICB3cml0ZV9u
-aWNfYnl0ZQo+ID4gICAgIGt6YWxsb2Moc2l6ZW9mKGRhdGEpLCBHRlBfS0VSTkVMKTsgLy9tYXkg
-c2xlZXAKPiA+ICAgICB1c2JfY29udHJvbF9tc2cKPiA+ICAgICAgIGttYWxsb2MoLi4sIEdGUF9O
-T0lPKTsgLy9tYXkgc2xlZXAKPiA+ICAgd3JpdGVfbmljX2R3b3JkCj4gPiAgICAga3phbGxvYyhz
-aXplb2YoZGF0YSksIEdGUF9LRVJORUwpOyAvL21heSBzbGVlcAo+ID4gICAgIHVzYl9jb250cm9s
-X21zZwo+ID4gICAgICAga21hbGxvYyguLiwgR0ZQX05PSU8pOyAvL21heSBzbGVlcAo+ID4gCj4g
-PiBUaGlzIHBhdGNoIHVzZXMgZGVsYXllZCB3b3JrIHRvIHJlcGxhY2UgdGltZXIgYW5kIG1vdmVz
-IHRoZSBvcGVyYXRpb25zCj4gPiB0aGF0IG1heSBzbGVlcCBpbnRvIHRoZSBkZWxheWVkIHdvcmsg
-aW4gb3JkZXIgdG8gbWl0aWdhdGUgYnVncy4KPiA+IAo+ID4gRml4ZXM6IDhmYzg1OThlNjFmNiAo
-IlN0YWdpbmc6IEFkZGVkIFJlYWx0ZWsgcnRsODE5MnUgZHJpdmVyIHRvIHN0YWdpbmciKQo+ID4g
-U2lnbmVkLW9mZi1ieTogRHVvbWluZyBaaG91IDxkdW9taW5nQHpqdS5lZHUuY24+Cj4gPiAtLS0K
-PiA+IENoYW5nZXMgaW4gdjI6Cj4gPiAgIC0gVXNlIGRlbGF5ZWQgd29yayB0byByZXBsYWNlIHRp
-bWVyLgo+IAo+IERpZCB5b3UgdGVzdCB0aGlzIHdpdGggcmVhbCBoYXJkd2FyZSB0byB2ZXJpZnkg
-aXQgc3RpbGwgd29ya3M/CgpJIGFtIHRlc3RpbmcgdGhpcyBhbmQgSSB3aWxsIGdpdmUgeW91IGZl
-ZWRiYWNrIHdpdGhpbiBvbmUgb3IgdHdvIGRheXMuCgpCZXN0IHJlZ2FyZHMsCkR1b21pbmcgWmhv
-dQ==
+Combine two nested if statements into a single one to fix indentation
+issue and improve readability, as suggested by checkpatch.pl
+
+Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 6564e82ddd66..020bc212532f 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
+ 
+ 	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
+ 
+-	if (padapter) {
+-		if (pfree_recv_queue == &precvpriv->free_recv_queue)
+-				precvpriv->free_recvframe_cnt++;
+-	}
++	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
++		precvpriv->free_recvframe_cnt++;
+ 
+ 	spin_unlock_bh(&pfree_recv_queue->lock);
+ 
+-- 
+2.36.1
+
