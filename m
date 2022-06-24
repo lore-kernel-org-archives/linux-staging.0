@@ -1,80 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay2.uni-heidelberg.de (relay2.uni-heidelberg.de [129.206.119.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F024C2574
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 11:44:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420AAC34114;
-	Fri, 24 Jun 2022 11:44:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1656071087;
-	bh=qxPeo/Nw6Qd0O6UxjAzSWKbn3EkYBlOSQmLxfp1xVqU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0EwM7Uv0+2NcfGDCx1hqjO6z98pnx8FCDHV3bgx5T17byHhpPBRq00eBcgVRJoQC7
-	 +YbA33Gp83lbi6JLVzcp5DgOzAuRzplv8KQcHMqd46ynPIjmuL3TfFUFnxGlLgqp3i
-	 9W6eW8TNA19GFYIdNRpuAhYfmy9ah2nD0odehepQ=
-Date: Fri, 24 Jun 2022 13:32:03 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Felix Schlepper <f3sch.git@outlook.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	linux-staging@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 3/3] Staging: rtl8192e: Cleaning up error handling
-Message-ID: <YrWgsxH/yyEQdvEx@kroah.com>
-References: <cover.1655975970.git.f3sch.git@outlook.com>
- <13b32131cd00a1f0b8793657a24ada71240a8350.1655975970.git.f3sch.git@outlook.com>
- <CAHp75VcQcKaYUP_JsmTFOY-pbOR39+TMw=5ADbb2BRGoMijCMw@mail.gmail.com>
- <20220624052118.GT16517@kadam>
- <AM9P190MB1299F18B717D3A5D3E6DE6D4A5B49@AM9P190MB1299.EURP190.PROD.OUTLOOK.COM>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69C828EB
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 13:55:01 +0000 (UTC)
+X-IPAS-Result: =?us-ascii?q?A2BGBQA6wbViffxkzoFagliZDAEBAQaBQostA4EGhhaKO?=
+ =?us-ascii?q?4FzAQEBAQEBAQEBCUIEAQFAig8nNwYOAQIEAQEBAQMCAwEBAQEBAQMBAQYBA?=
+ =?us-ascii?q?QEBAQcEFAEBIzwnhXWGewE7C4RLAYJnATOtL4EBhlkBgT+BZYE+iVaGX4EQh?=
+ =?us-ascii?q?A9uhA8BCggBboVuBJlHCgMJBAcFRhcSTjEhAkULHAEIBgYHAQgBBQgoBAIBA?=
+ =?us-ascii?q?QEGBRgUAQMBARMSBRMMBygKEgISDAobBwcDCwUyDQIOBwEBDA8BAg8DAQIRA?=
+ =?us-ascii?q?QcCCRIIBg8rCAMBAQMBBwECAgMgCwIDFgkHCAIBAgUCAgEDDwEIChwSEBQCB?=
+ =?us-ascii?q?A0EHgkCCAECGR4sBwICBA4DIx0ICwoDDgMEAwEQAhgHAgEVAQUCBAgEAQMGA?=
+ =?us-ascii?q?wgVGQENJwQHAxICDQEGAQIGAQEFBQEDGAgDFAMFAQIIAxYHAQIhBQomCQQNA?=
+ =?us-ascii?q?wEiGwIDAwEEGwoCAQICBRYFAgEBAgMCBhUGAgI/LxEdDQgECAQJEhwjAQIMA?=
+ =?us-ascii?q?QQBAgcvBQQtAgEBHgQFAQUPAggBARYCBgQDAgIDAQECARYCEAgCCCcXBxMzG?=
+ =?us-ascii?q?QEFNxQODwEDBggZHCIHCQcFBhYDDhUnHikFBxESGw8EDQ0KNCAWJAEBDgUDA?=
+ =?us-ascii?q?RIZEQ4HFApTJiEVEAYBKxYDBAEDAwIGHAECAyUCEgYOBQEiHRmbD3sTgioVH?=
+ =?us-ascii?q?5Jerm0Hg1EQAaAILZZiApIAlnCiCAxahE41gUKBD3BNI1CCaVAZD412AY57g?=
+ =?us-ascii?q?S4CBgsBAQMJjEqCNwEB?=
+IronPort-Data: A9a23:uaqjLqxLVKxoKS2/ZDN6t+e8xirEfRIJ4+MujC+fZmUNrF6WrkUAn
+ GtMWGHQPqqIN2v2L4wnYIu19UNXuJGAzdZjTQJl+FhgHilAwSbnLY3EcR2gYX/6wu4v7q5Dx
+ 59DAjUVBJlsFhcwnj/0bv656yMUOZigHtIQMsacUsxKbVIiGX1JZS5LwbZj2NY224ThWWthh
+ PuryyHhEA79s9JLGj9Mg06zgEsHUCPa4W5wUvQWPJinjXeG/5UnJMt3yZKZdxMUdrJp8tuSH
+ I4v+l0ZElTxpH/BAvv9+lryn9ZjrrT6ZWBigVIOM0Sub4QrSiEais4G2PQghUh/u2yQufMgl
+ 49xrbexbhcob63lv+sbekwNe81+FfUuFL7vJHG+tZTKiVDAcj7szvRiAUU8MJcXvOp6aY1M3
+ aVCeXZXNk7F3rruhujmEIGAhex6RCXvFJgUunVt1SnUF949XY3PBbjM5JpY0TY8i8REEOzRI
+ cYUAdZqRE2dPUwVZQ1LUfrSms+Qnn7iVBwC6262rI8U6HCP3ApD/ZriZY+9ltuiHpkLwhzB/
+ goq5V/RDQsXO9+f4T6E9G+8iOjSmy/yRIMVEvu/7PECqFmSwHEDTQYKXFS6p/aRjk+lR8kZL
+ 00S5zpooaUsnGSlFcL2X1u3oWKsuQMAX91XEKsx7wTl4q7V5RuJQ2sJVDhMbPQ4u8IsAz8nz
+ FmEm5XuHzMHjVGOYXeU97PM9HWvPylQLWIDaSIARwYf7J/vrenfky4jUP5TSbeTrYyqQw3o6
+ DGtvClvh5w0gsgigvDTEU/8vxqgoZ3ATwgQ7wrRX3644g4RWGJDT9H3gbQ8xasRRLt1XmVtr
+ 1BYypTHtL9m4YWlxHLdGLxl8KSBuq7dWAAwl2KDCLEN2lxBEVaDcIFc7TV0KV1mWirvUWG4O
+ RWL0e+9zLVaMHasKJDct5itF8kvx6X6GrzYuh38a9NPZsAoMhKB/WRuaE+c0mTnnVIj160yU
+ Xt6TSpOJShKYUiE5GPoLwv47VPN7ntirY80bcyipylLKZLEOBaopU4taTNilNwR4qKeuxny+
+ N1CLcaMwBg3eLSgP3ePqd9LdwFSdiNT6XXKRyp/KLTrzu1ORj9JNhMt6ex5E2CYt/4Nx7qWp
+ y/VtrFwkQKj2yGvxfq2hoBLM++xAcwm9RrXzAQmMFK3xnVrfICu8qoFbJorbPEh+fB8yuR3J
+ 8TpiO3fasmjvg/vpW9HBbGj99MKSfherVjTV8ZTSGRkIsQIqs2g0oOMQzYDAwFUX3Tu65dh8
+ ub+vu4ZKLJaLzlf4A/tQKrH5zuMUbI1woqeg2OgzgFvRXjR
+IronPort-HdrOrdr: A9a23:faNAlaOQD/WU6sBcTvijsMiBIKoaSvp037BL7TEJdfUxSKalfq
+ +V7ZEmPHPP+VQssTQb6LO90cq7IE80l6QFhbX5VI3KNGLbUSmTTL2KhrGSpAEIdReOkNK1Fp
+ 0NT0G9MrDN5JRB4voSKTPXL+od
+X-IronPort-Anti-Spam-Filtered: true
+Received: from mail01.uni-heidelberg.de ([129.206.100.252])
+  by relay2.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Jun 2022 15:54:59 +0200
+Received: from localhost (ip2505f6aa.dynamic.kabel-deutschland.de [37.5.246.170])
+	(Authenticated sender: ln194)
+	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id A7DBB30011A56;
+	Fri, 24 Jun 2022 15:54:58 +0200 (CEST)
+From: Felix Schlepper <f3sch.git@outlook.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Felix Schlepper <f3sch.git@outlook.com>
+Subject: [PATCH v5 0/3] Staging: rtl8192e: Safer allocation and cleaner error handling
+Date: Fri, 24 Jun 2022 15:54:52 +0200
+Message-Id: <cover.1656078068.git.f3sch.git@outlook.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9P190MB1299F18B717D3A5D3E6DE6D4A5B49@AM9P190MB1299.EURP190.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 24, 2022 at 10:41:42AM +0200, Felix Schlepper wrote:
-> On 24.06.2022 08:21, Dan Carpenter wrote:
-> > On Thu, Jun 23, 2022 at 11:20:49PM +0200, Andy Shevchenko wrote:
-> > > On Thu, Jun 23, 2022 at 10:44 PM Felix Schlepper <f3sch.git@outlook.com> wrote:
-> > > >
-> > > > Moved error handling to one common block.
-> > > > This removes double checking if all txb->fragments[]
-> > > > were initialized.
-> > > > The original code worked fine, but this is cleaner.
-> > >
-> > > ...
-> > >
-> > > > +err_free:
-> > > > +       while (--i >= 0)
-> > >
-> > >   while (i--)
-> > >
-> > > will suffice.
-> > >
-> >
-> > Either one is fine.  You prefer this format.  I prefer that other
-> > format.  I told Felix he could use either format without expressing any
-> > bias and he chose my format.  That means he loves me more.
-> >
-> > regards,
-> > dan carpenter
-> Andy's advice is of course much appreciated but I prefer Dan's style <3.
-> 
-> On another note, the thread is quite messy now, since all my previous
-> failed attempts to send are now threaded to this one.
-> How would I go about solving this? Sending another v5 version, the v4
-> with [RESEND PATCH v4...] or does this even need any action on my part?
+v2:
+  - replaced kmalloc with kzalloc against memory initialization defects,
+    thus also removing a memset
+  - made error handling more consistent
 
-Please resend a v5, as I now have 3 different copies of a v4 series in
-my inbox, which makes no sense at all.
+v3:
+  - Split into smaller commits so that it's easier to review
 
-Remember, make it obvious as to what to do for those of us who have to
-handle 1000+ emails a day...
+v4:
+  - clearer commit messages
+  - added missing kfree
 
-thanks,
+v5:
+  - resend due incorrect email threading
+    caused by using msmtp for send-email
+    (probably some incorrect configuration on my part)
+    Apologies for spamming greg k-h inbox/mailing list.
 
-greg k-h
+Felix Schlepper (3):
+  Staging: rtl8192e: Use struct_size
+  Staging: rtl8192e: Using kzalloc and delete memset
+  Staging: rtl8192e: Cleaning up error handling
+
+ drivers/staging/rtl8192e/rtllib_tx.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
+
+-- 
+2.36.1
+
