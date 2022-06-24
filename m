@@ -1,53 +1,53 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9551FC8
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 03:30:47 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d5so951060plo.12
-        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 20:30:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B7F1FC8
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jun 2022 03:35:11 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id t21so1449014pfq.1
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jun 2022 20:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=e9j3ytzEFZdgs9pD00F5uMmUOICZVul5nelc96kxzOE=;
-        b=V8QH6bcQSaB1wI4zt9W+joGhoSL9D14kaIndS2oCQDv1JFMHuyB/HFhnLbXu2nM0Kh
-         C+qKsIed+RXY8Jq3WBcGLU1TuU6ICjFjc77KcZD8OjgvsbEckD/v2REMsuspSgNV59Dv
-         weO09i6G31i/LgkkTX0D4en15QY2POIBgOSISPxk5DjSbvb0DGpfPMVAKl/KoRRKjmv3
-         ULfj+GkjHp9KjIjypCJolaq3s6mPgW7Y0zoK/e8EvPxoeS1Sv75r5bbzYc1oK4eSICJ+
-         vWZzJO8kOCM3WkaxEJUfblj7D5nMGNlT3A3m+b0czAJke1devYNkGdpc/SzD5/b6Olt0
-         fkoQ==
+        bh=CtsUVs/zJwwFM5gUYX+P+dBQz+vLoX2P7tgqbjAxqpU=;
+        b=Igv/cQVlwnXdMXYNsaIQ2xZ6KUUYHWVjmjFe8evjbK4TJXB5UP8CBiwIgsuXZ+S9AI
+         EFunNpFAoidn3QwIYqkbb2AKkZ5Yhco5TRwijQjHT0LMBeJ5HFtx9aF2GqsZhzE4ItBu
+         1zLjgMTwMaHV5JQQOxYJp9gw4Tx3+lxpchn3UjhwJ8F34Ee8Zfe88epQGT2+1wC7HJjy
+         SK5BMPrwr18mCeLoWnAfVIcqCAsLyAepC3fYgXFPJ0GDyB+z3P6utAu8RZ6C+C2eBMa8
+         MvcV6j38iHxOpkpf6Et1IOl9U4Bqu53mhMjCVhCLrCCWc6yUtVIrL0LJDOtS0qv+a6pS
+         KK9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=e9j3ytzEFZdgs9pD00F5uMmUOICZVul5nelc96kxzOE=;
-        b=xiQ1rwi1r68SgNvyJ3grPEu2ilM3BD82n8PQLUJXMRRVmv5oWH7GJRSKrz7PoeSAyh
-         BJpOkWT3OG7a0dB0mUmhBQd2BRMooURUP5a/qmQdDhy1Sjq+QMbISqs+UAqxg/aggjEw
-         ydtnvq2At6RoGZTjiNGs9arj8fXf5VpzchJIeefC3Ca7xIQsTeiGUGkYNULyrR3GNhBT
-         coTnZRvtPicHW6m0lg8wX3OehWP4StVWPHj8ad/MAbsnHDK7ZG++qmW1tR2NXX6Ckbt6
-         ycOxrw1EoPfU2+JqOUANOsUkRs9VS4Clje5CoqwchTV6AsnXwhwG5wb86zWPduAgiJjq
-         eVGA==
-X-Gm-Message-State: AJIora+FsYZcchjMxdK0QkNrZe2n0shMbF5AxruQqfcFb1HopNohCUvN
-	HgXh5uzu7c2mCrmiwxJxaPs=
-X-Google-Smtp-Source: AGRyM1tgrOTNFUC2591jNk+wk5DSFaCUCQEYkk5RDxnX6oNB8da3t81P1mGggF1g+qf9M7rvM1hSDg==
-X-Received: by 2002:a17:902:db11:b0:16a:567f:12aa with SMTP id m17-20020a170902db1100b0016a567f12aamr7169946plx.172.1656041446820;
-        Thu, 23 Jun 2022 20:30:46 -0700 (PDT)
+        bh=CtsUVs/zJwwFM5gUYX+P+dBQz+vLoX2P7tgqbjAxqpU=;
+        b=mtru/bfl9MEJ+EwpPuXD1Rl2L623qWshEf2EKlWPiF626PMuyStkiWJ/996OYamdgg
+         5LYfYVoV+UencMMSSb+pnE14WGKwGqeYDncERj6JZbpZU6jpr4lHFRhg6V39YrHbBxTC
+         o38ZayjOOEh2utYdSwKG+OmcizhLOqarPdNbXfC/ORW4jcR1oOcJtUNuXOwyLK2nawFi
+         ly1l2S3tc+WlooovDKc8pPtr/IF6a9AQn5tMTaD3He5BuF0me9cxfT/g3O44LqJkW3YV
+         1fLTJzqrw/HHRrpDDG9GOYKDNdRrRUQ/Z32XIGXf3DRe8IEQWV5PKftbnNQz/c1EkHlp
+         DIxA==
+X-Gm-Message-State: AJIora/YNlBI6zXEZTAHbX9FGvVvZfHxmin8EtZgk+ES4ALBD35MdNwE
+	nRn11P8FThu2KPoVVcSWNK8=
+X-Google-Smtp-Source: AGRyM1u6HPLjTHr4k6HSwyU8K7RRAv5mrynVi7ypJ/4JLie7/3tW9Ko6vHX/K1LAbX1F3lV/Nd9ErQ==
+X-Received: by 2002:a05:6a00:10d4:b0:522:8c31:ec23 with SMTP id d20-20020a056a0010d400b005228c31ec23mr44316987pfu.67.1656041710633;
+        Thu, 23 Jun 2022 20:35:10 -0700 (PDT)
 Received: from localhost (c-67-180-87-133.hsd1.ca.comcast.net. [67.180.87.133])
-        by smtp.gmail.com with ESMTPSA id h15-20020a170902680f00b00161e50e2245sm550462plk.178.2022.06.23.20.30.45
+        by smtp.gmail.com with ESMTPSA id o14-20020a17090a4e8e00b001e2bd411079sm2692262pjh.20.2022.06.23.20.35.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 20:30:46 -0700 (PDT)
-Date: Thu, 23 Jun 2022 20:30:30 -0700
+        Thu, 23 Jun 2022 20:35:09 -0700 (PDT)
+Date: Thu, 23 Jun 2022 20:34:54 -0700
 From: Chang Yu <marcus.yu.56@gmail.com>
-To: David Laight <David.Laight@aculab.com>
-Cc: 'Philipp Hortmann' <philipp.g.hortmann@gmail.com>,
-	"Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: r8188eu: combine nested if statements into one
-Message-ID: <YrUv1sPuny1M1Orh@zephyrus-g14.localdomain>
+To: Greg KH <greg@kroah.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	marcus.yu.56@gmail.com
+Subject: Re: [PATCH v2] staging: r8188eu: combine nested if statements into
+ one
+Message-ID: <YrUw3lejTP0UyWmt@zephyrus-g14.localdomain>
 References: <20220623031515.402691-1-marcus.yu.56@gmail.com>
- <d50c16c1-0bc2-fdc4-16ab-0c27df824ffb@gmail.com>
- <06893216a5a04d7e84dfe3e132d333f6@AcuMS.aculab.com>
+ <20220623051404.410632-1-marcus.yu.56@gmail.com>
+ <YrQ2Izg1b399yJou@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,48 +56,77 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <06893216a5a04d7e84dfe3e132d333f6@AcuMS.aculab.com>
+In-Reply-To: <YrQ2Izg1b399yJou@kroah.com>
 
-On Thu, Jun 23, 2022 at 12:05:40PM +0000, David Laight wrote:
-> ...
-> > Seems to work. But the rules which operation is done first && or == are
-> > not too easy.
-> 
-> They are the way around you want them to be.
-> == generates a truth value.
-> && and || compare truth values,
-> 
-> The only 'wrong' operator priorities are & and |.
-> The short-circuiting && and || weren't in the very early
-> versions of C - the bitwise & and | were used.
-> When K&R added && and || they left the priorities of & an | alone.
-> I they they've later said they should have bitten the bullet
-> and changed the priorities and all the existing C code
-> 
-> > I would prefer to have:
+On Thu, Jun 23, 2022 at 11:45:07AM +0200, Greg KH wrote:
+> On Wed, Jun 22, 2022 at 10:14:04PM -0700, Chang Yu wrote:
+> > Combine two nested if statements into a single one
 > > 
-> > if (padapter && (pfree_recv_queue == free_recv_queue))
+> > Signed-off-by: Chang Yu <marcus.yu.56@gmail.com>
+> > ---
+> > Changes in v2:
+> > Added a pair of parentheses to make operator precedence explicit.
 > > 
-> > So it is very easy to read what is evaluated first.
-> 
-> That just starts adding too many () and makes more complex
-> conditionals hard to read.
-> 
-> 	David
-> 
+> >  drivers/staging/r8188eu/core/rtw_recv.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
 > > 
-> > But this is just my opinion and does not have to be right.
+> > diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+> > index 6564e82ddd66..020bc212532f 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> > @@ -166,10 +166,8 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
+> >  
+> >  	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
+> >  
+> > -	if (padapter) {
+> > -		if (pfree_recv_queue == &precvpriv->free_recv_queue)
+> > -				precvpriv->free_recvframe_cnt++;
+> > -	}
+> > +	if (padapter && (pfree_recv_queue == &precvpriv->free_recv_queue))
+> > +		precvpriv->free_recvframe_cnt++;
+> >  
+> >  	spin_unlock_bh(&pfree_recv_queue->lock);
+> >  
+> > -- 
+> > 2.36.1
 > > 
-> > Thanks for your patch.
 > > 
-> > Bye Philipp
 > 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
+> Hi,
+> 
+> This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+> a patch that has triggered this response.  He used to manually respond
+> to these common problems, but in order to save his sanity (he kept
+> writing the same thing over and over, yet to different people), I was
+> created.  Hopefully you will not take offence and will fix the problem
+> in your patch and resubmit it so that it can be accepted into the Linux
+> kernel tree.
+> 
+> You are receiving this message because of the following common error(s)
+> as indicated below:
+> 
+> - You did not specify a description of why the patch is needed, or
+>   possibly, any description at all, in the email body.  Please read the
+>   section entitled "The canonical patch format" in the kernel file,
+>   Documentation/SubmittingPatches for what is needed in order to
+>   properly describe the change.
+> 
+> - You did not write a descriptive Subject: for the patch, allowing Greg,
+>   and everyone else, to know what this patch is all about.  Please read
+>   the section entitled "The canonical patch format" in the kernel file,
+>   Documentation/SubmittingPatches for what a proper Subject: line should
+>   look like.
+> 
+> If you wish to discuss this problem further, or you have questions about
+> how to resolve this issue, please feel free to respond to this email and
+> Greg will reply once he has dug out from the pending patches received
+> from other developers.
+> 
+> thanks,
+> 
+> greg k-h's patch email bot
 
-In my humble opinion it just boils down to personal preference in this
-case. The kernel coding style guidlines don't seem to have a definitive
-gold standard regarding this. I will leave the patch as-is for now, but
-if anybody feels strongly that the () needs to be removed please feel
-free to let me know and I'll make the change.
+I'm not entirely sure how to fix this. I checked the original patch
+again and the subject and the body looks OK to me. I'm still a newbie so
+I might have missed a couple of things. It would be greatly appreciated
+if someone could point out what's missing.
