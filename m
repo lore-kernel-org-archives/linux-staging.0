@@ -1,64 +1,91 @@
-Received: from zg8tmtm4lje5ny4xodqumjaa.icoremail.net (zg8tmtm4lje5ny4xodqumjaa.icoremail.net [138.197.184.20])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 3C81417C8
-	for <linux-staging@lists.linux.dev>; Sat, 25 Jun 2022 09:21:22 +0000 (UTC)
-Received: by ajax-webmail-mail-app3 (Coremail) ; Sat, 25 Jun 2022 17:21:06
- +0800 (GMT+08:00)
-X-Originating-IP: [221.192.178.113]
-Date: Sat, 25 Jun 2022 17:21:06 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: duoming@zju.edu.cn
-To: "Greg KH" <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, davem@davemloft.net, 
-	alexander.deucher@amd.com, kuba@kernel.org, broonie@kernel.org, 
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C774A09
+	for <linux-staging@lists.linux.dev>; Sat, 25 Jun 2022 09:30:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ACFFC3411C;
+	Sat, 25 Jun 2022 09:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1656149417;
+	bh=tcU5XmpCJeuUxNJXmTWn3A1u75vW01b3kSYZ+naAcsE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pOmHi7oQJ6OFaFx7aKCd8NgDtKCV6VLOAIL9AWuEu/u7hYKvPYWjQmFj3WqjV5FWq
+	 A49KIWkAbfaPKwK2XUu5b753elpYaaeCgaN5cyY4JWaIBE0XXwo7qBVFIC/NuzkJlP
+	 X8ROhvLSCNaQFKXFNig7yjQrs+byKda8pUet+79A=
+Date: Sat, 25 Jun 2022 11:30:13 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: duoming@zju.edu.cn
+Cc: linux-staging@lists.linux.dev, davem@davemloft.net,
+	alexander.deucher@amd.com, kuba@kernel.org, broonie@kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192u: Fix sleep in atomic context bug
- in dm_fsync_timer_callback
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <1ddff589.e0f1.181944e6c1a.Coremail.duoming@zju.edu.cn>
+Subject: Re: [PATCH v2] staging: rtl8192u: Fix sleep in atomic context bug in
+ dm_fsync_timer_callback
+Message-ID: <YrbVpbKvqdYuY84C@kroah.com>
 References: <20220623055912.84138-1-duoming@zju.edu.cn>
  <YrQ2gXtX2FOkyNgu@kroah.com>
  <1ddff589.e0f1.181944e6c1a.Coremail.duoming@zju.edu.cn>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <482a0dc6.10f76.1819a2a3546.Coremail.duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <482a0dc6.10f76.1819a2a3546.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:cC_KCgAny_CC07Zi68fcAA--.20158W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgQMAVZdtaZRqQABsq
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <482a0dc6.10f76.1819a2a3546.Coremail.duoming@zju.edu.cn>
 
-SGVsbG8sCgo+ID4gT24gVGh1LCBKdW4gMjMsIDIwMjIgYXQgMDE6NTk6MTJQTSArMDgwMCwgRHVv
-bWluZyBaaG91IHdyb3RlOgo+ID4gPiBUaGVyZSBhcmUgc2xlZXAgaW4gYXRvbWljIGNvbnRleHQg
-YnVncyB3aGVuIGRtX2ZzeW5jX3RpbWVyX2NhbGxiYWNrIGlzCj4gPiA+IGV4ZWN1dGluZy4gVGhl
-IHJvb3QgY2F1c2UgaXMgdGhhdCB0aGUgbWVtb3J5IGFsbG9jYXRpb24gZnVuY3Rpb25zIHdpdGgK
-PiA+ID4gR0ZQX0tFUk5FTCBvciBHRlBfTk9JTyBwYXJhbWV0ZXJzIGFyZSBjYWxsZWQgaW4gZG1f
-ZnN5bmNfdGltZXJfY2FsbGJhY2sKPiA+ID4gd2hpY2ggaXMgYSB0aW1lciBoYW5kbGVyLiBUaGUg
-Y2FsbCBwYXRocyB0aGF0IGNvdWxkIHRyaWdnZXIgYnVncyBhcmUKPiA+ID4gc2hvd24gYmVsb3c6
-Cj4gPiA+IAo+ID4gPiAgICAgKGludGVycnVwdCBjb250ZXh0KQo+ID4gPiBkbV9mc3luY190aW1l
-cl9jYWxsYmFjawo+ID4gPiAgIHdyaXRlX25pY19ieXRlCj4gPiA+ICAgICBremFsbG9jKHNpemVv
-ZihkYXRhKSwgR0ZQX0tFUk5FTCk7IC8vbWF5IHNsZWVwCj4gPiA+ICAgICB1c2JfY29udHJvbF9t
-c2cKPiA+ID4gICAgICAga21hbGxvYyguLiwgR0ZQX05PSU8pOyAvL21heSBzbGVlcAo+ID4gPiAg
-IHdyaXRlX25pY19kd29yZAo+ID4gPiAgICAga3phbGxvYyhzaXplb2YoZGF0YSksIEdGUF9LRVJO
-RUwpOyAvL21heSBzbGVlcAo+ID4gPiAgICAgdXNiX2NvbnRyb2xfbXNnCj4gPiA+ICAgICAgIGtt
-YWxsb2MoLi4sIEdGUF9OT0lPKTsgLy9tYXkgc2xlZXAKPiA+ID4gCj4gPiA+IFRoaXMgcGF0Y2gg
-dXNlcyBkZWxheWVkIHdvcmsgdG8gcmVwbGFjZSB0aW1lciBhbmQgbW92ZXMgdGhlIG9wZXJhdGlv
-bnMKPiA+ID4gdGhhdCBtYXkgc2xlZXAgaW50byB0aGUgZGVsYXllZCB3b3JrIGluIG9yZGVyIHRv
-IG1pdGlnYXRlIGJ1Z3MuCj4gPiA+IAo+ID4gPiBGaXhlczogOGZjODU5OGU2MWY2ICgiU3RhZ2lu
-ZzogQWRkZWQgUmVhbHRlayBydGw4MTkydSBkcml2ZXIgdG8gc3RhZ2luZyIpCj4gPiA+IFNpZ25l
-ZC1vZmYtYnk6IER1b21pbmcgWmhvdSA8ZHVvbWluZ0B6anUuZWR1LmNuPgo+ID4gPiAtLS0KPiA+
-ID4gQ2hhbmdlcyBpbiB2MjoKPiA+ID4gICAtIFVzZSBkZWxheWVkIHdvcmsgdG8gcmVwbGFjZSB0
-aW1lci4KPiA+IAo+ID4gRGlkIHlvdSB0ZXN0IHRoaXMgd2l0aCByZWFsIGhhcmR3YXJlIHRvIHZl
-cmlmeSBpdCBzdGlsbCB3b3Jrcz8KPiAKPiBJIGFtIHRlc3RpbmcgdGhpcyBhbmQgSSB3aWxsIGdp
-dmUgeW91IGZlZWRiYWNrIHdpdGhpbiBvbmUgb3IgdHdvIGRheXMuCgpEbyB5b3Uga25vdyB3aGF0
-IHZlbmRvciBpZCBhbmQgZGV2aWNlIGlkIHVzZSB0aGUgcjgxOTJ1X3VzYiBkcml2ZXI/CkkgdHJ5
-IG1hbnkgaGFyZHdhcmVzLCB0aGV5IGNvdWxkIG5vdCB0cmlnZ2VyIHRoaXMgY29kZS4KClRoYW5r
-IHlvdSEKCkJlc3QgcmVnYXJkcywKRHVvbWluZyBaaG91Cg==
+On Sat, Jun 25, 2022 at 05:21:06PM +0800, duoming@zju.edu.cn wrote:
+> Hello,
+> 
+> > > On Thu, Jun 23, 2022 at 01:59:12PM +0800, Duoming Zhou wrote:
+> > > > There are sleep in atomic context bugs when dm_fsync_timer_callback is
+> > > > executing. The root cause is that the memory allocation functions with
+> > > > GFP_KERNEL or GFP_NOIO parameters are called in dm_fsync_timer_callback
+> > > > which is a timer handler. The call paths that could trigger bugs are
+> > > > shown below:
+> > > > 
+> > > >     (interrupt context)
+> > > > dm_fsync_timer_callback
+> > > >   write_nic_byte
+> > > >     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+> > > >     usb_control_msg
+> > > >       kmalloc(.., GFP_NOIO); //may sleep
+> > > >   write_nic_dword
+> > > >     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+> > > >     usb_control_msg
+> > > >       kmalloc(.., GFP_NOIO); //may sleep
+> > > > 
+> > > > This patch uses delayed work to replace timer and moves the operations
+> > > > that may sleep into the delayed work in order to mitigate bugs.
+> > > > 
+> > > > Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
+> > > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> > > > ---
+> > > > Changes in v2:
+> > > >   - Use delayed work to replace timer.
+> > > 
+> > > Did you test this with real hardware to verify it still works?
+> > 
+> > I am testing this and I will give you feedback within one or two days.
+> 
+> Do you know what vendor id and device id use the r8192u_usb driver?
+
+The vendor/device ids are in the driver itself.  Also in the output of
+modinfo:
+	❯ modinfo drivers/staging/rtl8192u/r8192u_usb.ko | grep alias
+	alias:          usb:v043Ep7A01d*dc*dsc*dp*ic*isc*ip*in*
+	alias:          usb:v5A57p0290d*dc*dsc*dp*ic*isc*ip*in*
+	alias:          usb:v2001p3301d*dc*dsc*dp*ic*isc*ip*in*
+	alias:          usb:v1740p9201d*dc*dsc*dp*ic*isc*ip*in*
+	alias:          usb:v0DF6p0031d*dc*dsc*dp*ic*isc*ip*in*
+	alias:          usb:v050Dp805Ed*dc*dsc*dp*ic*isc*ip*in*
+	alias:          usb:v07AAp0043d*dc*dsc*dp*ic*isc*ip*in*
+	alias:          usb:v0BDAp8709d*dc*dsc*dp*ic*isc*ip*in*
+
+see the "v" and "p" portions of the alias string.
+
+thanks,
+
+greg k-h
