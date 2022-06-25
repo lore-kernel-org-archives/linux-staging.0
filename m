@@ -1,91 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C774A09
-	for <linux-staging@lists.linux.dev>; Sat, 25 Jun 2022 09:30:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ACFFC3411C;
-	Sat, 25 Jun 2022 09:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1656149417;
-	bh=tcU5XmpCJeuUxNJXmTWn3A1u75vW01b3kSYZ+naAcsE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pOmHi7oQJ6OFaFx7aKCd8NgDtKCV6VLOAIL9AWuEu/u7hYKvPYWjQmFj3WqjV5FWq
-	 A49KIWkAbfaPKwK2XUu5b753elpYaaeCgaN5cyY4JWaIBE0XXwo7qBVFIC/NuzkJlP
-	 X8ROhvLSCNaQFKXFNig7yjQrs+byKda8pUet+79A=
-Date: Sat, 25 Jun 2022 11:30:13 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: duoming@zju.edu.cn
-Cc: linux-staging@lists.linux.dev, davem@davemloft.net,
-	alexander.deucher@amd.com, kuba@kernel.org, broonie@kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192u: Fix sleep in atomic context bug in
- dm_fsync_timer_callback
-Message-ID: <YrbVpbKvqdYuY84C@kroah.com>
-References: <20220623055912.84138-1-duoming@zju.edu.cn>
- <YrQ2gXtX2FOkyNgu@kroah.com>
- <1ddff589.e0f1.181944e6c1a.Coremail.duoming@zju.edu.cn>
- <482a0dc6.10f76.1819a2a3546.Coremail.duoming@zju.edu.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A7823C8
+	for <linux-staging@lists.linux.dev>; Sat, 25 Jun 2022 10:25:23 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id d1-20020a923601000000b002d93c039d9fso3162302ila.9
+        for <linux-staging@lists.linux.dev>; Sat, 25 Jun 2022 03:25:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=PpTw+0pR7d6KHpWzvUOwmUS7vIoJqaATGHEMY/gsX2A=;
+        b=k9Ny/cpAIY+gFj8gAXjkCPRULYUbzEfpgw2XeGu4ApWI0KnbVTZjy2mgDqSaH6o+UF
+         lCbDHiCcpkvdkTGGMcoxqCCXu9ARU9G8cEKLtvmOet7Iu+W5OG4fkJzRxCorlUofemoo
+         ccIFFtGxa3RduzGCbh/DUctJ3Ee9ABt9rl00SQsUwLdGpfiRrPNAyOfZVqAeF+eHAw/U
+         6O4XRQvOyGehIiCgyyC0PbNTpDhTz9xFy6hw2924TBlcPmICIFEbYH+yaWK+cIvon7l8
+         7G1fehsOStiKBUsh0gS0frt7xUMpqMa6/Do23VkH2kIVENSyPlyJYkGzdIrN1zFth1Eq
+         dzpg==
+X-Gm-Message-State: AJIora+UT0LDf9BKxWuZCqAc5qyXRumZ3e7Vu4wkZbcL9k0pLkZ58ksy
+	jVDlO9wpMs+XIkHj8UF3KssHq1OM+8bfuKpunTW55Y2YZBzN
+X-Google-Smtp-Source: AGRyM1vyuTnNG1op68acyHfJlLSr34YHYTrvAEpZwGi6Cbef/aP1GrA3CCCBKweTEXTj6eEY5/aDNdEA2+u9dTrnUMthPogUPw/n
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <482a0dc6.10f76.1819a2a3546.Coremail.duoming@zju.edu.cn>
+X-Received: by 2002:a6b:ed15:0:b0:674:f8eb:a373 with SMTP id
+ n21-20020a6bed15000000b00674f8eba373mr1734128iog.37.1656152722465; Sat, 25
+ Jun 2022 03:25:22 -0700 (PDT)
+Date: Sat, 25 Jun 2022 03:25:22 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b76c8005e2431a11@google.com>
+Subject: [syzbot] WARNING in cfg80211_ch_switch_notify
+From: syzbot <syzbot+90d912872157e63589e4@syzkaller.appspotmail.com>
+To: SHA-cyfmac-dev-list@infineon.com, ajay.kathat@microchip.com, 
+	amitkarwar@gmail.com, aspriel@gmail.com, brcm80211-dev-list.pdl@broadcom.com, 
+	claudiu.beznea@microchip.com, davem@davemloft.net, edumazet@google.com, 
+	fabioaiuto83@gmail.com, franky.lin@broadcom.com, ganapathi017@gmail.com, 
+	geomatsi@gmail.com, gregkh@linuxfoundation.org, hante.meuleman@broadcom.com, 
+	hdegoede@redhat.com, huxinming820@gmail.com, imitsyanko@quantenna.com, 
+	jagathjog1996@gmail.com, johannes.berg@intel.com, johannes@sipsolutions.net, 
+	kuba@kernel.org, kvalo@kernel.org, libertas-dev@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-wireless@vger.kernel.org, loic.poulain@linaro.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, prestwoj@gmail.com, 
+	sharvari.harisangam@nxp.com, smoch@web.de, syzkaller-bugs@googlegroups.com, 
+	ye.guojin@zte.com.cn
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jun 25, 2022 at 05:21:06PM +0800, duoming@zju.edu.cn wrote:
-> Hello,
-> 
-> > > On Thu, Jun 23, 2022 at 01:59:12PM +0800, Duoming Zhou wrote:
-> > > > There are sleep in atomic context bugs when dm_fsync_timer_callback is
-> > > > executing. The root cause is that the memory allocation functions with
-> > > > GFP_KERNEL or GFP_NOIO parameters are called in dm_fsync_timer_callback
-> > > > which is a timer handler. The call paths that could trigger bugs are
-> > > > shown below:
-> > > > 
-> > > >     (interrupt context)
-> > > > dm_fsync_timer_callback
-> > > >   write_nic_byte
-> > > >     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
-> > > >     usb_control_msg
-> > > >       kmalloc(.., GFP_NOIO); //may sleep
-> > > >   write_nic_dword
-> > > >     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
-> > > >     usb_control_msg
-> > > >       kmalloc(.., GFP_NOIO); //may sleep
-> > > > 
-> > > > This patch uses delayed work to replace timer and moves the operations
-> > > > that may sleep into the delayed work in order to mitigate bugs.
-> > > > 
-> > > > Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
-> > > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> > > > ---
-> > > > Changes in v2:
-> > > >   - Use delayed work to replace timer.
-> > > 
-> > > Did you test this with real hardware to verify it still works?
-> > 
-> > I am testing this and I will give you feedback within one or two days.
-> 
-> Do you know what vendor id and device id use the r8192u_usb driver?
+Hello,
 
-The vendor/device ids are in the driver itself.  Also in the output of
-modinfo:
-	❯ modinfo drivers/staging/rtl8192u/r8192u_usb.ko | grep alias
-	alias:          usb:v043Ep7A01d*dc*dsc*dp*ic*isc*ip*in*
-	alias:          usb:v5A57p0290d*dc*dsc*dp*ic*isc*ip*in*
-	alias:          usb:v2001p3301d*dc*dsc*dp*ic*isc*ip*in*
-	alias:          usb:v1740p9201d*dc*dsc*dp*ic*isc*ip*in*
-	alias:          usb:v0DF6p0031d*dc*dsc*dp*ic*isc*ip*in*
-	alias:          usb:v050Dp805Ed*dc*dsc*dp*ic*isc*ip*in*
-	alias:          usb:v07AAp0043d*dc*dsc*dp*ic*isc*ip*in*
-	alias:          usb:v0BDAp8709d*dc*dsc*dp*ic*isc*ip*in*
+syzbot found the following issue on:
 
-see the "v" and "p" portions of the alias string.
+HEAD commit:    34d1d36073ea Add linux-next specific files for 20220621
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=175aca1ff00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b24b62d1c051cfc8
+dashboard link: https://syzkaller.appspot.com/bug?extid=90d912872157e63589e4
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15a50e1ff00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=104b1cc4080000
 
-thanks,
+The issue was bisected to:
 
-greg k-h
+commit 7b0a0e3c3a88260b6fcb017e49f198463aa62ed1
+Author: Johannes Berg <johannes.berg@intel.com>
+Date:   Thu Apr 14 14:50:57 2022 +0000
+
+    wifi: cfg80211: do some rework towards MLO link APIs
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=177e008ff00000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=14fe008ff00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=10fe008ff00000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+90d912872157e63589e4@syzkaller.appspotmail.com
+Fixes: 7b0a0e3c3a88 ("wifi: cfg80211: do some rework towards MLO link APIs")
+
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 1021 at net/wireless/nl80211.c:18562 cfg80211_ch_switch_notify+0x3b7/0x8a0 net/wireless/nl80211.c:18562
+Modules linked in:
+CPU: 1 PID: 1021 Comm: kworker/u4:5 Not tainted 5.19.0-rc3-next-20220621-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: phy4 ieee80211_csa_finalize_work
+
+RIP: 0010:cfg80211_ch_switch_notify+0x3b7/0x8a0 net/wireless/nl80211.c:18562
+Code: fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 d2 04 00 00 49 8b 14 24 44 89 ee 48 89 ef e8 33 fa fb ff e9 44 ff ff ff e8 e9 78 cc f8 <0f> 0b e9 38 ff ff ff e8 dd 78 cc f8 48 8d bd f8 04 00 00 48 ba 00
+RSP: 0018:ffffc90004dcfc60 EFLAGS: 00010293
+
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: ffff88801eea57c0 RSI: ffffffff88ae4467 RDI: 0000000000000005
+RBP: ffff88801f004c90 R08: 0000000000000005 R09: 0000000000000009
+R10: 0000000000000001 R11: 0000000000000010 R12: ffff88801f006458
+R13: 0000000000000000 R14: ffff88801f004000 R15: ffff888021d90000
+FS:  0000000000000000(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000021000000 CR3: 000000000ba8e000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __ieee80211_csa_finalize+0x738/0xc90 net/mac80211/cfg.c:3432
+ ieee80211_csa_finalize net/mac80211/cfg.c:3439 [inline]
+ ieee80211_csa_finalize_work+0x131/0x170 net/mac80211/cfg.c:3464
+ process_one_work+0x996/0x1610 kernel/workqueue.c:2289
+ worker_thread+0x665/0x1080 kernel/workqueue.c:2436
+ kthread+0x2e9/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:302
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
