@@ -1,97 +1,88 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C565219A
-	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 02:59:37 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id A0AAB320083A;
-	Sat, 25 Jun 2022 22:59:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sat, 25 Jun 2022 22:59:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=davidreaver.com;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1656212376; x=1656298776; bh=3I
-	eufCplLlcj9jpQ45a+cMmawOgellICku8X7+NCdvM=; b=C4uaTn0BV58qsBXmJA
-	G31lvN+p1ycP3wMZodrdgPDswfXZCWAeACWdrBa35dvOUMbIho6JAvbdxWylXFK8
-	leTlj/7ZtOxbCjVfMkXNI0ZJMRR+TTsaj02+iIAk53geiVBjgFGFK+ed6ZTmXyK6
-	DEx64LA6fXRaOHL3wLbLR0RtG9OCYs8F5O/SJitzIhGNLvkNjLFDmQlEbCn5ZfLy
-	pS2BN/ugz6aIrs9PugCwXJ6CPFVk1XHoEz9mn5ElKF3GoSmlkwfznCBTTNvSvK3p
-	ataB+R+QpeAnzUqKoE5Mj82olwiACZTYl48EidkJFDD5QapO0zg5LK1u/gfd4ge8
-	rO2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1656212376; x=1656298776; bh=3IeufCplLlcj9jpQ45a+cMmawOge
-	llICku8X7+NCdvM=; b=sYLCXgmxwM6ntrLu+ozxGwUBrvZN36pfkF/6l8f8Gv3K
-	ddyYOqVWOBbRZ6JtGIUgZIk9QwkjkQTyGCiwFcU3+KnF+gg51zm00nduXBnAXKrq
-	S+6m6R0wxhHp0kZWhi4BjdELxnXq4fsGVKMi05c0k2ffiC0CRlbhXApRdyZ3t3g5
-	JWU4gtc73WLN+LUwRgCWf6wSNsYk8MN/MHNyt1ZnDfaLh4SttBRkK2c7xaA9cNIY
-	DaHxOblwd+/jKffyIqrV3M33cDjuJXnMlQhj6j9/v1NZG0qyxvsOL8jM8HsqyHXg
-	CNYEqmhfsv7jWi1tMlUyg9tHmv3EHmcTQAfF/KQGhA==
-X-ME-Sender: <xms:l8u3YvF0cdHKwL3ixNowYoncBmWbkso2ddD_gTNmP59eHjwA1wEY7g>
-    <xme:l8u3YsVsgTAPPmcvUvVNALQ0P7dzgP2kLWcDyw19yaGlFbN2wxtEdYfbEh31TuaTA
-    9mXrukfQ2htvY02BxY>
-X-ME-Received: <xmr:l8u3YhKm0AGL31IrsYEjsMhqiGkQ7aXFWXGdSQTNXauUSaCkJCa_YyoRmTJtXXSqg9KK38TKxbxLFh5adjY2fg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegvddgieehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfhgfhffvvefuffgjkfggtgesthdtredttdertdenucfhrhhomhepffgrvhhi
-    ugcutfgvrghvvghruceomhgvsegurghvihgurhgvrghvvghrrdgtohhmqeenucggtffrrg
-    htthgvrhhnpeffiedvtdekgeevhefhudeitdeuvddtgffftedtueelffffkeetgfdtjeev
-    uedvleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmvgesuggrvhhiughrvggrvhgvrhdrtghomh
-X-ME-Proxy: <xmx:l8u3YtFNhjQ_J_NxZ3IRMnX4SbiLdTWdpMKOZYMvdwJeTN8K-cUo_A>
-    <xmx:l8u3YlWsCD6UNREZ_QQEfZuZJpdwbNsopjgJg1NJXlH4FP5XqBzTog>
-    <xmx:l8u3YoNayElDfI9O09C_0W9uTTrGMG3RBIMyyMcK1X7sLg1v2UtGSQ>
-    <xmx:mMu3YrzY0Pu6pLJlsM8CQ59y7FomD8OzaP9vzcbMHD2Pwjxvq-K5pw>
-Feedback-ID: i67e946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 25 Jun 2022 22:59:34 -0400 (EDT)
-References: <20220626020002.1577101-1-me@davidreaver.com>
- <a63132e226c2bb7b3f689cb09f7479adea5fe918.camel@perches.com>
-User-agent: mu4e 1.6.11; emacs 28.1
-From: David Reaver <me@davidreaver.com>
-To: Joe Perches <joe@perches.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: fix alignment should match open
- parenthesis
-Date: Sat, 25 Jun 2022 19:52:01 -0700
-In-reply-to: <a63132e226c2bb7b3f689cb09f7479adea5fe918.camel@perches.com>
-Message-ID: <86a6a0xh7v.fsf@davidreaver.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BFB198
+	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 07:45:30 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id x8so1661570pgj.13
+        for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 00:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7eI5KlH8jvd2AEJBKlQ3J4jXLlokaOXyX+ZrVY++9vk=;
+        b=YmxDu6n74rkBICZ6OVQ14dYA1c/vmpv+9puClWEMW3wgBcX3L7S7yMOyr1wITpWnJA
+         Ok4/ZWXkcp+nNo3VnBk0jdgV2Jo8tdXMPi6jrYkW30OBf7O+/Qog6siMYDnnb9+ESjce
+         HiEEskIDqz1nnnewCMykc+ilDNofnFwx8dR3rArY2kg9ovfM9Lz/hJ5ZUer65Sm6D7sM
+         KmUa7OGuyNjAu8mTfQ0H6aZ2MMTLUwNbQwcuQnUmNdHOwIi9Ol6UOYXerR3OJfRjWJI3
+         PFSTP1qJmc05sb8NziC83TqhxhQ/U5m7BZsqoEYu1/fuhFGoVIPqjJ8amZ9t9AcNljay
+         C+2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7eI5KlH8jvd2AEJBKlQ3J4jXLlokaOXyX+ZrVY++9vk=;
+        b=Y3/PorGIpQwW1uJ8DG78Y9Z91HXUdS1P5rqvpQN6n9W37hNTLp5isnP0UF0zq0owPG
+         2zHcA8mavHsUpb1e1jxl4Y3EG+ZI/oAjQqN5hF2fs9XuE1sfT9xjtJz0Ar+KnFKzb5Mu
+         SYPSNpfAS19kFk7JrV66Njw+UDIrXMeFJypYsJjoK1kVPs5Z0avCv/Aqll+7MLuAHeYc
+         yPqb3zu3UWNtEf/DSzl9g+/3aIl6KN0EsLEclwp9bv3+YHMBBTTk8x1pztTRVyve8Dk2
+         kl3oAu5X2VIdH5GFIAUX9Mci5SwTD9e9DbVQTleTYMrkd221FzhpzpW9qd4DS/H5fI/m
+         ckMg==
+X-Gm-Message-State: AJIora+DFnXMD6HCSN013jN7HC3SFpDILeDpM4cjZCmfHLedBlzYyM1S
+	bkIQq2447Ds9RSBSj+qVI+c=
+X-Google-Smtp-Source: AGRyM1suBXCRt8KBt367wr5hGvoxdwUh1ZPYvZlbV4zhU6zLaOTIG0PeXbdd+COlxiEO7UpR7QEiRw==
+X-Received: by 2002:a65:6745:0:b0:3fd:fd52:85bc with SMTP id c5-20020a656745000000b003fdfd5285bcmr6888172pgu.350.1656229530012;
+        Sun, 26 Jun 2022 00:45:30 -0700 (PDT)
+Received: from sebin-inspiron.bbrouter ([103.148.21.74])
+        by smtp.gmail.com with ESMTPSA id a5-20020a1709027e4500b0016784c93f23sm4715873pln.197.2022.06.26.00.45.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jun 2022 00:45:29 -0700 (PDT)
+From: SebinSebastian <mailmesebin00@gmail.com>
+To: 
+Cc: mailmesebin00@gmail.com,
+	skhan@linuxfoundation.org,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: Remove null checking before freeing functions
+Date: Sun, 26 Jun 2022 13:14:11 +0530
+Message-Id: <20220626074417.661312-1-mailmesebin00@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
+Fix the following coccicheck warning:
+drivers/staging/r8188eu/os_dep/usb_intf.c:376:2-7: WARNING: NULL check before some freeing functions is not needed.
 
-Joe Perches <joe@perches.com> writes:
+Signed-off-by: Sebin Sebastian <mailmesebin00@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/usb_intf.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> On Sat, 2022-06-25 at 19:00 -0700, David Reaver wrote:
->> Fix alignment of this line of code with the previous parenthesis, as
->> suggested by checkpatch.pl:
-> []
->> diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
-> []
->> @@ -38,7 +38,7 @@ static int init_display(struct fbtft_par *par)
->>  	write_reg(par, 0xE5, 0x00);
->>  	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
->>  	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
->> -		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
->> +		  0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
->
-> It's probably better to ignore the message in this case as the first
-> argument means something and the second and subsequent are the data
-> being written via a specific macro using NUMARGS.
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index 68869c5daeff..f5f1119b5444 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -372,8 +372,8 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
+ free_adapter:
+ 	if (pnetdev)
+ 		rtw_free_netdev(pnetdev);
+-	else if (padapter)
+-		vfree(padapter);
++	
++	vfree(padapter);
+ 
+ 	return NULL;
+ }
+-- 
+2.34.1
 
-Thanks for taking a look Joe! That makes sense. I'm new to the kernel
-and running checkpath.pl on staging drivers was suggested as a good
-place to start contributing, but I'll keep a more careful eye out next
-time and not follow checkpath blindly.
