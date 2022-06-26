@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E192F21
-	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 18:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAD8320B
+	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 18:26:16 +0000 (UTC)
 Received: from dslb-188-104-057-109.188.104.pools.vodafone-ip.de ([188.104.57.109] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1o5Whw-00075l-6b; Sun, 26 Jun 2022 20:10:04 +0200
+	id 1o5WeG-00072p-E6; Sun, 26 Jun 2022 20:06:16 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,10 +17,12 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH] staging: r8188eu: merge two led structs
-Date: Sun, 26 Jun 2022 20:09:59 +0200
-Message-Id: <20220626181000.287225-1-martin@kaiser.cx>
+Subject: [PATCH v2] staging: r8188eu: remove rtw_usleep_os
+Date: Sun, 26 Jun 2022 20:06:03 +0200
+Message-Id: <20220626180603.287054-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220602194807.281115-1-martin@kaiser.cx>
+References: <20220602194807.281115-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,128 +31,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The led layer uses struct led_priv and struct LED_871x to store state
-info. Merge the two structs. Move LED_871x's components into led_priv.
+Remove the rtw_usleep_os helper function. There are only two callers, both
+of which call rtw_usleep_os(100). This is equivalent to msleep(1).
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_led.c    | 27 ++++++++++-------------
- drivers/staging/r8188eu/include/rtw_led.h |  9 +++-----
- 2 files changed, 15 insertions(+), 21 deletions(-)
+changes in v2:
+- use msleep(1) instead of usleep_range
 
-diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index 25989acf5259..d5c6c5e29621 100644
---- a/drivers/staging/r8188eu/core/rtw_led.c
-+++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -16,7 +16,7 @@
- 	(l)->CurrLedState == LED_BLINK_WPS_STOP || \
- 	(l)->bLedWPSBlinkInProgress)
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 2 +-
+ drivers/staging/r8188eu/include/osdep_service.h | 2 --
+ drivers/staging/r8188eu/os_dep/osdep_service.c  | 8 --------
+ 4 files changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+index 45e85b593665..cf9020a73933 100644
+--- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
++++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+@@ -273,7 +273,7 @@ static s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
+ 			err = -1;
+ 			break;
+ 		}
+-		rtw_usleep_os(100);
++		msleep(1);
+ 	}
  
--static void ResetLedStatus(struct LED_871x *pLed)
-+static void ResetLedStatus(struct led_priv *pLed)
- {
- 	pLed->CurrLedState = RTW_LED_OFF; /*  Current LED state. */
- 	pLed->bLedOn = false; /*  true if LED is ON, false if LED is OFF. */
-@@ -32,7 +32,7 @@ static void ResetLedStatus(struct LED_871x *pLed)
- 	pLed->bLedScanBlinkInProgress = false;
- }
+ 	return err;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 5549e7be334a..5b65313e0b9d 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -243,7 +243,7 @@ static int efuse_read_phymap_from_txpktbuf(
+ 			if (reg)
+ 				break;
  
--static void SwLedOn(struct adapter *padapter, struct LED_871x *pLed)
-+static void SwLedOn(struct adapter *padapter, struct led_priv *pLed)
- {
- 	u8	LedCfg;
- 	int res;
-@@ -48,7 +48,7 @@ static void SwLedOn(struct adapter *padapter, struct LED_871x *pLed)
- 	pLed->bLedOn = true;
- }
+-			rtw_usleep_os(100);
++			msleep(1);
+ 		} while (time_before(jiffies, timeout));
  
--static void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
-+static void SwLedOff(struct adapter *padapter, struct led_priv *pLed)
- {
- 	u8	LedCfg;
- 	int res;
-@@ -75,7 +75,7 @@ static void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
- static void blink_work(struct work_struct *work)
- {
- 	struct delayed_work *dwork = to_delayed_work(work);
--	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
-+	struct led_priv *pLed = container_of(dwork, struct led_priv, blink_work);
- 	struct adapter *padapter = pLed->padapter;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 		/* data from EEPROM needs to be in LE */
+diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+index 1d97d5be46d5..72990a1cdc66 100644
+--- a/drivers/staging/r8188eu/include/osdep_service.h
++++ b/drivers/staging/r8188eu/include/osdep_service.h
+@@ -76,8 +76,6 @@ void *rtw_malloc2d(int h, int w, int size);
+ 		spin_lock_init(&((q)->lock));			\
+ 	} while (0)
  
-@@ -182,35 +182,32 @@ static void blink_work(struct work_struct *work)
- void rtl8188eu_InitSwLeds(struct adapter *padapter)
- {
- 	struct led_priv *pledpriv = &padapter->ledpriv;
--	struct LED_871x *pLed = &pledpriv->SwLed0;
- 
--	pLed->padapter = padapter;
--	ResetLedStatus(pLed);
--	INIT_DELAYED_WORK(&pLed->blink_work, blink_work);
-+	pledpriv->padapter = padapter;
-+	ResetLedStatus(pledpriv);
-+	INIT_DELAYED_WORK(&pledpriv->blink_work, blink_work);
- }
- 
- void rtl8188eu_DeInitSwLeds(struct adapter *padapter)
- {
- 	struct led_priv	*ledpriv = &padapter->ledpriv;
--	struct LED_871x *pLed = &ledpriv->SwLed0;
- 
--	cancel_delayed_work_sync(&pLed->blink_work);
--	ResetLedStatus(pLed);
--	SwLedOff(padapter, pLed);
-+	cancel_delayed_work_sync(&ledpriv->blink_work);
-+	ResetLedStatus(ledpriv);
-+	SwLedOff(padapter, ledpriv);
- }
- 
- void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
- {
--	struct led_priv *ledpriv = &padapter->ledpriv;
-+	struct led_priv *pLed = &padapter->ledpriv;
- 	struct registry_priv *registry_par;
--	struct LED_871x *pLed = &ledpriv->SwLed0;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
- 	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped) ||
- 	    (!padapter->hw_init_completed))
- 		return;
- 
--	if (!ledpriv->bRegUseLed)
-+	if (!pLed->bRegUseLed)
- 		return;
- 
- 	registry_par = &padapter->registrypriv;
-diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
-index 2c14cb23d9ad..d6b0c1c2f9a2 100644
---- a/drivers/staging/r8188eu/include/rtw_led.h
-+++ b/drivers/staging/r8188eu/include/rtw_led.h
-@@ -37,9 +37,11 @@ enum LED_STATE_871x {
- 	LED_BLINK_RUNTOP = 13, /*  Customized for RunTop */
- };
- 
--struct LED_871x {
-+struct led_priv {
- 	struct adapter *padapter;
- 
-+	bool bRegUseLed;
-+
- 	enum LED_STATE_871x	CurrLedState; /*  Current LED state. */
- 	enum LED_STATE_871x	BlinkingLedState; /*  Next state for blinking,
- 				   * either RTW_LED_ON or RTW_LED_OFF are. */
-@@ -58,11 +60,6 @@ struct LED_871x {
- 	struct delayed_work blink_work;
- };
- 
--struct led_priv{
--	struct LED_871x			SwLed0;
--	bool	bRegUseLed;
--};
+-void rtw_usleep_os(int us);
 -
- void rtl8188eu_InitSwLeds(struct adapter *padapter);
- void rtl8188eu_DeInitSwLeds(struct adapter *padapter);
+ static inline unsigned char _cancel_timer_ex(struct timer_list *ptimer)
+ {
+ 	return del_timer_sync(ptimer);
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 812acd59be79..3504a0a9ba87 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -42,14 +42,6 @@ Otherwise, there will be racing condition.
+ Caller must check if the list is empty before calling rtw_list_delete
+ */
  
+-void rtw_usleep_os(int us)
+-{
+-	if (1 < (us / 1000))
+-		msleep(1);
+-	else
+-		msleep((us / 1000) + 1);
+-}
+-
+ static const struct device_type wlan_type = {
+ 	.name = "wlan",
+ };
 -- 
 2.30.2
 
