@@ -1,101 +1,65 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189DD17EC
-	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 07:59:58 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id c13so8962737eds.10
-        for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 00:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=FGfEJIfpAO3ifCYE+j+FKpzzCLL1fsOI/LfCuS4Ctx4=;
-        b=hVsKPanAgPTlQQ2KlEaZgSJCN4WxJ/bhyVoaAKC+GQRtuQEu5XciAohatfOVQ3n9Gd
-         R1G5Pm4M6YIITh9nNpstLoNeDk0hzFNdjB0s73S1G3S8IBqcTGh+GlDwJdt/OsKD6GjG
-         WQ9ZpN850Ujb4FFkBOrqcm7pLmYjHAYWap20quk02z5UqmiQd/XnNU6UnIrfBUmal2gy
-         oUEs2rJp4B5Nc21fMX/+fVoEk/1e2HIqXRx8f3O7A5KgOm+hWynQ586DxO8O1hF868Wd
-         SZZoHkwJhshVj0Kr0GH0AZC6UlFwHv3/eddFWlukCwDeZSWgkeT2Sl6uF8LhHbLX9MLq
-         nsGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FGfEJIfpAO3ifCYE+j+FKpzzCLL1fsOI/LfCuS4Ctx4=;
-        b=bFEBzVExMIyHVd+uiExr+DXq58215fms1lVt116RKjDLaDAxSHR8UunQuj41KMuZLk
-         V1GullH3ZqYDqgxfxgSh18mcPDMqU95SiDgex2A67v8ub+1s+JPCdU/TbTg2ccyXi4ng
-         ZOR0rGO0tqXMrg8La5ElUHyLgbat4afSbF/KMeHAZbg1CEkrh3ZV5M74nPYaFtUK/SXg
-         p3++rnLWUDHKDcCRarvJ7W/g5qHzxIJ0VnE+7R0go5RdHheQcNtLq5SnW68qar9OqOdx
-         UuSb4vaWf9UeHFCDq/9Ayqi2cfKPvR2MDe/3CO52m1juYBeYrBe0NzvgWA2zYmHsACsF
-         WIVA==
-X-Gm-Message-State: AJIora+r1jUNz5jJNWWJUn6SfMU6ledK6DfxZEAzw5Wzbepokbg1tSXg
-	oiHJwnxZszaB9gQScpnawic=
-X-Google-Smtp-Source: AGRyM1tPjcCuJHZxbH40IV1VmbKiRpV2PzJITE7bIs848u8Bdot8X2fBkY++nMGLzarOKkGhagn6uA==
-X-Received: by 2002:aa7:d294:0:b0:435:5d12:867f with SMTP id w20-20020aa7d294000000b004355d12867fmr9426843edq.147.1656230396316;
-        Sun, 26 Jun 2022 00:59:56 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2e:6976:d31e:943a:debd:7240? (p200300c78f2e6976d31e943adebd7240.dip0.t-ipconnect.de. [2003:c7:8f2e:6976:d31e:943a:debd:7240])
-        by smtp.gmail.com with ESMTPSA id u6-20020a056402064600b004356d08bbbasm5442946edx.40.2022.06.26.00.59.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 00:59:55 -0700 (PDT)
-Message-ID: <ae8d0b5f-3371-f6ee-6744-cebfc1a0d010@gmail.com>
-Date: Sun, 26 Jun 2022 09:59:54 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6080A17EC
+	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 08:20:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB3BC341C7;
+	Sun, 26 Jun 2022 08:20:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1656231659;
+	bh=j4UfyQrlOyGm/1PgSuQ/6EcYNsoqlK+aVO223Z4irGE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jYKkmQF/icVatvfbN8EFX8RpGRiEINdNegABCSyzAUB/0UH5j9s000U5c8d+cJHvC
+	 2Q7m3AZi3Ckh+LmZPRwkXSeOF7OZBvMY6UJZ9HvTXmFubhnVXOHYhbwYK5NibZHW9d
+	 RDIFUjOy0OyfJW1LqGwWHoP327ey6ubJV58xOBYw=
+Date: Sun, 26 Jun 2022 10:20:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: SebinSebastian <mailmesebin00@gmail.com>
+Cc: skhan@linuxfoundation.org, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: Remove null checking before freeing
+ functions
+Message-ID: <YrgW5vB0Nxs/hqwC@kroah.com>
+References: <20220626074417.661312-1-mailmesebin00@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] staging: r8188eu: Remove null checking before freeing
- functions
-Content-Language: en-US
-To: SebinSebastian <mailmesebin00@gmail.com>
-Cc: skhan@linuxfoundation.org, Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Martin Kaiser <martin@kaiser.cx>, Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220626074417.661312-1-mailmesebin00@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20220626074417.661312-1-mailmesebin00@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 6/26/22 09:44, SebinSebastian wrote:
+On Sun, Jun 26, 2022 at 01:14:11PM +0530, SebinSebastian wrote:
 > Fix the following coccicheck warning:
 > drivers/staging/r8188eu/os_dep/usb_intf.c:376:2-7: WARNING: NULL check before some freeing functions is not needed.
 > 
 > Signed-off-by: Sebin Sebastian <mailmesebin00@gmail.com>
 > ---
->   drivers/staging/r8188eu/os_dep/usb_intf.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/r8188eu/os_dep/usb_intf.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
 > index 68869c5daeff..f5f1119b5444 100644
 > --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
 > +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
 > @@ -372,8 +372,8 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
->   free_adapter:
->   	if (pnetdev)
->   		rtw_free_netdev(pnetdev);
+>  free_adapter:
+>  	if (pnetdev)
+>  		rtw_free_netdev(pnetdev);
 > -	else if (padapter)
 > -		vfree(padapter);
 > +	
 > +	vfree(padapter);
->   
->   	return NULL;
->   }
 
-Sorry to let you know that this patch was already send in:
+You introduced another coding style issue, and you changed the logic to
+be different here.  Are you sure you want this change to be accepted?
 
-Please read the following patches:
+thanks,
 
-https://lore.kernel.org/linux-staging/CAD-N9QUpBHgtu8kssuf-22n94RnLDshioDaJTcFWNipvAuh08g@mail.gmail.com/T/#t
-
-https://lore.kernel.org/linux-staging/20220614133239.147076-1-dzm91@hust.edu.cn/T/#u
-
-Thanks for your support.
-
-Bye Philipp
+greg k-h
