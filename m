@@ -1,189 +1,106 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5E97A
-	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 20:45:39 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id eq6so10413429edb.6
-        for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 13:45:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/ci1+NPUxEsVxZZfKgEg6JySTcs1pF3WLyCCsnWy1KA=;
-        b=R5/A1EFUSSujFY8sf4fu7RwPA4Dwc4d+8eOJdJpbOiGhnkaFTm8fcgNXS2u9w8Uh6M
-         UhXsh0TFo6jgys/pJPT/MhgXuan6EAr8ye6XOW5FSYrd0xbNhbg3VOzKFSm+2NmtD7Vq
-         JjqMjbYvbCnL+0fEVTjXP9JaCzi9Udzy0AVPoVSLNh3RkH9a3EEH36B4N4nUZKSIu73W
-         L4r5VT8Bu3gAdJTNVNnykPn75BGe7gX3H1skZ3vfis6c3e4ubn4JCWXlj2XOwSJdcx13
-         lx3spPfCCxcpDP06guSadAHfuiUoXjDrJSISVJeXFIaHeS2JSWmtxINPobRxoaymMfQN
-         y0+g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3907A
+	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 21:33:29 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id b11-20020a92340b000000b002d3dbbc7b15so4650358ila.5
+        for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 14:33:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/ci1+NPUxEsVxZZfKgEg6JySTcs1pF3WLyCCsnWy1KA=;
-        b=xRTc8dpACxgso8rQ5qZeK9LAwhU2ADTjlQeoKhboBkK2abHKRDkjIJxmIjQuWWM/jB
-         kskDUI9GYLZlegazoQtvEYZfaxwyC27wXda5hLkGzzLia5L+8SZvDmIJRF1VHl+UgcWN
-         Z5Dv8iQRv6V8RaFTg2yyfUb6iRyvMI6RcfKWrL78EAs9W0JzlrTe6U2msfwi+KCXrAf4
-         drxdpBuGMCTk2CUOv8O6q3XxBtJeT3NyXc7h+T46mDMhMrqait976/NDUVc9TYVjsUJi
-         4SXjT8um9dSIaPs7eZYnO65TM5CHqPNO2G+GS2j2eZHOOD/QqnHBtYjG9fYH5ezG46t/
-         0WZw==
-X-Gm-Message-State: AJIora9qPvWi9myiDdoSG8yLuxeswXnL0BBVVTK5LAAGWEcZL3lkevJc
-	TaP6WpsfAJwQXjzPko+Ojyk=
-X-Google-Smtp-Source: AGRyM1vIrlrNeHZBHntI8u/d9LgSPfq6A2Tt7jtq59RDqKHRB3Qu0gFpnKHh4CmjCxecAVn0zyaYqw==
-X-Received: by 2002:a05:6402:25c2:b0:431:932e:eb6f with SMTP id x2-20020a05640225c200b00431932eeb6fmr13078820edb.296.1656276338173;
-        Sun, 26 Jun 2022 13:45:38 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id o19-20020a170906775300b007052b183d51sm4131367ejn.132.2022.06.26.13.45.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 13:45:37 -0700 (PDT)
-Message-ID: <e048a607-6679-8a0d-f68c-91b4c4b42afd@gmail.com>
-Date: Sun, 26 Jun 2022 22:45:36 +0200
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=UBb7FXZ2HjkvN5VW+yOvWBc5CJthxRRWPN6cbtdXnTA=;
+        b=nDfq7KXFrMnjbeSm9LuIs7X7kB5XXVe3TO5N6ypp+WFamRqQxiclvqUFVnixOHP/8W
+         2G0oc2c72Bt2cZOv6gWBF/S4bywm7NFZMdSUxl5qX0t6xjKZcrFTOC/lMPTW0qMZVteL
+         Hkb+ynjDfu8qOXzfjA1z3WJBR5tgVIstRffCYJCOmygMJKUdTQaaLoVly7OoViuWQQAx
+         9ey3K9A9Ro7dj/gWlKMA3fRHKwKVK+DV4eKhgwGiKP/68PHoL8AexnOeyVl2afJyvrK0
+         aCyZ4FPzKzTI5JE4n2ypFi3l/54M3ES4vIDO/uFdwSBaNNexKUoouOrMaphYW3klWqVq
+         4OCw==
+X-Gm-Message-State: AJIora9r+H6diHWJ/bMEbMJU0v8aZssDJngS0qGNPq17hkMEs+zYWmem
+	xBgLx4ET1KENdX8QW0j8KMAV9XCwd8wP7g/yIQjzHRhSFdqy
+X-Google-Smtp-Source: AGRyM1vd2SRVB05zS2Hxupa/d5pKOBpY7p0/s0vcJd4qSyXhI0yVmPKfXVuEjH0ucuwIkdygRkHhZFPKPlR+5ccAuIqCxFDjBdhj
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] staging: r8188eu: merge two led structs
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220626181000.287225-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220626181000.287225-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a02:c85c:0:b0:339:dc91:d486 with SMTP id
+ r28-20020a02c85c000000b00339dc91d486mr6093020jao.199.1656279208818; Sun, 26
+ Jun 2022 14:33:28 -0700 (PDT)
+Date: Sun, 26 Jun 2022 14:33:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000e3fc8905e2608d4f@google.com>
+Subject: [syzbot] WARNING: locking bug in hfa384x_usbctlx_completion_task
+From: syzbot <syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com>
+To: aldas60@gmail.com, dave@stgolabs.net, gregkh@linuxfoundation.org, 
+	keescook@chromium.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, nathan@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/26/22 20:09, Martin Kaiser wrote:
-> The led layer uses struct led_priv and struct LED_871x to store state
-> info. Merge the two structs. Move LED_871x's components into led_priv.
-> 
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->   drivers/staging/r8188eu/core/rtw_led.c    | 27 ++++++++++-------------
->   drivers/staging/r8188eu/include/rtw_led.h |  9 +++-----
->   2 files changed, 15 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-> index 25989acf5259..d5c6c5e29621 100644
-> --- a/drivers/staging/r8188eu/core/rtw_led.c
-> +++ b/drivers/staging/r8188eu/core/rtw_led.c
-> @@ -16,7 +16,7 @@
->   	(l)->CurrLedState == LED_BLINK_WPS_STOP || \
->   	(l)->bLedWPSBlinkInProgress)
->   
-> -static void ResetLedStatus(struct LED_871x *pLed)
-> +static void ResetLedStatus(struct led_priv *pLed)
->   {
->   	pLed->CurrLedState = RTW_LED_OFF; /*  Current LED state. */
->   	pLed->bLedOn = false; /*  true if LED is ON, false if LED is OFF. */
-> @@ -32,7 +32,7 @@ static void ResetLedStatus(struct LED_871x *pLed)
->   	pLed->bLedScanBlinkInProgress = false;
->   }
->   
-> -static void SwLedOn(struct adapter *padapter, struct LED_871x *pLed)
-> +static void SwLedOn(struct adapter *padapter, struct led_priv *pLed)
->   {
->   	u8	LedCfg;
->   	int res;
-> @@ -48,7 +48,7 @@ static void SwLedOn(struct adapter *padapter, struct LED_871x *pLed)
->   	pLed->bLedOn = true;
->   }
->   
-> -static void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
-> +static void SwLedOff(struct adapter *padapter, struct led_priv *pLed)
->   {
->   	u8	LedCfg;
->   	int res;
-> @@ -75,7 +75,7 @@ static void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
->   static void blink_work(struct work_struct *work)
->   {
->   	struct delayed_work *dwork = to_delayed_work(work);
-> -	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
-> +	struct led_priv *pLed = container_of(dwork, struct led_priv, blink_work);
->   	struct adapter *padapter = pLed->padapter;
->   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
->   
-> @@ -182,35 +182,32 @@ static void blink_work(struct work_struct *work)
->   void rtl8188eu_InitSwLeds(struct adapter *padapter)
->   {
->   	struct led_priv *pledpriv = &padapter->ledpriv;
-> -	struct LED_871x *pLed = &pledpriv->SwLed0;
->   
-> -	pLed->padapter = padapter;
-> -	ResetLedStatus(pLed);
-> -	INIT_DELAYED_WORK(&pLed->blink_work, blink_work);
-> +	pledpriv->padapter = padapter;
-> +	ResetLedStatus(pledpriv);
-> +	INIT_DELAYED_WORK(&pledpriv->blink_work, blink_work);
->   }
->   
->   void rtl8188eu_DeInitSwLeds(struct adapter *padapter)
->   {
->   	struct led_priv	*ledpriv = &padapter->ledpriv;
-> -	struct LED_871x *pLed = &ledpriv->SwLed0;
->   
-> -	cancel_delayed_work_sync(&pLed->blink_work);
-> -	ResetLedStatus(pLed);
-> -	SwLedOff(padapter, pLed);
-> +	cancel_delayed_work_sync(&ledpriv->blink_work);
-> +	ResetLedStatus(ledpriv);
-> +	SwLedOff(padapter, ledpriv);
->   }
->   
->   void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
->   {
-> -	struct led_priv *ledpriv = &padapter->ledpriv;
-> +	struct led_priv *pLed = &padapter->ledpriv;
->   	struct registry_priv *registry_par;
-> -	struct LED_871x *pLed = &ledpriv->SwLed0;
->   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
->   
->   	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped) ||
->   	    (!padapter->hw_init_completed))
->   		return;
->   
-> -	if (!ledpriv->bRegUseLed)
-> +	if (!pLed->bRegUseLed)
->   		return;
->   
->   	registry_par = &padapter->registrypriv;
-> diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
-> index 2c14cb23d9ad..d6b0c1c2f9a2 100644
-> --- a/drivers/staging/r8188eu/include/rtw_led.h
-> +++ b/drivers/staging/r8188eu/include/rtw_led.h
-> @@ -37,9 +37,11 @@ enum LED_STATE_871x {
->   	LED_BLINK_RUNTOP = 13, /*  Customized for RunTop */
->   };
->   
-> -struct LED_871x {
-> +struct led_priv {
->   	struct adapter *padapter;
->   
-> +	bool bRegUseLed;
-> +
->   	enum LED_STATE_871x	CurrLedState; /*  Current LED state. */
->   	enum LED_STATE_871x	BlinkingLedState; /*  Next state for blinking,
->   				   * either RTW_LED_ON or RTW_LED_OFF are. */
-> @@ -58,11 +60,6 @@ struct LED_871x {
->   	struct delayed_work blink_work;
->   };
->   
-> -struct led_priv{
-> -	struct LED_871x			SwLed0;
-> -	bool	bRegUseLed;
-> -};
-> -
->   void rtl8188eu_InitSwLeds(struct adapter *padapter);
->   void rtl8188eu_DeInitSwLeds(struct adapter *padapter);
->   
+Hello,
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+syzbot found the following issue on:
+
+HEAD commit:    105f3fd2f789 Merge branch 'staging-octeon' of gitolite.ker..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=129a824bf00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a352a56bc8822d0c
+dashboard link: https://syzkaller.appspot.com/bug?extid=ce3408364c4a234dd90c
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10a97af8080000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1031ec4bf00000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(1)
+WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 hlock_class kernel/locking/lockdep.c:231 [inline]
+WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 hlock_class kernel/locking/lockdep.c:220 [inline]
+WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 check_wait_context kernel/locking/lockdep.c:4727 [inline]
+WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 __lock_acquire+0x1356/0x5660 kernel/locking/lockdep.c:5003
+Modules linked in:
+CPU: 1 PID: 21 Comm: kworker/1:0 Not tainted 5.19.0-rc3-syzkaller-00071-g105f3fd2f789 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: events hfa384x_usbctlx_completion_task
+RIP: 0010:hlock_class kernel/locking/lockdep.c:231 [inline]
+RIP: 0010:hlock_class kernel/locking/lockdep.c:220 [inline]
+RIP: 0010:check_wait_context kernel/locking/lockdep.c:4727 [inline]
+RIP: 0010:__lock_acquire+0x1356/0x5660 kernel/locking/lockdep.c:5003
+Code: 08 84 d2 0f 85 0e 30 00 00 8b 35 7d ec b3 07 85 f6 0f 85 f4 fd ff ff 48 c7 c6 e0 97 47 86 48 c7 c7 20 92 47 86 e8 9a 5b 96 04 <0f> 0b 31 ed e9 aa f0 ff ff e8 fc f1 e8 00 85 c0 0f 84 12 fe ff ff
+RSP: 0018:ffffc9000016fa28 EFLAGS: 00010082
+RAX: 0000000000000000 RBX: ffff888109450be0 RCX: 0000000000000000
+RDX: ffff888100371c80 RSI: ffffffff812c1d98 RDI: fffff5200002df37
+RBP: 0000000000000edc R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000001 R11: 0000000000000001 R12: ffff8881003726c8
+R13: ffff888100371c80 R14: 0000000000040000 R15: 00000000000c0edc
+FS:  0000000000000000(0000) GS:ffff8881f6900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055fb59fac7c0 CR3: 0000000109e53000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ lock_acquire kernel/locking/lockdep.c:5665 [inline]
+ lock_acquire+0x1ab/0x570 kernel/locking/lockdep.c:5630
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x39/0x50 kernel/locking/spinlock.c:162
+ hfa384x_usbctlx_completion_task+0x35/0x510 drivers/staging/wlan-ng/hfa384x_usb.c:2641
+ process_one_work+0x996/0x1610 kernel/workqueue.c:2289
+ worker_thread+0x665/0x1080 kernel/workqueue.c:2436
+ kthread+0x2ef/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:302
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
