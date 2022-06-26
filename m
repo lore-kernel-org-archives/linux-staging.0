@@ -1,44 +1,44 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5087A
-	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 20:44:48 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id mf9so15210713ejb.0
-        for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 13:44:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640D87A
+	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 20:45:23 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id g26so15076485ejb.5
+        for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 13:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+NiKnLEANxLAPhew67VDLJo2BLnUAn/GY67TsCLrKkQ=;
-        b=e0DR+7Flsxt4JCftlM/n7rZXiVyC+6Wu49NvaZtQoeVAo+kDEbS5v+G0pLT0pdcBKZ
-         3CsqdXyDndrUmP+hJjly12AOjr5jVB6bnAyq9VVrUxPAjBJXcUAJLm6egZm+oUBX672W
-         QCTYvn9hLMA373G23Vs1nAtWcwvMZ3o4YFrAj3tV7aZjKiJtBFFB8B+oV8DAuCx16ejo
-         9OElXexSkFUAruKSSGU7UCaf5sQdtze7H8D8BK5Cy3Yi3TlDgWJQUCzIoMgRGGucpAxy
-         l2hPej2sc5yYU+Z9k/Cc9LRFoCAtnt3CXtgj2NHMsA4JTAieo5+t0TQfeyKiT9HX7nMG
-         +G+A==
+        bh=MU7F2k/pm1hTOOKVBfeW26d42wVGtM9C99HlX+kZFUc=;
+        b=hkq3xj3zWMBNeTameJYl3wMqU54AgmIuOvE3HLzpprHwrZFr6Ib+6ps76dD9Hu9KwD
+         Wsx9gBPi+h2e6J0MNZBLGUpD8WS1MyTWgNNqRTyygId39CuJpjxq7kQSJyFVUMHS7Rou
+         RmYgm3hKbEtePHGJmupQTUQcpVwVOCOZ0TQuKdmDPRpPdLYV2bq9JMe86rgzXlhc+pye
+         LcOFTexFtvLFzoHsNaS3DLJMZqCELGQ6Xs2Wz9BfA82PEnbdYwGxCNGKvCP/GkdoIXqe
+         MtCtr0amhso5kJTTtSN11TgeZX8HFwI4afhqn+6wY0/rdRVCmIyM8Vk8XEAjYZhWJRHD
+         mNGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=+NiKnLEANxLAPhew67VDLJo2BLnUAn/GY67TsCLrKkQ=;
-        b=wvCssUy48pm3g0itrpt8KWG8UA+L9FooeyfRtEapvo0tGikKpFaMGtpMIoIGO9zR7X
-         ULuw2IFPhaTxxdDptS9+xNBNg/BPpmGE+a2UhEMBGr3KDCqRH0WlZixXelCE96iPlu7I
-         NXfh7yqPwDnljjYaZ6O4UAQxGNQKaG6dxJM2VPtAE3eKYAGaHlWi27sw9q4dcU/IGw3e
-         duRA7UtdJQ3pxwUSeW6HgoJjO8hHxL9h+c459hXPbx2mfMvqUsCr3wy5fhcZdHwTcGg4
-         +gO5SzRQk197XchyzCtoflJPMGnpZ1Cg2FQT04F1NUNtqRojG3ZyNC8ZAanF7vDO4aF2
-         iRjg==
-X-Gm-Message-State: AJIora8jTUXwC25PTg7lQ754PqYtrD24Z1e1s02yciXZLXy2O1O3lLFY
-	+yV5aJYB9glVa54X8ZL7Z/XLBmbuV94=
-X-Google-Smtp-Source: AGRyM1sihdHv4mKJi+4Gh/l2yvDSlHnR/tA+lgO5Su0blV9xf5TiG1xEgZoWHv7dfccYoxyLf4jFJw==
-X-Received: by 2002:a17:906:66d4:b0:70f:e86d:61b with SMTP id k20-20020a17090666d400b0070fe86d061bmr9656981ejp.401.1656276286306;
-        Sun, 26 Jun 2022 13:44:46 -0700 (PDT)
+        bh=MU7F2k/pm1hTOOKVBfeW26d42wVGtM9C99HlX+kZFUc=;
+        b=xZFka3tZEFYXwh7IPp5YwfNquhysaOb6ANunxCyqo/LYBEy5wYmR9Ucoei69UexGiY
+         BZ5moIU6TTWluOkRAKARwK/kQ/fmhOAPxhjzXPfjY6FrPOilz9hfSb/n7jwXL1hZCQKL
+         GXIU+hzJJGMei9TGN7Lqy0foRST7fOgkwco/idVMMFDQFNdsmTJSuKfokoGW86RaF7Ev
+         8P/DLlTVtMFJ5qcfmXsQKW0TVNUQPRr1AKPqxLVLB/qv6rwDC/ESR9NE+Bbcm67ssPjY
+         NCJb6JS3Rqv92dMiyPazKy5s22ZDa3QE4vo/iK6m9o2gFqOuXpH142cWtDdljdvLG317
+         v+0Q==
+X-Gm-Message-State: AJIora90C5/8fmgF+StxRACjOKhp60AHevAx7BQK7tooEEVmj0h8Z4xt
+	reExInbwLUbFsijhN0LkEE4=
+X-Google-Smtp-Source: AGRyM1tud0SOqOYza3cGsDMjM6Pbh/rUJkYSqd5VKAKC7svI/bMC8Ru16aIOGSf8bO2lPwwlBti/hQ==
+X-Received: by 2002:a17:906:7742:b0:708:ad9f:8e88 with SMTP id o2-20020a170906774200b00708ad9f8e88mr9498653ejn.735.1656276321829;
+        Sun, 26 Jun 2022 13:45:21 -0700 (PDT)
 Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id y1-20020aa7c241000000b004355dc75066sm6368347edo.86.2022.06.26.13.44.45
+        by smtp.gmail.com with ESMTPSA id n3-20020a1709062bc300b00722e3760558sm4081601ejg.100.2022.06.26.13.45.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 13:44:45 -0700 (PDT)
-Message-ID: <3a177ab1-5e56-e3bf-4756-4532957fca7d@gmail.com>
-Date: Sun, 26 Jun 2022 22:44:44 +0200
+        Sun, 26 Jun 2022 13:45:21 -0700 (PDT)
+Message-ID: <4a6b8f5f-e859-5b19-a162-d4ff8d65490a@gmail.com>
+Date: Sun, 26 Jun 2022 22:45:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,7 +47,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v2] staging: r8188eu: remove rtw_usleep_os
+Subject: Re: [PATCH] staging: r8188eu: drop return value from
+ receive_disconnect
 Content-Language: en-US
 To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -56,85 +57,64 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
  Michael Straube <straube.linux@gmail.com>,
  Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20220602194807.281115-1-martin@kaiser.cx>
- <20220626180603.287054-1-martin@kaiser.cx>
+References: <20220626180734.287137-1-martin@kaiser.cx>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220626180603.287054-1-martin@kaiser.cx>
+In-Reply-To: <20220626180734.287137-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/26/22 20:06, Martin Kaiser wrote:
-> Remove the rtw_usleep_os helper function. There are only two callers, both
-> of which call rtw_usleep_os(100). This is equivalent to msleep(1).
+On 6/26/22 20:07, Martin Kaiser wrote:
+> The receive_disconnect function always returns _SUCCESS. None of the
+> callers checks the return value. We can remove it.
 > 
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
-> changes in v2:
-> - use msleep(1) instead of usleep_range
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 5 ++---
+>   drivers/staging/r8188eu/include/rtw_mlme_ext.h | 3 +--
+>   2 files changed, 3 insertions(+), 5 deletions(-)
 > 
->   drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 2 +-
->   drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 2 +-
->   drivers/staging/r8188eu/include/osdep_service.h | 2 --
->   drivers/staging/r8188eu/os_dep/osdep_service.c  | 8 --------
->   4 files changed, 2 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> index 45e85b593665..cf9020a73933 100644
-> --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> @@ -273,7 +273,7 @@ static s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
->   			err = -1;
->   			break;
->   		}
-> -		rtw_usleep_os(100);
-> +		msleep(1);
->   	}
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index cce0575e93b7..fc6e06d7b5ca 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -6191,14 +6191,14 @@ void start_clnt_assoc(struct adapter *padapter)
+>   	set_link_timer(pmlmeext, REASSOC_TO);
+>   }
 >   
->   	return err;
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> index 5549e7be334a..5b65313e0b9d 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> @@ -243,7 +243,7 @@ static int efuse_read_phymap_from_txpktbuf(
->   			if (reg)
->   				break;
->   
-> -			rtw_usleep_os(100);
-> +			msleep(1);
->   		} while (time_before(jiffies, timeout));
->   
->   		/* data from EEPROM needs to be in LE */
-> diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-> index 1d97d5be46d5..72990a1cdc66 100644
-> --- a/drivers/staging/r8188eu/include/osdep_service.h
-> +++ b/drivers/staging/r8188eu/include/osdep_service.h
-> @@ -76,8 +76,6 @@ void *rtw_malloc2d(int h, int w, int size);
->   		spin_lock_init(&((q)->lock));			\
->   	} while (0)
->   
-> -void rtw_usleep_os(int us);
-> -
->   static inline unsigned char _cancel_timer_ex(struct timer_list *ptimer)
+> -unsigned int receive_disconnect(struct adapter *padapter, unsigned char *MacAddr, unsigned short reason)
+> +void receive_disconnect(struct adapter *padapter, unsigned char *MacAddr, unsigned short reason)
 >   {
->   	return del_timer_sync(ptimer);
-> diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-> index 812acd59be79..3504a0a9ba87 100644
-> --- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-> +++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-> @@ -42,14 +42,6 @@ Otherwise, there will be racing condition.
->   Caller must check if the list is empty before calling rtw_list_delete
->   */
+>   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+>   	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
 >   
-> -void rtw_usleep_os(int us)
-> -{
-> -	if (1 < (us / 1000))
-> -		msleep(1);
-> -	else
-> -		msleep((us / 1000) + 1);
-> -}
-> -
->   static const struct device_type wlan_type = {
->   	.name = "wlan",
->   };
+>   	/* check A3 */
+>   	if (!(!memcmp(MacAddr, get_my_bssid(&pmlmeinfo->network), ETH_ALEN)))
+> -		return _SUCCESS;
+> +		return;
+>   
+>   	if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE) {
+>   		if (pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) {
+> @@ -6209,7 +6209,6 @@ unsigned int receive_disconnect(struct adapter *padapter, unsigned char *MacAddr
+>   			report_join_res(padapter, -2);
+>   		}
+>   	}
+> -	return _SUCCESS;
+>   }
+>   
+>   static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid)
+> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> index 71864733b1c0..56c0e584bb6c 100644
+> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> @@ -468,8 +468,7 @@ unsigned int update_MSC_rate(struct HT_caps_element *pHT_caps);
+>   void Update_RA_Entry(struct adapter *padapter, u32 mac_id);
+>   void set_sta_rate(struct adapter *padapter, struct sta_info *psta);
+>   
+> -unsigned int receive_disconnect(struct adapter *padapter,
+> -				unsigned char *macaddr, unsigned short reason);
+> +void receive_disconnect(struct adapter *padapter, unsigned char *macaddr, unsigned short reason);
+>   
+>   unsigned char get_highest_rate_idx(u32 mask);
+>   int support_short_GI(struct adapter *padapter, struct HT_caps_element *caps);
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
