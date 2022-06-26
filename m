@@ -1,44 +1,44 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640D87A
-	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 20:45:23 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id g26so15076485ejb.5
-        for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 13:45:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5E97A
+	for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 20:45:39 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id eq6so10413429edb.6
+        for <linux-staging@lists.linux.dev>; Sun, 26 Jun 2022 13:45:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=MU7F2k/pm1hTOOKVBfeW26d42wVGtM9C99HlX+kZFUc=;
-        b=hkq3xj3zWMBNeTameJYl3wMqU54AgmIuOvE3HLzpprHwrZFr6Ib+6ps76dD9Hu9KwD
-         Wsx9gBPi+h2e6J0MNZBLGUpD8WS1MyTWgNNqRTyygId39CuJpjxq7kQSJyFVUMHS7Rou
-         RmYgm3hKbEtePHGJmupQTUQcpVwVOCOZ0TQuKdmDPRpPdLYV2bq9JMe86rgzXlhc+pye
-         LcOFTexFtvLFzoHsNaS3DLJMZqCELGQ6Xs2Wz9BfA82PEnbdYwGxCNGKvCP/GkdoIXqe
-         MtCtr0amhso5kJTTtSN11TgeZX8HFwI4afhqn+6wY0/rdRVCmIyM8Vk8XEAjYZhWJRHD
-         mNGw==
+        bh=/ci1+NPUxEsVxZZfKgEg6JySTcs1pF3WLyCCsnWy1KA=;
+        b=R5/A1EFUSSujFY8sf4fu7RwPA4Dwc4d+8eOJdJpbOiGhnkaFTm8fcgNXS2u9w8Uh6M
+         UhXsh0TFo6jgys/pJPT/MhgXuan6EAr8ye6XOW5FSYrd0xbNhbg3VOzKFSm+2NmtD7Vq
+         JjqMjbYvbCnL+0fEVTjXP9JaCzi9Udzy0AVPoVSLNh3RkH9a3EEH36B4N4nUZKSIu73W
+         L4r5VT8Bu3gAdJTNVNnykPn75BGe7gX3H1skZ3vfis6c3e4ubn4JCWXlj2XOwSJdcx13
+         lx3spPfCCxcpDP06guSadAHfuiUoXjDrJSISVJeXFIaHeS2JSWmtxINPobRxoaymMfQN
+         y0+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=MU7F2k/pm1hTOOKVBfeW26d42wVGtM9C99HlX+kZFUc=;
-        b=xZFka3tZEFYXwh7IPp5YwfNquhysaOb6ANunxCyqo/LYBEy5wYmR9Ucoei69UexGiY
-         BZ5moIU6TTWluOkRAKARwK/kQ/fmhOAPxhjzXPfjY6FrPOilz9hfSb/n7jwXL1hZCQKL
-         GXIU+hzJJGMei9TGN7Lqy0foRST7fOgkwco/idVMMFDQFNdsmTJSuKfokoGW86RaF7Ev
-         8P/DLlTVtMFJ5qcfmXsQKW0TVNUQPRr1AKPqxLVLB/qv6rwDC/ESR9NE+Bbcm67ssPjY
-         NCJb6JS3Rqv92dMiyPazKy5s22ZDa3QE4vo/iK6m9o2gFqOuXpH142cWtDdljdvLG317
-         v+0Q==
-X-Gm-Message-State: AJIora90C5/8fmgF+StxRACjOKhp60AHevAx7BQK7tooEEVmj0h8Z4xt
-	reExInbwLUbFsijhN0LkEE4=
-X-Google-Smtp-Source: AGRyM1tud0SOqOYza3cGsDMjM6Pbh/rUJkYSqd5VKAKC7svI/bMC8Ru16aIOGSf8bO2lPwwlBti/hQ==
-X-Received: by 2002:a17:906:7742:b0:708:ad9f:8e88 with SMTP id o2-20020a170906774200b00708ad9f8e88mr9498653ejn.735.1656276321829;
-        Sun, 26 Jun 2022 13:45:21 -0700 (PDT)
+        bh=/ci1+NPUxEsVxZZfKgEg6JySTcs1pF3WLyCCsnWy1KA=;
+        b=xRTc8dpACxgso8rQ5qZeK9LAwhU2ADTjlQeoKhboBkK2abHKRDkjIJxmIjQuWWM/jB
+         kskDUI9GYLZlegazoQtvEYZfaxwyC27wXda5hLkGzzLia5L+8SZvDmIJRF1VHl+UgcWN
+         Z5Dv8iQRv6V8RaFTg2yyfUb6iRyvMI6RcfKWrL78EAs9W0JzlrTe6U2msfwi+KCXrAf4
+         drxdpBuGMCTk2CUOv8O6q3XxBtJeT3NyXc7h+T46mDMhMrqait976/NDUVc9TYVjsUJi
+         4SXjT8um9dSIaPs7eZYnO65TM5CHqPNO2G+GS2j2eZHOOD/QqnHBtYjG9fYH5ezG46t/
+         0WZw==
+X-Gm-Message-State: AJIora9qPvWi9myiDdoSG8yLuxeswXnL0BBVVTK5LAAGWEcZL3lkevJc
+	TaP6WpsfAJwQXjzPko+Ojyk=
+X-Google-Smtp-Source: AGRyM1vIrlrNeHZBHntI8u/d9LgSPfq6A2Tt7jtq59RDqKHRB3Qu0gFpnKHh4CmjCxecAVn0zyaYqw==
+X-Received: by 2002:a05:6402:25c2:b0:431:932e:eb6f with SMTP id x2-20020a05640225c200b00431932eeb6fmr13078820edb.296.1656276338173;
+        Sun, 26 Jun 2022 13:45:38 -0700 (PDT)
 Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id n3-20020a1709062bc300b00722e3760558sm4081601ejg.100.2022.06.26.13.45.20
+        by smtp.gmail.com with ESMTPSA id o19-20020a170906775300b007052b183d51sm4131367ejn.132.2022.06.26.13.45.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 13:45:21 -0700 (PDT)
-Message-ID: <4a6b8f5f-e859-5b19-a162-d4ff8d65490a@gmail.com>
-Date: Sun, 26 Jun 2022 22:45:20 +0200
+        Sun, 26 Jun 2022 13:45:37 -0700 (PDT)
+Message-ID: <e048a607-6679-8a0d-f68c-91b4c4b42afd@gmail.com>
+Date: Sun, 26 Jun 2022 22:45:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,8 +47,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH] staging: r8188eu: drop return value from
- receive_disconnect
+Subject: Re: [PATCH] staging: r8188eu: merge two led structs
 Content-Language: en-US
 To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -57,64 +56,134 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
  Michael Straube <straube.linux@gmail.com>,
  Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20220626180734.287137-1-martin@kaiser.cx>
+References: <20220626181000.287225-1-martin@kaiser.cx>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220626180734.287137-1-martin@kaiser.cx>
+In-Reply-To: <20220626181000.287225-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/26/22 20:07, Martin Kaiser wrote:
-> The receive_disconnect function always returns _SUCCESS. None of the
-> callers checks the return value. We can remove it.
+On 6/26/22 20:09, Martin Kaiser wrote:
+> The led layer uses struct led_priv and struct LED_871x to store state
+> info. Merge the two structs. Move LED_871x's components into led_priv.
 > 
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 5 ++---
->   drivers/staging/r8188eu/include/rtw_mlme_ext.h | 3 +--
->   2 files changed, 3 insertions(+), 5 deletions(-)
+>   drivers/staging/r8188eu/core/rtw_led.c    | 27 ++++++++++-------------
+>   drivers/staging/r8188eu/include/rtw_led.h |  9 +++-----
+>   2 files changed, 15 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index cce0575e93b7..fc6e06d7b5ca 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -6191,14 +6191,14 @@ void start_clnt_assoc(struct adapter *padapter)
->   	set_link_timer(pmlmeext, REASSOC_TO);
->   }
+> diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+> index 25989acf5259..d5c6c5e29621 100644
+> --- a/drivers/staging/r8188eu/core/rtw_led.c
+> +++ b/drivers/staging/r8188eu/core/rtw_led.c
+> @@ -16,7 +16,7 @@
+>   	(l)->CurrLedState == LED_BLINK_WPS_STOP || \
+>   	(l)->bLedWPSBlinkInProgress)
 >   
-> -unsigned int receive_disconnect(struct adapter *padapter, unsigned char *MacAddr, unsigned short reason)
-> +void receive_disconnect(struct adapter *padapter, unsigned char *MacAddr, unsigned short reason)
+> -static void ResetLedStatus(struct LED_871x *pLed)
+> +static void ResetLedStatus(struct led_priv *pLed)
 >   {
->   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
->   	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
->   
->   	/* check A3 */
->   	if (!(!memcmp(MacAddr, get_my_bssid(&pmlmeinfo->network), ETH_ALEN)))
-> -		return _SUCCESS;
-> +		return;
->   
->   	if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE) {
->   		if (pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) {
-> @@ -6209,7 +6209,6 @@ unsigned int receive_disconnect(struct adapter *padapter, unsigned char *MacAddr
->   			report_join_res(padapter, -2);
->   		}
->   	}
-> -	return _SUCCESS;
+>   	pLed->CurrLedState = RTW_LED_OFF; /*  Current LED state. */
+>   	pLed->bLedOn = false; /*  true if LED is ON, false if LED is OFF. */
+> @@ -32,7 +32,7 @@ static void ResetLedStatus(struct LED_871x *pLed)
+>   	pLed->bLedScanBlinkInProgress = false;
 >   }
 >   
->   static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid)
-> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> index 71864733b1c0..56c0e584bb6c 100644
-> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> @@ -468,8 +468,7 @@ unsigned int update_MSC_rate(struct HT_caps_element *pHT_caps);
->   void Update_RA_Entry(struct adapter *padapter, u32 mac_id);
->   void set_sta_rate(struct adapter *padapter, struct sta_info *psta);
+> -static void SwLedOn(struct adapter *padapter, struct LED_871x *pLed)
+> +static void SwLedOn(struct adapter *padapter, struct led_priv *pLed)
+>   {
+>   	u8	LedCfg;
+>   	int res;
+> @@ -48,7 +48,7 @@ static void SwLedOn(struct adapter *padapter, struct LED_871x *pLed)
+>   	pLed->bLedOn = true;
+>   }
 >   
-> -unsigned int receive_disconnect(struct adapter *padapter,
-> -				unsigned char *macaddr, unsigned short reason);
-> +void receive_disconnect(struct adapter *padapter, unsigned char *macaddr, unsigned short reason);
+> -static void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
+> +static void SwLedOff(struct adapter *padapter, struct led_priv *pLed)
+>   {
+>   	u8	LedCfg;
+>   	int res;
+> @@ -75,7 +75,7 @@ static void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
+>   static void blink_work(struct work_struct *work)
+>   {
+>   	struct delayed_work *dwork = to_delayed_work(work);
+> -	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
+> +	struct led_priv *pLed = container_of(dwork, struct led_priv, blink_work);
+>   	struct adapter *padapter = pLed->padapter;
+>   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
 >   
->   unsigned char get_highest_rate_idx(u32 mask);
->   int support_short_GI(struct adapter *padapter, struct HT_caps_element *caps);
+> @@ -182,35 +182,32 @@ static void blink_work(struct work_struct *work)
+>   void rtl8188eu_InitSwLeds(struct adapter *padapter)
+>   {
+>   	struct led_priv *pledpriv = &padapter->ledpriv;
+> -	struct LED_871x *pLed = &pledpriv->SwLed0;
+>   
+> -	pLed->padapter = padapter;
+> -	ResetLedStatus(pLed);
+> -	INIT_DELAYED_WORK(&pLed->blink_work, blink_work);
+> +	pledpriv->padapter = padapter;
+> +	ResetLedStatus(pledpriv);
+> +	INIT_DELAYED_WORK(&pledpriv->blink_work, blink_work);
+>   }
+>   
+>   void rtl8188eu_DeInitSwLeds(struct adapter *padapter)
+>   {
+>   	struct led_priv	*ledpriv = &padapter->ledpriv;
+> -	struct LED_871x *pLed = &ledpriv->SwLed0;
+>   
+> -	cancel_delayed_work_sync(&pLed->blink_work);
+> -	ResetLedStatus(pLed);
+> -	SwLedOff(padapter, pLed);
+> +	cancel_delayed_work_sync(&ledpriv->blink_work);
+> +	ResetLedStatus(ledpriv);
+> +	SwLedOff(padapter, ledpriv);
+>   }
+>   
+>   void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+>   {
+> -	struct led_priv *ledpriv = &padapter->ledpriv;
+> +	struct led_priv *pLed = &padapter->ledpriv;
+>   	struct registry_priv *registry_par;
+> -	struct LED_871x *pLed = &ledpriv->SwLed0;
+>   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>   
+>   	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped) ||
+>   	    (!padapter->hw_init_completed))
+>   		return;
+>   
+> -	if (!ledpriv->bRegUseLed)
+> +	if (!pLed->bRegUseLed)
+>   		return;
+>   
+>   	registry_par = &padapter->registrypriv;
+> diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
+> index 2c14cb23d9ad..d6b0c1c2f9a2 100644
+> --- a/drivers/staging/r8188eu/include/rtw_led.h
+> +++ b/drivers/staging/r8188eu/include/rtw_led.h
+> @@ -37,9 +37,11 @@ enum LED_STATE_871x {
+>   	LED_BLINK_RUNTOP = 13, /*  Customized for RunTop */
+>   };
+>   
+> -struct LED_871x {
+> +struct led_priv {
+>   	struct adapter *padapter;
+>   
+> +	bool bRegUseLed;
+> +
+>   	enum LED_STATE_871x	CurrLedState; /*  Current LED state. */
+>   	enum LED_STATE_871x	BlinkingLedState; /*  Next state for blinking,
+>   				   * either RTW_LED_ON or RTW_LED_OFF are. */
+> @@ -58,11 +60,6 @@ struct LED_871x {
+>   	struct delayed_work blink_work;
+>   };
+>   
+> -struct led_priv{
+> -	struct LED_871x			SwLed0;
+> -	bool	bRegUseLed;
+> -};
+> -
+>   void rtl8188eu_InitSwLeds(struct adapter *padapter);
+>   void rtl8188eu_DeInitSwLeds(struct adapter *padapter);
+>   
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
