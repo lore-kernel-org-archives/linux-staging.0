@@ -1,150 +1,145 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eastern.birch.relay.mailchannels.net (eastern.birch.relay.mailchannels.net [23.83.209.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9429A4C89
-	for <linux-staging@lists.linux.dev>; Mon, 27 Jun 2022 22:25:25 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id k7so6982912ils.8
-        for <linux-staging@lists.linux.dev>; Mon, 27 Jun 2022 15:25:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xPl5d+aNcqE9cDBG3G/otoyoA/ZIfmiAIqcA/be9AUQ=;
-        b=cPUGl9qsPUt+C3qNaoyKs3chvRNQ/2uiqjwWw9/NpyHI8faYp/+051PGalRG5sd9QO
-         am2UREIOX+swKkEruStc9vJU+R9nUIrvODxwhGWXwVFjOZXQGBmWi218V56JItvIg3sR
-         gxxKmTvrVgV0RuxAsLwtz1AAyHDiZAein0TAjsBPlUoLQILqHFGiW8MkiywsK537UeIX
-         dzXhaEgfuUG7jd9Kng5AgdHa/Ue5DWzaJSLYP27J33NK6rGcaDY9DGIQ5AZyGD/y8L4Z
-         Mghvz6wUyP0cyUwDRYjkm5U2t7tw5N3Hil9Cajh5Hkga2Gj5a+lnBoEIipT86oN2n9/Q
-         k6Og==
-X-Gm-Message-State: AJIora8YxtRhkLsEXSpZr6fjtFfUSpDtEgaRuLzjoc9XiMAFzO4PMWb1
-	ygdgpBxYrHL2/0VbQSJcXg==
-X-Google-Smtp-Source: AGRyM1s2YGaEBy6p5QS578o6Kmq3oHW6dPUUNTJsordKAInVNfZbRNjeBeQ//9YN/X5RgBK3WMJqzA==
-X-Received: by 2002:a05:6e02:1bc4:b0:2da:7a81:1c9a with SMTP id x4-20020a056e021bc400b002da7a811c9amr7050769ilv.213.1656368724623;
-        Mon, 27 Jun 2022 15:25:24 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id k3-20020a6bef03000000b0067511446707sm4858733ioh.21.2022.06.27.15.25.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 15:25:24 -0700 (PDT)
-Received: (nullmailer pid 3076525 invoked by uid 1000);
-	Mon, 27 Jun 2022 22:25:22 -0000
-Date: Mon, 27 Jun 2022 16:25:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrea Merello <andrea.merello@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, Jacopo Mondi <jacopo@jmondi.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: staging: iio: imu: Document CEVA BNO08x
-Message-ID: <20220627222522.GA3067718-robh@kernel.org>
-References: <20220616100006.22045-1-jacopo+renesas@jmondi.org>
- <20220616100006.22045-2-jacopo+renesas@jmondi.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739FE3229
+	for <linux-staging@lists.linux.dev>; Mon, 27 Jun 2022 23:50:48 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id E0F4E8E22A7;
+	Mon, 27 Jun 2022 17:08:51 +0000 (UTC)
+Received: from pdx1-sub0-mail-a264.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id CA2208E2337;
+	Mon, 27 Jun 2022 17:08:45 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1656349731; a=rsa-sha256;
+	cv=none;
+	b=dSRKaH/VBsuIR/EKNCYc3/LOlXwbBYNbowhQjlqwKwtxh+4p4rLUnjNg+E/+e/29VbJfdH
+	dWjDaGAyc35RhSB8aS3DRV5mlMalPyoZloTU0frGWcYYhlx/6DLy7qb/R8/VNrRyqvTw3Y
+	3Dm9iXGopKgWdxstd/fQM8fh+IJ3gtAMa1HOgctqgoNEoiD4bbCJhPqkhLhVzp2mHFRWvO
+	8vU/6ZcNytOxxJsV+wIRuUb1DA4u2wBgEYW+uJKZ13S1OKaHB4vY7INS9AXgWzOHCtvHJW
+	cdlCjMe8BI9oplNnHmkC0qUgOje8PQfylrdjV/Ul+pfG7YZ71JsNcRRVtGmiKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1656349731;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=A7rki0r08AUT6i9LuNpWaBSxJsAW+yxPZqeTseOKr+4=;
+	b=dCnkX5l/x5H/D37l8ajU6rkF0/GfQJBNLcM9sBoZ5mdNwYJCW0gij4FlKCHyvgRY+McMwf
+	/2FtvNWpKN0n53JINSt4yvHGRLfWckQGXuDVDzt0UkTjQtJHjzXDP8mPuOFTv+2oXozhPb
+	kadqX6BV5O+1248qjJCOy8NJiCEeIKt1UM2YpPwbeQKY0TQ3bgtxZN4U65/ow4/hy1zQE/
+	Zw8/1HjpXgKHGLJViz/Ir9HceevuTVvIiVA8hAfmVnn2xbkjGA+/8aYwncCVuDbvD6SeO0
+	fg7V6cMv+Gv/lAO9wtWyranOfKqPF4T+rM9QdLDhBfZnETXLaYawg9S3YGb7Og==
+ARC-Authentication-Results: i=1;
+	rspamd-689699966c-64ltc;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Tank-Glossy: 6a948fd5697b681b_1656349731544_2004021686
+X-MC-Loop-Signature: 1656349731544:1516900649
+X-MC-Ingress-Time: 1656349731543
+Received: from pdx1-sub0-mail-a264.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.98.242.248 (trex/6.7.1);
+	Mon, 27 Jun 2022 17:08:51 +0000
+Received: from offworld (unknown [104.36.31.105])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dave@stgolabs.net)
+	by pdx1-sub0-mail-a264.dreamhost.com (Postfix) with ESMTPSA id 4LWvMF0fxgz1HG;
+	Mon, 27 Jun 2022 10:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+	s=dreamhost; t=1656349721;
+	bh=A7rki0r08AUT6i9LuNpWaBSxJsAW+yxPZqeTseOKr+4=;
+	h=Date:From:To:Cc:Subject:Content-Type:Content-Transfer-Encoding;
+	b=ldvzY8nksHVe2/GUGV428zwNVO5iNGArcT7KFGpIylrjHs3uaS8wGc9m/QWmBbfbG
+	 u1TynMspXB0zToXWkZ0JkP65qx77V3h24FBBnlmI7A6i/QlflmXLFsELbjORuuAFez
+	 CTMiDaEkcCkXxbhzO6fdv6p/JjG5lSMpijlaymqjg4HtIUCZChrk7HphLvbF59zORy
+	 NPGjKCYJqkR/aGvC1JbzE/AHvL+bUkNebNkmSpa3h/FQL4LDUS9vNZSsXpOSnpuvTx
+	 AH5cInpT4D7gBGzr4GfRs8enaNidCDZCZu4BAi+e3PWLftC5qupr2Cy62XjuGEgFf6
+	 PllX0X13QMiqQ==
+Date: Mon, 27 Jun 2022 10:08:38 -0700
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: syzbot <syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com>
+Cc: aldas60@gmail.com, gregkh@linuxfoundation.org, keescook@chromium.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org, nathan@kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] WARNING: locking bug in hfa384x_usbctlx_completion_task
+Message-ID: <20220627170838.y7kbvazgpd52xd6d@offworld>
+References: <000000000000e3fc8905e2608d4f@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220616100006.22045-2-jacopo+renesas@jmondi.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <000000000000e3fc8905e2608d4f@google.com>
+User-Agent: NeoMutt/20220429
 
-On Thu, Jun 16, 2022 at 12:00:05PM +0200, Jacopo Mondi wrote:
-> From: Jacopo Mondi <jacopo@jmondi.org>
-> 
-> Document CEVA BNO08x (080, 085 and 086) Sensor Hub.
-> 
-> The BNO08X family (BNO080/85/86) is a System in Package (SiP) that
-> integrates a triaxial accelerometer, triaxial gyroscope, magnetometer
-> and a 32-bit ARM Cortex-M0+ microcontroller running CEVA's SH-2
-> firmware.
-> 
-> Datasheet:
-> https://www.ceva-dsp.com/wp-content/uploads/2019/10/BNO080_085-Datasheet.pdf
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  .../bindings/staging/iio/imu/ceva,bno08x.yaml | 63 +++++++++++++++++++
+It's nice to see this sort of stuff actually tested :)
 
-You expect this binding to change? If so, then why define the ABI. If 
-not, then why is it in staging? IOW, I don't really want additions to 
-bindings/staging/.
+On Sun, 26 Jun 2022, syzbot wrote:
 
-If this isn't in a .dts file and the driver isn't stable yet, then just 
-don't document it until it is.
+>------------[ cut here ]------------
+>DEBUG_LOCKS_WARN_ON(1)
+>WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 hlock_class kernel=
+/locking/lockdep.c:231 [inline]
+>WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 hlock_class kernel=
+/locking/lockdep.c:220 [inline]
+>WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 check_wait_context=
+ kernel/locking/lockdep.c:4727 [inline]
+>WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 __lock_acquire+0x1=
+356/0x5660 kernel/locking/lockdep.c:5003
+>Modules linked in:
+>CPU: 1 PID: 21 Comm: kworker/1:0 Not tainted 5.19.0-rc3-syzkaller-00071-g1=
+05f3fd2f789 #0
+>Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Go=
+ogle 01/01/2011
+>Workqueue: events hfa384x_usbctlx_completion_task
 
->  1 file changed, 63 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/staging/iio/imu/ceva,bno08x.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/staging/iio/imu/ceva,bno08x.yaml b/Documentation/devicetree/bindings/staging/iio/imu/ceva,bno08x.yaml
-> new file mode 100644
-> index 000000000000..f7d6ea6d9147
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/staging/iio/imu/ceva,bno08x.yaml
-> @@ -0,0 +1,63 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/staging/iio/imu/ceva,bno08x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: CEVA BNO080/85/86
-> +
-> +maintainers:
-> +  - Jacopo Mondi <jacopo@jmondi.org>
-> +
-> +description: |
-> +  CEVA BNO08x is a System in Package (SiP) that integrates a triaxial
-> +  accelerometer, triaxial gyroscope, magnetometer and a 32-bit ARM Cortex-M0+
-> +  microcontroller running CEVA's SH-2 firmware.
-> +
-> +  The BNO08x family is documented at
-> +  https://www.ceva-dsp.com/product/bno080-085/
-> +  https://www.ceva-dsp.com/wp-content/uploads/2019/10/BNO080_085-Datasheet.pdf
-> +
-> +  The SH-2 firmware reference is available at
-> +  https://cdn.sparkfun.com/assets/4/d/9/3/8/SH-2-Reference-Manual-v1.2.pdf
-> +  https://cdn.sparkfun.com/assets/7/6/9/3/c/Sensor-Hub-Transport-Protocol-v1.7.pdf
-> +
-> +properties:
-> +  compatible:
-> +    const: ceva,bno08x
+Sorry about that, the below should fix it. Thanks.
 
-Don't use wildcards in compatibles.
+---8<-------------------------------
+=46rom: Davidlohr Bueso <dave@stgolabs.net>
+Subject: [PATCH] staging/wlan-ng: get the correct struct hfa384x in work ca=
+llback
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      Phandle to the GPIO connected to the chip H_INTN (Host Interrupt) pin.
-> +      The interrupt type shall be IRQ_TYPE_EDGE_FALLING.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        bno080: imu@4b {
-> +            compatible = "ceva,bno08x";
-> +            interrupt-parent = <&gpio5>;
-> +            interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
-> +            reg = <0x4b>;
-> +        };
-> +    };
-> +
-> --
-> 2.35.1
-> 
-> 
+hfa384x_usbctlx_completion_task() is bogusly using the reaper BH when
+in fact this is the completion_bh. This was reflected when trying
+to acquire the hw->ctlxq.lock and getting a failed lockdep class
+initialized to it.
+
+Reported-by: syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com
+Fixes: 9442e81d7e7 (staging/wlan-ng, prism2usb: replace completion_bh taskl=
+et with work)
+Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
+---
+  drivers/staging/wlan-ng/hfa384x_usb.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-n=
+g/hfa384x_usb.c
+index 33844526c797..02fdef7a16c8 100644
+--- a/drivers/staging/wlan-ng/hfa384x_usb.c
++++ b/drivers/staging/wlan-ng/hfa384x_usb.c
+@@ -2632,7 +2632,7 @@ static void hfa384x_usbctlx_reaper_task(struct work_s=
+truct *work)
+   */
+  static void hfa384x_usbctlx_completion_task(struct work_struct *work)
+  {
+-	struct hfa384x *hw =3D container_of(work, struct hfa384x, reaper_bh);
++	struct hfa384x *hw =3D container_of(work, struct hfa384x, completion_bh);
+	struct hfa384x_usbctlx *ctlx, *temp;
+	unsigned long flags;
+
+--
+2.36.1
