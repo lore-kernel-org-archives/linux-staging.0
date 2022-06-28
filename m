@@ -1,96 +1,85 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2.uni-heidelberg.de (relay2.uni-heidelberg.de [129.206.119.212])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7089368
-	for <linux-staging@lists.linux.dev>; Tue, 28 Jun 2022 03:38:25 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id dw10-20020a17090b094a00b001ed00a16eb4so11357388pjb.2
-        for <linux-staging@lists.linux.dev>; Mon, 27 Jun 2022 20:38:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6LMGa772Cpd0fqJMV5Tx0e6cc7BPyO68l6tpza+MHVo=;
-        b=htVqiZjV5qqLRbXWpBXmAO1ENps0ZLH4I+BQJbGKDEqqW8QfHbsfyc5LqHoC6osMZg
-         EGF/SpS7djBz/a2VPXsH+vjyySXP+rKr+nadJUKyoW5KeOilyJm2IBd2wO+vo9w61vJ4
-         n3yAD1UFe6HnC0OJ13unnCKPf/7B+hxWPCWIMKsL5ASLZwD5nAIeKsugl6YA0Q4GVNbn
-         gN4gCs9w3iXW6hBkRAPfROxDnVit9Amg4SQ5jSQO/ZCJfIFcdC6p2V9KyDaoBtb3lh5t
-         6JaA44IrM8MGWJCg7F3MsieNyzQzcuwXBsiyS1wqX8pHza4gAEsOjDVszMfZ3ZC3Qm2l
-         2AbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6LMGa772Cpd0fqJMV5Tx0e6cc7BPyO68l6tpza+MHVo=;
-        b=LV36084mKbP6xJLFrxua+H2AqsW2tWKibUVUNHPslzM1Id9vlGFYEO4azygymss4sn
-         RbxNzhm8HjrHmtw8WUCsJKaOSaD9C1UQuY662xShfChAsBx0vqW0fSaTp96DNL2jc32O
-         H+b3uR8uPAo4uBjjMdXzbgi5R76qqTWXbWnj+ggKavBZBPMz1mRKqKQ07URlPoCIe+Vq
-         xmtsoxL7NJXbu4eflolQ84RkFy+QanctUpGDMtXNCfGlLv+SEA2UGBRkfY7PV9HsJZZ+
-         952/OxaPgMW9Som+PQeGF/1kIlyXNPoD/7nsKAUKobxM6cnQyPuxIvreoIodKGLUk7b5
-         07xQ==
-X-Gm-Message-State: AJIora+cD4p6MvKmobsN5AP+tBgwjaP6HZlKPjNi90Z/+7votLhmrXYf
-	+c+QiyVNw9W/k4juuT/HOOA=
-X-Google-Smtp-Source: AGRyM1sHwuvpJO6RjuZx3nVYz/CeSLidfhL7YlhXXD+pDd7J4W2/ukr2qRt5eWiCNxXbOwCwRlQxkg==
-X-Received: by 2002:a17:90a:1c09:b0:1ea:91d4:5a7f with SMTP id s9-20020a17090a1c0900b001ea91d45a7fmr25203743pjs.232.1656387505374;
-        Mon, 27 Jun 2022 20:38:25 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-91.three.co.id. [180.214.232.91])
-        by smtp.gmail.com with ESMTPSA id d1-20020a170902e14100b0015ea95948ebsm7971740pla.134.2022.06.27.20.38.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 20:38:24 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-	id 725F61037D8; Tue, 28 Jun 2022 10:38:20 +0700 (WIB)
-Date: Tue, 28 Jun 2022 10:38:19 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	torvalds@linux-foundation.org, akpm@linux-foundation.org,
-	linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
-	lkft-triage@lists.linaro.org, pavel@denx.de, jonathanh@nvidia.com,
-	f.fainelli@gmail.com, sudipm.mukherjee@gmail.com,
-	slade@sladewatkins.com, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 5.15 000/135] 5.15.51-rc1 review
-Message-ID: <Yrp3q1gpvfUm8QIP@debian.me>
-References: <20220627111938.151743692@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFF27A
+	for <linux-staging@lists.linux.dev>; Tue, 28 Jun 2022 08:31:12 +0000 (UTC)
+X-IPAS-Result: =?us-ascii?q?A2C7BQCEu7piffxkzoFagliDJYFXlBABAQEGjHGBCYYWi?=
+ =?us-ascii?q?ieCBwEBAQEBAQEBAQkvEwQBAUCEOYVWJzYHDgECBAEBAQEDAgMBAQEBAQEDA?=
+ =?us-ascii?q?QEGAQEBAQEHBBQBASM8J4VoDYZ7AUaESwEDgmQBM65ggQGGWgGBP4FlgT2JW?=
+ =?us-ascii?q?YUfgUCBEIR9hRGFbgSaBgoDCQQHBUYXEk4xIQJFCxwBCAYGBwEIAQUIKAQCA?=
+ =?us-ascii?q?QEBBgUYFAEDAQETEgUTDAcoChICEgwKGwcHAwsFMg0CDgcBAQwPAQIPAwECE?=
+ =?us-ascii?q?QEHAgkSCAYPKwgDAQEDAQcBAgIDIAsCAxYJBwgCAQIFAgIBAw8BCAocEhAUA?=
+ =?us-ascii?q?gQNBB4JAggBAhkeLAcCAgQOAyMfCAsKAw4DBAMBEAIYBwIBFQEFAgQIBAEDB?=
+ =?us-ascii?q?gMIFRkBDScEBwMSAg0BBgECBgEBBQUBAxgIAxQDBQECCAMWBwECIQUKJgkED?=
+ =?us-ascii?q?QMBIhsCAwMBBBsKAgECAgUWBQIBAQIDAgYVBgICPy8RHQ0IBAgECRIcIwECD?=
+ =?us-ascii?q?AEEAQIHLwUELQIBAR4EBQEFDwIIAQEWAgYEAwICAwEBAgEWAhAIAggnFwcTM?=
+ =?us-ascii?q?xkBBTcUDg8BAwYIGRwiBwkHBQYWAwwVKR4pBQcREhsPBA0NCjQgFiQBAQ4FA?=
+ =?us-ascii?q?wESGREOBxQKUyYhFRAGASsWAwQBAwMCBhoBAgMiAhILCRUCBC0FASIdGZtKg?=
+ =?us-ascii?q?Q5OWYECkmmDN6thB4NREAGLEJR5LYNjgWKRHQKSAC2WQ6JxhE81gTMGgghNI?=
+ =?us-ascii?q?4M4CUgZD412AYldhR5zOwIGCwEBAwmPAQEB?=
+IronPort-Data: A9a23:ZK+/Yqhehs0VgE1MGeOE6qFaX161+hAKZh0ujC45NGQN5FlHY01je
+ htvCDvXM/uIZjChKttwPtvjpk9QuZKHyYJgTgJrryxhEC1jpJueD7x1DG+pYnzIfpOfJK5EA
+ 2fyTvGacajYm1eF/k/F3oDJ9CU6jefSLlbFILas1hpZHWeIcw98z0M58wIFqtQw24LhXVnd4
+ YqaT/D3YTdJ5RYlagr41Ire8HuDjNyq0N/PlgVjDRzjlAa2e0g9VPrzF4noR5fLatE88tqBe
+ gr25OrRElU1X/saIojNfr7TKiXmS1NJVOSEoiI+t6OK2nCuqsGuu0o2HKJ0VKtZt9mGt44ol
+ tN2u4aQcikob7TwgsRAdwd1CggraMWq+JefSZS+mcmazkmeKj3xxfQrDEw3MYAc8OttDidC+
+ JT0KhhUNEHF3brohuvjEq82255LwMrDZevzvll7xjHdAO4+TIrrWLnX6ZlF2jZ1hs1PEfvab
+ ccDZnxjYXwsZjUWZwhNVspnwbnAan/XURNdj2jOqY8N4XXczhRWwbTQd+WMZYnfLSlSth3E+
+ D6cpjyR7gshHMOd0j2Z+1qjg+bOmWXwX4d6PLKi+/FpgHWXx2oOGBMRSF23qOW4jUj4XMhQQ
+ 2QQ+ywzve0p6EWkT9/ydxm5u2Kf+BodXcdAVeE39mmlxPHP6AbfCWkYZjlcdNghs8xwTjsvv
+ neNntX0FXlsvaeTRHa16LiZt3WxNDITIGtEYjULJTbp+PHmqYA31kuJU9BiVa64j9H4HTv92
+ T/MoCVWa6gvYdAjifzl+2vJmRKXiJmYVzIvxljzQE+8x1YsDGK6XLCA5V/e5PdGCY+WSFido
+ XQJ8/RyCshQVPlhcwTQEI0w8KGVC+WtbGyA2AYwd3U132Tzqyb6FWxFyGwmfC9U3tA4lSjBT
+ GK7Vel5xJJSMHauZ6JtbOpd4Ox0nPG6TbwJutj+Z9ZDZN1O39ud4D1jYESdxW+FraTBuaQ2O
+ JPDKICxC3dfCalmwDeyTeoH3vkny0jSJF8/p7iln3xLMpLHOhZ5rIvp1nPSMYjVC4vf8W3oH
+ y53bZfi9vmmeLSWjtPr2YASN0sWCnMwGIr7rcdaHsbafFc4Qzx9VaWPn+h4E2CAo0izvrmZl
+ p1achEEoGcTeVWZeG1ml1g5MOKyA88hxZ7FFXx3bQbAN4cfjXaHt/tBK8FuJdHLBcRpwPprU
+ vRNZsOBHPlVUTXb6nwbYIXiq5ZhHClHdirRVxdJlAMXIcU6LySXoYCMQ+ca3HNTZsZBnZdl/
+ ufIO8KyacZrejmO++6MOK7ykAvg7SNG8A+wNmORSuRulIzX2NACA0TMYjUfeqng9T2rKuOm6
+ jur
+IronPort-HdrOrdr: A9a23:SUxdZKiYi+9NRtOf1N+W9SgafXBQXsEji2hC6mlwRA09TyVXra
+ yTdZMgpH3JYVkqNk3I9errBEDiewK+yXcK2+gs1N6ZNWGMhILCFu5fBOXZrgEIYxefytJg
+X-IronPort-Anti-Spam-Filtered: true
+Received: from mail01.uni-heidelberg.de ([129.206.100.252])
+  by relay2.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Jun 2022 10:31:04 +0200
+Received: from localhost (ip-037-209-006-204.um11.pools.vodafone-ip.de [37.209.6.204])
+	(Authenticated sender: ln194)
+	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id 951F9300084F1;
+	Tue, 28 Jun 2022 10:31:03 +0200 (CEST)
+From: Felix Schlepper <f3sch.git@outlook.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	wjsota@gmail.com,
+	Felix Schlepper <f3sch.git@outlook.com>
+Subject: [PATCH 0/7] Staging: rtl8192e: rtllib_wx.c coding style
+Date: Tue, 28 Jun 2022 10:30:49 +0200
+Message-Id: <cover.1656402464.git.f3sch.git@outlook.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220627111938.151743692@linuxfoundation.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 27, 2022 at 01:20:07PM +0200, Greg Kroah-Hartman wrote:
-> This is the start of the stable review cycle for the 5.15.51 release.
-> There are 135 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
-> 
+This series addresses some issues raised by chechpatch.pl.
+There are no logical changes, just addressing coding style.
+I 'tested' it by bulding.
 
-Successfully cross-compiled for arm (multi_v7_defconfig, GCC 12.1.0,
-armv7 with neon FPU) and arm64 (bcm2711_defconfig, GCC 12.1.0).
+Felix Schlepper (7):
+  Staging: rtl8192e: Added blank lines before/after struct
+  Staging: rtl8192e: Added spaces around binary operators
+  Staging: rtl8192e: Avoid multiple assignments
+  Staging: rtl8192e: Remove unnecessary parentheses
+  Staging: rtl8192e: Added braces around else
+  Staging: rtl8192e: Remove unnecessary blank line
+  Staging: rtl8192e: Added spaces around '+'
 
-But I see a warning on arm64 build:
-
-  CC [M]  drivers/staging/r8188eu/core/rtw_br_ext.o
-  CC [M]  net/batman-adv/tvlv.o
-In function '__nat25_add_pppoe_tag',
-    inlined from 'nat25_db_handle' at drivers/staging/r8188eu/core/rtw_br_ext.c:520:11:
-drivers/staging/r8188eu/core/rtw_br_ext.c:83:9: warning: 'memcpy' reading between 2052 and 9220 bytes from a region of size 40 [-Wstringop-overread]
-   83 |         memcpy((unsigned char *)ph->tag, tag, data_len);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/staging/r8188eu/core/rtw_br_ext.c: In function 'nat25_db_handle':
-drivers/staging/r8188eu/core/rtw_br_ext.c:489:63: note: source object 'tag_buf' of size 40
-  489 |                                                 unsigned char tag_buf[40];
-      |                                                               ^~~~~~~
-
-Introduced by commit 15865124feed88 ("staging: r8188eu: introduce new core dir
-for RTL8188eu driver").
-
-Anyway,
-Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+ drivers/staging/rtl8192e/rtllib_wx.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.36.1
+
