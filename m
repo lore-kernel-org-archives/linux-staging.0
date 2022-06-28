@@ -1,145 +1,96 @@
-Received: from eastern.birch.relay.mailchannels.net (eastern.birch.relay.mailchannels.net [23.83.209.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739FE3229
-	for <linux-staging@lists.linux.dev>; Mon, 27 Jun 2022 23:50:48 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id E0F4E8E22A7;
-	Mon, 27 Jun 2022 17:08:51 +0000 (UTC)
-Received: from pdx1-sub0-mail-a264.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id CA2208E2337;
-	Mon, 27 Jun 2022 17:08:45 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1656349731; a=rsa-sha256;
-	cv=none;
-	b=dSRKaH/VBsuIR/EKNCYc3/LOlXwbBYNbowhQjlqwKwtxh+4p4rLUnjNg+E/+e/29VbJfdH
-	dWjDaGAyc35RhSB8aS3DRV5mlMalPyoZloTU0frGWcYYhlx/6DLy7qb/R8/VNrRyqvTw3Y
-	3Dm9iXGopKgWdxstd/fQM8fh+IJ3gtAMa1HOgctqgoNEoiD4bbCJhPqkhLhVzp2mHFRWvO
-	8vU/6ZcNytOxxJsV+wIRuUb1DA4u2wBgEYW+uJKZ13S1OKaHB4vY7INS9AXgWzOHCtvHJW
-	cdlCjMe8BI9oplNnHmkC0qUgOje8PQfylrdjV/Ul+pfG7YZ71JsNcRRVtGmiKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1656349731;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=A7rki0r08AUT6i9LuNpWaBSxJsAW+yxPZqeTseOKr+4=;
-	b=dCnkX5l/x5H/D37l8ajU6rkF0/GfQJBNLcM9sBoZ5mdNwYJCW0gij4FlKCHyvgRY+McMwf
-	/2FtvNWpKN0n53JINSt4yvHGRLfWckQGXuDVDzt0UkTjQtJHjzXDP8mPuOFTv+2oXozhPb
-	kadqX6BV5O+1248qjJCOy8NJiCEeIKt1UM2YpPwbeQKY0TQ3bgtxZN4U65/ow4/hy1zQE/
-	Zw8/1HjpXgKHGLJViz/Ir9HceevuTVvIiVA8hAfmVnn2xbkjGA+/8aYwncCVuDbvD6SeO0
-	fg7V6cMv+Gv/lAO9wtWyranOfKqPF4T+rM9QdLDhBfZnETXLaYawg9S3YGb7Og==
-ARC-Authentication-Results: i=1;
-	rspamd-689699966c-64ltc;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Tank-Glossy: 6a948fd5697b681b_1656349731544_2004021686
-X-MC-Loop-Signature: 1656349731544:1516900649
-X-MC-Ingress-Time: 1656349731543
-Received: from pdx1-sub0-mail-a264.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.98.242.248 (trex/6.7.1);
-	Mon, 27 Jun 2022 17:08:51 +0000
-Received: from offworld (unknown [104.36.31.105])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a264.dreamhost.com (Postfix) with ESMTPSA id 4LWvMF0fxgz1HG;
-	Mon, 27 Jun 2022 10:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1656349721;
-	bh=A7rki0r08AUT6i9LuNpWaBSxJsAW+yxPZqeTseOKr+4=;
-	h=Date:From:To:Cc:Subject:Content-Type:Content-Transfer-Encoding;
-	b=ldvzY8nksHVe2/GUGV428zwNVO5iNGArcT7KFGpIylrjHs3uaS8wGc9m/QWmBbfbG
-	 u1TynMspXB0zToXWkZ0JkP65qx77V3h24FBBnlmI7A6i/QlflmXLFsELbjORuuAFez
-	 CTMiDaEkcCkXxbhzO6fdv6p/JjG5lSMpijlaymqjg4HtIUCZChrk7HphLvbF59zORy
-	 NPGjKCYJqkR/aGvC1JbzE/AHvL+bUkNebNkmSpa3h/FQL4LDUS9vNZSsXpOSnpuvTx
-	 AH5cInpT4D7gBGzr4GfRs8enaNidCDZCZu4BAi+e3PWLftC5qupr2Cy62XjuGEgFf6
-	 PllX0X13QMiqQ==
-Date: Mon, 27 Jun 2022 10:08:38 -0700
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: syzbot <syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com>
-Cc: aldas60@gmail.com, gregkh@linuxfoundation.org, keescook@chromium.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, nathan@kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] WARNING: locking bug in hfa384x_usbctlx_completion_task
-Message-ID: <20220627170838.y7kbvazgpd52xd6d@offworld>
-References: <000000000000e3fc8905e2608d4f@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7089368
+	for <linux-staging@lists.linux.dev>; Tue, 28 Jun 2022 03:38:25 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id dw10-20020a17090b094a00b001ed00a16eb4so11357388pjb.2
+        for <linux-staging@lists.linux.dev>; Mon, 27 Jun 2022 20:38:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6LMGa772Cpd0fqJMV5Tx0e6cc7BPyO68l6tpza+MHVo=;
+        b=htVqiZjV5qqLRbXWpBXmAO1ENps0ZLH4I+BQJbGKDEqqW8QfHbsfyc5LqHoC6osMZg
+         EGF/SpS7djBz/a2VPXsH+vjyySXP+rKr+nadJUKyoW5KeOilyJm2IBd2wO+vo9w61vJ4
+         n3yAD1UFe6HnC0OJ13unnCKPf/7B+hxWPCWIMKsL5ASLZwD5nAIeKsugl6YA0Q4GVNbn
+         gN4gCs9w3iXW6hBkRAPfROxDnVit9Amg4SQ5jSQO/ZCJfIFcdC6p2V9KyDaoBtb3lh5t
+         6JaA44IrM8MGWJCg7F3MsieNyzQzcuwXBsiyS1wqX8pHza4gAEsOjDVszMfZ3ZC3Qm2l
+         2AbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6LMGa772Cpd0fqJMV5Tx0e6cc7BPyO68l6tpza+MHVo=;
+        b=LV36084mKbP6xJLFrxua+H2AqsW2tWKibUVUNHPslzM1Id9vlGFYEO4azygymss4sn
+         RbxNzhm8HjrHmtw8WUCsJKaOSaD9C1UQuY662xShfChAsBx0vqW0fSaTp96DNL2jc32O
+         H+b3uR8uPAo4uBjjMdXzbgi5R76qqTWXbWnj+ggKavBZBPMz1mRKqKQ07URlPoCIe+Vq
+         xmtsoxL7NJXbu4eflolQ84RkFy+QanctUpGDMtXNCfGlLv+SEA2UGBRkfY7PV9HsJZZ+
+         952/OxaPgMW9Som+PQeGF/1kIlyXNPoD/7nsKAUKobxM6cnQyPuxIvreoIodKGLUk7b5
+         07xQ==
+X-Gm-Message-State: AJIora+cD4p6MvKmobsN5AP+tBgwjaP6HZlKPjNi90Z/+7votLhmrXYf
+	+c+QiyVNw9W/k4juuT/HOOA=
+X-Google-Smtp-Source: AGRyM1sHwuvpJO6RjuZx3nVYz/CeSLidfhL7YlhXXD+pDd7J4W2/ukr2qRt5eWiCNxXbOwCwRlQxkg==
+X-Received: by 2002:a17:90a:1c09:b0:1ea:91d4:5a7f with SMTP id s9-20020a17090a1c0900b001ea91d45a7fmr25203743pjs.232.1656387505374;
+        Mon, 27 Jun 2022 20:38:25 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-91.three.co.id. [180.214.232.91])
+        by smtp.gmail.com with ESMTPSA id d1-20020a170902e14100b0015ea95948ebsm7971740pla.134.2022.06.27.20.38.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 20:38:24 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id 725F61037D8; Tue, 28 Jun 2022 10:38:20 +0700 (WIB)
+Date: Tue, 28 Jun 2022 10:38:19 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	torvalds@linux-foundation.org, akpm@linux-foundation.org,
+	linux@roeck-us.net, shuah@kernel.org, patches@kernelci.org,
+	lkft-triage@lists.linaro.org, pavel@denx.de, jonathanh@nvidia.com,
+	f.fainelli@gmail.com, sudipm.mukherjee@gmail.com,
+	slade@sladewatkins.com, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 5.15 000/135] 5.15.51-rc1 review
+Message-ID: <Yrp3q1gpvfUm8QIP@debian.me>
+References: <20220627111938.151743692@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <000000000000e3fc8905e2608d4f@google.com>
-User-Agent: NeoMutt/20220429
+In-Reply-To: <20220627111938.151743692@linuxfoundation.org>
 
-It's nice to see this sort of stuff actually tested :)
+On Mon, Jun 27, 2022 at 01:20:07PM +0200, Greg Kroah-Hartman wrote:
+> This is the start of the stable review cycle for the 5.15.51 release.
+> There are 135 patches in this series, all will be posted as a response
+> to this one.  If anyone has any issues with these being applied, please
+> let me know.
+> 
 
-On Sun, 26 Jun 2022, syzbot wrote:
+Successfully cross-compiled for arm (multi_v7_defconfig, GCC 12.1.0,
+armv7 with neon FPU) and arm64 (bcm2711_defconfig, GCC 12.1.0).
 
->------------[ cut here ]------------
->DEBUG_LOCKS_WARN_ON(1)
->WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 hlock_class kernel=
-/locking/lockdep.c:231 [inline]
->WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 hlock_class kernel=
-/locking/lockdep.c:220 [inline]
->WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 check_wait_context=
- kernel/locking/lockdep.c:4727 [inline]
->WARNING: CPU: 1 PID: 21 at kernel/locking/lockdep.c:231 __lock_acquire+0x1=
-356/0x5660 kernel/locking/lockdep.c:5003
->Modules linked in:
->CPU: 1 PID: 21 Comm: kworker/1:0 Not tainted 5.19.0-rc3-syzkaller-00071-g1=
-05f3fd2f789 #0
->Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Go=
-ogle 01/01/2011
->Workqueue: events hfa384x_usbctlx_completion_task
+But I see a warning on arm64 build:
 
-Sorry about that, the below should fix it. Thanks.
+  CC [M]  drivers/staging/r8188eu/core/rtw_br_ext.o
+  CC [M]  net/batman-adv/tvlv.o
+In function '__nat25_add_pppoe_tag',
+    inlined from 'nat25_db_handle' at drivers/staging/r8188eu/core/rtw_br_ext.c:520:11:
+drivers/staging/r8188eu/core/rtw_br_ext.c:83:9: warning: 'memcpy' reading between 2052 and 9220 bytes from a region of size 40 [-Wstringop-overread]
+   83 |         memcpy((unsigned char *)ph->tag, tag, data_len);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/staging/r8188eu/core/rtw_br_ext.c: In function 'nat25_db_handle':
+drivers/staging/r8188eu/core/rtw_br_ext.c:489:63: note: source object 'tag_buf' of size 40
+  489 |                                                 unsigned char tag_buf[40];
+      |                                                               ^~~~~~~
 
----8<-------------------------------
-=46rom: Davidlohr Bueso <dave@stgolabs.net>
-Subject: [PATCH] staging/wlan-ng: get the correct struct hfa384x in work ca=
-llback
+Introduced by commit 15865124feed88 ("staging: r8188eu: introduce new core dir
+for RTL8188eu driver").
 
-hfa384x_usbctlx_completion_task() is bogusly using the reaper BH when
-in fact this is the completion_bh. This was reflected when trying
-to acquire the hw->ctlxq.lock and getting a failed lockdep class
-initialized to it.
+Anyway,
+Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Reported-by: syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com
-Fixes: 9442e81d7e7 (staging/wlan-ng, prism2usb: replace completion_bh taskl=
-et with work)
-Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
----
-  drivers/staging/wlan-ng/hfa384x_usb.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-n=
-g/hfa384x_usb.c
-index 33844526c797..02fdef7a16c8 100644
---- a/drivers/staging/wlan-ng/hfa384x_usb.c
-+++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-@@ -2632,7 +2632,7 @@ static void hfa384x_usbctlx_reaper_task(struct work_s=
-truct *work)
-   */
-  static void hfa384x_usbctlx_completion_task(struct work_struct *work)
-  {
--	struct hfa384x *hw =3D container_of(work, struct hfa384x, reaper_bh);
-+	struct hfa384x *hw =3D container_of(work, struct hfa384x, completion_bh);
-	struct hfa384x_usbctlx *ctlx, *temp;
-	unsigned long flags;
-
---
-2.36.1
+-- 
+An old man doll... just what I always wanted! - Clara
