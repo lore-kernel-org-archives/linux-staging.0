@@ -1,113 +1,118 @@
-Received: from hostingweb31-40.netsons.net (hostingweb31-40.netsons.net [89.40.174.40])
+Received: from insect.birch.relay.mailchannels.net (insect.birch.relay.mailchannels.net [23.83.209.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D025F3FE6;
-	Wed, 29 Jun 2022 21:55:58 +0000 (UTC)
-Received: from [37.161.29.0] (port=43545 helo=[192.168.131.30])
-	by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <luca@lucaceresoli.net>)
-	id 1o6f6m-000BzC-Qd;
-	Wed, 29 Jun 2022 23:20:25 +0200
-Message-ID: <d682fb60-c254-f89e-5d6d-cdf7aa752939@lucaceresoli.net>
-Date: Wed, 29 Jun 2022 23:20:04 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C4A6D17
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 23:36:55 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id A8CD6121B70;
+	Wed, 29 Jun 2022 16:52:29 +0000 (UTC)
+Received: from pdx1-sub0-mail-a288.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id E3364121691;
+	Wed, 29 Jun 2022 16:52:28 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1656521549; a=rsa-sha256;
+	cv=none;
+	b=463jQEBgMFV74iEN+TnjsqGLipT5PWEq525tmOOCXli2QbepPoKWvKoguaEQfzeijCtpMs
+	W0Y97rPbnNRm5r68xkw/uDqYRtflxSW4NoRTk6daRuCoMasw/okGBZzKsPuY2U446Pmfuk
+	Tw+3Ir/hZn0iLQjoetTKNhnkSG0/izN1BgwDhJVVxSqZsXG0qzKYONLsPTlNHhozGO9XH5
+	P40XbXUC0RgHfVa70kpC6k+O+dYjNKtw/5K4C7G5jRWfZPyPfD73wUggz8cOy9YswZxBf1
+	oNpEcjot3rpRasydqHE6CJZssYNhy+Q3oXSH+myVm++K71/uWbeT8ae6u5Vr9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1656521549;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=iOLcV9f/LV1oZPOPbY/80a03Bs1TUR8dCN1QpbUZqE4=;
+	b=dwekxzYpGBHTWMNG8EsSYmZe8KeQDDal4JrGNI/IFmUff19uLy00pgxROV5In2U1C/GEKG
+	vW/lDEU/6eBJy2J7FgVHjmliwPdedvin/wuWEmWcnVmmAS+TXARWXRWd1FScS2aQwWnqP5
+	bvM1oLVtJeJJBOAQA4TVTKAW94yEbWaUl2TI5Yd+z21iX2FzquRO8t5VCL9tLAooAeL/Il
+	iMztYVsJsVYVRlLPrVNog+PKnoSYORgu0BhF+Y/sTh3r8ZQz/cI4t42ToqLtNatIvi4w7M
+	RAVhEMYYzT1xaYDnMJebVqas9hj6AYLXPFmMpoIDUzVlzGUqU0NaVhIob0LZpA==
+ARC-Authentication-Results: i=1;
+	rspamd-674ffb986c-2d48t;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Callous-Imminent: 6e03671f47e34c0e_1656521549255_4186424639
+X-MC-Loop-Signature: 1656521549255:876281039
+X-MC-Ingress-Time: 1656521549255
+Received: from pdx1-sub0-mail-a288.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.105.211.156 (trex/6.7.1);
+	Wed, 29 Jun 2022 16:52:29 +0000
+Received: from offworld.. (unknown [104.36.31.105])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dave@stgolabs.net)
+	by pdx1-sub0-mail-a288.dreamhost.com (Postfix) with ESMTPSA id 4LY6vb1v0Mz7x;
+	Wed, 29 Jun 2022 09:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+	s=dreamhost; t=1656521547;
+	bh=iOLcV9f/LV1oZPOPbY/80a03Bs1TUR8dCN1QpbUZqE4=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=Qs9PUCo0Ba8JnusPwvxhulDhgUiFOQeIQlDDOqOC0cHYanyxV8pF3NLeAJ6HkOmcM
+	 NidJ1XacUTDGLg1uu5zHFr+1cA6/bmm3C50yjkhEabttoRpZw/NDyCrIbovX/kNEBz
+	 1cD2irnktQAi+tqIfLWLd9Kat1Dc5pplWNPfsqG2IB5nvApM9+/4yafe4iK1ENWM9b
+	 SesoAI85karEbRoWBM2R/WUxWA6L4GM0iefSj94ufexpxdimVcFcMfboYNG5XCO/Qb
+	 lZ9MgJABkn1jtadlQwlLWOY+Uw8QeT8e8UwSRvFrSvG+ljbS3WymUMJWOn0dlCgjd7
+	 +zOIrHsoJnqgA==
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com
+Cc: aldas60@gmail.com,
+	gregkh@linuxfoundation.org,
+	keescook@chromium.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	nathan@kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Davidlohr Bueso <dave@stgolabs.net>
+Subject: [PATCH] staging/wlan-ng: get the correct struct hfa384x in work callback
+Date: Wed, 29 Jun 2022 09:52:25 -0700
+Message-Id: <20220629165225.3436822-1-dave@stgolabs.net>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <000000000000e3fc8905e2608d4f@google.com>
+References: <000000000000e3fc8905e2608d4f@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From: Luca Ceresoli <luca@lucaceresoli.net>
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Wolfram Sang <wsa@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, openipmi-developer@lists.sourceforge.net,
- linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
- linux-media@vger.kernel.org, patches@opensource.cirrus.com,
- alsa-devel@alsa-project.org, linux-omap@vger.kernel.org,
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-mediatek@lists.infradead.org
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Content-Language: en-US
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 
-Hi,
+hfa384x_usbctlx_completion_task() is bogusly using the reaper BH when
+in fact this is the completion_bh. This was reflected when trying
+to acquire the hw->ctlxq.lock and getting a failed lockdep class
+initialized to it.
 
-[keeping only individuals and lists in Cc to avoid bounces]
+Reported-by: syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com
+Fixes: 9442e81d7e7 (staging/wlan-ng, prism2usb: replace completion_bh tasklet with work)
+Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
+---
+ drivers/staging/wlan-ng/hfa384x_usb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 28/06/22 16:03, Uwe Kleine-K=C3=B6nig wrote:
-> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
->=20
-> The value returned by an i2c driver's remove function is mostly ignored=
-=2E
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->=20
-> So change the prototype of the remove function to return no value. This=
+diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
+index 33844526c797..02fdef7a16c8 100644
+--- a/drivers/staging/wlan-ng/hfa384x_usb.c
++++ b/drivers/staging/wlan-ng/hfa384x_usb.c
+@@ -2632,7 +2632,7 @@ static void hfa384x_usbctlx_reaper_task(struct work_struct *work)
+  */
+ static void hfa384x_usbctlx_completion_task(struct work_struct *work)
+ {
+-	struct hfa384x *hw = container_of(work, struct hfa384x, reaper_bh);
++	struct hfa384x *hw = container_of(work, struct hfa384x, completion_bh);
+ 	struct hfa384x_usbctlx *ctlx, *temp;
+ 	unsigned long flags;
+ 
+-- 
+2.36.1
 
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared t=
-o
-> return 0 before.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-
-For versaclock:
-
-> diff --git a/drivers/clk/clk-versaclock5.c b/drivers/clk/clk-versaclock=
-5.c
-> index e7be3e54b9be..657493ecce4c 100644
-> --- a/drivers/clk/clk-versaclock5.c
-> +++ b/drivers/clk/clk-versaclock5.c
-> @@ -1138,7 +1138,7 @@ static int vc5_probe(struct i2c_client *client)
->  	return ret;
->  }
-> =20
-> -static int vc5_remove(struct i2c_client *client)
-> +static void vc5_remove(struct i2c_client *client)
->  {
->  	struct vc5_driver_data *vc5 =3D i2c_get_clientdata(client);
-> =20
-> @@ -1146,8 +1146,6 @@ static int vc5_remove(struct i2c_client *client)
-> =20
->  	if (vc5->chip_info->flags & VC5_HAS_INTERNAL_XTAL)
->  		clk_unregister_fixed_rate(vc5->pin_xin);
-> -
-> -	return 0;
->  }
-> =20
->  static int __maybe_unused vc5_suspend(struct device *dev)
-
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
---=20
-Luca
