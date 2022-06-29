@@ -1,255 +1,130 @@
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16237EB;
-	Wed, 29 Jun 2022 07:20:28 +0000 (UTC)
-Received: from pecola.lan (unknown [159.196.93.152])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id A134D2003E;
-	Wed, 29 Jun 2022 15:03:54 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1656486296;
-	bh=eOkMn4BdLyYJIY7WVcJ+BSTGLOGnPlIkZql9k18jmoA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=X7tGIzHuAeR/JUSExm+e5NjDSQiwRlcdLfVuh9BkZ2pwDGDpHHek3GUutn7eXKhIE
-	 EpfLc4w6v3z3ma2rzovh8SXsx0UT6Lnr2obQLRC/B6zKPNgstpxn2MaLyeRg8ol+TC
-	 FLINtxlpAhbOodDw55rvd2YD5Xl7MpK6vuYF3VMycl4RQqdOBa3inRxzqeLpNKaY+p
-	 /7DFa6+k09qnV5w+CfRsa+Ldq7puU1Fz8pggPNk/5uHusxFiSYWyJk2W4DNn1lxElh
-	 eikxJ0l3lmiTV2R1HDTxFvJXUW2A/vCji2H+MMwMsJAaw+VUIG0cxjxBPsfraFCXVz
-	 eAIJyO4Km+y8Q==
-Message-ID: <60cc6796236f23c028a9ae76dbe00d1917df82a5.camel@codeconstruct.com.au>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428987ED
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 07:24:28 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o6S2d-0005UO-4V; Wed, 29 Jun 2022 09:23:15 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o6S2S-003M3c-Vk; Wed, 29 Jun 2022 09:23:08 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1o6S2V-001qeU-Nu; Wed, 29 Jun 2022 09:23:07 +0200
+Date: Wed, 29 Jun 2022 09:23:04 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jeremy Kerr <jk@codeconstruct.com.au>
+Cc: Wolfram Sang <wsa@kernel.org>, dri-devel@lists.freedesktop.org,
+	linux-serial@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-crypto@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-i2c@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	acpi4asus-user@lists.sourceforge.net,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-integrity@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-rtc@vger.kernel.org, netdev@vger.kernel.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	chrome-platform@lists.linux.dev, linux-input@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-hwmon@vger.kernel.org,
+	Support Opensource <support.opensource@diasemi.com>,
+	linux-fbdev@vger.kernel.org, patches@opensource.cirrus.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-pwm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	kasan-dev@googlegroups.com, linux-staging@lists.linux.dev
 Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Wolfram Sang <wsa@kernel.org>
-Cc: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>, Sekhar Nori
- <nsekhar@ti.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Russell King
- <linux@armlinux.org.uk>, Scott Wood <oss@buserror.net>, Michael Ellerman
- <mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
- Paul Mackerras <paulus@samba.org>, Robin van der Gracht
- <robin@protonic.nl>, Miguel Ojeda <ojeda@kernel.org>,  Corey Minyard
- <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen
- <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>,  Max Filippov <jcmvbkbc@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Luca
- Ceresoli <luca@lucaceresoli.net>, Tudor Ambarus
- <tudor.ambarus@microchip.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, MyungJoo Ham
- <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>,  Michael
- Hennerich <michael.hennerich@analog.com>, Linus Walleij
- <linus.walleij@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@linux.ie>,  Daniel Vetter <daniel@ffwll.ch>, Benson Leung
- <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,  Phong LE
- <ple@baylibre.com>, Adrien Grassein <adrien.grassein@gmail.com>, Peter
- Senna Tschudin <peter.senna@gmail.com>, Martin Donnelly
- <martin.donnelly@ge.com>, Martyn Welch <martyn.welch@collabora.co.uk>,
- Douglas Anderson <dianders@chromium.org>,  Stefan Mavrodiev
- <stefan@olimex.com>, Thierry Reding <thierry.reding@gmail.com>, Sam
- Ravnborg <sam@ravnborg.org>, Florian Fainelli <f.fainelli@gmail.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Javier Martinez Canillas
- <javierm@redhat.com>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
- <benjamin.tissoires@redhat.com>, Jean Delvare <jdelvare@suse.com>, George
- Joseph <george.joseph@fairview5.com>, Juerg Haefliger <juergh@gmail.com>,
- Riku Voipio <riku.voipio@iki.fi>, Robert Marko <robert.marko@sartura.hr>,
- Luka Perkov <luka.perkov@sartura.hr>, Marc Hulsman <m.hulsman@tudelft.nl>,
- Rudolf Marek <r.marek@assembler.cz>, Peter Rosin <peda@axentia.se>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Dan Robertson <dan@dlrobertson.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
- Tomasz Duszynski <tduszyns@gmail.com>, Kevin Tsai <ktsai@capellamicro.com>,
- Crt Mori <cmo@melexis.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Nick Dyer <nick@shmanahar.org>, Bastien Nocera <hadess@hadess.net>, Hans de
- Goede <hdegoede@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,  Sakari Ailus
- <sakari.ailus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>, Jan-Simon
- Moeller <jansimon.moeller@gmx.de>, Marek =?ISO-8859-1?Q?Beh=FAn?=
- <kabel@kernel.org>,  Colin Leroy <colin@colino.net>, Joe Tessler
- <jrt@google.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,  Mauro Carvalho
- Chehab <mchehab@kernel.org>, Antti Palosaari <crope@iki.fi>, Jasmin Jessich
- <jasmin@anw.at>, Matthias Schwarzott <zzam@gentoo.org>, Olli Salonen
- <olli.salonen@iki.fi>, Akihiro Tsukada <tskd08@gmail.com>, Kieran Bingham
- <kieran.bingham@ideasonboard.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
- Dongchun Zhu <dongchun.zhu@mediatek.com>, Shawn Tu <shawnx.tu@intel.com>,
- Martin Kepplinger <martink@posteo.de>, Ricardo Ribalda
- <ribalda@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Leon
- Luo <leonl@leopardimaging.com>,  Manivannan Sadhasivam <mani@kernel.org>,
- Bingbu Cao <bingbu.cao@intel.com>, "Paul J. Murphy"
- <paul.j.murphy@intel.com>, Daniele Alessandrelli
- <daniele.alessandrelli@intel.com>, Michael Tretter
- <m.tretter@pengutronix.de>,  Pengutronix Kernel Team
- <kernel@pengutronix.de>, Kyungmin Park <kyungmin.park@samsung.com>,
- Heungjun Kim <riverful.kim@samsung.com>, Ramesh Shanmugasundaram
- <rashanmu@gmail.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, Niklas
- =?ISO-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Jimmy
- Su <jimmy.su@intel.com>, Arec Kao <arec.kao@intel.com>, "Lad, Prabhakar"
- <prabhakar.csengg@gmail.com>, Shunqian Zheng <zhengsq@rock-chips.com>,
- Steve Longerbeam <slongerbeam@gmail.com>,  Chiranjeevi Rapolu
- <chiranjeevi.rapolu@intel.com>, Daniel Scally <djrscally@gmail.com>, Wenyou
- Yang <wenyou.yang@microchip.com>, Petr Cvek <petrcvekcz@gmail.com>, Akinobu
- Mita <akinobu.mita@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
-  Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot
- <sylvain.petinot@foss.st.com>, Mats Randgaard <matrandg@cisco.com>, Tim
- Harvey <tharvey@gateworks.com>, Matt Ranostay <matt.ranostay@konsulko.com>,
- Eduardo Valentin <edubezval@gmail.com>,  "Daniel W. S. Almeida"
- <dwlsalmeida@gmail.com>, Lee Jones <lee.jones@linaro.org>, Chen-Yu Tsai
- <wens@csie.org>, Support Opensource <support.opensource@diasemi.com>,
- Robert Jones <rjones@gateworks.com>, Andy Shevchenko <andy@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>,  Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Bartlomiej Zolnierkiewicz
- <b.zolnierkie@samsung.com>, Tony Lindgren <tony@atomide.com>, Jonathan
- =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>, Arnd Bergmann
- <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Eric Piel
- <eric.piel@tremplin-utc.net>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Andrew Lunn <andrew@lunn.ch>, Vivien Didelot <vivien.didelot@gmail.com>,
- Vladimir Oltean <olteanv@gmail.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Woojung
- Huh <woojung.huh@microchip.com>,  UNGLinuxDriver@microchip.com, George
- McCollister <george.mccollister@gmail.com>,  Ido Schimmel
- <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, Matt Johnston
- <matt@codeconstruct.com.au>,  Charles Gorand <charles.gorand@effinnov.com>,
- Krzysztof Opasiak <k.opasiak@samsung.com>, Rob Herring
- <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Mark Gross
- <markgross@kernel.org>, Maximilian Luz <luzmaximilian@gmail.com>, Corentin
- Chary <corentin.chary@gmail.com>, Pali =?ISO-8859-1?Q?Roh=E1r?=
- <pali@kernel.org>,  Sebastian Reichel <sre@kernel.org>, Tobias Schrammm
- <t.schramm@manjaro.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>, Jens
- Frederich <jfrederich@gmail.com>, Jon Nettleton <jon.nettleton@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, Felipe Balbi <balbi@kernel.org>, Heikki
- Krogerus <heikki.krogerus@linux.intel.com>,  Daniel Thompson
- <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>, Helge
- Deller <deller@gmx.de>,  Evgeniy Polyakov <zbr@ioremap.net>, Wim Van
- Sebroeck <wim@linux-watchdog.org>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey
- Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Johannes Berg
- <johannes@sipsolutions.net>,  Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, James Schulman <james.schulman@cirrus.com>, David
- Rhodes <david.rhodes@cirrus.com>, Lucas Tanure
- <tanureal@opensource.cirrus.com>, Nuno =?ISO-8859-1?Q?S=E1?=
- <nuno.sa@analog.com>,  Matthias Brugger <matthias.bgg@gmail.com>, Oder
- Chiou <oder_chiou@realtek.com>, Fabio Estevam <festevam@gmail.com>,  Kevin
- Cernekee <cernekee@chromium.org>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Maxime Ripard <maxime@cerno.tech>, Alvin
- =?UTF-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,  Lucas Stach
- <l.stach@pengutronix.de>, Jagan Teki <jagan@amarulasolutions.com>, Biju Das
- <biju.das.jz@bp.renesas.com>, Thomas Zimmermann <tzimmermann@suse.de>, Alex
- Deucher <alexander.deucher@amd.com>, Lyude Paul <lyude@redhat.com>, Xin Ji
- <xji@analogixsemi.com>,  Hsin-Yi Wang <hsinyi@chromium.org>,
- =?ISO-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>, Yang Li
- <yang.lee@linux.alibaba.com>, Angela Czubak <acz@semihalf.com>, Alistair
- Francis <alistair@alistair23.me>, Eddie James <eajames@linux.ibm.com>, Joel
- Stanley <joel@jms.id.au>,  Nathan Chancellor <nathan@kernel.org>, Antoniu
- Miclaus <antoniu.miclaus@analog.com>, Alexandru Ardelean
- <ardeleanalex@gmail.com>, Dmitry Rokosov <DDRokosov@sberdevices.ru>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Stephan Gerhold
- <stephan@gerhold.net>,  Miaoqian Lin <linmq006@gmail.com>, Gwendal Grignou
- <gwendal@chromium.org>, Yang Yingliang <yangyingliang@huawei.com>, Paul
- Cercueil <paul@crapouillou.net>, Daniel Palmer <daniel@0x0f.com>, Haibo
- Chen <haibo.chen@nxp.com>, Cai Huoqing <cai.huoqing@linux.dev>, Marek Vasut
- <marex@denx.de>, Jose Cazarin <joseespiriki@gmail.com>, Dan Carpenter
- <dan.carpenter@oracle.com>,  Jean-Baptiste Maneyrol
- <jean-baptiste.maneyrol@tdk.com>, Michael Srba <Michael.Srba@seznam.cz>,
- Nikita Travkin <nikita@trvn.ru>,  Maslov Dmitry <maslovdmitry@seeed.cc>,
- Jiri Valek - 2N <valek@2n.cz>, Arnaud Ferraris
- <arnaud.ferraris@collabora.com>, Zheyu Ma <zheyuma97@gmail.com>, Marco
- Felsch <m.felsch@pengutronix.de>, Oliver Graute
- <oliver.graute@kococonnector.com>,  Zheng Yongjun
- <zhengyongjun3@huawei.com>, CGEL ZTE <cgel.zte@gmail.com>, Minghao Chi
- <chi.minghao@zte.com.cn>,  Evgeny Novikov <novikov@ispras.ru>, Sean Young
- <sean@mess.org>, Kirill Shilimanov <kirill.shilimanov@huawei.com>,  Moses
- Christopher Bollavarapu <mosescb.dev@gmail.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>,  Janusz Krzysztofik <jmkrzyszt@gmail.com>,
- Dongliang Mu <mudongliangabcd@gmail.com>, Colin Ian King
- <colin.king@intel.com>, lijian <lijian@yulong.com>, Kees Cook
- <keescook@chromium.org>, Yan Lei <yan_lei@dahuatech.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jonas Malaco <jonas@protocubo.io>, wengjianfeng
- <wengjianfeng@yulong.com>, Rikard Falkeborn <rikard.falkeborn@gmail.com>, 
- Wei Yongjun <weiyongjun1@huawei.com>, Tom Rix <trix@redhat.com>, Yizhuo
- <yzhai003@ucr.edu>, Martiros Shakhzadyan <vrzh@vrzh.net>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Sven Peter <sven@svenpeter.dev>,  Alyssa
- Rosenzweig <alyssa@rosenzweig.io>, Hector Martin <marcan@marcan.st>,
- Saranya Gopal <saranya.gopal@intel.com>,  Guido =?ISO-8859-1?Q?G=FCnther?=
- <agx@sigxcpu.org>, Sing-Han Chen <singhanc@nvidia.com>, Wayne Chang
- <waynec@nvidia.com>, Geert Uytterhoeven <geert@linux-m68k.org>, Alexey
- Dobriyan <adobriyan@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Vincent Knecht <vincent.knecht@mailoo.org>, Stephen Kitt <steve@sk2.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, Alexey
- Khoroshilov <khoroshilov@ispras.ru>, Randy Dunlap <rdunlap@infradead.org>,
- Alejandro Tafalla <atafalla@dnyon.com>, Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>, Seven Lee <wtli@nuvoton.com>, Mac Chiang
- <mac.chiang@intel.com>, David Lin <CTLIN0@nuvoton.com>, Daniel Beer
- <daniel.beer@igorinstitute.com>, Ricard Wanderlof <ricardw@axis.com>, Simon
- Trimmer <simont@opensource.cirrus.com>, Shengjiu Wang
- <shengjiu.wang@nxp.com>, Viorel Suman <viorel.suman@nxp.com>, Nicola Lunghi
- <nick83ola@gmail.com>, Adam Ford <aford173@gmail.com>, 
- linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linuxppc-dev@lists.ozlabs.org, openipmi-developer@lists.sourceforge.net, 
- linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev, 
- linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org, 
- linux-media@vger.kernel.org, patches@opensource.cirrus.com, 
- alsa-devel@alsa-project.org, linux-omap@vger.kernel.org, 
- linux-mtd@lists.infradead.org, netdev@vger.kernel.org, 
- devicetree@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com, 
- linux-mediatek@lists.infradead.org
-Date: Wed, 29 Jun 2022 15:03:54 +0800
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+Message-ID: <20220629072304.qazmloqdi5h5kdre@pengutronix.de>
 References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
-	 <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0-2 
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+ <60cc6796236f23c028a9ae76dbe00d1917df82a5.camel@codeconstruct.com.au>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-
-Hi Uwe,
-
-Looks good - just one minor change for the mctp-i2c driver, but only
-worthwhile if you end up re-rolling this series for other reasons:
-
-> -static int mctp_i2c_remove(struct i2c_client *client)
-> +static void mctp_i2c_remove(struct i2c_client *client)
-> =C2=A0{
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct mctp_i2c_client *m=
-cli =3D i2c_get_clientdata(client);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct mctp_i2c_dev *mide=
-v =3D NULL, *tmp =3D NULL;
-> @@ -1000,7 +1000,6 @@ static int mctp_i2c_remove(struct i2c_client *clien=
-t)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mctp_i2c_free_client(mcli=
-);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mutex_unlock(&driver_clie=
-nts_lock);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Callers ignore return =
-code */
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-> =C2=A0}
-
-The comment there no longer makes much sense, I'd suggest removing that
-too. Either way:
-
-Reviewed-by: Jeremy Kerr <jk@codeconstruct.com.au>
-
-Cheers,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3yzpq2rgg2xm7tqn"
+Content-Disposition: inline
+In-Reply-To: <60cc6796236f23c028a9ae76dbe00d1917df82a5.camel@codeconstruct.com.au>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
 
-Jeremy
+--3yzpq2rgg2xm7tqn
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+[I dropped nearly all individuals from the Cc: list because various
+bounces reported to be unhappy about the long (logical) line.]
+
+On Wed, Jun 29, 2022 at 03:03:54PM +0800, Jeremy Kerr wrote:
+> Looks good - just one minor change for the mctp-i2c driver, but only
+> worthwhile if you end up re-rolling this series for other reasons:
+>=20
+> > -static int mctp_i2c_remove(struct i2c_client *client)
+> > +static void mctp_i2c_remove(struct i2c_client *client)
+> > =A0{
+> > =A0=A0=A0=A0=A0=A0=A0=A0struct mctp_i2c_client *mcli =3D i2c_get_client=
+data(client);
+> > =A0=A0=A0=A0=A0=A0=A0=A0struct mctp_i2c_dev *midev =3D NULL, *tmp =3D N=
+ULL;
+> > @@ -1000,7 +1000,6 @@ static int mctp_i2c_remove(struct i2c_client *cli=
+ent)
+> > =A0=A0=A0=A0=A0=A0=A0=A0mctp_i2c_free_client(mcli);
+> > =A0=A0=A0=A0=A0=A0=A0=A0mutex_unlock(&driver_clients_lock);
+> > =A0=A0=A0=A0=A0=A0=A0=A0/* Callers ignore return code */
+> > -=A0=A0=A0=A0=A0=A0=A0return 0;
+> > =A0}
+>=20
+> The comment there no longer makes much sense, I'd suggest removing that
+> too.
+
+Yeah, that was already pointed out to me in a private reply. It's
+already fixed in
+
+	https://git.pengutronix.de/cgit/ukl/linux/log/?h=3Di2c-remove-void
+
+> Either way:
+>=20
+> Reviewed-by: Jeremy Kerr <jk@codeconstruct.com.au>
+
+Added to my tree, too.
+
+Thanks
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--3yzpq2rgg2xm7tqn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmK7/dUACgkQwfwUeK3K
+7AnTJgf9GW2H7fk9/Je11PRlCnUOSZ1sz/49RHAm4xj66pI/hdRP++D8L5o7ntEU
+Hl5hKosR36cUyX12ie+YQtiCRkjhLqUoJnPzJOtcXQNV7mlMt6ds2INSO4iHYtMa
+b2UH+lLQ6K/DO0+1KquElKJhfBOKucYY1WQAVK4cfasBKMR4MtukcHAgcYClRYdj
+Nvvy6bCjqr8M1+uqDTJUUR/d0rWYHxFKygYRUfK7YPpz57gaVgaR9Js9GDGkVFB4
+qVL5x23NzgB/Djr1Ls1F6Z5eFMjbtVb+S1HDRsU+HJOYD6v1LkT2OFx9iFpme+8m
++4HHNR5pxKogz59u4YpP1pIb0MejhA==
+=ibah
+-----END PGP SIGNATURE-----
+
+--3yzpq2rgg2xm7tqn--
