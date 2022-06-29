@@ -1,42 +1,42 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AF87A
-	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 19:14:47 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id t26-20020a9d775a000000b006168f7563daso12902168otl.2
-        for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 12:14:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77267A
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 19:17:39 +0000 (UTC)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-101dc639636so22738192fac.6
+        for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 12:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=eRvm4rDKmcEwBbyuwqdiLOYlQxia+jN6V897QRefdLU=;
-        b=L4InWoTsn6Ktys0sawYAPemhPMW/VXMH5wMvdPN/pkmSDn9hNd7667tes6wDEswIyP
-         APqL7zS9gB4bGUDGZJ4BTHZjwb24nmkF77U9ur/1eAmk3ka4AV6Akj8p7P8nayFiIQNj
-         +fYNFjAl6TgVnSN0TFfMd6aNcukgKZHrtFZylwK9uTS+Swc1wkr56lRppUhpgv9yBlzz
-         A03B+r2BtlQEzo9LQ3T/Gq9YDZvxTQ5+yGJkL9lmgueicuJvP2HO9PODecXYsmbsM63l
-         GFfuHqyNm/3kmoJiyjrgupP6mhAWMJ760UTt0uVgaPcJSEPqbSTnn+4jk6hQcL74A1HM
-         qVlw==
+        bh=o/jwDiSinXrZOl+AEZjENE1aXxHwuHlOc6Yz74KbYe0=;
+        b=JhdB2BWMAi71kcD+c+7SIRFoBiHS6KZWlMNs8nE2JqKY9mTy+LMUKNGK6hA37tCcur
+         3ihy3S0zD4ttDFVRVGcRYlgpAQxEJacZYkJ/wx6wXApOJgnEySeGr+h4cHZq1fHfTvwn
+         oQ15u7ydaB0/VrxUkP7JIrv4B6SQCIfxCOiySaf5MFNFaRUFUX2GWn5vcLfYfeCrJBG3
+         cOcN2K6do9JMJkXPyGf5BCKo2Tdhhn6aTazrQ+981pV/Z1n8WKzmiw6Z2M9jtW06chIe
+         Xo85QNzBDp4TE82AvhjeJAgjK0ukkf9kKJjpf/wQhLhRiOxOdIdoGie5zYZEDxV8OEzp
+         LAuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=eRvm4rDKmcEwBbyuwqdiLOYlQxia+jN6V897QRefdLU=;
-        b=RfNGT9baymV5qHeCvdwxGPovtj1RY5ylu6JOo2cdAEA/v63eI9a3gwes0oZH+ArY8s
-         jnTVxV5Ghlnv623CDWZtwhG+JPit/jCtL/r2nZYkNFTtYzM69o3wz68lRe23dUvJt0qO
-         c2kImUnNGG7q05CGsvKLG7W+sOmFT4Ocl40y6fxkLvAsd1vj2kAm6Z3cfbNlJDhcRmhF
-         sP1ComRjmFKaHORQqPUzVbs3xuHGWniU6FicOYIxzZDR72mRseAZyCabXVML3z3PZPab
-         TjB8iAhzSOg+GIv+lV+PelfwImNo0CjbLil4Q7ynqBWBiXwV5jXqMM7uTm6+CvbotkJ1
-         RKLQ==
-X-Gm-Message-State: AJIora/iVQTcPFc7DK9d013GyHQ5Nkc9LbgCnen1gwc4LomsTgVi/FBI
-	0ogO7HtNAnx23CcCq35jyDsK9w==
-X-Google-Smtp-Source: AGRyM1szpNbg71NbMlEOjlyo2a2vZG7dvYgtoZ+JqfGK1PvPW4R6BGZcZ87hUHjQLSpaX5EOLTHiCg==
-X-Received: by 2002:a9d:bf6:0:b0:616:d0fe:8b7b with SMTP id 109-20020a9d0bf6000000b00616d0fe8b7bmr2248941oth.19.1656530086223;
-        Wed, 29 Jun 2022 12:14:46 -0700 (PDT)
+        bh=o/jwDiSinXrZOl+AEZjENE1aXxHwuHlOc6Yz74KbYe0=;
+        b=TcRec3ftunYsdriuP+01+CyP7Ecu2lJMDaW4ygmdaYcJGkTkAwJ11olbG0JppmDAi5
+         Xp4Tp+wSp/krgx2D0uSI+Yuwn16pIH1XH8KJYuDpMiZFDl9VE4Qaz/7AXWL65sdE3++g
+         P2Rp6hvDJonbMMxi1PqOonJDBDeMDJO4Rj6H5HrxZrYDRMhtyZI8qxROalzHp9t+2Cjg
+         75gTRs2GabclBczCoQKxf2Cm02CQVBfweWPZM/gYjfw9/p2k/aCuPyOAQ1UiYhap3cxJ
+         HLghe3d/yfm0ZNqtivGZJB9ToaUuzL+33horhLBTap9CXxo45cQDscPCfTgD43LZtJ14
+         Okyw==
+X-Gm-Message-State: AJIora8+JF3emEArtKvQ/NkrXlED9xHJHivLJzC7jo96TsVZdtRxJIq3
+	97E09rKpC7NnYj2FmGSzGQup1g==
+X-Google-Smtp-Source: AGRyM1ud70v6ZQx2pnfpvswry6jTmrDjH3dXCQpTFuuOtuEaCYXzyLQ8lVwOmnjRqh/VOA9wD9nKyg==
+X-Received: by 2002:a05:6870:c1c1:b0:ee:5c83:7be7 with SMTP id i1-20020a056870c1c100b000ee5c837be7mr2968439oad.53.1656530258908;
+        Wed, 29 Jun 2022 12:17:38 -0700 (PDT)
 Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id z23-20020a544597000000b003342a70fd59sm8874989oib.10.2022.06.29.12.14.43
+        by smtp.gmail.com with ESMTPSA id r10-20020a056808210a00b00325cda1ff8esm9021967oiw.13.2022.06.29.12.17.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 12:14:45 -0700 (PDT)
-Date: Wed, 29 Jun 2022 16:14:40 -0300
+        Wed, 29 Jun 2022 12:17:38 -0700 (PDT)
+Date: Wed, 29 Jun 2022 16:17:32 -0300
 From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: p.zabel@pengutronix.de, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -44,11 +44,10 @@ Cc: p.zabel@pengutronix.de, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
 	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 5/7] media: hantro: postproc: Properly calculate
- chroma offset
-Message-ID: <YrykoFpa5RvZV60V@eze-laptop>
+Subject: Re: [PATCH v2 6/7] media: hantro: Store VP9 bit depth in context
+Message-ID: <YrylTP7c8q7vZGam@eze-laptop>
 References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
- <20220616202513.351039-6-jernej.skrabec@gmail.com>
+ <20220616202513.351039-7-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,16 +56,13 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220616202513.351039-6-jernej.skrabec@gmail.com>
+In-Reply-To: <20220616202513.351039-7-jernej.skrabec@gmail.com>
 
 Hi Jernej,
 
-On Thu, Jun 16, 2022 at 10:25:11PM +0200, Jernej Skrabec wrote:
-> Currently chroma offset calculation assumes only 1 byte per luma, with
-> no consideration for stride.
-> 
-> Take necessary information from destination pixel format which makes
-> calculation completely universal.
+On Thu, Jun 16, 2022 at 10:25:12PM +0200, Jernej Skrabec wrote:
+> Now that we have proper infrastructure for postprocessing 10-bit
+> formats, store VP9 bit depth in context.
 > 
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
@@ -76,29 +72,57 @@ Thanks,
 Ezequiel
 
 > ---
->  drivers/staging/media/hantro/hantro_postproc.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/staging/media/hantro/hantro_drv.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-> index 8933b4af73ed..a0928c508434 100644
-> --- a/drivers/staging/media/hantro/hantro_postproc.c
-> +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> @@ -113,12 +113,14 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
->  {
->  	struct hantro_dev *vpu = ctx->dev;
->  	struct vb2_v4l2_buffer *dst_buf;
-> -	size_t chroma_offset = ctx->dst_fmt.width * ctx->dst_fmt.height;
->  	int down_scale = down_scale_factor(ctx);
-> +	size_t chroma_offset;
->  	dma_addr_t dst_dma;
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 01d33dcb0467..afddf7ac0731 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -324,6 +324,24 @@ static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
 >  
->  	dst_buf = hantro_get_dst_buf(ctx);
->  	dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-> +	chroma_offset = ctx->dst_fmt.plane_fmt[0].bytesperline *
-> +			ctx->dst_fmt.height;
+> +static int hantro_vp9_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct hantro_ctx *ctx;
+> +
+> +	ctx = container_of(ctrl->handler,
+> +			   struct hantro_ctx, ctrl_handler);
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_STATELESS_VP9_FRAME:
+> +		ctx->bit_depth = ctrl->p_new.p_vp9_frame->bit_depth;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+>  	.try_ctrl = hantro_try_ctrl,
+>  };
+> @@ -336,6 +354,10 @@ static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
+>  	.s_ctrl = hantro_hevc_s_ctrl,
+>  };
 >  
->  	if (down_scale) {
->  		hantro_reg_write(vpu, &g2_down_scale_e, 1);
+> +static const struct v4l2_ctrl_ops hantro_vp9_ctrl_ops = {
+> +	.s_ctrl = hantro_vp9_s_ctrl,
+> +};
+> +
+>  #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_APP0 | \
+>  					 V4L2_JPEG_ACTIVE_MARKER_COM | \
+>  					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
+> @@ -503,6 +525,7 @@ static const struct hantro_ctrl controls[] = {
+>  		.codec = HANTRO_VP9_DECODER,
+>  		.cfg = {
+>  			.id = V4L2_CID_STATELESS_VP9_FRAME,
+> +			.ops = &hantro_vp9_ctrl_ops,
+>  		},
+>  	}, {
+>  		.codec = HANTRO_VP9_DECODER,
 > -- 
 > 2.36.1
 > 
