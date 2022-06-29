@@ -1,259 +1,140 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03087B
-	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 17:01:23 +0000 (UTC)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-f2a4c51c45so22230347fac.9
-        for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 10:01:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ef+4apwtIbdICqme2rXmW1mvBhsERAVWQJprylUXtXY=;
-        b=G42CbUs4Vmmb5Q0Gf4h3i/fhOzvaIMiB+WCejp/2bnJofeKf1EfIqxUApo/q2dgKeR
-         FMZj76Va5WB5JQFQ46dBJAytWdFbzf3cKrStbdLyi6oOCeLD8LWmvST9yfxYJvoYy4u4
-         SJNqKHr680iZHcDDoDpmsMUrT4HIuDGigN6phqAcN69BYWAE7WCIvQ6E3qRyYGolHNDI
-         p1v/MtUSyGwHMonO4Bly0xu7aeI8ZQTrm7a6UW9dtUSIK0QMbncHNx9iHXQMqtVvbKg4
-         3kK1Ze4ArGkUJ75NIufIag4ruRCAKvgP0g+i4VBgPRIzNP0jDjtW0zJqr6XSyDVdqA/L
-         ZBXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ef+4apwtIbdICqme2rXmW1mvBhsERAVWQJprylUXtXY=;
-        b=23DcI2x80DBNPE9Ec6Y0TMwxYoAMXPAcZs8ZSF7zh6at567Vib3O9Uo73qFgXODT56
-         uO18HAC+WEOrSKMaf7Vmp4BlRCICo6q8dFU6qPPmKBQYPhMlu6NGwAAm2w30zONfYFdJ
-         Z4e4nqaSbl2ynpjHJcJOWGGD+3GAbA9iiQn/UNFuClRY9IpvFtGtMnV6JLQYXN4eLnWB
-         KCrulgTq8CQgUUJcR8kHVpR8X26tcYAUYm0COO0hpuBQYImEPRuA6ID6+JAnNWTtdOso
-         WVIPjmlBTT7aXn902eutLc/CxWUOPEzHppMuxcvGHSUpcIOvd2FUmXFQZRkCJYQYbFhQ
-         33tQ==
-X-Gm-Message-State: AJIora+/Poz/GX01wylLNNBfpHfsoWD3wolJV19kdKEa7jJajs91MM/J
-	qkgxmYL41lgaxpG4dSFAKGUT8w==
-X-Google-Smtp-Source: AGRyM1uBXuRoIHaCMNvjM0X3TXsEmHfLKz9mV46S0kVY8b8/1/jTKZ6c1VetCC5svwotT9hmzFHoKA==
-X-Received: by 2002:a05:6870:45a1:b0:10b:8ee3:b3bd with SMTP id y33-20020a05687045a100b0010b8ee3b3bdmr1351076oao.9.1656522082649;
-        Wed, 29 Jun 2022 10:01:22 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id go13-20020a056870da0d00b00101f143d537sm11419179oab.26.2022.06.29.10.01.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jun 2022 10:01:21 -0700 (PDT)
-Date: Wed, 29 Jun 2022 14:01:16 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	p.zabel@pengutronix.de, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, benjamin.gaignard@collabora.com,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 3/7] media: hantro: postproc: Fix buffer size
- calculation
-Message-ID: <YryFXLQvxEizaVah@eze-laptop>
-References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
- <20220616202513.351039-4-jernej.skrabec@gmail.com>
- <YrskKxCDwSulaGJ5@eze-laptop>
- <3180111.44csPzL39Z@jernej-laptop>
- <5af02115c95f96116b161464d3be8a210dad9d97.camel@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C61B7A
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 19:04:12 +0000 (UTC)
+Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 826E060C93;
+	Wed, 29 Jun 2022 18:09:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id 5999F40;
+	Wed, 29 Jun 2022 18:09:01 +0000 (UTC)
+Message-ID: <2f2d8b6ddb4418bbe351d6c19d08e9241de20087.camel@perches.com>
+Subject: Re: [PATCH 1/7] Staging: rtl8192e: Added blank lines before/after
+ struct
+From: Joe Perches <joe@perches.com>
+To: Felix Schlepper <f3sch.git@outlook.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, wjsota@gmail.com
+Date: Wed, 29 Jun 2022 11:09:00 -0700
+In-Reply-To: <AM9P190MB129916C683B7D8B241EF85D0A5BB9@AM9P190MB1299.EURP190.PROD.OUTLOOK.COM>
+References: <cover.1656402464.git.f3sch.git@outlook.com>
+	 <f23e5ad2839c238665956f0d552cacd9944b724d.1656402464.git.f3sch.git@outlook.com>
+	 <f110442f5cceb0161f32c2b942ef7be6f5c5a63c.camel@perches.com>
+	 <AM9P190MB129916C683B7D8B241EF85D0A5BB9@AM9P190MB1299.EURP190.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5af02115c95f96116b161464d3be8a210dad9d97.camel@collabora.com>
+X-Spam-Status: No, score=-3.72
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 5999F40
+X-Stat-Signature: cxpy4bhehp97he7ibrn6fwndwm5kmkk4
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+PFQLq9iP8uUoYJGt7spzt5iZz7rrAPH0=
+X-HE-Tag: 1656526141-482888
 
-Hi Nicolas, Jernej,
+On Wed, 2022-06-29 at 14:11 +0200, Felix Schlepper wrote:
+> On 28.06.2022 10:58, Joe Perches wrote:
+> > On Tue, 2022-06-28 at 10:30 +0200, Felix Schlepper wrote:
+> > > This addresses an issue raised by checkpatch.pl:
+> > >=20
+> > >      $ ./scripts/checkpatch.pl --terse -f drivers/staging/rtl8192e/rt=
+llib_wx.c
+> > >      CHECK: Please use a blank line after function/struct/union/enum
+> > >      declarations
+> > >=20
+> > > The additional blank line above the struct/before the headers is
+> > > just cleaner.
+> > []
+> > > diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/r=
+tl8192e/rtllib_wx.c
+> > []
+> > > @@ -17,10 +17,12 @@
+> > >  #include <linux/module.h>
+> > >  #include <linux/etherdevice.h>
+> > >  #include "rtllib.h"
+> > > +
+> > >  struct modes_unit {
+> > >  	char *mode_string;
+> > >  	int mode_size;
+> > >  };
+> > > +
+> > >  static struct modes_unit rtllib_modes[] =3D {
+> > >  	{"a", 1},
+> > >  	{"b", 1},
+> >=20
+> > Please always look deeper at the code and do not simply take
+> > any checkpatch suggestion as the "best" fix.
+> >=20
+> > Using this struct style with an embedded length is error prone
+> > and would likely be better as a simple char * array.
+> >=20
+> > Also, the existing sprintf use of mode_string and mode_size is
+> > nonsensical.  There is nothing to format in any of the mode_size.
+> > so the use of mode_size as an argument is silly.
+> First of all, thank you for your suggestions.
+> I did realize that there is nothing to format, but I did not dare to
+> make that change in case a format could be added.
+> However, looking at it now. This has not been touched in over 10 years.
+> So it is probably safe to change that.
+> >=20
+> > Perhaps something like this would be better:
+> > ---
+> >  drivers/staging/rtl8192e/rtllib_wx.c | 21 +++++----------------
+> >  1 file changed, 5 insertions(+), 16 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl=
+8192e/rtllib_wx.c
+> > index cf9a240924f20..90dcce152d80c 100644
+> > --- a/drivers/staging/rtl8192e/rtllib_wx.c
+> > +++ b/drivers/staging/rtl8192e/rtllib_wx.c
+> > @@ -17,17 +17,9 @@
+> >  #include <linux/module.h>
+> >  #include <linux/etherdevice.h>
+> >  #include "rtllib.h"
+> > -struct modes_unit {
+> > -	char *mode_string;
+> > -	int mode_size;
+> > -};
+> > -static struct modes_unit rtllib_modes[] =3D {
+> > -	{"a", 1},
+> > -	{"b", 1},
+> > -	{"g", 1},
+> > -	{"?", 1},
+> > -	{"N-24G", 5},
+> > -	{"N-5G", 4},
+> > +
+> > +static const char *rtllib_modes[] =3D {
+> > +	"a", "b", "g", "?", "N-24G", "N-5G",
+> >  };
+> > =20
+> >  #define MAX_CUSTOM_LEN 64
+> > @@ -72,11 +64,8 @@ static inline char *rtl819x_translate_scan(struct rt=
+llib_device *ieee,
+> >  	/* Add the protocol name */
+> >  	iwe.cmd =3D SIOCGIWNAME;
+> >  	for (i =3D 0; i < ARRAY_SIZE(rtllib_modes); i++) {
+> > -		if (network->mode&(1<<i)) {
+> > -			sprintf(pname, rtllib_modes[i].mode_string,
+> > -				rtllib_modes[i].mode_size);
+> > -			pname +=3D rtllib_modes[i].mode_size;
+> > -		}
+> > +		if (network->mode & BIT(i))
+> > +			pname =3D stpcpy(pname, rtllib_modes[i]);
+> >  	}
+> >  	*pname =3D '\0';
+> Would this not be also redundant since stpcpy already returns a pointer t=
+o the new
+> NUL-terminating character?
+> >  	snprintf(iwe.u.name, IFNAMSIZ, "IEEE802.11%s", proto_name);
 
-On Tue, Jun 28, 2022 at 04:06:13PM -0400, Nicolas Dufresne wrote:
-> Le mardi 28 juin 2022 à 18:13 +0200, Jernej Škrabec a écrit :
-> > Dne torek, 28. junij 2022 ob 17:54:19 CEST je Ezequiel Garcia napisal(a):
-> > > Hi Jernej,
-> > > 
-> > > On Thu, Jun 16, 2022 at 10:25:09PM +0200, Jernej Skrabec wrote:
-> > > > When allocating aux buffers for postprocessing, it's assumed that base
-> > > > buffer size is the same as that of output. Coincidentally, that's true
-> > > > most of the time, but not always. 10-bit source also needs aux buffer
-> > > > size which is appropriate for 10-bit native format, even if the output
-> > > > format is 8-bit. Similarly, mv sizes and other extra buffer size also
-> > > > depends on source width/height, not destination.
-> > > > 
-> > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > > 
-> > > I took a new look at this patch.
-> > > 
-> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > ---
-> > > > 
-> > > >  .../staging/media/hantro/hantro_postproc.c    | 24 +++++++++++++------
-> > > >  drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
-> > > >  drivers/staging/media/hantro/hantro_v4l2.h    |  2 ++
-> > > >  3 files changed, 20 insertions(+), 8 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_postproc.c
-> > > > b/drivers/staging/media/hantro/hantro_postproc.c index
-> > > > ab168c1c0d28..b77cc55e43ea 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_postproc.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> > > > @@ -12,6 +12,7 @@
-> > > > 
-> > > >  #include "hantro_hw.h"
-> > > >  #include "hantro_g1_regs.h"
-> > > >  #include "hantro_g2_regs.h"
-> > > > 
-> > > > +#include "hantro_v4l2.h"
-> > > > 
-> > > >  #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
-> > > >  { \
-> > > > 
-> > > > @@ -174,18 +175,27 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
-> > > > 
-> > > >  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
-> > > >  	struct vb2_queue *cap_queue = &m2m_ctx->cap_q_ctx.q;
-> > > >  	unsigned int num_buffers = cap_queue->num_buffers;
-> > > > 
-> > > > +	struct v4l2_pix_format_mplane pix_mp;
-> > > > +	const struct hantro_fmt *fmt;
-> > > > 
-> > > >  	unsigned int i, buf_size;
-> > > > 
-> > > > -	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
-> > > > +	/* this should always pick native format */
-> > > > +	fmt = hantro_get_default_fmt(ctx, false);
-> > > 
-> > > Clearly this is correct.
-> > > 
-> > > When the driver enables the post-processor it decodes a coded format (H264,
-> > > etc.) to a native format (NV12_4L4 or P010_4L4) and feeds this into the
-> > > postprocessor engine to produce some other format (YUYV, NV12, etc.).
-> > > 
-> > > The buffers allocated here should be taken from the native format,
-> > > so it's correct to use hantro_get_default_fmt().
-> > > 
-> > > > +	if (!fmt)
-> > > > +		return -EINVAL;
-> > > > +	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
-> > > > +			    ctx->src_fmt.height);
-> > > 
-> > > The issue comes at this point, where we negotiate the buffer size based on
-> > > the source size (OUTPUT queue size), instead of negotiating based
-> > > on the Native size.
-> > > 
-> > >   Coded -> [ Decoder ] -> Native -> [ Post-processor ] -> Decoded
-> > 
-> > I'm not sure what is the difference between source and native size? You mean 
-> > one coded in controls and one set via output format? IMO they should always be 
-> > the same, otherwise it can be considered a bug in userspace application.
-> 
-> Indeed the src_fmt should use coded width/height (as per spec). The driver will
-> then adapt to its own requirement resulting into the "native" width height being
-> returned. Notice that s_ctrl() should fail in case of miss-match (this is CODEC
-> specific), or streamon() should fail if the codec specific control have never
-> been set (as we always initialise this, it will fail due to default being an
-> invalid value anyway).
-> 
-> As a side effect, when userland read the default format (G_FMT(CAPTURE), the
-> width/height should match the src_dst for this driver. This is the native size.
-> The optional path that this driver enables is enumeration of CAPTURE format and
-> frame sizes, combined with to select from these. The driver will create a
-> secondary set of buffers in the case.
-> 
+Only if proto_name is initialized.  Is it?
 
-OK, the patch looks good then.
+Also I believe stpcpy is not a standard linux call, so maybe
+this needs to be strcpy or strncpy then strlen.
 
-Thanks,
-Ezequiel
-
-> Nicolas
-> 
-> > 
-> > Best regards,
-> > Jernej
-> > 
-> > > 
-> > > So, while the patch is surely improving things, I wonder if it won't
-> > > cause other issues.
-> > > 
-> > > This reminds me we are still lacking a more complete test-suite for this
-> > > driver, so that we can validate changes and ensure there are no
-> > > regressions.
-> > > 
-> > > Perhaps we could hack Fluster to not only test the conformance,
-> > > but also test the post-processor?
-> > > 
-> > > Thanks,
-> > > Ezequiel
-> > > 
-> > > > +
-> > > > +	buf_size = pix_mp.plane_fmt[0].sizeimage;
-> > > > 
-> > > >  	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
-> > > > 
-> > > > -		buf_size += hantro_h264_mv_size(ctx->dst_fmt.width,
-> > > > -						ctx-
-> > > dst_fmt.height);
-> > > > +		buf_size += hantro_h264_mv_size(pix_mp.width,
-> > > > +						
-> > pix_mp.height);
-> > > > 
-> > > >  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME)
-> > > > 
-> > > > -		buf_size += hantro_vp9_mv_size(ctx->dst_fmt.width,
-> > > > -					       ctx-
-> > > dst_fmt.height);
-> > > > +		buf_size += hantro_vp9_mv_size(pix_mp.width,
-> > > > +					       pix_mp.height);
-> > > > 
-> > > >  	else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE)
-> > > > 
-> > > > -		buf_size += hantro_hevc_mv_size(ctx->dst_fmt.width,
-> > > > -						ctx-
-> > > dst_fmt.height);
-> > > > +		buf_size += hantro_hevc_mv_size(pix_mp.width,
-> > > > +						
-> > pix_mp.height);
-> > > > 
-> > > >  	for (i = 0; i < num_buffers; ++i) {
-> > > >  	
-> > > >  		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > b/drivers/staging/media/hantro/hantro_v4l2.c index
-> > > > 334f18a4120d..2c7a805289e7 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > @@ -118,7 +118,7 @@ hantro_find_format(const struct hantro_ctx *ctx, u32
-> > > > fourcc)> 
-> > > >  	return NULL;
-> > > >  
-> > > >  }
-> > > > 
-> > > > -static const struct hantro_fmt *
-> > > > +const struct hantro_fmt *
-> > > > 
-> > > >  hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
-> > > >  {
-> > > >  
-> > > >  	const struct hantro_fmt *formats;
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.h
-> > > > b/drivers/staging/media/hantro/hantro_v4l2.h index
-> > > > b17e84c82582..64f6f57e9d7a 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_v4l2.h
-> > > > +++ b/drivers/staging/media/hantro/hantro_v4l2.h
-> > > > @@ -23,5 +23,7 @@ extern const struct vb2_ops hantro_queue_ops;
-> > > > 
-> > > >  void hantro_reset_fmts(struct hantro_ctx *ctx);
-> > > >  int hantro_get_format_depth(u32 fourcc);
-> > > > 
-> > > > +const struct hantro_fmt *
-> > > > +hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream);
-> > > > 
-> > > >  #endif /* HANTRO_V4L2_H_ */
-> > 
-> > 
-> > 
-> > 
-> 
