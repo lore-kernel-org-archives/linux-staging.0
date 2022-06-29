@@ -1,140 +1,218 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C61B7A
-	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 19:04:12 +0000 (UTC)
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 826E060C93;
-	Wed, 29 Jun 2022 18:09:02 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id 5999F40;
-	Wed, 29 Jun 2022 18:09:01 +0000 (UTC)
-Message-ID: <2f2d8b6ddb4418bbe351d6c19d08e9241de20087.camel@perches.com>
-Subject: Re: [PATCH 1/7] Staging: rtl8192e: Added blank lines before/after
- struct
-From: Joe Perches <joe@perches.com>
-To: Felix Schlepper <f3sch.git@outlook.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, wjsota@gmail.com
-Date: Wed, 29 Jun 2022 11:09:00 -0700
-In-Reply-To: <AM9P190MB129916C683B7D8B241EF85D0A5BB9@AM9P190MB1299.EURP190.PROD.OUTLOOK.COM>
-References: <cover.1656402464.git.f3sch.git@outlook.com>
-	 <f23e5ad2839c238665956f0d552cacd9944b724d.1656402464.git.f3sch.git@outlook.com>
-	 <f110442f5cceb0161f32c2b942ef7be6f5c5a63c.camel@perches.com>
-	 <AM9P190MB129916C683B7D8B241EF85D0A5BB9@AM9P190MB1299.EURP190.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9872E7A
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 19:14:12 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id be10so22945185oib.7
+        for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 12:14:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gsQHUW3cWs2ueLnrGdQ0Nv0XzCOV6whneenQWRvHie4=;
+        b=ZlOhcKNpZ9zQiwt3xlFdWeqTwZWp0lQSlaFoaAPZXxdNWv71svHTsiqzsYC4Drbhpq
+         Wc0HZNB8kAo2kZ3Nt624HdRHc0HL+MJk5jXtIXirtn/n4lsu5j206dUblyNN61/3hrml
+         WAmlBApCXfnVnewdkJRMOIYxioCT60h8dyMf1dBJREVU4xJLEsLQn2Ckw0O1ug2xtCaJ
+         7aaN1kMiHCaNa4pCL4KNDOEP9FrPREavCL4LrIlC+VPF21Phit+Q22Ejmt3QkJaDGYgG
+         lb/rNVoKBdLawYDkC7u11COo0vpcz2ZjNBXDr9bjtoWo6O0pnef+YUT+S5y80qRZrFGJ
+         Mhxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gsQHUW3cWs2ueLnrGdQ0Nv0XzCOV6whneenQWRvHie4=;
+        b=4SoLI8NcIdNCQwz1k2v6jjnt6Cu9gHfadx0RxPu2pKOrl3tvd4FYU+acnKL9aWYWsL
+         nd6vhsGz5fwsDWXkKXn9PynrVGOuan9T8ZvGe3gfK6hLkztjyHiOS+IAG9bvXOj+pFhR
+         ymfZtQuDJPwBiAWcrOo/aIMSNN4zinqvdPygN8GwGCIeUzZ3aB9ITDrP2mxDaoUVK8ip
+         r0aFjtsLdVJtML3X078sn3HwGpW9s4/zUvHu3xxxgtIIq7ugKIkB0EIqORZzeRiPIwu0
+         6Vn97nMQW+loJ//wqJ+jIo6cPXb4+Vpc1U0ht393IoxzTwK3wdqL+6aYvHjrUv8IF7JD
+         4DRg==
+X-Gm-Message-State: AJIora8J3T/ZvbYwZ40GKD2J12yI1Uk0Bs6CPXgMCbfbi5jHWwZ0xHG7
+	0r1KzmGI7uRrmuXUE72QaXWPzA==
+X-Google-Smtp-Source: AGRyM1s3/6EZgU1A7RZ9zY9AkMLlI/H8FJYfZ6VvfW+D2DdP5k29qnFiyb2lgpv7W6hB0hZO8JiGKA==
+X-Received: by 2002:aca:3090:0:b0:335:b264:8bd7 with SMTP id w138-20020aca3090000000b00335b2648bd7mr2295348oiw.194.1656530051503;
+        Wed, 29 Jun 2022 12:14:11 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id b11-20020a9d60cb000000b00616dfd2c859sm3676390otk.59.2022.06.29.12.14.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 12:14:10 -0700 (PDT)
+Date: Wed, 29 Jun 2022 16:14:05 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: p.zabel@pengutronix.de, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	benjamin.gaignard@collabora.com, nicolas.dufresne@collabora.com,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 2/7] media: hantro: Support format filtering by depth
+Message-ID: <YrykfXBR9x9du2mP@eze-laptop>
+References: <20220616202513.351039-1-jernej.skrabec@gmail.com>
+ <20220616202513.351039-3-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-3.72
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 5999F40
-X-Stat-Signature: cxpy4bhehp97he7ibrn6fwndwm5kmkk4
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+PFQLq9iP8uUoYJGt7spzt5iZz7rrAPH0=
-X-HE-Tag: 1656526141-482888
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616202513.351039-3-jernej.skrabec@gmail.com>
 
-On Wed, 2022-06-29 at 14:11 +0200, Felix Schlepper wrote:
-> On 28.06.2022 10:58, Joe Perches wrote:
-> > On Tue, 2022-06-28 at 10:30 +0200, Felix Schlepper wrote:
-> > > This addresses an issue raised by checkpatch.pl:
-> > >=20
-> > >      $ ./scripts/checkpatch.pl --terse -f drivers/staging/rtl8192e/rt=
-llib_wx.c
-> > >      CHECK: Please use a blank line after function/struct/union/enum
-> > >      declarations
-> > >=20
-> > > The additional blank line above the struct/before the headers is
-> > > just cleaner.
-> > []
-> > > diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/r=
-tl8192e/rtllib_wx.c
-> > []
-> > > @@ -17,10 +17,12 @@
-> > >  #include <linux/module.h>
-> > >  #include <linux/etherdevice.h>
-> > >  #include "rtllib.h"
-> > > +
-> > >  struct modes_unit {
-> > >  	char *mode_string;
-> > >  	int mode_size;
-> > >  };
-> > > +
-> > >  static struct modes_unit rtllib_modes[] =3D {
-> > >  	{"a", 1},
-> > >  	{"b", 1},
-> >=20
-> > Please always look deeper at the code and do not simply take
-> > any checkpatch suggestion as the "best" fix.
-> >=20
-> > Using this struct style with an embedded length is error prone
-> > and would likely be better as a simple char * array.
-> >=20
-> > Also, the existing sprintf use of mode_string and mode_size is
-> > nonsensical.  There is nothing to format in any of the mode_size.
-> > so the use of mode_size as an argument is silly.
-> First of all, thank you for your suggestions.
-> I did realize that there is nothing to format, but I did not dare to
-> make that change in case a format could be added.
-> However, looking at it now. This has not been touched in over 10 years.
-> So it is probably safe to change that.
-> >=20
-> > Perhaps something like this would be better:
-> > ---
-> >  drivers/staging/rtl8192e/rtllib_wx.c | 21 +++++----------------
-> >  1 file changed, 5 insertions(+), 16 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl=
-8192e/rtllib_wx.c
-> > index cf9a240924f20..90dcce152d80c 100644
-> > --- a/drivers/staging/rtl8192e/rtllib_wx.c
-> > +++ b/drivers/staging/rtl8192e/rtllib_wx.c
-> > @@ -17,17 +17,9 @@
-> >  #include <linux/module.h>
-> >  #include <linux/etherdevice.h>
-> >  #include "rtllib.h"
-> > -struct modes_unit {
-> > -	char *mode_string;
-> > -	int mode_size;
-> > -};
-> > -static struct modes_unit rtllib_modes[] =3D {
-> > -	{"a", 1},
-> > -	{"b", 1},
-> > -	{"g", 1},
-> > -	{"?", 1},
-> > -	{"N-24G", 5},
-> > -	{"N-5G", 4},
-> > +
-> > +static const char *rtllib_modes[] =3D {
-> > +	"a", "b", "g", "?", "N-24G", "N-5G",
-> >  };
-> > =20
-> >  #define MAX_CUSTOM_LEN 64
-> > @@ -72,11 +64,8 @@ static inline char *rtl819x_translate_scan(struct rt=
-llib_device *ieee,
-> >  	/* Add the protocol name */
-> >  	iwe.cmd =3D SIOCGIWNAME;
-> >  	for (i =3D 0; i < ARRAY_SIZE(rtllib_modes); i++) {
-> > -		if (network->mode&(1<<i)) {
-> > -			sprintf(pname, rtllib_modes[i].mode_string,
-> > -				rtllib_modes[i].mode_size);
-> > -			pname +=3D rtllib_modes[i].mode_size;
-> > -		}
-> > +		if (network->mode & BIT(i))
-> > +			pname =3D stpcpy(pname, rtllib_modes[i]);
-> >  	}
-> >  	*pname =3D '\0';
-> Would this not be also redundant since stpcpy already returns a pointer t=
-o the new
-> NUL-terminating character?
-> >  	snprintf(iwe.u.name, IFNAMSIZ, "IEEE802.11%s", proto_name);
+Hi Jernej,
 
-Only if proto_name is initialized.  Is it?
+On Thu, Jun 16, 2022 at 10:25:08PM +0200, Jernej Skrabec wrote:
+> In preparation for supporting 10-bit formats, add mechanism which will
+> filter formats based on pixel depth.
+> 
+> Hantro G2 supports only one decoding format natively and that is based
+> on bit depth of current video frame. Additionally, it makes no sense to
+> upconvert bitness, so filter those out too.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Also I believe stpcpy is not a standard linux call, so maybe
-this needs to be strcpy or strncpy then strlen.
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
+Thanks,
+Ezequiel
+
+> ---
+>  drivers/staging/media/hantro/hantro.h      |  4 ++
+>  drivers/staging/media/hantro/hantro_v4l2.c | 48 ++++++++++++++++++++--
+>  drivers/staging/media/hantro/hantro_v4l2.h |  1 +
+>  3 files changed, 50 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 26308bb29adc..2989ebc631cc 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -227,6 +227,7 @@ struct hantro_dev {
+>   *
+>   * @ctrl_handler:	Control handler used to register controls.
+>   * @jpeg_quality:	User-specified JPEG compression quality.
+> + * @bit_depth:		Bit depth of current frame
+>   *
+>   * @codec_ops:		Set of operations related to codec mode.
+>   * @postproc:		Post-processing context.
+> @@ -252,6 +253,7 @@ struct hantro_ctx {
+>  
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	int jpeg_quality;
+> +	int bit_depth;
+>  
+>  	const struct hantro_codec_ops *codec_ops;
+>  	struct hantro_postproc_ctx postproc;
+> @@ -277,6 +279,7 @@ struct hantro_ctx {
+>   * @enc_fmt:	Format identifier for encoder registers.
+>   * @frmsize:	Supported range of frame sizes (only for bitstream formats).
+>   * @postprocessed: Indicates if this format needs the post-processor.
+> + * @match_depth: Indicates if format bit depth must match video bit depth
+>   */
+>  struct hantro_fmt {
+>  	char *name;
+> @@ -287,6 +290,7 @@ struct hantro_fmt {
+>  	enum hantro_enc_fmt enc_fmt;
+>  	struct v4l2_frmsize_stepwise frmsize;
+>  	bool postprocessed;
+> +	bool match_depth;
+>  };
+>  
+>  struct hantro_reg {
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index 29cc61d53b71..334f18a4120d 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -64,6 +64,42 @@ hantro_get_postproc_formats(const struct hantro_ctx *ctx,
+>  	return ctx->dev->variant->postproc_fmts;
+>  }
+>  
+> +int hantro_get_format_depth(u32 fourcc)
+> +{
+> +	switch (fourcc) {
+> +	case V4L2_PIX_FMT_P010:
+> +	case V4L2_PIX_FMT_P010_4L4:
+> +		return 10;
+> +	default:
+> +		return 8;
+> +	}
+> +}
+> +
+> +static bool
+> +hantro_check_depth_match(const struct hantro_ctx *ctx,
+> +			 const struct hantro_fmt *fmt)
+> +{
+> +	int fmt_depth, ctx_depth = 8;
+> +
+> +	if (!fmt->match_depth && !fmt->postprocessed)
+> +		return true;
+> +
+> +	/* 0 means default depth, which is 8 */
+> +	if (ctx->bit_depth)
+> +		ctx_depth = ctx->bit_depth;
+> +
+> +	fmt_depth = hantro_get_format_depth(fmt->fourcc);
+> +
+> +	/*
+> +	 * Allow only downconversion for postproc formats for now.
+> +	 * It may be possible to relax that on some HW.
+> +	 */
+> +	if (!fmt->match_depth)
+> +		return fmt_depth <= ctx_depth;
+> +
+> +	return fmt_depth == ctx_depth;
+> +}
+> +
+>  static const struct hantro_fmt *
+>  hantro_find_format(const struct hantro_ctx *ctx, u32 fourcc)
+>  {
+> @@ -91,7 +127,8 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
+>  	formats = hantro_get_formats(ctx, &num_fmts);
+>  	for (i = 0; i < num_fmts; i++) {
+>  		if (bitstream == (formats[i].codec_mode !=
+> -				  HANTRO_MODE_NONE))
+> +				  HANTRO_MODE_NONE) &&
+> +		    hantro_check_depth_match(ctx, &formats[i]))
+>  			return &formats[i];
+>  	}
+>  	return NULL;
+> @@ -162,11 +199,13 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+>  	formats = hantro_get_formats(ctx, &num_fmts);
+>  	for (i = 0; i < num_fmts; i++) {
+>  		bool mode_none = formats[i].codec_mode == HANTRO_MODE_NONE;
+> +		fmt = &formats[i];
+>  
+>  		if (skip_mode_none == mode_none)
+>  			continue;
+> +		if (!hantro_check_depth_match(ctx, fmt))
+> +			continue;
+>  		if (j == f->index) {
+> -			fmt = &formats[i];
+>  			f->pixelformat = fmt->fourcc;
+>  			return 0;
+>  		}
+> @@ -182,8 +221,11 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+>  		return -EINVAL;
+>  	formats = hantro_get_postproc_formats(ctx, &num_fmts);
+>  	for (i = 0; i < num_fmts; i++) {
+> +		fmt = &formats[i];
+> +
+> +		if (!hantro_check_depth_match(ctx, fmt))
+> +			continue;
+>  		if (j == f->index) {
+> -			fmt = &formats[i];
+>  			f->pixelformat = fmt->fourcc;
+>  			return 0;
+>  		}
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.h b/drivers/staging/media/hantro/hantro_v4l2.h
+> index 18bc682c8556..b17e84c82582 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.h
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.h
+> @@ -22,5 +22,6 @@ extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
+>  extern const struct vb2_ops hantro_queue_ops;
+>  
+>  void hantro_reset_fmts(struct hantro_ctx *ctx);
+> +int hantro_get_format_depth(u32 fourcc);
+>  
+>  #endif /* HANTRO_V4L2_H_ */
+> -- 
+> 2.36.1
+> 
