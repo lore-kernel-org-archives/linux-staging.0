@@ -1,61 +1,67 @@
-Received: from relay2.uni-heidelberg.de (relay2.uni-heidelberg.de [129.206.119.212])
+Received: from relay.uni-heidelberg.de (relay.uni-heidelberg.de [129.206.100.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F1E7B
-	for <linux-staging@lists.linux.dev>; Thu, 30 Jun 2022 11:30:33 +0000 (UTC)
-X-IPAS-Result: =?us-ascii?q?A2CyBQALiL1iffxkzoFagliDJYFXlBABAQEGjHKHH4ong?=
- =?us-ascii?q?gcBAQEBAQEBAQEJLxMEAQFAihEnNAkOAQIEAQEBAQMCAwEBAQEBAQMBAQYBA?=
- =?us-ascii?q?QEBAQcEFAEBIzwnhWgNhkMGJwsBRhBRVxmCeAIBAQKCZAEDMK1UMoEBhloBg?=
- =?us-ascii?q?T+BZYE9iVqFIIFAgRCBFTODNYQLgQaFbgSaPgoDCQQHBUYXEk4xIQJFCxwBC?=
- =?us-ascii?q?AYGBwEIAQUIKAQCAQEBBgUYFAEDAQETEgUTDAcoChICEgwKGwcHAwsFMg0CD?=
- =?us-ascii?q?gcBAQwPAQIPAwECEQEHAgkSCAYPKwgDAQEDAQcBAgIDIAsCAxYJBwgCAQIFA?=
- =?us-ascii?q?gIBAw8BCAocEhAUAgQNBB4JAggBAhkeLAcCAgQOAyMdCAsKAw4DBAMBEAIYB?=
- =?us-ascii?q?wIBFQEFAgQIBAEDBgMIFRkBDScEBwMSAg0BBgECBgEBBQUBAxgIAxQDBQECC?=
- =?us-ascii?q?AMWBwECIQUKJgkEDQMBIhsCAwMBBBsKAgECAgUWBQIBAQIDAgYVBgICPy8RH?=
- =?us-ascii?q?Q0IBAgECRIcIwECDAEEAQIHLwUELQIBAR4EBQEFDwIIAQEWAgYEAwICAwEBA?=
- =?us-ascii?q?gEWAhAIAggnFwcTMxkBBTcUDg8BAwYIGRwiBwkHBQYWAwwVJx4pBQcREhsPB?=
- =?us-ascii?q?A0NCjQgFiQBAQ4FAwESGREOBxQKUyYhFRAGASsWAwQBAwMCBhoBAgMiAhILC?=
- =?us-ascii?q?RUCBCYICQMWBi0FASIdGZwMAYENTpd7q2YHg1EQAYsQlSaFRZEdApIAlnOid?=
- =?us-ascii?q?IRPNYEsSYFMTSODOAlIGQ+XVIUeczsCBgsBAQMJjD2CSAEB?=
-IronPort-Data: A9a23:HLPP8qi1Z4U8BnuyiKDwgLPqX161+hAKZh0ujC45NGQN5FlHY01je
- htvCDyCb//eNjTxedkiPI7k8UlQsJbQmtFjTQBr+3hjFC5jpJueD7x1DG+pYnzIfpOfJK5EA
- 2fyTvGacajYm1eF/k/F3oDJ9CU6jefSLlbFILas1hpZHWeIcw98z0M58wIFqtQw24LhXVjV4
- YmaT/D3YTdJ5RYlagr41Ire8HuDjNyq0N/PlgVjDRzjlAa2e0g9VPrzF4noR5fLatE88tqBe
- gr25OrRElU1X/saIojNfr7TKiXmS1NJVOSEoiI+t6OK2nCuqsGuu0o2HKJ0VKtZt9mGt/Qv4
- dFJvKWSdT0gDIDrkqcvVAF+PAgraMWq+JefSZS+mcmazkmeKj3xxfQrDEw3MYAc8OttDidC+
- JT0KhhUNEHF3brohuvjEq82255LwMrDZevzvll7xjHdAO4+TIrrWLnX6ZlF2jZ1hs1PEfvab
- ccDZnxjYXwsZjUWZwhJUsNjzbjAan/XUjhnolWIvukL0mXf5i1L7onnLID3Q4nfLSlSth3E+
- D6cpjyR7gshHMOd0j2Z+1qjg+bOmWXwX4d6PLKi+/FpgHWXx2oOGBMRSF23qOW4jUj4XMhQQ
- 2QQ+ywzve0p6EWkT9/ydxm5u2Kf+BodXcdAVeE39mmlxPHP6AbfCWkYZjlcdNghs8xwTjsvv
- neNntX0FXlsvaeTRHa16LiZt3WxNDITIGtEYjULJTbp+PHmqYA31kuJU9BiVa64j9H4HTv92
- T/MoCVWa6gvYdAj8/uS+VTOuhCQnJH7Yyk/pTfQRkSKx1YsDGK6XLCA5V/e5PdGCY+WSFido
- XQJ8/RyCshTV/lhcwTQEI0w8KGVC+WtbGyA2AYwd3U132Tzqyb6FWxFyGwmfC9U3tA4lSjBT
- GK7Vel5xJJSMHauZ6JtbOpd4Ox0nPG6TbwJutj+Z9ZDZN1O39ud4D1jYESdxW+FraTBuaQ2O
- JPDKICxC3dfCalmwDeyTeoH3vkny0jSJF8/p7ilkHxLMpLHOhZ5rIvp1nPVMYjVC4vY+G3oH
- y53bZfi9vmmeLSWjtPr2YASN0sWCnMwGIr7rcdaHsbafFc4RTt+V6SKmOp+E2CAo0izvrmQl
- p1achEEoGcTeVWZeG1ml1g5MOKyA88hxZ7FFX1xZAfAN4cfjXaHt/tBK8FuJdHLBcRpwPprU
- vRNZsOBHPlVUTXb6nwbYIXiq5ZhHClHdirRVxdJlAMXIcU6LySXoYCMQ+ca3HNTZsZBnZdl/
- ufIO8KyacZrejmO++6PMarylAPp4iNH8A+wNmORSuRulIzX2NACA0TMYjUfeang9T2rKuOm6
- jur
-IronPort-HdrOrdr: A9a23:H2L/saFUJeQZFhsgpLqE0ceALOsnbusQ8zAXPidKOHtom62j5q
- STdZEgvnXJYVkqNU3I5urwXpVoLUmyyXcN2/hyAV7AZniChILLFuFfBOLZqlXd8kvFmNK1vp
- 0AT0ERMrHN5CBB/KXHCQCDYq8d/OU=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C9DED6
+	for <linux-staging@lists.linux.dev>; Thu, 30 Jun 2022 11:30:35 +0000 (UTC)
+X-IPAS-Result: =?us-ascii?q?A2AoCgCciL1iffxkzoFagliDJYFXlBABAQEGgUKLMIcfi?=
+ =?us-ascii?q?ieCBwEBAQEBAQEBAQkvEwQBAT0BAooRJzYHDgECBAEBAQEDAgMBAQEBAQEDA?=
+ =?us-ascii?q?QEGAQEBAQEHBBQBASM8J4VoDYZDBjIBRhBRVxmCeAIBAQKCZAEDMK4NgQGGW?=
+ =?us-ascii?q?gGBP4FlgT2JWoUggUCBEIFIgQmCLIQLgQaFbgSXWYJlCgMJBAcFRhcSTjEhA?=
+ =?us-ascii?q?kULHAEIBgYHAQgBBQgoBAIBAQEGBRgUAQMBARMSBRMMBygKEgISDAobBwcDC?=
+ =?us-ascii?q?wUyDQIOBwEBDA8BAg8DAQIRAQcCCRIIBg8rCAMBAQMBBwECAgMgCwIDFgkHC?=
+ =?us-ascii?q?AIBAgUCAgEDDwEIChwSEBQCBA0EHgkCCAECGR4sBwICBA4DIx0ICwoDDgMEA?=
+ =?us-ascii?q?wEQAhgHAgEVAQUCBAgEAQMGAwgVGQENJwQHAxICDQEGAQIGAQEFBQEDGAgDF?=
+ =?us-ascii?q?AMFAQIIAxYHAQIhBQomCQQNAwEiGwIDAwEEGwoCAQICBRYFAgEBAgMCBhUGA?=
+ =?us-ascii?q?gI/LxEdDQgECAQJEhwjAQIMAQQBAgcvBQQtAgEBHgQFAQUPAggBARYCBgQDA?=
+ =?us-ascii?q?gIDAQECARYCEAgCCCcXBxMzGQEFNxQODwEDBggZHCIHCQcFBhYDDBUnHikFB?=
+ =?us-ascii?q?xESGw8EDQ0KNCAWJAEBDgUDARIZEQ4HFApTJiEVEAYBKxYDBAEDAwIGGgECA?=
+ =?us-ascii?q?yICEgsJFQIEJggJAxYGLQUBIh0ZnAwBWTRMW5NrgzerZgeDURABixCVJoVFk?=
+ =?us-ascii?q?R0CkgCWc6J0hE81gTMCQIFMTSODOAlIGQ+XVIUeczsCBgsBAQMJjD2CSAEB?=
+IronPort-Data: A9a23:c0tsdaAuJRvkwRVW/7Pjw5YqxClBgxIJ4kV8jS/XYbTApDgn0WQPz
+ WJLWWjTPfjeMWT9eIx3Od62/RwAuZfXm9Q3OVdlrnsFo1Bi8JeaX4THci8cHM8wwunrFh8PA
+ xA2M4GYRCwMZiaA4E/raNANlFEkvU2ybuKU5NXsZ2YgH2eIdA970Ug5w7Bi2tYy6TSEK1rlV
+ e3a8pW31GCNhmYc3lI8s8pvfzs24ZweEBtB1rAPTagjUG32zhH5P7pHTU2FFEYUd6EPdgKMq
+ 0Yv+5nilo/R109F5tpICd8XeGVSKlLZFVDmZna7x8FOjzAazhHe3JrXO9Iabh9tiw+3r+lD8
+ 4tzm5iAcj82APLlzbF1vxlwS0mSPIVD8b7DeSH5rMqSik3Lcnfhx/9jFk5wMYBwFuRfWDsfs
+ 6ZAdnZUNkjF3b/sqF64YrAEasALN8LrOI4Honx65SrFEPpgXJbCBqXH5NNV2D09nM8IEfu2i
+ 88xMGQyPESbPU0VUrsRIJtihM6KvCP9ShhnqgO/h5g7/nbxzAMkhdABN/KOJoLWH5wN9qqCn
+ UrZ/X/+HhgyO9mWyD7D+XWp7sfAhy70W4I6ELy+6+5kh0CVymUPCRoQE1yhrpGRjk+4RsIaM
+ FAd9SsoooA29Ve3VZ/5XhulsDiIswB0c9QLCOY6rg6M1oLT/hqdAW8HCDVGbbQOsM4wWCxv1
+ VKTmd7tLSJgvafTSn+H8LqQ6zSoNkAowXQqYCYFSVNcpcTlocQzgxPDQ9JpHbS6yNH4cd3t/
+ 9yUhC45348Tt/A77peAo27phwKXnof3ESdgs207QVmZxg9+YYekYamh5l7a8etMIe6lor+p4
+ SJsdy+2sbBmMH2dqMCeaLlcQOjxuJ5pJBWM3w43RvHN4hzwoybLQGxG3N1pDGtEWiruUR/kY
+ UPevQlc/pA70JCCM/4uOdrZ5ygC56HsGNKgaVsAdMZSb517eRWIlByCiGaV1mHpyBFqjKc+f
+ JeWcMqhCXwXE6shwDfeqwYhPV0DmH9WKYD7HM6TI/GbPVy2PyH9pVAtbAPmUwzBxPnYyDg5C
+ v4GXydw9z1RUfflfg7c+pMJIFYBIBATXM6r9ZENKbLYeVM/RwnN7sM9J5t/I+SJeIwLyo/1E
+ o2VBB4wJKfX3yWWdFvTNBiPlpu+AM8uxZ7EAcDcFQ30hSR5ON7HAFY3fZYzYqQqvPFlzOB5V
+ eIEZ9TIBPlTVTPd+FwggWrV8+RfmOCQrVzVZUKNPmNgF6OMsiSTp7cIiCOzr3RUZsd23ONiy
+ 4CdOvTzGMNbGl8yVJmNMppCDTqZ5BAgpQ67ZGOQSvE7Rakm2NICx/DZ5hPvH/wxFA==
+IronPort-HdrOrdr: A9a23:bh6cuqG8q+ApW2vQpLqFaZHXdLJyesId70hD6qkvc3Fom52j/f
+ xGws5x6fatskdrZJkh8erwW5VoMkmsj6KdgLNhdotKOTOLhILGFvAE0WKP+Vzd8mjFh5ZgPM
+ RbAuJD4b/LfD5HZK/BiWHWferIguP3iZxA7t2urUuFODsaD52ImD0JbzpzfHcXeCB2Qb4CUL
+ aM7MtOoDStPV4NaN6gO3UDV+/f4/XWiZPPe3c9dlIawTjLqQntxK/xEhCe0BtbeShI260e/W
+ /MlBG8zrm/ssu81gTX2wbonttrcZrau5V+7f63+4gowwbX+0WVjUNaKv+/VQUO0aCSAZAR4Z
+ zxSlkbToBOAjjqDxyISFPWqnXdOXAVmjLfIBaj8ATeiN28SzQgB8Vbg4VFNhPf9ko7pdl5lL
+ lGxmSDqvNsfGX9dQnGlqz1vitR5z2JiGtnlfRWg21UUIMYZrMUpYsD/FlNGJNFGC7h8ogoHO
+ RnEcmZvZ9tABunRmGcunMqzM2nX3w1EBvDSk8eutaN2zwTmHxi1UMXyMEWg39F/pMgTJtP4f
+ jCL81T5fhzZ95Tabg4CPYKQMOxBGCISRXQMHiKKVCiD60DM2Klke+D3F0fjNvaBqDgDKFC6q
+ gpfGkoxVLaIXieePFm9Kc7gSzwfA==
 X-IronPort-Anti-Spam-Filtered: true
 Received: from mail01.uni-heidelberg.de ([129.206.100.252])
-  by relay2.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 30 Jun 2022 13:30:30 +0200
+  by relay.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 30 Jun 2022 13:30:25 +0200
 Received: from localhost (dhcp567-177.laptop-wlc.uni-heidelberg.de [147.142.67.177])
 	(Authenticated sender: ln194)
-	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id D8565300084F1;
-	Thu, 30 Jun 2022 13:30:29 +0200 (CEST)
+	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id A21BE30074960;
+	Thu, 30 Jun 2022 13:30:24 +0200 (CEST)
 From: Felix Schlepper <f3sch.git@outlook.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	wjsota@gmail.com,
 	Felix Schlepper <f3sch.git@outlook.com>
-Subject: [PATCH v2 6/6] Staging: rtl8192e: Added spaces around '+'
-Date: Thu, 30 Jun 2022 13:30:19 +0200
-Message-Id: <9b673fce3e6200a9fc0d21ec5a493d59cfe12241.1656587827.git.f3sch.git@outlook.com>
+Subject: [PATCH v2 2/6] Staging: rtl8192e: Avoid multiple assignments
+Date: Thu, 30 Jun 2022 13:30:15 +0200
+Message-Id: <ac0fbb67e93991614423dbc0f43f690c16fb10be.1656587827.git.f3sch.git@outlook.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1656587827.git.f3sch.git@outlook.com>
 References: <cover.1656587827.git.f3sch.git@outlook.com>
@@ -67,29 +73,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This addresses two issues raised by checkpatch.pl:
+This addresses an issue raised by checkpatch.pl:
 
      $ ./scripts/checkpatch.pl --terse -f drivers/staging/rtl8192e/rtllib_wx.c
-     CHECK: spaces preferred around that '+' (ctx:VxV)
+     CHECK: multiple assignments should be avoided
 
 Signed-off-by: Felix Schlepper <f3sch.git@outlook.com>
 ---
- drivers/staging/rtl8192e/rtllib_wx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8192e/rtllib_wx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-index 778b6b7e0939..1bb94a1fe868 100644
+index 1e420230d029..f8683b914668 100644
 --- a/drivers/staging/rtl8192e/rtllib_wx.c
 +++ b/drivers/staging/rtl8192e/rtllib_wx.c
-@@ -767,7 +767,7 @@ int rtllib_wx_set_gen_ie(struct rtllib_device *ieee, u8 *ie, size_t len)
- 	kfree(ieee->wps_ie);
- 	ieee->wps_ie = NULL;
- 	if (len) {
--		if (len != ie[1]+2)
-+		if (len != ie[1] + 2)
- 			return -EINVAL;
- 		buf = kmemdup(ie, len, GFP_KERNEL);
- 		if (!buf)
+@@ -147,7 +147,8 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+ 			max_rate = rate;
+ 	}
+ 	iwe.cmd = SIOCGIWRATE;
+-	iwe.u.bitrate.fixed = iwe.u.bitrate.disabled = 0;
++	iwe.u.bitrate.disabled = 0;
++	iwe.u.bitrate.fixed = 0;
+ 	iwe.u.bitrate.value = max_rate * 500000;
+ 	start = iwe_stream_add_event_rsl(info, start, stop, &iwe, IW_EV_PARAM_LEN);
+ 	iwe.cmd = IWEVCUSTOM;
 -- 
 2.36.1
 
