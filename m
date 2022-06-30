@@ -1,46 +1,53 @@
-Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
+Received: from out199-16.us.a.mail.aliyun.com (out199-16.us.a.mail.aliyun.com [47.90.199.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AA4A35
-	for <linux-staging@lists.linux.dev>; Thu, 30 Jun 2022 07:57:08 +0000 (UTC)
-Received: by mail.olerise.pl (Postfix, from userid 1001)
-	id A26B520D32; Thu, 30 Jun 2022 09:46:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
-	t=1656575243; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
-	h=Date:From:To:Subject:From;
-	b=J7LjE6egsvxyFxMQGe4xUMgOt82KmkNuwAHhTlhcLR5t283z2sJlpVInjUBioG40u
-	 LPnDBkkA01LQkRxmHQHlXp+pC/sGWl3fpSfTIFcl0aFwTrF0kOrpPthpvtbvFzkrKp
-	 xA6pDkgaUHpnnIhDbsn69bV9hvp+dvuR0cmWzdRPh89hm2FRh362TlGWeBRUOtKpui
-	 oJk0uSQLYgf3xL9St5hC+Oxw1phSGuOh6PcKO/ihuBRZCKdY8Wwan5OAlgieLAySKl
-	 ej7Qux8rZotTXmbWzcoaBBlWM8zMvFn6lJmX/78/zfTPn52UsIMgcOkLw+1b2AtorH
-	 iZ4Lzst1zIUZw==
-Received: by mail.olerise.pl for <linux-staging@lists.linux.dev>; Thu, 30 Jun 2022 07:46:17 GMT
-Message-ID: <20220630084500-0.1.p.bb9g.0.z90h26fjed@olerise.pl>
-Date: Thu, 30 Jun 2022 07:46:17 GMT
-From: =?UTF-8?Q?"Przemys=C5=82aw_Wr=C3=B3blewski"?= <przemyslaw.wroblewski@olerise.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.olerise.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1A7EBB
+	for <linux-staging@lists.linux.dev>; Thu, 30 Jun 2022 09:40:42 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R971e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046060;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VHrVw7N_1656580178;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VHrVw7N_1656580178)
+          by smtp.aliyun-inc.com;
+          Thu, 30 Jun 2022 17:09:38 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	paskripkin@gmail.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yang Li <yang.lee@linux.alibaba.com>
+Subject: [PATCH -next] staging: r8188eu: remove unneeded semicolon
+Date: Thu, 30 Jun 2022 17:09:37 +0800
+Message-Id: <20220630090937.4983-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Dzie=C5=84 dobry,
+Eliminate the following coccicheck warning:
+./drivers/staging/r8188eu/hal/HalPwrSeqCmd.c:70:2-3: Unneeded semicolon
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+diff --git a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+index b5f6d41464db..5b0f66573d94 100644
+--- a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
++++ b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+@@ -67,7 +67,7 @@ u8 HalPwrSeqCmdParsing(struct adapter *padapter, enum r8188eu_pwr_seq seq)
+ 		break;
+ 	default:
+ 		return false;
+-	};
++	}
+ 
+ 	do {
+ 		pwrcfgcmd = pwrseqcmd[aryidx];
+-- 
+2.20.1.7.g153144c
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
-
-
-Pozdrawiam,
-Przemys=C5=82aw Wr=C3=B3blewski
