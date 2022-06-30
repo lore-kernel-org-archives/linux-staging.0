@@ -1,100 +1,59 @@
-Received: from relay.uni-heidelberg.de (relay.uni-heidelberg.de [129.206.100.212])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57316ED6
-	for <linux-staging@lists.linux.dev>; Thu, 30 Jun 2022 11:30:38 +0000 (UTC)
-X-IPAS-Result: =?us-ascii?q?A2B6CQCciL1iffxkzoFagliDJYFXlBABAQEGjHKHH4ong?=
- =?us-ascii?q?gcBAQEBAQEBAQEJLxMEAQE9AQKKESc1CA4BAgQBAQEBAwIDAQEBAQEBAwEBB?=
- =?us-ascii?q?gEBAQEBBwQUAQEjPCeFaA2GQwYnCwFGEFFXGYJ4AgEBAoJkAQMwrVsygQGGW?=
- =?us-ascii?q?gGBP4FlgT2JWoUggUCBEIFIgzWEC4EGhW4Emj4KAwkEBwVGFxJOMSECRQscA?=
- =?us-ascii?q?QgGBgcBCAEFCCgEAgEBAQYFGBQBAwEBExIFEwwHKAoSAhIMChsHBwMLBTINA?=
- =?us-ascii?q?g4HAQEMDwECDwMBAhEBBwIJEggGDysIAwEBAwEHAQICAyALAgMWCQcIAgECB?=
- =?us-ascii?q?QICAQMPAQgKHBIQFAIEDQQeCQIIAQIZHiwHAgIEDgMjHQgLCgMOAwQDARACG?=
- =?us-ascii?q?AcCARUBBQIECAQBAwYDCBUZAQ0nBAcDEgINAQYBAgYBAQUFAQMYCAMUAwUBA?=
- =?us-ascii?q?ggDFgcBAiEFCiYJBA0DASIbAgMDAQQbCgIBAgIFFgUCAQECAwIGFQYCAj8vE?=
- =?us-ascii?q?R0NCAQIBAkSHCMBAgwBBAECBy8FBC0CAQEeBAUBBQ8CCAEBFgIGBAMCAgMBA?=
- =?us-ascii?q?QIBFgIQCAIIJxcHEzMZAQU3FA4PAQMGCBkcIgcJBwUGFgMMFSceKQUHERIbD?=
- =?us-ascii?q?wQNDQo0IBYkAQEOBQMBEhkRDgcUClMmIRUQBgErFgMEAQMDAgYaAQIDIgISC?=
- =?us-ascii?q?wkVAgQmCAkDFgYtBQEiHRmcDAGBDUyBXZYgq2YHg1EQAYsQlSaFRZEdApIAk?=
- =?us-ascii?q?UKFMaJ0hE81gS0BR4FMTSODOAlIGQ+XVIUeczsCBgsBAQMJjD2CSAEB?=
-IronPort-Data: A9a23:pIhIHK+1w8VHfFXQWscjDrUDGn6TJUtcMsCJ2f8bNWPcYEJGY0x3y
- mAWDGmHO6yDa2Wgf4t2PoWx9hkD7JXQyNYySwU9+CtEQiMRo6IpJ/zAcxiqb33ORiHgoOCLy
- +1EN7Es+ehtFie0Si+Fa+Sn9T8mvU2xbuKU5NTsYkidfic5DnZ74f5fs7Rh2NQw34PhW1nlV
- e7a+qUzBnf0g1aYDUpJs8pvmDs31BglkGpF1rCWTakjUG72zxH5PrpGTU2CByOQrr1vIwKPb
- 72rIIdVXo/u10xF5tuNyt4Xe6CRK1LYFVDmZnF+A8BOjvXez8A/+v5TCRYSVatYoxSKruxB5
- YRgiYOLbgAoNIKcwM0GQxYNRkmSPYUekFPGCX22sMjLlgvbdXqpw/hvAEwyN4AC9aB7DAmi9
- 9RBcmFLNEjdwbvumPThF7MEascLdaEHOKsEsXFkwCnBAOwOWozeT+PX494d3Doxis1KF/vEa
- IwVZFKDaTyZPUAfagxJWchWcOGAoF6kbzp2gVKpu40F/ELTkRIq/bq1P4+AEjCNbZ4JwBrC/
- zquE37CKg4YL9uDwBKK93utgqnEmiaTcI0IGbK79tZugVuO1mIUFRsaXEe6pv//jVSxM/pbK
- koJ6m81saE99UqkZt38RAGj5nqFuAMMHdZdDYUS5lqWwaqS7AeFLm8ZUjpGb99gv8gzLRQu1
- 1mUj5bqCCZpvbm9V32Q7PGXoCm0NCxTKnUNDRLoViMA6tjn+Nh1kxTOC9ZuEaK4itf4Az62z
- z3iQDUCa6s7rM0665WWrH37nAmLoZnDYV5tzx7HUTfwhu9mX7KNa4ut4FndyP9PKoeFU1WM1
- ETofeDDtoji6rnQxESwrPUx8KKBu6fZaWWD6bJ7N8l/p2z0k5K2Vd0IuFlDyFFV3tEsVRKBj
- KX7mQ5Q6JJXNnawYsebiKrvWp1wlcAM+fzPX/zZaJ9xyUxraBOK+Stjf0H44owAuE0lkKVnY
- NGGd8fpDXsbBaljxjesSKER3NfHJxzSJ0uNGvgXLDz+j9JygUJ5r59ebzNiichltMu5TP39q
- Yo3Cidz40w3vBfCSifW65UPClsBMGI2A5v7w+QOKLPdf1A5RDp6UqaOqV/ER2CDt/oN/gsv1
- i/hMnK0NHKh1BUr1C3QMiE+NuqxNXqBhSNmZH1E0amUN4gLOtrxsP1GL/PbjJEt+eh80PM8U
- v8EZciaGfVTW3zB9igCaoP+xLGOhzz07T9iyxGNPmNlF7Y+HFOhxzMRVlGynMX4Jnbs6JFWT
- nzJ/l+zfKfvsCw7VZ6LM6L3kAjr1ZXf8corN3b1zhBoUB2E2OBXx+bZ15fb/+lkxc3/+wan
-IronPort-HdrOrdr: A9a23:8At+76G3yns1jZXopLqFaZHXdLJyesId70hD6qkvc3Fom52j/f
- xGws5x6fatskdrZJkh8erwW5VoMkmsj6KdgLNhdotKOTOLhILGFvAE0WKP+Vzd8mjFh5ZgPM
- RbAuJD4b/LfD5HZK/BiWHWferIguP3iZxA7t2urUuFODsaD52ImD0JbzpzfHcXeCB2Qb4CUL
- aM7MtOoDStPV4NaN6gO3UDV+/f4/XWiZPPe3c9dlIawTjLqQntxK/xEhCe0BtbeShI260e/W
- /MlBG8zrm/ssu81gTX2wbonttrcZrau5V+7f63+4gowwbX+0WVjUNaKv+/VQUO0aCSAZAR4Z
- zxSlkbToBOAjjqDxyISFPWqnXdOXAVmjLfIBaj8ATeiN28SzQgB8Vbg4VFNhPf9ko7pdl5lL
- lGxmSDqvNsfGX9dQnGlqz1vitR5z2JiGtnlfRWg21UUIMYZrMUpYsD/FlNGJNFGC7h8ogoHO
- RnEcmZvZ9tABunRmGcunMqzM2nX3w1EBvDSk8eutaN2zwTmHxi1UMXyMEWg39F/pMgTJtP4f
- jCL81T5fhzZ95Tabg4CPYKQMOxBGCISRXQMHiKKVCiD60DM2Klke+D3F0fjNvaBqDgDKFC6q
- gpfGkoxVLaIXieePFm9Kc7gSzwfA==
-X-IronPort-Anti-Spam-Filtered: true
-Received: from mail01.uni-heidelberg.de ([129.206.100.252])
-  by relay.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 30 Jun 2022 13:30:29 +0200
-Received: from localhost (dhcp567-177.laptop-wlc.uni-heidelberg.de [147.142.67.177])
-	(Authenticated sender: ln194)
-	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id 8F10330074960;
-	Thu, 30 Jun 2022 13:30:28 +0200 (CEST)
-From: Felix Schlepper <f3sch.git@outlook.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	wjsota@gmail.com,
-	Felix Schlepper <f3sch.git@outlook.com>
-Subject: [PATCH v2 5/6] Staging: rtl8192e: Remove unnecessary blank line
-Date: Thu, 30 Jun 2022 13:30:18 +0200
-Message-Id: <b4fab2e16f35ee09d0c9e1ee1deeb22f4cc98d30.1656587827.git.f3sch.git@outlook.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1656587827.git.f3sch.git@outlook.com>
-References: <cover.1656587827.git.f3sch.git@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10BC7B
+	for <linux-staging@lists.linux.dev>; Thu, 30 Jun 2022 11:59:01 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1o6sor-0008S7-1B; Thu, 30 Jun 2022 13:58:49 +0200
+Date: Thu, 30 Jun 2022 13:58:49 +0200
+From: Martin Kaiser <lists@kaiser.cx>
+To: Yang Li <yang.lee@linux.alibaba.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, paskripkin@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] staging: r8188eu: remove unneeded semicolon
+Message-ID: <20220630115848.hkzavd67cwjubjq4@viti.kaiser.cx>
+References: <20220630090937.4983-1-yang.lee@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220630090937.4983-1-yang.lee@linux.alibaba.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-This addresses an issue raised by checkpatch.pl:
+Thus wrote Yang Li (yang.lee@linux.alibaba.com):
 
-     $ ./scripts/checkpatch.pl --terse -f drivers/staging/rtl8192e/rtllib_wx.c
-     CHECK: Blank lines aren't necessary before a close brace '}'
+> Eliminate the following coccicheck warning:
+> ./drivers/staging/r8188eu/hal/HalPwrSeqCmd.c:70:2-3: Unneeded semicolon
 
-Signed-off-by: Felix Schlepper <f3sch.git@outlook.com>
----
- drivers/staging/rtl8192e/rtllib_wx.c | 1 -
- 1 file changed, 1 deletion(-)
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/staging/r8188eu/hal/HalPwrSeqCmd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-index 3db29f6eeb89..778b6b7e0939 100644
---- a/drivers/staging/rtl8192e/rtllib_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_wx.c
-@@ -599,7 +599,6 @@ int rtllib_wx_set_encode_ext(struct rtllib_device *ieee,
- 			goto done;
- 		}
- 		*crypt = new_crypt;
--
- 	}
- 
- 	if (ext->key_len > 0 && (*crypt)->ops->set_key &&
--- 
-2.36.1
+> diff --git a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+> index b5f6d41464db..5b0f66573d94 100644
+> --- a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+> +++ b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+> @@ -67,7 +67,7 @@ u8 HalPwrSeqCmdParsing(struct adapter *padapter, enum r8188eu_pwr_seq seq)
+>  		break;
+>  	default:
+>  		return false;
+> -	};
+> +	}
 
+>  	do {
+>  		pwrcfgcmd = pwrseqcmd[aryidx];
+> -- 
+> 2.20.1.7.g153144c
+
+Thanks for spotting this.
+
+Fixes: df8d0a55047b ("staging: r8188eu: make power sequences static")
+Reviewed-by: Martin Kaiser <martin@kaiser.cx>
