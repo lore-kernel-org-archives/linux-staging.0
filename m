@@ -1,85 +1,52 @@
-Received: from insect.birch.relay.mailchannels.net (insect.birch.relay.mailchannels.net [23.83.209.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C4A6D17
-	for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 23:36:55 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id A8CD6121B70;
-	Wed, 29 Jun 2022 16:52:29 +0000 (UTC)
-Received: from pdx1-sub0-mail-a288.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id E3364121691;
-	Wed, 29 Jun 2022 16:52:28 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1656521549; a=rsa-sha256;
-	cv=none;
-	b=463jQEBgMFV74iEN+TnjsqGLipT5PWEq525tmOOCXli2QbepPoKWvKoguaEQfzeijCtpMs
-	W0Y97rPbnNRm5r68xkw/uDqYRtflxSW4NoRTk6daRuCoMasw/okGBZzKsPuY2U446Pmfuk
-	Tw+3Ir/hZn0iLQjoetTKNhnkSG0/izN1BgwDhJVVxSqZsXG0qzKYONLsPTlNHhozGO9XH5
-	P40XbXUC0RgHfVa70kpC6k+O+dYjNKtw/5K4C7G5jRWfZPyPfD73wUggz8cOy9YswZxBf1
-	oNpEcjot3rpRasydqHE6CJZssYNhy+Q3oXSH+myVm++K71/uWbeT8ae6u5Vr9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1656521549;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=iOLcV9f/LV1oZPOPbY/80a03Bs1TUR8dCN1QpbUZqE4=;
-	b=dwekxzYpGBHTWMNG8EsSYmZe8KeQDDal4JrGNI/IFmUff19uLy00pgxROV5In2U1C/GEKG
-	vW/lDEU/6eBJy2J7FgVHjmliwPdedvin/wuWEmWcnVmmAS+TXARWXRWd1FScS2aQwWnqP5
-	bvM1oLVtJeJJBOAQA4TVTKAW94yEbWaUl2TI5Yd+z21iX2FzquRO8t5VCL9tLAooAeL/Il
-	iMztYVsJsVYVRlLPrVNog+PKnoSYORgu0BhF+Y/sTh3r8ZQz/cI4t42ToqLtNatIvi4w7M
-	RAVhEMYYzT1xaYDnMJebVqas9hj6AYLXPFmMpoIDUzVlzGUqU0NaVhIob0LZpA==
-ARC-Authentication-Results: i=1;
-	rspamd-674ffb986c-2d48t;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Callous-Imminent: 6e03671f47e34c0e_1656521549255_4186424639
-X-MC-Loop-Signature: 1656521549255:876281039
-X-MC-Ingress-Time: 1656521549255
-Received: from pdx1-sub0-mail-a288.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.105.211.156 (trex/6.7.1);
-	Wed, 29 Jun 2022 16:52:29 +0000
-Received: from offworld.. (unknown [104.36.31.105])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a288.dreamhost.com (Postfix) with ESMTPSA id 4LY6vb1v0Mz7x;
-	Wed, 29 Jun 2022 09:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1656521547;
-	bh=iOLcV9f/LV1oZPOPbY/80a03Bs1TUR8dCN1QpbUZqE4=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=Qs9PUCo0Ba8JnusPwvxhulDhgUiFOQeIQlDDOqOC0cHYanyxV8pF3NLeAJ6HkOmcM
-	 NidJ1XacUTDGLg1uu5zHFr+1cA6/bmm3C50yjkhEabttoRpZw/NDyCrIbovX/kNEBz
-	 1cD2irnktQAi+tqIfLWLd9Kat1Dc5pplWNPfsqG2IB5nvApM9+/4yafe4iK1ENWM9b
-	 SesoAI85karEbRoWBM2R/WUxWA6L4GM0iefSj94ufexpxdimVcFcMfboYNG5XCO/Qb
-	 lZ9MgJABkn1jtadlQwlLWOY+Uw8QeT8e8UwSRvFrSvG+ljbS3WymUMJWOn0dlCgjd7
-	 +zOIrHsoJnqgA==
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com
-Cc: aldas60@gmail.com,
-	gregkh@linuxfoundation.org,
-	keescook@chromium.org,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FBAA4A
+	for <linux-staging@lists.linux.dev>; Thu, 30 Jun 2022 06:17:46 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id g26so36916431ejb.5
+        for <linux-staging@lists.linux.dev>; Wed, 29 Jun 2022 23:17:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yvHWb6v/L+9TZulap61szS7kTn+A6pLkouACTWq4ICs=;
+        b=O4H/GNUaM/GvnoSxCdLpx5xQY6bwb28Lp46JQ5zdGTFD6CbTr1GFpG6J8PVz3tT4sc
+         DFgs09OoHNGhAOUGtznZk+QlMCXtFobTmGm1HhIyTqM6uOXZDKaukavsoSP1/kBCvnhx
+         tPYIo/12QBPwdJOmvBZwnKBHlTBmhZH+P5IPjahz29soU/DJCpDsgkj1FGcezlOoKct/
+         1oc+Jl65hPvaZZZKEFbdljeYIA8SJN77rxBo271eSnSrYWaLIoifhKBiFWzH41XDCX7r
+         FuO4lvfKsSt2IUFsl6fB6XRGkvXArNes3cMS/wyYzrhOAAqXWuFEWalDb92d5ZRrTCCP
+         Xvig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yvHWb6v/L+9TZulap61szS7kTn+A6pLkouACTWq4ICs=;
+        b=nwNw0Y1sYZgHG6JKod5mNhUnFLvrK28iOg9NEfDySGe/eAKbM+0X70vbYweoqQh9hp
+         xTTIx0ZJpz31h28Lene1VJzVcvsMy8nqmwWb9rYPqBHpDQ6jq8HJAQpPdwjjSCE+Dv83
+         DSx3y+GtenRfNRCx89gpDqSmSXLIWN7ejhk+Ha5iR6Ho0QsCx6zwodt8T+Df4Drjdj6U
+         hIP6LFPl8L6IgxDlWyoII8kFl97qoMdmo4OiKLYVU8q6zqmo4F/zUoHO0gxs4HRUzXnQ
+         Z1fmrG7yCQUrD9goH6oRHJ7jiND2CBmDDESgRYc3UBtpEnKrD6oNz8NN08KMRz+ykOHN
+         72eg==
+X-Gm-Message-State: AJIora+ykarwDJ9JLYB6IPaQtLWIB8+WBsaMwiWRR9oin7iM2j9MAfii
+	tzocLe/gUJtL5f+eOc+cfLE=
+X-Google-Smtp-Source: AGRyM1v5UhqAppkr1+rRYEt0Ld4fLLrvujMKGPsKLjbVw+1Cf27ruc7TcbrqO0oMOsjj8ioRCtat3w==
+X-Received: by 2002:a17:907:3f9d:b0:726:31d9:c872 with SMTP id hr29-20020a1709073f9d00b0072631d9c872mr7179147ejc.524.1656569864540;
+        Wed, 29 Jun 2022 23:17:44 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb57.dynamic.kabel-deutschland.de. [95.90.187.87])
+        by smtp.gmail.com with ESMTPSA id jw14-20020a170906e94e00b007263481a43fsm8317524ejb.81.2022.06.29.23.17.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 23:17:43 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	nathan@kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Davidlohr Bueso <dave@stgolabs.net>
-Subject: [PATCH] staging/wlan-ng: get the correct struct hfa384x in work callback
-Date: Wed, 29 Jun 2022 09:52:25 -0700
-Message-Id: <20220629165225.3436822-1-dave@stgolabs.net>
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove HW_VAR_H2C_MEDIA_STATUS_RPT from SetHwReg8188EU()
+Date: Thu, 30 Jun 2022 08:17:36 +0200
+Message-Id: <20220630061736.9200-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <000000000000e3fc8905e2608d4f@google.com>
-References: <000000000000e3fc8905e2608d4f@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -88,31 +55,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-hfa384x_usbctlx_completion_task() is bogusly using the reaper BH when
-in fact this is the completion_bh. This was reflected when trying
-to acquire the hw->ctlxq.lock and getting a failed lockdep class
-initialized to it.
+The HW_VAR_H2C_MEDIA_STATUS_RPT case in SetHwReg8188EU() only calls
+rtl8188e_set_FwMediaStatus_cmd(). In order to get rid of
+SetHwReg8188EU() remove the case HW_VAR_H2C_MEDIA_STATUS_RPT and call
+rtl8188e_set_FwMediaStatus_cmd() directly.
 
-Reported-by: syzbot+ce3408364c4a234dd90c@syzkaller.appspotmail.com
-Fixes: 9442e81d7e7 (staging/wlan-ng, prism2usb: replace completion_bh tasklet with work)
-Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/wlan-ng/hfa384x_usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c     | 4 ++--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 2 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c   | 3 ---
+ drivers/staging/r8188eu/include/hal_intf.h  | 1 -
+ 4 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
-index 33844526c797..02fdef7a16c8 100644
---- a/drivers/staging/wlan-ng/hfa384x_usb.c
-+++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-@@ -2632,7 +2632,7 @@ static void hfa384x_usbctlx_reaper_task(struct work_struct *work)
-  */
- static void hfa384x_usbctlx_completion_task(struct work_struct *work)
- {
--	struct hfa384x *hw = container_of(work, struct hfa384x, reaper_bh);
-+	struct hfa384x *hw = container_of(work, struct hfa384x, completion_bh);
- 	struct hfa384x_usbctlx *ctlx, *temp;
- 	unsigned long flags;
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 56c8bd5f4c60..2705c9d87b14 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -1117,7 +1117,7 @@ void rtw_sta_media_status_rpt(struct adapter *adapter, struct sta_info *psta,
  
+ 	/* MACID|OPMODE:1 connect */
+ 	media_status_rpt = (u16)((psta->mac_id << 8) | mstatus);
+-	SetHwReg8188EU(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status_rpt);
++	rtl8188e_set_FwMediaStatus_cmd(adapter, media_status_rpt);
+ }
+ 
+ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
+@@ -1195,7 +1195,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+ 		u16 media_status;
+ 		media_status = (mac_id << 8) | 0; /*   MACID|OPMODE:0 means disconnect */
+ 		/* for STA, AP, ADHOC mode, report disconnect stauts to FW */
+-		SetHwReg8188EU(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
++		rtl8188e_set_FwMediaStatus_cmd(adapter, media_status);
+ 	}
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index cce0575e93b7..7122d5d85e8c 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -6709,7 +6709,7 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
+ 		rtw_set_max_rpt_macid(padapter, psta->mac_id);
+ 
+ 		media_status = (psta->mac_id << 8) | 1; /*   MACID|OPMODE: 1 means connect */
+-		SetHwReg8188EU(padapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
++		rtl8188e_set_FwMediaStatus_cmd(padapter, media_status);
+ 	}
+ 
+ 	mlme_join(padapter, 2);
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index bb3045111147..3908c46d2fbe 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -1235,9 +1235,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			}
+ 		}
+ 		break;
+-	case HW_VAR_H2C_MEDIA_STATUS_RPT:
+-		rtl8188e_set_FwMediaStatus_cmd(Adapter, (*(__le16 *)val));
+-		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index 0104ee463a10..c3704618bccc 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -18,7 +18,6 @@ enum hw_variables {
+ 	HW_VAR_DM_FUNC_RESET,
+ 	HW_VAR_DM_FUNC_CLR,
+ 	HW_VAR_AMPDU_FACTOR,
+-	HW_VAR_H2C_MEDIA_STATUS_RPT,
+ };
+ 
+ typedef s32 (*c2h_id_filter)(u8 id);
 -- 
 2.36.1
 
