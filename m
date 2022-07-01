@@ -1,113 +1,93 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A5810F1;
-	Fri,  1 Jul 2022 08:58:37 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id D3F49C1BF0;
-	Fri,  1 Jul 2022 08:47:21 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 5FFB220015;
-	Fri,  1 Jul 2022 08:47:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1656665233;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tCKiu9UVJfksHqgDLzozOfGbaUpNB7t/2OMHm7HVzjc=;
-	b=PKR6wnsqRd5W9qPKz+LIaEvioP/9C+wbOgTd6SC+Z0WenLwqtVEd9+IMm7IOnFq/ZIQRp5
-	IoexIv7cUOXK0I4dg18iVKxDDpa4MjvVLoZpI1ECwCw67XWjTpaUiBH2LBpH0sVP8F1ep/
-	rYd038j4mBXtzPhCEcnafds3P3xBHhxEupo4HQMPMdIujpxFxIw3GqlynjvCGQz5DL1k1h
-	LAsND+4U6thEgQtSrwjW9q1hyp1FmispmvSg3ZWGNvnYKz+Ac+E6H72U+lrM1XXddl1FDh
-	IgayEjMo/EMxCZS4BC/g6nbYdhCcTmUD6t+dM3mGT0DKPC2RPhjqCi9iE+8x1Q==
-Date: Fri, 1 Jul 2022 10:47:10 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-	mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, nicolas.dufresne@collabora.com,
-	andrzej.p@collabora.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, kernel@collabora.com
-Subject: Re: [PATCH 3/7] media: hantro: HEVC: Fix chroma offset computation
-Message-ID: <Yr60jj4OOAM6plWC@aptenodytes>
-References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
- <20220617115802.396442-4-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB0E1855;
+	Fri,  1 Jul 2022 09:03:23 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:2a18:eef7:517c:3467] (unknown [IPv6:2a01:e0a:120:3210:2a18:eef7:517c:3467])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 099BA66015B2;
+	Fri,  1 Jul 2022 10:03:21 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1656666201;
+	bh=HeVABiQifDKZmsejKzWKuWsrRSudGKBJZ7pqrByEerQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=nwQ+wI922KmSe3X33SneWndU3TbI/sjRvPQJ8Dr5Xx5e+O3qg5hog/1NfrfSZLLa+
+	 uiofarX6QER7SRj2Socni4uPTSAQWRCqvBlpKKJW9qGo5lGcEk2o08vW2y1EogP2yf
+	 Er5jCtdTUH1iSLSOQe/5IZo2K3fmdvkTD8DY16m2Bto4fPs3QeAcL2Otxzd/KusWTh
+	 +5WhbyviowG4guFPNMai5QO1z1hlQI4fVdmiSKw2/rCJl+CsdHNDVuFp5LAVwrEHsh
+	 QhTDO0SZt/zk+9K5tTKjKTU+cWKKVLKpaDNBmWwyxA41gdiPS+vybDFYccNgp4oEzr
+	 H6JM/1lzE99Gw==
+Message-ID: <37145626-1a7e-2aba-4f3c-4d0574729a41@collabora.com>
+Date: Fri, 1 Jul 2022 11:03:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="a0X7j1VNZJp1Rx4A"
-Content-Disposition: inline
-In-Reply-To: <20220617115802.396442-4-benjamin.gaignard@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 3/7] media: hantro: HEVC: Fix chroma offset computation
+Content-Language: en-US
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
+ wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@collabora.com
+References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
+ <20220617115802.396442-4-benjamin.gaignard@collabora.com>
+ <Yr60jj4OOAM6plWC@aptenodytes>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <Yr60jj4OOAM6plWC@aptenodytes>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---a0X7j1VNZJp1Rx4A
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Le 01/07/2022 à 10:47, Paul Kocialkowski a écrit :
+> Hi Benjamin,
+>
+> On Fri 17 Jun 22, 13:57, Benjamin Gaignard wrote:
+>> The chroma offset depends of the bitstream depth.
+>> Make sure that ctx->bit_depth is used to compute it.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> index 9eac133bda68..8407ad45b7b7 100644
+>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> @@ -12,7 +12,7 @@
+>>   
+>>   static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
+>>   {
+>> -	return ctx->dst_fmt.width * ctx->dst_fmt.height;
+>> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
+> Is this a case for DIV_ROUND_UP or are you sure the rounded-down size is always
+> sufficient?
 
-Hi Benjamin,
+No need of DIV_ROUND_UP here because it could affect the chroma offset when
+using decoder tiled format and add extra bytes between luma and chroma planes.
 
-On Fri 17 Jun 22, 13:57, Benjamin Gaignard wrote:
-> The chroma offset depends of the bitstream depth.
-> Make sure that ctx->bit_depth is used to compute it.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/=
-staging/media/hantro/hantro_g2_hevc_dec.c
-> index 9eac133bda68..8407ad45b7b7 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -12,7 +12,7 @@
-> =20
->  static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
->  {
-> -	return ctx->dst_fmt.width * ctx->dst_fmt.height;
-> +	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
+Regards,
+Benjamin
 
-Is this a case for DIV_ROUND_UP or are you sure the rounded-down size is al=
-ways
-sufficient?
-
-Cheers,
-
-Paul
-
->  }
-> =20
->  static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
-> --=20
-> 2.32.0
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---a0X7j1VNZJp1Rx4A
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK+tI4ACgkQ3cLmz3+f
-v9FI6gf+OMP0FLYqOVzpR7SYs1HX+twVAKRGc9qUg00x8P8t2OXlXvlkxE9qN+bW
-A1e9/jH6hE4ngt7bK+DZHrpf9eSYHA8axTSTu2ftFceFjMydrJLcG3GjYW+xDgdF
-CBUjb8sPZXZAD5qb2nPyk6+wPonGYQNpx5Zcxxq/n1kaa2xEv99pgVXFB11Sl71S
-PGPt2X0N50/BboLoDDEm/eTHGMAtitTh6M5JVKK/rlaHUMVmh6+sdzcQ3J3pWUIP
-asPKQQVQt1d/UvbkJBWfPj9/sWuzTm3t2B6WIq3IlinVruUWBGSZGM1sEUVauZvk
-xsAwJqD/PUfhZIAKHmr+oYze+ZAjGA==
-=OrxB
------END PGP SIGNATURE-----
-
---a0X7j1VNZJp1Rx4A--
+> Cheers,
+>
+> Paul
+>
+>>   }
+>>   
+>>   static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
+>> -- 
+>> 2.32.0
+>>
