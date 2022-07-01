@@ -1,59 +1,61 @@
-Received: from relay2.uni-heidelberg.de (relay2.uni-heidelberg.de [129.206.119.212])
+Received: from relay.uni-heidelberg.de (relay.uni-heidelberg.de [129.206.100.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D16D185A
-	for <linux-staging@lists.linux.dev>; Fri,  1 Jul 2022 09:25:04 +0000 (UTC)
-X-IPAS-Result: =?us-ascii?q?A2A5BQBPvL5iffxkzoFagliDJYFXlBADBoFCizCHH4wuA?=
- =?us-ascii?q?QEBAQEBAQEBCS8TBAEBQIoRJzcGDgECBAEBAQEDAgMBAQEBAQEDAQEGAQEBA?=
- =?us-ascii?q?QEHBBQBASM8J4VoDYZDBjIBRhBRVxmCeAIBAQKCZAEDMK5ZgQGGWgGBP4Flg?=
- =?us-ascii?q?T6JW4UggUCBEIFIgQmCLIQLgQaFbgSXaIJnCgMJBAcFRhcSTjEhAkULHAEIB?=
- =?us-ascii?q?gYHAQgBBQgoBAIBAQEGBRgUAQMBARMSBRMMBygKEgISDAobBwcDCwUyDQIOB?=
- =?us-ascii?q?wEBDA8BAg8DAQIRAQcCCRIIBg8rCAMBAQMBBwECAgMgCwIDFgkHCAIBAgUCA?=
- =?us-ascii?q?gEDDwEIChwSEBQCBA0EHgkCCAECGR4sBwICBA4DIx0ICwoDDgMEAwEQAhgHA?=
- =?us-ascii?q?gEVAQUCBAgEAQMGAwgVGQENJwQHAxICDQEGAQIGAQEFBQEDGAgDFAMFAQIIA?=
- =?us-ascii?q?xYHAQIhBQomCQQNAwEiGwIDAwEEGwoCAQICBRYFAgEBAgMCBhUGAgI/LxEdD?=
- =?us-ascii?q?QgECAQJEhwjAQIMAQQBAgcvBQQtAgEBHgQFAQUPAggBARYCBgQDAgIDAQECA?=
- =?us-ascii?q?RYCEAgCCCcXBxMzGQEFNxQODwEDBggZHCIHCQcFBhYDDBUnHikFBxESGw8ED?=
- =?us-ascii?q?Q0KNCAWJAEBDgUDARIZEQ4HFApTJiEVEAYBKxYDBAEDAwIGGgECAyICEAsJF?=
- =?us-ascii?q?QIEIQgJAxYGIgscBQEiHRmcGAFZNExbk2uDN6tmB4NREAGLEJUmhUWRHQKSA?=
- =?us-ascii?q?JZzonSETzWBQjOBTE0jgzgJSBkPl1SFHnM7AgYLAQEDCYw9gkgBAQ?=
-IronPort-Data: A9a23:OcpnLK5xlzWZDWutNNglfAxRtKDHchMFZxGqfqrLsTDasY5as4F+v
- mcZWjqHOP6IMTTzKo8naIyw9xhUvZPRnNZqHgFv/iE9Zn8b8sCt6faxdxqvZXPMcqUvb67FA
- +E2MISowBUcFyeEzvuVGuG96yE6j8lkf5KkYAL+EngZqTRMFWFw03qPp8Zj2tQy2YfhWlvU0
- T/Pi5S31GGNimYc3l08tvrrRCNH5JwebxtB4zTSzdgS1LPvvyF94KA3fMldHFOgKmVgJdNWc
- s6YpF2PEsM1yD92Yj+tuu6TnkTn2dc+NyDW4pZdc/DKbhSvOkXe345jXMfwZ3u7hB2rwc9K9
- Y9upKboCi4rOL3Jx8c7djxhRnQW0a1uoNcrIFC6uM2XlxSAbn3thvVjDU07OYcV4OkxDWwmG
- f4wcWpcKErb2aTvmOr9ELQ27iggBJCD0Ic3oXpgyTzBFfs8aYvfXqmM+NlZmTc9h8xDGfzTf
- cVfZTcHgBHoOkAQZQpNUslk9AuurlTVUQZds0ycnKU241j6kAUv3pLQG+OAL7RmQu0OwhjE/
- Duel4jjOTkFNseY1TOt/Xelh+uJliT+MKodDrC39f5ChFyV23wdDwAQWVKnoP6/zEmkVLp3L
- 00S5zprtrQ7+02tQfH5XgakuziAvxgBS5xcHvNSwA/W0aHUpQmYGkADUyJFb9sl8sQxQFQC0
- l6PgsOsBjF1trCRYWyS+63Srj6oPyURa2gYakc5oRAt5tDipNlqyA/JT5NjHa+5g9n/FCv/h
- TyHxMQju1kNpexVyJ6Gp3PWuWrvj5rPXgtqxSPye1vwu2uVe7WZT4Cv7FHa69NJI4CYUkSNs
- RA4dy62sb9m4XalyXzlfQkdIF26z6rUbGSE3jaDC7FxqWT1ohZPaKgNuGkWGat/DioTURPEC
- KM5kSNc5ZNeOHGnd6Afj2mZVZVzl/CI+TjNfPnYY9wLXTOlbhOb8SRkaFSft10BfWApmKA7Y
- c7dbMCtSHYXCKhqyDC7Xehb3bJDKsECKYH7G8CTI/ePiOT2iJuppVEtawvmggcRsPvsnekt2
- 4wDX/ZmMj0GOAEEXgHZ8JQIMXcBJmUhCJb9pqR/L7DefFQ/QzF6V6SKndvNnrCJeYwLzY8kG
- VnjBydlJKbX2yyvxfiiMCgyNe22A/6TU1pqYHV3VbpX55TTSd3zsvtFLsNfkUgP/uFn0uN5B
- +QDetuNGO9OViWP/TkBcp7nr+RfmOeD2mqz096eSGZkJfZIGVeWkuIIiyO1qUHi+ALr7pZky
- 1BhvyuHKac+q/NKXJ6JM6/xngzZULp0sLsaYnYk6+J7IC3EmLWG4QSq5hPrC6ng8Sn++wY=
-IronPort-HdrOrdr: A9a23:ezhoN6Ni1UGGwsBcTtyjsMiBIKoaSvp037BN7S5MoH1uHvBw8v
- rEoB11726XtN98YhEdcLO7V5VoP0mskKKdiLN5Vd3OYOCMggqVxe9ZnOjf/wE=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948921855
+	for <linux-staging@lists.linux.dev>; Fri,  1 Jul 2022 09:25:05 +0000 (UTC)
+X-IPAS-Result: =?us-ascii?q?A2DbBADZvL5iffxkzoFaHgEBCxIMggQLgyWBV5QQAwaBQ?=
+ =?us-ascii?q?oswhnKKVIIHAQEBAQEBAQEBCS8TBAEBQIoRJzYHDgECBAEBAQEDAgMBAQEBA?=
+ =?us-ascii?q?QEDAQEGAQEBAQEHBBQBASM8J4VoDYZDBicLAUYQUVcZgngCAQECgmQBAzCuK?=
+ =?us-ascii?q?DKBAYZaAYE/gWWBPYlchSCBQIEQgUiBCYIshRGFbgSXaIJnCgMJBAcFRhcST?=
+ =?us-ascii?q?jEhAkULHAEIBgYHAQgBBQgoBAIBAQEGBRgUAQMBARMSBRMMBygKEgISDAobB?=
+ =?us-ascii?q?wcDCwUyDQIOBwEBDA8BAg8DAQIRAQcCCRIIBg8rCAMBAQMBBwECAgMgCwIDF?=
+ =?us-ascii?q?gkHCAIBAgUCAgEDDwEIChwSEBQCBA0EHgkCCAECGR4sBwICBA4DIx0ICwoDD?=
+ =?us-ascii?q?gMEAwEQAhgHAgEVAQUCBAgEAQMGAwgVGQENJwQHAxICDQEGAQIGAQEFBQEDG?=
+ =?us-ascii?q?AgDFAMFAQIIAxYHAQIhBQomCQQNAwEiGwIDAwEEGwoCAQICBRYFAgEBAgMCB?=
+ =?us-ascii?q?hUGAgI/LxEdDQgECAQJEhwjAQIMAQQBAgcvBQQtAgEBHgQFAQUPAggBARYCB?=
+ =?us-ascii?q?gQDAgIDAQECARYCEAgCCCcXBxMzGQEFNxQODwEDBggZHCIHCQcFBhYDDBUnH?=
+ =?us-ascii?q?ikFBxESGw8EDQ0KNCAWJAEBDgUDARIZEQ4HFApTJiEVEAYBKxYDBAEDAwIGG?=
+ =?us-ascii?q?gECAyICEAsJFQIEIQgJAxYGIgscBQEiHRmbJXMBehNMgWSTDIMNixOgUweDU?=
+ =?us-ascii?q?RABixCVJoN1gVCKc4YqApIALZZGonSETzWBMwY8gUxNI4M4CUgZD5dUhR5zO?=
+ =?us-ascii?q?wIGCwEBAwmPBQEB?=
+IronPort-Data: A9a23:ZHoxDKDHtTwVHhVW/7Hjw5YqxClBgxIJ4kV8jS/XYbTApDwj3jwCm
+ DMXWWnUMvbbYjH9co8kaIq38U0G7JeEmtYwOVdlrnsFo1Bi8JeaX4THci8cHM8wwunrFh8PA
+ xA2M4GYRCwMZiaA4E/raNANlFEkvU2ybuKU5NXsZ2YgH2eIdA970Ug5w7Fh29Yx6TSEK1rlV
+ e3a8pW31GCNhmYc3lI8s8pvfzs24ZweEBtB1rAPTagjUG32zhH5P7pHTU2FFEYUd6EPdgKMq
+ 0Yv+5nilo/R109F5tpICd8XeGVSKlLZFVDmZna7x8FOjzAazhHe3JrXO9IsZUxyyG2GpOp95
+ /9sjaKKbD8pPrflzbF1vxlwS0mSPIVD8b7DeSH5rMqSik3Lcnfhx/9jFk5wMYBwFuRfWDsfs
+ 6ZAdnZUNkjF3b/sqF64YrAEasALN8LrOI4Honx65SrFEPpgXJbCBqXH5NNV2D09nM8IEfu2i
+ 88xMGQxNE2YPUcQUrsRIJsRh7aLlkblShJFtm+ygJsaw1XPzyUkhdABN/KOJoLWH5wN9qqCn
+ UrZ/X/+HhgyO9mWyD7D+XWp7sfAhy70W4I6ELy+6+5kh0CVymUPCRoQE1yhrpGRjk+4RsIaM
+ FAd9SsoooA29Ve3VZ/5XhulsDiIswB0c9QLCOY6rg6M1oLT/hqdAW8HCDVGbbQOsM4wWCxv1
+ VKTmd7tLSJgvafTSn+H8LqQ6zSoNkAowXQqYCYFSVNcpcTlocQzgxPDQ9JpHbS6yNH4cd3t/
+ 9yUhBgyjJBQ1cEw7amU13H/vQiJnpjJVCdgs207QVmZxg9+YYekYamh5l7a8etMIe6lor+p4
+ Sdsdy+2sbBmMH2dqMCeaLlcQOjxuJ5pJBWM3w43RvHN4hzwoybLQGxG3N1pDGtEWiruUR/kY
+ UPevQlc/pA70JCCM/4uOdrZ5ygC56HsGNKgaVsAdMZSb517eRWIlByCiGaV1mHpyBFqjKc+f
+ JeWcMqhCXwXE6shwDfeqwYhPV0DmHBWKYD7HM6TI/GbPVy2Py79pVAtbAPmUwzBxPnYyDg5C
+ v4GXydw9z1RUfflfg7c+pMJIFYBIBATXM6r9ZIOLb7YflE9RAnN7sM9J5t/IOSJeIwLy4/1E
+ o2VBB4wJKfX3yWWdFvTNBiPlpu+AM8kxZ7EAcDcFQ30hSR5ON7HAFY3fZYzYqQqvPFlzOB5V
+ eIEZ9TIBPlTVTPd+FwggWrV8+RfmOCQrVzVZUKNPmNgF6OMsiSTp7cIiCOzr3RUZsd23ONiy
+ 4CdOvTzEcJcHFk8XZm+hTDG5wrZgEXxUdlaByPgSuS/sm22mGS2A0QdVsMKHvw=
+IronPort-HdrOrdr: A9a23:+HF47a9Ypiiqp1+Q2BJuk+DPI+orL9Y04lQ7vn2ZhyY4TiX+rb
+ HLoB1173HJYVoqMk3I3OrwW5VoIkmskKKdn7NxAV7KZmCP01dAbrsSj7cKqAeOJ8SRzINgPN
+ 9bE5RDNA==
 X-IronPort-Anti-Spam-Filtered: true
 Received: from mail01.uni-heidelberg.de ([129.206.100.252])
-  by relay2.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 01 Jul 2022 11:25:01 +0200
+  by relay.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 01 Jul 2022 11:25:00 +0200
 Received: from localhost (ip-037-209-006-204.um11.pools.vodafone-ip.de [37.209.6.204])
 	(Authenticated sender: ln194)
-	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id 4F140300719FC;
-	Fri,  1 Jul 2022 11:25:01 +0200 (CEST)
+	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id BF802300719FC;
+	Fri,  1 Jul 2022 11:24:59 +0200 (CEST)
 From: Felix Schlepper <f3sch.git@outlook.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	wjsota@gmail.com,
 	Felix Schlepper <f3sch.git@outlook.com>
-Subject: [PATCH v3 2/6] Staging: rtl8192e: Avoid multiple assignments
-Date: Fri,  1 Jul 2022 11:24:50 +0200
-Message-Id: <899a1010643a05668465069951518e5dcab9c77e.1656667089.git.f3sch.git@outlook.com>
+Subject: [PATCH v3 1/6] Staging: rtl8192e: Refactored rtllib_modes
+Date: Fri,  1 Jul 2022 11:24:49 +0200
+Message-Id: <4dbc4939e88a2c94f1819b4b0cc2c81dc332710b.1656667089.git.f3sch.git@outlook.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1656667089.git.f3sch.git@outlook.com>
 References: <cover.1656667089.git.f3sch.git@outlook.com>
@@ -65,30 +67,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This addresses an issue raised by checkpatch.pl:
+The initial reason for looking at this code was an
+issue raised by checkpatch.pl:
 
      $ ./scripts/checkpatch.pl --terse -f drivers/staging/rtl8192e/rtllib_wx.c
-     CHECK: multiple assignments should be avoided
+     CHECK: Please use a blank line after function/struct/union/enum
+     declarations
+
+The additional blank line above the struct/before the headers is
+just cleaner.
+
+However, as it turns out since there is no str formatting required
+One can replace the error prone str + size struct with a char array.
+The rest of this patch fixes the usecases.
 
 Signed-off-by: Felix Schlepper <f3sch.git@outlook.com>
 ---
- drivers/staging/rtl8192e/rtllib_wx.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8192e/rtllib_wx.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-index b7f19b38b0e1..121bf939c6a4 100644
+index cf9a240924f2..b7f19b38b0e1 100644
 --- a/drivers/staging/rtl8192e/rtllib_wx.c
 +++ b/drivers/staging/rtl8192e/rtllib_wx.c
-@@ -149,7 +149,8 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 			max_rate = rate;
+@@ -17,17 +17,9 @@
+ #include <linux/module.h>
+ #include <linux/etherdevice.h>
+ #include "rtllib.h"
+-struct modes_unit {
+-	char *mode_string;
+-	int mode_size;
+-};
+-static struct modes_unit rtllib_modes[] = {
+-	{"a", 1},
+-	{"b", 1},
+-	{"g", 1},
+-	{"?", 1},
+-	{"N-24G", 5},
+-	{"N-5G", 4},
++
++static const char * const rtllib_modes[] = {
++	"a", "b", "g", "?", "N-24G", "N-5G"
+ };
+ 
+ #define MAX_CUSTOM_LEN 64
+@@ -72,10 +64,9 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+ 	/* Add the protocol name */
+ 	iwe.cmd = SIOCGIWNAME;
+ 	for (i = 0; i < ARRAY_SIZE(rtllib_modes); i++) {
+-		if (network->mode&(1<<i)) {
+-			sprintf(pname, rtllib_modes[i].mode_string,
+-				rtllib_modes[i].mode_size);
+-			pname += rtllib_modes[i].mode_size;
++		if (network->mode & BIT(i)) {
++			strcpy(pname, rtllib_modes[i]);
++			pname += strlen(rtllib_modes[i]);
+ 		}
  	}
- 	iwe.cmd = SIOCGIWRATE;
--	iwe.u.bitrate.fixed = iwe.u.bitrate.disabled = 0;
-+	iwe.u.bitrate.disabled = 0;
-+	iwe.u.bitrate.fixed = 0;
- 	iwe.u.bitrate.value = max_rate * 500000;
- 	start = iwe_stream_add_event_rsl(info, start, stop, &iwe, IW_EV_PARAM_LEN);
- 	iwe.cmd = IWEVCUSTOM;
+ 	*pname = '\0';
 -- 
 2.36.1
 
