@@ -1,97 +1,62 @@
-Received: from relay.uni-heidelberg.de (relay.uni-heidelberg.de [129.206.100.212])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4712E1863
-	for <linux-staging@lists.linux.dev>; Fri,  1 Jul 2022 09:25:09 +0000 (UTC)
-X-IPAS-Result: =?us-ascii?q?A2C0AwDZvL5iffxkzoFagliDJYFXlBADBoxyhx+KJ4IHA?=
- =?us-ascii?q?QEBAQEBAQEBCS8TBAEBQIoRJzQJDgECBAEBAQEDAgMBAQEBAQEDAQEGAQEBA?=
- =?us-ascii?q?QEHBBQBASM8J4VoDYZDBicLAUYQUVcZgngCAQECgmQBAzCuKDKBAYZaAYE/g?=
- =?us-ascii?q?WWBPYlchSCBQIEQgRUzgzWEC4EGhW4Emk8KAwkEBwVGFxJOMSECRQscAQgGB?=
- =?us-ascii?q?gcBCAEFCCgEAgEBAQYFGBQBAwEBExIFEwwHKAoSAhIMChsHBwMLBTINAg4HA?=
- =?us-ascii?q?QEMDwECDwMBAhEBBwIJEggGDysIAwEBAwEHAQICAyALAgMWCQcIAgECBQICA?=
- =?us-ascii?q?QMPAQgKHBIQFAIEDQQeCQIIAQIZHiwHAgIEDgMjHQgLCgMOAwQDARACGAcCA?=
- =?us-ascii?q?RUBBQIECAQBAwYDCBUZAQ0nBAcDEgINAQYBAgYBAQUFAQMYCAMUAwUBAggDF?=
- =?us-ascii?q?gcBAiEFCiYJBA0DASIbAgMDAQQbCgIBAgIFFgUCAQECAwIGFQYCAj8vER0NC?=
- =?us-ascii?q?AQIBAkSHCMBAgwBBAECBy8FBC0CAQEeBAUBBQ8CCAEBFgIGBAMCAgMBAQIBF?=
- =?us-ascii?q?gIQCAIIJxcHEzMZAQU3FA4PAQMGCBkcIgcJBwUGFgMMFSceKQUHERIbDwQND?=
- =?us-ascii?q?Qo0IBYkAQEOBQMBEhkRDgcUClMmIRUQBgErFgMEAQMDAgYaAQIDIgIQCwkVA?=
- =?us-ascii?q?gQhCAkDFgYiCxwFASIdGZwYAYENTpd7q2YHg1EQAYsQlSaFRZEdApIAlnOid?=
- =?us-ascii?q?IRPNYEsSYFMTSODOAlIGQ+XVIUeczsCBgsBAQMJjD2CSAEB?=
-IronPort-Data: A9a23:jgRW9awj7/0KDc1J2MF6t+evxirEfRIJ4+MujC+fZmUNrF6WrkVSm
- DQXUWqHbPiONzemLYogYdyxpk8OuMWByNcyTAJvqVhgHilAwSbnLY3EcR2gYX/6wu4v7q5Dx
- 59DAjUVBJlsFhcwnj/0bv656yMUOZigHtIQMsacUsxKbVIiGX1JZS5LwbZj2NY32YHhWmthh
- PuryyHhEA79s9JLGj9Mg06zgEsHUCPa4W5wUvQWPJinjXeG/5UnJMt3yZKZdxMUdrJp8tuSH
- I4v+l0ZElTxpH/BAvv9+lryn9ZjrrT6ZWBigVIOM0Sub4QrSiEais4G2PQghUh/tRDOnZNhz
- 9536p22TgE3ZJ/qsu8STEwNe81+FfUuFL7vJHG+tZTKiVDAcj7szvRiAUU8MJcXvOp6aY1M3
- aVCeXZXNk7F3rruhujmEIGAhex6RCXvFJgUunVt1SnUF949XY3PBbjM5JpY0TY8i8REEOzRI
- cYUAdZqRE2ePUUWYglKUfrSms+s3kTNTmV2jmi+oKs6ylne3hx2l+PyZY+9ltuiHpkLwhzB/
- goq5V/RHRMBM8CW4TWA+3OowOTImEvTV5gfG7643vprhkCDyGsODhEfSVq8p7++kEHWc9ZeL
- VEEvzEypKcz8kODStjmQwb+pH+Cow5aV9dOe8U0sxqGyuzb4hqxAXUYSjlGa5ots8pebTgr0
- EKZ2tDkHzpitJWLRn+HsLSZtzW/PW4SN2BqWMMfZQ4M4t27+ccuiBOKTttiHKOxhNDvFnf8z
- lhmsRTSmZ0tqIkJlLW89mqYgjSroIaTfCgf7QrICzfNAhxCWKapYImh6F7+5PlGLZqEQlTpg
- JTis5XBhAzpJczd/BFhUNnhD5n1tqrcaGK0bUpHT8dxr23FF2uLINgIiAySMnuFJe4oVFcFi
- mfztAJd6ZtZMWGlBUOcS9zgUp5ypUQMPf7sWv3SK+XltoJtaAKC9ix0aiatM43FlUEtlflmf
- 4qdcIOsAHcWBKBtwSC5AesQuVPK+szc7T2DLXwY5035uVZ7WJJzYexVWLdpRrxhhJ5oWC2Pr
- 75i2zKikn2zqtHWbCjN6pI0JlsXN3U9Dp2eg5UJK7Dde1E2Qz16UKO5LVYdl2pNwf89egDgo
- CzVZ6Ok4ASu7ZE6AV/SOy09Me2HsWhX/C9iZkTAwmpEK1B4Pdjztv5HH3fGVbMq8PN+wLZpS
- fgbdt+bA+heAjLK5ysad5qVkWCRXEvDuO56BAL7O2JXV8A7GGT0FirMJFaHGN8mUnHq76PTY
- tSIimvmfHb0b1Q6U52LNqPwp75z1FBE8N9Ps4LzCoE7UC3RHEJCcEQdUtdfzxkwFCj+
-IronPort-HdrOrdr: A9a23:2vOqoq89weDyueqXAK1uk+GRdb1zdoMgy1knxilNoERuA6ilfr
- OV7ZMmPH7P+U0ssRQb8+xoV5PwI080y6QFq7X5UY3SFDUPlgOTXfdfBKHZskjd8xSXzJ8r6U
- +LG5IOQeEYdGIK+foSgzPIaerIouP3lZxA3t2uvUuFJDsCA8oMg2gWNu/8KDw8eOBoP+t1KH
- P23Ls3m9PUQwV1Ui3NPBk4tob4xuEiVfrdEG47Li9iwg+IkD+u9frUEx2E0gwTXndl0d4ZgB
- b4ekfCl8OeWrmAu2bhP+C61eUkpPLRjuBYHcSJh4wsNjnxhkKJae1aKsK/lQFwm/u34FIm1O
- PBuAgtJK1Img7sV1DwmwLk3wSl6zo193r+oGXo/UcLj/aJPA4HNw==
-X-IronPort-Anti-Spam-Filtered: true
-Received: from mail01.uni-heidelberg.de ([129.206.100.252])
-  by relay.uni-heidelberg.de with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 01 Jul 2022 11:25:09 +0200
-Received: from localhost (ip-037-209-006-204.um11.pools.vodafone-ip.de [37.209.6.204])
-	(Authenticated sender: ln194)
-	by mail01.uni-heidelberg.de (Postfix) with ESMTPSA id D5892300719FC;
-	Fri,  1 Jul 2022 11:25:07 +0200 (CEST)
-From: Felix Schlepper <f3sch.git@outlook.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	wjsota@gmail.com,
-	Felix Schlepper <f3sch.git@outlook.com>
-Subject: [PATCH v3 6/6] Staging: rtl8192e: Added spaces around '+'
-Date: Fri,  1 Jul 2022 11:24:54 +0200
-Message-Id: <87628a2dd08ec0e5b02090485e7a9a1d91b7d2a5.1656667089.git.f3sch.git@outlook.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1656667089.git.f3sch.git@outlook.com>
-References: <cover.1656667089.git.f3sch.git@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F8C1855
+	for <linux-staging@lists.linux.dev>; Fri,  1 Jul 2022 09:42:20 +0000 (UTC)
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LZ9Dd5pvYzkWN0;
+	Fri,  1 Jul 2022 17:40:49 +0800 (CST)
+Received: from dggpeml500019.china.huawei.com (7.185.36.137) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 1 Jul 2022 17:42:11 +0800
+Received: from huawei.com (10.175.112.208) by dggpeml500019.china.huawei.com
+ (7.185.36.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 1 Jul
+ 2022 17:42:11 +0800
+From: Huang Zetao <huangzetao1@huawei.com>
+To: <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
+	<paskripkin@gmail.com>, <gregkh@linuxfoundation.org>,
+	<huangzetao1@huawei.com>
+CC: <straube.linux@gmail.com>, <martin@kaiser.cx>, <abdun.nihaal@gmail.com>,
+	<linux-staging@lists.linux.dev>, <inux-kernel@vger.kernel.org>
+Subject: [PATCH -next v2] staging: r8188eu: Use eth_broadcast_addr() to assign broadcast address
+Date: Fri, 1 Jul 2022 09:40:11 +0000
+Message-ID: <20220701094011.81163-1-huangzetao1@huawei.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500019.china.huawei.com (7.185.36.137)
+X-CFilter-Loop: Reflected
 
-This addresses two issues raised by checkpatch.pl:
+Using eth_broadcast_addr() to assign broadcast address instead of memset().
 
-     $ ./scripts/checkpatch.pl --terse -f drivers/staging/rtl8192e/rtllib_wx.c
-     CHECK: spaces preferred around that '+' (ctx:VxV)
-
-Signed-off-by: Felix Schlepper <f3sch.git@outlook.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Huang Zetao <huangzetao1@huawei.com>
 ---
- drivers/staging/rtl8192e/rtllib_wx.c | 2 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-index 6b11908032d7..da2c41c9b92f 100644
---- a/drivers/staging/rtl8192e/rtllib_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_wx.c
-@@ -769,7 +769,7 @@ int rtllib_wx_set_gen_ie(struct rtllib_device *ieee, u8 *ie, size_t len)
- 	kfree(ieee->wps_ie);
- 	ieee->wps_ie = NULL;
- 	if (len) {
--		if (len != ie[1]+2)
-+		if (len != ie[1] + 2)
- 			return -EINVAL;
- 		buf = kmemdup(ie, len, GFP_KERNEL);
- 		if (!buf)
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 047e9c7d38c3..b9c0b7ee05f1 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -1823,7 +1823,7 @@ static int rtw_wx_set_enc_ext(struct net_device *dev,
+ 		return -ENOMEM;
+ 
+ 	param->cmd = IEEE_CMD_SET_ENCRYPTION;
+-	memset(param->sta_addr, 0xff, ETH_ALEN);
++	eth_broadcast_addr(param->sta_addr);
+ 
+ 	switch (pext->alg) {
+ 	case IW_ENCODE_ALG_NONE:
 -- 
-2.36.1
+2.17.1
 
