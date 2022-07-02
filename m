@@ -1,44 +1,44 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D871C30
-	for <linux-staging@lists.linux.dev>; Sat,  2 Jul 2022 06:11:35 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id g26so7528160ejb.5
-        for <linux-staging@lists.linux.dev>; Fri, 01 Jul 2022 23:11:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814751C30
+	for <linux-staging@lists.linux.dev>; Sat,  2 Jul 2022 06:18:01 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id u12so7510781eja.8
+        for <linux-staging@lists.linux.dev>; Fri, 01 Jul 2022 23:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=3aWIGzftOvJgSc7kLPFVDtw9SRSW8DXOut6Ha66Gus0=;
-        b=lxppe/hXgf3bd2z9Jajg0RHwNUwGxmDgihG9UWDwOb4JBre6MoEq8nFBTu5fZFs8p2
-         mWndbvW1D26wLYtrPNLomAlw2v26YO7VoH3z0dzePvhfrGVhoyTY/MShkH+3O8Z+T3/C
-         G4q4O/I7BEz8KD+7S8VCNWkaFm65yECLQv0wZfbO8EFMHT4MLC3qMLf+a34EMcbvsrMK
-         Ro5ke87ynISrhQ41EpKsP8AJUX5sQ3DtikIn5Lu8/vF5QWupry7scYx/pmoM0nQKE1lu
-         W1lqJVOIWjpnaxLdBqEN+dOOx16XAPiGnfmhNHRbw+1NLY4D+zeRD0raDrU1JY75wIUB
-         /atA==
+        bh=rjnvf2nzoXQy+5nkYCPr1RToUR3goLYUGd5DCz8Akl0=;
+        b=dGexRLg1HBZ1ZhUu3cuBoieQIS1Zm4Sby+16+i1RL7oDfoF9MtgOnE5UY0EEMX49Nl
+         YrikbJhGEr/gYarhVGhy2yGmGaCL9vIL0iSiq9+HE6edwQET0TjSPU1b/HhcqiJu5H5Z
+         IqZQXsk+FYifqNstB3I4ADjX5MYZHhtN2jDFSh8QBtCWGxWhXfkyrTGEEWuKhoVkY1or
+         1nYoT5MiXYFkXzrwtO+ToOE6kljWiK1FOjcz8xfx028M/2J01kGKXHK3iRWAQeg7XQtj
+         GISx+Kui5A2+M0cgI4IdQQg1ALaNaTx3hULdTyaROe1lLnOFtvPu7WVBwMwTAmrkOrhC
+         Y+vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=3aWIGzftOvJgSc7kLPFVDtw9SRSW8DXOut6Ha66Gus0=;
-        b=6bPf6O89eqiTYfHJOoFAYH/ziSt3nP6DkK1CSCvYoIn4to7THyniAPWUPRWGc7sq8K
-         LRS/GwbfIixTyQYYWnom6hpEZnpEE0QrcOBWCZ+lC/MUENgXeHn8xMVSAVYgwMlCEgtR
-         8feM0t0r7uy0nvHAceOlF2rFnxT97oA6L4Ywc18OpBnHvWjPBKqLF0kz+80e4T5ZxKKz
-         B10Z2S0SpsiIckfakCBQY4LQq7fo4mhAIFlExYWakbycuD7BjpCU4oV0TcXe0tJP/v1C
-         4vcqeDzlBxAVoHYfu+/NUISKS1VLcEvRI3hWQv4PZyoWKVtQ9Lz422MXQQnb3HFEKWsQ
-         OvKg==
-X-Gm-Message-State: AJIora/BsjIzvx/hNI8D4cwWOZyLeLw+6hwPHXmWmOp54iLiKKV8a78N
-	pOrnI+hhOlXmyNjbIkCtgD4=
-X-Google-Smtp-Source: AGRyM1ujJGiXF/okyk+C3b/jsgAQMpVBMrfzx+EfKNQ1tZPSKkADlEJsSUTRMAyZADb/X0onNC7oOQ==
-X-Received: by 2002:a17:907:608b:b0:722:f954:6e3 with SMTP id ht11-20020a170907608b00b00722f95406e3mr18071624ejc.550.1656742293524;
-        Fri, 01 Jul 2022 23:11:33 -0700 (PDT)
+        bh=rjnvf2nzoXQy+5nkYCPr1RToUR3goLYUGd5DCz8Akl0=;
+        b=u8q7JTu1/r7Tq9wTlKmAKGx0BccF7+rbDnvtxwLzP3kMxS/kSI+Zzrtyb69atAnesr
+         3N5T8DrjhMfVC5DTwLy19pQTL03v9Z0R2puRRg6q7YYEJyG7nmluFEPgwJZnzB4lkcmb
+         tj9tNXuzrg3cVAkQOVILwS/u1ttmME1RgVuxtwpla0WPf6yoJ7DKPpmlQekqvm0mahBC
+         IS4Ai9uHQ6C2w2IdZt9762plb6w7erj2HCdA9zd83+u+obg6H8twelAMzAVgl5n7ZhqO
+         uCYqqHdBL23d/KU9MHngG5R/RXjAG7JQ9WgZ24EDAo2QVufJu9DBkfiN7t2l+hO1xNBW
+         OEDw==
+X-Gm-Message-State: AJIora9N7+PWOvOkuQJYzHmKJDwQU8ELIv9ijiEqtBqS2NAzjTf5jMgO
+	Zru0t7H0Vu27pSE57ThTqJs=
+X-Google-Smtp-Source: AGRyM1uIsQFoA54+cAxvUHEltKnhJAmh3FYHcqy7rpcm7PbMXGq5UIfrrzZ0eNLUsMGawYdhc/9J0A==
+X-Received: by 2002:a17:906:8a5b:b0:72a:8b2b:c5b4 with SMTP id gx27-20020a1709068a5b00b0072a8b2bc5b4mr6782370ejc.75.1656742679790;
+        Fri, 01 Jul 2022 23:17:59 -0700 (PDT)
 Received: from ?IPV6:2003:c7:8f2e:6912:39ab:4063:59d3:a7cd? (p200300c78f2e691239ab406359d3a7cd.dip0.t-ipconnect.de. [2003:c7:8f2e:6912:39ab:4063:59d3:a7cd])
-        by smtp.gmail.com with ESMTPSA id ba29-20020a0564021add00b00435a62d35b5sm16172127edb.45.2022.07.01.23.11.32
+        by smtp.gmail.com with ESMTPSA id w13-20020a170906d20d00b00726298147b1sm11213260ejz.161.2022.07.01.23.17.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Jul 2022 23:11:33 -0700 (PDT)
-Message-ID: <6fe8c559-9bf8-62b1-caa3-37c22de318ed@gmail.com>
-Date: Sat, 2 Jul 2022 08:11:32 +0200
+        Fri, 01 Jul 2022 23:17:59 -0700 (PDT)
+Message-ID: <eeafc6b3-1a47-4729-a4b0-1c841586f6fd@gmail.com>
+Date: Sat, 2 Jul 2022 08:17:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,42 +47,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v3 6/6] Staging: rtl8192e: Added spaces around '+'
+Subject: Re: [PATCH v3 0/6] Staging: rtl8192e: rtllib_wx
 Content-Language: en-US
 To: Felix Schlepper <f3sch.git@outlook.com>, gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
  wjsota@gmail.com
 References: <cover.1656667089.git.f3sch.git@outlook.com>
- <87628a2dd08ec0e5b02090485e7a9a1d91b7d2a5.1656667089.git.f3sch.git@outlook.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <87628a2dd08ec0e5b02090485e7a9a1d91b7d2a5.1656667089.git.f3sch.git@outlook.com>
+In-Reply-To: <cover.1656667089.git.f3sch.git@outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 7/1/22 11:24, Felix Schlepper wrote:
-> This addresses two issues raised by checkpatch.pl:
+> This series addresses some issues raised by chechpatch.pl
+> and some very minor refactoring.
 > 
->       $ ./scripts/checkpatch.pl --terse -f drivers/staging/rtl8192e/rtllib_wx.c
->       CHECK: spaces preferred around that '+' (ctx:VxV)
+> v2:
+>      - The first version, only addressed coding style issues.
+>        Now, I additionally refactored rtllib_modes and its uses, since
+>        there is no need to use string formatting.
+>      - Logically separated one assignement into two. So we dont have
+>        'fixed' = 'disabled', which was silly.
 > 
-> Signed-off-by: Felix Schlepper <f3sch.git@outlook.com>
-> ---
->   drivers/staging/rtl8192e/rtllib_wx.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> v3:
+>      - Fixed a checkpatch.pl warning, which was introduced with patch 1/6.
 > 
-> diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-> index 6b11908032d7..da2c41c9b92f 100644
-> --- a/drivers/staging/rtl8192e/rtllib_wx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_wx.c
-> @@ -769,7 +769,7 @@ int rtllib_wx_set_gen_ie(struct rtllib_device *ieee, u8 *ie, size_t len)
->   	kfree(ieee->wps_ie);
->   	ieee->wps_ie = NULL;
->   	if (len) {
-> -		if (len != ie[1]+2)
-> +		if (len != ie[1] + 2)
->   			return -EINVAL;
->   		buf = kmemdup(ie, len, GFP_KERNEL);
->   		if (!buf)
-
+> Felix Schlepper (6):
+>    Staging: rtl8192e: Refactored rtllib_modes
+>    Staging: rtl8192e: Avoid multiple assignments
+>    Staging: rtl8192e: Remove unnecessary parentheses
+>    Staging: rtl8192e: Added braces around else
+>    Staging: rtl8192e: Remove unnecessary blank line
+>    Staging: rtl8192e: Added spaces around '+'
+> 
+>   drivers/staging/rtl8192e/rtllib_wx.c | 37 +++++++++++-----------------
+>   1 file changed, 15 insertions(+), 22 deletions(-)
+> 
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+
+Sorry for sending one email for each patch. Next time I will just send 
+one mail for one patch series.
+
+
+When compiling I saw that the driver is divided into more modules. So 
+the r8192e_pci.ko is not touched by this patch series.
+
+kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ make -C . 
+M=drivers/staging/rtl8192e
+make: Entering directory '/home/kernel/Documents/git/kernels/staging'
+   CC [M]  drivers/staging/rtl8192e/rtllib_wx.o
+   LD [M]  drivers/staging/rtl8192e/rtllib.o
+   MODPOST drivers/staging/rtl8192e/Module.symvers
+   CC [M]  drivers/staging/rtl8192e/rtllib.mod.o
+   LD [M]  drivers/staging/rtl8192e/rtllib.ko
+make: Leaving directory '/home/kernel/Documents/git/kernels/staging'
+
+kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ sudo insmod 
+drivers/staging/rtl8192e/rtllib.ko
+kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ sudo insmod 
+drivers/staging/rtl8192e/rtl8192e/r8192e_pci.ko
