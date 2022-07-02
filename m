@@ -1,179 +1,122 @@
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F06B1847;
-	Sat,  2 Jul 2022 01:03:41 +0000 (UTC)
-Date: Fri, 1 Jul 2022 18:03:10 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1656723813;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UefsvJWBOCsJEHG/jcpgIGR+KBtUCRUqjXcROu7qjh4=;
-	b=oGHlDm4tgr6UzDbC5z/sb7q2WEts5mi8mJ8aiIMXBOzW75BRr4BaIuszRL9hOCzoFfVxku
-	tmO6BM7R9GzDDzZbe/MQeyeOEOAx+3VHqH/w/8ecEZ7fImffcNYGlal4Cw/gQ26E9Sym1J
-	usYWeNXz8OdB9Vt23HLuxwKOwXbZ7ng=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	kernel test robot <lkp@intel.com>
-Cc: virtualization@lists.linux-foundation.org, usbb2k-api-dev@nongnu.org,
-	tipc-discussion@lists.sourceforge.net, target-devel@vger.kernel.org,
-	sound-open-firmware@alsa-project.org,
-	samba-technical@lists.samba.org, rds-devel@oss.oracle.com,
-	patches@opensource.cirrus.com, osmocom-net-gprs@lists.osmocom.org,
-	openipmi-developer@lists.sourceforge.net, nvdimm@lists.linux.dev,
-	ntb@lists.linux.dev, netfilter-devel@vger.kernel.org,
-	netdev@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
-	megaraidlinux.pdl@broadcom.com, linuxppc-dev@lists.ozlabs.org,
-	linux1394-devel@lists.sourceforge.net, linux-x25@vger.kernel.org,
-	linux-wpan@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-unionfs@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-sctp@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-raid@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-perf-users@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-parport@lists.infradead.org,
-	linux-parisc@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-nfc@lists.01.org, linux-mtd@lists.infradead.org,
-	linux-mmc@vger.kernel.org, linux-mm@kvack.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-fpga@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
-	legousb-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-	keyrings@vger.kernel.org, isdn4linux@listserv.isdn4linux.de,
-	iommu@lists.linux.dev, iommu@lists.linux-foundation.org,
-	intel-wired-lan@lists.osuosl.org, dri-devel@lists.freedesktop.org,
-	dm-devel@redhat.com, devicetree@vger.kernel.org,
-	dev@openvswitch.org, dccp@vger.kernel.org, damon@lists.linux.dev,
-	coreteam@netfilter.org, cgroups@vger.kernel.org,
-	ceph-devel@vger.kernel.org, apparmor@lists.ubuntu.com,
-	amd-gfx@lists.freedesktop.org, alsa-devel@alsa-project.org,
-	accessrunner-general@lists.sourceforge.net
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 6cc11d2a1759275b856e464265823d94aabd5eaf
-Message-ID: <Yr+ZTnLb9lJk6fJO@castle>
-References: <62be3696.+PAAAVlbtWK6G2hk%lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663841867
+	for <linux-staging@lists.linux.dev>; Sat,  2 Jul 2022 06:07:10 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id z41so5325667ede.1
+        for <linux-staging@lists.linux.dev>; Fri, 01 Jul 2022 23:07:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=mw4X51xwmNO5AAPPciK6AWtw4/D7d3HKL7DRUo355ag=;
+        b=lcJoqEAS8bNUPJKIDlQCulvF0cYSnWR8WXurB4+oBryvzDiR/lIGm5tIeoo+YCoO2P
+         /QUp8x7GkYi6/wxmNwxRIWAjgchRBii1Z67ML+j21WLJ2oW/y1KircTRTFwFLk4sHaFB
+         57/mxsF2bVVIe2QcsYLn2laD0bOCJUg8rL8O/wOm3GpK4azQZqIC/jWy9NPw8M3v/rvm
+         37YE1NSJ+wfh2Q8m4aEJkG5zVKkZ+bWqm8aW4eADPe3HBJlIFrTT8AFtTWnYxK979Gbi
+         GTcrQx4jwJyDerm3s/zK58rHgsUc1glGvWCXE7Ze0B084XEbHMl+pbC3iM2o/Kdz4VHr
+         EkSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=mw4X51xwmNO5AAPPciK6AWtw4/D7d3HKL7DRUo355ag=;
+        b=iV1/fxkXGvZ3AhHmaKHvKoOisJhJSkpxHoFuhVdYfZxhiOBUEvyIAbmwV+sU5CuCop
+         SSjQ/pwJ/KJqik0B50EjPCQ9kp9Qnhf5J4bbRmQ5Ckjfeze7VJa0XQJWVGughUnOpvQV
+         53z4AjltXG9UVrOKg+YrqWOHdeTIKpOYZo1Qv1ko/fL3gn6Y4bXs6RUR6RJkfxVKu296
+         +uMrsyXrxxlxCYab+CoDBlabtGWqHqoIG1wBF7XXfMC9TspWJRBj3IvhwcMhCVDTehRC
+         PH7LEc+RtwmoGt7oOzuhqT1zr1mXjFrw2CvCCi/vgR74g8SB2Gw/vt11RemG7QGP1UHK
+         2n1g==
+X-Gm-Message-State: AJIora+kBRt9kLzYuffCFZiBwFTmhUyFa+LGKiQmUbReZVuFmvbWjS/s
+	xHepgtMQqXlPXMHAXvx7Hzs=
+X-Google-Smtp-Source: AGRyM1vCVIE4E9HmiN6nI66hX3x20VdDdDAElnttRb07u9FHBRDgeppOUXqnSvqLc6aYMhD3Az9xrw==
+X-Received: by 2002:a05:6402:84a:b0:426:262d:967e with SMTP id b10-20020a056402084a00b00426262d967emr22836450edz.286.1656742028503;
+        Fri, 01 Jul 2022 23:07:08 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2e:6912:39ab:4063:59d3:a7cd? (p200300c78f2e691239ab406359d3a7cd.dip0.t-ipconnect.de. [2003:c7:8f2e:6912:39ab:4063:59d3:a7cd])
+        by smtp.gmail.com with ESMTPSA id u6-20020a170906780600b006fef557bb7asm11266163ejm.80.2022.07.01.23.07.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Jul 2022 23:07:07 -0700 (PDT)
+Message-ID: <5f780867-098a-c732-52db-c637f3d56178@gmail.com>
+Date: Sat, 2 Jul 2022 08:07:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62be3696.+PAAAVlbtWK6G2hk%lkp@intel.com>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 1/6] Staging: rtl8192e: Refactored rtllib_modes
+Content-Language: en-US
+To: Felix Schlepper <f3sch.git@outlook.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ wjsota@gmail.com
+References: <cover.1656667089.git.f3sch.git@outlook.com>
+ <4dbc4939e88a2c94f1819b4b0cc2c81dc332710b.1656667089.git.f3sch.git@outlook.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <4dbc4939e88a2c94f1819b4b0cc2c81dc332710b.1656667089.git.f3sch.git@outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-esOn Fri, Jul 01, 2022 at 07:49:42AM +0800, kbuild test robot wrote:
-> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> branch HEAD: 6cc11d2a1759275b856e464265823d94aabd5eaf  Add linux-next specific files for 20220630
+On 7/1/22 11:24, Felix Schlepper wrote:
+> The initial reason for looking at this code was an
+> issue raised by checkpatch.pl:
 > 
-> Error/Warning reports:
+>       $ ./scripts/checkpatch.pl --terse -f drivers/staging/rtl8192e/rtllib_wx.c
+>       CHECK: Please use a blank line after function/struct/union/enum
+>       declarations
 > 
-> https://lore.kernel.org/linux-mm/202206301859.UodBCrva-lkp@intel.com
+> The additional blank line above the struct/before the headers is
+> just cleaner.
 > 
-> Error/Warning: (recently discovered and may have been fixed)
+> However, as it turns out since there is no str formatting required
+> One can replace the error prone str + size struct with a char array.
+> The rest of this patch fixes the usecases.
 > 
-> arch/powerpc/kernel/interrupt.c:542:55: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-> arch/powerpc/kernel/interrupt.c:542:55: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-> drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for 'pci_read' [-Wmissing-prototypes]
-> drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for 'pci_write' [-Wmissing-prototypes]
-> mm/shrinker_debug.c:143:9: warning: function 'shrinker_debugfs_rename' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/shrinker_debug.c:217:9: warning: function 'shrinker_debugfs_rename' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/vmscan.c:637:9: warning: function 'prealloc_shrinker' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/vmscan.c:642:9: warning: function 'prealloc_shrinker' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/vmscan.c:697:9: warning: function 'register_shrinker' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-> mm/vmscan.c:702:9: warning: function 'register_shrinker' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+> Signed-off-by: Felix Schlepper <f3sch.git@outlook.com>
+> ---
+>   drivers/staging/rtl8192e/rtllib_wx.c | 21 ++++++---------------
+>   1 file changed, 6 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+> index cf9a240924f2..b7f19b38b0e1 100644
+> --- a/drivers/staging/rtl8192e/rtllib_wx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_wx.c
+> @@ -17,17 +17,9 @@
+>   #include <linux/module.h>
+>   #include <linux/etherdevice.h>
+>   #include "rtllib.h"
+> -struct modes_unit {
+> -	char *mode_string;
+> -	int mode_size;
+> -};
+> -static struct modes_unit rtllib_modes[] = {
+> -	{"a", 1},
+> -	{"b", 1},
+> -	{"g", 1},
+> -	{"?", 1},
+> -	{"N-24G", 5},
+> -	{"N-5G", 4},
+> +
+> +static const char * const rtllib_modes[] = {
+> +	"a", "b", "g", "?", "N-24G", "N-5G"
+>   };
+>   
+>   #define MAX_CUSTOM_LEN 64
+> @@ -72,10 +64,9 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+>   	/* Add the protocol name */
+>   	iwe.cmd = SIOCGIWNAME;
+>   	for (i = 0; i < ARRAY_SIZE(rtllib_modes); i++) {
+> -		if (network->mode&(1<<i)) {
+> -			sprintf(pname, rtllib_modes[i].mode_string,
+> -				rtllib_modes[i].mode_size);
+> -			pname += rtllib_modes[i].mode_size;
+> +		if (network->mode & BIT(i)) {
+> +			strcpy(pname, rtllib_modes[i]);
+> +			pname += strlen(rtllib_modes[i]);
+>   		}
+>   	}
+>   	*pname = '\0';
 
-Shrinker-related warnings should be fixed by the following patch.
-
-Thanks!
-
---
-
-From c399aff65c7745a209397a531c5b28fd404d83c2 Mon Sep 17 00:00:00 2001
-From: Roman Gushchin <roman.gushchin@linux.dev>
-Date: Fri, 1 Jul 2022 17:38:31 -0700
-Subject: [PATCH] mm:shrinkers: fix build warnings
-
-Add __printf(a, b) attributes to shrinker functions taking shrinker
-name as an argument to avoid compiler warnings like:
-
-mm/shrinker_debug.c:143:9: warning: function 'shrinker_debugfs_rename'
-  might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/shrinker_debug.c:217:9: warning: function 'shrinker_debugfs_rename'
-  might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/vmscan.c:637:9: warning: function 'prealloc_shrinker' might be a
-  candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/vmscan.c:642:9: warning: function 'prealloc_shrinker' might be a
-  candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/vmscan.c:697:9: warning: function 'register_shrinker' might be a
-  candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-mm/vmscan.c:702:9: warning: function 'register_shrinker' might be a
-  candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-
-Signed-off-by: Roman Gushchin <roman.gushchin@linux.dev>
----
- include/linux/shrinker.h | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
-index 64416f3e0a1f..08e6054e061f 100644
---- a/include/linux/shrinker.h
-+++ b/include/linux/shrinker.h
-@@ -93,9 +93,11 @@ struct shrinker {
-  */
- #define SHRINKER_NONSLAB	(1 << 3)
- 
--extern int prealloc_shrinker(struct shrinker *shrinker, const char *fmt, ...);
-+extern int __printf(2, 3) prealloc_shrinker(struct shrinker *shrinker,
-+					    const char *fmt, ...);
- extern void register_shrinker_prepared(struct shrinker *shrinker);
--extern int register_shrinker(struct shrinker *shrinker, const char *fmt, ...);
-+extern int __printf(2, 3) register_shrinker(struct shrinker *shrinker,
-+					    const char *fmt, ...);
- extern void unregister_shrinker(struct shrinker *shrinker);
- extern void free_prealloced_shrinker(struct shrinker *shrinker);
- extern void synchronize_shrinkers(void);
-@@ -103,8 +105,8 @@ extern void synchronize_shrinkers(void);
- #ifdef CONFIG_SHRINKER_DEBUG
- extern int shrinker_debugfs_add(struct shrinker *shrinker);
- extern void shrinker_debugfs_remove(struct shrinker *shrinker);
--extern int shrinker_debugfs_rename(struct shrinker *shrinker,
--				   const char *fmt, ...);
-+extern int __printf(2, 3) shrinker_debugfs_rename(struct shrinker *shrinker,
-+						  const char *fmt, ...);
- #else /* CONFIG_SHRINKER_DEBUG */
- static inline int shrinker_debugfs_add(struct shrinker *shrinker)
- {
-@@ -113,8 +115,8 @@ static inline int shrinker_debugfs_add(struct shrinker *shrinker)
- static inline void shrinker_debugfs_remove(struct shrinker *shrinker)
- {
- }
--static inline int shrinker_debugfs_rename(struct shrinker *shrinker,
--					  const char *fmt, ...)
-+static inline __printf(2, 3)
-+int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
- {
- 	return 0;
- }
--- 
-2.36.1
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
