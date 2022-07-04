@@ -1,27 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2CD3FE0
-	for <linux-staging@lists.linux.dev>; Mon,  4 Jul 2022 13:28:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44382C3411E;
-	Mon,  4 Jul 2022 13:28:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE783FE0
+	for <linux-staging@lists.linux.dev>; Mon,  4 Jul 2022 13:38:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF81C3411E;
+	Mon,  4 Jul 2022 13:38:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1656941334;
-	bh=UGnIdqdBxNS5V8l3XnavsywBcc/KKsgR2KpDIw2DxHs=;
+	s=korg; t=1656941920;
+	bh=sX7TxP424twppRN1f/ZzLHQ8nFFTfUPTC9wPXPhX3Hk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f06TrNSm0XLVypKRo0cqVQzmI6jqhrKtN1xkocjPtevZWacNo1MzGSbM5NyVXnHyk
-	 sOIlNkRmIf4cyLknP5u7pjzRnOUJ1MEUjlVnKmN/lYfrPYoJ6Rlri/3n3VXBf0Xnhd
-	 IPK2ERXBu0Zo4iK3tvcogFh+v3MmCrk1oM+Th7B0=
-Date: Mon, 4 Jul 2022 15:28:06 +0200
+	b=ra4jra+raOcTf1THMILW6OB7aZ6DT4eeTMnRU52o1MtnzmNDD3Oea+p95DTX6shvI
+	 VMfXlVDD5BSE/zM0EEb51Qtl6ITvqoWDu1gKsgSKMFJz6Kx2i6/WhP0fSmhzTv6ipb
+	 uLIA60f3yG4fTZKl9RZ55QU+Jypn/c1BA5XEbbck=
+Date: Mon, 4 Jul 2022 15:38:37 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Huang Zetao <huangzetao1@huawei.com>
+To: Zhang Zekun <zhangzekun11@huawei.com>
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, paskripkin@gmail.com,
-	straube.linux@gmail.com, martin@kaiser.cx, abdun.nihaal@gmail.com,
-	linux-staging@lists.linux.dev, inux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] staging: r8188eu: Use eth_broadcast_addr() to
- assign broadcast address
-Message-ID: <YsLq5vXtJgLWCqqz@kroah.com>
-References: <20220704031516.79705-1-huangzetao1@huawei.com>
+	martin@kaiser.cx, straube.linux@gmail.com,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	xuqiang36@huawei.com
+Subject: Re: [PATCH -next] staging: r8188eu: use 'is_zero_ether_addr' to
+ identify an empty address
+Message-ID: <YsLtXYa4kRYEEaX/@kroah.com>
+References: <20220704123140.100128-1-zhangzekun11@huawei.com>
+ <YsLqpSGHoehauWjs@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,19 +33,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220704031516.79705-1-huangzetao1@huawei.com>
+In-Reply-To: <YsLqpSGHoehauWjs@kroah.com>
 
-On Mon, Jul 04, 2022 at 03:15:16AM +0000, Huang Zetao wrote:
-> Using eth_broadcast_addr() to assign broadcast address instead of memset().
+On Mon, Jul 04, 2022 at 03:27:01PM +0200, Greg KH wrote:
+> On Mon, Jul 04, 2022 at 12:31:40PM +0000, Zhang Zekun wrote:
+> > Use 'is_zero_ether_addr' to identify an empty ethernet address, intead
+> > of using 'memcpy' directly.
+> > 
+> > Reported-by: Hulk Robot <hulkci@huawei.com>
 > 
-> Signed-off-by: Huang Zetao <huangzetao1@huawei.com>
-> ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> I am now just going to ignore all patch submissions with this line in it
+> based on a total lack of responses by the developers using it.  See
+> https://lore.kernel.org/r/Yr7DQJTPrSWTOa0c@kroah.com for why.
 
-{sigh}
+And now just ignore patches from your domain, see:
+	https://lore.kernel.org/r/YsLq5vXtJgLWCqqz@kroah.com
+for why (patches sent totally ignoring previous requests.)
 
-Sorry, but no, I am going to now have to just ignore patches from your
-domain.
+Please work with the open source developers in your company to fix this
+broken process, as it is causing more problems for me than it is worth.
 
 greg k-h
