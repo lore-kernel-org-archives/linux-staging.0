@@ -1,55 +1,136 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE6D46A9
-	for <linux-staging@lists.linux.dev>; Mon,  4 Jul 2022 14:52:50 +0000 (UTC)
-Received: from dslb-178-004-207-027.178.004.pools.vodafone-ip.de ([178.4.207.27] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1o8NRI-0004hD-FX; Mon, 04 Jul 2022 16:52:40 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 5/5] staging: r8188eu: mac addr len is unused
-Date: Mon,  4 Jul 2022 16:52:21 +0200
-Message-Id: <20220704145221.159949-6-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220704145221.159949-1-martin@kaiser.cx>
-References: <20220704145221.159949-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D753D99;
+	Mon,  4 Jul 2022 15:44:19 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca [66.171.169.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id AC33466015CF;
+	Mon,  4 Jul 2022 16:44:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1656949451;
+	bh=T0jdgrAyHCTaLPYprZARiSvG27dAijlSDfp7uHdeNpY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=f/smC5qK/a7kfrVFv3B/D+docBl4EQbeLo9oSRMcQJkp43qS39AOZW7J81g5d+m6h
+	 kmW6CnsaAMC8kAQdOGFEhwUTMQ9I91R3n3uaVqWWin3+KJ6iFI7ItwwFKv9IxRVYMy
+	 VmYmcOtlUwvzjYRKopx7WCASUljYlLKieHdFPWSntv2VWIFeMImNtXBT+e1/ZS1S50
+	 JU9NweKFQWnSlVCuDJB+PjMzvBD7jDtbCGjcO14HSGWo3z6V6CZLdcBLKvpcyfHV3D
+	 hefh5ZRU/mulv6r6O10RdtZ7m5aKjk0sfMk2sfxRJfjnygFLtWFCXgK5liKgJ8t+x4
+	 wQW/GDR+42WpQ==
+Message-ID: <e7247c9af96be6565b8bc33760f3767e1bf2073f.camel@collabora.com>
+Subject: Re: [PATCH 6/7] media: hantro: imx8m: Enable 10bit decoding
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Ezequiel Garcia
+	 <ezequiel@vanguardiasur.com.ar>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de, 
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org,  andrzej.p@collabora.com, linux-media@vger.kernel.org,
+  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, kernel@collabora.com
+Date: Mon, 04 Jul 2022 11:43:59 -0400
+In-Reply-To: <16bb6fe6-0d95-d4d1-f7c7-f2ca61f7bdcc@collabora.com>
+References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
+	 <20220617115802.396442-7-benjamin.gaignard@collabora.com>
+	 <Yr3gDuzOXk58wTnd@eze-laptop>
+	 <16bb6fe6-0d95-d4d1-f7c7-f2ca61f7bdcc@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The MAC_ADDR_LEN define is not used. Remove it.
+Le vendredi 01 juillet 2022 =C3=A0 09:01 +0200, Benjamin Gaignard a =C3=A9c=
+rit=C2=A0:
+> Le 30/06/2022 =C3=A0 19:40, Ezequiel Garcia a =C3=A9crit=C2=A0:
+> > Hi Benjamin,
+> >=20
+> > On Fri, Jun 17, 2022 at 01:58:01PM +0200, Benjamin Gaignard wrote:
+> > > Expose 10bit pixel formats to enable 10bit decoding in IMX8M SoCs.
+> > >=20
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > Looks good to me.
+> >=20
+> > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> >=20
+> > Have you checked Fluster tests passess using both P010 and P010_4L4?
+> > It would be good to double-check.
+>=20
+> It isn't possible to check P010_4L4 with fluster because GStreamer
+> videoconvert element doesn't support this format.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/include/rtl8188e_spec.h | 1 -
- 1 file changed, 1 deletion(-)
+I can offert to work on this. If you can send me offline some picture dump,=
+ so I
+can validate, that would help.
 
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_spec.h b/drivers/staging/r8188eu/include/rtl8188e_spec.h
-index d3651ec71dc4..ce5dd2e5b72a 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_spec.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_spec.h
-@@ -9,7 +9,6 @@
- #define		HAL_PS_TIMER_INT_DELAY	50	/*   50 microseconds */
- #define		HAL_92C_NAV_UPPER_UNIT	128	/*  micro-second */
- 
--#define MAC_ADDR_LEN			6
- /*  8188E PKT_BUFF_ACCESS_CTRL value */
- #define TXPKT_BUF_SELECT		0x69
- #define RXPKT_BUF_SELECT		0xA5
--- 
-2.30.2
+>=20
+> Regards,
+> Benjamin
+>=20
+> >=20
+> > Thanks a lot,
+> > Ezequiel
+> >=20
+> > > ---
+> > >   drivers/staging/media/hantro/imx8m_vpu_hw.c | 27 ++++++++++++++++++=
++++
+> > >   1 file changed, 27 insertions(+)
+> > >=20
+> > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/st=
+aging/media/hantro/imx8m_vpu_hw.c
+> > > index 77f574fdfa77..b390228fd3b4 100644
+> > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > @@ -162,12 +162,39 @@ static const struct hantro_fmt imx8m_vpu_g2_pos=
+tproc_fmts[] =3D {
+> > >   			.step_height =3D MB_DIM,
+> > >   		},
+> > >   	},
+> > > +	{
+> > > +		.fourcc =3D V4L2_PIX_FMT_P010,
+> > > +		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.postprocessed =3D true,
+> > > +		.frmsize =3D {
+> > > +			.min_width =3D FMT_MIN_WIDTH,
+> > > +			.max_width =3D FMT_UHD_WIDTH,
+> > > +			.step_width =3D MB_DIM,
+> > > +			.min_height =3D FMT_MIN_HEIGHT,
+> > > +			.max_height =3D FMT_UHD_HEIGHT,
+> > > +			.step_height =3D MB_DIM,
+> > > +		},
+> > > +	},
+> > >   };
+> > >  =20
+> > >   static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] =3D {
+> > >   	{
+> > >   		.fourcc =3D V4L2_PIX_FMT_NV12_4L4,
+> > >   		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.match_depth =3D true,
+> > > +		.frmsize =3D {
+> > > +			.min_width =3D FMT_MIN_WIDTH,
+> > > +			.max_width =3D FMT_UHD_WIDTH,
+> > > +			.step_width =3D TILE_MB_DIM,
+> > > +			.min_height =3D FMT_MIN_HEIGHT,
+> > > +			.max_height =3D FMT_UHD_HEIGHT,
+> > > +			.step_height =3D TILE_MB_DIM,
+> > > +		},
+> > > +	},
+> > > +	{
+> > > +		.fourcc =3D V4L2_PIX_FMT_P010_4L4,
+> > > +		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.match_depth =3D true,
+> > >   		.frmsize =3D {
+> > >   			.min_width =3D FMT_MIN_WIDTH,
+> > >   			.max_width =3D FMT_UHD_WIDTH,
+> > > --=20
+> > > 2.32.0
+> > >=20
 
