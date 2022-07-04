@@ -1,56 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE783FE0
-	for <linux-staging@lists.linux.dev>; Mon,  4 Jul 2022 13:38:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEF81C3411E;
-	Mon,  4 Jul 2022 13:38:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1656941920;
-	bh=sX7TxP424twppRN1f/ZzLHQ8nFFTfUPTC9wPXPhX3Hk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ra4jra+raOcTf1THMILW6OB7aZ6DT4eeTMnRU52o1MtnzmNDD3Oea+p95DTX6shvI
-	 VMfXlVDD5BSE/zM0EEb51Qtl6ITvqoWDu1gKsgSKMFJz6Kx2i6/WhP0fSmhzTv6ipb
-	 uLIA60f3yG4fTZKl9RZ55QU+Jypn/c1BA5XEbbck=
-Date: Mon, 4 Jul 2022 15:38:37 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Zhang Zekun <zhangzekun11@huawei.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, paskripkin@gmail.com,
-	martin@kaiser.cx, straube.linux@gmail.com,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	xuqiang36@huawei.com
-Subject: Re: [PATCH -next] staging: r8188eu: use 'is_zero_ether_addr' to
- identify an empty address
-Message-ID: <YsLtXYa4kRYEEaX/@kroah.com>
-References: <20220704123140.100128-1-zhangzekun11@huawei.com>
- <YsLqpSGHoehauWjs@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A30A3D9A
+	for <linux-staging@lists.linux.dev>; Mon,  4 Jul 2022 14:52:47 +0000 (UTC)
+Received: from dslb-178-004-207-027.178.004.pools.vodafone-ip.de ([178.4.207.27] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1o8NRC-0004hD-Uh; Mon, 04 Jul 2022 16:52:35 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/5] staging: r8188eu: power sequences cleanup
+Date: Mon,  4 Jul 2022 16:52:16 +0200
+Message-Id: <20220704145221.159949-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YsLqpSGHoehauWjs@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 04, 2022 at 03:27:01PM +0200, Greg KH wrote:
-> On Mon, Jul 04, 2022 at 12:31:40PM +0000, Zhang Zekun wrote:
-> > Use 'is_zero_ether_addr' to identify an empty ethernet address, intead
-> > of using 'memcpy' directly.
-> > 
-> > Reported-by: Hulk Robot <hulkci@huawei.com>
-> 
-> I am now just going to ignore all patch submissions with this line in it
-> based on a total lack of responses by the developers using it.  See
-> https://lore.kernel.org/r/Yr7DQJTPrSWTOa0c@kroah.com for why.
+Simplify and clean up the power sequences. Remove some unused register
+definitions.
 
-And now just ignore patches from your domain, see:
-	https://lore.kernel.org/r/YsLq5vXtJgLWCqqz@kroah.com
-for why (patches sent totally ignoring previous requests.)
+Martin Kaiser (5):
+  staging: r8188eu: move pwr seq defines to HalPwrSeqCmd.c
+  staging: r8188eu: support only us in PWR_CMD_DELAY
+  staging: r8188eu: read pwr seq length, remove PWR_CMD_END
+  staging: r8188eu: remove sdio definitions
+  staging: r8188eu: mac addr len is unused
 
-Please work with the open source developers in your company to fix this
-broken process, as it is causing more problems for me than it is worth.
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |  60 +++++---
+ .../staging/r8188eu/include/HalPwrSeqCmd.h    |  47 ------
+ .../staging/r8188eu/include/rtl8188e_spec.h   | 137 ------------------
+ 3 files changed, 42 insertions(+), 202 deletions(-)
 
-greg k-h
+-- 
+2.30.2
+
