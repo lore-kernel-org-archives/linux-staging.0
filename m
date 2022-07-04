@@ -1,136 +1,135 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D753D99;
-	Mon,  4 Jul 2022 15:44:19 +0000 (UTC)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca [66.171.169.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id AC33466015CF;
-	Mon,  4 Jul 2022 16:44:09 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1656949451;
-	bh=T0jdgrAyHCTaLPYprZARiSvG27dAijlSDfp7uHdeNpY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=f/smC5qK/a7kfrVFv3B/D+docBl4EQbeLo9oSRMcQJkp43qS39AOZW7J81g5d+m6h
-	 kmW6CnsaAMC8kAQdOGFEhwUTMQ9I91R3n3uaVqWWin3+KJ6iFI7ItwwFKv9IxRVYMy
-	 VmYmcOtlUwvzjYRKopx7WCASUljYlLKieHdFPWSntv2VWIFeMImNtXBT+e1/ZS1S50
-	 JU9NweKFQWnSlVCuDJB+PjMzvBD7jDtbCGjcO14HSGWo3z6V6CZLdcBLKvpcyfHV3D
-	 hefh5ZRU/mulv6r6O10RdtZ7m5aKjk0sfMk2sfxRJfjnygFLtWFCXgK5liKgJ8t+x4
-	 wQW/GDR+42WpQ==
-Message-ID: <e7247c9af96be6565b8bc33760f3767e1bf2073f.camel@collabora.com>
-Subject: Re: [PATCH 6/7] media: hantro: imx8m: Enable 10bit decoding
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Ezequiel Garcia
-	 <ezequiel@vanguardiasur.com.ar>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de, 
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org,  andrzej.p@collabora.com, linux-media@vger.kernel.org,
-  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, kernel@collabora.com
-Date: Mon, 04 Jul 2022 11:43:59 -0400
-In-Reply-To: <16bb6fe6-0d95-d4d1-f7c7-f2ca61f7bdcc@collabora.com>
-References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
-	 <20220617115802.396442-7-benjamin.gaignard@collabora.com>
-	 <Yr3gDuzOXk58wTnd@eze-laptop>
-	 <16bb6fe6-0d95-d4d1-f7c7-f2ca61f7bdcc@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A8E7E;
+	Mon,  4 Jul 2022 17:35:42 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id A36FCC0009;
+	Mon,  4 Jul 2022 17:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1656956140;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FWvnjLZZC1dlEBaupajnQf2GrdJ+hcHgTvXZUMNqdyw=;
+	b=kbMNzY2atTCXSBbwmKPkHQqVerndwWlRtChdCwmm9biXvh3vHcKNw+Wu7bsT7IDFenR3mG
+	xVwRqNuZy82e9BzyiOoLcWge9RIYNGyBQle1ujs32zt2XVzfkirHcQm6KO57FosiCqmZ+6
+	8eFLzOvUvPBT5zSDrZVxJWR48CflGzKrcN0AoEjRZbLgbXuN9+VV65Xq4ssvWfgiMwNnKC
+	HAaRDJH7uQPP78kSQM2v1odL011a9m6ngpwu2/WUEajbzQUG8Rnw68Rc9WHjUz8s5qFeeo
+	09xWuDHxi9GZwE7WSMp7WnEktgDONiV+c2xxiv5ayf7CvH1gSrMhOJeg7ZOlsQ==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v5 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP Driver
+Date: Mon,  4 Jul 2022 19:35:17 +0200
+Message-Id: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.37.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Le vendredi 01 juillet 2022 =C3=A0 09:01 +0200, Benjamin Gaignard a =C3=A9c=
-rit=C2=A0:
-> Le 30/06/2022 =C3=A0 19:40, Ezequiel Garcia a =C3=A9crit=C2=A0:
-> > Hi Benjamin,
-> >=20
-> > On Fri, Jun 17, 2022 at 01:58:01PM +0200, Benjamin Gaignard wrote:
-> > > Expose 10bit pixel formats to enable 10bit decoding in IMX8M SoCs.
-> > >=20
-> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Looks good to me.
-> >=20
-> > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> >=20
-> > Have you checked Fluster tests passess using both P010 and P010_4L4?
-> > It would be good to double-check.
->=20
-> It isn't possible to check P010_4L4 with fluster because GStreamer
-> videoconvert element doesn't support this format.
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-I can offert to work on this. If you can send me offline some picture dump,=
- so I
-can validate, that would help.
+This part only concerns the introduction of the new ISP driver.
 
->=20
-> Regards,
-> Benjamin
->=20
-> >=20
-> > Thanks a lot,
-> > Ezequiel
-> >=20
-> > > ---
-> > >   drivers/staging/media/hantro/imx8m_vpu_hw.c | 27 ++++++++++++++++++=
-+++
-> > >   1 file changed, 27 insertions(+)
-> > >=20
-> > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/st=
-aging/media/hantro/imx8m_vpu_hw.c
-> > > index 77f574fdfa77..b390228fd3b4 100644
-> > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > > @@ -162,12 +162,39 @@ static const struct hantro_fmt imx8m_vpu_g2_pos=
-tproc_fmts[] =3D {
-> > >   			.step_height =3D MB_DIM,
-> > >   		},
-> > >   	},
-> > > +	{
-> > > +		.fourcc =3D V4L2_PIX_FMT_P010,
-> > > +		.codec_mode =3D HANTRO_MODE_NONE,
-> > > +		.postprocessed =3D true,
-> > > +		.frmsize =3D {
-> > > +			.min_width =3D FMT_MIN_WIDTH,
-> > > +			.max_width =3D FMT_UHD_WIDTH,
-> > > +			.step_width =3D MB_DIM,
-> > > +			.min_height =3D FMT_MIN_HEIGHT,
-> > > +			.max_height =3D FMT_UHD_HEIGHT,
-> > > +			.step_height =3D MB_DIM,
-> > > +		},
-> > > +	},
-> > >   };
-> > >  =20
-> > >   static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] =3D {
-> > >   	{
-> > >   		.fourcc =3D V4L2_PIX_FMT_NV12_4L4,
-> > >   		.codec_mode =3D HANTRO_MODE_NONE,
-> > > +		.match_depth =3D true,
-> > > +		.frmsize =3D {
-> > > +			.min_width =3D FMT_MIN_WIDTH,
-> > > +			.max_width =3D FMT_UHD_WIDTH,
-> > > +			.step_width =3D TILE_MB_DIM,
-> > > +			.min_height =3D FMT_MIN_HEIGHT,
-> > > +			.max_height =3D FMT_UHD_HEIGHT,
-> > > +			.step_height =3D TILE_MB_DIM,
-> > > +		},
-> > > +	},
-> > > +	{
-> > > +		.fourcc =3D V4L2_PIX_FMT_P010_4L4,
-> > > +		.codec_mode =3D HANTRO_MODE_NONE,
-> > > +		.match_depth =3D true,
-> > >   		.frmsize =3D {
-> > >   			.min_width =3D FMT_MIN_WIDTH,
-> > >   			.max_width =3D FMT_UHD_WIDTH,
-> > > --=20
-> > > 2.32.0
-> > >=20
+Changes since v4:
+- Fixed device-tree binding indent-align;
+- Added collected tag;
+- Rebased on latest media tree;
+
+Changes since v3:
+- Removed the v4l2 controls handler from the driver;
+- Added variant structure for table sizes;
+- Removed the info message about video device registration;
+- Removed comments in uAPI header;
+- Used '/schemas/graph.yaml#/properties/port' whenever possible in bindings;
+- Added CSI patches dependent on the ISP driver;
+- Rebased on the latest media tree;
+
+Changes since all-in-one v2:
+- Updated Kconfig to follow the latest media-wide changes;
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Switched to clock-managed regmap mmio;
+- Used helper to get a single enabled link for an entity's pad, to replace
+  source selection at link_validate time and select the remote source at
+  stream on time instead;
+- Added mutex for mbus format serialization;
+- Used endpoint-base instead of video-interface for "internal" endpoints
+  in device-tree schema;
+- Added TODO with unstaging requirements;
+- Various cosmetic cleanups;
+- Updated copyright years;
+
+Paul Kocialkowski (6):
+  dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+  dt-bindings: media: sun6i-a31-csi: Add ISP output port
+  staging: media: Add support for the Allwinner A31 ISP
+  MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+  media: sun6i-csi: Detect the availability of the ISP
+  media: sun6i-csi: Add support for hooking to the isp devices
+
+ .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
+ .../media/allwinner,sun6i-a31-isp.yaml        |  97 +++
+ MAINTAINERS                                   |   9 +
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  74 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
+ drivers/staging/media/sunxi/Kconfig           |   1 +
+ drivers/staging/media/sunxi/Makefile          |   1 +
+ drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
+ .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
+ .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 578 ++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
+ .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+ 23 files changed, 3305 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
+
+-- 
+2.37.0
 
