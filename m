@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3712F3D99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C56046A9
 	for <linux-staging@lists.linux.dev>; Mon,  4 Jul 2022 14:52:47 +0000 (UTC)
 Received: from dslb-178-004-207-027.178.004.pools.vodafone-ip.de ([178.4.207.27] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1o8NRF-0004hD-BB; Mon, 04 Jul 2022 16:52:37 +0200
+	id 1o8NRE-0004hD-Do; Mon, 04 Jul 2022 16:52:36 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 2/5] staging: r8188eu: support only us in PWR_CMD_DELAY
-Date: Mon,  4 Jul 2022 16:52:18 +0200
-Message-Id: <20220704145221.159949-3-martin@kaiser.cx>
+Subject: [PATCH 1/5] staging: r8188eu: move pwr seq defines to HalPwrSeqCmd.c
+Date: Mon,  4 Jul 2022 16:52:17 +0200
+Message-Id: <20220704145221.159949-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220704145221.159949-1-martin@kaiser.cx>
 References: <20220704145221.159949-1-martin@kaiser.cx>
@@ -31,62 +31,129 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-PWR_CMD_DELAY has only a single remaining user, who needs a delay in us.
-Remove the code and defines for delays in ms.
+The power sequences are now defined and processed in the same file. We
+can move the defines for power sequences and the related struct and
+enum from HalPwrSeqCmd.h to HalPwrSeqCmd.c. They don't have to be visible
+in other files any more.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/HalPwrSeqCmd.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    | 43 +++++++++++++++++
+ .../staging/r8188eu/include/HalPwrSeqCmd.h    | 47 -------------------
+ 2 files changed, 43 insertions(+), 47 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
-index fb8eeaf51afa..273f134d0a40 100644
+index 5b0f66573d94..fb8eeaf51afa 100644
 --- a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
 +++ b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
-@@ -20,20 +20,15 @@
-      /*  } while (not timeout); */
+@@ -3,6 +3,49 @@
  
- #define PWR_CMD_DELAY			0x03
--     /*  offset: the value to delay */
-+     /*  offset: the value to delay (in us) */
-      /*  msk: N/A */
--     /*  value: the unit of delay, 0: us, 1: ms */
+ #include "../include/HalPwrSeqCmd.h"
+ 
++#define PWR_CMD_WRITE			0x01
++     /*  offset: the read register offset */
++     /*  msk: the mask of the write bits */
++     /*  value: write value */
++     /*  note: driver shall implement this cmd by read & msk after write */
++
++#define PWR_CMD_POLLING			0x02
++     /*  offset: the read register offset */
++     /*  msk: the mask of the polled value */
++     /*  value: the value to be polled, masked by the msd field. */
++     /*  note: driver shall implement this cmd by */
++     /*  do{ */
++     /*  if ( (Read(offset) & msk) == (value & msk) ) */
++     /*  break; */
++     /*  } while (not timeout); */
++
++#define PWR_CMD_DELAY			0x03
++     /*  offset: the value to delay */
++     /*  msk: N/A */
++     /*  value: the unit of delay, 0: us, 1: ms */
++
++#define PWR_CMD_END			0x04
++     /*  offset: N/A */
++     /*  msk: N/A */
 +     /*  value: N/A */
++
++enum pwrseq_cmd_delat_unit {
++	PWRSEQ_DELAY_US,
++	PWRSEQ_DELAY_MS,
++};
++
++struct wl_pwr_cfg {
++	u16 offset;
++	u8 cmd:4;
++	u8 msk;
++	u8 value;
++};
++
++#define GET_PWR_CFG_OFFSET(__PWR_CMD)		__PWR_CMD.offset
++#define GET_PWR_CFG_CMD(__PWR_CMD)		__PWR_CMD.cmd
++#define GET_PWR_CFG_MASK(__PWR_CMD)		__PWR_CMD.msk
++#define GET_PWR_CFG_VALUE(__PWR_CMD)		__PWR_CMD.value
++
+ static struct wl_pwr_cfg rtl8188E_power_on_flow[] = {
+ 	{ 0x0006, PWR_CMD_POLLING, BIT(1), BIT(1) },
+ 	{ 0x0002, PWR_CMD_WRITE, BIT(0) | BIT(1), 0 }, /* reset BB */
+diff --git a/drivers/staging/r8188eu/include/HalPwrSeqCmd.h b/drivers/staging/r8188eu/include/HalPwrSeqCmd.h
+index 869f54d99e57..0886300d26bf 100644
+--- a/drivers/staging/r8188eu/include/HalPwrSeqCmd.h
++++ b/drivers/staging/r8188eu/include/HalPwrSeqCmd.h
+@@ -6,53 +6,6 @@
  
- #define PWR_CMD_END			0x04
-      /*  offset: N/A */
-      /*  msk: N/A */
-      /*  value: N/A */
+ #include "drv_types.h"
  
+-/*---------------------------------------------*/
+-/* 3 The value of cmd: 4 bits */
+-/*---------------------------------------------*/
+-
+-#define PWR_CMD_WRITE			0x01
+-     /*  offset: the read register offset */
+-     /*  msk: the mask of the write bits */
+-     /*  value: write value */
+-     /*  note: driver shall implement this cmd by read & msk after write */
+-
+-#define PWR_CMD_POLLING			0x02
+-     /*  offset: the read register offset */
+-     /*  msk: the mask of the polled value */
+-     /*  value: the value to be polled, masked by the msd field. */
+-     /*  note: driver shall implement this cmd by */
+-     /*  do{ */
+-     /*  if ( (Read(offset) & msk) == (value & msk) ) */
+-     /*  break; */
+-     /*  } while (not timeout); */
+-
+-#define PWR_CMD_DELAY			0x03
+-     /*  offset: the value to delay */
+-     /*  msk: N/A */
+-     /*  value: the unit of delay, 0: us, 1: ms */
+-
+-#define PWR_CMD_END			0x04
+-     /*  offset: N/A */
+-     /*  msk: N/A */
+-     /*  value: N/A */
+-
 -enum pwrseq_cmd_delat_unit {
 -	PWRSEQ_DELAY_US,
 -	PWRSEQ_DELAY_MS,
 -};
 -
- struct wl_pwr_cfg {
- 	u16 offset;
- 	u8 cmd:4;
-@@ -79,7 +74,7 @@ static struct wl_pwr_cfg rtl8188E_enter_lps_flow[] = {
- 	{ 0x05FA, PWR_CMD_POLLING, 0xFF, 0 }, /* Should be zero if no packet is transmitted */
- 	{ 0x05FB, PWR_CMD_POLLING, 0xFF, 0 }, /* Should be zero if no packet is transmitted */
- 	{ 0x0002, PWR_CMD_WRITE, BIT(0), 0 }, /* CCK and OFDM are disabled, clocks are gated */
--	{ 0x0002, PWR_CMD_DELAY, 0, PWRSEQ_DELAY_US },
-+	{ 0x0002, PWR_CMD_DELAY, 0, 0 },
- 	{ 0x0100, PWR_CMD_WRITE, 0xFF, 0x3F }, /* Reset MAC TRX */
- 	{ 0x0101, PWR_CMD_WRITE, BIT(1), 0 }, /* check if removed later */
- 	{ 0x0553, PWR_CMD_WRITE, BIT(5), BIT(5) }, /* Respond TxOK to scheduler */
-@@ -149,10 +144,7 @@ u8 HalPwrSeqCmdParsing(struct adapter *padapter, enum r8188eu_pwr_seq seq)
- 			} while (!poll_bit);
- 			break;
- 		case PWR_CMD_DELAY:
--			if (GET_PWR_CFG_VALUE(pwrcfgcmd) == PWRSEQ_DELAY_US)
--				udelay(GET_PWR_CFG_OFFSET(pwrcfgcmd));
--			else
--				udelay(GET_PWR_CFG_OFFSET(pwrcfgcmd) * 1000);
-+			udelay(GET_PWR_CFG_OFFSET(pwrcfgcmd));
- 			break;
- 		case PWR_CMD_END:
- 			/*  When this command is parsed, end the process */
+-struct wl_pwr_cfg {
+-	u16 offset;
+-	u8 cmd:4;
+-	u8 msk;
+-	u8 value;
+-};
+-
+-#define GET_PWR_CFG_OFFSET(__PWR_CMD)		__PWR_CMD.offset
+-#define GET_PWR_CFG_CMD(__PWR_CMD)		__PWR_CMD.cmd
+-#define GET_PWR_CFG_MASK(__PWR_CMD)		__PWR_CMD.msk
+-#define GET_PWR_CFG_VALUE(__PWR_CMD)		__PWR_CMD.value
+-
+ enum r8188eu_pwr_seq {
+ 	PWR_ON_FLOW,
+ 	DISABLE_FLOW,
 -- 
 2.30.2
 
