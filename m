@@ -1,66 +1,113 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A5333EB;
-	Tue,  5 Jul 2022 16:37:47 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id p128so11647093iof.1;
-        Tue, 05 Jul 2022 09:37:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C20A601B
+	for <linux-staging@lists.linux.dev>; Tue,  5 Jul 2022 19:23:18 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id q6so23266587eji.13
+        for <linux-staging@lists.linux.dev>; Tue, 05 Jul 2022 12:23:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=O5J53AdOe90BHokBmVgqqHUSfOK399rkbxJOPDlmJPM=;
+        b=VoX0+sHWLjJ+PL7wDNi7gtaZ5NE5+FuXr9VEMNZIxeblfnsAtnWYouAXemcSwHWMad
+         ATrT53lOQ5yXBePzhmyX4FotLFNBU+SUD5WF5UGBCYv0V6LL3A5LxGdVEN6ioNIZ9+fe
+         KXVgaMli4d6Dz7aIrWvvO8jTXwydbY7vo+rp3TAjrhr+XisT5w9cV0GcgltODIwkd62V
+         /5GZAT2Nt+SY55wvgzLnn6aFZpHutLAQZ72nbJgAvX/kj2uBQLCGUT/U4IM3+jE/MTkO
+         9OpDhhPjyAUzWY6LiR4x3BE1R8mtCYMhpYEtK590D6wRvD8G2nuvGFI0E84PpRgKi8md
+         rxNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=c55GW3JhZSSyCs5z2S50t5xP4aI3+vGX0Hxqnl5VHBw=;
-        b=sJlZWwY1bWK2u29KnT861HXHWCuY69RbXf/eKp0vZiHa+LTlVczvVYekuJTHaJwjyZ
-         i3whtBb7hWXOLd8RZgZU52aGDaw7U6/6aZze54rsIsNGQCbIpYiUhs8hflthGU6J3anH
-         asoTfevYLltVX8kkdKxK6QHf3XzfQoa0cCuvxar4aCZTkWAK5al31HarRa9xO5y929eJ
-         nV/xTGzovTo7vJwbzXhotBk4QeEqsimWFBRXWF4T4Neh8v16XfF2SKHrY8LBU5MoUG+3
-         qc6JsPV3nkkaw06l8n05Nfoho46aK3m78A0jxVcb1++7k6tvaCn53+Umakdxjnu8RCXk
-         HtFQ==
-X-Gm-Message-State: AJIora8MACHipzSUrglQ7ACbR8XBt/NFWiHYEXr0m06r9EsuubKy/ynk
-	7cO/PCclUdLk8vzjkAgi4A==
-X-Google-Smtp-Source: AGRyM1vY4x7KgFkloP8FcLuexH2ZmYRLJDRXCJ33C28v5rVjyEV6dX4JIuxxIftRTQsK9XuPc/RFMA==
-X-Received: by 2002:a6b:f20f:0:b0:675:5519:744b with SMTP id q15-20020a6bf20f000000b006755519744bmr18448319ioh.202.1657039066422;
-        Tue, 05 Jul 2022 09:37:46 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id m9-20020a02cdc9000000b00331fdc68ccesm14830816jap.140.2022.07.05.09.37.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 09:37:46 -0700 (PDT)
-Received: (nullmailer pid 2234555 invoked by uid 1000);
-	Tue, 05 Jul 2022 16:37:44 -0000
-Date: Tue, 5 Jul 2022 10:37:44 -0600
-From: Rob Herring <robh@kernel.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>, linux-staging@lists.linux.dev, Krzysztof Kozlowski <krzk+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Hans Verkuil <hans.verkuil@cisco.com>, Maxime Ripard <mripard@kernel.org>, linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v5 2/6] dt-bindings: media: sun6i-a31-csi: Add ISP output
- port
-Message-ID: <20220705163744.GA2234496-robh@kernel.org>
-References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
- <20220704173523.76729-3-paul.kocialkowski@bootlin.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=O5J53AdOe90BHokBmVgqqHUSfOK399rkbxJOPDlmJPM=;
+        b=tyqCKgNP413l6+pfLtQfr0y+9khokJlrcCkZnscsHnK0Kc0vDe3kiiza/rKYuQcVBw
+         Btkqzyp4JfbNe8oMbhBuP6bkkwSpbPh2qg9959ad98BdEvSzv19bJltx2cWEzZbjfU0d
+         LGue/i1J3qcmrvWmcJfqJjWfNcZccMQ0B/an8iMOXQEUAD6C53nmp1I1S/GGZ9Rpit5l
+         uaRqL2ZgFH2PEKl1gwrjpHEgfSze8YZSXN2NPbzS+O/8/pJY37NH90AXktb+8o8qSikv
+         ndaEjNcQ9BmqTmvi2yF1KK/G4q8LVkvR5NmxBjN9RvtFs3sT2uouuL3qm1z6e8S8M8Iv
+         KNnA==
+X-Gm-Message-State: AJIora+q7lVTBEoav8263+rzxvB8ZQ/nwlmvNEOiUDLjuUqpFUqf/Vof
+	q1s7uoQ/DZ0d7r/N31Yrx/4=
+X-Google-Smtp-Source: AGRyM1sqz0ZswjvZYEGriTu9qvW24Q9LcTxcnCTRccK8acD5jb0mWOSyu54g253pEyuzte7enrYr5w==
+X-Received: by 2002:a17:907:a048:b0:72a:ef02:b955 with SMTP id gz8-20020a170907a04800b0072aef02b955mr2311878ejc.608.1657048996655;
+        Tue, 05 Jul 2022 12:23:16 -0700 (PDT)
+Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
+        by smtp.gmail.com with ESMTPSA id z21-20020a170906815500b00722e7e26d22sm16223788ejw.58.2022.07.05.12.23.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Jul 2022 12:23:16 -0700 (PDT)
+Message-ID: <12246439-def4-4b57-f426-461862c717c9@gmail.com>
+Date: Tue, 5 Jul 2022 21:23:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220704173523.76729-3-paul.kocialkowski@bootlin.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] staging: r8188eu: Block comments use * on subsequent
+ lines
+Content-Language: en-US
+To: Rommel Rodriguez Perez <alrodperez@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin
+ <paskripkin@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <YsN993FTljv5LYT3@debianmain.debian.pc.org>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <YsN993FTljv5LYT3@debianmain.debian.pc.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 04 Jul 2022 19:35:19 +0200, Paul Kocialkowski wrote:
-> Some Allwinner devices come with an Image Signal Processor (ISP) that
-> allows processing camera data to produce good-looking images,
-> especially from raw bayer representations.
+On 7/5/22 01:55, Rommel Rodriguez Perez wrote:
+> This patch modifies a comment in order for it to comply with Linux
+> Kernel style guidelines on comments belonging to  net/ or drivers/net/ by
+> fixing the missing * at the beginning of each comment line and removing
+> the initial almost-blank initial line from the comment block.
 > 
-> The ISP does not have a dedicated capture path: it is fed directly by
-> one of the CSI controllers, which can be selected at run-time.
+> checkpatch output:
+> WARNING: Block comments use * on subsequent lines
 > 
-> Represent this possibility as a graph connection between the CSI
-> controller and the ISP in the device-tree bindings.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Signed-off-by: Rommel Rodriguez Perez <alrodperez@gmail.com>
 > ---
->  .../devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml    | 4 ++++
->  1 file changed, 4 insertions(+)
+>   drivers/staging/r8188eu/core/rtw_ap.c | 23 +++++++++++------------
+>   1 file changed, 11 insertions(+), 12 deletions(-)
 > 
+> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+> index ac6effbecf6d..5bd9dfa57cc5 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ap.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
+> @@ -654,18 +654,17 @@ void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx)
+>   		set_tx_beacon_cmd(padapter);
+>   }
+>   
+> -/*
+> -op_mode
+> -Set to 0 (HT pure) under the following conditions
+> -	- all STAs in the BSS are 20/40 MHz HT in 20/40 MHz BSS or
+> -	- all STAs in the BSS are 20 MHz HT in 20 MHz BSS
+> -Set to 1 (HT non-member protection) if there may be non-HT STAs
+> -	in both the primary and the secondary channel
+> -Set to 2 if only HT STAs are associated in BSS,
+> -	however and at least one 20 MHz HT STA is associated
+> -Set to 3 (HT mixed mode) when one or more non-HT STAs are associated
+> -	(currently non-GF HT station is considered as non-HT STA also)
+> -*/
+> +/* op_mode
+> + * Set to 0 (HT pure) under the following conditions
+> + *	- all STAs in the BSS are 20/40 MHz HT in 20/40 MHz BSS or
+> + *	- all STAs in the BSS are 20 MHz HT in 20 MHz BSS
+> + * Set to 1 (HT non-member protection) if there may be non-HT STAs
+> + *	in both the primary and the secondary channel
+> + * Set to 2 if only HT STAs are associated in BSS,
+> + *	however and at least one 20 MHz HT STA is associated
+> + * Set to 3 (HT mixed mode) when one or more non-HT STAs are associated
+> + *	(currently non-GF HT station is considered as non-HT STA also)
+> + */
+>   static int rtw_ht_operation_update(struct adapter *padapter)
+>   {
+>   	u16 cur_op_mode, new_op_mode;
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
