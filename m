@@ -1,44 +1,44 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C20A601B
-	for <linux-staging@lists.linux.dev>; Tue,  5 Jul 2022 19:23:18 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id q6so23266587eji.13
-        for <linux-staging@lists.linux.dev>; Tue, 05 Jul 2022 12:23:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802736001
+	for <linux-staging@lists.linux.dev>; Tue,  5 Jul 2022 19:36:40 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id eq6so16575946edb.6
+        for <linux-staging@lists.linux.dev>; Tue, 05 Jul 2022 12:36:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=O5J53AdOe90BHokBmVgqqHUSfOK399rkbxJOPDlmJPM=;
-        b=VoX0+sHWLjJ+PL7wDNi7gtaZ5NE5+FuXr9VEMNZIxeblfnsAtnWYouAXemcSwHWMad
-         ATrT53lOQ5yXBePzhmyX4FotLFNBU+SUD5WF5UGBCYv0V6LL3A5LxGdVEN6ioNIZ9+fe
-         KXVgaMli4d6Dz7aIrWvvO8jTXwydbY7vo+rp3TAjrhr+XisT5w9cV0GcgltODIwkd62V
-         /5GZAT2Nt+SY55wvgzLnn6aFZpHutLAQZ72nbJgAvX/kj2uBQLCGUT/U4IM3+jE/MTkO
-         9OpDhhPjyAUzWY6LiR4x3BE1R8mtCYMhpYEtK590D6wRvD8G2nuvGFI0E84PpRgKi8md
-         rxNQ==
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=M/BtDHk5812Fsbsd6YvmUhNGguiw7DdnJo+yT+T1deo=;
+        b=bSzifshel3jbS0Mp9ZVzsudk2NvNDJvVYOG7JndQ3Cpiz5OIEKGw1PgVgkUJGNhVh9
+         3+fspIZqSMNFCBbP9R9J3+OyADyUcxZxjx1nd+/DLMonjkYYsmxG4+spT4Z26JkWtZ1S
+         V4dsWBIbftjMJ1LsBn72iSOVVfQFhKwvXlHKIUpRTXUeTydNu4/Fs4H9IF/Zo7Bspfaq
+         2vArJ57RCSB//LVElMTJCg0tmRGE1UNmw986lSVBVijc6XbwclEGF8ZR0uxJ7p105kvu
+         E2jIA2b6KP5qqpQyKw/ZYivg9Xec0QCm8a50LFWaUIxMlpKM7G1kKHY0bq1QG2EQ2577
+         Bd8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=O5J53AdOe90BHokBmVgqqHUSfOK399rkbxJOPDlmJPM=;
-        b=tyqCKgNP413l6+pfLtQfr0y+9khokJlrcCkZnscsHnK0Kc0vDe3kiiza/rKYuQcVBw
-         Btkqzyp4JfbNe8oMbhBuP6bkkwSpbPh2qg9959ad98BdEvSzv19bJltx2cWEzZbjfU0d
-         LGue/i1J3qcmrvWmcJfqJjWfNcZccMQ0B/an8iMOXQEUAD6C53nmp1I1S/GGZ9Rpit5l
-         uaRqL2ZgFH2PEKl1gwrjpHEgfSze8YZSXN2NPbzS+O/8/pJY37NH90AXktb+8o8qSikv
-         ndaEjNcQ9BmqTmvi2yF1KK/G4q8LVkvR5NmxBjN9RvtFs3sT2uouuL3qm1z6e8S8M8Iv
-         KNnA==
-X-Gm-Message-State: AJIora+q7lVTBEoav8263+rzxvB8ZQ/nwlmvNEOiUDLjuUqpFUqf/Vof
-	q1s7uoQ/DZ0d7r/N31Yrx/4=
-X-Google-Smtp-Source: AGRyM1sqz0ZswjvZYEGriTu9qvW24Q9LcTxcnCTRccK8acD5jb0mWOSyu54g253pEyuzte7enrYr5w==
-X-Received: by 2002:a17:907:a048:b0:72a:ef02:b955 with SMTP id gz8-20020a170907a04800b0072aef02b955mr2311878ejc.608.1657048996655;
-        Tue, 05 Jul 2022 12:23:16 -0700 (PDT)
+        bh=M/BtDHk5812Fsbsd6YvmUhNGguiw7DdnJo+yT+T1deo=;
+        b=iK82OandVtK8rPaH8LkRH08Bc0amNTdyx+skxCVKeftbJwgzhIMegz8r1FD3tFL3e5
+         exPV2EuUFAbSjlQAwHtmGOZKsOa6P2NNJuPHeGVcfNYEo1+j6tjx9smci1YghXl+V92Z
+         tlxujSmd3T3iV+xy6h5AzyuBsngibIxlwVAaHG+bBi9E2ajeapjDlvbHjJbpXyj0FRkC
+         gUovzLFSqeoWFYD1pCokTq8g4kbuLgtxFdWfqoUme7O8sq0CONzY250P0MNLIcWCLAyx
+         Xe9eonC8GHULyZTfZP69m8RndRCW31cfWkmeQA5NDaFTuE8nDIsNQctgGAEzVEziBgNB
+         e6Ig==
+X-Gm-Message-State: AJIora+81kmMObmOkjYpPht1m8pE2JkjoSvBTz79sLO4eONSjc8m/4Fs
+	9+r786m0UAWIf9v9J6qGGoY7gNd/e7A=
+X-Google-Smtp-Source: AGRyM1sqnHZ0S+f06LG1LJTTd2Oa56TCdcEk7NPGxY7hw40tPKhr4tob1Y2PwvvIrYus606VFD+RtA==
+X-Received: by 2002:aa7:c683:0:b0:43a:13fe:9c69 with SMTP id n3-20020aa7c683000000b0043a13fe9c69mr22883942edq.353.1657049798848;
+        Tue, 05 Jul 2022 12:36:38 -0700 (PDT)
 Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id z21-20020a170906815500b00722e7e26d22sm16223788ejw.58.2022.07.05.12.23.15
+        by smtp.gmail.com with ESMTPSA id w2-20020a50fa82000000b0043a64eee322sm4825875edr.28.2022.07.05.12.36.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 12:23:16 -0700 (PDT)
-Message-ID: <12246439-def4-4b57-f426-461862c717c9@gmail.com>
-Date: Tue, 5 Jul 2022 21:23:14 +0200
+        Tue, 05 Jul 2022 12:36:38 -0700 (PDT)
+Message-ID: <7612d07c-9e10-f8dc-3db8-cae179dd8b89@gmail.com>
+Date: Tue, 5 Jul 2022 21:36:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,67 +47,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH] staging: r8188eu: Block comments use * on subsequent
- lines
+Subject: Re: [PATCH 0/6] staging: r8188eu: clean up ap2sta_data_frame
 Content-Language: en-US
-To: Rommel Rodriguez Perez <alrodperez@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin
- <paskripkin@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <YsN993FTljv5LYT3@debianmain.debian.pc.org>
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220704201654.195574-1-martin@kaiser.cx>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <YsN993FTljv5LYT3@debianmain.debian.pc.org>
+In-Reply-To: <20220704201654.195574-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/5/22 01:55, Rommel Rodriguez Perez wrote:
-> This patch modifies a comment in order for it to comply with Linux
-> Kernel style guidelines on comments belonging to  net/ or drivers/net/ by
-> fixing the missing * at the beginning of each comment line and removing
-> the initial almost-blank initial line from the comment block.
+On 7/4/22 22:16, Martin Kaiser wrote:
+> Start cleaning up ap2sta_data_frame. Remove duplicate assignments, use an
+> ieee80211 helper in one place.
 > 
-> checkpatch output:
-> WARNING: Block comments use * on subsequent lines
+> Martin Kaiser (6):
+>    staging: r8188eu: set bssid only once
+>    staging: r8188eu: don't set pattrib->dst again
+>    staging: r8188eu: don't set pattrib->ra again
+>    staging: r8188eu: don't set pattrib->ta again
+>    staging: r8188eu: remove a misleading comment
+>    staging: r8188eu: use ieee80211 helper to check for nullfunc frame
 > 
-> Signed-off-by: Rommel Rodriguez Perez <alrodperez@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_ap.c | 23 +++++++++++------------
->   1 file changed, 11 insertions(+), 12 deletions(-)
+>   drivers/staging/r8188eu/core/rtw_recv.c | 13 +++----------
+>   1 file changed, 3 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-> index ac6effbecf6d..5bd9dfa57cc5 100644
-> --- a/drivers/staging/r8188eu/core/rtw_ap.c
-> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
-> @@ -654,18 +654,17 @@ void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx)
->   		set_tx_beacon_cmd(padapter);
->   }
->   
-> -/*
-> -op_mode
-> -Set to 0 (HT pure) under the following conditions
-> -	- all STAs in the BSS are 20/40 MHz HT in 20/40 MHz BSS or
-> -	- all STAs in the BSS are 20 MHz HT in 20 MHz BSS
-> -Set to 1 (HT non-member protection) if there may be non-HT STAs
-> -	in both the primary and the secondary channel
-> -Set to 2 if only HT STAs are associated in BSS,
-> -	however and at least one 20 MHz HT STA is associated
-> -Set to 3 (HT mixed mode) when one or more non-HT STAs are associated
-> -	(currently non-GF HT station is considered as non-HT STA also)
-> -*/
-> +/* op_mode
-> + * Set to 0 (HT pure) under the following conditions
-> + *	- all STAs in the BSS are 20/40 MHz HT in 20/40 MHz BSS or
-> + *	- all STAs in the BSS are 20 MHz HT in 20 MHz BSS
-> + * Set to 1 (HT non-member protection) if there may be non-HT STAs
-> + *	in both the primary and the secondary channel
-> + * Set to 2 if only HT STAs are associated in BSS,
-> + *	however and at least one 20 MHz HT STA is associated
-> + * Set to 3 (HT mixed mode) when one or more non-HT STAs are associated
-> + *	(currently non-GF HT station is considered as non-HT STA also)
-> + */
->   static int rtw_ht_operation_update(struct adapter *padapter)
->   {
->   	u16 cur_op_mode, new_op_mode;
 
-Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
