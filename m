@@ -1,148 +1,191 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA5B29A1
-	for <linux-staging@lists.linux.dev>; Tue,  5 Jul 2022 10:36:59 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o8fuq-0001LC-19; Tue, 05 Jul 2022 12:36:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o8fue-004XxA-J7; Tue, 05 Jul 2022 12:36:16 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o8fuh-0038F6-8t; Tue, 05 Jul 2022 12:36:15 +0200
-Date: Tue, 5 Jul 2022 12:36:15 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jean Delvare <jdelvare@suse.de>
-Cc: Wolfram Sang <wsa@kernel.org>, Guenter Roeck <groeck@chromium.org>,
-	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-	patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
-	linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220705103615.ceeq7rku53x743ps@pengutronix.de>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
- <20220705120852.049dc235@endymion.delvare>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36A33D86
+	for <linux-staging@lists.linux.dev>; Tue,  5 Jul 2022 15:19:51 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id d187so12189843vsd.10
+        for <linux-staging@lists.linux.dev>; Tue, 05 Jul 2022 08:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=SKPvviyPL26CyA8l9iar2MIM4Wl98vso25xZ3nSjowU=;
+        b=c0XNEbkP56Uqlf4jbginpW0oHEPYA0t7AvZsiEserqczx9y1nIzJpBNsL8Sc6nrkj/
+         q2T/YS82/7XzUAAoKEyCWX539afsddUI2xsSnt4prcm+mjMFdB32eOuzeB/EZ8vX30kY
+         bO58EClJSlDOewXEm7SqHBVP309Srux5rkhUkTWEs/pYyCk3AqY9lrqtJetO8Z3ofaun
+         i8OVgiYO/LzH9Igm+AMI5uxUw8y8ljzUSEEYe2E3RO31MCWc39KO5uc6saJfMtQnpPuF
+         rpxBWGIQYgfm4LUJSsPfHkADD/CwTH4HT3F1UUDv7UogtFBxSYJzExYvvgyVWz2CU6kS
+         Io4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SKPvviyPL26CyA8l9iar2MIM4Wl98vso25xZ3nSjowU=;
+        b=PgEQZAjCAq2v/LgYvz8rgvNLO+TYhsVVlcdk9gjtul5YcAG0rkYQ5aued3s0pfw8EI
+         nolmw6E0hLMTB6BTB2z80km70uyov0ftRA9kzRMgBa5pydCxPICnmXoxpOJClgGCv59+
+         CkKWYwwoc3wHtbFU7BvnaTe1a8I2g5TZflVwHTjQupQmElNSD78POd9UQD4N8e4S0zUJ
+         hyV2teUR8+nq5v+UG6i0QPXX1JLPqGFdlI6btJbvPz8O5JrGW3JBBHf4IGk/8wrXoESA
+         8FzRxe7Zodc4r2O7mjd0VJZCO1lvDeLHilnyv8FEKnGINporLJDI9IkIDdOvyGHHRoWH
+         3hjA==
+X-Gm-Message-State: AJIora9R1aO6i79M1eDdH3gtLyQSjh1vtmSf/Jp5/QX1PpuWtcjaipLK
+	mvGW91DbZa7HTovQThMhfEgKQQ==
+X-Google-Smtp-Source: AGRyM1tMBtr7MaG5fInbc7HrIJPJwBQ3Wz4TiiPGLX6OFZzB9OSAQ2Kvd7GK6x+gf0OnNgXpAqo5AA==
+X-Received: by 2002:a67:b207:0:b0:356:51a5:993e with SMTP id b7-20020a67b207000000b0035651a5993emr19609454vsf.12.1657034390773;
+        Tue, 05 Jul 2022 08:19:50 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id b5-20020ab00b05000000b00382a8b1e590sm2980986uak.20.2022.07.05.08.19.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 08:19:49 -0700 (PDT)
+Date: Tue, 5 Jul 2022 12:19:44 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, mripard@kernel.org,
+	paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@collabora.com
+Subject: Re: [PATCH v10 04/17] media: uapi: HEVC: Add missing fields in HEVC
+ controls
+Message-ID: <YsRWkP6pCMcP2Im2@eze-laptop>
+References: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
+ <20220705085420.272912-5-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gut2agzhpaayxotv"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220705120852.049dc235@endymion.delvare>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+In-Reply-To: <20220705085420.272912-5-benjamin.gaignard@collabora.com>
 
+On Tue, Jul 05, 2022 at 10:54:07AM +0200, Benjamin Gaignard wrote:
+> Complete the HEVC controls with missing fields from H.265 specifications.
+> Even if these fields aren't used by the current mainlined drivers
+> they will be required for (at least) the rkvdec driver.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
---gut2agzhpaayxotv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-On Tue, Jul 05, 2022 at 12:08:52PM +0200, Jean Delvare wrote:
-> On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=F6nig wrote:
-> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> >=20
-> > The value returned by an i2c driver's remove function is mostly ignored.
-> > (Only an error message is printed if the value is non-zero that the
-> > error is ignored.)
-> >=20
-> > So change the prototype of the remove function to return no value. This
-> > way driver authors are not tempted to assume that passing an error to
-> > the upper layer is a good idea. All drivers are adapted accordingly.
-> > There is no intended change of behaviour, all callbacks were prepared to
-> > return 0 before.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
->=20
-> That's a huge change for a relatively small benefit, but if this is
-> approved by the I2C core maintainer then fine with me. For:
-
-Agreed, it's huge. The benefit isn't really measureable, the motivation
-is to improve the situation for driver authors who with the change
-cannot make wrong assumptions about what to return in .remove(). During
-the preparation this uncovered a few bugs. See for example
-bbc126ae381cf0a27822c1f822d0aeed74cc40d9.
-
-> >  drivers/hwmon/adc128d818.c                                | 4 +---
-> >  drivers/hwmon/adt7470.c                                   | 3 +--
-> >  drivers/hwmon/asb100.c                                    | 6 ++----
-> >  drivers/hwmon/asc7621.c                                   | 4 +---
-> >  drivers/hwmon/dme1737.c                                   | 4 +---
-> >  drivers/hwmon/f75375s.c                                   | 5 ++---
-> >  drivers/hwmon/fschmd.c                                    | 6 ++----
-> >  drivers/hwmon/ftsteutates.c                               | 3 +--
-> >  drivers/hwmon/ina209.c                                    | 4 +---
-> >  drivers/hwmon/ina3221.c                                   | 4 +---
-> >  drivers/hwmon/jc42.c                                      | 3 +--
-> >  drivers/hwmon/mcp3021.c                                   | 4 +---
-> >  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
-> >  drivers/hwmon/pcf8591.c                                   | 3 +--
-> >  drivers/hwmon/smm665.c                                    | 3 +--
-> >  drivers/hwmon/tps23861.c                                  | 4 +---
-> >  drivers/hwmon/w83781d.c                                   | 4 +---
-> >  drivers/hwmon/w83791d.c                                   | 6 ++----
-> >  drivers/hwmon/w83792d.c                                   | 6 ++----
-> >  drivers/hwmon/w83793.c                                    | 6 ++----
-> >  drivers/hwmon/w83795.c                                    | 4 +---
-> >  drivers/hwmon/w83l785ts.c                                 | 6 ++----
-> >  drivers/i2c/i2c-core-base.c                               | 6 +-----
-> >  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
-> >  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
-> >  drivers/i2c/i2c-smbus.c                                   | 3 +--
-> >  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
-> >  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
-> >  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
->=20
-> Reviewed-by: Jean Delvare <jdelvare@suse.de>
-
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---gut2agzhpaayxotv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLEFBwACgkQwfwUeK3K
-7AkavggAgLmynakXX/rOF4Jwy2OuBXH29kecKqPd6xj4yHsu3ggy8kd/hlU4jJib
-vV0H9ioq69hhMqjme5AHJJsueLFi/t/iwuQwuWUKluCBBlx0RXBsVx8qxV7A0uWa
-mdKU3ApPaN7y0cS1jccdN7ydsL3H2ayzIwfQuNqx1G3P/uqXfkusV0fjwQ/rQct3
-qs4t2/QiHUd0tStlGw2eSKxp1z5KRrDMstK17fiZSsw/SYoMyldV8Ame6+gaxx0X
-e93FqM5jj67ovjD3jJanfOwI5vesu4+szu4GK6vHRWvpsieHsSeyS+GNgfM5oLA7
-iguZ0rauzy0je3hrHuKgp1maJ59ibQ==
-=fYiS
------END PGP SIGNATURE-----
-
---gut2agzhpaayxotv--
+> ---
+> version 9:
+> - fix typo
+> 
+>  .../media/v4l/ext-ctrls-codec.rst             | 32 +++++++++++++++++++
+>  include/media/hevc-ctrls.h                    |  8 ++++-
+>  2 files changed, 39 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 6183f43f4d73..cff742142a55 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2683,6 +2683,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      :stub-columns: 0
+>      :widths:       1 1 2
+>  
+> +    * - __u8
+> +      - ``video_parameter_set_id``
+> +      - Specifies the value of the vps_video_parameter_set_id of the active VPS
+> +        as described in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
+> +        of H.265 specifications.
+> +    * - __u8
+> +      - ``seq_parameter_set_id``
+> +      - Provides an identifier for the SPS for reference by other syntax elements
+> +        as described in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
+> +        of H.265 specifications.
+>      * - __u16
+>        - ``pic_width_in_luma_samples``
+>        -
+> @@ -2822,6 +2832,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      :stub-columns: 0
+>      :widths:       1 1 2
+>  
+> +    * - __u8
+> +      - ``pic_parameter_set_id``
+> +      - Identifies the PPS for reference by other syntax elements.
+>      * - __u8
+>        - ``num_extra_slice_header_bits``
+>        -
+> @@ -3048,6 +3061,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u8
+>        - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>        - The list of L1 reference elements as indices in the DPB.
+> +    * - __u16
+> +      - ``short_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the short-term reference picture set, described as st_ref_pic_set()
+> +        in the specification, included in the slice header or SPS (section 7.3.6.1).
+> +    * - __u16
+> +      - ``long_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the long-term reference picture set include in the slice header
+> +        or SPS. It is the number of bits in the conditional block if(long_term_ref_pics_present_flag)
+> +        in section 7.3.6.1 of the specification.
+>      * - __u8
+>        - ``padding``
+>        - Applications and drivers must set this to zero.
+> @@ -3385,6 +3407,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        - ``pic_order_cnt_val``
+>        - PicOrderCntVal as described in section 8.3.1 "Decoding process
+>          for picture order count" of the specification.
+> +    * - __u16
+> +      - ``short_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the short-term reference picture set, of the first slice
+> +        described as st_ref_pic_set() in the specification, included in the slice header
+> +        or SPS (section 7.3.6.1).
+> +    * - __u16
+> +      - ``long_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the long-term reference picture set, of the first slice
+> +        included in the slice header or SPS. It is the number of bits in the conditional block
+> +        if(long_term_ref_pics_present_flag) in section 7.3.6.1 of the specification.
+>      * - __u8
+>        - ``num_active_dpb_entries``
+>        - The number of entries in ``dpb``.
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index 01ccda48d8c5..752a8d10782c 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
+>  /* The controls are not stable at the moment and will likely be reworked. */
+>  struct v4l2_ctrl_hevc_sps {
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+> +	__u8	video_parameter_set_id;
+> +	__u8	seq_parameter_set_id;
+>  	__u16	pic_width_in_luma_samples;
+>  	__u16	pic_height_in_luma_samples;
+>  	__u8	bit_depth_luma_minus8;
+> @@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
+>  
+>  struct v4l2_ctrl_hevc_pps {
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+> +	__u8	pic_parameter_set_id;
+>  	__u8	num_extra_slice_header_bits;
+>  	__u8	num_ref_idx_l0_default_active_minus1;
+>  	__u8	num_ref_idx_l1_default_active_minus1;
+> @@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	slice_segment_addr;
+>  	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>  	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+> -
+> +	__u16	short_term_ref_pic_set_size;
+> +	__u16	long_term_ref_pic_set_size;
+>  	__u8	padding;
+>  
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+> @@ -214,6 +218,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>  
+>  struct v4l2_ctrl_hevc_decode_params {
+>  	__s32	pic_order_cnt_val;
+> +	__u16	short_term_ref_pic_set_size;
+> +	__u16	long_term_ref_pic_set_size;
+>  	__u8	num_active_dpb_entries;
+>  	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>  	__u8	num_poc_st_curr_before;
+> -- 
+> 2.32.0
+> 
