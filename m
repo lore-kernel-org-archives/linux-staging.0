@@ -1,100 +1,295 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC307C
-	for <linux-staging@lists.linux.dev>; Wed,  6 Jul 2022 19:19:12 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id r18so20463930edb.9
-        for <linux-staging@lists.linux.dev>; Wed, 06 Jul 2022 12:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=b3xI5Sdxx+oPP9Cm0s9efA+PjQvj55zpgOhExBt9UZU=;
-        b=ZWB4xSJTQz2819wLKio/sgPqqe1uZo29vUXUVuo6pfQ3LAVjvGPT1wTk5O7QJXtOGF
-         MFtjucIVZiBEa8I3M4O3KteoiopsqNiv6ESIl8QNzuXEsdd3ChQvdK5s+1m5zNlhHazM
-         iRil826AoE/kg0pJkmTRNK1jL5cKbG4hrY2TtduIB3575JsG3gx4suwwiTnw9h0lQlw2
-         HyjrXXF+aFI5oIIbFv5b/fQNpCLy1rPNEEPS4537+0N8cJKOm9xoj8TEf/eaAVrLfNfV
-         pyC8A2n+BFEcpCrLIrHGM+9AQStU5tRW9UnyfsbgOFizFIL36r9gSv3LZHtvu5cquT+4
-         R+rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=b3xI5Sdxx+oPP9Cm0s9efA+PjQvj55zpgOhExBt9UZU=;
-        b=lbtgOCNHpJiH6AUdTLoK7i22YdGQVo5kDCtDlkxqfdVShzz6BZUEkAy2Pbt0UC9RIb
-         9VUSISNedlU8bemhjYBiA75YsTrouMYATdFLE+bGsBAI7bIgpue8/EfQNCETJqDxbDk7
-         RWEiQP5HEVASw2ZICDzrUV28lGmDkOU4u6iPQrlYt2xh7LQEiLy5pIo21zbFdCqmnYu0
-         2l1vBTzlpFj+k5Hr3pPGNdac7CeP1qF19tcTzugrAf8CMs6E8T1pKUtEnVq2Wh5Ojqhl
-         1FhRXktl4WUbuY66kXshN/XT6ppiJb8zRkLj5CPC3pnhf7EjT/aHfBgYARYqjxdMgpfT
-         rfNQ==
-X-Gm-Message-State: AJIora8nyTc3QsNt0S/yIYcIRsfKngxH2vPZ/It854MZBMyHaF8F2Rgx
-	Lg5ojDPwPgYwYTtqm9JHffRAh3D6gdY=
-X-Google-Smtp-Source: AGRyM1vwxmN1F5Vsnn9AkPToj1MRroLZerGW2AKZ/nyuY4r6+WmJpRoWGdB8aJyDHL5dePDbw3T4hw==
-X-Received: by 2002:a05:6402:26d5:b0:435:aba2:9495 with SMTP id x21-20020a05640226d500b00435aba29495mr56764527edd.133.1657135151240;
-        Wed, 06 Jul 2022 12:19:11 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id q4-20020a1709064cc400b006fec4ee28d0sm17625657ejt.189.2022.07.06.12.19.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 12:19:10 -0700 (PDT)
-Date: Wed, 6 Jul 2022 21:19:06 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Joe Perches <joe@perches.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: vt6655: Use loop in vt6655_mac_read_ether_addr
-Message-ID: <f233c8a007d75a8adcc99a07c582b75bdc1985db.1657134099.git.philipp.g.hortmann@gmail.com>
-References: <cover.1657134099.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE437C;
+	Wed,  6 Jul 2022 20:28:13 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:3a70:988d:42ce:f5cc] (unknown [IPv6:2a01:e0a:120:3210:3a70:988d:42ce:f5cc])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id DB57B66015B5;
+	Wed,  6 Jul 2022 21:28:10 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1657139291;
+	bh=mbUryPEs0snC50jCbdAQklXtgs2YsCGp2LLBeTrIpNc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FpJ1R9fk0f5LR02kULoB6wRBOn7m/RNjkRIAZ5OTzkm4B75wH7hQdcSNxjLoGFCBV
+	 WiZ86xabihBYBjbuDmmKFeeGXRoJEr+Ua71wDIRoOKDn1jG/+x0/B32xa2GHOx7Ups
+	 hMbHIxblUGdizjg2cS5S83i92xVihgsdZYCqA6bUS2TeT3826OmQHXe/rrpOYRK7+P
+	 OgQuBpzBTbr2jxW/k45yFIFezWe/gDkVBl83seOibkFVsHaqcEhVLQKo6F3wjxduGJ
+	 B5wEevu///Rqo8ZH3lB0MNgBlfDPOEr4a7n9Lx3H7c+HWhb6nhfopiCLRojTYagC0i
+	 8jnWtHh1cKjGg==
+Message-ID: <2f479976-5f89-ba4b-a700-2c37e6f462b9@collabora.com>
+Date: Wed, 6 Jul 2022 22:28:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1657134099.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v10 11/17] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Greg KH <gregkh@linuxfoundation.org>, Maxime Ripard <mripard@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev, Collabora Kernel ML <kernel@collabora.com>
+References: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
+ <4408380.LvFx2qVVIh@kista>
+ <CAAEAJfDNHSBtJD_chSV0_UMTJWztyPFxjORRn0+dSrtcZCoYwg@mail.gmail.com>
+ <1769918.8hzESeGDPO@kista>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <1769918.8hzESeGDPO@kista>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Use loop in vt6655_mac_read_ether_addr to avoid multiple
-similar statements.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-Code for testing:
-	for (int i = 0; i < 6; i++){
-		mac_addr[i] = ioread8(iobase + MAC_REG_PAR0 + i);
-		printk("i = %i\n", i);
-	}
-Log:
-[ 3608.011168] i = 0
-[ 3608.011170] i = 1
-[ 3608.011172] i = 2
-[ 3608.011174] i = 3
-[ 3608.011176] i = 4
-[ 3608.011178] i = 5
----
- drivers/staging/vt6655/device_main.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+Le 06/07/2022 à 20:49, Jernej Škrabec a écrit :
+> Dne sreda, 06. julij 2022 ob 20:39:41 CEST je Ezequiel Garcia napisal(a):
+>> Hi Jernej,
+>>
+>> On Tue, Jul 5, 2022 at 1:11 PM Jernej Škrabec <jernej.skrabec@gmail.com>
+> wrote:
+>>> Dne torek, 05. julij 2022 ob 18:03:28 CEST je Benjamin Gaignard
+> napisal(a):
+>>>> Le 05/07/2022 à 17:45, Ezequiel Garcia a écrit :
+>>>>> Hi guys,
+>>>>>
+>>>>> On Tue, Jul 05, 2022 at 10:54:14AM +0200, Benjamin Gaignard wrote:
+>>>>>> The number of 'entry point offset' can be very variable.
+>>>>>> Instead of using a large static array define a v4l2 dynamic array
+>>>>>> of U32 (V4L2_CTRL_TYPE_U32).
+>>>>>> The number of entry point offsets is reported by the elems field
+>>>>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+>>>>>> field.
+>>>>>>
+>>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>>>>> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>>>>> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>>>>>> ---
+>>>>>>
+>>>>>>    .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11
+>>>>>>    +++++++++++
+>>>>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
+>>>>>>    include/media/hevc-ctrls.h                            |  5 ++++-
+>>>>>>    3 files changed, 20 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git
+>>>>>> a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+>>>>>> db0df7d9f27c..8df8d7fdfe70 100644
+>>>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field
+>>>>>> -
+>>>>>>
+>>>>>>        * - __u32
+>>>>>>        
+>>>>>>          - ``data_bit_offset``
+>>>>>>          - Offset (in bits) to the video data in the current slice
+>>>>>>          data.
+>>>>>>
+>>>>>> +    * - __u32
+>>>>>> +      - ``num_entry_point_offsets``
+>>>>>> +      - Specifies the number of entry point offset syntax elements
+>>>>>> in
+>>>>>> the slice header.>
+>>>>> This looks underdocumented. Somewhere in the docs it should be
+>>>>> mentioned
+>>>>> that the field 'num_entry_point_offsets' is linked to the control
+>>>>> V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS.
+>>>> This field is here because some drivers would like know the number of
+>>>> entry point offsets without getting the entry point offsets data itself.
+>>> Yeah, this field must be set even when entry points offset control isn't
+>>> used. Additionally, if entry point offsets control is needed and if
+>>> submitting multiple slices at once, length of entry point offsets array
+>>> must be sum of num_entry_point_offsets of all slices in that job. Not
+>>> sure where to put this explanation.
+>> This confused me a bit: so you mean that this field (called
+>> num_entry_point_offsets)
+>> must be the sum of "num_entry_point_offsets" syntax elements for
+>> slices in the request?
+> No, it's the other way around. num_entry_point_offsets field has same meaning as
+> in syntax. It's per slice property. I said that if there is control with all
+> entry point offsets, it has to have number of elements, which is sum of all
+> num_entry_point_offsets fields in slice array.
+>
+> Example (totaly made up):
+>
+> Frame has 4 slices, each with 16 entry points.
+> App sends only 2 slices per job. Both num_entry_point_offsets fields in slice
+> control will have value 16, but entry point offsets array control will have 32
+> elements (16 entry points offsets from first and 16 entry point offsets from
+> second slice).
 
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 099f0b95417a..19840dddb4bf 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -200,12 +200,8 @@ static void vt6655_mac_write_bssid_addr(void __iomem *iobase, const u8 *mac_addr
- static void vt6655_mac_read_ether_addr(void __iomem *iobase, u8 *mac_addr)
- {
- 	iowrite8(1, iobase + MAC_REG_PAGE1SEL);
--	mac_addr[0] = ioread8(iobase + MAC_REG_PAR0);
--	mac_addr[1] = ioread8(iobase + MAC_REG_PAR0 + 1);
--	mac_addr[2] = ioread8(iobase + MAC_REG_PAR0 + 2);
--	mac_addr[3] = ioread8(iobase + MAC_REG_PAR0 + 3);
--	mac_addr[4] = ioread8(iobase + MAC_REG_PAR0 + 4);
--	mac_addr[5] = ioread8(iobase + MAC_REG_PAR0 + 5);
-+	for (int i = 0; i < 6; i++)
-+		mac_addr[i] = ioread8(iobase + MAC_REG_PAR0 + i);
- 	iowrite8(0, iobase + MAC_REG_PAGE1SEL);
- }
- 
--- 
-2.37.0
+Jernej I have used your previous answer to document this field in v11.
 
+Regards,
+Benjamin
+
+>
+> Best regards,
+> Jernej
+>
+>> If this is the case, then perhaps it will be a mistake to name our V4L2
+>> field exactly like the syntax element, since it this sum meaning.
+>> Otherwise, developers would tend to get confused by it.
+>>
+>> What do you think?
+>>
+>> Thanks,
+>> Ezequiel
+>>
+>>> Best regards,
+>>> Jernej
+>>>
+>>>> Benjamin
+>>>>
+>>>>> Thanks,
+>>>>> Ezequiel
+>>>>>
+>>>>>>        * - __u8
+>>>>>>        
+>>>>>>          - ``nal_unit_type``
+>>>>>>          - Specifies the coding type of the slice (B, P or I).
+>>>>>>
+>>>>>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field
+>>>>>> -
+>>>>>>
+>>>>>>        \normalsize
+>>>>>>
+>>>>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>>>>>> +    Specifies entry point offsets in bytes.
+>>>>>> +    This control is a dynamically sized array. The number of entry
+>>>>>> point
+>>>>>> +    offsets is reported by the ``elems`` field.
+>>>>>> +    This bitstream parameter is defined according to :ref:`hevc`.
+>>>>>> +    They are described in section 7.4.7.1 "General slice segment
+>>>>>> header
+>>>>>> +    semantics" of the specification.
+>>>>>> +
+>>>>>>
+>>>>>>    ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>>>>>>    
+>>>>>>        Specifies the HEVC scaling matrix parameters used for the
+>>>>>>        scaling
+>>>>>>        process
+>>>>>>        for transform coefficients.
+>>>>>>
+>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>>> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
+>>>>>> d594efbcbb93..e22921e7ea61 100644
+>>>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>>>>
+>>>>>>     case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:             return
+>>> "HEVC Decode
+>>>
+>>>>>>     Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:
+>>> return "HEVC
+>>>
+>>>>>>     Decode Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:
+>>> return "HEVC
+>>>
+>>>>>>     Start Code";>>
+>>>>>>
+>>>>>> +  case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:       return
+>>> "HEVC Entry
+>>>
+>>>>>> Point Offsets";>>
+>>>>>>
+>>>>>>     /* Colorimetry controls */
+>>>>>>     /* Keep the order of the 'case's the same as in v4l2-controls.h!
+>>> */
+>>>
+>>>>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,
+>>>>>> enum v4l2_ctrl_type *type,>>
+>>>>>>
+>>>>>>     case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>>>>>>             *type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>>>>>>             break;
+>>>>>>
+>>>>>> +  case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+>>>>>> +          *type = V4L2_CTRL_TYPE_U32;
+>>>>>> +          *flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>>>>>> +          break;
+>>>>>>
+>>>>>>     case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>>>>>>             *type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>>>>>>             break;
+>>>>>>
+>>>>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>>>>>> index a372c184689e..3a6601a46ced 100644
+>>>>>> --- a/include/media/hevc-ctrls.h
+>>>>>> +++ b/include/media/hevc-ctrls.h
+>>>>>> @@ -20,6 +20,7 @@
+>>>>>>
+>>>>>>    #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS
+>>> (V4L2_CID_CODEC_BASE +
+>>>
+>>>>>>    1012)
+>>>>>>    #define V4L2_CID_STATELESS_HEVC_DECODE_MODE
+>>>>>>    (V4L2_CID_CODEC_BASE
+>>> +
+>>>
+>>>>>>    1015)
+>>>>>>    #define V4L2_CID_STATELESS_HEVC_START_CODE
+>>>>>>    (V4L2_CID_CODEC_BASE + 1016)> > >>
+>>>>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+>>>>>> (V4L2_CID_CODEC_BASE
+>>>>>> + 1017)>>
+>>>>>>
+>>>>>>    /* enum v4l2_ctrl_type type values */
+>>>>>>    #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>>>>>>
+>>>>>> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+>>>>>>
+>>>>>>     *
+>>>>>>     * @bit_size: size (in bits) of the current slice data
+>>>>>>     * @data_bit_offset: offset (in bits) to the video data in the
+>>>>>>     current
+>>>>>>     slice data>>
+>>>>>>
+>>>>>> + * @num_entry_point_offsets: specifies the number of entry point
+>>>>>> offset
+>>>>>> syntax + *                      elements in the slice
+>>> header.
+>>>
+>>>>>>     * @nal_unit_type: specifies the coding type of the slice (B, P or
+>>>>>>     I)
+>>>>>>     * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier
+>>>>>>     for
+>>>>>>     the NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+>>>>>>
+>>>>>> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+>>>>>>
+>>>>>>    struct v4l2_ctrl_hevc_slice_params {
+>>>>>>    
+>>>>>>     __u32   bit_size;
+>>>>>>     __u32   data_bit_offset;
+>>>>>>
+>>>>>> -
+>>>>>> +  __u32   num_entry_point_offsets;
+>>>>>>
+>>>>>>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>>>>>>     __u8    nal_unit_type;
+>>>>>>     __u8    nuh_temporal_id_plus1;
+>>>>>>
+>>>>>> --
+>>>>>> 2.32.0
+>
