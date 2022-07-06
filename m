@@ -1,122 +1,281 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C618A539E
-	for <linux-staging@lists.linux.dev>; Wed,  6 Jul 2022 18:29:20 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id q9so23217828wrd.8
-        for <linux-staging@lists.linux.dev>; Wed, 06 Jul 2022 11:29:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F9953A0
+	for <linux-staging@lists.linux.dev>; Wed,  6 Jul 2022 18:39:53 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id g26so28589633ejb.5
+        for <linux-staging@lists.linux.dev>; Wed, 06 Jul 2022 11:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/ipO2NkMUMMvxvzZn2ltri7y+IHfLy0+fza0bQjlk34=;
-        b=lkGkOKrNCzdbqRpsx09FoK7d/OanN8Jr9CgkeEcU8CM5aoHdA6Pvhu74nWGVd50Und
-         hIfGjNZqe3qCQ25Qgt27NJgQXnGTSa47OFddWoEBSdwb7s5pbP9so+VzOBfHwLBUvSOj
-         K/WRLDMeQgAacHo3Xfy0WPdCPHUQRS04LN/j912/BOdpLVJCrfcvu+8YP5coRQzOLy/b
-         VWZz78ujP3oOQFeHy0E9BJ3czWex1efyuk4h7eh/+O6QBaR5iuB2s1uvdml7ikROky0s
-         ue8NB3jiiaMQCMMi043vRnOB0zZAHPQIw1cAAnhzvMecpLGjaoVrG+LsKk7TWSH3LQ8B
-         SKnQ==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=mJ6miwTFAnYDCk1OZK1bVi8RjNdC77tSfMF5/ZTKo8Q=;
+        b=5cgz137pmQmV2lL5+tYiJZpzpFdBHWD63n5D+KN7A/rwjnlMy4ZJJLQGFah9HZlmum
+         HOrMqURWAXUDqBkeoF+ipBuF47Q5kYU6MnMaarwHtiabzd/c4ZOG9oOU0iXayDViyaZn
+         lFdciDdcp8mz+aL/FT2C+/4x9AjyUulYv4MhWd+Lmle5sC3+V7KfwXwpyrYvN1kxl21G
+         PPcQm6xA9oayRMVF656Z7QITLSrJFRzQQixc5ndBc9pudkqWv3hlB36RO7DPc5c4Asqy
+         3lEt4o5WDGndLxxoX2e/jw2w/8pVO9kPzisA61ystGFW3Q9y9F5c1N9XGXrvA4/tEGKB
+         ZStw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/ipO2NkMUMMvxvzZn2ltri7y+IHfLy0+fza0bQjlk34=;
-        b=Mw1OLtzXLRsnyD5i7RK9bWD4Flxcz13iJ0XVhpHeL9uqp410oyzXhCxjkJ9Wci8CnA
-         Ug01luGVOXNuZA1ko4s/AWxpW3ehiTkOt/3ff7pduSFsdahXBcWt+PLRjV1oyRFh9cTp
-         8ap/HrGmWbDYbKrUEttmiDkOWeNS+P/DOHllqv/zdkDza71s1wEISfsuX7Or9f4euPnU
-         NBQOVgHBq29DfPAaqsVlxYGsFFI9ELdSY37XOcbwb+KV/DqwiSk782H/Wx//WOqSPnU5
-         dOKYQYzgc3FQobGNqrWdKRQ9O5y0W/DjK1/R9E+rfD3P8nxq44k2IfGpNexGifbUWX+1
-         0qWA==
-X-Gm-Message-State: AJIora8vAiI3C0QxMBP992m54Crjman1qvG3J/W94e/2ULK6GwU5hZgT
-	CVdExiGQOUSXJBYOkScT/sw=
-X-Google-Smtp-Source: AGRyM1ux1QIOhjvHQjtoROyzGjFt6VIyFfhw6EWam9o2tDucO6Mufz2phavnv2wM30ROS89HUqHXWg==
-X-Received: by 2002:a5d:64ad:0:b0:21b:b412:a34b with SMTP id m13-20020a5d64ad000000b0021bb412a34bmr39603551wrp.161.1657132160349;
-        Wed, 06 Jul 2022 11:29:20 -0700 (PDT)
-Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id r15-20020a0560001b8f00b0021d74906683sm5142406wru.28.2022.07.06.11.29.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 11:29:20 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de
-Cc: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	benjamin.gaignard@collabora.com,
-	nicolas.dufresne@collabora.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 7/7] media: hantro: sunxi: Enable 10-bit decoding
-Date: Wed,  6 Jul 2022 20:29:01 +0200
-Message-Id: <20220706182901.78949-8-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220706182901.78949-1-jernej.skrabec@gmail.com>
-References: <20220706182901.78949-1-jernej.skrabec@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=mJ6miwTFAnYDCk1OZK1bVi8RjNdC77tSfMF5/ZTKo8Q=;
+        b=OhlUqI7STngqyZWw4YEZLwQSRR7c8G0fcOYMNHW9J6lxi1nbmGO97FQt6jQLpatKqT
+         CxJIfk+92quSv45qHoVh3AavhrYU+3kNyWhkA7QlruT+S1Ozn8ypj1h+jNfdEQCcnYUp
+         MQdxIjp2PLkDVMR7PONFu9Z266kALw7ErpRcTUTcyxxQZ3KLHYO5FfEnWpAeJA83lU3s
+         D1Nu/IL0Kz+vtlkuvC7VkoXX8OXoSoK0ncl5Xwrty+Awd+E0mLiwZc8TR+8mBMy62LZ2
+         gRcz3ycdRny6p5knTV3vH6qqaxWiSZrO443AbQlQAfd1ddlTPQ8v3CVT1as+LVrsYJqc
+         xrwA==
+X-Gm-Message-State: AJIora9NZfQ6ETjLH9fkUfBoGECuHFoY0Kf8eQepvKqCo4Eecfzixk/5
+	mLXoQzz6ezIQa5A/SQiI2bXlJSGKsbzHukJuq5hzwA==
+X-Google-Smtp-Source: AGRyM1vGSt29pAHjnine8M0oy8MqEQ9dveh8rT4q0Js27wmu2VOP3XoBH8WVmxAxmFhqGJx6PMSysJL9XpRQun8grIA=
+X-Received: by 2002:a17:907:7627:b0:72a:9098:e4d3 with SMTP id
+ jy7-20020a170907762700b0072a9098e4d3mr28054629ejc.389.1657132792261; Wed, 06
+ Jul 2022 11:39:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
+ <YsRclobW7gL/Dtlr@eze-laptop> <6ae43dcd-9b1d-ce30-8c3e-a8c313ef5b0a@collabora.com>
+ <4408380.LvFx2qVVIh@kista>
+In-Reply-To: <4408380.LvFx2qVVIh@kista>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Wed, 6 Jul 2022 15:39:41 -0300
+Message-ID: <CAAEAJfDNHSBtJD_chSV0_UMTJWztyPFxjORRn0+dSrtcZCoYwg@mail.gmail.com>
+Subject: Re: Re: [PATCH v10 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+ control
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Greg KH <gregkh@linuxfoundation.org>, 
+	Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>, linux-media <linux-media@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	Collabora Kernel ML <kernel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now that infrastructure for 10-bit decoding exists, enable it for
-Allwinner H6.
+Hi Jernej,
 
-Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/hantro/sunxi_vpu_hw.c | 27 +++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+On Tue, Jul 5, 2022 at 1:11 PM Jernej =C5=A0krabec <jernej.skrabec@gmail.co=
+m> wrote:
+>
+> Dne torek, 05. julij 2022 ob 18:03:28 CEST je Benjamin Gaignard napisal(a=
+):
+> > Le 05/07/2022 =C3=A0 17:45, Ezequiel Garcia a =C3=A9crit :
+> > > Hi guys,
+> > >
+> > > On Tue, Jul 05, 2022 at 10:54:14AM +0200, Benjamin Gaignard wrote:
+> > >> The number of 'entry point offset' can be very variable.
+> > >> Instead of using a large static array define a v4l2 dynamic array
+> > >> of U32 (V4L2_CTRL_TYPE_U32).
+> > >> The number of entry point offsets is reported by the elems field
+> > >> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> > >> field.
+> > >>
+> > >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > >> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > >> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > >> ---
+> > >>
+> > >>   .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++=
+++++
+> > >>   drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
+> > >>   include/media/hevc-ctrls.h                            |  5 ++++-
+> > >>   3 files changed, 20 insertions(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.r=
+st
+> > >> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+> > >> db0df7d9f27c..8df8d7fdfe70 100644
+> > >> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > >> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > >> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
+ -
+> > >>
+> > >>       * - __u32
+> > >>
+> > >>         - ``data_bit_offset``
+> > >>         - Offset (in bits) to the video data in the current slice da=
+ta.
+> > >>
+> > >> +    * - __u32
+> > >> +      - ``num_entry_point_offsets``
+> > >> +      - Specifies the number of entry point offset syntax elements =
+in
+> > >> the slice header.>
+> > > This looks underdocumented. Somewhere in the docs it should be mentio=
+ned
+> > > that the field 'num_entry_point_offsets' is linked to the control
+> > > V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS.
+> >
+> > This field is here because some drivers would like know the number of
+> > entry point offsets without getting the entry point offsets data itself=
+.
+>
+> Yeah, this field must be set even when entry points offset control isn't =
+used.
+> Additionally, if entry point offsets control is needed and if submitting
+> multiple slices at once, length of entry point offsets array must be sum =
+of
+> num_entry_point_offsets of all slices in that job. Not sure where to put =
+this
+> explanation.
+>
 
-diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-index fbeac81e59e1..02ce8b064a8f 100644
---- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
-+++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-@@ -23,12 +23,39 @@ static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
- 			.step_height = 32,
- 		},
- 	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_P010,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.postprocessed = true,
-+		.frmsize = {
-+			.min_width = FMT_MIN_WIDTH,
-+			.max_width = FMT_UHD_WIDTH,
-+			.step_width = 32,
-+			.min_height = FMT_MIN_HEIGHT,
-+			.max_height = FMT_UHD_HEIGHT,
-+			.step_height = 32,
-+		},
-+	},
- };
- 
- static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV12_4L4,
- 		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
-+		.frmsize = {
-+			.min_width = FMT_MIN_WIDTH,
-+			.max_width = FMT_UHD_WIDTH,
-+			.step_width = 32,
-+			.min_height = FMT_MIN_HEIGHT,
-+			.max_height = FMT_UHD_HEIGHT,
-+			.step_height = 32,
-+		},
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_P010_4L4,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
- 		.frmsize = {
- 			.min_width = FMT_MIN_WIDTH,
- 			.max_width = FMT_UHD_WIDTH,
--- 
-2.37.0
+This confused me a bit: so you mean that this field (called
+num_entry_point_offsets)
+must be the sum of "num_entry_point_offsets" syntax elements for
+slices in the request?
 
+If this is the case, then perhaps it will be a mistake to name our V4L2 fie=
+ld
+exactly like the syntax element, since it this sum meaning.
+Otherwise, developers would tend to get confused by it.
+
+What do you think?
+
+Thanks,
+Ezequiel
+
+> Best regards,
+> Jernej
+>
+> >
+> > Benjamin
+> >
+> > > Thanks,
+> > > Ezequiel
+> > >
+> > >>       * - __u8
+> > >>
+> > >>         - ``nal_unit_type``
+> > >>         - Specifies the coding type of the slice (B, P or I).
+> > >>
+> > >> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_fiel=
+d -
+> > >>
+> > >>       \normalsize
+> > >>
+> > >> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> > >> +    Specifies entry point offsets in bytes.
+> > >> +    This control is a dynamically sized array. The number of entry =
+point
+> > >> +    offsets is reported by the ``elems`` field.
+> > >> +    This bitstream parameter is defined according to :ref:`hevc`.
+> > >> +    They are described in section 7.4.7.1 "General slice segment he=
+ader
+> > >> +    semantics" of the specification.
+> > >> +
+> > >>
+> > >>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+> > >>
+> > >>       Specifies the HEVC scaling matrix parameters used for the scal=
+ing
+> > >>       process
+> > >>       for transform coefficients.
+> > >>
+> > >> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > >> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
+> > >> d594efbcbb93..e22921e7ea61 100644
+> > >> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > >> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > >> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> > >>
+> > >>    case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:             return
+> "HEVC Decode
+> > >>    Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:
+> return "HEVC
+> > >>    Decode Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:
+> return "HEVC
+> > >>    Start Code";>>
+> > >> +  case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:       return
+> "HEVC Entry
+> > >> Point Offsets";>>
+> > >>    /* Colorimetry controls */
+> > >>    /* Keep the order of the 'case's the same as in v4l2-controls.h!
+> */
+> > >>
+> > >> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name=
+,
+> > >> enum v4l2_ctrl_type *type,>>
+> > >>    case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+> > >>            *type =3D V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+> > >>            break;
+> > >>
+> > >> +  case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> > >> +          *type =3D V4L2_CTRL_TYPE_U32;
+> > >> +          *flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> > >> +          break;
+> > >>
+> > >>    case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+> > >>            *type =3D V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+> > >>            break;
+> > >>
+> > >> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> > >> index a372c184689e..3a6601a46ced 100644
+> > >> --- a/include/media/hevc-ctrls.h
+> > >> +++ b/include/media/hevc-ctrls.h
+> > >> @@ -20,6 +20,7 @@
+> > >>
+> > >>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS
+> (V4L2_CID_CODEC_BASE +
+> > >>   1012)
+> > >>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE      (V4L2_CID_CODEC_B=
+ASE
+> +
+> > >>   1015)
+> > >>   #define V4L2_CID_STATELESS_HEVC_START_CODE       (V4L2_CID_CODEC_B=
+ASE + 1016)
+> > >>
+> > >> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC=
+_BASE
+> > >> + 1017)>>
+> > >>   /* enum v4l2_ctrl_type type values */
+> > >>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> > >>
+> > >> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+> > >>
+> > >>    *
+> > >>    * @bit_size: size (in bits) of the current slice data
+> > >>    * @data_bit_offset: offset (in bits) to the video data in the cur=
+rent
+> > >>    slice data>>
+> > >> + * @num_entry_point_offsets: specifies the number of entry point of=
+fset
+> > >> syntax + *                      elements in the slice
+> header.
+> > >>
+> > >>    * @nal_unit_type: specifies the coding type of the slice (B, P or=
+ I)
+> > >>    * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier=
+ for
+> > >>    the NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> > >>
+> > >> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+> > >>
+> > >>   struct v4l2_ctrl_hevc_slice_params {
+> > >>
+> > >>    __u32   bit_size;
+> > >>    __u32   data_bit_offset;
+> > >>
+> > >> -
+> > >> +  __u32   num_entry_point_offsets;
+> > >>
+> > >>    /* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+> > >>    __u8    nal_unit_type;
+> > >>    __u8    nuh_temporal_id_plus1;
+> > >>
+> > >> --
+> > >> 2.32.0
+>
+>
