@@ -1,115 +1,115 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D2629B2
-	for <linux-staging@lists.linux.dev>; Wed,  6 Jul 2022 09:32:06 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o91Nj-0005lo-Ss; Wed, 06 Jul 2022 11:31:39 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o91Na-004jSK-Sg; Wed, 06 Jul 2022 11:31:34 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1o91Nd-003KbY-Gm; Wed, 06 Jul 2022 11:31:33 +0200
-Date: Wed, 6 Jul 2022 11:31:30 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Vladimir Oltean <olteanv@gmail.com>
-Cc: Wolfram Sang <wsa@kernel.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, chrome-platform@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-	patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
-	linux-omap@vger.kernel.org, linux-mtd@lists.infradead.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	acpi4asus-user@lists.sourceforge.net, linux-pm@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220706093130.cet7y7upl76rp6ug@pengutronix.de>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
- <20220706091315.p5k2jck3rmyjhvqw@skbuf>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0163C7C;
+	Wed,  6 Jul 2022 09:38:14 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3a70:988d:42ce:f5cc])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 9CAC766019AA;
+	Wed,  6 Jul 2022 10:38:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1657100293;
+	bh=t2nvI/kg2Kq1rqLSdmDvuwNvRSSyiwxniPhWit8pHhg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ghLTwHZMcnSEV5QU+1BED1/t4TWQCScLlSutB0QygIzO9LWyAda7v5bG+3iiZmvo1
+	 jARf2hs5YiG0CzOtjB7C4i2pDIw+VBsO8lkI6NaopNpMYm5jiW9Oc6yROcPKhJBYwx
+	 52nhx4O7+rk9e6Eeq4/VCsLZ10hCcv6p1QrD7TZQwwuZmI1UY2gUHSA6Muum385cEN
+	 DKaAibV9b1AjzjFSrJoF1vuO8qFoM6N2a8uLeigVcQ1SPxv4bYni0QYxVrYOuaU5f3
+	 lp741LiuUhlfSqGD4ZZP3RBoGNZP0c5HBkgA/rsC+ijQpy8cHmWKha1WIO6aKMY6Lp
+	 i+I8jEN5cbhMg==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 03/17] vivid: add dynamic array test control
+Date: Wed,  6 Jul 2022 11:37:49 +0200
+Message-Id: <20220706093803.158810-4-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220706093803.158810-1-benjamin.gaignard@collabora.com>
+References: <20220706093803.158810-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yp3ilhvx53xygi7l"
-Content-Disposition: inline
-In-Reply-To: <20220706091315.p5k2jck3rmyjhvqw@skbuf>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
---yp3ilhvx53xygi7l
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a dynamic array test control to help test support for this
+feature.
 
-On Wed, Jul 06, 2022 at 12:13:15PM +0300, Vladimir Oltean wrote:
-> On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-K=F6nig wrote:
-> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
-> >=20
-> > The value returned by an i2c driver's remove function is mostly ignored.
-> > (Only an error message is printed if the value is non-zero that the
-> > error is ignored.)
-> >=20
-> > So change the prototype of the remove function to return no value. This
-> > way driver authors are not tempted to assume that passing an error to
-> > the upper layer is a good idea. All drivers are adapted accordingly.
-> > There is no intended change of behaviour, all callbacks were prepared to
-> > return 0 before.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
->=20
-> Assuming you remove the spurious kasan change:
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Acked-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/media/test-drivers/vivid/vivid-ctrls.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-It's already gone in my tree, see
-https://git.pengutronix.de/cgit/ukl/linux/commit/?h=3Di2c-remove-void
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index 7ff8fdfda28e..a78d676575bc 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -34,6 +34,7 @@
+ #define VIVID_CID_U8_4D_ARRAY		(VIVID_CID_CUSTOM_BASE + 10)
+ #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
+ #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
++#define VIVID_CID_U32_DYN_ARRAY		(VIVID_CID_CUSTOM_BASE + 13)
+ 
+ #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+ #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+@@ -190,6 +191,19 @@ static const struct v4l2_ctrl_config vivid_ctrl_u32_array = {
+ 	.dims = { 1 },
+ };
+ 
++static const struct v4l2_ctrl_config vivid_ctrl_u32_dyn_array = {
++	.ops = &vivid_user_gen_ctrl_ops,
++	.id = VIVID_CID_U32_DYN_ARRAY,
++	.name = "U32 Dynamic Array",
++	.type = V4L2_CTRL_TYPE_U32,
++	.flags = V4L2_CTRL_FLAG_DYNAMIC_ARRAY,
++	.def = 50,
++	.min = 10,
++	.max = 90,
++	.step = 1,
++	.dims = { 100 },
++};
++
+ static const struct v4l2_ctrl_config vivid_ctrl_u16_matrix = {
+ 	.ops = &vivid_user_gen_ctrl_ops,
+ 	.id = VIVID_CID_U16_MATRIX,
+@@ -1625,6 +1639,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
++	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
+ 
+-- 
+2.32.0
 
-> Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
-
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---yp3ilhvx53xygi7l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLFVmcACgkQwfwUeK3K
-7AkOwAgAkt7aZ38n1lpOoBzXslSDQyp/lKc47Ehs+a1LTESfOP6+4frSHSJhaIMw
-WX2bIAZO2kfHd2GJJ1+miP0YO3eys+YJus7vlVp9LsZCtTrR7uUlJ9PhG4eVmYxD
-ZPZMbP533Mkp9Tj201PJRSbnOlhRhKnwpl4kQfj9nXD478yP1zbT/7CDh4Im1isE
-dOUnNdPTAnT17u0fIRREu6TIC/hKy5Lh772ukCBsHwkBWQD4WTtLmdL1uZrspPa3
-fKxI4tIGoKufFCNMNNzK8li/dghhpkn4uy8iNwyjkkmjfCXAkNdwNJiCDlo6qPwb
-idJ3DvpJEEx44L8KdcjzBYUHdSNUkQ==
-=ZnQL
------END PGP SIGNATURE-----
-
---yp3ilhvx53xygi7l--
