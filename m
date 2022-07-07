@@ -1,85 +1,48 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4824D28F2
-	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 19:49:33 +0000 (UTC)
-Received: from dslb-188-097-214-244.188.097.pools.vodafone-ip.de ([188.97.214.244] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1o9XV4-0008AP-JN; Thu, 07 Jul 2022 21:49:22 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 2/2] staging: r8188eu: pattrib addresses were already set by the caller
-Date: Thu,  7 Jul 2022 21:49:14 +0200
-Message-Id: <20220707194914.63794-3-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220707194914.63794-1-martin@kaiser.cx>
-References: <20220707194914.63794-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13FC28F2
+	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 19:57:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3783C3411E;
+	Thu,  7 Jul 2022 19:57:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1657223822;
+	bh=n7MelmtNe8VfFFywW2/Di9aycwkuewiUHOubfAM+7e0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K5xuq4KAzqIehIFHonir99QSW6W4dulY/1If9Fa4lmDzX0wZYDVDDivMQPaYjAnBF
+	 s1jiddqm1PbDSImX31tT+5et9Deq+DWDWR55zf3Y5jJ3YfAMAz5/AipMI/xSUSEz5P
+	 h+2jXgsWO7SROGrOTagK84V8tP7cveOChTKwSNVE=
+Date: Thu, 7 Jul 2022 21:56:59 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: huangzetao <huangzetao1@huawei.com>
+Cc: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
+	"phil@philpotter.co.uk" <phil@philpotter.co.uk>,
+	"paskripkin@gmail.com" <paskripkin@gmail.com>,
+	"straube.linux@gmail.com" <straube.linux@gmail.com>,
+	"martin@kaiser.cx" <martin@kaiser.cx>,
+	"abdun.nihaal@gmail.com" <abdun.nihaal@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"inux-kernel@vger.kernel.org" <inux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?562U5aSNOiBbUEFUQ0ggLW5leHQg?=
+ =?utf-8?Q?v2=5D_staging=3A_r8188eu?= =?utf-8?Q?=3A?= Use
+ eth_broadcast_addr() to assign broadcast address
+Message-ID: <Ysc6i+zLCDS4v/7j@kroah.com>
+References: <20220701094011.81163-1-huangzetao1@huawei.com>
+ <Yr7DQJTPrSWTOa0c@kroah.com>
+ <c4a1182373524b398889b3e1da078127@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c4a1182373524b398889b3e1da078127@huawei.com>
 
-Do not set pattrib's src, dst, bssid, ra and ta again in
-sta2sta_data_frame.
+On Mon, Jul 04, 2022 at 02:45:45AM +0000, huangzetao wrote:
+> Please disregard it.
 
-sta2sta_data_frame is called from validate_recv_data_frame when both to_ds
-and from_ds are 0. All pattrib address fields have already been set to the
-correct addresses when sta2sta_data_frame is called.
+Ok, I will now disregard all patches with the "reported-by: Hulk Robot".
 
-        memcpy(pattrib->dst, ieee80211_get_DA(hdr), ETH_ALEN);
-            ieee80211_get_DA returns addr1 if to_ds and from_ds are 0
-
-        memcpy(pattrib->src, ieee80211_get_SA(hdr), ETH_ALEN);
-            ieee80211_get_SA returns addr2 if to_ds and from_ds are 0
-
-        memcpy(pattrib->ra, hdr->addr1, ETH_ALEN);
-        memcpy(pattrib->ta, hdr->addr2, ETH_ALEN);
-            For pattrib->dst == addr1, pattrib->src == addr2, these
-            assignments match those in sta2sta_data_frame that this
-            patch removes.
-
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_recv.c | 7 -------
- 1 file changed, 7 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 6a2a1b1664ac..e5a7b7dfc387 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -559,7 +559,6 @@ static void count_rx_stats(struct adapter *padapter, struct recv_frame *prframe,
- static int sta2sta_data_frame(struct adapter *adapter,
- 			      struct recv_frame *precv_frame, struct sta_info **psta)
- {
--	u8 *ptr = precv_frame->rx_data;
- 	int ret = _SUCCESS;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
- 	struct	sta_priv *pstapriv = &adapter->stapriv;
-@@ -614,12 +613,6 @@ static int sta2sta_data_frame(struct adapter *adapter,
- 			sta_addr = pattrib->src;
- 		}
- 	} else if (check_fwstate(pmlmepriv, WIFI_MP_STATE)) {
--		memcpy(pattrib->dst, GetAddr1Ptr(ptr), ETH_ALEN);
--		memcpy(pattrib->src, GetAddr2Ptr(ptr), ETH_ALEN);
--		memcpy(pattrib->bssid, GetAddr3Ptr(ptr), ETH_ALEN);
--		memcpy(pattrib->ra, pattrib->dst, ETH_ALEN);
--		memcpy(pattrib->ta, pattrib->src, ETH_ALEN);
--
- 		sta_addr = mybssid;
- 	} else {
- 		ret  = _FAIL;
--- 
-2.30.2
-
+greg k-h
