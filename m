@@ -1,48 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13FC28F2
-	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 19:57:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3783C3411E;
-	Thu,  7 Jul 2022 19:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1657223822;
-	bh=n7MelmtNe8VfFFywW2/Di9aycwkuewiUHOubfAM+7e0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K5xuq4KAzqIehIFHonir99QSW6W4dulY/1If9Fa4lmDzX0wZYDVDDivMQPaYjAnBF
-	 s1jiddqm1PbDSImX31tT+5et9Deq+DWDWR55zf3Y5jJ3YfAMAz5/AipMI/xSUSEz5P
-	 h+2jXgsWO7SROGrOTagK84V8tP7cveOChTKwSNVE=
-Date: Thu, 7 Jul 2022 21:56:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: huangzetao <huangzetao1@huawei.com>
-Cc: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
-	"phil@philpotter.co.uk" <phil@philpotter.co.uk>,
-	"paskripkin@gmail.com" <paskripkin@gmail.com>,
-	"straube.linux@gmail.com" <straube.linux@gmail.com>,
-	"martin@kaiser.cx" <martin@kaiser.cx>,
-	"abdun.nihaal@gmail.com" <abdun.nihaal@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"inux-kernel@vger.kernel.org" <inux-kernel@vger.kernel.org>
-Subject: Re: =?utf-8?B?562U5aSNOiBbUEFUQ0ggLW5leHQg?=
- =?utf-8?Q?v2=5D_staging=3A_r8188eu?= =?utf-8?Q?=3A?= Use
- eth_broadcast_addr() to assign broadcast address
-Message-ID: <Ysc6i+zLCDS4v/7j@kroah.com>
-References: <20220701094011.81163-1-huangzetao1@huawei.com>
- <Yr7DQJTPrSWTOa0c@kroah.com>
- <c4a1182373524b398889b3e1da078127@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD86828F2
+	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 20:07:37 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id a5so13122805wrx.12
+        for <linux-staging@lists.linux.dev>; Thu, 07 Jul 2022 13:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UFb/vVTHpa3YmcpTqh1lfRYgalrYlOtPO+3lLKx7e2w=;
+        b=GRVmiFJd3x6IvVxVUAvexPqEe1BIH/ydII5rQVpCfECXWFdDLVbC0CkVpi3URstvFx
+         SIIkJbBtkW5kyU/4SQszTwmD/+FayV+yCJTniXICKSLR+xkzwl/o6sn+6ciOjpfkv5U9
+         iaWwNYSQFK41TalfJNN6/fTwGAgmqkOWoXAcaQRC4MijpK+qK+7d8/A7xwBxnw8TEe/C
+         fC4GX9lTrLRiHcWYw2IJk5pqRpJWq6RGaY00V4Icb/eu5r/80qkqrIvaA/IOTDFBJdNc
+         e8IagkcRYVqASRasxb/qGS+8V4J+6xLmJ/oNyIj3hb7iqcLQivDQwDZp1HsFMn/ERPFQ
+         sL+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UFb/vVTHpa3YmcpTqh1lfRYgalrYlOtPO+3lLKx7e2w=;
+        b=CcqsGwFFoMl/Y9QiruOrwl5m+CElRb9t4h2kPXpFSRk5yAEWlz5jJIQ46ypQwSsacM
+         5uOwx6hbRwNObnvjevPqVbfRU8dX1GgFugBtIEZNn+jfOfVDain4VrXOQ7dhT5TYbtDW
+         KkKDSXIGy33bRgRJja5aEA4K2ash+MiAFfKcDyMlMjA715CCdunFaCRZLrIBS0o0gur5
+         /mXsK8ahomZqXlXSn8/drlfYRPVPlE0APxqHZ9m7EKuY9hCk1SJZjjYA4leRHM03N90I
+         UtORYizXm7tMtDIpaWLMjcgWmZp41pu4xe27tARdxQSnUocCV6yquZRfOy2ceizyBHvC
+         vrNA==
+X-Gm-Message-State: AJIora8QIrkkYfLwZnK48Fs3kbk8SqUy/QTV15kQHByhNMHbSwuo/0Lo
+	9fu4DtTDEOX/VeQECYHu1e0=
+X-Google-Smtp-Source: AGRyM1uVn2DUfu47zHuV+A0ZwIoNSEY3jvQTT71rKq6YEHsh99Q9rdGTiuSk3+fVCiwUR87mDnXbxw==
+X-Received: by 2002:adf:f646:0:b0:21d:7000:95b1 with SMTP id x6-20020adff646000000b0021d700095b1mr17651897wrp.486.1657224455913;
+        Thu, 07 Jul 2022 13:07:35 -0700 (PDT)
+Received: from localhost.localdomain (host-79-53-109-127.retail.telecomitalia.it. [79.53.109.127])
+        by smtp.gmail.com with ESMTPSA id n17-20020a05600c3b9100b0039ee391a024sm25096752wms.14.2022.07.07.13.07.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 13:07:34 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Martiros Shakhzadyan <vrzh@vrzh.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ira Weiny <ira.weiny@intel.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [RESEND PATCH 0/3] staging: media: atomisp: Convert to kmap_local_page()
+Date: Thu,  7 Jul 2022 22:07:15 +0200
+Message-Id: <20220707200718.26398-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c4a1182373524b398889b3e1da078127@huawei.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 04, 2022 at 02:45:45AM +0000, huangzetao wrote:
-> Please disregard it.
+After waiting months, I'm resending three conversions to
+kmap_local_page(). I'd like to ask if there is anything which prevents
+these patches from being accepted.
 
-Ok, I will now disregard all patches with the "reported-by: Hulk Robot".
+Please note that these patches were submitted on April 2022.
 
-greg k-h
+For you convenience here are the links to the patches, the "Reviewed-by:" 
+and "Tested-by:" tags:
+
+[PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+https://lore.kernel.org/lkml/20220413225531.9425-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/Yli+R7iLZKqO8kVP@iweiny-desk3/
+https://lore.kernel.org/lkml/2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.com/
+
+[PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
+https://lore.kernel.org/lkml/20220413212210.18494-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/YldNhErgt53RqYp7@iweiny-desk3/
+https://lore.kernel.org/lkml/0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.com/
+
+[PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
+https://lore.kernel.org/lkml/20220408223129.3844-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.com/
+
+Fabio M. De Francesco (3):
+  staging: media: atomisp: Convert kmap() to kmap_local_page()
+  staging: media: atomisp: Use kmap_local_page() in hmm_set()
+  staging: media: atomisp: Use kmap_local_page() in hmm_store()
+
+ drivers/staging/media/atomisp/pci/hmm/hmm.c | 22 ++++++---------------
+ 1 file changed, 6 insertions(+), 16 deletions(-)
+
+-- 
+2.36.1
+
