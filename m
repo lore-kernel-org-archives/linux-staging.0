@@ -1,131 +1,135 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B942906
-	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 20:07:45 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id r14so22028734wrg.1
-        for <linux-staging@lists.linux.dev>; Thu, 07 Jul 2022 13:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rTCSXAVDcHhaWmF5B1mtYzKPQt4FAy2X4j0BObLT6Xs=;
-        b=IeURnp416D4+YsTeFKP2dgsRCa/QZTTbliByXDOLciA/80Uy5ICS87ZoiMZ3O59n2n
-         pj4mBx9veTy4ym/9LoDGKlSQSDVMi4U+VXiKCMrPGzHzJpOhL0bfZ7Y3PSFhprcuzqWP
-         Kja9EN3vE9GVptFD3uu8YOyIEYaJwh/fSVOXkrAzjsQozGYIkLrizM+lAeVOcyg04e6t
-         lDAG6JQ06DeC+u3KciW2NQj3T1X/pBM3XBXlOHiEHOYrSaxNuAUXlSg5ECzS0itAy7YA
-         53I2Bfv+CLcK3u+rqhU0jbvYEg6oN5smI8O22ZHL+dLCzyApmOeR1d4HQO8m1mSnAGxF
-         Ld7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rTCSXAVDcHhaWmF5B1mtYzKPQt4FAy2X4j0BObLT6Xs=;
-        b=rcPP5/7rgJD/YA+clDJXQkVxUD5LVgADUpnYz2S+ArkslVGzIGIy20treKsVMka2r8
-         bD5YzTYsa8UmXJ8d3DIVOPXh4rD1FyR1yu3SElHSkf6DSk80KTwBIcG2dxSQvHrnSScd
-         ccCTLi/S0+8xDbtbU0i1v6cLm8Hn+CVKiNU4C4n1NhHPYuoKj9bu0HlVgBUfF2Kt2pVN
-         teVP5kJ8lsFzvwouG0R1ITTtWXdeS/9Buhv9eTA16x9bXjAfZ90RZiZ52z1U7xTglyf5
-         qWfi5Zt5fBi2To9gvAo5BQC8A8aar1tfMNk+3fThXb8IPGVNADLRVi2LRY8OleeGYfgY
-         DpWw==
-X-Gm-Message-State: AJIora91mY/RqKSzMiWaBdKcUOPrGauqBmwbRXQdgWH8OKF+89euo/I2
-	I/8LYbVouqJYtCD71G+Rb6I=
-X-Google-Smtp-Source: AGRyM1vip8b5inVLn8Zh2y8lxHZ//ajL4cRb/xdWnfmA56uw+IgIBLYInrGJCfNuexzpzmxCqScMFg==
-X-Received: by 2002:a5d:4e04:0:b0:21d:6ec3:38a2 with SMTP id p4-20020a5d4e04000000b0021d6ec338a2mr17906129wrt.362.1657224463909;
-        Thu, 07 Jul 2022 13:07:43 -0700 (PDT)
-Received: from localhost.localdomain (host-79-53-109-127.retail.telecomitalia.it. [79.53.109.127])
-        by smtp.gmail.com with ESMTPSA id n17-20020a05600c3b9100b0039ee391a024sm25096752wms.14.2022.07.07.13.07.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 13:07:42 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Martiros Shakhzadyan <vrzh@vrzh.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ira Weiny <ira.weiny@intel.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [RESEND PATCH 3/3] staging: media: atomisp: Use kmap_local_page() in hmm_store()
-Date: Thu,  7 Jul 2022 22:07:18 +0200
-Message-Id: <20220707200718.26398-4-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220707200718.26398-1-fmdefrancesco@gmail.com>
-References: <20220707200718.26398-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F5628ED
+	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 21:30:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657229409; x=1688765409;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RR8nKcKkeUV/WR33JNvmdjCBx/wyCPnlG8A7Ckb1Pgs=;
+  b=UiKfkSafzuNQ2nfq8vWKebj2r42KnJ9O4umt5nj7RowEs6qEB9ivG8m3
+   qPpB+tzZ6L1x1VLmorWFS2xQVxzHNc0QLx3Jj1oGuf5KGQBmnf95HVFUp
+   IUicZsJEghvSji7D6B+rC7x6v1CNPzXyQjBOaV/k/CZrd/ujdyLMlmffn
+   yjw4YxFgHQGlyiaq+szA49RnnYLW2a387uCg9o/+e8FzGcGTBF4Qscfv3
+   l+rb2Wy6BFOut/4MH2VDJ5zs6vLu1Ky29FwQVyFM8nomtzpCtTDim2MxI
+   E7FnvnrGAViO5B/bMRY10ByP2XNC00U3lkpDy8q2wBa/A45PA5ZOa5Ukc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="285254348"
+X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; 
+   d="scan'208";a="285254348"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2022 14:30:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; 
+   d="scan'208";a="736115138"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2022 14:30:05 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o9Z4X-000MVK-6m;
+	Thu, 07 Jul 2022 21:30:05 +0000
+Date: Fri, 8 Jul 2022 05:29:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Karthik Alapati <mail@karthek.com>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kbuild-all@lists.01.org, Shuah Khan <skhan@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: don't use index pointer after iter
+Message-ID: <202207080535.tr2i6TxR-lkp@intel.com>
+References: <Ysa1oopf0ELw+OfB@karthik-strix-linux.karthek.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ysa1oopf0ELw+OfB@karthik-strix-linux.karthek.com>
 
-The use of kmap() is being deprecated in favor of kmap_local_page()
-where it is feasible. The same is true for kmap_atomic().
+Hi Karthik,
 
-In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
-context and, if so, it calls kmap_atomic(), if not, it calls kmap().
+Thank you for the patch! Yet something to improve:
 
-First of all, in_atomic() shouldn't be used in drivers. This macro
-cannot always detect atomic context; in particular, it cannot know
-about held spinlocks in non-preemptible kernels.
+[auto build test ERROR on v5.19-rc5]
+[also build test ERROR on linus/master]
+[cannot apply to staging/staging-testing next-20220707]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Notwithstanding what it is said above, this code doesn't need to care
-whether or not it is executing in atomic context. It can simply use
-kmap_local_page() / kunmap_local() that can instead do the mapping /
-unmapping regardless of the context.
+url:    https://github.com/intel-lab-lkp/linux/commits/Karthik-Alapati/staging-greybus-don-t-use-index-pointer-after-iter/20220707-183311
+base:    88084a3df1672e131ddc1b4e39eeacfd39864acf
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220708/202207080535.tr2i6TxR-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/bc295082ef055003c6018b57d3c56c5aefcb65c5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Karthik-Alapati/staging-greybus-don-t-use-index-pointer-after-iter/20220707-183311
+        git checkout bc295082ef055003c6018b57d3c56c5aefcb65c5
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/
 
-With kmap_local_page(), the mapping is per thread, CPU local and not
-globally visible. Therefore, hmm_store()() is a function where the use
-of kmap_local_page() in place of both kmap() and kmap_atomic() is
-correctly suited.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Convert the calls of kmap() / kunmap() and kmap_atomic() /
-kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
-unnecessary tests which test if the code is in atomic context.
+All errors (new ones prefixed by >>):
 
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+   drivers/staging/greybus/audio_helper.c: In function 'gbaudio_dapm_free_controls':
+>> drivers/staging/greybus/audio_helper.c:128:32: error: expected ';' before 'for'
+     128 |                 w_found = false
+         |                                ^
+         |                                ;
+   drivers/staging/greybus/audio_helper.c:119:14: warning: variable 'w_found' set but not used [-Wunused-but-set-variable]
+     119 |         bool w_found = false;
+         |              ^~~~~~~
+   drivers/staging/greybus/audio_helper.c:118:41: warning: unused variable 'next_w' [-Wunused-variable]
+     118 |         struct snd_soc_dapm_widget *w, *next_w;
+         |                                         ^~~~~~
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 46ac082cd3f1..54188197c3dc 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -482,10 +482,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
- 		idx = (virt - bo->start) >> PAGE_SHIFT;
- 		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
- 
--		if (in_atomic())
--			des = (char *)kmap_atomic(bo->page_obj[idx].page);
--		else
--			des = (char *)kmap(bo->page_obj[idx].page);
-+		des = (char *)kmap_local_page(bo->page_obj[idx].page);
- 
- 		if (!des) {
- 			dev_err(atomisp_dev,
-@@ -512,14 +509,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
- 
- 		clflush_cache_range(des, len);
- 
--		if (in_atomic())
--			/*
--			 * Note: kunmap_atomic requires return addr from
--			 * kmap_atomic, not the page. See linux/highmem.h
--			 */
--			kunmap_atomic(des - offset);
--		else
--			kunmap(bo->page_obj[idx].page);
-+		kunmap_local(des);
- 	}
- 
- 	return 0;
+
+vim +128 drivers/staging/greybus/audio_helper.c
+
+   124	
+   125		mutex_lock(&dapm->card->dapm_mutex);
+   126		for (i = 0; i < num; i++) {
+   127			/* below logic can be optimized to identify widget pointer */
+ > 128			w_found = false
+   129			list_for_each_entry_safe(w, next_w, &dapm->card->widgets,
+   130						 list) {
+   131				if (w->dapm != dapm)
+   132					continue;
+   133				if (!strcmp(w->name, widget->name)) {
+   134					w_found = true;
+   135					break;
+   136				}
+   137				w = NULL;
+   138			}
+   139			if (!w_found) {
+   140				dev_err(dapm->dev, "%s: widget not found\n",
+   141					widget->name);
+   142				widget++;
+   143				continue;
+   144			}
+   145			widget++;
+   146	#ifdef CONFIG_DEBUG_FS
+   147			if (!parent)
+   148				debugfs_w = debugfs_lookup(w->name, parent);
+   149			debugfs_remove(debugfs_w);
+   150			debugfs_w = NULL;
+   151	#endif
+   152			gbaudio_dapm_free_widget(w);
+   153		}
+   154		mutex_unlock(&dapm->card->dapm_mutex);
+   155		return 0;
+   156	}
+   157	
+
 -- 
-2.36.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
