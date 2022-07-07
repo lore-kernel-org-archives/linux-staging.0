@@ -1,139 +1,203 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BEA210C;
-	Thu,  7 Jul 2022 14:03:01 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id w185so15860453pfb.4;
-        Thu, 07 Jul 2022 07:03:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=afbiyF16Fd4Ewaaf3EKKCpvpR7aHAsNAQp7K3TuQXs4=;
-        b=EzpeppBfdoHkOWruUNAYNHzOi8S5lBuVkWR/uarc/O7MDVJ2qM1NUNdy3hxzZeKinw
-         1f6tPe15AftcBiSP1Sugt5jiQpAKlLcyz+gPyHgHTvK6IkiuSg6SYHkmzqBCpGaHkm3K
-         GirawtqITR+EFkG0pF8QxPm0bxzk97EH7JYJxQXFRi4d1kRfsZVOuxKRapjByLByJ3DF
-         qAVqAZfaAfJT+F8T/W2rPtPmXy6/uaYwejGaDWQ5Frl3XCXwsQlqWF67lU3BIXdseGBS
-         CTJ5pH+oR76s++4uNTCxHCZwHNyWF4xdxY3ay2k5fQlKGRbstnEbIjnAVDZkl7wMQgN9
-         oSpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=afbiyF16Fd4Ewaaf3EKKCpvpR7aHAsNAQp7K3TuQXs4=;
-        b=EvHK8nkg3Kwr3qyYYCrLIuataxQLeU3qJvhIQTm/jZLB0THuMggv4Iovr18cO8FgpH
-         N5QbE7vi7Sxj6nAqDcuvir0mm5EYccyHKXxruCyMl/R+5/T/Dkqh99N9UnNJQvooyjVD
-         wTLnxlJE6nziiwg0TWDsHxFNywGA1MfCDVnv8wQThWwJKyOKtIf5Xqjrbblp2UhdlFvM
-         3bvv6sTopDvkfFYigGaMB6Gm1jcxxwa9nRajsQ+lkF42AKHjlRtGlxcfl/soa5xX1TUg
-         kgpBBdmVtaESN8MiDfeDBI16NLkr0ISnoAA1uTjAkR8RM+Uslu66o3uB5wcuyboPDra9
-         kaYQ==
-X-Gm-Message-State: AJIora/DLYrUmoXgedAXvH43D5AtZB8Rh6MEKufUWhLM7QREm2v+7s5/
-	YAU6zEAtzJ6wScAsaOmUujQ=
-X-Google-Smtp-Source: AGRyM1uGEg1zRLKU3mt/8yK/HfEqKFBdv1eoQpzxhqHLW6DjIp1gLh6JEsU/RWRdBfoHFypH/TfaNQ==
-X-Received: by 2002:a17:90b:4c8f:b0:1ec:cdd0:41b7 with SMTP id my15-20020a17090b4c8f00b001eccdd041b7mr5420238pjb.119.1657202580508;
-        Thu, 07 Jul 2022 07:03:00 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id k127-20020a632485000000b004148cbdd4e5sm1215293pgk.57.2022.07.07.07.02.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 07:02:59 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 7 Jul 2022 07:02:58 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	virtualization@lists.linux-foundation.org,
-	usbb2k-api-dev@nongnu.org, tipc-discussion@lists.sourceforge.net,
-	target-devel@vger.kernel.org, sound-open-firmware@alsa-project.org,
-	samba-technical@lists.samba.org, rds-devel@oss.oracle.com,
-	patches@opensource.cirrus.com, osmocom-net-gprs@lists.osmocom.org,
-	openipmi-developer@lists.sourceforge.net, nvdimm@lists.linux.dev,
-	ntb@lists.linux.dev, netfilter-devel@vger.kernel.org,
-	netdev@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
-	megaraidlinux.pdl@broadcom.com, linuxppc-dev@lists.ozlabs.org,
-	linux1394-devel@lists.sourceforge.net, linux-x25@vger.kernel.org,
-	linux-wpan@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-unionfs@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-sctp@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-raid@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-perf-users@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-parport@lists.infradead.org,
-	linux-parisc@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-nfc@lists.01.org, linux-mtd@lists.infradead.org,
-	linux-mmc@vger.kernel.org, linux-mm@kvack.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-fpga@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
-	legousb-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-	keyrings@vger.kernel.org, isdn4linux@listserv.isdn4linux.de,
-	iommu@lists.linux.dev, iommu@lists.linux-foundation.org,
-	intel-wired-lan@lists.osuosl.org, greybus-dev@lists.linaro.org,
-	dri-devel@lists.freedesktop.org, dm-devel@redhat.com,
-	devicetree@vger.kernel.org, dev@openvswitch.org,
-	dccp@vger.kernel.org, damon@lists.linux.dev, coreteam@netfilter.org,
-	cgroups@vger.kernel.org, ceph-devel@vger.kernel.org,
-	ath11k@lists.infradead.org, apparmor@lists.ubuntu.com,
-	amd-gfx@lists.freedesktop.org, alsa-devel@alsa-project.org,
-	accessrunner-general@lists.sourceforge.net
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 088b9c375534d905a4d337c78db3b3bfbb52c4a0
-Message-ID: <20220707140258.GA3492673@roeck-us.net>
-References: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
- <YsaUgfPbOg7WuBuB@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DEF23AC
+	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 15:40:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3093B1FE63;
+	Thu,  7 Jul 2022 15:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1657208399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lF9a02oUlFzrrOo5gyMhGnhLeg9CuZy/YxicIfRKwl4=;
+	b=joOnQDXCl+KbKC1sFIJcHKXxuEBjkDT3R/h6zSRm04R3k0k+ED662VUX8iZ4KrzEU8di6g
+	6nD26GmkdiQiewCuVdvpKtL3gxKfNRC8cXJaUrX8s4AcdVJgkchWdFWKAzYUjrrjMSoM5h
+	U+ST+B7U8AtgM1+jVQvj1YtD9A6njVg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1657208399;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lF9a02oUlFzrrOo5gyMhGnhLeg9CuZy/YxicIfRKwl4=;
+	b=bzFgz22rL0pfT6r+zmlwzJcdN2QXc3guOQyztpoSC9205UNBsbLYM6s6GDHJ0N64Zl98dw
+	uImxwMt8Tft/DEBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F09B113B4E;
+	Thu,  7 Jul 2022 15:39:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id YOfdOU7+xmI9UQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 07 Jul 2022 15:39:58 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com,
+	deller@gmx.de,
+	daniel@ffwll.ch,
+	sam@ravnborg.org,
+	maxime@cerno.tech
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 04/11] fbdev/core: Remove remove_conflicting_pci_framebuffers()
+Date: Thu,  7 Jul 2022 17:39:45 +0200
+Message-Id: <20220707153952.32264-5-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220707153952.32264-1-tzimmermann@suse.de>
+References: <20220707153952.32264-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YsaUgfPbOg7WuBuB@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 07, 2022 at 10:08:33AM +0200, Greg KH wrote:
+Remove remove_conflicting_pci_framebuffers() and implement similar
+functionality in aperture_remove_conflicting_pci_device(), which was
+the only caller. Removes an otherwise unused interface and streamlines
+the aperture helper. No functional changes.
 
-[ ... ]
-> > 
-> > Unverified Error/Warning (likely false positive, please contact us if interested):
-> > 
-> > arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code 'err'
-> > drivers/android/binder.c:1481:19-23: ERROR: from is NULL but dereferenced.
-> > drivers/android/binder.c:2920:29-33: ERROR: target_thread is NULL but dereferenced.
-> > drivers/android/binder.c:353:25-35: ERROR: node -> proc is NULL but dereferenced.
-> > drivers/android/binder.c:4888:16-20: ERROR: t is NULL but dereferenced.
-> > drivers/base/regmap/regmap.c:1996:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> > drivers/char/random.c:869:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> > drivers/firmware/arm_scmi/clock.c:394:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> > drivers/firmware/arm_scmi/powercap.c:376:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> > drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_powertune.c:1214:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> > drivers/gpu/drm/amd/display/dc/os_types.h: drm/drm_print.h is included more than once.
-> > drivers/gpu/drm/bridge/ite-it66121.c:1398:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> > drivers/greybus/operation.c:617:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> 
-> <snip>
-> 
-> When the compiler crashes, why are you blaming all of these different
-> mailing lists?  Perhaps you need to fix your compiler :)
-> 
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/video/aperture.c         | 30 ++++++++++++--------
+ drivers/video/fbdev/core/fbmem.c | 48 --------------------------------
+ include/linux/fb.h               |  2 --
+ 3 files changed, 18 insertions(+), 62 deletions(-)
 
-To be fair, it says above "likely false positive, please contact us
-if interested". Also, the 32-bit build errors _are_ real, and the NULL
-dereferences in the binder driver are at the very least suspicious.
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 538f2d40acda..f42a0d8bc211 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -321,30 +321,36 @@ EXPORT_SYMBOL(aperture_remove_conflicting_devices);
+  */
+ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
+ {
++	bool primary = false;
+ 	resource_size_t base, size;
+ 	int bar, ret;
+ 
+-	/*
+-	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+-	 * otherwise the vga fbdev driver falls over.
+-	 */
+-#if IS_REACHABLE(CONFIG_FB)
+-	ret = remove_conflicting_pci_framebuffers(pdev, name);
+-	if (ret)
+-		return ret;
++#ifdef CONFIG_X86
++	primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
+ #endif
+-	ret = vga_remove_vgacon(pdev);
+-	if (ret)
+-		return ret;
+ 
+ 	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
+ 		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+ 			continue;
++
+ 		base = pci_resource_start(pdev, bar);
+ 		size = pci_resource_len(pdev, bar);
+-		aperture_detach_devices(base, size);
++		ret = aperture_remove_conflicting_devices(base, size, primary, name);
++		if (ret)
++			break;
+ 	}
+ 
++	if (ret)
++		return ret;
++
++	/*
++	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
++	 * otherwise the vga fbdev driver falls over.
++	 */
++	ret = vga_remove_vgacon(pdev);
++	if (ret)
++		return ret;
++
+ 	return 0;
+ 
+ }
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index c4a18322dee9..877de85309f3 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1787,54 +1787,6 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
+ }
+ EXPORT_SYMBOL(remove_conflicting_framebuffers);
+ 
+-/**
+- * remove_conflicting_pci_framebuffers - remove firmware-configured framebuffers for PCI devices
+- * @pdev: PCI device
+- * @name: requesting driver name
+- *
+- * This function removes framebuffer devices (eg. initialized by firmware)
+- * using memory range configured for any of @pdev's memory bars.
+- *
+- * The function assumes that PCI device with shadowed ROM drives a primary
+- * display and so kicks out vga16fb.
+- */
+-int remove_conflicting_pci_framebuffers(struct pci_dev *pdev, const char *name)
+-{
+-	struct apertures_struct *ap;
+-	bool primary = false;
+-	int err, idx, bar;
+-
+-	for (idx = 0, bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+-		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+-			continue;
+-		idx++;
+-	}
+-
+-	ap = alloc_apertures(idx);
+-	if (!ap)
+-		return -ENOMEM;
+-
+-	for (idx = 0, bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+-		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+-			continue;
+-		ap->ranges[idx].base = pci_resource_start(pdev, bar);
+-		ap->ranges[idx].size = pci_resource_len(pdev, bar);
+-		pci_dbg(pdev, "%s: bar %d: 0x%lx -> 0x%lx\n", __func__, bar,
+-			(unsigned long)pci_resource_start(pdev, bar),
+-			(unsigned long)pci_resource_end(pdev, bar));
+-		idx++;
+-	}
+-
+-#ifdef CONFIG_X86
+-	primary = pdev->resource[PCI_ROM_RESOURCE].flags &
+-					IORESOURCE_ROM_SHADOW;
+-#endif
+-	err = remove_conflicting_framebuffers(ap, name, primary);
+-	kfree(ap);
+-	return err;
+-}
+-EXPORT_SYMBOL(remove_conflicting_pci_framebuffers);
+-
+ /**
+  *	register_framebuffer - registers a frame buffer device
+  *	@fb_info: frame buffer info structure
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 07fcd0e56682..b91c77016560 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -615,8 +615,6 @@ extern ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
+ /* drivers/video/fbmem.c */
+ extern int register_framebuffer(struct fb_info *fb_info);
+ extern void unregister_framebuffer(struct fb_info *fb_info);
+-extern int remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+-					       const char *name);
+ extern int remove_conflicting_framebuffers(struct apertures_struct *a,
+ 					   const char *name, bool primary);
+ extern int fb_prepare_logo(struct fb_info *fb_info, int rotate);
+-- 
+2.36.1
 
-Guenter
