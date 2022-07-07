@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489AC23BE
-	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 15:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DB223AF
+	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 15:40:07 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CA3891FF60;
-	Thu,  7 Jul 2022 15:40:00 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ED6F51FF4F;
+	Thu,  7 Jul 2022 15:39:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1657208400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1657208399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=y30RSTpJRsVYDg4al3S7htzFrpSCpxtaFqiM1kvJZ8Y=;
-	b=eMve//6zDfOQ7b6QrguOxjD+3jXMsWTED5Vz2UwVUljRfLTcaCZr5mE0h64+0G8MbYuiaL
-	jXh/er30WOgDvWlKcgSt+K0qNw0Tw5BlQ4unFHvRwwGtv+uaXMJiaVjTaqkKQXBncZ3jFJ
-	QEb4AIBQ+dqFEQronECfhitvaYtrsbs=
+	bh=De8S57X+suSKIr+oaW7vvkAWfi5bTh0xCCKRzOI4SBg=;
+	b=gTksLONgi9XMbEZBHCWg+oA3de/owUCQvCsFwwTun7xhsO3/MRxk/EkUbWzD4Pw15CE58e
+	PJXgQQM9RE9K9u4NyWRRXE6kaObCS/XkffzNC9qCoqEBgKUvKv2IIONICuA0Pba0O3xO81
+	gtVqRMZieOXcM3Brx/FltRnFMsJuSj0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1657208400;
+	s=susede2_ed25519; t=1657208399;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=y30RSTpJRsVYDg4al3S7htzFrpSCpxtaFqiM1kvJZ8Y=;
-	b=Xh266f56nGg4leywjUhgYMu3Mq7qjb32tpOzTS25VR6HafJOIkqTkbS9OMQvDz0DbAj8Xe
-	uG/3yd1KElIYY0Cw==
+	bh=De8S57X+suSKIr+oaW7vvkAWfi5bTh0xCCKRzOI4SBg=;
+	b=AFqUMXg/peIvvHIotk3Kttpf/scYDzXh9K1KG/2sg4a9NBvv2bbybMZaa5bgSS55XvlQXu
+	jH6nBLE/KR2NjKDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 99A3B13A33;
-	Thu,  7 Jul 2022 15:40:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A082413A33;
+	Thu,  7 Jul 2022 15:39:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ACJGJFD+xmI9UQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 07 Jul 2022 15:40:00 +0000
+	id kPI9Jk/+xmI9UQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 07 Jul 2022 15:39:59 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	deller@gmx.de,
@@ -46,10 +46,17 @@ To: javierm@redhat.com,
 Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 11/11] fbdev: Remove conflict-handling code
-Date: Thu,  7 Jul 2022 17:39:52 +0200
-Message-Id: <20220707153952.32264-12-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Zack Rusin <zackr@vmware.com>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Changcheng Deng <deng.changcheng@zte.com.cn>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 07/11] video/aperture: Disable and unregister sysfb devices via aperture helpers
+Date: Thu,  7 Jul 2022 17:39:48 +0200
+Message-Id: <20220707153952.32264-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220707153952.32264-1-tzimmermann@suse.de>
 References: <20220707153952.32264-1-tzimmermann@suse.de>
@@ -61,206 +68,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the call to do_remove_conflicting_framebuffers() from the
-framebuffer registration. Aperture helpers take care of removing
-conflicting devices. With all ownership information stored in the
-aperture datastrcutures, remove remove_conflicting_framebuffers()
-entirely.
-
-This change also rectifies DRM generic-framebuffer registration, which
-tried to unregister conflicting framebuffers, even though it's entirely
-build on top of DRM.
+Call sysfb_disable() before removing conflicting devices in aperture
+helpers. Fixes sysfb state if fbdev has been disabled.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: fb84efa28a48 ("drm/aperture: Run fbdev removal before internal helpers")
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Changcheng Deng <deng.changcheng@zte.com.cn>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/video/aperture.c         | 21 -------
- drivers/video/fbdev/core/fbmem.c | 99 --------------------------------
- include/linux/fb.h               |  2 -
- 3 files changed, 122 deletions(-)
+ drivers/video/aperture.c         | 14 ++++++++++++++
+ drivers/video/fbdev/core/fbmem.c | 12 ------------
+ 2 files changed, 14 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-index abc691284a77..9e6bcc03a1a4 100644
+index f42a0d8bc211..101e13c2cf41 100644
 --- a/drivers/video/aperture.c
 +++ b/drivers/video/aperture.c
-@@ -2,7 +2,6 @@
- 
- #include <linux/aperture.h>
- #include <linux/device.h>
--#include <linux/fb.h> /* for old fbdev helpers */
- #include <linux/list.h>
- #include <linux/mutex.h>
+@@ -8,6 +8,7 @@
  #include <linux/pci.h>
-@@ -286,11 +285,6 @@ static void aperture_detach_devices(resource_size_t base, resource_size_t size)
- int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t size,
- 					bool primary, const char *name)
- {
--#if IS_REACHABLE(CONFIG_FB)
--	struct apertures_struct *a;
--	int ret;
--#endif
--
- 	/*
- 	 * If a driver asked to unregister a platform device registered by
- 	 * sysfb, then can be assumed that this is a driver for a display
-@@ -312,21 +306,6 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
- 	if (primary)
- 		aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
++#include <linux/sysfb.h>
+ #include <linux/types.h>
+ #include <linux/vgaarb.h>
  
--#if IS_REACHABLE(CONFIG_FB)
--	a = alloc_apertures(1);
--	if (!a)
--		return -ENOMEM;
--
--	a->ranges[0].base = base;
--	a->ranges[0].size = size;
--
--	ret = remove_conflicting_framebuffers(a, name, primary);
--	kfree(a);
--
--	if (ret)
--		return ret;
--#endif
--
- 	return 0;
- }
- EXPORT_SYMBOL(aperture_remove_conflicting_devices);
+@@ -286,7 +287,20 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
+ #if IS_REACHABLE(CONFIG_FB)
+ 	struct apertures_struct *a;
+ 	int ret;
++#endif
++
++	/*
++	 * If a driver asked to unregister a platform device registered by
++	 * sysfb, then can be assumed that this is a driver for a display
++	 * that is set up by the system firmware and has a generic driver.
++	 *
++	 * Drivers for devices that don't have a generic driver will never
++	 * ask for this, so let's assume that a real driver for the display
++	 * was already probed and prevent sysfb to register devices later.
++	 */
++	sysfb_disable();
+ 
++#if IS_REACHABLE(CONFIG_FB)
+ 	a = alloc_apertures(1);
+ 	if (!a)
+ 		return -ENOMEM;
 diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index e556ad69f48f..9d3d0ed479d2 100644
+index 877de85309f3..3ee3ea018245 100644
 --- a/drivers/video/fbdev/core/fbmem.c
 +++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1551,65 +1551,6 @@ static bool fb_do_apertures_overlap(struct apertures_struct *gena,
+@@ -19,7 +19,6 @@
+ #include <linux/kernel.h>
+ #include <linux/major.h>
+ #include <linux/slab.h>
+-#include <linux/sysfb.h>
+ #include <linux/mm.h>
+ #include <linux/mman.h>
+ #include <linux/vt.h>
+@@ -1765,17 +1764,6 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
+ 		do_free = true;
+ 	}
  
- static void do_unregister_framebuffer(struct fb_info *fb_info);
- 
--static void do_remove_conflicting_framebuffers(struct apertures_struct *a,
--					       const char *name, bool primary)
--{
--	int i;
+-	/*
+-	 * If a driver asked to unregister a platform device registered by
+-	 * sysfb, then can be assumed that this is a driver for a display
+-	 * that is set up by the system firmware and has a generic driver.
+-	 *
+-	 * Drivers for devices that don't have a generic driver will never
+-	 * ask for this, so let's assume that a real driver for the display
+-	 * was already probed and prevent sysfb to register devices later.
+-	 */
+-	sysfb_disable();
 -
--restart_removal:
--	/* check all firmware fbs and kick off if the base addr overlaps */
--	for_each_registered_fb(i) {
--		struct apertures_struct *gen_aper;
--		struct device *device;
--
--		if (!(registered_fb[i]->flags & FBINFO_MISC_FIRMWARE))
--			continue;
--
--		gen_aper = registered_fb[i]->apertures;
--		device = registered_fb[i]->device;
--		if (fb_do_apertures_overlap(gen_aper, a) ||
--			(primary && gen_aper && gen_aper->count &&
--			 gen_aper->ranges[0].base == VGA_FB_PHYS_BASE)) {
--
--			printk(KERN_INFO "fb%d: switching to %s from %s\n",
--			       i, name, registered_fb[i]->fix.id);
--
--			/*
--			 * If we kick-out a firmware driver, we also want to remove
--			 * the underlying platform device, such as simple-framebuffer,
--			 * VESA, EFI, etc. A native driver will then be able to
--			 * allocate the memory range.
--			 *
--			 * If it's not a platform device, at least print a warning. A
--			 * fix would add code to remove the device from the system. For
--			 * framebuffers without any Linux device, print a warning as
--			 * well.
--			 */
--			if (!device) {
--				pr_warn("fb%d: no device set\n", i);
--				do_unregister_framebuffer(registered_fb[i]);
--			} else if (dev_is_platform(device)) {
--				/*
--				 * Drop the lock because if the device is unregistered, its
--				 * driver will call to unregister_framebuffer(), that takes
--				 * this lock.
--				 */
--				mutex_unlock(&registration_lock);
--				platform_device_unregister(to_platform_device(device));
--				mutex_lock(&registration_lock);
--			} else {
--				pr_warn("fb%d: cannot remove device\n", i);
--				do_unregister_framebuffer(registered_fb[i]);
--			}
--			/*
--			 * Restart the removal loop now that the device has been
--			 * unregistered and its associated framebuffer gone.
--			 */
--			goto restart_removal;
--		}
--	}
--}
--
- static int do_register_framebuffer(struct fb_info *fb_info)
- {
- 	int i;
-@@ -1618,10 +1559,6 @@ static int do_register_framebuffer(struct fb_info *fb_info)
- 	if (fb_check_foreignness(fb_info))
- 		return -ENOSYS;
- 
--	do_remove_conflicting_framebuffers(fb_info->apertures,
--					   fb_info->fix.id,
--					   fb_is_primary_device(fb_info));
--
- 	if (num_registered_fb == FB_MAX)
- 		return -ENXIO;
- 
-@@ -1766,42 +1703,6 @@ static int fbm_aperture_acquire_for_platform_device(struct fb_info *fb_info)
- 	return ret;
- }
- 
--/**
-- * remove_conflicting_framebuffers - remove firmware-configured framebuffers
-- * @a: memory range, users of which are to be removed
-- * @name: requesting driver name
-- * @primary: also kick vga16fb if present
-- *
-- * This function removes framebuffer devices (initialized by firmware/bootloader)
-- * which use memory range described by @a. If @a is NULL all such devices are
-- * removed.
-- */
--int remove_conflicting_framebuffers(struct apertures_struct *a,
--				    const char *name, bool primary)
--{
--	bool do_free = false;
--
--	if (!a) {
--		a = alloc_apertures(1);
--		if (!a)
--			return -ENOMEM;
--
--		a->ranges[0].base = 0;
--		a->ranges[0].size = ~0;
--		do_free = true;
--	}
--
--	mutex_lock(&registration_lock);
--	do_remove_conflicting_framebuffers(a, name, primary);
--	mutex_unlock(&registration_lock);
--
--	if (do_free)
--		kfree(a);
--
--	return 0;
--}
--EXPORT_SYMBOL(remove_conflicting_framebuffers);
--
- /**
-  *	register_framebuffer - registers a frame buffer device
-  *	@fb_info: frame buffer info structure
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index b91c77016560..453c3b2b6b8e 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -615,8 +615,6 @@ extern ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
- /* drivers/video/fbmem.c */
- extern int register_framebuffer(struct fb_info *fb_info);
- extern void unregister_framebuffer(struct fb_info *fb_info);
--extern int remove_conflicting_framebuffers(struct apertures_struct *a,
--					   const char *name, bool primary);
- extern int fb_prepare_logo(struct fb_info *fb_info, int rotate);
- extern int fb_show_logo(struct fb_info *fb_info, int rotate);
- extern char* fb_get_buffer_offset(struct fb_info *info, struct fb_pixmap *buf, u32 size);
+ 	mutex_lock(&registration_lock);
+ 	do_remove_conflicting_framebuffers(a, name, primary);
+ 	mutex_unlock(&registration_lock);
 -- 
 2.36.1
 
