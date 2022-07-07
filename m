@@ -1,42 +1,38 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B63C23D7
-	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 15:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C5A23A1
+	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 15:46:09 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5FF9A1FF5D;
-	Thu,  7 Jul 2022 15:40:00 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 31916219F2;
+	Thu,  7 Jul 2022 15:39:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1657208400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TqAP4rJMs1E32DmINLCxdsX/lKz0Fb4DoldPS6u51bM=;
-	b=x1invp6cc5qcJg27MWdxxKsj0xu+II4VnTo8oLHZCLkpQg6qUyQsPvypiGYuBd6c/L+Rr/
-	JcRpfXXtrEV6K7Jzv6AvOiVN0JEyflnqUiZ2zW3JWGpDjk9KZhebiGLqx2m3aqybjNe8l4
-	A6q4rYpfT+dACc6mHK/E073wPyIzcOQ=
+	t=1657208398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=4vZ5bqCfIkwqM9philRuQdabqYFiE7l8C2Z/WBk+CRs=;
+	b=XrmZeKlk8nIFeVcnen2WkP1lYO+G3PKWD4+69OoesWQ2uZQK5/+IabAX4M849tzAGewc6W
+	F7/1K196CyzbrZ7koXb+oGjpy8QXiEaMD2grHp0TgHlC+EnssG5WPUx5TBlzkFwjv4QF/3
+	yBawnDrOuZUmPyVef2xxiwlsAkf4p/E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1657208400;
+	s=susede2_ed25519; t=1657208398;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TqAP4rJMs1E32DmINLCxdsX/lKz0Fb4DoldPS6u51bM=;
-	b=UVxFWqbVxD3dfdTYH7mVJPgIgHHt0bynsw+6PsbrtBNryfMMypzPoPKtML/7X4Uqwg4IZ5
-	Qwx21swcbkQ6ygCA==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=4vZ5bqCfIkwqM9philRuQdabqYFiE7l8C2Z/WBk+CRs=;
+	b=mOElHapcEpoTN5jeCTInBT6zi/k8X5ON5DK5Cd2LrCUjdyYkFowxp+qjcXONWyyoBuXqc/
+	H4B/iCu7bmlqySCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3111E13A33;
-	Thu,  7 Jul 2022 15:40:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 01C5813A33;
+	Thu,  7 Jul 2022 15:39:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id uCsMC1D+xmI9UQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 07 Jul 2022 15:40:00 +0000
+	id sboEO03+xmI9UQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 07 Jul 2022 15:39:57 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	deller@gmx.de,
@@ -47,12 +43,10 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 09/11] video/aperture: Remove conflicting VGA devices, if any
-Date: Thu,  7 Jul 2022 17:39:50 +0200
-Message-Id: <20220707153952.32264-10-tzimmermann@suse.de>
+Subject: [PATCH 00/11] fbdev: Maintain device ownership with aperture helpers
+Date: Thu,  7 Jul 2022 17:39:41 +0200
+Message-Id: <20220707153952.32264-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220707153952.32264-1-tzimmermann@suse.de>
-References: <20220707153952.32264-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,55 +55,101 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On the primary graphics adapter, a driver might conflict with a VGA
-driver that controls the VGA framebuffer I/O range. Remove the VGA
-driver from the aperture helpers. Until now, this case has been
-hendled by fbdev, but it should work even with fbdev disabled.
+Fbdev firmware drivers acquire ownership of framebuffer I/O ranges and
+hand them over to native drivers during the boot process. Re-implement
+this mechanism with aperture helpers and remove the respective fbdev
+code.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/aperture.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+This change allows to perform hand-over from DRM firmware drivers. In a
+later patchset, device ownership can be moved from DRM and fbdev entirely
+into aperture helpers.
 
-diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-index 101e13c2cf41..abc691284a77 100644
---- a/drivers/video/aperture.c
-+++ b/drivers/video/aperture.c
-@@ -12,6 +12,8 @@
- #include <linux/types.h>
- #include <linux/vgaarb.h>
- 
-+#include <video/vga.h>
-+
- /**
-  * DOC: overview
-  *
-@@ -300,6 +302,16 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
- 	 */
- 	sysfb_disable();
- 
-+	aperture_detach_devices(base, size);
-+
-+	/*
-+	 * If this is the primary adapter, there could be a VGA device
-+	 * that consumes the VGA framebuffer I/O range. Remove this device
-+	 * as well.
-+	 */
-+	if (primary)
-+		aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
-+
- #if IS_REACHABLE(CONFIG_FB)
- 	a = alloc_apertures(1);
- 	if (!a)
-@@ -315,8 +327,6 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
- 		return ret;
- #endif
- 
--	aperture_detach_devices(base, size);
--
- 	return 0;
- }
- EXPORT_SYMBOL(aperture_remove_conflicting_devices);
+Patches 1 and 4 are cleanups.
+
+Patches 2 and 3 integrate EGA/VGA support into sysfb, although it's not
+clear if the x86 architecture code actually still supports VGA graphics
+mode.
+
+Patches 5 to 10 replace fbdev's ownership management with aperture
+helpers. This includes removal of conflicting framebuffer drivers,
+removal of conflicting VGA drivers and registration of fbdev firmware
+devices. Notably, many PCI-based fbdev drivers failed to remove firmware
+devices until now; and therefore probably haven't worked correctly for
+some time.
+
+Patch 11 removes the implementation of fbdev ownership management.
+
+The patchset has been tested by handing over device ownership between
+firmware and native drivers of DRM and fbdev in various combinations.
+
+Thomas Zimmermann (11):
+  fbdev: Remove trailing whitespaces
+  fbdev/vga16fb: Create EGA/VGA devices in sysfb code
+  fbdev/vga16fb: Auto-generate module init/exit code
+  fbdev/core: Remove remove_conflicting_pci_framebuffers()
+  fbdev: Convert drivers to aperture helpers
+  fbdev: Remove conflicting devices on PCI bus
+  video/aperture: Disable and unregister sysfb devices via aperture
+    helpers
+  video: Provide constants for VGA I/O range
+  video/aperture: Remove conflicting VGA devices, if any
+  fbdev: Acquire framebuffer apertures for firmware devices
+  fbdev: Remove conflict-handling code
+
+ drivers/firmware/sysfb.c                     |   4 +
+ drivers/staging/sm750fb/sm750.c              |  15 +-
+ drivers/video/aperture.c                     |  69 ++--
+ drivers/video/fbdev/arkfb.c                  |   5 +
+ drivers/video/fbdev/asiliantfb.c             |   5 +
+ drivers/video/fbdev/aty/aty128fb.c           |  57 ++--
+ drivers/video/fbdev/aty/atyfb_base.c         |   7 +-
+ drivers/video/fbdev/aty/radeon_base.c        |  83 +++--
+ drivers/video/fbdev/carminefb.c              |   5 +
+ drivers/video/fbdev/chipsfb.c                |  13 +-
+ drivers/video/fbdev/cirrusfb.c               |   5 +
+ drivers/video/fbdev/core/fbmem.c             | 176 ++---------
+ drivers/video/fbdev/cyber2000fb.c            |   5 +
+ drivers/video/fbdev/geode/gx1fb_core.c       |   5 +
+ drivers/video/fbdev/geode/gxfb_core.c        |   5 +
+ drivers/video/fbdev/geode/lxfb_core.c        |   5 +
+ drivers/video/fbdev/gxt4500.c                |   5 +
+ drivers/video/fbdev/hyperv_fb.c              |   6 +-
+ drivers/video/fbdev/i740fb.c                 |   5 +
+ drivers/video/fbdev/i810/i810_main.c         | 315 ++++++++++---------
+ drivers/video/fbdev/imsttfb.c                |  36 ++-
+ drivers/video/fbdev/intelfb/intelfbdrv.c     |   5 +
+ drivers/video/fbdev/kyro/fbdev.c             |   5 +
+ drivers/video/fbdev/matrox/matroxfb_base.c   |   5 +
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |   5 +
+ drivers/video/fbdev/neofb.c                  |  41 +--
+ drivers/video/fbdev/nvidia/nvidia.c          |   7 +-
+ drivers/video/fbdev/pm2fb.c                  |   5 +
+ drivers/video/fbdev/pm3fb.c                  |   5 +
+ drivers/video/fbdev/pvr2fb.c                 |   5 +
+ drivers/video/fbdev/riva/fbdev.c             |  67 ++--
+ drivers/video/fbdev/s3fb.c                   |   5 +
+ drivers/video/fbdev/savage/savagefb_driver.c |   5 +
+ drivers/video/fbdev/sis/sis_main.c           |   5 +
+ drivers/video/fbdev/skeletonfb.c             | 210 +++++++------
+ drivers/video/fbdev/sm712fb.c                |   5 +
+ drivers/video/fbdev/sstfb.c                  |  43 +--
+ drivers/video/fbdev/sunxvr2500.c             |   5 +
+ drivers/video/fbdev/sunxvr500.c              |   5 +
+ drivers/video/fbdev/tdfxfb.c                 |   5 +
+ drivers/video/fbdev/tgafb.c                  |  17 +-
+ drivers/video/fbdev/tridentfb.c              |   5 +
+ drivers/video/fbdev/vermilion/vermilion.c    |   7 +-
+ drivers/video/fbdev/vga16fb.c                | 191 +++++------
+ drivers/video/fbdev/via/via-core.c           |   5 +
+ drivers/video/fbdev/vt8623fb.c               |   5 +
+ include/linux/fb.h                           |   4 -
+ include/video/vga.h                          |  20 +-
+ 48 files changed, 788 insertions(+), 735 deletions(-)
+
+
+base-commit: 11d480026e922adacd274306728adb6df6dd262a
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
 -- 
 2.36.1
 
