@@ -1,135 +1,187 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F5628ED
-	for <linux-staging@lists.linux.dev>; Thu,  7 Jul 2022 21:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657229409; x=1688765409;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RR8nKcKkeUV/WR33JNvmdjCBx/wyCPnlG8A7Ckb1Pgs=;
-  b=UiKfkSafzuNQ2nfq8vWKebj2r42KnJ9O4umt5nj7RowEs6qEB9ivG8m3
-   qPpB+tzZ6L1x1VLmorWFS2xQVxzHNc0QLx3Jj1oGuf5KGQBmnf95HVFUp
-   IUicZsJEghvSji7D6B+rC7x6v1CNPzXyQjBOaV/k/CZrd/ujdyLMlmffn
-   yjw4YxFgHQGlyiaq+szA49RnnYLW2a387uCg9o/+e8FzGcGTBF4Qscfv3
-   l+rb2Wy6BFOut/4MH2VDJ5zs6vLu1Ky29FwQVyFM8nomtzpCtTDim2MxI
-   E7FnvnrGAViO5B/bMRY10ByP2XNC00U3lkpDy8q2wBa/A45PA5ZOa5Ukc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="285254348"
-X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; 
-   d="scan'208";a="285254348"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2022 14:30:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,253,1650956400"; 
-   d="scan'208";a="736115138"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2022 14:30:05 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1o9Z4X-000MVK-6m;
-	Thu, 07 Jul 2022 21:30:05 +0000
-Date: Fri, 8 Jul 2022 05:29:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karthik Alapati <mail@karthek.com>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kbuild-all@lists.01.org, Shuah Khan <skhan@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: don't use index pointer after iter
-Message-ID: <202207080535.tr2i6TxR-lkp@intel.com>
-References: <Ysa1oopf0ELw+OfB@karthik-strix-linux.karthek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CBF65B;
+	Fri,  8 Jul 2022 04:59:51 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id a9so6095042ejf.6;
+        Thu, 07 Jul 2022 21:59:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qbzU1NEw9jssixWhWJrvAWfUIVJG59WeLpo6y3ejNL8=;
+        b=ZWDRcARnh37E7hLpPiJw+bSbMNdnbTvwSIG8mJQuN9AJLUetbtk70FdGBlQgFPRZcG
+         eCHryFyoOT2l6irvv4WjXHqUMJrc+CAvCGHhJiYS8bh+8GMQvdAG8icBHZNmsfal/sFQ
+         3JGbAb2ZaC37PYZ00KpCj9J3uDvZDxkmOmfBMNGW0BqnYFOmBN6KWwuxxmDIXJ2Jd8BY
+         eJLxh5CjUDjSHKra9WClVwi21aMVLk5/2g+oAoAKr+fOsKcehl1cmIrn4ERhl6Lw9G8M
+         E12aylIE90bli3DwOzaMe0BJNU8sgAwjc+v4WTYuhAI9A730h4hEOh4YDdTwbUlGp6Kc
+         w+tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qbzU1NEw9jssixWhWJrvAWfUIVJG59WeLpo6y3ejNL8=;
+        b=yFd43BAttaIL5gPRhUq0rKZi8CpF+/fnm82mG6/c/FhrU0JbYcEcrL523Bo0v8HRh3
+         0rShmit8HD9BECvp23tMFEomMu0u4pPu0QGU+xurRuSmbPo970j8VkAP8bvD+i3V5MDD
+         hRS+k17dknRDy/nD+xF+prnkFejbC+LJ0G3wUBgVguRzpVIlB6/OlnvNS8GaVbFyna4e
+         h0/Iuj7sd5sCyrEaS4DqPjyOpFPcBwgqq9PUHbz92MK2ZWntzm7dGafln/3Dwhpd3OJH
+         svHLMSHGcG5w0GAY9s7oJscy0dtmiGos5RbfwccIutDYTsXZHbJzGEPIbmSlS3BB2Rl6
+         UovQ==
+X-Gm-Message-State: AJIora+vRgrQ3dveiWZOECZykc5E3uk9L+u+5Koe1sFHwkrDbkOPPDtS
+	6oLF27tyfJ5GvMsLhh5iB8g=
+X-Google-Smtp-Source: AGRyM1tB1j1dl+dJsTCR1/AayROaNRUAdCtoaXF2DONWEedudqNFFhQj8RHgrNXfonLTu2a8K6WC2g==
+X-Received: by 2002:a17:906:20c6:b0:718:cc95:ccaf with SMTP id c6-20020a17090620c600b00718cc95ccafmr1676983ejc.714.1657256389600;
+        Thu, 07 Jul 2022 21:59:49 -0700 (PDT)
+Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id l10-20020a1709063d2a00b0072ae8fb13e6sm2553165ejf.126.2022.07.07.21.59.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 21:59:49 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v11 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Date: Fri, 08 Jul 2022 06:59:47 +0200
+Message-ID: <4722279.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20220706093803.158810-12-benjamin.gaignard@collabora.com>
+References: <20220706093803.158810-1-benjamin.gaignard@collabora.com> <20220706093803.158810-12-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ysa1oopf0ELw+OfB@karthik-strix-linux.karthek.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Karthik,
+Hi Benjamin,
 
-Thank you for the patch! Yet something to improve:
+Dne sreda, 06. julij 2022 ob 11:37:57 CEST je Benjamin Gaignard napisal(a):
+> The number of 'entry point offset' can be very variable.
+> Instead of using a large static array define a v4l2 dynamic array
+> of U32 (V4L2_CTRL_TYPE_U32).
+> The number of entry point offsets is reported by the elems field
+> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> field.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-[auto build test ERROR on v5.19-rc5]
-[also build test ERROR on linus/master]
-[cannot apply to staging/staging-testing next-20220707]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Clarification looks good to me :)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karthik-Alapati/staging-greybus-don-t-use-index-pointer-after-iter/20220707-183311
-base:    88084a3df1672e131ddc1b4e39eeacfd39864acf
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220708/202207080535.tr2i6TxR-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/bc295082ef055003c6018b57d3c56c5aefcb65c5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Karthik-Alapati/staging-greybus-don-t-use-index-pointer-after-iter/20220707-183311
-        git checkout bc295082ef055003c6018b57d3c56c5aefcb65c5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Best regards,
+Jernej
 
-All errors (new ones prefixed by >>):
+> ---
+> version 11:
+> - Be more verbose about num_entry_point_offsets field usage.
+> 
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst   | 15 +++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c         |  5 +++++
+>  include/media/hevc-ctrls.h                        |  5 ++++-
+>  3 files changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+> c2e0adece613..59e751c38d06 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3010,6 +3010,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u32
+>        - ``data_bit_offset``
+>        - Offset (in bits) to the video data in the current slice data.
+> +    * - __u32
+> +      - ``num_entry_point_offsets``
+> +      - Specifies the number of entry point offset syntax elements in the
+> slice header. +        This field must be set even if
+> V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS +        control isn't used.
+> Additionally, if entry point offsets control is needed +        and if
+> submitting multiple slices at once, length of entry point offsets +       
+> array must be sum of num_entry_point_offsets of all slices in that job. * -
+> __u8
+>        - ``nal_unit_type``
+>        - Specifies the coding type of the slice (B, P or I).
+> @@ -3150,6 +3157,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> 
+>      \normalsize
+> 
+> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> +    Specifies entry point offsets in bytes.
+> +    This control is a dynamically sized array. The number of entry point
+> +    offsets is reported by the ``elems`` field.
+> +    This bitstream parameter is defined according to :ref:`hevc`.
+> +    They are described in section 7.4.7.1 "General slice segment header
+> +    semantics" of the specification.
+> +
+>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>      Specifies the HEVC scaling matrix parameters used for the scaling
+> process for transform coefficients.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
+> d594efbcbb93..e22921e7ea61 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
+"HEVC Decode
+> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
+"HEVC Decode
+> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
+"HEVC Start Code";
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
+"HEVC Entry
+> Point Offsets";
+> 
+>  	/* Colorimetry controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
+*/
+> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
+> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>  		break;
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> +		*type = V4L2_CTRL_TYPE_U32;
+> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> +		break;
+>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>  		break;
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index a372c184689e..3a6601a46ced 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -20,6 +20,7 @@
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
++ 1012)
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE +
+> 1017)
+> 
+>  /* enum v4l2_ctrl_type type values */
+>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+>   *
+>   * @bit_size: size (in bits) of the current slice data
+>   * @data_bit_offset: offset (in bits) to the video data in the current
+> slice data + * @num_entry_point_offsets: specifies the number of entry
+> point offset syntax + *			     elements in the slice 
+header.
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the
+> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+>  struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+>  	__u32	data_bit_offset;
+> -
+> +	__u32	num_entry_point_offsets;
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
+>  	__u8	nuh_temporal_id_plus1;
 
-   drivers/staging/greybus/audio_helper.c: In function 'gbaudio_dapm_free_controls':
->> drivers/staging/greybus/audio_helper.c:128:32: error: expected ';' before 'for'
-     128 |                 w_found = false
-         |                                ^
-         |                                ;
-   drivers/staging/greybus/audio_helper.c:119:14: warning: variable 'w_found' set but not used [-Wunused-but-set-variable]
-     119 |         bool w_found = false;
-         |              ^~~~~~~
-   drivers/staging/greybus/audio_helper.c:118:41: warning: unused variable 'next_w' [-Wunused-variable]
-     118 |         struct snd_soc_dapm_widget *w, *next_w;
-         |                                         ^~~~~~
 
 
-vim +128 drivers/staging/greybus/audio_helper.c
 
-   124	
-   125		mutex_lock(&dapm->card->dapm_mutex);
-   126		for (i = 0; i < num; i++) {
-   127			/* below logic can be optimized to identify widget pointer */
- > 128			w_found = false
-   129			list_for_each_entry_safe(w, next_w, &dapm->card->widgets,
-   130						 list) {
-   131				if (w->dapm != dapm)
-   132					continue;
-   133				if (!strcmp(w->name, widget->name)) {
-   134					w_found = true;
-   135					break;
-   136				}
-   137				w = NULL;
-   138			}
-   139			if (!w_found) {
-   140				dev_err(dapm->dev, "%s: widget not found\n",
-   141					widget->name);
-   142				widget++;
-   143				continue;
-   144			}
-   145			widget++;
-   146	#ifdef CONFIG_DEBUG_FS
-   147			if (!parent)
-   148				debugfs_w = debugfs_lookup(w->name, parent);
-   149			debugfs_remove(debugfs_w);
-   150			debugfs_w = NULL;
-   151	#endif
-   152			gbaudio_dapm_free_widget(w);
-   153		}
-   154		mutex_unlock(&dapm->card->dapm_mutex);
-   155		return 0;
-   156	}
-   157	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
