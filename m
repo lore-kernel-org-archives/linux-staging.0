@@ -1,127 +1,182 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCE9817
-	for <linux-staging@lists.linux.dev>; Fri,  8 Jul 2022 13:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657286220;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=taWGRykRcCXffB4wtdvVAvKsI7Nlq7FpgHnPYTf/ge4=;
-	b=E/7MEP0CbOh995/qS/q1sEST3WuZr7MFdr/2/miHt2x4xh7lDLEZzU37kaBptkVRMnRwh1
-	O9SPT87zWuTgr9WFzV8MO8CIfsY9pK5d0boTAfYKJLKFAuq6QblN2XKcc/w3oSBdo6UqkJ
-	HymjCkvkKLInKDiUdPp0iivsDDKli3U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-SGJk7nsFOG6OFfEsuujY8Q-1; Fri, 08 Jul 2022 09:16:59 -0400
-X-MC-Unique: SGJk7nsFOG6OFfEsuujY8Q-1
-Received: by mail-wm1-f72.google.com with SMTP id h133-20020a1c218b000000b003a2cf5b5aabso295759wmh.8
-        for <linux-staging@lists.linux.dev>; Fri, 08 Jul 2022 06:16:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737402563;
+	Fri,  8 Jul 2022 14:02:44 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id e15so6053103edj.2;
+        Fri, 08 Jul 2022 07:02:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=F7oZGiTf22yduXzKnlRZ5i/UEiJcCIYtZr80JfrcWJA=;
+        b=jX99svRh8xS9/r4UdMiq3Y43MyPOaKw23r0VGQpXgkg3bioDTKO58NGaP49lqcXvpc
+         DFBO6tQcbxHsWjsGqky0/k1S76xj5BSrxed1s2pSnnXFyInXkzuJmcQXTb0PVCtEaTDb
+         jitJSvt3JPKrhn6U7i2dLTbuS/pK6AFioBujioBFbqGEykPog3kNwEZ1yBki79CqYn1l
+         4ZuRg+Uk4ejPWhlNRn0Pzuk7qu+w2qQBTJSQej5gWEFRr1awgBY7EVSA1r4bE02WyhJi
+         QLwZ8OTYPirLS2KvJK0+5Uhz0nv3rbxAOmIrJ1IKw3XRA0BWZpcN1A/Umt72OoYc1TpX
+         g11w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=taWGRykRcCXffB4wtdvVAvKsI7Nlq7FpgHnPYTf/ge4=;
-        b=iUyvAD7pfQN2auKAoppCkZ7WsT5LoLEEqvz81BKF+skHCrgxX1F7lH+xVMBG7uyOQv
-         bgs7x1f/Mqw1R76FS9Tu2TCC7plI6a38EnjO+SRscMO4gOInrO6EZvisU59sJ1BovCyj
-         hr8xdlGfEK/JXA2QUhiMHFRbQw7BpWeCZjIWg6G99KUfRNQE1N+VfdqwPWOImxA5UGU0
-         DH10ek+lNcoT5XDg/NHrM6XOSX+ls38EcTH1Uqdqim6UISNpYS2+zpvToGufHd7jkXDB
-         j8QlSxKo3FwFKJrXOZ8viKJgpbg37Z3jIecDXqAcWK4DXcI7aZ7fdB7p932EnrnQ7Ch7
-         YdIw==
-X-Gm-Message-State: AJIora8SJ0T9jo7fnYshWqgZsyCvq1jMUU2o9IWY3sUwa87Mdl/N0Rej
-	Rr4rJcTafzU/ozRNsEFkxUL97BUcZzkGbuk9jxTdrFhz+8EcZlwGS5Nr1rRDH12XZq/Ipqz8Nsa
-	1e0ANlUs95kOkCEoV8Fi11sdVjQ==
-X-Received: by 2002:a05:600c:22d3:b0:3a2:d8e2:8f15 with SMTP id 19-20020a05600c22d300b003a2d8e28f15mr3947720wmg.177.1657286217988;
-        Fri, 08 Jul 2022 06:16:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uaoPGchnKEAsNWt5YtjhCVNIm3fZ6cMPpN4DNnBgujYqJtYRT2Th3du9stdFVi0zaNnRMlBg==
-X-Received: by 2002:a05:600c:22d3:b0:3a2:d8e2:8f15 with SMTP id 19-20020a05600c22d300b003a2d8e28f15mr3947696wmg.177.1657286217740;
-        Fri, 08 Jul 2022 06:16:57 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id p8-20020a056000018800b0021d7f032022sm6638044wrx.17.2022.07.08.06.16.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Jul 2022 06:16:57 -0700 (PDT)
-Message-ID: <4eb5b59f-2cce-e9d2-a244-4cbe7686fa47@redhat.com>
-Date: Fri, 8 Jul 2022 15:16:56 +0200
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=F7oZGiTf22yduXzKnlRZ5i/UEiJcCIYtZr80JfrcWJA=;
+        b=cFBGd5ig6J79/lHyvLDI4XhszFW8K7+NylKvPVlpj8IMdUOc8RrbUzpitvKVBXlHsl
+         G6F/qCuI6eMYgNRWHRqSXzOMVS37DzacigGThs8LYgmraRz+/FzDESEp3Ns/jV/AbnAH
+         2EhDRr5/oQ+AzjqV4kmfaHBtYDsRuIgHwGwp1PepRrQIAAHnpMqOwKKivQ+NPjn0tDnc
+         qzxxlOQ6wJ+XMt/kk6hTfYqDZjYooNNQH8AKIYwvExr0SOpBSkatFBCCgbEs7YYIzu6m
+         NvnCEk6KOIf+EEH5cf908BFZHjq2KFWDwzybgK9fPRpOOWWn7VcKznzFovmvnDstVq9t
+         p6xw==
+X-Gm-Message-State: AJIora/ItsFP2mojsVdCYRq/wf5bsZDl2yp+V8rlddmuoRc/HWHNGCud
+	0T1Qi7HkVKsY5parxWGoUPo=
+X-Google-Smtp-Source: AGRyM1uL3PNKL7wSHt7HyGuMnLf4+atBsviy3tmAb8n+32sYhrZgr9xVlpYX+JxNRGbN+AcQxRdQSA==
+X-Received: by 2002:a05:6402:22b5:b0:43a:8e9f:f495 with SMTP id cx21-20020a05640222b500b0043a8e9ff495mr4961017edb.324.1657288962504;
+        Fri, 08 Jul 2022 07:02:42 -0700 (PDT)
+Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id o19-20020a170906769300b0072b13a10477sm2143227ejm.108.2022.07.08.07.02.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jul 2022 07:02:42 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v12 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Date: Fri, 08 Jul 2022 16:02:40 +0200
+Message-ID: <2106581.irdbgypaU6@jernej-laptop>
+In-Reply-To: <20220708120554.495495-12-benjamin.gaignard@collabora.com>
+References: <20220708120554.495495-1-benjamin.gaignard@collabora.com> <20220708120554.495495-12-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 03/11] fbdev/vga16fb: Auto-generate module init/exit code
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
- sam@ravnborg.org, maxime@cerno.tech
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-4-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220707153952.32264-4-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 7/7/22 17:39, Thomas Zimmermann wrote:
-> Move vgag16fb's option parsing into the driver's probe function and
-> generate the rest of the module's init/exit functions from macros.
-> Keep the options code, although there are no options defined.
->
+Hi Benjamin!
 
-Ah, I see now why you wanted to move the check to the probe function. If
-is to allow this cleanup then discard that comment from previous patch
-and I'm OK with the move.
-
-Maybe you could comment in patch 02/11 commit message that the check is
-moved to the probe handler to allow this cleanup as a follow-up patch ?
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/video/fbdev/vga16fb.c | 35 ++++++++++-------------------------
->  1 file changed, 10 insertions(+), 25 deletions(-)
+Dne petek, 08. julij 2022 ob 14:05:48 CEST je Benjamin Gaignard napisal(a):
+> The number of 'entry point offset' can be very variable.
+> Instead of using a large static array define a v4l2 dynamic array
+> of U32 (V4L2_CTRL_TYPE_U32).
+> The number of entry point offsets is reported by the elems field
+> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> field.
 > 
-> diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-> index f7c1bb018843..e7767ed50c5b 100644
-> --- a/drivers/video/fbdev/vga16fb.c
-> +++ b/drivers/video/fbdev/vga16fb.c
-> @@ -1321,12 +1321,21 @@ static int __init vga16fb_setup(char *options)
->  
->  static int vga16fb_probe(struct platform_device *dev)
->  {
-> +#ifndef MODULE
-> +	char *option = NULL;
-> +#endif
->  	struct screen_info *si;
->  	struct fb_info *info;
->  	struct vga16fb_par *par;
->  	int i;
->  	int ret = 0;
->  
-> +#ifndef MODULE
-> +	if (fb_get_options("vga16fb", &option))
-> +		return -ENODEV;
-> +	vga16fb_setup(option);
-> +#endif
-> +
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+> version 12:
+> - Reword num_entry_point_offsets documentation
+> 
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst     | 13 +++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c           |  5 +++++
+>  include/media/hevc-ctrls.h                          |  5 ++++-
+>  3 files changed, 22 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+> c2e0adece613..0cd967126fdf 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3010,6 +3010,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u32
+>        - ``data_bit_offset``
+>        - Offset (in bits) to the video data in the current slice data.
+> +    * - __u32
+> +      - ``num_entry_point_offsets``
+> +      - Specifies the number of entry point offset syntax elements in the
+> slice header. +        When the driver supports it, the
+> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS`` +        must be set.
+>      * - __u8
+>        - ``nal_unit_type``
+>        - Specifies the coding type of the slice (B, P or I).
+> @@ -3150,6 +3155,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> 
+>      \normalsize
+> 
+> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> +    Specifies entry point offsets in bytes.
+> +    This control is a dynamically sized array. The number of entry point
+> +    offsets is reported by the ``elems`` field.
+> +    This bitstream parameter is defined according to :ref:`hevc`.
+> +    They are described in section 7.4.7.1 "General slice segment header
+> +    semantics" of the specification.
 
-I would just drop these ifdefery and have the option unconditionally.
-It seems that's what most fbdev drivers do AFAICT.
+You forgot to update above description per Ezequiel comment.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
 Best regards,
+Jernej
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+> +
+>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>      Specifies the HEVC scaling matrix parameters used for the scaling
+> process for transform coefficients.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
+> d594efbcbb93..e22921e7ea61 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
+"HEVC Decode
+> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
+"HEVC Decode
+> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
+"HEVC Start Code";
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
+"HEVC Entry
+> Point Offsets";
+> 
+>  	/* Colorimetry controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
+*/
+> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
+> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>  		break;
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> +		*type = V4L2_CTRL_TYPE_U32;
+> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> +		break;
+>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>  		break;
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index a372c184689e..3a6601a46ced 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -20,6 +20,7 @@
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
++ 1012)
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE +
+> 1017)
+> 
+>  /* enum v4l2_ctrl_type type values */
+>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+>   *
+>   * @bit_size: size (in bits) of the current slice data
+>   * @data_bit_offset: offset (in bits) to the video data in the current
+> slice data + * @num_entry_point_offsets: specifies the number of entry
+> point offset syntax + *			     elements in the slice 
+header.
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the
+> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+>  struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+>  	__u32	data_bit_offset;
+> -
+> +	__u32	num_entry_point_offsets;
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
+>  	__u8	nuh_temporal_id_plus1;
+
+
+
 
