@@ -1,250 +1,181 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31162F2E;
-	Fri,  8 Jul 2022 16:27:44 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:3cab:61a1:2b1f:896b] (unknown [IPv6:2a01:e0a:120:3210:3cab:61a1:2b1f:896b])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id AD7BD66015BF;
-	Fri,  8 Jul 2022 17:27:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1657297663;
-	bh=M2XcgqYs6U+1Gi7Jie82t46uoCuX+14uCwhy1mBpf+M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=d2km7C3FWFcz1KTim3I9/kIUdFITsY+FuaSR8gBCBJAfljtekinzQ0OzUVNyjua2q
-	 /A4wTU80QYAD7JrR8LVMZkMwpooLuSp/jpvgv9m1nc1Z8DI3jBr3qqb5dQbbTVkYgJ
-	 32HyiO486LLwBRY5eB/CYt/YcWhiiwUzLvthcObej84XGW3sRNk4OZ017mV0ncmBVp
-	 l7WAf1P88rnD8NMstdzMwqABH71kyyEYJ8L7PTvl08bdzDyZJpT+mfMbx7GVwco7Rx
-	 kQQNT15xNA5JpXc/yMqqDdG7ZAfNHxAyd7etOKrAfwwQDnGe0DJkgJiGvS7X27R3BB
-	 NZGtgtBAR94Iw==
-Message-ID: <7041df2a-e248-56d4-da6a-343b610de8b4@collabora.com>
-Date: Fri, 8 Jul 2022 18:27:40 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440A833DF
+	for <linux-staging@lists.linux.dev>; Fri,  8 Jul 2022 17:25:24 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id f68so7045269vsc.11
+        for <linux-staging@lists.linux.dev>; Fri, 08 Jul 2022 10:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PtHKRPEI89RBiussynoEoQBwVKRqi9WwDOq/hTwvg08=;
+        b=xZX5FasoYj3UWBf7c1OivQn7v4gD2OV3Fj/GNe/0sX2wRe6iaxYv+tkh/LfKWV88fy
+         bX84F2/1Gevy+q/oSKjL3hV39t1f0Lq9b+tN+wbxX8qJo3kRx4maU03fZrbidrgkUkW6
+         ESXxzLL6K0B5uQ/IkIwPOAVYGF/QT7FxemJN8JLkC1BLjyH301X6s7TA1kbRuC3vLpms
+         lmHTpC7/LbI+Ws8HJLEcJDlBCpsXyR89vxh+RJBwEVBWJdg2IdYCzWWV0lXHIvr1v6NI
+         jwpsDSV+rMRQKNnTO/xio4AQ7bWbzlDAk7jivQYQGuqGwyc2RbDfHGdUrzcZewYNyd+y
+         6QAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PtHKRPEI89RBiussynoEoQBwVKRqi9WwDOq/hTwvg08=;
+        b=mWzDAR9c5iKMDE4geO/oWMyMVtqy7ReoSLmtWeNYIGvXp5GotDoStWiEj5MuR5jZg3
+         CyoBgCJefCV7Fwui/k1Jv6qPmmunVGKt8h07V7TWyu1mux1T+2ziJgscSFulKSyIFrXa
+         GFgfB0niIZp8TVWqeHE8dQGfkgGTGmT/vvh5h6Gdy1q6NkE8yrz75dtSfgUE/3PKZbZn
+         GNtxE+3jmOF1CgHLcRk+PsWNFW9XdddRWP5nkGPvcR/n2ai4sVcrGxWgtYkxwqwvZbOj
+         Ib78r6EVisdvd/btEwswUc1N0JLFxZiRZl6riEs5GUTR8XwhgY8zZtEXR0F8gCk5tdy+
+         VsrQ==
+X-Gm-Message-State: AJIora/JR6uQCQaEL6fRTMOSu/xwIeEcqocKadGkgcrU9//TmLz3wh92
+	kV2FHG0PsaUDNUwbmja3BxfNIQ==
+X-Google-Smtp-Source: AGRyM1uHUHWz1P7lT6OaSA/5Q7gXNyRjeEMJGRcx/jkExokTUSEA+uMtxRyCFR3AO0zHSzr/mjF6dQ==
+X-Received: by 2002:a67:b103:0:b0:354:447a:93b0 with SMTP id w3-20020a67b103000000b00354447a93b0mr2217123vsl.56.1657301123099;
+        Fri, 08 Jul 2022 10:25:23 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id r23-20020ab03317000000b00370fe98f896sm12572339uao.7.2022.07.08.10.25.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jul 2022 10:25:22 -0700 (PDT)
+Date: Fri, 8 Jul 2022 14:25:16 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, mripard@kernel.org,
+	paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@collabora.com
+Subject: Re: [PATCH v13 11/17] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Message-ID: <YshofLPFd7Sp8iOF@eze-laptop>
+References: <20220708162156.815772-1-benjamin.gaignard@collabora.com>
+ <20220708162156.815772-12-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v12 11/17] media: uapi: Add
- V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
- nicolas.dufresne@collabora.com, andrzej.p@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@collabora.com
-References: <20220708120554.495495-1-benjamin.gaignard@collabora.com>
- <2106581.irdbgypaU6@jernej-laptop>
- <5e346689-5a0c-8fc7-129d-53a6f28e5349@collabora.com>
- <4604967.rnE6jSC6OK@kista>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <4604967.rnE6jSC6OK@kista>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220708162156.815772-12-benjamin.gaignard@collabora.com>
 
+On Fri, Jul 08, 2022 at 06:21:50PM +0200, Benjamin Gaignard wrote:
+> The number of 'entry point offset' can be very variable.
+> Instead of using a large static array define a v4l2 dynamic array
+> of U32 (V4L2_CTRL_TYPE_U32).
+> The number of entry point offsets is reported by the elems field
+> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> field.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Le 08/07/2022 à 18:11, Jernej Škrabec a écrit :
-> Dne petek, 08. julij 2022 ob 18:00:24 CEST je Benjamin Gaignard napisal(a):
->> Le 08/07/2022 à 16:02, Jernej Škrabec a écrit :
->>> Hi Benjamin!
->>>
->>> Dne petek, 08. julij 2022 ob 14:05:48 CEST je Benjamin Gaignard
-> napisal(a):
->>>> The number of 'entry point offset' can be very variable.
->>>> Instead of using a large static array define a v4l2 dynamic array
->>>> of U32 (V4L2_CTRL_TYPE_U32).
->>>> The number of entry point offsets is reported by the elems field
->>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
->>>> field.
->>>>
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>>> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->>>> ---
->>>> version 12:
->>>> - Reword num_entry_point_offsets documentation
->>>>
->>>>    .../userspace-api/media/v4l/ext-ctrls-codec.rst     | 13 +++++++++++++
->>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c           |  5 +++++
->>>>    include/media/hevc-ctrls.h                          |  5 ++++-
->>>>    3 files changed, 22 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
->>>> c2e0adece613..0cd967126fdf 100644
->>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> @@ -3010,6 +3010,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>
->>>>        * - __u32
->>>>        
->>>>          - ``data_bit_offset``
->>>>          - Offset (in bits) to the video data in the current slice data.
->>>>
->>>> +    * - __u32
->>>> +      - ``num_entry_point_offsets``
->>>> +      - Specifies the number of entry point offset syntax elements in
->>>> the
->>>> slice header. +        When the driver supports it, the
->>>> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS`` +        must be set.
->>>>
->>>>        * - __u8
->>>>        
->>>>          - ``nal_unit_type``
->>>>          - Specifies the coding type of the slice (B, P or I).
->>>>
->>>> @@ -3150,6 +3155,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>
->>>>        \normalsize
->>>>
->>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->>>> +    Specifies entry point offsets in bytes.
->>>> +    This control is a dynamically sized array. The number of entry point
->>>> +    offsets is reported by the ``elems`` field.
->>>> +    This bitstream parameter is defined according to :ref:`hevc`.
->>>> +    They are described in section 7.4.7.1 "General slice segment header
->>>> +    semantics" of the specification.
->>> You forgot to update above description per Ezequiel comment.
->> No it was num_entry_point_offsets which was needed to be updated
->> not this control.
-> Both needs to be updated. Ezequiel said:
->
-> "I would add Jernej's clarification about the length of the control
-> here, where the control is documented."
->
-> ""
-> This control is a dynamically sized array. The number of entry point
-> offsets is reported by the ``elems`` field.
-> This bitstream parameter is defined according to :ref:`hevc`.
-> They are described in section 7.4.7.1 "General slice segment header
-> semantics" of the specification.
-> When multiple slices are submitted in a request, the length
-> of this array must be the sum of num_entry_point_offsets
-> of all the slices in the request.
-> ""
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-I have totally miss the last part.
-It is fix in v13.
+Thanks!
+Ezequiel
 
-Thanks for your review.
-Regards,
-Benjamin
-
->
-> Best regards,
-> Jernej
->
->> Regards,
->> Benjamin
->>
->>> Best regards,
->>> Jernej
->>>
->>>> +
->>>>
->>>>    ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->>>>    
->>>>        Specifies the HEVC scaling matrix parameters used for the scaling
->>>>
->>>> process for transform coefficients.
->>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
->>>> d594efbcbb93..e22921e7ea61 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>>
->>>>    	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return
->>> "HEVC Decode
->>>
->>>> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return
->>> "HEVC Decode
->>>
->>>> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return
->>> "HEVC Start Code";
->>>
->>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return
->>> "HEVC Entry
->>>
->>>> Point Offsets";
->>>>
->>>>    	/* Colorimetry controls */
->>>>    	/* Keep the order of the 'case's the same as in v4l2-controls.h!
->>> */
->>>
->>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,
->>>> enum
->>>>
->>>> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
->>>>    		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->>>>    		break;
->>>>
->>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
->>>> +		*type = V4L2_CTRL_TYPE_U32;
->>>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->>>> +		break;
->>>>
->>>>    	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->>>>    		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->>>>    		break;
->>>>
->>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>>> index a372c184689e..3a6601a46ced 100644
->>>> --- a/include/media/hevc-ctrls.h
->>>> +++ b/include/media/hevc-ctrls.h
->>>> @@ -20,6 +20,7 @@
->>>>
->>>>    #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	
-> (V4L2_CID_CODEC_BASE
->>> + 1012)
->>>
->>>>    #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE
+> ---
+> version 13:
+> - Reword num_entry_point_offsets field and control usage (yes, again)
+> 
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst  | 16 ++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c        |  5 +++++
+>  include/media/hevc-ctrls.h                       |  5 ++++-
+>  3 files changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index c2e0adece613..c05c5553f0e3 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3010,6 +3010,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u32
+>        - ``data_bit_offset``
+>        - Offset (in bits) to the video data in the current slice data.
+> +    * - __u32
+> +      - ``num_entry_point_offsets``
+> +      - Specifies the number of entry point offset syntax elements in the slice header.
+> +        When the driver supports it, the ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS``
+> +        must be set.
+>      * - __u8
+>        - ``nal_unit_type``
+>        - Specifies the coding type of the slice (B, P or I).
+> @@ -3150,6 +3155,17 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>  
+>      \normalsize
+>  
+> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> +    Specifies entry point offsets in bytes.
+> +    This control is a dynamically sized array. The number of entry point
+> +    offsets is reported by the ``elems`` field.
+> +    This bitstream parameter is defined according to :ref:`hevc`.
+> +    They are described in section 7.4.7.1 "General slice segment header
+> +    semantics" of the specification.
+> +    When multiple slices are submitted in a request, the length of
+> +    this array must be the sum of num_entry_point_offsets of all the
+> +    slices in the request.
 > +
->>>>    1015)
->>>>    #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
->>>>
->>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE
->>>> +
->>>> 1017)
->>>>
->>>>    /* enum v4l2_ctrl_type type values */
->>>>    #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->>>>
->>>> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
->>>>
->>>>     *
->>>>     * @bit_size: size (in bits) of the current slice data
->>>>     * @data_bit_offset: offset (in bits) to the video data in the current
->>>>
->>>> slice data + * @num_entry_point_offsets: specifies the number of entry
->>>> point offset syntax + *			     elements in the slice
->>> header.
->>>
->>>>     * @nal_unit_type: specifies the coding type of the slice (B, P or I)
->>>>     * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for
->>>>     the
->>>>
->>>> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
->>>> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
->>>>
->>>>    struct v4l2_ctrl_hevc_slice_params {
->>>>    
->>>>    	__u32	bit_size;
->>>>    	__u32	data_bit_offset;
->>>>
->>>> -
->>>> +	__u32	num_entry_point_offsets;
->>>>
->>>>    	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->>>>    	__u8	nal_unit_type;
->>>>    	__u8	nuh_temporal_id_plus1;
->
+>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>      Specifies the HEVC scaling matrix parameters used for the scaling process
+>      for transform coefficients.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index d594efbcbb93..e22921e7ea61 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return "HEVC Start Code";
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return "HEVC Entry Point Offsets";
+>  
+>  	/* Colorimetry controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>  		break;
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> +		*type = V4L2_CTRL_TYPE_U32;
+> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> +		break;
+>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>  		break;
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index a372c184689e..3a6601a46ced 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -20,6 +20,7 @@
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE + 1017)
+>  
+>  /* enum v4l2_ctrl_type type values */
+>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+>   *
+>   * @bit_size: size (in bits) of the current slice data
+>   * @data_bit_offset: offset (in bits) to the video data in the current slice data
+> + * @num_entry_point_offsets: specifies the number of entry point offset syntax
+> + *			     elements in the slice header.
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the NAL unit
+>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+>  struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+>  	__u32	data_bit_offset;
+> -
+> +	__u32	num_entry_point_offsets;
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
+>  	__u8	nuh_temporal_id_plus1;
+> -- 
+> 2.32.0
+> 
