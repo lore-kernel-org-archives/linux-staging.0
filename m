@@ -1,182 +1,116 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737402563;
-	Fri,  8 Jul 2022 14:02:44 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id e15so6053103edj.2;
-        Fri, 08 Jul 2022 07:02:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=F7oZGiTf22yduXzKnlRZ5i/UEiJcCIYtZr80JfrcWJA=;
-        b=jX99svRh8xS9/r4UdMiq3Y43MyPOaKw23r0VGQpXgkg3bioDTKO58NGaP49lqcXvpc
-         DFBO6tQcbxHsWjsGqky0/k1S76xj5BSrxed1s2pSnnXFyInXkzuJmcQXTb0PVCtEaTDb
-         jitJSvt3JPKrhn6U7i2dLTbuS/pK6AFioBujioBFbqGEykPog3kNwEZ1yBki79CqYn1l
-         4ZuRg+Uk4ejPWhlNRn0Pzuk7qu+w2qQBTJSQej5gWEFRr1awgBY7EVSA1r4bE02WyhJi
-         QLwZ8OTYPirLS2KvJK0+5Uhz0nv3rbxAOmIrJ1IKw3XRA0BWZpcN1A/Umt72OoYc1TpX
-         g11w==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEF228E2
+	for <linux-staging@lists.linux.dev>; Fri,  8 Jul 2022 15:55:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1657295730;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oKdAwSdJ/bJ3Bw0hAeddnXNTwTE7lsij6rfMDatygts=;
+	b=Oq7nES0XGNZaG3dsXlsTtUcNZViQw2BHoi5YYhM5+m8SGZP1q1I+1Ewd0S9hEl9n58iaEw
+	Zz8QoQ8hn9KeHP6IEjZnjH1GprUdsv9RsiaxJLn7WZoZqSaF0Mu4d7BKAMRGHEhgpDDI1J
+	dRq/RMVrF63K2J9F2tQSYM4Kq5ZDcn0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-378-QwOe2eyDMAerIJTTDb8DNA-1; Fri, 08 Jul 2022 11:55:29 -0400
+X-MC-Unique: QwOe2eyDMAerIJTTDb8DNA-1
+Received: by mail-ed1-f70.google.com with SMTP id m20-20020a056402431400b0043a699cdd6eso10556366edc.9
+        for <linux-staging@lists.linux.dev>; Fri, 08 Jul 2022 08:55:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=F7oZGiTf22yduXzKnlRZ5i/UEiJcCIYtZr80JfrcWJA=;
-        b=cFBGd5ig6J79/lHyvLDI4XhszFW8K7+NylKvPVlpj8IMdUOc8RrbUzpitvKVBXlHsl
-         G6F/qCuI6eMYgNRWHRqSXzOMVS37DzacigGThs8LYgmraRz+/FzDESEp3Ns/jV/AbnAH
-         2EhDRr5/oQ+AzjqV4kmfaHBtYDsRuIgHwGwp1PepRrQIAAHnpMqOwKKivQ+NPjn0tDnc
-         qzxxlOQ6wJ+XMt/kk6hTfYqDZjYooNNQH8AKIYwvExr0SOpBSkatFBCCgbEs7YYIzu6m
-         NvnCEk6KOIf+EEH5cf908BFZHjq2KFWDwzybgK9fPRpOOWWn7VcKznzFovmvnDstVq9t
-         p6xw==
-X-Gm-Message-State: AJIora/ItsFP2mojsVdCYRq/wf5bsZDl2yp+V8rlddmuoRc/HWHNGCud
-	0T1Qi7HkVKsY5parxWGoUPo=
-X-Google-Smtp-Source: AGRyM1uL3PNKL7wSHt7HyGuMnLf4+atBsviy3tmAb8n+32sYhrZgr9xVlpYX+JxNRGbN+AcQxRdQSA==
-X-Received: by 2002:a05:6402:22b5:b0:43a:8e9f:f495 with SMTP id cx21-20020a05640222b500b0043a8e9ff495mr4961017edb.324.1657288962504;
-        Fri, 08 Jul 2022 07:02:42 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id o19-20020a170906769300b0072b13a10477sm2143227ejm.108.2022.07.08.07.02.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 07:02:42 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v12 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Date: Fri, 08 Jul 2022 16:02:40 +0200
-Message-ID: <2106581.irdbgypaU6@jernej-laptop>
-In-Reply-To: <20220708120554.495495-12-benjamin.gaignard@collabora.com>
-References: <20220708120554.495495-1-benjamin.gaignard@collabora.com> <20220708120554.495495-12-benjamin.gaignard@collabora.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=oKdAwSdJ/bJ3Bw0hAeddnXNTwTE7lsij6rfMDatygts=;
+        b=mwaGu8OrI5V6auMnvw8uDVlNozYPokspztFjsgrWh0Ts4M1A/SioYflc5+4rohSZqF
+         7R8mVJX1qzRT3OTaq/dJzyA8XDSHsr3PC8GlABBIgiaQUVzN788UgMFaS3xSvuPEk253
+         OJAulCiAPPDotNXHlKD3kBE8ce1mUchqGBIZCgJz8SOUSQRX34PWXGL5V2jykOFJOD5Z
+         eMICyzO0PjBMH3lbrUwxBYtsZiWuKkYK3HQQchxTY+oM4XoB01uvpDIm2GTcXDc1OlX4
+         6/0hb9X9Dbw1EKImD400FV5YZZlC/tt67y33vhDJqff838S3AP+4TRQ3qjE3TPMng2vc
+         kiyw==
+X-Gm-Message-State: AJIora/8EyceEg7JSSYq8a6GTyGO7FUY8e2CBbs8jgiN6N9oyznpF0IQ
+	UYdq51/600YZU3iwHcZdL9P2G0DMCH3vgSGpkYHINfYXkMo0slgy2ETxZxwz4awhTaU8h7CpZR4
+	MlAT2cut0RL5jjZBLKgR8wDEvNQ==
+X-Received: by 2002:a05:6402:248c:b0:437:afe7:818b with SMTP id q12-20020a056402248c00b00437afe7818bmr5677238eda.239.1657295728243;
+        Fri, 08 Jul 2022 08:55:28 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tS6ezXylb9NB8yOq946U7TpYv2hDEboyPOJ0JMfhIrtFj8VcfNQ8NXJAahocj9nZjCtYa/Kw==
+X-Received: by 2002:a05:6402:248c:b0:437:afe7:818b with SMTP id q12-20020a056402248c00b00437afe7818bmr5677225eda.239.1657295728101;
+        Fri, 08 Jul 2022 08:55:28 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id fd5-20020a056402388500b00436f3107bdasm29009592edb.38.2022.07.08.08.55.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Jul 2022 08:55:27 -0700 (PDT)
+Message-ID: <becfe58a-b4c3-4ae1-4ab2-456057ac7d22@redhat.com>
+Date: Fri, 8 Jul 2022 17:55:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RESEND PATCH 0/3] staging: media: atomisp: Convert to
+ kmap_local_page()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tsuchiya Yuto <kitakar@gmail.com>,
+ Martiros Shakhzadyan <vrzh@vrzh.net>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>
+References: <20220707200718.26398-1-fmdefrancesco@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220707200718.26398-1-fmdefrancesco@gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Benjamin!
+Hi,
 
-Dne petek, 08. julij 2022 ob 14:05:48 CEST je Benjamin Gaignard napisal(a):
-> The number of 'entry point offset' can be very variable.
-> Instead of using a large static array define a v4l2 dynamic array
-> of U32 (V4L2_CTRL_TYPE_U32).
-> The number of entry point offsets is reported by the elems field
-> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
-> field.
+On 7/7/22 22:07, Fabio M. De Francesco wrote:
+> After waiting months, I'm resending three conversions to
+> kmap_local_page(). I'd like to ask if there is anything which prevents
+> these patches from being accepted.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
-> version 12:
-> - Reword num_entry_point_offsets documentation
+> Please note that these patches were submitted on April 2022.
 > 
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst     | 13 +++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c           |  5 +++++
->  include/media/hevc-ctrls.h                          |  5 ++++-
->  3 files changed, 22 insertions(+), 1 deletion(-)
+> For you convenience here are the links to the patches, the "Reviewed-by:" 
+> and "Tested-by:" tags:
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
-> c2e0adece613..0cd967126fdf 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3010,6 +3010,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->      * - __u32
->        - ``data_bit_offset``
->        - Offset (in bits) to the video data in the current slice data.
-> +    * - __u32
-> +      - ``num_entry_point_offsets``
-> +      - Specifies the number of entry point offset syntax elements in the
-> slice header. +        When the driver supports it, the
-> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS`` +        must be set.
->      * - __u8
->        - ``nal_unit_type``
->        - Specifies the coding type of the slice (B, P or I).
-> @@ -3150,6 +3155,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+> https://lore.kernel.org/lkml/20220413225531.9425-1-fmdefrancesco@gmail.com/
+> https://lore.kernel.org/lkml/Yli+R7iLZKqO8kVP@iweiny-desk3/
+> https://lore.kernel.org/lkml/2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.com/
 > 
->      \normalsize
+> [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
+> https://lore.kernel.org/lkml/20220413212210.18494-1-fmdefrancesco@gmail.com/
+> https://lore.kernel.org/lkml/YldNhErgt53RqYp7@iweiny-desk3/
+> https://lore.kernel.org/lkml/0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.com/
 > 
-> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
-> +    Specifies entry point offsets in bytes.
-> +    This control is a dynamically sized array. The number of entry point
-> +    offsets is reported by the ``elems`` field.
-> +    This bitstream parameter is defined according to :ref:`hevc`.
-> +    They are described in section 7.4.7.1 "General slice segment header
-> +    semantics" of the specification.
-
-You forgot to update above description per Ezequiel comment.
-
-Best regards,
-Jernej
-
-> +
->  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->      Specifies the HEVC scaling matrix parameters used for the scaling
-> process for transform coefficients.
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
-> d594efbcbb93..e22921e7ea61 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
-"HEVC Decode
-> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
-"HEVC Decode
-> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
-"HEVC Start Code";
-> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
-"HEVC Entry
-> Point Offsets";
+> [PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
+> https://lore.kernel.org/lkml/20220408223129.3844-1-fmdefrancesco@gmail.com/
+> https://lore.kernel.org/lkml/b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.com/
 > 
->  	/* Colorimetry controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
-*/
-> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
-> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
->  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->  		break;
-> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
-> +		*type = V4L2_CTRL_TYPE_U32;
-> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> +		break;
->  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->  		break;
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index a372c184689e..3a6601a46ced 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -20,6 +20,7 @@
->  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
-+ 1012)
->  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
->  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
-> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE +
-> 1017)
-> 
->  /* enum v4l2_ctrl_type type values */
->  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
->   *
->   * @bit_size: size (in bits) of the current slice data
->   * @data_bit_offset: offset (in bits) to the video data in the current
-> slice data + * @num_entry_point_offsets: specifies the number of entry
-> point offset syntax + *			     elements in the slice 
-header.
->   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
->   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the
-> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
-> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
->  struct v4l2_ctrl_hevc_slice_params {
->  	__u32	bit_size;
->  	__u32	data_bit_offset;
-> -
-> +	__u32	num_entry_point_offsets;
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->  	__u8	nal_unit_type;
->  	__u8	nuh_temporal_id_plus1;
+> Fabio M. De Francesco (3):
+>   staging: media: atomisp: Convert kmap() to kmap_local_page()
+>   staging: media: atomisp: Use kmap_local_page() in hmm_set()
+>   staging: media: atomisp: Use kmap_local_page() in hmm_store()
 
+Thanks, the entire series looks good to me:
 
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
+Regards,
+
+Hans
 
