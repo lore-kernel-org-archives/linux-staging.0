@@ -1,62 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931617E2
-	for <linux-staging@lists.linux.dev>; Sat,  9 Jul 2022 07:02:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD556C3411C;
-	Sat,  9 Jul 2022 07:02:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1657350171;
-	bh=ywY5wSpDb5M0M/Sepmd8IRCwLxEaxwxwZ2IywAl4hRc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hMyQ+dpRIlGge7oPY2dZLbR6gjlPuAcvsTZ8noFmYooPehCTP7ogL299JK6WfMlqy
-	 Ol3OrtdKW+51e0SdD9YjY9nfo/aaSP0F5arhuqq8c9XIEqy7vMEvnBu+240oqYJtEn
-	 Mn9KNGG4g0JNQggCpYDF/fhFEGuOOBVH3H7jcBOw=
-Date: Sat, 9 Jul 2022 09:02:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Joe Perches <joe@perches.com>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Forest Bond <forest@alittletooquiet.net>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: vt6655: Use loop in
- vt6655_mac_write_bssid_addr
-Message-ID: <YskoFoksrQyDstyc@kroah.com>
-References: <cover.1657134099.git.philipp.g.hortmann@gmail.com>
- <b3b93ae7ce41562565e9007eb4580b9c47a2881f.1657134099.git.philipp.g.hortmann@gmail.com>
- <YsgjOPUDDtD48tMO@kroah.com>
- <2c1717b23896bc95a9ba9de79c9dbf112aa35460.camel@perches.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AF47B
+	for <linux-staging@lists.linux.dev>; Sat,  9 Jul 2022 09:45:09 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id d2so1415624ejy.1
+        for <linux-staging@lists.linux.dev>; Sat, 09 Jul 2022 02:45:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qS7NXICXrYzuBu2snw80niT0A4edSVecKeyrASDHwuM=;
+        b=GdQW1oqRvMc3yiC7ZNvWSPLUsJxkUXwqRI1bpd0hHdW0x3QGrYY+A53OSInxYU4ZXK
+         CiWf0ybDuPhOorntfXXdJiQqxTJ7YSzSMSzTllbUh43LVq+C6g/XgLNkOOGSvxl/9iPw
+         6egTjXkmM8yO3EpRBd9gM5+7EbU/9FBG2D328FZcsCh8hwCJOB1OTknngASzKTbBP7Fc
+         B4WrZ3pkGPDWZV8hy0eCy4JdRvmjXH/6/za6j67nLnA4ul8tSCMcFzCBVIfOF6DV/Hy7
+         /++/BsXWND9tg7WRxuJ/BRsqxWNXRbUS+8piVFV/gqnuYhdRLhscD/flqDFer2VqlZJA
+         OM7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qS7NXICXrYzuBu2snw80niT0A4edSVecKeyrASDHwuM=;
+        b=b17Xjlm/KDjv+b5MZakhrKaAr2qgWHLrx3SI6GmQoXjxP908x0yel8t1aCYq5EGKaf
+         61pE6QpM2ISQjePO/Z0KkezG9B41QXWuBoMYszH4CF4FaBawDcOLRMrkrP4fP3BAOPz4
+         sE3H3fZ5uxdDJQxlG8KiPlwqLbFAmH6v+30KmerGFQfnLuecagLqMMkgVoF2GAHxY/Rr
+         QSkA8d8SLZyOQgj80LBow1/k9OIqS2wQ6TpJfRPKk09KwF7yRT9JcT7l70td3cLwtBu7
+         osyJsQVLzs0Uf0UXvdQc9MitAPossHZMqobK1Yh+bzxofgK+jFEJ2wlxDadrFOCVv0yN
+         2aLg==
+X-Gm-Message-State: AJIora9AvcoezoK/eirjdSW8tQKAl/bKjo343bre73fGm0PQ72V6ca76
+	HzBT11bVRQoOG6okY5zhfVg=
+X-Google-Smtp-Source: AGRyM1vnx4HdESYKOr7xrUNQ2ey1+/7ybWYZyOf69dfDAJGDkNnO3hGU0PNdhyxkn+kjPRqpEjSnuQ==
+X-Received: by 2002:a17:907:a421:b0:726:ee5f:718a with SMTP id sg33-20020a170907a42100b00726ee5f718amr7985663ejc.368.1657359907891;
+        Sat, 09 Jul 2022 02:45:07 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb6f.dynamic.kabel-deutschland.de. [95.90.187.111])
+        by smtp.gmail.com with ESMTPSA id hy10-20020a1709068a6a00b00704757b1debsm441521ejc.9.2022.07.09.02.45.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Jul 2022 02:45:07 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: SetHwReg8188EU() cleanups
+Date: Sat,  9 Jul 2022 11:44:53 +0200
+Message-Id: <20220709094458.9578-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2c1717b23896bc95a9ba9de79c9dbf112aa35460.camel@perches.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 08, 2022 at 09:07:43PM -0700, Joe Perches wrote:
-> On Fri, 2022-07-08 at 14:29 +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Jul 06, 2022 at 09:19:01PM +0200, Philipp Hortmann wrote:
-> > > Use loop in vt6655_mac_write_bssid_addr to avoid multiple
-> > > similar statements.
-> []
-> > > diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-> []
-> > > @@ -192,12 +192,8 @@ device_set_options(struct vnt_private *priv)
-> > >  static void vt6655_mac_write_bssid_addr(void __iomem *iobase, const u8 *mac_addr)
-> []
-> > > +	for (int i = 0; i < 6; i++)
-> > 
-> > Taking advantage of the new compiler level I see, nice :)
-> 
-> Not sure this is altogether a great idea as it may
-> make backporting a bit difficult, but it's already
-> in the kernel in a few places.
+This series removes some more cases from the unwanted function
+SetHwReg8188EU().
 
-That's for the stable kernels to worry about, don't let that stop new
-development from happening for that reason please.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-thanks,
+Michael Straube (5):
+  staging: r8188eu: remove HW_VAR_BASIC_RATE from SetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_DM_FUNC_OP from SetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_DM_FLAG from SetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_DM_FUNC_RESET from SetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_DM_FUNC_CLR from SetHwReg8188EU()
 
-greg k-h
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 25 +++++++--
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 51 +++++++++++++++--
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 55 -------------------
+ drivers/staging/r8188eu/include/hal_intf.h    |  5 --
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  1 +
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 10 +++-
+ 6 files changed, 77 insertions(+), 70 deletions(-)
+
+-- 
+2.36.1
+
