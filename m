@@ -1,156 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849C31104
-	for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 10:02:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B583C3411E;
-	Sun, 10 Jul 2022 10:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1657447366;
-	bh=CtswWxU1FinXHgGCbZzjkEJjLoNfuK7FKwCH91rIYeg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YYo242d7WGCnY4hxZG3pQpH/3UgmS6bRmMpBW/hyMQbm6keXf4DGcRCctjnkB7Gsi
-	 svNAoz6AnxZCKziB9ILdD0BFrkmgZ1UOcUiZmtO6fv38nLu7bPQmXD/XPW/P1n+eFN
-	 6kU9Rzfpq5zBJI8Xn2Ohm1CbQbqvjakc3Xm5buk4=
-Date: Sun, 10 Jul 2022 12:02:41 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: duoming@zju.edu.cn
-Cc: linux-staging@lists.linux.dev, davem@davemloft.net,
-	alexander.deucher@amd.com, kuba@kernel.org, broonie@kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192u: Fix sleep in atomic context bug in
- dm_fsync_timer_callback
-Message-ID: <YsqjwVJWifOpo2ws@kroah.com>
-References: <20220623055912.84138-1-duoming@zju.edu.cn>
- <YrQ2gXtX2FOkyNgu@kroah.com>
- <1ddff589.e0f1.181944e6c1a.Coremail.duoming@zju.edu.cn>
- <482a0dc6.10f76.1819a2a3546.Coremail.duoming@zju.edu.cn>
- <YrbVpbKvqdYuY84C@kroah.com>
- <3cd6bfda.380db.181e77ece60.Coremail.duoming@zju.edu.cn>
+Received: from azure-sdnproxy-1.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id F11CA7A
+	for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 10:30:18 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [124.236.130.231])
+	by mail-app3 (Coremail) with SMTP id cC_KCgCn_g0qqspieOgzAA--.17083S2;
+	Sun, 10 Jul 2022 18:30:10 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org
+Cc: davem@davemloft.net,
+	alexander.deucher@amd.com,
+	broonie@kernel.org,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH v2 RESEND] staging: rtl8192u: Fix sleep in atomic context bug in dm_fsync_timer_callback
+Date: Sun, 10 Jul 2022 18:30:02 +0800
+Message-Id: <20220710103002.63283-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cC_KCgCn_g0qqspieOgzAA--.17083S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKF15Wr15trykGw1fAry5urg_yoW7Kry3p3
+	ya9w1xAr4UZF4jk3WDAa1DZF1rK3ykGas3G3WkJw4FvrnavF1DXa4vyryUJFW5XrZ09w13
+	Z348ZF43u3WDKr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkS14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Gw1l
+	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUonmRUUUUU
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgwHAVZdtamueQABsJ
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3cd6bfda.380db.181e77ece60.Coremail.duoming@zju.edu.cn>
 
-On Sun, Jul 10, 2022 at 05:44:16PM +0800, duoming@zju.edu.cn wrote:
-> Hello,
-> 
-> On Sat, 25 Jun 2022 11:30:13 +0200 Greg KH wrote:
-> 
-> > On Sat, Jun 25, 2022 at 05:21:06PM +0800, duoming@zju.edu.cn wrote:
-> > > Hello,
-> > > 
-> > > > > On Thu, Jun 23, 2022 at 01:59:12PM +0800, Duoming Zhou wrote:
-> > > > > > There are sleep in atomic context bugs when dm_fsync_timer_callback is
-> > > > > > executing. The root cause is that the memory allocation functions with
-> > > > > > GFP_KERNEL or GFP_NOIO parameters are called in dm_fsync_timer_callback
-> > > > > > which is a timer handler. The call paths that could trigger bugs are
-> > > > > > shown below:
-> > > > > > 
-> > > > > >     (interrupt context)
-> > > > > > dm_fsync_timer_callback
-> > > > > >   write_nic_byte
-> > > > > >     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
-> > > > > >     usb_control_msg
-> > > > > >       kmalloc(.., GFP_NOIO); //may sleep
-> > > > > >   write_nic_dword
-> > > > > >     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
-> > > > > >     usb_control_msg
-> > > > > >       kmalloc(.., GFP_NOIO); //may sleep
-> > > > > > 
-> > > > > > This patch uses delayed work to replace timer and moves the operations
-> > > > > > that may sleep into the delayed work in order to mitigate bugs.
-> > > > > > 
-> > > > > > Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
-> > > > > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> > > > > > ---
-> > > > > > Changes in v2:
-> > > > > >   - Use delayed work to replace timer.
-> > > > > 
-> > > > > Did you test this with real hardware to verify it still works?
-> > > > 
-> > > > I am testing this and I will give you feedback within one or two days.
-> > > 
-> > > Do you know what vendor id and device id use the r8192u_usb driver?
-> > 
-> > The vendor/device ids are in the driver itself.  Also in the output of
-> > modinfo:
-> > 	❯ modinfo drivers/staging/rtl8192u/r8192u_usb.ko | grep alias
-> > 	alias:          usb:v043Ep7A01d*dc*dsc*dp*ic*isc*ip*in*
-> > 	alias:          usb:v5A57p0290d*dc*dsc*dp*ic*isc*ip*in*
-> > 	alias:          usb:v2001p3301d*dc*dsc*dp*ic*isc*ip*in*
-> > 	alias:          usb:v1740p9201d*dc*dsc*dp*ic*isc*ip*in*
-> > 	alias:          usb:v0DF6p0031d*dc*dsc*dp*ic*isc*ip*in*
-> > 	alias:          usb:v050Dp805Ed*dc*dsc*dp*ic*isc*ip*in*
-> > 	alias:          usb:v07AAp0043d*dc*dsc*dp*ic*isc*ip*in*
-> > 	alias:          usb:v0BDAp8709d*dc*dsc*dp*ic*isc*ip*in*
-> > 
-> > see the "v" and "p" portions of the alias string. 
-> 
-> I am sorry for the delay. This is a really hard work, but I successfully test it.
-> This patch could run well.
-> 
-> The following is the report of the bug:
-> 
-> [  104.055321][    C3] BUG: sleeping function called from invalid context at include/linux/sched/mm.h:274
-> [  104.075499][    C3] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
-> [  104.076346][    C3] preempt_count: 100, expected: 0
-> [  104.076938][    C3] RCU nest depth: 0, expected: 0
-> [  104.076938][    C3] Preemption disabled at:
-> [  104.078194][    C3] [<ffffffff846000a0>] __do_softirq+0xa0/0x544
-> [  104.083981][    C3] CPU: 3 PID: 1 Comm: swapper/0 Not tainted 5.19.0-rc5-00213-g7c895ef88403-dirty #65
-> [  104.083981][    C3] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-> [  104.083981][    C3] Call Trace:
-> [  104.083981][    C3]  <IRQ>
-> [  104.083981][    C3]  dump_stack_lvl+0xbf/0xee
-> [  104.083981][    C3]  __might_resched+0x386/0x4b0
-> [  104.083981][    C3]  ? irq_exit_rcu+0x4d/0xa0
-> [  104.083981][    C3]  ? __do_softirq+0xa0/0x544
-> [  104.083981][    C3]  ? write_nic_dword+0x70/0x160
-> [  104.083981][    C3]  kmem_cache_alloc_trace+0x3a/0x240
-> [  104.083981][    C3]  write_nic_dword+0x70/0x160
-> [  104.083981][    C3]  dm_fsync_timer_callback+0x1c4/0xd80
-> [  104.083981][    C3]  ? dm_rf_pathcheck_workitemcallback+0x1150/0x1150
-> [  104.083981][    C3]  call_timer_fn+0x2d/0x1c0
-> [  104.083981][    C3]  ? dm_rf_pathcheck_workitemcallback+0x1150/0x1150
-> [  104.083981][    C3]  expire_timers+0x1f3/0x320
-> [  104.083981][    C3]  __run_timers+0x3ff/0x4d0
-> [  104.083981][    C3]  ? lapic_next_event+0x61/0x70
-> [  104.083981][    C3]  run_timer_softirq+0x41/0x80
-> [  104.083981][    C3]  __do_softirq+0x233/0x544
-> [  104.083981][    C3]  irq_exit_rcu+0x41/0xa0
-> [  104.083981][    C3]  sysvec_apic_timer_interrupt+0x8c/0xb0
-> [  104.083981][    C3]  </IRQ>
-> [  104.083981][    C3]  <TASK>
-> [  104.083981][    C3]  asm_sysvec_apic_timer_interrupt+0x1b/0x20
-> [  104.083981][    C3] RIP: 0010:rtl8192_usb_initendpoints+0xa0/0x310
-> [  104.083981][    C3] Code: 85 ed 0f 84 3c 02 00 00 48 89 1c 24 31 ff be c0 0c 00 00 e8 a2 19 b8 ff 48 89 c5 43 80 3c 37 00 74 08 4c 89 ef e8 80 8
-> [  104.083981][    C3] RSP: 0018:ffff888006e279f8 EFLAGS: 00000246
-> [  104.083981][    C3] RAX: ffff8880097b0300 RBX: ffff88800bf00000 RCX: ffffffff831e1751
-> [  104.083981][    C3] RDX: 0000000000000001 RSI: 0000000000000004 RDI: ffff8880097b0320
-> [  104.083981][    C3] RBP: ffff8880097b0300 R08: dffffc0000000000 R09: ffffed10012f6061
-> [  104.083981][    C3] R10: dfffe910012f6062 R11: 1ffff110012f6060 R12: ffff88800bf0fff4
-> [  104.083981][    C3] R13: ffff88800bf09140 R14: dffffc0000000000 R15: 1ffff110017e1228
-> 
-> After using delayed work to replace timer, the following is the result triggered by gdb. 
-> As we can see, the dm_fsync_work_callback() is successfully triggered.
-> 
-> [#0] 0xffffffff8368bd6b → dm_fsync_work_callback(work=0xffff88800bda98b8)
-> [#1] 0xffffffff8118a583 → process_one_work(worker=0xffff888006f5b200, work=0xffff88800bda98b8)
-> [#2] 0xffffffff8118b526 → worker_thread(__worker=0xffff88800bda98b8)
-> [#3] 0xffffffff81199d72 → kthread(_create=<optimized out>)
-> [#4] 0xffffffff81003902 → ret_from_fork()
-> 
-> The dm_fsync_work_callback() could run well and there is no bug report anymore.
+There are sleep in atomic context bugs when dm_fsync_timer_callback is
+executing. The root cause is that the memory allocation functions with
+GFP_KERNEL or GFP_NOIO parameters are called in dm_fsync_timer_callback
+which is a timer handler. The call paths that could trigger bugs are
+shown below:
 
-Great, can you resend this, it's not in my queue anymore.
+    (interrupt context)
+dm_fsync_timer_callback
+  write_nic_byte
+    kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+    usb_control_msg
+      kmalloc(.., GFP_NOIO); //may sleep
+  write_nic_dword
+    kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+    usb_control_msg
+      kmalloc(.., GFP_NOIO); //may sleep
 
-thanks,
+This patch uses delayed work to replace timer and moves the operations
+that may sleep into the delayed work in order to mitigate bugs.
 
-greg k-h
+Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+---
+Changes in v2:
+  - Use delayed work to replace timer.
+
+ drivers/staging/rtl8192u/r8192U.h    |  2 +-
+ drivers/staging/rtl8192u/r8192U_dm.c | 38 +++++++++++++---------------
+ drivers/staging/rtl8192u/r8192U_dm.h |  2 +-
+ 3 files changed, 20 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
+index 14ca00a2789..1942cb84937 100644
+--- a/drivers/staging/rtl8192u/r8192U.h
++++ b/drivers/staging/rtl8192u/r8192U.h
+@@ -1013,7 +1013,7 @@ typedef struct r8192_priv {
+ 	bool		bis_any_nonbepkts;
+ 	bool		bcurrent_turbo_EDCA;
+ 	bool		bis_cur_rdlstate;
+-	struct timer_list fsync_timer;
++	struct delayed_work fsync_work;
+ 	bool bfsync_processing;	/* 500ms Fsync timer is active or not */
+ 	u32	rate_record;
+ 	u32	rateCountDiffRecord;
+diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
+index 725bf5ca9e3..0fcfcaa6500 100644
+--- a/drivers/staging/rtl8192u/r8192U_dm.c
++++ b/drivers/staging/rtl8192u/r8192U_dm.c
+@@ -2578,19 +2578,20 @@ static void dm_init_fsync(struct net_device *dev)
+ 	priv->ieee80211->fsync_seconddiff_ratethreshold = 200;
+ 	priv->ieee80211->fsync_state = Default_Fsync;
+ 	priv->framesyncMonitor = 1;	/* current default 0xc38 monitor on */
+-	timer_setup(&priv->fsync_timer, dm_fsync_timer_callback, 0);
++	INIT_DELAYED_WORK(&priv->fsync_work, dm_fsync_work_callback);
+ }
+ 
+ static void dm_deInit_fsync(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = ieee80211_priv(dev);
+ 
+-	del_timer_sync(&priv->fsync_timer);
++	cancel_delayed_work_sync(&priv->fsync_work);
+ }
+ 
+-void dm_fsync_timer_callback(struct timer_list *t)
++void dm_fsync_work_callback(struct work_struct *work)
+ {
+-	struct r8192_priv *priv = from_timer(priv, t, fsync_timer);
++	struct r8192_priv *priv =
++	    container_of(work, struct r8192_priv, fsync_work.work);
+ 	struct net_device *dev = priv->ieee80211->dev;
+ 	u32 rate_index, rate_count = 0, rate_count_diff = 0;
+ 	bool		bSwitchFromCountDiff = false;
+@@ -2657,17 +2658,16 @@ void dm_fsync_timer_callback(struct timer_list *t)
+ 			}
+ 		}
+ 		if (bDoubleTimeInterval) {
+-			if (timer_pending(&priv->fsync_timer))
+-				del_timer_sync(&priv->fsync_timer);
+-			priv->fsync_timer.expires = jiffies +
+-				msecs_to_jiffies(priv->ieee80211->fsync_time_interval*priv->ieee80211->fsync_multiple_timeinterval);
+-			add_timer(&priv->fsync_timer);
++			cancel_delayed_work_sync(&priv->fsync_work);
++			schedule_delayed_work(&priv->fsync_work,
++					      msecs_to_jiffies(priv
++					      ->ieee80211->fsync_time_interval *
++					      priv->ieee80211->fsync_multiple_timeinterval));
+ 		} else {
+-			if (timer_pending(&priv->fsync_timer))
+-				del_timer_sync(&priv->fsync_timer);
+-			priv->fsync_timer.expires = jiffies +
+-				msecs_to_jiffies(priv->ieee80211->fsync_time_interval);
+-			add_timer(&priv->fsync_timer);
++			cancel_delayed_work_sync(&priv->fsync_work);
++			schedule_delayed_work(&priv->fsync_work,
++					      msecs_to_jiffies(priv
++					      ->ieee80211->fsync_time_interval));
+ 		}
+ 	} else {
+ 		/* Let Register return to default value; */
+@@ -2695,7 +2695,7 @@ static void dm_EndSWFsync(struct net_device *dev)
+ 	struct r8192_priv *priv = ieee80211_priv(dev);
+ 
+ 	RT_TRACE(COMP_HALDM, "%s\n", __func__);
+-	del_timer_sync(&(priv->fsync_timer));
++	cancel_delayed_work_sync(&priv->fsync_work);
+ 
+ 	/* Let Register return to default value; */
+ 	if (priv->bswitch_fsync) {
+@@ -2736,11 +2736,9 @@ static void dm_StartSWFsync(struct net_device *dev)
+ 		if (priv->ieee80211->fsync_rate_bitmap &  rateBitmap)
+ 			priv->rate_record += priv->stats.received_rate_histogram[1][rateIndex];
+ 	}
+-	if (timer_pending(&priv->fsync_timer))
+-		del_timer_sync(&priv->fsync_timer);
+-	priv->fsync_timer.expires = jiffies +
+-			msecs_to_jiffies(priv->ieee80211->fsync_time_interval);
+-	add_timer(&priv->fsync_timer);
++	cancel_delayed_work_sync(&priv->fsync_work);
++	schedule_delayed_work(&priv->fsync_work,
++			      msecs_to_jiffies(priv->ieee80211->fsync_time_interval));
+ 
+ 	write_nic_dword(dev, rOFDM0_RxDetector2, 0x465c12cd);
+ }
+diff --git a/drivers/staging/rtl8192u/r8192U_dm.h b/drivers/staging/rtl8192u/r8192U_dm.h
+index 0b2a1c68859..2159018b4e3 100644
+--- a/drivers/staging/rtl8192u/r8192U_dm.h
++++ b/drivers/staging/rtl8192u/r8192U_dm.h
+@@ -166,7 +166,7 @@ void dm_force_tx_fw_info(struct net_device *dev,
+ void dm_init_edca_turbo(struct net_device *dev);
+ void dm_rf_operation_test_callback(unsigned long data);
+ void dm_rf_pathcheck_workitemcallback(struct work_struct *work);
+-void dm_fsync_timer_callback(struct timer_list *t);
++void dm_fsync_work_callback(struct work_struct *work);
+ void dm_cck_txpower_adjust(struct net_device *dev, bool  binch14);
+ void dm_shadow_init(struct net_device *dev);
+ void dm_initialize_txpower_tracking(struct net_device *dev);
+-- 
+2.17.1
+
