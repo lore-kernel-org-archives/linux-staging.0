@@ -1,53 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1121872
-	for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 16:54:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DB95DC341CB;
-	Sun, 10 Jul 2022 16:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657472073;
-	bh=RJe/F30zDTkTLJyR+NnWcBME6RAAeRXwMeQamdFA1sA=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=DbLupJAw0EbQoES8OOX7gmWtkXDk+GPNrP8VPviYPq4yOmWDgZp7vg9CqB69myB+B
-	 0rV3BPKZSHYx8/KKdF6HlYEL6rn4JvUudEoJPauysRE7rnl6LhjgoI+eqR95ubaRD6
-	 YwulSd8from3Ws/CbgyrhFvOzTUzY+U2q/0t7gobN6VT4F6+Dk9fUG7+cZ9LwZEuvA
-	 MwM9ifekfjWPX37VgRIVa2Jn4WYil9YHQFz7/mSfy0CyrEaeM7I5lGEcBy6eM4lXmw
-	 d+ZU10FWf+p0l0/O8MNoNvY1u0a6A/GhFoLX30qLrRJA1MZUFuhlU5K+IM4JMdy9Uo
-	 xS8O1mNH6ZqGA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C4BF3E45BDE;
-	Sun, 10 Jul 2022 16:54:33 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fix for 5.19-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YsrujMflc51TazvD@kroah.com>
-References: <YsrujMflc51TazvD@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YsrujMflc51TazvD@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.19-rc6
-X-PR-Tracked-Commit-Id: ee6c6e7342471d468096a16bee9f89b5a6c1e39d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 5867f3b88bb54016c42cdde510c184255488a12b
-Message-Id: <165747207380.29896.8445048268539269693.pr-tracker-bot@kernel.org>
-Date: Sun, 10 Jul 2022 16:54:33 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228A01C39
+	for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 20:55:14 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id bf13so3161076pgb.11
+        for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 13:55:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=qQKjxcYz1SGrja/RVWPyvjQAdujAs0bm/5MR0Zd7Fbs=;
+        b=J3T5xnG1aPiHUNRQPunaMCimNV7xGov7UtdtYdHjaMGT6u0XnG5UsGmHJSLPOKXzn8
+         J7nMnII2QM10Qhl5LHKZJKUrrFFZK4V0wwUc4w3aXHt+cQcj2s55m7Kn40IYEDhUKqTb
+         dSwMuwcjOEXlC4wNQ6+ODl8OgELw4mXnHHj1wrfu3Cfkdx1bgCseS64zjhFdMSRmY2pj
+         HcUrWodW2cY1xOKmN5ahKPKXtkrgZWsvc99irE6xip8ou5SnXmApnqWIrCuz1kxFuz8z
+         6Tm/J379p46vZwowXNbim6uD1hNpMSsNLsN7wmMbaLFyFoDLuNy5VPyF7wV8UcIBZk+b
+         Gx8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=qQKjxcYz1SGrja/RVWPyvjQAdujAs0bm/5MR0Zd7Fbs=;
+        b=vAmKwc6HCzA1LRbuUPqbxxImyIJmA3aj0+gX+v++4Z0BjLYpZaBP16bGrIj+z3fqhZ
+         DcryKNAqIXwC0oo9l3h7rFUVgQxBKBwpIG3mK8UFo2Sa7rRpXR54ZpPMvDjNzfugv1cS
+         w3nIhLBCjn2SK1gb5579xKNUiMEI2cqZiClnS+wWdtNA+3II+/NFdaYDIVMIWnfV0N1x
+         qKFfiQJVgUCz3LvEdM6UIofvH30IJs+ucFXTaWFSP3k0xLkio6FqlyBpnWaHrW0xCA/A
+         3qWTlmUzDRYodkknpl8FqO5183RMDKGoW4wY69f8qcJQTCtwLNlVk/rjGOJZ5OkozNRf
+         o8wg==
+X-Gm-Message-State: AJIora/k21Kzwxs+4UsU1BXreEA7sNUXWHnl0pGb6iFd1T6WPP+HUawF
+	RYFr9SQAbdn7gt0PWQZhRhk=
+X-Google-Smtp-Source: AGRyM1v/0pHHJkcEvPg32H/Zrta20c9KMIwYkT2EJglL1F4N05DErX0mIwaKlQWfsGCUQACIrQO7Dw==
+X-Received: by 2002:a63:69ca:0:b0:411:994d:1e29 with SMTP id e193-20020a6369ca000000b00411994d1e29mr13517561pgc.118.1657486513481;
+        Sun, 10 Jul 2022 13:55:13 -0700 (PDT)
+Received: from cloud-MacBookPro ([2601:646:8201:c2e0:4045:a2e:ac7a:d1f4])
+        by smtp.gmail.com with ESMTPSA id js1-20020a17090b148100b001ef7e5f2a82sm3235158pjb.25.2022.07.10.13.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Jul 2022 13:55:13 -0700 (PDT)
+Date: Sun, 10 Jul 2022 13:55:12 -0700
+From: binyi <dantengknight@gmail.com>
+To: Joe Perches <joe@perches.com>
+Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: qlge: Fix indentation issue under long for
+ loop
+Message-ID: <20220710205512.GA1883@cloud-MacBookPro>
+References: <20220710083657.GA3311@cloud-MacBookPro>
+ <d278cf5d38235db92efa236cb1940a67e0e9a005.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d278cf5d38235db92efa236cb1940a67e0e9a005.camel@perches.com>
 
-The pull request you sent on Sun, 10 Jul 2022 17:21:48 +0200:
+On Sun, Jul 10, 2022 at 08:28:57AM -0700, Joe Perches wrote:
+> On Sun, 2022-07-10 at 01:36 -0700, Binyi Han wrote:
+> > Fix indentation issue to adhere to Linux kernel coding style,
+> > Issue found by checkpatch. And change the long for loop into 3 lines.
+> > 
+> > Signed-off-by: Binyi Han <dantengknight@gmail.com>
+> > ---
+> > v2:
+> > 	- Change the long for loop into 3 lines.
+> > 
+> >  drivers/staging/qlge/qlge_main.c | 18 ++++++++++--------
+> >  1 file changed, 10 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+> > index 1a378330d775..6e771d0e412b 100644
+> > --- a/drivers/staging/qlge/qlge_main.c
+> > +++ b/drivers/staging/qlge/qlge_main.c
+> > @@ -3007,10 +3007,11 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+> >  		tmp = (u64)rx_ring->lbq.base_dma;
+> >  		base_indirect_ptr = rx_ring->lbq.base_indirect;
+> >  
+> > -		for (page_entries = 0; page_entries <
+> > -			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
+> > -				base_indirect_ptr[page_entries] =
+> > -					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+> > +		for (page_entries = 0;
+> > +			page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
+> > +			page_entries++)
+> > +			base_indirect_ptr[page_entries] =
+> > +				cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+> 
+> Better to align page_entries to the open parenthesis.
+> 
+> And another optimization would be to simply add DB_PAGE_SIZE to tmp
+> in the loop and avoid the multiply.
+> 
+> 		for (page_entries = 0;
+> 		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
+> 		     page_entries++) {
+> 			base_indirect_ptr[page_entries] = cpu_to_le64(tmp);
+> 			tmp += DB_PAGE_SIZE;
+> 		}
+> 
+> > @@ -3022,10 +3023,11 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+> >  		tmp = (u64)rx_ring->sbq.base_dma;
+> >  		base_indirect_ptr = rx_ring->sbq.base_indirect;
+> >  
+> > -		for (page_entries = 0; page_entries <
+> > -			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
+> > -				base_indirect_ptr[page_entries] =
+> > -					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+> > +		for (page_entries = 0;
+> > +			page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
+> > +			page_entries++)
+> > +			base_indirect_ptr[page_entries] =
+> > +				cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+> 
+> here too
+> 
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.19-rc6
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/5867f3b88bb54016c42cdde510c184255488a12b
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Ah I see, that makes sense. Thanks for reviewing!
