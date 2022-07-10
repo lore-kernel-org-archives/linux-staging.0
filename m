@@ -1,53 +1,50 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5791108
-	for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 08:27:04 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id a15so2499802pjs.0
-        for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 01:27:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161B11104
+	for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 08:36:58 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id y9so2455584pff.12
+        for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 01:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+JGyIrDFKDR5tt3yuLkl9IPyrn5UU1z3xDSAUDC2xz8=;
-        b=Tq4n/l75AECE7/QAv0VPvl+liF461bSZkRnNXOUynaeNL4s7NKl6h6QBRjiQVIAM1P
-         YqxIwEzXOv8fcKQ2LfV6lyCUGv27comS2RO3UujNeqEAmlCs7Wu6DnYEyYSaJOGny2LI
-         7VczYfbrAue3gcw/om1tiDFaoDtgMGeBpM0QEHXnnqHhv5GdLkHWf6ym/KV3mBc4EE+P
-         tNg90xgtkD3cm1unJy0YmT7cSqZXW/5gq1xmd2VjYjWK6+9ipzw6tA+bWXBIyk+2tiBV
-         ZYLaekeEEIpYKgHPO34nvwiqPVEXQHw7morkKGVF9DqBH71rT2pMitMXWEN2iLpEbLUM
-         8kKA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=xgfLGyj+MHqel88Qroj0JT4kGTyFosjPxfxGSvsimrM=;
+        b=fe1Y8UcF38yp8nkqFC42yUpEITrSdSwZC+mso+eprWYcqw3uXsiO2Xwbvu1kvxCXSw
+         eRCcYPGiodo276ozuxx3kCxX3fLTSbRTjhZxFTMhfURGfe6f/Dq+ab5Dqptb81UeysY0
+         tInyEEL3FtJOw/Bm9I8m1ya84f1MMJfb5M0JS9c83irrLwUQ7iLXCzED/3BmuX5Vj7FL
+         VHFk2YkRsZ19ocHaiiqGBOm0HmAo9a6nM2I30xSHdjWNYrnMPpe+Q/vp2QenX8xKq6O/
+         X0xTVqJ2LHW/hKM86/GV8KffFJFp8w7AtspCic393pj/U9lV90gF5YUl+OIk2lOmU8Ui
+         rMDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+JGyIrDFKDR5tt3yuLkl9IPyrn5UU1z3xDSAUDC2xz8=;
-        b=gtIcEkPRKQnBHWy5vOO465NDF5HuiFDlhmNq2KfsQjbcVq9FDkHHIJPDAmzNi/OW/F
-         XPsZHcBoNNn6zG6mAGbbfD9ICkh9VewC7vSPL3Y3VWbrq9rJqLbpahFKi0Kw3j/746zu
-         28Mvx29X7Rk8GR5kBoJIoJQZI/D0OSMBcESXx6gWMl7A3JtKPXJ+0hlMBMMmiW4C1V40
-         rxmncQBaRysy/1tPhYu69qAMt8CSljof6joriiXnNRh61a8iqer7GyQyl5tnwsDx4pBZ
-         zim3I/J6YuD/jFsp4o+8fgYHC4jiv8vFqACJtTcKIxs1vbN/E7HhDe5AK1gQSI9il7N+
-         h0CA==
-X-Gm-Message-State: AJIora/r2ghHvnjwbxanvZ2eViuYQQ3wTMugZcq/DuluPXOny+s+1PBz
-	ie5roqDi89RUy2FxCEY5qjs=
-X-Google-Smtp-Source: AGRyM1sXYmEdJoJWN5wHdoEyfeBmS2VDuEfDPLxkNS4oSJG/OLbYBSWstHCLd8vOkiPN6ziIdWfp4Q==
-X-Received: by 2002:a17:90a:1c02:b0:1e0:df7:31f2 with SMTP id s2-20020a17090a1c0200b001e00df731f2mr10321229pjs.222.1657441623831;
-        Sun, 10 Jul 2022 01:27:03 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=xgfLGyj+MHqel88Qroj0JT4kGTyFosjPxfxGSvsimrM=;
+        b=m/zYDo57XPmT0Yxpm8JIDS7Iq/CX3oEohVth9AXLpOpkzExBt4WoNqZ8I9jkNvuvAj
+         f6Dser5WN/cxWTJPadyG9JT1kJKNvtwyelUvQJSj+ZQUPsusAuK6ZqM+5LgCFU2+/jXv
+         a706jfRSxq73IaZZDqStd8+GRVqmA+NBIIJRg/e/8iwl3jwQcjv8gwdS80IkoQpnX+19
+         gSHr6cEwTGK5cuA+zgy35gwFEFugcEENaYlFn0P0Kaimhmim5UX0KPw3GPQM/Grkm1ul
+         adcmC4qG0+CuI8N9GB25DOAveWH+RFyApqXQzjNNy+mSSSyiBCpJZMqx0pxmwJbceHdg
+         vXiQ==
+X-Gm-Message-State: AJIora/58cP9bsYIu0EAXJANZ2j5mnGX7X/GdhbViwi6sEeDrJa3ACVU
+	mf8zk51LLNNduYeyCzgUbPc=
+X-Google-Smtp-Source: AGRyM1vBZKUETO0vlrimK2WidWHyQw040TOD6YTdp3eOJGXVSJsvNfPQ5WpBLr8P+gyq9Gfn4iz7rQ==
+X-Received: by 2002:a63:480b:0:b0:40d:d4d1:7daf with SMTP id v11-20020a63480b000000b0040dd4d17dafmr10933718pga.512.1657442218427;
+        Sun, 10 Jul 2022 01:36:58 -0700 (PDT)
 Received: from cloud-MacBookPro ([2601:646:8201:c2e0:b884:a80c:dca9:4492])
-        by smtp.gmail.com with ESMTPSA id rj14-20020a17090b3e8e00b001eab99a42efsm2404469pjb.31.2022.07.10.01.27.03
+        by smtp.gmail.com with ESMTPSA id u5-20020a63d345000000b0041245ccb6b1sm2128311pgi.62.2022.07.10.01.36.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jul 2022 01:27:03 -0700 (PDT)
-Date: Sun, 10 Jul 2022 01:27:02 -0700
-From: binyi <dantengknight@gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+        Sun, 10 Jul 2022 01:36:57 -0700 (PDT)
+Date: Sun, 10 Jul 2022 01:36:57 -0700
+From: Binyi Han <dantengknight@gmail.com>
+To: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
 	Coiby Xu <coiby.xu@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	Joe Perches <joe@perches.com>
+Cc: netdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: qlge: Fix indentation issue under long for loop
-Message-ID: <20220710082702.GA2109@cloud-MacBookPro>
-References: <20220710021629.GA11852@cloud-MacBookPro>
- <1827050fdadb6173118fb396ad1fead23cda809f.camel@perches.com>
+Subject: [PATCH v2] staging: qlge: Fix indentation issue under long for loop
+Message-ID: <20220710083657.GA3311@cloud-MacBookPro>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,41 +53,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1827050fdadb6173118fb396ad1fead23cda809f.camel@perches.com>
 
-On Sat, Jul 09, 2022 at 07:23:20PM -0700, Joe Perches wrote:
-> On Sat, 2022-07-09 at 19:16 -0700, Binyi Han wrote:
-> > Fix indentation issue to adhere to Linux kernel coding style.
-> > Issue found by checkpatch.
-> > 
-> > Signed-off-by: Binyi Han <dantengknight@gmail.com>
-> > ---
-> >  drivers/staging/qlge/qlge_main.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> []
-> > @@ -3009,8 +3009,8 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
-> >  
-> >  		for (page_entries = 0; page_entries <
-> >  			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
-> 
-> Probably better to change the for loop to 3 lines as well.
-> 
-> 		for (page_entries = 0;
-> 		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
-> 		     page_entries++)
-> 
-> > @@ -3024,8 +3024,8 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
-> >  
-> >  		for (page_entries = 0; page_entries <
-> >  			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
-> > -				base_indirect_ptr[page_entries] =
-> > -					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
-> > +			base_indirect_ptr[page_entries] =
-> > +				cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
-> 
-> etc...
-> 
+Fix indentation issue to adhere to Linux kernel coding style,
+Issue found by checkpatch. And change the long for loop into 3 lines.
 
-Thanks for the suggestion. Will send a patch v2 in another thread.
+Signed-off-by: Binyi Han <dantengknight@gmail.com>
+---
+v2:
+	- Change the long for loop into 3 lines.
+
+ drivers/staging/qlge/qlge_main.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+index 1a378330d775..6e771d0e412b 100644
+--- a/drivers/staging/qlge/qlge_main.c
++++ b/drivers/staging/qlge/qlge_main.c
+@@ -3007,10 +3007,11 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+ 		tmp = (u64)rx_ring->lbq.base_dma;
+ 		base_indirect_ptr = rx_ring->lbq.base_indirect;
+ 
+-		for (page_entries = 0; page_entries <
+-			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
+-				base_indirect_ptr[page_entries] =
+-					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
++		for (page_entries = 0;
++			page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
++			page_entries++)
++			base_indirect_ptr[page_entries] =
++				cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+ 		cqicb->lbq_addr = cpu_to_le64(rx_ring->lbq.base_indirect_dma);
+ 		cqicb->lbq_buf_size =
+ 			cpu_to_le16(QLGE_FIT16(qdev->lbq_buf_size));
+@@ -3022,10 +3023,11 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+ 		tmp = (u64)rx_ring->sbq.base_dma;
+ 		base_indirect_ptr = rx_ring->sbq.base_indirect;
+ 
+-		for (page_entries = 0; page_entries <
+-			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
+-				base_indirect_ptr[page_entries] =
+-					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
++		for (page_entries = 0;
++			page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
++			page_entries++)
++			base_indirect_ptr[page_entries] =
++				cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+ 		cqicb->sbq_addr =
+ 			cpu_to_le64(rx_ring->sbq.base_indirect_dma);
+ 		cqicb->sbq_buf_size = cpu_to_le16(SMALL_BUFFER_SIZE);
+-- 
+2.25.1
+
