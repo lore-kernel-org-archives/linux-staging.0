@@ -1,93 +1,92 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958A42FAE
-	for <linux-staging@lists.linux.dev>; Sat,  9 Jul 2022 17:10:27 +0000 (UTC)
-Received: from dslb-188-096-144-007.188.096.pools.vodafone-ip.de ([188.96.144.7] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1oADyJ-0005n0-SW; Sat, 09 Jul 2022 19:10:23 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 14/14] staging: r8188eu: the bcnhead parameter is always 0
-Date: Sat,  9 Jul 2022 19:10:00 +0200
-Message-Id: <20220709171000.180481-15-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220709171000.180481-1-martin@kaiser.cx>
-References: <20220709171000.180481-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F177A
+	for <linux-staging@lists.linux.dev>; Sun, 10 Jul 2022 02:16:31 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id v7so74819pfb.0
+        for <linux-staging@lists.linux.dev>; Sat, 09 Jul 2022 19:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=IBkh7IsZmbFYLN06pIohD0sqXoNpFUpMtpF2eiWgC/c=;
+        b=hJEfCZHCjmcvTVedYigK9MS4ZN5U7binqtqQQsqe6KRATruu9vEegw6jZ45Y78iGTM
+         jzesCTpvkLZmURTrU5zaSrhUEHyaYtJsYgmDLUJ0cwT+r+yucYw9S1piZKW2L+JHnL7z
+         uWI/ZA9n0/z3c2v+VdVTSMbKnwYEE0M6h8J/if/6h7TCTv1DSb+/sAW9lVDof4zKUC97
+         jeMQ+T8ieG2c6/+652EthjFfw6NYb92AGJiomMOAV6eM5ZV2SjlIXW+WlurRXY8En7Nn
+         fMKVyL1RJxkFYj9MgkQ4Oq6lYQgVr7reF+P5415rASo5Yo2GUbCU4h9wTFZnasmTo6tX
+         7tuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=IBkh7IsZmbFYLN06pIohD0sqXoNpFUpMtpF2eiWgC/c=;
+        b=Zlf5qC1mbvTQvvvigTiMFo66FPhjQcZmolf5Zp/Tl+HwxT9IdsgsdWfeP4BvwO720y
+         kXT8DXIGwejTVL/vNE2yBq9WB232g2e7EBX/Slb69Nqskr2K90wqtyuYmHL6Yyy1DHb9
+         cqrJ4L4OgK7Dv4/bT/nXVdGy8w7GSIh1/6wACS0Gvw/nkd0axDGQJNtWvPti8anHlhQD
+         sGizHdzyrfmWZ58Odkt9h6gYXhAOfZjwmw9jAH8EnufVsq38RvKqFJ0/qO+s3hUGvJug
+         v1QEKLDlpUfu35ZcybluWoAK/mG23c5Vz6QQ/Lkhr0EmVsghPasrCgjvVKAZU30fdNxB
+         Ryjw==
+X-Gm-Message-State: AJIora8CjFKXtgu1nBkT90rWhbmkUTSbeaxmUMOYtB2WLiUwwfznnwy0
+	eAoCG6ByN+z+m5pAPPLbEeE=
+X-Google-Smtp-Source: AGRyM1t2Q/yjn10IfRmCt7ORJW55dNab68K9IiJI7QQKCrINWnSYQB5w79KBS22ZEIimzf0wCXUXcQ==
+X-Received: by 2002:a05:6a00:188e:b0:52a:b545:559f with SMTP id x14-20020a056a00188e00b0052ab545559fmr8921660pfh.18.1657419391137;
+        Sat, 09 Jul 2022 19:16:31 -0700 (PDT)
+Received: from cloud-MacBookPro ([2601:646:8201:c2e0:4775:5e6e:8613:5b36])
+        by smtp.gmail.com with ESMTPSA id iw5-20020a170903044500b0016bd72887fcsm1946645plb.59.2022.07.09.19.16.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Jul 2022 19:16:30 -0700 (PDT)
+Date: Sat, 9 Jul 2022 19:16:29 -0700
+From: Binyi Han <dantengknight@gmail.com>
+To: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: qlge: Fix indentation issue under long for loop
+Message-ID: <20220710021629.GA11852@cloud-MacBookPro>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The only caller of efuse_read_phymap_from_txpktbuf sets bcnhead to 0.
-Remove this function parameter and simplify the function body.
+Fix indentation issue to adhere to Linux kernel coding style.
+Issue found by checkpatch.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+Signed-off-by: Binyi Han <dantengknight@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ drivers/staging/qlge/qlge_main.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index ddda3f994fa7..fe477438899e 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -193,13 +193,11 @@ efuse_phymap_to_logical(u8 *phymap, u16 _size_byte, u8  *pbuf)
- /* FIXME: add error handling in callers */
- static int efuse_read_phymap_from_txpktbuf(
- 	struct adapter  *adapter,
--	int bcnhead,	/* beacon head, where FW store len(2-byte) and efuse physical map. */
- 	u8 *content,	/* buffer to store efuse physical map */
- 	u16 *size	/* for efuse content: the max byte to read. will update to byte read */
- 	)
- {
- 	unsigned long timeout;
--	u16 dbg_addr = 0;
- 	__le32 lo32 = 0, hi32 = 0;
- 	u16 len = 0, count = 0;
- 	int i = 0, res;
-@@ -208,20 +206,10 @@ static int efuse_read_phymap_from_txpktbuf(
- 	u8 *pos = content;
- 	u32 reg32;
+diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+index 1a378330d775..60c796a64135 100644
+--- a/drivers/staging/qlge/qlge_main.c
++++ b/drivers/staging/qlge/qlge_main.c
+@@ -3009,8 +3009,8 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
  
--	if (bcnhead < 0) { /* if not valid */
--		res = rtw_read8(adapter, REG_TDECTRL + 1, &reg);
--		if (res)
--			return res;
--
--		bcnhead = reg;
--	}
--
- 	rtw_write8(adapter, REG_PKT_BUFF_ACCESS_CTRL, TXPKT_BUF_SELECT);
+ 		for (page_entries = 0; page_entries <
+ 			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
+-				base_indirect_ptr[page_entries] =
+-					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
++			base_indirect_ptr[page_entries] =
++				cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+ 		cqicb->lbq_addr = cpu_to_le64(rx_ring->lbq.base_indirect_dma);
+ 		cqicb->lbq_buf_size =
+ 			cpu_to_le16(QLGE_FIT16(qdev->lbq_buf_size));
+@@ -3024,8 +3024,8 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
  
--	dbg_addr = bcnhead * 128 / 8; /* 8-bytes addressing */
--
- 	while (1) {
--		rtw_write16(adapter, REG_PKTBUF_DBG_ADDR, dbg_addr + i);
-+		rtw_write16(adapter, REG_PKTBUF_DBG_ADDR, i);
- 
- 		rtw_write8(adapter, REG_TXPKTBUF_DBG, 0);
- 		timeout = jiffies + msecs_to_jiffies(1000);
-@@ -300,7 +288,7 @@ static s32 iol_read_efuse(struct adapter *padapter, u16 size_byte, u8 *logical_m
- 	rtw_write8(padapter, REG_PKT_BUFF_ACCESS_CTRL, TXPKT_BUF_SELECT);
- 	status = iol_execute(padapter, CMD_READ_EFUSE_MAP);
- 	if (status == _SUCCESS)
--		efuse_read_phymap_from_txpktbuf(padapter, 0, physical_map, &size);
-+		efuse_read_phymap_from_txpktbuf(padapter, physical_map, &size);
- 	efuse_phymap_to_logical(physical_map, size_byte, logical_map);
- 	return status;
- }
+ 		for (page_entries = 0; page_entries <
+ 			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
+-				base_indirect_ptr[page_entries] =
+-					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
++			base_indirect_ptr[page_entries] =
++				cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+ 		cqicb->sbq_addr =
+ 			cpu_to_le64(rx_ring->sbq.base_indirect_dma);
+ 		cqicb->sbq_buf_size = cpu_to_le16(SMALL_BUFFER_SIZE);
 -- 
-2.30.2
+2.25.1
 
