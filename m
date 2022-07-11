@@ -1,104 +1,312 @@
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC2D2F33
-	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 21:36:04 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id s128so8254100oie.10
-        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 14:36:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE4C53A4
+	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 22:43:36 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id bp15so989852ejb.6
+        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 15:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=W1lfMFF7GwisucHEs2WhdN/ngSj9xjvJck8CvmDPr8Q=;
-        b=m3zlf3eaY+ozNxIYDmb53Dyn4cP8iN10VPE2PcHMMkNQ9B2QriL/uoXD3KinNbSCAf
-         R/jGyCPjVfs+Y/AURJLDM3VfiBz+w/TJUmx1mPLs5NfjNaUicM/sJBmLH7oa78GdqTRd
-         dCfTnoM1Y/xR0GDVkc+OMWaXuozZ8hXrGWyFj3Oc8s9x/D7hYkqVt7waYUXceAKyQYBR
-         hJGiu3OXz4anUqmK+YnlzMOskhRFOwH68SeARH3VE9rqYgvskwyPmoxINBIWCoKpQqS5
-         ZS5z+fQYqavQg+9MF6Bgtw4OiOxkzfd4UPKbX12r6/rTuAJsMPguquCbHZi1YOP5NHGG
-         CIXQ==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=kCxXr7faPOAeZ+53A7qFX+1uE18Nt0X/UdGIdErEIq4=;
+        b=kDaHkQyBJ9eKohu5OAywIaJ7fdoc+bGEDPqEkf0vJtbHPxhiLRLfnMWzvygx/It+em
+         XkX0KmJ78amFb8yhEEqfSUiO8tXZf0HnJIPsRQi0Oh2DSt5CPxFUvR1xJf31tzeeEaXG
+         Rp9S9rQQUyv2BFxreUPQbsR2PMOyzcga8JBcWWJhHoO0M1Kny7Gq8zJq6i6I/5ATNjc6
+         hCTZWACoBi3e3JS5qd7PboKWVNAr68vWEWlqSopLy1jpj8lkJSymR6cTRrCklTJ/5+Bd
+         7YNDfGTfysifndyKyNUDUHdXhUKotsTjtNjZA+jCcQnh6WjelPzvSb4MOIk3NrmqrLaC
+         ZPHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=W1lfMFF7GwisucHEs2WhdN/ngSj9xjvJck8CvmDPr8Q=;
-        b=EEvzIMwu1IlWGntQWyFArWOHFOcMQxUL00QU+B71YWQnzuf3nUhf3Dm789USN3JxUC
-         XCk8jIWG7s1oaBNMVVp/RW+zc3j/khVaPxhPWYs6RTytYIFKzIO6bGvSb+sapSDgnVVY
-         U53pUP1oabgMRTq0yQm2LU6r9O+6ZQ4XU8UXjxeG04Hg0GIrk+P8WAPoCLF1v/4tSXo7
-         lAOHTS/vSRJx+fe7jZladU6/+yjGkWDwLapK5pSyroC2iRAgBuOs0oSNHukv+f6ctNmC
-         Nu39sQKTWtlJWV3L3KmRg5leyKi0VL/DQVxGMaOBbCkluGZ8n9wZX3804AfNPEnp/MTB
-         uOgA==
-X-Gm-Message-State: AJIora/M7tv07mhkH8TEU9tbxHpcQ8xcThgeRoV/5Af+rjCgDDmzR2Uh
-	EqjdBU+CYa/uzVML+B8YFIT7MQ==
-X-Google-Smtp-Source: AGRyM1ukzkSjiYh6xdbkafb6/cn72eoJoX+cxrroy+Ym4I4X16AsdivaNNxd+cGYK6dsX/hak9UA+A==
-X-Received: by 2002:a05:6808:2127:b0:335:9807:959e with SMTP id r39-20020a056808212700b003359807959emr251350oiw.270.1657575363633;
-        Mon, 11 Jul 2022 14:36:03 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id cj8-20020a0568081b8800b00339e4ca6a15sm3239334oib.45.2022.07.11.14.36.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 14:36:03 -0700 (PDT)
-Date: Mon, 11 Jul 2022 18:35:57 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-	samuel@sholland.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] media: cedrus: Improve error messages for controls
-Message-ID: <YsyXvfvjxWIPZle6@eze-laptop>
-References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
- <20220620175517.648767-4-jernej.skrabec@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=kCxXr7faPOAeZ+53A7qFX+1uE18Nt0X/UdGIdErEIq4=;
+        b=zsaXEtUPz0mLSGn4TI1AWxjZcmVfblABHeFfD/Nr91WsvMBpKp+CrmCgaCO3uI5JbP
+         uaF90MSFHcL/C8OfQtrkCAl9aPTlhBHLcPA2qfEwwRkbPkErIbQsGDfEFjnj53x5aQzJ
+         3p5nGyqky5jNdeR45QpDcTmKw9m2fE+TZjcboYJpAyyTLpWhqHe2Ch4O2QNxw0ogKvzv
+         72fDua26rdkVmm7zLuN9mzL+QAkHnCsylii0hcZCPBWfxymZNC55QLRroJpNQNTYmuL7
+         KYA1TZok1NwnccS5BYLR6IQ0otgxvgbIVxNx9mCwdXUHP6DElew1/w1tOE+Vmiyduxi5
+         ERdQ==
+X-Gm-Message-State: AJIora9JI9yOsv6KKZp8MmZChXeV5o0QrYn5/Y5Y7tfM3Qyg89RNCD5X
+	xxe2VBczQsQVRjPkOfYlM/+i3/ZM5R8=
+X-Google-Smtp-Source: AGRyM1ulSYCkyOGRc+/QJltXmnEtRMTM9mJDwoqWPRtr4wFUalAhf0LV4hMgTLvrzver5Y5anOnWMA==
+X-Received: by 2002:a17:907:6d86:b0:72b:5ad6:6df1 with SMTP id sb6-20020a1709076d8600b0072b5ad66df1mr6456076ejc.264.1657579414361;
+        Mon, 11 Jul 2022 15:43:34 -0700 (PDT)
+Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
+        by smtp.gmail.com with ESMTPSA id f5-20020a1709064dc500b0072af7566927sm3176853ejw.13.2022.07.11.15.43.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Jul 2022 15:43:33 -0700 (PDT)
+Message-ID: <f5ebfd23-26b1-1407-c0d4-a3a60f860c5b@gmail.com>
+Date: Tue, 12 Jul 2022 00:43:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220620175517.648767-4-jernej.skrabec@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] staging: r8188eu: remove HW_VAR_MLME_SITESURVEY from
+ SetHwReg8188EU()
+Content-Language: en-US
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220711174417.10721-1-straube.linux@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220711174417.10721-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 20, 2022 at 07:55:13PM +0200, Jernej Skrabec wrote:
-> Currently error messages when control creation fails are very sparse.
-> Granted, user should never observe them. However, developer working on
-> codecs can. In such cases additional information like which control
-> creation failed and error number are very useful.
+On 7/11/22 19:44, Michael Straube wrote:
+> Remove the HW_VAR_MLME_SITESURVEY case from SetHwReg8188EU() and move
+> the functionality to two new functions in rtw_mlme_ext.c. This is part
+> of the ongoing effort to get rid of SetHwReg8188EU().
 > 
-> Expand error messages with additional info.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 70 +++++++++++++++++--
+>   drivers/staging/r8188eu/core/rtw_p2p.c        |  9 +--
+>   drivers/staging/r8188eu/hal/usb_halinit.c     | 53 --------------
+>   drivers/staging/r8188eu/include/hal_intf.h    |  1 -
+>   .../staging/r8188eu/include/rtw_mlme_ext.h    |  3 +
+>   5 files changed, 70 insertions(+), 66 deletions(-)
 > 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> index b12219123a6b..99c87319d2b4 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -242,7 +242,8 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev, struct cedrus_ctx *ctx)
->  	v4l2_ctrl_handler_init(hdl, CEDRUS_CONTROLS_COUNT);
->  	if (hdl->error) {
->  		v4l2_err(&dev->v4l2_dev,
-> -			 "Failed to initialize control handler\n");
-> +			 "Failed to initialize control handler: %d\n",
-> +			 hdl->error);
->  		return hdl->error;
->  	}
->  
-> @@ -257,7 +258,9 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev, struct cedrus_ctx *ctx)
->  					    NULL);
->  		if (hdl->error) {
->  			v4l2_err(&dev->v4l2_dev,
-> -				 "Failed to create new custom control\n");
-> +				 "Failed to create %s control: %d\n",
-> +				 v4l2_ctrl_get_name(cedrus_controls[i].cfg.id),
-> +				 hdl->error);
->  
->  			v4l2_ctrl_handler_free(hdl);
->  			kfree(ctx->ctrls);
-> -- 
-> 2.36.1
-> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index eecb00e41d6a..771910763fec 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -5695,9 +5695,70 @@ static void rtw_set_initial_gain(struct adapter *adapter, u8 gain)
+>   	}
+>   }
+>   
+> +void rtw_mlme_under_site_survey(struct adapter *adapter)
+> +{
+> +	/* config RCR to receive different BSSID & not to receive data frame */
+> +
+> +	int res;
+> +	u8 reg;
+> +	u32 v;
+> +
+> +	res = rtw_read32(adapter, REG_RCR, &v);
+> +	if (res)
+> +		return;
+> +
+> +	v &= ~(RCR_CBSSID_BCN);
+> +	rtw_write32(adapter, REG_RCR, v);
+> +	/* reject all data frame */
+> +	rtw_write16(adapter, REG_RXFLTMAP2, 0x00);
+> +
+> +	/* disable update TSF */
+> +	res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
+> +	if (res)
+> +		return;
+> +
+> +	rtw_write8(adapter, REG_BCN_CTRL, reg | BIT(4));
+> +}
+> +
+> +void rtw_mlme_site_survey_done(struct adapter *adapter)
+> +{
+> +	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
+> +	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+> +	u32 reg32;
+> +	int res;
+> +	u8 reg;
+> +
+> +	if ((is_client_associated_to_ap(adapter)) ||
+> +	    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)) {
+> +		/* enable to rx data frame */
+> +		rtw_write16(adapter, REG_RXFLTMAP2, 0xFFFF);
+> +
+> +		/* enable update TSF */
+> +		res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
+> +		if (res)
+> +			return;
+> +
+> +		rtw_write8(adapter, REG_BCN_CTRL, reg & (~BIT(4)));
+> +	} else if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
+> +		rtw_write16(adapter, REG_RXFLTMAP2, 0xFFFF);
+> +		/* enable update TSF */
+> +		res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
+> +		if (res)
+> +			return;
+> +
+> +		rtw_write8(adapter, REG_BCN_CTRL, reg & (~BIT(4)));
+> +	}
+> +
+> +	res = rtw_read32(adapter, REG_RCR, &reg32);
+> +	if (res)
+> +		return;
+> +
+> +	rtw_write32(adapter, REG_RCR, reg32 | RCR_CBSSID_BCN);
+> +}
+> +
+>   void site_survey(struct adapter *padapter)
+>   {
+> -	unsigned char		survey_channel = 0, val8;
+> +	unsigned char survey_channel = 0;
+>   	enum rt_scan_type ScanType = SCAN_PASSIVE;
+>   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+>   	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+> @@ -5821,8 +5882,7 @@ void site_survey(struct adapter *padapter)
+>   			if (is_client_associated_to_ap(padapter))
+>   				issue_nulldata(padapter, NULL, 0, 3, 500);
+>   
+> -			val8 = 0; /* survey done */
+> -			SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
+> +			rtw_mlme_site_survey_done(padapter);
+>   
+>   			report_surveydone_event(padapter);
+>   
+> @@ -7343,7 +7403,6 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
+>   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+>   	struct sitesurvey_parm	*pparm = (struct sitesurvey_parm *)pbuf;
+>   	u8 bdelayscan = false;
+> -	u8 val8;
+>   	u32	i;
+>   	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
+>   
+> @@ -7400,8 +7459,7 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
+>   		/* set MSR to no link state */
+>   		Set_MSR(padapter, _HW_STATE_NOLINK_);
+>   
+> -		val8 = 1; /* under site survey */
+> -		SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
+> +		rtw_mlme_under_site_survey(padapter);
+>   
+>   		pmlmeext->sitesurvey_res.state = SCAN_PROCESS;
+>   	}
+> diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
+> index beffe5b16f1e..c306aafa183b 100644
+> --- a/drivers/staging/r8188eu/core/rtw_p2p.c
+> +++ b/drivers/staging/r8188eu/core/rtw_p2p.c
+> @@ -1450,10 +1450,9 @@ static void restore_p2p_state_handler(struct adapter *padapter)
+>   static void pre_tx_invitereq_handler(struct adapter *padapter)
+>   {
+>   	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
+> -	u8	val8 = 1;
+>   
+>   	set_channel_bwmode(padapter, pwdinfo->invitereq_info.peer_ch, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
+> -	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
+> +	rtw_mlme_under_site_survey(padapter);
+>   	issue_probereq_p2p(padapter, NULL);
+>   	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
+>   
+> @@ -1462,10 +1461,9 @@ static void pre_tx_invitereq_handler(struct adapter *padapter)
+>   static void pre_tx_provdisc_handler(struct adapter *padapter)
+>   {
+>   	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
+> -	u8	val8 = 1;
+>   
+>   	set_channel_bwmode(padapter, pwdinfo->tx_prov_disc_info.peer_channel_num[0], HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
+> -	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
+> +	rtw_mlme_under_site_survey(padapter);
+>   	issue_probereq_p2p(padapter, NULL);
+>   	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
+>   
+> @@ -1474,10 +1472,9 @@ static void pre_tx_provdisc_handler(struct adapter *padapter)
+>   static void pre_tx_negoreq_handler(struct adapter *padapter)
+>   {
+>   	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
+> -	u8	val8 = 1;
+>   
+>   	set_channel_bwmode(padapter, pwdinfo->nego_req_info.peer_channel_num[0], HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
+> -	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
+> +	rtw_mlme_under_site_survey(padapter);
+>   	issue_probereq_p2p(padapter, NULL);
+>   	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
+>   
+> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+> index 6b0337c09915..68d012a442a8 100644
+> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
+> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+> @@ -1104,59 +1104,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+>   				ResumeTxBeacon(Adapter);
+>   		}
+>   		break;
+> -	case HW_VAR_MLME_SITESURVEY:
+> -		if (*((u8 *)val)) { /* under sitesurvey */
+> -			/* config RCR to receive different BSSID & not to receive data frame */
+> -			u32 v;
+> -
+> -			res = rtw_read32(Adapter, REG_RCR, &v);
+> -			if (res)
+> -				return;
+> -
+> -			v &= ~(RCR_CBSSID_BCN);
+> -			rtw_write32(Adapter, REG_RCR, v);
+> -			/* reject all data frame */
+> -			rtw_write16(Adapter, REG_RXFLTMAP2, 0x00);
+> -
+> -			/* disable update TSF */
+> -			res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
+> -			if (res)
+> -				return;
+> -
+> -			rtw_write8(Adapter, REG_BCN_CTRL, reg | BIT(4));
+> -		} else { /* sitesurvey done */
+> -			struct mlme_ext_priv	*pmlmeext = &Adapter->mlmeextpriv;
+> -			struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+> -			u32 reg32;
+> -
+> -			if ((is_client_associated_to_ap(Adapter)) ||
+> -			    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)) {
+> -				/* enable to rx data frame */
+> -				rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
+> -
+> -				/* enable update TSF */
+> -				res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
+> -				if (res)
+> -					return;
+> -
+> -				rtw_write8(Adapter, REG_BCN_CTRL, reg & (~BIT(4)));
+> -			} else if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
+> -				rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
+> -				/* enable update TSF */
+> -				res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
+> -				if (res)
+> -					return;
+> -
+> -				rtw_write8(Adapter, REG_BCN_CTRL, reg & (~BIT(4)));
+> -			}
+> -
+> -			res = rtw_read32(Adapter, REG_RCR, &reg32);
+> -			if (res)
+> -				return;
+> -
+> -			rtw_write32(Adapter, REG_RCR, reg32 | RCR_CBSSID_BCN);
+> -		}
+> -		break;
+>   	default:
+>   		break;
+>   	}
+> diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+> index 24bbba2cb7cf..819d0dc6e6dc 100644
+> --- a/drivers/staging/r8188eu/include/hal_intf.h
+> +++ b/drivers/staging/r8188eu/include/hal_intf.h
+> @@ -11,7 +11,6 @@
+>   enum hw_variables {
+>   	HW_VAR_SET_OPMODE,
+>   	HW_VAR_CORRECT_TSF,
+> -	HW_VAR_MLME_SITESURVEY,
+>   };
+>   
+>   typedef s32 (*c2h_id_filter)(u8 id);
+> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> index 3cc475aa912a..c630700ea657 100644
+> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> @@ -424,6 +424,9 @@ void invalidate_cam_all(struct adapter *padapter);
+>   int allocate_fw_sta_entry(struct adapter *padapter);
+>   void flush_all_cam_entry(struct adapter *padapter);
+>   
+> +void rtw_mlme_under_site_survey(struct adapter *adapter);
+> +void rtw_mlme_site_survey_done(struct adapter *adapter);
+> +
+>   void site_survey(struct adapter *padapter);
+>   u8 collect_bss_info(struct adapter *padapter, struct recv_frame *precv_frame,
+>   		    struct wlan_bssid_ex *bssid);
+
+
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
