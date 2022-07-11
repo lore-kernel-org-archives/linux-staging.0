@@ -1,101 +1,334 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9473C1D
-	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 11:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657539209;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C+eRpdrxBgQt0p6K0v1wmxFNTfVvVH/tFOB6mgp15MI=;
-	b=HroZbq1QyZqpHBInLeeg7Mwu8BJBfiTZdU8ZVCHrN61KTHzhflE6vFGWBEZNHNKzTMSGFm
-	enDq3ZM9LIZx6yCBj+9h/8ixHXD58D9de3HqYMGIHP6sEueu7pa66tMXagYgTh0bxsN5nS
-	KldMr+vOlk3H0QgH4TxtHGK/FNbl/YI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-917gWzlMNI-ab0TTFGR4kg-1; Mon, 11 Jul 2022 07:33:28 -0400
-X-MC-Unique: 917gWzlMNI-ab0TTFGR4kg-1
-Received: by mail-wm1-f72.google.com with SMTP id y14-20020a7bcd8e000000b003a2ea282944so182925wmj.0
-        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 04:33:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CB97A
+	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 12:32:48 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id os14so8570674ejb.4
+        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 05:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hx4Xj0vKM3i9b8JRtUJiv/sbaqsj2HeLHhMvN2rvbzQ=;
+        b=InkBM8ViDKm5aLb2MeT/zAOxVF3eGAC8WlnxhjWChE7n2CDLvHpCe3Dq+yAnlWY6y5
+         op0wpFNoTFP1AXUj0T5v2K8D4abTewJPr26cMOYUUGI2dz2GvGghJxuuSMSlRRKm68qS
+         fBIllUi8s5VTs6u0fczmV+Gy3C/hJFD1sLOnGNDY/2tR+JLiWaK9SMpHm5b4XrwCEFea
+         KruUDwljlzZF2DhfpSyArfYq9nTxQ8udeAM0Aw7SZE/saGyCdscgpovFlPcNS5oN1hBI
+         orvTarntKuH2FOtLUxG4AQI3V1yi2zV1EN5AnftGKZV3CUBjHsuRIgUzXnwjYAyU8W3G
+         9EGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=C+eRpdrxBgQt0p6K0v1wmxFNTfVvVH/tFOB6mgp15MI=;
-        b=2TfpK7uIao575+M6FzC/mNXBqzAbL0vVV0eRX5lo8S5a1ZK5ujikZ1Gp7t8v8CS/oZ
-         3uBSNcJK6Sdi44vsoV3ABA53Mj2UDcgul629DVQEq/rA4+Tq9sbn2zyLnsemnYJSHjf5
-         h0bCnSTz9eK7B03KTOmyI+/cS5reCvxDKZeZkzB/m6Xan5edeTqF5ZWvHBy4jQQWetoz
-         OgBgiZZAGaRML6lHtjRhsOlNH6x08kUE8X5aBCSA2q0LYDmOTVtIat7u7tJEWD1n5GJ8
-         J2/Lmuvhz4/8+Gn47w8AvkI4h58P4kpAAGvJXPzgjJNElF+BL2Pvpuu2eHOt3uUwYNk+
-         TjIg==
-X-Gm-Message-State: AJIora+1uVve5ncmdm/0VfP5TqPUnJG3wQLodMY1svoMWyUN932FJ+Lu
-	Aq+4PR51ntucmGnuWhRwbaMOSBnUsT8JWuUtkkX/z65qpGKrRVVndUNb4Zf5OjmFwKuBDaMHCsj
-	cD0nB+bOOwMkA6Pt+uB/qbPirLA==
-X-Received: by 2002:a05:6000:1846:b0:21d:90e9:eb38 with SMTP id c6-20020a056000184600b0021d90e9eb38mr15874533wri.264.1657539206839;
-        Mon, 11 Jul 2022 04:33:26 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ukVj1igcMMa9SefXsYyz4JKT4jyMTF7lkAOL7ByBHf0PskNwLBAgeRnDAzuL41/lTsk2X9tQ==
-X-Received: by 2002:a05:6000:1846:b0:21d:90e9:eb38 with SMTP id c6-20020a056000184600b0021d90e9eb38mr15874520wri.264.1657539206675;
-        Mon, 11 Jul 2022 04:33:26 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id q6-20020a1cf306000000b003a033177655sm9811923wmq.29.2022.07.11.04.33.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 04:33:26 -0700 (PDT)
-Message-ID: <93fd9fd9-eb43-49b2-4322-95952626895b@redhat.com>
-Date: Mon, 11 Jul 2022 13:33:25 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hx4Xj0vKM3i9b8JRtUJiv/sbaqsj2HeLHhMvN2rvbzQ=;
+        b=AXEp8+uIfTMsQKpQHcpkJtRMIFbdLDi6pFb7mBhI6z2CEP8a1d3wi48nsoBXwktyBT
+         ql6ClKfggH9jbHW/i1z0QmbFIrv/wj6dzhZuz54QkALfph96oP+8pGBB32tka0O0uVG0
+         /CzWefgwUIQgIuK69No17HVtsOqMZl5v7l++JvIIApACL8RN6uK0gJOdto7WSLpHsYp4
+         8k5r+DvJz4XFmOaGhhY1MzPBGU+jrGQjErubhveN8FCtLrwKnDFoN95jrys2W6mnI2xH
+         T5YMQml7Us7CeHqR/eQT5E2o8YSWdHjmNJ+BCVt8Ew++dDXW22dCzffDtwG0OgFbYPJl
+         39ug==
+X-Gm-Message-State: AJIora/x7qB8mu8I9lBmoZyaAZ7VyplMp0REJv3K++WqSPCB1qOhx4B7
+	1+MYzKEt59SYJH8yZkkDhThrKtco73bCCq4GIf8O8Q==
+X-Google-Smtp-Source: AGRyM1t2GYOvYiSczm91nCPcsRJRH4FqjR9E7NVKZ+m4L5fqZwnWxrxafS/w6hG5adH2Z02J62sZu85S85XMttB+tZA=
+X-Received: by 2002:a17:906:2086:b0:717:4e91:f1db with SMTP id
+ 6-20020a170906208600b007174e91f1dbmr18061273ejq.345.1657542766827; Mon, 11
+ Jul 2022 05:32:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 11/11] fbdev: Remove conflict-handling code
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
- sam@ravnborg.org, maxime@cerno.tech
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-12-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220707153952.32264-12-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220125171129.472775-1-aford173@gmail.com> <20220125171129.472775-8-aford173@gmail.com>
+ <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm> <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
+ <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm> <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
+ <2f25ea965289f6fdcd5fc0f12f445b174637ce74.camel@puri.sm>
+In-Reply-To: <2f25ea965289f6fdcd5fc0f12f445b174637ce74.camel@puri.sm>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Mon, 11 Jul 2022 09:32:35 -0300
+Message-ID: <CAAEAJfACXrhHwF-Z9ygnZTUgKBQ3u1jHNDaMhgivq_rDr8xTNw@mail.gmail.com>
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2 VPU's
+ with vpu-blk-ctrl
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>, 
+	linux-media <linux-media@vger.kernel.org>, Adam Ford-BE <aford@beaconembedded.com>, 
+	Chris Healy <cphealy@gmail.com>, kernel test robot <lkp@intel.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+	devicetree <devicetree@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/7/22 17:39, Thomas Zimmermann wrote:
-> Remove the call to do_remove_conflicting_framebuffers() from the
-> framebuffer registration. Aperture helpers take care of removing
-> conflicting devices. With all ownership information stored in the
-> aperture datastrcutures, remove remove_conflicting_framebuffers()
+Hi Martin,
 
-data structures.
+On Mon, Jul 11, 2022 at 6:53 AM Martin Kepplinger
+<martin.kepplinger@puri.sm> wrote:
+>
+> Am Dienstag, dem 26.04.2022 um 12:43 +0200 schrieb Lucas Stach:
+> > Am Dienstag, dem 26.04.2022 um 09:38 +0200 schrieb Martin Kepplinger:
+> > > Am Montag, dem 25.04.2022 um 17:34 +0200 schrieb Lucas Stach:
+> > > > Hi Martin,
+> > > >
+> > > > Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin
+> > > > Kepplinger:
+> > > > > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
+> > > > > > With the Hantro G1 and G2 now setup to run independently,
+> > > > > > update
+> > > > > > the device tree to allow both to operate.  This requires the
+> > > > > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> > > > > > certain clock enabled to handle the gating of the G1 and G2
+> > > > > > fuses, the clock-parents and clock-rates for the various
+> > > > > > VPU's
+> > > > > > to be moved into the pgc_vpu because they cannot get re-
+> > > > > > parented
+> > > > > > once enabled, and the pgc_vpu is the highest in the chain.
+> > > > > >
+> > > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > > > > >
+> > > > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > > index 2df2510d0118..549b2440f55d 100644
+> > > > > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+> > > > > >                                         pgc_vpu: power-
+> > > > > > domain@6 {
+> > > > > >                                                 #power-
+> > > > > > domain-
+> > > > > > cells =
+> > > > > > <0>;
+> > > > > >                                                 reg =
+> > > > > > <IMX8M_POWER_DOMAIN_VPU>;
+> > > > > > -                                               clocks =
+> > > > > > <&clk
+> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > > > > +                                               clocks =
+> > > > > > <&clk
+> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>,
+> > > > > > +
+> > > > > > <&clk
+> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > > > > +
+> > > > > > <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > > +                                               assigned-
+> > > > > > clocks =
+> > > > > > <&clk IMX8MQ_CLK_VPU_G1>,
+> > > > > > +
+> > > > > >
+> > > > > > <&clk IMX8MQ_CLK_VPU_G2>,
+> > > > > > +
+> > > > > >
+> > > > > > <&clk IMX8MQ_CLK_VPU_BUS>,
+> > > > > > +
+> > > > > >
+> > > > > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> > > > > > +                                               assigned-
+> > > > > > clock-
+> > > > > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >     <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >     <&clk IMX8MQ_SYS1_PLL_800M>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >     <&clk IMX8MQ_VPU_PLL>;
+> > > > > > +                                               assigned-
+> > > > > > clock-
+> > > > > > rates
+> > > > > > = <600000000>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >   <600000000>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >   <800000000>,
+> > > > > > +
+> > > > > >
+> > > > > >
+> > > > > >   <0>;
+> > > > > >                                         };
+> > > > > >
+> > > > > >                                         pgc_disp:
+> > > > > > power-domain@7
+> > > > > > {
+> > > > > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+> > > > > >                         status = "disabled";
+> > > > > >                 };
+> > > > > >
+> > > > > > -               vpu: video-codec@38300000 {
+> > > > > > -                       compatible = "nxp,imx8mq-vpu";
+> > > > > > -                       reg = <0x38300000 0x10000>,
+> > > > > > -                             <0x38310000 0x10000>,
+> > > > > > -                             <0x38320000 0x10000>;
+> > > > > > -                       reg-names = "g1", "g2", "ctrl";
+> > > > > > -                       interrupts = <GIC_SPI 7
+> > > > > > IRQ_TYPE_LEVEL_HIGH>,
+> > > > > > -                                    <GIC_SPI 8
+> > > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > -                       interrupt-names = "g1", "g2";
+> > > > > > +               vpu_g1: video-codec@38300000 {
+> > > > > > +                       compatible = "nxp,imx8mq-vpu-g1";
+> > > > > > +                       reg = <0x38300000 0x10000>;
+> > > > > > +                       interrupts = <GIC_SPI 7
+> > > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > +                       clocks = <&clk
+> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>;
+> > > > > > +                       power-domains = <&vpu_blk_ctrl
+> > > > > > IMX8MQ_VPUBLK_PD_G1>;
+> > > > > > +               };
+> > > > > > +
+> > > > > > +               vpu_g2: video-codec@38310000 {
+> > > > > > +                       compatible = "nxp,imx8mq-vpu-g2";
+> > > > > > +                       reg = <0x38310000 0x10000>;
+> > > > > > +                       interrupts = <GIC_SPI 8
+> > > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > +                       clocks = <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > > +                       power-domains = <&vpu_blk_ctrl
+> > > > > > IMX8MQ_VPUBLK_PD_G2>;
+> > > > > > +               };
+> > > > > > +
+> > > > > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
+> > > > > > +                       compatible = "fsl,imx8mq-vpu-blk-
+> > > > > > ctrl";
+> > > > > > +                       reg = <0x38320000 0x100>;
+> > > > > > +                       power-domains = <&pgc_vpu>,
+> > > > > > <&pgc_vpu>,
+> > > > > > <&pgc_vpu>;
+> > > > > > +                       power-domain-names = "bus", "g1",
+> > > > > > "g2";
+> > > > > >                         clocks = <&clk
+> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > > > > -                                <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>,
+> > > > > > -                                <&clk
+> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > > > > -                       clock-names = "g1", "g2", "bus";
+> > > > > > -                       assigned-clocks = <&clk
+> > > > > > IMX8MQ_CLK_VPU_G1>,
+> > > > > > -                                         <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2>,
+> > > > > > -                                         <&clk
+> > > > > > IMX8MQ_CLK_VPU_BUS>,
+> > > > > > -                                         <&clk
+> > > > > > IMX8MQ_VPU_PLL_BYPASS>;
+> > > > > > -                       assigned-clock-parents = <&clk
+> > > > > > IMX8MQ_VPU_PLL_OUT>,
+> > > > > > -                                                <&clk
+> > > > > > IMX8MQ_VPU_PLL_OUT>,
+> > > > > > -                                                <&clk
+> > > > > > IMX8MQ_SYS1_PLL_800M>,
+> > > > > > -                                                <&clk
+> > > > > > IMX8MQ_VPU_PLL>;
+> > > > > > -                       assigned-clock-rates = <600000000>,
+> > > > > > <600000000>,
+> > > > > > -                                              <800000000>,
+> > > > > > <0>;
+> > > > > > -                       power-domains = <&pgc_vpu>;
+> > > > > > +                                <&clk
+> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > > +                       clock-names = "g1", "g2";
+> > > > > > +                       #power-domain-cells = <1>;
+> > > > > >                 };
+> > > > > >
+> > > > > >                 pcie0: pcie@33800000 {
+> > > > >
+> > > > > With this update, when testing suspend to ram on imx8mq, I get:
+> > > > >
+> > > > > buck4: failed to disable: -ETIMEDOUT
+> > > > >
+> > > > > where buck4 is power-supply of pgc_vpu. And thus the transition
+> > > > > to
+> > > > > suspend (and resuming) fails.
+> > > > >
+> > > > > Have you tested system suspend after the imx8m-blk-ctrl update
+> > > > > on
+> > > > > imx8mq?
+> > > >
+> > > > I haven't tested system suspend, don't know if anyone else did.
+> > > > However
+> > > > I guess that this is just uncovering a preexisting issue in the
+> > > > system
+> > > > suspend sequencing, which you would also hit if the video
+> > > > decoders
+> > > > were
+> > > > active at system suspend time.
+> > > >
+> > > > My guess is that the regulator disable fails, due to the power
+> > > > domains
+> > > > being disabled quite late in the suspend sequence, where i2c
+> > > > communication with the PMIC is no longer possible due to i2c
+> > > > being
+> > > > suspended already or something like that. Maybe you can dig in a
+> > > > bit
+> > > > on
+> > > > the actual sequence on your system and we can see how we can
+> > > > rework
+> > > > things to suspend the power domains at a time where communication
+> > > > with
+> > > > the PMIC is still possible?
+> > >
+> > > What exactly would you like to see? Here's all gpcv2 regulators
+> > > disabling on suspend. (gpu (domain 5) is disabled by runtime pm
+> > > often):
+> > >
+> > > [   47.138700] imx-pgc imx-pgc-domain.5: disabling regulator
+> > > [   47.298071] Freezing user space processes ... (elapsed 0.008
+> > > seconds) done.
+> > > [   47.313432] OOM killer disabled.
+> > > [   47.316670] Freezing remaining freezable tasks ... (elapsed
+> > > 2.221
+> > > seconds) done.
+> > > [   49.672052] imx8m-blk-ctrl 38320000.blk-ctrl:
+> > > imx8m_blk_ctrl_suspend
+> > > start
+> > > [   49.704417] imx-pgc imx-pgc-domain.0: disabling regulator
+> > > [   49.711114] imx-pgc imx-pgc-domain.6: disabling regulator
+> > > [   49.819064] buck4: failed to disable: -ETIMEDOUT
+> > >
+> > > The stack looks pretty much the same for all of them, from
+> > > pm_suspend()
+> > > over genpd_suspend_noiry().
+> >
+> > So the GPU domain is already suspended before the system suspend,
+> > probably due to short runtime PM timeouts.
+> >
+> > Can you please check at which point the i2c subsystem is suspended? I
+> > think we are already past that point when running the PM domain
+> > suspend
+> > from a _noirq callback. I'll take a look on how we can properly
+> > change
+> > this ordering.
+> >
+> > Regards,
+> > Lucas
+> >
+>
+> hi Lucas, sorry for not following up on this for so long. This fixes
+> suspend/resume for me:
+>
+> https://lore.kernel.org/linux-arm-kernel/20220711094549.3445566-1-martin.kepplinger@puri.sm/T/#t
+>
+> thank you for you help so far,
+>
 
-> entirely.
-> 
-> This change also rectifies DRM generic-framebuffer registration, which
-> tried to unregister conflicting framebuffers, even though it's entirely
-> build on top of DRM.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Thanks a lot for keeping us posted. The fix for suspend/resume
+looks great!
 
-Amazing patch! The whole series really. Thanks a lot for working on this.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Ezequiel
