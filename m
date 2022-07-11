@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1833C3C1D
-	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 10:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C2D3C1D
+	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 10:51:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657536641;
+	s=mimecast20190719; t=1657536715;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fJygbU8DB1FiBG5kEv9BqrgeJXrXPjMOQW0TEO91yo8=;
-	b=Yj+cMo35D63G1JmRSAe1fR1auPcJ15wSeexwiWCp7S3tG2EX0DCWilAmyEdX0j/LWKMNJd
-	n+ZWzpGW9S6/VnUuIJt/zVxld6LdRJrjlrzlzxHkNMyfUMa8n+mWY8B6ZoM5yZBr0xRqJo
-	cKgytzKe1fz1SowDVJAPmfDGH/v4hIU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=8uFWZvmNxeUCUG4J10cXTXSlmZcaIHVpBO/oH3cNaHQ=;
+	b=bGgJyGaEg80f7jYqbghgBK3ZkCj1swZcwewQroh4zBsmV5mmZ2AEOv/97P9tsRQw5uTGbn
+	i1kxSe2ZaGmPK1Oss7OqZJP7wHVJOB38niPByB0g6l2MFSNKAL4Sexpdbb9cEUyHz3ayKB
+	0iR0miXHtlL+LEARzR3qg+tsPK1Gamo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-mFGSbB_fNUyDKpffLxSBgA-1; Mon, 11 Jul 2022 06:50:38 -0400
-X-MC-Unique: mFGSbB_fNUyDKpffLxSBgA-1
-Received: by mail-wr1-f69.google.com with SMTP id k26-20020adfb35a000000b0021d6c3b9363so520300wrd.1
-        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 03:50:38 -0700 (PDT)
+ us-mta-77-6hgyyzGqOAOEtKp9-BOVJg-1; Mon, 11 Jul 2022 06:51:51 -0400
+X-MC-Unique: 6hgyyzGqOAOEtKp9-BOVJg-1
+Received: by mail-wm1-f71.google.com with SMTP id t4-20020a1c7704000000b003a2cfaeca37so2508047wmi.5
+        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 03:51:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=fJygbU8DB1FiBG5kEv9BqrgeJXrXPjMOQW0TEO91yo8=;
-        b=1w77cwzNTufLJ6/Rl0iYVcisCjOVEJ4zRTjKzdpMA1nKmE45ytf/aEPI8n9/X2/rQg
-         cWdtrit91Y5v2doXyLSpy9KEVl/z5PzI0SSQRAFWSqyYsTQspqkZDndju9YxiO7lpsDN
-         l4fGlvjDCaLRMutC+BtBMENTuqu0l46FQtjMtxAxazsd/HFmrRoPcyQAlgKtRGYM1CQq
-         YeL+18YF1iMFgCt3fXVLANbSekK+0o6gZmXFIvnS9VHMFZvuAL4AJK5kr16BuxeLtLNC
-         dIeTc5FJ9jqq3CmGprhScxnXbxoVa7meAlpqGhwVDZwtfsqKLKZR/kC8MqJ00a42JfwB
-         Rv/g==
-X-Gm-Message-State: AJIora9V9p24p8iX40QcXqoyUtnxfLmb5+59rsK4kZnSBLWCAf240Omu
-	e1EQev3S2NKFstCVZuRdNRGNo/xRysqWK3eZU+woXF+dQrV7VDSDHprU1+Z3hdaacpdYQYKpaXq
-	j0N0gpE4aPT5hcGvdj/pBnxBFOg==
-X-Received: by 2002:a5d:6e03:0:b0:20f:ca43:badc with SMTP id h3-20020a5d6e03000000b0020fca43badcmr15688989wrz.547.1657536637585;
-        Mon, 11 Jul 2022 03:50:37 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sqrhuJBI2xK3PCG7LV6zpLGuGhwp9soZtin6v+gEj3U32QOjYtCPeSaN3ySxWPQEOj9vpEqQ==
-X-Received: by 2002:a5d:6e03:0:b0:20f:ca43:badc with SMTP id h3-20020a5d6e03000000b0020fca43badcmr15688976wrz.547.1657536637359;
-        Mon, 11 Jul 2022 03:50:37 -0700 (PDT)
+        bh=8uFWZvmNxeUCUG4J10cXTXSlmZcaIHVpBO/oH3cNaHQ=;
+        b=0Pv8SnbwcwxW+8O9n6v17Bdy9XHx6zvJa+CcBz8w8RUaZ9GKXLZ6bOULQx6Aw0dNcF
+         8oTqLZ5BqlFlSsvYlgj6+mUpjEBKXnxi0hzern2gPyXimv7HRboj2f8DKgxgnfzqJfOB
+         SLKycFFAFJkGZCr9HtzmzLuw4cdnH0aZSahOCqywgLSm8ojmQcBgNU4lfCb2BgkKDUo8
+         6SLlB3tlPhkDwb7rX9mpDkwFp9SJSoBZHkJlN7XJGM73Cu29VMVHEotJ+oiY4R6YOsZQ
+         WdjkpaD6V8o2d65VMcq6VzLxW0JEp8ie2CUHQjAD0HcVwFbJcFfoIhXxSKn4TIXRu2VD
+         EmLA==
+X-Gm-Message-State: AJIora9IC/H8x/9SbQEvCsdhiTprgZsPhgMKfBvmSUWoVxVEbE5t+1pa
+	9Y/r0Yo8sSQKjIbd3YY2l2Q0HAQCeTUd5ZPS8+6MlZMnu//l9TXuKYTSMrYRTbhuiOn+AYCY5d3
+	grTQfCTe0YbqqcZRz0rf0QsZHuw==
+X-Received: by 2002:a5d:4283:0:b0:21d:7ae3:71a3 with SMTP id k3-20020a5d4283000000b0021d7ae371a3mr16383204wrq.233.1657536710798;
+        Mon, 11 Jul 2022 03:51:50 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vu6LqD2qjjUVCTi9EWsA19dI4u6WP0tL9irr+0IwqQ8S9FDd2rjpYTsgldXuCbUfGofCXuzQ==
+X-Received: by 2002:a5d:4283:0:b0:21d:7ae3:71a3 with SMTP id k3-20020a5d4283000000b0021d7ae371a3mr16383189wrq.233.1657536710638;
+        Mon, 11 Jul 2022 03:51:50 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id k5-20020a05600c1c8500b003a047f64496sm6509025wms.7.2022.07.11.03.50.36
+        by smtp.gmail.com with ESMTPSA id m8-20020a05600c3b0800b003a2ead2c884sm71463wms.13.2022.07.11.03.51.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 03:50:36 -0700 (PDT)
-Message-ID: <b499ad15-e681-1f2c-dc11-2d94c1066ecd@redhat.com>
-Date: Mon, 11 Jul 2022 12:50:36 +0200
+        Mon, 11 Jul 2022 03:51:50 -0700 (PDT)
+Message-ID: <fc704026-df50-76df-8d55-b16ea1378119@redhat.com>
+Date: Mon, 11 Jul 2022 12:51:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,19 +54,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 02/11] fbdev/vga16fb: Create EGA/VGA devices in sysfb code
+Subject: Re: [PATCH 04/11] fbdev/core: Remove
+ remove_conflicting_pci_framebuffers()
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org, maxime@cerno.tech
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  dri-devel@lists.freedesktop.org
 References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-3-tzimmermann@suse.de>
- <fec8dcc1-c490-3bb6-2d2f-805d690d3f95@redhat.com>
- <95302954-76bc-3da6-70ad-25a8a22a37f0@suse.de>
- <253d0bea-f197-4208-b5e6-39c22ab91833@redhat.com>
- <fafde6fb-17ee-1c18-9e5f-96e60a08d98e@suse.de>
+ <20220707153952.32264-5-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <fafde6fb-17ee-1c18-9e5f-96e60a08d98e@suse.de>
+In-Reply-To: <20220707153952.32264-5-tzimmermann@suse.de>
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -75,25 +72,16 @@ Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/11/22 12:42, Thomas Zimmermann wrote:
-> Hi Javier
-
-[...]
-
->> That's why I think that "vga-framebuffer" as driver name would be misleading.
->> Specially since it would also bind to the "ega-framebuffer" platform device.
+On 7/7/22 17:39, Thomas Zimmermann wrote:
+> Remove remove_conflicting_pci_framebuffers() and implement similar
+> functionality in aperture_remove_conflicting_pci_device(), which was
+> the only caller. Removes an otherwise unused interface and streamlines
+> the aperture helper. No functional changes.
 > 
-> I messed up device and driver name, such that misunderstood your remark.
-> 
-> As we use the id_table field for matching devices, the driver name 
-> doesn't matter. [1] So let's keep the driver name as vga16fb. The change 
-> above must have been left over from an earlier prototype patch, I guess.
-> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Agreed. The driver name is used as the last resort to match a device
-only if there isn't any device ID table (ACPI, OF, platform, etc) but
-that's discouraged. Specially when the same driver supports different
-devices as it's the case for this driver.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
