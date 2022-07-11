@@ -1,334 +1,307 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CB97A
-	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 12:32:48 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id os14so8570674ejb.4
-        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 05:32:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E5F4420
+	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 17:44:29 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id w12so6447334edd.13
+        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 10:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hx4Xj0vKM3i9b8JRtUJiv/sbaqsj2HeLHhMvN2rvbzQ=;
-        b=InkBM8ViDKm5aLb2MeT/zAOxVF3eGAC8WlnxhjWChE7n2CDLvHpCe3Dq+yAnlWY6y5
-         op0wpFNoTFP1AXUj0T5v2K8D4abTewJPr26cMOYUUGI2dz2GvGghJxuuSMSlRRKm68qS
-         fBIllUi8s5VTs6u0fczmV+Gy3C/hJFD1sLOnGNDY/2tR+JLiWaK9SMpHm5b4XrwCEFea
-         KruUDwljlzZF2DhfpSyArfYq9nTxQ8udeAM0Aw7SZE/saGyCdscgpovFlPcNS5oN1hBI
-         orvTarntKuH2FOtLUxG4AQI3V1yi2zV1EN5AnftGKZV3CUBjHsuRIgUzXnwjYAyU8W3G
-         9EGg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o9Gy6dRddJ8pXVDfsH+rnsSHJwIA7a3KAfHfb6MUnYE=;
+        b=BUyl3DbV4BjVWRhOtqddgbOttXeNyLELiOrB9/4XHyg1zXDbLvpEBll/lRgNzj7aYX
+         t9K6hC5g65h0b8FhCKWYCm1eeHIUpuOmIOZOo0gUG+youy6sRAnaS4aq3iSqe4QrA+DN
+         i+3YI8S9qvYHYUtsJV24Pt12O4htCIwhMIZeOAiPBeabfwf/GeNtn7tazEb8dU5KPnRO
+         Daee9fZDBjx09rOIkrEmakb6j1PyRHw8SCWDXLZDM/6WyLg/dPfzKdrwIzQ7epuqnVz5
+         ckzoWKSL8Y/JZ4bu0sagIdRYIoj8ayRXufs4dF7I1dbu2/i/uOojxQeHbRo9lXCwOBa/
+         1M1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hx4Xj0vKM3i9b8JRtUJiv/sbaqsj2HeLHhMvN2rvbzQ=;
-        b=AXEp8+uIfTMsQKpQHcpkJtRMIFbdLDi6pFb7mBhI6z2CEP8a1d3wi48nsoBXwktyBT
-         ql6ClKfggH9jbHW/i1z0QmbFIrv/wj6dzhZuz54QkALfph96oP+8pGBB32tka0O0uVG0
-         /CzWefgwUIQgIuK69No17HVtsOqMZl5v7l++JvIIApACL8RN6uK0gJOdto7WSLpHsYp4
-         8k5r+DvJz4XFmOaGhhY1MzPBGU+jrGQjErubhveN8FCtLrwKnDFoN95jrys2W6mnI2xH
-         T5YMQml7Us7CeHqR/eQT5E2o8YSWdHjmNJ+BCVt8Ew++dDXW22dCzffDtwG0OgFbYPJl
-         39ug==
-X-Gm-Message-State: AJIora/x7qB8mu8I9lBmoZyaAZ7VyplMp0REJv3K++WqSPCB1qOhx4B7
-	1+MYzKEt59SYJH8yZkkDhThrKtco73bCCq4GIf8O8Q==
-X-Google-Smtp-Source: AGRyM1t2GYOvYiSczm91nCPcsRJRH4FqjR9E7NVKZ+m4L5fqZwnWxrxafS/w6hG5adH2Z02J62sZu85S85XMttB+tZA=
-X-Received: by 2002:a17:906:2086:b0:717:4e91:f1db with SMTP id
- 6-20020a170906208600b007174e91f1dbmr18061273ejq.345.1657542766827; Mon, 11
- Jul 2022 05:32:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o9Gy6dRddJ8pXVDfsH+rnsSHJwIA7a3KAfHfb6MUnYE=;
+        b=5wUElJRU3/s5S3GL4W8YkdEMvCuyeSIefX6PeDk0i4GMyWhhoFyLY+xfYgm6w1h6Gf
+         GZAJBpYhgnywoFFkcS8GjMqZRnf9wfeNDZPZz/7INsi/YWL9rGvCLy/NX/jfckzjEe6R
+         35ycbPVq+ybtmdB/vNbhSMT2FHlnYxllupokZF1RIZyaVHw6yXDktx/nafxX/viaKCOp
+         FioUXciFs1nhQc6meLmVA4LHES6/Euyssf4AYudK4wVv+SvFHB83VMIeXhmfMhtX54b8
+         ib0PfDmSX9h+AEpdEvL35Uko/yaGcAKXAnyL/FtykYayJL9LrsRV6gqVVyF3PBsg0vrF
+         HPUA==
+X-Gm-Message-State: AJIora/dfeoGJzMf3PsGNe6AfzYY4NkmJ3i4ZFP2jHX9S9gKpHdDVErS
+	uG5Zd/QQEu12Tl1Q7uHYaxk=
+X-Google-Smtp-Source: AGRyM1tKwJrReXkTTLZZGtt/qIhZn9mR6Nt8Mv8utXBoJZXmE0lO1C30xXH8nU54ys7g1wy2hNtTiQ==
+X-Received: by 2002:aa7:c784:0:b0:43a:caa8:75b9 with SMTP id n4-20020aa7c784000000b0043acaa875b9mr12493833eds.311.1657561467443;
+        Mon, 11 Jul 2022 10:44:27 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb5e.dynamic.kabel-deutschland.de. [95.90.187.94])
+        by smtp.gmail.com with ESMTPSA id 26-20020a170906329a00b0072b4da1ed9asm1715675ejw.225.2022.07.11.10.44.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jul 2022 10:44:27 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove HW_VAR_MLME_SITESURVEY from SetHwReg8188EU()
+Date: Mon, 11 Jul 2022 19:44:17 +0200
+Message-Id: <20220711174417.10721-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220125171129.472775-1-aford173@gmail.com> <20220125171129.472775-8-aford173@gmail.com>
- <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm> <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
- <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm> <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
- <2f25ea965289f6fdcd5fc0f12f445b174637ce74.camel@puri.sm>
-In-Reply-To: <2f25ea965289f6fdcd5fc0f12f445b174637ce74.camel@puri.sm>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Mon, 11 Jul 2022 09:32:35 -0300
-Message-ID: <CAAEAJfACXrhHwF-Z9ygnZTUgKBQ3u1jHNDaMhgivq_rDr8xTNw@mail.gmail.com>
-Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2 VPU's
- with vpu-blk-ctrl
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>, 
-	linux-media <linux-media@vger.kernel.org>, Adam Ford-BE <aford@beaconembedded.com>, 
-	Chris Healy <cphealy@gmail.com>, kernel test robot <lkp@intel.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
-	devicetree <devicetree@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Martin,
+Remove the HW_VAR_MLME_SITESURVEY case from SetHwReg8188EU() and move
+the functionality to two new functions in rtw_mlme_ext.c. This is part
+of the ongoing effort to get rid of SetHwReg8188EU().
 
-On Mon, Jul 11, 2022 at 6:53 AM Martin Kepplinger
-<martin.kepplinger@puri.sm> wrote:
->
-> Am Dienstag, dem 26.04.2022 um 12:43 +0200 schrieb Lucas Stach:
-> > Am Dienstag, dem 26.04.2022 um 09:38 +0200 schrieb Martin Kepplinger:
-> > > Am Montag, dem 25.04.2022 um 17:34 +0200 schrieb Lucas Stach:
-> > > > Hi Martin,
-> > > >
-> > > > Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin
-> > > > Kepplinger:
-> > > > > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
-> > > > > > With the Hantro G1 and G2 now setup to run independently,
-> > > > > > update
-> > > > > > the device tree to allow both to operate.  This requires the
-> > > > > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
-> > > > > > certain clock enabled to handle the gating of the G1 and G2
-> > > > > > fuses, the clock-parents and clock-rates for the various
-> > > > > > VPU's
-> > > > > > to be moved into the pgc_vpu because they cannot get re-
-> > > > > > parented
-> > > > > > once enabled, and the pgc_vpu is the highest in the chain.
-> > > > > >
-> > > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > > > > >
-> > > > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > > index 2df2510d0118..549b2440f55d 100644
-> > > > > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
-> > > > > >                                         pgc_vpu: power-
-> > > > > > domain@6 {
-> > > > > >                                                 #power-
-> > > > > > domain-
-> > > > > > cells =
-> > > > > > <0>;
-> > > > > >                                                 reg =
-> > > > > > <IMX8M_POWER_DOMAIN_VPU>;
-> > > > > > -                                               clocks =
-> > > > > > <&clk
-> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > > > > > +                                               clocks =
-> > > > > > <&clk
-> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>,
-> > > > > > +
-> > > > > > <&clk
-> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
-> > > > > > +
-> > > > > > <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > > +                                               assigned-
-> > > > > > clocks =
-> > > > > > <&clk IMX8MQ_CLK_VPU_G1>,
-> > > > > > +
-> > > > > >
-> > > > > > <&clk IMX8MQ_CLK_VPU_G2>,
-> > > > > > +
-> > > > > >
-> > > > > > <&clk IMX8MQ_CLK_VPU_BUS>,
-> > > > > > +
-> > > > > >
-> > > > > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
-> > > > > > +                                               assigned-
-> > > > > > clock-
-> > > > > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >     <&clk IMX8MQ_VPU_PLL_OUT>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >     <&clk IMX8MQ_SYS1_PLL_800M>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >     <&clk IMX8MQ_VPU_PLL>;
-> > > > > > +                                               assigned-
-> > > > > > clock-
-> > > > > > rates
-> > > > > > = <600000000>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >   <600000000>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >   <800000000>,
-> > > > > > +
-> > > > > >
-> > > > > >
-> > > > > >   <0>;
-> > > > > >                                         };
-> > > > > >
-> > > > > >                                         pgc_disp:
-> > > > > > power-domain@7
-> > > > > > {
-> > > > > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
-> > > > > >                         status = "disabled";
-> > > > > >                 };
-> > > > > >
-> > > > > > -               vpu: video-codec@38300000 {
-> > > > > > -                       compatible = "nxp,imx8mq-vpu";
-> > > > > > -                       reg = <0x38300000 0x10000>,
-> > > > > > -                             <0x38310000 0x10000>,
-> > > > > > -                             <0x38320000 0x10000>;
-> > > > > > -                       reg-names = "g1", "g2", "ctrl";
-> > > > > > -                       interrupts = <GIC_SPI 7
-> > > > > > IRQ_TYPE_LEVEL_HIGH>,
-> > > > > > -                                    <GIC_SPI 8
-> > > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > -                       interrupt-names = "g1", "g2";
-> > > > > > +               vpu_g1: video-codec@38300000 {
-> > > > > > +                       compatible = "nxp,imx8mq-vpu-g1";
-> > > > > > +                       reg = <0x38300000 0x10000>;
-> > > > > > +                       interrupts = <GIC_SPI 7
-> > > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > +                       clocks = <&clk
-> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>;
-> > > > > > +                       power-domains = <&vpu_blk_ctrl
-> > > > > > IMX8MQ_VPUBLK_PD_G1>;
-> > > > > > +               };
-> > > > > > +
-> > > > > > +               vpu_g2: video-codec@38310000 {
-> > > > > > +                       compatible = "nxp,imx8mq-vpu-g2";
-> > > > > > +                       reg = <0x38310000 0x10000>;
-> > > > > > +                       interrupts = <GIC_SPI 8
-> > > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > +                       clocks = <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > > +                       power-domains = <&vpu_blk_ctrl
-> > > > > > IMX8MQ_VPUBLK_PD_G2>;
-> > > > > > +               };
-> > > > > > +
-> > > > > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
-> > > > > > +                       compatible = "fsl,imx8mq-vpu-blk-
-> > > > > > ctrl";
-> > > > > > +                       reg = <0x38320000 0x100>;
-> > > > > > +                       power-domains = <&pgc_vpu>,
-> > > > > > <&pgc_vpu>,
-> > > > > > <&pgc_vpu>;
-> > > > > > +                       power-domain-names = "bus", "g1",
-> > > > > > "g2";
-> > > > > >                         clocks = <&clk
-> > > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
-> > > > > > -                                <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>,
-> > > > > > -                                <&clk
-> > > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > > > > > -                       clock-names = "g1", "g2", "bus";
-> > > > > > -                       assigned-clocks = <&clk
-> > > > > > IMX8MQ_CLK_VPU_G1>,
-> > > > > > -                                         <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2>,
-> > > > > > -                                         <&clk
-> > > > > > IMX8MQ_CLK_VPU_BUS>,
-> > > > > > -                                         <&clk
-> > > > > > IMX8MQ_VPU_PLL_BYPASS>;
-> > > > > > -                       assigned-clock-parents = <&clk
-> > > > > > IMX8MQ_VPU_PLL_OUT>,
-> > > > > > -                                                <&clk
-> > > > > > IMX8MQ_VPU_PLL_OUT>,
-> > > > > > -                                                <&clk
-> > > > > > IMX8MQ_SYS1_PLL_800M>,
-> > > > > > -                                                <&clk
-> > > > > > IMX8MQ_VPU_PLL>;
-> > > > > > -                       assigned-clock-rates = <600000000>,
-> > > > > > <600000000>,
-> > > > > > -                                              <800000000>,
-> > > > > > <0>;
-> > > > > > -                       power-domains = <&pgc_vpu>;
-> > > > > > +                                <&clk
-> > > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > > +                       clock-names = "g1", "g2";
-> > > > > > +                       #power-domain-cells = <1>;
-> > > > > >                 };
-> > > > > >
-> > > > > >                 pcie0: pcie@33800000 {
-> > > > >
-> > > > > With this update, when testing suspend to ram on imx8mq, I get:
-> > > > >
-> > > > > buck4: failed to disable: -ETIMEDOUT
-> > > > >
-> > > > > where buck4 is power-supply of pgc_vpu. And thus the transition
-> > > > > to
-> > > > > suspend (and resuming) fails.
-> > > > >
-> > > > > Have you tested system suspend after the imx8m-blk-ctrl update
-> > > > > on
-> > > > > imx8mq?
-> > > >
-> > > > I haven't tested system suspend, don't know if anyone else did.
-> > > > However
-> > > > I guess that this is just uncovering a preexisting issue in the
-> > > > system
-> > > > suspend sequencing, which you would also hit if the video
-> > > > decoders
-> > > > were
-> > > > active at system suspend time.
-> > > >
-> > > > My guess is that the regulator disable fails, due to the power
-> > > > domains
-> > > > being disabled quite late in the suspend sequence, where i2c
-> > > > communication with the PMIC is no longer possible due to i2c
-> > > > being
-> > > > suspended already or something like that. Maybe you can dig in a
-> > > > bit
-> > > > on
-> > > > the actual sequence on your system and we can see how we can
-> > > > rework
-> > > > things to suspend the power domains at a time where communication
-> > > > with
-> > > > the PMIC is still possible?
-> > >
-> > > What exactly would you like to see? Here's all gpcv2 regulators
-> > > disabling on suspend. (gpu (domain 5) is disabled by runtime pm
-> > > often):
-> > >
-> > > [   47.138700] imx-pgc imx-pgc-domain.5: disabling regulator
-> > > [   47.298071] Freezing user space processes ... (elapsed 0.008
-> > > seconds) done.
-> > > [   47.313432] OOM killer disabled.
-> > > [   47.316670] Freezing remaining freezable tasks ... (elapsed
-> > > 2.221
-> > > seconds) done.
-> > > [   49.672052] imx8m-blk-ctrl 38320000.blk-ctrl:
-> > > imx8m_blk_ctrl_suspend
-> > > start
-> > > [   49.704417] imx-pgc imx-pgc-domain.0: disabling regulator
-> > > [   49.711114] imx-pgc imx-pgc-domain.6: disabling regulator
-> > > [   49.819064] buck4: failed to disable: -ETIMEDOUT
-> > >
-> > > The stack looks pretty much the same for all of them, from
-> > > pm_suspend()
-> > > over genpd_suspend_noiry().
-> >
-> > So the GPU domain is already suspended before the system suspend,
-> > probably due to short runtime PM timeouts.
-> >
-> > Can you please check at which point the i2c subsystem is suspended? I
-> > think we are already past that point when running the PM domain
-> > suspend
-> > from a _noirq callback. I'll take a look on how we can properly
-> > change
-> > this ordering.
-> >
-> > Regards,
-> > Lucas
-> >
->
-> hi Lucas, sorry for not following up on this for so long. This fixes
-> suspend/resume for me:
->
-> https://lore.kernel.org/linux-arm-kernel/20220711094549.3445566-1-martin.kepplinger@puri.sm/T/#t
->
-> thank you for you help so far,
->
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 70 +++++++++++++++++--
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  9 +--
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 53 --------------
+ drivers/staging/r8188eu/include/hal_intf.h    |  1 -
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  3 +
+ 5 files changed, 70 insertions(+), 66 deletions(-)
 
-Thanks a lot for keeping us posted. The fix for suspend/resume
-looks great!
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index eecb00e41d6a..771910763fec 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -5695,9 +5695,70 @@ static void rtw_set_initial_gain(struct adapter *adapter, u8 gain)
+ 	}
+ }
+ 
++void rtw_mlme_under_site_survey(struct adapter *adapter)
++{
++	/* config RCR to receive different BSSID & not to receive data frame */
++
++	int res;
++	u8 reg;
++	u32 v;
++
++	res = rtw_read32(adapter, REG_RCR, &v);
++	if (res)
++		return;
++
++	v &= ~(RCR_CBSSID_BCN);
++	rtw_write32(adapter, REG_RCR, v);
++	/* reject all data frame */
++	rtw_write16(adapter, REG_RXFLTMAP2, 0x00);
++
++	/* disable update TSF */
++	res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
++	if (res)
++		return;
++
++	rtw_write8(adapter, REG_BCN_CTRL, reg | BIT(4));
++}
++
++void rtw_mlme_site_survey_done(struct adapter *adapter)
++{
++	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
++	u32 reg32;
++	int res;
++	u8 reg;
++
++	if ((is_client_associated_to_ap(adapter)) ||
++	    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)) {
++		/* enable to rx data frame */
++		rtw_write16(adapter, REG_RXFLTMAP2, 0xFFFF);
++
++		/* enable update TSF */
++		res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
++		if (res)
++			return;
++
++		rtw_write8(adapter, REG_BCN_CTRL, reg & (~BIT(4)));
++	} else if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
++		rtw_write16(adapter, REG_RXFLTMAP2, 0xFFFF);
++		/* enable update TSF */
++		res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
++		if (res)
++			return;
++
++		rtw_write8(adapter, REG_BCN_CTRL, reg & (~BIT(4)));
++	}
++
++	res = rtw_read32(adapter, REG_RCR, &reg32);
++	if (res)
++		return;
++
++	rtw_write32(adapter, REG_RCR, reg32 | RCR_CBSSID_BCN);
++}
++
+ void site_survey(struct adapter *padapter)
+ {
+-	unsigned char		survey_channel = 0, val8;
++	unsigned char survey_channel = 0;
+ 	enum rt_scan_type ScanType = SCAN_PASSIVE;
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+@@ -5821,8 +5882,7 @@ void site_survey(struct adapter *padapter)
+ 			if (is_client_associated_to_ap(padapter))
+ 				issue_nulldata(padapter, NULL, 0, 3, 500);
+ 
+-			val8 = 0; /* survey done */
+-			SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
++			rtw_mlme_site_survey_done(padapter);
+ 
+ 			report_surveydone_event(padapter);
+ 
+@@ -7343,7 +7403,6 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+ 	struct sitesurvey_parm	*pparm = (struct sitesurvey_parm *)pbuf;
+ 	u8 bdelayscan = false;
+-	u8 val8;
+ 	u32	i;
+ 	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
+ 
+@@ -7400,8 +7459,7 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
+ 		/* set MSR to no link state */
+ 		Set_MSR(padapter, _HW_STATE_NOLINK_);
+ 
+-		val8 = 1; /* under site survey */
+-		SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
++		rtw_mlme_under_site_survey(padapter);
+ 
+ 		pmlmeext->sitesurvey_res.state = SCAN_PROCESS;
+ 	}
+diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
+index beffe5b16f1e..c306aafa183b 100644
+--- a/drivers/staging/r8188eu/core/rtw_p2p.c
++++ b/drivers/staging/r8188eu/core/rtw_p2p.c
+@@ -1450,10 +1450,9 @@ static void restore_p2p_state_handler(struct adapter *padapter)
+ static void pre_tx_invitereq_handler(struct adapter *padapter)
+ {
+ 	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
+-	u8	val8 = 1;
+ 
+ 	set_channel_bwmode(padapter, pwdinfo->invitereq_info.peer_ch, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
+-	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
++	rtw_mlme_under_site_survey(padapter);
+ 	issue_probereq_p2p(padapter, NULL);
+ 	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
+ 
+@@ -1462,10 +1461,9 @@ static void pre_tx_invitereq_handler(struct adapter *padapter)
+ static void pre_tx_provdisc_handler(struct adapter *padapter)
+ {
+ 	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
+-	u8	val8 = 1;
+ 
+ 	set_channel_bwmode(padapter, pwdinfo->tx_prov_disc_info.peer_channel_num[0], HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
+-	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
++	rtw_mlme_under_site_survey(padapter);
+ 	issue_probereq_p2p(padapter, NULL);
+ 	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
+ 
+@@ -1474,10 +1472,9 @@ static void pre_tx_provdisc_handler(struct adapter *padapter)
+ static void pre_tx_negoreq_handler(struct adapter *padapter)
+ {
+ 	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
+-	u8	val8 = 1;
+ 
+ 	set_channel_bwmode(padapter, pwdinfo->nego_req_info.peer_channel_num[0], HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
+-	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
++	rtw_mlme_under_site_survey(padapter);
+ 	issue_probereq_p2p(padapter, NULL);
+ 	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
+ 
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 6b0337c09915..68d012a442a8 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -1104,59 +1104,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 				ResumeTxBeacon(Adapter);
+ 		}
+ 		break;
+-	case HW_VAR_MLME_SITESURVEY:
+-		if (*((u8 *)val)) { /* under sitesurvey */
+-			/* config RCR to receive different BSSID & not to receive data frame */
+-			u32 v;
+-
+-			res = rtw_read32(Adapter, REG_RCR, &v);
+-			if (res)
+-				return;
+-
+-			v &= ~(RCR_CBSSID_BCN);
+-			rtw_write32(Adapter, REG_RCR, v);
+-			/* reject all data frame */
+-			rtw_write16(Adapter, REG_RXFLTMAP2, 0x00);
+-
+-			/* disable update TSF */
+-			res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
+-			if (res)
+-				return;
+-
+-			rtw_write8(Adapter, REG_BCN_CTRL, reg | BIT(4));
+-		} else { /* sitesurvey done */
+-			struct mlme_ext_priv	*pmlmeext = &Adapter->mlmeextpriv;
+-			struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+-			u32 reg32;
+-
+-			if ((is_client_associated_to_ap(Adapter)) ||
+-			    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)) {
+-				/* enable to rx data frame */
+-				rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
+-
+-				/* enable update TSF */
+-				res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
+-				if (res)
+-					return;
+-
+-				rtw_write8(Adapter, REG_BCN_CTRL, reg & (~BIT(4)));
+-			} else if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
+-				rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
+-				/* enable update TSF */
+-				res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
+-				if (res)
+-					return;
+-
+-				rtw_write8(Adapter, REG_BCN_CTRL, reg & (~BIT(4)));
+-			}
+-
+-			res = rtw_read32(Adapter, REG_RCR, &reg32);
+-			if (res)
+-				return;
+-
+-			rtw_write32(Adapter, REG_RCR, reg32 | RCR_CBSSID_BCN);
+-		}
+-		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index 24bbba2cb7cf..819d0dc6e6dc 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -11,7 +11,6 @@
+ enum hw_variables {
+ 	HW_VAR_SET_OPMODE,
+ 	HW_VAR_CORRECT_TSF,
+-	HW_VAR_MLME_SITESURVEY,
+ };
+ 
+ typedef s32 (*c2h_id_filter)(u8 id);
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index 3cc475aa912a..c630700ea657 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -424,6 +424,9 @@ void invalidate_cam_all(struct adapter *padapter);
+ int allocate_fw_sta_entry(struct adapter *padapter);
+ void flush_all_cam_entry(struct adapter *padapter);
+ 
++void rtw_mlme_under_site_survey(struct adapter *adapter);
++void rtw_mlme_site_survey_done(struct adapter *adapter);
++
+ void site_survey(struct adapter *padapter);
+ u8 collect_bss_info(struct adapter *padapter, struct recv_frame *precv_frame,
+ 		    struct wlan_bssid_ex *bssid);
+-- 
+2.36.1
 
-Ezequiel
