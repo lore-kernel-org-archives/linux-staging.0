@@ -1,51 +1,51 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A033C1D
-	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 11:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9473C1D
+	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 11:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657538954;
+	s=mimecast20190719; t=1657539209;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RT3petxY8Mc8sRJ6vFuAVMWzCJ23AGysMIvMZ0enDtM=;
-	b=IMxmIKliCO5d6kq366VW7HAI/cjOND8Gzb4jEfG//aiRz53KzvZ0FsbD0FrrhiusDUAZfe
-	fFKv0Tv5HtffYxcQWPetLHNSkJ7jHTjJJjt21/tuLcWFWQmChEkCeRBa88KzJdMkAovA6S
-	GLv7mfsy9kwctTsvf2dxEKTx9bJrJX0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=C+eRpdrxBgQt0p6K0v1wmxFNTfVvVH/tFOB6mgp15MI=;
+	b=HroZbq1QyZqpHBInLeeg7Mwu8BJBfiTZdU8ZVCHrN61KTHzhflE6vFGWBEZNHNKzTMSGFm
+	enDq3ZM9LIZx6yCBj+9h/8ixHXD58D9de3HqYMGIHP6sEueu7pa66tMXagYgTh0bxsN5nS
+	KldMr+vOlk3H0QgH4TxtHGK/FNbl/YI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-478-cgLmI2kLORKGG-9iolxYYA-1; Mon, 11 Jul 2022 07:29:13 -0400
-X-MC-Unique: cgLmI2kLORKGG-9iolxYYA-1
-Received: by mail-wm1-f70.google.com with SMTP id z24-20020a1c4c18000000b003a2e963c399so671965wmf.4
-        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 04:29:13 -0700 (PDT)
+ us-mta-426-917gWzlMNI-ab0TTFGR4kg-1; Mon, 11 Jul 2022 07:33:28 -0400
+X-MC-Unique: 917gWzlMNI-ab0TTFGR4kg-1
+Received: by mail-wm1-f72.google.com with SMTP id y14-20020a7bcd8e000000b003a2ea282944so182925wmj.0
+        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 04:33:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=RT3petxY8Mc8sRJ6vFuAVMWzCJ23AGysMIvMZ0enDtM=;
-        b=wLGk2O8OE6hQLB83N/vk9I/8wgnpeyEbad+X/jyZ6CjbbfVVOouvalS0lZEMIu6urL
-         jCJi0gWw/eThiBFZQ56T7sHmX4xzIr7AWdEd0Hr9htryJy++TiZRPrwtYyqyhdciySsU
-         la94bjxGO74Goil+49urM+eah7n3tRBmUtf77nyyHDe+u2NENtjKgXOt+/Elsy5vZ68Q
-         b/WBHYsTM+XTBxO5jYahP3GCIe8FPt2bgdAFjIxd32yv1xI5LWv4tr4ckHoFFfZ4tQZb
-         c08g6Wvwcc6dy4MSmosd3Hptkh+hxjwhwp5zQ7ec2M502ErxfgorjC3j50uJ+HfFgmAn
-         56Dg==
-X-Gm-Message-State: AJIora+R1s0psKKBdgjo2M07exZye7IlSuNuagdf6rnLjBglGAzEPdxr
-	WIscECIDwVdp1qtkjewWLDIzbDIzMtW7mU8Ir6R6G6q2/Wg4Tg+si/wu+2X3lzx1qNzYAP7l+42
-	zTW4W9nQlOessr7PoN2BARjRFNg==
-X-Received: by 2002:a05:6000:617:b0:21d:9873:bbf4 with SMTP id bn23-20020a056000061700b0021d9873bbf4mr10913064wrb.389.1657538951603;
-        Mon, 11 Jul 2022 04:29:11 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vvC/M+fY0ZZDYvsO2CNoVptaM7dK1K21A3mz/ozhjRY8+6xu1Vcu63XmcV3f4+Js5dGVbFSQ==
-X-Received: by 2002:a05:6000:617:b0:21d:9873:bbf4 with SMTP id bn23-20020a056000061700b0021d9873bbf4mr10913050wrb.389.1657538951426;
-        Mon, 11 Jul 2022 04:29:11 -0700 (PDT)
+        bh=C+eRpdrxBgQt0p6K0v1wmxFNTfVvVH/tFOB6mgp15MI=;
+        b=2TfpK7uIao575+M6FzC/mNXBqzAbL0vVV0eRX5lo8S5a1ZK5ujikZ1Gp7t8v8CS/oZ
+         3uBSNcJK6Sdi44vsoV3ABA53Mj2UDcgul629DVQEq/rA4+Tq9sbn2zyLnsemnYJSHjf5
+         h0bCnSTz9eK7B03KTOmyI+/cS5reCvxDKZeZkzB/m6Xan5edeTqF5ZWvHBy4jQQWetoz
+         OgBgiZZAGaRML6lHtjRhsOlNH6x08kUE8X5aBCSA2q0LYDmOTVtIat7u7tJEWD1n5GJ8
+         J2/Lmuvhz4/8+Gn47w8AvkI4h58P4kpAAGvJXPzgjJNElF+BL2Pvpuu2eHOt3uUwYNk+
+         TjIg==
+X-Gm-Message-State: AJIora+1uVve5ncmdm/0VfP5TqPUnJG3wQLodMY1svoMWyUN932FJ+Lu
+	Aq+4PR51ntucmGnuWhRwbaMOSBnUsT8JWuUtkkX/z65qpGKrRVVndUNb4Zf5OjmFwKuBDaMHCsj
+	cD0nB+bOOwMkA6Pt+uB/qbPirLA==
+X-Received: by 2002:a05:6000:1846:b0:21d:90e9:eb38 with SMTP id c6-20020a056000184600b0021d90e9eb38mr15874533wri.264.1657539206839;
+        Mon, 11 Jul 2022 04:33:26 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ukVj1igcMMa9SefXsYyz4JKT4jyMTF7lkAOL7ByBHf0PskNwLBAgeRnDAzuL41/lTsk2X9tQ==
+X-Received: by 2002:a05:6000:1846:b0:21d:90e9:eb38 with SMTP id c6-20020a056000184600b0021d90e9eb38mr15874520wri.264.1657539206675;
+        Mon, 11 Jul 2022 04:33:26 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id t8-20020a05600c198800b003a04722d745sm2521753wmq.23.2022.07.11.04.29.10
+        by smtp.gmail.com with ESMTPSA id q6-20020a1cf306000000b003a033177655sm9811923wmq.29.2022.07.11.04.33.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 04:29:10 -0700 (PDT)
-Message-ID: <3f22174e-e1ee-1c1e-c643-37d437af7578@redhat.com>
-Date: Mon, 11 Jul 2022 13:29:10 +0200
+        Mon, 11 Jul 2022 04:33:26 -0700 (PDT)
+Message-ID: <93fd9fd9-eb43-49b2-4322-95952626895b@redhat.com>
+Date: Mon, 11 Jul 2022 13:33:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,16 +54,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 10/11] fbdev: Acquire framebuffer apertures for firmware
- devices
+Subject: Re: [PATCH 11/11] fbdev: Remove conflict-handling code
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org, maxime@cerno.tech
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  dri-devel@lists.freedesktop.org
 References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-11-tzimmermann@suse.de>
+ <20220707153952.32264-12-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220707153952.32264-11-tzimmermann@suse.de>
+In-Reply-To: <20220707153952.32264-12-tzimmermann@suse.de>
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -73,35 +72,23 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 7/7/22 17:39, Thomas Zimmermann wrote:
-> When registering a generic framebuffer, automatically acquire ownership
-> of the framebuffer's I/O range. The device will now be handled by the
-> aperture helpers. Fbdev-based conflict handling is no longer required.
+> Remove the call to do_remove_conflicting_framebuffers() from the
+> framebuffer registration. Aperture helpers take care of removing
+> conflicting devices. With all ownership information stored in the
+> aperture datastrcutures, remove remove_conflicting_framebuffers()
+
+data structures.
+
+> entirely.
+> 
+> This change also rectifies DRM generic-framebuffer registration, which
+> tried to unregister conflicting framebuffers, even though it's entirely
+> build on top of DRM.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/video/fbdev/core/fbmem.c | 33 ++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
-> 
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 2237049327db..e556ad69f48f 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -13,6 +13,7 @@
->  
->  #include <linux/module.h>
->  
-> +#include <linux/aperture.h>
->  #include <linux/compat.h>
->  #include <linux/types.h>
->  #include <linux/errno.h>
-> @@ -1739,6 +1740,32 @@ static void do_unregister_framebuffer(struct fb_info *fb_info)
->  	put_fb_info(fb_info);
->  }
->  
-> +static int fbm_aperture_acquire_for_platform_device(struct fb_info *fb_info)
-> +{
 
-What's the meaning of 'm' here ? Misc, memory ? I would just call it 'fb_'.
+Amazing patch! The whole series really. Thanks a lot for working on this.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
