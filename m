@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942AC3C1D
-	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 11:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51133C1D
+	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 11:21:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657538179;
+	s=mimecast20190719; t=1657538504;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JdUttr5ZKebDNfRRwhSduk+8HDPwZtCqmZ3OBESQeoQ=;
-	b=EMa/d5rH4uSlAPC/gwoMGQiQNx7JOqWwqlD+6lTo3KKpUU3vt8T4V+RW6cw0qebSXq3abZ
-	1Dd7qO62pSkI7H4tR9V/ehDLJo6dX0GEKEH7kzAR1QoB9oCx97Qjmu1bhPfsTvvkm8g1NV
-	TeFCEglXz53rp9IsSfXgHs/DuYDUMzo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=EA1fN116GiBeZpsIBZbEwfZ8hmNEURQAPP+h9KqfA64=;
+	b=hYgLnbRGM+DSZxcZiXOJanzmRPxrs13zoRrVS1xd7bEml02HsPaI+k9FHidcyMaCYUwfZP
+	UfRYRptUEt2Vd4wGjvy6fOwXgp91oEANXz1Fs4vRIgMXk4aJg56K3wXYEj2MVFcoRBDhF/
+	ONBNV3hEFb7lMRsYH83xz+Eei9XEK6o=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-417-BYmSsiWpNqSw4Mzd9_DKdQ-1; Mon, 11 Jul 2022 07:16:16 -0400
-X-MC-Unique: BYmSsiWpNqSw4Mzd9_DKdQ-1
-Received: by mail-wr1-f71.google.com with SMTP id g10-20020adfa58a000000b0021d419f7751so543957wrc.23
-        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 04:16:16 -0700 (PDT)
+ us-mta-158-rUc4gEl_MVeq7Qz3QJLj9A-1; Mon, 11 Jul 2022 07:21:43 -0400
+X-MC-Unique: rUc4gEl_MVeq7Qz3QJLj9A-1
+Received: by mail-wm1-f69.google.com with SMTP id t25-20020a7bc3d9000000b003a2ea772bd2so117114wmj.2
+        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 04:21:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=JdUttr5ZKebDNfRRwhSduk+8HDPwZtCqmZ3OBESQeoQ=;
-        b=VTu2QXQnQZ5cx774dq1lHlbhD4QwyxJnBtE3IOznNe93pfSpUtVX/+AjrG1+u61YAj
-         lTa741IU0myhdMDX8utRK4fYmxr3kDg6k0vSPyyd1i4q8YmSaPn3XOcviWcb9ftW7ZR9
-         w/6JTWhhPuvx1Y6GFTrmDokmvVF6QCZIP29igBfi/P3DhCCcKzX9rK84eRAS2zfbro4/
-         rrTVd+PoeZn1n8h7vMShLWhLKzHqtYq2iF23Ky7CvQDTxzeqNtUR9fFmJiWzMbQZVdko
-         wHqXrKmfz0MhRWsZ62USoSyO8yDK6SiDo8d54uA3vxLLJCH5I/gM8uereCFhtty5lF8y
-         Tivg==
-X-Gm-Message-State: AJIora9neVJ+ZQAq7vVgVfamIReqwHqum8bj9Td2VtekyJEFaJ5/NtKI
-	P3nb69zsbJyyu2kYeBZ60/UlN2Nr+OMdVIexRy16LxauuJfkvVDQP1NdV7gvibLlzXQr/y4/bCU
-	ixHnOz4WmsEdXx6E+QTFJZPLImg==
-X-Received: by 2002:a05:600c:3849:b0:3a2:e7fd:e084 with SMTP id s9-20020a05600c384900b003a2e7fde084mr5031455wmr.15.1657538175195;
-        Mon, 11 Jul 2022 04:16:15 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uEx9XRLsglHmWCwo72ASF8BSSzK4h0vkHDnN9UU6eO0DlvvXvfi0JFZ5WgX9TcLEpuLZadOQ==
-X-Received: by 2002:a05:600c:3849:b0:3a2:e7fd:e084 with SMTP id s9-20020a05600c384900b003a2e7fde084mr5031444wmr.15.1657538175040;
-        Mon, 11 Jul 2022 04:16:15 -0700 (PDT)
+        bh=EA1fN116GiBeZpsIBZbEwfZ8hmNEURQAPP+h9KqfA64=;
+        b=fsPsp7zyrwWX7VQ/7+wlUeIzcUYakTT2wzvKE51CUROA2CvgdyM5JknEKlWcLuai09
+         OzohXad4DeHsz0zKaWAegl0Egtl+Pl6dztz/468KvNwsF/DWB6a8eNKY3jevciD78qSV
+         u1byNwV0foy1mq3LraFaNA53Q9usfio4QTfxTxU9dz2mfa+0qLNyUVf0tSP79KVqY8hx
+         RlCzPYvMlk/deagFIgKL9+s1qtB9yg/BkiSp590XS+95bhbM3xUDs2NFhUYWUFvGNyWr
+         ABW+jhJtkGm0HxNnct8Nso6otKCgmTdfsS8R7kdHhWxWWBCIzGiYhtJqbUiIneWM0xPK
+         OAJg==
+X-Gm-Message-State: AJIora/KnMnrKVadz1ZXF+QHnVxpkVLNi2B080XNZeekQWW6zARgeQ/K
+	9KlDSJ1CloBw0OhCls8g0m2gR8c8irtujjC0T/Gyyf9lfOmGhXdV4BHozGNVxyW7smr9l3B0+bE
+	8PoGA4mJv9ViJGOe1k+9rycZEqw==
+X-Received: by 2002:a5d:64ac:0:b0:21d:7832:ecf9 with SMTP id m12-20020a5d64ac000000b0021d7832ecf9mr16718313wrp.86.1657538501996;
+        Mon, 11 Jul 2022 04:21:41 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vViTnrccYUQiM5dtYGiMoQe3XlJipDQ2tJJSnuKHUKFgjkwhFFyBuMGkA64X7e1vg9JvJxGg==
+X-Received: by 2002:a5d:64ac:0:b0:21d:7832:ecf9 with SMTP id m12-20020a5d64ac000000b0021d7832ecf9mr16718296wrp.86.1657538501845;
+        Mon, 11 Jul 2022 04:21:41 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id i15-20020a05600c354f00b0039ee51fda45sm6673199wmq.2.2022.07.11.04.16.14
+        by smtp.gmail.com with ESMTPSA id h6-20020a05600c2ca600b0039c63f4bce0sm9837768wmc.12.2022.07.11.04.21.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 04:16:14 -0700 (PDT)
-Message-ID: <7b6cf5dc-eeef-96c2-947d-a09d29bd0db8@redhat.com>
-Date: Mon, 11 Jul 2022 13:16:13 +0200
+        Mon, 11 Jul 2022 04:21:41 -0700 (PDT)
+Message-ID: <00efc10a-a033-02c0-d5b3-95a5a1494c5a@redhat.com>
+Date: Mon, 11 Jul 2022 13:21:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,22 +54,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 07/11] video/aperture: Disable and unregister sysfb
- devices via aperture helpers
+Subject: Re: [PATCH 08/11] video: Provide constants for VGA I/O range
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org, maxime@cerno.tech
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Zack Rusin <zackr@vmware.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Changcheng Deng <deng.changcheng@zte.com.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
+ dri-devel@lists.freedesktop.org
 References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-8-tzimmermann@suse.de>
+ <20220707153952.32264-9-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220707153952.32264-8-tzimmermann@suse.de>
+In-Reply-To: <20220707153952.32264-9-tzimmermann@suse.de>
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,24 +72,17 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 7/7/22 17:39, Thomas Zimmermann wrote:
-> Call sysfb_disable() before removing conflicting devices in aperture
-> helpers. Fixes sysfb state if fbdev has been disabled.
-> 
+> Provide VGA_FB_ constants for the VGA framebuffer I/O range and convert
+> fbdev code.
+>
+
+I would probably mention in the commit message to that you are renaming
+s/VGA_FB_PHYS/VGA_FB_PHYS_BASE and s/VGA_FB_PHYS_LEN/VGA_FB_PHYS_SIZE.
+
+I do agree with the rename and think that makes it much more readable,
+but think that's worth to mention the rationale for that change too.
+ 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: fb84efa28a48 ("drm/aperture: Run fbdev removal before internal helpers")
-> Cc: Zack Rusin <zackr@vmware.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Zhen Lei <thunder.leizhen@huawei.com>
-> Cc: Changcheng Deng <deng.changcheng@zte.com.cn>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
