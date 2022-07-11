@@ -1,51 +1,51 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F083C1D
-	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 11:01:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23413C1D
+	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 11:13:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1657537294;
+	s=mimecast20190719; t=1657538011;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DoNRjwHn17Mb09qr5SAGudc0KtakAnj1BuIZJeny9no=;
-	b=X9+HRFedpqD9NysdeAe34dXYrFUy6S4evPWSgOx2JL3i+LkJE2GD7eGnAUpfk0pVnkUhVA
-	2rPc53Dbe2UQRGaCwEAnIrx6qpB5lfsqSTTSgD07LDcc08OiMXNfOT+qtrvLuvlnlieN+f
-	cuGtM+k4c+piQHK/WANFdNh8QgbnRGc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=NgrB0b1hGhY+Hu6lpXdXevvlkiE7V1d2yqtg5tmfmtA=;
+	b=deqcrmHHYjOSwTYBixOb1KrikdqX3Pcdi70XUE7vduP8jH1lINNvJaumaRpCTH2RcfJNwc
+	7CGTA+O0XiI20lbfgbdd7bnWwgS8vjiOPIKJbpPM4VNlu9kiCLiE8aFAqcXF+EVVg15gEl
+	qGzQFxq3Gc6QmaZ8cs27hY6xc6D92Ns=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-248-DrClI35FOECcWVdSHkMb0A-1; Mon, 11 Jul 2022 07:01:33 -0400
-X-MC-Unique: DrClI35FOECcWVdSHkMb0A-1
-Received: by mail-wm1-f71.google.com with SMTP id z24-20020a1c4c18000000b003a2e963c399so651336wmf.4
-        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 04:01:32 -0700 (PDT)
+ us-mta-457-SSJqcx-2Nb-bolvFYnwj0w-1; Mon, 11 Jul 2022 07:13:30 -0400
+X-MC-Unique: SSJqcx-2Nb-bolvFYnwj0w-1
+Received: by mail-wm1-f70.google.com with SMTP id i184-20020a1c3bc1000000b003a026f48333so2593993wma.4
+        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 04:13:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=DoNRjwHn17Mb09qr5SAGudc0KtakAnj1BuIZJeny9no=;
-        b=BvQXcR0t5v6+qa/KV5Hy951C2lTsrZPAtgtzoxZXDo5ch99Zx9oCB3AOcg2x22cdhU
-         nOJ+/7fdYR1oNk4L0hB2GkHlpnl/O3Byhwkz4kN2E4vOackrHxh25PnWn3ISDD8jf+PE
-         bmNS9xgXCgYrBzxb1dAlgzF9bTGQvWbCXRQDBPW8NxYWP7tetUwxboaK3rT7bAAkZk68
-         Ku5gZVC3svIjne7JdPmZJTpZCcSAvDJ5v4xz8S1OZmauGrf9dQvBe9ud/o99Pp8bj+iI
-         KAI2VexjFROLTbxEa1v8janxXDKlxlltuZRQIz1flpxK4Y+n4Lfoqji57JlQO/nE91cB
-         Qznw==
-X-Gm-Message-State: AJIora9Vjzleeaa8xK6WxHKprSQovF+NDeNtWjjYH3iImGu5GAoeryOa
-	0vJQCga020lvUxUj9shSRPQxYLVk0nhmW4AlwFjSU6SKVtpvam06xcKA9Hq0YcblpnGZ5ZNJ8S3
-	lhywhpR+waPh6Y96su6MX2NzZ2Q==
-X-Received: by 2002:adf:f1d0:0:b0:21d:9c0d:9b5 with SMTP id z16-20020adff1d0000000b0021d9c0d09b5mr8849907wro.689.1657537291748;
-        Mon, 11 Jul 2022 04:01:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u8mnYTbK20OklBYjenRq7ddEU4KkMn7Awl5f5jeOdfl+tJzjz1kN5TZ+19bK982BF8qePriA==
-X-Received: by 2002:adf:f1d0:0:b0:21d:9c0d:9b5 with SMTP id z16-20020adff1d0000000b0021d9c0d09b5mr8849874wro.689.1657537291410;
-        Mon, 11 Jul 2022 04:01:31 -0700 (PDT)
+        bh=NgrB0b1hGhY+Hu6lpXdXevvlkiE7V1d2yqtg5tmfmtA=;
+        b=oWsTd3EkQC+9rM0QDUR8jmGpeAk4/NKvOkYnGy8fOUjhgqC2h9txi+SRpR3tEQSQad
+         s3Y5seef8Kx2sS+F+ORrJxmfnBDt+0BCWFTyq6mONiSMtI8SBxuQdRxrJ3uQJp6cZCe4
+         uA9E5B5h5RIq6gFxjdj3n390w1db3+ZwBqYnlOv8wrTVV45rk3FZviUhZB6rHdAA0d50
+         iJnkUXe3XyQPR0PU4RgSq2iG6qfEqiEzc/t9O7nedyNM04DOPzWBXmxXlVaYlgtMVjjO
+         foHsj+DGMsYt2PvPr6lkbO1TMX5hweReL5aj7CO2U/7YAT0cTdWX0vR0AEvR8gtW2Z3O
+         VOPA==
+X-Gm-Message-State: AJIora8shH5RDftIxtk46l/zoxeFITgT5GDO+NKJclR+kzqu0gkIggFU
+	31Cy+CTwpv0m3DU1HufVrMP9CLtW6nGx2XsQjMWFATSnWB7bBAes784a53KJ6ISQ5SlidO6Y1Bs
+	oaqzrvWuR70YT9BW/x3BCpPumPA==
+X-Received: by 2002:a05:6000:1446:b0:21d:27ea:5a01 with SMTP id v6-20020a056000144600b0021d27ea5a01mr16485645wrx.314.1657538009257;
+        Mon, 11 Jul 2022 04:13:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vcs0nWJiY8DtaMjFckjPBveM2LCwxXVkUAHZMUUjNEZSyGr2GAAEWa2YiuJ4Zpzd1flJ5Yfg==
+X-Received: by 2002:a05:6000:1446:b0:21d:27ea:5a01 with SMTP id v6-20020a056000144600b0021d27ea5a01mr16485626wrx.314.1657538009047;
+        Mon, 11 Jul 2022 04:13:29 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id j38-20020a05600c1c2600b00397342e3830sm18871245wms.0.2022.07.11.04.01.30
+        by smtp.gmail.com with ESMTPSA id g10-20020adfe40a000000b0021d6d18a9f8sm5562294wrm.76.2022.07.11.04.13.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 04:01:30 -0700 (PDT)
-Message-ID: <8ebc1f33-f654-6b93-8a41-1aa66ab1901c@redhat.com>
-Date: Mon, 11 Jul 2022 13:01:30 +0200
+        Mon, 11 Jul 2022 04:13:28 -0700 (PDT)
+Message-ID: <210b1ae1-f663-dfe2-d9b5-2cd827d15f2b@redhat.com>
+Date: Mon, 11 Jul 2022 13:13:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,15 +54,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 05/11] fbdev: Convert drivers to aperture helpers
+Subject: Re: [PATCH 06/11] fbdev: Remove conflicting devices on PCI bus
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
  sam@ravnborg.org, maxime@cerno.tech
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  dri-devel@lists.freedesktop.org
 References: <20220707153952.32264-1-tzimmermann@suse.de>
- <20220707153952.32264-6-tzimmermann@suse.de>
+ <20220707153952.32264-7-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220707153952.32264-6-tzimmermann@suse.de>
+In-Reply-To: <20220707153952.32264-7-tzimmermann@suse.de>
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -72,85 +72,35 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 7/7/22 17:39, Thomas Zimmermann wrote:
-> Convert fbdev drivers from fbdev's remove_conflicting_framebuffers() to
-> the framework-independent aperture_remove_conflicting_devices(). Calling
-> this function will also remove conflicting DRM drivers.
+> Remove firmware devices on the PCI bus, by calling
+> aperture_remove_conflicting_pci_devices() in the probe function of
+> each related fbdev driver. iSo far, most of these drivers did not
+> remove conflicting VESA or EFI devices, or outride failed for
+> resource conflicts (i.e., matroxfb.) This must have been broken
+> for quite some time.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
 
 [...]
 
->  static int lynxfb_kick_out_firmware_fb(struct pci_dev *pdev)
->  {
-> -	struct apertures_struct *ap;
-> +	resource_size_t base = pci_resource_start(pdev, 0);
-> +	resource_size_t size = pci_resource_len(pdev, 0);
->  	bool primary = false;
+> @@ -949,6 +950,10 @@ static int ark_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+>  	int rc;
+>  	u8 regval;
 >  
-> -	ap = alloc_apertures(1);
-> -	if (!ap)
-> -		return -ENOMEM;
-> -
-> -	ap->ranges[0].base = pci_resource_start(pdev, 0);
-> -	ap->ranges[0].size = pci_resource_len(pdev, 0);
->  #ifdef CONFIG_X86
->  	primary = pdev->resource[PCI_ROM_RESOURCE].flags &
->  					IORESOURCE_ROM_SHADOW;
->  #endif
-> -	remove_conflicting_framebuffers(ap, "sm750_fb1", primary);
-> -	kfree(ap);
-> -	return 0;
+> +	rc = aperture_remove_conflicting_pci_devices(dev, "arkfb");
+> +	if (rc < 0)
+> +		return rc;
 > +
-> +	return aperture_remove_conflicting_devices(base, size, primary, "sm750_fb1");
 
-Do you know why this can't just use aperture_remove_conflicting_pci_devices() ?
+I wonder if we could think of a trick to avoid open coding the same check in
+all drivers. Maybe a combination of using KBUILD_MODNAME for the name and
+a probe callback wrapper or something ?
 
-It seems that the driver is open coding part of the logic already in that helper.
-For example, figuring out if is a primary by checking the IORESOURCE_ROM_SHADOW
-flag in the PCI_ROM_RESOURCE.
+But probably not worth to invest more in the fbdev drivers and could be done
+as a follow-up anyways if someone feels like it.
 
-But also getting the base and size for PCI BAR 0, since the loop in that helper
-would already take care of that (it also starts at BAR 0).
-
->  }
->  
->  static int lynxfb_pci_probe(struct pci_dev *pdev,
-> diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
-> index b311c07fe66d..e5e362b8c9da 100644
-> --- a/drivers/video/fbdev/aty/radeon_base.c
-> +++ b/drivers/video/fbdev/aty/radeon_base.c
-> @@ -54,6 +54,7 @@
->  
->  #include "radeonfb.h"
->  
-> +#include <linux/aperture.h>
->  #include <linux/module.h>
->  #include <linux/moduleparam.h>
->  #include <linux/kernel.h>
-> @@ -2239,20 +2240,10 @@ static const struct bin_attribute edid2_attr = {
->  
->  static int radeon_kick_out_firmware_fb(struct pci_dev *pdev)
->  {
-> -	struct apertures_struct *ap;
-> +	resource_size_t base = pci_resource_start(pdev, 0);
-> +	resource_size_t size = pci_resource_len(pdev, 0);
->  
-> -	ap = alloc_apertures(1);
-> -	if (!ap)
-> -		return -ENOMEM;
-> -
-> -	ap->ranges[0].base = pci_resource_start(pdev, 0);
-> -	ap->ranges[0].size = pci_resource_len(pdev, 0);
-> -
-> -	remove_conflicting_framebuffers(ap, KBUILD_MODNAME, false);
-> -
-> -	kfree(ap);
-> -
-> -	return 0;
-> +	return aperture_remove_conflicting_devices(base, size, KBUILD_MODNAME, false);
-
-Same for this.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
