@@ -1,312 +1,70 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE4C53A4
-	for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 22:43:36 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id bp15so989852ejb.6
-        for <linux-staging@lists.linux.dev>; Mon, 11 Jul 2022 15:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=kCxXr7faPOAeZ+53A7qFX+1uE18Nt0X/UdGIdErEIq4=;
-        b=kDaHkQyBJ9eKohu5OAywIaJ7fdoc+bGEDPqEkf0vJtbHPxhiLRLfnMWzvygx/It+em
-         XkX0KmJ78amFb8yhEEqfSUiO8tXZf0HnJIPsRQi0Oh2DSt5CPxFUvR1xJf31tzeeEaXG
-         Rp9S9rQQUyv2BFxreUPQbsR2PMOyzcga8JBcWWJhHoO0M1Kny7Gq8zJq6i6I/5ATNjc6
-         hCTZWACoBi3e3JS5qd7PboKWVNAr68vWEWlqSopLy1jpj8lkJSymR6cTRrCklTJ/5+Bd
-         7YNDfGTfysifndyKyNUDUHdXhUKotsTjtNjZA+jCcQnh6WjelPzvSb4MOIk3NrmqrLaC
-         ZPHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=kCxXr7faPOAeZ+53A7qFX+1uE18Nt0X/UdGIdErEIq4=;
-        b=zsaXEtUPz0mLSGn4TI1AWxjZcmVfblABHeFfD/Nr91WsvMBpKp+CrmCgaCO3uI5JbP
-         uaF90MSFHcL/C8OfQtrkCAl9aPTlhBHLcPA2qfEwwRkbPkErIbQsGDfEFjnj53x5aQzJ
-         3p5nGyqky5jNdeR45QpDcTmKw9m2fE+TZjcboYJpAyyTLpWhqHe2Ch4O2QNxw0ogKvzv
-         72fDua26rdkVmm7zLuN9mzL+QAkHnCsylii0hcZCPBWfxymZNC55QLRroJpNQNTYmuL7
-         KYA1TZok1NwnccS5BYLR6IQ0otgxvgbIVxNx9mCwdXUHP6DElew1/w1tOE+Vmiyduxi5
-         ERdQ==
-X-Gm-Message-State: AJIora9JI9yOsv6KKZp8MmZChXeV5o0QrYn5/Y5Y7tfM3Qyg89RNCD5X
-	xxe2VBczQsQVRjPkOfYlM/+i3/ZM5R8=
-X-Google-Smtp-Source: AGRyM1ulSYCkyOGRc+/QJltXmnEtRMTM9mJDwoqWPRtr4wFUalAhf0LV4hMgTLvrzver5Y5anOnWMA==
-X-Received: by 2002:a17:907:6d86:b0:72b:5ad6:6df1 with SMTP id sb6-20020a1709076d8600b0072b5ad66df1mr6456076ejc.264.1657579414361;
-        Mon, 11 Jul 2022 15:43:34 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id f5-20020a1709064dc500b0072af7566927sm3176853ejw.13.2022.07.11.15.43.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jul 2022 15:43:33 -0700 (PDT)
-Message-ID: <f5ebfd23-26b1-1407-c0d4-a3a60f860c5b@gmail.com>
-Date: Tue, 12 Jul 2022 00:43:32 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB2A7A
+	for <linux-staging@lists.linux.dev>; Tue, 12 Jul 2022 09:44:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 034D0C341CE;
+	Tue, 12 Jul 2022 09:44:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1657619084;
+	bh=HJVV8hXX5II2o8jaxx4kBpml75YDJf76DdzCbI/DI8I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PAzXLXai9OffFoUCYP++XvyDEluh5YLJelM6/AZIriftppqi/2qDF+5PfMw+dAq72
+	 6BZSR8muT7UA/O3nSNJotzofVa8+Yw7qNFi1X9lDzvpVcG0bR+OgOEPLlYMg2tcI6V
+	 DQGxegRYp4B0p1Qw9v3fW3ByM/Dh/LRGvvqoNLXk=
+Date: Tue, 12 Jul 2022 11:44:39 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Joe Perches <joe@perches.com>
+Cc: Binyi Han <dantengknight@gmail.com>,
+	Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: qlge: Fix indentation issue under long for
+ loop
+Message-ID: <Ys1Chwsa6e9EjRNs@kroah.com>
+References: <20220710210418.GA148412@cloud-MacBookPro>
+ <YsvZuPkbwe8yX8oi@kroah.com>
+ <93dc367b01cdfbb68e6edf7367d2f69adfb5d407.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] staging: r8188eu: remove HW_VAR_MLME_SITESURVEY from
- SetHwReg8188EU()
-Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220711174417.10721-1-straube.linux@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220711174417.10721-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <93dc367b01cdfbb68e6edf7367d2f69adfb5d407.camel@perches.com>
 
-On 7/11/22 19:44, Michael Straube wrote:
-> Remove the HW_VAR_MLME_SITESURVEY case from SetHwReg8188EU() and move
-> the functionality to two new functions in rtw_mlme_ext.c. This is part
-> of the ongoing effort to get rid of SetHwReg8188EU().
+On Mon, Jul 11, 2022 at 01:55:24PM -0700, Joe Perches wrote:
+> On Mon, 2022-07-11 at 10:05 +0200, Greg Kroah-Hartman wrote:
+> > On Sun, Jul 10, 2022 at 02:04:18PM -0700, Binyi Han wrote:
+> > > Fix indentation issue to adhere to Linux kernel coding style,
+> > > Issue found by checkpatch. Change the long for loop into 3 lines. And
+> > > optimize by avoiding the multiplication.
+> > > 
+> > > Signed-off-by: Binyi Han <dantengknight@gmail.com>
+> > > ---
+> > > v2:
+> > > 	- Change the long for loop into 3 lines.
+> > > v3:
+> > > 	- Align page_entries in the for loop to open parenthesis.
+> > > 	- Optimize by avoiding the multiplication.
+> > 
+> > Please do not mix coding style fixes with "optimizations" or logical
+> > changes.  This should be multiple patches.
+> > 
+> > Also, did you test this change on real hardware?  At first glance, it's
+> > not obvious that the code is still doing the same thing, so "proof" of
+> > that would be nice to have.
 > 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 70 +++++++++++++++++--
->   drivers/staging/r8188eu/core/rtw_p2p.c        |  9 +--
->   drivers/staging/r8188eu/hal/usb_halinit.c     | 53 --------------
->   drivers/staging/r8188eu/include/hal_intf.h    |  1 -
->   .../staging/r8188eu/include/rtw_mlme_ext.h    |  3 +
->   5 files changed, 70 insertions(+), 66 deletions(-)
+> I read the code and suggested the optimization.  It's the same logic.
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index eecb00e41d6a..771910763fec 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -5695,9 +5695,70 @@ static void rtw_set_initial_gain(struct adapter *adapter, u8 gain)
->   	}
->   }
->   
-> +void rtw_mlme_under_site_survey(struct adapter *adapter)
-> +{
-> +	/* config RCR to receive different BSSID & not to receive data frame */
-> +
-> +	int res;
-> +	u8 reg;
-> +	u32 v;
-> +
-> +	res = rtw_read32(adapter, REG_RCR, &v);
-> +	if (res)
-> +		return;
-> +
-> +	v &= ~(RCR_CBSSID_BCN);
-> +	rtw_write32(adapter, REG_RCR, v);
-> +	/* reject all data frame */
-> +	rtw_write16(adapter, REG_RXFLTMAP2, 0x00);
-> +
-> +	/* disable update TSF */
-> +	res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
-> +	if (res)
-> +		return;
-> +
-> +	rtw_write8(adapter, REG_BCN_CTRL, reg | BIT(4));
-> +}
-> +
-> +void rtw_mlme_site_survey_done(struct adapter *adapter)
-> +{
-> +	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
-> +	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-> +	u32 reg32;
-> +	int res;
-> +	u8 reg;
-> +
-> +	if ((is_client_associated_to_ap(adapter)) ||
-> +	    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)) {
-> +		/* enable to rx data frame */
-> +		rtw_write16(adapter, REG_RXFLTMAP2, 0xFFFF);
-> +
-> +		/* enable update TSF */
-> +		res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
-> +		if (res)
-> +			return;
-> +
-> +		rtw_write8(adapter, REG_BCN_CTRL, reg & (~BIT(4)));
-> +	} else if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
-> +		rtw_write16(adapter, REG_RXFLTMAP2, 0xFFFF);
-> +		/* enable update TSF */
-> +		res = rtw_read8(adapter, REG_BCN_CTRL, &reg);
-> +		if (res)
-> +			return;
-> +
-> +		rtw_write8(adapter, REG_BCN_CTRL, reg & (~BIT(4)));
-> +	}
-> +
-> +	res = rtw_read32(adapter, REG_RCR, &reg32);
-> +	if (res)
-> +		return;
-> +
-> +	rtw_write32(adapter, REG_RCR, reg32 | RCR_CBSSID_BCN);
-> +}
-> +
->   void site_survey(struct adapter *padapter)
->   {
-> -	unsigned char		survey_channel = 0, val8;
-> +	unsigned char survey_channel = 0;
->   	enum rt_scan_type ScanType = SCAN_PASSIVE;
->   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
->   	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
-> @@ -5821,8 +5882,7 @@ void site_survey(struct adapter *padapter)
->   			if (is_client_associated_to_ap(padapter))
->   				issue_nulldata(padapter, NULL, 0, 3, 500);
->   
-> -			val8 = 0; /* survey done */
-> -			SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
-> +			rtw_mlme_site_survey_done(padapter);
->   
->   			report_surveydone_event(padapter);
->   
-> @@ -7343,7 +7403,6 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
->   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
->   	struct sitesurvey_parm	*pparm = (struct sitesurvey_parm *)pbuf;
->   	u8 bdelayscan = false;
-> -	u8 val8;
->   	u32	i;
->   	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
->   
-> @@ -7400,8 +7459,7 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
->   		/* set MSR to no link state */
->   		Set_MSR(padapter, _HW_STATE_NOLINK_);
->   
-> -		val8 = 1; /* under site survey */
-> -		SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
-> +		rtw_mlme_under_site_survey(padapter);
->   
->   		pmlmeext->sitesurvey_res.state = SCAN_PROCESS;
->   	}
-> diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-> index beffe5b16f1e..c306aafa183b 100644
-> --- a/drivers/staging/r8188eu/core/rtw_p2p.c
-> +++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-> @@ -1450,10 +1450,9 @@ static void restore_p2p_state_handler(struct adapter *padapter)
->   static void pre_tx_invitereq_handler(struct adapter *padapter)
->   {
->   	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
-> -	u8	val8 = 1;
->   
->   	set_channel_bwmode(padapter, pwdinfo->invitereq_info.peer_ch, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
-> -	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
-> +	rtw_mlme_under_site_survey(padapter);
->   	issue_probereq_p2p(padapter, NULL);
->   	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
->   
-> @@ -1462,10 +1461,9 @@ static void pre_tx_invitereq_handler(struct adapter *padapter)
->   static void pre_tx_provdisc_handler(struct adapter *padapter)
->   {
->   	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
-> -	u8	val8 = 1;
->   
->   	set_channel_bwmode(padapter, pwdinfo->tx_prov_disc_info.peer_channel_num[0], HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
-> -	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
-> +	rtw_mlme_under_site_survey(padapter);
->   	issue_probereq_p2p(padapter, NULL);
->   	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
->   
-> @@ -1474,10 +1472,9 @@ static void pre_tx_provdisc_handler(struct adapter *padapter)
->   static void pre_tx_negoreq_handler(struct adapter *padapter)
->   {
->   	struct wifidirect_info  *pwdinfo = &padapter->wdinfo;
-> -	u8	val8 = 1;
->   
->   	set_channel_bwmode(padapter, pwdinfo->nego_req_info.peer_channel_num[0], HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
-> -	SetHwReg8188EU(padapter, HW_VAR_MLME_SITESURVEY, (u8 *)(&val8));
-> +	rtw_mlme_under_site_survey(padapter);
->   	issue_probereq_p2p(padapter, NULL);
->   	_set_timer(&pwdinfo->pre_tx_scan_timer, P2P_TX_PRESCAN_TIMEOUT);
->   
-> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-> index 6b0337c09915..68d012a442a8 100644
-> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
-> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-> @@ -1104,59 +1104,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
->   				ResumeTxBeacon(Adapter);
->   		}
->   		break;
-> -	case HW_VAR_MLME_SITESURVEY:
-> -		if (*((u8 *)val)) { /* under sitesurvey */
-> -			/* config RCR to receive different BSSID & not to receive data frame */
-> -			u32 v;
-> -
-> -			res = rtw_read32(Adapter, REG_RCR, &v);
-> -			if (res)
-> -				return;
-> -
-> -			v &= ~(RCR_CBSSID_BCN);
-> -			rtw_write32(Adapter, REG_RCR, v);
-> -			/* reject all data frame */
-> -			rtw_write16(Adapter, REG_RXFLTMAP2, 0x00);
-> -
-> -			/* disable update TSF */
-> -			res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
-> -			if (res)
-> -				return;
-> -
-> -			rtw_write8(Adapter, REG_BCN_CTRL, reg | BIT(4));
-> -		} else { /* sitesurvey done */
-> -			struct mlme_ext_priv	*pmlmeext = &Adapter->mlmeextpriv;
-> -			struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
-> -			u32 reg32;
-> -
-> -			if ((is_client_associated_to_ap(Adapter)) ||
-> -			    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)) {
-> -				/* enable to rx data frame */
-> -				rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
-> -
-> -				/* enable update TSF */
-> -				res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
-> -				if (res)
-> -					return;
-> -
-> -				rtw_write8(Adapter, REG_BCN_CTRL, reg & (~BIT(4)));
-> -			} else if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
-> -				rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
-> -				/* enable update TSF */
-> -				res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
-> -				if (res)
-> -					return;
-> -
-> -				rtw_write8(Adapter, REG_BCN_CTRL, reg & (~BIT(4)));
-> -			}
-> -
-> -			res = rtw_read32(Adapter, REG_RCR, &reg32);
-> -			if (res)
-> -				return;
-> -
-> -			rtw_write32(Adapter, REG_RCR, reg32 | RCR_CBSSID_BCN);
-> -		}
-> -		break;
->   	default:
->   		break;
->   	}
-> diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-> index 24bbba2cb7cf..819d0dc6e6dc 100644
-> --- a/drivers/staging/r8188eu/include/hal_intf.h
-> +++ b/drivers/staging/r8188eu/include/hal_intf.h
-> @@ -11,7 +11,6 @@
->   enum hw_variables {
->   	HW_VAR_SET_OPMODE,
->   	HW_VAR_CORRECT_TSF,
-> -	HW_VAR_MLME_SITESURVEY,
->   };
->   
->   typedef s32 (*c2h_id_filter)(u8 id);
-> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> index 3cc475aa912a..c630700ea657 100644
-> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> @@ -424,6 +424,9 @@ void invalidate_cam_all(struct adapter *padapter);
->   int allocate_fw_sta_entry(struct adapter *padapter);
->   void flush_all_cam_entry(struct adapter *padapter);
->   
-> +void rtw_mlme_under_site_survey(struct adapter *adapter);
-> +void rtw_mlme_site_survey_done(struct adapter *adapter);
-> +
->   void site_survey(struct adapter *padapter);
->   u8 collect_bss_info(struct adapter *padapter, struct recv_frame *precv_frame,
->   		    struct wlan_bssid_ex *bssid);
+> 
 
+I appreciate the review, but it looks quite different from the original
+so it should be 2 different patches, one for coding style changes, and
+the second for the "optimization".
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+thanks,
+
+greg k-h
