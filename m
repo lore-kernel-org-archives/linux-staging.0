@@ -1,27 +1,27 @@
-Received: from relay4.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8A1440D
-	for <linux-staging@lists.linux.dev>; Tue, 12 Jul 2022 14:15:06 +0000 (UTC)
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 8EFD83349B;
-	Tue, 12 Jul 2022 14:14:58 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id 0F8743D;
-	Tue, 12 Jul 2022 14:14:55 +0000 (UTC)
-Message-ID: <1d6fd2b271dfa0514ccb914c032e362bc4f669fa.camel@perches.com>
-Subject: Re: [PATCH v3] staging: qlge: Fix indentation issue under long for
- loop
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A85F443D
+	for <linux-staging@lists.linux.dev>; Tue, 12 Jul 2022 16:29:09 +0000 (UTC)
+Received: from omf04.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id E30C820B3C;
+	Tue, 12 Jul 2022 16:29:01 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id 4B43920028;
+	Tue, 12 Jul 2022 16:29:00 +0000 (UTC)
+Message-ID: <ae73d34782af7863e4b18495c0588a8cc2162612.camel@perches.com>
+Subject: Re: [PATCH 07/14] staging: r8188eu: use memcpy for fallback mac
+ address
 From: Joe Perches <joe@perches.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Binyi Han
-	 <dantengknight@gmail.com>
-Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com, Coiby
- Xu <coiby.xu@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- netdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+To: Martin Kaiser <martin@kaiser.cx>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
+ <phil@philpotter.co.uk>, Michael Straube <straube.linux@gmail.com>, Pavel
+ Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Date: Tue, 12 Jul 2022 07:14:55 -0700
-In-Reply-To: <20220712134610.GO2338@kadam>
-References: <20220710210418.GA148412@cloud-MacBookPro>
-	 <20220712134610.GO2338@kadam>
+Date: Tue, 12 Jul 2022 09:28:59 -0700
+In-Reply-To: <20220709171000.180481-8-martin@kaiser.cx>
+References: <20220709171000.180481-1-martin@kaiser.cx>
+	 <20220709171000.180481-8-martin@kaiser.cx>
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.1-0ubuntu1 
@@ -31,79 +31,65 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Spam-Status: No, score=1.30
-X-Stat-Signature: xgmszzrqg6ctunmgjqypab8cmkczqtxe
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: 0F8743D
+X-Spam-Status: No, score=-0.93
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 4B43920028
+X-Stat-Signature: oj7uq6uyeisa5r3gw86hiydg97epe8g8
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/Igx7O1NfTBE3jWpvwAE+8H153v3blsy4=
-X-HE-Tag: 1657635295-347823
+X-Session-ID: U2FsdGVkX19xz+taaDiYxlTIHETqVSygWk1WwRKmgZk=
+X-HE-Tag: 1657643340-379244
 
-On Tue, 2022-07-12 at 16:46 +0300, Dan Carpenter wrote:
-> On Sun, Jul 10, 2022 at 02:04:18PM -0700, Binyi Han wrote:
-> > Fix indentation issue to adhere to Linux kernel coding style,
-> > Issue found by checkpatch. Change the long for loop into 3 lines. And
-> > optimize by avoiding the multiplication.
->=20
-> There is no possible way this optimization helps benchmarks.  Better to
-> focus on readability.
-
-I think removing the multiply _improves_ readability.
-
-> > diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/ql=
-ge_main.c
+On Sat, 2022-07-09 at 19:09 +0200, Martin Kaiser wrote:
+> Use memcpy to store the fallback mac address in eeprom->mac_addr. Do not
+> copy byte by byte.
 []
-> > @@ -3007,10 +3007,12 @@ static int qlge_start_rx_ring(struct qlge_adapt=
-er *qdev, struct rx_ring *rx_ring
-> >  		tmp =3D (u64)rx_ring->lbq.base_dma;
-> >  		base_indirect_ptr =3D rx_ring->lbq.base_indirect;
-> > =20
-> > -		for (page_entries =3D 0; page_entries <
-> > -			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
-> > -				base_indirect_ptr[page_entries] =3D
-> > -					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
-> > +		for (page_entries =3D 0;
-> > +		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
-> > +		     page_entries++) {
-> > +			base_indirect_ptr[page_entries] =3D cpu_to_le64(tmp);
-> > +			tmp +=3D DB_PAGE_SIZE;
->=20
-> I've previously said that using "int i;" is clearer here.  You would
-> kind of expect "page_entries" to be the number of entries, so it's kind
-> of misleading.  In other words, it's not just harmless wordiness and
-> needless exposition, it's actively bad.
+> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/=
+r8188eu/hal/usb_halinit.c
+[]
+> @@ -912,13 +912,11 @@ unsigned int rtl8188eu_inirp_init(struct adapter *A=
+dapter)
+> =20
+>  static void Hal_EfuseParseMACAddr_8188EU(struct adapter *adapt, u8 *hwin=
+fo, bool AutoLoadFail)
+>  {
+> -	u16 i;
+>  	u8 sMacAddr[6] =3D {0x00, 0xE0, 0x4C, 0x81, 0x88, 0x02};
 
-Likely true.
+static const sMacAddr[ETH_ALEN] =3D {...};
 
-> I would probably just put it on one line:
->=20
-> 		for (i =3D 0; i MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); i++)
-> 			base_indirect_ptr[i] =3D cpu_to_le64(tmp + (i * DB_PAGE_SIZE));
->=20
-> But if you want to break it up you could do:
->=20
-> 		for (i =3D 0; i MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); i++)
-> 			base_indirect_ptr[i] =3D cpu_to_le64(tmp +
-> 							   (i * DB_PAGE_SIZE));
->=20
-> "tmp" is kind of a bad name.  Also "base_indirect_ptr" would be better
-> as "base_indirect".
+But maybe this should use eth_random_addr instead as there might
+be more than one of these in a network.
 
-tmp is a poor name here.  Maybe dma would be better.
+>  	struct eeprom_priv *eeprom =3D &adapt->eeprompriv;
+> =20
+>  	if (AutoLoadFail) {
+> -		for (i =3D 0; i < 6; i++)
+> -			eeprom->mac_addr[i] =3D sMacAddr[i];
+> +		memcpy(eeprom->mac_addr, sMacAddr, ETH_ALEN);
+>  	} else {
+>  		/* Read Permanent MAC address */
+>  		memcpy(eeprom->mac_addr, &hwinfo[EEPROM_MAC_ADDR_88EU], ETH_ALEN);
 
-MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN) is also a poorly named macro
-where all the existing uses are QLGE_BQ_LEN.
+So perhaps something like:
 
-And there's base_indirect_ptr and base_indirect_dma in the struct
-so just base_indirect might not be the best.
+{
+	static const u8 sMacAddr[ETH_ALEN] =3D {
+		0x00, 0xE0, 0x4C, 0x81, 0x88, 0x02
+	};
 
-		tmp =3D (u64)rx_ring->lbq.base_dma;
-		base_indirect_ptr =3D rx_ring->lbq.base_indirect;
+	/* Not ether_addr_copy - EEPROM_MAC_ADDR_88EU isn't __aligned(2) */
 
-And clarity is good.
-Though here, clarity to value for effort though is dubious.
+	memcpy(adapt->eeprompriv.mac_addr,
+	       AutoLoadFail ? sMacAddr : &hwinfo[EEPROM_MAC_ADDR_88EU],
+	       ETH_ALEN);
+}
 
-btw: this code got moved to staging 3 years ago.
+or maybe:
 
-Maybe it's getting closer to removal time.
+{
+	if (AutoLoadFail)
+		eth_random_addr(adapt->eeprompriv.mac_addr);
+	else
+		memcpy(adapt->eeprompriv.mac_addr,
+		       &hwinfo[EEPROM_MAC_ADDR_88EU], ETH_ALEN);
 
