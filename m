@@ -1,150 +1,86 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BCF4A0A
-	for <linux-staging@lists.linux.dev>; Wed, 13 Jul 2022 19:12:10 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id m16so15318187edb.11
-        for <linux-staging@lists.linux.dev>; Wed, 13 Jul 2022 12:12:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C744A0A
+	for <linux-staging@lists.linux.dev>; Wed, 13 Jul 2022 19:44:40 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id f12so9339988qka.12
+        for <linux-staging@lists.linux.dev>; Wed, 13 Jul 2022 12:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PLq+vxmSJZQVlzojHgHWzYyGYj9NCZYGnKKKS15nhgc=;
-        b=z+8/nuDj0YhTITREu8tEiSYhUaWtxa2u8s/WCri+GGAhIqC1JlOWNr5amsXORQhXvC
-         HIjrp0W+dC6fYVhLJKT+zqPvpxBtXVbp5QUhil9xtDc9gq6HbcU1o/Av4IlXLCjJ5llM
-         YBYmLJc5gwMUNbqCkOvUx+7S8DxrCJZp0WqnPxLynzfopX5/QBU/GlyE22MUUgPuPwEZ
-         YUzweQU4YvgVe010Jf1Tj2yM79HPjV+GDG1DzxV0mn//ddaGYYgso77VgA6wl9Cnceov
-         NyVS1PjEJgD/kOTaQSkTPG+cdImEbh3mU2gEU3pSs8lCD/S9namtcGgmYawjdFqtiMYs
-         c18g==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=AgWnvJuWvMs9BNQibg9dJXMSIiw7AP7RCPNxvoP8zeA=;
+        b=ksIFue9YbxkNLn7R1csI9a8pPRDVDDl+Hi3uOkbmIG83c57hIIoiOpuSGJ0YRJWI0B
+         nT4LotaiUcav8II4zOoIfmBWEQWHJcZO5dz73ddeJSrf4o0+SXgj3SeA3/4Y4go1QWCp
+         dEGL1bEPsofw/Fv9z9QBd4WPYihJ1lP5ze4ZhqsIX9XMFjt5Y3AZRiYZFgp1WRs42q+P
+         s2VtJZM3uvih9ByXdt5ekF8oG5NzenQvIuK2npxY7eJw2aEz2yvVMZVgaX/ScUYrKK3d
+         2pAGOqO3/bCeFF0pJVyYq9Incpvt2YMjF8jBIFSVwEeUVG17JY10wGovFKoR5GCtnVah
+         QXKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PLq+vxmSJZQVlzojHgHWzYyGYj9NCZYGnKKKS15nhgc=;
-        b=AjUJ7id7bvQy/4fAPUpoCnPaEeVkkeYnebb4dBaPWDR+DiO7xX/knUHOXHErpiloRc
-         zEimElD1ZBFYmtOUbddI8h6pBdmg7IYqfXEq9UwPwFd25wE6GYmfB46iAQSqiSYFZDrq
-         5N5yMXR1noY6rpaSgu/QFC9D3Z1mp6WNIyhYNnqZWlo9wksbsekjWm5ZyA7DBANkHmaq
-         9KcAH9eafM6nW2HPx8kRy1nEqvvg8+LWNyomN1e4yOPDLIYS2hIrJc7Ap/658VG63PoQ
-         2++YB9nzzCS7rPva1qjz0GKZCj/NBR5l86VKQsUhDxxEG+UgJp/gycp9/ect5RRFc61G
-         6eqQ==
-X-Gm-Message-State: AJIora/8c7rtX0QHwW32XGdhCucq7uXyMoQIBBFQrOrXSHKd891jl5rD
-	0NyvPKSrcT81c2LmolL2axCl0MeKLeZRy98w0V20GA==
-X-Google-Smtp-Source: AGRyM1ubxyRQpxoVT6CAxq4vQ0utB7Mdt4cgjhd5Fh5373cKkbymnqNFUGq1gmsYNG8qOCThsrxESBTdiHe6Uajwe7M=
-X-Received: by 2002:a05:6402:4396:b0:43a:77b5:41f7 with SMTP id
- o22-20020a056402439600b0043a77b541f7mr6804147edc.45.1657739529010; Wed, 13
- Jul 2022 12:12:09 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AgWnvJuWvMs9BNQibg9dJXMSIiw7AP7RCPNxvoP8zeA=;
+        b=m0EU/vKcVdTAFRh8msM3cgR2yL8g2w0DSVTFWvyAD9I4a2VEjwyCKB3u1H1u4KPoys
+         WfQTiHX55JZNLYAUzKeO2oX5PBkkg2y3uDwh3JAechOD3/toieGcdgV0GFyRPo1vi0HI
+         7ep/D8/123AN7cil5Ar6FO6X1NHUFOyz/uZGKFHzK3NDjgRy4bAfMPV5L0ARZbD2DJu+
+         6kdldxAngL3w1Ec036b4NrXCmryg7kuf0I2pFz7Pbl+jeaP+9txUuLvhxJD5NZ9Xroc6
+         Em7pV8D3S8WhglQXB5Bhx3mvWvWELWcx4EJjt7rgQJqVBltwuB/UqnIww4LOnhfyANU7
+         SxPw==
+X-Gm-Message-State: AJIora/hF5C64O41nbqeM8bzAvoEmF2imlNbrTiJ51QvJ5jcPsKqgWyV
+	3x6Ufsg6Pe64evsPiGKfjfg=
+X-Google-Smtp-Source: AGRyM1tSwpKky1uUYM+YAOJtp/PC8wosYfmP/SdoTQ7bhXPQ4JhS1BVR1eToNz1LiMU6pW7hkJ1V1g==
+X-Received: by 2002:a05:620a:190f:b0:6b5:9bf7:60d with SMTP id bj15-20020a05620a190f00b006b59bf7060dmr3624315qkb.627.1657741479762;
+        Wed, 13 Jul 2022 12:44:39 -0700 (PDT)
+Received: from localhost ([2601:4c1:c100:1230:7360:5d5d:6684:e04b])
+        by smtp.gmail.com with ESMTPSA id n6-20020a05620a294600b006b59d5ead72sm5812403qkp.46.2022.07.13.12.44.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 12:44:39 -0700 (PDT)
+Date: Wed, 13 Jul 2022 12:44:38 -0700
+From: Yury Norov <yury.norov@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>, knaerzche@gmail.com,
+	Collabora Kernel ML <kernel@collabora.com>,
+	bob.beckett@collabora.com,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+	linux-staging@lists.linux.dev, nicolas.dufresne@collabora.com,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 3/6] bitops: bitmap helper to set variable length values
+Message-ID: <Ys8gpl3m+vvEM7Sy@yury-laptop>
+References: <20220713163201.136202-1-sebastian.fricke@collabora.com>
+ <Ys8Txuq9/u/EL6sj@yury-laptop>
+ <CAHp75VeOLfKw4-+Dpn54yy6j=tdiBNA_2Kvhj7mUUjTD-M_vYA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220713163201.136202-1-sebastian.fricke@collabora.com> <20220713163201.136202-3-sebastian.fricke@collabora.com>
-In-Reply-To: <20220713163201.136202-3-sebastian.fricke@collabora.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Wed, 13 Jul 2022 16:11:57 -0300
-Message-ID: <CAAEAJfAD49kc_zQsjKjB+v5PNcQXTEyT_fL98a2cSyzhTuk1Zg@mail.gmail.com>
-Subject: Re: [PATCH 5/6] staging: media: rkvdec: Enable S_CTRL IOCTL
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: linux-media <linux-media@vger.kernel.org>, 
-	=?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	Alex Bee <knaerzche@gmail.com>, Collabora Kernel ML <kernel@collabora.com>, 
-	Robert Beckett <bob.beckett@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Yury Norov <yury.norov@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VeOLfKw4-+Dpn54yy6j=tdiBNA_2Kvhj7mUUjTD-M_vYA@mail.gmail.com>
 
-Hi Sebastian,
+On Wed, Jul 13, 2022 at 09:10:33PM +0200, Andy Shevchenko wrote:
+> On Wed, Jul 13, 2022 at 8:56 PM Yury Norov <yury.norov@gmail.com> wrote:
+> > On Wed, Jul 13, 2022 at 06:31:59PM +0200, Sebastian Fricke wrote:
+> 
+> ...
+> 
+> > I'd suggest you to try implementing
+> >         bitmap_copy_from(dst, src, dst_off, len)
+> > or even
+> >         bitmap_copy_from(dst, dst_off, src, src_off, len)
+> > if you expect that you'll need more flexibility in the future.
+> 
+> Do you think it would be useful?
+> 
+> We have bitmap_replace() & bitmap_remap(). Wouldn't that be enough?
 
-On Wed, Jul 13, 2022 at 1:33 PM Sebastian Fricke
-<sebastian.fricke@collabora.com> wrote:
->
-> Enable user-space to set the SPS of the current byte-stream on the
-> decoder. This action will trigger the decoder to pick the optimal
-> pixel-format for the capture queue.
->
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 60 ++++++++++++++++++++-------
->  1 file changed, 46 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 2625e0a736f4..f84579f764ab 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -27,6 +27,17 @@
->  #include "rkvdec.h"
->  #include "rkvdec-regs.h"
->
-> +static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
-> +                                      struct v4l2_pix_format_mplane *pix_mp)
-> +{
-> +       v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
-> +                           pix_mp->width, pix_mp->height);
-> +       pix_mp->plane_fmt[0].sizeimage += 128 *
-> +               DIV_ROUND_UP(pix_mp->width, 16) *
-> +               DIV_ROUND_UP(pix_mp->height, 16);
-> +       pix_mp->field = V4L2_FIELD_NONE;
-> +}
-> +
->  /*
->   * Fetch the optimal pixel-format directly from the codec variation. If the
->   * valid_fmt callback is not implemented, then the context variable valid_fmt
-> @@ -44,6 +55,27 @@ static int rkvdec_get_valid_fmt(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
->         return 0;
->  }
->
-> +static int rkvdec_set_valid_fmt(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
-> +{
-> +       struct v4l2_pix_format_mplane *pix_mp;
-> +
-> +       switch (ctrl->id) {
-> +       case V4L2_CID_STATELESS_H264_SPS:
-> +       case V4L2_CID_STATELESS_VP9_FRAME:
-> +       case V4L2_CID_STATELESS_HEVC_SPS:
-> +               ctx->valid_fmt = rkvdec_get_valid_fmt(ctx, ctrl);
-> +
-> +               pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> +               pix_mp->pixelformat = ctx->valid_fmt;
-> +               rkvdec_fill_decoded_pixfmt(ctx, pix_mp);
-> +               break;
-> +       default:
-> +               dev_err(ctx->dev->dev, "Unsupported stateless control ID: %x\n", ctrl->id);
-> +               return -EINVAL;
-> +       };
-> +       return 0;
-> +}
-> +
->  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
->         struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> @@ -58,8 +90,18 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->         return 0;
->  }
->
-> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +       struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> +
-> +       if (!ctx->valid_fmt)
-> +               return rkvdec_set_valid_fmt(ctx, ctrl);
-
-We've discussed this approach with Jonas.
-See "[PATCH v2 10/12] media: rkvdec: Lock capture pixel format in
-s_ctrl and s_fmt".
-
-https://lore.kernel.org/all/f26407dbf3efc6cc046daaabdbe75c516743a187.camel@collabora.com/
-
-The outcome of the discussion is:
-* setting SPS resets the CAPTURE format (as per the spec).
-* the application uses ENUM/TRY/S_FMT to negotiate a format, and uses
-SPS to filter formats.
-
-Thanks!
-Ezequiel
+bitmap_replace and bitmap_remap have no an 'offset' parameter.
