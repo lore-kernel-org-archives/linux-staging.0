@@ -1,39 +1,39 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F6E17F3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFD317F8
 	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:29:17 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id sz17so7245125ejc.9
+Received: by mail-ej1-f42.google.com with SMTP id fy29so6129929ejc.12
         for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gHgYQ57up5w2WHv1hYXHN8IBevAz2rN/LxpGnpqYmU4=;
-        b=JI4Kgbgo0bQEvLMje6miGiraUoMac1F9ZoiQJ+JuxaDGse+xEfEKQC5DwcveHzTwnT
-         oGcnGu9eUy687ISvDbxv5cB67LpDgH2Qg3LtelVfDEFIWMbkpfg40nVgPP+EjSHiqRpF
-         fJH29ek18VNzPmjs2332lWP+IPY3UDd2C9DUpp0s02cy8rNhpVj59Gi7rg1T/l0Wmtl9
-         hxb43UTFeSsOa+11pTOkzZ3VphowX6UvUEpKCJ+YvY07Df5Mvl2UpNUmH/DaeMFzJpAE
-         GTE5pP7+FZAcIfTn/CYqOCuSr729sf9Evt9jHxdIy6D8DoSD8FI/IraOO7xKatADNHx9
-         WDLw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZpAPTfgn7x2hsoU7pkb7QkeWbRt4wtXC22iLXqSjDL4=;
+        b=c5NkWkSZZOQBe02NEl3AvDe0K9J9M82NsylzabjkTi+Ew2NM+LqWLPYuOcto24LOB5
+         wqOz2ZMolxu+Z3Rz/e6l/RjEoihpnHaKF+5gLK7qevxNMqujaJdEphbLx83tkxF70JdN
+         6C0lHSJthiiMhswWTYMeKlKrRIQ83NpWgxS0yqDPIG+tusggGpm7zdcmdefVj0j+Kgq4
+         kzjvb2yXVi02bgVzoyxTDTGMWhcqHHiFaWmdsj56359P+lKj4tBXA3utliCSoh4M+6SN
+         c23AUEYlHGiPTZHFwwYWNU5oT7Rv0/KHjaGemUGLqZIJ4vXYc4Y9JG+LwJzgAFa3Pk50
+         Xcog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gHgYQ57up5w2WHv1hYXHN8IBevAz2rN/LxpGnpqYmU4=;
-        b=4BJGzSMUqKj3bvpYG7IhNXljF2OCCT2gNcSIFzmqVc3i8S0cHCLWVZeOZNF4E8BKDs
-         3YVq36RCONeFMVJ6q0Itmr/uQ8XL860tbHUHek4VPHKEhpjlK+XlZ69V/lEtiOvq1Gxg
-         jfNYCsRsgMbAjtZUwXqc6Z9qIqX+4WK5d2UpnW9ZMhAZaQPR69UHUwcjbGRtiQmM1AgU
-         /4zvmuggnKC9HqBFr8e2HYBILnOIdBjrfyStLpwnDh+i2imn8qKGd9uA814OiEAgNPXD
-         XW0HgYxVxIjSCDCmXHzcwMKskUffZk/vuMFJK+C+iQK1QoCaOqoZsmYlvjEtcYGReWOe
-         XHjQ==
-X-Gm-Message-State: AJIora81WTXe0AuiaxOh8KPEXFU+DxvTqYYFVHZrGu00Iex+Vo011p4b
-	MG2eRe0xWEuzqqagHjt+Fcc=
-X-Google-Smtp-Source: AGRyM1uVsVPDS5mdTshIbzATliAzNcoW6hnqrk/t1m2yBgyfDc8D7QsW90IY2yCwRuxcJbnwwSDqrQ==
-X-Received: by 2002:a17:907:9810:b0:722:f204:b409 with SMTP id ji16-20020a170907981000b00722f204b409mr12069875ejc.457.1657866555422;
-        Thu, 14 Jul 2022 23:29:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZpAPTfgn7x2hsoU7pkb7QkeWbRt4wtXC22iLXqSjDL4=;
+        b=WNOEb+J95qRp4qAi2VCH025pVE7JytvI5/osdQJ26i16ai0nn2NgyMHDqKd8826BMZ
+         db3Gz707N6EdZmHKljuS7L54HWW7dIGU4aDEiSM4wL9t7YEmFZXLTUY3LC5pqOvqbggW
+         M9h3XIxrSbRyONFADSbqFdcUdtGLBe47l0LtJZ1k3BJLxDrnEw+ePtgxL0NKNFremxdH
+         g/UWLUyDhrNa5xh8qpNw6xBGtAx441oJ90CWICoXydrZphvMSiCNtag1FUIk6Mygt04c
+         chK4aLPETBfenRmdUWlvodaS2SwZuXYTBCsjS4W/gxFTuay8HDuUoKPEtJfIShffwjMQ
+         8C+w==
+X-Gm-Message-State: AJIora9xJoJA9STWeV5B8la2mjrzpJZ8IyVpQgQWx60jscmOAlFtnhNk
+	pcmpqdybsWIOk4GFDQ68Aag=
+X-Google-Smtp-Source: AGRyM1swEBzt38NEiNNoen9segqLBmiaLfupfNuGywhrotsTDuoBbyCZBzpnkWSi4tUodEBJ74dnew==
+X-Received: by 2002:a17:907:d07:b0:72e:ec79:ad0f with SMTP id gn7-20020a1709070d0700b0072eec79ad0fmr3119563ejc.296.1657866556076;
+        Thu, 14 Jul 2022 23:29:16 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb91.dynamic.kabel-deutschland.de. [95.90.187.145])
-        by smtp.gmail.com with ESMTPSA id ku5-20020a170907788500b007262a5e2204sm1614515ejc.153.2022.07.14.23.29.14
+        by smtp.gmail.com with ESMTPSA id ku5-20020a170907788500b007262a5e2204sm1614515ejc.153.2022.07.14.23.29.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 14 Jul 2022 23:29:15 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/5] staging: r8188eu: remove SetHwReg8188EU()
-Date: Fri, 15 Jul 2022 08:29:03 +0200
-Message-Id: <20220715062908.8547-1-straube.linux@gmail.com>
+Subject: [PATCH 1/5] staging: r8188eu: remove HW_VAR_SET_OPMODE from SetHwReg8188EU()
+Date: Fri, 15 Jul 2022 08:29:04 +0200
+Message-Id: <20220715062908.8547-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220715062908.8547-1-straube.linux@gmail.com>
+References: <20220715062908.8547-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,24 +57,313 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series finally removes SetHwReg8188EU().
+Remove the HW_VAR_SET_OPMODE case from SetHwReg8188EU() and move the
+functions that are called by that case to rtw_mlme_ext.c. This is part
+of the ongoing effort to get rid of SetHwReg8188EU().
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 103 +++++++++++++++-
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 111 +-----------------
+ drivers/staging/r8188eu/include/hal_intf.h    |   1 -
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |   2 +
+ 4 files changed, 107 insertions(+), 110 deletions(-)
 
-Michael Straube (5):
-  staging: r8188eu: remove HW_VAR_SET_OPMODE from SetHwReg8188EU()
-  staging: r8188eu: remove unused parameter from correct_TSF()
-  staging: r8188eu: remove unused parameter from update_TSF()
-  staging: r8188eu: make update_TSF() and correct_TSF() static
-  staging: r8188eu: remove SetHwReg8188EU()
-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 163 +++++++++++++++++-
- drivers/staging/r8188eu/core/rtw_wlan_util.c  |  20 ---
- drivers/staging/r8188eu/hal/usb_halinit.c     | 152 +---------------
- drivers/staging/r8188eu/include/hal_intf.h    |   7 -
- .../staging/r8188eu/include/rtw_mlme_ext.h    |   5 +-
- 5 files changed, 161 insertions(+), 186 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 771910763fec..0edcf84db16d 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -5674,6 +5674,107 @@ void clear_beacon_valid_bit(struct adapter *adapter)
+ 	rtw_write8(adapter, REG_TDECTRL + 2, reg | BIT(0));
+ }
+ 
++void rtw_resume_tx_beacon(struct adapter *adapt)
++{
++	struct hal_data_8188e *haldata = &adapt->haldata;
++
++	/*  2010.03.01. Marked by tynli. No need to call workitem beacause we record the value */
++	/*  which should be read from register to a global variable. */
++
++	rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl) | BIT(6));
++	haldata->RegFwHwTxQCtrl |= BIT(6);
++	rtw_write8(adapt, REG_TBTT_PROHIBIT + 1, 0xff);
++	haldata->RegReg542 |= BIT(0);
++	rtw_write8(adapt, REG_TBTT_PROHIBIT + 2, haldata->RegReg542);
++}
++
++void rtw_stop_tx_beacon(struct adapter *adapt)
++{
++	struct hal_data_8188e *haldata = &adapt->haldata;
++
++	/*  2010.03.01. Marked by tynli. No need to call workitem beacause we record the value */
++	/*  which should be read from register to a global variable. */
++
++	rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl) & (~BIT(6)));
++	haldata->RegFwHwTxQCtrl &= (~BIT(6));
++	rtw_write8(adapt, REG_TBTT_PROHIBIT + 1, 0x64);
++	haldata->RegReg542 &= ~(BIT(0));
++	rtw_write8(adapt, REG_TBTT_PROHIBIT + 2, haldata->RegReg542);
++
++	 /* todo: CheckFwRsvdPageContent(Adapter);  2010.06.23. Added by tynli. */
++}
++
++static void rtw_set_opmode(struct adapter *adapter, u8 mode)
++{
++	u8 val8;
++	int res;
++
++	/*  disable Port0 TSF update */
++	res = rtw_read8(adapter, REG_BCN_CTRL, &val8);
++	if (res)
++		return;
++
++	rtw_write8(adapter, REG_BCN_CTRL, val8 | BIT(4));
++
++	/*  set net_type */
++	res = rtw_read8(adapter, MSR, &val8);
++	if (res)
++		return;
++
++	val8 &= 0x0c;
++	val8 |= mode;
++	rtw_write8(adapter, MSR, val8);
++
++	if ((mode == _HW_STATE_STATION_) || (mode == _HW_STATE_NOLINK_)) {
++		rtw_stop_tx_beacon(adapter);
++
++		rtw_write8(adapter, REG_BCN_CTRL, 0x19);/* disable atim wnd */
++	} else if (mode == _HW_STATE_ADHOC_) {
++		rtw_resume_tx_beacon(adapter);
++		rtw_write8(adapter, REG_BCN_CTRL, 0x1a);
++	} else if (mode == _HW_STATE_AP_) {
++		rtw_resume_tx_beacon(adapter);
++
++		rtw_write8(adapter, REG_BCN_CTRL, 0x12);
++
++		/* Set RCR */
++		rtw_write32(adapter, REG_RCR, 0x7000208e);/* CBSSID_DATA must set to 0,reject ICV_ERR packet */
++		/* enable to rx data frame */
++		rtw_write16(adapter, REG_RXFLTMAP2, 0xFFFF);
++		/* enable to rx ps-poll */
++		rtw_write16(adapter, REG_RXFLTMAP1, 0x0400);
++
++		/* Beacon Control related register for first time */
++		rtw_write8(adapter, REG_BCNDMATIM, 0x02); /*  2ms */
++
++		rtw_write8(adapter, REG_ATIMWND, 0x0a); /*  10ms */
++		rtw_write16(adapter, REG_BCNTCFG, 0x00);
++		rtw_write16(adapter, REG_TBTT_PROHIBIT, 0xff04);
++		rtw_write16(adapter, REG_TSFTR_SYN_OFFSET, 0x7fff);/*  +32767 (~32ms) */
++
++		/* reset TSF */
++		rtw_write8(adapter, REG_DUAL_TSF_RST, BIT(0));
++
++		/* BIT(3) - If set 0, hw will clr bcnq when tx becon ok/fail or port 0 */
++		res = rtw_read8(adapter, REG_MBID_NUM, &val8);
++		if (res)
++			return;
++
++		rtw_write8(adapter, REG_MBID_NUM, val8 | BIT(3) | BIT(4));
++
++		/* enable BCN0 Function for if1 */
++		/* don't enable update TSF0 for if1 (due to TSF update when beacon/probe rsp are received) */
++		rtw_write8(adapter, REG_BCN_CTRL, (DIS_TSF_UDT0_NORMAL_CHIP | EN_BCN_FUNCTION | BIT(1)));
++
++		/* dis BCN1 ATIM  WND if if2 is station */
++		res = rtw_read8(adapter, REG_BCN_CTRL_1, &val8);
++		if (res)
++			return;
++
++		rtw_write8(adapter, REG_BCN_CTRL_1, val8 | BIT(0));
++	}
++}
++
+ /****************************************************************************
+ 
+ Following are some utitity fuctions for WiFi MLME
+@@ -7142,7 +7243,7 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
+ 		type = _HW_STATE_NOLINK_;
+ 	}
+ 
+-	SetHwReg8188EU(padapter, HW_VAR_SET_OPMODE, (u8 *)(&type));
++	rtw_set_opmode(padapter, type);
+ 
+ 	return H2C_SUCCESS;
+ }
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 421fe7c40390..b8fd73ac8f7c 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -963,117 +963,12 @@ void ReadAdapterInfo8188EU(struct adapter *Adapter)
+ 	kfree(efuse_buf);
+ }
+ 
+-static void ResumeTxBeacon(struct adapter *adapt)
+-{
+-	struct hal_data_8188e *haldata = &adapt->haldata;
+-
+-	/*  2010.03.01. Marked by tynli. No need to call workitem beacause we record the value */
+-	/*  which should be read from register to a global variable. */
+-
+-	rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl) | BIT(6));
+-	haldata->RegFwHwTxQCtrl |= BIT(6);
+-	rtw_write8(adapt, REG_TBTT_PROHIBIT + 1, 0xff);
+-	haldata->RegReg542 |= BIT(0);
+-	rtw_write8(adapt, REG_TBTT_PROHIBIT + 2, haldata->RegReg542);
+-}
+-
+-static void StopTxBeacon(struct adapter *adapt)
+-{
+-	struct hal_data_8188e *haldata = &adapt->haldata;
+-
+-	/*  2010.03.01. Marked by tynli. No need to call workitem beacause we record the value */
+-	/*  which should be read from register to a global variable. */
+-
+-	rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl) & (~BIT(6)));
+-	haldata->RegFwHwTxQCtrl &= (~BIT(6));
+-	rtw_write8(adapt, REG_TBTT_PROHIBIT + 1, 0x64);
+-	haldata->RegReg542 &= ~(BIT(0));
+-	rtw_write8(adapt, REG_TBTT_PROHIBIT + 2, haldata->RegReg542);
+-
+-	 /* todo: CheckFwRsvdPageContent(Adapter);  2010.06.23. Added by tynli. */
+-}
+-
+-static void hw_var_set_opmode(struct adapter *Adapter, u8 *val)
+-{
+-	u8 val8;
+-	u8 mode = *((u8 *)val);
+-	int res;
+-
+-	/*  disable Port0 TSF update */
+-	res = rtw_read8(Adapter, REG_BCN_CTRL, &val8);
+-	if (res)
+-		return;
+-
+-	rtw_write8(Adapter, REG_BCN_CTRL, val8 | BIT(4));
+-
+-	/*  set net_type */
+-	res = rtw_read8(Adapter, MSR, &val8);
+-	if (res)
+-		return;
+-
+-	val8 &= 0x0c;
+-	val8 |= mode;
+-	rtw_write8(Adapter, MSR, val8);
+-
+-	if ((mode == _HW_STATE_STATION_) || (mode == _HW_STATE_NOLINK_)) {
+-		StopTxBeacon(Adapter);
+-
+-		rtw_write8(Adapter, REG_BCN_CTRL, 0x19);/* disable atim wnd */
+-	} else if (mode == _HW_STATE_ADHOC_) {
+-		ResumeTxBeacon(Adapter);
+-		rtw_write8(Adapter, REG_BCN_CTRL, 0x1a);
+-	} else if (mode == _HW_STATE_AP_) {
+-		ResumeTxBeacon(Adapter);
+-
+-		rtw_write8(Adapter, REG_BCN_CTRL, 0x12);
+-
+-		/* Set RCR */
+-		rtw_write32(Adapter, REG_RCR, 0x7000208e);/* CBSSID_DATA must set to 0,reject ICV_ERR packet */
+-		/* enable to rx data frame */
+-		rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
+-		/* enable to rx ps-poll */
+-		rtw_write16(Adapter, REG_RXFLTMAP1, 0x0400);
+-
+-		/* Beacon Control related register for first time */
+-		rtw_write8(Adapter, REG_BCNDMATIM, 0x02); /*  2ms */
+-
+-		rtw_write8(Adapter, REG_ATIMWND, 0x0a); /*  10ms */
+-		rtw_write16(Adapter, REG_BCNTCFG, 0x00);
+-		rtw_write16(Adapter, REG_TBTT_PROHIBIT, 0xff04);
+-		rtw_write16(Adapter, REG_TSFTR_SYN_OFFSET, 0x7fff);/*  +32767 (~32ms) */
+-
+-		/* reset TSF */
+-		rtw_write8(Adapter, REG_DUAL_TSF_RST, BIT(0));
+-
+-		/* BIT(3) - If set 0, hw will clr bcnq when tx becon ok/fail or port 0 */
+-		res = rtw_read8(Adapter, REG_MBID_NUM, &val8);
+-		if (res)
+-			return;
+-
+-		rtw_write8(Adapter, REG_MBID_NUM, val8 | BIT(3) | BIT(4));
+-
+-		/* enable BCN0 Function for if1 */
+-		/* don't enable update TSF0 for if1 (due to TSF update when beacon/probe rsp are received) */
+-		rtw_write8(Adapter, REG_BCN_CTRL, (DIS_TSF_UDT0_NORMAL_CHIP | EN_BCN_FUNCTION | BIT(1)));
+-
+-		/* dis BCN1 ATIM  WND if if2 is station */
+-		res = rtw_read8(Adapter, REG_BCN_CTRL_1, &val8);
+-		if (res)
+-			return;
+-
+-		rtw_write8(Adapter, REG_BCN_CTRL_1, val8 | BIT(0));
+-	}
+-}
+-
+ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ {
+ 	u8 reg;
+ 	int res;
+ 
+ 	switch (variable) {
+-	case HW_VAR_SET_OPMODE:
+-		hw_var_set_opmode(Adapter, val);
+-		break;
+ 	case HW_VAR_CORRECT_TSF:
+ 		{
+ 			u64	tsf;
+@@ -1084,7 +979,7 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 							  pmlmeinfo->bcn_interval * 1024) - 1024; /* us */
+ 
+ 			if (((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) || ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE))
+-				StopTxBeacon(Adapter);
++				rtw_stop_tx_beacon(Adapter);
+ 
+ 			/* disable related TSF function */
+ 			res = rtw_read8(Adapter, REG_BCN_CTRL, &reg);
+@@ -1104,7 +999,7 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			rtw_write8(Adapter, REG_BCN_CTRL, reg | BIT(3));
+ 
+ 			if (((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) || ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE))
+-				ResumeTxBeacon(Adapter);
++				rtw_resume_tx_beacon(Adapter);
+ 		}
+ 		break;
+ 	default:
+@@ -1221,7 +1116,7 @@ void SetBeaconRelatedRegisters8188EUsb(struct adapter *adapt)
+ 
+ 	_BeaconFunctionEnable(adapt, true, true);
+ 
+-	ResumeTxBeacon(adapt);
++	rtw_resume_tx_beacon(adapt);
+ 
+ 	res = rtw_read8(adapt, bcn_ctrl_reg, &reg);
+ 	if (res)
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index 819d0dc6e6dc..e1dfd621a5cb 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -9,7 +9,6 @@
+ #include "Hal8188EPhyCfg.h"
+ 
+ enum hw_variables {
+-	HW_VAR_SET_OPMODE,
+ 	HW_VAR_CORRECT_TSF,
+ };
+ 
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index c630700ea657..28416d1bd15c 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -532,6 +532,8 @@ unsigned int send_delba(struct adapter *padapter, u8 initiator, u8 *addr);
+ unsigned int send_beacon(struct adapter *padapter);
+ bool get_beacon_valid_bit(struct adapter *adapter);
+ void clear_beacon_valid_bit(struct adapter *adapter);
++void rtw_resume_tx_beacon(struct adapter *adapt);
++void rtw_stop_tx_beacon(struct adapter *adapt);
+ 
+ void start_clnt_assoc(struct adapter *padapter);
+ void start_clnt_auth(struct adapter *padapter);
 -- 
 2.37.0
 
