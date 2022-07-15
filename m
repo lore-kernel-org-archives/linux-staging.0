@@ -1,75 +1,114 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C8517F3
-	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:06:35 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id v12so4988835edc.10
-        for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:06:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EF317F3
+	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:17:55 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id e16so3827696pfm.11
+        for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:in-reply-to:content-transfer-encoding;
-        bh=NrPyiJ6zYcV53GOx13yfEhBQnfJ0RCuGsOxgnDEHyUw=;
-        b=HKtmmWvzYPan8/QiQi8tWTPbhSZjo7IEdS3mKD+irpEt3Edpn8phLNHMh6Kx+ONqts
-         14jMlVsyLiQR5Afc6yLEpeCO2IsW9Rp9KUj+yVkW8GrGt+pTWl0ltF8XH8mfIuNTKK5z
-         44BoAmCGgdcCbxIG6UFG5Z1lhTEPUUBvgYLx9MWf+AN3+/4N10kEix6Mw4Sfy5m81LCz
-         aDWfY0IHxpttxEaukmLy6Xx/Ohs+mRpOZRbOaeqQO93GsVisncLcdDFvz+UwfzWMH52L
-         cdHxYkt/9RxCb6KhAkPrE4GDxNkBk63mw88w9V27tIQ4nN2/NncqhjCC9sXcXvOWNd8O
-         GeEg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=5MLxTGie+B4QdlEZJxtbc8CtA2pcH2E4OqHrrJEXotI=;
+        b=E9f19W6WnC5o6tUo39/A3LDf0ge61zcqFRst/ixdwUQESK0Kf/5v7f1M0aK6twNDF7
+         HfMWGqil3gsBqmL/cYph1jmoznV1o+eZ+Ypb0oOS+fvhn44oAxJxuW0RgMxb+prc3PjX
+         KcVSrk4QypCpuWy8b1O2Z2N2fCPOXnsYjCSD2K6oZwRSaSLSpP1OrtG5Ik4hkldyTdTn
+         aeDwolSqATu5jzFUNeFQ9anNJa81F4iSxYoOLFP1kWBuyIwUoUmVOaaxyKyXv8+eaKXl
+         57lHL/zPjxLTVDARmFpaShxytqRztVZ9rC/p1HBR8tbtZzMkK2JVYZXK+ld9b+6+ARKo
+         QrlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=NrPyiJ6zYcV53GOx13yfEhBQnfJ0RCuGsOxgnDEHyUw=;
-        b=eKk6/u40E7cOtlx7Bf5gvFET5Z9EflAvO/U5sxtoLcOUoB6Ocn0jRuhAn4tca9YugI
-         lKsc785aVJWLJpyWIXnF/kYR4mSV9fdyWEGOejxGvPtx4KYSSFeXUyJj4l6FJtuKFGRK
-         NOFJJSTHNmi1zw/Cq2bM9Flmi/DutdjatExkg7rC+3RWHFdLHQSWv8orizxZ5tJwKy9o
-         H/ZbwBdO9a3KvzQlNV950m4h4tebtv4QgpMMFOxiDVffPGo0BhtfJoGa9tYX+McZmTkD
-         RVAd6ykhgkJT2m0X/UQl9kBDOEQlacTKUCsOgxtPLhXerxQurxAfNTeIwTZyodgpRkpF
-         evHQ==
-X-Gm-Message-State: AJIora8n5lRrcYp8KwttQ9B7PGzqQqnKolkxqoeqmpSNcG3hLNXg3jQm
-	U5KoAzFDQE8lfAhDt0wAWeA=
-X-Google-Smtp-Source: AGRyM1vAhXgE641OJlsXfz1E9GgQa/F4HihZk1Y8cyKbou2Kaw1nI4ekXG3WcmeV3M+bu4az0uljcA==
-X-Received: by 2002:a05:6402:3689:b0:43a:7c1c:8960 with SMTP id ej9-20020a056402368900b0043a7c1c8960mr16507423edb.79.1657865194052;
-        Thu, 14 Jul 2022 23:06:34 -0700 (PDT)
-Received: from [192.168.0.253] (ip5f5abb91.dynamic.kabel-deutschland.de. [95.90.187.145])
-        by smtp.gmail.com with ESMTPSA id o1-20020aa7dd41000000b00436f3107bdasm2220934edw.38.2022.07.14.23.06.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 23:06:33 -0700 (PDT)
-Message-ID: <772c4b9f-484b-3b05-b130-7069ec39b72c@gmail.com>
-Date: Fri, 15 Jul 2022 08:06:32 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=5MLxTGie+B4QdlEZJxtbc8CtA2pcH2E4OqHrrJEXotI=;
+        b=Fjzf9fhLwoS6rKuJ6GPbWHpTSg4J+tTN+Pxq1IjUQoziVyYyov7fzdSTgK9r6XZ2G5
+         QQivZJrlCj8KiGtyl5G5PXPE9KkkZN53HiH7gp0FUS3vWzvuQm5GYMYt3rAN35fk43Gv
+         gJqyU49axDIgTab3mCfDdH8Ss01uXn0b86oxrNl0OPlKb2T3V1v6wY9iI6vAQ7SrazqP
+         62D7L6zrFI76UfuQQxgWExPjixm7XwwXAJjh9vCDT2m5LtUnqIfVZaBPNnkOk5EVaZPA
+         0U/hHKc4ALsJLZi9uWmpkWOM09y8ykXSZ5WEy7eHLR76GHgX8fCRwueaVc9KiNe1ujfJ
+         ewdQ==
+X-Gm-Message-State: AJIora9Lt6Us+s0wNpBNEfWQOuc9vkdQmfxiLRW0O0ezso1udwHrYJq/
+	eR74n9zBcE9DgzTMI3YjXy4=
+X-Google-Smtp-Source: AGRyM1vbxon5umiGZ4oZkOf87BbF91J8zDMFcxF6hZr5E5G93STJ3G4ZdDmaxvWUtSOobzYBNx5BAQ==
+X-Received: by 2002:a63:1a18:0:b0:419:aa0d:4f9c with SMTP id a24-20020a631a18000000b00419aa0d4f9cmr7545826pga.389.1657865874986;
+        Thu, 14 Jul 2022 23:17:54 -0700 (PDT)
+Received: from cloud-MacBookPro ([2601:646:8201:c2e0:310b:ff49:22f8:d171])
+        by smtp.gmail.com with ESMTPSA id 77-20020a621950000000b005289627ae6asm2797161pfz.187.2022.07.14.23.17.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jul 2022 23:17:54 -0700 (PDT)
+Date: Thu, 14 Jul 2022 23:17:54 -0700
+From: Binyi Han <dantengknight@gmail.com>
+To: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: qlge: refine variable name
+Message-ID: <20220715061754.GA6657@cloud-MacBookPro>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: r888eu: use dynamic allocation for efuse buffer
-Content-Language: en-US
-From: Michael Straube <straube.linux@gmail.com>
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin
- <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>
-References: <20220713075804.140986-1-martin@kaiser.cx>
- <be6d3fd0-566f-00ef-1404-830176d56e98@gmail.com>
-In-Reply-To: <be6d3fd0-566f-00ef-1404-830176d56e98@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tmp as a variable name don't have much information, change tmp to dma.
 
-On 7/15/22 08:02, Michael Straube wrote:
-> Hi Martin,
-> 
-> just a typo in the subject line: r888eu
-> 
+Signed-off-by: Binyi Han <dantengknight@gmail.com>
+---
+ drivers/staging/qlge/qlge_main.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Sorry, I did not notice that this patch is already applied.
-So nevermind ...
+diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+index 4b166c66cfc5..58d1920c4347 100644
+--- a/drivers/staging/qlge/qlge_main.c
++++ b/drivers/staging/qlge/qlge_main.c
+@@ -2955,7 +2955,7 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+ 	void __iomem *doorbell_area =
+ 		qdev->doorbell_area + (DB_PAGE_SIZE * (128 + rx_ring->cq_id));
+ 	int err = 0;
+-	u64 tmp;
++	u64 dma;
+ 	__le64 *base_indirect_ptr;
+ 	int page_entries;
+ 
+@@ -3004,14 +3004,14 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+ 		FLAGS_LI;		/* Load irq delay values */
+ 	if (rx_ring->cq_id < qdev->rss_ring_count) {
+ 		cqicb->flags |= FLAGS_LL;	/* Load lbq values */
+-		tmp = (u64)rx_ring->lbq.base_dma;
++		dma = (u64)rx_ring->lbq.base_dma;
+ 		base_indirect_ptr = rx_ring->lbq.base_indirect;
+ 
+ 		for (page_entries = 0;
+ 		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
+ 		     page_entries++) {
+-			base_indirect_ptr[page_entries] = cpu_to_le64(tmp);
+-			tmp += DB_PAGE_SIZE;
++			base_indirect_ptr[page_entries] = cpu_to_le64(dma);
++			dma += DB_PAGE_SIZE;
+ 		}
+ 		cqicb->lbq_addr = cpu_to_le64(rx_ring->lbq.base_indirect_dma);
+ 		cqicb->lbq_buf_size =
+@@ -3021,14 +3021,14 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+ 		rx_ring->lbq.next_to_clean = 0;
+ 
+ 		cqicb->flags |= FLAGS_LS;	/* Load sbq values */
+-		tmp = (u64)rx_ring->sbq.base_dma;
++		dma = (u64)rx_ring->sbq.base_dma;
+ 		base_indirect_ptr = rx_ring->sbq.base_indirect;
+ 
+ 		for (page_entries = 0;
+ 		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
+ 		     page_entries++) {
+-			base_indirect_ptr[page_entries] = cpu_to_le64(tmp);
+-			tmp += DB_PAGE_SIZE;
++			base_indirect_ptr[page_entries] = cpu_to_le64(dma);
++			dma += DB_PAGE_SIZE;
+ 		}
+ 		cqicb->sbq_addr =
+ 			cpu_to_le64(rx_ring->sbq.base_indirect_dma);
+-- 
+2.25.1
 
-Michael
