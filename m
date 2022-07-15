@@ -1,85 +1,141 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765D433FF
-	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 16:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657901200; x=1689437200;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RA6Wj2dcAYMvgXRrD1UGRGBL8oXhBhwHgtqU/ENlld0=;
-  b=YFZ4C7G+clKGVktGJR/i1YjLx9OuraZjpm4M54otmDidmME7HmSYk39b
-   8iQ3/XOTq6VXJMkayQF8h52mhiNgdhwl8E1Px5GkDwmooS1Z1yBF6F8Vk
-   Pt6MnGSLf7pPTUplXoHAjol30mQcdIRd4+QNW6kJhvDVpILuKocVEijzw
-   Yd6hUS13fzaUKkqKBmyRZfzISGzwgGSEI2+mSYwqIZn+hFCS7CBGYDrqB
-   RiItqn+/jybnBc1YALh3pUnSOId4ALXrDATsVGGozQ5UFc4Nqf07M7W/H
-   sw4Ej7Lqnigje9WAk4KQbsdE0LBMp1JSfyT1jVbJJACTFOVQhkUX5o62t
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="268853179"
-X-IronPort-AV: E=Sophos;i="5.92,274,1650956400"; 
-   d="scan'208";a="268853179"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2022 09:06:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,274,1650956400"; 
-   d="scan'208";a="738704952"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Jul 2022 09:06:37 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id CDF2AF1; Fri, 15 Jul 2022 19:06:45 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] media: atomisp_gmin_platform: Switch to use acpi_evaluate_dsm_typed()
-Date: Fri, 15 Jul 2022 19:06:41 +0300
-Message-Id: <20220715160641.73526-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7873D68
+	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 16:10:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1657901458;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8XaMq6FvBqOfWKFWfBu8sC/EEX51ptx9f4Z6IWwEgNU=;
+	b=ggttuFwpPT2J54XZxtTeQUwQo2taFNZeeQ7ss1m9NCKFxlxuqEXvUkPtvvf6RzQtRTcFtD
+	GdTzlJPbxkVvHS66VxPOapcWbtVAAQNpwRLjCecDkNs1dQsDs6UghgFyvagPRdVW3DLZrU
+	XhpZFoY8CFD76SVy0graZcojBGpkdrQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-219-Zhso8OJ4Ps6pz6wWNa8uXQ-1; Fri, 15 Jul 2022 12:10:57 -0400
+X-MC-Unique: Zhso8OJ4Ps6pz6wWNa8uXQ-1
+Received: by mail-ed1-f69.google.com with SMTP id z14-20020a056402274e00b0043ae5c003c1so3739569edd.9
+        for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 09:10:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=8XaMq6FvBqOfWKFWfBu8sC/EEX51ptx9f4Z6IWwEgNU=;
+        b=Ai6XI8tZHAcboi+qgT9G5/FCnBmM5128+X/nqj5ngYdXi10xvE6YC6YVd/2wJ6H+Qv
+         FKmXQ0L9HKU9N1VOKS3e1TAHUc7sHZL86TZvxty5IfG4OXbS+QaJMYb3Us3JnPzOXXtm
+         rf3Nnwl/ka1TK6fvwzuZOFSE2KMnUe8ayEpwDiQUm/djRD4Qb/6NefGAz+BeJkhXrlwa
+         LRYyazTZy3iwc+Rcwid9vLcQbRGgGTEKzj7FxW7ifKdG5lQEAumMgnJ5LJQBxvAQggs/
+         L/nYaiaqE7OIVyztXr0nGKjzbtjZ3hk5DB3oF1MDhEk/X3SuMR4DniK3Te8hM2g0Ne5s
+         jaoQ==
+X-Gm-Message-State: AJIora9FbrBmMmyIOiXrRxLWyIX/Pdoc0Y+t9Z0ROiWeO455KWCl4AKE
+	10RGCusN4LIFwUawKWpHopuuYXxTWdFqdAU9pBX+3H+Inb2Yp/gFFDcWyd5TjM+D6SUEDwqVfFu
+	reXUhQ5Tg5WVQ1TcBIXgXUkoKoA==
+X-Received: by 2002:a17:907:7395:b0:72b:86f2:4fd5 with SMTP id er21-20020a170907739500b0072b86f24fd5mr14809503ejc.332.1657901456512;
+        Fri, 15 Jul 2022 09:10:56 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sGPF962LQCuMf7LW05Hw5qyEz2ftp+YloQEdNuGIYE5083G6ZICW18glU++kGuR6cW460ohw==
+X-Received: by 2002:a17:907:7395:b0:72b:86f2:4fd5 with SMTP id er21-20020a170907739500b0072b86f24fd5mr14809472ejc.332.1657901456284;
+        Fri, 15 Jul 2022 09:10:56 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+        by smtp.gmail.com with ESMTPSA id f21-20020a17090631d500b0072ee7b51d9asm1635141ejf.39.2022.07.15.09.10.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Jul 2022 09:10:55 -0700 (PDT)
+Message-ID: <7622e82e-f5ec-1aa4-0497-12f16e3a2755@redhat.com>
+Date: Fri, 15 Jul 2022 18:10:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RESEND PATCH 0/3] staging: media: atomisp: Convert to
+ kmap_local_page()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tsuchiya Yuto <kitakar@gmail.com>,
+ Martiros Shakhzadyan <vrzh@vrzh.net>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>
+References: <20220707200718.26398-1-fmdefrancesco@gmail.com>
+ <becfe58a-b4c3-4ae1-4ab2-456057ac7d22@redhat.com>
+ <20220709174645.080fc795@sal.lan> <2264743.ElGaqSPkdT@opensuse>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <2264743.ElGaqSPkdT@opensuse>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The acpi_evaluate_dsm_typed() provides a way to check the type of the
-object evaluated by _DSM call. Use it instead of open coded variant.
+Hi,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+On 7/12/22 12:43, Fabio M. De Francesco wrote:
+> On sabato 9 luglio 2022 18:46:45 CEST Mauro Carvalho Chehab wrote:
+>> Em Fri, 8 Jul 2022 17:55:26 +0200
+>> Hans de Goede <hdegoede@redhat.com> escreveu:
+>>
+>>> Hi,
+>>>
+>>> On 7/7/22 22:07, Fabio M. De Francesco wrote:
+>>>> After waiting months, I'm resending three conversions to
+>>>> kmap_local_page(). I'd like to ask if there is anything which 
+> prevents
+>>>> these patches from being accepted.
+>>>>
+>>>> Please note that these patches were submitted on April 2022.
+>>>>
+>>>> For you convenience here are the links to the patches, the "Reviewed-
+> by:" 
+>>>> and "Tested-by:" tags:
+>>>>
+>>>> [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+>>>> https://lore.kernel.org/lkml/20220413225531.9425-1-fmdefrancesco@gmail.com/
+>>>> https://lore.kernel.org/lkml/Yli+R7iLZKqO8kVP@iweiny-desk3/
+>>>> https://lore.kernel.org/lkml/2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.com/
+>>>>
+>>>> [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
+>>>> https://lore.kernel.org/lkml/20220413212210.18494-1-fmdefrancesco@gmail.com/
+>>>> https://lore.kernel.org/lkml/YldNhErgt53RqYp7@iweiny-desk3/
+>>>> https://lore.kernel.org/lkml/0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.com/
+>>>>
+>>>> [PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
+>>>> https://lore.kernel.org/lkml/20220408223129.3844-1-fmdefrancesco@gmail.com/
+>>>> https://lore.kernel.org/lkml/b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.com/
+>>>>
+>>>> Fabio M. De Francesco (3):
+>>>>   staging: media: atomisp: Convert kmap() to kmap_local_page()
+>>>>   staging: media: atomisp: Use kmap_local_page() in hmm_set()
+>>>>   staging: media: atomisp: Use kmap_local_page() in hmm_store()  
+>>>
+>>> Thanks, the entire series looks good to me:
+>>>
+>>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>>
+>> Yesterday, I applied all pending patches at media-stage, including those. 
+>> Please check if  everything is ok, as I had to solve some trivial 
+>> conflicts.
+>>
+>> Regards,
+>> Mauro
+>>
+> I just checked those patches at media-stage and everything seems fine.
+> Thanks for applying them.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index bf527b366ab3..d4cfda07f7fb 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -1207,16 +1207,13 @@ static int gmin_get_config_dsm_var(struct device *dev,
- 	if (!strcmp(var, "CamClk"))
- 		return -EINVAL;
- 
--	obj = acpi_evaluate_dsm(handle, &atomisp_dsm_guid, 0, 0, NULL);
-+	/* Return on unexpected object type */
-+	obj = acpi_evaluate_dsm_typed(handle, &atomisp_dsm_guid, 0, 0, NULL, ACPI_TYPE_PACKAGE);
- 	if (!obj) {
- 		dev_info_once(dev, "Didn't find ACPI _DSM table.\n");
- 		return -EINVAL;
- 	}
- 
--	/* Return on unexpected object type */
--	if (obj->type != ACPI_TYPE_PACKAGE)
--		return -EINVAL;
--
- #if 0 /* Just for debugging purposes */
- 	for (i = 0; i < obj->package.count; i++) {
- 		union acpi_object *cur = &obj->package.elements[i];
--- 
-2.35.1
+The landing of my series in media-stage looks good too,
+
+Thanks.
+
+Regards,
+
+Hans
 
