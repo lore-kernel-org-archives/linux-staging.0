@@ -1,194 +1,171 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463EF2C9E
-	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 11:05:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0BD251474;
-	Fri, 15 Jul 2022 04:05:05 -0700 (PDT)
-Received: from [10.57.86.139] (unknown [10.57.86.139])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC2113F73D;
-	Fri, 15 Jul 2022 04:05:01 -0700 (PDT)
-Message-ID: <7be996ee-9977-129b-08e2-12bde7ac9cd7@arm.com>
-Date: Fri, 15 Jul 2022 12:04:56 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE562F34
+	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 11:48:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CB10B1FD4A;
+	Fri, 15 Jul 2022 11:48:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1657885715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I6emiE1OvRQ7Dr116hW7HFw/Q0RMHUu+yZWV2lYhhPg=;
+	b=KmE61r4+gAntO9y2fHALZgiNVfUkQ5ioPFVheJxO5MpibGFC+vDaRHFj2I8ceTnzo9FJ5I
+	/4tj4Sx45ebIidbmdpdAb98aqyxZUL/N6AWFG+NlEkBEWDhmPuWb4pASHmJSixfFtQuqJ2
+	3aK6v5Pbbb2v/yX73EbO5ZWyPw6rFi0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1657885715;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I6emiE1OvRQ7Dr116hW7HFw/Q0RMHUu+yZWV2lYhhPg=;
+	b=Yx4n/xDJZZqnO6ezPH4oHDuPxPadk4Y97lx3SYdWzM4wzmiJ/lxj2DQ8cvtPeWmYmayRVq
+	qbLi76XapvaIytDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A084713754;
+	Fri, 15 Jul 2022 11:48:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id cSolJhNU0WKUfAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Fri, 15 Jul 2022 11:48:35 +0000
+Message-ID: <558097f5-95bc-fa3c-d08e-1ca0a4d6eec2@suse.de>
+Date: Fri, 15 Jul 2022 13:48:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 0/6] RkVDEC HEVC driver
-Content-Language: en-GB
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
- linux-media@vger.kernel.org
-Cc: jernej.skrabec@gmail.com, knaerzche@gmail.com, kernel@collabora.com,
- bob.beckett@collabora.com, ezequiel@vanguardiasur.com.ar,
- mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, nicolas.dufresne@collabora.com,
- Yury Norov <yury.norov@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>
-References: <20220713162449.133738-1-sebastian.fricke@collabora.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220713162449.133738-1-sebastian.fricke@collabora.com>
+Subject: Re: [PATCH 05/11] fbdev: Convert drivers to aperture helpers
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
+ daniel@ffwll.ch, sam@ravnborg.org, maxime@cerno.tech
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+References: <20220707153952.32264-1-tzimmermann@suse.de>
+ <20220707153952.32264-6-tzimmermann@suse.de>
+ <8ebc1f33-f654-6b93-8a41-1aa66ab1901c@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <8ebc1f33-f654-6b93-8a41-1aa66ab1901c@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------jRVaGE0pGaoJywHo1QHL3jPM"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------jRVaGE0pGaoJywHo1QHL3jPM
+Content-Type: multipart/mixed; boundary="------------hNbxzFAcuD13tZo1nmDXwXye";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
+ daniel@ffwll.ch, sam@ravnborg.org, maxime@cerno.tech
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+Message-ID: <558097f5-95bc-fa3c-d08e-1ca0a4d6eec2@suse.de>
+Subject: Re: [PATCH 05/11] fbdev: Convert drivers to aperture helpers
+References: <20220707153952.32264-1-tzimmermann@suse.de>
+ <20220707153952.32264-6-tzimmermann@suse.de>
+ <8ebc1f33-f654-6b93-8a41-1aa66ab1901c@redhat.com>
+In-Reply-To: <8ebc1f33-f654-6b93-8a41-1aa66ab1901c@redhat.com>
+
+--------------hNbxzFAcuD13tZo1nmDXwXye
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-On 2022-07-13 17:24, Sebastian Fricke wrote:
-> Implement the HEVC codec variation for the RkVDEC driver. Currently only
-> the RK3399 is supported, but it is possible to enable the RK3288 as it
-> also supports this codec.
-> 
-> Based on top of the media tree @ef7fcbbb9eabbe86d2287484bf366dd1821cc6b8
-> and the HEVC uABI MR by Benjamin Gaignard.
-> (https://patchwork.linuxtv.org/project/linux-media/list/?series=8360)
-> 
-> Tested with the GStreamer V4L2 HEVC plugin:
-> (https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079)
-> 
-> Current Fluster score:
-> `Ran 131/147 tests successfully               in 278.568 secs`
-> with
-> `python3 fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-HEVC_V1 -j1`
-> 
-> failed conformance tests:
-> - DBLK_D_VIXS_2 (Success on Hantro G2)
-> - DSLICE_A_HHI_5 (Success on Hantro G2)
-> - EXT_A_ericsson_4 (Success on Hantro G2)
-> - PICSIZE_A_Bossen_1 (Hardware limitation)
-> - PICSIZE_B_Bossen_1 (Hardware limitation)
-> - PICSIZE_C_Bossen_1 (Hardware limitation)
-> - PICSIZE_D_Bossen_1 (Hardware limitation)
-> - PPS_A_qualcomm_7 (Success on Hantro G2)
-> - SAODBLK_A_MainConcept_4 (Success on Hantro G2)
-> - SAODBLK_B_MainConcept_4 (Success on Hantro G2)
-> - SLIST_B_Sony_9 (Success on Hantro G2)
-> - SLIST_D_Sony_9 (Success on Hantro G2)
-> - TSUNEQBD_A_MAIN10_Technicolor_2 (Success on Hantro G2)
-> - VPSSPSPPS_A_MainConcept_1 (Success on Hantro G2)
-> - WPP_D_ericsson_MAIN10_2 (Fail on Hantro G2)
-> - WPP_D_ericsson_MAIN_2 (Fail on Hantro G2)
-> 
-> Not tested with FFMpeg so far.
-> 
-> Known issues:
-> - Unable to reliably decode multiple videos concurrently
-> - The SAODBLK_* tests timeout if the timeout time in fluster is lower than 120
-> - Currently the uv_virstride is calculated in a manner that is hardcoded
-> for the two available formats NV12 and NV15. (@config_registers)
-> 
-> Notable design decisions:
-> - I opted for a bitfield to represent the PPS memory blob as it is the
-> perfect tool for that job. It describes the memory layout with any
-> additional required documentation, is easy to read and a native language
-> tool for that job
+SGkNCg0KQW0gMTEuMDcuMjIgdW0gMTM6MDEgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IE9uIDcvNy8yMiAxNzozOSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+
+PiBDb252ZXJ0IGZiZGV2IGRyaXZlcnMgZnJvbSBmYmRldidzIHJlbW92ZV9jb25mbGljdGlu
+Z19mcmFtZWJ1ZmZlcnMoKSB0bw0KPj4gdGhlIGZyYW1ld29yay1pbmRlcGVuZGVudCBhcGVy
+dHVyZV9yZW1vdmVfY29uZmxpY3RpbmdfZGV2aWNlcygpLiBDYWxsaW5nDQo+PiB0aGlzIGZ1
+bmN0aW9uIHdpbGwgYWxzbyByZW1vdmUgY29uZmxpY3RpbmcgRFJNIGRyaXZlcnMuDQo+Pg0K
+Pj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
+ZGU+DQo+PiAtLS0NCj4gDQo+IFsuLi5dDQo+IA0KPj4gICBzdGF0aWMgaW50IGx5bnhmYl9r
+aWNrX291dF9maXJtd2FyZV9mYihzdHJ1Y3QgcGNpX2RldiAqcGRldikNCj4+ICAgew0KPj4g
+LQlzdHJ1Y3QgYXBlcnR1cmVzX3N0cnVjdCAqYXA7DQo+PiArCXJlc291cmNlX3NpemVfdCBi
+YXNlID0gcGNpX3Jlc291cmNlX3N0YXJ0KHBkZXYsIDApOw0KPj4gKwlyZXNvdXJjZV9zaXpl
+X3Qgc2l6ZSA9IHBjaV9yZXNvdXJjZV9sZW4ocGRldiwgMCk7DQo+PiAgIAlib29sIHByaW1h
+cnkgPSBmYWxzZTsNCj4+ICAgDQo+PiAtCWFwID0gYWxsb2NfYXBlcnR1cmVzKDEpOw0KPj4g
+LQlpZiAoIWFwKQ0KPj4gLQkJcmV0dXJuIC1FTk9NRU07DQo+PiAtDQo+PiAtCWFwLT5yYW5n
+ZXNbMF0uYmFzZSA9IHBjaV9yZXNvdXJjZV9zdGFydChwZGV2LCAwKTsNCj4+IC0JYXAtPnJh
+bmdlc1swXS5zaXplID0gcGNpX3Jlc291cmNlX2xlbihwZGV2LCAwKTsNCj4+ICAgI2lmZGVm
+IENPTkZJR19YODYNCj4+ICAgCXByaW1hcnkgPSBwZGV2LT5yZXNvdXJjZVtQQ0lfUk9NX1JF
+U09VUkNFXS5mbGFncyAmDQo+PiAgIAkJCQkJSU9SRVNPVVJDRV9ST01fU0hBRE9XOw0KPj4g
+ICAjZW5kaWYNCj4+IC0JcmVtb3ZlX2NvbmZsaWN0aW5nX2ZyYW1lYnVmZmVycyhhcCwgInNt
+NzUwX2ZiMSIsIHByaW1hcnkpOw0KPj4gLQlrZnJlZShhcCk7DQo+PiAtCXJldHVybiAwOw0K
+Pj4gKw0KPj4gKwlyZXR1cm4gYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX2RldmljZXMo
+YmFzZSwgc2l6ZSwgcHJpbWFyeSwgInNtNzUwX2ZiMSIpOw0KPiANCj4gRG8geW91IGtub3cg
+d2h5IHRoaXMgY2FuJ3QganVzdCB1c2UgYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3Bj
+aV9kZXZpY2VzKCkgPw0KDQpJIHNpbXBseSBkb24ndCB3YW50IGNoYW5nZSB0b28gbXVjaCBh
+dCBvbmNlLCBiZWNhdXNlIHRoZXJlIHdhcyB0aGlzIA0KcHJvYmxlbSB3aXRoIHRoZSBQQ0kg
+aGVscGVyIG9uIGFzdC4NCg0KQXQgc29tZSBwb2ludCB3ZSBjYW4gbWFrZSBhIHB1c2ggdG8g
+cmVhbGx5IGZpeCB0aGlzIHRocm91Z2hvdXQgdGhlIGNvZGUgDQpiYXNlLiBBbmQgdGhhdCB3
+b3VsZCBpbmNsdWRlIGFuIHVwZGF0ZSB0byBmYl9pc19wcmltYXJ5X2RldmljZSgpLCBbMV0g
+DQp3aGljaCBkb2Vzbid0IGZpbGwgd2VsbCBpbnRvIHRoZSBuZXcgaW50ZXJmYWNlcy4NCg0K
+QmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KWzFdIA0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5j
+b20vbGludXgvbGF0ZXN0L3NvdXJjZS9hcmNoL3g4Ni92aWRlby9mYmRldi5jI0wxNA0KDQo+
+IA0KPiBJdCBzZWVtcyB0aGF0IHRoZSBkcml2ZXIgaXMgb3BlbiBjb2RpbmcgcGFydCBvZiB0
+aGUgbG9naWMgYWxyZWFkeSBpbiB0aGF0IGhlbHBlci4NCj4gRm9yIGV4YW1wbGUsIGZpZ3Vy
+aW5nIG91dCBpZiBpcyBhIHByaW1hcnkgYnkgY2hlY2tpbmcgdGhlIElPUkVTT1VSQ0VfUk9N
+X1NIQURPVw0KPiBmbGFnIGluIHRoZSBQQ0lfUk9NX1JFU09VUkNFLg0KPiANCj4gQnV0IGFs
+c28gZ2V0dGluZyB0aGUgYmFzZSBhbmQgc2l6ZSBmb3IgUENJIEJBUiAwLCBzaW5jZSB0aGUg
+bG9vcCBpbiB0aGF0IGhlbHBlcg0KPiB3b3VsZCBhbHJlYWR5IHRha2UgY2FyZSBvZiB0aGF0
+IChpdCBhbHNvIHN0YXJ0cyBhdCBCQVIgMCkuDQo+IA0KPj4gICB9DQo+PiAgIA0KPj4gICBz
+dGF0aWMgaW50IGx5bnhmYl9wY2lfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsDQo+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9hdHkvcmFkZW9uX2Jhc2UuYyBiL2Ry
+aXZlcnMvdmlkZW8vZmJkZXYvYXR5L3JhZGVvbl9iYXNlLmMNCj4+IGluZGV4IGIzMTFjMDdm
+ZTY2ZC4uZTVlMzYyYjhjOWRhIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRl
+di9hdHkvcmFkZW9uX2Jhc2UuYw0KPj4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9hdHkv
+cmFkZW9uX2Jhc2UuYw0KPj4gQEAgLTU0LDYgKzU0LDcgQEANCj4+ICAgDQo+PiAgICNpbmNs
+dWRlICJyYWRlb25mYi5oIg0KPj4gICANCj4+ICsjaW5jbHVkZSA8bGludXgvYXBlcnR1cmUu
+aD4NCj4+ICAgI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0KPj4gICAjaW5jbHVkZSA8bGlu
+dXgvbW9kdWxlcGFyYW0uaD4NCj4+ICAgI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPg0KPj4g
+QEAgLTIyMzksMjAgKzIyNDAsMTAgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBiaW5fYXR0cmli
+dXRlIGVkaWQyX2F0dHIgPSB7DQo+PiAgIA0KPj4gICBzdGF0aWMgaW50IHJhZGVvbl9raWNr
+X291dF9maXJtd2FyZV9mYihzdHJ1Y3QgcGNpX2RldiAqcGRldikNCj4+ICAgew0KPj4gLQlz
+dHJ1Y3QgYXBlcnR1cmVzX3N0cnVjdCAqYXA7DQo+PiArCXJlc291cmNlX3NpemVfdCBiYXNl
+ID0gcGNpX3Jlc291cmNlX3N0YXJ0KHBkZXYsIDApOw0KPj4gKwlyZXNvdXJjZV9zaXplX3Qg
+c2l6ZSA9IHBjaV9yZXNvdXJjZV9sZW4ocGRldiwgMCk7DQo+PiAgIA0KPj4gLQlhcCA9IGFs
+bG9jX2FwZXJ0dXJlcygxKTsNCj4+IC0JaWYgKCFhcCkNCj4+IC0JCXJldHVybiAtRU5PTUVN
+Ow0KPj4gLQ0KPj4gLQlhcC0+cmFuZ2VzWzBdLmJhc2UgPSBwY2lfcmVzb3VyY2Vfc3RhcnQo
+cGRldiwgMCk7DQo+PiAtCWFwLT5yYW5nZXNbMF0uc2l6ZSA9IHBjaV9yZXNvdXJjZV9sZW4o
+cGRldiwgMCk7DQo+PiAtDQo+PiAtCXJlbW92ZV9jb25mbGljdGluZ19mcmFtZWJ1ZmZlcnMo
+YXAsIEtCVUlMRF9NT0ROQU1FLCBmYWxzZSk7DQo+PiAtDQo+PiAtCWtmcmVlKGFwKTsNCj4+
+IC0NCj4+IC0JcmV0dXJuIDA7DQo+PiArCXJldHVybiBhcGVydHVyZV9yZW1vdmVfY29uZmxp
+Y3RpbmdfZGV2aWNlcyhiYXNlLCBzaXplLCBLQlVJTERfTU9ETkFNRSwgZmFsc2UpOw0KPiAN
+Cj4gU2FtZSBmb3IgdGhpcy4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBo
+aWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkg
+R21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2
+ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-Can I point out how terrible an idea this is? The C language gives 
-virtually zero guarantee about how bitfields are actually represented in 
-memory. Platform ABIs (e.g. [1]) might nail things down a bit more, but 
-different platforms are free to make completely different choices so 
-portability still goes out the window. Even for a single platform, 
-different compilers (or at worst even different version of one compiler) 
-can still make incompatible choices e.g. WRT alignment of packed 
-members. Even if you narrow the scope as far as a specific version of 
-AArch64 GCC, I think this is still totally broken for big-endian.
+--------------hNbxzFAcuD13tZo1nmDXwXye--
 
-The fact that you've had to use nonsensical types to trick a compiler 
-into meeting your expectations should already be a clue to how fragile 
-this is in general.
+--------------jRVaGE0pGaoJywHo1QHL3jPM
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> - The RPS memory blob is created using a bitmap implementation, which
-> uses a common Kernel API to avoid reinventing the wheel and to keep the
-> code clean.
+-----BEGIN PGP SIGNATURE-----
 
-Similarly, Linux bitmaps are designed for use as, well, bitmaps. Abusing 
-them as a data interchange format for bit-aligned numerical values is 
-far from "clean" semantically. And I'm pretty sure it's also broken for 
-big-endian.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLRVBIFAwAAAAAACgkQlh/E3EQov+Dk
+bw/9HJUhAVlTXG7NDBPn3sH+uAWHyYYKcYzq/J9PUkATfKAa+goziyeta+me76I2uvWF37eHYPM3
+ZyHxESkIJ8YsNA0eKqJbFhX2DT2XbN7iRVAxmcz7G8kwNcYowEEtueAKqFvOqMn3xrp8kBHsiGuv
+FKoNgDnH8mcbj8H11qxRKzkBPYPwHC45JdRzdb1xxdZidvvekWnIslWdGKTDXVg2Tg+SZ58yZiyM
+MKLXlZeF8oxFLBJ+Tz9jx1t3HLRnpaBpCcxG9vV/kNlBMg3VX/pwMfWYz4bmGulJl6qJu5z8qU7R
+qQIESLSyKeuLHNrjVpnhp6qoW03pn1MwuiyIfQjy5HFioyG5JImod3LaC1li2Vcss3BpyweUWe3e
+LjryYM7ivoGlwCIGUuVY8//pysJcQOFtJZC57c3UklUZEcQpLBhqRoPhUiB+AANvhxdLn24O295D
+o85da3CXCQteQfmHljegsHmwm3RPjEB4p4sLVHLeqRKolPvUY6ia5A7AHuXzqm0FoAZ2qVn+fuoY
+XwOAkO/NlkHSEi8ZA3HFhc3e2lFL7fCGuUm2lfF3RNtv7Ra5s1crMhmGZsUeBuli6elmercL8p4g
+ElA2nGuhgORb+IZcjo43Wqgf0zvCqpH5JSdwrhw3vP6fKWZxuW3P+yBpNa46oUUz2xwDfGCoxK75
+XdY=
+=cyZI
+-----END PGP SIGNATURE-----
 
-This kind of stuff may be standard practice in embedded development 
-where you're targeting a specific MCU with a specific toolchain, but I 
-don't believe it's suitable for upstream Linux. It would take pretty 
-much the same number of lines to use GENMASK definitions and bitfield.h 
-helpers to pack values into words which can then be written to memory in 
-a guaranteed format and endianness (certainly for the PPS; for the RPS 
-it may well end up a bit longer, but would be self-documenting and 
-certainly more readable than those loops). It mostly just means that for 
-any field which crosses a word boundary you'll end up with 2 definitions 
-and 2 assignments, which is hardly a problem (and in some ways more 
-honest about what's actually going on).
-
-Thanks,
-Robin.
-
-[1] 
-https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst#bit-fields
-
-> - I deliberatly opted against the macro solution used in H264, which
-> declares Macros in mid function and declares the fields of the memory
-> blob as macros as well. And I would be glad to refactor the H264 code if
-> desired by the maintainer to use common Kernel APIs and native language
-> elements.
-> - The giant static array of cabac values is moved to a separate c file,
-> I did so because a separate .h file would be incorrect as it doesn't
-> expose anything of any value for any other file than the rkvdec-hevc.c
-> file. Other options were:
->    - Calculating the values instead of storing the results (doesn't seem
->    to be worth it)
->    - Supply them via firmware (Adding firmware makes the whole software
->    way more complicated and the usage of the driver less obvious)
-> 
-> Ignored Checkpatch warnings (as it fits to the current style of the file):
-> ```
-> WARNING: line length of 162 exceeds 100 columns
-> #115: FILE: drivers/media/v4l2-core/v4l2-common.c:265:
-> +               { .format = V4L2_PIX_FMT_NV15,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 5, 0, 0 }, .hdiv = 2, .vdiv = 2,
-> 
-> ERROR: trailing statements should be on next line
-> #128: FILE: drivers/media/v4l2-core/v4l2-ioctl.c:1305:
-> +       case V4L2_PIX_FMT_NV15:         descr = "10-bit Y/CbCr 4:2:0 (Packed)"; break;
-> ```
-> 
-> v4l2-compliance test:
-> ```
-> Total for rkvdec device /dev/video3: 46, Succeeded: 46, Failed: 0, Warnings: 0
-> ```
-> 
-> kselftest module run for the bitmap changes:
-> ```
-> $ sudo insmod /usr/lib/modules/5.19.0-rc3-finalseries/kernel/lib/test_bitmap.ko
-> [   71.751716] test_bitmap: parselist: 14: input is '0-2047:128/256' OK, Time: 1750
-> [   71.751787] test_bitmap: bitmap_print_to_pagebuf: input is '0-32767
-> [   71.751787] ', Time: 6708
-> [   71.760373] test_bitmap: set_value: 6/6 tests correct
-> ```
-> 
-> Jonas Karlman (2):
->    media: v4l2: Add NV15 pixel format
->    media: v4l2-common: Add helpers to calculate bytesperline and
->      sizeimage
-> 
-> Sebastian Fricke (4):
->    bitops: bitmap helper to set variable length values
->    staging: media: rkvdec: Add valid pixel format check
->    staging: media: rkvdec: Enable S_CTRL IOCTL
->    staging: media: rkvdec: Add HEVC backend
-> 
->   .../media/v4l/pixfmt-yuv-planar.rst           |   53 +
->   drivers/media/v4l2-core/v4l2-common.c         |   79 +-
->   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
->   drivers/staging/media/rkvdec/Makefile         |    2 +-
->   drivers/staging/media/rkvdec/TODO             |   22 +-
->   .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1844 +++++++++++++++++
->   drivers/staging/media/rkvdec/rkvdec-hevc.c    |  859 ++++++++
->   drivers/staging/media/rkvdec/rkvdec-regs.h    |    1 +
->   drivers/staging/media/rkvdec/rkvdec.c         |  182 +-
->   drivers/staging/media/rkvdec/rkvdec.h         |    3 +
->   include/linux/bitmap.h                        |   39 +
->   include/uapi/linux/videodev2.h                |    1 +
->   lib/test_bitmap.c                             |   47 +
->   13 files changed, 3066 insertions(+), 67 deletions(-)
->   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
->   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
-> 
+--------------jRVaGE0pGaoJywHo1QHL3jPM--
