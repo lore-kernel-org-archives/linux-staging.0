@@ -1,146 +1,75 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CF517F3
-	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:04:59 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id b133so30758pfb.6
-        for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:04:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C8517F3
+	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:06:35 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id v12so4988835edc.10
+        for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mrpg/XBJmJ+/oHHcv0wYb5WvP4RPml2VeSt1PW2ir9A=;
-        b=eSWaEY3f+1OdlU9shsxVx0eJd6s3PObO8gHUdhe5LS8f940c2AWX88RkvKOE7oH3kL
-         YgbRbk6/NgOed7GPSu0/fc259P0K5pzdA/DwHkLehA1RxIa3vTpPDBtd4Yv3Wm0bsaKl
-         FF40XndHp1Pw+vyBVDq5m17uy1JkqhAn4rXWXdDsCS4yRE4afy9NViORUrmur9F5QN7E
-         FSuPO+WF4pk6J0IqiNxEegSeov2HVPOA3Q7bW9lGjOBQlhawqAi/V19MRkf5kWxR0J7Q
-         +qbGJ9Hh8JidkYTiw5gexzKyKpxjhJhBhMGd1NU5X6VW7zvfe6uD8YR+oMpDsk4kqGZS
-         TG4Q==
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:cc:references:in-reply-to:content-transfer-encoding;
+        bh=NrPyiJ6zYcV53GOx13yfEhBQnfJ0RCuGsOxgnDEHyUw=;
+        b=HKtmmWvzYPan8/QiQi8tWTPbhSZjo7IEdS3mKD+irpEt3Edpn8phLNHMh6Kx+ONqts
+         14jMlVsyLiQR5Afc6yLEpeCO2IsW9Rp9KUj+yVkW8GrGt+pTWl0ltF8XH8mfIuNTKK5z
+         44BoAmCGgdcCbxIG6UFG5Z1lhTEPUUBvgYLx9MWf+AN3+/4N10kEix6Mw4Sfy5m81LCz
+         aDWfY0IHxpttxEaukmLy6Xx/Ohs+mRpOZRbOaeqQO93GsVisncLcdDFvz+UwfzWMH52L
+         cdHxYkt/9RxCb6KhAkPrE4GDxNkBk63mw88w9V27tIQ4nN2/NncqhjCC9sXcXvOWNd8O
+         GeEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mrpg/XBJmJ+/oHHcv0wYb5WvP4RPml2VeSt1PW2ir9A=;
-        b=pJcSqG9nVXgQX7X7opDCmf5QqSqB/Y7A0GClyIhl9P/phjbh/W/Dknl+uFzqHKSykM
-         V1724rz8aCefolOlMRnpAbyypQVZ2Kf+BdOaFd0tVb0OkJ1Fm/W3hW8wP0LvhhD4Re5d
-         gHJRFmM0w/+TkYrNunP4lDXjvcsMTkyxSsxAWWrqJ0dSDtbDk6SU7Irx7jc13CiHAv0r
-         w12mp6tlJMdEsLzTcghmZzHTeYCD6ZH3aOCwOvXxiTvC6TflBauVr+cZa5pi5noU7AT2
-         tIFklKo9HeMpqMvZG2RZDurfEzuI5IObfSXC1XpJ+eZiPzcPyPVaSpPwvwhSDepvKUed
-         XWSA==
-X-Gm-Message-State: AJIora/48D3ArskYtRTTnuxresC6SDlft6WouQESEN6HfmeC5ygXT0zh
-	CxbWKOEdCkeg0/YbMiDXojU=
-X-Google-Smtp-Source: AGRyM1tjJeVzzQccY1rwn9TNJo8Y8S/zWMwQaieNIT6zWqwGdtppVR9GOaAYOzXU8PbxggA4I/ryfg==
-X-Received: by 2002:aa7:9256:0:b0:52a:cbf7:43ea with SMTP id 22-20020aa79256000000b0052acbf743eamr12147695pfp.7.1657865099393;
-        Thu, 14 Jul 2022 23:04:59 -0700 (PDT)
-Received: from cloud-MacBookPro ([2601:646:8201:c2e0:310b:ff49:22f8:d171])
-        by smtp.gmail.com with ESMTPSA id x9-20020a170902b40900b0016a1e2d148csm2535146plr.32.2022.07.14.23.04.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 23:04:58 -0700 (PDT)
-Date: Thu, 14 Jul 2022 23:04:57 -0700
-From: binyi <dantengknight@gmail.com>
-To: Joe Perches <joe@perches.com>, Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: qlge: Fix indentation issue under long for
- loop
-Message-ID: <20220715060457.GA2928@cloud-MacBookPro>
-References: <20220710210418.GA148412@cloud-MacBookPro>
- <20220712134610.GO2338@kadam>
- <1d6fd2b271dfa0514ccb914c032e362bc4f669fa.camel@perches.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=NrPyiJ6zYcV53GOx13yfEhBQnfJ0RCuGsOxgnDEHyUw=;
+        b=eKk6/u40E7cOtlx7Bf5gvFET5Z9EflAvO/U5sxtoLcOUoB6Ocn0jRuhAn4tca9YugI
+         lKsc785aVJWLJpyWIXnF/kYR4mSV9fdyWEGOejxGvPtx4KYSSFeXUyJj4l6FJtuKFGRK
+         NOFJJSTHNmi1zw/Cq2bM9Flmi/DutdjatExkg7rC+3RWHFdLHQSWv8orizxZ5tJwKy9o
+         H/ZbwBdO9a3KvzQlNV950m4h4tebtv4QgpMMFOxiDVffPGo0BhtfJoGa9tYX+McZmTkD
+         RVAd6ykhgkJT2m0X/UQl9kBDOEQlacTKUCsOgxtPLhXerxQurxAfNTeIwTZyodgpRkpF
+         evHQ==
+X-Gm-Message-State: AJIora8n5lRrcYp8KwttQ9B7PGzqQqnKolkxqoeqmpSNcG3hLNXg3jQm
+	U5KoAzFDQE8lfAhDt0wAWeA=
+X-Google-Smtp-Source: AGRyM1vAhXgE641OJlsXfz1E9GgQa/F4HihZk1Y8cyKbou2Kaw1nI4ekXG3WcmeV3M+bu4az0uljcA==
+X-Received: by 2002:a05:6402:3689:b0:43a:7c1c:8960 with SMTP id ej9-20020a056402368900b0043a7c1c8960mr16507423edb.79.1657865194052;
+        Thu, 14 Jul 2022 23:06:34 -0700 (PDT)
+Received: from [192.168.0.253] (ip5f5abb91.dynamic.kabel-deutschland.de. [95.90.187.145])
+        by smtp.gmail.com with ESMTPSA id o1-20020aa7dd41000000b00436f3107bdasm2220934edw.38.2022.07.14.23.06.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jul 2022 23:06:33 -0700 (PDT)
+Message-ID: <772c4b9f-484b-3b05-b130-7069ec39b72c@gmail.com>
+Date: Fri, 15 Jul 2022 08:06:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1d6fd2b271dfa0514ccb914c032e362bc4f669fa.camel@perches.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] staging: r888eu: use dynamic allocation for efuse buffer
+Content-Language: en-US
+From: Michael Straube <straube.linux@gmail.com>
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin
+ <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>
+References: <20220713075804.140986-1-martin@kaiser.cx>
+ <be6d3fd0-566f-00ef-1404-830176d56e98@gmail.com>
+In-Reply-To: <be6d3fd0-566f-00ef-1404-830176d56e98@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 12, 2022 at 07:14:55AM -0700, Joe Perches wrote:
-> On Tue, 2022-07-12 at 16:46 +0300, Dan Carpenter wrote:
-> > On Sun, Jul 10, 2022 at 02:04:18PM -0700, Binyi Han wrote:
-> > > Fix indentation issue to adhere to Linux kernel coding style,
-> > > Issue found by checkpatch. Change the long for loop into 3 lines. And
-> > > optimize by avoiding the multiplication.
-> > 
-> > There is no possible way this optimization helps benchmarks.  Better to
-> > focus on readability.
+
+On 7/15/22 08:02, Michael Straube wrote:
+> Hi Martin,
 > 
-> I think removing the multiply _improves_ readability.
-> 
-> > > diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> []
-> > > @@ -3007,10 +3007,12 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
-> > >  		tmp = (u64)rx_ring->lbq.base_dma;
-> > >  		base_indirect_ptr = rx_ring->lbq.base_indirect;
-> > >  
-> > > -		for (page_entries = 0; page_entries <
-> > > -			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
-> > > -				base_indirect_ptr[page_entries] =
-> > > -					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
-> > > +		for (page_entries = 0;
-> > > +		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
-> > > +		     page_entries++) {
-> > > +			base_indirect_ptr[page_entries] = cpu_to_le64(tmp);
-> > > +			tmp += DB_PAGE_SIZE;
-> > 
-> > I've previously said that using "int i;" is clearer here.  You would
-> > kind of expect "page_entries" to be the number of entries, so it's kind
-> > of misleading.  In other words, it's not just harmless wordiness and
-> > needless exposition, it's actively bad.
-> 
-> Likely true.
+> just a typo in the subject line: r888eu
 > 
 
-I agree it could be misleading. But if "page_entries" is in the for loop I
-would assume it's some kind of index variable, and still it provides some
-information (page entry) for the index, probably page_entry_idx could be
-better name but still makes the for loop a very long one. I guess I would
-leave it be.
+Sorry, I did not notice that this patch is already applied.
+So nevermind ...
 
-> > I would probably just put it on one line:
-> > 
-> > 		for (i = 0; i MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); i++)
-> > 			base_indirect_ptr[i] = cpu_to_le64(tmp + (i * DB_PAGE_SIZE));
-> > 
-> > But if you want to break it up you could do:
-> > 
-> > 		for (i = 0; i MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); i++)
-> > 			base_indirect_ptr[i] = cpu_to_le64(tmp +
-> > 							   (i * DB_PAGE_SIZE));
-> > 
-> > "tmp" is kind of a bad name.  Also "base_indirect_ptr" would be better
-> > as "base_indirect".
-> 
-> tmp is a poor name here.  Maybe dma would be better.
-> 
-
-Yeah, I think so.
-
-> MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN) is also a poorly named macro
-> where all the existing uses are QLGE_BQ_LEN.
-> 
-> And there's base_indirect_ptr and base_indirect_dma in the struct
-> so just base_indirect might not be the best.
-> 
-> 		tmp = (u64)rx_ring->lbq.base_dma;
-> 		base_indirect_ptr = rx_ring->lbq.base_indirect;
-> 
-> And clarity is good.
-> Though here, clarity to value for effort though is dubious.
-> 
-> btw: this code got moved to staging 3 years ago.
-> 
-> Maybe it's getting closer to removal time.
-> 
-
-That sounds sad.
-
-Thank you for reviewing!
-
-Best,
-Binyi
+Michael
