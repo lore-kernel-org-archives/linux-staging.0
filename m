@@ -1,39 +1,39 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BD820E2
-	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:29:18 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id m16so5033096edb.11
-        for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:29:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912CC20E3
+	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:29:19 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id os14so7281730ejb.4
+        for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2O/uYRshHQMHbYI/vornb8qnNhKEQ6GUPb1j3U9RmRc=;
-        b=JqtQ96+vZsYrvnsILvvlOXUm1ha7+djdjKnUrDYm5ik2k+DyTbB4ZF1DSeeiaMx92f
-         Ly9KrVsxE/ZRY8D17j3CRUmS5Hk0XpgqkHTVi1OyNh/yrhotEq88m1YKNyoApbFgbHMQ
-         a7q/VUgrn3tUxVAhnlJ+Pk5ECgf6WrM8APoJHAHMVFgqQVRWDBn0y6QspKTKEd6UFldm
-         oQ8drVOD2YmDfA56YwdOtMtue2DrkHC/uQpWNJ3qS5GwV8ynBxmQo6+jXn5SxYSe/EH9
-         aBn+eXcmaIOwNngZxBtatrD+ch3WNKi4sSsNmRULM/EbeYBTox5rV9TNjGr1ESAOmLxU
-         Ee1Q==
+        bh=Y4Hu8b7EBTiadfTtEnPvDOCRgZybaDcXil1RG7XF6OY=;
+        b=ONow5fB2vcsaJp8j56tTryta/5uItziKuyvgkpSP7ESV9V5gN69EpFc6y0R6Er88bP
+         LMbXNPuCnyX279o8C1WioWbl9tgatsaTzDouH0B0dD+HCxiF+NsOvNCyJNfklvnTF77I
+         qtN3zDrdc8FdkjqLAICOKPF7Q6E61ULFCl3KkA4XO7HjP/KfOkp6PW4VBOPHKtG/xwrl
+         GG2rQt/7+FwtbX819GYEM/fK9nzkaNBklNj1Hpq5+UB+AKQn1v2epKUIWBiRGgBgvuk+
+         EWvFVEfKEwGEOvtUmhGlqaZKhOmPVRl2IwAIvMq8nrXMvk4Qo+CAmRPy0VQ/RH460pOC
+         SjMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2O/uYRshHQMHbYI/vornb8qnNhKEQ6GUPb1j3U9RmRc=;
-        b=2kErekWU9U7pIjft6L3LAPEJFyo6Avi/sb3suf2POU29FVb3PlOPjGq9FipiiNO2/o
-         An8yPD3PKsshdDFVr+rwv2v4CQ5Gv9E6OC3dL2nrzI0t4Hym9f9Qn+NZHWW6gDOxjMkE
-         fdNfFbsDqomsiAMZQ+6PGwssrVcuJz29eVJCJn3w3IcsyW8ngYK6ry7GN3yJ02vkRMpX
-         JjkZ8B2YTxuhIM7hIiLZ+mYej04ze3knF3Y2QUUHPJ2AlZ0ILoyyj08YF2EIZZGj5OxT
-         8BnD5azBpqYe4vh6ANHLfPRouRrLHUewJDQ7WEhZ/B6pgwwpq/pKoDYXOO9y30K6XxB1
-         mGkA==
-X-Gm-Message-State: AJIora960Wd10KPARlaoq5pRM0h7NQNMObw95gmgT2OpaXiP3SS6ZsVM
-	/0YOwNDiXuLu9odyPNZ57ns=
-X-Google-Smtp-Source: AGRyM1vL189/RM+6v4C21HG4ijWVy7NJ/WsAgm4+y1rD46JsLNH2Iqax5L0J8Q0UXPXR9bIYg4J50g==
-X-Received: by 2002:aa7:c650:0:b0:43a:2c9a:fd1f with SMTP id z16-20020aa7c650000000b0043a2c9afd1fmr16814000edr.318.1657866557369;
+        bh=Y4Hu8b7EBTiadfTtEnPvDOCRgZybaDcXil1RG7XF6OY=;
+        b=6IYub8P0ZcqttfNxjzGLfBFhbB142I1OjM2L3t6qGwt1USMR6nVeHpEQreXmZ853l9
+         h2nY67P+/YNosA+0Wr1DUGIRgYCdqi8Zm5TObEAvuvE72LgJG16KiezV2u76s3kwbDoy
+         J2BDBFiET0uFkBTTzu+0OgG6JOJRMUg7OYPsD5piTOnOsXCc9qOhy9vJOVasmY7lRtwB
+         73kGVI9zoJ9ljtyoApsC86tvKV/GyAPPLHsDdWGY2QyiYXCqAhbQOrA7BqYnBXIaGWZG
+         D+YpXwvVTBLg7QyG8E6OWcteVUW+tYP6FL8qz6pRhaOk2eY8/xn7A5UngAXktfoE5Y70
+         4QYg==
+X-Gm-Message-State: AJIora9ttm+xlKTqz/qZhHobomhnezVIxxr/sQcfodU++dWpPC2gT4+p
+	qMpw3nyfMdqgyT65uySRPiE=
+X-Google-Smtp-Source: AGRyM1vYPpY44y0QXNnch/6A5ygtFGZWhFnKkKfdA59ZFQ5aTgOGP2+Rq8XUE4wa0aZ8Zwwh/yFTyw==
+X-Received: by 2002:a17:907:9613:b0:72b:68df:8ada with SMTP id gb19-20020a170907961300b0072b68df8adamr12582278ejc.31.1657866557937;
         Thu, 14 Jul 2022 23:29:17 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb91.dynamic.kabel-deutschland.de. [95.90.187.145])
-        by smtp.gmail.com with ESMTPSA id ku5-20020a170907788500b007262a5e2204sm1614515ejc.153.2022.07.14.23.29.16
+        by smtp.gmail.com with ESMTPSA id ku5-20020a170907788500b007262a5e2204sm1614515ejc.153.2022.07.14.23.29.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 14 Jul 2022 23:29:17 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/5] staging: r8188eu: remove unused parameter from update_TSF()
-Date: Fri, 15 Jul 2022 08:29:06 +0200
-Message-Id: <20220715062908.8547-4-straube.linux@gmail.com>
+Subject: [PATCH 4/5] staging: r8188eu: make update_TSF() and correct_TSF() static
+Date: Fri, 15 Jul 2022 08:29:07 +0200
+Message-Id: <20220715062908.8547-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220715062908.8547-1-straube.linux@gmail.com>
 References: <20220715062908.8547-1-straube.linux@gmail.com>
@@ -57,63 +57,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The parameter 'len' of update_TSF() is unused. Remove it.
+The functions update_TSF() and correct_TSF() are only used in
+rtw_mlme_ext.c. Make them static.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 4 ++--
- drivers/staging/r8188eu/core/rtw_wlan_util.c   | 2 +-
- drivers/staging/r8188eu/include/rtw_mlme_ext.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 20 +++++++++++++++++++
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 20 -------------------
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  3 ---
+ 3 files changed, 20 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 985cb3b4ba30..c23be5d9eaaf 100644
+index c23be5d9eaaf..7b69d9ad75e9 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -582,7 +582,7 @@ unsigned int OnBeacon(struct adapter *padapter, struct recv_frame *precv_frame)
- 			pmlmeinfo->assoc_AP_vendor = check_assoc_AP(pframe + sizeof(struct ieee80211_hdr_3addr), len - sizeof(struct ieee80211_hdr_3addr));
- 
- 			/* update TSF Value */
--			update_TSF(pmlmeext, pframe, len);
-+			update_TSF(pmlmeext, pframe);
- 
- 			/* start auth */
- 			start_clnt_auth(padapter);
-@@ -625,7 +625,7 @@ unsigned int OnBeacon(struct adapter *padapter, struct recv_frame *precv_frame)
- 				}
- 
- 				/* update TSF Value */
--				update_TSF(pmlmeext, pframe, len);
-+				update_TSF(pmlmeext, pframe);
- 
- 				/* report sta add event */
- 				report_add_sta_event(padapter, GetAddr2Ptr(pframe), cam_idx);
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index 7b705e2ea04a..9e920a320d71 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -1571,7 +1571,7 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
+@@ -428,6 +428,26 @@ static u32 p2p_listen_state_process(struct adapter *padapter, unsigned char *da)
  	return _SUCCESS;
  }
  
--void update_TSF(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
-+void update_TSF(struct mlme_ext_priv *pmlmeext, u8 *pframe)
++static void update_TSF(struct mlme_ext_priv *pmlmeext, u8 *pframe)
++{
++	u8 *pIE;
++	__le32 *pbuf;
++
++	pIE = pframe + sizeof(struct ieee80211_hdr_3addr);
++	pbuf = (__le32 *)pIE;
++
++	pmlmeext->TSFValue = le32_to_cpu(*(pbuf + 1));
++
++	pmlmeext->TSFValue = pmlmeext->TSFValue << 32;
++
++	pmlmeext->TSFValue |= le32_to_cpu(*pbuf);
++}
++
++static void correct_TSF(struct adapter *padapter)
++{
++	SetHwReg8188EU(padapter, HW_VAR_CORRECT_TSF, NULL);
++}
++
+ /****************************************************************************
+ 
+ Following are the callback functions for each subtype of the management frames
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 9e920a320d71..3a002cb6834f 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -1571,26 +1571,6 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
+ 	return _SUCCESS;
+ }
+ 
+-void update_TSF(struct mlme_ext_priv *pmlmeext, u8 *pframe)
+-{
+-	u8 *pIE;
+-	__le32 *pbuf;
+-
+-	pIE = pframe + sizeof(struct ieee80211_hdr_3addr);
+-	pbuf = (__le32 *)pIE;
+-
+-	pmlmeext->TSFValue = le32_to_cpu(*(pbuf + 1));
+-
+-	pmlmeext->TSFValue = pmlmeext->TSFValue << 32;
+-
+-	pmlmeext->TSFValue |= le32_to_cpu(*pbuf);
+-}
+-
+-void correct_TSF(struct adapter *padapter)
+-{
+-	SetHwReg8188EU(padapter, HW_VAR_CORRECT_TSF, NULL);
+-}
+-
+ void beacon_timing_control(struct adapter *padapter)
  {
- 	u8 *pIE;
- 	__le32 *pbuf;
+ 	SetBeaconRelatedRegisters8188EUsb(padapter);
 diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index 2110affc180f..54384b4c6b1a 100644
+index 54384b4c6b1a..bf952755ba35 100644
 --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
 +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -596,7 +596,7 @@ void addba_timer_hdl(struct sta_info *psta);
+@@ -596,9 +596,6 @@ void addba_timer_hdl(struct sta_info *psta);
  bool cckrates_included(unsigned char *rate, int ratelen);
  bool cckratesonly_included(unsigned char *rate, int ratelen);
  
--void update_TSF(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len);
-+void update_TSF(struct mlme_ext_priv *pmlmeext, u8 *pframe);
- void correct_TSF(struct adapter *padapter);
- 
+-void update_TSF(struct mlme_ext_priv *pmlmeext, u8 *pframe);
+-void correct_TSF(struct adapter *padapter);
+-
  struct cmd_hdl {
+ 	uint	parmsize;
+ 	u8 (*h2cfuns)(struct adapter  *padapter, u8 *pbuf);
 -- 
 2.37.0
 
