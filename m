@@ -1,114 +1,78 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EF317F3
-	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:17:55 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id e16so3827696pfm.11
-        for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:17:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F6E17F3
+	for <linux-staging@lists.linux.dev>; Fri, 15 Jul 2022 06:29:17 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id sz17so7245125ejc.9
+        for <linux-staging@lists.linux.dev>; Thu, 14 Jul 2022 23:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=5MLxTGie+B4QdlEZJxtbc8CtA2pcH2E4OqHrrJEXotI=;
-        b=E9f19W6WnC5o6tUo39/A3LDf0ge61zcqFRst/ixdwUQESK0Kf/5v7f1M0aK6twNDF7
-         HfMWGqil3gsBqmL/cYph1jmoznV1o+eZ+Ypb0oOS+fvhn44oAxJxuW0RgMxb+prc3PjX
-         KcVSrk4QypCpuWy8b1O2Z2N2fCPOXnsYjCSD2K6oZwRSaSLSpP1OrtG5Ik4hkldyTdTn
-         aeDwolSqATu5jzFUNeFQ9anNJa81F4iSxYoOLFP1kWBuyIwUoUmVOaaxyKyXv8+eaKXl
-         57lHL/zPjxLTVDARmFpaShxytqRztVZ9rC/p1HBR8tbtZzMkK2JVYZXK+ld9b+6+ARKo
-         QrlA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gHgYQ57up5w2WHv1hYXHN8IBevAz2rN/LxpGnpqYmU4=;
+        b=JI4Kgbgo0bQEvLMje6miGiraUoMac1F9ZoiQJ+JuxaDGse+xEfEKQC5DwcveHzTwnT
+         oGcnGu9eUy687ISvDbxv5cB67LpDgH2Qg3LtelVfDEFIWMbkpfg40nVgPP+EjSHiqRpF
+         fJH29ek18VNzPmjs2332lWP+IPY3UDd2C9DUpp0s02cy8rNhpVj59Gi7rg1T/l0Wmtl9
+         hxb43UTFeSsOa+11pTOkzZ3VphowX6UvUEpKCJ+YvY07Df5Mvl2UpNUmH/DaeMFzJpAE
+         GTE5pP7+FZAcIfTn/CYqOCuSr729sf9Evt9jHxdIy6D8DoSD8FI/IraOO7xKatADNHx9
+         WDLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=5MLxTGie+B4QdlEZJxtbc8CtA2pcH2E4OqHrrJEXotI=;
-        b=Fjzf9fhLwoS6rKuJ6GPbWHpTSg4J+tTN+Pxq1IjUQoziVyYyov7fzdSTgK9r6XZ2G5
-         QQivZJrlCj8KiGtyl5G5PXPE9KkkZN53HiH7gp0FUS3vWzvuQm5GYMYt3rAN35fk43Gv
-         gJqyU49axDIgTab3mCfDdH8Ss01uXn0b86oxrNl0OPlKb2T3V1v6wY9iI6vAQ7SrazqP
-         62D7L6zrFI76UfuQQxgWExPjixm7XwwXAJjh9vCDT2m5LtUnqIfVZaBPNnkOk5EVaZPA
-         0U/hHKc4ALsJLZi9uWmpkWOM09y8ykXSZ5WEy7eHLR76GHgX8fCRwueaVc9KiNe1ujfJ
-         ewdQ==
-X-Gm-Message-State: AJIora9Lt6Us+s0wNpBNEfWQOuc9vkdQmfxiLRW0O0ezso1udwHrYJq/
-	eR74n9zBcE9DgzTMI3YjXy4=
-X-Google-Smtp-Source: AGRyM1vbxon5umiGZ4oZkOf87BbF91J8zDMFcxF6hZr5E5G93STJ3G4ZdDmaxvWUtSOobzYBNx5BAQ==
-X-Received: by 2002:a63:1a18:0:b0:419:aa0d:4f9c with SMTP id a24-20020a631a18000000b00419aa0d4f9cmr7545826pga.389.1657865874986;
-        Thu, 14 Jul 2022 23:17:54 -0700 (PDT)
-Received: from cloud-MacBookPro ([2601:646:8201:c2e0:310b:ff49:22f8:d171])
-        by smtp.gmail.com with ESMTPSA id 77-20020a621950000000b005289627ae6asm2797161pfz.187.2022.07.14.23.17.54
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gHgYQ57up5w2WHv1hYXHN8IBevAz2rN/LxpGnpqYmU4=;
+        b=4BJGzSMUqKj3bvpYG7IhNXljF2OCCT2gNcSIFzmqVc3i8S0cHCLWVZeOZNF4E8BKDs
+         3YVq36RCONeFMVJ6q0Itmr/uQ8XL860tbHUHek4VPHKEhpjlK+XlZ69V/lEtiOvq1Gxg
+         jfNYCsRsgMbAjtZUwXqc6Z9qIqX+4WK5d2UpnW9ZMhAZaQPR69UHUwcjbGRtiQmM1AgU
+         /4zvmuggnKC9HqBFr8e2HYBILnOIdBjrfyStLpwnDh+i2imn8qKGd9uA814OiEAgNPXD
+         XW0HgYxVxIjSCDCmXHzcwMKskUffZk/vuMFJK+C+iQK1QoCaOqoZsmYlvjEtcYGReWOe
+         XHjQ==
+X-Gm-Message-State: AJIora81WTXe0AuiaxOh8KPEXFU+DxvTqYYFVHZrGu00Iex+Vo011p4b
+	MG2eRe0xWEuzqqagHjt+Fcc=
+X-Google-Smtp-Source: AGRyM1uVsVPDS5mdTshIbzATliAzNcoW6hnqrk/t1m2yBgyfDc8D7QsW90IY2yCwRuxcJbnwwSDqrQ==
+X-Received: by 2002:a17:907:9810:b0:722:f204:b409 with SMTP id ji16-20020a170907981000b00722f204b409mr12069875ejc.457.1657866555422;
+        Thu, 14 Jul 2022 23:29:15 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb91.dynamic.kabel-deutschland.de. [95.90.187.145])
+        by smtp.gmail.com with ESMTPSA id ku5-20020a170907788500b007262a5e2204sm1614515ejc.153.2022.07.14.23.29.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 23:17:54 -0700 (PDT)
-Date: Thu, 14 Jul 2022 23:17:54 -0700
-From: Binyi Han <dantengknight@gmail.com>
-To: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: qlge: refine variable name
-Message-ID: <20220715061754.GA6657@cloud-MacBookPro>
+        Thu, 14 Jul 2022 23:29:15 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: remove SetHwReg8188EU()
+Date: Fri, 15 Jul 2022 08:29:03 +0200
+Message-Id: <20220715062908.8547-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.37.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tmp as a variable name don't have much information, change tmp to dma.
+This series finally removes SetHwReg8188EU().
 
-Signed-off-by: Binyi Han <dantengknight@gmail.com>
----
- drivers/staging/qlge/qlge_main.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Tested on x86_64 with Inter-Tech DMG-02.
 
-diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 4b166c66cfc5..58d1920c4347 100644
---- a/drivers/staging/qlge/qlge_main.c
-+++ b/drivers/staging/qlge/qlge_main.c
-@@ -2955,7 +2955,7 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
- 	void __iomem *doorbell_area =
- 		qdev->doorbell_area + (DB_PAGE_SIZE * (128 + rx_ring->cq_id));
- 	int err = 0;
--	u64 tmp;
-+	u64 dma;
- 	__le64 *base_indirect_ptr;
- 	int page_entries;
- 
-@@ -3004,14 +3004,14 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
- 		FLAGS_LI;		/* Load irq delay values */
- 	if (rx_ring->cq_id < qdev->rss_ring_count) {
- 		cqicb->flags |= FLAGS_LL;	/* Load lbq values */
--		tmp = (u64)rx_ring->lbq.base_dma;
-+		dma = (u64)rx_ring->lbq.base_dma;
- 		base_indirect_ptr = rx_ring->lbq.base_indirect;
- 
- 		for (page_entries = 0;
- 		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
- 		     page_entries++) {
--			base_indirect_ptr[page_entries] = cpu_to_le64(tmp);
--			tmp += DB_PAGE_SIZE;
-+			base_indirect_ptr[page_entries] = cpu_to_le64(dma);
-+			dma += DB_PAGE_SIZE;
- 		}
- 		cqicb->lbq_addr = cpu_to_le64(rx_ring->lbq.base_indirect_dma);
- 		cqicb->lbq_buf_size =
-@@ -3021,14 +3021,14 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
- 		rx_ring->lbq.next_to_clean = 0;
- 
- 		cqicb->flags |= FLAGS_LS;	/* Load sbq values */
--		tmp = (u64)rx_ring->sbq.base_dma;
-+		dma = (u64)rx_ring->sbq.base_dma;
- 		base_indirect_ptr = rx_ring->sbq.base_indirect;
- 
- 		for (page_entries = 0;
- 		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
- 		     page_entries++) {
--			base_indirect_ptr[page_entries] = cpu_to_le64(tmp);
--			tmp += DB_PAGE_SIZE;
-+			base_indirect_ptr[page_entries] = cpu_to_le64(dma);
-+			dma += DB_PAGE_SIZE;
- 		}
- 		cqicb->sbq_addr =
- 			cpu_to_le64(rx_ring->sbq.base_indirect_dma);
+Michael Straube (5):
+  staging: r8188eu: remove HW_VAR_SET_OPMODE from SetHwReg8188EU()
+  staging: r8188eu: remove unused parameter from correct_TSF()
+  staging: r8188eu: remove unused parameter from update_TSF()
+  staging: r8188eu: make update_TSF() and correct_TSF() static
+  staging: r8188eu: remove SetHwReg8188EU()
+
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 163 +++++++++++++++++-
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  |  20 ---
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 152 +---------------
+ drivers/staging/r8188eu/include/hal_intf.h    |   7 -
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |   5 +-
+ 5 files changed, 161 insertions(+), 186 deletions(-)
+
 -- 
-2.25.1
+2.37.0
 
