@@ -1,49 +1,49 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E0C2906
-	for <linux-staging@lists.linux.dev>; Sun, 17 Jul 2022 22:20:29 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id va17so18396354ejb.0
-        for <linux-staging@lists.linux.dev>; Sun, 17 Jul 2022 15:20:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7968A2906
+	for <linux-staging@lists.linux.dev>; Sun, 17 Jul 2022 22:20:33 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id oy13so18291541ejb.1
+        for <linux-staging@lists.linux.dev>; Sun, 17 Jul 2022 15:20:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=OnSb4cWLjt1pnom/8Wk4obyvClEVJICo+D/S3R4PBI4=;
-        b=G3FtfebYwFbuog5iXivUQ61G4ZOlpCRwTGQJbG8p7Op3yRfieh7Csn5gpHNJ8nNw2e
-         OAVyuIeQ1ddoC7cGyxbviPgL87LtvxPN5+ZiLDyflV8mlYtxeT0kVZj0P9vIvN2Nvp3X
-         SWO4XRRbZ/BGWbETa3Z5FC5cGPPBxMVv+Q0RviL7RnJCHVBg+g+WrZBQhc41COjgPcbp
-         6bfiDj1C7SwbuQR9KYIuoaeL7s7rBdYliBbCDPc1lFcuasjxPKGIje5/rTQVCegRmVIV
-         dRBzYkMPmbocw3xCLfkn35kqCWCwJzy8M6b1kEOvtqS0mUge4LVryBxbIA/xoo0gQI98
-         1yTg==
+        bh=72PpzeaJZFk4PpQbNlACBTVQWjfaMdwWFINUxLmL75Y=;
+        b=PpxwV+JtmMmW2wKyhWG92BDNXm/8w5yCz4CrvzNLbtVf2R1MWV87mUGGhT6KebFgGA
+         zFDth2KIpoYgsPMaIx5lulyNBpRkfd7qwVkyQ808B0K5REfps3GBXdXPKJ2FSMI5piIG
+         3iET1LCQ+3r+qxvOaoioPy1T8sIW/4ivf/7EM/hm8vnu6JY3ekogIkEUEB/AHSWmPrvQ
+         fnDKZNQKvgACe3zyOUpAvxe7xPGV7Uk48lFG7JL5yH7e1YXaeQb2wDPnHz5UHAfKfzR3
+         pvvOgWTHh2+R7hbTw0o7hwVFmCE9RV+YuSp6Qs0NHJOjSQrv7IugA8roAKaOOvssw1NV
+         C2sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=OnSb4cWLjt1pnom/8Wk4obyvClEVJICo+D/S3R4PBI4=;
-        b=FNxjs4xyFHzk7k/jvTcEKAoTcV5Ob9lbaoYyuYtD8IiMU8gaDpDgTdEY4mJwZ8H5T2
-         BG21EyL4jShV7KXPgUVYH+e9RuUVBllEtzVB68j+KMF+NdNDtDVwnocOzkG/vabgSJbi
-         523sd2w146ghCLL5/T6LForP+fAyBle0TLvj2icHA+JiieLlCXTIwJ+k0Vsnn6g5w5kU
-         zS8cTCh8cZAeKc0auKZT0m5B1zIBMf8AEIT8OREjvCJovoos1zjnriGz6Nxl+ssoZl7z
-         kGcKnQ+y5stb8UtdqIci2H5Gi8SzTdmO0g1G13nG+sfL4JsHO0++sXZYgnqOReePr2Uz
-         lW9Q==
-X-Gm-Message-State: AJIora+HhcPLsA5+IydMui5sWLb28OsQlWrpDypFr5cU+D39swwKcs/Z
-	w4GwZ5P3dm6uO1m64Y1wOWc=
-X-Google-Smtp-Source: AGRyM1t/ChPmaw/+zDHud+lvcfgi6W8mcKEtpJXF/7FFipoDl0OeyHnCUKiNZxmT/Dg363MAwymUsw==
-X-Received: by 2002:a17:907:60c7:b0:72e:d01f:b884 with SMTP id hv7-20020a17090760c700b0072ed01fb884mr19613051ejc.550.1658096427670;
-        Sun, 17 Jul 2022 15:20:27 -0700 (PDT)
+        bh=72PpzeaJZFk4PpQbNlACBTVQWjfaMdwWFINUxLmL75Y=;
+        b=cSiIH4gAbhg0UVF6VcQqQiSpMU9MjxvS6yjUItwChDJGei3Bm7FwvJ27yFo4WpjO5B
+         U3hESAa6fJBUEjvo3c/fI77itcoRpb1NnoaQIJPjGTfr53fW1WICZL3+u8lkhDp+mNj9
+         GiL8/hJPanZ3E/Pm0fyOEgRmYRL+5r8/A0grUWXNFbFat2fypaDZrQ0RSYzNVKh7PAEz
+         Qg8iwYxFZ6e2gzB0UV6rlAsgln/lJlxe0zqL8Ep1UGNtGGKPR6vtkQGXEoOvyk8dhV7D
+         j8pT40flQmEc4LxAnoRlKY/MueJ6RxhvwtOUrYZJGPxIRiM00muUci4RAefsF2A9Pc+u
+         hLMQ==
+X-Gm-Message-State: AJIora+5r7TuUXD2Js63Z/Tgw8eCoXLoDG0fHFYekFuNtlUsNQCE+vnj
+	GAhhj+oBCSm4jyHu9QJzvSw=
+X-Google-Smtp-Source: AGRyM1ulMDk311mJBEF/FWugiQ9TEy8LgpVIAZ+kowZ3keb6STiQARZyJ7+QQCUf8k4/Ys7OKFSEoQ==
+X-Received: by 2002:a17:907:9627:b0:72b:6d22:4334 with SMTP id gb39-20020a170907962700b0072b6d224334mr22866780ejc.506.1658096431794;
+        Sun, 17 Jul 2022 15:20:31 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id l10-20020a1709060cca00b0070b7875aa6asm4715913ejh.166.2022.07.17.15.20.26
+        by smtp.gmail.com with ESMTPSA id l12-20020a056402028c00b004355d27799fsm7327025edv.96.2022.07.17.15.20.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 15:20:27 -0700 (PDT)
-Date: Mon, 18 Jul 2022 00:20:25 +0200
+        Sun, 17 Jul 2022 15:20:31 -0700 (PDT)
+Date: Mon, 18 Jul 2022 00:20:29 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] staging: vt6655: Replace MACvReceive1 with function
+Subject: [PATCH 6/7] staging: vt6655: Replace MACvTransmit0 with function
  vt6655_mac_dma_ctl
-Message-ID: <c433e54f0fae051fc8ba9050aa094d6f7141e8d4.1658094708.git.philipp.g.hortmann@gmail.com>
+Message-ID: <5d1723b082b7f2583dfa9e1590178380752cf647.1658094708.git.philipp.g.hortmann@gmail.com>
 References: <cover.1658094708.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,51 +59,42 @@ checkpatch.pl does not accept multiline macros.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/vt6655/device_main.c |  4 ++--
+ drivers/staging/vt6655/device_main.c |  2 +-
  drivers/staging/vt6655/mac.h         | 10 ----------
- 2 files changed, 2 insertions(+), 12 deletions(-)
+ 2 files changed, 1 insertion(+), 11 deletions(-)
 
 diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 31e0e55b9220..01ce1c90ab09 100644
+index 01ce1c90ab09..898e06958203 100644
 --- a/drivers/staging/vt6655/device_main.c
 +++ b/drivers/staging/vt6655/device_main.c
-@@ -434,7 +434,7 @@ static void device_init_registers(struct vnt_private *priv)
+@@ -1233,7 +1233,7 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
+ 	if (head_td->td_info->flags & TD_FLAGS_NETIF_SKB)
+ 		MACvTransmitAC0(priv->port_offset);
+ 	else
+-		MACvTransmit0(priv->port_offset);
++		vt6655_mac_dma_ctl(priv->port_offset, MAC_REG_TXDMACTL0);
  
- 	/* Turn On Rx DMA */
- 	vt6655_mac_dma_ctl(priv->port_offset, MAC_REG_RXDMACTL0);
--	MACvReceive1(priv->port_offset);
-+	vt6655_mac_dma_ctl(priv->port_offset, MAC_REG_RXDMACTL1);
+ 	priv->iTDUsed[dma_idx]++;
  
- 	/* start the adapter */
- 	iowrite8(HOSTCR_MACEN | HOSTCR_RXON | HOSTCR_TXON, priv->port_offset + MAC_REG_HOSTCR);
-@@ -1149,7 +1149,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
- 		isr = ioread32(priv->port_offset + MAC_REG_ISR);
- 
- 		vt6655_mac_dma_ctl(priv->port_offset, MAC_REG_RXDMACTL0);
--		MACvReceive1(priv->port_offset);
-+		vt6655_mac_dma_ctl(priv->port_offset, MAC_REG_RXDMACTL1);
- 
- 		if (max_count > priv->opts.int_works)
- 			break;
 diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 5747de436911..129a6602f6f0 100644
+index 129a6602f6f0..1e57663ff066 100644
 --- a/drivers/staging/vt6655/mac.h
 +++ b/drivers/staging/vt6655/mac.h
 @@ -537,16 +537,6 @@
  
  /*---------------------  Export Macros ------------------------------*/
  
--#define MACvReceive1(iobase)						\
+-#define MACvTransmit0(iobase)						\
 -do {									\
 -	unsigned long reg_value;					\
--	reg_value = ioread32(iobase + MAC_REG_RXDMACTL1);		\
+-	reg_value = ioread32(iobase + MAC_REG_TXDMACTL0);		\
 -	if (reg_value & DMACTL_RUN)					\
--		iowrite32(DMACTL_WAKE, iobase + MAC_REG_RXDMACTL1);	\
+-		iowrite32(DMACTL_WAKE, iobase + MAC_REG_TXDMACTL0);	\
 -	else								\
--		iowrite32(DMACTL_RUN, iobase + MAC_REG_RXDMACTL1);	\
+-		iowrite32(DMACTL_RUN, iobase + MAC_REG_TXDMACTL0);	\
 -} while (0)
 -
- #define MACvTransmit0(iobase)						\
+ #define MACvTransmitAC0(iobase)					\
  do {									\
  	unsigned long reg_value;					\
 -- 
