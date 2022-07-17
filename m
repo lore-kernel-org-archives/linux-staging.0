@@ -1,44 +1,55 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB77620
-	for <linux-staging@lists.linux.dev>; Sun, 17 Jul 2022 08:50:19 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 126981B00101;
-	Sun, 17 Jul 2022 11:42:04 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1658047324;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ljpNRllBYzcmautrfzTavCMGgs6vk6O9O+uG2n9i8/M=;
-	b=tBhMwHrPAR5xJYtlfw1Phj1uKwG96fw8sI6k+KHevOEihOvXNaKXJHsUgPTj7UBAFobY2R
-	PhMsKwQovJsV35JSMjzi6g3KN94oMruxkDyttalrbzVx5jAs7YLT7sdJgFWxgXEvsYP1LU
-	359zS+NBZmtarizIGM6ozpJ1aycODmOmuQXsBdSY2esxFQu6iWtJu/dP4dDbV3Q60CKjSb
-	RMW7gEcEaXCmoaZGW1xDHWXF89mik85VejoHyhLF0MBmIEf08cTlekN+FWYa7kY0UouuRR
-	OvhOpmUYybg5mYnqh5B3jdyRODkChSRIzGHDv1ZrwhMFYWbjcN3fTeUe05f/Kw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AB051634D5F;
-	Sun, 17 Jul 2022 11:42:03 +0300 (EEST)
-Date: Sun, 17 Jul 2022 11:42:03 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/1] media: atomisp_gmin_platform: Switch to use
- acpi_evaluate_dsm_typed()
-Message-ID: <YtPLW+utY/XuCnbl@valkosipuli.retiisi.eu>
-References: <20220715160641.73526-1-andriy.shevchenko@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141D180F;
+	Sun, 17 Jul 2022 11:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658057832; x=1689593832;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X6aY0q+5aDpSXPBzmndb3qPcsEz32yV4MXOhg75mJSM=;
+  b=Fw2UrD+/3u8XtuE3ge1PRaXeZiKN2ZQaoRyCqdYdrtYo3EJgW8DEQTGY
+   kcOILwiUi4f1SNcYvFEd/v4vmha4/SBBBtOlYaz9n3OgtSfHwZY2Wv6DD
+   mtSRz9tBzP0fJYlgXcUWz0kpMNchKs7fCYQLjg87C1scnMl7zs9ZD5dMT
+   q5XgsJfWpD7AdCxDiCYRwGlV/OOJZROoRH9yBzMqTqX0ANVRO/zqwQA8k
+   tldVg3IsxDby/6o1ZVI6uXm60gnibmar2nCwb2BEX5fySIw4CJGrbwP+F
+   AFswGWVcmC+YnMgAjeksymv4VcdIcBhByKKbFYmU58TYLgPZS0xQ2ZNOg
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="283617026"
+X-IronPort-AV: E=Sophos;i="5.92,279,1650956400"; 
+   d="scan'208";a="283617026"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 04:37:11 -0700
+X-IronPort-AV: E=Sophos;i="5.92,279,1650956400"; 
+   d="scan'208";a="739155206"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 04:37:07 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 16DCD20521;
+	Sun, 17 Jul 2022 14:37:05 +0300 (EEST)
+Date: Sun, 17 Jul 2022 11:37:05 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v5 1/6] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YtP0YfPteyzsBWn3@paasikivi.fi.intel.com>
+References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
+ <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,73 +58,128 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220715160641.73526-1-andriy.shevchenko@linux.intel.com>
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1658047324; a=rsa-sha256;
-	cv=none;
-	b=LQrKe+1OIBdSoYRLtLmtaGPw6dALDUXYan0o/OmwNHrpH+Q7FKzLDcjzxVRo3qjPA03L+f
-	HmXRQYt2/UAfl/FxoEBuap+fJx//FTaW1Gngd/7O4iIbm6umDFB2BSZFGJH0oyTl2adYKx
-	wAgu3XoQpxtesbt6WjiXdvoyv8l/f8I/pM2gNludkzlMxHnzgdYdgyWP61pwyhLDmSrgza
-	hlrISc+G2kKeRVwMTva4ntuUaPkoCC5B5LISn5bvTWKmdAXRW6Mu/eONUP3RU72B8tN8Y3
-	gWv5gM+06qzQIWMjo44TOM2OyleIRijVhmEIQNwyMqHSWOg59TbLPD/hUfy5gg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1658047324;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ljpNRllBYzcmautrfzTavCMGgs6vk6O9O+uG2n9i8/M=;
-	b=IA3BDP1+vwx8bP7hFa6ZzNPhkuD1bgimg8IGdRrBAsxk17akX3XbZHhPOUv81CpTosav2s
-	3Xe3BZVGywB6lOkpfpcZ5mVLtbZKTQ4mzDGQxVrv5kVQMlChOU9EOE1A2RY/xuWMZgOkm1
-	1kk/Q4ESM/lOUshMr9Vzh9zBiMzybVpW6msqyHV0/qX6db71ruztbs4t1NQiiqA10KfdFZ
-	Yr5oP737kGZwhg0tprX0+x4osxvTROPeChoHRIF88PCyTBeVRl5nTxkaA0wNPA1yeweEcW
-	Xm8Tdt8unsN7oF5VMSaUMeBBmWV3N6Pqi5vpgbG/naexmM1RSebY8+wwryMy2g==
+In-Reply-To: <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
 
-Hi Andy,
+Hi Paul,
 
-On Fri, Jul 15, 2022 at 07:06:41PM +0300, Andy Shevchenko wrote:
-> The acpi_evaluate_dsm_typed() provides a way to check the type of the
-> object evaluated by _DSM call. Use it instead of open coded variant.
+On Mon, Jul 04, 2022 at 07:35:18PM +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> index bf527b366ab3..d4cfda07f7fb 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> @@ -1207,16 +1207,13 @@ static int gmin_get_config_dsm_var(struct device *dev,
->  	if (!strcmp(var, "CamClk"))
->  		return -EINVAL;
->  
-> -	obj = acpi_evaluate_dsm(handle, &atomisp_dsm_guid, 0, 0, NULL);
-> +	/* Return on unexpected object type */
-> +	obj = acpi_evaluate_dsm_typed(handle, &atomisp_dsm_guid, 0, 0, NULL, ACPI_TYPE_PACKAGE);
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> new file mode 100644
+> index 000000000000..2fda6e05e16c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> +
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun6i-a31-isp
+> +      - allwinner,sun8i-v3s-isp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +      - description: DRAM Clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: ram
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: CSI0 input port
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: CSI1 input port
 
-Can you please run:
+Do both support a single PHY with a single data only? If multiple data lanes
+are supported, please require data-lanes property (on endpoint).
 
-	$ ./scripts/checkpatch.pl --strict --max-line-length=80
-
-I.e. the preferred line length is 80 or less, unless there are other
-reasons to keep it longer.
-
->  	if (!obj) {
->  		dev_info_once(dev, "Didn't find ACPI _DSM table.\n");
->  		return -EINVAL;
->  	}
->  
-> -	/* Return on unexpected object type */
-> -	if (obj->type != ACPI_TYPE_PACKAGE)
-> -		return -EINVAL;
-> -
->  #if 0 /* Just for debugging purposes */
->  	for (i = 0; i < obj->package.count; i++) {
->  		union acpi_object *cur = &obj->package.elements[i];
+> +
+> +    anyOf:
+> +      - required:
+> +          - port@0
+> +      - required:
+> +          - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +
+> +    isp: isp@1cb8000 {
+> +        compatible = "allwinner,sun8i-v3s-isp";
+> +        reg = <0x01cb8000 0x1000>;
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +             <&ccu CLK_CSI1_SCLK>,
+> +             <&ccu CLK_DRAM_CSI>;
+> +        clock-names = "bus", "mod", "ram";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                isp_in_csi0: endpoint {
+> +                    remote-endpoint = <&csi0_out_isp>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
 -- 
-Kind regards,
-
 Sakari Ailus
