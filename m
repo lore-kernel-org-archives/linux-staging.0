@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53C4EA6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D05A28;
 	Mon, 18 Jul 2022 08:40:01 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:4754:89ee:32c6:e620])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id F1D786601A1B;
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 441056601A12;
 	Mon, 18 Jul 2022 09:39:53 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1658133594;
-	bh=p1IL0WApAId0OF2roNkCC1LN0QMRN6h/Fzya6tDqTJk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bNTMEP3NGof4m/05T5ErKNB6zBdxk7o8uu7EzV6O+TXcJGGOesbsBZ5IBBI3S/H4C
-	 rY/8idtsmPNdCQVneBfN5sHPBtnMjGW0ysZ7kb0nS9bC845it6XZCjhFveSGrBEDNp
-	 S7MFX2hpW7ehPKoOekzqM9ZXqswy6GmJ04mHBuaEsjCLYebLrfRM9+7UtJneXQxdFx
-	 R9+EymURvZCcOeYMz7zekaI+LIoawhphJnG6Z1HNdrnQFlJ3ysdoMlZi44ufLC2CDC
-	 azATiv/epXe/Ts/MlexbOKpkAbZa5sCW1pj0m482/zO65RhBZLY1SCfaiYj5E7qrHg
-	 NthFthxzUvSeQ==
+	s=mail; t=1658133593;
+	bh=VGO6bJB0It56njxoW1ZluHISXuIAwk0hlWOpYr3qvh0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=izorKfV6D59nkihSVVKwQzSDN6Be6j30U2dXb1Obk6eo/wo2kD4uc10x9gpPwKBez
+	 LCuYFa3wmKb1txsaIlMzbu9X3P9OY7ldwE9iQVKcchwLub1flI/Al8DY6J2Wrg+Us6
+	 +dQUhW1zx0fLkn6aDgZ5mr382mVn1Xgi5nfywkJbjYPa0rAnxsbZ+aaZRkrlAPeAeD
+	 oZn3P0PbCbYtXQAjp78j3SZx/b+XceGR9DHogelEN05zCeKLFPjJmhALUHUVRcCgP7
+	 kX+uzdMm4NyQcA1xnayA5AM/u8WgZHUBN2XCWDrYUm/QhPdNYe+s8KMv8hPa38TPyQ
+	 4OLYDHIsr+zyg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -41,12 +41,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 1/7] media: hantro: Store HEVC bit depth in context
-Date: Mon, 18 Jul 2022 10:39:39 +0200
-Message-Id: <20220718083945.200845-2-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 0/7]  Enable 10bits bitstream for Hantro/G2 HEVC codec
+Date: Mon, 18 Jul 2022 10:39:38 +0200
+Message-Id: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
-References: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,27 +53,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Store HEVC bit depth in context.
-Bit depth is equal to hevc sps bit_depth_luma_minus8 + 8.
+Since v1 Jernej patches to support 10 bits decoding have been merged.
+This v2 rebase the previously send patches and add Ezequiel reviewed-by
+tag.
+This series add 10bits support for newer hardware blocks (i.e without
+legacy regs) and for HEVC codec.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/staging/media/hantro/hantro_hevc.c | 2 ++
- 1 file changed, 2 insertions(+)
+It based tested on IMX8MQ with HEVC conformance tests.
+The results are that all 10bits bitstreams are OK.
 
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index 5984c5fa6f83..dcb5c8703b6e 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -163,6 +163,8 @@ int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc
- 		/* Only 8-bit is supported */
- 		return -EINVAL;
- 
-+	ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
-+
- 	/*
- 	 * for tile pixel format check if the width and height match
- 	 * hardware constraints
+The problematic point raise by this series is the question of where 
+to put HEVC validation function. Does it have to be only hantro_try_ctrl()
+or shall it be done also in .run().
+This series doesn't change that behavoir so I will argue in farvor to
+merge it and to work on this validation time problem when unstaging 
+the driver.
+Hans, Ezequiel may that sound acceptable for you ? 
+
+Regards,
+Benjamin
+
+Benjamin Gaignard (7):
+  media: hantro: Store HEVC bit depth in context
+  media: hantro: HEVC: Fix auxilary buffer size calculation
+  media: hantro: HEVC: Fix chroma offset computation
+  media: hantro: postproc: Configure output regs to support 10bit
+  media: Hantro: HEVC: Allows 10-bit bitstream
+  media: hantro: imx8m: Enable 10bit decoding
+  media: hantro: Allows luma and chroma depth to be different
+
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  4 +--
+ drivers/staging/media/hantro/hantro_hevc.c    | 13 +++++----
+ .../staging/media/hantro/hantro_postproc.c    |  7 ++++-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 27 +++++++++++++++++++
+ 4 files changed, 40 insertions(+), 11 deletions(-)
+
 -- 
 2.32.0
 
