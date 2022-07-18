@@ -1,87 +1,209 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1660EBD;
-	Mon, 18 Jul 2022 08:40:04 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:4754:89ee:32c6:e620])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 13B6A6601A63;
-	Mon, 18 Jul 2022 09:39:58 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1658133598;
-	bh=ZRxJT5OR9oDych6+2qH0vxPCcILDhySxzLTelLRoAwU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zll13bFJCLG7pIqNCqZHOlUpBI1QHuA6xg6tkdZ0D9nzMC20aEf01juzLIGaea7f2
-	 4dcPf9gc2T+P3owNTXfuJlMI6Jb0CN0V4oLGMZIZSYeCos6K9iJR/el5fbdxIzbIS2
-	 T2+XkSxLPGbe8x2a1679XwOq3lv9wDmqcoUQK/IjI02iPXsVNXUlAn2PKF72Z8e24t
-	 y1TYWIrNBdI2/2IZWmPC4UKSjqpsJ3RpoR+BXdmJ/DfXxnYigZkLYKBHOh4z80G5KO
-	 uvJxbmtNJPo6mye9X5l0oQlKQNEe4mt6VL9nwzhnU82jbPRFh5puFyhbPF+Hvr2wiu
-	 eWAFa1Swk4tFA==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	nicolas.dufresne@collabora.com,
-	andrzej.p@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 7/7] media: hantro: Allows luma and chroma depth to be different
-Date: Mon, 18 Jul 2022 10:39:45 +0200
-Message-Id: <20220718083945.200845-8-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
-References: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CB6EA6;
+	Mon, 18 Jul 2022 09:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658138304; x=1689674304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=grH6/wPiac37Kup7YPmY7aPnwfH8mf17NyOlSAcmCgY=;
+  b=V4lO7H09qbGRVhgRyauLfdL7xXpFweGtcKbGts3cxxK02FeRXTfZIPaV
+   H0WGEOa66g6XWApOj+eSipQulY+yBqYTCyi46EV7OeFzg9WiNJN7u1bHr
+   MT+lGTQrcr8+XlyOibLuzkxRCzNVBhuji77qbcgIOI+zWnP6qFo6S/JaF
+   kLa8iZuTlsjqwFAWOp0HPprZMyVbh0giDMbtTKsanpWIGW2nxQjACN1OF
+   //Lx0b3FdUuc4YDcGsMQAmYqTl+2Tb0FewhsKl/KhrIQqaMyFnPYIrWFu
+   avufmjLVRclfY2X3myofs/7Fdhnw4L/pafU0xiyETHcMGV94ViGHlVpUP
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="287329364"
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="287329364"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 02:58:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="924283568"
+Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 18 Jul 2022 02:58:09 -0700
+Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1oDNVx-0004FW-7w;
+	Mon, 18 Jul 2022 09:58:09 +0000
+Date: Mon, 18 Jul 2022 17:57:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+	deller@gmx.de, daniel@ffwll.ch, sam@ravnborg.org, maxime@cerno.tech
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 05/11] fbdev: Convert drivers to aperture helpers
+Message-ID: <202207181701.mB5xBuhX-lkp@intel.com>
+References: <20220718072322.8927-6-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220718072322.8927-6-tzimmermann@suse.de>
 
-Luma and chroma depth are set on different hardware registers.
-Even if they aren't identical the bitstream can be compliant
-to HEVC specifications and decoded by the hardware.
+Hi Thomas,
 
-With this patch TSUNEQBD_A_MAIN10_Technicolor_2 conformance test
-is successfully decoded.
+I love your patch! Perhaps something to improve:
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
----
- drivers/staging/media/hantro/hantro_hevc.c | 3 ---
- 1 file changed, 3 deletions(-)
+[auto build test WARNING on ebea934e2651857c9b56cc80bf99460ee18a3592]
 
-diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-index 85688a4df166..26b1329893f7 100644
---- a/drivers/staging/media/hantro/hantro_hevc.c
-+++ b/drivers/staging/media/hantro/hantro_hevc.c
-@@ -156,9 +156,6 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
- 
- int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
- {
--	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
--		/* Luma and chroma bit depth mismatch */
--		return -EINVAL;
- 	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
- 		/* Only 8-bit and 10-bit is supported */
- 		return -EINVAL;
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Maintain-device-ownership-with-aperture-helpers/20220718-152559
+base:   ebea934e2651857c9b56cc80bf99460ee18a3592
+config: x86_64-randconfig-a003 (https://download.01.org/0day-ci/archive/20220718/202207181701.mB5xBuhX-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d74b88c69dc2644bd0dc5d64e2d7413a0d4040e5)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/64ab1ffe4e3accdef429db81ec645a1cbad540df
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Zimmermann/fbdev-Maintain-device-ownership-with-aperture-helpers/20220718-152559
+        git checkout 64ab1ffe4e3accdef429db81ec645a1cbad540df
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/video/fbdev/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/video/fbdev/hyperv_fb.c:1080:26: warning: expression which evaluates to zero treated as a null pointer constant of type 'const char *' [-Wnon-literal-null-conversion]
+                                               KBUILD_MODNAME, false);
+                                                               ^~~~~
+   1 warning generated.
+
+
+vim +1080 drivers/video/fbdev/hyperv_fb.c
+
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09   987  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   988  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   989  /* Get framebuffer memory from Hyper-V video pci space */
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05   990  static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   991  {
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   992  	struct hvfb_par *par = info->par;
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   993  	struct pci_dev *pdev  = NULL;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   994  	void __iomem *fb_virt;
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   995  	int gen2vm = efi_enabled(EFI_BOOT);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09   996  	phys_addr_t paddr;
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   997  	int ret;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   998  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09   999  	info->apertures = alloc_apertures(1);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1000  	if (!info->apertures)
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1001  		return -ENOMEM;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1002  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1003  	if (!gen2vm) {
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1004  		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1005  			PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1006  		if (!pdev) {
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1007  			pr_err("Unable to find PCI Hyper-V video\n");
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1008  			return -ENODEV;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1009  		}
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1010  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1011  		info->apertures->ranges[0].base = pci_resource_start(pdev, 0);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1012  		info->apertures->ranges[0].size = pci_resource_len(pdev, 0);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1013  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1014  		/*
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1015  		 * For Gen 1 VM, we can directly use the contiguous memory
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1016  		 * from VM. If we succeed, deferred IO happens directly
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1017  		 * on this allocated framebuffer memory, avoiding extra
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1018  		 * memory copy.
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1019  		 */
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1020  		paddr = hvfb_get_phymem(hdev, screen_fb_size);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1021  		if (paddr != (phys_addr_t) -1) {
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1022  			par->mmio_pp = paddr;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1023  			par->mmio_vp = par->dio_vp = __va(paddr);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1024  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1025  			info->fix.smem_start = paddr;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1026  			info->fix.smem_len = screen_fb_size;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1027  			info->screen_base = par->mmio_vp;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1028  			info->screen_size = screen_fb_size;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1029  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1030  			par->need_docopy = false;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1031  			goto getmem_done;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1032  		}
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1033  		pr_info("Unable to allocate enough contiguous physical memory on Gen 1 VM. Using MMIO instead.\n");
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1034  	} else {
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1035  		info->apertures->ranges[0].base = screen_info.lfb_base;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1036  		info->apertures->ranges[0].size = screen_info.lfb_size;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1037  	}
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1038  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1039  	/*
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1040  	 * Cannot use the contiguous physical memory.
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1041  	 * Allocate mmio space for framebuffer.
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1042  	 */
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1043  	dio_fb_size =
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1044  		screen_width * screen_height * screen_depth / 8;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1045  
+c4b4d7047f16a8 drivers/video/fbdev/hyperv_fb.c Saurabh Sengar    2022-04-27  1046  	ret = vmbus_allocate_mmio(&par->mem, hdev, 0, -1,
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1047  				  screen_fb_size, 0x100000, true);
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1048  	if (ret != 0) {
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1049  		pr_err("Unable to allocate framebuffer memory\n");
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1050  		goto err1;
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1051  	}
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1052  
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1053  	/*
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1054  	 * Map the VRAM cacheable for performance. This is also required for
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1055  	 * VM Connect to display properly for ARM64 Linux VM, as the host also
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1056  	 * maps the VRAM cacheable.
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1057  	 */
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1058  	fb_virt = ioremap_cache(par->mem->start, screen_fb_size);
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1059  	if (!fb_virt)
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1060  		goto err2;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1061  
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1062  	/* Allocate memory for deferred IO */
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1063  	par->dio_vp = vzalloc(round_up(dio_fb_size, PAGE_SIZE));
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1064  	if (par->dio_vp == NULL)
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1065  		goto err3;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1066  
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1067  	/* Physical address of FB device */
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1068  	par->mmio_pp = par->mem->start;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1069  	/* Virtual address of FB device */
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1070  	par->mmio_vp = (unsigned char *) fb_virt;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1071  
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1072  	info->fix.smem_start = par->mem->start;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1073  	info->fix.smem_len = dio_fb_size;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1074  	info->screen_base = par->dio_vp;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1075  	info->screen_size = dio_fb_size;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1076  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1077  getmem_done:
+64ab1ffe4e3acc drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-07-18  1078  	aperture_remove_conflicting_devices(info->apertures->ranges[0].base,
+64ab1ffe4e3acc drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-07-18  1079  					    info->apertures->ranges[0].size,
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09 @1080  					    KBUILD_MODNAME, false);
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1081  
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1082  	if (gen2vm) {
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1083  		/* framebuffer is reallocated, clear screen_info to avoid misuse from kexec */
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1084  		screen_info.lfb_size = 0;
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1085  		screen_info.lfb_base = 0;
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1086  		screen_info.orig_video_isVGA = 0;
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1087  	} else {
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1088  		pci_dev_put(pdev);
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1089  	}
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1090  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1091  	return 0;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1092  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1093  err3:
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1094  	iounmap(fb_virt);
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1095  err2:
+696ca5e82c057a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2016-04-05  1096  	vmbus_free_mmio(par->mem->start, screen_fb_size);
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1097  	par->mem = NULL;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1098  err1:
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1099  	if (!gen2vm)
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1100  		pci_dev_put(pdev);
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1101  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1102  	return -ENOMEM;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1103  }
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1104  
+
 -- 
-2.32.0
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
