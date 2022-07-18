@@ -1,42 +1,42 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D20EA3
-	for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 07:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DE4EA6
+	for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 07:23:33 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4388620BCD;
-	Mon, 18 Jul 2022 07:23:25 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3E32020BCF;
+	Mon, 18 Jul 2022 07:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1658129005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1658129006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AyRDAHIYVCxK+pONjaATciqFqbXJ1csHVeHyH1nIUIg=;
-	b=RxKgNtVDpREVJPuKpW1IRzcCSmK4gjO8vbipotK9vUmbC7tVmWj5+zMakTBzdTDhb4uwEN
-	A6XxSdNeDqdZUridGaHs3Yg1We20U4+khSfz7cAcMXH94d6PBbONMSBnFws5YEPGuxp6ZP
-	c4wPSMnbDXTWpeRkJuMRzgY4i931gF8=
+	bh=42h/UIObJ9Ayu66FbgApYndLPjIuMAorzolTv7m88Mk=;
+	b=i5oiUoHrc1btfczNi4xxPJTF59a8kcGHmLanNxK1cfVwW9uxg5BIgth/415MgagZn7Jz3K
+	AvSS62kQSR0OI62r1nPJjwHNEBTFiRVJjhLkIiTZvr4KN4cpjeymm0laooe75OfibPL9cj
+	w+xgvNxX2mfDr2WwacBGdh1JYri7vSk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1658129005;
+	s=susede2_ed25519; t=1658129006;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AyRDAHIYVCxK+pONjaATciqFqbXJ1csHVeHyH1nIUIg=;
-	b=jecSKdfBDj4oNjXb17D8ZMQDAqg1xL+t6ggeXz03VdmAdnP4gC12OZtcxJui86CQXrEgIv
-	kaAlJyKxG/3GC3Aw==
+	bh=42h/UIObJ9Ayu66FbgApYndLPjIuMAorzolTv7m88Mk=;
+	b=gtRt8qUI0msuFgWaqMB6FDij2aNb+9oBv2+ts/VBoPO+PL2uKec5iOSjdK5BazUJkpWT1Q
+	FWe1L3I+jOCWWZBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B5EC13A37;
-	Mon, 18 Jul 2022 07:23:25 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1382513AB6;
+	Mon, 18 Jul 2022 07:23:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id GDjSBW0K1WKjcAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 18 Jul 2022 07:23:25 +0000
+	id sJvsA24K1WKjcAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 18 Jul 2022 07:23:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	deller@gmx.de,
@@ -47,9 +47,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 05/11] fbdev: Convert drivers to aperture helpers
-Date: Mon, 18 Jul 2022 09:23:16 +0200
-Message-Id: <20220718072322.8927-6-tzimmermann@suse.de>
+Subject: [PATCH v2 09/11] video/aperture: Remove conflicting VGA devices, if any
+Date: Mon, 18 Jul 2022 09:23:20 +0200
+Message-Id: <20220718072322.8927-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718072322.8927-1-tzimmermann@suse.de>
 References: <20220718072322.8927-1-tzimmermann@suse.de>
@@ -61,115 +61,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert fbdev drivers from fbdev's remove_conflicting_framebuffers() to
-the framework-independent aperture_remove_conflicting_devices(). Calling
-this function will also remove conflicting DRM drivers.
+On the primary graphics adapter, a driver might conflict with a VGA
+driver that controls the VGA framebuffer I/O range. Remove the VGA
+driver from the aperture helpers. Until now, this case has been
+hendled by fbdev, but it should work even with fbdev disabled.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/staging/sm750fb/sm750.c       | 15 +++++----------
- drivers/video/fbdev/aty/radeon_base.c | 17 ++++-------------
- drivers/video/fbdev/hyperv_fb.c       |  6 ++++--
- 3 files changed, 13 insertions(+), 25 deletions(-)
+ drivers/video/aperture.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index dbd1159a2ef0..ce04c38f6afd 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -1,4 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
-+#include <linux/aperture.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/errno.h>
-@@ -987,22 +988,16 @@ static int sm750fb_framebuffer_alloc(struct sm750_dev *sm750_dev, int fbidx)
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 101e13c2cf41..abc691284a77 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -12,6 +12,8 @@
+ #include <linux/types.h>
+ #include <linux/vgaarb.h>
  
- static int lynxfb_kick_out_firmware_fb(struct pci_dev *pdev)
- {
--	struct apertures_struct *ap;
-+	resource_size_t base = pci_resource_start(pdev, 0);
-+	resource_size_t size = pci_resource_len(pdev, 0);
- 	bool primary = false;
- 
--	ap = alloc_apertures(1);
--	if (!ap)
--		return -ENOMEM;
--
--	ap->ranges[0].base = pci_resource_start(pdev, 0);
--	ap->ranges[0].size = pci_resource_len(pdev, 0);
- #ifdef CONFIG_X86
- 	primary = pdev->resource[PCI_ROM_RESOURCE].flags &
- 					IORESOURCE_ROM_SHADOW;
- #endif
--	remove_conflicting_framebuffers(ap, "sm750_fb1", primary);
--	kfree(ap);
--	return 0;
++#include <video/vga.h>
 +
-+	return aperture_remove_conflicting_devices(base, size, primary, "sm750_fb1");
+ /**
+  * DOC: overview
+  *
+@@ -300,6 +302,16 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
+ 	 */
+ 	sysfb_disable();
+ 
++	aperture_detach_devices(base, size);
++
++	/*
++	 * If this is the primary adapter, there could be a VGA device
++	 * that consumes the VGA framebuffer I/O range. Remove this device
++	 * as well.
++	 */
++	if (primary)
++		aperture_detach_devices(VGA_FB_PHYS_BASE, VGA_FB_PHYS_SIZE);
++
+ #if IS_REACHABLE(CONFIG_FB)
+ 	a = alloc_apertures(1);
+ 	if (!a)
+@@ -315,8 +327,6 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
+ 		return ret;
+ #endif
+ 
+-	aperture_detach_devices(base, size);
+-
+ 	return 0;
  }
- 
- static int lynxfb_pci_probe(struct pci_dev *pdev,
-diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
-index b311c07fe66d..e5e362b8c9da 100644
---- a/drivers/video/fbdev/aty/radeon_base.c
-+++ b/drivers/video/fbdev/aty/radeon_base.c
-@@ -54,6 +54,7 @@
- 
- #include "radeonfb.h"
- 
-+#include <linux/aperture.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/kernel.h>
-@@ -2239,20 +2240,10 @@ static const struct bin_attribute edid2_attr = {
- 
- static int radeon_kick_out_firmware_fb(struct pci_dev *pdev)
- {
--	struct apertures_struct *ap;
-+	resource_size_t base = pci_resource_start(pdev, 0);
-+	resource_size_t size = pci_resource_len(pdev, 0);
- 
--	ap = alloc_apertures(1);
--	if (!ap)
--		return -ENOMEM;
--
--	ap->ranges[0].base = pci_resource_start(pdev, 0);
--	ap->ranges[0].size = pci_resource_len(pdev, 0);
--
--	remove_conflicting_framebuffers(ap, KBUILD_MODNAME, false);
--
--	kfree(ap);
--
--	return 0;
-+	return aperture_remove_conflicting_devices(base, size, KBUILD_MODNAME, false);
- }
- 
- static int radeonfb_pci_register(struct pci_dev *pdev,
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index 886c564787f1..a944a6620527 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -45,6 +45,7 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/aperture.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/vmalloc.h>
-@@ -1074,8 +1075,9 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 	info->screen_size = dio_fb_size;
- 
- getmem_done:
--	remove_conflicting_framebuffers(info->apertures,
--					KBUILD_MODNAME, false);
-+	aperture_remove_conflicting_devices(info->apertures->ranges[0].base,
-+					    info->apertures->ranges[0].size,
-+					    KBUILD_MODNAME, false);
- 
- 	if (gen2vm) {
- 		/* framebuffer is reallocated, clear screen_info to avoid misuse from kexec */
+ EXPORT_SYMBOL(aperture_remove_conflicting_devices);
 -- 
 2.36.1
 
