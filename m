@@ -1,38 +1,42 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDADA42
-	for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 07:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1AFA5E
+	for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 07:23:32 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 154813392C;
-	Mon, 18 Jul 2022 07:23:24 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 163E4344A3;
+	Mon, 18 Jul 2022 07:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1658129004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=GZxo82O0GSD21ZK5W2Hm0LcGlwweorBc4NPn450GI2g=;
-	b=zYROj88s6MFXXnPX4fcs295nrX+rd+QK7uPWxWXr40NlJ15H0hD9NfCmAqwd+47nbQYp3M
-	HuBRouZobCZM9AUBg8k5NgXS3ZcTzMnhA4ACYXE+sMH5zhhRYysc3aUgPOidZkREekN5jY
-	JKYoUpSeJBrSssKlv14QYOfprVuicQo=
+	t=1658129005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b0UJimd9fyq8CYzpqv47+SgrzzQqeRywR1knN7O2qBA=;
+	b=Gi3yBVgHIJmRphkhkxYDAYEWvfG6ADvl1sWGcRlZffGxBECgThKwcgl2qSGiPPfio3+QiO
+	QkwWMdrQZZue+kFYmuWqfcxpEr6bUM1PHpR6b0B+2vCSJH8/FiGWfK7m+1rybMjPnTa7s+
+	gTcFiBvdUPRhGO1BMRHorcki/JYk9M8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1658129004;
+	s=susede2_ed25519; t=1658129005;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=GZxo82O0GSD21ZK5W2Hm0LcGlwweorBc4NPn450GI2g=;
-	b=L2sdneqZw2OaJFF3hynxuKpTZs7BwlN84Kfck8BYgo+X3OzC4/YZMPOFzU6NwOyWC91NbB
-	I/MbDmKAVWXJZRDQ==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b0UJimd9fyq8CYzpqv47+SgrzzQqeRywR1knN7O2qBA=;
+	b=UQCmYMNd03JFMCsc3DLLKaNfgDpX+DiXNZMnUzen0V9GW1sxNo2A+KGFoh0B/Hm2C5h7Wv
+	abntUdvkbgTdy9Dg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DB68713A37;
-	Mon, 18 Jul 2022 07:23:23 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E23FE13AB6;
+	Mon, 18 Jul 2022 07:23:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id YD+pNGsK1WKjcAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 18 Jul 2022 07:23:23 +0000
+	id KD2CNmwK1WKjcAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 18 Jul 2022 07:23:24 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	deller@gmx.de,
@@ -43,10 +47,12 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 00/11] fbdev: Maintain device ownership with aperture helpers
-Date: Mon, 18 Jul 2022 09:23:11 +0200
-Message-Id: <20220718072322.8927-1-tzimmermann@suse.de>
+Subject: [PATCH v2 04/11] fbdev/core: Remove remove_conflicting_pci_framebuffers()
+Date: Mon, 18 Jul 2022 09:23:15 +0200
+Message-Id: <20220718072322.8927-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220718072322.8927-1-tzimmermann@suse.de>
+References: <20220718072322.8927-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,104 +61,144 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fbdev firmware drivers acquire ownership of framebuffer I/O ranges and
-hand them over to native drivers during the boot process. Re-implement
-this mechanism with aperture helpers and remove the respective fbdev
-code.
+Remove remove_conflicting_pci_framebuffers() and implement similar
+functionality in aperture_remove_conflicting_pci_device(), which was
+the only caller. Removes an otherwise unused interface and streamlines
+the aperture helper. No functional changes.
 
-This change allows to perform hand-over from DRM firmware drivers. In a
-later patchset, device ownership can be moved from DRM and fbdev entirely
-into aperture helpers.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/video/aperture.c         | 30 ++++++++++++--------
+ drivers/video/fbdev/core/fbmem.c | 48 --------------------------------
+ include/linux/fb.h               |  2 --
+ 3 files changed, 18 insertions(+), 62 deletions(-)
 
-Patches 1 and 4 are cleanups.
-
-Patches 2 and 3 integrate EGA/VGA support into sysfb, although it's not
-clear if the x86 architecture code actually still supports VGA graphics
-mode.
-
-Patches 5 to 10 replace fbdev's ownership management with aperture
-helpers. This includes removal of conflicting framebuffer drivers,
-removal of conflicting VGA drivers and registration of fbdev firmware
-devices. Notably, many PCI-based fbdev drivers failed to remove firmware
-devices until now; and therefore probably haven't worked correctly for
-some time.
-
-Patch 11 removes the implementation of fbdev ownership management.
-
-The patchset has been tested by handing over device ownership between
-firmware and native drivers of DRM and fbdev in various combinations.
-
-v2:
-	* remove unused options handling from vga16fb (Javier)
-	* more elaborate commit messages (Javier)
-	* remove unused internal functions in fbmem.c
-
-Thomas Zimmermann (11):
-  fbdev: Remove trailing whitespaces
-  fbdev/vga16fb: Create EGA/VGA devices in sysfb code
-  fbdev/vga16fb: Auto-generate module init/exit code
-  fbdev/core: Remove remove_conflicting_pci_framebuffers()
-  fbdev: Convert drivers to aperture helpers
-  fbdev: Remove conflicting devices on PCI bus
-  video/aperture: Disable and unregister sysfb devices via aperture
-    helpers
-  video: Provide constants for VGA I/O range
-  video/aperture: Remove conflicting VGA devices, if any
-  fbdev: Acquire framebuffer apertures for firmware devices
-  fbdev: Remove conflict-handling code
-
- drivers/firmware/sysfb.c                     |   4 +
- drivers/staging/sm750fb/sm750.c              |  15 +-
- drivers/video/aperture.c                     |  69 ++--
- drivers/video/fbdev/arkfb.c                  |   5 +
- drivers/video/fbdev/asiliantfb.c             |   5 +
- drivers/video/fbdev/aty/aty128fb.c           |  57 ++--
- drivers/video/fbdev/aty/atyfb_base.c         |   7 +-
- drivers/video/fbdev/aty/radeon_base.c        |  83 +++--
- drivers/video/fbdev/carminefb.c              |   5 +
- drivers/video/fbdev/chipsfb.c                |  13 +-
- drivers/video/fbdev/cirrusfb.c               |   5 +
- drivers/video/fbdev/core/fbmem.c             | 213 ++-----------
- drivers/video/fbdev/cyber2000fb.c            |   5 +
- drivers/video/fbdev/geode/gx1fb_core.c       |   5 +
- drivers/video/fbdev/geode/gxfb_core.c        |   5 +
- drivers/video/fbdev/geode/lxfb_core.c        |   5 +
- drivers/video/fbdev/gxt4500.c                |   5 +
- drivers/video/fbdev/hyperv_fb.c              |   6 +-
- drivers/video/fbdev/i740fb.c                 |   5 +
- drivers/video/fbdev/i810/i810_main.c         | 315 ++++++++++---------
- drivers/video/fbdev/imsttfb.c                |  36 ++-
- drivers/video/fbdev/intelfb/intelfbdrv.c     |   5 +
- drivers/video/fbdev/kyro/fbdev.c             |   5 +
- drivers/video/fbdev/matrox/matroxfb_base.c   |   5 +
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |   5 +
- drivers/video/fbdev/neofb.c                  |  41 +--
- drivers/video/fbdev/nvidia/nvidia.c          |   7 +-
- drivers/video/fbdev/pm2fb.c                  |   5 +
- drivers/video/fbdev/pm3fb.c                  |   5 +
- drivers/video/fbdev/pvr2fb.c                 |   5 +
- drivers/video/fbdev/riva/fbdev.c             |  67 ++--
- drivers/video/fbdev/s3fb.c                   |   5 +
- drivers/video/fbdev/savage/savagefb_driver.c |   5 +
- drivers/video/fbdev/sis/sis_main.c           |   5 +
- drivers/video/fbdev/skeletonfb.c             | 210 +++++++------
- drivers/video/fbdev/sm712fb.c                |   5 +
- drivers/video/fbdev/sstfb.c                  |  43 +--
- drivers/video/fbdev/sunxvr2500.c             |   5 +
- drivers/video/fbdev/sunxvr500.c              |   5 +
- drivers/video/fbdev/tdfxfb.c                 |   5 +
- drivers/video/fbdev/tgafb.c                  |  17 +-
- drivers/video/fbdev/tridentfb.c              |   5 +
- drivers/video/fbdev/vermilion/vermilion.c    |   7 +-
- drivers/video/fbdev/vga16fb.c                | 191 +++++------
- drivers/video/fbdev/via/via-core.c           |   5 +
- drivers/video/fbdev/vt8623fb.c               |   5 +
- include/linux/fb.h                           |   4 -
- include/video/vga.h                          |  20 +-
- 48 files changed, 776 insertions(+), 784 deletions(-)
-
-
-base-commit: ebea934e2651857c9b56cc80bf99460ee18a3592
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 538f2d40acda..f42a0d8bc211 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -321,30 +321,36 @@ EXPORT_SYMBOL(aperture_remove_conflicting_devices);
+  */
+ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name)
+ {
++	bool primary = false;
+ 	resource_size_t base, size;
+ 	int bar, ret;
+ 
+-	/*
+-	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+-	 * otherwise the vga fbdev driver falls over.
+-	 */
+-#if IS_REACHABLE(CONFIG_FB)
+-	ret = remove_conflicting_pci_framebuffers(pdev, name);
+-	if (ret)
+-		return ret;
++#ifdef CONFIG_X86
++	primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
+ #endif
+-	ret = vga_remove_vgacon(pdev);
+-	if (ret)
+-		return ret;
+ 
+ 	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
+ 		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+ 			continue;
++
+ 		base = pci_resource_start(pdev, bar);
+ 		size = pci_resource_len(pdev, bar);
+-		aperture_detach_devices(base, size);
++		ret = aperture_remove_conflicting_devices(base, size, primary, name);
++		if (ret)
++			break;
+ 	}
+ 
++	if (ret)
++		return ret;
++
++	/*
++	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
++	 * otherwise the vga fbdev driver falls over.
++	 */
++	ret = vga_remove_vgacon(pdev);
++	if (ret)
++		return ret;
++
+ 	return 0;
+ 
+ }
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index c4a18322dee9..877de85309f3 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1787,54 +1787,6 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
+ }
+ EXPORT_SYMBOL(remove_conflicting_framebuffers);
+ 
+-/**
+- * remove_conflicting_pci_framebuffers - remove firmware-configured framebuffers for PCI devices
+- * @pdev: PCI device
+- * @name: requesting driver name
+- *
+- * This function removes framebuffer devices (eg. initialized by firmware)
+- * using memory range configured for any of @pdev's memory bars.
+- *
+- * The function assumes that PCI device with shadowed ROM drives a primary
+- * display and so kicks out vga16fb.
+- */
+-int remove_conflicting_pci_framebuffers(struct pci_dev *pdev, const char *name)
+-{
+-	struct apertures_struct *ap;
+-	bool primary = false;
+-	int err, idx, bar;
+-
+-	for (idx = 0, bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+-		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+-			continue;
+-		idx++;
+-	}
+-
+-	ap = alloc_apertures(idx);
+-	if (!ap)
+-		return -ENOMEM;
+-
+-	for (idx = 0, bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+-		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+-			continue;
+-		ap->ranges[idx].base = pci_resource_start(pdev, bar);
+-		ap->ranges[idx].size = pci_resource_len(pdev, bar);
+-		pci_dbg(pdev, "%s: bar %d: 0x%lx -> 0x%lx\n", __func__, bar,
+-			(unsigned long)pci_resource_start(pdev, bar),
+-			(unsigned long)pci_resource_end(pdev, bar));
+-		idx++;
+-	}
+-
+-#ifdef CONFIG_X86
+-	primary = pdev->resource[PCI_ROM_RESOURCE].flags &
+-					IORESOURCE_ROM_SHADOW;
+-#endif
+-	err = remove_conflicting_framebuffers(ap, name, primary);
+-	kfree(ap);
+-	return err;
+-}
+-EXPORT_SYMBOL(remove_conflicting_pci_framebuffers);
+-
+ /**
+  *	register_framebuffer - registers a frame buffer device
+  *	@fb_info: frame buffer info structure
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 07fcd0e56682..b91c77016560 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -615,8 +615,6 @@ extern ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
+ /* drivers/video/fbmem.c */
+ extern int register_framebuffer(struct fb_info *fb_info);
+ extern void unregister_framebuffer(struct fb_info *fb_info);
+-extern int remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+-					       const char *name);
+ extern int remove_conflicting_framebuffers(struct apertures_struct *a,
+ 					   const char *name, bool primary);
+ extern int fb_prepare_logo(struct fb_info *fb_info, int rotate);
 -- 
 2.36.1
 
