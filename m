@@ -1,50 +1,57 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24012906
-	for <linux-staging@lists.linux.dev>; Sun, 17 Jul 2022 22:20:37 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id k30so13067184edk.8
-        for <linux-staging@lists.linux.dev>; Sun, 17 Jul 2022 15:20:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF36A28
+	for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 02:12:44 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id t5-20020a17090a6a0500b001ef965b262eso11251496pjj.5
+        for <linux-staging@lists.linux.dev>; Sun, 17 Jul 2022 19:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=RWNQE77fh9ZO8FyPScCRUXIEK6xi6nY3gZ/2KBXr1no=;
-        b=R9TG6huq1rSfwYmKo7BqWKnUxusQWrr5J/h+2zhgjGWtpnuR/HZ7U5l6l0xBIIWwNd
-         JKGhlJzZs3Dtv71V7bDZ0+nqERZmPsw9EcTxYblyLDIlMfBtvasP/HPTFbnSxgSnD0BP
-         k+y/VU+USR0GncQgEBgAawkeoEWaHUJwnIHswFCXD+02hQal3575PNC2daldOGJ0yKBM
-         xxFKsl4/tHbo8IHrq0pCJChumk0iIoMjh+sgAmFqZC++aXLtl1hozWbC/SWfPXTO6NDg
-         N2vhGsZKu63mMOWc5X6vBcFqBnU0MT8MESIYbUEUGqKRdXgyBhJsejWkj9Q3VrXTF0Va
-         6qag==
+        bh=i78I4TE1JiOYqnZaNPr9Rowmxm+xUoOYt534dSBaRR0=;
+        b=P2vUoEy9XBI+qEttU1UOVGA4SpJWQTnTp+zza1zDkZ53KQdcadas6XXAInXdMdeXah
+         Mu/C1wRiNNN0Yg2XTuZK3KOFkzGGQgHOci15P/FwkmSuZxuTxQjIaGhyDGzJ9k3JoSl9
+         JD9bfHLJ4lU+PguYsL8vVP6d0JBzYfTABNPDBpvqPXH4olmJz22IzqEGirlnQFH7w7f4
+         QlGKOGfMnNMW55OMdySiwYZJf857N1q/vTQVr+UdIxK+5KtKrfr94oBPWEUSrtS5g72w
+         60fZaeV0ro8+qStmeOfhHaJJ7wEvxDw0cP8qPormOpbvZynRq07aWhF1Kmi7ehD3Y+GP
+         GMpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=RWNQE77fh9ZO8FyPScCRUXIEK6xi6nY3gZ/2KBXr1no=;
-        b=v376KzHET1mYTCZ7Y7Xb+ExtPzcQRR+X5acJt4CU/0VyVYI/jQeNnHx27dZ3jHij7n
-         MjS0Ay0obtaMZo6RJeHTU+OI/NBDiIo8KDu1gkkJT5qnJrpWkwEQp+i7M2lfUBAIS9Un
-         7BLXec2davWrwmlZlrSXUIhvSXZ6PUnorwa7eG7gvPSTYpa3j25UGhEEhIf5sKP/1Q9B
-         HNpYl1P7CDU08Da2UkmNpXe5rT1mwtODpUNraGZbhNNjJjvsFJADJ2ZZ1x4PHJvtdiJE
-         iaeB5s2pNN8FY52kC/ALpetHvDpCEduIWt7jDGiiFDSuSCMWfWR4Q7rzaISz9cKaA5H/
-         NyaA==
-X-Gm-Message-State: AJIora9JT3IIF/g+JhQYhnw6x1ZFkgl2DpPfe0C9XBPia5wrlTcmjkKw
-	B57FiTkhUxv5cM0eLDhAljmP1eweaeA=
-X-Google-Smtp-Source: AGRyM1tTenj57kboVS6PEUTMQtPa+0+328zk9VkRUSrxA5Dk3CDE19uoT4xQv7SueFQnk3IYmkSvpg==
-X-Received: by 2002:a05:6402:2812:b0:43a:9041:d5db with SMTP id h18-20020a056402281200b0043a9041d5dbmr33168956ede.208.1658096435979;
-        Sun, 17 Jul 2022 15:20:35 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id g1-20020a17090604c100b0072afb6d4d6fsm4883034eja.171.2022.07.17.15.20.35
+        bh=i78I4TE1JiOYqnZaNPr9Rowmxm+xUoOYt534dSBaRR0=;
+        b=uAq1AaeDGjzmIDGYJXIOnPLdIMhlW9SwrhIF0ENTq3ybYHJq7g58QkP6F1tuIZvYm7
+         Zn4AuT3l5QOZh9flnA7i1u1XFKG33z7lTpeIutnh2WL/Ehjv49RBsvhu3eAJ3+nEEG7T
+         ZiZS5av/t6GgxBgKEFWx2DBUMhohl5aMeYwYIz2t8qkBMmcQ43mDwanuQa9/lB5p/uE+
+         2CoACq+MAXyj+GdzgVJ3Op1wO1gjXEKXTMVin/TPnhbvQe+LomgGJlz/v6+xpp4/3xV7
+         17NDHgOs1Gn8mmgixn5NtWkUIBfROwUlPmzIZmuD2U65VPRGRndUbv34BFS2tBxZb+vg
+         A6cg==
+X-Gm-Message-State: AJIora/WZIILek1j/hm/DItX241HvPsvoZ+YDGmrcxe4i+bf4HnIv/Ns
+	DR8YXuW6UbEgiKLt0I5rG6s=
+X-Google-Smtp-Source: AGRyM1th9MU4wtYAqqWGdKRksVwhGB90SLKNfy7x8fq1400OGXLKjnKdikVOMIR/16OC6ZvcCp0Fkg==
+X-Received: by 2002:a17:902:e213:b0:16c:4292:9f57 with SMTP id u19-20020a170902e21300b0016c42929f57mr26018611plb.143.1658110363547;
+        Sun, 17 Jul 2022 19:12:43 -0700 (PDT)
+Received: from cloud-MacBookPro ([2601:646:8201:c2e0:1d20:c9aa:c964:2f9b])
+        by smtp.gmail.com with ESMTPSA id o11-20020a170903210b00b001638a171558sm7883365ple.202.2022.07.17.19.12.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 15:20:35 -0700 (PDT)
-Date: Mon, 18 Jul 2022 00:20:33 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
+        Sun, 17 Jul 2022 19:12:42 -0700 (PDT)
+Date: Sun, 17 Jul 2022 19:12:41 -0700
+From: binyi <dantengknight@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Joe Perches <joe@perches.com>, Manish Chopra <manishc@marvell.com>,
+	GR-Linux-NIC-Dev@marvell.com, Coiby Xu <coiby.xu@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] staging: vt6655: Replace MACvTransmitAC0 with function
- vt6655_mac_dma_ctl
-Message-ID: <1e475fbda07a69b7b3cf53fd18bd0390e87ebfe2.1658094708.git.philipp.g.hortmann@gmail.com>
-References: <cover.1658094708.git.philipp.g.hortmann@gmail.com>
+	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: qlge: Fix indentation issue under long for
+ loop
+Message-ID: <20220718021241.GA8270@cloud-MacBookPro>
+References: <20220710210418.GA148412@cloud-MacBookPro>
+ <20220712134610.GO2338@kadam>
+ <1d6fd2b271dfa0514ccb914c032e362bc4f669fa.camel@perches.com>
+ <20220715060457.GA2928@cloud-MacBookPro>
+ <20220715092847.GU2316@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,50 +60,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1658094708.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220715092847.GU2316@kadam>
 
-checkpatch.pl does not accept multiline macros.
+On Fri, Jul 15, 2022 at 12:28:47PM +0300, Dan Carpenter wrote:
+> On Thu, Jul 14, 2022 at 11:04:57PM -0700, binyi wrote:
+> > On Tue, Jul 12, 2022 at 07:14:55AM -0700, Joe Perches wrote:
+> > > On Tue, 2022-07-12 at 16:46 +0300, Dan Carpenter wrote:
+> > > > > @@ -3007,10 +3007,12 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+> > > > >  		tmp = (u64)rx_ring->lbq.base_dma;
+> > > > >  		base_indirect_ptr = rx_ring->lbq.base_indirect;
+> > > > >  
+> > > > > -		for (page_entries = 0; page_entries <
+> > > > > -			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++)
+> > > > > -				base_indirect_ptr[page_entries] =
+> > > > > -					cpu_to_le64(tmp + (page_entries * DB_PAGE_SIZE));
+> > > > > +		for (page_entries = 0;
+> > > > > +		     page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN);
+> > > > > +		     page_entries++) {
+> > > > > +			base_indirect_ptr[page_entries] = cpu_to_le64(tmp);
+> > > > > +			tmp += DB_PAGE_SIZE;
+> > > > 
+> > > > I've previously said that using "int i;" is clearer here.  You would
+> > > > kind of expect "page_entries" to be the number of entries, so it's kind
+> > > > of misleading.  In other words, it's not just harmless wordiness and
+> > > > needless exposition, it's actively bad.
+> > > 
+> > > Likely true.
+> > > 
+> > 
+> > I agree it could be misleading. But if "page_entries" is in the for loop I
+> > would assume it's some kind of index variable, and still it provides some
+> > information (page entry) for the index, probably page_entry_idx could be
+> > better name but still makes the for loop a very long one. I guess I would
+> > leave it be.
+> 
+> It does not "provide some information".  That's what I was trying to
+> explain.  It's the opposite of information.  Information is good. No
+> information is neutral.  But anti-information is bad.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/vt6655/device_main.c |  2 +-
- drivers/staging/vt6655/mac.h         | 10 ----------
- 2 files changed, 1 insertion(+), 11 deletions(-)
+I see. Indeed, being neutral is better than being bad. 
 
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 898e06958203..b2f3174f80df 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -1231,7 +1231,7 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
- 	wmb(); /* second memory barrier */
- 
- 	if (head_td->td_info->flags & TD_FLAGS_NETIF_SKB)
--		MACvTransmitAC0(priv->port_offset);
-+		vt6655_mac_dma_ctl(priv->port_offset, MAC_REG_AC0DMACTL);
- 	else
- 		vt6655_mac_dma_ctl(priv->port_offset, MAC_REG_TXDMACTL0);
- 
-diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 1e57663ff066..e2ef8c6ef7b7 100644
---- a/drivers/staging/vt6655/mac.h
-+++ b/drivers/staging/vt6655/mac.h
-@@ -537,16 +537,6 @@
- 
- /*---------------------  Export Macros ------------------------------*/
- 
--#define MACvTransmitAC0(iobase)					\
--do {									\
--	unsigned long reg_value;					\
--	reg_value = ioread32(iobase + MAC_REG_AC0DMACTL);		\
--	if (reg_value & DMACTL_RUN)					\
--		iowrite32(DMACTL_WAKE, iobase + MAC_REG_AC0DMACTL);	\
--	else								\
--		iowrite32(DMACTL_RUN, iobase + MAC_REG_AC0DMACTL);	\
--} while (0)
--
- #define MACvClearStckDS(iobase)					\
- do {									\
- 	unsigned char byOrgValue;					\
--- 
-2.37.1
+> Like there are so many times in life where you listen to someone and you
+> think you are learning something but you end up stupider than before.
+> They have done studies on TV news where it can make you less informed
+> than people who don't watch it.  And other studies say if you stop
+> watching TV news for even a month then your brain starts to heal.
+> 
+> I don't really care about one line of code, but what I'm trying to say
+> is learn to recognize anti-information and delete it.  Comments for
+> example are often useless.
 
+It makes more sense to me now. Thanks for explaining!
+
+Best,
+Binyi
