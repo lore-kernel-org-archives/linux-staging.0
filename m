@@ -1,171 +1,320 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C353B1C07
-	for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 12:41:52 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26IB47iI031625;
-	Mon, 18 Jul 2022 12:41:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=5Fg23OPZePcH6kCL+kbGVytEZ4QLvaek3u6ZwrVP0Kg=;
- b=Fs9dp5wfOEjjoAKyzwxMvtCqkZtiVcGLWVJRVSoOvzN6RGKRKtvs/D5NoXSVB5xeBZIs
- iZ1s8wCRDEXhZipL5u0bpH7esdXP4KEg8g12dtcI0vpMvpjNb26O3XwaoX67kQKXoyWL
- lhChVp/ASgXcbuyO98o3gqvjSyjJ32zLWDmrO5xQYweby1xwBaNnvl2gHp18wuMZZ+Un
- vcbl5UMwJmR2xJ+KCostn0JYiZW2jFp2a3YYihGXqGUrQGalEXOx//EQe8bq/VHTfTsV
- N83BI2q+A9MAspfRz6fEeSumhI62gzO/SQpedBrvEHRQ4RTmYTQYYYwWeQEMwj+FGAW2 xQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbkrc34ym-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 18 Jul 2022 12:41:50 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 26ICOv9Y006707;
-	Mon, 18 Jul 2022 12:41:49 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3hc1gfhj33-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 18 Jul 2022 12:41:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EEXNRU0MDfB3mKsrV0JmfzQB9E/RgUhCAU3fIjtise88ypFJ9kqZN55u6yDUdUYgBNOtUs+wsAW6636GUs4obWi5CL9A7aREBvH4NAKGNHyss5rgFtpY0MuFrNdACuOjNr5mMTSUKoFLCmGl3dBrlP4JF9y0x7eRa7M7jMGVAhsUb5+lBJj1huT2wZjCy/R/sHaPQPy92yoVeiWEIIPJv5E2oFH9Cvg8DLgoQnanUH1PqrWBqzFqm5UgZgCEiRPK13K2d01fIFkrZQHl5E9wrkY8bqi/FUJuysgcOwqxtxsrMuuICKiaOAycSASgCH/UCOLgKMbYyfWwlsk8wSNPGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5Fg23OPZePcH6kCL+kbGVytEZ4QLvaek3u6ZwrVP0Kg=;
- b=lKt/oZv/VoUr1+gc0AHn/czhyADwZdWnJLp4jfsFW59xgWjD7vNzxv7RpRSREbi3c6sJmc1nouaCn4INGPtYm4XGITc2gFCPmuSjrDNzxI5Qaywt9bCTy+pzuUOE8ajFkI47ja5+RWxtrY1JDlh8fHf7UM0XN3MkwMXXXpVUuGJ3nfk3m0YXOK1vMTk8tjxZu0Gg3BMizqOk89GVAITi025mhKLk8Unx9UB2LaKIHBGoL0U3yg9cVJS1zkLd2QNQ+o6s7VjzXOGWhXbxDnsHBAUOpDipoGZdW3OZbUuSrFBvdKxwGp+pMS3tgv3j5B+e5sR7NafpFZb9VVVxjRYFCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Fg23OPZePcH6kCL+kbGVytEZ4QLvaek3u6ZwrVP0Kg=;
- b=fYDPLgA0nBVvwobMOYKqDQcYTLlZLSZZy2QOIoNLvQ6exP1T6Zmf1MtYct8jKHRbWNXvcG9Yc9qPvslsX2DZfGoi31iRtMyZdBnwGKwcuc/SBa+6cEkewSq69i57z/bVge8zTIuxtiA3eBdwMZLvglpqA8wxsYpLmyePEVACyVg=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BLAPR10MB5201.namprd10.prod.outlook.com
- (2603:10b6:208:332::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Mon, 18 Jul
- 2022 12:41:47 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
- 12:41:47 +0000
-Date: Mon, 18 Jul 2022 15:41:37 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] staging: vt6655: Replace MACvReceive1 with function
- vt6655_mac_dma_ctl
-Message-ID: <20220718124136.GE2338@kadam>
-References: <cover.1658094708.git.philipp.g.hortmann@gmail.com>
- <c433e54f0fae051fc8ba9050aa094d6f7141e8d4.1658094708.git.philipp.g.hortmann@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c433e54f0fae051fc8ba9050aa094d6f7141e8d4.1658094708.git.philipp.g.hortmann@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR2P264CA0157.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:1::20) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6212F2C
+	for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 14:54:39 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8734A6601A62;
+	Mon, 18 Jul 2022 15:54:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1658156077;
+	bh=dtjm06E2JLGOCpuaKz8lsJXAGaoG8a3XoR0YkrQyLb4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=kttjZD0o2EctUJSKWAa6Oz6uHVG9hgfHNrn4T2WJUBSaGk8hWyaLlazhXmKrjt2VX
+	 OLfAItuGM+6cy41jruiQsECYiIuNneSHlZoIk89BFZ86JVvEsundzxq9SEOij/v+Rn
+	 65LXQtd1QmnpWXYUUTzeecv8htmvDEhYLt2RC+iKEST/n3GRm7gI2FjdzknKKvYf09
+	 fVI9zdNtcVo56kiziZ0s0Sr6nTygnt8L2+IBsRXX8eMoNmWOYQ5XJuHFBSU4v+6xxb
+	 Y9Wi9WzXLr0Uu2OlAeVUWUDO9YxmqsNzWqV2HiRWM2t3fpe0rBmc7q5EWHSwb6MpYr
+	 WZFRlyZxf8WKg==
+Message-ID: <c43bd8cf385cc4c90e549ae28174b3d406fae1ce.camel@collabora.com>
+Subject: Re: [PATCH 0/6] RkVDEC HEVC driver
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Robin Murphy
+ <robin.murphy@arm.com>, Sebastian Fricke <sebastian.fricke@collabora.com>, 
+ linux-media@vger.kernel.org
+Cc: knaerzche@gmail.com, kernel@collabora.com, bob.beckett@collabora.com, 
+ ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
+ gregkh@linuxfoundation.org,  linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,  linux-staging@lists.linux.dev, Yury
+ Norov <yury.norov@gmail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>
+Date: Mon, 18 Jul 2022 10:54:25 -0400
+In-Reply-To: <2107456.irdbgypaU6@jernej-laptop>
+References: <20220713162449.133738-1-sebastian.fricke@collabora.com>
+	 <7be996ee-9977-129b-08e2-12bde7ac9cd7@arm.com>
+	 <f05896551f8545af3c7352a6bd38248e038b61d2.camel@collabora.com>
+	 <2107456.irdbgypaU6@jernej-laptop>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eed5413d-2fa2-4726-36c4-08da68bae012
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5201:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	EmG8GageaNjlZvaqUQ8juH160IBCriQUU/OsUaUzHBouOuWwJy5ylQrlS67yT5IRWS/fkp0VBPwrWz/9pwiZlJ9izMsiUve4H6EyUQy461Y5xQBsg9+kUL8y9xcx9UPOsg/bcOg+46NJJ+epZy/mRmyBExNJ5x+pu8FKfPfMWN0l5VzEmYi7KhX+yNQ2mwKEwda/mR9fLJ5iP2wsUyK1UGLW92unnNiPcIVwKMbJV5uKNtQR7M+SGzjGuuU8ru4LcHq1AeBZHEBUV/JhtLOlUt7Zx87Hy1ZrBUY7BRpiHUPr8U9W5qzgZ75tkLGVq+17jKEX58KoA2Ju/5hpdtBhUuNEqXW33TE0WL3F3cGsyfI9WqMcKRwRfYxaABSFnSgliES6Fv7UkLtLoFKsAWsyImYx6Vv0I+JoJoNQxurlt7vhcZcN9Eyxdv6z1/VpLjDXwvwGr63S30fVrK3ZYaZcVR/oLCa+gnOCP89FHj7Z+uf5uWftRHY8sSt8Zr+IhUuNHt5vRa6oT4UCes9ALldo2LzmdWCDPfUM4APFsJz3+FXCdcCoU/ox0510Bug4uAp1mUWiLKhm1GV/Ch4Gjl9MQiyKHGSxAsWPpMxVKvYPvyjUZ1SN2YW73BgrcuRtR33IWB+x+/jVlCLPipCE/+doMWvORHG1FIEFDy96UTz7e9yjuw1Yj3r9apkyVX8km6QqRJbdOmXv8v6LzQv8KwUDMq1z3wfLD+9Om8EMaZgXJHUwvSryoLJoYJbxfB+YYzJr8TwzKuNda/Us7ZlJ8F2CnqA6DB8vtgOCDP7krqsoZxxYQGyoGAuyzu/2Mg0cKhm9
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(6029001)(7916004)(39860400002)(366004)(136003)(376002)(346002)(396003)(478600001)(26005)(52116002)(6486002)(33716001)(6506007)(316002)(6916009)(86362001)(6512007)(66556008)(54906003)(6666004)(33656002)(66946007)(2906002)(4326008)(41300700001)(66476007)(8676002)(38100700002)(186003)(38350700002)(1076003)(4744005)(44832011)(5660300002)(8936002)(9686003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?bXN6sx9wYJNXIKAbjySnIFxkT5Pdvi6+AVz/dqhrXYAWLIQ32P7IQQ1I4gqn?=
- =?us-ascii?Q?QFn5CzjvJ1mRTyTmcKFBUFqpKDocs4oGnZjnmC5981jNj/m/P4877WOvvC4W?=
- =?us-ascii?Q?3QgiYFJRaRlxmkqQlsZKPQ8qp/LJaxOzJRymyT1prqDTaihy5kKIxJDjN0kC?=
- =?us-ascii?Q?h9wV9ROFD7uWZBKVWyp1FhN0bvip/IV6glLaxnf6Pi4Su5orYgKo4eoYjynb?=
- =?us-ascii?Q?OR+xok1iqU40bOccBDDHFKC2aljFgq/f+QVGll/pivlmNQBzKFiV5mXoW+JV?=
- =?us-ascii?Q?YXu94CT6fLSDx/nCDAbtBvKCaFI1QRuyfomo8f9h+3inHqBPS+8mx6XqMiAK?=
- =?us-ascii?Q?4HHUywZ3JZ8xbDJFGtK28vA1TanUWtysprMzNUrolmFqv7P7exIScQX/fUQp?=
- =?us-ascii?Q?qwSq+yjz68Bcd348WkmRv1pC/sJkWzEL9K3ESZQ979SzUVgCDtekDm/WH/Kb?=
- =?us-ascii?Q?s4SrEG7nLDgunJMpIwxKCiHXILKxoQb2g4eDt5XW2t80xWGlKBjfWFKwDHGb?=
- =?us-ascii?Q?y0Uzbg4AfjkqmqA3K3/wbvwRiHVMtEBVqI7L9il90m4vUeqo51A84GGBGZK8?=
- =?us-ascii?Q?nupM35mixEcNYzvwOzEEf/fobjupeyzq5AeaEYJd2GBjKOm34KI0rUVrQkXE?=
- =?us-ascii?Q?GvfAz4dojqIHzcKp/uYxWxLp7yTofBxGtCfoZQkuKEE6Z5ue2ut1j93vIUxu?=
- =?us-ascii?Q?mchxmssWYtPC12YJIMFy3vjIpeldtBqUVj01Miy1ykonQfTYYp15NPt+djjj?=
- =?us-ascii?Q?sMtM3OM/OCIdO6n9iY2nxmcFlDGGswYw9bBvOSK1AVnQGIL1Vv40kqyup0On?=
- =?us-ascii?Q?giDezaMzQx3Z+CtEOCQ5+CQFuTghjVKprheGZX76s4TSQZt1KwpzWGeaxyNC?=
- =?us-ascii?Q?gGXRkX/ugIRjW8KzX9V8HhlwPMGEEXCzjlmhLa0CLT7A1MK9hsjJqyf9lrb5?=
- =?us-ascii?Q?AysVBqJGQnk84jdYM+koA8wVi+JqzQbqr2Vu7HsQNnSWMAT/EXr9uY+DheNx?=
- =?us-ascii?Q?Kxj6mZtYP7BzyUzCWOBosjwymiHvc/Wyz4eJEZPxEqcAB927fPIpRwJiM+3M?=
- =?us-ascii?Q?4fLSdJKwt8YS0DY1tZR8Bs+3kO2iddzzvaQXreCIRK2HQNavgjeWOkNRt08h?=
- =?us-ascii?Q?PV5vZqb3LXGaF4nfkaWYkb7A+5iucPTPrjmze5M0dUmXIfgnC0t7THTj8jmF?=
- =?us-ascii?Q?2/CaD65R7vQvqfmjDWQFWHjjj313y6ohmbErjENJzw1XLz0QvhA4UEnPtKbQ?=
- =?us-ascii?Q?lpKVAsLlamASEQlL/mG4Ct7vmEtDnI1pr4N5UVZWm36bCRdl3hVgStf/7Tuf?=
- =?us-ascii?Q?y0LnBk/avz3TsqajBvDzJu1whtYaSuKhDutrcPxXhCCb0YNRMb8r0FZ43tGl?=
- =?us-ascii?Q?Vj80UOVMbHYQnI2KdqlRWKdZIgiIRX5NKox8Ve6MT2JIr9gEHEm2H0jzZ5KW?=
- =?us-ascii?Q?FSAei7wj6+z/qm6RzxChVsCq8Y+y4SOThpB7gmFpG+yn2IluK6yEdbJvJsIN?=
- =?us-ascii?Q?SHTfV8iDVzZW3uREhpxyvkMjrxaDLUAefccu7nHncz+Um9iUIc9hp0GEAvi/?=
- =?us-ascii?Q?LWNcWz4Ez1sBGOt4tOQf1qp+E5z8uSIqfMc1SwjbP5UYZrIjB2orgohEtSTC?=
- =?us-ascii?Q?xA=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eed5413d-2fa2-4726-36c4-08da68bae012
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 12:41:47.2903
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dpm7e12YlpYWSaAmExXnx37iegeV9Q+B5vE6ObpIX1ZhWDriwKRQywTPHcjVWRpOi+Gozq6Kgs533YiMC1XadY6CVojks4PVFWm6HfrW47A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5201
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-18_12,2022-07-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=757 spamscore=0 bulkscore=0
- malwarescore=0 adultscore=0 mlxscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207180054
-X-Proofpoint-GUID: Thfig4HmsifiPF5Xua50SahK6N2Mrp98
-X-Proofpoint-ORIG-GUID: Thfig4HmsifiPF5Xua50SahK6N2Mrp98
 
-On Mon, Jul 18, 2022 at 12:20:25AM +0200, Philipp Hortmann wrote:
-> checkpatch.pl does not accept multiline macros.
->
+Le samedi 16 juillet 2022 =C3=A0 08:45 +0200, Jernej =C5=A0krabec a =C3=A9c=
+rit=C2=A0:
+> Dne petek, 15. julij 2022 ob 17:36:01 CEST je Nicolas Dufresne napisal(a)=
+:
+> > Le vendredi 15 juillet 2022 =C3=A0 12:04 +0100, Robin Murphy a =C3=A9cr=
+it :
+> > > On 2022-07-13 17:24, Sebastian Fricke wrote:
+> > > > Implement the HEVC codec variation for the RkVDEC driver. Currently=
+ only
+> > > > the RK3399 is supported, but it is possible to enable the RK3288 as=
+ it
+> > > > also supports this codec.
+> > > >=20
+> > > > Based on top of the media tree @ef7fcbbb9eabbe86d2287484bf366dd1821=
+cc6b8
+> > > > and the HEVC uABI MR by Benjamin Gaignard.
+> > > > (https://patchwork.linuxtv.org/project/linux-media/list/?series=3D8=
+360)
+> > > >=20
+> > > > Tested with the GStreamer V4L2 HEVC plugin:
+> > > > (https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_request=
+s/107
+> > > > 9)
+> > > >=20
+> > > > Current Fluster score:
+> > > > `Ran 131/147 tests successfully               in 278.568 secs`
+> > > > with
+> > > > `python3 fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts
+> > > > JCT-VC-HEVC_V1 -j1`
+> > > >=20
+> > > > failed conformance tests:
+> > > > - DBLK_D_VIXS_2 (Success on Hantro G2)
+> > > > - DSLICE_A_HHI_5 (Success on Hantro G2)
+> > > > - EXT_A_ericsson_4 (Success on Hantro G2)
+> > > > - PICSIZE_A_Bossen_1 (Hardware limitation)
+> > > > - PICSIZE_B_Bossen_1 (Hardware limitation)
+> > > > - PICSIZE_C_Bossen_1 (Hardware limitation)
+> > > > - PICSIZE_D_Bossen_1 (Hardware limitation)
+> > > > - PPS_A_qualcomm_7 (Success on Hantro G2)
+> > > > - SAODBLK_A_MainConcept_4 (Success on Hantro G2)
+> > > > - SAODBLK_B_MainConcept_4 (Success on Hantro G2)
+> > > > - SLIST_B_Sony_9 (Success on Hantro G2)
+> > > > - SLIST_D_Sony_9 (Success on Hantro G2)
+> > > > - TSUNEQBD_A_MAIN10_Technicolor_2 (Success on Hantro G2)
+> > > > - VPSSPSPPS_A_MainConcept_1 (Success on Hantro G2)
+> > > > - WPP_D_ericsson_MAIN10_2 (Fail on Hantro G2)
+> > > > - WPP_D_ericsson_MAIN_2 (Fail on Hantro G2)
+> > > >=20
+> > > > Not tested with FFMpeg so far.
+> > > >=20
+> > > > Known issues:
+> > > > - Unable to reliably decode multiple videos concurrently
+> > > > - The SAODBLK_* tests timeout if the timeout time in fluster is low=
+er
+> > > > than 120 - Currently the uv_virstride is calculated in a manner tha=
+t is
+> > > > hardcoded for the two available formats NV12 and NV15.
+> > > > (@config_registers)
+> > > >=20
+> > > > Notable design decisions:
+> > > > - I opted for a bitfield to represent the PPS memory blob as it is =
+the
+> > > > perfect tool for that job. It describes the memory layout with any
+> > > > additional required documentation, is easy to read and a native lan=
+guage
+> > > > tool for that job
+> > >=20
+> > > Can I point out how terrible an idea this is? The C language gives
+> > > virtually zero guarantee about how bitfields are actually represented=
+ in
+> > > memory. Platform ABIs (e.g. [1]) might nail things down a bit more, b=
+ut
+> > > different platforms are free to make completely different choices so
+> > > portability still goes out the window. Even for a single platform,
+> > > different compilers (or at worst even different version of one compil=
+er)
+> > > can still make incompatible choices e.g. WRT alignment of packed
+> > > members. Even if you narrow the scope as far as a specific version of
+> > > AArch64 GCC, I think this is still totally broken for big-endian.
+> > >=20
+> > > The fact that you've had to use nonsensical types to trick a compiler
+> > > into meeting your expectations should already be a clue to how fragil=
+e
+> > > this is in general.
+> > >=20
+> > > > - The RPS memory blob is created using a bitmap implementation, whi=
+ch
+> > > > uses a common Kernel API to avoid reinventing the wheel and to keep=
+ the
+> > > > code clean.
+> > >=20
+> > > Similarly, Linux bitmaps are designed for use as, well, bitmaps. Abus=
+ing
+> > > them as a data interchange format for bit-aligned numerical values is
+> > > far from "clean" semantically. And I'm pretty sure it's also broken f=
+or
+> > > big-endian.
+> > >=20
+> > > This kind of stuff may be standard practice in embedded development
+> > > where you're targeting a specific MCU with a specific toolchain, but =
+I
+> > > don't believe it's suitable for upstream Linux. It would take pretty
+> > > much the same number of lines to use GENMASK definitions and bitfield=
+.h
+> > > helpers to pack values into words which can then be written to memory=
+ in
+> > > a guaranteed format and endianness (certainly for the PPS; for the RP=
+S
+> > > it may well end up a bit longer, but would be self-documenting and
+> > > certainly more readable than those loops). It mostly just means that =
+for
+> > > any field which crosses a word boundary you'll end up with 2 definiti=
+ons
+> > > and 2 assignments, which is hardly a problem (and in some ways more
+> > > honest about what's actually going on).
+> >=20
+> > Thanks for the feedback, in multimedia (unlike register programming), w=
+e
+> > don't really consider bitstreams as bitmap or bitfield. What we do real=
+ly
+> > expect is to use bit writer helpers (and sometimes a bit reader though =
+we
+> > try and avoid the second one in the  kernel). Its more of less a cursor=
+ (a
+> > bit position) into a memory that advance while writing. A bit writer sh=
+ould
+> > help protect against overflow too.
+> >=20
+> > When writing lets say a chain of 8 bits from a char, a proper helper is
+> > expected to be very explicit on the ordering (write_u8_le/be or somethi=
+ng
+> > better worded). I would rather like to see all these blobs written this=
+ way
+> > personally then having a cleared buffer and writing using bit offsets.
+> >=20
+> > Perhaps I may suggest to start with implementing just that inside this
+> > driver? It isn't very hard, and then the implementation can be reduced
+> > later and shared later, with whatever exists without deviating from the
+> > intent of the existing API ? I do believe that having this in linux-med=
+ia
+> > can be useful in the future. We will notably need to extend such a help=
+er
+> > with multimedia specific coding technique (golomb, boolean coding, etc.=
+)
+> > for use in stateless encoder drivers.
+>=20
+> I don't know RKVDEC, but at least Cedar has integrated bitstream parsing=
+=20
+> engine. Is there something similar in RKVDEC? That way HW could be used=
+=20
+> instead of SW implementation.
 
-What?  Really?
+This is unrelated, since the code here generates a bitstream. Some of the
+parameters you'd pass with registers with other drivers, are passed with me=
+mory
+chunk in rkvdec. Not all these blob have a byte aligned memory layout, they=
+ are
+instead bitstream without any consideration for byte alignment. So we need =
+a
+tool to create such a bitstream. Similar tool will be needed for adapting
+encoders.
 
-I tested this to see if was true and it just complained about potential
-side effects on iobase.
-
-regads,
-dan carpenter
-
-> diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-> index 5747de436911..129a6602f6f0 100644
-> --- a/drivers/staging/vt6655/mac.h
-> +++ b/drivers/staging/vt6655/mac.h
-> @@ -537,16 +537,6 @@
->  
->  /*---------------------  Export Macros ------------------------------*/
->  
-> -#define MACvReceive1(iobase)						\
-> -do {									\
-> -	unsigned long reg_value;					\
-> -	reg_value = ioread32(iobase + MAC_REG_RXDMACTL1);		\
-> -	if (reg_value & DMACTL_RUN)					\
-> -		iowrite32(DMACTL_WAKE, iobase + MAC_REG_RXDMACTL1);	\
-> -	else								\
-> -		iowrite32(DMACTL_RUN, iobase + MAC_REG_RXDMACTL1);	\
-> -} while (0)
-> -
->  #define MACvTransmit0(iobase)						\
->  do {									\
->  	unsigned long reg_value;					\
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > Nicolas
+> >=20
+> > > Thanks,
+> > > Robin.
+> > >=20
+> > > [1]
+> > > https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst#=
+bit-f
+> > > ields>=20
+> > > > - I deliberatly opted against the macro solution used in H264, whic=
+h
+> > > > declares Macros in mid function and declares the fields of the memo=
+ry
+> > > > blob as macros as well. And I would be glad to refactor the H264 co=
+de if
+> > > > desired by the maintainer to use common Kernel APIs and native lang=
+uage
+> > > > elements.
+> > > > - The giant static array of cabac values is moved to a separate c f=
+ile,
+> > > > I did so because a separate .h file would be incorrect as it doesn'=
+t
+> > > > expose anything of any value for any other file than the rkvdec-hev=
+c.c
+> > > >=20
+> > > > file. Other options were:
+> > > >    - Calculating the values instead of storing the results (doesn't=
+ seem
+> > > >    to be worth it)
+> > > >    - Supply them via firmware (Adding firmware makes the whole soft=
+ware
+> > > >    way more complicated and the usage of the driver less obvious)
+> > > >=20
+> > > > Ignored Checkpatch warnings (as it fits to the current style of the
+> > > > file):
+> > > > ```
+> > > > WARNING: line length of 162 exceeds 100 columns
+> > > > #115: FILE: drivers/media/v4l2-core/v4l2-common.c:265:
+> > > > +               { .format =3D V4L2_PIX_FMT_NV15,    .pixel_enc =3D
+> > > > V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D=
+ { 5, 5,
+> > > > 0, 0 }, .hdiv =3D 2, .vdiv =3D 2,
+> > > >=20
+> > > > ERROR: trailing statements should be on next line
+> > > > #128: FILE: drivers/media/v4l2-core/v4l2-ioctl.c:1305:
+> > > > +       case V4L2_PIX_FMT_NV15:         descr =3D "10-bit Y/CbCr 4:=
+2:0
+> > > > (Packed)"; break; ```
+> > > >=20
+> > > > v4l2-compliance test:
+> > > > ```
+> > > > Total for rkvdec device /dev/video3: 46, Succeeded: 46, Failed: 0,
+> > > > Warnings: 0 ```
+> > > >=20
+> > > > kselftest module run for the bitmap changes:
+> > > > ```
+> > > > $ sudo insmod
+> > > > /usr/lib/modules/5.19.0-rc3-finalseries/kernel/lib/test_bitmap.ko [=
+ =20
+> > > > 71.751716] test_bitmap: parselist: 14: input is '0-2047:128/256' OK=
+,
+> > > > Time: 1750 [   71.751787] test_bitmap: bitmap_print_to_pagebuf: inp=
+ut
+> > > > is '0-32767 [   71.751787] ', Time: 6708
+> > > > [   71.760373] test_bitmap: set_value: 6/6 tests correct
+> > > > ```
+> > > >=20
+> > > > Jonas Karlman (2):
+> > > >    media: v4l2: Add NV15 pixel format
+> > > >    media: v4l2-common: Add helpers to calculate bytesperline and
+> > > >   =20
+> > > >      sizeimage
+> > > >=20
+> > > > Sebastian Fricke (4):
+> > > >    bitops: bitmap helper to set variable length values
+> > > >    staging: media: rkvdec: Add valid pixel format check
+> > > >    staging: media: rkvdec: Enable S_CTRL IOCTL
+> > > >    staging: media: rkvdec: Add HEVC backend
+> > > >  =20
+> > > >   .../media/v4l/pixfmt-yuv-planar.rst           |   53 +
+> > > >   drivers/media/v4l2-core/v4l2-common.c         |   79 +-
+> > > >   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+> > > >   drivers/staging/media/rkvdec/Makefile         |    2 +-
+> > > >   drivers/staging/media/rkvdec/TODO             |   22 +-
+> > > >   .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1844 ++++++++++++=
++++++
+> > > >   drivers/staging/media/rkvdec/rkvdec-hevc.c    |  859 ++++++++
+> > > >   drivers/staging/media/rkvdec/rkvdec-regs.h    |    1 +
+> > > >   drivers/staging/media/rkvdec/rkvdec.c         |  182 +-
+> > > >   drivers/staging/media/rkvdec/rkvdec.h         |    3 +
+> > > >   include/linux/bitmap.h                        |   39 +
+> > > >   include/uapi/linux/videodev2.h                |    1 +
+> > > >   lib/test_bitmap.c                             |   47 +
+> > > >   13 files changed, 3066 insertions(+), 67 deletions(-)
+> > > >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.=
+c
+> > > >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+>=20
+>=20
+>=20
+>=20
 
