@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AC7EC1;
-	Mon, 18 Jul 2022 08:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CFAEBB;
+	Mon, 18 Jul 2022 08:40:04 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:4754:89ee:32c6:e620])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 5EA206601A3B;
-	Mon, 18 Jul 2022 09:39:55 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 653516601A60;
+	Mon, 18 Jul 2022 09:39:57 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1658133595;
-	bh=H6nrAjLgpn/y5TqeB35GnAnTu40ZKr0Id6XGySDlajA=;
+	s=mail; t=1658133597;
+	bh=jZmGvkb7n+75B0nt2mIj34v/6KyHMctIRA+CFwtwDYo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=j2S1hCrrScBQVSyg8bwkhfigF2Lxw1SwBr6U/RjWvRzdEQwhMwiLHolvVRF7xcK2Y
-	 1OUEAWLdrceH1JIbwgclCGjpaUSyA4wvIkjqLVU3qCVPe5HrErUbS10mMUWSCu9q/D
-	 dE1S+t65oGdOkdVfSFmG1BUmYuJlJivR9ywOSlv761aLLHozwvLge58Z5fXOiGkeEp
-	 DVvghtymxkYXCAp2A6XHiY98jMqIhiG6HnBbZB/c02X+cHt3Z9PNnh771B8a/PaV9A
-	 n67w3YYO69YsZvaI0sHFCEogSL8jtN5Dazkf2PYNffa0KFHk1Ee6AgF3stW5dChcO6
-	 CJMkUXVcnpiJg==
+	b=VScNcZFoTG5VOL7VDsA8nOf3rzUVyHxKCx5HKNUzXsNqz8zsiUAUw5g2rfboc3Cqm
+	 v9+hrV8y1u9J6KvigdVt9aBTnTGW3vUKrK4mvWvHDmgoDy7ELR1VwhyeHwhZaa+oJd
+	 1ss0Qj2VAc3zWqYtrIy5UmqJwNTPkDVCqmXyE69T0gzb68lucPH2zNVN1ZpCYXdEr8
+	 Epu5O4usA4pTk4GsGr/kfeciML0pnL2LIcdGrtLAulUl0jOgCEPe1U6vEIVyZiMwkn
+	 lJwtOmWpiNC/D9VbdzfFKyp4aGYtFiiBW/I2ck4ObeEQ5d6+f22wvWro/ZC+ZsUUeY
+	 6z0PmuKVPoRRA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -41,9 +41,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 3/7] media: hantro: HEVC: Fix chroma offset computation
-Date: Mon, 18 Jul 2022 10:39:41 +0200
-Message-Id: <20220718083945.200845-4-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 6/7] media: hantro: imx8m: Enable 10bit decoding
+Date: Mon, 18 Jul 2022 10:39:44 +0200
+Message-Id: <20220718083945.200845-7-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
 References: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
@@ -55,28 +55,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The chroma offset depends of the bitstream depth.
-Make sure that ctx->bit_depth is used to compute it.
+Expose 10bit pixel formats to enable 10bit decoding in IMX8M SoCs.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 ---
- drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/hantro/imx8m_vpu_hw.c | 27 +++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 233ecd863d5f..a917079a6ed3 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -12,7 +12,7 @@
+diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+index 77f574fdfa77..b390228fd3b4 100644
+--- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
++++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+@@ -162,12 +162,39 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
++	{
++		.fourcc = V4L2_PIX_FMT_P010,
++		.codec_mode = HANTRO_MODE_NONE,
++		.postprocessed = true,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
++	},
+ };
  
- static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
- {
--	return ctx->dst_fmt.width * ctx->dst_fmt.height;
-+	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
- }
- 
- static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
+ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12_4L4,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.match_depth = true,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = TILE_MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = TILE_MB_DIM,
++		},
++	},
++	{
++		.fourcc = V4L2_PIX_FMT_P010_4L4,
++		.codec_mode = HANTRO_MODE_NONE,
++		.match_depth = true,
+ 		.frmsize = {
+ 			.min_width = FMT_MIN_WIDTH,
+ 			.max_width = FMT_UHD_WIDTH,
 -- 
 2.32.0
 
