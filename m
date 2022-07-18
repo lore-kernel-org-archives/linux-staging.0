@@ -1,105 +1,149 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4601D3C0A
-	for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 19:33:12 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id d16so18492205wrv.10
-        for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 12:33:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=xwOi0/YqmOj47DIS9XkftfFeH7Ad13wjAtHDSHbI450=;
-        b=dGi9GSHC3uV2Tx+fDM28pxHAquxspdxN8voOAbb77fxkDwlidDStGMPx0u1hlsg0Tc
-         C+P8FNd53X+vyHsguz+nyUbW18/k6VGIdk3iNfN0FatsqpowDxnL+j1fGlibN7HP08pb
-         Nq4E1Pj9i3facXWRddVbV48qTk05INDrTnH9CWqUSzq+6gHvmerw3cDnOOHP8ZBySB+r
-         zyhEwqp0FIs2SMZ3sXpeJTXM8pDsZcIngeJ3uyb4XETFL7749EocVjR8JdjrTSJgMpPe
-         44SljfFn1L5ZFAfGPtSzw9MwV1EmBIa1U55qsvFPvibrwdS2u4b1cfgV6l307WeN0gd8
-         Ckzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=xwOi0/YqmOj47DIS9XkftfFeH7Ad13wjAtHDSHbI450=;
-        b=6xfdNij7a8dXeF6eAZ2zgAFoGM/XsrKii54UT6ZAWVWQ/uOoe7vG1ieXItvE7dTXTf
-         sgSEJfYvkDsf3mqcLmOZspMe1xyvmu7ESiLHc8sO9PxEWus4Cgpt25TzVfjYvnGTMVAp
-         EZ1bgaKHiw5L1iicGOUiW8a0+KYc9tSuXb3/a4GbTOwmBsA47QlyHtQyZ5/WSr6Jah9E
-         DYM8FsQz/Z7D2mOwWf9bjAXGytEOWiVg7LlxmTGjgWpX3egdL6bKSOr1Vd3xYybzkUJN
-         jmuL3iLIO4q5bned9UTBimCqYg//BfomMyLVLi4FtEJpW1gYBw5dlvFACAJzElfn19aY
-         o/Fw==
-X-Gm-Message-State: AJIora/gVNYQP0Omgdm9g+iA70gdms7VQSXGIQ2RVb59ad0M+pWF3I+v
-	o6fMjZ9eLGYyLOKKvntyhufYnxeiddQ=
-X-Google-Smtp-Source: AGRyM1tZcdrTnOWuKMDCpj3dhGwlJ+rKD67mfQ2bDQGJl9jWR4hOcIzV8+LPffjMUcNiEGlPaGCjaQ==
-X-Received: by 2002:a05:6000:1ac8:b0:21d:b7d9:3c03 with SMTP id i8-20020a0560001ac800b0021db7d93c03mr23155250wry.149.1658172790485;
-        Mon, 18 Jul 2022 12:33:10 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2e:6999:b072:faf1:1e0f:8765? (p200300c78f2e6999b072faf11e0f8765.dip0.t-ipconnect.de. [2003:c7:8f2e:6999:b072:faf1:1e0f:8765])
-        by smtp.gmail.com with ESMTPSA id m185-20020a1c26c2000000b003a302fb9df7sm16061235wmm.21.2022.07.18.12.33.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jul 2022 12:33:10 -0700 (PDT)
-Message-ID: <adbd6481-4ea0-0e9b-5249-9ab2b843a450@gmail.com>
-Date: Mon, 18 Jul 2022 21:33:08 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659CD3C0A;
+	Mon, 18 Jul 2022 19:37:43 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id BA4466601795;
+	Mon, 18 Jul 2022 20:37:39 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1658173061;
+	bh=LCf/s3bJotpGmDKE8E4oSQh+ckkgVVV5vCvcjXblB0s=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=X/JVOBEF1Lzc6xx7hoh2Tlhlv12AOKBhCOIIdQDwSRRd8IlVq8A/8r8er7fuuVoGt
+	 pUw7fqL4Jqp4kJb1cjDo5S47jrvXiXEin8QhdU0FkRu4Q0MB4GZyA8lhe8JdfasVfL
+	 0sGNUqN4AoGC1RP8LkSjliFCqaLrR7zrQmKCW57qf3flYxKQYJBlf+VNynaUbh1GNL
+	 UG+efbtZ3drunHD6aR3Xonm9YPMl0Q+6RQK55+MQm38DOXp5svriHAn6CN8TmLcB1Q
+	 2y6x+HBsFtQ0zV80fk9LbjiRXrtcAktPRHPCiJgm0A+x56J5oN1lSx/aQ8MQalrVhU
+	 C2jqQDdLsFtig==
+Message-ID: <b588b53fcfe539692a0a55b9fd0e97528def1d96.camel@collabora.com>
+Subject: Re: Re: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	mripard@kernel.org, paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, 
+ samuel@sholland.org, hverkuil-cisco@xs4all.nl,
+ ezequiel@vanguardiasur.com.ar,  linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
+Date: Mon, 18 Jul 2022 15:37:31 -0400
+In-Reply-To: <4725382.GXAFRqVoOG@kista>
+References: <20220718165649.16407-1-jernej.skrabec@gmail.com>
+	 <d58e8624e9703e5dbbc54908aa142d10ef7f5a22.camel@collabora.com>
+	 <4725382.GXAFRqVoOG@kista>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/7] staging: vt6655: Rename dwData to reg_value in four
- macros
-Content-Language: en-US
-To: Joe Perches <joe@perches.com>, Forest Bond <forest@alittletooquiet.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1658094708.git.philipp.g.hortmann@gmail.com>
- <b54577316eebdbb54e478fc51473eeba9d7eacae.1658094708.git.philipp.g.hortmann@gmail.com>
- <c040cd03d04fb861b85b4f56cd04b473bb778ebd.camel@perches.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <c040cd03d04fb861b85b4f56cd04b473bb778ebd.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 7/18/22 08:07, Joe Perches wrote:
-> Please remember that checkpatch is a stupid little scripted tool
-> and the actual goal is to have readable code.
-Understood.
-> 
-> Look a bit beyond the code and see if and how you could make the
-> code better.
-> 
-> All of these macros have the same form and logic.
-> 
-That is the reason why I put them all together in one static function:
-static void vt6655_mac_dma_ctl(void __iomem *iobase, u8 reg_index)
-{
-	unsigned long reg_value;
+Le lundi 18 juillet 2022 =C3=A0 19:57 +0200, Jernej =C5=A0krabec a =C3=A9cr=
+it=C2=A0:
+> Dne ponedeljek, 18. julij 2022 ob 19:41:48 CEST je Nicolas Dufresne=20
+> napisal(a):
+> > Le lundi 18 juillet 2022 =C3=A0 18:56 +0200, Jernej Skrabec a =C3=A9cri=
+t :
+> > > Not all DPB entries will be used most of the time. Unused entries wil=
+l
+> > > thus have invalid timestamps. They will produce negative buffer index
+> > > which is not specifically handled. This works just by chance in curre=
+nt
+> > > code. It will even produce bogus pointer, but since it's not used, it
+> > > won't do any harm.
+> > >=20
+> > > Let's fix that brittle design by skipping writing DPB entry altogethe=
+r
+> > > if timestamp is invalid.
+> > >=20
+> > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support"=
+)
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > ---
+> > >=20
+> > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >=20
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> > > 1afc6797d806..687f87598f78 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > @@ -147,6 +147,9 @@ static void cedrus_h265_frame_info_write_dpb(stru=
+ct
+> > > cedrus_ctx *ctx,>=20
+> > >  			dpb[i].pic_order_cnt_val
+> > >  	=09
+> > >  		};
+> > >=20
+> > > +		if (buffer_index < 0)
+> > > +			continue;
+> >=20
+> > When I compare to other codecs, when the buffer_index does not exist, t=
+he
+> > addr 0 is being programmed into the HW. With this implementation is is =
+left
+> > to whatever it was set for the previous decode operation. I think its i=
+s
+> > nicer done the other way.
+>=20
+> It's done the same way as it's done in vendor lib. As I stated in commit=
+=20
+> message, actual values don't matter for unused entries. If it is used by=
+=20
+> accident, HW reaction on all zero pointers can only be worse than using o=
+ld,=20
+> but valid entry.
+>=20
+> Due to no real documentation and Allwinner unwillingness to share details=
+,=20
+> we'll probably never know what's best response for each error. Some thing=
+s can=20
+> be deduced from vendor code, but not all.
+>=20
+> I would rather not complicate this fix, especially since it's candidate f=
+or=20
+> backporting.
 
-	reg_value = ioread32(iobase + reg_index);
-	if (reg_value & DMACTL_RUN)
-		iowrite32(DMACTL_WAKE, iobase + reg_index);
-	else
-		iowrite32(DMACTL_RUN, iobase + reg_index);
-}
+I am simply trying to highlight that this is not consistant with how the H2=
+64
+part is done. Why do we reset the register for one codec and not the other =
+?=C2=A0
 
-> Perhaps it'd be better to use another indirect macro and define
-> all of these with that new macro.
-> 
-> Something like:
-> 
-> #define mac_v(iobase, reg)						\
-> do {									\
-> 	void __iomem *addr = (iobase) + (reg);				\
-> 	iowrite32(ioread32(addr) & DMACTL_RUN ? DMACTL_WAKE : DMACTL_RUN,\
-> 		  addr);						\
-> } while (0)
-> 
-> #define MACvReceive0(iobase)	mac_v(iobase, MAC_REG_RXDMACTL0)
-> #define MACvReceive1(iobase)	mac_v(iobase, MAC_REG_RXDMACTL1)
-> #define MACvTransmit0(iobase)	mac_v(iobase, MAC_REG_TXDMACTL0)
-> #define MACvTransmitAC0(iobase)	mac_v(iobase, MAC_REG_AC0DMACTL)
+Perhaps you should sync to your preference the driver as a whole. It also s=
+eems
+that before your patch, some bits would be 0 and some other would be very l=
+arge
+values. Between this and leaving random value, I don't really see any gain =
+or
+reason for a backport. It neither break or fix anything as far as I underst=
+and.=C2=A0
 
-That is an interesting solution. But for me this code is not as good 
-readable as my proposal. Reason is that I struggle with the function in 
-function with condition broken into two lines.
+My general opinion, is that we fixe the unused address (like to 0) then whe=
+n
+something goes wrong, as least it will go wrong consistently.
+
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > > +
+> > >=20
+> > >  		cedrus_h265_frame_info_write_single(ctx, i,=20
+> dpb[i].field_pic,
+> > >  	=09
+> > >  						   =20
+> pic_order_cnt,
+> > >  						   =20
+> buffer_index);
+>=20
+>=20
+
