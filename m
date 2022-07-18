@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5A8EC0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AC7EC1;
 	Mon, 18 Jul 2022 08:40:03 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:4754:89ee:32c6:e620])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0E3E46601A5B;
-	Mon, 18 Jul 2022 09:39:56 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 5EA206601A3B;
+	Mon, 18 Jul 2022 09:39:55 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1658133596;
-	bh=uFJlbVh28vCvFCrRB8E+09sC5cWGQ1vzKMAhwWbTrnk=;
+	s=mail; t=1658133595;
+	bh=H6nrAjLgpn/y5TqeB35GnAnTu40ZKr0Id6XGySDlajA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=en7H5Elc+qGELDbGLd51olcR3g8KbpdjWOzCYbHjm99EixTXWf5J5VdxBsi7bT6VS
-	 JbnvXXsKuuWn7K0xQ+dQmSrp8hSUoGKKZkUr04sOHVbsJex4nfJyd+HcX1C0046WKL
-	 ZscW11lfFHu6RvYorQpmkUusU9Q4S1035An9uaIYXuCoEoUmdX3qoHxxvua2AjmL3Q
-	 ICkPvOQcZI4eyrQDoDCXNT1ONilzP32nzqiJbyfYvKgmAykUHa4REd+1k9q3mwWhwC
-	 5F2owl8FWSRMCvvm3nfvCKpRCvIzWOeh/CTk8+yUHnCBHPz5sZJ6hyB55DEDYVP9sS
-	 2/GTHrxfydvVQ==
+	b=j2S1hCrrScBQVSyg8bwkhfigF2Lxw1SwBr6U/RjWvRzdEQwhMwiLHolvVRF7xcK2Y
+	 1OUEAWLdrceH1JIbwgclCGjpaUSyA4wvIkjqLVU3qCVPe5HrErUbS10mMUWSCu9q/D
+	 dE1S+t65oGdOkdVfSFmG1BUmYuJlJivR9ywOSlv761aLLHozwvLge58Z5fXOiGkeEp
+	 DVvghtymxkYXCAp2A6XHiY98jMqIhiG6HnBbZB/c02X+cHt3Z9PNnh771B8a/PaV9A
+	 n67w3YYO69YsZvaI0sHFCEogSL8jtN5Dazkf2PYNffa0KFHk1Ee6AgF3stW5dChcO6
+	 CJMkUXVcnpiJg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -41,9 +41,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 4/7] media: hantro: postproc: Configure output regs to support 10bit
-Date: Mon, 18 Jul 2022 10:39:42 +0200
-Message-Id: <20220718083945.200845-5-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 3/7] media: hantro: HEVC: Fix chroma offset computation
+Date: Mon, 18 Jul 2022 10:39:41 +0200
+Message-Id: <20220718083945.200845-4-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
 References: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
@@ -55,62 +55,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move output format setting in postproc and make sure that
-8/10bit configuration is correctly set.
+The chroma offset depends of the bitstream depth.
+Make sure that ctx->bit_depth is used to compute it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 ---
- drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 --
- drivers/staging/media/hantro/hantro_postproc.c    | 7 ++++++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index a917079a6ed3..a9d4ac84a8d8 100644
+index 233ecd863d5f..a917079a6ed3 100644
 --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
 +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -167,8 +167,6 @@ static void set_params(struct hantro_ctx *ctx)
- 	hantro_reg_write(vpu, &g2_bit_depth_y_minus8, sps->bit_depth_luma_minus8);
- 	hantro_reg_write(vpu, &g2_bit_depth_c_minus8, sps->bit_depth_chroma_minus8);
+@@ -12,7 +12,7 @@
  
--	hantro_reg_write(vpu, &g2_output_8_bits, 0);
--
- 	hantro_reg_write(vpu, &g2_hdr_skip_length, compute_header_skip_length(ctx));
- 
- 	min_log2_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
-diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-index a0928c508434..09d8cf942689 100644
---- a/drivers/staging/media/hantro/hantro_postproc.c
-+++ b/drivers/staging/media/hantro/hantro_postproc.c
-@@ -114,6 +114,7 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct vb2_v4l2_buffer *dst_buf;
- 	int down_scale = down_scale_factor(ctx);
-+	int out_depth;
- 	size_t chroma_offset;
- 	dma_addr_t dst_dma;
- 
-@@ -132,8 +133,9 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
- 		hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
- 		hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
- 	}
-+
-+	out_depth = hantro_get_format_depth(ctx->dst_fmt.pixelformat);
- 	if (ctx->dev->variant->legacy_regs) {
--		int out_depth = hantro_get_format_depth(ctx->dst_fmt.pixelformat);
- 		u8 pp_shift = 0;
- 
- 		if (out_depth > 8)
-@@ -141,6 +143,9 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
- 
- 		hantro_reg_write(ctx->dev, &g2_rs_out_bit_depth, out_depth);
- 		hantro_reg_write(ctx->dev, &g2_pp_pix_shift, pp_shift);
-+	} else {
-+		hantro_reg_write(vpu, &g2_output_8_bits, out_depth > 8 ? 0 : 1);
-+		hantro_reg_write(vpu, &g2_output_format, out_depth > 8 ? 1 : 0);
- 	}
- 	hantro_reg_write(vpu, &g2_out_rs_e, 1);
+ static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
+ {
+-	return ctx->dst_fmt.width * ctx->dst_fmt.height;
++	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
  }
+ 
+ static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
 -- 
 2.32.0
 
