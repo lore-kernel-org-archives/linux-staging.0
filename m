@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D05A28;
-	Mon, 18 Jul 2022 08:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63EFEBB;
+	Mon, 18 Jul 2022 08:40:02 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:4754:89ee:32c6:e620])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 441056601A12;
-	Mon, 18 Jul 2022 09:39:53 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id AE0266601A2E;
+	Mon, 18 Jul 2022 09:39:54 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1658133593;
-	bh=VGO6bJB0It56njxoW1ZluHISXuIAwk0hlWOpYr3qvh0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=izorKfV6D59nkihSVVKwQzSDN6Be6j30U2dXb1Obk6eo/wo2kD4uc10x9gpPwKBez
-	 LCuYFa3wmKb1txsaIlMzbu9X3P9OY7ldwE9iQVKcchwLub1flI/Al8DY6J2Wrg+Us6
-	 +dQUhW1zx0fLkn6aDgZ5mr382mVn1Xgi5nfywkJbjYPa0rAnxsbZ+aaZRkrlAPeAeD
-	 oZn3P0PbCbYtXQAjp78j3SZx/b+XceGR9DHogelEN05zCeKLFPjJmhALUHUVRcCgP7
-	 kX+uzdMm4NyQcA1xnayA5AM/u8WgZHUBN2XCWDrYUm/QhPdNYe+s8KMv8hPa38TPyQ
-	 4OLYDHIsr+zyg==
+	s=mail; t=1658133595;
+	bh=aAX2fIh0E/jx2jwVuosd8v5FOJr/5j+dV3YioIr80rc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WrJiN1Cm4Wa0LYa4FCz+FGHrVrWvTDOfElmkh8S6OI/JEcd0LyhxmhXwUwu4hBATx
+	 iK4R8mxeRgYc64pUvA8SQYe7VB7th9p4mN6nKfFAHo4J/Lm45E7nqyUDh6vSy21vMo
+	 KJKc5VklJCNKmgjp+E0lUsDR+rabYpt78F/+udczXMdmnp51E20zpAFTKZqBYcsWV7
+	 Ngn5DW/M+ZOsxpcS8jjakmJKsw+fAypmi/3BBEKZOw6plORkUacG5h9YvDpHoOeb37
+	 S2Slbo/FlXImqGUFNfZOPkAgF8j0g6KV/FxPNBijsE42eiwx21BjeMsQOKoqJHItmx
+	 SWvYtZOz+YRtQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -41,10 +41,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 0/7]  Enable 10bits bitstream for Hantro/G2 HEVC codec
-Date: Mon, 18 Jul 2022 10:39:38 +0200
-Message-Id: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 2/7] media: hantro: HEVC: Fix auxilary buffer size calculation
+Date: Mon, 18 Jul 2022 10:39:40 +0200
+Message-Id: <20220718083945.200845-3-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
+References: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,41 +55,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since v1 Jernej patches to support 10 bits decoding have been merged.
-This v2 rebase the previously send patches and add Ezequiel reviewed-by
-tag.
-This series add 10bits support for newer hardware blocks (i.e without
-legacy regs) and for HEVC codec.
+SAO and FILTER buffers size depend of the bit depth.
+Make sure we have enough space for 10bit bitstreams.
 
-It based tested on IMX8MQ with HEVC conformance tests.
-The results are that all 10bits bitstreams are OK.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+---
+ drivers/staging/media/hantro/hantro_hevc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The problematic point raise by this series is the question of where 
-to put HEVC validation function. Does it have to be only hantro_try_ctrl()
-or shall it be done also in .run().
-This series doesn't change that behavoir so I will argue in farvor to
-merge it and to work on this validation time problem when unstaging 
-the driver.
-Hans, Ezequiel may that sound acceptable for you ? 
-
-Regards,
-Benjamin
-
-Benjamin Gaignard (7):
-  media: hantro: Store HEVC bit depth in context
-  media: hantro: HEVC: Fix auxilary buffer size calculation
-  media: hantro: HEVC: Fix chroma offset computation
-  media: hantro: postproc: Configure output regs to support 10bit
-  media: Hantro: HEVC: Allows 10-bit bitstream
-  media: hantro: imx8m: Enable 10bit decoding
-  media: hantro: Allows luma and chroma depth to be different
-
- .../staging/media/hantro/hantro_g2_hevc_dec.c |  4 +--
- drivers/staging/media/hantro/hantro_hevc.c    | 13 +++++----
- .../staging/media/hantro/hantro_postproc.c    |  7 ++++-
- drivers/staging/media/hantro/imx8m_vpu_hw.c   | 27 +++++++++++++++++++
- 4 files changed, 40 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+index dcb5c8703b6e..e06837108a09 100644
+--- a/drivers/staging/media/hantro/hantro_hevc.c
++++ b/drivers/staging/media/hantro/hantro_hevc.c
+@@ -104,7 +104,7 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
+ 		hevc_dec->tile_bsd.cpu = NULL;
+ 	}
+ 
+-	size = VERT_FILTER_RAM_SIZE * height64 * (num_tile_cols - 1);
++	size = (VERT_FILTER_RAM_SIZE * height64 * (num_tile_cols - 1) * ctx->bit_depth) / 8;
+ 	hevc_dec->tile_filter.cpu = dma_alloc_coherent(vpu->dev, size,
+ 						       &hevc_dec->tile_filter.dma,
+ 						       GFP_KERNEL);
+@@ -112,7 +112,7 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
+ 		goto err_free_tile_buffers;
+ 	hevc_dec->tile_filter.size = size;
+ 
+-	size = VERT_SAO_RAM_SIZE * height64 * (num_tile_cols - 1);
++	size = (VERT_SAO_RAM_SIZE * height64 * (num_tile_cols - 1) * ctx->bit_depth) / 8;
+ 	hevc_dec->tile_sao.cpu = dma_alloc_coherent(vpu->dev, size,
+ 						    &hevc_dec->tile_sao.dma,
+ 						    GFP_KERNEL);
 -- 
 2.32.0
 
