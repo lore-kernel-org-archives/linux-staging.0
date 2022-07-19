@@ -1,183 +1,161 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175C710FA
-	for <linux-staging@lists.linux.dev>; Tue, 19 Jul 2022 05:52:30 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id g4so12589887pgc.1
-        for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 22:52:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A70D10FA
+	for <linux-staging@lists.linux.dev>; Tue, 19 Jul 2022 05:53:09 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-31e0d4ad6caso69265547b3.10
+        for <linux-staging@lists.linux.dev>; Mon, 18 Jul 2022 22:53:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZYMw3UQMSz3H3pEqKtwqntC2HWF3rF+h4WbG3jMpFW8=;
-        b=Ha35QSpftuGLQEgXNNAQerfzHjm7SNUtqmiJlu+HQ4JKZOL078A8FiEHVY1wjQPomE
-         Nap3STG9AOP31UUR26j8pED2v65uTxk3WkRxNTslHnzCcm8f+5bFjFD7rexkNI6VxwbW
-         U8REa6SfrY4xTk9wEnQAHV32nW8xABWcKYJOAbAvDOwFfn1GGQhU0XsgMr2kyRbIMW/Y
-         +kSmdki82dBxglNQv3RMKId4Ze2YW7atEFGB2wotwUbue6OrYwaTReuJ/fvVZtUosAuc
-         gMkrh5gsiu8N99B4Rc+EAqupq4K+WDcWNSaNU8yWrxeFqkdQFZ64pWb6UXlS68JJuKhH
-         l+jw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ddwaIIn58piVSVlYeufxyiAUkUWa6BS/x3DMTO6B49o=;
+        b=aVUONajDby8ZEmMd1cWOFu0veJxSidQ8m1I11oHdW9wXYB73fyK91ezbJp5wPlQVJ2
+         sE+sHqozuUvdvu9PohAxGxhZAzfxpevvCpBbbvKp02N4ZSWuA3sxkUq2GjEDeKJ6ERhp
+         x+joz9KXOyTxkI5WkUt63zsxSoHIzEsxMwhQmKyxWRgcYUG5MiMRD4x0w7gpaVDRF7w4
+         SnJA8Es2GHWvjbpVFJ9M40eJy3i0w/aq8R3pOs1OVYASH7Vb3YVt+3V9yc9tqqcoQ4sd
+         Ujc0v0MBrDQE1ZQA6nG+/B1lxAHiuGTMBRrv2rFyL6sJaL1QIp39ABRXmanIotYmvs51
+         WpYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZYMw3UQMSz3H3pEqKtwqntC2HWF3rF+h4WbG3jMpFW8=;
-        b=kEV1qO1J2xuFfE+DZA0nKSnCDl5OgOxHrTw/Q3mNAMsR1M627ZU6v4yHN1GHHfF3dD
-         Q9BGYnmyiI3ycXYyvg0alQOfszLkTzVZXVkIzP/Mk+COD1u9auA5hKcs/wKGNwbzQnJJ
-         unAcMsVghzCKswFgyreRV3I2Otws6xNy1pikx8zPGkfzo/kh3VcJo0JCX4pFpvVkOTEP
-         SltqAYwWMebtbY5Y5tzkWSb8EmswABvMXHDNR6TCxQvXDLjWy9RvmBDq82j2fN49BR9T
-         +AyipIgaIx3Gc6eN+k7OC4TbdHsxEHsRsN2nqM4KuxgfxamPPT/5UTEtiXako7KqFKxu
-         P8cg==
-X-Gm-Message-State: AJIora+8bwRZa1X1EcUqd8ZXuSVli3Sy58da9b77fWb0QZBYm0S5+qYN
-	dOjghp09EsyTMfk9Gc3eZk4=
-X-Google-Smtp-Source: AGRyM1soukGXPltJ6ev+v2A3YybFvRSG3OnYXbvRS5nKZu3xhTcAgOOhJXtvZpPqKNtMxQ4hMjDMSQ==
-X-Received: by 2002:a62:4e89:0:b0:52b:6c56:7aea with SMTP id c131-20020a624e89000000b0052b6c567aeamr9640831pfb.19.1658209950463;
-        Mon, 18 Jul 2022 22:52:30 -0700 (PDT)
-Received: from tong-desktop.local ([2600:1700:3ec7:421f:33db:e37c:7ee3:662b])
-        by smtp.googlemail.com with ESMTPSA id a16-20020a170902ecd000b0016c20d40ee7sm10709338plh.174.2022.07.18.22.52.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 22:52:30 -0700 (PDT)
-From: Tong Zhang <ztong0001@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tong Zhang <ztong0001@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Colin Ian King <colin.king@intel.com>,
-	Saurav Girepunje <saurav.girepunje@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: dan.carpenter@oracle.com,
-	Zheyu Ma <zheyuma97@gmail.com>
-Subject: [PATCH v2 3/3] staging: rtl8192u: fix rmmod warn when wlan0 is renamed
-Date: Mon, 18 Jul 2022 22:50:38 -0700
-Message-Id: <20220719055047.322355-4-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220718120149.GD2338@kadam>
-References: <20220718120149.GD2338@kadam>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ddwaIIn58piVSVlYeufxyiAUkUWa6BS/x3DMTO6B49o=;
+        b=tlJdk7UmFIjTsZxY/R4H3aY/aFcWErM2ohmD2AZuBKrJ4Wlp5aE2nGjyrmtyRdxKWR
+         5CkWlgw4tCJ2v0at/+U6RhUKNPoWIicWyHp/5uePaRSrplozz7gZNRUtF19KyqZ0nBJb
+         XgrZg2mdrkOGUCSGFTC0mwpPjMVVbtFmzCfdljyNGb2Bc2Wl/GNoZtxH98ZcJ3Xbo5/p
+         nNwOeZiOkDFSjYX1D3SMcpmHBGKzjFjNsvatdY5rLXIdLooCVeWV6HO+LRs1vIkyCItG
+         4EFS7qKeioFHWPmtiSVmgJEM4RuZyWber49g521s+revvjJj7sNhIM+akN6D5JqEORde
+         oKWA==
+X-Gm-Message-State: AJIora9rb4vbsQNahyq195m4r/I+KN2uZIrXDYsvbC5rrQeUV/Y5xQkI
+	p5MixYmAjcxHQt5ebs7PsLz08LwIvdd3UH5q4I0=
+X-Google-Smtp-Source: AGRyM1voiLA+Jnkzd6JrEEDR31unWn3tsBQx1ZcSZOM73aSF4usz60SOtIuSERmQ7z6cJay/BQKXbbYczl1pWtYUOmY=
+X-Received: by 2002:a81:12d8:0:b0:31c:ab66:4693 with SMTP id
+ 207-20020a8112d8000000b0031cab664693mr34526341yws.452.1658209988175; Mon, 18
+ Jul 2022 22:53:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAMhUBjmX0BDh-35GQxf3-fXFa8_EKfh2fwYKZDgH4NzGGQHiSg@mail.gmail.com>
+ <20220717070204.705878-1-ztong0001@gmail.com> <20220718120149.GD2338@kadam>
+In-Reply-To: <20220718120149.GD2338@kadam>
+From: Tong Zhang <ztong0001@gmail.com>
+Date: Mon, 18 Jul 2022 22:52:57 -0700
+Message-ID: <CAA5qM4DWdtx6rndL5SGo=MacHYH8L2FVhmO_F07EDppkTnKbHA@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8192u: fix rmmod warn when wlan0 is renamed
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Colin Ian King <colin.king@intel.com>, Saurav Girepunje <saurav.girepunje@gmail.com>, 
+	Johan Hovold <johan@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, Zheyu Ma <zheyuma97@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-This driver creates 4 debug files under [devname] folder. The devname
-could be wlan0 initially, however it could be renamed later to e.g.
-enx00e04c00000. This will cause problem during debug file teardown since
-it uses  netdev->name which is no longer wlan0. To solve this problem,
-add a notifier to handle device renaming.
+On Mon, Jul 18, 2022 at 5:02 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Sun, Jul 17, 2022 at 12:01:57AM -0700, Tong Zhang wrote:
+> > +static int rtl8192_usb_netdev_event(struct notifier_block *nb, unsigned long event,
+> > +             void *data)
+> > +{
+> > +     struct net_device *netdev = netdev_notifier_info_to_dev(data);
+> > +
+> > +     if (netdev->netdev_ops != &rtl8192_netdev_ops)
+> > +             goto out;
+> > +
+> > +     switch (event) {
+> > +             case NETDEV_CHANGENAME:
+> > +                     rtl8192_debugfs_rename(netdev);
+> > +                     break;
+> > +
+> > +             default:
+> > +                     break;
+> > +     }
+>
+> This isn't indented properly.  Don't forget to run ./scripts/checkpatch.pl
+> on your patch.
+>
+> > +
+> > +out:
+> > +     return NOTIFY_DONE;
+> > +}
+> > +
+> > +static struct notifier_block rtl8192_usb_netdev_notifier = {
+> > +     .notifier_call = rtl8192_usb_netdev_event,
+> > +};
+> > +
+> > +
+>
+> Here too.
+>
+> >  static int __init rtl8192_usb_module_init(void)
+> >  {
+> >       int ret;
+> > @@ -4788,10 +4638,14 @@ static int __init rtl8192_usb_module_init(void)
+>
+> [ snip ]
+>
+> > +void rtl8192_debugfs_init(struct net_device *dev)
+> > +{
+> > +     struct dentry *dir;
+> > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
+> > +
+> > +     dir = debugfs_create_dir(dev->name, NULL);
+> > +     if (IS_ERR_OR_NULL(dir))
+> > +             return;
+>
+> In olden times the debugfs_create_dir() function used to return a mix
+> of error pointers and NULL.  But the idea with that function is that
+> most people are not supposed to check for errors.  But instead of that
+> they added all kind of *buggy* checks.  So then we made it just return
+> error pointers.
+>
+> This code *does* care about it because it uses the
+> priv->debugfs_dir->d_name.name in rtl8192_debugfs_rename().
+>
+> But caring about the debugfs dir and creating a rtl8192_debugfs_rename()
+> function is really unusual.  And normally when we have to do something
+> unusual that means we are doing something wrong...  :/
+>
+> Anyway, just check for if (IS_ERR(dir)) {
+>
+> > +
+> > +     debugfs_create_file("stats-rx", 0444, dir, dev, &rtl8192_usb_stats_rx_fops);
+> > +     debugfs_create_file("stats-tx", 0444, dir, dev, &rtl8192_usb_stats_tx_fops);
+> > +     debugfs_create_file("stats-ap", 0444, dir, dev, &rtl8192_usb_stats_ap_fops);
+> > +     debugfs_create_file("registers", 0444, dir, dev, &rtl8192_usb_registers_fops);
+> > +
+> > +     priv->debugfs_dir = dir;
+> > +}
+> > +
+> > +void rtl8192_debugfs_exit(struct net_device *dev)
+> > +{
+> > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
+> > +     if (!priv->debugfs_dir)
+> > +             return;
+> > +     debugfs_remove_recursive(priv->debugfs_dir);
+> > +     priv->debugfs_dir = NULL;
+> > +}
+> > +
+> > +void rtl8192_debugfs_rename(struct net_device *dev)
+> > +{
+> > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
+> > +
+> > +     if (!priv->debugfs_dir)
+> > +             return;
+> > +
+> > +     if (!strcmp(priv->debugfs_dir->d_name.name, dev->name))
+> > +             return;
+> > +
+> > +     debugfs_rename(priv->debugfs_dir->d_parent, priv->debugfs_dir,
+> > +                     priv->debugfs_dir->d_parent, dev->name);
+> > +}
+> > +
+>
+> regards,
+> dan carpenter
 
-Reported-by: Zheyu Ma <zheyuma97@gmail.com>
-Tested-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
----
- drivers/staging/rtl8192u/r8192U.h         |  1 +
- drivers/staging/rtl8192u/r8192U_core.c    | 35 ++++++++++++++++++++++-
- drivers/staging/rtl8192u/r8192U_debugfs.c | 13 +++++++++
- 3 files changed, 48 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
-index e8860bb2b607..ccce37b7e2ae 100644
---- a/drivers/staging/rtl8192u/r8192U.h
-+++ b/drivers/staging/rtl8192u/r8192U.h
-@@ -1122,4 +1122,5 @@ void setKey(struct net_device *dev, u8 EntryNo, u8 KeyIndex, u16 KeyType,
- 
- void rtl8192_debugfs_init(struct net_device *dev);
- void rtl8192_debugfs_exit(struct net_device *dev);
-+void rtl8192_debugfs_rename(struct net_device *dev);
- #endif
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index ac3716550505..5cc78c5bd706 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -4606,6 +4606,30 @@ static void rtl8192_usb_disconnect(struct usb_interface *intf)
- 	RT_TRACE(COMP_DOWN, "wlan driver removed\n");
- }
- 
-+static int rtl8192_usb_netdev_event(struct notifier_block *nb, unsigned long event,
-+				    void *data)
-+{
-+	struct net_device *netdev = netdev_notifier_info_to_dev(data);
-+
-+	if (netdev->netdev_ops != &rtl8192_netdev_ops)
-+		goto out;
-+
-+	switch (event) {
-+	case NETDEV_CHANGENAME:
-+		rtl8192_debugfs_rename(netdev);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+out:
-+	return NOTIFY_DONE;
-+}
-+
-+static struct notifier_block rtl8192_usb_netdev_notifier = {
-+	.notifier_call = rtl8192_usb_netdev_event,
-+};
-+
- static int __init rtl8192_usb_module_init(void)
- {
- 	int ret;
-@@ -4615,10 +4639,16 @@ static int __init rtl8192_usb_module_init(void)
- 	RT_TRACE(COMP_INIT, "Initializing module");
- 	RT_TRACE(COMP_INIT, "Wireless extensions version %d", WIRELESS_EXT);
- 
-+	ret = register_netdevice_notifier(&rtl8192_usb_netdev_notifier);
-+	if (ret) {
-+		pr_err("register_netdevice_notifier failed %d\n", ret);
-+		return ret;
-+	}
-+
- 	ret = ieee80211_debug_init();
- 	if (ret) {
- 		pr_err("ieee80211_debug_init() failed %d\n", ret);
--		return ret;
-+		goto unregister_notifier;
- 	}
- 
- 	ret = ieee80211_crypto_init();
-@@ -4660,6 +4690,8 @@ static int __init rtl8192_usb_module_init(void)
- 	ieee80211_crypto_deinit();
- debug_exit:
- 	ieee80211_debug_exit();
-+unregister_notifier:
-+	unregister_netdevice_notifier(&rtl8192_usb_netdev_notifier);
- 	return ret;
- }
- 
-@@ -4671,6 +4703,7 @@ static void __exit rtl8192_usb_module_exit(void)
- 	ieee80211_crypto_tkip_exit();
- 	ieee80211_crypto_deinit();
- 	ieee80211_debug_exit();
-+	unregister_netdevice_notifier(&rtl8192_usb_netdev_notifier);
- 	RT_TRACE(COMP_DOWN, "Exiting");
- }
- 
-diff --git a/drivers/staging/rtl8192u/r8192U_debugfs.c b/drivers/staging/rtl8192u/r8192U_debugfs.c
-index 5c9376e50889..c94f5dfac96b 100644
---- a/drivers/staging/rtl8192u/r8192U_debugfs.c
-+++ b/drivers/staging/rtl8192u/r8192U_debugfs.c
-@@ -173,3 +173,16 @@ void rtl8192_debugfs_exit(struct net_device *dev)
- 	priv->debugfs_dir = NULL;
- }
- 
-+void rtl8192_debugfs_rename(struct net_device *dev)
-+{
-+	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
-+
-+	if (!priv->debugfs_dir)
-+		return;
-+
-+	if (!strcmp(priv->debugfs_dir->d_name.name, dev->name))
-+		return;
-+
-+	debugfs_rename(priv->debugfs_dir->d_parent, priv->debugfs_dir,
-+		       priv->debugfs_dir->d_parent, dev->name);
-+}
--- 
-2.25.1
-
+I modified the patch and sent it as v2.
+Thanks and have a good one!
+- Tong
