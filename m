@@ -1,168 +1,228 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD947B
-	for <linux-staging@lists.linux.dev>; Tue, 19 Jul 2022 08:04:59 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26J3i3Jd026655;
-	Tue, 19 Jul 2022 08:04:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=u/PAcPBvVomy4dGAWej/bk3CoGv3m3Q2tSAIY1KFluI=;
- b=xP0sfHae5Y7aJb/pl955DtOPh/qx+IQ80CE+jSWzBcfq591Q582Q0uWu9+9K5Dzxuchd
- u+Q8zsa+9Xzr6W/SNSizcKNn+oUJLJl31QAy24AOw0KTxViS8TWk1slCikKqyxVMsPtu
- MzKRMGsQ96xSfBUM6Nd6EczrxCSAzS402Uu/VOn+pqU1jtqxQrHitQ+YRlGhMH4vd2oZ
- fQNEe+aMyzRGwPx84NKxUn+hRQZlDy+kg7XP0cf0Tzod6ZUgGRourCCE2RDXfReEvxyl
- o0Fgoahs5skQIR8I2WD19WZjlQfBo10GTBcYqz6ak59SCXsAUrs3M7x+Y6oHQIOFV882 7g== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbn7a5cq4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 19 Jul 2022 08:04:53 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 26J60rbH001331;
-	Tue, 19 Jul 2022 08:04:52 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2174.outbound.protection.outlook.com [104.47.57.174])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3hc1k34xq3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 19 Jul 2022 08:04:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FDcC4EHcZaO2jgAq6ae3zq8Si91W20hui6roUd65+L60Z82QRrmhHGqsruKhdRxat9wckqDAaUEmCC2RkIsys9b11slsvxr2yzI634qPbISg04W+cOYgvsZ53k22JWwjtOahX/T75uPG0D5rF8rziKU1fItCkiO9Pf0+JBMXNWbwoQuEFGcWyfH0DsgqPToWNvXkr6E7ArkEanGwN0elByUBni3j/eZJZBG9f5e08nLiULIFpQJ1HkW+c747lZqloBhbi/Oz3d1NZQ92/M2ejnGPGzr4kk7lrWkotbAgQBB/SA+ot6r8ekYDeuVN9WoVK9AcLPKJuQOcfEyfvx0s4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u/PAcPBvVomy4dGAWej/bk3CoGv3m3Q2tSAIY1KFluI=;
- b=a+J11wrk2k7zwzD1dpNLKoTJ4NordpW7zSyTWIrYlC1GWgZNXqFTKWESLisrXt8h1tpxxWv2vpzlxjWMj0Ez8TMyyLdzTEftB8nfCz//cRZx983rds0JCTydP1XFjT5siR8wiD7u/ONByVn7rERszvU/9zO92uE8/oQiKEYKcZlGnjzhQ4VcHd/hVoU/3UDJrplqpNTwWb0+Yi67amweWJ4JpkeFj+cC0+921ZRai0oGChg+r4ZTZuddFQBdJ/InlaPY6oWD6N+tXHlEdi/ole1dCfuZ1LezT4gllPyukZhUMm8jAPXsuRNKRa8HV88pwrs0ZrChMjz8wVkNkt+A6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u/PAcPBvVomy4dGAWej/bk3CoGv3m3Q2tSAIY1KFluI=;
- b=bDauIAW7ttrAYF7ep9PHsVEI7AYNu2KdRrCt2uGVHgnvJiXsEqOo5HkT/DgUdHODdClUmLRBzPdeXEWkjDcNqGkvbqnr844Dt8s6OhHppVqQtbn1U1r8ZTaNxoOV38PqYvSwl87O/vgXrcLPSa5SXpN4tc1+Jh9hvMwDm1LnZZw=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DM6PR10MB3946.namprd10.prod.outlook.com
- (2603:10b6:5:1d2::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.21; Tue, 19 Jul
- 2022 08:04:50 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5438.023; Tue, 19 Jul 2022
- 08:04:50 +0000
-Date: Tue, 19 Jul 2022 11:04:31 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Tong Zhang <ztong0001@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Colin Ian King <colin.king@intel.com>,
-        Saurav Girepunje <saurav.girepunje@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>, Johan Hovold <johan@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Zheyu Ma <zheyuma97@gmail.com>
-Subject: Re: [PATCH v2 0/3] staging: rtl8192u: fix rmmod warn when wlan0 is
- renamed
-Message-ID: <20220719080431.GY2316@kadam>
-References: <20220718120149.GD2338@kadam>
- <20220719055047.322355-1-ztong0001@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220719055047.322355-1-ztong0001@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNXP275CA0043.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::31)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBC510E9;
+	Tue, 19 Jul 2022 10:04:42 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 59EF6E000E;
+	Tue, 19 Jul 2022 10:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1658225075;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NwzRrHTBlq6/GPcoprPr/yVYl2AllY/DC/t0CGrDf+A=;
+	b=e7f3TXzS3kV6ulJEA/Lge79POr4lJvgvaIo82298rbQnPih9xt0d9sckb/7/J6nV+87uyc
+	v+ib1i6xG+odNmUoJoPIbHNLCNz/+Go/D5ocGreEvWWqpMnkkYHgIKrfMNhKfyNSE2c9Dj
+	Gf9qk1lXvZRJK4+RuGVQLnulDML1DL5TGuAWxVqaDvuAs5foWN2Xek1xJT9u5UGo00uHAD
+	RtFMg1Kq8Y831tdSQ6DQhdLpA0NPjiTdsXqwEJxC0IzHbKMeYN6Rw0KwiNnw65tAOClIIw
+	mPamOXd6BbCLTEKjR4dslHJTbEeMMi8Qaz+6DQWoqc0G/z+p5kozXsWst8yeKA==
+Date: Tue, 19 Jul 2022 12:04:31 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v5 1/6] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YtaBr3B5JMrdFVgV@aptenodytes>
+References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
+ <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
+ <YtP0YfPteyzsBWn3@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69c21fb3-64ea-41a5-2a9e-08da695d5aa1
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3946:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	uIsd3Rl736PJUoNYK7w7ApBy2V7nawJsc0vZFPsosXptUlmlt7cAuft3noc+wMm4lUvum2Ta3ZCSW6dZzE7daDHPzoTtblOqcVLuVjAyDa0pGaAaiH6l9YmPgyyEUbo2OtoZksdsh4X7JrqO6T/0ZMeWo2u0NnWLBiANtp2+TU2ZWQPuG+UjYh8QVV73BXv4zKhsyB2HDGSv+RhQl4yd8oMmybxE8Pu0iVKiq8x56dkoP7S0RSnwyaWW7A2Qcj/5n9M7UIdosvFpPlD/Ly0GXOGMQ8hY/PNnUt3Y1xThZoMjSPlQrQOJ7eaHMtEL4+Xwy/RWx3D+i4SqbM+ihCxobQdT7kUKuL64h1TGaFgugeVRoIxB+lOTasfkGWPCDrjLNs1vORNEPCLD82qDv8O2/YNIeO220i2oxBsUhmDF2lgzBQR/qtYhu1Yk/IIwpY0ivz/hO1zirwNvNpabP5K0MlAli9xUjUydXM9GeMf3yHTH5s4XzGWfIiK7Cyw7ASQCn7nxAI3NPw7UP9zQaCTSCw1UG5z4PaqNMEgxLnKDNHreQLHmWHKaq33TlAahvJPjxUtKxmPsUGL6p8fpmzSUFlkmHFmskZIYsZ/49UYdGJK2mNwnwPfqPHZXOo30W7XG82rT3KsNk7L15NNtVMFBzQAzXlyCgIUe0qHOJ/O02P3Eg6r5Wl5NnpR7bfxzXsKKxFqBPzJPuzsu2U2Qs+mMI8sFiKxthU64LaqCDEXHxJNWyVGYhWW5zDy4Oj8CMzYLipxMQ8ySxLiqfCutMGdfSl/GCyp7M73nP0E4yKxBslY=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(376002)(136003)(366004)(346002)(39860400002)(396003)(6916009)(4326008)(54906003)(5660300002)(7416002)(66476007)(316002)(66556008)(66946007)(33716001)(8936002)(8676002)(2906002)(44832011)(33656002)(38350700002)(38100700002)(86362001)(1076003)(9686003)(6512007)(6506007)(52116002)(186003)(6486002)(41300700001)(6666004)(478600001)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?F93Z3L9b1RTLXcIipDglMkyMNsk7sHCXZHMMghSdJQmGOYWYTXig7RzxGu+t?=
- =?us-ascii?Q?quqk7bJleXLHiOCJwbUUxZ4CObQEZZVt1A4sKeBhUD3om2L5s5ikIiVJqAFk?=
- =?us-ascii?Q?P9kphHFPX4YRSUFMEmu+1ne8zen/4YtnV0af6g5tWBRhfjd7fEolGUzXupYv?=
- =?us-ascii?Q?qog2WIHzoFYo4+IWrCA06cf2LnR2rw4lCy0zsX9uXi+/CLQXSz2ibQRxWV1O?=
- =?us-ascii?Q?PxWPTGbEbXt/OxMRWDayxza9odlvy4APCP299rG+kvnR4V5LeD8reM/VT3vy?=
- =?us-ascii?Q?vH7qwq2c+cRPYjuQtAz9xFjoGIyXSlyw9OaDUs7RE0Lq8VIAjjSDyCMIqWDq?=
- =?us-ascii?Q?lX4dv1Ud+wNXTN19lMB9gO7LYB19gikProEU+EbfhuMN19w27YI6ywP/MddE?=
- =?us-ascii?Q?rff988yMmjbP/T7KBB5B/g/EjSjsXtSfQ3gvcHLErE1QkbMpihX4QGd0Ujpc?=
- =?us-ascii?Q?WHwowZ1okTarICrUl6wfAtJ+i2ylqbH2yukma6C//UrsRoqWXC+EUyuSjpuz?=
- =?us-ascii?Q?p5qIcHZxLD7WX9ElQ/RgnWH+GM7PtSjZD7QS/3buPM4+H2w1rJ2I8bqPW7eC?=
- =?us-ascii?Q?mKCSIqJYrTHC5pgvOqiJuaftoQmbasMOl44cwPghagdWGR4gzQhXPk/K8BeL?=
- =?us-ascii?Q?07MWjSc6fZ8hXty5RzWfmiX/tMqqc7iGhzU4X8LkfBKEwMVJZZ0tRTLVMg/m?=
- =?us-ascii?Q?GcypUyYHaNuICDzvFokWzTKZoQbtNyRe814ejf5WtwMRUbySUcjAUCScpSNV?=
- =?us-ascii?Q?we2LEOeayat/yCSBQPXLbrsKtuCfIU3jkO5cJtRYGeDd3LGVWDMHH2ZyspVi?=
- =?us-ascii?Q?Vs+ljKwvC9XDkJD8e3H+4qgqOMek84+M0x1lfuIWEKwwasa3pMV52UfcHV6O?=
- =?us-ascii?Q?HT9bjkvGNA+feFY5i8xibLAkC6qeo0EP+lhyIGhbcBDHKwgL7pix3+Of5oA9?=
- =?us-ascii?Q?NN2nXz9DJFzrbocPFKs2xZq2JJD38dNuKm4OkAYW7HT8NVYnn+biuDIMub+4?=
- =?us-ascii?Q?ZPT2D5IKiItZywLMqfwNNQjdK3mR/YsMeujJgZqzLZ/FXSBcPFyJFV+wdHp3?=
- =?us-ascii?Q?2ZE0Gg1HJWut6qhbG3DjTmjKOSDV6mg8kokXNNZIz3VUpuAgeAM3BUxB5NG9?=
- =?us-ascii?Q?tsjXCIeX/OgW/+OARXfWof1aNaRjlugDKaXjVMSQcTmzJiFWZXcRUj/R6C84?=
- =?us-ascii?Q?atHZ9iI8OSVjqICglOEdim+HuGFsO63RivEPxbFT+EIsWTdrjj4hna6uwJhi?=
- =?us-ascii?Q?xx0rZKEO/xS+aSBEmvJMjlgOKsFonfU+0yHiVQPtQN9HNMmHSTlsAgWqduk4?=
- =?us-ascii?Q?LDYfUgSwHqOkL4KtweksqRjnDWCpYZbsjrIdZmIv9deD+YjoN+JxQNPi2HNp?=
- =?us-ascii?Q?0jgzF1X6rMwk/lSG7+qfQyKJkjpy+HkciB/IpIaxom8S/wkQgR10GZtmMMV9?=
- =?us-ascii?Q?RjegI+TqCGFVKGaj82lz0wXUku1WZ+/KUIcRugE5UaAOTz2F3uehfAraHAxS?=
- =?us-ascii?Q?mq1lWspgCI5ckdOQ74ooy4dMDCtSPJO1hy9brLs31kl4OWivRhJSe9D1dZ1+?=
- =?us-ascii?Q?OG/yqihIwWgCEHyWZT/q2N9KCw1/F977IeKlYSepQoOHZZHioRjR7UQzLzZg?=
- =?us-ascii?Q?Mw=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69c21fb3-64ea-41a5-2a9e-08da695d5aa1
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2022 08:04:50.2232
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VP6caeVbJD2Pe6BL+o+dl0OYAYBDSqrGaW0GEZHOnimVPyJY28AoomgZB2QmYrchIHE+HS7QVU7MQ/IV1Qli/Y9KEktnjHu1zNQXYhPpc24=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3946
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-18_22,2022-07-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 spamscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207190034
-X-Proofpoint-ORIG-GUID: nWW5rN5K0NoOozUWuXrzKqMBSB6EMOfW
-X-Proofpoint-GUID: nWW5rN5K0NoOozUWuXrzKqMBSB6EMOfW
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3I9kBemjOHRithZP"
+Content-Disposition: inline
+In-Reply-To: <YtP0YfPteyzsBWn3@paasikivi.fi.intel.com>
 
-On Mon, Jul 18, 2022 at 10:50:35PM -0700, Tong Zhang wrote:
-> There are 4 debug files created under /proc/net/[Devname]. Devname could
-> be wlan0 initially, however it could be renamed later to e.g. enx00e04c000002.
-> This will cause problem during debug file teardown since it uses
-> netdev->name which is no longer wlan0. To solve this problem, add a
-> notifier to handle device renaming.
-> 
-> Also, due to this is purely for debuging as files are created read only,
-> move this to debugfs like other NIC drivers do instead of using procfs.
-> 
-> Reported-by: Zheyu Ma <zheyuma97@gmail.com>
-> Tested-by: Zheyu Ma <zheyuma97@gmail.com>
-> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-> 
-> v2: break down patch and fix pointer check
-> 
-> Tong Zhang (3):
->   staging: rtl8192u: move debug stuff to its own file
->   staging: rtl8192u: move debug files to debugfs
->   staging: rtl8192u: fix rmmod warn when wlan0 is renamed
 
-Thanks!  This is much better.
+--3I9kBemjOHRithZP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Hi Sakari,
 
-regards,
-dan carpenter
+On Sun 17 Jul 22, 11:37, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> On Mon, Jul 04, 2022 at 07:35:18PM +0200, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > Signal Processor (ISP).
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
+> >  1 file changed, 97 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
+un6i-a31-isp.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
+p.yaml
+> > new file mode 100644
+> > index 000000000000..2fda6e05e16c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
+aml
+> > @@ -0,0 +1,97 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
+indings
+> > +
+> > +maintainers:
+> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - allwinner,sun6i-a31-isp
+> > +      - allwinner,sun8i-v3s-isp
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Bus Clock
+> > +      - description: Module Clock
+> > +      - description: DRAM Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: mod
+> > +      - const: ram
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: CSI0 input port
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: CSI1 input port
+>=20
+> Do both support a single PHY with a single data only? If multiple data la=
+nes
+> are supported, please require data-lanes property (on endpoint).
 
+There's actually no PHY involved here: the ISP drivers gets its video stream
+=66rom these CSI controllers which are the ones interfacing with a MIPI CSI=
+-2
+receiver (on A31/V3 it uses an external D-PHY, on A83T the D-PHY is colloca=
+ted
+with the controller).
+
+So I think the data-lanes property is not relevant here.
+
+What do you think?
+
+Cheers,
+
+Paul
+
+> > +
+> > +    anyOf:
+> > +      - required:
+> > +          - port@0
+> > +      - required:
+> > +          - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> > +
+> > +    isp: isp@1cb8000 {
+> > +        compatible =3D "allwinner,sun8i-v3s-isp";
+> > +        reg =3D <0x01cb8000 0x1000>;
+> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks =3D <&ccu CLK_BUS_CSI>,
+> > +             <&ccu CLK_CSI1_SCLK>,
+> > +             <&ccu CLK_DRAM_CSI>;
+> > +        clock-names =3D "bus", "mod", "ram";
+> > +        resets =3D <&ccu RST_BUS_CSI>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +
+> > +                isp_in_csi0: endpoint {
+> > +                    remote-endpoint =3D <&csi0_out_isp>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+>=20
+> --=20
+> Sakari Ailus
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--3I9kBemjOHRithZP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmLWga8ACgkQ3cLmz3+f
+v9EUlAf8DYEIQLUQoXOrMlsqRDJSzDzjYJfAHBgm/q9wjI7fvxHf4yHlFuSVReSH
+O42woPwdpBWLkW8Nkd710Ln/xK0bp9yBmTxJ10yWCUKdeSDrzrX0WDzU62NQIjbB
+Ue0cNaQaCXTsgdY0xP/MgkDVPp13MfebobbyM4tqLwcEZyj3yCWR3skLd47htQoq
+O1I8TAi+7j5ssrk3hSyZdS1yPsQt2a02IoZ9iA4ItXDRw0yhN+Ak6dd/VTumaA9N
+l7sn1HQZTYsAb5wodKw5sroZBQV8dtJtPuvfwXSJbwuD8pfEJlmq8J0M6tRwDZs8
+kc/jaPT0DQF4oYt8l6tpHEff5vpixA==
+=IQ69
+-----END PGP SIGNATURE-----
+
+--3I9kBemjOHRithZP--
