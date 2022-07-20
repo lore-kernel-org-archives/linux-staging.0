@@ -1,160 +1,198 @@
 Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E131FBC
-	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 04:58:36 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id i14so30268249yba.1
-        for <linux-staging@lists.linux.dev>; Tue, 19 Jul 2022 21:58:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC9C1FBC
+	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 06:16:37 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id i14so30492433yba.1
+        for <linux-staging@lists.linux.dev>; Tue, 19 Jul 2022 23:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=stifYgjPiXX5R5s0ZOM3DpqxQIeJzktWgHSqB2KhGqM=;
-        b=Dv8loitxSXzMABsjf/4tvOhHU6ejHC+jmnTlMvQLZBBPhzBML7pgy/r6N7WmPUKidp
-         qn/3hr7s/ggW+ZW3aKblO/WjUMkTxGMIO0QycEkjU6b9WHb1LCpkia/qRQK0An88ZplM
-         uYdTE3eJYqGBrlKLJYkYK1CEsmZQocNYEm9M/oyTAfFN9NZZgxx9yCH2MTmW6CUcQ7h7
-         s1T+4sAnJdJk+DsI6xtpJreuwmL3v79oqN+u3mDYVQh9+tpmFTTASzmaDJb23H8P4lpS
-         ZXyRwf4aLKNHAb0BZQQ/T+qXE27x80SesXSTdz3PfbSyRUpL1T/Q13TDVSCpXaPOKoqL
-         YdQQ==
+        bh=dSjBzbQXi48SppjVr1IPcqMTpoaKVTuGleBE5e4PPlg=;
+        b=qWXeq02jQmT+avZ0bEOeykaLx0NiTCENxYehlpmum3Tqjz/39ns7GDlC7oQ5U9RW9m
+         fTdtiHBXZk5QaePwi3CnRmuBzXqBR8ZKtw3p9DWuB7mwLaiY/6glmnuVdGXl7Lwi9Z5V
+         jVE5q0GONsOzo3D5bYi7MOlgw7ZdcQZlRJdG/vdwNFXhPyUpLqO10ySpoSug1Z/W5F2u
+         dFRdP9eGgq/Qw/zXkwNAQYMAxi/CaYCDcygd59KSvptIGmAB4h4BXqL5M/xARtjZHazy
+         RpGxSxLsWZ3r6bMJ40lu41w3CICHo+D5xKTTemBU4pa5RKRjsTGUmVrZPh5MkSiC3oXK
+         5YaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=stifYgjPiXX5R5s0ZOM3DpqxQIeJzktWgHSqB2KhGqM=;
-        b=wWAIeF+e+tbb1vKV8h5COb6W2rt1iTzx6jnubjeqirJ+bO4la6ArtqdZMLw80+BGZZ
-         ACiEo1qtc1xBpyHJcGCiOK6tlYZaxgxPQkeHYOaB0ikW/9vi7sUddm069JYQttHum970
-         CNx48JFPzcRWYdyDt+N3bLjPdbT0Ss7x5E8EGja7tSV0qCUrZDgdcZaYFHE/a5qqBOKy
-         obhmVnTww9lkOkAVpWHY1A1dYgc9VWgAHPsbErnji15UsvWz/2SHuXDVidRAyFuT9sX4
-         AOodl+gOynVcnwc3JAnRWNV0coUxm1ygzRCvkU5q+whpu2N72b9DNO1++JhRuZzhLR9I
-         LrlQ==
-X-Gm-Message-State: AJIora+2rE3rSDlFQnASG+pwToxHliZG8buQRZGA2s3Gx/xafHU8xCvj
-	yfgDWcT7H40uTILu8G3Rw5owLtzfqJbzWBS0e+g=
-X-Google-Smtp-Source: AGRyM1tGEjYhSaThOF4X0nOhA5/UtufoRT6JiFvqkbtDzGYWlPczQb/qGN4zK8KJCiSTK1X5uq2c+/ITIu5WLO5bWgc=
-X-Received: by 2002:a05:6902:728:b0:66e:8f7b:a252 with SMTP id
- l8-20020a056902072800b0066e8f7ba252mr33553859ybt.584.1658293115034; Tue, 19
- Jul 2022 21:58:35 -0700 (PDT)
+        bh=dSjBzbQXi48SppjVr1IPcqMTpoaKVTuGleBE5e4PPlg=;
+        b=bbThECNBiXHbQ2huS71kPGolP1gBycI8y6em27FwL6JruQd8J2JNE84LFIueaS2onn
+         GXkwsOMV4L9IKKyw+h8GUq4KYNPu2id9nGa411yzrejjGQWaUnARimeYKFF+mN6aTQqb
+         9j89nZ3Tvoh1N8N7G5CALit60dfh9C0MvOQJVjvHJXD9Rvi5MV0+EidYIGDlLdxdfPi+
+         9JqA0yAEBbPfbwbXOTqTTNqRa97YLFSNaWPqZ04zoJWjMFEW4F3qLLw9AmAEQ62fvoPY
+         9w5MGKKtPYWXOR1pHbNA3u8kWAQ2QMg6FLs4BA6q9yQcIE+/BeLoyY92h4zMo7mjKhoo
+         NkiA==
+X-Gm-Message-State: AJIora/us2NfyYZfzxlwyTBr5gKT9YL7azYAcKORdxhzeGIQ1ttJ6z7u
+	JMgn9BP86EnyK8vvcUOFT9a4crpDnZfpq7sQPiU=
+X-Google-Smtp-Source: AGRyM1sbsogFERLkqhAThmJCalZGERmvQ/8csNFvLoZa0P+wocRLfiNEivXiqvsj0TUz7W30xVkIEr05HjKQSoZMRco=
+X-Received: by 2002:a25:cc14:0:b0:66f:7466:53cf with SMTP id
+ l20-20020a25cc14000000b0066f746653cfmr38011196ybf.191.1658297796013; Tue, 19
+ Jul 2022 23:16:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220718120149.GD2338@kadam> <20220719055047.322355-3-ztong0001@gmail.com>
- <YtalnN70xXy3PNNN@kroah.com>
-In-Reply-To: <YtalnN70xXy3PNNN@kroah.com>
+References: <20220718120149.GD2338@kadam> <20220719055047.322355-4-ztong0001@gmail.com>
+ <YtamHKt7e/xqk+Jk@kroah.com>
+In-Reply-To: <YtamHKt7e/xqk+Jk@kroah.com>
 From: Tong Zhang <ztong0001@gmail.com>
-Date: Tue, 19 Jul 2022 21:58:24 -0700
-Message-ID: <CAA5qM4B9p05KLFhsmcbYud65dUHPXqETc7rFqer0pNLjH_mJpA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] staging: rtl8192u: move debug files to debugfs
+Date: Tue, 19 Jul 2022 23:16:25 -0700
+Message-ID: <CAA5qM4BC00XusFV3Upd8L0Z-m1gRW45HrZvVFLhQfjFp6EVxoA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] staging: rtl8192u: fix rmmod warn when wlan0 is renamed
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>, 
 	Saurav Girepunje <saurav.girepunje@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
 	Johan Hovold <johan@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, Dan Carpenter <dan.carpenter@oracle.com>
+	linux-staging@lists.linux.dev, Dan Carpenter <dan.carpenter@oracle.com>, 
+	Zheyu Ma <zheyuma97@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
 On Tue, Jul 19, 2022 at 5:53 AM Greg Kroah-Hartman
 <gregkh@linuxfoundation.org> wrote:
 >
-> On Mon, Jul 18, 2022 at 10:50:37PM -0700, Tong Zhang wrote:
-> > There are 4 debug files created under /proc/net/[Devname]. Devname could
-> > Due to this is purely for debuging as files are created read only,
-> > move this to debugfs like other NIC drivers do instead of using procfs.
-> > This is also to prepare for address rmmod warn issue.
->
-> Minor comments based on good debugfs usage:
->
+> On Mon, Jul 18, 2022 at 10:50:38PM -0700, Tong Zhang wrote:
+> > This driver creates 4 debug files under [devname] folder. The devname
+> > could be wlan0 initially, however it could be renamed later to e.g.
+> > enx00e04c00000. This will cause problem during debug file teardown since
+> > it uses  netdev->name which is no longer wlan0. To solve this problem,
+> > add a notifier to handle device renaming.
+> >
+> > Reported-by: Zheyu Ma <zheyuma97@gmail.com>
+> > Tested-by: Zheyu Ma <zheyuma97@gmail.com>
+> > Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+> > ---
+> >  drivers/staging/rtl8192u/r8192U.h         |  1 +
+> >  drivers/staging/rtl8192u/r8192U_core.c    | 35 ++++++++++++++++++++++-
+> >  drivers/staging/rtl8192u/r8192U_debugfs.c | 13 +++++++++
+> >  3 files changed, 48 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
+> > index e8860bb2b607..ccce37b7e2ae 100644
 > > --- a/drivers/staging/rtl8192u/r8192U.h
 > > +++ b/drivers/staging/rtl8192u/r8192U.h
-> > @@ -1061,6 +1061,9 @@ typedef struct r8192_priv {
-> >       struct delayed_work gpio_change_rf_wq;
-> >       struct delayed_work initialgain_operate_wq;
-> >       struct workqueue_struct *priv_wq;
+> > @@ -1122,4 +1122,5 @@ void setKey(struct net_device *dev, u8 EntryNo, u8 KeyIndex, u16 KeyType,
+> >
+> >  void rtl8192_debugfs_init(struct net_device *dev);
+> >  void rtl8192_debugfs_exit(struct net_device *dev);
+> > +void rtl8192_debugfs_rename(struct net_device *dev);
+> >  #endif
+> > diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
+> > index ac3716550505..5cc78c5bd706 100644
+> > --- a/drivers/staging/rtl8192u/r8192U_core.c
+> > +++ b/drivers/staging/rtl8192u/r8192U_core.c
+> > @@ -4606,6 +4606,30 @@ static void rtl8192_usb_disconnect(struct usb_interface *intf)
+> >       RT_TRACE(COMP_DOWN, "wlan driver removed\n");
+> >  }
+> >
+> > +static int rtl8192_usb_netdev_event(struct notifier_block *nb, unsigned long event,
+> > +                                 void *data)
+> > +{
+> > +     struct net_device *netdev = netdev_notifier_info_to_dev(data);
 > > +
-> > +     /* debugfs */
-> > +     struct dentry *debugfs_dir;
->
-> Why do you need to save this dentry?  Can't you just look it up when you
-> want to remove the files?
->
-
-Hi Greg,
-Thanks for the comments.
-
-I am thinking whether it is possible to rename the device and run
-rmmod to remove something it shouldn't.
-If we are using debugfs_lookup(dev->name, NULL), say, the existing
-directories/files are
-
-  /sys/kernel/debug/DIRA
-  /sys/kernel/debug/wlan0
-
-I then rename device wlan0 to DIRA, after that I remove the module by
-doing rmmod.
-Apparently either the wlan0 directory will not be renamed successfully
-due to collision or DIRA directory might be overwritten? (this part I
-haven't checked yet)
-Either Way,  later on if we do rmmod, the driver will try to do
-debugfs_lookup("fileA", NULL) and remove /sys/kernel/debug/DIRA which
-it shouldn't.
-Or if it is possible to rename the device to some wacky string
-containing wildcard or .. to launch an attack.
-
-Maybe I am being naive but please correct me if I am wrong.
-
-Or maybe we should put those debug files under the module's own
-directory and do lookup from there instead. like the following dir
-structure
-
-/sys/kernel/debug/r8192u_usb/wlan0/stats-rx
-/sys/kernel/debug/r8192u_usb/wlan0/stats-rx
-/sys/kernel/debug/r8192u_usb/wlan0/stats-ap
-/sys/kernel/debug/r8192u_usb/wlan0/registers
-
-
-> > +void rtl8192_debugfs_init(struct net_device *dev)
+> > +     if (netdev->netdev_ops != &rtl8192_netdev_ops)
+> > +             goto out;
+> > +
+> > +     switch (event) {
+> > +     case NETDEV_CHANGENAME:
+> > +             rtl8192_debugfs_rename(netdev);
+> > +             break;
+> > +     default:
+> > +             break;
+> > +     }
+> > +
+> > +out:
+> > +     return NOTIFY_DONE;
+> > +}
+> > +
+> > +static struct notifier_block rtl8192_usb_netdev_notifier = {
+> > +     .notifier_call = rtl8192_usb_netdev_event,
+> > +};
+> > +
+> >  static int __init rtl8192_usb_module_init(void)
 > >  {
-> > -     struct proc_dir_entry *dir;
-> > +     struct dentry *dir;
+> >       int ret;
+> > @@ -4615,10 +4639,16 @@ static int __init rtl8192_usb_module_init(void)
+> >       RT_TRACE(COMP_INIT, "Initializing module");
+> >       RT_TRACE(COMP_INIT, "Wireless extensions version %d", WIRELESS_EXT);
+> >
+> > +     ret = register_netdevice_notifier(&rtl8192_usb_netdev_notifier);
+> > +     if (ret) {
+> > +             pr_err("register_netdevice_notifier failed %d\n", ret);
+> > +             return ret;
+> > +     }
+> > +
+> >       ret = ieee80211_debug_init();
+> >       if (ret) {
+> >               pr_err("ieee80211_debug_init() failed %d\n", ret);
+> > -             return ret;
+> > +             goto unregister_notifier;
+> >       }
+> >
+> >       ret = ieee80211_crypto_init();
+> > @@ -4660,6 +4690,8 @@ static int __init rtl8192_usb_module_init(void)
+> >       ieee80211_crypto_deinit();
+> >  debug_exit:
+> >       ieee80211_debug_exit();
+> > +unregister_notifier:
+> > +     unregister_netdevice_notifier(&rtl8192_usb_netdev_notifier);
+> >       return ret;
+> >  }
+> >
+> > @@ -4671,6 +4703,7 @@ static void __exit rtl8192_usb_module_exit(void)
+> >       ieee80211_crypto_tkip_exit();
+> >       ieee80211_crypto_deinit();
+> >       ieee80211_debug_exit();
+> > +     unregister_netdevice_notifier(&rtl8192_usb_netdev_notifier);
+> >       RT_TRACE(COMP_DOWN, "Exiting");
+> >  }
+> >
+> > diff --git a/drivers/staging/rtl8192u/r8192U_debugfs.c b/drivers/staging/rtl8192u/r8192U_debugfs.c
+> > index 5c9376e50889..c94f5dfac96b 100644
+> > --- a/drivers/staging/rtl8192u/r8192U_debugfs.c
+> > +++ b/drivers/staging/rtl8192u/r8192U_debugfs.c
+> > @@ -173,3 +173,16 @@ void rtl8192_debugfs_exit(struct net_device *dev)
+> >       priv->debugfs_dir = NULL;
+> >  }
+> >
+> > +void rtl8192_debugfs_rename(struct net_device *dev)
+> > +{
 > > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
 >
-> No need to cast this.  Same for later on in this file.
+> No need to cast.
 >
+> > +
+> > +     if (!priv->debugfs_dir)
+> > +             return;
+>
+> Why does it matter?
+>
+> > +
+> > +     if (!strcmp(priv->debugfs_dir->d_name.name, dev->name))
+>
+> Ick, never poke around in a dentry from debugfs if you can help it.  You
+> know you are being renamed, why does it matter to check or not?
+>
+> > +             return;
+> > +
+> > +     debugfs_rename(priv->debugfs_dir->d_parent, priv->debugfs_dir,
+> > +                    priv->debugfs_dir->d_parent, dev->name);
+>
+> Don't poke around in the dentry for the parent here either.  That feels
+> racy and wrong.  Isn't there some other way to get the parent?
+>
+> Also you can look up the dentry for this, no need to have it saved, like
+> I said in patch 2.
 
-agreed, will remove those redundant checks.
+I think we need to save the old entry here otherwise we don't know the
+original name  since dev->name has already been overwritten.
 
-> > -     if (!rtl8192_proc)
-> > +     dir = debugfs_create_dir(dev->name, NULL);
-> > +     if (IS_ERR(dir))
-> >               return;
->
-> No need to check, just keep moving on.
->
-> >
-> > -     dir = proc_mkdir_data(dev->name, 0, rtl8192_proc, dev);
-> > -     if (!dir)
-> > -             return;
-> > +     debugfs_create_file("stats-rx", 0444, dir, dev, &rtl8192_usb_stats_rx_fops);
-> > +     debugfs_create_file("stats-tx", 0444, dir, dev, &rtl8192_usb_stats_tx_fops);
-> > +     debugfs_create_file("stats-ap", 0444, dir, dev, &rtl8192_usb_stats_ap_fops);
-> > +     debugfs_create_file("registers", 0444, dir, dev, &rtl8192_usb_registers_fops);
-> >
-> > -     proc_create_single("stats-rx", S_IFREG | 0444, dir,
-> > -                        proc_get_stats_rx);
-> > -     proc_create_single("stats-tx", S_IFREG | 0444, dir,
-> > -                        proc_get_stats_tx);
-> > -     proc_create_single("stats-ap", S_IFREG | 0444, dir,
-> > -                        proc_get_stats_ap);
-> > -     proc_create_single("registers", S_IFREG | 0444, dir,
-> > -                        proc_get_registers);
-> > +     priv->debugfs_dir = dir;
->
-> Again, no need to save this, just look it up when removing the
-> directory.
->
 > thanks,
 >
 > greg k-h
-
-Thanks and have a good one!
-- Tong
