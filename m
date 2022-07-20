@@ -1,144 +1,101 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F06C1FD7
-	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 06:31:00 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id c131so29825410ybf.9
-        for <linux-staging@lists.linux.dev>; Tue, 19 Jul 2022 23:31:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F326015
+	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 16:03:07 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id go3so23502pjb.0
+        for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 09:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/wu4C6QcCj60VfOL6dkncI/oyQ/H4gMRE1dIKUM12W8=;
-        b=f9pJ6NEqZBcH5rqQnwrqLRxnLBKteRuGArh8Ft6O+0ArHG4dEiWSygm2xQX5PKJXjl
-         ksCfD4B7bMKGlACstFtGLKQP+d5nMSpZxSLpeoJjXXLC2CtG8+BzfYNCNX6TTEnvKjHm
-         sPiuf2ZCeo493OeD1NBHloRtXThVbbDlJSV2ZFzkEFPAKTvDIaOcyKGIpAK+TnmEiFSl
-         sCTDowVxFgjI6ZVXPOTt0y7hOyt2/4dvxwkibVWar75emQSGCWU7X0icgNgps/q7ibmD
-         sN7fTIUSHXACCKLUAfawZ03IVlWpeHoreaSLmIeL35O0L5ukrsvCvkMii1tb5+1KhwUe
-         eogg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Jp50sRoRGeJze1E2rq+2nmALFyFZat+do6tJhJW091I=;
+        b=C6bXWRwpERSuRRbU5tW5VuIqswjUfZAcif7gWaarsp9Wo3l8sRwQxCc4UtP/gWfvBi
+         9v6Qy49mb9vK6MX7+izRWfzlddD151t6XgvwHIL9PyJx3biQsiqEQjC8GXoSAGj9N1uL
+         L9hILSRy5aFJc8az7AguxCUNXDTTuiYbWTM7q/7S0JgM6CgvVMYoaUG6a0RkyAKGPf9V
+         KdlW2CRXKwvSHzrJkmntrMYB/6L7vRZip5ri+RyXYjhBn1Q+8qt6ugsvxpUBlyJPdmmP
+         775jl6fCod02MMsTdjuqTcGBHDh0u0ghsEfb2z3cGj+UWf9kIPIa/YKTUbcS8bKGze+f
+         A8SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/wu4C6QcCj60VfOL6dkncI/oyQ/H4gMRE1dIKUM12W8=;
-        b=Yedj0YRddqGINi+5d96MW/+w3bOwgd4w+xSGafZwsr/p3ZSmdEIpX5S206GPc+vx+/
-         0RhVVkJjz7QVpwfedm3SUTCTPuONSGyMpu3i5dcTgAchUq8ww66DS/2mD9mjb6meIcdP
-         mtOSunLkBaiWykhileX9WYA+Y7gp+lEHr2R6C0W6/DzrLZyQXbckijCj6A0e7+DfPp7g
-         BNfNKQkt4uDItpw5cf4YlkP8LyyhfR6Aqupm8Wci6DrSIArqg0/vgxnyu6CmjYEvgO+O
-         xE4pDK9w7a2XSC+SzY5RRfIVKy1drYNhAHWjnWYkZdrTab1163q65BaG+NzH7DrAxJ4E
-         9uow==
-X-Gm-Message-State: AJIora+MZxbuFuW/ACmtI6bQueKd502imymKS1YWo4Th1SBB1VR2GLWm
-	gzoal+0/7aQBZtxVussb7s0yj8iDket5ui2NbeU=
-X-Google-Smtp-Source: AGRyM1u/N/6mRAofjMoMK/JBAPR4BKD6WXojeePKJ6koGlKmzlcWLd4i4G1AWWs0BpIBPv3SkU96R0rfUifvE52VJCg=
-X-Received: by 2002:a25:2e50:0:b0:669:9a76:beb with SMTP id
- b16-20020a252e50000000b006699a760bebmr35952935ybn.597.1658298659037; Tue, 19
- Jul 2022 23:30:59 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Jp50sRoRGeJze1E2rq+2nmALFyFZat+do6tJhJW091I=;
+        b=YcAFKkoXKJdGMyoV6q53oMTwY8Xbc0I/v64LBbO0aqIj83d/aSMwMaPkPyAsbAg3AC
+         nRE397VPKyes9aCUP3mhWQ7w1qZdgP5SXh7pjbnyZJGHfGR7orA4RoYgnnSmUy1vVBbi
+         uFma7eoZL8n84eoTMHUu23dCxK9xcL4j8BUsXwHQ8y3XuKSDfX6wA2P/EKWslkWQGXIt
+         Qg/jEYNDLE1cSBfHBRme+Jmwm4L+CVP0I0KmAxOKOXKiohmDUTyWmW5MqeY7pmPG/aBA
+         vM3AqfEN9Aj8y9mtjuao45w0I4sc4A7D3uoiXvZhZO58pCiz/uYjy5GEecWc4UiPm8oO
+         CIMg==
+X-Gm-Message-State: AJIora+N+6asmLK+ARGAbw/W3iw3PgpxgSHw/BvztI9n8SWS+grr1xbl
+	5x3SczCjwBtoH/q0Xg20sd8=
+X-Google-Smtp-Source: AGRyM1tfiyEzJYTofcdx7m8RezbjRvQrqGyHLDhUXfW213hZREtpSZddgdHv7Sq4J42ECTrojIxKAQ==
+X-Received: by 2002:a17:90a:7aca:b0:1f1:ff59:fe7e with SMTP id b10-20020a17090a7aca00b001f1ff59fe7emr6354010pjl.11.1658332987007;
+        Wed, 20 Jul 2022 09:03:07 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:d01c:7038:2c8a:aeeb:6f47:1018])
+        by smtp.googlemail.com with ESMTPSA id je15-20020a170903264f00b0016d1f6d1b99sm1977472plb.49.2022.07.20.09.03.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 09:03:06 -0700 (PDT)
+From: Abhijeet23081989 <abhijeet.srivastava2308@gmail.com>
+To: 
+Cc: abhijeet.srivastava2308@gmail.com,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Rebecca Mckeever <remckee0@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Vihas Makwana <makvihas@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: Inserted empty line after declarations
+Date: Wed, 20 Jul 2022 21:31:56 +0530
+Message-Id: <20220720160217.70966-1-abhijeet.srivastava2308@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220718120149.GD2338@kadam> <20220719055047.322355-3-ztong0001@gmail.com>
- <YtalnN70xXy3PNNN@kroah.com>
-In-Reply-To: <YtalnN70xXy3PNNN@kroah.com>
-From: Tong Zhang <ztong0001@gmail.com>
-Date: Tue, 19 Jul 2022 23:30:48 -0700
-Message-ID: <CAA5qM4A7-hCf8hZq4M8O5havY29PYqym1_TNrWJvcc-LWbLnmA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] staging: rtl8192u: move debug files to debugfs
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>, 
-	Saurav Girepunje <saurav.girepunje@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 19, 2022 at 5:53 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Jul 18, 2022 at 10:50:37PM -0700, Tong Zhang wrote:
-> > There are 4 debug files created under /proc/net/[Devname]. Devname could
-> > Due to this is purely for debuging as files are created read only,
-> > move this to debugfs like other NIC drivers do instead of using procfs.
-> > This is also to prepare for address rmmod warn issue.
->
-> Minor comments based on good debugfs usage:
->
-> > --- a/drivers/staging/rtl8192u/r8192U.h
-> > +++ b/drivers/staging/rtl8192u/r8192U.h
-> > @@ -1061,6 +1061,9 @@ typedef struct r8192_priv {
-> >       struct delayed_work gpio_change_rf_wq;
-> >       struct delayed_work initialgain_operate_wq;
-> >       struct workqueue_struct *priv_wq;
-> > +
-> > +     /* debugfs */
-> > +     struct dentry *debugfs_dir;
->
-> Why do you need to save this dentry?  Can't you just look it up when you
-> want to remove the files?
->
-> > +void rtl8192_debugfs_init(struct net_device *dev)
-> >  {
-> > -     struct proc_dir_entry *dir;
-> > +     struct dentry *dir;
-> > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
->
-> No need to cast this.  Same for later on in this file.
->
-> > -     if (!rtl8192_proc)
-> > +     dir = debugfs_create_dir(dev->name, NULL);
-> > +     if (IS_ERR(dir))
-> >               return;
->
+Warning found by checkpatch.pl script.
 
-I'm reading this code and your comment again.
-Adding this check will avoid calling into debugfs_create_file() and 4
-function calls and doing checks from there, probably will save a
-couple of CPU cycles and avoid branch prediction penalty if there is
-any.
-I don't think the compiler can optimize for this case though it's not
-performance critical. Anyho I personally feel it is better to keep
-this.
+Signed-off-by: Abhijeet23081989 <abhijeet.srivastava2308@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> No need to check, just keep moving on.
->
-> >
-> > -     dir = proc_mkdir_data(dev->name, 0, rtl8192_proc, dev);
-> > -     if (!dir)
-> > -             return;
-> > +     debugfs_create_file("stats-rx", 0444, dir, dev, &rtl8192_usb_stats_rx_fops);
-> > +     debugfs_create_file("stats-tx", 0444, dir, dev, &rtl8192_usb_stats_tx_fops);
-> > +     debugfs_create_file("stats-ap", 0444, dir, dev, &rtl8192_usb_stats_ap_fops);
-> > +     debugfs_create_file("registers", 0444, dir, dev, &rtl8192_usb_registers_fops);
-> >
-> > -     proc_create_single("stats-rx", S_IFREG | 0444, dir,
-> > -                        proc_get_stats_rx);
-> > -     proc_create_single("stats-tx", S_IFREG | 0444, dir,
-> > -                        proc_get_stats_tx);
-> > -     proc_create_single("stats-ap", S_IFREG | 0444, dir,
-> > -                        proc_get_stats_ap);
-> > -     proc_create_single("registers", S_IFREG | 0444, dir,
-> > -                        proc_get_registers);
-> > +     priv->debugfs_dir = dir;
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 5b6a891b5d67..6fbf6e4234cf 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -25,6 +25,7 @@ void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+ 
+ 	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+ 		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
++
+ 		if (c2h && c2h != (void *)pevtpriv)
+ 			kfree(c2h);
+ 	}
+@@ -323,6 +324,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 	/* prepare ssid list */
+ 	if (ssid) {
+ 		int i;
++
+ 		for (i = 0; i < ssid_num && i < RTW_SSID_SCAN_AMOUNT; i++) {
+ 			if (ssid[i].SsidLength) {
+ 				memcpy(&psurveyPara->ssid[i], &ssid[i], sizeof(struct ndis_802_11_ssid));
+@@ -334,6 +336,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 	/* prepare channel list */
+ 	if (ch) {
+ 		int i;
++
+ 		for (i = 0; i < ch_num && i < RTW_CHANNEL_SCAN_AMOUNT; i++) {
+ 			if (ch[i].hw_value && !(ch[i].flags & RTW_IEEE80211_CHAN_DISABLED)) {
+ 				memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct rtw_ieee80211_channel));
+-- 
+2.34.1
 
-Please correct me if I am wrong (yes probably).
-As I mentioned in another email, I am not sure if there is another way
-to look up the old entry so I'm saving the old entry here.
-I cheated a little bit by using similar routine as in
-
-net/mac80211/debugfs_netdev.c:865 void
-ieee80211_debugfs_rename_netdev(struct ieee80211_sub_if_data *sdata)
-drivers/net/ethernet/amd/xgbe/xgbe-debugfs.c: 520 void
-xgbe_debugfs_rename(struct xgbe_prv_data *pdata)
-
->
-> Again, no need to save this, just look it up when removing the
-> directory.
->
-> thanks,
->
-> greg k-h
-
-
-Thanks and have a good one!
-- Tong
