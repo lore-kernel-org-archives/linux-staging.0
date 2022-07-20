@@ -1,198 +1,144 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC9C1FBC
-	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 06:16:37 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id i14so30492433yba.1
-        for <linux-staging@lists.linux.dev>; Tue, 19 Jul 2022 23:16:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F06C1FD7
+	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 06:31:00 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id c131so29825410ybf.9
+        for <linux-staging@lists.linux.dev>; Tue, 19 Jul 2022 23:31:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dSjBzbQXi48SppjVr1IPcqMTpoaKVTuGleBE5e4PPlg=;
-        b=qWXeq02jQmT+avZ0bEOeykaLx0NiTCENxYehlpmum3Tqjz/39ns7GDlC7oQ5U9RW9m
-         fTdtiHBXZk5QaePwi3CnRmuBzXqBR8ZKtw3p9DWuB7mwLaiY/6glmnuVdGXl7Lwi9Z5V
-         jVE5q0GONsOzo3D5bYi7MOlgw7ZdcQZlRJdG/vdwNFXhPyUpLqO10ySpoSug1Z/W5F2u
-         dFRdP9eGgq/Qw/zXkwNAQYMAxi/CaYCDcygd59KSvptIGmAB4h4BXqL5M/xARtjZHazy
-         RpGxSxLsWZ3r6bMJ40lu41w3CICHo+D5xKTTemBU4pa5RKRjsTGUmVrZPh5MkSiC3oXK
-         5YaA==
+        bh=/wu4C6QcCj60VfOL6dkncI/oyQ/H4gMRE1dIKUM12W8=;
+        b=f9pJ6NEqZBcH5rqQnwrqLRxnLBKteRuGArh8Ft6O+0ArHG4dEiWSygm2xQX5PKJXjl
+         ksCfD4B7bMKGlACstFtGLKQP+d5nMSpZxSLpeoJjXXLC2CtG8+BzfYNCNX6TTEnvKjHm
+         sPiuf2ZCeo493OeD1NBHloRtXThVbbDlJSV2ZFzkEFPAKTvDIaOcyKGIpAK+TnmEiFSl
+         sCTDowVxFgjI6ZVXPOTt0y7hOyt2/4dvxwkibVWar75emQSGCWU7X0icgNgps/q7ibmD
+         sN7fTIUSHXACCKLUAfawZ03IVlWpeHoreaSLmIeL35O0L5ukrsvCvkMii1tb5+1KhwUe
+         eogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dSjBzbQXi48SppjVr1IPcqMTpoaKVTuGleBE5e4PPlg=;
-        b=bbThECNBiXHbQ2huS71kPGolP1gBycI8y6em27FwL6JruQd8J2JNE84LFIueaS2onn
-         GXkwsOMV4L9IKKyw+h8GUq4KYNPu2id9nGa411yzrejjGQWaUnARimeYKFF+mN6aTQqb
-         9j89nZ3Tvoh1N8N7G5CALit60dfh9C0MvOQJVjvHJXD9Rvi5MV0+EidYIGDlLdxdfPi+
-         9JqA0yAEBbPfbwbXOTqTTNqRa97YLFSNaWPqZ04zoJWjMFEW4F3qLLw9AmAEQ62fvoPY
-         9w5MGKKtPYWXOR1pHbNA3u8kWAQ2QMg6FLs4BA6q9yQcIE+/BeLoyY92h4zMo7mjKhoo
-         NkiA==
-X-Gm-Message-State: AJIora/us2NfyYZfzxlwyTBr5gKT9YL7azYAcKORdxhzeGIQ1ttJ6z7u
-	JMgn9BP86EnyK8vvcUOFT9a4crpDnZfpq7sQPiU=
-X-Google-Smtp-Source: AGRyM1sbsogFERLkqhAThmJCalZGERmvQ/8csNFvLoZa0P+wocRLfiNEivXiqvsj0TUz7W30xVkIEr05HjKQSoZMRco=
-X-Received: by 2002:a25:cc14:0:b0:66f:7466:53cf with SMTP id
- l20-20020a25cc14000000b0066f746653cfmr38011196ybf.191.1658297796013; Tue, 19
- Jul 2022 23:16:36 -0700 (PDT)
+        bh=/wu4C6QcCj60VfOL6dkncI/oyQ/H4gMRE1dIKUM12W8=;
+        b=Yedj0YRddqGINi+5d96MW/+w3bOwgd4w+xSGafZwsr/p3ZSmdEIpX5S206GPc+vx+/
+         0RhVVkJjz7QVpwfedm3SUTCTPuONSGyMpu3i5dcTgAchUq8ww66DS/2mD9mjb6meIcdP
+         mtOSunLkBaiWykhileX9WYA+Y7gp+lEHr2R6C0W6/DzrLZyQXbckijCj6A0e7+DfPp7g
+         BNfNKQkt4uDItpw5cf4YlkP8LyyhfR6Aqupm8Wci6DrSIArqg0/vgxnyu6CmjYEvgO+O
+         xE4pDK9w7a2XSC+SzY5RRfIVKy1drYNhAHWjnWYkZdrTab1163q65BaG+NzH7DrAxJ4E
+         9uow==
+X-Gm-Message-State: AJIora+MZxbuFuW/ACmtI6bQueKd502imymKS1YWo4Th1SBB1VR2GLWm
+	gzoal+0/7aQBZtxVussb7s0yj8iDket5ui2NbeU=
+X-Google-Smtp-Source: AGRyM1u/N/6mRAofjMoMK/JBAPR4BKD6WXojeePKJ6koGlKmzlcWLd4i4G1AWWs0BpIBPv3SkU96R0rfUifvE52VJCg=
+X-Received: by 2002:a25:2e50:0:b0:669:9a76:beb with SMTP id
+ b16-20020a252e50000000b006699a760bebmr35952935ybn.597.1658298659037; Tue, 19
+ Jul 2022 23:30:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220718120149.GD2338@kadam> <20220719055047.322355-4-ztong0001@gmail.com>
- <YtamHKt7e/xqk+Jk@kroah.com>
-In-Reply-To: <YtamHKt7e/xqk+Jk@kroah.com>
+References: <20220718120149.GD2338@kadam> <20220719055047.322355-3-ztong0001@gmail.com>
+ <YtalnN70xXy3PNNN@kroah.com>
+In-Reply-To: <YtalnN70xXy3PNNN@kroah.com>
 From: Tong Zhang <ztong0001@gmail.com>
-Date: Tue, 19 Jul 2022 23:16:25 -0700
-Message-ID: <CAA5qM4BC00XusFV3Upd8L0Z-m1gRW45HrZvVFLhQfjFp6EVxoA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] staging: rtl8192u: fix rmmod warn when wlan0 is renamed
+Date: Tue, 19 Jul 2022 23:30:48 -0700
+Message-ID: <CAA5qM4A7-hCf8hZq4M8O5havY29PYqym1_TNrWJvcc-LWbLnmA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] staging: rtl8192u: move debug files to debugfs
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>, 
 	Saurav Girepunje <saurav.girepunje@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
 	Johan Hovold <johan@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, Dan Carpenter <dan.carpenter@oracle.com>, 
-	Zheyu Ma <zheyuma97@gmail.com>
+	linux-staging@lists.linux.dev, Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
 
 On Tue, Jul 19, 2022 at 5:53 AM Greg Kroah-Hartman
 <gregkh@linuxfoundation.org> wrote:
 >
-> On Mon, Jul 18, 2022 at 10:50:38PM -0700, Tong Zhang wrote:
-> > This driver creates 4 debug files under [devname] folder. The devname
-> > could be wlan0 initially, however it could be renamed later to e.g.
-> > enx00e04c00000. This will cause problem during debug file teardown since
-> > it uses  netdev->name which is no longer wlan0. To solve this problem,
-> > add a notifier to handle device renaming.
-> >
-> > Reported-by: Zheyu Ma <zheyuma97@gmail.com>
-> > Tested-by: Zheyu Ma <zheyuma97@gmail.com>
-> > Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-> > ---
-> >  drivers/staging/rtl8192u/r8192U.h         |  1 +
-> >  drivers/staging/rtl8192u/r8192U_core.c    | 35 ++++++++++++++++++++++-
-> >  drivers/staging/rtl8192u/r8192U_debugfs.c | 13 +++++++++
-> >  3 files changed, 48 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
-> > index e8860bb2b607..ccce37b7e2ae 100644
+> On Mon, Jul 18, 2022 at 10:50:37PM -0700, Tong Zhang wrote:
+> > There are 4 debug files created under /proc/net/[Devname]. Devname could
+> > Due to this is purely for debuging as files are created read only,
+> > move this to debugfs like other NIC drivers do instead of using procfs.
+> > This is also to prepare for address rmmod warn issue.
+>
+> Minor comments based on good debugfs usage:
+>
 > > --- a/drivers/staging/rtl8192u/r8192U.h
 > > +++ b/drivers/staging/rtl8192u/r8192U.h
-> > @@ -1122,4 +1122,5 @@ void setKey(struct net_device *dev, u8 EntryNo, u8 KeyIndex, u16 KeyType,
-> >
-> >  void rtl8192_debugfs_init(struct net_device *dev);
-> >  void rtl8192_debugfs_exit(struct net_device *dev);
-> > +void rtl8192_debugfs_rename(struct net_device *dev);
-> >  #endif
-> > diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-> > index ac3716550505..5cc78c5bd706 100644
-> > --- a/drivers/staging/rtl8192u/r8192U_core.c
-> > +++ b/drivers/staging/rtl8192u/r8192U_core.c
-> > @@ -4606,6 +4606,30 @@ static void rtl8192_usb_disconnect(struct usb_interface *intf)
-> >       RT_TRACE(COMP_DOWN, "wlan driver removed\n");
-> >  }
-> >
-> > +static int rtl8192_usb_netdev_event(struct notifier_block *nb, unsigned long event,
-> > +                                 void *data)
-> > +{
-> > +     struct net_device *netdev = netdev_notifier_info_to_dev(data);
+> > @@ -1061,6 +1061,9 @@ typedef struct r8192_priv {
+> >       struct delayed_work gpio_change_rf_wq;
+> >       struct delayed_work initialgain_operate_wq;
+> >       struct workqueue_struct *priv_wq;
 > > +
-> > +     if (netdev->netdev_ops != &rtl8192_netdev_ops)
-> > +             goto out;
-> > +
-> > +     switch (event) {
-> > +     case NETDEV_CHANGENAME:
-> > +             rtl8192_debugfs_rename(netdev);
-> > +             break;
-> > +     default:
-> > +             break;
-> > +     }
-> > +
-> > +out:
-> > +     return NOTIFY_DONE;
-> > +}
-> > +
-> > +static struct notifier_block rtl8192_usb_netdev_notifier = {
-> > +     .notifier_call = rtl8192_usb_netdev_event,
-> > +};
-> > +
-> >  static int __init rtl8192_usb_module_init(void)
+> > +     /* debugfs */
+> > +     struct dentry *debugfs_dir;
+>
+> Why do you need to save this dentry?  Can't you just look it up when you
+> want to remove the files?
+>
+> > +void rtl8192_debugfs_init(struct net_device *dev)
 > >  {
-> >       int ret;
-> > @@ -4615,10 +4639,16 @@ static int __init rtl8192_usb_module_init(void)
-> >       RT_TRACE(COMP_INIT, "Initializing module");
-> >       RT_TRACE(COMP_INIT, "Wireless extensions version %d", WIRELESS_EXT);
-> >
-> > +     ret = register_netdevice_notifier(&rtl8192_usb_netdev_notifier);
-> > +     if (ret) {
-> > +             pr_err("register_netdevice_notifier failed %d\n", ret);
-> > +             return ret;
-> > +     }
-> > +
-> >       ret = ieee80211_debug_init();
-> >       if (ret) {
-> >               pr_err("ieee80211_debug_init() failed %d\n", ret);
-> > -             return ret;
-> > +             goto unregister_notifier;
-> >       }
-> >
-> >       ret = ieee80211_crypto_init();
-> > @@ -4660,6 +4690,8 @@ static int __init rtl8192_usb_module_init(void)
-> >       ieee80211_crypto_deinit();
-> >  debug_exit:
-> >       ieee80211_debug_exit();
-> > +unregister_notifier:
-> > +     unregister_netdevice_notifier(&rtl8192_usb_netdev_notifier);
-> >       return ret;
-> >  }
-> >
-> > @@ -4671,6 +4703,7 @@ static void __exit rtl8192_usb_module_exit(void)
-> >       ieee80211_crypto_tkip_exit();
-> >       ieee80211_crypto_deinit();
-> >       ieee80211_debug_exit();
-> > +     unregister_netdevice_notifier(&rtl8192_usb_netdev_notifier);
-> >       RT_TRACE(COMP_DOWN, "Exiting");
-> >  }
-> >
-> > diff --git a/drivers/staging/rtl8192u/r8192U_debugfs.c b/drivers/staging/rtl8192u/r8192U_debugfs.c
-> > index 5c9376e50889..c94f5dfac96b 100644
-> > --- a/drivers/staging/rtl8192u/r8192U_debugfs.c
-> > +++ b/drivers/staging/rtl8192u/r8192U_debugfs.c
-> > @@ -173,3 +173,16 @@ void rtl8192_debugfs_exit(struct net_device *dev)
-> >       priv->debugfs_dir = NULL;
-> >  }
-> >
-> > +void rtl8192_debugfs_rename(struct net_device *dev)
-> > +{
+> > -     struct proc_dir_entry *dir;
+> > +     struct dentry *dir;
 > > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
 >
-> No need to cast.
+> No need to cast this.  Same for later on in this file.
 >
-> > +
-> > +     if (!priv->debugfs_dir)
-> > +             return;
+> > -     if (!rtl8192_proc)
+> > +     dir = debugfs_create_dir(dev->name, NULL);
+> > +     if (IS_ERR(dir))
+> >               return;
 >
-> Why does it matter?
->
-> > +
-> > +     if (!strcmp(priv->debugfs_dir->d_name.name, dev->name))
->
-> Ick, never poke around in a dentry from debugfs if you can help it.  You
-> know you are being renamed, why does it matter to check or not?
->
-> > +             return;
-> > +
-> > +     debugfs_rename(priv->debugfs_dir->d_parent, priv->debugfs_dir,
-> > +                    priv->debugfs_dir->d_parent, dev->name);
->
-> Don't poke around in the dentry for the parent here either.  That feels
-> racy and wrong.  Isn't there some other way to get the parent?
->
-> Also you can look up the dentry for this, no need to have it saved, like
-> I said in patch 2.
 
-I think we need to save the old entry here otherwise we don't know the
-original name  since dev->name has already been overwritten.
+I'm reading this code and your comment again.
+Adding this check will avoid calling into debugfs_create_file() and 4
+function calls and doing checks from there, probably will save a
+couple of CPU cycles and avoid branch prediction penalty if there is
+any.
+I don't think the compiler can optimize for this case though it's not
+performance critical. Anyho I personally feel it is better to keep
+this.
 
+> No need to check, just keep moving on.
+>
+> >
+> > -     dir = proc_mkdir_data(dev->name, 0, rtl8192_proc, dev);
+> > -     if (!dir)
+> > -             return;
+> > +     debugfs_create_file("stats-rx", 0444, dir, dev, &rtl8192_usb_stats_rx_fops);
+> > +     debugfs_create_file("stats-tx", 0444, dir, dev, &rtl8192_usb_stats_tx_fops);
+> > +     debugfs_create_file("stats-ap", 0444, dir, dev, &rtl8192_usb_stats_ap_fops);
+> > +     debugfs_create_file("registers", 0444, dir, dev, &rtl8192_usb_registers_fops);
+> >
+> > -     proc_create_single("stats-rx", S_IFREG | 0444, dir,
+> > -                        proc_get_stats_rx);
+> > -     proc_create_single("stats-tx", S_IFREG | 0444, dir,
+> > -                        proc_get_stats_tx);
+> > -     proc_create_single("stats-ap", S_IFREG | 0444, dir,
+> > -                        proc_get_stats_ap);
+> > -     proc_create_single("registers", S_IFREG | 0444, dir,
+> > -                        proc_get_registers);
+> > +     priv->debugfs_dir = dir;
+
+Please correct me if I am wrong (yes probably).
+As I mentioned in another email, I am not sure if there is another way
+to look up the old entry so I'm saving the old entry here.
+I cheated a little bit by using similar routine as in
+
+net/mac80211/debugfs_netdev.c:865 void
+ieee80211_debugfs_rename_netdev(struct ieee80211_sub_if_data *sdata)
+drivers/net/ethernet/amd/xgbe/xgbe-debugfs.c: 520 void
+xgbe_debugfs_rename(struct xgbe_prv_data *pdata)
+
+>
+> Again, no need to save this, just look it up when removing the
+> directory.
+>
 > thanks,
 >
 > greg k-h
+
+
+Thanks and have a good one!
+- Tong
