@@ -1,117 +1,82 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599C16015
-	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 16:24:47 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id va17so34059260ejb.0
-        for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 09:24:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86137B
+	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 19:00:32 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id y11so31820468lfs.6
+        for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 12:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=B83+a/WCg0K/QB4/cfV+I8us78zMwa7Te60tJq42yYo=;
-        b=il3tFAHy2sjOz3Zwp7l/b3Lo+C6beKr7cQVDIQ7d1ylJSlTYCyR4UsSomA0KFBHK6v
-         9DO3iFrTAMI5NzmF55sItLSS4OtivvuMwNBBuRpzS1U3jNUZ1zgBOqjc/VvG5W2ZAF2a
-         Hs/G4v0OAkj7WzRmbRMGEXPmVIM6dFOZoijgg8q9ikd0BvA8ZzbPife0cOAJbEgBIXwy
-         XoVzQIr8E4YDMSk0KRUDH4UcysgrfZ0EkqbcYYoAP+9ZuCC+YBjLPwVfuqOiEOgtCDbz
-         5yLUlqwQp4RoANw67o16O4d6GZ0ZXKZKf3PYPTVvmlPz9Vb2SNmcXOSzY5A7kksJZvG9
-         tR6g==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=nXbqLZ52l8rkAxQgKq0ZUlGmE/J2GY5DjCY+3KWjA1Q=;
+        b=CMOjU4rp5sj91z03o+3gaF3/LSL0widFjnesWZJSVXp3ZnrU+C0MhweYjvkEGOhBA9
+         8lEFxJkmrbFlzPq/fyKQc4W1cglx2GyxhD/N3WhFuXNmDdXjLsOYLmhc/khwu7qUHswB
+         MvQzEi13TzixX5rSpDi4F4xQeNONZrHkm9trYuad5fjGqbtgvytZxZrH16E8B2FU4w4E
+         wtDgihrLQpA9rjnk2GIGaksTkQbb3s4wTN0rjUHzRublwOqDR1sLDRkvTS4iNGWVibeQ
+         E8xApwywwSVS3nOcMB4Xo17TOtb72mnDlqJ6iWRhN+571if1ktnLMYmAnCPEwo+Xxm0o
+         289g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=B83+a/WCg0K/QB4/cfV+I8us78zMwa7Te60tJq42yYo=;
-        b=4ZXhiVZZat4bTo3aJfshgMEmu6M/BytBPayMUdMV5GmbgoneyYADRxvGSmgE6qBEtD
-         mCd98DnUgwpsEmASTUfVXZRQj8SgyD2ivaJVIEZJ2KAnGgVRpurNmw65RMS++be1GJNW
-         nIXD7dtYPdWwHnDQraRVn2T0O9G8CzKxcQtyV/w1BoLh8xk/vrTlASW8XPI7zinJHhUu
-         t1HEDUOK74oMUcpT0l6TJJ+e62FiKNn5scpGW5QmqDFnuRkSyxjEGi4XzBKUnV5Aq5lT
-         gxtHPvbHQ4G7xLyOfcvKYPGUe5hqJbQeTjfFH/F6R5lZJTZEoxXLVq6iPgVcdgfDmW2l
-         f37Q==
-X-Gm-Message-State: AJIora/Fb/aUfbHSG3u3nvrPfkjsXJ6dT/OikpuJB/4rERS29Yi2IVGm
-	9Cogy0f+VtP50BCQCyYX31UvTV25wA0=
-X-Google-Smtp-Source: AGRyM1to0zNwyq4MbmCgppYXRLBhyZMSWlMhwNEziXeFIJaT+QuFHXt0kvN1NJRgoh0rdQsrmJR8ow==
-X-Received: by 2002:a17:907:7608:b0:72b:4f33:bcce with SMTP id jx8-20020a170907760800b0072b4f33bccemr35617045ejc.252.1658334285589;
-        Wed, 20 Jul 2022 09:24:45 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id b7-20020aa7dc07000000b0043bbd133358sm375834edu.37.2022.07.20.09.24.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 09:24:45 -0700 (PDT)
-Date: Wed, 20 Jul 2022 18:24:43 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] staging: vt6655: Convert macro vt6655_mac_clear_stck_ds
- to function
-Message-ID: <11d4aaf99e1d508c3019327937c7a160050847c1.1658333350.git.philipp.g.hortmann@gmail.com>
-References: <cover.1658333350.git.philipp.g.hortmann@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=nXbqLZ52l8rkAxQgKq0ZUlGmE/J2GY5DjCY+3KWjA1Q=;
+        b=Lz9WbsYovDADNDQSpib0HpK7AvVjoqm43eR9a2X8+32XR2X3Gm468Zb8D/EmEwl2nS
+         ndA8G3ekHn7OgXovRXcayZyuh01Xcxm0gBT0hf3UocdhFKqan3Rv1eMpAFuIgvf4Mamf
+         PSQ25BxAcrNLo5x9mUpCL3246+E15u8yuqEKiurMnDcTuNIEJpVxKdlJhVcjxMqnqXZ7
+         ghIYPJxBGlgt+ZG45/j6H/I/Wg+cohVIhAIrAkmRY3fs2dajPNRB++nQa2czvUGL9tHf
+         ARleBeAX1iTQDLRf+0YpAr27plTbuxxX52jZMiChfAWO6CpTJzckHDEcy5lUM+Prasiq
+         Vlyw==
+X-Gm-Message-State: AJIora+VVnwjJoF6amCg/f4yqqVaFVsB+z6Jgo83XVUrhZMU0ruih7r2
+	1F/JhII2AjggWc6bJr0CygU=
+X-Google-Smtp-Source: AGRyM1tj6l0S42zkoOEMR6ssrYGWstFB+ylRfRCkxaFpAaoJ0AfHqk7X0hwSNUnlFU9hhCbL/EHhrQ==
+X-Received: by 2002:a05:6512:2e7:b0:488:a7c8:3d14 with SMTP id m7-20020a05651202e700b00488a7c83d14mr20912776lfq.273.1658343630780;
+        Wed, 20 Jul 2022 12:00:30 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.63])
+        by smtp.gmail.com with ESMTPSA id 4-20020ac25f44000000b0048a3c5e09c8sm2329237lfz.199.2022.07.20.12.00.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Jul 2022 12:00:30 -0700 (PDT)
+Message-ID: <a2747f00-99b8-10a2-edf5-7dd6fd7a1f8b@gmail.com>
+Date: Wed, 20 Jul 2022 22:00:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1658333350.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] staging: r8188eu: Inserted empty line after declarations
+Content-Language: en-US
+To: Abhijeet23081989 <abhijeet.srivastava2308@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>,
+ Rebecca Mckeever <remckee0@gmail.com>, Martin Kaiser <martin@kaiser.cx>,
+ Vihas Makwana <makvihas@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220720160217.70966-1-abhijeet.srivastava2308@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220720160217.70966-1-abhijeet.srivastava2308@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Convert once used macro to static function.
-Multiline macros are not liked by kernel community.
+Hi Abhijeet23081989,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/vt6655/mac.c | 11 +++++++++++
- drivers/staging/vt6655/mac.h |  8 --------
- 2 files changed, 11 insertions(+), 8 deletions(-)
+Abhijeet23081989 <abhijeet.srivastava2308@gmail.com> says:
+> Warning found by checkpatch.pl script.
+> 
+> Signed-off-by: Abhijeet23081989 <abhijeet.srivastava2308@gmail.com>
 
-diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-index d7ee42df7062..3e9494c653dc 100644
---- a/drivers/staging/vt6655/mac.c
-+++ b/drivers/staging/vt6655/mac.c
-@@ -38,6 +38,8 @@
- 
- #include "mac.h"
- 
-+static void vt6655_mac_clear_stck_ds(void __iomem *iobase);
-+
- void vt6655_mac_reg_bits_on(void __iomem *iobase, const u8 reg_offset, const u8 bit_mask)
- {
- 	unsigned char reg_value;
-@@ -70,6 +72,15 @@ void vt6655_mac_word_reg_bits_off(void __iomem *iobase, const u8 reg_offset, con
- 	iowrite16(reg_value & ~(bit_mask), iobase + reg_offset);
- }
- 
-+static void vt6655_mac_clear_stck_ds(void __iomem *iobase)
-+{
-+	unsigned char reg_value;
-+
-+	reg_value = ioread8(iobase + MAC_REG_STICKHW);
-+	reg_value = reg_value & 0xFC;
-+	iowrite8(reg_value, iobase + MAC_REG_STICKHW);
-+}
-+
- /*
-  * Description:
-  *      Test if all test bits off
-diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index c2c9cb07f32d..467c599a3289 100644
---- a/drivers/staging/vt6655/mac.h
-+++ b/drivers/staging/vt6655/mac.h
-@@ -537,14 +537,6 @@
- 
- /*---------------------  Export Macros ------------------------------*/
- 
--#define vt6655_mac_clear_stck_ds(iobase)				\
--do {									\
--	unsigned char reg_value;					\
--	reg_value = ioread8(iobase + MAC_REG_STICKHW);			\
--	reg_value = reg_value & 0xFC;					\
--	iowrite8(reg_value, iobase + MAC_REG_STICKHW);			\
--} while (0)
--
- #define MACvSelectPage0(iobase)				\
- 	iowrite8(0, iobase + MAC_REG_PAGE1SEL)
- 
--- 
-2.37.1
+Please use your real name as you always do when signing documents in 
+real life.
 
+Patch with above S-b can't be accepted.
+
+
+
+
+With regards,
+Pavel Skripkin
