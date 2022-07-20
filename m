@@ -1,48 +1,50 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E546015
-	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 16:24:31 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id ez10so33941455ejc.13
-        for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 09:24:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FD56015
+	for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 16:24:35 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id bp15so34019638ejb.6
+        for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 09:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=EpBkigZDhPdfhuuO8b2HxzOasU8CDpEiB+HyHCiHWt8=;
-        b=po6uQkahdsywOnTCYjRZtZ5cGXET4QXRdc5MHCTVuF8bIYosXLvwPTjBs4D+F0koMa
-         p+gBuIsV5KTiJL1YdkWt+zgO1ocpRVE1QfOKajsYeJUai6m5aSk+CO+pPnpppk4lwEFV
-         syFqKpsUbCAZ0Bzev4H2WGMlgIpub1TlAK5hz9ZzFPTG41KhRd3RKuFKCe2TIjha4/Y8
-         onsxE/7xTjYTCARe8PgFOQroCHe0hUswEJvZqPKWuMlB1Lnd3JV7QjHqBud0JgpWmLZ9
-         X2NeIuiR2dHNXxiBflLOn4qYMFIwWy6Rbxs8wUYsHDwGVZpTor30Aw/nHHrpxvyo8YLI
-         v+iw==
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=A1ulf9tl9d6CNgfQ9aU3xsJISTrMA+hS9QZOTqZ3etU=;
+        b=B1fpFgIPrLCBw3JbTobhegsCRwhKHLeS3mIn9zQfzDz/igoUAq0LQtKuF76sY7/xlB
+         Os0oA4Z8ack8TjxSQfRD2lIPWg5/ZG2dvSLckQfu2xFSHWU/5WPWhWGE3nA/wyKHTsBm
+         b2Wp5QP3G3uSHHP0Y0DR8oQA1Qx9g6nPcjIHY/OX71Zfzh7/OU+ribb8eBNV3Uq/sfxx
+         hZUUwttFv8X8d/a9+Dhi8rwGWS3mLTF8/zhe1SYse5zngaPzAxl73pZlQ0pmIK4/gTmp
+         uTeJjWSlnJRiuWoqNi5cFW8RqHCSa4PDvCt/O79BFhYNisZCQiUXKzm+pDSoKN0Gcysk
+         k92A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=EpBkigZDhPdfhuuO8b2HxzOasU8CDpEiB+HyHCiHWt8=;
-        b=QRctMEEQ0/wl8FJa7QBjFLYXjgAYxrNd2N8qDXs8DOTS6j3LAJQ5OJs4BqRosYZ7Hn
-         yVcJB0xZ/A8+hfWHONFxjgLd21uPeLAhmY3vTZx/gxgKAkJqiha9PGkLOyrbCpZiyW28
-         Ls/4y6Z9ldhAHlTtcd78e52ySVDZ8FQgPdMyG/DbDvg6TFKiWiC9F6PHIQ+MCwYKTzMe
-         TDfdm6e0fNrCNdmG6OUOfDxqh6UnPnO4y7xyk7aQSXHdJTs0+vUvfiZ8uxBjwWzQX4gR
-         Bqkx4BcgC0+a5Evpf7Zx33dO9uATCb1MF+zAqdTwJWNW2jE2q3RYHdcV0fo51BCN6WWF
-         sEcQ==
-X-Gm-Message-State: AJIora+YKE/U4U523qg4C5//egf0TRAVFWiEJsfGqYt7tfrSx68M/kvT
-	RPclECVp0qs4Kob4wJzvJNc=
-X-Google-Smtp-Source: AGRyM1uh7GzYNjbzMG3aYFISLknlIn55CGjxcIrNuxKZsOMNIm+wYGrNvOlERr/NAkXe/qaxFyEd5Q==
-X-Received: by 2002:a17:907:3f81:b0:6ff:1a3d:9092 with SMTP id hr1-20020a1709073f8100b006ff1a3d9092mr36057925ejc.319.1658334269693;
-        Wed, 20 Jul 2022 09:24:29 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=A1ulf9tl9d6CNgfQ9aU3xsJISTrMA+hS9QZOTqZ3etU=;
+        b=goNynVhjZ0tCxiQa0uco75afYtAzaWIYD4NdkvBw9sVsZTXOf5lWi7YvDkmNQrnzXL
+         JseuHph22sGeFt2gtKIegTt3vbn7tkyO9SASznUWZb9qDydeuS+Uo5z1zXh5/+UbW6oe
+         5u1eUJ27k/J2tlA/xJ1i+V0J1dTOnHpZrc89XKFvLkoksAlYYJ3QNv5hYFpRzVm6LT7m
+         wnklZssDMRonMi36b9xruWX+/htqfhs6SJBmHw5RdPkm8j1jKlIB/QUkE4mdgYL5wjOV
+         +EdrSeKwMntmXk7XrS2c3rP3CHQ3uf8bceBsSxl+ogfZq28r7nJ/ySkiuaYZNGCA5/jg
+         y8+Q==
+X-Gm-Message-State: AJIora98zsbjBXmSMOXDaFBOkyBEsUCxdHcJr1+1DWyQtXfyUhOHYAis
+	+mD+MNovd5PXOYoqiFMX9FIjqbTK/Q4=
+X-Google-Smtp-Source: AGRyM1sVRsIQGOTj8rTfOADlm8LQIbTlAOZzvnsi5UY8hGwFR93ppZKRk/3ZI9/L//j5JzSWtgYX3A==
+X-Received: by 2002:a17:906:cc13:b0:72b:31d5:a899 with SMTP id ml19-20020a170906cc1300b0072b31d5a899mr35255149ejb.184.1658334274296;
+        Wed, 20 Jul 2022 09:24:34 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id gj10-20020a170907740a00b00726c0e63b94sm8000447ejc.27.2022.07.20.09.24.28
+        by smtp.gmail.com with ESMTPSA id u2-20020aa7db82000000b0043a253973aasm12347559edt.10.2022.07.20.09.24.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 09:24:29 -0700 (PDT)
-Date: Wed, 20 Jul 2022 18:24:22 +0200
+        Wed, 20 Jul 2022 09:24:33 -0700 (PDT)
+Date: Wed, 20 Jul 2022 18:24:32 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] staging: vt6655: Convert multiline macro to static
- function
-Message-ID: <cover.1658333350.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/3] staging: vt6655: Rename byOrgValue to reg_value in a
+ macro
+Message-ID: <83920d919acd7596488943182f37132e479d70f4.1658333350.git.philipp.g.hortmann@gmail.com>
+References: <cover.1658333350.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,22 +53,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1658333350.git.philipp.g.hortmann@gmail.com>
 
-Convert multiline macro to static function.
-Multiline macros are not liked by kernel community.
+Fix name of a variable in a macro that uses CamelCase which is not
+accepted by checkpatch.pl
 
-Tested with vt6655 on mini PCI Module
-Transferred this patch over wlan connection of vt6655
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/vt6655/mac.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Philipp Hortmann (3):
-  staging: vt6655: Rename byOrgValue to reg_value in a macro
-  staging: vt6655: Rename MACvClearStckDS
-  staging: vt6655: Convert macro vt6655_mac_clear_stck_ds to function
-
- drivers/staging/vt6655/mac.c | 13 ++++++++++++-
- drivers/staging/vt6655/mac.h |  8 --------
- 2 files changed, 12 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+index e2ef8c6ef7b7..837ae9dd6929 100644
+--- a/drivers/staging/vt6655/mac.h
++++ b/drivers/staging/vt6655/mac.h
+@@ -539,10 +539,10 @@
+ 
+ #define MACvClearStckDS(iobase)					\
+ do {									\
+-	unsigned char byOrgValue;					\
+-	byOrgValue = ioread8(iobase + MAC_REG_STICKHW);			\
+-	byOrgValue = byOrgValue & 0xFC;					\
+-	iowrite8(byOrgValue, iobase + MAC_REG_STICKHW);			\
++	unsigned char reg_value;					\
++	reg_value = ioread8(iobase + MAC_REG_STICKHW);			\
++	reg_value = reg_value & 0xFC;					\
++	iowrite8(reg_value, iobase + MAC_REG_STICKHW);			\
+ } while (0)
+ 
+ #define MACvSelectPage0(iobase)				\
 -- 
 2.37.1
 
