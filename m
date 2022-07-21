@@ -1,211 +1,104 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4695123A8;
-	Wed, 20 Jul 2022 20:50:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658350216; x=1689886216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pnttfrm4INbhaI3ZBK5StWiXiz03Guj567vUvo8uGJI=;
-  b=ZT/+p09RPtEDPcZpqvUVzaaM6FYRfquDVhwe9TUNgsgozavrvixNvuw/
-   7lplDIMTxgBQ4XzjazXrmzDej7KV/pvZATPgxlJco1nnhxh7C/6rkQ2pQ
-   Q2sV6k7reCGLnSjW+vqiJA3U0Ra7HgxebgBA/O5N/cjCXhhOlFkxilq3z
-   Opqz9JN/89PVxmjWpH219Kqm4PiH+NRK4GU/VuNFmts2lv4UR/+4jOwne
-   oMyFXAHBbM4g7Eo33fchnQjbystpE+5vN7DQzjuOZHchBqsK+zVz2fsKR
-   jhg7oCxysG2iLxeRTfWMBd1kuSPTQ3G4NiPPgWYbWbQSePKseriDDApyA
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="348576105"
-X-IronPort-AV: E=Sophos;i="5.92,287,1650956400"; 
-   d="scan'208";a="348576105"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2022 13:50:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,287,1650956400"; 
-   d="scan'208";a="666013711"
-Received: from lkp-server01.sh.intel.com (HELO 7dfbdc7c7900) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Jul 2022 13:50:04 -0700
-Received: from kbuild by 7dfbdc7c7900 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1oEGdv-0000vb-Jv;
-	Wed, 20 Jul 2022 20:50:03 +0000
-Date: Thu, 21 Jul 2022 04:49:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joel Slebodnick <jslebodn@redhat.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
-	Joel Slebodnick <jslebodn@redhat.com>, gregkh@linuxfoundation.org,
-	f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com, nsaenz@kernel.org,
-	athierry@redhat.com, gustavoars@kernel.org, keescook@chromium.org,
-	stefan.wahren@i2se.com, gascoar@gmail.com, ojaswin98@gmail.com,
-	len.baker@gmx.com, jakobkoschel@gmail.com,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, jsavitz@redhat.com
-Subject: Re: [PATCH] remove custom return values in vc04_services
-Message-ID: <202207210405.zW5H9djg-lkp@intel.com>
-References: <20220712181928.17547-1-jslebodn@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B8F23A0
+	for <linux-staging@lists.linux.dev>; Thu, 21 Jul 2022 03:52:27 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id d7so634353plr.9
+        for <linux-staging@lists.linux.dev>; Wed, 20 Jul 2022 20:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=QQW5nE25CHVm8VEawfIVGFUrSWUWqh3HmVxegFkvxow=;
+        b=AYuJZr9wq2go3piCOFO2k1Pw5/5FV6UFo2QcmlLsio85wLlePB6xgeL5y1mi/ZYfVG
+         o8Tu5bvNHfkF66i9EJqK+czFjzBiNdmurhKhAN8YDZbXGPbSCU0ZOVkaUZ4XLCfrKxyL
+         3JfBFgFmHa8Jh8f9MP9E6YftNsRHNXrC4loOfvrdwOunuuj8fOnn31yKS16Zz89BXlde
+         R4GhLlZdpbJZ686WGgG1P+HaCZ2BZK4WFDFzkZi2lWQrMj1saM79mvJt/ThvjuCrxINm
+         ruFsh697yY4X41oZhMX0A77dByb6gVn0m2E9tUfpF5dLTk97a4hAqO7fz8M5KYUm0hjd
+         TiLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=QQW5nE25CHVm8VEawfIVGFUrSWUWqh3HmVxegFkvxow=;
+        b=TV+TzfpJP27XcQRePsWTkJ6I2cm4XEhb1zX9/Ar/UmYVlFn7p+Q8WcIs0JhddOygeK
+         A9HksEmpeCrI2Xaxb/S7nbV6XJx1kj9TBuSNJQ7wX6pjyQ8duKBMGil7kF6tcB8F3p4I
+         bcyh0mJ+RamwYKricAPWTdC7hOy+9mg0S0Rc8Hzru87dNDGRE/Uomw02yNcx0Dw+r16Y
+         MQS31xUpz4woXYAv4x+NBV4tQP0/cggwbNN+ZX09gac2kYd7Tdsat5SNTQ9JTvUwPD2R
+         VAwGZXtvpT7pVNOFHI3yRivV8AblN6AAURBRplIHLO83qPviK9D+JnIaJ/XAnnsykJln
+         itYg==
+X-Gm-Message-State: AJIora9O30L+U2eKhvwZs7BWWA9xSw10bymsBgNdb9VlHOcgpfr+P3SO
+	odtTrzG5BTgFVelf7wjLDY0=
+X-Google-Smtp-Source: AGRyM1spm/i8vUrmDSn5ax+V2bsi7iLLPEOhGw+xPyn3X77iZ/dLJLvRahYmFO9gCXoJ3sq/kj+4CA==
+X-Received: by 2002:a17:90b:3909:b0:1f0:386e:c0a1 with SMTP id ob9-20020a17090b390900b001f0386ec0a1mr8937588pjb.64.1658375546989;
+        Wed, 20 Jul 2022 20:52:26 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:d01c:7038:d847:8f04:2f5c:26b2])
+        by smtp.googlemail.com with ESMTPSA id b13-20020a170902d40d00b0016d231e366fsm373879ple.59.2022.07.20.20.52.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 20:52:26 -0700 (PDT)
+From: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
+To: 
+Cc: abhijeet.srivastava2308@gmail.com,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Rebecca Mckeever <remckee0@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Vihas Makwana <makvihas@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: Inserted empty line after declarations
+Date: Thu, 21 Jul 2022 09:20:39 +0530
+Message-Id: <20220721035146.11719-1-abhijeet.srivastava2308@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <a2747f00-99b8-10a2-edf5-7dd6fd7a1f8b@gmail.com>
+References: <a2747f00-99b8-10a2-edf5-7dd6fd7a1f8b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220712181928.17547-1-jslebodn@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Joel,
+Warning found by checkpatch.pl script. Resending this patch after
+correcting my Username
 
-Thank you for the patch! Yet something to improve:
+Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-[auto build test ERROR on v5.19-rc6]
-[also build test ERROR on linus/master]
-[cannot apply to staging/staging-testing next-20220720]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Slebodnick/remove-custom-return-values-in-vc04_services/20220713-022038
-base:    32346491ddf24599decca06190ebca03ff9de7f8
-config: powerpc-randconfig-r001-20220718 (https://download.01.org/0day-ci/archive/20220721/202207210405.zW5H9djg-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project dd5635541cd7bbd62cd59b6694dfb759b6e9a0d8)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/cc7c5d7c4bbc057cd5426e71360c064d43018aba
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Joel-Slebodnick/remove-custom-return-values-in-vc04_services/20220713-022038
-        git checkout cc7c5d7c4bbc057cd5426e71360c064d43018aba
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/staging/vc04_services/vchiq-mmal/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c:551:26: error: incomplete result type 'enum vchiq_status' in function definition
-   static enum vchiq_status service_callback(enum vchiq_reason reason,
-                            ^
-   drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c:551:13: note: forward declaration of 'enum vchiq_status'
-   static enum vchiq_status service_callback(enum vchiq_reason reason,
-               ^
->> drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c:562:10: error: use of undeclared identifier 'VCHIQ_SUCCESS'
-                   return VCHIQ_SUCCESS;
-                          ^
-   drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c:646:9: error: use of undeclared identifier 'VCHIQ_SUCCESS'
-           return VCHIQ_SUCCESS;
-                  ^
-   3 errors generated.
-
-
-vim +551 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  549  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  550  /* incoming event service callback */
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29 @551  static enum vchiq_status service_callback(enum vchiq_reason reason,
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  552  					  struct vchiq_header *header,
-1e5f7325636abd drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Baidyanath Kundu       2020-07-13  553  					  unsigned int handle, void *bulk_ctx)
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  554  {
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  555  	struct vchiq_mmal_instance *instance = vchiq_get_service_userdata(handle);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  556  	u32 msg_len;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  557  	struct mmal_msg *msg;
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  558  	struct mmal_msg_context *msg_context;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  559  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  560  	if (!instance) {
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  561  		pr_err("Message callback passed NULL instance\n");
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29 @562  		return VCHIQ_SUCCESS;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  563  	}
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  564  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  565  	switch (reason) {
-469fbb24ced37f drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  566  	case VCHIQ_MESSAGE_AVAILABLE:
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  567  		msg = (void *)header->data;
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  568  		msg_len = header->size;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  569  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  570  		DBG_DUMP_MSG(msg, msg_len, "<<< reply message");
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  571  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  572  		/* handling is different for buffer messages */
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  573  		switch (msg->h.type) {
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  574  		case MMAL_MSG_TYPE_BUFFER_FROM_HOST:
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  575  			vchiq_release_message(handle, header);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  576  			break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  577  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  578  		case MMAL_MSG_TYPE_EVENT_TO_HOST:
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  579  			event_to_host_cb(instance, msg, msg_len);
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  580  			vchiq_release_message(handle, header);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  581  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  582  			break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  583  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  584  		case MMAL_MSG_TYPE_BUFFER_TO_HOST:
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  585  			buffer_to_host_cb(instance, msg, msg_len);
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  586  			vchiq_release_message(handle, header);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  587  			break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  588  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  589  		default:
-60d5c020bbc0e4 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  590  			/* messages dependent on header context to complete */
-4bc58d16753b99 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Aishwarya Pant         2017-02-28  591  			if (!msg->h.context) {
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  592  				pr_err("received message context was null!\n");
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  593  				vchiq_release_message(handle, header);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  594  				break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  595  			}
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  596  
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  597  			msg_context = lookup_msg_context(instance,
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  598  							 msg->h.context);
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  599  			if (!msg_context) {
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  600  				pr_err("received invalid message context %u!\n",
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  601  				       msg->h.context);
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  602  				vchiq_release_message(handle, header);
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  603  				break;
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  604  			}
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  605  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  606  			/* fill in context values */
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  607  			msg_context->u.sync.msg_handle = header;
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  608  			msg_context->u.sync.msg = msg;
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  609  			msg_context->u.sync.msg_len = msg_len;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  610  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  611  			/* todo: should this check (completion_done()
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  612  			 * == 1) for no one waiting? or do we need a
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  613  			 * flag to tell us the completion has been
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  614  			 * interrupted so we can free the message and
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  615  			 * its context. This probably also solves the
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  616  			 * message arriving after interruption todo
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  617  			 * below
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  618  			 */
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  619  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  620  			/* complete message so caller knows it happened */
-4e6bafdfb9f394 drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c Michael Zoran          2017-03-08  621  			complete(&msg_context->u.sync.cmplt);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  622  			break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  623  		}
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  624  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  625  		break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  626  
-469fbb24ced37f drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  627  	case VCHIQ_BULK_RECEIVE_DONE:
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  628  		bulk_receive_cb(instance, bulk_ctx);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  629  		break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  630  
-469fbb24ced37f drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  631  	case VCHIQ_BULK_RECEIVE_ABORTED:
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  632  		bulk_abort_cb(instance, bulk_ctx);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  633  		break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  634  
-469fbb24ced37f drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  635  	case VCHIQ_SERVICE_CLOSED:
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  636  		/* TODO: consider if this requires action if received when
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  637  		 * driver is not explicitly closing the service
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  638  		 */
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  639  		break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  640  
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  641  	default:
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  642  		pr_err("Received unhandled message reason %d\n", reason);
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  643  		break;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  644  	}
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  645  
-3c5da06f996995 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c     Nicolas Saenz Julienne 2020-06-29  646  	return VCHIQ_SUCCESS;
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  647  }
-7b3ad5abf027b7 drivers/staging/media/platform/bcm2835/mmal-vchiq.c       Eric Anholt            2017-01-27  648  
-
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 5b6a891b5d67..6fbf6e4234cf 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -25,6 +25,7 @@ void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+ 
+ 	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+ 		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
++
+ 		if (c2h && c2h != (void *)pevtpriv)
+ 			kfree(c2h);
+ 	}
+@@ -323,6 +324,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 	/* prepare ssid list */
+ 	if (ssid) {
+ 		int i;
++
+ 		for (i = 0; i < ssid_num && i < RTW_SSID_SCAN_AMOUNT; i++) {
+ 			if (ssid[i].SsidLength) {
+ 				memcpy(&psurveyPara->ssid[i], &ssid[i], sizeof(struct ndis_802_11_ssid));
+@@ -334,6 +336,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 	/* prepare channel list */
+ 	if (ch) {
+ 		int i;
++
+ 		for (i = 0; i < ch_num && i < RTW_CHANNEL_SCAN_AMOUNT; i++) {
+ 			if (ch[i].hw_value && !(ch[i].flags & RTW_IEEE80211_CHAN_DISABLED)) {
+ 				memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct rtw_ieee80211_channel));
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.34.1
+
