@@ -1,150 +1,88 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC0F4690
-	for <linux-staging@lists.linux.dev>; Thu, 21 Jul 2022 17:05:44 +0000 (UTC)
-Received: from localhost (dynamic-089-204-139-174.89.204.139.pool.telefonica.de [89.204.139.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 429A96601ABB;
-	Thu, 21 Jul 2022 18:05:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1658423142;
-	bh=FoeOIMjJ3nvLwW8C/6cVGGWNd/VWco4Un0vi/mWNUjo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JDsLd+3hm6DpoMQwa1Z4koJcjzZqb/0zdLycCEYzZvEZoJEVKRTIz9MszbqPHm5P3
-	 P1EUkPVJeBtpZ0YpdYeeIWZm7yrMhPUo8Xk/YK/xhmSc1Ay9mXg+Pjzb4t4myxAKWv
-	 /RL2FdZvsIaa8C2QezBYPZ/mahvozCnUNv0NE5c0RoWW8wmZORd+XWNvayrZv6G0By
-	 4/HScJ/R4Aw/a/2VJPmW0z83p0ZDxGpGJyiJZCYvNfXrT/dYKaM1ZxXCYuSR/Z8Q1z
-	 2pRQHJSSHjb6BsFU2aMuPeMHcpPDgXbvD8tvhRGfflk/VqH0RxgucT75XQFb4sf4FS
-	 sKnICVoH+L0SA==
-Date: Thu, 21 Jul 2022 19:05:39 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>, knaerzche@gmail.com,
-	Collabora Kernel ML <kernel@collabora.com>,
-	bob.beckett@collabora.com,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B824B4690
+	for <linux-staging@lists.linux.dev>; Thu, 21 Jul 2022 17:37:39 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id d7so2463342plr.9
+        for <linux-staging@lists.linux.dev>; Thu, 21 Jul 2022 10:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7A7f3vsCoMPD+oJ+DRhT8m5bm216n3txZjp85zwns54=;
+        b=fcxHtD+v0Oc9pKDm4ZTw/rm1K57I0OQz/UHDeHsDbMw+3Td+wBMXFhXOHEGrAhrxr3
+         SLLB/p1ps0OE6wLB8PRZh26P8D25wo2Vh8f8aZ1YIclS6UbuStT/fV+15MWMKgS3PUt/
+         EkHav+1hzaMnAMZyRndLXSlViTpoZvO7c6qGu7vztPAHHScqrmqgrJhLD0hhq6yZNi1k
+         5ogKzoifhm4vADyYuT5/WqSQGRZOLHZoDG0iDh1Q3HO/nu5Q2azJ7e99v+Cbyu+Pdlsy
+         9Bz6MPEmHJ5aBGbIwP5pMfhTZ17GC8Xv73ZuVfYmjXxw22bzndmo76HMMlLuF8TFpNum
+         FJjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7A7f3vsCoMPD+oJ+DRhT8m5bm216n3txZjp85zwns54=;
+        b=pbOVeQXh9K/U6B8eZItLb3NM+R9pb3ughw4yRoMjCd+uSLR7W0RvVBEebrM6jzMcgf
+         h/5iYJhcrePxnp+fZN/NGjEPub/t9eXakOHXLE0gqx0/1LkeKKejaRwxkGjIeu9wNH3t
+         7HZmG+5ZmiUAJwfU4/XwqCY2iUbS6PZxSDx8fN9TQDR5jhzo7Z+BhxPbTLGpjdzuh3XT
+         FPvT/GYDNyXALzJkv5sd3wxl1ojVTaW+lpvAz62sHkXcYokn8oxEv0ZHQZjydWiXK4RM
+         a1TYN3yGdZ08oJY+IStbYZgRKiBoZ2G1c43Z5PZDTzGhu+40peGdYylb+xY8eKWkOcAw
+         7MJg==
+X-Gm-Message-State: AJIora9rq/BN+z7fRJjrMOBh+kAZXFaKjFPk4a166/bFYcFWuHpJpfDx
+	2MqPpcqNcijdSsVHjM3e/jk=
+X-Google-Smtp-Source: AGRyM1uHlIPUVPRS+0S6K83Tv/R6O1KC9VAqTt4sA26lM1hbFUgDjkfUujDhCqIiUbzhOB/8olB6fA==
+X-Received: by 2002:a17:90b:4b81:b0:1ef:cd2c:bf2e with SMTP id lr1-20020a17090b4b8100b001efcd2cbf2emr12282986pjb.137.1658425059113;
+        Thu, 21 Jul 2022 10:37:39 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:d01c:7038:1b61:a224:b8d7:290b])
+        by smtp.googlemail.com with ESMTPSA id q9-20020a17090a7a8900b001f219c5ae7dsm1711714pjf.31.2022.07.21.10.37.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jul 2022 10:37:38 -0700 (PDT)
+From: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
+To: 
+Cc: abhijeet.srivastava2308@gmail.com,
+	Corentin Labbe <clabbe@baylibre.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-	linux-staging@lists.linux.dev, nicolas.dufresne@collabora.com,
-	andrzej.p@collabora.com,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH 3/6] bitops: bitmap helper to set variable length values
-Message-ID: <20220721170539.57z5kcxtgxuh3qma@basti-XPS-13-9310>
-References: <20220713163201.136202-1-sebastian.fricke@collabora.com>
- <Ys8Txuq9/u/EL6sj@yury-laptop>
- <CAHp75VeOLfKw4-+Dpn54yy6j=tdiBNA_2Kvhj7mUUjTD-M_vYA@mail.gmail.com>
- <Ys8gpl3m+vvEM7Sy@yury-laptop>
- <CAHp75VeGSWoq-a10nA9NLKBEX7L_eiL0zPMJHUbX=c64wG8hkg@mail.gmail.com>
- <Ys8uKUKErpoWL873@yury-laptop>
- <Ys/835VdAYRVYdXW@smile.fi.intel.com>
+	mjpeg-users@lists.sourceforge.net,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: staging: media: zoran: Fixed Block comments
+Date: Thu, 21 Jul 2022 23:07:22 +0530
+Message-Id: <20220721173729.63844-1-abhijeet.srivastava2308@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <Ys/835VdAYRVYdXW@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hey Yury and Andy,
+Warning found by checkpatch.pl script.
 
-thanks for you review and discussion, after some further communication
-with Nicolas Dufresne and Andrzej Pietrasiewicz, we came to the
-conclusion that I will prepare a more general bit-writer API, which fits
-better to the use-case we have on a lot of multimedia hardware.
+Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
+---
+ drivers/staging/media/zoran/zoran_driver.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-I'll probably reuse the bitmap API as the backbone of that
-implementation and use the `*_set8` to write the content back to memory,
-but as we have a few more potential users for such an API, I'll strive
-towards creating a new kernel API instead of extending an existing API
-that isn't designed for our use-case.
+diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
+index 4304b7e21709..b408c1d4e0a7 100644
+--- a/drivers/staging/media/zoran/zoran_driver.c
++++ b/drivers/staging/media/zoran/zoran_driver.c
+@@ -746,9 +746,11 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
+ 	.vidioc_enum_input		    = zoran_enum_input,
+ 	.vidioc_g_input			    = zoran_g_input,
+ 	.vidioc_s_input			    = zoran_s_input,
++
+ /*	.vidioc_enum_output		    = zoran_enum_output,
+-	.vidioc_g_output		    = zoran_g_output,
+-	.vidioc_s_output		    = zoran_s_output,*/
++ *	.vidioc_g_output		    = zoran_g_output,
++ *	.vidioc_s_output		    = zoran_s_output,
++ */
+ 	.vidioc_g_std			    = zoran_g_std,
+ 	.vidioc_s_std			    = zoran_s_std,
+ 	.vidioc_create_bufs		    = vb2_ioctl_create_bufs,
+-- 
+2.34.1
 
-Thanks a lot for your input and ideas.
-
-Greetings,
-Sebastian
-
-On 14.07.2022 14:24, Andy Shevchenko wrote:
->On Wed, Jul 13, 2022 at 01:42:17PM -0700, Yury Norov wrote:
->> On Wed, Jul 13, 2022 at 10:14:24PM +0200, Andy Shevchenko wrote:
->> > On Wed, Jul 13, 2022 at 9:44 PM Yury Norov <yury.norov@gmail.com> wrote:
->> > > On Wed, Jul 13, 2022 at 09:10:33PM +0200, Andy Shevchenko wrote:
->> > > > On Wed, Jul 13, 2022 at 8:56 PM Yury Norov <yury.norov@gmail.com> wrote:
->> > > > > On Wed, Jul 13, 2022 at 06:31:59PM +0200, Sebastian Fricke wrote:
->
->...
->
->> > > > > I'd suggest you to try implementing
->> > > > >         bitmap_copy_from(dst, src, dst_off, len)
->> > > > > or even
->> > > > >         bitmap_copy_from(dst, dst_off, src, src_off, len)
->> > > > > if you expect that you'll need more flexibility in the future.
->> > > >
->> > > > Do you think it would be useful?
->> > > >
->> > > > We have bitmap_replace() & bitmap_remap(). Wouldn't that be enough?
->> > >
->> > > bitmap_replace and bitmap_remap have no an 'offset' parameter.
->> >
->> > True.
->> >
->> > But then it's a bit too generic to have this src_off, no?
->>
->> That's why I said:
->>
->> > > > > if you expect that you'll need more flexibility in the future.
->>
->> My preferred option is bitmap_copy_from(dst, src, dst_off, len).
->>
->> > I would rather expect for asymmetrical bitmaps that the other side
->> > will be either one of the fixed width types (it makes sense to have
->> > for 32- or 64-bit arguments.
->>
->> Look at patch #6 - it copies 1,4,5,9,10,32,37... - pretty much a random
->> number number of bits.
->
->It's too poor randomness, as u64 covers all what in patch 6.
->
->> > When you have a source bitmap of x bits and  you would like to copy it
->> > into a y-bit one, I would think that either you have a small amount of
->> > bits in x anyway, or x is a full-sized bitmap (same order as y).
->>
->> It sounds like a speculation to me. Why shouldn't we let people to
->> copy with an offset any number of bits?
->
->Because it's a common case. You have a value in the register / variable, which
->naturally is one of the POD types. Now you want to inject this into bitmap at
->the arbitrary offset. Value itself also needs to be variadic size in bits.
->
->Basically what he is trying to achieve is something like bitfield.h API over
->bitmaps. Dunno, if actually bitfield.h in the certain driver wouldn't be
->enough.
->
->> > Also
->> > keep in mind that granularity is long, so less than long it makes no
->> > sense.
->> >
->> >   bitmap_copy_from_T(unsigned long *map, start, len, T src),
->> >
->> > where T is type, start is the offset in map, len is the amount of bits
->> > from src starting from 0. That's what is required in most of the cases
->> > I believe.
->>
->> But not in Sebastian's case, according to patch #6.
->
->I think it's a case, see above.
->
->-- 
->With Best Regards,
->Andy Shevchenko
->
->
