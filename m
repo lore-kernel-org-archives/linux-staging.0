@@ -1,273 +1,245 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663814680
-	for <linux-staging@lists.linux.dev>; Thu, 21 Jul 2022 15:38:01 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id y141so2076705pfb.7
-        for <linux-staging@lists.linux.dev>; Thu, 21 Jul 2022 08:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hs4O7l0pP6DRS5EHCNCIfeuQWOmUlfNFogQS7F4nGMY=;
-        b=cVYaqki2RE96z91l8vkrxU1/8tPlu8X1aATtyQlcF4T9ti4vBKmOI8EyL7Gt7f/W3Z
-         o8widG+rRMF3f8ZHy7YYqiW0Q1zdwMfU119G/LyQB8oMrvEMHZl5dWNgE4iSyRWdhv45
-         V/XnZppMeYQtQh0HzArs2YcWpsNqBGahR3ORwwVxR12LnvHBYT7hBxSPoCol+9MYTXMf
-         XNBIsoJWcwkdZ65FV2eXU4cYitKNyUZ6A9LBcqn79Ym72q+2yGyLT1mrl0zqAl5/Ml1S
-         khXKW1X955h8zaSUx9favNoxaQIWGUYXrfCXYPVCcbFxn/fFJnP/pKFBsiX7Q1GPWPIy
-         qjJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hs4O7l0pP6DRS5EHCNCIfeuQWOmUlfNFogQS7F4nGMY=;
-        b=Ax4Os6YzoXpMgJtwZkAUjJhZTVU0/RkKyWTpoJqWpWR114+UacF/i9upCq8YyIUy5P
-         sb0rgyNIT4vzhfKgXACAa5lOBMLEgn/G1a5CnMUO9QM4sUXQNcHvk97+Okmc5UyekYp3
-         vy48XARzs1tp3tZKdGMd2e/pa81vSF5g8NZKBaR8BSeoLnlue2TM4frDvCv75to9mQmz
-         sUTZT1Tpy8YktJiNcRS+JRPcXwiSdCpURFTyjwtpXDTFKIViBfzgje36E6i0l1vubDv6
-         ZZGKrVFAbh3hMK1oVAs7gtSom+wAWbydwGkpTR8YLpiANCJkUyMZLEHn1Dj800CeDqra
-         6QSw==
-X-Gm-Message-State: AJIora9AbNttjTzF/EU2pu9yVR2L5D/ZSU5pfdI+jH9SkBYr5PH+A5xD
-	3H5rbBkTGiklkhgTyc/djwo=
-X-Google-Smtp-Source: AGRyM1vGJUj/7cE+gO0ZJD5zSmD5g+AuMgDYMxqGc5+o8h/XLlqkFxfyXAAB7zAMx4xWIT9su8odSQ==
-X-Received: by 2002:a62:1b57:0:b0:52a:d646:de3c with SMTP id b84-20020a621b57000000b0052ad646de3cmr44520891pfb.60.1658417880600;
-        Thu, 21 Jul 2022 08:38:00 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:d01c:7038:6d29:af18:34a6:1c34])
-        by smtp.googlemail.com with ESMTPSA id h12-20020a170902f7cc00b0016d1fee99ccsm1826583plw.298.2022.07.21.08.37.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 08:38:00 -0700 (PDT)
-From: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-To: 
-Cc: abhijeet.srivastava2308@gmail.com,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	mjpeg-users@lists.sourceforge.net,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: staging: media: zoran: Added * on subsequent lines of Blockcomment
-Date: Thu, 21 Jul 2022 21:07:37 +0530
-Message-Id: <20220721153748.56687-1-abhijeet.srivastava2308@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1F24680
+	for <linux-staging@lists.linux.dev>; Thu, 21 Jul 2022 16:16:21 +0000 (UTC)
+Received: from localhost (dynamic-089-204-139-174.89.204.139.pool.telefonica.de [89.204.139.174])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id D33166601AB5;
+	Thu, 21 Jul 2022 17:16:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1658420174;
+	bh=dqv4bzv5cBrU2lFcJe9AOz35+jMcfkwjJDjsXIGkF+k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DMwPVM15QaNloCyNjfAnJnNnZxXr6OAEkvoSJd9LtOzuka4kQWLJRrABBq8n0GwJX
+	 KS6HYK1L2+udpBoJMV9zkWbsTMUdHsUR8Yiw95aTqFcp7EIdrciLXWm9rrPaG/GZbI
+	 h/wwLKtj2ZxIIHZhzfPUnJsufMjhg4qz8Ff5Gc7fuVD++jacCxhPjRczi4DJZkyJQ1
+	 GegMNrS6OxK22E7/xz1HMDsF7WkP9ofcreb3EyIDPQ4nXXyHHj1IV+RfKs64llNSG0
+	 Ck3ltYeLgk80hi7DU+aKMSCpGSUBvTtVseMoOv/yPbpI77hM8KF69YUcv1vGyuKEEV
+	 BrOGFBZ59EWPQ==
+Date: Thu, 21 Jul 2022 18:16:09 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, linux-media@vger.kernel.org,
+	jernej.skrabec@gmail.com, knaerzche@gmail.com, kernel@collabora.com,
+	bob.beckett@collabora.com, ezequiel@vanguardiasur.com.ar,
+	mchehab@kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, Yury Norov <yury.norov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 0/6] RkVDEC HEVC driver
+Message-ID: <20220721161609.zyhhg3smbusl6koz@basti-XPS-13-9310>
+References: <20220713162449.133738-1-sebastian.fricke@collabora.com>
+ <7be996ee-9977-129b-08e2-12bde7ac9cd7@arm.com>
+ <f05896551f8545af3c7352a6bd38248e038b61d2.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f05896551f8545af3c7352a6bd38248e038b61d2.camel@collabora.com>
 
-Warning found by checkpatch.pl script
+Hey Nicolas & Robin,
 
-Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
----
- drivers/staging/media/zoran/videocodec.h | 180 +++++++++++------------
- 1 file changed, 90 insertions(+), 90 deletions(-)
+Thanks for the feedback.
 
-diff --git a/drivers/staging/media/zoran/videocodec.h b/drivers/staging/media/zoran/videocodec.h
-index 9dea348fee40..58365b0932b4 100644
---- a/drivers/staging/media/zoran/videocodec.h
-+++ b/drivers/staging/media/zoran/videocodec.h
-@@ -13,108 +13,108 @@
- /* =================== */
- 
- /* Should ease the (re-)usage of drivers supporting cards with (different)
--   video codecs. The codecs register to this module their functionality,
--   and the processors (masters) can attach to them if they fit.
--
--   The codecs are typically have a "strong" binding to their master - so I
--   don't think it makes sense to have a full blown interfacing as with e.g.
--   i2c. If you have an other opinion, let's discuss & implement it :-)))
--
--   Usage:
--
--   The slave has just to setup the videocodec structure and use two functions:
--   videocodec_register(codecdata);
--   videocodec_unregister(codecdata);
--   The best is just calling them at module (de-)initialisation.
--
--   The master sets up the structure videocodec_master and calls:
--   codecdata=videocodec_attach(master_codecdata);
--   videocodec_detach(codecdata);
--
--   The slave is called during attach/detach via functions setup previously
--   during register. At that time, the master_data pointer is set up
--   and the slave can access any io registers of the master device (in the case
--   the slave is bound to it). Otherwise it doesn't need this functions and
--   therfor they may not be initialized.
--
--   The other functions are just for convenience, as they are for sure used by
--   most/all of the codecs. The last ones may be omitted, too.
--
--   See the structure declaration below for more information and which data has
--   to be set up for the master and the slave.
--
--   ----------------------------------------------------------------------------
--   The master should have "knowledge" of the slave and vice versa.  So the data
--   structures sent to/from slave via set_data/get_data set_image/get_image are
--   device dependent and vary between MJPEG/MPEG/WAVELET/... devices. (!!!!)
--   ----------------------------------------------------------------------------
--*/
-+ * video codecs. The codecs register to this module their functionality,
-+ * and the processors (masters) can attach to them if they fit.
-+ *
-+ * The codecs are typically have a "strong" binding to their master - so I
-+ * don't think it makes sense to have a full blown interfacing as with e.g.
-+ * i2c. If you have an other opinion, let's discuss & implement it :-)))
-+ *
-+ * Usage:
-+ *
-+ * The slave has just to setup the videocodec structure and use two functions:
-+ * videocodec_register(codecdata);
-+ * videocodec_unregister(codecdata);
-+ * The best is just calling them at module (de-)initialisation.
-+ *
-+ * The master sets up the structure videocodec_master and calls:
-+ * codecdata=videocodec_attach(master_codecdata);
-+ * videocodec_detach(codecdata);
-+ *
-+ * The slave is called during attach/detach via functions setup previously
-+ * during register. At that time, the master_data pointer is set up
-+ * and the slave can access any io registers of the master device (in the case
-+ * the slave is bound to it). Otherwise it doesn't need this functions and
-+ * therfor they may not be initialized.
-+ *
-+ * The other functions are just for convenience, as they are for sure used by
-+ * most/all of the codecs. The last ones may be omitted, too.
-+ *
-+ * See the structure declaration below for more information and which data has
-+ * to be set up for the master and the slave.
-+ *
-+ * ----------------------------------------------------------------------------
-+ *  The master should have "knowledge" of the slave and vice versa.  So the data
-+ *  structures sent to/from slave via set_data/get_data set_image/get_image are
-+ *  device dependent and vary between MJPEG/MPEG/WAVELET/... devices. (!!!!)
-+ *  ----------------------------------------------------------------------------
-+ */
- 
- /* ========================================== */
- /* description of the videocodec_io structure */
- /* ========================================== */
- 
- /*
--   ==== master setup ====
--   name -> name of the device structure for reference and debugging
--   master_data ->  data ref. for the master (e.g. the zr36055,57,67)
--   readreg -> ref. to read-fn from register (setup by master, used by slave)
--   writereg -> ref. to write-fn to register (setup by master, used by slave)
--	       this two functions do the lowlevel I/O job
--
--   ==== slave functionality setup ====
--   slave_data -> data ref. for the slave (e.g. the zr36050,60)
--   check -> fn-ref. checks availability of an device, returns -EIO on failure or
--	    the type on success
--	    this makes espcecially sense if a driver module supports more than
--	    one codec which may be quite similar to access, nevertheless it
--	    is good for a first functionality check
--
--   -- main functions you always need for compression/decompression --
--
--   set_mode -> this fn-ref. resets the entire codec, and sets up the mode
--	       with the last defined norm/size (or device default if not
--	       available) - it returns 0 if the mode is possible
--   set_size -> this fn-ref. sets the norm and image size for
--	       compression/decompression (returns 0 on success)
--	       the norm param is defined in videodev2.h (V4L2_STD_*)
--
--   additional setup may be available, too - but the codec should work with
--   some default values even without this
--
--   set_data -> sets device-specific data (tables, quality etc.)
--   get_data -> query device-specific data (tables, quality etc.)
--
--   if the device delivers interrupts, they may be setup/handled here
--   setup_interrupt -> codec irq setup (not needed for 36050/60)
--   handle_interrupt -> codec irq handling (not needed for 36050/60)
--
--   if the device delivers pictures, they may be handled here
--   put_image -> puts image data to the codec (not needed for 36050/60)
--   get_image -> gets image data from the codec (not needed for 36050/60)
--		the calls include frame numbers and flags (even/odd/...)
--		if needed and a flag which allows blocking until its ready
--*/
-+ * ==== master setup ====
-+ * name -> name of the device structure for reference and debugging
-+ * master_data ->  data ref. for the master (e.g. the zr36055,57,67)
-+ * readreg -> ref. to read-fn from register (setup by master, used by slave)
-+ * writereg -> ref. to write-fn to register (setup by master, used by slave)
-+ * this two functions do the lowlevel I/O job
-+ *
-+ * ==== slave functionality setup ====
-+ * slave_data -> data ref. for the slave (e.g. the zr36050,60)
-+ * check -> fn-ref. checks availability of an device, returns -EIO on failure or
-+ * the type on success
-+ * this makes espcecially sense if a driver module supports more than
-+ * one codec which may be quite similar to access, nevertheless it
-+ * is good for a first functionality check
-+ *
-+ * -- main functions you always need for compression/decompression --
-+ *
-+ * set_mode -> this fn-ref. resets the entire codec, and sets up the mode
-+ * with the last defined norm/size (or device default if not
-+ * available) - it returns 0 if the mode is possible
-+ *
-+ * set_size -> this fn-ref. sets the norm and image size for
-+ * compression/decompression (returns 0 on success)
-+ * the norm param is defined in videodev2.h (V4L2_STD_*)
-+ * additional setup may be available, too - but the codec should work with
-+ * some default values even without this
-+ *
-+ * set_data -> sets device-specific data (tables, quality etc.)
-+ * get_data -> query device-specific data (tables, quality etc.)
-+ *
-+ * if the device delivers interrupts, they may be setup/handled here
-+ * setup_interrupt -> codec irq setup (not needed for 36050/60)
-+ * handle_interrupt -> codec irq handling (not needed for 36050/60)
-+ *
-+ * if the device delivers pictures, they may be handled here
-+ * put_image -> puts image data to the codec (not needed for 36050/60)
-+ *
-+ * get_image -> gets image data from the codec (not needed for 36050/60)
-+ * the calls include frame numbers and flags (even/odd/...)
-+ * if needed and a flag which allows blocking until its ready
-+ */
- 
- /* ============== */
- /* user interface */
- /* ============== */
- 
- /*
--   Currently there is only a information display planned, as the layer
--   is not visible for the user space at all.
--
--   Information is available via procfs. The current entry is "/proc/videocodecs"
--   but it makes sense to "hide" it in the /proc/video tree of v4l(2) --TODO--.
--
--A example for such an output is:
--
--<S>lave or attached <M>aster name  type flags    magic    (connected as)
--S                          zr36050 0002 0000d001 00000000 (TEMPLATE)
--M                       zr36055[0] 0001 0000c001 00000000 (zr36050[0])
--M                       zr36055[1] 0001 0000c001 00000000 (zr36050[1])
--
--*/
-+ * Currently there is only a information display planned, as the layer
-+ * is not visible for the user space at all.
-+ *
-+ * Information is available via procfs. The current entry is "/proc/videocodecs"
-+ * but it makes sense to "hide" it in the /proc/video tree of v4l(2) --TODO--.
-+ *
-+ * A example for such an output is:
-+ *
-+ * <S>lave or attached <M>aster name  type flags    magic    (connected as)
-+ * S                          zr36050 0002 0000d001 00000000 (TEMPLATE)
-+ * M                       zr36055[0] 0001 0000c001 00000000 (zr36050[0])
-+ * M                       zr36055[1] 0001 0000c001 00000000 (zr36050[1])
-+ */
- 
- /* =============================================== */
- /* special defines for the videocodec_io structure */
--- 
-2.34.1
+On 15.07.2022 11:36, Nicolas Dufresne wrote:
+>Le vendredi 15 juillet 2022 à 12:04 +0100, Robin Murphy a écrit :
+>> On 2022-07-13 17:24, Sebastian Fricke wrote:
+>> > Implement the HEVC codec variation for the RkVDEC driver. Currently only
+>> > the RK3399 is supported, but it is possible to enable the RK3288 as it
+>> > also supports this codec.
+>> >
+>> > Based on top of the media tree @ef7fcbbb9eabbe86d2287484bf366dd1821cc6b8
+>> > and the HEVC uABI MR by Benjamin Gaignard.
+>> > (https://patchwork.linuxtv.org/project/linux-media/list/?series=8360)
+>> >
+>> > Tested with the GStreamer V4L2 HEVC plugin:
+>> > (https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079)
+>> >
+>> > Current Fluster score:
+>> > `Ran 131/147 tests successfully               in 278.568 secs`
+>> > with
+>> > `python3 fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -ts JCT-VC-HEVC_V1 -j1`
+>> >
+>> > failed conformance tests:
+>> > - DBLK_D_VIXS_2 (Success on Hantro G2)
+>> > - DSLICE_A_HHI_5 (Success on Hantro G2)
+>> > - EXT_A_ericsson_4 (Success on Hantro G2)
+>> > - PICSIZE_A_Bossen_1 (Hardware limitation)
+>> > - PICSIZE_B_Bossen_1 (Hardware limitation)
+>> > - PICSIZE_C_Bossen_1 (Hardware limitation)
+>> > - PICSIZE_D_Bossen_1 (Hardware limitation)
+>> > - PPS_A_qualcomm_7 (Success on Hantro G2)
+>> > - SAODBLK_A_MainConcept_4 (Success on Hantro G2)
+>> > - SAODBLK_B_MainConcept_4 (Success on Hantro G2)
+>> > - SLIST_B_Sony_9 (Success on Hantro G2)
+>> > - SLIST_D_Sony_9 (Success on Hantro G2)
+>> > - TSUNEQBD_A_MAIN10_Technicolor_2 (Success on Hantro G2)
+>> > - VPSSPSPPS_A_MainConcept_1 (Success on Hantro G2)
+>> > - WPP_D_ericsson_MAIN10_2 (Fail on Hantro G2)
+>> > - WPP_D_ericsson_MAIN_2 (Fail on Hantro G2)
+>> >
+>> > Not tested with FFMpeg so far.
+>> >
+>> > Known issues:
+>> > - Unable to reliably decode multiple videos concurrently
+>> > - The SAODBLK_* tests timeout if the timeout time in fluster is lower than 120
+>> > - Currently the uv_virstride is calculated in a manner that is hardcoded
+>> > for the two available formats NV12 and NV15. (@config_registers)
+>> >
+>> > Notable design decisions:
+>> > - I opted for a bitfield to represent the PPS memory blob as it is the
+>> > perfect tool for that job. It describes the memory layout with any
+>> > additional required documentation, is easy to read and a native language
+>> > tool for that job
+>>
+>> Can I point out how terrible an idea this is? The C language gives
+>> virtually zero guarantee about how bitfields are actually represented in
+>> memory. Platform ABIs (e.g. [1]) might nail things down a bit more, but
+>> different platforms are free to make completely different choices so
+>> portability still goes out the window. Even for a single platform,
+>> different compilers (or at worst even different version of one compiler)
+>> can still make incompatible choices e.g. WRT alignment of packed
+>> members. Even if you narrow the scope as far as a specific version of
+>> AArch64 GCC, I think this is still totally broken for big-endian.
+>>
+>> The fact that you've had to use nonsensical types to trick a compiler
+>> into meeting your expectations should already be a clue to how fragile
+>> this is in general.
+>>
+>> > - The RPS memory blob is created using a bitmap implementation, which
+>> > uses a common Kernel API to avoid reinventing the wheel and to keep the
+>> > code clean.
+>>
+>> Similarly, Linux bitmaps are designed for use as, well, bitmaps. Abusing
+>> them as a data interchange format for bit-aligned numerical values is
+>> far from "clean" semantically. And I'm pretty sure it's also broken for
+>> big-endian.
+>>
+>> This kind of stuff may be standard practice in embedded development
+>> where you're targeting a specific MCU with a specific toolchain, but I
+>> don't believe it's suitable for upstream Linux. It would take pretty
+>> much the same number of lines to use GENMASK definitions and bitfield.h
+>> helpers to pack values into words which can then be written to memory in
+>> a guaranteed format and endianness (certainly for the PPS; for the RPS
+>> it may well end up a bit longer, but would be self-documenting and
+>> certainly more readable than those loops). It mostly just means that for
+>> any field which crosses a word boundary you'll end up with 2 definitions
+>> and 2 assignments, which is hardly a problem (and in some ways more
+>> honest about what's actually going on).
+>
+>Thanks for the feedback, in multimedia (unlike register programming), we don't
+>really consider bitstreams as bitmap or bitfield. What we do really expect is to
+>use bit writer helpers (and sometimes a bit reader though we try and avoid the
+>second one in the  kernel). Its more of less a cursor (a bit position) into a
+>memory that advance while writing. A bit writer should help protect against
+>overflow too.
+>
+>When writing lets say a chain of 8 bits from a char, a proper helper is expected
+>to be very explicit on the ordering (write_u8_le/be or something better worded).
+>I would rather like to see all these blobs written this way personally then
+>having a cleared buffer and writing using bit offsets.
+>
+>Perhaps I may suggest to start with implementing just that inside this driver?
+>It isn't very hard, and then the implementation can be reduced later and shared
+>later, with whatever exists without deviating from the intent of the existing
+>API ? I do believe that having this in linux-media can be useful in the future.
+>We will notably need to extend such a helper with multimedia specific coding
+>technique (golomb, boolean coding, etc.) for use in stateless encoder drivers.
 
+I currently design a general bit-writer API to handle the mentioned
+issues correctly. I'll post it as part of V2, due to my current workload
+this will happen in 3 weeks at the earliest.
+
+>
+>Nicolas
+>
+>>
+>> Thanks,
+>> Robin.
+
+Greetings,
+Sebastian
+
+>>
+>> [1]
+>> https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst#bit-fields
+>>
+>> > - I deliberatly opted against the macro solution used in H264, which
+>> > declares Macros in mid function and declares the fields of the memory
+>> > blob as macros as well. And I would be glad to refactor the H264 code if
+>> > desired by the maintainer to use common Kernel APIs and native language
+>> > elements.
+>> > - The giant static array of cabac values is moved to a separate c file,
+>> > I did so because a separate .h file would be incorrect as it doesn't
+>> > expose anything of any value for any other file than the rkvdec-hevc.c
+>> > file. Other options were:
+>> >    - Calculating the values instead of storing the results (doesn't seem
+>> >    to be worth it)
+>> >    - Supply them via firmware (Adding firmware makes the whole software
+>> >    way more complicated and the usage of the driver less obvious)
+>> >
+>> > Ignored Checkpatch warnings (as it fits to the current style of the file):
+>> > ```
+>> > WARNING: line length of 162 exceeds 100 columns
+>> > #115: FILE: drivers/media/v4l2-core/v4l2-common.c:265:
+>> > +               { .format = V4L2_PIX_FMT_NV15,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 5, 0, 0 }, .hdiv = 2, .vdiv = 2,
+>> >
+>> > ERROR: trailing statements should be on next line
+>> > #128: FILE: drivers/media/v4l2-core/v4l2-ioctl.c:1305:
+>> > +       case V4L2_PIX_FMT_NV15:         descr = "10-bit Y/CbCr 4:2:0 (Packed)"; break;
+>> > ```
+>> >
+>> > v4l2-compliance test:
+>> > ```
+>> > Total for rkvdec device /dev/video3: 46, Succeeded: 46, Failed: 0, Warnings: 0
+>> > ```
+>> >
+>> > kselftest module run for the bitmap changes:
+>> > ```
+>> > $ sudo insmod /usr/lib/modules/5.19.0-rc3-finalseries/kernel/lib/test_bitmap.ko
+>> > [   71.751716] test_bitmap: parselist: 14: input is '0-2047:128/256' OK, Time: 1750
+>> > [   71.751787] test_bitmap: bitmap_print_to_pagebuf: input is '0-32767
+>> > [   71.751787] ', Time: 6708
+>> > [   71.760373] test_bitmap: set_value: 6/6 tests correct
+>> > ```
+>> >
+>> > Jonas Karlman (2):
+>> >    media: v4l2: Add NV15 pixel format
+>> >    media: v4l2-common: Add helpers to calculate bytesperline and
+>> >      sizeimage
+>> >
+>> > Sebastian Fricke (4):
+>> >    bitops: bitmap helper to set variable length values
+>> >    staging: media: rkvdec: Add valid pixel format check
+>> >    staging: media: rkvdec: Enable S_CTRL IOCTL
+>> >    staging: media: rkvdec: Add HEVC backend
+>> >
+>> >   .../media/v4l/pixfmt-yuv-planar.rst           |   53 +
+>> >   drivers/media/v4l2-core/v4l2-common.c         |   79 +-
+>> >   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>> >   drivers/staging/media/rkvdec/Makefile         |    2 +-
+>> >   drivers/staging/media/rkvdec/TODO             |   22 +-
+>> >   .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1844 +++++++++++++++++
+>> >   drivers/staging/media/rkvdec/rkvdec-hevc.c    |  859 ++++++++
+>> >   drivers/staging/media/rkvdec/rkvdec-regs.h    |    1 +
+>> >   drivers/staging/media/rkvdec/rkvdec.c         |  182 +-
+>> >   drivers/staging/media/rkvdec/rkvdec.h         |    3 +
+>> >   include/linux/bitmap.h                        |   39 +
+>> >   include/uapi/linux/videodev2.h                |    1 +
+>> >   lib/test_bitmap.c                             |   47 +
+>> >   13 files changed, 3066 insertions(+), 67 deletions(-)
+>> >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
+>> >   create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+>> >
+>>
+>
