@@ -1,100 +1,83 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819514A2C
-	for <linux-staging@lists.linux.dev>; Fri, 22 Jul 2022 18:26:32 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id o18so5057616pgu.9
-        for <linux-staging@lists.linux.dev>; Fri, 22 Jul 2022 11:26:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5B52C80
+	for <linux-staging@lists.linux.dev>; Fri, 22 Jul 2022 18:51:08 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id u12so1863621edd.5
+        for <linux-staging@lists.linux.dev>; Fri, 22 Jul 2022 11:51:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U1Vpm+Ol39J44Ip/w/HGMbvmcj0WPHsL80jPsnskDEw=;
-        b=CIGDJTjDuxvqk+hCAVZdusqUVAB4D0wVz5qJlyJOS1t/EvRJV94W6dZYKkmoSp5htk
-         85ooyVSgoL9yjlHJdM4YDgysnOay2oPLsQxV/rIxWIm8Zgh+7SxljgH9WF8y+m+LNBqO
-         haHm4fnrh9Tyc+Go6wHoM8L9WTGyeY2QCM33mmTnCjlkL8OGlXahSv/+899vGQVbsbbK
-         iBDcJrO/pFAUcDftanvX7cAnnwfbJ4Gn22olrqlzxChGUcdif1Iqlu+N1ygzF5LaDlPH
-         Pgo77iJjki4ipA6pJSQPXRjRdvEfypfvoRlseeKoijA7jP5J/b9xRJwKDpgXXOlncLrv
-         Lojg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=iEc3QibtkQB1h4TtSqccZQnGVDITp8oWtoE0M/00VQk=;
+        b=GpGH7+7RBNLB4ERAP5aPNGUstRTGng8DobHWVI1kDtI0OXjU+zZIufvP7GM94p1RFJ
+         Myu8OlHivlzSydD/yaZ4v2YbkeW2OOeevQCe5edKJhXpPh6YkH1n9zonI/fcGGjRCznc
+         Z+YE9k7C1WrLsZHyQ+/d0FFuR9tzVhv782GgGH8Fk6jWQEBCDjSlkrItxuiY3Ky5v0YO
+         /9DtwklLtYkRHdf99m3UqvP4wpNX/xz4xvJJrGEdhaH/CT0ZdZQcYrOjA4dvVfmHQlPe
+         T+AxH6WI2WryCstt8r5eUbP+AjshGuvUYv+5lZssHJaS7KPlcjr6sCp+T9/5qurkXfY9
+         Jv0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=U1Vpm+Ol39J44Ip/w/HGMbvmcj0WPHsL80jPsnskDEw=;
-        b=DZLibHF14h/VMa70ukqGAszFXqexBYKi08wnZdRpju4ra3fPhPGzobRgLs+6zXDT/u
-         tp/ru4WMotJ0u/hS6SbA2DZOFHM71V6uGPZyLqRe+/Y5FSqsDjqwyXVMD6vN9FBcnRwI
-         E8UoTZTzlFCYNZqYf3S3KSdEEzRgiRiaZ4gYjsZmiDkm00nTblC2gDf86q4fPSuCqSUX
-         taLjmMjq9Dr93elZGXSfy/Yx2pIkIG4iyRd7nLgFE0UB7F2erKMkrVb8EJ7FnCnZIz7+
-         qyQNvT+xmnVfYQSSnMLjTthTg99/PR9aMJahsdYG+O4Mn+3yeBdHw42MbGe69rFnQkjj
-         adMA==
-X-Gm-Message-State: AJIora969EZJMCaAEm2M9bhWR+e9LOnUhXVoC6+hrFqnNdIufXa6Xa/s
-	Hn6loQlG6ZDar+V5sVZpbkY=
-X-Google-Smtp-Source: AGRyM1s3AfvMh+6Az1vFDMlygz2ppZ+CXyD+YBPfhW1Rh2oGSjnY+p3TwbFP2r7HMBo+hBDNTVCFFA==
-X-Received: by 2002:a63:ff4c:0:b0:412:b100:786b with SMTP id s12-20020a63ff4c000000b00412b100786bmr874215pgk.537.1658514391994;
-        Fri, 22 Jul 2022 11:26:31 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:d01c:7038:fdc9:680c:9dce:420d])
-        by smtp.googlemail.com with ESMTPSA id n8-20020a170902e54800b0016d21c1b265sm2173044plf.275.2022.07.22.11.26.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jul 2022 11:26:31 -0700 (PDT)
-From: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-To: 
-Cc: abhijeet.srivastava2308@gmail.com,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	mjpeg-users@lists.sourceforge.net,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: staging: media: zoran: Deleted dead code
-Date: Fri, 22 Jul 2022 23:56:17 +0530
-Message-Id: <20220722182622.23719-1-abhijeet.srivastava2308@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=iEc3QibtkQB1h4TtSqccZQnGVDITp8oWtoE0M/00VQk=;
+        b=HBkBnDIda/LSCXvQfh8Dd3sEkSjKmjh4k3eL843N9t6AI7/N0PPSABZnsXzrLy8Z/p
+         ZpNOWkjoCQiAuSkkiDdAjKy7nqKbEiMSPMeUiaKukknsluJhWt2z+aKeTRMbnEC5LFQA
+         fPYrs0Yj55Tv3Xg0dd1vFjxVlwHdpHQXyj9oFx9zjVlPrV1O+tZAPb+l3xUeG3+qTJuY
+         1P8uQKZ+AKtY1mkvGzI4yqOvsk22wZK6l6LtrtziICPmbjEWoHMlyjnOCqRyvE8PwRKq
+         HAXh3+ECDK2gPXotpb4JntKch4RWxUc0ohhIXDRdI+syuToYVOD8ttDK58HFjK9l4Lbx
+         FyCw==
+X-Gm-Message-State: AJIora/MHpxuW3OEBjtffBFzmbcXaH4ivclLc2MGfMs477l2JFo3umbS
+	ZpqSVuYeZ0ehwxmxoUE+Ds8=
+X-Google-Smtp-Source: AGRyM1tXdMIUQgykOTSlieMCzsF5hlEiszoOa249GdZLeCLe64pZ9bUR1e5zamycMiPMGKC7VcLVeQ==
+X-Received: by 2002:a05:6402:1e8c:b0:43a:c57f:2cbb with SMTP id f12-20020a0564021e8c00b0043ac57f2cbbmr1240037edf.97.1658515867058;
+        Fri, 22 Jul 2022 11:51:07 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2e:6976:6ec9:79b2:9979:d758? (p200300c78f2e69766ec979b29979d758.dip0.t-ipconnect.de. [2003:c7:8f2e:6976:6ec9:79b2:9979:d758])
+        by smtp.gmail.com with ESMTPSA id ti4-20020a170907c20400b0072faba59dd1sm905617ejc.165.2022.07.22.11.51.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jul 2022 11:51:06 -0700 (PDT)
+Message-ID: <fb10f8bf-d2d8-a2e2-435a-62bb9ce02973@gmail.com>
+Date: Fri, 22 Jul 2022 20:51:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4] staging: r8188eu: Inserted empty line after
+ declarations
+Content-Language: en-US
+To: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin
+ <paskripkin@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>,
+ Rebecca Mckeever <remckee0@gmail.com>, Martin Kaiser <martin@kaiser.cx>,
+ Vihas Makwana <makvihas@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220722161744.14914-1-abhijeet.srivastava2308@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220722161744.14914-1-abhijeet.srivastava2308@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Deleted part of code in block comment
+On 7/22/22 18:16, Abhijeet Srivastava wrote:
+> Warning found by checkpatch.pl script.
+Empty line missing.
+> Signed-off-by: Abhijeet Srivastava<abhijeet.srivastava2308@gmail.com>
+> ---
+> v2:
+> 	- Fix my name on the patch
+> v3:
+> 	- Fix commit message
+> v4:
+> 	- Fix body of explanation
 
-Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
----
- drivers/staging/media/zoran/zoran_driver.c | 9 ---------
- 1 file changed, 9 deletions(-)
+I would like to give you a reviewed by but now the empty line above the 
+Signed-off is missing. Please have a look at the canonical patch format.
 
-diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-index b408c1d4e0a7..836edf623571 100644
---- a/drivers/staging/media/zoran/zoran_driver.c
-+++ b/drivers/staging/media/zoran/zoran_driver.c
-@@ -746,11 +746,6 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
- 	.vidioc_enum_input		    = zoran_enum_input,
- 	.vidioc_g_input			    = zoran_g_input,
- 	.vidioc_s_input			    = zoran_s_input,
--
--/*	.vidioc_enum_output		    = zoran_enum_output,
-- *	.vidioc_g_output		    = zoran_g_output,
-- *	.vidioc_s_output		    = zoran_s_output,
-- */
- 	.vidioc_g_std			    = zoran_g_std,
- 	.vidioc_s_std			    = zoran_s_std,
- 	.vidioc_create_bufs		    = vb2_ioctl_create_bufs,
-@@ -762,13 +757,9 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
- 	.vidioc_streamon		    = vb2_ioctl_streamon,
- 	.vidioc_streamoff		    = vb2_ioctl_streamoff,
- 	.vidioc_enum_fmt_vid_cap	    = zoran_enum_fmt_vid_cap,
--/*	.vidioc_enum_fmt_vid_out	    = zoran_enum_fmt_vid_out,*/
- 	.vidioc_g_fmt_vid_cap		    = zoran_g_fmt_vid_cap,
--/*	.vidioc_g_fmt_vid_out               = zoran_g_fmt_vid_out,*/
- 	.vidioc_s_fmt_vid_cap		    = zoran_s_fmt_vid_cap,
--/*	.vidioc_s_fmt_vid_out               = zoran_s_fmt_vid_out,*/
- 	.vidioc_try_fmt_vid_cap		    = zoran_try_fmt_vid_cap,
--/*	.vidioc_try_fmt_vid_out		    = zoran_try_fmt_vid_out,*/
- 	.vidioc_subscribe_event             = v4l2_ctrl_subscribe_event,
- 	.vidioc_unsubscribe_event           = v4l2_event_unsubscribe,
- };
--- 
-2.34.1
-
+Regards,
+Philipp
