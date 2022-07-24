@@ -1,195 +1,138 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5053D7F
-	for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 18:39:59 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id oy13so16872786ejb.1
-        for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 11:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=s8DMuam8HV9fhN0Z1q0G7Q0GrlatE75URDnKRQUVjwQ=;
-        b=FM92IhLbG39vK8HOqaS04a0Dkyho1azIHkIzElV2Kf49xiOxTLnREGQrKM/6us7Hdd
-         R2VcC6LYwyQWzYIlCtUFVs53g/8uzMuAjGIpqLkiA8AR4bB0lUI9QofzoqI+f0hLZQBY
-         qI2EUqaBrAshKA+7ybpFArJods4ahe34BCMn1BWaQHG+SN7Q+D9yFMlT2rJ5p9kKrxZt
-         iNT/RR8p+YBTqiyf4kJNoYD+obaW9Gf09Z7bLJb878KU1rp5DpkFpX/m1C/gxVTbA5hP
-         AGnuJeOD5p4nhLJyFknDUwZ6/CHaTxTNpgCmLrJ9CY91uAeTGpPKqG/cAvu79oWIxZm9
-         YkLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=s8DMuam8HV9fhN0Z1q0G7Q0GrlatE75URDnKRQUVjwQ=;
-        b=vmi5tx1Dqsw6N8u2P1TlJzCEei31rJu/Ccn1YLlUYxmhYnfwyNcjs3NnL92iNM/GKy
-         dWDyemrt05TYkyhmK6XtESw8p74ssk0UgZeqmJWiZDATLZwEbvlm1GV3fJAfpBoh+14s
-         EBA2uNjeUjRIsqczrnND467ed8yBsL81x7cur2+7HpydfF3GRAWNkHTmkvt1qNZdI9To
-         nDnkyiaFB+2K5o2ieeZK/1PRJTdbh9pgFayvBGiMhrSt4skSpynlAopuHusP8wxBldbk
-         0lbXaFvCdIE4jVZ4NreuZeCqR4Yz0lh6KeVWK51Mff6dyVycrm5bqQ2faYr1ooMwglGY
-         LllA==
-X-Gm-Message-State: AJIora+YgH3DbQJnVf83NdY5aohkWwvgJG4OCOrVGq/OvT38FkSTVgA0
-	AUFR+9SrXE/JT3SdoM3w+lw=
-X-Google-Smtp-Source: AGRyM1vmwanlNYrKpt1SY8DyuIUZhKXMKJISDoN1l2L7rUiQP9+2H+oY969BTGVXVoxJLzPybYbR/w==
-X-Received: by 2002:a17:907:7355:b0:72b:977f:65 with SMTP id dq21-20020a170907735500b0072b977f0065mr7124095ejc.768.1658687997663;
-        Sun, 24 Jul 2022 11:39:57 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id q1-20020a1709060e4100b0072aac7446easm4433754eji.47.2022.07.24.11.39.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Jul 2022 11:39:57 -0700 (PDT)
-Message-ID: <bd498222-004a-9ac4-8c3c-4419f9ca9916@gmail.com>
-Date: Sun, 24 Jul 2022 20:39:56 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7398533FA
+	for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 21:33:22 +0000 (UTC)
+Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id C1EC480160;
+	Sun, 24 Jul 2022 20:54:04 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 69AE06000D;
+	Sun, 24 Jul 2022 20:54:00 +0000 (UTC)
+Message-ID: <434188828f98c78d17cef4f62461b75f7197a67f.camel@perches.com>
+Subject: Re: [PATCH] staging: r8188eu: make dump_chip_info() static
+From: Joe Perches <joe@perches.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>, Michael Straube
+	 <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Sun, 24 Jul 2022 13:53:59 -0700
+In-Reply-To: <bd498222-004a-9ac4-8c3c-4419f9ca9916@gmail.com>
+References: <20220724182520.7794-1-straube.linux@gmail.com>
+	 <bd498222-004a-9ac4-8c3c-4419f9ca9916@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: r8188eu: make dump_chip_info() static
-Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220724182520.7794-1-straube.linux@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220724182520.7794-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout06
+X-Rspamd-Queue-Id: 69AE06000D
+X-Spam-Status: No, score=1.38
+X-Stat-Signature: gzqoigbsw5mptkm5hqxrdux5ga4xycsk
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18t/iqLMk8sM8i6cTxQKgHO0HPHK0FVGbo=
+X-HE-Tag: 1658696040-396189
 
-On 7/24/22 20:25, Michael Straube wrote:
-> The function dump_chip_info() is only used in rtl8188e_hal_init.c.
-> Make it static to reduce the driver object file size by 281 bytes.
-> 
-> before:
->    text    data     bss     dec     hex filename
-> 530606   43897    7072  581575   8dfc7 drivers/staging/r8188eu/r8188eu.o
-> 
-> after:
->    text    data     bss     dec     hex filename
-> 530405   43817    7072  581294   8deae drivers/staging/r8188eu/r8188eu.o
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->   drivers/staging/r8188eu/hal/hal_com.c         | 39 -------------------
->   .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 39 +++++++++++++++++++
->   drivers/staging/r8188eu/include/hal_com.h     |  3 --
->   3 files changed, 39 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/hal/hal_com.c b/drivers/staging/r8188eu/hal/hal_com.c
-> index e9a32dd84a8e..6a1cdc67335b 100644
-> --- a/drivers/staging/r8188eu/hal/hal_com.c
-> +++ b/drivers/staging/r8188eu/hal/hal_com.c
-> @@ -10,45 +10,6 @@
->   
->   #define _HAL_INIT_C_
->   
-> -void dump_chip_info(struct HAL_VERSION	chip_vers)
-> -{
-> -	uint cnt = 0;
-> -	char buf[128];
-> -
-> -	cnt += sprintf((buf + cnt), "Chip Version Info: CHIP_8188E_");
-> -	cnt += sprintf((buf + cnt), "%s_", IS_NORMAL_CHIP(chip_vers) ?
-> -		       "Normal_Chip" : "Test_Chip");
-> -	cnt += sprintf((buf + cnt), "%s_", IS_CHIP_VENDOR_TSMC(chip_vers) ?
-> -		       "TSMC" : "UMC");
-> -
-> -	switch (chip_vers.CUTVersion) {
-> -	case A_CUT_VERSION:
-> -		cnt += sprintf((buf + cnt), "A_CUT_");
-> -		break;
-> -	case B_CUT_VERSION:
-> -		cnt += sprintf((buf + cnt), "B_CUT_");
-> -		break;
-> -	case C_CUT_VERSION:
-> -		cnt += sprintf((buf + cnt), "C_CUT_");
-> -		break;
-> -	case D_CUT_VERSION:
-> -		cnt += sprintf((buf + cnt), "D_CUT_");
-> -		break;
-> -	case E_CUT_VERSION:
-> -		cnt += sprintf((buf + cnt), "E_CUT_");
-> -		break;
-> -	default:
-> -		cnt += sprintf((buf + cnt), "UNKNOWN_CUT(%d)_", chip_vers.CUTVersion);
-> -		break;
-> -	}
-> -
-> -	cnt += sprintf((buf + cnt), "1T1R_");
-> -
-> -	cnt += sprintf((buf + cnt), "RomVer(%d)\n", 0);
-> -
-> -	pr_info("%s", buf);
-> -}
-> -
->   #define	CHAN_PLAN_HW	0x80
->   
->   u8 /* return the final channel plan decision */
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> index fe477438899e..5b8f1a912bbb 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> @@ -526,6 +526,45 @@ void rtl8188e_ReadEFuse(struct adapter *Adapter, u16 _size_byte, u8 *pbuf)
->   	Hal_EfuseReadEFuse88E(Adapter, 0, _size_byte, pbuf);
->   }
->   
-> +static void dump_chip_info(struct HAL_VERSION chip_vers)
-> +{
-> +	uint cnt = 0;
-> +	char buf[128];
-> +
-> +	cnt += sprintf((buf + cnt), "Chip Version Info: CHIP_8188E_");
-> +	cnt += sprintf((buf + cnt), "%s_", IS_NORMAL_CHIP(chip_vers) ?
-> +		       "Normal_Chip" : "Test_Chip");
-> +	cnt += sprintf((buf + cnt), "%s_", IS_CHIP_VENDOR_TSMC(chip_vers) ?
-> +		       "TSMC" : "UMC");
-> +
-> +	switch (chip_vers.CUTVersion) {
-> +	case A_CUT_VERSION:
-> +		cnt += sprintf((buf + cnt), "A_CUT_");
-> +		break;
-> +	case B_CUT_VERSION:
-> +		cnt += sprintf((buf + cnt), "B_CUT_");
-> +		break;
-> +	case C_CUT_VERSION:
-> +		cnt += sprintf((buf + cnt), "C_CUT_");
-> +		break;
-> +	case D_CUT_VERSION:
-> +		cnt += sprintf((buf + cnt), "D_CUT_");
-> +		break;
-> +	case E_CUT_VERSION:
-> +		cnt += sprintf((buf + cnt), "E_CUT_");
-> +		break;
-> +	default:
-> +		cnt += sprintf((buf + cnt), "UNKNOWN_CUT(%d)_", chip_vers.CUTVersion);
-> +		break;
-> +	}
-> +
-> +	cnt += sprintf((buf + cnt), "1T1R_");
-> +
-> +	cnt += sprintf((buf + cnt), "RomVer(%d)\n", 0);
-> +
-> +	pr_info("%s", buf);
-> +}
-> +
->   void rtl8188e_read_chip_version(struct adapter *padapter)
->   {
->   	u32				value32;
-> diff --git a/drivers/staging/r8188eu/include/hal_com.h b/drivers/staging/r8188eu/include/hal_com.h
-> index 56ba356b5371..d7e333f6ce39 100644
-> --- a/drivers/staging/r8188eu/include/hal_com.h
-> +++ b/drivers/staging/r8188eu/include/hal_com.h
-> @@ -131,9 +131,6 @@
->   #define REG_NOA_DESC_START			0x05E8
->   #define REG_NOA_DESC_COUNT			0x05EC
->   
-> -#include "HalVerDef.h"
-> -void dump_chip_info(struct HAL_VERSION	ChipVersion);
-> -
->   /* return the final channel plan decision */
->   u8 hal_com_get_channel_plan(struct adapter *padapter,
->   			    u8 hw_channel_plan,
+On Sun, 2022-07-24 at 20:39 +0200, Philipp Hortmann wrote:
+> On 7/24/22 20:25, Michael Straube wrote:
+> > The function dump_chip_info() is only used in rtl8188e_hal_init.c.
+> > Make it static to reduce the driver object file size by 281 bytes.
+> >=20
+> > before:
+> >    text    data     bss     dec     hex filename
+> > 530606   43897    7072  581575   8dfc7 drivers/staging/r8188eu/r8188eu.=
+o
+> >=20
+> > after:
+> >    text    data     bss     dec     hex filename
+> > 530405   43817    7072  581294   8deae drivers/staging/r8188eu/r8188eu.=
+o
+[]
+> > diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/=
+staging/r8188eu/hal/rtl8188e_hal_init.c
+[]
+> > @@ -526,6 +526,45 @@ void rtl8188e_ReadEFuse(struct adapter *Adapter, u=
+16 _size_byte, u8 *pbuf)
+> >   	Hal_EfuseReadEFuse88E(Adapter, 0, _size_byte, pbuf);
+> >   }
+> >  =20
+> > +static void dump_chip_info(struct HAL_VERSION chip_vers)
+> > +{
+> > +	uint cnt =3D 0;
+> > +	char buf[128];
+> > +
+> > +	cnt +=3D sprintf((buf + cnt), "Chip Version Info: CHIP_8188E_");
+> > +	cnt +=3D sprintf((buf + cnt), "%s_", IS_NORMAL_CHIP(chip_vers) ?
+> > +		       "Normal_Chip" : "Test_Chip");
+> > +	cnt +=3D sprintf((buf + cnt), "%s_", IS_CHIP_VENDOR_TSMC(chip_vers) ?
+> > +		       "TSMC" : "UMC");
+> > +
+> > +	switch (chip_vers.CUTVersion) {
+> > +	case A_CUT_VERSION:
+> > +		cnt +=3D sprintf((buf + cnt), "A_CUT_");
+> > +		break;
+> > +	case B_CUT_VERSION:
+> > +		cnt +=3D sprintf((buf + cnt), "B_CUT_");
+> > +		break;
+> > +	case C_CUT_VERSION:
+> > +		cnt +=3D sprintf((buf + cnt), "C_CUT_");
+> > +		break;
+> > +	case D_CUT_VERSION:
+> > +		cnt +=3D sprintf((buf + cnt), "D_CUT_");
+> > +		break;
+> > +	case E_CUT_VERSION:
+> > +		cnt +=3D sprintf((buf + cnt), "E_CUT_");
+> > +		break;
+> > +	default:
+> > +		cnt +=3D sprintf((buf + cnt), "UNKNOWN_CUT(%d)_", chip_vers.CUTVersi=
+on);
+> > +		break;
+> > +	}
+> > +
+> > +	cnt +=3D sprintf((buf + cnt), "1T1R_");
+> > +
+> > +	cnt +=3D sprintf((buf + cnt), "RomVer(%d)\n", 0);
+> > +
+> > +	pr_info("%s", buf);
+> > +}
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Probably better and likely smaller without the temporary buffer
+and the possibility of overrun.
+
+Something like:
+
+{
+	char cut[25];
+	char *v =3D NULL;
+
+	switch (chip_vers.CUTVersion) {
+	case A_CUT_VERSION:
+		v =3D "A_CUT";
+		break;
+	case B_CUT_VERSION:
+		v =3D "B_CUT";
+		break;
+	case C_CUT_VERSION:
+		v =3D "C_CUT";
+		break;
+	case D_CUT_VERSION:
+		v =3D "D_CUT";
+		break;
+	case E_CUT_VERSION:
+		v =3D "E_CUT";
+		break;
+	default:
+		snprintf(cut, sizeof(cut), "UNKNOWN_CUT(%d)", chip_vers.CUTVersion);
+		v =3D cut;
+		break;
+	}
+=09
+	pr_info("Chip Version Info: CHIP_8188E_%s__Chip_%s_%s_1T1R_RomVer(%d)\n",
+		IS_NORMAL_CHIP(chip_vers) ? "Normal" : "Test",
+		IS_CHIP_VENDOR_TSMC(chip_vers) ? "TSMC" : "UMC",
+		v, 0);
+}
+
