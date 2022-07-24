@@ -1,78 +1,192 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF02C179
-	for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 18:20:25 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id t3so11494421edd.0
-        for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 11:20:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4E6179
+	for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 18:25:44 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id mf4so16855685ejc.3
+        for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 11:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=uI1N6WkK/h63C9rbKNyx+SGUibFjnftNpfGsKc2oH1Q=;
-        b=XXkwpGt5kj6PscZBJ5obVoPrx6Khm099P26pavsm+5SvelQcnuyTe2TOSdGaIa6rw0
-         2IoTEh1HkDAg9Nv5oUwTUAeO25qChm/gvwWOhj5MYG8rgigGAF7GbOo72tXHD+iTNHvW
-         w03e5o1awpe9Nu3m0g3IajFFqLPTHJDK9mxMixpJzl4Rflj1OQ600FPtSZtIl5Ikrr+W
-         lo+lSiqwZxuWy3jd9siVlab4Q5n4lqaB5JCH2ORV3THW9rnoSzsVlEPRxKC0Y2EX0gss
-         L/qktS64GKASTr/Y+pAU/n52ebNLru2WMqKWVybvA9ARj4cLZEcbWFnIkUDDpl9cVEn5
-         eJ8Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mc8TRcMxDtFgQPktrRYxaiC84c9xSC4w48WZBhDyELI=;
+        b=oCa1EnIGhj2fSSmj29Q1sdTyfzuWOOqeNHEPnZvDIZLbdBnKn7tqWEj5H02S5YN8Hj
+         8PEtlPX+XhzBIoYeVq2KG0Vu4PSu/jCQCTfWNuy965gZ/DPDpGg2kvhmj7Id7XwHAPA8
+         1Lr7nRIj0VhGvFM956rn7q6KF7RhywN7DhFakrtwPP0nOuQBRH0oI+ah6ETcCABh2Dgm
+         aNBZosGaGOkhp3zkYkcldZ4nf++YMymGLbv3vd4q4xnqw6Ds+bLhv9Pyc2qSiZYgNdDK
+         TGBpXQzVoboNfn8xkMUWZnUFUcEQqXLq15G+7zqz7vLbLoTxYnpb5zzF3fulBXm85SN+
+         clHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uI1N6WkK/h63C9rbKNyx+SGUibFjnftNpfGsKc2oH1Q=;
-        b=Ax+eASTj/tk74qF7xBoyLozbCwHSKiieIdC61eFH8bxDm+YYpvulGA+HxL5c+H46uG
-         8S3cDvtnaBc46ljZjiv1mAFrzIaf6fKMDiRJe0jHbx51Pg/peGNq1KGBFShtZXdWvh9v
-         yNlv4kcMOQ0iiC5/XPyEGYRKveuNvf+4vxZMYYw4IEi+YuKgn5YS2FhQSUW+f0NiMBt+
-         DfOiq69VuKRkpRsfLggDsHcnz9s1MPXKIuORyFAaY+vn2rLnmT7Un4rbH9baIN18dKrh
-         DyNzM/TpDTuEo5UYFTCXMX5Ab29w53zMTYL3+eNk+guufPx3yjks+JiB+l1t4PSzQbqm
-         uuMw==
-X-Gm-Message-State: AJIora/kRcTjSz1G1ML3Dx5uOyyY/ziF2s8FirZgfdbpWN6gyNc43Fvi
-	fQwZPx9JhMLW0FSIb+l/0sQ=
-X-Google-Smtp-Source: AGRyM1uhS3lZc04a86/lX8TdJ9u8aqBpF7GFqNmQt+8e0DoCpX1UTzgQD3N0PptBdINUUSroom56Mw==
-X-Received: by 2002:a05:6402:3217:b0:43b:dee8:4cb6 with SMTP id g23-20020a056402321700b0043bdee84cb6mr8378680eda.157.1658686823971;
-        Sun, 24 Jul 2022 11:20:23 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id o22-20020a1709061b1600b0072b14836087sm4419955ejg.103.2022.07.24.11.20.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Jul 2022 11:20:23 -0700 (PDT)
-Message-ID: <03a784f3-660d-60ba-e921-03f676b95fcc@gmail.com>
-Date: Sun, 24 Jul 2022 20:20:22 +0200
+        bh=Mc8TRcMxDtFgQPktrRYxaiC84c9xSC4w48WZBhDyELI=;
+        b=oaaKT89QeNWNTp9p2CDGJBQ7wOhuah91ljUdwoPEDu+VkGlxRItupxJWe/p2QU1j+p
+         EFQoVojkfgoWdXxxPi9XeuQNNOVmTA9KVZyn6OPp+0fXzCobwU6zi42Xq3PsR/3Dsr1z
+         Oklqvu0WyTR1gSpJl/C4yIf4fjo/vfFz+J18yRaCvHXjJpFKeG2hvMpJQBVcWEO2nWvV
+         jSBIMennDEs+YhvOxdG0jc52jDlHkHpnzdPamf2lCRROn1ud3ubIMnLNYMU8B5rJFrQU
+         REvLMB0X/37J502YducQ4Nr++3RKoockDf1BHXAFN5T925RBHWc3O5ipFA6d9diYDgyp
+         xk6w==
+X-Gm-Message-State: AJIora/wwZVgN1NhwTDjCqp8Dxx7zxIhRGyPxXQcqu2Tef89UaeqXaZj
+	7mquTJ99XNK3OFGS/bWGq04=
+X-Google-Smtp-Source: AGRyM1tnh2sZ3SyAw6PmlacimcW8Fpy9h94p1H4tYt/5uTnGQM/5ePImjhHqdDkrb63u+aY7/FyInw==
+X-Received: by 2002:a17:907:87b0:b0:72f:8d3d:2010 with SMTP id qv48-20020a17090787b000b0072f8d3d2010mr7355936ejc.743.1658687142570;
+        Sun, 24 Jul 2022 11:25:42 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb56.dynamic.kabel-deutschland.de. [95.90.187.86])
+        by smtp.gmail.com with ESMTPSA id cb8-20020a0564020b6800b0043bb7c11a59sm5943505edb.93.2022.07.24.11.25.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Jul 2022 11:25:41 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: make dump_chip_info() static
+Date: Sun, 24 Jul 2022 20:25:20 +0200
+Message-Id: <20220724182520.7794-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/2] staging: r8188eu: remove two unused function
- prototypes
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220724153349.138741-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220724153349.138741-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/24/22 17:33, Martin Kaiser wrote:
-> I forgot to remove the prototypes of OnAtim and DoReserved when those
-> functions were removed. Here's two patches to fix this.
-> 
-> Martin Kaiser (2):
->    staging: r8188eu: remove OnAtim prototype
->    staging: r8188eu: remove DoReserved prototype
-> 
->   drivers/staging/r8188eu/include/rtw_mlme_ext.h | 4 ----
->   1 file changed, 4 deletions(-)
-> 
+The function dump_chip_info() is only used in rtl8188e_hal_init.c.
+Make it static to reduce the driver object file size by 281 bytes.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+before:
+  text    data     bss     dec     hex filename
+530606   43897    7072  581575   8dfc7 drivers/staging/r8188eu/r8188eu.o
+
+after:
+  text    data     bss     dec     hex filename
+530405   43817    7072  581294   8deae drivers/staging/r8188eu/r8188eu.o
+
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/hal/hal_com.c         | 39 -------------------
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 39 +++++++++++++++++++
+ drivers/staging/r8188eu/include/hal_com.h     |  3 --
+ 3 files changed, 39 insertions(+), 42 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/hal/hal_com.c b/drivers/staging/r8188eu/hal/hal_com.c
+index e9a32dd84a8e..6a1cdc67335b 100644
+--- a/drivers/staging/r8188eu/hal/hal_com.c
++++ b/drivers/staging/r8188eu/hal/hal_com.c
+@@ -10,45 +10,6 @@
+ 
+ #define _HAL_INIT_C_
+ 
+-void dump_chip_info(struct HAL_VERSION	chip_vers)
+-{
+-	uint cnt = 0;
+-	char buf[128];
+-
+-	cnt += sprintf((buf + cnt), "Chip Version Info: CHIP_8188E_");
+-	cnt += sprintf((buf + cnt), "%s_", IS_NORMAL_CHIP(chip_vers) ?
+-		       "Normal_Chip" : "Test_Chip");
+-	cnt += sprintf((buf + cnt), "%s_", IS_CHIP_VENDOR_TSMC(chip_vers) ?
+-		       "TSMC" : "UMC");
+-
+-	switch (chip_vers.CUTVersion) {
+-	case A_CUT_VERSION:
+-		cnt += sprintf((buf + cnt), "A_CUT_");
+-		break;
+-	case B_CUT_VERSION:
+-		cnt += sprintf((buf + cnt), "B_CUT_");
+-		break;
+-	case C_CUT_VERSION:
+-		cnt += sprintf((buf + cnt), "C_CUT_");
+-		break;
+-	case D_CUT_VERSION:
+-		cnt += sprintf((buf + cnt), "D_CUT_");
+-		break;
+-	case E_CUT_VERSION:
+-		cnt += sprintf((buf + cnt), "E_CUT_");
+-		break;
+-	default:
+-		cnt += sprintf((buf + cnt), "UNKNOWN_CUT(%d)_", chip_vers.CUTVersion);
+-		break;
+-	}
+-
+-	cnt += sprintf((buf + cnt), "1T1R_");
+-
+-	cnt += sprintf((buf + cnt), "RomVer(%d)\n", 0);
+-
+-	pr_info("%s", buf);
+-}
+-
+ #define	CHAN_PLAN_HW	0x80
+ 
+ u8 /* return the final channel plan decision */
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index fe477438899e..5b8f1a912bbb 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -526,6 +526,45 @@ void rtl8188e_ReadEFuse(struct adapter *Adapter, u16 _size_byte, u8 *pbuf)
+ 	Hal_EfuseReadEFuse88E(Adapter, 0, _size_byte, pbuf);
+ }
+ 
++static void dump_chip_info(struct HAL_VERSION chip_vers)
++{
++	uint cnt = 0;
++	char buf[128];
++
++	cnt += sprintf((buf + cnt), "Chip Version Info: CHIP_8188E_");
++	cnt += sprintf((buf + cnt), "%s_", IS_NORMAL_CHIP(chip_vers) ?
++		       "Normal_Chip" : "Test_Chip");
++	cnt += sprintf((buf + cnt), "%s_", IS_CHIP_VENDOR_TSMC(chip_vers) ?
++		       "TSMC" : "UMC");
++
++	switch (chip_vers.CUTVersion) {
++	case A_CUT_VERSION:
++		cnt += sprintf((buf + cnt), "A_CUT_");
++		break;
++	case B_CUT_VERSION:
++		cnt += sprintf((buf + cnt), "B_CUT_");
++		break;
++	case C_CUT_VERSION:
++		cnt += sprintf((buf + cnt), "C_CUT_");
++		break;
++	case D_CUT_VERSION:
++		cnt += sprintf((buf + cnt), "D_CUT_");
++		break;
++	case E_CUT_VERSION:
++		cnt += sprintf((buf + cnt), "E_CUT_");
++		break;
++	default:
++		cnt += sprintf((buf + cnt), "UNKNOWN_CUT(%d)_", chip_vers.CUTVersion);
++		break;
++	}
++
++	cnt += sprintf((buf + cnt), "1T1R_");
++
++	cnt += sprintf((buf + cnt), "RomVer(%d)\n", 0);
++
++	pr_info("%s", buf);
++}
++
+ void rtl8188e_read_chip_version(struct adapter *padapter)
+ {
+ 	u32				value32;
+diff --git a/drivers/staging/r8188eu/include/hal_com.h b/drivers/staging/r8188eu/include/hal_com.h
+index 56ba356b5371..d7e333f6ce39 100644
+--- a/drivers/staging/r8188eu/include/hal_com.h
++++ b/drivers/staging/r8188eu/include/hal_com.h
+@@ -131,9 +131,6 @@
+ #define REG_NOA_DESC_START			0x05E8
+ #define REG_NOA_DESC_COUNT			0x05EC
+ 
+-#include "HalVerDef.h"
+-void dump_chip_info(struct HAL_VERSION	ChipVersion);
+-
+ /* return the final channel plan decision */
+ u8 hal_com_get_channel_plan(struct adapter *padapter,
+ 			    u8 hw_channel_plan,
+-- 
+2.37.1
+
