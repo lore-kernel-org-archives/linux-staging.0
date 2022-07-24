@@ -1,97 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7EE6AD4
-	for <linux-staging@lists.linux.dev>; Fri, 22 Jul 2022 19:25:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F02C341C6;
-	Fri, 22 Jul 2022 19:25:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658517918;
-	bh=xuKtXsTHkn0pTkQYNaGYt7up+YxyXAU6zKa8/F8cb4Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GvVYEz0XVqnnIsn/hR7I+ZMQYYiGNijjl3vDCaO3PrCyIBGadxMl1Lym1d6CZOFYU
-	 jXG3IRvDRcyb1jtrPEFjCf5zUoP1AwSdyVmbGXq0yYYGtEsJeJ3rzXHkEP8zMWsLWA
-	 2jdQlEMa0uoblsJ9U3ojOVp/Q5wQ1QnLymTnQ9q4hNURDXqCiHF8801S03fKjNh1B2
-	 AKez12l/WgOBFyzQOwiVFeBJdQIetKO91HmKRJfq+M0B+CyPrynklOF+JT31gyUwAq
-	 I+RPJ0zEhdSeLfy2qcnFOTDAsg+t2kpfsh90wjFjfxtUAoSCOATz+l7efrG+mFtcU4
-	 duPVtPhCFkcog==
-Date: Fri, 22 Jul 2022 21:25:12 +0200
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>, Corentin Labbe
- <clabbe@baylibre.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: media: zoran: Deleted dead code
-Message-ID: <20220722212512.265cc13d@coco.lan>
-In-Reply-To: <614ce7e3-ff4e-5d76-e940-2aa222535743@gmail.com>
-References: <20220722182622.23719-1-abhijeet.srivastava2308@gmail.com>
-	<614ce7e3-ff4e-5d76-e940-2aa222535743@gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832BD33C3
+	for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 15:40:16 +0000 (UTC)
+Received: from dslb-178-004-201-227.178.004.pools.vodafone-ip.de ([178.4.201.227] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1oFdiE-0004Qh-Mo; Sun, 24 Jul 2022 17:40:10 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/5] staging: r8188eu: use struct ieee80211_mgmt in OnAssocRsp
+Date: Sun, 24 Jul 2022 17:39:12 +0200
+Message-Id: <20220724153917.138848-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Fri, 22 Jul 2022 20:52:29 +0200
-Philipp Hortmann <philipp.g.hortmann@gmail.com> escreveu:
+Use a struct ieee80211_mgmt in OnAssocRsp to read elements of the
+association response message.
 
-> On 7/22/22 20:26, Abhijeet Srivastava wrote:
-> > Deleted part of code in block comment
-> > 
-> > Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-> > ---
-> >   drivers/staging/media/zoran/zoran_driver.c | 9 ---------
-> >   1 file changed, 9 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-> > index b408c1d4e0a7..836edf623571 100644
-> > --- a/drivers/staging/media/zoran/zoran_driver.c
-> > +++ b/drivers/staging/media/zoran/zoran_driver.c
-> > @@ -746,11 +746,6 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
-> >   	.vidioc_enum_input		    = zoran_enum_input,
-> >   	.vidioc_g_input			    = zoran_g_input,
-> >   	.vidioc_s_input			    = zoran_s_input,
-> > -
-> > -/*	.vidioc_enum_output		    = zoran_enum_output,
-> > - *	.vidioc_g_output		    = zoran_g_output,
-> > - *	.vidioc_s_output		    = zoran_s_output,
-> > - */
-> >   	.vidioc_g_std			    = zoran_g_std,
-> >   	.vidioc_s_std			    = zoran_s_std,
-> >   	.vidioc_create_bufs		    = vb2_ioctl_create_bufs,
-> > @@ -762,13 +757,9 @@ static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
-> >   	.vidioc_streamon		    = vb2_ioctl_streamon,
-> >   	.vidioc_streamoff		    = vb2_ioctl_streamoff,
-> >   	.vidioc_enum_fmt_vid_cap	    = zoran_enum_fmt_vid_cap,
-> > -/*	.vidioc_enum_fmt_vid_out	    = zoran_enum_fmt_vid_out,*/
-> >   	.vidioc_g_fmt_vid_cap		    = zoran_g_fmt_vid_cap,
-> > -/*	.vidioc_g_fmt_vid_out               = zoran_g_fmt_vid_out,*/
-> >   	.vidioc_s_fmt_vid_cap		    = zoran_s_fmt_vid_cap,
-> > -/*	.vidioc_s_fmt_vid_out               = zoran_s_fmt_vid_out,*/
-> >   	.vidioc_try_fmt_vid_cap		    = zoran_try_fmt_vid_cap,
-> > -/*	.vidioc_try_fmt_vid_out		    = zoran_try_fmt_vid_out,*/
-> >   	.vidioc_subscribe_event             = v4l2_ctrl_subscribe_event,
-> >   	.vidioc_unsubscribe_event           = v4l2_event_unsubscribe,
-> >   };  
-> 
-> Why does the subject line start with "media:" The subsystem is 
-> "staging:" so the subject should start with "staging: media: ..."
-> 
-> I have no clue if this is accepted.
+Martin Kaiser (5):
+  staging: r8188eu: get da from ieee80211_mgmt
+  staging: r8188eu: read status_code from struct ieee80211_mgmt
+  staging: r8188eu: read capability info from struct ieee80211_mgmt
+  staging: r8188eu: read aid from struct ieee80211_mgmt
+  staging: r8188eu: use offsetof for ie start offset
 
-The subsystem is media. The drivers for both drivers/media and
-drivers/staging/media have the same maintainers. The "staging" is 
-just a place where we place stuff that are either not ready for
-upstream or are under deprecation.
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-So, we expect that all subjects start with media:. I prefer if 
-they don't have "staging" at the subject, as makes the driver
-logs more coherent when they're moved in/out staging dir.
+-- 
+2.30.2
 
-Regards,
-Mauro
