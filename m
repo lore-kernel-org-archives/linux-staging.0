@@ -1,254 +1,78 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6613D179
-	for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 16:31:06 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id c22so5461370wmr.2
-        for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 09:31:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF02C179
+	for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 18:20:25 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id t3so11494421edd.0
+        for <linux-staging@lists.linux.dev>; Sun, 24 Jul 2022 11:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vwmHKWFDT+EF3UFGxnIVN4ln9oL/VoZExBNeZ8SwUlo=;
-        b=i3aMTYks0VKvRrw6hNkEf4pg2pQkPMFfqcXgLBWJAYspOmgY8mrJIXW4n08Qk/LN6Q
-         MhRAW7GLxY/sWiVUD4xWdnrp+LEC4PiRc1j2mcqqg+s6lZd6HREQtgBgZ4xUG5o0FhJv
-         Cqt2byFkb59gZQEBoRGQdTASprvwgPd/3fH04IGvBxFkkfHsp9Nn5Whmq/XkgmDUg4Ve
-         VbpX5mpxrQjnYp7vpXzTOaX4CH7KtUwe79zM342PdexqcwqdMVGLlJym1UvDCOqmvNrF
-         HG/zfXkf/poP4misp+AfUajW2YwUCKD0plAqupLg0E8AexHmU+rkYWKpIgaNyEtZweNT
-         eOEg==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=uI1N6WkK/h63C9rbKNyx+SGUibFjnftNpfGsKc2oH1Q=;
+        b=XXkwpGt5kj6PscZBJ5obVoPrx6Khm099P26pavsm+5SvelQcnuyTe2TOSdGaIa6rw0
+         2IoTEh1HkDAg9Nv5oUwTUAeO25qChm/gvwWOhj5MYG8rgigGAF7GbOo72tXHD+iTNHvW
+         w03e5o1awpe9Nu3m0g3IajFFqLPTHJDK9mxMixpJzl4Rflj1OQ600FPtSZtIl5Ikrr+W
+         lo+lSiqwZxuWy3jd9siVlab4Q5n4lqaB5JCH2ORV3THW9rnoSzsVlEPRxKC0Y2EX0gss
+         L/qktS64GKASTr/Y+pAU/n52ebNLru2WMqKWVybvA9ARj4cLZEcbWFnIkUDDpl9cVEn5
+         eJ8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=vwmHKWFDT+EF3UFGxnIVN4ln9oL/VoZExBNeZ8SwUlo=;
-        b=bCNoyhGrh2K0H3TiNIgq3ScyAFpC+c/va54CKoHqXfrvixFngLultMsRzFAy32GrTO
-         pMmxiO3+AS497Kdq9+2iHF+wzhgNZwNsOQNkDXLydH1A6iHjsdCVof3MyxzR+pIJnrc4
-         6mqEKnPh1cgaYvRLWDAal1LGMYfxarmB5H6w48g6pvjOH1AXRk52X22a6BMy7JlkjMQo
-         HJC/k3Y3MUKaoNXfU9jB+Urwst5Wly7w0fSZi+glzFWQr7xk8V/bW6xxAV4uTAraQ4Uf
-         zv8YUKK0XHCxSt4tEBY/F54kdr82CP02DCtTp3fuWdXH6h6x9SYycLJFTQevOm2e8WSz
-         ybKA==
-X-Gm-Message-State: AJIora/da5hZhREP0Cl85Zj6AWLH76AzjOBCYH1y/Cr0G5fNM3ihXk4M
-	hM8aNI0VOojQdXTF2DNZ2RDbCg==
-X-Google-Smtp-Source: AGRyM1spY+uBQ8rMFx8tCu2udBcI01FoWufstT9z+G4mUpi86kQIxUVItfrc6i6rcUn6f34EJhQy4Q==
-X-Received: by 2002:a05:600c:1e29:b0:3a3:d15:e6fb with SMTP id ay41-20020a05600c1e2900b003a30d15e6fbmr19593305wmb.5.1658680264539;
-        Sun, 24 Jul 2022 09:31:04 -0700 (PDT)
-Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
-        by smtp.gmail.com with ESMTPSA id k6-20020a5d5186000000b0021e571a99d5sm9084948wrv.17.2022.07.24.09.31.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jul 2022 09:31:03 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	paskripkin@gmail.com,
-	straube.linux@gmail.com,
-	martin@kaiser.cx,
-	abdun.nihaal@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: convert rtw_pwr_wakeup to correct error code semantics
-Date: Sun, 24 Jul 2022 17:30:55 +0100
-Message-Id: <20220724163055.961-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.36.1
+        bh=uI1N6WkK/h63C9rbKNyx+SGUibFjnftNpfGsKc2oH1Q=;
+        b=Ax+eASTj/tk74qF7xBoyLozbCwHSKiieIdC61eFH8bxDm+YYpvulGA+HxL5c+H46uG
+         8S3cDvtnaBc46ljZjiv1mAFrzIaf6fKMDiRJe0jHbx51Pg/peGNq1KGBFShtZXdWvh9v
+         yNlv4kcMOQ0iiC5/XPyEGYRKveuNvf+4vxZMYYw4IEi+YuKgn5YS2FhQSUW+f0NiMBt+
+         DfOiq69VuKRkpRsfLggDsHcnz9s1MPXKIuORyFAaY+vn2rLnmT7Un4rbH9baIN18dKrh
+         DyNzM/TpDTuEo5UYFTCXMX5Ab29w53zMTYL3+eNk+guufPx3yjks+JiB+l1t4PSzQbqm
+         uuMw==
+X-Gm-Message-State: AJIora/kRcTjSz1G1ML3Dx5uOyyY/ziF2s8FirZgfdbpWN6gyNc43Fvi
+	fQwZPx9JhMLW0FSIb+l/0sQ=
+X-Google-Smtp-Source: AGRyM1uhS3lZc04a86/lX8TdJ9u8aqBpF7GFqNmQt+8e0DoCpX1UTzgQD3N0PptBdINUUSroom56Mw==
+X-Received: by 2002:a05:6402:3217:b0:43b:dee8:4cb6 with SMTP id g23-20020a056402321700b0043bdee84cb6mr8378680eda.157.1658686823971;
+        Sun, 24 Jul 2022 11:20:23 -0700 (PDT)
+Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
+        by smtp.gmail.com with ESMTPSA id o22-20020a1709061b1600b0072b14836087sm4419955ejg.103.2022.07.24.11.20.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Jul 2022 11:20:23 -0700 (PDT)
+Message-ID: <03a784f3-660d-60ba-e921-03f676b95fcc@gmail.com>
+Date: Sun, 24 Jul 2022 20:20:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/2] staging: r8188eu: remove two unused function
+ prototypes
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220724153349.138741-1-martin@kaiser.cx>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220724153349.138741-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Convert the rtw_pwr_wakeup function to use 0 on success and -EPERM on
-error - in all places where we handle this response, we use either -1 or
--EPERM currently anyway, which are equivalent. Also, for other places
-along the same call chain where we are using -1, use -EPERM.
+On 7/24/22 17:33, Martin Kaiser wrote:
+> I forgot to remove the prototypes of OnAtim and DoReserved when those
+> functions were removed. Here's two patches to fix this.
+> 
+> Martin Kaiser (2):
+>    staging: r8188eu: remove OnAtim prototype
+>    staging: r8188eu: remove DoReserved prototype
+> 
+>   drivers/staging/r8188eu/include/rtw_mlme_ext.h | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
 
-This gets the driver closer to removal of the non-standard _SUCCESS and
-_FAIL definitions, which are inverted compared to the standard in-kernel
-error code mechanism.
-
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/r8188eu/core/rtw_p2p.c       |  4 +--
- drivers/staging/r8188eu/core/rtw_pwrctrl.c   | 10 +++---
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 32 ++++++++++----------
- 3 files changed, 23 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index c306aafa183b..bd654d4ff8b4 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -1888,7 +1888,7 @@ int rtw_p2p_enable(struct adapter *padapter, enum P2P_ROLE role)
- 
- 	if (role == P2P_ROLE_DEVICE || role == P2P_ROLE_CLIENT || role == P2P_ROLE_GO) {
- 		/* leave IPS/Autosuspend */
--		if (rtw_pwr_wakeup(padapter) == _FAIL) {
-+		if (rtw_pwr_wakeup(padapter)) {
- 			ret = _FAIL;
- 			goto exit;
- 		}
-@@ -1902,7 +1902,7 @@ int rtw_p2p_enable(struct adapter *padapter, enum P2P_ROLE role)
- 		init_wifidirect_info(padapter, role);
- 
- 	} else if (role == P2P_ROLE_DISABLE) {
--		if (rtw_pwr_wakeup(padapter) == _FAIL) {
-+		if (rtw_pwr_wakeup(padapter)) {
- 			ret = _FAIL;
- 			goto exit;
- 		}
-diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-index cf9020a73933..1cef3ef4d5f1 100644
---- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-+++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-@@ -381,24 +381,24 @@ int rtw_pwr_wakeup(struct adapter *padapter)
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	unsigned long timeout = jiffies + msecs_to_jiffies(3000);
- 	unsigned long deny_time;
--	int ret = _SUCCESS;
-+	int ret = 0;
- 
- 	while (pwrpriv->ps_processing && time_before(jiffies, timeout))
- 		msleep(10);
- 
- 	/* I think this should be check in IPS, LPS, autosuspend functions... */
- 	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
--		ret = _SUCCESS;
-+		ret = 0;
- 		goto exit;
- 	}
- 
- 	if (pwrpriv->rf_pwrstate == rf_off && ips_leave(padapter) == _FAIL) {
--		ret = _FAIL;
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
- 	if (padapter->bDriverStopped || !padapter->bup || !padapter->hw_init_completed) {
--		ret = _FAIL;
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
-@@ -439,7 +439,7 @@ int rtw_pm_set_ips(struct adapter *padapter, u8 mode)
- 		return 0;
- 	} else if (mode == IPS_NONE) {
- 		rtw_ips_mode_req(pwrctrlpriv, mode);
--		if ((padapter->bSurpriseRemoved == 0) && (rtw_pwr_wakeup(padapter) == _FAIL))
-+		if ((padapter->bSurpriseRemoved == 0) && rtw_pwr_wakeup(padapter))
- 			return -EFAULT;
- 	} else {
- 		return -EINVAL;
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 930bb4aea435..e0ae0c3c51f8 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -689,7 +689,7 @@ static int rtw_wx_set_mode(struct net_device *dev, struct iw_request_info *a,
- 
- 
- 
--	if (_FAIL == rtw_pwr_wakeup(padapter)) {
-+	if (rtw_pwr_wakeup(padapter)) {
- 		ret = -EPERM;
- 		goto exit;
- 	}
-@@ -933,13 +933,13 @@ static int rtw_wx_set_wap(struct net_device *dev,
- 
- 
- 
--	if (_FAIL == rtw_pwr_wakeup(padapter)) {
--		ret = -1;
-+	if (rtw_pwr_wakeup(padapter)) {
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
- 	if (!padapter->bup) {
--		ret = -1;
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
-@@ -1049,23 +1049,23 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
- 	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
- 	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
- 
--	if (_FAIL == rtw_pwr_wakeup(padapter)) {
--		ret = -1;
-+	if (rtw_pwr_wakeup(padapter)) {
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
- 	if (padapter->bDriverStopped) {
--		ret = -1;
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
- 	if (!padapter->bup) {
--		ret = -1;
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
- 	if (!padapter->hw_init_completed) {
--		ret = -1;
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
-@@ -1164,7 +1164,7 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
- 	}
- 
- 	if (!_status)
--		ret = -1;
-+		ret = -EPERM;
- 
- exit:
- 
-@@ -1252,13 +1252,13 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 
- 	uint ret = 0, len;
- 
--	if (_FAIL == rtw_pwr_wakeup(padapter)) {
--		ret = -1;
-+	if (rtw_pwr_wakeup(padapter)) {
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
- 	if (!padapter->bup) {
--		ret = -1;
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
-@@ -1268,7 +1268,7 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 	}
- 
- 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
--		ret = -1;
-+		ret = -EPERM;
- 		goto exit;
- 	}
- 
-@@ -1301,7 +1301,7 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 				}
- 
- 				if (!rtw_set_802_11_infrastructure_mode(padapter, pnetwork->network.InfrastructureMode)) {
--					ret = -1;
-+					ret = -EPERM;
- 					spin_unlock_bh(&queue->lock);
- 					goto exit;
- 				}
-@@ -1312,7 +1312,7 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 		spin_unlock_bh(&queue->lock);
- 		rtw_set_802_11_authentication_mode(padapter, authmode);
- 		if (!rtw_set_802_11_ssid(padapter, &ndis_ssid)) {
--			ret = -1;
-+			ret = -EPERM;
- 			goto exit;
- 		}
- 	}
--- 
-2.36.1
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
