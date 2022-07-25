@@ -1,80 +1,98 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD4463B
-	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 11:45:23 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id l14-20020a17090a72ce00b001f20ed3c55dso10009412pjk.5
-        for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 04:45:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1waDT/Uu9da6MNp40DJuFsfnaQFRitkplpYUuVaMUX8=;
-        b=m7RBCc7XVK3O2lCDZq14AWHEcgTmWs2nRhStjd2dmQaYdopcG/xxg70UM8WLKMRnfP
-         p7F5alMmzqqFL6uIEducyKx+kVLTyGApEkWWgW801f1xUgh+H6THXoSQ6wwe3vA9++h4
-         OtLpftQ4vGO6No9VV3/PqTWkDZ4mg+XAIvkhtMsnniv8VdZLJC0G0HYxnUPHcD3kpbjo
-         hBT/dKmU48E9TuvcEcvp48UQTJbDkKQnWYLFjDKROB0s+RLYWkaLd9fziaP6iHAxBJsX
-         jri3K/7vkYI+Ujvm6+/Vgc+gYbD04uwnSJuKD3v10MEsBxiwRwQ6B/7OD/DfxHsjawqY
-         dLqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1waDT/Uu9da6MNp40DJuFsfnaQFRitkplpYUuVaMUX8=;
-        b=8SSfGdfvYmRftZDEQcxKq52dAa6ue56pfAe7ItMt55GjPby9rvThhSTbeph0XPyK6R
-         rlYzneBxlOO3sClU0uM2cG4yAbeviir3OQrq26RJRpR1YqT6WEoBr8okbW6EkxS+sjwQ
-         6bgmFZFnybAgl1QU+Mr9ANHCH6edXvsnle07p1y+hNdDnqIAqmZrhT3qA8fb72Eii53s
-         Ysq/oI67w/EEJ2UIvOL/tDRC0ucCu6i6RgXxGX9rA+74prk8QR4DLuLsE5OGAzFXW4c1
-         pGljwmizXbtqskvsXCA1iVBrydaN3NuFMcUxIeKKfmLJbQtqoFVyaSqLpSMzPKzriQ4M
-         bPrA==
-X-Gm-Message-State: AJIora+fMB82ipV+mcO71ZLJF+01hRCYqDgWxHAS7tot5B/7ZROiWXN7
-	z5H0ycWSkvv/soHyfxThvU4=
-X-Google-Smtp-Source: AGRyM1sRNKC474Vo7/sTrqvEIRriUyLHySpKLEsmxxNUyVQQnn1FqOModHgArQqt5HNLZ95JsS0R9w==
-X-Received: by 2002:a17:902:a418:b0:16c:9ee2:8a02 with SMTP id p24-20020a170902a41800b0016c9ee28a02mr11738377plq.46.1658749522575;
-        Mon, 25 Jul 2022 04:45:22 -0700 (PDT)
-Received: from localhost.localdomain ([175.195.128.78])
-        by smtp.gmail.com with ESMTPSA id 7-20020a620507000000b005289f594326sm9334989pff.69.2022.07.25.04.45.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jul 2022 04:45:21 -0700 (PDT)
-From: Sidong Yang <realwakka@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: Sidong Yang <realwakka@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: pi433: remove duplicated comments
-Date: Mon, 25 Jul 2022 12:45:13 +0100
-Message-Id: <20220725114513.85089-1-realwakka@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA531372
+	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 14:39:36 +0000 (UTC)
+X-QQ-mid: bizesmtp72t1658759925tes7hwx1
+Received: from smtpclient.apple ( [111.193.9.146])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 25 Jul 2022 22:38:43 +0800 (CST)
+X-QQ-SSF: 01400000002000B0V000B00A0000000
+X-QQ-FEAT: DQ0OCu3gog1JVD1aMWAG4Hzd0HB957q6ScZb3/kq17UDFTyfwdmQb/6ecqjF8
+	eE5OIYywqAy6jzuY4FIO9RM5B1GETLurAPOVmaicr7eAxKNEew43TCCsKF17vEim+KlGrqq
+	TeaZwBauxmOkQGu2+lIYIdxZiG6lJiwhMgYvNmkKCbjn4fAPvX7KGAqFtyAluaodXwWAEPi
+	sMg5MSAXAGwcpOo1g21x2MeU6IUZun5GbFkFq3muAvTkWg8R9f9iIlSjggT+YzW1bYaPsG8
+	j1NsDD1kWdoxotEBrFfUTZakTQaJv7Q1USHOOcbkLbZwEhnx7DQ6ps5BSsvI2u//KJsoT4H
+	QF6kVQVltNmGV5X2QjhK31quG5gxNfYaaWU2z2MoZolb8af71hdQWnWSbBvlUEkeTqPPuvL
+X-QQ-GoodBg: 2
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
+Subject: Re: [PATCH 0/7] USB: cdc: add control and state defines
+From: Yan Xinyu <sdlyyxy@bupt.edu.cn>
+In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
+Date: Mon, 25 Jul 2022 22:38:42 +0800
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>,
+ Felipe Balbi <balbi@kernel.org>,
+ linux-staging@lists.linux.dev,
+ linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <5964CFE8-1B65-4FE2-9154-0F1C079CE916@bupt.edu.cn>
+References: <20220725075841.1187-1-johan@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+X-Mailer: Apple Mail (2.3696.100.31)
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:bupt.edu.cn:qybgforeign:qybgforeign4
+X-QQ-Bgrelay: 1
 
-Remove duplicated words in comments for readability. The words are
-duplicated from a sentence below.
+> On Jul 25, 2022, at 15:58, Johan Hovold <johan@kernel.org> wrote:
+> 
+> Several drivers use the control-line and serial-state bitmap values from
+> the CDC spec, but there were no matching defines in the global CDC
+> (UAPI) header.
+> 
+> This series adds the missing defines and converts cdc-acm and f_acm to
+> use them.
+> 
+> One staging driver also had an unused set of CDC defines which are
+> removed.
+> 
+> The final patch by Yan Xinyu, which triggered this work, converts the
+> usb_wwan driver to use CDC defines instead of hardcoded values in its
+> line-control handling.
+> 
+> Greg, are you ok with me taking these through USB serial (where there
+> are a few more drivers that could potentially use them) or do you want
+> to take the lot through your tree directly?
+> 
+> Johan
+> 
+> 
+> Johan Hovold (6):
+>  USB: cdc: add control-signal defines
+>  USB: cdc: add serial-state defines
+>  USB: cdc-acm: use CDC control-line defines
+>  USB: cdc-acm: use CDC serial-state defines
+>  staging: gdm724x: drop unused CDC defines
+>  USB: gadget: f_acm: use CDC defines
+> 
+> Yan Xinyu (1):
+>  USB: serial: usb_wwan: replace DTR/RTS magic numbers with macros
+> 
+> drivers/staging/gdm724x/gdm_tty.c   |  6 -----
+> drivers/usb/class/cdc-acm.c         | 42 ++++++++++++++---------------
+> drivers/usb/class/cdc-acm.h         | 20 --------------
+> drivers/usb/gadget/function/f_acm.c | 20 ++++----------
+> drivers/usb/serial/usb_wwan.c       | 10 ++++---
+> include/uapi/linux/usb/cdc.h        | 13 +++++++++
+> 6 files changed, 45 insertions(+), 66 deletions(-)
+> 
+> -- 
+> 2.35.1
+> 
 
-Signed-off-by: Sidong Yang <realwakka@gmail.com>
----
- drivers/staging/pi433/pi433_if.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you so much for spending your time to write this patch series!
+And thank you and Greg for your reviews, they are very informative
+and educational!
 
-diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 941aaa7eab2e..df02335fdbab 100644
---- a/drivers/staging/pi433/pi433_if.c
-+++ b/drivers/staging/pi433/pi433_if.c
-@@ -1406,7 +1406,7 @@ static int __init pi433_init(void)
- 
- 	/*
- 	 * Claim device numbers.  Then register a class
--	 * that will key udev/mdev to add/remove /dev nodes.  Last, register
-+	 * that will key udev/mdev to add/remove /dev nodes.
- 	 * Last, register the driver which manages those device numbers.
- 	 */
- 	status = alloc_chrdev_region(&pi433_dev, 0, N_PI433_MINORS, "pi433");
--- 
-2.30.2
+sdlyyxy
+
+
 
