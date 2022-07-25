@@ -1,133 +1,123 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC700371
-	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 07:54:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1658735648;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=gjSp1VwYgFdF3r/pc3Q0KhJt/Ooi2/fe36LMyPMHMA0=;
-	b=H4I5HKjY6R6CyX513hVNZb7T6blgj9FsSy0aXKxpGKcVhaf6FLEEErpAzwUCx4ce8i91OP
-	6zy2P3VTNEJks63QTlB9ssXyn4M6dAft3bm/hbez65Ye3/xVIulpYhIyJsYdQY9ieTf/As
-	PCauGwjkEBwMNx2ZPPdehLMop2zhPyI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-6VWBn9xPMx-MnbRgZT6Icw-1; Mon, 25 Jul 2022 03:54:06 -0400
-X-MC-Unique: 6VWBn9xPMx-MnbRgZT6Icw-1
-Received: by mail-wm1-f72.google.com with SMTP id v11-20020a1cf70b000000b003a318238826so3717590wmh.2
-        for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 00:54:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gjSp1VwYgFdF3r/pc3Q0KhJt/Ooi2/fe36LMyPMHMA0=;
-        b=yivRZMvJGVVW/LYLSBYR9EFKsoSNKVWns/8ClaLK7pFRMrSMOsg5mZkuzCtbU0W2jS
-         PobqXygbXt8ZwIqWr34N/l8LxLAKCc8KTDNeI5Oz0C5lyzy5q2sT5sZBQe6bgm/h77Ly
-         DT4n6fLPF/QDULHAsNkJGRkd4qYj+Y3ZyfthVD/oMsLsVwOiCdZFw9bHMCEgiARsf/my
-         UPeYhmz03feDd297blkKikfaQR67fWCQE4GpDhOrdguBuz6jKstXwVr6eB6gbOj5db6O
-         u36BPA8DFTXpFyIhkrAmnuBOg7B3u5iGo6FySqg3Shs87xEYpGnjDNobm0CYKwlCmcms
-         W+YA==
-X-Gm-Message-State: AJIora8b6wwZTG479iIksnsdJgzsmz0H5sIoI5pSoBTVYE8y+gZywzN4
-	QLuz2oWpCC2Ylu1QQGN7MP3yI6SYJwZJgy27y/4LOuL1mphz3LchYv+8SR+lDvugmYzeTWNWJlH
-	VEP7QHfuxZGqVtJSZWP5wFRG8DA==
-X-Received: by 2002:a5d:4448:0:b0:21e:640d:337c with SMTP id x8-20020a5d4448000000b0021e640d337cmr6960384wrr.572.1658735645234;
-        Mon, 25 Jul 2022 00:54:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1suU5FTfkKK40ECam9k1/4kpNk1ekZHVHPUssTBMkFcGkvOyZlSDPJGMC7bA8bJaSq6TebPUA==
-X-Received: by 2002:a5d:4448:0:b0:21e:640d:337c with SMTP id x8-20020a5d4448000000b0021e640d337cmr6960371wrr.572.1658735645053;
-        Mon, 25 Jul 2022 00:54:05 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id l37-20020a05600c1d2500b003a33227e49bsm13439251wms.4.2022.07.25.00.54.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jul 2022 00:54:04 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-staging@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	linux-fbdev@vger.kernel.org
-Subject: [PATCH] fbdev: Make registered_fb[] private to fbmem.c
-Date: Mon, 25 Jul 2022 09:54:00 +0200
-Message-Id: <20220725075400.68478-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.37.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D60939E
+	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB79CC341CE;
+	Mon, 25 Jul 2022 08:00:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1658736001;
+	bh=8uPr3usVlCsjnqLcOgTKXGdRijZxw3Cdyggomg261cY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jA0Q24Ipqarxik+K0eTDUhxHG+nNXZQaTwKEZjB7KCZpvk4MhJe4xcqH2PUKB1sQh
+	 0WUZMm6JQJ1Eq1TJ0ErWCCwQCTRNI7u0pJ/cCqOFggZQzZ/ntP4Idv5O5Jx4PxZQXw
+	 tjZ58WMFrX/qzSq9uv5I64PNYkstpXm5+q7QreiRC5q5jrWTepfqVum/AxMuhF/ldD
+	 f4eJbPoyYbtzyoQ9gaUPME+RIJ+77x1NQlT5tAPrlhcsUqIlwR5q1XxRYfmfR2FKOT
+	 XXaaLx9WvqLa96syMqn8uCDJ9i3wGON76mipX6u1mbxwF/Gp3zkMY+ddfXNcZyl8mk
+	 LPBMcDPpwSqRw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1oFt0e-0000K6-32; Mon, 25 Jul 2022 10:00:12 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	Felipe Balbi <balbi@kernel.org>
+Cc: Yan Xinyu <sdlyyxy@bupt.edu.cn>,
+	linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH 3/7] USB: cdc-acm: use CDC control-line defines
+Date: Mon, 25 Jul 2022 09:58:37 +0200
+Message-Id: <20220725075841.1187-4-johan@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
+References: <20220725075841.1187-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Use the new CDC control-line defines.
 
-No driver access this anymore, except for the olpc dcon fbdev driver but
-that has been marked as broken anyways by commit de0952f267ff ("staging:
-olpc_dcon: mark driver as broken").
-
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
+ drivers/usb/class/cdc-acm.c | 18 +++++++++---------
+ drivers/usb/class/cdc-acm.h |  7 -------
+ 2 files changed, 9 insertions(+), 16 deletions(-)
 
- drivers/video/fbdev/core/fbmem.c | 6 +++---
- include/linux/fb.h               | 6 ------
- 2 files changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 6ae1c5fa19f9..1e70d8c67653 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -51,10 +51,10 @@
- static DEFINE_MUTEX(registration_lock);
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 9b9aea24d58c..e2d80b99e074 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -658,7 +658,7 @@ static void acm_port_dtr_rts(struct tty_port *port, int raise)
+ 	int res;
  
- struct fb_info *registered_fb[FB_MAX] __read_mostly;
--EXPORT_SYMBOL(registered_fb);
--
- int num_registered_fb __read_mostly;
--EXPORT_SYMBOL(num_registered_fb);
-+#define for_each_registered_fb(i)		\
-+	for (i = 0; i < FB_MAX; i++)		\
-+		if (!registered_fb[i]) {} else
+ 	if (raise)
+-		val = ACM_CTRL_DTR | ACM_CTRL_RTS;
++		val = USB_CDC_CTRL_DTR | USB_CDC_CTRL_RTS;
+ 	else
+ 		val = 0;
  
- bool fb_center_logo __read_mostly;
- 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 453c3b2b6b8e..0aff76bcbb00 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -627,16 +627,10 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
- extern int fb_get_options(const char *name, char **option);
- extern int fb_new_modelist(struct fb_info *info);
- 
--extern struct fb_info *registered_fb[FB_MAX];
--extern int num_registered_fb;
- extern bool fb_center_logo;
- extern int fb_logo_count;
- extern struct class *fb_class;
- 
--#define for_each_registered_fb(i)		\
--	for (i = 0; i < FB_MAX; i++)		\
--		if (!registered_fb[i]) {} else
--
- static inline void lock_fb_info(struct fb_info *info)
+@@ -903,8 +903,8 @@ static int acm_tty_tiocmget(struct tty_struct *tty)
  {
- 	mutex_lock(&info->lock);
+ 	struct acm *acm = tty->driver_data;
+ 
+-	return (acm->ctrlout & ACM_CTRL_DTR ? TIOCM_DTR : 0) |
+-	       (acm->ctrlout & ACM_CTRL_RTS ? TIOCM_RTS : 0) |
++	return (acm->ctrlout & USB_CDC_CTRL_DTR ? TIOCM_DTR : 0) |
++	       (acm->ctrlout & USB_CDC_CTRL_RTS ? TIOCM_RTS : 0) |
+ 	       (acm->ctrlin  & ACM_CTRL_DSR ? TIOCM_DSR : 0) |
+ 	       (acm->ctrlin  & ACM_CTRL_RI  ? TIOCM_RI  : 0) |
+ 	       (acm->ctrlin  & ACM_CTRL_DCD ? TIOCM_CD  : 0) |
+@@ -918,10 +918,10 @@ static int acm_tty_tiocmset(struct tty_struct *tty,
+ 	unsigned int newctrl;
+ 
+ 	newctrl = acm->ctrlout;
+-	set = (set & TIOCM_DTR ? ACM_CTRL_DTR : 0) |
+-					(set & TIOCM_RTS ? ACM_CTRL_RTS : 0);
+-	clear = (clear & TIOCM_DTR ? ACM_CTRL_DTR : 0) |
+-					(clear & TIOCM_RTS ? ACM_CTRL_RTS : 0);
++	set = (set & TIOCM_DTR ? USB_CDC_CTRL_DTR : 0) |
++	      (set & TIOCM_RTS ? USB_CDC_CTRL_RTS : 0);
++	clear = (clear & TIOCM_DTR ? USB_CDC_CTRL_DTR : 0) |
++		(clear & TIOCM_RTS ? USB_CDC_CTRL_RTS : 0);
+ 
+ 	newctrl = (newctrl & ~clear) | set;
+ 
+@@ -1068,9 +1068,9 @@ static void acm_tty_set_termios(struct tty_struct *tty,
+ 
+ 	if (C_BAUD(tty) == B0) {
+ 		newline.dwDTERate = acm->line.dwDTERate;
+-		newctrl &= ~ACM_CTRL_DTR;
++		newctrl &= ~USB_CDC_CTRL_DTR;
+ 	} else if (termios_old && (termios_old->c_cflag & CBAUD) == B0) {
+-		newctrl |=  ACM_CTRL_DTR;
++		newctrl |=  USB_CDC_CTRL_DTR;
+ 	}
+ 
+ 	if (newctrl != acm->ctrlout)
+diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
+index d26ecd15be60..da7e8b8aaf28 100644
+--- a/drivers/usb/class/cdc-acm.h
++++ b/drivers/usb/class/cdc-acm.h
+@@ -22,13 +22,6 @@
+ 
+ #define USB_RT_ACM		(USB_TYPE_CLASS | USB_RECIP_INTERFACE)
+ 
+-/*
+- * Output control lines.
+- */
+-
+-#define ACM_CTRL_DTR		0x01
+-#define ACM_CTRL_RTS		0x02
+-
+ /*
+  * Input control lines and line errors.
+  */
 -- 
-2.37.1
+2.35.1
 
