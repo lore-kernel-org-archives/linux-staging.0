@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D60939E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39798371
 	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB79CC341CE;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7E47C341C6;
 	Mon, 25 Jul 2022 08:00:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1658736001;
-	bh=8uPr3usVlCsjnqLcOgTKXGdRijZxw3Cdyggomg261cY=;
+	bh=foX6nf1pYS8r8PQACJBat3Wk6rDL4/p2BD6eGaKMujI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jA0Q24Ipqarxik+K0eTDUhxHG+nNXZQaTwKEZjB7KCZpvk4MhJe4xcqH2PUKB1sQh
-	 0WUZMm6JQJ1Eq1TJ0ErWCCwQCTRNI7u0pJ/cCqOFggZQzZ/ntP4Idv5O5Jx4PxZQXw
-	 tjZ58WMFrX/qzSq9uv5I64PNYkstpXm5+q7QreiRC5q5jrWTepfqVum/AxMuhF/ldD
-	 f4eJbPoyYbtzyoQ9gaUPME+RIJ+77x1NQlT5tAPrlhcsUqIlwR5q1XxRYfmfR2FKOT
-	 XXaaLx9WvqLa96syMqn8uCDJ9i3wGON76mipX6u1mbxwF/Gp3zkMY+ddfXNcZyl8mk
-	 LPBMcDPpwSqRw==
+	b=LMP6cfhgD8NZdjE0/kEUhFFzKnxpxcp402c3tWetzjeP7OsuvvqjcpWe1ja5i4w6z
+	 ELMl0ruvhApRJH5SZKayPsqoN+eC0Fkhx3d4DgaSjbcn02iuKFlPEcd5jIAeTWl39j
+	 EUEUbze1SjaeBkO2kIcIbzBRAvLv5fngOs+SKjqVxeTd7Hu3ZLFlo2yboceFa8OxGN
+	 zb3OZ25ESyEjSSmbbdtdOqVTtQEAx3Ed6/tNC8sN6x92KvV0dPwqO8FaOmdDP28UlM
+	 zaH3mJku1p2zocQExzUYxVUJEaw5FaDtVC39eVkNYLo4TUvUVF2EFjpR9bPe7tUeEH
+	 35J7fQUWZuFJg==
 Received: from johan by xi.lan with local (Exim 4.94.2)
 	(envelope-from <johan@kernel.org>)
-	id 1oFt0e-0000K6-32; Mon, 25 Jul 2022 10:00:12 +0200
+	id 1oFt0d-0000K1-TY; Mon, 25 Jul 2022 10:00:11 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Oliver Neukum <oneukum@suse.com>,
@@ -27,9 +27,9 @@ Cc: Yan Xinyu <sdlyyxy@bupt.edu.cn>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 3/7] USB: cdc-acm: use CDC control-line defines
-Date: Mon, 25 Jul 2022 09:58:37 +0200
-Message-Id: <20220725075841.1187-4-johan@kernel.org>
+Subject: [PATCH 1/7] USB: cdc: add control-signal defines
+Date: Mon, 25 Jul 2022 09:58:35 +0200
+Message-Id: <20220725075841.1187-2-johan@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
 References: <20220725075841.1187-1-johan@kernel.org>
@@ -41,83 +41,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the new CDC control-line defines.
+Add defines for the Control Signal Bitmap Values from section 6.2.14
+SetControlLineState of the CDC specification version 1.1.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/class/cdc-acm.c | 18 +++++++++---------
- drivers/usb/class/cdc-acm.h |  7 -------
- 2 files changed, 9 insertions(+), 16 deletions(-)
+ include/uapi/linux/usb/cdc.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 9b9aea24d58c..e2d80b99e074 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -658,7 +658,7 @@ static void acm_port_dtr_rts(struct tty_port *port, int raise)
- 	int res;
+diff --git a/include/uapi/linux/usb/cdc.h b/include/uapi/linux/usb/cdc.h
+index 6d61550959ef..372c81425cae 100644
+--- a/include/uapi/linux/usb/cdc.h
++++ b/include/uapi/linux/usb/cdc.h
+@@ -271,6 +271,10 @@ struct usb_cdc_line_coding {
+ 	__u8	bDataBits;
+ } __attribute__ ((packed));
  
- 	if (raise)
--		val = ACM_CTRL_DTR | ACM_CTRL_RTS;
-+		val = USB_CDC_CTRL_DTR | USB_CDC_CTRL_RTS;
- 	else
- 		val = 0;
- 
-@@ -903,8 +903,8 @@ static int acm_tty_tiocmget(struct tty_struct *tty)
- {
- 	struct acm *acm = tty->driver_data;
- 
--	return (acm->ctrlout & ACM_CTRL_DTR ? TIOCM_DTR : 0) |
--	       (acm->ctrlout & ACM_CTRL_RTS ? TIOCM_RTS : 0) |
-+	return (acm->ctrlout & USB_CDC_CTRL_DTR ? TIOCM_DTR : 0) |
-+	       (acm->ctrlout & USB_CDC_CTRL_RTS ? TIOCM_RTS : 0) |
- 	       (acm->ctrlin  & ACM_CTRL_DSR ? TIOCM_DSR : 0) |
- 	       (acm->ctrlin  & ACM_CTRL_RI  ? TIOCM_RI  : 0) |
- 	       (acm->ctrlin  & ACM_CTRL_DCD ? TIOCM_CD  : 0) |
-@@ -918,10 +918,10 @@ static int acm_tty_tiocmset(struct tty_struct *tty,
- 	unsigned int newctrl;
- 
- 	newctrl = acm->ctrlout;
--	set = (set & TIOCM_DTR ? ACM_CTRL_DTR : 0) |
--					(set & TIOCM_RTS ? ACM_CTRL_RTS : 0);
--	clear = (clear & TIOCM_DTR ? ACM_CTRL_DTR : 0) |
--					(clear & TIOCM_RTS ? ACM_CTRL_RTS : 0);
-+	set = (set & TIOCM_DTR ? USB_CDC_CTRL_DTR : 0) |
-+	      (set & TIOCM_RTS ? USB_CDC_CTRL_RTS : 0);
-+	clear = (clear & TIOCM_DTR ? USB_CDC_CTRL_DTR : 0) |
-+		(clear & TIOCM_RTS ? USB_CDC_CTRL_RTS : 0);
- 
- 	newctrl = (newctrl & ~clear) | set;
- 
-@@ -1068,9 +1068,9 @@ static void acm_tty_set_termios(struct tty_struct *tty,
- 
- 	if (C_BAUD(tty) == B0) {
- 		newline.dwDTERate = acm->line.dwDTERate;
--		newctrl &= ~ACM_CTRL_DTR;
-+		newctrl &= ~USB_CDC_CTRL_DTR;
- 	} else if (termios_old && (termios_old->c_cflag & CBAUD) == B0) {
--		newctrl |=  ACM_CTRL_DTR;
-+		newctrl |=  USB_CDC_CTRL_DTR;
- 	}
- 
- 	if (newctrl != acm->ctrlout)
-diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
-index d26ecd15be60..da7e8b8aaf28 100644
---- a/drivers/usb/class/cdc-acm.h
-+++ b/drivers/usb/class/cdc-acm.h
-@@ -22,13 +22,6 @@
- 
- #define USB_RT_ACM		(USB_TYPE_CLASS | USB_RECIP_INTERFACE)
- 
--/*
-- * Output control lines.
-- */
--
--#define ACM_CTRL_DTR		0x01
--#define ACM_CTRL_RTS		0x02
--
- /*
-  * Input control lines and line errors.
-  */
++/* Control Signal Bitmap Values from 6.2.14 SetControlLineState */
++#define USB_CDC_CTRL_DTR			(1 << 0)
++#define USB_CDC_CTRL_RTS			(1 << 1)
++
+ /* table 62; bits in multicast filter */
+ #define	USB_CDC_PACKET_TYPE_PROMISCUOUS		(1 << 0)
+ #define	USB_CDC_PACKET_TYPE_ALL_MULTICAST	(1 << 1) /* no filter */
 -- 
 2.35.1
 
