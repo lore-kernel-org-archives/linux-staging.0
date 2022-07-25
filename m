@@ -1,115 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F7A626
-	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31690C385A5;
-	Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658736001;
-	bh=Sai1lNpDE0Gu+p7BvQNkHpZkKEh/wcOyz6NHIZZokP0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y9iOoMIJExdRig6gVkcyXV4CIb7Rc4iGUCPDI4Rjx18UuRHM1FCdiNZcZxIswUHFE
-	 pY+I4/7BW2Z8g9XkRaLYLIDjWZFSMpC8eC6kqIkvtDZW7RVN9ci2EWq/mD0R9wZ+s2
-	 vu6HQRGgSjoBsfU7tYZH+jLAsDCxsJk1O4YK0tm+SMcA1TKrRQ94j4KX4MSbdHLrhJ
-	 WmPn6jUF9plVb1Q+3eG6QyUM6wuV6yR4P3mwIWXg832G4cBTuBy8BG9lfczBx12mPJ
-	 A5N0n9qpuOSfkiOKGXHj/Cw04NArk9M0VEDsrZghNnv6sVd0R0kV2IixGM3QeE/fCC
-	 t55U5z5KFfTtQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1oFt0e-0000KE-Bi; Mon, 25 Jul 2022 10:00:12 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Felipe Balbi <balbi@kernel.org>
-Cc: Yan Xinyu <sdlyyxy@bupt.edu.cn>,
-	linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 6/7] USB: gadget: f_acm: use CDC defines
-Date: Mon, 25 Jul 2022 09:58:40 +0200
-Message-Id: <20220725075841.1187-7-johan@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
-References: <20220725075841.1187-1-johan@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A320E624
+	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:02:20 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3A1591F977;
+	Mon, 25 Jul 2022 07:55:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1658735749; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YwiyINh2YKKLfdtiarw+bQrH30d/PHkMn5lSmx+kcGQ=;
+	b=tA25VmyvmgEELAzhlyfRDAFvxqSBUv3xryJB/oEee55eT5gI8mRgFSQ5mTKOsaE/eOtAfd
+	nYntkn5UtmsGMnAUc6Rbbp4c2rZl9SUPBGi3wV7kaBIe4Ep69g9fHARn2jV/NU8K4Nu50O
+	DDduKs7N8s0CyWdO482oNBfyTNIR5DQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1658735749;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YwiyINh2YKKLfdtiarw+bQrH30d/PHkMn5lSmx+kcGQ=;
+	b=PrwJJJvcN2c6dT2lvSxBTg4eU8OgQe+pIRIrYr0gVJmFD68qt9FeiHr6HDA+palJKbe5DY
+	1PfzpqinkqcCKdBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0068713A8D;
+	Mon, 25 Jul 2022 07:55:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id JwDROoRM3mK2YAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 25 Jul 2022 07:55:48 +0000
+Message-ID: <c06cccc7-9e7d-5659-c23d-40ca386574b0@suse.de>
+Date: Mon, 25 Jul 2022 09:55:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] fbdev: Make registered_fb[] private to fbmem.c
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-staging@lists.linux.dev,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-fbdev@vger.kernel.org
+References: <20220725075400.68478-1-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220725075400.68478-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------dvvkHpjn000X4YxaH5fi7KPW"
 
-Use the new CDC control-line and serial-state defines.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------dvvkHpjn000X4YxaH5fi7KPW
+Content-Type: multipart/mixed; boundary="------------IjtmPP6kmUKIFKrGPr0H8Hi0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-staging@lists.linux.dev,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-fbdev@vger.kernel.org
+Message-ID: <c06cccc7-9e7d-5659-c23d-40ca386574b0@suse.de>
+Subject: Re: [PATCH] fbdev: Make registered_fb[] private to fbmem.c
+References: <20220725075400.68478-1-javierm@redhat.com>
+In-Reply-To: <20220725075400.68478-1-javierm@redhat.com>
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/gadget/function/f_acm.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+--------------IjtmPP6kmUKIFKrGPr0H8Hi0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/usb/gadget/function/f_acm.c b/drivers/usb/gadget/function/f_acm.c
-index 411eb489e0ff..cb523f118f04 100644
---- a/drivers/usb/gadget/function/f_acm.c
-+++ b/drivers/usb/gadget/function/f_acm.c
-@@ -57,18 +57,8 @@ struct f_acm {
- 
- 	/* SetControlLineState request -- CDC 1.1 section 6.2.14 (INPUT) */
- 	u16				port_handshake_bits;
--#define ACM_CTRL_RTS	(1 << 1)	/* unused with full duplex */
--#define ACM_CTRL_DTR	(1 << 0)	/* host is ready for data r/w */
--
- 	/* SerialState notification -- CDC 1.1 section 6.3.5 (OUTPUT) */
- 	u16				serial_state;
--#define ACM_CTRL_OVERRUN	(1 << 6)
--#define ACM_CTRL_PARITY		(1 << 5)
--#define ACM_CTRL_FRAMING	(1 << 4)
--#define ACM_CTRL_RI		(1 << 3)
--#define ACM_CTRL_BRK		(1 << 2)
--#define ACM_CTRL_DSR		(1 << 1)
--#define ACM_CTRL_DCD		(1 << 0)
- };
- 
- static inline struct f_acm *func_to_acm(struct usb_function *f)
-@@ -387,7 +377,7 @@ static int acm_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 		value = 0;
- 
- 		/* FIXME we should not allow data to flow until the
--		 * host sets the ACM_CTRL_DTR bit; and when it clears
-+		 * host sets the USB_CDC_CTRL_DTR bit; and when it clears
- 		 * that bit, we should return to that no-flow state.
- 		 */
- 		acm->port_handshake_bits = w_value;
-@@ -585,7 +575,7 @@ static void acm_connect(struct gserial *port)
- {
- 	struct f_acm		*acm = port_to_acm(port);
- 
--	acm->serial_state |= ACM_CTRL_DSR | ACM_CTRL_DCD;
-+	acm->serial_state |= USB_CDC_SERIAL_STATE_DSR | USB_CDC_SERIAL_STATE_DCD;
- 	acm_notify_serial_state(acm);
- }
- 
-@@ -593,7 +583,7 @@ static void acm_disconnect(struct gserial *port)
- {
- 	struct f_acm		*acm = port_to_acm(port);
- 
--	acm->serial_state &= ~(ACM_CTRL_DSR | ACM_CTRL_DCD);
-+	acm->serial_state &= ~(USB_CDC_SERIAL_STATE_DSR | USB_CDC_SERIAL_STATE_DCD);
- 	acm_notify_serial_state(acm);
- }
- 
-@@ -603,9 +593,9 @@ static int acm_send_break(struct gserial *port, int duration)
- 	u16			state;
- 
- 	state = acm->serial_state;
--	state &= ~ACM_CTRL_BRK;
-+	state &= ~USB_CDC_SERIAL_STATE_BREAK;
- 	if (duration)
--		state |= ACM_CTRL_BRK;
-+		state |= USB_CDC_SERIAL_STATE_BREAK;
- 
- 	acm->serial_state = state;
- 	return acm_notify_serial_state(acm);
--- 
-2.35.1
+SGkNCg0KQW0gMjUuMDcuMjIgdW0gMDk6NTQgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEZyb206IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+
+DQo+IA0KPiBObyBkcml2ZXIgYWNjZXNzIHRoaXMgYW55bW9yZSwgZXhjZXB0IGZvciB0aGUg
+b2xwYyBkY29uIGZiZGV2IGRyaXZlciBidXQNCj4gdGhhdCBoYXMgYmVlbiBtYXJrZWQgYXMg
+YnJva2VuIGFueXdheXMgYnkgY29tbWl0IGRlMDk1MmYyNjdmZiAoInN0YWdpbmc6DQo+IG9s
+cGNfZGNvbjogbWFyayBkcml2ZXIgYXMgYnJva2VuIikuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5
+OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4NCj4gU2lnbmVkLW9m
+Zi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4NCj4gUmV2aWV3
+ZWQtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0K
+PiBTaWduZWQtb2ZmLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVk
+aGF0LmNvbT4NCg0KQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
+dXNlLmRlPg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IC0tLQ0KPiANCj4gICBkcml2
+ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYyB8IDYgKysrLS0tDQo+ICAgaW5jbHVkZS9s
+aW51eC9mYi5oICAgICAgICAgICAgICAgfCA2IC0tLS0tLQ0KPiAgIDIgZmlsZXMgY2hhbmdl
+ZCwgMyBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jIGIvZHJpdmVycy92aWRlby9mYmRl
+di9jb3JlL2ZibWVtLmMNCj4gaW5kZXggNmFlMWM1ZmExOWY5Li4xZTcwZDhjNjc2NTMgMTAw
+NjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jDQo+ICsrKyBi
+L2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jDQo+IEBAIC01MSwxMCArNTEsMTAg
+QEANCj4gICBzdGF0aWMgREVGSU5FX01VVEVYKHJlZ2lzdHJhdGlvbl9sb2NrKTsNCj4gICAN
+Cj4gICBzdHJ1Y3QgZmJfaW5mbyAqcmVnaXN0ZXJlZF9mYltGQl9NQVhdIF9fcmVhZF9tb3N0
+bHk7DQo+IC1FWFBPUlRfU1lNQk9MKHJlZ2lzdGVyZWRfZmIpOw0KPiAtDQo+ICAgaW50IG51
+bV9yZWdpc3RlcmVkX2ZiIF9fcmVhZF9tb3N0bHk7DQo+IC1FWFBPUlRfU1lNQk9MKG51bV9y
+ZWdpc3RlcmVkX2ZiKTsNCj4gKyNkZWZpbmUgZm9yX2VhY2hfcmVnaXN0ZXJlZF9mYihpKQkJ
+XA0KPiArCWZvciAoaSA9IDA7IGkgPCBGQl9NQVg7IGkrKykJCVwNCj4gKwkJaWYgKCFyZWdp
+c3RlcmVkX2ZiW2ldKSB7fSBlbHNlDQo+ICAgDQo+ICAgYm9vbCBmYl9jZW50ZXJfbG9nbyBf
+X3JlYWRfbW9zdGx5Ow0KPiAgIA0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9mYi5o
+IGIvaW5jbHVkZS9saW51eC9mYi5oDQo+IGluZGV4IDQ1M2MzYjJiNmI4ZS4uMGFmZjc2YmNi
+YjAwIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2ZiLmgNCj4gKysrIGIvaW5jbHVk
+ZS9saW51eC9mYi5oDQo+IEBAIC02MjcsMTYgKzYyNywxMCBAQCBleHRlcm4gaW50IGZiX2dl
+dF9jb2xvcl9kZXB0aChzdHJ1Y3QgZmJfdmFyX3NjcmVlbmluZm8gKnZhciwNCj4gICBleHRl
+cm4gaW50IGZiX2dldF9vcHRpb25zKGNvbnN0IGNoYXIgKm5hbWUsIGNoYXIgKipvcHRpb24p
+Ow0KPiAgIGV4dGVybiBpbnQgZmJfbmV3X21vZGVsaXN0KHN0cnVjdCBmYl9pbmZvICppbmZv
+KTsNCj4gICANCj4gLWV4dGVybiBzdHJ1Y3QgZmJfaW5mbyAqcmVnaXN0ZXJlZF9mYltGQl9N
+QVhdOw0KPiAtZXh0ZXJuIGludCBudW1fcmVnaXN0ZXJlZF9mYjsNCj4gICBleHRlcm4gYm9v
+bCBmYl9jZW50ZXJfbG9nbzsNCj4gICBleHRlcm4gaW50IGZiX2xvZ29fY291bnQ7DQo+ICAg
+ZXh0ZXJuIHN0cnVjdCBjbGFzcyAqZmJfY2xhc3M7DQo+ICAgDQo+IC0jZGVmaW5lIGZvcl9l
+YWNoX3JlZ2lzdGVyZWRfZmIoaSkJCVwNCj4gLQlmb3IgKGkgPSAwOyBpIDwgRkJfTUFYOyBp
+KyspCQlcDQo+IC0JCWlmICghcmVnaXN0ZXJlZF9mYltpXSkge30gZWxzZQ0KPiAtDQo+ICAg
+c3RhdGljIGlubGluZSB2b2lkIGxvY2tfZmJfaW5mbyhzdHJ1Y3QgZmJfaW5mbyAqaW5mbykN
+Cj4gICB7DQo+ICAgCW11dGV4X2xvY2soJmluZm8tPmxvY2spOw0KDQotLSANClRob21hcyBa
+aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
+R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
+IEl2byBUb3Rldg0K
 
+--------------IjtmPP6kmUKIFKrGPr0H8Hi0--
+
+--------------dvvkHpjn000X4YxaH5fi7KPW
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLeTIQFAwAAAAAACgkQlh/E3EQov+DS
+Mw//ZmvlyqJkhxNldf+1ZCiVpgshWANrIAuheUXaPczR4hUmUGlVK18azel+EkNRTRZ0tdzdFLDu
+jQ5icc2R/z9w9oEkZu0i3hLIxSq6QJ3mExt0oucX8CNY7uFihvWeAzgJFuv5wwKnuchcsIk/ZIxc
+nXotwICnq4bn+JSoC9lM6M3rzrHGYQbJIcuCNDX7S3WAOveXEM40+D06e8SrAd+220sUWJysZaQF
+AaihSuBabbTQzn+M1poA94G55m1IMC3t8AvdfnXBP+iyj8EXtQ39RNzyErhdO8xH1UKxe1WjzXBg
+oh9/XUQ5WB0QT2tXPAwzndWBqZExyPlLj2fIh/GSgeTmHYUD59ycnCopsRoxz6/T3D/NTOE9DmsO
+PWXzP9MdzkI7uPt3HSV/ux2H1xrH/isscPzgOI9uWiMc2eLuNjiNCIwCUbLOgBkQGNW8t7Ehf/NJ
+JceL4rrrPhW1tPPU+pmomnJvuu2s4BUq4/QsxfLuzyFodRlAS4Wu/YtBg/BfvKvLb0w7rsptponn
+pAaCSBeEFOVG+dCv2WJOIXaoJvy7sdZtrqA4udNZc/kWyZ0d+LVCN4MY2a41unTvBQulprxNhHfz
+dEzCxsP6c9X+kCMowLcxB75x5qwsm8D6KQc6eiKDb0WPhwb6N8BQDklrHs66LFlvvqt3pTO32aiH
+egw=
+=RKox
+-----END PGP SIGNATURE-----
+
+--------------dvvkHpjn000X4YxaH5fi7KPW--
