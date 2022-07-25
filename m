@@ -1,143 +1,56 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D877839E
-	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1658737480;
-	bh=Q/fzEFlwcS/PYAbsBodtIxc86HI6kWU6z8JxCzps4eo=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=haMhWUlCPSH5CFEkb0z9XyWjeCnaOXm7B0Gjp52g2V2KjksyrBJ0nx8UQPbs7OJ1g
-	 DS29IswjQ2h6ZFbmPiR8keX7HDDJNADZXCJ0m/CbQycVn3WGjVvwh5pG+ZmRyuhZHv
-	 vIq/xaXqGnMzT4ajuKB9or8374i45vckYEUKwPek=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.140.141]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MD9T1-1oP04v0xDF-009CJD; Mon, 25
- Jul 2022 10:24:40 +0200
-Message-ID: <1a640421-9b22-28a3-4712-714c4f12b9b2@gmx.de>
-Date: Mon, 25 Jul 2022 10:23:57 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5919362D
+	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:52:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F18BAC341C7;
+	Mon, 25 Jul 2022 08:52:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1658739143;
+	bh=dk4dxGJLEJyeKq9FFm0ufVN4qajcM88UqvIcq9q1f+8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CqeCDrEiSmCNFcu7LfFKRW5AAcdr/sUXlG5b6/loMvdyK+zB3L4HQsDY9wUgKXI4C
+	 Pkgt9yM8MWpxEhNfMo8JE6JN58kEowdlShOv+YTBkEZBtSyklJKaeAQKbontq7JMNt
+	 XTtJvPUnttJDNsMdGa2M+tvKLfFFyRwUT06AAvdo=
+Date: Mon, 25 Jul 2022 10:52:17 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Oliver Neukum <oneukum@suse.com>, Felipe Balbi <balbi@kernel.org>,
+	Yan Xinyu <sdlyyxy@bupt.edu.cn>, linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] USB: cdc: add control and state defines
+Message-ID: <Yt5ZwYAI/jy4XW2n@kroah.com>
+References: <20220725075841.1187-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] fbdev: Make registered_fb[] private to fbmem.c
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-Cc: linux-staging@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org
-References: <20220725075400.68478-1-javierm@redhat.com>
- <c06cccc7-9e7d-5659-c23d-40ca386574b0@suse.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <c06cccc7-9e7d-5659-c23d-40ca386574b0@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZjD4JArpyofLO9WHEqMo7VhreBlhRkiYZWwkzSJ3Pv2a4CUMFyH
- GpzCKg2poPDFbIftn7s2o5SN25CTaCkb9CJ9zhnYW2itdAoGH1OBhyAjghiSxr6IOIh/Oti
- 8eEHUYQ+sKfYY7F0fp7JWhHUL8Ky+ZppQKYTk3pyTY/9vWpsoEQyDxtzGtLrhjNeiIaTYd0
- EWoBMPhLFis81KNIAv2mQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DUwW8Qj4G4M=:rbDf/oYyOEYdx/kjrJdzjh
- aakadAtGrJJ/GrLKujso2nN1ycLy28ElhpfL7mCeCfxLdjLo4dQthoO9u8j8tfNQWhbdGXLqM
- 8Ixx7v2Tt5Rdzc63KyupPoGyuwcUxdPBgbbKfYH4i1WgmXL4ElGxnPadr8NCS4jpZ+0zbdnKA
- MFYqqygzz4UbwC76HGPwlhjzohYkZnlUCqk3nmLLM0jeEiN3g4FahKeswfEe4KmqcAy8HbdBs
- l/jCv5L9sPDRYll0VIe3O7KHXpd05ezXfE3SENW/AwbJA0E6kaJa6rogLsv5MUgMKDcGxgftR
- XcRYM2kgqkDbAHRQolQjF0mnsw52b81I8D/vuWApPemCG74yL/vEdn7+IiNacTMA3IapOsKGD
- fNeU+LOwpoqE6fFaIlBsKhX3JL9z2AMprM209B1k4C6qHCWwbW2KCVBK6b2kFdaePjGmYZUf5
- DIoUgJnbtmn8gR+HFPxo3KX1/5Ish/uMJKObGkBZeD9WV2j3fm/8tlXhYbSd0L77FG9spUsfi
- eunv3i1ws7IQM9YWZbdR/CEnUjfCoDpfi8mBtXglfc1O0MkGQ2D01tuwoyKO8reMVVBdDKMJY
- HRVUEtPzdh8SRVOUm2qjABmwPaoOfXgoh8MpJvJ954KPa38VVIxpGaR0eTm+Tr2+c3TVkWf8V
- U4HQ200lja4Qf8/FXH3vUCIN9PmEOwRzZRIOoXcgd2K2igDNJnH6Ho0gdpIvyN3UKaR8yyzJC
- pjbx14nfHISOJIsDqCRpHYHhpHCAFDDMYfrGxEqUYZ4ZY3rA7nHFlJb3D8TqNXO9qA1zelo06
- nlZI/QAF8aMBT+KiHSx+Dy9QJDQiYK8d7E5VZ6brncCBYgHN2Y9ifKVKt4nwibK1bJo4jLXZe
- xj2WGXt5Nv37EdkfFfTMIemj8OfjPJ10lJi2lpmkwEEQkILRe9D/V/nZDjwWHviB3MlK8BKOr
- 0SbUE1KnidP/jg1mlhk7yfAFrp0BEDheR7x/a0OK6xLhshBAmanms2Lq/jCy4ZLbqa6DtL/L+
- PFNW335uVyXxwxUKNkG0vLTv4nUnfYhWDit2Di2qDnw5BLFcV+SU+RLr8jZEJRlYPdIDaoSmn
- OLDxm1sKFNQuctnCqQrwsiTFICrPDrmek+vHWmbsq3yT76Fi5IOTbn+zA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
 
-On 7/25/22 09:55, Thomas Zimmermann wrote:
-> Hi
->
-> Am 25.07.22 um 09:54 schrieb Javier Martinez Canillas:
->> From: Daniel Vetter <daniel.vetter@ffwll.ch>
->>
->> No driver access this anymore, except for the olpc dcon fbdev driver bu=
-t
->> that has been marked as broken anyways by commit de0952f267ff ("staging=
-:
->> olpc_dcon: mark driver as broken").
->>
->> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Mon, Jul 25, 2022 at 09:58:34AM +0200, Johan Hovold wrote:
+> Several drivers use the control-line and serial-state bitmap values from
+> the CDC spec, but there were no matching defines in the global CDC
+> (UAPI) header.
+> 
+> This series adds the missing defines and converts cdc-acm and f_acm to
+> use them.
+> 
+> One staging driver also had an unused set of CDC defines which are
+> removed.
+> 
+> The final patch by Yan Xinyu, which triggered this work, converts the
+> usb_wwan driver to use CDC defines instead of hardcoded values in its
+> line-control handling.
+> 
+> Greg, are you ok with me taking these through USB serial (where there
+> are a few more drivers that could potentially use them) or do you want
+> to take the lot through your tree directly?
 
-Acked-by: Helge Deller <deller@gmx.de>
+Many thanks for this, I'll just take this now and you can send future
+patches for usb-serial that can rely on these being present.
 
-Helge
-
->
-> Best regards
-> Thomas
->
->> ---
->>
->> =C2=A0 drivers/video/fbdev/core/fbmem.c | 6 +++---
->> =C2=A0 include/linux/fb.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 ------
->> =C2=A0 2 files changed, 3 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/cor=
-e/fbmem.c
->> index 6ae1c5fa19f9..1e70d8c67653 100644
->> --- a/drivers/video/fbdev/core/fbmem.c
->> +++ b/drivers/video/fbdev/core/fbmem.c
->> @@ -51,10 +51,10 @@
->> =C2=A0 static DEFINE_MUTEX(registration_lock);
->> =C2=A0 =C2=A0 struct fb_info *registered_fb[FB_MAX] __read_mostly;
->> -EXPORT_SYMBOL(registered_fb);
->> -
->> =C2=A0 int num_registered_fb __read_mostly;
->> -EXPORT_SYMBOL(num_registered_fb);
->> +#define for_each_registered_fb(i)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 \
->> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < FB_MAX; i++)=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 \
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!registered_fb[i]) {} e=
-lse
->> =C2=A0 =C2=A0 bool fb_center_logo __read_mostly;
->> =C2=A0 diff --git a/include/linux/fb.h b/include/linux/fb.h
->> index 453c3b2b6b8e..0aff76bcbb00 100644
->> --- a/include/linux/fb.h
->> +++ b/include/linux/fb.h
->> @@ -627,16 +627,10 @@ extern int fb_get_color_depth(struct fb_var_scree=
-ninfo *var,
->> =C2=A0 extern int fb_get_options(const char *name, char **option);
->> =C2=A0 extern int fb_new_modelist(struct fb_info *info);
->> =C2=A0 -extern struct fb_info *registered_fb[FB_MAX];
->> -extern int num_registered_fb;
->> =C2=A0 extern bool fb_center_logo;
->> =C2=A0 extern int fb_logo_count;
->> =C2=A0 extern struct class *fb_class;
->> =C2=A0 -#define for_each_registered_fb(i)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 \
->> -=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < FB_MAX; i++)=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 \
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!registered_fb[i]) {} e=
-lse
->> -
->> =C2=A0 static inline void lock_fb_info(struct fb_info *info)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mutex_lock(&info->lock);
->
-
+greg k-h
