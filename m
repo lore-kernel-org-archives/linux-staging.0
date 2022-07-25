@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D0739F
-	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE027C341C7;
-	Mon, 25 Jul 2022 08:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8920862E
+	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:00:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3164CC341D4;
+	Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1658736001;
-	bh=Mcc6YivlY7VsK7Pilttr0NsQ6d26btY/8h5TMOw2PWM=;
+	bh=htGIi81EhWUDNiQ/aByjFq9q+tZ8eQTA0UOuG8tIDtE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fTcdmQFFSblHtu/LzHjNKm3rcRHiKWRdZihdddxw9oTwwnBlupuck1iDCKWs4d5g0
-	 YGM6uJvZHBJWHJeZHCmdd6K0NcKtPFAw1iCLo9gLnR/U2dv5Vh/y7qBP7lS3weLxWy
-	 5Clbf5T0EzJLSPjt4OzU6Jn8dj4AHcU4MngcOSPrnt7O6qjt52OFW9yfVw3noHbMBu
-	 /J4w4GPSACf7GgaWXCd0zTzPo+j4u8ZqrGsBwY2cRrA6T4Yr9nrB6pbW7RdhL/qFnQ
-	 TaVjZr6n8nnPhv/CwMH8S3g9ghdQei0JpKGMtGFa3HqmYj53NA4gs3baPl4hbAyLCl
-	 2ilRyADzegWDA==
+	b=exP5EuW8jNwWGnNiR4WGtBGzStxIKSZJbIoTDBI3PTzOl6t3QUsed9F1MZiZTJbiY
+	 VOzc5hFJrbinc+WUIGBEH2Da2ltE57J100ZWee+U6Tft/33lfxsnAx1zO95UjCCMrs
+	 ZHCKPc0UgxQ+1to3Lr6z7aEia/4PPkoYQYx9Oq5lz7L3cyWF7y+sWyu0/XdtPPTVOE
+	 6p2Bzk/obbsUtsEw3zhAmZsRaeXA3nHluw7Qn8IxNtBS3N1eplOkWbJxyo9qCUBy2F
+	 qRkHxmPxRBgttk0u+T3Msivq3tGFfsH+qQvu6OiPwKKCvMFvYUGxj3W8tsLGPhfDuQ
+	 lKw4HZXzKyzAQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
 	(envelope-from <johan@kernel.org>)
-	id 1oFt0e-0000K3-09; Mon, 25 Jul 2022 10:00:12 +0200
+	id 1oFt0e-0000KB-8o; Mon, 25 Jul 2022 10:00:12 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Oliver Neukum <oneukum@suse.com>,
@@ -27,9 +27,9 @@ Cc: Yan Xinyu <sdlyyxy@bupt.edu.cn>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 2/7] USB: cdc: add serial-state defines
-Date: Mon, 25 Jul 2022 09:58:36 +0200
-Message-Id: <20220725075841.1187-3-johan@kernel.org>
+Subject: [PATCH 5/7] staging: gdm724x: drop unused CDC defines
+Date: Mon, 25 Jul 2022 09:58:39 +0200
+Message-Id: <20220725075841.1187-6-johan@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
 References: <20220725075841.1187-1-johan@kernel.org>
@@ -41,37 +41,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add defines for the serial-state bitmap values from section 6.3.5
-SerialState of the CDC specification version 1.1.
-
-Note that the bTxCarrier and bRxCarrier bits have been named after their
-RS-232 signal equivalents DSR and DCD.
+This driver has a copy of some of the CDC defines but which are
+currently unused.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- include/uapi/linux/usb/cdc.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/staging/gdm724x/gdm_tty.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/include/uapi/linux/usb/cdc.h b/include/uapi/linux/usb/cdc.h
-index 372c81425cae..78caa9bdc4ae 100644
---- a/include/uapi/linux/usb/cdc.h
-+++ b/include/uapi/linux/usb/cdc.h
-@@ -306,6 +306,15 @@ struct usb_cdc_notification {
- 	__le16	wLength;
- } __attribute__ ((packed));
+diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
+index 04df6f9f5403..cc6d80554c98 100644
+--- a/drivers/staging/gdm724x/gdm_tty.c
++++ b/drivers/staging/gdm724x/gdm_tty.c
+@@ -17,12 +17,6 @@
+ #define GDM_TTY_MAJOR 0
+ #define GDM_TTY_MINOR 32
  
-+/* UART State Bitmap Values from 6.3.5 SerialState */
-+#define USB_CDC_SERIAL_STATE_DCD		(1 << 0)
-+#define USB_CDC_SERIAL_STATE_DSR		(1 << 1)
-+#define USB_CDC_SERIAL_STATE_BREAK		(1 << 2)
-+#define USB_CDC_SERIAL_STATE_RING_SIGNAL	(1 << 3)
-+#define USB_CDC_SERIAL_STATE_FRAMING		(1 << 4)
-+#define USB_CDC_SERIAL_STATE_PARITY		(1 << 5)
-+#define USB_CDC_SERIAL_STATE_OVERRUN		(1 << 6)
-+
- struct usb_cdc_speed_change {
- 	__le32	DLBitRRate;	/* contains the downlink bit rate (IN pipe) */
- 	__le32	ULBitRate;	/* contains the uplink bit rate (OUT pipe) */
+-#define ACM_CTRL_DTR 0x01
+-#define ACM_CTRL_RTS 0x02
+-#define ACM_CTRL_DSR 0x02
+-#define ACM_CTRL_RI  0x08
+-#define ACM_CTRL_DCD 0x01
+-
+ #define WRITE_SIZE 2048
+ 
+ #define MUX_TX_MAX_SIZE 2048
 -- 
 2.35.1
 
