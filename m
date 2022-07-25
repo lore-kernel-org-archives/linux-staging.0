@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F73630
-	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:00:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ABB9C36AF2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F7A626
+	for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31690C385A5;
 	Mon, 25 Jul 2022 08:00:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1658736001;
-	bh=nubT7YyzSn8WkHv349JLvBEMunsHi77aVjSDGDc7v1g=;
+	bh=Sai1lNpDE0Gu+p7BvQNkHpZkKEh/wcOyz6NHIZZokP0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZOfwFpp9tRdA/LNmfLQQDp+aW0/JmHKNUafl/71KHqxxsm4RSp+a+/GY1aonyzqKw
-	 8EDErBXUyTpLFLG09yVWSLjxfZ7k20H3a5KyxcOH93W8XqIqlp928yRwtClbyhDVLv
-	 qUFukJUpnMcod7GF3/tTqlVtpiOI46nnJrfhHQDmZeqXWnuYtqqHaHlTgu3Lr+z0wV
-	 TBWcdki5F8XTYpGWXaEuhSXsqZPaUZzkvxUJfJRQTGhhzvLzH05x5L4YKONcA5dixz
-	 3dbEBqNc9NQaPn1wB5DpAs3mjrDSYzsrqWhtOEw4DSmqFC+tpLyzDPbapmSjU2FAG2
-	 xZnTm39J3sAPw==
+	b=Y9iOoMIJExdRig6gVkcyXV4CIb7Rc4iGUCPDI4Rjx18UuRHM1FCdiNZcZxIswUHFE
+	 pY+I4/7BW2Z8g9XkRaLYLIDjWZFSMpC8eC6kqIkvtDZW7RVN9ci2EWq/mD0R9wZ+s2
+	 vu6HQRGgSjoBsfU7tYZH+jLAsDCxsJk1O4YK0tm+SMcA1TKrRQ94j4KX4MSbdHLrhJ
+	 WmPn6jUF9plVb1Q+3eG6QyUM6wuV6yR4P3mwIWXg832G4cBTuBy8BG9lfczBx12mPJ
+	 A5N0n9qpuOSfkiOKGXHj/Cw04NArk9M0VEDsrZghNnv6sVd0R0kV2IixGM3QeE/fCC
+	 t55U5z5KFfTtQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
 	(envelope-from <johan@kernel.org>)
-	id 1oFt0e-0000K8-5x; Mon, 25 Jul 2022 10:00:12 +0200
+	id 1oFt0e-0000KE-Bi; Mon, 25 Jul 2022 10:00:12 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Oliver Neukum <oneukum@suse.com>,
@@ -27,9 +27,9 @@ Cc: Yan Xinyu <sdlyyxy@bupt.edu.cn>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 4/7] USB: cdc-acm: use CDC serial-state defines
-Date: Mon, 25 Jul 2022 09:58:38 +0200
-Message-Id: <20220725075841.1187-5-johan@kernel.org>
+Subject: [PATCH 6/7] USB: gadget: f_acm: use CDC defines
+Date: Mon, 25 Jul 2022 09:58:40 +0200
+Message-Id: <20220725075841.1187-7-johan@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220725075841.1187-1-johan@kernel.org>
 References: <20220725075841.1187-1-johan@kernel.org>
@@ -41,98 +41,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the new CDC serial-state defines.
+Use the new CDC control-line and serial-state defines.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/class/cdc-acm.c | 24 ++++++++++++------------
- drivers/usb/class/cdc-acm.h | 13 -------------
- 2 files changed, 12 insertions(+), 25 deletions(-)
+ drivers/usb/gadget/function/f_acm.c | 20 +++++---------------
+ 1 file changed, 5 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index e2d80b99e074..352df48469b2 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -311,7 +311,7 @@ static void acm_process_notification(struct acm *acm, unsigned char *buf)
- 		dev_dbg(&acm->control->dev,
- 			"%s - serial state: 0x%x\n", __func__, newctrl);
+diff --git a/drivers/usb/gadget/function/f_acm.c b/drivers/usb/gadget/function/f_acm.c
+index 411eb489e0ff..cb523f118f04 100644
+--- a/drivers/usb/gadget/function/f_acm.c
++++ b/drivers/usb/gadget/function/f_acm.c
+@@ -57,18 +57,8 @@ struct f_acm {
  
--		if (!acm->clocal && (acm->ctrlin & ~newctrl & ACM_CTRL_DCD)) {
-+		if (!acm->clocal && (acm->ctrlin & ~newctrl & USB_CDC_SERIAL_STATE_DCD)) {
- 			dev_dbg(&acm->control->dev,
- 				"%s - calling hangup\n", __func__);
- 			tty_port_tty_hangup(&acm->port, false);
-@@ -322,25 +322,25 @@ static void acm_process_notification(struct acm *acm, unsigned char *buf)
- 		acm->ctrlin = newctrl;
- 		acm->oldcount = acm->iocount;
+ 	/* SetControlLineState request -- CDC 1.1 section 6.2.14 (INPUT) */
+ 	u16				port_handshake_bits;
+-#define ACM_CTRL_RTS	(1 << 1)	/* unused with full duplex */
+-#define ACM_CTRL_DTR	(1 << 0)	/* host is ready for data r/w */
+-
+ 	/* SerialState notification -- CDC 1.1 section 6.3.5 (OUTPUT) */
+ 	u16				serial_state;
+-#define ACM_CTRL_OVERRUN	(1 << 6)
+-#define ACM_CTRL_PARITY		(1 << 5)
+-#define ACM_CTRL_FRAMING	(1 << 4)
+-#define ACM_CTRL_RI		(1 << 3)
+-#define ACM_CTRL_BRK		(1 << 2)
+-#define ACM_CTRL_DSR		(1 << 1)
+-#define ACM_CTRL_DCD		(1 << 0)
+ };
  
--		if (difference & ACM_CTRL_DSR)
-+		if (difference & USB_CDC_SERIAL_STATE_DSR)
- 			acm->iocount.dsr++;
--		if (difference & ACM_CTRL_DCD)
-+		if (difference & USB_CDC_SERIAL_STATE_DCD)
- 			acm->iocount.dcd++;
--		if (newctrl & ACM_CTRL_BRK) {
-+		if (newctrl & USB_CDC_SERIAL_STATE_BREAK) {
- 			acm->iocount.brk++;
- 			tty_insert_flip_char(&acm->port, 0, TTY_BREAK);
- 		}
--		if (newctrl & ACM_CTRL_RI)
-+		if (newctrl & USB_CDC_SERIAL_STATE_RING_SIGNAL)
- 			acm->iocount.rng++;
--		if (newctrl & ACM_CTRL_FRAMING)
-+		if (newctrl & USB_CDC_SERIAL_STATE_FRAMING)
- 			acm->iocount.frame++;
--		if (newctrl & ACM_CTRL_PARITY)
-+		if (newctrl & USB_CDC_SERIAL_STATE_PARITY)
- 			acm->iocount.parity++;
--		if (newctrl & ACM_CTRL_OVERRUN)
-+		if (newctrl & USB_CDC_SERIAL_STATE_OVERRUN)
- 			acm->iocount.overrun++;
- 		spin_unlock_irqrestore(&acm->read_lock, flags);
+ static inline struct f_acm *func_to_acm(struct usb_function *f)
+@@ -387,7 +377,7 @@ static int acm_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
+ 		value = 0;
  
--		if (newctrl & ACM_CTRL_BRK)
-+		if (newctrl & USB_CDC_SERIAL_STATE_BREAK)
- 			tty_flip_buffer_push(&acm->port);
+ 		/* FIXME we should not allow data to flow until the
+-		 * host sets the ACM_CTRL_DTR bit; and when it clears
++		 * host sets the USB_CDC_CTRL_DTR bit; and when it clears
+ 		 * that bit, we should return to that no-flow state.
+ 		 */
+ 		acm->port_handshake_bits = w_value;
+@@ -585,7 +575,7 @@ static void acm_connect(struct gserial *port)
+ {
+ 	struct f_acm		*acm = port_to_acm(port);
  
- 		if (difference)
-@@ -905,9 +905,9 @@ static int acm_tty_tiocmget(struct tty_struct *tty)
- 
- 	return (acm->ctrlout & USB_CDC_CTRL_DTR ? TIOCM_DTR : 0) |
- 	       (acm->ctrlout & USB_CDC_CTRL_RTS ? TIOCM_RTS : 0) |
--	       (acm->ctrlin  & ACM_CTRL_DSR ? TIOCM_DSR : 0) |
--	       (acm->ctrlin  & ACM_CTRL_RI  ? TIOCM_RI  : 0) |
--	       (acm->ctrlin  & ACM_CTRL_DCD ? TIOCM_CD  : 0) |
-+	       (acm->ctrlin  & USB_CDC_SERIAL_STATE_DSR ? TIOCM_DSR : 0) |
-+	       (acm->ctrlin  & USB_CDC_SERIAL_STATE_RING_SIGNAL ? TIOCM_RI : 0) |
-+	       (acm->ctrlin  & USB_CDC_SERIAL_STATE_DCD ? TIOCM_CD : 0) |
- 	       TIOCM_CTS;
+-	acm->serial_state |= ACM_CTRL_DSR | ACM_CTRL_DCD;
++	acm->serial_state |= USB_CDC_SERIAL_STATE_DSR | USB_CDC_SERIAL_STATE_DCD;
+ 	acm_notify_serial_state(acm);
  }
  
-diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
-index da7e8b8aaf28..759ac15631d3 100644
---- a/drivers/usb/class/cdc-acm.h
-+++ b/drivers/usb/class/cdc-acm.h
-@@ -22,19 +22,6 @@
+@@ -593,7 +583,7 @@ static void acm_disconnect(struct gserial *port)
+ {
+ 	struct f_acm		*acm = port_to_acm(port);
  
- #define USB_RT_ACM		(USB_TYPE_CLASS | USB_RECIP_INTERFACE)
+-	acm->serial_state &= ~(ACM_CTRL_DSR | ACM_CTRL_DCD);
++	acm->serial_state &= ~(USB_CDC_SERIAL_STATE_DSR | USB_CDC_SERIAL_STATE_DCD);
+ 	acm_notify_serial_state(acm);
+ }
  
--/*
-- * Input control lines and line errors.
-- */
--
--#define ACM_CTRL_DCD		0x01
--#define ACM_CTRL_DSR		0x02
--#define ACM_CTRL_BRK		0x04
--#define ACM_CTRL_RI		0x08
--
--#define ACM_CTRL_FRAMING	0x10
--#define ACM_CTRL_PARITY		0x20
--#define ACM_CTRL_OVERRUN	0x40
--
- /*
-  * Internal driver structures.
-  */
+@@ -603,9 +593,9 @@ static int acm_send_break(struct gserial *port, int duration)
+ 	u16			state;
+ 
+ 	state = acm->serial_state;
+-	state &= ~ACM_CTRL_BRK;
++	state &= ~USB_CDC_SERIAL_STATE_BREAK;
+ 	if (duration)
+-		state |= ACM_CTRL_BRK;
++		state |= USB_CDC_SERIAL_STATE_BREAK;
+ 
+ 	acm->serial_state = state;
+ 	return acm_notify_serial_state(acm);
 -- 
 2.35.1
 
