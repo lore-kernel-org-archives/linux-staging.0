@@ -1,44 +1,21 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419AD620
-	for <linux-staging@lists.linux.dev>; Tue, 26 Jul 2022 05:09:53 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id m8so16353731edd.9
-        for <linux-staging@lists.linux.dev>; Mon, 25 Jul 2022 22:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/vrj0ZAYlkRkM3MR6rLnbZa6ZHZq3DoeX+4DGlYxSVE=;
-        b=g7veB7jCo2DHD87qhWivYptJhK6fkYeCcaa66xSo4oC/h3QzVguKeZZ2es6FFsRG+x
-         XHmRgRvYl1S+wWU+Q8UHKqkP9FFlNWoRovr/+uQ0pp1Uq2Dao91iRa+4nBs3yYAQ8Kpy
-         fZ/CoDeWhasTzE+JHpvBW5qB09lyx9q90b5JRmVsAYQdVoHv405xUdJ/9urp68Kx0nv7
-         kr+5gYrV+r2HT3TqQByNP+w+UcxOY5GaSzAG+xOBtwOAQCuBRATbN7wI9NWKIgaU06Mf
-         2pj+w1TaE9fzFMoHKj6pk5i+bHyXZ+f8WuCESVNnOMWOyVNlDGHwmMrz4CFwkBosOzn0
-         EwAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/vrj0ZAYlkRkM3MR6rLnbZa6ZHZq3DoeX+4DGlYxSVE=;
-        b=M4GHJLFSSbPziuQNT+KYLqH6nj8CGMkQ1gkQCEfYk4gJP9tWn7gcyvReOMINBQSPuf
-         2cV4DywEeHmFYuDyaM0x7KtGji0JkEq7muWTovZVDPyAvGnnxtGW47B8pvNaCd8mU0yi
-         n2b9eMRPdj01J6c3XKrxEuiBR0LBJ3gRb51E//fsRY7H4yurwTmEOywxzD2nbpVsFMEk
-         gPcw3MEOyjNtSx0z92m0+D3G2DxPYkmIpj4YFJKUI1Y1cOJ4P9Bg2F6gTRDfqxFJRwcZ
-         TxNReLvIr4v/sWJdTH0ibDDa9rP9/m92fR6MqkrWnIP/apyyyQWq/J55JZ/dpB3lSmxi
-         nuxQ==
-X-Gm-Message-State: AJIora8D1wJrCD8D0tR8hKGXGSszrws2vsLAtuEZJvXcyKp6ZarVhkdo
-	zCN3y4yamKGXJ4WNpScsuOU=
-X-Google-Smtp-Source: AGRyM1vVdnGR1eT1h/4wVbxvmVfKlY68pxk8soBgzwxC/QBpW0t/fg5kFNLUGpOrLQ/4v/S0ZQkIkQ==
-X-Received: by 2002:a05:6402:5001:b0:437:8918:8dbe with SMTP id p1-20020a056402500100b0043789188dbemr16697170eda.70.1658812191390;
-        Mon, 25 Jul 2022 22:09:51 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id u18-20020a056402111200b0043bb892a86csm7938819edv.69.2022.07.25.22.09.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Jul 2022 22:09:51 -0700 (PDT)
-Message-ID: <13992777-97c4-2b1b-99dc-876bec9a6dde@gmail.com>
-Date: Tue, 26 Jul 2022 07:09:49 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1B97E0
+	for <linux-staging@lists.linux.dev>; Tue, 26 Jul 2022 07:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1658820190;
+	bh=87Dwh7067qd7DtPJ/NTAN/t/IaMuPuUKPEZAEiBlBAo=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=kP/NQsiROB70ArzFE552x2oNxBc80FiKCiR+cIXDKc0GMYc2GlKwxTkUPjfVlIQjn
+	 buHKK7Ozk1vyq35A+LZ5DvKamw7dsEaX8Nfi2lsJSQv0dfHFrWEb7kKCSEbXrl+cuo
+	 BpiYh/auhun04r+Dzsi0e5DpuNwuS2FV923oQ124=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.186.181]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MCbEp-1oOFOn1WZn-009hWr; Tue, 26
+ Jul 2022 09:23:10 +0200
+Message-ID: <4b3e4d1b-e219-1ecc-5dd3-d693c69f6124@gmx.de>
+Date: Tue, 26 Jul 2022 09:22:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,175 +24,106 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2] staging: r8188eu: convert rtw_pwr_wakeup to correct
- error code semantics
+Subject: Re: [PATCH] fbdev: Make registered_fb[] private to fbmem.c
 Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org,
- dan.carpenter@oracle.com
-Cc: Larry.Finger@lwfinger.net, paskripkin@gmail.com, straube.linux@gmail.com,
- martin@kaiser.cx, abdun.nihaal@gmail.com, linux-staging@lists.linux.dev,
+To: Javier Martinez Canillas <javierm@redhat.com>,
  linux-kernel@vger.kernel.org
-References: <20220725220745.12739-1-phil@philpotter.co.uk>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220725220745.12739-1-phil@philpotter.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: linux-staging@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org
+References: <20220725075400.68478-1-javierm@redhat.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20220725075400.68478-1-javierm@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:akojF7SaFix7y2EiczH+UV96lavMDM7AZJsP+iaDgbQEG+V+i2q
+ AHp5GhXCKXNYNDOCssfMAC/zfYNxRCCJshEriwFrLnGyA1Y6pwwtSwNag0vDCVz4l90tkVW
+ DIiFJN86HihlvrTwFG4ohFYO7eklHfRT3PRulwLXOdHR0cKitqTH/XJOidG4mMQ2ZIdaVip
+ Qb52HfSj5m1KZaPuL+4Mw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2epUbeCrlb4=:nJ4/GE1ohg6n44gxvvA1g0
+ 9tcYvqxfX29++V5TPhldux6wE+5RdakqeysnSOxwvJtU3QsfOiPWnuBaTfZHFB2e6XDI+62yX
+ Nz83sJk6qIPwxUFOPONNz62ypPSCcY0rjf82hjb9Hi2Lwi85RE/Wv8KDJ3LCi9TZKxrOOLM6x
+ q+0Fuy3DBSUKYuB0H+alZufFJ4j9+65ZpF4aOYW/hoMPFFTBOIw0Xxr1IeTidvFollcEnQbpF
+ +XfC3CGTqdf8bJwlRC6jN+hBcc7B1hgFvn25YROveAwOV/g5GveJS1Z/O4KvGV/iCcoqgsrNM
+ fCRA6jQToPDoNE8T4SQV+5vmc5jalrSX83t4zGpWJcZPQPD2KWlGjs1bwLozn0sQuFfvLOKaN
+ 1gNdrbYTNgLXnVUAKgvVSCF2xgDAoBsg/lM3MWfDou6DtlNcL9hCY6hS8gHKrlB4Mi1eS5Hqi
+ Y2sod2IRPNdEAofC/+7dApmBcSJwAG49Lft5z+At3tVmHld2z3+b2dU9yMk1bOt81R5SmngJ6
+ mwH9FdhZ5bpEr+dH3pqPGNEtiPgP6EOh/jFkUB2wCZPiiQuYpjJ6Px9/s32f0mDRLaZBb9zGc
+ I6MQdYh6nJL83crGe3gAUjbVPzzGxuqRwhLI7zSXdl+eTi8iDnnYXpH7XEduENG7QxoMOiBcK
+ +6R+9C0uYujlTGYfXL1EehIwPQlWmwlj74S8lWa8LysB0fc4qzdA0OT+iJtJwKNST/iI6ua5u
+ 5O4GRigAerQA11xXo4LUlVxuJGyKHUwW8YNM+4/TfHCfJ8pV4A3s/znEd2WDuP9ex4mMnV8vw
+ EzJWkCF4ZlgOTcdqREApz5ZP1jbgnHPGsQ69+W7P9ur/r5G6PrUmeCRGC+o4vRU61t59jySXd
+ U25SRnofD0CgrpZbbw3x8JBb7sDbu5kUTFX9IxjfJ0rh1B0cOuNVBe+oyh8cRAKoBxNN3rVik
+ hDwE6VpFYPlsHH3CwY5RHmurfpyIG9SlHBs18HCeIBzkReUl2/KrEt1geR+BgTxUl1QIo5l9P
+ Nqi5mil5Kv6r+pYpXO/lxteBQMq4F4PQyPdzB5kBHYyN23nVpXw7P6kWDWranPh6v94XYpcAK
+ cH4e6S9KuZae9P7D9d5AkDswbDqf+s2iP0IegQL/JOeQhdkk0zT83Vv8Q==
 
-On 7/26/22 00:07, Phillip Potter wrote:
-> Convert the rtw_pwr_wakeup function to use 0 on success and an appropriate
-> error code on error. For the first failure block where ips_leave is
-> invoked, use -ENOMEM as this is the main cause of failure here anyway.
-> For the second failure block, use -EBUSY, as it seems the most
-> appropriate.
-> 
-> Finally, within the functions rtw_wx_set_mode, rtw_wx_set_wap,
-> rtw_wx_set_scan and rtw_wx_set_essid, pass the error code on from
-> rtw_pwr_wakeup as appropriate now that it is converted.
-> 
-> This gets the driver closer to removal of the non-standard _SUCCESS and
-> _FAIL definitions, which are inverted compared to the standard in-kernel
-> error code mechanism.
-> 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
-> 
-> Changes from V1: Act on feedback from Dan Carpenter:
-> * Try to use more appropriate error codes than -EPERM.
-> * Revert the places where existing -1 was converted as they are out of
->    scope.
-> * Preserve error codes in places where calling function already uses
->    proper negative semantics, so that they can be passed through to the
->    caller.
-> 
-> ---
->   drivers/staging/r8188eu/core/rtw_p2p.c       |  4 ++--
->   drivers/staging/r8188eu/core/rtw_pwrctrl.c   | 10 ++++----
->   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 24 +++++++-------------
->   3 files changed, 15 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-> index c306aafa183b..bd654d4ff8b4 100644
-> --- a/drivers/staging/r8188eu/core/rtw_p2p.c
-> +++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-> @@ -1888,7 +1888,7 @@ int rtw_p2p_enable(struct adapter *padapter, enum P2P_ROLE role)
->   
->   	if (role == P2P_ROLE_DEVICE || role == P2P_ROLE_CLIENT || role == P2P_ROLE_GO) {
->   		/* leave IPS/Autosuspend */
-> -		if (rtw_pwr_wakeup(padapter) == _FAIL) {
-> +		if (rtw_pwr_wakeup(padapter)) {
->   			ret = _FAIL;
->   			goto exit;
->   		}
-> @@ -1902,7 +1902,7 @@ int rtw_p2p_enable(struct adapter *padapter, enum P2P_ROLE role)
->   		init_wifidirect_info(padapter, role);
->   
->   	} else if (role == P2P_ROLE_DISABLE) {
-> -		if (rtw_pwr_wakeup(padapter) == _FAIL) {
-> +		if (rtw_pwr_wakeup(padapter)) {
->   			ret = _FAIL;
->   			goto exit;
->   		}
-> diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> index cf9020a73933..8b1c50668dfe 100644
-> --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> @@ -381,24 +381,24 @@ int rtw_pwr_wakeup(struct adapter *padapter)
->   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
->   	unsigned long timeout = jiffies + msecs_to_jiffies(3000);
->   	unsigned long deny_time;
-> -	int ret = _SUCCESS;
-> +	int ret = 0;
->   
->   	while (pwrpriv->ps_processing && time_before(jiffies, timeout))
->   		msleep(10);
->   
->   	/* I think this should be check in IPS, LPS, autosuspend functions... */
->   	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
-> -		ret = _SUCCESS;
-> +		ret = 0;
->   		goto exit;
->   	}
->   
->   	if (pwrpriv->rf_pwrstate == rf_off && ips_leave(padapter) == _FAIL) {
-> -		ret = _FAIL;
-> +		ret = -ENOMEM;
->   		goto exit;
->   	}
->   
->   	if (padapter->bDriverStopped || !padapter->bup || !padapter->hw_init_completed) {
-> -		ret = _FAIL;
-> +		ret = -EBUSY;
->   		goto exit;
->   	}
->   
-> @@ -439,7 +439,7 @@ int rtw_pm_set_ips(struct adapter *padapter, u8 mode)
->   		return 0;
->   	} else if (mode == IPS_NONE) {
->   		rtw_ips_mode_req(pwrctrlpriv, mode);
-> -		if ((padapter->bSurpriseRemoved == 0) && (rtw_pwr_wakeup(padapter) == _FAIL))
-> +		if ((padapter->bSurpriseRemoved == 0) && rtw_pwr_wakeup(padapter))
->   			return -EFAULT;
->   	} else {
->   		return -EINVAL;
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 930bb4aea435..7f91dac2e41b 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -687,12 +687,9 @@ static int rtw_wx_set_mode(struct net_device *dev, struct iw_request_info *a,
->   	enum ndis_802_11_network_infra networkType;
->   	int ret = 0;
->   
-> -
-> -
-> -	if (_FAIL == rtw_pwr_wakeup(padapter)) {
-> -		ret = -EPERM;
-> +	ret = rtw_pwr_wakeup(padapter);
-> +	if (ret)
->   		goto exit;
-> -	}
->   
->   	if (!padapter->hw_init_completed) {
->   		ret = -EPERM;
-> @@ -931,12 +928,9 @@ static int rtw_wx_set_wap(struct net_device *dev,
->   	struct	wlan_network	*pnetwork = NULL;
->   	enum ndis_802_11_auth_mode	authmode;
->   
-> -
-> -
-> -	if (_FAIL == rtw_pwr_wakeup(padapter)) {
-> -		ret = -1;
-> +	ret = rtw_pwr_wakeup(padapter);
-> +	if (ret)
->   		goto exit;
-> -	}
->   
->   	if (!padapter->bup) {
->   		ret = -1;
-> @@ -1049,10 +1043,9 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
->   	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
->   	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
->   
-> -	if (_FAIL == rtw_pwr_wakeup(padapter)) {
-> -		ret = -1;
-> +	ret = rtw_pwr_wakeup(padapter);
-> +	if (ret)
->   		goto exit;
-> -	}
->   
->   	if (padapter->bDriverStopped) {
->   		ret = -1;
-> @@ -1252,10 +1245,9 @@ static int rtw_wx_set_essid(struct net_device *dev,
->   
->   	uint ret = 0, len;
->   
-> -	if (_FAIL == rtw_pwr_wakeup(padapter)) {
-> -		ret = -1;
-> +	ret = rtw_pwr_wakeup(padapter);
-> +	if (ret)
->   		goto exit;
-> -	}
->   
->   	if (!padapter->bup) {
->   		ret = -1;
+On 7/25/22 09:54, Javier Martinez Canillas wrote:
+> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> No driver access this anymore, except for the olpc dcon fbdev driver but
+> that has been marked as broken anyways by commit de0952f267ff ("staging:
+> olpc_dcon: mark driver as broken").
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+I've applied it to the fbdev git tree.
+
+Thanks!
+Helge
+
+> ---
+>
+>  drivers/video/fbdev/core/fbmem.c | 6 +++---
+>  include/linux/fb.h               | 6 ------
+>  2 files changed, 3 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core=
+/fbmem.c
+> index 6ae1c5fa19f9..1e70d8c67653 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -51,10 +51,10 @@
+>  static DEFINE_MUTEX(registration_lock);
+>
+>  struct fb_info *registered_fb[FB_MAX] __read_mostly;
+> -EXPORT_SYMBOL(registered_fb);
+> -
+>  int num_registered_fb __read_mostly;
+> -EXPORT_SYMBOL(num_registered_fb);
+> +#define for_each_registered_fb(i)		\
+> +	for (i =3D 0; i < FB_MAX; i++)		\
+> +		if (!registered_fb[i]) {} else
+>
+>  bool fb_center_logo __read_mostly;
+>
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index 453c3b2b6b8e..0aff76bcbb00 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -627,16 +627,10 @@ extern int fb_get_color_depth(struct fb_var_screen=
+info *var,
+>  extern int fb_get_options(const char *name, char **option);
+>  extern int fb_new_modelist(struct fb_info *info);
+>
+> -extern struct fb_info *registered_fb[FB_MAX];
+> -extern int num_registered_fb;
+>  extern bool fb_center_logo;
+>  extern int fb_logo_count;
+>  extern struct class *fb_class;
+>
+> -#define for_each_registered_fb(i)		\
+> -	for (i =3D 0; i < FB_MAX; i++)		\
+> -		if (!registered_fb[i]) {} else
+> -
+>  static inline void lock_fb_info(struct fb_info *info)
+>  {
+>  	mutex_lock(&info->lock);
+
