@@ -1,18 +1,18 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787F1A3D
-	for <linux-staging@lists.linux.dev>; Wed, 27 Jul 2022 06:35:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D04AC433C1;
-	Wed, 27 Jul 2022 06:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC0BA3D
+	for <linux-staging@lists.linux.dev>; Wed, 27 Jul 2022 06:37:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C7DAC433D6;
+	Wed, 27 Jul 2022 06:37:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1658903753;
-	bh=+rU/ef0qw0LJcL86d8Nur1scEUCC8Ns9bMWxg7XWaLg=;
+	s=korg; t=1658903838;
+	bh=Jnh3dRfpX0ZXk1XE00ChFXhymlExtP+glmxZcPnpX2c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h93tm6Exu6eVlxGRpWlpecKC20tiZIn6mGezo2lQLrLLtsuBp/wtwz4MHOGyAFcBB
-	 9H245Q0KXtOfYewYkli+K0VG80EhJlhu3ErrhP7NzKefmYiViUNGSSy8VySc10K1Lc
-	 KkSBtYf7BNtm3c+cdGVLtRTEw63QL9bvcdhYOObM=
-Date: Wed, 27 Jul 2022 08:35:50 +0200
+	b=PyF6gq+u4FOrLT4D8ywKtqtLxaluf/x9Pou3/YPBrdZh4yVsv9jtRsbW1u5bUt0jS
+	 Fkm5V1Pyx9ITzivx26hVqI4ak10WXWxNiNqsPOhW3WjPglOfcza5upNFS9MJicZJwJ
+	 KOLjsCXH8xqwe7Nt1ZFrWJM0CjL4PrVEgQ/jNkfY=
+Date: Wed, 27 Jul 2022 08:37:16 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Tong Zhang <ztong0001@gmail.com>
 Cc: Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>,
@@ -23,11 +23,11 @@ Cc: Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>,
 	linux-staging@lists.linux.dev,
 	Dan Carpenter <dan.carpenter@oracle.com>
 Subject: Re: [PATCH v2 2/3] staging: rtl8192u: move debug files to debugfs
-Message-ID: <YuDcxgcD5KkeV4Tx@kroah.com>
+Message-ID: <YuDdHMaB6jWARQzA@kroah.com>
 References: <20220718120149.GD2338@kadam>
  <20220719055047.322355-3-ztong0001@gmail.com>
  <YtalnN70xXy3PNNN@kroah.com>
- <CAA5qM4B9p05KLFhsmcbYud65dUHPXqETc7rFqer0pNLjH_mJpA@mail.gmail.com>
+ <CAA5qM4A7-hCf8hZq4M8O5havY29PYqym1_TNrWJvcc-LWbLnmA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,9 +36,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA5qM4B9p05KLFhsmcbYud65dUHPXqETc7rFqer0pNLjH_mJpA@mail.gmail.com>
+In-Reply-To: <CAA5qM4A7-hCf8hZq4M8O5havY29PYqym1_TNrWJvcc-LWbLnmA@mail.gmail.com>
 
-On Tue, Jul 19, 2022 at 09:58:24PM -0700, Tong Zhang wrote:
+On Tue, Jul 19, 2022 at 11:30:48PM -0700, Tong Zhang wrote:
 > On Tue, Jul 19, 2022 at 5:53 AM Greg Kroah-Hartman
 > <gregkh@linuxfoundation.org> wrote:
 > >
@@ -63,46 +63,38 @@ On Tue, Jul 19, 2022 at 09:58:24PM -0700, Tong Zhang wrote:
 > > Why do you need to save this dentry?  Can't you just look it up when you
 > > want to remove the files?
 > >
+> > > +void rtl8192_debugfs_init(struct net_device *dev)
+> > >  {
+> > > -     struct proc_dir_entry *dir;
+> > > +     struct dentry *dir;
+> > > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
+> >
+> > No need to cast this.  Same for later on in this file.
+> >
+> > > -     if (!rtl8192_proc)
+> > > +     dir = debugfs_create_dir(dev->name, NULL);
+> > > +     if (IS_ERR(dir))
+> > >               return;
+> >
 > 
-> Hi Greg,
-> Thanks for the comments.
-> 
-> I am thinking whether it is possible to rename the device and run
-> rmmod to remove something it shouldn't.
-> If we are using debugfs_lookup(dev->name, NULL), say, the existing
-> directories/files are
-> 
->   /sys/kernel/debug/DIRA
->   /sys/kernel/debug/wlan0
+> I'm reading this code and your comment again.
+> Adding this check will avoid calling into debugfs_create_file() and 4
+> function calls and doing checks from there, probably will save a
+> couple of CPU cycles and avoid branch prediction penalty if there is
+> any.
+> I don't think the compiler can optimize for this case though it's not
+> performance critical. Anyho I personally feel it is better to keep
+> this.
 
-Ick, wait, that's not good.  We need a driver subdirectory name in there
-so that this driver doesn't stomp over some other driver that might be
-doing the same foolish thing and using the root of debugfs.
+It's not an optimization issue, it's a "we never care about the results
+of a call to debugfs_*() issue".
 
-> I then rename device wlan0 to DIRA, after that I remove the module by
-> doing rmmod.
-> Apparently either the wlan0 directory will not be renamed successfully
-> due to collision or DIRA directory might be overwritten? (this part I
-> haven't checked yet)
-> Either Way,  later on if we do rmmod, the driver will try to do
-> debugfs_lookup("fileA", NULL) and remove /sys/kernel/debug/DIRA which
-> it shouldn't.
-> Or if it is possible to rename the device to some wacky string
-> containing wildcard or .. to launch an attack.
-> 
-> Maybe I am being naive but please correct me if I am wrong.
-> 
-> Or maybe we should put those debug files under the module's own
-> directory and do lookup from there instead. like the following dir
-> structure
-> 
-> /sys/kernel/debug/r8192u_usb/wlan0/stats-rx
-> /sys/kernel/debug/r8192u_usb/wlan0/stats-rx
-> /sys/kernel/debug/r8192u_usb/wlan0/stats-ap
-> /sys/kernel/debug/r8192u_usb/wlan0/registers
+That's all, debugfs is intended to be easy to use, and you should never
+care about the return values of if it worked or not, so your code should
+not check it and do anything different based on it.
 
-Yes, that would be much much better.  That way you "know" you can look
-up the name again correctly.
+Yes, it's not like "normal" kernel code, but debugfs is not normal at
+all, and should never expect to work as it's only for debugging.
 
 thanks,
 
