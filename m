@@ -1,24 +1,48 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660C010F6
-	for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 05:25:30 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1oGw1L-0003jm-L2; Thu, 28 Jul 2022 07:25:15 +0200
-Date: Thu, 28 Jul 2022 07:25:15 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35DE10F6
+	for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 05:59:30 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id sz17so1325275ejc.9
+        for <linux-staging@lists.linux.dev>; Wed, 27 Jul 2022 22:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=qwj55DDSOy6+Qm8DQ0l9gecTgOsx8eBbhcnPeMNmnks=;
+        b=iIeVoA/yqmwYT62l3a4EmTNLnYNVJvfJsZoHyxzZ05dg5y1rCgk7DwtRfkxr/O6VdX
+         hfesSR+l5hUBs1CXIg/d/5mxrth6ksw1zcm3pjoqTf58eolO/yrdcE1scR48RlBgoYy1
+         3nGUwzNs7fL5DDhmaV6hEuBDlUrFWxPrjomClwer2lcXfmekDvbW8QYj+3h5oaNYQCWG
+         M04kK0gHEhlrJTIXXnyGuVxrWbh2O+YC3yuWy9gegTqk/+ee+0LWbVQgq7zNgLGamd8z
+         Fq3oda5xZ2N8h6kP51DT3V0JRuM8rhA03xQ3Wt/SU/w0QB78WrD8RzddkJ1TuEcYKAyE
+         amaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=qwj55DDSOy6+Qm8DQ0l9gecTgOsx8eBbhcnPeMNmnks=;
+        b=ieTWtSX1ffKCV1/leMA8PriceJveuo+SPqMiIWZaWtCKIU+MwMWGh2nr1q1Q7/4FtX
+         v57IPpBwFpNItoNY21GpR6OblT505s4jAws1Zasvant4nIMEtohUT3qPqRFoYGustQl0
+         fTngEIK05KHXiJDa1aoCf9IUE4UlTgcrYfX5Ker1lH4p+C07fRrGJgmKpzDXUF80TWiX
+         YSqEAwfOeCidHW43lIg3vvQNIS8SdvWqgoGkwAikDK1zTIQ4qqyJRRnCtE3ldSgHdQsn
+         vYjV6qpCLixuy2PzUo8tuGPfuWbHAtA3aFSXBWnzsyMIhcmkNwKXQ1NoT+ym0rYmOcnh
+         raJA==
+X-Gm-Message-State: AJIora8q8AI4zFTok8/DeIm3lj0LRyGihYtw3SgPJUxUatPCzn1G8TR6
+	JuGqkvOjQraxkQfWTpsZBsw=
+X-Google-Smtp-Source: AGRyM1u1BJqIUwBCFbMb+oovECm8I7jIzRf4TkNjVfBVDRq/Y+nUDkH4IJv7BcLj/xOQ3QJkc/p+2A==
+X-Received: by 2002:a17:907:9810:b0:72f:36e5:266c with SMTP id ji16-20020a170907981000b0072f36e5266cmr19897983ejc.105.1658987969125;
+        Wed, 27 Jul 2022 22:59:29 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
+        by smtp.gmail.com with ESMTPSA id k10-20020a05640212ca00b0043a7c24a669sm71927edx.91.2022.07.27.22.59.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 22:59:28 -0700 (PDT)
+Date: Thu, 28 Jul 2022 07:59:18 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] staging: r8188eu: get da from ieee80211_mgmt
-Message-ID: <20220728052515.tmzztbha2ckwusd2@viti.kaiser.cx>
-References: <20220724153917.138848-1-martin@kaiser.cx>
- <20220724153917.138848-2-martin@kaiser.cx>
- <YuDeo4qHOqDkdZy9@kroah.com>
+Subject: [PATCH v2 0/2] staging: vt6655: Convert multiline macro to static
+ function
+Message-ID: <cover.1658986804.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,41 +51,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YuDeo4qHOqDkdZy9@kroah.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-Thus wrote Greg Kroah-Hartman (gregkh@linuxfoundation.org):
+Convert multiline macro to static function.
+Multiline macros are not liked by kernel community.
 
-> On Sun, Jul 24, 2022 at 05:39:13PM +0200, Martin Kaiser wrote:
-> > Define a struct ieee80211_mgmt in the OnAssocRsp function. Read the
-> > destination address (da) from this struct.
+Tested with vt6655 on mini PCI Module
+Transferred this patch over wlan connection of vt6655
 
-> This explains (sortta) what this patch does, but not why you are doing
-> this.
+V1 -> V2: Combined patch "Rename byOrgValue to reg_value in a macro" with
+          patch "Convert macro vt6655_mac_clear_stck_ds to function"
+          Improved to early line breaks in patch descriptions
+          Removed function declaration of vt6655_mac_clear_stck_ds
+          Changed variable declaration in vt6655_mac_clear_stck_ds
 
-There's a bunch of macros and functions in the r8188eu driver to parse
-standard messages. I'm trying to replace these driver-specific versions
-with the generic ones that are shared between several drivers.
+Philipp Hortmann (2):
+  staging: vt6655: Rename MACvClearStckDS
+  staging: vt6655: Convert macro vt6655_mac_clear_stck_ds to function
 
-This patch removs one get_da call. It's not much but hopefully, we can
-eventually remove get_da itself.
+ drivers/staging/vt6655/mac.c | 11 ++++++++++-
+ drivers/staging/vt6655/mac.h |  8 --------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-I know that we should leave the parsing of messages to mac80211 and get
-rid of OnAssocRsp etc. Until we're at this point, I hope that doing the
-parsing ourselves and using the generic helpers is a useful intermediate
-step.
+-- 
+2.37.1
 
-Would it make sense to rewrite the patch description or to summarize the
-patches in this series to something like "read some response message
-fields from struct ieee80211_mgmt"?
-
-Thanks,
-Martin
-
-> To me this looks like a step backwards, why is this change needed at
-> all?
-
-> thanks,
-
-> greg k-h
