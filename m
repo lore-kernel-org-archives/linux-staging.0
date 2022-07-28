@@ -1,29 +1,24 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E727A
-	for <linux-staging@lists.linux.dev>; Wed, 27 Jul 2022 16:06:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA9D9C433C1;
-	Wed, 27 Jul 2022 16:06:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1658937966;
-	bh=R2p0of76K8a2ZHcxkNUvLgEJAOqcDlPPdWFYl5pfpn4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n+tfQY0Je0Ydf+R9oOH9HgmZYYW5++5a6jmKQ/bX/yFvQ9opacM49gpQj9VVkHMBs
-	 Bb5GQTfbi3UwefOKBhzmOMc76Qxuc10xCc2XQAWRhm3LQ6HjIer5SI4x5ERU6iWk3d
-	 VZyWC1XSPzBh9bSa54RabWnPEzlo8f8jLNJB/lHc=
-Date: Wed, 27 Jul 2022 18:06:03 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] staging: vt6655: Rename byOrgValue to reg_value in a
- macro
-Message-ID: <YuFia1Z7tJrxbIwQ@kroah.com>
-References: <cover.1658333350.git.philipp.g.hortmann@gmail.com>
- <83920d919acd7596488943182f37132e479d70f4.1658333350.git.philipp.g.hortmann@gmail.com>
- <YuDfjwHJN6n/CZ4i@kroah.com>
- <4d1e2294-a3b7-972b-f021-cecee8779f1b@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660C010F6
+	for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 05:25:30 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1oGw1L-0003jm-L2; Thu, 28 Jul 2022 07:25:15 +0200
+Date: Thu, 28 Jul 2022 07:25:15 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] staging: r8188eu: get da from ieee80211_mgmt
+Message-ID: <20220728052515.tmzztbha2ckwusd2@viti.kaiser.cx>
+References: <20220724153917.138848-1-martin@kaiser.cx>
+ <20220724153917.138848-2-martin@kaiser.cx>
+ <YuDeo4qHOqDkdZy9@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,30 +27,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4d1e2294-a3b7-972b-f021-cecee8779f1b@gmail.com>
+In-Reply-To: <YuDeo4qHOqDkdZy9@kroah.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-On Wed, Jul 27, 2022 at 05:54:04PM +0200, Philipp Hortmann wrote:
-> On 7/27/22 08:47, Greg Kroah-Hartman wrote:
-> > On Wed, Jul 20, 2022 at 06:24:32PM +0200, Philipp Hortmann wrote:
-> > > Fix name of a variable in a macro that uses CamelCase which is not
-> > > accepted by checkpatch.pl
-> > 
-> > Why rename something you are about to delete in a later patch?
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> I need to rename this variable. Does it matter if I do it in first or last
-> patch? When doing it first I do not have to review so much checkpatch
-> warnings.
-> 
-> Or is it OK to convert the macro to a function and rename the variable in
-> one patch?
+Thus wrote Greg Kroah-Hartman (gregkh@linuxfoundation.org):
 
-Convert and rename at the same time, that makes it easier and simpler
-overall.
+> On Sun, Jul 24, 2022 at 05:39:13PM +0200, Martin Kaiser wrote:
+> > Define a struct ieee80211_mgmt in the OnAssocRsp function. Read the
+> > destination address (da) from this struct.
 
-thanks,
+> This explains (sortta) what this patch does, but not why you are doing
+> this.
 
-greg k-h
+There's a bunch of macros and functions in the r8188eu driver to parse
+standard messages. I'm trying to replace these driver-specific versions
+with the generic ones that are shared between several drivers.
+
+This patch removs one get_da call. It's not much but hopefully, we can
+eventually remove get_da itself.
+
+I know that we should leave the parsing of messages to mac80211 and get
+rid of OnAssocRsp etc. Until we're at this point, I hope that doing the
+parsing ourselves and using the generic helpers is a useful intermediate
+step.
+
+Would it make sense to rewrite the patch description or to summarize the
+patches in this series to something like "read some response message
+fields from struct ieee80211_mgmt"?
+
+Thanks,
+Martin
+
+> To me this looks like a step backwards, why is this change needed at
+> all?
+
+> thanks,
+
+> greg k-h
