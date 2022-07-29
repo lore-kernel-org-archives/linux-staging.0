@@ -1,158 +1,132 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3CF7A
-	for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 23:12:02 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id k8so1868452wrd.5
-        for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 16:12:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1667A
+	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 03:51:30 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-3238de26fb1so20649317b3.8
+        for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 20:51:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iOMs7BLkqwBB1UyXezQZ04RHJK4IHCUkM0ubSij7BbY=;
-        b=TvgWxQ1YU4CH0+n1gsKJEid55d9jKIcmFtMQOw0CZFaHfwluaTrU+wGzMpSwJo2fdO
-         JpKRA8uvvt5OAJt/ocPjjpo19sfI3aFcSrN0SBWMLeR951R1yh67AzlzTC62HI3WtPlJ
-         zWfGmw7s3Q+D4Y+fDQpO4mWBW4TCG80pXnF2Dqs2Xlg+0cGDedBUs5qC6oSwuV0ZGtrT
-         dJqHSXbF+wOy3WDYisoHFmTipvNOrOxJACnGPfDSgjAZOQz5swY8NVyf7oXWEZSsth4n
-         SqznWV5UJZBkf6EqyaSSLvbKBtSMEYlqbIeWoU93f7WAZe+ATFd2bu7+8IIRV9uefqCS
-         wbcw==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bhvxyYsWTQqC9Gm8wP/8rb/nF1GRUx4/FKdDJYpHwI8=;
+        b=QJC6TIISriSHw4s3GOGwdFqx4V/oFS6/BrSJWZuFqOAYgAx+XjxP+W3NZd+FwwWZDI
+         62NUM0HZZfkMzeyO9q1ELu97xCZB6D8Je9HPvq7JJlhuMq7qM+6GzM2A/jsdu13UV+H7
+         bfl7S5YQTOIkC3/I/DKm1aZsqH6DvqMxBb2aMotvXv010MxUMYKGkb57MHRgb+v5+smc
+         QXsTX2ZdO3rjzpoNP7HR7GlnU7PSkhWL64s/D8NjedPVyEJbNSY7g0sZopwK8basGg/h
+         n9QM/A7tPVpeRDu7VYL/6GSu9vWoHIhWubfPVuE8OCF1r+hibOZOoXvuHwVMLEDfzwuK
+         40LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iOMs7BLkqwBB1UyXezQZ04RHJK4IHCUkM0ubSij7BbY=;
-        b=PDo0ckEuPKfJo6JUsSO6yK9keSHPH9LUbMFxEZ8Gd5qqXYTcPdl9QJr3tT9rO9z1XZ
-         X3lRf+hErDsHDAQVyqTWVAntCrW+zvF9pmtqzr/SiWham/43YVXgSTNSCnRTA3vdO3yf
-         yyQJy4D6plMzff1tXMfYFzOqUGmGkEJoMtImHPXJD2lKfz/9ChkZ2vRuSyVVo4H5aNex
-         e2KaMzGrR3SgZlvL+/nTQbDWVOfWwXRv8Jtwhhx4z6qSS2BMxBL7MJlHwNvD+OqGVDn4
-         qjhCaGeHN27P4ziZ6eERA8He7EPrGQSJi9zcueLGpmDgu04Qf5lmrstIIOwB7ik5b8Mq
-         Kd6A==
-X-Gm-Message-State: ACgBeo3jNDamWzi4FD+Ii7bc8i7HF/5U30VO9NeOQT1aqem0ODNxeqH2
-	diIbByM1eZhWatEb5z05DNbNZw==
-X-Google-Smtp-Source: AA6agR6BuhN5Yz1o0mDQQ2XeVvUQLLBpBJKf9VdtE9hzY5hN+7oicLyfoD+qYRPAxwy8Ry9O0rHoDw==
-X-Received: by 2002:a05:6000:80b:b0:21e:d62e:b282 with SMTP id bt11-20020a056000080b00b0021ed62eb282mr614545wrb.557.1659049920763;
-        Thu, 28 Jul 2022 16:12:00 -0700 (PDT)
-Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
-        by smtp.gmail.com with ESMTPSA id m20-20020a056000181400b0021e571a99d5sm2089419wrh.17.2022.07.28.16.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 16:12:00 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	dan.carpenter@oracle.com,
-	paskripkin@gmail.com,
-	martin@kaiser.cx,
-	straube.linux@gmail.com,
-	fmdefrancesco@gmail.com,
-	abdun.nihaal@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: r8188eu: convert rtw_set_802_11_add_wep error code semantics
-Date: Fri, 29 Jul 2022 00:11:50 +0100
-Message-Id: <20220728231150.972-3-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220728231150.972-1-phil@philpotter.co.uk>
-References: <20220728231150.972-1-phil@philpotter.co.uk>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bhvxyYsWTQqC9Gm8wP/8rb/nF1GRUx4/FKdDJYpHwI8=;
+        b=1wLi3uzePrzPmFYesA9jJAkhhBmgwh9sc8YkmU58MQTk3NHyoUNVVQTROkBUHGjHi7
+         Z+T+F2Bo+ucQMAk4SSwNQLseDS9M8x6jk9iWm0RFh+uqdv9K+PqlWED4y76d3o6SvqER
+         66/vlMc/IGIzF8I9qZoQzz7Dq0BNyVY3kaPW8WAPV+5gGSiW4/FxawisdConTvjHfvo5
+         QDhF0VmI8k0mP+GDzCxQ+Q1ALY+rNIGCNHFnBpLn7G+K3bQUUmJpfAdmrtROoFFJgWtV
+         9iddm53+MrJrlIYsKF2RX8IbHg4ZWLOV3+RqD+y7b/R3nH6muMKaaDmGV5oTjsOHTfTo
+         NHjQ==
+X-Gm-Message-State: ACgBeo0XhtVSntFTO8094/wiFAJO5ANHu2w/dQOJ3+MuTqKWGPyys31p
+	6iOMF/jspu+UIhNq1cmFl8LCwRCKELO3FPjZ054=
+X-Google-Smtp-Source: AA6agR6Ts/5ETt0ZM3Pvy14Ws59Nn7wtfoIpHbVtVhBjPF6HDnAGkIYCCBJMQLpQ5gibFOpQqk4ll0DkARUSBjczx7o=
+X-Received: by 2002:a0d:da02:0:b0:31c:a0e9:4165 with SMTP id
+ c2-20020a0dda02000000b0031ca0e94165mr1564021ywe.439.1659066689699; Thu, 28
+ Jul 2022 20:51:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220718120149.GD2338@kadam> <20220719055047.322355-3-ztong0001@gmail.com>
+ <YtalnN70xXy3PNNN@kroah.com> <CAA5qM4A7-hCf8hZq4M8O5havY29PYqym1_TNrWJvcc-LWbLnmA@mail.gmail.com>
+ <YuDdHMaB6jWARQzA@kroah.com>
+In-Reply-To: <YuDdHMaB6jWARQzA@kroah.com>
+From: Tong Zhang <ztong0001@gmail.com>
+Date: Thu, 28 Jul 2022 20:51:19 -0700
+Message-ID: <CAA5qM4DHbmTzZ7Yv-zEYx=3bu_TOZ1hKfe5dDgZ7DhG=ZPpORA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] staging: rtl8192u: move debug files to debugfs
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>, 
+	Saurav Girepunje <saurav.girepunje@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Convert the rtw_set_802_11_add_wep function to use 0 on success and an
-appropriate error code on error. Also convert return type to int to allow
-negative return values. For the first failure block where keyid >= 4,
-use -EOPNOTSUPP as this is most appropriate, and for the second failure
-block where rtw_set_key is called, use -ENOMEM, as this is the cause of
-failure in that function anyway - in due course, rtw_set_key can be
-converted as well.
+On Tue, Jul 26, 2022 at 11:37 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Jul 19, 2022 at 11:30:48PM -0700, Tong Zhang wrote:
+> > On Tue, Jul 19, 2022 at 5:53 AM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Mon, Jul 18, 2022 at 10:50:37PM -0700, Tong Zhang wrote:
+> > > > There are 4 debug files created under /proc/net/[Devname]. Devname could
+> > > > Due to this is purely for debuging as files are created read only,
+> > > > move this to debugfs like other NIC drivers do instead of using procfs.
+> > > > This is also to prepare for address rmmod warn issue.
+> > >
+> > > Minor comments based on good debugfs usage:
+> > >
+> > > > --- a/drivers/staging/rtl8192u/r8192U.h
+> > > > +++ b/drivers/staging/rtl8192u/r8192U.h
+> > > > @@ -1061,6 +1061,9 @@ typedef struct r8192_priv {
+> > > >       struct delayed_work gpio_change_rf_wq;
+> > > >       struct delayed_work initialgain_operate_wq;
+> > > >       struct workqueue_struct *priv_wq;
+> > > > +
+> > > > +     /* debugfs */
+> > > > +     struct dentry *debugfs_dir;
+> > >
+> > > Why do you need to save this dentry?  Can't you just look it up when you
+> > > want to remove the files?
+> > >
+> > > > +void rtl8192_debugfs_init(struct net_device *dev)
+> > > >  {
+> > > > -     struct proc_dir_entry *dir;
+> > > > +     struct dentry *dir;
+> > > > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
+> > >
+> > > No need to cast this.  Same for later on in this file.
+> > >
+> > > > -     if (!rtl8192_proc)
+> > > > +     dir = debugfs_create_dir(dev->name, NULL);
+> > > > +     if (IS_ERR(dir))
+> > > >               return;
+> > >
+> >
+> > I'm reading this code and your comment again.
+> > Adding this check will avoid calling into debugfs_create_file() and 4
+> > function calls and doing checks from there, probably will save a
+> > couple of CPU cycles and avoid branch prediction penalty if there is
+> > any.
+> > I don't think the compiler can optimize for this case though it's not
+> > performance critical. Anyho I personally feel it is better to keep
+> > this.
+>
+> It's not an optimization issue, it's a "we never care about the results
+> of a call to debugfs_*() issue".
+>
+> That's all, debugfs is intended to be easy to use, and you should never
+> care about the return values of if it worked or not, so your code should
+> not check it and do anything different based on it.
+>
+> Yes, it's not like "normal" kernel code, but debugfs is not normal at
+> all, and should never expect to work as it's only for debugging.
 
-Finally, convert both call-sites of rtw_set_802_11_add_wep to use the
-new semantics, passing through the error code where we can for one of
-them.
+Hi Greg,
+Thanks for your review. I am mostly on the same page with you.
+IMHO, since Ubuntu(or Debian derivative in general?) enables debugfs by default,
+I think we need to make those ``debug''' code work although they might
+not be designed to be used like this.
+To my limited knowledge, iotop actually uses debugfs to show IO utilization.
+(There might be more though)
+Anyway, I incorporated your review and sent it as v3.
+Thanks again!
+- Tong
 
-This gets the driver closer to removal of the non-standard _SUCCESS and
-_FAIL definitions, which are inverted compared to the standard in-kernel
-error code mechanism.
-
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/r8188eu/core/rtw_ioctl_set.c    | 8 ++++----
- drivers/staging/r8188eu/include/rtw_ioctl_set.h | 2 +-
- drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 5 ++---
- 3 files changed, 7 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-index 17f6bcbeebf4..a5b5d7f6a864 100644
---- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-+++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-@@ -390,16 +390,16 @@ u8 rtw_set_802_11_authentication_mode(struct adapter *padapter, enum ndis_802_11
- 	return ret;
- }
- 
--u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep)
-+int rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep)
- {
- 	int		keyid, res;
- 	struct security_priv *psecuritypriv = &padapter->securitypriv;
--	u8		ret = _SUCCESS;
-+	int		ret = 0;
- 
- 	keyid = wep->KeyIndex & 0x3fffffff;
- 
- 	if (keyid >= 4) {
--		ret = false;
-+		ret = -EOPNOTSUPP;
- 		goto exit;
- 	}
- 
-@@ -424,7 +424,7 @@ u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep)
- 	res = rtw_set_key(padapter, psecuritypriv, keyid, 1);
- 
- 	if (res == _FAIL)
--		ret = false;
-+		ret = -ENOMEM;
- exit:
- 
- 	return ret;
-diff --git a/drivers/staging/r8188eu/include/rtw_ioctl_set.h b/drivers/staging/r8188eu/include/rtw_ioctl_set.h
-index 7365079c704f..761b30bdb8ec 100644
---- a/drivers/staging/r8188eu/include/rtw_ioctl_set.h
-+++ b/drivers/staging/r8188eu/include/rtw_ioctl_set.h
-@@ -11,7 +11,7 @@ typedef u8 NDIS_802_11_PMKID_VALUE[16];
- u8 rtw_set_802_11_authentication_mode(struct adapter *adapt,
- 				      enum ndis_802_11_auth_mode authmode);
- u8 rtw_set_802_11_bssid(struct adapter*adapter, u8 *bssid);
--u8 rtw_set_802_11_add_wep(struct adapter *adapter, struct ndis_802_11_wep *wep);
-+int rtw_set_802_11_add_wep(struct adapter *adapter, struct ndis_802_11_wep *wep);
- u8 rtw_set_802_11_disassociate(struct adapter *adapter);
- u8 rtw_set_802_11_bssid_list_scan(struct adapter*adapter,
- 				  struct ndis_802_11_ssid *pssid,
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 7f91dac2e41b..4d8dbc2a9ef2 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -422,8 +422,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 		pwep->KeyIndex |= 0x80000000;
- 		memcpy(pwep->KeyMaterial,  param->u.crypt.key, pwep->KeyLength);
- 		if (param->u.crypt.set_tx) {
--			if (rtw_set_802_11_add_wep(padapter, pwep) == (u8)_FAIL)
--				ret = -EOPNOTSUPP;
-+			ret = rtw_set_802_11_add_wep(padapter, pwep);
- 		} else {
- 			if (wep_key_idx >= WEP_KEYS) {
- 				ret = -EOPNOTSUPP;
-@@ -1613,7 +1612,7 @@ static int rtw_wx_set_enc(struct net_device *dev,
- 
- 	memcpy(wep.KeyMaterial, keybuf, wep.KeyLength);
- 
--	if (!rtw_set_802_11_add_wep(padapter, &wep)) {
-+	if (rtw_set_802_11_add_wep(padapter, &wep)) {
- 		if (rf_on == pwrpriv->rf_pwrstate)
- 			ret = -EOPNOTSUPP;
- 		goto exit;
--- 
-2.36.1
-
+>
+> thanks,
+>
+> greg k-h
