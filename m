@@ -1,74 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.coredeal.pl (mail.coredeal.pl [51.75.73.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294A933D6
-	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 07:31:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E87C433D7;
-	Fri, 29 Jul 2022 07:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1659079869;
-	bh=uVqBBUFDgwzLq6Qvi2MmJujKdCy1mCzQvzDS8fkCihQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Lgz+wvqbhvqGsia7w8nMspgAsBmZZu0VNhISB5W3pqXF/Vstcsxvo6EqmtqpAxSLi
-	 FuUmYBC7DhWN/o7fehdbabwiX+vVZDzO7pwFGtrGMuNobgJs5tIW11znOQDMOP5xfa
-	 pryq5GGZImBGh+aIIiMmRgfp/pQ6ugyQdRVgUFkg=
-Date: Fri, 29 Jul 2022 09:31:06 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tong Zhang <ztong0001@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Colin Ian King <colin.king@intel.com>,
-	Saurav Girepunje <saurav.girepunje@gmail.com>,
-	Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 2/3] staging: rtl8192u: move debug files to debugfs
-Message-ID: <YuOMun7jQov+InCw@kroah.com>
-References: <YuDdHMaB6jWARQzA@kroah.com>
- <20220729035230.226172-1-ztong0001@gmail.com>
- <20220729035230.226172-3-ztong0001@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D0933D6
+	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 07:40:55 +0000 (UTC)
+Received: by mail.coredeal.pl (Postfix, from userid 1002)
+	id ACDD5A863A; Fri, 29 Jul 2022 07:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=coredeal.pl; s=mail;
+	t=1659079762; bh=9KGuIG62LgzC9aYmjKxzocuYLRCVghXg6v9Q1q2LHec=;
+	h=Date:From:To:Subject:From;
+	b=j9GuZEGnhkZcT/UgxZ1whHZRodZDeJDAZhmwRXOGD+1lHK+qt82LIeyNWAKOcwX1Q
+	 1REqLPt/ZKVWkNDFhmd1XzCTQuqcL7QZIbGL0mk1c/MZ+e6dJxuIOvYWMeADh4oE+W
+	 hktarJN1ILII7IjE9oKoh3PNmcQ7oVPf/bxEKmudubpfxzqeT7N/T0uSpshcMYGMUs
+	 fIFsNhhiKvH/D3FHzNyCzJQp3ii/pcoW7IxepyaHzN049x69oeU23Okxwh0IxlE/rU
+	 5lKOsq0MFR+RiB70RrtWVGqpgetvT2/XHLNZuTZQKHLNqqE8zEmfE5Lzxr7eypPnTk
+	 7x2m2r6YcDOAw==
+Received: by mail.coredeal.pl for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 07:29:16 GMT
+Message-ID: <20220729063000-0.1.4l.17zn6.0.eki7j0mdlg@coredeal.pl>
+Date: Fri, 29 Jul 2022 07:29:16 GMT
+From: "Krzysztof Maj" <krzysztof.maj@coredeal.pl>
+To: <linux-staging@lists.linux.dev>
+Subject: Biznesowy angielski
+X-Mailer: mail.coredeal.pl
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220729035230.226172-3-ztong0001@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 28, 2022 at 08:52:19PM -0700, Tong Zhang wrote:
->  
-> -static struct proc_dir_entry *rtl8192_proc;
-> -static int __maybe_unused proc_get_stats_ap(struct seq_file *m, void *v)
-> +#define R8192U_DEBUGFS_DIR_NAME "r8192u_usb"
+Dzie=C5=84 dobry,=20
 
-KBUILD_MODNAME is a better thing to use here.
+czy rozwa=C5=BCali Pa=C5=84stwo rozw=C3=B3j kwalifikacji j=C4=99zykowych =
+swoich pracownik=C3=B3w?
 
-> +void rtl8192_debugfs_init_one(struct net_device *dev)
-> +{
-> +	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
+Opracowali=C5=9Bmy kursy j=C4=99zykowe dla r=C3=B3=C5=BCnych bran=C5=BC, =
+w kt=C3=B3rych koncentrujemy si=C4=99 na podniesieniu poziomu s=C5=82owni=
+ctwa i jako=C5=9Bci komunikacji wykorzystuj=C4=85c autorsk=C4=85 metod=C4=
+=99, stworzon=C4=85 specjalnie dla wymagaj=C4=85cego biznesu.=20
 
-No need to cast.
+Niestandardowy kurs on-line, dopasowany do profilu firmy i obszar=C3=B3w =
+=C5=9Bwiadczonych us=C5=82ug, w szybkim czasie przyniesie efekty, kt=C3=B3=
+re zwi=C4=99ksz=C4=85 komfort i jako=C5=9B=C4=87 pracy, rozwijaj=C4=85c m=
+o=C5=BCliwo=C5=9Bci biznesowe.=20
 
-> +	struct dentry *parent_dir = debugfs_lookup(R8192U_DEBUGFS_DIR_NAME, NULL);
-> +	struct dentry *dir = debugfs_create_dir(dev->name, parent_dir);
-> +
-> +	debugfs_create_file("stats-rx", 0444, dir, dev, &rtl8192_usb_stats_rx_fops);
-> +	debugfs_create_file("stats-tx", 0444, dir, dev, &rtl8192_usb_stats_tx_fops);
-> +	debugfs_create_file("stats-ap", 0444, dir, dev, &rtl8192_usb_stats_ap_fops);
-> +	debugfs_create_file("registers", 0444, dir, dev, &rtl8192_usb_registers_fops);
-> +
-> +	priv->debugfs_dir = dir;
-> +}
-> +
-> +void rtl8192_debugfs_exit_one(struct net_device *dev)
->  {
-> -	RT_TRACE(COMP_INIT, "Initializing proc filesystem");
-> -	rtl8192_proc = proc_mkdir(RTL819XU_MODULE_NAME, init_net.proc_net);
-> +	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
+Zdalne szkolenie j=C4=99zykowe to m.in. zaj=C4=99cia z native speakerami,=
+ kt=C3=B3re w szybkim czasie naucz=C4=85 pracownik=C3=B3w rozmawia=C4=87 =
+za pomoc=C4=85 jasnego i zwi=C4=99z=C5=82ego j=C4=99zyka Business English=
+=2E
 
-No need for a cast.
+Czy m=C3=B3g=C5=82bym przedstawi=C4=87 wi=C4=99cej szczeg=C3=B3=C5=82=C3=B3=
+w i opowiedzie=C4=87 jak dzia=C5=82amy?=20
 
-thanks,
 
-greg k-h
+Pozdrawiam
+Krzysztof Maj
