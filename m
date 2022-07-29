@@ -1,196 +1,80 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB3D7A
-	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 03:53:22 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id bf13so3059044pgb.11
-        for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 20:53:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3C47A
+	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 06:09:11 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id s9so4592021edd.8
+        for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 23:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+RQ5jl0QZSNw11sMEYyKmhqkb/IQTFMm9WWtDB/yiG4=;
-        b=JKKq4lgBFOs5kA9DHxls2r0V0nUa9DgcuppsEOpgLbHO2asFLBvA4nlO0SLjfXYImx
-         L4D9qo2TKzvcWPWtfVUpwy2c35yeS0rYIO9d9eCZFRqHZ0zbGNXJArPGnYY9PNlMEOdf
-         bNjAWk8pr48FZgq1KIGAERU2WdPHjxwEN6oMWznvwTKSLVmGDkqizKhTOsWy+29KF3+9
-         jAMjhixxbXebLzKckyNyrmwr8pzE1oB2MMSHw8tGTGcJDkybwpunkcbm9WJY36C7os3Q
-         aaYDMhQxqOaVaACH6IueJxhdiCAlaFtPpe6nTio0UUhiNeSGNGSp8pT+FTB6pSIknM6m
-         ajoA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=F15yzA8MEk1kj7dgO+uysf48NlZcdhWRCvVLxCtDqSw=;
+        b=jCk1tar75x6j04emFxhPlViERasH7LFUp4nze8ZkzuOIhV7BuIQE5JqFeQtcp3Gfat
+         2cl9sCTtG2RpbbFY8P7QoQqXtiTi/yCYFSWY2H5dqchS8pJ1Dz2et498/h9l24AH3AOZ
+         xxBnewGeJwuDpVwIpIguKAJRlXSmmV4nKRjMyhQEkGNjcVrx1ezUYFuJ08cZmhIAPZg4
+         ak887o0FdiyBf8hZaS31J0erT2dS78QK5//CIFAHNsK2ebtOse659shZEMcGElKe0BQS
+         ziVOwRvKksYMxUSpQyYXzJJve4w92qOn+27wk3FNbECtMoGYtCaI5Y6jOUSLXfZzN42c
+         ZzSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+RQ5jl0QZSNw11sMEYyKmhqkb/IQTFMm9WWtDB/yiG4=;
-        b=sdXlVww2rm0jKjNCVim4cgIpWX3+kOPQKEeBZmiZP4VXzq0deOZZIxXTSgdw1vOPDH
-         IAPjr+iccW2hg+wNWfEPgmo6j1pwpoGsIYaHyulTqA/vtoxpF61pbl3zAc60+CfH97tg
-         FzXavy2b7nVOVgp2wSebaR0SzWFK6etuaRTaWt2s/OnQ4kACy1OZBdPP06JDNJdI5tD8
-         iMpA7dssWndVRIqkGq/j5CHw7r9aFWnxBz1jqeMGMWWY/F0wsKQeiuj+Ri+qJ9YqvxdV
-         R4rzK637Mo+szKfzrQRQs+F4xFS1hzoq+wmYzcb9oCy+ETT4gnvZh4O7SpS6OPpAcc50
-         O8FA==
-X-Gm-Message-State: AJIora/NbjChEaaI1mEmyt2k38uFJ1FC631cfiQvCdkivvjvbifz2igI
-	WUlth4Sjg4BVpbUsKoHMuxY=
-X-Google-Smtp-Source: AGRyM1sGqYdaiGUmCAdFLSmDl00nWSX1oXgslThHgn+h7hlMqMIT0F7c/8jYs6biiJ/yJjo6W+l8CA==
-X-Received: by 2002:aa7:8d94:0:b0:52b:a70e:ae89 with SMTP id i20-20020aa78d94000000b0052ba70eae89mr1901086pfr.23.1659066801787;
-        Thu, 28 Jul 2022 20:53:21 -0700 (PDT)
-Received: from tong-desktop.local ([2600:1700:3ec7:421f:a06b:5560:ec65:277f])
-        by smtp.googlemail.com with ESMTPSA id h14-20020a170902680e00b0016d2d2c7df1sm2135478plk.188.2022.07.28.20.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 20:53:21 -0700 (PDT)
-From: Tong Zhang <ztong0001@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tong Zhang <ztong0001@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Saurav Girepunje <saurav.girepunje@gmail.com>,
-	Colin Ian King <colin.king@intel.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Zheyu Ma <zheyuma97@gmail.com>
-Subject: [PATCH v3 3/3] staging: rtl8192u: fix rmmod warn when device is renamed
-Date: Thu, 28 Jul 2022 20:52:20 -0700
-Message-Id: <20220729035230.226172-4-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220729035230.226172-1-ztong0001@gmail.com>
-References: <YuDdHMaB6jWARQzA@kroah.com>
- <20220729035230.226172-1-ztong0001@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=F15yzA8MEk1kj7dgO+uysf48NlZcdhWRCvVLxCtDqSw=;
+        b=kASgPw/IO2ZNCHNdWjRFrDGa7jiR+dSL19HFsK1JKivPFId748DCMenUoAne5fBk3d
+         edO9AXDDOzsng5krsu4tsMyo02nvd9fV/BZGk2BwtLokQ0LtED/zSbafR97TvXiLZgjn
+         ogCjH9vYHyoZ+B3p4najeffZwj1S5xuTFVqVwS6pGiFAoeLwqH+bNKvjAwsJQwKu7MPk
+         X+hRWO+NceEI11IyXvnqVD2T5/nAgHbElFj4xWlWvceO7sbQv2BuKdGJY0Yu5GxbjeFc
+         Z6zU0C37tydFqXokYUFSBsdSCo+F7RUWzTl6USVkV0XegfUEpYvLddb/P5LgIdclPsyh
+         hWtw==
+X-Gm-Message-State: AJIora8+HDGMMVc94zv8Qhsnx0HVzTWna++2XK5rMAMEJfHNVP4XUrZg
+	rKr9N0bHelitGy1reZk6rhE=
+X-Google-Smtp-Source: AGRyM1sSSl5OUrnyQCEPGznn7Uyt5hmlABmTqUv4WVkkycUAYtiY4vbjGJRZa9EjIkgGFMMdknbiww==
+X-Received: by 2002:aa7:cc13:0:b0:43d:4c1:3806 with SMTP id q19-20020aa7cc13000000b0043d04c13806mr2031322edt.129.1659074950060;
+        Thu, 28 Jul 2022 23:09:10 -0700 (PDT)
+Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
+        by smtp.gmail.com with ESMTPSA id n3-20020aa7db43000000b0043ce5d4d2c3sm1813330edt.14.2022.07.28.23.09.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jul 2022 23:09:09 -0700 (PDT)
+Message-ID: <c5fb97b9-8d7b-f998-3f28-fb848738477b@gmail.com>
+Date: Fri, 29 Jul 2022 08:09:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/2] staging: r8188eu: more error code cleanups
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, dan.carpenter@oracle.com,
+ paskripkin@gmail.com, martin@kaiser.cx, straube.linux@gmail.com,
+ fmdefrancesco@gmail.com, abdun.nihaal@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220728231150.972-1-phil@philpotter.co.uk>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220728231150.972-1-phil@philpotter.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This driver creates 4 debug files under [devname] folder. The devname
-could be wlan0 initially, however it could be renamed later to e.g.
-enx00e04c00000. This will cause problem during debug file teardown since
-it uses netdev->name, which is no longer wlan0. To solve this problem,
-add a notifier to handle device renaming. Also note that we cannot
-simply do debugfs_lookup to find out old dentry since by the time the
-notifier is called, netdev->name is already changed to new name.
+On 7/29/22 01:11, Phillip Potter wrote:
+> This small series addresses a cleanup suggestion discussed by Greg
+> Kroah-Hartman and Dan Carpenter, and also includes another function
+> conversion. It would be a larger series, but my time being what it is,
+> I intend to chip away at these slowly and steadily.
+> 
+> Phillip Potter (2):
+>    staging: r8188eu: remove initializer from ret in rtw_pwr_wakeup
+>    staging: r8188eu: convert rtw_set_802_11_add_wep error code semantics
+> 
+>   drivers/staging/r8188eu/core/rtw_ioctl_set.c    | 8 ++++----
+>   drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 2 +-
+>   drivers/staging/r8188eu/include/rtw_ioctl_set.h | 2 +-
+>   drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 5 ++---
+>   4 files changed, 8 insertions(+), 9 deletions(-)
+> 
 
-Reported-by: Zheyu Ma <zheyuma97@gmail.com>
-Tested-by: Zheyu Ma <zheyuma97@gmail.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
----
- drivers/staging/rtl8192u/r8192U.h         |  1 +
- drivers/staging/rtl8192u/r8192U_core.c    | 32 +++++++++++++++++++++++
- drivers/staging/rtl8192u/r8192U_debugfs.c | 12 +++++++--
- 3 files changed, 43 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
-index 920a6a154860..420ab696fc3e 100644
---- a/drivers/staging/rtl8192u/r8192U.h
-+++ b/drivers/staging/rtl8192u/r8192U.h
-@@ -1122,6 +1122,7 @@ void setKey(struct net_device *dev, u8 EntryNo, u8 KeyIndex, u16 KeyType,
- 
- void rtl8192_debugfs_init_one(struct net_device *dev);
- void rtl8192_debugfs_exit_one(struct net_device *dev);
-+void rtl8192_debugfs_rename_one(struct net_device *dev);
- void rtl8192_debugfs_init(void);
- void rtl8192_debugfs_exit(void);
- 
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index 865bc0dc7c71..0a60ef20107c 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -4606,6 +4606,30 @@ static void rtl8192_usb_disconnect(struct usb_interface *intf)
- 	RT_TRACE(COMP_DOWN, "wlan driver removed\n");
- }
- 
-+static int rtl8192_usb_netdev_event(struct notifier_block *nb, unsigned long event,
-+				    void *data)
-+{
-+	struct net_device *netdev = netdev_notifier_info_to_dev(data);
-+
-+	if (netdev->netdev_ops != &rtl8192_netdev_ops)
-+		goto out;
-+
-+	switch (event) {
-+	case NETDEV_CHANGENAME:
-+		rtl8192_debugfs_rename_one(netdev);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+out:
-+	return NOTIFY_DONE;
-+}
-+
-+static struct notifier_block rtl8192_usb_netdev_notifier = {
-+	.notifier_call = rtl8192_usb_netdev_event,
-+};
-+
- static int __init rtl8192_usb_module_init(void)
- {
- 	int ret;
-@@ -4615,6 +4639,12 @@ static int __init rtl8192_usb_module_init(void)
- 	RT_TRACE(COMP_INIT, "Initializing module");
- 	RT_TRACE(COMP_INIT, "Wireless extensions version %d", WIRELESS_EXT);
- 
-+	ret = register_netdevice_notifier(&rtl8192_usb_netdev_notifier);
-+	if (ret) {
-+		pr_err("register_netdevice_notifier failed %d\n", ret);
-+		return ret;
-+	}
-+
- 	rtl8192_debugfs_init();
- 	ret = ieee80211_debug_init();
- 	if (ret) {
-@@ -4663,6 +4693,7 @@ static int __init rtl8192_usb_module_init(void)
- 	ieee80211_debug_exit();
- debugfs_exit:
- 	rtl8192_debugfs_exit();
-+	unregister_netdevice_notifier(&rtl8192_usb_netdev_notifier);
- 	return ret;
- }
- 
-@@ -4675,6 +4706,7 @@ static void __exit rtl8192_usb_module_exit(void)
- 	ieee80211_crypto_deinit();
- 	ieee80211_debug_exit();
- 	rtl8192_debugfs_exit();
-+	unregister_netdevice_notifier(&rtl8192_usb_netdev_notifier);
- 	RT_TRACE(COMP_DOWN, "Exiting");
- }
- 
-diff --git a/drivers/staging/rtl8192u/r8192U_debugfs.c b/drivers/staging/rtl8192u/r8192U_debugfs.c
-index 79cd095114ca..e80cfe24facf 100644
---- a/drivers/staging/rtl8192u/r8192U_debugfs.c
-+++ b/drivers/staging/rtl8192u/r8192U_debugfs.c
-@@ -150,7 +150,7 @@ DEFINE_SHOW_ATTRIBUTE(rtl8192_usb_registers);
- 
- void rtl8192_debugfs_init_one(struct net_device *dev)
- {
--	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
-+	struct r8192_priv *priv = ieee80211_priv(dev);
- 	struct dentry *parent_dir = debugfs_lookup(R8192U_DEBUGFS_DIR_NAME, NULL);
- 	struct dentry *dir = debugfs_create_dir(dev->name, parent_dir);
- 
-@@ -164,11 +164,19 @@ void rtl8192_debugfs_init_one(struct net_device *dev)
- 
- void rtl8192_debugfs_exit_one(struct net_device *dev)
- {
--	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
-+	struct r8192_priv *priv = ieee80211_priv(dev);
- 
- 	debugfs_remove_recursive(priv->debugfs_dir);
- }
- 
-+void rtl8192_debugfs_rename_one(struct net_device *dev)
-+{
-+	struct r8192_priv *priv = ieee80211_priv(dev);
-+	struct dentry *parent_dir = debugfs_lookup(R8192U_DEBUGFS_DIR_NAME, NULL);
-+
-+	debugfs_rename(parent_dir, priv->debugfs_dir, parent_dir, dev->name);
-+}
-+
- void rtl8192_debugfs_init(void)
- {
- 	debugfs_create_dir(R8192U_DEBUGFS_DIR_NAME, NULL);
--- 
-2.25.1
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
