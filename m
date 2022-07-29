@@ -1,132 +1,109 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1667A
-	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 03:51:30 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-3238de26fb1so20649317b3.8
-        for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 20:51:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4217A
+	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 03:52:42 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id 72so3108779pge.0
+        for <linux-staging@lists.linux.dev>; Thu, 28 Jul 2022 20:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bhvxyYsWTQqC9Gm8wP/8rb/nF1GRUx4/FKdDJYpHwI8=;
-        b=QJC6TIISriSHw4s3GOGwdFqx4V/oFS6/BrSJWZuFqOAYgAx+XjxP+W3NZd+FwwWZDI
-         62NUM0HZZfkMzeyO9q1ELu97xCZB6D8Je9HPvq7JJlhuMq7qM+6GzM2A/jsdu13UV+H7
-         bfl7S5YQTOIkC3/I/DKm1aZsqH6DvqMxBb2aMotvXv010MxUMYKGkb57MHRgb+v5+smc
-         QXsTX2ZdO3rjzpoNP7HR7GlnU7PSkhWL64s/D8NjedPVyEJbNSY7g0sZopwK8basGg/h
-         n9QM/A7tPVpeRDu7VYL/6GSu9vWoHIhWubfPVuE8OCF1r+hibOZOoXvuHwVMLEDfzwuK
-         40LQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=VqJty/jAzkS9ddhZQ1LDWqDzmo4hUT9KrNKCMusTL4A=;
+        b=FlPfntePR/J/cEvMPOmNckBJmON2t0BOxiMCZwbuKxVMJVJ3RL9U0W+4++BtQa0ZaI
+         3+OJoGYekSFqxNRUOyokFw4gHIrslHTMLcNnUffuKSWwwGhcB4t31Un5lj0ibI/4S6gF
+         m0fdAPM4OlSHLsKBbcCh1Yp21moOKqU4FIVJapUqSca0nlEgdvtBZGoy/gjMRMtJ3JFX
+         0zJ4F1mU8PIDkCONY9XMxkuKo36NE4ntbSwaWgCBgxrCh5CNFkjQwDmhfg0ZNiPC2bDK
+         7gkM4XSuUptSl/i8Px/id6GOslM4VcO4Qz04h2j+c/s4ejnETiyk4VLV9Iq51ywnOx1Z
+         aO7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bhvxyYsWTQqC9Gm8wP/8rb/nF1GRUx4/FKdDJYpHwI8=;
-        b=1wLi3uzePrzPmFYesA9jJAkhhBmgwh9sc8YkmU58MQTk3NHyoUNVVQTROkBUHGjHi7
-         Z+T+F2Bo+ucQMAk4SSwNQLseDS9M8x6jk9iWm0RFh+uqdv9K+PqlWED4y76d3o6SvqER
-         66/vlMc/IGIzF8I9qZoQzz7Dq0BNyVY3kaPW8WAPV+5gGSiW4/FxawisdConTvjHfvo5
-         QDhF0VmI8k0mP+GDzCxQ+Q1ALY+rNIGCNHFnBpLn7G+K3bQUUmJpfAdmrtROoFFJgWtV
-         9iddm53+MrJrlIYsKF2RX8IbHg4ZWLOV3+RqD+y7b/R3nH6muMKaaDmGV5oTjsOHTfTo
-         NHjQ==
-X-Gm-Message-State: ACgBeo0XhtVSntFTO8094/wiFAJO5ANHu2w/dQOJ3+MuTqKWGPyys31p
-	6iOMF/jspu+UIhNq1cmFl8LCwRCKELO3FPjZ054=
-X-Google-Smtp-Source: AA6agR6Ts/5ETt0ZM3Pvy14Ws59Nn7wtfoIpHbVtVhBjPF6HDnAGkIYCCBJMQLpQ5gibFOpQqk4ll0DkARUSBjczx7o=
-X-Received: by 2002:a0d:da02:0:b0:31c:a0e9:4165 with SMTP id
- c2-20020a0dda02000000b0031ca0e94165mr1564021ywe.439.1659066689699; Thu, 28
- Jul 2022 20:51:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VqJty/jAzkS9ddhZQ1LDWqDzmo4hUT9KrNKCMusTL4A=;
+        b=NLgTlM6ybEUGhC0ezU/8alsz1OG5qEWBhjxkMVNV2fMFd1K7rZgGJvW7YpXIHtE/Qv
+         7qpu9T0SGt/U5eoUVW8NMkASZyINHfXFxaCvtksVONsBJhxmDj1TNzUOiuPNYgIbzu29
+         3ealKbNj0XzzjmrSJLpTIS+V/SCEZJfWRoctl3oyug76R2wTMB8sPqNjJlEFrd0NbXfl
+         1n7QDUIqJGPGqWMb0fjrdYKPs+0iDbAAELzRnhQxvCxldFyqDIliCnLTbsjVt+D8gw3j
+         8sdBiLkxL9qOtSRJ9b1efCohSV9eBb3lh9BDMSYVJrgJgZqLUaGU7HBxmMo0gO9USCsf
+         nbqg==
+X-Gm-Message-State: AJIora80HyrV5rQ/9rs59xF38PTevGwBcSIr8m/SLW4QxHwWK5UVhMV0
+	aro9JZaZHpagjzXPLYvHUFM=
+X-Google-Smtp-Source: AGRyM1sIJs3Dnljo1GEigT/XZ3kQLINUljpQF9FQob2GwqnjrXIMkOa8h/tRyK4fRHE6hRi8QVGmkA==
+X-Received: by 2002:a63:d64e:0:b0:41a:b83d:1b2a with SMTP id d14-20020a63d64e000000b0041ab83d1b2amr1429057pgj.122.1659066761783;
+        Thu, 28 Jul 2022 20:52:41 -0700 (PDT)
+Received: from tong-desktop.local ([2600:1700:3ec7:421f:a06b:5560:ec65:277f])
+        by smtp.googlemail.com with ESMTPSA id h14-20020a170902680e00b0016d2d2c7df1sm2135478plk.188.2022.07.28.20.52.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jul 2022 20:52:41 -0700 (PDT)
+From: Tong Zhang <ztong0001@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Tong Zhang <ztong0001@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Colin Ian King <colin.king@intel.com>,
+	Saurav Girepunje <saurav.girepunje@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Zheyu Ma <zheyuma97@gmail.com>
+Subject: [PATCH v3 0/3] staging: rtl8192u: fix rmmod warn when device is renamed
+Date: Thu, 28 Jul 2022 20:52:17 -0700
+Message-Id: <20220729035230.226172-1-ztong0001@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <YuDdHMaB6jWARQzA@kroah.com>
+References: <YuDdHMaB6jWARQzA@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220718120149.GD2338@kadam> <20220719055047.322355-3-ztong0001@gmail.com>
- <YtalnN70xXy3PNNN@kroah.com> <CAA5qM4A7-hCf8hZq4M8O5havY29PYqym1_TNrWJvcc-LWbLnmA@mail.gmail.com>
- <YuDdHMaB6jWARQzA@kroah.com>
-In-Reply-To: <YuDdHMaB6jWARQzA@kroah.com>
-From: Tong Zhang <ztong0001@gmail.com>
-Date: Thu, 28 Jul 2022 20:51:19 -0700
-Message-ID: <CAA5qM4DHbmTzZ7Yv-zEYx=3bu_TOZ1hKfe5dDgZ7DhG=ZPpORA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] staging: rtl8192u: move debug files to debugfs
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>, 
-	Saurav Girepunje <saurav.girepunje@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 26, 2022 at 11:37 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jul 19, 2022 at 11:30:48PM -0700, Tong Zhang wrote:
-> > On Tue, Jul 19, 2022 at 5:53 AM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Mon, Jul 18, 2022 at 10:50:37PM -0700, Tong Zhang wrote:
-> > > > There are 4 debug files created under /proc/net/[Devname]. Devname could
-> > > > Due to this is purely for debuging as files are created read only,
-> > > > move this to debugfs like other NIC drivers do instead of using procfs.
-> > > > This is also to prepare for address rmmod warn issue.
-> > >
-> > > Minor comments based on good debugfs usage:
-> > >
-> > > > --- a/drivers/staging/rtl8192u/r8192U.h
-> > > > +++ b/drivers/staging/rtl8192u/r8192U.h
-> > > > @@ -1061,6 +1061,9 @@ typedef struct r8192_priv {
-> > > >       struct delayed_work gpio_change_rf_wq;
-> > > >       struct delayed_work initialgain_operate_wq;
-> > > >       struct workqueue_struct *priv_wq;
-> > > > +
-> > > > +     /* debugfs */
-> > > > +     struct dentry *debugfs_dir;
-> > >
-> > > Why do you need to save this dentry?  Can't you just look it up when you
-> > > want to remove the files?
-> > >
-> > > > +void rtl8192_debugfs_init(struct net_device *dev)
-> > > >  {
-> > > > -     struct proc_dir_entry *dir;
-> > > > +     struct dentry *dir;
-> > > > +     struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
-> > >
-> > > No need to cast this.  Same for later on in this file.
-> > >
-> > > > -     if (!rtl8192_proc)
-> > > > +     dir = debugfs_create_dir(dev->name, NULL);
-> > > > +     if (IS_ERR(dir))
-> > > >               return;
-> > >
-> >
-> > I'm reading this code and your comment again.
-> > Adding this check will avoid calling into debugfs_create_file() and 4
-> > function calls and doing checks from there, probably will save a
-> > couple of CPU cycles and avoid branch prediction penalty if there is
-> > any.
-> > I don't think the compiler can optimize for this case though it's not
-> > performance critical. Anyho I personally feel it is better to keep
-> > this.
->
-> It's not an optimization issue, it's a "we never care about the results
-> of a call to debugfs_*() issue".
->
-> That's all, debugfs is intended to be easy to use, and you should never
-> care about the return values of if it worked or not, so your code should
-> not check it and do anything different based on it.
->
-> Yes, it's not like "normal" kernel code, but debugfs is not normal at
-> all, and should never expect to work as it's only for debugging.
+There are 4 debug files created under /proc/net/[Devname] by
+rtl8192u_usb. Devname could be wlan0 initially, however it could be
+renamed later to e.g. enx00e04c000002. This will cause problem during
+debug file teardown since it uses netdev->name which is no longer wlan0.
+To solve this problem, add a notifier to handle device renaming.
 
-Hi Greg,
-Thanks for your review. I am mostly on the same page with you.
-IMHO, since Ubuntu(or Debian derivative in general?) enables debugfs by default,
-I think we need to make those ``debug''' code work although they might
-not be designed to be used like this.
-To my limited knowledge, iotop actually uses debugfs to show IO utilization.
-(There might be more though)
-Anyway, I incorporated your review and sent it as v3.
-Thanks again!
-- Tong
+Also, due to this is purely for debuging as files are created read only,
+move this to debugfs like other NIC drivers do instead of using procfs.
 
->
-> thanks,
->
-> greg k-h
+The directory structure after this patch set will be like the following
+
+  /sys/kernel/debug/r8192u_usb/wlan0/stats-rx
+  /sys/kernel/debug/r8192u_usb/wlan0/stats-rx
+  /sys/kernel/debug/r8192u_usb/wlan0/stats-ap
+  /sys/kernel/debug/r8192u_usb/wlan0/registers
+
+Also note that we cannot simply do debugfs_lookup to find out old dentry
+since by the time the notifier is called, netdev->name is already changed
+to new name. So here we still save the original dentry.
+
+
+Reported-by: Zheyu Ma <zheyuma97@gmail.com>
+Tested-by: Zheyu Ma <zheyuma97@gmail.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+
+v2: break down patch and fix pointer check
+v3: removed unnecessary checks, casts and move debug files under module's
+own directory, only minor change compared to v2
+
+Tong Zhang (3):
+  staging: rtl8192u: move debug stuff to its own file
+  staging: rtl8192u: move debug files to debugfs
+  staging: rtl8192u: fix rmmod warn when device is renamed
+
+ drivers/staging/rtl8192u/Makefile         |   1 +
+ drivers/staging/rtl8192u/r8192U.h         |   9 +
+ drivers/staging/rtl8192u/r8192U_core.c    | 226 ++++------------------
+ drivers/staging/rtl8192u/r8192U_debugfs.c | 189 ++++++++++++++++++
+ 4 files changed, 242 insertions(+), 183 deletions(-)
+ create mode 100644 drivers/staging/rtl8192u/r8192U_debugfs.c
+
+-- 
+2.25.1
+
