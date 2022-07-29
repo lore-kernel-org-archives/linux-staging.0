@@ -1,130 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BF64400
-	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 09:07:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C751FC433D6;
-	Fri, 29 Jul 2022 09:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1659085661;
-	bh=4fwOa4L80btdPUQ6tY3Y/SsKFmMhkgyP5o1hf2otJ5Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jQ5iR/3pFPrVxO7ZExQzpcBJpTE11inHfjTqO3Y8IRF1WLOU7GeXRcZh/RzVecDDX
-	 7sw3SwcyelgbBqvtbnoybzm0+ynwq197FCEZlQZ7+xEmuPn5VGK1MZDFnBLL9WGusJ
-	 2Skh+yB7IdmY67ZIG0WTKv8N7oRzzGbfxa39bmJo=
-Date: Fri, 29 Jul 2022 11:07:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mingyi Kang <jerrykang026@gmail.com>
-Cc: martyn@welchs.me.uk, manohar.vanga@gmail.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vme_user: Put quoted string in a single line
-Message-ID: <YuOjWlnHX6SwhNKj@kroah.com>
-References: <20220729084806.22479-1-jerrykang026@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974B52F22
+	for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 15:26:00 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id q16so4269822pgq.6
+        for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 08:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pzNLfrCl5rV2i8rqnbdT3o4k9KbeFkIr7Ha5/Z3Q21I=;
+        b=ZaSF+z1STM3QtulM2VIw49uRISrGK4kI0+fjdp4uH7FwKvDULDg3GpCTnudDHUhdkc
+         9A6/AZGT7OlMkWG4j0gdMFN3upPLKG/WGvstnfrlPCJd4nlkf/3BLfTtIvhkzmfcaQcr
+         /7H3Gsur6TZs+3rZP1lkUi6gDyTdVZsPSSY70/+l5SutbG+veUrBJnxMiIA4uq9p5Bkm
+         cYDxa27Rd/jnoB+Iqo+Rd5AuS3mK1ArUTtbQWDM7Wo0cT5XJfT4ERwdWpuOtGkEuY4Kg
+         nkM28uMWOocM1evlAs8Zcc6rrkz2+cJlF12UWgSbSGFpHlM3f9HcEczGSzd7/huGXhGL
+         nDvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pzNLfrCl5rV2i8rqnbdT3o4k9KbeFkIr7Ha5/Z3Q21I=;
+        b=64+PAnQKzV2v/RRp/m21X+CfpkXZrgCdhsjkRpemwNR20egrwsBaZ4HMWCdh/sEVRr
+         /i0Lwy9K5Omr60FBJik8xerM5lvEDwbr2QV4PgAghvCpxFmm+5/qtgCt6AuNmkvKusaz
+         JB0WJF/rOphIuhBE2CbbRYu5cW0/7EHyJSSYpoPQk1HK1/nUsSTBceY/xQPq5AIm9QFD
+         82LcqLP0lqJYHq3xdsvqg7sqATHW4ioYwy4WkSxQ0kB73zlSWncv221NM6gp1pJsIiT0
+         pHdWFOhcxjSaTpPJLgAfGp+2tohKdfnJnWQW2+d7Rdlg03bJNr+mV3+BDNerovaOCJkc
+         oEkA==
+X-Gm-Message-State: AJIora8sjJViTWBaMMCzCnfzviVGQc6rU0Fio6aYisMxK9yCx73kCtDK
+	jotytRIaA/ToNy/pnQod0rA=
+X-Google-Smtp-Source: AGRyM1vgUrdkeWs107TARuGdN4xKS2m2j5IJuXmtCc4+qi/WNslNlPfwA38Uln7msPr34BtLn3u+TQ==
+X-Received: by 2002:a63:d90b:0:b0:41a:ff05:4808 with SMTP id r11-20020a63d90b000000b0041aff054808mr3395244pgg.159.1659108359911;
+        Fri, 29 Jul 2022 08:25:59 -0700 (PDT)
+Received: from localhost.localdomain ([175.195.128.78])
+        by smtp.gmail.com with ESMTPSA id b1-20020a170903228100b0016c06a10861sm3804779plh.74.2022.07.29.08.25.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Jul 2022 08:25:59 -0700 (PDT)
+From: Sidong Yang <realwakka@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Cc: Sidong Yang <realwakka@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: pi433: fix wrong comment
+Date: Fri, 29 Jul 2022 16:25:54 +0100
+Message-Id: <20220729152554.8211-1-realwakka@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220729084806.22479-1-jerrykang026@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 29, 2022 at 04:48:06PM +0800, Mingyi Kang wrote:
-> This patch resolves the follwing checkpatch warnings:
-> 
-> WARNING: quoted string split across lines
-> +			dev_err(tsi148_bridge->parent, "VME Mailbox %d received"
-> +				": 0x%x\n", i, val);
-> 
-> WARNING: quoted string split across lines
-> +	dev_err(tsi148_bridge->parent, "PCI Exception at address: 0x%08x:%08x, "
-> +		"attributes: %08x\n",
-> 
-> WARNING: quoted string split across lines
-> +	dev_err(tsi148_bridge->parent, "PCI-X attribute reg: %08x, PCI-X split "
-> +		"completion reg: %08x\n",
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "VME Bus Exception Overflow "
-> +			"Occurred\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Can't get assigned pci irq "
-> +			"vector %02X\n", pdev->irq);
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Failed to allocate mem "
-> +			"resource for window %d size 0x%lx start 0x%lx\n",
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Invalid VME Window "
-> +			"alignment\n");
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Size must be non-zero for "
-> +			"enabled windows\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Unable to allocate memory for "
-> +			"resource\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Invalid VME Offset "
-> +			"alignment\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_warn(tsi148_bridge->parent, "Currently not setting "
-> +			"Broadcast Select Registers\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(dev, "Currently not setting Broadcast Select "
-> +			"Registers\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(dev, "Currently not setting Broadcast Select "
-> +			"Registers\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Descriptor not aligned to 8 "
-> +			"byte boundary as required: %p\n",
-> 
-> warning: quoted string split across lines
-> +			dev_err(tsi148_bridge->parent, "location monitor "
-> +				"callback attached, can't reset\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Location monitor not properly "
-> +			"configured\n");
-> 
-> WARNING: quoted string split across lines
-> +		dev_err(tsi148_bridge->parent, "Failed to allocate memory for "
-> +			"CR/CSR image\n");
-> 
-> WARNING: quoted string split across lines
-> +			dev_err(tsi148_bridge->parent, "Configuring flush image"
-> +				" failed\n");
-> 
-> Signed-off-by: Mingyi Kang <jerrykang026@gmail.com>
-> ---
->  drivers/staging/vme_user/vme_tsi148.c | 57 +++++++++------------------
->  1 file changed, 19 insertions(+), 38 deletions(-)
-> 
-> diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-> index 956476213241..40bb432861c8 100644
-> --- a/drivers/staging/vme_user/vme_tsi148.c
-> +++ b/drivers/staging/vme_user/vme_tsi148.c
-> @@ -125,8 +125,7 @@ static u32 tsi148_MB_irqhandler(struct vme_bridge *tsi148_bridge, u32 stat)
->  	for (i = 0; i < 4; i++) {
->  		if (stat & TSI148_LCSR_INTS_MBS[i]) {
->  			val = ioread32be(bridge->base +	TSI148_GCSR_MBOX[i]);
-> -			dev_err(tsi148_bridge->parent, "VME Mailbox %d received"
-> -				": 0x%x\n", i, val);
-> +			dev_err(tsi148_bridge->parent, "VME Mailbox %d received: 0x%x\n", i, val);
+The comment should describe the error when user calls rf69_write_fifo()
+not rf69_write_fifo().
 
-Unwrapping the string is fine, but not the arguments.  Did you run
-checkpatch on this change?  I see some warnings on it, please don't
-introduce new ones.
+Signed-off-by: Sidong Yang <realwakka@gmail.com>
+---
+ drivers/staging/pi433/rf69.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index 659c8c1b38fd..8c7fab6a46bb 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -816,7 +816,7 @@ int rf69_write_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
+ 
+ 	if (size > FIFO_SIZE) {
+ 		dev_dbg(&spi->dev,
+-			"read fifo: passed in buffer bigger then internal buffer\n");
++			"write fifo: passed in buffer bigger then internal buffer\n");
+ 		return -EMSGSIZE;
+ 	}
+ 
+-- 
+2.30.2
 
-greg k-h
