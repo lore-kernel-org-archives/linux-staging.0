@@ -1,48 +1,49 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DC63D98
-	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 19:21:00 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id r4so1582386edi.8
-        for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 12:21:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946B73D98
+	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 19:21:11 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id uj29so601598ejc.0
+        for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 12:21:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc;
-        bh=4v6G96QLARZg9Gc1XZ9O/US7Fz7qZojxFxMbsbdJjOE=;
-        b=oT1Kb8Qq6N4PoqN+E5kGFBAEBb3rtv0Q0UeRxVyO5fOGzHEY7J7nstvQxuCLUCNm/j
-         WoxndF1Hgcrb5IwLf5CL8rKvtm2f95kdzRLLXl4VMf4zJ1pcHzv9d+24PEEfvkxe+Ekz
-         Tyx867xQ5ODWXvpi8JNSJjYvqZhxlcMR4wu57M4eXjIHvCssNE+Q/B3KbOgVvT5xPB22
-         dSH5URXLFFsMaJ2ieu3nudxvFR+jbx7ozzC6ci2MzwjsXqxl20fcusvKSXVCtkon5HNi
-         FfQKukDG+RZcTYmNj+NbfkgKtJtDpIHnm+UmUPDv6WwRm3OQiCgY8U9kAc7plgNnh9vd
-         cYtQ==
+        bh=uoHNcIjYvVZqJisWxXcOOSOxiOgF7GrC4J54f5gJBt0=;
+        b=Qmk/bNckYvraHA1It20FdjHfRhkySURaZkEScXU9hi5lyg16rH4MHOQA70PN3MitxV
+         yEgulGP06o+nEpBuKpw34g7j70Lb6yk48HbgPNSSS+SWQhQ3k1vSal3WI8DrDZz6WRir
+         ++6XzMh+sxzmEWr4Aa2j4922Nak20vr0iiKF5mmexArgByS7pPQEnBAD0nPNpO3Rbi/0
+         NdJJ5YNEkfGb0icfpX0BNyOw/6CmlpELcGRJOor8EnJZndA+5OtUb7eMqvQEhEVdxM4w
+         +OrcAJ184YfCW1PTR72eptaCuu5tyrmECWLXdKMwfTW0KAJoOHM7l8LBK07x0HjQvI8U
+         XJdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc;
-        bh=4v6G96QLARZg9Gc1XZ9O/US7Fz7qZojxFxMbsbdJjOE=;
-        b=dnBlghye6OO03Yx0lAwclLt+K/2gYvhEMJrI5GxysXRYN/0nXhfRfEoEpOyMXI/v23
-         iNpFwziHYKwc+4BlfxEIhODuky9KcbUsctPWkJVt8xjKH9FzuqxxIyr/OQ4HDKk6wTiq
-         Jvr5CQ9v1rexeK7rz0nKOAtEfqwAhrzEMuom0MADqb4XhAupUs4xnuqLX1u8xapQFSpa
-         wDP59ba5dZ00dqJZrKyFmfOPdjl4BPBzrJ1d5CzAs6WII4GuOIjpIVKrV7UR6npn9HrU
-         nqxL3iHXoPD/YxWqlY/Yw4effKmYtB6xzJP8clFBNJbUs1qTzAwxH25v8PpuNeN/waR2
-         PEAg==
-X-Gm-Message-State: AJIora/7QrCbCrcDmeeLMc4rrWtHAIZXv5F2ADzix7YjAJarWaDGr9VU
-	3yWcfqr0gwWrtmklMoto9rY=
-X-Google-Smtp-Source: AGRyM1ueTOKOuajFpMX31cpAHT/xoy+XzF/4fXzVbSz/fiMWxuzc5vlDSK3B+7ic188peIADaxrkxQ==
-X-Received: by 2002:a05:6402:2d1:b0:43c:bb20:71bf with SMTP id b17-20020a05640202d100b0043cbb2071bfmr8807498edx.59.1659208859109;
-        Sat, 30 Jul 2022 12:20:59 -0700 (PDT)
+        bh=uoHNcIjYvVZqJisWxXcOOSOxiOgF7GrC4J54f5gJBt0=;
+        b=QgBlMteMpkZljUmlCpBvNmp7v5b6TRVCtvJ8FwZjR7sBnBZ88vnf4nA278xrFUFXJQ
+         Lbtiz9wIbtgkKn2lpuik9OQPnZIJhZQNuo7r4m26f33KzthWAaFJbX2g9rs+14OuRvtk
+         xc+yVppnVh8ZpGRnuhBOa9r0EljVbg3O/TgoJyn8ZokmOSZeuXDHzsO+t82qVVtelii8
+         mAyRvfymLkY6RP7+cP2MLafCyYxs9lj2fMz2UtqGao517num0PejvdOU8Je+ETZPTOYA
+         b4eNMwnRhPzOReA1yly5GF2ifJqQ7nVEDTv9Ajm3D4aUJCk6TLxK942XSxqSkdR/Oqj4
+         fytg==
+X-Gm-Message-State: AJIora9TUeNkGpB9xM6IaKQqh4f/cq9L/QgAu3tLHPQMqrwGndvmQIj4
+	2UzlbooSrUVF/5k4pcdw360=
+X-Google-Smtp-Source: AGRyM1ucG/gRuy6TcFDN4BHzu6BNmw9kD+voS1BGi4wDDQ/N0XbOhwY6/x9N8exRPo0+7o3AJ6AjPg==
+X-Received: by 2002:a17:907:2d08:b0:72f:1dff:edf5 with SMTP id gs8-20020a1709072d0800b0072f1dffedf5mr6999117ejc.391.1659208869899;
+        Sat, 30 Jul 2022 12:21:09 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id l4-20020a170906078400b00730453877b1sm1254537ejc.217.2022.07.30.12.20.58
+        by smtp.gmail.com with ESMTPSA id i13-20020a056402054d00b0043ca6fb7e7dsm4158626edx.68.2022.07.30.12.21.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jul 2022 12:20:58 -0700 (PDT)
-Date: Sat, 30 Jul 2022 21:20:57 +0200
+        Sat, 30 Jul 2022 12:21:09 -0700 (PDT)
+Date: Sat, 30 Jul 2022 21:21:07 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] staging: vt6655: Convert macro MACvEnableBarkerPreambleMd
-Message-ID: <dcd4209a52e9626bd552508372041dd502f3513e.1659192760.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 6/6] staging: vt6655: Convert macro
+ MACvDisableBarkerPreambleMd
+Message-ID: <e5bc3828530d711496368a3bfed34e75fdb65887.1659192760.git.philipp.g.hortmann@gmail.com>
 References: <cover.1659192760.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,7 +55,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1659192760.git.philipp.g.hortmann@gmail.com>
 
-Convert macro MACvEnableBarkerPreambleMd to static function which calls
+Convert macro MACvDisableBarkerPreambleMd to static function which calls
 the common static function vt6655_mac_en_dis_bits_u32_reg. This saves
 codelines and multiline macros are not liked by kernel community.
 Function name is also changed to avoid CamelCase which is not accepted
@@ -67,47 +68,47 @@ Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
  2 files changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index c09d80effc3f..5ca8a302011d 100644
+index 5ca8a302011d..6efa79e8a651 100644
 --- a/drivers/staging/vt6655/device_main.c
 +++ b/drivers/staging/vt6655/device_main.c
-@@ -238,6 +238,11 @@ static void vt6655_mac_dis_protect_md(void __iomem *iobase)
- 	vt6655_mac_en_dis_bits_u32_reg(iobase, DISABLE, ENCFG_PROTECTMD);
+@@ -243,6 +243,11 @@ static void vt6655_mac_en_barker_preamble_md(void __iomem *iobase)
+ 	vt6655_mac_en_dis_bits_u32_reg(iobase, ENABLE, ENCFG_BARKERPREAM);
  }
  
-+static void vt6655_mac_en_barker_preamble_md(void __iomem *iobase)
++static void vt6655_mac_dis_barker_preamble_md(void __iomem *iobase)
 +{
-+	vt6655_mac_en_dis_bits_u32_reg(iobase, ENABLE, ENCFG_BARKERPREAM);
++	vt6655_mac_en_dis_bits_u32_reg(iobase, DISABLE, ENCFG_BARKERPREAM);
 +}
 +
  /*
   * Initialisation of MAC & BBP registers
   */
-@@ -1473,7 +1478,7 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
- 
- 	if (changed & BSS_CHANGED_ERP_PREAMBLE) {
- 		if (conf->use_short_preamble) {
--			MACvEnableBarkerPreambleMd(priv->port_offset);
-+			vt6655_mac_en_barker_preamble_md(priv->port_offset);
+@@ -1481,7 +1486,7 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
+ 			vt6655_mac_en_barker_preamble_md(priv->port_offset);
  			priv->preamble_type = true;
  		} else {
- 			MACvDisableBarkerPreambleMd(priv->port_offset);
+-			MACvDisableBarkerPreambleMd(priv->port_offset);
++			vt6655_mac_dis_barker_preamble_md(priv->port_offset);
+ 			priv->preamble_type = false;
+ 		}
+ 	}
 diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 3a9721624cff..fd95f49aa739 100644
+index fd95f49aa739..012388bf8d3b 100644
 --- a/drivers/staging/vt6655/mac.h
 +++ b/drivers/staging/vt6655/mac.h
 @@ -546,14 +546,6 @@
  #define MACvSelectPage1(iobase)				\
  	iowrite8(1, iobase + MAC_REG_PAGE1SEL)
  
--#define MACvEnableBarkerPreambleMd(iobase)				\
+-#define MACvDisableBarkerPreambleMd(iobase)				\
 -do {									\
 -	unsigned long dwOrgValue;					\
 -	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);			\
--	dwOrgValue = dwOrgValue | ENCFG_BARKERPREAM;			\
+-	dwOrgValue = dwOrgValue & ~ENCFG_BARKERPREAM;			\
 -	iowrite32((u32)dwOrgValue, iobase + MAC_REG_ENCFG);		\
 -} while (0)
 -
- #define MACvDisableBarkerPreambleMd(iobase)				\
+ #define MACvSetBBType(iobase, byTyp)					\
  do {									\
  	unsigned long dwOrgValue;					\
 -- 
