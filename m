@@ -1,28 +1,52 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF493C20
-	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 14:40:04 +0000 (UTC)
-Received: from dslb-188-104-059-172.188.104.pools.vodafone-ip.de ([188.104.59.172] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1oHndB-0004pM-S2; Sat, 30 Jul 2022 16:39:53 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7BB33EE
+	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 15:06:50 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id fy29so13051316ejc.12
+        for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 08:06:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VsL98Lrs98Wy38pw5pkmOgCJAyFL+RwwzHJiWxEvQRQ=;
+        b=iJAOKYO34qCePC3M1xT48SeEo0Edz2Cz0mC0NEJXVTy1qBZggD1UmHK1z9ZLXd+2Dc
+         TxWp9pJAVZHL68yMax9WuXOegSieaKwxo5auKVyZaTIOdyeSAMOAIWP0JxLA+igLA7BF
+         sZ9B3WyAOU8bDmGB5gZWdy0DOfmtbr/zaE2waxZzRYK2B+nM7D9/Pvq6JEluFj7S6xMT
+         52pzUSaxtMITmfLcwsnnoW7vNWzvOhRbejPcdS/QtCBHTX6xddiZMSYkzl18lX0XZ+V7
+         Uj39htufud211Ka+liB7qnL/qfD3nyeRJTi7Kv5rHg+d+K3beU0msYEnQHIj4fast+cO
+         qOcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VsL98Lrs98Wy38pw5pkmOgCJAyFL+RwwzHJiWxEvQRQ=;
+        b=wvokLMkCFt1rQSUO2AV7VEXfs5YXHVGZzRsoVr6qU8epj+BbukfrarODJoL3gOTMRQ
+         RFRupZ8fNWB40Ia1MM6ml0fVcLoMBMxlU8t7/Kk3dlFVfmjujxCkx0MsF6bIdiuk6h/a
+         I5ZxFh63g7E4Cy9urETl6NrlqGH12yTLBn/ck9ZfWmxl5sYvBEB6LSrtcSqyY5ZNgchO
+         yXJe6I7hJBebMKz2sOcu9b7Jcd6UVHv/NgPMdJQhvm6ozpFz6u74bWidCwedDY5ID5/7
+         FTaWhifwwB1kj/byRloGF/5pzTxiuo4alg/r07ZVc8otsFDldnOD9vyfM4Ngdqn7tnWn
+         gnaA==
+X-Gm-Message-State: AJIora+yEkNaoQWpcCQzcQC9/C9a2btPyXeUnvLjcU2+PnFyctyKVuBG
+	USC7L7p9X6LiessENMYtwFg=
+X-Google-Smtp-Source: AGRyM1unkIJ9uUdveVgDU0EeiIYPA/8KEn6ZCbM6LKRyh6dzQzN8tH4rAY2//VQwdUMPheVaeo9nIw==
+X-Received: by 2002:a17:906:8a44:b0:72b:3bba:e867 with SMTP id gx4-20020a1709068a4400b0072b3bbae867mr6659970ejc.752.1659193608211;
+        Sat, 30 Jul 2022 08:06:48 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb9e.dynamic.kabel-deutschland.de. [95.90.187.158])
+        by smtp.gmail.com with ESMTPSA id sy13-20020a1709076f0d00b00722d5b26ecesm3013989ejc.205.2022.07.30.08.06.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Jul 2022 08:06:47 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/3] staging: r8188eu: return an error code in rtw_usb_if1_init
-Date: Sat, 30 Jul 2022 16:39:39 +0200
-Message-Id: <20220730143939.671951-4-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220730143939.671951-1-martin@kaiser.cx>
-References: <20220730143939.671951-1-martin@kaiser.cx>
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/2] staging: r8188eu: clean up dump_chip_info()
+Date: Sat, 30 Jul 2022 17:06:35 +0200
+Message-Id: <20220730150637.3550-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,139 +55,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_usb_if1_init returns a pointer that isn't used by the caller. Return
-an error code instead. We can then propagate errors from lower-level
-functions like ReadAdapterInfo8188EU and fail the initialisation of the
-driver with a proper error code.
+These two patches clean up the function dump_chip_info() as suggested
+by Greg Kroah-Hartman and Joe Perches.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/os_dep/usb_intf.c | 44 ++++++++++++-----------
- 1 file changed, 24 insertions(+), 20 deletions(-)
+Michael Straube (2):
+  staging: r8188eu: convert dump_chip_info() to use netdev_dbg()
+  staging: r8188eu: refactor dump_chip_info()
 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 4dbdffa4e293..db91f72dd40f 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -287,17 +287,17 @@ static int rtw_resume(struct usb_interface *pusb_intf)
-  *        We accept the new device by returning 0.
-  */
- 
--static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
--	struct usb_interface *pusb_intf)
-+static int rtw_usb_if1_init(struct dvobj_priv *dvobj, struct usb_interface *pusb_intf)
- {
- 	struct adapter *padapter = NULL;
- 	struct net_device *pnetdev = NULL;
- 	struct io_priv *piopriv;
- 	struct intf_hdl *pintf;
-+	int ret;
- 
- 	padapter = vzalloc(sizeof(*padapter));
- 	if (!padapter)
--		return NULL;
-+		return -ENOMEM;
- 
- 	padapter->dvobj = dvobj;
- 	dvobj->if1 = padapter;
-@@ -309,8 +309,10 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 	rtw_handle_dualmac(padapter, 1);
- 
- 	pnetdev = rtw_init_netdev(padapter);
--	if (!pnetdev)
-+	if (!pnetdev) {
-+		ret = -ENODEV;
- 		goto handle_dualmac;
-+	}
- 	SET_NETDEV_DEV(pnetdev, dvobj_to_dev(dvobj));
- 	padapter = rtw_netdev_priv(pnetdev);
- 
-@@ -331,12 +333,15 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 	rtl8188eu_interface_configure(padapter);
- 
- 	/* step read efuse/eeprom data and get mac_addr */
--	if (ReadAdapterInfo8188EU(padapter) < 0)
-+	ret = ReadAdapterInfo8188EU(padapter);
-+	if (ret)
- 		goto handle_dualmac;
- 
- 	/* step 5. */
--	if (rtw_init_drv_sw(padapter) == _FAIL)
-+	if (rtw_init_drv_sw(padapter) == _FAIL) {
-+		ret = -ENODEV;
- 		goto handle_dualmac;
-+	}
- 
- #ifdef CONFIG_PM
- 	if (padapter->pwrctrlpriv.bSupportRemoteWakeup) {
-@@ -351,7 +356,8 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 	usb_autopm_get_interface(pusb_intf);
- 
- 	/*  alloc dev name after read efuse. */
--	if (rtw_init_netdev_name(pnetdev, padapter->registrypriv.ifname) < 0)
-+	ret = rtw_init_netdev_name(pnetdev, padapter->registrypriv.ifname);
-+	if (ret)
- 		goto free_drv_sw;
- 	rtw_macaddr_cfg(padapter->eeprompriv.mac_addr);
- 	rtw_init_wifidirect_addrs(padapter, padapter->eeprompriv.mac_addr,
-@@ -359,10 +365,11 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 	eth_hw_addr_set(pnetdev, padapter->eeprompriv.mac_addr);
- 
- 	/* step 6. Tell the network stack we exist */
--	if (register_netdev(pnetdev) != 0)
-+	ret = register_netdev(pnetdev);
-+	if (ret)
- 		goto free_drv_sw;
- 
--	return padapter;
-+	return 0;
- 
- free_drv_sw:
- 	rtw_cancel_all_timer(padapter);
-@@ -374,7 +381,7 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 	else
- 		vfree(padapter);
- 
--	return NULL;
-+	return ret;
- }
- 
- static void rtw_usb_if1_deinit(struct adapter *if1)
-@@ -402,27 +409,24 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
- 
- static int rtw_drv_init(struct usb_interface *pusb_intf, const struct usb_device_id *pdid)
- {
--	struct adapter *if1 = NULL;
- 	struct dvobj_priv *dvobj;
-+	int ret;
- 
- 	/* Initialize dvobj_priv */
- 	dvobj = usb_dvobj_init(pusb_intf);
- 	if (!dvobj)
--		goto err;
-+		return -ENODEV;
- 
--	if1 = rtw_usb_if1_init(dvobj, pusb_intf);
--	if (!if1)
--		goto free_dvobj;
-+	ret = rtw_usb_if1_init(dvobj, pusb_intf);
-+	if (ret) {
-+		usb_dvobj_deinit(pusb_intf);
-+		return ret;
-+	}
- 
- 	if (ui_pid[1] != 0)
- 		rtw_signal_process(ui_pid[1], SIGUSR2);
- 
- 	return 0;
--
--free_dvobj:
--	usb_dvobj_deinit(pusb_intf);
--err:
--	return -ENODEV;
- }
- 
- /*
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 37 ++++++++-----------
+ 1 file changed, 16 insertions(+), 21 deletions(-)
+
 -- 
-2.30.2
+2.37.1
 
