@@ -1,170 +1,127 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E05D3C26
-	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 16:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659198021; x=1690734021;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=KMxqD33OIAG5+LVA9hLBAgj59Xmw6ck7YXvwZ5dHDn4=;
-  b=YS4h1jHdVQRjKFv70wtZ8tvJN858xhfITN4SIOwDSJJPE1yxirGi5XHi
-   F4SJlNhb80wXqmSJiOzG/17oGqUJRW6cWBQbbCpdxXLLm0njUFVOcbsm/
-   PmKfiHS6NG86tJ87u5vuiyhksX2qicrTsLmBOic1Gi0ZvOgMme090KYtq
-   FVNhJvQG+W6ttS9IhcFr/2KRP2plR+QC9f1hqUMakA2VDbXQ5488sQpF8
-   g/dz9b7Zek3ZBx+3w+w7ag8upS2dTdpC3xHCeTc67mXl+yEEyBiufnv35
-   ozUZcI3zUa/Opv34/IxYdA3knMM0Dam20/tDMKc4FgYan6Ebe32jYKJX+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10424"; a="271968807"
-X-IronPort-AV: E=Sophos;i="5.93,204,1654585200"; 
-   d="scan'208";a="271968807"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2022 09:20:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,204,1654585200"; 
-   d="scan'208";a="691026007"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 30 Jul 2022 09:20:18 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 075A4F1; Sat, 30 Jul 2022 19:20:28 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v1 1/1] media: atomisp_gmin_platform: Unexport and split camera_sensor_csi()
-Date: Sat, 30 Jul 2022 19:20:27 +0300
-Message-Id: <20220730162027.1011-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DE22574
+	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 18:37:02 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id l22so9450260wrz.7
+        for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 11:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TRAXgV5+4KFo44IYj7c1ZkfqvHrarfrCB5sK/JIenvU=;
+        b=UPqwM+d5w4Le3G5E+AEXJSI90MPvhs76FZf1qFDxO7qZvDmkRHAjpKh7EawIWlqbGM
+         DQCSLMycVYoKeIvA33wp79RyjnRPjICTx9hcyB80W/vvdpNgSznRpeRU7cUqSxLdIM92
+         8LP365WKYif8yz60XIJyJIqC8tWDfvcQaZk6O+FHCIpgPa4nOusW/TbicD/lntKttpFt
+         65Ozhy2dLvkc9c8hh85BO8PcYp/mT5f1L6S56j7uHxLelSb0ERf+lANDSEfffhmZZe/u
+         MfJEajZIIQzCI6CrlYfT31M3tK2QjgQH3m+iAc+aF0F6cIopVhDy97m9U/zB0PcGAwFQ
+         zONg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TRAXgV5+4KFo44IYj7c1ZkfqvHrarfrCB5sK/JIenvU=;
+        b=52b7QnU0jDBUsYEm8exQjqBCugisVySUrmGDzmGno/v2ntFZW8qo9Pf+aAv5Mu6qKa
+         O3AuilpgIULxXgGQL5txL3zcM5OOIFF9X83gfRBvz/aOT0VKCZVf7HjZgOQ6uHLwBAWa
+         mN1CJU1ZElCmSr/eUzTDuIElxyd088HkF3tzYgbQoyG+ssR3hLlYhHbWt4Y6899ufZrf
+         9FGsx68q5dcZaTlhEzFBEU+herah8BXJyBp2+4vgmmO3jpOUMZkE7vl92jP1B4L5+Rx2
+         8J4cGHdqmL6B0c7uQzfPE8kd0Ew6L+1cktZP5BSMEZtyQ4DEgIFwf+WDAW4oCtQ6PE2X
+         lZZA==
+X-Gm-Message-State: ACgBeo102VgCQjgMgE5fsHhf+yAOAjtkvqwVNjPKTtmNpTGsyHJt4IKt
+	NFYm+d9Vzv0v12LU1JNymPHanw==
+X-Google-Smtp-Source: AA6agR4M59kJ8HR5FMOzBlEVjI9/veKY7t6DeP4amjMm2D277J07XnvQ/W3llUD989xngZo3JKwl9A==
+X-Received: by 2002:adf:f109:0:b0:21f:14df:42d2 with SMTP id r9-20020adff109000000b0021f14df42d2mr4524624wro.45.1659206221120;
+        Sat, 30 Jul 2022 11:37:01 -0700 (PDT)
+Received: from OEMBP14.local (82-132-226-84.dab.02.net. [82.132.226.84])
+        by smtp.gmail.com with ESMTPSA id l3-20020a1ced03000000b003a046549a85sm13621645wmh.37.2022.07.30.11.36.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Jul 2022 11:37:00 -0700 (PDT)
+Date: Sat, 30 Jul 2022 19:36:57 +0100
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	paskripkin@gmail.com, martin@kaiser.cx, straube.linux@gmail.com,
+	fmdefrancesco@gmail.com, abdun.nihaal@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: r8188eu: convert rtw_set_802_11_add_wep
+ error code semantics
+Message-ID: <YuV452xuR1S0WyJi@OEMBP14.local>
+References: <20220728231150.972-1-phil@philpotter.co.uk>
+ <20220728231150.972-3-phil@philpotter.co.uk>
+ <20220729064803.GT2338@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220729064803.GT2338@kadam>
 
-The camera_sensor_csi() is not used outside the module, hence make it
-static. While at it, split it to _alloc() and _free() to clearly show
-the idea behind the last parameter @flag that is passed to
-gmin_csi_cfg().
+On Fri, Jul 29, 2022 at 09:48:03AM +0300, Dan Carpenter wrote:
+> On Fri, Jul 29, 2022 at 12:11:50AM +0100, Phillip Potter wrote:
+> > -u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep)
+> > +int rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep)
+> >  {
+> >  	int		keyid, res;
+> >  	struct security_priv *psecuritypriv = &padapter->securitypriv;
+> > -	u8		ret = _SUCCESS;
+> > +	int		ret = 0;
+> >  
+> >  	keyid = wep->KeyIndex & 0x3fffffff;
+> >  
+> >  	if (keyid >= 4) {
+> > -		ret = false;
+> > +		ret = -EOPNOTSUPP;
+> >  		goto exit;
+> >  	}
+> >  
+> > @@ -424,7 +424,7 @@ u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep)
+> >  	res = rtw_set_key(padapter, psecuritypriv, keyid, 1);
+> >  
+> >  	if (res == _FAIL)
+> > -		ret = false;
+> > +		ret = -ENOMEM;
+> >  exit:
+> >  
+> >  	return ret;
+> 
+> No, this isn't right.  This now returns 1 on success and negative
+> error codes on error.
+> 
+> There are a couple anti-patterns here:
+> 
+> 1) Do nothing gotos
+> 2) Mixing error paths and success paths.
+> 
+> If you avoid mixing error paths and success paths then you get a pattern
+> called: "Solid return zero."  This is where the end of the function has
+> a very chunky "return 0;" to mark that it is successful.  You want that.
+> Some people do a "if (ret == 0) return ret;".  Nope.  "return ret;" is
+> not chunky.
+> 
+> regards,
+> dan carpenter
+> 
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../include/linux/atomisp_gmin_platform.h     |  2 -
- .../media/atomisp/pci/atomisp_gmin_platform.c | 68 ++++++++++---------
- 2 files changed, 37 insertions(+), 33 deletions(-)
+Hi Dan,
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-index 58e0ea5355a3..5463d11d4295 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-@@ -26,8 +26,6 @@ struct v4l2_subdev *atomisp_gmin_find_subdev(struct i2c_adapter *adapter,
- int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd);
- int gmin_get_var_int(struct device *dev, bool is_gmin,
- 		     const char *var, int def);
--int camera_sensor_csi(struct v4l2_subdev *sd, u32 port,
--		      u32 lanes, u32 format, u32 bayer_order, int flag);
- struct camera_sensor_platform_data *
- gmin_camera_platform_data(
-     struct v4l2_subdev *subdev,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index f7fc5137199c..4032239fcb86 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -1066,6 +1066,38 @@ static int gmin_flisclk_ctrl(struct v4l2_subdev *subdev, int on)
- 	return ret;
- }
- 
-+static int camera_sensor_csi_alloc(struct v4l2_subdev *sd, u32 port, u32 lanes,
-+				   u32 format, u32 bayer_order)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	struct camera_mipi_info *csi;
-+
-+	csi = kzalloc(sizeof(*csi), GFP_KERNEL);
-+	if (!csi)
-+		return -ENOMEM;
-+
-+	csi->port = port;
-+	csi->num_lanes = lanes;
-+	csi->input_format = format;
-+	csi->raw_bayer_order = bayer_order;
-+	v4l2_set_subdev_hostdata(sd, csi);
-+	csi->metadata_format = ATOMISP_INPUT_FORMAT_EMBEDDED;
-+	csi->metadata_effective_width = NULL;
-+	dev_info(&client->dev,
-+		 "camera pdata: port: %d lanes: %d order: %8.8x\n",
-+		 port, lanes, bayer_order);
-+
-+	return 0;
-+}
-+
-+static void camera_sensor_csi_free(struct v4l2_subdev *sd)
-+{
-+	struct camera_mipi_info *csi;
-+
-+	csi = v4l2_get_subdev_hostdata(sd);
-+	kfree(csi);
-+}
-+
- static int gmin_csi_cfg(struct v4l2_subdev *sd, int flag)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
-@@ -1074,8 +1106,11 @@ static int gmin_csi_cfg(struct v4l2_subdev *sd, int flag)
- 	if (!client || !gs)
- 		return -ENODEV;
- 
--	return camera_sensor_csi(sd, gs->csi_port, gs->csi_lanes,
--				 gs->csi_fmt, gs->csi_bayer, flag);
-+	if (flag)
-+		return camera_sensor_csi_alloc(sd, gs->csi_port, gs->csi_lanes,
-+					       gs->csi_fmt, gs->csi_bayer);
-+	camera_sensor_csi_free(sd);
-+	return 0;
- }
- 
- static struct camera_vcm_control *gmin_get_vcm_ctrl(struct v4l2_subdev *subdev,
-@@ -1358,35 +1393,6 @@ int gmin_get_var_int(struct device *dev, bool is_gmin, const char *var, int def)
- }
- EXPORT_SYMBOL_GPL(gmin_get_var_int);
- 
--int camera_sensor_csi(struct v4l2_subdev *sd, u32 port,
--		      u32 lanes, u32 format, u32 bayer_order, int flag)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct camera_mipi_info *csi = NULL;
--
--	if (flag) {
--		csi = kzalloc(sizeof(*csi), GFP_KERNEL);
--		if (!csi)
--			return -ENOMEM;
--		csi->port = port;
--		csi->num_lanes = lanes;
--		csi->input_format = format;
--		csi->raw_bayer_order = bayer_order;
--		v4l2_set_subdev_hostdata(sd, (void *)csi);
--		csi->metadata_format = ATOMISP_INPUT_FORMAT_EMBEDDED;
--		csi->metadata_effective_width = NULL;
--		dev_info(&client->dev,
--			 "camera pdata: port: %d lanes: %d order: %8.8x\n",
--			 port, lanes, bayer_order);
--	} else {
--		csi = v4l2_get_subdev_hostdata(sd);
--		kfree(csi);
--	}
--
--	return 0;
--}
--EXPORT_SYMBOL_GPL(camera_sensor_csi);
--
- /* PCI quirk: The BYT ISP advertises PCI runtime PM but it doesn't
-  * work.  Disable so the kernel framework doesn't hang the device
-  * trying.  The driver itself does direct calls to the PUNIT to manage
--- 
-2.35.1
+Thank you for the review firstly, much appreciated.
 
+I'm happy of course to rewrite this to address any concerns, but
+I was hoping I could clarify what you've said though? Apologies if I've
+missed it, but how is this function now returning 1 on success? It sets
+ret to 0 (success) at the start and then sets it to one of two negative
+error codes depending on what happens. Am I missing something here?
+(Perfectly possible that I am).
+
+In terms of do nothing gotos, do you mean gotos that just set an error
+code then jump to the end? If you'd prefer, as the function just returns
+right after the exit label, I can just return the codes directly and have
+a 'return 0;' like you say above?
+
+Thanks as always for your insight.
+
+Regards,
+Phil
