@@ -1,49 +1,48 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D994A3D90
-	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 19:20:22 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id fy29so13693567ejc.12
-        for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 12:20:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643B93D90
+	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 19:20:34 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id tk8so13738716ejc.7
+        for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 12:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc;
-        bh=WLvWy4K8HcW3LAslZh7Wr86ITXJRS+ffnYQWYzLiedQ=;
-        b=B5XKMTbs4j/0CtJ6lJcJQSrjp/VFFmFEiwFaK9Eox4+BF/aN0I3zWl0LV0lxiMLB7Y
-         c6cR2WpfgnR+NjfxBIzFKaDwAu+PoOTS3+pGs4Mz2bxtiMgQca7hbEHYuqpvfI3VPcsq
-         7W9yzuY1oOw+yKdnYfHkhClYfGrvpT6Z4DHxi2ywdq9OsjDN5mnTwYNoufdCShJ5dkpL
-         bU+bpH4Uik4SqMrwFlaCc2WXIG/qRDDrN9CYiHyo/gi8IzzsU9ZFsUzy1xbMRkN6SzM/
-         rdDhlBaN8gkvSeyTHuzt5cnsWuyHhEzj+Bs9Wwpa9TW24z0lD5I1t9sxPUjIN3IsjKB8
-         3lTw==
+        bh=HUoAZomuVEY3gWZs5PRO+GGlcpFSS2IlF4vVoPzeVgo=;
+        b=HN2RwIDPEaVjNCV1XzPSUga1o1wtGNu7/UOLJgj5RnVjBNZl8cPif4Pxk1u6M9PH4/
+         Xu9ffrQZeQ+D/+BB4eGl9BYvWuSdr/ZUtsQvlGgNskCjhn71D/8auNidWLp6ciZ9kvXO
+         e52PgPCQw58BC7ngd6FnNKLujO0vTQvBkvu9wrWR/8tCB6tf5yuHY5S9/brMiDb+u9hL
+         cYE1OcJD8b93E9/4usiin2XhQSlusoK2Vd8f2dTyyc7bpSE10pwCIdjIixrniaQMixuU
+         UPgxLc2UHLjoalNv8BrGs3UvhvXlEBftUFZm2nRNdorbB9luhtO7kf3PYyPsnjoHAm7M
+         mI0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc;
-        bh=WLvWy4K8HcW3LAslZh7Wr86ITXJRS+ffnYQWYzLiedQ=;
-        b=ORn+59w45fWqAiIYKkodwPZKMT01cgHXGZ5X/DVKvrxwUoDoiusUrPND7VTnYutHMj
-         HkhEspLdDhfGjAyt+uokAKtfU8qW+jUZrLXIOdMqMHu379OMevD9JoKoealbvABCgmhp
-         nR6itS1sDys0mmGwpEGXmJAdbwMox9jdYWytSZXQxe9PSGDPHZ9JtRXtgk4+wHqINmjF
-         QQYtTBvbLLEwx+djforSIYv+z6EEfQ8yXjAi4iswVslaHmvxES4qtQQNOpwSvkuRjYj6
-         jkPjhE5Y5aAXT2TWZUO52LnzGA+eH7mqJ1m6oDFgwWyRC6RH8Wng6kXNll7PwNUFrtDe
-         G5Zg==
-X-Gm-Message-State: AJIora865wbpsZaOuopuBQ/6/5vEBQeGA9/XZEdbWOYfJrkP+oTYZKzd
-	6Bm0tBKZtUoWmEGdlb9Ztug=
-X-Google-Smtp-Source: AGRyM1sUvBVN9C33ftS/bi6aY2bbpN7dTz1bbU3T/IvMGkYU4Qqki8+lDRrjCraw0MglcO9B8hRFhA==
-X-Received: by 2002:a17:906:730c:b0:72b:4f83:51c1 with SMTP id di12-20020a170906730c00b0072b4f8351c1mr7115513ejc.515.1659208820999;
-        Sat, 30 Jul 2022 12:20:20 -0700 (PDT)
+        bh=HUoAZomuVEY3gWZs5PRO+GGlcpFSS2IlF4vVoPzeVgo=;
+        b=SMEA1QNExZJf/otXOK3nl7r/9+FCnM6peCkXmU4Gahzcal8ZCgedSkMllAOThgjfkx
+         tQcXfdvAWvZQb/r+Z4fdnQVRwxt2ZqleH78U5PO5OQdkaOIQGj8SjDJwHlkT8wf2HjhW
+         pnGgaoMxv8GhQfgemG8F8ZdBfAET7gs2LM6X8bO3IH/hS/3KFmy7XRgrjgnSYdFJxry8
+         n3ZNeel/iskeEIQm/LxqZiVChSnPOWyBhzco5eYAyfK/SCTpo2LE75t4Rc20oEpyLLOC
+         eoiZ5jNu7Lg2JLfh7ry0ssxiBAqDJhvn40KTLYqRHhnZWnpNGrTpekuDqK0xk0FuiT79
+         Uqew==
+X-Gm-Message-State: AJIora+jc4jX6eBgMFGqGJgwYS/GHZKYcZLBovCp5LC5OE+YPXGKSRjd
+	K/bhvlYc1A7ni2fprgSlQNI=
+X-Google-Smtp-Source: AGRyM1sJVck7k58kzPJmFKFcb8QhrXHG/kmie+BSgXBXqzStigwLX5UwwNgDAkLGbL4Ay+EMMYZu1A==
+X-Received: by 2002:a17:907:2cef:b0:72b:5b3e:3d7a with SMTP id hz15-20020a1709072cef00b0072b5b3e3d7amr6942572ejc.293.1659208832652;
+        Sat, 30 Jul 2022 12:20:32 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id yw17-20020a170907245100b00722fadc4279sm3218418ejb.124.2022.07.30.12.20.20
+        by smtp.gmail.com with ESMTPSA id g10-20020a1709067c4a00b0072ab06bf296sm3282425ejp.23.2022.07.30.12.20.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jul 2022 12:20:20 -0700 (PDT)
-Date: Sat, 30 Jul 2022 21:20:19 +0200
+        Sat, 30 Jul 2022 12:20:32 -0700 (PDT)
+Date: Sat, 30 Jul 2022 21:20:30 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/6] staging: vt6655: Convert macro MACvEnableProtectMD to
- function
-Message-ID: <ff985a2e3513f277011badb0103b443efedc8a4d.1659192760.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/6] staging: vt6655: Create one function for four macros
+Message-ID: <d4768227a7ea10ccec6d08eb0c55f8790ef70379.1659192760.git.philipp.g.hortmann@gmail.com>
 References: <cover.1659192760.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,56 +54,59 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1659192760.git.philipp.g.hortmann@gmail.com>
 
-Convert macro to static function. Multiline macros are not liked by
-kernel community. Rename variable dwOrgValue to reg_value to avoid
-CamelCase which is not accepted by checkpatch.pl. Change variable
-declaration to u32 as this improves readability.
+Create function vt6655_mac_en_dis_bits_u32_reg with three parameters to
+cover functionality of four macros.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/vt6655/device_main.c | 9 +++++++++
- drivers/staging/vt6655/mac.h         | 8 --------
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ drivers/staging/vt6655/device_main.c | 12 ++++++++++--
+ drivers/staging/vt6655/mac.h         |  3 +++
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 1fc8bdf8a311..3565aa53f007 100644
+index 3565aa53f007..5f64204dc312 100644
 --- a/drivers/staging/vt6655/device_main.c
 +++ b/drivers/staging/vt6655/device_main.c
-@@ -216,6 +216,15 @@ static void vt6655_mac_dma_ctl(void __iomem *iobase, u8 reg_index)
+@@ -216,15 +216,23 @@ static void vt6655_mac_dma_ctl(void __iomem *iobase, u8 reg_index)
  		iowrite32(DMACTL_RUN, iobase + reg_index);
+ }
+ 
+-static void MACvEnableProtectMD(void __iomem *iobase)
++static void vt6655_mac_en_dis_bits_u32_reg(void __iomem *iobase, bool en_not_dis, u32 bit_mask)
+ {
+ 	u32 reg_value;
+ 
+ 	reg_value = ioread32(iobase + MAC_REG_ENCFG);
+-	reg_value = reg_value | ENCFG_PROTECTMD;
++	if (en_not_dis)
++		reg_value = reg_value | bit_mask;
++	else
++		reg_value = reg_value & ~bit_mask;
+ 	iowrite32(reg_value, iobase + MAC_REG_ENCFG);
  }
  
 +static void MACvEnableProtectMD(void __iomem *iobase)
 +{
-+	u32 reg_value;
-+
-+	reg_value = ioread32(iobase + MAC_REG_ENCFG);
-+	reg_value = reg_value | ENCFG_PROTECTMD;
-+	iowrite32(reg_value, iobase + MAC_REG_ENCFG);
++	vt6655_mac_en_dis_bits_u32_reg(iobase, ENABLE, ENCFG_PROTECTMD);
 +}
 +
  /*
   * Initialisation of MAC & BBP registers
   */
 diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 467c599a3289..84d203c56b1f 100644
+index 84d203c56b1f..31e75df5f02f 100644
 --- a/drivers/staging/vt6655/mac.h
 +++ b/drivers/staging/vt6655/mac.h
-@@ -543,14 +543,6 @@
- #define MACvSelectPage1(iobase)				\
- 	iowrite8(1, iobase + MAC_REG_PAGE1SEL)
+@@ -21,6 +21,9 @@
+ #include "device.h"
  
--#define MACvEnableProtectMD(iobase)					\
--do {									\
--	unsigned long dwOrgValue;					\
--	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);			\
--	dwOrgValue = dwOrgValue | ENCFG_PROTECTMD;			\
--	iowrite32((u32)dwOrgValue, iobase + MAC_REG_ENCFG);		\
--} while (0)
--
- #define MACvDisableProtectMD(iobase)					\
- do {									\
- 	unsigned long dwOrgValue;					\
+ /*---------------------  Export Definitions -------------------------*/
++#define ENABLE 1
++#define DISABLE 0
++
+ /* Registers in the MAC */
+ #define MAC_MAX_CONTEXT_SIZE_PAGE0  256
+ #define MAC_MAX_CONTEXT_SIZE_PAGE1  128
 -- 
 2.37.1
 
