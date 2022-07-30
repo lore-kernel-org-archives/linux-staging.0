@@ -1,82 +1,399 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B851FB1
-	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 03:35:30 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2ef5380669cso67191067b3.9
-        for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 20:35:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05A1187F
+	for <linux-staging@lists.linux.dev>; Sat, 30 Jul 2022 04:57:37 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id iw1so6212073plb.6
+        for <linux-staging@lists.linux.dev>; Fri, 29 Jul 2022 21:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=wQPQlV7apFmdAUsFT8uJyYaVCkVufIRKulfJqIm3SSw=;
-        b=ZT2MMNv6qiCqlI600Ig6b2L8iRnFwfJquxCn1XYJzn0H8G46TfJLCNCKWvF0n2jPKE
-         cL1xo4u/MpaZUgHgaUrvdLfSGN52FTRzbY32HyFlsPIN013qaIfEaGcgVz9/OOZ9frNE
-         giYlc1jSqeXT1gmIiCPlerAuNKKTOxpFIUNJq6xNHdLSzBRHq/mcpFd10jN8j/SlQKT7
-         Ic69vavUNAwl/q73AmgP5ql7tw964rTvC5zclj9oYv8C7MY6YcWfp6rbmXeQtB8WYFWu
-         Oj+YL4y4t4c40uPwcl9vcZgXpDAH8CMdZr0UCO05HH0ghYJzgfFspgTTdlJ96/Brz+Cm
-         UioA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cx1gZ2ooQTYsth+yQ703eP4+ThWjOqWP1XjCxbfhTSE=;
+        b=YmMxovA4tQuEsG0Ybkh69WzIZTusm+EvLbAPKcAJjxyRInBc60Zi5Z0J/Apots4yWQ
+         tNqBmD+tb0ptWZsmYuo76BpzVCo36EvfLbMWHLZgfwztbZdDq2hYKQ6Ff2RqpNc+ORPf
+         hQuywQ3a96db/OuOs9Eg8rP6L8YtayrtTAH7Xqyb54YMpQUWyy04WGFXtbb7p/XfICdE
+         I9pu3J6qollZ1dke4zNSI7BbBF26/IysWCI0UrpqZ3IaoPr99+/GOsNG35OaP5ZSWhGP
+         uex92j53Al4tL8hV/eORfzx978jKSycL4C/6atKEcXNbo0Iw+RrL0o2wTF8dhcCRqse8
+         8H1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=wQPQlV7apFmdAUsFT8uJyYaVCkVufIRKulfJqIm3SSw=;
-        b=uD0iUakJNycinDbRhAJ/qAGJQEJR6ZKv7aZCFRnS2oH69YDHSwBvEt6vNjZpub0YOX
-         143yjInNTovZGnSp6y3/1xdj4dd8HShLC7fFEowCbTSUCXaiukG5NRi0IioFG1tCOgaU
-         eQCZwlosPT0RpdYluK8JHOhlZn7KvijvK+T+l0mQ+BrhzWjHzKSh6dQFnOfBFJhs4YVI
-         b2BiaXHcflR2E5R3FfdmePIputK3+sYAvQ1DAVkge8qdXsdbPLcF4+sftb69xlKh1m0Z
-         fAtnDVXFoYONQp9n0tuCHgzjARZLJhNOtSZcjy+swysGlxaTqnNUY60wJgoUo6gKh296
-         XtFA==
-X-Gm-Message-State: ACgBeo134mGNtNYO4F/u5z5czboAukaGEpTxxSAn9cLUZ9WSEoXYnfeG
-	7i9nN4lK37Tr5bSA3zaOZUp2J6PeT31GPSxEgef1Sg1ill4orQ==
-X-Google-Smtp-Source: AA6agR4QY9761VtnH9U7F4uCzTjxcUz++vqV+cHnk6luBTe2FaF20W+gYT5CRUSs6UUGu7R0D8JPtHHQ5WAVxq0O5JU=
-X-Received: by 2002:a81:4845:0:b0:322:ae4a:f3de with SMTP id
- v66-20020a814845000000b00322ae4af3demr5560045ywa.398.1659152129678; Fri, 29
- Jul 2022 20:35:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cx1gZ2ooQTYsth+yQ703eP4+ThWjOqWP1XjCxbfhTSE=;
+        b=r8WgI7gHc/5YysXz/Pkn7cR1PZoeLRRz9yjO2V71DTM5H7DrcRHxdZtRlPbyXw+Yr8
+         75JKXE1p5DgIXCUhhvBtOCL1N1QBHZTdS/sz2wB374h0CYCAGg1b6dfg6t9mIcZYEbF6
+         4P/3mP83v21YaUyNr5AZkZxWQyc7dyTKXxPXCSl/loBn7dEoHAftSoqdomLBRniEQPQD
+         LRjPMANpSomPhZ14KS0BngDNviNWwR3QaCFNRbfXv0ycq3nAZYNS4y2whIK5OVjdcWU1
+         J5ez1AkkpkTXgpzwnxDDvaAZ8/b9xHnyGD8kBImduYSrOb1IZMd7Y+fTBPrJFfC1z957
+         wh+w==
+X-Gm-Message-State: ACgBeo2vRMG4VsU+d7h+MIdC2lRdFKzVB+Nr/wD3FmRMDe3Hj6TltIUG
+	ua/YINULkhsg96rVGbkiWA==
+X-Google-Smtp-Source: AA6agR60d2YidCK8RqqNtfEkQ5jXhJyoAFFKp0y7+M8ecaaqH+HMi5+hHZroDAO22NN/UcKymciP7Q==
+X-Received: by 2002:a17:90a:fe07:b0:1f4:203d:d192 with SMTP id ck7-20020a17090afe0700b001f4203dd192mr4109178pjb.145.1659157057127;
+        Fri, 29 Jul 2022 21:57:37 -0700 (PDT)
+Received: from localhost.localdomain ([120.239.75.76])
+        by smtp.gmail.com with ESMTPSA id j19-20020a634a53000000b0041983a8d8c2sm3526688pgl.39.2022.07.29.21.57.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Jul 2022 21:57:36 -0700 (PDT)
+From: Mingyi Kang <jerrykang026@gmail.com>
+To: gregkh@linuxfoundation.org,
+	martyn@welchs.me.uk,
+	manohar.vanga@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Mingyi Kang <jerrykang026@gmail.com>
+Subject: [PATCH] staging: vme_user: Fix checkpatch warnings in vme_tsi148.c
+Date: Sat, 30 Jul 2022 12:57:26 +0800
+Message-Id: <20220730045726.55452-1-jerrykang026@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YuDdHMaB6jWARQzA@kroah.com> <20220729035230.226172-1-ztong0001@gmail.com>
- <20220729035230.226172-2-ztong0001@gmail.com> <90a16ffd-5a08-0ed3-280e-bd5c4522525c@gmail.com>
-In-Reply-To: <90a16ffd-5a08-0ed3-280e-bd5c4522525c@gmail.com>
-From: Tong Zhang <ztong0001@gmail.com>
-Date: Fri, 29 Jul 2022 20:35:18 -0700
-Message-ID: <CAA5qM4B_7wvnB8U1kgQpcn81sazp43wn9dYa+SQzh1iwGKp2eQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] staging: rtl8192u: move debug stuff to its own file
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@oracle.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Saurav Girepunje <saurav.girepunje@gmail.com>, 
-	Colin Ian King <colin.king@intel.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 28, 2022 at 11:23 PM Philipp Hortmann
-<philipp.g.hortmann@gmail.com> wrote:
->
-> On 7/29/22 05:52, Tong Zhang wrote:
-> > This is to prepare for moving them to debugfs and fix rmmod warn issue
-> > when wlan0 is renamed to something else.
-> >
-> > Reviewed-by: Dan Carpenter<dan.carpenter@oracle.com>
-> > Signed-off-by: Tong Zhang<ztong0001@gmail.com>
-> > ---
->
-> When I applied your first patch I got this hint:
->
-> Applying: staging: rtl8192u: move debug stuff to its own file
-> .git/rebase-apply/patch:399: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
->
-> Not really an functional issue...but
->
-> By Philipp
+This patch fix the follwing checkpatch warnings:
 
-Hi Philipp,
-Thanks for the review. I fixed it in v4.
-Thanks and have a good one!
-- Tong
+	WARNING: quoted string split across lines
+	#129: FILE: drivers/staging/vme_user/vme_tsi148.c:129:
+	+			dev_err(tsi148_bridge->parent, "VME Mailbox %d received"
+	+				": 0x%x\n", i, val);
+
+	WARNING: quoted string split across lines
+	#147: FILE: drivers/staging/vme_user/vme_tsi148.c:147:
+	+	dev_err(tsi148_bridge->parent, "PCI Exception at address: 0x%08x:%08x, "
+	+		"attributes: %08x\n",
+
+	WARNING: quoted string split across lines
+	#153: FILE: drivers/staging/vme_user/vme_tsi148.c:153:
+	+	dev_err(tsi148_bridge->parent, "PCI-X attribute reg: %08x, PCI-X split "
+	+		"completion reg: %08x\n",
+
+	WARNING: quoted string split across lines
+	#185: FILE: drivers/staging/vme_user/vme_tsi148.c:185:
+	+		dev_err(tsi148_bridge->parent, "VME Bus Exception Overflow "
+	+			"Occurred\n");
+
+	WARNING: quoted string split across lines
+	#321: FILE: drivers/staging/vme_user/vme_tsi148.c:321:
+	+		dev_err(tsi148_bridge->parent, "Can't get assigned pci irq "
+	+			"vector %02X\n", pdev->irq);
+
+	WARNING: quoted string split across lines
+	#533: FILE: drivers/staging/vme_user/vme_tsi148.c:533:
+	+		dev_err(tsi148_bridge->parent, "Invalid PCI Offset "
+	+			"alignment\n");
+
+	WARNING: space prohibited before semicolon
+	#591: FILE: drivers/staging/vme_user/vme_tsi148.c:591:
+	+		temp_ctl |= TSI148_LCSR_ITAT_SUPR ;
+
+	WARNING: quoted string split across lines
+	#766: FILE: drivers/staging/vme_user/vme_tsi148.c:766:
+	+		dev_err(tsi148_bridge->parent, "Failed to allocate mem "
+	+			"resource for window %d size 0x%lx start 0x%lx\n",
+
+	WARNING: quoted string split across lines
+	#831: FILE: drivers/staging/vme_user/vme_tsi148.c:831:
+	+		dev_err(tsi148_bridge->parent, "Invalid VME Window "
+	+			"alignment\n");
+	WARNING: quoted string split across lines
+	#838: FILE: drivers/staging/vme_user/vme_tsi148.c:838:
+	+		dev_err(tsi148_bridge->parent, "Size must be non-zero for "
+	+			"enabled windows\n");
+
+	WARNING: quoted string split across lines
+	#853: FILE: drivers/staging/vme_user/vme_tsi148.c:853:
+	+		dev_err(tsi148_bridge->parent, "Unable to allocate memory for "
+	+			"resource\n");
+
+	WARNING: quoted string split across lines
+	#894: FILE: drivers/staging/vme_user/vme_tsi148.c:894:
+	+		dev_err(tsi148_bridge->parent, "Invalid VME Offset "
+	+			"alignment\n");
+
+	WARNING: quoted string split across lines
+	#941: FILE: drivers/staging/vme_user/vme_tsi148.c:941:
+	+		dev_warn(tsi148_bridge->parent, "Currently not setting "
+	+			"Broadcast Select Registers\n");
+
+	WARNING: quoted string split across lines
+	#1455: FILE: drivers/staging/vme_user/vme_tsi148.c:1455:
+	+		dev_err(dev, "Currently not setting Broadcast Select "
+	+			"Registers\n");
+
+	WARNING: quoted string split across lines
+	#1554: FILE: drivers/staging/vme_user/vme_tsi148.c:1554:
+	+		dev_err(dev, "Currently not setting Broadcast Select "
+	+			"Registers\n");
+
+	WARNING: quoted string split across lines
+	#1643: FILE: drivers/staging/vme_user/vme_tsi148.c:1643:
+	+		dev_err(tsi148_bridge->parent, "Descriptor not aligned to 8 "
+	+			"byte boundary as required: %p\n",
+
+	WARNING: else is not generally useful after a break or return
+	#1830: FILE: drivers/staging/vme_user/vme_tsi148.c:1830:
+	+		return -EBUSY;
+	+	} else {
+
+	warning: quoted string split across lines
+	#1939: file: drivers/staging/vme_user/vme_tsi148.c:1939:
+	+			dev_err(tsi148_bridge->parent, "location monitor "
+	+				"callback attached, can't reset\n");
+
+	WARNING: space prohibited before semicolon
+	#1964: FILE: drivers/staging/vme_user/vme_tsi148.c:1964:
+	+		lm_ctl |= TSI148_LCSR_LMAT_SUPR ;
+
+	WARNING: quoted string split across lines
+	#2055: FILE: drivers/staging/vme_user/vme_tsi148.c:2055:
+	+		dev_err(tsi148_bridge->parent, "Location monitor not properly "
+	+			"configured\n");
+
+	WARNING: quoted string split across lines
+	#2200: FILE: drivers/staging/vme_user/vme_tsi148.c:2200:
+	+		dev_err(tsi148_bridge->parent, "Failed to allocate memory for "
+	+			"CR/CSR image\n");
+
+	WARNING: quoted string split across lines
+	#2241: FILE: drivers/staging/vme_user/vme_tsi148.c:2241:
+	+			dev_err(tsi148_bridge->parent, "Configuring flush image"
+	+				" failed\n");
+
+Signed-off-by: Mingyi Kang <jerrykang026@gmail.com>
+---
+ drivers/staging/vme_user/vme_tsi148.c | 70 ++++++++++-----------------
+ 1 file changed, 26 insertions(+), 44 deletions(-)
+
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 956476213241..020e0b3bce64 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -125,8 +125,8 @@ static u32 tsi148_MB_irqhandler(struct vme_bridge *tsi148_bridge, u32 stat)
+ 	for (i = 0; i < 4; i++) {
+ 		if (stat & TSI148_LCSR_INTS_MBS[i]) {
+ 			val = ioread32be(bridge->base +	TSI148_GCSR_MBOX[i]);
+-			dev_err(tsi148_bridge->parent, "VME Mailbox %d received"
+-				": 0x%x\n", i, val);
++			dev_err(tsi148_bridge->parent, "VME Mailbox %d received: 0x%x\n",
++				i, val);
+ 			serviced |= TSI148_LCSR_INTC_MBC[i];
+ 		}
+ 	}
+@@ -143,14 +143,12 @@ static u32 tsi148_PERR_irqhandler(struct vme_bridge *tsi148_bridge)
+ 
+ 	bridge = tsi148_bridge->driver_priv;
+ 
+-	dev_err(tsi148_bridge->parent, "PCI Exception at address: 0x%08x:%08x, "
+-		"attributes: %08x\n",
++	dev_err(tsi148_bridge->parent, "PCI Exception at address: 0x%08x:%08x, attributes: %08x\n",
+ 		ioread32be(bridge->base + TSI148_LCSR_EDPAU),
+ 		ioread32be(bridge->base + TSI148_LCSR_EDPAL),
+ 		ioread32be(bridge->base + TSI148_LCSR_EDPAT));
+ 
+-	dev_err(tsi148_bridge->parent, "PCI-X attribute reg: %08x, PCI-X split "
+-		"completion reg: %08x\n",
++	dev_err(tsi148_bridge->parent, "PCI-X attribute reg: %08x, PCI-X split completion reg: %08x\n",
+ 		ioread32be(bridge->base + TSI148_LCSR_EDPXA),
+ 		ioread32be(bridge->base + TSI148_LCSR_EDPXS));
+ 
+@@ -180,10 +178,8 @@ static u32 tsi148_VERR_irqhandler(struct vme_bridge *tsi148_bridge)
+ 	reg_join(error_addr_high, error_addr_low, &error_addr);
+ 
+ 	/* Check for exception register overflow (we have lost error data) */
+-	if (error_attrib & TSI148_LCSR_VEAT_VEOF) {
+-		dev_err(tsi148_bridge->parent, "VME Bus Exception Overflow "
+-			"Occurred\n");
+-	}
++	if (error_attrib & TSI148_LCSR_VEAT_VEOF)
++		dev_err(tsi148_bridge->parent, "VME Bus Exception Overflow Occurred\n");
+ 
+ 	if (err_chk)
+ 		vme_bus_error_handler(tsi148_bridge, error_addr, error_am);
+@@ -317,8 +313,8 @@ static int tsi148_irq_init(struct vme_bridge *tsi148_bridge)
+ 			     IRQF_SHARED,
+ 			     driver_name, tsi148_bridge);
+ 	if (result) {
+-		dev_err(tsi148_bridge->parent, "Can't get assigned pci irq "
+-			"vector %02X\n", pdev->irq);
++		dev_err(tsi148_bridge->parent, "Can't get assigned pci irq vector %02X\n",
++			pdev->irq);
+ 		return result;
+ 	}
+ 
+@@ -529,8 +525,7 @@ static int tsi148_slave_set(struct vme_slave_resource *image, int enabled,
+ 		return -EINVAL;
+ 	}
+ 	if (pci_offset_low & (granularity - 1)) {
+-		dev_err(tsi148_bridge->parent, "Invalid PCI Offset "
+-			"alignment\n");
++		dev_err(tsi148_bridge->parent, "Invalid PCI Offset alignment\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -588,7 +583,7 @@ static int tsi148_slave_set(struct vme_slave_resource *image, int enabled,
+ 
+ 	temp_ctl &= ~0xF;
+ 	if (cycle & VME_SUPER)
+-		temp_ctl |= TSI148_LCSR_ITAT_SUPR ;
++		temp_ctl |= TSI148_LCSR_ITAT_SUPR;
+ 	if (cycle & VME_USER)
+ 		temp_ctl |= TSI148_LCSR_ITAT_NPRIV;
+ 	if (cycle & VME_PROG)
+@@ -762,8 +757,7 @@ static int tsi148_alloc_resource(struct vme_master_resource *image,
+ 		&image->bus_resource, size, 0x10000, PCIBIOS_MIN_MEM,
+ 		0, NULL, NULL);
+ 	if (retval) {
+-		dev_err(tsi148_bridge->parent, "Failed to allocate mem "
+-			"resource for window %d size 0x%lx start 0x%lx\n",
++		dev_err(tsi148_bridge->parent, "Failed to allocate mem resource for window %d size 0x%lx start 0x%lx\n",
+ 			image->number, (unsigned long)size,
+ 			(unsigned long)image->bus_resource.start);
+ 		goto err_resource;
+@@ -827,15 +821,13 @@ static int tsi148_master_set(struct vme_master_resource *image, int enabled,
+ 
+ 	/* Verify input data */
+ 	if (vme_base & 0xFFFF) {
+-		dev_err(tsi148_bridge->parent, "Invalid VME Window "
+-			"alignment\n");
++		dev_err(tsi148_bridge->parent, "Invalid VME Window alignment\n");
+ 		retval = -EINVAL;
+ 		goto err_window;
+ 	}
+ 
+ 	if ((size == 0) && (enabled != 0)) {
+-		dev_err(tsi148_bridge->parent, "Size must be non-zero for "
+-			"enabled windows\n");
++		dev_err(tsi148_bridge->parent, "Size must be non-zero for enabled windows\n");
+ 		retval = -EINVAL;
+ 		goto err_window;
+ 	}
+@@ -849,8 +841,7 @@ static int tsi148_master_set(struct vme_master_resource *image, int enabled,
+ 	retval = tsi148_alloc_resource(image, size);
+ 	if (retval) {
+ 		spin_unlock(&image->lock);
+-		dev_err(tsi148_bridge->parent, "Unable to allocate memory for "
+-			"resource\n");
++		dev_err(tsi148_bridge->parent, "Unable to allocate memory for resource\n");
+ 		goto err_res;
+ 	}
+ 
+@@ -890,8 +881,7 @@ static int tsi148_master_set(struct vme_master_resource *image, int enabled,
+ 	}
+ 	if (vme_offset_low & 0xFFFF) {
+ 		spin_unlock(&image->lock);
+-		dev_err(tsi148_bridge->parent, "Invalid VME Offset "
+-			"alignment\n");
++		dev_err(tsi148_bridge->parent, "Invalid VME Offset alignment\n");
+ 		retval = -EINVAL;
+ 		goto err_gran;
+ 	}
+@@ -937,8 +927,7 @@ static int tsi148_master_set(struct vme_master_resource *image, int enabled,
+ 		temp_ctl |= TSI148_LCSR_OTAT_TM_2eSST;
+ 	}
+ 	if (cycle & VME_2eSSTB) {
+-		dev_warn(tsi148_bridge->parent, "Currently not setting "
+-			"Broadcast Select Registers\n");
++		dev_warn(tsi148_bridge->parent, "Currently not setting Broadcast Select Registers\n");
+ 		temp_ctl &= ~TSI148_LCSR_OTAT_TM_M;
+ 		temp_ctl |= TSI148_LCSR_OTAT_TM_2eSSTB;
+ 	}
+@@ -1451,8 +1440,7 @@ static int tsi148_dma_set_vme_src_attributes(struct device *dev, __be32 *attr,
+ 		val |= TSI148_LCSR_DSAT_TM_2eSST;
+ 
+ 	if (cycle & VME_2eSSTB) {
+-		dev_err(dev, "Currently not setting Broadcast Select "
+-			"Registers\n");
++		dev_err(dev, "Currently not setting Broadcast Select Registers\n");
+ 		val |= TSI148_LCSR_DSAT_TM_2eSSTB;
+ 	}
+ 
+@@ -1550,8 +1538,7 @@ static int tsi148_dma_set_vme_dest_attributes(struct device *dev, __be32 *attr,
+ 		val |= TSI148_LCSR_DDAT_TM_2eSST;
+ 
+ 	if (cycle & VME_2eSSTB) {
+-		dev_err(dev, "Currently not setting Broadcast Select "
+-			"Registers\n");
++		dev_err(dev, "Currently not setting Broadcast Select Registers\n");
+ 		val |= TSI148_LCSR_DDAT_TM_2eSSTB;
+ 	}
+ 
+@@ -1639,8 +1626,7 @@ static int tsi148_dma_list_add(struct vme_dma_list *list,
+ 
+ 	/* Test descriptor alignment */
+ 	if ((unsigned long)&entry->descriptor & 0x7) {
+-		dev_err(tsi148_bridge->parent, "Descriptor not aligned to 8 "
+-			"byte boundary as required: %p\n",
++		dev_err(tsi148_bridge->parent, "Descriptor not aligned to 8 byte boundary as required: %p\n",
+ 			&entry->descriptor);
+ 		retval = -EINVAL;
+ 		goto err_align;
+@@ -1827,10 +1813,10 @@ static int tsi148_dma_list_exec(struct vme_dma_list *list)
+ 		/* Need to add to pending here */
+ 		mutex_unlock(&ctrlr->mtx);
+ 		return -EBUSY;
+-	} else {
+-		list_add(&list->list, &ctrlr->running);
+ 	}
+ 
++	list_add(&list->list, &ctrlr->running);
++
+ 	/* Get first bus address and write into registers */
+ 	entry = list_first_entry(&list->entries, struct tsi148_dma_entry,
+ 		list);
+@@ -1935,8 +1921,7 @@ static int tsi148_lm_set(struct vme_lm_resource *lm, unsigned long long lm_base,
+ 	for (i = 0; i < lm->monitors; i++) {
+ 		if (bridge->lm_callback[i]) {
+ 			mutex_unlock(&lm->mtx);
+-			dev_err(tsi148_bridge->parent, "Location monitor "
+-				"callback attached, can't reset\n");
++			dev_err(tsi148_bridge->parent, "Location monitor callback attached, can't reset\n");
+ 			return -EBUSY;
+ 		}
+ 	}
+@@ -1961,7 +1946,7 @@ static int tsi148_lm_set(struct vme_lm_resource *lm, unsigned long long lm_base,
+ 	}
+ 
+ 	if (cycle & VME_SUPER)
+-		lm_ctl |= TSI148_LCSR_LMAT_SUPR ;
++		lm_ctl |= TSI148_LCSR_LMAT_SUPR;
+ 	if (cycle & VME_USER)
+ 		lm_ctl |= TSI148_LCSR_LMAT_NPRIV;
+ 	if (cycle & VME_PROG)
+@@ -2051,8 +2036,7 @@ static int tsi148_lm_attach(struct vme_lm_resource *lm, int monitor,
+ 	lm_ctl = ioread32be(bridge->base + TSI148_LCSR_LMAT);
+ 	if ((lm_ctl & (TSI148_LCSR_LMAT_PGM | TSI148_LCSR_LMAT_DATA)) == 0) {
+ 		mutex_unlock(&lm->mtx);
+-		dev_err(tsi148_bridge->parent, "Location monitor not properly "
+-			"configured\n");
++		dev_err(tsi148_bridge->parent, "Location monitor not properly configured\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -2196,8 +2180,7 @@ static int tsi148_crcsr_init(struct vme_bridge *tsi148_bridge,
+ 						  VME_CRCSR_BUF_SIZE,
+ 						  &bridge->crcsr_bus, GFP_KERNEL);
+ 	if (!bridge->crcsr_kernel) {
+-		dev_err(tsi148_bridge->parent, "Failed to allocate memory for "
+-			"CR/CSR image\n");
++		dev_err(tsi148_bridge->parent, "Failed to allocate memory for CR/CSR image\n");
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -2237,8 +2220,7 @@ static int tsi148_crcsr_init(struct vme_bridge *tsi148_bridge,
+ 			(vstat * 0x80000), 0x80000, VME_CRCSR, VME_SCT,
+ 			VME_D16);
+ 		if (retval)
+-			dev_err(tsi148_bridge->parent, "Configuring flush image"
+-				" failed\n");
++			dev_err(tsi148_bridge->parent, "Configuring flush image failed\n");
+ 	}
+ 
+ 	return 0;
+-- 
+2.25.1
+
