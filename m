@@ -1,107 +1,81 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55017F
-	for <linux-staging@lists.linux.dev>; Tue,  2 Aug 2022 19:02:23 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id j8so2332828ejx.9
-        for <linux-staging@lists.linux.dev>; Tue, 02 Aug 2022 12:02:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23037F
+	for <linux-staging@lists.linux.dev>; Tue,  2 Aug 2022 20:10:40 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id s9so10813742ljs.6
+        for <linux-staging@lists.linux.dev>; Tue, 02 Aug 2022 13:10:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5XGKPAZehpjIbBHNoqFU/QMw0NFWXHGxjALKpRQuH/Q=;
-        b=3ZN8i5AIfRKO069Nl4yIu0bs6n64efLqeQGmt5KIIGfw9TyDf7YVvIirjzhVs6e5UN
-         zzi56vDz4WA+E56LQsSqnbPAdaf+/kz2WSZ9HtvuzLxbKQDg7V94x8hdI/Qh1Mx75jhw
-         1aV49dQ/Ad2Ex2NQSekRllBzFNJCSEAadstPN6FPzwrsbSd5ScgTcqNQlWffUe3iO3mR
-         a+lRihDvuNsHOCOPGQthnm0Xub07HuqR73zVbSL5qDXkzMYOrOVqWydoS71S6MGcUpHy
-         FAcQIsLprR8HM7IEhaI+AjJSPne5LTH+/tnPEI0wbaIYmWWwxvLp2HMZIu+aL9bng1ng
-         CKwQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=CixUSBcZNq9i0WpR8GtdvttXmNXU/G94pZeb65hTEM0=;
+        b=WyNxtYqk3qeNX2OkEahMvbK034jsOfS/qAlqgpXcbok6ytj9bMkyg7zn1hiX32tp+/
+         OEVHYAeSEdlMmm7Sc6SbDiw7Mx9W1vaadsB4Xkk/WBkl2toPvBPIHlr7yGzeFohoua9s
+         dLAK1biH6/qLzRReNqLfwDG/bZnlOSo70OtmxpvLAoHfCyrlv6ycBip2qW/PYgBsxN1o
+         jbkkIjkImEBZ8wQkzDMZdPt67/kUDDu7twHPSTzIhgHP+v+a8/ujqcNZZ++psR7/4hPh
+         occvRR2zXeSz/WK65qdff/r4nsCevELyHFnBXmFme4DtRavFn/LwK+ImehnrnaZxbfs9
+         hDeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5XGKPAZehpjIbBHNoqFU/QMw0NFWXHGxjALKpRQuH/Q=;
-        b=U20vpQGUrg/vBdShIBiIKI1a1dREEFJ+1sBwRYY8HqrhtQpqKzB4Ai4by4K8rOfl+s
-         01tQFiqjt8rRRxRCrLbyXymOvjC05fpi0nKdTHlhb/9HTpQNhifVkWRQtkugi8kZiDDW
-         5l4J/6EZVBagWTTAXL6vm12Ll+3068VS4/yLtTUSQp98p1Zankwjl2PkMQ8bg1ot2mt+
-         6vZpBQNPBXrb4mGNv0kDa2X8uBoP4bOMeBTgrPPk/zIFKV5S4S3DJbXH+6mlOZl3+3h0
-         zi2t/UakJFnZo3VumVghWMGYuF81O9kMvWIii2i+YRBhljJyjEmVb6bCC+KaDtdqkDEf
-         IAdQ==
-X-Gm-Message-State: AJIora+ynpQ+3Nuhzxm8NdMzJMhR82rF8HLHQoFV7pn2IIRbzhoRl/d+
-	fuOI4Zqh525ntTcA7G95VSQkE706E6kowg==
-X-Google-Smtp-Source: AGRyM1sAt6kPLLurtO4mZK2puhY0Vn2/KI2C0fcZE+l17gCGQVHMOvfaFg99haziKBp5pqXXhw64xA==
-X-Received: by 2002:a17:907:9803:b0:72e:ec55:b2a5 with SMTP id ji3-20020a170907980300b0072eec55b2a5mr17483035ejc.347.1659466942030;
-        Tue, 02 Aug 2022 12:02:22 -0700 (PDT)
-Received: from OEMBP14.local (82-132-212-195.dab.02.net. [82.132.212.195])
-        by smtp.gmail.com with ESMTPSA id i28-20020a0564020f1c00b0043d5c9281a3sm5341500eda.96.2022.08.02.12.02.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Aug 2022 12:02:21 -0700 (PDT)
-Date: Tue, 2 Aug 2022 20:02:18 +0100
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Grzegorz Szymaszek <gszymaszek@short.pl>
-Cc: Greg KH <greg@kroah.com>, Grzegorz Szymaszek <gszymaszek@short.pl>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Larry.Finger@lwfinger.net
-Subject: Re: [PATCH] staging: r8188eu: add firmware dependency
-Message-ID: <Yul0urtdPUWoCuVe@OEMBP14.local>
-References: <YukkBu3TNODO3or9@nx64de-df6d00>
- <YukvnVWuhUeOgRyZ@kroah.com>
- <Yukx8KEEOhKTJ7HQ@nx64de-df6d00>
- <c82114b6-1003-bfb5-0550-98dcbf1a3761@lwfinger.net>
- <YulcdKfhA8dPQ78s@nx64de-df6d00>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=CixUSBcZNq9i0WpR8GtdvttXmNXU/G94pZeb65hTEM0=;
+        b=PSCHdsfb7cHtNookireFyhjdCq0lxlaRAnrioRO60Bs7XI8VtUO3Ck1i4CA9nNp3d0
+         1kYO6UTKfaFoYHhAgDSboGUcPpodBCD1+uWwsLm9ksKGXOLtygwg+2/n/OGs5NrfTLjZ
+         t83b8VyD1wQCBTmfDzDT5zULJ0MwG4DNXcdEPuTUy+NCFk02PcRivWBukITgeVKib9lj
+         7Oo+3/YKSR90AwbJrVRMhZ3IwyTFh9X7Ndr0tCqNbVZrihqXFvhohppmcb1Re7e9i/AI
+         NeYoCRb9TyeAOo9AdWjg8E7qKbYFNHjSqp4+GgBYCJBLE8sxHcxpbtJmaj3R6aOd3Ohh
+         Qa0w==
+X-Gm-Message-State: AJIora+H1i6MCLfMKdXVmkllH/tmxaiQermTjQKyDlSb39u8JyPW4vcJ
+	+Y8rshZjY0Rb7wrSwxJ6dCo=
+X-Google-Smtp-Source: AGRyM1t1sO0Omp3yxQjOR809RdRPIRBJhuRvsggT+FA6u4dXikm/vOHoeh7Yy9QJQO8lUgJaMi1KfQ==
+X-Received: by 2002:a05:651c:11c5:b0:25e:22c9:19e1 with SMTP id z5-20020a05651c11c500b0025e22c919e1mr6791233ljo.428.1659471038665;
+        Tue, 02 Aug 2022 13:10:38 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.227.117])
+        by smtp.gmail.com with ESMTPSA id o18-20020ac24352000000b0048af397c827sm1161237lfl.218.2022.08.02.13.10.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Aug 2022 13:10:28 -0700 (PDT)
+Message-ID: <2e838551-e6a3-df5d-a889-baf60c7f99fd@gmail.com>
+Date: Tue, 2 Aug 2022 23:10:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YulcdKfhA8dPQ78s@nx64de-df6d00>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/2] staging: r8188eu: convert rtw_set_802_11_add_wep
+ error code semantics
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, dan.carpenter@oracle.com, martin@kaiser.cx,
+ straube.linux@gmail.com, fmdefrancesco@gmail.com, abdun.nihaal@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220728231150.972-1-phil@philpotter.co.uk>
+ <20220728231150.972-3-phil@philpotter.co.uk>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220728231150.972-3-phil@philpotter.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 02, 2022 at 07:18:44PM +0200, Grzegorz Szymaszek wrote:
-> The old rtl8188eu module, removed in commit 55dfa29b43d2 ("staging:
-> rtl8188eu: remove rtl8188eu driver from staging dir") (Linux kernel
-> v5.15-rc1), required (through a MODULE_FIRMWARE call()) the
-> rtlwifi/rtl8188eufw.bin firmware file, which the new r8188eu driver no
-> longer requires.
-> 
-> I have tested a few RTL8188EUS-based Wi-Fi cards and, while supported by
-> both drivers, they do not work when using the new one and the firmware
-> wasn't manually loaded. According to Larry Finger, the module
-> maintainer, all such cards need the firmware and the driver should
-> depend on it (see the linked mails).
-> 
-> Add a proper MODULE_FIRMWARE() call, like it was done in the old driver.
-> 
-> Thanks to Greg Kroah-Hartman and Larry Finger for quick responses to my
-> questions.
-> 
-> Link: https://answers.launchpad.net/ubuntu/+source/linux-meta-hwe-5.15/+question/702611
-> Link: https://lore.kernel.org/lkml/YukkBu3TNODO3or9@nx64de-df6d00/
-> Signed-off-by: Grzegorz Szymaszek <gszymaszek@short.pl>
-> ---
->  drivers/staging/r8188eu/os_dep/os_intfs.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index 891c85b088ca..5bd3022e4b40 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -18,6 +18,7 @@ MODULE_LICENSE("GPL");
->  MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
->  MODULE_AUTHOR("Realtek Semiconductor Corp.");
->  MODULE_VERSION(DRIVERVERSION);
-> +MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
->  
->  #define CONFIG_BR_EXT_BRNAME "br0"
->  #define RTW_NOTCH_FILTER 0 /* 0:Disable, 1:Enable, */
-> -- 
-> 2.35.1
+Hi Phillip,
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
+Phillip Potter <phil@philpotter.co.uk> says:
+> -	if (!rtw_set_802_11_add_wep(padapter, &wep)) {
+> +	if (rtw_set_802_11_add_wep(padapter, &wep)) {
+>   		if (rf_on == pwrpriv->rf_pwrstate)
+>   			ret = -EOPNOTSUPP;
+>   		goto exit;
 
-Thanks for the patch :-)
+is it intentional to ignore an error in case of rf_on != 
+pwrpriv->rf_pwrstate?
 
-Regards,
-Phil
+
+
+
+With regards,
+Pavel Skripkin
