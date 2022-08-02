@@ -1,72 +1,78 @@
-Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394FA7F
-	for <linux-staging@lists.linux.dev>; Tue,  2 Aug 2022 14:17:32 +0000 (UTC)
-Received: from [192.168.192.146] (port=54948 helo=nx64de-df6d00)
-	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <gszymaszek@short.pl>)
-	id 1oIsi2-0001xv-0t; Tue, 02 Aug 2022 16:17:22 +0200
-Date: Tue, 2 Aug 2022 16:17:20 +0200
-From: Grzegorz Szymaszek <gszymaszek@short.pl>
-To: Greg KH <greg@kroah.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Grzegorz Szymaszek <gszymaszek@short.pl>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: The r8188eu kernel module does not depend on the
- rtlwifi/rtl8188eufw.bin firmware file
-Message-ID: <Yukx8KEEOhKTJ7HQ@nx64de-df6d00>
-Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
-	Greg KH <greg@kroah.com>, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <YukkBu3TNODO3or9@nx64de-df6d00>
- <YukvnVWuhUeOgRyZ@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A8F7F
+	for <linux-staging@lists.linux.dev>; Tue,  2 Aug 2022 15:02:01 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id x1-20020a056830278100b00636774b0e54so438811otu.4
+        for <linux-staging@lists.linux.dev>; Tue, 02 Aug 2022 08:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc;
+        bh=uKqb6PaUkYrBfbM6a6MGXXS4D4m12oIAPT3k08dh9BE=;
+        b=gXkIQzzfDTQXvsoALPrZvmxmyhBrvsTnC6vfXHPIWyycmy2E3UYVKtGGRIhanYf6II
+         ckgNlh+mqhO9LRWE64p4t/YUUzwO4jGbEHV3233fDb06SktBOVbGM0wsfeC3cvx3yA5n
+         k+xChpWg6vmjEq/7cXROWy7S84ZzYvkCRjtYPOkAkgN3vhckj06FVwd/Pp4EI82YZsj4
+         iwjrvUJD1aEfVIxax9Leh0WegZQpE7Prie0dx1jyXF0I6G8zCs9lhr+djQ/VY/yduH2h
+         0ktfHsjz0/2wF1s0UHhRZfFC5OA9eiEhMY2gpMvZMiE+mJZ6pNC+Frah1ncE94yunhzs
+         BiOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc;
+        bh=uKqb6PaUkYrBfbM6a6MGXXS4D4m12oIAPT3k08dh9BE=;
+        b=b4mbDnyqd6+FEPzkA9vnYG/VDBEFdklTKKCsR21uP1kFXO2OY/Imfa+DssmxT5oDuu
+         7AhGAwtyrM1UEff6YdcEXDgFHuAOyvHxE5CkD31dOw92e0CjnYthtRLNLyvFlJbrElTz
+         rwW6UqiTYBaf9DiZlbUvt277kovAq4xAN6gaW4DGKPyMAOQBA5w3Bjc1+OLfbMCj2A3N
+         PmAjdIOltQyEcjc9Nhn+SWdQdwbwXOCRDfIBilV912tjQY7REi0ApqTKVn8kbJi7kN5O
+         AXm3TlcsEvPnCpe5p0YTne4eI5hgC8HQsc/8lcwVf97zRkvt2fxquNEG1CobinRrEsPs
+         RM/g==
+X-Gm-Message-State: AJIora+tbcuAIFMyIDVOvz33IGEwbW3CakmJ4F5o9ZMSJ4unlzR5zqft
+	vFcAWbvv2CPs04vbfJ8SJvE=
+X-Google-Smtp-Source: AGRyM1vrDpr5OKiG/q0avH8adnyXZc6OQGk+2OqxINidcJaLQRvnIJ0Ax6N8TMjuGWbtYgisTJLE4w==
+X-Received: by 2002:a9d:784f:0:b0:61c:7817:3d8f with SMTP id c15-20020a9d784f000000b0061c78173d8fmr7707974otm.271.1659452519983;
+        Tue, 02 Aug 2022 08:01:59 -0700 (PDT)
+Received: from [192.168.1.108] ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id k22-20020a056870149600b0010e63d0afbbsm2473054oab.55.2022.08.02.08.01.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Aug 2022 08:01:59 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <c82114b6-1003-bfb5-0550-98dcbf1a3761@lwfinger.net>
+Date: Tue, 2 Aug 2022 10:01:58 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Z/WwFWMLoRCa0UiB"
-Content-Disposition: inline
-In-Reply-To: <YukvnVWuhUeOgRyZ@kroah.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: The r8188eu kernel module does not depend on the
+ rtlwifi/rtl8188eufw.bin firmware file
+Content-Language: en-US
+To: Grzegorz Szymaszek <gszymaszek@short.pl>, Greg KH <greg@kroah.com>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <YukkBu3TNODO3or9@nx64de-df6d00> <YukvnVWuhUeOgRyZ@kroah.com>
+ <Yukx8KEEOhKTJ7HQ@nx64de-df6d00>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <Yukx8KEEOhKTJ7HQ@nx64de-df6d00>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 8/2/22 09:17, Grzegorz Szymaszek wrote:
+> On Tue, Aug 02, 2022 at 04:07:25PM +0200, Greg KH wrote:
+>> Looks like someone needs to add a line to the driver that looks like:
+>> 	MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
+>> […] Can you make a patch that does this?
+> 
+> Sure, I will prepare and send one later (hopefully today), assuming no
+> one objects in the meantime. Thanks for quick response.
 
---Z/WwFWMLoRCa0UiB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There will be no objections. All 8188eu-based devices need that firmware. 
+Omitting the MODULE_FIRMWARE macro was simply an oversight.
 
-On Tue, Aug 02, 2022 at 04:07:25PM +0200, Greg KH wrote:
-> Looks like someone needs to add a line to the driver that looks like:
-> 	MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
-> [=E2=80=A6] Can you make a patch that does this?
+Larry
 
-Sure, I will prepare and send one later (hopefully today), assuming no
-one objects in the meantime. Thanks for quick response.
-
---Z/WwFWMLoRCa0UiB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEZT55kPBhnB69hD4ZeE9lGUIcpz4FAmLpMfAACgkQeE9lGUIc
-pz6oCQ/+OLg2hG7bKYoCH3KXW06YqD2gwtD00PtwOiWWeQ+wFxR68sNtdosW1d4u
-Vt2Absqtt9gOx9eaWhqSk3IQRtr6pPIl8EcmQCV9rfb+UXlpYUCSmZvWV/J7dlmo
-MAoFtVnhutapSCPrcH023tm3WBrW3o/f9ktr3zKIFfB5+1WiXEoR/ik+PgwNDScy
-Y1pcT6wyhD+ngyKmjYB0RvrJGWR4dhQ2NdsNzwgNlPMVNclU8i/b8ko5/+ZyJ0tV
-jtD24d44FtpxI3W2w9nSBuDLvB0O0fSzlxWjj6aLY2DY3Zmhsn4e+YgKgi+nrbwW
-sTNYNExF3xAXrzMiEtTU1DiHMmdnRliJlGYUBZB7+yMbSWDS4D5Is8XDDrqFx/qR
-PoghB/8/qpPqVxGU8SmPTtLxO+C4YDpIsKK/SploAtZ6d69/Q2T2zHZ5R+PnGlaR
-k9miDHyNOtd5JP+Ohb9sRvNu1mLadAMAocin3UZrHCfpj32M0XFhH8eQGNqLTEVJ
-mXjNxCdvu3Z4turMGqkPaBGWNm9m/6GLvQKrotBNZ2X2/a5uwfwwodlJJemBybRn
-KAqPv8s0SyToP9eS+kzF28Lyr/jJolY6RqwqX7P76CAehVr0qfPNXRKVkv7RJl9A
-PA3H2qcFdMsi/wrdVRUkTUGlVjZxdmB+XSNx9/RGndQlWx6NC58=
-=DWUF
------END PGP SIGNATURE-----
-
---Z/WwFWMLoRCa0UiB--
