@@ -1,106 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCC27F
-	for <linux-staging@lists.linux.dev>; Tue,  2 Aug 2022 08:59:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1659430779;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6MQqUL0mybjOOLgRIVQsUeJkgad5ME8laUjqFvyJPCs=;
-	b=gHBobYsuw7oWxRIx+hS/Txpqcl8/Y9PMGTmoas5XjG6YKXpqkBw/StVMw7Dhef3Lxesx39
-	W7SZUspIvrEjUacsJuCAZQ6902HwdRKo+7/+WID4+JcFCkHqVSoV6HsBrId0x+odhnu5od
-	VgFkMSfwmU0OjD0cqN6GVTqaEQ2Lc0U=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-oeXNwmp5O-iafgQGkIDQWg-1; Tue, 02 Aug 2022 04:59:36 -0400
-X-MC-Unique: oeXNwmp5O-iafgQGkIDQWg-1
-Received: by mail-ed1-f70.google.com with SMTP id t13-20020a056402524d00b0043db1fbefdeso2887604edd.2
-        for <linux-staging@lists.linux.dev>; Tue, 02 Aug 2022 01:59:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=6MQqUL0mybjOOLgRIVQsUeJkgad5ME8laUjqFvyJPCs=;
-        b=I0MPgI96pMCyuBzIqC4ms8TUEM9NdojYyMULb02c6y4rEwtMANfFjhekmcfrxgHJR7
-         dn2FbjpbAcvAhdDW4yCBPaMlteU7rBKI3leysluf25PLi55CqWQRgaeS2xJgw+TCk8I3
-         F2hdgnmHb+8gHOT0Rkm/HOgSS/xlwdQLeLqq0K8MxAD3nq+LLrYXyHNUVoaw/M3nEOyT
-         QtrSsSGWXMMbAU+Ii1daicsW/RTVNM/UpYeb3aiCK0HGRUowyoibklmBEn/cmjh7CcL6
-         aZkGYIuHJT0F9afk7vFaSroSLx1Xz29xVmndItaW4cWCfvb7ka1zYMR+KC2U2mfyCbuf
-         P0xA==
-X-Gm-Message-State: ACgBeo0iE7QdxFBV+XjOXK6NkeF2SMpk/hLMOjLmN+p56wZpUl6lTTE0
-	e0oY1sivohXhhXTpmCroWMxNffIG6z/0bcU0jD+WziRh+ZYkpzF91R8+WBL/sPtYEPTbD7t8i2w
-	HGfNB1hQbN2kxrPba9rSw0BiCjQ==
-X-Received: by 2002:a17:906:ef90:b0:730:9af7:5702 with SMTP id ze16-20020a170906ef9000b007309af75702mr3470291ejb.107.1659430775134;
-        Tue, 02 Aug 2022 01:59:35 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7ag90gbUb5lOg4jO+d13erT7aUe+ctI2ejRiAU/9F51rP9BOtMPdRsY5gRFTqwjK+0er09dg==
-X-Received: by 2002:a17:906:ef90:b0:730:9af7:5702 with SMTP id ze16-20020a170906ef9000b007309af75702mr3470284ejb.107.1659430774933;
-        Tue, 02 Aug 2022 01:59:34 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id ft6-20020a170907800600b007263481a43fsm6020946ejc.81.2022.08.02.01.59.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Aug 2022 01:59:34 -0700 (PDT)
-Message-ID: <efaa69fc-2402-9cc4-f7c8-86d6a93c6b02@redhat.com>
-Date: Tue, 2 Aug 2022 10:59:33 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69807F
+	for <linux-staging@lists.linux.dev>; Tue,  2 Aug 2022 13:52:07 +0000 (UTC)
+Received: from [192.168.192.146] (port=45372 helo=nx64de-df6d00)
+	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <gszymaszek@short.pl>)
+	id 1oIrmZ-0001SJ-Dy; Tue, 02 Aug 2022 15:17:59 +0200
+Date: Tue, 2 Aug 2022 15:17:58 +0200
+From: Grzegorz Szymaszek <gszymaszek@short.pl>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>
+Cc: Grzegorz Szymaszek <gszymaszek@short.pl>, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: The r8188eu kernel module does not depend on the
+ rtlwifi/rtl8188eufw.bin firmware file
+Message-ID: <YukkBu3TNODO3or9@nx64de-df6d00>
+Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging/rtl8723bs/core: remove inactive initialization
-To: Li zeming <zeming@nfschina.com>, gregkh@linuxfoundation.org,
- sevinj.aghayeva@gmail.com, fabioaiuto83@gmail.com, duoming@zju.edu.cn,
- keescook@chromium.org
-Cc: straube.linux@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220802012513.2824-1-zeming@nfschina.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220802012513.2824-1-zeming@nfschina.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iqpQVhHimMfcUGvS"
+Content-Disposition: inline
 
-Hi,
 
-On 8/2/22 03:25, Li zeming wrote:
-> The allocation address of the psta pointer variable is first performed
-> in the function, no initialization assignment is required, and no
-> invalid pointer will appear.
-> 
-> Signed-off-by: Li zeming <zeming@nfschina.com>
+--iqpQVhHimMfcUGvS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, patch looks good to me:
+Dear r8188eu Maintainers,
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+The old rtl8188eu kernel module, removed in v5.15[1][2], indicated that
+it requires the rtlwifi/rtl8188eufw.bin firmware file[3]. The new
+r8188eu driver no longer does so.
 
-Regards,
+I don=E2=80=99t know if it should be considered a regression or just a diff=
+erent
+behaviour of the two drivers. I=E2=80=99ve noticed it[4] when I tried to us=
+e an
+RTL8188EU=E2=80=90based card in the initramfs of two different Ubuntu kerne=
+ls:
+v5.4 and v5.15. In v5.4, the firmware would be automatically included
+when the (old) driver was included, whereas in v5.15 I would have to add
+it manually so that the card actually worked. (One can verify the active
+driver=E2=80=99s requirements using =E2=80=9Cmodinfo -F firmware r8188eu=E2=
+=80=9D.)
 
-Hans
+If there are cards the new driver supports that do not need that
+firmware file, it makes sense to not automatically include it. In
+general, I don=E2=80=99t know the kernel policy on such dependencies.
 
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index f2242cf2dfb4..6498fd17e1d3 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -2521,7 +2521,7 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
->  {
->  	u8 issued;
->  	int priority;
-> -	struct sta_info *psta = NULL;
-> +	struct sta_info *psta;
->  	struct ht_priv *phtpriv;
->  	struct pkt_attrib *pattrib = &pxmitframe->attrib;
->  	s32 bmcst = IS_MCAST(pattrib->ra);
+[1]: commit 55dfa29b43d23bab37d98f087615ff46d38241df
+[2]: https://lore.kernel.org/all/20210731133809.196681-1-phil@philpotter.co=
+=2Euk/
+[3]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
+e/drivers/staging/rtl8188eu/os_dep/os_intfs.c?id=3D06889446a78fb9655332954a=
+2288ecbacc7f0ff8#n22
+[4]: https://answers.launchpad.net/ubuntu/+source/linux-meta-hwe-5.15/+ques=
+tion/702611
 
+Best regards
+
+--=20
+Grzegorz Szymaszek
+
+--iqpQVhHimMfcUGvS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEZT55kPBhnB69hD4ZeE9lGUIcpz4FAmLpJAUACgkQeE9lGUIc
+pz6bAw/+Lgr16PtH7UpW6XYVGCUSGmtE9iquxHi+fAAPn61RpdkcbF7LJN1rqgQC
+MVt5hYDZrOEE6DcXXTKdb2BMNJfPJq7O66UGH71myyZx3xNbsKkW07BjikxDmZ69
+/My+HKCxXllVBMSZDlkdt4mHn1df+3E9jhY2Uu5Qu8TnQ1yY1zAfeXz+MTnI81lM
+RzpeNCs0LBUR6Hr4AqYsIKLqAhmx3hBCyhK5y4pZa/rTymwefM/CSvHiC+CGr89s
+6iucyx2wh4Cyv9ZLh4HSnGgkBhSS5AtzY7H+vE5318TqjJBUadvnhSGH8ponLQpO
+u+LC1BMaE5BabkJRPtQ49q+fvrPUs7tVB2hg3osrS/dEcwRs4h8mDvFkv2suC2rE
+rasrrZOL+RH8MfjeSNrS/B1cvPQiv8L8SWMvSErx9Z3Vlqr3oOVpgiVkogXg43Lo
+D6CRfQSzkQ+kfsQXFuJZ57cq5iAGTC/1VYU1NTmlSmlRg2RjBxL8EpY+3rDY2u+C
+qEp4j1Ly+Vc8Mr5i5tVHlpWjw8+59EJiZuuVz5kG1cslqgfVTwZ/fm2ZMW3uGJiT
+8AyPuZaCgzEpdO5bn2SfJNeCuKfEGJmfkuMgiILj+Oh7xjv+qkvrdpbjp7bVGXHl
+DeVeiSutlkqLXaSVUdZYJwaWEeafYDJqEcZnRXZ1H8WtnBkAbpY=
+=sx65
+-----END PGP SIGNATURE-----
+
+--iqpQVhHimMfcUGvS--
