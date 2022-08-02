@@ -1,96 +1,108 @@
-Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69807F
-	for <linux-staging@lists.linux.dev>; Tue,  2 Aug 2022 13:52:07 +0000 (UTC)
-Received: from [192.168.192.146] (port=45372 helo=nx64de-df6d00)
-	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <gszymaszek@short.pl>)
-	id 1oIrmZ-0001SJ-Dy; Tue, 02 Aug 2022 15:17:59 +0200
-Date: Tue, 2 Aug 2022 15:17:58 +0200
-From: Grzegorz Szymaszek <gszymaszek@short.pl>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>
-Cc: Grzegorz Szymaszek <gszymaszek@short.pl>, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: The r8188eu kernel module does not depend on the
- rtlwifi/rtl8188eufw.bin firmware file
-Message-ID: <YukkBu3TNODO3or9@nx64de-df6d00>
-Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C4F7F
+	for <linux-staging@lists.linux.dev>; Tue,  2 Aug 2022 14:07:29 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 6234B5C017F;
+	Tue,  2 Aug 2022 10:07:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 02 Aug 2022 10:07:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1659449248; x=
+	1659535648; bh=Gyb5nJMvA2GRmM1/gEp/D59ZBZHso6846VeYTzgqqNs=; b=i
+	ORaKtLZmPcj3DuTYTXE2fI52PeNvJH2xiFGFAzfIyFVakaIbqve7gjHswbfl4XFu
+	KPxj+aF7t1dMuPM802jgzy/5K1wGMmMdEkLACRWgA3j4WB9ooyLlDVIL2xbYCnAA
+	Nj/JyZ5161YPdiiDuH6/hXMJ1wLFFXJCZBnyac6seqOGY9Okz+QpLjL0gjDk0SqN
+	dLcArPYFdi9gbJ1UcVbZv3078X7yS73PbCDDiW1hSzkKkG+JuGzQPCINIYkuEh0J
+	c8+teSsnzaFByaYVCuwILTzrPIdVSVru0Wt6g5XMPY5WhfYio71FYEOVzHt+1Lvw
+	Gp+3KZ/fLIq5DvT9Uvn6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:date:feedback-id:feedback-id:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1659449248; x=1659535648; bh=G
+	yb5nJMvA2GRmM1/gEp/D59ZBZHso6846VeYTzgqqNs=; b=OTlvxejnAGFgrqWqd
+	FIlsxh7vzbkIVqGhsBxMo1BFKYp0pTvPT3UAoEN5ILYD3QCuDSgWHBVklDrDhEyJ
+	1GQciK58KHQKQxJqR88ee8yRpLzBNyoDoCEfo5f2N597DVewSqxiVALtQGzmpp9i
+	KWyLMdct5oFH0ABGSlAYTnf8zHOjXN4fLur6hIiRVcHqjjNoNQfAdD5pr6JvSYcI
+	NkARcHRRSWOvZxpvXTcPydBM4a9o7lp4IdOjs6sNbB6MpmzQtB2tqigFfkdvH1mL
+	oIr2iOILhk1seJ9wCfYQ7AyzMVQWYQYEeWXHQFrVc6+dclFmz08hJD7bLiZvAZsN
+	ZxusA==
+X-ME-Sender: <xms:ny_pYiDTOFzHTcXLbdNKS5Q0TckPKrQiHG9vdgcRaJW3KdTH9RDPTg>
+    <xme:ny_pYsjAVvsH0o2vlgFfCoOSi8kdRsboqUL7wtD5ZFtjk2PkJrxvKIYhOch6m0EWX
+    bGyv1ZGJtdoDQ>
+X-ME-Received: <xmr:ny_pYlkd5BRP-AL6pPExwXNJyqRyZQcSssVGrWgdic3KMs_ldmIg7FISNJbI1XNwDLYOVe7-kpOypzi5DylYy3ihbYVVAoL2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvhedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtugfgjgesthekrodttddtjeenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepgeefvd
+    etkeeuieelieeluefhtdeuieelfffhtddvhfeikefhkeehueefveduffejnecuffhomhgr
+    ihhnpeduhedrihhnpdhkvghrnhgvlhdrohhrghdplhgruhhntghhphgrugdrnhgvthenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvghes
+    khhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:oC_pYgzhbVi4j6Dw1zXSMzOuaUgki-2SVark329SONXNqQcyBCmKZg>
+    <xmx:oC_pYnReTXqZeWNmyiYb1jeXH0NWrkSBsaL6yuwP-fwdvilpu2-Nwg>
+    <xmx:oC_pYrYLpMFhBM2kFvuHZ1XLjRX3NJEmh_dyZSFx1Hflij_YfN8_MA>
+    <xmx:oC_pYiEOKfqOYWpbMVWbTtBqzzqyAgHBL9FXBo7dpvQJOnXDzn5uqw>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 2 Aug 2022 10:07:27 -0400 (EDT)
+Date: Tue, 2 Aug 2022 16:07:25 +0200
+From: Greg KH <greg@kroah.com>
+To: Grzegorz Szymaszek <gszymaszek@short.pl>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: The r8188eu kernel module does not depend on the
+ rtlwifi/rtl8188eufw.bin firmware file
+Message-ID: <YukvnVWuhUeOgRyZ@kroah.com>
+References: <YukkBu3TNODO3or9@nx64de-df6d00>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iqpQVhHimMfcUGvS"
-Content-Disposition: inline
-
-
---iqpQVhHimMfcUGvS
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YukkBu3TNODO3or9@nx64de-df6d00>
 
-Dear r8188eu Maintainers,
+On Tue, Aug 02, 2022 at 03:17:58PM +0200, Grzegorz Szymaszek wrote:
+> Dear r8188eu Maintainers,
+> 
+> The old rtl8188eu kernel module, removed in v5.15[1][2], indicated that
+> it requires the rtlwifi/rtl8188eufw.bin firmware file[3]. The new
+> r8188eu driver no longer does so.
+> 
+> I don’t know if it should be considered a regression or just a different
+> behaviour of the two drivers. I’ve noticed it[4] when I tried to use an
+> RTL8188EU‐based card in the initramfs of two different Ubuntu kernels:
+> v5.4 and v5.15. In v5.4, the firmware would be automatically included
+> when the (old) driver was included, whereas in v5.15 I would have to add
+> it manually so that the card actually worked. (One can verify the active
+> driver’s requirements using “modinfo -F firmware r8188eu”.)
+> 
+> If there are cards the new driver supports that do not need that
+> firmware file, it makes sense to not automatically include it. In
+> general, I don’t know the kernel policy on such dependencies.
+> 
+> [1]: commit 55dfa29b43d23bab37d98f087615ff46d38241df
+> [2]: https://lore.kernel.org/all/20210731133809.196681-1-phil@philpotter.co.uk/
+> [3]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/rtl8188eu/os_dep/os_intfs.c?id=06889446a78fb9655332954a2288ecbacc7f0ff8#n22
+> [4]: https://answers.launchpad.net/ubuntu/+source/linux-meta-hwe-5.15/+question/702611
 
-The old rtl8188eu kernel module, removed in v5.15[1][2], indicated that
-it requires the rtlwifi/rtl8188eufw.bin firmware file[3]. The new
-r8188eu driver no longer does so.
+Looks like someone needs to add a line to the driver that looks like:
+	MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
+so that the tools will automatically pick it up properly going forward.
 
-I don=E2=80=99t know if it should be considered a regression or just a diff=
-erent
-behaviour of the two drivers. I=E2=80=99ve noticed it[4] when I tried to us=
-e an
-RTL8188EU=E2=80=90based card in the initramfs of two different Ubuntu kerne=
-ls:
-v5.4 and v5.15. In v5.4, the firmware would be automatically included
-when the (old) driver was included, whereas in v5.15 I would have to add
-it manually so that the card actually worked. (One can verify the active
-driver=E2=80=99s requirements using =E2=80=9Cmodinfo -F firmware r8188eu=E2=
-=80=9D.)
+Can you make a patch that does this?
 
-If there are cards the new driver supports that do not need that
-firmware file, it makes sense to not automatically include it. In
-general, I don=E2=80=99t know the kernel policy on such dependencies.
+thanks,
 
-[1]: commit 55dfa29b43d23bab37d98f087615ff46d38241df
-[2]: https://lore.kernel.org/all/20210731133809.196681-1-phil@philpotter.co=
-=2Euk/
-[3]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/drivers/staging/rtl8188eu/os_dep/os_intfs.c?id=3D06889446a78fb9655332954a=
-2288ecbacc7f0ff8#n22
-[4]: https://answers.launchpad.net/ubuntu/+source/linux-meta-hwe-5.15/+ques=
-tion/702611
-
-Best regards
-
---=20
-Grzegorz Szymaszek
-
---iqpQVhHimMfcUGvS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEZT55kPBhnB69hD4ZeE9lGUIcpz4FAmLpJAUACgkQeE9lGUIc
-pz6bAw/+Lgr16PtH7UpW6XYVGCUSGmtE9iquxHi+fAAPn61RpdkcbF7LJN1rqgQC
-MVt5hYDZrOEE6DcXXTKdb2BMNJfPJq7O66UGH71myyZx3xNbsKkW07BjikxDmZ69
-/My+HKCxXllVBMSZDlkdt4mHn1df+3E9jhY2Uu5Qu8TnQ1yY1zAfeXz+MTnI81lM
-RzpeNCs0LBUR6Hr4AqYsIKLqAhmx3hBCyhK5y4pZa/rTymwefM/CSvHiC+CGr89s
-6iucyx2wh4Cyv9ZLh4HSnGgkBhSS5AtzY7H+vE5318TqjJBUadvnhSGH8ponLQpO
-u+LC1BMaE5BabkJRPtQ49q+fvrPUs7tVB2hg3osrS/dEcwRs4h8mDvFkv2suC2rE
-rasrrZOL+RH8MfjeSNrS/B1cvPQiv8L8SWMvSErx9Z3Vlqr3oOVpgiVkogXg43Lo
-D6CRfQSzkQ+kfsQXFuJZ57cq5iAGTC/1VYU1NTmlSmlRg2RjBxL8EpY+3rDY2u+C
-qEp4j1Ly+Vc8Mr5i5tVHlpWjw8+59EJiZuuVz5kG1cslqgfVTwZ/fm2ZMW3uGJiT
-8AyPuZaCgzEpdO5bn2SfJNeCuKfEGJmfkuMgiILj+Oh7xjv+qkvrdpbjp7bVGXHl
-DeVeiSutlkqLXaSVUdZYJwaWEeafYDJqEcZnRXZ1H8WtnBkAbpY=
-=sx65
------END PGP SIGNATURE-----
-
---iqpQVhHimMfcUGvS--
+greg k-h
