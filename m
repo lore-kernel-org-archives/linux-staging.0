@@ -1,81 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2B37F
-	for <linux-staging@lists.linux.dev>; Wed,  3 Aug 2022 06:08:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7247C433C1;
-	Wed,  3 Aug 2022 06:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1659506914;
-	bh=kfuk+0aXynx06c3o3pjaVWnK/rbUgbtj8vWQB25K0h4=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=msIDcyFyyQTgdnwORVlVDKoZzClCZT4T7BgWa4BJukdoknUguA/1elFnmNMVKmb9u
-	 Bwd73X2uFBEvzefFQUlhf4cec64iCh2hIer2UqlUnBhAhwwovGYhi6ZU3n7CbHmugo
-	 t9XKL1KwaiPKRgXO2RgioVF2pGCbSAh/NcMwQOXM=
-Date: Wed, 3 Aug 2022 08:08:31 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26AF368
+	for <linux-staging@lists.linux.dev>; Wed,  3 Aug 2022 06:34:01 +0000 (UTC)
+Received: from [192.168.192.146] (port=55826 helo=nx64de-df6d00)
+	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <gszymaszek@short.pl>)
+	id 1oJ7wm-0000Oz-EM; Wed, 03 Aug 2022 08:33:38 +0200
+Date: Wed, 3 Aug 2022 08:33:35 +0200
+From: Grzegorz Szymaszek <gszymaszek@short.pl>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Grzegorz Szymaszek <gszymaszek@short.pl>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: r8188eu: add firmware dependency
+Message-ID: <YuoWvwUer1bF0BtQ@nx64de-df6d00>
+Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
+	Greg KH <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: r8188eu: add firmware dependency
-Message-ID: <YuoQ37PIKzWO1zIY@kroah.com>
 References: <YukkBu3TNODO3or9@nx64de-df6d00>
  <YukvnVWuhUeOgRyZ@kroah.com>
  <Yukx8KEEOhKTJ7HQ@nx64de-df6d00>
  <c82114b6-1003-bfb5-0550-98dcbf1a3761@lwfinger.net>
  <YulcdKfhA8dPQ78s@nx64de-df6d00>
+ <YuoQ37PIKzWO1zIY@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BNbrgnEDe9bruiv0"
 Content-Disposition: inline
-In-Reply-To: <YulcdKfhA8dPQ78s@nx64de-df6d00>
+In-Reply-To: <YuoQ37PIKzWO1zIY@kroah.com>
 
-On Tue, Aug 02, 2022 at 07:18:44PM +0200, Grzegorz Szymaszek wrote:
-> The old rtl8188eu module, removed in commit 55dfa29b43d2 ("staging:
-> rtl8188eu: remove rtl8188eu driver from staging dir") (Linux kernel
-> v5.15-rc1), required (through a MODULE_FIRMWARE call()) the
-> rtlwifi/rtl8188eufw.bin firmware file, which the new r8188eu driver no
-> longer requires.
-> 
-> I have tested a few RTL8188EUS-based Wi-Fi cards and, while supported by
-> both drivers, they do not work when using the new one and the firmware
-> wasn't manually loaded. According to Larry Finger, the module
-> maintainer, all such cards need the firmware and the driver should
-> depend on it (see the linked mails).
-> 
-> Add a proper MODULE_FIRMWARE() call, like it was done in the old driver.
-> 
-> Thanks to Greg Kroah-Hartman and Larry Finger for quick responses to my
-> questions.
-> 
-> Link: https://answers.launchpad.net/ubuntu/+source/linux-meta-hwe-5.15/+question/702611
-> Link: https://lore.kernel.org/lkml/YukkBu3TNODO3or9@nx64de-df6d00/
-> Signed-off-by: Grzegorz Szymaszek <gszymaszek@short.pl>
-> ---
->  drivers/staging/r8188eu/os_dep/os_intfs.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index 891c85b088ca..5bd3022e4b40 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -18,6 +18,7 @@ MODULE_LICENSE("GPL");
->  MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
->  MODULE_AUTHOR("Realtek Semiconductor Corp.");
->  MODULE_VERSION(DRIVERVERSION);
-> +MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
 
-This looks good, and I'll apply it after 5.20-rc1 is out, but you might
-want to send a follow-on patch that removes the hard-coded string in 2
-places in the driver, and just puts it into a single define somewhere,
-to make it a bit easier over time.  Most other drivers do this as well,
-so there are examples to look at.
+--BNbrgnEDe9bruiv0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+On Wed, Aug 03, 2022 at 08:08:31AM +0200, Greg KH wrote:
+> This looks good, and I'll apply it after 5.20-rc1 is out,
 
-greg k-h
+I didn=E2=80=99t Cc stable since the =E2=80=9CSubmitting patches=E2=80=9D g=
+uide says it=E2=80=99s for
+=E2=80=9Csevere bugs=E2=80=9D, but would it be possible to backport the pat=
+ch to the
+older kernels?
+
+> but you might want to send a follow-on patch that removes the hard-coded
+> string in 2 places in the driver, and just puts it into a single define
+> somewhere, to make it a bit easier over time.
+
+Good idea, will do so. I didn=E2=80=99t check if the filename is already us=
+ed.
+Would something like =E2=80=9Cthis patch depends on patch=E2=80=A6=E2=80=9D=
+ (again from the
+guide) be enough (assuming I will send the new patch before this one
+is applied)?
+
+--=20
+Grzegorz Szymaszek
+
+--BNbrgnEDe9bruiv0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEZT55kPBhnB69hD4ZeE9lGUIcpz4FAmLqFr4ACgkQeE9lGUIc
+pz4PAg/7B1xc/lVHAuVd9qvRqvKG3z4y6TEYCKM6hdm6sIphbPtuzE/Q6pIkYbBO
+X8iw6++zOMfQtn1ioI3GeiuUpuJXRhuk6IqxVVbZDuMvY9wB5vL5Dv9tSGEgHs91
+SqTPb2Ie4euU6p4eEdFZ/Yog2gAJ9+7n+ItfD0RtcaOKYKDlonjKEh+Zbfx4TQP/
+0lq200J2HcigAJ4/R909bjWMHesnA7f2PgVUlkxZNKnWt6YebD0Pgg7/Vmyn0wYm
+3iSxRpiB1MoovwI7uYzAXZWLk1SMkEIx5C/mLlqtVTeXNYbo1ZZV2z2QrxL7HCNy
+JebbV5OOoDwnr+MjpjmtsTwDxOIREPviwZ7KNKzkUX9Lpw3yBLlFf4b2RF6j+Lp8
+Q/D4wvbdS3nViH9TlPTGOsLpXuWa1FFOSzHbhjVsqZwrDESOSIg1/BT1bKsYuCMR
+gveZq/+b1MYYUeKlpo9Px4ll+XYryusexLfvTI62uESf2LHmZBsaSqQXwYq/uSdG
+mDELZUlb8TD/JUYbtx7CjdMeK7gLPjy3nvQ9SpapVWDkEkpa53xwWXnvRDglNalB
+iuL2CEH6z6zY2MJvxSHGXg48pUjGZLPkB2aCh5PXSqhAddKv+0q52f1izU1vHFhH
+Q03ymY5rDn4cYvYZ4BInU3Iahs7h7sV2ddCDKiGzu8YfTZ/RVJM=
+=qW8y
+-----END PGP SIGNATURE-----
+
+--BNbrgnEDe9bruiv0--
