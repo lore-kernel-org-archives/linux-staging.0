@@ -1,84 +1,56 @@
-Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0274C60
-	for <linux-staging@lists.linux.dev>; Wed,  3 Aug 2022 22:29:24 +0000 (UTC)
-Received: from [192.168.192.146] (port=37218 helo=nx64de-df6d00)
-	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <gszymaszek@short.pl>)
-	id 1oJMrY-0008TZ-5K; Thu, 04 Aug 2022 00:29:14 +0200
-Date: Thu, 4 Aug 2022 00:29:10 +0200
-From: Grzegorz Szymaszek <gszymaszek@short.pl>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Grzegorz Szymaszek <gszymaszek@short.pl>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 3/3] staging: r8188eu: make driver metadata macro names more
- consistent
-Message-ID: <7cc838a1e7f64c9aa88deffdb7986fbe55753be8.1659565180.git.gszymaszek@short.pl>
-Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg KH <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-References: <6c83e05e5dbccff5630ccfed9e40bf84c889b647.1659565180.git.gszymaszek@short.pl>
+Received: from baidu.com (mx20.baidu.com [111.202.115.85])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43AFF7F4
+	for <linux-staging@lists.linux.dev>; Thu,  4 Aug 2022 07:30:33 +0000 (UTC)
+Received: from BC-Mail-Ex12.internal.baidu.com (unknown [172.31.51.52])
+	by Forcepoint Email with ESMTPS id A27095D7B2DF4A6C3D1C;
+	Thu,  4 Aug 2022 15:14:59 +0800 (CST)
+Received: from bjkjy-mail-ex28.internal.baidu.com (172.31.50.44) by
+ BC-Mail-Ex12.internal.baidu.com (172.31.51.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Thu, 4 Aug 2022 15:15:02 +0800
+Received: from ThinkStation-P340.baidu.com (172.31.63.8) by
+ bjkjy-mail-ex28.internal.baidu.com (172.31.50.44) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.18; Thu, 4 Aug 2022 15:15:01 +0800
+From: Chen Shi <shichen01@baidu.com>
+To: <slongerbeam@gmail.com>, <p.zabel@pengutronix.de>
+CC: <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>, Chen Shi
+	<shichen01@baidu.com>
+Subject: [PATCH] media: staging: media: imx: imx7-media-utils: Fix a coding style problem
+Date: Thu, 4 Aug 2022 15:10:46 +0800
+Message-ID: <20220804071046.31520-1-shichen01@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c83e05e5dbccff5630ccfed9e40bf84c889b647.1659565180.git.gszymaszek@short.pl>
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex28.internal.baidu.com (172.31.51.22) To
+ bjkjy-mail-ex28.internal.baidu.com (172.31.50.44)
 
-Rename DRIVERVERSION to DRV_VERSION so that it looks more alike the
-other macros, DRV_NAME and FW_*, and matches the most popular (as it
-seems from a quick review) conventions in other drivers.
+Add parentheses to enclose macros with complex values.
 
-Signed-off-by: Grzegorz Szymaszek <gszymaszek@short.pl>
+Signed-off-by: Chen Shi <shichen01@baidu.com>
 ---
- drivers/staging/r8188eu/include/drv_types.h | 5 ++---
- drivers/staging/r8188eu/os_dep/os_intfs.c   | 2 +-
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ drivers/staging/media/imx/imx-media-utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-index f51b83515953..3328c66d1ef1 100644
---- a/drivers/staging/r8188eu/include/drv_types.h
-+++ b/drivers/staging/r8188eu/include/drv_types.h
-@@ -10,8 +10,6 @@
- #ifndef __DRV_TYPES_H__
- #define __DRV_TYPES_H__
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 294c808b2ebe..c94013175181 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -7,7 +7,7 @@
+ #include <linux/module.h>
+ #include "imx-media.h"
  
--#define DRV_NAME "r8188eu"
--
- #include "osdep_service.h"
- #include "wlan_bssdef.h"
- #include "rtw_ht.h"
-@@ -36,7 +34,8 @@
- #include "rtl8188e_hal.h"
- #include "rtw_fw.h"
+-#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
++#define IMX_BUS_FMTS(fmt...) {(const u32[]) {fmt, 0}}
  
--#define DRIVERVERSION	"v4.1.4_6773.20130222"
-+#define DRV_NAME	"r8188eu"
-+#define DRV_VERSION	"v4.1.4_6773.20130222"
- #define FW_RTL8188EU	"rtlwifi/rtl8188eufw.bin"
- 
- struct registry_priv {
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 5985054da935..d9abd2a98e1b 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -17,7 +17,7 @@
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
- MODULE_AUTHOR("Realtek Semiconductor Corp.");
--MODULE_VERSION(DRIVERVERSION);
-+MODULE_VERSION(DRV_VERSION);
- MODULE_FIRMWARE(FW_RTL8188EU);
- 
- #define CONFIG_BR_EXT_BRNAME "br0"
+ /*
+  * List of supported pixel formats for the subdevs.
 -- 
-2.35.1
+2.17.1
+
