@@ -1,106 +1,90 @@
-Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D466AB1
-	for <linux-staging@lists.linux.dev>; Thu,  4 Aug 2022 22:23:30 +0000 (UTC)
-Received: from [192.168.192.146] (port=40640 helo=nx64de-df6d00)
-	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <gszymaszek@short.pl>)
-	id 1oJjFK-0001KU-Aw; Fri, 05 Aug 2022 00:23:14 +0200
-Date: Fri, 5 Aug 2022 00:23:12 +0200
-From: Grzegorz Szymaszek <gszymaszek@short.pl>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Grzegorz Szymaszek <gszymaszek@short.pl>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/3] staging: r8188eu: set firmware path in a macro
-Message-ID: <YuxG0OImQ1i0EOFD@nx64de-df6d00>
-Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <YuoQ37PIKzWO1zIY@kroah.com>
- <6c83e05e5dbccff5630ccfed9e40bf84c889b647.1659565180.git.gszymaszek@short.pl>
- <c3b30433-7231-6ebb-b0ea-44e760c4af69@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780696AA2
+	for <linux-staging@lists.linux.dev>; Thu,  4 Aug 2022 22:35:57 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id n20-20020a05600c3b9400b003a4f2261a7eso517756wms.2
+        for <linux-staging@lists.linux.dev>; Thu, 04 Aug 2022 15:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=GjhcCM6pqUfDNnBpeTBTrm5a2+uQw6A9z6WoPf0/fPw=;
+        b=t8yThKZC3eE9v7bQ67YqGuHSMxvZqH2fBBRFYDhtuEoV1F3JD0O1o14QmFYgIsm6CP
+         uSkYNSebUa2MyO+wnGTok5JA0h2tHKmQue4gPHuUC2Bkhbwg0nS+YQzqUVnl/gCzgo+B
+         uiQg609+1qsh74kxhOTfp6eNHne0Nt3pDlJELke/yiGsJtssYyPH14Esvecg02IVVXGO
+         T5fa9tdb90W431J+9vmvF6VhqxwitQ4E/yWEJ/inpw1aLrmETElvnrehnfVgdqpVKqEq
+         uWf9/4Smth4kO6EmaGVKqcBax9qjfeXjyawh/EGCnkUPrS48lmhaitTYjaOVaxu8dhff
+         ip0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=GjhcCM6pqUfDNnBpeTBTrm5a2+uQw6A9z6WoPf0/fPw=;
+        b=irvXLC7TCxC3C1WuP1EsYB7FyM+mCWB10CYOS7z1Hij3zZf5LFOv0nwl54jhUYO+5e
+         65JuC6+zIsF6TXGgWuNldkgoTnbICxAQ9mo6ctmgqECyJIsTJ4+eD6YpuJ1ECARHvbQd
+         s/1+BbSisl+N53BFIQVlKuCQ3QBv9zg4hNn4I05Sb1EG6+1rJzOrX44LnZj3vLB7aXGA
+         UaWqV/+LaOlolToNG3Mt6aF5fbgkv+n2HeOWGJW+eUZuEuALbZIrlGfg2yWoiMHrAnDi
+         KrJUf9G1jXoVICQtGDa5H4v+ChDWHPAfcZ/TWL6OTPRTaWx1Lkd/WMa9qFthyEqcPQgN
+         6UDw==
+X-Gm-Message-State: ACgBeo1kQ598FAJWWRHKxz1DqjHiOr7IEKSk+0QWcJgTdxUe0O138KRt
+	jmJIkt93shdzUPlpcc3qd+tvxg==
+X-Google-Smtp-Source: AA6agR4IdWEIrrj7cqAiF+rraowt3BssE45/V3N60GXpNXoJWEahPJtx2WjbCwON5R4BvPQCqN8dhA==
+X-Received: by 2002:a05:600c:49a4:b0:3a5:fa7:18ef with SMTP id h36-20020a05600c49a400b003a50fa718efmr2665854wmp.156.1659652555540;
+        Thu, 04 Aug 2022 15:35:55 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id n21-20020a05600c3b9500b003a2d6c623f3sm7619306wms.19.2022.08.04.15.35.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Aug 2022 15:35:54 -0700 (PDT)
+Date: Thu, 4 Aug 2022 23:35:52 +0100
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	paskripkin@gmail.com, straube.linux@gmail.com, martin@kaiser.cx,
+	abdun.nihaal@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: convert rtw_p2p_enable to correct
+ error code semantics
+Message-ID: <YuxJyETZ3KM4uaoH@equinox>
+References: <20220802234408.930-1-phil@philpotter.co.uk>
+ <20220803121108.GC3438@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wdK8tUR/DAUq3A6F"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c3b30433-7231-6ebb-b0ea-44e760c4af69@gmail.com>
+In-Reply-To: <20220803121108.GC3438@kadam>
 
+On Wed, Aug 03, 2022 at 03:11:08PM +0300, Dan Carpenter wrote:
+> On Wed, Aug 03, 2022 at 12:44:08AM +0100, Phillip Potter wrote:
+> > Convert the rtw_p2p_enable function to use correct error code semantics
+> > rather than _SUCCESS/_FAIL, and also make sure we allow these to be
+> > passed through properly in the one caller where we actually check the
+> > code, rtw_wext_p2p_enable.
+> > 
+> > This change moves these functions to a clearer 'return 0;' style at the
+> > end of the function, and in the case of errors now returns ret instead
+> > of jumping to the end of the function, so that these can still be passed
+> > through but without using a goto to jump to a single return statement at
+> > the end which is less clear.
+> > 
+> > This change moves the driver slowly closer to using standard error code
+> > semantics everywhere.
+> > 
+> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> 
+> Looks good.  Thanks!
+> 
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> 
+> regards,
+> dan carpenter
+> 
 
---wdK8tUR/DAUq3A6F
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the review Dan, much appreciated.
 
-On Thu, Aug 04, 2022 at 10:11:58PM +0200, Philipp Hortmann wrote:
-> On 8/4/22 00:28, Grzegorz Szymaszek wrote:
-> > diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/stagin=
-g/r8188eu/os_dep/os_intfs.c
-> > -%<-
-> > -MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
-> > +MODULE_FIRMWARE(FW_RTL8188EU);
->=20
->=20
-> It failed to apply your patch as the following line:
-> MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
-> is not in the repo. Inserted line in my repo to apply patch.
-
-I=E2=80=99m sorry, I didn=E2=80=99t add the base tree reference. Right now,=
- git
-format-patch generates the following:
-
-    base-commit: 9de1f9c8ca5100a02a2e271bdbde36202e251b4b
-    prerequisite-patch-id: 79964bd0bcd260f1df53830a81e009c34993ee6f
-
-The prerequisite patch is available at
-<https://lore.kernel.org/lkml/YulcdKfhA8dPQ78s@nx64de-df6d00/>.
-
-> Why is the coverletter missing?
-
-I didn=E2=80=99t think it would be necessary, since the patches are quite
-simple and there are just three of them. Again, I=E2=80=99m sorry, I don=E2=
-=80=99t want
-to make it harder for anyone to review my patches. Hopefully I will
-learn more of the kernel development practises without wasting too much
-time of patch reviewers.
-
-Should I send an improved (with the base tree reference and with a short
-cover letter) patch series?
-
-> Tested all three patches.
-
-Thanks!
-
---wdK8tUR/DAUq3A6F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEZT55kPBhnB69hD4ZeE9lGUIcpz4FAmLsRtAACgkQeE9lGUIc
-pz4Peg//URhtbr9bi8fDPTiZ+Y5t5NcBgTyII86gtqFjvtQRDGXzq3MU3ErjxvzO
-D1NJtIBiF0QPVTlruIqdlN8dM2bY2VD6uKEW/ytZa0mnVVFLjfOjpMyfavXWq8DS
-aVUF/RCTUhEvhYjabVnXy81hEo3SoSEkSkg3cNyINQDCHy33csELlVEuX/lIHcHx
-B33aXdqEJboZfNJ23KIjmiXc/TJbHdxquDS1mjYJYSN5OOsM22eHDx0i4je+CX9N
-u7owII2TN3XLwqUTRINHXVVIZpJKdlCPtFdL9wFWM4bvlaTCNpGozDFk9Rka540J
-7g8j/2scF6XuZRxQP+23CPEZieDGXEfD9KT+pDLTO3lD1GRIgQapBRVg41f0ZD97
-DOARmeMQ91prmqqtm1eirs3BbruieZ0zTy4PGp3NzYg47wFpxpcMnydvubUADGb5
-2Paqm5lmbKNBILPn0jEBJiDPMpT9a9qUGT3V3hNBZXbi3j344HD1Y6R2IVAX8/Kx
-CUtJ+f4O6A5dXekrgJSKgahO77yG50fA9KsffO/7Z0VnRVZVgsq+DF6oF4/mXCyG
-nar7bcfFBL2dSw2kdDNTjGwXCj91WE9sbi71qLruLv9DVWZV/sTKpza6AT9qJgc1
-rQ8kCVdapDVtNW1jfJJnhhyi6YQkUXGQgzzPrtLxwHRad0mQMyY=
-=XvEL
------END PGP SIGNATURE-----
-
---wdK8tUR/DAUq3A6F--
+Regards,
+Phil
