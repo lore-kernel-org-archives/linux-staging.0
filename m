@@ -1,45 +1,45 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF585387
-	for <linux-staging@lists.linux.dev>; Thu,  4 Aug 2022 20:12:57 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id e13so981878edj.12
-        for <linux-staging@lists.linux.dev>; Thu, 04 Aug 2022 13:12:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6835387
+	for <linux-staging@lists.linux.dev>; Thu,  4 Aug 2022 20:26:42 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id w19so1318637ejc.7
+        for <linux-staging@lists.linux.dev>; Thu, 04 Aug 2022 13:26:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=QYSwK07kFYzHOiq05oaaTeiTGf8E7cSSTShc3Z35lBI=;
-        b=oYPswzpRQ8j5186pmGEAPZmY0GHoRqo5vI88nI3j3AC+yaQgLaJCVrcW03HDfUodnq
-         RkWnnepiaAN5KEMhlv1hJJMu1F9fmj9qMXQ/+tPyDaT0KIsG1afxH1P0ZHLmxvnKjwf4
-         X17shsq4aCMV3gKXDrGlts4a79oysHvVvbtbOo/GlKj4cErk1OdvGKdU9LgmAZj8p9ei
-         YsZYet5GrBPEJvUQDbYYLRsIk04Ue/6tAgjVzFFVgiPdvxNetrtPYcdpBHLVz/3kJ9Rh
-         kwABJnXKKaXu00bVU7bVkXq8L61k9lC7jd9MWgBQrgwj7LkizXs1DqkvxCecKO/F68vy
-         igFQ==
+        bh=gcpgRFm5vs+rWDh+VychUN2x/2sAeZ2CGnsyB4UULJc=;
+        b=U+0+6h8r128HlTmUDQKULCIe7qAmbEWPanQmIrXi5N5AgdgxB6E53mTzNW8+LiTNtK
+         vqtsohxdorLfeMTsSQ1rt0Oj0/jtS/+ZbFc0kOazgBgl98+GPTXVP8JJW4OfQqDOzLWI
+         fwpuRgM7WggNA6TnZLCWhFsHA6s3+5Gt3FcpviGfa5l2PUFtju4sH0eE0LCCjbKaQwS2
+         bMvLN28ZcZa9/T12bAKWV+pGpPWVKgGYaanp+adVRtrJ1cXmsA7vkfnB4Ybnbczy7XYz
+         5Dz+hRaUZ/D9jmy1kEYU+cAJTn5rOC3szgO+Kvg+hX1lPuxZ/nmT8tBceE2/GtG1cdBK
+         8+8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=QYSwK07kFYzHOiq05oaaTeiTGf8E7cSSTShc3Z35lBI=;
-        b=Uhp/J1ofuv9hZpmYbWz/fOCVCEGDmgINVRt8o66utNY11FrMfvEn3gLUuNcAb+TBlr
-         /+QiUsiE54HJOnj71V2151ohIbQNpCPaUqJo72ta50kGSjj/+WSiwyCV7/qw4fmah5zH
-         ImxoaD3c96DtSE6Olv+s7wHlLBilDgmqoaNdiuuKm6tZH3hQzVU/XrKGmwMgctq2Mawb
-         2bKAQdOl3ZIy6zanqaXTzMcXaBZR8dmOOvXy5Hl5Oa9ZSayKbdLCYd7Z0tC5synkVqSp
-         sSxik83qwrTr96O+tikBnv/S1T7W5XV1/LSoKyze0VVvyIagDlaWhlUsPdIc3MXTZoIB
-         rZCQ==
-X-Gm-Message-State: ACgBeo0/+wJZFr8ppJnEMQ72gMeBOtrTrLnSrADaxSIH7bYxJdYny2MK
-	Ka0CGik8XFL0e2pj73dcw+c=
-X-Google-Smtp-Source: AA6agR5X18L1PXXInZNRdf/HPlE0O/+hdC7bx/AQSVQkty4CikFF5AaTlfaNHNI8kYsDj+NyYcaTiQ==
-X-Received: by 2002:a50:fb99:0:b0:43c:d008:d4f9 with SMTP id e25-20020a50fb99000000b0043cd008d4f9mr3614188edq.13.1659643975435;
-        Thu, 04 Aug 2022 13:12:55 -0700 (PDT)
+        bh=gcpgRFm5vs+rWDh+VychUN2x/2sAeZ2CGnsyB4UULJc=;
+        b=FmfBGj8AZE8xZ6Ffdeyx6OBz52OheqYatKg1FPqCmbZCCl47PkMVNwJiyurrCMCf9L
+         8VyNQ6/kneijik2MjQwb7bIz3cMKEbJokbRKJvsveMSNAXrdxxz4BfVHiAia9x0AQrlA
+         xNNL2b7/ASIGT41zHWX/sD9zFClEgravuHWIEVzaFRsw/x6W2jWYR/o323RCilRrYIS4
+         J/rAMbOIEpeS60nbDygwu19yPiHkpGP+T6U/sEEaPVXj4pARdxnpaIDImoL991Abe7ty
+         jtY3NLVHiIW2twmGTj5YXdIvxn6iNIGN8PAQJcLmy8SgJ3nSeaZtYJX9D5oaq+Uj4bfJ
+         z/zg==
+X-Gm-Message-State: ACgBeo394oOGZojAsjfv/I7wkKBZ8bdHUpMFmUZSHG/d76HSwF9rKRek
+	4U2BTUMGmhYEvdW9T73COrM8Sx2oqtU=
+X-Google-Smtp-Source: AA6agR7c6h38sC+j142B8oImCPvDh7SJghL+4wS2cJ1aoK0xIA7Qb6Wu8Ut3ixQ1Xdmk4/bevqSRnQ==
+X-Received: by 2002:a17:907:6d04:b0:72e:e204:a70b with SMTP id sa4-20020a1709076d0400b0072ee204a70bmr2657688ejc.432.1659644801394;
+        Thu, 04 Aug 2022 13:26:41 -0700 (PDT)
 Received: from [192.168.1.103] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id g23-20020a170906539700b007306a4ecc9dsm706630ejo.18.2022.08.04.13.12.54
+        by smtp.gmail.com with ESMTPSA id z7-20020a50cd07000000b0043bea0a48d0sm1122480edi.22.2022.08.04.13.26.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Aug 2022 13:12:55 -0700 (PDT)
-Message-ID: <b5301b5b-9f6e-f3a4-4d0a-a01cca29c940@gmail.com>
-Date: Thu, 4 Aug 2022 22:12:53 +0200
+        Thu, 04 Aug 2022 13:26:41 -0700 (PDT)
+Message-ID: <99ee7f1d-62fa-a873-403a-445d8d8b096a@gmail.com>
+Date: Thu, 4 Aug 2022 22:26:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,36 +48,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 0/2] staging: r8188eu: make some functions static
+Subject: Re: [PATCH] staging: r8188eu: convert rtw_p2p_enable to correct error
+ code semantics
 Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220804105532.7532-1-straube.linux@gmail.com>
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, paskripkin@gmail.com, straube.linux@gmail.com,
+ martin@kaiser.cx, abdun.nihaal@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220802234408.930-1-phil@philpotter.co.uk>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220804105532.7532-1-straube.linux@gmail.com>
+In-Reply-To: <20220802234408.930-1-phil@philpotter.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/4/22 12:55, Michael Straube wrote:
-> This series makes some functions static what allows us to remove the
-> files hal/rtl8188e_xmit.c and hal/rtl8188eu_recv.c.
+On 8/3/22 01:44, Phillip Potter wrote:
+> Convert the rtw_p2p_enable function to use correct error code semantics
+> rather than _SUCCESS/_FAIL, and also make sure we allow these to be
+> passed through properly in the one caller where we actually check the
+> code, rtw_wext_p2p_enable.
 > 
-> Michael Straube (2):
->    staging: r8188eu: make handle_txrpt_ccx_88e() static
->    staging: r8188eu: make rtl8188eu_{init,free}_recv_priv() static
+> This change moves these functions to a clearer 'return 0;' style at the
+> end of the function, and in the case of errors now returns ret instead
+> of jumping to the end of the function, so that these can still be passed
+> through but without using a goto to jump to a single return statement at
+> the end which is less clear.
 > 
->   drivers/staging/r8188eu/Makefile              |  2 -
->   drivers/staging/r8188eu/core/rtw_recv.c       | 79 ++++++++++++++++
->   drivers/staging/r8188eu/hal/rtl8188e_xmit.c   | 22 -----
->   drivers/staging/r8188eu/hal/rtl8188eu_recv.c  | 91 -------------------
->   drivers/staging/r8188eu/hal/usb_ops_linux.c   | 14 +++
->   .../staging/r8188eu/include/rtl8188e_recv.h   |  2 -
->   .../staging/r8188eu/include/rtl8188e_xmit.h   |  2 -
->   7 files changed, 93 insertions(+), 119 deletions(-)
->   delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_xmit.c
->   delete mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+> This change moves the driver slowly closer to using standard error code
+> semantics everywhere.
 > 
+> Signed-off-by: Phillip Potter<phil@philpotter.co.uk>
+> ---
+>   drivers/staging/r8188eu/core/rtw_p2p.c       | 19 ++++++++-----------
+>   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 12 +++++-------
+>   2 files changed, 13 insertions(+), 18 deletions(-)
 
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
