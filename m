@@ -1,161 +1,83 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85856A3C
-	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 08:05:42 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id z2so2449415edc.1
-        for <linux-staging@lists.linux.dev>; Fri, 05 Aug 2022 01:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pHbOmXbgjKHOMupCWCh1THeozZUBQlhqxyrI1uVreNM=;
-        b=avTDh8alnwidHdGjaLWWHbEUbXwgqB4B1HrCBlHmSoa1uVDIVlW6MEK/eH6N0fk46U
-         8VBjO6v/+GSAvzRSXs1/6J7/GNuub4e5ux7bFXa3PMxp2BaZ2wUVF1EhFUV5le4YzWUW
-         /pmoRxTSINUx99MFRK7OFav41PaGaObqvAuhRQUef2SLcJOlMATo2iERHpkAwDHjCgy7
-         LvU3Vo/8XmXn2cvKZo3ZeGOdvooEAVFzGAOe9GSLvIGTLtp84UbEkqlqFmqmkYAi7I0Y
-         ZPqLbFsZF9xzUbnUMhD30alnv/iIBM9ptu7MmLTKJ+oRndiS1OD4x0vD6EY7t4Yf+S4W
-         QfHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pHbOmXbgjKHOMupCWCh1THeozZUBQlhqxyrI1uVreNM=;
-        b=vkzi8osWrGzOPg5Zz8PpLBb6b1bq/crKFWw1dzNvesmNzWOlgTUeSACGgH1iW/aqV3
-         UVsPlfGenL5Or4ssJzYXZBUj+0fUP/F7TKEIgQn8iFjWIwrhfFdgCqX/b4TmlpRg0+PY
-         xRRceAFkdb8/M1vFNEGF3Re3pWXusckfnRoAIJMLXjmNxJ7GCAMz/TGCVCtJ/lE5DZnX
-         ndySGjVO9WJ4kqnrO7MPRNcTN0u45cyrn2Tbv+GVbkXXkslgNmDt6vDzm3JRONKEr7aw
-         t6OmAZvR3BCpu3EWpqkLdUM9XSu8t2yHjDEZoo/tJbGNzXIIg99AO2YdHQ1lPlyJlifx
-         +SVg==
-X-Gm-Message-State: ACgBeo3VoVi3LWL7QNvVRlXSWqZxvjBcgrlet3nNuIz/zoFqSHsdf964
-	9ltLc8+j/606Q3HgKftHCBk=
-X-Google-Smtp-Source: AA6agR6GlyqK4MiOYzo14g8mdn64a+2Hdm17nSXR1HYAVoYMynS8IS8YVLYBH/i4LkWn7je1zn+LPA==
-X-Received: by 2002:aa7:de91:0:b0:43a:d5b0:e0bb with SMTP id j17-20020aa7de91000000b0043ad5b0e0bbmr5446987edv.165.1659686740812;
-        Fri, 05 Aug 2022 01:05:40 -0700 (PDT)
-Received: from localhost.localdomain ([88.208.127.92])
-        by smtp.gmail.com with ESMTPSA id l22-20020a170906939600b00730670379f5sm1287849ejx.221.2022.08.05.01.05.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Aug 2022 01:05:40 -0700 (PDT)
-From: Simone Serra <serrazimone@gmail.com>
-To: gregkh@linuxfoundation.org,
-	fabioaiuto83@gmail.com,
-	soumya.negi97@gmail.com,
-	hdegoede@redhat.com,
-	straube.linux@gmail.com
-Cc: Simone Serra <serrazimone@gmail.com>,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8580C7FF
+	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 08:36:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4448C433C1;
+	Fri,  5 Aug 2022 08:36:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1659688605;
+	bh=996x4MLdOWeDhTT9hrni14uHtO+Hp28DkrLdhwmkeUw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=02fXsVlK151lgx6auA0mExQ7V9KY31TP+VyoijWvmrsby94+LXYJUcnXsoRpcmwDc
+	 BB1vE19AsiWExN0qOlh3xW23ZVEGj4mcrkKCi4Qx/DxxYVF+Joad/nmbnFUNMjWvEd
+	 61r8H1NXvtcyFUFEC0VoD4ybdl55hZI3pUGLXEXc=
+Date: Fri, 5 Aug 2022 10:36:42 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Simone Serra <serrazimone@gmail.com>
+Cc: fabioaiuto83@gmail.com, soumya.negi97@gmail.com, hdegoede@redhat.com,
+	straube.linux@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] Fixed checkpatch warnings
-Date: Fri,  5 Aug 2022 10:05:38 +0200
-Message-Id: <20220805080538.230906-1-serrazimone@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH] Fixed checkpatch warnings
+Message-ID: <YuzWmlHVioUGIVfP@kroah.com>
+References: <20220805080538.230906-1-serrazimone@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220805080538.230906-1-serrazimone@gmail.com>
 
-Fixed all checkpatch warnings
+On Fri, Aug 05, 2022 at 10:05:38AM +0200, Simone Serra wrote:
+> Fixed all checkpatch warnings
+> 
+> Signed-off-by: Simone Serra <serrazimone@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_efuse.c | 25 +++++++++++++++-------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
+> 
 
-Signed-off-by: Simone Serra <serrazimone@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_efuse.c | 25 +++++++++++++++-------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+Hi,
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index 06e727ce9cc2..d2d69321d47a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -71,7 +71,8 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
-  * When			Who		Remark
-  * 11/17/2008	MHC		Create Version 0.
-  *
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- void
- Efuse_PowerSwitch(
- struct adapter *padapter,
-@@ -96,7 +97,8 @@ u8 PwrState)
-  * When			Who		Remark
-  * 11/16/2008	MHC		Create Version 0.
-  *
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- u16
- Efuse_GetCurrentSize(
- 	struct adapter *padapter,
-@@ -112,6 +114,7 @@ u8
- Efuse_CalculateWordCnts(u8 word_en)
- {
- 	u8 word_cnts = 0;
-+
- 	if (!(word_en & BIT(0)))
- 		word_cnts++; /*  0 : write enable */
- 	if (!(word_en & BIT(1)))
-@@ -190,7 +193,8 @@ EFUSE_GetEfuseDefinition(
-  * When			Who		Remark
-  * 09/23/2008	MHC		Copy from WMAC.
-  *
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- u8
- EFUSE_Read1Byte(
- struct adapter *Adapter,
-@@ -359,7 +363,8 @@ Efuse_PgPacketWrite(struct adapter *padapter,
-  * 11/16/2008	MHC		Create Version 0.
-  * 11/21/2008	MHC		Fix Write bug when we only enable late word.
-  *
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- void
- efuse_WordEnableDataRead(u8 word_en,
- 						u8 *sourdata,
-@@ -411,7 +416,8 @@ Efuse_WordEnableDataWrite(struct adapter *padapter,
-  * When			Who		Remark
-  * 11/11/2008	MHC		Create Version 0.
-  *
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- void
- Efuse_ReadAllMap(
- 	struct adapter *padapter,
-@@ -448,7 +454,8 @@ void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse, bool bP
-  * When			Who		Remark
-  * 11/12/2008	MHC		Create Version 0.
-  *
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- static void efuse_ShadowRead1Byte(struct adapter *padapter, u16 Offset, u8 *Value)
- {
- 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-@@ -494,7 +501,8 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
-  * When			Who		Remark
-  * 11/13/2008	MHC		Create Version 0.
-  *
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoTest)
- {
- 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-@@ -527,7 +535,8 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoT
-  * When			Who		Remark
-  * 11/12/2008	MHC		Create Version 0.
-  *
-- *---------------------------------------------------------------------------*/
-+ *---------------------------------------------------------------------------
-+ */
- void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
- {
- 	if (Type == 1)
--- 
-2.25.1
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
