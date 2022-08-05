@@ -1,26 +1,29 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BA9EA2
-	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 09:11:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E22EBC433D7;
-	Fri,  5 Aug 2022 09:11:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1659690668;
-	bh=rzdCJEySrx1u8HL5Z1jZrUkaNhIMIPcDXhp/b3inMJI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q/MEJrxk4/nL7EQoSniXkV6GZ+3xCp0N49Q5hG71SYhpEEHVpJXIt36KBccv6eCOV
-	 E4lFlNaiY+lbdt4U79D2ruYnSTykGj8hRIOp3Rlf2+dYr3zUHZIckQtsztyFIWKQHL
-	 0oHj49oKEw4pwqRUZgvKiFbiFmTdHI8CQo0QMa+Q=
-Date: Fri, 5 Aug 2022 11:11:05 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Simone Serra <serrazimone@gmail.com>
-Cc: fabioaiuto83@gmail.com, soumya.negi97@gmail.com, hdegoede@redhat.com,
-	straube.linux@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fixes checkpatch checks
-Message-ID: <YuzeqastAzO44fRS@kroah.com>
-References: <20220805084508.246882-1-serrazimone@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC1A1C03
+	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 16:28:06 +0000 (UTC)
+Received: from [192.168.192.146] (port=57874 helo=nx64de-df6d00)
+	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <gszymaszek@short.pl>)
+	id 1oK0Ad-0007pN-HF; Fri, 05 Aug 2022 18:27:33 +0200
+Date: Fri, 5 Aug 2022 18:27:30 +0200
+From: Grzegorz Szymaszek <gszymaszek@short.pl>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Phillip Potter <phil@philpotter.co.uk>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Grzegorz Szymaszek <gszymaszek@short.pl>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH v2 0/4] staging: r8188eu: cleanup some metadata issues
+Message-ID: <cover.1659715931.git.gszymaszek@short.pl>
+Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,55 +32,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220805084508.246882-1-serrazimone@gmail.com>
 
-On Fri, Aug 05, 2022 at 10:45:08AM +0200, Simone Serra wrote:
-> fixes checkpatch checks
-> 
-> Signed-off-by: Simone Serra <serrazimone@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 172 ++++++++++-----------
->  1 file changed, 81 insertions(+), 91 deletions(-)
-> 
+This patchset tries to improve the r8188eu driver metadata. Some
+hardcoded values are replaced with proper macros, some unnecessary
+macros are removed.
 
-Hi,
+Changes for v2:
+- added a cover letter and a base tree reference;
+- added Philipp Hortmann's Tested-by;
+- replaced the second and the third patch with different ones, per Greg
+  Kroah-Hartman's suggestions to make better use of existing kernel
+  macros and remove unnecessary ones.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Grzegorz Szymaszek (4):
+  staging: r8188eu: set firmware path in a macro
+  staging: r8188eu: use KBUILD_MODNAME instead of a string constant
+  staging: r8188eu: drop the DRV_NAME macro
+  staging: r8188eu: drop the DRIVERVERSION macro
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+ drivers/staging/r8188eu/core/rtw_fw.c       | 2 +-
+ drivers/staging/r8188eu/include/drv_types.h | 4 +---
+ drivers/staging/r8188eu/os_dep/os_intfs.c   | 3 +--
+ drivers/staging/r8188eu/os_dep/usb_intf.c   | 2 +-
+ 4 files changed, 4 insertions(+), 7 deletions(-)
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+base-commit: 9de1f9c8ca5100a02a2e271bdbde36202e251b4b
+prerequisite-patch-id: 79964bd0bcd260f1df53830a81e009c34993ee6f
+-- 
+2.35.1
