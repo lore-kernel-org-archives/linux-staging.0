@@ -1,83 +1,441 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8580C7FF
-	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 08:36:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4448C433C1;
-	Fri,  5 Aug 2022 08:36:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1659688605;
-	bh=996x4MLdOWeDhTT9hrni14uHtO+Hp28DkrLdhwmkeUw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=02fXsVlK151lgx6auA0mExQ7V9KY31TP+VyoijWvmrsby94+LXYJUcnXsoRpcmwDc
-	 BB1vE19AsiWExN0qOlh3xW23ZVEGj4mcrkKCi4Qx/DxxYVF+Joad/nmbnFUNMjWvEd
-	 61r8H1NXvtcyFUFEC0VoD4ybdl55hZI3pUGLXEXc=
-Date: Fri, 5 Aug 2022 10:36:42 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Simone Serra <serrazimone@gmail.com>
-Cc: fabioaiuto83@gmail.com, soumya.negi97@gmail.com, hdegoede@redhat.com,
-	straube.linux@gmail.com, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A909EA2
+	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 08:45:16 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id gk3so3791035ejb.8
+        for <linux-staging@lists.linux.dev>; Fri, 05 Aug 2022 01:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qH2LYPCNZYmgIRU5T6AQyufS+ddcNinO3+CC6bKu/Is=;
+        b=WZcDiQ7B+fg8SeqJSjgxGi4FS8JqnZqv2i2F7SbbE05mxAA64N3y6lMtynNKCdz3VU
+         SqBhfQZf5YtqgnIgbu0IFQ1XH+dDuhMQLNdbKrjHVRgH9kPDcuW3Uik0jWyDbgjR7c5G
+         RrFGDDVEwnxPg0VNILyVEZ6w6NT3Y9dGeIUDFufIOpcbKklmxMEXAtC0FcOog3PYGPlr
+         CI2MK7wQ90OjZ63GdxEi4V1RqHy6fe8qRmCHzyU5VaJfk26oGVOMRdH08W7nF2+QGzG3
+         /Ld7X+IYhfbK88P7HT/357j42G52ntNA9gb+I24Ud1xDmGkMkbj810K87vdzwn6nh7Y6
+         8ucg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qH2LYPCNZYmgIRU5T6AQyufS+ddcNinO3+CC6bKu/Is=;
+        b=QoBTpl89eQK9Zy1RVleZ/QMuXm5zY5B05IqwPTXdLSQViR1AbQaoZJOzZKfJiZ9dKn
+         bKlHhtdY8Z7qVr8HkZNpRcnGvD6b3wyvI+7+N3KPtWi/egBCZOqkfyXiiXZ4d5wecnrG
+         jDX0GF/6PF81VJVuhq4u56rUtv1F/615F95cs6YY8+zUmDXKA0Ucc0PvF81sm+tFA1zz
+         yewCllsDk+Oomn6gSvxRJ+SjMpmE+PQKnO4z7wtKo78XX0WBWxG0QMb4v1Oow3U2KR0Q
+         PwkDdqoMnCFhs+APE01GiRw9Vx4UGydknWWeEhGRtX+xOQH07giAKj29pFHnWNqfAdP7
+         GF0A==
+X-Gm-Message-State: ACgBeo3UwKqH5VKTwTuXfQ7jnZzd3VPDIYMtMZWVfsnx8EEp4/OEi5xU
+	RBxhFCdcH09vVFp6ouNjUnI=
+X-Google-Smtp-Source: AA6agR4p6Tb3nF/0/10/nRzHNH4ot9xVXSyRFzblvx/r2SOJbCOcH0CQb1E53+R0yahW44VLxxYiLQ==
+X-Received: by 2002:a17:907:97d2:b0:730:657f:bef5 with SMTP id js18-20020a17090797d200b00730657fbef5mr4691544ejc.757.1659689114485;
+        Fri, 05 Aug 2022 01:45:14 -0700 (PDT)
+Received: from localhost.localdomain ([88.208.127.92])
+        by smtp.gmail.com with ESMTPSA id g2-20020a170906538200b0072b592ee073sm1343654ejo.147.2022.08.05.01.45.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Aug 2022 01:45:14 -0700 (PDT)
+From: Simone Serra <serrazimone@gmail.com>
+To: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com,
+	soumya.negi97@gmail.com,
+	hdegoede@redhat.com,
+	straube.linux@gmail.com
+Cc: Simone Serra <serrazimone@gmail.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fixed checkpatch warnings
-Message-ID: <YuzWmlHVioUGIVfP@kroah.com>
-References: <20220805080538.230906-1-serrazimone@gmail.com>
+Subject: [PATCH] Fixes checkpatch checks
+Date: Fri,  5 Aug 2022 10:45:08 +0200
+Message-Id: <20220805084508.246882-1-serrazimone@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220805080538.230906-1-serrazimone@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 05, 2022 at 10:05:38AM +0200, Simone Serra wrote:
-> Fixed all checkpatch warnings
-> 
-> Signed-off-by: Simone Serra <serrazimone@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 25 +++++++++++++++-------
->  1 file changed, 17 insertions(+), 8 deletions(-)
-> 
+fixes checkpatch checks
 
-Hi,
+Signed-off-by: Simone Serra <serrazimone@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 172 ++++++++++-----------
+ 1 file changed, 81 insertions(+), 91 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index d2d69321d47a..2ec77d7fa296 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -9,7 +9,6 @@
+ #include <hal_data.h>
+ #include <linux/jiffies.h>
+ 
+-
+ /* Define global variables */
+ u8 fakeEfuseBank;
+ u32 fakeEfuseUsedBytes;
+@@ -38,7 +37,7 @@ Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
+ 	if (fakeEfuseBank == 0)
+ 		*Value = fakeEfuseContent[Offset];
+ 	else
+-		*Value = fakeBTEfuseContent[fakeEfuseBank-1][Offset];
++		*Value = fakeBTEfuseContent[fakeEfuseBank - 1][Offset];
+ 	return true;
+ }
+ 
+@@ -50,7 +49,7 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
+ 	if (fakeEfuseBank == 0)
+ 		fakeEfuseContent[Offset] = Value;
+ 	else
+-		fakeBTEfuseContent[fakeEfuseBank-1][Offset] = Value;
++		fakeBTEfuseContent[fakeEfuseBank - 1][Offset] = Value;
+ 	return true;
+ }
+ 
+@@ -74,10 +73,9 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
+  *---------------------------------------------------------------------------
+  */
+ void
+-Efuse_PowerSwitch(
+-struct adapter *padapter,
+-u8 bWrite,
+-u8 PwrState)
++Efuse_PowerSwitch(struct adapter *padapter,
++		  u8 bWrite,
++		  u8 PwrState)
+ {
+ 	padapter->HalFunc.EfusePowerSwitch(padapter, bWrite, PwrState);
+ }
+@@ -100,10 +98,9 @@ u8 PwrState)
+  *---------------------------------------------------------------------------
+  */
+ u16
+-Efuse_GetCurrentSize(
+-	struct adapter *padapter,
+-	u8	efuseType,
+-	bool		bPseudoTest)
++Efuse_GetCurrentSize(struct adapter *padapter,
++		     u8	efuseType,
++		     bool		bPseudoTest)
+ {
+ 	return padapter->HalFunc.EfuseGetCurrentSize(padapter, efuseType,
+ 						     bPseudoTest);
+@@ -145,34 +142,31 @@ Efuse_CalculateWordCnts(u8 word_en)
+ /*  */
+ 
+ void
+-efuse_ReadEFuse(
+-	struct adapter *Adapter,
+-	u8 efuseType,
+-	u16		_offset,
+-	u16		_size_byte,
+-	u8 *pbuf,
+-bool	bPseudoTest
++efuse_ReadEFuse(struct adapter *Adapter,
++		u8 efuseType,
++		u16		_offset,
++		u16		_size_byte,
++		u8 *pbuf,
++		bool	 bPseudoTest
+ 	);
+ void
+-efuse_ReadEFuse(
+-	struct adapter *Adapter,
+-	u8 efuseType,
+-	u16		_offset,
+-	u16		_size_byte,
+-	u8 *pbuf,
+-bool	bPseudoTest
++efuse_ReadEFuse(struct adapter *Adapter,
++		u8 efuseType,
++		u16		_offset,
++		u16		_size_byte,
++		u8 *pbuf,
++		bool	bPseudoTest
+ 	)
+ {
+ 	Adapter->HalFunc.ReadEFuse(Adapter, efuseType, _offset, _size_byte, pbuf, bPseudoTest);
+ }
+ 
+ void
+-EFUSE_GetEfuseDefinition(
+-	struct adapter *padapter,
+-	u8 efuseType,
+-	u8 type,
+-	void	*pOut,
+-	bool		bPseudoTest
++EFUSE_GetEfuseDefinition(struct adapter *padapter,
++			 u8 efuseType,
++			 u8 type,
++			 void	*pOut,
++			 bool		bPseudoTest
+ 	)
+ {
+ 	padapter->HalFunc.EFUSEGetEfuseDefinition(padapter, efuseType, type, pOut, bPseudoTest);
+@@ -196,52 +190,52 @@ EFUSE_GetEfuseDefinition(
+  *---------------------------------------------------------------------------
+  */
+ u8
+-EFUSE_Read1Byte(
+-struct adapter *Adapter,
+-u16		Address)
++EFUSE_Read1Byte(struct adapter *Adapter,
++		u16		Address)
+ {
+ 	u8 Bytetemp = {0x00};
+ 	u8 temp = {0x00};
+ 	u32 k = 0;
+ 	u16 contentLen = 0;
+ 
+-	EFUSE_GetEfuseDefinition(Adapter, EFUSE_WIFI, TYPE_EFUSE_REAL_CONTENT_LEN, (void *)&contentLen, false);
++	EFUSE_GetEfuseDefinition(Adapter, EFUSE_WIFI, TYPE_EFUSE_REAL_CONTENT_LEN,
++				 (void *)&contentLen, false);
+ 
+ 	if (Address < contentLen) {/* E-fuse 512Byte */
+ 		/* Write E-fuse Register address bit0~7 */
+ 		temp = Address & 0xFF;
+-		rtw_write8(Adapter, EFUSE_CTRL+1, temp);
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+2);
++		rtw_write8(Adapter, EFUSE_CTRL + 1, temp);
++		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 2);
+ 		/* Write E-fuse Register address bit8~9 */
+ 		temp = ((Address >> 8) & 0x03) | (Bytetemp & 0xFC);
+-		rtw_write8(Adapter, EFUSE_CTRL+2, temp);
++		rtw_write8(Adapter, EFUSE_CTRL + 2, temp);
+ 
+ 		/* Write 0x30[31]= 0 */
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
++		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+ 		temp = Bytetemp & 0x7F;
+-		rtw_write8(Adapter, EFUSE_CTRL+3, temp);
++		rtw_write8(Adapter, EFUSE_CTRL + 3, temp);
+ 
+ 		/* Wait Write-ready (0x30[31]= 1) */
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
++		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+ 		while (!(Bytetemp & 0x80)) {
+-			Bytetemp = rtw_read8(Adapter, EFUSE_CTRL+3);
++			Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+ 			k++;
+ 			if (k == 1000)
+ 				break;
+ 		}
+ 		return rtw_read8(Adapter, EFUSE_CTRL);
+-	} else
++	} else {
+ 		return 0xFF;
++	}
+ 
+ } /* EFUSE_Read1Byte */
+ 
+ /*  11/16/2008 MH Read one byte from real Efuse. */
+ u8
+-efuse_OneByteRead(
+-struct adapter *padapter,
+-u16	addr,
+-u8	*data,
+-bool		bPseudoTest)
++efuse_OneByteRead(struct adapter *padapter,
++		  u16	addr,
++		  u8	*data,
++		  bool		bPseudoTest)
+ {
+ 	u32 tmpidx = 0;
+ 	u8 bResult;
+@@ -257,16 +251,16 @@ bool		bPseudoTest)
+ 
+ 	/*  -----------------e-fuse reg ctrl --------------------------------- */
+ 	/* address */
+-	rtw_write8(padapter, EFUSE_CTRL+1, (u8)(addr&0xff));
+-	rtw_write8(padapter, EFUSE_CTRL+2, ((u8)((addr>>8) & 0x03)) |
+-	(rtw_read8(padapter, EFUSE_CTRL+2)&0xFC));
++	rtw_write8(padapter, EFUSE_CTRL + 1, (u8)(addr & 0xff));
++	rtw_write8(padapter, EFUSE_CTRL + 2, ((u8)((addr >> 8) & 0x03)) |
++	(rtw_read8(padapter, EFUSE_CTRL + 2) & 0xFC));
+ 
+ 	/* rtw_write8(padapter, EFUSE_CTRL+3,  0x72); read cmd */
+ 	/* Write bit 32 0 */
+-	readbyte = rtw_read8(padapter, EFUSE_CTRL+3);
+-	rtw_write8(padapter, EFUSE_CTRL+3, (readbyte & 0x7f));
++	readbyte = rtw_read8(padapter, EFUSE_CTRL + 3);
++	rtw_write8(padapter, EFUSE_CTRL + 3, (readbyte & 0x7f));
+ 
+-	while (!(0x80 & rtw_read8(padapter, EFUSE_CTRL+3)) && (tmpidx < 1000)) {
++	while (!(0x80 & rtw_read8(padapter, EFUSE_CTRL + 3)) && (tmpidx < 1000)) {
+ 		mdelay(1);
+ 		tmpidx++;
+ 	}
+@@ -291,16 +285,13 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
+ 	if (bPseudoTest)
+ 		return Efuse_Write1ByteToFakeContent(addr, data);
+ 
+-
+ 	/*  -----------------e-fuse reg ctrl --------------------------------- */
+ 	/* address */
+ 
+-
+ 	efuseValue = rtw_read32(padapter, EFUSE_CTRL);
+-	efuseValue |= (BIT21|BIT31);
++	efuseValue |= (BIT21 | BIT31);
+ 	efuseValue &= ~(0x3FFFF);
+-	efuseValue |= ((addr<<8 | data) & 0x3FFFF);
+-
++	efuseValue |= ((addr << 8 | data) & 0x3FFFF);
+ 
+ 	/*  <20130227, Kordan> 8192E MP chip A-cut had better not set 0x34[11] until B-Cut. */
+ 
+@@ -308,9 +299,9 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
+ 	/* 0x34[11]: SW force PGMEN input of efuse to high. (for the bank selected by 0x34[9:8]) */
+ 	/* PHY_SetMacReg(padapter, 0x34, BIT11, 1); */
+ 	rtw_write16(padapter, 0x34, rtw_read16(padapter, 0x34) | (BIT11));
+-	rtw_write32(padapter, EFUSE_CTRL, 0x90600000|((addr<<8 | data)));
++	rtw_write32(padapter, EFUSE_CTRL, 0x90600000 | ((addr << 8 | data)));
+ 
+-	while ((0x80 &  rtw_read8(padapter, EFUSE_CTRL+3)) && (tmpidx < 100)) {
++	while ((0x80 &  rtw_read8(padapter, EFUSE_CTRL + 3)) && (tmpidx < 100)) {
+ 		mdelay(1);
+ 		tmpidx++;
+ 	}
+@@ -328,9 +319,9 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
+ 
+ int
+ Efuse_PgPacketRead(struct adapter *padapter,
+-				u8	offset,
+-				u8	*data,
+-				bool		bPseudoTest)
++		   u8	offset,
++		   u8	*data,
++		   bool		bPseudoTest)
+ {
+ 	return padapter->HalFunc.Efuse_PgPacketRead(padapter, offset, data,
+ 						    bPseudoTest);
+@@ -338,10 +329,10 @@ Efuse_PgPacketRead(struct adapter *padapter,
+ 
+ int
+ Efuse_PgPacketWrite(struct adapter *padapter,
+-				u8	offset,
+-				u8	word_en,
+-				u8	*data,
+-				bool		bPseudoTest)
++		    u8	offset,
++		    u8	word_en,
++		    u8	*data,
++		    bool		bPseudoTest)
+ {
+ 	return padapter->HalFunc.Efuse_PgPacketWrite(padapter, offset, word_en,
+ 						     data, bPseudoTest);
+@@ -367,34 +358,33 @@ Efuse_PgPacketWrite(struct adapter *padapter,
+  */
+ void
+ efuse_WordEnableDataRead(u8 word_en,
+-						u8 *sourdata,
+-						u8 *targetdata)
++			 u8 *sourdata,
++			 u8 *targetdata)
+ {
+-	if (!(word_en&BIT(0))) {
++	if (!(word_en & BIT(0))) {
+ 		targetdata[0] = sourdata[0];
+ 		targetdata[1] = sourdata[1];
+ 	}
+-	if (!(word_en&BIT(1))) {
++	if (!(word_en & BIT(1))) {
+ 		targetdata[2] = sourdata[2];
+ 		targetdata[3] = sourdata[3];
+ 	}
+-	if (!(word_en&BIT(2))) {
++	if (!(word_en & BIT(2))) {
+ 		targetdata[4] = sourdata[4];
+ 		targetdata[5] = sourdata[5];
+ 	}
+-	if (!(word_en&BIT(3))) {
++	if (!(word_en & BIT(3))) {
+ 		targetdata[6] = sourdata[6];
+ 		targetdata[7] = sourdata[7];
+ 	}
+ }
+ 
+-
+ u8
+ Efuse_WordEnableDataWrite(struct adapter *padapter,
+-						u16		efuse_addr,
+-						u8 word_en,
+-						u8 *data,
+-						bool		bPseudoTest)
++			  u16		efuse_addr,
++			  u8 word_en,
++			  u8 *data,
++			  bool		bPseudoTest)
+ {
+ 	return padapter->HalFunc.Efuse_WordEnableDataWrite(padapter, efuse_addr,
+ 							   word_en, data,
+@@ -419,18 +409,18 @@ Efuse_WordEnableDataWrite(struct adapter *padapter,
+  *---------------------------------------------------------------------------
+  */
+ void
+-Efuse_ReadAllMap(
+-	struct adapter *padapter,
+-	u8 efuseType,
+-	u8 *Efuse,
+-	bool		bPseudoTest);
++Efuse_ReadAllMap(struct adapter *padapter,
++		 u8 efuseType,
++		 u8 *Efuse,
++		 bool		bPseudoTest);
+ void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse, bool bPseudoTest)
+ {
+ 	u16 mapLen = 0;
+ 
+ 	Efuse_PowerSwitch(padapter, false, true);
+ 
+-	EFUSE_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, (void *)&mapLen, bPseudoTest);
++	EFUSE_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN,
++				 (void *)&mapLen, bPseudoTest);
+ 
+ 	efuse_ReadEFuse(padapter, efuseType, 0, mapLen, Efuse, bPseudoTest);
+ 
+@@ -470,7 +460,7 @@ static void efuse_ShadowRead2Byte(struct adapter *padapter, u16 Offset, u16 *Val
+ 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+ 
+ 	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset+1]<<8;
++	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
+ 
+ }	/*  EFUSE_ShadowRead2Byte */
+ 
+@@ -480,9 +470,9 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
+ 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+ 
+ 	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset+1]<<8;
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset+2]<<16;
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset+3]<<24;
++	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
++	*Value |= pEEPROM->efuse_eeprom_data[Offset + 2] << 16;
++	*Value |= pEEPROM->efuse_eeprom_data[Offset + 3] << 24;
+ 
+ }	/*  efuse_ShadowRead4Byte */
+ 
+@@ -508,7 +498,8 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoT
+ 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+ 	u16 mapLen = 0;
+ 
+-	EFUSE_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, (void *)&mapLen, bPseudoTest);
++	EFUSE_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN,
++				 (void *)&mapLen, bPseudoTest);
+ 
+ 	if (pEEPROM->bautoload_fail_flag)
+ 		memset(pEEPROM->efuse_eeprom_data, 0xFF, mapLen);
+@@ -519,7 +510,6 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoT
+ 	/* void *)&pHalData->EfuseMap[EFUSE_INIT_MAP][0], mapLen); */
+ } /*  EFUSE_ShadowMapUpdate */
+ 
+-
+ /*-----------------------------------------------------------------------------
+  * Function:	EFUSE_ShadowRead
+  *
+-- 
+2.25.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
