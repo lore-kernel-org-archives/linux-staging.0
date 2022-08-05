@@ -1,14 +1,14 @@
 Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC1A1C03
-	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 16:28:06 +0000 (UTC)
-Received: from [192.168.192.146] (port=57874 helo=nx64de-df6d00)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C6D1C12
+	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 16:28:09 +0000 (UTC)
+Received: from [192.168.192.146] (port=52112 helo=nx64de-df6d00)
 	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <gszymaszek@short.pl>)
-	id 1oK0Ad-0007pN-HF; Fri, 05 Aug 2022 18:27:33 +0200
-Date: Fri, 5 Aug 2022 18:27:30 +0200
+	id 1oK0Ao-0007pU-My; Fri, 05 Aug 2022 18:27:46 +0200
+Date: Fri, 5 Aug 2022 18:27:41 +0200
 From: Grzegorz Szymaszek <gszymaszek@short.pl>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg KH <gregkh@linuxfoundation.org>,
@@ -16,14 +16,15 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	Grzegorz Szymaszek <gszymaszek@short.pl>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v2 0/4] staging: r8188eu: cleanup some metadata issues
-Message-ID: <cover.1659715931.git.gszymaszek@short.pl>
+Subject: [PATCH v2 1/4] staging: r8188eu: set firmware path in a macro
+Message-ID: <60dc57fc73e8e6e8e3aaae68784f4be932547bf5.1659715931.git.gszymaszek@short.pl>
 Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg KH <gregkh@linuxfoundation.org>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <cover.1659715931.git.gszymaszek@short.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,32 +33,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1659715931.git.gszymaszek@short.pl>
 
-This patchset tries to improve the r8188eu driver metadata. Some
-hardcoded values are replaced with proper macros, some unnecessary
-macros are removed.
+The r8188eu driver requires a firmware file, the path of which was
+hardcoded as constant strings in two places:
+(1) in core/rtw_fw.c, in function load_firmware(),
+(2) in os_dep/os_intfs.c, in the MODULE_FIRMWARE() call.
 
-Changes for v2:
-- added a cover letter and a base tree reference;
-- added Philipp Hortmann's Tested-by;
-- replaced the second and the third patch with different ones, per Greg
-  Kroah-Hartman's suggestions to make better use of existing kernel
-  macros and remove unnecessary ones.
+Declare the path using a macro, FW_RTL8188EU, and replace the above
+constant strings with the macro. That's the way it is done in many other
+drivers. The new macro is defined in include/drv_types.h, because that
+file is already included by both of the above files (or at least their
+headers) and because it already contains other driver constants, like
+its name and version.
 
-Grzegorz Szymaszek (4):
-  staging: r8188eu: set firmware path in a macro
-  staging: r8188eu: use KBUILD_MODNAME instead of a string constant
-  staging: r8188eu: drop the DRV_NAME macro
-  staging: r8188eu: drop the DRIVERVERSION macro
+Link: https://lore.kernel.org/lkml/YuoQ37PIKzWO1zIY@kroah.com/
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Grzegorz Szymaszek <gszymaszek@short.pl>
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+---
+V1->V2: Added Philipp Hortmann's Tested-by
 
  drivers/staging/r8188eu/core/rtw_fw.c       | 2 +-
- drivers/staging/r8188eu/include/drv_types.h | 4 +---
- drivers/staging/r8188eu/os_dep/os_intfs.c   | 3 +--
- drivers/staging/r8188eu/os_dep/usb_intf.c   | 2 +-
- 4 files changed, 4 insertions(+), 7 deletions(-)
+ drivers/staging/r8188eu/include/drv_types.h | 1 +
+ drivers/staging/r8188eu/os_dep/os_intfs.c   | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-
-base-commit: 9de1f9c8ca5100a02a2e271bdbde36202e251b4b
-prerequisite-patch-id: 79964bd0bcd260f1df53830a81e009c34993ee6f
+diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
+index 0451e5177644..0fe6d4944694 100644
+--- a/drivers/staging/r8188eu/core/rtw_fw.c
++++ b/drivers/staging/r8188eu/core/rtw_fw.c
+@@ -209,7 +209,7 @@ static int load_firmware(struct rt_firmware *rtfw, struct device *device)
+ {
+ 	int ret = _SUCCESS;
+ 	const struct firmware *fw;
+-	const char *fw_name = "rtlwifi/rtl8188eufw.bin";
++	const char *fw_name = FW_RTL8188EU;
+ 	int err = request_firmware(&fw, fw_name, device);
+ 
+ 	if (err) {
+diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+index bba88a0ede61..f51b83515953 100644
+--- a/drivers/staging/r8188eu/include/drv_types.h
++++ b/drivers/staging/r8188eu/include/drv_types.h
+@@ -37,6 +37,7 @@
+ #include "rtw_fw.h"
+ 
+ #define DRIVERVERSION	"v4.1.4_6773.20130222"
++#define FW_RTL8188EU	"rtlwifi/rtl8188eufw.bin"
+ 
+ struct registry_priv {
+ 	u8	chip_version;
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 5bd3022e4b40..5985054da935 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -18,7 +18,7 @@ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
+ MODULE_AUTHOR("Realtek Semiconductor Corp.");
+ MODULE_VERSION(DRIVERVERSION);
+-MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
++MODULE_FIRMWARE(FW_RTL8188EU);
+ 
+ #define CONFIG_BR_EXT_BRNAME "br0"
+ #define RTW_NOTCH_FILTER 0 /* 0:Disable, 1:Enable, */
 -- 
 2.35.1
