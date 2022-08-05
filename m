@@ -1,14 +1,14 @@
 Received: from mx01.ayax.eu (mx01.ayax.eu [188.137.98.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF8B1C12
-	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 16:28:13 +0000 (UTC)
-Received: from [192.168.192.146] (port=49798 helo=nx64de-df6d00)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4823E1C03
+	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 16:28:21 +0000 (UTC)
+Received: from [192.168.192.146] (port=51430 helo=nx64de-df6d00)
 	by mx01.ayax.eu with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <gszymaszek@short.pl>)
-	id 1oK0B0-0007pk-My; Fri, 05 Aug 2022 18:27:58 +0200
-Date: Fri, 5 Aug 2022 18:27:53 +0200
+	id 1oK0BC-0007q1-E6; Fri, 05 Aug 2022 18:28:08 +0200
+Date: Fri, 5 Aug 2022 18:28:05 +0200
 From: Grzegorz Szymaszek <gszymaszek@short.pl>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg KH <gregkh@linuxfoundation.org>,
@@ -16,9 +16,8 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	Grzegorz Szymaszek <gszymaszek@short.pl>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v2 2/4] staging: r8188eu: use KBUILD_MODNAME instead of a
- string constant
-Message-ID: <0325540ba8be0a3dc4083d22e484a8a31fb2a892.1659715931.git.gszymaszek@short.pl>
+Subject: [PATCH v2 3/4] staging: r8188eu: drop the DRV_NAME macro
+Message-ID: <f8d7b4ba4533a315ebd6711f17bbfd81e99ccf5a.1659715931.git.gszymaszek@short.pl>
 Mail-Followup-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg KH <gregkh@linuxfoundation.org>,
@@ -36,32 +35,31 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1659715931.git.gszymaszek@short.pl>
 
-The field .usbdrv.name of the struct rtw_usb_drv hardcoded the module
-(driver) name as a constant string. Replace the string with the
-KBUILD_MODNAME macro.
+The DRV_NAME macro is not used anywhere; KBUILD_MODNAME should be used
+instead. Remove the macro declaration.
 
-Link: https://lore.kernel.org/lkml/Yuy7QSh%2FclQ5Ki09@kroah.com/
+Link: https://lore.kernel.org/lkml/Yuy7Lc%2FTJMinuupA@kroah.com/
 Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Grzegorz Szymaszek <gszymaszek@short.pl>
 ---
-V1 -> V2: Split v1-0002 into v2-0002 and v2-0003. Replace the constant
-          string with KBUILD_MODNAME instead of DRV_NAME
+V1 -> V2: Split v1-0003 into v2-0003 and v2-0004. Remove the DRV_NAME
+          macro, since KBUILD_MODNAME should be used instead
 
- drivers/staging/r8188eu/os_dep/usb_intf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/include/drv_types.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 68869c5daeff..b845f5ec5489 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -54,7 +54,7 @@ struct rtw_usb_drv {
- };
+diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+index f51b83515953..f659eac70b32 100644
+--- a/drivers/staging/r8188eu/include/drv_types.h
++++ b/drivers/staging/r8188eu/include/drv_types.h
+@@ -10,8 +10,6 @@
+ #ifndef __DRV_TYPES_H__
+ #define __DRV_TYPES_H__
  
- static struct rtw_usb_drv rtl8188e_usb_drv = {
--	.usbdrv.name = "r8188eu",
-+	.usbdrv.name = KBUILD_MODNAME,
- 	.usbdrv.probe = rtw_drv_init,
- 	.usbdrv.disconnect = rtw_dev_remove,
- 	.usbdrv.id_table = rtw_usb_id_tbl,
+-#define DRV_NAME "r8188eu"
+-
+ #include "osdep_service.h"
+ #include "wlan_bssdef.h"
+ #include "rtw_ht.h"
 -- 
 2.35.1
