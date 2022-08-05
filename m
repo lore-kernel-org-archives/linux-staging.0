@@ -1,76 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35FF17C
-	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 04:13:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FA51C433D6;
-	Fri,  5 Aug 2022 04:13:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F109AA3C
+	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 06:39:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40CEAC43470;
+	Fri,  5 Aug 2022 06:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1659672829;
-	bh=gYsacg6yoJQRyWR3sBDt5pes3+3xmeUVstzAqdvDkxA=;
+	s=korg; t=1659681583;
+	bh=I+kcE97Ve6/ReO0B8c5180Bc7abr6kASH5KpHGYE8A8=;
 	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=ELp3++G1Y96F+GghGyAYpU2JPx5YFNvyfrEPFHAUahP95gLlgqNBn1Iro8TcavWuC
-	 2T+JGMer0Kv3JOQUXVMAWnjGL7piHDNIR75xtAS4pwW6BIagmhlvRsBw53RgDyoSNk
-	 7CEXoysWQjWUYiOsQPTg2URxk2MttZW6F0K8kSmc=
-Date: Fri, 5 Aug 2022 06:13:44 +0200
+	b=1hq61QxoWIElS+9Pl/b8sRq11hctbk7P2Ebd6DPZ8el95aG0HUuqJyMoMmRaaojzi
+	 qUl3aMHwnnVYaiY3rRlYHbbJnNqN1IyFzjyFLT4oLR5B0dAhYUtZ7oLFFjimQfWD1J
+	 cuRWQ6a8gZuYy0u8l2jUu2sT0fqhvZWD3eudoyws=
+Date: Fri, 5 Aug 2022 08:39:41 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Grzegorz Szymaszek <gszymaszek@short.pl>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/3] staging: r8188eu: set firmware path in a macro
-Message-ID: <YuyY+N7W6/noGxDZ@kroah.com>
-References: <YuoQ37PIKzWO1zIY@kroah.com>
- <6c83e05e5dbccff5630ccfed9e40bf84c889b647.1659565180.git.gszymaszek@short.pl>
- <c3b30433-7231-6ebb-b0ea-44e760c4af69@gmail.com>
- <YuxG0OImQ1i0EOFD@nx64de-df6d00>
+Subject: Re: [PATCH 3/3] staging: r8188eu: make driver metadata macro names
+ more consistent
+Message-ID: <Yuy7Lc/TJMinuupA@kroah.com>
+References: <6c83e05e5dbccff5630ccfed9e40bf84c889b647.1659565180.git.gszymaszek@short.pl>
+ <7cc838a1e7f64c9aa88deffdb7986fbe55753be8.1659565180.git.gszymaszek@short.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YuxG0OImQ1i0EOFD@nx64de-df6d00>
+In-Reply-To: <7cc838a1e7f64c9aa88deffdb7986fbe55753be8.1659565180.git.gszymaszek@short.pl>
 
-On Fri, Aug 05, 2022 at 12:23:12AM +0200, Grzegorz Szymaszek wrote:
-> On Thu, Aug 04, 2022 at 10:11:58PM +0200, Philipp Hortmann wrote:
-> > On 8/4/22 00:28, Grzegorz Szymaszek wrote:
-> > > diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> > > -%<-
-> > > -MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
-> > > +MODULE_FIRMWARE(FW_RTL8188EU);
-> > 
-> > 
-> > It failed to apply your patch as the following line:
-> > MODULE_FIRMWARE("rtlwifi/rtl8188eufw.bin");
-> > is not in the repo. Inserted line in my repo to apply patch.
+On Thu, Aug 04, 2022 at 12:29:10AM +0200, Grzegorz Szymaszek wrote:
+> Rename DRIVERVERSION to DRV_VERSION so that it looks more alike the
+> other macros, DRV_NAME and FW_*, and matches the most popular (as it
+> seems from a quick review) conventions in other drivers.
 > 
-> I’m sorry, I didn’t add the base tree reference. Right now, git
-> format-patch generates the following:
+> Signed-off-by: Grzegorz Szymaszek <gszymaszek@short.pl>
+> ---
+>  drivers/staging/r8188eu/include/drv_types.h | 5 ++---
+>  drivers/staging/r8188eu/os_dep/os_intfs.c   | 2 +-
+>  2 files changed, 3 insertions(+), 4 deletions(-)
 > 
->     base-commit: 9de1f9c8ca5100a02a2e271bdbde36202e251b4b
->     prerequisite-patch-id: 79964bd0bcd260f1df53830a81e009c34993ee6f
-> 
-> The prerequisite patch is available at
-> <https://lore.kernel.org/lkml/YulcdKfhA8dPQ78s@nx64de-df6d00/>.
-> 
-> > Why is the coverletter missing?
-> 
-> I didn’t think it would be necessary, since the patches are quite
-> simple and there are just three of them. Again, I’m sorry, I don’t want
-> to make it harder for anyone to review my patches. Hopefully I will
-> learn more of the kernel development practises without wasting too much
-> time of patch reviewers.
-> 
-> Should I send an improved (with the base tree reference and with a short
-> cover letter) patch series?
+> diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+> index f51b83515953..3328c66d1ef1 100644
+> --- a/drivers/staging/r8188eu/include/drv_types.h
+> +++ b/drivers/staging/r8188eu/include/drv_types.h
+> @@ -10,8 +10,6 @@
+>  #ifndef __DRV_TYPES_H__
+>  #define __DRV_TYPES_H__
+>  
+> -#define DRV_NAME "r8188eu"
 
-Nah, it's fine as-is, I will take it when my tree opens up again after
--rc1 is out in a week or so.
+This should just be KBUILD_MODNAME, no need to create yet-another-macro
+for this one.
+
+> -
+>  #include "osdep_service.h"
+>  #include "wlan_bssdef.h"
+>  #include "rtw_ht.h"
+> @@ -36,7 +34,8 @@
+>  #include "rtl8188e_hal.h"
+>  #include "rtw_fw.h"
+>  
+> -#define DRIVERVERSION	"v4.1.4_6773.20130222"
+> +#define DRV_NAME	"r8188eu"
+
+Again, KBUILD_MODNAME
+
+> +#define DRV_VERSION	"v4.1.4_6773.20130222"
+
+As the driver is now in the kernel, this "version" string can just go
+away.  Can you redo this patch to do the DRV_NAME thing first, and then
+drop the DRV_VERSION field after that?
 
 thanks,
 
