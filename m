@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B03137F
-	for <linux-staging@lists.linux.dev>; Sat,  6 Aug 2022 11:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303BC1380
+	for <linux-staging@lists.linux.dev>; Sat,  6 Aug 2022 11:14:19 +0000 (UTC)
 Received: from dslb-188-097-043-167.188.097.pools.vodafone-ip.de ([188.97.43.167] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1oKHkt-0001FX-Bb; Sat, 06 Aug 2022 13:14:07 +0200
+	id 1oKHku-0001FX-7C; Sat, 06 Aug 2022 13:14:08 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 1/5] staging: r8188eu: replace a get_da call
-Date: Sat,  6 Aug 2022 13:13:48 +0200
-Message-Id: <20220806111352.690650-2-martin@kaiser.cx>
+Subject: [PATCH v2 2/5] staging: r8188eu: read status_code from struct ieee80211_mgmt
+Date: Sat,  6 Aug 2022 13:13:49 +0200
+Message-Id: <20220806111352.690650-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220806111352.690650-1-martin@kaiser.cx>
 References: <20220724153917.138848-1-martin@kaiser.cx>
@@ -32,42 +32,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The r8188eu driver implements an internal get_da function to read the
-destination address (da) from an incoming message. Callers of this
-function should be updated to use the ieee80211 framework, with the goal
-of removing get_da eventually.
-
-This patch replaces a get_da call in the OnAssocRsp function.
+Read the status code of the association response message from struct
+ieee80211_mgmt. This should be easier to understand and to review than
+calculating the offset manually.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
 v2:
- - rewrite the summary and the commit message
+ - rewrite the commit message
 
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 32d0e101d0c2..f5f718488929 100644
+index f5f718488929..53444cb1dba9 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -1320,6 +1320,7 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
- 
- unsigned int OnAssocRsp(struct adapter *padapter, struct recv_frame *precv_frame)
- {
-+	struct ieee80211_mgmt *mgmt = (struct ieee80211_mgmt *)precv_frame->rx_data;
+@@ -1323,7 +1323,6 @@ unsigned int OnAssocRsp(struct adapter *padapter, struct recv_frame *precv_frame
+ 	struct ieee80211_mgmt *mgmt = (struct ieee80211_mgmt *)precv_frame->rx_data;
  	uint i;
  	int res;
- 	unsigned short	status;
-@@ -1331,7 +1332,7 @@ unsigned int OnAssocRsp(struct adapter *padapter, struct recv_frame *precv_frame
- 	uint pkt_len = precv_frame->len;
+-	unsigned short	status;
+ 	struct ndis_802_11_var_ie *pIE;
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+@@ -1343,9 +1342,7 @@ unsigned int OnAssocRsp(struct adapter *padapter, struct recv_frame *precv_frame
  
- 	/* check A1 matches or not */
--	if (memcmp(myid(&padapter->eeprompriv), get_da(pframe), ETH_ALEN))
-+	if (memcmp(myid(&padapter->eeprompriv), mgmt->da, ETH_ALEN))
- 		return _SUCCESS;
+ 	_cancel_timer_ex(&pmlmeext->link_timer);
  
- 	if (!(pmlmeinfo->state & (WIFI_FW_AUTH_SUCCESS | WIFI_FW_ASSOC_STATE)))
+-	/* status */
+-	status = le16_to_cpu(*(__le16 *)(pframe + WLAN_HDR_A3_LEN + 2));
+-	if (status > 0) {
++	if (le16_to_cpu(mgmt->u.assoc_resp.status_code) > 0) {
+ 		pmlmeinfo->state = WIFI_FW_NULL_STATE;
+ 		res = -4;
+ 		goto report_assoc_result;
 -- 
 2.30.2
 
