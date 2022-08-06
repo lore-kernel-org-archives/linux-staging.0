@@ -1,93 +1,73 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3801C13
-	for <linux-staging@lists.linux.dev>; Fri,  5 Aug 2022 16:43:53 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id r4so4049983edi.8
-        for <linux-staging@lists.linux.dev>; Fri, 05 Aug 2022 09:43:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764B310F8
+	for <linux-staging@lists.linux.dev>; Sat,  6 Aug 2022 06:09:47 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id c24so8245384ejd.11
+        for <linux-staging@lists.linux.dev>; Fri, 05 Aug 2022 23:09:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=RjlAE1bDXXp4HDJF+2mcQXBU2IPR7RnkcGIixgvhqQE=;
-        b=QdolgzFU7nxQe/dQ2LOhT1Yg7cAzE0MdA+20Mp50S1fk7aPCiJmmBAhP/XQxOtOBeQ
-         mHU2vDwtZpUQbV+dp9lteDW9Xvygr7yEtzaeyd3XvYOpwwAwO7XmPz+g/oDXp++26btk
-         BWXVv2w49lrw+/VkrszLSDCEQ+JWE6sJtp7N2CnQ5ODOd7uOCoByulXzr36RdoJNxV5S
-         UcsFwJTjiqDBakf58sxyf/gOB7GJBPZExk8lE6YYUXiM6QAgqUa/K9eo8YzcnlpMUWsA
-         Ykoq95p92BquHw2Dk3IUa+alHPfimQt+NEGPoCgUE9XroSqY8ajpVKbylNbdWgFCcWCk
-         OVIg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dOwmTAb/YyYu9dvtbrEUu3VG7RE6NxbTxlYgj7dPfSU=;
+        b=a5mNY3fulOEL0OlxHdFGSGJzJB9w3t0CQ3SEkGhuG9XwhqNHZ3uZuP2HDeeyw2QGI3
+         2tDVTsCYKNcSEbaOsihngfUl+bI3rVaXn9TyK2vEao9xf2PwyexjXRACtG6bJqMCpMT4
+         DZPx7nVRls6tHbJafngLlGRakMsMF+czRLz70TCcc2KF4O4XHks45p+ENqAVPqeFzOi7
+         P2i+Jm8HZzioCH1LOfxyLtIkOxAo+8R6MqivY9OVQqKWfpfw53dTX+WIzFu/1ICydsHt
+         TChPjQMS6yWK1YSTH3YG/MykBU75WOj8C1EufNoKLgaMeUX2CMTmOPFuIxg7/CUQVFw2
+         Txyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=RjlAE1bDXXp4HDJF+2mcQXBU2IPR7RnkcGIixgvhqQE=;
-        b=TNUdPDuIT+tMQLWkW/fZv0uA5lnUM0dQ94YSKW+wAYFs/dGeJqMSeeM57TvUFjGEND
-         EXIhQISbF7E8EfqRvFkdQLNTto84Je3s9E3tY4wdBECJwRqUHcRRJxr837ItgQysWDdl
-         Z82VKr2LKz+2ek8cE6aSEYxRU0yZw2fxy59JlVE24sGd7o1dqZAvQppBtQxztOfo5Y5+
-         B4OBwcKrvawMA+P++OL01wAzL0cZjASSHA+ZMVev1MSXMDSECc80UO+xtP/BKRJL6XDh
-         7m+cvJh5fRyLeVRzALaYvCK/W+XQ8egnjPmvtA6K5sSSiZcheBN4cfNfMJqghfJ890sS
-         J0Fg==
-X-Gm-Message-State: ACgBeo1MykzYc78PxFsamVqF8THt6Cfi6Gzw7x1wNcDijEjpaKvEEPIt
-	xaUg9967N6hYW1r4f4f+PtM=
-X-Google-Smtp-Source: AA6agR69m7IIA5pQgvBv/jXnWdN7mZ7yFkL9gscYsV7z9vVAK2xMr1Hdzt0ovu0Yh9b/gEFUgvnB1A==
-X-Received: by 2002:a05:6402:2b88:b0:43a:6c58:6c64 with SMTP id fj8-20020a0564022b8800b0043a6c586c64mr7516817edb.348.1659717832106;
-        Fri, 05 Aug 2022 09:43:52 -0700 (PDT)
-Received: from [192.168.1.103] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id a15-20020a056402168f00b0043aba618bf6sm118775edv.80.2022.08.05.09.43.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Aug 2022 09:43:51 -0700 (PDT)
-Message-ID: <8b0a61dc-1d30-2731-4497-a69fff57cd2b@gmail.com>
-Date: Fri, 5 Aug 2022 18:43:47 +0200
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dOwmTAb/YyYu9dvtbrEUu3VG7RE6NxbTxlYgj7dPfSU=;
+        b=aVKRXx8N5srov6GYeYCgL4eE9PGuQyFef6eQ1wsNTyjgwU60yqaLSF3LA+CWVdqXkC
+         MtKSPqbdkmlrlJKq3gFOIw+83wN+QoWrYw6D/9N+YmU/Mg5GgCHX+v3hVHfS7SCW85Sb
+         32MnJv2vWYvr6IGlY8snU3wjktpluDXt2BOl4qhOoluqDA1INurFrwysJntU6g+yTGwm
+         wXY8vVVyg7YWgwpjr8E5vt3OcBqxbr+OiY/noLpX/rR2mZ0Xiqcvw8+SiQ7DUbv0YeNb
+         bOhrpP3m1WtNGQvb1+g5lJE8tBzfP97OLf/xn20ly+JHrF3lIShF2cj8BR4dMcGd4wzR
+         +wIQ==
+X-Gm-Message-State: ACgBeo0/m1Woc7b4b3GMxr3/dGbY39fuHZ2hux/RWDlRl8limSarYnfk
+	ulQMb/k5Gc/YtZ+Z5Hpy0zs=
+X-Google-Smtp-Source: AA6agR613ThnWZjyEgQeGd3tVPxybmcPnYwV5sowDy4K1bxoG5SmKFYLHCdOroFIHPOqScnNzt2/8w==
+X-Received: by 2002:a17:907:6d98:b0:731:2bb3:8e17 with SMTP id sb24-20020a1709076d9800b007312bb38e17mr697716ejc.203.1659766185809;
+        Fri, 05 Aug 2022 23:09:45 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abba5.dynamic.kabel-deutschland.de. [95.90.187.165])
+        by smtp.gmail.com with ESMTPSA id p10-20020a05640243ca00b0043a7293a03dsm1002357edc.7.2022.08.05.23.09.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Aug 2022 23:09:45 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: clean up phy_CalculateBitShift()
+Date: Sat,  6 Aug 2022 08:09:26 +0200
+Message-Id: <20220806060929.11022-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 0/4] staging: r8188eu: cleanup some metadata issues
-Content-Language: en-US
-To: Grzegorz Szymaszek <gszymaszek@short.pl>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Greg KH <gregkh@linuxfoundation.org>, Phillip Potter
- <phil@philpotter.co.uk>, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <cover.1659715931.git.gszymaszek@short.pl>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1659715931.git.gszymaszek@short.pl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/5/22 18:27, Grzegorz Szymaszek wrote:
-> This patchset tries to improve the r8188eu driver metadata. Some
-> hardcoded values are replaced with proper macros, some unnecessary
-> macros are removed.
-> 
-> Changes for v2:
-> - added a cover letter and a base tree reference;
-> - added Philipp Hortmann's Tested-by;
-> - replaced the second and the third patch with different ones, per Greg
->    Kroah-Hartman's suggestions to make better use of existing kernel
->    macros and remove unnecessary ones.
-> 
-> Grzegorz Szymaszek (4):
->    staging: r8188eu: set firmware path in a macro
->    staging: r8188eu: use KBUILD_MODNAME instead of a string constant
->    staging: r8188eu: drop the DRV_NAME macro
->    staging: r8188eu: drop the DRIVERVERSION macro
-> 
->   drivers/staging/r8188eu/core/rtw_fw.c       | 2 +-
->   drivers/staging/r8188eu/include/drv_types.h | 4 +---
->   drivers/staging/r8188eu/os_dep/os_intfs.c   | 3 +--
->   drivers/staging/r8188eu/os_dep/usb_intf.c   | 2 +-
->   4 files changed, 4 insertions(+), 7 deletions(-)
-> 
-> 
-> base-commit: 9de1f9c8ca5100a02a2e271bdbde36202e251b4b
-> prerequisite-patch-id: 79964bd0bcd260f1df53830a81e009c34993ee6f
+This series simplifies the function phy_CalculateBitShift() and
+cleans up coding style issues in that function.
 
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Michael Straube (3):
+  staging: r8188eu: use ffs() in phy_CalculateBitShift()
+  staging: r8188eu: avoid camel case in phy_CalculateBitShift()
+  staging: r8188eu: clean up comment for phy_calculate_bit_shift()
+
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 30 +++++--------------
+ 1 file changed, 8 insertions(+), 22 deletions(-)
+
+-- 
+2.37.1
+
