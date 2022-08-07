@@ -1,48 +1,48 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB553C15
-	for <linux-staging@lists.linux.dev>; Sun,  7 Aug 2022 18:13:41 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id a7so12911573ejp.2
-        for <linux-staging@lists.linux.dev>; Sun, 07 Aug 2022 11:13:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E363C15
+	for <linux-staging@lists.linux.dev>; Sun,  7 Aug 2022 18:13:46 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id qn6so1057259ejc.11
+        for <linux-staging@lists.linux.dev>; Sun, 07 Aug 2022 11:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc;
-        bh=zD17J0eH2wPYwZr+9CUo9VuUmFGElTpvvgk6zTTTY90=;
-        b=ZztM717a1mtjobKwFBK8U7wqJxMgEkltelF826ecqjXXWaGseSHNt0g8ztaSXMmX8x
-         y1fLdu47CanmPT4NNAEYwSfVblRpWlZNsYef7x4+nI91wuIItOKkdxnov90ntvrdNuXU
-         97m/e7HXAvwsmm2fKGLxHrZF8t0dxrBpQlXZhsSqa1cvaCtalCqwuveCzcC9L2HTJB0+
-         IbsQLP0khV8XSwykp8q04EO353l38aQ2FqNVeARAuHDWIhWpNpvw2nnIu4Xey8GYPRAW
-         mWbAnFNXQaxS3NwD4GpaNeCxd68fh5NKkgNwqTJbjZsMcJKUefBFwkylprvd/ZBXH5CW
-         /V7g==
+        bh=+FsM9BSLLhQlcBk3zJRjR04gJAe6i1I5jpWIJQymm4Q=;
+        b=G9lNccKYXi936800LuvsrO6U9gwlyjprNZJqVFunrUPoeNUJeaCWgRdxklKtIPcIBa
+         7YNaCqWFOLf2XTAU5tQU/MwvLGgIFnFHLEcdaBSBiS0W3feuCeiWT2xq7+0FEAi7phZy
+         uIrdY0N3iVFeok6QtvYVp/5Vc2YY85gS4F/RSsoE35EQtpsQslCZt3SgeourenCRjUw6
+         xvYW4xHflB30QVefC6n/xz6whJbBzINPn/mlQKcSedv0Yi7ygxACQ7UPBcutLzt02TvR
+         5c74TYdL5focUaDU8hqNBkXEEr/epiLkeuzwQUT41SCNilwuwW4LMkI3RsSxboCA17+C
+         idTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc;
-        bh=zD17J0eH2wPYwZr+9CUo9VuUmFGElTpvvgk6zTTTY90=;
-        b=Dl9KMn5HC+SnDtJKa7RM6wh616b2FhSZs9ZIDsRDZcMnXej7KTzY14tujb2b60ly4g
-         LZJwaa5nnGbGIvbqf0YEsvU3sZqezN/wK6875vgaczsgorHNwF2SRxluoIaGNOBxwhm+
-         x14JG1Em00/mdebHn5WscvTygUzcsmVMOQGAbh+UmkkpQb9U8ZahL+5vv9GO3mdcBqlR
-         xLELIOPEAYk3PBkyZ1dA+o/dR8bPELjSmkjXXxANNRd364WcMcsNTVeLvhUzHO9ZoGNz
-         GTNmyndxC0ArgnpoGILhq//nakDLDL3e5eAH6UD35EyoEMzYU6+qfaWT5HwzZup5IjLR
-         4tyQ==
-X-Gm-Message-State: ACgBeo19HJ0FjuUnkCc7/SaeVXnQgQVTLbKJUFKy5laokUjNiKcUEXDu
-	45d+UqZiUnnEJnVlCh/ptOzX8m7w+sw=
-X-Google-Smtp-Source: AA6agR6Xa3KQwBv71sNy/xYGmyk4Ok+a6lmfLPRbZ/59pl81W9v6lO0IN7Eaqne1ge7LY3x3IY5X0A==
-X-Received: by 2002:a17:906:8a4e:b0:730:9fcd:d988 with SMTP id gx14-20020a1709068a4e00b007309fcdd988mr11498063ejc.636.1659896019873;
-        Sun, 07 Aug 2022 11:13:39 -0700 (PDT)
+        bh=+FsM9BSLLhQlcBk3zJRjR04gJAe6i1I5jpWIJQymm4Q=;
+        b=fE5q3dYeW9RTCOqK2fHsyIoD1iXjuwd0p/kYZT4TTw6k1NKk1otZeZsl8nJ0q3vtlr
+         +BQSrdAc5VAuOL2YbOLFAJD4ZU+30/pzHxvT0HgmedvS0BdiTvLx4qDU61xRXymQFusL
+         M8BaqvI2Pjjy3shILhC06224vgpsXyNglmM3aCmDLBFwux9ioUCAJyc/qtcVUItX0SIE
+         uGueQwQVC+KVrH2u/Jpb4mkPmNWoDJusjkzwlMU30YIhVpLIrQ+90fGlPlPN96kM4vAT
+         B52m6DTuSMrey7GIi/BGjqYhmGaQToqIgVMqPo8fdQAXVDEQWn+XthXW6sssAoCdtQbM
+         WU/A==
+X-Gm-Message-State: ACgBeo2bw3JiLV4UZQcdqgbAIMSozuBHG37/q9FqNUA06CjeKPZHr9vI
+	p9BZXBnmxTCnuSboPEoKBpE=
+X-Google-Smtp-Source: AA6agR5nJtgs4H6oxgLQPmN30x/Pt6UcZezLdIKnEceF7jwGWJcrpU/O6N181CjwcMsHekov3oaHbQ==
+X-Received: by 2002:a17:906:9b16:b0:730:d5f4:d46e with SMTP id eo22-20020a1709069b1600b00730d5f4d46emr11412955ejc.701.1659896024608;
+        Sun, 07 Aug 2022 11:13:44 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id q9-20020a170906540900b0073073ce488asm4021819ejo.45.2022.08.07.11.13.39
+        by smtp.gmail.com with ESMTPSA id 9-20020a170906200900b0073100dfa7b5sm3083158ejo.33.2022.08.07.11.13.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Aug 2022 11:13:39 -0700 (PDT)
-Date: Sun, 7 Aug 2022 20:13:37 +0200
+        Sun, 07 Aug 2022 11:13:44 -0700 (PDT)
+Date: Sun, 7 Aug 2022 20:13:42 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/6] staging: vt6655: Create one function for two macros
-Message-ID: <78883f42b2df258dbf821d7f7515a82932a157f1.1659892670.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH v2 3/6] staging: vt6655: Rename function MACvEnableProtectMD
+Message-ID: <927d7c6e7c9d5214e4faeca886efd2696b2abc31.1659892670.git.philipp.g.hortmann@gmail.com>
 References: <cover.1659892670.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,46 +54,53 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1659892670.git.philipp.g.hortmann@gmail.com>
 
-Create function vt6655_mac_set_bits with two parameters to cover
-functionality of two macros.
+Rename MACvEnableProtectMD function to vt6655_mac_en_protect_md to
+avoid CamelCase which is not accepted by checkpatch.pl and to clean up
+namespace.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
-V1 -> V2: Change function to cover only the set bits part and omitted
-          the clear bits part
-          Changed title from "...four..." to "...two..."
-          Changed description accordingly
+V1 -> V2: No changes
 ---
- drivers/staging/vt6655/device_main.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/staging/vt6655/device_main.c | 4 ++--
+ drivers/staging/vt6655/mac.h         | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index ab6456fc2b3f..dc50bff4403f 100644
+index dc50bff4403f..ccfd4bfa0502 100644
 --- a/drivers/staging/vt6655/device_main.c
 +++ b/drivers/staging/vt6655/device_main.c
-@@ -216,15 +216,20 @@ static void vt6655_mac_dma_ctl(void __iomem *iobase, u8 reg_index)
- 		iowrite32(DMACTL_RUN, iobase + reg_index);
- }
- 
--static void MACvEnableProtectMD(void __iomem *iobase)
-+static void vt6655_mac_set_bits(void __iomem *iobase, u32 mask)
- {
- 	u32 reg_value;
- 
- 	reg_value = ioread32(iobase + MAC_REG_ENCFG);
--	reg_value = reg_value | ENCFG_PROTECTMD;
-+	reg_value = reg_value | mask;
+@@ -225,7 +225,7 @@ static void vt6655_mac_set_bits(void __iomem *iobase, u32 mask)
  	iowrite32(reg_value, iobase + MAC_REG_ENCFG);
  }
  
-+static void MACvEnableProtectMD(void __iomem *iobase)
-+{
-+	vt6655_mac_set_bits(iobase, ENCFG_PROTECTMD);
-+}
-+
- /*
-  * Initialisation of MAC & BBP registers
+-static void MACvEnableProtectMD(void __iomem *iobase)
++static void vt6655_mac_en_protect_md(void __iomem *iobase)
+ {
+ 	vt6655_mac_set_bits(iobase, ENCFG_PROTECTMD);
+ }
+@@ -1475,7 +1475,7 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
+ 
+ 	if (changed & BSS_CHANGED_ERP_CTS_PROT) {
+ 		if (conf->use_cts_prot)
+-			MACvEnableProtectMD(priv->port_offset);
++			vt6655_mac_en_protect_md(priv->port_offset);
+ 		else
+ 			MACvDisableProtectMD(priv->port_offset);
+ 	}
+diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+index 84d203c56b1f..4de9974e6c69 100644
+--- a/drivers/staging/vt6655/mac.h
++++ b/drivers/staging/vt6655/mac.h
+@@ -12,7 +12,7 @@
+  * Revision History:
+  *      07-01-2003 Bryan YC Fan:  Re-write codes to support VT3253 spec.
+  *      08-25-2003 Kyle Hsu:      Porting MAC functions from sim53.
+- *      09-03-2003 Bryan YC Fan:  Add MACvDisableProtectMD & MACvEnableProtectMD
++ *      09-03-2003 Bryan YC Fan:  Add MACvDisableProtectMD & vt6655_mac_en_protect_md
   */
+ 
+ #ifndef __MAC_H__
 -- 
 2.37.1
 
