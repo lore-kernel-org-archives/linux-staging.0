@@ -1,49 +1,50 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521883C15
-	for <linux-staging@lists.linux.dev>; Sun,  7 Aug 2022 18:13:31 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id gk3so12853830ejb.8
-        for <linux-staging@lists.linux.dev>; Sun, 07 Aug 2022 11:13:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F1A3C15
+	for <linux-staging@lists.linux.dev>; Sun,  7 Aug 2022 18:13:36 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id m4so12899851ejr.3
+        for <linux-staging@lists.linux.dev>; Sun, 07 Aug 2022 11:13:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc;
-        bh=4DbdbqqYHLYjY1fnsQWsetOhJTERfsuO97ho7gqprHU=;
-        b=WgpDMRTAmwcwOVfKxtC2doX1oY+haDJPhSkMHbzPPmO+RzZFwvzy6P3ngLzXYfgs2n
-         dO7KCQCfr18zC/med0w1iGWVPLKqiT48DHPpd7Yb0ws850Dp7IfmL/0CERfu56TyRrK8
-         gllzlpyXA/dghYPamVGZGqONK4whyJ2OM5DIcJJynoUbHxDA4qu65P3xgFK4RaMv3ZaU
-         d3Wmr8KjPSJiqnR2Q/mmKKNfW9Nmn84S/QETGbunHUW377al7lmN5WcOmKX8xsFDDi49
-         X5bJ3+rbtiBJaucK6SToLjI7ChH/9+Yc8YPjSkllv1/7ty+gUvIEz3/BzLaRZ66gEeS0
-         qlDg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc;
+        bh=AN1zVwKUXEz2V3Gkaa20oR+ncHTmapAurqeiNEnFlvE=;
+        b=psqh4H1CDUWrtpWNIaieHeb4g77hr/WG3ZPjvz/nmEuWgZ7+zCtqiXOTu98qQeeW68
+         8F7ay7GI+/UqaOyqucKP3J9dRnM4/g+CeogJj+EOcAXRKFirCS0gSTgpRglXPy/E97sV
+         kcajyrljmxc/IrhCKl+N9qMP99ImnE70YVKr3IKYqKf8x3NSyjPh2amOtYSYDk5g9Fut
+         sfQB7i5yukmLkBwvWb25MBvzLsz6Z5N1TO9KFAKLBnSDZsSGHidP/kPMuF6AJfq8svdr
+         c8/MLhFbIm6m87be3MvgW2hdJnuBErEBczQ10xwWVmDoOa3Jwo++WAifjUkP5nl7Vqo1
+         hl4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=4DbdbqqYHLYjY1fnsQWsetOhJTERfsuO97ho7gqprHU=;
-        b=sXJ3R1neR1KghIGOpTDZHjvQJWqr4mMWKokfXI6DY51Lqoy6D9ept6V3Pt7zc6HQqG
-         VNuTagindnQ9StsSlyKa5b6tG+z1AORReu2NgHXHZY1M/KVlvXeoGIzQPJFDaPpQ4zto
-         DDRtc4pJV6yrom190Z204xUJNkW5V6WUBwkCLgqPaCN0hplXzACE83YmkZ0+L4JSUor8
-         uLh+ErcKerxjBXJw8nKbVfi/fBZMBqEej9GY/ul90t8JOgJFLZhH4gZZ+9BwBOoorOJj
-         PexCfAuFeH7So6H3ToP/R6b2OERw2TLxainUXv62e+AhEZen68X6wxZL8MDXJEj6QITS
-         Hrlw==
-X-Gm-Message-State: ACgBeo0k7x1KVHqZEExVJbn3Iij5mHRj8KNlegDeZBliT9tPv4fd6ASW
-	hnv+d4VTSkvg+2xbZvk9DthXLx5GVqs=
-X-Google-Smtp-Source: AA6agR7ARq0IP4FbqD5slOMEUKyugAIvVmmMZpOWTNvRPu9O224fTi7e++mahIVTC2Fib6mviWTOlg==
-X-Received: by 2002:a17:907:6eac:b0:730:a07f:38bb with SMTP id sh44-20020a1709076eac00b00730a07f38bbmr12045871ejc.750.1659896009528;
-        Sun, 07 Aug 2022 11:13:29 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc;
+        bh=AN1zVwKUXEz2V3Gkaa20oR+ncHTmapAurqeiNEnFlvE=;
+        b=V0Ts+J583ItR0cOACkKbBhAfzuoZzfgwRwN/NXwvf5xX5Cqbxk0f05hrkGfuA5qjwl
+         r7jux162CPi0LvsYfn9NT6Q5gZApIdQ8i8vn8pYBNMbfBvO0gHSzM7F4pmJOJL+31WAF
+         wl4RvAodYSWNr6l8q8lZQZ9uxuhOj31VWzkqKTAwufEtDqYii5DtOEN2/cuf+Om4tvG1
+         OvmcCy+FCNOQr5rj3bxDQp739LVSig0dsmpsbNf3h2/MuF9CmKmiLc0ta3T/VZd3el4p
+         VmEEMC303eMT5+INMefgLAX7uUJQiui4RVzoYabufFnwLB6DTO1Br2S+PGqNbggT0DLo
+         cRjQ==
+X-Gm-Message-State: ACgBeo2N34955Hwe4wyXz/5af0VQ76Z1at7gQMJqX49HKSTsbC5m9Zi9
+	YfiJ/I90tYfJ4FvxrMEehYU=
+X-Google-Smtp-Source: AA6agR7JjLX0OtZogUv+gm0tyk8HgnyPc/CVtzUJs04tXoMd7OhARgwKPDQLbnboZcpjFJfIjt5bAg==
+X-Received: by 2002:a17:907:720a:b0:72b:549e:305a with SMTP id dr10-20020a170907720a00b0072b549e305amr11111101ejc.691.1659896015249;
+        Sun, 07 Aug 2022 11:13:35 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id et13-20020a056402378d00b0043ba24a26casm3398622edb.23.2022.08.07.11.13.28
+        by smtp.gmail.com with ESMTPSA id g18-20020a17090604d200b0072ee7b51d9asm4082722eja.39.2022.08.07.11.13.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Aug 2022 11:13:29 -0700 (PDT)
-Date: Sun, 7 Aug 2022 20:13:27 +0200
+        Sun, 07 Aug 2022 11:13:34 -0700 (PDT)
+Date: Sun, 7 Aug 2022 20:13:33 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/6] staging: vt6655: Create two base functions for four
- macros
-Message-ID: <cover.1659892670.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH v2 1/6] staging: vt6655: Convert macro MACvEnableProtectMD to
+ function
+Message-ID: <f3a5ec5352346f1dc4bf3afbee25973fdb47d7e4.1659892670.git.philipp.g.hortmann@gmail.com>
+References: <cover.1659892670.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,30 +53,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1659892670.git.philipp.g.hortmann@gmail.com>
 
-Create two base functions vt6655_mac_set_bits and vt6655_mac_clear_bits
-with parameters for four multiline macros. Multiline macros are not liked
-by kernel community.
+Convert macro to static function. Multiline macros are not liked by
+kernel community. Rename variable dwOrgValue to reg_value to avoid
+CamelCase which is not accepted by checkpatch.pl. Change variable
+declaration to u32 as this improves readability.
 
-Tested with vt6655 on mini PCI Module
-Transferred this patch over wlan connection of vt6655
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+V1 -> V2: No changes
+---
+ drivers/staging/vt6655/device_main.c | 9 +++++++++
+ drivers/staging/vt6655/mac.h         | 8 --------
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-V1 -> V2: Devided vt6655_mac_en_dis_bits_u32_reg into
-          vt6655_mac_set_bits and vt6655_mac_clear_bits
-          Changed variable from bit_mask to mask
-
-Philipp Hortmann (6):
-  staging: vt6655: Convert macro MACvEnableProtectMD to function
-  staging: vt6655: Create one function for two macros
-  staging: vt6655: Rename function MACvEnableProtectMD
-  staging: vt6655: Convert macro MACvDisableProtectMD
-  staging: vt6655: Convert macro MACvEnableBarkerPreambleMd
-  staging: vt6655: Convert macro MACvDisableBarkerPreambleMd
-
- drivers/staging/vt6655/device_main.c | 46 +++++++++++++++++++++++++---
- drivers/staging/vt6655/mac.h         | 34 +-------------------
- 2 files changed, 43 insertions(+), 37 deletions(-)
-
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 8db655742bd4..ab6456fc2b3f 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -216,6 +216,15 @@ static void vt6655_mac_dma_ctl(void __iomem *iobase, u8 reg_index)
+ 		iowrite32(DMACTL_RUN, iobase + reg_index);
+ }
+ 
++static void MACvEnableProtectMD(void __iomem *iobase)
++{
++	u32 reg_value;
++
++	reg_value = ioread32(iobase + MAC_REG_ENCFG);
++	reg_value = reg_value | ENCFG_PROTECTMD;
++	iowrite32(reg_value, iobase + MAC_REG_ENCFG);
++}
++
+ /*
+  * Initialisation of MAC & BBP registers
+  */
+diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+index 467c599a3289..84d203c56b1f 100644
+--- a/drivers/staging/vt6655/mac.h
++++ b/drivers/staging/vt6655/mac.h
+@@ -543,14 +543,6 @@
+ #define MACvSelectPage1(iobase)				\
+ 	iowrite8(1, iobase + MAC_REG_PAGE1SEL)
+ 
+-#define MACvEnableProtectMD(iobase)					\
+-do {									\
+-	unsigned long dwOrgValue;					\
+-	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);			\
+-	dwOrgValue = dwOrgValue | ENCFG_PROTECTMD;			\
+-	iowrite32((u32)dwOrgValue, iobase + MAC_REG_ENCFG);		\
+-} while (0)
+-
+ #define MACvDisableProtectMD(iobase)					\
+ do {									\
+ 	unsigned long dwOrgValue;					\
 -- 
 2.37.1
 
