@@ -1,41 +1,41 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C363C15
-	for <linux-staging@lists.linux.dev>; Sun,  7 Aug 2022 18:15:54 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id kb8so12909303ejc.4
-        for <linux-staging@lists.linux.dev>; Sun, 07 Aug 2022 11:15:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8001360
+	for <linux-staging@lists.linux.dev>; Mon,  8 Aug 2022 06:50:35 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id qn6so3019442ejc.11
+        for <linux-staging@lists.linux.dev>; Sun, 07 Aug 2022 23:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tpNJKNKlC50xQq5PpFQzujWlvGj3AJ292qB3U9+6dgE=;
-        b=M82YULwaRLvi0ifXA4JINTwWxQ0TIE7hk6dNkj0zaHHUH8R+ecr1SPD0HGeKDE/eDN
-         WdpZ1CxbA7ggxsX+J9PczksYx4JBghVLRGT4Z1ohl8jG+6IMMURpczj7JDA+0pwNagMy
-         si/4ao2yxXV49coa+UaI4fYDxHYmeQNfdNAtVXdyG9Waikk5mj3s4jy2qYRI2ZAe7g8a
-         5UQV3VGC8GRXXCI2eSn3OUayWHGcukB9kykNiwPCvtdwCtJo16hmyKZ3P6jXyc0KavhL
-         qHHG48p09J2mpPtZULoCPMQyVtrh9PXOmjpL9YnlnQaD1uu0FvRbigcFAChDrKToScxi
-         9PIQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NXFy/L+O5xnM71JLbyMm2nhzjOenjYylX2CI7hWvxRI=;
+        b=NbqL7OPKRd8KSSwMCPHh3EbqOgxTtixjGuNh3aKKF7E9MkRb6PUgJM/lZltuuUs4Xn
+         uQ6fi3rOV9BvFkReA42ejpaFumQ1JSjdqaQKE23upHD1unO1s6R7FMjRLi60wgz/ZCxq
+         sOy/fVx3MYIvr/riimQIR2ZWTnVDUloBmDiQDXQ8srfAS6h54iMyT9rlawn/aQ4fYEOd
+         yhspgHZ+nogX5AqUhljotXgPojLsOxbVcc8/Laig0x28eRJqnTjsPJE9Ri1q7sp9+kTp
+         sN2v8yeXy/0SYlRilzjZP8Gu9g4aDZ3QZACTKJUsyiV4eL/luZBJAC8heD2S1pY5xGfV
+         o5xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tpNJKNKlC50xQq5PpFQzujWlvGj3AJ292qB3U9+6dgE=;
-        b=fDoY1fgjMVrETlkDFrd7h2HE+/uCyUyWAobfnvEhFumc+VED5dqFKfvymaGJtGGXjn
-         b7ex01XOFLcOpgtf4hBvxJcJT3YzMovENMFHThkKpw9krXWDcOoHLNX/gUxH/AnfYDke
-         sbF0uOAiI6e6+h11mzjrxre3K7xWXMK3/cDUH5HKHvqZ7gT0N4PZripkNUPmWhByofyA
-         vc/eDZW2myzwTqRqKxpM+wooOxzSjm3Kok43Qy2YvFvRBqOZeE2wa4+gTqK9uIdIryAO
-         G3R1CduJCk5jdsQDkX+up4dB1SSf2KEIRTdTn8nLK/WIg9jCvRfRcFTNUPGBSkjhtv64
-         L6yw==
-X-Gm-Message-State: ACgBeo2xe7aGiim2PvYB2w2phfnJMyRe21FpZ6iAtTqMgbuYRvntctfR
-	2Ojdx5tyHeB4rWs7pm81xdQ=
-X-Google-Smtp-Source: AA6agR5Z8ax36NV9vB60WsazWbZkbH/r9P460yzOSgZNfrZoSrFqYXnzJm6uUKzJHi3W7tqX348V3w==
-X-Received: by 2002:a17:907:a055:b0:730:a432:99d3 with SMTP id gz21-20020a170907a05500b00730a43299d3mr10686945ejc.690.1659896152538;
-        Sun, 07 Aug 2022 11:15:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NXFy/L+O5xnM71JLbyMm2nhzjOenjYylX2CI7hWvxRI=;
+        b=1lKJypXaDtsrP5CRqDAIY8A6VryS92NJVGwKwTnlBPeyqsNgkAHGuqU6O2jaBCNJup
+         /LryQueZsOoVcDRwfhX0DxPmWs5H10KOGCDIFQXYJNHOa+dyJB2IT0nWTaiZaLPQJ248
+         kRAzknaeUJHhi8LiWl97keDuhLM3TrFWGMxB53iCSxqF2C1G+c4K7s0l4G47tpFFFily
+         SiM7dpr9Ru5MADc4Vlx5TYvPH79XCAY7fhCLARgV8sPGrqkNyjWwjx+Vclvpijbfcc/+
+         wnzJVF5v7dhDGA2wu4YXYG+Au3HcvHjKxQMjm3LW451GkgOvzueoo8fQz/UVjjNxOj27
+         fMJw==
+X-Gm-Message-State: ACgBeo0A+6Rgkrm0HG6prUSYX0CgNDsEITuXfFw8gHMvnXxvMzVbm5aH
+	pxL/fE+Q5eB9qZGuSKIpCCA=
+X-Google-Smtp-Source: AA6agR6+XdvuEaZal6me3MXp+qYOJmuitsFaydsUOBpYKUxIuPELn8Q/tHVmSQz6Zer7vsout9mFig==
+X-Received: by 2002:a17:906:c781:b0:726:c967:8d1b with SMTP id cw1-20020a170906c78100b00726c9678d1bmr12907535ejb.54.1659941433407;
+        Sun, 07 Aug 2022 23:50:33 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb84.dynamic.kabel-deutschland.de. [95.90.187.132])
-        by smtp.gmail.com with ESMTPSA id b7-20020a17090630c700b0072b92daef1csm4157441ejb.146.2022.08.07.11.15.51
+        by smtp.gmail.com with ESMTPSA id 16-20020a170906329000b007313a2575d2sm2259844ejw.104.2022.08.07.23.50.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Aug 2022 11:15:52 -0700 (PDT)
+        Sun, 07 Aug 2022 23:50:33 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,12 +43,10 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/5] staging: r8188eu: make rtw_init_recv_timer() static
-Date: Sun,  7 Aug 2022 20:15:38 +0200
-Message-Id: <20220807181538.8499-6-straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: do not spam the kernel log
+Date: Mon,  8 Aug 2022 08:50:23 +0200
+Message-Id: <20220808065023.3175-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220807181538.8499-1-straube.linux@gmail.com>
-References: <20220807181538.8499-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,98 +55,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function rtw_init_recv_timer() is only used in rtw_sta_mgt.c.
-Make it static and remove the now empty file os_dep/recv_linux.c.
+Drivers should not spam the kernel log if they work properly. Convert
+the functions Hal_EfuseParseIDCode88E() and _netdev_open() to use
+netdev_dbg() instead of pr_info() so that developers can still enable
+it if they want to see this information.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/Makefile             |  1 -
- drivers/staging/r8188eu/core/rtw_sta_mgt.c   | 13 ++++++++++
- drivers/staging/r8188eu/include/recv_osdep.h |  1 -
- drivers/staging/r8188eu/os_dep/recv_linux.c  | 26 --------------------
- 4 files changed, 13 insertions(+), 28 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/os_dep/recv_linux.c
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 ++-
+ drivers/staging/r8188eu/os_dep/os_intfs.c       | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/Makefile b/drivers/staging/r8188eu/Makefile
-index b118fd9b695c..b38fb8157d79 100644
---- a/drivers/staging/r8188eu/Makefile
-+++ b/drivers/staging/r8188eu/Makefile
-@@ -25,7 +25,6 @@ r8188eu-y = \
- 		os_dep/mlme_linux.o \
- 		os_dep/os_intfs.o \
- 		os_dep/osdep_service.o \
--		os_dep/recv_linux.o \
- 		os_dep/usb_intf.o \
- 		os_dep/usb_ops_linux.o \
- 		os_dep/xmit_linux.o \
-diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-index 357f98e22d8a..bbc1ef146826 100644
---- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-@@ -141,6 +141,19 @@ void _rtw_free_sta_priv(struct	sta_priv *pstapriv)
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 5b8f1a912bbb..58a193334b91 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -688,6 +688,7 @@ Hal_EfuseParseIDCode88E(
+ 	)
+ {
+ 	struct eeprom_priv *pEEPROM = &padapter->eeprompriv;
++	struct net_device *netdev = padapter->pnetdev;
+ 	u16			EEPROMId;
+ 
+ 	/*  Check 0x8129 again for making sure autoload status!! */
+@@ -699,7 +700,7 @@ Hal_EfuseParseIDCode88E(
+ 		pEEPROM->bautoload_fail_flag = false;
  	}
+ 
+-	pr_info("EEPROM ID = 0x%04x\n", EEPROMId);
++	netdev_dbg(netdev, "EEPROM ID = 0x%04x\n", EEPROMId);
  }
  
-+static void _rtw_reordering_ctrl_timeout_handler(struct timer_list *t)
-+{
-+	struct recv_reorder_ctrl *preorder_ctrl;
-+
-+	preorder_ctrl = from_timer(preorder_ctrl, t, reordering_ctrl_timer);
-+	rtw_reordering_ctrl_timeout_handler(preorder_ctrl);
-+}
-+
-+static void rtw_init_recv_timer(struct recv_reorder_ctrl *preorder_ctrl)
-+{
-+	timer_setup(&preorder_ctrl->reordering_ctrl_timer, _rtw_reordering_ctrl_timeout_handler, 0);
-+}
-+
- struct	sta_info *rtw_alloc_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
- {
- 	s32	index;
-diff --git a/drivers/staging/r8188eu/include/recv_osdep.h b/drivers/staging/r8188eu/include/recv_osdep.h
-index e824bfac067e..d88fd6058a62 100644
---- a/drivers/staging/r8188eu/include/recv_osdep.h
-+++ b/drivers/staging/r8188eu/include/recv_osdep.h
-@@ -16,7 +16,6 @@ void rtw_recv_returnpacket(struct  net_device *cnxt, struct sk_buff *retpkt);
- int rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
- void rtw_free_recv_priv(struct recv_priv *precvpriv);
+ static void Hal_ReadPowerValueFromPROM_8188E(struct txpowerinfo24g *pwrInfo24G, u8 *PROMContent, bool AutoLoadFail)
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index cac9553666e6..22e91657f3fb 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -635,7 +635,7 @@ int _netdev_open(struct net_device *pnetdev)
+ 		if (status == _FAIL)
+ 			goto netdev_open_error;
  
--void rtw_init_recv_timer(struct recv_reorder_ctrl *preorder_ctrl);
- int _netdev_open(struct net_device *pnetdev);
- int netdev_open(struct net_device *pnetdev);
- int netdev_close(struct net_device *pnetdev);
-diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
-deleted file mode 100644
-index ccf23e7fc4ab..000000000000
---- a/drivers/staging/r8188eu/os_dep/recv_linux.c
-+++ /dev/null
-@@ -1,26 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#define _RECV_OSDEP_C_
--
--#include "../include/osdep_service.h"
--#include "../include/drv_types.h"
--
--#include "../include/wifi.h"
--#include "../include/recv_osdep.h"
--
--#include "../include/osdep_intf.h"
--#include "../include/usb_ops.h"
--
--static void _rtw_reordering_ctrl_timeout_handler(struct timer_list *t)
--{
--	struct recv_reorder_ctrl *preorder_ctrl;
--
--	preorder_ctrl = from_timer(preorder_ctrl, t, reordering_ctrl_timer);
--	rtw_reordering_ctrl_timeout_handler(preorder_ctrl);
--}
--
--void rtw_init_recv_timer(struct recv_reorder_ctrl *preorder_ctrl)
--{
--	timer_setup(&preorder_ctrl->reordering_ctrl_timer, _rtw_reordering_ctrl_timeout_handler, 0);
--}
+-		pr_info("MAC Address = %pM\n", pnetdev->dev_addr);
++		netdev_dbg(pnetdev, "MAC Address = %pM\n", pnetdev->dev_addr);
+ 
+ 		status = rtw_start_drv_threads(padapter);
+ 		if (status == _FAIL) {
 -- 
 2.37.1
 
