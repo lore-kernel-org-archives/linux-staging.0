@@ -1,135 +1,103 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B812633C4
-	for <linux-staging@lists.linux.dev>; Tue,  9 Aug 2022 18:43:35 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1oLUCR-0005YX-Q3; Tue, 09 Aug 2022 20:43:31 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1oLUCQ-0000nP-Ee; Tue, 09 Aug 2022 20:43:30 +0200
-Date: Tue, 9 Aug 2022 20:43:30 +0200
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/3] media: hantro: Add support for RK356x JPEG encoder
-Message-ID: <20220809184330.GA4380@pengutronix.de>
-References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
- <20220427224438.335327-3-frattaroli.nicolas@gmail.com>
- <20220809124508.GL14307@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEF54A02
+	for <linux-staging@lists.linux.dev>; Wed, 10 Aug 2022 23:36:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660174573; x=1691710573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3va2yZdcDJ+Dnnzr8fu1MBvEkWFet2Gb7kj4tPhdh+o=;
+  b=dTaQNr2iVeR6r2hAp4hax6fE5xhT8cWAY1UX/TeQDKjwcGWDFzllK7bV
+   aOE5xBZrZGjI4Bn05470ABwp4S95MrRJe0Jo0ecmGd+0Rk59LZmM/6I2O
+   ArcqEB0dL/UGOLgB/5m3Y1pQsmdUAkFRcfnK1TzeVp4/IfLKNsPO1yRJA
+   7IXx3V5PySIHT916SB8jvlv7Qqt3G6ivEACcAJglQr9zVYKG0WBPFdjK5
+   dJlApT+KaBVSodZWFkJTsJnqmaoNRHGJPiCqESNGrStxWAmn89WuP8xAC
+   PN2Bvf7tFZCpW7bYOI6BcEeaag1UbVDDpCtAeeIlxTvcK5ZG7SIAZRiRP
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="291219131"
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
+   d="scan'208";a="291219131"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2022 16:36:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
+   d="scan'208";a="673476867"
+Received: from lkp-server02.sh.intel.com (HELO 5d6b42aa80b8) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 10 Aug 2022 16:36:10 -0700
+Received: from kbuild by 5d6b42aa80b8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oLvFC-0000qC-0r;
+	Wed, 10 Aug 2022 23:36:10 +0000
+Date: Thu, 11 Aug 2022 07:35:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Simone Serra <serrazimone@gmail.com>, gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com, soumya.negi97@gmail.com,
+	hdegoede@redhat.com, straube.linux@gmail.com
+Cc: kbuild-all@lists.01.org, Simone Serra <serrazimone@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Fixes compilation errors after checkpatch warnings
+Message-ID: <202208110717.w2MDXPcA-lkp@intel.com>
+References: <20220809143743.742636-1-serrazimone@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220809124508.GL14307@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+In-Reply-To: <20220809143743.742636-1-serrazimone@gmail.com>
+
+Hi Simone,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on linus/master next-20220810]
+[cannot apply to v5.19]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Simone-Serra/Fixes-compilation-errors-after-checkpatch-warnings/20220809-223922
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 4e23eeebb2e57f5a28b36221aa776b5a1122dde5
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20220811/202208110717.w2MDXPcA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/4178fe5425c24dfeabf5c4eb7fd13ada51d007c3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Simone-Serra/Fixes-compilation-errors-after-checkpatch-warnings/20220809-223922
+        git checkout 4178fe5425c24dfeabf5c4eb7fd13ada51d007c3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/rtl8723bs/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/rtl8723bs/core/rtw_btcoex.c:12:6: warning: no previous prototype for 'rtw_btcoex_MediaStatusNotify' [-Wmissing-prototypes]
+      12 | void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
---azLHFNyN32YCQGCU
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +/rtw_btcoex_MediaStatusNotify +12 drivers/staging/rtl8723bs/core/rtw_btcoex.c
 
-On Tue, Aug 09, 2022 at 02:45:08PM +0200, Michael Grzeschik wrote:
->On Thu, Apr 28, 2022 at 12:44:37AM +0200, Nicolas Frattaroli wrote:
->>The RK3566 and RK3568 SoCs come with a small Hantro instance which
->>is solely dedicated to encoding JPEG. This patch adds the necessary
->>structs to the Hantro driver to allow it to function.
->>
->>Tested with the following GStreamer command:
->>
->>gst-launch-1.0 videotestsrc ! v4l2jpegenc ! matroskamux ! \
->>              filesink location=3Dfoo.mkv
->
->I just tried this pipeline on v5.19. The filesize generated is increasing =
-and
->data is generated. However the content seems to be unusable.
->
->When playing foo.mkv with e.g. vlc the following errors, that no JPEG data=
- was found
->in the images, is generated:
->
->
->[mjpeg @ 0x7f2f08c1f780] No JPEG data found in image
->[mjpeg @ 0x7f2f08c1f780] No JPEG data found in image
->[mjpeg @ 0x7f2f08c1f780] No JPEG data found in image
->...
->
->
->The same with gstreamer:
->
->gst-launch-1.0 filesrc location=3Dfoo.mkv ! decodebin ! glimagesink
->../ext/jpeg/gstjpegdec.c(1418): gst_jpeg_dec_handle_frame (): /GstPipeline=
-:pipeline0/GstDecodeBin:decodebin0/GstJpegDec:jpegdec0:
->Decode error #53: Not a JPEG file: starts with 0x00 0x00
->..
->
->
->Do you have an idea why that is? Did you test the pipeline with an earlier
->kernelversion and validated the generated content of foo.mkv?
+554c0a3abf216c Hans de Goede 2017-03-29  11  
+554c0a3abf216c Hans de Goede 2017-03-29 @12  void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus)
+554c0a3abf216c Hans de Goede 2017-03-29  13  {
+948d704855312c Shreeya Patel 2017-07-09  14  	if ((mediaStatus == RT_MEDIA_CONNECT)
+554c0a3abf216c Hans de Goede 2017-03-29  15  		&& (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)) {
+554c0a3abf216c Hans de Goede 2017-03-29  16  		rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
+554c0a3abf216c Hans de Goede 2017-03-29  17  	}
+554c0a3abf216c Hans de Goede 2017-03-29  18  
+554c0a3abf216c Hans de Goede 2017-03-29  19  	hal_btcoex_MediaStatusNotify(padapter, mediaStatus);
+554c0a3abf216c Hans de Goede 2017-03-29  20  }
+554c0a3abf216c Hans de Goede 2017-03-29  21  
 
-After further debugging, I found out that my latest port of the bootlin
-patches to support h264 encoding broke the hantro driver somehow.
-
-https://git.pengutronix.de/cgit/mgr/linux/log/?h=3Dv5.19/topic/rk3568-vepu-=
-h264-stateless-bootlin
-
-The good news about that is; it is possible that the same issue
-was the cause that I thought the h264 encoding is not supported on
-the VEPU121. So the support is still unknown
-
-I will come back to that.
-
-Regards,
-Michael
-
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---azLHFNyN32YCQGCU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmLyqs8ACgkQC+njFXoe
-LGQItRAAj/Maz6S+qvjgj2qxwTHOXNKpxXLuukYWID55zyIjCBhMX0TmPsGTIQQD
-bkD2FB31dykYjtx5JepDztiDPoTFe1JH8FFrnOR/d1rNl40oZRVefBBMxgcS3niF
-PZXOD0tQ3Z3jyXOVD9AUPUJWsJl0w5ROBJjtkgCpF0KfH+29S90xPe3ktFZaU6bY
-KScHe3dLKEKNEHs/6tjgI3VphHabmxcFj3iucSm88jio8GLx67uWN6rKjKkZxHz8
-f5yw6Ta96yVUL3G0mPrlMVL4SlI7jnEinbGL5lYHXO5sfKej4nZfLEIbtVxXTHP2
-TfHup6Ws6dFAoYUcKTGwvzblbtH5Y/6Nk8LyCud/NZT3DBEr9MZRbjizlC/QGeAY
-yjryjYiCJMxi0f7IkhCGYupBRKb7eofugJAymiaMKHrGRctRSXUfj0twHxrBzMz6
-fYVWhYqSmjrZjsRIqg1q0GUu24kG1UtCnvqnkhSJIvSGYpIXmKeeKkDaEVhD0V6r
-wP2VX0dJfbf5Jp9zpNynVY0YacOngis5muLKTnbBeATXEH1Inv+ShzoaiHRrk1t8
-FQ6IFRv8HiR+zZFy4y3vWDo4m1xzoRR03Jmhf/CYBASPIHhQk3oU3ArqtEEigkA9
-OO2fTaFTnrFipkOSgysdGAl9/KXpuwXFdmiwoXmWlzj1ZEsFlGI=
-=BxJZ
------END PGP SIGNATURE-----
-
---azLHFNyN32YCQGCU--
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
