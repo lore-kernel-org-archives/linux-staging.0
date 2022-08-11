@@ -1,103 +1,84 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEF54A02
-	for <linux-staging@lists.linux.dev>; Wed, 10 Aug 2022 23:36:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660174573; x=1691710573;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3va2yZdcDJ+Dnnzr8fu1MBvEkWFet2Gb7kj4tPhdh+o=;
-  b=dTaQNr2iVeR6r2hAp4hax6fE5xhT8cWAY1UX/TeQDKjwcGWDFzllK7bV
-   aOE5xBZrZGjI4Bn05470ABwp4S95MrRJe0Jo0ecmGd+0Rk59LZmM/6I2O
-   ArcqEB0dL/UGOLgB/5m3Y1pQsmdUAkFRcfnK1TzeVp4/IfLKNsPO1yRJA
-   7IXx3V5PySIHT916SB8jvlv7Qqt3G6ivEACcAJglQr9zVYKG0WBPFdjK5
-   dJlApT+KaBVSodZWFkJTsJnqmaoNRHGJPiCqESNGrStxWAmn89WuP8xAC
-   PN2Bvf7tFZCpW7bYOI6BcEeaag1UbVDDpCtAeeIlxTvcK5ZG7SIAZRiRP
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="291219131"
-X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
-   d="scan'208";a="291219131"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2022 16:36:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
-   d="scan'208";a="673476867"
-Received: from lkp-server02.sh.intel.com (HELO 5d6b42aa80b8) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Aug 2022 16:36:10 -0700
-Received: from kbuild by 5d6b42aa80b8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oLvFC-0000qC-0r;
-	Wed, 10 Aug 2022 23:36:10 +0000
-Date: Thu, 11 Aug 2022 07:35:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Simone Serra <serrazimone@gmail.com>, gregkh@linuxfoundation.org,
-	fabioaiuto83@gmail.com, soumya.negi97@gmail.com,
-	hdegoede@redhat.com, straube.linux@gmail.com
-Cc: kbuild-all@lists.01.org, Simone Serra <serrazimone@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fixes compilation errors after checkpatch warnings
-Message-ID: <202208110717.w2MDXPcA-lkp@intel.com>
-References: <20220809143743.742636-1-serrazimone@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E0933C6
+	for <linux-staging@lists.linux.dev>; Thu, 11 Aug 2022 16:07:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D61C3C433D6;
+	Thu, 11 Aug 2022 16:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1660234039;
+	bh=HDpKNz0fYBLYmMtAuL3CW8eQw67/vZGOw1TpBNV6i4I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bofCGYg4PHD0+OWtorgHxucXhOFC0qZyKkVoRno4WHwwAtCewTeWgrjunJUgPJCUl
+	 hVV14p1X3Hf9j/rjnaECBjurwdQ8L+BKFaegDKzlj1tJPG/kLg0dmTFVcdHpynjHNB
+	 eGsO6rxhCiW3BmNbEPP/r4FpczvFq/eIND5qP4EIHeekZ/em+e/807ot5EdzGZcm9/
+	 mG/CQULuPQV/s7fuRzcOY/B5jGaaIMg+cWIHRznsUz6bLxjPWvIolr1BlMRkTyV4nu
+	 je2zs7l/2kS19syyfwbWV+ay/IINWsu2eu/sBZU1+2c+SrEYBHffYv1+gqfHcGH3q2
+	 LmzeR7dgnlcUg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.10 34/46] media: rkisp1: Disable runtime PM in probe error path
+Date: Thu, 11 Aug 2022 12:03:58 -0400
+Message-Id: <20220811160421.1539956-34-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220811160421.1539956-1-sashal@kernel.org>
+References: <20220811160421.1539956-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220809143743.742636-1-serrazimone@gmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-Hi Simone,
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Thank you for the patch! Perhaps something to improve:
+[ Upstream commit 13c9810281f8b24af9b7712cd84a1fce61843e93 ]
 
-[auto build test WARNING on staging/staging-testing]
-[also build test WARNING on linus/master next-20220810]
-[cannot apply to v5.19]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+If the v4l2_device_register() call fails, runtime PM is left enabled.
+Fix it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Simone-Serra/Fixes-compilation-errors-after-checkpatch-warnings/20220809-223922
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 4e23eeebb2e57f5a28b36221aa776b5a1122dde5
-config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20220811/202208110717.w2MDXPcA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/4178fe5425c24dfeabf5c4eb7fd13ada51d007c3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Simone-Serra/Fixes-compilation-errors-after-checkpatch-warnings/20220809-223922
-        git checkout 4178fe5425c24dfeabf5c4eb7fd13ada51d007c3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/rtl8723bs/
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/media/rkisp1/rkisp1-dev.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/rtl8723bs/core/rtw_btcoex.c:12:6: warning: no previous prototype for 'rtw_btcoex_MediaStatusNotify' [-Wmissing-prototypes]
-      12 | void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/rtw_btcoex_MediaStatusNotify +12 drivers/staging/rtl8723bs/core/rtw_btcoex.c
-
-554c0a3abf216c Hans de Goede 2017-03-29  11  
-554c0a3abf216c Hans de Goede 2017-03-29 @12  void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus)
-554c0a3abf216c Hans de Goede 2017-03-29  13  {
-948d704855312c Shreeya Patel 2017-07-09  14  	if ((mediaStatus == RT_MEDIA_CONNECT)
-554c0a3abf216c Hans de Goede 2017-03-29  15  		&& (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)) {
-554c0a3abf216c Hans de Goede 2017-03-29  16  		rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
-554c0a3abf216c Hans de Goede 2017-03-29  17  	}
-554c0a3abf216c Hans de Goede 2017-03-29  18  
-554c0a3abf216c Hans de Goede 2017-03-29  19  	hal_btcoex_MediaStatusNotify(padapter, mediaStatus);
-554c0a3abf216c Hans de Goede 2017-03-29  20  }
-554c0a3abf216c Hans de Goede 2017-03-29  21  
-
+diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
+index 06de5540c8af..663b2efec9b0 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-dev.c
++++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
+@@ -518,7 +518,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 
+ 	ret = v4l2_device_register(rkisp1->dev, &rkisp1->v4l2_dev);
+ 	if (ret)
+-		return ret;
++		goto err_pm_runtime_disable;
+ 
+ 	ret = media_device_register(&rkisp1->media_dev);
+ 	if (ret) {
+@@ -538,6 +538,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 	media_device_unregister(&rkisp1->media_dev);
+ err_unreg_v4l2_dev:
+ 	v4l2_device_unregister(&rkisp1->v4l2_dev);
++err_pm_runtime_disable:
+ 	pm_runtime_disable(&pdev->dev);
+ 	return ret;
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
