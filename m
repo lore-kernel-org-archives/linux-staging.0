@@ -1,41 +1,41 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A7C1392
-	for <linux-staging@lists.linux.dev>; Sun, 14 Aug 2022 17:44:09 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id o184so6557191oif.13
-        for <linux-staging@lists.linux.dev>; Sun, 14 Aug 2022 10:44:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E262573
+	for <linux-staging@lists.linux.dev>; Sun, 14 Aug 2022 17:50:33 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id u9so6584881oiv.12
+        for <linux-staging@lists.linux.dev>; Sun, 14 Aug 2022 10:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:sender:from:to:cc;
-        bh=MgVIXnrzamGi1CDQWdojbS7ElaBT1I5kwnpNyLD1mjk=;
-        b=IvWKNwADAH+C6wMh9Gyr3A56r/geDdikybNfApEEZUCKFUWBOPS0LlYfZx2FTwUIZq
-         91ELAo/g6Qu9rmC9lws9pZwccmo+lBuCWb1zwMi/QJUh+KukgvQHaOqZGMHMJwGSkmz+
-         /v6iaamRFJxslyOw9uvqLS04YOceQtK+eA3gCAsR9SCnJ+lczpVb0DlElt+GZHNA/L8w
-         t1rcazCJkMea0s5pZkeJgjtZJ9dwseetgxNIe27o2Hae6lFdAFOqBxGvNAz+TnSrZ3TW
-         3N3ZAbcVY5RUt5zBzpS1W873Bm7R2cURyB+30BYIu/QRJngiwciLWq9ef482vIu8sVW+
-         hseQ==
+        bh=knj+8z4UTU4OZaEAZ8wqsUOuV/Nu60xNyiNJljXS19Q=;
+        b=QHsxPE57quzg5BAU+EIYqrOCV22xtAzg9GALEKqEOwhtkF3jZKMel3HyWqwkv5vNfd
+         trrHS0dcVJKUs9A+Ng0uQd1JQwp1s4c9Ghy2s4hpkl5+R11bK/qWbihJ08yA0Rca8q0u
+         wn+pXwVEK49cNtR4/0x2lqAaBRjOqyoKS2YET+/0tuevpwYpa9euaMmJfENeVUTRA0qv
+         vQpAGRBfHFHk8MCk6zuCABSAsFlK0qJdYcFIQkY0SF8y8srcf7N7QL9iXqNAfh9Xj1eO
+         fOpGhdsZcOZv+VFTWAmHiyb/KsOmQ6cBefBk5h2YLPzoHFAq0Far4ayxUQAtCFAcLP5F
+         7Orw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:sender:x-gm-message-state:from:to:cc;
-        bh=MgVIXnrzamGi1CDQWdojbS7ElaBT1I5kwnpNyLD1mjk=;
-        b=ZpjWily4HCvzAYFDrgkwMYnzHQjsFmx79qO/5vayhkOLueVePiao9qlV6HgjcRl38p
-         ZnU4C+CLo4ggBHGJ1GJ+O/csTQ6HkZBu6kgLM3JcGFicgdr2LJUqEoTV59GwIwzjqOnL
-         IuoYftJAGsg/hi4XGZup74aBofXhvS60CxysXaV8Kyjgg6EGvfVmw+sMpDsz3/vpBJHP
-         p2UCZc2KEOXNr7lUQmsq9B9ncF4vBrpstco506jGZKTVzm4/5z8AKh/2lLFzgJr7NhmB
-         f/9iAxz0xShAq3eo+IraHozeRwapr8gkXKqJ6uNJLf6QIap8JC/s3xezvOedTmOFBBbK
-         fu5A==
-X-Gm-Message-State: ACgBeo2Y1WgOeOMfrhYLinot8sJ+dXunlaYWMosKyXQpp0NmJtr+L7Eg
-	HMH+MwNst02+YJpS8cAtLkQ=
-X-Google-Smtp-Source: AA6agR5jp0xp8Meg2NdVpgLJezQotEmGKedXqcXOXpzOgAfaKtGuK29QDcKqKL5ZWNTAUCHc/15lJg==
-X-Received: by 2002:a05:6808:f13:b0:344:81ce:7f7b with SMTP id m19-20020a0568080f1300b0034481ce7f7bmr2681432oiw.248.1660499048910;
-        Sun, 14 Aug 2022 10:44:08 -0700 (PDT)
+        bh=knj+8z4UTU4OZaEAZ8wqsUOuV/Nu60xNyiNJljXS19Q=;
+        b=buI80BRUg59wPwykqnn2245qWKapi5tz/5cNrOlvXM2F8quVLkMgm9UkItOTSoE98v
+         xh2jMEvGqbFvpZd4K40XWoTTPN9AXcbG0q4Vy7S3CDb0lresB2XF+/Tup7bka0xfWzgB
+         021PoKSxNc01da6OKIv0zwyvatF+TbDyZFzsXMyfY99GCgduiQdx6orK0AxmHRrWgYal
+         KpW4N4gohLQkZHec7MAY6EXIFiuqjO/7/sP+vYjAnrHwpyqxjg0Vmy37pD4xDmprrfR+
+         vwyX/wS3eyqBqh/EnBiuos5lT8sQAJpRaF8j23psf5S9EnhcZFPGdjXgULS92YBaY3Ak
+         CupQ==
+X-Gm-Message-State: ACgBeo0wKl5ECOpHteLM/fskeesMBGzqyTale5UcTFNGO1b5drfeyqzo
+	IBaV4MjQaf9/83qgxVClZIk=
+X-Google-Smtp-Source: AA6agR5RnSps4UtO1s0bbx9x06cJYKqMO6GiHSZzgzKSgb9LxS6C2z32RZ2oZvy0oGO49dtDAYI7Eg==
+X-Received: by 2002:a54:4496:0:b0:343:2d07:fe01 with SMTP id v22-20020a544496000000b003432d07fe01mr8765781oiv.226.1660499432764;
+        Sun, 14 Aug 2022 10:50:32 -0700 (PDT)
 Received: from localhost.localdomain ([216.130.59.33])
-        by smtp.gmail.com with ESMTPSA id v37-20020a056830092500b00636a8dafdc9sm1654484ott.2.2022.08.14.10.44.07
+        by smtp.gmail.com with ESMTPSA id t14-20020a056870638e00b0010e5a5dfcb4sm995874oap.0.2022.08.14.10.50.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 10:44:08 -0700 (PDT)
+        Sun, 14 Aug 2022 10:50:32 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
 From: Larry Finger <Larry.Finger@lwfinger.net>
 To: gregkh@linuxfoundation.org
@@ -44,9 +44,9 @@ Cc: phil@philpotter.co.uk,
 	linux-kernel@vger.kernel.org,
 	linux-wireless@vger.kernel.org,
 	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: [PATCH] staging: r8188eu: Prevent infinite loop
-Date: Sun, 14 Aug 2022 12:44:04 -0500
-Message-Id: <20220814174404.25923-1-Larry.Finger@lwfinger.net>
+Subject: [PATCH 1/2] staging: r8188eu: Add Rosewill USB-N150 Nano to device tables
+Date: Sun, 14 Aug 2022 12:50:27 -0500
+Message-Id: <20220814175027.2689-1-Larry.Finger@lwfinger.net>
 X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,31 +56,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
----
- drivers/staging/r8188eu/core/rtw_ieee80211.c | 3 +++
- 1 file changed, 3 insertions(+)
+This device is reported as using the RTL8188EUS chip.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-index bc8543ea2e66..0a5f08427385 100644
---- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
-+++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-@@ -531,6 +531,7 @@ u8 *rtw_get_wps_ie(u8 *in_ie, uint in_len, u8 *wps_ie, uint *wps_ielen)
- 	uint cnt;
- 	u8 *wpsie_ptr = NULL;
- 	u8 eid, wps_oui[4] = {0x0, 0x50, 0xf2, 0x04};
-+	int loop_max = 0;
- 
- 	if (wps_ielen)
- 		*wps_ielen = 0;
-@@ -557,6 +558,8 @@ u8 *rtw_get_wps_ie(u8 *in_ie, uint in_len, u8 *wps_ie, uint *wps_ielen)
- 			break;
- 		}
- 		cnt += in_ie[cnt + 1] + 2; /* goto next */
-+		if (++loop > 1000)
-+			return NULL;
- 	}
- 	return wpsie_ptr;
- }
+It has the improbable USB ID of 0bda:ffef, which normally would belong
+to Realtek, but this ID works for the reporter.
+
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+---
+ drivers/staging/r8188eu/os_dep/usb_intf.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index cc2b44f60c46..9147d176da4f 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -28,6 +28,7 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
+ 	/*=== Realtek demoboard ===*/
+ 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x8179)}, /* 8188EUS */
+ 	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0x0179)}, /* 8188ETV */
++	{USB_DEVICE(USB_VENDER_ID_REALTEK, 0xffef)}, /* Rosewill USB-N150 Nano */
+ 	/*=== Customer ID ===*/
+ 	/****** 8188EUS ********/
+ 	{USB_DEVICE(0x07B8, 0x8179)}, /* Abocom - Abocom */
 -- 
 2.37.1
 
