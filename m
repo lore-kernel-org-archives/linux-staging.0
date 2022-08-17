@@ -1,118 +1,75 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1910B7C
-	for <linux-staging@lists.linux.dev>; Wed, 17 Aug 2022 06:32:36 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id e13so16213378edj.12
-        for <linux-staging@lists.linux.dev>; Tue, 16 Aug 2022 23:32:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4976E7C
+	for <linux-staging@lists.linux.dev>; Wed, 17 Aug 2022 07:45:13 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id j8so23075831ejx.9
+        for <linux-staging@lists.linux.dev>; Wed, 17 Aug 2022 00:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=O7B4wBks7f3hW7WkpQlC01sLwbVkWb1JQNhWXBvVpo4=;
-        b=ildQPppwYAvHF58sp6qVBfuSOqFyw2GAlzItDHum6n33ZGyG5ULvX3jmcBG9ognmYv
-         uvBSebwIkqpG4mAv2pGm9sbYTc2Oun/PHm+X2hWtg2tJUUNObKQUtU4O3kUTTzmt6EQY
-         advDMaWHNCT3euDVccQSMEpSY/g0XCsLyfO+X5A1qPFPKazZzbHelzskJQCO5DABmWxp
-         Z7MCnXymj6mKveALOdJNwdIPJU1XOyzcNwpecjlPWkg9UDMKlOWaekWjdo5gDR18Gtz1
-         ROzOOsHsthV8gMAVJA6/umGW77xk2aIJy0I56MPC9LzBORo1+yy4yNUHGSxFizq8EaQb
-         4BEg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=BITzr7eaqZDWN9J3zA+mBc+Jo1kRZ2EMV6/Z9lL2EMQ=;
+        b=bNlWuLBs8GCE+7ka7N/s08dLf07u3ZpgF6mQfe5nOAgCOzRYF1JRf9t54QNz2jqsqn
+         KwuyRypgQVtxQTG/gnPjXua7x5Zmtj4DkrRHPB+W3Ruouj8crgEyFAWKU/UFYHZrevqA
+         Tu9pda1MWmQ/eDmBcbEHzDgTJNQp0c84vsVXvHmJ6Y9t+YFnFN+lAr13Urjn2JWDf8Gy
+         s8Xx4rsCIkByg5O+cw/L4opxTjI1b2Rktbx4jPzNk2P1vCEjlTQbZNJOtJY1WeBlLvRE
+         dzzFGq8BsrEKf+tTrAezQTWoo9LEHzXzTc0YMcKI8FmV00ECzItPEy22A3C/idOhp5o3
+         2oQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=O7B4wBks7f3hW7WkpQlC01sLwbVkWb1JQNhWXBvVpo4=;
-        b=Cai5GhIzzMNMQr1QUCnUYQJzrzBykNreFueKEWKUFpEJXFFd1U76K8fatfnmWO5Vhs
-         0XcBdmBNbAxlS3iBv7OiUNQbnl4Ake3WY59TMOKon3ebQP4byd3tj2zIWgqTwsZcJgD+
-         xuNIWtxHhpElDFBo4eEJWS6PcYz20stctko/NjC98dSsxyjdMQ8kjIkR0jVoEJTyIiFt
-         TKTWmPybnFH8ZSDl2cYm5zaHkKVdA9B5Yb1DeulCPvv0+aACkVQTmi6mCSU256x5+NFJ
-         yUTuIZa30qbia3zeQT8XNzIjhpuOfGyoO25JagoeOQG473iXq9Aw33AFZXo0AYBXa1VT
-         +4KA==
-X-Gm-Message-State: ACgBeo1lZs6nwWFJ5gHNkeEZ3gasdWfmyVkxbDVAwJUsnH6RFyh6MtcI
-	DogBlk1R2KUKFJYH1k56by4=
-X-Google-Smtp-Source: AA6agR76MIqhwqeBmk2Kc2Fxz0g8cfosol3AvUZRr716ido7lRt9gAkkUyNBwmTABb9Nzd5llVucXg==
-X-Received: by 2002:a05:6402:4511:b0:43b:a182:8a0a with SMTP id ez17-20020a056402451100b0043ba1828a0amr21819395edb.410.1660717955239;
-        Tue, 16 Aug 2022 23:32:35 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
-        by smtp.gmail.com with ESMTPSA id g3-20020a170906538300b007307c4c8a5dsm6291669ejo.58.2022.08.16.23.32.33
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=BITzr7eaqZDWN9J3zA+mBc+Jo1kRZ2EMV6/Z9lL2EMQ=;
+        b=BckRAR7EvTJhZE+/csKQHhYLSed6UCWC7HcPWgv1v0GsejLUFrDmGEdDptleGfkqK2
+         59NuQ6zvgccZ5jeDyXvHVLT3sKoPSHpRoMux1NQfkwUre0XxKGX774YsS91uE0Fvewex
+         CP3vZvKkmx0DgQOr7Mi/wwXTyzJkgppDjMgc0tNTcTq9H3p5WaL2jrpgVc0WQYiZsS6e
+         WODsXA+9bikG1Mxu3bJsk3V07QHqFiiBTBKzvaAd3pbPFtC2DBM7J1cD80sfM2IYn0l9
+         acuo9krdFkMQv5hnOWnvN+OM/kGf2Gj6MX7T9eBcgA6EQNoI5oWQ+uJJTjl81cluKbY+
+         9sag==
+X-Gm-Message-State: ACgBeo27U3X4bj10mL7sQCUqHsFjGNCBlaa2GxD76HtfqQFXAg6FSGhx
+	uMYsIlrHR71UJxmtd6JR5bQ=
+X-Google-Smtp-Source: AA6agR6E+6b2jXdoxvTMntgNL9Lk462Bgvhl6B0xPBHN/SLGgjJO8H2pdr8kZsJxlsyjUGCcZGDeig==
+X-Received: by 2002:a17:907:b590:b0:730:9e03:95a8 with SMTP id qx16-20020a170907b59000b007309e0395a8mr15776875ejc.384.1660722311547;
+        Wed, 17 Aug 2022 00:45:11 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.69])
+        by smtp.gmail.com with ESMTPSA id o10-20020a056402038a00b0043a7134b381sm10052533edv.11.2022.08.17.00.45.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 23:32:34 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove rtw_endofpktfile()
-Date: Wed, 17 Aug 2022 08:32:23 +0200
-Message-Id: <20220817063223.8140-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.37.1
+        Wed, 17 Aug 2022 00:45:10 -0700 (PDT)
+Date: Wed, 17 Aug 2022 09:45:07 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Simone Serra <serrazimone@gmail.com>
+Cc: gregkh@linuxfoundation.org, soumya.negi97@gmail.com,
+	hdegoede@redhat.com, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Fixes compilation errors after checkpatch warnings
+Message-ID: <YvycgyjCwKlsp318@agape.jhs>
+References: <20220809143743.742636-1-serrazimone@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220809143743.742636-1-serrazimone@gmail.com>
 
-The function rtw_endofpktfile() just checks for pkt_len == 0.
-Remove rtw_endofpktfile() and merge the check into the caller to
-improve readability and simplify the driver code.
+Hello Simone,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_xmit.c      |  2 +-
- drivers/staging/r8188eu/include/xmit_osdep.h |  1 -
- drivers/staging/r8188eu/os_dep/xmit_linux.c  | 11 -----------
- 3 files changed, 1 insertion(+), 13 deletions(-)
+On Tue, Aug 09, 2022 at 04:37:43PM +0200, Simone Serra wrote:
+> This patch fixes compilation errors produced by the previous commit that resolved a number of checkpatch warnings and errors
+> 
 
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 24401f3ae2a0..48631ef56114 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -970,7 +970,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
- 
- 		frg_inx++;
- 
--		if (bmcst || rtw_endofpktfile(&pktfile)) {
-+		if (bmcst || pktfile.pkt_len == 0) {
- 			pattrib->nr_frags = frg_inx;
- 
- 			pattrib->last_txcmdsz = pattrib->hdrlen + pattrib->iv_len + ((pattrib->nr_frags == 1) ? llc_sz : 0) +
-diff --git a/drivers/staging/r8188eu/include/xmit_osdep.h b/drivers/staging/r8188eu/include/xmit_osdep.h
-index 00658681fef9..130dc06efe73 100644
---- a/drivers/staging/r8188eu/include/xmit_osdep.h
-+++ b/drivers/staging/r8188eu/include/xmit_osdep.h
-@@ -40,7 +40,6 @@ void rtw_os_xmit_resource_free(struct adapter *padapter,
- uint rtw_remainder_len(struct pkt_file *pfile);
- void _rtw_open_pktfile(struct sk_buff *pkt, struct pkt_file *pfile);
- uint _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen);
--bool rtw_endofpktfile(struct pkt_file *pfile);
- 
- void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt);
- void rtw_os_xmit_complete(struct adapter *padapter,
-diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-index 91a1e4e3219a..85ef27735b88 100644
---- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-@@ -54,17 +54,6 @@ uint _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
- 	return len;
- }
- 
--bool rtw_endofpktfile(struct pkt_file *pfile)
--{
--
--	if (pfile->pkt_len == 0) {
--
--		return true;
--	}
--
--	return false;
--}
--
- int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 alloc_sz)
- {
- 	pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
--- 
-2.37.1
+thanks for your patches. Try to focus on a single checkpatch error
+and send a patchset for that one. This makes review easier.
 
+It is a good thing for a patch to fix one thing and to have a proper
+commit message describing what the patch is meant to fix. Don't be too
+generic.
+
+Always compile test your patches, before submitting!
+
+Thank you,
+
+fabio
