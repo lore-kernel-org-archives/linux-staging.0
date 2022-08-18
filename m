@@ -1,107 +1,68 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE27C5C8E
-	for <linux-staging@lists.linux.dev>; Thu, 18 Aug 2022 06:54:48 +0000 (UTC)
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 317063FB94
-	for <linux-staging@lists.linux.dev>; Thu, 18 Aug 2022 06:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1660805300;
-	bh=QSepvCE+QvU8qyq2q6n9pYjju+rfRtTHn1zPijhNAtQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version;
-	b=MkLeM9DiFceJvV9eQNmqI5htzFVW12Rz34VACGIxMtmdF4FR0Fb62eFYcrjjhISqa
-	 ZMmw3PjzA4qXkgbb774NQJ1zqu4PU7FAFov0SlpFoaZcZWHaX2p6jwqKxwO0zEzu4J
-	 ETIGeJcfvcYAsodnMMclhOXjqePt5NUBj7C738cQhE971+G/z6mIVbaq7xBEHYNV8P
-	 pUhT66PT8RPbiXYy7xpvRWSaA9LPgICjbCnODeMLnwR2/VTLtpi9eesOy4XAIU8W6F
-	 x2hDG3QrNHuLQeM+dMZHFLaDsudxvwxpcsDZFbbnPDIMVm47fL55mqW9qXfd18S8cD
-	 +5Hy3ofwfc7lQ==
-Received: by mail-ed1-f72.google.com with SMTP id z20-20020a05640235d400b0043e1e74a495so392603edc.11
-        for <linux-staging@lists.linux.dev>; Wed, 17 Aug 2022 23:48:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=QSepvCE+QvU8qyq2q6n9pYjju+rfRtTHn1zPijhNAtQ=;
-        b=oghKkV9WyNUSZLXdvgwK6CvMzF+camgFkavNNgCunJJgDGE/OyhVWKnNa2a+kSavuP
-         YeDoqBiv1jZ83dhHVeYkzAO/cXdQ7LAmS90swv/Cr6adJop44loXK1Cyql2xHED5SlAR
-         edI8D9Y747J8HZpDJ+zJUiIddk5IBul7VtixTO9Zpaf/YGzSMie2ic5Fb3bWGkwgpG6f
-         kQ+Bvmgwm4iCD5Iz9ZoHkVpvv0mRXdkI4jQOdSxof/LensM6pzor6SOEm287fa+AQjuS
-         8yDvL457crQALVfhLx76eIuXLzoFJJAR7Yaeaub48sAVnh+nAg2Og+/JlT133T/UiMpk
-         ZdUA==
-X-Gm-Message-State: ACgBeo2VlgsXkKHSYXqbjHBwJj8TvBVwUhwWLTfYwxYh5OO91jH7m/LF
-	lL7eIAZoRGGkz94JOuq+egF83LXu4xxdZ9/pqlen75V2/xnq0XjEvp9+AFS0UslxuTYFYAHmlpO
-	m29pGwjvC6BbmvVAeZ3VDK8Zz1v6nhEDhLQfix2lN1J0=
-X-Received: by 2002:a17:907:2c48:b0:730:cdc9:2c0b with SMTP id hf8-20020a1709072c4800b00730cdc92c0bmr1021425ejc.482.1660805299877;
-        Wed, 17 Aug 2022 23:48:19 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4Dbe0SHDmhO81TnTzDYpNAjxnqwXxvYkMUgdOn4rij2A9rkDj6mEyDGejb4El1ju108l/O+A==
-X-Received: by 2002:a17:907:2c48:b0:730:cdc9:2c0b with SMTP id hf8-20020a1709072c4800b00730cdc92c0bmr1021416ejc.482.1660805299753;
-        Wed, 17 Aug 2022 23:48:19 -0700 (PDT)
-Received: from gollum.fritz.box ([194.191.244.86])
-        by smtp.gmail.com with ESMTPSA id g20-20020a170906539400b0073c14e7589esm59157ejo.161.2022.08.17.23.48.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 23:48:19 -0700 (PDT)
-From: Juerg Haefliger <juerg.haefliger@canonical.com>
-To: narmstrong@baylibre.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	khilman@baylibre.com,
-	jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com,
-	linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Juerg Haefliger <juerg.haefliger@canonical.com>
-Subject: [PATCH v2] media: meson: vdec: Add MODULE_FIRMWARE macro
-Date: Thu, 18 Aug 2022 08:48:10 +0200
-Message-Id: <20220818064810.17856-1-juerg.haefliger@canonical.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220817140539.150013-1-juerg.haefliger@canonical.com>
-References: <20220817140539.150013-1-juerg.haefliger@canonical.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FDA23C8
+	for <linux-staging@lists.linux.dev>; Thu, 18 Aug 2022 07:00:50 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.56])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4M7bM90WjFznTX6;
+	Thu, 18 Aug 2022 14:58:29 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by kwepemi500012.china.huawei.com
+ (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 18 Aug
+ 2022 15:00:40 +0800
+From: Xu Qiang <xuqiang36@huawei.com>
+To: <narmstrong@baylibre.com>, <mchehab@kernel.org>,
+	<gregkh@linuxfoundation.org>, <khilman@baylibre.com>, <jbrunet@baylibre.com>,
+	<martin.blumenstingl@googlemail.com>, <mjourdan@baylibre.com>,
+	<hverkuil-cisco@xs4all.nl>
+CC: <linux-media@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-staging@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <guohanjun@huawei.com>,
+	<weiyongjun1@huawei.com>, <xuqiang36@huawei.com>
+Subject: [PATCH -next] media: meson: vdec: add missing clk_disable_unprepare on error in vdec_hevc_start()
+Date: Thu, 18 Aug 2022 06:57:53 +0000
+Message-ID: <20220818065753.104050-1-xuqiang36@huawei.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 
-The meson-vdec module loads firmware so add MODULE_FIRMWARE macros to
-provide that information via modinfo.
+Add the missing clk_disable_unprepare() before return
+from vdec_hevc_start() in the error handling case.
 
-Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-
+Fixes: 823a7300340e (“media: meson: vdec: add common HEVC decoder support”)
+Signed-off-by: Xu Qiang <xuqiang36@huawei.com>
 ---
-v2:
-  - Drop duplicates
-  - Add Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/staging/media/meson/vdec/vdec_platform.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/staging/media/meson/vdec/vdec_hevc.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
-index 88c9d72e1c83..70c9fd7c8bc5 100644
---- a/drivers/staging/media/meson/vdec/vdec_platform.c
-+++ b/drivers/staging/media/meson/vdec/vdec_platform.c
-@@ -280,3 +280,12 @@ const struct vdec_platform vdec_platform_sm1 = {
- 	.num_formats = ARRAY_SIZE(vdec_formats_sm1),
- 	.revision = VDEC_REVISION_SM1,
- };
-+
-+MODULE_FIRMWARE("meson/vdec/g12a_h264.bin");
-+MODULE_FIRMWARE("meson/vdec/g12a_vp9.bin");
-+MODULE_FIRMWARE("meson/vdec/gxbb_h264.bin");
-+MODULE_FIRMWARE("meson/vdec/gxl_h264.bin");
-+MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
-+MODULE_FIRMWARE("meson/vdec/gxl_vp9.bin");
-+MODULE_FIRMWARE("meson/vdec/gxm_h264.bin");
-+MODULE_FIRMWARE("meson/vdec/sm1_vp9_mmu.bin");
+diff --git a/drivers/staging/media/meson/vdec/vdec_hevc.c b/drivers/staging/media/meson/vdec/vdec_hevc.c
+index 9530e580e57a..afced435c907 100644
+--- a/drivers/staging/media/meson/vdec/vdec_hevc.c
++++ b/drivers/staging/media/meson/vdec/vdec_hevc.c
+@@ -167,8 +167,12 @@ static int vdec_hevc_start(struct amvdec_session *sess)
+ 
+ 	clk_set_rate(core->vdec_hevc_clk, 666666666);
+ 	ret = clk_prepare_enable(core->vdec_hevc_clk);
+-	if (ret)
++	if (ret) {
++		if (core->platform->revision == VDEC_REVISION_G12A ||
++		    core->platform->revision == VDEC_REVISION_SM1)
++			clk_disable_unprepare(core->vdec_hevcf_clk);
+ 		return ret;
++	}
+ 
+ 	if (core->platform->revision == VDEC_REVISION_SM1)
+ 		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_SLEEP0,
 -- 
-2.34.1
+2.17.1
 
