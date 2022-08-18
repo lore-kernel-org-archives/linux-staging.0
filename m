@@ -1,215 +1,164 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336F07B;
-	Thu, 18 Aug 2022 18:52:56 +0000 (UTC)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 826596601BCA;
-	Thu, 18 Aug 2022 19:46:51 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1660848413;
-	bh=kgiJErTBNmtrZKKCku7bEzXoVYgMa+E1N+vhYhNibJE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=aCzaEAkzVh/6pFFmtrU7cBKkKIp7UMr5O3G9f4cl2dliwZy1SUZE3571LmMx5bH7g
-	 yu7GesaQmB4ZhqQEBK/+zLEysvTDWurjnqYiAfZ9xlskW1uUNlD4DdBpY9x/yW+aiQ
-	 A5FjXnRvpr67OpkVXAeF3x4ofENvKoeYFxwj4afWIFKWhQHNRNckwdeNbMldD9j/9L
-	 J/muEWibR2CFK537pS43L7auCUS9aNOoBJm/EWFG2gvewyhPZIx4LaVzAG+DgGAeDc
-	 T2VHx6xeLvjJL0HNnDHziq9PNAED9Qefvr3ljn5gl1Tzm1vIt5PzI+YtD/IUN+O83M
-	 m9/KdkRzZCCPQ==
-Message-ID: <1629aa7de48594dee81df707ca595386697bfc02.camel@collabora.com>
-Subject: Re: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Jernej
-	=?UTF-8?Q?=C5=A0krabec?=
-	 <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, mchehab@kernel.org, 
-	gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, 
-	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Thu, 18 Aug 2022 14:46:42 -0400
-In-Reply-To: <YtXVeAChyKlfqD8O@eze-laptop>
-References: <20220718165649.16407-1-jernej.skrabec@gmail.com>
-	 <4725382.GXAFRqVoOG@kista>
-	 <b588b53fcfe539692a0a55b9fd0e97528def1d96.camel@collabora.com>
-	 <1795344.atdPhlSkOF@jernej-laptop> <YtXVeAChyKlfqD8O@eze-laptop>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9867B
+	for <linux-staging@lists.linux.dev>; Thu, 18 Aug 2022 19:58:10 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id s11so3168305edd.13
+        for <linux-staging@lists.linux.dev>; Thu, 18 Aug 2022 12:58:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=sH1DLTYjPqa55tvbt9/5ExhNIHtaK9eIVrGOQmIu/y4=;
+        b=FMyqH1uIzY6AduUNPs3llT8CkaKF/z6l4jLS9/liT6xX/F8dtpyRgdFXBN5km2LMb7
+         UM7xiR4v4Ro7Q9G1UhTK6b6yz+igVUAncSELg3YunpJZyMERdRt1yQT76KJ/z8KaYWZ+
+         odz7IWidVb0OcHiRLfp69QSe/Cax2at+a75TK4tm6jzsD3CMWh5eO8BSj0DNZF5iZzo0
+         lOx41ZrjzbzMu5Kxmi7o6Yt3Ij3PNUZ3tAQ9gew4m5nE1s8ZSM6xgfTl5kd0RDD5SUAu
+         Yc1azj7h8euct/HZiNPJO7i76L+JTSuJbIg3cUV/iIIEfPGzWgW0xjzZ/yGhzKfEaUzy
+         z22Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=sH1DLTYjPqa55tvbt9/5ExhNIHtaK9eIVrGOQmIu/y4=;
+        b=6A0F8kxlCeT7CAmQel+LcYWIJrhhZFuorM6G8PFXE+07jHT7ykNcPCVfZvxkWGR5nM
+         s0LeuB164Ejag/1RGYCNnCr6PTIl45AdDZY/PKHCJQZ6MYrSF5Momnaiyq6SIUdBRB7o
+         p1i+VS5JEdPKudWQhcM7sRUNp+HHn7uKZefwDhyQJ7TAzaCilmdBZ8GERP3GhFlElBei
+         RUke8hGNhJ4qROYzhAS+CesAnOivGXYuMjWbYztZDjcKQsjAXgmNdmpSs5Tsn3ZRNXrg
+         LBSClN8ewDTF3llF32+QeDGLwtf5K8wHYY8QJq270nxM4WW17vMg++lOIBPpIBY/04UL
+         1imw==
+X-Gm-Message-State: ACgBeo0juR4NGk2jJJhFwOOvHvMz0fr+J0DXPbeowi4rdQ7+kllznkRG
+	ww9FZJToTLiR3vH3dYfot+w=
+X-Google-Smtp-Source: AA6agR6YRC4tvN8SdZPSIRwMjLtRjuVD2uItxkihhYWVxlcXlFULUgcmB/LDFdeDiFjXirCWxvLDVA==
+X-Received: by 2002:a05:6402:ea1:b0:443:d90a:5d31 with SMTP id h33-20020a0564020ea100b00443d90a5d31mr3426263eda.121.1660852688735;
+        Thu, 18 Aug 2022 12:58:08 -0700 (PDT)
+Received: from nam-dell.vm.stuba.sk ([147.175.89.132])
+        by smtp.gmail.com with ESMTPSA id kx26-20020a170907775a00b0073cb0801104sm248235ejc.147.2022.08.18.12.58.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Aug 2022 12:58:08 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	namcaov@gmail.com,
+	phil@philpotter.co.uk,
+	Larry.Finger@lwfinger.net,
+	paskripkin@gmail.com
+Subject: [PATCH] staging: r8188eu: remove ioctl_cfg80211.h
+Date: Thu, 18 Aug 2022 21:54:55 +0200
+Message-Id: <20220818195454.11822-1-namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Le lundi 18 juillet 2022 =C3=A0 18:49 -0300, Ezequiel Garcia a =C3=A9crit=
-=C2=A0:
-> Hi Jernej,
->=20
-> On Mon, Jul 18, 2022 at 10:34:37PM +0200, Jernej =C5=A0krabec wrote:
-> > Dne ponedeljek, 18. julij 2022 ob 21:37:31 CEST je Nicolas Dufresne=20
-> > napisal(a):
-> > > Le lundi 18 juillet 2022 =C3=A0 19:57 +0200, Jernej =C5=A0krabec a =
-=C3=A9crit :
-> > > > Dne ponedeljek, 18. julij 2022 ob 19:41:48 CEST je Nicolas Dufresne
-> > > >=20
-> > > > napisal(a):
-> > > > > Le lundi 18 juillet 2022 =C3=A0 18:56 +0200, Jernej Skrabec a =C3=
-=A9crit :
-> > > > > > Not all DPB entries will be used most of the time. Unused entri=
-es will
-> > > > > > thus have invalid timestamps. They will produce negative buffer=
- index
-> > > > > > which is not specifically handled. This works just by chance in
-> > > > > > current
-> > > > > > code. It will even produce bogus pointer, but since it's not us=
-ed, it
-> > > > > > won't do any harm.
-> > > > > >=20
-> > > > > > Let's fix that brittle design by skipping writing DPB entry alt=
-ogether
-> > > > > > if timestamp is invalid.
-> > > > > >=20
-> > > > > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding su=
-pport")
-> > > > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > > > ---
-> > > > > >=20
-> > > > > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
-> > > > > >  1 file changed, 3 insertions(+)
-> > > > > >=20
-> > > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > > > > > 1afc6797d806..687f87598f78 100644
-> > > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > > @@ -147,6 +147,9 @@ static void
-> > > > > > cedrus_h265_frame_info_write_dpb(struct
-> > > > > > cedrus_ctx *ctx,>
-> > > > > >=20
-> > > > > >  			dpb[i].pic_order_cnt_val
-> > > > > >  	=09
-> > > > > >  		};
-> > > > > >=20
-> > > > > > +		if (buffer_index < 0)
-> > > > > > +			continue;
-> > > > >=20
-> > > > > When I compare to other codecs, when the buffer_index does not ex=
-ist,
-> > > > > the
-> > > > > addr 0 is being programmed into the HW. With this implementation =
-is is
-> > > > > left
-> > > > > to whatever it was set for the previous decode operation. I think=
- its is
-> > > > > nicer done the other way.
-> > > >=20
-> > > > It's done the same way as it's done in vendor lib. As I stated in c=
-ommit
-> > > > message, actual values don't matter for unused entries. If it is us=
-ed by
-> > > > accident, HW reaction on all zero pointers can only be worse than u=
-sing
-> > > > old, but valid entry.
-> > > >=20
-> > > > Due to no real documentation and Allwinner unwillingness to share d=
-etails,
-> > > > we'll probably never know what's best response for each error. Some=
- things
-> > > > can be deduced from vendor code, but not all.
-> > > >=20
-> > > > I would rather not complicate this fix, especially since it's candi=
-date
-> > > > for
-> > > > backporting.
->=20
-> I think this makes sense, since it allows to fix the bug for the time
-> being.
->=20
-> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Remove header file ioctl_cfg80211.h because it is not used.
 
-Ack.
+Signed-off-by: Nam Cao <namcaov@gmail.com>
+---
+ .../staging/r8188eu/include/ioctl_cfg80211.h  | 89 -------------------
+ 1 file changed, 89 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/include/ioctl_cfg80211.h
 
->=20
-> Thanks!
-> Ezequiel
->=20
-> > >=20
-> > > I am simply trying to highlight that this is not consistant with how =
-the
-> > > H264 part is done. Why do we reset the register for one codec and not=
- the
-> > > other ?
-> >=20
-> > While H264 and HEVC are similar in many ways, Cedrus uses two different=
- cores=20
-> > or in Cedrus slang, engines, for them. They have their own quirks. One =
-of the=20
-> > most apparent is handling of DPB array. H264 requires that same entry i=
-s=20
-> > always at the same position in HW DPB. That's not required by HEVC.
-> >=20
-> > Additional reasons for differences come from the fact that it's from tw=
-o=20
-> > different authors (Maxime and Paul). Those differences were created at =
-the=20
-> > beginning and it is what it is.
-> >=20
-> > >=20
-> > > Perhaps you should sync to your preference the driver as a whole. It =
-also
-> > > seems that before your patch, some bits would be 0 and some other wou=
-ld be
-> > > very large values. Between this and leaving random value, I don't rea=
-lly
-> > > see any gain or reason for a backport. It neither break or fix anythi=
-ng as
-> > > far as I understand.
-> >=20
-> > Maybe there is no need to backport, but the change is nevertheless usef=
-ul. As=20
-> > I explained, current code works only by chance, as we noticed with Ezeq=
-uiel's=20
-> > rework. It's certainly worthwhile to make code less brittle. As far as =
-I'm=20
-> > concerned, fixes tag can be dropped or even Ezequiel can squash this ch=
-ange=20
-> > into his commit, with appropriate adjustments, of course.
-> >=20
-> > I'm not completely sure what do you mean by syncing driver preference. =
-Code=20
-> > changes always need a good reason to be accepted. Moving code around an=
-d=20
-> > renaming things just to be similar with something else is not.
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
-> > >=20
-> > > My general opinion, is that we fixe the unused address (like to 0) th=
-en when
-> > > something goes wrong, as least it will go wrong consistently.
-> > >=20
-> > > > Best regards,
-> > > > Jernej
-> > > >=20
-> > > > > > +
-> > > > > >=20
-> > > > > >  		cedrus_h265_frame_info_write_single(ctx, i,
-> > > >=20
-> > > > dpb[i].field_pic,
-> > > >=20
-> > > >=20
-> > > > pic_order_cnt,
-> > > >=20
-> > > > buffer_index);
-> >=20
-> >=20
-> >=20
-> >=20
+diff --git a/drivers/staging/r8188eu/include/ioctl_cfg80211.h b/drivers/staging/r8188eu/include/ioctl_cfg80211.h
+deleted file mode 100644
+index 738f645f9bbc..000000000000
+--- a/drivers/staging/r8188eu/include/ioctl_cfg80211.h
++++ /dev/null
+@@ -1,89 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+-/* Copyright(c) 2007 - 2011 Realtek Corporation. i*/
+-
+-#ifndef __IOCTL_CFG80211_H__
+-#define __IOCTL_CFG80211_H__
+-
+-struct rtw_wdev_invit_info {
+-	u8 token;
+-	u8 flags;
+-	u8 status;
+-	u8 req_op_ch;
+-	u8 rsp_op_ch;
+-};
+-
+-#define rtw_wdev_invit_info_init(invit_info) \
+-	do { \
+-		(invit_info)->token = 0; \
+-		(invit_info)->flags = 0x00; \
+-		(invit_info)->status = 0xff; \
+-		(invit_info)->req_op_ch = 0; \
+-		(invit_info)->rsp_op_ch = 0; \
+-	} while (0)
+-
+-struct rtw_wdev_priv {
+-	struct wireless_dev *rtw_wdev;
+-
+-	struct adapter *padapter;
+-
+-	struct cfg80211_scan_request *scan_request;
+-	spinlock_t scan_req_lock;
+-
+-	struct net_device *pmon_ndev;/* for monitor interface */
+-	char ifname_mon[IFNAMSIZ + 1]; /* name of monitor interface */
+-
+-	u8 p2p_enabled;
+-
+-	u8 provdisc_req_issued;
+-
+-	struct rtw_wdev_invit_info invit_info;
+-
+-	u8 bandroid_scan;
+-	bool block;
+-	bool power_mgmt;
+-};
+-
+-#define wdev_to_priv(w) ((struct rtw_wdev_priv *)(wdev_priv(w)))
+-
+-#define wiphy_to_wdev(x)				\
+-((struct wireless_dev *)(((struct rtw_wdev_priv *)wiphy_priv(x))->rtw_wdev))
+-
+-int rtw_wdev_alloc(struct adapter *padapter, struct device *dev);
+-void rtw_wdev_free(struct wireless_dev *wdev);
+-void rtw_wdev_unregister(struct wireless_dev *wdev);
+-
+-void rtw_cfg80211_init_wiphy(struct adapter *padapter);
+-
+-void rtw_cfg80211_surveydone_event_callback(struct adapter *padapter);
+-
+-void rtw_cfg80211_indicate_connect(struct adapter *padapter);
+-void rtw_cfg80211_indicate_disconnect(struct adapter *padapter);
+-void rtw_cfg80211_indicate_scan_done(struct rtw_wdev_priv *pwdev_priv,
+-				     bool aborted);
+-
+-void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter,
+-				     u8 *pmgmt_frame, uint frame_len);
+-void rtw_cfg80211_indicate_sta_disassoc(struct adapter *padapter,
+-					unsigned char *da,
+-					unsigned short reason);
+-
+-void rtw_cfg80211_issue_p2p_provision_request(struct adapter *padapter,
+-					      const u8 *buf, size_t len);
+-void rtw_cfg80211_rx_p2p_action_public(struct adapter *padapter,
+-				       u8 *pmgmt_frame, uint frame_len);
+-void rtw_cfg80211_rx_action_p2p(struct adapter *padapter, u8 *pmgmt_frame,
+-				uint frame_len);
+-void rtw_cfg80211_rx_action(struct adapter *adapter, u8 *frame,
+-			    uint frame_len, const char *msg);
+-
+-int rtw_cfg80211_set_mgnt_wpsp2pie(struct net_device *net,
+-				   char *buf, int len, int type);
+-
+-bool rtw_cfg80211_pwr_mgmt(struct adapter *adapter);
+-
+-#define rtw_cfg80211_rx_mgmt(dev, freq, sig_dbm, buf, len, gfp)		\
+-	cfg80211_rx_mgmt(dev, freq, sig_dbm, buf, len, gfp)
+-#define rtw_cfg80211_send_rx_assoc(dev, bss, buf, len)			\
+-	cfg80211_send_rx_assoc(dev, bss, buf, len)
+-
+-#endif /* __IOCTL_CFG80211_H__ */
+-- 
+2.25.1
 
