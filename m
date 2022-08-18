@@ -1,123 +1,158 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89D66D19
-	for <linux-staging@lists.linux.dev>; Wed, 17 Aug 2022 19:58:10 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id a7so26426434ejp.2
-        for <linux-staging@lists.linux.dev>; Wed, 17 Aug 2022 12:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=H8RqMJpz3gpVJV4o2tIE2vyCb5Bbg07Gt0ZIJQfJ7eg=;
-        b=N483dwnSlNlIj5QQoI3T+GQ6c9rb7Nz8l//rbtlK3VMCFUfb7BDg2jezE7VXKYIsnR
-         HzCewBDWy3a0o6AJuh2I2d72CA6zMtiOssENMLZabUudnEGNfbJfD2R4cHfg3mBjxf7j
-         ploY4w0dOb3Op/F2uUxeJYu1vMnzbCtmVDy55sWSuLQycgZzrdQNQEFOgBA3ZQpuKbrQ
-         g9yn3hQGXa307Qt7Q50IvaBZtn4Kmxw2SM97JYoQ/qNJ2FfgTwoZm9Pky3DcQhgy1/W5
-         KrI7UEgEWsdXrv+/zNDeBV1QvofwIl6lYQsa/4Mm1B51lPiPRX1fFDgJUqqQk5TuUjfE
-         QLeg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0F523C8
+	for <linux-staging@lists.linux.dev>; Thu, 18 Aug 2022 06:44:38 +0000 (UTC)
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 5884D3F0EB
+	for <linux-staging@lists.linux.dev>; Thu, 18 Aug 2022 06:44:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1660805075;
+	bh=DlhFnIdUMBOYUKK8lBE6v5auDBKzAT3PWLok7Bl69AQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=uG3DQZHoedbQQZf+hoDyE2hDkQYNAP17EpN7e+wTeappdjx96S+9DJgGloJKFFBvG
+	 l4dS3uNoPXe6XXc2DjlUslSl0k+Gc6SJIAWjmF8DlF4Co7UMrCyCQJ+jzqhDPv0ju1
+	 bePd9INPcLoc2/b2e5vjzKfsiTHtKoPbMklRzy/0bGl9S3Cm+1E0TKhBNi2mayMMob
+	 mUfa08QD3Ml9uuGX7CewD55AO3RMFO4uLB5M4NN/MTCusUXP/m/iSmCToom2iLNcSe
+	 Yh7I23KTSViOxG8JPGigbPuftlUfRLRdjdd9MWKlYdU3gMVnwFVnphwckRJ1RR0WkW
+	 pYT8Ferz6kj6Q==
+Received: by mail-ed1-f70.google.com with SMTP id o2-20020a056402438200b0043d552deb2aso400686edc.0
+        for <linux-staging@lists.linux.dev>; Wed, 17 Aug 2022 23:44:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=H8RqMJpz3gpVJV4o2tIE2vyCb5Bbg07Gt0ZIJQfJ7eg=;
-        b=FauVgzl6vpU56YPTCxh8vzruBL5x3lpwELQ84cm7Ejre5ZAiXCqO34FTLCv2Dl1HsA
-         XPLMT+JgJOml237+bD1/dif7pIHPQVSYpLTXhgavMH+dWqaMZyBEjCnw6WagRJ5b2Lu/
-         5j6xcONhsDBUOqV4fnzP9EEV88Z0q8o+wUbuFRYIvulxf+PVDkPJgQWm40QcPF8MJSmy
-         kSQk3gxhojKZ06i4ba8+2ViKb7II2QzuQ3pzmXXuq5kgf8yqgqXIVY5l1CWxeslO6cYE
-         ak7kkwp1Q5wNH1kRxsQQC/mrx6gLSGoY7UNeTj66FzX4BpZyw0oC4gTB06NUOPhiZ5zF
-         QtOw==
-X-Gm-Message-State: ACgBeo1o/oYxPR5JSKTNqYe9F9VELNAmdTWw6amOZVh7vNakxRyj7jOh
-	AWOayKYuxeSObUJ1FN6IX74=
-X-Google-Smtp-Source: AA6agR640mEDqJ4rtTRIJ24ohzCzH0cDMNuXNS19JwBALVLnYNkCY9sWu6MXFQL1FpJfIGDLyuaWFw==
-X-Received: by 2002:a17:907:1361:b0:730:8f59:6434 with SMTP id yo1-20020a170907136100b007308f596434mr17909658ejb.745.1660766288991;
-        Wed, 17 Aug 2022 12:58:08 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2e:6948:e090:6ae6:365f:722? (p200300c78f2e6948e0906ae6365f0722.dip0.t-ipconnect.de. [2003:c7:8f2e:6948:e090:6ae6:365f:722])
-        by smtp.gmail.com with ESMTPSA id j9-20020a17090623e900b007304bdf18cfsm7146005ejg.136.2022.08.17.12.58.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 12:58:08 -0700 (PDT)
-Message-ID: <2678f750-34a2-f0fa-4783-143c3fc88924@gmail.com>
-Date: Wed, 17 Aug 2022 21:58:03 +0200
+        h=mime-version:organization:references:in-reply-to:message-id:subject
+         :cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=DlhFnIdUMBOYUKK8lBE6v5auDBKzAT3PWLok7Bl69AQ=;
+        b=T9mOHUVJAFVKwnum47M5v5DOeFgeHIjmkCJXuteHvjWCIshfJ44V+TCMUekkNXVWOT
+         8JrnfTHcMKd4rmY6v9M6XDJWWWXtxCkHP52T1SlCXg4wqhlgLhhIrQ5j2hI0AxPsTDLV
+         i1MiYAwi0pg3porZT6rjRBd8R1zL5lgOEFnjz3OOGmnnXeYZ2FlLYfjFCuQkyRucKiyR
+         cqFSMwmmQIIhgK44N2qvU7zOuQfIX01E2v0MP6wn1DNePertQZuopzO5UG1FNVDQaPLE
+         92lQkbK+W9zfn04w0iW/qLhlB3X2hgHbf3CuDheXoVHOof61Q8CZi6eb5qscL39U9Kj8
+         5Chw==
+X-Gm-Message-State: ACgBeo1YqPCf1HQ0iZy9lcp+ZjFbKSr7GwbodGCpYZxsHfwyI693uDEh
+	0ujGaxUDz5e7cC4QlZAH19WrYrfJ0F8skBhtPNYSky5RyNtFpeCIemuM2sqY9d59wgHNc+5t8xp
+	auzsImF0cSa1bqPY06e6BWRBH2ZsPnUYRtvOaErSvwWs=
+X-Received: by 2002:aa7:d508:0:b0:445:dd73:4f6f with SMTP id y8-20020aa7d508000000b00445dd734f6fmr1100782edq.231.1660805075103;
+        Wed, 17 Aug 2022 23:44:35 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6ZAU7Kf5zJnIs7zdYVrqU4dSuauM0GuoeE5k0wyJ9b5fwFVy3N4F7Qic0fUtdAg9Mt31Q0pA==
+X-Received: by 2002:aa7:d508:0:b0:445:dd73:4f6f with SMTP id y8-20020aa7d508000000b00445dd734f6fmr1100767edq.231.1660805074928;
+        Wed, 17 Aug 2022 23:44:34 -0700 (PDT)
+Received: from smeagol ([194.191.244.86])
+        by smtp.gmail.com with ESMTPSA id 2-20020a170906300200b00721d8e5bf0bsm399793ejz.6.2022.08.17.23.44.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 23:44:33 -0700 (PDT)
+Date: Thu, 18 Aug 2022 08:44:30 +0200
+From: Juerg Haefliger <juerg.haefliger@canonical.com>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+ linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: meson: vdec: Add MODULE_FIRMWARE macro
+Message-ID: <20220818084430.0ca10b30@smeagol>
+In-Reply-To: <04115bee-5ddb-701f-ad18-d2c846155816@baylibre.com>
+References: <20220817140539.150013-1-juerg.haefliger@canonical.com>
+	<04115bee-5ddb-701f-ad18-d2c846155816@baylibre.com>
+Organization: Canonical Ltd
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: r8188eu: remove rtw_endofpktfile()
-Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220817063223.8140-1-straube.linux@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220817063223.8140-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/NRjcrFgnzwojt7mVFj1UxFl";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
 
-On 8/17/22 08:32, Michael Straube wrote:
-> The function rtw_endofpktfile() just checks for pkt_len == 0.
-> Remove rtw_endofpktfile() and merge the check into the caller to
-> improve readability and simplify the driver code.
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_xmit.c      |  2 +-
->   drivers/staging/r8188eu/include/xmit_osdep.h |  1 -
->   drivers/staging/r8188eu/os_dep/xmit_linux.c  | 11 -----------
->   3 files changed, 1 insertion(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index 24401f3ae2a0..48631ef56114 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -970,7 +970,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
->   
->   		frg_inx++;
->   
-> -		if (bmcst || rtw_endofpktfile(&pktfile)) {
-> +		if (bmcst || pktfile.pkt_len == 0) {
->   			pattrib->nr_frags = frg_inx;
->   
->   			pattrib->last_txcmdsz = pattrib->hdrlen + pattrib->iv_len + ((pattrib->nr_frags == 1) ? llc_sz : 0) +
-> diff --git a/drivers/staging/r8188eu/include/xmit_osdep.h b/drivers/staging/r8188eu/include/xmit_osdep.h
-> index 00658681fef9..130dc06efe73 100644
-> --- a/drivers/staging/r8188eu/include/xmit_osdep.h
-> +++ b/drivers/staging/r8188eu/include/xmit_osdep.h
-> @@ -40,7 +40,6 @@ void rtw_os_xmit_resource_free(struct adapter *padapter,
->   uint rtw_remainder_len(struct pkt_file *pfile);
->   void _rtw_open_pktfile(struct sk_buff *pkt, struct pkt_file *pfile);
->   uint _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen);
-> -bool rtw_endofpktfile(struct pkt_file *pfile);
->   
->   void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt);
->   void rtw_os_xmit_complete(struct adapter *padapter,
-> diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> index 91a1e4e3219a..85ef27735b88 100644
-> --- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> @@ -54,17 +54,6 @@ uint _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
->   	return len;
->   }
->   
-> -bool rtw_endofpktfile(struct pkt_file *pfile)
-> -{
-> -
-> -	if (pfile->pkt_len == 0) {
-> -
-> -		return true;
-> -	}
-> -
-> -	return false;
-> -}
-> -
->   int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 alloc_sz)
->   {
->   	pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
+--Sig_/NRjcrFgnzwojt7mVFj1UxFl
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Tested with Edimax N150 and
-Reviewed-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+On Wed, 17 Aug 2022 18:08:19 +0200
+Neil Armstrong <narmstrong@baylibre.com> wrote:
+
+> On 17/08/2022 16:05, Juerg Haefliger wrote:
+> > The meson-vdec module loads firmware so add MODULE_FIRMWARE macros to
+> > provide that information via modinfo.
+> >=20
+> > Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+> > ---
+> >   .../staging/media/meson/vdec/vdec_platform.c  | 20 +++++++++++++++++++
+> >   1 file changed, 20 insertions(+)
+> >=20
+> > diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers=
+/staging/media/meson/vdec/vdec_platform.c
+> > index 88c9d72e1c83..c7750d4be848 100644
+> > --- a/drivers/staging/media/meson/vdec/vdec_platform.c
+> > +++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+> > @@ -280,3 +280,23 @@ const struct vdec_platform vdec_platform_sm1 =3D {
+> >   	.num_formats =3D ARRAY_SIZE(vdec_formats_sm1),
+> >   	.revision =3D VDEC_REVISION_SM1,
+> >   };
+> > +
+> > +MODULE_FIRMWARE("meson/vdec/g12a_h264.bin");
+> > +MODULE_FIRMWARE("meson/vdec/g12a_h264.bin"); =20
+>=20
+> Duplicate
+
+Oh this is embarrassing :-(
+
+
+> > +MODULE_FIRMWARE("meson/vdec/g12a_vp9.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxbb_h264.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_h264.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin"); =20
+>=20
+> DDDDDDDuplicate
+>=20
+> > +MODULE_FIRMWARE("meson/vdec/gxl_vp9.bin");
+> > +MODULE_FIRMWARE("meson/vdec/gxl_vp9.bin"); =20
+>=20
+> Duplicate
+>=20
+> > +MODULE_FIRMWARE("meson/vdec/gxm_h264.bin");
+> > +MODULE_FIRMWARE("meson/vdec/sm1_vp9_mmu.bin"); =20
+>=20
+> With the duplicate entries removed, please add my:
+> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+
+Will do. Thanks for the review.
+
+...Juerg
+
+
+--Sig_/NRjcrFgnzwojt7mVFj1UxFl
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEhZfU96IuprviLdeLD9OLCQumQrcFAmL9388ACgkQD9OLCQum
+QrdG7Q/9FwPE/3/kGYBq248tkz8znw0beqrk7fc04SQdThTNb+Nm8x+4ozI/vs7r
+ybj+Pysjebw37NTrhjZCXGisHt02zs9D0yZmN2bkoHOvP/2ADhrlfI2x6Bmb7VZo
+Tmd1EXUHSBI9mJEA3Po0grFqq/I4Pz9ntVHMKrxUdCd/0iEKHHnSb8l4Zo6upq1s
+cBYpAvHi393MGpgI91gqHv3QowE/IpNFLhxt3/hgFUxi8BiUsOJBetO7c+kBIBHi
+YqqUvTd4seKYzctWYGdbB94EW15mMALypsQMsR28UKwCcd1aC0dmV4r/o99sCajP
+Xxyb0Ud9t/j6wXdR1hnU//bkOvOtOjDEgRKHVunfKALOFq8XleCW+2ZSEQGWqZXG
+kDJeLs6RyKBZPWWn/IvY9tmVv79iPcODEYXSdW7BKzj9p5Syqaf+3cAB/Td4wlNV
+O+/NFPbS4FrsMV3r+0OgR9+N9IfyFUutlZosW56uzHKbaq2pOvcLUBLdYY73jsn2
+r8M+chwvKhdL2fG4nZR/a18/Vot5c3CaUQ0arMLEZBxzI4joAHYcgzId0ICztk75
+zmZB+rrpvOsUgseQhcQV5xcJ5zmS2sV/EAfWROXnl1OWU1tW3OXAcn8gOgz4KBsY
+v5WXJcCjdolJhr/7p67181WQavdvxW/4B8lOq1xFp3l+FKHbnU4=
+=3reT
+-----END PGP SIGNATURE-----
+
+--Sig_/NRjcrFgnzwojt7mVFj1UxFl--
