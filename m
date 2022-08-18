@@ -1,466 +1,215 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D258D4405
-	for <linux-staging@lists.linux.dev>; Thu, 18 Aug 2022 13:00:29 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1oOerZ-000592-Iy; Thu, 18 Aug 2022 14:43:05 +0200
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Steve Longerbeam <slongerbeam@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH] media: imx: Use get_mbus_config instead of parsing upstream DT endpoints
-Date: Thu, 18 Aug 2022 14:42:53 +0200
-Message-Id: <20220818124253.753080-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336F07B;
+	Thu, 18 Aug 2022 18:52:56 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 826596601BCA;
+	Thu, 18 Aug 2022 19:46:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1660848413;
+	bh=kgiJErTBNmtrZKKCku7bEzXoVYgMa+E1N+vhYhNibJE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=aCzaEAkzVh/6pFFmtrU7cBKkKIp7UMr5O3G9f4cl2dliwZy1SUZE3571LmMx5bH7g
+	 yu7GesaQmB4ZhqQEBK/+zLEysvTDWurjnqYiAfZ9xlskW1uUNlD4DdBpY9x/yW+aiQ
+	 A5FjXnRvpr67OpkVXAeF3x4ofENvKoeYFxwj4afWIFKWhQHNRNckwdeNbMldD9j/9L
+	 J/muEWibR2CFK537pS43L7auCUS9aNOoBJm/EWFG2gvewyhPZIx4LaVzAG+DgGAeDc
+	 T2VHx6xeLvjJL0HNnDHziq9PNAED9Qefvr3ljn5gl1Tzm1vIt5PzI+YtD/IUN+O83M
+	 m9/KdkRzZCCPQ==
+Message-ID: <1629aa7de48594dee81df707ca595386697bfc02.camel@collabora.com>
+Subject: Re: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Jernej
+	=?UTF-8?Q?=C5=A0krabec?=
+	 <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, mchehab@kernel.org, 
+	gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, 
+	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Thu, 18 Aug 2022 14:46:42 -0400
+In-Reply-To: <YtXVeAChyKlfqD8O@eze-laptop>
+References: <20220718165649.16407-1-jernej.skrabec@gmail.com>
+	 <4725382.GXAFRqVoOG@kista>
+	 <b588b53fcfe539692a0a55b9fd0e97528def1d96.camel@collabora.com>
+	 <1795344.atdPhlSkOF@jernej-laptop> <YtXVeAChyKlfqD8O@eze-laptop>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Stop parsing upstream neighbors' device-tree endpoints to retrieve the
-media bus configuration. Instead use the get_mbus_config op and throw an
-error if the upstream subdevice does not implement it.
+Le lundi 18 juillet 2022 =C3=A0 18:49 -0300, Ezequiel Garcia a =C3=A9crit=
+=C2=A0:
+> Hi Jernej,
+>=20
+> On Mon, Jul 18, 2022 at 10:34:37PM +0200, Jernej =C5=A0krabec wrote:
+> > Dne ponedeljek, 18. julij 2022 ob 21:37:31 CEST je Nicolas Dufresne=20
+> > napisal(a):
+> > > Le lundi 18 juillet 2022 =C3=A0 19:57 +0200, Jernej =C5=A0krabec a =
+=C3=A9crit :
+> > > > Dne ponedeljek, 18. julij 2022 ob 19:41:48 CEST je Nicolas Dufresne
+> > > >=20
+> > > > napisal(a):
+> > > > > Le lundi 18 juillet 2022 =C3=A0 18:56 +0200, Jernej Skrabec a =C3=
+=A9crit :
+> > > > > > Not all DPB entries will be used most of the time. Unused entri=
+es will
+> > > > > > thus have invalid timestamps. They will produce negative buffer=
+ index
+> > > > > > which is not specifically handled. This works just by chance in
+> > > > > > current
+> > > > > > code. It will even produce bogus pointer, but since it's not us=
+ed, it
+> > > > > > won't do any harm.
+> > > > > >=20
+> > > > > > Let's fix that brittle design by skipping writing DPB entry alt=
+ogether
+> > > > > > if timestamp is invalid.
+> > > > > >=20
+> > > > > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding su=
+pport")
+> > > > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > > > ---
+> > > > > >=20
+> > > > > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
+> > > > > >  1 file changed, 3 insertions(+)
+> > > > > >=20
+> > > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> > > > > > 1afc6797d806..687f87598f78 100644
+> > > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > > @@ -147,6 +147,9 @@ static void
+> > > > > > cedrus_h265_frame_info_write_dpb(struct
+> > > > > > cedrus_ctx *ctx,>
+> > > > > >=20
+> > > > > >  			dpb[i].pic_order_cnt_val
+> > > > > >  	=09
+> > > > > >  		};
+> > > > > >=20
+> > > > > > +		if (buffer_index < 0)
+> > > > > > +			continue;
+> > > > >=20
+> > > > > When I compare to other codecs, when the buffer_index does not ex=
+ist,
+> > > > > the
+> > > > > addr 0 is being programmed into the HW. With this implementation =
+is is
+> > > > > left
+> > > > > to whatever it was set for the previous decode operation. I think=
+ its is
+> > > > > nicer done the other way.
+> > > >=20
+> > > > It's done the same way as it's done in vendor lib. As I stated in c=
+ommit
+> > > > message, actual values don't matter for unused entries. If it is us=
+ed by
+> > > > accident, HW reaction on all zero pointers can only be worse than u=
+sing
+> > > > old, but valid entry.
+> > > >=20
+> > > > Due to no real documentation and Allwinner unwillingness to share d=
+etails,
+> > > > we'll probably never know what's best response for each error. Some=
+ things
+> > > > can be deduced from vendor code, but not all.
+> > > >=20
+> > > > I would rather not complicate this fix, especially since it's candi=
+date
+> > > > for
+> > > > backporting.
+>=20
+> I think this makes sense, since it allows to fix the bug for the time
+> being.
+>=20
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-Also drop the corresponding TODO entry and the now unused
-imx_media_get_pad_fwnode() function.
+Ack.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/staging/media/imx/TODO              |  12 --
- drivers/staging/media/imx/imx-media-csi.c   | 122 +++++++++-----------
- drivers/staging/media/imx/imx-media-utils.c |  33 ------
- drivers/staging/media/imx/imx-media.h       |   1 -
- 4 files changed, 56 insertions(+), 112 deletions(-)
-
-diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-index 5d3a337c8702..62d0426445c2 100644
---- a/drivers/staging/media/imx/TODO
-+++ b/drivers/staging/media/imx/TODO
-@@ -2,18 +2,6 @@
- - The Frame Interval Monitor could be exported to v4l2-core for
-   general use.
- 
--- The CSI subdevice parses its nearest upstream neighbor's device-tree
--  bus config in order to setup the CSI. Laurent Pinchart argues that
--  instead the CSI subdev should call its neighbor's g_mbus_config op
--  (which should be propagated if necessary) to get this info. However
--  Hans Verkuil is planning to remove the g_mbus_config op. For now this
--  driver uses the parsed DT bus config method until this issue is
--  resolved.
--
--  2020-06: g_mbus has been removed in favour of the get_mbus_config pad
--  operation which should be used to avoid parsing the remote endpoint
--  configuration.
--
- - This media driver supports inheriting V4L2 controls to the
-   video capture devices, from the subdevices in the capture device's
-   pipeline. The controls for each capture device are updated in the
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index a9377ea8379b..8b5682228d77 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -97,8 +97,8 @@ struct csi_priv {
- 	/* the mipi virtual channel number at link validate */
- 	int vc_num;
- 
--	/* the upstream endpoint CSI is receiving from */
--	struct v4l2_fwnode_endpoint upstream_ep;
-+	/* media bus config of the upstream subdevice CSI is receiving from */
-+	struct v4l2_mbus_config mbus_cfg;
- 
- 	spinlock_t irqlock; /* protect eof_irq handler */
- 	struct timer_list eof_timeout_timer;
-@@ -125,14 +125,14 @@ static inline struct csi_priv *notifier_to_dev(struct v4l2_async_notifier *n)
- 	return container_of(n, struct csi_priv, notifier);
- }
- 
--static inline bool is_parallel_bus(struct v4l2_fwnode_endpoint *ep)
-+static inline bool is_parallel_bus(struct v4l2_mbus_config *mbus_cfg)
- {
--	return ep->bus_type != V4L2_MBUS_CSI2_DPHY;
-+	return mbus_cfg->type != V4L2_MBUS_CSI2_DPHY;
- }
- 
--static inline bool is_parallel_16bit_bus(struct v4l2_fwnode_endpoint *ep)
-+static inline bool is_parallel_16bit_bus(struct v4l2_mbus_config *mbus_cfg)
- {
--	return is_parallel_bus(ep) && ep->bus.parallel.bus_width >= 16;
-+	return is_parallel_bus(mbus_cfg) && mbus_cfg->bus.parallel.bus_width >= 16;
- }
- 
- /*
-@@ -145,33 +145,31 @@ static inline bool is_parallel_16bit_bus(struct v4l2_fwnode_endpoint *ep)
-  * - the CSI is receiving from an 8-bit parallel bus and the incoming
-  *   media bus format is other than UYVY8_2X8/YUYV8_2X8.
-  */
--static inline bool requires_passthrough(struct v4l2_fwnode_endpoint *ep,
-+static inline bool requires_passthrough(struct v4l2_mbus_config *mbus_cfg,
- 					struct v4l2_mbus_framefmt *infmt,
- 					const struct imx_media_pixfmt *incc)
- {
--	if (ep->bus_type == V4L2_MBUS_BT656) // including BT.1120
-+	if (mbus_cfg->type == V4L2_MBUS_BT656) // including BT.1120
- 		return false;
- 
--	return incc->bayer || is_parallel_16bit_bus(ep) ||
--		(is_parallel_bus(ep) &&
-+	return incc->bayer || is_parallel_16bit_bus(mbus_cfg) ||
-+		(is_parallel_bus(mbus_cfg) &&
- 		 infmt->code != MEDIA_BUS_FMT_UYVY8_2X8 &&
- 		 infmt->code != MEDIA_BUS_FMT_YUYV8_2X8);
- }
- 
- /*
-- * Parses the fwnode endpoint from the source pad of the entity
-- * connected to this CSI. This will either be the entity directly
-- * upstream from the CSI-2 receiver, directly upstream from the
-- * video mux, or directly upstream from the CSI itself. The endpoint
-- * is needed to determine the bus type and bus config coming into
-- * the CSI.
-+ * Queries the media bus config of the upstream entity that provides data to
-+ * the CSI. This will either be the entity directly upstream from the CSI-2
-+ * receiver, directly upstream from a video mux, or directly upstream from
-+ * the CSI itself.
-  */
--static int csi_get_upstream_endpoint(struct csi_priv *priv,
--				     struct v4l2_fwnode_endpoint *ep)
-+static int csi_get_upstream_mbus_config(struct csi_priv *priv,
-+					struct v4l2_mbus_config *mbus_cfg)
- {
--	struct fwnode_handle *endpoint;
--	struct v4l2_subdev *sd;
--	struct media_pad *pad;
-+	struct v4l2_subdev *sd, *remote_sd;
-+	struct media_pad *remote_pad;
-+	int ret;
- 
- 	if (!IS_ENABLED(CONFIG_OF))
- 		return -ENXIO;
-@@ -206,19 +204,21 @@ static int csi_get_upstream_endpoint(struct csi_priv *priv,
- 	}
- 
- 	/* get source pad of entity directly upstream from sd */
--	pad = imx_media_pipeline_pad(&sd->entity, 0, 0, true);
--	if (!pad)
--		return -ENODEV;
--
--	endpoint = imx_media_get_pad_fwnode(pad);
--	if (IS_ERR(endpoint))
--		return PTR_ERR(endpoint);
-+	remote_pad = media_entity_remote_pad_unique(&sd->entity,
-+						    MEDIA_PAD_FL_SOURCE);
-+	if (IS_ERR(remote_pad))
-+		return PTR_ERR(remote_pad);
- 
--	v4l2_fwnode_endpoint_parse(endpoint, ep);
-+	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
- 
--	fwnode_handle_put(endpoint);
-+	ret = v4l2_subdev_call(remote_sd, pad, get_mbus_config,
-+			       remote_pad->index, mbus_cfg);
-+	if (ret == -ENOIOCTLCMD)
-+		v4l2_err(&priv->sd,
-+			 "upstream entity %s does not implement get_mbus_config()\n",
-+			 remote_pad->entity->name);
- 
--	return 0;
-+	return ret;
- }
- 
- static void csi_idmac_put_ipu_resources(struct csi_priv *priv)
-@@ -435,7 +435,7 @@ static int csi_idmac_setup_channel(struct csi_priv *priv)
- 	image.phys0 = phys[0];
- 	image.phys1 = phys[1];
- 
--	passthrough = requires_passthrough(&priv->upstream_ep, infmt, incc);
-+	passthrough = requires_passthrough(&priv->mbus_cfg, infmt, incc);
- 	passthrough_cycles = 1;
- 
- 	/*
-@@ -708,7 +708,6 @@ static int csi_setup(struct csi_priv *priv)
- {
- 	struct v4l2_mbus_framefmt *infmt, *outfmt;
- 	const struct imx_media_pixfmt *incc;
--	struct v4l2_mbus_config mbus_cfg;
- 	struct v4l2_mbus_framefmt if_fmt;
- 	struct v4l2_rect crop;
- 
-@@ -716,13 +715,6 @@ static int csi_setup(struct csi_priv *priv)
- 	incc = priv->cc[CSI_SINK_PAD];
- 	outfmt = &priv->format_mbus[priv->active_output_pad];
- 
--	/* compose mbus_config from the upstream endpoint */
--	mbus_cfg.type = priv->upstream_ep.bus_type;
--	if (is_parallel_bus(&priv->upstream_ep))
--		mbus_cfg.bus.parallel = priv->upstream_ep.bus.parallel;
--	else
--		mbus_cfg.bus.mipi_csi2 = priv->upstream_ep.bus.mipi_csi2;
--
- 	if_fmt = *infmt;
- 	crop = priv->crop;
- 
-@@ -730,7 +722,7 @@ static int csi_setup(struct csi_priv *priv)
- 	 * if cycles is set, we need to handle this over multiple cycles as
- 	 * generic/bayer data
- 	 */
--	if (is_parallel_bus(&priv->upstream_ep) && incc->cycles) {
-+	if (is_parallel_bus(&priv->mbus_cfg) && incc->cycles) {
- 		if_fmt.width *= incc->cycles;
- 		crop.width *= incc->cycles;
- 	}
-@@ -741,7 +733,7 @@ static int csi_setup(struct csi_priv *priv)
- 			     priv->crop.width == 2 * priv->compose.width,
- 			     priv->crop.height == 2 * priv->compose.height);
- 
--	ipu_csi_init_interface(priv->csi, &mbus_cfg, &if_fmt, outfmt);
-+	ipu_csi_init_interface(priv->csi, &priv->mbus_cfg, &if_fmt, outfmt);
- 
- 	ipu_csi_set_dest(priv->csi, priv->dest);
- 
-@@ -769,7 +761,7 @@ static int csi_start(struct csi_priv *priv)
- 		return ret;
- 
- 	/* Skip first few frames from a BT.656 source */
--	if (priv->upstream_ep.bus_type == V4L2_MBUS_BT656) {
-+	if (priv->mbus_cfg.type == V4L2_MBUS_BT656) {
- 		u32 delay_usec, bad_frames = 20;
- 
- 		delay_usec = DIV_ROUND_UP_ULL((u64)USEC_PER_SEC *
-@@ -1118,7 +1110,7 @@ static int csi_link_validate(struct v4l2_subdev *sd,
- 			     struct v4l2_subdev_format *sink_fmt)
- {
- 	struct csi_priv *priv = v4l2_get_subdevdata(sd);
--	struct v4l2_fwnode_endpoint upstream_ep = { .bus_type = 0 };
-+	struct v4l2_mbus_config mbus_cfg = { .type = 0 };
- 	bool is_csi2;
- 	int ret;
- 
-@@ -1127,16 +1119,16 @@ static int csi_link_validate(struct v4l2_subdev *sd,
- 	if (ret)
- 		return ret;
- 
--	ret = csi_get_upstream_endpoint(priv, &upstream_ep);
-+	ret = csi_get_upstream_mbus_config(priv, &mbus_cfg);
- 	if (ret) {
--		v4l2_err(&priv->sd, "failed to find upstream endpoint\n");
-+		v4l2_err(&priv->sd, "failed to find upstream media bus configuration\n");
- 		return ret;
- 	}
- 
- 	mutex_lock(&priv->lock);
- 
--	priv->upstream_ep = upstream_ep;
--	is_csi2 = !is_parallel_bus(&upstream_ep);
-+	priv->mbus_cfg = mbus_cfg;
-+	is_csi2 = !is_parallel_bus(&mbus_cfg);
- 	if (is_csi2) {
- 		/*
- 		 * NOTE! It seems the virtual channels from the mipi csi-2
-@@ -1192,7 +1184,7 @@ static void csi_try_crop(struct csi_priv *priv,
- 			 struct v4l2_rect *crop,
- 			 struct v4l2_subdev_state *sd_state,
- 			 struct v4l2_mbus_framefmt *infmt,
--			 struct v4l2_fwnode_endpoint *upstream_ep)
-+			 struct v4l2_mbus_config *mbus_cfg)
- {
- 	u32 in_height;
- 
-@@ -1216,7 +1208,7 @@ static void csi_try_crop(struct csi_priv *priv,
- 	 * sync, so fix it to NTSC/PAL active lines. NTSC contains
- 	 * 2 extra lines of active video that need to be cropped.
- 	 */
--	if (upstream_ep->bus_type == V4L2_MBUS_BT656 &&
-+	if (mbus_cfg->type == V4L2_MBUS_BT656 &&
- 	    (V4L2_FIELD_HAS_BOTH(infmt->field) ||
- 	     infmt->field == V4L2_FIELD_ALTERNATE)) {
- 		crop->height = in_height;
-@@ -1233,7 +1225,7 @@ static int csi_enum_mbus_code(struct v4l2_subdev *sd,
- 			      struct v4l2_subdev_mbus_code_enum *code)
- {
- 	struct csi_priv *priv = v4l2_get_subdevdata(sd);
--	struct v4l2_fwnode_endpoint upstream_ep = { .bus_type = 0 };
-+	struct v4l2_mbus_config mbus_cfg = { .type = 0 };
- 	const struct imx_media_pixfmt *incc;
- 	struct v4l2_mbus_framefmt *infmt;
- 	int ret = 0;
-@@ -1254,13 +1246,13 @@ static int csi_enum_mbus_code(struct v4l2_subdev *sd,
- 		break;
- 	case CSI_SRC_PAD_DIRECT:
- 	case CSI_SRC_PAD_IDMAC:
--		ret = csi_get_upstream_endpoint(priv, &upstream_ep);
-+		ret = csi_get_upstream_mbus_config(priv, &mbus_cfg);
- 		if (ret) {
- 			v4l2_err(&priv->sd, "failed to find upstream endpoint\n");
- 			goto out;
- 		}
- 
--		if (requires_passthrough(&upstream_ep, infmt, incc)) {
-+		if (requires_passthrough(&mbus_cfg, infmt, incc)) {
- 			if (code->index != 0) {
- 				ret = -EINVAL;
- 				goto out;
-@@ -1430,7 +1422,7 @@ static void csi_try_field(struct csi_priv *priv,
- }
- 
- static void csi_try_fmt(struct csi_priv *priv,
--			struct v4l2_fwnode_endpoint *upstream_ep,
-+			struct v4l2_mbus_config *mbus_cfg,
- 			struct v4l2_subdev_state *sd_state,
- 			struct v4l2_subdev_format *sdformat,
- 			struct v4l2_rect *crop,
-@@ -1451,7 +1443,7 @@ static void csi_try_fmt(struct csi_priv *priv,
- 		sdformat->format.width = compose->width;
- 		sdformat->format.height = compose->height;
- 
--		if (requires_passthrough(upstream_ep, infmt, incc)) {
-+		if (requires_passthrough(mbus_cfg, infmt, incc)) {
- 			sdformat->format.code = infmt->code;
- 			*cc = incc;
- 		} else {
-@@ -1501,8 +1493,7 @@ static void csi_try_fmt(struct csi_priv *priv,
- 		crop->height = sdformat->format.height;
- 		if (sdformat->format.field == V4L2_FIELD_ALTERNATE)
- 			crop->height *= 2;
--		csi_try_crop(priv, crop, sd_state, &sdformat->format,
--			     upstream_ep);
-+		csi_try_crop(priv, crop, sd_state, &sdformat->format, mbus_cfg);
- 		compose->left = 0;
- 		compose->top = 0;
- 		compose->width = crop->width;
-@@ -1520,7 +1511,7 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
- 		       struct v4l2_subdev_format *sdformat)
- {
- 	struct csi_priv *priv = v4l2_get_subdevdata(sd);
--	struct v4l2_fwnode_endpoint upstream_ep = { .bus_type = 0 };
-+	struct v4l2_mbus_config mbus_cfg = { .type = 0 };
- 	const struct imx_media_pixfmt *cc;
- 	struct v4l2_mbus_framefmt *fmt;
- 	struct v4l2_rect *crop, *compose;
-@@ -1529,7 +1520,7 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
- 	if (sdformat->pad >= CSI_NUM_PADS)
- 		return -EINVAL;
- 
--	ret = csi_get_upstream_endpoint(priv, &upstream_ep);
-+	ret = csi_get_upstream_mbus_config(priv, &mbus_cfg);
- 	if (ret) {
- 		v4l2_err(&priv->sd, "failed to find upstream endpoint\n");
- 		return ret;
-@@ -1545,8 +1536,7 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
- 	crop = __csi_get_crop(priv, sd_state, sdformat->which);
- 	compose = __csi_get_compose(priv, sd_state, sdformat->which);
- 
--	csi_try_fmt(priv, &upstream_ep, sd_state, sdformat, crop, compose,
--		    &cc);
-+	csi_try_fmt(priv, &mbus_cfg, sd_state, sdformat, crop, compose, &cc);
- 
- 	fmt = __csi_get_fmt(priv, sd_state, sdformat->pad, sdformat->which);
- 	*fmt = sdformat->format;
-@@ -1563,8 +1553,8 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
- 			format.pad = pad;
- 			format.which = sdformat->which;
- 			format.format = sdformat->format;
--			csi_try_fmt(priv, &upstream_ep, sd_state, &format,
--				    NULL, compose, &outcc);
-+			csi_try_fmt(priv, &mbus_cfg, sd_state, &format, NULL,
-+				    compose, &outcc);
- 
- 			outfmt = __csi_get_fmt(priv, sd_state, pad,
- 					       sdformat->which);
-@@ -1652,7 +1642,7 @@ static int csi_set_selection(struct v4l2_subdev *sd,
- 			     struct v4l2_subdev_selection *sel)
- {
- 	struct csi_priv *priv = v4l2_get_subdevdata(sd);
--	struct v4l2_fwnode_endpoint upstream_ep = { .bus_type = 0 };
-+	struct v4l2_mbus_config mbus_cfg = { .type = 0 };
- 	struct v4l2_mbus_framefmt *infmt;
- 	struct v4l2_rect *crop, *compose;
- 	int pad, ret;
-@@ -1660,7 +1650,7 @@ static int csi_set_selection(struct v4l2_subdev *sd,
- 	if (sel->pad != CSI_SINK_PAD)
- 		return -EINVAL;
- 
--	ret = csi_get_upstream_endpoint(priv, &upstream_ep);
-+	ret = csi_get_upstream_mbus_config(priv, &mbus_cfg);
- 	if (ret) {
- 		v4l2_err(&priv->sd, "failed to find upstream endpoint\n");
- 		return ret;
-@@ -1691,7 +1681,7 @@ static int csi_set_selection(struct v4l2_subdev *sd,
- 			goto out;
- 		}
- 
--		csi_try_crop(priv, &sel->r, sd_state, infmt, &upstream_ep);
-+		csi_try_crop(priv, &sel->r, sd_state, infmt, &mbus_cfg);
- 
- 		*crop = sel->r;
- 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index 294c808b2ebe..70dc89d6503b 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -813,39 +813,6 @@ imx_media_pipeline_video_device(struct media_entity *start_entity,
- }
- EXPORT_SYMBOL_GPL(imx_media_pipeline_video_device);
- 
--/*
-- * Find a fwnode endpoint that maps to the given subdevice's pad.
-- * If there are multiple endpoints that map to the pad, only the
-- * first endpoint encountered is returned.
-- *
-- * On success the refcount of the returned fwnode endpoint is
-- * incremented.
-- */
--struct fwnode_handle *imx_media_get_pad_fwnode(struct media_pad *pad)
--{
--	struct fwnode_handle *endpoint;
--	struct v4l2_subdev *sd;
--
--	if (!is_media_entity_v4l2_subdev(pad->entity))
--		return ERR_PTR(-ENODEV);
--
--	sd = media_entity_to_v4l2_subdev(pad->entity);
--
--	fwnode_graph_for_each_endpoint(dev_fwnode(sd->dev), endpoint) {
--		int pad_idx = media_entity_get_fwnode_pad(&sd->entity,
--							  endpoint,
--							  pad->flags);
--		if (pad_idx < 0)
--			continue;
--
--		if (pad_idx == pad->index)
--			return endpoint;
--	}
--
--	return ERR_PTR(-ENODEV);
--}
--EXPORT_SYMBOL_GPL(imx_media_get_pad_fwnode);
--
- /*
-  * Turn current pipeline streaming on/off starting from entity.
-  */
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index 1aefbfde3486..573c97b7827a 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -219,7 +219,6 @@ imx_media_pipeline_subdev(struct media_entity *start_entity, u32 grp_id,
- struct video_device *
- imx_media_pipeline_video_device(struct media_entity *start_entity,
- 				enum v4l2_buf_type buftype, bool upstream);
--struct fwnode_handle *imx_media_get_pad_fwnode(struct media_pad *pad);
- 
- struct imx_media_dma_buf {
- 	void          *virt;
--- 
-2.30.2
+>=20
+> Thanks!
+> Ezequiel
+>=20
+> > >=20
+> > > I am simply trying to highlight that this is not consistant with how =
+the
+> > > H264 part is done. Why do we reset the register for one codec and not=
+ the
+> > > other ?
+> >=20
+> > While H264 and HEVC are similar in many ways, Cedrus uses two different=
+ cores=20
+> > or in Cedrus slang, engines, for them. They have their own quirks. One =
+of the=20
+> > most apparent is handling of DPB array. H264 requires that same entry i=
+s=20
+> > always at the same position in HW DPB. That's not required by HEVC.
+> >=20
+> > Additional reasons for differences come from the fact that it's from tw=
+o=20
+> > different authors (Maxime and Paul). Those differences were created at =
+the=20
+> > beginning and it is what it is.
+> >=20
+> > >=20
+> > > Perhaps you should sync to your preference the driver as a whole. It =
+also
+> > > seems that before your patch, some bits would be 0 and some other wou=
+ld be
+> > > very large values. Between this and leaving random value, I don't rea=
+lly
+> > > see any gain or reason for a backport. It neither break or fix anythi=
+ng as
+> > > far as I understand.
+> >=20
+> > Maybe there is no need to backport, but the change is nevertheless usef=
+ul. As=20
+> > I explained, current code works only by chance, as we noticed with Ezeq=
+uiel's=20
+> > rework. It's certainly worthwhile to make code less brittle. As far as =
+I'm=20
+> > concerned, fixes tag can be dropped or even Ezequiel can squash this ch=
+ange=20
+> > into his commit, with appropriate adjustments, of course.
+> >=20
+> > I'm not completely sure what do you mean by syncing driver preference. =
+Code=20
+> > changes always need a good reason to be accepted. Moving code around an=
+d=20
+> > renaming things just to be similar with something else is not.
+> >=20
+> > Best regards,
+> > Jernej
+> >=20
+> > >=20
+> > > My general opinion, is that we fixe the unused address (like to 0) th=
+en when
+> > > something goes wrong, as least it will go wrong consistently.
+> > >=20
+> > > > Best regards,
+> > > > Jernej
+> > > >=20
+> > > > > > +
+> > > > > >=20
+> > > > > >  		cedrus_h265_frame_info_write_single(ctx, i,
+> > > >=20
+> > > > dpb[i].field_pic,
+> > > >=20
+> > > >=20
+> > > > pic_order_cnt,
+> > > >=20
+> > > > buffer_index);
+> >=20
+> >=20
+> >=20
+> >=20
 
