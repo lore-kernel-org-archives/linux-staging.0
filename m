@@ -1,41 +1,41 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859542F24
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 12:54:42 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id z2so5564677edc.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1F429A5
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 12:54:43 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id x21so5562989edd.3
         for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 05:54:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=j4QGnRyzHDovtaBxZPEWBkKgdde1TdzHuU7Yr5hTj8c=;
-        b=Xdj5glg+xd7AN0WjRq9Trdclbq8A70/xKUMpZi9cgzem0ODywscgUdn0Va2uAMWyd1
-         Jyzcl7YD3IDc+UddBCmxxiRIy2AGJteG6DHVGDdxLwfvVRvKYH/ekTOJ3mGBVZqJsyoF
-         HhCwJ0U3UkrRi+CAZL01lA5mThkxp8y676qjWilwwJvTerL2IqTVyzvjfHRxSKxup1hf
-         dv9CYSgdP3DrBNCmkaqVLyUyZR1OwHznIoAi7b9Gn22k+D6qnQiKA8GFrRoaln9bBSMx
-         s+ldhTY9S7GZUt58sxMCtuUTs5o/IVom+nKjzh4nANORCEeBHeZpWLMyEwfjjsLuHKWZ
-         gPVQ==
+        bh=VQZuhT+vruVJe9YEYFvuAFzDJPr0QZ5/cyRE3vYoUZg=;
+        b=itRnIEhrtNDTKZvVpDRGtBZdEhu1oyR2767o4jHeOyfDYCWG9xd/+3hWwlQslpqWWj
+         /8AyCOmbpA+RwFlh33lG7WOPm/gksWLs390tPwrl4FJqInh3C/FPGi7S059mss1bINdc
+         t0ohdjXVcCFDe9p3tAPKPHaucze0dMuSG9FQqf510pjeqardYrz0ceCrHP/aHeS1kAdd
+         TqLzDjLAvZ5O/5lfR34jTeyd9HAlYlRTctW8N67A/HY4E4JCfFtXk52MtcWTdsbvHziv
+         DLxCpWbW9HBPgn2l3Gq2+pbBBKx8vtRzOY9B1eTGR32VPwG2p9/HVbOVupIVq80NTgG1
+         LCHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=j4QGnRyzHDovtaBxZPEWBkKgdde1TdzHuU7Yr5hTj8c=;
-        b=Ne7ET0vExv+mbAfpSBMQHqgxiK/TthT0GZv8JzabibisrOG41PZx8aET8nGs3SVhfE
-         Mlx6X09sUeO3vTmp1nPPEt3cdInX7vXCX6WmKC0QihuxYX8t0Vx673fCCqBp4qprRdzH
-         B5ZbT4jRGC4mW++ei9RB3boKFJfEr4iBzwBmRa+fnoUA0YPkrrr1eWKRapIlrEKgz7CD
-         npk2JRq1vB78rRwayvEklcUx+X6vD2LAtjB8o8f5a76Vrn+PbP0gc0AJ6DxVUu9GPc93
-         pHRwVSkZW7NheLTJdqbbU1l2WkpNZlQXUSOi6sz86vWNtMr92jqAPldrKbFWXJgIjReC
-         jGVQ==
-X-Gm-Message-State: ACgBeo1bc1kgOYTDttQuwpwXXF+qOlMyd50tc0CRYbDh8rAhHGBwQPGp
-	1PMgncghaaf9QCXoQnueRG0=
-X-Google-Smtp-Source: AA6agR7oe3y8ZlmtQk2OJYZcO2nX7HU/tAAuNgGvI9ayZMexHbkgYfjTtyOCIkCaFhbOfbQb83WgUQ==
-X-Received: by 2002:a05:6402:3881:b0:445:f8bf:5a1c with SMTP id fd1-20020a056402388100b00445f8bf5a1cmr6086214edb.13.1660913680883;
-        Fri, 19 Aug 2022 05:54:40 -0700 (PDT)
+        bh=VQZuhT+vruVJe9YEYFvuAFzDJPr0QZ5/cyRE3vYoUZg=;
+        b=SHis+CZPIpAYfjF4wX7sql9KYRTTzdFJlEelJ/GGyGhAJiOSx/Jn6Nccf/TXoyyhpT
+         wq0oPmXm3M87/1TbQyxibZwMkJ/DcJMdO7Kjb9AsOIVSNeph1qPZP7Qy4bs0obT9Cghc
+         lkNWV0WfesBDH2brMqQaSMqA8ncTrkiP1EGKpaOdO+5/u5l1jZEuHPZz/I6VKzAL4IL6
+         nddJBkcRqY6NIPSRC4QH5Kuw72poNBDL4JeSBclNPa13AjmHtqF41hLdK+0muuPrnVRD
+         nICGlI8F57e00BV9x0avGUUG9buedFSyfZGPspEMb99VkJdZHaYd9vD0Xc05wzSjYepK
+         YJGA==
+X-Gm-Message-State: ACgBeo3b4aH2+rzadctF/xTYc3x/CnvEjdzIWygWWEEtfj38F0mMG420
+	lGbx7/gsTUJl+zXMjUn6aFQ=
+X-Google-Smtp-Source: AA6agR6eNvZ6APVC+t8pgRuJsvlNBspi+p6fIrSoxbJxZzrXtb1Z3/ACL9/V3LTpX9MKODR+dJxzkw==
+X-Received: by 2002:a05:6402:378f:b0:43a:d3f5:79f2 with SMTP id et15-20020a056402378f00b0043ad3f579f2mr6084087edb.338.1660913681431;
+        Fri, 19 Aug 2022 05:54:41 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
         by smtp.gmail.com with ESMTPSA id b12-20020a056402138c00b0043d6ece495asm3000955edv.55.2022.08.19.05.54.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 05:54:40 -0700 (PDT)
+        Fri, 19 Aug 2022 05:54:41 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 03/11] staging: r8188eu: make rtw_indicate_sta_disassoc_event() static
-Date: Fri, 19 Aug 2022 14:54:20 +0200
-Message-Id: <20220819125428.8412-4-straube.linux@gmail.com>
+Subject: [PATCH 04/11] staging: r8188eu: move rtw_indicate_sta_assoc_event() to rtw_ap.c
+Date: Fri, 19 Aug 2022 14:54:21 +0200
+Message-Id: <20220819125428.8412-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220819125428.8412-1-straube.linux@gmail.com>
 References: <20220819125428.8412-1-straube.linux@gmail.com>
@@ -57,26 +57,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function rtw_indicate_sta_disassoc_event() is only used in
-rtw_ap.c. Make it static to get one step closer to removing
-os_dep/mlme_linux.c.
+Move the function rtw_indicate_sta_assoc_event() to core/rtw_ap.c to
+get one step closer to removing os_dep/mlme_linux.c.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
  drivers/staging/r8188eu/core/rtw_ap.c       | 21 +++++++++++++++++++++
- drivers/staging/r8188eu/include/rtw_ap.h    |  2 --
  drivers/staging/r8188eu/os_dep/mlme_linux.c | 21 ---------------------
- 3 files changed, 21 insertions(+), 23 deletions(-)
+ 2 files changed, 21 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 5bd9dfa57cc5..a567683c21fd 100644
+index a567683c21fd..24eb8dce9bfe 100644
 --- a/drivers/staging/r8188eu/core/rtw_ap.c
 +++ b/drivers/staging/r8188eu/core/rtw_ap.c
 @@ -935,6 +935,27 @@ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta)
  	return beacon_updated;
  }
  
-+static void rtw_indicate_sta_disassoc_event(struct adapter *padapter, struct sta_info *psta)
++void rtw_indicate_sta_assoc_event(struct adapter *padapter, struct sta_info *psta)
 +{
 +	union iwreq_data wrqu;
 +	struct sta_priv *pstapriv = &padapter->stapriv;
@@ -94,35 +92,22 @@ index 5bd9dfa57cc5..a567683c21fd 100644
 +
 +	memcpy(wrqu.addr.sa_data, psta->hwaddr, ETH_ALEN);
 +
-+	wireless_send_event(padapter->pnetdev, IWEVEXPIRED, &wrqu, NULL);
++	wireless_send_event(padapter->pnetdev, IWEVREGISTERED, &wrqu, NULL);
 +}
 +
- u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
- 	       bool active, u16 reason)
+ static void rtw_indicate_sta_disassoc_event(struct adapter *padapter, struct sta_info *psta)
  {
-diff --git a/drivers/staging/r8188eu/include/rtw_ap.h b/drivers/staging/r8188eu/include/rtw_ap.h
-index 724229fe84aa..8b4134eb3095 100644
---- a/drivers/staging/r8188eu/include/rtw_ap.h
-+++ b/drivers/staging/r8188eu/include/rtw_ap.h
-@@ -10,8 +10,6 @@
- /* external function */
- void rtw_indicate_sta_assoc_event(struct adapter *padapter,
- 				  struct sta_info *psta);
--void rtw_indicate_sta_disassoc_event(struct adapter *padapter,
--				     struct sta_info *psta);
- void init_mlme_ap_info(struct adapter *padapter);
- void free_mlme_ap_info(struct adapter *padapter);
- void update_beacon(struct adapter *padapter, u8 ie_id,
+ 	union iwreq_data wrqu;
 diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
-index b8d328d74443..ad5f795f6857 100644
+index ad5f795f6857..37c7f52421ee 100644
 --- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
-@@ -150,24 +150,3 @@ void rtw_indicate_sta_assoc_event(struct adapter *padapter, struct sta_info *pst
- 
- 	wireless_send_event(padapter->pnetdev, IWEVREGISTERED, &wrqu, NULL);
+@@ -129,24 +129,3 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 		kfree(buff);
+ 	}
  }
 -
--void rtw_indicate_sta_disassoc_event(struct adapter *padapter, struct sta_info *psta)
+-void rtw_indicate_sta_assoc_event(struct adapter *padapter, struct sta_info *psta)
 -{
 -	union iwreq_data wrqu;
 -	struct sta_priv *pstapriv = &padapter->stapriv;
@@ -140,7 +125,7 @@ index b8d328d74443..ad5f795f6857 100644
 -
 -	memcpy(wrqu.addr.sa_data, psta->hwaddr, ETH_ALEN);
 -
--	wireless_send_event(padapter->pnetdev, IWEVEXPIRED, &wrqu, NULL);
+-	wireless_send_event(padapter->pnetdev, IWEVREGISTERED, &wrqu, NULL);
 -}
 -- 
 2.37.1
