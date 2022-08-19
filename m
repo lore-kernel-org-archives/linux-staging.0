@@ -1,120 +1,123 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DA72F42
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 12:54:47 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id u6so483936eda.12
-        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 05:54:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=2SSQQj013RZlWs9wGfRUXVrA/uDJ2ngKJB6u8ISOGaE=;
-        b=JJ4mn9dpVZCHQgmmlBB7iE/PtFScritoSfe3Tk+m16DWWi5JCKdk2G8ULV6HYJVZ1i
-         HDW1TCFfd65Ul3lNPcBxQ2Bmi3Kqib+p2YmVEtizr6rBuRAXCFfwxvKCL6tsDruGcOvT
-         J8TfqT8HRdJUZOox0rUHHeTqQ219DaRr7tzMIS0NXGPZb1751i3rGpKRvXecGG22aLDX
-         D5p0RNsZkhWETnEvnJP94RMdwwBD9MvELidiC/tiQlUv/ZUPlBM4jrhwma5L75HjtFOB
-         1tuIdZlJL1khgAlK1p3JHF6yscaW4Myb4AA73V2N9x7dvNO6sM8cGhGjbeQwrdO6vsU6
-         n52w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=2SSQQj013RZlWs9wGfRUXVrA/uDJ2ngKJB6u8ISOGaE=;
-        b=32t4WMlrFenLYt9VDoNHHNmu29EUJW66TQd8dLDy6obpI8epwF44YyHGRFnS+rXnAf
-         pobhgTbWlHLY4uF8CqU0gS6mnlG067w5JbcHRSIoe2KuzP+K41t5rp1T+bpLFjqJa4Br
-         JgfCoKSi/8n+8KcQPg0h/7dmQvZwxqNbD9RkKpYGtDvlBNaG5+Bmj8flj3p6P6QbzHk9
-         optlJu08ZbInmQY/tSY1GtXGRCQ7EGATtXE4jmc4NRSafRK0aACo3k6QhkiRJBGb2pZe
-         tuKk/9/e/mhjXwF1pdKmpDL1sKPS4a1hBfjvmXUOB4C2yyHjFC6QZb5su8pOe0tAU9fH
-         Ym+Q==
-X-Gm-Message-State: ACgBeo0SeVFQYH0xdgn8hXQ2sLUr7pP7EL5vE2ayAUsjn9/KSrO7zrF6
-	ushaxSLSYsmG/v8A5qsrS0c=
-X-Google-Smtp-Source: AA6agR640Zqbr9KTJsVpoK9esFUqHVA5whNVRnpPA92sbodIBfc8lyacbTEKhtzBe9tJzACmNVZgqA==
-X-Received: by 2002:a05:6402:353:b0:446:2d2c:3854 with SMTP id r19-20020a056402035300b004462d2c3854mr3527186edw.193.1660913685528;
-        Fri, 19 Aug 2022 05:54:45 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
-        by smtp.gmail.com with ESMTPSA id b12-20020a056402138c00b0043d6ece495asm3000955edv.55.2022.08.19.05.54.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 05:54:45 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 11/11] staging: r8188eu: remove unused function parameter
-Date: Fri, 19 Aug 2022 14:54:28 +0200
-Message-Id: <20220819125428.8412-12-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220819125428.8412-1-straube.linux@gmail.com>
-References: <20220819125428.8412-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BEF2C9D
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 13:07:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660914478; x=1692450478;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ul9AY54+W+2c0uLgxHZax+CLhL8edhfxOlsyHd1h5oE=;
+  b=gSpWs6gVCwCt7rac8Ja0OZQuqDwVtgFZAOHMFQXDdE5eBUyJDRDGCQTC
+   +jZXgV3BS1inDO/fIgRE+lmRPUnlC/TVdcUTzTLKcSN/jYmt/0/GX9m1j
+   1UL4ExOOPk4i/4aBBw+fdMZ7uXGHZRNMvSLyqJPSSlarZ1ucRweISPSIG
+   p3uOaHJCZdFv5hEIHwYdCchtWjzY+nCqL3btLXM4gpdJAbmRc8/w/vFmg
+   S07K2wGL6BcCzh7d9RQbfaHqhfgYpPXVvDNZ9wrbx5dndiQSJMy/NZagK
+   8OWi4EtMrHGz2HDoSqJe3q3TsNNyTNg8ajetr3qfsPrKSD8KePDfPbRa8
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="273401333"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="273401333"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 06:07:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
+   d="scan'208";a="936213401"
+Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 19 Aug 2022 06:07:56 -0700
+Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oP1j9-0001SR-2t;
+	Fri, 19 Aug 2022 13:07:55 +0000
+Date: Fri, 19 Aug 2022 21:07:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nam Cao <namcaov@gmail.com>, gregkh@linuxfoundation.org
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, namcaov@gmail.com,
+	hdegoede@redhat.com, Larry.Finger@lwfinger.net
+Subject: Re: [PATCH 1/7] staging: rtl8723bs: remove function
+ rtw_odm_dbg_comp_msg
+Message-ID: <202208192018.BfgiZyOY-lkp@intel.com>
+References: <7ff2d658863db4fd5eecc1a53f682510c2765c3f.1660898432.git.namcaov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7ff2d658863db4fd5eecc1a53f682510c2765c3f.1660898432.git.namcaov@gmail.com>
 
-The parameter 'aborted' of rtw_indicate_scan_done() is not used.
-Remove it.
+Hi Nam,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_mlme.c    | 4 ++--
- drivers/staging/r8188eu/include/rtw_mlme.h | 2 +-
- drivers/staging/r8188eu/os_dep/usb_intf.c  | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 594bfaf27291..e3cf3e8962fb 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -892,7 +892,7 @@ void rtw_indicate_disconnect(struct adapter *padapter)
- 
- }
- 
--inline void rtw_indicate_scan_done(struct adapter *padapter, bool aborted)
-+inline void rtw_indicate_scan_done(struct adapter *padapter)
- {
- 	indicate_wx_scan_complete_event(padapter);
- }
-@@ -1365,7 +1365,7 @@ void rtw_scan_timeout_handler (struct adapter *adapter)
- 	spin_lock_bh(&pmlmepriv->lock);
- 	_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
- 	spin_unlock_bh(&pmlmepriv->lock);
--	rtw_indicate_scan_done(adapter, true);
-+	rtw_indicate_scan_done(adapter);
- }
- 
- static void rtw_auto_scan_handler(struct adapter *padapter)
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/staging/r8188eu/include/rtw_mlme.h
-index d81668498e46..e8168e36fac2 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme.h
-@@ -537,7 +537,7 @@ struct wlan_network *rtw_get_oldest_wlan_network(struct __queue *scanned_queue);
- void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue);
- void rtw_indicate_disconnect(struct adapter *adapter);
- void rtw_indicate_connect(struct adapter *adapter);
--void rtw_indicate_scan_done( struct adapter *padapter, bool aborted);
-+void rtw_indicate_scan_done(struct adapter *padapter);
- 
- int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie,
- 			uint in_len);
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index a52d1553acdd..0c752cf0c6c5 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -231,7 +231,7 @@ static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
- 	mutex_unlock(&pwrpriv->lock);
- 
- 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
--		rtw_indicate_scan_done(padapter, 1);
-+		rtw_indicate_scan_done(padapter);
- 
- 	if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
- 		rtw_indicate_disconnect(padapter);
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/staging-rtl8723bs-remove-dead-functions/20220819-165905
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 8379cf83fe6d57a12952de6dcaf7a7fbd7b364fc
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220819/202208192018.BfgiZyOY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/3b86aa03519d904d916cb62a1113c0c5549496cb
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nam-Cao/staging-rtl8723bs-remove-dead-functions/20220819-165905
+        git checkout 3b86aa03519d904d916cb62a1113c0c5549496cb
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/rtl8723bs/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/rtl8723bs/core/rtw_odm.c:13:27: warning: 'odm_comp_str' defined but not used [-Wunused-const-variable=]
+      13 | static const char * const odm_comp_str[] = {
+         |                           ^~~~~~~~~~~~
+
+
+vim +/odm_comp_str +13 drivers/staging/rtl8723bs/core/rtw_odm.c
+
+554c0a3abf216c Hans de Goede 2017-03-29  12  
+05031914cb8f5b Tom Gardi     2017-08-12 @13  static const char * const odm_comp_str[] = {
+554c0a3abf216c Hans de Goede 2017-03-29  14  	/* BIT0 */"ODM_COMP_DIG",
+554c0a3abf216c Hans de Goede 2017-03-29  15  	/* BIT1 */"ODM_COMP_RA_MASK",
+554c0a3abf216c Hans de Goede 2017-03-29  16  	/* BIT2 */"ODM_COMP_DYNAMIC_TXPWR",
+554c0a3abf216c Hans de Goede 2017-03-29  17  	/* BIT3 */"ODM_COMP_FA_CNT",
+554c0a3abf216c Hans de Goede 2017-03-29  18  	/* BIT4 */"ODM_COMP_RSSI_MONITOR",
+554c0a3abf216c Hans de Goede 2017-03-29  19  	/* BIT5 */"ODM_COMP_CCK_PD",
+554c0a3abf216c Hans de Goede 2017-03-29  20  	/* BIT6 */"ODM_COMP_ANT_DIV",
+554c0a3abf216c Hans de Goede 2017-03-29  21  	/* BIT7 */"ODM_COMP_PWR_SAVE",
+554c0a3abf216c Hans de Goede 2017-03-29  22  	/* BIT8 */"ODM_COMP_PWR_TRAIN",
+554c0a3abf216c Hans de Goede 2017-03-29  23  	/* BIT9 */"ODM_COMP_RATE_ADAPTIVE",
+554c0a3abf216c Hans de Goede 2017-03-29  24  	/* BIT10 */"ODM_COMP_PATH_DIV",
+554c0a3abf216c Hans de Goede 2017-03-29  25  	/* BIT11 */"ODM_COMP_PSD",
+554c0a3abf216c Hans de Goede 2017-03-29  26  	/* BIT12 */"ODM_COMP_DYNAMIC_PRICCA",
+554c0a3abf216c Hans de Goede 2017-03-29  27  	/* BIT13 */"ODM_COMP_RXHP",
+554c0a3abf216c Hans de Goede 2017-03-29  28  	/* BIT14 */"ODM_COMP_MP",
+554c0a3abf216c Hans de Goede 2017-03-29  29  	/* BIT15 */"ODM_COMP_DYNAMIC_ATC",
+554c0a3abf216c Hans de Goede 2017-03-29  30  	/* BIT16 */"ODM_COMP_EDCA_TURBO",
+554c0a3abf216c Hans de Goede 2017-03-29  31  	/* BIT17 */"ODM_COMP_EARLY_MODE",
+554c0a3abf216c Hans de Goede 2017-03-29  32  	/* BIT18 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  33  	/* BIT19 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  34  	/* BIT20 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  35  	/* BIT21 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  36  	/* BIT22 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  37  	/* BIT23 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  38  	/* BIT24 */"ODM_COMP_TX_PWR_TRACK",
+554c0a3abf216c Hans de Goede 2017-03-29  39  	/* BIT25 */"ODM_COMP_RX_GAIN_TRACK",
+554c0a3abf216c Hans de Goede 2017-03-29  40  	/* BIT26 */"ODM_COMP_CALIBRATION",
+554c0a3abf216c Hans de Goede 2017-03-29  41  	/* BIT27 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  42  	/* BIT28 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  43  	/* BIT29 */NULL,
+554c0a3abf216c Hans de Goede 2017-03-29  44  	/* BIT30 */"ODM_COMP_COMMON",
+554c0a3abf216c Hans de Goede 2017-03-29  45  	/* BIT31 */"ODM_COMP_INIT",
+554c0a3abf216c Hans de Goede 2017-03-29  46  };
+554c0a3abf216c Hans de Goede 2017-03-29  47  
+
 -- 
-2.37.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
