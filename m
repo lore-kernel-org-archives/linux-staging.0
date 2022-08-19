@@ -1,107 +1,82 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC6B46AA
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 18:24:12 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id a7so10338407ejp.2
-        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 11:24:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=ooRQXzLUe97i7byO6R46BlbFBy3Y8r9AZv+oUBRyyNk=;
-        b=dC52cK47M+GcQ3HfB94JWV83L1H1/nK+0AbkeRCfkyYQSw3gNCJnPK0k2eZL2gbb2i
-         TL3WtRZ7Q+j7IgkZhr6qEs46gKHzUN5d/c6y8iF2ydpvzLsTocAa2zs5f6HZFM2w38JI
-         2uOWl/qcqTyLT68btQ4NE5Rfve9hnZnjChVgRYblXHqfTSeaSmLvWZILgkd3OSiO13Q9
-         PGAu06+Tu8R0NrwVKl2ASyH8x6W2Teiq4GP6tpjer+oO/AeZFMJBkCAs5c4ObVK8k3DE
-         DuT5bfdtdPnaIcayNi+xrk3HVRylqyHh72Snb/xpvILolYE+06LCX7vL38wN4xA/rfKj
-         q3WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=ooRQXzLUe97i7byO6R46BlbFBy3Y8r9AZv+oUBRyyNk=;
-        b=Vjh+DY/h8kAwghowHYmRBpLGYcBuXb1NeKFCkY9/VY4qyjjb8aKboIXMNmoVAwHvol
-         tJD8/MOvBxrCnwWxW8RU4fnKC6ug1X4RkIWtG+wNISB6n5t9NI8t1CJRS90hkVCFwHS7
-         iCJjyVP+A5Au/OMAxifmCjcd+qdZMyJ6fjVe1XNOBX+M2PjW1O3DB0jKZAQ4e9pGAOHZ
-         kkREUSHtNnL7jtMlph9g60iDJ9v/q8nfuH6nerIMQOMmX3l4Y2SEOqwQCHX9/0PtPDHI
-         iNYpRUP05O2ra+6rqgI3zOFU/KNQSBu7+ZTt2TvGtYwSHZN2EQHKwh3H/lXtu5yKNpKG
-         tijg==
-X-Gm-Message-State: ACgBeo04d/aCUJohPuv2VtlBFS9c/pKZad3dvNPAE9YwcnrGKpvOYYsw
-	U2ZAZm7I0qbUf09kY5582nY=
-X-Google-Smtp-Source: AA6agR6xQQLYgWhvB9yg+ScZlzpdyA/QuJ7PLcpSHm5sR9ANU3GSgcySus7auP2o6Qn+owfE8qiFTw==
-X-Received: by 2002:a17:907:2cf3:b0:730:8b8c:6d55 with SMTP id hz19-20020a1709072cf300b007308b8c6d55mr5417331ejc.535.1660933450606;
-        Fri, 19 Aug 2022 11:24:10 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
-        by smtp.gmail.com with ESMTPSA id d2-20020a170906304200b0073c37199b86sm2159974ejd.159.2022.08.19.11.24.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 11:24:10 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove ODM_ConfigRFWithHeaderFile()
-Date: Fri, 19 Aug 2022 20:23:59 +0200
-Message-Id: <20220819182359.24141-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.37.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8704A14
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 20:19:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660940353; x=1692476353;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6+2161DsryQM8jOmpn2VWLpodX7I2xCD9ga5Tu4weio=;
+  b=fr86+iasiV2buqf+kuk73ql/a10Dl6dBxxJVZz1qE+F/hup8s6UDprqf
+   oZir0CF4SJdF5PJv+eWpPLiD6YiiBZGSWVQSw47Zk999ogJAm2qPmDs0C
+   2HwxCNy6tLXViyRob2vv+4PhYREtUhe+WF9buteVBJn/4cmCdT/mDm5NO
+   EEEvL1H81VE3o6rmGQGBQ9ssbwhRQneHrXnMj+U8+wD3/6JLQYXrXSY/f
+   EdUd46poosQIrftkQjfyWHyhKSS21h55p+aMocGJBdHAm3y/k6/zSCMC6
+   GhGyRkdTwdccAP6t8YpNB9Je3UVR+VB4REp0epPXbLvmdDHAXiGJ8/1Zp
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="319123074"
+X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; 
+   d="scan'208";a="319123074"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 13:19:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; 
+   d="scan'208";a="676565820"
+Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 19 Aug 2022 13:19:10 -0700
+Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oP8SU-0001mF-0A;
+	Fri, 19 Aug 2022 20:19:10 +0000
+Date: Sat, 20 Aug 2022 04:18:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nam Cao <namcaov@gmail.com>, gregkh@linuxfoundation.org
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, namcaov@gmail.com,
+	hdegoede@redhat.com, Larry.Finger@lwfinger.net
+Subject: Re: [PATCH 3/3] staging: rtl8723bs: remove odm_NoiseMonitor.h and
+ odm_NoiseMonitor.c
+Message-ID: <202208200447.kdEhBy9a-lkp@intel.com>
+References: <3d6124867c546368b961a30f85b56ee6c2600441.1660901124.git.namcaov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d6124867c546368b961a30f85b56ee6c2600441.1660901124.git.namcaov@gmail.com>
 
-The function ODM_ConfigRFWithHeaderFile() is just a wrapper around
-ODM_ReadAndConfig_RadioA_1T_8188E(). Remove the wrapper and call
-ODM_ReadAndConfig_RadioA_1T_8188E() directly.
+Hi Nam,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/odm_HWConfig.c     | 5 -----
- drivers/staging/r8188eu/hal/rtl8188e_rf6052.c  | 2 +-
- drivers/staging/r8188eu/include/odm_HWConfig.h | 1 -
- 3 files changed, 1 insertion(+), 7 deletions(-)
+Thank you for the patch! Yet something to improve:
 
-diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index 54cc3d7789cd..035d94b3458e 100644
---- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
-+++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -347,8 +347,3 @@ void ODM_PhyStatusQuery(struct odm_dm_struct *dm_odm,
- 	odm_RxPhyStatus92CSeries_Parsing(dm_odm, pPhyInfo, pPhyStatus, pPktinfo, adapt);
- 	odm_Process_RSSIForDM(dm_odm, pPhyInfo, pPktinfo);
- }
--
--enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *dm_odm)
--{
--	return ODM_ReadAndConfig_RadioA_1T_8188E(dm_odm);
--}
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-index d043b7bc4142..237232432f37 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-@@ -396,7 +396,7 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- 	udelay(1);/* PlatformStallExecution(1); */
- 
- 	/*----Initialize RF fom connfiguration file----*/
--	if (HAL_STATUS_FAILURE == ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv))
-+	if (ODM_ReadAndConfig_RadioA_1T_8188E(&pHalData->odmpriv) == HAL_STATUS_FAILURE)
- 		rtStatus = _FAIL;
- 
- 	/*----Restore RFENV control type----*/;
-diff --git a/drivers/staging/r8188eu/include/odm_HWConfig.h b/drivers/staging/r8188eu/include/odm_HWConfig.h
-index b37962edb2ed..3f7185780e87 100644
---- a/drivers/staging/r8188eu/include/odm_HWConfig.h
-+++ b/drivers/staging/r8188eu/include/odm_HWConfig.h
-@@ -66,5 +66,4 @@ void ODM_PhyStatusQuery(struct odm_dm_struct *pDM_Odm,
- 			struct odm_per_pkt_info *pPktinfo,
- 			struct adapter *adapt);
- 
--enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *pDM_Odm);
- #endif
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/staging-rtl8723bs-remove-useless-files/20220819-173916
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 8379cf83fe6d57a12952de6dcaf7a7fbd7b364fc
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20220820/202208200447.kdEhBy9a-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/0fdeb2305c40b79975f2c6b683ee5225b3aedf08
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Nam-Cao/staging-rtl8723bs-remove-useless-files/20220819-173916
+        git checkout 0fdeb2305c40b79975f2c6b683ee5225b3aedf08
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash M=drivers/staging
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> make[3]: *** No rule to make target 'drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.o', needed by 'drivers/staging/rtl8723bs/r8723bs.o'.
+   make[3]: Target '__build' not remade because of errors.
+
 -- 
-2.37.2
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
