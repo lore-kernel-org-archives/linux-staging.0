@@ -1,41 +1,41 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7862F52
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 13:50:25 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id y13so8875605ejp.13
-        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 06:50:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA943214
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 13:50:28 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id q2so3623269edb.6
+        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 06:50:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=DrYs5wXMzkTkGQcWHMkczyKadrbT/RhKmAvnzhy1suA=;
-        b=p9qll2ZwMcI8GJPjpMIatWPBUs6cVNjmmb1dCuBggaPMzK+Dp8znjpp8gt8jhPAwDU
-         QsuIwvc36BeYrGnek07YrgPO0DUjucvUmg84q207eBb+Snhqs7heTbEbcWyH8rLgmiRb
-         kGn4BKSml07t3esXr5NQpREr0yqE6muM9D5jqe/MLthJ/2rPcunJm+SyarMRt025C+3J
-         T+UO6xrfANZ0pG/Oy1vSMa1m87r5taUU2YkJW1dF5FX0urXTDoMRwM/YGzKr6EvxJyxx
-         s1u1/9lSi/XoD8TOz6CGvkYeHFMyLCEX2sxJqX8Bn3O7pn7wOcZdAbGgbhP2MAFWO6VU
-         B/nw==
+        bh=lgIH+anOUapmsDT3madCqkJtVLuh/Inv9K5cFDxhThs=;
+        b=lE34wyWOfJ2A+mHfyUMPbaHKwqYn+VsSx0alFzAYSLueTfeysXpz2AA6lhBwktZ+1x
+         nG5BuXFVhdwbk8Nhx2541E8Id8vTt+QwctXGG97ez37uMo4jmdIeW9LCK+OuvpsBcVQa
+         owTGNQC074Am+gOLo5oxzuL7rBMvTguXgDJMgPbZ3j3znadmzs6Tj7zyJ9q4JRsoxv3y
+         KoC7jYKx1rIIxyMQwWPpBv7WvpJqR9KimjVAI2+5Fsu6baC9nC4Acw0qNFl+XcO1Vm8A
+         vEhf2MfDYax3H687ISulQe8dw/TeTS42WWrJZuTGZog891s5t6AUIN+GHwUzMp7ptViL
+         aMUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=DrYs5wXMzkTkGQcWHMkczyKadrbT/RhKmAvnzhy1suA=;
-        b=YPrZGoFjgfgrnzQ/zXEgzU+NAPJUgixXQZHwL/9kXibP2grARLwJPLV074kk2XLnCQ
-         JJ19Crm+Jr7NJ7VFLd8d3QABnkfE+Yoasf/Y+WXC9x4uigjPsQBTQopRA7Sdp2BhO0fC
-         pVcIFlHYlCd2UQ+tmIUsHgQ/B36yxI1eCknFYvZLlkmt5oezsU0AQr4ujpnXe4bUUU9P
-         p/JMy79mojYCuZu0RKe8vwj9XcF9Nnx1KhW8qEM0RCC7oRQ+IazhqXWm7b1+Ue/66bHi
-         nKwW/qnrDxi8NdKeYD7pSQ98twn9xtnQxU7XsgjhcxrebHypMwp5g+kG167f3MmLLfcm
-         //wQ==
-X-Gm-Message-State: ACgBeo1WT068eADpqgRx/ITKXJxu1PBqq5krurLGNcLxNYa2r9QwyJFK
-	82ZZ2zKlCAakJhqCVtzqX4Y=
-X-Google-Smtp-Source: AA6agR5ToE5/sY/jfDvLQ8ZLVWmLfN/LmtF2j8s3eMMhHPcoS6Lo+W3+W5shrbaBLLlNPCccIFsIPA==
-X-Received: by 2002:a17:907:60c7:b0:731:148b:c515 with SMTP id hv7-20020a17090760c700b00731148bc515mr4994191ejc.724.1660917023984;
-        Fri, 19 Aug 2022 06:50:23 -0700 (PDT)
+        bh=lgIH+anOUapmsDT3madCqkJtVLuh/Inv9K5cFDxhThs=;
+        b=i6o+uzitkaPf2b9hTECqQEK+yvYHzLOtNc2u7rAoQDeSOw5iyBkprwrecT7wzq7Qdd
+         f0G6PT6P2rYsUrYgCCha72SEO/map4amqsKQ7kxlzwESO6LAaIbEsa+JTcZtzA99jCVr
+         g9rPeUptWwgbgsZtfHN/8jSJDXv3PPcsu7YVlnIzTLYmXxVop99gqwgg9MAFxJSx9D+j
+         iGXsfHAMalz6I0vqrXmPlMMxvPWhtLB0U/9JNstSjvgoyVjvD/8+Vg+aVjZxyv5rnjlz
+         ZqwLvcdlW689yio7+RRQyq3zYdtHFv0BHhsBCfGz9puOYq1oe1OktDag3woNfyRzVMeq
+         RYKw==
+X-Gm-Message-State: ACgBeo2t3/s7MkrXvfSQNyDtVf7rnsTL34efD2ea3bCN9RCjFffCCC54
+	JpPeJ6QWgzj4NjcpikXpJ8Dx4FApVE7JXQ==
+X-Google-Smtp-Source: AA6agR5FwzKIiQPocVDtpf+VP2MPnrriXY3Y+t3WnL0ySLyHI3eH+k0lWM8+nTIq4M/UrhR+G31NxQ==
+X-Received: by 2002:a05:6402:40d0:b0:43f:8f56:6b0e with SMTP id z16-20020a05640240d000b0043f8f566b0emr6300221edb.380.1660917026763;
+        Fri, 19 Aug 2022 06:50:26 -0700 (PDT)
 Received: from nam-dell.ucebne.fiit.stuba.sk ([147.175.148.17])
-        by smtp.gmail.com with ESMTPSA id i8-20020a17090671c800b0073087140945sm2313821ejk.123.2022.08.19.06.50.23
+        by smtp.gmail.com with ESMTPSA id i8-20020a17090671c800b0073087140945sm2313821ejk.123.2022.08.19.06.50.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 06:50:23 -0700 (PDT)
+        Fri, 19 Aug 2022 06:50:26 -0700 (PDT)
 From: Nam Cao <namcaov@gmail.com>
 To: lkp@intel.com
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	namcaov@gmail.com
-Subject: [PATCH v2 1/8] staging: rtl8723bs: remove function rtw_odm_dbg_comp_msg
-Date: Fri, 19 Aug 2022 15:49:35 +0200
-Message-Id: <7ff2d658863db4fd5eecc1a53f682510c2765c3f.1660916523.git.namcaov@gmail.com>
+Subject: [PATCH v2 2/8] staging: rtl8723bs: remove function rtw_get_ch_setting_union
+Date: Fri, 19 Aug 2022 15:49:36 +0200
+Message-Id: <c8c5b0c78ee9a4cd8304efeff22b51049c75a3f2.1660916523.git.namcaov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1660916523.git.namcaov@gmail.com>
 References: <cover.1660916523.git.namcaov@gmail.com>
@@ -63,49 +63,54 @@ because this function is not used.
 
 Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_odm.c    | 16 ----------------
- drivers/staging/rtl8723bs/include/rtw_odm.h |  1 -
- 2 files changed, 17 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 21 -------------------
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  1 -
+ 2 files changed, 22 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_odm.c b/drivers/staging/rtl8723bs/core/rtw_odm.c
-index f6b73a2a0270..abb111752169 100644
---- a/drivers/staging/rtl8723bs/core/rtw_odm.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_odm.c
-@@ -90,22 +90,6 @@ static const char * const odm_dbg_level_str[] = {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index f878b04076d8..8e74b4f47b94 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -5945,27 +5945,6 @@ int rtw_chk_start_clnt_join(struct adapter *padapter, u8 *ch, u8 *bw, u8 *offset
+ 	return connect_allow ? _SUCCESS : _FAIL;
+ }
  
- #define RTW_ODM_DBG_LEVEL_NUM 6
- 
--void rtw_odm_dbg_comp_msg(struct adapter *adapter)
+-/* Find union about ch, bw, ch_offset of all linked/linking interfaces */
+-int rtw_get_ch_setting_union(struct adapter *adapter, u8 *ch, u8 *bw, u8 *offset)
 -{
--	u64 dbg_comp;
--	int i;
+-	struct dvobj_priv *dvobj = adapter_to_dvobj(adapter);
+-	struct adapter *iface;
 -
--	rtw_hal_get_def_var(adapter, HW_DEF_ODM_DBG_FLAG, &dbg_comp);
--	netdev_dbg(adapter->pnetdev, "odm.DebugComponents = 0x%016llx\n",
--		   dbg_comp);
--	for (i = 0; i < RTW_ODM_COMP_MAX; i++) {
--		if (odm_comp_str[i])
--			netdev_dbg(adapter->pnetdev, "%cBIT%-2d %s\n",
--				   (BIT0 << i) & dbg_comp ? '+' : ' ', i,
--				   odm_comp_str[i]);
--	}
+-	if (ch)
+-		*ch = 0;
+-	if (bw)
+-		*bw = CHANNEL_WIDTH_20;
+-	if (offset)
+-		*offset = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
+-
+-	iface = dvobj->padapters;
+-
+-	if (!check_fwstate(&iface->mlmepriv, _FW_LINKED|_FW_UNDER_LINKING))
+-		return 0;
+-
+-	return 1;
 -}
 -
- inline void rtw_odm_dbg_comp_set(struct adapter *adapter, u64 comps)
+ u8 set_ch_hdl(struct adapter *padapter, u8 *pbuf)
  {
- 	rtw_hal_set_def_var(adapter, HW_DEF_ODM_DBG_FLAG, &comps);
-diff --git a/drivers/staging/rtl8723bs/include/rtw_odm.h b/drivers/staging/rtl8723bs/include/rtw_odm.h
-index 94fc68a5c424..27e8240284b4 100644
---- a/drivers/staging/rtl8723bs/include/rtw_odm.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_odm.h
-@@ -13,7 +13,6 @@
- * This file provides utilities/wrappers for rtw driver to use ODM
- */
+ 	struct set_ch_parm *set_ch_parm;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index 89b389d4c44b..65e138a5238f 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -662,7 +662,6 @@ extern void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint
+ extern u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer);
  
--void rtw_odm_dbg_comp_msg(struct adapter *adapter);
- void rtw_odm_dbg_comp_set(struct adapter *adapter, u64 comps);
- void rtw_odm_dbg_level_msg(void *sel, struct adapter *adapter);
- void rtw_odm_dbg_level_set(struct adapter *adapter, u32 level);
+ int rtw_chk_start_clnt_join(struct adapter *padapter, u8 *ch, u8 *bw, u8 *offset);
+-int rtw_get_ch_setting_union(struct adapter *adapter, u8 *ch, u8 *bw, u8 *offset);
+ 
+ struct cmd_hdl {
+ 	uint	parmsize;
 -- 
 2.25.1
 
