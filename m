@@ -1,41 +1,41 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AAB290C
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 12:54:40 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id qn6so8601008ejc.11
-        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 05:54:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5DE29A2
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 12:54:41 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id a22so5545920edj.5
+        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 05:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=KfYI7x2n+dPKcoeo3/p/jfkeVeouaOocnFlGHnujIGM=;
-        b=nT+J9Cm3+lhdZyTLLhnF7i0ChpfUMDU0Vj00UzYd/cu7MAysd6CbxuwWV/jvxXWFI7
-         HDnwi08l5SeKOx+XfAHNnm4R3IcsXIKOSgEYQ2xMNxve2ss6RoxwjrqQhRmthEmhS5VN
-         i6tV2sVxzWiXbDTOcJjoF2vqWHvwEFW+pkt3RLk3courf6FHbx6oEI9y3deb7sNRZ+c4
-         heN8ck+artU7oEGC/2Eduxf0pen/2nz+qno6vUBYM0CL8u+o2sC/JZSTL74KQ26WVeMP
-         W16baG7roQJZ6lkOQ1AciQwtMKR1vgPkcXFiwPwZ77tiPt81p8P+KqQKw3tpl5gpcSOa
-         afzQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=CIjrHGuGx65kEr5OnXk6j8Kk9ipZphKrCoiITYTkDYM=;
+        b=Q5SAh+2URpPpHI/LXe1o/nFD70HQH3JZ+f6a9SdnVWsZJpb5feJ1/fIa31wuqLs5sb
+         3l2FmUIpSUwLDc7N9bAObfySZkN5tTCuCbzyP73LHhp3wzaKss6LJSryNzMoebNTUV9J
+         vwlASK8ti8rHBtlPT6KJNSK6XfWCud7HOFAAu+c/LVh74MRBaJOwfIGVxnvm+Ay4BUtd
+         pdG0CTu9wP6z71YLntmteFV1bI944nlgpaGh73isN8qH6E/bHfU52elEzLg2KOd3Ej8c
+         2NV31BgmjcN0pdLbAstJTpEBdxzzJsJ7e6087UR3fT/rvGj7YG9clBshTqkIdg9Yy0QJ
+         JVHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=KfYI7x2n+dPKcoeo3/p/jfkeVeouaOocnFlGHnujIGM=;
-        b=5GU5lgXPYMvTUvIb2XKQoa9mS6Niux+ofYVZ32Lo83ogBYgZypmel652WKJlHRzFIF
-         ru4D3pjFIvKo+A7HKsQ/f3TAuTWucwjCzHlEfH0NOiQhw9oTNGntM/kNEqyu/MHYcozu
-         4lk8o919hdY0NsKB3Rn8DshMOTsqS0t8rgkBGCXYgKIcO0uL4RTaptUEyoXIHxC8KV/H
-         I+90tA4RihmZpY0uKH+eLGEWXaUHRkcGKf5N3+RzXN/7EAFRR6hsOjb5hOsXBPr85NcX
-         Oa+3/1lXHL64p0f8m8T5GpH+RUjIWJbq9YgkxZgQ3Ow3Cg11R0BIc+Zu+wnYidQhw5KC
-         0srQ==
-X-Gm-Message-State: ACgBeo0vCpa0Rd8Nq3NdFZL+quH7dUoW0kaiE7e23vdoWyruN/wNyAoq
-	K5V69vpij+VS476tUtik1a/9QQVRLjM=
-X-Google-Smtp-Source: AA6agR5C2Q0KBcn5O4IPpfiZF6PU4jcqfp3pKwnZJV2CMTwJf9pk+4iflwiOsNPZCXrgNpSlUV8qWg==
-X-Received: by 2002:a17:907:6092:b0:731:59f0:49ac with SMTP id ht18-20020a170907609200b0073159f049acmr4763632ejc.383.1660913679217;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=CIjrHGuGx65kEr5OnXk6j8Kk9ipZphKrCoiITYTkDYM=;
+        b=xEDS2FuzHbgJsW990xSpDyf8/ln4IqDRifr8MREwWkdF1BX9/DafCF0Z30Dc9izJrX
+         WVaK+lpQaL8xF2QbfHb/U/ur7mszuOggVpwHF6BZ/thJDMJHJ5uD4oN8MXE2SlM7ATAP
+         ATrpCFuCFdMoN85/bNS+I1iaW4NC1f2XPT5kPSMNQK2W4lXT/hwTwJ1JHD53LDjMyIc5
+         /8fp0T1dpYtlTO4VhNH5+mT8NnVpjpZkwK8i3TpJCFNlwlSTskMyg0bc3SIsHtn+QAV3
+         7MdneTQy8U9iA2vKJ+3WQy05XAeQnSkrs3EHbkfJZYoqI9N564n6a31ITgxvhJZWidWQ
+         36rg==
+X-Gm-Message-State: ACgBeo1z9JL+DLAgcjOt7LBeD9w17eLgxUODatpl0Dn+B7ExlsESEShW
+	NhFR+clc2lnke58P0TZFTnw=
+X-Google-Smtp-Source: AA6agR43A4yZvPS/8b8NGGA+fUNxNmRqIF7zq1pW5+HaDCtEsVsIinA7sIqZm4zs12UIOqsbOSYKiA==
+X-Received: by 2002:a05:6402:e94:b0:443:e3fe:7c87 with SMTP id h20-20020a0564020e9400b00443e3fe7c87mr6184960eda.144.1660913679764;
         Fri, 19 Aug 2022 05:54:39 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
-        by smtp.gmail.com with ESMTPSA id b12-20020a056402138c00b0043d6ece495asm3000955edv.55.2022.08.19.05.54.38
+        by smtp.gmail.com with ESMTPSA id b12-20020a056402138c00b0043d6ece495asm3000955edv.55.2022.08.19.05.54.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 05:54:38 -0700 (PDT)
+        Fri, 19 Aug 2022 05:54:39 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 00/11] staging: r8188eu: start migrating mlme_linux.c
-Date: Fri, 19 Aug 2022 14:54:17 +0200
-Message-Id: <20220819125428.8412-1-straube.linux@gmail.com>
+Subject: [PATCH 01/11] staging: r8188eu: make init_mlme_ext_timer() static
+Date: Fri, 19 Aug 2022 14:54:18 +0200
+Message-Id: <20220819125428.8412-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220819125428.8412-1-straube.linux@gmail.com>
+References: <20220819125428.8412-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,37 +57,100 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series starts to migrate the functions, or their functionalitiy,
-from os_dep/mlme_linux.c to the core/* part of the driver. The goal is
-to remove os_dep/mlme_linux.c at some point.
+The function init_mlme_ext_timer() is only used in rtw_mlme_ext.c.
+Make it static to get one step closer to removing os_dep/mlme_linux.c.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 22 +++++++++++++++++++
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  1 -
+ drivers/staging/r8188eu/os_dep/mlme_linux.c   | 21 ------------------
+ 3 files changed, 22 insertions(+), 22 deletions(-)
 
-Michael Straube (11):
-  staging: r8188eu: make init_mlme_ext_timer() static
-  staging: r8188eu: make init_addba_retry_timer() static
-  staging: r8188eu: make rtw_indicate_sta_disassoc_event() static
-  staging: r8188eu: move rtw_indicate_sta_assoc_event() to rtw_ap.c
-  staging: r8188eu: make rtw_report_sec_ie() static
-  staging: r8188eu: remove unneeded initializations
-  staging: r8188eu: make rtw_reset_securitypriv() static
-  staging: r8188eu: merge rtw_{os,}_indicate_disconnect()
-  staging: r8188eu: merge rtw_{os,}_indicate_connect()
-  staging: r8188eu: merge rtw_{os,}_indicate_scan_done()
-  staging: r8188eu: remove unused function parameter
-
- drivers/staging/r8188eu/core/rtw_ap.c         |  42 +++++
- drivers/staging/r8188eu/core/rtw_mlme.c       |  86 ++++++++-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  22 +++
- drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  12 ++
- drivers/staging/r8188eu/include/mlme_osdep.h  |   5 -
- drivers/staging/r8188eu/include/rtw_ap.h      |   2 -
- drivers/staging/r8188eu/include/rtw_mlme.h    |   2 +-
- .../staging/r8188eu/include/rtw_mlme_ext.h    |   2 -
- drivers/staging/r8188eu/os_dep/mlme_linux.c   | 166 ------------------
- drivers/staging/r8188eu/os_dep/usb_intf.c     |   2 +-
- 10 files changed, 159 insertions(+), 182 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 6d3d5ff9a00e..3103e8871dfd 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -334,6 +334,28 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
+ 	return chanset_size;
+ }
+ 
++static void _survey_timer_hdl(struct timer_list *t)
++{
++	struct adapter *padapter = from_timer(padapter, t, mlmeextpriv.survey_timer);
++
++	survey_timer_hdl(padapter);
++}
++
++static void _link_timer_hdl(struct timer_list *t)
++{
++	struct adapter *padapter = from_timer(padapter, t, mlmeextpriv.link_timer);
++
++	link_timer_hdl(padapter);
++}
++
++static void init_mlme_ext_timer(struct adapter *padapter)
++{
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
++
++	timer_setup(&pmlmeext->survey_timer, _survey_timer_hdl, 0);
++	timer_setup(&pmlmeext->link_timer, _link_timer_hdl, 0);
++}
++
+ void init_mlme_ext_priv(struct adapter *padapter)
+ {
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index 343ce1ce4b3d..a6b1b1b7da74 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -388,7 +388,6 @@ struct mlme_ext_priv {
+ void init_mlme_ext_priv(struct adapter *adapter);
+ int init_hw_mlme_ext(struct adapter *padapter);
+ void free_mlme_ext_priv (struct mlme_ext_priv *pmlmeext);
+-extern void init_mlme_ext_timer(struct adapter *padapter);
+ extern void init_addba_retry_timer(struct adapter *adapt, struct sta_info *sta);
+ extern struct xmit_frame *alloc_mgtxmitframe(struct xmit_priv *pxmitpriv);
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+index 899d8e9c3834..bc4f979280b6 100644
+--- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
++++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+@@ -130,19 +130,6 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 	}
+ }
+ 
+-static void _survey_timer_hdl(struct timer_list *t)
+-{
+-	struct adapter *padapter = from_timer(padapter, t, mlmeextpriv.survey_timer);
+-
+-	survey_timer_hdl(padapter);
+-}
+-
+-static void _link_timer_hdl(struct timer_list *t)
+-{
+-	struct adapter *padapter = from_timer(padapter, t, mlmeextpriv.link_timer);
+-	link_timer_hdl(padapter);
+-}
+-
+ static void _addba_timer_hdl(struct timer_list *t)
+ {
+ 	struct sta_info *psta = from_timer(psta, t, addba_retry_timer);
+@@ -154,14 +141,6 @@ void init_addba_retry_timer(struct adapter *padapter, struct sta_info *psta)
+ 	timer_setup(&psta->addba_retry_timer, _addba_timer_hdl, 0);
+ }
+ 
+-void init_mlme_ext_timer(struct adapter *padapter)
+-{
+-	struct	mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-
+-	timer_setup(&pmlmeext->survey_timer, _survey_timer_hdl, 0);
+-	timer_setup(&pmlmeext->link_timer, _link_timer_hdl, 0);
+-}
+-
+ void rtw_indicate_sta_assoc_event(struct adapter *padapter, struct sta_info *psta)
+ {
+ 	union iwreq_data wrqu;
 -- 
 2.37.1
 
