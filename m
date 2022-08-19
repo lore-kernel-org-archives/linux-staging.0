@@ -1,41 +1,41 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3945C3214
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 13:50:31 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id y13so8876233ejp.13
-        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 06:50:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B283214
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 13:50:33 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id tl27so8941816ejc.1
+        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 06:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=KwKZVOZR3GJHc3jlnF0u1iBjRpLe4GFgoYhD+Ro9tFA=;
-        b=qvwHqZDuCH3HHIURyEz05igIa18oM7ehQYcNDGhDjBnu2o78KwDvvRYRua5zr+fUg6
-         7iBSWZWSkqJE/oT7oe9y8ghNKySlQuhVKbW6uZh5f1WbhvcbEREvXUsHI5/0qsgARJBr
-         +THBUXtYdFRxRDzy9xcV+uerLfHezJGy/iVSCQnd5UlDMDTScst3ooosIuRcrdFGbW36
-         wFHeF87QFrI+FrYaSAWmR2j8rvmqANQR58WjpAxK7onpqZ29Yk9P/BvPJ1tKurm7rILe
-         A0EfgBXikiN5MLlIakkiKmQWtgo/i8P/tVj+FUjI/T/skZVbIWyHr7qx/axOQcdMV0Vt
-         dN1Q==
+        bh=Wkt4yDwYFOHbUgy/ksyjGBA/L251ZQDRHJTdSWCyqSA=;
+        b=dRPN98xziBG2n6jy2drmwYpBCuIcqx00aPQBaA4fKvBcLeEe617/Cd2j2a040sjt6r
+         4r5b7ryasI9MjEcFoiue4KG2lBKzD+rAnFqbrgHuUilh4oQhwGhiohnYAsr/l13UCjjB
+         9NVJimd01k1LqFudpSiLF4LuZtVYzJlJwmahDV0bTQQefJsoCJUAMn5QKgR3ow0PIAkk
+         sUCUc+5w9eqFJhiQG5yjwcbhge5C/F99YaYGaWlJJ5xoGIWWQsfIXDzMsXt7I4cLVkHK
+         uSZJ9xffLAagbYtcwkWzSgQhpqS7qwOmHrELEPQSlpETuymzgfOX5penx/Hw6O4iy694
+         tYIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=KwKZVOZR3GJHc3jlnF0u1iBjRpLe4GFgoYhD+Ro9tFA=;
-        b=KHkLJPcJC3dbTB6D35+9clGk4C6KTonmy/lXDCljxvMJpPtRR91pewPnaurscGK3ZZ
-         KCO3sVDx7KSZa2eOFKgsW4k27ZzZ8Dpz/L0Pc0uhnOPdp/XSH2vK6dfISo+ulhK8OfP3
-         oZaCWw6/sQX3WwnbipgoAREfM0RpINcle/kToh506U7reR1YtxDT6WotP3EXCbSYTVHV
-         65Q8crOqeQs24hRgv7XeYDwUqHME5Gqnp+LpX3p3nrmRytjTGPOTVmTfUOQV+2MEyYJp
-         vnHBeNtECtpCcneqY7j1qHyDUBm/UXSmcQl6dOSiokYkTQPhodSfYUixs7zClck6YYFB
-         byvQ==
-X-Gm-Message-State: ACgBeo0B1xl9+wsl1xooPYwzdjsxUFX4NLfKoz4qmrP4UqEf9PWH1fFZ
-	8EPAmEUgyX1Nn9ED8xK+knQ=
-X-Google-Smtp-Source: AA6agR6X70+haqMOdyzzoiDa9ElTXs1E9C9YBlRkhohwg1DM7BLRO5YcVPaWOiwpytCK99Dyp6Rpew==
-X-Received: by 2002:a17:907:9493:b0:73b:e605:f3b with SMTP id dm19-20020a170907949300b0073be6050f3bmr4600437ejc.37.1660917030806;
-        Fri, 19 Aug 2022 06:50:30 -0700 (PDT)
+        bh=Wkt4yDwYFOHbUgy/ksyjGBA/L251ZQDRHJTdSWCyqSA=;
+        b=Sb1DFw1inAmhnmW9Gz3YQy5raLo5lnhEX2g9bBCMalB55cF1cuP8vy0Lj9/rx8GCRh
+         1KfBLXDJpANI5UNxn/vKV7Dep6X2JvUrtDY5Y8kYrOus+QfPtOaEXq8a+L3V7hRdPbS/
+         ExcTfcEJvlJPr9xklmRy1QPU8Fg+CAxvGCuQMNfHtpCFsBiKAbUckHmMLE9rmQhmNPsh
+         pnDUwW3dXfzodFmel4TVoWcSo+uletZp7UPnHnZqpgMhIaMMFc6bZrydA0J4jvTHeWbd
+         aT4BpqIpE244wYv5nA5sf79mpG777BUMMvRuP30/PfzRXCVNcmzLJSi9DDhrBSpfXiNo
+         L8uw==
+X-Gm-Message-State: ACgBeo3tWKAhEAU0EOgCXgJC0Jv+TZpZaU3TLqT2uRXjr9SrnmVP5ICT
+	l0V1D4oJKjlhDSyHA3KUzSg=
+X-Google-Smtp-Source: AA6agR4ND+FbJiurFHvDzvIv1YD5QK/jNEld+D2NxMCMIQBQMkni0BfsvP24ydsja1f4CrQ+Hj9Q1Q==
+X-Received: by 2002:a17:907:6eaa:b0:730:9fb6:41a5 with SMTP id sh42-20020a1709076eaa00b007309fb641a5mr4841567ejc.675.1660917032017;
+        Fri, 19 Aug 2022 06:50:32 -0700 (PDT)
 Received: from nam-dell.ucebne.fiit.stuba.sk ([147.175.148.17])
         by smtp.gmail.com with ESMTPSA id i8-20020a17090671c800b0073087140945sm2313821ejk.123.2022.08.19.06.50.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 06:50:30 -0700 (PDT)
+        Fri, 19 Aug 2022 06:50:31 -0700 (PDT)
 From: Nam Cao <namcaov@gmail.com>
 To: lkp@intel.com
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	namcaov@gmail.com
-Subject: [PATCH v2 4/8] staging: rtl8723bs: remove function GetFractionValueFromString
-Date: Fri, 19 Aug 2022 15:49:38 +0200
-Message-Id: <e782bcd3ff8c33df8da7eb6b8e4bb00b1c270edc.1660916523.git.namcaov@gmail.com>
+Subject: [PATCH v2 5/8] staging: rtl8723bs: remove function IsCommentString
+Date: Fri, 19 Aug 2022 15:49:39 +0200
+Message-Id: <c062f678dc8f99c18a251f6137c4c3883f8c8205.1660916523.git.namcaov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1660916523.git.namcaov@gmail.com>
 References: <cover.1660916523.git.namcaov@gmail.com>
@@ -63,78 +63,46 @@ because this function is not used.
 
 Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com.c     | 43 ---------------------
- drivers/staging/rtl8723bs/include/hal_com.h |  3 --
- 2 files changed, 46 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_com.c     | 12 ------------
+ drivers/staging/rtl8723bs/include/hal_com.h |  2 --
+ 2 files changed, 14 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 909b37bcc897..f82cbe5a77ff 100644
+index f82cbe5a77ff..1c744d0b4742 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_com.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -939,49 +939,6 @@ bool GetHexValueFromString(char *szStr, u32 *pu4bVal, u32 *pu4bMove)
+@@ -939,18 +939,6 @@ bool GetHexValueFromString(char *szStr, u32 *pu4bVal, u32 *pu4bMove)
  	return true;
  }
  
--bool GetFractionValueFromString(
--	char *szStr, u8 *pInteger, u8 *pFraction, u32 *pu4bMove
--)
+-/*  */
+-/* 	Description: */
+-/* 		Return true if szStr is comment out with leading "//". */
+-/*  */
+-bool IsCommentString(char *szStr)
 -{
--	char *szScan = szStr;
--
--	/*  Initialize output. */
--	*pu4bMove = 0;
--	*pInteger = 0;
--	*pFraction = 0;
--
--	/*  Skip leading space. */
--	while (*szScan != '\0' &&	(*szScan == ' ' || *szScan == '\t')) {
--		++szScan;
--		++(*pu4bMove);
--	}
--
--	/*  Parse each digit. */
--	do {
--		(*pInteger) *= 10;
--		*pInteger += (*szScan - '0');
--
--		++szScan;
--		++(*pu4bMove);
--
--		if (*szScan == '.') {
--			++szScan;
--			++(*pu4bMove);
--
--			if (*szScan < '0' || *szScan > '9')
--				return false;
--			else {
--				*pFraction = *szScan - '0';
--				++szScan;
--				++(*pu4bMove);
--				return true;
--			}
--		}
--	} while (*szScan >= '0' && *szScan <= '9');
--
--	return true;
+-	if (*szStr == '/' && *(szStr+1) == '/')
+-		return true;
+-	else
+-		return false;
 -}
 -
- /*  */
- /* 	Description: */
- /* 		Return true if szStr is comment out with leading "//". */
+ bool GetU1ByteIntegerFromStringInDecimal(char *Str, u8 *pInt)
+ {
+ 	u16 i = 0;
 diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
-index 7be0ea20bca4..b49b0a0355c6 100644
+index b49b0a0355c6..406fccbcd4b6 100644
 --- a/drivers/staging/rtl8723bs/include/hal_com.h
 +++ b/drivers/staging/rtl8723bs/include/hal_com.h
-@@ -153,9 +153,6 @@ u32 MapCharToHexDigit(char chTmp);
+@@ -153,8 +153,6 @@ u32 MapCharToHexDigit(char chTmp);
  
  bool GetHexValueFromString(char *szStr, u32 *pu4bVal, u32 *pu4bMove);
  
--bool GetFractionValueFromString(char *szStr, u8 *pInteger, u8 *pFraction,
--				u32 *pu4bMove);
+-bool IsCommentString(char *szStr);
 -
- bool IsCommentString(char *szStr);
- 
  bool ParseQualifiedString(char *In, u32 *Start, char *Out, char LeftQualifier,
+ 			  char RightQualifier);
+ 
 -- 
 2.25.1
 
