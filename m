@@ -1,99 +1,91 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583BC5CB0
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 09:41:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1660902111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QK3tGbhgg9Wc4LaimALsSpNV614pnfrrnLDCexVqWss=;
-	b=Y+P3NC2C91KQyokc+CckqPwn6BoEdlI/vcZKxx5PP7OXtmJgbiE8omx/a+TMG+G0P1yFua
-	fBXFx0tDRvC66Sy0mAmIhsO+jAtzJiWNQBMU8M6RBbc9bPNnhPGl5+paJvh3R5VM38Muf8
-	WvOYYRilSFccOzRa84+1vSvE6jqKUQg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-316-vPOIWXNVPyaO8lnG_5a2qg-1; Fri, 19 Aug 2022 05:41:50 -0400
-X-MC-Unique: vPOIWXNVPyaO8lnG_5a2qg-1
-Received: by mail-ed1-f71.google.com with SMTP id h8-20020a05640250c800b0044642d29d35so720036edb.18
-        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 02:41:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AAB290C
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 12:54:40 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id qn6so8601008ejc.11
+        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 05:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=KfYI7x2n+dPKcoeo3/p/jfkeVeouaOocnFlGHnujIGM=;
+        b=nT+J9Cm3+lhdZyTLLhnF7i0ChpfUMDU0Vj00UzYd/cu7MAysd6CbxuwWV/jvxXWFI7
+         HDnwi08l5SeKOx+XfAHNnm4R3IcsXIKOSgEYQ2xMNxve2ss6RoxwjrqQhRmthEmhS5VN
+         i6tV2sVxzWiXbDTOcJjoF2vqWHvwEFW+pkt3RLk3courf6FHbx6oEI9y3deb7sNRZ+c4
+         heN8ck+artU7oEGC/2Eduxf0pen/2nz+qno6vUBYM0CL8u+o2sC/JZSTL74KQ26WVeMP
+         W16baG7roQJZ6lkOQ1AciQwtMKR1vgPkcXFiwPwZ77tiPt81p8P+KqQKw3tpl5gpcSOa
+         afzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=QK3tGbhgg9Wc4LaimALsSpNV614pnfrrnLDCexVqWss=;
-        b=o9eBEKP+4zpV1bCoC11V7JRLHmkB9oLoghVHsqkREzD9DS6xF1SJJy+sRoCPbUSA6q
-         kYRSKONZxxUM4j838/NQOTMgjPqkh0gYhiFWffi7Lrv39p3UkLJoGTtN/QEHphaKYG6w
-         sXvcA+GnMVRq39pNgqJ6F6IyvJ/kzwKvee0WWDpeHuzwd8LFKXwx3euz0OixylyQvJPB
-         Q9hLxSD6n4ZV0tPly30Fo4xz1n5ATb86YqWSOi7pNHv7O0rnccTFYjt2suh5vpOs0/07
-         iZt/JTLlWxzEPLktvvKfIQhseOu4io+UO10vuLvt7Ms6iA7txBKwRSe5ODnjigzsM4VT
-         /M7g==
-X-Gm-Message-State: ACgBeo0cJVucWm43NGqghyKEs163WUZyD0dGvoY/+KV4F2PUFvvctCwj
-	Vkw99pwjDeejLD8gMweGTkbWyhbWmBxwkw7VSYrS0w07lC0nhfYqEtGXMp7r2uEtpp4fKSlJES4
-	gT+4oLylt/I4e+07jYUDWr/wYDA==
-X-Received: by 2002:a05:6402:14c7:b0:445:bb86:3f15 with SMTP id f7-20020a05640214c700b00445bb863f15mr5546112edx.68.1660902109040;
-        Fri, 19 Aug 2022 02:41:49 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5pkXmoWgzYRI0p/MWqkQVQuvYeIE0y/URefg1UTLL6L6RUHk9durJLYXgAFLxmuXHJDELjSQ==
-X-Received: by 2002:a05:6402:14c7:b0:445:bb86:3f15 with SMTP id f7-20020a05640214c700b00445bb863f15mr5546101edx.68.1660902108849;
-        Fri, 19 Aug 2022 02:41:48 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id n22-20020a170906701600b007262a5e2204sm2050079ejj.153.2022.08.19.02.41.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 02:41:48 -0700 (PDT)
-Message-ID: <4f280f1f-7fa1-6e35-657d-6e68c41d9b1b@redhat.com>
-Date: Fri, 19 Aug 2022 11:41:47 +0200
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=KfYI7x2n+dPKcoeo3/p/jfkeVeouaOocnFlGHnujIGM=;
+        b=5GU5lgXPYMvTUvIb2XKQoa9mS6Niux+ofYVZ32Lo83ogBYgZypmel652WKJlHRzFIF
+         ru4D3pjFIvKo+A7HKsQ/f3TAuTWucwjCzHlEfH0NOiQhw9oTNGntM/kNEqyu/MHYcozu
+         4lk8o919hdY0NsKB3Rn8DshMOTsqS0t8rgkBGCXYgKIcO0uL4RTaptUEyoXIHxC8KV/H
+         I+90tA4RihmZpY0uKH+eLGEWXaUHRkcGKf5N3+RzXN/7EAFRR6hsOjb5hOsXBPr85NcX
+         Oa+3/1lXHL64p0f8m8T5GpH+RUjIWJbq9YgkxZgQ3Ow3Cg11R0BIc+Zu+wnYidQhw5KC
+         0srQ==
+X-Gm-Message-State: ACgBeo0vCpa0Rd8Nq3NdFZL+quH7dUoW0kaiE7e23vdoWyruN/wNyAoq
+	K5V69vpij+VS476tUtik1a/9QQVRLjM=
+X-Google-Smtp-Source: AA6agR5C2Q0KBcn5O4IPpfiZF6PU4jcqfp3pKwnZJV2CMTwJf9pk+4iflwiOsNPZCXrgNpSlUV8qWg==
+X-Received: by 2002:a17:907:6092:b0:731:59f0:49ac with SMTP id ht18-20020a170907609200b0073159f049acmr4763632ejc.383.1660913679217;
+        Fri, 19 Aug 2022 05:54:39 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
+        by smtp.gmail.com with ESMTPSA id b12-20020a056402138c00b0043d6ece495asm3000955edv.55.2022.08.19.05.54.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Aug 2022 05:54:38 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 00/11] staging: r8188eu: start migrating mlme_linux.c
+Date: Fri, 19 Aug 2022 14:54:17 +0200
+Message-Id: <20220819125428.8412-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 0/3] staging: rtl8723bs: remove useless files
-To: Nam Cao <namcaov@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Larry.Finger@lwfinger.net
-References: <cover.1660901124.git.namcaov@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <cover.1660901124.git.namcaov@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This series starts to migrate the functions, or their functionalitiy,
+from os_dep/mlme_linux.c to the core/* part of the driver. The goal is
+to remove os_dep/mlme_linux.c at some point.
 
-On 8/19/22 11:35, Nam Cao wrote:
-> Delete odm_NoiseMonitor.c and odm_NoiseMonitor.h because they are
-> useless. The first 2 commits are preparation, and the final commit is
-> actual removal.
-> 
-> Nam Cao (3):
->   staging: rtl8723bs: remove unused function ODM_InbandNoise_Monitor
->   staging: rtl8723bs: remove member noise_level from struct dm_odm_t
->   staging: rtl8723bs: remove odm_NoiseMonitor.h and odm_NoiseMonitor.c
-> 
->  drivers/staging/rtl8723bs/hal/odm.h           |   2 -
->  .../staging/rtl8723bs/hal/odm_NoiseMonitor.c  | 130 ------------------
->  .../staging/rtl8723bs/hal/odm_NoiseMonitor.h  |  39 ------
->  drivers/staging/rtl8723bs/hal/odm_precomp.h   |   1 -
->  4 files changed, 172 deletions(-)
->  delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
->  delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Thanks, the entire series looks good to me:
+Michael Straube (11):
+  staging: r8188eu: make init_mlme_ext_timer() static
+  staging: r8188eu: make init_addba_retry_timer() static
+  staging: r8188eu: make rtw_indicate_sta_disassoc_event() static
+  staging: r8188eu: move rtw_indicate_sta_assoc_event() to rtw_ap.c
+  staging: r8188eu: make rtw_report_sec_ie() static
+  staging: r8188eu: remove unneeded initializations
+  staging: r8188eu: make rtw_reset_securitypriv() static
+  staging: r8188eu: merge rtw_{os,}_indicate_disconnect()
+  staging: r8188eu: merge rtw_{os,}_indicate_connect()
+  staging: r8188eu: merge rtw_{os,}_indicate_scan_done()
+  staging: r8188eu: remove unused function parameter
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+ drivers/staging/r8188eu/core/rtw_ap.c         |  42 +++++
+ drivers/staging/r8188eu/core/rtw_mlme.c       |  86 ++++++++-
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  22 +++
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  12 ++
+ drivers/staging/r8188eu/include/mlme_osdep.h  |   5 -
+ drivers/staging/r8188eu/include/rtw_ap.h      |   2 -
+ drivers/staging/r8188eu/include/rtw_mlme.h    |   2 +-
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |   2 -
+ drivers/staging/r8188eu/os_dep/mlme_linux.c   | 166 ------------------
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |   2 +-
+ 10 files changed, 159 insertions(+), 182 deletions(-)
 
-for the series.
-
-Regards,
-
-Hans
+-- 
+2.37.1
 
