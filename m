@@ -1,119 +1,107 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0993217
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 13:50:37 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id a7so8961054ejp.2
-        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 06:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=jThNKOG1gbtfk0tZNZ5jZtMKT0ivZg17/ZD4Mra2nmw=;
-        b=hkMg4woO4O4YPQl9Qc9nv8LnpMM2SEtRMG0+8LtvnRQrjx5pPa1y0jTXY8RdUen1zd
-         JPU3cqjT/62bZIXVBqfpkCu6/7KtXjSFmTrrovR036j+XzG1ZvGHJthbjDZlOLwN5jrk
-         Rb3jTEm3nfK9+SGFTk//YoMfz6DyHUacfRb8lDmhmcMqY/V9p3jnm53l/2i21nKRx6i9
-         5uZ5L3VeAKR5Ap+heJs4BzekxDH7WI8Z4I2wsoXWESPX6DUb5YKndGa5bc0WzQMavjN3
-         l85YXUb6a5cU/e9QT8QLIlY/3gddrq1jAvbnrl/SeElFWWdGGeU+e/3/6okRHAlj+KBa
-         owPw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436F33220
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 14:26:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1660919163;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eICnUMCnIldtlbZrl7FbZerwo61fNEIPgGY03g7m9SQ=;
+	b=JlyZPpLAvhP7xV63oKAnhGdwPdm8Sj6V4TMNPlDH+CPSBS9wb1S2GfsOajGD3Yx+CsEJ8A
+	bP1uPpZNE7lxfBQiM1qI+eMSIJ0UlXRGZw0BYKSY8nah4tLd5tCn53hOsiRKhMSSS1JenB
+	zlDm56e+c6l2RxAIr8NUL9qNxym8mQ0=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-450-eq1VpIGvOXabHUFfr1Avbw-1; Fri, 19 Aug 2022 10:26:01 -0400
+X-MC-Unique: eq1VpIGvOXabHUFfr1Avbw-1
+Received: by mail-ej1-f70.google.com with SMTP id nc38-20020a1709071c2600b007309af9e482so1568129ejc.2
+        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 07:26:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=jThNKOG1gbtfk0tZNZ5jZtMKT0ivZg17/ZD4Mra2nmw=;
-        b=fm3dTcPikmoeGdEh8bT5ZrKHWmWmcUuqBg+aPm+JZHjK3PEs3Jpikgg5lD2Yb/PyC1
-         WPTtXDJrK9wg69Zekv7NuCi52CGuSUsYIFSDEbToxrLnqp542a9EVDyHFpp4bC2EOQOg
-         43/Xw2HWaDujzUliB0vNM6xC8C5D55ksLNbmc/u297P/dUw7TW+BV+piqVePCBoy5G+0
-         +0gMH+HWmSQ/aGVauuhD+drbSGeYlwNGO9EyzPpsjPVw12SdL/v2LlRy3k3jOOVGlQDT
-         yT7o31LErSJFjxsoRYsa1Pff+VbeY7I36osxX8tgfxSEQJKGEeAvfQa11o45/j8e2j71
-         Kwnw==
-X-Gm-Message-State: ACgBeo26W5BhvMice2vWcSSeFCLu/ela4hS60r4GiJ3kSpz6GKkvt2+Y
-	nAixc/mbN94z3nSq9yK6akThxUDJ8Du1dg==
-X-Google-Smtp-Source: AA6agR7yptWZX9XA4DNKhtOYFQvkiQUVYk5xXU8+PeMmc0AEDWDM3I968igdDsXnPSQwmWZDyQXJhg==
-X-Received: by 2002:a17:907:843:b0:73a:5b0e:8352 with SMTP id ww3-20020a170907084300b0073a5b0e8352mr4911753ejb.438.1660917035485;
-        Fri, 19 Aug 2022 06:50:35 -0700 (PDT)
-Received: from nam-dell.ucebne.fiit.stuba.sk ([147.175.148.17])
-        by smtp.gmail.com with ESMTPSA id i8-20020a17090671c800b0073087140945sm2313821ejk.123.2022.08.19.06.50.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 06:50:35 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: lkp@intel.com
-Cc: Larry.Finger@lwfinger.net,
-	gregkh@linuxfoundation.org,
-	hdegoede@redhat.com,
-	kbuild-all@lists.01.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	namcaov@gmail.com
-Subject: [PATCH v2 8/8] staging: rtl8723bs: remove static const variable odm_comp_str
-Date: Fri, 19 Aug 2022 15:49:42 +0200
-Message-Id: <678b03dad7217e70e61074d11975319cb1c1828c.1660916523.git.namcaov@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1660916523.git.namcaov@gmail.com>
-References: <cover.1660916523.git.namcaov@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=eICnUMCnIldtlbZrl7FbZerwo61fNEIPgGY03g7m9SQ=;
+        b=4AtljTIXt8MFB0ToStR+APQ+9RYCSL7cKP87Ege1mixm4fLWpJdJZL5bq/8eQCjP9R
+         ihG2Q+hE1hx1X6I2CU4NxrWLGEH1dbnHG0bGCynyqWOIAnRkJf8xx8qyJQ83DleATtq8
+         b6IO772VFSYfzCadX0kuRNq38lU4Haor2E0fsUUjhzjyNQ1gMXhqAMTeD3aN1KrXoRi5
+         ZssBrFqXX+r+BVC2NIcpV+CKDPIo9qUWPmIdqqXkY0VWjK5vTXbi1dIQwiqgOYXKHgK5
+         XIDWIL0a5J7iFE+TwZOlOkJWVerh+PWRk/B+V40prM8nBnaKi+zKPJKOYHkvQcgzYQcb
+         SUMQ==
+X-Gm-Message-State: ACgBeo1XCesUtmAiPhiknN01nL+9aY7D9BaQRIaFhhGpRJ/c1658DbCp
+	Zg6wR+svD4XRQLlDaYvDYC4tB8lYnE3ImRd2iy5o80k1O2bPmtGfVKs34C5C4zH+rBOzfIV7Qbo
+	VROaZMpx2iO67a46un7QHoPDOKg==
+X-Received: by 2002:a05:6402:22f3:b0:446:39e9:5d0e with SMTP id dn19-20020a05640222f300b0044639e95d0emr2966901edb.300.1660919160746;
+        Fri, 19 Aug 2022 07:26:00 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR63eJLF5q6lph4qaiToW0WKHDqW73GHbf0jK4qlifdLRM1JnNcG7Cu+W7XEKmmCbaYhJF6M5g==
+X-Received: by 2002:a05:6402:22f3:b0:446:39e9:5d0e with SMTP id dn19-20020a05640222f300b0044639e95d0emr2966890edb.300.1660919160596;
+        Fri, 19 Aug 2022 07:26:00 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+        by smtp.gmail.com with ESMTPSA id kw11-20020a170907770b00b0073c9db65819sm1470939ejc.47.2022.08.19.07.25.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Aug 2022 07:25:59 -0700 (PDT)
+Message-ID: <e15d7107-636d-eb55-10a3-24a1e311f7c0@redhat.com>
+Date: Fri, 19 Aug 2022 16:25:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 0/8] remove some dead code
+To: Nam Cao <namcaov@gmail.com>, lkp@intel.com
+Cc: Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org,
+ kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <202208192018.BfgiZyOY-lkp@intel.com>
+ <cover.1660916523.git.namcaov@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <cover.1660916523.git.namcaov@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-because it is not used.
+Hi,
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/linux-staging/202208192018.BfgiZyOY-lkp@intel.com/
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_odm.c | 35 ------------------------
- 1 file changed, 35 deletions(-)
+On 8/19/22 15:49, Nam Cao wrote:
+> Remove some unused functions and variables.
+> 
+> Change in v2: add a new patch to fix kernel test robot's warning
+> about unused variable.
+> 
+> Nam Cao (8):
+>   staging: rtl8723bs: remove function rtw_odm_dbg_comp_msg
+>   staging: rtl8723bs: remove function rtw_get_ch_setting_union
+>   staging: rtl8723bs: remove function rtw_odm_ability_set
+>   staging: rtl8723bs: remove function GetFractionValueFromString
+>   staging: rtl8723bs: remove function IsCommentString
+>   staging: rtl8723bs: remove function rtw_odm_adaptivity_parm_msg
+>   staging: rtl8723bs: remove function rtw_odm_dbg_comp_set
+>   staging: rtl8723bs: remove static const variable odm_comp_str
+> 
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 21 -----
+>  drivers/staging/rtl8723bs/core/rtw_odm.c      | 79 -------------------
+>  drivers/staging/rtl8723bs/hal/hal_com.c       | 55 -------------
+>  drivers/staging/rtl8723bs/include/hal_com.h   |  5 --
+>  .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  1 -
+>  drivers/staging/rtl8723bs/include/rtw_odm.h   |  4 -
+>  6 files changed, 165 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_odm.c b/drivers/staging/rtl8723bs/core/rtw_odm.c
-index 58b6299ed9d7..47fd2ee9bb9f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_odm.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_odm.c
-@@ -10,41 +10,6 @@
- #include <rtw_odm.h>
- #include <hal_data.h>
- 
--static const char * const odm_comp_str[] = {
--	/* BIT0 */"ODM_COMP_DIG",
--	/* BIT1 */"ODM_COMP_RA_MASK",
--	/* BIT2 */"ODM_COMP_DYNAMIC_TXPWR",
--	/* BIT3 */"ODM_COMP_FA_CNT",
--	/* BIT4 */"ODM_COMP_RSSI_MONITOR",
--	/* BIT5 */"ODM_COMP_CCK_PD",
--	/* BIT6 */"ODM_COMP_ANT_DIV",
--	/* BIT7 */"ODM_COMP_PWR_SAVE",
--	/* BIT8 */"ODM_COMP_PWR_TRAIN",
--	/* BIT9 */"ODM_COMP_RATE_ADAPTIVE",
--	/* BIT10 */"ODM_COMP_PATH_DIV",
--	/* BIT11 */"ODM_COMP_PSD",
--	/* BIT12 */"ODM_COMP_DYNAMIC_PRICCA",
--	/* BIT13 */"ODM_COMP_RXHP",
--	/* BIT14 */"ODM_COMP_MP",
--	/* BIT15 */"ODM_COMP_DYNAMIC_ATC",
--	/* BIT16 */"ODM_COMP_EDCA_TURBO",
--	/* BIT17 */"ODM_COMP_EARLY_MODE",
--	/* BIT18 */NULL,
--	/* BIT19 */NULL,
--	/* BIT20 */NULL,
--	/* BIT21 */NULL,
--	/* BIT22 */NULL,
--	/* BIT23 */NULL,
--	/* BIT24 */"ODM_COMP_TX_PWR_TRACK",
--	/* BIT25 */"ODM_COMP_RX_GAIN_TRACK",
--	/* BIT26 */"ODM_COMP_CALIBRATION",
--	/* BIT27 */NULL,
--	/* BIT28 */NULL,
--	/* BIT29 */NULL,
--	/* BIT30 */"ODM_COMP_COMMON",
--	/* BIT31 */"ODM_COMP_INIT",
--};
--
- #define RTW_ODM_COMP_MAX 32
- 
- static const char * const odm_ability_str[] = {
--- 
-2.25.1
+Thanks, the entire series looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+for the series.
+
+Regards,
+
+Hans
 
