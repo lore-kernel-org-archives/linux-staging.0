@@ -1,107 +1,115 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAC74A07;
-	Thu, 18 Aug 2022 21:17:15 +0000 (UTC)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 10B05660037D;
-	Thu, 18 Aug 2022 22:17:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1660857433;
-	bh=KE0bQCqNtR+z+ksSI4I4sg0fOlUJH2F/9l/R0xeYO+U=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=DQfoSdbAkNSPx81fc4H4bxwQbs7bvPPoYktXNZCJ7bB2f3xrzadMZxR2D/0hk/+Jq
-	 UbhfJZsWzD4NfTQ4mKM4P/320wJoRYHOIuMWn8/rb6sIc+weuRBCbe6lUBrC9QkJD+
-	 Sp6s34Ae66PjHnspNfxF08vtHrwOLIBUnDJx/IOyFIkki58/PTI0d4IAHd8UxYI0pg
-	 irPIPFf6QODS+LuzvfkhTzDlu/wh5rnHeZe76qBx4nXPHBDcWAvmVRoAA5SiYLHV64
-	 prkIEfGfgAu1weyyppxzD9T7wuTrrLDD7FE7EApyRpwysOdGJG2aPQBg41t7bKPAFc
-	 5JbRy9nso92tA==
-Message-ID: <212924d309cb8594fc61e1c5bb2ad07d5bb9312d.camel@collabora.com>
-Subject: Re: [PATCH v1 3/3] media: cedrus: Fix endless loop in
- cedrus_h265_skip_bits()
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: kernel@collabora.com, stable@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
-Date: Thu, 18 Aug 2022 17:17:02 -0400
-In-Reply-To: <2182ae07-4c0a-5937-7acc-3fad68d28baa@collabora.com>
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
-	 <20220818203308.439043-4-nicolas.dufresne@collabora.com>
-	 <2182ae07-4c0a-5937-7acc-3fad68d28baa@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14C77B;
+	Fri, 19 Aug 2022 04:16:16 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id fy5so6724323ejc.3;
+        Thu, 18 Aug 2022 21:16:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=vq1yZ0EE5iMuU3VXtaQDcy0x0rnS5PWC/88eh+empEo=;
+        b=NzNdQOgCrCIL0I2Xc0Dm59Sa6UUlWHOuEF95rHuCDjE/E440pppYQd44fnia0iqGtc
+         bwrQsf4YpQyO/n/cdcFwf/dYenrPlNLBnso/zOeK05h0izgq2sP8+b8Ys27UMzxR2Pzs
+         OtR0kJbOqNbMTjefPUPKHWoqtFAhKe7dmjRla7jlQrTff7D/4gK+ZY+1zL/xHtoV6iNC
+         0hsPBixC4WGZjgzRpoZy6nXKaPZMJ9PkfJOIazDqbFC+NbZLxcwJvhRVt3AZgADfKj9E
+         c2NBWcW3wO/FFXerQkEgthOmPvXInrhsgroOCxn1oWrDPI4lv6mUhBEi2mn4rSG7vLh5
+         TU4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=vq1yZ0EE5iMuU3VXtaQDcy0x0rnS5PWC/88eh+empEo=;
+        b=AF7vQQbGh79w8txDpmY9OP0qEkOxFtbhztZrZSt6mMqKmFW/QYTU/X5DVD/KdB4DqQ
+         jfta4/wDj3J+eeBHFzXp+UgrvEDlKoDxbnbmzyuuJKdzE5/GNszwxlc2vO4x0jQtl1an
+         NJHFwri5TLiZBPJxMINJRCLURE6BanuzpVpxWiqJ06lZt4lOpLT70iZQRbUSCF2Eijej
+         kQgjrDbsSNcbq/B8T0bjhcdXoBZkEKzlDNdyGkTZDX9m+N6W56C/rTBP6jc5EgwKK9Ux
+         Q9hf6ePNyKkuNzScXz0PY5SyX8DqOezcf44moNRwN6wirPXlJVf98bHoCNerkWtyrn/K
+         LxbQ==
+X-Gm-Message-State: ACgBeo09NKJU/nODqPqwYWSfKrGVM6w3o7srns4CHYwW0r1NR1VT+Prt
+	vUb0ZT1FRtKMtQGnN/7/RlU=
+X-Google-Smtp-Source: AA6agR4u+xoL53tF8jTeclefhfqlSHhBWjqPkJU0U4z6pxBmppCwnNGc/weUdHGATmCfPOiVyXK0rw==
+X-Received: by 2002:a17:907:60c7:b0:731:2be4:f72d with SMTP id hv7-20020a17090760c700b007312be4f72dmr3597074ejc.639.1660882575071;
+        Thu, 18 Aug 2022 21:16:15 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
+        by smtp.gmail.com with ESMTPSA id h22-20020a1709070b1600b0073087f7dfe2sm1703723ejl.125.2022.08.18.21.16.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Aug 2022 21:16:14 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>, stable@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] media: cedrus: Fix endless loop in cedrus_h265_skip_bits()
+Date: Fri, 19 Aug 2022 06:16:12 +0200
+Message-ID: <5849126.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20220818203308.439043-4-nicolas.dufresne@collabora.com>
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com> <20220818203308.439043-4-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Le jeudi 18 ao=C3=BBt 2022 =C3=A0 23:39 +0300, Dmitry Osipenko a =C3=A9crit=
-=C2=A0:
-> On 8/18/22 23:33, Nicolas Dufresne wrote:
-> > From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >=20
-> > The busy status bit may never de-assert if number of programmed skip
-> > bits is incorrect, resulting in a kernel hang because the bit is polled
-> > endlessly in the code. Fix it by adding timeout for the bit-polling.
-> > This problem is reproducible by setting the data_bit_offset field of
-> > the HEVC slice params to a wrong value by userspace.
-> >=20
-> > Cc: stable@vger.kernel.org
-> > Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > ---
-> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers=
-/staging/media/sunxi/cedrus/cedrus_h265.c
-> > index f703c585d91c5..f0bc118021b0a 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > @@ -227,6 +227,7 @@ static void cedrus_h265_pred_weight_write(struct ce=
-drus_dev *dev,
-> >  static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
-> >  {
-> >  	int count =3D 0;
-> > +	u32 reg;
+Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:08 CEST je Nicolas Dufresne napi=
+sal(a):
+> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 >=20
-> This "reg" variable isn't needed anymore after switching to
-> cedrus_wait_for(). Sorry, I missed it :)
+> The busy status bit may never de-assert if number of programmed skip
+> bits is incorrect, resulting in a kernel hang because the bit is polled
+> endlessly in the code. Fix it by adding timeout for the bit-polling.
+> This problem is reproducible by setting the data_bit_offset field of
+> the HEVC slice params to a wrong value by userspace.
+>=20
+> Cc: stable@vger.kernel.org
+> Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Good catch thanks, will fix.
+=46ixes tag would be nice.
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> f703c585d91c5..f0bc118021b0a 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -227,6 +227,7 @@ static void cedrus_h265_pred_weight_write(struct
+> cedrus_dev *dev, static void cedrus_h265_skip_bits(struct cedrus_dev *dev,
+> int num) {
+>  	int count =3D 0;
+> +	u32 reg;
+>=20
+>  	while (count < num) {
+>  		int tmp =3D min(num - count, 32);
+> @@ -234,8 +235,9 @@ static void cedrus_h265_skip_bits(struct cedrus_dev
+> *dev, int num) cedrus_write(dev, VE_DEC_H265_TRIGGER,
+>  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+>  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+> -		while (cedrus_read(dev, VE_DEC_H265_STATUS) &
+> VE_DEC_H265_STATUS_VLD_BUSY) -			udelay(1);
+> +
+> +		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS,
+> VE_DEC_H265_STATUS_VLD_BUSY)) +		=09
+dev_err_ratelimited(dev->dev, "timed out
+> waiting to skip bits\n");
+
+Reporting issue is nice, but better would be to propagate error, since ther=
+e=20
+is no way to properly decode this slice if above code block fails.
+
+Best regards,
+Jernej
 
 >=20
-> >  	while (count < num) {
-> >  		int tmp =3D min(num - count, 32);
-> > @@ -234,8 +235,9 @@ static void cedrus_h265_skip_bits(struct cedrus_dev=
- *dev, int num)
-> >  		cedrus_write(dev, VE_DEC_H265_TRIGGER,
-> >  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
-> >  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
-> > -		while (cedrus_read(dev, VE_DEC_H265_STATUS) & VE_DEC_H265_STATUS_VLD=
-_BUSY)
-> > -			udelay(1);
-> > +
-> > +		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_=
-BUSY))
-> > +			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
-> > =20
-> >  		count +=3D tmp;
-> >  	}
->=20
->=20
+>  		count +=3D tmp;
+>  	}
+
+
+
 
