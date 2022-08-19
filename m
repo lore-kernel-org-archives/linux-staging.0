@@ -1,105 +1,366 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CFE7B;
-	Fri, 19 Aug 2022 04:17:22 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id f22so4244810edc.7;
-        Thu, 18 Aug 2022 21:17:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3403917D6
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 07:38:02 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id y13so7251075ejp.13
+        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 00:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=6lvvXLfM5LOdFLVUiNZsTdpLpiUI86D4rWn+DOqYFh0=;
-        b=ibp45+6h5fzr/+9Ziardi4SQETtREv18AtDH1XSs3KsI5cHwHF+5uBV1cGVZfS474j
-         LTn9qriJulu3ZlRobCNa78GUscmgvcP+nyJMmnM4Mh35zz2vO+4mG5i09awCM2ke1j67
-         DjBFoLSOxKuCDw8E7bt/YhxFOP6HAAE5XKjxYo/o1aWh+DnYfjt1P6m7zTiyjCtMsBml
-         Bz7lGsm5uId/cMoWDTsbWVwCLmneLNdCobEijmfF5sDwrXM+KTzFdD0GXeMzP+AKGWOk
-         +yk1i3hsmKLrfQJGz7mMoK2aLgQiDqpS8sUUYn55LXo9wuJ4jcaKDZ2f9gmigw1ouO1Y
-         nq6A==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=XRZ4oMqk1JqBQKORZWtFm+zRqfCL6cTJrTdg54hfY08=;
+        b=gX3832kauCmUfEhHP1DytlP9Sy4wLU5tdJXnNoekkUvsiTYX18cFnfoMpTdeiPcP/l
+         HF0Jf0FxQ9+cfnDWpfG0jOFgEu/p2G2tdgaNsIOvk0v/vVyDjKpJ/mXBQ2b4tAyG9oET
+         NzlcGfV1mmBrpouTUkHNJTuX1TVM8Qu+v/VZnqHyTzW6y+ppLxbUR6Du9awwb0BolR32
+         hLt0tbdnWveSXBlzx0xSAThukSckHaK9Y2Wv3GRSZAYwCatGxtnyFPhw5IQ8iF5WX5pP
+         X0PndCF92seLurQ0OEk7GHjGxTAr/jGmRtxpW6AsPDTRo3w+N0iH8Xdzkl5itJmjHytb
+         BH/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=6lvvXLfM5LOdFLVUiNZsTdpLpiUI86D4rWn+DOqYFh0=;
-        b=Y/q7PUs4yDXbUB88qjKKkFBdEatfLVFzJdi+2u7/0KY69mWibdCFNYDlM2trPdf9IQ
-         MYREs6nTnrXR74Pt6tttzD2P2yCsdDUVemuDWsvHLprNTL1/Rf9Sm3pQiEx/nhu9rbJM
-         0lgB/mcSw02gWRa+dZS2Jfr1cXhAi+hL7D59xnA3DageUb5bcjVobv2f7FjFvomChcD8
-         E+6LiKP+rpeeZ0I/26MJvPDX9nU0h7OVyzKcUUPEbymXtnm/0dgxsnVRF6hMrVFMhSI6
-         KdpssxY+EawTlin/aN1qP22h9Uooy7fHwyjwRApOLdViFCuf9FMajlSi9OJL8ZZJhkIz
-         j9qw==
-X-Gm-Message-State: ACgBeo1XOwuFSczzxXKIGOuELJ514GzMyg3jZNCsThvD2iIwZGOIYrun
-	nbrAnsaUF8/EH4JAE9o8gsk=
-X-Google-Smtp-Source: AA6agR5Z07MgU4moBeeqztDOefM0MAGvbUBpqvrsjjGU91Kk0uWVg/sUdlSZTVDXHp7liUsXnY3Lqg==
-X-Received: by 2002:a05:6402:1f87:b0:43b:b88d:1d93 with SMTP id c7-20020a0564021f8700b0043bb88d1d93mr4507704edc.314.1660882640878;
-        Thu, 18 Aug 2022 21:17:20 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id d2-20020a170906304200b0073c37199b86sm1234394ejd.159.2022.08.18.21.17.19
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=XRZ4oMqk1JqBQKORZWtFm+zRqfCL6cTJrTdg54hfY08=;
+        b=iwKbwgBzerZ8eJLp3wrR104KzF2WfIDCGNUWjqEQui61MQxWUoux/GgTkzDBz4gax8
+         8oTYqy1GMCH77Y61pp1nPbLc2LL6gRcC5Ab2ysfQCuRNhrh6sgHEKf48kSuu2/IeGg8p
+         fzPaJaAp/A+HgZ30GH3+NWUpMOi1B1YZzo6DoOIFmiC8ctl5a7wfFf8809d7ojAPowk1
+         XhwxdPQXz34+Rb5JISo8deBDa1dOEFms0T2oB1iIRHAXk9iw4DJYJ+8FoSFrAdNtakMn
+         PgByVROzV20SqRBniizeclCzDi1uUiBBvhzj4klOoKd7t2SGjHvdyFP/7NZTjukOhXe/
+         XC7Q==
+X-Gm-Message-State: ACgBeo2ACETj3dK5zOb4FQPnTrahXHShHdAdCiiJVFlI8OBvnQ2uczbr
+	DuMsRmCD6ONUS4b0liPHqp4=
+X-Google-Smtp-Source: AA6agR7dO6T0U/EDqcrzhETMlHzHOYjf9yfOH52ZPUrJcykI31nLRFNVavZUXlSqsWzLZWDnEKYDKw==
+X-Received: by 2002:a17:906:dc89:b0:731:67eb:b60b with SMTP id cs9-20020a170906dc8900b0073167ebb60bmr3977587ejc.614.1660894680291;
+        Fri, 19 Aug 2022 00:38:00 -0700 (PDT)
+Received: from nam-dell.ucebne.fiit.stuba.sk ([147.175.148.17])
+        by smtp.gmail.com with ESMTPSA id p2-20020a170906604200b0072b1cb2818csm1927299ejj.158.2022.08.19.00.37.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 21:17:20 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>, stable@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] media: cedrus: Set the platform driver data earlier
-Date: Fri, 19 Aug 2022 06:17:19 +0200
-Message-ID: <4418189.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20220818203308.439043-3-nicolas.dufresne@collabora.com>
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com> <20220818203308.439043-3-nicolas.dufresne@collabora.com>
+        Fri, 19 Aug 2022 00:37:59 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	namcaov@gmail.com,
+	phil@philpotter.co.uk,
+	Larry.Finger@lwfinger.net,
+	paskripkin@gmail.com
+Subject: [PATCH] staging: r8188eu: remove unused function declarations
+Date: Fri, 19 Aug 2022 09:37:26 +0200
+Message-Id: <20220819073725.8263-1-namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:07 CEST je Nicolas Dufresne napi=
-sal(a):
-> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->=20
-> The cedrus_hw_resume() crashes with NULL deference on driver probe if
-> runtime PM is disabled because it uses platform data that hasn't been
-> set up yet. Fix this by setting the platform data earlier during probe.
+Remove some function declarations because they are neither used nor
+have definitions.
 
-Does it even work without PM? Maybe it would be better if Cedrus would sele=
-ct=20
-PM in Kconfig.
+Signed-off-by: Nam Cao <namcaov@gmail.com>
+---
+ .../staging/r8188eu/include/HalPhyRf_8188e.h  |  3 --
+ drivers/staging/r8188eu/include/hal_intf.h    |  3 --
+ drivers/staging/r8188eu/include/ieee80211.h   |  1 -
+ drivers/staging/r8188eu/include/recv_osdep.h  |  1 -
+ .../staging/r8188eu/include/rtl8188e_xmit.h   |  2 -
+ drivers/staging/r8188eu/include/rtw_ap.h      |  1 -
+ drivers/staging/r8188eu/include/rtw_cmd.h     |  7 ----
+ drivers/staging/r8188eu/include/rtw_io.h      | 37 -------------------
+ drivers/staging/r8188eu/include/rtw_iol.h     |  3 --
+ drivers/staging/r8188eu/include/rtw_mlme.h    |  5 ---
+ .../staging/r8188eu/include/rtw_mlme_ext.h    | 10 -----
+ drivers/staging/r8188eu/include/rtw_p2p.h     |  1 -
+ drivers/staging/r8188eu/include/rtw_xmit.h    |  1 -
+ 13 files changed, 75 deletions(-)
 
-Best regards,
-Jernej
-
->=20
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
-> 960a0130cd620..55c54dfdc585c 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -448,6 +448,8 @@ static int cedrus_probe(struct platform_device *pdev)
->  	if (!dev)
->  		return -ENOMEM;
->=20
-> +	platform_set_drvdata(pdev, dev);
-> +
->  	dev->vfd =3D cedrus_video_device;
->  	dev->dev =3D &pdev->dev;
->  	dev->pdev =3D pdev;
-> @@ -521,8 +523,6 @@ static int cedrus_probe(struct platform_device *pdev)
->  		goto err_m2m_mc;
->  	}
->=20
-> -	platform_set_drvdata(pdev, dev);
-> -
->  	return 0;
->=20
->  err_m2m_mc:
-
-
-
+diff --git a/drivers/staging/r8188eu/include/HalPhyRf_8188e.h b/drivers/staging/r8188eu/include/HalPhyRf_8188e.h
+index b75a5d869c56..ba38f83eabb9 100644
+--- a/drivers/staging/r8188eu/include/HalPhyRf_8188e.h
++++ b/drivers/staging/r8188eu/include/HalPhyRf_8188e.h
+@@ -24,9 +24,6 @@ void PHY_IQCalibrate_8188E(struct adapter *Adapter, bool ReCovery);
+ /*  LC calibrate */
+ void PHY_LCCalibrate_8188E(struct adapter *pAdapter);
+ 
+-/*  AP calibrate */
+-void PHY_DigitalPredistortion_8188E(struct adapter *pAdapter);
+-
+ void _PHY_SaveADDARegisters(struct adapter *pAdapter, u32 *ADDAReg,
+ 			    u32 *ADDABackup, u32 RegisterNum);
+ 
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index fd8e792958ce..3d03615bd3cd 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -30,14 +30,11 @@ unsigned int rtl8188eu_inirp_init(struct adapter *Adapter);
+ 
+ uint rtw_hal_init(struct adapter *padapter);
+ uint rtw_hal_deinit(struct adapter *padapter);
+-void rtw_hal_stop(struct adapter *padapter);
+ 
+ u32 rtl8188eu_hal_init(struct adapter *Adapter);
+ u32 rtl8188eu_hal_deinit(struct adapter *Adapter);
+ 
+ void rtw_hal_update_ra_mask(struct adapter *padapter, u32 mac_id, u8 level);
+-void	rtw_hal_clone_data(struct adapter *dst_adapt,
+-			   struct adapter *src_adapt);
+ 
+ void indicate_wx_scan_complete_event(struct adapter *padapter);
+ u8 rtw_do_join(struct adapter *padapter);
+diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
+index e7a4f8af497a..8e3c39090b53 100644
+--- a/drivers/staging/r8188eu/include/ieee80211.h
++++ b/drivers/staging/r8188eu/include/ieee80211.h
+@@ -760,7 +760,6 @@ unsigned char *rtw_get_wpa_ie(unsigned char *pie, int *wpa_ie_len, int limit);
+ unsigned char *rtw_get_wpa2_ie(unsigned char *pie, int *rsn_ie_len, int limit);
+ int rtw_get_wpa_cipher_suite(u8 *s);
+ int rtw_get_wpa2_cipher_suite(u8 *s);
+-int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len);
+ int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher,
+ 		     int *pairwise_cipher, int *is_8021x);
+ int rtw_parse_wpa2_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher,
+diff --git a/drivers/staging/r8188eu/include/recv_osdep.h b/drivers/staging/r8188eu/include/recv_osdep.h
+index d88fd6058a62..c51e8633c61b 100644
+--- a/drivers/staging/r8188eu/include/recv_osdep.h
++++ b/drivers/staging/r8188eu/include/recv_osdep.h
+@@ -11,7 +11,6 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
+ void _rtw_free_recv_priv(struct recv_priv *precvpriv);
+ 
+ s32  rtw_recv_entry(struct recv_frame *precv_frame);
+-void rtw_recv_returnpacket(struct  net_device *cnxt, struct sk_buff *retpkt);
+ 
+ int rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
+ void rtw_free_recv_priv(struct recv_priv *precvpriv);
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_xmit.h b/drivers/staging/r8188eu/include/rtl8188e_xmit.h
+index c69fed23ded9..275b901f0208 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_xmit.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_xmit.h
+@@ -140,8 +140,6 @@ void rtl8188e_fill_fake_txdesc(struct adapter *padapter, u8 *pDesc,
+ s32 rtl8188eu_init_xmit_priv(struct adapter *padapter);
+ s32 rtl8188eu_hal_xmit(struct adapter *padapter, struct xmit_frame *frame);
+ s32 rtl8188eu_mgnt_xmit(struct adapter *padapter, struct xmit_frame *frame);
+-s32 rtl8188eu_xmit_buf_handler(struct adapter *padapter);
+-#define hal_xmit_handler rtl8188eu_xmit_buf_handler
+ void rtl8188eu_xmit_tasklet(unsigned long priv);
+ bool rtl8188eu_xmitframe_complete(struct adapter *padapter,
+ 				 struct xmit_priv *pxmitpriv,
+diff --git a/drivers/staging/r8188eu/include/rtw_ap.h b/drivers/staging/r8188eu/include/rtw_ap.h
+index 724229fe84aa..84adf58f2fef 100644
+--- a/drivers/staging/r8188eu/include/rtw_ap.h
++++ b/drivers/staging/r8188eu/include/rtw_ap.h
+@@ -20,7 +20,6 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta,
+ 	       u8 rssi_level);
+ void expire_timeout_chk(struct adapter *padapter);
+ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta);
+-void rtw_ap_restore_network(struct adapter *padapter);
+ 
+ void associated_clients_update(struct adapter *padapter, u8 updated);
+ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta);
+diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
+index 6b6d560d7143..07c7ca20506f 100644
+--- a/drivers/staging/r8188eu/include/rtw_cmd.h
++++ b/drivers/staging/r8188eu/include/rtw_cmd.h
+@@ -87,7 +87,6 @@ void rtw_free_cmd_priv(struct cmd_priv *pcmdpriv);
+ 
+ u32 rtw_init_evt_priv(struct evt_priv *pevtpriv);
+ void rtw_free_evt_priv(struct evt_priv *pevtpriv);
+-void rtw_evt_notify_isr(struct evt_priv *pevtpriv);
+ u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType);
+ 
+ enum rtw_drvextra_cmd_id {
+@@ -740,11 +739,6 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network* pnetwork);
+ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueue);
+ u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infra networktype);
+ u8 rtw_setdatarate_cmd(struct adapter  *padapter, u8 *rateset);
+-u8 rtw_setrfintfs_cmd(struct adapter  *padapter, u8 mode);
+-
+-u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset,u8 *pval);
+-u8 rtw_setfwdig_cmd(struct adapter*padapter, u8 type);
+-u8 rtw_setfwra_cmd(struct adapter*padapter, u8 type);
+ 
+ u8 rtw_addbareq_cmd(struct adapter*padapter, u8 tid, u8 *addr);
+ 
+@@ -772,7 +766,6 @@ void rtw_getbbrfreg_cmdrsp_callback(struct adapter *adapt, struct cmd_obj *cmd);
+ 
+ void rtw_setstaKey_cmdrsp_callback(struct adapter *adapt, struct cmd_obj *cmd);
+ void rtw_setassocsta_cmdrsp_callback(struct adapter *adapt, struct cmd_obj *cm);
+-void rtw_getrttbl_cmdrsp_callback(struct adapter *adapt, struct cmd_obj *cmd);
+ 
+ struct _cmd_callback {
+ 	u32	cmd_code;
+diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
+index 925c7967ac04..81961e598597 100644
+--- a/drivers/staging/r8188eu/include/rtw_io.h
++++ b/drivers/staging/r8188eu/include/rtw_io.h
+@@ -208,22 +208,9 @@ struct io_priv {
+ 	struct intf_hdl intf;
+ };
+ 
+-uint ioreq_flush(struct adapter *adapter, struct io_queue *ioqueue);
+-void sync_ioreq_enqueue(struct io_req *preq,struct io_queue *ioqueue);
+-uint sync_ioreq_flush(struct adapter *adapter, struct io_queue *ioqueue);
+-uint free_ioreq(struct io_req *preq, struct io_queue *pio_queue);
+-struct io_req *alloc_ioreq(struct io_queue *pio_q);
+-
+-uint register_intf_hdl(u8 *dev, struct intf_hdl *pintfhdl);
+-void unregister_intf_hdl(struct intf_hdl *pintfhdl);
+-
+-void _rtw_attrib_read(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+-void _rtw_attrib_write(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+-
+ int __must_check rtw_read8(struct adapter *adapter, u32 addr, u8 *data);
+ int __must_check rtw_read16(struct adapter *adapter, u32 addr, u16 *data);
+ int __must_check rtw_read32(struct adapter *adapter, u32 addr, u32 *data);
+-void _rtw_read_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+ u32 rtw_read_port(struct adapter *adapter, u8 *pmem);
+ void rtw_read_port_cancel(struct adapter *adapter);
+ 
+@@ -232,20 +219,9 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val);
+ int rtw_write32(struct adapter *adapter, u32 addr, u32 val);
+ int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *pdata);
+ 
+-void _rtw_write_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+ u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+ void rtw_write_port_cancel(struct adapter *adapter);
+ 
+-void rtw_write_scsi(struct adapter *adapter, u32 cnt, u8 *pmem);
+-
+-/* ioreq */
+-void ioreq_read8(struct adapter *adapter, u32 addr, u8 *pval);
+-void ioreq_read16(struct adapter *adapter, u32 addr, u16 *pval);
+-void ioreq_read32(struct adapter *adapter, u32 addr, u32 *pval);
+-void ioreq_write8(struct adapter *adapter, u32 addr, u8 val);
+-void ioreq_write16(struct adapter *adapter, u32 addr, u16 val);
+-void ioreq_write32(struct adapter *adapter, u32 addr, u32 val);
+-
+ uint async_read8(struct adapter *adapter, u32 addr, u8 *pbuff,
+ 		 void (*_async_io_callback)(struct adapter *padater,
+ 					    struct io_req *pio_req,
+@@ -259,9 +235,6 @@ uint async_read32(struct adapter *adapter, u32 addr,  u8 *pbuff,
+ 					     struct io_req *pio_req,
+ 					     u8 *cnxt), u8 *cnxt);
+ 
+-void async_read_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+-void async_read_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+-
+ void async_write8(struct adapter *adapter, u32 addr, u8 val,
+ 		  void (*_async_io_callback)(struct adapter *padater,
+ 					     struct io_req *pio_req,
+@@ -275,16 +248,6 @@ void async_write32(struct adapter *adapter, u32 addr, u32 val,
+ 					      struct io_req *pio_req,
+ 					      u8 *cnxt), u8 *cnxt);
+ 
+-void async_write_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+-void async_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+-
+-uint alloc_io_queue(struct adapter *adapter);
+-void free_io_queue(struct adapter *adapter);
+-void async_bus_io(struct io_queue *pio_q);
+-void bus_sync_io(struct io_queue *pio_q);
+-u32 _ioreq2rwmem(struct io_queue *pio_q);
+-void dev_power_down(struct adapter *Adapter, u8 bpwrup);
+-
+ #define PlatformEFIOWrite1Byte(_a,_b,_c)		\
+ 	rtw_write8(_a,_b,_c)
+ #define PlatformEFIOWrite2Byte(_a,_b,_c)		\
+diff --git a/drivers/staging/r8188eu/include/rtw_iol.h b/drivers/staging/r8188eu/include/rtw_iol.h
+index 099f5a075274..2ad5245a42a9 100644
+--- a/drivers/staging/r8188eu/include/rtw_iol.h
++++ b/drivers/staging/r8188eu/include/rtw_iol.h
+@@ -38,9 +38,6 @@ int rtw_IOL_append_DELAY_US_cmd(struct xmit_frame *xmit_frame, u16 us);
+ int rtw_IOL_append_DELAY_MS_cmd(struct xmit_frame *xmit_frame, u16 ms);
+ int rtw_IOL_append_END_cmd(struct xmit_frame *xmit_frame);
+ 
+-void read_efuse_from_txpktbuf(struct adapter *adapter, int bcnhead,
+-			      u8 *content, u16 *size);
+-
+ int rtw_IOL_append_WB_cmd(struct xmit_frame *xmit_frame, u16 addr,
+ 			  u8 value, u8 mask);
+ int rtw_IOL_append_WW_cmd(struct xmit_frame *xmit_frame, u16 addr,
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/staging/r8188eu/include/rtw_mlme.h
+index d81668498e46..4c8c02c6b9d6 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme.h
+@@ -414,9 +414,6 @@ struct mlme_priv {
+ 	u8		update_bcn;
+ };
+ 
+-int hostapd_mode_init(struct adapter *padapter);
+-void hostapd_mode_unload(struct adapter *padapter);
+-
+ extern unsigned char WPA_TKIP_CIPHER[4];
+ extern unsigned char RSN_TKIP_CIPHER[4];
+ extern unsigned char REALTEK_96B_IE[];
+@@ -528,8 +525,6 @@ static inline void set_scanned_network_val(struct mlme_priv *pmlmepriv, int val)
+ u16 rtw_get_capability(struct wlan_bssid_ex *bss);
+ void rtw_update_scanned_network(struct adapter *adapter,
+ 				struct wlan_bssid_ex *target);
+-void rtw_disconnect_hdl_under_linked(struct adapter *adapter,
+-				     struct sta_info *psta, u8 free_assoc);
+ void rtw_generate_random_ibss(u8 *pibss);
+ struct wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr);
+ struct wlan_network *rtw_get_oldest_wlan_network(struct __queue *scanned_queue);
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index 343ce1ce4b3d..7b328848af84 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -488,8 +488,6 @@ void report_add_sta_event(struct adapter *padapter, unsigned char* addr,
+ 
+ void beacon_timing_control(struct adapter *padapter);
+ extern u8 set_tx_beacon_cmd(struct adapter*padapter);
+-unsigned int setup_beacon_frame(struct adapter *padapter,
+-				unsigned char *beacon_frame);
+ void update_mgnt_tx_rate(struct adapter *padapter, u8 rate);
+ void update_mgntframe_attrib(struct adapter *padapter,
+ 			     struct pkt_attrib *pattrib);
+@@ -597,12 +595,6 @@ struct cmd_hdl {
+ 	u8 (*h2cfuns)(struct adapter  *padapter, u8 *pbuf);
+ };
+ 
+-u8 read_macreg_hdl(struct adapter *padapter, u8 *pbuf);
+-u8 write_macreg_hdl(struct adapter *padapter, u8 *pbuf);
+-u8 read_bbreg_hdl(struct adapter *padapter, u8 *pbuf);
+-u8 write_bbreg_hdl(struct adapter *padapter, u8 *pbuf);
+-u8 read_rfreg_hdl(struct adapter *padapter, u8 *pbuf);
+-u8 write_rfreg_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 NULL_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 disconnect_hdl(struct adapter *padapter, u8 *pbuf);
+@@ -612,8 +604,6 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 setauth_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 setkey_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 set_stakey_hdl(struct adapter *padapter, u8 *pbuf);
+-u8 set_assocsta_hdl(struct adapter *padapter, u8 *pbuf);
+-u8 del_assocsta_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 add_ba_hdl(struct adapter *padapter, unsigned char *pbuf);
+ 
+ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf);
+diff --git a/drivers/staging/r8188eu/include/rtw_p2p.h b/drivers/staging/r8188eu/include/rtw_p2p.h
+index b91322a1fe10..c921e90c305d 100644
+--- a/drivers/staging/r8188eu/include/rtw_p2p.h
++++ b/drivers/staging/r8188eu/include/rtw_p2p.h
+@@ -37,7 +37,6 @@ void process_p2p_ps_ie(struct adapter *padapter, u8 *ies, u32 ielength);
+ void p2p_ps_wk_hdl(struct adapter *padapter, u8 p2p_ps_state);
+ u8 p2p_ps_wk_cmd(struct adapter *padapter, u8 p2p_ps_state, u8 enqueue);
+ void reset_global_wifidirect_info(struct adapter *padapter);
+-int rtw_init_wifi_display_info(struct adapter *padapter);
+ void rtw_init_wifidirect_timers(struct adapter *padapter);
+ void rtw_init_wifidirect_addrs(struct adapter *padapter, u8 *dev_addr,
+ 			       u8 *iface_addr);
+diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
+index 034a9f8f51c9..5c186e8137c5 100644
+--- a/drivers/staging/r8188eu/include/rtw_xmit.h
++++ b/drivers/staging/r8188eu/include/rtw_xmit.h
+@@ -333,7 +333,6 @@ s32 rtw_xmit_classifier(struct adapter *padapter,
+ 			struct xmit_frame *pxmitframe);
+ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt,
+ 			   struct xmit_frame *pxmitframe);
+-s32 _rtw_init_hw_txqueue(struct hw_txqueue *phw_txqueue, u8 ac_tag);
+ void _rtw_init_sta_xmit_priv(struct sta_xmit_priv *psta_xmitpriv);
+ s32 rtw_txframes_pending(struct adapter *padapter);
+ s32 rtw_txframes_sta_ac_pending(struct adapter *padapter,
+-- 
+2.25.1
 
