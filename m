@@ -1,23 +1,25 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE2F17EE
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 08:20:18 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id D9094C2F0B
-	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 08:03:58 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3B7451C0004;
-	Fri, 19 Aug 2022 08:03:48 +0000 (UTC)
-Date: Fri, 19 Aug 2022 10:03:47 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FC55CA9
+	for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 08:43:33 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1oOxbB-0007cY-50; Fri, 19 Aug 2022 10:43:25 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1oOxbA-00023g-K2; Fri, 19 Aug 2022 10:43:24 +0200
+Date: Fri, 19 Aug 2022 10:43:24 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
 To: Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Steve Longerbeam <slongerbeam@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH] media: imx: Use get_mbus_config instead of parsing
  upstream DT endpoints
-Message-ID: <20220819080347.wvzb6avyaperfcy2@uno.localdomain>
+Message-ID: <20220819084324.vddnbtsiurdxp7rz@pengutronix.de>
 References: <20220818124253.753080-1-p.zabel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -25,28 +27,40 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20220818124253.753080-1-p.zabel@pengutronix.de>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Hi Philipp
+Hi Philipp,
 
-On Thu, Aug 18, 2022 at 02:42:53PM +0200, Philipp Zabel wrote:
+thanks for the patch.
+
+On 22-08-18, Philipp Zabel wrote:
 > Stop parsing upstream neighbors' device-tree endpoints to retrieve the
 > media bus configuration. Instead use the get_mbus_config op and throw an
 > error if the upstream subdevice does not implement it.
->
+> 
 > Also drop the corresponding TODO entry and the now unused
 > imx_media_get_pad_fwnode() function.
->
+> 
 > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+feel free to add my:
+
+Tested-by: Marco Felsch <m.felsch@pengutronix.de>
+
 > ---
 >  drivers/staging/media/imx/TODO              |  12 --
 >  drivers/staging/media/imx/imx-media-csi.c   | 122 +++++++++-----------
 >  drivers/staging/media/imx/imx-media-utils.c |  33 ------
 >  drivers/staging/media/imx/imx-media.h       |   1 -
 >  4 files changed, 56 insertions(+), 112 deletions(-)
->
+> 
 > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
 > index 5d3a337c8702..62d0426445c2 100644
 > --- a/drivers/staging/media/imx/TODO
@@ -54,7 +68,7 @@ On Thu, Aug 18, 2022 at 02:42:53PM +0200, Philipp Zabel wrote:
 > @@ -2,18 +2,6 @@
 >  - The Frame Interval Monitor could be exported to v4l2-core for
 >    general use.
->
+>  
 > -- The CSI subdevice parses its nearest upstream neighbor's device-tree
 > -  bus config in order to setup the CSI. Laurent Pinchart argues that
 > -  instead the CSI subdev should call its neighbor's g_mbus_config op
@@ -77,32 +91,32 @@ On Thu, Aug 18, 2022 at 02:42:53PM +0200, Philipp Zabel wrote:
 > @@ -97,8 +97,8 @@ struct csi_priv {
 >  	/* the mipi virtual channel number at link validate */
 >  	int vc_num;
->
+>  
 > -	/* the upstream endpoint CSI is receiving from */
 > -	struct v4l2_fwnode_endpoint upstream_ep;
 > +	/* media bus config of the upstream subdevice CSI is receiving from */
 > +	struct v4l2_mbus_config mbus_cfg;
->
+>  
 >  	spinlock_t irqlock; /* protect eof_irq handler */
 >  	struct timer_list eof_timeout_timer;
 > @@ -125,14 +125,14 @@ static inline struct csi_priv *notifier_to_dev(struct v4l2_async_notifier *n)
 >  	return container_of(n, struct csi_priv, notifier);
 >  }
->
+>  
 > -static inline bool is_parallel_bus(struct v4l2_fwnode_endpoint *ep)
 > +static inline bool is_parallel_bus(struct v4l2_mbus_config *mbus_cfg)
 >  {
 > -	return ep->bus_type != V4L2_MBUS_CSI2_DPHY;
 > +	return mbus_cfg->type != V4L2_MBUS_CSI2_DPHY;
 >  }
->
+>  
 > -static inline bool is_parallel_16bit_bus(struct v4l2_fwnode_endpoint *ep)
 > +static inline bool is_parallel_16bit_bus(struct v4l2_mbus_config *mbus_cfg)
 >  {
 > -	return is_parallel_bus(ep) && ep->bus.parallel.bus_width >= 16;
 > +	return is_parallel_bus(mbus_cfg) && mbus_cfg->bus.parallel.bus_width >= 16;
 >  }
->
+>  
 >  /*
 > @@ -145,33 +145,31 @@ static inline bool is_parallel_16bit_bus(struct v4l2_fwnode_endpoint *ep)
 >   * - the CSI is receiving from an 8-bit parallel bus and the incoming
@@ -116,7 +130,7 @@ On Thu, Aug 18, 2022 at 02:42:53PM +0200, Philipp Zabel wrote:
 > -	if (ep->bus_type == V4L2_MBUS_BT656) // including BT.1120
 > +	if (mbus_cfg->type == V4L2_MBUS_BT656) // including BT.1120
 >  		return false;
->
+>  
 > -	return incc->bayer || is_parallel_16bit_bus(ep) ||
 > -		(is_parallel_bus(ep) &&
 > +	return incc->bayer || is_parallel_16bit_bus(mbus_cfg) ||
@@ -124,7 +138,7 @@ On Thu, Aug 18, 2022 at 02:42:53PM +0200, Philipp Zabel wrote:
 >  		 infmt->code != MEDIA_BUS_FMT_UYVY8_2X8 &&
 >  		 infmt->code != MEDIA_BUS_FMT_YUYV8_2X8);
 >  }
->
+>  
 >  /*
 > - * Parses the fwnode endpoint from the source pad of the entity
 > - * connected to this CSI. This will either be the entity directly
@@ -148,15 +162,12 @@ On Thu, Aug 18, 2022 at 02:42:53PM +0200, Philipp Zabel wrote:
 > +	struct v4l2_subdev *sd, *remote_sd;
 > +	struct media_pad *remote_pad;
 > +	int ret;
->
+>  
 >  	if (!IS_ENABLED(CONFIG_OF))
 >  		return -ENXIO;
-
-Is this still necessary ?
-
 > @@ -206,19 +204,21 @@ static int csi_get_upstream_endpoint(struct csi_priv *priv,
 >  	}
->
+>  
 >  	/* get source pad of entity directly upstream from sd */
 > -	pad = imx_media_pipeline_pad(&sd->entity, 0, 0, true);
 > -	if (!pad)
@@ -169,10 +180,10 @@ Is this still necessary ?
 > +						    MEDIA_PAD_FL_SOURCE);
 > +	if (IS_ERR(remote_pad))
 > +		return PTR_ERR(remote_pad);
->
+>  
 > -	v4l2_fwnode_endpoint_parse(endpoint, ep);
 > +	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
->
+>  
 > -	fwnode_handle_put(endpoint);
 > +	ret = v4l2_subdev_call(remote_sd, pad, get_mbus_config,
 > +			       remote_pad->index, mbus_cfg);
@@ -180,25 +191,20 @@ Is this still necessary ?
 > +		v4l2_err(&priv->sd,
 > +			 "upstream entity %s does not implement get_mbus_config()\n",
 > +			 remote_pad->entity->name);
-
-This makes mandatory for the remote to implement .get_mbus_config().
-I think it is fine, even more this is staging, and I don't think you
-can use any meaningful default in case the op is not implemented...
-
->
+>  
 > -	return 0;
 > +	return ret;
 >  }
->
+>  
 >  static void csi_idmac_put_ipu_resources(struct csi_priv *priv)
 > @@ -435,7 +435,7 @@ static int csi_idmac_setup_channel(struct csi_priv *priv)
 >  	image.phys0 = phys[0];
 >  	image.phys1 = phys[1];
->
+>  
 > -	passthrough = requires_passthrough(&priv->upstream_ep, infmt, incc);
 > +	passthrough = requires_passthrough(&priv->mbus_cfg, infmt, incc);
 >  	passthrough_cycles = 1;
->
+>  
 >  	/*
 > @@ -708,7 +708,6 @@ static int csi_setup(struct csi_priv *priv)
 >  {
@@ -207,11 +213,11 @@ can use any meaningful default in case the op is not implemented...
 > -	struct v4l2_mbus_config mbus_cfg;
 >  	struct v4l2_mbus_framefmt if_fmt;
 >  	struct v4l2_rect crop;
->
+>  
 > @@ -716,13 +715,6 @@ static int csi_setup(struct csi_priv *priv)
 >  	incc = priv->cc[CSI_SINK_PAD];
 >  	outfmt = &priv->format_mbus[priv->active_output_pad];
->
+>  
 > -	/* compose mbus_config from the upstream endpoint */
 > -	mbus_cfg.type = priv->upstream_ep.bus_type;
 > -	if (is_parallel_bus(&priv->upstream_ep))
@@ -221,7 +227,7 @@ can use any meaningful default in case the op is not implemented...
 > -
 >  	if_fmt = *infmt;
 >  	crop = priv->crop;
->
+>  
 > @@ -730,7 +722,7 @@ static int csi_setup(struct csi_priv *priv)
 >  	 * if cycles is set, we need to handle this over multiple cycles as
 >  	 * generic/bayer data
@@ -234,20 +240,20 @@ can use any meaningful default in case the op is not implemented...
 > @@ -741,7 +733,7 @@ static int csi_setup(struct csi_priv *priv)
 >  			     priv->crop.width == 2 * priv->compose.width,
 >  			     priv->crop.height == 2 * priv->compose.height);
->
+>  
 > -	ipu_csi_init_interface(priv->csi, &mbus_cfg, &if_fmt, outfmt);
 > +	ipu_csi_init_interface(priv->csi, &priv->mbus_cfg, &if_fmt, outfmt);
->
+>  
 >  	ipu_csi_set_dest(priv->csi, priv->dest);
->
+>  
 > @@ -769,7 +761,7 @@ static int csi_start(struct csi_priv *priv)
 >  		return ret;
->
+>  
 >  	/* Skip first few frames from a BT.656 source */
 > -	if (priv->upstream_ep.bus_type == V4L2_MBUS_BT656) {
 > +	if (priv->mbus_cfg.type == V4L2_MBUS_BT656) {
 >  		u32 delay_usec, bad_frames = 20;
->
+>  
 >  		delay_usec = DIV_ROUND_UP_ULL((u64)USEC_PER_SEC *
 > @@ -1118,7 +1110,7 @@ static int csi_link_validate(struct v4l2_subdev *sd,
 >  			     struct v4l2_subdev_format *sink_fmt)
@@ -257,11 +263,11 @@ can use any meaningful default in case the op is not implemented...
 > +	struct v4l2_mbus_config mbus_cfg = { .type = 0 };
 >  	bool is_csi2;
 >  	int ret;
->
+>  
 > @@ -1127,16 +1119,16 @@ static int csi_link_validate(struct v4l2_subdev *sd,
 >  	if (ret)
 >  		return ret;
->
+>  
 > -	ret = csi_get_upstream_endpoint(priv, &upstream_ep);
 > +	ret = csi_get_upstream_mbus_config(priv, &mbus_cfg);
 >  	if (ret) {
@@ -269,9 +275,9 @@ can use any meaningful default in case the op is not implemented...
 > +		v4l2_err(&priv->sd, "failed to find upstream media bus configuration\n");
 >  		return ret;
 >  	}
->
+>  
 >  	mutex_lock(&priv->lock);
->
+>  
 > -	priv->upstream_ep = upstream_ep;
 > -	is_csi2 = !is_parallel_bus(&upstream_ep);
 > +	priv->mbus_cfg = mbus_cfg;
@@ -287,7 +293,7 @@ can use any meaningful default in case the op is not implemented...
 > +			 struct v4l2_mbus_config *mbus_cfg)
 >  {
 >  	u32 in_height;
->
+>  
 > @@ -1216,7 +1208,7 @@ static void csi_try_crop(struct csi_priv *priv,
 >  	 * sync, so fix it to NTSC/PAL active lines. NTSC contains
 >  	 * 2 extra lines of active video that need to be cropped.
@@ -314,12 +320,9 @@ can use any meaningful default in case the op is not implemented...
 > +		ret = csi_get_upstream_mbus_config(priv, &mbus_cfg);
 >  		if (ret) {
 >  			v4l2_err(&priv->sd, "failed to find upstream endpoint\n");
-
-Should the error message be updated ?
-
 >  			goto out;
 >  		}
->
+>  
 > -		if (requires_passthrough(&upstream_ep, infmt, incc)) {
 > +		if (requires_passthrough(&mbus_cfg, infmt, incc)) {
 >  			if (code->index != 0) {
@@ -327,7 +330,7 @@ Should the error message be updated ?
 >  				goto out;
 > @@ -1430,7 +1422,7 @@ static void csi_try_field(struct csi_priv *priv,
 >  }
->
+>  
 >  static void csi_try_fmt(struct csi_priv *priv,
 > -			struct v4l2_fwnode_endpoint *upstream_ep,
 > +			struct v4l2_mbus_config *mbus_cfg,
@@ -337,7 +340,7 @@ Should the error message be updated ?
 > @@ -1451,7 +1443,7 @@ static void csi_try_fmt(struct csi_priv *priv,
 >  		sdformat->format.width = compose->width;
 >  		sdformat->format.height = compose->height;
->
+>  
 > -		if (requires_passthrough(upstream_ep, infmt, incc)) {
 > +		if (requires_passthrough(mbus_cfg, infmt, incc)) {
 >  			sdformat->format.code = infmt->code;
@@ -365,23 +368,20 @@ Should the error message be updated ?
 > @@ -1529,7 +1520,7 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
 >  	if (sdformat->pad >= CSI_NUM_PADS)
 >  		return -EINVAL;
->
+>  
 > -	ret = csi_get_upstream_endpoint(priv, &upstream_ep);
 > +	ret = csi_get_upstream_mbus_config(priv, &mbus_cfg);
 >  	if (ret) {
 >  		v4l2_err(&priv->sd, "failed to find upstream endpoint\n");
-
-Same here
-
 >  		return ret;
 > @@ -1545,8 +1536,7 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
 >  	crop = __csi_get_crop(priv, sd_state, sdformat->which);
 >  	compose = __csi_get_compose(priv, sd_state, sdformat->which);
->
+>  
 > -	csi_try_fmt(priv, &upstream_ep, sd_state, sdformat, crop, compose,
 > -		    &cc);
 > +	csi_try_fmt(priv, &mbus_cfg, sd_state, sdformat, crop, compose, &cc);
->
+>  
 >  	fmt = __csi_get_fmt(priv, sd_state, sdformat->pad, sdformat->which);
 >  	*fmt = sdformat->format;
 > @@ -1563,8 +1553,8 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
@@ -392,7 +392,7 @@ Same here
 > -				    NULL, compose, &outcc);
 > +			csi_try_fmt(priv, &mbus_cfg, sd_state, &format, NULL,
 > +				    compose, &outcc);
->
+>  
 >  			outfmt = __csi_get_fmt(priv, sd_state, pad,
 >  					       sdformat->which);
 > @@ -1652,7 +1642,7 @@ static int csi_set_selection(struct v4l2_subdev *sd,
@@ -407,24 +407,21 @@ Same here
 > @@ -1660,7 +1650,7 @@ static int csi_set_selection(struct v4l2_subdev *sd,
 >  	if (sel->pad != CSI_SINK_PAD)
 >  		return -EINVAL;
->
+>  
 > -	ret = csi_get_upstream_endpoint(priv, &upstream_ep);
 > +	ret = csi_get_upstream_mbus_config(priv, &mbus_cfg);
 >  	if (ret) {
 >  		v4l2_err(&priv->sd, "failed to find upstream endpoint\n");
-
-And same here!
-
 >  		return ret;
 > @@ -1691,7 +1681,7 @@ static int csi_set_selection(struct v4l2_subdev *sd,
 >  			goto out;
 >  		}
->
+>  
 > -		csi_try_crop(priv, &sel->r, sd_state, infmt, &upstream_ep);
 > +		csi_try_crop(priv, &sel->r, sd_state, infmt, &mbus_cfg);
->
+>  
 >  		*crop = sel->r;
->
+>  
 > diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
 > index 294c808b2ebe..70dc89d6503b 100644
 > --- a/drivers/staging/media/imx/imx-media-utils.c
@@ -432,7 +429,7 @@ And same here!
 > @@ -813,39 +813,6 @@ imx_media_pipeline_video_device(struct media_entity *start_entity,
 >  }
 >  EXPORT_SYMBOL_GPL(imx_media_pipeline_video_device);
->
+>  
 > -/*
 > - * Find a fwnode endpoint that maps to the given subdevice's pad.
 > - * If there are multiple endpoints that map to the pad, only the
@@ -478,16 +475,10 @@ And same here!
 >  imx_media_pipeline_video_device(struct media_entity *start_entity,
 >  				enum v4l2_buf_type buftype, bool upstream);
 > -struct fwnode_handle *imx_media_get_pad_fwnode(struct media_pad *pad);
->
-
-All minors, with the error messages fixed
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
-   j
-
+>  
 >  struct imx_media_dma_buf {
 >  	void          *virt;
-> --
+> -- 
 > 2.30.2
->
+> 
+> 
