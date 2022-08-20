@@ -1,41 +1,41 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2906E3201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE7C3224
 	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 18:16:47 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id x21so9149973edd.3
+Received: by mail-ej1-f49.google.com with SMTP id gt3so1823159ejb.12
         for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 11:16:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=yjcPgw0CG7/5/Itv9oWRmuj8uNx0y9j81u7fcqrcyG8=;
-        b=fKY56u27nZCdc2CpciMfhjUjjFmX1muPxps4Tl6+riE/nFQcGjUrmjWc+rmd3mRjQJ
-         p9pVfNHdz1Oq7qO5gsHMbLFSOmCxrPlwBZEhNwNr+oO+gCya3XFkA0+Nit8KsXLoXa8l
-         6PYTBWeBqz9/vLV7E3hBNFx6eD/CWR1vzCg6K+eh8XJn3b1arvdSspqY5rdbsbxJPMr8
-         jDY8N41Tti3CXcb4XU6Dt3y+bVC/OtrmRTsVHz9QPHNEt20GTrKF4rDgwcimK4HxogsL
-         XIh+xZLC9uP7Wv/Srvb5SCm3Xv0zO9mUya0bLv8Sl9Onhrv7+AHfiKy/RdWPUPXV/aB2
-         bgHQ==
+        bh=c5ehAN+V6o0UyrUy4MpXxQSXfN8Q8ckg1hQmpn4R19w=;
+        b=KSqi7rl4+1guhMKdYi9+VP4e2YDJqZXP5I7clqBORFVSYNA81f/iK7jIIUlMa2u9Qe
+         WprQl1RL/KmOfk+8tRf0dYwIawmTrp2Vvtboie7OUNkzuoyGIcfarw267CgF89C9uwf1
+         WsDzBKAv5dcPfFzhO/iRW+MTeWBrP/iG9XvAZ/LeTMxfctB2Vw7vsMYA79WZd2KggGde
+         7XjhkapIFHDyIh3dHqVvVZE17TiBUThobPaymVp3KgSK9pYfIyhJZmSX+AkTu00kLk8+
+         aLxuT5oM3rWMA8ev9N0LBXHPMoUZQH5+uxuzrme1t2Hxy/NWYOxiX9a6YQdHvT48QRxq
+         HhIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=yjcPgw0CG7/5/Itv9oWRmuj8uNx0y9j81u7fcqrcyG8=;
-        b=C9JJ6YBfnH1pouVALMAk5BYM5nfr45cfZSBV/+zH9XhnzlsPYiDw4Di+qup8sFQAxg
-         KPNtul3/WcekW5h405QORRdWrb0gY8ukLOp29dYSRVMUAQg3BFVFa8fnUoukJmuokZ+e
-         BErcl2imXqFa8fQ8s3iBEgm3T1Q7k+WdcwQYVsYmaEAbz0l5kKtazjvSSoTwIwknLYpq
-         SJsFDplnMoWO5UTWmh/fiq2AzqiVL3/M8Ts9qI0yqejk2Ml+xz4fASDkP0iVF+ucLXD2
-         zQ2DchBHOwgFvW7P7lXeN1unOD+GyNa8EUGxrM/KOGYXRNAubTjUsZg013y9y8At0uZ0
-         rdiw==
-X-Gm-Message-State: ACgBeo3svXldXZoerGck4EtN3Ck8y8PN8gOgGY9MKKIrgxSIepV9LGYa
-	KXyu5Qbwvq/cOgdCjC+Ys1c=
-X-Google-Smtp-Source: AA6agR4Ib7WAPazC9WU6QZ/34Vv3a4iM92Pw2z6TiPCIbiX2j8NhLkrvDizzG97CDrxkJXAI6OWfFQ==
-X-Received: by 2002:a05:6402:510a:b0:43d:ab25:7d68 with SMTP id m10-20020a056402510a00b0043dab257d68mr10111339edd.102.1661019406769;
+        bh=c5ehAN+V6o0UyrUy4MpXxQSXfN8Q8ckg1hQmpn4R19w=;
+        b=XGNMUJSAeHaLZifRn6A10mfBuNW5ijtnM0YMp+8BUShcxbUv/UaouVQE0piT1gLWLW
+         Tbl2PhM3N/B9TF4Ye5xuJV+MgVzctCay+VAQuOTzqNLfhApfyzDYKiz2spzXkLnINBVf
+         T6EcqSN6M5Zej5lVtLYgJ0ZfRs95r6rnqfJJwBYwKF65vFqk7Esvz02t9lquPxGhFgFw
+         ehcqcS4rCWxHVLW7+gt8Wh1aEuR6UMxUkGFmk58hRiZHEX4Cz2hsQ8fl3ZRqc3sU3uEz
+         GJxuuupzkzfdkiCR6C5wksT6HAVfoSjo7vJS5F6I//sUexyN/CCXaTC2uO0ccIpqzeO5
+         QbYg==
+X-Gm-Message-State: ACgBeo0qw7KizfyKCXRpkWKKCe+rC3sfYkIfBMpSnhAbnxGcW90Vm+pY
+	ja3ZYuCrfT28Gf0NUo2+qpk=
+X-Google-Smtp-Source: AA6agR7XGHClFKK38cuEgOKG3DAOv6Day3RPsKs1rVd7WUs7R9RGWljq6EMW+cjz/XGY2ozz9nf8Og==
+X-Received: by 2002:a17:907:94d0:b0:730:7a68:3093 with SMTP id dn16-20020a17090794d000b007307a683093mr8687137ejc.760.1661019406059;
         Sat, 20 Aug 2022 11:16:46 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
-        by smtp.gmail.com with ESMTPSA id g2-20020a17090604c200b0072af890f52dsm3887833eja.88.2022.08.20.11.16.46
+        by smtp.gmail.com with ESMTPSA id g2-20020a17090604c200b0072af890f52dsm3887833eja.88.2022.08.20.11.16.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Aug 2022 11:16:46 -0700 (PDT)
+        Sat, 20 Aug 2022 11:16:45 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 15/19] staging: r8188eu: rename rtw_os_xmit_complete()
-Date: Sat, 20 Aug 2022 20:16:19 +0200
-Message-Id: <20220820181623.12497-16-straube.linux@gmail.com>
+Subject: [PATCH 14/19] staging: r8188eu: move rtw_os_xmit_complete() to rtw_xmit.c
+Date: Sat, 20 Aug 2022 20:16:18 +0200
+Message-Id: <20220820181623.12497-15-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220820181623.12497-1-straube.linux@gmail.com>
 References: <20220820181623.12497-1-straube.linux@gmail.com>
@@ -57,117 +57,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function rtw_os_xmit_complete() was moved from the os_dep
-directory. It looks like the driver was originaly written to support
-different operating systems. Obviously we do not need an extra 'os'
-in the function name that indicates that the function is operating
-system specific. Rename it to rtw_xmit_complete().
+Move the function rtw_os_xmit_complete() from the os_dep/xmit_linux.c
+to core/rtw_xmit.c. The goal is to get rid of os_dep/xmit_linux.c in
+follow up patches.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c  |  2 +-
- drivers/staging/r8188eu/core/rtw_xmit.c      | 10 +++++-----
- drivers/staging/r8188eu/hal/rtl8188eu_xmit.c |  4 ++--
- drivers/staging/r8188eu/include/rtw_xmit.h   |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c      | 7 +++++++
+ drivers/staging/r8188eu/include/rtw_xmit.h   | 2 ++
+ drivers/staging/r8188eu/include/xmit_osdep.h | 2 --
+ drivers/staging/r8188eu/os_dep/xmit_linux.c  | 7 -------
  4 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 3103e8871dfd..893dac30e8e6 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -7876,7 +7876,7 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- 				spin_unlock_bh(&psta_bmc->sleep_q.lock);
- 				if (rtl8188eu_hal_xmit(padapter, pxmitframe))
--					rtw_os_xmit_complete(padapter, pxmitframe);
-+					rtw_xmit_complete(padapter, pxmitframe);
- 				spin_lock_bh(&psta_bmc->sleep_q.lock);
- 			}
- 			spin_unlock_bh(&psta_bmc->sleep_q.lock);
 diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index d5878b31bdbb..760b115938f2 100644
+index f79889011cd1..d5878b31bdbb 100644
 --- a/drivers/staging/r8188eu/core/rtw_xmit.c
 +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -229,7 +229,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+@@ -229,6 +229,13 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
  	return res;
  }
  
--void rtw_os_xmit_complete(struct adapter *padapter, struct xmit_frame *pxframe)
-+void rtw_xmit_complete(struct adapter *padapter, struct xmit_frame *pxframe)
++void rtw_os_xmit_complete(struct adapter *padapter, struct xmit_frame *pxframe)
++{
++	if (pxframe->pkt)
++		rtw_os_pkt_complete(padapter, pxframe->pkt);
++	pxframe->pkt = NULL;
++}
++
+ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv)
  {
- 	if (pxframe->pkt)
- 		rtw_os_pkt_complete(padapter, pxframe->pkt);
-@@ -249,7 +249,7 @@ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv)
- 		return;
- 
- 	for (i = 0; i < NR_XMITFRAME; i++) {
--		rtw_os_xmit_complete(padapter, pxmitframe);
-+		rtw_xmit_complete(padapter, pxmitframe);
- 
- 		pxmitframe++;
- 	}
-@@ -2017,7 +2017,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
- 
- 		spin_unlock_bh(&psta->sleep_q.lock);
- 		if (rtl8188eu_hal_xmit(padapter, pxmitframe))
--			rtw_os_xmit_complete(padapter, pxmitframe);
-+			rtw_xmit_complete(padapter, pxmitframe);
- 		spin_lock_bh(&psta->sleep_q.lock);
- 	}
- 
-@@ -2067,7 +2067,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
- 
- 			spin_unlock_bh(&psta_bmc->sleep_q.lock);
- 			if (rtl8188eu_hal_xmit(padapter, pxmitframe))
--				rtw_os_xmit_complete(padapter, pxmitframe);
-+				rtw_xmit_complete(padapter, pxmitframe);
- 			spin_lock_bh(&psta_bmc->sleep_q.lock);
- 		}
- 
-@@ -2141,7 +2141,7 @@ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *pst
- 		pxmitframe->attrib.triggered = 1;
- 
- 		if (rtl8188eu_hal_xmit(padapter, pxmitframe))
--			rtw_os_xmit_complete(padapter, pxmitframe);
-+			rtw_xmit_complete(padapter, pxmitframe);
- 
- 		if ((psta->sleepq_ac_len == 0) && (!psta->has_legacy_ac) && (wmmps_ac)) {
- 			pstapriv->tim_bitmap &= ~BIT(psta->aid);
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-index bdfa51949289..8e4a5acc0b18 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-@@ -431,7 +431,7 @@ bool rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmit
- 	rtw_xmitframe_coalesce(adapt, pxmitframe->pkt, pxmitframe);
- 
- 	/*  always return ndis_packet after rtw_xmitframe_coalesce */
--	rtw_os_xmit_complete(adapt, pxmitframe);
-+	rtw_xmit_complete(adapt, pxmitframe);
- 
- 	/* 3 2. aggregate same priority and same DA(AP or STA) frames */
- 	pfirstframe = pxmitframe;
-@@ -501,7 +501,7 @@ bool rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmit
- 
- 		rtw_xmitframe_coalesce(adapt, pxmitframe->pkt, pxmitframe);
- 		/*  always return ndis_packet after rtw_xmitframe_coalesce */
--		rtw_os_xmit_complete(adapt, pxmitframe);
-+		rtw_xmit_complete(adapt, pxmitframe);
- 
- 		/*  (len - TXDESC_SIZE) == pxmitframe->attrib.last_txcmdsz */
- 		update_txdesc(pxmitframe, pxmitframe->buf_addr, pxmitframe->attrib.last_txcmdsz, true);
+ 	int i;
 diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index 0c46b19d2842..2475ca084265 100644
+index 0e9471fb19e4..0c46b19d2842 100644
 --- a/drivers/staging/r8188eu/include/rtw_xmit.h
 +++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -364,7 +364,7 @@ u32	rtw_get_ff_hwaddr(struct xmit_frame *pxmitframe);
+@@ -364,6 +364,8 @@ u32	rtw_get_ff_hwaddr(struct xmit_frame *pxmitframe);
  int rtw_ack_tx_wait(struct xmit_priv *pxmitpriv, u32 timeout_ms);
  void rtw_ack_tx_done(struct xmit_priv *pxmitpriv, int status);
  
--void rtw_os_xmit_complete(struct adapter *padapter, struct xmit_frame *pxframe);
-+void rtw_xmit_complete(struct adapter *padapter, struct xmit_frame *pxframe);
- 
++void rtw_os_xmit_complete(struct adapter *padapter, struct xmit_frame *pxframe);
++
  /* include after declaring struct xmit_buf, in order to avoid warning */
  #include "xmit_osdep.h"
+ 
+diff --git a/drivers/staging/r8188eu/include/xmit_osdep.h b/drivers/staging/r8188eu/include/xmit_osdep.h
+index 612cdab52a9f..b881399fd989 100644
+--- a/drivers/staging/r8188eu/include/xmit_osdep.h
++++ b/drivers/staging/r8188eu/include/xmit_osdep.h
+@@ -22,7 +22,5 @@ struct xmit_buf;
+ int rtw_xmit_entry(struct sk_buff *pkt, struct  net_device *pnetdev);
+ 
+ void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt);
+-void rtw_os_xmit_complete(struct adapter *padapter,
+-			  struct xmit_frame *pxframe);
+ 
+ #endif /* __XMIT_OSDEP_H_ */
+diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+index e216ada44055..d67508096209 100644
+--- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
++++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+@@ -31,13 +31,6 @@ void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt)
+ 	dev_kfree_skb_any(pkt);
+ }
+ 
+-void rtw_os_xmit_complete(struct adapter *padapter, struct xmit_frame *pxframe)
+-{
+-	if (pxframe->pkt)
+-		rtw_os_pkt_complete(padapter, pxframe->pkt);
+-	pxframe->pkt = NULL;
+-}
+-
+ static void rtw_check_xmit_resource(struct adapter *padapter, struct sk_buff *pkt)
+ {
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
 -- 
 2.37.2
 
