@@ -1,167 +1,93 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51127257B
-	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 13:03:35 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id c39so8599016edf.0
-        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 06:03:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B583F19B
+	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 14:36:02 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-335624d1e26so189121187b3.4
+        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 07:36:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=CIf1UQ7wZDxtwHlexp9HkgJf1IFsvLbw7syWYroias8=;
-        b=qrRWr7v3lFQn1/6oFfneCHQ5v6efTvX/LCWg1MNaV09YcE2YYNmo7oOd87zq0PcirJ
-         MD32ETYxBZ6c8DNusvjfieY506IFMBy9HTOaLbvpMiMTCXRcFkO92ugkbPBM20oqymGA
-         2rqbOMC3qPEyK2HMlWeCOwbjUB92p9kZ1v5qECw87FrXF9SH55jNWwS38HPc4hYUO8+n
-         OCdZPK7RK/LInpSfXY2WBpTbEp5eNOWI2BP/Ze/Ln6tU8UapYsP/u/HPQB4PWr9NyWxe
-         GEylC8ACDz/ajSnrWODLr+bg8LllgCfOq6/8rE32wajF/FycyZjc7hflSiWySuBPptDh
-         lPjw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=TZVv6t/Vb50UGFw4xrEvLnKQQHc/AlCgbJyFx+UnJqE=;
+        b=cGICaOE/bOr2oM0atOdLA9KTFAOhyW+1lHEZwl2kkxFa3MLPRJQsXq16Dg3NgvnDjt
+         lBOA51KpZbhSIMgdg0LN3clVYiyYLj3aTae7ZRYSjv3fvGbmn9pC2RQau3cMxw9jzYna
+         bJM3Ttxbhx3MdCRyfdmY68P9t0TTwQeuCdw3mlTbtX5z0lj+XAcXaGWUwMv+13QTIPe2
+         e1E5WprAKL2uSFU77p629z21i76Y8KyZPkmM0tN49iwday+3MbUMEeUkISbBH1nv4MVO
+         +ElqbU8Dlt6xKAnmw+tACxXFmIefDGsL+LdefANKg1KgnOZL0piAcRpLP6x4ABsgNuhQ
+         eHsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=CIf1UQ7wZDxtwHlexp9HkgJf1IFsvLbw7syWYroias8=;
-        b=GvtLBoAX/9mXmEmCTwdeFeD6HJHUdMNGhyz/bztO9BNo5WNQ+/SvVLdUocoZJ+jXb0
-         X1DxgBSriCYpl2n3dd1xdTCx7XCDTLN8LoU01ht2bnxluJ1LBhOHXXo7MyMb5jkKiTaL
-         qSa/MqOueikUsQn9z1WegfaH4BycdI7t++rz9AMdQ8VjmW0TUzomNrEHJkK4BIUiXoRV
-         y7qknUYwsYXvmpRP/MK1iQd7bvV4nh28mJauDKQwI5fYaMPhVAaEeTVBmVbyGjtzf94d
-         LYfRRDKFYk0I0cU30DjkrkWVgV65t3FOwDwC8YB9mwn7Pb8PmdtwcRz+G3tVGersb2Kr
-         qI6Q==
-X-Gm-Message-State: ACgBeo0NAvzs+zZqP8x/M69YjzURTpP0XQMCRo+sOboN0F9AHHC+kMFt
-	ekqpTfpipL3s6Sv+MegkNNM=
-X-Google-Smtp-Source: AA6agR60GQbKpgmA5lfyLXzR41EMjfqjJuGBHfpk3A2xe9iyS2fLNGwaWEXiLCMkKurM5mgNYrl8Rw==
-X-Received: by 2002:a05:6402:451:b0:446:7349:f9e8 with SMTP id p17-20020a056402045100b004467349f9e8mr2300969edw.180.1661000613620;
-        Sat, 20 Aug 2022 06:03:33 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id eo10-20020a056402530a00b00445a06b6920sm4552605edb.17.2022.08.20.06.03.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Aug 2022 06:03:33 -0700 (PDT)
-Message-ID: <481a3612-6f33-8584-8c71-aa62e98ab668@gmail.com>
-Date: Sat, 20 Aug 2022 15:03:32 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=TZVv6t/Vb50UGFw4xrEvLnKQQHc/AlCgbJyFx+UnJqE=;
+        b=5y0a8I5QeP7cuBcjC3cWSD6lkxXJbafkmlvEOliCVvgUZILlCndeRkAmMGo/r15WHQ
+         QgcU2hJwaUwVGlMHxjUWT7DqRb8X4+1+eXaWIrxJpqW4NDTE4xmMt8l0Egq5HHDFNQ6o
+         hqVYiK7KzfZSeh+q9gVxeaHIrfu2uLYwaizX6jqnPHVzAyQfJ4jwQ0hD2k3jsUcG5Uq9
+         QckDMw9dtApQOMpnx96etg34jJKAYulGYzfjfrBEhw1X+0aY0jESRluLTinbfY6kSw3q
+         vineiQqOYYyFHKWa2YsKtD0ZJVfaCnqUPKXoNk+5Wt+FXXAhsro0Hk+/T1PQHZB+cyud
+         3zWA==
+X-Gm-Message-State: ACgBeo1FennR2PFxfsQMqSh0ReXjUed4h730p+363FKae6dIr1hcZzVG
+	7+DgJK8AyD3RydAC+trWe9/rkzGFvHRGPgsuHqA=
+X-Google-Smtp-Source: AA6agR5+SUbdeY4HNkDjvLbuHYOCjU4m86Q1e/NPaMcn3cOS8nUx1XqdEddQ0bbLe8WWs0m1racOsm2b4HSgLD/U1kE=
+X-Received: by 2002:a81:7c5:0:b0:338:8d4d:41ca with SMTP id
+ 188-20020a8107c5000000b003388d4d41camr6173755ywh.393.1661006161685; Sat, 20
+ Aug 2022 07:36:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: r8188eu: remove ioctl_cfg80211.h
-Content-Language: en-US
-To: Nam Cao <namcaov@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- phil@philpotter.co.uk, Larry.Finger@lwfinger.net, paskripkin@gmail.com
-References: <20220818195454.11822-1-namcaov@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220818195454.11822-1-namcaov@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <202208200447.kdEhBy9a-lkp@intel.com> <cover.1660977535.git.namcaov@gmail.com>
+ <63626444-a7ee-a0c4-ec0a-f44a810e25ea@redhat.com>
+In-Reply-To: <63626444-a7ee-a0c4-ec0a-f44a810e25ea@redhat.com>
+From: Nam Cao <namcaov@gmail.com>
+Date: Sat, 20 Aug 2022 16:35:50 +0200
+Message-ID: <CA+sZ8B8ouMSMmArTVzbkqeWQx4Zqg2=gPaviTrkOFvBoswv_Jg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] remove useless files
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: lkp@intel.com, Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org, 
+	kbuild-all@lists.01.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 8/18/22 21:54, Nam Cao wrote:
-> Remove header file ioctl_cfg80211.h because it is not used.
-> 
-> Signed-off-by: Nam Cao <namcaov@gmail.com>
-> ---
->   .../staging/r8188eu/include/ioctl_cfg80211.h  | 89 -------------------
->   1 file changed, 89 deletions(-)
->   delete mode 100644 drivers/staging/r8188eu/include/ioctl_cfg80211.h
-> 
-> diff --git a/drivers/staging/r8188eu/include/ioctl_cfg80211.h b/drivers/staging/r8188eu/include/ioctl_cfg80211.h
-> deleted file mode 100644
-> index 738f645f9bbc..000000000000
-> --- a/drivers/staging/r8188eu/include/ioctl_cfg80211.h
-> +++ /dev/null
-> @@ -1,89 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-> -/* Copyright(c) 2007 - 2011 Realtek Corporation. i*/
-> -
-> -#ifndef __IOCTL_CFG80211_H__
-> -#define __IOCTL_CFG80211_H__
-> -
-> -struct rtw_wdev_invit_info {
-> -	u8 token;
-> -	u8 flags;
-> -	u8 status;
-> -	u8 req_op_ch;
-> -	u8 rsp_op_ch;
-> -};
-> -
-> -#define rtw_wdev_invit_info_init(invit_info) \
-> -	do { \
-> -		(invit_info)->token = 0; \
-> -		(invit_info)->flags = 0x00; \
-> -		(invit_info)->status = 0xff; \
-> -		(invit_info)->req_op_ch = 0; \
-> -		(invit_info)->rsp_op_ch = 0; \
-> -	} while (0)
-> -
-> -struct rtw_wdev_priv {
-> -	struct wireless_dev *rtw_wdev;
-> -
-> -	struct adapter *padapter;
-> -
-> -	struct cfg80211_scan_request *scan_request;
-> -	spinlock_t scan_req_lock;
-> -
-> -	struct net_device *pmon_ndev;/* for monitor interface */
-> -	char ifname_mon[IFNAMSIZ + 1]; /* name of monitor interface */
-> -
-> -	u8 p2p_enabled;
-> -
-> -	u8 provdisc_req_issued;
-> -
-> -	struct rtw_wdev_invit_info invit_info;
-> -
-> -	u8 bandroid_scan;
-> -	bool block;
-> -	bool power_mgmt;
-> -};
-> -
-> -#define wdev_to_priv(w) ((struct rtw_wdev_priv *)(wdev_priv(w)))
-> -
-> -#define wiphy_to_wdev(x)				\
-> -((struct wireless_dev *)(((struct rtw_wdev_priv *)wiphy_priv(x))->rtw_wdev))
-> -
-> -int rtw_wdev_alloc(struct adapter *padapter, struct device *dev);
-> -void rtw_wdev_free(struct wireless_dev *wdev);
-> -void rtw_wdev_unregister(struct wireless_dev *wdev);
-> -
-> -void rtw_cfg80211_init_wiphy(struct adapter *padapter);
-> -
-> -void rtw_cfg80211_surveydone_event_callback(struct adapter *padapter);
-> -
-> -void rtw_cfg80211_indicate_connect(struct adapter *padapter);
-> -void rtw_cfg80211_indicate_disconnect(struct adapter *padapter);
-> -void rtw_cfg80211_indicate_scan_done(struct rtw_wdev_priv *pwdev_priv,
-> -				     bool aborted);
-> -
-> -void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter,
-> -				     u8 *pmgmt_frame, uint frame_len);
-> -void rtw_cfg80211_indicate_sta_disassoc(struct adapter *padapter,
-> -					unsigned char *da,
-> -					unsigned short reason);
-> -
-> -void rtw_cfg80211_issue_p2p_provision_request(struct adapter *padapter,
-> -					      const u8 *buf, size_t len);
-> -void rtw_cfg80211_rx_p2p_action_public(struct adapter *padapter,
-> -				       u8 *pmgmt_frame, uint frame_len);
-> -void rtw_cfg80211_rx_action_p2p(struct adapter *padapter, u8 *pmgmt_frame,
-> -				uint frame_len);
-> -void rtw_cfg80211_rx_action(struct adapter *adapter, u8 *frame,
-> -			    uint frame_len, const char *msg);
-> -
-> -int rtw_cfg80211_set_mgnt_wpsp2pie(struct net_device *net,
-> -				   char *buf, int len, int type);
-> -
-> -bool rtw_cfg80211_pwr_mgmt(struct adapter *adapter);
-> -
-> -#define rtw_cfg80211_rx_mgmt(dev, freq, sig_dbm, buf, len, gfp)		\
-> -	cfg80211_rx_mgmt(dev, freq, sig_dbm, buf, len, gfp)
-> -#define rtw_cfg80211_send_rx_assoc(dev, bss, buf, len)			\
-> -	cfg80211_send_rx_assoc(dev, bss, buf, len)
-> -
-> -#endif /* __IOCTL_CFG80211_H__ */
+Hi
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+On Sat, Aug 20, 2022 at 2:17 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> Patch 1/4 seems to be missing?
+
+Patch 1/4 is there:
+https://lore.kernel.org/linux-staging/46d73e331bae2192a328f6691763f39ea6c18b08.1660977536.git.namcaov@gmail.com/
+
+>
+> Also please squash patches 3 and 4:
+>
+>    staging: rtl8723bs: remove odm_NoiseMonitor.o from Makefile
+>    staging: rtl8723bs: remove odm_NoiseMonitor.h and odm_NoiseMonitor.c
+>
+> together. Ion other words remove both the files and the Makefile
+> target in a single patch please.
+
+Sorry but I am not sure what I am supposed to do with kernel test bot.
+I agree that it makes sense to squash these 2 commits together. However,
+I separated them because I want to have 1 patch addressing the problem reported
+by the bot, so that I can put the "Reported-by" line to this patch.
+
+If I squash them, should I still put in the "Reported-by" line, despite the
+commit not exactly fixing the reported error. Or should I just leave it out?
+
+>
+> Regards,
+>
+> Hans
+>
+
+Thanks for spending time reviewing.
+
+Best regards,
+
+Nam
