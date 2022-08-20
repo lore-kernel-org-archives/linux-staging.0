@@ -1,177 +1,205 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E1F3200
-	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 18:35:52 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id u15so5619789ejt.6
-        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 11:35:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121DF2F2A
+	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 18:44:30 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-333a4a5d495so197944757b3.10
+        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 11:44:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=r+EQNFTk8Lbnc1FR6eRAVAKKKC2AwPwoVIbcVgIDipA=;
-        b=d1NgQhPjE7DDQk5QK7c8v09vXAxNCjSXUm7ZxnAtOPuZRssdpjBz1dlgofsjkaSP/2
-         GAZomF0SoUQQ+xkujWcneC4H7jCjMb7Joro80b99LalH+/13nedJerK2vqqJMgDJuab3
-         1EYzgceQvwDC9V+BUl41mP8KACfSWElk6zFkGvZCKVVIZGE9Bwpqa1VSlnhX/oUTR5nE
-         9QAKTc5N+exONlvOUQ6rpjcvpHl7tM0AqzF7bYv64xyL4JGaOvPGfu375jix+XAWD+2F
-         /+rXwU0hcw/i6YiFk4J+BanL6YQWl7UKO8W6OhmFFyQalZE693Dv4y6jgihrOZG2LJV1
-         2fMQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=fBIVWoeQRh7o83oUgJ5fSHOAY110UQuIGTEwQvPGNto=;
+        b=a8jqEQjy4xRMZ9UmJBkgBbHFPAcji97ogC+1cTzhAlHTDsuHSTf4lq5ILPl1cxl5jL
+         b5Dg4Wpz6wnchFzjGmhVK1uxCYDFRCIPGjBINyuqp+q3+teDXeWke5DS+1iDWeAhfTUh
+         s2Oj78XKhW9VezKPSHkpoSrUHllPCC2ZNGV9NWDstMBaerjpEBkYHyiCCHsxPQ2CS5Sq
+         Ea5epHR+EKrVYpA1bOTv2kNA9LH6m75+mEe+fdl8XziAT5XI2wXOsi+aEGfG29sS73zJ
+         ad287fc5but4vvKqN+xoTRCj9xFu0pUQbKW+joie12i0FdImwUBgKPdgDyAQee058j1J
+         0Hqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=r+EQNFTk8Lbnc1FR6eRAVAKKKC2AwPwoVIbcVgIDipA=;
-        b=tzgaay+1Vt6bM+R1geKkZIaM0sGT6x33iIs6StIGA/0Dgj7WfPYijnwHDXfHz37c32
-         jD8YGttlYtBNYwj0qqB0KNqSA72zHJZyCVF3BKDaO+2wVcOsikXD4Ps9sglLA/2+s73E
-         NcSlCNdyoNQmhxZ69hGMeBQRMcmicixcxIMFVD+Gey0DRJoUCb179W2E9Sn7KAVWCa1s
-         hRyc+eE4+lvF3L9HTWxISBbIEYuMLooywSfXjUfZlGWvrHWuaEy/Zy3kFPw1y1rx9mdC
-         S6wZ+mf1Dw/jy5il84RwjG3PdodZqYH/kaCUOckFIIfhph3Y5deKfoOQaYQVQqY0TuXh
-         Qt5Q==
-X-Gm-Message-State: ACgBeo211k+5fSRxQ6rJ9HAIb264e+n9zd+Ms+QsSmT08DJlwFjgfcyz
-	+Toyx0QDNVXYJGoeXLcZqPY=
-X-Google-Smtp-Source: AA6agR7oFoYs6H5pHMLGB0k6KNtRUAq+bJ7OsWhy86kfFs/WdVAWq1E/Rm8pqWcV7AY34o6hfNeiWQ==
-X-Received: by 2002:a17:907:a068:b0:73d:5d21:7ed3 with SMTP id ia8-20020a170907a06800b0073d5d217ed3mr3503566ejc.685.1661020550482;
-        Sat, 20 Aug 2022 11:35:50 -0700 (PDT)
-Received: from nam-dell.vm.stuba.sk ([147.175.88.220])
-        by smtp.gmail.com with ESMTPSA id b15-20020a1709063f8f00b007336c3f05bdsm3956796ejj.178.2022.08.20.11.35.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Aug 2022 11:35:50 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: namcaov@gmail.com
-Cc: Larry.Finger@lwfinger.net,
-	gregkh@linuxfoundation.org,
-	hdegoede@redhat.com,
-	kbuild-all@lists.01.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	lkp@intel.com
-Subject: [PATCH v3 3/3] staging: rtl8723bs: remove odm_NoiseMonitor.h and odm_NoiseMonitor.c
-Date: Sat, 20 Aug 2022 20:34:51 +0200
-Message-Id: <6f51a3531ffe60650972bd9f288570db55e3e0ec.1661020250.git.namcaov@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <46d73e331bae2192a328f6691763f39ea6c18b08.1661020250.git.namcaov@gmail.com>
-References: <cover.1661017377.git.namcaov@gmail.com>
- <46d73e331bae2192a328f6691763f39ea6c18b08.1661020250.git.namcaov@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=fBIVWoeQRh7o83oUgJ5fSHOAY110UQuIGTEwQvPGNto=;
+        b=2lDtLcIwSi6+0uoO/oa4fVtmDiZlhJwIWhTEnQ43cKTwBvj4wGblqz07nIGxmD8kiW
+         4PBPPe5AItTe2GSteFPsXoZOASkfccoQzgw8UkQnc+PrHxO48CPf/ccOzQ3PjjcF2Ksf
+         oVsYEZkqWftR+z8KEM2dysTqzoEVjzoZCsG+X5Qppf6osjxEVsNpNc5okgebocUflR5Y
+         tUU8RT/5B1n4xsv6fWxQji0vuEUAFvGa/Uhj4bblQSpCJENG1xHR8464lpWqK2JsLs9z
+         6JzA9Ef91YSflotDxCE/fou18xBesmBdiiV6HvbQl9w7sTCZltXsh0F3jxLPw16F1Y71
+         XMYg==
+X-Gm-Message-State: ACgBeo14ETx3qxvs8k8oSb/pperlPbVsSneSNn3NtYwKxuC1wRvriYTB
+	AvG+C4S7D/j2NYOi5y4oezZ0nreSpdwOFIsMriY=
+X-Google-Smtp-Source: AA6agR7Lq80CWXvbr6SMx/WuvIxvr3IkVhtZ0ZJbmRwA4I6pAZMhKgGUEu6Zq8J1dIccrPoqNjvZ2uKPFRlcREa+eXU=
+X-Received: by 2002:a0d:c981:0:b0:330:dc03:7387 with SMTP id
+ l123-20020a0dc981000000b00330dc037387mr13256448ywd.380.1661021070040; Sat, 20
+ Aug 2022 11:44:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1661018051.git.namcaov@gmail.com> <46d73e331bae2192a328f6691763f39ea6c18b08.1661018051.git.namcaov@gmail.com>
+In-Reply-To: <46d73e331bae2192a328f6691763f39ea6c18b08.1661018051.git.namcaov@gmail.com>
+From: Nam Cao <namcaov@gmail.com>
+Date: Sat, 20 Aug 2022 20:44:19 +0200
+Message-ID: <CA+sZ8B9Pa5h8K9LS17fB2Oy8oRadnVSeup6dqfWoVfV1DKkckw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] staging: rtl8723bs: remove unused function ODM_InbandNoise_Monitor
+To: hdegoede@redhat.com
+Cc: Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org, 
+	kbuild-all@lists.01.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, lkp@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-because the content of these files is not used.
+Please ignore these emails. They are detached from the thread for some reason.
 
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/rtl8723bs/Makefile            |  1 -
- drivers/staging/rtl8723bs/hal/odm.h           |  1 -
- .../staging/rtl8723bs/hal/odm_NoiseMonitor.c  | 19 -----------
- .../staging/rtl8723bs/hal/odm_NoiseMonitor.h  | 32 -------------------
- drivers/staging/rtl8723bs/hal/odm_precomp.h   |  1 -
- 5 files changed, 54 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
- delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
-
-diff --git a/drivers/staging/rtl8723bs/Makefile b/drivers/staging/rtl8723bs/Makefile
-index 159ca1b9016b..bc7ff1dd14f9 100644
---- a/drivers/staging/rtl8723bs/Makefile
-+++ b/drivers/staging/rtl8723bs/Makefile
-@@ -33,7 +33,6 @@ r8723bs-y = \
- 		hal/odm_DynamicTxPower.o \
- 		hal/odm_EdcaTurboCheck.o \
- 		hal/odm_HWConfig.o \
--		hal/odm_NoiseMonitor.o \
- 		hal/odm_RegConfig8723B.o \
- 		hal/rtl8723b_cmd.o \
- 		hal/rtl8723b_dm.o \
-diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index 033f22b0f394..fe9782d2d4fd 100644
---- a/drivers/staging/rtl8723bs/hal/odm.h
-+++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -14,7 +14,6 @@
- #include "odm_DynamicBBPowerSaving.h"
- #include "odm_DynamicTxPower.h"
- #include "odm_CfoTracking.h"
--#include "odm_NoiseMonitor.h"
- 
- #define	TP_MODE		0
- #define	RSSI_MODE		1
-diff --git a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
-deleted file mode 100644
-index b85b323cf5bd..000000000000
---- a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
-+++ /dev/null
-@@ -1,19 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- ******************************************************************************/
--
--#include "odm_precomp.h"
--
--/*  This function is for inband noise test utility only */
--/*  To obtain the inband noise level(dbm), do the following. */
--/*  1. disable DIG and Power Saving */
--/*  2. Set initial gain = 0x1a */
--/*  3. Stop updating idle time pwer report (for driver read) */
--/* - 0x80c[25] */
--
--#define Valid_Min				-35
--#define Valid_Max			10
--#define ValidCnt				5
-diff --git a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
-deleted file mode 100644
-index 01c5c524d4e0..000000000000
---- a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
-+++ /dev/null
-@@ -1,32 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- *****************************************************************************/
--#ifndef	__ODMNOISEMONITOR_H__
--#define __ODMNOISEMONITOR_H__
--
--#define	ODM_MAX_CHANNEL_NUM					38/* 14+24 */
--struct noise_level {
--	/* u8 value_a, value_b; */
--	u8 value[MAX_RF_PATH];
--	/* s8 sval_a, sval_b; */
--	s8 sval[MAX_RF_PATH];
--
--	/* s32 noise_a = 0, noise_b = 0, sum_a = 0, sum_b = 0; */
--	/* s32 noise[ODM_RF_PATH_MAX]; */
--	s32 sum[MAX_RF_PATH];
--	/* u8 valid_cnt_a = 0, valid_cnt_b = 0, */
--	u8 valid[MAX_RF_PATH];
--	u8 valid_cnt[MAX_RF_PATH];
--
--};
--
--
--struct odm_noise_monitor {
--	s8 noise[MAX_RF_PATH];
--	s16 noise_all;
--};
--
--#endif
-diff --git a/drivers/staging/rtl8723bs/hal/odm_precomp.h b/drivers/staging/rtl8723bs/hal/odm_precomp.h
-index edce506022a5..2987857a8761 100644
---- a/drivers/staging/rtl8723bs/hal/odm_precomp.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_precomp.h
-@@ -33,7 +33,6 @@
- #include "odm_DynamicBBPowerSaving.h"
- #include "odm_DynamicTxPower.h"
- #include "odm_CfoTracking.h"
--#include "odm_NoiseMonitor.h"
- #include "HalPhyRf.h"
- #include "HalPhyRf_8723B.h"/* for IQK, LCK, Power-tracking */
- #include "rtl8723b_hal.h"
--- 
-2.25.1
-
+On Sat, Aug 20, 2022 at 8:00 PM Nam Cao <namcaov@gmail.com> wrote:
+>
+> because this function is not used. Also remove function
+> odm_InbandNoise_Monitor_NSeries because it is a static function
+> which is only called from ODM_InbandNoise_Monitor.
+>
+> Signed-off-by: Nam Cao <namcaov@gmail.com>
+> ---
+>  .../staging/rtl8723bs/hal/odm_NoiseMonitor.c  | 111 ------------------
+>  .../staging/rtl8723bs/hal/odm_NoiseMonitor.h  |   7 --
+>  2 files changed, 118 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
+> index 392cc8a398f5..b85b323cf5bd 100644
+> --- a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
+> +++ b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
+> @@ -17,114 +17,3 @@
+>  #define Valid_Min                              -35
+>  #define Valid_Max                      10
+>  #define ValidCnt                               5
+> -
+> -static s16 odm_InbandNoise_Monitor_NSeries(
+> -       struct dm_odm_t *pDM_Odm,
+> -       u8 bPauseDIG,
+> -       u8 IGIValue,
+> -       u32 max_time
+> -)
+> -{
+> -       u32 tmp4b;
+> -       u8 max_rf_path = 0, rf_path;
+> -       u8 reg_c50, reg_c58, valid_done = 0;
+> -       struct noise_level noise_data;
+> -       u32 start  = 0;
+> -
+> -       pDM_Odm->noise_level.noise_all = 0;
+> -
+> -       max_rf_path = 1;
+> -
+> -       memset(&noise_data, 0, sizeof(struct noise_level));
+> -
+> -       /*  */
+> -       /*  Step 1. Disable DIG && Set initial gain. */
+> -       /*  */
+> -
+> -       if (bPauseDIG)
+> -               odm_PauseDIG(pDM_Odm, ODM_PAUSE_DIG, IGIValue);
+> -       /*  */
+> -       /*  Step 2. Disable all power save for read registers */
+> -       /*  */
+> -       /* dcmd_DebugControlPowerSave(padapter, PSDisable); */
+> -
+> -       /*  */
+> -       /*  Step 3. Get noise power level */
+> -       /*  */
+> -       start = jiffies;
+> -       while (1) {
+> -
+> -               /* Stop updating idle time pwer report (for driver read) */
+> -               PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_TxGainStage, BIT25, 1);
+> -
+> -               /* Read Noise Floor Report */
+> -               tmp4b = PHY_QueryBBReg(pDM_Odm->Adapter, 0x8f8, bMaskDWord);
+> -
+> -               /* PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XAAGCCore1, bMaskByte0, TestInitialGain); */
+> -               /* if (max_rf_path == 2) */
+> -               /* PHY_SetBBReg(pDM_Odm->Adapter, rOFDM0_XBAGCCore1, bMaskByte0, TestInitialGain); */
+> -
+> -               /* update idle time pwer report per 5us */
+> -               PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_TxGainStage, BIT25, 0);
+> -
+> -               noise_data.value[RF_PATH_A] = (u8)(tmp4b&0xff);
+> -               noise_data.value[RF_PATH_B]  = (u8)((tmp4b&0xff00)>>8);
+> -
+> -               for (rf_path = RF_PATH_A; rf_path < max_rf_path; rf_path++) {
+> -                       noise_data.sval[rf_path] = (s8)noise_data.value[rf_path];
+> -                       noise_data.sval[rf_path] /= 2;
+> -               }
+> -               /* mdelay(10); */
+> -               /* msleep(10); */
+> -
+> -               for (rf_path = RF_PATH_A; rf_path < max_rf_path; rf_path++) {
+> -                       if ((noise_data.valid_cnt[rf_path] < ValidCnt) && (noise_data.sval[rf_path] < Valid_Max && noise_data.sval[rf_path] >= Valid_Min)) {
+> -                               noise_data.valid_cnt[rf_path]++;
+> -                               noise_data.sum[rf_path] += noise_data.sval[rf_path];
+> -                               if (noise_data.valid_cnt[rf_path] == ValidCnt) {
+> -                                       valid_done++;
+> -                               }
+> -
+> -                       }
+> -
+> -               }
+> -
+> -               /* printk("####### valid_done:%d #############\n", valid_done); */
+> -               if ((valid_done == max_rf_path) || (jiffies_to_msecs(jiffies - start) > max_time)) {
+> -                       for (rf_path = RF_PATH_A; rf_path < max_rf_path; rf_path++) {
+> -                               /* printk("%s PATH_%d - sum = %d, valid_cnt = %d\n", __func__, rf_path, noise_data.sum[rf_path], noise_data.valid_cnt[rf_path]); */
+> -                               if (noise_data.valid_cnt[rf_path])
+> -                                       noise_data.sum[rf_path] /= noise_data.valid_cnt[rf_path];
+> -                               else
+> -                                       noise_data.sum[rf_path]  = 0;
+> -                       }
+> -                       break;
+> -               }
+> -       }
+> -       reg_c50 = (s32)PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XAAGCCore1, bMaskByte0);
+> -       reg_c50 &= ~BIT7;
+> -       pDM_Odm->noise_level.noise[RF_PATH_A] = -110 + reg_c50 + noise_data.sum[RF_PATH_A];
+> -       pDM_Odm->noise_level.noise_all += pDM_Odm->noise_level.noise[RF_PATH_A];
+> -
+> -       if (max_rf_path == 2) {
+> -               reg_c58 = (s32)PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBAGCCore1, bMaskByte0);
+> -               reg_c58 &= ~BIT7;
+> -               pDM_Odm->noise_level.noise[RF_PATH_B] = -110 + reg_c58 + noise_data.sum[RF_PATH_B];
+> -               pDM_Odm->noise_level.noise_all += pDM_Odm->noise_level.noise[RF_PATH_B];
+> -       }
+> -       pDM_Odm->noise_level.noise_all /= max_rf_path;
+> -
+> -       /*  */
+> -       /*  Step 4. Recover the Dig */
+> -       /*  */
+> -       if (bPauseDIG)
+> -               odm_PauseDIG(pDM_Odm, ODM_RESUME_DIG, IGIValue);
+> -
+> -       return pDM_Odm->noise_level.noise_all;
+> -
+> -}
+> -
+> -s16 ODM_InbandNoise_Monitor(void *pDM_VOID, u8 bPauseDIG, u8 IGIValue, u32 max_time)
+> -{
+> -       return odm_InbandNoise_Monitor_NSeries(pDM_VOID, bPauseDIG, IGIValue, max_time);
+> -}
+> diff --git a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
+> index ab114543f39c..01c5c524d4e0 100644
+> --- a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
+> +++ b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
+> @@ -29,11 +29,4 @@ struct odm_noise_monitor {
+>         s16 noise_all;
+>  };
+>
+> -s16 ODM_InbandNoise_Monitor(
+> -       void *pDM_VOID,
+> -       u8 bPauseDIG,
+> -       u8 IGIValue,
+> -       u32 max_time
+> -);
+> -
+>  #endif
+> --
+> 2.25.1
+>
