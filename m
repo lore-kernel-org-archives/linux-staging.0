@@ -1,91 +1,86 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D067B
-	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 02:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660963885; x=1692499885;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lIWdGRlLgC6lsdpl02nzxXz9mnLvLDWzqkX7ahVNpIg=;
-  b=QD8+qPBhpLwTHwbU8u+m1U1YMhVMDwzvzAYhVeUW3pgQul8JN3f6V3Lz
-   ROfQkqG6gSmIut3BguHwyqZoVA2L3iIT9MbMNyH28ty4G6nRjjaqHAgFC
-   CRJH3mIIU+x+U2v2TWvNtS6jMyvknjptDDcy3kb8OMqIvSfXdAKsXI5Rn
-   wd3BVDNsBRhf3sxtttPf6uEhVn7fsMOarKQoUIDc1f6CzBw1Qk0sF1aBR
-   nEqcBb+KDA4ipmhbuusbC09NmM0HPOVfizue1QewknT6zfXXv3u2VhTO/
-   Qgx4ZcOqXOXeco2W8SyH3QVQuEL65C8iWgT9kOd2hwiQoI0qvWXK9TtQe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="290704754"
-X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; 
-   d="scan'208";a="290704754"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 19:51:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,249,1654585200"; 
-   d="scan'208";a="750716616"
-Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Aug 2022 19:51:21 -0700
-Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oPEa1-00023D-0F;
-	Sat, 20 Aug 2022 02:51:21 +0000
-Date: Sat, 20 Aug 2022 10:50:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcaov@gmail.com>, gregkh@linuxfoundation.org
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, namcaov@gmail.com,
-	hdegoede@redhat.com, Larry.Finger@lwfinger.net
-Subject: Re: [PATCH 3/3] staging: rtl8723bs: remove odm_NoiseMonitor.h and
- odm_NoiseMonitor.c
-Message-ID: <202208201056.675rcXqe-lkp@intel.com>
-References: <3d6124867c546368b961a30f85b56ee6c2600441.1660901124.git.namcaov@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D6B610D
+	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 06:43:26 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id x21so7934436edd.3
+        for <linux-staging@lists.linux.dev>; Fri, 19 Aug 2022 23:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=RU3vYRLuQKxt8Hd9Yyqo+KAgZMxn2BTVCKejZHVAHN4=;
+        b=m4g38oHu9ymHfkRcDWWXCQl6ixV1MIgEGjOhX2J3UVxDJJbt3clFcGElWf9db1K4BG
+         YjuRSCYTTPdDJTCBKY9sR4KUBiLA18t/WWndtYvSFv3+plqk6DLhC4j3V8TxlAkD2eJm
+         cW7LG0GsC5KOr+BQIHBTDuPMLb0aNcdQqat+tWDaLC8pGXQjBIEvIOUjEViNFK8yJEs0
+         FBo3mZxVASDaISqAJSU18RNEATql6+WWyRoVXdqFHXwPa9lUIEYAr+nJc4ck9qysTjIl
+         gAuWIY8VAMkLPAqkWjwle8RQFmR4iOqWdv/3E18E74gBU5FsTHn5cq5bbTZ/Iqc9Colv
+         uwYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=RU3vYRLuQKxt8Hd9Yyqo+KAgZMxn2BTVCKejZHVAHN4=;
+        b=aDtgQruuY8KZovLmRapc8h4ZlBHa25wJTqJbQ27/HOJWDiApfc0v2mG5t4u+c9CVdm
+         r1lTt7X6Z/Ru1IZ8miEPcyOOlOEgNTLWwbhcJiymt7EihTCQLMwcXJs2CH/ounDApjuP
+         3xsnx2s6etaPkyKj/OMp30Sdo3i/a+ZWrIJznH6COOFvFzVS+qylnGHgXUAiplX/JFWr
+         KBqwT8iYSF5HGqA6L/oECfhhM1+lCCgN2cOlLIgnY7PCLQJtciABUaOLQA2YCse/ZRQ/
+         Whyserr4NjW6qksE76y7TjFNkyv8FH8o2/SBLVsWYxHGKK3frFpZb7o02p16/3AOn7uB
+         3l9A==
+X-Gm-Message-State: ACgBeo0zrhqGrN3hf2etamiRKCo7xWiPB4qjvxEfvSgj5Oay4CYq5Hvz
+	r+zp2gudX8KvmMwjhFzFM6Q=
+X-Google-Smtp-Source: AA6agR5RWErpONMzRQx8HXnACUqvwGadFt8Q5XrvObDaNqoCqCPunWpBvAJ942fOSHW0zg6Qmh21PQ==
+X-Received: by 2002:aa7:c956:0:b0:43b:206d:c283 with SMTP id h22-20020aa7c956000000b0043b206dc283mr4142574edt.381.1660977805089;
+        Fri, 19 Aug 2022 23:43:25 -0700 (PDT)
+Received: from nam-dell.vm.stuba.sk ([147.175.88.220])
+        by smtp.gmail.com with ESMTPSA id 27-20020a170906329b00b0073c0b87ba34sm2935816ejw.198.2022.08.19.23.43.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Aug 2022 23:43:24 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: lkp@intel.com
+Cc: Larry.Finger@lwfinger.net,
+	gregkh@linuxfoundation.org,
+	hdegoede@redhat.com,
+	kbuild-all@lists.01.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	namcaov@gmail.com
+Subject: [PATCH v2 0/4] remove useless files
+Date: Sat, 20 Aug 2022 08:42:42 +0200
+Message-Id: <cover.1660977535.git.namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202208200447.kdEhBy9a-lkp@intel.com>
+References: <202208200447.kdEhBy9a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3d6124867c546368b961a30f85b56ee6c2600441.1660901124.git.namcaov@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Nam,
+Delete odm_NoiseMonitor.c and odm_NoiseMonitor.h because they are
+useless. The first 2 commits are preparation, and the final commit is
+actual removal.
 
-Thank you for the patch! Yet something to improve:
+v2: Add new patch to remove the file from Makefile, otherwise there is
+build error as reported by kernel test bot.
 
-[auto build test ERROR on staging/staging-testing]
+Nam Cao (4):
+  staging: rtl8723bs: remove unused function ODM_InbandNoise_Monitor
+  staging: rtl8723bs: remove member noise_level from struct dm_odm_t
+  staging: rtl8723bs: remove odm_NoiseMonitor.o from Makefile
+  staging: rtl8723bs: remove odm_NoiseMonitor.h and odm_NoiseMonitor.c
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/staging-rtl8723bs-remove-useless-files/20220819-173916
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 8379cf83fe6d57a12952de6dcaf7a7fbd7b364fc
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20220820/202208201056.675rcXqe-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0fdeb2305c40b79975f2c6b683ee5225b3aedf08
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nam-Cao/staging-rtl8723bs-remove-useless-files/20220819-173916
-        git checkout 0fdeb2305c40b79975f2c6b683ee5225b3aedf08
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/staging/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   make[4]: *** [scripts/Makefile.build:249: drivers/staging/rtl8723bs/core/rtw_ieee80211.o] Error 1
-   make[4]: *** [scripts/Makefile.build:249: drivers/staging/rtl8723bs/core/rtw_pwrctrl.o] Error 1
-   make[4]: *** [scripts/Makefile.build:249: drivers/staging/rtl8723bs/core/rtw_mlme_ext.o] Error 1
->> make[4]: *** No rule to make target 'drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.o', needed by 'drivers/staging/rtl8723bs/r8723bs.o'.
-   make[4]: *** [scripts/Makefile.build:249: drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.o] Error 1
-   make[4]: *** [scripts/Makefile.build:249: drivers/staging/rtl8723bs/os_dep/sdio_intf.o] Error 1
-   make[4]: *** [scripts/Makefile.build:249: drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.o] Error 1
-   make[4]: *** [scripts/Makefile.build:249: drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.o] Error 1
-   make[4]: Target '__build' not remade because of errors.
+ drivers/staging/rtl8723bs/Makefile            |   1 -
+ drivers/staging/rtl8723bs/hal/odm.h           |   2 -
+ .../staging/rtl8723bs/hal/odm_NoiseMonitor.c  | 130 ------------------
+ .../staging/rtl8723bs/hal/odm_NoiseMonitor.h  |  39 ------
+ drivers/staging/rtl8723bs/hal/odm_precomp.h   |   1 -
+ 5 files changed, 173 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
