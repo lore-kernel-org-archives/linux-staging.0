@@ -1,41 +1,41 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2CA320F
-	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 18:16:44 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id s11so9112275edd.13
-        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 11:16:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7212D3201
+	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 18:16:45 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id s11so9112255edd.13
+        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 11:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=GZU6i7aDhQpE9Y4RDqbtXF3Z4a0g0R6IbiFmWRA8yYM=;
-        b=KL6nER2nrF3su/u53V4e/nPH8TwgstfI7LTmxj9kEuH2LZvGlFTMY7xbnu5k/IS6gC
-         2QkMIapsaXz8ygipyYvpAefCe/2XagtRSC7difoSWdnt+Z2Z5vn+dv/522YfpBSbEEZd
-         mrvWfFfYFRnT9x1X5cylXTfszqVzqsvQtVgfM7aLWm91oe7l5ony9Ca5XaX3i86vy9wn
-         HA7+lCz2a3pO1CcNZf+hw+kqbEFruVHkIBK9W9UzgnVhjf/6jzRCI6tKz3KOWxKo0CRh
-         a189231pKGValY0cXoxWzEduJXA8069MVcOX66u7uqeBF7BZJwe8wdi7aMYPHeLLfb7C
-         gRhA==
+        bh=tlMFx2z0JvLnlziapMufzUhDKuW3EwLTT6t3dqkzUYs=;
+        b=QiXUYODOT64yakclYO6S8gLkVQ6g5lz4PJ1CZvM7CvggGkJbRDBczDrfv0+wiYx9Bi
+         Ec8NdlIPgNC1n2g0AhUlK268Uecvfqv2mGDzP1/tQoN08kcuqqUrIkOWfrnebjnDMHVk
+         H04cLaT31VaYu3DV9J6Lz7Yl2UWdCQhLwzyVy5YK1sD/b4zsFPmVz9qXF7MwHVJ7Mqdr
+         BpL13pt//ZRiHFM760XtR4Z7868WFpR64/uDrQkTyEuxhHZ8jGjsECVQMnRtHOhjkzd0
+         f/gH/gD9KdN82rlclguJYN5L2dz8kSwnX1NF0f5F3DgsbqSoMXJQiyo5pkwcKG2y44Im
+         c8xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=GZU6i7aDhQpE9Y4RDqbtXF3Z4a0g0R6IbiFmWRA8yYM=;
-        b=Vka4/gXFY08HY1Ke214JIPfDUNNnqNjBq+6cAUfMlUb6er5BgqPIKDoSDdDeS5t/tp
-         NZN0q0I45DjkCwcryJCtrCd4WfnNqR/h1qmEdZQyyRDhPevfgPc+A9AzLXy0uLLZttM2
-         vVW4hkpMJAekCnxI9eI9Xn6kRBRk1LAjT8f3AUPkaC2x4IJNpFpwu3UBycxUGFsVjqqb
-         QCA+gGl153Hlpi87CYToo9Z9AUGX9DDBF+wlrgOnwcwVr5LggTbQx55D91R8oTWrlVl6
-         DpE2eLNwKLxN0MSHR6zSKNNq0ycXCBdRtDje9oJR8POC0D4DnQb/RbDwFEpA6fCXyW2g
-         H07g==
-X-Gm-Message-State: ACgBeo1m4dO06bQrBt41351oZN705DHbrvtBllQvBXQ/NPxKqRRzRNqK
-	Y/dcdnm0jpvyo5YlsLqKkT4=
-X-Google-Smtp-Source: AA6agR6oLVTY6qUsqCtwJ6uLznILUKKMYi6isg2sqEFLxh10zLVCr3PFa8YEiYu2OwIDQSa3929V5w==
-X-Received: by 2002:a05:6402:5212:b0:446:6910:5549 with SMTP id s18-20020a056402521200b0044669105549mr3632612edd.345.1661019404495;
-        Sat, 20 Aug 2022 11:16:44 -0700 (PDT)
+        bh=tlMFx2z0JvLnlziapMufzUhDKuW3EwLTT6t3dqkzUYs=;
+        b=gRrFY6Tis9F/frtjz1ATYCic5lm5Y/X+7j11wJhQPccHtQeUM95CQYonD+sxhnfWZL
+         vK6YG20KpZu5UZ9x8CcJNCrNzDSxZEv2gXwsWDKzVCqte6C8jkC12CYkDItIi53+Rr0Z
+         xfJquxPh2SAU/Xl8MIRlB0mT9muPJyUD5y6s2gegyJEWPfN2idjdNGT+RgS2kLqeWgtV
+         iy8iYBkFnixA6D0Wwm8mkwOB4fGLedbLRanvZVdSFb+nODtHTKkq9xHHZJFm9qGQ6GVq
+         il8GJ3z1cG6nDnjerRR97kD3KAjccG62RfyPc2nqcDU/F3+FRmLqsn3FZ6oa1ojRVYd7
+         +q7A==
+X-Gm-Message-State: ACgBeo0rIWEe85ZG4AHeZuAuiTlCbOZKJXtzqXbntQO0V7XXW4cyAhRk
+	/qeDCA02pvquGLcJpF97PYy0LoNuaTI=
+X-Google-Smtp-Source: AA6agR6I6IJYWnxPzBp2530EXNKAgGiNN8Ww81N5ix3KRcfivHZtsfooZ6C+kcj6P7sWwtrPc1zZ/g==
+X-Received: by 2002:a05:6402:350e:b0:446:145d:a3bb with SMTP id b14-20020a056402350e00b00446145da3bbmr10066463edd.23.1661019403855;
+        Sat, 20 Aug 2022 11:16:43 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
         by smtp.gmail.com with ESMTPSA id g2-20020a17090604c200b0072af890f52dsm3887833eja.88.2022.08.20.11.16.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Aug 2022 11:16:44 -0700 (PDT)
+        Sat, 20 Aug 2022 11:16:43 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 12/19] staging: r8188eu: remove unnecessary initialization to zero
-Date: Sat, 20 Aug 2022 20:16:16 +0200
-Message-Id: <20220820181623.12497-13-straube.linux@gmail.com>
+Subject: [PATCH 11/19] staging: r8188eu: rename _rtw_pktfile_read()
+Date: Sat, 20 Aug 2022 20:16:15 +0200
+Message-Id: <20220820181623.12497-12-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220820181623.12497-1-straube.linux@gmail.com>
 References: <20220820181623.12497-1-straube.linux@gmail.com>
@@ -57,31 +57,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The initialization to zero of the variable 'len' in rtw_pktfile_read()
-is not needed. It is immediately set to another value. Remove the
-initialization to zero. While at it, remove an extra space.
+There is no need to prefix the function name of _rtw_pktfile_read()
+with an underscore. Rename it to rtw_pktfile_read().
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_xmit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 51672984156b..f79889011cd1 100644
+index 26bf300e672b..51672984156b 100644
 --- a/drivers/staging/r8188eu/core/rtw_xmit.c
 +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -429,9 +429,9 @@ static uint rtw_remainder_len(struct pkt_file *pfile)
+@@ -427,7 +427,7 @@ static uint rtw_remainder_len(struct pkt_file *pfile)
+ 	       (size_t)(pfile->buf_start));
+ }
  
- static uint rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
+-static uint _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
++static uint rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
  {
--	uint	len = 0;
-+	uint len;
+ 	uint	len = 0;
  
--	len =  rtw_remainder_len(pfile);
-+	len = rtw_remainder_len(pfile);
- 	len = (rlen > len) ? len : rlen;
+@@ -450,11 +450,11 @@ static void set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
+ 	s32 user_prio = 0;
  
- 	if (rmem)
+ 	rtw_open_pktfile(ppktfile->pkt, ppktfile);
+-	_rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
++	rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
+ 
+ 	/*  get user_prio from IP hdr */
+ 	if (pattrib->ether_type == 0x0800) {
+-		_rtw_pktfile_read(ppktfile, (u8 *)&ip_hdr, sizeof(ip_hdr));
++		rtw_pktfile_read(ppktfile, (u8 *)&ip_hdr, sizeof(ip_hdr));
+ /* 		user_prio = (ntohs(ip_hdr.tos) >> 5) & 0x3; */
+ 		user_prio = ip_hdr.tos >> 5;
+ 	} else if (pattrib->ether_type == 0x888e) {
+@@ -484,7 +484,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 
+ 
+ 	rtw_open_pktfile(pkt, &pktfile);
+-	_rtw_pktfile_read(&pktfile, (u8 *)&etherhdr, ETH_HLEN);
++	rtw_pktfile_read(&pktfile, (u8 *)&etherhdr, ETH_HLEN);
+ 
+ 	pattrib->ether_type = ntohs(etherhdr.h_proto);
+ 
+@@ -512,7 +512,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 		/*  to prevent DHCP protocol fail */
+ 		u8 tmp[24];
+ 
+-		_rtw_pktfile_read(&pktfile, &tmp[0], 24);
++		rtw_pktfile_read(&pktfile, &tmp[0], 24);
+ 		pattrib->dhcp_pkt = 0;
+ 		if (pktfile.pkt_len > 282) {/* MINIMUM_DHCP_PACKET_SIZE) { */
+ 			if (((tmp[21] == 68) && (tmp[23] == 67)) ||
+@@ -963,7 +963,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 	}
+ 
+ 	rtw_open_pktfile(pkt, &pktfile);
+-	_rtw_pktfile_read(&pktfile, NULL, pattrib->pkt_hdrlen);
++	rtw_pktfile_read(&pktfile, NULL, pattrib->pkt_hdrlen);
+ 
+ 	frg_inx = 0;
+ 	frg_len = pxmitpriv->frag_len - 4;/* 2346-4 = 2342 */
+@@ -1021,9 +1021,9 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 
+ 		if (bmcst) {
+ 			/*  don't do fragment to broadcast/multicast packets */
+-			mem_sz = _rtw_pktfile_read(&pktfile, pframe, pattrib->pktlen);
++			mem_sz = rtw_pktfile_read(&pktfile, pframe, pattrib->pktlen);
+ 		} else {
+-			mem_sz = _rtw_pktfile_read(&pktfile, pframe, mpdu_len);
++			mem_sz = rtw_pktfile_read(&pktfile, pframe, mpdu_len);
+ 		}
+ 
+ 		pframe += mem_sz;
 -- 
 2.37.2
 
