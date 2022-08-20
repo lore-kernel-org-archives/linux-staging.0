@@ -1,41 +1,41 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDF9320C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2CA320F
 	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 18:16:44 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id u15so5566977ejt.6
-        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 11:16:43 -0700 (PDT)
+Received: by mail-ed1-f49.google.com with SMTP id s11so9112275edd.13
+        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 11:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=s0gG/Y/1ndpD2o1oxGib08M1iLWS4DAsSTix2vBGTk8=;
-        b=M2RXBrxGosxefZjApl+IioG6a4nCIvHduh8TOb3I3CAhWA5L5dzlxxunsIHupAKtlK
-         xSHNHS1FSH0OBvucqIvx0os9WtHmyVC9osOAPgHQ6xH4NWXs6KEZ+UoAwxJ1+BmmW4Iq
-         wMNqqHD9978+9kVhDtrgEzfRT5TJfuMCiSaGixY2YGVawAI7z/PG+9JTWdsINeeizgCf
-         5bOnmpBG5qqJf4MuqNLDePGwvwgFj8qUj/4NSM1TLyMaz6CGBP9C11Ht8KbgK4ESQkAX
-         thKa944IIf0bxhCIRQKhDogeV1JTCApDBHHDUP3GLTl5DRVYnGmfPyJNVkPb3qjOb3M7
-         muAA==
+        bh=GZU6i7aDhQpE9Y4RDqbtXF3Z4a0g0R6IbiFmWRA8yYM=;
+        b=KL6nER2nrF3su/u53V4e/nPH8TwgstfI7LTmxj9kEuH2LZvGlFTMY7xbnu5k/IS6gC
+         2QkMIapsaXz8ygipyYvpAefCe/2XagtRSC7difoSWdnt+Z2Z5vn+dv/522YfpBSbEEZd
+         mrvWfFfYFRnT9x1X5cylXTfszqVzqsvQtVgfM7aLWm91oe7l5ony9Ca5XaX3i86vy9wn
+         HA7+lCz2a3pO1CcNZf+hw+kqbEFruVHkIBK9W9UzgnVhjf/6jzRCI6tKz3KOWxKo0CRh
+         a189231pKGValY0cXoxWzEduJXA8069MVcOX66u7uqeBF7BZJwe8wdi7aMYPHeLLfb7C
+         gRhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=s0gG/Y/1ndpD2o1oxGib08M1iLWS4DAsSTix2vBGTk8=;
-        b=0misuWbBoyE6v0pZIpRXruGalm8PzY++U641a36RUOytbb6lujptlxyv/0hFlOTwyO
-         PmXgdY4v7VA9oPxH9v6oivNnzbPUBlHzD4UU1Im+lXDsn5Q52cb8PzFFHwn4GmPOWbhM
-         EhlLyxVwg8ElIMpyxXui2OVv+gEJrzb5/do8l12bBm7MgakOZ6vIlLbSsmPT/5YyRdh5
-         1p6eQ9Vn5qTUIYpNiHVTbONetxen/BVnvnf2I0dRhAnaC0Zn9TAwnF4+auJHxccpS0Re
-         CqJqny9KKxcQr+2BFJVMd+NwOjfY4r+ShzpCGyPOlzSn+R/qPMONO8dZUJDXB9+y+/nR
-         sGIw==
-X-Gm-Message-State: ACgBeo2b9dQvTsYy1OJXDbok78/6yqj0AAhfWVJaQ+ucGD1lD6OqCAGy
-	qz7O7xVxnGBXUoXCR850/1evTH2ru0Q=
-X-Google-Smtp-Source: AA6agR4bSIwh1Gf2i4Zy7jyo/bQXpTCoLOr3MSn19rbIti5YB1LQUFIxTIflcmokDYeJqqz0lZIg4g==
-X-Received: by 2002:a17:906:7955:b0:73c:20e7:86cb with SMTP id l21-20020a170906795500b0073c20e786cbmr7545875ejo.527.1661019402457;
-        Sat, 20 Aug 2022 11:16:42 -0700 (PDT)
+        bh=GZU6i7aDhQpE9Y4RDqbtXF3Z4a0g0R6IbiFmWRA8yYM=;
+        b=Vka4/gXFY08HY1Ke214JIPfDUNNnqNjBq+6cAUfMlUb6er5BgqPIKDoSDdDeS5t/tp
+         NZN0q0I45DjkCwcryJCtrCd4WfnNqR/h1qmEdZQyyRDhPevfgPc+A9AzLXy0uLLZttM2
+         vVW4hkpMJAekCnxI9eI9Xn6kRBRk1LAjT8f3AUPkaC2x4IJNpFpwu3UBycxUGFsVjqqb
+         QCA+gGl153Hlpi87CYToo9Z9AUGX9DDBF+wlrgOnwcwVr5LggTbQx55D91R8oTWrlVl6
+         DpE2eLNwKLxN0MSHR6zSKNNq0ycXCBdRtDje9oJR8POC0D4DnQb/RbDwFEpA6fCXyW2g
+         H07g==
+X-Gm-Message-State: ACgBeo1m4dO06bQrBt41351oZN705DHbrvtBllQvBXQ/NPxKqRRzRNqK
+	Y/dcdnm0jpvyo5YlsLqKkT4=
+X-Google-Smtp-Source: AA6agR6oLVTY6qUsqCtwJ6uLznILUKKMYi6isg2sqEFLxh10zLVCr3PFa8YEiYu2OwIDQSa3929V5w==
+X-Received: by 2002:a05:6402:5212:b0:446:6910:5549 with SMTP id s18-20020a056402521200b0044669105549mr3632612edd.345.1661019404495;
+        Sat, 20 Aug 2022 11:16:44 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
-        by smtp.gmail.com with ESMTPSA id g2-20020a17090604c200b0072af890f52dsm3887833eja.88.2022.08.20.11.16.41
+        by smtp.gmail.com with ESMTPSA id g2-20020a17090604c200b0072af890f52dsm3887833eja.88.2022.08.20.11.16.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Aug 2022 11:16:42 -0700 (PDT)
+        Sat, 20 Aug 2022 11:16:44 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 09/19] staging: r8188eu: rename _rtw_open_pktfile()
-Date: Sat, 20 Aug 2022 20:16:13 +0200
-Message-Id: <20220820181623.12497-10-straube.linux@gmail.com>
+Subject: [PATCH 12/19] staging: r8188eu: remove unnecessary initialization to zero
+Date: Sat, 20 Aug 2022 20:16:16 +0200
+Message-Id: <20220820181623.12497-13-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220820181623.12497-1-straube.linux@gmail.com>
 References: <20220820181623.12497-1-straube.linux@gmail.com>
@@ -57,54 +57,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is no need to prefix the function name of _rtw_open_pktfile()
-with an underscore. Rename it to rtw_open_pktfile().
+The initialization to zero of the variable 'len' in rtw_pktfile_read()
+is not needed. It is immediately set to another value. Remove the
+initialization to zero. While at it, remove an extra space.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_xmit.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 6cf583fd9890..caacf35485dd 100644
+index 51672984156b..f79889011cd1 100644
 --- a/drivers/staging/r8188eu/core/rtw_xmit.c
 +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -402,7 +402,7 @@ u8	qos_acm(u8 acm_mask, u8 priority)
- 	return change_priority;
- }
+@@ -429,9 +429,9 @@ static uint rtw_remainder_len(struct pkt_file *pfile)
  
--static void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
-+static void rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
+ static uint rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
  {
- 	if (!pktptr) {
- 		pr_err("8188eu: pktptr is NULL\n");
-@@ -427,7 +427,7 @@ static void set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
- 	struct iphdr ip_hdr;
- 	s32 user_prio = 0;
+-	uint	len = 0;
++	uint len;
  
--	_rtw_open_pktfile(ppktfile->pkt, ppktfile);
-+	rtw_open_pktfile(ppktfile->pkt, ppktfile);
- 	_rtw_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
+-	len =  rtw_remainder_len(pfile);
++	len = rtw_remainder_len(pfile);
+ 	len = (rlen > len) ? len : rlen;
  
- 	/*  get user_prio from IP hdr */
-@@ -461,7 +461,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 
- 
- 
--	_rtw_open_pktfile(pkt, &pktfile);
-+	rtw_open_pktfile(pkt, &pktfile);
- 	_rtw_pktfile_read(&pktfile, (u8 *)&etherhdr, ETH_HLEN);
- 
- 	pattrib->ether_type = ntohs(etherhdr.h_proto);
-@@ -940,7 +940,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
- 		goto exit;
- 	}
- 
--	_rtw_open_pktfile(pkt, &pktfile);
-+	rtw_open_pktfile(pkt, &pktfile);
- 	_rtw_pktfile_read(&pktfile, NULL, pattrib->pkt_hdrlen);
- 
- 	frg_inx = 0;
+ 	if (rmem)
 -- 
 2.37.2
 
