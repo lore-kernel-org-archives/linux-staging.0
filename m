@@ -1,111 +1,87 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0682917
-	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 15:00:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1661007601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iRBJ+kAGwL9njr3QeEpYkg6rLy9UHweAjQ9xbzfD4hM=;
-	b=PbbBfGrMfZZNZniUjgb1S0tQLY0lYEaucbywL3E38OCEeDL7hMC1fmDi7HiWldYEpsvhj6
-	3FMpNGkkSySMsWk3KiUVSgUVVqS6hu11Tpz2S+bgGS2oMIUkRHAm2uXEOUTNop2M/qhjVP
-	uveQe723YltmVdPiaGcF206WWxaJTRk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-168-i5qLD8lVPW67AdKf3Ik4vQ-1; Sat, 20 Aug 2022 10:59:57 -0400
-X-MC-Unique: i5qLD8lVPW67AdKf3Ik4vQ-1
-Received: by mail-ed1-f70.google.com with SMTP id l19-20020a056402255300b0043df64f9a0fso4380519edb.16
-        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 07:59:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183682C9E
+	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 18:00:33 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id h22so3930914ejk.4
+        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 11:00:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=S4K7WddGnCKRXo7vMgA8XrMmq8iETnu9thV6SMJ5zJ8=;
+        b=KgHqtvn7WP8z/GLXeqAexT061YnUJrRiquK7aPYERsIzzjLzRsxlIAndBsj1/r22ox
+         Na8EcVl1MVlTu4KxnuTTy3b+9D5vwQDWzXnvun7Uwl+wzdeDgFoaty/Dfffg9KC6IxYf
+         a2nVXVzEFOXRBhrNJaxOT6qrDmz5Tb0UdmpqU/7L/f0DalYHInh1/xMQoFeaSZVFhn5/
+         Hir7C+ZsVNOyhVrsbcjeIotwWd+KVlrRIeuH+4HaRHEmzixKQuPnDX7vl5m9P5eJ8eqF
+         6yKcckGUeRwXfQBfK3LdnT5TmJZ7+vYE1y/sQsZsPIGYlZ5mDpfNxngtNmswvAIUZ+n/
+         Cbmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=iRBJ+kAGwL9njr3QeEpYkg6rLy9UHweAjQ9xbzfD4hM=;
-        b=eQZIFaZ503dvsrqfzCsRlt3H0zq/zDI5nR02E+fA02XhaRhikuLqytDwbluR4/rDcw
-         D49P49LhBoERb7c0Iyo67O5g7UUx/tOYBdtBevk0fOuADZpbm0csrtlu+qucg3FFP62m
-         glc451DjCH5tZPH4f0iOqbi9insy/ihRLvd0uHFaYB5aarIGT+BCPW1T2IIcgXYkFwOF
-         L0rjndnSplJJIAX0RQ5ZgkWhn5MAqAcJi+hHHN73Ry1xYN2bk7X6AiExIZvbPM4rCLAv
-         8OVcsESBfN6MUhl3hL8VB+EqGeWuTDiiawsdcXVP7JrPP5SiSJf6+rHsL514qrpQEJ+C
-         SI3A==
-X-Gm-Message-State: ACgBeo1+fCLECh7Mt9bYIBj4/ueaVGs/HlCro2sCyKCtbfljfbikBcKV
-	zoIXpxLi2CIUHOIl4bJsWrrK7jqYD+b9cZMOmvjxSuRog8ENrM1ZsYUIiP7ra8Que2OEA90kLaJ
-	n53UNvWinPW6EZRP/kslYUNZ0AQ==
-X-Received: by 2002:aa7:dd50:0:b0:440:3e9d:784 with SMTP id o16-20020aa7dd50000000b004403e9d0784mr9937681edw.195.1661007596853;
-        Sat, 20 Aug 2022 07:59:56 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7iYD2MRBgV5NEFkuv9ew7bcztbYfWXBL8oqUI0InxYrx8Gz1WG2JPPGpklNs2KDJrFKXZvLQ==
-X-Received: by 2002:aa7:dd50:0:b0:440:3e9d:784 with SMTP id o16-20020aa7dd50000000b004403e9d0784mr9937668edw.195.1661007596675;
-        Sat, 20 Aug 2022 07:59:56 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id i15-20020a1709063c4f00b0073132fa9393sm3666326ejg.65.2022.08.20.07.59.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Aug 2022 07:59:56 -0700 (PDT)
-Message-ID: <13600e0c-bde2-198f-26c4-00531f277bf8@redhat.com>
-Date: Sat, 20 Aug 2022 16:59:55 +0200
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=S4K7WddGnCKRXo7vMgA8XrMmq8iETnu9thV6SMJ5zJ8=;
+        b=wdKM0Dld6jJPS+eR+1HVutYW2+1pBIvr0L+npxmu8FOCijEaxqpNVQATqF4o46afRX
+         aXJeqdcIviAnjGeW/r4xICTQcdl7dD5fQcXtX5SkklGopSXu4uA94T+DM+IeguAmSasO
+         p0LKpZL+2W3N2c0Y/sjLVehyTCSqMUdJRpBh3W+ezA5NdrNfwsvCQpzuqsfqMmD3HOzg
+         azUkzKa3kVb90Pu+aj8+rRZVvwWGwCFMPpaB11j6yEAmhNePe1eHhNF2gVpkFYFeslPY
+         2JLVnNvg4+JB2XCWrqHNLW54GnpS3tb/17XPAgbnw+JaN9/dBQKH3Ba3NVMVO39EnDk3
+         WDtg==
+X-Gm-Message-State: ACgBeo2rz63iOXFsIHnPi4TdgQDXotHUL3BYWuKfrBsJicfwBYNZqrZw
+	HZlFNr/gFbJhpuSWBVZFaO8=
+X-Google-Smtp-Source: AA6agR40o6e2+2a1ybsZbBDky02ISKDVNRQfo3SSi8DJcZIX9o60XSRPX920ah4wBiCdeao7dC1Vhw==
+X-Received: by 2002:a17:907:da9:b0:731:1a5:8c66 with SMTP id go41-20020a1709070da900b0073101a58c66mr8176062ejc.80.1661018432264;
+        Sat, 20 Aug 2022 11:00:32 -0700 (PDT)
+Received: from nam-dell.vm.stuba.sk ([147.175.88.220])
+        by smtp.gmail.com with ESMTPSA id x19-20020aa7d6d3000000b00445e037345csm4938841edr.14.2022.08.20.11.00.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Aug 2022 11:00:31 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: hdegoede@redhat.com
+Cc: Larry.Finger@lwfinger.net,
+	gregkh@linuxfoundation.org,
+	kbuild-all@lists.01.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	lkp@intel.com,
+	namcaov@gmail.com
+Subject: [PATCH v3 0/3] remove useless files
+Date: Sat, 20 Aug 2022 20:00:01 +0200
+Message-Id: <cover.1661017377.git.namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <13600e0c-bde2-198f-26c4-00531f277bf8@redhat.com>
+References: <13600e0c-bde2-198f-26c4-00531f277bf8@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 0/4] remove useless files
-To: Nam Cao <namcaov@gmail.com>
-Cc: lkp@intel.com, Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org,
- kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <202208200447.kdEhBy9a-lkp@intel.com>
- <cover.1660977535.git.namcaov@gmail.com>
- <63626444-a7ee-a0c4-ec0a-f44a810e25ea@redhat.com>
- <CA+sZ8B8ouMSMmArTVzbkqeWQx4Zqg2=gPaviTrkOFvBoswv_Jg@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CA+sZ8B8ouMSMmArTVzbkqeWQx4Zqg2=gPaviTrkOFvBoswv_Jg@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Delete odm_NoiseMonitor.c and odm_NoiseMonitor.h because they are
+useless. The first 2 commits are preparation, and the final commit is
+actual removal.
 
-On 8/20/22 16:35, Nam Cao wrote:
-> Hi
-> 
-> On Sat, Aug 20, 2022 at 2:17 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> Patch 1/4 seems to be missing?
-> 
-> Patch 1/4 is there:
-> https://lore.kernel.org/linux-staging/46d73e331bae2192a328f6691763f39ea6c18b08.1660977536.git.namcaov@gmail.com/
-> 
->>
->> Also please squash patches 3 and 4:
->>
->>    staging: rtl8723bs: remove odm_NoiseMonitor.o from Makefile
->>    staging: rtl8723bs: remove odm_NoiseMonitor.h and odm_NoiseMonitor.c
->>
->> together. Ion other words remove both the files and the Makefile
->> target in a single patch please.
-> 
-> Sorry but I am not sure what I am supposed to do with kernel test bot.
-> I agree that it makes sense to squash these 2 commits together. However,
-> I separated them because I want to have 1 patch addressing the problem reported
-> by the bot, so that I can put the "Reported-by" line to this patch.
-> 
-> If I squash them, should I still put in the "Reported-by" line, despite the
-> commit not exactly fixing the reported error. Or should I just leave it out?
+v2: Add new patch to remove the file from Makefile, otherwise there is
+    build error as reported by kernel test bot.
+v3: Squash some commits together. The patchset functionally remains
+    the same.
 
-You should just leave it out, that is the standard thing to do for
-bot reported problems which are fixed before the patches are merged.
+Nam Cao (3):
+  staging: rtl8723bs: remove unused function ODM_InbandNoise_Monitor
+  staging: rtl8723bs: remove member noise_level from struct dm_odm_t
+  staging: rtl8723bs: remove odm_NoiseMonitor.h and odm_NoiseMonitor.c
 
-Regards,
+ drivers/staging/rtl8723bs/Makefile            |   1 -
+ drivers/staging/rtl8723bs/hal/odm.h           |   2 -
+ .../staging/rtl8723bs/hal/odm_NoiseMonitor.c  | 130 ------------------
+ .../staging/rtl8723bs/hal/odm_NoiseMonitor.h  |  39 ------
+ drivers/staging/rtl8723bs/hal/odm_precomp.h   |   1 -
+ 5 files changed, 173 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
 
-Hans
+-- 
+2.25.1
 
