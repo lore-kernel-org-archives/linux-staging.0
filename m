@@ -1,107 +1,110 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5042F2A
-	for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 19:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1661022892;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RcEdOQ10DcjhFhOlSWptCrA6mRT/8ZyucyzcP38daTc=;
-	b=hTn5dcIAFPsBsj4L9obN63gMnJATKka05mhZ06gu/5ekSF1nWdJAHOApxCPeNTDOoBhxBK
-	z9q0R2BH9z1qxRvbDYZvYR5NWQt6kk0eJyTNhGE3osXDTfiR8+6D0f/2Rl/54i6lsbd5wg
-	djvGrG2rdmoIiuAj2hYWREbJlg7JJo0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-528-2oNZ2U4IPt-akSgxx7jdsw-1; Sat, 20 Aug 2022 15:14:51 -0400
-X-MC-Unique: 2oNZ2U4IPt-akSgxx7jdsw-1
-Received: by mail-ed1-f71.google.com with SMTP id h8-20020a05640250c800b0044642d29d35so2757003edb.18
-        for <linux-staging@lists.linux.dev>; Sat, 20 Aug 2022 12:14:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42FB366
+	for <linux-staging@lists.linux.dev>; Sun, 21 Aug 2022 12:31:45 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id gi31so10035628ejc.5
+        for <linux-staging@lists.linux.dev>; Sun, 21 Aug 2022 05:31:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=nzDM6yHUA8UXtKytIIvP0GY/mpFQQhGXhLPbv8JE064=;
+        b=EiryiyVZF2bAyMX0Et7vzZUKUQeBTFHDAgzzygMcxMvNqnM4DrZA9ID+2pALxq9CUW
+         DqH0buWgwFdFE33oThOwd2UJTHpzE4D/OldBUi2NYYMd+eM8QlxbVVmAjW8J/XU2COQP
+         PG3X2ML5s5dxemxoC/tvz8CIzDtDH7r5jqORkichdgW9FQiS6qNBU0iSgUZAMPCIDM1i
+         70ZNGUVE3UHcoJb3JLj/pipprIv52Zpk2IWuoBGhwJVTe4sskTZzoKujTvFcip9kSOLy
+         QYt9zjjVG2lNNnkA04qKznHvlcpgPteyiLM9WMmKvh9Gq5Rl+lbVw/BoHftgdO9z3Lj2
+         RMtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=RcEdOQ10DcjhFhOlSWptCrA6mRT/8ZyucyzcP38daTc=;
-        b=DfftVIenbeT4Ms10PPeVldK0xxErHRMuth+sY/UO/NoRcVZE4zTAI/FgC39zBM2kp1
-         Aq3DGsi07rzwQafMw4Zlww1o1i11hxAicahbng8LhJ/tewGAMjHl0lxRbXv1NpwLSn7F
-         WukLnQ6b5le7rQ32AdJg8adwwzIKSnv+iZ2evpGn8S5W+INRD1Uvulfn0RMfvVw2i7Xc
-         eyo6ydz7tqgCuBnik/kXF1gv2RygwhDbWS6Owa9tacXw+Rfhc1dlaMm2ZhaB3t7b5z60
-         bLdrpDOktnH2UmTUnnF/kj7NTDwvF5RUBImEBkUr6is6onEN/3tkBA+5gM2SmFTfXuVS
-         skGQ==
-X-Gm-Message-State: ACgBeo2tkF33PaFOqKL9ZtmpDBCTI71nfjzxtObveY2bONEcYG38kTB/
-	lf+194ApYhGQGkV8OKQUkxhy+CtuOBxv6NBSHlyQgS7um5pavSFrun6aNJpca2DmnivKopIvNwC
-	hnRF7jxnYZ+xelcKZiLlGTOYXBg==
-X-Received: by 2002:aa7:c790:0:b0:443:a086:6877 with SMTP id n16-20020aa7c790000000b00443a0866877mr10384379eds.84.1661022890442;
-        Sat, 20 Aug 2022 12:14:50 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR60jbrBYrvBSLFTcJQhnjQeLrtGvAgcYYuRCi9iNnW52jSM6yo7xugH8I2R5ca19534ueMvEQ==
-X-Received: by 2002:aa7:c790:0:b0:443:a086:6877 with SMTP id n16-20020aa7c790000000b00443a0866877mr10384370eds.84.1661022890289;
-        Sat, 20 Aug 2022 12:14:50 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id z6-20020a1709060f0600b0073079439f27sm3927590eji.72.2022.08.20.12.14.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Aug 2022 12:14:49 -0700 (PDT)
-Message-ID: <a74584a3-fc47-b458-2d1f-8e03beba7d9c@redhat.com>
-Date: Sat, 20 Aug 2022 21:14:47 +0200
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=nzDM6yHUA8UXtKytIIvP0GY/mpFQQhGXhLPbv8JE064=;
+        b=QQ/BOQTbKUXD83dvu3zz9XIkila5KC2mrNw4TT666UAB8Kfk86gRYl3paGHs44VWM9
+         SXtJXWNGbb7HqtJ49gQTuwaA6F2Aya2UmZ9GlVIIduFHB5czdN/lMyZpv6C2ZixzLZcH
+         NHhvUEOpHLoffF2ZuRWUk1KGySuurFa+n5iFrDuygwQdBRm8dml6GtK/F65cRDp6suRZ
+         KSEoyeOL93URb9VGJesk16hmVbFL7Q3ZL44u8JVR91LN1aoHyHyjn9zde55EY43ZZJO4
+         SISoobCF4iiznaImmFt/Pcgc9RNJY+o+zVcIYqlsUKUF1CtNFqdvKnEARK+cSfLXRdFQ
+         rsmQ==
+X-Gm-Message-State: ACgBeo2c26e/9OtXyTpySf0x9ocg8hLVcVk7xfKyeunRJPl6pckqWut6
+	aUX2cbekNCtPil6gSFkKD9A=
+X-Google-Smtp-Source: AA6agR4yBca1QLYow0zf0rc/ZKzcwoAhK1MSz8z3TIS9L+wqoR9VeDzaUlYvtW58E+BQ4gVx25mzhg==
+X-Received: by 2002:a17:907:9686:b0:73d:1de0:7fbe with SMTP id hd6-20020a170907968600b0073d1de07fbemr7007717ejc.500.1661085103901;
+        Sun, 21 Aug 2022 05:31:43 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
+        by smtp.gmail.com with ESMTPSA id d7-20020a056402000700b004460690f9d5sm6355568edu.81.2022.08.21.05.31.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Aug 2022 05:31:43 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove unused module parameter rtw_chip_version
+Date: Sun, 21 Aug 2022 14:31:38 +0200
+Message-Id: <20220821123138.8070-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.37.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 0/3] remove useless files
-To: Nam Cao <namcaov@gmail.com>
-Cc: Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org,
- kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, lkp@intel.com
-References: <13600e0c-bde2-198f-26c4-00531f277bf8@redhat.com>
- <cover.1661017377.git.namcaov@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <cover.1661017377.git.namcaov@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Nam,
+The module parameter rtw_chip_version sets the chip_version field of
+struct registry_priv but that field is never used in the driver code.
+Remove the unused module parameter.
 
-On 8/20/22 20:00, Nam Cao wrote:
-> Delete odm_NoiseMonitor.c and odm_NoiseMonitor.h because they are
-> useless. The first 2 commits are preparation, and the final commit is
-> actual removal.
-> 
-> v2: Add new patch to remove the file from Makefile, otherwise there is
->     build error as reported by kernel test bot.
-> v3: Squash some commits together. The patchset functionally remains
->     the same.
-> 
-> Nam Cao (3):
->   staging: rtl8723bs: remove unused function ODM_InbandNoise_Monitor
->   staging: rtl8723bs: remove member noise_level from struct dm_odm_t
->   staging: rtl8723bs: remove odm_NoiseMonitor.h and odm_NoiseMonitor.c
-> 
->  drivers/staging/rtl8723bs/Makefile            |   1 -
->  drivers/staging/rtl8723bs/hal/odm.h           |   2 -
->  .../staging/rtl8723bs/hal/odm_NoiseMonitor.c  | 130 ------------------
->  .../staging/rtl8723bs/hal/odm_NoiseMonitor.h  |  39 ------
->  drivers/staging/rtl8723bs/hal/odm_precomp.h   |   1 -
->  5 files changed, 173 deletions(-)
->  delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
->  delete mode 100644 drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.h
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/include/drv_types.h | 1 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c   | 3 ---
+ 2 files changed, 4 deletions(-)
 
-Thank you for the new version, the entire series looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-for the series.
-
-Regards,
-
-Hans
+diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+index 79351b3aa60d..1bd0c8f3a358 100644
+--- a/drivers/staging/r8188eu/include/drv_types.h
++++ b/drivers/staging/r8188eu/include/drv_types.h
+@@ -37,7 +37,6 @@
+ #define FW_RTL8188EU	"rtlwifi/rtl8188eufw.bin"
+ 
+ struct registry_priv {
+-	u8	chip_version;
+ 	u8	rfintfs;
+ 	u8	lbkmode;
+ 	u8	hci;
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 2d2a1c27d433..dd4e6aac3509 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -22,7 +22,6 @@ MODULE_FIRMWARE(FW_RTL8188EU);
+ #define RTW_NOTCH_FILTER 0 /* 0:Disable, 1:Enable, */
+ 
+ /* module param defaults */
+-static int rtw_chip_version = 0x00;
+ static int rtw_rfintfs = HWPI;
+ static int rtw_lbkmode;/* RTL8712_AIR_TRX; */
+ static int rtw_network_mode = Ndis802_11IBSS;/* Ndis802_11Infrastructure; infra, ad-hoc, auto */
+@@ -104,7 +103,6 @@ char *rtw_initmac;  /*  temp mac address if users want to use instead of the mac
+ 
+ module_param(rtw_initmac, charp, 0644);
+ module_param(rtw_channel_plan, int, 0644);
+-module_param(rtw_chip_version, int, 0644);
+ module_param(rtw_rfintfs, int, 0644);
+ module_param(rtw_lbkmode, int, 0644);
+ module_param(rtw_network_mode, int, 0644);
+@@ -151,7 +149,6 @@ static uint loadparam(struct adapter *padapter)
+ {
+ 	struct registry_priv  *registry_par = &padapter->registrypriv;
+ 
+-	registry_par->chip_version = (u8)rtw_chip_version;
+ 	registry_par->rfintfs = (u8)rtw_rfintfs;
+ 	registry_par->lbkmode = (u8)rtw_lbkmode;
+ 	registry_par->network_mode  = (u8)rtw_network_mode;
+-- 
+2.37.2
 
