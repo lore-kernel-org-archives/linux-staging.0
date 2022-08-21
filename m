@@ -1,52 +1,32 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42FB366
-	for <linux-staging@lists.linux.dev>; Sun, 21 Aug 2022 12:31:45 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id gi31so10035628ejc.5
-        for <linux-staging@lists.linux.dev>; Sun, 21 Aug 2022 05:31:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=nzDM6yHUA8UXtKytIIvP0GY/mpFQQhGXhLPbv8JE064=;
-        b=EiryiyVZF2bAyMX0Et7vzZUKUQeBTFHDAgzzygMcxMvNqnM4DrZA9ID+2pALxq9CUW
-         DqH0buWgwFdFE33oThOwd2UJTHpzE4D/OldBUi2NYYMd+eM8QlxbVVmAjW8J/XU2COQP
-         PG3X2ML5s5dxemxoC/tvz8CIzDtDH7r5jqORkichdgW9FQiS6qNBU0iSgUZAMPCIDM1i
-         70ZNGUVE3UHcoJb3JLj/pipprIv52Zpk2IWuoBGhwJVTe4sskTZzoKujTvFcip9kSOLy
-         QYt9zjjVG2lNNnkA04qKznHvlcpgPteyiLM9WMmKvh9Gq5Rl+lbVw/BoHftgdO9z3Lj2
-         RMtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=nzDM6yHUA8UXtKytIIvP0GY/mpFQQhGXhLPbv8JE064=;
-        b=QQ/BOQTbKUXD83dvu3zz9XIkila5KC2mrNw4TT666UAB8Kfk86gRYl3paGHs44VWM9
-         SXtJXWNGbb7HqtJ49gQTuwaA6F2Aya2UmZ9GlVIIduFHB5czdN/lMyZpv6C2ZixzLZcH
-         NHhvUEOpHLoffF2ZuRWUk1KGySuurFa+n5iFrDuygwQdBRm8dml6GtK/F65cRDp6suRZ
-         KSEoyeOL93URb9VGJesk16hmVbFL7Q3ZL44u8JVR91LN1aoHyHyjn9zde55EY43ZZJO4
-         SISoobCF4iiznaImmFt/Pcgc9RNJY+o+zVcIYqlsUKUF1CtNFqdvKnEARK+cSfLXRdFQ
-         rsmQ==
-X-Gm-Message-State: ACgBeo2c26e/9OtXyTpySf0x9ocg8hLVcVk7xfKyeunRJPl6pckqWut6
-	aUX2cbekNCtPil6gSFkKD9A=
-X-Google-Smtp-Source: AA6agR4yBca1QLYow0zf0rc/ZKzcwoAhK1MSz8z3TIS9L+wqoR9VeDzaUlYvtW58E+BQ4gVx25mzhg==
-X-Received: by 2002:a17:907:9686:b0:73d:1de0:7fbe with SMTP id hd6-20020a170907968600b0073d1de07fbemr7007717ejc.500.1661085103901;
-        Sun, 21 Aug 2022 05:31:43 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb77.dynamic.kabel-deutschland.de. [95.90.187.119])
-        by smtp.gmail.com with ESMTPSA id d7-20020a056402000700b004460690f9d5sm6355568edu.81.2022.08.21.05.31.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Aug 2022 05:31:43 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97159371
+	for <linux-staging@lists.linux.dev>; Sun, 21 Aug 2022 15:11:17 +0000 (UTC)
+X-QQ-mid: bizesmtp87t1661094585tylogl59
+Received: from localhost.localdomain ( [182.148.14.124])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sun, 21 Aug 2022 23:09:44 +0800 (CST)
+X-QQ-SSF: 0100000000200010B000B00A0000000
+X-QQ-FEAT: zT6n3Y95oi2SlWqB1OW3bb89aDWY8dXwiD8N+oi6EAvlVRDdAR5lcPNu6Nsyn
+	owKWQGbga7pWiMBW9l6JYMt+gBVHwEZS86UXKTYl+rcOlSBoX5u+PTxKJDtU2PREnW9v7WT
+	tCMIrREkp2D5eTn9d/qCKfYXoJkja1dcEwbWjzdaD6hL1HvqaG0Wi/8Qs54TbNgAMurNW6V
+	dhp0mFqcTZphNF4CVHTiPINTbXxrLOcHHv2odGIlah6G59IQi9Zw1Ov0Y6EgpZNsTJqrA6+
+	i8l6xYMz0ppJi5D7iQ1ELxVR+TP5r/DdgJBz4nYTQVbklHkzImUzMV8j4M4I7hz2BtFuOcn
+	5O8PxF34YsrFntMmTe4ZCsouqctPAShXA18FcDVm7Q2nNYocTA=
+X-QQ-GoodBg: 0
+From: wangjianli <wangjianli@cdjrlc.com>
+To: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	sakari.ailus@linux.intel.com
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove unused module parameter rtw_chip_version
-Date: Sun, 21 Aug 2022 14:31:38 +0200
-Message-Id: <20220821123138.8070-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.37.2
+	wangjianli <wangjianli@cdjrlc.com>
+Subject: [PATCH] atomisp/pci: fix repeated words in comments
+Date: Sun, 21 Aug 2022 23:09:37 +0800
+Message-Id: <20220821150937.53934-1-wangjianli@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,57 +34,29 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr7
 
-The module parameter rtw_chip_version sets the chip_version field of
-struct registry_priv but that field is never used in the driver code.
-Remove the unused module parameter.
+ Delete the redundant word 'of'.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
 ---
- drivers/staging/r8188eu/include/drv_types.h | 1 -
- drivers/staging/r8188eu/os_dep/os_intfs.c   | 3 ---
- 2 files changed, 4 deletions(-)
+ drivers/staging/media/atomisp/pci/isp2400_input_system_public.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-index 79351b3aa60d..1bd0c8f3a358 100644
---- a/drivers/staging/r8188eu/include/drv_types.h
-+++ b/drivers/staging/r8188eu/include/drv_types.h
-@@ -37,7 +37,6 @@
- #define FW_RTL8188EU	"rtlwifi/rtl8188eufw.bin"
+diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
+index 85cb61e34192..19a00d569398 100644
+--- a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
++++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
+@@ -200,7 +200,7 @@ STORAGE_CLASS_INPUT_SYSTEM_H void receiver_port_reg_store(
+     const hrt_address			reg,
+     const hrt_data				value);
  
- struct registry_priv {
--	u8	chip_version;
- 	u8	rfintfs;
- 	u8	lbkmode;
- 	u8	hci;
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 2d2a1c27d433..dd4e6aac3509 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -22,7 +22,6 @@ MODULE_FIRMWARE(FW_RTL8188EU);
- #define RTW_NOTCH_FILTER 0 /* 0:Disable, 1:Enable, */
+-/*! Read from a control register PORT[port_ID] of of RECEIVER[ID]
++/*! Read from a control register PORT[port_ID] of RECEIVER[ID]
  
- /* module param defaults */
--static int rtw_chip_version = 0x00;
- static int rtw_rfintfs = HWPI;
- static int rtw_lbkmode;/* RTL8712_AIR_TRX; */
- static int rtw_network_mode = Ndis802_11IBSS;/* Ndis802_11Infrastructure; infra, ad-hoc, auto */
-@@ -104,7 +103,6 @@ char *rtw_initmac;  /*  temp mac address if users want to use instead of the mac
- 
- module_param(rtw_initmac, charp, 0644);
- module_param(rtw_channel_plan, int, 0644);
--module_param(rtw_chip_version, int, 0644);
- module_param(rtw_rfintfs, int, 0644);
- module_param(rtw_lbkmode, int, 0644);
- module_param(rtw_network_mode, int, 0644);
-@@ -151,7 +149,6 @@ static uint loadparam(struct adapter *padapter)
- {
- 	struct registry_priv  *registry_par = &padapter->registrypriv;
- 
--	registry_par->chip_version = (u8)rtw_chip_version;
- 	registry_par->rfintfs = (u8)rtw_rfintfs;
- 	registry_par->lbkmode = (u8)rtw_lbkmode;
- 	registry_par->network_mode  = (u8)rtw_network_mode;
+  \param	ID[in]				RECEIVER identifier
+  \param	port_ID[in]			mipi PORT identifier
 -- 
-2.37.2
+2.36.1
 
