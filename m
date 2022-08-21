@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1B04690
-	for <linux-staging@lists.linux.dev>; Sun, 21 Aug 2022 21:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACB346A4
+	for <linux-staging@lists.linux.dev>; Sun, 21 Aug 2022 21:50:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1661118642;
+	s=mimecast20190719; t=1661118644;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2SyerhtoNMYL+S3xcqV7YJMKDYk8aT+B+B2LhJeTTOk=;
-	b=Zw15VKPvNYtKFPGIQmKiBK4FS06CcBb8dydhI2IlrysqKA4Mt/AwqBGImFbbvKSlZRT/vE
-	8HKl7UsScawhFG19YxsiJVtwj8zkVbXzyLV5vmg+qMVAlHK05JgJDycqcEOmPENXle2xPD
-	LGEKDvb6IQLAS1n4OCDRx5lf0nuAFgU=
+	bh=RHBIZS/bAxYof9KpwGWNmLOh7mnAnqnDwDJC61PvMzQ=;
+	b=dqjUUtHOnRYJLLMChtYHXtoI4apCdi+UNE/Ne9UZ2R46clqc5ccCD1eJ8ev9YwPzy81tCA
+	pJMFKRS6QqJTpN3quAqtvBiIoxLRki13eXXlwkWPIRqhTETdXWVJt+lJeR34F038i1EOY2
+	uIt9k3dvfCdwuNs9y4hOYnjbdxRW0l0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-L6euBwbKOBalq04GGVFGIA-1; Sun, 21 Aug 2022 17:50:38 -0400
-X-MC-Unique: L6euBwbKOBalq04GGVFGIA-1
+ us-mta-479-a734-Bt2N5-Q-MR9ua4Tow-1; Sun, 21 Aug 2022 17:50:40 -0400
+X-MC-Unique: a734-Bt2N5-Q-MR9ua4Tow-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 166B38037AA;
-	Sun, 21 Aug 2022 21:50:38 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFE188032F1;
+	Sun, 21 Aug 2022 21:50:39 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.47])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 99D6340CFD0A;
-	Sun, 21 Aug 2022 21:50:36 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4B02D40CF8EB;
+	Sun, 21 Aug 2022 21:50:38 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 06/13] media: atomisp: Fix VIDIOC_TRY_FMT
-Date: Sun, 21 Aug 2022 23:50:20 +0200
-Message-Id: <20220821215027.461344-6-hdegoede@redhat.com>
+Subject: [PATCH 07/13] media: atomisp: Make atomisp_try_fmt_cap() take padding into account
+Date: Sun, 21 Aug 2022 23:50:21 +0200
+Message-Id: <20220821215027.461344-7-hdegoede@redhat.com>
 In-Reply-To: <20220821215027.461344-1-hdegoede@redhat.com>
 References: <20220821215027.461344-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,44 +52,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 
-atomisp_try_fmt() calls the sensor's try_fmt handler but it does
-not copy the result back to the passed in v4l2_pix_format under
-some circumstances.
-
-Potentially returning an unsupported resolution to userspace,
-which VIDIOC_TRY_FMT is not supposed to do.
-
-atomisp_set_fmt() also uses atomisp_try_fmt() and relies
-on this wrong behavior. The VIDIOC_TRY_FMT call passes NULL for
-the res_overflow argument where as the atomisp_set_fmt() call
-passes non NULL.
-
-Use the res_overflow argument to differentiate between the 2 callers
-and always propagate the sensors result in the VIDIOC_TRY_FMT case.
+atomisp_try_fmt() gives results with padding included. So when userspace
+asks for e.g. 1600x1200 then we should pass 1616x1216 to atomisp_try_fmt()
+this will then get adjusted back to 1600x1200 before returning it to
+userspace by the atomisp_adjust_fmt() call at the end of atomisp_try_fmt().
 
 This fixes the resolution list in camorama showing resolutions like e.g.
 1584x1184 instead of 1600x1200.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index c932f340068f..db6465756e49 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -4886,8 +4886,8 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 		return 0;
- 	}
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 459645c2e2a7..7ecee39ef5a4 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -960,6 +960,13 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
+ 	struct atomisp_device *isp = video_get_drvdata(vdev);
+ 	int ret;
  
--	if (snr_mbus_fmt->width < f->width
--	    && snr_mbus_fmt->height < f->height) {
-+	if (!res_overflow || (snr_mbus_fmt->width < f->width &&
-+			      snr_mbus_fmt->height < f->height)) {
- 		f->width = snr_mbus_fmt->width;
- 		f->height = snr_mbus_fmt->height;
- 		/* Set the flag when resolution requested is
++	/*
++	 * atomisp_try_fmt() gived results with padding included, note
++	 * (this gets removed again by the atomisp_adjust_fmt() call below.
++	 */
++	f->fmt.pix.width += pad_w;
++	f->fmt.pix.height += pad_h;
++
+ 	rt_mutex_lock(&isp->mutex);
+ 	ret = atomisp_try_fmt(vdev, &f->fmt.pix, NULL);
+ 	rt_mutex_unlock(&isp->mutex);
 -- 
 2.37.2
 
