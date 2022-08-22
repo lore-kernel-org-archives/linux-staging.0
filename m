@@ -1,45 +1,45 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA904A02
-	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 17:59:02 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id a4so14208234wrq.1
-        for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 10:59:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3D54A02
+	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 17:59:33 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id h5so13383025wru.7
+        for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 10:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=EUyd4jlEPdu2E04TX94+ZqkeQ1RHJEM/l4894KX+1RI=;
-        b=MeWyHm0q0Pn5H7jy3Gnse1nLhND4hl4mLyG7HzOw33K2kgaEiF8NFPb4tdyrUGTPuB
-         0ew++X1twb4M/yOw47i6pw+OKz4cNvoTkP5zqO3SxAsn5xaxWVJzERksDO32BESSvS8a
-         zozxotAm4ztumR6A272Go9EwjmWuiHP7Nrb8X8vbVFQJk7yo4qYTCZIiBxGHb704g+uR
-         9v8rgOGwVs2Naen2wB3HwNbatttZMVpTQtpnT8M2gC/vi+LAQx/jr1dMU6wY4BDEnE0C
-         cM+/aL9QFt9HeMR9pHeHa7aCtJHMw+gp2vIlR9Ta0HQidUxNZ/xr9TcTEU+sLluXiKnR
-         xd7Q==
+        bh=7yBJRGwvl/pzUs+EDHj7+n2SkDx+t8AASlR3dqtZZaU=;
+        b=YrTEYKKZZJ4+AKSYYoKlNFNH/p/HLBInnCt9pvlW0TOn3RykpWYHy34gjepSzQZY7R
+         Yv7//FXhXGLAk+nHdErdXid773KJEqpXbQ3V7zZoD77P3KYy25Xb5dbumGodd1uCgAVT
+         DXVyeMdRK+clNTwopsLiF0MzjeDfIaiUspH4h3vB+OcwBNn68ZPIC00EK/MA70F/v3Z8
+         +1+l3Duh0ZbIxXAzlF5zScOTz1q4UY0FXnf9iFlZwJfQIS34YFtOubfJ4P1GYK1EPq3a
+         aLhk0jo/R7tLEzIWKW5sgPe0JOVORpSQnhj+tNR8BfVTLLffCJM1pTSRWul4Mke3e5OU
+         yu4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=EUyd4jlEPdu2E04TX94+ZqkeQ1RHJEM/l4894KX+1RI=;
-        b=q3sOgODVjbCX9nvyKQ6RemMzaF1QweRPLlMp50Ni7uhLJbKBLVNWnYofM1xQRkDQ/I
-         szpNYhWNnihK8+8E1lLYziRp+wXYjlmoZO4+863A30T0qDEAZtXFGG3mu6swYJz/k9Ue
-         U6hfHoF51Tl3Jfyk+9SWErvW1T+LCzo1bEz8oEQiQW+VieEurTqLJIEKU4sizslvIYuf
-         CWGtvt+DpJ3LmG/oZVhIkIgMPw5vrwvvfl5nTsiNNnh29aLhZ7U6VSxQgvfcURueB2sH
-         SkfBW8Vl2dFPZmxxC+MUJmyGF7db4hUzE7pd4SqZdkkkpOizhT5c2cW0KA7Iy/BzKFPf
-         iEAQ==
-X-Gm-Message-State: ACgBeo2sovL9aqXCEHnN8Rt5LAHKHlkNgCwdnDQK3+rYU/e/mIOkJA+S
-	J6iHaxlQtUJxhrbQhogSmno=
-X-Google-Smtp-Source: AA6agR7oJPpSKqwQuz0jGvu+7KlQp7PRBXZYYJHNo0GN3dN0Nfsaf3r1bbt9xIdZgxuxWh/O1d1VUg==
-X-Received: by 2002:adf:f982:0:b0:225:2dad:3ee8 with SMTP id f2-20020adff982000000b002252dad3ee8mr11252602wrr.226.1661191141086;
-        Mon, 22 Aug 2022 10:59:01 -0700 (PDT)
+        bh=7yBJRGwvl/pzUs+EDHj7+n2SkDx+t8AASlR3dqtZZaU=;
+        b=yuOA3vj87jO1jXV28mbdusfC+tjmqJnci1E33V4ldDys9o6h/Tx4ZNFlTtMkwxasuh
+         BmyWMG/Z1rJCTPKXn1UwuMecbk62ABzm99zAZ6ZVdkrJOm2wFp9q9xp5rcGrXj3ZOpcy
+         m50njRtOxNeQoitxTX9Q+uJI/Q+OF/M8pwdlmOQgCCnLlWZzuz/Qpc2le370QKxl92Rv
+         1xT2lKd4+LVx6K61wX//LHLOM3aF34iJhxFyT6AlP/0VfAm/eg/j4O5k953fV16YhMjz
+         S3r7M+CDiU9pWX775EAWEYUQbKOfpJJ+s3O2SgtJrGLqRYFdk/TJHXbTGCXD8zXN/7Gd
+         mDkg==
+X-Gm-Message-State: ACgBeo0PRUW7RgLAMJB9Tuzm16nbiMwdUN8G+lTnDhO4i11xbc2S7a7Q
+	T/pbKbLaYAnJbqot4xStKuE=
+X-Google-Smtp-Source: AA6agR54fhx4TBdfypPsE0ikMuSvjARjCrHEb/YsmcAd6NF2wc6qTzPphSV/Qw7BzJQhbB9NLke3pQ==
+X-Received: by 2002:a05:6000:156b:b0:222:c789:cb2d with SMTP id 11-20020a056000156b00b00222c789cb2dmr11648628wrz.197.1661191172237;
+        Mon, 22 Aug 2022 10:59:32 -0700 (PDT)
 Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id h5-20020a05600c350500b003a6125562e1sm15377071wmq.46.2022.08.22.10.58.57
+        by smtp.gmail.com with ESMTPSA id r38-20020a05600c322600b003a2e92edeccsm17150184wmp.46.2022.08.22.10.59.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Aug 2022 10:58:59 -0700 (PDT)
-Message-ID: <76b7bb06-8eae-4340-4cf3-d4b39e366307@gmail.com>
-Date: Mon, 22 Aug 2022 19:58:55 +0200
+        Mon, 22 Aug 2022 10:59:31 -0700 (PDT)
+Message-ID: <5102d3a2-56b1-7111-72c9-905cd56f86bf@gmail.com>
+Date: Mon, 22 Aug 2022 19:59:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,66 +48,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 00/19] staging: r8188eu: migrate os_dep/xmit_linux.c
+Subject: Re: [PATCH] staging: r8188eu: remove unused module parameter
+ rtw_chip_version
 Content-Language: en-US
 To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220820181623.12497-1-straube.linux@gmail.com>
+References: <20220821123138.8070-1-straube.linux@gmail.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220820181623.12497-1-straube.linux@gmail.com>
+In-Reply-To: <20220821123138.8070-1-straube.linux@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/20/22 20:16, Michael Straube wrote:
-> This series moves the functions, or their functionality, from
-> os_dep/xmit_linux.c to the core/* part of the driver and finally
-> removes os_dep/xmit_linux.c and the xmit_osdep.h header.
+On 8/21/22 14:31, Michael Straube wrote:
+> The module parameter rtw_chip_version sets the chip_version field of
+> struct registry_priv but that field is never used in the driver code.
+> Remove the unused module parameter.
 > 
-> Tested on x86_64 with Inter-Tech DMG-02.
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>   drivers/staging/r8188eu/include/drv_types.h | 1 -
+>   drivers/staging/r8188eu/os_dep/os_intfs.c   | 3 ---
+>   2 files changed, 4 deletions(-)
 > 
-> Please apply this on top of:
-> [PATCH] staging: r8188eu: remove rtw_endofpktfile()
-> 
-> Thanks,
-> Michael
-> 
-> Michael Straube (19):
->    staging: r8188eu: make rtw_remainder_len() static
->    staging: r8188eu: make rtw_os_xmit_schedule() static
->    staging: r8188eu: rename rtw_os_xmit_schedule()
->    staging: r8188eu: make rtw_os_xmit_resource_alloc() static
->    staging: r8188eu: rename rtw_os_xmit_resource_alloc()
->    staging: r8188eu: make rtw_os_xmit_resource_free() static
->    staging: r8188eu: rename rtw_os_xmit_resource_free()
->    staging: r8188eu: make _rtw_open_pktfile() static
->    staging: r8188eu: rename _rtw_open_pktfile()
->    staging: r8188eu: make _rtw_pktfile_read() static
->    staging: r8188eu: rename _rtw_pktfile_read()
->    staging: r8188eu: remove unnecessary initialization to zero
->    staging: r8188eu: move struct pkt_file to rtw_xmit.h
->    staging: r8188eu: move rtw_os_xmit_complete() to rtw_xmit.c
->    staging: r8188eu: rename rtw_os_xmit_complete()
->    staging: r8188eu: make rtw_os_pkt_complete() static
->    staging: r8188eu: rename rtw_os_pkt_complete()
->    staging: r8188eu: remove os_dep/xmit_linux.c
->    staging: r8188eu: remove xmit_osdep.h
-> 
->   drivers/staging/r8188eu/Makefile             |   1 -
->   drivers/staging/r8188eu/core/rtw_mlme.c      |  23 +-
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c  |   2 +-
->   drivers/staging/r8188eu/core/rtw_sta_mgt.c   |   1 -
->   drivers/staging/r8188eu/core/rtw_xmit.c      | 232 +++++++++++++++++--
->   drivers/staging/r8188eu/hal/rtl8188eu_xmit.c |   4 +-
->   drivers/staging/r8188eu/include/rtw_xmit.h   |  16 +-
->   drivers/staging/r8188eu/include/xmit_osdep.h |  48 ----
->   drivers/staging/r8188eu/os_dep/os_intfs.c    |   7 +-
->   drivers/staging/r8188eu/os_dep/usb_intf.c    |   1 -
->   drivers/staging/r8188eu/os_dep/xmit_linux.c  | 226 ------------------
->   11 files changed, 251 insertions(+), 310 deletions(-)
->   delete mode 100644 drivers/staging/r8188eu/include/xmit_osdep.h
->   delete mode 100644 drivers/staging/r8188eu/os_dep/xmit_linux.c
-> 
+> diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+> index 79351b3aa60d..1bd0c8f3a358 100644
+> --- a/drivers/staging/r8188eu/include/drv_types.h
+> +++ b/drivers/staging/r8188eu/include/drv_types.h
+> @@ -37,7 +37,6 @@
+>   #define FW_RTL8188EU	"rtlwifi/rtl8188eufw.bin"
+>   
+>   struct registry_priv {
+> -	u8	chip_version;
+>   	u8	rfintfs;
+>   	u8	lbkmode;
+>   	u8	hci;
+> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> index 2d2a1c27d433..dd4e6aac3509 100644
+> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
+> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> @@ -22,7 +22,6 @@ MODULE_FIRMWARE(FW_RTL8188EU);
+>   #define RTW_NOTCH_FILTER 0 /* 0:Disable, 1:Enable, */
+>   
+>   /* module param defaults */
+> -static int rtw_chip_version = 0x00;
+>   static int rtw_rfintfs = HWPI;
+>   static int rtw_lbkmode;/* RTL8712_AIR_TRX; */
+>   static int rtw_network_mode = Ndis802_11IBSS;/* Ndis802_11Infrastructure; infra, ad-hoc, auto */
+> @@ -104,7 +103,6 @@ char *rtw_initmac;  /*  temp mac address if users want to use instead of the mac
+>   
+>   module_param(rtw_initmac, charp, 0644);
+>   module_param(rtw_channel_plan, int, 0644);
+> -module_param(rtw_chip_version, int, 0644);
+>   module_param(rtw_rfintfs, int, 0644);
+>   module_param(rtw_lbkmode, int, 0644);
+>   module_param(rtw_network_mode, int, 0644);
+> @@ -151,7 +149,6 @@ static uint loadparam(struct adapter *padapter)
+>   {
+>   	struct registry_priv  *registry_par = &padapter->registrypriv;
+>   
+> -	registry_par->chip_version = (u8)rtw_chip_version;
+>   	registry_par->rfintfs = (u8)rtw_rfintfs;
+>   	registry_par->lbkmode = (u8)rtw_lbkmode;
+>   	registry_par->network_mode  = (u8)rtw_network_mode;
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
-
