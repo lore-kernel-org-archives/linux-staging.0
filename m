@@ -1,73 +1,112 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8844A3B
-	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 21:28:49 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id y18so8993809qtv.5
-        for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 14:28:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDE84C6C
+	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 22:42:53 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id c9so7920333qkk.6
+        for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 15:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=f34TFr5Ae5xpGEjfAgL6FehCM9KIFQVhi5IFiIsBdh8=;
-        b=OiOyhJRV6GFFoPnofUHAq9baVlTaCIqEalEY0MaVIGmx+Q+Pb4LYp9PqeTBozMDrG+
-         95EGF5nxc2sv6af8sC8z1EjUHlJ0EBr4Gj+qndOUfb61RWSRjgXh03GQKLKdjdpExS2g
-         5hNkgp1ipofgSzyNmHXYJC06Vk/sem1V5AOde+asMHIHCwhvOcaEf0CZu407Ksz+1Cj7
-         WKTuzaQ+X88Kse5zqXNgVEdjseIYNRl/wQw8DGJzMEajF7itYAyab6A1tCdNpG5smJC5
-         FxWJcjC1SLWhrjChk93i+4b8Dz8BNuar9Xcv3MMixZ05CWu3FFDWcEBuf37rBpydeAwc
-         1r9Q==
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc;
+        bh=6C/d8xlHQCGOlClXK65WdMdS1M8Gsu61gKL4UEc2TB8=;
+        b=p/68VzadPb34Psj/7p/+bpCgGsInjxK7JXKHCtWZIF7GrlzSxf0Pak5jJxw8fMbdu/
+         QU59+q+I1IAWDFndRk82ue5jatLFF5apcfv5vWxPC/dAx4l1/VQlbGZplcTGxgkbs4qM
+         sCko3XKSlsxJoC7zPduKFee+QyycEODSRjDbbsOwVliJ6wwnSF25VMy1gKzJeXP9Yrrb
+         JHLlsAhZj5Fd7eCoUozNQHzjTj562sFrB8cPiVpfWCPKHyH0R3o9zx5qYQrDXY7rQM9c
+         78QyeiGrSsDQeZ3Bc1T55qLZPU264B4krlqYHGlW1YTDUotx/J+bTSUiXu4N/NTRHKo+
+         Vmhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=f34TFr5Ae5xpGEjfAgL6FehCM9KIFQVhi5IFiIsBdh8=;
-        b=kiyVXPJSvG70ByiPF8IdjQIlLeEIE+COjsamc75AgYck/+xkcV1YtdlEfz5NQfpSnD
-         fFlTKaa1R+dGLNlQMtvlYR3FPddoL48W85bKKIdYUdDtk4DrrOWjdZkDoGed3Xff4b4V
-         BwEgDk/yfHaAU9vHhT67sYZpSdq/t0FOyxLx+47YNjXAsfFZ9FtVVgLeczUwY+SiWT/m
-         Ukv1R3YiSVmOh2/O6hzyk0riHHq/gZ762KO250hyA2pXmXWTEvzNEq7HIuJW4zhkMg67
-         7Or1vmPIvfhO25yG3X/DhF1aVXyjPHdoYamVrxLaPCMDW4Wvbr0sBHpdIMcwgKPB33Fr
-         JU4Q==
-X-Gm-Message-State: ACgBeo1xUDSu20pQv5DZWJ+OoI1RbE1yrkRpYTekJGN1sdAFmmOUZxbx
-	wQqckYjyLuynbMkcyCXB8cCgRPlyfImqWu/Jogw=
-X-Google-Smtp-Source: AA6agR6YMiuwli8fBoHyF3B7UP0b5x+qzSPFzq+lT+g3YpsAGBlPZegL+g/B8YwyvMYU+TjkM3Ytqz0btLPehuQh/dg=
-X-Received: by 2002:ac8:7dd0:0:b0:344:afc1:b11d with SMTP id
- c16-20020ac87dd0000000b00344afc1b11dmr8568600qte.195.1661203728626; Mon, 22
- Aug 2022 14:28:48 -0700 (PDT)
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=6C/d8xlHQCGOlClXK65WdMdS1M8Gsu61gKL4UEc2TB8=;
+        b=LAtbO8SxA0AV34EJTOAw9RmaFWyKZWGEY02mMYrB1XCtwFZPsSNRPcJICb32CQQRqu
+         qgIfI7L0UgY80LZ6UyqrNeHf/zP2FEoAxw5/FZFu1pzxNpkNjQK5IxcxZal6fz1VWedD
+         I4XiHe+DruUVtggDes4NKC67ZhXVrI1kMwKrpiI0xcb4J0JN71h3v0rvCu7pkrkgkz/E
+         LypchKs8qV/X0Mv2Q17VhHd5CX2IB+qZYbmmeQ//GKeLoMDnZObhE1aPlBptGP7C+sDR
+         svlyGzL1nGR8BdUV6m9G3bUkYLFqdSRAcYqQOk0/YB0+G7rxWpa2iQ6Q5SW7LFKdsOEe
+         RFmw==
+X-Gm-Message-State: ACgBeo3UJFFK8qreaJUTTuBOBCxAJ59r6iG8AbEBRILK8/hjZXTQJ31V
+	PKdtxtdwPZB3o/iAinTopcc=
+X-Google-Smtp-Source: AA6agR6193RM0nlcmpDSpP0KqEk10dsmRjfuA66BmNYTxwnKHnK7MI+FnN8t13CU1o+X6L17OmsoRg==
+X-Received: by 2002:a05:620a:4e1:b0:6bb:5c0e:ab58 with SMTP id b1-20020a05620a04e100b006bb5c0eab58mr14525126qkh.730.1661208172231;
+        Mon, 22 Aug 2022 15:42:52 -0700 (PDT)
+Received: from valhalla (2603-7081-5203-61c3-0000-0000-0000-1449.res6.spectrum.com. [2603:7081:5203:61c3::1449])
+        by smtp.gmail.com with ESMTPSA id hg17-20020a05622a611100b0034359fc348fsm9521347qtb.73.2022.08.22.15.42.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Aug 2022 15:42:51 -0700 (PDT)
+Date: Mon, 22 Aug 2022 18:42:48 -0400
+From: Christopher Carbone <chris.m.carbone@gmail.com>
+To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: sm750fb: split multiple assignments to lines
+Message-ID: <YwQGaLoBHH9C0aXN@valhalla>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220822150610.45186-1-hdegoede@redhat.com>
-In-Reply-To: <20220822150610.45186-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 23 Aug 2022 00:28:12 +0300
-Message-ID: <CAHp75Vd2KPjKo1QXaZ4pHr4400Rw2yQFrWJuAOLge9=gbo=RqA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/13] media: atomisp_gmin_platform: Switch to use acpi_evaluate_dsm_typed()
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>, Yury Luneff <yury.lunev@gmail.com>, 
-	Nable <nable.maininbox@googlemail.com>, 
-	"andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Aug 22, 2022 at 6:06 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> The acpi_evaluate_dsm_typed() provides a way to check the type of the
-> object evaluated by _DSM call. Use it instead of open coded variant.
+Adhere to Linux kernel coding style.
 
-of an open
+Reported by checkpatch:
 
-...
+CHECK: multiple assignmentst should be avoided
 
-Hmm... I thought I gave the Rb tag for patches 2-11.
-In this version patches 12 and 13 also look good to me.
+Signed-off-by: Christopher Carbone <chris.m.carbone@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index dbd1159a2ef0..6f4c31635cc4 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -386,7 +386,8 @@ static int lynxfb_ops_set_par(struct fb_info *info)
+ 
+ 	ret = lynxfb_set_color_offsets(info);
+ 
+-	var->height = var->width = -1;
++	var->height  = -1;
++	var->width = -1;
+ 	var->accel_flags = 0;/*FB_ACCELF_TEXT;*/
+ 
+ 	if (ret) {
+@@ -498,7 +499,8 @@ static int lynxfb_ops_check_var(struct fb_var_screeninfo *var,
+ 		return ret;
+ 	}
+ 
+-	var->height = var->width = -1;
++	var->height = -1;
++	var->width = -1;
+ 	var->accel_flags = 0;/* FB_ACCELF_TEXT; */
+ 
+ 	/* check if current fb's video memory big enough to hold the onscreen*/
+@@ -723,7 +725,8 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 		0x800f0 + (int)crtc->channel * 0x140;
+ 
+ 	pr_info("crtc->cursor.mmio = %p\n", crtc->cursor.mmio);
+-	crtc->cursor.max_h = crtc->cursor.max_w = 64;
++	crtc->cursor.max_h = 64;
++	crtc->cursor.max_w = 64;
+ 	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+ 	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
+ 
+@@ -1027,7 +1030,8 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
+ 	if (!sm750_dev)
+ 		return err;
+ 
+-	sm750_dev->fbinfo[0] = sm750_dev->fbinfo[1] = NULL;
++	sm750_dev->fbinfo[0] = NULL;
++	sm750_dev->fbinfo[1] = NULL;
+ 	sm750_dev->devid = pdev->device;
+ 	sm750_dev->revid = pdev->revision;
+ 	sm750_dev->pdev = pdev;
 -- 
-With Best Regards,
-Andy Shevchenko
+2.37.2
+
