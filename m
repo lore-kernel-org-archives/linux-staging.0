@@ -1,45 +1,45 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3D54A02
-	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 17:59:33 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id h5so13383025wru.7
-        for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 10:59:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309944A02
+	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 18:06:01 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id r16so14202464wrm.6
+        for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 11:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=7yBJRGwvl/pzUs+EDHj7+n2SkDx+t8AASlR3dqtZZaU=;
-        b=YrTEYKKZZJ4+AKSYYoKlNFNH/p/HLBInnCt9pvlW0TOn3RykpWYHy34gjepSzQZY7R
-         Yv7//FXhXGLAk+nHdErdXid773KJEqpXbQ3V7zZoD77P3KYy25Xb5dbumGodd1uCgAVT
-         DXVyeMdRK+clNTwopsLiF0MzjeDfIaiUspH4h3vB+OcwBNn68ZPIC00EK/MA70F/v3Z8
-         +1+l3Duh0ZbIxXAzlF5zScOTz1q4UY0FXnf9iFlZwJfQIS34YFtOubfJ4P1GYK1EPq3a
-         aLhk0jo/R7tLEzIWKW5sgPe0JOVORpSQnhj+tNR8BfVTLLffCJM1pTSRWul4Mke3e5OU
-         yu4w==
+        bh=Csmpukwgo5IDJeAZNtEo51qxCB580Q6PQAbe+39XAEs=;
+        b=flMnpNlyMf98yXaTDUHLxaouu8dZiDrDL/ODHRRNw7MGZaD5AlbSioph709BtOkrFw
+         IZBoL15cn+9jUk/wMVedfuN1Rw0dYL83uNaRb24qCeOPdMTt9dHl1NdRox4nNATn3+m7
+         mvrJE2rek2CBrrBz3CIewfmNRX6gnifg/wv69uOq6QjFhG9ti/uRG4h4FPzd2I6+Baj8
+         BPcbN2TwmTC6JNZfi9F3+oFDr+RZDBtKY3H30SUzIHPz5WxO1eak1WcocbAYq6B2pCHQ
+         5NMkHTTcV0shr+GkeNH6my6Bk4JbRPIsvijstncvdvs4PrecIbQyKmm+7OOi3E2SKmof
+         tLSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=7yBJRGwvl/pzUs+EDHj7+n2SkDx+t8AASlR3dqtZZaU=;
-        b=yuOA3vj87jO1jXV28mbdusfC+tjmqJnci1E33V4ldDys9o6h/Tx4ZNFlTtMkwxasuh
-         BmyWMG/Z1rJCTPKXn1UwuMecbk62ABzm99zAZ6ZVdkrJOm2wFp9q9xp5rcGrXj3ZOpcy
-         m50njRtOxNeQoitxTX9Q+uJI/Q+OF/M8pwdlmOQgCCnLlWZzuz/Qpc2le370QKxl92Rv
-         1xT2lKd4+LVx6K61wX//LHLOM3aF34iJhxFyT6AlP/0VfAm/eg/j4O5k953fV16YhMjz
-         S3r7M+CDiU9pWX775EAWEYUQbKOfpJJ+s3O2SgtJrGLqRYFdk/TJHXbTGCXD8zXN/7Gd
-         mDkg==
-X-Gm-Message-State: ACgBeo0PRUW7RgLAMJB9Tuzm16nbiMwdUN8G+lTnDhO4i11xbc2S7a7Q
-	T/pbKbLaYAnJbqot4xStKuE=
-X-Google-Smtp-Source: AA6agR54fhx4TBdfypPsE0ikMuSvjARjCrHEb/YsmcAd6NF2wc6qTzPphSV/Qw7BzJQhbB9NLke3pQ==
-X-Received: by 2002:a05:6000:156b:b0:222:c789:cb2d with SMTP id 11-20020a056000156b00b00222c789cb2dmr11648628wrz.197.1661191172237;
-        Mon, 22 Aug 2022 10:59:32 -0700 (PDT)
+        bh=Csmpukwgo5IDJeAZNtEo51qxCB580Q6PQAbe+39XAEs=;
+        b=esxkZTk7y/VueCRJWGDQF7FmlVe62ngYY3oDjCUJG3vOin0SOXOAYXhh9tiTGGrHPC
+         /MuT6bqb0uzGHoUUSfiSJHNMyL+bhP+RP2srsANHmKT18xXiXaPV7RXQUTMFJAcFT14w
+         HRZKRBF92f5gB33olq/sWMt+Azbu5BXxGtHspWjXjY6U9nOVRT73l20beIsMDjoEb55B
+         Rfwvi5I0N4nLVQwSGqVczxlHQlKByS3zRKlJS1THjFg8Yf+de+fxONIhWMIzj9X3ooER
+         gVz7HKj5+o90VqFZ1hu/uU6KTZYLQptogasWeYkAVqFK+zUmOsXu58BVBvETR8l9lbMw
+         zPyg==
+X-Gm-Message-State: ACgBeo13umTwh/bxvP4o8X4FBcv5Z8qquBLMfsFeeo3MMMdJkpe8esCX
+	ORq0NfN485GJ0Ust6yu1XDo=
+X-Google-Smtp-Source: AA6agR6ZvTHnMaSxUzmtXd4F93OXpQZlDYmNRtz2QDv3B2maMzfD5b1HRYZ40Q/fTsDqOPFurm3I/g==
+X-Received: by 2002:a5d:634f:0:b0:225:2ab4:d539 with SMTP id b15-20020a5d634f000000b002252ab4d539mr11042085wrw.149.1661191559446;
+        Mon, 22 Aug 2022 11:05:59 -0700 (PDT)
 Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id r38-20020a05600c322600b003a2e92edeccsm17150184wmp.46.2022.08.22.10.59.30
+        by smtp.gmail.com with ESMTPSA id w3-20020adfde83000000b002253af82fa7sm11469438wrl.9.2022.08.22.11.05.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Aug 2022 10:59:31 -0700 (PDT)
-Message-ID: <5102d3a2-56b1-7111-72c9-905cd56f86bf@gmail.com>
-Date: Mon, 22 Aug 2022 19:59:28 +0200
+        Mon, 22 Aug 2022 11:05:59 -0700 (PDT)
+Message-ID: <434d644b-2688-c3e8-814e-b9b2f2b86f85@gmail.com>
+Date: Mon, 22 Aug 2022 20:05:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,68 +48,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: r8188eu: remove unused module parameter
- rtw_chip_version
+Subject: Re: [PATCH] Split multiple assignments to individual lines.
 Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+To: Christopher Carbone <chris.m.carbone@gmail.com>,
+ sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+ gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220821123138.8070-1-straube.linux@gmail.com>
+References: <YwOjt+ZrQkKFGRH9@valhalla>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220821123138.8070-1-straube.linux@gmail.com>
+In-Reply-To: <YwOjt+ZrQkKFGRH9@valhalla>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/21/22 14:31, Michael Straube wrote:
-> The module parameter rtw_chip_version sets the chip_version field of
-> struct registry_priv but that field is never used in the driver code.
-> Remove the unused module parameter.
+On 8/22/22 17:41, Christopher Carbone wrote:
+> Adhere to Linux kernel coding style.
 > 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> Reported by checkpatch:
+> 
+> CHECK: multiple assignments should be avoided
+> 
+> Signed-off-by: Christopher Carbone <chris.m.carbone@gmail.com>
 > ---
->   drivers/staging/r8188eu/include/drv_types.h | 1 -
->   drivers/staging/r8188eu/os_dep/os_intfs.c   | 3 ---
->   2 files changed, 4 deletions(-)
+>   drivers/staging/sm750fb/sm750.c | 12 ++++++++----
+>   1 file changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-> index 79351b3aa60d..1bd0c8f3a358 100644
-> --- a/drivers/staging/r8188eu/include/drv_types.h
-> +++ b/drivers/staging/r8188eu/include/drv_types.h
-> @@ -37,7 +37,6 @@
->   #define FW_RTL8188EU	"rtlwifi/rtl8188eufw.bin"
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index dbd1159a2ef0..a0f8ae359248 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -386,7 +386,8 @@ static int lynxfb_ops_set_par(struct fb_info *info)
 >   
->   struct registry_priv {
-> -	u8	chip_version;
->   	u8	rfintfs;
->   	u8	lbkmode;
->   	u8	hci;
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index 2d2a1c27d433..dd4e6aac3509 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -22,7 +22,6 @@ MODULE_FIRMWARE(FW_RTL8188EU);
->   #define RTW_NOTCH_FILTER 0 /* 0:Disable, 1:Enable, */
+>   	ret = lynxfb_set_color_offsets(info);
 >   
->   /* module param defaults */
-> -static int rtw_chip_version = 0x00;
->   static int rtw_rfintfs = HWPI;
->   static int rtw_lbkmode;/* RTL8712_AIR_TRX; */
->   static int rtw_network_mode = Ndis802_11IBSS;/* Ndis802_11Infrastructure; infra, ad-hoc, auto */
-> @@ -104,7 +103,6 @@ char *rtw_initmac;  /*  temp mac address if users want to use instead of the mac
+> -	var->height = var->width = -1;
+> +	var->width = -1;
+> +	var->height = var->width;
+>   	var->accel_flags = 0;/*FB_ACCELF_TEXT;*/
 >   
->   module_param(rtw_initmac, charp, 0644);
->   module_param(rtw_channel_plan, int, 0644);
-> -module_param(rtw_chip_version, int, 0644);
->   module_param(rtw_rfintfs, int, 0644);
->   module_param(rtw_lbkmode, int, 0644);
->   module_param(rtw_network_mode, int, 0644);
-> @@ -151,7 +149,6 @@ static uint loadparam(struct adapter *padapter)
->   {
->   	struct registry_priv  *registry_par = &padapter->registrypriv;
+>   	if (ret) {
+> @@ -498,7 +499,8 @@ static int lynxfb_ops_check_var(struct fb_var_screeninfo *var,
+>   		return ret;
+>   	}
 >   
-> -	registry_par->chip_version = (u8)rtw_chip_version;
->   	registry_par->rfintfs = (u8)rtw_rfintfs;
->   	registry_par->lbkmode = (u8)rtw_lbkmode;
->   	registry_par->network_mode  = (u8)rtw_network_mode;
+> -	var->height = var->width = -1;
+> +	var->width = -1;
+> +	var->height = var->width;
+>   	var->accel_flags = 0;/* FB_ACCELF_TEXT; */
+>   
+>   	/* check if current fb's video memory big enough to hold the onscreen*/
+> @@ -723,7 +725,8 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+>   		0x800f0 + (int)crtc->channel * 0x140;
+>   
+>   	pr_info("crtc->cursor.mmio = %p\n", crtc->cursor.mmio);
+> -	crtc->cursor.max_h = crtc->cursor.max_w = 64;
+> +	crtc->cursor.max_w = 64;
+> +	crtc->cursor.max_h = crtc->cursor.max_w;
+>   	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+>   	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
+>   
+> @@ -1027,7 +1030,8 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
+>   	if (!sm750_dev)
+>   		return err;
+>   
+> -	sm750_dev->fbinfo[0] = sm750_dev->fbinfo[1] = NULL;
+> +	sm750_dev->fbinfo[1] = NULL;
+> +	sm750_dev->fbinfo[0] = sm750_dev->fbinfo[1];
+>   	sm750_dev->devid = pdev->device;
+>   	sm750_dev->revid = pdev->revision;
+>   	sm750_dev->pdev = pdev;
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+
+Hi,
+
+the subsystem and the device is missing in the Subject.
+
+I propose you look into https://kernelnewbies.org/FirstKernelPatch to 
+read about the Subject.
+
+I personally prefer more this:
+
+ > +	sm750_dev->fbinfo[1] = NULL;
+ > +	sm750_dev->fbinfo[0] = NULL;
+
+That gives a better overview.
+
+Thanks for your support.
+
+Bye Philipp
+
