@@ -1,113 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2368F256C
-	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 15:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81521256C
+	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 15:06:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1661180592;
+	s=mimecast20190719; t=1661180781;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tlzmui5ajtbLtR4OUWaQmiktJo3sDd1IJ8yRtxLLoi8=;
-	b=ChkuMkdGs59GtCKlENh7BdjVauYlu9CL1lwPutmOL1kcpRFm4IJTjclU0amknYNv2M3yKC
-	Y++sJjA987mzC7HC27rDr36TPRStsOA5Fx8S4quS6fYeGPR9soMsWbW5ORA7ldCjG4u07m
-	Rb5bONJDjnlUoftKBaGeHq9uoHOdp/E=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-235-PtSVYCzhO7CREaHazvsy5g-1; Mon, 22 Aug 2022 11:03:11 -0400
-X-MC-Unique: PtSVYCzhO7CREaHazvsy5g-1
-Received: by mail-ed1-f71.google.com with SMTP id w17-20020a056402269100b0043da2189b71so7003399edd.6
-        for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 08:03:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=Tlzmui5ajtbLtR4OUWaQmiktJo3sDd1IJ8yRtxLLoi8=;
-        b=hankXOQ9uwqvbIEzLTJjOlB+FT39RZ6CQCQUwRKXUkWSRHDdG8cdFzCuD6VA3nyuLd
-         rAETQf/YK83+fjH9VFz6VIHfI+2iScrqfKcrX5WbXxi7918D3gNvHEElONug01diPhpe
-         YLQ86GHk9XEokN2YEPHujEtiw49I0e7t89aR1AAAWyA430AblqG1YS/uD8P0cW72FAd0
-         P0wr3YNt/1Jwhw6t8WmbXMIrOrvYlOCSf3PxXEA0sZG8dZeZvDBP3RzwH38ej0d8QetD
-         fDgdDOpKKST7tHx3HE3lYQIGVqYTm4X39JX4PPUigHZHUczrfmwa2/mG2o+efTXqByey
-         W2Cw==
-X-Gm-Message-State: ACgBeo2RZmh5iwIGrM7PGu7gPG2srBR6yc+cfZ7GvscSuI7+wAxnj/kC
-	6G8tISWLLR+a24IM6zkaXw5/YbpyAyS8NdLG6SFvgj41VNKTYx4R9NNv62yHw2RmPApMW7Dt/mK
-	M619AafPWCudri/YpR2U3z9CATw==
-X-Received: by 2002:a17:907:6d24:b0:731:7720:bb9b with SMTP id sa36-20020a1709076d2400b007317720bb9bmr13186715ejc.717.1661180589925;
-        Mon, 22 Aug 2022 08:03:09 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5GcENmYTUOK/Snra3bYXwezD2rbZ+y/0FnfNgK7HseapkMA//RqNwjvM0/sz38dwcO63GZ3g==
-X-Received: by 2002:a17:907:6d24:b0:731:7720:bb9b with SMTP id sa36-20020a1709076d2400b007317720bb9bmr13186695ejc.717.1661180589740;
-        Mon, 22 Aug 2022 08:03:09 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id v14-20020a170906b00e00b0073d6d6e698bsm2979526ejy.187.2022.08.22.08.03.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Aug 2022 08:03:08 -0700 (PDT)
-Message-ID: <7978041f-f324-2554-cd64-04102330bb14@redhat.com>
-Date: Mon, 22 Aug 2022 17:03:07 +0200
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=RKXwDGpmDr23gQp1zQtFHLaDkpZw2aRFQ7hDt/VKdow=;
+	b=RvNd1juBTJaWc9MAhTBvC1oqrasURfF/KZBK/GGN6OH2AHn0YBZ+mQUpYNrbQ/viE/rKk7
+	NvvXQyWBK5nU3JTqy06Q8CXT7lbTZMEp9HPPk67tvkhfUoaEoQbWgGkzj+IBRcmRhpGIzC
+	O6m+QbggIzUqTCp0p4eSRHyboXT1Uak=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-516-yV9m1C7QPV2YO15rlCXbFg-1; Mon, 22 Aug 2022 11:06:15 -0400
+X-MC-Unique: yV9m1C7QPV2YO15rlCXbFg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5827811E75;
+	Mon, 22 Aug 2022 15:06:14 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.193.25])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 196AF404C6ED;
+	Mon, 22 Aug 2022 15:06:11 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 01/13] media: atomisp_gmin_platform: Switch to use acpi_evaluate_dsm_typed()
+Date: Mon, 22 Aug 2022 17:05:58 +0200
+Message-Id: <20220822150610.45186-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 13/13] media: atomisp: Ensure that USERPTR pointers are
- page aligned
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>,
- Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>,
- "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
- Fabio Aiuto <fabioaiuto83@gmail.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linux-staging@lists.linux.dev
-References: <20220821215027.461344-1-hdegoede@redhat.com>
- <20220821215027.461344-13-hdegoede@redhat.com>
- <CAHp75VdJETEOf_t_F0f591zOj3U_ALuadE4LHzF-8sXPPgUnEQ@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VdJETEOf_t_F0f591zOj3U_ALuadE4LHzF-8sXPPgUnEQ@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 
-Hi,
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-On 8/22/22 15:03, Andy Shevchenko wrote:
-> On Mon, Aug 22, 2022 at 12:50 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> The atomisp code needs USERPTR pointers to be page aligned,
->> otherwise bad things (scribbling over other parts of the
->> process' RAM) happen.
->>
->> Add a check to ensure this and exit VIDIOC_QBUF calls with
->> unaligned pointers with -EINVAL.
-> 
-> ...
-> 
->>         if (buf->memory == V4L2_MEMORY_USERPTR) {
->> +               if (buf->m.userptr & ~PAGE_MASK) {
-> 
-> offset_in_page() ?
+The acpi_evaluate_dsm_typed() provides a way to check the type of the
+object evaluated by _DSM call. Use it instead of open coded variant.
 
-Ack I've switched to offset_in_page() for v2.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Link: https://lore.kernel.org/r/20220730155905.90091-1-andriy.shevchenko@linux.intel.com
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Tested-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Regards,
-
-Hans
-
-
-> 
-> Further we may utilize helpers from pfn.h in the driver.
-> 
->> +                       dev_err(isp->dev, "Error userptr is not page aligned.\n");
->> +                       ret = -EINVAL;
->> +                       goto error;
->> +               }
-> 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 133d7d56fff2..648469de2cdc 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -1250,16 +1250,14 @@ static int gmin_get_config_dsm_var(struct device *dev,
+ 	if (!strcmp(var, "CamClk"))
+ 		return -EINVAL;
+ 
+-	obj = acpi_evaluate_dsm(handle, &atomisp_dsm_guid, 0, 0, NULL);
++	/* Return on unexpected object type */
++	obj = acpi_evaluate_dsm_typed(handle, &atomisp_dsm_guid, 0, 0, NULL,
++				      ACPI_TYPE_PACKAGE);
+ 	if (!obj) {
+ 		dev_info_once(dev, "Didn't find ACPI _DSM table.\n");
+ 		return -EINVAL;
+ 	}
+ 
+-	/* Return on unexpected object type */
+-	if (obj->type != ACPI_TYPE_PACKAGE)
+-		return -EINVAL;
+-
+ #if 0 /* Just for debugging purposes */
+ 	for (i = 0; i < obj->package.count; i++) {
+ 		union acpi_object *cur = &obj->package.elements[i];
+-- 
+2.36.1
 
