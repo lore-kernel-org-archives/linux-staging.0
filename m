@@ -1,95 +1,112 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941D8256C
-	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 15:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1661180825;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fGz219Nb72Rp/NAx6dJ8BVWwdrlZSPMBaaDB7hXVqks=;
-	b=G/9XZXkD1Ql8QJqbHfnNXmSIn98qocw+BaJRuc6qBNVaT4WSXIBsE2/LQXoNzI4Mh44U0+
-	1alenlREpAWijvsvuowhopUAvqrFDOnyO3R7L/Y/i+/rE90u5NlPUpboOPj3vy08l5rcHA
-	nFrmbYXK5ybGhw2BKtWJIyTWINO3EeM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-286-U4E0XBK5PaSvVIRVUtfrew-1; Mon, 22 Aug 2022 11:06:48 -0400
-X-MC-Unique: U4E0XBK5PaSvVIRVUtfrew-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF8723C1014B;
-	Mon, 22 Aug 2022 15:06:26 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.193.25])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1AEDE40CF8E8;
-	Mon, 22 Aug 2022 15:06:24 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 06/13] media: atomisp: Fix VIDIOC_TRY_FMT
-Date: Mon, 22 Aug 2022 17:06:03 +0200
-Message-Id: <20220822150610.45186-6-hdegoede@redhat.com>
-In-Reply-To: <20220822150610.45186-1-hdegoede@redhat.com>
-References: <20220822150610.45186-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C361256C
+	for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 15:41:48 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id u6so3812050qvp.5
+        for <linux-staging@lists.linux.dev>; Mon, 22 Aug 2022 08:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc;
+        bh=cRvGK+nfZIMwtiejaDileiwHPvBs7s1NtuCURg1xkOE=;
+        b=jrIMSLP1O0YpmecScYkEyzJrB11luBCBk7dY8gXgO+9dVe6uTS9YjcXSs+Ta5OH1sV
+         dXHvi7zstA8c4+yeoSq6Ynqtg3+Pt1rYjxvkNcbx5rOihOE/RiUAWJp5bdf7H+4uz8tk
+         KywVzWly9gjOTSr8FzpDKLVQUOBlSeikDyiCQGM5ouYLMl1N7a5sOj8e6Dn3mZIlfqrg
+         doR5BHOHDXum4QOY+Kpf43/7h9SwVIYRj9yIktK86uPksWD11jIlT93UN5hUZFtKRE9W
+         Qoh6Pa7XE+GeU5tV50GZL695dNnS9HEKr2xWG2d7cAMi/OeM/Hp8umiCVKxSfLsjeu2Z
+         e5lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=cRvGK+nfZIMwtiejaDileiwHPvBs7s1NtuCURg1xkOE=;
+        b=VAB8s0GmHtExXmy/4/6RKWWdM6srH7Iogn64c6FICMCdnT894cYsMzjCBNksPiv1SN
+         1OGKXWjCf6TYwwmcOm/5CBcdPeDeK/9FD5bFgx6E8992Oe3tHGt8hJOl2PzLknuHBd71
+         47jgf7Zrcunt5Xg7Lb6MWAkyIAKcAgKHYnZ+TwkwxncpvkkJufhH7+6bOGepGJ2a6PNj
+         FQ+eS0HBqbkLNz0A8iU4Rsk8xlg6O/IxHrLS+lCvbfMg3kgPkvXuEqqjUmzHBlPTTD1e
+         XHWRhZN4KBgtB+aUQWP/62rNHrAIeUE3/w1eF4g/82RSYinkeDH9NaHSbDZtUOiyq18I
+         XQYw==
+X-Gm-Message-State: ACgBeo3W2S3SbrBWVMr6MehjndYSCwJVVM74fwphXIKl6edlDROOA3/4
+	zILh/ZgFzaktYD3Mko3Sk7k=
+X-Google-Smtp-Source: AA6agR76hATzF/fDLbd6N41mySAOy78wgkBSUZiZKFl8do1rkquH1626SX3sseMpeZ7SIVjZHhCKWA==
+X-Received: by 2002:a05:6214:e68:b0:474:89bf:ca1b with SMTP id jz8-20020a0562140e6800b0047489bfca1bmr16197681qvb.107.1661182907114;
+        Mon, 22 Aug 2022 08:41:47 -0700 (PDT)
+Received: from valhalla (2603-7081-5203-61c3-0000-0000-0000-1449.res6.spectrum.com. [2603:7081:5203:61c3::1449])
+        by smtp.gmail.com with ESMTPSA id u5-20020a05620a0c4500b006b5e296452csm10854329qki.54.2022.08.22.08.41.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Aug 2022 08:41:45 -0700 (PDT)
+Date: Mon, 22 Aug 2022 11:41:43 -0400
+From: Christopher Carbone <chris.m.carbone@gmail.com>
+To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] Split multiple assignments to individual lines.
+Message-ID: <YwOjt+ZrQkKFGRH9@valhalla>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-atomisp_try_fmt() calls the sensor's try_fmt handler but it does
-not copy the result back to the passed in v4l2_pix_format under
-some circumstances.
+Adhere to Linux kernel coding style.
 
-Potentially returning an unsupported resolution to userspace,
-which VIDIOC_TRY_FMT is not supposed to do.
+Reported by checkpatch:
 
-atomisp_set_fmt() also uses atomisp_try_fmt() and relies
-on this wrong behavior. The VIDIOC_TRY_FMT call passes NULL for
-the res_overflow argument where as the atomisp_set_fmt() call
-passes non NULL.
+CHECK: multiple assignments should be avoided
 
-Use the res_overflow argument to differentiate between the 2 callers
-and always propagate the sensors result in the VIDIOC_TRY_FMT case.
-
-This fixes the resolution list in camorama showing resolutions like e.g.
-1584x1184 instead of 1600x1200.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Christopher Carbone <chris.m.carbone@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index c932f340068f..db6465756e49 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -4886,8 +4886,8 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 		return 0;
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index dbd1159a2ef0..a0f8ae359248 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -386,7 +386,8 @@ static int lynxfb_ops_set_par(struct fb_info *info)
+ 
+ 	ret = lynxfb_set_color_offsets(info);
+ 
+-	var->height = var->width = -1;
++	var->width = -1;
++	var->height = var->width;
+ 	var->accel_flags = 0;/*FB_ACCELF_TEXT;*/
+ 
+ 	if (ret) {
+@@ -498,7 +499,8 @@ static int lynxfb_ops_check_var(struct fb_var_screeninfo *var,
+ 		return ret;
  	}
  
--	if (snr_mbus_fmt->width < f->width
--	    && snr_mbus_fmt->height < f->height) {
-+	if (!res_overflow || (snr_mbus_fmt->width < f->width &&
-+			      snr_mbus_fmt->height < f->height)) {
- 		f->width = snr_mbus_fmt->width;
- 		f->height = snr_mbus_fmt->height;
- 		/* Set the flag when resolution requested is
+-	var->height = var->width = -1;
++	var->width = -1;
++	var->height = var->width;
+ 	var->accel_flags = 0;/* FB_ACCELF_TEXT; */
+ 
+ 	/* check if current fb's video memory big enough to hold the onscreen*/
+@@ -723,7 +725,8 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 		0x800f0 + (int)crtc->channel * 0x140;
+ 
+ 	pr_info("crtc->cursor.mmio = %p\n", crtc->cursor.mmio);
+-	crtc->cursor.max_h = crtc->cursor.max_w = 64;
++	crtc->cursor.max_w = 64;
++	crtc->cursor.max_h = crtc->cursor.max_w;
+ 	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+ 	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
+ 
+@@ -1027,7 +1030,8 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
+ 	if (!sm750_dev)
+ 		return err;
+ 
+-	sm750_dev->fbinfo[0] = sm750_dev->fbinfo[1] = NULL;
++	sm750_dev->fbinfo[1] = NULL;
++	sm750_dev->fbinfo[0] = sm750_dev->fbinfo[1];
+ 	sm750_dev->devid = pdev->device;
+ 	sm750_dev->revid = pdev->revision;
+ 	sm750_dev->pdev = pdev;
 -- 
-2.36.1
+2.37.2
 
