@@ -1,164 +1,79 @@
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19941C07;
-	Tue, 23 Aug 2022 12:22:56 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id B6140200004;
-	Tue, 23 Aug 2022 12:22:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661257371;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mH/IsYL2UPBaCXvhJbSLyyoriNuaQXpxdb7a7Mfls2k=;
-	b=DAzEwz0Yj5FE2S/Gf2B5PDjuh2A9BbgMkrwUgaEn6TEf+aSR3AWc5hjukvQOyOUIX2tjnT
-	VqHvjbLQRHRi83kxjT8K4c88QHMOcDAeSxydZnwV/NPnW4a7B5cx4tytI0vZMGagEYlGT8
-	Wq9aDliGZjnH+ItFFvPkeblGaypN0er1s0CmnRvpvfPU1uONta8FqtcbSoCU+5A7wM3R3g
-	HdM2rf13SnCK0/ta9Tn4S/AVqUE9mhik4oQhhEYpANOwI6HHZIDL8f7gR+IJ8MFa0ATeWa
-	Gro75d/mDXIQ/4nkvme6/rwYAwas01UqUck8kxNFPfDGk/xTj+J0V38F/WC5ww==
-Date: Tue, 23 Aug 2022 14:22:44 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	kernel@collabora.com,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	stable@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] media: cedrus: Set the platform driver data
- earlier
-Message-ID: <YwTGlENw/7+SDal/@aptenodytes>
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
- <4418189.LvFx2qVVIh@jernej-laptop>
- <47ce07adc73887b5afaf9815a78b793d0e9a6b54.camel@collabora.com>
- <4733096.GXAFRqVoOG@jernej-laptop>
- <0aab3720-7211-9414-0005-6a419b5f04c8@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F417E0
+	for <linux-staging@lists.linux.dev>; Tue, 23 Aug 2022 18:50:00 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id u9so246409ejy.5
+        for <linux-staging@lists.linux.dev>; Tue, 23 Aug 2022 11:50:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=HDcgc6OUnOjUxJicIucPyi00x/uE2rgP4ZhCVYRaya4=;
+        b=M0bosexAr3X3AiHofQY+LmL8o8KKKyNRORbRR8NilxIGrpdmbAuxD2Hcn7YayVkhx/
+         QertnlrES63fY0UiaEbLZ7m0m0AeMvSKsZkIL4trc82xFRdGTPhfCJnBxyXVEwmxosEl
+         J8HwQNWi5dkfzQpSt+/jb7iRHkN5P1TR1ObjOZGOIIxG+17Y2iYKj46oOjDyCIcPGGXx
+         ILrJNXYEmcym1uQe6bo2QY0LCAl2A12J4I4Z5Od7Q0lvhZNNSaIj1tK8E7q8ZAzwVqhl
+         UGZVl9MaALuO6jpWAHf5vQjS277ysNU77epuiu/BRvt15CO9FhsD225GmNb6h7OWaeIY
+         InHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=HDcgc6OUnOjUxJicIucPyi00x/uE2rgP4ZhCVYRaya4=;
+        b=SBfL3TQHlx+Ess+XPLIp5rYncrtJEkQAV6yzEf5Ch/QeP5J4kKaw+S3bZKDdCQyIIz
+         96/na6OCj9XvM3MWl9r43hWcBqcvLPq5tgIDyTGEutyJwrRzzZD2MvQ4HPGFJf1AYDyq
+         B/029SbYykev3iFzMxLg9P/Wc0r8mLG7XvShb/fCEfOezvhclTSTrbcG8ksbiYbqygwj
+         hbbWM7nIbm4ixrpDR6eLP92XIhrnvBAtxx3JzRnpaordosWTzzQzJBqGndOoXnXw4giD
+         YYlgz/i0GT+YecrxgmYLcB5euW4bbSeiGFsJN+t6irg2bGHWrlR5i2/SwaWsXRAVikwC
+         5Nig==
+X-Gm-Message-State: ACgBeo0bVrBauMsGEcBPte96H37twWQlhmGumyz5RDp8rUaYvcVLq1oG
+	p9j69t0r3EmJ//cyHKEF1uc=
+X-Google-Smtp-Source: AA6agR4HaGfkUpd1Cc36ZFyz+klvn03thzdj46FVcP5CY8SKUIFENtJMFrG1bShE3q+ZnskLjkQZVQ==
+X-Received: by 2002:a17:906:3bd2:b0:731:3f03:1697 with SMTP id v18-20020a1709063bd200b007313f031697mr607759ejf.289.1661280598764;
+        Tue, 23 Aug 2022 11:49:58 -0700 (PDT)
+Received: from [192.168.1.100] (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
+        by smtp.gmail.com with ESMTPSA id s15-20020aa7c54f000000b0044733adf4e9sm802097edr.12.2022.08.23.11.49.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Aug 2022 11:49:58 -0700 (PDT)
+Message-ID: <91772e44-856d-cdee-e685-ff2ba4523c2e@gmail.com>
+Date: Tue, 23 Aug 2022 20:49:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="VACStzkiwKlyW1sA"
-Content-Disposition: inline
-In-Reply-To: <0aab3720-7211-9414-0005-6a419b5f04c8@sholland.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/3] staging: r8188eu: start cleaning up led blinking
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220822201329.95559-1-martin@kaiser.cx>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220822201329.95559-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 8/22/22 22:13, Martin Kaiser wrote:
+> The code for led blinking contains too many states and state variables.
+> This series is a first tiny step towards cleaning things up.
+> 
+> Martin Kaiser (3):
+>    staging: r8188eu: don't restart "no link" blinking unnecessarily
+>    staging: r8188eu: always cancel blink_work
+>    staging: r8188eu: always update the status variables
+> 
+>   drivers/staging/r8188eu/core/rtw_led.c | 36 ++++++++++++--------------
+>   1 file changed, 17 insertions(+), 19 deletions(-)
+> 
 
---VACStzkiwKlyW1sA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Mon 22 Aug 22, 22:57, Samuel Holland wrote:
-> On 8/20/22 3:25 AM, Jernej =C5=A0krabec wrote:
-> > Dne petek, 19. avgust 2022 ob 17:37:20 CEST je Nicolas Dufresne napisal=
-(a):
-> >> Le vendredi 19 ao=C3=BBt 2022 =C3=A0 06:17 +0200, Jernej =C5=A0krabec =
-a =C3=A9crit :
-> >>> Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:07 CEST je Nicolas Dufresn=
-e=20
-> > napisal(a):
-> >>>> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >>>>
-> >>>> The cedrus_hw_resume() crashes with NULL deference on driver probe if
-> >>>> runtime PM is disabled because it uses platform data that hasn't been
-> >>>> set up yet. Fix this by setting the platform data earlier during pro=
-be.
-> >>>
-> >>> Does it even work without PM? Maybe it would be better if Cedrus would
-> >>> select PM in Kconfig.
-> >>
-> >> I cannot comment myself on this, but it does not seem to invalidate th=
-is
-> >> Dmitry's fix.
-> >=20
-> > If NULL pointer dereference happens only when PM is disabled, then it d=
-oes. I=20
-> > have PM always enabled and I never experienced above issue.
->=20
-> There's still a bug even with PM enabled: the v4l2 device is exposed to
-> userspace, and therefore userspace could trigger a PM resume, before
-> platform_set_drvdata() is called.
-
-Absolutely agreed!
-
-> >>>> Cc: stable@vger.kernel.org
-> >>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >>>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->=20
-> Please add a Fixes tag. With that:
->=20
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
-
-Same here:
-
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Thanks!
-
-Paul
-
-> >>>> ---
-> >>>>
-> >>>>  drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++--
-> >>>>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> >>>> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
-> >>>> 960a0130cd620..55c54dfdc585c 100644
-> >>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> >>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> >>>> @@ -448,6 +448,8 @@ static int cedrus_probe(struct platform_device
-> >>>> *pdev)
-> >>>>
-> >>>>  	if (!dev)
-> >>>>  		return -ENOMEM;
-> >>>>
-> >>>> +	platform_set_drvdata(pdev, dev);
-> >>>> +
-> >>>>  	dev->vfd =3D cedrus_video_device;
-> >>>>  	dev->dev =3D &pdev->dev;
-> >>>>  	dev->pdev =3D pdev;
-> >>>>
-> >>>> @@ -521,8 +523,6 @@ static int cedrus_probe(struct platform_device
-> >>>> *pdev)
-> >>>>
-> >>>>  		goto err_m2m_mc;
-> >>>>  	}
-> >>>>
-> >>>> -	platform_set_drvdata(pdev, dev);
-> >>>> -
-> >>>>  	return 0;
-> >>>> =20
-> >>>>  err_m2m_mc:
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---VACStzkiwKlyW1sA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMExpQACgkQ3cLmz3+f
-v9Hphgf/RHIkNtIHgUBj1wEt+9CgUUYKzkUCP8Iwi0xIbXLJz4GeHQwIrL8VNnrT
-1xZCbn9LrUxPEx48WPdyxs2DMCk3JgIw0M4xGltx8VBPsmRo2GzslC8nWGYt9HyX
-r3sVL/Vx8GC0Do/yTaTA22LfBQOBOMebdEWZx2M05z/UL5aYC5QLHeaRo88fXqlE
-RLUhSbWZg3CIRQK4K8aIIa20mW/BpPGvp4af+NqFMezJiY9XsvAmv23dNhnYxZk9
-vrkXYKOK5L9WppdzVxqkBGl2jjeKqf5DHAwpIiQaf1iq7DJmdUTPZ193Vs3T9pHC
-c9btoDAjNoaJGV5Vir/sRaOTUBxmrg==
-=Aw5f
------END PGP SIGNATURE-----
-
---VACStzkiwKlyW1sA--
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
