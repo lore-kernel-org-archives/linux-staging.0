@@ -1,118 +1,92 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBFC28E2
-	for <linux-staging@lists.linux.dev>; Tue, 23 Aug 2022 21:05:36 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id j6so11277668qkl.10
-        for <linux-staging@lists.linux.dev>; Tue, 23 Aug 2022 14:05:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678187E
+	for <linux-staging@lists.linux.dev>; Wed, 24 Aug 2022 08:03:56 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id 12so14372235pga.1
+        for <linux-staging@lists.linux.dev>; Wed, 24 Aug 2022 01:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc;
-        bh=3cCXr8Wd/Y2HhMKIaqg0LsBk5BUYC7YkYkFrfstD7bU=;
-        b=gNk2m7TGW1WnBFr0mCRq60sD3lnXI7qGLRNSMgkh0toUeNn294q8m5Z9Dfn4Gil3xI
-         i0yIQNJlU0PYdVsy8xbzwQr4ducda0DDX50cSUDNjH5HyVm0Y4aPDZIKxZMgLtb3m9oE
-         wiRfUqf2tuATlPTiq879D/Z8gyq45poiHibo0R8iIIO/fSOzquXf4F9i9Cg2gt7aJmfW
-         1zoOQxmN1v1Fzleh0mG6GH+KOY2OFuZnxHlr5Wa9CLWFAcGw+yLzs4s/npXt+AUcMGaW
-         bThZJsneaphuSCVHF2NO6CT+fx0lM7AqCyXZHsVc4lUZoDx/gXRrt2YqqBDOlI/wTCCF
-         zsDw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=vLuqniAMwqY6ECfkYSPT1Bkq/cd7HE9h4EEKEFfMYEk=;
+        b=WInXrY3qRgrPgpReqwCl4R8vLZ1EJa31NKnxJoyTy4qEipQsgpGYSdIVq1ejlCAPpN
+         OlZbbEC+PBY5Ibu9LEGcwdwOWEAXizp8VI7vPIJWCTosW5UvtKi2r2oODfpXbsKzQ5Ik
+         Oq1VaFSfGf/6SKvBA1ZqQyF523w+ERzFvUdztoRbFQrdLliOMaMjg3hUgtRcRwozPnO0
+         BSwsDxGJ3fWMIQb/gNRFp2wL/WMH2r8vlIFG3jbrw2eFlkdHQf91UGyeaBgv2Lkn7jgA
+         PS2gtDtIjimMqU4P3JItk4TavlGYQf7Y4b0RKxNmFjYlXFth/so5CW2VpfTvQjAuH1Hp
+         9wiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=3cCXr8Wd/Y2HhMKIaqg0LsBk5BUYC7YkYkFrfstD7bU=;
-        b=Bn77Ig3EIzhfbmYg0nLawV7P50yfhTcSyoWpYy0gkp8lf1ehZcyb64Dcm8K38yzKQV
-         JDyiMByyi6hrsXvYhGsUyvG2po/bsB/Matc4RFhu+X24CcoWTpEQmrKAp+FFUrtR/S9H
-         VwrhKFItQJxEPpGH5AcRSKz0R2AivyLbnY+HDJqWwHJCTbZJN4dlZ12iEtJ4cl3lptAN
-         lLcVpn7Y6fZ3y6fPbJMWr9iRF20I25VMX0KiH2PxnEYP9xQ0n+VlwqHX3YzuLWWBz33x
-         E2+vvkHW6FaEnKgYW4BjITR78v1zolIs4mnI0ojvDBUkmlbvIobCWLIV74DJetAenXSc
-         7PLg==
-X-Gm-Message-State: ACgBeo2WpAT8VnTli2owmbnz5UCkeY5t5rMy7UGxX4xLO+D+jB5kB8OL
-	yC6HhHoDVzNIy2zEgfOxiCQ=
-X-Google-Smtp-Source: AA6agR5Ut86YONNsGhkN1YJJgYuaka93UP4z143jRVHXbk2Kb/pKkWRBlLAHrpOJDcqkFHS+dpR+tg==
-X-Received: by 2002:a05:620a:4442:b0:6b2:844e:ee67 with SMTP id w2-20020a05620a444200b006b2844eee67mr17323680qkp.625.1661288735234;
-        Tue, 23 Aug 2022 14:05:35 -0700 (PDT)
-Received: from valhalla (2603-7081-5203-61c3-0000-0000-0000-1449.res6.spectrum.com. [2603:7081:5203:61c3::1449])
-        by smtp.gmail.com with ESMTPSA id 11-20020ac8574b000000b003435bb7fe9csm12309573qtx.78.2022.08.23.14.05.34
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=vLuqniAMwqY6ECfkYSPT1Bkq/cd7HE9h4EEKEFfMYEk=;
+        b=4heizbP+OqE/tf4XYGs+aarkFfRTFRXgxwKm53Ql7VCKvs0Y/7BiUEDcaMBgt112S4
+         I5+EcRXQ7K+2HjUsZmV5oHcNirKNalT4WFJNlrvHoYNjGuHUJjYze6nf8VqDqGRCNuQ/
+         Ly1B0KyYIPBH3F74Vn/7lRsF85AHSu/WVPmS6CSwMZZ6bV0RRqqsXuthp96pq1PH+G89
+         tP8kECMTZ9RO+QmdDVxKQwSmn+NOG38t5tzXcuQgeGwY2D+x+sbxwjgptWH8lUK6sAGR
+         mUj1tXYZ2hPdUUc7Zb4JlsqeU64VIq+QU4r/3LzPkfR/ARiYMXCRVCgc+UH/rsQsfVFa
+         2C7g==
+X-Gm-Message-State: ACgBeo1C2iRx+p8ySwbSalHPHSx4h5zRNi0hGEz+zAqSdVCsQ+4GdFSD
+	Gkl/d1AsD3SdeJqq7dzlgjI=
+X-Google-Smtp-Source: AA6agR7MlcgjgtEOya/NAybABl6gcw7J21DmWRhCKXk8BHL8WvNnBdvkEdqRcGH18AtoUgBC6YY0fg==
+X-Received: by 2002:a65:6e8f:0:b0:42a:c7d3:f2ed with SMTP id bm15-20020a656e8f000000b0042ac7d3f2edmr8386132pgb.209.1661328235880;
+        Wed, 24 Aug 2022 01:03:55 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id x187-20020a6263c4000000b0053656fdaf88sm8153571pfb.69.2022.08.24.01.03.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 14:05:34 -0700 (PDT)
-Date: Tue, 23 Aug 2022 17:05:32 -0400
-From: Christopher Carbone <chris.m.carbone@gmail.com>
-To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: sm750fb: split multiple assignments to lines
-Message-ID: <YwVBHM3z0QExtuXr@valhalla>
+        Wed, 24 Aug 2022 01:03:55 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	paskripkin@gmail.com,
+	gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	martin@kaiser.cx,
+	jhpark1013@gmail.com,
+	makvihas@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] staging: r8188eu: remove unnecessary null check
+Date: Wed, 24 Aug 2022 08:03:50 +0000
+Message-Id: <20220824080350.221614-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Adhere to Linux kernel coding style.
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-Reported by checkpatch:
+container_of is never null, so this null check is
+unnecessary.
 
-CHECK: multiple assignments should be avoided
-
-Signed-off-by: Christopher Carbone <chris.m.carbone@gmail.com>
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 ---
-Changes since v2:
- - Remove extra space in variable assignment
+ drivers/staging/r8188eu/core/rtw_mlme.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Changes since v1:
- - Assign literal value to both variables
----
- drivers/staging/sm750fb/sm750.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index dbd1159a2ef0..3e09e56d3930 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -386,7 +386,8 @@ static int lynxfb_ops_set_par(struct fb_info *info)
- 
- 	ret = lynxfb_set_color_offsets(info);
- 
--	var->height = var->width = -1;
-+	var->height = -1;
-+	var->width = -1;
- 	var->accel_flags = 0;/*FB_ACCELF_TEXT;*/
- 
- 	if (ret) {
-@@ -498,7 +499,8 @@ static int lynxfb_ops_check_var(struct fb_var_screeninfo *var,
- 		return ret;
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 56c8bd5f4c60..d089da7e90e0 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -1442,10 +1442,6 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
+ 	pmlmepriv->pscanned = phead->next;
+ 	while (phead != pmlmepriv->pscanned) {
+ 		pnetwork = container_of(pmlmepriv->pscanned, struct wlan_network, list);
+-		if (!pnetwork) {
+-			ret = _FAIL;
+-			goto exit;
+-		}
+ 		pmlmepriv->pscanned = pmlmepriv->pscanned->next;
+ 		rtw_check_join_candidate(pmlmepriv, &candidate, pnetwork);
  	}
- 
--	var->height = var->width = -1;
-+	var->height = -1;
-+	var->width = -1;
- 	var->accel_flags = 0;/* FB_ACCELF_TEXT; */
- 
- 	/* check if current fb's video memory big enough to hold the onscreen*/
-@@ -723,7 +725,8 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 		0x800f0 + (int)crtc->channel * 0x140;
- 
- 	pr_info("crtc->cursor.mmio = %p\n", crtc->cursor.mmio);
--	crtc->cursor.max_h = crtc->cursor.max_w = 64;
-+	crtc->cursor.max_h = 64;
-+	crtc->cursor.max_w = 64;
- 	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
- 	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
- 
-@@ -1027,7 +1030,8 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
- 	if (!sm750_dev)
- 		return err;
- 
--	sm750_dev->fbinfo[0] = sm750_dev->fbinfo[1] = NULL;
-+	sm750_dev->fbinfo[0] = NULL;
-+	sm750_dev->fbinfo[1] = NULL;
- 	sm750_dev->devid = pdev->device;
- 	sm750_dev->revid = pdev->revision;
- 	sm750_dev->pdev = pdev;
 -- 
-2.37.2
-
+2.25.1
