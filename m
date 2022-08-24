@@ -1,47 +1,48 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F951870
-	for <linux-staging@lists.linux.dev>; Wed, 24 Aug 2022 20:14:32 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id gt3so23204460ejb.12
-        for <linux-staging@lists.linux.dev>; Wed, 24 Aug 2022 13:14:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAE81870
+	for <linux-staging@lists.linux.dev>; Wed, 24 Aug 2022 20:14:38 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id bj12so18606677ejb.13
+        for <linux-staging@lists.linux.dev>; Wed, 24 Aug 2022 13:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc;
-        bh=5wderqoELsTLjghMp/IM+PXHINVRCuk3zx8LINvIKws=;
-        b=XxLdjwXpYcSieF9CW8HBoOS3cQ+DgN/sIBQV0LTkPVYO+ZR3zJE6Y0iMOoBKY7W/5D
-         Zin4S3yv/ej1awd6KT3sMaOZOAVK34IDl/lWip4rPIu/H2TXqNkcyQyRnxu/SIGr5rB7
-         93joR9k2B5XZQ3XolrryZpIVl8MFylwqbPTKI6z+oLq9ASxybRwFOGhDAUvkqrYmrbjj
-         nB8HDBUnE/sLJtZpZHnskApcE2U5Qngoe2lFbQ4zmjmiQIktA2CLOrbZ7uzD5hAQihfS
-         oOUAeVJX2/1KeUbHnKo5kZXJu/T7aUts8zhuaYHSNsEpFrFx3R7aBKgxL0lrPz8fKXdq
-         tMXw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc;
+        bh=2cyaS4gO5h/F5vHUL0nItZes1zeuwWKpTfH3a+yaz5w=;
+        b=iEsi0k5fwHIYGRSUKl4X3Zk1ANLBJHZVjPKOnl+IkpmbLv+LgJB1Ym2vjjT9R8vLtE
+         KfC9XMQVKntWiOpDhMgGlZIBKgER4E2Qpu38n5p6y5Y72iFyZf3w8qFGcHeobIQTInUd
+         8OIsOSVFasfIeeuoEvY2gCeIXODTpSxaDmfVk9vpUytUKDuU7kALfD7HKXw06q6XrBMK
+         rQmFWNo+Z/iOnrH91VOVrEJmgjRwMqGGh/BIew4IUJMGOQzQIzoHF+McCeBoLyIgnLLP
+         PCbJzZFNUv/Ipzjhf6CHphLtBZ65RUZXrM2/RBF3dtONmfJeeOaa5vTtt1YI1bAxXGpi
+         AmSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=5wderqoELsTLjghMp/IM+PXHINVRCuk3zx8LINvIKws=;
-        b=gIj7PAp68bGoIb+PwDm+KBNT6nhLTWP+sN8zz/fyKHo8ZtT+x3zERPHHHP78103/nZ
-         qgfdZVaRrVJIT6YOivaM8h2BksKa5pbNvdbSY9nU+m4UtQNwS24wDD4mB+Fqmcx7dwaX
-         bv/+wHdhPQZOAt9Z4uthnGlFi73jMNCvjW9Eyzy5beSul0Y/7LJmgOvToFap8HcwpxwJ
-         4Cz9d+tImSy7H0V7lcu5TK/6cIrBNpvC+pHjJp7d6DQbjQ2CZSjjr7dY68JSHKMUHnzj
-         lMhUV4GvyxnibhpyuJExLgzAMHCzbBkoeMTMFKK3X3pYQNiQAEHDOf8kNzbStDOqzxRq
-         nYTw==
-X-Gm-Message-State: ACgBeo2YciWx9LYn2wiIUifzsnUFnJUNzuza16AefeMMgt1uUugSlORX
-	FNt1Vkd98GM9ZA47HIFwi3o=
-X-Google-Smtp-Source: AA6agR6WLMPCX9zOhMSJKoDPqvnocG0tgnhURzf5jHERcYQZZI1RODLqHOu6dpSOa/sESEQLY2iGUw==
-X-Received: by 2002:a17:907:3f9d:b0:73d:a90f:197d with SMTP id hr29-20020a1709073f9d00b0073da90f197dmr370845ejc.460.1661372071174;
-        Wed, 24 Aug 2022 13:14:31 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc;
+        bh=2cyaS4gO5h/F5vHUL0nItZes1zeuwWKpTfH3a+yaz5w=;
+        b=kVJyGDX9WhUaXfBRdF2qpcHL3bIeRQzb3MixHqttMSk7m0Y7jTnnd0VGEgxzflCYhn
+         hCExxvz4zqyN3ifl5pWGOXizboEGhJnA1WVCR4FzdRah9VDlrPnNa0wCrFPQPCnZOt7P
+         KAABL5dZQ2DSM++93JVDazzfUQKM5cKFmInVims/eRDY5RGUOTOQydsJYiF0eOMI6m6U
+         Rp4K9NeCk30msyyUj0fldGsfHTFd/2PulidEdpfPRcyVsdZiFLxQfthOH4EFb/zaBe3y
+         Fk4Qh52Lpd3ewTRE+VyJioYpHnJgPrWuohianMJXaoZApu6UsVMJr1EodKocBE5B1dXC
+         vkkQ==
+X-Gm-Message-State: ACgBeo1u7OLtcQc+reZt6o+VBYOwy8YDv0p2EamYyXPaZFxe93OFZif4
+	DXopuhJ/PIm++aeNYX/uvjBo/4aXTsU=
+X-Google-Smtp-Source: AA6agR67xjcbz9YssVZFaI8NDUZdIsFHzxvsfzy5U3bGg476A1aMTgqPfJIx9JS4SnwCJtxOJvAxRw==
+X-Received: by 2002:a17:907:1c8a:b0:6e9:2a0d:d7b7 with SMTP id nb10-20020a1709071c8a00b006e92a0dd7b7mr349449ejc.572.1661372076524;
+        Wed, 24 Aug 2022 13:14:36 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id v6-20020a056402184600b0043d1eff72b3sm3587060edy.74.2022.08.24.13.14.30
+        by smtp.gmail.com with ESMTPSA id k23-20020a17090632d700b00722e50dab2csm1559660ejk.109.2022.08.24.13.14.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Aug 2022 13:14:30 -0700 (PDT)
-Date: Wed, 24 Aug 2022 22:14:28 +0200
+        Wed, 24 Aug 2022 13:14:36 -0700 (PDT)
+Date: Wed, 24 Aug 2022 22:14:34 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] staging: rtl8192e: Coding Syle of rtl_core.c improved
-Message-ID: <cover.1661370978.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/4] staging: rtl8192e: Remove blank lines in rtl_core.c
+Message-ID: <32e831619a91f00cc37e04a2da1a9aeda2ad90a0.1661370978.git.philipp.g.hortmann@gmail.com>
+References: <cover.1661370978.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,27 +51,192 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1661370978.git.philipp.g.hortmann@gmail.com>
 
-Following Checkpatch errors are improved:
-- blank lines
-- CamelCase of TxCheckStuckHandler and RxCheckStuckHandler
-- "Unnecessary ftrace-like logging"
-- CamelCase of PHY_SetRFPowerState
+Remove blank lines as requested by checkpatch. Reasons are "multiple
+blank lines", "Blank lines aren't necessary after an open brace" and
+"Blank lines aren't necessary before a close brace".
 
-Tested with rtl8192e
-Transferred this patch over wlan connection of rtl8192e
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 24 --------------------
+ 1 file changed, 24 deletions(-)
 
-Philipp Hortmann (4):
-  staging: rtl8192e: Remove blank lines in rtl_core.c
-  staging: rtl8192e: Rename Tx... and RxCheckStuckHandler
-  staging: rtl8192e: Remove Unnecessary ftrace-like logging
-  staging: rtl8192e: Remove PHY_SetRFPowerState and rename StateToSet
-
- .../staging/rtl8192e/rtl8192e/r8192E_phy.h    |   1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 166 ++----------------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |   6 +-
- 3 files changed, 18 insertions(+), 155 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index b9ce71848023..5b3b215448bc 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -25,7 +25,6 @@
+ int hwwep = 1;
+ static char *ifname = "wlan%d";
+ 
+-
+ static const struct rtl819x_ops rtl819xp_ops = {
+ 	.nic_type			= NIC_8192E,
+ 	.get_eeprom_size		= rtl92e_get_eeprom_size,
+@@ -189,7 +188,6 @@ bool rtl92e_set_rf_state(struct net_device *dev,
+ 			priv->rtllib->RfOffReason = 0;
+ 			bActionAllowed = true;
+ 
+-
+ 			if (rtState == eRfOff &&
+ 			    ChangeSource >= RF_CHANGE_BY_HW)
+ 				bConnectBySSID = true;
+@@ -236,7 +234,6 @@ bool rtl92e_set_rf_state(struct net_device *dev,
+ 			 __func__, StateToSet, priv->rtllib->RfOffReason);
+ 		PHY_SetRFPowerState(dev, StateToSet);
+ 		if (StateToSet == eRfOn) {
+-
+ 			if (bConnectBySSID && priv->blinked_ingpio) {
+ 				schedule_delayed_work(
+ 					 &ieee->associate_procedure_wq, 0);
+@@ -395,7 +392,6 @@ static void _rtl92e_qos_activate(void *data)
+ 	for (i = 0; i <  QOS_QUEUE_NUM; i++)
+ 		priv->rtllib->SetHwRegHandler(dev, HW_VAR_AC_PARAM, (u8 *)(&i));
+ 
+-
+ success:
+ 	mutex_unlock(&priv->mutex);
+ }
+@@ -455,7 +451,6 @@ static int _rtl92e_handle_beacon(struct net_device *dev,
+ 
+ 	schedule_delayed_work(&priv->update_beacon_wq, 0);
+ 	return 0;
+-
+ }
+ 
+ static int _rtl92e_qos_assoc_resp(struct r8192_priv *priv,
+@@ -883,7 +878,6 @@ static void _rtl92e_init_priv_constant(struct net_device *dev)
+ 	pPSC->RegMaxLPSAwakeIntvl = 5;
+ }
+ 
+-
+ static void _rtl92e_init_priv_variable(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+@@ -1201,7 +1195,6 @@ static enum reset_type _rtl92e_if_check_reset(struct net_device *dev)
+ 	} else {
+ 		return RESET_TYPE_NORESET;
+ 	}
+-
+ }
+ 
+ static void _rtl92e_if_silent_reset(struct net_device *dev)
+@@ -1407,7 +1400,6 @@ static void _rtl92e_watchdog_wq_cb(void *data)
+ 		ieee->LinkDetectInfo.NumTxOkInPeriod > 100)
+ 			bBusyTraffic = true;
+ 
+-
+ 		if (ieee->LinkDetectInfo.NumRxOkInPeriod > 4000 ||
+ 		    ieee->LinkDetectInfo.NumTxOkInPeriod > 4000) {
+ 			bHigherBusyTraffic = true;
+@@ -1456,7 +1448,6 @@ static void _rtl92e_watchdog_wq_cb(void *data)
+ 		else
+ 			priv->check_roaming_cnt = 0;
+ 
+-
+ 		if (priv->check_roaming_cnt > 0) {
+ 			if (ieee->eRFPowerState == eRfOff)
+ 				netdev_info(dev, "%s(): RF is off\n", __func__);
+@@ -1487,7 +1478,6 @@ static void _rtl92e_watchdog_wq_cb(void *data)
+ 		}
+ 		ieee->LinkDetectInfo.NumRecvBcnInPeriod = 0;
+ 		ieee->LinkDetectInfo.NumRecvDataInPeriod = 0;
+-
+ 	}
+ 
+ 	spin_lock_irqsave(&priv->tx_lock, flags);
+@@ -1541,7 +1531,6 @@ void rtl92e_tx_enable(struct net_device *dev)
+ 	rtllib_reset_queue(priv->rtllib);
+ }
+ 
+-
+ static void _rtl92e_free_rx_ring(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+@@ -1936,13 +1925,11 @@ long rtl92e_translate_to_dbm(struct r8192_priv *priv, u8 signal_strength_index)
+ 	return signal_power;
+ }
+ 
+-
+ void rtl92e_update_rx_statistics(struct r8192_priv *priv,
+ 				 struct rtllib_rx_stats *pprevious_stats)
+ {
+ 	int weighting = 0;
+ 
+-
+ 	if (priv->stats.recv_signal_power == 0)
+ 		priv->stats.recv_signal_power =
+ 					 pprevious_stats->RecvSignalPower;
+@@ -1985,8 +1972,6 @@ void rtl92e_copy_mpdu_stats(struct rtllib_rx_stats *psrc_stats,
+ 	ptarget_stats->bFirstMPDU = psrc_stats->bFirstMPDU;
+ }
+ 
+-
+-
+ static void _rtl92e_rx_normal(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+@@ -2086,7 +2071,6 @@ static void _rtl92e_rx_normal(struct net_device *dev)
+ 		priv->rx_idx[rx_queue_idx] = (priv->rx_idx[rx_queue_idx] + 1) %
+ 					      priv->rxringcount;
+ 	}
+-
+ }
+ 
+ static void _rtl92e_tx_resume(struct net_device *dev)
+@@ -2151,7 +2135,6 @@ static int _rtl92e_open(struct net_device *dev)
+ 	ret = _rtl92e_try_up(dev);
+ 	mutex_unlock(&priv->wx_mutex);
+ 	return ret;
+-
+ }
+ 
+ static int _rtl92e_try_up(struct net_device *dev)
+@@ -2163,7 +2146,6 @@ static int _rtl92e_try_up(struct net_device *dev)
+ 	return _rtl92e_up(dev, false);
+ }
+ 
+-
+ static int _rtl92e_close(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+@@ -2181,7 +2163,6 @@ static int _rtl92e_close(struct net_device *dev)
+ 	mutex_unlock(&priv->wx_mutex);
+ 
+ 	return ret;
+-
+ }
+ 
+ static int _rtl92e_down(struct net_device *dev, bool shutdownrf)
+@@ -2224,10 +2205,8 @@ static void _rtl92e_set_multicast(struct net_device *dev)
+ 
+ 	promisc = (dev->flags & IFF_PROMISC) ? 1 : 0;
+ 	priv->promisc = promisc;
+-
+ }
+ 
+-
+ static int _rtl92e_set_mac_adr(struct net_device *dev, void *mac)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+@@ -2376,8 +2355,6 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
+ 	return IRQ_HANDLED;
+ }
+ 
+-
+-
+ /****************************************************************************
+  * ---------------------------- PCI_STUFF---------------------------
+  ****************************************************************************/
+@@ -2452,7 +2429,6 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
+ 		goto err_rel_rtllib;
+ 	}
+ 
+-
+ 	ioaddr = (unsigned long)ioremap(pmem_start, pmem_len);
+ 	if (ioaddr == (unsigned long)NULL) {
+ 		netdev_err(dev, "ioremap failed!");
 -- 
 2.37.2
 
