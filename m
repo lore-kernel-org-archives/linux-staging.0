@@ -1,49 +1,49 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD661C2E;
-	Thu, 25 Aug 2022 20:33:50 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id d5so10761505wms.5;
-        Thu, 25 Aug 2022 13:33:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1026A1C2E;
+	Thu, 25 Aug 2022 21:02:39 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id m17-20020a7bce11000000b003a5bedec07bso3382103wmc.0;
+        Thu, 25 Aug 2022 14:02:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=qVqkkNnf4SASPkgKSjn2GG1shVqF3TWmPJPS8FLXE3I=;
-        b=gbr/XcfRW4/g0YwuvJN8eIeMGEpDvRnLXU4M0ltlr36lQlhVjhEpEQ4KTnDurtaN4O
-         cmBGpATpwU8rU88mI1DN6YaK3l0BJ2mzyKsaRD0npSylctOnqFCqk171t3zniI/qIvRv
-         zS7/eZdHgAM+6FuLuxcLD/wejbAY3PxgCycwMZu42It3h7TZKe7YvnApYlP0+ox3B7l9
-         4356e0je1uRA+n5XAfZvswom2ijbgNG9mBOvsQ6VsSn1ruI2P8c7qCgmAj+Yk8Zl9I8T
-         8fxPom+kgbvKMiI1xm18KoF59MMrNlXiwvWSWzODSeDm+HEJnYM+GsNVsvnjU62KNuE3
-         wpqw==
+        bh=oLKhkirV3w4L2ZpLtqGDyVCrVsxu0uPLz0/+c0FrP44=;
+        b=cvHGeIXHYzFMNUpkQTBDkSniG2v59mghDuSFV0tkUtvEoW+OcczMmvv9OQ5xC4rS56
+         fr2ynukpR+2LGPbaDEjzEZi1uCf2uyrHgIHbfOYpNuZ7oiHMCIRUNzgucdgHA6fHxZ75
+         OvITw0Knx5/j+DXdZtiM+w9cHWUZmGCZpf7Lw3pkX7ATiUElQsCDQnhIGsmbZqIadcT5
+         tsLiGmdYSrgbcJVNXPDbFTdmF/dqFqQMjKpug6IPbzHNnoohsn0YNGM3Nfo9huB1ECeS
+         DmYZ5NBmjiEO12CdKSnS+AjHjxSojhdbWVQbCelhDnlNafwUSVCCIRSsvkDkmq2m3b3W
+         Ndjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=qVqkkNnf4SASPkgKSjn2GG1shVqF3TWmPJPS8FLXE3I=;
-        b=d9+1ThR8YQzsD7zmySucZvfK9c+VxUT7sn3jbUFV/MW+4GTeKAVxbW4z4zumZVpGy5
-         nHBZ744a6yYT1ZhRFZ4X/xbQem+JP0NgoA6EGXWGkfhOhv4PAzgJ/iHdXMCH64gxy/io
-         7fRP9ySf4lCgvrfo6wWrLI9XCcS7pdPPL/hNAtu9bim/4TBUgiGMLqb7aTwwNIuhQUc5
-         CtoH6nzpkEIRwBxOvAXGZFtQCOzw5zjKo8dM+c+ZKfGKzvJH+qsYBEJWP4zHGwEU2hkR
-         WcN9xMy2j9H63vC+0li+ja/LDDy1HSGKdAQDfv8xac5iC/9Hc/kMd+NGXXnUyHZgph/b
-         VADA==
-X-Gm-Message-State: ACgBeo33ehMuIWKLyk/RaFpoGPq/AllX2si2DSnl5DDdQejO+N4Eb7wF
-	7A5aLki2xu2TmdBb104V0xU=
-X-Google-Smtp-Source: AA6agR5Ynz7Rmm7gcdFxsN3lveFtTF3/kHvW9oN+UTgyFfVQkQRjOaoG2/21rmBBvay2fnTa8CJoVw==
-X-Received: by 2002:a05:600c:3d90:b0:3a6:161b:4d77 with SMTP id bi16-20020a05600c3d9000b003a6161b4d77mr9089022wmb.87.1661459629000;
-        Thu, 25 Aug 2022 13:33:49 -0700 (PDT)
+        bh=oLKhkirV3w4L2ZpLtqGDyVCrVsxu0uPLz0/+c0FrP44=;
+        b=BQIXcSyshHLKPj0TCPCBxQbiF9m7hkO5uWQ7Y4UM6XHZm51DQz7M18p2dOwe59L9Nn
+         qJkR1EjyvjNgjrGLl+TEXPa8AP+ygM1TJFdgQ+612x457seRrumjB5ET48CGtEPZwaep
+         +MLTUw9Gxj4+iB8nzcXkUhy5E+kv5IZZ1GZorDk4w0Z5Dao/kJd8r+E3Giw8PymDRWEh
+         sUcIFwTH+Me4eglsYanj7RpjE7vrAhrq/MnYB5SJvW4DA8AIkl3JY7/GpUTCpnUTf3Y6
+         vdKr5RVvFS2ZumV3WElyBBAv28e5Ya36kERbmFxyph9RtgG235tjcjPF+TU3MjJmudmz
+         dnBA==
+X-Gm-Message-State: ACgBeo1akk5gwjgr8THf1H+SemTNxm/HmgtYaYI1P8j4qYP9NRXxXMx2
+	qqtVjeD5f7xGXDoi4d+fcns=
+X-Google-Smtp-Source: AA6agR613VB97nXMu5ne+PQ1UsaX69bwQs2+kN0UuMNISDwePR0opBgEMh3oUBCIfifoMUUEFOAF2Q==
+X-Received: by 2002:a05:600c:a09:b0:3a6:8900:c651 with SMTP id z9-20020a05600c0a0900b003a68900c651mr3343962wmp.145.1661461358339;
+        Thu, 25 Aug 2022 14:02:38 -0700 (PDT)
 Received: from kista.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id f16-20020a05600c155000b003a5c75bd36fsm7363625wmg.10.2022.08.25.13.33.48
+        by smtp.gmail.com with ESMTPSA id ib6-20020a05600ca14600b003a62400724bsm534290wmb.0.2022.08.25.14.02.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 13:33:48 -0700 (PDT)
+        Thu, 25 Aug 2022 14:02:37 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 0/7] media: sunxi: Add a Kconfig dependencies on RESET_CONTROLLER
-Date: Thu, 25 Aug 2022 22:33:47 +0200
-Message-ID: <4420213.LvFx2qVVIh@kista>
-In-Reply-To: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
-References: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>, stable@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] media: cedrus: Fix watchdog race condition
+Date: Thu, 25 Aug 2022 23:02:36 +0200
+Message-ID: <7418676.EvYhyI6sBW@kista>
+In-Reply-To: <20220818203308.439043-2-nicolas.dufresne@collabora.com>
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com> <20220818203308.439043-2-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,40 +53,53 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 25. avgust 2022 ob 12:20:28 CEST je Paul Kocialkowski nap=
-isal(a):
-> Changes since v1:
-> - Added collected tag;
-> - Added cedrus to the list of drivers to fix;
-> - Added fixes tags on all commits as requested.
+Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:06 CEST je Nicolas Dufresne napi=
+sal(a):
+> The watchdog needs to be schedule before we trigger the decode
+> operation, otherwise there is a risk that the decoder IRQ will be
+> called before we have schedule the watchdog. As a side effect, the
+> watchdog would never be cancelled and its function would be called
+> at an inappropriate time.
 >=20
-> Paul Kocialkowski (7):
->   media: sun6i-mipi-csi2: Add a Kconfig dependency on RESET_CONTROLLER
->   media: sun8i-a83t-mipi-csi2: Add a Kconfig dependency on
->     RESET_CONTROLLER
->   media: sun6i-csi: Add a Kconfig dependency on RESET_CONTROLLER
->   media: sun4i-csi: Add a Kconfig dependency on RESET_CONTROLLER
->   media: sun8i-di: Add a Kconfig dependency on RESET_CONTROLLER
->   media: sun8i-rotate: Add a Kconfig dependency on RESET_CONTROLLER
->   media: cedrus: Add a Kconfig dependency on RESET_CONTROLLER
+> This was observed while running Fluster with GStreamer as a backend.
+> Some programming error would cause the decoder IRQ to be call very
+> quickly after the trigger. Later calls into the driver would deadlock
+> due to the unbalanced state.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: 7c38a551bda1 ("media: cedrus: Add watchdog for job completion")
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Looks good. Whole series is:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_dec.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
->  drivers/media/platform/sunxi/sun4i-csi/Kconfig            | 2 +-
->  drivers/media/platform/sunxi/sun6i-csi/Kconfig            | 2 +-
->  drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig      | 2 +-
->  drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig | 2 +-
->  drivers/media/platform/sunxi/sun8i-di/Kconfig             | 2 +-
->  drivers/media/platform/sunxi/sun8i-rotate/Kconfig         | 2 +-
->  drivers/staging/media/sunxi/cedrus/Kconfig                | 1 +
->  7 files changed, 7 insertions(+), 6 deletions(-)
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> 3b6aa78a2985f..e7f7602a5ab40 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> @@ -106,11 +106,11 @@ void cedrus_device_run(void *priv)
 >=20
+>  	/* Trigger decoding if setup went well, bail out otherwise. */
+>  	if (!error) {
+> -		dev->dec_ops[ctx->current_codec]->trigger(ctx);
+> -
+>  		/* Start the watchdog timer. */
+>  		schedule_delayed_work(&dev->watchdog_work,
+>  				      msecs_to_jiffies(2000));
+> +
+> +		dev->dec_ops[ctx->current_codec]->trigger(ctx);
+>  	} else {
+>  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
+>  						 ctx-
+>fh.m2m_ctx,
 > --
-> 2.37.1
+> 2.37.2
 
 
