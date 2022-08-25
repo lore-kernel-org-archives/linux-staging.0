@@ -1,25 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE71259B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFDD2F26;
 	Thu, 25 Aug 2022 10:29:18 +0000 (UTC)
 Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 369CECDC46;
-	Thu, 25 Aug 2022 10:20:56 +0000 (UTC)
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 99883CDC6F;
+	Thu, 25 Aug 2022 10:20:57 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id ADE9FFF804;
-	Thu, 25 Aug 2022 10:20:45 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 2B506FF807;
+	Thu, 25 Aug 2022 10:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1661422848;
+	t=1661422849;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ugv4J9W/zwbD41U1u+xDsmyK0fRiW+hPNdQFDhLRvAU=;
-	b=i4OC2/+LJcTx/tGlHUhO78gl3ygn2stI873qZ657gnY8hEQYk1Bzxg763Owc3x9ZboLgvH
-	PKiB21O6PQEOu3r0UbK4yA/yCwpybJsI+QBuiFX2/hicdqbM6e5i9+gB97m0WeSezzcu+r
-	7dYAQh1Ba/3Tg7CBSpd8gcqahoPbrtUO5k0/p0sSPeTSAb7P08fCPoxI+H6AppxpYDxhy5
-	3kknCA5bG07oanPR9zWYKXopV8skxUp5p7jrAN1u/UK3o/yS18acOTueLGxpUHHbN5o0FU
-	00J91wObGPpMMeY9JDKI2xFH+YV/GG0tlEJfV3JNfx9p8aXNWwZgJj6sJPs5Zw==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zEL2BOVtRdgmcJofrdddblFhlX9Lkxqbacj6hHCHUqk=;
+	b=DbCsD3sMKUhPXj+0SPm+sqKAYUtWy1ygwnDU9M+WXWKA1j7ZjpBgRrnPyBvjtJZvm/R8rC
+	ILqcPGBYcH0YTMYgdsRMCCKR12b/Wz+/zofjuD6lPP60RG+IyewPFGKtJP4r4VpGRXWDQY
+	sUq2HSjc2+qG4dz9V2YccV5vgMhLP47KIxKxNbLEfC670iK82E53vXJxWO0sZ+rpvv8zHh
+	F7tKo/D49NwxVS4EmSH+RvQPD4Y+jLCbqvth7nAPPV6z9LJvf4fnhcU4g2EPOxac0hAgBj
+	KmfvT5UOOT0tMPGbBzmzg8CIi1E+un7Czibynxn/NnIgTnwqbxw/J/cOr7l5wQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -34,11 +35,14 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v2 0/7] media: sunxi: Add a Kconfig dependencies on RESET_CONTROLLER
-Date: Thu, 25 Aug 2022 12:20:28 +0200
-Message-Id: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v2 1/7] media: sun6i-mipi-csi2: Add a Kconfig dependency on RESET_CONTROLLER
+Date: Thu, 25 Aug 2022 12:20:29 +0200
+Message-Id: <20220825102035.419087-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
+References: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,30 +51,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Changes since v1:
-- Added collected tag;
-- Added cedrus to the list of drivers to fix;
-- Added fixes tags on all commits as requested.
+The driver relies on the reset controller API to work, so add
+RESET_CONTROLLER as one of its Kconfig dependencies.
 
-Paul Kocialkowski (7):
-  media: sun6i-mipi-csi2: Add a Kconfig dependency on RESET_CONTROLLER
-  media: sun8i-a83t-mipi-csi2: Add a Kconfig dependency on
-    RESET_CONTROLLER
-  media: sun6i-csi: Add a Kconfig dependency on RESET_CONTROLLER
-  media: sun4i-csi: Add a Kconfig dependency on RESET_CONTROLLER
-  media: sun8i-di: Add a Kconfig dependency on RESET_CONTROLLER
-  media: sun8i-rotate: Add a Kconfig dependency on RESET_CONTROLLER
-  media: cedrus: Add a Kconfig dependency on RESET_CONTROLLER
+It also selects PHY_SUN6I_MIPI_DPHY, which depends on RESET_CONTROLLER.
 
- drivers/media/platform/sunxi/sun4i-csi/Kconfig            | 2 +-
- drivers/media/platform/sunxi/sun6i-csi/Kconfig            | 2 +-
- drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig      | 2 +-
- drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig | 2 +-
- drivers/media/platform/sunxi/sun8i-di/Kconfig             | 2 +-
- drivers/media/platform/sunxi/sun8i-rotate/Kconfig         | 2 +-
- drivers/staging/media/sunxi/cedrus/Kconfig                | 1 +
- 7 files changed, 7 insertions(+), 6 deletions(-)
+Fixes: af54b4f4c17f ("media: sunxi: Add support for the A31 MIPI CSI-2 controller")
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+index eb982466abd3..781aedbe1e30 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+@@ -3,7 +3,7 @@ config VIDEO_SUN6I_MIPI_CSI2
+ 	tristate "Allwinner A31 MIPI CSI-2 Controller Driver"
+ 	depends on V4L_PLATFORM_DRIVERS && VIDEO_DEV
+ 	depends on ARCH_SUNXI || COMPILE_TEST
+-	depends on PM && COMMON_CLK
++	depends on PM && COMMON_CLK && RESET_CONTROLLER
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select V4L2_FWNODE
 -- 
 2.37.1
 
