@@ -1,156 +1,74 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBD51C30
-	for <linux-staging@lists.linux.dev>; Thu, 25 Aug 2022 06:36:41 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27P4RMAX027723;
-	Thu, 25 Aug 2022 06:36:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=CAJCsfFz0LXrV/oEcXxNN1EY5+zjMvFV6rddT952w/A=;
- b=iPxIunmUIij5JXNkAIAa1x+W5gEoklg5Xrp/mMRsFmPVHAUqFErHWiHzbidKNyu5RArJ
- C3IINkOBYrWpniU8ROheNYBn5p+8fcHd25a0nCN/0PXZ+qcKnLE1zbyAv6ylGdnAb23w
- LLiYPMudxayBmDrtqy1C7cHVQKenoSp9gnNtvackI6WXw3POHWlLW99S3f9tD92VhSww
- h4gcrB7Eq+b3ESBgjsHjiTm2xmQnuQ/5vEqOQtW0HDwDqaIv6igAxOuSqL2h/5JnPcs+
- l9suEzG3H9iC68mfxiOs7AbX8UvPgQRPBL40pLjYwqSS43UrUYom8F/8eHhGQ/mJOtc+ QA== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3j55p23u9q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Aug 2022 06:36:28 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 27P4I8jI008977;
-	Thu, 25 Aug 2022 06:36:27 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3j5n6nwfm4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Aug 2022 06:36:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aseglhf42r+bggdY0dlfHx5B1926Rw5xFFCLlZPUbJXTSptJ3pZ/ooHMztPFx+9B6IGCXrdEuVYtPv/2nT/NGK1wR5Cov4JGl2jbEkm3BNWWYlDaoZAgJ98w4RoU3ze5JK1PxqsDvzEBLmTInlSAnD8799Wjb+/+/U5l1lk9v377eUqK+wPcoflGJyiumkJ4rvrQGD5VOru9aGmNz5CbiKQRfWmaG1QuU60aEZ1/FDpbOj6AsibpLEMf8VRX0ZLCqD3sXg9Mwc3F53Jm4MYNGRZ7IuWuhjss22GMRnsnMROnQIcsmlYXJ4A/B8xqyAfHtAoZ10OeAwhrj8lBFG6i+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CAJCsfFz0LXrV/oEcXxNN1EY5+zjMvFV6rddT952w/A=;
- b=BIff4EphUmL1/ybZmzAMe87UV2f3UPrPz+EdjGTzagrsNWvmGDOjm6sxi3C8VvDdhIbN8ltwgcDjHviBuDB3BsRKlwsaCUlBIADwfGSm6limOFFT+SDePcP5GnzbyQ4a4MLN4xRWzYGoj0nNcqFKvPMp0T5MCrBnzmRv6RyEOZBzwYstJLASm69HX0BC2WTyqHngdlvvI3q5sX71tcwbPBP+JLmhM/FpI1GbaSwXTvNqC7vJwaM4YMB8dTdW+Yaj/K3+op805EzIYtdpCxs+MkiCrNDMhnt68jkBj5aCmHUYMRJ489CWhCzoAYg/aeZrXZnxVut/s1N1FARnzMGkzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CAJCsfFz0LXrV/oEcXxNN1EY5+zjMvFV6rddT952w/A=;
- b=pTVPi+Ea4xfH84X8MhFMT7hiMaZ/60OXcXCUPgAdVyXr9qSJpSTOt6Ejn/rc09zVmN2YGNZHVdzUmjh0Nt7RjmkOvISg9/00He4wBGMomOrCJGq73bbSHDYDhJRWNx7PTVFKCczePIvpw4R4I13tZPMZNWmj+AfYkuY5Bo398/I=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR1001MB2285.namprd10.prod.outlook.com
- (2603:10b6:301:2e::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.14; Thu, 25 Aug
- 2022 06:36:25 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::209e:de4d:68ea:c026]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::209e:de4d:68ea:c026%3]) with mapi id 15.20.5546.024; Thu, 25 Aug 2022
- 06:36:25 +0000
-Date: Thu, 25 Aug 2022 09:36:02 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: cgel.zte@gmail.com
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, paskripkin@gmail.com,
-        gregkh@linuxfoundation.org, straube.linux@gmail.com, martin@kaiser.cx,
-        jhpark1013@gmail.com, makvihas@gmail.com,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Minghao Chi <chi.minghao@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] staging: r8188eu: remove unnecessary null check
-Message-ID: <20220825063602.GA2071@kadam>
-References: <20220824080350.221614-1-chi.minghao@zte.com.cn>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220824080350.221614-1-chi.minghao@zte.com.cn>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::11)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD4C23C7;
+	Thu, 25 Aug 2022 10:20:58 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 6603DFF809;
+	Thu, 25 Aug 2022 10:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1661422856;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gUoVBIaJKo/ZLxancHW76QbbFMS3ZjWDd/L3u/CxKuo=;
+	b=SkRXNIx2prLiOscLF2IpMi4cX05UbYplByo4EkaikesBcjcg7tSVkRmwhNwoZOWq0/4ETv
+	U53Ri5H8SgTwKpnrAtvV704j/81wn6ChT1Pql17iEI4imBV8Ts02tESdaC0/pguk7PdOSQ
+	+jXDZtuKQvph8imKI6duhMwnAdNzl+DglWfyNOX9K91Cf+wyTRgiv4yXg0Yv5ECFWHIuvh
+	kudHV/8h6BJixEHaxeb02vXT4xfx7XUPJz8qxokBIWaQHAHJZguijl00Mrhg7BMVk/McFn
+	PyTasPDefA/o9tWHjPpDvRpgl99YA9qCkom2ttc3xsjUA5QnbxNKnxEYn5umAA==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v2 6/7] media: sun8i-rotate: Add a Kconfig dependency on RESET_CONTROLLER
+Date: Thu, 25 Aug 2022 12:20:34 +0200
+Message-Id: <20220825102035.419087-7-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
+References: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 23af2d9f-ea57-410a-ab79-08da866421c1
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2285:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	iq48OzEVmhPP7v8Jg0o07O+zZMfJB+6b9U5GwHUluzk3IH8Ylla71nKKaPGU2lFRiSLeG/gyD8rCONYRe0uPEy9qQRwvuEIiICUgveVE29AWWHi+8eeSYz/2SNdig3Y1spQjsQI1KSRBxTrsaLYJNLXWJd6ysSbtNpvL3MwnMRrl7kmkdeC6r102BPK/DmdSJzAvcnkQSlQSbYzjpG59Mt0C50Ag/8j3qsZy8Fmsb6E35+OHMdTzl6HXNTguokkJ0kT9yk0w7JQcEmld0hbiPBJeoCr6RyqbCY8BPVQyt+KhVbg+CLeBFXvh8clScmkaMsBVEGp32HWo5fh33oyIefmO2hiYl5u+XCHKa0X/c1jJacdCwgViNF9LmHYo7JuXMqUECXYhpefDDgFbisp941Bm0ZlbAFYHRc66B2WRyv2IOKhtGanF91a4DvcBOW6pyc3QM0bpWI23MRGtVZU2A4gLG8LLuLrRLJojQtkZSs3EaWJg3EDtDwpG1yABKnbHoye+9BbEetSGVR1lXkrr1KegHR25Hal8AOw2LBVNpy1So8ghb8f5mWoNJpBYajD7FHjr/9SdXg7WwZJtXpihwt9NWgf6ZeQEw+1dqHUa1PakSWOszxTBtDMEqq9G0dy3ot+LV7GNOg7qkSMHC1qZHEmTM+aPdlFQS2tcL6uLW/NxjpOTyc7+FLudjhzpTBLb7dHGH22Iyk2C+fenk5i19wv9O2DNQrgXxGKnlakMgpP5lj6VwDx2lDRhRZQCxg16kUK/tvwmsmODmFcHf52CvA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(396003)(136003)(376002)(346002)(39860400002)(38350700002)(86362001)(83380400001)(38100700002)(186003)(1076003)(66556008)(66476007)(66946007)(316002)(4326008)(33656002)(6916009)(4744005)(7416002)(8936002)(6486002)(44832011)(5660300002)(8676002)(6666004)(478600001)(41300700001)(54906003)(9686003)(6506007)(26005)(2906002)(33716001)(6512007)(52116002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hRfqwVBZeD9CmnNXNYM4HZIqF6D5S4kRFBg4VILAuWvx4YD9t3oGJFDK7kMS?=
- =?us-ascii?Q?HFvOnIwyheEF7SBJZ5eJ+PMTWrCxkDMjbkuj4caDgVnoWcGOpcFyw09fg4Sd?=
- =?us-ascii?Q?lVRIDedsv1dW9Q7Yht4KDpsfN3WI+V6hEoVgIGPp8po2ayBcDozcRlaa4QFX?=
- =?us-ascii?Q?0iaPs/wm6CAEQMLFmXWWLyxr3IwZ+NWhAH8PktP1Ryry7RPgh6/aOMRfsL73?=
- =?us-ascii?Q?+F78Eqhh4HbASjyR1fpGyL6WTDYFPlIfgaGR/lRhL1nAFs/YJbGJfdV5Jt57?=
- =?us-ascii?Q?/b3i8Fx1hSMs9B9kxBlsEFe9iiFIYUOV2M3/K7RzMEbuDlMdwkWRHLayBY33?=
- =?us-ascii?Q?JnSQmSgMpMpn6vc0PqcrXO8GOf3Khi8JeuVhktGsHcdMHB6iOR/nsUh7dI/F?=
- =?us-ascii?Q?IBkrHE/C7pRi4Z7vTj77t/N/3ZPzWlryFrkSr1RiGrejbm7EN42fjgiF0oV9?=
- =?us-ascii?Q?MiDwkDBS5eVNZBQS68i9NC6zXfOlZ9GIefROF43YjskdeFVVfDEzhSZ5IMWX?=
- =?us-ascii?Q?/EXBFT/c4kt34URMPknqVFkMUGaoL2aDgjOVEzbYBYS+UFQIvhSpAiQMctKb?=
- =?us-ascii?Q?0uHyO9jqmEFgX0Urf3DNC4TbnfyuFSZGM7FgLA8KHvkxCWgI4uEzf8/VCHW2?=
- =?us-ascii?Q?aO7teTpOEOSHsTp7R5L05hNx5Tp90XALgtVrJ+UAhpV5lIkwSJN++2EOJnVU?=
- =?us-ascii?Q?IBOzFc1fkvh5TTduQQcKWlt9aGgHhYvHSvCBTmJT1pZYOI5Lcq0tIIl9VTeq?=
- =?us-ascii?Q?OlP4U/P+5ay9WuSBBLTxPTed+c9j7Jf/4nO5oaTHXcdJ33yzQ2wrWqUQgQb/?=
- =?us-ascii?Q?BLEr1TF+sScmLN642KUiunJscMn2Z1Ufl749EP6gytoyfohaMlnx78y7ynMB?=
- =?us-ascii?Q?3HrideYJn6iDD8akLpxje5z8+mYHC6ihQ/gZhQt7OxyhERcWON9un64kk9mO?=
- =?us-ascii?Q?+gtvW3tplefxnE2Uf0woEt7eNfRlOIkSLIJko1YTuvjrJAij1FWZRQVTjPUE?=
- =?us-ascii?Q?HuqvZJ13hA17SzpNjNprqbixHedET36O1yhZV7p9H1i1JD7NcdqddZBJP6Ay?=
- =?us-ascii?Q?j0is8aKkGWqFAzGOws4eKEdAj4ZGtfqgVnRYU0vM8DL0z7skyHMY+d/igjW8?=
- =?us-ascii?Q?/G3nBgXgzD1BV5NUYGR3wfeiXXK0xdA1eY19+imMRCoMlBYX3QhhQGHm2tjM?=
- =?us-ascii?Q?NB1zn88eGImu4kGWfFvIPLp1ZAOtMess92NY3m3tmv8LXU0yQ8psL/N6XDnd?=
- =?us-ascii?Q?UzaNF7KUT1UDDTLN6IL6t1EkV3rlX9uxs0f3vKBxXCuJLQarUxH8VvUEaI61?=
- =?us-ascii?Q?lhhMew6+OqRgrxY4agsJbKDOsGw89ANqeRiLVsrIaK7G94WsAsss2zArE+pm?=
- =?us-ascii?Q?y/4n4uMbsakbm6996fhKdQWKT54dmTO+9xuVanBgG6MkvkLAaJq/fYMVDw7m?=
- =?us-ascii?Q?9rTyKsoyQsMWEO17tURc7ziOr4DnTe5cu2cFfY/cLkFGT6d8aP9JJ3EKg1ke?=
- =?us-ascii?Q?4xXQqJGoG21wmqkOQZjcX0pggT2Jl9RfZf/1V0psCJui8KE9ezMMKofXbXy/?=
- =?us-ascii?Q?AHqopDiK1kX45tBjsrbVOA7+BUdbWyauplwd9kSm4dgZ/vLjbsudtmyLJ9lW?=
- =?us-ascii?Q?sQ=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23af2d9f-ea57-410a-ab79-08da866421c1
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 06:36:25.4569
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KzRtspreXprfvXZqOfgykJ2pFv+incYpKRjyCvop0WqDzFXTdtCQIJ+Dby/6TwcGylfwUneE+A/OOQUiMKPxbJ4oqVC6fZh2UCnvce5mmVs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2285
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-25_03,2022-08-22_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 spamscore=0
- bulkscore=0 adultscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2208250022
-X-Proofpoint-ORIG-GUID: R24fnYf5498nCWNPALw7-BAiu7Xbb3if
-X-Proofpoint-GUID: R24fnYf5498nCWNPALw7-BAiu7Xbb3if
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 24, 2022 at 08:03:50AM +0000, cgel.zte@gmail.com wrote:
-> From: Minghao Chi <chi.minghao@zte.com.cn>
-> 
-> container_of is never null, so this null check is
-> unnecessary.
-> 
+The driver relies on the reset controller API to work, so add
+RESET_CONTROLLER as one of its Kconfig dependencies.
 
-I can't Ack a patch with this commit message because container_of()
-*CAN* be NULL.  Here, it requires two things:
-1) That ->list is the first struct member of struct wlan_network which
-   is true.
-2) That "pmlmepriv->pscanned" is NULL.  Which I have not looked at.
+Fixes: d77182ada3d4 ("media: sun8i: Add Allwinner A83T Rotate driver")
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ drivers/media/platform/sunxi/sun8i-rotate/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It's really ugly to check container_of() for NULL but some people do it
-deliberately.  Some people also will add a build time assert to ensure
-that ->list is always the first element so that the check always works.
-
-regards,
-dan carpenter
+diff --git a/drivers/media/platform/sunxi/sun8i-rotate/Kconfig b/drivers/media/platform/sunxi/sun8i-rotate/Kconfig
+index cfba29072d75..ee2c1f248c64 100644
+--- a/drivers/media/platform/sunxi/sun8i-rotate/Kconfig
++++ b/drivers/media/platform/sunxi/sun8i-rotate/Kconfig
+@@ -5,7 +5,7 @@ config VIDEO_SUN8I_ROTATE
+ 	depends on V4L_MEM2MEM_DRIVERS
+ 	depends on VIDEO_DEV
+ 	depends on ARCH_SUNXI || COMPILE_TEST
+-	depends on COMMON_CLK && OF
++	depends on COMMON_CLK && RESET_CONTROLLER && OF
+ 	depends on PM
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select V4L2_MEM2MEM_DEV
+-- 
+2.37.1
 
