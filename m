@@ -1,32 +1,33 @@
 Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C040F7B
-	for <linux-staging@lists.linux.dev>; Thu, 25 Aug 2022 12:31:47 +0000 (UTC)
-X-QQ-mid: bizesmtp73t1661430696t36rbmc5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D5F1841
+	for <linux-staging@lists.linux.dev>; Thu, 25 Aug 2022 15:05:14 +0000 (UTC)
+X-QQ-mid: bizesmtp70t1661439786t2i9nrb6
 Received: from localhost.localdomain ( [182.148.14.124])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 25 Aug 2022 20:31:35 +0800 (CST)
-X-QQ-SSF: 01000000002000C0E000B00A0000000
-X-QQ-FEAT: rZJGTgY0+YNrCKbMQbGRmuxa20/awuKdg3yy4ACmHJB6CGTbP4uRYC0dQDR9c
-	ld+XeEBFwX4lrsTYq+ZvVCY1rQtsmUmlOgbdWaWmyplDrR7go0BUDstZNThRO0Lm9jc6j4Q
-	zwLkAPxH4cWgQjw9dORO9Zvow35TuwRwxdncwAOTx+RwKvfl/dd5q1igSyWYOTrcodvin90
-	dYN38oZkNnnnSvu6d8oCwznlb9yaTszjTrypsIpv75rJpkaFk7a7Vp4gHZkDMOiI5KYFDQR
-	L8TybUdY+DcqvlnS3fm01XPjdP1QhEP/mj0ckVUcFIVlVljn1pmX0P8YS1/udIQL/jMCpj0
-	Ys/1sSB2CLg7s2lMxhFtwosIW6DSG6Mc2DfM9cWwF7eEnIcrwB456hrLYxtax/v4J4u7zTZ
+	id ; Thu, 25 Aug 2022 23:03:00 +0800 (CST)
+X-QQ-SSF: 01000000002000B0C000B00A0000000
+X-QQ-FEAT: ILHsT53NKPgo6CVByiP5FDaChDOa8bpPjPIfuK+PgRDGKENnLp3+8x/uhteUs
+	c/zlmGytvAMjN4k/U9DQC7lCLZXFjh6svzcWOv+uLYi+RhvRFIMNXKH5V24eBmcrpddkCdm
+	t0F31XrrKabFvEOTPbUWMVdPPizrz3dbVJMJ8kr4DHeKB4OfRroRoXcaRVcvQ7XSHTILVBu
+	jS5fJX9JWoVjk77RCUFVNli08ne2d7jXlPuRJPjceWYnYpscpZjDxvKpnz+JOFbOjJU3XdG
+	R8pQMRtrM4Ly4mHEsjFyPgeEtyB8/A17Zb/4pZ2jrReRZSedQfhhbkTlErNm1TlvIZOrQjO
+	fO4U3+S2TheaG6BYHFYT/T52ZYpzMEzpq6l3Gx4mko6nK8BPBr7RorEECxWZ6cslgkyjwGE
 X-QQ-GoodBg: 0
-From: Jilin Yuan <yuanjilin@cdjrlc.com>
-To: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] atomisp/pci: fix repeated words in comments
-Date: Thu, 25 Aug 2022 20:31:29 +0800
-Message-Id: <20220825123129.20823-1-yuanjilin@cdjrlc.com>
-X-Mailer: git-send-email 2.36.1
+From: Shaomin Deng <dengshaomin@cdjrlc.com>
+To: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: baihaowen@meizu.com,
+	dan.carpenter@oracle.com,
+	paskripkin@gmail.com,
+	dave@stgolabs.net,
+	edumazet@google.com,
+	dengshaomin@cdjrlc.com
+Subject: [PATCH] staging: rtl8192e: Fix comments typo
+Date: Thu, 25 Aug 2022 11:02:58 -0400
+Message-Id: <20220825150258.8967-1-dengshaomin@cdjrlc.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,47 +38,26 @@ Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
 
- Delete the redundant word 'from'.
- Delete the redundant word 'in'.
+Fix double word "new" in comments.
 
-Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
+Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 2 +-
- drivers/staging/media/atomisp/pci/ia_css_irq.h  | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index c932f340068f..507c0404d736 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -4525,7 +4525,7 @@ int atomisp_fixed_pattern(struct atomisp_sub_device *asd, int flag,
- 		return 0;
- 	}
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index b5f4d35954a9..9e6d7c5716ff 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -1611,7 +1611,7 @@ inline void rtllib_softmac_new_net(struct rtllib_device *ieee,
  
--	/* Add function to get black from from sensor with shutter off */
-+	/* Add function to get black from sensor with shutter off */
- 	return 0;
- }
+ 	short apset, ssidset, ssidbroad, apmatch, ssidmatch;
  
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_irq.h b/drivers/staging/media/atomisp/pci/ia_css_irq.h
-index 26b1b3c8ba62..8f2e876a0b2b 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_irq.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_irq.h
-@@ -84,11 +84,11 @@ enum ia_css_irq_info {
- 	IA_CSS_IRQ_INFO_ISP_BINARY_STATISTICS_READY   = BIT(17),
- 	/** ISP binary statistics are ready */
- 	IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR            = BIT(18),
--	/** the input system in in error */
-+	/** the input system in error */
- 	IA_CSS_IRQ_INFO_IF_ERROR                      = BIT(19),
--	/** the input formatter in in error */
-+	/** the input formatter in error */
- 	IA_CSS_IRQ_INFO_DMA_ERROR                     = BIT(20),
--	/** the dma in in error */
-+	/** the dma in error */
- 	IA_CSS_IRQ_INFO_ISYS_EVENTS_READY             = BIT(21),
- 	/** end-of-frame events are ready in the isys_event queue */
- };
+-	/* we are interested in new new only if we are not associated
++	/* we are interested in new only if we are not associated
+ 	 * and we are not associating / authenticating
+ 	 */
+ 	if (ieee->state != RTLLIB_NOLINK)
 -- 
-2.36.1
+2.35.1
 
