@@ -1,120 +1,142 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FFB33E8
-	for <linux-staging@lists.linux.dev>; Fri, 26 Aug 2022 11:35:39 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id k9so1511835wri.0
-        for <linux-staging@lists.linux.dev>; Fri, 26 Aug 2022 04:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
-         :subject:message-id:from:to:cc;
-        bh=Ww3upExwiPpiTI29okfKvaHqZZosx9vnWFgG6m9gKLk=;
-        b=CUgv+OUw8hzxfpn8aSCnEk12aZu1VsXeoTF+YbX7GU/pzbC97UgR9pvrvQm5DjJGQx
-         SZ6ZjXS55do9ne+yv3Ih5+yM1wd3T7PEzjtW2E33+V4SoEtfbSMrWrum3Y085GTXdtSZ
-         CqcKln8gTXVGVdzFiEVYm30njyxpfzAHpzUHYWTNz+Gv/THHX2xjiV1E18EKwgtZyPkp
-         fx8UwvmPpJprawDy2A/2zlrjkQF8WIvnnY037dhGQ2Mh+JZ4po6C1x74tXDynyeYQIML
-         EOGIx3uMiJlkZUo7RQV4TqsrA0c0SEiYWHMdYXLlTfITPwFM+OBazep5+GzYCtoIQQZd
-         1ehw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc;
-        bh=Ww3upExwiPpiTI29okfKvaHqZZosx9vnWFgG6m9gKLk=;
-        b=TV82QQY/1ZwOqutynXOpY4YpJxi7PSj8kjX2vHP8LKcKKtaVivG2drcuQ3E+8Qcdja
-         UMiOJzQafGEYW2pxAchP63Y53MkRq7/SijTJJMEeZBNJU0uDzip/yyuNJwdu0hieAzth
-         ebiRvt7QiPFkD6ql5X/5Bc9MtR3arU2wZoIxHW+VBDw6Bm3VrlBw6n/Nm7M76+XHvo5r
-         o3HX/SF3hgADkjSvczTIlbonlIOfENCqgtqJqQEivGqzvB0DoZrZ1BwYpEWyA/pv7ftB
-         arMlNN1ebSIeHb/ExJ7lBUp7tYMPfVwuCvqJy2CEhn3ixIsaWy8Y2nk9k1WQ9TTHD2+B
-         N/8w==
-X-Gm-Message-State: ACgBeo2kqtfuHSx/Vr7jxW7r93OVndBelWV/AkibssN183WwBAZQAPM+
-	/Dl6e81duDv3yN5mSgyosA==
-X-Google-Smtp-Source: AA6agR4rgVnYyLXMO+n+qFQRWwXtgGtB++LXSeFoCn4/Y1YdtXkplFO8Wzdm6ITv/ILRtvOaLe+FYQ==
-X-Received: by 2002:adf:d23c:0:b0:226:af6f:2df5 with SMTP id k28-20020adfd23c000000b00226af6f2df5mr554309wrh.595.1661513737756;
-        Fri, 26 Aug 2022 04:35:37 -0700 (PDT)
-Received: from themakerofstuff.broadband ([84.69.200.79])
-        by smtp.gmail.com with ESMTPSA id q15-20020adfdfcf000000b00225285b8136sm1643771wrn.38.2022.08.26.04.35.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Aug 2022 04:35:37 -0700 (PDT)
-Message-ID: <d053abd3e60d3f2d7724d6857c28a6a255b4f46b.camel@gmail.com>
-Subject: [PATCH] staging: rtl8192e: Describe each kernel config option
-From: Alman Khan <ak47.almank@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Date: Fri, 26 Aug 2022 12:35:36 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-1+b1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D84441B;
+	Fri, 26 Aug 2022 18:42:12 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 6B82C40004;
+	Fri, 26 Aug 2022 18:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1661539324;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+nlMaXlRJAOi+45N8WL10NSAt140nch8RLHZiELGrL0=;
+	b=enPLVPZCnXb3DvBnzPM5mjuGqCiJTS2TDSxNj4y9a0TXii9/qKGzhdaI160bTzuzbqVAHF
+	nBJxyu69f5eEwUk7PGMgldHf/zDB7fSsYePUfIOK803v5EZ03rlUi+jVDSbcfaUqNdFGwn
+	vPv4GkLmxEQd7cSnFWY57QVvCVm4o1bpckRaSJZSTfpmRVcv5ZSYuBngc1gIqV/mpdN4M4
+	s2I2AN2F4pns5hcy4Q9Itfnt+lYCmPtGejE6KWB+J8USo09NxgB0kxpCr8w84YAZ5NLLfq
+	I4F1FPrYlXcqwlSgLRcbWfVk9hNHDQCnhgTikI8cBguSKYPk1lMsvumJtBAfhQ==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v6 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP Driver
+Date: Fri, 26 Aug 2022 20:41:38 +0200
+Message-Id: <20220826184144.605605-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-An important thing people want to=C2=A0know is what each option that
-they select in their kernel configuration file actually does, so
-that they can select the right options for their system, and, once
-booted, make sure their hardware works as expected.
+This part only concerns the introduction of the new ISP driver and related
+adaptation of the CSI driver.
 
-Add more details describing each option in the kernel configuration
-for the rtl8192e (rtllib) driver so that the end-user understands what
-they mean, and, if necessary, enables/disables those features
-if they are not required.
+Most non-dt patches still need reviewing but should be pretty straightforward. 
+Since this multi-part series has been going on for a while, it would be great
+to see it merged soon!
 
-Signed-off-by: Alman Khan <ak47.almank@gmail.com>
----
- drivers/staging/rtl8192e/Kconfig | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Changes since v5:
+- Rebased on latest media tree;
+- Added collected tag;
+- Switched to using media_pad_remote_pad_first;
+- Switched to using media_pad_remote_pad_unique.
 
-diff --git a/drivers/staging/rtl8192e/Kconfig
-b/drivers/staging/rtl8192e/Kconfig
-index 39f5a6a7346a..e06c189b4ce4 100644
---- a/drivers/staging/rtl8192e/Kconfig
-+++ b/drivers/staging/rtl8192e/Kconfig
-@@ -10,6 +10,9 @@ config RTLLIB
-=20
- 	  If unsure, say N.
-=20
-+	  This driver adds support for rtllib wireless cards.
-+	  Only the rtl8192e is supported as of now.
-+
- if RTLLIB
-=20
- config RTLLIB_CRYPTO_CCMP
-@@ -23,6 +26,8 @@ config RTLLIB_CRYPTO_CCMP
- 	  CCMP crypto driver for rtllib.
-=20
- 	  If you enabled RTLLIB, you want this.
-+	  Adds support for the CCM mode Protocol crypto driver for
-+	  use in wireless cards (including rtllib cards).
-=20
- config RTLLIB_CRYPTO_TKIP
- 	tristate "Support for rtllib TKIP crypto"
-@@ -35,6 +40,8 @@ config RTLLIB_CRYPTO_TKIP
- 	  TKIP crypto driver for rtllib.
-=20
- 	  If you enabled RTLLIB, you want this.
-+	  Adds support for the Temporal Key Integrity Protocol for
-+	  the IEEE 802.11i standard for use on wireless cards.
-=20
- config RTLLIB_CRYPTO_WEP
- 	tristate "Support for rtllib WEP crypto"
-@@ -42,9 +49,12 @@ config RTLLIB_CRYPTO_WEP
- 	depends on RTLLIB
- 	default y
- 	help
--	  TKIP crypto driver for rtllib.
-+	  WEP crypto driver for rtllib.
-=20
- 	  If you enabled RTLLIB, you want this.
-+	  Adds support for the (now weak) Wired Equivalent Privacy
-+	  (WEP) crypto protocol for wireless cards.
-+	  NOTE: This protocol is now considered insecure.
-=20
- source "drivers/staging/rtl8192e/rtl8192e/Kconfig"
-=20
---=20
-2.37.2
+Changes since v4:
+- Fixed device-tree binding indent-align;
+- Added collected tag;
+- Rebased on latest media tree;
 
+Changes since v3:
+- Removed the v4l2 controls handler from the driver;
+- Added variant structure for table sizes;
+- Removed the info message about video device registration;
+- Removed comments in uAPI header;
+- Used '/schemas/graph.yaml#/properties/port' whenever possible in bindings;
+- Added CSI patches dependent on the ISP driver;
+- Rebased on the latest media tree;
+
+Changes since all-in-one v2:
+- Updated Kconfig to follow the latest media-wide changes;
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Switched to clock-managed regmap mmio;
+- Used helper to get a single enabled link for an entity's pad, to replace
+  source selection at link_validate time and select the remote source at
+  stream on time instead;
+- Added mutex for mbus format serialization;
+- Used endpoint-base instead of video-interface for "internal" endpoints
+  in device-tree schema;
+- Added TODO with unstaging requirements;
+- Various cosmetic cleanups;
+- Updated copyright years;
+
+Paul Kocialkowski (6):
+  dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+  dt-bindings: media: sun6i-a31-csi: Add ISP output port
+  staging: media: Add support for the Allwinner A31 ISP
+  MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+  media: sun6i-csi: Detect the availability of the ISP
+  media: sun6i-csi: Add support for hooking to the isp devices
+
+ .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
+ .../media/allwinner,sun6i-a31-isp.yaml        |  97 +++
+ MAINTAINERS                                   |   9 +
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  74 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
+ drivers/staging/media/sunxi/Kconfig           |   1 +
+ drivers/staging/media/sunxi/Makefile          |   1 +
+ drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
+ .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
+ .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 577 ++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
+ .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+ 23 files changed, 3304 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
+
+-- 
+2.37.1
 
