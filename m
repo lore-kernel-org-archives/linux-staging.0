@@ -1,48 +1,48 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4EC17E5
-	for <linux-staging@lists.linux.dev>; Sun, 28 Aug 2022 06:54:21 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id w10so6689590edc.3
-        for <linux-staging@lists.linux.dev>; Sat, 27 Aug 2022 23:54:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C7E17E5
+	for <linux-staging@lists.linux.dev>; Sun, 28 Aug 2022 06:54:34 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id t5so6651620edc.11
+        for <linux-staging@lists.linux.dev>; Sat, 27 Aug 2022 23:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc;
-        bh=7dMyYYgs9WG1YLzH7CIuB16LlkbU7Y/AywSYT+BK2ig=;
-        b=KnMWxfi7QHTJlijEKWqkumgHp7DdX2xnw4KAyM7VzAgtWKDUEyo4UoyF5wysv7/W20
-         vynQ/HYTjl911T8L8A8vkPZQox39hUpOnHN4SF5mAWlCyCx945WJwQ1rPAuxTau9pEGL
-         gcJE25I87KWu+lZLzxeF9PoA42/6pPbMDZsnVTJnK8f7mdc8tpWxpuHIqQFWbSGsN8Lk
-         0h3yUpGLpXKjGP1fRxABNUHjY9oIm/4XDP7RC0LkVdFFnPjhb9HM9A37O2xzQlDGMFcR
-         AelreFO3+zzYVOZsji0mYZuArLTlrZGFi4BNeF7SVELJRqT9mZswxHweQXmxPlOhxRQO
-         VZSQ==
+        bh=zlbBwhELsS9ncIi7cmLrnHeCoFJ5J4VqFjmk0yBsOK0=;
+        b=n+MTmaYheBrwbksR3a1pDVrtDWAnuQKMmAfl6FgMq5c8w61sNc+o9hU4YQL1hOhr6E
+         4Fd83XQCdKqOrpzmc0+27X6tQ/pAtV9EKrtsQ738dJawp2F/IwzoJ+zfjwUlS2+WiX23
+         5HdtAnnubtt76SsuF2P2nM26lLk97NQBl/x7RWNDPgRQsqdMCCInOYLCNyXTs0OKF07v
+         jM+wKDpAzqFWF3wrAtSN58ximxfh+KFiJtpovD0M6b4oqKNNkHatP1dtx+YKWutk9NeO
+         sBzwr+LzJTv6w9bwYwygXJBIHWZkCDXb0qSYfPaPuIxuMrmOskK2YFwh6zdQ2oTo0arg
+         TwsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc;
-        bh=7dMyYYgs9WG1YLzH7CIuB16LlkbU7Y/AywSYT+BK2ig=;
-        b=6sXxETSynwoEu0z8Pze9ZjegXwbUAxjthOSV8YC9+lfQZSKgJ2+sdmJiHlQ/rFxKm9
-         QAMR6hkuKHL1KxUSSCguXsBdV90HioSlKR2GjDBeBULjQybpTdeexufGC+LUXs4raOis
-         hsglOO+rYjSTDheNEiYx8tE0DFHnIvgIMw1fsF1e3YRqBkjd8lcZHJFLoEebqpD0CIef
-         TzEHkq82LOfN69zEW68RACpQkeNQQG4AA6t9ZtrDZIexbni6q9cZkf3J2nN5SgQWTVhI
-         H8Af44fMH8Os3zCbr79UbE8H+nzrrq6KiJNkYistuPhFFiVPkxElwbCXEnzhwJV9CFo+
-         yPdg==
-X-Gm-Message-State: ACgBeo2JTAbcC1CRTH0tX3rE7UBMWuQXhhxIYIQbDeDB+7XYN2cn01fW
-	P2K0QLU0jEhVo81QHUOBUcs=
-X-Google-Smtp-Source: AA6agR48Ilm2GhMQdjKbgeWykFXkbwEZw1Lcht+JFV0dBV4KT38eBvoNqVjbi3xZMLScG5cl50jLqA==
-X-Received: by 2002:a05:6402:5489:b0:43b:b935:db37 with SMTP id fg9-20020a056402548900b0043bb935db37mr12714463edb.347.1661669661330;
-        Sat, 27 Aug 2022 23:54:21 -0700 (PDT)
+        bh=zlbBwhELsS9ncIi7cmLrnHeCoFJ5J4VqFjmk0yBsOK0=;
+        b=akG2XMM1ueY68tavl7p5ZrPhlmVgjCpDlWbeD8awErQsMlwp6xJpOsdXkcSA8OAxxu
+         NcAZvAtWWcIFIr4aBqaCxm6cBJPLr9NcDPwK6docvqm2C/GrDcQLZno7/h1PEKtH9KQ+
+         GA+tfbuSn5RUu51Y8qENtYBlwyP43EMdY83mNET4R7eQtX3rwloToq+bwb2EhVITkLee
+         wcVg4wAMqz/6E9DLu26qRVhAmsAdc0w++L/VplWoTZAce3kYqXQ7gWHt5zu7cgwzXbh9
+         c1ahNoSW6z2MI/d4WagseUXyg5QRBSYyboiE0+IrWz1O9dfyZhWWuBG58z8stvpYZ/A1
+         /aOg==
+X-Gm-Message-State: ACgBeo1URiL5Bujs/AJwFGVrM6YO7KLYewt/pOfZiTxS7WslJRE9zyFO
+	ftOWZkDRfXYjqFtZMgDCy/A=
+X-Google-Smtp-Source: AA6agR56QllEkOcl6kLrpUeTLopr8djB51cgB/WfYnU3uDYGuPNru60dfO8/RUPyJteV6glFYoh2EA==
+X-Received: by 2002:aa7:cc05:0:b0:447:8654:7fa9 with SMTP id q5-20020aa7cc05000000b0044786547fa9mr12325311edt.298.1661669672826;
+        Sat, 27 Aug 2022 23:54:32 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id o1-20020a170906768100b0073dddffbe70sm2867422ejm.224.2022.08.27.23.54.20
+        by smtp.gmail.com with ESMTPSA id d25-20020a056402079900b00447e2aeeba2sm3755535edy.27.2022.08.27.23.54.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Aug 2022 23:54:20 -0700 (PDT)
-Date: Sun, 28 Aug 2022 08:54:18 +0200
+        Sat, 27 Aug 2022 23:54:32 -0700 (PDT)
+Date: Sun, 28 Aug 2022 08:54:30 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/9] staging: vt6655: Rename function MACbIsRegBitsOff
-Message-ID: <79530d864d4e39e29b899b80f2e2ecf0566366dc.1661666677.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 8/9] staging: vt6655: Delete function MACbIsIntDisable
+Message-ID: <2cf96b9b7cf576bdd9d17e54acbc765690b7900b.1661666677.git.philipp.g.hortmann@gmail.com>
 References: <cover.1661666677.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,81 +54,70 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1661666677.git.philipp.g.hortmann@gmail.com>
 
-Remove declaration of MACbIsRegBitsOff as it is not needed. Rename
-function MACbIsRegBitsOff to vt6655_mac_is_reg_bits_off, rename
-byRegOfs to reg_offset and byTestBits to mask to avoid CamelCase which
-is not accepted by checkpatch.pl. Made function static to keep namespace
-clean.
+Delete function MACbIsIntDisable as it is unused and the name is not
+accepted by checkpatch.pl.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/vt6655/mac.c | 15 ++++++++-------
- drivers/staging/vt6655/mac.h |  3 ---
- 2 files changed, 8 insertions(+), 10 deletions(-)
+ drivers/staging/vt6655/mac.c | 24 ------------------------
+ drivers/staging/vt6655/mac.h |  2 --
+ 2 files changed, 26 deletions(-)
 
 diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-index 742391b24afb..7363dfb04ba8 100644
+index 7363dfb04ba8..edd941c4f9ee 100644
 --- a/drivers/staging/vt6655/mac.c
 +++ b/drivers/staging/vt6655/mac.c
-@@ -10,7 +10,7 @@
-  * Date: May 21, 1996
+@@ -11,7 +11,6 @@
   *
   * Functions:
-- *      MACbIsRegBitsOff - Test if All test Bits Off
-+ *      vt6655_mac_is_reg_bits_off - Test if All test Bits Off
-  *      MACbIsIntDisable - Test if MAC interrupt disable
+  *      vt6655_mac_is_reg_bits_off - Test if All test Bits Off
+- *      MACbIsIntDisable - Test if MAC interrupt disable
   *      MACvSetShortRetryLimit - Set 802.11 Short Retry limit
   *      MACvSetLongRetryLimit - Set 802.11 Long Retry limit
-@@ -86,20 +86,21 @@ static void vt6655_mac_clear_stck_ds(void __iomem *iobase)
-  * Parameters:
-  *  In:
-  *      io_base    - Base Address for MAC
-- *      byRegOfs    - Offset of MAC Register
-- *      byTestBits  - Test bits
-+ *      reg_offset - Offset of MAC Register
-+ *      mask       - Test bits
-  *  Out:
-  *      none
-  *
-  * Return Value: true if all test bits Off; otherwise false
-  *
-  */
--bool MACbIsRegBitsOff(struct vnt_private *priv, unsigned char byRegOfs,
--		      unsigned char byTestBits)
-+static bool vt6655_mac_is_reg_bits_off(struct vnt_private *priv,
-+				       unsigned char reg_offset,
-+				       unsigned char mask)
- {
- 	void __iomem *io_base = priv->port_offset;
- 
--	return !(ioread8(io_base + byRegOfs) & byTestBits);
-+	return !(ioread8(io_base + reg_offset) & mask);
+  *      MACvSetLoopbackMode - Set MAC Loopback Mode
+@@ -103,29 +102,6 @@ static bool vt6655_mac_is_reg_bits_off(struct vnt_private *priv,
+ 	return !(ioread8(io_base + reg_offset) & mask);
  }
  
+-/*
+- * Description:
+- *      Test if MAC interrupt disable
+- *
+- * Parameters:
+- *  In:
+- *      io_base    - Base Address for MAC
+- *  Out:
+- *      none
+- *
+- * Return Value: true if interrupt is disable; otherwise false
+- *
+- */
+-bool MACbIsIntDisable(struct vnt_private *priv)
+-{
+-	void __iomem *io_base = priv->port_offset;
+-
+-	if (ioread32(io_base + MAC_REG_IMR))
+-		return false;
+-
+-	return true;
+-}
+-
  /*
-@@ -767,7 +768,7 @@ bool MACbPSWakeup(struct vnt_private *priv)
- 	void __iomem *io_base = priv->port_offset;
- 	unsigned int ww;
- 	/* Read PSCTL */
--	if (MACbIsRegBitsOff(priv, MAC_REG_PSCTL, PSCTL_PS))
-+	if (vt6655_mac_is_reg_bits_off(priv, MAC_REG_PSCTL, PSCTL_PS))
- 		return true;
- 
- 	/* Disable PS */
+  * Description:
+  *      Set 802.11 Short Retry Limit
 diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 2af243b9389f..ca1211aacec2 100644
+index ca1211aacec2..cc5d2493375b 100644
 --- a/drivers/staging/vt6655/mac.h
 +++ b/drivers/staging/vt6655/mac.h
-@@ -549,9 +549,6 @@ void vt6655_mac_word_reg_bits_on(void __iomem *iobase, const u8 reg_offset, cons
+@@ -549,8 +549,6 @@ void vt6655_mac_word_reg_bits_on(void __iomem *iobase, const u8 reg_offset, cons
  void vt6655_mac_reg_bits_off(void __iomem *iobase, const u8 reg_offset, const u8 bit_mask);
  void vt6655_mac_word_reg_bits_off(void __iomem *iobase, const u8 reg_offset, const u16 bit_mask);
  
--bool MACbIsRegBitsOff(struct vnt_private *priv, unsigned char byRegOfs,
--		      unsigned char byTestBits);
+-bool MACbIsIntDisable(struct vnt_private *priv);
 -
- bool MACbIsIntDisable(struct vnt_private *priv);
- 
  void MACvSetShortRetryLimit(struct vnt_private *priv,
+ 			    unsigned char byRetryLimit);
+ 
 -- 
 2.37.2
 
