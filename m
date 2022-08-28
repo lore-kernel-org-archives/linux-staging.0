@@ -1,133 +1,89 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E012E17E5
-	for <linux-staging@lists.linux.dev>; Sun, 28 Aug 2022 06:54:57 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id nc14so5181061ejc.4
-        for <linux-staging@lists.linux.dev>; Sat, 27 Aug 2022 23:54:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9C32F43
+	for <linux-staging@lists.linux.dev>; Sun, 28 Aug 2022 19:40:24 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id bs25so7827775wrb.2
+        for <linux-staging@lists.linux.dev>; Sun, 28 Aug 2022 12:40:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc;
-        bh=gktJznCv9/y7G5o2Zo2F57sjIQ5okEiEz9FlVIJ7urs=;
-        b=iTgbWzq5Rg/QSWnm9yi87WrT4Bp8dlzNpuhGkz/p33zCkSCIoRwR60+I2kpwzbCzhC
-         IOhvx2cgeFenJNupHnhBzDAGSxITXHotLInWPHaaQDOEoTI+8KITvFgFPYy1TdV8iSZH
-         H+j55bu2RMtLJWBkmYQf3Jl6clTwU/qhbgRk5TfS4k76s03ixxzpL63U7j7OZR97pZit
-         BMnZveCvzwAMtkPBQYu32wEUrY145U8QtPbg+YLGP4DNrsP3ZjFiuJ1ZXSkhKMmO9ZVo
-         8MbDBxcHNRYHpU9QixKd957RKmejlOLlqqoJJLTonABGfwjuTcD9yEDbiOs+/i9sULgp
-         R2Og==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=SBJUt5ya6H+Vp4juVe7YBe27t2DrpMHLEEUeEfHVB4Q=;
+        b=CKptIP8hALLJcspcyH3wZ+DDUrdpFwm5eWl/ZSduQcuDU3UKdUuB6s5J7lv1UihJkY
+         ikB0fAiqUaLoSQIR3adUJIR4KhcvDLyAZYFuDuVOshoajU47DvhJu14ovz3hre9JDaU9
+         PCyiNBfg+rvNDTz5g+M3W64rg2q17PTsHKQ3H4xSycwFizS+YpyFhci+sDTQwKxo5xBD
+         j2tq+DsxOPAKR9TnCYEXp937FEkjEk3Tgc8qd1LT9oECthnq0Ow9FP6FIUnY+BDwlg+H
+         v8Jjaa2+gny0r+LfHFX3K7+V64tGTqyrMJPA/S4d/be+gyFwhkRqS2K+AQS+omZeaDD6
+         /IOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc;
-        bh=gktJznCv9/y7G5o2Zo2F57sjIQ5okEiEz9FlVIJ7urs=;
-        b=2vxjkPTGmcNU7JjtWIPQjxa+vJGj+YoTH1z5EOAKTIb4jgPzpaUHz/Q2GXUSGlOJZz
-         JJzdhqDRfYfGZpFN48q/KdCPoMjNQ7mZIOpVGL9T7G7GkgFSni2OQ+1TT7bOn+ay2NoR
-         ZWDuJPP+83Cx1V5UzyGZGc1+808OCwGQ0OVGrYB9lCvvLs5YRzx9w3DzdimeoM2SCh36
-         ulWzcGRvEIX1jCPyZr6v27aBCYuFb1uikBabJr15w0iMCva6raEt09gdr+unA2Icivpb
-         dtrx5WHwNod0KGi0yRt2QXXPpOrKQfem9YBpsdqOjURCSjHxeKTQg2jdo1/Ig4ce6O0Z
-         vcgw==
-X-Gm-Message-State: ACgBeo1lCW8Akt4EMEcZrpWnjxpboag16oPL70BXDPcqdMF+v+upw/XV
-	mNVPMX3FxeeTQ1ulIMOamCca8ZvoRqA=
-X-Google-Smtp-Source: AA6agR6HV4azfJBjstnh1Hr50/sUq3w8Bu9T9RcEpQUmKaOmWyqgo97WjoLDQIu+2Fr0gLl7SKke+g==
-X-Received: by 2002:a17:907:6d8c:b0:731:6c60:eced with SMTP id sb12-20020a1709076d8c00b007316c60ecedmr10154012ejc.266.1661669696097;
-        Sat, 27 Aug 2022 23:54:56 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id t1-20020a17090616c100b0073100dfa7b5sm2936279ejd.33.2022.08.27.23.54.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Aug 2022 23:54:54 -0700 (PDT)
-Date: Sun, 28 Aug 2022 08:54:52 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] staging: vt6655: Rename function MACvSetShortRetryLimit
-Message-ID: <d04b82510853607f439b4d969d4ce4b1883e9de8.1661666677.git.philipp.g.hortmann@gmail.com>
-References: <cover.1661666677.git.philipp.g.hortmann@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=SBJUt5ya6H+Vp4juVe7YBe27t2DrpMHLEEUeEfHVB4Q=;
+        b=M1H+ltotWk1miRMF3POPHV5NWVyP8B8FQFDLHzf21DJhsob2DLSGer7SQaP6inEXQt
+         VxTpxNlXkkdewxM7aKKbmwpXwMkHchWt1HjoOEuepENmTAk7s2nuOZbM47boxLFIOoWu
+         crKTiJbIhpXPvSr4lVIPlVDzugqTjYKALk8wGlHFGEiZkm6ere2PoF0C3efop7nad79U
+         SegV6EeZCGJo46MCSmw5Qyn9PuGUJ2q8LDk5V/8dJQ4JHp5Zaqo5h5RbmxaXopBGqiJy
+         7mYsYiFFRKrd6rSqxcEv9Evijo+oK6itGeeOizPuhIGOhTpZmf5spb8FfZsbnWPaOdsP
+         CvdA==
+X-Gm-Message-State: ACgBeo0X2bTEwF3kt7HWObxUg3S2tmFmwpKylK7XwoJEfMgWBSqy0v82
+	9KEkDFHoYz6jwWTMKSIWPW0=
+X-Google-Smtp-Source: AA6agR6vKePDsASPC+j/BFgCJsWg/lnAcU/ys5lkjhmU2adiGHa+nEiFzQPPlBSuwtiLBWu6LX9NYw==
+X-Received: by 2002:a5d:5985:0:b0:222:c5dd:b7c8 with SMTP id n5-20020a5d5985000000b00222c5ddb7c8mr4778851wri.511.1661715623249;
+        Sun, 28 Aug 2022 12:40:23 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2e:6943:86da:343d:c9ca:6ac3? (p200300c78f2e694386da343dc9ca6ac3.dip0.t-ipconnect.de. [2003:c7:8f2e:6943:86da:343d:c9ca:6ac3])
+        by smtp.gmail.com with ESMTPSA id u14-20020adfdd4e000000b0021f131de6aesm5190965wrm.34.2022.08.28.12.40.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Aug 2022 12:40:22 -0700 (PDT)
+Message-ID: <1559c05f-a345-314a-c9e5-857d46dbfe11@gmail.com>
+Date: Sun, 28 Aug 2022 21:40:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1661666677.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] staging: rtl8192e: Fix comments typo
+Content-Language: en-US
+To: Shaomin Deng <dengshaomin@cdjrlc.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: baihaowen@meizu.com, dan.carpenter@oracle.com, paskripkin@gmail.com,
+ dave@stgolabs.net, edumazet@google.com
+References: <20220825150258.8967-1-dengshaomin@cdjrlc.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20220825150258.8967-1-dengshaomin@cdjrlc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rename function MACvSetShortRetryLimit to vt6655_mac_set_short_retry_limit
-and byRetryLimit to retry_limit to avoid CamelCase which is not accepted
-by checkpatch.pl.
+On 8/25/22 17:02, Shaomin Deng wrote:
+> Fix double word "new" in comments.
+> 
+> Signed-off-by: Shaomin Deng <dengshaomin@cdjrlc.com>
+> ---
+>   drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+> index b5f4d35954a9..9e6d7c5716ff 100644
+> --- a/drivers/staging/rtl8192e/rtllib_softmac.c
+> +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+> @@ -1611,7 +1611,7 @@ inline void rtllib_softmac_new_net(struct rtllib_device *ieee,
+>   
+>   	short apset, ssidset, ssidbroad, apmatch, ssidmatch;
+>   
+> -	/* we are interested in new new only if we are not associated
+> +	/* we are interested in new only if we are not associated
+>   	 * and we are not associating / authenticating
+>   	 */
+>   	if (ieee->state != RTLLIB_NOLINK)
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/vt6655/device_main.c | 2 +-
- drivers/staging/vt6655/mac.c         | 9 ++++-----
- drivers/staging/vt6655/mac.h         | 3 +--
- 3 files changed, 6 insertions(+), 8 deletions(-)
+Sorry this proposal was made just some hours before by Jilin Yuan 
+<yuanjilin@cdjrlc.com> in patch: "[PATCH] staging/rtl8192e: fix repeated 
+words in comments"
 
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index cd748b1665bb..3397c78b975a 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -412,7 +412,7 @@ static void device_init_registers(struct vnt_private *priv)
- 				    (CFG_TKIPOPT | CFG_NOTXTIMEOUT));
- 
- 	/* set performance parameter by registry */
--	MACvSetShortRetryLimit(priv, priv->byShortRetryLimit);
-+	vt6655_mac_set_short_retry_limit(priv, priv->byShortRetryLimit);
- 	MACvSetLongRetryLimit(priv, priv->byLongRetryLimit);
- 
- 	/* reset TSF counter */
-diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-index edd941c4f9ee..d056df1220d3 100644
---- a/drivers/staging/vt6655/mac.c
-+++ b/drivers/staging/vt6655/mac.c
-@@ -11,7 +11,7 @@
-  *
-  * Functions:
-  *      vt6655_mac_is_reg_bits_off - Test if All test Bits Off
-- *      MACvSetShortRetryLimit - Set 802.11 Short Retry limit
-+ *      vt6655_mac_set_short_retry_limit - Set 802.11 Short Retry limit
-  *      MACvSetLongRetryLimit - Set 802.11 Long Retry limit
-  *      MACvSetLoopbackMode - Set MAC Loopback Mode
-  *      MACvSaveContext - Save Context of MAC Registers
-@@ -109,19 +109,18 @@ static bool vt6655_mac_is_reg_bits_off(struct vnt_private *priv,
-  * Parameters:
-  *  In:
-  *      io_base    - Base Address for MAC
-- *      byRetryLimit- Retry Limit
-+ *      retry_limit - Retry Limit
-  *  Out:
-  *      none
-  *
-  * Return Value: none
-  *
-  */
--void MACvSetShortRetryLimit(struct vnt_private *priv,
--			    unsigned char byRetryLimit)
-+void vt6655_mac_set_short_retry_limit(struct vnt_private *priv, unsigned char retry_limit)
- {
- 	void __iomem *io_base = priv->port_offset;
- 	/* set SRT */
--	iowrite8(byRetryLimit, io_base + MAC_REG_SRT);
-+	iowrite8(retry_limit, io_base + MAC_REG_SRT);
- }
- 
- /*
-diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index cc5d2493375b..a70e75ff78cd 100644
---- a/drivers/staging/vt6655/mac.h
-+++ b/drivers/staging/vt6655/mac.h
-@@ -549,8 +549,7 @@ void vt6655_mac_word_reg_bits_on(void __iomem *iobase, const u8 reg_offset, cons
- void vt6655_mac_reg_bits_off(void __iomem *iobase, const u8 reg_offset, const u8 bit_mask);
- void vt6655_mac_word_reg_bits_off(void __iomem *iobase, const u8 reg_offset, const u16 bit_mask);
- 
--void MACvSetShortRetryLimit(struct vnt_private *priv,
--			    unsigned char byRetryLimit);
-+void vt6655_mac_set_short_retry_limit(struct vnt_private *priv, unsigned char retry_limit);
- 
- void MACvSetLongRetryLimit(struct vnt_private *priv, unsigned char byRetryLimit);
- 
--- 
-2.37.2
-
+Bye Philipp
