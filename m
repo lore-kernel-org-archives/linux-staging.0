@@ -1,48 +1,48 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A3517E5
-	for <linux-staging@lists.linux.dev>; Sun, 28 Aug 2022 06:53:51 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id p16so6950547ejb.9
-        for <linux-staging@lists.linux.dev>; Sat, 27 Aug 2022 23:53:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4922217E5
+	for <linux-staging@lists.linux.dev>; Sun, 28 Aug 2022 06:53:59 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id kk26so10039568ejc.11
+        for <linux-staging@lists.linux.dev>; Sat, 27 Aug 2022 23:53:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc;
-        bh=LjzanNtCvzSXtiVbp8d3CMKogQqfws09JJb6fy/x1Jc=;
-        b=CLy7woEfJH3vriYTAzlxeoPr268GSKbHpkWFV90A3vONDi4xvEit/QlW+SjlWL6sBz
-         L9j0a0WFgJPvggwHOzv5kNJCyVqkOrJg6eCl8wJH2cT/7Qr3tbU2SueP+hWBG8G3Fu+K
-         5HKNd8mDF/5whjPnM86reTDGE4kcnP3+NPEfy3wYsLGMDVTyGlWVyWx34ddLrS69b9eB
-         6d37eV3HaBK9HJY2STRXcI8V+TbjYZb0SRsMovClfKVuqCd1YveaibkxqiX6P+SJfgUY
-         5tm1g2dCcLd5D4YL+4agbjTW42izAU+yOn2PYOvG4072wsXhZnV9OsN72uqJaN7epaKm
-         2nZQ==
+        bh=1clvh7sbseYUW4IbmWFpAESVQFsQwA5j3fmCSQQcU8w=;
+        b=IF2by2Cf/Vy9SkdDmgxevln5gJ36bp+QdkJL326U+jLewiCNPeB7EPb960SuFJcuMB
+         6J7aEQw3UJgU/AmcafptWNiNKlGABk+aZveQdDE+XK8VvvCZAWK7Tey+L5qlT5ltRALy
+         47rku6pRsW510IeBVh8jk9jTnwwHwxdwlxVKLtiFEJOPd4bK4RnS7bc6qjKh5n3aAXGz
+         kjaYji2xes/dgBd1/fhYpqKbmJPb1TUH8wLzML9JdCfu1OnzcxqZeUJBgKVDtr7jIokb
+         S7B1KJ9WXBY51kAgNJ5C+UU2oxIOvSEVfLm5pLm4sXA05FuBkm25FVEIDsB9Zuad2xRb
+         wJAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc;
-        bh=LjzanNtCvzSXtiVbp8d3CMKogQqfws09JJb6fy/x1Jc=;
-        b=F653+FO88IhPRvzmV1hMJtj3gNYY8ppbZptx0BCa5t97yYRje+VrTXOtX0j1iJWsvx
-         yEWjm/6nzGxECkBHnLnLnf3v036vFKy8EQ4XoK9I2U9nvcuejzfshFztkt2hzFGwMVdB
-         Pp8Y8pgbyptOR/RbmpnIa2rLatXAlKu49S4EsmJGgks8TpSb4a9fDXsgladXNuwGKW3F
-         QrCmooZ/MWnzo3VJ/idovJqdb6tfrFjAofHN9hOOwBubSJH2B0mvXb6kLrjGyaTD2sIm
-         aRt8nCncYY76XMBc6kLBUpgyRHkgmp4Tss9Kh0zSvxxAfWAfkYHyN3eEi9dx/Y3gDX56
-         J2QQ==
-X-Gm-Message-State: ACgBeo1WS1AIAb0pfHApep3Jxwwrwv5Em55xgheVfjYDg2TVvoFjdfvC
-	HI65FBEBvImlMQXLOM1exL0=
-X-Google-Smtp-Source: AA6agR4t0ilfZeKxynHoTjSgGlKQTVmgmJNlumXcUFC039cRmcj27yTi217SjsKuzq7oyLWZOrUU3Q==
-X-Received: by 2002:a17:907:6818:b0:730:d99f:7b91 with SMTP id qz24-20020a170907681800b00730d99f7b91mr9495350ejc.496.1661669629992;
-        Sat, 27 Aug 2022 23:53:49 -0700 (PDT)
+        bh=1clvh7sbseYUW4IbmWFpAESVQFsQwA5j3fmCSQQcU8w=;
+        b=l4xMKAHsrBr7SVvP0A0iBPX+T1poW3Jdsj+TIa/Iwo9B9qJV3q8dPj7jMiFi1xDMID
+         fRfuSnGy4hh/d4MEoTUTqbNXDAlyQJhpgrxZ5JNf7PgtdREg/KeoBl3oLA3Up/jMndXi
+         UR6fMc39LYH3B+r0qBj6TPSMe3lLXFMD7yPojILcCI2aYOS2ZP/BmvcVj05A1L+j3dqg
+         /R3YMsQDaHKZoBx0aWOZIjlRo6Cm6EE228pKF65wGvJmhMfi8EFNNxargcJIizHjZfeq
+         2sEjqi5iW8b2WF9MV/uLRw+V0SNI+8l8Q92lyMNILZeTZY0yHZkB1oug/6/DwZwPGIIW
+         sfVQ==
+X-Gm-Message-State: ACgBeo3uUiYizDwlfLeAboVRuORFcnNutbIe75q0Ov3dRpEjo5dxw3HL
+	xNy5pHSKux1oBiN9xLBAzwY=
+X-Google-Smtp-Source: AA6agR4z0QgaeG02D+C1O+TRewtalZtVEoEkKx/IaDD+qGzjiFkjZuW9YiGBDWbrqPd/hfZ2XHT4yw==
+X-Received: by 2002:a17:907:2894:b0:741:4e40:94fe with SMTP id em20-20020a170907289400b007414e4094femr2934174ejc.606.1661669637638;
+        Sat, 27 Aug 2022 23:53:57 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a07b82.dip0.t-ipconnect.de. [84.160.123.130])
-        by smtp.gmail.com with ESMTPSA id fe23-20020a1709072a5700b007308bdef04bsm2890491ejc.103.2022.08.27.23.53.49
+        by smtp.gmail.com with ESMTPSA id q17-20020a17090609b100b0073022b796a7sm2907352eje.93.2022.08.27.23.53.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Aug 2022 23:53:49 -0700 (PDT)
-Date: Sun, 28 Aug 2022 08:53:47 +0200
+        Sat, 27 Aug 2022 23:53:57 -0700 (PDT)
+Date: Sun, 28 Aug 2022 08:53:55 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/9] staging: vt6655: Rename function MACvSetBBType
-Message-ID: <44d0151d67e2a76e1cf3d88d254defa96990b142.1661666677.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 4/9] staging: vt6655: Rename macro MACvSelectPage0
+Message-ID: <a656aa0e04c43654ba22b764cb00e27898efbe5f.1661666677.git.philipp.g.hortmann@gmail.com>
 References: <cover.1661666677.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,53 +54,112 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1661666677.git.philipp.g.hortmann@gmail.com>
 
-Rename MACvSetBBType function to vt6655_mac_set_bb_type to avoid
+Rename MACvSelectPage0 macro to VT6655_MAC_SELECT_PAGE0 to avoid
 CamelCase which is not accepted by checkpatch.pl and to clean up
-namespace.
+namespace. Remove unnecessary line break.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/vt6655/card.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/vt6655/card.c        | 2 +-
+ drivers/staging/vt6655/channel.c     | 2 +-
+ drivers/staging/vt6655/device_main.c | 6 +++---
+ drivers/staging/vt6655/mac.c         | 4 ++--
+ drivers/staging/vt6655/mac.h         | 3 +--
+ 5 files changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 6711743dcf4a..c442a1e580ab 100644
+index c442a1e580ab..a4ebe59df5b8 100644
 --- a/drivers/staging/vt6655/card.c
 +++ b/drivers/staging/vt6655/card.c
-@@ -55,7 +55,7 @@ static const unsigned short cwRXBCNTSFOff[MAX_RATE] = {
+@@ -643,7 +643,7 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
+ 				   &byRsvTime);
+ 	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_72);
+ 	/* Set to Page0 */
+-	MACvSelectPage0(priv->port_offset);
++	VT6655_MAC_SELECT_PAGE0(priv->port_offset);
  
- /*---------------------  Static Functions  --------------------------*/
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ }
+diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
+index e926f9829a15..ae6bf9493611 100644
+--- a/drivers/staging/vt6655/channel.c
++++ b/drivers/staging/vt6655/channel.c
+@@ -121,7 +121,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
+ 		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWRCCK);
+ 		RFbSetPower(priv, RATE_6M, priv->byCurrentCh);
+ 		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
+-		MACvSelectPage0(priv->port_offset);
++		VT6655_MAC_SELECT_PAGE0(priv->port_offset);
  
--static void MACvSetBBType(void __iomem *iobase, u32 mask)
-+static void vt6655_mac_set_bb_type(void __iomem *iobase, u32 mask)
- {
- 	u32 reg_value;
+ 		spin_unlock_irqrestore(&priv->lock, flags);
+ 	}
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 8e2a976aaaad..283119bbe2fb 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -404,7 +404,7 @@ static void device_init_registers(struct vnt_private *priv)
  
-@@ -192,21 +192,21 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
+ 		iowrite8(MSRCTL1_TXPWR | MSRCTL1_CSAPAREN, priv->port_offset + MAC_REG_MSRCTL + 1);
  
- 	/* Set SIFS, DIFS, EIFS, SlotTime, CwMin */
- 	if (bb_type == BB_TYPE_11A) {
--		MACvSetBBType(priv->port_offset, BB_TYPE_11A);
-+		vt6655_mac_set_bb_type(priv->port_offset, BB_TYPE_11A);
- 		bb_write_embedded(priv, 0x88, 0x03);
- 		bySlot = C_SLOT_SHORT;
- 		bySIFS = C_SIFS_A;
- 		byDIFS = C_SIFS_A + 2 * C_SLOT_SHORT;
- 		byCWMaxMin = 0xA4;
- 	} else if (bb_type == BB_TYPE_11B) {
--		MACvSetBBType(priv->port_offset, BB_TYPE_11B);
-+		vt6655_mac_set_bb_type(priv->port_offset, BB_TYPE_11B);
- 		bb_write_embedded(priv, 0x88, 0x02);
- 		bySlot = C_SLOT_LONG;
- 		bySIFS = C_SIFS_BG;
- 		byDIFS = C_SIFS_BG + 2 * C_SLOT_LONG;
- 		byCWMaxMin = 0xA5;
- 	} else { /* PK_TYPE_11GA & PK_TYPE_11GB */
--		MACvSetBBType(priv->port_offset, BB_TYPE_11G);
-+		vt6655_mac_set_bb_type(priv->port_offset, BB_TYPE_11G);
- 		bb_write_embedded(priv, 0x88, 0x08);
- 		bySIFS = C_SIFS_BG;
+-		MACvSelectPage0(priv->port_offset);
++		VT6655_MAC_SELECT_PAGE0(priv->port_offset);
+ 	}
  
+ 	/* use relative tx timeout and 802.11i D4 */
+@@ -1592,7 +1592,7 @@ static void vnt_configure(struct ieee80211_hw *hw,
+ 				iowrite32(0xffffffff, priv->port_offset + MAC_REG_MAR0);
+ 				iowrite32(0xffffffff, priv->port_offset + MAC_REG_MAR0 + 4);
+ 
+-				MACvSelectPage0(priv->port_offset);
++				VT6655_MAC_SELECT_PAGE0(priv->port_offset);
+ 			} else {
+ 				MACvSelectPage1(priv->port_offset);
+ 
+@@ -1601,7 +1601,7 @@ static void vnt_configure(struct ieee80211_hw *hw,
+ 				iowrite32((u32)(multicast >> 32),
+ 					  priv->port_offset + MAC_REG_MAR0 + 4);
+ 
+-				MACvSelectPage0(priv->port_offset);
++				VT6655_MAC_SELECT_PAGE0(priv->port_offset);
+ 			}
+ 
+ 			spin_unlock_irqrestore(&priv->lock, flags);
+diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
+index dcc649532737..8485cd0a81c0 100644
+--- a/drivers/staging/vt6655/mac.c
++++ b/drivers/staging/vt6655/mac.c
+@@ -219,7 +219,7 @@ void MACvSaveContext(struct vnt_private *priv, unsigned char *cxt_buf)
+ 	memcpy_fromio(cxt_buf + MAC_MAX_CONTEXT_SIZE_PAGE0, io_base,
+ 		      MAC_MAX_CONTEXT_SIZE_PAGE1);
+ 
+-	MACvSelectPage0(io_base);
++	VT6655_MAC_SELECT_PAGE0(io_base);
+ }
+ 
+ /*
+@@ -245,7 +245,7 @@ void MACvRestoreContext(struct vnt_private *priv, unsigned char *cxt_buf)
+ 	memcpy_toio(io_base, cxt_buf + MAC_MAX_CONTEXT_SIZE_PAGE0,
+ 		    MAC_MAX_CONTEXT_SIZE_PAGE1);
+ 
+-	MACvSelectPage0(io_base);
++	VT6655_MAC_SELECT_PAGE0(io_base);
+ 
+ 	/* restore RCR,TCR,IMR... */
+ 	memcpy_toio(io_base + MAC_REG_RCR, cxt_buf + MAC_REG_RCR,
+diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+index b6c4f2bb096a..a14b38a96ec6 100644
+--- a/drivers/staging/vt6655/mac.h
++++ b/drivers/staging/vt6655/mac.h
+@@ -537,8 +537,7 @@
+ 
+ /*---------------------  Export Macros ------------------------------*/
+ 
+-#define MACvSelectPage0(iobase)				\
+-	iowrite8(0, iobase + MAC_REG_PAGE1SEL)
++#define VT6655_MAC_SELECT_PAGE0(iobase) iowrite8(0, iobase + MAC_REG_PAGE1SEL)
+ 
+ #define MACvSelectPage1(iobase)				\
+ 	iowrite8(1, iobase + MAC_REG_PAGE1SEL)
 -- 
 2.37.2
 
