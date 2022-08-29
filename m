@@ -1,29 +1,84 @@
-Received: from srv.faradid-honar.com (mail.faradid-honar.com [130.185.73.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6AA7C
-	for <linux-staging@lists.linux.dev>; Mon, 29 Aug 2022 10:46:18 +0000 (UTC)
-Received: by srv.faradid-honar.com (Postfix, from userid 10000)
-	id 0A530E2E47; Mon, 29 Aug 2022 15:10:46 +0430 (+0430)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=idid-store.com;
-	s=default; t=1661769646;
-	bh=ZJ65xO2a3InADs3a11Ta0ZcMZplyhOfe8pN6GlvAe+U=; h=To:Subject:From;
-	b=WNZb6I9uh8aoj9k0a5tpbE72ZdmnUyb8odoq2Vu+klenwRk2kvBvNYcgoKmG4Cdro
-	 uTVcSaDsJwxYPiHWaisS/2Z+Hn/63i4/2WI1ER6/kZvvV96lMptDaNcp3KhTUWgX3x
-	 an/XwxqXu74MB6Z7onOQqsfcnX7/KQlhgAw0DCK8=
-To: linux-staging@lists.linux.dev
-Subject: Telegram: TOP 3 Handelsroboter, die Menschen zu Millionaren machen
-Date: Mon, 29 Aug 2022 15:10:45 +0430
-From: WordPress <info@idid-store.com>
-Message-ID: <0afa03115ed81c57778e00c0eb0a258a@idid-store.com>
-X-Mailer: PHPMailer 5.2.22 (https://github.com/PHPMailer/PHPMailer)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604FE53A4;
+	Mon, 29 Aug 2022 16:22:17 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3d67:aec0:f788:1143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 53D476601EFF;
+	Mon, 29 Aug 2022 17:22:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1661790131;
+	bh=M5ZcAnXCHIW8WBJJFvQ8ua1pus1t1OQ7+0Ziri9QNjY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dST9jvLeCc8LRg7MMSnOVWiXfXBWHfpDa4gdqUrYPB1+JXkeA5yOCywXzPhx6N1Xb
+	 R5te2yazV4yQiRFYw2SB/w41Swt2/J32NacOaqoV/w/b5j3cFyZMSkvThHYWRcouBM
+	 HuRnMz8fmLUzUbFjtUTEVaOFt48M+KEzdzaYCAM08DiCu4HJOBswh8Uam9FZTE26Xy
+	 hk4NN5RorYlPOo5+JM60XxH3VvMw6lXX7wfqwr10gKdkDIxoq8ToJjOS6AeQlfWZ/s
+	 gpTosgT3eJ6gttM3a71yKaR5x8Z6a/gxuUQq2b0DChAHBfGMvnoeBQQO2aFZZp1GDm
+	 R3WK5IgC5WJ2g==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 5/7] media: Hantro: HEVC: Allows 10-bit bitstream
+Date: Mon, 29 Aug 2022 18:21:57 +0200
+Message-Id: <20220829162159.881588-6-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
+References: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Investieren Sie einmal 250 $ und erhalten Sie ab 1000 $ pro Tag http://80000-bitcoin-to-usd.tracemyvideo.com/dayli-news-6552
+Stop limiting HEVC support to 8-bits bitstreams also
+accept 10-bits bitstreams.
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+---
+ drivers/media/platform/verisilicon/hantro_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 1dd8312d824c..7c75922e2e98 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -274,8 +274,8 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ 		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+ 			/* Luma and chroma bit depth mismatch */
+ 			return -EINVAL;
+-		if (sps->bit_depth_luma_minus8 != 0)
+-			/* Only 8-bit is supported */
++		if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
++			/* Only 8-bit and 10-bit are supported */
+ 			return -EINVAL;
+ 
+ 		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
+-- 
+2.32.0
 
