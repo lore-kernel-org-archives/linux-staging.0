@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C9D53A4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA4153B7;
 	Mon, 29 Aug 2022 16:27:57 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3d67:aec0:f788:1143])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8E443660036C;
-	Mon, 29 Aug 2022 17:22:08 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id EBC0D6601E7C;
+	Mon, 29 Aug 2022 17:22:09 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1661790129;
-	bh=0VOVYPwZ5ffiEbRCRymyaz9bIrqxcPmbdRTa8xLR1jk=;
+	s=mail; t=1661790130;
+	bh=K4PyGdMb0CLgAmgUHhcoL5Cwk7ELeeLgQQjYzbm0oOQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=h39Yb5QDYYn6r/KkginqrwRT1Vqpvl9JbZqP7x1GL1bp6K4MtzkuyPr/J6+RiMByn
-	 SDyC5NHQoG+0w6626yPzyANexlG1yBThmU9n3kCctcg5EhCuQzfpRi7tOnI3zZbUqO
-	 RnsTjR1WBb2mhJKNI+rPWf9drbkP9ZQHazYxKRjqivOHEt222oUUwlyBejsL5PdRyd
-	 qHHZ6HuaxlC+cBpzeWlSpZCHVh1f3NRK/HitCk/yucgLknuPhfLOo9saNdhkoTgbxO
-	 eRqpVelQZu7QZqA9g0NiXYJnj8uCA3tCbsR1uVurg9o5A9Pj4TyjOlPv852ywLR5tx
-	 yuAjj0VkeuWGA==
+	b=QPrmf7k7pnRT0uSB2TCW4M9K+AUwuPECBOHw00ZPBwLpJcLAMN8fcLZO8kUc4LuFL
+	 cjK9QhrK+c8nlrQNWqhiqq5hhwc66/uz97UcZB32zQC1FswruLcE5S60bsBPjUGOxI
+	 0plht1+Lm6stt/LfFfI/uewUbnrWhmVmJU1nP4wG/Z7h/sN9zSy0VYZCHrcmooq4ds
+	 A/Vy5S3gA4liekF+BKYr8Qo+voAzOeVTscmPZXli+MniEcuCB3gsAg2kk/Un2EAXu5
+	 3tUCoII88H2oxoMs6O8SIlepOWvJzO1wZiabMpSV8Uf+pclO/JggjahDFfsR0GE7sY
+	 QWuQqvry3+3Kg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -41,9 +41,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 1/7] media: hantro: Store HEVC bit depth in context
-Date: Mon, 29 Aug 2022 18:21:53 +0200
-Message-Id: <20220829162159.881588-2-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 3/7] media: hantro: HEVC: Fix chroma offset computation
+Date: Mon, 29 Aug 2022 18:21:55 +0200
+Message-Id: <20220829162159.881588-4-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
 References: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
@@ -55,41 +55,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Store HEVC bit depth in context.
-Bit depth is equal to hevc sps bit_depth_luma_minus8 + 8.
+The chroma offset depends of the bitstream depth.
+Make sure that ctx->bit_depth is used to compute it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 ---
-version 3:
-- Based on top of Ezequiel's patch "media: destage Hantro VPU driver"
- drivers/media/platform/verisilicon/hantro_drv.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 2036f72eeb4a..1dd8312d824c 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -251,6 +251,11 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+diff --git a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
+index 233ecd863d5f..a917079a6ed3 100644
+--- a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
++++ b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
+@@ -12,7 +12,7 @@
  
- static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
  {
-+	struct hantro_ctx *ctx;
-+
-+	ctx = container_of(ctrl->handler,
-+			   struct hantro_ctx, ctrl_handler);
-+
- 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
- 		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+-	return ctx->dst_fmt.width * ctx->dst_fmt.height;
++	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
+ }
  
-@@ -272,6 +277,8 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
- 		if (sps->bit_depth_luma_minus8 != 0)
- 			/* Only 8-bit is supported */
- 			return -EINVAL;
-+
-+		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
- 	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
- 		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
- 
+ static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
 -- 
 2.32.0
 
