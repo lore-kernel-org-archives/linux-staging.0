@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7489553B8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7698553B9;
 	Mon, 29 Aug 2022 16:27:57 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3d67:aec0:f788:1143])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id A0E7B6601EFE;
-	Mon, 29 Aug 2022 17:22:10 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id D42376600360;
+	Mon, 29 Aug 2022 17:22:07 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1661790131;
-	bh=1QjEDfeYtMg2LvAMK7jYApMsPkNYBRfLQFsRT9YF/R8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VHIEPeN8LeBrF70kVPqEXxSeXnjS1QujvHicAi5AqDiw68GwAvEAjlWb6dpsRB3fO
-	 WC+YNedLJmmy5fePlSezXbQua2cI4jSV90YjogB9N5tsOgMsx55kSyNld+0ZdHUAS1
-	 /x/YfQ9n/DSh7Ox+5vBseQktvwwEbR2NyyS4KDqHb+64tLOSG55yO7IrtO4q7yiPRh
-	 f8dV7Bp7qjtKV19vOiy7vpjh/fDwZQn3692GXGaKcSZbTZTNHhQmZqfKPC24bvB+RO
-	 JRMNbCVbNYAH9BpwGlQG5CWbohacYpLuz9KHJ32lywSRNWJeYvwFBaFHrPjnEmzQth
-	 8EX45HCDvxSLg==
+	s=mail; t=1661790128;
+	bh=iBVc29gKZFKqyDDdPbh8NNqE2+5tS5jY80daWeZGfmw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i6qHqulyX4bx1mBsTqn1R7eaM5k9788KC9y/nCwrzs43gu99+zGQZLJgy21cV0gEk
+	 IdQ0bsVqESQOv40FBuADSyI2x0mZHF9XYkgtw8fqNDWoDMv/TenC7+vwCyNnFd+Rqp
+	 ZEfLa5EmB/Q/d1Wq+M9w1ISzETPO4R9WACAuWg8un+gsyeDPUnBqJw786ogbShNwtX
+	 SahsN/L8+LbNqtxpxPdcRUaBpJ8Nmz1OylEo8RMvqDmIVhEyiMWGatkCW/YIXZG4L8
+	 A7N0VpcyvJ6YMF8HGE9YhX895bUMAH2ylC7CJVJahqG2e8ldq+GdMrK+q8lFimP3iP
+	 ErSui+dKCqkow==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -41,12 +41,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 4/7] media: hantro: postproc: Configure output regs to support 10bit
-Date: Mon, 29 Aug 2022 18:21:56 +0200
-Message-Id: <20220829162159.881588-5-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 0/7] Enable 10bits bitstream for Hantro/G2 HEVC codec
+Date: Mon, 29 Aug 2022 18:21:52 +0200
+Message-Id: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
-References: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,62 +53,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move output format setting in postproc and make sure that
-8/10bit configuration is correctly set.
+This series add 10bits support for newer hardware blocks (i.e without
+legacy regs) and for HEVC codec.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
----
- drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c | 2 --
- drivers/media/platform/verisilicon/hantro_postproc.c    | 7 ++++++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+Tested on IMX8MQ with HEVC conformance tests, the result is that all 
+10bits bitstreams are OK.
 
-diff --git a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
-index a917079a6ed3..a9d4ac84a8d8 100644
---- a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
-+++ b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
-@@ -167,8 +167,6 @@ static void set_params(struct hantro_ctx *ctx)
- 	hantro_reg_write(vpu, &g2_bit_depth_y_minus8, sps->bit_depth_luma_minus8);
- 	hantro_reg_write(vpu, &g2_bit_depth_c_minus8, sps->bit_depth_chroma_minus8);
- 
--	hantro_reg_write(vpu, &g2_output_8_bits, 0);
--
- 	hantro_reg_write(vpu, &g2_hdr_skip_length, compute_header_skip_length(ctx));
- 
- 	min_log2_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
-diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-index a0928c508434..09d8cf942689 100644
---- a/drivers/media/platform/verisilicon/hantro_postproc.c
-+++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-@@ -114,6 +114,7 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct vb2_v4l2_buffer *dst_buf;
- 	int down_scale = down_scale_factor(ctx);
-+	int out_depth;
- 	size_t chroma_offset;
- 	dma_addr_t dst_dma;
- 
-@@ -132,8 +133,9 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
- 		hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
- 		hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
- 	}
-+
-+	out_depth = hantro_get_format_depth(ctx->dst_fmt.pixelformat);
- 	if (ctx->dev->variant->legacy_regs) {
--		int out_depth = hantro_get_format_depth(ctx->dst_fmt.pixelformat);
- 		u8 pp_shift = 0;
- 
- 		if (out_depth > 8)
-@@ -141,6 +143,9 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
- 
- 		hantro_reg_write(ctx->dev, &g2_rs_out_bit_depth, out_depth);
- 		hantro_reg_write(ctx->dev, &g2_pp_pix_shift, pp_shift);
-+	} else {
-+		hantro_reg_write(vpu, &g2_output_8_bits, out_depth > 8 ? 0 : 1);
-+		hantro_reg_write(vpu, &g2_output_format, out_depth > 8 ? 1 : 0);
- 	}
- 	hantro_reg_write(vpu, &g2_out_rs_e, 1);
- }
+version 3:
+- Based on top of Ezequiel's patch "media: destage Hantro VPU driver"
+
+Benjamin Gaignard (7):
+  media: hantro: Store HEVC bit depth in context
+  media: hantro: HEVC: Fix auxilary buffer size calculation
+  media: hantro: HEVC: Fix chroma offset computation
+  media: hantro: postproc: Configure output regs to support 10bit
+  media: Hantro: HEVC: Allows 10-bit bitstream
+  media: hantro: imx8m: Enable 10bit decoding
+  media: hantro: Allows luma and chroma depth to be different
+
+ .../media/platform/verisilicon/hantro_drv.c   | 14 ++++++----
+ .../platform/verisilicon/hantro_g2_hevc_dec.c |  4 +--
+ .../media/platform/verisilicon/hantro_hevc.c  |  4 +--
+ .../platform/verisilicon/hantro_postproc.c    |  7 ++++-
+ .../media/platform/verisilicon/imx8m_vpu_hw.c | 27 +++++++++++++++++++
+ 5 files changed, 45 insertions(+), 11 deletions(-)
+
 -- 
 2.32.0
 
