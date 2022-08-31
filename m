@@ -1,41 +1,41 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD704387
-	for <linux-staging@lists.linux.dev>; Wed, 31 Aug 2022 05:36:52 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id s11so16856437edd.13
-        for <linux-staging@lists.linux.dev>; Tue, 30 Aug 2022 22:36:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831A5652
+	for <linux-staging@lists.linux.dev>; Wed, 31 Aug 2022 05:36:53 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id p16so23069136ejb.9
+        for <linux-staging@lists.linux.dev>; Tue, 30 Aug 2022 22:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=Zdl+bHnrlDuNezApLP0OPztrvL1DKjzc69eOvMJqVL4=;
-        b=ndCngMFNIpxhdsEVpoO+0vUeZhV4e6LWjVdHnwZfH6wvgK6P1IhD4AJ7jBNyzyZT+F
-         9N79bADXa44ZSs+q2FRKJBfy1lF1K9T4pfKgEiO2XfXZ+U6fhy2Sr9mL1jWWb8kvZYjc
-         kderaYpg78OYZvvPl4SsIPJ4HNYjJzC6Jl4zYMUClwmaXs8g1fnI1iL7D8Ov7HCKOcHL
-         NmZkfsm8Q/m3UZxPTGn+dfjlliLaXY3/LR34nrzjKG4g6NHbt/1NlX8bc16xSyYP6Di0
-         XowG6n17R8yukTGmoWGtRInN/lSWqBQHuXpMh12YFVrEXX4wJJX0LcGoeh+H4I7tCDvX
-         Zx9Q==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=iq7MNHMLWmoXJu8LSGb5KsjsJLnznH4nitQ6n3bLOfY=;
+        b=cD0eE0gMPJv6AFsCkaSAtRjcgPv2FR6ypXADkQQKhnu27aYKO3ZBX0Ct17ci3/voBV
+         GIrbnH4Datq2VKuyi2ykWQZN7yDHX7qNkS3Tjt9kaPBxPyQimzyQXW+LDcOh78498Zlz
+         0CDJrccF6OD8snGITZAIJXSko4ec274ZbqvsXUdANjpbUEiKWy609QrE3F8On6jdnABW
+         xWu98ysZwwFFMd0ivK1MTz4Bm0PE+x1FQSpeyc+5CrgQo6crRmHgCspqWwtdEk89JgQ0
+         IbuwDkz8xA/LOLRlXmql83RQB0R/h0vSjm7UdhkAclbBXLWcrbelkrKpuLE1YxkDUUlb
+         R3ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=Zdl+bHnrlDuNezApLP0OPztrvL1DKjzc69eOvMJqVL4=;
-        b=UnIMhEO0aSpeBqa6FoeJaeuyxEA80h5taAYtDHvUPiVPVLNLAit6r1UwOfufnBqCaG
-         /gECMESKxSbWThy/Z5zsDnUVFvSDVzVtC10JLbBE1w6Fd44HGv6DEPB+XdVYbdzijJz1
-         xav4HDPccWHXfg94XD0ION2VRC3X7coNPsPQq8+iYc/H/JGR6eJ+R3lURF9qUYE3LgLP
-         +jtXEYidLEFgh4T9rzR4TusjgY2NJ2FC8AQpWQK3vcoEDDkSDtC4b3LmW4piagIj5KfC
-         OGgHdvHo0LT8OcAyw33VHq0Qm+5SsrHt3TOrFlXY19NTjnyv1z2e7Bwh95ekrcaHkFMJ
-         wxcQ==
-X-Gm-Message-State: ACgBeo0289GySOPpwPB2sZSLPYDeHusN0+SsVBnARziTCMGoqPTf2DpY
-	hz43bAKOkteiHEsWQoS/PbYkyveyHAU=
-X-Google-Smtp-Source: AA6agR55WyoIOKGhR3LLdGBYjzoKHVFs+EezhwoOJ60vpzjasByoGDk1BhzcGBQRcNzuMYgg3UfL5A==
-X-Received: by 2002:a05:6402:1d4e:b0:43d:9822:b4d1 with SMTP id dz14-20020a0564021d4e00b0043d9822b4d1mr23260330edb.212.1661924211190;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=iq7MNHMLWmoXJu8LSGb5KsjsJLnznH4nitQ6n3bLOfY=;
+        b=A4uPiBDCzPmCHvd2Tb/pf+lwXbqGi/smKiERxqb3cj67I/I5SPKVtT8TnZV+TnZA6i
+         MA0O1qw6GTGzWyh7KkOzLiQf4EK+wiwB3PWm7vTqoJ9gZtmbXw3KUXOPP41VOccv4/Xs
+         Lr+cbsBY+Jr7eytOa09ywzaFS41AiikFsf2xsrWp3ze2ViGowzm3Jm4f9QOAemQl5nf1
+         Fu2EGO7lGLcLI1eXUOwsAWQ//1T8zm39bgOQqTflBa1pl3M3YY7nhehhycr+spQFChIl
+         U0t7d48wAfcFHpTN7rqtSIcTGqFQ5X5vJZneOvFHYbSgTk6j7fZB9fjlBa4Q+zyYG1wI
+         4NdA==
+X-Gm-Message-State: ACgBeo1W5+IW4n/Qx8E8uQwzvUZMkCMPmNt2Rv7ntYWz02IvS0QpEZ07
+	GPkY5pHtq5hD1Xd18W9IeMk=
+X-Google-Smtp-Source: AA6agR4/jNoZrVh8xVKkfGrl7+YhbIpStB2JYJbHDsN89h+kY62UO+m17JSt/ryTwVUSBUQNBfw00A==
+X-Received: by 2002:a17:906:cc5d:b0:741:38a8:a50a with SMTP id mm29-20020a170906cc5d00b0074138a8a50amr14208343ejb.650.1661924211818;
         Tue, 30 Aug 2022 22:36:51 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb89.dynamic.kabel-deutschland.de. [95.90.187.137])
-        by smtp.gmail.com with ESMTPSA id gh21-20020a1709073c1500b0073a644ef803sm6610135ejc.101.2022.08.30.22.36.50
+        by smtp.gmail.com with ESMTPSA id gh21-20020a1709073c1500b0073a644ef803sm6610135ejc.101.2022.08.30.22.36.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Aug 2022 22:36:50 -0700 (PDT)
+        Tue, 30 Aug 2022 22:36:51 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/2] staging: r8188eu: migrate os_dep/mlme_linux.c
-Date: Wed, 31 Aug 2022 07:36:37 +0200
-Message-Id: <20220831053639.8559-1-straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: make two functions static
+Date: Wed, 31 Aug 2022 07:36:38 +0200
+Message-Id: <20220831053639.8559-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220831053639.8559-1-straube.linux@gmail.com>
+References: <20220831053639.8559-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,23 +57,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series moves the functions from os_dep/mlme_linux.c to
-core/rtw_mlme.c and removes os_dep/mlme_linux.c.
+The functions rtw_join_timeout_handler() and
+_rtw_scan_timeout_handler() are only used in os_dep/mlme_linux.c.
+Make them static.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/include/rtw_mlme.h  | 2 --
+ drivers/staging/r8188eu/os_dep/mlme_linux.c | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-Michael Straube (2):
-  staging: r8188eu: make two functions static
-  staging: r8188eu: remove os_dep/mlme_linux.c
-
- drivers/staging/r8188eu/Makefile             |  1 -
- drivers/staging/r8188eu/core/rtw_mlme.c      | 31 ++++++++++++++++
- drivers/staging/r8188eu/include/mlme_osdep.h |  2 -
- drivers/staging/r8188eu/include/rtw_mlme.h   |  2 -
- drivers/staging/r8188eu/os_dep/mlme_linux.c  | 39 --------------------
- 5 files changed, 31 insertions(+), 44 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/os_dep/mlme_linux.c
-
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/staging/r8188eu/include/rtw_mlme.h
+index e8168e36fac2..d827ea7d841b 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme.h
+@@ -433,8 +433,6 @@ void indicate_wx_scan_complete_event(struct adapter *padapter);
+ void rtw_indicate_wx_assoc_event(struct adapter *padapter);
+ void rtw_indicate_wx_disassoc_event(struct adapter *padapter);
+ int event_thread(void *context);
+-void rtw_join_timeout_handler (struct timer_list *t);
+-void _rtw_scan_timeout_handler (struct timer_list *t);
+ void rtw_free_network_queue(struct adapter *adapter, u8 isfreeall);
+ int rtw_init_mlme_priv(struct adapter *adapter);
+ void rtw_free_mlme_priv (struct mlme_priv *pmlmepriv);
+diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+index 5bd2b2c31342..2f8f866d5362 100644
+--- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
++++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+@@ -7,14 +7,14 @@
+ #include "../include/drv_types.h"
+ #include "../include/mlme_osdep.h"
+ 
+-void rtw_join_timeout_handler (struct timer_list *t)
++static void rtw_join_timeout_handler(struct timer_list *t)
+ {
+ 	struct adapter *adapter = from_timer(adapter, t, mlmepriv.assoc_timer);
+ 
+ 	_rtw_join_timeout_handler(adapter);
+ }
+ 
+-void _rtw_scan_timeout_handler (struct timer_list *t)
++static void _rtw_scan_timeout_handler(struct timer_list *t)
+ {
+ 	struct adapter *adapter = from_timer(adapter, t, mlmepriv.scan_to_timer);
+ 
 -- 
 2.37.2
 
