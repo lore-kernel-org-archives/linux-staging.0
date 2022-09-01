@@ -1,206 +1,195 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBE66AD6
-	for <linux-staging@lists.linux.dev>; Thu,  1 Sep 2022 17:21:32 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id z2so23518819edc.1
-        for <linux-staging@lists.linux.dev>; Thu, 01 Sep 2022 10:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=GdKSrjYfMkwK9rUKg3FKiVa8IZKeoeUMaRJ6T28HaBQ=;
-        b=Yw5T74k57lHXMjiqqC3YAyoxM8dkwdEtHHADOFOHEXWGvqT6pa4lJ9OInlJsqPoo08
-         Porv/pR8ZvOvlgAxZErz3x+wB8GvAu0fq2CpPZk6oeTWEAcwRtiqNYnCcpRtyVSGtbfF
-         zA8G7HXpLN10qQTp6JYC8y+9TK+beIZAP/NMhS+HrHb1Ko7bbnR77viZsMUO3fhN+XZv
-         2836L8+Lq7SSqQpAEjItvhqGNFgBsRmxpeiDTX3LbsPjSP1MppAvkAPbEsfy4e5Nye9D
-         Gzn2hT8rk1fXzRI6OojWGIlLMo5dvRGjdSSnuhwsvOpC+eE9JKOyfVszRK/BmVEbeyQV
-         I9FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=GdKSrjYfMkwK9rUKg3FKiVa8IZKeoeUMaRJ6T28HaBQ=;
-        b=xEsqF/bTFKbl44Ox3uIkNJOpeMl3R8FxvM0aaeHaUYR08dKYW4DJHylzOJBXnVnspy
-         xuakDwFoacCBBbWuXUQfXAuI6v+1w7ezGc29pgiu2ojkz83CBJevdz345oaMTkcNw1Dt
-         K7tkNnTZ8eDoYMEN/Jc9d1oUIXUovH4kb1F1t6Sqp+txYPO2ihN1EwEWxg8srQ3iK4UH
-         kGgfc0bPHPIiSMrBMSz8uJhiWwUDbvitk2/Ou+D5UHGO05GYOdV4INZeQgxMuVLJdMaW
-         CL6IoD2dUBusaEKNHlw5oQ59jGkyoaRfyUMbHlvEhLwknxp5QULH21jKqzTf3xRxMMOg
-         SrCw==
-X-Gm-Message-State: ACgBeo0SXaYS7fmpdr0t83x6h/OK1HKQt/I7n8aRo9oB1zpd+LZ11MCv
-	O+6bnquk+D3bYEwx6hXrHss=
-X-Google-Smtp-Source: AA6agR7GgF9V4riY+CvNwpp4tsyE9Mo/MUaLpZkeZ7ENpwX0eCU6Hclub33HqW/SRLLIBQ8szB9CMg==
-X-Received: by 2002:aa7:dcd6:0:b0:448:bddd:d562 with SMTP id w22-20020aa7dcd6000000b00448bdddd562mr12506696edu.365.1662052891022;
-        Thu, 01 Sep 2022 10:21:31 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb63.dynamic.kabel-deutschland.de. [95.90.187.99])
-        by smtp.gmail.com with ESMTPSA id r16-20020a170906705000b00732e3d94f4fsm8645992ejj.124.2022.09.01.10.21.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 10:21:30 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove mlme_osdep.h
-Date: Thu,  1 Sep 2022 19:21:20 +0200
-Message-Id: <20220901172120.8485-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.37.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01DC6AD6;
+	Thu,  1 Sep 2022 18:13:13 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 476A56CD;
+	Thu,  1 Sep 2022 20:13:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1662055990;
+	bh=w3cnA7QpTZH9H6rGUREb2H83enbsbvl5uMVJxERt/tg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rhnRqGz9TFyiYKIK2CaTWyN0MB8FLWTcnXcmfyvXrsZD0YnkrGc5EGUKCUnENitbn
+	 0Q1Z/815H54UeYyOvzJu2p6uq8X72wHo+nqgpahotmtHu7OcAqVBhXVR6Ceorq7nRH
+	 az8Kw0vX0PQjO85K3rRbbE5B4O0v8rDUbfHMKO1s=
+Date: Thu, 1 Sep 2022 21:12:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v6 1/6] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YxD2Kvrs+RjnPOnn@pendragon.ideasonboard.com>
+References: <20220826184144.605605-1-paul.kocialkowski@bootlin.com>
+ <20220826184144.605605-2-paul.kocialkowski@bootlin.com>
+ <Ywk3W6pTOOlzLYVn@pendragon.ideasonboard.com>
+ <YxDJtYgW/NYLw77u@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YxDJtYgW/NYLw77u@aptenodytes>
 
-The function indicate_wx_scan_complete_event() is declared multiple
-times. That is not needed. Remove redundant declarations to clean up
-the driver code and remove the now empty header mlme_osdep.h.
+Hi Paul,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_cmd.c       |  1 -
- drivers/staging/r8188eu/core/rtw_ioctl_set.c |  2 --
- drivers/staging/r8188eu/core/rtw_mlme.c      |  1 -
- drivers/staging/r8188eu/core/rtw_mlme_ext.c  |  1 -
- drivers/staging/r8188eu/core/rtw_recv.c      |  1 -
- drivers/staging/r8188eu/core/rtw_sta_mgt.c   |  1 -
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c   |  1 -
- drivers/staging/r8188eu/include/hal_intf.h   |  1 -
- drivers/staging/r8188eu/include/mlme_osdep.h | 12 ------------
- drivers/staging/r8188eu/include/rtw_mlme.h   |  1 -
- 10 files changed, 22 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/mlme_osdep.h
+On Thu, Sep 01, 2022 at 05:03:17PM +0200, Paul Kocialkowski wrote:
+> On Sat 27 Aug 22, 00:12, Laurent Pinchart wrote:
+> > On Fri, Aug 26, 2022 at 08:41:39PM +0200, Paul Kocialkowski wrote:
+> > > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > > Signal Processor (ISP).
+> > > 
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > ---
+> > >  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
+> > >  1 file changed, 97 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > new file mode 100644
+> > > index 000000000000..2fda6e05e16c
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > @@ -0,0 +1,97 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> > > +
+> > > +maintainers:
+> > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - allwinner,sun6i-a31-isp
+> > > +      - allwinner,sun8i-v3s-isp
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    items:
+> > > +      - description: Bus Clock
+> > > +      - description: Module Clock
+> > > +      - description: DRAM Clock
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: bus
+> > > +      - const: mod
+> > > +      - const: ram
+> > > +
+> > > +  resets:
+> > > +    maxItems: 1
+> > > +
+> > > +  ports:
+> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +
+> > > +    properties:
+> > > +      port@0:
+> > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > +        description: CSI0 input port
+> > > +
+> > > +      port@1:
+> > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > +        description: CSI1 input port
+> > > +
+> > > +    anyOf:
+> > > +      - required:
+> > > +          - port@0
+> > > +      - required:
+> > > +          - port@1
+> > 
+> > I'd still like to see all ports that exist in the hardware being
+> > mandatory. I assume at least one of the A31 and V3s has two connected
+> > ports in the SoC or you wouldn't declare them both here :-)
+> 
+> Some SoCs (e.g. A83T) only have one CSI controller so we can't require both.
+> This could be a decision based on the compatible but my personal opinion is
+> that it's not really worth making this binding so complex.
+> 
+> We can always informally enforce that all possible links should be present
+> when merging changes to the soc dts.
+> 
+> What do you think?
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 5b6a891b5d67..d690337ea74b 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -6,7 +6,6 @@
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
--#include "../include/mlme_osdep.h"
- #include "../include/rtw_br_ext.h"
- #include "../include/rtw_mlme_ext.h"
- #include "../include/rtl8188e_dm.h"
-diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-index 17f6bcbeebf4..d859f2d8a0c8 100644
---- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-+++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-@@ -11,8 +11,6 @@
- #include "../include/usb_osintf.h"
- #include "../include/usb_ops.h"
- 
--extern void indicate_wx_scan_complete_event(struct adapter *padapter);
--
- u8 rtw_do_join(struct adapter *padapter)
- {
- 	struct list_head *plist, *phead;
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 8f21d34a317f..d2ea2659d58e 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -7,7 +7,6 @@
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
- #include "../include/hal_intf.h"
--#include "../include/mlme_osdep.h"
- #include "../include/sta_info.h"
- #include "../include/wifi.h"
- #include "../include/wlan_bssdef.h"
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 893dac30e8e6..86906a726941 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -9,7 +9,6 @@
- #include "../include/wifi.h"
- #include "../include/rtw_mlme_ext.h"
- #include "../include/wlan_bssdef.h"
--#include "../include/mlme_osdep.h"
- #include "../include/recv_osdep.h"
- #include "../include/rtl8188e_xmit.h"
- #include "../include/rtl8188e_dm.h"
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index ee3817c3e1fd..353c7468367a 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -7,7 +7,6 @@
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
--#include "../include/mlme_osdep.h"
- #include "../include/usb_ops.h"
- #include "../include/wifi.h"
- #include "../include/rtl8188e_recv.h"
-diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-index 2d61cc9169c8..b5dd28a10e5b 100644
---- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-@@ -6,7 +6,6 @@
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
--#include "../include/mlme_osdep.h"
- #include "../include/sta_info.h"
- 
- static void _rtw_init_stainfo(struct sta_info *psta)
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-index b01ee1695fee..a7ac9f62459f 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-@@ -6,7 +6,6 @@
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
--#include "../include/mlme_osdep.h"
- #include "../include/rtw_ioctl_set.h"
- 
- #include "../include/rtl8188e_hal.h"
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index fd8e792958ce..ac6e3f95c5b7 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -39,7 +39,6 @@ void rtw_hal_update_ra_mask(struct adapter *padapter, u32 mac_id, u8 level);
- void	rtw_hal_clone_data(struct adapter *dst_adapt,
- 			   struct adapter *src_adapt);
- 
--void indicate_wx_scan_complete_event(struct adapter *padapter);
- u8 rtw_do_join(struct adapter *padapter);
- 
- #endif /* __HAL_INTF_H__ */
-diff --git a/drivers/staging/r8188eu/include/mlme_osdep.h b/drivers/staging/r8188eu/include/mlme_osdep.h
-deleted file mode 100644
-index 1fa66c5e3c9c..000000000000
---- a/drivers/staging/r8188eu/include/mlme_osdep.h
-+++ /dev/null
-@@ -1,12 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef	__MLME_OSDEP_H_
--#define __MLME_OSDEP_H_
--
--#include "osdep_service.h"
--#include "drv_types.h"
--
--void indicate_wx_scan_complete_event(struct adapter *padapter);
--
--#endif	/* _MLME_OSDEP_H_ */
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/staging/r8188eu/include/rtw_mlme.h
-index d827ea7d841b..5dc2fe74b7b7 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme.h
-@@ -5,7 +5,6 @@
- #define __RTW_MLME_H_
- 
- #include "osdep_service.h"
--#include "mlme_osdep.h"
- #include "drv_types.h"
- #include "wlan_bssdef.h"
- 
+It makes the binding more complex, but it allows catching issues in an
+automated way instead of relying on reviews. Lowering the review burden
+is something I usually welcome :-) It's probably less of an issue here
+as this is all about the SoC integration, not about board files, so I
+won't insist too strongly even if I prefer bindings that are more
+descriptive.
+
+> > Apart from that, this looks good.
+> > 
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - interrupts
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - resets
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> > > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> > > +
+> > > +    isp: isp@1cb8000 {
+> > > +        compatible = "allwinner,sun8i-v3s-isp";
+> > > +        reg = <0x01cb8000 0x1000>;
+> > > +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > > +        clocks = <&ccu CLK_BUS_CSI>,
+> > > +             <&ccu CLK_CSI1_SCLK>,
+> > > +             <&ccu CLK_DRAM_CSI>;
+> > > +        clock-names = "bus", "mod", "ram";
+> > > +        resets = <&ccu RST_BUS_CSI>;
+> > > +
+> > > +        ports {
+> > > +            #address-cells = <1>;
+> > > +            #size-cells = <0>;
+> > > +
+> > > +            port@0 {
+> > > +                reg = <0>;
+> > > +
+> > > +                isp_in_csi0: endpoint {
+> > > +                    remote-endpoint = <&csi0_out_isp>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+
 -- 
-2.37.2
+Regards,
 
+Laurent Pinchart
