@@ -1,223 +1,155 @@
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2840C6AA9;
-	Thu,  1 Sep 2022 15:11:05 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 75DDA200010;
-	Thu,  1 Sep 2022 15:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1662045064;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0546AA9
+	for <linux-staging@lists.linux.dev>; Thu,  1 Sep 2022 15:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1662046203;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hPAZFTv0OR8dOw9wKgqi4Kvh5eCGaJ3DTwQLR0c7o2o=;
-	b=c5981UEzRxWDuafkKOPkAwjINHBGfzuF9vrUkJxwdwrtDvfGJbXFtJoir/1EsYtNGHmC+o
-	ohg2NlW6Q668Z+BNI8lCHe4B+NqcByWvofNwtwBJ9xd3vh4PsEAzZ06+of+HyuNZks4yZz
-	WDK5UhQUMHmJdadf0j+9dfcPntXTRG/MS1fTKigh8bga93OQh4mAj0WBiEzy/HQwm3sV3w
-	ag1LGnVqu1VMRqvDje+Y8c+tWL+EL8UZKll1UpOakhga5Vpu8PHSZurQpkOPNvRBzSyxJI
-	wI6oaruZD3wYTNKLKfRuuDUpd9OKNsMk3ey/8L4vRcML2JQYPnNPmOOgJlOp3g==
-Date: Thu, 1 Sep 2022 17:11:00 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 5/6] media: sun6i-csi: Detect the availability of the
- ISP
-Message-ID: <YxDLhPMibhXO1oU/@aptenodytes>
-References: <20220826184144.605605-1-paul.kocialkowski@bootlin.com>
- <20220826184144.605605-6-paul.kocialkowski@bootlin.com>
- <YwlLsKaEOoXdqRK0@pendragon.ideasonboard.com>
+	bh=cOt8ZISc3Gs9HW+RgYkEi+HF65y8hpbp/ZjyhOTB5WI=;
+	b=VOorzRM2INNQKv680v6joRuwcXN2ipjbGZ9dklvqMtv5hwtIfDe2GmhDKTSpFqo7+FqNvS
+	SZrl6ErsEB9ZwLPG7tHbi6TpuM98G0otO8ZdmyvEyXSoYdG4uJ8jt5OfDU3eJngUOC8Mhj
+	UVobyUEGWMatuAy+cA8+BIoaWdOnfUY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-582-bVamCnj5PUWuUjAQdCbhPQ-1; Thu, 01 Sep 2022 11:30:02 -0400
+X-MC-Unique: bVamCnj5PUWuUjAQdCbhPQ-1
+Received: by mail-ed1-f69.google.com with SMTP id v1-20020a056402348100b00448acc79177so6866235edc.23
+        for <linux-staging@lists.linux.dev>; Thu, 01 Sep 2022 08:30:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=cOt8ZISc3Gs9HW+RgYkEi+HF65y8hpbp/ZjyhOTB5WI=;
+        b=i+ZSwnQ4CGSDx40Vaaf+sM7AbmFzdVPerw8PqI7zbZH4CXlu5eCJL6MjgCZ0bxyPgk
+         QKoOwvKJa8gB1yeWk3/KFWLd14Ja7i71XaeDPC0f4Dv++Lu0WACuCdMvnibVZ/jo1fVT
+         mNsFgUuq5tNVeupUi7PROtIntZauP/ffF4iklmiHrI1SAaLUATpjdE6kDzP2bZNOETip
+         gtKrRpQXfe7lFzGGDxPTtykLoCQzlysnNPWRydPZGwTYyoqy7kpS9VUVwzSvfAXnOnHD
+         BpozPCnf/5AV8OEGrLKBYFfjVqPChhGqjrR/MJJBJYJo1RCtR3tWxamp/Jrz91kroSv9
+         2o2Q==
+X-Gm-Message-State: ACgBeo1hbmUL9iFcXOp1lFFLh/VjVVGzzOJrh3EbhfQNzcqTbmocGtkd
+	W09Wt9j7oAVf+FWteMe47TNbdqhFhSobUYbuwu1kmBZORcxlCnTWY44qUZV8QaiQGjVWtoLnvej
+	wKzHjXSiexGNGfE4xZH1OrEkVcw==
+X-Received: by 2002:a05:6402:190d:b0:447:ed22:84eb with SMTP id e13-20020a056402190d00b00447ed2284ebmr25451503edz.379.1662046201509;
+        Thu, 01 Sep 2022 08:30:01 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4ABFfXK/4RGMSNglfynARdsm+sCDeDBUdZoWaJRYdaxUfUjYhhME+tPKTCPO01URL8AnwW2A==
+X-Received: by 2002:a05:6402:190d:b0:447:ed22:84eb with SMTP id e13-20020a056402190d00b00447ed2284ebmr25451484edz.379.1662046201324;
+        Thu, 01 Sep 2022 08:30:01 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id q20-20020a170906b29400b0074b4e77ccc6sm398976ejz.151.2022.09.01.08.30.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 08:30:00 -0700 (PDT)
+Message-ID: <d3f4b578-961c-fa46-a60c-8c8baadd4d95@redhat.com>
+Date: Thu, 1 Sep 2022 17:30:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wChqMM/2eeW8sfq3"
-Content-Disposition: inline
-In-Reply-To: <YwlLsKaEOoXdqRK0@pendragon.ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 00/14] media: atomisp: More cleanups / code removal
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>,
+ Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>,
+ andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20220901094626.11513-1-hdegoede@redhat.com>
+ <20220901170846.0fe20bf4@coco.lan>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220901170846.0fe20bf4@coco.lan>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi,
+
+On 9/1/22 17:08, Mauro Carvalho Chehab wrote:
+> Em Thu,  1 Sep 2022 11:46:12 +0200
+> Hans de Goede <hdegoede@redhat.com> escreveu:
+> 
+>> Hi Mauro,
+>>
+>> Here is a second set of atomisp cleanups / code removal.
+>> This applies on top of my previous v2 series from here:
+>> https://lore.kernel.org/linux-media/20220822150610.45186-1-hdegoede@redhat.com/
+>>
+>> I plan to do more atomisp work the coming few weeks. So I'm thinking
+>> it might be better / easier for you if I just send you a pull-req based
+>> on 6.0-rc1 with all atomisp patches bundled around rc5/rc6 time.
+>>
+>> Would that work for you ?
+> 
+> Yes, that works for me. I'm actually proritizing PRs over normal patches
+> from media maintainers. As you're doing most of work on it, I can
+> start picking PRs from you related to atomisp.
+
+Sounds good.
+
+Note I have also been picking up various small fixes from others both
+for testing and to make sure they don't get lost. So I plan to include
+those into the pull-req around rc5/6 time too.
+
+Regards,
+
+Hans
 
 
---wChqMM/2eeW8sfq3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+>> Dan Carpenter (1):
+>>   media: atomisp: prevent integer overflow in sh_css_set_black_frame()
+>>
+>> Hans de Goede (13):
+>>   media: atomisp: Fix device_caps reporting of the registered video-devs
+>>   media: atomisp: Remove file-injection support
+>>   media: atomisp: Remove atomisp_file_fops and atomisp_file_ioctl_ops
+>>   media: atomisp: Remove the outq videobuf queue
+>>   media: atomisp: Remove never set file_input flag
+>>   media: atomisp: Remove the ACC device node
+>>   media: atomisp: Remove some further ATOMISP_ACC_* related dead code
+>>   media: atomisp: Remove empty atomisp_css_set_cont_prev_start_time()
+>>     function
+>>   media: atomisp: Split subdev and video-node registration into 2 steps
+>>   media: atomisp: Register /dev/* nodes at the end of
+>>     atomisp_pci_probe()
+>>   media: atomisp: Remove loading mutex
+>>   media: atomisp: Fix v4l2_fh resource leak on open errors
+>>   media: atomisp: Simplify v4l2_fh_open() error handling
+>>
+>>  drivers/staging/media/atomisp/Makefile        |   1 -
+>>  .../media/atomisp/include/linux/atomisp.h     |  14 --
+>>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 134 +---------
+>>  .../staging/media/atomisp/pci/atomisp_cmd.h   |   2 -
+>>  .../media/atomisp/pci/atomisp_compat.h        |   6 -
+>>  .../media/atomisp/pci/atomisp_compat_css20.c  |  26 --
+>>  .../staging/media/atomisp/pci/atomisp_file.c  | 229 ------------------
+>>  .../staging/media/atomisp/pci/atomisp_file.h  |  44 ----
+>>  .../staging/media/atomisp/pci/atomisp_fops.c  | 187 ++------------
+>>  .../media/atomisp/pci/atomisp_internal.h      |  16 +-
+>>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 192 ++-------------
+>>  .../staging/media/atomisp/pci/atomisp_ioctl.h |   4 -
+>>  .../media/atomisp/pci/atomisp_subdev.c        |  95 ++------
+>>  .../media/atomisp/pci/atomisp_subdev.h        |  47 +---
+>>  .../staging/media/atomisp/pci/atomisp_v4l2.c  |  99 +++-----
+>>  .../staging/media/atomisp/pci/atomisp_v4l2.h  |   3 -
+>>  .../staging/media/atomisp/pci/sh_css_params.c |   4 +-
+>>  17 files changed, 104 insertions(+), 999 deletions(-)
+>>  delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_file.c
+>>  delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_file.h
+>>
+> 
+> 
+> 
+> Thanks,
+> Mauro
+> 
 
-On Sat 27 Aug 22, 01:39, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> Thank you for the patch.
-
-Thanks for the review!
-
-> On Fri, Aug 26, 2022 at 08:41:43PM +0200, Paul Kocialkowski wrote:
-> > Add a helper to detect whether the ISP is available and connected
-> > and store the indication in a driver-wide variable.
->=20
-> This sounds like it would be a global variable, while it's stored in the
-> driver-specific device structure.
-
-Okay I can clarify the commit message here.
-
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 33 +++++++++++++++++++
-> >  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  3 ++
-> >  2 files changed, 36 insertions(+)
-> >=20
-> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
-rs/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > index 00521f966cee..b16166cba2ef 100644
-> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > @@ -24,6 +24,35 @@
-> >  #include "sun6i_csi_capture.h"
-> >  #include "sun6i_csi_reg.h"
-> > =20
-> > +/* ISP */
-> > +
-> > +static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
-> > +{
-> > +	struct device *dev =3D csi_dev->dev;
-> > +	struct fwnode_handle *handle =3D NULL;
->=20
-> No need to initialize this to NULL.
-
-Indeed.
-
-> > +
-> > +	/* ISP is not available if disabled in kernel config. */
-> > +	if (!IS_ENABLED(CONFIG_VIDEO_SUN6I_ISP))
-> > +		return 0;
->=20
-> Hmmm... The ISP driver may be disabled when compiling the sun6i-csi
-> driver, but later enabled and deployed. Disabling ISP support silently
-> like this could be confusing. Could it be better to move this check
-> after the graph check, and print a warning message in this case ?
-
-Yeah I'm not too surprised corner cases like this can exist.
-Agreed that printing a warning message would be good, but I don't follow the
-point of moving the check later on. Do you have something in mind there?
-
-> > +
-> > +	/*
-> > +	 * ISP is not available if not connected via fwnode graph.
-> > +	 * This weill also check that the remote parent node is available.
->=20
-> s/weill/will/
-
-Good catch, thanks!
-
-> 	 * ISP is not available if not connected via fwnode graph. This will
-> 	 * also check that the remote parent node is available.
->=20
-> > +	 */
-> > +	handle =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-> > +						 SUN6I_CSI_PORT_ISP, 0,
-> > +						 FWNODE_GRAPH_ENDPOINT_NEXT);
-> > +	if (!handle)
-> > +		return 0;
-> > +
-> > +	fwnode_handle_put(handle);
-> > +
-> > +	dev_info(dev, "ISP link is available\n");
->=20
-> You could make that a debug message, it's not crucial information that
-> needs to be printed when the driver is loaded. If you prefer keeping an
-> info message, then I'd move it to the probe function and print that the
-> CSI has been probed, and indicate in that message if the ISP is
-> available.
-
-You're right, let's make this debug. It's more the opposite case that is wo=
-rth
-a warning message.
-
-Thanks,
-
-Paul
-
-> > +	csi_dev->isp_available =3D true;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  /* Media */
-> > =20
-> >  static const struct media_device_ops sun6i_csi_media_ops =3D {
-> > @@ -290,6 +319,10 @@ static int sun6i_csi_probe(struct platform_device =
-*platform_dev)
-> >  	if (ret)
-> >  		return ret;
-> > =20
-> > +	ret =3D sun6i_csi_isp_detect(csi_dev);
-> > +	if (ret)
-> > +		goto error_resources;
-> > +
-> >  	ret =3D sun6i_csi_v4l2_setup(csi_dev);
-> >  	if (ret)
-> >  		goto error_resources;
-> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drive=
-rs/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > index e611bdd6e9b2..8e232cd91ebe 100644
-> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > @@ -21,6 +21,7 @@
-> >  enum sun6i_csi_port {
-> >  	SUN6I_CSI_PORT_PARALLEL		=3D 0,
-> >  	SUN6I_CSI_PORT_MIPI_CSI2	=3D 1,
-> > +	SUN6I_CSI_PORT_ISP		=3D 2,
-> >  };
-> > =20
-> >  struct sun6i_csi_buffer {
-> > @@ -44,6 +45,8 @@ struct sun6i_csi_device {
-> >  	struct clk			*clock_mod;
-> >  	struct clk			*clock_ram;
-> >  	struct reset_control		*reset;
-> > +
-> > +	bool				isp_available;
-> >  };
-> > =20
-> >  struct sun6i_csi_variant {
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---wChqMM/2eeW8sfq3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMQy4QACgkQ3cLmz3+f
-v9GtJQf/XNoL23Tf/tABOubjKLDGCcpO8JAwFSVCLTLp0SrTV//p7vHq/QKayRXP
-5mBJNOaAe797XnyFs9k6oaYGhbFP8/K3pOPs43RqZbta/w0/aOjaJP+e6aHWIZGA
-gH2lN2nOfZRfw/3S58z8lDuqhtTDvdIfSIcqtQkW8+/l+Oi9tZIXwqEcY768YjzA
-f6nhiDZQoY+5V75ebH5DmXftNUSv5el9ip1SssvhKljVlK7NLSnVAkE6ouMhI0gi
-TVClcmFbaT1qNqEG5m9RZJsLCk59olG/otZIcu14laypVPHVyOI3fH55ZqA1i5tE
-XfF4NGbHS8bQJkoB2RciCHuBglQrmg==
-=tFCj
------END PGP SIGNATURE-----
-
---wChqMM/2eeW8sfq3--
