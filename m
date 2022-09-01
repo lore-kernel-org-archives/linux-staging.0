@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A84FEC8
-	for <linux-staging@lists.linux.dev>; Thu,  1 Sep 2022 09:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDEAED0
+	for <linux-staging@lists.linux.dev>; Thu,  1 Sep 2022 09:47:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1662025630;
+	s=mimecast20190719; t=1662025631;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rdtZVxlT3hp9bRp1Lwp3vDkwIqYzZmT+LwA5w26YxXA=;
-	b=ajW8ERTict+fEOQBRKMbaJ++9Yg3L39OAkGpoDmo7JBWA8rRSlKM3Z+IIM2g4EKrN7YWdE
-	R5gaYQ2TaSKvWapmjkiapgaPsAqxf1bPdtmQLcudv3C3uhtihsdwgKHPRliQ7EeSp8aNmd
-	LvQQwnFkNqBGvYzpCsNPyw1q/hNs180=
+	bh=pXi08giSoWlWvDPUUPtw4t47TjlkrUmOB28boTaT1iw=;
+	b=P9cUbdPCBam+KNL1aIITJC9ViR0tWGYHf6fi5v9tw6fbhYVoQ1KDSE9bCltgDLFv7c6ctn
+	6vSia3BV+KSI0x43o4EZgGVEKFwzlJX4lZmPJO1D1kNoF6CDt50oUd6999gDaT/dzrKPwt
+	IH9PerV1GwcjBg7cXj0wmtlYrdcQ5Hs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-451-3jYyVia8ONOV6vnAZLRqKA-1; Thu, 01 Sep 2022 05:47:06 -0400
-X-MC-Unique: 3jYyVia8ONOV6vnAZLRqKA-1
+ us-mta-381-E5BrQeZ5OSuPwSAJGyGQgQ-1; Thu, 01 Sep 2022 05:47:05 -0400
+X-MC-Unique: E5BrQeZ5OSuPwSAJGyGQgQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69F1298D3A4;
-	Thu,  1 Sep 2022 09:46:53 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.195.90])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id F01294A927E;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BAB7783DEB8;
 	Thu,  1 Sep 2022 09:46:51 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.195.90])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 47AED40334F;
+	Thu,  1 Sep 2022 09:46:50 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 09/14] media: atomisp: Split subdev and video-node registration into 2 steps
-Date: Thu,  1 Sep 2022 11:46:21 +0200
-Message-Id: <20220901094626.11513-10-hdegoede@redhat.com>
+Subject: [PATCH 08/14] media: atomisp: Remove empty atomisp_css_set_cont_prev_start_time() function
+Date: Thu,  1 Sep 2022 11:46:20 +0200
+Message-Id: <20220901094626.11513-9-hdegoede@redhat.com>
 In-Reply-To: <20220901094626.11513-1-hdegoede@redhat.com>
 References: <20220901094626.11513-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,83 +52,76 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 
-Split subdev and video-node registration into 2 steps, this is
-a preparation step for moving video-node registration to the
-end of probe() so that the loading() mutex can be removed.
+atomisp_css_set_cont_prev_start_time() is a no-op, remove it.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_subdev.c   | 16 ++++++++--------
- .../staging/media/atomisp/pci/atomisp_subdev.h   |  6 ++++--
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c |  4 +++-
- 3 files changed, 15 insertions(+), 11 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_compat.h       | 3 ---
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 8 --------
+ drivers/staging/media/atomisp/pci/atomisp_internal.h     | 3 ---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c        | 2 --
+ 4 files changed, 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 5e66d6a69556..047e2e9d63d7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -1281,8 +1281,14 @@ void atomisp_subdev_unregister_entities(struct atomisp_sub_device *asd)
- 	atomisp_video_unregister(&asd->video_out_video_capture);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+index 54c57bbf4c4d..af6ab8434b5e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+@@ -434,9 +434,6 @@ void atomisp_css_get_morph_table(struct atomisp_sub_device *asd,
+ 
+ void atomisp_css_morph_table_free(struct ia_css_morph_table *table);
+ 
+-void atomisp_css_set_cont_prev_start_time(struct atomisp_device *isp,
+-	unsigned int overlap);
+-
+ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+ 			     struct atomisp_dis_statistics *stats);
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index ec47d84698ba..cda0b5eba16d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -3763,14 +3763,6 @@ void atomisp_css_morph_table_free(struct ia_css_morph_table *table)
+ 	ia_css_morph_table_free(table);
  }
  
--int atomisp_subdev_register_entities(struct atomisp_sub_device *asd,
--				     struct v4l2_device *vdev)
-+int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
-+				   struct v4l2_device *vdev)
-+{
-+	return v4l2_device_register_subdev(vdev, &asd->subdev);
-+}
-+
-+int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
-+					struct v4l2_device *vdev)
- {
- 	int ret;
- 
-@@ -1291,12 +1297,6 @@ int atomisp_subdev_register_entities(struct atomisp_sub_device *asd,
- 	 * Should any of those use V4L2_CAP_META_CAPTURE? Probably yes.
- 	 */
- 
--	/* Register the subdev and video node. */
+-void atomisp_css_set_cont_prev_start_time(struct atomisp_device *isp,
+-	unsigned int overlap)
+-{
+-	/* CSS 2.0 doesn't support this API. */
+-	dev_dbg(isp->dev, "set cont prev start time is not supported.\n");
+-	return;
+-}
 -
--	ret = v4l2_device_register_subdev(vdev, &asd->subdev);
--	if (ret < 0)
--		goto error;
+ static struct atomisp_sub_device *__get_atomisp_subdev(
+     struct ia_css_pipe *css_pipe,
+     struct atomisp_device *isp,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 1d2326a40227..e299304c356b 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -105,9 +105,6 @@
+ #define ATOMISP_DELAYED_INIT_QUEUED	1
+ #define ATOMISP_DELAYED_INIT_DONE	2
+ 
+-#define ATOMISP_CALC_CSS_PREV_OVERLAP(lines) \
+-	((lines) * 38 / 100 & 0xfffffe)
 -
- 	asd->video_out_preview.vdev.v4l2_dev = vdev;
- 	asd->video_out_preview.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
- 	ret = video_register_device(&asd->video_out_preview.vdev,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index d1a9857e5d68..d8b2dd00a792 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -417,8 +417,10 @@ int atomisp_update_run_mode(struct atomisp_sub_device *asd);
- void atomisp_subdev_cleanup_pending_events(struct atomisp_sub_device *asd);
- 
- void atomisp_subdev_unregister_entities(struct atomisp_sub_device *asd);
--int atomisp_subdev_register_entities(struct atomisp_sub_device *asd,
--				     struct v4l2_device *vdev);
-+int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
-+				   struct v4l2_device *vdev);
-+int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
-+					struct v4l2_device *vdev);
- int atomisp_subdev_init(struct atomisp_device *isp);
- void atomisp_subdev_cleanup(struct atomisp_device *isp);
- int atomisp_create_pads_links(struct atomisp_device *isp);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index bb48c74c0c07..9a1eae1ba8c0 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1193,7 +1193,9 @@ static int atomisp_register_entities(struct atomisp_device *isp)
- 	for (i = 0; i < isp->num_of_streams; i++) {
- 		struct atomisp_sub_device *asd = &isp->asd[i];
- 
--		ret = atomisp_subdev_register_entities(asd, &isp->v4l2_dev);
-+		ret = atomisp_subdev_register_subdev(asd, &isp->v4l2_dev);
-+		if (ret == 0)
-+			ret = atomisp_subdev_register_video_nodes(asd, &isp->v4l2_dev);
- 		if (ret < 0) {
- 			dev_err(isp->dev,
- 				"atomisp_subdev_register_entities fail\n");
+ /*
+  * Define how fast CPU should be able to serve ISP interrupts.
+  * The bigger the value, the higher risk that the ISP is not
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index bdbb9dbbceec..caeb38eadc48 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1934,8 +1934,6 @@ static int atomisp_streamon(struct file *file, void *fh,
+ 		reinit_completion(&asd->init_done);
+ 		asd->delayed_init = ATOMISP_DELAYED_INIT_QUEUED;
+ 		queue_work(asd->delayed_init_workq, &asd->delayed_init_work);
+-		atomisp_css_set_cont_prev_start_time(isp,
+-						     ATOMISP_CALC_CSS_PREV_OVERLAP(sink->height));
+ 	} else {
+ 		asd->delayed_init = ATOMISP_DELAYED_INIT_NOT_QUEUED;
+ 	}
 -- 
 2.37.2
 
