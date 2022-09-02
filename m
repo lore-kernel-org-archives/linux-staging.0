@@ -1,92 +1,95 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E15110D
-	for <linux-staging@lists.linux.dev>; Fri,  2 Sep 2022 09:17:21 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id y17so980759qvr.5
-        for <linux-staging@lists.linux.dev>; Fri, 02 Sep 2022 02:17:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F938110D
+	for <linux-staging@lists.linux.dev>; Fri,  2 Sep 2022 09:52:35 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id nc14so2793309ejc.4
+        for <linux-staging@lists.linux.dev>; Fri, 02 Sep 2022 02:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=/CLXWmHJ6o9GzTXfwc4vxGDnhRk54atQzmIaN3qEtc0=;
-        b=aiIg2vwbq2lYIKYezPqVtu82cVFAflPM/AJvaecG7SjIjW47CEmtN0mKeB5FJVc8U+
-         0uoMOLVQPgdajPi3JXK8V1rfYJtEYN2lDMRPcHlczMX/9J92/CqVnDKG3Lc3GWe2W+SP
-         5sXhtTOVNCl0ol2KLiJtRCWSV3R+4/gZlYJNgLTrxPtHAB/33U2Toaq7X/bOaB0bdurA
-         cIu6aeOqDCX9j+ufN+tw6aWRdnmslF1YaRqCU+CF/wzBrN6Nm0it0R+EdvHx9Mcr9YkY
-         Y9/cu23Gc0oXEkGdnvSiskLRf03TUJS5kZuGc2amvVh6BWp0AwzvYADGZLhAVWaLfraN
-         UcPg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=FMEGVSOQkvEokkzg/zVey43XHPk5Q3zfHXWM53CUdaY=;
+        b=f+PjAC+0e5lCK6fRQQe0Q09f7Jkj6BMsEz0Z/kmCqNNPtLl0eEPV/I+1Ole9ylTHyC
+         M92keJqqZsTRqm9IbQifbptNbcNzANGRrole8CMNwt02MEYYrduJQFkUmIaTPfblavLk
+         8mIgHgxyL0dHE2W9YhqYeMdypgvXEtKEK8/vvh9zof7E4S9m/xmeao46xexZ4mP0knGM
+         WivaDVeMb205BeaVnBkWP1LwRoDdhq5YRxyV6RyERgAIaMH8645W9+zE6Vpdxa4O5zq4
+         tI6sSJsM7dsmgtPHqCyeYYOgkbumJHKFtXMHEL1NbUZhtE/JC9EzzHyugt1ztD7hlUDj
+         Vaxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=/CLXWmHJ6o9GzTXfwc4vxGDnhRk54atQzmIaN3qEtc0=;
-        b=FXJTGKHvrUVa97m/QgoWJZJmn18e8HTa67SbbCz21IrvihXk3yAQR/+Dtp2wUzRjmR
-         ptmIkk7t9ylzHND7QbdMmYyaV/GnIPw1IOVvaOkKcmY6F4bo5m6iKm/oNl/pbK5q/wMc
-         0RA8ZSOn4R9T8MQ0DbZ76upFQzsgjWTyN9nM/bivP1sic0NPNQidGAQFeDxAFD7rGVNa
-         OZ7q7ZFVRdhqSOjnumYG4F6UmG1PSjG06aNiGHujHC0Jz+2Ahbnf+J3Zq819NvmoyNcd
-         PbUGhx/j+Lawfm8oWyQ0j4JEIYA+DGPd/40hL1kE0uBOMhUhEwjwE8otQAqBONwYj9yi
-         ryug==
-X-Gm-Message-State: ACgBeo1oP+Bop5cooCpyC7AVygDr27NGG6jT10tCW9JyzH1kvLViOftH
-	xPGpjH2M3z8X6Qc0U5o+0Uabkh4Ek73e45wABdM=
-X-Google-Smtp-Source: AA6agR6n+ip7Pg5zxgzqYVXK1CtYlEVqQcso0bP3IxjZNKJDKSmoWhcJyeToQ4D2ZC0zNjgaWXYWS5A2BMx4I4gcuEU=
-X-Received: by 2002:a05:6214:27ca:b0:499:95f:6379 with SMTP id
- ge10-20020a05621427ca00b00499095f6379mr18910465qvb.82.1662110240626; Fri, 02
- Sep 2022 02:17:20 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=FMEGVSOQkvEokkzg/zVey43XHPk5Q3zfHXWM53CUdaY=;
+        b=QUcAwJMUpNqt3IRmr+PWlOcqhERVprCC90fBg/XUE3osPxd0T4Pat9JBnO2L3JUIDr
+         FotpS8Xyj0v4Gj2ZYDpD/I2I7J7LAfHkDMyk3uMCh5Geh07QDjh6oxdma6snUx2ClCMD
+         hUekjX+y5cBdAysIwvyUvr4B8IvuJm+zzKn5f9blynLsxWtv9FlXs8hiM5G2PM4O2npz
+         ZwvbyGxelizZ0sRp0vVwXZiMiCUWuYu26ft6IuesVtrL9qe/zDNE1wnHXbmb9vcTCZ0N
+         80sxR4NrGBAvxnaWVnoSTfRR96C35S028jnn4h5gNk1mw/YzcNyLK9wDwgDaKZCgYoPB
+         c7jA==
+X-Gm-Message-State: ACgBeo3VonKapUwQV8es7R2IFcELDOURfRcR2QgRyGFkILV5mh1YWCoL
+	5wmfyHG/a27Rb7QTpqlaSIbxvVsv0aE=
+X-Google-Smtp-Source: AA6agR6h9SKqWA8ZtgnUx9yY1cfILzhCU0Iv0fn3rtUUhswC7N2X4v2tOJryQAu3SsMuPfyzCEcIRg==
+X-Received: by 2002:a17:907:7b92:b0:72b:67fb:8985 with SMTP id ne18-20020a1709077b9200b0072b67fb8985mr25319525ejc.569.1662112353712;
+        Fri, 02 Sep 2022 02:52:33 -0700 (PDT)
+Received: from localhost.localdomain (ip-217-105-46-83.ip.prioritytelecom.net. [217.105.46.83])
+        by smtp.gmail.com with ESMTPSA id h6-20020a170906828600b0073d6234ceebsm959601ejx.160.2022.09.02.02.52.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Sep 2022 02:52:33 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	gregkh@linuxfoundation.org,
+	hdegoede@redhat.com
+Cc: namcaov@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 00/10] staging: rtl8723bs: delete some dead code
+Date: Fri,  2 Sep 2022 11:51:50 +0200
+Message-Id: <cover.1662111798.git.namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220901094626.11513-1-hdegoede@redhat.com> <20220901094626.11513-11-hdegoede@redhat.com>
- <YxEOhy0YPnBuZiQs@smile.fi.intel.com> <ce0d2ec6-3ec7-9f9f-59f9-0bf2a6078c9c@redhat.com>
- <CAHp75Vf=_2yJdPvpkx2iYoYOPzxf6sNMBD4EizYc1WAnFMWYtg@mail.gmail.com>
-In-Reply-To: <CAHp75Vf=_2yJdPvpkx2iYoYOPzxf6sNMBD4EizYc1WAnFMWYtg@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 2 Sep 2022 12:16:44 +0300
-Message-ID: <CAHp75Ve4hUKd4me8tgG+tc4sO4f5wyoLOFMrxH9iC1p2x=RS8Q@mail.gmail.com>
-Subject: Re: [PATCH 10/14] media: atomisp: Register /dev/* nodes at the end of atomisp_pci_probe()
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
-	Andy Shevchenko <andy@kernel.org>, Yury Luneff <yury.lunev@gmail.com>, 
-	Nable <nable.maininbox@googlemail.com>, 
-	"andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 2, 2022 at 12:10 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Fri, Sep 2, 2022 at 12:04 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> > On 9/1/22 21:56, Andy Shevchenko wrote:
-> > > On Thu, Sep 01, 2022 at 11:46:22AM +0200, Hans de Goede wrote:
->
-> ...
->
-> > >>                      for (; i > 0; i--)
-> > >>                              atomisp_subdev_unregister_entities(
-> > >>                                  &isp->asd[i - 1]);
-> > >
-> > > This...
-> >
-> > I presume you mean the few lines above that actually:
->
-> No, I cited a not modified code in the upper part. That said, it's a
-> remark for further improvements, but a helper can be introduced in
-> this patch due to the below part.
->
-> > >> +    for (i = 0; i < isp->num_of_streams; i++) {
-> > >> +            err = atomisp_subdev_register_video_nodes(&isp->asd[i], &isp->v4l2_dev);
-> > >> +            if (err)
-> > >> +                    return err;
-> > >> +    }
-> > >
-> > > ...and this looks like a dup.
+Delete some unused functions and files.
 
-Pushed "enter" too early to send.
-But with your explanation I see the difference now.
+Nam Cao (10):
+  staging: rtl8723bs: delete rtw_setdatarate_cmd
+  staging: rtl8723bs: delete function rtw_set_chplan_cmd
+  staging: rtl8723bs: remove rtw_change_ifname
+  staging: rtl8723bs: delete rtw_odm.c and rtw_odm.h
+  staging: rtl8723bs: remove odm_PauseDIG
+  staging: rtl8723bs: remove GetHexValueFromString
+  staging: rtl8723bs: remove hal_btcoex_SetManualControl
+  staging: rtl8723bs: remove rtw_hal_is_disable_sw_channel_plan
+  staging: rtl8723bs: remove IsHexDigit
+  staging: rtl8723bs: remove rtw_is_wps_ie
+
+ drivers/staging/rtl8723bs/Makefile            |   1 -
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  84 -------------
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  17 ---
+ drivers/staging/rtl8723bs/core/rtw_odm.c      | 116 ------------------
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   5 -
+ drivers/staging/rtl8723bs/hal/hal_com.c       |  64 ----------
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |   5 -
+ drivers/staging/rtl8723bs/hal/odm_DIG.c       |  57 ---------
+ drivers/staging/rtl8723bs/hal/odm_DIG.h       |   2 -
+ drivers/staging/rtl8723bs/include/drv_types.h |   3 -
+ .../staging/rtl8723bs/include/hal_btcoex.h    |   1 -
+ drivers/staging/rtl8723bs/include/hal_com.h   |   4 -
+ drivers/staging/rtl8723bs/include/hal_intf.h  |   2 -
+ drivers/staging/rtl8723bs/include/ieee80211.h |   1 -
+ drivers/staging/rtl8723bs/include/rtw_cmd.h   |   3 -
+ drivers/staging/rtl8723bs/include/rtw_odm.h   |  24 ----
+ .../staging/rtl8723bs/os_dep/osdep_service.c  |  50 --------
+ 17 files changed, 439 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/core/rtw_odm.c
+ delete mode 100644 drivers/staging/rtl8723bs/include/rtw_odm.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.25.1
+
