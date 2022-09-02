@@ -1,42 +1,42 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D700111A
-	for <linux-staging@lists.linux.dev>; Fri,  2 Sep 2022 09:52:39 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id c59so1934140edf.10
-        for <linux-staging@lists.linux.dev>; Fri, 02 Sep 2022 02:52:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FED110D
+	for <linux-staging@lists.linux.dev>; Fri,  2 Sep 2022 09:52:40 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id a36so1958359edf.5
+        for <linux-staging@lists.linux.dev>; Fri, 02 Sep 2022 02:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=h3mhTe/mjeUDsRieRFZcGAvsQDavOcg5RIWTE5zQGmg=;
-        b=P3QdD0gpQHruFVJqMa7Wzvc+n78eFD5RH+hz7cX3l6rx08EFj3fZWG05QZDc1tCA/N
-         tqRdJWwx9/9Udq2YSEbOvUobkWiLQKGhoYbefcfJgEmpjeV9ek/f5nzNCNIuFcWsdw51
-         Ika/mTSR3k7lfAFgRUqyy2B5HPmcfTULxXoqQS/NkaFvT+8l4UV9I7Ng0DThuyouyMlc
-         Arx2cZJHg3/LlIUbqyiSVtXlDLR8rYB6EsX6QqtdMJ1bN6lC4F+BnlMZGDBG4oq4Nohi
-         LHM1zFvigxswzvXcx8rs+phoLDRdUZapoyRSXylO3L9ErPNxHpr/1M16YSrV5JgztBsJ
-         CQ5A==
+        bh=XpHH42SQLJDVes7ZZ1hXimWD0tWN6qFGRFQjolXplgk=;
+        b=p2HZ+y3PZt8dbds1f3sAYhlZgc6o0fIxKkgVd5OdusQC8+2V6emYxX4kaoXmhyfW26
+         z+2DqwS2uvTawWnsfIgWB4bB9ZPNyDY9PkhBEf9w+old+3r4vcrTpAtH3EAuGLMU63On
+         u/yI8+4W2NtvlZBElgO1Tf8oBW6h9dACoJOj1dahexueIY3OjKoLoiNVNMWEOe3YI8Rf
+         N/9EnEAqDm33Ka6CvqXDjtTeoTc7f4gdZcrod4TzB/528ruAFKUPoe9f1UheR1IH1PA1
+         pX5eEw4uCtUB9+m4mOvXnPNj5uJOfY/PEHHPDgQ87VAWzjqnqPNPdtQA8X25PoZp/Owq
+         pwFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=h3mhTe/mjeUDsRieRFZcGAvsQDavOcg5RIWTE5zQGmg=;
-        b=RsSuvZ6pLCchLnJREp/TqMuMtsxloKi6FR6Pgr+1mE1yS2BdCzT7ri7a0/TthkuL4H
-         0OulG0BTiUUvT2RPbgK7yp65PF+fSXkbsX0bHoPJKLbK1VY9K9/rUEgMlib2lO3k9u58
-         HHA2VE1qE1IC0FUZhKLh2MjRyI6FYwRsu6Ln0/i17Fk7LCHX92ZvfT1gS2AaZY3gkMD8
-         KrXLOnQzOBe6UdzQoDpoVIgnr4surEtK4J6CIPVrM8NH9WaQMIOFYTS3q/cnJgv5tLjh
-         ZJ52BQkrd6YYG6SV0unGIVwsMxeamv4VC/PmUaGE0V0hmVnfEX2AhjVxKdTLZhOU6Gn4
-         XR9w==
-X-Gm-Message-State: ACgBeo0JPOR5cux/n6mCI0/B3F+q+5EdG5p5BO/ntyPh+zszZEWsT6H7
-	QFkKTtoiTdMwW4udIAzSaKU=
-X-Google-Smtp-Source: AA6agR6XamPgDiGUEGLE9DLDhapoNvBAlbipZ3p2jb95dD0vAa9TTvWkK8BfBpaom1LZMB0xKqqtig==
-X-Received: by 2002:a05:6402:428a:b0:42e:8f7e:1638 with SMTP id g10-20020a056402428a00b0042e8f7e1638mr32624816edc.228.1662112357639;
-        Fri, 02 Sep 2022 02:52:37 -0700 (PDT)
+        bh=XpHH42SQLJDVes7ZZ1hXimWD0tWN6qFGRFQjolXplgk=;
+        b=7wsImUim/N0PBJUPM8Dvjd7qBoQFHCSp8TdQHU8SpsiChGnaXU+t9HHIkgOWx6JQsu
+         /CkcgiFhiZbhLsv+qCbaB+N+UaZUFsWxTAAor7wU1CX7EmXp2lBGBtT6+cxJ4B8nJtWW
+         oY2SI9q7JiMrN+zzv+Ol62MBWSJ9gdcs4QXZ6pm+dPWbBNc2ZXkXHPedyo5A0c0+nV4u
+         jzjs7NYz/eiNkr6/P9qlvpjaF5Rw6MncMxBcUZ1KQjpO5hSwcSOhbYW/efHwq3kIMQ2r
+         d+RjHkbES7VviNBNQd7mI5E1r6D5s55sJw+VNxRzLDOmXAO4mxvJ1QfcylU8yEl4AjG5
+         e7Xw==
+X-Gm-Message-State: ACgBeo1LtLLVOHaATqLBD+8jCArFGnaIg+FzMJiZZIwoUVDI9Yb9jfdN
+	RAe/+anpbEcl7uNAWdqCOz8=
+X-Google-Smtp-Source: AA6agR7n1eVccxBiIatilAWpw3BtoSPNWeTYij8m1vB+lPsqVlB9a+PqrG7YqmxistKcFn42Mlnl2g==
+X-Received: by 2002:a05:6402:550c:b0:443:7d15:d57f with SMTP id fi12-20020a056402550c00b004437d15d57fmr32044758edb.147.1662112358353;
+        Fri, 02 Sep 2022 02:52:38 -0700 (PDT)
 Received: from localhost.localdomain (ip-217-105-46-83.ip.prioritytelecom.net. [217.105.46.83])
         by smtp.gmail.com with ESMTPSA id h6-20020a170906828600b0073d6234ceebsm959601ejx.160.2022.09.02.02.52.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 02:52:37 -0700 (PDT)
+        Fri, 02 Sep 2022 02:52:38 -0700 (PDT)
 From: Nam Cao <namcaov@gmail.com>
 To: Larry.Finger@lwfinger.net,
 	gregkh@linuxfoundation.org,
@@ -44,9 +44,9 @@ To: Larry.Finger@lwfinger.net,
 Cc: namcaov@gmail.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 05/10] staging: rtl8723bs: remove odm_PauseDIG
-Date: Fri,  2 Sep 2022 11:51:55 +0200
-Message-Id: <274e8338398d915327d353f713b2d47e48f92ba9.1662111798.git.namcaov@gmail.com>
+Subject: [PATCH 06/10] staging: rtl8723bs: remove GetHexValueFromString
+Date: Fri,  2 Sep 2022 11:51:56 +0200
+Message-Id: <74c77a5d86570065a5fe96446063595b649f76b0.1662111798.git.namcaov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662111798.git.namcaov@gmail.com>
 References: <cover.1662111798.git.namcaov@gmail.com>
@@ -58,95 +58,83 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove function odm_PauseDIG because it is not used.
+Remove function GetHexValueFromString because it is not used.
 
 Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm_DIG.c | 57 -------------------------
- drivers/staging/rtl8723bs/hal/odm_DIG.h |  2 -
- 2 files changed, 59 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_com.c     | 45 ---------------------
+ drivers/staging/rtl8723bs/include/hal_com.h |  2 -
+ 2 files changed, 47 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-index 7e92c373cddb..07edf74ccfe5 100644
---- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-@@ -309,63 +309,6 @@ void ODM_Write_DIG(void *pDM_VOID, u8 CurrentIGI)
- 
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 1c744d0b4742..010a097c3afd 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -894,51 +894,6 @@ u32 MapCharToHexDigit(char chTmp)
+ 		return 0;
  }
  
--void odm_PauseDIG(
--	void *pDM_VOID,
--	enum ODM_Pause_DIG_TYPE PauseType,
--	u8 IGIValue
--)
+-
+-
+-/* 	Description: */
+-/* 		Parse hex number from the string pucStr. */
+-bool GetHexValueFromString(char *szStr, u32 *pu4bVal, u32 *pu4bMove)
 -{
--	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
--	struct dig_t *pDM_DigTable = &pDM_Odm->DM_DigTable;
--	static bool bPaused;
+-	char *szScan = szStr;
 -
--	if (
--		(pDM_Odm->SupportAbility & ODM_BB_ADAPTIVITY) &&
--		pDM_Odm->TxHangFlg == true
--	) {
--		return;
+-	/*  Check input parameter. */
+-	if (!szStr || !pu4bVal || !pu4bMove)
+-		return false;
+-
+-	/*  Initialize output. */
+-	*pu4bMove = 0;
+-	*pu4bVal = 0;
+-
+-	/*  Skip leading space. */
+-	while (*szScan != '\0' && (*szScan == ' ' || *szScan == '\t')) {
+-		szScan++;
+-		(*pu4bMove)++;
 -	}
 -
--	if (
--		!bPaused && (!(pDM_Odm->SupportAbility & ODM_BB_DIG) ||
--		!(pDM_Odm->SupportAbility & ODM_BB_FA_CNT))
--	){
--		return;
+-	/*  Skip leading '0x' or '0X'. */
+-	if (*szScan == '0' && (*(szScan+1) == 'x' || *(szScan+1) == 'X')) {
+-		szScan += 2;
+-		(*pu4bMove) += 2;
 -	}
 -
--	switch (PauseType) {
--	/* 1 Pause DIG */
--	case ODM_PAUSE_DIG:
--		/* 2 Disable DIG */
--		ODM_CmnInfoUpdate(pDM_Odm, ODM_CMNINFO_ABILITY, pDM_Odm->SupportAbility & (~ODM_BB_DIG));
+-	/*  Check if szScan is now pointer to a character for hex digit, */
+-	/*  if not, it means this is not a valid hex number. */
+-	if (!IsHexDigit(*szScan))
+-		return false;
 -
--		/* 2 Backup IGI value */
--		if (!bPaused) {
--			pDM_DigTable->IGIBackup = pDM_DigTable->CurIGValue;
--			bPaused = true;
--		}
+-	/*  Parse each digit. */
+-	do {
+-		(*pu4bVal) <<= 4;
+-		*pu4bVal += MapCharToHexDigit(*szScan);
 -
--		/* 2 Write new IGI value */
--		ODM_Write_DIG(pDM_Odm, IGIValue);
--		break;
+-		szScan++;
+-		(*pu4bMove)++;
+-	} while (IsHexDigit(*szScan));
 -
--	/* 1 Resume DIG */
--	case ODM_RESUME_DIG:
--		if (bPaused) {
--			/* 2 Write backup IGI value */
--			ODM_Write_DIG(pDM_Odm, pDM_DigTable->IGIBackup);
--			bPaused = false;
--
--			/* 2 Enable DIG */
--			ODM_CmnInfoUpdate(pDM_Odm, ODM_CMNINFO_ABILITY, pDM_Odm->SupportAbility | ODM_BB_DIG);
--		}
--		break;
--
--	default:
--		break;
--	}
+-	return true;
 -}
 -
- bool odm_DigAbort(void *pDM_VOID)
+ bool GetU1ByteIntegerFromStringInDecimal(char *Str, u8 *pInt)
  {
- 	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
-diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.h b/drivers/staging/rtl8723bs/hal/odm_DIG.h
-index 88cfd542df16..a5b041101c89 100644
---- a/drivers/staging/rtl8723bs/hal/odm_DIG.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_DIG.h
-@@ -141,8 +141,6 @@ void odm_Adaptivity(void *pDM_VOID, u8 IGI);
+ 	u16 i = 0;
+diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
+index 406fccbcd4b6..76ad979c2a36 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com.h
++++ b/drivers/staging/rtl8723bs/include/hal_com.h
+@@ -151,8 +151,6 @@ bool IsHexDigit(char chTmp);
  
- void ODM_Write_DIG(void *pDM_VOID, u8 CurrentIGI);
+ u32 MapCharToHexDigit(char chTmp);
  
--void odm_PauseDIG(void *pDM_VOID, enum ODM_Pause_DIG_TYPE PauseType, u8 IGIValue);
+-bool GetHexValueFromString(char *szStr, u32 *pu4bVal, u32 *pu4bMove);
 -
- void odm_DIGInit(void *pDM_VOID);
+ bool ParseQualifiedString(char *In, u32 *Start, char *Out, char LeftQualifier,
+ 			  char RightQualifier);
  
- void odm_DIG(void *pDM_VOID);
 -- 
 2.25.1
 
