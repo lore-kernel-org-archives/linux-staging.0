@@ -1,40 +1,40 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415831118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A841119
 	for <linux-staging@lists.linux.dev>; Fri,  2 Sep 2022 09:52:36 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id lx1so2727212ejb.12
+Received: by mail-ed1-f51.google.com with SMTP id m1so1953799edb.7
         for <linux-staging@lists.linux.dev>; Fri, 02 Sep 2022 02:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=ThDb76+kZEC72ISvvHs25TvHqgP2beNaL5wxY8n7dsc=;
-        b=NUjfOq9/5L6JJV9vJslddUmeS7AaRFkr6sq7xI5oNDsccB2aIuvLHNuJMg4wyof+oE
-         7eK1TW/8FULpKamlM2neerduzBjYzxCGh3lNa389TOkGOZgtmJnFPMxghfdXhO/Y4z8i
-         zDoHTUFvq8k8z0GQ/0KQedD84hZ7wDSCI0Ec/3Qr+aREoxLvqNArcapuzeI9OQXbiDJI
-         P0yYoSpuU/JKHzF1Ln8zPAiqDupoId6KnskqbWRSPzrnovkk3nGnjoTKhti74M279vD2
-         CY1xutNtVilPSitlh/dWJjBi82mbFFOGvBgqKrW62bqYJRqLdH5Y+tdoGCFdobv5eSyV
-         77SA==
+        bh=1DfksHW7Ish2UvigiC+OsNMircH0PL3M9sKVGJTg530=;
+        b=GwURQpXCkXATE+oyuEySbyquqLfL6FdQvLFR57Y9myNNAv/qP+Ou99yQ18r0Vw6GNo
+         kAR2W2v1eD/sr/fPmVCE4h9HfHzWuvJ+uXPCvTa9n7QqTTiZk4VDlbvBp79G85MRsmKS
+         sR47+F1D92cK9CEbW87GgJoEp4hRgBXQEs6D5oQrq3qjonZcDvQhmgEaIKJPaEukssaZ
+         5vXcv4DPa3mG8ovOGuFXmJysv2P/EV2qfiap5oC971/5LD9BwS4wlAcX4CWolRkMNbqw
+         vVRDf5jDw+zNiYGYzSSyAv5tFkPMuqyhxw8GVI1JXTGPrqNyz274IDh59YN7nMgjb/YW
+         Fafw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=ThDb76+kZEC72ISvvHs25TvHqgP2beNaL5wxY8n7dsc=;
-        b=3rH70F70bdL3FveLiKRR2+VOFTdgVzVrqMBrbgkDDPOBboZiVNfRO5IXmRMS6oX3kO
-         IrZ/3scPuEpKcS9oLwClqIajPTNS1MLTHXs4CqpnjiVkseP8P6UGNRDE/UOlnjZqkKzF
-         dH2kDUaUsXLlMPdiAcGHp6ISH8sv1L/U00376AFH2GCHR0Df9bFng5ELZXhbvyzdJ/x8
-         kTnGHpH8Im8cGzdKcnQPvlZB8DRLmjFZOWmJwPcCNCG8jm+M8GBM1JYZTfcFw3TETJWe
-         NmbbEw0DtZ3/P0WHjqG7VdPz3ovu75MmKrclf5gTFtcSpbe5+qeo6TBLFnrSN5zzXvRN
-         xvgg==
-X-Gm-Message-State: ACgBeo39d/UJ+RTw11ULiasT+fGbsNl5kkH9e8xgx2q1Yxkk/bKoNZfH
-	RCFQUhRoAxeKa7nsxD9gf4U=
-X-Google-Smtp-Source: AA6agR5zCoNE6sH+KYkTSJ2nPQ/wNsIebIEN4dcGZhqUWHmM/Uy+L1R5TGLi9CJOyVZmVMrYjw1Kxg==
-X-Received: by 2002:a17:907:9620:b0:730:d5f4:d448 with SMTP id gb32-20020a170907962000b00730d5f4d448mr26586297ejc.45.1662112354552;
-        Fri, 02 Sep 2022 02:52:34 -0700 (PDT)
+        bh=1DfksHW7Ish2UvigiC+OsNMircH0PL3M9sKVGJTg530=;
+        b=oI9y9MgeTMCWYRh25tKbvdb5dH4ZUQTMz02QKITwpMhxdDjGhw92tKjfUnrmuNTSdT
+         P6XOcIoXGRloQmFuxNO7JwoxxvxhGmScX6KoleAomW7TL88rg5aMLGlNe1bZfkq5pmKh
+         a9jCkp7cxCnK8QWc+lVBsgrgpTbm1J9RtxyJBeyruuVdM1OoUnKphK3ZI18CS1R+AVft
+         kvf0M0Yt6Hxp/bmgzKYYDnaUTuSG8cq1cG9xaXuGS8HXxKRQzeFjJVLnteAyE9uWxAM0
+         haiSlvO7rZc8l9AOjEWOenzFjGVOKY8/uHBlnicuutGcO4KCywF9L/Fv+1D6KPctFeju
+         NvvQ==
+X-Gm-Message-State: ACgBeo14f6idnP2w4GRcYl6w+hYUmsS12jFmV0sn0XuUexsqUU7YnhTU
+	UIRWnYXShDX2Z9hEdALu2aNh3mgC178DeQ==
+X-Google-Smtp-Source: AA6agR55x2wjYUvZMbG74LyI3iQ3j9xx4uDuayhtH6FQD3FRbSBS5lG6m5cyMaQ3IDBJsEijGQ/y/w==
+X-Received: by 2002:a05:6402:1d54:b0:447:b1f7:9ecf with SMTP id dz20-20020a0564021d5400b00447b1f79ecfmr31881111edb.425.1662112355310;
+        Fri, 02 Sep 2022 02:52:35 -0700 (PDT)
 Received: from localhost.localdomain (ip-217-105-46-83.ip.prioritytelecom.net. [217.105.46.83])
-        by smtp.gmail.com with ESMTPSA id h6-20020a170906828600b0073d6234ceebsm959601ejx.160.2022.09.02.02.52.33
+        by smtp.gmail.com with ESMTPSA id h6-20020a170906828600b0073d6234ceebsm959601ejx.160.2022.09.02.02.52.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 02 Sep 2022 02:52:34 -0700 (PDT)
 From: Nam Cao <namcaov@gmail.com>
@@ -44,9 +44,9 @@ To: Larry.Finger@lwfinger.net,
 Cc: namcaov@gmail.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 01/10] staging: rtl8723bs: delete rtw_setdatarate_cmd
-Date: Fri,  2 Sep 2022 11:51:51 +0200
-Message-Id: <bfc4c5c9aec8b026fd3cf092354d508881d790fc.1662111798.git.namcaov@gmail.com>
+Subject: [PATCH 02/10] staging: rtl8723bs: delete function rtw_set_chplan_cmd
+Date: Fri,  2 Sep 2022 11:51:52 +0200
+Message-Id: <b5a1fe5bc7bc8eb154247ee8eafafe6af266dab9.1662111798.git.namcaov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662111798.git.namcaov@gmail.com>
 References: <cover.1662111798.git.namcaov@gmail.com>
@@ -58,66 +58,93 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove function rtw_setdatarate_cmd because it is not used.
+The function rtw_set_chplan_cmd is not used. Remove it.
 
 Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c    | 29 ---------------------
- drivers/staging/rtl8723bs/include/rtw_cmd.h |  1 -
- 2 files changed, 30 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c    | 55 ---------------------
+ drivers/staging/rtl8723bs/include/rtw_cmd.h |  2 -
+ 2 files changed, 57 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index b4170f64d118..a5e66b9868ad 100644
+index a5e66b9868ad..5e82d491ad75 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -593,35 +593,6 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+@@ -1111,61 +1111,6 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
  	return res;
  }
  
--u8 rtw_setdatarate_cmd(struct adapter *padapter, u8 *rateset)
+-u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan, u8 enqueue, u8 swconfig)
 -{
--	struct cmd_obj *ph2c;
--	struct setdatarate_parm *pbsetdataratepara;
--	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+-	struct	cmd_obj *pcmdobj;
+-	struct	SetChannelPlan_param *setChannelPlan_param;
+-	struct	cmd_priv   *pcmdpriv = &padapter->cmdpriv;
+-
 -	u8 res = _SUCCESS;
 -
--	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (!ph2c) {
+-	/*  check if allow software config */
+-	if (swconfig && rtw_hal_is_disable_sw_channel_plan(padapter)) {
 -		res = _FAIL;
 -		goto exit;
 -	}
 -
--	pbsetdataratepara = rtw_zmalloc(sizeof(struct setdatarate_parm));
--	if (!pbsetdataratepara) {
--		kfree(ph2c);
+-	/* check input parameter */
+-	if (!rtw_is_channel_plan_valid(chplan)) {
 -		res = _FAIL;
 -		goto exit;
 -	}
 -
--	init_h2fwcmd_w_parm_no_rsp(ph2c, pbsetdataratepara, GEN_CMD_CODE(_SetDataRate));
--	pbsetdataratepara->mac_id = 5;
--	memcpy(pbsetdataratepara->datarates, rateset, NumRates);
+-	/* prepare cmd parameter */
+-	setChannelPlan_param = rtw_zmalloc(sizeof(struct SetChannelPlan_param));
+-	if (!setChannelPlan_param) {
+-		res = _FAIL;
+-		goto exit;
+-	}
+-	setChannelPlan_param->channel_plan = chplan;
 -
--	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+-	if (enqueue) {
+-		/* need enqueue, prepare cmd_obj and enqueue */
+-		pcmdobj = rtw_zmalloc(sizeof(struct cmd_obj));
+-		if (!pcmdobj) {
+-			kfree(setChannelPlan_param);
+-			res = _FAIL;
+-			goto exit;
+-		}
+-
+-		init_h2fwcmd_w_parm_no_rsp(pcmdobj, setChannelPlan_param, GEN_CMD_CODE(_SetChannelPlan));
+-		res = rtw_enqueue_cmd(pcmdpriv, pcmdobj);
+-	} else {
+-		/* no need to enqueue, do the cmd hdl directly and free cmd parameter */
+-		if (set_chplan_hdl(padapter, (unsigned char *)setChannelPlan_param) != H2C_SUCCESS)
+-			res = _FAIL;
+-
+-		kfree(setChannelPlan_param);
+-	}
+-
+-	/* do something based on res... */
+-	if (res == _SUCCESS)
+-		padapter->mlmepriv.ChannelPlan = chplan;
+-
 -exit:
 -	return res;
 -}
 -
- void rtw_getbbrfreg_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+ static void collect_traffic_statistics(struct adapter *padapter)
  {
- 	/* rtw_free_cmd_obj(pcmd); */
+ 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
 diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-index 1bf030cbbbbe..0af8215e2f2f 100644
+index 0af8215e2f2f..fe1b03101203 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-@@ -591,7 +591,6 @@ extern u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8
- extern u8 rtw_joinbss_cmd(struct adapter *padapter, struct wlan_network *pnetwork);
- u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueue);
- extern u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrastructure networktype, bool enqueue);
--extern u8 rtw_setdatarate_cmd(struct adapter  *padapter, u8 *rateset);
- extern u8 rtw_setrfintfs_cmd(struct adapter  *padapter, u8 mode);
+@@ -612,8 +612,6 @@ extern u8 rtw_ps_cmd(struct adapter *padapter);
  
- extern u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset, u8 *pval);
+ u8 rtw_chk_hi_queue_cmd(struct adapter *padapter);
+ 
+-extern u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan, u8 enqueue, u8 swconfig);
+-
+ extern u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length);
+ extern u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt);
+ 
 -- 
 2.25.1
 
