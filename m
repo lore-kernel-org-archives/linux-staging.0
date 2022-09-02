@@ -1,42 +1,42 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FED110D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1991118
 	for <linux-staging@lists.linux.dev>; Fri,  2 Sep 2022 09:52:40 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id a36so1958359edf.5
+Received: by mail-ed1-f53.google.com with SMTP id z2so1984672edc.1
         for <linux-staging@lists.linux.dev>; Fri, 02 Sep 2022 02:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=XpHH42SQLJDVes7ZZ1hXimWD0tWN6qFGRFQjolXplgk=;
-        b=p2HZ+y3PZt8dbds1f3sAYhlZgc6o0fIxKkgVd5OdusQC8+2V6emYxX4kaoXmhyfW26
-         z+2DqwS2uvTawWnsfIgWB4bB9ZPNyDY9PkhBEf9w+old+3r4vcrTpAtH3EAuGLMU63On
-         u/yI8+4W2NtvlZBElgO1Tf8oBW6h9dACoJOj1dahexueIY3OjKoLoiNVNMWEOe3YI8Rf
-         N/9EnEAqDm33Ka6CvqXDjtTeoTc7f4gdZcrod4TzB/528ruAFKUPoe9f1UheR1IH1PA1
-         pX5eEw4uCtUB9+m4mOvXnPNj5uJOfY/PEHHPDgQ87VAWzjqnqPNPdtQA8X25PoZp/Owq
-         pwFg==
+        bh=I2CMut/xLnohqiOeRPhToMpVupJG8sBwirkVo5Ugtp8=;
+        b=XPkVhpajSgeOl3jthw2K/4L0o4HgIOYtqKy89UewAW8VI7GJKiow4qs/dz4Hxni2MP
+         tMBMJRJIt2LVZvILffAhp0Jvbp6lF3aVP6Xo4HqlNP5eJAlkGhfgNUuU4Q38tNCHMpHf
+         +n1WyvQg43+bIF41LzjxefD7G46+CGaob1A0/17TgdzVq+GrYMJHiR6zRvazTIrYkny6
+         lN2sHhFnrG29giXrwrZxDJUCIvK7+zUddzSOdvG7/+CE8nEeRjwkG8xryAxroTU0EWok
+         5M+E5TX5mrlDEVQ85DHFKD3u3P1HJ2LsJ8PSge0zkAAd8vhVELM4JhftxLqio6TSuDgs
+         nmXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=XpHH42SQLJDVes7ZZ1hXimWD0tWN6qFGRFQjolXplgk=;
-        b=7wsImUim/N0PBJUPM8Dvjd7qBoQFHCSp8TdQHU8SpsiChGnaXU+t9HHIkgOWx6JQsu
-         /CkcgiFhiZbhLsv+qCbaB+N+UaZUFsWxTAAor7wU1CX7EmXp2lBGBtT6+cxJ4B8nJtWW
-         oY2SI9q7JiMrN+zzv+Ol62MBWSJ9gdcs4QXZ6pm+dPWbBNc2ZXkXHPedyo5A0c0+nV4u
-         jzjs7NYz/eiNkr6/P9qlvpjaF5Rw6MncMxBcUZ1KQjpO5hSwcSOhbYW/efHwq3kIMQ2r
-         d+RjHkbES7VviNBNQd7mI5E1r6D5s55sJw+VNxRzLDOmXAO4mxvJ1QfcylU8yEl4AjG5
-         e7Xw==
-X-Gm-Message-State: ACgBeo1LtLLVOHaATqLBD+8jCArFGnaIg+FzMJiZZIwoUVDI9Yb9jfdN
-	RAe/+anpbEcl7uNAWdqCOz8=
-X-Google-Smtp-Source: AA6agR7n1eVccxBiIatilAWpw3BtoSPNWeTYij8m1vB+lPsqVlB9a+PqrG7YqmxistKcFn42Mlnl2g==
-X-Received: by 2002:a05:6402:550c:b0:443:7d15:d57f with SMTP id fi12-20020a056402550c00b004437d15d57fmr32044758edb.147.1662112358353;
-        Fri, 02 Sep 2022 02:52:38 -0700 (PDT)
+        bh=I2CMut/xLnohqiOeRPhToMpVupJG8sBwirkVo5Ugtp8=;
+        b=ppFGjgIlmncBUmX3ghFjlhtHBH3VQvnlWKIDFE7tav2SFFOZdrbsSp9Z63sKkPZJS3
+         KAdzJduerk8qmCo0TvvWHPF0WraUV9+REApDeyio607b5nqiiBKRw/bQ0BVaqPa2asK5
+         dZBHZkH1UE9aEDHF9u6jQ8D3/RMI4XnyVKxPMFTQCo98KT0/ngWfdoJJIkVruqf1rXnH
+         s2LXDknj4QWYl8TBmpb7WKwzgLNa2kYGP/QyeWVLqkcjKyKR9KsMXM6wGq2xtnB8EjcF
+         NE7raLiQ/Nhqf6uq+bEeUPHEyNrBhEKoLJhURVSCgrm1Zqm7Om/VN1YJLa6DhRq4cMM4
+         0G3A==
+X-Gm-Message-State: ACgBeo1E3JgR1mkgLldq1ImoRs/uX2aC+UucxiUeUrVzUF0wZ6ez6QYe
+	6fmmv0VDk3/FGo/pB+RWaRg=
+X-Google-Smtp-Source: AA6agR7p5DBC0WFY2HjkeGarebVEyMN8s5tyoWDQRslbSRMaLvPkWm5S6dMsnJ2VWitJzSCtcSCXKQ==
+X-Received: by 2002:a05:6402:378f:b0:43a:d3f5:79f2 with SMTP id et15-20020a056402378f00b0043ad3f579f2mr32546430edb.338.1662112359933;
+        Fri, 02 Sep 2022 02:52:39 -0700 (PDT)
 Received: from localhost.localdomain (ip-217-105-46-83.ip.prioritytelecom.net. [217.105.46.83])
-        by smtp.gmail.com with ESMTPSA id h6-20020a170906828600b0073d6234ceebsm959601ejx.160.2022.09.02.02.52.37
+        by smtp.gmail.com with ESMTPSA id h6-20020a170906828600b0073d6234ceebsm959601ejx.160.2022.09.02.02.52.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 02:52:38 -0700 (PDT)
+        Fri, 02 Sep 2022 02:52:39 -0700 (PDT)
 From: Nam Cao <namcaov@gmail.com>
 To: Larry.Finger@lwfinger.net,
 	gregkh@linuxfoundation.org,
@@ -44,9 +44,9 @@ To: Larry.Finger@lwfinger.net,
 Cc: namcaov@gmail.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 06/10] staging: rtl8723bs: remove GetHexValueFromString
-Date: Fri,  2 Sep 2022 11:51:56 +0200
-Message-Id: <74c77a5d86570065a5fe96446063595b649f76b0.1662111798.git.namcaov@gmail.com>
+Subject: [PATCH 08/10] staging: rtl8723bs: remove rtw_hal_is_disable_sw_channel_plan
+Date: Fri,  2 Sep 2022 11:51:58 +0200
+Message-Id: <4398fec06b0f8defaa7da9d6abbc155cbb7ae630.1662111799.git.namcaov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1662111798.git.namcaov@gmail.com>
 References: <cover.1662111798.git.namcaov@gmail.com>
@@ -58,82 +58,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove function GetHexValueFromString because it is not used.
+Remove function rtw_hal_is_disable_sw_channel_plan because it is not
+used.
 
 Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com.c     | 45 ---------------------
- drivers/staging/rtl8723bs/include/hal_com.h |  2 -
- 2 files changed, 47 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_intf.c     | 5 -----
+ drivers/staging/rtl8723bs/include/hal_intf.h | 2 --
+ 2 files changed, 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 1c744d0b4742..010a097c3afd 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -894,51 +894,6 @@ u32 MapCharToHexDigit(char chTmp)
- 		return 0;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 94ecefb9113d..6bb0ff8d7c78 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -400,11 +400,6 @@ c2h_id_filter rtw_hal_c2h_id_filter_ccx(struct adapter *adapter)
+ 	return adapter->HalFunc.c2h_id_filter_ccx;
  }
  
--
--
--/* 	Description: */
--/* 		Parse hex number from the string pucStr. */
--bool GetHexValueFromString(char *szStr, u32 *pu4bVal, u32 *pu4bMove)
+-s32 rtw_hal_is_disable_sw_channel_plan(struct adapter *padapter)
 -{
--	char *szScan = szStr;
--
--	/*  Check input parameter. */
--	if (!szStr || !pu4bVal || !pu4bMove)
--		return false;
--
--	/*  Initialize output. */
--	*pu4bMove = 0;
--	*pu4bVal = 0;
--
--	/*  Skip leading space. */
--	while (*szScan != '\0' && (*szScan == ' ' || *szScan == '\t')) {
--		szScan++;
--		(*pu4bMove)++;
--	}
--
--	/*  Skip leading '0x' or '0X'. */
--	if (*szScan == '0' && (*(szScan+1) == 'x' || *(szScan+1) == 'X')) {
--		szScan += 2;
--		(*pu4bMove) += 2;
--	}
--
--	/*  Check if szScan is now pointer to a character for hex digit, */
--	/*  if not, it means this is not a valid hex number. */
--	if (!IsHexDigit(*szScan))
--		return false;
--
--	/*  Parse each digit. */
--	do {
--		(*pu4bVal) <<= 4;
--		*pu4bVal += MapCharToHexDigit(*szScan);
--
--		szScan++;
--		(*pu4bMove)++;
--	} while (IsHexDigit(*szScan));
--
--	return true;
+-	return GET_HAL_DATA(padapter)->bDisableSWChannelPlan;
 -}
 -
- bool GetU1ByteIntegerFromStringInDecimal(char *Str, u8 *pInt)
+ s32 rtw_hal_macid_sleep(struct adapter *padapter, u32 macid)
  {
- 	u16 i = 0;
-diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
-index 406fccbcd4b6..76ad979c2a36 100644
---- a/drivers/staging/rtl8723bs/include/hal_com.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com.h
-@@ -151,8 +151,6 @@ bool IsHexDigit(char chTmp);
+ 	u8 support;
+diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
+index 45bebbadb7ca..5cffab2d06ff 100644
+--- a/drivers/staging/rtl8723bs/include/hal_intf.h
++++ b/drivers/staging/rtl8723bs/include/hal_intf.h
+@@ -353,8 +353,6 @@ bool rtw_hal_c2h_valid(struct adapter *adapter, u8 *buf);
+ s32 rtw_hal_c2h_handler(struct adapter *adapter, u8 *c2h_evt);
+ c2h_id_filter rtw_hal_c2h_id_filter_ccx(struct adapter *adapter);
  
- u32 MapCharToHexDigit(char chTmp);
- 
--bool GetHexValueFromString(char *szStr, u32 *pu4bVal, u32 *pu4bMove);
+-s32 rtw_hal_is_disable_sw_channel_plan(struct adapter *padapter);
 -
- bool ParseQualifiedString(char *In, u32 *Start, char *Out, char LeftQualifier,
- 			  char RightQualifier);
+ s32 rtw_hal_macid_sleep(struct adapter *padapter, u32 macid);
+ s32 rtw_hal_macid_wakeup(struct adapter *padapter, u32 macid);
  
 -- 
 2.25.1
