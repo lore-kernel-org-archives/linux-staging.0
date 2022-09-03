@@ -1,99 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503F310EE
-	for <linux-staging@lists.linux.dev>; Fri,  2 Sep 2022 14:37:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5461DC433D7;
-	Fri,  2 Sep 2022 14:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E2C7B
+	for <linux-staging@lists.linux.dev>; Sat,  3 Sep 2022 06:34:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665FAC433D6;
+	Sat,  3 Sep 2022 06:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1662129452;
-	bh=4P622UOknA/VmH8i66gt8bdS6WvFSwysuSf4IiMOeiM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=2XfWyANI3DXGdm+59zRpRVM7vKPJ4+22cOxYWewPvstZ3OdMUD5owac7EPEkWk7zM
-	 tzGmVkon/n1qJPq0O5VhH+aTsxpHkWnhYYVbhiU41Ezevyjgl8xaNiMCa4/4vi4FO2
-	 u4OrIisrX5U3B4AEiRJhPO4Ts8uDPRAHlrw87bPg=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org,
-	stable <stable@kernel.org>
-Subject: [PATCH] staging: greybus: audio_helper: remove unused and wrong debugfs usage
-Date: Fri,  2 Sep 2022 16:37:15 +0200
-Message-Id: <20220902143715.320500-1-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.37.3
+	s=korg; t=1662186870;
+	bh=qIryOSkgNbM7AVmMMg3eIYDfrnzRdTzTcuVH3brBIwE=;
+	h=Date:From:To:Cc:Subject:From;
+	b=vtcYWniZu4/0foGlk441ZFvBzjrrpCgUcQNqbvmT7BtVmd7iMXCRzz4r2MfLrmFSU
+	 /HCXR0szqNFRTFZtV4FrSvXwDbJO3D6vd3ziyvTY2wCZdDECNNECd4RGM6qMpqiDe6
+	 jee0+5J4Zzxiud3qpfBt5HTtM3P8yVYpZ9eeSj9I=
+Date: Sat, 3 Sep 2022 08:34:49 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes for 6.0-rc4
+Message-ID: <YxL1iR5/c+tl60ja@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2207; i=gregkh@linuxfoundation.org; h=from:subject; bh=4P622UOknA/VmH8i66gt8bdS6WvFSwysuSf4IiMOeiM=; b=owGbwMvMwCRo6H6F97bub03G02pJDMlCopK2VlUqF6VkZt366PShec0HbvWTfDqnJry8xZjc7/B1 x9QvHbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjCROk6GeYYHXurO+8occDPBYr3GzG fLMy5mLmGYZ7b0ef0Gvd+Tlk875nxrWste9sitDwE=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In the greybus audio_helper code, the debugfs file for the dapm has the
-potential to be removed and memory will be leaked.  There is also the
-very real potential for this code to remove ALL debugfs entries from the
-system, and it seems like this is what will really happen if this code
-ever runs.  This all is very wrong as the greybus audio driver did not
-create this debugfs file, the sound core did and controls the lifespan
-of it.
+The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
 
-So remove all of the debugfs logic from the audio_helper code as there's
-no way it could be correct.  If this really is needed, it can come back
-with a fixup for the incorrect usage of the debugfs_lookup() call which
-is what caused this to be noticed at all.
+  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
 
-Cc: Johan Hovold <johan@kernel.org>
-Cc: Alex Elder <elder@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org
-Cc: linux-staging@lists.linux.dev
-Cc: stable <stable@kernel.org>
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.0-rc4
+
+for you to fetch changes up to e230a4455ac3e9b112f0367d1b8e255e141afae0:
+
+  staging: rtl8712: fix use after free bugs (2022-08-30 17:15:16 +0200)
+
+----------------------------------------------------------------
+Staging driver fixes for 6.0-rc4
+
+Here are 3 small staging driver fixes for 6.0-rc4 that resolve some
+reported problems and add some a device id:
+  - new device id for r8188eu driver
+  - use-after-free bugfixes for the rtl8712 driver
+  - fix up firmware dependency problem for the r8188eu driver
+
+All of these have been in linux-next for a while with no reported
+problems.
+
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/staging/greybus/audio_helper.c | 11 -----------
- 1 file changed, 11 deletions(-)
 
-diff --git a/drivers/staging/greybus/audio_helper.c b/drivers/staging/greybus/audio_helper.c
-index 05e91e6bc2a0..223987616e07 100644
---- a/drivers/staging/greybus/audio_helper.c
-+++ b/drivers/staging/greybus/audio_helper.c
-@@ -3,7 +3,6 @@
-  * Greybus Audio Sound SoC helper APIs
-  */
- 
--#include <linux/debugfs.h>
- #include <sound/core.h>
- #include <sound/soc.h>
- #include <sound/soc-dapm.h>
-@@ -116,10 +115,6 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
- {
- 	int i;
- 	struct snd_soc_dapm_widget *w, *tmp_w;
--#ifdef CONFIG_DEBUG_FS
--	struct dentry *parent = dapm->debugfs_dapm;
--	struct dentry *debugfs_w = NULL;
--#endif
- 
- 	mutex_lock(&dapm->card->dapm_mutex);
- 	for (i = 0; i < num; i++) {
-@@ -139,12 +134,6 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
- 			continue;
- 		}
- 		widget++;
--#ifdef CONFIG_DEBUG_FS
--		if (!parent)
--			debugfs_w = debugfs_lookup(w->name, parent);
--		debugfs_remove(debugfs_w);
--		debugfs_w = NULL;
--#endif
- 		gbaudio_dapm_free_widget(w);
- 	}
- 	mutex_unlock(&dapm->card->dapm_mutex);
--- 
-2.37.3
+----------------------------------------------------------------
+Dan Carpenter (1):
+      staging: rtl8712: fix use after free bugs
 
+Grzegorz Szymaszek (1):
+      staging: r8188eu: add firmware dependency
+
+Larry Finger (1):
+      staging: r8188eu: Add Rosewill USB-N150 Nano to device tables
+
+ drivers/staging/r8188eu/os_dep/os_intfs.c |  1 +
+ drivers/staging/r8188eu/os_dep/usb_intf.c |  1 +
+ drivers/staging/rtl8712/rtl8712_cmd.c     | 36 -------------------------------
+ 3 files changed, 2 insertions(+), 36 deletions(-)
