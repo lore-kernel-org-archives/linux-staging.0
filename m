@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39624C76
-	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 20:02:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD6B4C71
+	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 20:29:35 +0000 (UTC)
 Received: from dslb-178-004-201-030.178.004.pools.vodafone-ip.de ([178.4.201.30] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1oVIII-00063M-On; Mon, 05 Sep 2022 22:02:06 +0200
+	id 1oVICo-00060M-8I; Mon, 05 Sep 2022 21:56:26 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,12 +17,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 7/7] staging: r8188eu: do not "scan blink" if we have a link
-Date: Mon,  5 Sep 2022 22:01:46 +0200
-Message-Id: <20220905200146.82259-8-martin@kaiser.cx>
+Subject: [PATCH] staging: r8188eu: remove channel parameters from rtw_sitesurvey_cmd
+Date: Mon,  5 Sep 2022 21:56:12 +0200
+Message-Id: <20220905195612.81945-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220905200146.82259-1-martin@kaiser.cx>
-References: <20220905200146.82259-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,32 +29,125 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Do not blink the led to indicate that we're scanning if we are already
-connected to a wireless network.
+The rtw_sitesurvey_cmd function may receive an array of channels in the
+ch and ch_num parameters. All of the callers set ch = NULL and ch_num = 0.
+
+Remove the two parameters from rtw_sitesurvey_cmd and the code to process
+them.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_led.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c       | 14 +-------------
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c |  6 +++---
+ drivers/staging/r8188eu/core/rtw_mlme.c      |  2 +-
+ drivers/staging/r8188eu/include/rtw_cmd.h    |  4 +---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c |  2 +-
+ 5 files changed, 7 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index f5af2e25e34a..5b7e12421d19 100644
---- a/drivers/staging/r8188eu/core/rtw_led.c
-+++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -258,9 +258,10 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 5b6a891b5d67..b9e49781c7a9 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -288,8 +288,7 @@ int rtw_cmd_thread(void *context)
+  *	### NOTE:#### (!!!!)
+  *	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
+  */
+-u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
+-	struct rtw_ieee80211_channel *ch, int ch_num)
++u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num)
+ {
+ 	u8 res = _FAIL;
+ 	struct cmd_obj		*ph2c;
+@@ -331,17 +330,6 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
  		}
- 		break;
- 	case LED_CTL_SITE_SURVEY:
--		if ((pmlmepriv->LinkDetectInfo.bBusyTraffic) && (check_fwstate(pmlmepriv, _FW_LINKED))) {
--			;
--		} else if (!pLed->bLedScanBlinkInProgress) {
-+		if ((pmlmepriv->LinkDetectInfo.bBusyTraffic) && (check_fwstate(pmlmepriv, _FW_LINKED)))
-+			return;
-+
-+		if (!pLed->bLedScanBlinkInProgress) {
- 			if (IS_LED_WPS_BLINKING(pLed))
- 				return;
- 			if (pLed->bLedNoLinkBlinkInProgress) {
+ 	}
+ 
+-	/* prepare channel list */
+-	if (ch) {
+-		int i;
+-		for (i = 0; i < ch_num && i < RTW_CHANNEL_SCAN_AMOUNT; i++) {
+-			if (ch[i].hw_value && !(ch[i].flags & RTW_IEEE80211_CHAN_DISABLED)) {
+-				memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct rtw_ieee80211_channel));
+-				psurveyPara->ch_num++;
+-			}
+-		}
+-	}
+-
+ 	set_fwstate(pmlmepriv, _FW_UNDER_SURVEY);
+ 
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+index 17f6bcbeebf4..5d8958303151 100644
+--- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
++++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+@@ -43,7 +43,7 @@ u8 rtw_do_join(struct adapter *padapter)
+ 		if (!pmlmepriv->LinkDetectInfo.bBusyTraffic ||
+ 		    pmlmepriv->to_roaming > 0) {
+ 			/*  submit site_survey_cmd */
+-			ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1, NULL, 0);
++			ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1);
+ 			if (ret != _SUCCESS)
+ 				pmlmepriv->to_join = false;
+ 		} else {
+@@ -89,7 +89,7 @@ u8 rtw_do_join(struct adapter *padapter)
+ 				/* we try to issue sitesurvey firstly */
+ 				if (!pmlmepriv->LinkDetectInfo.bBusyTraffic ||
+ 				    pmlmepriv->to_roaming > 0) {
+-					ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1, NULL, 0);
++					ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1);
+ 					if (ret != _SUCCESS)
+ 						pmlmepriv->to_join = false;
+ 				} else {
+@@ -360,7 +360,7 @@ u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_s
+ 
+ 		spin_lock_bh(&pmlmepriv->lock);
+ 
+-		res = rtw_sitesurvey_cmd(padapter, pssid, ssid_max_num, NULL, 0);
++		res = rtw_sitesurvey_cmd(padapter, pssid, ssid_max_num);
+ 
+ 		spin_unlock_bh(&pmlmepriv->lock);
+ 	}
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 8f21d34a317f..12dd9f202ee5 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -744,7 +744,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 			} else {
+ 				if (rtw_to_roaming(adapter) != 0) {
+ 					if (--pmlmepriv->to_roaming == 0 ||
+-					    rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid, 1, NULL, 0) != _SUCCESS) {
++					    rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid, 1) != _SUCCESS) {
+ 						rtw_set_roaming(adapter, 0);
+ 						rtw_free_assoc_resources(adapter, 1);
+ 						rtw_indicate_disconnect(adapter);
+diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
+index 6b6d560d7143..9a76aa85de94 100644
+--- a/drivers/staging/r8188eu/include/rtw_cmd.h
++++ b/drivers/staging/r8188eu/include/rtw_cmd.h
+@@ -730,9 +730,7 @@ struct TDLSoption_param
+ #define H2C_CMD_OVERFLOW	0x06
+ #define H2C_RESERVED		0x07
+ 
+-u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+-		      int ssid_num, struct rtw_ieee80211_channel *ch,
+-		      int ch_num);
++u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num);
+ u8 rtw_createbss_cmd(struct adapter  *padapter);
+ u8 rtw_setstakey_cmd(struct adapter *padapter, u8 *psta, u8 unicast_key);
+ u8 rtw_clearstakey_cmd(struct adapter *padapter, u8 *psta, u8 entry, u8 enqueue);
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index d6b6021a4250..2de2e1e32738 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -1099,7 +1099,7 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
+ 
+ 			spin_lock_bh(&pmlmepriv->lock);
+ 
+-			_status = rtw_sitesurvey_cmd(padapter, ssid, 1, NULL, 0);
++			_status = rtw_sitesurvey_cmd(padapter, ssid, 1);
+ 
+ 			spin_unlock_bh(&pmlmepriv->lock);
+ 		}
 -- 
 2.30.2
 
