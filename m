@@ -1,47 +1,45 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2044.outbound.protection.outlook.com [40.107.22.44])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2071.outbound.protection.outlook.com [40.107.20.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1A32919
-	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 07:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437FF2F3D
+	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 07:44:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hA9LCnumHuPE/eai6yCe5LWMTk79orZAlM27fL1N3nK33Ah1JEm3OBJoNKpIRneVTp5Q8eBbUYRHDhS/k5LGZwnuou79h8FZmesAF9PYOtfozv25BS7dRIvUHD+Jlnd8wrnEi6wbD30I2WvWOEpnp2JFd80x7KZ4PQCeUiwxgb5P4iGgO7IJxjH2VTK2IVcMebEAeUgJG92WmdRPoZ8rks6bh0PrgVNF9pBi252bbGOIpoePhBKYJxPfW9OUq2mwRQbfBzX1nTLKLWEn70FxqVk2rpIOBbstk477VsR6Y2g5eZP0sW9mjQPS6mMEiJ5lWwkSZAyRzN/M7LCWlgscFA==
+ b=OoMxwAgqeYYYMUZRdne9bwpseqDz42Bf+729h3gy1ZsM20oI6o0f2hhN9/zL8Lb2xdX8u/QoG1z4XqXvVwaf9r2qlAg9ukJuGYVvttjgWxV7TiOM9A7ltJ/DkV9UTkcms1GudGJOIod6h8of2T+aNLIK0I7K0OTO1ABNTlpjq2lCrs0bsXtUb7fCOF3nY1TJnnF+yBQtJHFuIqnRsh4eZpF8djota1OoVHOQSj/amCn6SXJt9+VRGO4T90/jK7Upa04+LsQYAxfo3WN+PsDc8NooB0IELXGYgMkzCWqQUjpGgr6mYXpPPkNZUxC8x4+oEMrMzPoSt1cIg8yDrdKkiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mQJ1lieUn0+dgn04BSELSORzDy5s//rjB96OOFqUuck=;
- b=V1Dl5L3MwKh1zcyfihNez7qWWe8DHRelTbyRuFoHqFGlA8mjH++WF+G8hxG7kDf5LyzUB25aRBFIfKGV/uAwBHX4BGnd6vIMFvkp03NdELNhRCOK+BJPZ9Cy747Xk9SH/zP2UC8JUDJkBFKMqph9bJYrwWzpbj9PTMw6UFuTFnMiAxhzQm8Fjwi3Yy1OWy8qxYyNLmcCBtZvynXYtKyPRn6La0LHmAwZFaLVjx8o5jS0tgZVyxoSK1we4Hyds3xpI8dqyKifOlG8UyX7J7YNyiR2savOla3agaXzCNxSFbpCjrIr7OIFhkNV3MeApnT+B3sGYOoHiJxXDHD8VoB1yA==
+ bh=5WqjZWM0htU2dSASxllPzhqfA3RBEP+ptVntcPSFzp4=;
+ b=YiPQjNCji6NjHOGXRW4fX3EpOO5AJfLHtFu4g5feEvudiJRN8x2vYQBHuw1CBIhHr60LmiBW6YTWYFQSbLYYoUrNVAr+JifwZVj/rLuk01HqjYwr5ADAezUiYZmci8/KwmzCcEpzVg6bF4oJsECuK3CfWTgTcFzQ/TWgTosX/fiTyQ2LcneEO8CK9LbjQZHACqM3sw3lkm3F12GrwLYG76iuMjlexVRKCRK8l8OuzcOClkCDvqmOH1zWbdKHLRtlh0xCJg1AB1wW9wDh8kpu0MCqVZNliFmvUaZngIU4qRYUXefgtLXpoq2ROk9cRNJzFwBzB9D0r7Y8AqWo9P4u2g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=sap.com; dmarc=pass action=none header.from=sap.com; dkim=pass
  header.d=sap.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sap.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mQJ1lieUn0+dgn04BSELSORzDy5s//rjB96OOFqUuck=;
- b=ncnp5C5Np4UxslMYjYbqvtPbkR3CDSh/zF7Dl1Evjjl01I4SMCnEuAvAMD7bl4+XZuSMTMghg7DWfbs/kczedg67AnLHuDgn7pz3JVDBijgE5dh59DCRoacjaR77i6pD3dB61GvL2vkzc+I8W87Oso6lI6XUxFo6APzAwjo0B4TOu0e4FjGND8YdeuYzOaohsAnw0v0E6dnOnQjmoVw/g/n+qE+uuhVaWxJ2AeMZR/1D47YxQqwZKB3Ju7rXyweyu3k3CSay3c2e1ZiBDRyOiuLOibzmlF9jvVboKaEKc/mMkg+ew8DtZq9bID6bgNPTaWeUeKTV1ojLm296qObZwg==
+ bh=5WqjZWM0htU2dSASxllPzhqfA3RBEP+ptVntcPSFzp4=;
+ b=ebbAD014ZJbM96S+/agJ4hUbjLN+99KP0WkoVBxpt7Z/+iiP2A58KHIc2ZJzIpNv0fKrmw9KC0xn0vbxt74KtkcCuvntSqzgcpp++kvkmWd7MUXfCQCtHSRqw0nyzZOCGaUsIrCHQe3GRGWPSVaMFDA+TWWfD16zX8RcIdB8r7udETX8Zza+oqRZaoV8PPq89ZsQAfKb9jhv6Jaohs2ZbnXzF4ybZVdum7Hw98NOwczDHAwx7Eb7G3aiiLYZ9QdUx8jwsP8p5hq3S+6lxAMaQgCFXZ/4m1yI0c0ima+BeKcNcSsI2Vc1HRJGZiJE6E42ey8t67oGzn3PZGRdpk9Wiw==
 Received: from PAXPR02MB7310.eurprd02.prod.outlook.com (2603:10a6:102:1c5::10)
- by AS1PR02MB8208.eurprd02.prod.outlook.com (2603:10a6:20b:483::13) with
+ by AM7PR02MB6241.eurprd02.prod.outlook.com (2603:10a6:20b:1b7::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Mon, 5 Sep
- 2022 07:28:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.18; Mon, 5 Sep
+ 2022 07:44:44 +0000
 Received: from PAXPR02MB7310.eurprd02.prod.outlook.com
  ([fe80::25a4:e5d5:aefc:fe46]) by PAXPR02MB7310.eurprd02.prod.outlook.com
  ([fe80::25a4:e5d5:aefc:fe46%9]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
- 07:28:02 +0000
+ 07:44:44 +0000
 From: "Czerwacki, Eial" <eial.czerwacki@sap.com>
-To: Greg KH <gregkh@linuxfoundation.org>
+To: Greg KH <greg@kroah.com>
 CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "Hammer,
  Gal" <gal.hammer@sap.com>
 Subject: Re: invalid drv data in show attribute
 Thread-Topic: invalid drv data in show attribute
-Thread-Index: AQHYwGq9NvHSxWjabESaa5oh/fCdV63QVbUAgAABNZSAABLdAIAAAL6q
-Date: Mon, 5 Sep 2022 07:28:02 +0000
+Thread-Index: AQHYwGq9NvHSxWjabESaa5oh/fCdV63Qa5aAgAAF2qo=
+Date: Mon, 5 Sep 2022 07:44:44 +0000
 Message-ID:
- <PAXPR02MB7310F72EB4259C35A364F8BB817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <PAXPR02MB73102949EA5E56F543DB97D5817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
 References:
  <PAXPR02MB7310E14184AA4389841AE89E817C9@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YxWN7Fm07segTeqU@kroah.com>
- <PAXPR02MB7310BEB4DB4237CDE90D9F1A817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YxWewlIruFL500al@kroah.com>
-In-Reply-To: <YxWewlIruFL500al@kroah.com>
+ <YxWgR+/jBC/uBkAS@kroah.com>
+In-Reply-To: <YxWgR+/jBC/uBkAS@kroah.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -50,45 +48,45 @@ msip_labels:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=sap.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dec732a0-3ee5-4fd6-3e0f-08da8f102abc
-x-ms-traffictypediagnostic: AS1PR02MB8208:EE_
+x-ms-office365-filtering-correlation-id: f0df7705-de93-4cdb-5012-08da8f128013
+x-ms-traffictypediagnostic: AM7PR02MB6241:EE_
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info:
- pRNYTY05HzswpvLMmo1aj7Cqw/xJwXq4c/Vvi5pbCUgbhHgaGz3wZ5LLe4+GmIzSftY0+5AWVBVK3RYgHUx5PKae9Hn6EehIaITMUUG/LALAQ6okZTH7gWXDEMQ0ogidhc6K4vLpUdMcCnSAldRKBd0D9is4vQ4muG5L8S7dmOl+elkFH10NyVyChAG2B3T3/NOAZ9n0dizsbLWhU1FDH/9S5AOuGuWXZ2iq7F43S10ian8ENVbKECqb6LcHkGZrmbdcEeeVq/FNmS4Ez5/N5LbHcE+QHh9Qqi37GxMfHypIy5C84eP4u8gsgWVzX0/ce53IX1eZxz3qhMRQSe8308zbWyjH0+I44gRHsY2dYlULxHbApTsId5DU0nexFtrBiZtTK3x8ZL4RbkCc5NMlsTWa65+gACmIduVdRHEaj0yrOn5VCgVJfmEeET5/yaxU9cbDrb9AUAucYReKvJYHdS8akRTAPTqsD6wh3Gza1N4Q5e2S8r+Gqn/H6XJ+joCs5mlEMb2IvgXNpxsBNDFMgFZXZOInF6LbByypg7s3F0WNRIwEZAyWgA2hWCc9xf+qtITvFcbpYA7G4VP2MAmzFEiOftECLpDH02poZYcMtnVWZI36znknRQaAKFyaLW37OQmR5AweopCdkcvjgwDuZP5KFHNcYkgTDtRbyYG4KtVwkI+Taj/iwGhhHbDkRm6+grQ+HkWoaLuoMz99x9kaKMB0HHY1c27IWBho4Vi+JOswjA6j/ahenzvE7gwckUuoKcnPwQ2M+OK5cEzVcagXiQ==
+ MiOYQaMJ/VmUCIChbnXO/6y73NteNIE8tnBdOEV+3dYuhyj2H2uOZufQ8ZF9M17DL23NFjt9XjGAURbM2os0AarRq8fuWale/rlGiW/SevxJqz0o2wJk1lqDkLoU3FTMF4ryeQ2GxuaobqDur8zgyIpoznq0j+RN+F3/GHkhGjiEZj/6rMsc3ak0AFtRty+V0j/yrxYhx6u6C/f1ZIEwxy+68fa+V69ofqzWx+valS4hCAQ8lvi6O63DpY4jDSea0mGOcgjUabyJI/zp1zDNH4N6QAOkb7npVwd859A3NaUSj/o3y+Khb5+YLbwXQcyhbGQ1a9HteM6TAZxpmjn8b7J2JFiLbItEj9bxpx3F9AQHJQ4UXFCEEl2k7jOnXlF7VP4L5rsyjVnpQcyIvOORHRfz1qJcD9MRgeSFPsd8zomdczN7ywClySvOK+Tbol26t28RLQXbSUfgz+I+9yoeAQDzh/FcUpW/xFUph7oF5ineJpw7H+EL2zYQCOj9+hLK0GqWGv6/pPtto3jKbJQpKiYOrct2wRK2noo9prxw6uE8cnOAWcsI91gDY1EG9mtxmbra64CLYhSFPUhThUk/2/jUs1qSHO0pqzydzO/ugN16yUcHuzD0U5j1lMXnRjJRm+0qwUtsPwCTkbJRrT3Q7mbRqKDcq5EVE7dt5WMslMWLAvDutxXhq2CAbVxAmxLojKmSxdHl3EtcLIKsxhra9Xw0sjf6DaQ/aOsCP/x+M/vcevDF2T0O+OvFbdnlBFT/7MVX2N4u3xDu6h/yt+NXgw==
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR02MB7310.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(346002)(376002)(39860400002)(396003)(366004)(71200400001)(186003)(7696005)(8936002)(9686003)(122000001)(26005)(52536014)(6506007)(5660300002)(33656002)(41300700001)(478600001)(86362001)(82960400001)(83380400001)(38070700005)(38100700002)(6916009)(54906003)(316002)(55016003)(2906002)(91956017)(76116006)(4326008)(8676002)(64756008)(66446008)(66476007)(66556008)(66946007);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR02MB7310.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(136003)(346002)(366004)(376002)(52536014)(5660300002)(9686003)(41300700001)(8936002)(2906002)(122000001)(26005)(478600001)(33656002)(38100700002)(66556008)(66446008)(66946007)(76116006)(66476007)(86362001)(64756008)(91956017)(6506007)(8676002)(4326008)(7696005)(82960400001)(38070700005)(54906003)(6916009)(186003)(71200400001)(316002)(55016003)(83380400001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?+WvZcsbBet8EVBy6ZZa3sSQlMBmTKjF1Hqq3CVi6nmDc2Oa+KsHnVPbsj2?=
- =?iso-8859-1?Q?mkgeJfj9IPR1/FGZnmGTwwD+3P/oK2XGqT3SP66rBXYXR8/eTgUGidR0Io?=
- =?iso-8859-1?Q?Ubalz0FRWQgdUonoGENR9DA99hSs3JUiK7EOSlaXwVupWsiEiVXhAT5iZz?=
- =?iso-8859-1?Q?FO7LSuQRERXWMLYd7hP6SryXx+YvWK51CNsCegeQDQMzPN3vCpzhsT8Wzg?=
- =?iso-8859-1?Q?iahWbcczyET/iMn3xAm/kvZujZ0pHPORc2PnYAgV3AHaDUrs4ukDo2JpZr?=
- =?iso-8859-1?Q?qrNPaZ6xO5LvO/VO7yBmOt0Bed0i8OeBCpmqdsRwoe2KDI921ADNEJ7yV7?=
- =?iso-8859-1?Q?JZJtxGZR6XPoKMQCNFsgvoGjvzqkK7Dl8EEjwnwOW9lm2/NoCuJK9NJt+5?=
- =?iso-8859-1?Q?zHAzQ/djDKMCh0nZApoDl0afZvYnlV90ej4lrJA/WjbOU11K+sf1tB/+po?=
- =?iso-8859-1?Q?lV9BS+/P0lTzvGud1EEmcAbznHZ9KcxRk/DfTv5yR/EvXtcvhYpI+Jf97G?=
- =?iso-8859-1?Q?ulaxlB9e/8ZXnHZp7BRwP4x8t7EvG4U5Pv/Lai9qUuAL3IapanroVtHIXz?=
- =?iso-8859-1?Q?W4CHg5wAXXNaUI9C1Fcl4RWMLIsKHZ6+1mW8pL4m5rFixwRdjbBg5i4sym?=
- =?iso-8859-1?Q?XR97U8JOBALPQCpfAcT73jn6dL6hcURMd4sj6CC01/AmGK43/m5eyAmUIa?=
- =?iso-8859-1?Q?XDMEJjE5ZiDragbAGLSuAWp7EMSjk7/MD/0ZjbW1zdIB1T/E9rXJyxqtI9?=
- =?iso-8859-1?Q?8g6Hc1j8sxqA8cZoe/Gq+ae+bkEYxbWbcabV1CpJmhA2Jc1tl2J2Nkxf55?=
- =?iso-8859-1?Q?fQcWjtk2VJ9F8oCFDWq3GBZXXN11NT06O6uYl9GyukdRnDSlTzeyNP0R1x?=
- =?iso-8859-1?Q?GhTX7qTbqvmu9x6bDXqe6iVBe6fEAQTyCGUSl/GgOFq6mqhcRsIIrGGCVQ?=
- =?iso-8859-1?Q?81oLe6kDXYm+140KJsB6HOgp7h6DNAKeob/eBilZz8XtSXX2fbWEqhvPAl?=
- =?iso-8859-1?Q?wEPPpZqxZR2zD7+lcVjwtiWX8sPhwRfJFcGT+6f8Twl5/sft5UIAjMQ7rb?=
- =?iso-8859-1?Q?mvDfMigLR/e59LSYe+sd7v8KSqG3coA1VW0dqqDYIMeT1Inwk+dlyTfApJ?=
- =?iso-8859-1?Q?pqOXLsxsVVyOuOYNDSl+ke32qduBPolFJZhb+/CnRfsNMac2B8tRFfnnMN?=
- =?iso-8859-1?Q?cVwnp7tHVqTa3ICk6ZZrXni+DsV+gIhocns+YheHhPJc1Fs502+t/eoeKN?=
- =?iso-8859-1?Q?Oqj0jV2EIDgo9Sl1d3QoRqCd3HAfMQXP2DcX2Xhe094XFkGeQLJ3+QnyUF?=
- =?iso-8859-1?Q?A1MJUHp3DO+QprVuwVeoxZeGH+XgVNh6CkpB1Gre5FVv4LhttfA84eM4YB?=
- =?iso-8859-1?Q?gC0q5LeJ9HVq063TDYKvUY6IXvJ82Y9BPyJV6C2Dd8XqvKBstbo4h1WoZn?=
- =?iso-8859-1?Q?BALgaIca+sstaKY2rxsX6C8ADsDyFwIAnlzNcAf7YnjEops9JrcsQdk9hL?=
- =?iso-8859-1?Q?zp1cqkBseRRzv8q2K287l9eZHzGjCBz8NfmGIZ7Cn1vCq7CT2ctpsWwLOg?=
- =?iso-8859-1?Q?5I6HdfkT4pdgSUpA4pmGLvZkK/44r/hfLF7cYhUAEHUg+aRfNUJRCBH345?=
- =?iso-8859-1?Q?mE1n8HfTFODJu08rqTJ19CAhntvLOOvj7h?=
+ =?iso-8859-1?Q?Ip6GjMb8BUHnAZUhO3dACJDS5SzhW/6Zi/g1fkfd4FrFx/of3ALklqcJlz?=
+ =?iso-8859-1?Q?cYVhdaJKGZYkeS3Sbwc+PITN7Plxqg9MgYrKUFAxlhUbAm+Krc8voNJvSi?=
+ =?iso-8859-1?Q?JhLyOFMUs5S7Doy02PcTJewfxcGg55E1dvKzVNhB8TNjlqm7ViGkzIAKG7?=
+ =?iso-8859-1?Q?bOZvHdzkPOzSmpd7S2o3pj7Zr67fT7/dwii87xnPhfhe9aF9zD5yNr9cCW?=
+ =?iso-8859-1?Q?PxECV+PL5IRJW1/NWvhwCuUARBYVEyxDlPc4oF+RA5uJbyjV2XaE3dG0uy?=
+ =?iso-8859-1?Q?cO6LGElEvisiClQ8JYXA3dUVHWdtfrTs7OJtuSl70YW4qgu5wccp8kUtOv?=
+ =?iso-8859-1?Q?eohxjMf50cprdhh6uUT9JYDDlI1ksCCWxMRLaaveGV9xPU/Sa4JucyK8L/?=
+ =?iso-8859-1?Q?zlpQD60nTE4/t5meXdX+NcQHgng9iGv/W3TyAKdXiyQwoY8/Xu1Mr0oTCI?=
+ =?iso-8859-1?Q?mOHTOb5A29/hyIae4WvgmX3mdpKImNwEeM8AlBTd+ZGEw0O+f+3tjH6ewj?=
+ =?iso-8859-1?Q?AbrKPz+XQvaXX4yQ4jkZnOv3HxQHgeVEUWBLdVqL7jqdGRPw7jfakrB0Lz?=
+ =?iso-8859-1?Q?BDnEP/d91IBNoNe5Q4ZRyIz1WjKpJjJea+kmjP4NkCHklIo7J9eP3qzjX6?=
+ =?iso-8859-1?Q?AWHyerD4USoLHW3Gog3MEvWn8GZLxlcDx3w0pxr1nr4CeDwAMQo3DAaXkL?=
+ =?iso-8859-1?Q?UI8Svh//c1Te5Wp0sUO8s3etuxNHStqvXt5hs1pUuFFEmner23pty2D3x4?=
+ =?iso-8859-1?Q?UPNUyCOCZEDvY0DTV7/SrIFt8ge2uypiHe3nMUcLHVyGPLuOR22SUQcn1q?=
+ =?iso-8859-1?Q?/VG2VaDSEuxncx5ycx9t4opbhb8Xkkr0UGS2DwpNm3nwn7G9/HmIk66tfx?=
+ =?iso-8859-1?Q?WDRnL8FyOaKC45qolwjJkxxwvKgviLXpyPs68tSNyoXWGqq8AIREL9CFs8?=
+ =?iso-8859-1?Q?5hHCkcBlbqIt4hAiCbL2hyRc+IyHWG0goShU/AYGvGPKLLp4gcAzHI2eYh?=
+ =?iso-8859-1?Q?xR7xFbKRzg/0JV0yy7hLsKcvy1HmgL3D6j3g7ahcZgVT/1/zZRb6sDBRg+?=
+ =?iso-8859-1?Q?exU2UJhMG/w3DmJcGEKJXZH+50Z5l9hlCUuq+HhdyLnLvmrZ/HipjWlO4z?=
+ =?iso-8859-1?Q?tb2DpsLEpT3vDcM0LVIsvTN2IgqpQka1QNBqW3fCKkPadvgdk0h9GfatIx?=
+ =?iso-8859-1?Q?AaI7m9AXd1DGHniNwdsRXRtLSpvmVGwDjZPqVWMg5P27HED+Uci2Do/Ykr?=
+ =?iso-8859-1?Q?8kqH313KcQLnpJEomGGP9kmVEziWgcHPt1S+oXnFG94MKd/aWPRLmU+G7v?=
+ =?iso-8859-1?Q?BU23E2DDDUGT+ZmYsfq6Yq6RVPk2ev5NvTDcBIjP2Tx8So49+9lGV00CFG?=
+ =?iso-8859-1?Q?AlsJS91Xz0VwbYACWM0rXrSJYbqBbY7OCQtzY3oxdTJIf/mrSMDyrN/SR7?=
+ =?iso-8859-1?Q?k9G0aWVP5tCjE7+QZOsF7eJwjGRhN9Gti+eER7gGFchznNLySFs7mhvGsU?=
+ =?iso-8859-1?Q?C29f2r0OK6WcF+1KjzyPntwv6QTc1MLM8BM2sOw2cEO4zuUoNqYnFlv2Lp?=
+ =?iso-8859-1?Q?4j2aCUeGwUxYkBZG6THFr+br2bL9jhdpsI1z13MfLnkTE1bXEYkqtaGqsv?=
+ =?iso-8859-1?Q?UYZ1P90N0coUHAzqSz5vQORJHOzCMvWXe2?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -100,194 +98,205 @@ MIME-Version: 1.0
 X-OriginatorOrg: sap.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR02MB7310.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dec732a0-3ee5-4fd6-3e0f-08da8f102abc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2022 07:28:02.5262
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0df7705-de93-4cdb-5012-08da8f128013
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2022 07:44:44.6654
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 42f7676c-f455-423c-82f6-dc2d99791af7
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C3ljRCQgPogd9cg21jtJs2nvnCCABjPXVZKRZEanAyau/JHVOeJXmo9A59TzWP6QGFMgwhkJWy1/bH3REbizTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR02MB8208
+X-MS-Exchange-CrossTenant-userprincipalname: okNLlO5jJeMvFvBmvIyhtysbK5VGCvS4ECReQD5wKDxyOEyh2wQJgeVD/F3f4Mlci6eG2CLurQ+6HhSITlBMew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR02MB6241
 
->On Mon, Sep 05, 2022 at 06:07:07AM +0000, Czerwacki, Eial wrote:=0A=
->> >=A0=0A=
->> >On Sun, Sep 04, 2022 at 02:37:32PM +0000, Czerwacki, Eial wrote:=0A=
->> >> Greetings,=0A=
->> >> =0A=
->> >> while working on a driver, I've found a bug that I'm unable to unders=
-tand.=0A=
->> >> I assume that I'm doing something wrong. here is my reduced c file:=
-=0A=
->> >=0A=
->> ><snip>=0A=
->> >=0A=
->> >I'll provide a better review after my coffee, but just one comment=0A=
->> >first.=A0 Ok, two:=0A=
->> >=0A=
->> >> #ifndef sysfs_emit=0A=
->> >> #define sysfs_emit sprintf=0A=
->> >> #endif // sysfs_emit=0A=
->> >=0A=
->> >Wait what?=A0 You mention at the end that you do nto have sysfs_emit in=
-=0A=
->> >your kernel tree, but all activly maintained kernels does have this=0A=
->> >function.=A0 You should NEVER be working on a kernel tree that is not=
-=0A=
->> >actually supported, and for new code like you are wanting to submit, yo=
-u=0A=
->> >should always work on Linus's tree, or the last release, or something=
-=0A=
->> >newer.=0A=
->> >=0A=
->> >Please move to 5.19 now, it will save you so much time later on...=0A=
->> well, I'm kinda binded to this kernel version buy you are right.=0A=
+>On Sun, Sep 04, 2022 at 02:37:32PM +0000, Czerwacki, Eial wrote:=0A=
+>> Greetings,=0A=
+>>=0A=
+>> while working on a driver, I've found a bug that I'm unable to understan=
+d.=0A=
+>> I assume that I'm doing something wrong. here is my reduced c file:=0A=
 >=0A=
->What kernel version does not have sysfs_emit()?=0A=
-SELS 15 SP2, it uses kernel 5.3.18-24.67=0A=
+>Other minor things now that my coffee has kicked in:=0A=
+>=0A=
+>> /* modules info */=0A=
+>> #define DEVICE_NAME "vSMP"=0A=
+>> #define DRIVER_LICENSE "GPL v2"=0A=
+>> #define DRIVER_AUTHOR "Eial Czerwacki <eial.czerwacki@sap.com>"=0A=
+>> #define DRIVER_DESC "vSMP hypervisor driver"=0A=
+>=0A=
+>For things that you only ever use once, no need for a #define.=0A=
+sure=0A=
 =0A=
 >=0A=
->> I'll move to newer kernel.=0A=
->> I'll worry about backports later=0A=
+>> #define DRIVER_VERSION "0.1"=0A=
 >=0A=
->backports are always easier than forward-ports.=0A=
-sounds logical=0A=
-=0A=
->=0A=
->> >> static int vsmp_pci_probe(struct pci_dev *pci, const struct pci_devic=
-e_id *id)=0A=
->> >> {=0A=
->> >>=A0=A0=A0=A0=A0=A0=A0 struct data *d;=0A=
->> >>=A0=A0=A0=A0=A0=A0=A0 int ret_val =3D 0;=0A=
->> >> =0A=
->> >>=A0=A0=A0=A0=A0=A0=A0 d =3D devm_kzalloc(&pci->dev, sizeof(*d), GFP_KE=
-RNEL);=0A=
->> >>=A0=A0=A0=A0=A0=A0=A0 if (IS_ERR(d))=0A=
->> >>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return PTR_ERR(d);=0A=
->> >> =0A=
->> >>=A0=A0=A0=A0=A0=A0=A0 d->pdev =3D pci;=0A=
->> >>=A0=A0=A0=A0=A0=A0=A0 pci_set_drvdata(pci, d);=0A=
->> >>=A0=A0=A0=A0=A0=A0=A0 d->kobj =3D kobject_create_and_add(ROOT_SYFS_FOL=
-DER, &d->pdev->dev.kobj);=0A=
->> >=0A=
->> >This is the issue, no driver should ever be calling any kobject_*() or=
-=0A=
->> >sysfs_*() calls, unless something went very very wrong.=0A=
->> >=0A=
->> >Drivers and devices have their own tree in sysfs, with 'struct device'=
-=0A=
->> >to use.=A0 You have a device here, use that, don't try to create a whol=
-e=0A=
->> >new sysfs tree somewhere else in the heiarchy which does not reflect th=
-e=0A=
->> >actual device you are using here.=0A=
->> >=0A=
->> >You then try to tie a device as a child to a kobject, which breaks the=
-=0A=
->> >whole logical chain here, and then confuses your callback as you really=
-=0A=
->> >don't have the device pointer anymore, it's some other random thing.=0A=
->> >=0A=
->> >So step back and try to describe first what you want to see in sysfs,=
-=0A=
->> >and then maybe it will be more obvious as to what you need to do here.=
-=0A=
->> >=0A=
->> >Write the Documentation/ABI/ entries first, what do they look like for=
-=0A=
->> >your new sysfs files?=0A=
->> =0A=
->> I thought that is my issue but wasn't sure.=0A=
->> what I'm looking for is this tree:=0A=
->> - vsmp=0A=
->> -- version=0A=
->> -- summery=0A=
->> --- data#1=0A=
->> ...=0A=
->> --- data#n=0A=
->> -- boards=0A=
->> --- 0=0A=
->> ---- data#1=0A=
->> ...=0A=
->> ---- data#k=0A=
->> --- 1=0A=
->> ...=0A=
->> --- l=0A=
->> =0A=
->> each board has a predefine set of attributes when I need to add another =
-depending on the type.=0A=
->> also there are shared attributes between summery folder and the boards. =
-that I was able to implement based on the name of the entry=0A=
->=0A=
->So "boards" are devices, and then you need a bus to manage them.=A0 Are=0A=
->you sure you need/want all of this?=0A=
-no, boards are not devices, they logical partitions inside the hypervisor.=
-=0A=
-each board has its own data I'd like to export.=0A=
+>drivers never have versions once they are merged into the kernel tree,=0A=
+>just drop it.=0A=
+acked=0A=
 =0A=
 >=0A=
->And what exactly is in the other files?=0A=
-version is the hypervisor's version, the summery is data the user can extra=
-ct=0A=
-in order to build a complete image of the system configuration=0A=
+>>=0A=
+>> #define PCI_DEVICE_ID_SAP_FLX_VSMP_CTL 0x1011=0A=
+>>=0A=
+>> #define ROOT_SYFS_FOLDER "vsmp"=0A=
+>> #define DEVICE_ATTR_NAME(_name_) &dev_attr_##_name_ .attr=0A=
+>=0A=
+>That's very very odd, don't do that.=A0 Spell it out so that it makes=0A=
+>sense what is happening, otherwise this looks like a driver-core #define=
+=0A=
+>that I had never known was there.=A0 Turns out it wasn't there :)=0A=
+will do=0A=
 =0A=
 >=0A=
->> that I'd like to see under /sys/hypervisor=0A=
+>> #ifndef sysfs_emit=0A=
+>> #define sysfs_emit sprintf=0A=
+>> #endif // sysfs_emit=0A=
+>>=0A=
+>> MODULE_LICENSE(DRIVER_LICENSE);=0A=
+>> MODULE_AUTHOR(DRIVER_AUTHOR);=0A=
+>> MODULE_DESCRIPTION(DRIVER_DESC);=0A=
+>> MODULE_VERSION(DRIVER_VERSION);=0A=
+>>=0A=
+>> #define MAX_LABEL_LEN 81=0A=
+>>=0A=
+>> struct data {=0A=
+>>=A0=A0=A0=A0=A0=A0 char version[MAX_LABEL_LEN];=0A=
+>>=A0=A0=A0=A0=A0=A0 struct pci_dev *pdev;=0A=
+>>=A0=A0=A0=A0=A0=A0 struct kobject *kobj;=0A=
 >=0A=
->/sys/hypervisor probably isn't the place for all of that mess.=A0 You are=
+>Think about which structure is going to own this data.=A0 You have=0A=
+>pointers to 2 reference counted objects, yet no reference count on this=0A=
+>object.=A0 So who controls the lifespan of it and how?=0A=
+>=0A=
+the kobj ptr is just for the link I've mentioned in the other mail.=0A=
+as for pdev, I assume that I can get the bars somehow from the device struc=
+t right?=0A=
 =0A=
->going to have devices and a bus and all sorts of other complex things.=0A=
-from what I understand, when I add a sysfs tree to a device, it exists in s=
-ide the device's full path.=0A=
-as the device can sit on different slots, it will have different path.=0A=
-to enable simpler data extraction, I'd like place it under a constant path,=
- like every block device=0A=
-can be accessed via /sys/block=0A=
+>> };=0A=
+>>=0A=
+>> static ssize_t version_show(struct device *dev, struct device_attribute =
+*attr,=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 char *buf)=0A=
+>> {=0A=
+>>=A0=A0=A0=A0=A0=A0 struct data *d =3D dev_get_drvdata(dev);=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0 return sysfs_emit(buf, "%s\n", d->version);=0A=
+>> }=0A=
+>>=0A=
+>> DEVICE_ATTR_RO(version);=0A=
+>>=0A=
+>> static int populate_version(struct data *d)=0A=
+>> {=0A=
+>>=A0=A0=A0=A0=A0=A0 int ret_val;=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0 snprintf(d->version, sizeof(d->version) - 1,=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "%u.%u.%u.%u", 1,2,3,4);=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0 ret_val =3D sysfs_add_file_to_group(d->kobj, DEVICE_AT=
+TR_NAME(version), NULL);=0A=
+>=0A=
+>Just call sysfs_create_file(), don't add a file to a group like this.=0A=
+>=0A=
+>If you want a named group, then statically create it ahead of time with=0A=
+>a name, which makes this all much simpler.=0A=
+>=0A=
+>In fact, never call any "create_file()" function, use lists of attribute=
 =0A=
-in later stages of the driver, more information will be exported and maybe =
-data will be imported into the device using=0A=
-the driver=0A=
+>groups as the driver core handles them automatically for you, no need to=
+=0A=
+>manually add or remove or anything else.=A0 Much simpler and easier for a=
+=0A=
+>driver writer to use instead of having to have the same error handling=0A=
+>logic everywhere.=0A=
+you are correct, I don't know why I decided to treat the parent folder as g=
+roup.=0A=
+will use that, thanks=0A=
 =0A=
 >=0A=
->Step back and explain exactly what you are trying to export, who will be=
+>>=A0=A0=A0=A0=A0=A0 if (ret_val) {=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_err(&d->pdev->dev, "Failed=
+ to create version entry, error (%d)\n",=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret_va=
+l);=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -EINVAL;=0A=
+>>=A0=A0=A0=A0=A0=A0 }=0A=
+>>=A0=A0=A0=A0=A0=A0 dev_info(&d->pdev->dev, "version is %s\n", d->version)=
+;=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0 return ret_val;=0A=
+>> }=0A=
+>>=0A=
+>> static const struct pci_device_id vsmp_pci_table[] =3D {=0A=
+>>=A0=A0=A0=A0=A0=A0 { PCI_VDEVICE(SCALEMP, PCI_DEVICE_ID_SAP_FLX_VSMP_CTL)=
+, 0, },=0A=
+>>=A0=A0=A0=A0=A0=A0 { 0, }, /* terminate list */=0A=
+>> };=0A=
+>>=0A=
+>> static int vsmp_pci_probe(struct pci_dev *pci, const struct pci_device_i=
+d *id)=0A=
+>> {=0A=
+>>=A0=A0=A0=A0=A0=A0 struct data *d;=0A=
+>>=A0=A0=A0=A0=A0=A0 int ret_val =3D 0;=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0 d =3D devm_kzalloc(&pci->dev, sizeof(*d), GFP_KERNEL);=
 =0A=
->using it, and what format you want it in.=A0 This feels like a lot of=0A=
->stuff that is probably not needed except for debugging.=0A=
-each instance of vSMP is comprised of logical partitions.=0A=
-the instance has it's own data required to be exported.=0A=
-each logical partition has it's own data required to be exported.=0A=
-that is why the above tree was suggested.=0A=
+>>=A0=A0=A0=A0=A0=A0 if (IS_ERR(d))=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return PTR_ERR(d);=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0 d->pdev =3D pci;=0A=
+>>=A0=A0=A0=A0=A0=A0 pci_set_drvdata(pci, d);=0A=
+>>=A0=A0=A0=A0=A0=A0 d->kobj =3D kobject_create_and_add(ROOT_SYFS_FOLDER, &=
+d->pdev->dev.kobj);=0A=
+>=0A=
+>That's a crazy pointer chain there.=0A=
+>=0A=
+>Never add a "raw" kobject to a struct device as you then just broke the=0A=
+>tree and userspace will never know it is there so userspace tools and=0A=
+>libraries can't see it unless they manually walk the sysfs tree (and you=
 =0A=
-the data will be used by a layer that gather the information and exports it=
- to ui and to scripts that log the info=0A=
-it isn't a debug info because there are some tools that need to know the a =
-partition's information to run properly=0A=
+>really don't want them doing that.)=A0 With what you did here, this object=
+=0A=
+>is now invisible to libudev so no library will see it :(=0A=
+that is the root of my issue, right?=0A=
 =0A=
 >=0A=
->If this isn't for debugging, it's going to be a lot more complex than=0A=
->"simple" attributes for a driver, sorry.=A0 You are going to need as I=0A=
->mention above, to use a bus and other things which feels kind of wrong=0A=
->as odds are this isn't a bus, right?=0A=
-that is correct, see above explanation=0A=
+>=0A=
+>>=A0=A0=A0=A0=A0=A0 if (!d->kobj) {=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 kfree(d);=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_err(&d->pdev->dev, "Failed=
+ to create vSMP sysfs entry.\n");=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -EINVAL;=0A=
+>>=A0=A0=A0=A0=A0=A0 }=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0 ret_val =3D sysfs_create_link(hypervisor_kobj, d->kobj=
+, ROOT_SYFS_FOLDER);=0A=
+>=0A=
+>Again, no need to ever create a link here.=A0 symlinks are usually for=0A=
+>pointing to attributes of something (driver, device, etc.) or for when=0A=
+>we have messed up in the past and had to move an object somewhere else=0A=
+>and keep userspace from breaking by adding a link so that tools continue=
+=0A=
+>to work properly.=0A=
+>=0A=
+>Don't create links to start with for no good reason.=A0 And if you do,=0A=
+>document the heck out of it so we understand why.=0A=
+I understand, as said in the other mail, the link is for easy access to the=
+ data like=0A=
+block devices can be found under /sys/block=0A=
 =0A=
 >=0A=
->> I have no problems using link from the device's path to /sys/hypervisor=
-=0A=
+>>=A0=A0=A0=A0=A0=A0 if (ret_val) {=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 kobject_del(d->kobj);=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 kfree(d);=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_err(&d->pdev->dev, "Failed=
+ to link obj to hypervisor, error (%d)\n", ret_val);=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return ret_val;=0A=
+>>=A0=A0=A0=A0=A0=A0 }=0A=
+>>=0A=
+>>=A0=A0=A0=A0=A0=A0 populate_version(d);=0A=
 >=0A=
->Why would you create a link?=A0 Look at what existing hypervisors do in=0A=
->/sys/hypervisor, there's no links there, only a small set of information=
-=0A=
->that userspace can use for the Xen code, or a more complex virtual=0A=
->filesystem that the s390 hypervisor mounts at that location.=A0 No one=0A=
->creates a symlink under there, why would that be necessary?=0A=
->=0A=
->But again, stop and think about the information you want to export and=0A=
->who would be using it.=A0 If you can explain that first, that might make=
-=0A=
->it easier to point out how to do it best.=0A=
->=0A=
-=0A=
-I hope I've explained myself properly,=0A=
-=0A=
-Thanks,=0A=
+>No error handling :)=0A=
+right, thanks!=0A=
 =0A=
 Eial=
