@@ -1,102 +1,77 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387453C02
-	for <linux-staging@lists.linux.dev>; Sun,  4 Sep 2022 19:25:15 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id 78so6352812pgb.13
-        for <linux-staging@lists.linux.dev>; Sun, 04 Sep 2022 12:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=emZNPPVwOPEYtlX5oujYRHUo2IH2LiQXBoAVIF8q5zg=;
-        b=kaepJ0W4BxacL0kZ6uRT6GN1grtPahza2D3S0Y9nDBIblRX7LqqRKaCFYX6aX11AjS
-         mby8Jh2LEvOln9FNbW7XdBXzqRoUmKVgt9S8l8/32OUuun+mtR/U1mEyqtzIQXZG30pR
-         1+2PtRx92nGRi8R7r7RL+hBbMt9auoqtROEAgbe0tuEI0goapEop+zYjM3aejMsrIp07
-         msiXjxMVSlgqijzAOQqgLZRb+3omjaI7mMb6qXhzQVWLMGapoqumEJ6d9OgtTQpRhNr1
-         dpDtIQqLCB8bgfr5u7jNLH2ULQMMdDnsxF65inL8NX4UgrBBfNSZIOIScTkJbsmkjICz
-         yZZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=emZNPPVwOPEYtlX5oujYRHUo2IH2LiQXBoAVIF8q5zg=;
-        b=WKPaJt5WaZ54p3vrLZSTKPQ6Mtd2m22vCTapZvmQlG1k81LOiqep8EqBbnQvYfm3Nd
-         Fy7h4+X3MvtAnrGbfxQQfkEyYrS5NZPHADbT485n+LYndFj68XPJPaplTqARWBIH0JAF
-         HmZL0zLOVjO6tv7DI5ygTecNXnfMPbYOikLjU1cG8rE7V+1xC+1lLfUs4jhOvGEMwkmm
-         7H7mI4Kl1v+jPoTbWY3wG22hX5scBexv5YCsk+42BBWD9Iq/Tmh1gTmLqLtoE74q+LJp
-         R/ZUBPJjbQjiWiL4+7sIA6BlZsrXYfOm/1ObMdEmdaxtBqWJ3e1Rt5ujjlB/TyfVa5yG
-         TLng==
-X-Gm-Message-State: ACgBeo1Ht3WTbBjxcqP+rtzzY7QtCGCDgdTCLmIcRgoEsatauCiMjSEk
-	EeV40dncQ2IYXH/eFABC8S4=
-X-Google-Smtp-Source: AA6agR53RUWZD7DU1GRWOn3CBvjcndSAHXe4f89dMVrmtkg2TgC1L7Qo9IicFkuzmTI8p0Cckgih9g==
-X-Received: by 2002:aa7:8149:0:b0:536:84bf:69a0 with SMTP id d9-20020aa78149000000b0053684bf69a0mr47231471pfn.85.1662319514634;
-        Sun, 04 Sep 2022 12:25:14 -0700 (PDT)
-Received: from asif-desktop.domain.name ([122.177.222.82])
-        by smtp.gmail.com with ESMTPSA id j23-20020a632317000000b0042bd73400b6sm4968449pgj.87.2022.09.04.12.25.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Sep 2022 12:25:14 -0700 (PDT)
-From: Asif Khan <asif.kgauri@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: Asif Khan <asif.kgauri@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8712: fix camelcase in UserPriority
-Date: Mon,  5 Sep 2022 00:54:00 +0530
-Message-Id: <20220904192400.8309-1-asif.kgauri@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E7B15A7
+	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 01:23:23 +0000 (UTC)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MLW002nkYzlWl3;
+	Mon,  5 Sep 2022 09:19:44 +0800 (CST)
+Received: from [10.67.110.173] (10.67.110.173) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 5 Sep 2022 09:23:15 +0800
+Message-ID: <2a5e1f33-45ee-2da7-19fb-f0ef66418e9e@huawei.com>
+Date: Mon, 5 Sep 2022 09:23:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RESEND PATCH] staging: r8188eu: Fix return type for
+ implementation of ndo_start_xmit
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <linux-staging@lists.linux.dev>, <Larry.Finger@lwfinger.net>,
+	<phil@philpotter.co.uk>, <paskripkin@gmail.com>
+References: <20220902081653.60682-1-guozihua@huawei.com>
+ <YxG+DNzyUcPIjXZC@kroah.com>
+From: "Guozihua (Scott)" <guozihua@huawei.com>
+In-Reply-To: <YxG+DNzyUcPIjXZC@kroah.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.110.173]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500024.china.huawei.com (7.185.36.203)
+X-CFilter-Loop: Reflected
 
-Replace camelcase variable UserPriority with snake case
-variable user_priority.
+Hi Greg,
 
-Signed-off-by: Asif Khan <asif.kgauri@gmail.com>
----
- drivers/staging/rtl8712/xmit_linux.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Sorry for the confusion.
 
-diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
-index 4a93839bf947..aaabd1189ab0 100644
---- a/drivers/staging/rtl8712/xmit_linux.c
-+++ b/drivers/staging/rtl8712/xmit_linux.c
-@@ -66,16 +66,16 @@ void r8712_set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
- {
- 	struct ethhdr etherhdr;
- 	struct iphdr ip_hdr;
--	u16 UserPriority = 0;
-+	u16 user_priority = 0;
- 
- 	_r8712_open_pktfile(ppktfile->pkt, ppktfile);
- 	_r8712_pktfile_read(ppktfile, (unsigned char *)&etherhdr, ETH_HLEN);
- 
--	/* get UserPriority from IP hdr*/
-+	/* get user_priority from IP hdr*/
- 	if (pattrib->ether_type == 0x0800) {
- 		_r8712_pktfile_read(ppktfile, (u8 *)&ip_hdr, sizeof(ip_hdr));
--		/*UserPriority = (ntohs(ip_hdr.tos) >> 5) & 0x3 ;*/
--		UserPriority = ip_hdr.tos >> 5;
-+		/*user_priority = (ntohs(ip_hdr.tos) >> 5) & 0x3 ;*/
-+		user_priority = ip_hdr.tos >> 5;
- 	} else {
- 		/* "When priority processing of data frames is supported,
- 		 * a STA's SME should send EAPOL-Key frames at the highest
-@@ -83,9 +83,9 @@ void r8712_set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
- 		 */
- 
- 		if (pattrib->ether_type == 0x888e)
--			UserPriority = 7;
-+			user_priority = 7;
- 	}
--	pattrib->priority = UserPriority;
-+	pattrib->priority = user_priority;
- 	pattrib->hdrlen = WLAN_HDR_A3_QOS_LEN;
- 	pattrib->subtype = WIFI_QOS_DATA_TYPE;
- }
+On 2022/9/2 16:25, Greg KH wrote:
+> On Fri, Sep 02, 2022 at 04:16:53PM +0800, GUO Zihua wrote:
+>> Since Linux now supports CFI, it will be a good idea to fix mismatched
+>> return type for implementation of hooks. Otherwise this might get
+>> cought out by CFI and cause a panic.
+>>
+>> Use enums from netdev_tx_t as return value instead, then change return
+>> type to netdev_tx_t.
+>>
+>> Signed-off-by: GUO Zihua <guozihua@huawei.com>
+>> ---
+>>   drivers/staging/r8188eu/include/xmit_osdep.h | 2 +-
+>>   drivers/staging/r8188eu/os_dep/xmit_linux.c  | 4 ++--
+>>   2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> Why is this and the other commits, marked as RESEND?
+
+The first version of the patch has a truncated subject, thus the resend. 
+It might be better to send a v2 patches instead..
+> 
+> And any reason you didn't cc: the staging maintainer on this commit?
+
+It's my first time sending patches to the staging maillist. When I run 
+get_maintainer.pl on the patch I don't see a "maintainer", but only 
+"supporters" and "reviewers". Is that for staging there are a group of 
+maintainers for all modules?
+> 
+> confused,
+> 
+> greg k-h
+> .
 -- 
-2.17.1
-
+Best
+GUO Zihua
