@@ -1,28 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F88923AA
-	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 05:16:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353A3C433C1;
-	Mon,  5 Sep 2022 05:16:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0F123AA
+	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 05:49:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6727FC433C1;
+	Mon,  5 Sep 2022 05:49:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1662354998;
-	bh=CHW0t+DHInOV7nEGEJSX5j1DUY+0LavjNaSE0/vDXvM=;
+	s=korg; t=1662356975;
+	bh=vhMSOTB9znlOMXJHPCNYmmcVJOPCj7/dgieal2iZlNY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H4I0NneLcHdL0uCAMzV12k7my9vPKdZlgaCr2LnSWVOMBntjZf+zVeJLdwjSWaCy8
-	 277auevit1txA0xur/CmkcC+uX7Y7Qcien3QRpN2LrlAcFCH+nbFPOZ3h09G5mSyBl
-	 uyz0vsRQOH/SW4r7MjSC9ovgtdoMDX9f5+RaXAyg=
-Date: Mon, 5 Sep 2022 07:16:35 +0200
+	b=wRY1Vl90EXpyl9OY1gbcE7Wf9OWfi9YBYkznE8khtnGEPAQyBceV+iz4eAuWWCMDM
+	 usoblsAP4cA0IohyazUd5V2yXjFYCTRbFNRWyldc+58uyVZRBYWHCDOs5Hwp4MnvPo
+	 yT+a4EoUJo12Gh71Tn/Rvr9ucTxgT0jzLU9YVDto=
+Date: Mon, 5 Sep 2022 07:49:32 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: "Guozihua (Scott)" <guozihua@huawei.com>
-Cc: linux-staging@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com
-Subject: Re: [RESEND PATCH] staging: r8188eu: Fix return type for
- implementation of ndo_start_xmit
-Message-ID: <YxWGM+f1d4+sCKMj@kroah.com>
-References: <20220902081653.60682-1-guozihua@huawei.com>
- <YxG+DNzyUcPIjXZC@kroah.com>
- <2a5e1f33-45ee-2da7-19fb-f0ef66418e9e@huawei.com>
+To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
+Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"Hammer, Gal" <gal.hammer@sap.com>
+Subject: Re: invalid drv data in show attribute
+Message-ID: <YxWN7Fm07segTeqU@kroah.com>
+References: <PAXPR02MB7310E14184AA4389841AE89E817C9@PAXPR02MB7310.eurprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,44 +28,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2a5e1f33-45ee-2da7-19fb-f0ef66418e9e@huawei.com>
+In-Reply-To: <PAXPR02MB7310E14184AA4389841AE89E817C9@PAXPR02MB7310.eurprd02.prod.outlook.com>
 
-On Mon, Sep 05, 2022 at 09:23:15AM +0800, Guozihua (Scott) wrote:
-> Hi Greg,
+On Sun, Sep 04, 2022 at 02:37:32PM +0000, Czerwacki, Eial wrote:
+> Greetings,
 > 
-> Sorry for the confusion.
-> 
-> On 2022/9/2 16:25, Greg KH wrote:
-> > On Fri, Sep 02, 2022 at 04:16:53PM +0800, GUO Zihua wrote:
-> > > Since Linux now supports CFI, it will be a good idea to fix mismatched
-> > > return type for implementation of hooks. Otherwise this might get
-> > > cought out by CFI and cause a panic.
-> > > 
-> > > Use enums from netdev_tx_t as return value instead, then change return
-> > > type to netdev_tx_t.
-> > > 
-> > > Signed-off-by: GUO Zihua <guozihua@huawei.com>
-> > > ---
-> > >   drivers/staging/r8188eu/include/xmit_osdep.h | 2 +-
-> > >   drivers/staging/r8188eu/os_dep/xmit_linux.c  | 4 ++--
-> > >   2 files changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > Why is this and the other commits, marked as RESEND?
-> 
-> The first version of the patch has a truncated subject, thus the resend. It
-> might be better to send a v2 patches instead..
+> while working on a driver, I've found a bug that I'm unable to understand.
+> I assume that I'm doing something wrong. here is my reduced c file:
 
-Yes please do that.
+<snip>
 
-> > And any reason you didn't cc: the staging maintainer on this commit?
+I'll provide a better review after my coffee, but just one comment
+first.  Ok, two:
+
+> #ifndef sysfs_emit
+> #define sysfs_emit sprintf
+> #endif // sysfs_emit
+
+Wait what?  You mention at the end that you do nto have sysfs_emit in
+your kernel tree, but all activly maintained kernels does have this
+function.  You should NEVER be working on a kernel tree that is not
+actually supported, and for new code like you are wanting to submit, you
+should always work on Linus's tree, or the last release, or something
+newer.
+
+Please move to 5.19 now, it will save you so much time later on...
+
+> static int vsmp_pci_probe(struct pci_dev *pci, const struct pci_device_id *id)
+> {
+> 	struct data *d;
+> 	int ret_val = 0;
 > 
-> It's my first time sending patches to the staging maillist. When I run
-> get_maintainer.pl on the patch I don't see a "maintainer", but only
-> "supporters" and "reviewers". Is that for staging there are a group of
-> maintainers for all modules?
+> 	d = devm_kzalloc(&pci->dev, sizeof(*d), GFP_KERNEL);
+> 	if (IS_ERR(d))
+> 		return PTR_ERR(d);
+> 
+> 	d->pdev = pci;
+> 	pci_set_drvdata(pci, d);
+> 	d->kobj = kobject_create_and_add(ROOT_SYFS_FOLDER, &d->pdev->dev.kobj);
 
-See the MAINTAINERS file for what "supported" and "maintained" and the
-rest mean and just include them all when you submit a patch.
+This is the issue, no driver should ever be calling any kobject_*() or
+sysfs_*() calls, unless something went very very wrong.
+
+Drivers and devices have their own tree in sysfs, with 'struct device'
+to use.  You have a device here, use that, don't try to create a whole
+new sysfs tree somewhere else in the heiarchy which does not reflect the
+actual device you are using here.
+
+You then try to tie a device as a child to a kobject, which breaks the
+whole logical chain here, and then confuses your callback as you really
+don't have the device pointer anymore, it's some other random thing.
+
+So step back and try to describe first what you want to see in sysfs,
+and then maybe it will be more obvious as to what you need to do here.
+
+Write the Documentation/ABI/ entries first, what do they look like for
+your new sysfs files?
 
 thanks,
 
