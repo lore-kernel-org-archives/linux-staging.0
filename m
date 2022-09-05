@@ -1,34 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0652561
-	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 15:12:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD6A0C433C1;
-	Mon,  5 Sep 2022 15:12:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1662390761;
-	bh=BSlwGzouF4rZhyWM7zDqGLelKA0QnmksCDYwt2aAi0Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VEltJ6hHtKIngsw1wbEIEppn9q81PooFROdAJvFTHue4rBoi9Zka+ftH1/CU3AsL+
-	 fMAP6HdRiEWyJZvCLa6/Z+decVkHv8PLExpP8HjTCNj+Qw7gkg0IC+cc8Uh/e5xXhu
-	 ao4ZV7du1X2f12rku1jVHq4199hCbdx79y5OGUY8=
-Date: Mon, 5 Sep 2022 17:12:37 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
-Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"Hammer, Gal" <gal.hammer@sap.com>,
-	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-Subject: Re: invalid drv data in show attribute
-Message-ID: <YxYR5SyPB6G5vDXH@kroah.com>
-References: <PAXPR02MB7310E14184AA4389841AE89E817C9@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YxWN7Fm07segTeqU@kroah.com>
- <PAXPR02MB7310BEB4DB4237CDE90D9F1A817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YxWewlIruFL500al@kroah.com>
- <PAXPR02MB7310F72EB4259C35A364F8BB817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YxXgfRx/E26kl/N7@kroah.com>
- <PAXPR02MB73100F851CC17B941A5CA49D817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YxXnT42bNR0got/E@kroah.com>
- <PAXPR02MB7310E5970299650B7B81B399817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDAD4416
+	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 15:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662391819; x=1693927819;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8mFpiMAF6eHHpFQcvhpWXup3tSDSzv5VQh4Nu0g1c1w=;
+  b=B+pQVkybqJ9hN1Z0qMbh3NCfUfVftCRHBDmuO8L2HMk2QZgakVT2FF8k
+   OU2JK9fd2PUrj/DO9hyizoTsj3JZeG9IFBKclAIY0/38pcnBtlFmWQmwk
+   NNEXK08oFtbGJa8XQ0XVBZkzEJn3nvPaULA7kQaMyspzmga5VFlOWZ1DK
+   ygD6PKYr78jA14UoCEJXxLaYqFfqyUe27IuZRvRLn627fBL8HkkVHQCac
+   YoXbqxIYP9+2jhQ32jy3ZXY9UBWwqMa9cOJ3NGhWBWBAw3DWBhIZToPK+
+   OlbP+be4p3E3tBNPDOhrCmMKWfKCxaOL+Hz8R/2hDeY+u+M/0XeJ1gdlo
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="296414475"
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; 
+   d="scan'208";a="296414475"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 08:30:18 -0700
+X-IronPort-AV: E=Sophos;i="5.93,291,1654585200"; 
+   d="scan'208";a="756074824"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 08:30:17 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1oVE3C-008jBK-0c;
+	Mon, 05 Sep 2022 18:30:14 +0300
+Date: Mon, 5 Sep 2022 18:30:13 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] media: atomisp_gmin_platform: Unexport and split
+ camera_sensor_csi()
+Message-ID: <YxYWBSo+fceHCAOd@smile.fi.intel.com>
+References: <20220730162027.1011-1-andriy.shevchenko@linux.intel.com>
+ <Yud2cwiCCnq4x50L@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,41 +50,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR02MB7310E5970299650B7B81B399817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+In-Reply-To: <Yud2cwiCCnq4x50L@paasikivi.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Sep 05, 2022 at 12:56:29PM +0000, Czerwacki, Eial wrote:
-> >And aren't there others at your company that can help you with this?
-> afaik, there is not expert on kernel in the company.
-> there are some workers that have experience in kernel development but they are from our team
++Cc: Hans
 
-SAP is a big company, I think you should seek them out if you are
-wanting to add new subsystems to the kernel to get their help as doing
-this is not a trivial task.
+On Mon, Aug 01, 2022 at 06:45:07AM +0000, Sakari Ailus wrote:
+> On Sat, Jul 30, 2022 at 07:20:27PM +0300, Andy Shevchenko wrote:
 
-> >> I'd prefer not adding complex code to the utils which need to traverse the sysfs tree to collect the right data
-> >
-> >for device in $(ls /sys/bus/vsmp/device/); do
-> now I understand!
-> that is what I was missing.
-> so inside /sys/bus/vsmp/device/ I can find the following tree?
-> 1
-> 2
-> 3
-> ...
-> n
-> ?
+...
 
-Yes, or how ever you want to name these "boards".
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-> so I can create entries in /sys/hypervisor/vsmp for the global info
+Thanks!
 
-Yes.
+Hans, maybe you want to include this one into your bunch?
 
-> and link /sys/bus/vsmp/device/ to /sys/hypervisor/vsmp/boards?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-No symlink needed at all, they are independent things, right?  What
-would require such a symlink?
 
-thanks,
-
-greg k-h
