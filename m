@@ -1,129 +1,77 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36FF4406
-	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 14:46:31 +0000 (UTC)
-Received: by mail-vs1-f41.google.com with SMTP id c3so9033478vsc.6
-        for <linux-staging@lists.linux.dev>; Mon, 05 Sep 2022 07:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=YU0FG8NIgWFXTecL+SSdFhlFXIMEHFMnYWxd7GHUf8g=;
-        b=ShCU/sqnPmsBQULRc/uE8T/q2ecAZZbN2XZRVNDeqtAskHJ1F5Sg3qwqjs+PYi0OgZ
-         fuG8L/1cfvtGXzMhY3RhGK9gmbLALf9U2YmL1sBRdPngaCnZhNM3m/Nih0B6q2Gp519H
-         HI7lukhYIxgjmQku6YQs/krNGcmq9cdcQNoDhOGMMpFO0gPvivWSVd2hGYwvm1Eto+8/
-         HZ/V1KY4LZZmwE9NhFq+Jk+QdsuUxOJ9bkgcs9fuklJfEy1OkDlTzsbxOctqvBG3yn3e
-         94nIYB+e7sgsETzn0pRHDgKVinWFCP3QTBpkMom4iRtu2eiHtH56/H14QKeXpNZZ7o2T
-         fVWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=YU0FG8NIgWFXTecL+SSdFhlFXIMEHFMnYWxd7GHUf8g=;
-        b=zjyqEf7/Cm3Bpl2S1VUHbGO34wR+zrrWoVp+VJjz0el4YiI3RL01Tgutf/qIxxyv/b
-         XXZxpOqS4UqdfcBYH4xuWjqUlyNjUlFnkDdYL49FljL2+Bf2WYX9E4QIUu+DckyrC+F6
-         aRi8y1cMArhLhg+hdElPqUlWWu2WdZ6dRer1sMOyn6WYrskTXHVi6QH3jVaElbfNGM36
-         IipTmJiCWBuVXIawtfu404UI2Esx9wb8A6OBdlJZVTC+SjmFu5NzMq5ZlOHg4yxjAYh3
-         r4lGLLwVtWekWGuG4cjf7dgtzP2PEVA7RBrIDkrgkneRsuD52BB/6nom3B8HDxRaxwF2
-         7Lvg==
-X-Gm-Message-State: ACgBeo2wyCJSHX8JY1Ufqlj6ey2728cGa4Jw3UmzdSlB9SS3MET0exh+
-	xe9V0NmS7MvYG8k8Bqk8akC66Y28kiE/XI32ThY=
-X-Google-Smtp-Source: AA6agR56zvnRJqQJL1/PCtKw2tF69ZR7FNYuXgdpbYFCExZyDgoB6azWhOBZh//ZA37+EuSfYegP3onbI/2zgwOs4ik=
-X-Received: by 2002:a67:eecb:0:b0:390:1e6d:fa69 with SMTP id
- o11-20020a67eecb000000b003901e6dfa69mr13809030vsp.52.1662389190555; Mon, 05
- Sep 2022 07:46:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0652561
+	for <linux-staging@lists.linux.dev>; Mon,  5 Sep 2022 15:12:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD6A0C433C1;
+	Mon,  5 Sep 2022 15:12:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1662390761;
+	bh=BSlwGzouF4rZhyWM7zDqGLelKA0QnmksCDYwt2aAi0Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VEltJ6hHtKIngsw1wbEIEppn9q81PooFROdAJvFTHue4rBoi9Zka+ftH1/CU3AsL+
+	 fMAP6HdRiEWyJZvCLa6/Z+decVkHv8PLExpP8HjTCNj+Qw7gkg0IC+cc8Uh/e5xXhu
+	 ao4ZV7du1X2f12rku1jVHq4199hCbdx79y5OGUY8=
+Date: Mon, 5 Sep 2022 17:12:37 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
+Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"Hammer, Gal" <gal.hammer@sap.com>,
+	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
+Subject: Re: invalid drv data in show attribute
+Message-ID: <YxYR5SyPB6G5vDXH@kroah.com>
+References: <PAXPR02MB7310E14184AA4389841AE89E817C9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YxWN7Fm07segTeqU@kroah.com>
+ <PAXPR02MB7310BEB4DB4237CDE90D9F1A817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YxWewlIruFL500al@kroah.com>
+ <PAXPR02MB7310F72EB4259C35A364F8BB817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YxXgfRx/E26kl/N7@kroah.com>
+ <PAXPR02MB73100F851CC17B941A5CA49D817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YxXnT42bNR0got/E@kroah.com>
+ <PAXPR02MB7310E5970299650B7B81B399817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220905125946.10400-1-guozihua@huawei.com>
-In-Reply-To: <20220905125946.10400-1-guozihua@huawei.com>
-From: Dan Carpenter <error27@gmail.com>
-Date: Mon, 5 Sep 2022 17:46:18 +0300
-Message-ID: <CA+_b7DKU+v_dX+kxdHKeEWZJaAh1aFte=dMMSjETHZpjCB5_fQ@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: r8188eu: Fix return type for implementation
- of ndo_start_xmit
-To: GUO Zihua <guozihua@huawei.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, 
-	gregkh@linuxfoundation.org, paskripkin@gmail.com, 
-	linux-staging@lists.linux.dev
-Content-Type: multipart/mixed; boundary="0000000000002e91d605e7ef25fa"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PAXPR02MB7310E5970299650B7B81B399817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
 
---0000000000002e91d605e7ef25fa
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Sep 05, 2022 at 12:56:29PM +0000, Czerwacki, Eial wrote:
+> >And aren't there others at your company that can help you with this?
+> afaik, there is not expert on kernel in the company.
+> there are some workers that have experience in kernel development but they are from our team
 
-[I'm fixing my work email]
+SAP is a big company, I think you should seek them out if you are
+wanting to add new subsystems to the kernel to get their help as doing
+this is not a trivial task.
 
-On Mon, Sep 5, 2022 at 4:03 PM GUO Zihua <guozihua@huawei.com> wrote:
->
-> CFI (Control Flow Integrity) is a safety feature allowing the system to
-> detect and react should a potential control flow hijacking occurs. In
-> particular, the Forward-Edge CFI protects indirect function calls by
-> ensuring the prototype of function that is actually called matches the
-> definition of the function hook.
->
-> Since Linux now supports CFI, it will be a good idea to fix mismatched
-> return type for implementation of hooks. Otherwise this would get
-> cought out by CFI and cause a panic.
+> >> I'd prefer not adding complex code to the utils which need to traverse the sysfs tree to collect the right data
+> >
+> >for device in $(ls /sys/bus/vsmp/device/); do
+> now I understand!
+> that is what I was missing.
+> so inside /sys/bus/vsmp/device/ I can find the following tree?
+> 1
+> 2
+> 3
+> ...
+> n
+> ?
 
-Thanks!  This patch needs a Fixes tag because it fixes a crash.
+Yes, or how ever you want to name these "boards".
 
-Fixes: cf68fffb66d6 ("add support for Clang CFI")
+> so I can create entries in /sys/hypervisor/vsmp for the global info
 
-Ideally Clang would refuse to build known crashy code instead of us waiting
-for users to debug things manually.  I have written a Smatch check which
-detects this bug.
+Yes.
 
-drivers/staging/r8188eu/os_dep/os_intfs.c:316 (null)() CLANG_CFI
-insists types math exactly: 'rtw_xmit_entry'
+> and link /sys/bus/vsmp/device/ to /sys/hypervisor/vsmp/boards?
 
-I'll post the full results from my build tomorrow or later this week.
+No symlink needed at all, they are independent things, right?  What
+would require such a symlink?
 
-regards,
-dan carpenter
+thanks,
 
---0000000000002e91d605e7ef25fa
-Content-Type: text/x-csrc; charset="US-ASCII"; name="check_enum_cfi.c"
-Content-Disposition: attachment; filename="check_enum_cfi.c"
-Content-Transfer-Encoding: base64
-Content-ID: <f_l7ovimxb0>
-X-Attachment-Id: f_l7ovimxb0
-
-LyoKICogQ29weXJpZ2h0IChDKSAyMDIyIFlvdXIgTmFtZS4KICoKICogVGhpcyBwcm9ncmFtIGlz
-IGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vcgogKiBtb2RpZnkg
-aXQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZQogKiBh
-cyBwdWJsaXNoZWQgYnkgdGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbjsgZWl0aGVyIHZlcnNp
-b24gMgogKiBvZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlvdXIgb3B0aW9uKSBhbnkgbGF0ZXIgdmVy
-c2lvbi4KICoKICogVGhpcyBwcm9ncmFtIGlzIGRpc3RyaWJ1dGVkIGluIHRoZSBob3BlIHRoYXQg
-aXQgd2lsbCBiZSB1c2VmdWwsCiAqIGJ1dCBXSVRIT1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBl
-dmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mCiAqIE1FUkNIQU5UQUJJTElUWSBvciBGSVRORVNT
-IEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRS4gIFNlZSB0aGUKICogR05VIEdlbmVyYWwgUHVibGlj
-IExpY2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KICoKICogWW91IHNob3VsZCBoYXZlIHJlY2VpdmVk
-IGEgY29weSBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UKICogYWxvbmcgd2l0aCB0
-aGlzIHByb2dyYW07IGlmIG5vdCwgc2VlIGh0dHA6Ly93d3cuZ251Lm9yZy9jb3B5bGVmdC9ncGwu
-dHh0CiAqLwoKI2luY2x1ZGUgInNtYXRjaC5oIgojaW5jbHVkZSAic21hdGNoX3NsaXN0LmgiCgpz
-dGF0aWMgaW50IG15X2lkOwoKc3RhdGljIHN0cnVjdCBzeW1ib2wgKmdldF9lbnVtX3R5cGUoc3Ry
-dWN0IGV4cHJlc3Npb24gKmV4cHIpCnsKCXN0cnVjdCBzeW1ib2wgKnR5cGU7CgoJdHlwZSA9IGdl
-dF90eXBlKGV4cHIpOwoJaWYgKCF0eXBlIHx8IHR5cGUtPnR5cGUgIT0gU1lNX1BUUikKCQlyZXR1
-cm4gTlVMTDsKCgl0eXBlID0gZ2V0X3JlYWxfYmFzZV90eXBlKHR5cGUpOwoJaWYgKCF0eXBlIHx8
-IHR5cGUtPnR5cGUgIT0gU1lNX0ZOKQoJCXJldHVybiBOVUxMOwoKCXR5cGUgPSBnZXRfcmVhbF9i
-YXNlX3R5cGUodHlwZSk7CglpZiAoIXR5cGUgfHwgdHlwZS0+dHlwZSAhPSBTWU1fRU5VTSkKCQly
-ZXR1cm4gTlVMTDsKCglyZXR1cm4gdHlwZTsKfQoKc3RhdGljIGJvb2wgZW51bXNfZXF1aXYoc3Ry
-dWN0IHN5bWJvbCAqYSwgc3RydWN0IHN5bWJvbCAqYikKewoJaWYgKCFhICYmICFiKQoJCXJldHVy
-biB0cnVlOwoJaWYgKCFhIHx8ICFiKQoJCXJldHVybiBmYWxzZTsKCWlmICghYS0+aWRlbnQgJiYg
-IWItPmlkZW50KQoJCXJldHVybiB0eXBlc19lcXVpdihhLCBiKTsKCWlmICghYS0+aWRlbnQgfHwg
-IWItPmlkZW50KQoJCXJldHVybiBmYWxzZTsKCXJldHVybiBzdHJjbXAoYS0+aWRlbnQtPm5hbWUs
-IGItPmlkZW50LT5uYW1lKSA9PSAwOwp9CgpzdGF0aWMgdm9pZCBtYXRjaF9hc3NpZ24oc3RydWN0
-IGV4cHJlc3Npb24gKmV4cHIpCnsKCXN0cnVjdCBzeW1ib2wgKmxlZnQsICpyaWdodDsKCWNoYXIg
-Km5hbWU7CgoJbGVmdCA9IGdldF9lbnVtX3R5cGUoZXhwci0+bGVmdCk7CglyaWdodCA9IGdldF9l
-bnVtX3R5cGUoZXhwci0+cmlnaHQpOwoJaWYgKGVudW1zX2VxdWl2KGxlZnQsIHJpZ2h0KSkKCQly
-ZXR1cm47CgoJbmFtZSA9IGV4cHJfdG9fc3RyKGV4cHItPnJpZ2h0KTsKCXNtX21zZygiQ0xBTkdf
-Q0ZJIGluc2lzdHMgdHlwZXMgbWF0aCBleGFjdGx5OiAnJXMnIiwgbmFtZSk7CglmcmVlX3N0cmlu
-ZyhuYW1lKTsKfQoKdm9pZCBjaGVja19lbnVtX2NmaShpbnQgaWQpCnsKCW15X2lkID0gaWQ7CgoJ
-YWRkX2hvb2soJm1hdGNoX2Fzc2lnbiwgQVNTSUdOTUVOVF9IT09LKTsKCWFkZF9ob29rKCZtYXRj
-aF9hc3NpZ24sIEdMT0JBTF9BU1NJR05NRU5UX0hPT0spOwp9Cg==
---0000000000002e91d605e7ef25fa--
+greg k-h
