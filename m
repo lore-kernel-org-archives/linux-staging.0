@@ -1,136 +1,76 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE16115CE
-	for <linux-staging@lists.linux.dev>; Tue,  6 Sep 2022 10:45:10 +0000 (UTC)
-Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1839425B;
-	Tue,  6 Sep 2022 12:44:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1662461102;
-	bh=BsC/oYZMlsU0AfsdsrR9QSz2oK4VIzDllo5FeG24Gr4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YSpBUFbsYKtRJgJCOHldFTmoGOA3QaSUl28vxA1uT3F7eTXuuVoBYAh/jWVuImJux
-	 F5Ko9VPNesLXMs7UAowUvglpjWyJZ/Z7a4OOMsxd7Oxp5zU0Fu7c9FYiN8IEVgmGFG
-	 m5rvbmP69kqcwAuCOZmQt0XaIz18IwVmqR22swsk=
-From: Paul Elder <paul.elder@ideasonboard.com>
-To: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	linux-media@vger.kernel.org
-Cc: Paul Elder <paul.elder@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: imx7-media-csi: Add support for fast-tracking queued buffers
-Date: Tue,  6 Sep 2022 19:44:37 +0900
-Message-Id: <20220906104437.4095745-1-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F644431
+	for <linux-staging@lists.linux.dev>; Tue,  6 Sep 2022 12:09:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DCBAC433D6;
+	Tue,  6 Sep 2022 12:09:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1662466178;
+	bh=FburGughC3UdMUyiT+347JXOtOVvhzTxxJZ50hawq5w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TlEpz8T42qcmskLQO+M8nnA5AG9Q0Ge4rmjVjBCAfAK6OTYnwb0+t8IqFjG5Pighh
+	 hgEPWQ2rsubX6+btFBMJ99mlGg9PrQqAEkcbOM8epEKz+25VDaKmERnCPv4KNxOw2i
+	 N91G3aQ7sm70WiHq4LBr1WGqmjOPjwRKJ/oifcAg=
+Date: Tue, 6 Sep 2022 14:09:36 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
+Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"Hammer, Gal" <gal.hammer@sap.com>,
+	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
+Subject: Re: invalid drv data in show attribute
+Message-ID: <Yxc4gLCBtvM9fQ2M@kroah.com>
+References: <YxWewlIruFL500al@kroah.com>
+ <PAXPR02MB7310F72EB4259C35A364F8BB817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YxXgfRx/E26kl/N7@kroah.com>
+ <PAXPR02MB73100F851CC17B941A5CA49D817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YxXnT42bNR0got/E@kroah.com>
+ <PAXPR02MB7310E5970299650B7B81B399817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YxYR5SyPB6G5vDXH@kroah.com>
+ <PAXPR02MB7310AAA80455E4B3A97C3A1F817F9@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YxYdjBiOSWhqI/M8@kroah.com>
+ <PAXPR02MB731082B5F72C5E2D9D35A4D6817E9@PAXPR02MB7310.eurprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <PAXPR02MB731082B5F72C5E2D9D35A4D6817E9@PAXPR02MB7310.eurprd02.prod.outlook.com>
 
-The CSI hardware compatible with this driver handles buffers using a
-ping-pong mechanism with two sets of destination addresses. Normally,
-when an interrupt comes in to signal the completion of one buffer, say
-FB0, it assigns the next buffer in the queue to the next FB0, and the
-hardware starts to capture into FB1 in the meantime.
+On Tue, Sep 06, 2022 at 07:30:20AM +0000, Czerwacki, Eial wrote:
+> >> >> so I can create entries in /sys/hypervisor/vsmp for the global info
+> >> >
+> >> >Yes.
+> >> >
+> >> >> and link /sys/bus/vsmp/device/ to /sys/hypervisor/vsmp/boards?
+> >> >
+> >> >No symlink needed at all, they are independent things, right?  What
+> >> >would require such a symlink?
+> >> >
+> >> >thanks,
+> >> >
+> >> >greg k-h
+> >> I'd rather have all the info under one place than in multiple places if possible.
+> >> is seams more logical to me
+> >
+> >That's not how sysfs works, sorry.  :)
+> >
+> >Hypervisors are not normal, the fact that you are using that location in
+> >the first place is very very odd, only 1 other in-kernel user is using
+> >that.  So maybe you don't even need that at all?
+> >
+> >thanks,
+> >
+> >greg k-h
+> as vSMP is an hypervisor, I've thought /sys/hypervisor is an appropriate location.
 
-In a buffer underrun situation, in the above example without loss of
-generality, if a new buffer is queued before the interrupt for FB0 comes
-in, we can program the buffer into FB1 (which is programmed with a dummy
-buffer, as there is a buffer underrun).
+For generic stuff related to your hypervisor, yes.  But for devices that
+are part of your hypervisor bus, no, they do not belong there.
 
-This of course races with the interrupt that signals FB0 completion, as
-once that interrupt comes in, we are no longer guaranteed that the
-programming of FB1 was in time and must assume it was too late. This
-race is resolved by locking the programming of FB1. If it came after the
-interrupt for FB0, then the variable that is used to determine which FB
-to program would have been swapped by the interrupt handler, thus
-resolving the race.
+thanks,
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
----
- drivers/staging/media/imx/imx7-media-csi.c | 49 ++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
-
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index a0553c24cce4..06e50080ed31 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1296,11 +1296,60 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
- 	return 0;
- }
- 
-+static int imx7_csi_fast_track_buffer(struct imx7_csi *csi,
-+				      struct imx7_csi_vb2_buffer *buf)
-+{
-+	unsigned long flags;
-+	dma_addr_t phys;
-+	int buf_num;
-+	int ret = -EBUSY;
-+
-+	if (!csi->is_streaming)
-+		return ret;
-+
-+	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
-+
-+	/*
-+	 * buf_num holds the fb id of the most recently (*not* the next
-+	 * anticipated) triggered interrupt. Without loss of generality, if
-+	 * buf_num is 0 and we get to this section before the irq for fb1, the
-+	 * buffer that we are fast-tracking into fb0 should be programmed in
-+	 * time to be captured into. If the irq for fb1 already happened, then
-+	 * buf_num would be 1, and we would fast-track the buffer into fb1
-+	 * instead. This guarantees that we won't try to fast-track into fb0
-+	 * and race against the start-of-capture into fb0.
-+	 *
-+	 * We only fast-track the buffer if the currently programmed buffer is
-+	 * a dummy buffer. We can check the active_vb2_buf instead as it is
-+	 * always modified along with programming the fb[0,1] registers via the
-+	 * lock (besides setup and cleanup). If it is not a dummy buffer then
-+	 * we queue it normally, as fast-tracking is not an option.
-+	 */
-+
-+	spin_lock_irqsave(&csi->irqlock, flags);
-+
-+	buf_num = csi->buf_num;
-+	if (csi->active_vb2_buf[buf_num] == NULL) {
-+		csi->active_vb2_buf[buf_num] = buf;
-+		imx7_csi_update_buf(csi, phys, buf_num);
-+		ret = 0;
-+	}
-+
-+	spin_unlock_irqrestore(&csi->irqlock, flags);
-+
-+	return ret;
-+}
-+
- static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
- {
- 	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
- 	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
- 	unsigned long flags;
-+	int ret;
-+
-+	ret = imx7_csi_fast_track_buffer(csi, buf);
-+	if (!ret)
-+		return;
- 
- 	spin_lock_irqsave(&csi->q_lock, flags);
- 
--- 
-2.30.2
-
+greg k-h
