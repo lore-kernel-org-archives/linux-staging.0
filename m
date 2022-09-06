@@ -1,58 +1,39 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFF97E
-	for <linux-staging@lists.linux.dev>; Tue,  6 Sep 2022 07:46:44 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id t3so5429751ply.2
-        for <linux-staging@lists.linux.dev>; Tue, 06 Sep 2022 00:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=SCIfIiiq/yyzgkPopZpz5RfhutkNUE2O01+O5PYJujM=;
-        b=C0k5vt9j9FkkewR8ci4JPOODHwrNNGa4r6DSBf28d9sHkCrIfhiOvmM/yVAu3yv7YO
-         jPiuPTFIk8lD3nTokg4njPbUFRZrPFc1r9UJZb0akD/lT+xfF96UbZ5Kj0wBUCw5Hy7o
-         ZN/KLYRueo/p2NuOpICD7/kuf+OVSri78c0QxJFivRMvxpFg9MzaQgtM63mvKmasEBfW
-         IrNk49J0dkpexeMxLgAPIqfAHdJjnAEJxAFQR0HaNkzSQaYn4aVU3fOGeP6ETjvRiz3l
-         K70uDuALDAzeZv8516FHa16MObBRvKzdnFlGz10mu4S+bCgdfrd/uDrBq5sANyYdSFkV
-         II+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=SCIfIiiq/yyzgkPopZpz5RfhutkNUE2O01+O5PYJujM=;
-        b=ZCDkw76VjHnKG6SZQHndLZHaRNl8FTaxB1TFCauNrOYchTH6uf897SWYPsLIUaM8SR
-         RvAxS/JV+w2b94Nl+f/jPViHk5OxH6PeIh9WhoZTPVCz0FhSBDKcRDxwLJnPOxsL8det
-         laMJJXGZlVITPXo7D91P5bfQ4EILmgRMKeAbuEeMlsm642nSkWRv5lbRDB1c0kLrLxEj
-         CIa0CNvHkxjX/1yyGTHwBkfhuBAKoVG+JznW+uDZry5XB/vkASHyy8eX9VcL4l0o264r
-         BbDrQ0uQbqHrewcwqinehP2eykWr2Ihb+y/k/D3AoCpQP0WgtGZINOUIdH9LSRT4/VZ+
-         cDkQ==
-X-Gm-Message-State: ACgBeo3WRQYqXiCQGjiV5iGmJJkufS7NFQgm7EUbVopmcAYZTf9ztHpf
-	gyo4RAZnIKNOL5U6g/Fqjx0=
-X-Google-Smtp-Source: AA6agR75MPe4BTJ7xQ0L6D61Z4NNGMSJJtZlBcoUzwa1mbQDGNXmSb63h2KGTJtZ/zjJ7FwWon+EuQ==
-X-Received: by 2002:a17:90b:4c8d:b0:1f5:29ef:4a36 with SMTP id my13-20020a17090b4c8d00b001f529ef4a36mr24029428pjb.127.1662450404429;
-        Tue, 06 Sep 2022 00:46:44 -0700 (PDT)
-Received: from hbh25y.. ([129.227.150.140])
-        by smtp.gmail.com with ESMTPSA id j18-20020a170902759200b0016c50179b1esm8919604pll.152.2022.09.06.00.46.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 00:46:44 -0700 (PDT)
-From: Hangyu Hua <hbh25y@gmail.com>
-To: narmstrong@baylibre.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	khilman@baylibre.com,
-	jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com
-Cc: linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE16115CE
+	for <linux-staging@lists.linux.dev>; Tue,  6 Sep 2022 10:45:10 +0000 (UTC)
+Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1839425B;
+	Tue,  6 Sep 2022 12:44:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1662461102;
+	bh=BsC/oYZMlsU0AfsdsrR9QSz2oK4VIzDllo5FeG24Gr4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YSpBUFbsYKtRJgJCOHldFTmoGOA3QaSUl28vxA1uT3F7eTXuuVoBYAh/jWVuImJux
+	 F5Ko9VPNesLXMs7UAowUvglpjWyJZ/Z7a4OOMsxd7Oxp5zU0Fu7c9FYiN8IEVgmGFG
+	 m5rvbmP69kqcwAuCOZmQt0XaIz18IwVmqR22swsk=
+From: Paul Elder <paul.elder@ideasonboard.com>
+To: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	linux-media@vger.kernel.org
+Cc: Paul Elder <paul.elder@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Hangyu Hua <hbh25y@gmail.com>
-Subject: [PATCH] meson: vdec: fix possible refcount leak in vdec_probe()
-Date: Tue,  6 Sep 2022 15:46:30 +0800
-Message-Id: <20220906074630.35779-1-hbh25y@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: imx7-media-csi: Add support for fast-tracking queued buffers
+Date: Tue,  6 Sep 2022 19:44:37 +0900
+Message-Id: <20220906104437.4095745-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,34 +42,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-v4l2_device_unregister need to be called to put the refount got by
-v4l2_device_register when vdec_probe fails or vdec_remove is called.
+The CSI hardware compatible with this driver handles buffers using a
+ping-pong mechanism with two sets of destination addresses. Normally,
+when an interrupt comes in to signal the completion of one buffer, say
+FB0, it assigns the next buffer in the queue to the next FB0, and the
+hardware starts to capture into FB1 in the meantime.
 
-Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+In a buffer underrun situation, in the above example without loss of
+generality, if a new buffer is queued before the interrupt for FB0 comes
+in, we can program the buffer into FB1 (which is programmed with a dummy
+buffer, as there is a buffer underrun).
+
+This of course races with the interrupt that signals FB0 completion, as
+once that interrupt comes in, we are no longer guaranteed that the
+programming of FB1 was in time and must assume it was too late. This
+race is resolved by locking the programming of FB1. If it came after the
+interrupt for FB0, then the variable that is used to determine which FB
+to program would have been swapped by the interrupt handler, thus
+resolving the race.
+
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 ---
- drivers/staging/media/meson/vdec/vdec.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/staging/media/imx/imx7-media-csi.c | 49 ++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 8549d95be0f2..52f224d8def1 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -1102,6 +1102,7 @@ static int vdec_probe(struct platform_device *pdev)
- 
- err_vdev_release:
- 	video_device_release(vdev);
-+	v4l2_device_unregister(&core->v4l2_dev);
- 	return ret;
- }
- 
-@@ -1110,6 +1111,7 @@ static int vdec_remove(struct platform_device *pdev)
- 	struct amvdec_core *core = platform_get_drvdata(pdev);
- 
- 	video_unregister_device(core->vdev_dec);
-+	v4l2_device_unregister(&core->v4l2_dev);
- 
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index a0553c24cce4..06e50080ed31 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1296,11 +1296,60 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
  	return 0;
  }
+ 
++static int imx7_csi_fast_track_buffer(struct imx7_csi *csi,
++				      struct imx7_csi_vb2_buffer *buf)
++{
++	unsigned long flags;
++	dma_addr_t phys;
++	int buf_num;
++	int ret = -EBUSY;
++
++	if (!csi->is_streaming)
++		return ret;
++
++	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
++
++	/*
++	 * buf_num holds the fb id of the most recently (*not* the next
++	 * anticipated) triggered interrupt. Without loss of generality, if
++	 * buf_num is 0 and we get to this section before the irq for fb1, the
++	 * buffer that we are fast-tracking into fb0 should be programmed in
++	 * time to be captured into. If the irq for fb1 already happened, then
++	 * buf_num would be 1, and we would fast-track the buffer into fb1
++	 * instead. This guarantees that we won't try to fast-track into fb0
++	 * and race against the start-of-capture into fb0.
++	 *
++	 * We only fast-track the buffer if the currently programmed buffer is
++	 * a dummy buffer. We can check the active_vb2_buf instead as it is
++	 * always modified along with programming the fb[0,1] registers via the
++	 * lock (besides setup and cleanup). If it is not a dummy buffer then
++	 * we queue it normally, as fast-tracking is not an option.
++	 */
++
++	spin_lock_irqsave(&csi->irqlock, flags);
++
++	buf_num = csi->buf_num;
++	if (csi->active_vb2_buf[buf_num] == NULL) {
++		csi->active_vb2_buf[buf_num] = buf;
++		imx7_csi_update_buf(csi, phys, buf_num);
++		ret = 0;
++	}
++
++	spin_unlock_irqrestore(&csi->irqlock, flags);
++
++	return ret;
++}
++
+ static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
+ {
+ 	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
+ 	unsigned long flags;
++	int ret;
++
++	ret = imx7_csi_fast_track_buffer(csi, buf);
++	if (!ret)
++		return;
+ 
+ 	spin_lock_irqsave(&csi->q_lock, flags);
+ 
 -- 
-2.34.1
+2.30.2
 
