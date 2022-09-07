@@ -1,252 +1,165 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA21F539F
-	for <linux-staging@lists.linux.dev>; Wed,  7 Sep 2022 11:09:00 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id l19so5375908uap.6
-        for <linux-staging@lists.linux.dev>; Wed, 07 Sep 2022 04:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=xfPvrCqGfJb85nlfiVEJ9ULQ83IeZzjJhG3R/U2SSgo=;
-        b=KBFsvsUWjN1ALnW83Ott4qYVdg8BbaPZ7aM/so0dyaMnyOaGXHvCN92T63qy/CAnM+
-         aoTBWujYuysrrllwFQIU9lu5C4nktYKrwlcmOF4LHos7/KWMmHRy8l3/X8YIa3z3AaGv
-         J1dMWFQzbxlLy4LLT3BxpCldtAEvJqtU35P1xy9tvBCqA7w9vLnBdz6nzf2p8z5hFkvP
-         XGtnQzWsvunsgr7A8/Kpnrr9Ll+PO6e0iXP3Nug1voarrJrnfL4hSzLAU4XY4fHSE7Tb
-         idxRRNflOwOtgjcy/U8vI0Sm+wXQuMAupNm28RDTnSnA3a9Pywrhk0DECJOekVKb2H2G
-         g/uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=xfPvrCqGfJb85nlfiVEJ9ULQ83IeZzjJhG3R/U2SSgo=;
-        b=wRH5zgyPqGu3OUHxu9Ss3vj5iBpS2n0tPR8JKTUQQktwxjAtWjPIzcXp5l87Q1PMCe
-         9StvmvU7wPyqIBnfcRtAY09vLSjEH5xKZuLJyK0k76KEgfsORdCDTDL2iYp0Oty38bZ8
-         h3/lAvVD+ExH+7tuxFt9kaCs7yOrouaj8RP7j6Nd0GxuQU2b5GBxQPfCsdpRpjW3xtZ0
-         lRpi+XTI6wiQQL4V7b2K4mbR7DAhPg4Mbai2R/XzOuLsHB+UI1v8sbXTHmz248/iry3s
-         JDztW4oIDFBeNmNJQGknz5xXTUU1VHHIgAhSnAIgoAOa8+IZdaeCgQPbRt6CGKZetzh3
-         Pt0Q==
-X-Gm-Message-State: ACgBeo0n5MYq+Sx+Imz+uun8rvLN7hJcgvBLsQ1m5JD5skMHTFHXg3YH
-	lAn/kaiReZ180+7cnwtuHWPiS0bCEjs1txyVmA8=
-X-Google-Smtp-Source: AA6agR5LBMSb04GLK3a48BYPqKuzIzVOfSI+o4QB+OgUP5byBD5ZZOYgqWDZ62Ki9Fd+F40w/xJaOr4yw9T4nIEANqU=
-X-Received: by 2002:ab0:48d2:0:b0:38d:7e4:e35c with SMTP id
- y18-20020ab048d2000000b0038d07e4e35cmr873070uac.117.1662548939673; Wed, 07
- Sep 2022 04:08:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8543B539F
+	for <linux-staging@lists.linux.dev>; Wed,  7 Sep 2022 11:48:08 +0000 (UTC)
+Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC9D4DD;
+	Wed,  7 Sep 2022 13:47:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1662551279;
+	bh=5Gr6bH8FY/a+xkGxzxUB9O3UJ8qXYspamAEUzoCXd/I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Cqb942fZYtP8wy6ZAcvycqM00+nUuMy+HxHOW6mxV21wa9PLGYdrAXoG4giNnEtop
+	 LRxrSSO8ay+JEtmxkbgRMrFoIEjlFNRAVTi2iCdG3Elm8heH8djspN6cbmlAWMIzAa
+	 6n4wGjexhsk/cfh1aVamZzhx9NAKK1CkhFP6gz2s=
+From: Paul Elder <paul.elder@ideasonboard.com>
+To: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	linux-media@vger.kernel.org
+Cc: Paul Elder <paul.elder@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking queued buffers
+Date: Wed,  7 Sep 2022 20:47:37 +0900
+Message-Id: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220905125946.10400-1-guozihua@huawei.com> <CA+_b7DKU+v_dX+kxdHKeEWZJaAh1aFte=dMMSjETHZpjCB5_fQ@mail.gmail.com>
-In-Reply-To: <CA+_b7DKU+v_dX+kxdHKeEWZJaAh1aFte=dMMSjETHZpjCB5_fQ@mail.gmail.com>
-From: Dan Carpenter <error27@gmail.com>
-Date: Wed, 7 Sep 2022 14:08:47 +0300
-Message-ID: <CA+_b7DKssU6SjwBvfwHSeOAnZ9PeSW2Nz7wJp8tu-BzwGwHdGQ@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: r8188eu: Fix return type for implementation
- of ndo_start_xmit
-To: GUO Zihua <guozihua@huawei.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, 
-	gregkh@linuxfoundation.org, paskripkin@gmail.com, 
-	linux-staging@lists.linux.dev
-Content-Type: multipart/mixed; boundary="000000000000f8bddf05e814565c"
+Content-Transfer-Encoding: 8bit
 
---000000000000f8bddf05e814565c
-Content-Type: text/plain; charset="UTF-8"
+The CSI hardware compatible with this driver handles buffers using a
+ping-pong mechanism with two sets of destination addresses. Normally,
+when an interrupt comes in to signal the completion of one buffer, say
+FB0, it assigns the next buffer in the queue to the next FB0, and the
+hardware starts to capture into FB1 in the meantime.
 
-Here is the list of bugs that Smatch found.  I had to modify the check a bit.
+In a buffer underrun situation, in the above example without loss of
+generality, if a new buffer is queued before the interrupt for FB0 comes
+in, we can program the buffer into FB1 (which is programmed with a dummy
+buffer, as there is a buffer underrun).
 
-regards,
-dan carpenter
+This of course races with the interrupt that signals FB0 completion, as
+once that interrupt comes in, we are no longer guaranteed that the
+programming of FB1 was in time and must assume it was too late. This
+race is resolved partly by locking the programming of FB1. If it came
+after the interrupt for FB0, then the variable that is used to determine
+which FB to program would have been swapped by the interrupt handler.
 
---000000000000f8bddf05e814565c
-Content-Type: text/x-csrc; charset="US-ASCII"; name="check_enum_cfi.c"
-Content-Disposition: attachment; filename="check_enum_cfi.c"
-Content-Transfer-Encoding: base64
-Content-ID: <f_l7rioyrg0>
-X-Attachment-Id: f_l7rioyrg0
+This alone isn't sufficient, however, because the interrupt could still
+be generated (thus the hardware starts capturing into the other fb)
+while the fast-tracking routine has the irq lock. Thus, after
+programming the fb register to fast-track the buffer, the isr also must
+be checked to confirm that an interrupt didn't come in the meantime. If
+it has, we must assume that programming the register for the
+fast-tracked buffer was not in time, and queue the buffer normally.
 
-LyoKICogQ29weXJpZ2h0IChDKSAyMDIyIFlvdXIgTmFtZS4KICoKICogVGhpcyBwcm9ncmFtIGlz
-IGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vcgogKiBtb2RpZnkg
-aXQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZQogKiBh
-cyBwdWJsaXNoZWQgYnkgdGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbjsgZWl0aGVyIHZlcnNp
-b24gMgogKiBvZiB0aGUgTGljZW5zZSwgb3IgKGF0IHlvdXIgb3B0aW9uKSBhbnkgbGF0ZXIgdmVy
-c2lvbi4KICoKICogVGhpcyBwcm9ncmFtIGlzIGRpc3RyaWJ1dGVkIGluIHRoZSBob3BlIHRoYXQg
-aXQgd2lsbCBiZSB1c2VmdWwsCiAqIGJ1dCBXSVRIT1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBl
-dmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mCiAqIE1FUkNIQU5UQUJJTElUWSBvciBGSVRORVNT
-IEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRS4gIFNlZSB0aGUKICogR05VIEdlbmVyYWwgUHVibGlj
-IExpY2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KICoKICogWW91IHNob3VsZCBoYXZlIHJlY2VpdmVk
-IGEgY29weSBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UKICogYWxvbmcgd2l0aCB0
-aGlzIHByb2dyYW07IGlmIG5vdCwgc2VlIGh0dHA6Ly93d3cuZ251Lm9yZy9jb3B5bGVmdC9ncGwu
-dHh0CiAqLwoKI2luY2x1ZGUgInNtYXRjaC5oIgojaW5jbHVkZSAic21hdGNoX2V4dHJhLmgiCgpz
-dGF0aWMgaW50IG15X2lkOwoKc3RhdGljIHN0cnVjdCBzeW1ib2wgKmdldF9lbnVtX3R5cGUoc3Ry
-dWN0IGV4cHJlc3Npb24gKmV4cHIpCnsKCXN0cnVjdCBzeW1ib2wgKnR5cGU7CglpbnQgdGVzdCA9
-IDA7CgoJdGVzdCsrOwoJdHlwZSA9IGdldF9maW5hbF90eXBlKGV4cHIpOwoJaWYgKCF0eXBlKQoJ
-CWdvdG8gb3V0X2RlYnVnOwoJaWYgKHR5cGUtPnR5cGUgPT0gU1lNX1BUUikgewoJCXRlc3QrKzsK
-CQl0eXBlID0gZ2V0X3JlYWxfYmFzZV90eXBlKHR5cGUpOwoJfQoKCXRlc3QgPSAzOwoJaWYgKCF0
-eXBlIHx8IHR5cGUtPnR5cGUgIT0gU1lNX0ZOKQoJCWdvdG8gb3V0X2RlYnVnOwoKCXRlc3QrKzsK
-CXR5cGUgPSBnZXRfcmVhbF9iYXNlX3R5cGUodHlwZSk7CglpZiAoIXR5cGUgfHwgdHlwZS0+dHlw
-ZSAhPSBTWU1fRU5VTSkKCQlnb3RvIG91dF9kZWJ1ZzsKCglyZXR1cm4gdHlwZTsKCm91dF9kZWJ1
-ZzoKCWlmIChsb2NhbF9kZWJ1ZykKCQlzbV9tc2coIiVzOiBleHByPSclcycgdGVzdD0lZCB0eXBl
-PSclcyciLCBfX2Z1bmNfXywgZXhwcl90b19zdHIoZXhwciksIHRlc3QsIHR5cGVfdG9fc3RyKHR5
-cGUpKTsKCXJldHVybiBOVUxMOwp9CgpzdGF0aWMgYm9vbCBlbnVtc19lcXVpdihzdHJ1Y3Qgc3lt
-Ym9sICphLCBzdHJ1Y3Qgc3ltYm9sICpiKQp7CglpZiAoIWEgJiYgIWIpCgkJcmV0dXJuIHRydWU7
-CglpZiAoIWEgfHwgIWIpCgkJcmV0dXJuIGZhbHNlOwoJaWYgKCFhLT5pZGVudCAmJiAhYi0+aWRl
-bnQpCgkJcmV0dXJuIHR5cGVzX2VxdWl2KGEsIGIpOwoJaWYgKCFhLT5pZGVudCB8fCAhYi0+aWRl
-bnQpCgkJcmV0dXJuIGZhbHNlOwoJcmV0dXJuIHN0cmNtcChhLT5pZGVudC0+bmFtZSwgYi0+aWRl
-bnQtPm5hbWUpID09IDA7Cn0KCnN0YXRpYyBib29sIGlzX3ZvaWQoc3RydWN0IGV4cHJlc3Npb24g
-KmV4cHIpCnsKCXN0cnVjdCBzeW1ib2wgKnR5cGUgPSBnZXRfdHlwZShleHByKTsKCglyZXR1cm4g
-dHlwZXNfZXF1aXYodHlwZSwgJnZvaWRfY3R5cGUpOwp9CgpzdGF0aWMgdm9pZCBtYXRjaF9hc3Np
-Z24oc3RydWN0IGV4cHJlc3Npb24gKmV4cHIpCnsKCXN0cnVjdCBzeW1ib2wgKmxlZnQsICpyaWdo
-dDsKCWNoYXIgKm5hbWU7CgoJaWYgKGV4cHItPm9wICE9ICc9JykKCQlyZXR1cm47CglpZiAoaXNf
-ZmFrZV9jYWxsKGV4cHItPnJpZ2h0KSkKCQlyZXR1cm47CglpZiAoZXhwcl9pc196ZXJvKGV4cHIt
-PnJpZ2h0KSkKCQlyZXR1cm47CgoJbGVmdCA9IGdldF9lbnVtX3R5cGUoZXhwci0+bGVmdCk7Cgly
-aWdodCA9IGdldF9lbnVtX3R5cGUoZXhwci0+cmlnaHQpOwoJaWYgKGVudW1zX2VxdWl2KGxlZnQs
-IHJpZ2h0KSkKCQlyZXR1cm47CgoJaWYgKGlzX3ZvaWRfcHRyKGdldF90eXBlKGV4cHItPmxlZnQp
-KSB8fAoJICAgIGlzX3ZvaWRfcHRyKGdldF90eXBlKGV4cHItPnJpZ2h0KSkpCgkJcmV0dXJuOwoK
-CS8vIEZJWE1FOiB3aGF0PwoJaWYgKGlzX3ZvaWQoZXhwci0+bGVmdCkpCgkJcmV0dXJuOwoKCW5h
-bWUgPSBleHByX3RvX3N0cihleHByKTsKCXNtX3dhcm5pbmcoIkNMQU5HX0NGSSBpbnNpc3RzIHR5
-cGVzIG1hdGNoIGV4YWN0bHk6ICclcycgJyVzIHZzICVzJyIsIG5hbWUsCgkJICAgdHlwZV90b19z
-dHIobGVmdCksIHR5cGVfdG9fc3RyKHJpZ2h0KSk7CglzbV9tc2coIiVzOiBsZWZ0X3R5cGU9JyVz
-JyIsIF9fZnVuY19fLCB0eXBlX3RvX3N0cihnZXRfdHlwZShleHByLT5sZWZ0KSkpOwoJZnJlZV9z
-dHJpbmcobmFtZSk7Cn0KCnZvaWQgY2hlY2tfZW51bV9jZmkoaW50IGlkKQp7CglteV9pZCA9IGlk
-OwoKCWFkZF9ob29rKCZtYXRjaF9hc3NpZ24sIEFTU0lHTk1FTlRfSE9PSyk7CglhZGRfaG9vaygm
-bWF0Y2hfYXNzaWduLCBHTE9CQUxfQVNTSUdOTUVOVF9IT09LKTsKfQo=
---000000000000f8bddf05e814565c
-Content-Type: application/octet-stream; name=err-list
-Content-Disposition: attachment; filename=err-list
-Content-Transfer-Encoding: base64
-Content-ID: <f_l7ripc501>
-X-Attachment-Id: f_l7ripc501
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-ZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9vc19kZXAvb3NfaW50ZnMuYzo0MzAgKG51bGwpKCkg
-d2FybjogQ0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2ggZXhhY3RseTogJ3J0d19uZXRkZXZf
-b3BzLm5kb19zdGFydF94bWl0ID0gcnR3X3htaXRfZW50cnknICdlbnVtIG5ldGRldl90eCB2cyA8
-bnVsbCB0eXBlPicKZHJpdmVycy9zdGFnaW5nL29jdGVvbi9ldGhlcm5ldC5jOjUyMSAobnVsbCko
-KSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnY3ZtX29jdF9u
-cGlfbmV0ZGV2X29wcy5uZG9fc3RhcnRfeG1pdCA9IGN2bV9vY3RfeG1pdCcgJ2VudW0gbmV0ZGV2
-X3R4IHZzIDxudWxsIHR5cGU+Jwpkcml2ZXJzL3N0YWdpbmcvb2N0ZW9uL2V0aGVybmV0LmM6NTM1
-IChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdj
-dm1fb2N0X3hhdWlfbmV0ZGV2X29wcy5uZG9fc3RhcnRfeG1pdCA9IGN2bV9vY3RfeG1pdCcgJ2Vu
-dW0gbmV0ZGV2X3R4IHZzIDxudWxsIHR5cGU+Jwpkcml2ZXJzL3N0YWdpbmcvb2N0ZW9uL2V0aGVy
-bmV0LmM6NTUxIChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVzIG1hdGNoIGV4
-YWN0bHk6ICdjdm1fb2N0X3NnbWlpX25ldGRldl9vcHMubmRvX3N0YXJ0X3htaXQgPSBjdm1fb2N0
-X3htaXQnICdlbnVtIG5ldGRldl90eCB2cyA8bnVsbCB0eXBlPicKZHJpdmVycy9zdGFnaW5nL29j
-dGVvbi9ldGhlcm5ldC5jOjU2NyAobnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0cyB0eXBl
-cyBtYXRjaCBleGFjdGx5OiAnY3ZtX29jdF9zcGlfbmV0ZGV2X29wcy5uZG9fc3RhcnRfeG1pdCA9
-IGN2bV9vY3RfeG1pdCcgJ2VudW0gbmV0ZGV2X3R4IHZzIDxudWxsIHR5cGU+Jwpkcml2ZXJzL3N0
-YWdpbmcvb2N0ZW9uL2V0aGVybmV0LmM6NTgxIChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNp
-c3RzIHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdjdm1fb2N0X3JnbWlpX25ldGRldl9vcHMubmRvX3N0
-YXJ0X3htaXQgPSBjdm1fb2N0X3htaXQnICdlbnVtIG5ldGRldl90eCB2cyA8bnVsbCB0eXBlPicK
-ZHJpdmVycy9zdGFnaW5nL29jdGVvbi9ldGhlcm5ldC5jOjU5NyAobnVsbCkoKSB3YXJuOiBDTEFO
-R19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnY3ZtX29jdF9wb3dfbmV0ZGV2X29w
-cy5uZG9fc3RhcnRfeG1pdCA9IGN2bV9vY3RfeG1pdF9wb3cnICdlbnVtIG5ldGRldl90eCB2cyA8
-bnVsbCB0eXBlPicKZHJpdmVycy9zdGFnaW5nL3J0bDgxOTJlL3J0bDgxOTJlL3J0bF9jb3JlLmM6
-MjI2NCAobnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBleGFjdGx5
-OiAncnRsODE5Ml9uZXRkZXZfb3BzLm5kb19zdGFydF94bWl0ID0gcnRsbGliX3htaXQnICdlbnVt
-IG5ldGRldl90eCB2cyA8bnVsbCB0eXBlPicKZHJpdmVycy9zdGFnaW5nL3J0bDg3MTIvb3NfaW50
-ZnMuYzoxODggKG51bGwpKCkgd2FybjogQ0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2ggZXhh
-Y3RseTogJ3J0bDg3MTJfbmV0ZGV2X29wcy5uZG9fc3RhcnRfeG1pdCA9IHI4NzEyX3htaXRfZW50
-cnknICdlbnVtIG5ldGRldl90eCB2cyA8bnVsbCB0eXBlPicKZHJpdmVycy9zdGFnaW5nL3J0bDgx
-OTJ1L3I4MTkyVV9jb3JlLmM6NDQ5NCAobnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0cyB0
-eXBlcyBtYXRjaCBleGFjdGx5OiAncnRsODE5Ml9uZXRkZXZfb3BzLm5kb19zdGFydF94bWl0ID0g
-aWVlZTgwMjExX3htaXQnICdlbnVtIG5ldGRldl90eCB2cyA8bnVsbCB0eXBlPicKZHJpdmVycy9z
-dGFnaW5nL3I4MTg4ZXUvb3NfZGVwL29zX2ludGZzLmM6MzE2IChudWxsKSgpIHdhcm46IENMQU5H
-X0NGSSBpbnNpc3RzIHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdydHdfbmV0ZGV2X29wcy5uZG9fc3Rh
-cnRfeG1pdCA9IHJ0d194bWl0X2VudHJ5JyAnZW51bSBuZXRkZXZfdHggdnMgPG51bGwgdHlwZT4n
-CmRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9jZG4tZHAtY29yZS5jOjMzNSAobnVsbCkoKSB3YXJu
-OiBDTEFOR19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnY2RuX2RwX2Nvbm5lY3Rv
-cl9oZWxwZXJfZnVuY3MubW9kZV92YWxpZCA9IGNkbl9kcF9jb25uZWN0b3JfbW9kZV92YWxpZCcg
-J2VudW0gZHJtX21vZGVfc3RhdHVzIHZzIDxudWxsIHR5cGU+Jwpkcml2ZXJzL2dwdS9kcm0vaTkx
-NS9kaXNwbGF5L2R2b190ZnA0MTAuYzozMTAgKG51bGwpKCkgd2FybjogQ0xBTkdfQ0ZJIGluc2lz
-dHMgdHlwZXMgbWF0Y2ggZXhhY3RseTogJ3RmcDQxMF9vcHMubW9kZV92YWxpZCA9IHRmcDQxMF9t
-b2RlX3ZhbGlkJyAnPG51bGwgdHlwZT4gdnMgZW51bSBkcm1fbW9kZV9zdGF0dXMnCmRyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvZHZvX2NoNzAxNy5jOjQwNiAobnVsbCkoKSB3YXJuOiBDTEFO
-R19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnY2g3MDE3X29wcy5tb2RlX3ZhbGlk
-ID0gY2g3MDE3X21vZGVfdmFsaWQnICc8bnVsbCB0eXBlPiB2cyBlbnVtIGRybV9tb2RlX3N0YXR1
-cycKZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9kdm9fY2g3eHh4LmM6MzU4IChudWxsKSgp
-IHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdjaDd4eHhfb3Bz
-Lm1vZGVfdmFsaWQgPSBjaDd4eHhfbW9kZV92YWxpZCcgJzxudWxsIHR5cGU+IHZzIGVudW0gZHJt
-X21vZGVfc3RhdHVzJwpkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2R2b19uczI1MDEuYzo3
-MDIgKG51bGwpKCkgd2FybjogQ0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2ggZXhhY3RseTog
-J25zMjUwMV9vcHMubW9kZV92YWxpZCA9IG5zMjUwMV9tb2RlX3ZhbGlkJyAnPG51bGwgdHlwZT4g
-dnMgZW51bSBkcm1fbW9kZV9zdGF0dXMnCmRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvZHZv
-X2l2Y2guYzo0OTQgKG51bGwpKCkgd2FybjogQ0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2gg
-ZXhhY3RseTogJ2l2Y2hfb3BzLm1vZGVfdmFsaWQgPSBpdmNoX21vZGVfdmFsaWQnICc8bnVsbCB0
-eXBlPiB2cyBlbnVtIGRybV9tb2RlX3N0YXR1cycKZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9kdm9fc2lsMTY0LmM6MjcxIChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVz
-IG1hdGNoIGV4YWN0bHk6ICdzaWwxNjRfb3BzLm1vZGVfdmFsaWQgPSBzaWwxNjRfbW9kZV92YWxp
-ZCcgJzxudWxsIHR5cGU+IHZzIGVudW0gZHJtX21vZGVfc3RhdHVzJwpkcml2ZXJzL2dwdS9kcm0v
-eGxueC96eW5xbXBfZHAuYzoxMzkzIChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5
-cGVzIG1hdGNoIGV4YWN0bHk6ICd6eW5xbXBfZHBfY29ubmVjdG9yX2hlbHBlcl9mdW5jcy5tb2Rl
-X3ZhbGlkID0genlucW1wX2RwX2Nvbm5lY3Rvcl9tb2RlX3ZhbGlkJyAnZW51bSBkcm1fbW9kZV9z
-dGF0dXMgdnMgPG51bGwgdHlwZT4nCmRyaXZlcnMvZ3B1L2RybS9pbXgvaW14LXR2ZS5jOjMxOCAo
-bnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnaW14
-X3R2ZV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzLm1vZGVfdmFsaWQgPSBpbXhfdHZlX2Nvbm5lY3Rv
-cl9tb2RlX3ZhbGlkJyAnZW51bSBkcm1fbW9kZV9zdGF0dXMgdnMgPG51bGwgdHlwZT4nCmRyaXZl
-cnMvZ3B1L2RybS9zdW40aS9zdW40aV90di5jOjUwNyAobnVsbCkoKSB3YXJuOiBDTEFOR19DRkkg
-aW5zaXN0cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnc3VuNGlfdHZfY29tcF9jb25uZWN0b3JfaGVs
-cGVyX2Z1bmNzLm1vZGVfdmFsaWQgPSBzdW40aV90dl9jb21wX21vZGVfdmFsaWQnICdlbnVtIGRy
-bV9tb2RlX3N0YXR1cyB2cyA8bnVsbCB0eXBlPicKZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlu
-b3NfbWl4ZXIuYzoxMTIwIChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVzIG1h
-dGNoIGV4YWN0bHk6ICdtaXhlcl9jcnRjX29wcy5tb2RlX3ZhbGlkID0gbWl4ZXJfbW9kZV92YWxp
-ZCcgJ2VudW0gZHJtX21vZGVfc3RhdHVzIHZzIDxudWxsIHR5cGU+Jwpkcml2ZXJzL2dwdS9kcm0v
-ZXh5bm9zL2V4eW5vc19oZG1pLmM6OTQ1IChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNpc3Rz
-IHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdoZG1pX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MubW9kZV92
-YWxpZCA9IGhkbWlfbW9kZV92YWxpZCcgJ2VudW0gZHJtX21vZGVfc3RhdHVzIHZzIDxudWxsIHR5
-cGU+Jwpkcml2ZXJzL2dwdS9kcm0vc29sb21vbi9zc2QxMzB4LmM6NjcwIChudWxsKSgpIHdhcm46
-IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdzc2QxMzB4X3BpcGVfZnVu
-Y3MubW9kZV92YWxpZCA9IHNzZDEzMHhfZGlzcGxheV9waXBlX21vZGVfdmFsaWQnICdlbnVtIGRy
-bV9tb2RlX3N0YXR1cyB2cyA8bnVsbCB0eXBlPicKZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21k
-cDQvbWRwNF9sdmRzX2Nvbm5lY3Rvci5jOjg3IChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNp
-c3RzIHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdtZHA0X2x2ZHNfY29ubmVjdG9yX2hlbHBlcl9mdW5j
-cy5tb2RlX3ZhbGlkID0gbWRwNF9sdmRzX2Nvbm5lY3Rvcl9tb2RlX3ZhbGlkJyAnZW51bSBkcm1f
-bW9kZV9zdGF0dXMgdnMgPG51bGwgdHlwZT4nCmRyaXZlcnMvbmV0L3d3YW4vdDd4eC90N3h4X25l
-dGRldi5jOjEwOCAobnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBl
-eGFjdGx5OiAnY2NtbmlfbmV0ZGV2X29wcy5uZG9fc3RhcnRfeG1pdCA9IHQ3eHhfY2Ntbmlfc3Rh
-cnRfeG1pdCcgJ2VudW0gbmV0ZGV2X3R4IHZzIDxudWxsIHR5cGU+Jwpkcml2ZXJzL25ldC93d2Fu
-L2lvc20vaW9zbV9pcGNfd3dhbi5jOjE1MiAobnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0
-cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnaXBjX2lubV9vcHMubmRvX3N0YXJ0X3htaXQgPSBpcGNf
-d3dhbl9saW5rX3RyYW5zbWl0JyAnZW51bSBuZXRkZXZfdHggdnMgPG51bGwgdHlwZT4nCmRyaXZl
-cnMvbmV0L2V0aGVybmV0L2xpdGV4L2xpdGV4X2xpdGVldGguYzoxOTYgKG51bGwpKCkgd2Fybjog
-Q0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2ggZXhhY3RseTogJ2xpdGVldGhfbmV0ZGV2X29w
-cy5uZG9fc3RhcnRfeG1pdCA9IGxpdGVldGhfc3RhcnRfeG1pdCcgJ2VudW0gbmV0ZGV2X3R4IHZz
-IDxudWxsIHR5cGU+Jwpkcml2ZXJzL25ldC9ldGhlcm5ldC9rb3JpbmEuYzoxMjY5IChudWxsKSgp
-IHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdrb3JpbmFfbmV0
-ZGV2X29wcy5uZG9fc3RhcnRfeG1pdCA9IGtvcmluYV9zZW5kX3BhY2tldCcgJ2VudW0gbmV0ZGV2
-X3R4IHZzIDxudWxsIHR5cGU+Jwpkcml2ZXJzL25ldC9ldGhlcm5ldC9taWNyb3NvZnQvbWFuYS9t
-YW5hX2VuLmM6Mzc4IChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVzIG1hdGNo
-IGV4YWN0bHk6ICdtYW5hX2Rldm9wcy5uZG9fc3RhcnRfeG1pdCA9IG1hbmFfc3RhcnRfeG1pdCcg
-J2VudW0gbmV0ZGV2X3R4IHZzIDxudWxsIHR5cGU+Jwpkcml2ZXJzL25ldC9ldGhlcm5ldC90aS9k
-YXZpbmNpX2VtYWMuYzoxNzE1IChudWxsKSgpIHdhcm46IENMQU5HX0NGSSBpbnNpc3RzIHR5cGVz
-IG1hdGNoIGV4YWN0bHk6ICdlbWFjX25ldGRldl9vcHMubmRvX3N0YXJ0X3htaXQgPSBlbWFjX2Rl
-dl94bWl0JyAnZW51bSBuZXRkZXZfdHggdnMgPG51bGwgdHlwZT4nCmRyaXZlcnMvbmV0L2V0aGVy
-bmV0L2Rhdmljb20vZG05MDAwLmM6MTM2OSAobnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0
-cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnZG05MDAwX25ldGRldl9vcHMubmRvX3N0YXJ0X3htaXQg
-PSBkbTkwMDBfc3RhcnRfeG1pdCcgJ2VudW0gbmV0ZGV2X3R4IHZzIDxudWxsIHR5cGU+Jwpkcml2
-ZXJzL25ldC9ldGhlcm5ldC9taWNyb2NoaXAvc3Bhcng1L3NwYXJ4NV9uZXRkZXYuYzoyMjAgKG51
-bGwpKCkgd2FybjogQ0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2ggZXhhY3RseTogJ3NwYXJ4
-NV9wb3J0X25ldGRldl9vcHMubmRvX3N0YXJ0X3htaXQgPSBzcGFyeDVfcG9ydF94bWl0X2ltcGwn
-ICdlbnVtIG5ldGRldl90eCB2cyA8bnVsbCB0eXBlPicKZHJpdmVycy9uZXQvZXRoZXJuZXQvbWlj
-cm9jaGlwL2xhbjk2NngvbGFuOTY2eF9tYWluLmM6NDU4IChudWxsKSgpIHdhcm46IENMQU5HX0NG
-SSBpbnNpc3RzIHR5cGVzIG1hdGNoIGV4YWN0bHk6ICdsYW45NjZ4X3BvcnRfbmV0ZGV2X29wcy5u
-ZG9fc3RhcnRfeG1pdCA9IGxhbjk2NnhfcG9ydF94bWl0JyAnZW51bSBuZXRkZXZfdHggdnMgPG51
-bGwgdHlwZT4nCmRyaXZlcnMvbmV0L2V0aGVybmV0L2FzaXgvYXg4ODc5NmNfbWFpbi5jOjkzNCAo
-bnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBleGFjdGx5OiAnYXg4
-ODc5NmNfbmV0ZGV2X29wcy5uZG9fc3RhcnRfeG1pdCA9IGF4ODg3OTZjX3N0YXJ0X3htaXQnICdl
-bnVtIG5ldGRldl90eCB2cyA8bnVsbCB0eXBlPicKbmV0L29wZW52c3dpdGNoL3Zwb3J0LWdlbmV2
-ZS5jOjExNyAobnVsbCkoKSB3YXJuOiBDTEFOR19DRkkgaW5zaXN0cyB0eXBlcyBtYXRjaCBleGFj
-dGx5OiAnb3ZzX2dlbmV2ZV92cG9ydF9vcHMuc2VuZCA9IGRldl9xdWV1ZV94bWl0JyAnZW51bSBu
-ZXRkZXZfdHggdnMgPG51bGwgdHlwZT4nCm5ldC9vcGVudnN3aXRjaC92cG9ydC1uZXRkZXYuYzox
-OTQgKG51bGwpKCkgd2FybjogQ0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2ggZXhhY3RseTog
-J292c19uZXRkZXZfdnBvcnRfb3BzLnNlbmQgPSBkZXZfcXVldWVfeG1pdCcgJ2VudW0gbmV0ZGV2
-X3R4IHZzIDxudWxsIHR5cGU+JwpuZXQvb3BlbnZzd2l0Y2gvdnBvcnQtZ3JlLmM6ODEgKG51bGwp
-KCkgd2FybjogQ0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2ggZXhhY3RseTogJ292c19ncmVf
-dnBvcnRfb3BzLnNlbmQgPSBkZXZfcXVldWVfeG1pdCcgJ2VudW0gbmV0ZGV2X3R4IHZzIDxudWxs
-IHR5cGU+JwpuZXQvb3BlbnZzd2l0Y2gvdnBvcnQtdnhsYW4uYzoxNDYgKG51bGwpKCkgd2Fybjog
-Q0xBTkdfQ0ZJIGluc2lzdHMgdHlwZXMgbWF0Y2ggZXhhY3RseTogJ292c192eGxhbl9uZXRkZXZf
-dnBvcnRfb3BzLnNlbmQgPSBkZXZfcXVldWVfeG1pdCcgJ2VudW0gbmV0ZGV2X3R4IHZzIDxudWxs
-IHR5cGU+Jwo=
---000000000000f8bddf05e814565c--
+---
+Changes in v2:
+- fix the potential race condition where the interrupt comes in while
+  the fast tracking routine has the irqlock
+- change return value from int to bool
+---
+ drivers/staging/media/imx/imx7-media-csi.c | 63 ++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index a0553c24cce4..0ebef44a7627 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1296,12 +1296,75 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
+ 	return 0;
+ }
+ 
++static bool imx7_csi_fast_track_buffer(struct imx7_csi *csi,
++				       struct imx7_csi_vb2_buffer *buf)
++{
++	unsigned long flags;
++	dma_addr_t phys;
++	int buf_num;
++	u32 isr;
++
++	if (!csi->is_streaming)
++		return false;
++
++	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
++
++	/*
++	 * buf_num holds the fb id of the most recently (*not* the next
++	 * anticipated) triggered interrupt. Without loss of generality, if
++	 * buf_num is 0 and we get to this section before the irq for fb2, the
++	 * buffer that we are fast-tracking into fb1 should be programmed in
++	 * time to be captured into. If the irq for fb2 already happened, then
++	 * buf_num would be 1, and we would fast-track the buffer into fb2
++	 * instead. This guarantees that we won't try to fast-track into fb1
++	 * and race against the start-of-capture into fb1.
++	 *
++	 * We only fast-track the buffer if the currently programmed buffer is
++	 * a dummy buffer. We can check the active_vb2_buf instead as it is
++	 * always modified along with programming the fb[1,2] registers via the
++	 * lock (besides setup and cleanup).
++	 */
++
++	spin_lock_irqsave(&csi->irqlock, flags);
++
++	buf_num = csi->buf_num;
++	if (csi->active_vb2_buf[buf_num]) {
++		spin_unlock_irqrestore(&csi->irqlock, flags);
++		return false;
++	}
++
++	imx7_csi_update_buf(csi, phys, buf_num);
++
++	isr = imx7_csi_reg_read(csi, CSI_CSISR);
++	/*
++	 * The interrupt for the /other/ fb just came (the isr hasn't run yet
++	 * though, because we have the lock here); we can't be sure we've
++	 * programmed buf_num fb in time, so queue the buffer to the buffer
++	 * queue normally. No need to undo writing the fb register, since we
++	 * won't return it as active_vb2_buf is NULL, so it's okay to
++	 * potentially write it to both fb1 and fb2; only the one where it was
++	 * queued normally will be returned.
++	 */
++	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
++		spin_unlock_irqrestore(&csi->irqlock, flags);
++		return false;
++	}
++
++	csi->active_vb2_buf[buf_num] = buf;
++
++	spin_unlock_irqrestore(&csi->irqlock, flags);
++	return true;
++}
++
+ static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
+ {
+ 	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
+ 	unsigned long flags;
+ 
++	if (imx7_csi_fast_track_buffer(csi, buf))
++		return;
++
+ 	spin_lock_irqsave(&csi->q_lock, flags);
+ 
+ 	list_add_tail(&buf->list, &csi->ready_q);
+-- 
+2.30.2
+
