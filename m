@@ -1,39 +1,59 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8543B539F
-	for <linux-staging@lists.linux.dev>; Wed,  7 Sep 2022 11:48:08 +0000 (UTC)
-Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC9D4DD;
-	Wed,  7 Sep 2022 13:47:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1662551279;
-	bh=5Gr6bH8FY/a+xkGxzxUB9O3UJ8qXYspamAEUzoCXd/I=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Cqb942fZYtP8wy6ZAcvycqM00+nUuMy+HxHOW6mxV21wa9PLGYdrAXoG4giNnEtop
-	 LRxrSSO8ay+JEtmxkbgRMrFoIEjlFNRAVTi2iCdG3Elm8heH8djspN6cbmlAWMIzAa
-	 6n4wGjexhsk/cfh1aVamZzhx9NAKK1CkhFP6gz2s=
-From: Paul Elder <paul.elder@ideasonboard.com>
-To: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	linux-media@vger.kernel.org
-Cc: Paul Elder <paul.elder@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632B02904
+	for <linux-staging@lists.linux.dev>; Wed,  7 Sep 2022 12:34:19 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id bp20so19682706wrb.9
+        for <linux-staging@lists.linux.dev>; Wed, 07 Sep 2022 05:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=TuNv9xAerp4VecthQpyVMQXzg2+N+yWDS5sH4eqvaoo=;
+        b=AVukzR+7UJbFJypi0cWfXymNJ+/8kpO4hV5GEy795M7k26aGDq8Y8JVHT+J0X9bwZq
+         zvx0MsWRyk4KVnlutAvZ5ouflgglZV6njRfRkNPsIgdduNk4w7hAMV/d9Ks5xSmpblFm
+         Zu9JXSdyGo2Lvso034ly381imia14iBWPhjlegk6wWFvMaA95Vy/Nsvaao0Ea2K4P6Ka
+         a8FisMVE7bK7wrMNbVMAv8ChC3+2XsdgpdNVTJuA3WWOiOQ7aTsV8N0yuBaD6ImoeyZx
+         iYWJImgO5EL7HUbGTr3mXQrTARnJXw7fo8nkOB8mDcHFA4Hore3JwXzRsyaM+kj8idp0
+         nbEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=TuNv9xAerp4VecthQpyVMQXzg2+N+yWDS5sH4eqvaoo=;
+        b=ufFhI4RRmhr6ccwFHSr3duJjxeskBEDcTrmA7uSJUUz+yI+n7Cc2P+OhbaXz8IiZ5f
+         DaRI7atOlc3bkPaobgbvnmeZYj4YCsZUnCQtPVvWTnd742k2zTclT26wovleN6w/BOd8
+         22461l3nDftwLsw1+Yeey6LqU963m2+5vX03PGXVRFUt2dLdfGYVPjfBzwn3A1bWeyGL
+         R1+VGVIhkyz7HrSWNonspJ67BjX5TtUrBjAHSClI3l5P35+UX+EVdCjM9X2VpsUgRm/v
+         +fIZR11MzDeRFPgFMihcFxb1OIErcx5cRJzKpN3VU/ihxgaNG74Cn8H8VFzcj9+ZmGtW
+         yFEw==
+X-Gm-Message-State: ACgBeo2FFXwh67uhb84pG7P9+qlcbB62h02ppGc3VwlTlw50q/g1o+yp
+	6p+O0LxBmXlFxpTVoPWkcqM=
+X-Google-Smtp-Source: AA6agR7c5izzV6X7pGkGLnH3MXE/eTx3yRCKV3BNvb3+CCtnLtdWY4f2w7lrDH8EOpOWIGoECtGFuQ==
+X-Received: by 2002:a5d:453a:0:b0:228:7873:1101 with SMTP id j26-20020a5d453a000000b0022878731101mr1941404wra.241.1662554057507;
+        Wed, 07 Sep 2022 05:34:17 -0700 (PDT)
+Received: from xws.localdomain (pd9ea37fb.dip0.t-ipconnect.de. [217.234.55.251])
+        by smtp.gmail.com with ESMTPSA id g40-20020a05600c4ca800b003a4f1385f0asm18015696wmp.24.2022.09.07.05.34.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 05:34:17 -0700 (PDT)
+From: Maximilian Luz <luzmaximilian@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking queued buffers
-Date: Wed,  7 Sep 2022 20:47:37 +0900
-Message-Id: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
+	linux-kernel@vger.kernel.org,
+	Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH] media: staging/intel-ipu3: Finalize subdev initialization to allcoate active state
+Date: Wed,  7 Sep 2022 14:33:59 +0200
+Message-Id: <20220907123359.1275322-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,124 +62,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CSI hardware compatible with this driver handles buffers using a
-ping-pong mechanism with two sets of destination addresses. Normally,
-when an interrupt comes in to signal the completion of one buffer, say
-FB0, it assigns the next buffer in the queue to the next FB0, and the
-hardware starts to capture into FB1 in the meantime.
+Commit f69952a4dc1e ("media: subdev: add active state to struct
+v4l2_subdev") introduced the active_state member to struct v4l2_subdev.
+This state needs to be allocated via v4l2_subdev_init_finalize(). The
+intel-ipu3 driver unfortunately does not do that, due to which,
+active_state is NULL and we run into an oops (NULL pointer dereference)
+when that state is accessed.
 
-In a buffer underrun situation, in the above example without loss of
-generality, if a new buffer is queued before the interrupt for FB0 comes
-in, we can program the buffer into FB1 (which is programmed with a dummy
-buffer, as there is a buffer underrun).
+In particular, this happens subdev in IOCTLs as commit 3cc7a4bbc381
+("media: subdev: pass also the active state to subdevs from ioctls")
+passes that state on to the subdev IOCTLs. An example scenario where
+this happens is running libcamera's qcam or cam on a device with IPU3,
+for example the Microsoft Surface Book 2. In this case, the oops is
+reproducibly in v4l2_subdev_get_try_crop(), called via
+imgu_subdev_set_selection().
 
-This of course races with the interrupt that signals FB0 completion, as
-once that interrupt comes in, we are no longer guaranteed that the
-programming of FB1 was in time and must assume it was too late. This
-race is resolved partly by locking the programming of FB1. If it came
-after the interrupt for FB0, then the variable that is used to determine
-which FB to program would have been swapped by the interrupt handler.
+To fix this, allocate the active_state member via
+v4l2_subdev_init_finalize().
 
-This alone isn't sufficient, however, because the interrupt could still
-be generated (thus the hardware starts capturing into the other fb)
-while the fast-tracking routine has the irq lock. Thus, after
-programming the fb register to fast-track the buffer, the isr also must
-be checked to confirm that an interrupt didn't come in the meantime. If
-it has, we must assume that programming the register for the
-fast-tracked buffer was not in time, and queue the buffer normally.
-
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-
+Link: https://github.com/linux-surface/linux-surface/issues/907
+Fixes: 3cc7a4bbc381 ("media: subdev: pass also the active state to subdevs from ioctls")
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
 ---
-Changes in v2:
-- fix the potential race condition where the interrupt comes in while
-  the fast tracking routine has the irqlock
-- change return value from int to bool
----
- drivers/staging/media/imx/imx7-media-csi.c | 63 ++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index a0553c24cce4..0ebef44a7627 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1296,12 +1296,75 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index d1c539cefba8..84ab98ba9a2e 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -1093,10 +1093,18 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 			"failed to create subdev v4l2 ctrl with err %d", r);
+ 		goto fail_subdev;
+ 	}
++
++	r = v4l2_subdev_init_finalize(&imgu_sd->subdev);
++	if (r) {
++		dev_err(&imgu->pci_dev->dev,
++			"failed to initialize subdev (%d)\n", r);
++		goto fail_subdev;
++	}
++
+ 	r = v4l2_device_register_subdev(&imgu->v4l2_dev, &imgu_sd->subdev);
+ 	if (r) {
+ 		dev_err(&imgu->pci_dev->dev,
+-			"failed initialize subdev (%d)\n", r);
++			"failed to register subdev (%d)\n", r);
+ 		goto fail_subdev;
+ 	}
+ 
+@@ -1104,6 +1112,7 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
  	return 0;
+ 
+ fail_subdev:
++	v4l2_subdev_cleanup(&imgu_sd->subdev);
+ 	v4l2_ctrl_handler_free(imgu_sd->subdev.ctrl_handler);
+ 	media_entity_cleanup(&imgu_sd->subdev.entity);
+ 
+@@ -1275,6 +1284,7 @@ static void imgu_v4l2_subdev_cleanup(struct imgu_device *imgu, unsigned int i)
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[i];
+ 
+ 	v4l2_device_unregister_subdev(&imgu_pipe->imgu_sd.subdev);
++	v4l2_subdev_cleanup(&imgu_pipe->imgu_sd.subdev);
+ 	v4l2_ctrl_handler_free(imgu_pipe->imgu_sd.subdev.ctrl_handler);
+ 	media_entity_cleanup(&imgu_pipe->imgu_sd.subdev.entity);
  }
- 
-+static bool imx7_csi_fast_track_buffer(struct imx7_csi *csi,
-+				       struct imx7_csi_vb2_buffer *buf)
-+{
-+	unsigned long flags;
-+	dma_addr_t phys;
-+	int buf_num;
-+	u32 isr;
-+
-+	if (!csi->is_streaming)
-+		return false;
-+
-+	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
-+
-+	/*
-+	 * buf_num holds the fb id of the most recently (*not* the next
-+	 * anticipated) triggered interrupt. Without loss of generality, if
-+	 * buf_num is 0 and we get to this section before the irq for fb2, the
-+	 * buffer that we are fast-tracking into fb1 should be programmed in
-+	 * time to be captured into. If the irq for fb2 already happened, then
-+	 * buf_num would be 1, and we would fast-track the buffer into fb2
-+	 * instead. This guarantees that we won't try to fast-track into fb1
-+	 * and race against the start-of-capture into fb1.
-+	 *
-+	 * We only fast-track the buffer if the currently programmed buffer is
-+	 * a dummy buffer. We can check the active_vb2_buf instead as it is
-+	 * always modified along with programming the fb[1,2] registers via the
-+	 * lock (besides setup and cleanup).
-+	 */
-+
-+	spin_lock_irqsave(&csi->irqlock, flags);
-+
-+	buf_num = csi->buf_num;
-+	if (csi->active_vb2_buf[buf_num]) {
-+		spin_unlock_irqrestore(&csi->irqlock, flags);
-+		return false;
-+	}
-+
-+	imx7_csi_update_buf(csi, phys, buf_num);
-+
-+	isr = imx7_csi_reg_read(csi, CSI_CSISR);
-+	/*
-+	 * The interrupt for the /other/ fb just came (the isr hasn't run yet
-+	 * though, because we have the lock here); we can't be sure we've
-+	 * programmed buf_num fb in time, so queue the buffer to the buffer
-+	 * queue normally. No need to undo writing the fb register, since we
-+	 * won't return it as active_vb2_buf is NULL, so it's okay to
-+	 * potentially write it to both fb1 and fb2; only the one where it was
-+	 * queued normally will be returned.
-+	 */
-+	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
-+		spin_unlock_irqrestore(&csi->irqlock, flags);
-+		return false;
-+	}
-+
-+	csi->active_vb2_buf[buf_num] = buf;
-+
-+	spin_unlock_irqrestore(&csi->irqlock, flags);
-+	return true;
-+}
-+
- static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
- {
- 	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
- 	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
- 	unsigned long flags;
- 
-+	if (imx7_csi_fast_track_buffer(csi, buf))
-+		return;
-+
- 	spin_lock_irqsave(&csi->q_lock, flags);
- 
- 	list_add_tail(&buf->list, &csi->ready_q);
 -- 
-2.30.2
+2.37.3
 
