@@ -1,108 +1,68 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CDA7C
-	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 12:08:38 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90137888;
-	Thu,  8 Sep 2022 14:08:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1662638910;
-	bh=CkG/MazVFplR8mYzQrftiKr7OKNvPkPqMPac0VAkq94=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CGVdRO08SxMJyaJrSafYnAPBd6fMzPWt3e8RmFAVovNvy3bPJdtkmMtWaS9k1/MjT
-	 egVDt55JlacdzaulDZdS6pWpDvWtx4UPEFPb9dsu0+LAa49L+J1kCk8piv9Hg1oXEL
-	 tyUR45KODpQH9CfRTxOMvELUS90U8SAm3o5QtjLs=
-Message-ID: <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
-Date: Thu, 8 Sep 2022 15:08:27 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281217C
+	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 12:57:06 +0000 (UTC)
+X-QQ-mid: bizesmtp63t1662641574thqhzbh3
+Received: from localhost.localdomain ( [182.148.14.0])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 08 Sep 2022 20:52:53 +0800 (CST)
+X-QQ-SSF: 0100000000200090C000B00A0000000
+X-QQ-FEAT: xqT8U4SkSpjzv/yCnXlPzVgU/S5gofddB/t+tauGOQ127k8QUxlOwfNxeqRIT
+	YKbpmC6hGhhzyfqOWBNom4JTYSVjwYkLVNiN717ID3Wmy9r4ABFfr65XkaNHgKaOFZDvlpy
+	KNwANaEVLQh5jd0O8bCKcCHFBrjhZ14JOqzakti3aEGGjssfGM4FJnrpE3/IGEKozyNfd5z
+	CiFOmsRJw5mP9YUYAl+sUOv+kxSK9M8kKFZR0knZovgjKkyWtVFEUhefjudK50+cLIij8+8
+	nEt46iYU/FYVfS2ruyRzZDkZ0o1emOcXo23oTrqe08WazqmXwnNlyQ9vjnvyE7COYpEz2x+
+	5HfQJunStuZtesMvGucVhbRw1xPZ/WLM+pIPQbvQE/haaokiZs=
+X-QQ-GoodBg: 0
+From: wangjianli <wangjianli@cdjrlc.com>
+To: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	wangjianli <wangjianli@cdjrlc.com>
+Subject: [PATCH] atomisp/pci: fix repeated words in comments
+Date: Thu,  8 Sep 2022 20:52:46 +0800
+Message-Id: <20220908125246.27419-1-wangjianli@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] ipu3-imgu: Fix NULL pointer dereference in
- imgu_subdev_set_selection()
-Content-Language: en-US
-To: Maximilian Luz <luzmaximilian@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20220907224409.3187482-1-luzmaximilian@gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20220907224409.3187482-1-luzmaximilian@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr7
 
-On 08/09/2022 01:44, Maximilian Luz wrote:
-> Calling v4l2_subdev_get_try_crop() and v4l2_subdev_get_try_compose()
-> with a subdev state of NULL leads to a NULL pointer dereference. This
-> can currently happen in imgu_subdev_set_selection() when the state
-> passed in is NULL, as this method first gets pointers to both the "try"
-> and "active" states and only then decides which to use.
-> 
-> The same issue has been addressed for imgu_subdev_get_selection() with
-> commit 30d03a0de650 ("ipu3-imgu: Fix NULL pointer dereference in active
-> selection access"). However the issue still persists in
-> imgu_subdev_set_selection().
-> 
-> Therefore, apply a similar fix as done in the aforementioned commit to
-> imgu_subdev_set_selection(). To keep things a bit cleaner, introduce
-> helper functions for "crop" and "compose" access and use them in both
-> imgu_subdev_set_selection() and imgu_subdev_get_selection().
-> 
-> Fixes: 0d346d2a6f54 ("media: v4l2-subdev: add subdev-wide state struct")
-> Cc: stable@vger.kernel.org # for v5.14 and later
-> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
-> ---
->   drivers/staging/media/ipu3/ipu3-v4l2.c | 57 +++++++++++++++-----------
->   1 file changed, 34 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> index ce13e746c15f..e530767e80a5 100644
-> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> @@ -188,6 +188,28 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
->   	return 0;
->   }
->   
-> +static struct v4l2_rect *
-> +imgu_subdev_get_crop(struct imgu_v4l2_subdev *sd,
-> +		     struct v4l2_subdev_state *sd_state, unsigned int pad,
-> +		     enum v4l2_subdev_format_whence which)
-> +{
-> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return v4l2_subdev_get_try_crop(&sd->subdev, sd_state, pad);
-> +	else
-> +		return &sd->rect.eff;
-> +}
-> +
-> +static struct v4l2_rect *
-> +imgu_subdev_get_compose(struct imgu_v4l2_subdev *sd,
-> +			struct v4l2_subdev_state *sd_state, unsigned int pad,
-> +			enum v4l2_subdev_format_whence which)
-> +{
-> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return v4l2_subdev_get_try_compose(&sd->subdev, sd_state, pad);
-> +	else
-> +		return &sd->rect.bds;
-> +}
+Delete the redundant word 'in'.
 
+Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+---
+ drivers/staging/media/atomisp/pci/ia_css_irq.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-If I understand right, these functions are only called with pad 0 
-(IMGU_NODE_IN). I would drop the pad argument here and use IMGU_NODE_IN. 
-Otherwise it gives a false idea that other pads could be used with these 
-functions, and that would fail for the V4L2_SUBDEV_FORMAT_ACTIVE case.
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_irq.h b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+index 26b1b3c8ba62..8f2e876a0b2b 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_irq.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+@@ -84,11 +84,11 @@ enum ia_css_irq_info {
+ 	IA_CSS_IRQ_INFO_ISP_BINARY_STATISTICS_READY   = BIT(17),
+ 	/** ISP binary statistics are ready */
+ 	IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR            = BIT(18),
+-	/** the input system in in error */
++	/** the input system in error */
+ 	IA_CSS_IRQ_INFO_IF_ERROR                      = BIT(19),
+-	/** the input formatter in in error */
++	/** the input formatter in error */
+ 	IA_CSS_IRQ_INFO_DMA_ERROR                     = BIT(20),
+-	/** the dma in in error */
++	/** the dma in error */
+ 	IA_CSS_IRQ_INFO_ISYS_EVENTS_READY             = BIT(21),
+ 	/** end-of-frame events are ready in the isys_event queue */
+ };
+-- 
+2.36.1
 
-However, that's not a big issue. With or without the change:
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-  Tomi
