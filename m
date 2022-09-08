@@ -1,164 +1,265 @@
-Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com [203.205.221.153])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667EC7C
-	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 07:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1662622503;
-	bh=bwQ65S53ALWy6bGST1Fb3/GMX9ST8lXV82dLJKNIlOQ=;
-	h=From:To:Cc:Subject:Date;
-	b=ZJWyE+1VbiGfQiQ96y8RsGpZQp7u2oNb6f4rSKJfj9COwcpprorVgdh5SQlpVbkJ5
-	 nPpULZpPB2/woZN6fQ2DK9C+yAEfgJMEglYVIQNzApu029QuW4RMxpaDdqEVpqQ82f
-	 bioedevl2q/b0nJT8Rp+H9UzdV1JgFWRffBg0/UE=
-Received: from localhost.localdomain ([59.172.176.188])
-	by newxmesmtplogicsvrsza30.qq.com (NewEsmtp) with SMTP
-	id 7E618A06; Thu, 08 Sep 2022 15:31:38 +0800
-X-QQ-mid: xmsmtpt1662622298tyuvudud9
-Message-ID: <tencent_61623C1C5469E9DF0E448B5936B78E239C05@qq.com>
-X-QQ-XMAILINFO: Mrv6PNPZjcp6xxCecALPcHbA4h6sD5OnU4pfgtJ5GcpkdxPxE/zW1HbCXHGX+0
-	 LN9b6UbRqOgu7PtrFF2HtcnWoy8lHG/KsZOHCeenkYPO0jLpMr5yU1kkT+ChUpPvuzWwfuFCp0nc
-	 ISzHFvRq8t3lP75VuYTtMjqiOrjwxczIUUFiTqCh00tCM5UA3Wp0Exc2KaN1h1ybZQl6AR19k0fX
-	 FPPmIm+fwVb1VZ8pL3MrQ6lqP+dOre0gxoJRKFeHpnLeXJrRG3WOtxnKtYNRt9OGMMPZ7UDQ2xbK
-	 /vqX/H9S0cdXd32wsgFjnBwp3Basc+QrjerAyuSrohJTYXGrx8pVw0/roB2MNzp2NXqAnfpuwufg
-	 RAqKeajRSTQPHRQzNtCWXoaF7mn4N9WZrqYCMHW44wwPWw9PkGnsPHr3btIlw0HModR5ORXzisCK
-	 5vYT+Kagndgdqq6QGuBlkwJJsvDm0aZNo0wwXhp5nvydcWl6cd8MgJb1YpXcEmzVSpNfnBpKkTsQ
-	 EXfGIJf6IvpMi2cMvpYRTuwm7CxHDoPhR7Ws0t2hJjcK4eOR668ChbX0jxd6btbksL+X+QTG6csd
-	 cL74h7oQ6YF1RIsunDQzBhMLYly+qfNsfi5rZRl7con9X7LgMopys/GL8jSfjhHVFwFKzYMV9n0S
-	 AO6mBi1BMGZWSbFKyoGOUfqRGidSq31PGN8gyELZiZInGI1FXWzo6SmKTwULKATCyLDqyQItxtXs
-	 dC4FVciebeZBMYOSAroaP9/ojspOX4jVBZmP3WGV6mQPVuZ/KtXkHuLWLO9TWND70y4p2di7M1tg
-	 zdc+RpZgQei/OwslZNkUhX7SWLYos1U2ssTwlUX3nRWPZzlfksUNpQSfiEF60id0H6LADQYHwbaz
-	 qOQxAo9zuZp/P11lLpGe0ypu3yjSmQAPT0zyEAE6ViR9yreIhD5wT6SIek//pszXQ9aTu7PGXCWe
-	 PGHFMaVJyMOouxbceyICiX8+KQ4QwrWo76CNdbHEThqzwwUtyg3IDqGeubBaFFEKCQeQL92Wc=
-From: xkernel.wang@foxmail.com
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH v3] staging: rtl8723bs: fix potential memory leak in rtw_init_drv_sw()
-Date: Thu,  8 Sep 2022 15:31:25 +0800
-X-OQ-MSGID: <20220908073125.2232-1-xkernel.wang@foxmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEAC7C
+	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 08:35:28 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B67CB6CC;
+	Thu,  8 Sep 2022 10:35:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1662626125;
+	bh=QoGYsop3XTUWSWH0anYcR8e1ZrmtesUmNm5OIgh3pSQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZobUdLIywfIIf8EoqV9rixKjb+YB0ckrQLLH9cq4dfRQJ6ur0F8UTfzVCjtu1XC9R
+	 HDITv7aCTULlBqYxbEGCvsZ/0jLnyhNU0+HNFSjXlUNHve4Xkl4eDUOJI7pTwpgCcL
+	 q6iO7KrAzH4gGi7lA3VeaADbfawYCJAw7VPUFHjo=
+Date: Thu, 8 Sep 2022 11:35:09 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: paul.elder@ideasonboard.com
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	linux-media@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking
+ queued buffers
+Message-ID: <YxmpPUJeF/0XRbUf@pendragon.ideasonboard.com>
+References: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
+ <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
+ <20220908030321.GA1140330@pyrite.rasen.tech>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220908030321.GA1140330@pyrite.rasen.tech>
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+Hi Paul,
 
-In rtw_init_drv_sw(), there are various init functions are called to 
-populate the padapter structure and some checks for their return value.
-However, except for the first one error path, the other five error paths 
-do not properly release the previous allocated resources, which leads to 
-various memory leaks.
+On Thu, Sep 08, 2022 at 12:03:21PM +0900, paul.elder@ideasonboard.com wrote:
+> On Wed, Sep 07, 2022 at 09:18:56PM +0300, Laurent Pinchart wrote:
+> > On Wed, Sep 07, 2022 at 08:47:37PM +0900, Paul Elder wrote:
+> > > The CSI hardware compatible with this driver handles buffers using a
+> > > ping-pong mechanism with two sets of destination addresses. Normally,
+> > > when an interrupt comes in to signal the completion of one buffer, say
+> > > FB0, it assigns the next buffer in the queue to the next FB0, and the
+> > > hardware starts to capture into FB1 in the meantime.
+> > 
+> > Could you replace FB0 and FB1 with FB1 and FB2 respectively, to match
+> > the naming of the registers ?
+> 
+> Oops, I forgot to do it in the commit message.
+> 
+> > > In a buffer underrun situation, in the above example without loss of
+> > > generality, if a new buffer is queued before the interrupt for FB0 comes
+> > > in, we can program the buffer into FB1 (which is programmed with a dummy
+> > > buffer, as there is a buffer underrun).
+> > > 
+> > > This of course races with the interrupt that signals FB0 completion, as
+> > > once that interrupt comes in, we are no longer guaranteed that the
+> > > programming of FB1 was in time and must assume it was too late. This
+> > > race is resolved partly by locking the programming of FB1. If it came
+> > > after the interrupt for FB0, then the variable that is used to determine
+> > > which FB to program would have been swapped by the interrupt handler.
+> > > 
+> > > This alone isn't sufficient, however, because the interrupt could still
+> > > be generated (thus the hardware starts capturing into the other fb)
+> > > while the fast-tracking routine has the irq lock. Thus, after
+> > > programming the fb register to fast-track the buffer, the isr also must
+> > > be checked to confirm that an interrupt didn't come in the meantime. If
+> > > it has, we must assume that programming the register for the
+> > > fast-tracked buffer was not in time, and queue the buffer normally.
+> > > 
+> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> > > 
+> > > ---
+> > > Changes in v2:
+> > > - fix the potential race condition where the interrupt comes in while
+> > >   the fast tracking routine has the irqlock
+> > > - change return value from int to bool
+> > > ---
+> > >  drivers/staging/media/imx/imx7-media-csi.c | 63 ++++++++++++++++++++++
+> > >  1 file changed, 63 insertions(+)
+> > > 
+> > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > > index a0553c24cce4..0ebef44a7627 100644
+> > > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > > @@ -1296,12 +1296,75 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static bool imx7_csi_fast_track_buffer(struct imx7_csi *csi,
+> > > +				       struct imx7_csi_vb2_buffer *buf)
+> > > +{
+> > > +	unsigned long flags;
+> > > +	dma_addr_t phys;
+> > > +	int buf_num;
+> > > +	u32 isr;
+> > > +
+> > > +	if (!csi->is_streaming)
+> > > +		return false;
+> > > +
+> > > +	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
+> > > +
+> > > +	/*
+> > > +	 * buf_num holds the fb id of the most recently (*not* the next
+> > > +	 * anticipated) triggered interrupt. Without loss of generality, if
+> > > +	 * buf_num is 0 and we get to this section before the irq for fb2, the
+> > 
+> > s/fb2/FB2/ to match hardware registers and the commit message ?
+> 
+> ack
+> 
+> > 
+> > > +	 * buffer that we are fast-tracking into fb1 should be programmed in
+> > > +	 * time to be captured into. If the irq for fb2 already happened, then
+> > > +	 * buf_num would be 1, and we would fast-track the buffer into fb2
+> > > +	 * instead. This guarantees that we won't try to fast-track into fb1
+> > > +	 * and race against the start-of-capture into fb1.
+> > > +	 *
+> > > +	 * We only fast-track the buffer if the currently programmed buffer is
+> > > +	 * a dummy buffer. We can check the active_vb2_buf instead as it is
+> > > +	 * always modified along with programming the fb[1,2] registers via the
+> > > +	 * lock (besides setup and cleanup).
+> > > +	 */
+> > 
+> > I think this needs to be updated, it still indicates we handle the race
+> > just by checking buf_num. How about the following ?
+> > 
+> > 	/*
+> > 	 * buf_num holds the framebuffer ID of the most recently (*not* the next
+> > 	 * anticipated) triggered interrupt. Without loss of generality, if
+> > 	 * buf_num is 0, the hardware is capturing to FB2. If FB1 has been
+> > 	 * programmed with a dummy buffer (as indicated by active_vb2_buf[0]
+> > 	 * being NULL), then we can fast-track the new buffer by programming its
+> > 	 * address in FB1 before the hardware completes FB2, instead of adding
+> > 	 * it to the buffer queue and incurring a delay of one additional frame.
+> 
+> Okay that's a lot easier to follow than the one that I wrote.
+> 
+> > 	 *
+> > 	 * The irqlock prevents races with the interrupt handler that queues the
+> 
+> The interrupt handler doesn't /queue/ the buffer, it programs the FB
+> register with the buffer at the front of the buffer queue. That's why I
+> said "programs the next buffer" in my original text.
 
-This patch fixes them and keeps the success and error separate. As there
-is no FooBar device to test with, no runtime testing was performed.
+I meant queuing it to the hardware, in the sense that programming the
+register doesn't make the hardware process the buffer immediately, but
+you're right, that's not a good term here. I'll use "programs the next
+buffer".
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
-ChangeLog:
-v1->v2 update the description.
-v2->v3 update the description.
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 60 +++++++++++----------
- 1 file changed, 31 insertions(+), 29 deletions(-)
+> Although I don't think racing with the interrupt handler for
+> programming the next buffer is important in this context, since the
+> interrupt handler is going to program FB2, while we're trying to program FB1
+> before that that interrupt comes in.
+> 
+> It's mainly buf_num that's relevant to locking the irqlock.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 0a8c24e..1bf6fc0 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -664,51 +664,36 @@ void rtw_reset_drv_sw(struct adapter *padapter)
- 
- u8 rtw_init_drv_sw(struct adapter *padapter)
- {
--	u8 ret8 = _SUCCESS;
--
- 	rtw_init_default_value(padapter);
- 
- 	rtw_init_hal_com_default_value(padapter);
- 
--	if (rtw_init_cmd_priv(&padapter->cmdpriv)) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (rtw_init_cmd_priv(&padapter->cmdpriv))
-+		return _FAIL;
- 
- 	padapter->cmdpriv.padapter = padapter;
- 
--	if (rtw_init_evt_priv(&padapter->evtpriv)) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (rtw_init_evt_priv(&padapter->evtpriv))
-+		goto free_cmd_priv;
- 
--
--	if (rtw_init_mlme_priv(padapter) == _FAIL) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (rtw_init_mlme_priv(padapter) == _FAIL)
-+		goto free_evt_priv;
- 
- 	init_mlme_ext_priv(padapter);
- 
--	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL)
-+		goto free_mlme_ext;
- 
--	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL)
-+		goto free_xmit_priv;
- 	/*  add for CONFIG_IEEE80211W, none 11w also can use */
- 	spin_lock_init(&padapter->security_key_mutex);
- 
- 	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
- 	/* memset((unsigned char *)&padapter->securitypriv, 0, sizeof (struct security_priv)); */
- 
--	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL)
-+		goto free_recv_priv;
- 
- 	padapter->stapriv.padapter = padapter;
- 	padapter->setband = GHZ24_50;
-@@ -719,9 +704,26 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 
- 	rtw_hal_dm_init(padapter);
- 
--exit:
-+	return _SUCCESS;
-+
-+free_recv_priv:
-+	_rtw_free_recv_priv(&padapter->recvpriv);
-+
-+free_xmit_priv:
-+	_rtw_free_xmit_priv(&padapter->xmitpriv);
-+
-+free_mlme_ext:
-+	free_mlme_ext_priv(&padapter->mlmeextpriv);
- 
--	return ret8;
-+	rtw_free_mlme_priv(&padapter->mlmepriv);
-+
-+free_evt_priv:
-+	rtw_free_evt_priv(&padapter->evtpriv);
-+
-+free_cmd_priv:
-+	rtw_free_cmd_priv(&padapter->cmdpriv);
-+
-+	return _FAIL;
- }
- 
- void rtw_cancel_all_timer(struct adapter *padapter)
+You're right. I'll write "that udpates buf_num when it programs the next
+buffer".
+
+> > 	 * next buffer and updates buf_num, but we can still race with the
+> > 	 * hardware if we program the buffer in FB1 just after the hardware
+> > 	 * completes FB2 and switches to FB1 and before we notice the buf_num
+> > 	 * change.
+> 
+> buf_num won't actually be changed because we have the lock. Maybe
+> "before buf_num can be updated by the interrupt handler for FB2"?
+
+Sounds good.
+
+> > The fast-tracked buffer would then be ignored by the hardware
+> > 	 * while the driver would think it has successfully been processed.
+> > 	 *
+> > 	 * To avoid this problem, if we can't avoid the race, we can detect that
+> > 	 * we have lost it by checking, after programming the buffer in FB1, if
+> > 	 * the interrupt flag indicated completion of FB2 has been raised. If
+> 
+> s/indicated/indicating/
+> 
+> > 	 * that is not the case, fast-tracking succeeded, and we can update
+> > 	 * active_vb2_buf[0]. Otherwise, we may or may not have lost the race
+> > 	 * (as the interrupt flag may have been raised just after programming
+> > 	 * FB1 and before we read the interrupt status register), and we need to
+> > 	 * assume the worst case of a race loss and queue the buffer through the
+> > 	 * slow path.
+> > 	 */
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > If you're fine with these changes there's no need to submit a v3, I'll
+> > update the comment and the commit message locally.
+> 
+> Yeah I'm fine with these.
+> 
+> > > +
+> > > +	spin_lock_irqsave(&csi->irqlock, flags);
+> > > +
+> > > +	buf_num = csi->buf_num;
+> > > +	if (csi->active_vb2_buf[buf_num]) {
+> > > +		spin_unlock_irqrestore(&csi->irqlock, flags);
+> > > +		return false;
+> > > +	}
+> > > +
+> > > +	imx7_csi_update_buf(csi, phys, buf_num);
+> > > +
+> > > +	isr = imx7_csi_reg_read(csi, CSI_CSISR);
+> > > +	/*
+> > > +	 * The interrupt for the /other/ fb just came (the isr hasn't run yet
+> > > +	 * though, because we have the lock here); we can't be sure we've
+> > > +	 * programmed buf_num fb in time, so queue the buffer to the buffer
+> > > +	 * queue normally. No need to undo writing the fb register, since we
+> > > +	 * won't return it as active_vb2_buf is NULL, so it's okay to
+> > > +	 * potentially write it to both fb1 and fb2; only the one where it was
+> 
+> I guess there should be s/fb/FB/ throughout this block too.
+> 
+> > > +	 * queued normally will be returned.
+> > > +	 */
+> 
+> (You mention this in your other reply)
+> 
+> Yeah I guess this block should go inside the if. I didn't really
+> aesthetically like a huge block of text inside a tiny if block but maybe
+> that's more correct.
+> 
+> > > +	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
+> > > +		spin_unlock_irqrestore(&csi->irqlock, flags);
+> > > +		return false;
+> > > +	}
+> > > +
+> > > +	csi->active_vb2_buf[buf_num] = buf;
+> > > +
+> > > +	spin_unlock_irqrestore(&csi->irqlock, flags);
+> > > +	return true;
+> > > +}
+> > > +
+> > >  static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
+> > >  {
+> > >  	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
+> > >  	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
+> > >  	unsigned long flags;
+> > >  
+> > > +	if (imx7_csi_fast_track_buffer(csi, buf))
+> > > +		return;
+> > > +
+> > >  	spin_lock_irqsave(&csi->q_lock, flags);
+> > >  
+> > >  	list_add_tail(&buf->list, &csi->ready_q);
+
 -- 
+Regards,
+
+Laurent Pinchart
