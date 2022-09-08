@@ -1,115 +1,116 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306512F42
-	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 13:09:30 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id l14so14444509eja.7
-        for <linux-staging@lists.linux.dev>; Thu, 08 Sep 2022 06:09:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=tReQnZIM/2GXsnwHvYX7dmOzuxjlvlNGIgAsvxQ1yRc=;
-        b=i64quYvlQ46IAbHchD9nAqJI/KHzq9w0j8q6dfs7eCEhjUk3Oif4adCO7pMd5bdSIM
-         IOu2dEyIA3Sku7i0R8zrnGgvVpEP1w7TlRcZ7Pi15Bb/Tms7sOGXhzKYmFyAeCpp5bQI
-         ccqqOeqb+PKRf26AJprMiVpbz1LB2lCUUI3YTcYSN5LL3I3A1mQdjFCr2F70zNFDftaM
-         dUZ4D/AUA4JUM2BN3CEemAxPdSkdUIwhb1AUzZY10VwrG5yPY66BD+e5dQ5/iaAQBKus
-         rbp5a9YmEkBQ594K4t/9XM0E7dyaIxgwjyymYaVdcKCDk+Ur67cG+QlPJHYsgtlNF5C3
-         bS8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=tReQnZIM/2GXsnwHvYX7dmOzuxjlvlNGIgAsvxQ1yRc=;
-        b=PVgXB0zKnVltvDF1ANPx05EkqZW9CqdGdO3wsHkv7I6i6u8AFLpvpOH6/NqxZIgwsU
-         xUfjWftbosFBc7OJE5QeAPoiHZJdNya1MpVCSm1Y/0/Juzw/yRMp5AXau1PAXvXIboif
-         +GQmVbgn5rQmObS24FyoTLz+y29hobejoXuUqJepAszUCMjHDXEV9gmOODAVUT4gjnlV
-         Dkp0m2cIGDTHsKwvlXrOO/sFXJWp3H3Q5iIiZ6iDq6iKnr/rWdRz9mLDd5rDJUs9uOAR
-         7f4uCpYwdSEARcgDrcJtActLq0yVQXb/I+eyjexnXfi6P9+ZOg7UPCTI85d4YLBgr7v9
-         S4ng==
-X-Gm-Message-State: ACgBeo02xmD4muJtJJ5gohwDNOam3neNab9TGJUY+4lcAN55I6V8Mhvj
-	heSFJ5pkmZjgVuO4A8tZhe0IGXIfn6Q=
-X-Google-Smtp-Source: AA6agR6VijqSfYBtjgJ/lXIIch+djV1FGMJrTaOymkJRGHnbP/TSIHqgHGRXbkuLmcToUBeMcizB/g==
-X-Received: by 2002:a17:907:2ced:b0:773:6f77:f10f with SMTP id hz13-20020a1709072ced00b007736f77f10fmr2860143ejc.34.1662642568533;
-        Thu, 08 Sep 2022 06:09:28 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id cf6-20020a0564020b8600b0044edf0a2deasm4847978edb.69.2022.09.08.06.09.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 06:09:28 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 4/4] staging: r8188eu: remove unnecessary return labels.
-Date: Thu,  8 Sep 2022 15:09:15 +0200
-Message-Id: <20220908130915.8406-5-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220908130915.8406-1-straube.linux@gmail.com>
-References: <20220908130915.8406-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1593222
+	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 13:48:17 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D454888;
+	Thu,  8 Sep 2022 15:48:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1662644894;
+	bh=Ejrs9pC4Yim8AclRRPShaxgw3JEmIX4zulBk9QWxGSE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t1lawQJPpI4WBB+Sqir954aN2Q2w83lk21aH1scwqFisXpjT1wB7pmrI8lx6tR/aM
+	 hFYdSV3+KJhQEckbhp3OXLp8Uu4264V4LbiIqePrQrhp2d8QADg4I9pJmQaCTT3pzf
+	 7QmiWAQhy3N9v1HwcjHKTy7/lSQw9JYmt0O7ENDU=
+Date: Thu, 8 Sep 2022 16:47:57 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Maximilian Luz <luzmaximilian@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] ipu3-imgu: Fix NULL pointer dereference in
+ imgu_subdev_set_selection()
+Message-ID: <YxnyjYldJ5oAhkBp@pendragon.ideasonboard.com>
+References: <20220907224409.3187482-1-luzmaximilian@gmail.com>
+ <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
 
-Remove the RETURN labels in rtw_alloc_etherdev_with_old_priv() and
-rtw_alloc_etherdev() and return directly to clean up the code and
-improve readability.
+On Thu, Sep 08, 2022 at 03:08:27PM +0300, Tomi Valkeinen wrote:
+> On 08/09/2022 01:44, Maximilian Luz wrote:
+> > Calling v4l2_subdev_get_try_crop() and v4l2_subdev_get_try_compose()
+> > with a subdev state of NULL leads to a NULL pointer dereference. This
+> > can currently happen in imgu_subdev_set_selection() when the state
+> > passed in is NULL, as this method first gets pointers to both the "try"
+> > and "active" states and only then decides which to use.
+> > 
+> > The same issue has been addressed for imgu_subdev_get_selection() with
+> > commit 30d03a0de650 ("ipu3-imgu: Fix NULL pointer dereference in active
+> > selection access"). However the issue still persists in
+> > imgu_subdev_set_selection().
+> > 
+> > Therefore, apply a similar fix as done in the aforementioned commit to
+> > imgu_subdev_set_selection(). To keep things a bit cleaner, introduce
+> > helper functions for "crop" and "compose" access and use them in both
+> > imgu_subdev_set_selection() and imgu_subdev_get_selection().
+> > 
+> > Fixes: 0d346d2a6f54 ("media: v4l2-subdev: add subdev-wide state struct")
+> > Cc: stable@vger.kernel.org # for v5.14 and later
+> > Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+> > ---
+> >   drivers/staging/media/ipu3/ipu3-v4l2.c | 57 +++++++++++++++-----------
+> >   1 file changed, 34 insertions(+), 23 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > index ce13e746c15f..e530767e80a5 100644
+> > --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > @@ -188,6 +188,28 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
+> >   	return 0;
+> >   }
+> >   
+> > +static struct v4l2_rect *
+> > +imgu_subdev_get_crop(struct imgu_v4l2_subdev *sd,
+> > +		     struct v4l2_subdev_state *sd_state, unsigned int pad,
+> > +		     enum v4l2_subdev_format_whence which)
+> > +{
+> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
+> > +		return v4l2_subdev_get_try_crop(&sd->subdev, sd_state, pad);
+> > +	else
+> > +		return &sd->rect.eff;
+> > +}
+> > +
+> > +static struct v4l2_rect *
+> > +imgu_subdev_get_compose(struct imgu_v4l2_subdev *sd,
+> > +			struct v4l2_subdev_state *sd_state, unsigned int pad,
+> > +			enum v4l2_subdev_format_whence which)
+> > +{
+> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
+> > +		return v4l2_subdev_get_try_compose(&sd->subdev, sd_state, pad);
+> > +	else
+> > +		return &sd->rect.bds;
+> > +}
+> 
+> If I understand right, these functions are only called with pad 0 
+> (IMGU_NODE_IN). I would drop the pad argument here and use IMGU_NODE_IN. 
+> Otherwise it gives a false idea that other pads could be used with these 
+> functions, and that would fail for the V4L2_SUBDEV_FORMAT_ACTIVE case.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/os_dep/osdep_service.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+It thought the same when proposing this. I kept the pad argument as the
+driver should ideally be ported to the active state API, which will
+provide storage for rectangles on all pads separately. Preparing for
+that may not be worth it though, given that the code will probably to be
+changed significantly anyway. I'm fine either way.
 
-diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-index 3504a0a9ba87..875a41650896 100644
---- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-+++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-@@ -54,14 +54,13 @@ struct net_device *rtw_alloc_etherdev_with_old_priv(int sizeof_priv,
- 
- 	pnetdev = alloc_etherdev_mq(sizeof(struct rtw_netdev_priv_indicator), 4);
- 	if (!pnetdev)
--		goto RETURN;
-+		return NULL;
- 
- 	pnetdev->dev.type = &wlan_type;
- 	pnpi = netdev_priv(pnetdev);
- 	pnpi->priv = old_priv;
- 	pnpi->sizeof_priv = sizeof_priv;
- 
--RETURN:
- 	return pnetdev;
- }
- 
-@@ -72,19 +71,18 @@ struct net_device *rtw_alloc_etherdev(int sizeof_priv)
- 
- 	pnetdev = alloc_etherdev_mq(sizeof(struct rtw_netdev_priv_indicator), 4);
- 	if (!pnetdev)
--		goto RETURN;
-+		return NULL;
- 
- 	pnpi = netdev_priv(pnetdev);
- 
- 	pnpi->priv = vzalloc(sizeof_priv);
- 	if (!pnpi->priv) {
- 		free_netdev(pnetdev);
--		pnetdev = NULL;
--		goto RETURN;
-+		return NULL;
- 	}
- 
- 	pnpi->sizeof_priv = sizeof_priv;
--RETURN:
-+
- 	return pnetdev;
- }
- 
+> However, that's not a big issue. With or without the change:
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
 -- 
-2.37.2
+Regards,
 
+Laurent Pinchart
