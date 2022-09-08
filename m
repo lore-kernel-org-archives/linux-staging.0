@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEAC7C
-	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 08:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008A97C
+	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 08:38:05 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B67CB6CC;
-	Thu,  8 Sep 2022 10:35:25 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9A766CC;
+	Thu,  8 Sep 2022 10:38:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1662626125;
-	bh=QoGYsop3XTUWSWH0anYcR8e1ZrmtesUmNm5OIgh3pSQ=;
+	s=mail; t=1662626284;
+	bh=5foHTCrN9iWRme3YP8ot2BtLEUEWucPK0kXYEAE/S1o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZobUdLIywfIIf8EoqV9rixKjb+YB0ckrQLLH9cq4dfRQJ6ur0F8UTfzVCjtu1XC9R
-	 HDITv7aCTULlBqYxbEGCvsZ/0jLnyhNU0+HNFSjXlUNHve4Xkl4eDUOJI7pTwpgCcL
-	 q6iO7KrAzH4gGi7lA3VeaADbfawYCJAw7VPUFHjo=
-Date: Thu, 8 Sep 2022 11:35:09 +0300
+	b=OKLwjiMpcQjnVcXbsSB4LpqgP/B57xtn+Emlq0IjLQW6QO16foezTkmjL9kF/88gJ
+	 /gMsn+80WuoAUgQCrEw/mIwuH7YLUHd/EeLFJ0o56ufTNzbOhqiGduadXnJgYAxT1O
+	 GVXssp+Q/zTQnc9FE/qD8qFKRnaTFsKRt/YxqzOU=
+Date: Thu, 8 Sep 2022 11:37:47 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: paul.elder@ideasonboard.com
 Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -29,7 +29,7 @@ Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking
  queued buffers
-Message-ID: <YxmpPUJeF/0XRbUf@pendragon.ideasonboard.com>
+Message-ID: <Yxmp2xCy8t+eO1+k@pendragon.ideasonboard.com>
 References: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
  <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
  <20220908030321.GA1140330@pyrite.rasen.tech>
@@ -43,10 +43,14 @@ Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20220908030321.GA1140330@pyrite.rasen.tech>
 
-Hi Paul,
-
 On Thu, Sep 08, 2022 at 12:03:21PM +0900, paul.elder@ideasonboard.com wrote:
+> Hi Laurent,
+> 
 > On Wed, Sep 07, 2022 at 09:18:56PM +0300, Laurent Pinchart wrote:
+> > Hi Paul,
+> > 
+> > Thank you for the patch.
+> > 
 > > On Wed, Sep 07, 2022 at 08:47:37PM +0900, Paul Elder wrote:
 > > > The CSI hardware compatible with this driver handles buffers using a
 > > > ping-pong mechanism with two sets of destination addresses. Normally,
@@ -59,6 +63,7 @@ On Thu, Sep 08, 2022 at 12:03:21PM +0900, paul.elder@ideasonboard.com wrote:
 > 
 > Oops, I forgot to do it in the commit message.
 > 
+> > 
 > > > In a buffer underrun situation, in the above example without loss of
 > > > generality, if a new buffer is queued before the interrupt for FB0 comes
 > > > in, we can program the buffer into FB1 (which is programmed with a dummy
@@ -154,22 +159,14 @@ On Thu, Sep 08, 2022 at 12:03:21PM +0900, paul.elder@ideasonboard.com wrote:
 > The interrupt handler doesn't /queue/ the buffer, it programs the FB
 > register with the buffer at the front of the buffer queue. That's why I
 > said "programs the next buffer" in my original text.
-
-I meant queuing it to the hardware, in the sense that programming the
-register doesn't make the hardware process the buffer immediately, but
-you're right, that's not a good term here. I'll use "programs the next
-buffer".
-
+> 
 > Although I don't think racing with the interrupt handler for
 > programming the next buffer is important in this context, since the
 > interrupt handler is going to program FB2, while we're trying to program FB1
 > before that that interrupt comes in.
 > 
 > It's mainly buf_num that's relevant to locking the irqlock.
-
-You're right. I'll write "that udpates buf_num when it programs the next
-buffer".
-
+> 
 > > 	 * next buffer and updates buf_num, but we can still race with the
 > > 	 * hardware if we program the buffer in FB1 just after the hardware
 > > 	 * completes FB2 and switches to FB1 and before we notice the buf_num
@@ -177,9 +174,7 @@ buffer".
 > 
 > buf_num won't actually be changed because we have the lock. Maybe
 > "before buf_num can be updated by the interrupt handler for FB2"?
-
-Sounds good.
-
+> 
 > > The fast-tracked buffer would then be ignored by the hardware
 > > 	 * while the driver would think it has successfully been processed.
 > > 	 *
@@ -204,6 +199,7 @@ Sounds good.
 > 
 > Yeah I'm fine with these.
 > 
+> > 
 > > > +
 > > > +	spin_lock_irqsave(&csi->irqlock, flags);
 > > > +
@@ -234,6 +230,11 @@ Sounds good.
 > Yeah I guess this block should go inside the if. I didn't really
 > aesthetically like a huge block of text inside a tiny if block but maybe
 > that's more correct.
+> 
+> 
+> Thanks,
+> 
+> Paul
 > 
 > > > +	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
 > > > +		spin_unlock_irqrestore(&csi->irqlock, flags);
