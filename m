@@ -1,116 +1,76 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1593222
-	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 13:48:17 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D454888;
-	Thu,  8 Sep 2022 15:48:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1662644894;
-	bh=Ejrs9pC4Yim8AclRRPShaxgw3JEmIX4zulBk9QWxGSE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t1lawQJPpI4WBB+Sqir954aN2Q2w83lk21aH1scwqFisXpjT1wB7pmrI8lx6tR/aM
-	 hFYdSV3+KJhQEckbhp3OXLp8Uu4264V4LbiIqePrQrhp2d8QADg4I9pJmQaCTT3pzf
-	 7QmiWAQhy3N9v1HwcjHKTy7/lSQw9JYmt0O7ENDU=
-Date: Thu, 8 Sep 2022 16:47:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maximilian Luz <luzmaximilian@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] ipu3-imgu: Fix NULL pointer dereference in
- imgu_subdev_set_selection()
-Message-ID: <YxnyjYldJ5oAhkBp@pendragon.ideasonboard.com>
-References: <20220907224409.3187482-1-luzmaximilian@gmail.com>
- <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3882D3222
+	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 13:59:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OUSyiJccN0JA1RsOFWJ93C9GLO3AD1GM6cOow/MREUY=; b=RHxqGZlFjGgB7VylinpVrXWz/a
+	xG7T9QQ8JiAKslaMiYcQiLLPHaprY3k+mHcyomForOeXvw0fEVKNn2EEj/K/UOpodFsA6mhiKOjVm
+	IjHP7TKkAwfnQpAxpdM7ZaA+dgkSpiH8fQTEDcrdghK/UoQbXtoMTadkiPI8tjRnRxHDIpUh6cxJr
+	hheR8HaUXvGozuO4xBwC3EvOGBJhrn8vueSiuMiKzXt3iIh58OcWH/yx5ms933aG986mYikoqKZBz
+	2Wc5t5ywIou1z856RxPWkB4ex+37SxIKgwzuLr+2fYGKwdYoSVYRCAhicfQifJGVZVpeHxzrPAZXh
+	UzhCUZSw==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oWI4D-004IoF-Km; Thu, 08 Sep 2022 13:59:41 +0000
+Message-ID: <279a33de-219e-b7fa-aad3-215a81327660@infradead.org>
+Date: Thu, 8 Sep 2022 06:59:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH] atomisp/pci: fix repeated words in comments
+Content-Language: en-US
+To: wangjianli <wangjianli@cdjrlc.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220908125246.27419-1-wangjianli@cdjrlc.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220908125246.27419-1-wangjianli@cdjrlc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 08, 2022 at 03:08:27PM +0300, Tomi Valkeinen wrote:
-> On 08/09/2022 01:44, Maximilian Luz wrote:
-> > Calling v4l2_subdev_get_try_crop() and v4l2_subdev_get_try_compose()
-> > with a subdev state of NULL leads to a NULL pointer dereference. This
-> > can currently happen in imgu_subdev_set_selection() when the state
-> > passed in is NULL, as this method first gets pointers to both the "try"
-> > and "active" states and only then decides which to use.
-> > 
-> > The same issue has been addressed for imgu_subdev_get_selection() with
-> > commit 30d03a0de650 ("ipu3-imgu: Fix NULL pointer dereference in active
-> > selection access"). However the issue still persists in
-> > imgu_subdev_set_selection().
-> > 
-> > Therefore, apply a similar fix as done in the aforementioned commit to
-> > imgu_subdev_set_selection(). To keep things a bit cleaner, introduce
-> > helper functions for "crop" and "compose" access and use them in both
-> > imgu_subdev_set_selection() and imgu_subdev_get_selection().
-> > 
-> > Fixes: 0d346d2a6f54 ("media: v4l2-subdev: add subdev-wide state struct")
-> > Cc: stable@vger.kernel.org # for v5.14 and later
-> > Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
-> > ---
-> >   drivers/staging/media/ipu3/ipu3-v4l2.c | 57 +++++++++++++++-----------
-> >   1 file changed, 34 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > index ce13e746c15f..e530767e80a5 100644
-> > --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > @@ -188,6 +188,28 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
-> >   	return 0;
-> >   }
-> >   
-> > +static struct v4l2_rect *
-> > +imgu_subdev_get_crop(struct imgu_v4l2_subdev *sd,
-> > +		     struct v4l2_subdev_state *sd_state, unsigned int pad,
-> > +		     enum v4l2_subdev_format_whence which)
-> > +{
-> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> > +		return v4l2_subdev_get_try_crop(&sd->subdev, sd_state, pad);
-> > +	else
-> > +		return &sd->rect.eff;
-> > +}
-> > +
-> > +static struct v4l2_rect *
-> > +imgu_subdev_get_compose(struct imgu_v4l2_subdev *sd,
-> > +			struct v4l2_subdev_state *sd_state, unsigned int pad,
-> > +			enum v4l2_subdev_format_whence which)
-> > +{
-> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> > +		return v4l2_subdev_get_try_compose(&sd->subdev, sd_state, pad);
-> > +	else
-> > +		return &sd->rect.bds;
-> > +}
+Hi,
+
+On 9/8/22 05:52, wangjianli wrote:
+> Delete the redundant word 'in'.
 > 
-> If I understand right, these functions are only called with pad 0 
-> (IMGU_NODE_IN). I would drop the pad argument here and use IMGU_NODE_IN. 
-> Otherwise it gives a false idea that other pads could be used with these 
-> functions, and that would fail for the V4L2_SUBDEV_FORMAT_ACTIVE case.
-
-It thought the same when proposing this. I kept the pad argument as the
-driver should ideally be ported to the active state API, which will
-provide storage for rectangles on all pads separately. Preparing for
-that may not be worth it though, given that the code will probably to be
-changed significantly anyway. I'm fine either way.
-
-> However, that's not a big issue. With or without the change:
+> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+> ---
+>  drivers/staging/media/atomisp/pci/ia_css_irq.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+For all of these, I would s/in in/is in/.
+Thanks.
+
+> diff --git a/drivers/staging/media/atomisp/pci/ia_css_irq.h b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+> index 26b1b3c8ba62..8f2e876a0b2b 100644
+> --- a/drivers/staging/media/atomisp/pci/ia_css_irq.h
+> +++ b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+> @@ -84,11 +84,11 @@ enum ia_css_irq_info {
+>  	IA_CSS_IRQ_INFO_ISP_BINARY_STATISTICS_READY   = BIT(17),
+>  	/** ISP binary statistics are ready */
+>  	IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR            = BIT(18),
+> -	/** the input system in in error */
+> +	/** the input system in error */
+>  	IA_CSS_IRQ_INFO_IF_ERROR                      = BIT(19),
+> -	/** the input formatter in in error */
+> +	/** the input formatter in error */
+>  	IA_CSS_IRQ_INFO_DMA_ERROR                     = BIT(20),
+> -	/** the dma in in error */
+> +	/** the dma in error */
+>  	IA_CSS_IRQ_INFO_ISYS_EVENTS_READY             = BIT(21),
+>  	/** end-of-frame events are ready in the isys_event queue */
+>  };
 
 -- 
-Regards,
-
-Laurent Pinchart
+~Randy
