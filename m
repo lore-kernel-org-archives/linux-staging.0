@@ -1,42 +1,42 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51AC7C
-	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 13:09:29 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id fy31so37948033ejc.6
-        for <linux-staging@lists.linux.dev>; Thu, 08 Sep 2022 06:09:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306512F42
+	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 13:09:30 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id l14so14444509eja.7
+        for <linux-staging@lists.linux.dev>; Thu, 08 Sep 2022 06:09:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=bFqxdPA34fBehnbSp3k/mNFHYFTdf2a6bzWDE1HOQiA=;
-        b=M1xjCXfWrc6HNSbMz1Z5Dc85Hyz/AoQ/ZM0MBsn2McqOk4hTpoojCBxbej/jRFyGbs
-         I7LrhNJweCpICR3XrKWTp5mokrPwUXkPRGFVb1etwJdXR6rN9b59Q2cDWgKcq3zdL5qK
-         ICnCpl52/pTXSbiTKHElBJkHT0Rm+o/YNEw2SA3VERlRuIlDc04o0XfkM3uk/oorm5ty
-         grp0tJxSO74Mw/JP3LlBInn1ZMxP7z4O6lUTIx7QZUqN/Ik5ZFOgtxv+OcACpCpdIxGF
-         T1rojMliAgdbwnNMVT6bCFiWPWzNt5LZNMwKX+UElBAI56rzoymJio2dbnetxW2hLPTR
-         cz6g==
+        bh=tReQnZIM/2GXsnwHvYX7dmOzuxjlvlNGIgAsvxQ1yRc=;
+        b=i64quYvlQ46IAbHchD9nAqJI/KHzq9w0j8q6dfs7eCEhjUk3Oif4adCO7pMd5bdSIM
+         IOu2dEyIA3Sku7i0R8zrnGgvVpEP1w7TlRcZ7Pi15Bb/Tms7sOGXhzKYmFyAeCpp5bQI
+         ccqqOeqb+PKRf26AJprMiVpbz1LB2lCUUI3YTcYSN5LL3I3A1mQdjFCr2F70zNFDftaM
+         dUZ4D/AUA4JUM2BN3CEemAxPdSkdUIwhb1AUzZY10VwrG5yPY66BD+e5dQ5/iaAQBKus
+         rbp5a9YmEkBQ594K4t/9XM0E7dyaIxgwjyymYaVdcKCDk+Ur67cG+QlPJHYsgtlNF5C3
+         bS8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=bFqxdPA34fBehnbSp3k/mNFHYFTdf2a6bzWDE1HOQiA=;
-        b=MmNoD7MwGQTszm+7ZbsqerU7PPDp2kBSpSv84ooMb70K06Nl12M2KpL7EN+OUCovXM
-         LnmdzVh9hDN+2XkuyZoYrK+fAwSKChQfepTUuOQkWwMwoTQKsYQfT2BiA08JVOz2ytrz
-         6calbW3tAKAVjn3lfRwT6XJ1cDrosco5nbY3Vyx+uQKp34ycAfTP+f0eMN8pFp7KvisA
-         FdTSpqpcTK3dW53E9HHTb77tWpibwZaGr5w9AjqFuWHU/E9TTUYuiVshoFX7EwNrbbgW
-         Old+Bd+/NSautQahxzADTtWhnPkcpq6/dtiUuxMc2YZ0LcjFJ76vhlFxFWqsUiR5k7P1
-         Z1Sg==
-X-Gm-Message-State: ACgBeo2nPWCdD2hLrF4MoI5YSHAkWDyxlSG9/mzkbikC4b+uRnaVyidL
-	TF+aF+0KwQxF6u0605bYgac=
-X-Google-Smtp-Source: AA6agR7AggqzJ6OW4WbMptOsRrGp+z8wVvemfZdMVRW/PE7dazn1RxQF3O51GGQsuFflQgreDHcZ9A==
-X-Received: by 2002:a17:907:2da6:b0:730:8b30:e517 with SMTP id gt38-20020a1709072da600b007308b30e517mr5985555ejc.291.1662642567943;
-        Thu, 08 Sep 2022 06:09:27 -0700 (PDT)
+        bh=tReQnZIM/2GXsnwHvYX7dmOzuxjlvlNGIgAsvxQ1yRc=;
+        b=PVgXB0zKnVltvDF1ANPx05EkqZW9CqdGdO3wsHkv7I6i6u8AFLpvpOH6/NqxZIgwsU
+         xUfjWftbosFBc7OJE5QeAPoiHZJdNya1MpVCSm1Y/0/Juzw/yRMp5AXau1PAXvXIboif
+         +GQmVbgn5rQmObS24FyoTLz+y29hobejoXuUqJepAszUCMjHDXEV9gmOODAVUT4gjnlV
+         Dkp0m2cIGDTHsKwvlXrOO/sFXJWp3H3Q5iIiZ6iDq6iKnr/rWdRz9mLDd5rDJUs9uOAR
+         7f4uCpYwdSEARcgDrcJtActLq0yVQXb/I+eyjexnXfi6P9+ZOg7UPCTI85d4YLBgr7v9
+         S4ng==
+X-Gm-Message-State: ACgBeo02xmD4muJtJJ5gohwDNOam3neNab9TGJUY+4lcAN55I6V8Mhvj
+	heSFJ5pkmZjgVuO4A8tZhe0IGXIfn6Q=
+X-Google-Smtp-Source: AA6agR6VijqSfYBtjgJ/lXIIch+djV1FGMJrTaOymkJRGHnbP/TSIHqgHGRXbkuLmcToUBeMcizB/g==
+X-Received: by 2002:a17:907:2ced:b0:773:6f77:f10f with SMTP id hz13-20020a1709072ced00b007736f77f10fmr2860143ejc.34.1662642568533;
+        Thu, 08 Sep 2022 06:09:28 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id cf6-20020a0564020b8600b0044edf0a2deasm4847978edb.69.2022.09.08.06.09.27
+        by smtp.gmail.com with ESMTPSA id cf6-20020a0564020b8600b0044edf0a2deasm4847978edb.69.2022.09.08.06.09.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 06:09:27 -0700 (PDT)
+        Thu, 08 Sep 2022 06:09:28 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -44,9 +44,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/4] staging: r8188eu: make two functions static
-Date: Thu,  8 Sep 2022 15:09:14 +0200
-Message-Id: <20220908130915.8406-4-straube.linux@gmail.com>
+Subject: [PATCH 4/4] staging: r8188eu: remove unnecessary return labels.
+Date: Thu,  8 Sep 2022 15:09:15 +0200
+Message-Id: <20220908130915.8406-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220908130915.8406-1-straube.linux@gmail.com>
 References: <20220908130915.8406-1-straube.linux@gmail.com>
@@ -58,131 +58,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The functions UpdateBrateTbl() and UpdateBrateTblForSoftAP() are only
-used in rtw_mlme_ext.c. Make them static.
+Remove the RETURN labels in rtw_alloc_etherdev_with_old_priv() and
+rtw_alloc_etherdev() and return directly to clean up the code and
+improve readability.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 40 +++++++++++++++++++
- drivers/staging/r8188eu/core/rtw_wlan_util.c  | 40 -------------------
- .../staging/r8188eu/include/rtw_mlme_ext.h    |  2 -
- 3 files changed, 40 insertions(+), 42 deletions(-)
+ drivers/staging/r8188eu/os_dep/osdep_service.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index ad8bfc29c4ce..03b1e6ab9053 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -932,6 +932,46 @@ unsigned int OnAuthClient(struct adapter *padapter, struct recv_frame *precv_fra
- 	return _FAIL;
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 3504a0a9ba87..875a41650896 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -54,14 +54,13 @@ struct net_device *rtw_alloc_etherdev_with_old_priv(int sizeof_priv,
+ 
+ 	pnetdev = alloc_etherdev_mq(sizeof(struct rtw_netdev_priv_indicator), 4);
+ 	if (!pnetdev)
+-		goto RETURN;
++		return NULL;
+ 
+ 	pnetdev->dev.type = &wlan_type;
+ 	pnpi = netdev_priv(pnetdev);
+ 	pnpi->priv = old_priv;
+ 	pnpi->sizeof_priv = sizeof_priv;
+ 
+-RETURN:
+ 	return pnetdev;
  }
  
-+static void UpdateBrateTbl(u8 *mbrate)
-+{
-+	u8 i;
-+	u8 rate;
+@@ -72,19 +71,18 @@ struct net_device *rtw_alloc_etherdev(int sizeof_priv)
+ 
+ 	pnetdev = alloc_etherdev_mq(sizeof(struct rtw_netdev_priv_indicator), 4);
+ 	if (!pnetdev)
+-		goto RETURN;
++		return NULL;
+ 
+ 	pnpi = netdev_priv(pnetdev);
+ 
+ 	pnpi->priv = vzalloc(sizeof_priv);
+ 	if (!pnpi->priv) {
+ 		free_netdev(pnetdev);
+-		pnetdev = NULL;
+-		goto RETURN;
++		return NULL;
+ 	}
+ 
+ 	pnpi->sizeof_priv = sizeof_priv;
+-RETURN:
 +
-+	/*  1M, 2M, 5.5M, 11M, 6M, 12M, 24M are mandatory. */
-+	for (i = 0; i < NDIS_802_11_LENGTH_RATES_EX; i++) {
-+		rate = mbrate[i] & 0x7f;
-+		switch (rate) {
-+		case IEEE80211_CCK_RATE_1MB:
-+		case IEEE80211_CCK_RATE_2MB:
-+		case IEEE80211_CCK_RATE_5MB:
-+		case IEEE80211_CCK_RATE_11MB:
-+		case IEEE80211_OFDM_RATE_6MB:
-+		case IEEE80211_OFDM_RATE_12MB:
-+		case IEEE80211_OFDM_RATE_24MB:
-+			mbrate[i] |= IEEE80211_BASIC_RATE_MASK;
-+			break;
-+		}
-+	}
-+}
-+
-+static void UpdateBrateTblForSoftAP(u8 *bssrateset, u32 bssratelen)
-+{
-+	u8 i;
-+	u8 rate;
-+
-+	for (i = 0; i < bssratelen; i++) {
-+		rate = bssrateset[i] & 0x7f;
-+		switch (rate) {
-+		case IEEE80211_CCK_RATE_1MB:
-+		case IEEE80211_CCK_RATE_2MB:
-+		case IEEE80211_CCK_RATE_5MB:
-+		case IEEE80211_CCK_RATE_11MB:
-+			bssrateset[i] |= IEEE80211_BASIC_RATE_MASK;
-+			break;
-+		}
-+	}
-+}
-+
- unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame)
- {
- 	u16 capab_info;
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index 065ab274b0b4..e50631848cab 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -222,46 +222,6 @@ void get_rate_set(struct adapter *padapter, unsigned char *pbssrate, int *bssrat
- 	memcpy(pbssrate, supportedrates, *bssrate_len);
+ 	return pnetdev;
  }
  
--void UpdateBrateTbl(u8 *mbrate)
--{
--	u8	i;
--	u8	rate;
--
--	/*  1M, 2M, 5.5M, 11M, 6M, 12M, 24M are mandatory. */
--	for (i = 0; i < NDIS_802_11_LENGTH_RATES_EX; i++) {
--		rate = mbrate[i] & 0x7f;
--		switch (rate) {
--		case IEEE80211_CCK_RATE_1MB:
--		case IEEE80211_CCK_RATE_2MB:
--		case IEEE80211_CCK_RATE_5MB:
--		case IEEE80211_CCK_RATE_11MB:
--		case IEEE80211_OFDM_RATE_6MB:
--		case IEEE80211_OFDM_RATE_12MB:
--		case IEEE80211_OFDM_RATE_24MB:
--			mbrate[i] |= IEEE80211_BASIC_RATE_MASK;
--			break;
--		}
--	}
--}
--
--void UpdateBrateTblForSoftAP(u8 *bssrateset, u32 bssratelen)
--{
--	u8	i;
--	u8	rate;
--
--	for (i = 0; i < bssratelen; i++) {
--		rate = bssrateset[i] & 0x7f;
--		switch (rate) {
--		case IEEE80211_CCK_RATE_1MB:
--		case IEEE80211_CCK_RATE_2MB:
--		case IEEE80211_CCK_RATE_5MB:
--		case IEEE80211_CCK_RATE_11MB:
--			bssrateset[i] |= IEEE80211_BASIC_RATE_MASK;
--			break;
--		}
--	}
--}
--
- void Save_DM_Func_Flag(struct adapter *padapter)
- {
- 	struct hal_data_8188e *haldata = &padapter->haldata;
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index e70640f1e41d..b322d0848db9 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -393,8 +393,6 @@ extern struct xmit_frame *alloc_mgtxmitframe(struct xmit_priv *pxmitpriv);
- unsigned char networktype_to_raid(unsigned char network_type);
- u8 judge_network_type(struct adapter *padapter, unsigned char *rate, int len);
- void get_rate_set(struct adapter *padapter, unsigned char *pbssrate, int *len);
--void UpdateBrateTbl(u8 *mBratesOS);
--void UpdateBrateTblForSoftAP(u8 *bssrateset, u32 bssratelen);
- 
- void Save_DM_Func_Flag(struct adapter *padapter);
- void Restore_DM_Func_Flag(struct adapter *padapter);
 -- 
 2.37.2
 
