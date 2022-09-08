@@ -1,259 +1,109 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE9E7C
-	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 03:03:40 +0000 (UTC)
-Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF9616CC;
-	Thu,  8 Sep 2022 05:03:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1662606217;
-	bh=kWgC4kyl7hRCmKDIAfZCkdxQxR8KWFoZ2PmRnE3X/qc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1347C
+	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 05:24:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3AC0C433C1;
+	Thu,  8 Sep 2022 05:24:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1662614651;
+	bh=POZ/KltkboAwic9n9k8CO+lTTiiq7KytLwkAiak7F2I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SJdRxRG0W1jZqSi74SoQJpmbrQ3vWTdNKtpEZRaEIYdAUBiTmM2VsMJ4rnZi2FNJe
-	 MhkFP9fhUm/tq88WvNYbe8HYddNQdCQYLcRKdRGFh55Zc39QJbLD95uBU/ZgGo/pMp
-	 9Q38C0Tq1TdW69aFlaVsspx49sN0AuggSSncvF/g=
-Date: Thu, 8 Sep 2022 12:03:21 +0900
-From: paul.elder@ideasonboard.com
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	linux-media@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking
- queued buffers
-Message-ID: <20220908030321.GA1140330@pyrite.rasen.tech>
-References: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
- <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
+	b=R+s2QJoQ6PsW+NccTYXEtqN/Tppq23MwSEqf7b7A/vvLqAlniLOFDfa4NFUJlVsjK
+	 S56Fl75QVQQoksuG9aSkVcuAjVtHtVoQWVlkRR5ijMYUsK0OaGO4TRFevI733yOVoL
+	 2MgUHSeEvLWgohGGDCl0tfKmUfwYfFUw0UZ726SQ=
+Date: Thu, 8 Sep 2022 07:24:33 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Robert Mindo <mindo.robert1@gmail.com>
+Cc: forest@alittletooquiet.net, linux-staging@lists.linux.dev,
+	inux-kernel@vger.kernel.org
+Subject: Re: [PATCH]  Adding description for device.h and Kconfig
+Message-ID: <Yxl8kTRJJgMywyI5@kroah.com>
+References: <YxjpxztBvDdUM4dA@root>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YxjpxztBvDdUM4dA@root>
 
-Hi Laurent,
-
-On Wed, Sep 07, 2022 at 09:18:56PM +0300, Laurent Pinchart wrote:
-> Hi Paul,
+On Wed, Sep 07, 2022 at 09:58:15PM +0300, Robert Mindo wrote:
+> Signed-off-by: Robert Mindo <mindo.robert1@gmail.com>
+> ---
+>  drivers/staging/vt6655/Kconfig  | 2 ++
+>  drivers/staging/vt6655/device.h | 2 +-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 > 
-> Thank you for the patch.
+> diff --git a/drivers/staging/vt6655/Kconfig b/drivers/staging/vt6655/Kconfig
+> index d1cd5de46dcf..57d34f05888c 100644
+> --- a/drivers/staging/vt6655/Kconfig
+> +++ b/drivers/staging/vt6655/Kconfig
+> @@ -4,3 +4,5 @@ config VT6655
+>     depends on PCI && MAC80211 && m
+>     help
+>       This is a vendor-written driver for VIA VT6655.
+> +#WLAN Open Source ndiswrapper driver.  VT6655 WLAN Open Source ndiswrapper driver. For Fedora Linux Core 7/­Mandriva 2007.1/­Debian 4.0r0/­Ubuntu 7.04 (x86/­x86_­64).
+> +#WIFI Wireless WLAN Card Drivers
+> diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+> index c272a4ab2fa0..a48021f134e0 100644
+> --- a/drivers/staging/vt6655/device.h
+> +++ b/drivers/staging/vt6655/device.h
+> @@ -129,7 +129,7 @@ struct vnt_private {
+>  	u32                         ioaddr;
+>  
+>  	spinlock_t                  lock;
+> -
+> +	//spinlock_t -  variable which can be in two states
+>  	volatile int                iTDUsed[TYPE_MAXTD];
+>  
+>  	struct vnt_tx_desc *apCurrTD[TYPE_MAXTD];
+> -- 
+> 2.34.1
 > 
-> On Wed, Sep 07, 2022 at 08:47:37PM +0900, Paul Elder wrote:
-> > The CSI hardware compatible with this driver handles buffers using a
-> > ping-pong mechanism with two sets of destination addresses. Normally,
-> > when an interrupt comes in to signal the completion of one buffer, say
-> > FB0, it assigns the next buffer in the queue to the next FB0, and the
-> > hardware starts to capture into FB1 in the meantime.
 > 
-> Could you replace FB0 and FB1 with FB1 and FB2 respectively, to match
-> the naming of the registers ?
 
-Oops, I forgot to do it in the commit message.
+Hi,
 
-> 
-> > In a buffer underrun situation, in the above example without loss of
-> > generality, if a new buffer is queued before the interrupt for FB0 comes
-> > in, we can program the buffer into FB1 (which is programmed with a dummy
-> > buffer, as there is a buffer underrun).
-> > 
-> > This of course races with the interrupt that signals FB0 completion, as
-> > once that interrupt comes in, we are no longer guaranteed that the
-> > programming of FB1 was in time and must assume it was too late. This
-> > race is resolved partly by locking the programming of FB1. If it came
-> > after the interrupt for FB0, then the variable that is used to determine
-> > which FB to program would have been swapped by the interrupt handler.
-> > 
-> > This alone isn't sufficient, however, because the interrupt could still
-> > be generated (thus the hardware starts capturing into the other fb)
-> > while the fast-tracking routine has the irq lock. Thus, after
-> > programming the fb register to fast-track the buffer, the isr also must
-> > be checked to confirm that an interrupt didn't come in the meantime. If
-> > it has, we must assume that programming the register for the
-> > fast-tracked buffer was not in time, and queue the buffer normally.
-> > 
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> > 
-> > ---
-> > Changes in v2:
-> > - fix the potential race condition where the interrupt comes in while
-> >   the fast tracking routine has the irqlock
-> > - change return value from int to bool
-> > ---
-> >  drivers/staging/media/imx/imx7-media-csi.c | 63 ++++++++++++++++++++++
-> >  1 file changed, 63 insertions(+)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > index a0553c24cce4..0ebef44a7627 100644
-> > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > @@ -1296,12 +1296,75 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
-> >  	return 0;
-> >  }
-> >  
-> > +static bool imx7_csi_fast_track_buffer(struct imx7_csi *csi,
-> > +				       struct imx7_csi_vb2_buffer *buf)
-> > +{
-> > +	unsigned long flags;
-> > +	dma_addr_t phys;
-> > +	int buf_num;
-> > +	u32 isr;
-> > +
-> > +	if (!csi->is_streaming)
-> > +		return false;
-> > +
-> > +	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
-> > +
-> > +	/*
-> > +	 * buf_num holds the fb id of the most recently (*not* the next
-> > +	 * anticipated) triggered interrupt. Without loss of generality, if
-> > +	 * buf_num is 0 and we get to this section before the irq for fb2, the
-> 
-> s/fb2/FB2/ to match hardware registers and the commit message ?
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-ack
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-> 
-> > +	 * buffer that we are fast-tracking into fb1 should be programmed in
-> > +	 * time to be captured into. If the irq for fb2 already happened, then
-> > +	 * buf_num would be 1, and we would fast-track the buffer into fb2
-> > +	 * instead. This guarantees that we won't try to fast-track into fb1
-> > +	 * and race against the start-of-capture into fb1.
-> > +	 *
-> > +	 * We only fast-track the buffer if the currently programmed buffer is
-> > +	 * a dummy buffer. We can check the active_vb2_buf instead as it is
-> > +	 * always modified along with programming the fb[1,2] registers via the
-> > +	 * lock (besides setup and cleanup).
-> > +	 */
-> 
-> I think this needs to be updated, it still indicates we handle the race
-> just by checking buf_num. How about the following ?
-> 
-> 	/*
-> 	 * buf_num holds the framebuffer ID of the most recently (*not* the next
-> 	 * anticipated) triggered interrupt. Without loss of generality, if
-> 	 * buf_num is 0, the hardware is capturing to FB2. If FB1 has been
-> 	 * programmed with a dummy buffer (as indicated by active_vb2_buf[0]
-> 	 * being NULL), then we can fast-track the new buffer by programming its
-> 	 * address in FB1 before the hardware completes FB2, instead of adding
-> 	 * it to the buffer queue and incurring a delay of one additional frame.
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
 
-Okay that's a lot easier to follow than the one that I wrote.
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
 
-> 	 *
-> 	 * The irqlock prevents races with the interrupt handler that queues the
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
 
-The interrupt handler doesn't /queue/ the buffer, it programs the FB
-register with the buffer at the front of the buffer queue. That's why I
-said "programs the next buffer" in my original text.
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-Although I don't think racing with the interrupt handler for
-programming the next buffer is important in this context, since the
-interrupt handler is going to program FB2, while we're trying to program FB1
-before that that interrupt comes in.
+thanks,
 
-It's mainly buf_num that's relevant to locking the irqlock.
-
-> 	 * next buffer and updates buf_num, but we can still race with the
-> 	 * hardware if we program the buffer in FB1 just after the hardware
-> 	 * completes FB2 and switches to FB1 and before we notice the buf_num
-> 	 * change.
-
-buf_num won't actually be changed because we have the lock. Maybe
-"before buf_num can be updated by the interrupt handler for FB2"?
-
-> The fast-tracked buffer would then be ignored by the hardware
-> 	 * while the driver would think it has successfully been processed.
-> 	 *
-> 	 * To avoid this problem, if we can't avoid the race, we can detect that
-> 	 * we have lost it by checking, after programming the buffer in FB1, if
-> 	 * the interrupt flag indicated completion of FB2 has been raised. If
-
-s/indicated/indicating/
-
-> 	 * that is not the case, fast-tracking succeeded, and we can update
-> 	 * active_vb2_buf[0]. Otherwise, we may or may not have lost the race
-> 	 * (as the interrupt flag may have been raised just after programming
-> 	 * FB1 and before we read the interrupt status register), and we need to
-> 	 * assume the worst case of a race loss and queue the buffer through the
-> 	 * slow path.
-> 	 */
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> If you're fine with these changes there's no need to submit a v3, I'll
-> update the comment and the commit message locally.
-
-Yeah I'm fine with these.
-
-> 
-> > +
-> > +	spin_lock_irqsave(&csi->irqlock, flags);
-> > +
-> > +	buf_num = csi->buf_num;
-> > +	if (csi->active_vb2_buf[buf_num]) {
-> > +		spin_unlock_irqrestore(&csi->irqlock, flags);
-> > +		return false;
-> > +	}
-> > +
-> > +	imx7_csi_update_buf(csi, phys, buf_num);
-> > +
-> > +	isr = imx7_csi_reg_read(csi, CSI_CSISR);
-> > +	/*
-> > +	 * The interrupt for the /other/ fb just came (the isr hasn't run yet
-> > +	 * though, because we have the lock here); we can't be sure we've
-> > +	 * programmed buf_num fb in time, so queue the buffer to the buffer
-> > +	 * queue normally. No need to undo writing the fb register, since we
-> > +	 * won't return it as active_vb2_buf is NULL, so it's okay to
-> > +	 * potentially write it to both fb1 and fb2; only the one where it was
-
-I guess there should be s/fb/FB/ throughout this block too.
-
-> > +	 * queued normally will be returned.
-> > +	 */
-
-(You mention this in your other reply)
-
-Yeah I guess this block should go inside the if. I didn't really
-aesthetically like a huge block of text inside a tiny if block but maybe
-that's more correct.
-
-
-Thanks,
-
-Paul
-
-> > +	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
-> > +		spin_unlock_irqrestore(&csi->irqlock, flags);
-> > +		return false;
-> > +	}
-> > +
-> > +	csi->active_vb2_buf[buf_num] = buf;
-> > +
-> > +	spin_unlock_irqrestore(&csi->irqlock, flags);
-> > +	return true;
-> > +}
-> > +
-> >  static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
-> >  {
-> >  	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
-> >  	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
-> >  	unsigned long flags;
-> >  
-> > +	if (imx7_csi_fast_track_buffer(csi, buf))
-> > +		return;
-> > +
-> >  	spin_lock_irqsave(&csi->q_lock, flags);
-> >  
-> >  	list_add_tail(&buf->list, &csi->ready_q);
+greg k-h's patch email bot
