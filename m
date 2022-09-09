@@ -1,85 +1,57 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC324A02
-	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 14:14:02 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id r18so4270126eja.11
-        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 07:14:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9377A64E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 14:42:17 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id b136so3011330yba.2
+        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 07:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=ySwWI942jaxyz5lWBkAOHKVuWAIl4C9M1/fPskGwiY0=;
-        b=cHUZnXW68BAC3LoHZFdFKCiMv5iqTS+JZMsdn3lgXfdwK/hmcm+UCHqTqWAQ0miBtA
-         PwZgy9mbViiwWhdi72v2lF0ae6j98smmgpgJp2Ew0qgy2/fMpqXUDL/ehhEyyjpVw8c0
-         N9rlFFfQU0goGolBC8vNzmfHAxShvOzf023KT/szZxznJrQQEx9p0E6msT6N/w3+BzFj
-         T+k+j5O8Y29ym9uewzVAmaLte0pC4xlyFNZ4l/mmZ/Ryg6O9pSHvxJi2ze6YbB1wgBSx
-         sAuI1Sz2GMfDr1+mnx/VRi8flaxmu8cW2A7ntKyJMOtiwfdSF5uwUJAnekzvRZpFDQqJ
-         kutQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=6lhLlhxfOjgL1Bth9mcHIlbp3cpWG9g9ba2QTnmM87s=;
+        b=MuhQoyzRTIr3sfU/R4tTPiPkiQTsnKI3UW/13xM3MteEEpI551whUSdSH412BQuKJK
+         iU72F+nL8NcYglUCNx6A46k1JZ2tCh8GZQ1ISveNfPYBuaavJPBoAWmo1ehKLq6cH9wZ
+         wb2YWKAyx+07CoDHzFr/sg5AiB2a6XAPL+TOICqjPRqtLm4vzMyf2gVLrtDOhCtpfEtG
+         JoQ4Cm899e6YsN1HzPfKltu49VsE3ILRCdllduAZ/wJQ4i+39TIgqogMyjh9tytNTUUB
+         lH122hho5jt8tc560VsFVoIxwTfpoOTo30C0ZFUiY0GN8hoI0/KdT1wB6ZH47KQ086+e
+         sEPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=ySwWI942jaxyz5lWBkAOHKVuWAIl4C9M1/fPskGwiY0=;
-        b=Ki1RwisMXJ1FLhV3mdQj58MQwWvCFgNLLyRhwaDByOG++3HxSHGCIewgMarHUwJADS
-         8NdmlZbafE9aLdWaACb6t0CQFUZ8DcttmZFK3GdmlmnPKEbEEtDS7IhzzQ5/k1frgpa/
-         Empw/FBz52jrG83cNPx1Icx3QCHLu1yHllAr29Xk3jIuBJygtNnwT8YnERgzJPyg5QvE
-         2nj8qOJ2Naag66CyniCVMed9cRqpP/xzP1BqQsd7fEoQOdNlZXNpHDT1t1DeOWCJPLLA
-         8OTvOylHzUkGaS3MZ2/KQFpaWQeyW5+iPyF6En3Bdyqxt13krfaHWD+/pK3ilmDEOqsa
-         51ng==
-X-Gm-Message-State: ACgBeo2tvJMgc5VGC382w8jq7VhnuvSjBf7vTa+g3v4GboG9I0prCpTt
-	OSnsfpsyTxz/DwdVp6epsPA=
-X-Google-Smtp-Source: AA6agR5nXtIg6vdlK66fSHhsIm6fnp9wpUrbqDxdOS3dZr8g/6FzAhW1Su6/jr2mPLPn7UJ0+r4Yzw==
-X-Received: by 2002:a17:907:2bf8:b0:770:837a:e3b8 with SMTP id gv56-20020a1709072bf800b00770837ae3b8mr9126840ejc.562.1662732840890;
-        Fri, 09 Sep 2022 07:14:00 -0700 (PDT)
-Received: from localhost.localdomain (wlan-244090.nbw.tue.nl. [131.155.244.90])
-        by smtp.gmail.com with ESMTPSA id cn11-20020a0564020cab00b0044ea7b8f57bsm471146edb.1.2022.09.09.07.13.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 07:14:00 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: forest@alittletooquiet.net,
-	gregkh@linuxfoundation.org
-Cc: namcaov@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: vt6655: fix potential memory leak
-Date: Fri,  9 Sep 2022 16:13:39 +0200
-Message-Id: <20220909141338.19343-1-namcaov@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=6lhLlhxfOjgL1Bth9mcHIlbp3cpWG9g9ba2QTnmM87s=;
+        b=jeqpYXxg749mHvdgjGBCZ44AlGVQA4L9VZ/qaSO3tySfCfNtSKrcB00hmTmdYoCZkT
+         gtQTKzBp9zlArECtkNzuWk8pP+Yb3cpsd7Vuc/6o2ctLqUfGkWbcS5s4IDZ66DPuyu/Q
+         3EcYvCK/HUHz1O2KC7ig+Ms0XBygeiZOCvWHfHCsCLQHI5SHXMxuY5SFvXJ7XR9NoUyd
+         35IVMrAskQov2ySpk9gFQe+LZcnHAdzhGtb+Izfe3s+iX6/pfMzw7Fyzfp0wkSgR4Ogp
+         WGTOE13unCE/feiEwdC+hvEblsbW1tsSAjBdtDvG6H2rEvA0+sd4vEjezmAEdg8N48dH
+         TuQQ==
+X-Gm-Message-State: ACgBeo2eO7FdXnko6YVRwV5IPs7ii78az6hgVJeOykFWMrMO2CeN/3qB
+	BlrkzgAswjlOWC6/QMJzffEwOcpToHc3mbqb+oc=
+X-Google-Smtp-Source: AA6agR5cAeL4piPIDucGy46S2CIUgkur5XlmECL36enKIRCoOp/YALb/1m0B+JGkf0xpPdbqS3QgtCRqFWq0yopeAtg=
+X-Received: by 2002:a5b:c92:0:b0:688:436c:b2b with SMTP id i18-20020a5b0c92000000b00688436c0b2bmr12028529ybq.436.1662734536565;
+ Fri, 09 Sep 2022 07:42:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220909141338.19343-1-namcaov@gmail.com>
+In-Reply-To: <20220909141338.19343-1-namcaov@gmail.com>
+From: Nam Cao <namcaov@gmail.com>
+Date: Fri, 9 Sep 2022 16:42:05 +0200
+Message-ID: <CA+sZ8B-z7nRdJLhxeJ_tWSj_LBSwoFgtQja1-vDnBVdR=b0=DA@mail.gmail.com>
+Subject: Re: [PATCH] staging: vt6655: fix potential memory leak
+To: forest@alittletooquiet.net, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-In function device_init_td0_ring, memory is allocated for member
-td_info of priv->apTD0Rings[i], with i increasing from 0. In case of
-allocation failure, the memory is freed in reversed order, with i
-decreasing to 0. However, the case i=0 is left out and thus memory is
-leaked.
+I did not realize this initially, but this bug can cause more serious problem
+than just a memory leak. In the case that kzalloc fails right from the
+beginning with i=0; then in the while loop, "i" will wrap around and the code
+will access priv->apTD0Rings[4294967295] which is obviously not good.
 
-Modify the memory freeing loop to include the case i=0.
-
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/vt6655/device_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 3397c78b975a..a65014195fdc 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -743,7 +743,7 @@ static int device_init_td0_ring(struct vnt_private *priv)
- 	return 0;
- 
- err_free_desc:
--	while (--i) {
-+	while (i--) {
- 		desc = &priv->apTD0Rings[i];
- 		kfree(desc->td_info);
- 	}
--- 
-2.25.1
-
+Best regards,
+Nam
