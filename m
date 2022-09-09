@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F805C92
-	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 18:03:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63094C433D6;
-	Fri,  9 Sep 2022 18:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FCE6105
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 18:03:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 586D2C433D6;
+	Fri,  9 Sep 2022 18:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1662746590;
-	bh=bQwRnD4uoR7miTObIoza35eZR6TgzD9lzCalStKcSl8=;
+	s=korg; t=1662746632;
+	bh=fLVpESbzmwXMWkoS/jM2ML1f0AivWO0qTh6iZrCXKb8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fsKTJb6OE8cnezYVusd+lWkGgVoJ8z+sAYkfLYTwON64B+I5lX+MDDri+LTLMPPER
-	 BahO2HIzQMPo8nYnhkAe8Kuta6NH8YIQy8rI8DUa6zoUr5dpwTCquZTIYfEJwqhciP
-	 nGHZ2f/+Nb9+a1vfmTR3ktIWMtdf+QZGlCu1AgcU=
-Date: Fri, 9 Sep 2022 20:03:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nam Cao <namcaov@gmail.com>
-Cc: forest@alittletooquiet.net, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 1/2] staging: vt6655: remove unnecessary volatile
- qualifier
-Message-ID: <Yxt/3FOysEbwCm9T@kroah.com>
-References: <cover.1662724786.git.namcaov@gmail.com>
- <c3a7d9963b1c38c5f493786d7268c430617412dd.1662724786.git.namcaov@gmail.com>
+	b=Vc+Z8iGBxt0TaS3Dj6luSvYkyHdp2781R8Z6gglwUiv5AK2VgdaB4osuHVwXVPRIN
+	 tAiw2Nhfur4TYZmh66ybUJP4BLRbZsJWh4zh0T6ZvMw9tdJTSKGFMbzRKT+Ftjc80d
+	 1MQ0x7uSjbu+ktOyGuwGq066GPO8ZysD5cfSrflg=
+Date: Fri, 9 Sep 2022 20:03:50 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Burak Ozdemir <bozdemir@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: Coding style clean up
+Message-ID: <YxuABqKRFmcKRao8@kroah.com>
+References: <631b3177.170a0220.ccacb.0862@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,43 +30,93 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c3a7d9963b1c38c5f493786d7268c430617412dd.1662724786.git.namcaov@gmail.com>
+In-Reply-To: <631b3177.170a0220.ccacb.0862@mx.google.com>
 
-On Fri, Sep 09, 2022 at 02:17:55PM +0200, Nam Cao wrote:
-> Remove volatile qualifier for the member rd0 of struct vnt_rx_desc,
-> because there is no reason it must be volatile.
+On Fri, Sep 09, 2022 at 03:28:27PM +0000, Burak Ozdemir wrote:
+> From: Burak OZDEMIR <bozdemir@gmail.com>
 > 
-> Signed-off-by: Nam Cao <namcaov@gmail.com>
+> Adhere to coding style and fix camel casing in function name.
+> 
+> Signed-off-by: Burak Ozdemir <bozdemir@gmail.com>
 > ---
->  drivers/staging/vt6655/desc.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/sm750fb/sm750.c        | 2 +-
+>  drivers/staging/sm750fb/sm750_cursor.c | 2 +-
+>  drivers/staging/sm750fb/sm750_cursor.h | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/vt6655/desc.h b/drivers/staging/vt6655/desc.h
-> index 17a40c53b8ff..3f0f287b1693 100644
-> --- a/drivers/staging/vt6655/desc.h
-> +++ b/drivers/staging/vt6655/desc.h
-> @@ -182,7 +182,7 @@ struct vnt_rdes1 {
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 3e09e56d3930..a86222cdcb68 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -120,7 +120,7 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
 >  
->  /* Rx descriptor*/
->  struct vnt_rx_desc {
-> -	volatile struct vnt_rdes0 rd0;
-> +	struct vnt_rdes0 rd0;
+>  	sm750_hw_cursor_disable(cursor);
+>  	if (fbcursor->set & FB_CUR_SETSIZE)
+> -		sm750_hw_cursor_setSize(cursor,
+> +		sm750_hw_cursor_set_size(cursor,
+>  					fbcursor->image.width,
+>  					fbcursor->image.height);
+>  
+> diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+> index 43e6f52c2551..d5ef40b8bc8e 100644
+> --- a/drivers/staging/sm750fb/sm750_cursor.c
+> +++ b/drivers/staging/sm750fb/sm750_cursor.c
+> @@ -58,7 +58,7 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
+>  	poke32(HWC_ADDRESS, 0);
+>  }
+>  
+> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
+> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
+>  {
+>  	cursor->w = w;
+>  	cursor->h = h;
+> diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+> index b59643dd61ed..edeed2ea4b04 100644
+> --- a/drivers/staging/sm750fb/sm750_cursor.h
+> +++ b/drivers/staging/sm750fb/sm750_cursor.h
+> @@ -5,7 +5,7 @@
+>  /* hw_cursor_xxx works for voyager,718 and 750 */
+>  void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+>  void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
+> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
+>  void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
+>  void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
+>  void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+> -- 
+> 2.35.1
+> 
 
-You can not just remove this without describing _WHY_ it is ok to do so.
+Hi,
 
-Have you properly determined why it is, or is not, ok to use volatile
-here?  And if so, why are you leaving:
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
->  	volatile struct vnt_rdes1 rd1;
->  	volatile __le32 buff_addr;
->  	volatile __le32 next_desc;
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Those?
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
 
-Please read up on why volatile almost never makes any sense in the
-kernel (note, sometimes it does), and please write a better changelog
-text for when you submit the next version of this patch series.
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
