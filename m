@@ -1,47 +1,47 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDDD612E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 19:21:39 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id go34so6280521ejc.2
-        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 12:21:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A653612E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 19:21:50 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id y3so6308063ejc.1
+        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 12:21:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date;
-        bh=fbruvI1As45J13rcrmiazfUwyKfsk6pI2SAj2MWbjgE=;
-        b=aGF+CJr6wNyEQKJVyFclWWITvrZBrP3oYL+CYmYFT6thU7M7CPhRlVaRmJ7C+TxauL
-         FQ5p8+XhGizOQLebpxB02Zze3SoTX+qvpgDsU3cYEMxZdRIJu04wNmCa5J1qKgdEInK7
-         gUIQY60tkopkfgPtabtKoM1L9isqeW9VDkjDuN0o4iu+nwIcOW2DWoFiTFmbfSuGtjL/
-         Qb8S48/5CXaZvG60nNj6sYltd6rWZdyENanIFzO9VB+U/7cIvd+MKU41YgYe9MdkWUQ2
-         pi05wGrn4nkXqnlglCseLvZSNrahfaMGrKzdjZCkkaTEaSqMZ4Z81fvikhLm3865BnYS
-         K0MQ==
+        bh=kL+H2Xx37KBsv/0YEDfff/qZ7CrxxnzF1gZ71iKSCzs=;
+        b=l6c/qvEOw1VPDxsGk/clbSnTu12ZcudT4eqSRKYO8F6wu3/8uW9aqgczXFxE6LCAUK
+         C/BQN9fMSO8uBu8vcnkP8WYgrUy8WsFhN6V6C9QtWmDUoFweF+K+jIwoc7PozFjGrJnE
+         ep2y2XePXR+0vTY3SOPZZBXAJ6ng0719TvtzZ3Zs55rjyjwIeDRhIsYwwTmONHUJke0I
+         /CnLZsVI8ldJC1eC2vSsw+x+fsppNo3SF93zoBcdH00gxd2ee4yWr6aXllthAM+xoMmJ
+         C49iLvocpCXQsrAof/HyektkMb2lEs0cbOh20p/ksXUIAdWgTJe1lGOvYDAbWaBrUwUe
+         4e4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=fbruvI1As45J13rcrmiazfUwyKfsk6pI2SAj2MWbjgE=;
-        b=zlr0xMP1V8z3nWi67DlGyj/6RzM9BaYEU3Qx+753/OJNmK13qLJD/sN0HpaYExMrak
-         q6Y7SmXCmsaDmVAoyzS47V98NK7Jb+vHpm5MV4hErx+PNsbNgdutcf6Hg/UpX6JDKcqo
-         GGJ1CK2/wdj9zjkjSo5HOf+A8OLsVHyGAHtaG87d1UpZ+MmLSLgBhkRrUS35lc0YPcpo
-         g8PdhOhWe/cbYoyWczGS8bZiRF2L96c5+DjVvC/WjWPhQRj7EramPVLEF0Z2RY0arRfZ
-         cFXoXvZQbG8Cm8ipcY3av+UVYB/NUCHVdULnfQsHwUjkPL7/1KZp4L5JuTHBPHxuIeKw
-         d4AA==
-X-Gm-Message-State: ACgBeo3iK6Gg5C7JG28oV1iuSRnCIAUIa1db/KUoSuDMTOTydOTyFnVD
-	yFOthmRK6p9vuwrNTfIKkrs=
-X-Google-Smtp-Source: AA6agR4vQh1iuufeUhKnUOmdkWrY1EzcLK7faGciuGOGFswzl8JVlQqq3JOX3Nxy3Anv2lmJTQY5Lw==
-X-Received: by 2002:a17:907:1dd9:b0:77a:341b:88cb with SMTP id og25-20020a1709071dd900b0077a341b88cbmr2351401ejc.753.1662751297451;
-        Fri, 09 Sep 2022 12:21:37 -0700 (PDT)
+        bh=kL+H2Xx37KBsv/0YEDfff/qZ7CrxxnzF1gZ71iKSCzs=;
+        b=T8h/a2JNnmTNER+lV0i35MDeR0+kSQcJRRsz6UDP1/rcVc5IRUVZ2rHmRSwT2bkkwp
+         J22R4un6yOfVn73cyZGZlhYrzAf3duBHIseCaxJal3Gdn8+G1GhxJHJjc/VuxKw1EGvs
+         xeGDikHLXL0mcIgZx4lC6pfZH2QS8Jbun8rr9WUxaLsCYmLv1P5S3VsshhaX5AFpI1y6
+         6lIQrwUsyJBwmJrnZEqHCQmgh1koqI6w34eH9ytm29ExtZDJeQ74AIbzCjOMxVzm9fQH
+         jOAePobKpgIjntt8dNRnxOUAxqdBOncW3+UPepZTTSfPEnSeGu07aUEZyoeqEtj4zn5b
+         0hSA==
+X-Gm-Message-State: ACgBeo3dZrudJop+/jzwly14jnYLegy3vfVlF5cHZ/5AWsi6gJKGx63y
+	tL6J/KFQfVwaIsGdp/Anzg8Hyy1l+Ek=
+X-Google-Smtp-Source: AA6agR6lXJibGMBpJFhzJDeTbRXCyULx1MLdO5/d5lJZYIh7yDCqMFBgfnnR9OEwzBu3f1A3qXHrnQ==
+X-Received: by 2002:a17:906:9b96:b0:779:dcbe:3a9b with SMTP id dd22-20020a1709069b9600b00779dcbe3a9bmr2952202ejc.607.1662751308851;
+        Fri, 09 Sep 2022 12:21:48 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id 10-20020a170906310a00b0073d6d6e698bsm635740ejx.187.2022.09.09.12.21.36
+        by smtp.gmail.com with ESMTPSA id u16-20020a170906069000b007414152ec4asm632549ejb.163.2022.09.09.12.21.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 12:21:37 -0700 (PDT)
-Date: Fri, 9 Sep 2022 21:21:35 +0200
+        Fri, 09 Sep 2022 12:21:48 -0700 (PDT)
+Date: Fri, 9 Sep 2022 21:21:46 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/8] staging: rtl8192e: Rename rtState
-Message-ID: <e888fa7e6edaa68e741236ea012f8230f6817882.1662402870.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 5/8] staging: rtl8192e: Rename RFWaitCounter
+Message-ID: <11acf28a0b9f56dde4fa4fbd74a085cf2fa1c20d.1662402870.git.philipp.g.hortmann@gmail.com>
 References: <cover.1662402870.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -53,169 +53,40 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1662402870.git.philipp.g.hortmann@gmail.com>
 
-Rename variable rtState to rt_state to avoid CamelCase which
+Rename variable RFWaitCounter to rf_wait_counter to avoid CamelCase which
 is not accepted by checkpatch.pl.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_cam.c  |  6 +++---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  6 +++---
- drivers/staging/rtl8192e/rtl8192e/rtl_ps.c   | 18 +++++++++---------
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   | 12 ++++++------
- 4 files changed, 21 insertions(+), 21 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-index d7630f02a910..6b372b0dd6bc 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-@@ -86,11 +86,11 @@ void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
- 	u16 usConfig = 0;
- 	u8 i;
- 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
--	enum rt_rf_power_state rtState;
-+	enum rt_rf_power_state rt_state;
- 
--	rtState = priv->rtllib->eRFPowerState;
-+	rt_state = priv->rtllib->eRFPowerState;
- 	if (priv->rtllib->PowerSaveControl.bInactivePs) {
--		if (rtState == eRfOff) {
-+		if (rt_state == eRfOff) {
- 			if (priv->rtllib->RfOffReason > RF_CHANGE_BY_IPS) {
- 				netdev_warn(dev, "%s(): RF is OFF.\n",
- 					    __func__);
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index b1f5a63790c8..bc8aca808e99 100644
+index bc8aca808e99..ee3d0f243463 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -139,7 +139,7 @@ bool rtl92e_set_rf_state(struct net_device *dev,
- 	struct rtllib_device *ieee = priv->rtllib;
+@@ -140,7 +140,7 @@ bool rtl92e_set_rf_state(struct net_device *dev,
  	bool action_allowed = false;
  	bool connect_by_ssid = false;
--	enum rt_rf_power_state rtState;
-+	enum rt_rf_power_state rt_state;
- 	u16			RFWaitCounter = 0;
+ 	enum rt_rf_power_state rt_state;
+-	u16			RFWaitCounter = 0;
++	u16 rf_wait_counter = 0;
  	unsigned long flag;
  
-@@ -166,7 +166,7 @@ bool rtl92e_set_rf_state(struct net_device *dev,
- 		}
- 	}
+ 	while (true) {
+@@ -149,10 +149,10 @@ bool rtl92e_set_rf_state(struct net_device *dev,
+ 			spin_unlock_irqrestore(&priv->rf_ps_lock, flag);
  
--	rtState = priv->rtllib->eRFPowerState;
-+	rt_state = priv->rtllib->eRFPowerState;
+ 			while (priv->RFChangeInProgress) {
+-				RFWaitCounter++;
++				rf_wait_counter++;
+ 				mdelay(1);
  
- 	switch (state_to_set) {
- 	case eRfOn:
-@@ -179,7 +179,7 @@ bool rtl92e_set_rf_state(struct net_device *dev,
- 			priv->rtllib->RfOffReason = 0;
- 			action_allowed = true;
- 
--			if (rtState == eRfOff &&
-+			if (rt_state == eRfOff &&
- 			    change_source >= RF_CHANGE_BY_HW)
- 				connect_by_ssid = true;
- 		}
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-index c5e89eb40342..3333ce3e88a8 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-@@ -126,11 +126,11 @@ void rtl92e_ips_enter(struct net_device *dev)
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
- 					&(priv->rtllib->PowerSaveControl);
--	enum rt_rf_power_state rtState;
-+	enum rt_rf_power_state rt_state;
- 
- 	if (pPSC->bInactivePs) {
--		rtState = priv->rtllib->eRFPowerState;
--		if (rtState == eRfOn && !pPSC->bSwRfProcessing &&
-+		rt_state = priv->rtllib->eRFPowerState;
-+		if (rt_state == eRfOn && !pPSC->bSwRfProcessing &&
- 			(priv->rtllib->state != RTLLIB_LINKED) &&
- 			(priv->rtllib->iw_mode != IW_MODE_MASTER)) {
- 			RT_TRACE(COMP_PS, "%s(): Turn off RF.\n", __func__);
-@@ -147,11 +147,11 @@ void rtl92e_ips_leave(struct net_device *dev)
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
- 					&(priv->rtllib->PowerSaveControl);
--	enum rt_rf_power_state rtState;
-+	enum rt_rf_power_state rt_state;
- 
- 	if (pPSC->bInactivePs) {
--		rtState = priv->rtllib->eRFPowerState;
--		if (rtState != eRfOn  && !pPSC->bSwRfProcessing &&
-+		rt_state = priv->rtllib->eRFPowerState;
-+		if (rt_state != eRfOn  && !pPSC->bSwRfProcessing &&
- 		    priv->rtllib->RfOffReason <= RF_CHANGE_BY_IPS) {
- 			RT_TRACE(COMP_PS, "%s(): Turn on RF.\n", __func__);
- 			pPSC->eInactivePowerState = eRfOn;
-@@ -176,12 +176,12 @@ void rtl92e_ips_leave_wq(void *data)
- void rtl92e_rtllib_ips_leave_wq(struct net_device *dev)
- {
- 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
--	enum rt_rf_power_state rtState;
-+	enum rt_rf_power_state rt_state;
- 
--	rtState = priv->rtllib->eRFPowerState;
-+	rt_state = priv->rtllib->eRFPowerState;
- 
- 	if (priv->rtllib->PowerSaveControl.bInactivePs) {
--		if (rtState == eRfOff) {
-+		if (rt_state == eRfOff) {
- 			if (priv->rtllib->RfOffReason > RF_CHANGE_BY_IPS) {
- 				netdev_warn(dev, "%s(): RF is OFF.\n",
- 					    __func__);
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index 407effde5e71..70aa47568f3a 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -247,17 +247,17 @@ static int _rtl92e_wx_set_mode(struct net_device *dev,
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rtllib_device *ieee = netdev_priv_rsl(dev);
- 
--	enum rt_rf_power_state rtState;
-+	enum rt_rf_power_state rt_state;
- 	int ret;
- 
- 	if (priv->bHwRadioOff)
- 		return 0;
--	rtState = priv->rtllib->eRFPowerState;
-+	rt_state = priv->rtllib->eRFPowerState;
- 	mutex_lock(&priv->wx_mutex);
- 	if (wrqu->mode == IW_MODE_ADHOC || wrqu->mode == IW_MODE_MONITOR ||
- 	    ieee->bNetPromiscuousMode) {
- 		if (priv->rtllib->PowerSaveControl.bInactivePs) {
--			if (rtState == eRfOff) {
-+			if (rt_state == eRfOff) {
- 				if (priv->rtllib->RfOffReason >
- 				    RF_CHANGE_BY_IPS) {
- 					netdev_warn(dev, "%s(): RF is OFF.\n",
-@@ -379,7 +379,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rtllib_device *ieee = priv->rtllib;
--	enum rt_rf_power_state rtState;
-+	enum rt_rf_power_state rt_state;
- 	int ret;
- 
- 	if (!(ieee->softmac_features & IEEE_SOFTMAC_SCAN)) {
-@@ -396,7 +396,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
- 			    __func__);
- 		return 0;
- 	}
--	rtState = priv->rtllib->eRFPowerState;
-+	rt_state = priv->rtllib->eRFPowerState;
- 	if (!priv->up)
- 		return -ENETDOWN;
- 	if (priv->rtllib->LinkDetectInfo.bBusyTraffic == true)
-@@ -419,7 +419,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
- 
- 	if (priv->rtllib->state != RTLLIB_LINKED) {
- 		if (priv->rtllib->PowerSaveControl.bInactivePs) {
--			if (rtState == eRfOff) {
-+			if (rt_state == eRfOff) {
- 				if (priv->rtllib->RfOffReason >
- 				    RF_CHANGE_BY_IPS) {
- 					netdev_warn(dev, "%s(): RF is OFF.\n",
+-				if (RFWaitCounter > 100) {
++				if (rf_wait_counter > 100) {
+ 					netdev_warn(dev,
+ 						    "%s(): Timeout waiting for RF change.\n",
+ 						    __func__);
 -- 
 2.37.2
 
