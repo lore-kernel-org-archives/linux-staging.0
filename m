@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0CC7E0
-	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 07:46:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79517C433D7;
-	Fri,  9 Sep 2022 07:46:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43447E0
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 07:48:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C786C433C1;
+	Fri,  9 Sep 2022 07:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1662709604;
-	bh=KUQj+khAWvMzxaLV6sNI+tFYdaIn84Exf2f+2qqu2/A=;
+	s=korg; t=1662709692;
+	bh=cembJTLzrsCcUN/TdAvvEAHow2IUj6Pixg3rsqu8vrE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dcdX1HfN1yj+dcxpwQKq65vojRuo0Nk0a1KapSqOoGRZ5w6FfMilH4uh+9urLy0bd
-	 v6RGft7NVPMfKSOrt9eKJryatD4WS2qSshekFgWou73huk+rvvjJ6+XYohQC+gXk6H
-	 A9xxKuJDfx7oLAXLJuuqGtt685McpYlaBJq4z9Tc=
-Date: Fri, 9 Sep 2022 09:46:42 +0200
+	b=2LQaXzxBgKa0nuijX34MpyVVJeGBKhC7JtE6S9ENOUo7Rks/AoLMRwK7bUby2Q5nT
+	 phHrAe6sbGDnVoqVc21iaxfLveldSx/DrwXlzv9ICEbct5xJdSnvjxPeJcMFaWOPa3
+	 8mnH1wkJSK5pFVBJwjYljom+iO3GKU+ph0bfMRUE=
+Date: Fri, 9 Sep 2022 09:48:10 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: GUO Zihua <guozihua@huawei.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: rtl8723bs: Fix return type for
- implementation of ndo_start_xmit
-Message-ID: <YxrvYuVFqSg+CcyF@kroah.com>
-References: <20220905130310.11489-1-guozihua@huawei.com>
+To: xkernel.wang@foxmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rtl8723bs: fix potential memory leak in
+ rtw_init_drv_sw()
+Message-ID: <YxrvuoVF+IGfUikb@kroah.com>
+References: <tencent_61623C1C5469E9DF0E448B5936B78E239C05@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,27 +28,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220905130310.11489-1-guozihua@huawei.com>
+In-Reply-To: <tencent_61623C1C5469E9DF0E448B5936B78E239C05@qq.com>
 
-On Mon, Sep 05, 2022 at 09:03:10PM +0800, GUO Zihua wrote:
-> CFI (Control Flow Integrity) is a safety feature allowing the system to
-> detect and react should a potential control flow hijacking occurs. In
-> particular, the Forward-Edge CFI protects indirect function calls by
-> ensuring the prototype of function that is actually called matches the
-> definition of the function hook.
+On Thu, Sep 08, 2022 at 03:31:25PM +0800, xkernel.wang@foxmail.com wrote:
+> From: Xiaoke Wang <xkernel.wang@foxmail.com>
 > 
-> Since Linux now supports CFI, it will be a good idea to fix mismatched
-> return type for implementation of hooks. Otherwise this would get
-> cought out by CFI and cause a panic.
-> 
-> As returns from _rtw_xmit_entry() would always be 0, remove unneeded
-> variable ret and use enums from netdev_tx_t as return value instead.
-> Then change return type to netdev_tx_t.
+> In rtw_init_drv_sw(), there are various init functions are called to 
+> populate the padapter structure and some checks for their return value.
+> However, except for the first one error path, the other five error paths 
+> do not properly release the previous allocated resources, which leads to 
 
-If _rtw_xmit_entry() can never fail, then it needs to not have a return
-value at all, and that needs to also be fixed.  Can you make this a
-patch series that does the return type change for _rtw_xmit_entry()
-first, and then this change on top of that one.
+You have trailing whitespace on your text :(
+
+> various memory leaks.
+> 
+> This patch fixes them and keeps the success and error separate. As there
+> is no FooBar device to test with, no runtime testing was performed.
+
+What do you mean by "FooBar"?  Please fix that up.
 
 thanks,
 
