@@ -1,135 +1,84 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD1F89CB
-	for <linux-staging@lists.linux.dev>; Thu,  8 Sep 2022 20:32:47 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id lz22so19919213ejb.3
-        for <linux-staging@lists.linux.dev>; Thu, 08 Sep 2022 13:32:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E036D622
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 05:31:09 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id e17so895348edc.5
+        for <linux-staging@lists.linux.dev>; Thu, 08 Sep 2022 22:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date;
-        bh=qfAt/hjdgJmut/nxKh8LKAbLz+hFQ0D93ZGVPZeDHCE=;
-        b=aAIE4m7F9Tr38MxixsV+aCa56FNNfunP8LyZ6eaxqWLkEYCIAuRZZ9a7xKuNpZH9JR
-         TvcK6AEx475kJbWAnLMPjwwIDDchCLPnpp3zl4ikPn6JdGAAnitymy3w+lCiQ1C2wBHx
-         vONvovyCv1lER0INez4U7O+AptQcjPYlhloRdo41iNjL1OjWAZ8FwCnUDuSpFvimg2bT
-         LAqf8UplcHfcPkzShALjjzE89yZ2JINpO9nQ5kS/V4keWZ6M/KCyc9peErinsjhoH0+d
-         zckM97GKxUU31qcfrQKB0bSDs6G1jYEkViYFDff5KkiifLw6sEyrM8knt+dabRxt2+m4
-         JfuQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=rFLYto3K2CmPKXSaAwZZF63wiwFYIhCIDikeGhcUnes=;
+        b=Vh+mhSWgZgTLphVA7O4Bl/hkzzn+QFBX+c6TpP67Jvhxve+3ZvMEsnRGarb9hn4QnI
+         gR3sKN1N+9CcKQsENky2g3dZmQPaNajPmTLnUmxo0DQMMv7EGIxLlymkU33pn+UlsXBI
+         eneOP25O/x24rccf9CwVkHaTE/axO56ileDjfRlC1dk5sU4OWUipKuxvbg2vSLEwjm6K
+         JM7CIiZNbqusM3B6IZZF0njS6sndC+VpI4F23c6BvXP/w7/ymQOtnfLn7Cz9UOylkpLp
+         5uFuS3PppUMN3Bf8pC72ptvsULZOPHRtkQWiaoeJnwxTG0f5wGTA9fS4Bpwg9Yhjt/8b
+         7DJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=qfAt/hjdgJmut/nxKh8LKAbLz+hFQ0D93ZGVPZeDHCE=;
-        b=YJp5lqEIhblFbU7klZ6XkgL12NCeLNE4Zuk/BNGAAGL2skaJ5H7ORZsAZz2nb9LgZq
-         UUBVw1YyvloDv8ZHFEMb2c9Ycawc8vqaf0gh6D5C1YWPUVB7QTPlZevsg3YWaMbECpeH
-         pfZuRSoyOCWQrF7A+GmLpG8cVS5vZFFpWQQhkzUJlTAFtV7iMlFaleh5fKp/XPFJNoy4
-         +OOOKt1lOvOtXwpC/8QVjruCp0bxKIgy4Zeafqh/+is+iX5StiG6eaSJjqCinGLjW+Tv
-         yAMt+5XDqalwR/FFdiiEpkmtLAlB5v59r4GgROlw3LboXGaObb5baSfS1+ZFavWi9ugt
-         FF+w==
-X-Gm-Message-State: ACgBeo2nXt4/PSvQ6jSy68tmLrq+b12POzioiPi/msodRF3IOOFs+nRs
-	OrdnaTZ/HftcABBA6oVimB0=
-X-Google-Smtp-Source: AA6agR44ZBiMS9NG4ag9pmG5ERjX8gI6Q9WP+Nvm09J3cDY9v9fxOke2Ltb9DBX0l6rEcVzwSrnEDA==
-X-Received: by 2002:a17:906:cc5d:b0:741:38a8:a50a with SMTP id mm29-20020a170906cc5d00b0074138a8a50amr7165129ejb.650.1662669166030;
-        Thu, 08 Sep 2022 13:32:46 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id el3-20020a056402360300b0045081dc93dfsm1609355edb.78.2022.09.08.13.32.45
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=rFLYto3K2CmPKXSaAwZZF63wiwFYIhCIDikeGhcUnes=;
+        b=NHpulu5Wqx25c0wy02KuWr90CaYum5JvBkB3yX+cPyO0C2SZBWN+ZcYkvhXTH7chJA
+         8OlzJoI4OMjUttNqIsHf4cX8DKPUt32nHiYbh3np2ByxUO3YyQKYgRnWXblZLuEA/3JL
+         gwZre7XlHfJr4sI+53xpgN6kstRWlTowE9rvLNw8EnwkdUnPUUicoVs6yZMblD91iSFI
+         qIsMdG08A+UoMGxhz4Q6n7a6bTuYyu/uJilj3twdBukTqBc2FJegWtmOmTfCtxPfg9ex
+         PzW80EyHVd0XwRkaiKH/Wn7CfnmE96WChoKG6WyhsapShnQe4jZmNfMTEQAFGgmXVm3r
+         VdWQ==
+X-Gm-Message-State: ACgBeo3ASk0vS5vEUV5Fg1aQqmSJdJaPlfQXHfNYBpogk+1DsNzvrdjF
+	dPdB10M2FVEEym54I559d/s=
+X-Google-Smtp-Source: AA6agR5iOqgAL3CEJpA6vw7nmX1vYQnQX4bL/IqLhmfPnASR2l8FZA7WUpKLDWc48uWUwD9jd0kWdg==
+X-Received: by 2002:a05:6402:35c5:b0:450:4b7d:9c49 with SMTP id z5-20020a05640235c500b004504b7d9c49mr5636435edc.149.1662701468058;
+        Thu, 08 Sep 2022 22:31:08 -0700 (PDT)
+Received: from localhost.localdomain (ip-217-105-46-83.ip.prioritytelecom.net. [217.105.46.83])
+        by smtp.gmail.com with ESMTPSA id d16-20020a50fb10000000b0044ee91129f9sm369370edq.70.2022.09.08.22.31.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 13:32:45 -0700 (PDT)
-Date: Thu, 8 Sep 2022 22:32:43 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <error27@gmail.com>
-Subject: [PATCH] staging: rtl8192e: Fix return type for implementation of
- ndo_start_xmit
-Message-ID: <20220908203243.GA23048@matrix-ESPRIMO-P710>
+        Thu, 08 Sep 2022 22:31:07 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: forest@alittletooquiet.net,
+	gregkh@linuxfoundation.org
+Cc: namcaov@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: vt6655: fix potential memory conruption bug
+Date: Fri,  9 Sep 2022 07:30:39 +0200
+Message-Id: <20220909053038.33188-1-namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-CFI (Control Flow Integrity) is a safety feature allowing the system to
-detect and react should a potential control flow hijacking occurs. In
-particular, the Forward-Edge CFI protects indirect function calls by
-ensuring the prototype of function that is actually called matches the
-definition of the function hook.
+A line of code is attempting to set the entire struct vnt_rdes0 to
+zero by treating it as unsigned int. However, this only works if
+sizeof(unsigned int) is equal to sizeof(struct vnt_rdes0) (4 bytes),
+which is not guaranteed. This may cause memory conruption if
+sizeof(unsigned int) is 8 bytes for example. Fix the problem by using
+memset instead.
 
-Since Linux now supports CFI, it will be a good idea to fix mismatched
-return type for implementation of hooks. Otherwise this would get
-cought out by CFI and cause a panic.
-
-Use enums from netdev_tx_t as return value instead, then change return
-type to netdev_tx_t.
-
-Suggested-by: Dan Carpenter <error27@gmail.com>
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
-Tested with rtl8192e
-Transferred this patch over wlan connection of rtl8192e
----
- drivers/staging/rtl8192e/rtllib.h    |  2 +-
- drivers/staging/rtl8192e/rtllib_tx.c | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/vt6655/device_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 0ecd81a81866..b4b606f552fb 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1938,7 +1938,7 @@ int rtllib_encrypt_fragment(
- 	struct sk_buff *frag,
- 	int hdr_len);
- 
--int rtllib_xmit(struct sk_buff *skb,  struct net_device *dev);
-+netdev_tx_t rtllib_xmit(struct sk_buff *skb,  struct net_device *dev);
- void rtllib_txb_free(struct rtllib_txb *txb);
- 
- /* rtllib_rx.c */
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 42f81b23a144..ebcaf3bf22d6 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -543,7 +543,7 @@ static u8 rtllib_current_rate(struct rtllib_device *ieee)
- 		return ieee->rate & 0x7F;
- }
- 
--static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
-+static netdev_tx_t rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- {
- 	struct rtllib_device *ieee = (struct rtllib_device *)
- 				     netdev_priv_rsl(dev);
-@@ -946,23 +946,23 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 			if ((*ieee->hard_start_xmit)(txb, dev) == 0) {
- 				stats->tx_packets++;
- 				stats->tx_bytes += le16_to_cpu(txb->payload_size);
--				return 0;
-+				return NETDEV_TX_OK;
- 			}
- 			rtllib_txb_free(txb);
- 		}
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 8e2a976aaaad..a38657769c20 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -867,7 +867,7 @@ static bool device_alloc_rx_buf(struct vnt_private *priv,
+ 		return false;
  	}
  
--	return 0;
-+	return NETDEV_TX_OK;
+-	*((unsigned int *)&rd->rd0) = 0; /* FIX cast */
++	memset((void *)&rd->rd0, 0, sizeof(rd->rd0));
  
-  failed:
- 	spin_unlock_irqrestore(&ieee->lock, flags);
- 	netif_stop_queue(dev);
- 	stats->tx_errors++;
--	return 1;
-+	return NETDEV_TX_BUSY;
- 
- }
- 
--int rtllib_xmit(struct sk_buff *skb, struct net_device *dev)
-+netdev_tx_t rtllib_xmit(struct sk_buff *skb, struct net_device *dev)
- {
- 	memset(skb->cb, 0, sizeof(skb->cb));
- 	return rtllib_xmit_inter(skb, dev);
+ 	rd->rd0.res_count = cpu_to_le16(priv->rx_buf_sz);
+ 	rd->rd0.owner = OWNED_BY_NIC;
 -- 
-2.37.2
+2.25.1
 
