@@ -1,110 +1,85 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD5D808
-	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 12:28:41 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id b16so2273447edd.4
-        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 05:28:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC324A02
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 14:14:02 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id r18so4270126eja.11
+        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 07:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:subject:cc:to:from:date:message-id
-         :from:to:cc:subject:date;
-        bh=DZugOTI9KxAAOxuZDWfK5HFNxfJINOMz8DoYNPEVrxE=;
-        b=lP6IXIosqw1mX3RUVPRs96rv8hOGgFuRGED7qFb42YRjSWI+CeLsmTvzWjajwO5BSB
-         +f6ubmLcdB3LEqhpZp4TSWAY/VZrcKtUa4qie7UUihIxnLNtb6kmCIfVfQYcdRbMpqO5
-         Y6KtvYWJCCOVdzelCUIVkry7ACt3ikyTuwJFA03MZUKmDA7fwvUgSw4onBsGuyMu+eS0
-         E7/aPdvEJxov6gphSzPzat9KHTW7tdp5B0NFqXSDxA2LP2GkqtIpfSnWMMwZ5YstpZUe
-         dlkmdzba+8iG2mBsW0ddcU/gLGsui/3sW/91JZ/T0cslCFYkFv+JkQFhLejomqP8JJLv
-         klxw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=ySwWI942jaxyz5lWBkAOHKVuWAIl4C9M1/fPskGwiY0=;
+        b=cHUZnXW68BAC3LoHZFdFKCiMv5iqTS+JZMsdn3lgXfdwK/hmcm+UCHqTqWAQ0miBtA
+         PwZgy9mbViiwWhdi72v2lF0ae6j98smmgpgJp2Ew0qgy2/fMpqXUDL/ehhEyyjpVw8c0
+         N9rlFFfQU0goGolBC8vNzmfHAxShvOzf023KT/szZxznJrQQEx9p0E6msT6N/w3+BzFj
+         T+k+j5O8Y29ym9uewzVAmaLte0pC4xlyFNZ4l/mmZ/Ryg6O9pSHvxJi2ze6YbB1wgBSx
+         sAuI1Sz2GMfDr1+mnx/VRi8flaxmu8cW2A7ntKyJMOtiwfdSF5uwUJAnekzvRZpFDQqJ
+         kutQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:subject:cc:to:from:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=DZugOTI9KxAAOxuZDWfK5HFNxfJINOMz8DoYNPEVrxE=;
-        b=Aii70X20IDoDTNgIHhYgNhrFDV7CNBmuGfOIV0sl7caESmqCfhfcI5B0IKgj19qoQ9
-         ZTVSCYnigyD4BUdN6sCNOrF4stW+urVpqnh+Impg4pIicuo4QvZ6JsTfgwjwp3+q87dn
-         4nXqfxVlU/rRNA+tXYmoiVj3AvMjP1j/4Hxy2aRwtwmJhyCJK1pWeDGPRy2crcQXGOrs
-         9JBke35hN+9zc+DwaYd/Pd4v1uyyf7y3rzpTglERJHyqivI6OJlpZ5c2PgEIoltkmfMu
-         kei8c+4ZaVy9E1EheGeEfcDh1OMK4BrfOxyUmP1fykV2QldHgYR5TqOfwc8uKnNfVB9V
-         8zdg==
-X-Gm-Message-State: ACgBeo1pdHy1TQfM3o3+kHY3jZUFZYA9ChaWCKAWSY1MVT7CD9kjZbvl
-	dNQvLD6jjoLuSSv3qN1Ta38=
-X-Google-Smtp-Source: AA6agR5YgTVZARMKttFGjA8k6Eywr7Ql/1DY+N58DFl5dP75S5ttL6Mvi+AoeeBe2d660jgf1MJOcA==
-X-Received: by 2002:a05:6402:520d:b0:450:d599:52c with SMTP id s13-20020a056402520d00b00450d599052cmr5530085edd.119.1662726519788;
-        Fri, 09 Sep 2022 05:28:39 -0700 (PDT)
-Received: from localhost ([89.40.126.93])
-        by smtp.gmail.com with ESMTPSA id b12-20020a170906194c00b007753477db05sm207271eje.115.2022.09.09.05.28.38
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=ySwWI942jaxyz5lWBkAOHKVuWAIl4C9M1/fPskGwiY0=;
+        b=Ki1RwisMXJ1FLhV3mdQj58MQwWvCFgNLLyRhwaDByOG++3HxSHGCIewgMarHUwJADS
+         8NdmlZbafE9aLdWaACb6t0CQFUZ8DcttmZFK3GdmlmnPKEbEEtDS7IhzzQ5/k1frgpa/
+         Empw/FBz52jrG83cNPx1Icx3QCHLu1yHllAr29Xk3jIuBJygtNnwT8YnERgzJPyg5QvE
+         2nj8qOJ2Naag66CyniCVMed9cRqpP/xzP1BqQsd7fEoQOdNlZXNpHDT1t1DeOWCJPLLA
+         8OTvOylHzUkGaS3MZ2/KQFpaWQeyW5+iPyF6En3Bdyqxt13krfaHWD+/pK3ilmDEOqsa
+         51ng==
+X-Gm-Message-State: ACgBeo2tvJMgc5VGC382w8jq7VhnuvSjBf7vTa+g3v4GboG9I0prCpTt
+	OSnsfpsyTxz/DwdVp6epsPA=
+X-Google-Smtp-Source: AA6agR5nXtIg6vdlK66fSHhsIm6fnp9wpUrbqDxdOS3dZr8g/6FzAhW1Su6/jr2mPLPn7UJ0+r4Yzw==
+X-Received: by 2002:a17:907:2bf8:b0:770:837a:e3b8 with SMTP id gv56-20020a1709072bf800b00770837ae3b8mr9126840ejc.562.1662732840890;
+        Fri, 09 Sep 2022 07:14:00 -0700 (PDT)
+Received: from localhost.localdomain (wlan-244090.nbw.tue.nl. [131.155.244.90])
+        by smtp.gmail.com with ESMTPSA id cn11-20020a0564020cab00b0044ea7b8f57bsm471146edb.1.2022.09.09.07.13.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 05:28:39 -0700 (PDT)
-Message-ID: <631b3177.170a0220.ccacb.0862@mx.google.com>
-X-Google-Original-Message-ID: <Yxtbm3mXtEu+rzuF@<DarkDistro>>
-Date: Fri, 9 Sep 2022 15:28:27 +0000
-From: Burak Ozdemir <bozdemir@gmail.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: sm750fb: Coding style clean up
+        Fri, 09 Sep 2022 07:14:00 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: forest@alittletooquiet.net,
+	gregkh@linuxfoundation.org
+Cc: namcaov@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: vt6655: fix potential memory leak
+Date: Fri,  9 Sep 2022 16:13:39 +0200
+Message-Id: <20220909141338.19343-1-namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-From: Burak OZDEMIR <bozdemir@gmail.com>
+In function device_init_td0_ring, memory is allocated for member
+td_info of priv->apTD0Rings[i], with i increasing from 0. In case of
+allocation failure, the memory is freed in reversed order, with i
+decreasing to 0. However, the case i=0 is left out and thus memory is
+leaked.
 
-Adhere to coding style and fix camel casing in function name.
+Modify the memory freeing loop to include the case i=0.
 
-Signed-off-by: Burak Ozdemir <bozdemir@gmail.com>
+Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c        | 2 +-
- drivers/staging/sm750fb/sm750_cursor.c | 2 +-
- drivers/staging/sm750fb/sm750_cursor.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/vt6655/device_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 3e09e56d3930..a86222cdcb68 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -120,7 +120,7 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 3397c78b975a..a65014195fdc 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -743,7 +743,7 @@ static int device_init_td0_ring(struct vnt_private *priv)
+ 	return 0;
  
- 	sm750_hw_cursor_disable(cursor);
- 	if (fbcursor->set & FB_CUR_SETSIZE)
--		sm750_hw_cursor_setSize(cursor,
-+		sm750_hw_cursor_set_size(cursor,
- 					fbcursor->image.width,
- 					fbcursor->image.height);
- 
-diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
-index 43e6f52c2551..d5ef40b8bc8e 100644
---- a/drivers/staging/sm750fb/sm750_cursor.c
-+++ b/drivers/staging/sm750fb/sm750_cursor.c
-@@ -58,7 +58,7 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
- 	poke32(HWC_ADDRESS, 0);
- }
- 
--void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
-+void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
- {
- 	cursor->w = w;
- 	cursor->h = h;
-diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
-index b59643dd61ed..edeed2ea4b04 100644
---- a/drivers/staging/sm750fb/sm750_cursor.h
-+++ b/drivers/staging/sm750fb/sm750_cursor.h
-@@ -5,7 +5,7 @@
- /* hw_cursor_xxx works for voyager,718 and 750 */
- void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
- void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
--void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
-+void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
- void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
- void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
- void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+ err_free_desc:
+-	while (--i) {
++	while (i--) {
+ 		desc = &priv->apTD0Rings[i];
+ 		kfree(desc->td_info);
+ 	}
 -- 
-2.35.1
+2.25.1
 
