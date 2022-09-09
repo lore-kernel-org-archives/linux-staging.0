@@ -1,90 +1,87 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F307E5C92
-	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 17:59:28 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id r17so5749648ejy.9
-        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 10:59:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=273KJVUIjaB1QIyJW3Sl3DHo+oLOYiNHF5nS/ot7tzw=;
-        b=IsHxMtoGtIkUZBDTZGlWMRk+bjBCQwoj/WlJulDFg4ieGLjJ2pluQwpWhPIPzk1f7I
-         dOJuGoOPDtXRI8VGZcyqmFOm/RfhdafwFA4r4OhV2Q/jiSpZBp0zsORsEaLFrmFfM1Ey
-         eIKsVaKtwMoA0oovMecx06tskY88SG0Q/9B0VTqoVxvyityn1IrSk2lBSRr2NiEm5Se9
-         HvioWL4zEm/uGDHgz7CofFAFUmdXR7yJRSmmwZxl1m0Jer/prNw9K+8QoNpIcvF1qXBz
-         qocw1QpIEmYYSNSfV3SWdMhs21VulT5nRrE1NDZQcLUCzJOvg2m/VZjra/4j+LCd64T0
-         eorg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=273KJVUIjaB1QIyJW3Sl3DHo+oLOYiNHF5nS/ot7tzw=;
-        b=dlEkThAGmm+tuKu24GJlup7RUuHfS98c6emk4hZQZ/xt6c6HHz1eOXRUIFSr2Rd6XU
-         tzxEj9/9hrGj2EzutCGEMzpm+4ElVeJeE3k4JFAhT2d2oZr9N2E9VLd8n48LYRRMC2pu
-         SfMC7NewnM9DUvS97fxcc37cujmbuav/YKWLNCphX12Tis6dfZNKqQ/y9omlVfbKz53D
-         jRhfrHVpB+MKfq33vkW8H5YSHY8HsZjAbJA32NbJeo/W2HqD2apcAVPA+jJJL1Stz4lJ
-         DgUQVmr/Qpxmsb/c2rV4x4g5uHJLznlPzQX387SQKlBvvtE63ij7BGkacp+GQ/khvRN6
-         lM3g==
-X-Gm-Message-State: ACgBeo0f+PUGVb2rrxLLOR2I+NhgmDUdvaNWuZpnbBNA/GDQ8G0/KIgu
-	nuYXWuJ+IKzoF+p9NMVFh+k=
-X-Google-Smtp-Source: AA6agR6edoO22IOba2dzePXDN6j6lE8PL1IxCHaW7Kp94y9dgXXrXp7bMc0Jmrci623jer6pjgyE/Q==
-X-Received: by 2002:a17:907:1c12:b0:742:7a6:a1b6 with SMTP id nc18-20020a1709071c1200b0074207a6a1b6mr10461344ejc.159.1662746367364;
-        Fri, 09 Sep 2022 10:59:27 -0700 (PDT)
-Received: from [192.168.1.103] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id b10-20020a056402138a00b0044625884285sm719600edv.49.2022.09.09.10.59.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Sep 2022 10:59:26 -0700 (PDT)
-Message-ID: <499af3df-5fed-91b5-9006-0ce3bac41c1d@gmail.com>
-Date: Fri, 9 Sep 2022 19:59:25 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A815C92
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 18:01:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9C71C433D6;
+	Fri,  9 Sep 2022 18:01:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1662746481;
+	bh=xfbOxDMrBC+FLEHLKPnZtY1D4mafiObgMUwlegIp9tU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pPKiCmZhdjpHrlMw8iB5JZku3rbdbxwk3JBzC76PbqNcXua+sHecFwMwli+3iYxH+
+	 NcXMGAA5xqfNSVkDYVzAEstK61VL2iQUivdcudhteOu4AtEKij+oByPEf7DnbPdmMV
+	 BCY3d+mgi0yqIcZosc2y0ETX1PtZyPB/E5dmA3VA=
+Date: Fri, 9 Sep 2022 20:01:18 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dan Carpenter <error27@gmail.com>, GUO Zihua <guozihua@huawei.com>
+Subject: Re: [PATCH] staging: rtl8192e: Fix return type for implementation of
+ ndo_start_xmit
+Message-ID: <Yxt/bjvVgC3H8mr6@kroah.com>
+References: <20220908203243.GA23048@matrix-ESPRIMO-P710>
+ <YxrxywN9wDypohyY@kroah.com>
+ <YxryqJs4k3B26/7o@kroah.com>
+ <a0c8fa9d-cc86-b39b-e65f-e8a0ccf12a15@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: vt6655: fix potential memory leak
-Content-Language: en-US
-To: Nam Cao <namcaov@gmail.com>, forest@alittletooquiet.net,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20220909141338.19343-1-namcaov@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220909141338.19343-1-namcaov@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a0c8fa9d-cc86-b39b-e65f-e8a0ccf12a15@gmail.com>
 
-On 9/9/22 16:13, Nam Cao wrote:
-> In function device_init_td0_ring, memory is allocated for member
-> td_info of priv->apTD0Rings[i], with i increasing from 0. In case of
-> allocation failure, the memory is freed in reversed order, with i
-> decreasing to 0. However, the case i=0 is left out and thus memory is
-> leaked.
+On Fri, Sep 09, 2022 at 07:20:09PM +0200, Philipp Hortmann wrote:
+> On 9/9/22 10:00, Greg Kroah-Hartman wrote:
+> > On Fri, Sep 09, 2022 at 09:56:59AM +0200, Greg Kroah-Hartman wrote:
+> > > On Thu, Sep 08, 2022 at 10:32:43PM +0200, Philipp Hortmann wrote:
+> > > > CFI (Control Flow Integrity) is a safety feature allowing the system to
+> > > > detect and react should a potential control flow hijacking occurs. In
+> > > > particular, the Forward-Edge CFI protects indirect function calls by
+> > > > ensuring the prototype of function that is actually called matches the
+> > > > definition of the function hook.
+> > > > 
+> > > > Since Linux now supports CFI, it will be a good idea to fix mismatched
+> > > > return type for implementation of hooks. Otherwise this would get
+> > > > cought out by CFI and cause a panic.
+> > > > 
+> > > > Use enums from netdev_tx_t as return value instead, then change return
+> > > > type to netdev_tx_t.
+> > > > 
+> > > > Suggested-by: Dan Carpenter <error27@gmail.com>
+> > > > Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> > > > ---
+> > > > Tested with rtl8192e
+> > > > Transferred this patch over wlan connection of rtl8192e
+> > > > ---
+> > > >   drivers/staging/rtl8192e/rtllib.h    |  2 +-
+> > > >   drivers/staging/rtl8192e/rtllib_tx.c | 10 +++++-----
+> > > >   2 files changed, 6 insertions(+), 6 deletions(-)
+> > > 
+> > > Someone sent the same patch before you did:
+> > > 	https://lore.kernel.org/r/20220905130053.10731-1-guozihua@huawei.com
+> > > 
+> > 
+> > This patch does not apply to my tree either :(
+> > 
+> > Please rebase and resubmit.
+> > 
+> > thanks,
+> > 
+> > greg k-h
 > 
-> Modify the memory freeing loop to include the case i=0.
 > 
-> Signed-off-by: Nam Cao <namcaov@gmail.com>
-> ---
->   drivers/staging/vt6655/device_main.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Sorry Greg,
 > 
-> diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-> index 3397c78b975a..a65014195fdc 100644
-> --- a/drivers/staging/vt6655/device_main.c
-> +++ b/drivers/staging/vt6655/device_main.c
-> @@ -743,7 +743,7 @@ static int device_init_td0_ring(struct vnt_private *priv)
->   	return 0;
->   
->   err_free_desc:
-> -	while (--i) {
-> +	while (i--) {
->   		desc = &priv->apTD0Rings[i];
->   		kfree(desc->td_info);
->   	}
+> I cannot find my error.
+> I just downloaded the patch and applied it to the staging-next branch and
+> that worked fine.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Try the staging-testing branch please.
+
+thanks,
+
+greg k-h
