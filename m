@@ -1,45 +1,45 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137184C62
-	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 17:20:14 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id l14so5537541eja.7
-        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 10:20:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A245A4C62
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 17:31:33 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id y17so538050ejo.6
+        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 10:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=VNJB3n4FUi+BHktH6vzQujwSPpO94XEVY5hhJm3auuk=;
-        b=n1oW3uTx5XQ+9CsTanRj1ei6pfz0sPENUkGDfzIkKq5TUi3LzHtWhRYedTagb6m5wr
-         Z9AQLYW3+wHogDcXUiax4vSS5mEFRQvLLggCh7bfxjTuTCAhVJk9ortTBnfpFeq486Eu
-         O1D+EhVr7T0z9pO0N9mRcc3Ab7CcwM60iyDDSoNic9B1M0yYYp5TmqktexJc96HRbDg5
-         qow0fTO4rmNoAtgh69YmLrKY4zBl5Yw1YX+dT4l/m67rYMxiP4bSJsuvIVGX7J+qh6Gg
-         BwisT/8bi/nO5Pf9J8YKTCsh1zFg1rJzL1bU3LlNy6M86x/pYIldXIHcHwj7PquZQLS/
-         CzeA==
+        bh=KBKK7iFKML2I5N/b2jqG9ifqUfWsm45jjFjrGgVshBE=;
+        b=CXT/bIwlhl3oInco0vLlYWMvsALVMY9M2FFs4ZDXwEhUp9cwFSr3qLXyM2A+PlY/oH
+         QIaE74MiTVwaYm8RgF/qWf8673QmZ8EmkBBjgtZa+scTL6LUJcfaNm7daNXdKNoc2HG+
+         VPdeoQYnifePI1QUxmFiFUeL8+KaUePebSlJlE33OVrz8vBaDl7FYiMcpy168xGHp9Ty
+         Bq3xS/48JbXF4YyrRX+Oczyl7jPMGuNSmszRoVFM30rA9hVr1n6owsQryJsAV3Gi+78L
+         64jMueQqe/Kbms0DqG6Q+nMhJV4HRwWT7ATbXXs5zp17fkDFoQMnagvScpFPIw/nXdn4
+         D+Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=VNJB3n4FUi+BHktH6vzQujwSPpO94XEVY5hhJm3auuk=;
-        b=TNNkRRNelZgGt2CnkxrXyJ2VGO4l8pUYe18I0AEKeboxuzsD3tPkCbI7Egt8Mq1A9h
-         PMJzZ6re4AKToHfSOnOwQl2j2FQefY64Y+pnOwRHBF5cvM2KQfFvgqLJfec8A1w4PoLY
-         X3zuhZABda8/Hqeq4W1AdCEfFzx9pas7kFHYh+tIdnLYCRRyQJC/Q0dPC7t9/u/fXR4n
-         DuBWY7NNAfdhWsArhKgohnmKxFdF8i/dEiVStJvf020h4tbq+iT2VKICtKrszDl18OVu
-         SQXMxa9ZVCu0ffzXXtIenByMkyzhIPZkDGPwg46mUAvayF+dYTsPSOqlgP06ElJfnh1y
-         ZUAg==
-X-Gm-Message-State: ACgBeo0m82W14ZA2GQxBTYZhOB9kQiOXFBj60V9KCwlTQrrtiyOSoMq8
-	yhaXTo2uHyorPCjScaguzKyxmalenSE=
-X-Google-Smtp-Source: AA6agR5chadUkv5bhym96Don8egp9jM+IYDc2Zi0yDo26xtYcyfjpYArncrSs7Ou54Ucj6ifzdkGgg==
-X-Received: by 2002:a17:906:5a64:b0:741:3586:92f with SMTP id my36-20020a1709065a6400b007413586092fmr10732962ejc.721.1662744013125;
-        Fri, 09 Sep 2022 10:20:13 -0700 (PDT)
+        bh=KBKK7iFKML2I5N/b2jqG9ifqUfWsm45jjFjrGgVshBE=;
+        b=7MtZWUeWii2qLWbXxtrADqYLkf43TNpqL4PGcOqEBqdQooIlHUrwjviaEyvXOjHeCu
+         m8ET8zh9BMMEqBA1a5ih2/1DJmGOs2BqCJbnwkGw3W15MEL6RJ/OtLa6subiqYy3DgTz
+         zHW1Z+fIig33QkTHQ23MAu1F6F9FXzwwl3cmpeecmLM5C9To8/LGtIzhzwgP5tbbXkjM
+         1cHUz0WmKuLcw+9KLaci6i3EfkUoc6cK+vE4GTAcO4Y4k9dALQ4WK9iVWrah9KZRnsST
+         Gu8n0MDnYRwh1k553AtTM2zriD/kshfW0aj0/SfKa7X1hq8xc5lKjcGS8QenqBgwE1op
+         dEjA==
+X-Gm-Message-State: ACgBeo2LWe38Anou26dG53TYs19+4/glAK3J2sKd9XXTH4/FMl5pIJPH
+	Lj9sHPyna/TodaoY1pa26HY=
+X-Google-Smtp-Source: AA6agR7TS68ddeStQHKwymQaHg9a7RjDpF0riStmq2Xv/AAK1a36h+wA34hUefwEk/nMQoLUbLj3sw==
+X-Received: by 2002:a17:907:7292:b0:733:1965:3176 with SMTP id dt18-20020a170907729200b0073319653176mr10437381ejc.318.1662744691733;
+        Fri, 09 Sep 2022 10:31:31 -0700 (PDT)
 Received: from ?IPV6:2003:c7:8f3e:6a99:2499:da3b:c93f:9b48? (p200300c78f3e6a992499da3bc93f9b48.dip0.t-ipconnect.de. [2003:c7:8f3e:6a99:2499:da3b:c93f:9b48])
-        by smtp.gmail.com with ESMTPSA id f10-20020a170906048a00b0073d83f80b05sm528314eja.94.2022.09.09.10.20.11
+        by smtp.gmail.com with ESMTPSA id f9-20020a17090660c900b0073c80d008d5sm531354ejk.122.2022.09.09.10.31.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Sep 2022 10:20:12 -0700 (PDT)
-Message-ID: <a0c8fa9d-cc86-b39b-e65f-e8a0ccf12a15@gmail.com>
-Date: Fri, 9 Sep 2022 19:20:09 +0200
+        Fri, 09 Sep 2022 10:31:31 -0700 (PDT)
+Message-ID: <659ff470-a912-4f35-6cbe-e3f49ba29dc8@gmail.com>
+Date: Fri, 9 Sep 2022 19:31:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,166 +48,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: rtl8192e: Fix return type for implementation of
- ndo_start_xmit
+Subject: Re: [PATCH v4] staging: r8188eu: fix potential memory leak in
+ rtw_os_xmit_resource_alloc()
 Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Dan Carpenter <error27@gmail.com>, GUO Zihua <guozihua@huawei.com>
-References: <20220908203243.GA23048@matrix-ESPRIMO-P710>
- <YxrxywN9wDypohyY@kroah.com> <YxryqJs4k3B26/7o@kroah.com>
+To: xkernel.wang@foxmail.com, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <tencent_7705902B66DA5C1C0E3E8ACBF077A5C3FF07@qq.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <YxryqJs4k3B26/7o@kroah.com>
+In-Reply-To: <tencent_7705902B66DA5C1C0E3E8ACBF077A5C3FF07@qq.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/9/22 10:00, Greg Kroah-Hartman wrote:
-> On Fri, Sep 09, 2022 at 09:56:59AM +0200, Greg Kroah-Hartman wrote:
->> On Thu, Sep 08, 2022 at 10:32:43PM +0200, Philipp Hortmann wrote:
->>> CFI (Control Flow Integrity) is a safety feature allowing the system to
->>> detect and react should a potential control flow hijacking occurs. In
->>> particular, the Forward-Edge CFI protects indirect function calls by
->>> ensuring the prototype of function that is actually called matches the
->>> definition of the function hook.
->>>
->>> Since Linux now supports CFI, it will be a good idea to fix mismatched
->>> return type for implementation of hooks. Otherwise this would get
->>> cought out by CFI and cause a panic.
->>>
->>> Use enums from netdev_tx_t as return value instead, then change return
->>> type to netdev_tx_t.
->>>
->>> Suggested-by: Dan Carpenter <error27@gmail.com>
->>> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
->>> ---
->>> Tested with rtl8192e
->>> Transferred this patch over wlan connection of rtl8192e
->>> ---
->>>   drivers/staging/rtl8192e/rtllib.h    |  2 +-
->>>   drivers/staging/rtl8192e/rtllib_tx.c | 10 +++++-----
->>>   2 files changed, 6 insertions(+), 6 deletions(-)
->>
->> Someone sent the same patch before you did:
->> 	https://lore.kernel.org/r/20220905130053.10731-1-guozihua@huawei.com
->>
+On 9/9/22 13:44, xkernel.wang@foxmail.com wrote:
+> From: Xiaoke Wang <xkernel.wang@foxmail.com>
 > 
-> This patch does not apply to my tree either :(
+> In rtw_os_xmit_resource_alloc(), if usb_alloc_urb() fails, then the
+> memory `pxmitbuf_pallocated_buf` which is allocated by kzalloc() is not
+> properly released before returning.
 > 
-> Please rebase and resubmit.
+> So this patch add kfree() on the above error path to release it. As there
+> is no proper device to test with, no runtime testing was performed.
 > 
-> thanks,
+> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+> ---
+> ChangeLog:
+> v1->v2 update the description.
+> v2->v3 rebase.
+> v3->v4 update the description.
+>   drivers/staging/r8188eu/os_dep/xmit_linux.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> greg k-h
+> diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> index 89a598a..f25099d 100644
+> --- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> @@ -75,8 +75,10 @@ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitb
+>   	pxmitbuf->dma_transfer_addr = 0;
+>   
+>   	pxmitbuf->pxmit_urb = usb_alloc_urb(0, GFP_KERNEL);
+> -	if (!pxmitbuf->pxmit_urb)
+> +	if (!pxmitbuf->pxmit_urb) {
+> +		kfree(pxmitbuf->pallocated_buf);
+>   		return _FAIL;
+> +	}
+>   
+>   	return _SUCCESS;
+>   }
 
+Hi,
 
-Sorry Greg,
-
-I cannot find my error.
-I just downloaded the patch and applied it to the staging-next branch 
-and that worked fine.
-
-Please find my logs below:
-
-
-kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git remote 
-show origin
-* remote origin
-   Fetch URL: 
-git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-   Push  URL: 
-git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-   HEAD branch: master
-   Remote branches:
-     bus_cleanup     tracked
-     greybus         tracked
-     main            tracked
-     master          tracked
-     staging-linus   tracked
-     staging-next    tracked
-     staging-octeon  tracked
-     staging-testing tracked
-   Local branches configured for 'git pull':
-     master          merges with remote master
-     staging-next    merges with remote staging-next
-     staging-testing merges with remote staging-testing
-   Local refs configured for 'git push':
-     master          pushes to master          (up to date)
-     staging-next    pushes to staging-next    (up to date)
-     staging-testing pushes to staging-testing (local out of date)
-
-
-kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git pull
-Already up to date.
-
-
-kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git branch -a
-   checkout
-   master
-* staging-next
-   staging-testing
-   remotes/origin/HEAD -> origin/master
-   remotes/origin/bus_cleanup
-   remotes/origin/greybus
-   remotes/origin/main
-   remotes/origin/master
-   remotes/origin/staging-linus
-   remotes/origin/staging-next
-   remotes/origin/staging-octeon
-   remotes/origin/staging-testing
-
+I cannot apply your patch:
 
 kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ cat 
-~/Downloads/PATCH-staging-rtl8192e-Fix-return-type-for-implementation-of-ndo_start_xmit.txt 
-| git am
-Applying: staging: rtl8192e: Fix return type for implementation of 
-ndo_start_xmit
+~/Downloads/\[PATCH\ v4\]\ staging\ r8188eu\ fix\ potential\ memory\ 
+leak\ in\ rtw_os_xmit_resource_alloc\(\).eml | git am
+Applying: staging: r8188eu: fix potential memory leak in 
+rtw_os_xmit_resource_alloc()
+error: drivers/staging/r8188eu/os_dep/xmit_linux.c: does not exist in index
+Patch failed at 0001 staging: r8188eu: fix potential memory leak in 
+rtw_os_xmit_resource_alloc()
 
+branch: staging-next
+repository: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
 
-kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git log
-commit 1990e48f8e9fef88e044e65918566bd87f274b1c (HEAD -> staging-next)
-Author: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Date:   Thu Sep 8 22:32:43 2022 +0200
-
-     staging: rtl8192e: Fix return type for implementation of ndo_start_xmit
-
-     CFI (Control Flow Integrity) is a safety feature allowing the system to
-     detect and react should a potential control flow hijacking occurs. In
-     particular, the Forward-Edge CFI protects indirect function calls by
-     ensuring the prototype of function that is actually called matches the
-     definition of the function hook.
-
-     Since Linux now supports CFI, it will be a good idea to fix mismatched
-     return type for implementation of hooks. Otherwise this would get
-     cought out by CFI and cause a panic.
-
-     Use enums from netdev_tx_t as return value instead, then change return
-     type to netdev_tx_t.
-
-     Suggested-by: Dan Carpenter <error27@gmail.com>
-     Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-
-commit 28a2a54901f66a45ab339e944fdfc69667e639c1 (origin/staging-next, 
-staging-testing)
-Merge: 7bd581f3c263 7e18e42e4b28
-Author: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date:   Mon Sep 5 07:57:37 2022 +0200
-
-     Merge 6.0-rc4 into staging-next
-
-     Resolves the merge issue with:
-             drivers/staging/r8188eu/os_dep/os_intfs.c
-
-     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-commit 7e18e42e4b280c85b76967a9106a13ca61c16179 (tag: v6.0-rc4, 
-origin/staging-linus, origin/main)
-
-
-Or have you applied the patch already from GUO Zihua <guozihua@huawei.com>?
-
-When I would have seen that GUO Zihua has send that patch already I 
-would not have send it. Sorry.
-
-Thanks for your support.
+Sorry
 
 Bye Philipp
