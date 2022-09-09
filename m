@@ -1,48 +1,51 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906A6612E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 19:22:18 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id u9so6287289ejy.5
-        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 12:22:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24082612F
+	for <linux-staging@lists.linux.dev>; Fri,  9 Sep 2022 20:42:51 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id j26so2271215wms.0
+        for <linux-staging@lists.linux.dev>; Fri, 09 Sep 2022 13:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date;
-        bh=a/Ks7J+SbGZiBo7wbQorabT/5WmVbsbSn3RJSyr6imE=;
-        b=oSvr4+rjYsGhnTDq7UnTYgcl0i7LCByjGI2GCX2Se41xKYJo7k6VJGSPFvyjIoS5t4
-         HY2pkazrjq0/zcJPYkaQOkeKjyusESqctNmWn+KidMDwBCwsRvo1oqF1E7pe/ra0byCe
-         lBc1NZKXsRSL5l+Py59WmBcx6jNNjdQ0gK81gKP6/EQxbmhJGdg9jO7bxuoe77tDQB9L
-         12VqlbtN7jQ2OK2gEOBrMfs+W1bLA7hW6vsaTY6Sr7UdBcGZCh2X9NsP3gTz+F7ymoKp
-         B/cc3k+aZUyY/PmGXEY3Wgm36lUU8jXJhSU2Vk4TKkgcAcfuUys3RlIyQl24keOLKvOY
-         l5gA==
+        h=content-disposition:mime-version:subject:cc:to:from:date:message-id
+         :from:to:cc:subject:date;
+        bh=DZugOTI9KxAAOxuZDWfK5HFNxfJINOMz8DoYNPEVrxE=;
+        b=ho53l0n669p8mhv0vyXfuvlo39SXNN+natmOpHXqqJQYxoyhvAYIAd+Zb6fP7tspP1
+         buQSRCiENg002YzUo39D2Hnmqw6/yDU17S/8vH3/BWNbsAXbwJsPz1CxGsFD2cx78r2C
+         ro4+gHq7aYYx41ya+DjWMLL7ZyvStE44ZgVqo5i+zBhZtj7q3WJds5eWZ3dkQuehcPfb
+         IDxlcAffcRnPXIDABcfeY2niDBl99MuGikH+cTwP8CgTCxEFmXwTbf0G0DGX3iMa3Cvx
+         6V2rf5j43nvtfEwO4D49zqyrgro9OPffOj/V1FLCzpTqwvLzRAqxkjMr5U7MARJzrdHE
+         OpwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=a/Ks7J+SbGZiBo7wbQorabT/5WmVbsbSn3RJSyr6imE=;
-        b=3zTjpXDgvPJc6d2u7tUffhgq/9BQcEkWDSTTEsrROoIasy46ncNLZ/S9DwS8r28mvC
-         D2EfklE31LQKigDacJP2gZmV1yuuVYrMSKO1A2n8GqmZGKWhoM5eze6HtHyqtdjeUwSj
-         6QnmLXoy5p9yOFehG8wl9Y9YUvw54iTK3S8u36oMRPBlSE1I9CZQ4yigMwUBJoRw9Dpb
-         9g98zgE/LIHAojKcCTWLXvTAo0X8bx2iM/7QizohVZ8jCqoLF9qD0m8JDwiPgUfNVbOF
-         +HT4Yjirk806dVvTR7iJN96W7FB4kUpo71BLLoW3M96wohkJMcHVpNODKMZRs1BPYNE8
-         41Rg==
-X-Gm-Message-State: ACgBeo0BbRSJN/8rddw/fGUhULfID4/uw8fimulTaUFsKbMlrw6Yq+dR
-	B2iPmfiu2PzXJ80EJ4AIfv488K81xnM=
-X-Google-Smtp-Source: AA6agR5Iq4uzLaSVrbc2HH6cwYNAsJ2EEiJbhwCM1npW3GqsZ+D6JPDBtkepkS2Jf8XyeqYCoda28Q==
-X-Received: by 2002:a17:906:9b83:b0:730:b3ae:343 with SMTP id dd3-20020a1709069b8300b00730b3ae0343mr11224767ejc.670.1662751336838;
-        Fri, 09 Sep 2022 12:22:16 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id u9-20020a17090626c900b00775f6081a87sm622639ejc.121.2022.09.09.12.22.16
+        h=content-disposition:mime-version:subject:cc:to:from:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=DZugOTI9KxAAOxuZDWfK5HFNxfJINOMz8DoYNPEVrxE=;
+        b=C7zRSI6kq0ioZDs7eV3Qeh4pNcDeXH9Aa1odykBD7I3bJcDr5ivfH4wqAJrVtbUFPi
+         8JR4c4gk51XhO2/CqOz0q128FoWMDkAY1108aL9JI3pwMVWD7wOtMyhN9EnWY1xbBmEG
+         JWYDECTopRCEUZzDWDTO3hYOa2DogiwDHxy/4sx/Ohoq5aPxM5jANDWEG5nAFwTnmTow
+         WHm5x85J4e4NLoSmWQhCTd3qzr0nsuNMpzx5ndO3BGq8tBXXD/XqFEpck9VQZCLoLWxk
+         CARZVp0UUHdi8hpFCnGN/Un2RdmA1NJdBMIMsi9U8UkXm91i2ihVk8AXF1KlSBAU/2u8
+         vosg==
+X-Gm-Message-State: ACgBeo0U2eyRgwvGWijDELP+h+31/WJVkWWc/qXrdVRHUrNpQH9JRs27
+	zpUGCFmwUS4AzgYYjbmwXAA=
+X-Google-Smtp-Source: AA6agR61J5kWXkCkMpitFRjVl6+WQkJ/+ibhMWFMoL0aIRqG1TFzeSF3UvnSkdliLmTh3PNinWvseg==
+X-Received: by 2002:a7b:c016:0:b0:3a5:fff2:62f4 with SMTP id c22-20020a7bc016000000b003a5fff262f4mr6872914wmb.104.1662756169174;
+        Fri, 09 Sep 2022 13:42:49 -0700 (PDT)
+Received: from localhost ([176.42.22.250])
+        by smtp.gmail.com with ESMTPSA id bh16-20020a05600c3d1000b003a60ff7c082sm1733254wmb.15.2022.09.09.13.42.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Sep 2022 12:22:16 -0700 (PDT)
-Date: Fri, 9 Sep 2022 21:22:14 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] staging: rtl8192e: Rename CurSlotTime
-Message-ID: <1b71366d87b2b178fcd8f182127a51c7a7507936.1662402870.git.philipp.g.hortmann@gmail.com>
-References: <cover.1662402870.git.philipp.g.hortmann@gmail.com>
+        Fri, 09 Sep 2022 13:42:48 -0700 (PDT)
+Message-ID: <631ba548.050a0220.a64b3.5471@mx.google.com>
+X-Google-Original-Message-ID: <YxvPZ+FCxWoTy4Pu@<DarkDistro>>
+Date: Fri, 9 Sep 2022 23:42:31 +0000
+From: Burak Ozdemir <bozdemir@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: sm750fb: Coding style clean up
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,41 +54,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1662402870.git.philipp.g.hortmann@gmail.com>
 
-Rename variable CurSlotTime to cur_slot_time to avoid CamelCase which is
-not accepted by checkpatch.pl.
+From: Burak OZDEMIR <bozdemir@gmail.com>
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Adhere to coding style and fix camel casing in function name.
+
+Signed-off-by: Burak Ozdemir <bozdemir@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/sm750fb/sm750.c        | 2 +-
+ drivers/staging/sm750fb/sm750_cursor.c | 2 +-
+ drivers/staging/sm750fb/sm750_cursor.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index fb9e5fe5fa5d..671fe547639b 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -304,17 +304,17 @@ static void _rtl92e_update_cap(struct net_device *dev, u16 cap)
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 3e09e56d3930..a86222cdcb68 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -120,7 +120,7 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
  
- 	if (net->mode & (IEEE_G | IEEE_N_24G)) {
- 		u8	slot_time_val;
--		u8	CurSlotTime = priv->slot_time;
-+		u8	cur_slot_time = priv->slot_time;
+ 	sm750_hw_cursor_disable(cursor);
+ 	if (fbcursor->set & FB_CUR_SETSIZE)
+-		sm750_hw_cursor_setSize(cursor,
++		sm750_hw_cursor_set_size(cursor,
+ 					fbcursor->image.width,
+ 					fbcursor->image.height);
  
- 		if ((cap & WLAN_CAPABILITY_SHORT_SLOT_TIME) &&
- 		   (!priv->rtllib->pHTInfo->bCurrentRT2RTLongSlotTime)) {
--			if (CurSlotTime != SHORT_SLOT_TIME) {
-+			if (cur_slot_time != SHORT_SLOT_TIME) {
- 				slot_time_val = SHORT_SLOT_TIME;
- 				priv->rtllib->SetHwRegHandler(dev,
- 					 HW_VAR_SLOT_TIME, &slot_time_val);
- 			}
- 		} else {
--			if (CurSlotTime != NON_SHORT_SLOT_TIME) {
-+			if (cur_slot_time != NON_SHORT_SLOT_TIME) {
- 				slot_time_val = NON_SHORT_SLOT_TIME;
- 				priv->rtllib->SetHwRegHandler(dev,
- 					 HW_VAR_SLOT_TIME, &slot_time_val);
+diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+index 43e6f52c2551..d5ef40b8bc8e 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.c
++++ b/drivers/staging/sm750fb/sm750_cursor.c
+@@ -58,7 +58,7 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
+ 	poke32(HWC_ADDRESS, 0);
+ }
+ 
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
+ {
+ 	cursor->w = w;
+ 	cursor->h = h;
+diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+index b59643dd61ed..edeed2ea4b04 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.h
++++ b/drivers/staging/sm750fb/sm750_cursor.h
+@@ -5,7 +5,7 @@
+ /* hw_cursor_xxx works for voyager,718 and 750 */
+ void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+ void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
+ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
+ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
+ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
 -- 
-2.37.2
+2.35.1
 
