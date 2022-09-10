@@ -1,82 +1,58 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1417E5
-	for <linux-staging@lists.linux.dev>; Sat, 10 Sep 2022 00:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1662769909;
-	bh=Gxe4Ta6FyNOxbWEOTIgsuOptukjbQJHOFt7dTlu1cvI=;
-	h=From:To:Cc:Subject:Date;
-	b=zEb274J9veVPUj0kYA6TKW5saHHjhxml42l7ttGeYiBPSFqzRuYJ+oGnKxPC7Sowu
-	 bi5aT/oNPe6l7GeQKlV0wzJusnE85VIr6kF6y/GJDSjHSCA2nTwhanTvj0993O1Cio
-	 MBCsKt1lzxvXC4KcM1qTT5QDer46OZ4oVGOQp9hE=
-Received: from localhost.localdomain ([113.57.80.61])
-	by newxmesmtplogicsvrszb7.qq.com (NewEsmtp) with SMTP
-	id 7A61F29D; Sat, 10 Sep 2022 08:30:38 +0800
-X-QQ-mid: xmsmtpt1662769838tjjkb9w73
-Message-ID: <tencent_DD1047278567B897D2CF7F13483573596E06@qq.com>
-X-QQ-XMAILINFO: NsEIGfsQmVV+dk0z9nw0FtMWluIhdB6raiTdWZ31XpUDORHhTdNn5KJB3TTmky
-	 d1iC87h8mPEg4ns+z1URGAVD9MAFvV85Ng/vuAXjlgbWKgwQtofMqAjyBOK6UU1k03d0mDMhP+/v
-	 EBKrzDImfGI3TZ0tGrSuvrtIdcMcFhMtXppLiOpdftY+Lk65q/2/tzxlbKGFsZEdOPPEcG1PHKVA
-	 TNMs7TU/5MEHu3BeKEjjVzMCyXjtSKm+8NT18xD2RZAN8gBYaO1XZwf/DyxPet4fVvPOGcOPOX7U
-	 j9zFi7LK+7SYpBmW07Isq4BisB40E746zYJTjglMiU1RJtGBMGk1MPLOo6ndLZWQx6kQu13+njRF
-	 +ZCknKOt4LToWiwEdNoajU28OF85RTyBbLmQdOGA4cZ58diTehqGI9bfCxK3xtBmHqTy6KxbZ0FX
-	 lGsRF9y2t2F0jRqG26Fr14vspMRTIz8za+Vxj+W2J3mQueuGSdCVFGxlqc49oso1gYKO6A/1Ks9a
-	 W4DUuFy5Z0ddYLK6HHnM31uC756ZF0ea2Ace9X6jZb824AY8Ho5cx8JPkpkHt3UX19gDlc58wY/N
-	 G6QTMQl6JrWw8JSsKrwbNDcA/RY/cyVDVCxwEnR9D3Zld83UElOZf1AgQ02ZXNHmkBGq1AP6WJaJ
-	 l9ebz4qk5cu4itiy8IeSctRW65RaeXudmM7WkWSSnGMsqOhU/ApfnrDNg7QTVGFi8v5JZ4U/gBXm
-	 ZFcT3dCArtyvX80ZQMYXYdtOyWCscjho9xpy70ATEcqyofEDlLPR1f4qZ4ncIDKKorKBo7R1pLy1
-	 h8vrhXtvEGa6eCXlB2rO6vPt0N4HM0PH5HewxYmEhfg8wUnuRAoNthRCOz/lv/1XQXJToq8/x/dP
-	 g1sSFioyU/OY0eDLt4rkVdq46ywn6GVwk1p9LA+mKUVM4IwykaB/pHVRlXGlVbdWdyrM0vAVEcvQ
-	 XIo3c1f1UW865YDPGJmmAuuy7F541fvMYkKdnqfSWelM9+657XvsicIepRVfZNIEuEr7mcYLcN8O
-	 5qMg0YmLtI4viaM3f+JQ94jt8gLCOzR6oS3UeeKBj1PTmlXiWxfDlllumenpM=
-From: xkernel.wang@foxmail.com
-To: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH] staging: r8188eu: add kfree() on an error path of rtw_xmit_resource_alloc()
-Date: Sat, 10 Sep 2022 08:29:56 +0800
-X-OQ-MSGID: <20220910002956.3975-1-xkernel.wang@foxmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AD1A40
+	for <linux-staging@lists.linux.dev>; Sat, 10 Sep 2022 05:36:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0919C433C1;
+	Sat, 10 Sep 2022 05:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1662788190;
+	bh=MhHDDT4ENasb4odd4tIu3aDa2mJibAA7zIz/n+Uw8jI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MjetwlTdcEyI5RXHv8u2aFGo8yYC3YdTOH0B7zHnAu4O6FYVgotJzICM7KrwwXHxV
+	 WOcUW7xhSdsBDHW0gZE1e6mJkB4nnNccF/guIhdGAXqAYIWZn33e2PV9dib0SquTtw
+	 pGrIgy3T/5oYBW2vaiyO7+Md2j65UacLf8/f9gxM=
+Date: Sat, 10 Sep 2022 07:36:52 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Burak Ozdemir <bozdemir@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: Fix string form declaration
+Message-ID: <YxwidHdwPz2yUAP4@kroah.com>
+References: <631b5aa8.170a0220.9378b.124a@mx.google.com>
+ <YxuASm/KA6iFrKu4@kroah.com>
+ <CACAQkfXH4smoY2v28DOZ_0uf_2=e8iEDSFbEbTMhU0JPuteOPw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACAQkfXH4smoY2v28DOZ_0uf_2=e8iEDSFbEbTMhU0JPuteOPw@mail.gmail.com>
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+On Fri, Sep 09, 2022 at 10:50:57PM +0000, Burak Ozdemir wrote:
+> I have been  analyzing todo tasks from `Kernel Janitors Projects` and saw
+> the following task
+> 
+> From: Jeff Garzik
+> 
+> 1) The string form
+>         [const] char *foo = "blah";
+> creates two variables in the final assembly output, a static string, and a
+> char pointer to the static string. The alternate string form
+>         [const] char foo[] = "blah";
+> is better because it declares a single variable.
+> 
+> That's why I changed that char * to static const[].
 
-In rtw_xmit_resource_alloc(), if usb_alloc_urb() fails, then the memory
-`pxmitbuf->pallocated_buf` which is allocated by kzalloc() is not properly
-released before returning.
+I'm sorry, but I have no context here at all for what this is in
+response to.
 
-So this patch adds kfree() on the above error path to release it. As there
-is no proper device to test with, no runtime testing was performed.
+Remember, some of us get hundreds of changes each day to review, and we
+have the short-term memory of a squirrel.  Always include proper context
+in an email message so that we know what is going on.
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
- drivers/staging/r8188eu/core/rtw_xmit.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+thanks,
 
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 67f9c05..9c39d08 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -44,8 +44,10 @@ static int rtw_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *px
- 	pxmitbuf->dma_transfer_addr = 0;
- 
- 	pxmitbuf->pxmit_urb = usb_alloc_urb(0, GFP_KERNEL);
--	if (!pxmitbuf->pxmit_urb)
-+	if (!pxmitbuf->pxmit_urb) {
-+		kfree(pxmitbuf->pallocated_buf);
- 		return _FAIL;
-+	}
- 
- 	return _SUCCESS;
- }
--- 
+greg k-h
