@@ -1,42 +1,42 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874151860
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 16:20:02 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id r18so14951056eja.11
-        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 09:20:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BAD1868
+	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 16:20:03 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id m1so9500109edb.7
+        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 09:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=GsdpeDwqiQ59y1KF9qjXgzUuhoO/WMpaF1rt8+KLfKc=;
-        b=jEAk2DZ1D4pSbzFy8lLdAgFAIiZb75w2RbVNn5hDJNmFW1f6L3TQAr6G6Tt9lfOQgk
-         vH+f3/7roALGxkIoUit65Ng9lf/Uh9Rhbf2QO3x81r32u8sMp7mq5RbnbkYwN+o/1Hvl
-         ub9IWalSSz5UTwpMPK1hIXYk9NNipRjKQkQTJ09e306nd4i4I5ITLehbzzVNas0X4/3l
-         4hKLhpO7n0RyiRHVlLo/BDNw2fup4jbMagMbNY2fm7TxJ09UaWawn/nt/kVqvEGCJU+U
-         f7z4ZtlSvkw74qNkvaLKiQCbiQy+JT95/SAPp3M/ox7wQTUjbXGkGwnl00OJKplef6w0
-         Ymmg==
+        bh=NYhdzoo6tM23KOShyzRyKjHKkaVDcrKz7iHGaueE0HU=;
+        b=SRCxa55iJ/03fwJDnBkzsV38RX0UDP8cPGHBKrsU/GK9UhHXwyZSQhN9SUIbmpOYYR
+         RjafR0Ewp7chC1atKddyjizH9+rUUmTAUhxRlOF7YvY0gJ/iTMqIxitPtMrkcf0aXCVI
+         HhZ0SupndPObbaUQdS+OPeH8JyMcrGscxrBAlTvJRzMHdLcityxbNrCHpuh0AqA9dUGB
+         Mh/62tdJWzqcRAUyTxke4BChSdXaYhgJGiChkN612stqoHlAGmAl2AFMNkNwvBe2KUU+
+         KQrzDGg6CbQlnH0qP9sz1OEsmYz7BTmQRwzOl9bEn/I5/C0mNI1pfwiJbgvquRkbMS9T
+         whBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=GsdpeDwqiQ59y1KF9qjXgzUuhoO/WMpaF1rt8+KLfKc=;
-        b=CbdEwPeqUeC95hZdACrGKDMW/hckGIuTWFrEUtlZCEaDrgt8oRax14wArkOwFEE1DW
-         HP00x/cmYwgYJpts/luJB2yao7QC8r0JKF28pvAOL1h4ODNATi3aGFTts96FC+gCPeE9
-         m1N3vRvN+w9RdIHSAiHn+ytOKuniJVT2HvwjpKfngblVhxnLAFtH5qVokHyUhQl1CNQz
-         Hulg3Sx4lnlxdT8LoA0+AunqKvhHRtVRuUt+MTeeBwmJUa124aG1Pkggw2rUg5eK68Cg
-         0vg4UD4AAjde+P8Lq4GWEnBEJF8FS90m+jPxt/2zhQKFHETVpLeOCeFjMQPBosqsBKYU
-         rTSA==
-X-Gm-Message-State: ACgBeo3qTNyOcvLGh9Jwtx6588pXA3G4E6Ro1f91XlQlO42vta+rcnkz
-	GsfANcpw7g6QkpOTH9h7Dsg=
-X-Google-Smtp-Source: AA6agR75KgWe00X/90kNewrayvjKNnBiAKF5xum9uin/07Ow4IuT5iJzfv1899rRu1u5SkMRyhNXaA==
-X-Received: by 2002:a17:907:9729:b0:77c:3742:137a with SMTP id jg41-20020a170907972900b0077c3742137amr3000202ejc.630.1662913200779;
-        Sun, 11 Sep 2022 09:20:00 -0700 (PDT)
+        bh=NYhdzoo6tM23KOShyzRyKjHKkaVDcrKz7iHGaueE0HU=;
+        b=ZGhQOw23A4NaGYz5fLdymwElpjC4bV/h1PFhcpp/mD4SnfzqKp4vB4MXJZ7NtFUylz
+         O+yZj63BDRHfeLruick5/sFctWjwrrMgHBUcTTWHTga9ZCPI5oefCJKDm/sftS/Otzj8
+         RnqW1Oz01QHHgPk+hrcEl/0DoIJt1lm1YdZbnaIWL2kVKgoY9ZpJYO8YMCE8s3fb/sqI
+         YockAAVEKThHd0WqHxADPws24RbIXn6XCNJSrYFQuLdRoxB9JBilJMc+lAdjNMkX0y6J
+         zP23//hCes7bZaEQo+EbRj+p1V51v05zAhhz2BCjWs4waQRtF9vpTduLv807abX7vrBG
+         yygw==
+X-Gm-Message-State: ACgBeo0njHGOaKgx8rDDLPukcoObaQjfHw8tek3yQi6Fr2PNi//HIQAa
+	UXYf6+/7EWoptUAeH293L6o=
+X-Google-Smtp-Source: AA6agR7WzDP20gXCr9U5do86/epHo+otMYu6GuGXJyy7XrB9saBTiDGJ0oPBer8TRe/RiyuaHi7u5g==
+X-Received: by 2002:a05:6402:2694:b0:450:d537:f6d6 with SMTP id w20-20020a056402269400b00450d537f6d6mr13804306edd.344.1662913201636;
+        Sun, 11 Sep 2022 09:20:01 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
         by smtp.gmail.com with ESMTPSA id bt6-20020a170906b14600b00779dc23be62sm3055346ejb.120.2022.09.11.09.20.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Sep 2022 09:20:00 -0700 (PDT)
+        Sun, 11 Sep 2022 09:20:01 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -44,9 +44,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/6] staging: r8188eu: rename odm_SignalScaleMapping()
-Date: Sun, 11 Sep 2022 18:19:44 +0200
-Message-Id: <20220911161949.11293-2-straube.linux@gmail.com>
+Subject: [PATCH 2/6] staging: r8188eu: clean up camel case in odm_signal_scale_mapping()
+Date: Sun, 11 Sep 2022 18:19:45 +0200
+Message-Id: <20220911161949.11293-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220911161949.11293-1-straube.linux@gmail.com>
 References: <20220911161949.11293-1-straube.linux@gmail.com>
@@ -58,41 +58,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename odm_SignalScaleMapping() to avoid camel case.
+Rename variables in odm_signal_scale_mapping() to avoid camel case.
 
-odm_SignalScaleMapping -> odm_signal_scale_mapping
+CurrSig -> currsig
+RetSig -> retsig
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm_HWConfig.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/r8188eu/hal/odm_HWConfig.c | 38 +++++++++++-----------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index 035d94b3458e..cd6af491d5a8 100644
+index cd6af491d5a8..5fd53c60f762 100644
 --- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
 +++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -13,7 +13,7 @@ static u8 odm_QueryRxPwrPercentage(s8 AntPower)
+@@ -13,28 +13,28 @@ static u8 odm_QueryRxPwrPercentage(s8 AntPower)
  		return 100 + AntPower;
  }
  
--static s32 odm_SignalScaleMapping(struct odm_dm_struct *dm_odm, s32 CurrSig)
-+static s32 odm_signal_scale_mapping(struct odm_dm_struct *dm_odm, s32 CurrSig)
+-static s32 odm_signal_scale_mapping(struct odm_dm_struct *dm_odm, s32 CurrSig)
++static s32 odm_signal_scale_mapping(struct odm_dm_struct *dm_odm, s32 currsig)
  {
- 	s32 RetSig = 0;
+-	s32 RetSig = 0;
+-
+-	if (CurrSig >= 51 && CurrSig <= 100)
+-		RetSig = 100;
+-	else if (CurrSig >= 41 && CurrSig <= 50)
+-		RetSig = 80 + ((CurrSig - 40) * 2);
+-	else if (CurrSig >= 31 && CurrSig <= 40)
+-		RetSig = 66 + (CurrSig - 30);
+-	else if (CurrSig >= 21 && CurrSig <= 30)
+-		RetSig = 54 + (CurrSig - 20);
+-	else if (CurrSig >= 10 && CurrSig <= 20)
+-		RetSig = 42 + (((CurrSig - 10) * 2) / 3);
+-	else if (CurrSig >= 5 && CurrSig <= 9)
+-		RetSig = 22 + (((CurrSig - 5) * 3) / 2);
+-	else if (CurrSig >= 1 && CurrSig <= 4)
+-		RetSig = 6 + (((CurrSig - 1) * 3) / 2);
++	s32 retsig = 0;
++
++	if (currsig >= 51 && currsig <= 100)
++		retsig = 100;
++	else if (currsig >= 41 && currsig <= 50)
++		retsig = 80 + ((currsig - 40) * 2);
++	else if (currsig >= 31 && currsig <= 40)
++		retsig = 66 + (currsig - 30);
++	else if (currsig >= 21 && currsig <= 30)
++		retsig = 54 + (currsig - 20);
++	else if (currsig >= 10 && currsig <= 20)
++		retsig = 42 + (((currsig - 10) * 2) / 3);
++	else if (currsig >= 5 && currsig <= 9)
++		retsig = 22 + (((currsig - 5) * 3) / 2);
++	else if (currsig >= 1 && currsig <= 4)
++		retsig = 6 + (((currsig - 1) * 3) / 2);
+ 	else
+-		RetSig = CurrSig;
++		retsig = currsig;
  
-@@ -200,10 +200,10 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- 	/* UI BSS List signal strength(in percentage), make it good looking, from 0~100. */
- 	/* It is assigned to the BSS List in GetValueFromBeaconOrProbeRsp(). */
- 	if (isCCKrate) {
--		pPhyInfo->SignalStrength = (u8)(odm_SignalScaleMapping(dm_odm, PWDB_ALL));/* PWDB_ALL; */
-+		pPhyInfo->SignalStrength = (u8)(odm_signal_scale_mapping(dm_odm, PWDB_ALL));/* PWDB_ALL; */
- 	} else {
- 		if (rf_rx_num != 0)
--			pPhyInfo->SignalStrength = (u8)(odm_SignalScaleMapping(dm_odm, total_rssi /= rf_rx_num));
-+			pPhyInfo->SignalStrength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
- 	}
+-	return RetSig;
++	return retsig;
+ }
  
- 	/* For 88E HW Antenna Diversity */
+ static u8 odm_evm_db_to_percentage(s8 value)
 -- 
 2.37.3
 
