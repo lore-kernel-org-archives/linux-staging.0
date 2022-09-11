@@ -1,83 +1,88 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31F17F
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 00:48:45 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id r17so12469026ejy.9
-        for <linux-staging@lists.linux.dev>; Sat, 10 Sep 2022 17:48:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6616B7F
+	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 07:12:56 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-3452214cec6so65986347b3.1
+        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 00:12:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=9edV5rmSSmQGfryMF8ZLiaiKUCdN0PMDm3CEK4ihJ9s=;
-        b=gywwlPiIG5LPRnzM47WAaJ9kupy1tv2SXfZzAgtHJHfBgv8tB0gi7/OKn+zEcUSSja
-         aSaNfHiYiV7bhSz07/Qm4Jl/CCG/Tmmtd34XBMWPHS1xzXV3/NyvToXKTKfYl1S+KtyE
-         FF4vmIKFrksSuyLuFZSLlOt+xQgNVGc4eG4KE0htAD0jYHjflOhfGsKfwDkL6QzGJTWe
-         8BxifUWyPaOEs+Z01NUoM2lOuuX2naxPE+muUIxQypWe/A/cHrmQcuPRAg6Rmg7wmY7q
-         O8rHgFdxqMWApmEgRGtkBrpgsRsdnzavUbz+9hcZ6zU3qPJKPuhozvNCIH3IQCSKWRB2
-         mfJQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=fOne5REx3dfFRIt7Ms5taiBcmpnVEiUY4XZ+R/6BY9w=;
+        b=hMmnRYTSakinCEP6SGw6Jp7CEqe48xDiDxXrrMm2mZF3Sy1OsgVNst2xIKymbxYOV6
+         2oQu0Hy3We9J4fpDH7fv9iGty1ia4qVy8DtkWW5sNMD0MRcDk7C88jmFh3HD0X32kqPY
+         vk3zlQS+1hzrHiajSwyKJrLP8sf59eT7eKUAKhCfsQVR89vwE9VMgZWkXzum+fuSfy12
+         oiCieHEb/xs/UNgCviwLRnc8RfILaTcCrT5UE4JiskvbEffD884O1AhwN5b/9HnT3e3t
+         yb/OnSw4yGrtPojohdTF9qYb32Z1zjd21QjGalN734MnVJjn0NIOuJtRpzfc0pAkt42A
+         pyIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=9edV5rmSSmQGfryMF8ZLiaiKUCdN0PMDm3CEK4ihJ9s=;
-        b=Dgn+I/8O+9MGQw8DBujVsPejVkmphkHMKfXaDpJ32GhX5V5GB4ieDSQ0DHeaPSOcqr
-         AgBal8TCP2CDs/sOkU/QzD8JpgaAYTv5AkXioUNcxaxSY+NfoWk6t3G9bfXKs6dAWrHY
-         6OTpJY5WyfOvh93PyTWib9p4t74IC5C6hRPJy7XBUo7laHpzcdId+gPjwLNLtox+7n9g
-         XgJHyk+y6eRtKcS4ln6233IFxRXuf1qYWXZn21nZn5MIFnl1kwItvkReAblEvg7naJYm
-         Dmo87GRJ1gcf7HXJ5z7soJ5ITWqY9Y0XF/DXOtUdp5DoBuXYr9ZsoDfcXNnaM9iuaWau
-         RvOQ==
-X-Gm-Message-State: ACgBeo0VztIzcKy8ef4BQ3Isa+Gq8X/h3aBx93I82KSNQzfL/Mg8sPyy
-	sEX0APHLGoZGlx00SJcf5R2p00sJ0Uw=
-X-Google-Smtp-Source: AA6agR6yp4ZaDiCMbxkMg5jcgXlBBsyqAhSX/EAQ3Ry+Z4lx/0MCr1hiehIzOkmVcgqKohxiIPnr2Q==
-X-Received: by 2002:a17:907:9495:b0:734:e049:3d15 with SMTP id dm21-20020a170907949500b00734e0493d15mr14857226ejc.187.1662857324079;
-        Sat, 10 Sep 2022 17:48:44 -0700 (PDT)
-Received: from [192.168.1.101] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id x17-20020a1709065ad100b0073d87068042sm2316664ejs.110.2022.09.10.17.48.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Sep 2022 17:48:43 -0700 (PDT)
-Message-ID: <227276e2-1bad-a342-eea4-c3672e50d275@gmail.com>
-Date: Sun, 11 Sep 2022 02:48:42 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=fOne5REx3dfFRIt7Ms5taiBcmpnVEiUY4XZ+R/6BY9w=;
+        b=CMt+TkhArzeGZ8wFJfsNYfRbmRLAyf/rfbJ6QbxAy3lIN+kmU8wBRqqlsin54as1BA
+         RJckGYSQuBHhn28XH433JxSiLJ2TtaVXkXg5Loqi4gEp19vaHm6gFibhnB5r9EEHSfzY
+         8s3zFbp4Knew4HZNGM0ll4u4rw/xsyvrrbWN0j7QLbNegGkvs8SOTD4CmQ3cmVK7NI9T
+         PNITAI1RyJ46kmxoUACUyeP2F4QcqnvSEp7GAT0h8W4vcCHYxjqIuks/F5lBXyBkF1m+
+         x59p4l/2WIoYproDOiG8UTMXpjWcewwcK6Lce7XXgD2pzHP1ZP/RC+i2WnMafcjOWgE7
+         0Fxg==
+X-Gm-Message-State: ACgBeo3R+An9JujxIcFxZhuff08QrA5S6vN02Yj77un0s4KqlYOUMWtX
+	CybpZ9mr5XXNyHDQRNqKcM0gA4EbkxmkNNIg8j0=
+X-Google-Smtp-Source: AA6agR4f21MGHZ4mTrOOEls/7i4BSoXeuL7NT6r/8h1hYirpPlu2WDHgj/JOs1bcZTjLygMlBWiBtJohJT5jFNVUUi8=
+X-Received: by 2002:a0d:c981:0:b0:330:dc03:7387 with SMTP id
+ l123-20020a0dc981000000b00330dc037387mr18272329ywd.380.1662880375353; Sun, 11
+ Sep 2022 00:12:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/4] staging: r8188eu: remove empty rtw_*scan* macros
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220910180236.489808-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220910180236.489808-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1662724786.git.namcaov@gmail.com> <c3a7d9963b1c38c5f493786d7268c430617412dd.1662724786.git.namcaov@gmail.com>
+ <Yxt/3FOysEbwCm9T@kroah.com>
+In-Reply-To: <Yxt/3FOysEbwCm9T@kroah.com>
+From: Nam Cao <namcaov@gmail.com>
+Date: Sun, 11 Sep 2022 09:12:44 +0200
+Message-ID: <CA+sZ8B8Y1ZGou1Y4tQYJC1Wp_2MVdYKO0Bd3SfxMAU1DF+mz_g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] staging: vt6655: remove unnecessary volatile qualifier
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: forest@alittletooquiet.net, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/10/22 20:02, Martin Kaiser wrote:
-> Remove four rtw_*scan* macros which are empty or constant.
-> 
-> Martin Kaiser (4):
->    staging: r8188eu: remove empty rtw_set_scan_deny macro
->    staging: r8188eu: remove rtw_set_scan_deny_timer_hdl
->    staging: r8188eu: remove rtw_clear_scan_deny
->    staging: r8188eu: rtw_is_scan_deny is always false
-> 
->   drivers/staging/r8188eu/core/rtw_ioctl_set.c | 5 -----
->   drivers/staging/r8188eu/core/rtw_mlme.c      | 5 -----
->   drivers/staging/r8188eu/core/rtw_xmit.c      | 3 ---
->   drivers/staging/r8188eu/include/rtw_mlme.h   | 4 ----
->   4 files changed, 17 deletions(-)
-> 
+On Fri, Sep 9, 2022 at 8:03 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Sep 09, 2022 at 02:17:55PM +0200, Nam Cao wrote:
+> > Remove volatile qualifier for the member rd0 of struct vnt_rx_desc,
+> > because there is no reason it must be volatile.
+> >
+> > Signed-off-by: Nam Cao <namcaov@gmail.com>
+> > ---
+> >  drivers/staging/vt6655/desc.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/vt6655/desc.h b/drivers/staging/vt6655/desc.h
+> > index 17a40c53b8ff..3f0f287b1693 100644
+> > --- a/drivers/staging/vt6655/desc.h
+> > +++ b/drivers/staging/vt6655/desc.h
+> > @@ -182,7 +182,7 @@ struct vnt_rdes1 {
+> >
+> >  /* Rx descriptor*/
+> >  struct vnt_rx_desc {
+> > -     volatile struct vnt_rdes0 rd0;
+> > +     struct vnt_rdes0 rd0;
+>
+> You can not just remove this without describing _WHY_ it is ok to do so.
+>
+> Have you properly determined why it is, or is not, ok to use volatile
+> here?
 
+I did not carefully look at the volatile usage here. After looking at it
+again, using volatile is actually valid: the structure resides on coherent
+memory.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Sorry for being careless.
+
+Best regards,
+Nam
