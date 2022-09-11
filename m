@@ -1,40 +1,40 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BAD1868
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 16:20:03 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id m1so9500109edb.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148061860
+	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 16:20:04 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id z97so9506997ede.8
         for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 09:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=NYhdzoo6tM23KOShyzRyKjHKkaVDcrKz7iHGaueE0HU=;
-        b=SRCxa55iJ/03fwJDnBkzsV38RX0UDP8cPGHBKrsU/GK9UhHXwyZSQhN9SUIbmpOYYR
-         RjafR0Ewp7chC1atKddyjizH9+rUUmTAUhxRlOF7YvY0gJ/iTMqIxitPtMrkcf0aXCVI
-         HhZ0SupndPObbaUQdS+OPeH8JyMcrGscxrBAlTvJRzMHdLcityxbNrCHpuh0AqA9dUGB
-         Mh/62tdJWzqcRAUyTxke4BChSdXaYhgJGiChkN612stqoHlAGmAl2AFMNkNwvBe2KUU+
-         KQrzDGg6CbQlnH0qP9sz1OEsmYz7BTmQRwzOl9bEn/I5/C0mNI1pfwiJbgvquRkbMS9T
-         whBQ==
+        bh=mslrvAnEr3TpSO5X38U+iS/S6NUXdhZVFElJnWUwu3s=;
+        b=GD3M6ZeYw41YJxJi7HhErMRuFz+d5shSG79sMa/sNp7AOJBdOFt3pHVyTrMIB+ckvD
+         ueHwsKZ6/A3gNHX9f5S9CywFaseSlRQsaIX1M837b8IsWgdB5KlMBqAG5J5AYs0PDapi
+         N8jfeKJS3hdsd5doN2zbEb2qwxUUzXwVK56eGGtqquBfAdz+3YCrUrt3o2NejE8qkz6v
+         nuQ5QQaHh5ND6TXbabOrE8GCx3QMQb0gT4eVrmeNdsnPN+k65x6pFkDrD6WutUWGdqjb
+         acznzub9cg8fMmrkfxMnuUDfIv1wGPjPXZ1zjrLNmTIUxSqlVs4Tm4Y+2KDgZFrwmUvn
+         MEcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=NYhdzoo6tM23KOShyzRyKjHKkaVDcrKz7iHGaueE0HU=;
-        b=ZGhQOw23A4NaGYz5fLdymwElpjC4bV/h1PFhcpp/mD4SnfzqKp4vB4MXJZ7NtFUylz
-         O+yZj63BDRHfeLruick5/sFctWjwrrMgHBUcTTWHTga9ZCPI5oefCJKDm/sftS/Otzj8
-         RnqW1Oz01QHHgPk+hrcEl/0DoIJt1lm1YdZbnaIWL2kVKgoY9ZpJYO8YMCE8s3fb/sqI
-         YockAAVEKThHd0WqHxADPws24RbIXn6XCNJSrYFQuLdRoxB9JBilJMc+lAdjNMkX0y6J
-         zP23//hCes7bZaEQo+EbRj+p1V51v05zAhhz2BCjWs4waQRtF9vpTduLv807abX7vrBG
-         yygw==
-X-Gm-Message-State: ACgBeo0njHGOaKgx8rDDLPukcoObaQjfHw8tek3yQi6Fr2PNi//HIQAa
-	UXYf6+/7EWoptUAeH293L6o=
-X-Google-Smtp-Source: AA6agR7WzDP20gXCr9U5do86/epHo+otMYu6GuGXJyy7XrB9saBTiDGJ0oPBer8TRe/RiyuaHi7u5g==
-X-Received: by 2002:a05:6402:2694:b0:450:d537:f6d6 with SMTP id w20-20020a056402269400b00450d537f6d6mr13804306edd.344.1662913201636;
-        Sun, 11 Sep 2022 09:20:01 -0700 (PDT)
+        bh=mslrvAnEr3TpSO5X38U+iS/S6NUXdhZVFElJnWUwu3s=;
+        b=fmTKekM255oF+xSv/BTtPGumJ5q5yYwDtSgEGz0lzgHp58zqKfa4QT+WG2vIzhCYOW
+         FTPBVDHMmWLfFDUID7X3IFGj+mlDt6s8vy3Pm5sDi7m+pCM+kKwc1b3wrYzwuoIHNrkX
+         4t18/q28FlPi/re6CXoILgcUmSE1nc2cGXfxuPx+KD/axhIHIawwCCKbZFTPgt4HW0S1
+         gQp0n93rWoWxpkCCuKQGn9GBJ6CCG/tnwID46B3IU6kT5Jg38binpHjv+K7qLXWnuhE0
+         l2a7bdW3O9Pl4gPo8M7ufW8MuZ11BWovzJFHiGU/65cyaGASGtLMSomKoL+EkXLTEnie
+         cMPg==
+X-Gm-Message-State: ACgBeo2oVQ/5Xnsnw6MXhkLPjoDSkmRQvtzE2d1qH2tFiXWsKAfkA6+w
+	0B5gg15XakXAtCZi+CmGAYE=
+X-Google-Smtp-Source: AA6agR6tKfXAXP4ZvieTYvpgPNZkdMlKGl526lwtq9Jt3HoZKR16Wluu3yKdKmixn+UXnjxGsaHQ7w==
+X-Received: by 2002:aa7:c1ce:0:b0:44d:d5b4:adf5 with SMTP id d14-20020aa7c1ce000000b0044dd5b4adf5mr19845305edp.182.1662913202426;
+        Sun, 11 Sep 2022 09:20:02 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id bt6-20020a170906b14600b00779dc23be62sm3055346ejb.120.2022.09.11.09.20.00
+        by smtp.gmail.com with ESMTPSA id bt6-20020a170906b14600b00779dc23be62sm3055346ejb.120.2022.09.11.09.20.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 11 Sep 2022 09:20:01 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -44,9 +44,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/6] staging: r8188eu: clean up camel case in odm_signal_scale_mapping()
-Date: Sun, 11 Sep 2022 18:19:45 +0200
-Message-Id: <20220911161949.11293-3-straube.linux@gmail.com>
+Subject: [PATCH 3/6] staging: r8188eu: remove unnecessary initialization
+Date: Sun, 11 Sep 2022 18:19:46 +0200
+Message-Id: <20220911161949.11293-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220911161949.11293-1-straube.linux@gmail.com>
 References: <20220911161949.11293-1-straube.linux@gmail.com>
@@ -58,68 +58,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename variables in odm_signal_scale_mapping() to avoid camel case.
-
-CurrSig -> currsig
-RetSig -> retsig
+The variable 'retsig' in odm_signal_scale_mapping() is set in the
+function before it returns, so it is not needed to initialize it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm_HWConfig.c | 38 +++++++++++-----------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+ drivers/staging/r8188eu/hal/odm_HWConfig.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index cd6af491d5a8..5fd53c60f762 100644
+index 5fd53c60f762..a557c5d1542e 100644
 --- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
 +++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -13,28 +13,28 @@ static u8 odm_QueryRxPwrPercentage(s8 AntPower)
- 		return 100 + AntPower;
- }
+@@ -15,7 +15,7 @@ static u8 odm_QueryRxPwrPercentage(s8 AntPower)
  
--static s32 odm_signal_scale_mapping(struct odm_dm_struct *dm_odm, s32 CurrSig)
-+static s32 odm_signal_scale_mapping(struct odm_dm_struct *dm_odm, s32 currsig)
+ static s32 odm_signal_scale_mapping(struct odm_dm_struct *dm_odm, s32 currsig)
  {
--	s32 RetSig = 0;
--
--	if (CurrSig >= 51 && CurrSig <= 100)
--		RetSig = 100;
--	else if (CurrSig >= 41 && CurrSig <= 50)
--		RetSig = 80 + ((CurrSig - 40) * 2);
--	else if (CurrSig >= 31 && CurrSig <= 40)
--		RetSig = 66 + (CurrSig - 30);
--	else if (CurrSig >= 21 && CurrSig <= 30)
--		RetSig = 54 + (CurrSig - 20);
--	else if (CurrSig >= 10 && CurrSig <= 20)
--		RetSig = 42 + (((CurrSig - 10) * 2) / 3);
--	else if (CurrSig >= 5 && CurrSig <= 9)
--		RetSig = 22 + (((CurrSig - 5) * 3) / 2);
--	else if (CurrSig >= 1 && CurrSig <= 4)
--		RetSig = 6 + (((CurrSig - 1) * 3) / 2);
-+	s32 retsig = 0;
-+
-+	if (currsig >= 51 && currsig <= 100)
-+		retsig = 100;
-+	else if (currsig >= 41 && currsig <= 50)
-+		retsig = 80 + ((currsig - 40) * 2);
-+	else if (currsig >= 31 && currsig <= 40)
-+		retsig = 66 + (currsig - 30);
-+	else if (currsig >= 21 && currsig <= 30)
-+		retsig = 54 + (currsig - 20);
-+	else if (currsig >= 10 && currsig <= 20)
-+		retsig = 42 + (((currsig - 10) * 2) / 3);
-+	else if (currsig >= 5 && currsig <= 9)
-+		retsig = 22 + (((currsig - 5) * 3) / 2);
-+	else if (currsig >= 1 && currsig <= 4)
-+		retsig = 6 + (((currsig - 1) * 3) / 2);
- 	else
--		RetSig = CurrSig;
-+		retsig = currsig;
+-	s32 retsig = 0;
++	s32 retsig;
  
--	return RetSig;
-+	return retsig;
- }
- 
- static u8 odm_evm_db_to_percentage(s8 value)
+ 	if (currsig >= 51 && currsig <= 100)
+ 		retsig = 100;
 -- 
 2.37.3
 
