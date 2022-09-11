@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC24186F
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 17:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23AE186F
+	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 17:17:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1662916644;
+	s=mimecast20190719; t=1662916645;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ak23rzqZ5HKVkjb3XdBK0iF4YY1Cnfx7MpyfP6mqMEY=;
-	b=MuRcz4gUvCJTeJSVLqKuiKwZi1rzzN768uBCf5mAfJbwnPxQoB9WgdQTlepUkJDH9in1qq
-	rgd7cPCF8qu+exDyGpmJu3FH84O1eJksdaVT/iGMJCZA0YWPwJD08Z1vvzgFmibEV8hvf/
-	lNEkEwRVdFYquJTnMSXEJeCryRj+E/I=
+	bh=mMnljO4T8Haas6Q91q3nT75alGNz35E/nxql8BRwq5A=;
+	b=WWvF6Nu19N+cOvvdTqrux3PZPeBRtjnUmpwMb3fQAgvHWY7NtUalEky1CW1QBTcuHAVDD7
+	BNa9g/5EIvNx7Uq2dF4qFrhqAIIcHLYYBYLawsOwBSNokgYCSo2Ukp6fhsIYqq/4ALFLzG
+	UR9eS0XFqv44fxE9Yyd8oClAMVzUSz4=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-1-LLLgb3PGPRKbbnhZHNjGGg-1; Sun, 11 Sep 2022 13:17:17 -0400
-X-MC-Unique: LLLgb3PGPRKbbnhZHNjGGg-1
+ us-mta-241-aq1oYjYeMtK6woS49NoKCg-1; Sun, 11 Sep 2022 13:17:22 -0400
+X-MC-Unique: aq1oYjYeMtK6woS49NoKCg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB0C83C025B6;
-	Sun, 11 Sep 2022 17:17:16 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1A783C025B6;
+	Sun, 11 Sep 2022 17:17:21 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.10])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 31DFC492C3B;
-	Sun, 11 Sep 2022 17:17:15 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4FBFC492C3B;
+	Sun, 11 Sep 2022 17:17:20 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 11/17] media: atomisp: Remove a couple of not useful function wrappers
-Date: Sun, 11 Sep 2022 19:16:47 +0200
-Message-Id: <20220911171653.568932-12-hdegoede@redhat.com>
+Subject: [PATCH 14/17] media: atomisp: Remove unused atomisp_css_get_dis_statistics()
+Date: Sun, 11 Sep 2022 19:16:50 +0200
+Message-Id: <20220911171653.568932-15-hdegoede@redhat.com>
 In-Reply-To: <20220911171653.568932-1-hdegoede@redhat.com>
 References: <20220911171653.568932-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,169 +52,56 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 
-The __atomisp_reqbufs(), __atomisp_streamoff() are 1:1 wrappers for
-the non __ prefixed functions now, drop these wrappers.
-
-The atomisp_s_fmt_cap() wrapper is almost a 1:1 wrapper for
-atomisp_set_fmt() adjust the latter to have the right function
-prototype and drop the wrapper.
+Remove the unused atomisp_css_get_dis_statistics() function. This seems to
+be a leftover variant / older version of atomisp_css_get_dis_stats() which
+is actually used.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  3 ++-
- .../staging/media/atomisp/pci/atomisp_cmd.h   |  2 +-
- .../staging/media/atomisp/pci/atomisp_fops.c  | 10 +++----
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 27 +++----------------
- .../staging/media/atomisp/pci/atomisp_ioctl.h |  8 ++----
- 5 files changed, 12 insertions(+), 38 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_compat.h |  4 ----
+ .../media/atomisp/pci/atomisp_compat_css20.c       | 14 --------------
+ 2 files changed, 18 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index a96a4658e113..20962d4c2b76 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -5167,8 +5167,9 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev,
- 	return css_input_resolution_changed(asd, ffmt);
- }
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+index af6ab8434b5e..a6d85d0f9ae5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+@@ -129,10 +129,6 @@ int atomisp_alloc_metadata_output_buf(struct atomisp_sub_device *asd);
  
--int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
-+int atomisp_set_fmt(struct file *file, void *unused, struct v4l2_format *f)
- {
-+	struct video_device *vdev = video_devdata(file);
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
- 	struct atomisp_sub_device *asd = pipe->asd;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index 5ab7d6aca7fa..cfc970b531f0 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -266,7 +266,7 @@ int atomisp_get_sensor_mode_data(struct atomisp_sub_device *asd,
- int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
- 		    bool *res_overflow);
+ void atomisp_free_metadata_output_buf(struct atomisp_sub_device *asd);
  
--int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f);
-+int atomisp_set_fmt(struct file *file, void *fh, struct v4l2_format *f);
+-void atomisp_css_get_dis_statistics(struct atomisp_sub_device *asd,
+-				    struct atomisp_css_buffer *isp_css_buffer,
+-				    struct ia_css_isp_dvs_statistics_map *dvs_map);
+-
+ void atomisp_css_temp_pipe_to_pipe_id(struct atomisp_sub_device *asd,
+ 				      struct atomisp_css_event *current_event);
  
- int atomisp_set_shading_table(struct atomisp_sub_device *asd,
- 			      struct atomisp_shading_table *shading_table);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 531bbd6d7ee0..047e1180e35f 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -836,18 +836,16 @@ static int atomisp_release(struct file *file)
- 			 __func__);
- 
- 	if (pipe->capq.streaming &&
--	    __atomisp_streamoff(file, NULL, V4L2_BUF_TYPE_VIDEO_CAPTURE)) {
--		dev_err(isp->dev,
--			"atomisp_streamoff failed on release, driver bug");
-+	    atomisp_streamoff(file, NULL, V4L2_BUF_TYPE_VIDEO_CAPTURE)) {
-+		dev_err(isp->dev, "atomisp_streamoff failed on release, driver bug");
- 		goto done;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index 0154ebf2cba5..64dd63ddc29c 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1574,20 +1574,6 @@ void atomisp_free_metadata_output_buf(struct atomisp_sub_device *asd)
  	}
- 
- 	if (pipe->users)
- 		goto done;
- 
--	if (__atomisp_reqbufs(file, NULL, &req)) {
--		dev_err(isp->dev,
--			"atomisp_reqbufs failed on release, driver bug");
-+	if (atomisp_reqbufs(file, NULL, &req)) {
-+		dev_err(isp->dev, "atomisp_reqbufs failed on release, driver bug");
- 		goto done;
- 	}
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 42d8d1267553..ed3ec603a713 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -968,14 +968,6 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
- 	return atomisp_try_fmt_cap(file, fh, f);
  }
  
--static int atomisp_s_fmt_cap(struct file *file, void *fh,
--			     struct v4l2_format *f)
+-void atomisp_css_get_dis_statistics(struct atomisp_sub_device *asd,
+-				    struct atomisp_css_buffer *isp_css_buffer,
+-				    struct ia_css_isp_dvs_statistics_map *dvs_map)
 -{
--	struct video_device *vdev = video_devdata(file);
--
--	return atomisp_set_fmt(vdev, f);
+-	if (asd->params.dvs_stat) {
+-		if (dvs_map)
+-			ia_css_translate_dvs2_statistics(
+-			    asd->params.dvs_stat, dvs_map);
+-		else
+-			ia_css_get_dvs2_statistics(asd->params.dvs_stat,
+-						   isp_css_buffer->css_buffer.data.stats_dvs);
+-	}
 -}
 -
- /*
-  * Free videobuffer buffer priv data
-  */
-@@ -1111,8 +1103,7 @@ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
- /*
-  * Initiate Memory Mapping or User Pointer I/O
-  */
--int __atomisp_reqbufs(struct file *file, void *fh,
--		      struct v4l2_requestbuffers *req)
-+int atomisp_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *req)
+ void atomisp_css_temp_pipe_to_pipe_id(struct atomisp_sub_device *asd,
+ 				      struct atomisp_css_event *current_event)
  {
- 	struct video_device *vdev = video_devdata(file);
- 	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
-@@ -1184,12 +1175,6 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 	return -ENOMEM;
- }
- 
--int atomisp_reqbufs(struct file *file, void *fh,
--		    struct v4l2_requestbuffers *req)
--{
--	return __atomisp_reqbufs(file, fh, req);
--}
--
- /* application query the status of a buffer */
- static int atomisp_querybuf(struct file *file, void *fh,
- 			    struct v4l2_buffer *buf)
-@@ -1793,7 +1778,7 @@ static int atomisp_streamon(struct file *file, void *fh,
- 	return 0;
- }
- 
--int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
-+int atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
- {
- 	struct video_device *vdev = video_devdata(file);
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
-@@ -2015,12 +2000,6 @@ int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
- 	return ret;
- }
- 
--static int atomisp_streamoff(struct file *file, void *fh,
--			     enum v4l2_buf_type type)
--{
--	return __atomisp_streamoff(file, fh, type);
--}
--
- /*
-  * To get the current value of a control.
-  * applications initialize the id field of a struct v4l2_control and
-@@ -2806,7 +2785,7 @@ const struct v4l2_ioctl_ops atomisp_ioctl_ops = {
- 	.vidioc_enum_fmt_vid_cap = atomisp_enum_fmt_cap,
- 	.vidioc_try_fmt_vid_cap = atomisp_try_fmt_cap,
- 	.vidioc_g_fmt_vid_cap = atomisp_g_fmt_cap,
--	.vidioc_s_fmt_vid_cap = atomisp_s_fmt_cap,
-+	.vidioc_s_fmt_vid_cap = atomisp_set_fmt,
- 	.vidioc_reqbufs = atomisp_reqbufs,
- 	.vidioc_querybuf = atomisp_querybuf,
- 	.vidioc_qbuf = atomisp_qbuf,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-index 61a6148a6ad5..c660f631d371 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-@@ -39,12 +39,8 @@ int atomisp_pipe_check(struct atomisp_video_pipe *pipe, bool streaming_ok);
- int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
- 				uint16_t stream_id);
- 
--int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type);
--int __atomisp_reqbufs(struct file *file, void *fh,
--		      struct v4l2_requestbuffers *req);
--
--int atomisp_reqbufs(struct file *file, void *fh,
--		    struct v4l2_requestbuffers *req);
-+int atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type);
-+int atomisp_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *req);
- 
- enum ia_css_pipe_id atomisp_get_css_pipe_id(struct atomisp_sub_device
- 	*asd);
 -- 
 2.37.3
 
