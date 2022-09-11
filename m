@@ -1,86 +1,97 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC747F
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 15:43:52 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id u9so14911637ejy.5
-        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 08:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Xc7E1lBgznckEXMi4QFl8det6GUa77V3zF2hPz5HuOI=;
-        b=CcAT90Jbo/1/B5vl/9XzpIeRsjblN1u373zv/XAVswQ0eiKyknXbEnWTqr6EI9pYuR
-         bkIA3srLZ1D7af+hiaRCl4GAtThr7pzgC1+qxN0XxllcL70H9DA2Bkg5oI0GnWm3kP+a
-         Qm1Ryp7ruHA43zDV1RSJ9VRWIlXAAhdaTZAzjDp9ZPDBJ8tyRRhoSZdXty4qaN6GYpzs
-         fSRO70arqIDSclMw4dJ4oU0ST2jH8j4hbINxNUZGtzBVQoq4zA8Pf8f1fQy77MHlxVFS
-         8EDdscaC42cETeA/Ase6Cu2OOwn/Rlfbib/eS73Jp2QfhKVjXhO7JKAKtzwKi1JJrW/y
-         euBQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443A07F
+	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 15:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1662911690;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2XTgMaSHBU/lmRwABmwxshdNhhl1P9NPVCYW5gm0oZg=;
+	b=R+O4EjWDkxja2QWfROlxq6bB/LYH9xa0BVczHQJYE37QX9vwUid6OB3hTWDCcOASwY6FRh
+	pzMVSYG3g0rpomRBfYl3zB8tWmuX6an6zXt17hIJMqDuCMEkunMUC6KWksktjSA4kzAVzA
+	xkSDuQkBU1zxuDk+askB0AQ/9X44lUM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-643-D8yj3gnVMver3cpyyCg7gw-1; Sun, 11 Sep 2022 11:54:49 -0400
+X-MC-Unique: D8yj3gnVMver3cpyyCg7gw-1
+Received: by mail-ed1-f72.google.com with SMTP id y1-20020a056402358100b00451b144e23eso791810edc.18
+        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 08:54:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=Xc7E1lBgznckEXMi4QFl8det6GUa77V3zF2hPz5HuOI=;
-        b=XROgrLvINSK+cOYdhF6rBMDZEX2E975QV2YSFv4NVeKIHvlD9EOKQFVgwU7KsZCgiB
-         VX4LCbC6Qsu5f2/osjff00M7qEfQuZ6Q/yeS1F1qzFwwfEg9HY6yWXzFnNG2geMyvDTI
-         NJuQKOrBqZ1Z+QuPt1oClAv4aqJy7Cqt86V00VOegF3ie5K+o011kfWtGCTzltPFvAfw
-         xl95fKrXjGFgVaPDDxnHAoOWfWfzdwyRddNTX7G36fG9e1syMKQwIVoRTGLBMI4AOwpy
-         wlIdMjCwmpt4tITzB+6T3Uu9UHd47hW9XztFdjld+u4VyAv0pvLfbVA4zHbjNeDDdRN9
-         Z6Uw==
-X-Gm-Message-State: ACgBeo3MccjYNRk0VEpn/duKOxe8EZD2+p+S6eTjIQvcjydJGrIOYoda
-	ioWvk1Ly2fKUARJwpT17LZ0=
-X-Google-Smtp-Source: AA6agR4Nt9BKU8QfZIm0dYMC8MtUv3gjwpBoX1HTk35RxiqALbEFF0CHBS1bUgRKS88nvIBF7K9K3g==
-X-Received: by 2002:a17:907:2d23:b0:77c:ed93:3dc3 with SMTP id gs35-20020a1709072d2300b0077ced933dc3mr1748863ejc.705.1662911030988;
-        Sun, 11 Sep 2022 08:43:50 -0700 (PDT)
-Received: from [192.168.1.100] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id s1-20020a05640217c100b0044ec76521a1sm4144241edy.55.2022.09.11.08.43.49
+        bh=2XTgMaSHBU/lmRwABmwxshdNhhl1P9NPVCYW5gm0oZg=;
+        b=SWExICUuWvHpaXdp+55qFQ8a4ST8SHqaHGxN6q1F3TUiQGFFhHvs4ir7ELFvO034qm
+         vCEN/tOLbU0g1t7eCyDaWxcKuzGqZurvyGcd679Nt2702h/BdkuXOjwoiVL6foZn6Mqf
+         x1KJaS9WZ7DWoZeDRRqQNOLn7/d/16r3nNLnFKGIXJBpCrevvcqZ4xyLF/UydgOGmPuU
+         aIyjZheI35pcLgm8NWpN59TjbWot6tzjJ7hTh8RZk+R3qdAt/K2wmHPIzYYzVAkRNw0X
+         +nebYNEbe3A/3JSxnwQY5tBLu60Blxf4flprstwtB9DXbd9KcpM9FTMRHnK10rQoUYmA
+         OtOQ==
+X-Gm-Message-State: ACgBeo0+OdU93dG/lQqWBDeu+pFc9ZQ6KUroPYxhFgG/ooaWGiAk0VcS
+	TaIQ8yDWF0ZkPLqB2y+zoJ6oWOgeg1gEjOhfEJF7TbYpVhAZSda6Wt6czlQfcntOksEzhYfl+GE
+	Xyxnl6+nf86KSQY25/RN5Bex1Vg==
+X-Received: by 2002:aa7:c052:0:b0:44f:147:521b with SMTP id k18-20020aa7c052000000b0044f0147521bmr19166497edo.53.1662911688262;
+        Sun, 11 Sep 2022 08:54:48 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4RkXwfrlMn01ttEdUdKeNdDXoLBf1pLBjFJ/Wkt4v5Cg5PYqYfkL8NqnX98hhv1aLB5ZOkxg==
+X-Received: by 2002:aa7:c052:0:b0:44f:147:521b with SMTP id k18-20020aa7c052000000b0044f0147521bmr19166488edo.53.1662911688068;
+        Sun, 11 Sep 2022 08:54:48 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id ly9-20020a170906af4900b0073dde62713asm3154724ejb.89.2022.09.11.08.54.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Sep 2022 08:43:50 -0700 (PDT)
-Message-ID: <df265810-d580-c447-2fa0-907a773802ec@gmail.com>
-Date: Sun, 11 Sep 2022 17:43:49 +0200
+        Sun, 11 Sep 2022 08:54:47 -0700 (PDT)
+Message-ID: <85bb630f-2163-9e99-1089-8050fac57a3f@redhat.com>
+Date: Sun, 11 Sep 2022 17:54:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/9] staging: r8188eu: more led cleanups
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v1 1/1] media: atomisp_gmin_platform: Unexport and split
+ camera_sensor_csi()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220911145122.15444-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220911145122.15444-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20220730162027.1011-1-andriy.shevchenko@linux.intel.com>
+ <Yud2cwiCCnq4x50L@paasikivi.fi.intel.com>
+ <YxYWBSo+fceHCAOd@smile.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YxYWBSo+fceHCAOd@smile.fi.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/11/22 16:51, Martin Kaiser wrote:
-> Clean up the init code for some of the blink commands.
-> 
-> Martin Kaiser (9):
->    staging: r8188eu: simplify the code to prevent scan blinking restart
->    staging: r8188eu: cancel blink_work before scan blinking
->    staging: r8188eu: update status before scan blinking
->    staging: r8188eu: simplify the code to prevent tx/rx blinking restart
->    staging: r8188eu: cancel blink_work before tx/rx blinking
->    staging: r8188eu: update status before scan blinking
->    staging: r8188eu: simplify the code to prevent link blinking restart
->    staging: r8188eu: cancel blink_work before link blinking
->    staging: r8188eu: update status before link blinking
-> 
->   drivers/staging/r8188eu/core/rtw_led.c | 120 ++++++++++++-------------
->   1 file changed, 57 insertions(+), 63 deletions(-)
-> 
+Hi,
 
-Observed LED: OK
+On 9/5/22 17:30, Andy Shevchenko wrote:
+> +Cc: Hans
+> 
+> On Mon, Aug 01, 2022 at 06:45:07AM +0000, Sakari Ailus wrote:
+>> On Sat, Jul 30, 2022 at 07:20:27PM +0300, Andy Shevchenko wrote:
+> 
+> ...
+> 
+>> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> Thanks!
+> 
+> Hans, maybe you want to include this one into your bunch?
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Ack, I've added this to my next batch of atomisp cleanup
+patches which I'm sending out right after this email.
+
+Regards,
+
+Hans
+
