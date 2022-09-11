@@ -1,49 +1,48 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416A87F
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 10:46:08 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id c11so10851194wrp.11
-        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 03:46:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C65B7F
+	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 10:46:19 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id d2so10911997wrn.1
+        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 03:46:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date;
-        bh=gp3UgaatVvujanlcL6wYXQCbjciFqKB9PuAksoUMUQ4=;
-        b=qhKxEiK3HRYyBRAy3vY3BcKyHfU77EAYHoMRZG9LlIH/U9XRRKbxPeCeSplBw/Yr1R
-         dkmjbztA6a4m56WoWNJsgdXplWvP4mQ7/uU5U2Go2m1muINB2bIwZxe1Q+y3ReYa6BYn
-         aPnFLJ6l3BPra8/R/RCB+vE5x65JKNGLfyFH2ac75Q/M4503NVb5/ty+iK7WJQZ6quCc
-         8FzUkEQIMnHpThS6Pcx6fiN188/+jiEPlaHbqdN/ifDf7kQIfS3pEnuJyX75OJXggsmL
-         CJg9zVO6PXf7OxgiO3VJ7LOEI6MmBgwVqPYo1ES9oBCLhfDTdNwtX4zMyt/29CWN7Ym1
-         wjYQ==
+        bh=0hkQhpo1A1tdXsj7hM3SgBaWaZ2bYD8tzutyzKnpV6Y=;
+        b=QuTOkaDTihOMWagUS0w0B0LiJt93fzUdDTfNECCTJkZ8NI4HZgUlHrE+gAtMMCwmsY
+         ziLJFr8XrHqwGm3YDsov6q4m1/vVk3lH6cJVBwrV0pjFV1DeZxRPjcmxNT++dIqJuNwg
+         gS4RnuU8vrtUzmGcKCiqsmITAAK/4K/2LSj887r9uAm4i9iN154G2YRrD/wTWhrF5+q1
+         XOyLhEIjWqdZ8T/3ZTyE78bBBv3kWUTuHRnGjlfFK73ehCqO4fju/jUATyX8kvea8aHx
+         wSu1XFYa9VH8lBdL8nBsW82JOqdafmDb8Vdp5BDSbdBstJNjDYZqgRINkiD7C/FYE0ZM
+         2qUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=gp3UgaatVvujanlcL6wYXQCbjciFqKB9PuAksoUMUQ4=;
-        b=bVu2+LjMzgemU0o0RNmDzceCzvkIBNdqMiLZ7jFYdUIiB/5OxsSGN9TiBSNBujMSEl
-         Hc1L/A08MrPkKZMF7C45shO0o/3tORbjCd85NK5waqW6vM9qGe5P7Fl7g46xpqjiqwg5
-         Yy6s+qUBoSZb44wKVRd+S8t8I0wNiaz8IxGXbUkrkVBq8xToFi8pR/tcOwWHphcfQS1b
-         L8gXGy2nOtHq8LaM2/ortUCEEUGFOCeJJGRfuugQCgqXP7wGNihJ0twLKchgpcmvN2Fu
-         HoNavTHxX11q5UySTwcn2Gtp/H35I+OmibSqlEMr+QKBI9jC4okhSKPvxdbUhj5+Q0fw
-         Y5uQ==
-X-Gm-Message-State: ACgBeo02iFm5UOWGuC5ZNMZmEmWItkENhj8QuT4dXO2CbDi+DWhk0ykg
-	jswVSxTnL8zWdmEzRe97pqo=
-X-Google-Smtp-Source: AA6agR6S7tlDjdVGdhfl64fTLOzpj7KguvH0z1mvzqdZ0VEQpdSyaJDBt6/PTK/rdEjchIyo4jq0Mg==
-X-Received: by 2002:a5d:6da7:0:b0:226:e081:941a with SMTP id u7-20020a5d6da7000000b00226e081941amr12121197wrs.642.1662893166500;
-        Sun, 11 Sep 2022 03:46:06 -0700 (PDT)
+        bh=0hkQhpo1A1tdXsj7hM3SgBaWaZ2bYD8tzutyzKnpV6Y=;
+        b=iOinZW+28ApI0m7iAA/hqqaPQWwRRZlfzfcQP0AqljIBt3PN6BZL4iIYM7Bvw2xMrk
+         jEKMcl/nFw/BIcdYcBtqk83XjMw6CbittKkVNBv+Wm1/MxzivbzkP9hWecm+OioEPEXN
+         3kznY7Bc1IbSGCRwByuwoa1zTaYYAQ5odwWFTHonOrEQFsCHSkIEIYKvdB3xWopiy9Ia
+         el5U9RrSMcCDvOAOyR6jYdVYqfeoISTgjnDZt/zkkO0NXki/ejczWSO4uazbw6T00Dhe
+         QL91QjNatlgY5sU0NbLriaC79m4+jNU7oECFNqichFqpMDjZNzLLMPjLp681IdwQkVoP
+         HT0w==
+X-Gm-Message-State: ACgBeo2/wkjivITkZFbDphte/NNnEYonllfp05xEw2bAqyHRjqq32iwl
+	nnHJJ+0TNQ5f6jEgsx8b5F4=
+X-Google-Smtp-Source: AA6agR4BPOftbJEfLk/OZLQ9U9wjvjFHpsv5VVUyjn1M1zZ2qDnyf22vqvea0eqz9a6M+WLoZVap3A==
+X-Received: by 2002:a5d:6d4f:0:b0:225:63aa:27b2 with SMTP id k15-20020a5d6d4f000000b0022563aa27b2mr12737022wri.599.1662893177794;
+        Sun, 11 Sep 2022 03:46:17 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b003b477532e66sm3478029wms.2.2022.09.11.03.46.05
+        by smtp.gmail.com with ESMTPSA id o22-20020a05600c511600b003a5b6086381sm6263484wms.48.2022.09.11.03.46.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Sep 2022 03:46:06 -0700 (PDT)
-Date: Sun, 11 Sep 2022 12:46:04 +0200
+        Sun, 11 Sep 2022 03:46:17 -0700 (PDT)
+Date: Sun, 11 Sep 2022 12:46:15 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/12] staging: vt6655: Cleanup and rename function
- MACbSafeSoftwareReset
-Message-ID: <540a684266610f7618b3ef6000d4699d065c8e6f.1662890990.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 05/12] staging: vt6655: Rename function MACbSafeRxOff
+Message-ID: <0cbcc7205e943393e2873839116d5ffcfb9d3d00.1662890990.git.philipp.g.hortmann@gmail.com>
 References: <cover.1662890990.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,78 +54,61 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1662890990.git.philipp.g.hortmann@gmail.com>
 
-Rename function MACbSafeSoftwareReset to vt6655_mac_save_soft_reset and
-abyTmpRegData to tmp_reg_data to avoid CamelCase which is not accepted by
-checkpatch.pl. Remove return value bRetVal as it is unused by the calling
-functions. Remove unnecessary declaration of function and make function
-static. Change declaration of tmp_reg_data to shorten code.
+Rename function MACbSafeRxOff to vt6655_mac_safe_rx_off to avoid
+CamelCase which is not accepted by checkpatch.pl. Remove unnecessary
+declaration of function and make function static.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/vt6655/mac.c | 17 +++++++----------
- drivers/staging/vt6655/mac.h |  1 -
- 2 files changed, 7 insertions(+), 11 deletions(-)
+ drivers/staging/vt6655/mac.c | 8 ++++----
+ drivers/staging/vt6655/mac.h | 1 -
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-index b1aa5fbe4430..f292a34c23dd 100644
+index f292a34c23dd..e0216d320235 100644
 --- a/drivers/staging/vt6655/mac.c
 +++ b/drivers/staging/vt6655/mac.c
-@@ -293,23 +293,20 @@ bool MACbSoftwareReset(struct vnt_private *priv)
+@@ -17,7 +17,7 @@
+  *      vt6655_mac_save_context - Save Context of MAC Registers
+  *      vt6655_mac_restore_context - Restore Context of MAC Registers
+  *      MACbSoftwareReset - Software Reset MAC
+- *      MACbSafeRxOff - Turn Off MAC Rx
++ *      vt6655_mac_safe_rx_off - Turn Off MAC Rx
+  *      MACbSafeTxOff - Turn Off MAC Tx
+  *      MACbSafeStop - Stop MAC function
+  *      MACbShutdown - Shut down MAC
+@@ -322,7 +322,7 @@ static void vt6655_mac_save_soft_reset(struct vnt_private *priv)
   * Return Value: true if success; otherwise false
   *
   */
--bool MACbSafeSoftwareReset(struct vnt_private *priv)
-+static void vt6655_mac_save_soft_reset(struct vnt_private *priv)
+-bool MACbSafeRxOff(struct vnt_private *priv)
++static bool vt6655_mac_safe_rx_off(struct vnt_private *priv)
  {
--	unsigned char abyTmpRegData[MAC_MAX_CONTEXT_SIZE_PAGE0 + MAC_MAX_CONTEXT_SIZE_PAGE1];
--	bool bRetVal;
-+	u8 tmp_reg_data[MAC_MAX_CONTEXT_SIZE_PAGE0 + MAC_MAX_CONTEXT_SIZE_PAGE1];
+ 	void __iomem *io_base = priv->port_offset;
+ 	unsigned short ww;
+@@ -438,8 +438,8 @@ bool MACbSafeStop(struct vnt_private *priv)
  
- 	/* PATCH....
- 	 * save some important register's value, then do
- 	 * reset, then restore register's value
- 	 */
- 	/* save MAC context */
--	vt6655_mac_save_context(priv, abyTmpRegData);
-+	vt6655_mac_save_context(priv, tmp_reg_data);
- 	/* do reset */
--	bRetVal = MACbSoftwareReset(priv);
-+	MACbSoftwareReset(priv);
- 	/* restore MAC context, except CR0 */
--	vt6655_mac_restore_context(priv, abyTmpRegData);
--
--	return bRetVal;
-+	vt6655_mac_restore_context(priv, tmp_reg_data);
- }
+ 	vt6655_mac_reg_bits_off(io_base, MAC_REG_TCR, TCR_AUTOBCNTX);
  
- /*
-@@ -443,12 +440,12 @@ bool MACbSafeStop(struct vnt_private *priv)
- 
- 	if (!MACbSafeRxOff(priv)) {
- 		pr_debug(" MACbSafeRxOff == false)\n");
--		MACbSafeSoftwareReset(priv);
-+		vt6655_mac_save_soft_reset(priv);
+-	if (!MACbSafeRxOff(priv)) {
+-		pr_debug(" MACbSafeRxOff == false)\n");
++	if (!vt6655_mac_safe_rx_off(priv)) {
++		pr_debug(" vt6655_mac_safe_rx_off == false)\n");
+ 		vt6655_mac_save_soft_reset(priv);
  		return false;
  	}
- 	if (!MACbSafeTxOff(priv)) {
- 		pr_debug(" MACbSafeTxOff == false)\n");
--		MACbSafeSoftwareReset(priv);
-+		vt6655_mac_save_soft_reset(priv);
- 		return false;
- 	}
- 
 diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 25247b0bf039..5dd8644749ec 100644
+index 5dd8644749ec..e6ff860c1bfa 100644
 --- a/drivers/staging/vt6655/mac.h
 +++ b/drivers/staging/vt6655/mac.h
 @@ -554,7 +554,6 @@ void vt6655_mac_set_short_retry_limit(struct vnt_private *priv, unsigned char re
  void MACvSetLongRetryLimit(struct vnt_private *priv, unsigned char byRetryLimit);
  
  bool MACbSoftwareReset(struct vnt_private *priv);
--bool MACbSafeSoftwareReset(struct vnt_private *priv);
- bool MACbSafeRxOff(struct vnt_private *priv);
+-bool MACbSafeRxOff(struct vnt_private *priv);
  bool MACbSafeTxOff(struct vnt_private *priv);
  bool MACbSafeStop(struct vnt_private *priv);
+ bool MACbShutdown(struct vnt_private *priv);
 -- 
 2.37.3
 
