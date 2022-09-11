@@ -1,78 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C197F
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 07:25:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21F1FC433D6;
-	Sun, 11 Sep 2022 07:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1662881101;
-	bh=OrAu6mHIVqYRRW/CQFimPqBKISrkvqtpRN9Epl3Dyxg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=slDYJmis3ItMPuBIHoHNT3dHscIivy08miuXqCAL0AjgKn5uM6Pr1LdrkTOmXpsEi
-	 1J5/JHa5KHtCSKx8oyEtVUDwl3iUfGAH4pTzL8YswRreXy+A7Fdw1DDgRq+DQ0dLeS
-	 zRxd7J0HjaSiY3GEANn6RPX8rEBCTjQlPISulNHY=
-Date: Sun, 11 Sep 2022 09:25:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nam Cao <namcaov@gmail.com>
-Cc: forest@alittletooquiet.net, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 1/2] staging: vt6655: remove unnecessary volatile
- qualifier
-Message-ID: <Yx2NY0RBWLqH3rDK@kroah.com>
-References: <cover.1662724786.git.namcaov@gmail.com>
- <c3a7d9963b1c38c5f493786d7268c430617412dd.1662724786.git.namcaov@gmail.com>
- <Yxt/3FOysEbwCm9T@kroah.com>
- <CA+sZ8B8Y1ZGou1Y4tQYJC1Wp_2MVdYKO0Bd3SfxMAU1DF+mz_g@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1290C7F
+	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 09:43:03 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MQPnb1XSHzmVCx;
+	Sun, 11 Sep 2022 17:39:15 +0800 (CST)
+Received: from cgs.huawei.com (10.244.148.83) by
+ kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sun, 11 Sep 2022 17:42:55 +0800
+From: Gaosheng Cui <cuigaosheng1@huawei.com>
+To: <gregkh@linuxfoundation.org>, <aldas60@gmail.com>,
+	<karllinuxtest.relton@ntlworld.com>, <cuigaosheng1@huawei.com>
+CC: <linux-staging@lists.linux.dev>
+Subject: [PATCH] staging: wlan-ng: remove unused p80211wext_handler_def declaration
+Date: Sun, 11 Sep 2022 17:42:55 +0800
+Message-ID: <20220911094255.3225461-1-cuigaosheng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+sZ8B8Y1ZGou1Y4tQYJC1Wp_2MVdYKO0Bd3SfxMAU1DF+mz_g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.244.148.83]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 
-On Sun, Sep 11, 2022 at 09:12:44AM +0200, Nam Cao wrote:
-> On Fri, Sep 9, 2022 at 8:03 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Fri, Sep 09, 2022 at 02:17:55PM +0200, Nam Cao wrote:
-> > > Remove volatile qualifier for the member rd0 of struct vnt_rx_desc,
-> > > because there is no reason it must be volatile.
-> > >
-> > > Signed-off-by: Nam Cao <namcaov@gmail.com>
-> > > ---
-> > >  drivers/staging/vt6655/desc.h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/staging/vt6655/desc.h b/drivers/staging/vt6655/desc.h
-> > > index 17a40c53b8ff..3f0f287b1693 100644
-> > > --- a/drivers/staging/vt6655/desc.h
-> > > +++ b/drivers/staging/vt6655/desc.h
-> > > @@ -182,7 +182,7 @@ struct vnt_rdes1 {
-> > >
-> > >  /* Rx descriptor*/
-> > >  struct vnt_rx_desc {
-> > > -     volatile struct vnt_rdes0 rd0;
-> > > +     struct vnt_rdes0 rd0;
-> >
-> > You can not just remove this without describing _WHY_ it is ok to do so.
-> >
-> > Have you properly determined why it is, or is not, ok to use volatile
-> > here?
-> 
-> I did not carefully look at the volatile usage here. After looking at it
-> again, using volatile is actually valid: the structure resides on coherent
-> memory.
+p80211wext_handler_def has been removed since
+commit cb3126e60ffc ("Staging: wlan-ng: Switch from wext
+to cfg80211"), so remove it.
 
-Are you sure?  That's a very odd thing for a driver to need.  Looks like
-they are allocating some dma memory and then pointing structures on top
-of that memory.  Why would you need to have "volatile" markings on a
-structure definition for that?
+Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+---
+ drivers/staging/wlan-ng/p80211netdev.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-Dig into this some more please, I don't think this is correct.
+diff --git a/drivers/staging/wlan-ng/p80211netdev.h b/drivers/staging/wlan-ng/p80211netdev.h
+index 5654dc54ae91..1cee51a1075e 100644
+--- a/drivers/staging/wlan-ng/p80211netdev.h
++++ b/drivers/staging/wlan-ng/p80211netdev.h
+@@ -137,8 +137,6 @@ struct p80211_frmrx {
+ 
+ /* called by /proc/net/wireless */
+ struct iw_statistics *p80211wext_get_wireless_stats(struct net_device *dev);
+-/* wireless extensions' ioctls */
+-extern struct iw_handler_def p80211wext_handler_def;
+ 
+ /* WEP stuff */
+ #define NUM_WEPKEYS 4
+-- 
+2.25.1
 
-thanks,
-
-greg k-h
