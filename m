@@ -1,49 +1,49 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3647D7F
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 10:47:19 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id e16so10895198wrx.7
-        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 03:47:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDC07F
+	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 10:47:25 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id k6-20020a05600c1c8600b003a54ecc62f6so5140044wms.5
+        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 03:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date;
-        bh=USDvEaR9KG1B871wiabGAqJETGBO4KGWzVY0Nv0OlAs=;
-        b=VXfEAyS9YcF1cQyuWRGAF1k9gOEzkVnrNBm5zjTVCc+OuDCUNXR6poIRx/VRr656ZO
-         Hm/5JFPO5Zk5AobQV3FNYdQW1baSsXB2Hwrt46MncIMfnGNVH+TpC16PNG6XCBApiRy4
-         hGMXpGH8AX4+WQu2r6/ZCyEOY3Ei4vjrf8yO6aUF5bU8KXgZnd9gIs2/ba2LF5sbONPM
-         qLQACScQRNZ3PlwyZyJ4lymKrffM6LdoIRBcWppxXPhFv2DGCMG1zL1Fa1Aoed5YKJtv
-         vzPSbMeA0kB8vVk0+0nHYl4aCRj1m9Lz5CVjQtzpk5njTZNX98PM+gEjerVZ469au0xU
-         Y/Dw==
+        bh=IpM8ImahcxQnr43GKJ1vwFn3rPGdh1kfMTIgO7Z6QqE=;
+        b=C7GgBhmkM6QeO0YtIxxIYCFAS9mJXK+ZKLXG5Fuptua8URwAL5c024PS8Ej/EwrKAU
+         zHDsP3DEo0Xkbkr3f2AvFIKWqjBvEzJsRDIgrNKr1nIWA1krj1zZAF/BZXR9TpL6S2go
+         Tk5XugGqcodDKYoIOCxsF7bKF1/PcuJ7mH+DR3WNMxukOs1gB3Wq4pX88f6IECoyFkZD
+         DxGy0xIU7vpFg1cJlCiVksBBsKKrRAWLXLjSXfquRVNVMihpDBdD03DM8FArvAtxdDAA
+         j7Ls9Vo0PT7JGhM6sitqWSmZmFNXDZRaHdIotIlP2X5Xtu9o44Ir4ELbbgEUPLiwhNiq
+         7c2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=USDvEaR9KG1B871wiabGAqJETGBO4KGWzVY0Nv0OlAs=;
-        b=S68QehDXp2WwG5ef1Udk0sX4302yNQgQxJ34BE1qzFVjkp92UwIzQESChKTx9fXt/M
-         2yxtR7i8agCydrk8JE9HH1ZzHiQgSYoKY0+QoJhLNgHzxkX7B88qxmCRwYgyH0EK/17x
-         6r3E2mpTN/Jryu7L6goEbow5+9bkz43iHZZtk1EKIBWzW3HflJfrN57PmO0pVNTzfQlB
-         KY2nXDvCeoiX5MtWNwjh0AfPyudSYfZuuY6aDhyv5XoVvbL/GnpBLCe2a2TMfwydzVsm
-         bLcoQyYm4XfBJCbrCNtvWejPswUupOTqdQk2c7McKqbd3JzrXDKNwteD4GUy0Q/qZPsi
-         036g==
-X-Gm-Message-State: ACgBeo1CetShH/8t80QHjsR8hW+Dk/svk0OyWgLRw19sVixwq4uuxJSs
-	HE4DRGbKAfmKJWhTmXO/AO0=
-X-Google-Smtp-Source: AA6agR76dF0LX9ck6+79VD2KK1rv/tpH87XFaNfZbT9tOsETR7z5aXZElFSTFvS4H7MZNMn4x7HpLQ==
-X-Received: by 2002:adf:e781:0:b0:228:b44c:d0f7 with SMTP id n1-20020adfe781000000b00228b44cd0f7mr11589202wrm.243.1662893237576;
-        Sun, 11 Sep 2022 03:47:17 -0700 (PDT)
+        bh=IpM8ImahcxQnr43GKJ1vwFn3rPGdh1kfMTIgO7Z6QqE=;
+        b=LLq88Mts8fH/woy9slbSN+pUSmjvFT8+QFB907PHqvat/5DLGi6qj/ra3LI8gZO9vd
+         cWeDZ24yp6PnWXhk4s49rJXcaJS4LSMjubMcoHaYlc1vm1ix7RbIlJOq9RIKMDbnnIOk
+         xEGbrkGtFDdfzHnGXpJ5JPJ5MvSvasAhIxx06tX37OUpigJBSnKLu1N1QQLAIJ1W9rAo
+         QKRhFW0al5u2okuOz81ArcCU7l0f81aKqyAZFfMysnYeDawqA779BU2hxiivUtzlZ86F
+         mXo1St9X08VewloVtfLgHYWrSGHRqjxbwbcgtcdRQtHaptEiTmGkIC2B3QjRVJH8kkUo
+         7Ixw==
+X-Gm-Message-State: ACgBeo0INcmJz7SOFajY2qd/WYANrwxD9ss1JEprvY9w/QFkbHxLSSpf
+	v1C1SKmgVUCM1LVOm5PyP3A=
+X-Google-Smtp-Source: AA6agR74Rprh1P1dW/+ozFcP79MAOARJjdumplSg2HpQoAXMmj5vmDfF6vo9RkCeRRRS8+HixDGjXw==
+X-Received: by 2002:a05:600c:1d1e:b0:3a5:4f8d:743f with SMTP id l30-20020a05600c1d1e00b003a54f8d743fmr10486222wms.121.1662893244059;
+        Sun, 11 Sep 2022 03:47:24 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id r15-20020a5d694f000000b00228c792aaaasm4613391wrw.100.2022.09.11.03.47.16
+        by smtp.gmail.com with ESMTPSA id 11-20020a05600c020b00b003b4868eb6bbsm113539wmi.23.2022.09.11.03.47.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Sep 2022 03:47:17 -0700 (PDT)
-Date: Sun, 11 Sep 2022 12:47:15 +0200
+        Sun, 11 Sep 2022 03:47:23 -0700 (PDT)
+Date: Sun, 11 Sep 2022 12:47:22 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/12] staging: vt6655: Cleanup and rename function
- MACvSetCurrTXDescAddr
-Message-ID: <88dcbac76f6bad8b4eb68a3cb37cd4f9684294a0.1662890990.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 11/12] staging: vt6655: Rename function
+ MACvSetCurrTx0DescAddrEx
+Message-ID: <4337deed83e1443ebf93c5591e17f5c6dfe0cf55.1662890990.git.philipp.g.hortmann@gmail.com>
 References: <cover.1662890990.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,67 +55,53 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1662890990.git.philipp.g.hortmann@gmail.com>
 
-Rename function MACvSetCurrTXDescAddr to vt6655_mac_set_curr_tx_desc_addr
-and iTxType to tx_type to avoid CamelCase which is not accepted by
-checkpatch.pl. Remove unnecessary line break.
+Rename function MACvSetCurrTx0DescAddrEx to vt6655_mac_set_curr_tx_0_...
+to avoid CamelCase which is not accepted by checkpatch.pl. Remove
+unnecessary declaration of function and make function static. Remove
+unnecessary line break.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/vt6655/card.c | 4 ++--
- drivers/staging/vt6655/mac.c  | 7 +++----
- drivers/staging/vt6655/mac.h  | 3 +--
- 3 files changed, 6 insertions(+), 8 deletions(-)
+ drivers/staging/vt6655/mac.c | 5 ++---
+ drivers/staging/vt6655/mac.h | 2 --
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index d137b4b45e3b..c680925b9c92 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -409,9 +409,9 @@ void CARDvSafeResetTx(struct vnt_private *priv)
- 	}
- 
- 	/* set MAC TD pointer */
--	MACvSetCurrTXDescAddr(TYPE_TXDMA0, priv, priv->td0_pool_dma);
-+	vt6655_mac_set_curr_tx_desc_addr(TYPE_TXDMA0, priv, priv->td0_pool_dma);
- 
--	MACvSetCurrTXDescAddr(TYPE_AC0DMA, priv, priv->td1_pool_dma);
-+	vt6655_mac_set_curr_tx_desc_addr(TYPE_AC0DMA, priv, priv->td1_pool_dma);
- 
- 	/* set MAC Beacon TX pointer */
- 	iowrite32((u32)priv->tx_beacon_dma, priv->port_offset + MAC_REG_BCNDMAPTR);
 diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-index d6614be79e39..0ff98468b2e0 100644
+index 0ff98468b2e0..2fbee8508f0e 100644
 --- a/drivers/staging/vt6655/mac.c
 +++ b/drivers/staging/vt6655/mac.c
-@@ -653,12 +653,11 @@ void MACvSetCurrAC0DescAddrEx(struct vnt_private *priv,
- 		iowrite8(DMACTL_RUN, io_base + MAC_REG_AC0DMACTL);
- }
- 
--void MACvSetCurrTXDescAddr(int iTxType, struct vnt_private *priv,
--			   u32 curr_desc_addr)
-+void vt6655_mac_set_curr_tx_desc_addr(int tx_type, struct vnt_private *priv, u32 curr_desc_addr)
+@@ -595,8 +595,7 @@ void vt6655_mac_set_curr_rx_1_desc_addr(struct vnt_private *priv, u32 curr_desc_
+  * Return Value: none
+  *
+  */
+-void MACvSetCurrTx0DescAddrEx(struct vnt_private *priv,
+-			      u32 curr_desc_addr)
++static void vt6655_mac_set_curr_tx_0_desc_addr_ex(struct vnt_private *priv, u32 curr_desc_addr)
  {
--	if (iTxType == TYPE_AC0DMA)
-+	if (tx_type == TYPE_AC0DMA)
+ 	void __iomem *io_base = priv->port_offset;
+ 	unsigned short ww;
+@@ -658,7 +657,7 @@ void vt6655_mac_set_curr_tx_desc_addr(int tx_type, struct vnt_private *priv, u32
+ 	if (tx_type == TYPE_AC0DMA)
  		MACvSetCurrAC0DescAddrEx(priv, curr_desc_addr);
--	else if (iTxType == TYPE_TXDMA0)
-+	else if (tx_type == TYPE_TXDMA0)
- 		MACvSetCurrTx0DescAddrEx(priv, curr_desc_addr);
+ 	else if (tx_type == TYPE_TXDMA0)
+-		MACvSetCurrTx0DescAddrEx(priv, curr_desc_addr);
++		vt6655_mac_set_curr_tx_0_desc_addr_ex(priv, curr_desc_addr);
  }
  
+ /*
 diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index fff9dc72e2c0..0224f710d603 100644
+index 0224f710d603..3fbb891ac57c 100644
 --- a/drivers/staging/vt6655/mac.h
 +++ b/drivers/staging/vt6655/mac.h
-@@ -558,8 +558,7 @@ bool MACbShutdown(struct vnt_private *priv);
- void MACvInitialize(struct vnt_private *priv);
+@@ -559,8 +559,6 @@ void MACvInitialize(struct vnt_private *priv);
  void vt6655_mac_set_curr_rx_0_desc_addr(struct vnt_private *priv, u32 curr_desc_addr);
  void vt6655_mac_set_curr_rx_1_desc_addr(struct vnt_private *priv, u32 curr_desc_addr);
--void MACvSetCurrTXDescAddr(int iTxType, struct vnt_private *priv,
--			   u32 curr_desc_addr);
-+void vt6655_mac_set_curr_tx_desc_addr(int tx_type, struct vnt_private *priv, u32 curr_desc_addr);
- void MACvSetCurrTx0DescAddrEx(struct vnt_private *priv,
- 			      u32 curr_desc_addr);
+ void vt6655_mac_set_curr_tx_desc_addr(int tx_type, struct vnt_private *priv, u32 curr_desc_addr);
+-void MACvSetCurrTx0DescAddrEx(struct vnt_private *priv,
+-			      u32 curr_desc_addr);
  void MACvSetCurrAC0DescAddrEx(struct vnt_private *priv,
+ 			      u32 curr_desc_addr);
+ void MACvSetCurrSyncDescAddrEx(struct vnt_private *priv,
 -- 
 2.37.3
 
