@@ -1,45 +1,45 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96BF1C29
-	for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 18:41:46 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id dv25so22227517ejb.12
-        for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 11:41:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813D11C29
+	for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 19:01:58 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id go34so22417388ejc.2
+        for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 12:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=MQD/YZKKsSAPByH7OP1dF0G+HDMpJwM4coeTZ3+yRho=;
-        b=M1wTVRT5z2jhy1GkmMcs4SZSrW2CrhbUdl6/1dNTrQBLiIm/YdQaWXHcDGt9ofX6He
-         I49SJfNf4Op9o+7kKDPgM3tf8+tPhsffZYE7qPthXT4oEn/RFQFrbInl7azTzQLP+WBg
-         ilgiJpAXmGfZ5rM71YIflcJZgAPKUPbnfG13EU+raO74AqfC8tFzRcludXAjXEY4MMJ0
-         zdpqOhEGS98cmcCDeAAtU5EghQiDhTlnJCCBQBK+6dDq+X9cANDHpn3lksZO1J/ZHLPU
-         pn2/li0TbG8zidU32YxgE0+c+rFwnBC2UmQaONs2xKdyLLKJurLzb4hygrJDsmESuyHp
-         yerw==
+        bh=QL2G+Z3yBqHl6Q9wDdG1B1IyQZxcQ2fd6sZYS00IKk8=;
+        b=KaDcDv2IbsCh9YwvPaaVG2U/f2fp5o46Sqr+Q/9I765Q4UsVSbkx+NgVnIyMCfA5r8
+         GM7n/rFotCqjc02mww8Aa8SImJcEARjkDvIOA/DdFfAoqeQ1zjiZp7vX2J6XJyanJrf8
+         Wxpz18fue/J+0g1Q8ur+rQF78OnrSVaZeu/KcvJcGeal02KLbzFZeb22NA9kTih1GJ6m
+         qzxGzjYHINkQFywYI57mUNWEJRghsmq8qOHtCxW3rsBATM1NyMn7J0vrZfSx/mXWeHB8
+         XZw7XibiMrrJpofw7+leylJreHtaj1hWgsCuoLJRxFbXw5coGiuXcbCZGiXo0ISKyI5r
+         nuVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=MQD/YZKKsSAPByH7OP1dF0G+HDMpJwM4coeTZ3+yRho=;
-        b=NktTETf8V4TrB1gEXFaVzcHuoguYP/JQ2Esxr+MqBvAedoPIumIZ0ANQFdI+k+jhtF
-         JLNLwB2lE6l6E2RT/bHBS/uRCCWG1m2kVT7FbkhFYsjmjbrN90frytI5IPjAsN+HZbS9
-         LiZIvUrUHu0XMCbgKXN7D5ANYYBkRqCNVfIhmvGlCAv94T0aB7fPM6GPdiZdswDjn0Xw
-         AGV6nsgve28PiRtgfsH0x9xFQUVQFgH9cme5mDgDTkdHTHqe5CLPyh0ULwyw2CKHfH12
-         GEgYaehKWMVjps3A8qGLg2VSguBKjhMFfY8tpv642ZL9HYVafkYgWXWbSO4objTNkX9J
-         l/NA==
-X-Gm-Message-State: ACgBeo15XfQ0B38XtS06o3iBugDwdR/m8FaFTfxT6nPTQ3kpTHeGRXPd
-	34/kCNf8cWcgXbqA8O8asv4=
-X-Google-Smtp-Source: AA6agR6/EfLbd8HHkWtIOfJkgvXO/wNUcXLd8RXEpZvx5Wd6cNhgLW3awLT4MAkZ290gQnCWUw79/w==
-X-Received: by 2002:a17:907:2d2a:b0:77e:def7:65e9 with SMTP id gs42-20020a1709072d2a00b0077edef765e9mr2618918ejc.85.1663008104955;
-        Mon, 12 Sep 2022 11:41:44 -0700 (PDT)
-Received: from [192.168.1.102] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id fw18-20020a170907501200b0073dbaeb50f6sm4797433ejc.169.2022.09.12.11.41.43
+        bh=QL2G+Z3yBqHl6Q9wDdG1B1IyQZxcQ2fd6sZYS00IKk8=;
+        b=oLZzEN06xVORaBZewg8bxBcNs1urLP6Kdp7F09HYzmQjZ9LneLedPcJ5q5nHCAkpC5
+         YehFcOzLns0pOJcmF8sHf8fKnfxV0bgD+gHDj1vem1q2AA7yBfJOZivHOFoUmiREV/Pe
+         NN8r53K3lVkOkLt0OHnLO/q7b/v0B9cPTXR1AkzVtJ21CkMKrTqBrRiUU8RllfDf9/XA
+         DK+GzAerDteloJz9QrAYlnitF87aT8ElA+5MYKPtgKUzcCoktuCxhY8Ve2Iu5sDqJdPg
+         pgxEDC8mbkPTtE761Q+aYhBYMmaTbHXeR9hZGx+AxKY3FHE75i4lKE/gkmyOi5MboCbs
+         S7nw==
+X-Gm-Message-State: ACgBeo2N6UrW8/AdTupOcHZHMD06Bv157lIinSQfekHVcYHySIylVyZU
+	rQvm/Dn85YLAYn2k+OvlAyw=
+X-Google-Smtp-Source: AA6agR503aOnMXLayIX0kaimdhtgCuqRgd3iWelN2bHrjINufBj8J+VIwrRT/SFXmt7/J2NhwxrVhQ==
+X-Received: by 2002:a17:907:c23:b0:779:237a:4218 with SMTP id ga35-20020a1709070c2300b00779237a4218mr13716539ejc.277.1663009316669;
+        Mon, 12 Sep 2022 12:01:56 -0700 (PDT)
+Received: from [192.168.1.101] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id l18-20020a170907915200b00722e50dab2csm4843880ejs.109.2022.09.12.12.01.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Sep 2022 11:41:44 -0700 (PDT)
-Message-ID: <872cb7eb-b0b8-2d0e-7fd1-5ac47af6bd55@gmail.com>
-Date: Mon, 12 Sep 2022 20:41:41 +0200
+        Mon, 12 Sep 2022 12:01:55 -0700 (PDT)
+Message-ID: <2b11e266-2266-b0da-3fb1-3df26236e012@gmail.com>
+Date: Mon, 12 Sep 2022 21:01:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,57 +48,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v5] staging: r8188eu: add kfree() on an error path of
- rtw_xmit_resource_alloc()
+Subject: Re: [PATCH] staging: vt6655: fix some erroneous memory clean-up loops
 Content-Language: en-US
-To: xkernel.wang@foxmail.com, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <tencent_3B46EE3287288555389AD2EC3F388827B306@qq.com>
+To: Nam Cao <namcaov@gmail.com>, forest@alittletooquiet.net,
+ gregkh@linuxfoundation.org
+Cc: ji_hun.kim@samsung.com, dan.carpenter@oracle.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20220912170429.29852-1-namcaov@gmail.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <tencent_3B46EE3287288555389AD2EC3F388827B306@qq.com>
+In-Reply-To: <20220912170429.29852-1-namcaov@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/12/22 04:50, xkernel.wang@foxmail.com wrote:
-> From: Xiaoke Wang <xkernel.wang@foxmail.com>
+On 9/12/22 19:04, Nam Cao wrote:
+> In some initialization functions of this driver, memory is allocated with
+> 'i' acting as an index variable and increasing from 0. The commit in
+> "Fixes" introduces some clean-up codes in case of allocation failure,
+> which free memory in reverse order with 'i' decreasing to 0. However,
+> there are some problems:
+>    - The case i=0 is left out. Thus memory is leaked.
+>    - In case memory allocation fails right from the start, the memory
+>      freeing loops will start with i=-1 and invalid memory locations will
+>      be accessed.
 > 
-> In rtw_xmit_resource_alloc(), if usb_alloc_urb() fails, then the memory
-> `pxmitbuf->pallocated_buf` which is allocated by kzalloc() is not properly
-> released before returning.
-> So this patch adds kfree() on the above error path to release it in time.
+> One of these loops has been fixed in commit c8ff91535880 ("staging:
+> vt6655: fix potential memory leak"). Fix the remaining erroneous loops.
 > 
-> Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
-> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+> Link: https://lore.kernel.org/linux-staging/Yx9H1zSpxmNqx6Xc@kadam/
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Fixes: 5341ee0adb17 ("staging: vt6655: check for memory allocation failures")
+> Signed-off-by: Nam Cao <namcaov@gmail.com>
 > ---
-> ChangeLog:
-> v1->v2 update the description.
-> v2->v3 rebase.
-> v3->v4 update the description.
-> v4->v5 rebase and update the corresponding subject and description.
-> Note that the original function name was changed, so the subject of this
-> patch is updated from "[PATCH v4] staging: r8188eu: fix potential memory
-> leak in rtw_os_xmit_resource_alloc()" to "[PATCH v5] staging: r8188eu: add
-> kfree() on an error path of rtw_xmit_resource_alloc()".
-> In addition, thanks to Philipp Hortmann for his testing and advice.
->   drivers/staging/r8188eu/core/rtw_xmit.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   drivers/staging/vt6655/device_main.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index 67f9c05..9c39d08 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -44,8 +44,10 @@ static int rtw_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *px
->   	pxmitbuf->dma_transfer_addr = 0;
+> diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+> index 04d737012cef..56c3cf3ba53d 100644
+> --- a/drivers/staging/vt6655/device_main.c
+> +++ b/drivers/staging/vt6655/device_main.c
+> @@ -631,7 +631,7 @@ static int device_init_rd0_ring(struct vnt_private *priv)
+>   	kfree(desc->rd_info);
 >   
->   	pxmitbuf->pxmit_urb = usb_alloc_urb(0, GFP_KERNEL);
-> -	if (!pxmitbuf->pxmit_urb)
-> +	if (!pxmitbuf->pxmit_urb) {
-> +		kfree(pxmitbuf->pallocated_buf);
->   		return _FAIL;
-> +	}
+>   err_free_desc:
+> -	while (--i) {
+> +	while (i--) {
+>   		desc = &priv->aRD0Ring[i];
+>   		device_free_rx_buf(priv, desc);
+>   		kfree(desc->rd_info);
+> @@ -677,7 +677,7 @@ static int device_init_rd1_ring(struct vnt_private *priv)
+>   	kfree(desc->rd_info);
 >   
->   	return _SUCCESS;
->   }
+>   err_free_desc:
+> -	while (--i) {
+> +	while (i--) {
+>   		desc = &priv->aRD1Ring[i];
+>   		device_free_rx_buf(priv, desc);
+>   		kfree(desc->rd_info);
+> @@ -782,7 +782,7 @@ static int device_init_td1_ring(struct vnt_private *priv)
+>   	return 0;
+>   
+>   err_free_desc:
+> -	while (--i) {
+> +	while (i--) {
+>   		desc = &priv->apTD1Rings[i];
+>   		kfree(desc->td_info);
+>   	}
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
