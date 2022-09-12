@@ -1,117 +1,95 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813D11C29
-	for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 19:01:58 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id go34so22417388ejc.2
-        for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 12:01:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18945C9C
+	for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 21:45:29 +0000 (UTC)
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-348c4a1e12dso85422357b3.11
+        for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 14:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=QL2G+Z3yBqHl6Q9wDdG1B1IyQZxcQ2fd6sZYS00IKk8=;
-        b=KaDcDv2IbsCh9YwvPaaVG2U/f2fp5o46Sqr+Q/9I765Q4UsVSbkx+NgVnIyMCfA5r8
-         GM7n/rFotCqjc02mww8Aa8SImJcEARjkDvIOA/DdFfAoqeQ1zjiZp7vX2J6XJyanJrf8
-         Wxpz18fue/J+0g1Q8ur+rQF78OnrSVaZeu/KcvJcGeal02KLbzFZeb22NA9kTih1GJ6m
-         qzxGzjYHINkQFywYI57mUNWEJRghsmq8qOHtCxW3rsBATM1NyMn7J0vrZfSx/mXWeHB8
-         XZw7XibiMrrJpofw7+leylJreHtaj1hWgsCuoLJRxFbXw5coGiuXcbCZGiXo0ISKyI5r
-         nuVA==
+        d=google.com; s=20210112;
+        h=cc:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date;
+        bh=UPrLPANI270ughyuxViugAgaASicl0Pl0QAaTiYiZSU=;
+        b=R1Le7k+VwrXVecUa6OZKaJ79w//eIJLti1Jyw+PUIhDm0w+ec3Z4KpM08qMUq4J4Ih
+         X1dA2kBrdB748En0e3hNxPuYHE4gpDmIgmyCX0efxNdXvhAZ0x0q+plG9EP6I+HfGq/x
+         DzRvhIM0lYe93sfYf2e9aJIe/JUODjYK7PUBI+vbg86M4eNF0mdH/eOJlyKQwre7tVo7
+         ywKdDiMqiOsdv7qoLguoncmJY0TwP++H3CeoYv6FSBwVnGk5HLFKuI4aofaU5cfJtHXg
+         k/fYJVUKlDh4EFjmieSJ2Tcw/Z1uNnFkggPx0ncAl/XPANWG26uBgcB7S1b12vCwe4XO
+         EbGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=QL2G+Z3yBqHl6Q9wDdG1B1IyQZxcQ2fd6sZYS00IKk8=;
-        b=oLZzEN06xVORaBZewg8bxBcNs1urLP6Kdp7F09HYzmQjZ9LneLedPcJ5q5nHCAkpC5
-         YehFcOzLns0pOJcmF8sHf8fKnfxV0bgD+gHDj1vem1q2AA7yBfJOZivHOFoUmiREV/Pe
-         NN8r53K3lVkOkLt0OHnLO/q7b/v0B9cPTXR1AkzVtJ21CkMKrTqBrRiUU8RllfDf9/XA
-         DK+GzAerDteloJz9QrAYlnitF87aT8ElA+5MYKPtgKUzcCoktuCxhY8Ve2Iu5sDqJdPg
-         pgxEDC8mbkPTtE761Q+aYhBYMmaTbHXeR9hZGx+AxKY3FHE75i4lKE/gkmyOi5MboCbs
-         S7nw==
-X-Gm-Message-State: ACgBeo2N6UrW8/AdTupOcHZHMD06Bv157lIinSQfekHVcYHySIylVyZU
-	rQvm/Dn85YLAYn2k+OvlAyw=
-X-Google-Smtp-Source: AA6agR503aOnMXLayIX0kaimdhtgCuqRgd3iWelN2bHrjINufBj8J+VIwrRT/SFXmt7/J2NhwxrVhQ==
-X-Received: by 2002:a17:907:c23:b0:779:237a:4218 with SMTP id ga35-20020a1709070c2300b00779237a4218mr13716539ejc.277.1663009316669;
-        Mon, 12 Sep 2022 12:01:56 -0700 (PDT)
-Received: from [192.168.1.101] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id l18-20020a170907915200b00722e50dab2csm4843880ejs.109.2022.09.12.12.01.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Sep 2022 12:01:55 -0700 (PDT)
-Message-ID: <2b11e266-2266-b0da-3fb1-3df26236e012@gmail.com>
-Date: Mon, 12 Sep 2022 21:01:44 +0200
+        h=cc:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=UPrLPANI270ughyuxViugAgaASicl0Pl0QAaTiYiZSU=;
+        b=QmDqtw1C0Jrs/w7tqk69yVvG2kDNURjLn5HX1LcXTspu2DeExtkuQrCHN/XrOWxYl3
+         f7S5Q8pkOcGFbKsXogph8tNwu0a8Idr5r9IkKTpWt/Sx7O1goe/LFqRKMFojW+DpA60c
+         tY9Sb1irgTiAKfJvAwyVOmvbkGwPpR4qo8s98Lx6tnWLnGR9czJ/Ssph91xdvP3bpQvG
+         rVUiSyKJCt+80w/wZdTO7rMVoNPdCwAuxSjcnVtU6KeQwG172EobsuX3TTd6nM18DCv/
+         08KUAGDLl9axcNs/sHwT8vhgCwte8VTimWXOXPnEF6/E9+eHA1oSW/Z49z+pJBtxw9mn
+         bvNA==
+X-Gm-Message-State: ACgBeo1LRWOoF7sBAh50TcFoFllChT83Jvd2yT4Wuz7AqK5UnYD/niEP
+	xdLPRbxnCfXWVCfZLmKW7rz09KXKWg==
+X-Google-Smtp-Source: AA6agR7wl8T56FQKposQuML7IiGJlnt7l5akwYku8eHDk4YWCMC49E42ZZfegTNAPb5Nml37R59A5ESsEA==
+X-Received: from nhuck.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:39cc])
+ (user=nhuck job=sendgmr) by 2002:a81:a093:0:b0:345:c52:945c with SMTP id
+ x141-20020a81a093000000b003450c52945cmr23447907ywg.341.1663019128940; Mon, 12
+ Sep 2022 14:45:28 -0700 (PDT)
+Date: Mon, 12 Sep 2022 14:45:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: vt6655: fix some erroneous memory clean-up loops
-Content-Language: en-US
-To: Nam Cao <namcaov@gmail.com>, forest@alittletooquiet.net,
- gregkh@linuxfoundation.org
-Cc: ji_hun.kim@samsung.com, dan.carpenter@oracle.com,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20220912170429.29852-1-namcaov@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220912170429.29852-1-namcaov@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
+Message-ID: <20220912214523.929094-1-nhuck@google.com>
+Subject: [PATCH] staging: octeon: Fix return type of cvm_oct_xmit and cvm_oct_xmit_pow
+From: Nathan Huckleberry <nhuck@google.com>
+Cc: Nathan Huckleberry <nhuck@google.com>, Dan Carpenter <error27@gmail.com>, llvm@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/12/22 19:04, Nam Cao wrote:
-> In some initialization functions of this driver, memory is allocated with
-> 'i' acting as an index variable and increasing from 0. The commit in
-> "Fixes" introduces some clean-up codes in case of allocation failure,
-> which free memory in reverse order with 'i' decreasing to 0. However,
-> there are some problems:
->    - The case i=0 is left out. Thus memory is leaked.
->    - In case memory allocation fails right from the start, the memory
->      freeing loops will start with i=-1 and invalid memory locations will
->      be accessed.
-> 
-> One of these loops has been fixed in commit c8ff91535880 ("staging:
-> vt6655: fix potential memory leak"). Fix the remaining erroneous loops.
-> 
-> Link: https://lore.kernel.org/linux-staging/Yx9H1zSpxmNqx6Xc@kadam/
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Fixes: 5341ee0adb17 ("staging: vt6655: check for memory allocation failures")
-> Signed-off-by: Nam Cao <namcaov@gmail.com>
-> ---
->   drivers/staging/vt6655/device_main.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-> index 04d737012cef..56c3cf3ba53d 100644
-> --- a/drivers/staging/vt6655/device_main.c
-> +++ b/drivers/staging/vt6655/device_main.c
-> @@ -631,7 +631,7 @@ static int device_init_rd0_ring(struct vnt_private *priv)
->   	kfree(desc->rd_info);
->   
->   err_free_desc:
-> -	while (--i) {
-> +	while (i--) {
->   		desc = &priv->aRD0Ring[i];
->   		device_free_rx_buf(priv, desc);
->   		kfree(desc->rd_info);
-> @@ -677,7 +677,7 @@ static int device_init_rd1_ring(struct vnt_private *priv)
->   	kfree(desc->rd_info);
->   
->   err_free_desc:
-> -	while (--i) {
-> +	while (i--) {
->   		desc = &priv->aRD1Ring[i];
->   		device_free_rx_buf(priv, desc);
->   		kfree(desc->rd_info);
-> @@ -782,7 +782,7 @@ static int device_init_td1_ring(struct vnt_private *priv)
->   	return 0;
->   
->   err_free_desc:
-> -	while (--i) {
-> +	while (i--) {
->   		desc = &priv->apTD1Rings[i];
->   		kfree(desc->td_info);
->   	}
+The ndo_start_xmit field in net_device_ops is expected to be of type
+netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+The mismatched return type breaks forward edge kCFI since the underlying
+function definition does not match the function hook definition.
+
+The return type of cvm_oct_xmit and cvm_oct_xmit_pow should be changed
+from int to netdev_tx_t.
+
+Reported-by: Dan Carpenter <error27@gmail.com>
+Link: https://github.com/ClangBuiltLinux/linux/issues/1703
+Cc: llvm@lists.linux.dev
+Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+---
+ drivers/staging/octeon/ethernet-tx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index 1ad94c5060b5..a36e36701c74 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -125,7 +125,7 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
+  *
+  * Returns Always returns NETDEV_TX_OK
+  */
+-int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
++netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+ {
+ 	union cvmx_pko_command_word0 pko_command;
+ 	union cvmx_buf_ptr hw_buffer;
+@@ -506,7 +506,7 @@ int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+  * @dev:    Device info structure
+  * Returns Always returns zero
+  */
+-int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
++netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+ {
+ 	struct octeon_ethernet *priv = netdev_priv(dev);
+ 	void *packet_buffer;
+-- 
+2.37.2.789.g6183377224-goog
+
