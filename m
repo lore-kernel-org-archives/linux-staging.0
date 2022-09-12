@@ -1,91 +1,90 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com [203.205.221.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002DB7F
-	for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 19:15:34 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id go34so15574707ejc.2
-        for <linux-staging@lists.linux.dev>; Sun, 11 Sep 2022 12:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=siH8GbCgzSgUrSeqhFveF0F9U0Hvq+9AhRsP9/PYgB4=;
-        b=CrtGAG6bN4UEjWBpJL3YVLktnEO6VNRYbPZhAztaFxriztiQa5j2acS6ZAc4TP19id
-         rszmXCQzUBHpwYDs5PmsKgqFVDdcqwinHZW86/OKa/27Z31wHWdmn+nDME8jyqe/XIW1
-         KVoeduI0Aof64MK13sZYNqj7aUKHOOMSgrQeK02z3aKr/EyT8BaEdc1oKwC4oMqkpIpo
-         KBTGbW8G6Kqn5vrBjVw7og0zSqQpXYo5KkjWgasgTRoC9DLxAX0yrkNfdrDoL7ue9OCv
-         iOxCU6tf18fdI1BxGQ20mhNRzdDeDvwfhth/kuoAaQ2PXqWKNb/AxK529NR67V2DoB+Y
-         W5Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=siH8GbCgzSgUrSeqhFveF0F9U0Hvq+9AhRsP9/PYgB4=;
-        b=Dgc1nUzOySg1l1CBqc4MDMGcXK4y/FV3GjzRV3W0lLCrDJ3W5RhpFKz92rFOv1V+0a
-         RSmXKFrLOwVlq5vmYoX0xg/SGwnsizF2sHmf1jkASokcWiHDsNWsCZ0Ado8lMeIDWhT8
-         Q86pXmOR7r0psK2DJXhAuBaHCXRajv1tLu4uSOfxlcihulB4ErIdv7rMkGM3bSGHIw3j
-         OUxnOp30jkY5lnd6JQCfCjekIH0JuzJft8fOVRy9IxR4MSlhm/g0iNpNuRAB/2hOgh5S
-         wpulQIxQhNqHq+qR2WN4wiPOLIT+ueRhx/8160zasm8pTsOUfGVPMep6Fang2pC3Cpsl
-         vkdA==
-X-Gm-Message-State: ACgBeo13ZB0OHjqUxrly/4r1KB173zNLJX+x2FL7DnKsfUd3WrNc7Wqk
-	apfulr8UpsKISbvpu4Z34Rk=
-X-Google-Smtp-Source: AA6agR7+sL3YY6zdFMG25nfCaLTep5knbLZV7ruXS9yQctLegZrD+d55dHm2leBECZLgCMzC/lmiMg==
-X-Received: by 2002:a17:907:763b:b0:77b:c559:2bcb with SMTP id jy27-20020a170907763b00b0077bc5592bcbmr4059857ejc.490.1662923733156;
-        Sun, 11 Sep 2022 12:15:33 -0700 (PDT)
-Received: from [192.168.1.102] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id c19-20020aa7c753000000b0044ea1fe7ce4sm4371270eds.56.2022.09.11.12.15.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Sep 2022 12:15:32 -0700 (PDT)
-Message-ID: <2a9d164d-d509-e59a-61d3-671526581423@gmail.com>
-Date: Sun, 11 Sep 2022 21:15:31 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BD27F
+	for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 02:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1662951492;
+	bh=zHTVtpw1jtLKj4pje3/qkGFPlBtGbzFh4Fdpl+NRNPM=;
+	h=From:To:Cc:Subject:Date;
+	b=kQjUxxQN03AdzGfRmwMr5EwhCHHjVNjPQd2lTuC8dTKKK0KGebwGbdACHHaTtXBla
+	 zIYgNlu6N7rFapuAdKxMkLhLwtuCVocZAhxU9ec94BHKpRZigtiJ/e0JGAH3z7bdED
+	 tC1gpaiAsqPhCjMUOAUjzmZNBezRhdkhnRrXR+6k=
+Received: from localhost.localdomain ([113.57.80.61])
+	by newxmesmtplogicsvrsza5.qq.com (NewEsmtp) with SMTP
+	id CA98DA1D; Mon, 12 Sep 2022 10:50:41 +0800
+X-QQ-mid: xmsmtpt1662951041tdf95majj
+Message-ID: <tencent_3B46EE3287288555389AD2EC3F388827B306@qq.com>
+X-QQ-XMAILINFO: MB5+LsFw85NoePOtkVOiY2I0IevAwjw2WMg/aHjUmw8pBjti2+8Jb2a5HiqlA0
+	 TuzscuPoVyVj7FsEq22rOibB0ip5D6DLD63dTqn3owzewkn9S2a7CmnLTKYmwfftfS5pdUVSxA29
+	 4wZuYGwNHTUGPytaYZBnVHBUrmfCdibQxCKH+rIVxgkKNUZrHEs404dS51Rzsu2WHyR0CReRUedl
+	 NWJ2gJtH7D5Y6wbGWRuYmTtDvykLZyUSYcvQKcfB9OKJVMLqgFtjALaCNRx4jL9sMjS8+1U3xrCB
+	 4H/IVt4QzDydDTGTcpsw/GfWp5M0OjfDIcKxInl9hhtjb6oMmH2komhKp47I5Zu5/zKCHOQUZzAA
+	 c87H+3sN67c7vPKTWBw1CEeQuAZRz1DX1gqmKz1nLEjQzIpD96HXlfiGygDZcYBNLE6wBW54lSr2
+	 YKTjz8rSg8+1OOF4h476VQRkliLkcTCiS3lQ0xONM1+qUvPvVBpKfUVIDKWLb7QkRE/U2ZJyeCVH
+	 ho8sElhCpLFda83gJJLLWB9D7sIVHd+hIzRsBHLfW+4vMwVDQDFQXTNNc6JFxFsVNWywW2OF1qlQ
+	 4n4dSkVIW02MeChjDMD3R+d0AwapOaakgB2D/txmvd08la4k6eDmva7QKs1KRlBiOT1gaf1f8xnH
+	 0Lu4qfo5BJ6ipRoH2tUaKJlsrOSdX5Tx+H7dC36aprq/ntBbr+6N+xA/0X0nIXf0xqBIikCvpMgf
+	 YkN5dHdlIgOgLVx356/lEoZiOKb9CGMMDdQPZIbhAZVVSvlggVH0dKt6YdVDm1kH5xKXxgDg363x
+	 IHggS7D0TDfYZ6cM7lnjcG52o6OlvcM+Q64ESTAn1wKukm2JBT7zPXgoy2HHc33EuDbaeB6Sb7jP
+	 U6lWEuapTeUBxSj6GT22gAUCeD9M5ytE9c2Z03gfSg3pWbidaqSM7pJMZSRgQI9mfRV95h/tz0rJ
+	 LvlnFP6+3NG8ti/2HRshmPZAR86rWm4JAHuzYo2PlpnA9qzuhyCKrVpD1fi0jwZlq3uGTkMqg=
+From: xkernel.wang@foxmail.com
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH v5] staging: r8188eu: add kfree() on an error path of rtw_xmit_resource_alloc()
+Date: Mon, 12 Sep 2022 10:50:26 +0800
+X-OQ-MSGID: <20220912025026.4149-1-xkernel.wang@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/3] staging: r8188eu: remove recv_osdep.h header
-Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220911174933.3784-1-straube.linux@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220911174933.3784-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/11/22 19:49, Michael Straube wrote:
-> This series removes the header recv_osdep.h.
-> 
-> Tested on x86_64 with Inter-Tech DMG-02.
-> 
-> Michael Straube (3):
->    staging: r8188eu: make _netdev_open() static
->    staging: r8188eu: remove unused prototypes from recv_osdep.h
->    staging: r8188eu: remove recv_osdep.h
-> 
->   drivers/staging/r8188eu/core/rtw_br_ext.c     |  1 -
->   drivers/staging/r8188eu/core/rtw_cmd.c        |  1 -
->   drivers/staging/r8188eu/core/rtw_mlme.c       |  1 -
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  1 -
->   drivers/staging/r8188eu/core/rtw_recv.c       |  1 -
->   drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  1 -
->   drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  1 -
->   drivers/staging/r8188eu/hal/usb_ops_linux.c   |  1 -
->   drivers/staging/r8188eu/include/osdep_intf.h  |  3 +++
->   drivers/staging/r8188eu/include/recv_osdep.h  | 23 -------------------
->   drivers/staging/r8188eu/include/rtw_recv.h    |  3 +++
->   drivers/staging/r8188eu/os_dep/os_intfs.c     |  3 +--
->   .../staging/r8188eu/os_dep/osdep_service.c    |  1 -
->   drivers/staging/r8188eu/os_dep/usb_intf.c     |  1 -
->   14 files changed, 7 insertions(+), 35 deletions(-)
->   delete mode 100644 drivers/staging/r8188eu/include/recv_osdep.h
-> 
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
+In rtw_xmit_resource_alloc(), if usb_alloc_urb() fails, then the memory
+`pxmitbuf->pallocated_buf` which is allocated by kzalloc() is not properly
+released before returning.
+So this patch adds kfree() on the above error path to release it in time.
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+---
+ChangeLog:
+v1->v2 update the description.
+v2->v3 rebase.
+v3->v4 update the description.
+v4->v5 rebase and update the corresponding subject and description.
+Note that the original function name was changed, so the subject of this
+patch is updated from "[PATCH v4] staging: r8188eu: fix potential memory
+leak in rtw_os_xmit_resource_alloc()" to "[PATCH v5] staging: r8188eu: add
+kfree() on an error path of rtw_xmit_resource_alloc()".
+In addition, thanks to Philipp Hortmann for his testing and advice.
+ drivers/staging/r8188eu/core/rtw_xmit.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 67f9c05..9c39d08 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -44,8 +44,10 @@ static int rtw_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *px
+ 	pxmitbuf->dma_transfer_addr = 0;
+ 
+ 	pxmitbuf->pxmit_urb = usb_alloc_urb(0, GFP_KERNEL);
+-	if (!pxmitbuf->pxmit_urb)
++	if (!pxmitbuf->pxmit_urb) {
++		kfree(pxmitbuf->pallocated_buf);
+ 		return _FAIL;
++	}
+ 
+ 	return _SUCCESS;
+ }
+-- 
