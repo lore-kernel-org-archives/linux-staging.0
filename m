@@ -1,21 +1,50 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E77B7F
-	for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 07:35:54 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1oXdym-0006OW-40; Mon, 12 Sep 2022 09:35:40 +0200
-Date: Mon, 12 Sep 2022 09:35:40 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: xkernel.wang@foxmail.com
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] staging: r8188eu: add kfree() on an error path of
- rtw_xmit_resource_alloc()
-Message-ID: <20220912073540.l7z56kgjde47r3pr@viti.kaiser.cx>
-References: <tencent_3B46EE3287288555389AD2EC3F388827B306@qq.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013E52589
+	for <linux-staging@lists.linux.dev>; Mon, 12 Sep 2022 11:12:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662981126; x=1694517126;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V0MvIQM7UUUrtqPLAtd6ppjVH1qbfAZVSmHo17lME3k=;
+  b=npc4Rql2v3IaOevKGYJ5LKdhPjLGBhwyuQwQomZztmUYm98lAYjVVqLg
+   EuuPyQRxfPB3VrW9oE3gBxucvI9IjM9s0jnC+dY3lLkpH3/e0P2rQv3yi
+   /HqtkcTDzPc7OAptUb6/gFE635ASz1LS0g8Qq8i717U6xFICZetiPkGww
+   wxyjMJrK7dolJJE1KhD8PMV/P0lv3M4Vs5b1gQ0+05mqGSUsk5HT0hTyt
+   dKzxX26VrYIGxa8oVysOxG+sx3WLQv3K3ZfqM03+zfjrgIIHlQu/7WIBo
+   jmZMGJonQbAWbdwqyV7pfK5hU5Na8jk7hRap54T2V0PSDAf5qB78lJgR4
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="324070829"
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; 
+   d="scan'208";a="324070829"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2022 04:12:05 -0700
+X-IronPort-AV: E=Sophos;i="5.93,310,1654585200"; 
+   d="scan'208";a="593450970"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2022 04:12:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1oXhM7-001JgB-0l;
+	Mon, 12 Sep 2022 14:11:59 +0300
+Date: Mon, 12 Sep 2022 14:11:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 01/17] media: atomisp: Use a normal mutex for the main
+ lock
+Message-ID: <Yx8T/uEKvVDoCvsT@smile.fi.intel.com>
+References: <20220911171653.568932-1-hdegoede@redhat.com>
+ <20220911171653.568932-2-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -24,51 +53,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_3B46EE3287288555389AD2EC3F388827B306@qq.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
+In-Reply-To: <20220911171653.568932-2-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Thus wrote xkernel.wang@foxmail.com (xkernel.wang@foxmail.com):
+On Sun, Sep 11, 2022 at 07:16:37PM +0200, Hans de Goede wrote:
+> There is no reason for atomisp to use a rt_mutex instead of a normal
+> mutex, so switch over to a normal mutex.
+> 
+> All the changes in this patch are just s/rt_mutex/mutex/.
+> 
+> This is a preparation patch for switching the ioctl locking over
+> to using the video_dev.lock member so that the v4l2-core takes
+> care of the locking.
 
-> From: Xiaoke Wang <xkernel.wang@foxmail.com>
+So the idea behind rt_mutex here is to inherit the priority on the task.
+I'm wondering what could be possible the bottle neck this is trying to
+solve. If there is no other V4L2 driver that does the same, any specific
+run flow of AtomISP v2 code that may suffer of this?
 
-> In rtw_xmit_resource_alloc(), if usb_alloc_urb() fails, then the memory
-> `pxmitbuf->pallocated_buf` which is allocated by kzalloc() is not properly
-> released before returning.
-> So this patch adds kfree() on the above error path to release it in time.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
-> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
-> ---
-> ChangeLog:
-> v1->v2 update the description.
-> v2->v3 rebase.
-> v3->v4 update the description.
-> v4->v5 rebase and update the corresponding subject and description.
-> Note that the original function name was changed, so the subject of this
-> patch is updated from "[PATCH v4] staging: r8188eu: fix potential memory
-> leak in rtw_os_xmit_resource_alloc()" to "[PATCH v5] staging: r8188eu: add
-> kfree() on an error path of rtw_xmit_resource_alloc()".
-> In addition, thanks to Philipp Hortmann for his testing and advice.
->  drivers/staging/r8188eu/core/rtw_xmit.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
 
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index 67f9c05..9c39d08 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -44,8 +44,10 @@ static int rtw_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *px
->  	pxmitbuf->dma_transfer_addr = 0;
-
->  	pxmitbuf->pxmit_urb = usb_alloc_urb(0, GFP_KERNEL);
-> -	if (!pxmitbuf->pxmit_urb)
-> +	if (!pxmitbuf->pxmit_urb) {
-> +		kfree(pxmitbuf->pallocated_buf);
->  		return _FAIL;
-> +	}
-
->  	return _SUCCESS;
->  }
-> -- 
-
-Reviewed-by: Martin Kaiser <martin@kaiser.cx>
