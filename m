@@ -1,45 +1,45 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFFA1854;
-	Tue, 13 Sep 2022 18:48:18 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id u9so29687454ejy.5;
-        Tue, 13 Sep 2022 11:48:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919DC66E8
+	for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 18:59:11 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id 29so18985641edv.2
+        for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 11:59:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=XBHLZTWZOIl8sDgOr6oowMYyKC9CQNtQkXOucXD0z+E=;
-        b=p/NojyPyvsHavYWQqzvNw0t2GK19zTWTnyuY77SdFIhq/FLzli8enBq8DKYnQvkbAT
-         lxbpEmooS27xid9hxCQObiXdDCYfF0oHZzJLRwNE8flh8HTb7Ly7O9I7tBlYo3dCP0n+
-         Ue6trZpizZbivVxJrXCiVtlLsd3T1v8q1eB9hi+GU75gHYuj+nkJk2IIXY20IfDrtd+z
-         Q7/16/u/NLcKUofr94vRpbnUJULupk0grmQOyLh5/vPGewSgh8T1KZWJ88F6FXEiYh8o
-         FtBFMW9wJgXhwQ5KUg3KOaZVU/dlNLj7LAIn0Yu4ksHllVnx80BCDxv0R5aIkegLrAVV
-         YYnw==
+        bh=wnjNLWqLvxTBVKq68tZoPQz/0p3I7bskBpdhNCw1moo=;
+        b=UKsIK9iUoyOlYvzHPAI2yW+XoD1zh6MVa5jIsepLGTY2sjM7j7ykL8Wpv8kflswoIy
+         njHDnOB5F8qPtRK1rQCABBdjvnptyPMIMTnzxYZHl4DWLiyt4MCbyCkyF0LscrC9kSTk
+         SsFDG4igKf7FnAXPUWm+3+EZ1Fd21A4aRG/YAfmjj5GFC34Y2cUbslMNv9c+bI3Gsbfn
+         QaDdSK5jGt5nmbMla8I/UGqO9S8Fo2bgOZHUdLA+0pFzAjlKlNTU6otsMp0rJjMTzJPa
+         7w8Jt3repjs524DcYdSgGhM3okJftK9olGiMp3Ozmie2s0nzzIHQIyHywgmtd77Oc0DJ
+         UehA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=XBHLZTWZOIl8sDgOr6oowMYyKC9CQNtQkXOucXD0z+E=;
-        b=5nT3UQcs+kq1zQvoJw2GcP4TBcq6L0Y6E0f6Vw1xTkcRoIVbA1OZhRBJ1pxG2r0era
-         yNzf9DLN+e+lqiO6e+5krSA0ejDs8WfMXOgCLAT8uBgx4b1FIt5xkFxqCY6U3NqIfGpJ
-         Ko2/ABXbhCSZzWO9QcuHOFqGUopDCuQ8FeCGdzfPxkmDL38feNOFtR48bMzibd9Iz27x
-         N4qPwqYMsum2GEskCMbrfLtRoG0rmM7HCHZ5OssicpzpLdfNgEx9wWpCsd+7ZzaMciVK
-         su5hRWuHJISa2z7K4JzwZWfm2dR0CB2ipPYrolnh8oxj8m95ASfWnxRQJFsbYDXI5UQI
-         Y6RA==
-X-Gm-Message-State: ACgBeo0psmIn/RNpFg9xjTzalW18+fmmjHGgD3B/QVXyNUZjFOl2v6dv
-	WQS50AGj98nEGCqwIAyUsTc=
-X-Google-Smtp-Source: AA6agR74baFVWhcfvop5PJG0F+DYWr+HawnGmOdMlTQLdePatB9kl5dQ1hcLIMe2N2lYaDDGNTA0qA==
-X-Received: by 2002:a17:906:8a5c:b0:77c:9d8:6fbc with SMTP id gx28-20020a1709068a5c00b0077c09d86fbcmr10110272ejc.500.1663094897009;
-        Tue, 13 Sep 2022 11:48:17 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f3e:6a20:6823:7621:36e:ae26? (p200300c78f3e6a2068237621036eae26.dip0.t-ipconnect.de. [2003:c7:8f3e:6a20:6823:7621:36e:ae26])
-        by smtp.gmail.com with ESMTPSA id u5-20020a1709063b8500b007336c3f05bdsm6558209ejf.178.2022.09.13.11.48.15
+        bh=wnjNLWqLvxTBVKq68tZoPQz/0p3I7bskBpdhNCw1moo=;
+        b=3UJgNhDaF9D1Cf6xOk1aLPVQBtF8tWoZN9lz2Y8/fGZBWsZ4qN+I1RmPM/LKzchPJX
+         akK+9L95nNVGU0qKRqABa0cjM22sNfqmTyQa0EJTuqvAlnU1RR3u9TLeB466BLWct6F8
+         usn1kUjO7fJdbJGFkvC4Y30XCaTK2++HvziZeGS9d6/6gWZTXlev9cFyV7SDLaGbP4el
+         g9aAeOD6C0C/QdjYIYgdw8wGhT6BnxAlI1gMiJ+Zx638ViTCqWgUEbk1Rf9WgrNR+F61
+         2cSkPkDuc2LX3hCCJSW4YohY7GP4PxwXo8IJxmQyl/jmBIBrqrLq/bWbQW5Gu/0t5ZL1
+         /thg==
+X-Gm-Message-State: ACgBeo3dLG/69GLgh0Z+vGg2str6w8Q875Yfpyd8y1YmaqGkrSFF1um7
+	Jww4K0uRXA4IU1naOrGJVQE=
+X-Google-Smtp-Source: AA6agR7qFa3g0Aca1/JOZTw2TqhrknVx2ZyiJb8q4AWRpkw4HKQ7MDymWkNciSDNGORCrbqSathjug==
+X-Received: by 2002:a05:6402:42d3:b0:435:2c49:313d with SMTP id i19-20020a05640242d300b004352c49313dmr27393235edc.86.1663095549640;
+        Tue, 13 Sep 2022 11:59:09 -0700 (PDT)
+Received: from [192.168.1.100] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id c26-20020a056402101a00b0044792480994sm8170318edu.68.2022.09.13.11.59.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Sep 2022 11:48:16 -0700 (PDT)
-Message-ID: <3b60a44b-2868-ba93-bb0c-d937a209f03e@gmail.com>
-Date: Tue, 13 Sep 2022 20:48:14 +0200
+        Tue, 13 Sep 2022 11:59:09 -0700 (PDT)
+Message-ID: <32f21c8e-d5c1-0582-f31c-24f521e7eb9a@gmail.com>
+Date: Tue, 13 Sep 2022 20:59:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,58 +48,117 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] Staging: rtl8192e: Fix return type of rtllib_xmit
+Subject: Re: [PATCH v4] staging: r8188eu: fix potential memory leak in
+ _rtw_init_xmit_priv()
 Content-Language: en-US
-To: Nathan Huckleberry <nhuck@google.com>
-Cc: Dan Carpenter <error27@gmail.com>, llvm@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
- Felix Schlepper <f3sch.git@outlook.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220912214548.929144-1-nhuck@google.com>
+To: xkernel.wang@foxmail.com, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <tencent_DB57E4F270F4539485C32B05FDAF8394310A@qq.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220912214548.929144-1-nhuck@google.com>
+In-Reply-To: <tencent_DB57E4F270F4539485C32B05FDAF8394310A@qq.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/12/22 23:45, Nathan Huckleberry wrote:
-> The ndo_start_xmit field in net_device_ops is expected to be of type
-> netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
+On 9/13/22 15:24, xkernel.wang@foxmail.com wrote:
+> From: Xiaoke Wang <xkernel.wang@foxmail.com>
 > 
-> The mismatched return type breaks forward edge kCFI since the underlying
-> function definition does not match the function hook definition.
+> In _rtw_init_xmit_priv(), there are several error paths for allocation
+> failures just jump to the `exit` section. However, there is no action
+> will be performed, so the allocated resources are not properly released,
+> which leads to various memory leaks.
 > 
-> The return type of rtllib_xmit should be changed from int to
-> netdev_tx_t.
+> To properly release them, this patch unifies the error handling code and
+> several error handling paths are added.
+> According to the allocation sequence, if the validation fails, it will
+> jump to its corresponding error tag to release the resources.
 > 
-> Reported-by: Dan Carpenter<error27@gmail.com>
-> Link:https://github.com/ClangBuiltLinux/linux/issues/1703
-> Cc:llvm@lists.linux.dev
-> Signed-off-by: Nathan Huckleberry<nhuck@google.com>
+> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 > ---
->   drivers/staging/rtl8192e/rtllib_tx.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+> ChangeLog:
+> v1->v2 update the description and adjust the sequence of patches.
+> v2->v3 None to this patch, but some to another patch in this series.
+> v3->v4 rebase the original series and merge them due to the missing check
+> for kzalloc() in rtw_alloc_hwxmits() had been added.
+>   drivers/staging/r8188eu/core/rtw_xmit.c | 30 ++++++++++++++++++++-----
+>   1 file changed, 24 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-> index 42f81b23a144..1b665afd309e 100644
-> --- a/drivers/staging/rtl8192e/rtllib_tx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_tx.c
+> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+> index 9c39d08..9e70c79 100644
+> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
+> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+> @@ -134,7 +134,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+>   
+>   	if (!pxmitpriv->pallocated_xmitbuf) {
+>   		res = _FAIL;
+> -		goto exit;
+> +		goto free_frame_buf;
+>   	}
+>   
+>   	pxmitpriv->pxmitbuf = (u8 *)ALIGN((size_t)(pxmitpriv->pallocated_xmitbuf), 4);
+> @@ -156,7 +156,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+>   			msleep(10);
+>   			res = rtw_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ));
+>   			if (res == _FAIL)
+> -				goto exit;
+> +				goto free_xmitbuf;
+>   		}
+>   
+>   		pxmitbuf->flags = XMIT_VO_QUEUE;
+> @@ -174,7 +174,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+>   
+>   	if (!pxmitpriv->pallocated_xmit_extbuf) {
+>   		res = _FAIL;
+> -		goto exit;
+> +		goto free_xmitbuf;
+>   	}
+>   
+>   	pxmitpriv->pxmit_extbuf = (u8 *)ALIGN((size_t)(pxmitpriv->pallocated_xmit_extbuf), 4);
+> @@ -191,7 +191,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+>   		res = rtw_xmit_resource_alloc(padapter, pxmitbuf, max_xmit_extbuf_size + XMITBUF_ALIGN_SZ);
+>   		if (res == _FAIL) {
+>   			res = _FAIL;
+> -			goto exit;
+> +			goto free_xmit_extbuf;
+>   		}
+>   
+>   		list_add_tail(&pxmitbuf->list, &pxmitpriv->free_xmit_extbuf_queue.queue);
+> @@ -202,7 +202,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+>   
+>   	if (rtw_alloc_hwxmits(padapter)) {
+>   		res = _FAIL;
+> -		goto exit;
+> +		goto free_xmit_extbuf;
+>   	}
+>   
+>   	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+> @@ -226,8 +226,26 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+>   
+>   	rtl8188eu_init_xmit_priv(padapter);
+>   
+> -exit:
+> +	return _SUCCESS;
+>   
+> +free_xmit_extbuf:
+> +	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmit_extbuf;
+> +	while (i--) {
+> +		rtw_xmit_resource_free(padapter, pxmitbuf, (max_xmit_extbuf_size + XMITBUF_ALIGN_SZ));
+> +		pxmitbuf++;
+> +	}
+> +	vfree(pxmitpriv->pallocated_xmit_extbuf);
+> +	i = NR_XMITBUFF;
+> +free_xmitbuf:
+> +	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+> +	while (i--) {
+> +		rtw_xmit_resource_free(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ));
+> +		pxmitbuf++;
+> +	}
+> +	vfree(pxmitpriv->pallocated_xmitbuf);
+> +free_frame_buf:
+> +	vfree(pxmitpriv->pallocated_frame_buf);
+> +exit:
+>   	return res;
+>   }
+>   
 
-Hi,
-
-I cannot apply your patch.
-
-Applying: Staging: rtl8192e: Fix return type of rtllib_xmit
-error: patch failed: drivers/staging/rtl8192e/rtllib_tx.c:962
-error: drivers/staging/rtl8192e/rtllib_tx.c: patch does not apply
-Patch failed at 0001 Staging: rtl8192e: Fix return type of rtllib_xmit
-
-git remote show origin
-* remote origin
-   Fetch URL: 
-git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-...
-my branch: staging-testing
-
-Bye Philipp
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
