@@ -1,102 +1,85 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D545A66E8
-	for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 19:34:13 +0000 (UTC)
-Received: by mail-yb1-f201.google.com with SMTP id k126-20020a253d84000000b0068bb342010dso10938204yba.1
-        for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 12:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date;
-        bh=ZrnfMcG0b0qdMa/HG9lWVFWiMRD2rFKVvj8aOqoB5NA=;
-        b=jl+otp4drEgbzDYTQOVQCe/lGQ641MtaMVO7qinvKC5Z/Z0dR7bW2ruruvElf91Mza
-         rWIG6jxnLFpbzjxYmb5hdLxpqCph4WGtedV0jYKug9pvcFi9GKMNHWYQ3MhV7Z1j88yk
-         C6zM9+8uEYYRmMjCgT2yhu2soVB4o4GEEhV6Odeyn040LBTrLoxj9PC9Bi0MW8tbwkYI
-         korKEqKCSvt1O5ysUgMORQ32kUTSRx8d6O3P6JSNr0CgxHOGMjDy+FKt3dd0tgXbyMJQ
-         fFYaGkhOwh3jf1mzUPxBWJrYHZfFC32tZr/0bRlCZwAl2Snl3C6f92W1eOGwTq3xkwJJ
-         cGAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=ZrnfMcG0b0qdMa/HG9lWVFWiMRD2rFKVvj8aOqoB5NA=;
-        b=Hhgj/vYPNi5TjpjKi2J04L+MgkqnnQgJnxXfP4HWiVQ1AbYPsEq9Iv8RP7csYSptMo
-         7Ixx3UZOVr33EBFmdbruOOfuxplf36IbpJwwnrG7Z+Y7DWZihhLyMY3nVcqztuTgcjgh
-         8P8v/Qqdoz1BnBLxypaMvCxTnOaqqFQIcyVN9M2jCTeUkXzWVz/dDwZUkDom7cR/QB1J
-         fIQ7i1AwsAtX3askGA5vJ6VDC8csFGp5uxZl6xxAVLeXGefoQHizIFnzqyZd+LHsWSzv
-         DFpGQjODSTuRouUcGZX2Z+PBY4IxaW/Q+3JqIPSWBGPnS9tHEGODbo6LgoLuR+ga0O1z
-         bVEg==
-X-Gm-Message-State: ACgBeo2N8Jx/NgyXxrxeHqbCgY47RiOIgE3OwbRQTF5gSmSXK1KAe28m
-	oMjXfBH1Pj+X3cu96RI6zfj1pq7QxQ==
-X-Google-Smtp-Source: AA6agR4LglXqDawoel4yrWBMkm6qEgbPHBpN7FxtOlMNyNGMQNx6OftnLwFFbJ4OUngWXoBIeukihYgGyg==
-X-Received: from nhuck.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:39cc])
- (user=nhuck job=sendgmr) by 2002:a05:6902:124d:b0:66d:5ce6:5924 with SMTP id
- t13-20020a056902124d00b0066d5ce65924mr28556708ybu.320.1663097652806; Tue, 13
- Sep 2022 12:34:12 -0700 (PDT)
-Date: Tue, 13 Sep 2022 12:33:22 -0700
-In-Reply-To: <CA+sZ8B8RStBhofQ0=vvzH5FeQ66fj90DdCj9EQSaVErbVPLi7g@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE26671B;
+	Tue, 13 Sep 2022 22:33:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA317C433C1;
+	Tue, 13 Sep 2022 22:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1663108406;
+	bh=dqukAa/QNATCYFRuSfax+0gWFcpGIvrk73Zu/gYLssU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cd2GiwwLpN00ybuNm4ICzIjRbOP/S/odTyDR9d8QBQRSHENwHENk7bl0NBkwZb5Y+
+	 ccGh2Ca6tJTgJPE9gmNIZhse71WapB96qTRZL3LNOkBZTkzbqMy53uL447A+sG8JZP
+	 BvzbkLCEF3AfZO5yWa2TCGkrRRwL+8JFdlKc35zh5dUk/GrgQFmvFrs446/bWl4I0a
+	 qWeqCZzG8EhJKG1xr2nXJsDxbAQPXs1bEjuyhdzjZI4vDPk4Q/O5I8Su1GFgB7A96+
+	 o/uvb/rQsjFQhNLsjuPZPi8YlftX29lkRtNDjEANEq19NKLfhnILYyDGwWDpEP+jdO
+	 elbDs03pHfQxA==
+Date: Tue, 13 Sep 2022 15:33:24 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nathan Huckleberry <nhuck@google.com>
+Cc: Dan Carpenter <error27@gmail.com>, llvm@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon: Fix return type of cvm_oct_xmit and
+ cvm_oct_xmit_pow
+Message-ID: <YyEFNA3nVShxwkJT@dev-arch.thelio-3990X>
+References: <20220912214523.929094-1-nhuck@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <CA+sZ8B8RStBhofQ0=vvzH5FeQ66fj90DdCj9EQSaVErbVPLi7g@mail.gmail.com>
-X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220913193322.18776-1-nhuck@google.com>
-Subject: [PATCH v2] staging: r8188eu: Fix return type of rtw_xmit_entry
-From: Nathan Huckleberry <nhuck@google.com>
-To: namcaov@gmail.com
-Cc: Larry.Finger@lwfinger.net, error27@gmail.com, gregkh@linuxfoundation.org, 
-	insafonov@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, llvm@lists.linux.dev, makvihas@gmail.com, 
-	nathan@kernel.org, ndesaulniers@google.com, nhuck@google.com, 
-	paskripkin@gmail.com, phil@philpotter.co.uk, saurav.girepunje@gmail.com, 
-	trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220912214523.929094-1-nhuck@google.com>
 
-The ndo_start_xmit field in net_device_ops is expected to be of type
-netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
+On Mon, Sep 12, 2022 at 02:45:20PM -0700, Nathan Huckleberry wrote:
+> The ndo_start_xmit field in net_device_ops is expected to be of type
+> netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
+> 
+> The mismatched return type breaks forward edge kCFI since the underlying
+> function definition does not match the function hook definition.
+> 
+> The return type of cvm_oct_xmit and cvm_oct_xmit_pow should be changed
+> from int to netdev_tx_t.
+> 
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1703
+> Cc: llvm@lists.linux.dev
+> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
 
-The mismatched return type breaks forward edge kCFI since the underlying
-function definition does not match the function hook definition.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-The return type of rtw_xmit_entry should be changed from int to
-netdev_tx_t.
-
-Reported-by: Dan Carpenter <error27@gmail.com>
-Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-Cc: llvm@lists.linux.dev
-Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-
-Changes v1 -> v2:
- - Rebased onto linux-next/master
-
----
- drivers/staging/r8188eu/core/rtw_xmit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 98864fc55b25..ea13f11b231b 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -2289,7 +2289,7 @@ static int rtw_mlcst2unicst(struct adapter *padapter, struct sk_buff *skb)
- 	return true;
- }
- 
--int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
-+netdev_tx_t rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
- {
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(pnetdev);
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-@@ -2323,5 +2323,5 @@ int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
- 	dev_kfree_skb_any(pkt);
- 
- exit:
--	return 0;
-+	return NETDEV_TX_OK;
- }
--- 
-2.37.2.789.g6183377224-goog
-
+> ---
+>  drivers/staging/octeon/ethernet-tx.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+> index 1ad94c5060b5..a36e36701c74 100644
+> --- a/drivers/staging/octeon/ethernet-tx.c
+> +++ b/drivers/staging/octeon/ethernet-tx.c
+> @@ -125,7 +125,7 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
+>   *
+>   * Returns Always returns NETDEV_TX_OK
+>   */
+> -int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+> +netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+>  {
+>  	union cvmx_pko_command_word0 pko_command;
+>  	union cvmx_buf_ptr hw_buffer;
+> @@ -506,7 +506,7 @@ int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+>   * @dev:    Device info structure
+>   * Returns Always returns zero
+>   */
+> -int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+> +netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+>  {
+>  	struct octeon_ethernet *priv = netdev_priv(dev);
+>  	void *packet_buffer;
+> -- 
+> 2.37.2.789.g6183377224-goog
+> 
