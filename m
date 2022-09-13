@@ -1,140 +1,104 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A9329A9
-	for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 16:31:36 +0000 (UTC)
-Received: by mail-vs1-f41.google.com with SMTP id m65so13038573vsc.1
-        for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 09:31:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AE73C30
+	for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 16:52:24 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id a67so18704288ybb.3
+        for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 09:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=b+i0B3ku/YO/EcXnChNUofdhqeEHpLaRr2L2r6UJT7c=;
-        b=l5Hp0rmC1Fq0LJKuvVko9BV3X4/MX5moJYSnrrKwurcmsaiSSLzFz66xBxLIaKpV0v
-         2K5kkLPcUVbRsyWDLnM0k2hPfSPw+FY9/XltEh/OWPjZw51uHATAwm4NiKIAjX85I1My
-         OF9uTtnxMl5JV1/5k5JugMIxUejADlv/ufPNii1Nobs/7PYHRFM457LrwXSM6d4ZA1BB
-         4hYkHMwUkEponLIDA6E2qILIiKLhEkwaKhfQ/6K7/yLOKY5acawmiEZycDFTLChMwHjG
-         AuDQBVc/APJLwWZ5sWYhht7txlSs+icKIhVeiQDz5pH1ihhxxmAkt4DoRKC+eiEkonkX
-         Oh+w==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=CAUHAKvsliDqt6Bith7BoZVpURh1bCvkOtmvTYLFN94=;
+        b=GEgSCNg5HmYJ4ERFLxTXHVSrDewcSpNo6KSQQtQd4onLJNSCMdYM0UgxwjfCxZSqjl
+         ZMLTaEGWcQFtF+qiAH0g8YpfD5lStrL3EJ28Qy2KuTx3ipLWZ1/CVx92UI8GHlS86yfW
+         CoYE+eZhVkClgNGW9t5dXws31eOi/5RQCIY6ZdCqw6OdoogqVsZ7du9r4EdBu+e+Yvhx
+         CfBfmWZHeF9W+oeCgpNL6xNwu62QOsfm6CA6MH4ZrbmQkZsZjigM85CMF/Vgl7o43MRP
+         IyWBn9JsLuCRJFDHqlEbyGMp6uq+LtI4qIsswrb1FoYi/cWD+ZUiCT7rq3IWGvQQyugD
+         ZH5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=b+i0B3ku/YO/EcXnChNUofdhqeEHpLaRr2L2r6UJT7c=;
-        b=UG4WXM6DlC/x+Z8nhG34wfz7/XERwl92s/AlsHys+lcyRYhpOBJLZEZanhr5KvMCOn
-         Ks/rlC3M86A8FyMw2djejZb7UsNgdUbGKK/z4xJgku/EaMsxEfses6GXzN7yDCCvn9uY
-         fI0KRSrCv9DIvV+guix8ssbHilDsKLv8KUHQ8z3/tf/NT9YZZV22G2C6s5YIAHVKMxDj
-         uIljvCBxUurkgZw5Av+7oODxM0Fq+h1FiMGl1SY5BOkPKcDQw49yorbXMKB5E55Z8805
-         EeLqiQGtV0qsf8WQYeo6wo05DpbmwKZ+OGiIMBJFHq2MAyQjRCpqq4+o+CVyvMm6hb9s
-         879g==
-X-Gm-Message-State: ACgBeo3mglVIb3uh4X6QUDd+4foCSSQ153ESuY0Z4UPHEYvB4r17uIKw
-	kzUi0/3+JKb7H8rqpLQ94Vw2eiPE/SKs/+RJ56774jP+YKrnfA==
-X-Google-Smtp-Source: AA6agR4h56m18NSYfYsZsscdfN4a6c/rOAB7BnJWZznr9c0Gdd+WEzKS/CCiC1ntLpHiylU9nDEp6cW5aDqTBAKpsBo=
-X-Received: by 2002:a67:c90f:0:b0:398:8f83:e4d with SMTP id
- w15-20020a67c90f000000b003988f830e4dmr3536687vsk.24.1663086693943; Tue, 13
- Sep 2022 09:31:33 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=CAUHAKvsliDqt6Bith7BoZVpURh1bCvkOtmvTYLFN94=;
+        b=wP89jUvifuP0q8wwknfVDSaFm+YM+gvLE1BCjwmYhM+glGSl+dWBqT9PH/q0YYzenK
+         +5VwdN3VXaZ/kWB89+Z4s37qoE0pfxM8QbcyOCk4v6t3vGOu9nlJEdTDvq0N1ur+O++N
+         Ey2B8XQCDE37pD9yd4+HG5AeOtsb0do9I96nQhEPSwCyP//vpSKNCboQ6KbRxDBFpEBF
+         X/hNGFzP7LrMXViHVOXwkXAAZVznslC4N/uQNe/Xpvq8fAt8l8iaBQI69yrwocNFD0T1
+         3FyYjX4hEothKDaAGJEtE091pXbhNaICHiyy9iVYyNsNARVNy1j/1rgh3XTsfFtiV2qB
+         cEgQ==
+X-Gm-Message-State: ACgBeo0SSN33NmakdkadcvFjY66wBNY5TaTiSgVxTDZm5CkHR7ggF9t+
+	e0Qq1N9DoKbCoVqg5r3iKRkBZMfXcJetZs8wKwc=
+X-Google-Smtp-Source: AA6agR6W986Sl3YkCKIGso9iEy5VyE1ic/Mx10Iso5iivFtJnBsPgRN21CKXWch+AY1iGVom6ZR0doWkpT/b6MOU390=
+X-Received: by 2002:a25:230d:0:b0:6a9:1d4d:6594 with SMTP id
+ j13-20020a25230d000000b006a91d4d6594mr28014766ybj.616.1663087943592; Tue, 13
+ Sep 2022 09:52:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6cb85919-878a-73a5-0f2a-669d6062727b@redhat.com> <20220913162510.3134430-1-tegongkang@gmail.com>
-In-Reply-To: <20220913162510.3134430-1-tegongkang@gmail.com>
-From: =?UTF-8?B?6rCV66+87LKg?= <tegongkang@gmail.com>
-Date: Wed, 14 Sep 2022 01:31:22 +0900
-Message-ID: <CA+uqrQCQBSh+JGwXd+PF58r1LGZj3sSbRCWebdvysZ-Z58dBug@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove braces in single statement blocks
-To: gregkh@linuxfoundation.org, hdegoede@redhat.com
-Cc: linux-staging@lists.linux.dev
+References: <cover.1662724786.git.namcaov@gmail.com> <c3a7d9963b1c38c5f493786d7268c430617412dd.1662724786.git.namcaov@gmail.com>
+ <Yxt/3FOysEbwCm9T@kroah.com> <CA+sZ8B8Y1ZGou1Y4tQYJC1Wp_2MVdYKO0Bd3SfxMAU1DF+mz_g@mail.gmail.com>
+ <Yx2NY0RBWLqH3rDK@kroah.com>
+In-Reply-To: <Yx2NY0RBWLqH3rDK@kroah.com>
+From: Nam Cao <namcaov@gmail.com>
+Date: Tue, 13 Sep 2022 18:52:12 +0200
+Message-ID: <CA+sZ8B8-hsNXY-nFffvGMLJXmsAa9L+gnEK1ZdC7PztG1dd03Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] staging: vt6655: remove unnecessary volatile qualifier
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: forest@alittletooquiet.net, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Thanks for your kind review!
+On Sun, Sep 11, 2022 at 9:25 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Sep 11, 2022 at 09:12:44AM +0200, Nam Cao wrote:
+> > On Fri, Sep 9, 2022 at 8:03 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Fri, Sep 09, 2022 at 02:17:55PM +0200, Nam Cao wrote:
+> > > > Remove volatile qualifier for the member rd0 of struct vnt_rx_desc,
+> > > > because there is no reason it must be volatile.
+> > > >
+> > > > Signed-off-by: Nam Cao <namcaov@gmail.com>
+> > > > ---
+> > > >  drivers/staging/vt6655/desc.h | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/staging/vt6655/desc.h b/drivers/staging/vt6655/desc.h
+> > > > index 17a40c53b8ff..3f0f287b1693 100644
+> > > > --- a/drivers/staging/vt6655/desc.h
+> > > > +++ b/drivers/staging/vt6655/desc.h
+> > > > @@ -182,7 +182,7 @@ struct vnt_rdes1 {
+> > > >
+> > > >  /* Rx descriptor*/
+> > > >  struct vnt_rx_desc {
+> > > > -     volatile struct vnt_rdes0 rd0;
+> > > > +     struct vnt_rdes0 rd0;
+> > >
+> > > You can not just remove this without describing _WHY_ it is ok to do so.
+> > >
+> > > Have you properly determined why it is, or is not, ok to use volatile
+> > > here?
+> >
+> > I did not carefully look at the volatile usage here. After looking at it
+> > again, using volatile is actually valid: the structure resides on coherent
+> > memory.
+>
+> Are you sure?  That's a very odd thing for a driver to need.  Looks like
+> they are allocating some dma memory and then pointing structures on top
+> of that memory.  Why would you need to have "volatile" markings on a
+> structure definition for that?
 
-Regards,
+These structures are the ring buffer descriptors, which are dma-mapped and
+their values may be changed by the hardware. For example, the field "owner" of
+struct vnt_rdes0 is set to OWNED_BY_NIC by CPU, and then set to OWNED_BY_HOST
+by hardware when new data arrives (at least that's why I can guess based on
+the codes). So I think volatile is needed.
 
-Kang
+Please let me know if you think I'm wrong, because I have just recently
+educated myself on DMA mapping.
 
-
-2022=EB=85=84 9=EC=9B=94 14=EC=9D=BC (=EC=88=98) =EC=98=A4=EC=A0=84 1:25, K=
-ang Minchul <tegongkang@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> This commit cleans up checkpatch warning as follows:
-> WARNING: braces {} are not necessary for single statement blocks
->
-> Signed-off-by: Kang Minchul <tegongkang@gmail.com>
-> ---
-> Reverted erased code which invokes error.
->
->  drivers/staging/rtl8723bs/core/rtw_recv.c | 16 +++++-----------
->  1 file changed, 5 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/=
-rtl8723bs/core/rtw_recv.c
-> index d8d394b67eeb..f360c7c631cb 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -1374,9 +1374,8 @@ static signed int validate_80211w_mgmt(struct adapt=
-er *adapter, union recv_frame
->                         /* actual management data frame body */
->                         data_len =3D pattrib->pkt_len - pattrib->hdrlen -=
- pattrib->iv_len - pattrib->icv_len;
->                         mgmt_DATA =3D rtw_zmalloc(data_len);
-> -                       if (!mgmt_DATA) {
-> +                       if (!mgmt_DATA)
->                                 goto validate_80211w_fail;
-> -                       }
->                         precv_frame =3D decryptor(adapter, precv_frame);
->                         /* save actual management data frame body */
->                         memcpy(mgmt_DATA, ptr+pattrib->hdrlen+pattrib->iv=
-_len, data_len);
-> @@ -1385,9 +1384,8 @@ static signed int validate_80211w_mgmt(struct adapt=
-er *adapter, union recv_frame
->                         /* remove the iv and icv length */
->                         pattrib->pkt_len =3D pattrib->pkt_len - pattrib->=
-iv_len - pattrib->icv_len;
->                         kfree(mgmt_DATA);
-> -                       if (!precv_frame) {
-> +                       if (!precv_frame)
->                                 goto validate_80211w_fail;
-> -                       }
->                 } else if (IS_MCAST(GetAddr1Ptr(ptr)) &&
->                         (subtype =3D=3D WIFI_DEAUTH || subtype =3D=3D WIF=
-I_DISASSOC)) {
->                         signed int BIP_ret =3D _SUCCESS;
-> @@ -1651,14 +1649,12 @@ static int check_indicate_seq(struct recv_reorder=
-_ctrl *preorder_ctrl, u16 seq_n
->         u16 wend =3D (preorder_ctrl->indicate_seq + wsize - 1) & 0xFFF;/*=
-  4096; */
->
->         /*  Rx Reorder initialize condition. */
-> -       if (preorder_ctrl->indicate_seq =3D=3D 0xFFFF) {
-> +       if (preorder_ctrl->indicate_seq =3D=3D 0xFFFF)
->                 preorder_ctrl->indicate_seq =3D seq_num;
-> -       }
->
->         /*  Drop out the packet which SeqNum is smaller than WinStart */
-> -       if (SN_LESS(seq_num, preorder_ctrl->indicate_seq)) {
-> +       if (SN_LESS(seq_num, preorder_ctrl->indicate_seq))
->                 return false;
-> -       }
->
->         /*  */
->         /*  Sliding window manipulation. Conditions includes: */
-> @@ -2084,10 +2080,8 @@ s32 rtw_recv_entry(union recv_frame *precvframe)
->         precvpriv =3D &padapter->recvpriv;
->
->         ret =3D recv_func(padapter, precvframe);
-> -       if (ret =3D=3D _FAIL) {
-> +       if (ret =3D=3D _FAIL)
->                 goto _recv_entry_drop;
-> -       }
-> -
->
->         precvpriv->rx_pkts++;
->
-> --
-> 2.34.1
->
+Best regards,
+Nam
