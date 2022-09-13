@@ -1,149 +1,86 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AF03C26
-	for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 17:03:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1663088592;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CtO5Xdb0N97OeHRHV6OUstfsbFzWaKQfS8VlpP0nq7Q=;
-	b=JuNDjSRjUMRANO9E1uERVyn/5XGSgtXwPG3kI0u6aayoQUVvQSD0d4O3EK4UOPSSOlq6d2
-	rZXManS7m5UNjnifkYP5vpQBQD3zz6Rn78Kpu+guIwLxL77IkfkOgu5KjqGGlKQ5DKsan3
-	XZ9LheKtkwXCZUGP0NPTlNnYLtKsvQ8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-397-1cpjB62PPTaXyjNWZBT8KQ-1; Tue, 13 Sep 2022 13:03:11 -0400
-X-MC-Unique: 1cpjB62PPTaXyjNWZBT8KQ-1
-Received: by mail-wr1-f71.google.com with SMTP id h2-20020adfa4c2000000b00228db7822cbso3411549wrb.19
-        for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 10:03:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56574C85
+	for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 18:26:08 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id v16so29466815ejr.10
+        for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 11:26:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=+4vcZlKpzREQFON7I3NRtdsxMCMWnGu3rOI/laNWbt4=;
+        b=QciN0zfyRb35xUNzvFBSmL8EzpfWDydgM74lPVW+GnNB+LNW1PZXI9OOPwF4oN2/yr
+         3CC6mXi1GyzgDbrp9hAWbuJq30Jt/paTVim+baw1xrqdAdl3++rVjIkPh7ONLEMuR7FC
+         jnsGx4PtWu8iy9h4nIgGm2Gyb8L+HWSFHffndKAkgnmWD6qR+LIs+gRCEQkR18pJTLCQ
+         ePHXXqj7YvWsb1XlrzbnWwWqUOTp9Cf+nQugdaxrhbCrnR98kwpbHmQvRgpwnQmTfj3e
+         R3hGcPkemDdOSJMBrD90+iV5pmnEzS8dn+SjsNLov0AV2WVYlmgBTGK2Ex6dwHRm1ujU
+         HpOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=CtO5Xdb0N97OeHRHV6OUstfsbFzWaKQfS8VlpP0nq7Q=;
-        b=7Qx09Mup567/g/UrGRO9+agitbnhLQ/Fc1bLgESdPwfkfFYyQlaw4XE3y8UBeETSNj
-         kkMwQN66CPhemWv7Up+lTGZ6hgiD1yFCjUiLpdhAB4XO9MVRcRd+0XAhqV5A4OAtNMD4
-         k+yMCcbYKxf8csT320XwIUvRaF8pKTwncWhh88pJ65HBwQ/+NiV4o91zMtA7g004kiGu
-         VvQXZrEQpWQkNd38ijW2vYIrCWJrjvbIjZQsOgRxUAHjKRHP+bsYbCGzlZwaoxn/JSly
-         HqrpvO0ACEXpXPseRrGLulURI7Rp2cbFqwSbFVYnwSZu+aLQURlKnr7vNtM9hvXP0AoG
-         ceww==
-X-Gm-Message-State: ACgBeo3XcHyrwXa23bWzb9+dZo4T90YzuEmL85gocJtnliutcqVtoaP2
-	q6x/OxHIHnGLINHJXPzNOV4WTDYvvVolosi/r6KOHhYPyHNramNkjEDuXliTIYQXdGwN1MSyH+B
-	V8JEVwV+UzPhVnYcO8dXmQLT/ZQ==
-X-Received: by 2002:a05:600c:3ac9:b0:3a5:f114:1f8 with SMTP id d9-20020a05600c3ac900b003a5f11401f8mr195517wms.204.1663088590461;
-        Tue, 13 Sep 2022 10:03:10 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4aO/4fVjNMJofzSVlfRIoz3khYyy7gU3WXB6xMNRwAcPZ7rka1mteCwyHUCe73jFfhjQ/2qQ==
-X-Received: by 2002:a05:600c:3ac9:b0:3a5:f114:1f8 with SMTP id d9-20020a05600c3ac900b003a5f11401f8mr195499wms.204.1663088590285;
-        Tue, 13 Sep 2022 10:03:10 -0700 (PDT)
-Received: from [172.16.38.152] ([185.122.133.20])
-        by smtp.gmail.com with ESMTPSA id c6-20020a056000104600b002252ec781f7sm11076430wrx.8.2022.09.13.10.03.09
+        bh=+4vcZlKpzREQFON7I3NRtdsxMCMWnGu3rOI/laNWbt4=;
+        b=1BQQeKd+qSTMk9xBRQlL/EsGHEKGJc03wYRHnHFbOXi/FgNyUD2iKfInxIIbHEPuFz
+         COLcmFj7/DfJfYc4kJ82U7E6kUgWuOSmorUBIbIGwTgywDzL3ggXTY7ClNHmzdGwws+g
+         nxj+Zj7Rm4CR1NIDsaand20hhQL5mX2JHAhppUYZ6bBcLga/uJdK0iEkQoKJaVO6cQcQ
+         SMjzOKZnP3x5yzarnenvTMnjJn7CdVxp5oTD25sINmi2hZsrwNTJ1d671zTkysoVkhgy
+         B/A0ddG+J+pO5VwmK+MUPBV+Kne9LQV7Frj2I3I5V4PNntBZiSqdO2oXQN85anVMlgRg
+         qbkQ==
+X-Gm-Message-State: ACgBeo3QP4zK50tTETqfP7GHZqn0bwpBE3TYsfB9ujyQSaZC3zjKUR+J
+	ef9D/gRuu55Ty44HM/Y81gs=
+X-Google-Smtp-Source: AA6agR6c4uaBCmP2TL5hYA26ttL59lAul9rXygyd/r7Eo++BE2qZabt6j78ixh5aykvXSod1dXbKWA==
+X-Received: by 2002:a17:906:7094:b0:73d:c95a:e66e with SMTP id b20-20020a170906709400b0073dc95ae66emr22553578ejk.179.1663093566837;
+        Tue, 13 Sep 2022 11:26:06 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f3e:6a20:6823:7621:36e:ae26? (p200300c78f3e6a2068237621036eae26.dip0.t-ipconnect.de. [2003:c7:8f3e:6a20:6823:7621:36e:ae26])
+        by smtp.gmail.com with ESMTPSA id c2-20020a170906340200b0073cc17cdb92sm6426801ejb.106.2022.09.13.11.26.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Sep 2022 10:03:09 -0700 (PDT)
-Message-ID: <44d028b3-599a-a268-d4c7-3d61d247961b@redhat.com>
-Date: Tue, 13 Sep 2022 19:03:09 +0200
+        Tue, 13 Sep 2022 11:26:06 -0700 (PDT)
+Message-ID: <9abac5a2-e070-501d-ceba-f227a081bd4b@gmail.com>
+Date: Tue, 13 Sep 2022 20:26:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove braces in single statement
- blocks
-To: Kang Minchul <tegongkang@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev
-References: <6cb85919-878a-73a5-0f2a-669d6062727b@redhat.com>
- <20220913162510.3134430-1-tegongkang@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220913162510.3134430-1-tegongkang@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 04/12] staging: vt6655: Cleanup and rename function
+ MACbSafeSoftwareReset
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1662890990.git.philipp.g.hortmann@gmail.com>
+ <540a684266610f7618b3ef6000d4699d065c8e6f.1662890990.git.philipp.g.hortmann@gmail.com>
+ <YyBXp9x1LnBkku2g@kadam>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <YyBXp9x1LnBkku2g@kadam>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 9/13/22 18:25, Kang Minchul wrote:
-> This commit cleans up checkpatch warning as follows:
-> WARNING: braces {} are not necessary for single statement blocks
+On 9/13/22 12:12, Dan Carpenter wrote:
+> On Sun, Sep 11, 2022 at 12:46:04PM +0200, Philipp Hortmann wrote:
+>> Rename function MACbSafeSoftwareReset to vt6655_mac_save_soft_reset and
+>> abyTmpRegData to tmp_reg_data to avoid CamelCase which is not accepted by
+>> checkpatch.pl. Remove return value bRetVal as it is unused by the calling
+>> functions.
+> Please don't mix this kind of stuff into a patch like this.
 > 
-> Signed-off-by: Kang Minchul <tegongkang@gmail.com>
 
-Thanks, patch looks good to me:
+In the past Greg let me know that I used to many patches for a change in 
+the same lines of code and that it would be easier for him to review 
+when less patches do the same.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+As you wrote I am changing to many things at once. Sorry for breaking 
+your automatism.
 
-Regards,
+I will consider your hints for the next patches.
 
-Hans
+Thanks
 
-
-> ---
-> Reverted erased code which invokes error.
-> 
->  drivers/staging/rtl8723bs/core/rtw_recv.c | 16 +++++-----------
->  1 file changed, 5 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> index d8d394b67eeb..f360c7c631cb 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -1374,9 +1374,8 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
->  			/* actual management data frame body */
->  			data_len = pattrib->pkt_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
->  			mgmt_DATA = rtw_zmalloc(data_len);
-> -			if (!mgmt_DATA) {
-> +			if (!mgmt_DATA)
->  				goto validate_80211w_fail;
-> -			}
->  			precv_frame = decryptor(adapter, precv_frame);
->  			/* save actual management data frame body */
->  			memcpy(mgmt_DATA, ptr+pattrib->hdrlen+pattrib->iv_len, data_len);
-> @@ -1385,9 +1384,8 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
->  			/* remove the iv and icv length */
->  			pattrib->pkt_len = pattrib->pkt_len - pattrib->iv_len - pattrib->icv_len;
->  			kfree(mgmt_DATA);
-> -			if (!precv_frame) {
-> +			if (!precv_frame)
->  				goto validate_80211w_fail;
-> -			}
->  		} else if (IS_MCAST(GetAddr1Ptr(ptr)) &&
->  			(subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC)) {
->  			signed int BIP_ret = _SUCCESS;
-> @@ -1651,14 +1649,12 @@ static int check_indicate_seq(struct recv_reorder_ctrl *preorder_ctrl, u16 seq_n
->  	u16 wend = (preorder_ctrl->indicate_seq + wsize - 1) & 0xFFF;/*  4096; */
->  
->  	/*  Rx Reorder initialize condition. */
-> -	if (preorder_ctrl->indicate_seq == 0xFFFF) {
-> +	if (preorder_ctrl->indicate_seq == 0xFFFF)
->  		preorder_ctrl->indicate_seq = seq_num;
-> -	}
->  
->  	/*  Drop out the packet which SeqNum is smaller than WinStart */
-> -	if (SN_LESS(seq_num, preorder_ctrl->indicate_seq)) {
-> +	if (SN_LESS(seq_num, preorder_ctrl->indicate_seq))
->  		return false;
-> -	}
->  
->  	/*  */
->  	/*  Sliding window manipulation. Conditions includes: */
-> @@ -2084,10 +2080,8 @@ s32 rtw_recv_entry(union recv_frame *precvframe)
->  	precvpriv = &padapter->recvpriv;
->  
->  	ret = recv_func(padapter, precvframe);
-> -	if (ret == _FAIL) {
-> +	if (ret == _FAIL)
->  		goto _recv_entry_drop;
-> -	}
-> -
->  
->  	precvpriv->rx_pkts++;
->  
-
+Bye Philipp
