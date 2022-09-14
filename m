@@ -1,142 +1,269 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4864C15C3
-	for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 01:45:33 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id a20so7517277qtw.10
-        for <linux-staging@lists.linux.dev>; Tue, 13 Sep 2022 18:45:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84192F2C
+	for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 08:00:54 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id lc7so32896217ejb.0
+        for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 01:00:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=T56o2h08tk0PmW4ZLsH28b7hS5vDK+AW+si3O65+obo=;
-        b=Oe8JnBSVgSMmqPNFrZr6uzBF/MsmXi9Nee/enb8/xccCc7JVyURajg/V5pr9jjpDW7
-         RNCmRZLDsLReno9LXIN2zp/cqjkYRNiKkFHGUCvWRZQVuMInyHndbXOX6cDzDe7eizFF
-         ed0a5o28Y+QxB0B+wWFcbtsD0kr8Z1mgNfJMQV6W2pBlm8vVf+OqVpXuzLoQb9Awyn+Q
-         n848eZEUh9KivIQUP2Vbw4atlx7cGTXwu6KZaqbbfv06jDDBb6iGHWS2jMDIZ5mv9S4e
-         jtX1571mzSZ6cyd3EA6Gyb6LQSUlEV4ZJg7eeFWROk7kqZSd7HNQ1xcryQqfBbPBgbuI
-         izHA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=ClOaIflSPN+EHb9vV2FObYh9sbBKXYrJn4XGyHako4I=;
+        b=DuxKq9X8f7EtBnShnHW9QhzVWmL8R9tWGjwF21nCS+etUptXKVZ80rAk+KH6ine0um
+         mqvcQs6ImwsBHwQ8+jjpxURYM02D+4/HD67bf5CEjQu1Qyy+JR1gwAW5+bS40Zc+kNBI
+         ER7dxmHcjxnMGC7cAuMBJg6+RDAK02QixVqHq3S2trTMoy8x0s/lmyLavUnrcMcoeqLx
+         y7bbKrIssse1HwHcUfQXoX4gxjxxN5mixWN4JQAqdZewSlcqO+fUtaSO5h3qyGpNjhu1
+         ijbN6QAaDZQtImTJAZdg/wwktEyEWvAmp4IavGj/bHB+0VkoIT5h/9AX9Rwv1DPjFKXU
+         iBVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=T56o2h08tk0PmW4ZLsH28b7hS5vDK+AW+si3O65+obo=;
-        b=QeVCd1KEib5vtSQoFOmlri290r6Vl2hctxZbGufuX3jLSaSLbeDpsZ4VmgeDaTV0e4
-         ePUlsbDN30WfjNXsSh5hf2sHtAtgh7cp6uYTcuWOHdZIqm0+QlYG3fzZbGbhIFMNrf71
-         6zs0hvENFgLh20EqwFkT71lujaZxSJudfm/Ht/qQ0/KqrSkBQFueF0nDm21Za9h6CCmO
-         j0+kNVrlEbPlLmGDRuGBJMp1OXnGghmEJROWq0tlc2uyr1U+gRo6LUZv46IZwTGpCBAX
-         RwDFnl0rFE5mNtFzL8L5I7YWIGrD+ZY5Lugx/eJiqt2HvpciMJgToT5fFDtZQMNLf6Cy
-         r8zA==
-X-Gm-Message-State: ACgBeo05ggOcp5pd9wKoluwJn4ZM/XS+hsTPvUJBqixF4e6/2J4Fg7Fv
-	mwEUl5A5Vw3lypqNkSp6Er/rqpebfepGUtpgpDajwA==
-X-Google-Smtp-Source: AA6agR7ZlBYQI9ZokbyfOHpFIIymY6tIse9RDdoF3wV8R9iGFdrGtQG+znlmV9nlP4yNq9O+IMb6tRKwuFxFqM6bZKg=
-X-Received: by 2002:ac8:7dca:0:b0:344:5679:2dbb with SMTP id
- c10-20020ac87dca000000b0034456792dbbmr31410571qte.245.1663119932138; Tue, 13
- Sep 2022 18:45:32 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=ClOaIflSPN+EHb9vV2FObYh9sbBKXYrJn4XGyHako4I=;
+        b=mg43AWb/aH4aEqCbwL9ho2YZ6Rq65RUnw2wW9unodpsXxKwNDOTov97KRZwSGCQ7lC
+         +wc4TyF0TGTwbNS36MoO23XBqTYZd7QxBqGo9S4sqXhcmUQBUTtPpEM1AI9GvF9/uWtm
+         tCGuntAnPXywArFSk6bkXP8Cn+V7srr8yWRLTB1VhaCZhowmJskkFxPe/CvLn0G7Wv8F
+         3dZrgd0lgGI3Z8X+9ZfnTAVtFqbHYBJpEdfu7IWS2+HMpcjCOYta3Jf+64JX/Uj6dA8b
+         8VQy9CA8eZZJAQ5wzScFg+5eZ96NdHp8hj0tj3CEoBwmXYvBMHO27yYDWulquSN1FDVt
+         OQog==
+X-Gm-Message-State: ACgBeo3kBEmF9x/cqHrpyR1Sn6Q+eFZs92G4YMs0D/xLdfrxm1lCmaHB
+	G3hu1EH/vi5bilZNm9WBIR0=
+X-Google-Smtp-Source: AA6agR7RwM8Cf6fWyc3kALgFYZIsA5cGHcTYPnwokFN43rs+hAaKYgHPA2Y04TaTLGHX+YIsHAeWsg==
+X-Received: by 2002:a17:906:8448:b0:77b:e6d0:58a5 with SMTP id e8-20020a170906844800b0077be6d058a5mr12699837ejy.347.1663142453123;
+        Wed, 14 Sep 2022 01:00:53 -0700 (PDT)
+Received: from localhost.localdomain (ip-217-105-46-43.ip.prioritytelecom.net. [217.105.46.43])
+        by smtp.gmail.com with ESMTPSA id lb22-20020a170907785600b0073bdf71995dsm1373120ejc.139.2022.09.14.01.00.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 01:00:52 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: forest@alittletooquiet.net,
+	gregkh@linuxfoundation.org
+Cc: namcaov@gmail.com,
+	philipp.g.hortmann@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: vt6655: replace spin_lock_irqsave with spin_lock
+Date: Wed, 14 Sep 2022 10:00:17 +0200
+Message-Id: <20220914080016.67951-1-namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220912214559.929186-1-nhuck@google.com> <YyENqW9u3LxySbSk@dev-arch.thelio-3990X>
-In-Reply-To: <YyENqW9u3LxySbSk@dev-arch.thelio-3990X>
-From: Nathan Huckleberry <nhuck@google.com>
-Date: Tue, 13 Sep 2022 18:45:00 -0700
-Message-ID: <CAJkfWY6FYCNz_5+5cM2GoJdGLdBu7aPzs0e8uFmhgZRE_axLSQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8192u: Fix return type of ieee80211_xmit
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Dan Carpenter <error27@gmail.com>, llvm@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Tom Rix <trix@redhat.com>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hey Nathan,
+In vt6655 driver, there is a single interrupt handler: vnt_interrupt(),
+and it does not take the spinlock. The interrupt handler only schedules
+a workqueue, and the spinlock is taken in this workqueue. Thus, there is
+no need to use spin_lock_irqsave, as the spinlock is never taken by an
+interrupt. Replace spin_lock_irqsave (and spin_unlock_irqsave) with
+spin_lock (and spin_unlock).
 
-On Tue, Sep 13, 2022 at 4:09 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Mon, Sep 12, 2022 at 02:45:56PM -0700, Nathan Huckleberry wrote:
-> > The ndo_start_xmit field in net_device_ops is expected to be of type
-> > netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
-> >
-> > The mismatched return type breaks forward edge kCFI since the underlying
-> > function definition does not match the function hook definition.
-> >
-> > The return type of ieee80211_xmit should be changed from int to
-> > netdev_tx_t.
-> >
-> > Reported-by: Dan Carpenter <error27@gmail.com>
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-> > Cc: llvm@lists.linux.dev
-> > Signed-off-by: Nathan Huckleberry <nhuck@google.com>
->
-> The protoype in drivers/staging/rtl8192u/ieee80211/ieee80211.h should be
-> updated as well. With that:
+Signed-off-by: Nam Cao <namcaov@gmail.com>
+---
+ drivers/staging/vt6655/card.c        |  5 ++--
+ drivers/staging/vt6655/channel.c     |  6 ++---
+ drivers/staging/vt6655/device_main.c | 38 +++++++++++-----------------
+ 3 files changed, 19 insertions(+), 30 deletions(-)
 
-Nice catch, thanks.
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index c680925b9c92..3d2873874886 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -540,9 +540,8 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
+ {
+ 	union vnt_phy_field_swap phy;
+ 	unsigned char byTxRate, byRsvTime;      /* For OFDM */
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&priv->lock, flags);
++	spin_lock(&priv->lock);
+ 
+ 	/* Set to Page1 */
+ 	VT6655_MAC_SELECT_PAGE1(priv->port_offset);
+@@ -645,7 +644,7 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
+ 	/* Set to Page0 */
+ 	VT6655_MAC_SELECT_PAGE0(priv->port_offset);
+ 
+-	spin_unlock_irqrestore(&priv->lock, flags);
++	spin_unlock(&priv->lock);
+ }
+ 
+ void CARDvUpdateBasicTopRate(struct vnt_private *priv)
+diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
+index 4122875ebcaa..160ed640875d 100644
+--- a/drivers/staging/vt6655/channel.c
++++ b/drivers/staging/vt6655/channel.c
+@@ -111,9 +111,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
+ 	bb_software_reset(priv);
+ 
+ 	if (priv->local_id > REV_ID_VT3253_B1) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&priv->lock, flags);
++		spin_lock(&priv->lock);
+ 
+ 		/* set HW default power register */
+ 		VT6655_MAC_SELECT_PAGE1(priv->port_offset);
+@@ -123,7 +121,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
+ 		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
+ 		VT6655_MAC_SELECT_PAGE0(priv->port_offset);
+ 
+-		spin_unlock_irqrestore(&priv->lock, flags);
++		spin_unlock(&priv->lock);
+ 	}
+ 
+ 	if (priv->byBBType == BB_TYPE_11B)
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 04d737012cef..ea9560996eda 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -260,7 +260,6 @@ static void vt6655_mac_dis_barker_preamble_md(void __iomem *iobase)
+ 
+ static void device_init_registers(struct vnt_private *priv)
+ {
+-	unsigned long flags;
+ 	unsigned int ii;
+ 	unsigned char byValue;
+ 	unsigned char byCCKPwrdBm = 0;
+@@ -289,11 +288,11 @@ static void device_init_registers(struct vnt_private *priv)
+ 	/* Get Local ID */
+ 	priv->local_id = ioread8(priv->port_offset + MAC_REG_LOCALID);
+ 
+-	spin_lock_irqsave(&priv->lock, flags);
++	spin_lock(&priv->lock);
+ 
+ 	SROMvReadAllContents(priv->port_offset, priv->abyEEPROM);
+ 
+-	spin_unlock_irqrestore(&priv->lock, flags);
++	spin_unlock(&priv->lock);
+ 
+ 	/* Get Channel range */
+ 	priv->byMinChannel = 1;
+@@ -1093,7 +1092,6 @@ static void vnt_interrupt_process(struct vnt_private *priv)
+ 	int             max_count = 0;
+ 	u32 mib_counter;
+ 	u32 isr;
+-	unsigned long flags;
+ 
+ 	isr = ioread32(priv->port_offset + MAC_REG_ISR);
+ 
+@@ -1105,7 +1103,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
+ 		return;
+ 	}
+ 
+-	spin_lock_irqsave(&priv->lock, flags);
++	spin_lock(&priv->lock);
+ 
+ 	/* Read low level stats */
+ 	mib_counter = ioread32(priv->port_offset + MAC_REG_MIBCNTR);
+@@ -1190,7 +1188,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
+ 			break;
+ 	}
+ 
+-	spin_unlock_irqrestore(&priv->lock, flags);
++	spin_unlock(&priv->lock);
+ }
+ 
+ static void vnt_interrupt_work(struct work_struct *work)
+@@ -1220,9 +1218,8 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
+ 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
+ 	struct vnt_tx_desc *head_td;
+ 	u32 dma_idx;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&priv->lock, flags);
++	spin_lock(&priv->lock);
+ 
+ 	if (ieee80211_is_data(hdr->frame_control))
+ 		dma_idx = TYPE_AC0DMA;
+@@ -1230,7 +1227,7 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
+ 		dma_idx = TYPE_TXDMA0;
+ 
+ 	if (AVAIL_TD(priv, dma_idx) < 1) {
+-		spin_unlock_irqrestore(&priv->lock, flags);
++		spin_unlock(&priv->lock);
+ 		ieee80211_stop_queues(priv->hw);
+ 		return -ENOMEM;
+ 	}
+@@ -1246,11 +1243,11 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
+ 
+ 	priv->apCurrTD[dma_idx] = head_td->next;
+ 
+-	spin_unlock_irqrestore(&priv->lock, flags);
++	spin_unlock(&priv->lock);
+ 
+ 	vnt_generate_fifo_header(priv, dma_idx, head_td, skb);
+ 
+-	spin_lock_irqsave(&priv->lock, flags);
++	spin_lock(&priv->lock);
+ 
+ 	priv->bPWBitOn = false;
+ 
+@@ -1272,7 +1269,7 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
+ 
+ 	priv->iTDUsed[dma_idx]++;
+ 
+-	spin_unlock_irqrestore(&priv->lock, flags);
++	spin_unlock(&priv->lock);
+ 
+ 	return 0;
+ }
+@@ -1468,13 +1465,11 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
+ 	priv->current_aid = vif->cfg.aid;
+ 
+ 	if (changed & BSS_CHANGED_BSSID && conf->bssid) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(&priv->lock, flags);
++		spin_lock(&priv->lock);
+ 
+ 		vt6655_mac_write_bssid_addr(priv->port_offset, conf->bssid);
+ 
+-		spin_unlock_irqrestore(&priv->lock, flags);
++		spin_unlock(&priv->lock);
+ 	}
+ 
+ 	if (changed & BSS_CHANGED_BASIC_RATES) {
+@@ -1581,9 +1576,7 @@ static void vnt_configure(struct ieee80211_hw *hw,
+ 
+ 	if (changed_flags & FIF_ALLMULTI) {
+ 		if (*total_flags & FIF_ALLMULTI) {
+-			unsigned long flags;
+-
+-			spin_lock_irqsave(&priv->lock, flags);
++			spin_lock(&priv->lock);
+ 
+ 			if (priv->mc_list_count > 2) {
+ 				VT6655_MAC_SELECT_PAGE1(priv->port_offset);
+@@ -1603,7 +1596,7 @@ static void vnt_configure(struct ieee80211_hw *hw,
+ 				VT6655_MAC_SELECT_PAGE0(priv->port_offset);
+ 			}
+ 
+-			spin_unlock_irqrestore(&priv->lock, flags);
++			spin_unlock(&priv->lock);
+ 
+ 			rx_mode |= RCR_MULTICAST | RCR_BROADCAST;
+ 		} else {
+@@ -1830,13 +1823,12 @@ vt6655_probe(struct pci_dev *pcid, const struct pci_device_id *ent)
+ static int __maybe_unused vt6655_suspend(struct device *dev_d)
+ {
+ 	struct vnt_private *priv = dev_get_drvdata(dev_d);
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&priv->lock, flags);
++	spin_lock(&priv->lock);
+ 
+ 	MACbShutdown(priv);
+ 
+-	spin_unlock_irqrestore(&priv->lock, flags);
++	spin_unlock(&priv->lock);
+ 
+ 	return 0;
+ }
+-- 
+2.25.1
 
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> > ---
-> >  drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c
-> > index 8602e3a6c837..e4b6454809a0 100644
-> > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c
-> > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c
-> > @@ -526,7 +526,7 @@ static void ieee80211_query_seqnum(struct ieee80211_device *ieee,
-> >       }
-> >  }
-> >
-> > -int ieee80211_xmit(struct sk_buff *skb, struct net_device *dev)
-> > +netdev_tx_t ieee80211_xmit(struct sk_buff *skb, struct net_device *dev)
-> >  {
-> >       struct ieee80211_device *ieee = netdev_priv(dev);
-> >       struct ieee80211_txb *txb = NULL;
-> > @@ -822,13 +822,13 @@ int ieee80211_xmit(struct sk_buff *skb, struct net_device *dev)
-> >                       if ((*ieee->hard_start_xmit)(txb, dev) == 0) {
-> >                               stats->tx_packets++;
-> >                               stats->tx_bytes += __le16_to_cpu(txb->payload_size);
-> > -                             return 0;
-> > +                             return NETDEV_TX_OK;
-> >                       }
-> >                       ieee80211_txb_free(txb);
-> >               }
-> >       }
-> >
-> > -     return 0;
-> > +     return NETDEV_TX_OK;
-> >
-> >   failed:
-> >       spin_unlock_irqrestore(&ieee->lock, flags);
->
-> I see 'return 1' down here, that doesn't appear to be a valid
-> 'netdev_tx_t'. Should that be 'return NETDEV_TX_BUSY'? I guess that is
-> an outstanding issue though, just figured I would mention it.
-
-I'm not sure. As far as I can tell, the dev_xmit_complete function in
-include/linux/netdevice.h is used to determine whether an skb was
-consumed or not. It looks like a value of 1 (NET_XMIT_DROP) would
-signify that it was consumed, whereas NETDEV_TX_BUSY would not.
-
-It's somewhat confusing that a function which returns an enum may also
-return values outside of that enum.
-
-For more info see the foillowing commits:
-dc1f8bf68b311b1537cb65893430b6796118498a
-572a9d7b6fc7f20f573664063324c086be310c42
-7f2e870f2a48a0524a3b03b04fa019311d16a7f7
-
->
-> > --
-> > 2.37.2.789.g6183377224-goog
-> >
->
-> Cheers,
-> Nathan
-
-Thanks,
-Huck
