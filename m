@@ -1,56 +1,58 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412E14685
-	for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 21:11:43 +0000 (UTC)
-Received: by mail-yb1-f201.google.com with SMTP id p12-20020a259e8c000000b006958480b858so14034690ybq.12
-        for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 14:11:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A3E4688
+	for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 21:16:12 +0000 (UTC)
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-348608c1cd3so142547117b3.10
+        for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 14:16:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date;
-        bh=zaO32I0S7SQDvPMoMQFHJs6rEVWhhR1lhuEV3EVwoJQ=;
-        b=srJs7ojePy/2F+EGwVPFW2Xg0p2htwMb7M/FUOue3qyJ60PKNMhCYFIwHxlTIEpyuU
-         MQniu6tX64ZacV5YW8siBdEUSgNk9uHsN/mCsqQ7DXT1lXl7acz83KcBDlYuJYrVj1PN
-         /vLpcUjsxOlwLVuZU7TQ2jbueY3Q3q8nSQYy2kZi3OEmM8HtSImTM9l4STcDt5/VQGmb
-         i4pgFMexJqllHS2JkWrpYy8i3R7H7gXLlrzudNzpKGZEYoMPTKrZla+36YC+gPqbUrsT
-         9Do9oDt34in+jFy869xC+kMlRYXEk6CoMoSS7cnH31Z0hXKRemrZHxSusvMmRnzVF4KY
-         MZmg==
+        bh=1qTbf9AeneJ+E0vsQj505sbaD/8VFWq9P44uV39tt6g=;
+        b=NaoShQX0xB6ZSD3s/l2l8lUJHV8OlhoUIRJXBx9XMzxO4ISYASBDDL+6bgaKRwxwGa
+         f0dKG1vN81GPaYIKzGTRwdvFnlg5Km7/n4zRahhCho5X3top90R1dU5MZW6Un6ipWHM6
+         yPTWv97B07QcOxRYuD26rtbqzGKOGjOpUYchjTCoQOY5zRGGVYsC0ElnKF9W+Y//wTda
+         eJcrs9jpvWVgK0EoHh0DjjUFjav87D7emCFvhb/qMorPp5CYB2HG4saqeQGxIAGjoqaj
+         wacEa68UMGcSfzwqlpDYx1CAE7j3D3HnwVqG9s0wfTS2LsqvzXjeaPZntWOJ6cKkg6cM
+         4MpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=zaO32I0S7SQDvPMoMQFHJs6rEVWhhR1lhuEV3EVwoJQ=;
-        b=FEmSLkRt2XfC+imCADCmroslCmJXIe72tIwImPBdUxL8OjDgLLs7oGxEnX/u+hkbl4
-         fSXfW5an19cT2DIaa+kZjCSSyah9e8VzKEar5vGd/AEUpn/Le3zRc43WPa+sx5SGNQx2
-         PYkhgr2iHDdR4BUz0RqDa/KyKMN4lFPKr2yEJPejtthG3kMlXiKvTju4DR3QSk9oBZfB
-         d0/Abss0RgoDcEeD6mJsYUcWUGvmpIqOitYS/glQY3Rgf7iNl/2o4OrIWWSagdLzI/eB
-         LfGDFQ7+QsyLWZ6Rs05VC2I6VdCqjfhqYcQcgVMyz4PLxgSVXQUWbS2wQDxWvb/vIrX7
-         t2ZA==
-X-Gm-Message-State: ACgBeo1Ps7GI+3uc5xRyFTj4Ud91rG5bXz30FIu5Fel22+OZ9Q1zRzwR
-	rZLCzdcDihX1R4pX+O+S+2j3VG5a4g==
-X-Google-Smtp-Source: AA6agR40trucsCxmeeqkHH598e41TopB2iE2aXOQN08JKcFE5YwuwOiaXPG/I/56gfefW7lNSGjICDPVyg==
+        bh=1qTbf9AeneJ+E0vsQj505sbaD/8VFWq9P44uV39tt6g=;
+        b=mM8Pt3ldUeVW50+lCfcyFys5BnSnii8mExYx9RRgAsHY9VQbIUiRHxJd4q1BOsVKS0
+         VdAcXEsnxow6hmEuYrXz1IfuUb+gktY8T3v0v5huPxp/haYFI+qmyAd+8cbA/W82VLsV
+         8eqbniQ4qTp3ooL4/mUEm1yBVhFN48IXmTxMRA/KUAMQirgieX8UeCfuDP7yRS4zXrJ6
+         L4uyINb86F1dIGKQPBFPKMGkeDx6Jcgmu7NK8z/UIK2DagWMGUL0llG8MJOWdbdEOfHz
+         O4JZ8I/sOU+RLAtVU3ZI8HWeRsSY/fI5WxZ7GNymqtOgsxU8vWvUkJwKMGq3G4CyBhZS
+         4iNQ==
+X-Gm-Message-State: ACgBeo3ZbyveDbbF94y391pFNzLjp7WNk48xCRzncg9w4bQjRtI6ImzR
+	WfjDzKEzNDG7qFQoFk7uduXSjFQQAg==
+X-Google-Smtp-Source: AA6agR5pVF5gnh786/PeSQ3ck24+Vs242wAhkbehmJZ5cq2FVthE4UT/MDUK6JyMV4YbdAVQHFSUIj6UHA==
 X-Received: from nhuck.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:39cc])
- (user=nhuck job=sendgmr) by 2002:a25:da82:0:b0:6a9:27d8:a671 with SMTP id
- n124-20020a25da82000000b006a927d8a671mr30748921ybf.142.1663189902345; Wed, 14
- Sep 2022 14:11:42 -0700 (PDT)
-Date: Wed, 14 Sep 2022 14:10:57 -0700
-In-Reply-To: <YyEQr//Iq7bautrm@dev-arch.thelio-3990X>
+ (user=nhuck job=sendgmr) by 2002:a05:6902:150d:b0:6ad:2399:eaa7 with SMTP id
+ q13-20020a056902150d00b006ad2399eaa7mr32621218ybu.413.1663190171406; Wed, 14
+ Sep 2022 14:16:11 -0700 (PDT)
+Date: Wed, 14 Sep 2022 14:16:06 -0700
+In-Reply-To: <YyEPaMVRmdGQdoql@dev-arch.thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <YyEQr//Iq7bautrm@dev-arch.thelio-3990X>
+References: <YyEPaMVRmdGQdoql@dev-arch.thelio-3990X>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220914211057.423617-1-nhuck@google.com>
-Subject: [PATCH v3] staging: octeon: Fix return type of cvm_oct_xmit and cvm_oct_xmit_pow
+Message-ID: <20220914211606.423959-1-nhuck@google.com>
+Subject: [PATCH v3] staging: r8188eu: Fix return type of rtw_xmit_entry
 From: Nathan Huckleberry <nhuck@google.com>
 To: nathan@kernel.org
-Cc: error27@gmail.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	llvm@lists.linux.dev, ndesaulniers@google.com, nhuck@google.com, 
+Cc: Larry.Finger@lwfinger.net, error27@gmail.com, gregkh@linuxfoundation.org, 
+	insafonov@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, llvm@lists.linux.dev, makvihas@gmail.com, 
+	namcaov@gmail.com, ndesaulniers@google.com, nhuck@google.com, 
+	paskripkin@gmail.com, phil@philpotter.co.uk, saurav.girepunje@gmail.com, 
 	trix@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
@@ -60,65 +62,59 @@ netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
 The mismatched return type breaks forward edge kCFI since the underlying
 function definition does not match the function hook definition.
 
-The return type of cvm_oct_xmit and cvm_oct_xmit_pow should be changed
-from int to netdev_tx_t.
+The return type of rtw_xmit_entry should be changed from int to
+netdev_tx_t.
 
 Reported-by: Dan Carpenter <error27@gmail.com>
 Link: https://github.com/ClangBuiltLinux/linux/issues/1703
 Cc: llvm@lists.linux.dev
 Signed-off-by: Nathan Huckleberry <nhuck@google.com>
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
 ---
 
 Changes v1 -> v2:
-- Update function signatures in ethernet-tx.h.
+- Rebased onto linux-next/master
 
 Changes v2 -> v3:
-- Move changes below the scissors --- so they don't show in commit msg
+- Updated header file
 - Add reviewed-by tag
 
- drivers/staging/octeon/ethernet-tx.c | 4 ++--
- drivers/staging/octeon/ethernet-tx.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c    | 4 ++--
+ drivers/staging/r8188eu/include/rtw_xmit.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index 1ad94c5060b5..a36e36701c74 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -125,7 +125,7 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
-  *
-  * Returns Always returns NETDEV_TX_OK
-  */
--int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
-+netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
- {
- 	union cvmx_pko_command_word0 pko_command;
- 	union cvmx_buf_ptr hw_buffer;
-@@ -506,7 +506,7 @@ int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
-  * @dev:    Device info structure
-  * Returns Always returns zero
-  */
--int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
-+netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
- {
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	void *packet_buffer;
-diff --git a/drivers/staging/octeon/ethernet-tx.h b/drivers/staging/octeon/ethernet-tx.h
-index 78936e9b33b0..6c524668f65a 100644
---- a/drivers/staging/octeon/ethernet-tx.h
-+++ b/drivers/staging/octeon/ethernet-tx.h
-@@ -5,8 +5,8 @@
-  * Copyright (c) 2003-2007 Cavium Networks
-  */
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 98864fc55b25..ea13f11b231b 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -2289,7 +2289,7 @@ static int rtw_mlcst2unicst(struct adapter *padapter, struct sk_buff *skb)
+ 	return true;
+ }
  
--int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev);
--int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev);
-+netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev);
-+netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev);
- int cvm_oct_transmit_qos(struct net_device *dev, void *work_queue_entry,
- 			 int do_free, int qos);
- void cvm_oct_tx_initialize(void);
+-int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
++netdev_tx_t rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
+ {
+ 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(pnetdev);
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+@@ -2323,5 +2323,5 @@ int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
+ 	dev_kfree_skb_any(pkt);
+ 
+ exit:
+-	return 0;
++	return NETDEV_TX_OK;
+ }
+diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
+index 8f54c41ba927..82efcd54af3f 100644
+--- a/drivers/staging/r8188eu/include/rtw_xmit.h
++++ b/drivers/staging/r8188eu/include/rtw_xmit.h
+@@ -368,6 +368,6 @@ int rtw_ack_tx_wait(struct xmit_priv *pxmitpriv, u32 timeout_ms);
+ void rtw_ack_tx_done(struct xmit_priv *pxmitpriv, int status);
+ 
+ void rtw_xmit_complete(struct adapter *padapter, struct xmit_frame *pxframe);
+-int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev);
++netdev_tx_t rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev);
+ 
+ #endif	/* _RTL871X_XMIT_H_ */
 -- 
 2.37.2.789.g6183377224-goog
 
