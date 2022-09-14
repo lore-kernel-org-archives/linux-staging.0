@@ -1,98 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F086F2F2C
-	for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 08:02:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2826CC433D7;
-	Wed, 14 Sep 2022 08:02:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1663142524;
-	bh=Gb+UiMDJQOrLZOBOFvKO7hc50e8Wfw2fbwZ4a+0Jhhk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AaIkyci8t2ooMQbr9h9k78gp0yMhS6aqvjyg5Npw9R98sEnih/9jPERR1/8oCy7uO
-	 XPvw2a7og0Y5TH4ZzVylrrM1iLE6ZtbrjHfJnjMf0abP8PGzQwgpx7IIhmNEOavRUL
-	 XHRgE6Xb8qG2Vq0vz2nMox4dfJ2ogwy9xDSWMZCI=
-Date: Wed, 14 Sep 2022 10:02:29 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nam Cao <namcaov@gmail.com>
-Cc: forest@alittletooquiet.net, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 1/2] staging: vt6655: remove unnecessary volatile
- qualifier
-Message-ID: <YyGKlVbhFmrZ1lXK@kroah.com>
-References: <cover.1662724786.git.namcaov@gmail.com>
- <c3a7d9963b1c38c5f493786d7268c430617412dd.1662724786.git.namcaov@gmail.com>
- <Yxt/3FOysEbwCm9T@kroah.com>
- <CA+sZ8B8Y1ZGou1Y4tQYJC1Wp_2MVdYKO0Bd3SfxMAU1DF+mz_g@mail.gmail.com>
- <Yx2NY0RBWLqH3rDK@kroah.com>
- <CA+sZ8B8-hsNXY-nFffvGMLJXmsAa9L+gnEK1ZdC7PztG1dd03Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB633D61
+	for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 11:58:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 57730E0FB7;
+	Wed, 14 Sep 2022 04:58:31 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id d7N0A5w4eyZy; Wed, 14 Sep 2022 04:58:30 -0700 (PDT)
+Date: Wed, 14 Sep 2022 13:58:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1663156710; bh=lBd6GXJ3wPOnH/QiUaG6oifUeJRoTS3Bd9+aDFujht4=;
+	h=Date:From:To:Subject:From;
+	b=k3aQV+q7sa6uuCqXsGWxJRNGDd92fJpaIOKgsu0g7LGup2RvsS2SkJo7jK28YhWyi
+	 APho/OdYnxPUpRuSCvze7Pwds9g++2EqGfRJkjquLpmpBwBBSMippT5LwQrJNi/xFm
+	 34ZLLIM1EQoAdiLPfILt2zH/c8OOY46UqRxxT9PXMm5nCJ96+WLalJc2bDN6oJMZ6F
+	 8gtjzK9mZdbukvI1rvr2MHpAe+Z04lwUxSPkWlgqedFDkCYOdw2jCqTYNUCt9Be9KW
+	 UGQzrREsWdNJJJn8I7oOaq/AQF+EHs41YdDgkXG8xC+40gGxCipN4i9unkVOK1eLdm
+	 z+lSUdi06cf7A==
+From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel    
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+     Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo    
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix 
+    Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: [PATCH 1/2] media: imx: Round line size to 4 bytes
+Message-ID: <20220914113436.1503790-1-dorota.czaplejewicz@puri.sm>
+Organization: Purism
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+sZ8B8-hsNXY-nFffvGMLJXmsAa9L+gnEK1ZdC7PztG1dd03Q@mail.gmail.com>
+Content-Type: multipart/signed; boundary="Sig_//_7_vU7zTeYx5tO9_.AIcp6";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Tue, Sep 13, 2022 at 06:52:12PM +0200, Nam Cao wrote:
-> On Sun, Sep 11, 2022 at 9:25 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Sun, Sep 11, 2022 at 09:12:44AM +0200, Nam Cao wrote:
-> > > On Fri, Sep 9, 2022 at 8:03 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Fri, Sep 09, 2022 at 02:17:55PM +0200, Nam Cao wrote:
-> > > > > Remove volatile qualifier for the member rd0 of struct vnt_rx_desc,
-> > > > > because there is no reason it must be volatile.
-> > > > >
-> > > > > Signed-off-by: Nam Cao <namcaov@gmail.com>
-> > > > > ---
-> > > > >  drivers/staging/vt6655/desc.h | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/drivers/staging/vt6655/desc.h b/drivers/staging/vt6655/desc.h
-> > > > > index 17a40c53b8ff..3f0f287b1693 100644
-> > > > > --- a/drivers/staging/vt6655/desc.h
-> > > > > +++ b/drivers/staging/vt6655/desc.h
-> > > > > @@ -182,7 +182,7 @@ struct vnt_rdes1 {
-> > > > >
-> > > > >  /* Rx descriptor*/
-> > > > >  struct vnt_rx_desc {
-> > > > > -     volatile struct vnt_rdes0 rd0;
-> > > > > +     struct vnt_rdes0 rd0;
-> > > >
-> > > > You can not just remove this without describing _WHY_ it is ok to do so.
-> > > >
-> > > > Have you properly determined why it is, or is not, ok to use volatile
-> > > > here?
-> > >
-> > > I did not carefully look at the volatile usage here. After looking at it
-> > > again, using volatile is actually valid: the structure resides on coherent
-> > > memory.
-> >
-> > Are you sure?  That's a very odd thing for a driver to need.  Looks like
-> > they are allocating some dma memory and then pointing structures on top
-> > of that memory.  Why would you need to have "volatile" markings on a
-> > structure definition for that?
-> 
-> These structures are the ring buffer descriptors, which are dma-mapped and
-> their values may be changed by the hardware. For example, the field "owner" of
-> struct vnt_rdes0 is set to OWNED_BY_NIC by CPU, and then set to OWNED_BY_HOST
-> by hardware when new data arrives (at least that's why I can guess based on
-> the codes). So I think volatile is needed.
-> 
-> Please let me know if you think I'm wrong, because I have just recently
-> educated myself on DMA mapping.
+--Sig_//_7_vU7zTeYx5tO9_.AIcp6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-With DMA mapping you shouldn't need "volatile" as it really doesn't do
-what people thought it did.  Other drivers don't use volatile for
-accessing memory this way, the device should have notified the driver
-that it is now safe to read from that memory through the DMA api.
+This has been broken in e352833d, which does not actually copy the logic
+from 056f9af9.
 
-So try looking a bit closer and also look at the compiler output before
-and after your change to see if it actually did anything or not.
+Section 13.7.6.13 "CSI Image Parameter Register" of the
+i.MX 8M Quad Applications Processors Reference Manual
+states that the line size should be divisible by 8 bytes.
+However, the hardware also accepts sizes divisible by 4 bytes.
 
-thanks,
+This patch accepts line sizes divisible 4-bytes in non-planar mode.
 
-greg k-h
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+---
+Hi,
+
+in recent kernels, I've noticed that the Librem 5 camera driver no longer w=
+orks. The s5k3l6xx out of tree sensor driver uses sizes divisible by 4 and =
+not by 8, for which I submitted the patch 056f9af9 . The new kernels no lon=
+ger accept sizes divisible by 4.
+
+I tracked down the source: previously, the video device on the imx8m used i=
+mx_media_mbus_fmt_to_pix_fmt. e352833d introduced imx7_csi_mbus_fmt_to_pix_=
+fmt, which is what is used now exclusively. However, imx7_csi_mbus_fmt_to_p=
+ix_fmt *does not* contain the same logic, and does not provide an explanati=
+on why the logic is different.
+
+I don't know why the "imx_*" is not used any more on the i.MX8M SoC, but I =
+presume that "imx7_*" is the correct code path. That indicates that "imx_*"=
+ is *not* the correct code for this SoC.
+
+Under those assumptions, I added the relaxed rounding to the "imx7_*" funct=
+ion, to match what the SoC can do (patch 1). I also reverted my original pa=
+tch (patch 2), because if "imx7_*" is the correct function for my SoC, then=
+ I had never intended to mess with whatever other SoC is handled by the "im=
+x_" function.
+
+Cheers,
+Dorota
+
+ drivers/staging/media/imx/imx7-media-csi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/m=
+edia/imx/imx7-media-csi.c
+index 643547bfa90f..bafbb5ef08d5 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1000,10 +1000,10 @@ static int imx7_csi_mbus_fmt_to_pix_fmt(struct v4l2=
+_pix_format *pix,
+ 	}
+=20
+ 	/* Round up width for minimum burst size */
+-	width =3D round_up(mbus->width, 8);
++	width =3D round_up(mbus->width, 4);
+=20
+ 	/* Round up stride for IDMAC line start address alignment */
+-	stride =3D round_up((width * cc->bpp) >> 3, 8);
++	stride =3D round_up((width * cc->bpp) >> 3, 4);
+=20
+ 	pix->width =3D width;
+ 	pix->height =3D mbus->height;
+--=20
+2.37.3
+
+
+--Sig_//_7_vU7zTeYx5tO9_.AIcp6
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmMhwdAACgkQADBpX4S8
+ZncCcQ//falHr+LJFMHENDl4d2MOkyUiQLbaZDimP6Sr8c9oFKvdBt57DEdh7bHl
+qp7wiARfP+itGVunBVwN80lZIGRIXlBctzx7lYSKyf8vc9OYhgZ/Ml9j5BhmefAG
+hRSSdlLg/JypqgdZn7FOBo9KrzMH8SUAJY4J5pTiA/pgUQ2tcbB0xIQztCWnXUST
+c84dA5fhNMTLT0Fsqug5Z4gIWWSul/nQvvksfVL+4/M+BN7tjpSBP08Hk6YeMHy/
+G/6/Tbb/1wHR7vqcLBM0BzHLy7QwJMLVugmqzWnu8QhrHHjCrOKXalUi/kFQ9z+q
+B/KoinQIGpb+BkAFxT+8LMy4r9J98EreyZRu/lxbPE9Wg6XsfKRKmUA1bxL3iYai
+Ve31PDk5gq/1gDpyjuGDw7hm3+8VOPP7PE3PS+8qrxwmTHaBNBPMzw8jznMAof7+
+z0uwdMga/PxzyKLQU6+zdpOpfMGwhiii0ZF8U0CvaYGSyb1t2g7IHfIz/lCl8RbQ
+0iYrQ06qEdsN4iuepqN9EZAMKSFRoi7pCB8gZo+HLq2KAEr1RCmfEAJD1BqI9H99
+nBV4jfcUz27XlM8YAjJ7R4kXsenWYSz7G+MGd/VIC1rMR+txur139EgdB8z4rw06
+4tD3j6tYlif6uZ9m/L2ObYtGCZbh+FGlziywfyUsiZXTw7gxnEs=
+=u5/B
+-----END PGP SIGNATURE-----
+
+--Sig_//_7_vU7zTeYx5tO9_.AIcp6--
