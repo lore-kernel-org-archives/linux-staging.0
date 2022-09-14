@@ -1,269 +1,98 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84192F2C
-	for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 08:00:54 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id lc7so32896217ejb.0
-        for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 01:00:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=ClOaIflSPN+EHb9vV2FObYh9sbBKXYrJn4XGyHako4I=;
-        b=DuxKq9X8f7EtBnShnHW9QhzVWmL8R9tWGjwF21nCS+etUptXKVZ80rAk+KH6ine0um
-         mqvcQs6ImwsBHwQ8+jjpxURYM02D+4/HD67bf5CEjQu1Qyy+JR1gwAW5+bS40Zc+kNBI
-         ER7dxmHcjxnMGC7cAuMBJg6+RDAK02QixVqHq3S2trTMoy8x0s/lmyLavUnrcMcoeqLx
-         y7bbKrIssse1HwHcUfQXoX4gxjxxN5mixWN4JQAqdZewSlcqO+fUtaSO5h3qyGpNjhu1
-         ijbN6QAaDZQtImTJAZdg/wwktEyEWvAmp4IavGj/bHB+0VkoIT5h/9AX9Rwv1DPjFKXU
-         iBVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=ClOaIflSPN+EHb9vV2FObYh9sbBKXYrJn4XGyHako4I=;
-        b=mg43AWb/aH4aEqCbwL9ho2YZ6Rq65RUnw2wW9unodpsXxKwNDOTov97KRZwSGCQ7lC
-         +wc4TyF0TGTwbNS36MoO23XBqTYZd7QxBqGo9S4sqXhcmUQBUTtPpEM1AI9GvF9/uWtm
-         tCGuntAnPXywArFSk6bkXP8Cn+V7srr8yWRLTB1VhaCZhowmJskkFxPe/CvLn0G7Wv8F
-         3dZrgd0lgGI3Z8X+9ZfnTAVtFqbHYBJpEdfu7IWS2+HMpcjCOYta3Jf+64JX/Uj6dA8b
-         8VQy9CA8eZZJAQ5wzScFg+5eZ96NdHp8hj0tj3CEoBwmXYvBMHO27yYDWulquSN1FDVt
-         OQog==
-X-Gm-Message-State: ACgBeo3kBEmF9x/cqHrpyR1Sn6Q+eFZs92G4YMs0D/xLdfrxm1lCmaHB
-	G3hu1EH/vi5bilZNm9WBIR0=
-X-Google-Smtp-Source: AA6agR7RwM8Cf6fWyc3kALgFYZIsA5cGHcTYPnwokFN43rs+hAaKYgHPA2Y04TaTLGHX+YIsHAeWsg==
-X-Received: by 2002:a17:906:8448:b0:77b:e6d0:58a5 with SMTP id e8-20020a170906844800b0077be6d058a5mr12699837ejy.347.1663142453123;
-        Wed, 14 Sep 2022 01:00:53 -0700 (PDT)
-Received: from localhost.localdomain (ip-217-105-46-43.ip.prioritytelecom.net. [217.105.46.43])
-        by smtp.gmail.com with ESMTPSA id lb22-20020a170907785600b0073bdf71995dsm1373120ejc.139.2022.09.14.01.00.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 01:00:52 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: forest@alittletooquiet.net,
-	gregkh@linuxfoundation.org
-Cc: namcaov@gmail.com,
-	philipp.g.hortmann@gmail.com,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F086F2F2C
+	for <linux-staging@lists.linux.dev>; Wed, 14 Sep 2022 08:02:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2826CC433D7;
+	Wed, 14 Sep 2022 08:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1663142524;
+	bh=Gb+UiMDJQOrLZOBOFvKO7hc50e8Wfw2fbwZ4a+0Jhhk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AaIkyci8t2ooMQbr9h9k78gp0yMhS6aqvjyg5Npw9R98sEnih/9jPERR1/8oCy7uO
+	 XPvw2a7og0Y5TH4ZzVylrrM1iLE6ZtbrjHfJnjMf0abP8PGzQwgpx7IIhmNEOavRUL
+	 XHRgE6Xb8qG2Vq0vz2nMox4dfJ2ogwy9xDSWMZCI=
+Date: Wed, 14 Sep 2022 10:02:29 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Nam Cao <namcaov@gmail.com>
+Cc: forest@alittletooquiet.net, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: vt6655: replace spin_lock_irqsave with spin_lock
-Date: Wed, 14 Sep 2022 10:00:17 +0200
-Message-Id: <20220914080016.67951-1-namcaov@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH v3 1/2] staging: vt6655: remove unnecessary volatile
+ qualifier
+Message-ID: <YyGKlVbhFmrZ1lXK@kroah.com>
+References: <cover.1662724786.git.namcaov@gmail.com>
+ <c3a7d9963b1c38c5f493786d7268c430617412dd.1662724786.git.namcaov@gmail.com>
+ <Yxt/3FOysEbwCm9T@kroah.com>
+ <CA+sZ8B8Y1ZGou1Y4tQYJC1Wp_2MVdYKO0Bd3SfxMAU1DF+mz_g@mail.gmail.com>
+ <Yx2NY0RBWLqH3rDK@kroah.com>
+ <CA+sZ8B8-hsNXY-nFffvGMLJXmsAa9L+gnEK1ZdC7PztG1dd03Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+sZ8B8-hsNXY-nFffvGMLJXmsAa9L+gnEK1ZdC7PztG1dd03Q@mail.gmail.com>
 
-In vt6655 driver, there is a single interrupt handler: vnt_interrupt(),
-and it does not take the spinlock. The interrupt handler only schedules
-a workqueue, and the spinlock is taken in this workqueue. Thus, there is
-no need to use spin_lock_irqsave, as the spinlock is never taken by an
-interrupt. Replace spin_lock_irqsave (and spin_unlock_irqsave) with
-spin_lock (and spin_unlock).
+On Tue, Sep 13, 2022 at 06:52:12PM +0200, Nam Cao wrote:
+> On Sun, Sep 11, 2022 at 9:25 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Sun, Sep 11, 2022 at 09:12:44AM +0200, Nam Cao wrote:
+> > > On Fri, Sep 9, 2022 at 8:03 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Fri, Sep 09, 2022 at 02:17:55PM +0200, Nam Cao wrote:
+> > > > > Remove volatile qualifier for the member rd0 of struct vnt_rx_desc,
+> > > > > because there is no reason it must be volatile.
+> > > > >
+> > > > > Signed-off-by: Nam Cao <namcaov@gmail.com>
+> > > > > ---
+> > > > >  drivers/staging/vt6655/desc.h | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/staging/vt6655/desc.h b/drivers/staging/vt6655/desc.h
+> > > > > index 17a40c53b8ff..3f0f287b1693 100644
+> > > > > --- a/drivers/staging/vt6655/desc.h
+> > > > > +++ b/drivers/staging/vt6655/desc.h
+> > > > > @@ -182,7 +182,7 @@ struct vnt_rdes1 {
+> > > > >
+> > > > >  /* Rx descriptor*/
+> > > > >  struct vnt_rx_desc {
+> > > > > -     volatile struct vnt_rdes0 rd0;
+> > > > > +     struct vnt_rdes0 rd0;
+> > > >
+> > > > You can not just remove this without describing _WHY_ it is ok to do so.
+> > > >
+> > > > Have you properly determined why it is, or is not, ok to use volatile
+> > > > here?
+> > >
+> > > I did not carefully look at the volatile usage here. After looking at it
+> > > again, using volatile is actually valid: the structure resides on coherent
+> > > memory.
+> >
+> > Are you sure?  That's a very odd thing for a driver to need.  Looks like
+> > they are allocating some dma memory and then pointing structures on top
+> > of that memory.  Why would you need to have "volatile" markings on a
+> > structure definition for that?
+> 
+> These structures are the ring buffer descriptors, which are dma-mapped and
+> their values may be changed by the hardware. For example, the field "owner" of
+> struct vnt_rdes0 is set to OWNED_BY_NIC by CPU, and then set to OWNED_BY_HOST
+> by hardware when new data arrives (at least that's why I can guess based on
+> the codes). So I think volatile is needed.
+> 
+> Please let me know if you think I'm wrong, because I have just recently
+> educated myself on DMA mapping.
 
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/vt6655/card.c        |  5 ++--
- drivers/staging/vt6655/channel.c     |  6 ++---
- drivers/staging/vt6655/device_main.c | 38 +++++++++++-----------------
- 3 files changed, 19 insertions(+), 30 deletions(-)
+With DMA mapping you shouldn't need "volatile" as it really doesn't do
+what people thought it did.  Other drivers don't use volatile for
+accessing memory this way, the device should have notified the driver
+that it is now safe to read from that memory through the DMA api.
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index c680925b9c92..3d2873874886 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -540,9 +540,8 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
- {
- 	union vnt_phy_field_swap phy;
- 	unsigned char byTxRate, byRsvTime;      /* For OFDM */
--	unsigned long flags;
- 
--	spin_lock_irqsave(&priv->lock, flags);
-+	spin_lock(&priv->lock);
- 
- 	/* Set to Page1 */
- 	VT6655_MAC_SELECT_PAGE1(priv->port_offset);
-@@ -645,7 +644,7 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
- 	/* Set to Page0 */
- 	VT6655_MAC_SELECT_PAGE0(priv->port_offset);
- 
--	spin_unlock_irqrestore(&priv->lock, flags);
-+	spin_unlock(&priv->lock);
- }
- 
- void CARDvUpdateBasicTopRate(struct vnt_private *priv)
-diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
-index 4122875ebcaa..160ed640875d 100644
---- a/drivers/staging/vt6655/channel.c
-+++ b/drivers/staging/vt6655/channel.c
-@@ -111,9 +111,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
- 	bb_software_reset(priv);
- 
- 	if (priv->local_id > REV_ID_VT3253_B1) {
--		unsigned long flags;
--
--		spin_lock_irqsave(&priv->lock, flags);
-+		spin_lock(&priv->lock);
- 
- 		/* set HW default power register */
- 		VT6655_MAC_SELECT_PAGE1(priv->port_offset);
-@@ -123,7 +121,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
- 		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
- 		VT6655_MAC_SELECT_PAGE0(priv->port_offset);
- 
--		spin_unlock_irqrestore(&priv->lock, flags);
-+		spin_unlock(&priv->lock);
- 	}
- 
- 	if (priv->byBBType == BB_TYPE_11B)
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 04d737012cef..ea9560996eda 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -260,7 +260,6 @@ static void vt6655_mac_dis_barker_preamble_md(void __iomem *iobase)
- 
- static void device_init_registers(struct vnt_private *priv)
- {
--	unsigned long flags;
- 	unsigned int ii;
- 	unsigned char byValue;
- 	unsigned char byCCKPwrdBm = 0;
-@@ -289,11 +288,11 @@ static void device_init_registers(struct vnt_private *priv)
- 	/* Get Local ID */
- 	priv->local_id = ioread8(priv->port_offset + MAC_REG_LOCALID);
- 
--	spin_lock_irqsave(&priv->lock, flags);
-+	spin_lock(&priv->lock);
- 
- 	SROMvReadAllContents(priv->port_offset, priv->abyEEPROM);
- 
--	spin_unlock_irqrestore(&priv->lock, flags);
-+	spin_unlock(&priv->lock);
- 
- 	/* Get Channel range */
- 	priv->byMinChannel = 1;
-@@ -1093,7 +1092,6 @@ static void vnt_interrupt_process(struct vnt_private *priv)
- 	int             max_count = 0;
- 	u32 mib_counter;
- 	u32 isr;
--	unsigned long flags;
- 
- 	isr = ioread32(priv->port_offset + MAC_REG_ISR);
- 
-@@ -1105,7 +1103,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
- 		return;
- 	}
- 
--	spin_lock_irqsave(&priv->lock, flags);
-+	spin_lock(&priv->lock);
- 
- 	/* Read low level stats */
- 	mib_counter = ioread32(priv->port_offset + MAC_REG_MIBCNTR);
-@@ -1190,7 +1188,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
- 			break;
- 	}
- 
--	spin_unlock_irqrestore(&priv->lock, flags);
-+	spin_unlock(&priv->lock);
- }
- 
- static void vnt_interrupt_work(struct work_struct *work)
-@@ -1220,9 +1218,8 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
- 	struct vnt_tx_desc *head_td;
- 	u32 dma_idx;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&priv->lock, flags);
-+	spin_lock(&priv->lock);
- 
- 	if (ieee80211_is_data(hdr->frame_control))
- 		dma_idx = TYPE_AC0DMA;
-@@ -1230,7 +1227,7 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
- 		dma_idx = TYPE_TXDMA0;
- 
- 	if (AVAIL_TD(priv, dma_idx) < 1) {
--		spin_unlock_irqrestore(&priv->lock, flags);
-+		spin_unlock(&priv->lock);
- 		ieee80211_stop_queues(priv->hw);
- 		return -ENOMEM;
- 	}
-@@ -1246,11 +1243,11 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
- 
- 	priv->apCurrTD[dma_idx] = head_td->next;
- 
--	spin_unlock_irqrestore(&priv->lock, flags);
-+	spin_unlock(&priv->lock);
- 
- 	vnt_generate_fifo_header(priv, dma_idx, head_td, skb);
- 
--	spin_lock_irqsave(&priv->lock, flags);
-+	spin_lock(&priv->lock);
- 
- 	priv->bPWBitOn = false;
- 
-@@ -1272,7 +1269,7 @@ static int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
- 
- 	priv->iTDUsed[dma_idx]++;
- 
--	spin_unlock_irqrestore(&priv->lock, flags);
-+	spin_unlock(&priv->lock);
- 
- 	return 0;
- }
-@@ -1468,13 +1465,11 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
- 	priv->current_aid = vif->cfg.aid;
- 
- 	if (changed & BSS_CHANGED_BSSID && conf->bssid) {
--		unsigned long flags;
--
--		spin_lock_irqsave(&priv->lock, flags);
-+		spin_lock(&priv->lock);
- 
- 		vt6655_mac_write_bssid_addr(priv->port_offset, conf->bssid);
- 
--		spin_unlock_irqrestore(&priv->lock, flags);
-+		spin_unlock(&priv->lock);
- 	}
- 
- 	if (changed & BSS_CHANGED_BASIC_RATES) {
-@@ -1581,9 +1576,7 @@ static void vnt_configure(struct ieee80211_hw *hw,
- 
- 	if (changed_flags & FIF_ALLMULTI) {
- 		if (*total_flags & FIF_ALLMULTI) {
--			unsigned long flags;
--
--			spin_lock_irqsave(&priv->lock, flags);
-+			spin_lock(&priv->lock);
- 
- 			if (priv->mc_list_count > 2) {
- 				VT6655_MAC_SELECT_PAGE1(priv->port_offset);
-@@ -1603,7 +1596,7 @@ static void vnt_configure(struct ieee80211_hw *hw,
- 				VT6655_MAC_SELECT_PAGE0(priv->port_offset);
- 			}
- 
--			spin_unlock_irqrestore(&priv->lock, flags);
-+			spin_unlock(&priv->lock);
- 
- 			rx_mode |= RCR_MULTICAST | RCR_BROADCAST;
- 		} else {
-@@ -1830,13 +1823,12 @@ vt6655_probe(struct pci_dev *pcid, const struct pci_device_id *ent)
- static int __maybe_unused vt6655_suspend(struct device *dev_d)
- {
- 	struct vnt_private *priv = dev_get_drvdata(dev_d);
--	unsigned long flags;
- 
--	spin_lock_irqsave(&priv->lock, flags);
-+	spin_lock(&priv->lock);
- 
- 	MACbShutdown(priv);
- 
--	spin_unlock_irqrestore(&priv->lock, flags);
-+	spin_unlock(&priv->lock);
- 
- 	return 0;
- }
--- 
-2.25.1
+So try looking a bit closer and also look at the compiler output before
+and after your change to see if it actually did anything or not.
 
+thanks,
+
+greg k-h
