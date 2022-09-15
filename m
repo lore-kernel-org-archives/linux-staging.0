@@ -1,114 +1,47 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF053291F;
-	Thu, 15 Sep 2022 08:22:54 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id 465702B05F8B;
-	Thu, 15 Sep 2022 04:22:53 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Thu, 15 Sep 2022 04:22:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1663230172; x=1663233772; bh=9mKn6blmYA
-	NFuaZ0dtOqisfOd8Rd6vzhg19KJ8Gas0w=; b=dkrfo0E65c8JJoicwHhtCyqEqn
-	YT0dufOKnphOC2mruIY0Kz6gecCS6aPSgDCZgJ2lsTrk26ZDmaNEmuWWn5kq0ng7
-	gB7/cv52eEujaA4q5hFiFrS1MQ9XA3vZzgZVfXVNLebKz+s77esbMuU5R2nQry3S
-	gTniSwul5hXnk0az9QzN10tzkrB/D5LN3xHcNj+AbAkxF9XcvWO+EILkMkH7wh0o
-	Gv33ba7NZRONh6Lp2kaVfDWq8NXpp3YciblIkbJSalMubRjLVhNiWLbcu2Vke1sN
-	lKLOVJMH/vsOfV7y4aCdyTsHrz1QNc/gQECipkXGyCf4yGDpQLEuc1ixTbbA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1663230172; x=1663233772; bh=9mKn6blmYANFuaZ0dtOqisfOd8Rd
-	6vzhg19KJ8Gas0w=; b=b5KYyzw/+DD85iAltMyHonE25aj06cE00CMmDAPxOurs
-	a/95BYFawT3nExW/s8f1MtE+KAGK1PQ5jjnL+ghzpb2AtcnJKDJMZJ8cR7XfA350
-	ixLfi7T2+GOYxTWjKklX5sQNkwrdKf09tGWs2iAKxwhE423vXMdFVALEBL0P8yYO
-	AzAkNIRr9ilbcRPM0enDKQjzxDEEA/AeKxW31Gj7sAPjCWwvnPdp0cAmtSAtZtzt
-	QUfXP/kkYWdAan1j29e3tUDKg/1k8ph65DynFNbTo+l/Hc5nfaBYbsf9tzUH1dxF
-	LYVmqwYLjfl7uAhCg68obx1joWFOXjKtJKtb/NOnXg==
-X-ME-Sender: <xms:3OAiYySPNMKSYXvCYn0TCnaSKrHPnT4ktLl9nvUVInfBGVpaX_yRuA>
-    <xme:3OAiY3xmIV6quYyP88EM_eZ-wltM6yJSLRtzvn3RifHB9k8vfjU8qM-xlgx9DlnGU
-    jCiK9drjD098L39M0Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedgtdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepjedvvddvudeludehjeeitdehheeivdejgfelleffiefgvefhhfeuudfhgeef
-    feehnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:3OAiY_1i_A8Rd3fptBIsk42F3KxhhdZbYB9eY7OMq3dreoyZrStVDw>
-    <xmx:3OAiY-DfhHt1oyooXdM_vkHByJ-LrFP6u4jvjR_YC3OT1ckhMsE5QA>
-    <xmx:3OAiY7hWetdX_yG-F1ikv5nVUuuitiBOYnX1sJwIXh879KvAC9ippw>
-    <xmx:3OAiY2UFNMDExF4xlJNDTWFKPMVGPds_vT6O_1SGqGpootahV39reYvp-78>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 6F2D9B60089; Thu, 15 Sep 2022 04:22:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BC128E7
+	for <linux-staging@lists.linux.dev>; Thu, 15 Sep 2022 08:44:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF5D5C433D6;
+	Thu, 15 Sep 2022 08:44:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1663231480;
+	bh=R6Rl/OlvLJIZv5HR2mE5eYVhd7/iw8En0Km8/MsF17c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qnKtqTjuYbMLQID9jKK84B6m8uVE2TN6PNBwzUVIx/kR1jahm5gUUh2EBhloDoxPg
+	 3w6/bXToHADlvNNZzDDub8QY18UIOTI1cZmeNnJRim2bdGw8aDn9Jq4W7QVjN9B8m5
+	 p+3kQ/9dYTX+hnpkSOPxWcRmqObedFhnDktiklrU=
+Date: Thu, 15 Sep 2022 10:45:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Nam Cao <namcaov@gmail.com>
+Cc: forest@alittletooquiet.net, philipp.g.hortmann@gmail.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vt6655: replace spin_lock_irqsave with spin_lock
+Message-ID: <YyLmEpJBG7fPZ8iN@kroah.com>
+References: <20220914080016.67951-1-namcaov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <b66ea89d-c62e-4772-b3d7-6e236da837af@www.fastmail.com>
-In-Reply-To: <20220914211057.423617-1-nhuck@google.com>
-References: <YyEQr//Iq7bautrm@dev-arch.thelio-3990X>
- <20220914211057.423617-1-nhuck@google.com>
-Date: Thu, 15 Sep 2022 10:21:47 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Nathan Huckleberry" <nhuck@google.com>, nathan@kernel.org
-Cc: error27@gmail.com, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- llvm@lists.linux.dev, "Nick Desaulniers" <ndesaulniers@google.com>,
- trix@redhat.com
-Subject: Re: [PATCH v3] staging: octeon: Fix return type of cvm_oct_xmit and
- cvm_oct_xmit_pow
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220914080016.67951-1-namcaov@gmail.com>
 
-On Wed, Sep 14, 2022, at 11:10 PM, Nathan Huckleberry wrote:
-> The ndo_start_xmit field in net_device_ops is expected to be of type
-> netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
->
-> The mismatched return type breaks forward edge kCFI since the underlying
-> function definition does not match the function hook definition.
->
-> The return type of cvm_oct_xmit and cvm_oct_xmit_pow should be changed
-> from int to netdev_tx_t.
->
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-> Cc: llvm@lists.linux.dev
-> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> ---
->
-> Changes v1 -> v2:
-> - Update function signatures in ethernet-tx.h.
->
-> Changes v2 -> v3:
-> - Move changes below the scissors --- so they don't show in commit msg
-> - Add reviewed-by tag
+On Wed, Sep 14, 2022 at 10:00:17AM +0200, Nam Cao wrote:
+> In vt6655 driver, there is a single interrupt handler: vnt_interrupt(),
+> and it does not take the spinlock. The interrupt handler only schedules
+> a workqueue, and the spinlock is taken in this workqueue. Thus, there is
+> no need to use spin_lock_irqsave, as the spinlock is never taken by an
+> interrupt. Replace spin_lock_irqsave (and spin_unlock_irqsave) with
+> spin_lock (and spin_unlock).
 
-The patch looks correct to me so
+What is the speed difference before and after this change?  And how are
+interrupts properly handled anymore in this driver if you took away the
+lock that was being accessed in the irq?
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+thanks,
 
-but I have two more general comments:
-
-- For your changelogs, it would help to include the diagnostic message
-  from smatch that you link to.
-
-- This has probably been discussed before, but why is this only
-  reported by smatch but by clang itself when building with CFI
-  enabled? It appears that CFI enforces stricter C++ style type
-  compatibility on enums while the warnings only catch incompatible
-  types according to the normal C11 rules.
-
-     Arnd
+greg k-h
