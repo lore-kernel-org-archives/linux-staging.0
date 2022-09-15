@@ -1,125 +1,91 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9C14C8A
-	for <linux-staging@lists.linux.dev>; Thu, 15 Sep 2022 20:30:01 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id dv25so44658815ejb.12
-        for <linux-staging@lists.linux.dev>; Thu, 15 Sep 2022 13:30:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408B74C8C
+	for <linux-staging@lists.linux.dev>; Thu, 15 Sep 2022 20:58:11 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id f20so24302807edf.6
+        for <linux-staging@lists.linux.dev>; Thu, 15 Sep 2022 13:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=EUHm5YwqUsut8vOCDG8gUqHimnptxihIuTZPupLKd+w=;
-        b=oIsRIL7UHb5uy1H8a7ihPHy/irgQmUeLrHpYfS62aKWb2o/bCxHIE9WPyF8VzZdomb
-         wZ5KoUxZNkcXT2QeXaqZKZ+UJlRUPHNxXRHIwzInSaLL0KI3q/mb7mF8Z5wRRiuV5eUD
-         D7FCoOdc8jROfJuLlV5uA+KgtIKNXa/dn5oYXNR8k1XsXq/ZYW4ZQ1YluyGJgVUU6ZJ3
-         po+mLGWVk5f2/6hZPL5pt9a2MpaMx7E9cm6+2gapZfsFfEN8NF0cPQlq9zb2Mqgrbfry
-         nhajo4cRNX5XDG196iI3bxK/LIyKBJXZobuOuf2jd+wYuWih9l+HDqxOwQmD3VE7Dub4
-         7Dcg==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=NDCKnBLvpg2LzjJfGZYpFUUWi7Xx7OQNK9I3O7rWqI4=;
+        b=XkTBdCZA1pW+4DBLzM7t8sWztEr3z1dAcLmCVVVrMKZVBVZAjfmfcWiALKh7HyVULj
+         bQWMJe281YQOr+OlIqDf7jo88wsF9Rjw5PQQn5wqJyCKuHsa2s5s7bKTQoTTvagbLeoG
+         vXLO1KImc8WrXAk7xgN2oEm7XbMV0iSbAiBSUjRLrOdximVk5oPFti7BW82SaVfC5IZ5
+         +O2daOu+hfNC7E4DArjFfYB8t0kbnViSCUpFpIlm249sRCAFrd/EenVNPowkB3g3FlSD
+         6ObOzqUMEUNC15uk6ivvWSvwiE4K6pDHYTKm48ZPB4x+rC9OFUs8PTzLwUiOs3SvgTcE
+         oJaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=EUHm5YwqUsut8vOCDG8gUqHimnptxihIuTZPupLKd+w=;
-        b=FKSoAW0c3lk0qugsxwuWbIlBq6NpISTjAcrWny6mUHhfPueSgX4IU1dp7dNJl/hU13
-         2aNSB8/ZexI2l5P+8zbFpEaEfjLI/zdh6MnQpfSxxrEWR8qoTVKse5RNeaiRcbgYO02C
-         EYBiPqWI9mVtzuCTnNK1yGC6phs3SirRUrvL1Zu7TrXnoSbZkuW9mNlPJgWdVeCKz3BQ
-         JpVsHZvy0ztVYdVS1Kt5o1K+U850IbiddAmG1r2OnI5U+UoQxfxT81nXflYLz8iIBJbC
-         WXEMyuJ+bMldX3ZyB98tQb42HJvR9Ea+FFU4dV9ByZFFRxzJ1wSpOusuMBQcs204/Wxw
-         TLcA==
-X-Gm-Message-State: ACrzQf0P0AGw4utzZdk3J0YXMWlPJVDarLPbPov8AH5pmNrhjc/rUDaT
-	l/76bQ2DPnCtZw/SeDQWjxHUIsgUPvY=
-X-Google-Smtp-Source: AMsMyM6s9925GGiS4XIQLJDs2LHEhvI9/OQ12/6LogfvtbqAUEhF5PB9+dgHAJ5gZamzhCHPYFc0tA==
-X-Received: by 2002:a17:906:ef90:b0:77c:7227:705 with SMTP id ze16-20020a170906ef9000b0077c72270705mr1117401ejb.565.1663273799789;
-        Thu, 15 Sep 2022 13:29:59 -0700 (PDT)
-Received: from localhost.localdomain (ip-217-105-46-43.ip.prioritytelecom.net. [217.105.46.43])
-        by smtp.gmail.com with ESMTPSA id ci25-20020a170906c35900b0072b3406e9c2sm9607295ejb.95.2022.09.15.13.29.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 13:29:59 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: forest@alittletooquiet.net,
-	gregkh@linuxfoundation.org
-Cc: namcaov@gmail.com,
-	philipp.g.hortmann@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [RFC PATCH 5/5] staging: vt6655: implement allocation failure handling
-Date: Thu, 15 Sep 2022 22:29:36 +0200
-Message-Id: <dd63998765f1ea1bf507a94c2d49317b36b5f32c.1663273218.git.namcaov@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1663273218.git.namcaov@gmail.com>
-References: <cover.1663273218.git.namcaov@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=NDCKnBLvpg2LzjJfGZYpFUUWi7Xx7OQNK9I3O7rWqI4=;
+        b=iaROqd27Z0fil7GkJMQ36wi9S50RvrO9DgFJtZHHz/2z+g5T9zWooWwM9wHGJlNBFH
+         TSlGUjG3o35yLZaAbMCGvHkwfnJqX5M4o+eIVKSpOksnHotfxidHFn9b2hh0cHko4CDe
+         zSogD4QoYa0r45rOUcGHkmZVo12WppdsdmEC03u4gS4adwlEqJ0uEmzXqFml2nlM6spQ
+         iVn8qyAoIu2LThSo93ig07JxKzeEB80zsi30esTeIgy6Fu2zYzZlXXVFu2gXA9h9hhsZ
+         KpbV+NHB6kC18vRq1izxuN7O2G4JG+dQdVEIb2I+XDeG5kcT/0QXfnCSgv+ulM9v8E10
+         ZYrQ==
+X-Gm-Message-State: ACrzQf2gqAxJdmvy2yc5b77QiQxTNj+xYRaU+j3PJtnWnnJTvaVLgazx
+	HDMRqXw7N+vvmnbm69JztuQ=
+X-Google-Smtp-Source: AMsMyM5AX4Q55lUYX4I+iFuCwfkIARLhUl+5P7BJuNiQ4hZIr9T+skJIc5H0zzhkIUVx3CA9JqoBlw==
+X-Received: by 2002:a05:6402:1655:b0:44e:b208:746d with SMTP id s21-20020a056402165500b0044eb208746dmr1410266edx.229.1663275489620;
+        Thu, 15 Sep 2022 13:58:09 -0700 (PDT)
+Received: from [192.168.1.100] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id b2-20020a1709063ca200b00777249e951bsm9593972ejh.51.2022.09.15.13.58.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Sep 2022 13:58:09 -0700 (PDT)
+Message-ID: <a046af7f-7b60-108a-39e8-9ac3b5ce7733@gmail.com>
+Date: Thu, 15 Sep 2022 22:58:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC PATCH 0/5] staging: vt6655: Implement allocation failure
+ handling
+Content-Language: en-US
+To: Nam Cao <namcaov@gmail.com>, forest@alittletooquiet.net,
+ gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <cover.1663273218.git.namcaov@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <cover.1663273218.git.namcaov@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The function device_rx_srv does not handle allocation failure very well.
-Currently, it performs these steps:
-        - Unmap DMA buffer and hand over the buffer to mac80211
-        - Allocate and dma-map new buffer
-        - If allocation fails, abort
+On 9/15/22 22:29, Nam Cao wrote:
+> This driver does not handle allocation failure when receiving data very well.
+> This patchset implements better handling in the case of allocation failure.
+> 
+> Nam Cao (5):
+>    staging: vt6655: remove redundant if condition
+>    staging: vt6655: change vnt_receive_frame return type to void
+>    staging: vt6655: split device_alloc_rx_buf
+>    staging: vt6655: change device_alloc_rx_buf's argument
+>    staging: vt6655: implement allocation failure handling
+> 
+>   drivers/staging/vt6655/device_main.c | 41 ++++++++++++++++++----------
+>   drivers/staging/vt6655/dpc.c         |  8 +++---
+>   drivers/staging/vt6655/dpc.h         |  2 +-
+>   3 files changed, 31 insertions(+), 20 deletions(-)
+> 
 
-The problem is that, it aborts while still marking the buffer as
-OWNED_BY_HOST. So when this function is called again in the future, it
-incorrectly perceives the same buffer as valid and dma-unmap and hand
-over this buffer to mac80211 again.
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 
-Re-implement this function to do things in a different order:
-        - Allocate and dma-map new buffer
-        - If allocation fails, abort and give up the ownership of the
-          buffer (so that the device can re-use this buffer)
-        - If allocation does not fail: unmap dma buffer and hand over
-          the buffer to mac80211
 
-Thus, when the driver cannot allocate new buffer, it simply discards the
-received data and re-use the current buffer.
+Find in this email a comment from Greg about RFC:
+https://lore.kernel.org/linux-gpio/YwS4WDekXM3UQ7Yo@kroah.com/
+This patch is marked as "RFC" but I don't see any questions that you
+have here.  Please resolve anything you think needs to be handled and
+submit a "this series is ok to be merged" version.
 
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/vt6655/device_main.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+May be this is applicable to this patch as well.
 
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index ca6c4266f010..8ae4ecca2ee3 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -826,6 +826,7 @@ static void device_free_td1_ring(struct vnt_private *priv)
- static int device_rx_srv(struct vnt_private *priv, unsigned int idx)
- {
- 	struct vnt_rx_desc *rd;
-+	struct vnt_rd_info new_info;
- 	int works = 0;
- 
- 	for (rd = priv->pCurrRD[idx];
-@@ -837,16 +838,18 @@ static int device_rx_srv(struct vnt_private *priv, unsigned int idx)
- 		if (!rd->rd_info->skb)
- 			break;
- 
--		vnt_receive_frame(priv, rd);
--
--		if (!device_alloc_rx_buf(priv, rd->rd_info)) {
-+		if (!device_alloc_rx_buf(priv, &new_info)) {
- 			dev_err(&priv->pcid->dev,
- 				"can not allocate rx buf\n");
-+			rd->rd0.owner = OWNED_BY_NIC;
- 			break;
--		} else {
--			device_init_rx_desc(priv, rd);
- 		}
- 
-+		vnt_receive_frame(priv, rd);
-+
-+		memcpy(rd->rd_info, &new_info, sizeof(new_info));
-+		device_init_rx_desc(priv, rd);
-+
- 		rd->rd0.owner = OWNED_BY_NIC;
- 	}
- 
--- 
-2.25.1
 
