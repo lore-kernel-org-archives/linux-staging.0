@@ -1,199 +1,94 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8004210D
-	for <linux-staging@lists.linux.dev>; Fri, 16 Sep 2022 05:47:55 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id kr11so887322ejc.8
-        for <linux-staging@lists.linux.dev>; Thu, 15 Sep 2022 22:47:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC5B7E
+	for <linux-staging@lists.linux.dev>; Fri, 16 Sep 2022 07:12:10 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-3487d84e477so248714997b3.6
+        for <linux-staging@lists.linux.dev>; Fri, 16 Sep 2022 00:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=OcKeKVWdaipsZM2UXTtbaHbEX8KKigHs/WLUeqGJyHY=;
-        b=psTtztujExWhwXzL+eRUtUEvxJJbEpLnI5q55XOCsBzFnBRzclZFK6B29YS0L5Enhq
-         y/TAOyrFrzMDkxUec72fZOkEu0ql05Ax5bwJm9Stz41cy6AQC1rM5d5vZ0CA6OWHeXX9
-         kFkyaWHS69YJyNxa2WnksNso7WbfyjGTTvEvBTIqFp/vrD28gtt2ZFz1kzy6PsZacS/0
-         EoXYrPAiOP4fm2ZgwkATvyctxLjuB0M87LclaDWfTKp1IYfEJI5693vZX0WHpoGhpm+Y
-         +7CJ3xsEUFUvWWcahtA1+o2Cn5mhgDdUb+UK9dHyaxwpNbcbfwjb0vWq6JhD8LA5C2DX
-         FDtA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=DE2ZdUL2HYhPOqvwzzPmLYQHO8bsfIjtF25iTHmhmzI=;
+        b=KrbJtjgM5xbKvqJfC2o989PdTQXSpiSqy2SKQ/metYG2t/49AANGiRKkiNwqu720vS
+         CqctyZuZlgH33AT2AMOAPRf2ltzR/iZDNIBPB78Gu99f8OJLK8ARxlsqVyL0WyXLedxy
+         UEE3Xm0iM3dT++9xmZOwI7mqItq8Lb6E2nMijcDIaTw5k9JLVABEZYcZMGY+V12T/Ijx
+         c8mT3uvnMmr/YMFt0Xe4qgtE7tjQw5KA5OfpDuYdqGZnLCBr/voNtUr/wttl7zuL1LBk
+         H/c45izjZe7osBitG2Nx4pl/AVEMr7iwRA8LszzjTlZpSkCMeNS195FHqT74A3HH4Ni3
+         c+cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=OcKeKVWdaipsZM2UXTtbaHbEX8KKigHs/WLUeqGJyHY=;
-        b=XpKQsdu7KUqjImv5jSjRGHbYsf/M+eruwOt6ndR1QCEs1Bx+nAV6erBFslWvR7a3T8
-         TBvwgb4K/jvMOgFtcAEQ1P2wHhOq9w57szFyhuqPYfgIywbkXaVvGyvy4yDOmlJxavnm
-         3MUEVtr64sRyEJe0dB34jrXIdfqF7WsBdLdjIg/nAp2eDjjSxACL2CsBDrqtnH0VabhR
-         HQ69TWXVTxyeEPtKUiSPUStA9NvnS237r7F0YbnSR1W4iKU2ToXZ3rrUYbpSEIRJr4IZ
-         lBlPrxUFiimvWmuc3hbyYfX+c+Bgxz3lqaVhUL6HZR1jPYcUA55Rb2za+yM3usMgVLze
-         KCBw==
-X-Gm-Message-State: ACrzQf2WMUWMyosBfIBMsqkq1EpY3SNHYE6UoaN4WNx7LFMFmHRMeuTM
-	lROQrYbF/lDl78wdaWwVp7wBKtb2bfE=
-X-Google-Smtp-Source: AMsMyM6uhas3Fz5dnSqdHcgb/U3UrpdfYmITTCxc7j4Wj7u/JDOb8t5KwTwRBFqUJ/JT1bbCXPVRAw==
-X-Received: by 2002:a17:907:a06:b0:77b:6eca:c089 with SMTP id bb6-20020a1709070a0600b0077b6ecac089mr2286316ejc.362.1663307274012;
-        Thu, 15 Sep 2022 22:47:54 -0700 (PDT)
-Received: from [192.168.1.100] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id fw18-20020a170907501200b0073dbaeb50f6sm9901865ejc.169.2022.09.15.22.47.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Sep 2022 22:47:53 -0700 (PDT)
-Message-ID: <28159639-c011-62a0-e8bd-07a79aadca91@gmail.com>
-Date: Fri, 16 Sep 2022 07:47:52 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=DE2ZdUL2HYhPOqvwzzPmLYQHO8bsfIjtF25iTHmhmzI=;
+        b=44Aypv4UMCgkS5YjcCLInOHQnYWWtmpioAplBY7KbuFDtoAmvTrEAXiehM4aYArHcA
+         ryMsApOY7MTsSE8Bv9c65ajYpUgEHoc0O6NJocQjtbIgHmYGV3st1+0LjkePzoLVRJQf
+         C9L+XRaknv5yYec+k3EtiHb8iIt6iECaksnVc7820herLDdcpwnK6Q71Rxg4/mtTyriU
+         ID15Cp4mF9c+uCzqyvYZ4YloEpZX6RRBGSQEt1R67jaIFHi3JV51ufImFBq7DZLzh8X4
+         BDLI4NPzkitHbT7JhuiLuFYQacmCuHxx07HEyP1x19LoH5555I624g76paw+oMZcI5zx
+         YsBw==
+X-Gm-Message-State: ACrzQf31KwYFo4HLZrhGpVoIkrtOJJURql5sIpCyHVcnRImKsDyDAoxv
+	lU8XLDoJXhlCqIJn+HA83QaFGiqb/pc2v2+QxnU=
+X-Google-Smtp-Source: AMsMyM4esr4q3s7N1wM9ko5dALsiqR8ZdczR3dgZiLToL3UdRlZEWO8PyLda8yb76Pqk8fUv66V0X226F4UaXZLoH3E=
+X-Received: by 2002:a0d:f445:0:b0:345:89a2:9a8d with SMTP id
+ d66-20020a0df445000000b0034589a29a8dmr3264191ywf.107.1663312329210; Fri, 16
+ Sep 2022 00:12:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] Staging: rtl8192e: fixed brace, space, and align coding
- style issues
-Content-Language: en-US
-To: Anjandev Momi <anjan@momi.ca>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220916030655.11105-1-anjan@momi.ca>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220916030655.11105-1-anjan@momi.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1663273218.git.namcaov@gmail.com> <a046af7f-7b60-108a-39e8-9ac3b5ce7733@gmail.com>
+In-Reply-To: <a046af7f-7b60-108a-39e8-9ac3b5ce7733@gmail.com>
+From: Nam Cao <namcaov@gmail.com>
+Date: Fri, 16 Sep 2022 09:11:58 +0200
+Message-ID: <CA+sZ8B-93re5277swkO51hMuxqgKaKcR3AWcEJAfwcOS-ytdjw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/5] staging: vt6655: Implement allocation failure handling
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: forest@alittletooquiet.net, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/16/22 05:06, Anjandev Momi wrote:
-> After applying this patch, file drivers/staging/rtl8192e/rtl819x_BAProc.c only
-> has "Avoid CamelCase" coding style issue
-> 
+On Thu, Sep 15, 2022 at 10:58 PM Philipp Hortmann
+<philipp.g.hortmann@gmail.com> wrote:
+>
+> On 9/15/22 22:29, Nam Cao wrote:
+> > This driver does not handle allocation failure when receiving data very well.
+> > This patchset implements better handling in the case of allocation failure.
+> >
+> > Nam Cao (5):
+> >    staging: vt6655: remove redundant if condition
+> >    staging: vt6655: change vnt_receive_frame return type to void
+> >    staging: vt6655: split device_alloc_rx_buf
+> >    staging: vt6655: change device_alloc_rx_buf's argument
+> >    staging: vt6655: implement allocation failure handling
+> >
+> >   drivers/staging/vt6655/device_main.c | 41 ++++++++++++++++++----------
+> >   drivers/staging/vt6655/dpc.c         |  8 +++---
+> >   drivers/staging/vt6655/dpc.h         |  2 +-
+> >   3 files changed, 31 insertions(+), 20 deletions(-)
+> >
+>
+> Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 
-The patch description needs to describe _why_ the change is required or 
-makes sense.
+Thank you, I really appreciate your help.
 
-Have a look at:
-https://lore.kernel.org/linux-staging/
-https://lore.kernel.org/linux-staging/20220911174933.3784-3-straube.linux@gmail.com/T/#u
+>
+>
+> Find in this email a comment from Greg about RFC:
+> https://lore.kernel.org/linux-gpio/YwS4WDekXM3UQ7Yo@kroah.com/
+> This patch is marked as "RFC" but I don't see any questions that you
+> have here.  Please resolve anything you think needs to be handled and
+> submit a "this series is ok to be merged" version.
+>
+> May be this is applicable to this patch as well.
 
-> Signed-off-by: Anjandev Momi <anjan@momi.ca>
-> ---
->   drivers/staging/rtl8192e/rtl819x_BAProc.c | 16 +++++++---------
->   1 file changed, 7 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> index 7d04966af..b4e565af1 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> @@ -62,6 +62,7 @@ void ResetBaEntry(struct ba_record *pBA)
->   	pBA->dialog_token		  = 0;
->   	pBA->ba_start_seq_ctrl.short_data = 0;
->   }
-> +
->   static struct sk_buff *rtllib_ADDBA(struct rtllib_device *ieee, u8 *Dst,
->   				    struct ba_record *pBA,
->   				    u16 StatusCode, u8 type)
+I add the RFC tag to "tells maintainers should review your patch thoroughly,
+and provide feedback. RFC is typically used when sending feature patches for
+the first time, or anytime the patch is more than just a simple bug fix."
+(from https://kernelnewbies.org/PatchTipsAndTricks). I was not aware that this
+tag may be interpreted differently. I can send a new patchset if necessary.
 
-This makes sense
-
-> @@ -113,7 +114,7 @@ static struct sk_buff *rtllib_ADDBA(struct rtllib_device *ieee, u8 *Dst,
->   	tag += 2;
->   
->   	if (type == ACT_ADDBAREQ) {
-> -		memcpy(tag, (u8 *)&(pBA->ba_start_seq_ctrl), 2);
-> +		memcpy(tag, (u8 *)&pBA->ba_start_seq_ctrl, 2);
->   		tag += 2;
->   	}
->   
-
-This makes sense
-
-> @@ -161,7 +162,6 @@ static struct sk_buff *rtllib_DELBA(struct rtllib_device *ieee, u8 *dst,
->   	*tag++ = ACT_CAT_BA;
->   	*tag++ = ACT_DELBA;
->   
-> -
->   	put_unaligned_le16(DelbaParamSet.short_data, tag);
->   	tag += 2;
->   
-
-This makes sense
-
-> @@ -258,8 +258,8 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
->   			    ieee->pHTInfo->bCurrentHTSupport);
->   		goto OnADDBAReq_Fail;
->   	}
-> -	if (!GetTs(ieee, (struct ts_common_info **)(&pTS), dst,
-> -	    (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
-> +	if (!GetTs(ieee, (struct ts_common_info **)(&pTS),
-> +		   dst, (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
->   		rc = ADDBA_STATUS_REFUSED;
->   		netdev_warn(ieee->dev, "%s(): can't get TS\n", __func__);
->   		goto OnADDBAReq_Fail;
-
-Why do you need to put the "dst" to the next line?
-
-> @@ -282,7 +282,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
->   	pBA->ba_start_seq_ctrl = *pBaStartSeqCtrl;
->   
->   	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev) ||
-> -	   (ieee->pHTInfo->IOTAction & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
-> +	    (ieee->pHTInfo->IOTAction & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
->   		pBA->ba_param_set.field.buffer_size = 1;
->   	else
->   		pBA->ba_param_set.field.buffer_size = 32;
-
-Did checkpatch tell you to do so?
-
-> @@ -380,7 +380,6 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
->   			goto OnADDBARsp_Reject;
->   		}
->   
-> -
->   		pAdmittedBA->dialog_token = *pDialogToken;
->   		pAdmittedBA->ba_timeout_value = *pBaTimeoutVal;
->   		pAdmittedBA->ba_start_seq_ctrl = pPendingBA->ba_start_seq_ctrl;
-
-This makes sense
-
-> @@ -419,8 +418,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
->   		return -1;
->   	}
->   
-> -	if (!ieee->current_network.qos_data.active ||
-> -		!ieee->pHTInfo->bCurrentHTSupport) {
-> +	if (!ieee->current_network.qos_data.active || !ieee->pHTInfo->bCurrentHTSupport) {
->   		netdev_warn(ieee->dev,
->   			    "received DELBA while QOS or HT is not supported(%d, %d)\n",
->   			    ieee->current_network. qos_data.active,
-
-This makes sense
-
-> @@ -440,7 +438,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
->   		struct rx_ts_record *pRxTs;
->   
->   		if (!GetTs(ieee, (struct ts_common_info **)&pRxTs, dst,
-> -		    (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
-> +			   (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
->   			netdev_warn(ieee->dev,
->   				    "%s(): can't get TS for RXTS. dst:%pM TID:%d\n",
->   				    __func__, dst,
-
-Did checkpatch tell you to do so? Checkpatch is not always right. I see 
-what you want to do but I cannot say that this is really improving 
-readability.
-
-Always consider that I am not the maintainer. Those are just my opinions.
-
-I can apply and compile your patch. Connection works.
-
-I am sure you need a v2 of this patch with an updated description. 
-Please do include a change history.
-
-Bye Philipp
-
-
-
-
-
-
-
-
-
-
-
+Best regards,
+Nam
