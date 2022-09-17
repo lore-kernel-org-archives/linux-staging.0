@@ -1,47 +1,48 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EFB366
-	for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 04:25:52 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id lh5so11738076ejb.10
-        for <linux-staging@lists.linux.dev>; Fri, 16 Sep 2022 21:25:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D394D366
+	for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 04:26:01 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id u9so53565180ejy.5
+        for <linux-staging@lists.linux.dev>; Fri, 16 Sep 2022 21:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date;
-        bh=P4IXbjpJGogB5bTg3j6LGjLbToM1KMQkj8lnneUfMDE=;
-        b=NX8Ya4tB87jnzHdWuHENplKakLqBCRAgfp8c1MduGfLX4qWI5aM+Zxa8rReQkVw4UH
-         6hlTaK/zi5A23JCAx7hrYYCuvKtFf2UGBAiV3xhGB3E1RI3uQTzySmM+nJezDdvLPkS1
-         s5CxJak70R28Jbv4z5kOrHPsQ5XmZ3wTVQGOCL1SiqsN9LNXfHTrfeeaGOompCIxZUX+
-         +VnaZw6Lbl7nSoBQeI/5w0dO7HHm9vYwJ6fj2kDpCJcwL1dxBVfj1JFw3mK9tEoP2naa
-         HGUZ5vT+5++Q8xxzvNhdK2wHrwK4ojhSA9ZGpCYjVkwlRciPrq3akt/6NjieAMrwVjcJ
-         rWzQ==
+        bh=48TrLh74HqKrzik8Fk6DUHkcVjt+dZhNAckkfUJzuE0=;
+        b=nUG9lZNtYC0PSixanDyWQ01k0z7hFlVsMAq1nmESd0yXJUYonLPqfiwfr3RBLnddgp
+         JKF+xomEA8Ni58wanXtGYMqBjruQeLpqQsRfqB8XIH4nF/d2ASIx4KOv7RziHH47E61K
+         WquRHNnAxSoJCqbRAt36lS661wpczPCJredbxPnhJnvUQxgErIJW5bsh870/067DghUa
+         RHZsgk2rHIYNGXuhfZba1CzyeXpC5BMGFvZ0aOL/M6hbVuDuuAUcQPoqLpC5lHsXYuEQ
+         7VEMVG+/rrDS3ZvYWRhNIcIA6HVsw6RVtwea+PrgMY+BY/LkMIY8SU/du/oME2pVweM/
+         SlCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=P4IXbjpJGogB5bTg3j6LGjLbToM1KMQkj8lnneUfMDE=;
-        b=pLODhcEDQRNyGM+Bxw0ZUWPe2LvSzPzsrS38QKRPQiuKT2g7RgVUahBT7XUQgPdXPg
-         ZWwX0URq6bcl4WXLsD9kG6KlC/IsEKgIZXW6GhZCVusv1UzRKdiO+H6VG92AgjZsPjhr
-         y20dTHfCFZbKcT4Kkp+LnOklSFGMRw+KbhgCgFbVcLhltPp58LkUlsbJV2gVnz0YCth7
-         QoXt+1mfxkxRZfx0IsOMJiKndRTZh1S3Mh0ijitlkt+v81WL6IRnFEEKVdK8TuQKqoUw
-         hmnmxlAd6uaiCbFHlDw3pcYhsqP4l3uV+zcxYJmu48oxtowt7IoiTIe3CTi3oh4mfIlg
-         Ob5Q==
-X-Gm-Message-State: ACrzQf2m5sE1WaNotfzuOQr/COvl3fGrXL9hsh/a6BmJyE8JBCL5GI8K
-	S+Qc2/waJtkccgdmVlqelMY=
-X-Google-Smtp-Source: AMsMyM7TWi7Pyw+NtYWXDQ0hRdHci6YAuF7Y7j81PkLYtxj2QlRD2YJMS7Dg5ZtYsN2zlzc2AdZWUA==
-X-Received: by 2002:a17:907:6ea2:b0:779:8fc1:e5d8 with SMTP id sh34-20020a1709076ea200b007798fc1e5d8mr5467127ejc.731.1663388751168;
-        Fri, 16 Sep 2022 21:25:51 -0700 (PDT)
+        bh=48TrLh74HqKrzik8Fk6DUHkcVjt+dZhNAckkfUJzuE0=;
+        b=na2wK6U6kjPPK77GNS8XOmk5nyZBCrccWN50x1kxG1r7dwb3Vxcfps21/y8CvLrlCs
+         p3jJXC9+pteD0Y4YdltDjnoG0Ai0T/3XP4GBJRzxDc7lfssjYBp+CkINu4QbWG8coPHX
+         N2El4d/+B6h9uGu9ZhW+rTFBIvP2qMLu+Lw7LouW0DZkTh6y3CMuTXSnkdDC9O12RVKN
+         ADRKCZplVMUIX1LO9hJl7ai3u/lUqruOSx8bT3YLx94dJ0S3znGeDi13IVAxTdodN0g3
+         UqhmtVsDLsssKxBT9MOqcT1NfTcPVTqNJKjaNYEtvo9t5Lr54oMrQwzFas81UaUT0Yqi
+         EZwQ==
+X-Gm-Message-State: ACrzQf3rH8PefCujPkQjeanj+89RO1yxlN822CsDpRAOkYZ6EsNwCoUg
+	JtFt8/PMPf0E5HCW6cbbGbc=
+X-Google-Smtp-Source: AMsMyM7/YuX8xKItHriaHDm0U24H0J8mZmYHBA2MagMxvOVL2b+hd4tuQ/0WnQYLOl7tvrVZCAUpXw==
+X-Received: by 2002:a17:907:9718:b0:77b:45b6:b047 with SMTP id jg24-20020a170907971800b0077b45b6b047mr5605543ejc.479.1663388761412;
+        Fri, 16 Sep 2022 21:26:01 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id b2-20020a1709063ca200b00777249e951bsm11544672ejh.51.2022.09.16.21.25.50
+        by smtp.gmail.com with ESMTPSA id b14-20020a17090630ce00b0073d7b876621sm2153632ejb.205.2022.09.16.21.25.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 21:25:50 -0700 (PDT)
-Date: Sat, 17 Sep 2022 06:25:48 +0200
+        Fri, 16 Sep 2022 21:26:00 -0700 (PDT)
+Date: Sat, 17 Sep 2022 06:25:58 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] staging: rtl8192e: Remove ftrace-like logging in rtl_ps.c
-Message-ID: <6d942ba65f62643af2ff7104911f7947cca21790.1663387785.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 6/6] staging: rtl8192e: Remove ftrace-like logging in
+ rtl819x_BAProc.c, ...
+Message-ID: <2c41e6856cd37b4f3e5cb1108272bcc24032bf64.1663387785.git.philipp.g.hortmann@gmail.com>
 References: <cover.1663387785.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,134 +55,133 @@ Content-Disposition: inline
 In-Reply-To: <cover.1663387785.git.philipp.g.hortmann@gmail.com>
 
 Remove "Unnecessary ftrace-like logging" as requested by checkpatch.
+Remove multiline macro as it is not needed anymore and not liked by
+kernel community.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_ps.c | 34 ----------------------
- 1 file changed, 34 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_BAProc.c    | 5 -----
+ drivers/staging/rtl8192e/rtllib_debug.h      | 6 ------
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 8 --------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 6 ------
+ 4 files changed, 25 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-index 966debd99296..d752bbc310d1 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
-@@ -23,13 +23,9 @@ static void _rtl92e_hw_sleep(struct net_device *dev)
- 	spin_lock_irqsave(&priv->rf_ps_lock, flags);
- 	if (priv->rf_change_in_progress) {
- 		spin_unlock_irqrestore(&priv->rf_ps_lock, flags);
--		RT_TRACE(COMP_DBG,
--			 "%s(): RF Change in progress!\n", __func__);
- 		return;
+diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+index 7d04966afdd9..4c907fb16253 100644
+--- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+@@ -100,8 +100,6 @@ static struct sk_buff *rtllib_ADDBA(struct rtllib_device *ieee, u8 *Dst,
+ 	*tag++ = pBA->dialog_token;
+ 
+ 	if (type == ACT_ADDBARSP) {
+-		RT_TRACE(COMP_DBG, "====>to send ADDBARSP\n");
+-
+ 		put_unaligned_le16(StatusCode, tag);
+ 		tag += 2;
  	}
- 	spin_unlock_irqrestore(&priv->rf_ps_lock, flags);
--	RT_TRACE(COMP_DBG, "%s()============>come to sleep down\n", __func__);
--
- 	rtl92e_set_rf_state(dev, eRfSleep, RF_CHANGE_BY_PS);
- }
+@@ -183,7 +181,6 @@ static void rtllib_send_ADDBAReq(struct rtllib_device *ieee, u8 *dst,
+ 	skb = rtllib_ADDBA(ieee, dst, pBA, 0, ACT_ADDBAREQ);
  
-@@ -50,14 +46,11 @@ void rtl92e_hw_wakeup(struct net_device *dev)
- 	spin_lock_irqsave(&priv->rf_ps_lock, flags);
- 	if (priv->rf_change_in_progress) {
- 		spin_unlock_irqrestore(&priv->rf_ps_lock, flags);
+ 	if (skb) {
+-		RT_TRACE(COMP_DBG, "====>to send ADDBAREQ!!!!!\n");
+ 		softmac_mgmt_xmit(skb, ieee);
+ 	} else {
+ 		netdev_dbg(ieee->dev, "Failed to generate ADDBAReq packet.\n");
+@@ -247,7 +244,6 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	pBaTimeoutVal = (u16 *)(tag + 5);
+ 	pBaStartSeqCtrl = (union sequence_control *)(req + 7);
+ 
+-	RT_TRACE(COMP_DBG, "====>rx ADDBAREQ from : %pM\n", dst);
+ 	if (!ieee->current_network.qos_data.active ||
+ 	    !ieee->pHTInfo->bCurrentHTSupport ||
+ 	    (ieee->pHTInfo->IOTAction & HT_IOT_ACT_REJECT_ADDBA_REQ)) {
+@@ -330,7 +326,6 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	pBaParamSet = (union ba_param_set *)(tag + 5);
+ 	pBaTimeoutVal = (u16 *)(tag + 7);
+ 
+-	RT_TRACE(COMP_DBG, "====>rx ADDBARSP from : %pM\n", dst);
+ 	if (!ieee->current_network.qos_data.active ||
+ 	    !ieee->pHTInfo->bCurrentHTSupport ||
+ 	    !ieee->pHTInfo->bCurrentAMPDUEnable) {
+diff --git a/drivers/staging/rtl8192e/rtllib_debug.h b/drivers/staging/rtl8192e/rtllib_debug.h
+index e3e8302945eb..f6b23defe225 100644
+--- a/drivers/staging/rtl8192e/rtllib_debug.h
++++ b/drivers/staging/rtl8192e/rtllib_debug.h
+@@ -46,10 +46,4 @@ enum RTL_DEBUG {
+ 	COMP_ERR		= BIT(31)
+ };
+ 
+-#define RT_TRACE(component, x, args...)		\
+-do {			\
+-	if (rt_global_debug_component & component) \
+-		printk(KERN_DEBUG DRV_NAME ":" x "\n", ##args);\
+-} while (0)
+-
+ #endif
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 9e6d7c5716ff..e4f5f4ecf4d0 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -1584,13 +1584,8 @@ static void rtllib_associate_procedure_wq(void *data)
+ 		ieee->data_hard_stop(ieee->dev);
+ 
+ 	rtllib_stop_scan(ieee);
+-	RT_TRACE(COMP_DBG, "===>%s(), chan:%d\n", __func__,
+-		 ieee->current_network.channel);
+ 	HTSetConnectBwMode(ieee, HT_CHANNEL_WIDTH_20, HT_EXTCHNL_OFFSET_NO_EXT);
+ 	if (ieee->eRFPowerState == eRfOff) {
 -		RT_TRACE(COMP_DBG,
--			 "%s(): RF Change in progress!\n", __func__);
- 		schedule_delayed_work(&priv->rtllib->hw_wakeup_wq,
- 				      msecs_to_jiffies(10));
- 		return;
- 	}
- 	spin_unlock_irqrestore(&priv->rf_ps_lock, flags);
--	RT_TRACE(COMP_PS, "%s()============>come to wake up\n", __func__);
- 	rtl92e_set_rf_state(dev, eRfOn, RF_CHANGE_BY_PS);
- }
- 
-@@ -110,15 +103,10 @@ static void _rtl92e_ps_update_rf_state(struct net_device *dev)
- 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
- 					&(priv->rtllib->PowerSaveControl);
- 
--	RT_TRACE(COMP_PS, "%s() --------->\n", __func__);
- 	pPSC->bSwRfProcessing = true;
--
--	RT_TRACE(COMP_PS, "%s(): Set RF to %s.\n", __func__,
--		 pPSC->eInactivePowerState == eRfOff ? "OFF" : "ON");
- 	rtl92e_set_rf_state(dev, pPSC->eInactivePowerState, RF_CHANGE_BY_IPS);
- 
- 	pPSC->bSwRfProcessing = false;
--	RT_TRACE(COMP_PS, "%s() <---------\n", __func__);
- }
- 
- void rtl92e_ips_enter(struct net_device *dev)
-@@ -133,7 +121,6 @@ void rtl92e_ips_enter(struct net_device *dev)
- 		if (rt_state == eRfOn && !pPSC->bSwRfProcessing &&
- 			(priv->rtllib->state != RTLLIB_LINKED) &&
- 			(priv->rtllib->iw_mode != IW_MODE_MASTER)) {
--			RT_TRACE(COMP_PS, "%s(): Turn off RF.\n", __func__);
- 			pPSC->eInactivePowerState = eRfOff;
- 			priv->isRFOff = true;
- 			priv->bInPowerSaveMode = true;
-@@ -153,7 +140,6 @@ void rtl92e_ips_leave(struct net_device *dev)
- 		rt_state = priv->rtllib->eRFPowerState;
- 		if (rt_state != eRfOn  && !pPSC->bSwRfProcessing &&
- 		    priv->rtllib->RfOffReason <= RF_CHANGE_BY_IPS) {
--			RT_TRACE(COMP_PS, "%s(): Turn on RF.\n", __func__);
- 			pPSC->eInactivePowerState = eRfOn;
- 			priv->bInPowerSaveMode = false;
- 			_rtl92e_ps_update_rf_state(dev);
-@@ -210,7 +196,6 @@ static bool _rtl92e_ps_set_mode(struct net_device *dev, u8 rtPsMode)
- 	if (priv->rtllib->iw_mode == IW_MODE_ADHOC)
- 		return false;
- 
--	RT_TRACE(COMP_LPS, "%s(): set ieee->ps = %x\n", __func__, rtPsMode);
- 	if (!priv->ps_force)
- 		priv->rtllib->ps = rtPsMode;
- 	if (priv->rtllib->sta_sleep != LPS_IS_WAKE &&
-@@ -221,8 +206,6 @@ static bool _rtl92e_ps_set_mode(struct net_device *dev, u8 rtPsMode)
- 		priv->rtllib->sta_sleep = LPS_IS_WAKE;
- 
- 		spin_lock_irqsave(&(priv->rtllib->mgmt_tx_lock), flags);
+-			 "=============>%s():Rf state is eRfOff, schedule ipsleave wq again,return\n",
+-			 __func__);
+ 		if (ieee->rtllib_ips_leave_wq != NULL)
+ 			ieee->rtllib_ips_leave_wq(ieee->dev);
+ 		mutex_unlock(&ieee->wx_mutex);
+@@ -2062,9 +2057,6 @@ static inline void rtllib_sta_ps(struct work_struct *work)
+ 	if ((ieee->ps == RTLLIB_PS_DISABLED ||
+ 	     ieee->iw_mode != IW_MODE_INFRA ||
+ 	     ieee->state != RTLLIB_LINKED)) {
 -		RT_TRACE(COMP_DBG,
--			 "LPS leave: notify AP we are awaked ++++++++++ SendNullFunctionData\n");
- 		rtllib_sta_ps_send_null_frame(priv->rtllib, 0);
- 		spin_unlock_irqrestore(&(priv->rtllib->mgmt_tx_lock), flags);
+-			 "=====>%s(): no need to ps,wake up!! ieee->ps is %d, ieee->iw_mode is %d, ieee->state is %d\n",
+-			 __func__, ieee->ps, ieee->iw_mode, ieee->state);
+ 		spin_lock_irqsave(&ieee->mgmt_tx_lock, flags2);
+ 		rtllib_sta_wakeup(ieee, 1);
+ 
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index 70a62ca0f69a..f9589c5b62ba 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -364,8 +364,6 @@ void rtllib_wx_sync_scan_wq(void *data)
+ 		b40M = 1;
+ 		chan_offset = ieee->pHTInfo->CurSTAExtChnlOffset;
+ 		bandwidth = (enum ht_channel_width)ieee->pHTInfo->bCurBW40MHz;
+-		RT_TRACE(COMP_DBG, "Scan in 40M, force to 20M first:%d, %d\n",
+-			 chan_offset, bandwidth);
+ 		ieee->SetBWModeHandler(ieee->dev, HT_CHANNEL_WIDTH_20,
+ 				       HT_EXTCHNL_OFFSET_NO_EXT);
  	}
-@@ -236,12 +219,6 @@ void rtl92e_leisure_ps_enter(struct net_device *dev)
- 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
- 					&(priv->rtllib->PowerSaveControl);
+@@ -373,7 +371,6 @@ void rtllib_wx_sync_scan_wq(void *data)
+ 	rtllib_start_scan_syncro(ieee, 0);
  
--	RT_TRACE(COMP_PS, "%s()...\n", __func__);
--	RT_TRACE(COMP_PS,
--		 "pPSC->bLeisurePs = %d, ieee->ps = %d,pPSC->LpsIdleCount is %d,RT_CHECK_FOR_HANG_PERIOD is %d\n",
--		 pPSC->bLeisurePs, priv->rtllib->ps, pPSC->LpsIdleCount,
--		 RT_CHECK_FOR_HANG_PERIOD);
--
- 	if (!((priv->rtllib->iw_mode == IW_MODE_INFRA) &&
- 	    (priv->rtllib->state == RTLLIB_LINKED))
- 	    || (priv->rtllib->iw_mode == IW_MODE_ADHOC) ||
-@@ -252,10 +229,6 @@ void rtl92e_leisure_ps_enter(struct net_device *dev)
- 		if (pPSC->LpsIdleCount >= RT_CHECK_FOR_HANG_PERIOD) {
+ 	if (b40M) {
+-		RT_TRACE(COMP_DBG, "Scan in 20M, back to 40M\n");
+ 		if (chan_offset == HT_EXTCHNL_OFFSET_UPPER)
+ 			ieee->set_chan(ieee->dev, chan + 2);
+ 		else if (chan_offset == HT_EXTCHNL_OFFSET_LOWER)
+@@ -571,14 +568,11 @@ int rtllib_wx_set_power(struct rtllib_device *ieee,
+ 	mutex_lock(&ieee->wx_mutex);
  
- 			if (priv->rtllib->ps == RTLLIB_PS_DISABLED) {
--
--				RT_TRACE(COMP_LPS,
--					 "%s(): Enter 802.11 power save mode...\n", __func__);
--
- 				if (!pPSC->bFwCtrlLPS) {
- 					if (priv->rtllib->SetFwCmdHandler)
- 						priv->rtllib->SetFwCmdHandler(
-@@ -275,15 +248,8 @@ void rtl92e_leisure_ps_leave(struct net_device *dev)
- 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
- 					&(priv->rtllib->PowerSaveControl);
+ 	if (wrqu->power.disabled) {
+-		RT_TRACE(COMP_DBG, "===>%s(): power disable\n", __func__);
+ 		ieee->ps = RTLLIB_PS_DISABLED;
+ 		goto exit;
+ 	}
+ 	if (wrqu->power.flags & IW_POWER_TIMEOUT) {
+ 		ieee->ps_timeout = wrqu->power.value / 1000;
+-		RT_TRACE(COMP_DBG, "===>%s():ps_timeout is %d\n", __func__,
+-			 ieee->ps_timeout);
+ 	}
  
--
--	RT_TRACE(COMP_PS, "%s()...\n", __func__);
--	RT_TRACE(COMP_PS, "pPSC->bLeisurePs = %d, ieee->ps = %d\n",
--		pPSC->bLeisurePs, priv->rtllib->ps);
--
- 	if (pPSC->bLeisurePs) {
- 		if (priv->rtllib->ps != RTLLIB_PS_DISABLED) {
--			RT_TRACE(COMP_LPS,
--				 "%s(): Busy Traffic , Leave 802.11 power save..\n", __func__);
- 			_rtl92e_ps_set_mode(dev, RTLLIB_PS_DISABLED);
- 
- 			if (!pPSC->bFwCtrlLPS) {
+ 	if (wrqu->power.flags & IW_POWER_PERIOD)
 -- 
 2.37.3
 
