@@ -1,83 +1,116 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3617C
-	for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 08:22:28 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id f26so15046798qto.11
-        for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 01:22:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4938320C
+	for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 18:12:07 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id q9so14113163pgq.8
+        for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 11:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=kS8/EgIlVdJnBMCVvBf9aPAIIxffkGnw4kBuKXRgqFs=;
-        b=g/6pWuE0v50HWvMzl5+qN79haywPF3Hi8wzStgv7ClpOaT8zUu6yYVxhliNnbc9FI7
-         s4PIsRiiA7y5/XEem/84kb6I/KOcgUjvJ6t7NgGT9QlOjzffDSU16GAgEn1Lfnb8k4G8
-         wWTDPV2BiUW9Z8Bgm3wHsGaCfCUWk0yAZXmLLWYmdPXVGwDnvwpgyMByutNQZXz1jOKc
-         GXD8xDllscd9kifkrwQx7WNwsH0l9TzXvNytm7vcDMNoetWau0x5RX4bL9Io+Z43/igJ
-         Kkaa7yyUdzFHueEL47SXD+Uv+gOypS5a7t+47CdbP/MDWA0fTcKPZxTFRgZ2vp1I7BTu
-         ra7Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=TUmHLR+GSgYu7dtcYzNGTZciju4TnnNcKZxPhqTgdFY=;
+        b=md7v8eBkL7OjZ0GnNG6vOgsqZFHpqcfwfU6u/r/GREXGiQZL/vdshx5bNycETrDFH3
+         CSUUidGIIi4kGjMbC5KCBa6xQNWNk61qTuTBqKkhhpsEULz/coO4dG8P0nkjuvw2rEGy
+         x3UnzKbzHGo5taV5n90cGqrNiH0Y4UBAvNfG1gWWWEGV68LQLnNidLevw0BtQ26rXaxs
+         WyMGpZ4Pl5kUPb22yeBzlxcCROnzFXmji0UDwFcVEDqSuoyFxCNN5dKiQGl5HstXoLPO
+         nsyDAGMt1sJip7Pc9hAQRzhGbGzgKS6v3iE+3J8XF9yufK708gqrAFXsryFI/rmFkwwa
+         2lEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=kS8/EgIlVdJnBMCVvBf9aPAIIxffkGnw4kBuKXRgqFs=;
-        b=Onj9tCGrW0dKOhNIT2jIliSIt+ZaGgI+GgFJoV24RpxWCP+yd72TTiG5Ny6L7IqC2K
-         RR4xSLSjiUI8o0e3R/AxulT4QiRjNKgGLiYEUgeYQDa4AC63Mb+baetcpc981Ei1unSS
-         9gJifYUDXA3b1X0d+t7FGuxp7z/yXOB0Zky9ZyyrV4MPQ+hLLk9JCrv7qioe8qZBD8uQ
-         diHEyiBxsPeDn/qManINu2RqpJBsNViFZP7SY7z3pugNdNDZlFDTDHKLBPnfxtTK4WKx
-         GVYPaWiEIzsEJC/3tOdwt7EqxgRiz9PMSqyQ/2Qmc/mw5FgrZbRSFRpku+U3aTczVVx+
-         px7A==
-X-Gm-Message-State: ACrzQf27p6GsO1KkIvpwmlgu94k19MpVqhfFT04l/7EBzA/xoXmuQ8LZ
-	Cf8mrVQ6UO8xazduRWPIqReIasdq2K/GrJSkQK0=
-X-Google-Smtp-Source: AMsMyM5sLzH5BLhVXGVQnU3o3IuaDXq7rnfO+hQvULcHS4ocIwpBK9lFO4aEGcuYq0dE7X4qjUSgcIbTaT7Eqsa4fFU=
-X-Received: by 2002:ac8:7c43:0:b0:35c:cd8f:3da5 with SMTP id
- o3-20020ac87c43000000b0035ccd8f3da5mr6305030qtv.61.1663402947357; Sat, 17 Sep
- 2022 01:22:27 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=TUmHLR+GSgYu7dtcYzNGTZciju4TnnNcKZxPhqTgdFY=;
+        b=xNImSiEXjL5AKPYd4Z/oaBtgWqkqgjo6zesxCnJ7iIhlgOwtS9f8EsI8GEZEKeb6l4
+         c/BBPha8XFuzZ58n0HmbPrZxMEubWwVmue5YsrdfhsOX8wD97sAX/0Mce4HGeVcdRbue
+         wK+7A/fSefDFmEGyNWGh1tDSI6X37XnA2qan4SwXmii4HlwnRUHnZQTZboIqGcQYzf9x
+         boepCTf1dum8sxQFD0wl9rd+9/ePRwy7UeAaq/GLyEQwbqaaw14n2pcN+rcOpKmg5E+r
+         aDFGXYcKN9gQyiqxrLKz+hijenT5AWqdP4YZy3wHN8PyZAcyuwJwf+IG+sCAzBts6GHS
+         9dUg==
+X-Gm-Message-State: ACrzQf1C21qiYubOT4JtMdhoo33YArchIEsOsKGX62vlg/VXIp/Bm6xr
+	KBIZKdZ7/akudKYKjVjCmwg=
+X-Google-Smtp-Source: AMsMyM4ocTrC9bd47eOe59Y7u5uoUkYvEuMGz/z2Inc1IiIJcMIuSsP08orLRE86aAch7141q+kb0g==
+X-Received: by 2002:a63:5605:0:b0:438:ac3f:49cb with SMTP id k5-20020a635605000000b00438ac3f49cbmr9357799pgb.222.1663438327218;
+        Sat, 17 Sep 2022 11:12:07 -0700 (PDT)
+Received: from uftrace.. ([14.5.161.231])
+        by smtp.gmail.com with ESMTPSA id m8-20020a62a208000000b005386b58c8a3sm16632409pff.100.2022.09.17.11.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Sep 2022 11:12:06 -0700 (PDT)
+From: Kang Minchul <tegongkang@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>
+Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kang Minchul <tegongkang@gmail.com>
+Subject: [PATCH 1/2] staging: rtl8723bs: Fix coding style issue in block comment
+Date: Sun, 18 Sep 2022 03:11:30 +0900
+Message-Id: <20220917181130.3237159-1-tegongkang@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220917024709.5017-1-shangxiaojing@huawei.com>
-In-Reply-To: <20220917024709.5017-1-shangxiaojing@huawei.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 17 Sep 2022 11:21:51 +0300
-Message-ID: <CAHp75VcH_iWh2yaGLzGevKo1a6h5gptdLR8922cd0KvRKnioHQ@mail.gmail.com>
-Subject: Re: [PATCH -next] staging: fwserial: Switch to kvfree_rcu() API
-To: Shang XiaoJing <shangxiaojing@huawei.com>
-Cc: gregkh@linuxfoundation.org, ilpo.jarvinen@linux.intel.com, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 17, 2022 at 5:12 AM Shang XiaoJing <shangxiaojing@huawei.com> wrote:
->
-> Instead of invoking a synchronize_rcu() to free a pointer after a grace
-> period, we can directly make use of new API that does the same but in
+This patch removes the following warning generated by checkpatch.pl
 
-a new
+  WARNING: Block comments use * on subsequent lines
+  #206: FILE: rtw_recv.c:206:
+  +/*
+  +signed int     rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *queue)
 
-> more efficient way.
+  WARNING: Block comments use * on subsequent lines
+  #216: FILE: rtw_recv.c:216:
+  +/*
+  +caller : defrag ; recvframe_chk_defrag in recv_thread  (passive)
 
-...
+Signed-off-by: Kang Minchul <tegongkang@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-> sorry, the previous same patch have the wrong v3 flag in subject.
-
-has
-
-First of all, this brings even more confusion. Since the below needs
-some work, we want to have a v4 with a proper changelog, explaining
-also v1 and v3.
-
-...
-
-> -       synchronize_rcu();
-> -       kfree(peer);
-> +       kvfree_rcu(peer);
-
-This is not equivalent. The commit message doesn't explain why the "v"
-variant is needed. So, shouldn't it be the plain kfree_rcu()?
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index d8d394b67eeb..ad6fb6c3d1f0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -203,22 +203,22 @@ signed int rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *q
+ }
+ 
+ /*
+-signed int	rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *queue)
+-{
+-	return rtw_free_recvframe(precvframe, queue);
+-}
+-*/
++ * signed int	rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *queue)
++ * {
++ * 	return rtw_free_recvframe(precvframe, queue);
++ * }
++ */
+ 
+ 
+ 
+ 
+ /*
+-caller : defrag ; recvframe_chk_defrag in recv_thread  (passive)
+-pframequeue: defrag_queue : will be accessed in recv_thread  (passive)
+-
+-using spinlock to protect
+-
+-*/
++ * caller : defrag ; recvframe_chk_defrag in recv_thread  (passive)
++ * pframequeue: defrag_queue : will be accessed in recv_thread  (passive)
++ *
++ * using spinlock to protect
++ *
++ */
+ 
+ void rtw_free_recvframe_queue(struct __queue *pframequeue,  struct __queue *pfree_recv_queue)
+ {
 -- 
-With Best Regards,
-Andy Shevchenko
+2.34.1
+
