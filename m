@@ -1,26 +1,26 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B311D36C
-	for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 02:06:46 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MTvN23y3Yz14QTg;
-	Sat, 17 Sep 2022 10:02:42 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182C936C
+	for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 02:12:54 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MTvXR6njwzpSst;
+	Sat, 17 Sep 2022 10:09:59 +0800 (CST)
 Received: from kwepemm600008.china.huawei.com (7.193.23.88) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 17 Sep 2022 10:06:43 +0800
+ 15.1.2375.24; Sat, 17 Sep 2022 10:12:44 +0800
 Received: from huawei.com (10.175.100.227) by kwepemm600008.china.huawei.com
  (7.193.23.88) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Sat, 17 Sep
- 2022 10:06:42 +0800
+ 2022 10:12:43 +0800
 From: Shang XiaoJing <shangxiaojing@huawei.com>
 To: <gregkh@linuxfoundation.org>, <andy.shevchenko@gmail.com>,
 	<ilpo.jarvinen@linux.intel.com>, <linux-staging@lists.linux.dev>
 CC: <shangxiaojing@huawei.com>
-Subject: [PATCH v3 -next] staging: fwserial: Switch to kvfree_rcu() API
-Date: Sat, 17 Sep 2022 10:41:08 +0800
-Message-ID: <20220917024109.3611-1-shangxiaojing@huawei.com>
+Subject: [PATCH -next] staging: fwserial: Switch to kvfree_rcu() API
+Date: Sat, 17 Sep 2022 10:47:09 +0800
+Message-ID: <20220917024709.5017-1-shangxiaojing@huawei.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -39,6 +39,8 @@ period, we can directly make use of new API that does the same but in
 more efficient way.
 
 Signed-off-by: Shang XiaoJing <shangxiaojing@huawei.com>
+---
+sorry, the previous same patch have the wrong v3 flag in subject.
 ---
  drivers/staging/fwserial/fwserial.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
