@@ -1,145 +1,212 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E15648
-	for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 05:13:38 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id g3so21261580wrq.13
-        for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 22:13:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E55656
+	for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 07:49:28 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id b35so37097590edf.0
+        for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 00:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=LQj4x2kJKlqlUKTiwOiXLQk0/4XYgqe/eXrFwRGV8PI=;
-        b=ADWh8/FP4Ufe0teuEzRdCaj4x+TVFukhUBm2EszcI18eK/t7FShNztasDEuUUe39UZ
-         ZCkSryfs43CcckI8E+Z8C4IjIcwWKTFl3hd1UZJfceQ9vSYglrV8xbOoXdJ3Fz+dT9CJ
-         WIqb3F1EmrsE/96uqRJSuUN81EOKIzPOyKs+0n7/oUuOhpiCPVye33pwv/D8VWwxexT0
-         rO97zzQZM9pyBXf4KnIeh3LFdGb8Z2d/59Xlos8UJYjkCvTKbB4UHYUCcxXmrFTVThsQ
-         ZCpzhZByIlrGjFO+QHypC56Q5vkkedY+1gPR2lqbkTDR5/8zqQWMvDTrmOlb8W36x8HN
-         zHug==
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date;
+        bh=BZTSyVeGs8/aAYHNUe9z+r+BB2D+qO6QOFNyHOlxVgI=;
+        b=BTUczytBALVoYj9TuBDOkKR7vV1qRVEfFlmrl2op8wmLlKoqOhNGPWVedu91DrOGK0
+         x3QegDX1xEGp5PAamq3iNJdD1UkY0uwnu5JVvBEnMseMdADn+SeRlaP0tAaILtIu/Fm5
+         yfv36XExRKTvk92mLkGiGBNju1DzPs4zcCScZs4KDNDgMxteE82RMmItIgysOIveRC8R
+         E52Ix12mdcBv8bjZovMmoi4a5GDThXSbMV1sFKmOJ7txr7lXC1H2CBcyaUfmpNFQ+jIP
+         1mStlWZTfI42MrtpBXUlPGX0zHQAtcSmp6IhOzwCte71qRrTb/S+psaGGfALWV+ikx8x
+         +yFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=LQj4x2kJKlqlUKTiwOiXLQk0/4XYgqe/eXrFwRGV8PI=;
-        b=q/om5R8Zwqe/zzVh/jpY7oPmHmuhNKP0dPDsNfgr4PBipbSh4OKo9WCXBL+WWHsRUv
-         e3d9srf7oymeA2jSk/6luHiKECe9Uz/Ozh1EclurUM6Bfr/r5x6rqHoBV5RKX5QeXdSm
-         Nq6Ye72qfK6o4xywdr+jOkaNzY2mhE4Nm2bBHwoSSJyac0A5PucAmkrOtjLYUzKPZ3V+
-         4GCMW0qWvNR/Onykeg+uVQOhb2wA58HA9XZqb0FL+SUFIpMaz1jZFqjF7sLaDnHSYF1a
-         1YnsblvvGtjOx8aJ9C1rNszB+DDYVlj6Gn27tRFpwDhz7dCqjT7LXaXXqH84d7P8+qkH
-         QzLA==
-X-Gm-Message-State: ACrzQf23tUlwiI4d0QG7PjXSzxYGfCq16y8yldxfmY1N/2NCvZ5sTNa6
-	O7yc0SJwcmaQJ924ZyzvlQU=
-X-Google-Smtp-Source: AMsMyM4eYaN1s9re7w2q2DoTvcn5aATCk3Mz5wAXOpPvtb2Nj9GTT79jD5H22OWaNBP1V1zp1HAvKg==
-X-Received: by 2002:a5d:6b0e:0:b0:22a:2cb1:6605 with SMTP id v14-20020a5d6b0e000000b0022a2cb16605mr7001496wrw.552.1663478017002;
-        Sat, 17 Sep 2022 22:13:37 -0700 (PDT)
-Received: from localhost.localdomain ([105.184.84.223])
-        by smtp.googlemail.com with ESMTPSA id 7-20020a05600c228700b003a604a29a34sm8153158wmf.35.2022.09.17.22.13.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Sep 2022 22:13:36 -0700 (PDT)
-From: Joash Naidoo <joash.n09@gmail.com>
-To: larry.finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	paskripkin@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	Joash Naidoo <joash.n09@gmail.com>
-Subject: [PATCH] staging: r8188eu: fix too many leading tabs
-Date: Sun, 18 Sep 2022 07:07:28 +0200
-Message-Id: <20220918050728.3746-1-joash.n09@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=BZTSyVeGs8/aAYHNUe9z+r+BB2D+qO6QOFNyHOlxVgI=;
+        b=YlrZYIQ8IiUHd+V1D7ipOKH/OT0GCJba/e2jRGQ4BCGRvL/B8ZuxFbfE3iDVLwyW3k
+         1LJEZSvZm+/w1ICJ7bOIIS2iJVJXbIfVluqaTcObvRxfMpqOdZuJSiVBguCEhQke8TIS
+         XoFUJWudNR2nUIdHl6QfSigTtF3wKrKnTeRkj4EjP6pylwbSzO/XM0eP0pkxJBAtJKvT
+         Pl/iHL7oOLEfb51r1FIZk6kPecW4kVMHF0cAEIGyhWZdJryqGbFK8ED2Q4ubdu7wbJyL
+         V4t8reBG5wGt39UTKQa65POyUk6NNM43Ss7ZRtXSyH6pj1YmRO5PjtmYT5IGWHtjrNMz
+         vDrA==
+X-Gm-Message-State: ACrzQf0ua/2FyGe8DQEmBZFipylU84XxsPtjWetNSZ0wElfTX7AX4c1i
+	jOy32sx0wE96yM315prxQPU=
+X-Google-Smtp-Source: AMsMyM5UYe74UFCvBUoepiqIp+WUu89fqh1/61Dfp+eXGbf1Mn2BbfQjvNp8D7WLaM58cD2J1UvU1g==
+X-Received: by 2002:a05:6402:3547:b0:451:3be6:d55b with SMTP id f7-20020a056402354700b004513be6d55bmr10479920edd.57.1663487366859;
+        Sun, 18 Sep 2022 00:49:26 -0700 (PDT)
+Received: from [192.168.1.100] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id z15-20020a170906434f00b007413360a48fsm2309966ejm.50.2022.09.18.00.49.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Sep 2022 00:49:26 -0700 (PDT)
+Message-ID: <8300971d-f8f5-7b8c-146f-fd566059c493@gmail.com>
+Date: Sun, 18 Sep 2022 09:49:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: fix too many leading tabs
+To: Joash Naidoo <joash.n09@gmail.com>, larry.finger@lwfinger.net,
+ phil@philpotter.co.uk, paskripkin@gmail.com, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+References: <20220918050728.3746-1-joash.n09@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20220918050728.3746-1-joash.n09@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Coding style fix. Fix too many leading tabs and line length. Convert
-__constant_htons to htons
+On 9/18/22 07:07, Joash Naidoo wrote:
+> Coding style fix. Fix too many leading tabs and line length. Convert
+> __constant_htons to htons
+> 
+> Signed-off-by: Joash Naidoo <joash.n09@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_br_ext.c | 66 ++++++++++++-----------
+>   1 file changed, 35 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index bca20fe5c..8e951fc0e 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -604,37 +604,41 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
+>   	if (!skb)
+>   		return;
+>   
+> -	if (!priv->ethBrExtInfo.dhcp_bcst_disable) {
+> -		__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
+> -
+> -		if (protocol == __constant_htons(ETH_P_IP)) { /*  IP */
+> -			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
+> -
+> -			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
+> -				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
+> -
+> -				if ((udph->source == __constant_htons(CLIENT_PORT)) &&
+> -				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
+> -					struct dhcpMessage *dhcph =
+> -						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
+> -					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
+> -
+> -					if (cookie == DHCP_MAGIC) { /*  match magic word */
+> -						if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
+> -							/*  if not broadcast */
+> -							register int sum = 0;
+> -
+> -							/*  or BROADCAST flag */
+> -							dhcph->flags |= htons(BROADCAST_FLAG);
+> -							/*  recalculate checksum */
+> -							sum = ~(udph->check) & 0xffff;
+> -							sum += be16_to_cpu(dhcph->flags);
+> -							while (sum >> 16)
+> -								sum = (sum & 0xffff) + (sum >> 16);
+> -							udph->check = ~sum;
+> -						}
+> -					}
+> -				}
+> +	if (priv->ethBrExtInfo.dhcp_bcst_disable)
+> +		return;
+> +
+> +	__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
+> +
+> +	if (protocol != htons(ETH_P_IP)) /*  IP */
+> +		return;
+> +
+> +	struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
+> +
+> +	if (iph->protocol != IPPROTO_UDP) /*  UDP */
+> +		return;
+> +
+> +	struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
+> +
+> +	if ((udph->source == htons(CLIENT_PORT)) &&
+> +	    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
+> +		struct dhcpMessage *dhcph =
+> +			(struct dhcpMessage *)((size_t)udph +
+> +						   sizeof(struct udphdr));
+> +		u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
+> +
+> +		if (cookie == DHCP_MAGIC) { /*  match magic word */
+> +			if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
+> +				/*  if not broadcast */
+> +				register int sum = 0;
+> +
+> +				/*  or BROADCAST flag */
+> +				dhcph->flags |= htons(BROADCAST_FLAG);
+> +				/*  recalculate checksum */
+> +				sum = ~(udph->check) & 0xffff;
+> +				sum += be16_to_cpu(dhcph->flags);
+> +				while (sum >> 16)
+> +					sum = (sum & 0xffff) + (sum >> 16);
+> +				udph->check = ~sum;
+>   			}
+>   		}
+>   	}
 
-Signed-off-by: Joash Naidoo <joash.n09@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_br_ext.c | 66 ++++++++++++-----------
- 1 file changed, 35 insertions(+), 31 deletions(-)
+Hi
 
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index bca20fe5c..8e951fc0e 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -604,37 +604,41 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
- 	if (!skb)
- 		return;
- 
--	if (!priv->ethBrExtInfo.dhcp_bcst_disable) {
--		__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
--
--		if (protocol == __constant_htons(ETH_P_IP)) { /*  IP */
--			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
--
--			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
--				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
--
--				if ((udph->source == __constant_htons(CLIENT_PORT)) &&
--				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
--					struct dhcpMessage *dhcph =
--						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
--					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
--
--					if (cookie == DHCP_MAGIC) { /*  match magic word */
--						if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
--							/*  if not broadcast */
--							register int sum = 0;
--
--							/*  or BROADCAST flag */
--							dhcph->flags |= htons(BROADCAST_FLAG);
--							/*  recalculate checksum */
--							sum = ~(udph->check) & 0xffff;
--							sum += be16_to_cpu(dhcph->flags);
--							while (sum >> 16)
--								sum = (sum & 0xffff) + (sum >> 16);
--							udph->check = ~sum;
--						}
--					}
--				}
-+	if (priv->ethBrExtInfo.dhcp_bcst_disable)
-+		return;
-+
-+	__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
-+
-+	if (protocol != htons(ETH_P_IP)) /*  IP */
-+		return;
-+
-+	struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
-+
-+	if (iph->protocol != IPPROTO_UDP) /*  UDP */
-+		return;
-+
-+	struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
-+
-+	if ((udph->source == htons(CLIENT_PORT)) &&
-+	    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
-+		struct dhcpMessage *dhcph =
-+			(struct dhcpMessage *)((size_t)udph +
-+						   sizeof(struct udphdr));
-+		u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
-+
-+		if (cookie == DHCP_MAGIC) { /*  match magic word */
-+			if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
-+				/*  if not broadcast */
-+				register int sum = 0;
-+
-+				/*  or BROADCAST flag */
-+				dhcph->flags |= htons(BROADCAST_FLAG);
-+				/*  recalculate checksum */
-+				sum = ~(udph->check) & 0xffff;
-+				sum += be16_to_cpu(dhcph->flags);
-+				while (sum >> 16)
-+					sum = (sum & 0xffff) + (sum >> 16);
-+				udph->check = ~sum;
- 			}
- 		}
- 	}
--- 
-2.35.1
+I was able to apply your patch.
+
+I was able to compile it but the following warnings appeared:
+
+kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ make -C . 
+M=drivers/staging/r8188eu/
+make: Entering directory '/home/kernel/Documents/git/kernels/staging'
+   CC [M]  drivers/staging/r8188eu/core/rtw_br_ext.o
+drivers/staging/r8188eu/core/rtw_br_ext.c: In function ‘dhcp_flag_bcast’:
+drivers/staging/r8188eu/core/rtw_br_ext.c:610:2: warning: ISO C90 
+forbids mixed declarations and code [-Wdeclaration-after-statement]
+   610 |  __be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
+       |  ^~~~~~
+drivers/staging/r8188eu/core/rtw_br_ext.c:615:2: warning: ISO C90 
+forbids mixed declarations and code [-Wdeclaration-after-statement]
+   615 |  struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
+       |  ^~~~~~
+drivers/staging/r8188eu/core/rtw_br_ext.c:620:2: warning: ISO C90 
+forbids mixed declarations and code [-Wdeclaration-after-statement]
+   620 |  struct udphdr *udph = (struct udphdr *)((size_t)iph + 
+(iph->ihl << 2));
+       |  ^~~~~~
+   LD [M]  drivers/staging/r8188eu/r8188eu.o
+   MODPOST drivers/staging/r8188eu/Module.symvers
+   CC [M]  drivers/staging/r8188eu/r8188eu.mod.o
+   LD [M]  drivers/staging/r8188eu/r8188eu.ko
+make: Leaving directory '/home/kernel/Documents/git/kernels/staging'
+
+Do you have the hardware to tested this code and have you tested it?
+
+checkpatch:
+ERROR: trailing whitespace
+#74: FILE: 
+/home/kernel/Downloads/PATCH-staging-r8188eu-fix-too-many-leading-tabs.txt:74:
++ $
+
+ERROR: trailing whitespace
+#144: FILE: 
+/home/kernel/Downloads/PATCH-staging-r8188eu-fix-too-many-leading-tabs.txt:144:
++-- $
+
+total: 2 errors, 0 warnings, 147 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+       mechanically convert to the typical style using --fix or 
+--fix-inplace.
+
+NOTE: Whitespace errors detected.
+       You may wish to use scripts/cleanpatch or scripts/cleanfile
+
+/home/kernel/Downloads/PATCH-staging-r8188eu-fix-too-many-leading-tabs.txt 
+has style problems, please review.
+
+NOTE: If any of the errors are false positives, please report
+       them to the maintainer, see CHECKPATCH in MAINTAINERS.
+
+On a simple download test it workes on my hardware.
+
+Thanks for your support.
+
+Bye Philipp
 
