@@ -1,70 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from valentin-vidic.from.hr (valentin-vidic.from.hr [109.200.23.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E7E7C
-	for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 10:11:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50BA2C433C1;
-	Sun, 18 Sep 2022 10:11:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1663495882;
-	bh=UlR5dBix/IuCjGxnhgTmNBRfAJ+7qdujzaxYcQry+ZE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iSmoDIBqrB2MEBO2dQJ5BbtpvqQXpH4Td1GvoOuLPcjEIvLBVNaYya8rbQKQBoVj+
-	 dv13HQy8Va8ESM1Vg5w7E7G6y2QwNk9mq0PL6eshXN+v56Ah0a5hBGVOS1L24UiX9g
-	 hYbNQpw8lyS6xn/3i+Hrotw2nTPnZKE3xwJi8Vd0=
-Date: Sun, 18 Sep 2022 12:11:50 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Joash Naidoo <joash.n09@gmail.com>
-Cc: larry.finger@lwfinger.net, phil@philpotter.co.uk, paskripkin@gmail.com,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: r8188eu: fix too many leading tabs
-Message-ID: <Yybu5ntT7uySBXsE@kroah.com>
-References: <20220918050728.3746-1-joash.n09@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203D77F3
+	for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 11:41:07 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at valentin-vidic.from.hr
+Received: by valentin-vidic.from.hr (Postfix, from userid 1000)
+	id 3409B2902D; Sun, 18 Sep 2022 13:30:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=valentin-vidic.from.hr; s=2020; t=1663500659;
+	bh=gHJfx8wSWMuiP6oI38sMXPRksdK6pMWB/LxgIBgJZKc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WGyM9dpHvPOpyrir7J8omQczPSEez0B9XrR1mUtlhghMx39bb9ZhohQJVYkKLS08Q
+	 Csa4xtfeIear5GiEOJygeVKGISlF2xKPx8H5984CVvEhoPZlNXsePn20uIkvOofXU6
+	 yCzxdq3kjZ9991VhaHGr7zOkKnSR+pWfL/TL4YJZjmwISCdrYBNRipU2q4KjoJH4ei
+	 E3dkRGZv9PVRfppcWkB/ZzBv8GvU4kQBOP8qCIRbM1IxdieNFVnU/I8oDOAzDKB6y2
+	 lsdTNLuu/TahlmfgaATvy+Jy9KsBr4lL5OFW2loOkjefey3D46pRJ/+25aIydI8iNN
+	 +ZGAaGhpVtMnin5zAW6yUyQvVlrC9OKaB+8NOj8t8YuKKThqjIyQphWd4FO3I22YQM
+	 u4QIKfulk8CUGZTYiEFXWIe39bPhX3u5ZsSzMcEcAYroNWCWXpO+qZkryoWzr4hcCg
+	 VAEGoKAhYq4TVGO/SVwLHd2FEsUcVmXyRBptoEjDQ0ATBCFBFqolK+WSg+5bhgd5ee
+	 GCufOWi0+upxLScgt87UkF0AhkFEfaemLqjsdktfYuh/UUegNC4GAfc+/gV9SyoBbW
+	 Fd7YmO0lpKNnuUoZAu8hyqyATRplO5+1zJKxsP8dn1TmTfbNBkgPmafCfTvhg8wfTP
+	 4/3v+ni5rU6qX41wj8Hi2xX8=
+From: Valentin Vidic <vvidic@valentin-vidic.from.hr>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Valentin Vidic <vvidic@valentin-vidic.from.hr>
+Subject: [PATCH] staging: rtl8192e: fix CamelCase variables
+Date: Sun, 18 Sep 2022 13:30:41 +0200
+Message-Id: <20220918113041.3805576-1-vvidic@valentin-vidic.from.hr>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220918050728.3746-1-joash.n09@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 18, 2022 at 07:07:28AM +0200, Joash Naidoo wrote:
-> Coding style fix. Fix too many leading tabs and line length. Convert
-> __constant_htons to htons
-> 
-> Signed-off-by: Joash Naidoo <joash.n09@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_br_ext.c | 66 ++++++++++++-----------
->  1 file changed, 35 insertions(+), 31 deletions(-)
+Fix checkpatch warnings for variables: LinkCtrlReg, DeviceID,
+RevisionID, IrqLine.
 
-Hi,
+Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_pci.c | 26 ++++++++++-----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+index 1d992d5c4e17..7a9a24935da9 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
+@@ -16,11 +16,11 @@ static void _rtl92e_parse_pci_configuration(struct pci_dev *pdev,
+ 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+ 
+ 	u8 tmp;
+-	u16 LinkCtrlReg;
++	u16 link_ctrl_reg;
+ 
+-	pcie_capability_read_word(priv->pdev, PCI_EXP_LNKCTL, &LinkCtrlReg);
++	pcie_capability_read_word(priv->pdev, PCI_EXP_LNKCTL, &link_ctrl_reg);
+ 
+-	RT_TRACE(COMP_INIT, "Link Control Register =%x\n", LinkCtrlReg);
++	RT_TRACE(COMP_INIT, "Link Control Register =%x\n", link_ctrl_reg);
+ 
+ 	pci_read_config_byte(pdev, 0x98, &tmp);
+ 	tmp |= BIT4;
+@@ -33,28 +33,28 @@ static void _rtl92e_parse_pci_configuration(struct pci_dev *pdev,
+ bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+-	u16 DeviceID;
+-	u8  RevisionID;
+-	u16 IrqLine;
++	u16 device_id;
++	u8  revision_id;
++	u16 irq_line;
+ 
+-	DeviceID = pdev->device;
+-	RevisionID = pdev->revision;
+-	pci_read_config_word(pdev, 0x3C, &IrqLine);
++	device_id = pdev->device;
++	revision_id = pdev->revision;
++	pci_read_config_word(pdev, 0x3C, &irq_line);
+ 
+ 	priv->card_8192 = priv->ops->nic_type;
+ 
+-	if (DeviceID == 0x8192) {
+-		switch (RevisionID) {
++	if (device_id == 0x8192) {
++		switch (revision_id) {
+ 		case HAL_HW_PCI_REVISION_ID_8192PCIE:
+ 			dev_info(&pdev->dev,
+ 				 "Adapter(8192 PCI-E) is found - DeviceID=%x\n",
+-				 DeviceID);
++				 device_id);
+ 			priv->card_8192 = NIC_8192E;
+ 			break;
+ 		case HAL_HW_PCI_REVISION_ID_8192SE:
+ 			dev_info(&pdev->dev,
+ 				 "Adapter(8192SE) is found - DeviceID=%x\n",
+-				 DeviceID);
++				 device_id);
+ 			priv->card_8192 = NIC_8192SE;
+ 			break;
+ 		default:
+-- 
+2.30.2
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
