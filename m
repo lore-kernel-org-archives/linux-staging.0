@@ -1,146 +1,81 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail11.tencent.com (mail11.tencent.com [14.18.178.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8E439B
-	for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 19:39:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1663443549;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pn+iLPOX92b5x8QXcBf6zM8CJkq15W50QIZ7ofVQySI=;
-	b=MXEt3yrmXxuEyKwj0jCxmJy1cnRjUAiAmbt8xokd3XaT38lqncXyKH5wLqtkCPSnWAAECt
-	bGm5dhyT96drAQ8pySFHZn4jqh/FA75/3uoMc1E6GjD/KNC2S1eomIp++JaOfkL6C7MiF0
-	SWM44/uMfyBbOz6CJWJEKAAZKMf80AE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-378-OvWoHN7FMESpnUVV4ut4Gw-1; Sat, 17 Sep 2022 15:39:02 -0400
-X-MC-Unique: OvWoHN7FMESpnUVV4ut4Gw-1
-Received: by mail-ed1-f71.google.com with SMTP id w20-20020a05640234d400b00450f24c8ca6so17272908edc.13
-        for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 12:39:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=pn+iLPOX92b5x8QXcBf6zM8CJkq15W50QIZ7ofVQySI=;
-        b=fcm80rGq7Psao692yPHFmpFyk4x5ZNfcT+zAVOb3X8eYmvAqciPuF2jLR1+BYgejUJ
-         GPuLVhnXzyoifIg2Wo1kPfrfmAefMnrcUGnCByKF8rfs5s6ybOQTnIxRZu2/I8pOj1zF
-         2q0O7kADLUwE9udWEe9KymD3BdzTeSRErV1MehJf80/Ml2ppzrOdvibj+fln87RB2jzH
-         qBGsyk6Bg5aRnlXg1QpkaryCd5zhivxbQj/I0mV/AP7DKHmWp7litpE26riMP/41jXka
-         vazRlg9QoZjy3mshvbQ9JKvzAjbIY8lxrhk6i4GP3UkEfpyAAMgdDBEUK42nU9jEaDYU
-         44Qg==
-X-Gm-Message-State: ACrzQf3zgVUiZOvRpLXLoWOjbVpwWCdoKFX8BSjO1kqrs0qLfS7T92Sl
-	8fbjlAkYu5Nd2PoU9brE1D4k9vl5sDfDFLdF4ZG0JCgRWrFFykJLgsXyxUl8uhpJ0uWjtWoVU5I
-	I3tIOoUjCs7ZV2xcL0oDcSUEf2Q==
-X-Received: by 2002:a17:907:a049:b0:77c:1f27:1b28 with SMTP id gz9-20020a170907a04900b0077c1f271b28mr8125403ejc.20.1663443541367;
-        Sat, 17 Sep 2022 12:39:01 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6nm3DKzCudD7urgfuCW5ZPmx6NzwELOaO85/nt28Ojofl73dxdJEuexl8Sr73Fon0uyzMz+A==
-X-Received: by 2002:a17:907:a049:b0:77c:1f27:1b28 with SMTP id gz9-20020a170907a04900b0077c1f271b28mr8125396ejc.20.1663443541199;
-        Sat, 17 Sep 2022 12:39:01 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id j1-20020a170906094100b0076f1d939128sm10008877ejd.54.2022.09.17.12.39.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Sep 2022 12:39:00 -0700 (PDT)
-Message-ID: <516a1ca5-a26c-c8d7-918e-d433852db2ae@redhat.com>
-Date: Sat, 17 Sep 2022 21:39:00 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95635632
+	for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 02:51:07 +0000 (UTC)
+Received: from EX-SZ018.tencent.com (unknown [10.28.6.39])
+	by mail11.tencent.com (Postfix) with ESMTP id B6F51FC02C;
+	Sun, 18 Sep 2022 10:43:20 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tencent.com;
+	s=s202002; t=1663469000;
+	bh=K6pID4dZZJcp8nhT47KB6CtpQMvP9l4TCxdXzK18jvc=;
+	h=From:To:CC:Subject:Date;
+	b=SQMn/SqGa+L5IzWNtHcN+Bx5vRzbhz9tbDukK8Ct6CwX3PuIN2D2+lhmBADm5RYk1
+	 mJj7ys5ZGEq30oKdgzO7F422hRXzzhTKcBbKfslcy+LXbJHCL0vv3AhnaGDaY9BrPT
+	 3cKS14aN35Zc1tpt8L4ubKZ+VgMNBLzm6xJvsTqE=
+Received: from EX-SZ045.tencent.com (10.28.6.96) by EX-SZ018.tencent.com
+ (10.28.6.39) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sun, 18 Sep
+ 2022 10:43:20 +0800
+Received: from EX-SZ049.tencent.com (10.28.6.102) by EX-SZ045.tencent.com
+ (10.28.6.96) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sun, 18 Sep
+ 2022 10:43:20 +0800
+Received: from EX-SZ049.tencent.com ([fe80::e0be:89c3:ec1:bef7]) by
+ EX-SZ049.tencent.com ([fe80::e0be:89c3:ec1:bef7%8]) with mapi id
+ 15.01.2242.008; Sun, 18 Sep 2022 10:43:20 +0800
+From: =?utf-8?B?Zmx5aW5ncGVuZyjlva3mtakp?= <flyingpeng@tencent.com>
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: [PATCH]  clocking-wizard: fix a schedule during spin lock
+  acquisition
+Thread-Topic: [PATCH]  clocking-wizard: fix a schedule during spin lock
+  acquisition
+Thread-Index: AQHYywhpT9OYQLfgcE+29L8IzzqIbw==
+Date: Sun, 18 Sep 2022 02:43:20 +0000
+Message-ID: <B806E272-4615-4027-8CBE-82A651511964@tencent.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [9.19.161.123]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <027C9E6A5E47C04B8E1065A7A119CB0E@tencent.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 2/2] staging: rtl8723bs: Insert blank line after
- declarations
-To: Kang Minchul <tegongkang@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>, Kees Cook <keescook@chromium.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220917181620.3237192-1-tegongkang@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220917181620.3237192-1-tegongkang@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 9/17/22 20:16, Kang Minchul wrote:
-> This patch fixes checkpatch warning as follows:
-> 
->   WARNING: Missing a blank line after declarations
-> 
-> Signed-off-by: Kang Minchul <tegongkang@gmail.com>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-> ---
->  drivers/staging/rtl8723bs/core/rtw_recv.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> index ad6fb6c3d1f0..dade4d07662b 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -245,6 +245,7 @@ u32 rtw_free_uc_swdec_pending_queue(struct adapter *adapter)
->  {
->  	u32 cnt = 0;
->  	union recv_frame *pending_frame;
-> +
->  	while ((pending_frame = rtw_alloc_recvframe(&adapter->recvpriv.uc_swdec_pending_queue))) {
->  		rtw_free_recvframe(pending_frame, &adapter->recvpriv.free_recv_queue);
->  		cnt++;
-> @@ -397,6 +398,7 @@ static union recv_frame *decryptor(struct adapter *padapter, union recv_frame *p
->  
->  	if (prxattrib->encrypt > 0) {
->  		u8 *iv = precv_frame->u.hdr.rx_data+prxattrib->hdrlen;
-> +
->  		prxattrib->key_index = (((iv[3])>>6)&0x3);
->  
->  		if (prxattrib->key_index > WEP_KEYS) {
-> @@ -882,6 +884,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
->  		}
->  	} else {
->  		u8 *myhwaddr = myid(&adapter->eeprompriv);
-> +
->  		if (memcmp(pattrib->ra, myhwaddr, ETH_ALEN)) {
->  			ret = RTW_RX_HANDLED;
->  			goto exit;
-> @@ -1125,6 +1128,7 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
->  	psta = rtw_get_stainfo(pstapriv, psta_addr);
->  	if (!psta) {
->  		u8 type = GetFrameType(pfhdr->rx_data);
-> +
->  		if (type != WIFI_DATA_TYPE) {
->  			psta = rtw_get_bcmc_stainfo(padapter);
->  			pdefrag_q = &psta->sta_recvpriv.defrag_q;
-> @@ -1207,6 +1211,7 @@ static signed int validate_recv_mgnt_frame(struct adapter *padapter, union recv_
->  	{
->  		/* for rx pkt statistics */
->  		struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(precv_frame->u.hdr.rx_data));
-> +
->  		if (psta) {
->  			psta->sta_stats.rx_mgnt_pkts++;
->  			if (GetFrameSubType(precv_frame->u.hdr.rx_data) == WIFI_BEACON)
-> @@ -1480,6 +1485,7 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
->  		retval = validate_recv_data_frame(adapter, precv_frame);
->  		if (retval == _FAIL) {
->  			struct recv_priv *precvpriv = &adapter->recvpriv;
-> +
->  			precvpriv->rx_drop++;
->  		} else if (retval == _SUCCESS) {
->  #ifdef DBG_RX_DUMP_EAP
-
+d2hlbiB0aGUgaW50ZXJydXB0IGlzIGRpc2FibGVkIGFuZCB0aGUgc3BpbiBsb2NrIGlzIGFjcXVp
+cmVkLA0KY2FsbGluZyByZWFkX3BvbGxfdGltZW91dCB3aWxsIHRyaWdnZXIgdGhlIHNjaGVkdWxl
+LCB3aGljaCBzaG91bGQNCmJlIHJlcGxhY2VkIGJ5IHJlYWRfcG9sbF90aW1lb3V0X2F0b21pYy4N
+Cg0KU2lnbmVkLW9mZi1ieTogUGVuZyBIYW8gPGZseWluZ3BlbmdAdGVuY2VudC5jb20+DQotLS0N
+CiBkcml2ZXJzL3N0YWdpbmcvY2xvY2tpbmctd2l6YXJkL2Nsay14bG54LWNsb2NrLXdpemFyZC5j
+IHwgNCArKy0tDQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
+LSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9jbG9ja2luZy13aXphcmQvY2xrLXhs
+bngtY2xvY2std2l6YXJkLmMgYi9kcml2ZXJzL3N0YWdpbmcvY2xvY2tpbmctd2l6YXJkL2Nsay14
+bG54LWNsb2NrLXdpemFyZC5jDQppbmRleCAzOTM2NzcxMmVmNTQuLjk4NmFmMDNiMzFjOSAxMDA2
+NDQNCi0tLSBhL2RyaXZlcnMvc3RhZ2luZy9jbG9ja2luZy13aXphcmQvY2xrLXhsbngtY2xvY2st
+d2l6YXJkLmMNCisrKyBiL2RyaXZlcnMvc3RhZ2luZy9jbG9ja2luZy13aXphcmQvY2xrLXhsbngt
+Y2xvY2std2l6YXJkLmMNCkBAIC0xNTcsNyArMTU3LDcgQEAgc3RhdGljIGludCBjbGtfd3pyZF9k
+eW5hbWljX3JlY29uZmlnKHN0cnVjdCBjbGtfaHcgKmh3LCB1bnNpZ25lZCBsb25nIHJhdGUsDQog
+ICAgICAgIHdyaXRlbCgweDAwLCBkaXZfYWRkciArIFdaUkRfRFJfRElWX1RPX1BIQVNFX09GRlNF
+VCk7DQoNCiAgICAgICAgLyogQ2hlY2sgc3RhdHVzIHJlZ2lzdGVyICovDQotICAgICAgIGVyciA9
+IHJlYWRsX3BvbGxfdGltZW91dChkaXZpZGVyLT5iYXNlICsgV1pSRF9EUl9TVEFUVVNfUkVHX09G
+RlNFVCwNCisgICAgICAgZXJyID0gcmVhZGxfcG9sbF90aW1lb3V0X2F0b21pYyhkaXZpZGVyLT5i
+YXNlICsgV1pSRF9EUl9TVEFUVVNfUkVHX09GRlNFVCwNCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHZhbHVlLCB2YWx1ZSAmIFdaUkRfRFJfTE9DS19CSVRfTUFTSywNCiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIFdaUkRfVVNFQ19QT0xMLCBXWlJEX1RJTUVPVVRfUE9M
+TCk7DQogICAgICAgIGlmIChlcnIpDQpAQCAtMTY4LDcgKzE2OCw3IEBAIHN0YXRpYyBpbnQgY2xr
+X3d6cmRfZHluYW1pY19yZWNvbmZpZyhzdHJ1Y3QgY2xrX2h3ICpodywgdW5zaWduZWQgbG9uZyBy
+YXRlLA0KICAgICAgICAgICAgICAgZGl2aWRlci0+YmFzZSArIFdaUkRfRFJfSU5JVF9SRUdfT0ZG
+U0VUKTsNCg0KICAgICAgICAvKiBDaGVjayBzdGF0dXMgcmVnaXN0ZXIgKi8NCi0gICAgICAgZXJy
+ID0gcmVhZGxfcG9sbF90aW1lb3V0KGRpdmlkZXItPmJhc2UgKyBXWlJEX0RSX1NUQVRVU19SRUdf
+T0ZGU0VULA0KKyAgICAgICBlcnIgPSByZWFkbF9wb2xsX3RpbWVvdXRfYXRvbWljKGRpdmlkZXIt
+PmJhc2UgKyBXWlJEX0RSX1NUQVRVU19SRUdfT0ZGU0VULA0KICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgdmFsdWUsIHZhbHVlICYgV1pSRF9EUl9MT0NLX0JJVF9NQVNLLA0KICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgV1pSRF9VU0VDX1BPTEwsIFdaUkRfVElNRU9VVF9Q
+T0xMKTsNCiBlcnJfcmVjb25maWc6DQotLQ0KMi4yNy4wDQoNCg==
