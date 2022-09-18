@@ -1,81 +1,145 @@
-Received: from mail11.tencent.com (mail11.tencent.com [14.18.178.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95635632
-	for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 02:51:07 +0000 (UTC)
-Received: from EX-SZ018.tencent.com (unknown [10.28.6.39])
-	by mail11.tencent.com (Postfix) with ESMTP id B6F51FC02C;
-	Sun, 18 Sep 2022 10:43:20 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tencent.com;
-	s=s202002; t=1663469000;
-	bh=K6pID4dZZJcp8nhT47KB6CtpQMvP9l4TCxdXzK18jvc=;
-	h=From:To:CC:Subject:Date;
-	b=SQMn/SqGa+L5IzWNtHcN+Bx5vRzbhz9tbDukK8Ct6CwX3PuIN2D2+lhmBADm5RYk1
-	 mJj7ys5ZGEq30oKdgzO7F422hRXzzhTKcBbKfslcy+LXbJHCL0vv3AhnaGDaY9BrPT
-	 3cKS14aN35Zc1tpt8L4ubKZ+VgMNBLzm6xJvsTqE=
-Received: from EX-SZ045.tencent.com (10.28.6.96) by EX-SZ018.tencent.com
- (10.28.6.39) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sun, 18 Sep
- 2022 10:43:20 +0800
-Received: from EX-SZ049.tencent.com (10.28.6.102) by EX-SZ045.tencent.com
- (10.28.6.96) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sun, 18 Sep
- 2022 10:43:20 +0800
-Received: from EX-SZ049.tencent.com ([fe80::e0be:89c3:ec1:bef7]) by
- EX-SZ049.tencent.com ([fe80::e0be:89c3:ec1:bef7%8]) with mapi id
- 15.01.2242.008; Sun, 18 Sep 2022 10:43:20 +0800
-From: =?utf-8?B?Zmx5aW5ncGVuZyjlva3mtakp?= <flyingpeng@tencent.com>
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: [PATCH]  clocking-wizard: fix a schedule during spin lock
-  acquisition
-Thread-Topic: [PATCH]  clocking-wizard: fix a schedule during spin lock
-  acquisition
-Thread-Index: AQHYywhpT9OYQLfgcE+29L8IzzqIbw==
-Date: Sun, 18 Sep 2022 02:43:20 +0000
-Message-ID: <B806E272-4615-4027-8CBE-82A651511964@tencent.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [9.19.161.123]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <027C9E6A5E47C04B8E1065A7A119CB0E@tencent.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E15648
+	for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 05:13:38 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id g3so21261580wrq.13
+        for <linux-staging@lists.linux.dev>; Sat, 17 Sep 2022 22:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=LQj4x2kJKlqlUKTiwOiXLQk0/4XYgqe/eXrFwRGV8PI=;
+        b=ADWh8/FP4Ufe0teuEzRdCaj4x+TVFukhUBm2EszcI18eK/t7FShNztasDEuUUe39UZ
+         ZCkSryfs43CcckI8E+Z8C4IjIcwWKTFl3hd1UZJfceQ9vSYglrV8xbOoXdJ3Fz+dT9CJ
+         WIqb3F1EmrsE/96uqRJSuUN81EOKIzPOyKs+0n7/oUuOhpiCPVye33pwv/D8VWwxexT0
+         rO97zzQZM9pyBXf4KnIeh3LFdGb8Z2d/59Xlos8UJYjkCvTKbB4UHYUCcxXmrFTVThsQ
+         ZCpzhZByIlrGjFO+QHypC56Q5vkkedY+1gPR2lqbkTDR5/8zqQWMvDTrmOlb8W36x8HN
+         zHug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=LQj4x2kJKlqlUKTiwOiXLQk0/4XYgqe/eXrFwRGV8PI=;
+        b=q/om5R8Zwqe/zzVh/jpY7oPmHmuhNKP0dPDsNfgr4PBipbSh4OKo9WCXBL+WWHsRUv
+         e3d9srf7oymeA2jSk/6luHiKECe9Uz/Ozh1EclurUM6Bfr/r5x6rqHoBV5RKX5QeXdSm
+         Nq6Ye72qfK6o4xywdr+jOkaNzY2mhE4Nm2bBHwoSSJyac0A5PucAmkrOtjLYUzKPZ3V+
+         4GCMW0qWvNR/Onykeg+uVQOhb2wA58HA9XZqb0FL+SUFIpMaz1jZFqjF7sLaDnHSYF1a
+         1YnsblvvGtjOx8aJ9C1rNszB+DDYVlj6Gn27tRFpwDhz7dCqjT7LXaXXqH84d7P8+qkH
+         QzLA==
+X-Gm-Message-State: ACrzQf23tUlwiI4d0QG7PjXSzxYGfCq16y8yldxfmY1N/2NCvZ5sTNa6
+	O7yc0SJwcmaQJ924ZyzvlQU=
+X-Google-Smtp-Source: AMsMyM4eYaN1s9re7w2q2DoTvcn5aATCk3Mz5wAXOpPvtb2Nj9GTT79jD5H22OWaNBP1V1zp1HAvKg==
+X-Received: by 2002:a5d:6b0e:0:b0:22a:2cb1:6605 with SMTP id v14-20020a5d6b0e000000b0022a2cb16605mr7001496wrw.552.1663478017002;
+        Sat, 17 Sep 2022 22:13:37 -0700 (PDT)
+Received: from localhost.localdomain ([105.184.84.223])
+        by smtp.googlemail.com with ESMTPSA id 7-20020a05600c228700b003a604a29a34sm8153158wmf.35.2022.09.17.22.13.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Sep 2022 22:13:36 -0700 (PDT)
+From: Joash Naidoo <joash.n09@gmail.com>
+To: larry.finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	paskripkin@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	Joash Naidoo <joash.n09@gmail.com>
+Subject: [PATCH] staging: r8188eu: fix too many leading tabs
+Date: Sun, 18 Sep 2022 07:07:28 +0200
+Message-Id: <20220918050728.3746-1-joash.n09@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-d2hlbiB0aGUgaW50ZXJydXB0IGlzIGRpc2FibGVkIGFuZCB0aGUgc3BpbiBsb2NrIGlzIGFjcXVp
-cmVkLA0KY2FsbGluZyByZWFkX3BvbGxfdGltZW91dCB3aWxsIHRyaWdnZXIgdGhlIHNjaGVkdWxl
-LCB3aGljaCBzaG91bGQNCmJlIHJlcGxhY2VkIGJ5IHJlYWRfcG9sbF90aW1lb3V0X2F0b21pYy4N
-Cg0KU2lnbmVkLW9mZi1ieTogUGVuZyBIYW8gPGZseWluZ3BlbmdAdGVuY2VudC5jb20+DQotLS0N
-CiBkcml2ZXJzL3N0YWdpbmcvY2xvY2tpbmctd2l6YXJkL2Nsay14bG54LWNsb2NrLXdpemFyZC5j
-IHwgNCArKy0tDQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
-LSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9jbG9ja2luZy13aXphcmQvY2xrLXhs
-bngtY2xvY2std2l6YXJkLmMgYi9kcml2ZXJzL3N0YWdpbmcvY2xvY2tpbmctd2l6YXJkL2Nsay14
-bG54LWNsb2NrLXdpemFyZC5jDQppbmRleCAzOTM2NzcxMmVmNTQuLjk4NmFmMDNiMzFjOSAxMDA2
-NDQNCi0tLSBhL2RyaXZlcnMvc3RhZ2luZy9jbG9ja2luZy13aXphcmQvY2xrLXhsbngtY2xvY2st
-d2l6YXJkLmMNCisrKyBiL2RyaXZlcnMvc3RhZ2luZy9jbG9ja2luZy13aXphcmQvY2xrLXhsbngt
-Y2xvY2std2l6YXJkLmMNCkBAIC0xNTcsNyArMTU3LDcgQEAgc3RhdGljIGludCBjbGtfd3pyZF9k
-eW5hbWljX3JlY29uZmlnKHN0cnVjdCBjbGtfaHcgKmh3LCB1bnNpZ25lZCBsb25nIHJhdGUsDQog
-ICAgICAgIHdyaXRlbCgweDAwLCBkaXZfYWRkciArIFdaUkRfRFJfRElWX1RPX1BIQVNFX09GRlNF
-VCk7DQoNCiAgICAgICAgLyogQ2hlY2sgc3RhdHVzIHJlZ2lzdGVyICovDQotICAgICAgIGVyciA9
-IHJlYWRsX3BvbGxfdGltZW91dChkaXZpZGVyLT5iYXNlICsgV1pSRF9EUl9TVEFUVVNfUkVHX09G
-RlNFVCwNCisgICAgICAgZXJyID0gcmVhZGxfcG9sbF90aW1lb3V0X2F0b21pYyhkaXZpZGVyLT5i
-YXNlICsgV1pSRF9EUl9TVEFUVVNfUkVHX09GRlNFVCwNCiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHZhbHVlLCB2YWx1ZSAmIFdaUkRfRFJfTE9DS19CSVRfTUFTSywNCiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIFdaUkRfVVNFQ19QT0xMLCBXWlJEX1RJTUVPVVRfUE9M
-TCk7DQogICAgICAgIGlmIChlcnIpDQpAQCAtMTY4LDcgKzE2OCw3IEBAIHN0YXRpYyBpbnQgY2xr
-X3d6cmRfZHluYW1pY19yZWNvbmZpZyhzdHJ1Y3QgY2xrX2h3ICpodywgdW5zaWduZWQgbG9uZyBy
-YXRlLA0KICAgICAgICAgICAgICAgZGl2aWRlci0+YmFzZSArIFdaUkRfRFJfSU5JVF9SRUdfT0ZG
-U0VUKTsNCg0KICAgICAgICAvKiBDaGVjayBzdGF0dXMgcmVnaXN0ZXIgKi8NCi0gICAgICAgZXJy
-ID0gcmVhZGxfcG9sbF90aW1lb3V0KGRpdmlkZXItPmJhc2UgKyBXWlJEX0RSX1NUQVRVU19SRUdf
-T0ZGU0VULA0KKyAgICAgICBlcnIgPSByZWFkbF9wb2xsX3RpbWVvdXRfYXRvbWljKGRpdmlkZXIt
-PmJhc2UgKyBXWlJEX0RSX1NUQVRVU19SRUdfT0ZGU0VULA0KICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgdmFsdWUsIHZhbHVlICYgV1pSRF9EUl9MT0NLX0JJVF9NQVNLLA0KICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgV1pSRF9VU0VDX1BPTEwsIFdaUkRfVElNRU9VVF9Q
-T0xMKTsNCiBlcnJfcmVjb25maWc6DQotLQ0KMi4yNy4wDQoNCg==
+Coding style fix. Fix too many leading tabs and line length. Convert
+__constant_htons to htons
+
+Signed-off-by: Joash Naidoo <joash.n09@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 66 ++++++++++++-----------
+ 1 file changed, 35 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index bca20fe5c..8e951fc0e 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -604,37 +604,41 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
+ 	if (!skb)
+ 		return;
+ 
+-	if (!priv->ethBrExtInfo.dhcp_bcst_disable) {
+-		__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
+-
+-		if (protocol == __constant_htons(ETH_P_IP)) { /*  IP */
+-			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
+-
+-			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
+-				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
+-
+-				if ((udph->source == __constant_htons(CLIENT_PORT)) &&
+-				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
+-					struct dhcpMessage *dhcph =
+-						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
+-					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
+-
+-					if (cookie == DHCP_MAGIC) { /*  match magic word */
+-						if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
+-							/*  if not broadcast */
+-							register int sum = 0;
+-
+-							/*  or BROADCAST flag */
+-							dhcph->flags |= htons(BROADCAST_FLAG);
+-							/*  recalculate checksum */
+-							sum = ~(udph->check) & 0xffff;
+-							sum += be16_to_cpu(dhcph->flags);
+-							while (sum >> 16)
+-								sum = (sum & 0xffff) + (sum >> 16);
+-							udph->check = ~sum;
+-						}
+-					}
+-				}
++	if (priv->ethBrExtInfo.dhcp_bcst_disable)
++		return;
++
++	__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
++
++	if (protocol != htons(ETH_P_IP)) /*  IP */
++		return;
++
++	struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
++
++	if (iph->protocol != IPPROTO_UDP) /*  UDP */
++		return;
++
++	struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
++
++	if ((udph->source == htons(CLIENT_PORT)) &&
++	    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
++		struct dhcpMessage *dhcph =
++			(struct dhcpMessage *)((size_t)udph +
++						   sizeof(struct udphdr));
++		u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
++
++		if (cookie == DHCP_MAGIC) { /*  match magic word */
++			if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
++				/*  if not broadcast */
++				register int sum = 0;
++
++				/*  or BROADCAST flag */
++				dhcph->flags |= htons(BROADCAST_FLAG);
++				/*  recalculate checksum */
++				sum = ~(udph->check) & 0xffff;
++				sum += be16_to_cpu(dhcph->flags);
++				while (sum >> 16)
++					sum = (sum & 0xffff) + (sum >> 16);
++				udph->check = ~sum;
+ 			}
+ 		}
+ 	}
+-- 
+2.35.1
+
