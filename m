@@ -1,159 +1,73 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE849A48
-	for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 07:10:30 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28J6kU4u014687;
-	Mon, 19 Sep 2022 07:10:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=j2yUVh25HGYepONSrJFL0OTs9R5quu8K5N5vB2G1RNI=;
- b=iPvFXy/Nhym52Fd03WRTyNfk0YxScFyMSrUDOjUu3Ok5dM5TNkWziFqQt+bL8IGmByX/
- NrbYe0H5AMU2iUYqHTgulSI/ZB18ql8yAdk2vCsqNl8J66JVCtigHmdPiCH71562WSVF
- WYqc7YzlYfeW45GN8cQ5ve3HtNebZtI8TznRk7zKvBqMEzPGUEyOmBEy/j9D9dkI9BXl
- wa6Fc8PSnRLg2bacbMc9Qh91jVPwHU3vC7tgTTkyCJ1XLInrqO2UPD9wevhWIsunZy/T
- Xhol1o9aTpvAUh6eeuOg9KDv2r0dvkfe+iP3tg732azhvgMBOiWe2KOMm96us5dAEpcJ Ew== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jn68m2vkg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Sep 2022 07:10:23 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 28J4gDPF019189;
-	Mon, 19 Sep 2022 07:10:22 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2047.outbound.protection.outlook.com [104.47.57.47])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3jp3d0fyud-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Sep 2022 07:10:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WuMGLzw0fmx6q7g7lzA5AZforzJRfje6MeGtfYo/cC78BbuIcrDt2NVDIcU9+n4xVjqq14bapeQ1JlwnFtJQmSi8QKqiJEpFwuZWhY2wcANeqPD73C4JWwuz3D2ykRte6Atz0QDZBuZrT982wxTsF2bYhyJzOHn6nzrHpShvHiGwoGR6sap0fQnWg4h49mZG9rkXKC50AfX+iOp23bY8bEF6UvCvmFF/Da1eBvKcF0eeEfTQhVP9GT131fKZLySfGzyTUwcPMAvKLKdXv5b+tUNY1b27HusSGgin/Yj/3innwDR5IYD5/ci4mPo3NzDD7N4SY7O5AC8b33OdGzTfCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j2yUVh25HGYepONSrJFL0OTs9R5quu8K5N5vB2G1RNI=;
- b=l2zdq3dSSA53+go156a84ePq6baGynyhPfC1K59cHYqV58814zKaVJ2m7qHPMIcTY8hcl5ac1tXBPdxMgF0QeKLM4ymMgv+53HXyv3vehTrDYJCvalk4gSgdF38nlSYLjsgDI+WZm0L6xEt+22YoKUF3KNAWJuXJb+hDKiOc9ol/yGCFR5J928m3oh10CKw+AVyoshdAumVapoKJ++cwqjN2SfD4naEBN9yn+k8JUUvXxv0SBKaTj8G9E2JHrau7YE4zPv5UgWchhX+1L0y740ODKhR4oN+0saX4HKADfzy7Pky9sxRULMOLFg9VLD5lfWdKIaIJOwjcV8nn3/wdgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA0CA48
+	for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 07:45:50 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id z9so9826552qvn.9
+        for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 00:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j2yUVh25HGYepONSrJFL0OTs9R5quu8K5N5vB2G1RNI=;
- b=hjQVR3JjzQOl5A+qOHA1qMn/r1CARxU1fS0UJol+rxWgO6LBAXPhudHKgfUd7nhLP6tHvIPgai/eSr//Fy3zxG/XlC8ToZQ+T+3ZHsWBLY1NIoaDSm0pvFiXWV6agnnQ6JMb/s6GLf701nTNim1zJZ71g448gEubKCYzy0s9Zt8=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by PH0PR10MB4790.namprd10.prod.outlook.com
- (2603:10b6:510:3f::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
- 2022 07:10:20 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::a493:38d9:86ee:73d6]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::a493:38d9:86ee:73d6%6]) with mapi id 15.20.5632.016; Mon, 19 Sep 2022
- 07:10:20 +0000
-Date: Mon, 19 Sep 2022 10:09:38 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] staging: rtl8192e: Remove ftrace-like logging
- RT_TRACE
-Message-ID: <YygVsmIFlt4IQ/E4@kadam>
-References: <cover.1663387785.git.philipp.g.hortmann@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1663387785.git.philipp.g.hortmann@gmail.com>
-X-ClientProxiedBy: JNAP275CA0022.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::8)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=kFvZI/ho5flJ8bVZw/ylc/FIxIuDfNKDgEZ+nDka8w8=;
+        b=dLohcl4if5EP3FOyLzRPPu1gWHmx6diuJE+db2s/9yCYxgm6ki5+ZtDDDSp3yZQoSy
+         RUXGgUO+l1IuULfiR7c5BCpgBYtrNFRcw/nZxiFqMfmqeN6fxVFa72bgrMUIbF4LpMX5
+         zLUN692AR915ivVRxhQIBZWgnbpcM1v3o6wAlipYSWq23Gd1ZCXwtTdrh+/hEPqhu0mv
+         Xr/kw2NPNG4Z65gNU7zZFeFrH/rPWRbop9WPtksi3CaA5D0iFFAFNyMXHz/FxvNOagnP
+         usXYctUombiN7vUqiTjKR/sRaqZNNtjt0+XdlyYBy0yJ3kVWnjCY/DERlUVX4yJaoQf/
+         XB5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=kFvZI/ho5flJ8bVZw/ylc/FIxIuDfNKDgEZ+nDka8w8=;
+        b=yYaNWTDWuYLQwXYtBqkpkN/ARgHs+4gZSQjnn6yVB6UHE9G/iiwL1Fjv8oo7u0Zlq4
+         SaN9Ky8G0K8LB9bYNgVFSDLk5oCyMSFKlK/qfJ9nNcMwq3I3sgyZIKikur/KtuXeQu61
+         TB61yPNKeUxlj4r8vJ/FXp3eKSW2byRw3p3wPTSd/bzoyKS2DvgK9aNsO+iHZDiWDiRU
+         RGIqTGf6ys1R3xWeSldFjRema6aw+QE7pVjcryhi4aEeJm5pBGapgHVgJFYjeFWVlgli
+         fcyDK11qAF4fpH6WJCR26mwxxXkLMks/+FyJ6nh7/7Szxz2xL+fYJJXUc0ryUjXUJ2VD
+         aW1A==
+X-Gm-Message-State: ACrzQf0D/kqFJSw3KXCTyon07VHZWtb3I+RXRzvQb1zb6rvKTIikNf93
+	RGXiu9xXMPUTLmbNNN/P7kE7KyTnfQ1413eqCCHWljCVkvI=
+X-Google-Smtp-Source: AMsMyM4QtlpJ5vvcpxPu28MHfCVbWjCdcEjrAksnXqf8ORGp+qU4Q6bMrTggPwyHm2N/HmvLNjkoFgDCYL8B/aVh/o0=
+X-Received: by 2002:a05:6214:d6f:b0:4ac:7748:2e5c with SMTP id
+ 15-20020a0562140d6f00b004ac77482e5cmr13357180qvs.97.1663573549781; Mon, 19
+ Sep 2022 00:45:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|PH0PR10MB4790:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7edbcf4d-23ef-4fde-10eb-08da9a0e0313
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	mqktwEKPpYtFyRvRvo55swcyMJl2Li3ruXIMUYnnYBKqJx3ctaGdKznSbUD0bnJV2LCM9ImrigDedDs8s7qg16nVC3X0tIs7WolFy+RP6ZJq9k9SY+zY1XOUV/W9wkifFcxNM7bQ4EVGaz+IQi10egyhkAN7h9Udfben5e+Tv40qeUXf8uiEguoNKZmFKIa5UOigeNa3K0QZtoHeNIPXo20qrk37cobh5lRuYSEe4wfHB5BGjT6tLgapmzd5aHPNUSWP28s9lvHS9nRvmT3Zcoa5QuiwLJlXyWv01iNYCtuztgrDOSlE/smPR59iSTSp27fTYe83cTOluEv2VL0b3IDiD0u+1/KqRFAmhvwBSuKylVEBcuYVV9O9mp+fQQPUQfDi40YTuaUSHf2uRIi4AawwZ/yyuRn+quZ81m4cTcHLEcwavMOtRqpXMALP28duPRuAuDpHjztR3Tw6c3vUV3pl4rKKz7LwC4ADF93gNwMLjRb9gFrpoOcbVM5OumvjCoCjWE1G9TMtw98wdU3AfzbIv/CZf2XTbhqqmhZYfh7HhcxpAl6dPgG9K3TuBR/3u56t5HLHiWqip9zHPJUm+3C9IOgFe2H2mtoA3RPNx6/hEvgYkbLOki3T55BzHqXEXPnmUszItCdtas6Z+TbTqyEzTN5gE57Pvtcacugxf0z5++U/Cuciq9udK4DfQCIqXbIbVF31NRDKCdgBPBoj+A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(39860400002)(396003)(346002)(136003)(376002)(451199015)(44832011)(4744005)(83380400001)(5660300002)(6512007)(33716001)(2906002)(26005)(316002)(6916009)(478600001)(6486002)(38100700002)(41300700001)(9686003)(186003)(8936002)(86362001)(6666004)(66946007)(66476007)(66556008)(8676002)(6506007)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?fKBjH+pQspwYSQkldkprghdLLk2IPZtzu8RU4y8BcCaB32VwZMdpfauwQi2S?=
- =?us-ascii?Q?xN0bxJE7I2AyZufh04SgHI7gTUlsSstUCJe/CQNbhiM8Vkv6NJzpmlgvrt0Q?=
- =?us-ascii?Q?P6BqWnRLS0zGNkQNP+hfGMKvs2vJfo7cT5Py5fibNYLL+y2NrO48oFs+kj6F?=
- =?us-ascii?Q?LxHwOXoDEeUe8Fd5DGF8uDlDSTZtdww1HxfDbSnqN2UlZw4k3IXyqnWf9QIQ?=
- =?us-ascii?Q?sA9byB66FCAW1rwNQrLmiDRaf9SDVtqn4DgXYrXRPinlXqWa5Z9EmphnWNK0?=
- =?us-ascii?Q?Z5rRJDtkSykqr81EsqC8gi7vjFhfKPQtA2diXCGvSbGzjtFmXg9StDE313MX?=
- =?us-ascii?Q?kfIdkcP1RoW8oTwiTQWvKGBNSrBxNCpMZTWg6DsyvZQHOjNC363UrkIcgHpk?=
- =?us-ascii?Q?PpVYwkal8HtmnLRGhi6hjZK2+Flui27ZB9p05a+xA/mdJH1xPWYup8bUnU1B?=
- =?us-ascii?Q?F7N708OSnH99oK8puwLkEk3RHIPRwU6HwoI9T71nT5/XNOoITNziwFeS/VmL?=
- =?us-ascii?Q?SpGMPhGVQ+/lMm01UgDA/PeBQJUolJWjsql7i7ZwGWMoqNomsdf//oECtW08?=
- =?us-ascii?Q?mYEsFXF1F1czD4sATwT2YenL36PTPsjFsvEEko/ADykHC35haukYUQZFAgja?=
- =?us-ascii?Q?qIq3/K+4w7gBpybB0NmQ4TogXYQRFYRuEPOhlzkysF73S/ENsze+00Ar8r+y?=
- =?us-ascii?Q?UjLcQfEzka7Ex0HnYG/I1UATPRyapEWbb/BWrFixm/om6jiS+EN4WsjolBcO?=
- =?us-ascii?Q?++vskkJHSYH9mYQeZ8bZwHOxUJisLfSGWDgBTSFN12hcsoitKmZvCS+1q34l?=
- =?us-ascii?Q?vArXWoTJdTg52SOCiyZgUGUlQWOnkJvpx0b2uHPxD2sw6hVxQaEH7YHOnzhk?=
- =?us-ascii?Q?Dwi1cxUw7kM7FlezuNvlQaq1C5Ny9ttZwGNJXuN5JBLp4BKW1KOuOz+L9Bhd?=
- =?us-ascii?Q?8CyHEcdA5K28g2aN8N4r5hmNa5qH2f2C5FDgiI1AharqAb5f5RasgZ0gTdGv?=
- =?us-ascii?Q?3GZ1oVQHr07SIDumigZdiMwd4WuPgxV7wEVFmfIYaiQ/Vzq//nyn6WO7MkLc?=
- =?us-ascii?Q?Y0dDcUwRhDjo+5T0puBul6C55bzf46VS2PXOD0C9lkfEb+x8B8algN2NX3Of?=
- =?us-ascii?Q?HGR6hMMJxQDoac1UUiJBc2I3nhNdeO7oThdR+6TMH+FpzpXT26bGaubjeF+p?=
- =?us-ascii?Q?ggAXUpIYpq7tGALYeYBHtWxfPsxyakyJMu6G7jTS1EFPPTagnnkiFMNh0YkI?=
- =?us-ascii?Q?OlMBoadnUBZoGPBsPxNyMKyQU/oMxJMXCkfD6cE/BoDfaKZLQUnc/fFXpbjX?=
- =?us-ascii?Q?krFhLGr+bcjU3flU8hfA5Lb0SQxjB3SOBYU3fKJg1avQIAIZKrRz1zVgPGDB?=
- =?us-ascii?Q?R0EpepxqPxZ5wGJnUkzfqsRoAib5zWZe/l2kqDMlPUy3g6PBc82Ia3pIGh7J?=
- =?us-ascii?Q?WDy8gJdRB3cVOTET5t9/JKna/FHM178+/pckyVA93MaxbegqYgJay0UVtRjZ?=
- =?us-ascii?Q?kD5dkcjD9mhjjReugFvN9TMgIuM34/XfxDpNmO1Kz3RSREs1OZ7Mq5wB9qAK?=
- =?us-ascii?Q?ygrGAlxjwVxEQkMUKJqgJrc+JuNf2vNNlDGr1sjT?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7edbcf4d-23ef-4fde-10eb-08da9a0e0313
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 07:10:20.7521
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nE/BYU53FR9fH5Zfv25d6KF8YzR5+G+p3v2UYsWzXxCNlwP2EJQfWaLHpBQ7S+Y0jY23lmKVe4ek3H+UdvZWE9huouhENPcbxd71LmJygEk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4790
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-19_03,2022-09-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 malwarescore=0
- bulkscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2209190047
-X-Proofpoint-ORIG-GUID: hR9FgviNX4WpbeHBwPR5TOyZ-aIdZN6o
-X-Proofpoint-GUID: hR9FgviNX4WpbeHBwPR5TOyZ-aIdZN6o
+References: <20220917024709.5017-1-shangxiaojing@huawei.com>
+ <CAHp75VcH_iWh2yaGLzGevKo1a6h5gptdLR8922cd0KvRKnioHQ@mail.gmail.com> <48238f57-5bf9-d9f5-8fc9-fb213c98f502@huawei.com>
+In-Reply-To: <48238f57-5bf9-d9f5-8fc9-fb213c98f502@huawei.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 19 Sep 2022 10:45:13 +0300
+Message-ID: <CAHp75Ve7MsiwQu-7Bncd84_u_yNrq1Uhqj84jA_YA5LKT7jvfQ@mail.gmail.com>
+Subject: Re: [PATCH -next] staging: fwserial: Switch to kvfree_rcu() API
+To: shangxiaojing <shangxiaojing@huawei.com>
+Cc: gregkh@linuxfoundation.org, ilpo.jarvinen@linux.intel.com, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Sep 17, 2022 at 06:24:53AM +0200, Philipp Hortmann wrote:
-> Remove "Unnecessary ftrace-like logging" as requested by checkpatch. To
-> keep the logging would make future patches for fixing CamelCase larger.
-> 
-> Tested with rtl8192e
-> Transferred this patch over wlan connection of rtl8192e
-> 
+On Mon, Sep 19, 2022 at 4:43 AM shangxiaojing <shangxiaojing@huawei.com> wrote:
+> On 2022/9/17 16:21, Andy Shevchenko wrote:
+> > On Sat, Sep 17, 2022 at 5:12 AM Shang XiaoJing <shangxiaojing@huawei.com> wrote:
 
-Looks good.  Thanks!
+...
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > First of all, this brings even more confusion. Since the below needs
+> > some work, we want to have a v4 with a proper changelog, explaining
+> > also v1 and v3.
+>
+> Ok, I 'll figure out a more clear changelog.
+>
+> Besides, v3 is my miss, please ignore it, next patch will be v2.
 
-When I'm reviewing a mass delete change like this, the typical bug that
-I'm looking for is deleting extra lines by mistake.  So I go through it
-line by line and make sure nothing extra was deleted.  It's not
-complicated but it just takes a while to check.
+Versioning should go only one direction. You confuse people with your
+versioning schema.
 
-This patchset will introduce some checkpatch warnings about extra
-curly braces but I actually prefer if those are fixed in a separate
-patch.  It makes these easier to review.  If you were just deleting
-one RT_TRACE() call then doing it together is the correct thing but when
-it's a mass delete I prefer the curly braces changes done as a separate
-thing.
-
-regards,
-dan carpenter
-
+-- 
+With Best Regards,
+Andy Shevchenko
