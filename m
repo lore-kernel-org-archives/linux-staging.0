@@ -1,72 +1,71 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6BB23A1
-	for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 09:45:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB8623A1
+	for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 10:12:59 +0000 (UTC)
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28J9E9UW026301;
-	Mon, 19 Sep 2022 09:45:37 GMT
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28J9EB8V026328;
+	Mon, 19 Sep 2022 10:12:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : content-type : in-reply-to :
  mime-version; s=corp-2022-7-12;
- bh=m00gCmLH/ZHlj1wwBO+cLAL5QEJAZG5zha/aecXzKjs=;
- b=Y13N+DQiLiqMJRsAEqbg5rb1PPDaZhDB4NB3dvdRyZVhSJ5y0fcdCKaYmWjhuXqG/4ug
- 67v11gKDvB23qPPaSab8UncSAHYiLgif7NkC62i30bxslJfbn4aaoWzwwztnEK33o5u+
- Aze7B/1alXofmfOmSC6JeQ98psNyi+Qfs1b1WwdWL3baMiNBeOub3x4NLpMoo+cALB3I
- gT4EWVCd6CFpHDBeOLcePkEM0iDF7SVrrMrHUpm6/ZdIDagNV3ROTbrHcpgHfTYuZas3
- /yykQywVXdGPv0C3gpW4BA5soDVQdZm4sgPfi+JUgauxc14cl2En9BJCkjM8yDUxxCCO HQ== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jn69kka01-1
+ bh=9N+DBMhwPkzn8eXTGyihRwauc0vWmzUdZW4/m+Fa8IQ=;
+ b=icwtgq+p3iRhLCxJUW1QVD9r4UpUxnIgwaH5cCTqB9vRiCsQnTStuMuV2U3pnIPeBrHf
+ e33oRWEpI+l9vQ2Y0mUsX8ZNtQ+ve+KyscxNFQRIkJrfIedaVmCkQhgmFO92nZTXKVR0
+ 9gSCpDM3VoQH7emrIIVvQvLcoIlur4nl+dONnIbQmN91UxdDh67THdetYIZluL5z7HlP
+ QOTap2eFzbhcTi4rW2ywi+NQlQgzjhXhKp3RtIAD2V8HCY2Q5O1gaXuNPwfNnbHF+B1W
+ swQTVeAdYNFT1CqcLk52/U1yOwJPTPLmfsb9OTK2G5av/EhPMBadHzYjiot7WJ0lgxWQ Hw== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jn69kkc4x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Sep 2022 09:45:37 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 28J76n1v035914;
-	Mon, 19 Sep 2022 09:45:37 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3jp39hm8rr-1
+	Mon, 19 Sep 2022 10:12:56 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 28J8CpHM036338;
+	Mon, 19 Sep 2022 10:12:55 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3jp39c58ej-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Sep 2022 09:45:37 +0000
+	Mon, 19 Sep 2022 10:12:55 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lZdHxC9vZcVsdOfoazRWJUyxprqztYrK72WRRfsQIBh1PRqmyYEuT7akNYsCm1iU8hxOwWWPHS3MbMSuX9aV7Y6jWVFaHrgp9n2EsJlR/21QJUkADqZSqKyx3d7FDOr2z3gbLOL+pgDU+dFS6Bh52czGXfntSuRH7wbeUdFZNSxmQc90hKri8TqKuaICtimw+9bW4yIRJ9lgnh0PgwFU+X7f4oGOcNA3p/vSUSBa83bTY+Ghg1D0QCqmZHNIryDxzi/kGg5a75bccUYn+3p63K/d1uZta5KG5Jl7i+kf+Jo3cjOhh+5B2sMhRIisHLBnlGtdIA+CRNV544vLT+nNOw==
+ b=GbW7/PAnMcmzSGzG9w68gUXN90eHj2O+F/mWaTNsvhjAA04+z3hyczcY1U2OJSl6CFsck7Z0YmSO2ltBFLakN7Tzq9jr06T3ueFV+LgJOUYvC5/JAxkln6cf9gy78UpVCj6iISwwElWtGCrAv/EhqX9M3VjKASsDuvnzXOzWNrGSnaRfs9ePMUHr6tM6KtV5DJlTZ1MDhL7A7JVqWqv/pnKChMsSM7IPrFR3nhuRrKSd093C9JovePiWsweTQ778FZbSQsoFoJAegulLUwUQN+pcSstVPaWp8dvIOGRVwE96VC8pOr4rV28XrZUNlBemvi/icdomg5iQUANtueIgtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m00gCmLH/ZHlj1wwBO+cLAL5QEJAZG5zha/aecXzKjs=;
- b=aZ1ZDa/MQydXNDF6i1U8X3mnEJNOhmiWIQgUqehEYhuctrSIKrrQ0Up5BmJDtzBeKtXHx2mJQsTwmqVAqdYnyP4ebQRQ58jooD8ARamY5SWSTCuCpiRQhOt1lcxoC8iDBbTy63mzUTPnCElG9yPKXpXBIlGo1v0mfUw3pPEGn0HYTeyO1bZdI6WOyGpP4J5zVLN4Y0uyBo1oRIipGp7xVnkr0UoU12i+K1wylx2AKss0fvT5X3gZ+UZJh9Dhzq+QGwHwmIglv4sBbXNCxLZyrp9Iye7wmLqna6z/Utk/B8ZmhMSWUo3TkDqrjHkgLJ7DBMoacEqvgFpXcZYFrch5vA==
+ bh=9N+DBMhwPkzn8eXTGyihRwauc0vWmzUdZW4/m+Fa8IQ=;
+ b=mxc2YBpM14Ommg0u+Mp/MqCo+YBunlE6m1VTvCEtxUVcb7p4M1JmQ3kDC8tdWYel8geKAdj6wi80dNU91i7xnB20VXC7Di9JAfP0jV5brK58CDgVWEkhB/5LItPi/6tJPsdooM9+DDDmLqOAiyYyz5X5OZP95iRurrLJ8PQVua9ks+poeODUSbuappNkoQytwWlVH5Dy6Fak89HemtzamkNr1kRKzUa3gxdj5f6ZiowhmDI7eKl1DH7yxmZ6u81uS6jArfyvuxK1Ho5xBDdJOL3+mAxk/N6ZEm77rCwsY6Yy5cTpO+DaZMNwSwGPZK5vr/256145wFWCUZ/9yYcPqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m00gCmLH/ZHlj1wwBO+cLAL5QEJAZG5zha/aecXzKjs=;
- b=aP/XZvq4Ln9gs5bcLSQ3XDySygh41ga75sLTjKvB+2ybJODJojxS05CMiEBRq+NrfF7FTeAIPuDQgiGq7hn+4u8Q+IlRNpa1HUPvuugI5m5/O5KALxk44z2fjVHhP8lLBVfQCJbOlBikjiuvgCjx9rCRWtsKH2dXUOka7hWc9qY=
+ bh=9N+DBMhwPkzn8eXTGyihRwauc0vWmzUdZW4/m+Fa8IQ=;
+ b=diKnIM0GK+xEc05f4o6mZmE45zfJMJGkmZog74M8TmKxex7I+WltVv5ADgEQgidxGICtaHEm9F4UXgNhQ7eCUBGedDH4WCFtUQu6conK5i7mIT/IW2J2ij5SWiz0Ba1QjfRttN8V/5BVHfsJwlYDQMTQ4slTDLXFAuqXDsetE6M=
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DS7PR10MB4845.namprd10.prod.outlook.com
- (2603:10b6:5:38e::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
- 2022 09:45:35 +0000
+ (2603:10b6:301:2d::28) by SJ0PR10MB5741.namprd10.prod.outlook.com
+ (2603:10b6:a03:3ec::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.19; Mon, 19 Sep
+ 2022 10:12:52 +0000
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::a493:38d9:86ee:73d6]) by MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::a493:38d9:86ee:73d6%6]) with mapi id 15.20.5632.016; Mon, 19 Sep 2022
- 09:45:35 +0000
-Date: Mon, 19 Sep 2022 12:45:11 +0300
+ 10:12:52 +0000
+Date: Mon, 19 Sep 2022 13:12:22 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Nam Cao <namcaov@gmail.com>
 Cc: forest@alittletooquiet.net, gregkh@linuxfoundation.org,
         philipp.g.hortmann@gmail.com, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev
-Subject: Re: [RFC PATCH 2/5] staging: vt6655: change vnt_receive_frame return
- type to void
-Message-ID: <Yyg6J/u23jcB2v+n@kadam>
+Subject: Re: [RFC PATCH 5/5] staging: vt6655: implement allocation failure
+ handling
+Message-ID: <YyhAhiUlclk7HxE3@kadam>
 References: <cover.1663273218.git.namcaov@gmail.com>
- <f727ea04703858920f6da694676ec323469e7b97.1663273218.git.namcaov@gmail.com>
+ <dd63998765f1ea1bf507a94c2d49317b36b5f32c.1663273218.git.namcaov@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f727ea04703858920f6da694676ec323469e7b97.1663273218.git.namcaov@gmail.com>
-X-ClientProxiedBy: MR1P264CA0090.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3f::14) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+In-Reply-To: <dd63998765f1ea1bf507a94c2d49317b36b5f32c.1663273218.git.namcaov@gmail.com>
+X-ClientProxiedBy: JNAP275CA0064.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::20)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,92 +73,143 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|DS7PR10MB4845:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5871072d-ce98-43dd-c342-08da9a23b392
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|SJ0PR10MB5741:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae6ae19a-35f2-4648-29f0-08da9a2782c7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	/Luy368hSZg/lMML3kOx8Vi6uKI4m/3WoWNwgfz2BZmW8bAZd7icEt8RVpELab4Hiod6+/v4EapyguDPB0bJNpyHeqdyQJZicbPkQARzfD8MVUcm5SCN4M/NRQRfEPqvoKcyiMomYrU0TBPB04HNwO4z0XJmrOduGsOX8PI/jeXqiSOSjGIsYXYFC6yofGVr3scx4jdiQtHt+dt8aDJ4KXAv6/i+Gjww1IyOCuGLId65vELadlULt8tzv4W2WKhynZZ5tgfzn2MCy0ob1JPD541yYheZXW2Ls96sNVL3p7X+NeGSV9BeWfDZYW8VyEd2DSLUcXyX5IfmMTgqh33D2mB7Bck/I/DziXUrJj/rdUYhXxToW9a2fC04gLaFql5jvkFlmrgsjXIUm/zl4jttwstwkPhgvCWXGWWj8Ww9EHcIF4JnfL1Vfxmz1dCgQg4kBeT1MIDdps4sRoZznPcPc+fP8yVrAb3MizLra9pMc/z/bimUylM9cTWQnLWqODrjyuaINVU3QOnPcpIiywkvxxgoC8dK8hdurUYTobqm6EdGTbIxht2kfIhzgU0V/Pnzw1AdCz+OIDF2urKkwskI9w8mJR7ninQFDHE+cEzpxSHKB3g4mjkNv8gRtxAZv698VIFUpqBgyn9ZBdC0Odt2ecvXAqfIkRMbCwyGSVY/V9vvILceJ9adTu0TzSiRKah5h5hagX+zE0J249hTtt0/Dg==
+	qAUsYy2hnb+fHCip0XgPed8o0XiI3JFSe1U7iY5nlGaoC7WcRog9uKnjBh2f+p1LqrRFeIlwQ9kbgMe1sfWm5APcfDw/iasSJULoMbuF1MIVhplRMEtHaAdIY2922cTA+46/XfWBt5XA4yWQLS/JyBi2aQbRUfeY0rDLS4BI/oyaZkTOc8JyPi1ZeKD03BI1920l5Yinr31oUrTvWAixxZBpGv9MKDY6B37crNl8Nr/QIbG32yq0BVC2PKjuQHS9IglEjEcB0KlnnrudjTOslY6W8H9GxGLim85crmjOv5yT2mFCmPcxywyoxU5nJZBccBuMouYO7HfO3ffCEqxyBfJaM3s6wZJDoo8ImhLhvApx12wg6sjudOxPSKD/aOCe4/ZhZjr0M+we46AgFkjeB+VyiIcizkJgppJ6DCyhNR5Um31vYsYsdlg1ammwT3npfX60V3PM7uIGtjdXz/if1eAj+OCbnafErz2nDAR/R7YobM9YPKDqFCH3yX7+7+ntFSflOsn1caBnuC32Ex5UnC3o0+BIfIAV1osJRbIAOrDBknvkSWB5aoMCYswnVdH8QvVGqtkHmcl5eHlOmdgsTxs7VdFRyrkTGF9Z1IgoFL+9C85I1Z35L9SM6vIRalOeoVGVkalskgYgttvu6Dky3XAL5TeLfRg0GuUiPhoQoexIxf6KMoHSQmsgfmG+nkwrxABJdaIlm2BRLgpsPfzGC6Hg4D4prJglcMGT9Q//KUit8N1WF9eR/uJWj0fHlF0r
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(376002)(396003)(39860400002)(346002)(136003)(451199015)(6506007)(4326008)(2906002)(86362001)(38100700002)(8936002)(9686003)(6512007)(6486002)(26005)(66476007)(8676002)(66946007)(41300700001)(6666004)(478600001)(83380400001)(66556008)(186003)(5660300002)(6916009)(316002)(33716001)(4744005)(44832011);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(396003)(136003)(376002)(39860400002)(366004)(346002)(451199015)(66476007)(86362001)(38100700002)(44832011)(5660300002)(2906002)(6486002)(478600001)(66556008)(4326008)(66946007)(8676002)(8936002)(316002)(6916009)(186003)(83380400001)(41300700001)(33716001)(6666004)(6506007)(9686003)(26005)(6512007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ww13cQ54KiVddjwKL8qUZqBeyZjGEbv+MK+BHYBPxcP7P2YDEgjtvQCFGkfH?=
- =?us-ascii?Q?MqG9/ebCMTe+yace79Swlhyx68Ildpb67AmXaf48Y3nnvZTX8cq55nFWgky4?=
- =?us-ascii?Q?LYAO0sota1AWIU8/EfFkFGG+5fH5rlVEOTneoN3HPMhUlQvqQzHAhRDnHMtg?=
- =?us-ascii?Q?8CGsx5p5FUtlyAQpA8UJk2UOVuJxV/RNiWfywJvwjiWUHgVnP3JeCXSeFPIU?=
- =?us-ascii?Q?Be0XFJtYJlqKRLslAEPkKj9QUJGHsypDYshr04xBr+ORvIOQ5V6+w64ecRrC?=
- =?us-ascii?Q?dsuW3rjV6FkuEZ8CvF81ha6tUy6ZIQJteB1KegIF2Mm8njCucWpTRN4sAzIQ?=
- =?us-ascii?Q?bkr6nXHccBYa/Xnj9C12IFVTNBi06JcOnH6q12whDJW5J/u9oebKFJK0n4TR?=
- =?us-ascii?Q?lIJ1oYolvI7Urk3Zl74aVNDPKmj0Sd+T6kMC9Z2FZOGlVp1XyMtdDoM1at4D?=
- =?us-ascii?Q?wtCR4Kg5KhrccuIMxne0gaf92VBOPt5xyxCPxANBpu/Gfv/uNiaOLNcviSVO?=
- =?us-ascii?Q?5jFKqlJUuctRjzFq2D6fp6M8EREaZTINM0G0AvPXszQSiMwpW+LlysM+nwgB?=
- =?us-ascii?Q?qsBCB+qdW9mqElrt6YcdKZQ7f41Y0MSaRfmomhQdjMmZO5Ux1o1QqLj85bJs?=
- =?us-ascii?Q?euQY51xMo1MG8xdELbzXHFaAzYDECzWy1b9QPJuQ775a/uTPOFUuyhJc01KY?=
- =?us-ascii?Q?v9D8IyLINYdca3Zw0VJtF7PnH5+W2pkm15UPVc/PNm/23PFv0uoaSZafPpv+?=
- =?us-ascii?Q?JSVfKK0Hg8PD7rEi4anaYJjWxSJtYquN5d3rKQH4+Ftxk9GJjp2rwi6Ltb9n?=
- =?us-ascii?Q?sKErTm7qY8Te0O2YgFnQtIruZb+EqHS890MMgAeer2krxEtmF67mqX99QZFu?=
- =?us-ascii?Q?swiHES+A2O9F/upxBp+V1zaBSs9x/eRjkw61X/1PHeDlwqMF1avgPPVEdJz3?=
- =?us-ascii?Q?hOpPdKPG1iyi7NjBe6yYrbwuv2c0MjNq9cPSllWY3o/2RV2wynjOkS9cpsP2?=
- =?us-ascii?Q?37QJtYHGN99ALQuh4Bfebnhd49TSyX4+Nc0hbAAxRKMYkeUx2bL6RY7/jksY?=
- =?us-ascii?Q?WcaYi92peaNy5OEP/SYuDa+cXWiYAMSrgdeaCG569RzTAJDKi2amGIsZFtzw?=
- =?us-ascii?Q?84E3rtSVHBkSOixXXCHOkhNVQPq2ZH3FhUPfMcqMnvCDAusWDoxmBkwl05UG?=
- =?us-ascii?Q?MH2R8xo5T9VkB5mi9x2wMA7cZmHeWzoWE7veec6K7d26aEtP+U5+Lfxi6Ckj?=
- =?us-ascii?Q?RzUbyC8mFfw2ugr2ugproyoM9C0E/5D6sIM4vtEKmvoksP3uftnNtGZDD3cr?=
- =?us-ascii?Q?d/GdDvXNJuIx6LgGiTvFXu4jv0E6I000OX8sKtmvSQBN+JUOK52wDFGor/0l?=
- =?us-ascii?Q?qXrKYFu4L/ySHgWcFuzcNvmcdaGsw92Jv5MuSqRHDitJ0W7Oj3+opirX3qL2?=
- =?us-ascii?Q?3fFV9flKIlawwqfRvvbVm1rKd25pFAaG9dJ2ek3rVVZoLnDWixlW9FSqk5MC?=
- =?us-ascii?Q?F8cR1dI1i5OzU7Ag/bgtee2ITs16NAKRGF/HdkkS7UvNSGsMKwjMBE+AdX8n?=
- =?us-ascii?Q?JqNua9Z2ydJqK3gciW4Mb2TpjanWHanHjRneoUvKmRaGv0Ga+NVpsh228g1E?=
- =?us-ascii?Q?cQ=3D=3D?=
+	=?us-ascii?Q?tABB5xx7UMCheA53PuRm1o3z8ntiymbGVPotVqmZ9XuWJ6Xlq7kByv1m72c1?=
+ =?us-ascii?Q?Tzd5L7xZQMhb14ruMBvG2ZWMcgIe8mMIGN0YlqURQwMSWUD86dCil0bp9zci?=
+ =?us-ascii?Q?qCiFsVOuXYC3K1dRgsVN4dGKw7QA+pChtM4QkQ4oSpY1cfGZ9cgOt75L5onV?=
+ =?us-ascii?Q?BN7/Pq1tUohuiXdXICuqRItY7sxW7I3DsebML5aG383w0xrbXjJPivM+JA1d?=
+ =?us-ascii?Q?AETGwTGuVlykZL6vxdyjENLykhi5mSnL+f0mc0MtW5Y/lTwJVyqV78OmER+g?=
+ =?us-ascii?Q?jmeK64ogSBU8Bih2XTg32sooDL4i4jEewE2HbahRhRr3dIcGbry2R5p2s3Ym?=
+ =?us-ascii?Q?cijQXPNYjcWWjrbqYB/YXNqj/bvAk8Y9+bVfGOUArs+YHI5fCMOOvRhgs47u?=
+ =?us-ascii?Q?bIdInctOeQshV25FlRGpM1JFOEGhRj8ylaXFFnEKpx8JkIVhO709suZweTRj?=
+ =?us-ascii?Q?5fh614SVwP8mDqMCCtjbcU1v3GE0VLDPYemjNgwbBsNy7eyO5HR2mwr7am6D?=
+ =?us-ascii?Q?6zTcge6Lbr1wewj46aPHuXrpfVTOR4u0QnPIRwlQ0aCS/xyCHVvoRXRbyzH7?=
+ =?us-ascii?Q?ZCHKEgjGNHB2+FIbWfEsyeKKdBBtxoLh1Q0FTZVn2GSilft1gKXeIWeX6dPb?=
+ =?us-ascii?Q?+3jepqhtqCs4+eNqtK4775EcIfHTnGwNe3Vv/cUPs4nkou8FAlctqnSfageY?=
+ =?us-ascii?Q?NOLEEpuOoOr6ejyO0I5/94NprJzwsyO6uKTXquS9x+VCarknx87FtP66GEOo?=
+ =?us-ascii?Q?kvg/N9WJ+gbsADYh3VbvV4f7+cvQKCTBkc2eGFX54YpvFO7FVScofwLLdWFh?=
+ =?us-ascii?Q?no47n5OI0EwFXol3xyVKdleiz+m6dD+n1CPNbOrRNDcQU5MD+atMGJZ86okN?=
+ =?us-ascii?Q?+QQP6BUvXIf754u5Puaj6qvNSk2rsiBLNqsLWWMpvD8mlsmOi/akP0PtxfEh?=
+ =?us-ascii?Q?tgbe5d2q7ss6QsHaKnwu+QudpBH6pk58Ps4UDrBfGd2ikYFcVt1CJJ2weFnC?=
+ =?us-ascii?Q?rW/sKFO9G/rrPfU3XP5W8k6t7pPlWxZjiu3BBX+jjXwNFYIkwm5DF8zZUHXS?=
+ =?us-ascii?Q?DwN1Y3rZrFDlXdk+rb9ppxIuLvT5BI+sh/hBYnZAfVfXQh6+Z+Y8Qcm4YUHX?=
+ =?us-ascii?Q?MNETRcRt+GzgsM9e93z6+GRth+IOoNUOAtwNC3J957tuUiFit5g2MhYPQ+LP?=
+ =?us-ascii?Q?Hj2o8u9qIrNf4JgdEvqciDCgugX+5zuc3+RfbSBXcYlbk2fF8Wb3io6r9If7?=
+ =?us-ascii?Q?MRroBy4RfqMCp3kcg4yOOW1IWh56MDCbHPpANj47/7wb3OxyuEYKvoRw2Qcs?=
+ =?us-ascii?Q?XwY3wja99/XmnvL2K9/2ITPfKWAfDXJvxBE/dYY7MzDdybHoQwWee30EyceZ?=
+ =?us-ascii?Q?+XJ74BLH3Qv0YU4nQDZkKqI8q/fVxRuaxy+duETgDRlA4SZex9ZEXfbE02Rw?=
+ =?us-ascii?Q?23PuOfR+C1pzghN4wOVCIXx2d9/B4XR8Sfp6goLBOkUhm53kcEM9YaU3raHi?=
+ =?us-ascii?Q?EV7S6b/yKou7BrfYA6iQfL5D/EU/bZ1FTIXjv7Se5wfRuwxUsLcthq9wm50q?=
+ =?us-ascii?Q?mounc8eIC6xXkEqUeGOlZTw60qF0qWQT8XWh+Z+IfqOXEPJ8GGsyExCXP8ut?=
+ =?us-ascii?Q?6Q=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5871072d-ce98-43dd-c342-08da9a23b392
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae6ae19a-35f2-4648-29f0-08da9a2782c7
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 09:45:35.6900
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 10:12:52.6869
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h8DxJjxkmc15rkgBJuI2dUL3EjKDezVt1v2CoRPtixDIjzQHSaKUHUpPrvWlCy9lWQxcaLJYB4YoYpKZnGvRxWPLH3Py468HFPKVWglfIoo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4845
+X-MS-Exchange-CrossTenant-UserPrincipalName: wdPehHO3nLKmsi4JP0h5aOiKRNBc3Lstvk6CCT21rEGMg4Wl5nyjiV1wKI0dlcqspdHE3i88tgWZ0/Mxl0JEoCHr8mpVqgf1WjrE7Q8vapE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5741
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-19_05,2022-09-16_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 mlxscore=0 adultscore=0 mlxlogscore=999 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 spamscore=0
+ bulkscore=0 mlxscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2209190065
-X-Proofpoint-ORIG-GUID: jaD2DVi4uSFt5sp9dD72Psd5_c9FBZeg
-X-Proofpoint-GUID: jaD2DVi4uSFt5sp9dD72Psd5_c9FBZeg
+ definitions=main-2209190068
+X-Proofpoint-ORIG-GUID: vRouj5ZJdc2rwvG_Xive7ja5oHWI61kf
+X-Proofpoint-GUID: vRouj5ZJdc2rwvG_Xive7ja5oHWI61kf
 
-On Thu, Sep 15, 2022 at 10:29:33PM +0200, Nam Cao wrote:
-> -bool vnt_receive_frame(struct vnt_private *priv, struct vnt_rx_desc *curr_rd)
-> +void vnt_receive_frame(struct vnt_private *priv, struct vnt_rx_desc *curr_rd)
+On Thu, Sep 15, 2022 at 10:29:36PM +0200, Nam Cao wrote:
+> The function device_rx_srv does not handle allocation failure very well.
+> Currently, it performs these steps:
+>         - Unmap DMA buffer and hand over the buffer to mac80211
+
+Does the unmapping happens in vnt_receive_frame();?
+
+>         - Allocate and dma-map new buffer
+
+Is the new buffer for the next frame?  So in your patch if we don't
+have space for the next frame then we do not process the current frame?
+(Rhetorical questions are a bad idea on development lists.  I genuinely
+don't know the answers to these questions).
+
+>         - If allocation fails, abort
+> 
+> The problem is that, it aborts while still marking the buffer as
+> OWNED_BY_HOST. So when this function is called again in the future, it
+> incorrectly perceives the same buffer as valid and dma-unmap and hand
+> over this buffer to mac80211 again.
+
+Where is it supposed to get marked as OWNED_BY_HOST?
+
+> 
+> Re-implement this function to do things in a different order:
+>         - Allocate and dma-map new buffer
+>         - If allocation fails, abort and give up the ownership of the
+>           buffer (so that the device can re-use this buffer)
+>         - If allocation does not fail: unmap dma buffer and hand over
+>           the buffer to mac80211
+> 
+> Thus, when the driver cannot allocate new buffer, it simply discards the
+> received data and re-use the current buffer.
+> 
+> Signed-off-by: Nam Cao <namcaov@gmail.com>
+> ---
+>  drivers/staging/vt6655/device_main.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+> index ca6c4266f010..8ae4ecca2ee3 100644
+> --- a/drivers/staging/vt6655/device_main.c
+> +++ b/drivers/staging/vt6655/device_main.c
+> @@ -826,6 +826,7 @@ static void device_free_td1_ring(struct vnt_private *priv)
+>  static int device_rx_srv(struct vnt_private *priv, unsigned int idx)
 >  {
->  	struct vnt_rd_info *rd_info = curr_rd->rd_info;
->  	struct sk_buff *skb;
-> @@ -133,13 +133,13 @@ bool vnt_receive_frame(struct vnt_private *priv, struct vnt_rx_desc *curr_rd)
->  		/* Frame Size error drop this packet.*/
->  		dev_dbg(&priv->pcid->dev, "Wrong frame size %d\n", frame_size);
->  		dev_kfree_skb_irq(skb);
-> -		return true;
-> +		return;
->  	}
+>  	struct vnt_rx_desc *rd;
+> +	struct vnt_rd_info new_info;
+>  	int works = 0;
 >  
->  	if (vnt_rx_data(priv, skb, frame_size))
-> -		return true;
-> +		return;
+>  	for (rd = priv->pCurrRD[idx];
+> @@ -837,16 +838,18 @@ static int device_rx_srv(struct vnt_private *priv, unsigned int idx)
+>  		if (!rd->rd_info->skb)
+>  			break;
 >  
->  	dev_kfree_skb_irq(skb);
+> -		vnt_receive_frame(priv, rd);
+> -
+> -		if (!device_alloc_rx_buf(priv, rd->rd_info)) {
+> +		if (!device_alloc_rx_buf(priv, &new_info)) {
+>  			dev_err(&priv->pcid->dev,
+>  				"can not allocate rx buf\n");
+> +			rd->rd0.owner = OWNED_BY_NIC;
+>  			break;
+> -		} else {
+> -			device_init_rx_desc(priv, rd);
+>  		}
 >  
-> -	return true;
-> +	return;
+> +		vnt_receive_frame(priv, rd);
+> +
+> +		memcpy(rd->rd_info, &new_info, sizeof(new_info));
+> +		device_init_rx_desc(priv, rd);
+> +
+>  		rd->rd0.owner = OWNED_BY_NIC;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Just delete this last return (it's pointless now).
-
->  }
+The device_init_rx_desc() function sets it to OWNED_BY_NIC so this line
+can be deleted.
 
 regards,
 dan carpenter
