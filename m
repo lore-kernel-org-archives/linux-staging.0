@@ -1,111 +1,113 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527CB5C92
-	for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 13:34:15 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id w2so17832654pfb.0
-        for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 06:34:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33565C92
+	for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 13:38:29 +0000 (UTC)
+Received: by mail-vk1-f182.google.com with SMTP id b15so8779561vkp.2
+        for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 06:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=Ha1sOeqDp1Aaxnz0F/bJCgbMwrqTbZhekqK0lE2fCrM=;
-        b=AhaEwSmrW/dg3dX1TCQ+2vjAVJ/D82teI8TRdqzZONFw2H884oeBcaEO/GgNdZlg2+
-         YpaqeZ9WZQcFgAFqNxZdknPpP/PNnwjshmGtcRWj+7gh7XMQgk516FXsKEqCoA4fve+K
-         bdK7xsddbSaXu6W6zbsu1iaTb1tHvvNCAouZ2Y6MvTdnL7FNd7uVMtgoQLmLh2bJEK3O
-         mQ5wVxzmkqFqvLPwPltrXvTkc3RRdYkOGN3Jytn0Q5AptxgFVYl3enUs12sQ59yCK3lD
-         Fgf+sa6GxEHFyMvwtfLuWv7CX2XTuTiCpMyqV0GcFHu9tvCMj3Rog7M+riZiyuCjgNEw
-         qNGQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=6juaK5EsoyyjxinZO9ONh5LIZ3uoEQ0HM3q92UMt5H4=;
+        b=GYwtiYoR5qW30ld7sJR/i/eTMqxWqGybftB/BkD16cbnh3I0EaHqBP2FAmdPcJY4Zi
+         so0mFGNm2PP33yjhlHrteLjtKEgfdHZF3ZiM4E0tAMcixI/QxoMmqeWrt6X36LzBxUdq
+         Jya9XLzdRUs/SJxfwuiD+g+H/3cxaaBOyZkFSj7GmAMV1pGoji+aB5hFX5wh9cMxmfEZ
+         EYnaoRjC0PMB7qjQH3IqHVCRcUWjmuBCPctbeV0jvK8yoNBzsak41RZy56NHG0wdIJoK
+         HH6/hJX50VS3xD9hTn6n9j6SBqLSHn8zm2VnYX1eAS0gG1kR+XBbnJNPbOVAtQThYYbc
+         O+Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=Ha1sOeqDp1Aaxnz0F/bJCgbMwrqTbZhekqK0lE2fCrM=;
-        b=6vorFidvxCEQsDjbC/OMlA6oOJF1JZ8w/RBs3GyBLYWs2dovvfb5SzDrwzV88yQuPV
-         Z+s+EAYGdQWGwBPw6IlcgLThRdTFxEBTmR9thd857jVcr6vTIshYlcDrUE7DEqy56iOO
-         Qni4i2pZ37S+NAQ9RfS266xceT5JeRtFCZTKYfVVWS3kk/fo4y4l/aw9X7YXDvsVwSn/
-         tbC5bL7ZkKIXBXej/fYRX2lbfLwWcI1pVqJ0WwjYk7kYdZiHVUAERwH4HEf0kgOzaJxn
-         +eQjmGGEGLPXQ635/SV12VUyk9dW3zM3u95IcCxahnoTnq9FxFLlFIS0iZqAzdGoQvwO
-         ceWw==
-X-Gm-Message-State: ACrzQf1BGa6R6k8rQJqYxEk/ai683aS7mmUFFEIv/NcYMocKNOR7mOTk
-	8/NUoZncqhqLoytW8rwl0Dg=
-X-Google-Smtp-Source: AMsMyM5nuR4FijINmdmr3vsN388Mrm0dhZULVsh7P7xc305NY2WoGCicpzP/yYiBxKKRx+Cwqznxbg==
-X-Received: by 2002:a65:6e97:0:b0:439:e6a3:9f6d with SMTP id bm23-20020a656e97000000b00439e6a39f6dmr8202276pgb.369.1663594454625;
-        Mon, 19 Sep 2022 06:34:14 -0700 (PDT)
-Received: from uftrace.. ([14.5.161.231])
-        by smtp.gmail.com with ESMTPSA id c16-20020a170903235000b00176dac464e5sm20917388plh.173.2022.09.19.06.34.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 06:34:14 -0700 (PDT)
-From: Kang Minchul <tegongkang@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Kees Cook <keescook@chromium.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kang Minchul <tegongkang@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: Fix coding style issue in block comment
-Date: Mon, 19 Sep 2022 22:34:08 +0900
-Message-Id: <20220919133408.3271462-1-tegongkang@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=6juaK5EsoyyjxinZO9ONh5LIZ3uoEQ0HM3q92UMt5H4=;
+        b=eSa2y2gVLgPcPSPj+ARlYoH+xfUDqzNuAvdCpGimw3MYXCWoYs7UGjifMMFzgBfspe
+         Ytr3mHaNxcJPfKNhCyu28zYsA2VWlTLrauxtpBdEhtV+GLxd/l/d3RUgo5opPZbPIfQ6
+         dK+wvdPqr9/abxlaJoGNlYAK+fNugiANx6XKjg8giTHXHVdOkTKPIIFZv9SJMA0EpLMv
+         kEl6cyrKwGcwluPRF1KlF9VKAHojvk/0ACkNaOXoiJGnasIxu5MxQ8vHKhnn1jFGGJLG
+         UL16qkgEZLokvZCAw0WeNUfBTagZbtb1wFMr07nV54pwuI1AEOeNjPdK/VksADnU04CU
+         yM7g==
+X-Gm-Message-State: ACrzQf3g7zgnAU+oGvzdyEGW8KZIKf4Awn20WjLwljfDyZE4+XdhFZnW
+	Lgm/taCFo7jRRuK7rXefzIQs14XlkZ1AlTbXRtM=
+X-Google-Smtp-Source: AMsMyM5j8Ao2mWHI08m+KrNDZWFHmsE1PXF4QCHtOEhkgalDqY1mzHzlE+K8tQcizgcGwZaW3YeONzWc+ecvflqtWyM=
+X-Received: by 2002:a05:6122:990:b0:3a2:e74e:5995 with SMTP id
+ g16-20020a056122099000b003a2e74e5995mr5857969vkd.25.1663594708775; Mon, 19
+ Sep 2022 06:38:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220917181130.3237159-1-tegongkang@gmail.com> <Yygx3M4ALtIpWbu7@kroah.com>
+In-Reply-To: <Yygx3M4ALtIpWbu7@kroah.com>
+From: Kang Minchul <tegongkang@gmail.com>
+Date: Mon, 19 Sep 2022 22:38:17 +0900
+Message-ID: <CA+uqrQDN5uDhnpYxVv7dwzQQnG0W=iM-37x5bBziPeSqMhde3w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: rtl8723bs: Fix coding style issue in block comment
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	Kees Cook <keescook@chromium.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch removes the following warning generated by checkpatch.pl
+Thank you for your feedback!
+I just amended and re-submitted the patch.
 
-  WARNING: Block comments use * on subsequent lines
-  #206: FILE: rtw_recv.c:206:
-  +/*
-  +signed int     rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *queue)
+Thank you.
+Kang
 
-  WARNING: Block comments use * on subsequent lines
-  #216: FILE: rtw_recv.c:216:
-  +/*
-  +caller : defrag ; recvframe_chk_defrag in recv_thread  (passive)
 
-Signed-off-by: Kang Minchul <tegongkang@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_recv.c | 22 ++++++----------------
- 1 file changed, 6 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index d8d394b67eeb..4200b7e0efd2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -203,22 +203,12 @@ signed int rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *q
- }
- 
- /*
--signed int	rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *queue)
--{
--	return rtw_free_recvframe(precvframe, queue);
--}
--*/
--
--
--
--
--/*
--caller : defrag ; recvframe_chk_defrag in recv_thread  (passive)
--pframequeue: defrag_queue : will be accessed in recv_thread  (passive)
--
--using spinlock to protect
--
--*/
-+ * caller : defrag ; recvframe_chk_defrag in recv_thread  (passive)
-+ * pframequeue: defrag_queue : will be accessed in recv_thread  (passive)
-+ *
-+ * using spinlock to protect
-+ *
-+ */
- 
- void rtw_free_recvframe_queue(struct __queue *pframequeue,  struct __queue *pfree_recv_queue)
- {
--- 
-2.34.1
-
+2022=EB=85=84 9=EC=9B=94 19=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 6:09, G=
+reg Kroah-Hartman <gregkh@linuxfoundation.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=
+=EC=84=B1:
+>
+> On Sun, Sep 18, 2022 at 03:11:30AM +0900, Kang Minchul wrote:
+> > This patch removes the following warning generated by checkpatch.pl
+> >
+> >   WARNING: Block comments use * on subsequent lines
+> >   #206: FILE: rtw_recv.c:206:
+> >   +/*
+> >   +signed int     rtw_enqueue_recvframe(union recv_frame *precvframe, s=
+truct __queue *queue)
+> >
+> >   WARNING: Block comments use * on subsequent lines
+> >   #216: FILE: rtw_recv.c:216:
+> >   +/*
+> >   +caller : defrag ; recvframe_chk_defrag in recv_thread  (passive)
+> >
+> > Signed-off-by: Kang Minchul <tegongkang@gmail.com>
+> > ---
+> >  drivers/staging/rtl8723bs/core/rtw_recv.c | 22 +++++++++++-----------
+> >  1 file changed, 11 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/stagin=
+g/rtl8723bs/core/rtw_recv.c
+> > index d8d394b67eeb..ad6fb6c3d1f0 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> > @@ -203,22 +203,22 @@ signed int rtw_enqueue_recvframe(union recv_frame=
+ *precvframe, struct __queue *q
+> >  }
+> >
+> >  /*
+> > -signed int   rtw_enqueue_recvframe(union recv_frame *precvframe, struc=
+t __queue *queue)
+> > -{
+> > -     return rtw_free_recvframe(precvframe, queue);
+> > -}
+> > -*/
+> > + * signed int        rtw_enqueue_recvframe(union recv_frame *precvfram=
+e, struct __queue *queue)
+> > + * {
+> > + *   return rtw_free_recvframe(precvframe, queue);
+> > + * }
+> > + */
+>
+> I agree with Dan, just remove these unused functions please.
+>
+> thanks,
+>
+> greg k-h
