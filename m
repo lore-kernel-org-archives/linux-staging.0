@@ -1,65 +1,97 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2B07E9
-	for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 02:23:41 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MW7hk2M3mzHntk;
-	Mon, 19 Sep 2022 10:21:26 +0800 (CST)
-Received: from kwepemm600008.china.huawei.com (7.193.23.88) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 19 Sep 2022 10:23:33 +0800
-Received: from huawei.com (10.175.100.227) by kwepemm600008.china.huawei.com
- (7.193.23.88) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 19 Sep
- 2022 10:23:32 +0800
-From: Shang XiaoJing <shangxiaojing@huawei.com>
-To: <gregkh@linuxfoundation.org>, <andy.shevchenko@gmail.com>,
-	<ilpo.jarvinen@linux.intel.com>, <linux-staging@lists.linux.dev>
-CC: <shangxiaojing@huawei.com>
-Subject: [PATCH -next v2] staging: fwserial: Switch to kfree_rcu() API
-Date: Mon, 19 Sep 2022 10:57:55 +0800
-Message-ID: <20220919025755.32372-1-shangxiaojing@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42EDEA2C
+	for <linux-staging@lists.linux.dev>; Mon, 19 Sep 2022 05:36:15 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id dv25so61845216ejb.12
+        for <linux-staging@lists.linux.dev>; Sun, 18 Sep 2022 22:36:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=yg99Um8d4jt64FWgHGDUMNsUzte0vMXpvNDgCLw++4A=;
+        b=hFJqUgf2XKWeSq36EsXW9QHsjKLUgSVuxKV/NF6MVOHMD1+PdwVQ3iC6n50Q2IDfNO
+         5BXO9qATcm7dOcWNYpktwz1WMNtSdUd0pdrtU6Nx0xgc/EyVKCynx4cuHNbzxFG7a28u
+         LXHtRRWkNcxiJTVdvfkK3yyPTnu9YhJy++qPIoNNtCoSX6/h3sd/A7AsfCAVMrzm2med
+         VsdluvF/lkVC7z90c1GIP6kYIPczbokJDIGJ89ptoM/gB5bQ8EHN2mi0joapuwY8cNYP
+         ru+kKe3Tf8JuGffGy1ZXafQXldHkkif4uNWjuDfNCPbcPL6Ez/da8LvydviTFz8k4enj
+         uwRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=yg99Um8d4jt64FWgHGDUMNsUzte0vMXpvNDgCLw++4A=;
+        b=bGR/7S63z1gkxNet2DdpkzgIxzYHL/xZk6DEDKkNe5ZFTT2V+Utd7xQsulT6rqM2SU
+         +5mKkPD9McbpOD0lkpsVPhYbUnRULDLV1B0y1duo7qrRK7K6fHzHNJZLTyka4jZ64GTI
+         I/6uV2kjtKDTvPdsX+xFeVRPtpPq+NwFr4v5N44sQcCk+ff0h4GguQtwrI4nPms7Vt+7
+         Ii6Q36JrFPDDZYzi+hBatZg1WLKqbjG27xDstmI8AEATeAn6XjdFELDoHri95DpI4QtT
+         l625rAmqev4H1GRj+iqzemN5QhGqPiMpALD3LC8C0Xmmju/RwMmeTpmBX7c/LPuvlMrO
+         TcDw==
+X-Gm-Message-State: ACrzQf2RXOvowmhmJDa5WfBzquNtdGfRfPh01IJHntuyGMoS8+Pl5Npx
+	mrwYpyXKTUNgfofuTfBlarQ=
+X-Google-Smtp-Source: AMsMyM4XF8gtvbv4+z2G0MzqTKOsCMRQ/B6fKxehQZaawAsX8vvHIyO+2b6TzdoxC544j8HCDPXrlA==
+X-Received: by 2002:a17:906:eecb:b0:73c:5bcb:8eb3 with SMTP id wu11-20020a170906eecb00b0073c5bcb8eb3mr11704435ejb.284.1663565773503;
+        Sun, 18 Sep 2022 22:36:13 -0700 (PDT)
+Received: from [192.168.0.100] (ip5f5abb62.dynamic.kabel-deutschland.de. [95.90.187.98])
+        by smtp.gmail.com with ESMTPSA id g1-20020a17090604c100b0078027e6e92csm8544982eja.84.2022.09.18.22.36.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Sep 2022 22:36:12 -0700 (PDT)
+Message-ID: <8b17ac60-b2ec-26eb-d82c-9770e9733cdf@gmail.com>
+Date: Mon, 19 Sep 2022 07:36:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm600008.china.huawei.com (7.193.23.88)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 5/6] staging: r8188eu: remove duplicate bSurpriseRemoved
+ check
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin
+ <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220918175700.215170-1-martin@kaiser.cx>
+ <20220918175700.215170-6-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20220918175700.215170-6-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Instead of invoking a synchronize_rcu() to free a pointer after a grace
-period, we can directly make use of a new API that does the same but in
-a more efficient way.
+On 9/18/22 19:56, Martin Kaiser wrote:
+> We don't have to check bSurpriseRemoved in the SwLedOn function.
+> 
+> SwLedOn calls rtw_read8 which in turn calls usb_read. This function checks
+> bSurpriseRemoved for us.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>   drivers/staging/r8188eu/core/rtw_led.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+> index 744247af5956..989808a2b171 100644
+> --- a/drivers/staging/r8188eu/core/rtw_led.c
+> +++ b/drivers/staging/r8188eu/core/rtw_led.c
+> @@ -35,7 +35,7 @@ static void SwLedOn(struct adapter *padapter, struct led_priv *pLed)
+>   	u8	LedCfg;
+>   	int res;
+>   
+> -	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
+> +	if (padapter->bDriverStopped)
+>   		return;
+>   
+>   	res = rtw_read8(padapter, REG_LEDCFG2, &LedCfg);
 
-Signed-off-by: Shang XiaoJing <shangxiaojing@huawei.com>
----
-Changes in v2:
-- Use kfree_rcu() instead of kvfree_rcu() for clarity
----
- drivers/staging/fwserial/fwserial.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi Martin,
 
-diff --git a/drivers/staging/fwserial/fwserial.c b/drivers/staging/fwserial/fwserial.c
-index 81b06d88ed0d..8d2b4ed1f39e 100644
---- a/drivers/staging/fwserial/fwserial.c
-+++ b/drivers/staging/fwserial/fwserial.c
-@@ -2117,8 +2117,7 @@ static void fwserial_remove_peer(struct fwtty_peer *peer)
- 	if (port)
- 		fwserial_release_port(port, true);
- 
--	synchronize_rcu();
--	kfree(peer);
-+	kfree_rcu(peer);
- }
- 
- /**
--- 
-2.17.1
+same could be done in SwLedOff.
 
+regards,
+Michael
