@@ -1,77 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BCF2560
-	for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 08:23:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D46C433D6;
-	Thu, 22 Sep 2022 08:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1663835020;
-	bh=8ydo7zEbF37NQc6ihzhC1IDYRnbM59UIfra3K6Ko6rA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qlR/zQVtQAtCMDvL1Lqw9H+TmPRnhJo+vrN43lkgErTuS23lJZcxNYuF4wn364HAJ
-	 s7mXXd6D7g62rAGSjNt0sjaYzvOmGDynXZEJB6r5+mMs3MFwDZnJxzILJCEwX+oLf7
-	 AK5WJhCukS/UKtxgmQ/Hs64+DBqlKwfTlpVXo6A8=
-Date: Thu, 22 Sep 2022 10:23:36 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Anjandev Momi <anjan@momi.ca>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4 v2] Staging: rtl8192e: fix coding style issues
-Message-ID: <YywbiMrkZa3ELJlb@kroah.com>
-References: <20220922075922.20523-1-anjan@momi.ca>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11D93229
+	for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 12:23:28 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id jm5so7625725plb.13
+        for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 05:23:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=cUVTepq3+m67yIJgU/dRWgCHiUOIyds/tKX3KYiHsPs=;
+        b=AhFiwdSAjU1lysIY5h+mIR886L1ySQovz0Z3yrXNrdGXLN8exeIOZTVbCNScj45Z+Q
+         YsN1YhzYJy+6h4WzMV/o62vT/J/1YAgH/XbxcE3MRbZ9/vD9r9DPNwitpQVVGrrVTnTW
+         gU1HoTffFPQyvU8w2kRMZrMvkiJ5nhUrTWsCz5LClKErDxBy4w+v9eJTPFy+fn727CL2
+         hGNVNv71hbOLwOlLxvEh2KqylGvpujjzBcPxhh0zdqsko1wALhWQN1Ki9U79ZmGuvIR6
+         v7PjnHn4zTEY5+0A9zK03xfkhOSH6ad5Ugjp6UCBch0kG+bKmpcWF8l9H1CEimnLtgGU
+         Eygw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=cUVTepq3+m67yIJgU/dRWgCHiUOIyds/tKX3KYiHsPs=;
+        b=1TW9cD35WPeea7aYHZrHmEe7mdpmJjI0lO57SpE1UClN8Hq7Px4j9D522W/fyiY/6u
+         MiTohDT/XeFKXyERF8K1uyLOw/S+svEtKsgPfVtu88psWDere9BM7jf6wcN+VM28fm/h
+         +LnuSwvbNSaEfRx17ZakODkoAGoHIrN2WKKHnFa3v9Z5QwZ4WVYG9dy5NKQdhIlt9cdK
+         DZKWD1W6QkqbqxlZAXPRU3UESQjGIV9AfssfyEhiytmMdIp3pA3QuMwOILsjy7P4yDu0
+         I4hT6UFKBFkPQk2IVw7YP7hY4HRFSSOo1kLCQ7HzXP/YklS+yJBn1iHtCS5hO96KqqTC
+         xhew==
+X-Gm-Message-State: ACrzQf17bEavhDZpGh2S13rHjiPLOtia8knEOFPzNh3QhDLg5p4abNQS
+	KzS47AXzILynuXqwhu4y8CU=
+X-Google-Smtp-Source: AMsMyM6GyTk7D0f4Jejh14L0qAJaymmj3EJ6gOd+L3AxiVpQ7tfid8TfmcJifhZaNbc+pz+7659kOg==
+X-Received: by 2002:a17:90b:1e07:b0:202:bb50:1963 with SMTP id pg7-20020a17090b1e0700b00202bb501963mr14923084pjb.82.1663849408018;
+        Thu, 22 Sep 2022 05:23:28 -0700 (PDT)
+Received: from uftrace.. ([14.5.161.231])
+        by smtp.gmail.com with ESMTPSA id a8-20020a170902900800b00178acc7ef16sm3942901plp.253.2022.09.22.05.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Sep 2022 05:23:27 -0700 (PDT)
+From: Kang Minchul <tegongkang@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johannes Berg <johannes.berg@intel.com>,
+	Veerendranath Jakkam <quic_vjakkam@quicinc.com>,
+	GUO Zihua <guozihua@huawei.com>,
+	Hannes Braun <hannesbraun@mail.de>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kang Minchul <tegongkang@gmail.com>
+Subject: [PATCH 0/4] staging: rtl8723bs: cleanups for checkpatch fixes
+Date: Thu, 22 Sep 2022 21:23:06 +0900
+Message-Id: <20220922122310.3379711-1-tegongkang@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922075922.20523-1-anjan@momi.ca>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 22, 2022 at 03:59:19AM -0400, Anjandev Momi wrote:
-> This patch series fixes various checkpatch.pl issues: removes unnecessary
-> parentheses, removes multiple blank lines, aligns multiple line function calls
-> to open paranthesis, and adds a blank line after function declaration.
-> 
-> Anjandev Momi (4):
->   Staging: rtl8192e: remove unnecessary parentheses
->   Staging: rtl8192e: remove multiple blank lines
->   Staging: rtl8192e: make alignment match open parenthesis
->   Staging: rtl8192e: add blank line after function declaration
-> 
->  drivers/staging/rtl8192e/rtl819x_BAProc.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
-> 
-> -- 
-> 2.36.2
-> 
+This patch series removes errors and warnings generated by checkpatch
 
+Kang Minchul (4):
+  staging: rtl8723bs: replace code indent as tabs
+  staging: rtl8723bs: Relocate constant on the right side of test
+  staging: rtl8723bs: Make switch and case at the same indent
+  staging: rtl8723bs: Add a blank line after declarations
 
-Hi,
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 106 +++++++++---------
+ 1 file changed, 54 insertions(+), 52 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+-- 
+2.34.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
