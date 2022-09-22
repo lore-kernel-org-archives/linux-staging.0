@@ -1,49 +1,51 @@
 Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF38423AD
-	for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 08:01:24 +0000 (UTC)
-References: <20220916030655.11105-1-anjan@momi.ca>
- <28159639-c011-62a0-e8bd-07a79aadca91@gmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=momi.ca; s=key1;
-	t=1663833683;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p0yNopc1Gi0yMjAQNP4Zf9e0rxlj1CWidMLuNaUxDY0=;
-	b=n/MGXy+lmhuEqiGv5GNmJL1RYZ2xdAf74PP8XiD8QexpebBwedngI79Qk7DnpjPTUBzsxN
-	gEx0mKiDqxaYrJZaWTjGIZO4faGiZrRks3hfjlVRV7P/Px8O9UzNAG+YNaS/ms4CaytNrH
-	EJV6FLF4Tq0uH7ecCJF0h3pi4OetvtJwwsvYvyhJhjrfwv3fR/4yBasCWfZHpgFAsIhN/T
-	NJekAUgAgN+zmsKyGUeTIQA3bSmsdzJieqyFBjw6Q9Q560hiOvB00GTDEA+iApOPblMQFl
-	a9aaox7zzb5kos+R1PCkEhtpOTs7Ux8/4YIGVyhQb2w5QnegAk+GIwRcP+LW/Q==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB0723D4
+	for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 08:08:49 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=momi.ca; s=key1;
+	t=1663833592;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=XbvKAdtcmW4XCdEMoBcO9b7szK/Fh0wTG+QKWKgbeXI=;
+	b=iVLD2H6lYDqJ6qfRGev8DClt+tffgmekn5XH177loNzsYDdQQ92O841yeV8Idx0BwYZvTj
+	vpOViyvyeBV/GM2UzoLIJ+wAx1aJT2jJT9dfF7TI8z7tZfKIr56sHIU2/L0EkLNIt+0AWv
+	gYxhOqHLiYm0NHUmfw/GGVSiCYqy0t1WmSmGKimcG7MT+54Z9sEmfmcoKTv/34M6rmSfuN
+	8EJyz/MkOXAZ3Gwo53eM8lU6TVIDrslwZ13/2Dgd4CXdB7iJ6drmV9RtaNIYkOhs5Kcb29
+	vhy/oMcJb/SGQCXiHLuX/TGkmlRQ6zH9RFJa8a9LNkRpWF90fgGoVrl5536odg==
 From: Anjandev Momi <anjan@momi.ca>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: rtl8192e: fixed brace, space, and align coding
- style issues
-Date: Thu, 22 Sep 2022 04:00:14 -0400
-In-reply-to: <28159639-c011-62a0-e8bd-07a79aadca91@gmail.com>
-Message-ID: <878rmbalda.fsf@momi.ca>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Anjandev Momi <anjan@momi.ca>
+Subject: [PATCH 0/4 v2] Staging: rtl8192e: fix coding style issues
+Date: Thu, 22 Sep 2022 03:59:19 -0400
+Message-Id: <20220922075922.20523-1-anjan@momi.ca>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: momi.ca
 
-Hi,
+This patch series fixes various checkpatch.pl issues: removes unnecessary
+parentheses, removes multiple blank lines, aligns multiple line function calls
+to open paranthesis, and adds a blank line after function declaration.
 
-Thanks for the review. I just sent v2 of this patch. Splitting this
-patch up into multiple patches helped me make better commit messages.
-Please bear with me as I try to learn how to contribute.
+Anjandev Momi (4):
+  Staging: rtl8192e: remove unnecessary parentheses
+  Staging: rtl8192e: remove multiple blank lines
+  Staging: rtl8192e: make alignment match open parenthesis
+  Staging: rtl8192e: add blank line after function declaration
 
-Best,
-Anjandev
---
-w:] www.momi.ca
-pgp:] https://momi.ca/publickey.txt
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+-- 
+2.36.2
+
