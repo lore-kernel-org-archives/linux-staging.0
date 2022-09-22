@@ -1,42 +1,42 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9BB33DC
-	for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 12:23:36 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id e67so2830371pgc.12
-        for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 05:23:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C7333DC
+	for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 12:23:45 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id b75so9111100pfb.7
+        for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 05:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=oY1vBlMplIIIxbKVOsnIEKiBWPcLPjsoxwtLlULr3Cw=;
-        b=AHyaji6ls8ahkMuEJK7bJKJ9Wx4D5+wrTTWi1+/6Mb7KnM7UqACV01g34u7lwe4NXp
-         eCY/nz3gW+IdbfTQnBOlkP3nHH6LgUbasotUZs551tLO8MVb1MBF6cBJN+YwAuqybVlV
-         VPP0v5WXLA1UVbq71XZzVdR1N4PNn+EtqNyM0nrD+mBCv7EFBOMwXSxSumz2RQIWO5I5
-         JG+fOCVhiSqWzKwShJO1Fd+fxJFBKVn2vaMytUWJChfn/PZS3rtl0wJN8crejhrIc8m5
-         EGwnKYJ3k6y+r72Bt445PeAynkuN1NzUj25jDNndX+hyLrhU2ePJEnTQPlxG3bg+k/UM
-         rD3w==
+        bh=5Tt/tIulRoph59HSsZcBGgumIsznklodaysHOlPKr0k=;
+        b=SHInNbWb1WVa2bFi0BWWcCO9YTvKmcxoR2gf/VzD+jcZKWniKd86SSeAreuNN2ojx0
+         MzW/xUKPaZ8dyuBUDPO2PI1jtaaM+CiT9cld5WfLph0gRNCOZE7CVq/RMXBO4zrK2z3z
+         pVteUH2vNxH9p3v9IXUCvUcxUJW1+B4OAvbUKhER/muR5uUIaOgcZwpB3dD6NOz6G46N
+         64Hi1NknmjMBoHgFgD0su9YCYFmGbp7gRHHL3Yv1rtU+GgyI2LIIRUlgD6A4J4Faf3v0
+         A18O7yiWPLptzOk7J9Twpp9g9Eho7Y+a8+GGy8wPI+lXVV0AuqblHneur5I3Be/KzYm0
+         hkJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=oY1vBlMplIIIxbKVOsnIEKiBWPcLPjsoxwtLlULr3Cw=;
-        b=f6Che2V/l7VaMX3qfUcDhBtMeBiMc9Obs/u8LBg+tOWlH/+n2hqtNP+sJzLKzCp2Ti
-         PqTeojLXBqDC2CV2UM0RDd3ltzfy8Rn9xgqnjZGECawDYmDKCOB5DLh0fps9oAyWa1SC
-         B6sFCetbJZMvrkiyFxCw1Qgcuq/tIynMYT8bl2TaGeESzvzC74h96kM8xeSV5VvX3+mX
-         WHA5RWhFdMoixG1CgFvlUBpra8gF75HtO0Y04p486Cot0Yco9rCsdI7jiufT68rHVqWE
-         YZbXhnznxWoyx2kzBga10TgAIWI/qR7eNQMvcMdRdghJ3oOGv8VZFm3jmyRgprqNNTWU
-         gEJA==
-X-Gm-Message-State: ACrzQf1fDeF/oyfZLNRaWusY9SE4n4YeQiHnI62Nr9ydUFOau9pFVz6W
-	R2tGMCcBfR4j3N3vH881hnU=
-X-Google-Smtp-Source: AMsMyM7omYWzoMPZfSsgWRYkqRKsxNYPDJ355JJAaoFrv4hWvsdZagegFl9uZvUuhdkvBwgdTBte5w==
-X-Received: by 2002:a63:6c01:0:b0:429:ea6e:486d with SMTP id h1-20020a636c01000000b00429ea6e486dmr2764877pgc.247.1663849416248;
-        Thu, 22 Sep 2022 05:23:36 -0700 (PDT)
+        bh=5Tt/tIulRoph59HSsZcBGgumIsznklodaysHOlPKr0k=;
+        b=qQs6D/WgMu4E37LriOGtkEm7eAZUgvc8AGlpxnb6EIiufnqKsLd2uJZvNOHk155OfS
+         pCEB7wlfAO0SbQ24eyiv9S1paNrGmkLad4pxNdv/H0BoDzo2sqZMOtHP9uEs36n9z8iB
+         emsUxZ7brCpPkVTUre9Qu75YuBzAJThywP0YLGWSXxIPM26MKGayw8vdvIlFiWYH7wUU
+         JbBsbeThWuT7FReNt+UjicEJWImmJx1/+R8tvMjqdYULpWxUZj8LUkh5+9oThR8IZCgO
+         DLyiwCkEwSH+n6hBs1AjzYea1mN+cY+8GYoJ+coc8k8zihXDLNPY8mg61ImfNC7tM3pz
+         3Ngg==
+X-Gm-Message-State: ACrzQf3GVXxwJyDUUdoGXkn/cSPbhslANub1+HYm7Kfr/5/3qTwejmVg
+	Bz7bS7EaUWYDt9kWs66q4cM=
+X-Google-Smtp-Source: AMsMyM4h0vR2uMnhsJ308Tg16YNjL0RW8t2PDnG1Jp7GaGAZZheN2eABv73SHU5TTd/4MRklxe73sA==
+X-Received: by 2002:a05:6a00:238c:b0:544:c42d:8a67 with SMTP id f12-20020a056a00238c00b00544c42d8a67mr3363687pfc.21.1663849424696;
+        Thu, 22 Sep 2022 05:23:44 -0700 (PDT)
 Received: from uftrace.. ([14.5.161.231])
-        by smtp.gmail.com with ESMTPSA id a8-20020a170902900800b00178acc7ef16sm3942901plp.253.2022.09.22.05.23.33
+        by smtp.gmail.com with ESMTPSA id a8-20020a170902900800b00178acc7ef16sm3942901plp.253.2022.09.22.05.23.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 05:23:35 -0700 (PDT)
+        Thu, 22 Sep 2022 05:23:44 -0700 (PDT)
 From: Kang Minchul <tegongkang@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Johannes Berg <johannes.berg@intel.com>,
@@ -46,9 +46,9 @@ Cc: Johannes Berg <johannes.berg@intel.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Kang Minchul <tegongkang@gmail.com>
-Subject: [PATCH 1/4] staging: rtl8723bs: replace code indent as tabs
-Date: Thu, 22 Sep 2022 21:23:07 +0900
-Message-Id: <20220922122310.3379711-2-tegongkang@gmail.com>
+Subject: [PATCH 2/4] staging: rtl8723bs: Relocate constant on the right side of test
+Date: Thu, 22 Sep 2022 21:23:08 +0900
+Message-Id: <20220922122310.3379711-3-tegongkang@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922122310.3379711-1-tegongkang@gmail.com>
 References: <20220922122310.3379711-1-tegongkang@gmail.com>
@@ -60,9 +60,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch removes error below generated by checkpatch
+This patch fixes following warning generated by checkpatch:
 
-ERROR: code indent should use tabs where possible
+  WARNING: Comparisons should place the constant on the right side of the test
 
 Signed-off-by: Kang Minchul <tegongkang@gmail.com>
 ---
@@ -70,49 +70,63 @@ Signed-off-by: Kang Minchul <tegongkang@gmail.com>
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index ddbddf3c9993..2c6f4b5ab101 100644
+index 2c6f4b5ab101..b66e8789885c 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -198,7 +198,7 @@ static int rtw_ieee80211_channel_to_frequency(int chan, int band)
- 	if (band == NL80211_BAND_2GHZ) {
- 		if (chan == 14)
- 			return 2484;
--             else if (chan < 14)
-+		else if (chan < 14)
- 			return 2407 + chan * 5;
+@@ -1066,7 +1066,7 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
+ 		}
  	}
  
-@@ -810,7 +810,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 						memcpy(padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 						memcpy(padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
- 						memcpy(padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
--	                                        padapter->securitypriv.binstallGrpkey = true;
-+						padapter->securitypriv.binstallGrpkey = true;
+-	if (_FAIL == rtw_pwr_wakeup(padapter)) {
++	if (rtw_pwr_wakeup(padapter) == _FAIL) {
+ 		ret = -EPERM;
+ 		goto exit;
+ 	}
+@@ -1240,7 +1240,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
+ 	}
  
- 						padapter->securitypriv.dot118021XGrpKeyid = param->u.crypt.idx;
- 						rtw_set_key(padapter, &padapter->securitypriv, param->u.crypt.idx, 1, true);
-@@ -920,9 +920,9 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
+ 	rtw_ps_deny(padapter, PS_DENY_SCAN);
+-	if (_FAIL == rtw_pwr_wakeup(padapter)) {
++	if (rtw_pwr_wakeup(padapter) == _FAIL) {
+ 		need_indicate_scan_done = true;
+ 		goto check_need_indicate_scan_done;
+ 	}
+@@ -1583,7 +1583,7 @@ static int cfg80211_rtw_join_ibss(struct wiphy *wiphy, struct net_device *ndev,
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	int ret = 0;
  
- 		ret = rtw_cfg80211_ap_set_encryption(ndev, param, param_len);
- 	} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true
--                || check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) {
--                ret =  rtw_cfg80211_set_encryption(ndev, param, param_len);
--        }
-+		|| check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) {
-+		ret =  rtw_cfg80211_set_encryption(ndev, param, param_len);
-+	}
+-	if (_FAIL == rtw_pwr_wakeup(padapter)) {
++	if (rtw_pwr_wakeup(padapter) == _FAIL) {
+ 		ret = -EPERM;
+ 		goto exit;
+ 	}
+@@ -1674,7 +1674,7 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 	}
  
- addkey_end:
- 	kfree(param);
-@@ -2349,7 +2349,7 @@ static int cfg80211_rtw_start_ap(struct wiphy *wiphy, struct net_device *ndev,
- }
+ 	rtw_ps_deny(padapter, PS_DENY_JOIN);
+-	if (_FAIL == rtw_pwr_wakeup(padapter)) {
++	if (rtw_pwr_wakeup(padapter) == _FAIL) {
+ 		ret = -EPERM;
+ 		goto exit;
+ 	}
+@@ -2468,7 +2468,7 @@ static int	cfg80211_rtw_dump_station(struct wiphy *wiphy, struct net_device *nde
+ 	spin_lock_bh(&pstapriv->asoc_list_lock);
+ 	psta = rtw_sta_info_get_by_idx(idx, pstapriv);
+ 	spin_unlock_bh(&pstapriv->asoc_list_lock);
+-	if (NULL == psta) {
++	if (psta == NULL) {
+ 		ret = -ENOENT;
+ 		goto exit;
+ 	}
+@@ -2603,7 +2603,7 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy,
+ 		goto exit;
  
- static int cfg80211_rtw_change_beacon(struct wiphy *wiphy, struct net_device *ndev,
--                                struct cfg80211_beacon_data *info)
-+		struct cfg80211_beacon_data *info)
- {
- 	struct adapter *adapter = rtw_netdev_priv(ndev);
- 
+ 	rtw_ps_deny(padapter, PS_DENY_MGNT_TX);
+-	if (_FAIL == rtw_pwr_wakeup(padapter)) {
++	if (rtw_pwr_wakeup(padapter) == _FAIL) {
+ 		ret = -EFAULT;
+ 		goto cancel_ps_deny;
+ 	}
 -- 
 2.34.1
 
