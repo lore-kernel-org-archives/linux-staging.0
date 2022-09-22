@@ -1,57 +1,26 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A3333DC
-	for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 12:23:54 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id c7so8940839pgt.11
-        for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 05:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=Sq86kzDOcqsN5l5kHfnuCcSu+rF/jyTPvh8HDjjPPXQ=;
-        b=GZcjdflzUG6u/+FDp+Ml4obgd2j6AJL2qwoyrfKOqMzkAb8n6U+AePYDmXAMV3D2wm
-         n3FoTl8rExGyVWXPsfdpUEYrPGpSu/5KIs9dMVXumv+i0rkhOGIiNbkQtXMASFHjiu5U
-         UPLvfCh5LHJteCoGuuXpU59YdgHUb7DE2U1KsHQV551e7Wfiy9ukS1C5zNaRojUNrbzy
-         euZjri486OIYdA/O/+SKOb9uocNJKIzn4+6ZHvE04XzpAlZ2NapbA4nUwM95lJVfRhQp
-         V2E9O7rZRTJgkgFsGtJrRApErqzuVq6+3B/3FFkiOeq7Jxm/XRo6+g9Ieow60QpZO4LV
-         V07w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=Sq86kzDOcqsN5l5kHfnuCcSu+rF/jyTPvh8HDjjPPXQ=;
-        b=LQr/sYDkj2q4HB3ws0sUK5r7pFpiYs1tepP0GxkAUHu+ox4u4+n/lYeFz+Miw9sG5W
-         G+TzAlv+mS6NCEiUao7j3LTCEWva+yDhPd+JJ32em0TAAWi8ZyUFKRKjYdA31qDJSQ0j
-         XSVMEkIX800DSru6TpX7MQ486T1pBd7BJDm+tIHKWjKqOU7vWhnZ61bDCHUf8m1+K2P3
-         3YHRwbtyea0+zjQID39GN39vfwF9Qjk78fNA96lPt+/wEkWc4Pho5/84Up6OEx7BCYz3
-         kXQHJhWYtEG4GeF/wVgm/IrFWP9q4gMLmq+IHzaQqM0gRFiNgeViGmAHTt45gG76yla6
-         clmA==
-X-Gm-Message-State: ACrzQf2Jqc70QXiHsanFiYMU2EPKLQbG3Jh42u5lFzuMAufF3n9PBe/M
-	jCFOVlhG7Gykgahr3vCY5Jw=
-X-Google-Smtp-Source: AMsMyM4nPxxmURICchfAdqEO6or8oE6xV6pqBVDmicYDJM+JQ+BpmlUVn62uLlbhRCF7RcIuJx1Uhg==
-X-Received: by 2002:a05:6a00:3287:b0:542:33ca:8bce with SMTP id ck7-20020a056a00328700b0054233ca8bcemr3449307pfb.20.1663849434234;
-        Thu, 22 Sep 2022 05:23:54 -0700 (PDT)
-Received: from uftrace.. ([14.5.161.231])
-        by smtp.gmail.com with ESMTPSA id a8-20020a170902900800b00178acc7ef16sm3942901plp.253.2022.09.22.05.23.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 05:23:53 -0700 (PDT)
-From: Kang Minchul <tegongkang@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967B63C26
+	for <linux-staging@lists.linux.dev>; Thu, 22 Sep 2022 13:52:07 +0000 (UTC)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MYGnc1x8MzWgt3;
+	Thu, 22 Sep 2022 21:48:04 +0800 (CST)
+Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 21:52:01 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
+ (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
+ 2022 21:52:01 +0800
+From: Liu Shixin <liushixin2@huawei.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Johannes Berg <johannes.berg@intel.com>,
-	Veerendranath Jakkam <quic_vjakkam@quicinc.com>,
-	GUO Zihua <guozihua@huawei.com>,
-	Hannes Braun <hannesbraun@mail.de>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kang Minchul <tegongkang@gmail.com>
-Subject: [PATCH 4/4] staging: rtl8723bs: Add a blank line after declarations
-Date: Thu, 22 Sep 2022 21:23:10 +0900
-Message-Id: <20220922122310.3379711-5-tegongkang@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220922122310.3379711-1-tegongkang@gmail.com>
-References: <20220922122310.3379711-1-tegongkang@gmail.com>
+CC: <linux-staging@lists.linux.dev>, Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH] staging: pi433: use DEFINE_SHOW_ATTRIBUTE to simplify pi433_debugfs_regs
+Date: Thu, 22 Sep 2022 22:25:48 +0800
+Message-ID: <20220922142548.3248951-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,34 +28,54 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm100009.china.huawei.com (7.185.36.113)
+X-CFilter-Loop: Reflected
 
-This patch adds a blank line in order to fix checkpatch warning
+Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
+No functional change.
 
-Signed-off-by: Kang Minchul <tegongkang@gmail.com>
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/staging/pi433/pi433_if.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 57a68f9edec7..6aeb169c6ebf 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1849,6 +1849,7 @@ static int cfg80211_rtw_get_txpower(struct wiphy *wiphy,
- inline bool rtw_cfg80211_pwr_mgmt(struct adapter *adapter)
- {
- 	struct rtw_wdev_priv *rtw_wdev_priv = adapter_wdev_data(adapter);
-+
- 	return rtw_wdev_priv->power_mgmt;
- }
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index df02335fdbab..d4e06a3929f3 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -1149,19 +1149,7 @@ static int pi433_debugfs_regs_show(struct seq_file *m, void *p)
  
-@@ -1954,6 +1955,7 @@ void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter, u8 *pmgmt_frame,
- 	{
- 		struct station_info sinfo = {};
- 		u8 ie_offset;
-+
- 		if (GetFrameSubType(pmgmt_frame) == WIFI_ASSOCREQ)
- 			ie_offset = _ASOCREQ_IE_OFFSET_;
- 		else /*  WIFI_REASSOCREQ */
+ 	return ret;
+ }
+-
+-static int pi433_debugfs_regs_open(struct inode *inode, struct file *filp)
+-{
+-	return single_open(filp, pi433_debugfs_regs_show, inode->i_private);
+-}
+-
+-static const struct file_operations debugfs_fops = {
+-	.llseek =	seq_lseek,
+-	.open =		pi433_debugfs_regs_open,
+-	.owner =	THIS_MODULE,
+-	.read =		seq_read,
+-	.release =	single_release
+-};
++DEFINE_SHOW_ATTRIBUTE(pi433_debugfs_regs);
+ 
+ /*-------------------------------------------------------------------------*/
+ 
+@@ -1320,7 +1308,7 @@ static int pi433_probe(struct spi_device *spi)
+ 
+ 	entry = debugfs_create_dir(dev_name(device->dev),
+ 				   debugfs_lookup(KBUILD_MODNAME, NULL));
+-	debugfs_create_file("regs", 0400, entry, device, &debugfs_fops);
++	debugfs_create_file("regs", 0400, entry, device, &pi433_debugfs_regs_fops);
+ 
+ 	return 0;
+ 
 -- 
-2.34.1
+2.25.1
 
