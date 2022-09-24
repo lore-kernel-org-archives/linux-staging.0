@@ -1,94 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7EF17D0
-	for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 11:06:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1D0DC433D6;
-	Sat, 24 Sep 2022 11:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1664017582;
-	bh=4k0/WZgh9w9XHoJOduTjRKo9UPsRcXxrGFJ8JwI6mpA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UGwAXErZHrnlkryhGmkiJm4mMJ2ZEth1yOqr1OYCQ0N1Kyq7D+yLBJlHBSktGSMUo
-	 EmG2W2SOpgaFt/ikFBQemYP2GExpah6G4NMdEjcGriXT/25C05PJDYK8PUkk4mPZyZ
-	 mPUGTqCGHSXeAYSW173XAKEHiiOCWS8CaB1hmTe8=
-Date: Sat, 24 Sep 2022 13:06:19 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: =?utf-8?B?Zmx5aW5ncGVuZyjlva3mtakp?= <flyingpeng@tencent.com>
-Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH]  clocking-wizard: fix a schedule during spin lock
- acquisition
-Message-ID: <Yy7kq3bYqFNAEME/@kroah.com>
-References: <B806E272-4615-4027-8CBE-82A651511964@tencent.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFE917E6;
+	Sat, 24 Sep 2022 15:33:25 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 55F61240003;
+	Sat, 24 Sep 2022 15:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1664033598;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=yryqlc2N3rY8CBimHhpSavD48n0BxZAVOXdJ5hPXc9Y=;
+	b=TZiCZOKBn1aA5aBFGXhtpXFHLrkTxx73ug3WNnwwZ7cjVMSselX1qlho5jbXNKBsVJrr/A
+	k+dd4x1qPtvnW9JrLh7qZ/NcsM9Xk+s1wWAkPb24864bxaZg2dgM7FhFzQ1boixkRb29Gm
+	cIxfyUMinFVMWlVW0kbMc6F52Hm9wix2kqs3a3lrplyc0IFc0PQCeTsfDnR6P8x5rdNoeb
+	yTr/pGkiHTxhydZZB3qWW2anQFK26YPKXeXXKCXC5Uz5UzHkaWqAxkXyISZKIal8nGXPm6
+	GOa11WGcDcoc12GC2lWVjBvpg+jYPV0MjF8iCKAiue/zZeyEEzeOWx5WFm/JGQ==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v7 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP Driver
+Date: Sat, 24 Sep 2022 17:32:58 +0200
+Message-Id: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <B806E272-4615-4027-8CBE-82A651511964@tencent.com>
 
-On Sun, Sep 18, 2022 at 02:43:20AM +0000, flyingpeng(彭浩) wrote:
-> when the interrupt is disabled and the spin lock is acquired,
-> calling read_poll_timeout will trigger the schedule, which should
-> be replaced by read_poll_timeout_atomic.
-> 
-> Signed-off-by: Peng Hao <flyingpeng@tencent.com>
-> ---
->  drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c b/drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c
-> index 39367712ef54..986af03b31c9 100644
-> --- a/drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c
-> +++ b/drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c
-> @@ -157,7 +157,7 @@ static int clk_wzrd_dynamic_reconfig(struct clk_hw *hw, unsigned long rate,
->         writel(0x00, div_addr + WZRD_DR_DIV_TO_PHASE_OFFSET);
-> 
->         /* Check status register */
-> -       err = readl_poll_timeout(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-> +       err = readl_poll_timeout_atomic(divider->base + WZRD_DR_STATUS_REG_OFFSET,
->                                  value, value & WZRD_DR_LOCK_BIT_MASK,
->                                  WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
->         if (err)
-> @@ -168,7 +168,7 @@ static int clk_wzrd_dynamic_reconfig(struct clk_hw *hw, unsigned long rate,
->                divider->base + WZRD_DR_INIT_REG_OFFSET);
-> 
->         /* Check status register */
-> -       err = readl_poll_timeout(divider->base + WZRD_DR_STATUS_REG_OFFSET,
-> +       err = readl_poll_timeout_atomic(divider->base + WZRD_DR_STATUS_REG_OFFSET,
->                                  value, value & WZRD_DR_LOCK_BIT_MASK,
->                                  WZRD_USEC_POLL, WZRD_TIMEOUT_POLL);
->  err_reconfig:
-> --
-> 2.27.0
-> 
+This part only concerns the introduction of the new ISP driver and related
+adaptation of the CSI driver.
 
-Hi,
+Most non-dt patches still need reviewing but should be pretty straightforward. 
+Since this multi-part series has been going on for a while, it would be great
+to see it merged soon!
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Changes since v6:
+- Added a per-compatible check for the required port in dt binding;
+- Reworded ISP output port description in dt binding;
+- Reversed ISP detection order to have fwnode first;
+- Removed info print when ISP link is detected;
+- Added warn print when ISP is linked but not enabled in config;
+- Fixed sun6i_csi_isp_detect return type;
+- Removed useless initialization in sun6i_csi_isp_detect;
+- Fixed typo in sun6i_csi_isp_detect;
+- Added collected tags;
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Changes since v5:
+- Rebased on latest media tree;
+- Added collected tag;
+- Switched to using media_pad_remote_pad_first;
+- Switched to using media_pad_remote_pad_unique.
 
-- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
-  and can not be applied.  Please read the file,
-  Documentation/email-clients.txt in order to fix this.
+Changes since v4:
+- Fixed device-tree binding indent-align;
+- Added collected tag;
+- Rebased on latest media tree;
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Changes since v3:
+- Removed the v4l2 controls handler from the driver;
+- Added variant structure for table sizes;
+- Removed the info message about video device registration;
+- Removed comments in uAPI header;
+- Used '/schemas/graph.yaml#/properties/port' whenever possible in bindings;
+- Added CSI patches dependent on the ISP driver;
+- Rebased on the latest media tree;
 
-thanks,
+Changes since all-in-one v2:
+- Updated Kconfig to follow the latest media-wide changes;
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Switched to clock-managed regmap mmio;
+- Used helper to get a single enabled link for an entity's pad, to replace
+  source selection at link_validate time and select the remote source at
+  stream on time instead;
+- Added mutex for mbus format serialization;
+- Used endpoint-base instead of video-interface for "internal" endpoints
+  in device-tree schema;
+- Added TODO with unstaging requirements;
+- Various cosmetic cleanups;
+- Updated copyright years;
 
-greg k-h's patch email bot
+Paul Kocialkowski (6):
+  dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+  dt-bindings: media: sun6i-a31-csi: Add internal output port to the ISP
+  staging: media: Add support for the Allwinner A31 ISP
+  MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+  media: sun6i-csi: Detect the availability of the ISP
+  media: sun6i-csi: Add support for hooking to the isp devices
+
+ .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
+ .../media/allwinner,sun6i-a31-isp.yaml        | 101 +++
+ MAINTAINERS                                   |   9 +
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  75 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
+ drivers/staging/media/sunxi/Kconfig           |   1 +
+ drivers/staging/media/sunxi/Makefile          |   1 +
+ drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
+ .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
+ .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 577 ++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
+ .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+ 23 files changed, 3309 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
+
+-- 
+2.37.3
+
