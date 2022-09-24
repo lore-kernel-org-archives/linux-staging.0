@@ -1,48 +1,48 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958A17B
-	for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 22:04:07 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id u24so4449213edb.9
-        for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 15:04:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623077B
+	for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 22:04:16 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id f20so4465128edf.6
+        for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 15:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date;
-        bh=mwmv7xOROMQWgRYRX1JJBkfjP0Il8vL4+C4wGKBb7jE=;
-        b=fsp7GXaS3lZVimtv6FUR+M3KZzqf+JSaEkdQZ5HLgi7YWdtUanAaF9x0DIX5O0Bh8C
-         bKRR7Yix/5BSckwpTYHhjwIdgf84d78ikTFd45xQ8X/s/DAdaoT7kdIaPXpIOgsHEfwc
-         BrACQBfyk5D9kTJJXv7+xej/y/hVXFkXHOpCVdctYGtOrBcur4Zk+GW8/OV4wSR3AD5c
-         pJWx6+xQFpuqGCMOOgO45598L+NEqYDyY2lfpKrbbRVbtoZb5kgOR6tvsXRDXbxpeTAb
-         WPYoafQa/MWIz2KhEUhWf9klIbPbAktqrk84mv0rGcHmYmveXqX/3Jp58pzb6hWSwXY4
-         jR2w==
+        bh=5ShNoZDO8ydETxB9mYC1OvRn1beeWW7Y5cevQl95GTY=;
+        b=l68pO3oYHNtKxiJtZK4fTPCeEdDkQAenYaxtgNdGhWvmCatMbCbs44DEBqyz+eVWkN
+         0lCMYKKbLXb7/Nk41cpgSO/wYFT0Yvb6vYbhiaNPXMoqAcZdI0jat/o+3tScyCyMVSdM
+         CNXTBz1ceyBmbdIYqMZZWztg7QYkEFcKg3dSOwTRK2ciZ+zbZpPWDhfn60GTMFlm/Lml
+         KIiMPQqLXdROzAHg9VsA9B0oVDW2hI8b+IaoFHLlSdXzOOjZm0r4ymW1W4oOfiCl8sqz
+         5ReUgxAS047n806Kybk++8DhaTpw5PctqvXh3bB+uvWFYUOpkRtbagXcK0Us2o1fGRzX
+         NTBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=mwmv7xOROMQWgRYRX1JJBkfjP0Il8vL4+C4wGKBb7jE=;
-        b=YKAXqCAQU9hvGJSzHIehen5nkq1Lqe9MLrM2vskdizK3ikkwYQQhJL1TwAIg9+kRJ9
-         LNIuT2Ejin0Nt00BhMjuv2HSubuDJLOIoSNYYlqkuWWVq0FXDaSlF+t0qEvwo8cUcx0B
-         pdFNIraII8/foWu/bje2/Ju3oQHkYcfcFvba9BKZeAixFZWH58EpWrIhP8R9Zz8pZTD7
-         NKGAZG3Jpr+N/1En1gXCRspORFKBH+uuWF3zHSn4uLDF1AlXAVDxPju1rTamVUOhRmuZ
-         jJB4LmbOnLVQSdtIn3t9lXLC+dSFFV/xTljd67Qm5eIURyHy5JPhMImzT+DTi0EGOeiD
-         1w7A==
-X-Gm-Message-State: ACrzQf1CAGrzSLpmjfNF1ReJQDPqh2yDP1foOCHVUq+jX7bFZc4OdQlb
-	rB9VUooux21L6QgWQU3JAaA=
-X-Google-Smtp-Source: AMsMyM76avNymSbmgkL3qfd1Wgp72ASpep118M7tKa6MOdwayVER7Q3nXlcWjk1JBYHRWSpkU14vZg==
-X-Received: by 2002:a05:6402:518e:b0:452:49bc:179f with SMTP id q14-20020a056402518e00b0045249bc179fmr15295393edd.224.1664057045934;
-        Sat, 24 Sep 2022 15:04:05 -0700 (PDT)
+        bh=5ShNoZDO8ydETxB9mYC1OvRn1beeWW7Y5cevQl95GTY=;
+        b=DVCjEU6ml1D7ydpaiuXT3i234ELsn24HKpQLwcE17V2sW2L4HLTZOwW28p3PPase2l
+         bQvdr+aSG62f/HR73I/umQSYGg0S+bqfJ6w8tfZtPNh17IR9AoGtSPWmmekhk6GUnQm3
+         dbOM/2Bz5FyCnokdI8P1qEfKRmvqiZaFvWeV+BjeRgCAFAJCL01wLJuJBrig53SNQ0xA
+         pyczFBmgYmsaRz0DXF8XH/827Tk11u83YJt4ntbmZBOapGkDvcFN0UJPW9eBCSOvZmEh
+         TYAetwt0KFKbZ8QDS4xV4WHex2+kDOdAAlH/nDGzNgp+pW7YYLx2g/Rq8e57Mq+n6Q58
+         oKEw==
+X-Gm-Message-State: ACrzQf2t2A0Wj+X15CB0l2cNasOF0/9yZrBYARtspKcQ/38EsV+aOavC
+	ToMVNC0voN6VfFV0FIdAol0=
+X-Google-Smtp-Source: AMsMyM6pF/ldjDvnbVpC4MmYH09KUzGKe08Tu6Fi70sjsrNC/Q3jYv1xOdJF/wCZrCFni8VCx7v9WQ==
+X-Received: by 2002:a05:6402:2690:b0:452:3a85:8b28 with SMTP id w16-20020a056402269000b004523a858b28mr14731102edd.158.1664057054680;
+        Sat, 24 Sep 2022 15:04:14 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id kx16-20020a170907775000b00780982d77d1sm5940013ejc.154.2022.09.24.15.04.05
+        by smtp.gmail.com with ESMTPSA id ed6-20020a056402294600b0045722259584sm498468edb.86.2022.09.24.15.04.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Sep 2022 15:04:05 -0700 (PDT)
-Date: Sun, 25 Sep 2022 00:04:03 +0200
+        Sat, 24 Sep 2022 15:04:14 -0700 (PDT)
+Date: Sun, 25 Sep 2022 00:04:12 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/10] staging: rtl8192e: Rename SelfMimoPs, CurrentOpMode
- and bForcedShortGI
-Message-ID: <4c59f62a95b9a77711284998b98fbc559b8db813.1664055213.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 09/10] staging: rtl8192e: Rename CurrentMPDU...,
+ ForcedAMPDU... and ForcedMPDU...
+Message-ID: <4fb37ad6dab9addccf99a41a861220840c123e9b.1664055213.git.philipp.g.hortmann@gmail.com>
 References: <cover.1664055213.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,120 +54,95 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1664055213.git.philipp.g.hortmann@gmail.com>
 
-Rename variable SelfMimoPs to self_mimo_ps, CurrentOpMode to
-current_op_mode and bForcedShortGI to forced_short_gi to avoid CamelCase
-which is not accepted by checkpatch.
+Rename variable CurrentMPDUDensity to current_mpdu_density,
+ForcedAMPDUFactor to forced_ampdu_factor and ForcedMPDUDensity to
+forced_mpdu_density to avoid CamelCase which is not accepted by
+checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl819x_HT.h     |  6 +++---
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 16 ++++++++--------
- drivers/staging/rtl8192e/rtllib_tx.c      |  4 ++--
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HT.h     | 6 +++---
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 8 ++++----
+ drivers/staging/rtl8192e/rtllib_tx.c      | 6 +++---
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index f656869523fa..6b3f280407a3 100644
+index 6b3f280407a3..3d5dc60d2912 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HT.h
 +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -140,11 +140,11 @@ struct rt_hi_throughput {
+@@ -131,11 +131,11 @@ struct rt_hi_throughput {
+ 	u8				AMPDU_Factor;
+ 	u8				CurrentAMPDUFactor;
+ 	u8				MPDU_Density;
+-	u8				CurrentMPDUDensity;
++	u8 current_mpdu_density;
+ 
+ 	enum ht_aggre_mode ForcedAMPDUMode;
+-	u8				ForcedAMPDUFactor;
+-	u8				ForcedMPDUDensity;
++	u8 forced_ampdu_factor;
++	u8 forced_mpdu_density;
+ 
  	enum ht_aggre_mode ForcedAMSDUMode;
  	u16				ForcedAMSDUMaxSize;
- 
--	u8				bForcedShortGI;
-+	u8 forced_short_gi;
- 
--	u8				CurrentOpMode;
-+	u8 current_op_mode;
- 
--	u8				SelfMimoPs;
-+	u8 self_mimo_ps;
- 	u8 peer_mimo_ps;
- 
- 	enum ht_extchnl_offset CurSTAExtChnlOffset;
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 0f275b6333b2..1ef5c04914af 100644
+index 1ef5c04914af..a038a8c1504f 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -90,9 +90,9 @@ void HTUpdateDefaultSetting(struct rtllib_device *ieee)
- 	pHTInfo->AMPDU_Factor = 2;
- 	pHTInfo->MPDU_Density = 0;
- 
--	pHTInfo->SelfMimoPs = 3;
--	if (pHTInfo->SelfMimoPs == 2)
--		pHTInfo->SelfMimoPs = 3;
-+	pHTInfo->self_mimo_ps = 3;
-+	if (pHTInfo->self_mimo_ps == 2)
-+		pHTInfo->self_mimo_ps = 3;
- 	ieee->bTxDisableRateFallBack = 0;
- 	ieee->bTxUseDriverAssingedRate = 0;
- 
-@@ -300,7 +300,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
- 	else
- 		pCapELE->ChlWidth = (pHT->bRegBW40MHz ? 1 : 0);
- 
--	pCapELE->MimoPwrSave		= pHT->SelfMimoPs;
-+	pCapELE->MimoPwrSave		= pHT->self_mimo_ps;
- 	pCapELE->GreenField		= 0;
- 	pCapELE->ShortGI20Mhz		= 1;
- 	pCapELE->ShortGI40Mhz		= 1;
-@@ -377,7 +377,7 @@ void HTConstructInfoElement(struct rtllib_device *ieee, u8 *posHTInfo,
- 		pHTInfoEle->RIFS			= 0;
- 		pHTInfoEle->PSMPAccessOnly		= 0;
- 		pHTInfoEle->SrvIntGranularity		= 0;
--		pHTInfoEle->OptMode			= pHT->CurrentOpMode;
-+		pHTInfoEle->OptMode			= pHT->current_op_mode;
- 		pHTInfoEle->NonGFDevPresent		= 0;
- 		pHTInfoEle->DualBeacon			= 0;
- 		pHTInfoEle->SecondaryBeacon		= 0;
-@@ -623,7 +623,7 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
- 				   ieee->dot11HTOperationalRateSet, pMcsFilter);
- 	ieee->HTCurrentOperaRate = ieee->HTHighestOperaRate;
- 
--	pHTInfo->CurrentOpMode = pPeerHTInfo->OptMode;
-+	pHTInfo->current_op_mode = pPeerHTInfo->OptMode;
- }
- 
- void HTInitializeHTInfo(struct rtllib_device *ieee)
-@@ -637,7 +637,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 
- 	pHTInfo->bCurShortGI20MHz = false;
- 	pHTInfo->bCurShortGI40MHz = false;
--	pHTInfo->bForcedShortGI = false;
-+	pHTInfo->forced_short_gi = false;
- 
- 	pHTInfo->bCurSuppCCK = true;
- 
-@@ -774,7 +774,7 @@ void HT_update_self_and_peer_setting(struct rtllib_device *ieee,
- 
- 	if (pHTInfo->bCurrentHTSupport) {
- 		if (pNetwork->bssht.bd_ht_info_len != 0)
--			pHTInfo->CurrentOpMode = pPeerHTInfo->OptMode;
-+			pHTInfo->current_op_mode = pPeerHTInfo->OptMode;
+@@ -597,9 +597,9 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
+ 		}
  	}
- }
- EXPORT_SYMBOL(HT_update_self_and_peer_setting);
+ 	if (pHTInfo->MPDU_Density > pPeerHTCap->MPDUDensity)
+-		pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
++		pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
+ 	else
+-		pHTInfo->CurrentMPDUDensity = pPeerHTCap->MPDUDensity;
++		pHTInfo->current_mpdu_density = pPeerHTCap->MPDUDensity;
+ 	if (pHTInfo->iot_action & HT_IOT_ACT_TX_USE_AMSDU_8K) {
+ 		pHTInfo->bCurrentAMPDUEnable = false;
+ 		pHTInfo->ForcedAMSDUMode = HT_AGG_FORCE_ENABLE;
+@@ -643,7 +643,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+ 
+ 	pHTInfo->bCurrent_AMSDU_Support = false;
+ 	pHTInfo->nCurrent_AMSDU_MaxSize = pHTInfo->nAMSDU_MaxSize;
+-	pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
++	pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
+ 	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
+ 
+ 	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
+@@ -801,7 +801,7 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
+ 		pHTInfo->bCurrentAMPDUEnable = pHTInfo->bAMPDUEnable;
+ 		pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
+ 
+-		pHTInfo->CurrentMPDUDensity = pHTInfo->CurrentMPDUDensity;
++		pHTInfo->current_mpdu_density = pHTInfo->current_mpdu_density;
+ 
+ 		HTFilterMCSRate(ieee, ieee->Regdot11TxHTOperationalRateSet,
+ 				ieee->dot11HTOperationalRateSet);
 diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 5aad9263bed1..c8a8fad35cb5 100644
+index c8a8fad35cb5..e307020580a0 100644
 --- a/drivers/staging/rtl8192e/rtllib_tx.c
 +++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -358,7 +358,7 @@ static void rtllib_query_HTCapShortGI(struct rtllib_device *ieee,
- 	if (!pHTInfo->bCurrentHTSupport || !pHTInfo->bEnableHT)
- 		return;
- 
--	if (pHTInfo->bForcedShortGI) {
-+	if (pHTInfo->forced_short_gi) {
- 		tcb_desc->bUseShortGI = true;
- 		return;
- 	}
-@@ -440,7 +440,7 @@ static void rtllib_query_protectionmode(struct rtllib_device *ieee,
- 			break;
+@@ -315,7 +315,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
+ 		if (ieee->iw_mode == IW_MODE_INFRA) {
+ 			tcb_desc->bAMPDUEnable = true;
+ 			tcb_desc->ampdu_factor = pHTInfo->CurrentAMPDUFactor;
+-			tcb_desc->ampdu_density = pHTInfo->CurrentMPDUDensity;
++			tcb_desc->ampdu_density = pHTInfo->current_mpdu_density;
  		}
- 		if (pHTInfo->bCurrentHTSupport  && pHTInfo->bEnableHT) {
--			u8 HTOpMode = pHTInfo->CurrentOpMode;
-+			u8 HTOpMode = pHTInfo->current_op_mode;
+ 	}
+ FORCED_AGG_SETTING:
+@@ -325,8 +325,8 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
  
- 			if ((pHTInfo->bCurBW40MHz && (HTOpMode == 2 ||
- 			     HTOpMode == 3)) ||
+ 	case HT_AGG_FORCE_ENABLE:
+ 		tcb_desc->bAMPDUEnable = true;
+-		tcb_desc->ampdu_density = pHTInfo->ForcedMPDUDensity;
+-		tcb_desc->ampdu_factor = pHTInfo->ForcedAMPDUFactor;
++		tcb_desc->ampdu_density = pHTInfo->forced_mpdu_density;
++		tcb_desc->ampdu_factor = pHTInfo->forced_ampdu_factor;
+ 		break;
+ 
+ 	case HT_AGG_FORCE_DISABLE:
 -- 
 2.37.3
 
