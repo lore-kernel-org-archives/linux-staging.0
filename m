@@ -1,22 +1,23 @@
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFE917E6;
-	Sat, 24 Sep 2022 15:33:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E109F17EE;
+	Sat, 24 Sep 2022 15:33:26 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 55F61240003;
-	Sat, 24 Sep 2022 15:33:16 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id B4E3A240006;
+	Sat, 24 Sep 2022 15:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1664033598;
+	t=1664033605;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=yryqlc2N3rY8CBimHhpSavD48n0BxZAVOXdJ5hPXc9Y=;
-	b=TZiCZOKBn1aA5aBFGXhtpXFHLrkTxx73ug3WNnwwZ7cjVMSselX1qlho5jbXNKBsVJrr/A
-	k+dd4x1qPtvnW9JrLh7qZ/NcsM9Xk+s1wWAkPb24864bxaZg2dgM7FhFzQ1boixkRb29Gm
-	cIxfyUMinFVMWlVW0kbMc6F52Hm9wix2kqs3a3lrplyc0IFc0PQCeTsfDnR6P8x5rdNoeb
-	yTr/pGkiHTxhydZZB3qWW2anQFK26YPKXeXXKCXC5Uz5UzHkaWqAxkXyISZKIal8nGXPm6
-	GOa11WGcDcoc12GC2lWVjBvpg+jYPV0MjF8iCKAiue/zZeyEEzeOWx5WFm/JGQ==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ptqGvFLHe0QXADVVgJCZNUAjloY0GZnzuNEFAwuOVTI=;
+	b=KieaFL/YZiiYejoooXdNPM5gaSWB38E+343iILdR5JQRDl2lRQXovfRzRKo0uOVgTEVluc
+	29eE25kv61wSiDLaw13IR8ilxdjWbTXSKc3vsZ3tdHVVKWWicst7BxvtEfLct0jJQenWVZ
+	t49cqFW76XIBp9kTWIHmKvhu+X8DsIZFcmX+BQt/0BoVpJCwuAYIJH8Udqn2y8a2iIqBlT
+	cJWmhyPz6P72uhHiJwtzJMPOx/NC8F6FRKgQ8l4uLWrYy7f8KAgDdeU7r/kQ8Ic9Fosau7
+	KznbE9NSar8407UIp9oRLe6e5aiPmk5dkOTCLkHzs9YCliqFSVO05bonCyTohQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -36,10 +37,12 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v7 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP Driver
-Date: Sat, 24 Sep 2022 17:32:58 +0200
-Message-Id: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v7 4/6] MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+Date: Sat, 24 Sep 2022 17:33:02 +0200
+Message-Id: <20220924153304.77598-5-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
+References: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,106 +51,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This part only concerns the introduction of the new ISP driver and related
-adaptation of the CSI driver.
+Add myself as maintainer of the Allwinner A31 ISP media driver.
 
-Most non-dt patches still need reviewing but should be pretty straightforward. 
-Since this multi-part series has been going on for a while, it would be great
-to see it merged soon!
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Changes since v6:
-- Added a per-compatible check for the required port in dt binding;
-- Reworded ISP output port description in dt binding;
-- Reversed ISP detection order to have fwnode first;
-- Removed info print when ISP link is detected;
-- Added warn print when ISP is linked but not enabled in config;
-- Fixed sun6i_csi_isp_detect return type;
-- Removed useless initialization in sun6i_csi_isp_detect;
-- Fixed typo in sun6i_csi_isp_detect;
-- Added collected tags;
-
-Changes since v5:
-- Rebased on latest media tree;
-- Added collected tag;
-- Switched to using media_pad_remote_pad_first;
-- Switched to using media_pad_remote_pad_unique.
-
-Changes since v4:
-- Fixed device-tree binding indent-align;
-- Added collected tag;
-- Rebased on latest media tree;
-
-Changes since v3:
-- Removed the v4l2 controls handler from the driver;
-- Added variant structure for table sizes;
-- Removed the info message about video device registration;
-- Removed comments in uAPI header;
-- Used '/schemas/graph.yaml#/properties/port' whenever possible in bindings;
-- Added CSI patches dependent on the ISP driver;
-- Rebased on the latest media tree;
-
-Changes since all-in-one v2:
-- Updated Kconfig to follow the latest media-wide changes;
-- Reworked async subdev handling with a dedicated structure holding the
-  corresponding source to avoid matching in the driver;
-- Switched to clock-managed regmap mmio;
-- Used helper to get a single enabled link for an entity's pad, to replace
-  source selection at link_validate time and select the remote source at
-  stream on time instead;
-- Added mutex for mbus format serialization;
-- Used endpoint-base instead of video-interface for "internal" endpoints
-  in device-tree schema;
-- Added TODO with unstaging requirements;
-- Various cosmetic cleanups;
-- Updated copyright years;
-
-Paul Kocialkowski (6):
-  dt-bindings: media: Add Allwinner A31 ISP bindings documentation
-  dt-bindings: media: sun6i-a31-csi: Add internal output port to the ISP
-  staging: media: Add support for the Allwinner A31 ISP
-  MAINTAINERS: Add entry for the Allwinner A31 ISP driver
-  media: sun6i-csi: Detect the availability of the ISP
-  media: sun6i-csi: Add support for hooking to the isp devices
-
- .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
- .../media/allwinner,sun6i-a31-isp.yaml        | 101 +++
- MAINTAINERS                                   |   9 +
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  75 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
- .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
- .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
- drivers/staging/media/sunxi/Kconfig           |   1 +
- drivers/staging/media/sunxi/Makefile          |   1 +
- drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
- .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
- .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
- .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
- .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
- .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
- .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
- .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
- .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
- .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 577 ++++++++++++++
- .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
- .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
- .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
- 23 files changed, 3309 insertions(+), 13 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
- create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bfc64efc9ba0..78be98ea5da9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -787,6 +787,15 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+ F:	drivers/media/platform/sunxi/sun6i-csi/
+ 
++ALLWINNER A31 ISP DRIVER
++M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
++F:	drivers/staging/media/sunxi/sun6i-isp/
++F:	drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
++
+ ALLWINNER A31 MIPI CSI-2 BRIDGE DRIVER
+ M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ L:	linux-media@vger.kernel.org
 -- 
 2.37.3
 
