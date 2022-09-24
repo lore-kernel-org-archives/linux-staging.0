@@ -1,48 +1,48 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14347B
-	for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 22:03:46 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id y8so4445876edc.10
-        for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 15:03:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AE07B
+	for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 22:03:53 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id m3so4431762eda.12
+        for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 15:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date;
-        bh=dSJnz+umwC1fO28aulEVuk9aMWTo08d86Tw2gPXDo/0=;
-        b=HLHhHSnMyHhtzYq39NNbRzQpg/WFo6A+npAtuDI4SFXpSXV0WsoZEwOiqiQ9f5LH3U
-         mYcJFFc0Qf2/xHCG8sk5zs/pL2FcY3Z7o3zm45Z3R2YFEG67xGwjdrLapDqhHaLPk6rK
-         3eWpEu0qjqJrtgdVIYfJ+wOj1MxI6TSftHhnYlpaCvwT4uNuOnVu0Tcv2R6YlbocnWSk
-         qK7TKzA0ddGtGE9bLrybL+egPmv915St9xMMoHmF2msXrH1nUEuDY4BsauxLCPQmCvr8
-         1Oh+UT2qfCaGc1b+M+easHUPAf4r/xKaip6zgXMr62n5ndcSxTiFW9oocGRL6p6ulHTc
-         bVTg==
+        bh=eP06qnbCwxGVtciyiHBHP8FAxePB4HjgZ+xJDoorIoU=;
+        b=K8w1XgAMjxjat1n8IG/jP6N000U9JPzKgvv3GitU6ECmkSsbyVMl2lfwA4+p+hGrfi
+         e9d9M1KV5zPRVnS/k6Z7GVkkLZynn57tg40ILsdURjO+sBsgyk130Sff6p60agBYn8Oa
+         7EPhtqBgRgA17D6RRjqcvmRMhY74jAjb3u/Jkh2ja6ixXmYxQfH2AB8L0c8XqNW1p2OF
+         jw5BRakkawk+yOBLm1tf9sFTqfxw3xOhnsHWBrvOLDLjrHm1s15PsGRDcK6rfnZH3j+y
+         KopqdvEKiNHgyp7PH3xD5PllgXtgT6/629Hykwj/WuZxvr88elXhNeTzTxqX6zwobw43
+         jeyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=dSJnz+umwC1fO28aulEVuk9aMWTo08d86Tw2gPXDo/0=;
-        b=17ZUkot6ituPWhLUZoZgVbUqTHCtf8nJGrzIgGHKZowD3SI5y0ZlpT8tUcVlnceC/J
-         Vc0qnZB5R9IPaOKlwtLe9Gd6EUQaCmUamAqhABlmrF3nPsYWyTgaEVqDsu2wLgnxoi3b
-         8XBIQn08WPEmAte9t2qdvLn2Xq6Dwhs5SexyeNEQ0hhVX3/SpmKUNBmROUsk1se+u3hW
-         zRylUwI6pA9kdK0bMQ5/qqFZUW+aXegLKYrcIMtvMNNv7DE/EDGqSht+QJknXUp8zXNw
-         rIAsg045ljAL61zqsc8V7gICoExiZWYrZXu3k0ArpEkLXoFVsOaZsb3gUCk8Y66grk73
-         t9Fg==
-X-Gm-Message-State: ACrzQf3Kp5waHdMQH6prh+IzFDHHo0wFxhvH7dOfT39SBbEVWqKaK+nX
-	ynRmnD695sWAd6BHHqUhVkk=
-X-Google-Smtp-Source: AMsMyM47OdgdZnT91Qet95p4gB/C79m1RvSWY2YqGAm+MXpQQeRDSydwfz7iQMZkK57x/rRh/bQhXg==
-X-Received: by 2002:a50:9510:0:b0:453:dded:60e with SMTP id u16-20020a509510000000b00453dded060emr15306559eda.204.1664057025203;
-        Sat, 24 Sep 2022 15:03:45 -0700 (PDT)
+        bh=eP06qnbCwxGVtciyiHBHP8FAxePB4HjgZ+xJDoorIoU=;
+        b=ao/RFCluogZfJ/1I21u4z7lEmsL3VhWE0PuYKZS56UICeEXcAWit1Y8r/iUODBhJen
+         d9TKue2mj6ZAWIOd+/GbRC8ZSmQC8V+E3BoYQO1Hyd8AhLROTdkO0Oudd0iZNZVcfN0p
+         EOTrjosMTnb1BbxnbZk9//quQjl86KWSfaQE/lfJ9zl7fSoQyLzM2vaSasB0GUS0B4Nd
+         /oPHVSxGgxcKH2kTUB1Sk9Q7gp6K9S/7x+WcM6cVzdjdzfNZEkVlIYu6MXxXMiFbQ/P8
+         07h5xwL+x2u+GaGxmDhJU4OcN1ujb1tzGh1djH5XGPJnHI9yG61BYKE37VuJpcoimbrU
+         3yqg==
+X-Gm-Message-State: ACrzQf2KmeeME8ymqrp3RZO72sBcuYZKDvy1w3KwQ66GKzpacPkemgkU
+	W5c2GF8i0qX3TOOS0fbdhQc=
+X-Google-Smtp-Source: AMsMyM53mrQZtXzxgQuIoVb1KZPCMdFFLkBIqiP4IVJUTIo9wr2lyHC2bED28BhxfgagYrZq1acldg==
+X-Received: by 2002:a05:6402:f07:b0:450:bf95:59e9 with SMTP id i7-20020a0564020f0700b00450bf9559e9mr15265805eda.46.1664057031655;
+        Sat, 24 Sep 2022 15:03:51 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id z24-20020a50cd18000000b00456e130b457sm2936547edi.59.2022.09.24.15.03.44
+        by smtp.gmail.com with ESMTPSA id f10-20020a170906084a00b0073c80d008d5sm5882486ejd.122.2022.09.24.15.03.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Sep 2022 15:03:44 -0700 (PDT)
-Date: Sun, 25 Sep 2022 00:03:42 +0200
+        Sat, 24 Sep 2022 15:03:51 -0700 (PDT)
+Date: Sun, 25 Sep 2022 00:03:49 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] staging: rtl8192e: Rename szRT2RTAggBuffer,
- bRegRxRe... and bCurRxReo...
-Message-ID: <af445e0a80dc8e153a1ba81df99309f19a69d6cb.1664055213.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 06/10] staging: rtl8192e: Rename RxRe...WinSize, RxReorder...
+ and RxReorderDr...
+Message-ID: <e09ef6e2edc88e32782202589a9230204b547a9c.1664055213.git.philipp.g.hortmann@gmail.com>
 References: <cover.1664055213.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,108 +54,95 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1664055213.git.philipp.g.hortmann@gmail.com>
 
-Rename variable szRT2RTAggBuffer to sz_rt2rt_agg_buf, bRegRxReorderEnable
-to reg_rx_reorder_enable and bCurRxReorderEnable to cur_rx_reorder_enable
-to avoid CamelCase which is not accepted by checkpatch.
+Rename variable RxReorderWinSize to rx_reorder_win_size,
+RxReorderPendingTime to rx_reorder_pending_time and RxReorderDropCounter
+to rx_reorder_drop_counter to avoid CamelCase which is not accepted by
+checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
  drivers/staging/rtl8192e/rtl819x_HT.h     | 6 +++---
  drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ++--
- drivers/staging/rtl8192e/rtllib_rx.c      | 4 ++--
- drivers/staging/rtl8192e/rtllib_softmac.c | 8 ++++----
- 4 files changed, 11 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_TSProc.c | 2 +-
+ drivers/staging/rtl8192e/rtllib_rx.c      | 6 +++---
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 5399931786b8..2dd08f06fa9f 100644
+index 2dd08f06fa9f..7380df65959b 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HT.h
 +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -158,10 +158,10 @@ struct rt_hi_throughput {
- 	u8				RT2RT_HT_Mode;
- 	u8 current_rt2rt_aggregation;
- 	u8 current_rt2rt_long_slot_time;
--	u8				szRT2RTAggBuffer[10];
-+	u8 sz_rt2rt_agg_buf[10];
+@@ -162,9 +162,9 @@ struct rt_hi_throughput {
  
--	u8				bRegRxReorderEnable;
--	u8				bCurRxReorderEnable;
-+	u8 reg_rx_reorder_enable;
-+	u8 cur_rx_reorder_enable;
- 	u8				RxReorderWinSize;
- 	u8				RxReorderPendingTime;
- 	u16				RxReorderDropCounter;
+ 	u8 reg_rx_reorder_enable;
+ 	u8 cur_rx_reorder_enable;
+-	u8				RxReorderWinSize;
+-	u8				RxReorderPendingTime;
+-	u16				RxReorderDropCounter;
++	u8 rx_reorder_win_size;
++	u8 rx_reorder_pending_time;
++	u16 rx_reorder_drop_counter;
+ 
+ 	u8				bIsPeerBcm;
+ 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index cde64b123ced..e8fcfa01204b 100644
+index e8fcfa01204b..a7ccdee57a1b 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -100,7 +100,7 @@ void HTUpdateDefaultSetting(struct rtllib_device *ieee)
- 
+@@ -101,8 +101,8 @@ void HTUpdateDefaultSetting(struct rtllib_device *ieee)
  	pHTInfo->reg_rt2rt_aggregation = 1;
  
--	pHTInfo->bRegRxReorderEnable = 1;
-+	pHTInfo->reg_rx_reorder_enable = 1;
- 	pHTInfo->RxReorderWinSize = 64;
- 	pHTInfo->RxReorderPendingTime = 30;
+ 	pHTInfo->reg_rx_reorder_enable = 1;
+-	pHTInfo->RxReorderWinSize = 64;
+-	pHTInfo->RxReorderPendingTime = 30;
++	pHTInfo->rx_reorder_win_size = 64;
++	pHTInfo->rx_reorder_pending_time = 30;
  }
-@@ -605,7 +605,7 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
- 		pHTInfo->ForcedAMSDUMode = HT_AGG_FORCE_ENABLE;
- 		pHTInfo->ForcedAMSDUMaxSize = 7935;
- 	}
--	pHTInfo->bCurRxReorderEnable = pHTInfo->bRegRxReorderEnable;
-+	pHTInfo->cur_rx_reorder_enable = pHTInfo->reg_rx_reorder_enable;
  
- 	if (pPeerHTCap->MCS[0] == 0)
- 		pPeerHTCap->MCS[0] = 0xff;
+ static u16 HTMcsToDataRate(struct rtllib_device *ieee, u8 nMcsRate)
+diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
+index 34b00a76b6bd..05c7e822f372 100644
+--- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
+@@ -83,7 +83,7 @@ static void RxPktPendingTimeout(struct timer_list *t)
+ 	if (bPktInBuf && (pRxTs->rx_timeout_indicate_seq == 0xffff)) {
+ 		pRxTs->rx_timeout_indicate_seq = pRxTs->rx_indicate_seq;
+ 		mod_timer(&pRxTs->rx_pkt_pending_timer,  jiffies +
+-			  msecs_to_jiffies(ieee->pHTInfo->RxReorderPendingTime)
++			  msecs_to_jiffies(ieee->pHTInfo->rx_reorder_pending_time)
+ 			  );
+ 	}
+ 	spin_unlock_irqrestore(&(ieee->reorder_spinlock), flags);
 diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index abe5c153f74e..8ec8aa7d97d4 100644
+index 8ec8aa7d97d4..46d75e925ee9 100644
 --- a/drivers/staging/rtl8192e/rtllib_rx.c
 +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -924,7 +924,7 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
- 	sc = le16_to_cpu(hdr->seq_ctl);
- 	frag = WLAN_GET_SEQ_FRAG(sc);
+@@ -569,7 +569,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ {
+ 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
+ 	struct rx_reorder_entry *pReorderEntry = NULL;
+-	u8 WinSize = pHTInfo->RxReorderWinSize;
++	u8 WinSize = pHTInfo->rx_reorder_win_size;
+ 	u16 WinEnd = 0;
+ 	u8 index = 0;
+ 	bool bMatchWinStart = false, bPktInBuf = false;
+@@ -591,7 +591,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 		netdev_dbg(ieee->dev,
+ 			   "Packet Drop! IndicateSeq: %d, NewSeq: %d\n",
+ 			   pTS->rx_indicate_seq, SeqNum);
+-		pHTInfo->RxReorderDropCounter++;
++		pHTInfo->rx_reorder_drop_counter++;
+ 		{
+ 			int i;
  
--	if (!ieee->pHTInfo->bCurRxReorderEnable ||
-+	if (!ieee->pHTInfo->cur_rx_reorder_enable ||
- 		!ieee->current_network.qos_data.active ||
- 		!IsDataFrame(skb->data) ||
- 		IsLegacyDataFrame(skb->data)) {
-@@ -1442,7 +1442,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
+@@ -755,7 +755,7 @@ static void RxReorderIndicatePacket(struct rtllib_device *ieee,
+ 		netdev_dbg(ieee->dev, "%s(): SET rx timeout timer\n", __func__);
+ 		pTS->rx_timeout_indicate_seq = pTS->rx_indicate_seq;
+ 		mod_timer(&pTS->rx_pkt_pending_timer, jiffies +
+-			  msecs_to_jiffies(pHTInfo->RxReorderPendingTime));
++			  msecs_to_jiffies(pHTInfo->rx_reorder_pending_time));
  	}
- 
- 	/* Indicate packets to upper layer or Rx Reorder */
--	if (!ieee->pHTInfo->bCurRxReorderEnable || pTS == NULL || bToOtherSTA)
-+	if (!ieee->pHTInfo->cur_rx_reorder_enable || pTS == NULL || bToOtherSTA)
- 		rtllib_rx_indicate_pkt_legacy(ieee, rx_stats, rxb, dst, src);
- 	else
- 		RxReorderIndicatePacket(ieee, rxb, pTS, SeqNum);
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 9d38c35ecf9d..4708aa9752ed 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -866,9 +866,9 @@ static struct sk_buff *rtllib_probe_resp(struct rtllib_device *ieee,
- 				       encrypt);
- 
- 		if (pHTInfo->reg_rt2rt_aggregation) {
--			tmp_generic_ie_buf = ieee->pHTInfo->szRT2RTAggBuffer;
-+			tmp_generic_ie_buf = ieee->pHTInfo->sz_rt2rt_agg_buf;
- 			tmp_generic_ie_len =
--				 sizeof(ieee->pHTInfo->szRT2RTAggBuffer);
-+				 sizeof(ieee->pHTInfo->sz_rt2rt_agg_buf);
- 			HTConstructRT2RTAggElement(ieee, tmp_generic_ie_buf,
- 						   &tmp_generic_ie_len);
- 		}
-@@ -1190,9 +1190,9 @@ rtllib_association_req(struct rtllib_network *beacon,
- 		HTConstructCapabilityElement(ieee, ht_cap_buf, &ht_cap_len,
- 					     encrypt, true);
- 		if (ieee->pHTInfo->current_rt2rt_aggregation) {
--			realtek_ie_buf = ieee->pHTInfo->szRT2RTAggBuffer;
-+			realtek_ie_buf = ieee->pHTInfo->sz_rt2rt_agg_buf;
- 			realtek_ie_len =
--				 sizeof(ieee->pHTInfo->szRT2RTAggBuffer);
-+				 sizeof(ieee->pHTInfo->sz_rt2rt_agg_buf);
- 			HTConstructRT2RTAggElement(ieee, realtek_ie_buf,
- 						   &realtek_ie_len);
- 		}
+ 	spin_unlock_irqrestore(&(ieee->reorder_spinlock), flags);
+ }
 -- 
 2.37.3
 
