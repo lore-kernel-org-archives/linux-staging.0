@@ -1,48 +1,48 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623077B
-	for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 22:04:16 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id f20so4465128edf.6
-        for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 15:04:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7117B
+	for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 22:04:24 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id b35so4542892edf.0
+        for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 15:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date;
-        bh=5ShNoZDO8ydETxB9mYC1OvRn1beeWW7Y5cevQl95GTY=;
-        b=l68pO3oYHNtKxiJtZK4fTPCeEdDkQAenYaxtgNdGhWvmCatMbCbs44DEBqyz+eVWkN
-         0lCMYKKbLXb7/Nk41cpgSO/wYFT0Yvb6vYbhiaNPXMoqAcZdI0jat/o+3tScyCyMVSdM
-         CNXTBz1ceyBmbdIYqMZZWztg7QYkEFcKg3dSOwTRK2ciZ+zbZpPWDhfn60GTMFlm/Lml
-         KIiMPQqLXdROzAHg9VsA9B0oVDW2hI8b+IaoFHLlSdXzOOjZm0r4ymW1W4oOfiCl8sqz
-         5ReUgxAS047n806Kybk++8DhaTpw5PctqvXh3bB+uvWFYUOpkRtbagXcK0Us2o1fGRzX
-         NTBQ==
+        bh=5MWN7wULTG9J6qm7GHbwlY2627vVnidsrjKrrOkFmCY=;
+        b=d6UuLG4UrhH8Ffcq1TAXSn4SJY9b89SbhMqve7sPhe6zDnRCtTNgmNpkP1MRZCqFJ1
+         cfAnjHggl5DaOBXKJgfFUxkiPM/0nn+OczYFy6hHy4cLD6AxXqbZmNPiKb4t/GM+g5J+
+         wUCgKlPol/cOZybTN+DHRXbi/+F/I7RUls98yJ7BeLRyeu4BxSuBU+QAA0yYV6LDz088
+         G+q7GQta75pi948Cm0ZSMKryduuIDbudGGwjICwy9TuLh28My/EyaDnZQHfya3oRJwbn
+         yira2XZuZYbXN2T5Im1gPPvZyXp6dpXPUjD+M4dVzNj72jVk/qVeIVMBl1S2ZQmhXHaH
+         2Vwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=5ShNoZDO8ydETxB9mYC1OvRn1beeWW7Y5cevQl95GTY=;
-        b=DVCjEU6ml1D7ydpaiuXT3i234ELsn24HKpQLwcE17V2sW2L4HLTZOwW28p3PPase2l
-         bQvdr+aSG62f/HR73I/umQSYGg0S+bqfJ6w8tfZtPNh17IR9AoGtSPWmmekhk6GUnQm3
-         dbOM/2Bz5FyCnokdI8P1qEfKRmvqiZaFvWeV+BjeRgCAFAJCL01wLJuJBrig53SNQ0xA
-         pyczFBmgYmsaRz0DXF8XH/827Tk11u83YJt4ntbmZBOapGkDvcFN0UJPW9eBCSOvZmEh
-         TYAetwt0KFKbZ8QDS4xV4WHex2+kDOdAAlH/nDGzNgp+pW7YYLx2g/Rq8e57Mq+n6Q58
-         oKEw==
-X-Gm-Message-State: ACrzQf2t2A0Wj+X15CB0l2cNasOF0/9yZrBYARtspKcQ/38EsV+aOavC
-	ToMVNC0voN6VfFV0FIdAol0=
-X-Google-Smtp-Source: AMsMyM6pF/ldjDvnbVpC4MmYH09KUzGKe08Tu6Fi70sjsrNC/Q3jYv1xOdJF/wCZrCFni8VCx7v9WQ==
-X-Received: by 2002:a05:6402:2690:b0:452:3a85:8b28 with SMTP id w16-20020a056402269000b004523a858b28mr14731102edd.158.1664057054680;
-        Sat, 24 Sep 2022 15:04:14 -0700 (PDT)
+        bh=5MWN7wULTG9J6qm7GHbwlY2627vVnidsrjKrrOkFmCY=;
+        b=72vhF/yJ1BCGVo3U/K2R6PIJxMe8DdPZdjyEdJD2Vy/gSfM7jUF44XTJwmCWWlc3Ci
+         b8NJ9VdmAjqt5bLI4nWhHxOfPIvahDrhkjaQmX2Jp7EJYE4rxpNi74LJbXX0/GVZqbUR
+         XoX5wvKajAjNo9nY+zJBp/Uh07IOiqagZlzOvMlN/7C/fRI6p27fYur4Q4PTGskZ0pYl
+         IGoSfP5+LbjNpVVrqomprSEKPfajKQReeQe1FiD/4EmoXig1uGFGhJguwHcAZUxLO4/O
+         hAcP+eqqoLeeb6gKcEvfI8UrhnfUdMDPjgODHj0IbIsE/S4QF/Jg0T0SIjpICsUK8QOS
+         On+A==
+X-Gm-Message-State: ACrzQf2oloSuBjthxBSoZtv5JT6hBYjH8MHtQ9z6rQldLBMXoynh1ASr
+	RzYDECUIGV8+y5Xb0S+EMO8=
+X-Google-Smtp-Source: AMsMyM5zYss1HirJsMob9TrryvOtli9I/6XCuwxRaPFR5YF5m5DtGfWzcktKSKaIOd3TxZd8KDhxrw==
+X-Received: by 2002:a50:ed05:0:b0:456:d6fe:d800 with SMTP id j5-20020a50ed05000000b00456d6fed800mr8215871eds.101.1664057062418;
+        Sat, 24 Sep 2022 15:04:22 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id ed6-20020a056402294600b0045722259584sm498468edb.86.2022.09.24.15.04.13
+        by smtp.gmail.com with ESMTPSA id v9-20020a170906858900b00773dbdd8205sm5846657ejx.168.2022.09.24.15.04.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Sep 2022 15:04:14 -0700 (PDT)
-Date: Sun, 25 Sep 2022 00:04:12 +0200
+        Sat, 24 Sep 2022 15:04:21 -0700 (PDT)
+Date: Sun, 25 Sep 2022 00:04:19 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/10] staging: rtl8192e: Rename CurrentMPDU...,
- ForcedAMPDU... and ForcedMPDU...
-Message-ID: <4fb37ad6dab9addccf99a41a861220840c123e9b.1664055213.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 10/10] staging: rtl8192e: Remove unused variables
+ ForcedAMSDUMaxSize, ...
+Message-ID: <0f3e63030511f72dbadc0368fd5e2dbd3ff84e07.1664055213.git.philipp.g.hortmann@gmail.com>
 References: <cover.1664055213.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,95 +54,81 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1664055213.git.philipp.g.hortmann@gmail.com>
 
-Rename variable CurrentMPDUDensity to current_mpdu_density,
-ForcedAMPDUFactor to forced_ampdu_factor and ForcedMPDUDensity to
-forced_mpdu_density to avoid CamelCase which is not accepted by
-checkpatch.
+Remove unused variables that are may just once written but never read
+ForcedAMSDUMaxSize, PeerBandwidth, SwBwStep, bIsPeerBcm and
+bAcceptAddbaReq to avoid CamelCase which is not accepted by checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl819x_HT.h     | 6 +++---
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 8 ++++----
- drivers/staging/rtl8192e/rtllib_tx.c      | 6 +++---
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HT.h     | 11 -----------
+ drivers/staging/rtl8192e/rtl819x_HTProc.c |  4 ----
+ 2 files changed, 15 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HT.h b/drivers/staging/rtl8192e/rtl819x_HT.h
-index 6b3f280407a3..3d5dc60d2912 100644
+index 3d5dc60d2912..76bc9c5a6d83 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HT.h
 +++ b/drivers/staging/rtl8192e/rtl819x_HT.h
-@@ -131,11 +131,11 @@ struct rt_hi_throughput {
- 	u8				AMPDU_Factor;
- 	u8				CurrentAMPDUFactor;
- 	u8				MPDU_Density;
--	u8				CurrentMPDUDensity;
-+	u8 current_mpdu_density;
- 
- 	enum ht_aggre_mode ForcedAMPDUMode;
--	u8				ForcedAMPDUFactor;
--	u8				ForcedMPDUDensity;
-+	u8 forced_ampdu_factor;
-+	u8 forced_mpdu_density;
+@@ -138,8 +138,6 @@ struct rt_hi_throughput {
+ 	u8 forced_mpdu_density;
  
  	enum ht_aggre_mode ForcedAMSDUMode;
- 	u16				ForcedAMSDUMaxSize;
+-	u16				ForcedAMSDUMaxSize;
+-
+ 	u8 forced_short_gi;
+ 
+ 	u8 current_op_mode;
+@@ -149,11 +147,7 @@ struct rt_hi_throughput {
+ 
+ 	enum ht_extchnl_offset CurSTAExtChnlOffset;
+ 	u8 cur_tx_bw40mhz;
+-	u8				PeerBandwidth;
+-
+ 	u8 sw_bw_in_progress;
+-	u8				SwBwStep;
+-
+ 	u8 reg_rt2rt_aggregation;
+ 	u8				RT2RT_HT_Mode;
+ 	u8 current_rt2rt_aggregation;
+@@ -165,17 +159,12 @@ struct rt_hi_throughput {
+ 	u8 rx_reorder_win_size;
+ 	u8 rx_reorder_pending_time;
+ 	u16 rx_reorder_drop_counter;
+-
+-	u8				bIsPeerBcm;
+-
+ 	u8				IOTPeer;
+ 	u32 iot_action;
+ 	u8 iot_ra_func;
+ 
+ 	u8	bWAIotBroadcom;
+ 	u8	WAIotTH;
+-
+-	u8				bAcceptAddbaReq;
+ } __packed;
+ 
+ struct bss_ht {
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 1ef5c04914af..a038a8c1504f 100644
+index a038a8c1504f..4a3bd49ce81a 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -597,9 +597,9 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
- 		}
- 	}
- 	if (pHTInfo->MPDU_Density > pPeerHTCap->MPDUDensity)
--		pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
-+		pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
- 	else
--		pHTInfo->CurrentMPDUDensity = pPeerHTCap->MPDUDensity;
-+		pHTInfo->current_mpdu_density = pPeerHTCap->MPDUDensity;
+@@ -70,9 +70,6 @@ static u8 LINKSYS_MARVELL_4400N[3] = {0x00, 0x14, 0xa4};
+ void HTUpdateDefaultSetting(struct rtllib_device *ieee)
+ {
+ 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
+-
+-	pHTInfo->bAcceptAddbaReq = 1;
+-
+ 	pHTInfo->bRegShortGI20MHz = 1;
+ 	pHTInfo->bRegShortGI40MHz = 1;
+ 
+@@ -603,7 +600,6 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
  	if (pHTInfo->iot_action & HT_IOT_ACT_TX_USE_AMSDU_8K) {
  		pHTInfo->bCurrentAMPDUEnable = false;
  		pHTInfo->ForcedAMSDUMode = HT_AGG_FORCE_ENABLE;
-@@ -643,7 +643,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 
- 	pHTInfo->bCurrent_AMSDU_Support = false;
- 	pHTInfo->nCurrent_AMSDU_MaxSize = pHTInfo->nAMSDU_MaxSize;
--	pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
-+	pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
- 	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
- 
- 	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
-@@ -801,7 +801,7 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
- 		pHTInfo->bCurrentAMPDUEnable = pHTInfo->bAMPDUEnable;
- 		pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
- 
--		pHTInfo->CurrentMPDUDensity = pHTInfo->CurrentMPDUDensity;
-+		pHTInfo->current_mpdu_density = pHTInfo->current_mpdu_density;
- 
- 		HTFilterMCSRate(ieee, ieee->Regdot11TxHTOperationalRateSet,
- 				ieee->dot11HTOperationalRateSet);
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index c8a8fad35cb5..e307020580a0 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -315,7 +315,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
- 		if (ieee->iw_mode == IW_MODE_INFRA) {
- 			tcb_desc->bAMPDUEnable = true;
- 			tcb_desc->ampdu_factor = pHTInfo->CurrentAMPDUFactor;
--			tcb_desc->ampdu_density = pHTInfo->CurrentMPDUDensity;
-+			tcb_desc->ampdu_density = pHTInfo->current_mpdu_density;
- 		}
+-		pHTInfo->ForcedAMSDUMaxSize = 7935;
  	}
- FORCED_AGG_SETTING:
-@@ -325,8 +325,8 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
+ 	pHTInfo->cur_rx_reorder_enable = pHTInfo->reg_rx_reorder_enable;
  
- 	case HT_AGG_FORCE_ENABLE:
- 		tcb_desc->bAMPDUEnable = true;
--		tcb_desc->ampdu_density = pHTInfo->ForcedMPDUDensity;
--		tcb_desc->ampdu_factor = pHTInfo->ForcedAMPDUFactor;
-+		tcb_desc->ampdu_density = pHTInfo->forced_mpdu_density;
-+		tcb_desc->ampdu_factor = pHTInfo->forced_ampdu_factor;
- 		break;
- 
- 	case HT_AGG_FORCE_DISABLE:
 -- 
 2.37.3
 
