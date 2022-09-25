@@ -1,50 +1,36 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from valentin-vidic.from.hr (valentin-vidic.from.hr [109.200.23.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16E03C1C
-	for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 22:51:32 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id i203-20020a1c3bd4000000b003b3df9a5ecbso5322115wma.1
-        for <linux-staging@lists.linux.dev>; Sat, 24 Sep 2022 15:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=heMq8ZyNcby7A2cMF3qI/WZaLnJ9T+jpUMoUVSz+v/Q=;
-        b=eT0jFR8ExgGkkw3jXjOsHCjkqf/punsrb1XIJ5x6mSgxSDmahwOF/et/MWA+50l4kW
-         w8/nykJZTYoJfyOIuIJir9xSjF0wUz8eGR4h7JRLs7bW/y+M7A/0fTeat99zH9V/p0il
-         EQqOjn78Z7KphXqYezcIIfTuQ0uDa2KkXf+BADX1Vapohvbjt6UYiS/7CsmAERn+ZeRi
-         6avYoDhmetxD3TOQbm1P/S0My6VKDqmQvDtZsT0aeoAz4GQK5ltfyeKVr4mh/2ikgFcV
-         jPa7P4mprdXyGAIyaUVHbSJC16b4PCdZlS+Rq87X7exBWSE942f0Kq/Nqhxf/EA8KxV9
-         pMfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=heMq8ZyNcby7A2cMF3qI/WZaLnJ9T+jpUMoUVSz+v/Q=;
-        b=n2nfjwGRxCTBhg/Zzj5MJdUbpz9am9qoW3VxxVKbzZwhVZAG4keR9ZiMqBEXjl42wA
-         jmnldX8eazAh4SDzuGpWk2Szf0+TBE00OfAyaB1deRCIiEDwddtY5j2Ye96kWYZHWQT6
-         ntg6QLD2SIcoYyXVNxsb2M9drT14Nw8C1SKzuVk0o00YGs33CAVr/5f/zhg1hqLu4Ars
-         guHnh4VjTuzCNd71EAxp35aBniMGm+jNd5PBLMzEHNdDSmQ6U9QP9QMeALvSYjUMY4Yt
-         eob4iQDEqGBQVPVL9vGpu26BLelTDGAic2tx7M+hqWHFWl9LgKkaFxuV5ihTn2VgxBYZ
-         n8sg==
-X-Gm-Message-State: ACrzQf1czllNapDQhn4I1vZTe1GBCE2wMgpAZPaq4quAw7BpuJpYPwjE
-	Qms1Agt22r9sgCmP4UBLL1c=
-X-Google-Smtp-Source: AMsMyM5hJfDdbCxRzZdmGTtj+Cg22JT701S+ABKtsJzDOkw7JaxxGN2ZtCiWp+NgFF90PlI26RlBsw==
-X-Received: by 2002:a05:600c:284:b0:3b5:3360:3f8c with SMTP id 4-20020a05600c028400b003b533603f8cmr29380wmk.83.1664059890910;
-        Sat, 24 Sep 2022 15:51:30 -0700 (PDT)
-Received: from localhost.localdomain ([176.61.123.135])
-        by smtp.gmail.com with ESMTPSA id bj4-20020a0560001e0400b0022a403954c3sm11143165wrb.42.2022.09.24.15.51.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Sep 2022 15:51:30 -0700 (PDT)
-From: Dragan Cvetic <dragan.m.cvetic@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F60329A8
+	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 12:24:05 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at valentin-vidic.from.hr
+Received: by valentin-vidic.from.hr (Postfix, from userid 1000)
+	id E8DE127603; Sun, 25 Sep 2022 14:23:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=valentin-vidic.from.hr; s=2020; t=1664108631;
+	bh=2JSYXMSMBEigXqbWYJP6Mn64kLyeNXIfMYpVNDbnc6Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Kn3lUCAM4J3Ox8PrcT47nycKh9KVJFmMphXe0RfOd8SLy62KH1nyaKJBe40eSLZjP
+	 ucOgWvVOmKOCa7rAmjxATnS1LMNrEDQ+44qwe2+Xj0Wh5ncFLOM8DqOFpWJf+RHOk7
+	 5Yh8p2Pj818uYNPTbbc5OfcAc2iJNLkd4acRpMRzqOMhb1AXN8BctkP9toUkb6lRX5
+	 sQ3rB7lyb7P8jlF9q9b9r3JDXWFwM+YSV8Kqe8i9a0/duEF8KzcX83fASd6U6nocyw
+	 xWzx3eCsqdLyhLfIne3qNEAQAtViP/S2GtR07lMN09c0enrbFjGV7gXgSfpm9cNUYb
+	 xqzTyVHTquV7Jd1aC3OouBS/X2dTt58ztf2zKt3Ny7UdN7HNGILcUQouaftrA1NoIg
+	 vxTlctEzzGz3Iw4sGzDQ4tu235j41WB79nLH+imEHlgdutv1nnkoPetuClAqmnD9FT
+	 EowDZDXcsrCPlihukd5diOJ50xNegIb3kog3YqK8ubIMRhcSPqqdmAMxH2fnHP2twP
+	 Ok7/AiTpfgiePYzvMsSmtoJr3llqesyKpWu8Peqvav46Cvd+V/ma9coGX3S1oJpYSJ
+	 yYd5y34wP17Jy5vfiabdCD+wXbgePelkvcv65QrwuRk3U3FTuCD+pRbbcKkoINiIuJ
+	 Nz7Z80oCuqKgC8dAMfstear8=
+From: Valentin Vidic <vvidic@valentin-vidic.from.hr>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Dragan Cvetic <dragan.m.cvetic@gmail.com>
-Subject: [PATCH] staging: rtl8192e: Rename Tx_Retry_Count_Reg
-Date: Sat, 24 Sep 2022 23:51:26 +0100
-Message-Id: <20220924225126.10527-1-dragan.m.cvetic@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Valentin Vidic <vvidic@valentin-vidic.from.hr>
+Subject: [PATCH v3] staging: rtl8192e: fix CamelCase struct member
+Date: Sun, 25 Sep 2022 14:23:35 +0200
+Message-Id: <20220925122335.2489902-1-vvidic@valentin-vidic.from.hr>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,55 +39,174 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename: Current_Tx_Rate_Reg to CURRENT_TX_RATE_REG, Initial_Tx_Rate_Reg to
-INITIAL_TX_RATE_REG and Tx_Retry_Count_Reg to TX_RETRY_COUNT_REG to avoid
-CamelCase which is not accepted by checkpatch.pl.
+Fix checkpatch warnings for struct member pFirmware.
 
-Signed-off-by: Dragan Cvetic <dragan.m.cvetic@gmail.com>
+Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 11 +++--------
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.h |  6 +++---
- 2 files changed, 6 insertions(+), 11 deletions(-)
+v2: drop the 'p' prefix from the struct member and always
+    use priv->firmware for access.
+v3: rebase on staging-testing branch
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 3ee52147960e..9fefa1a7ae75 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -2499,14 +2499,9 @@ static void _rtl92e_dm_check_txrateandretrycount(struct net_device *dev)
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  8 +++---
+ .../rtl8192e/rtl8192e/r8192E_firmware.c       | 25 ++++++++-----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  8 +++---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  2 +-
+ 4 files changed, 20 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index 5832ccdb4e50..54f5c7574f8a 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -622,19 +622,19 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ 		rtl92e_writeb(dev, ANAPAR, 0x37);
+ 		mdelay(500);
+ 	}
+-	priv->pFirmware->status = FW_STATUS_0_INIT;
++	priv->firmware->status = FW_STATUS_0_INIT;
+ 
+ 	if (priv->RegRfOff)
+ 		priv->rtllib->eRFPowerState = eRfOff;
+ 
+ 	ulRegRead = rtl92e_readl(dev, CPU_GEN);
+-	if (priv->pFirmware->status == FW_STATUS_0_INIT)
++	if (priv->firmware->status == FW_STATUS_0_INIT)
+ 		ulRegRead |= CPU_GEN_SYSTEM_RESET;
+-	else if (priv->pFirmware->status == FW_STATUS_5_READY)
++	else if (priv->firmware->status == FW_STATUS_5_READY)
+ 		ulRegRead |= CPU_GEN_FIRMWARE_RESET;
+ 	else
+ 		netdev_err(dev, "%s(): undefined firmware state: %d.\n",
+-			   __func__, priv->pFirmware->status);
++			   __func__, priv->firmware->status);
+ 
+ 	rtl92e_writel(dev, CPU_GEN, ulRegRead);
+ 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
+index 789d288d7503..b4b702623bfe 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
+@@ -51,32 +51,31 @@ static bool _rtl92e_fw_check_ready(struct net_device *dev,
+ 				   u8 load_fw_status)
+ {
  	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rtllib_device *ieee = priv->rtllib;
+-	struct rt_firmware *pfirmware = priv->pFirmware;
+ 	bool rt_status  = true;
  
--	ieee->softmac_stats.CurrentShowTxate = rtl92e_readb(dev,
--						 Current_Tx_Rate_Reg);
+ 	switch (load_fw_status) {
+ 	case FW_INIT_STEP0_BOOT:
+-		pfirmware->status = FW_STATUS_1_MOVE_BOOT_CODE;
++		priv->firmware->status = FW_STATUS_1_MOVE_BOOT_CODE;
+ 		break;
+ 
+ 	case FW_INIT_STEP1_MAIN:
+-		pfirmware->status = FW_STATUS_2_MOVE_MAIN_CODE;
++		priv->firmware->status = FW_STATUS_2_MOVE_MAIN_CODE;
+ 
+ 		rt_status = _rtl92e_fw_boot_cpu(dev);
+ 		if (rt_status)
+-			pfirmware->status = FW_STATUS_3_TURNON_CPU;
++			priv->firmware->status = FW_STATUS_3_TURNON_CPU;
+ 		else
+ 			netdev_dbg(dev, "_rtl92e_fw_boot_cpu fail!\n");
+ 
+ 		break;
+ 
+ 	case FW_INIT_STEP2_DATA:
+-		pfirmware->status = FW_STATUS_4_MOVE_DATA_CODE;
++		priv->firmware->status = FW_STATUS_4_MOVE_DATA_CODE;
+ 		mdelay(1);
+ 
+ 		rt_status = _rtl92e_wait_for_fw(dev, CPU_GEN_FIRM_RDY, 20);
+ 		if (rt_status)
+-			pfirmware->status = FW_STATUS_5_READY;
++			priv->firmware->status = FW_STATUS_5_READY;
+ 		break;
+ 	default:
+ 		rt_status = false;
+@@ -134,22 +133,20 @@ bool rtl92e_init_fw(struct net_device *dev)
+ 	enum opt_rst_type rst_opt = OPT_SYSTEM_RESET;
+ 	enum firmware_init_step starting_state = FW_INIT_STEP0_BOOT;
+ 
+-	struct rt_firmware *pfirmware = priv->pFirmware;
 -
--	ieee->softmac_stats.last_packet_rate = rtl92e_readb(dev,
--						 Initial_Tx_Rate_Reg);
--
--	ieee->softmac_stats.txretrycount = rtl92e_readl(dev,
--						 Tx_Retry_Count_Reg);
-+	ieee->softmac_stats.CurrentShowTxate = rtl92e_readb(dev, CURRENT_TX_RATE_REG);
-+	ieee->softmac_stats.last_packet_rate = rtl92e_readb(dev, INITIAL_TX_RATE_REG);
-+	ieee->softmac_stats.txretrycount = rtl92e_readl(dev, TX_RETRY_COUNT_REG);
- }
+ 	netdev_dbg(dev, " PlatformInitFirmware()==>\n");
  
- static void _rtl92e_dm_send_rssi_to_fw(struct net_device *dev)
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-index ea1b14bbcdcd..51e295d389a8 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-@@ -42,9 +42,9 @@
- #define	 TX_POWER_ATHEROAP_THRESH_HIGH	   78
- #define		TX_POWER_ATHEROAP_THRESH_LOW		72
+-	if (pfirmware->status == FW_STATUS_0_INIT) {
++	if (priv->firmware->status == FW_STATUS_0_INIT) {
+ 		rst_opt = OPT_SYSTEM_RESET;
+ 		starting_state = FW_INIT_STEP0_BOOT;
  
--#define			Current_Tx_Rate_Reg	 0x1e0
--#define			Initial_Tx_Rate_Reg	 0x1e1
--#define			Tx_Retry_Count_Reg	 0x1ac
-+#define		CURRENT_TX_RATE_REG		0x1e0
-+#define		INITIAL_TX_RATE_REG		0x1e1
-+#define		TX_RETRY_COUNT_REG		0x1ac
- #define		RegC38_TH				 20
+-	} else if (pfirmware->status == FW_STATUS_5_READY) {
++	} else if (priv->firmware->status == FW_STATUS_5_READY) {
+ 		rst_opt = OPT_FIRMWARE_RESET;
+ 		starting_state = FW_INIT_STEP2_DATA;
+ 	}
  
- #define		DM_Type_ByDriver		1
+ 	for (i = starting_state; i <= FW_INIT_STEP2_DATA; i++) {
+ 		if (rst_opt == OPT_SYSTEM_RESET) {
+-			if (pfirmware->blobs[i].size == 0) {
++			if (priv->firmware->blobs[i].size == 0) {
+ 				const char *fw_name[3] = {
+ 					RTL8192E_BOOT_IMG_FW,
+ 					RTL8192E_MAIN_IMG_FW,
+@@ -161,15 +158,15 @@ bool rtl92e_init_fw(struct net_device *dev)
+ 					pad = 128;
+ 
+ 				if (!_rtl92e_fw_prepare(dev,
+-							&pfirmware->blobs[i],
++							&priv->firmware->blobs[i],
+ 							fw_name[i],
+ 							pad))
+ 					goto download_firmware_fail;
+ 			}
+ 		}
+ 
+-		mapped_file = pfirmware->blobs[i].data;
+-		file_length = pfirmware->blobs[i].size;
++		mapped_file = priv->firmware->blobs[i].data;
++		file_length = priv->firmware->blobs[i].size;
+ 
+ 		rt_status = rtl92e_send_cmd_pkt(dev, DESC_PACKET_TYPE_INIT,
+ 						mapped_file, file_length);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 671fe547639b..94e8f0706ed4 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -907,8 +907,8 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
+ 
+ 	priv->card_type = PCI;
+ 
+-	priv->pFirmware = vzalloc(sizeof(struct rt_firmware));
+-	if (!priv->pFirmware)
++	priv->firmware = vzalloc(sizeof(*priv->firmware));
++	if (!priv->firmware)
+ 		netdev_err(dev,
+ 			   "rtl8192e: Unable to allocate space for firmware\n");
+ 
+@@ -2409,8 +2409,8 @@ static void _rtl92e_pci_disconnect(struct pci_dev *pdev)
+ 		priv->polling_timer_on = 0;
+ 		_rtl92e_down(dev, true);
+ 		rtl92e_dm_deinit(dev);
+-		vfree(priv->pFirmware);
+-		priv->pFirmware = NULL;
++		vfree(priv->firmware);
++		priv->firmware = NULL;
+ 		_rtl92e_free_rx_ring(dev);
+ 		for (i = 0; i < MAX_TX_QUEUE_COUNT; i++)
+ 			_rtl92e_free_tx_ring(dev, i);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index 093887bcd463..dba789f0c9e6 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -343,7 +343,7 @@ struct r8192_priv {
+ 
+ 	enum acm_method AcmMethod;
+ 
+-	struct rt_firmware			*pFirmware;
++	struct rt_firmware			*firmware;
+ 	enum rtl819x_loopback LoopbackMode;
+ 
+ 	struct timer_list			watch_dog_timer;
 -- 
-2.25.1
+2.30.2
 
