@@ -1,35 +1,35 @@
 Received: from valentin-vidic.from.hr (valentin-vidic.from.hr [109.200.23.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D29181
-	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 12:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AD228F3
+	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 12:50:36 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at valentin-vidic.from.hr
 Received: by valentin-vidic.from.hr (Postfix, from userid 1000)
-	id 9D3AA28C96; Sun, 25 Sep 2022 14:38:13 +0200 (CEST)
+	id 12A2E28CCE; Sun, 25 Sep 2022 14:50:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=valentin-vidic.from.hr; s=2020; t=1664109493;
-	bh=sI5bSDz03qw9PgGUZ6xzO739DROzd9HDc5NcK+8TBOE=;
+	d=valentin-vidic.from.hr; s=2020; t=1664110232;
+	bh=4DfUdS7gOFXto5AEf06cLYJgjinITWXTI+qH+utb5DQ=;
 	h=From:To:Cc:Subject:Date:From;
-	b=sD2FdlIJxv89+b0FdQl0JyDMjw9uyYZRP2n0trHwg0HlLcAPyO5ruu6ce+s1K5ZZE
-	 F3LMZ237chIWEA8ktWbtVM95DEHuJ+cJAMZ3hIvtXoDYTgEiqn9/1C34Lc4smVhPRs
-	 ehkMg03WvdzybepfguHF/FgKhuT2UayFEhDl7QoeuqkRBNkcdwWSKwBV1fIgeqd2Q5
-	 DG2n2QGrZoA44u8AAWTWmQx6IpwHc5w7lPqF9Hy3oA3Sn18vScusa97IrrGH31itR4
-	 TvLaLG+Oj8BVLzwfXW8B+0Pt/L3ITZeUisWJPkhQbTALv3454vG47UBXpgI9453sU1
-	 Biik47eHomhGXMDUw1Zbs8qQenZSOM0FgphN+/apIrwGFwDMapDMtU3kQRd7uS4sf7
-	 bcsVwArSUMsPxvEf3Zb2npPkKVtW51VhSr15UzEKPDDqUYaGbCVCcTY9fitxKBPzyz
-	 KaVYBM9rJOpQBizSQ5c0PwvAuwOuuHQNocb4UFaXyy//adYX+T6xlGxY5hGJPClO0A
-	 GiNUz5dWu15lGA7XefoOdp/fS6zWCGVjjPa4b8eET7FOX2RQRup+7DF7b3uQqz8VOc
-	 Am/uu5QmXJowlc7RUotzobk5WM9aC+0Wu93daK/V4A/wd8Sm1OKwuMjDW/iMFkmuF4
-	 IySMGKYyLwYj3tURR4nZPWT0=
+	b=0izvRzlXtF9SXkTq73lyGmOnkc5WK/jFxowpTBFJFWujhbmDmH/SJTyHetu1MkJLG
+	 PeGJcM6+wj11Uh5MOsqootr4HQHnkgV2q/3pcGJ0MHuO2+VvJ7kjAVPlZ4j2JrNAze
+	 ckuSkLbj0fUQ99vO4EyoAK8cmzlXm0bkn3KoFv6haaHPokD0Xw9jYQdmgXiLXBMgaT
+	 t3+EwSH6z6AC5XLfLFv6v/TXIh5gx7rvpgLXV5Yydiw8edKDj/RoLpwr0JHdabADc/
+	 aGJ/GoCwx0Ma4aS5ZtjAOwAP/B0HqApR2UgyB14lU8JjGJQES+iLFgFKR4+mretms+
+	 RrdbtFGamyAeDUqV4s0mkgpQIiEb9vrzVC4w+D01vmAxd9ZiXQxu25EAHGqTcCpcKe
+	 H9pdaKTrRVEIf1Bs+54rx3FbYyCnL0rMCd7bIKe5R8tmwdRcsBpEUfHyPg52MiE2an
+	 zCRTYImb1P2jXkJFEO6gQ3dfg0Ig1nLanvBlGAfLB4YhfPZejbpMgyMdHzOJgbGk1G
+	 EpZmHZ6UsIBGeQdstOOyNqzClTzuDrPHpFKsghplx2lT/s57fJblRexEpkIDaUT/Nl
+	 W7sMtughvi77g59Xt+wYULkT6zPkFOjleyvAVUvptKxnBbbUSm+2IX3IiKdpC0qoFS
+	 /lmrffxXAq0z4RvQ1qPtaxgA=
 From: Valentin Vidic <vvidic@valentin-vidic.from.hr>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Valentin Vidic <vvidic@valentin-vidic.from.hr>
-Subject: [PATCH v2] staging: rtl8192e: fix CamelCase variables
-Date: Sun, 25 Sep 2022 14:38:10 +0200
-Message-Id: <20220925123810.2492865-1-vvidic@valentin-vidic.from.hr>
+Subject: [PATCH] staging: rtl8192e: cleanup if statements
+Date: Sun, 25 Sep 2022 14:50:28 +0200
+Message-Id: <20220925125028.2495822-1-vvidic@valentin-vidic.from.hr>
 X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -39,71 +39,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch warnings for variables: LinkCtrlReg, DeviceID,
-RevisionID, IrqLine.
+Fix checkpatch warnings for if statements in rtl_wx.c
 
 Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
 ---
-v2: rebase on staging-testing branch
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
- drivers/staging/rtl8192e/rtl8192e/rtl_pci.c | 24 ++++++++++-----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-index 886bf4ba2adf..81e1bb856c60 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-@@ -16,9 +16,9 @@ static void _rtl92e_parse_pci_configuration(struct pci_dev *pdev,
- 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index bfb963768fc3..2db98d4ddb1b 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -313,7 +313,7 @@ static int _rtl92e_wx_get_range(struct net_device *dev,
+ 	/* ~130 Mb/s real (802.11n) */
+ 	range->throughput = 130 * 1000 * 1000;
  
- 	u8 tmp;
--	u16 LinkCtrlReg;
-+	u16 link_ctrl_reg;
+-	if (priv->rf_set_sens != NULL)
++	if (priv->rf_set_sens)
+ 		/* signal level threshold range */
+ 		range->sensitivity = priv->max_sens;
  
--	pcie_capability_read_word(priv->pdev, PCI_EXP_LNKCTL, &LinkCtrlReg);
-+	pcie_capability_read_word(priv->pdev, PCI_EXP_LNKCTL, &link_ctrl_reg);
+@@ -395,7 +395,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
+ 	rt_state = priv->rtllib->eRFPowerState;
+ 	if (!priv->up)
+ 		return -ENETDOWN;
+-	if (priv->rtllib->LinkDetectInfo.bBusyTraffic == true)
++	if (priv->rtllib->LinkDetectInfo.bBusyTraffic)
+ 		return -EAGAIN;
  
- 	pci_read_config_byte(pdev, 0x98, &tmp);
- 	tmp |= BIT4;
-@@ -31,28 +31,28 @@ static void _rtl92e_parse_pci_configuration(struct pci_dev *pdev,
- bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev)
+ 	if (wrqu->data.flags & IW_SCAN_THIS_ESSID) {
+@@ -582,9 +582,9 @@ static int _rtl92e_wx_set_frag(struct net_device *dev,
+ 	if (priv->hw_radio_off)
+ 		return 0;
+ 
+-	if (wrqu->frag.disabled)
++	if (wrqu->frag.disabled) {
+ 		priv->rtllib->fts = DEFAULT_FRAG_THRESHOLD;
+-	else {
++	} else {
+ 		if (wrqu->frag.value < MIN_FRAG_THRESHOLD ||
+ 		    wrqu->frag.value > MAX_FRAG_THRESHOLD)
+ 			return -EINVAL;
+@@ -821,7 +821,7 @@ static int _rtl92e_wx_get_sens(struct net_device *dev,
  {
- 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
--	u16 DeviceID;
--	u8  RevisionID;
--	u16 IrqLine;
-+	u16 device_id;
-+	u8  revision_id;
-+	u16 irq_line;
+ 	struct r8192_priv *priv = rtllib_priv(dev);
  
--	DeviceID = pdev->device;
--	RevisionID = pdev->revision;
--	pci_read_config_word(pdev, 0x3C, &IrqLine);
-+	device_id = pdev->device;
-+	revision_id = pdev->revision;
-+	pci_read_config_word(pdev, 0x3C, &irq_line);
+-	if (priv->rf_set_sens == NULL)
++	if (!priv->rf_set_sens)
+ 		return -1; /* we have not this support for this radio */
+ 	wrqu->sens.value = priv->sens;
+ 	return 0;
+@@ -839,7 +839,7 @@ static int _rtl92e_wx_set_sens(struct net_device *dev,
+ 		return 0;
  
- 	priv->card_8192 = priv->ops->nic_type;
+ 	mutex_lock(&priv->wx_mutex);
+-	if (priv->rf_set_sens == NULL) {
++	if (!priv->rf_set_sens) {
+ 		err = -1; /* we have not this support for this radio */
+ 		goto exit;
+ 	}
+@@ -882,7 +882,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 		u8 idx = 0, alg = 0, group = 0;
  
--	if (DeviceID == 0x8192) {
--		switch (RevisionID) {
-+	if (device_id == 0x8192) {
-+		switch (revision_id) {
- 		case HAL_HW_PCI_REVISION_ID_8192PCIE:
- 			dev_info(&pdev->dev,
- 				 "Adapter(8192 PCI-E) is found - DeviceID=%x\n",
--				 DeviceID);
-+				 device_id);
- 			priv->card_8192 = NIC_8192E;
- 			break;
- 		case HAL_HW_PCI_REVISION_ID_8192SE:
- 			dev_info(&pdev->dev,
- 				 "Adapter(8192SE) is found - DeviceID=%x\n",
--				 DeviceID);
-+				 device_id);
- 			priv->card_8192 = NIC_8192SE;
- 			break;
- 		default:
+ 		if ((encoding->flags & IW_ENCODE_DISABLED) ||
+-		     ext->alg == IW_ENCODE_ALG_NONE) {
++		    ext->alg == IW_ENCODE_ALG_NONE) {
+ 			ieee->pairwise_key_type = ieee->group_key_type
+ 						= KEY_TYPE_NA;
+ 			rtl92e_cam_reset(dev);
+@@ -919,7 +919,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 					 key, 0);
+ 		} else {
+ 			if ((ieee->pairwise_key_type == KEY_TYPE_CCMP) &&
+-			     ieee->pHTInfo->bCurrentHTSupport)
++			    ieee->pHTInfo->bCurrentHTSupport)
+ 				rtl92e_writeb(dev, 0x173, 1);
+ 			rtl92e_set_key(dev, 4, idx, alg,
+ 				       (u8 *)ieee->ap_mac_addr, 0, key);
+@@ -993,7 +993,7 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rtllib_device *ieee = priv->rtllib;
+ 
+-	if (ieee->wpa_ie_len == 0 || ieee->wpa_ie == NULL) {
++	if (ieee->wpa_ie_len == 0 || !ieee->wpa_ie) {
+ 		data->data.length = 0;
+ 		return 0;
+ 	}
 -- 
 2.30.2
 
