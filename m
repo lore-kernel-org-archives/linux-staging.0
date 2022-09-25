@@ -1,45 +1,45 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EC217C9
-	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 20:47:52 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id r18so10275239eja.11
-        for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 13:47:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C264422
+	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 20:56:16 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id b35so6680650edf.0
+        for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 13:56:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=Sw5E53C6igqAt3mt5TIJ/j/yrMq9p4UY3mp16dAS2Hk=;
-        b=VQysygBvIppUjUv4Fx+3avBOpER/pfo2eoVpm2QGQPuvycr08rwshcEjyac2WOQCNF
-         7HrfT9Z8u1BrmZHgX3OoDGqjAG7ua/mIvy/vwnXUTzEX2KjztRYjCCeJMIFjVbeE5ENB
-         R32iM6Gi/m4/2WXQJIgjR4FzyT7m4FaU+vxcOHmggTkrmHv7k95Jao60+0RrP2PV5wXB
-         vvoNvjygh9xor/ILUTc+96+VaPOj+x/HXH6DA/wXlpE0MhFQF9If2OIGJRtC7CPRcLZW
-         BgY4cKAREF5fv6g4NFlsos/U6Phi899K8AZk5OFymGcbXUAfSKAcEqTRROzIR+Siezoa
-         vnfg==
+        bh=97Ii7Mnf20tLRy+FmbI0Die2YsZZlSa+I/V2fOHbZwc=;
+        b=nmoBMxuoIlec7AbEPrbTDUy1e7yV3Rrg2ev5H7rc6W6jQ9JhJq4d4VhjTWmI3G65PS
+         xwdzYyuOTXD8ciXfABHziIdnOf+aKWL9qrUdahFal1buJ6D9S0apPtMz3xQlpOdnBvh5
+         EZGoe6ll5mRRFun1KamV0mPBNG60a6UnwvIqnRRxQpqBihSgTOp9m8CaWEcwxgXPAAdC
+         omaNHQAbWRFajOvezPj9OEKTnPFlXlMy4mvU+F4Pn54PlQYj0fEH/UjG6Rvhs0NwwFwr
+         i84DaOZtSlm775eFzUP2Gi32lCLhGywnd1xpCdQunzjzwsKXGV0MzwZamI1nS1ESz74s
+         Km0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=Sw5E53C6igqAt3mt5TIJ/j/yrMq9p4UY3mp16dAS2Hk=;
-        b=qQQG6y2UPorDwju8niD8ZtwEulqnwOf/2hHUrCsYWj8pZwh7CFRPsmM4CtGcvfAHq4
-         6OvcPg1HdbEQnYFq102mN13Ipr19kLe1XmPYk0CrdbtYPEpWrX4lu3sltcnKpdJaWHbs
-         tbMteChOURLU/OuVDzMK0RrKBbyNfQQLaTEscrLOLN5RAM09/tfIdvwov2I4v9208PiC
-         Z5lgMmP6OvC4bz+12kT7Tt9q7heeRFWy+7/xqZtciVxgADLr4NfzQiLgZXMOWPiPxR33
-         X8OPmVE3l1eiv1yRJBqrtyCt/cB1e16QDt2mWgrmqJfilSqVZ2kjsdMrU4w8D7YVRn7o
-         FnLw==
-X-Gm-Message-State: ACrzQf3SEzaW+w42JWCp71OtuXVf0stVqSmrc+Tfa2xTB5fUH1y+6IiM
-	D/2V6wkFXwOTv8e8mhRhsI8=
-X-Google-Smtp-Source: AMsMyM5T5gFoNZB2cvS+/fmdTYfKMlB5vA+pLYEuuFkG2as/dsIpLGPrZsopklYQaWpS3yi6Sa4q7Q==
-X-Received: by 2002:a17:907:75dc:b0:783:9c71:5e20 with SMTP id jl28-20020a17090775dc00b007839c715e20mr854400ejc.125.1664138871186;
-        Sun, 25 Sep 2022 13:47:51 -0700 (PDT)
+        bh=97Ii7Mnf20tLRy+FmbI0Die2YsZZlSa+I/V2fOHbZwc=;
+        b=tlCBLmeOrFK4zhaW34JneX9oiVBSYEbb/0JLnWVGOLFyj3GtHMjdG3ekUtbMeePdvF
+         pLtUqr+cKIk7V75RNi4NbydBIdp1JHueBHBHLNz9352YJXKTBvnrbhF3Szk+vxv92LC5
+         yIFIRUIw0+TfSPUxKj00l6IR5xcOWDm9TVbUYwlw9g1AoW/k5Ke2Y7IhRL8WMsUdjgU/
+         8RzCWPCTIpszhBU9ogAKsq3Q7GP+gDPpp1eWHCEJlzHmaRjJaFXwX7PGqbsSFDSBvVWV
+         EocQhxfr6Y1OL8L7t5eCBNk7h0bw5oxB13wfw7Wn1RnCT6MSXMdtOXLrTD+EtfcqWPO+
+         gQrA==
+X-Gm-Message-State: ACrzQf029W7aGIw1UhcAdBHFYGyD5v8GGpRax3hOIrA/BGQKtkgt7GF4
+	a/KnZW9oeK8jEYKxkUxy5Ro=
+X-Google-Smtp-Source: AMsMyM7cyTazGbfi/wnVNEDpVnYyZ3YssJ+h4Hs0qP1sYhnoX42d6uv3MVswRHiZ/d2/8gXY7k+Xbw==
+X-Received: by 2002:aa7:c9c4:0:b0:452:1d98:1be3 with SMTP id i4-20020aa7c9c4000000b004521d981be3mr19353121edt.289.1664139374536;
+        Sun, 25 Sep 2022 13:56:14 -0700 (PDT)
 Received: from [192.168.1.100] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id l19-20020a056402345300b00451319a43dasm2967532edc.2.2022.09.25.13.47.50
+        by smtp.gmail.com with ESMTPSA id g2-20020a17090604c200b0072b3406e9c2sm7302997eja.95.2022.09.25.13.56.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Sep 2022 13:47:50 -0700 (PDT)
-Message-ID: <81627250-cefe-1259-ff9d-c16d86009487@gmail.com>
-Date: Sun, 25 Sep 2022 22:47:49 +0200
+        Sun, 25 Sep 2022 13:56:14 -0700 (PDT)
+Message-ID: <79133187-c2b5-f5ed-07eb-365c4f482a73@gmail.com>
+Date: Sun, 25 Sep 2022 22:56:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,124 +48,193 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: rtl8192e: cleanup if statements
+Subject: Re: [PATCH v3] staging: rtl8192e: fix CamelCase struct member
 Content-Language: en-US
 To: Valentin Vidic <vvidic@valentin-vidic.from.hr>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220925125028.2495822-1-vvidic@valentin-vidic.from.hr>
+References: <20220925122335.2489902-1-vvidic@valentin-vidic.from.hr>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220925125028.2495822-1-vvidic@valentin-vidic.from.hr>
+In-Reply-To: <20220925122335.2489902-1-vvidic@valentin-vidic.from.hr>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/25/22 14:50, Valentin Vidic wrote:
-> Fix checkpatch warnings for if statements in rtl_wx.c
-I would like to have a more precise description.
+On 9/25/22 14:23, Valentin Vidic wrote:
+> Fix checkpatch warnings for struct member pFirmware.
+This is too short description as you take out:
+struct rt_firmware *pfirmware = priv->pFirmware;
+And replace pfirmware with priv->firmware
 > 
 > Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
 > ---
->   drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
+> v2: drop the 'p' prefix from the struct member and always
+>      use priv->firmware for access.
+> v3: rebase on staging-testing branch
 > 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-> index bfb963768fc3..2db98d4ddb1b 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-> @@ -313,7 +313,7 @@ static int _rtl92e_wx_get_range(struct net_device *dev,
->   	/* ~130 Mb/s real (802.11n) */
->   	range->throughput = 130 * 1000 * 1000;
+>   .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  8 +++---
+>   .../rtl8192e/rtl8192e/r8192E_firmware.c       | 25 ++++++++-----------
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  8 +++---
+>   drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  2 +-
+>   4 files changed, 20 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index 5832ccdb4e50..54f5c7574f8a 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -622,19 +622,19 @@ bool rtl92e_start_adapter(struct net_device *dev)
+>   		rtl92e_writeb(dev, ANAPAR, 0x37);
+>   		mdelay(500);
+>   	}
+> -	priv->pFirmware->status = FW_STATUS_0_INIT;
+> +	priv->firmware->status = FW_STATUS_0_INIT;
 >   
-> -	if (priv->rf_set_sens != NULL)
-> +	if (priv->rf_set_sens)
-OK
->   		/* signal level threshold range */
->   		range->sensitivity = priv->max_sens;
+>   	if (priv->RegRfOff)
+>   		priv->rtllib->eRFPowerState = eRfOff;
 >   
-> @@ -395,7 +395,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
->   	rt_state = priv->rtllib->eRFPowerState;
->   	if (!priv->up)
->   		return -ENETDOWN;
-> -	if (priv->rtllib->LinkDetectInfo.bBusyTraffic == true)
-> +	if (priv->rtllib->LinkDetectInfo.bBusyTraffic)
-OK
->   		return -EAGAIN;
+>   	ulRegRead = rtl92e_readl(dev, CPU_GEN);
+> -	if (priv->pFirmware->status == FW_STATUS_0_INIT)
+> +	if (priv->firmware->status == FW_STATUS_0_INIT)
+>   		ulRegRead |= CPU_GEN_SYSTEM_RESET;
+> -	else if (priv->pFirmware->status == FW_STATUS_5_READY)
+> +	else if (priv->firmware->status == FW_STATUS_5_READY)
+>   		ulRegRead |= CPU_GEN_FIRMWARE_RESET;
+>   	else
+>   		netdev_err(dev, "%s(): undefined firmware state: %d.\n",
+> -			   __func__, priv->pFirmware->status);
+> +			   __func__, priv->firmware->status);
 >   
->   	if (wrqu->data.flags & IW_SCAN_THIS_ESSID) {
-> @@ -582,9 +582,9 @@ static int _rtl92e_wx_set_frag(struct net_device *dev,
->   	if (priv->hw_radio_off)
->   		return 0;
+>   	rtl92e_writel(dev, CPU_GEN, ulRegRead);
 >   
-> -	if (wrqu->frag.disabled)
-> +	if (wrqu->frag.disabled) {
-It is questionable if this is really required.
->   		priv->rtllib->fts = DEFAULT_FRAG_THRESHOLD;
-> -	else {
-> +	} else {
->   		if (wrqu->frag.value < MIN_FRAG_THRESHOLD ||
->   		    wrqu->frag.value > MAX_FRAG_THRESHOLD)
->   			return -EINVAL;
-> @@ -821,7 +821,7 @@ static int _rtl92e_wx_get_sens(struct net_device *dev,
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
+> index 789d288d7503..b4b702623bfe 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
+> @@ -51,32 +51,31 @@ static bool _rtl92e_fw_check_ready(struct net_device *dev,
+>   				   u8 load_fw_status)
 >   {
 >   	struct r8192_priv *priv = rtllib_priv(dev);
+> -	struct rt_firmware *pfirmware = priv->pFirmware;
+>   	bool rt_status  = true;
 >   
-> -	if (priv->rf_set_sens == NULL)
-> +	if (!priv->rf_set_sens)
-OK
->   		return -1; /* we have not this support for this radio */
->   	wrqu->sens.value = priv->sens;
->   	return 0;
-> @@ -839,7 +839,7 @@ static int _rtl92e_wx_set_sens(struct net_device *dev,
->   		return 0;
+>   	switch (load_fw_status) {
+>   	case FW_INIT_STEP0_BOOT:
+> -		pfirmware->status = FW_STATUS_1_MOVE_BOOT_CODE;
+> +		priv->firmware->status = FW_STATUS_1_MOVE_BOOT_CODE;
+>   		break;
 >   
->   	mutex_lock(&priv->wx_mutex);
-> -	if (priv->rf_set_sens == NULL) {
-> +	if (!priv->rf_set_sens) {
-OK
->   		err = -1; /* we have not this support for this radio */
->   		goto exit;
+>   	case FW_INIT_STEP1_MAIN:
+> -		pfirmware->status = FW_STATUS_2_MOVE_MAIN_CODE;
+> +		priv->firmware->status = FW_STATUS_2_MOVE_MAIN_CODE;
+>   
+>   		rt_status = _rtl92e_fw_boot_cpu(dev);
+>   		if (rt_status)
+> -			pfirmware->status = FW_STATUS_3_TURNON_CPU;
+> +			priv->firmware->status = FW_STATUS_3_TURNON_CPU;
+>   		else
+>   			netdev_dbg(dev, "_rtl92e_fw_boot_cpu fail!\n");
+>   
+>   		break;
+>   
+>   	case FW_INIT_STEP2_DATA:
+> -		pfirmware->status = FW_STATUS_4_MOVE_DATA_CODE;
+> +		priv->firmware->status = FW_STATUS_4_MOVE_DATA_CODE;
+>   		mdelay(1);
+>   
+>   		rt_status = _rtl92e_wait_for_fw(dev, CPU_GEN_FIRM_RDY, 20);
+>   		if (rt_status)
+> -			pfirmware->status = FW_STATUS_5_READY;
+> +			priv->firmware->status = FW_STATUS_5_READY;
+>   		break;
+>   	default:
+>   		rt_status = false;
+> @@ -134,22 +133,20 @@ bool rtl92e_init_fw(struct net_device *dev)
+>   	enum opt_rst_type rst_opt = OPT_SYSTEM_RESET;
+>   	enum firmware_init_step starting_state = FW_INIT_STEP0_BOOT;
+>   
+> -	struct rt_firmware *pfirmware = priv->pFirmware;
+> -
+>   	netdev_dbg(dev, " PlatformInitFirmware()==>\n");
+>   
+> -	if (pfirmware->status == FW_STATUS_0_INIT) {
+> +	if (priv->firmware->status == FW_STATUS_0_INIT) {
+>   		rst_opt = OPT_SYSTEM_RESET;
+>   		starting_state = FW_INIT_STEP0_BOOT;
+>   
+> -	} else if (pfirmware->status == FW_STATUS_5_READY) {
+> +	} else if (priv->firmware->status == FW_STATUS_5_READY) {
+>   		rst_opt = OPT_FIRMWARE_RESET;
+>   		starting_state = FW_INIT_STEP2_DATA;
 >   	}
-> @@ -882,7 +882,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
->   		u8 idx = 0, alg = 0, group = 0;
 >   
->   		if ((encoding->flags & IW_ENCODE_DISABLED) ||
-> -		     ext->alg == IW_ENCODE_ALG_NONE) {
-> +		    ext->alg == IW_ENCODE_ALG_NONE) {
-This is about indentation and does not really have something to do with if.
->   			ieee->pairwise_key_type = ieee->group_key_type
->   						= KEY_TYPE_NA;
->   			rtl92e_cam_reset(dev);
-> @@ -919,7 +919,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
->   					 key, 0);
->   		} else {
->   			if ((ieee->pairwise_key_type == KEY_TYPE_CCMP) &&
-> -			     ieee->pHTInfo->bCurrentHTSupport)
-> +			    ieee->pHTInfo->bCurrentHTSupport)
-This is about indentation and does not really have something to do with if.
->   				rtl92e_writeb(dev, 0x173, 1);
->   			rtl92e_set_key(dev, 4, idx, alg,
->   				       (u8 *)ieee->ap_mac_addr, 0, key);
-> @@ -993,7 +993,7 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
->   	struct r8192_priv *priv = rtllib_priv(dev);
->   	struct rtllib_device *ieee = priv->rtllib;
+>   	for (i = starting_state; i <= FW_INIT_STEP2_DATA; i++) {
+>   		if (rst_opt == OPT_SYSTEM_RESET) {
+> -			if (pfirmware->blobs[i].size == 0) {
+> +			if (priv->firmware->blobs[i].size == 0) {
+>   				const char *fw_name[3] = {
+>   					RTL8192E_BOOT_IMG_FW,
+>   					RTL8192E_MAIN_IMG_FW,
+> @@ -161,15 +158,15 @@ bool rtl92e_init_fw(struct net_device *dev)
+>   					pad = 128;
 >   
-> -	if (ieee->wpa_ie_len == 0 || ieee->wpa_ie == NULL) {
-> +	if (ieee->wpa_ie_len == 0 || !ieee->wpa_ie) {
-OK
->   		data->data.length = 0;
->   		return 0;
->   	}
+>   				if (!_rtl92e_fw_prepare(dev,
+> -							&pfirmware->blobs[i],
+> +							&priv->firmware->blobs[i],
+>   							fw_name[i],
+>   							pad))
+>   					goto download_firmware_fail;
+>   			}
+>   		}
+>   
+> -		mapped_file = pfirmware->blobs[i].data;
+> -		file_length = pfirmware->blobs[i].size;
+> +		mapped_file = priv->firmware->blobs[i].data;
+> +		file_length = priv->firmware->blobs[i].size;
+>   
+>   		rt_status = rtl92e_send_cmd_pkt(dev, DESC_PACKET_TYPE_INIT,
+>   						mapped_file, file_length);
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> index 671fe547639b..94e8f0706ed4 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> @@ -907,8 +907,8 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
+>   
+>   	priv->card_type = PCI;
+>   
+> -	priv->pFirmware = vzalloc(sizeof(struct rt_firmware));
+> -	if (!priv->pFirmware)
+> +	priv->firmware = vzalloc(sizeof(*priv->firmware));
+> +	if (!priv->firmware)
+>   		netdev_err(dev,
+>   			   "rtl8192e: Unable to allocate space for firmware\n");
+>   
+> @@ -2409,8 +2409,8 @@ static void _rtl92e_pci_disconnect(struct pci_dev *pdev)
+>   		priv->polling_timer_on = 0;
+>   		_rtl92e_down(dev, true);
+>   		rtl92e_dm_deinit(dev);
+> -		vfree(priv->pFirmware);
+> -		priv->pFirmware = NULL;
+> +		vfree(priv->firmware);
+> +		priv->firmware = NULL;
+>   		_rtl92e_free_rx_ring(dev);
+>   		for (i = 0; i < MAX_TX_QUEUE_COUNT; i++)
+>   			_rtl92e_free_tx_ring(dev, i);
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+> index 093887bcd463..dba789f0c9e6 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+> @@ -343,7 +343,7 @@ struct r8192_priv {
+>   
+>   	enum acm_method AcmMethod;
+>   
+> -	struct rt_firmware			*pFirmware;
+> +	struct rt_firmware			*firmware;
+>   	enum rtl819x_loopback LoopbackMode;
+>   
+>   	struct timer_list			watch_dog_timer;
 
-A simple connection test works. But it does not cover all paths that are 
-possible under the ifs.
+A simple connection test works.
 
 This patch cannot be applied on top of my 10 series patch send earlier. 
 Sorry for that.
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-
-
-
-
-
-
