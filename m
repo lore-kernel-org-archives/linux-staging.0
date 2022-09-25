@@ -1,130 +1,33 @@
-Received: from valentin-vidic.from.hr (valentin-vidic.from.hr [109.200.23.17])
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AD228F3
-	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 12:50:36 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at valentin-vidic.from.hr
-Received: by valentin-vidic.from.hr (Postfix, from userid 1000)
-	id 12A2E28CCE; Sun, 25 Sep 2022 14:50:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=valentin-vidic.from.hr; s=2020; t=1664110232;
-	bh=4DfUdS7gOFXto5AEf06cLYJgjinITWXTI+qH+utb5DQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=0izvRzlXtF9SXkTq73lyGmOnkc5WK/jFxowpTBFJFWujhbmDmH/SJTyHetu1MkJLG
-	 PeGJcM6+wj11Uh5MOsqootr4HQHnkgV2q/3pcGJ0MHuO2+VvJ7kjAVPlZ4j2JrNAze
-	 ckuSkLbj0fUQ99vO4EyoAK8cmzlXm0bkn3KoFv6haaHPokD0Xw9jYQdmgXiLXBMgaT
-	 t3+EwSH6z6AC5XLfLFv6v/TXIh5gx7rvpgLXV5Yydiw8edKDj/RoLpwr0JHdabADc/
-	 aGJ/GoCwx0Ma4aS5ZtjAOwAP/B0HqApR2UgyB14lU8JjGJQES+iLFgFKR4+mretms+
-	 RrdbtFGamyAeDUqV4s0mkgpQIiEb9vrzVC4w+D01vmAxd9ZiXQxu25EAHGqTcCpcKe
-	 H9pdaKTrRVEIf1Bs+54rx3FbYyCnL0rMCd7bIKe5R8tmwdRcsBpEUfHyPg52MiE2an
-	 zCRTYImb1P2jXkJFEO6gQ3dfg0Ig1nLanvBlGAfLB4YhfPZejbpMgyMdHzOJgbGk1G
-	 EpZmHZ6UsIBGeQdstOOyNqzClTzuDrPHpFKsghplx2lT/s57fJblRexEpkIDaUT/Nl
-	 W7sMtughvi77g59Xt+wYULkT6zPkFOjleyvAVUvptKxnBbbUSm+2IX3IiKdpC0qoFS
-	 /lmrffxXAq0z4RvQ1qPtaxgA=
-From: Valentin Vidic <vvidic@valentin-vidic.from.hr>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Valentin Vidic <vvidic@valentin-vidic.from.hr>
-Subject: [PATCH] staging: rtl8192e: cleanup if statements
-Date: Sun, 25 Sep 2022 14:50:28 +0200
-Message-Id: <20220925125028.2495822-1-vvidic@valentin-vidic.from.hr>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6656E2C9D
+	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 12:59:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1664110142; bh=lsDoMa/yXIw/N3voDTw3EBx0FIC9K99qzVip2lisby0=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=PylJgq6oRYuASj9giWnY4JrFgk99jaWsgGtVY8WnGegud8OmfR3abGv+Yv3QIwHCH
+	 OP8GB197W4AqcRUmdqfLL6LpjB4UyxUM8JUIf2g3y3Y09J0Tg1Ia7OZEl5+gPE86wD
+	 BQNxlkvCsLj8r4smCwfqh3aRKVV6yK9E+czjQevo=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+	via [213.182.55.206]
+	Sun, 25 Sep 2022 14:49:02 +0200 (CEST)
+X-EA-Auth: 4QJDjvYNqQMV/PcXNYZTvIckQ7kBnMjxQMSetAkxtsOaTvRbXxZ0QOEu8RR5605dCLNYSV38DDKZwsPRyweRtvZ1uJxkBZcq
+Date: Sun, 25 Sep 2022 18:18:57 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: linux-staging@lists.linux.dev
+Subject: subscribe linux-staging
+Message-ID: <YzBOOc+GkaCo0aoe@MtEverest>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix checkpatch warnings for if statements in rtl_wx.c
+subscribe linux-staging
 
-Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index bfb963768fc3..2db98d4ddb1b 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -313,7 +313,7 @@ static int _rtl92e_wx_get_range(struct net_device *dev,
- 	/* ~130 Mb/s real (802.11n) */
- 	range->throughput = 130 * 1000 * 1000;
- 
--	if (priv->rf_set_sens != NULL)
-+	if (priv->rf_set_sens)
- 		/* signal level threshold range */
- 		range->sensitivity = priv->max_sens;
- 
-@@ -395,7 +395,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
- 	rt_state = priv->rtllib->eRFPowerState;
- 	if (!priv->up)
- 		return -ENETDOWN;
--	if (priv->rtllib->LinkDetectInfo.bBusyTraffic == true)
-+	if (priv->rtllib->LinkDetectInfo.bBusyTraffic)
- 		return -EAGAIN;
- 
- 	if (wrqu->data.flags & IW_SCAN_THIS_ESSID) {
-@@ -582,9 +582,9 @@ static int _rtl92e_wx_set_frag(struct net_device *dev,
- 	if (priv->hw_radio_off)
- 		return 0;
- 
--	if (wrqu->frag.disabled)
-+	if (wrqu->frag.disabled) {
- 		priv->rtllib->fts = DEFAULT_FRAG_THRESHOLD;
--	else {
-+	} else {
- 		if (wrqu->frag.value < MIN_FRAG_THRESHOLD ||
- 		    wrqu->frag.value > MAX_FRAG_THRESHOLD)
- 			return -EINVAL;
-@@ -821,7 +821,7 @@ static int _rtl92e_wx_get_sens(struct net_device *dev,
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
--	if (priv->rf_set_sens == NULL)
-+	if (!priv->rf_set_sens)
- 		return -1; /* we have not this support for this radio */
- 	wrqu->sens.value = priv->sens;
- 	return 0;
-@@ -839,7 +839,7 @@ static int _rtl92e_wx_set_sens(struct net_device *dev,
- 		return 0;
- 
- 	mutex_lock(&priv->wx_mutex);
--	if (priv->rf_set_sens == NULL) {
-+	if (!priv->rf_set_sens) {
- 		err = -1; /* we have not this support for this radio */
- 		goto exit;
- 	}
-@@ -882,7 +882,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
- 		u8 idx = 0, alg = 0, group = 0;
- 
- 		if ((encoding->flags & IW_ENCODE_DISABLED) ||
--		     ext->alg == IW_ENCODE_ALG_NONE) {
-+		    ext->alg == IW_ENCODE_ALG_NONE) {
- 			ieee->pairwise_key_type = ieee->group_key_type
- 						= KEY_TYPE_NA;
- 			rtl92e_cam_reset(dev);
-@@ -919,7 +919,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
- 					 key, 0);
- 		} else {
- 			if ((ieee->pairwise_key_type == KEY_TYPE_CCMP) &&
--			     ieee->pHTInfo->bCurrentHTSupport)
-+			    ieee->pHTInfo->bCurrentHTSupport)
- 				rtl92e_writeb(dev, 0x173, 1);
- 			rtl92e_set_key(dev, 4, idx, alg,
- 				       (u8 *)ieee->ap_mac_addr, 0, key);
-@@ -993,7 +993,7 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rtllib_device *ieee = priv->rtllib;
- 
--	if (ieee->wpa_ie_len == 0 || ieee->wpa_ie == NULL) {
-+	if (ieee->wpa_ie_len == 0 || !ieee->wpa_ie) {
- 		data->data.length = 0;
- 		return 0;
- 	}
--- 
-2.30.2
 
