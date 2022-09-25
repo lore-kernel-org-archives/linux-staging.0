@@ -1,45 +1,45 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C264422
-	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 20:56:16 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id b35so6680650edf.0
-        for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 13:56:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE774422
+	for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 21:05:56 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id lc7so10488105ejb.0
+        for <linux-staging@lists.linux.dev>; Sun, 25 Sep 2022 14:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=97Ii7Mnf20tLRy+FmbI0Die2YsZZlSa+I/V2fOHbZwc=;
-        b=nmoBMxuoIlec7AbEPrbTDUy1e7yV3Rrg2ev5H7rc6W6jQ9JhJq4d4VhjTWmI3G65PS
-         xwdzYyuOTXD8ciXfABHziIdnOf+aKWL9qrUdahFal1buJ6D9S0apPtMz3xQlpOdnBvh5
-         EZGoe6ll5mRRFun1KamV0mPBNG60a6UnwvIqnRRxQpqBihSgTOp9m8CaWEcwxgXPAAdC
-         omaNHQAbWRFajOvezPj9OEKTnPFlXlMy4mvU+F4Pn54PlQYj0fEH/UjG6Rvhs0NwwFwr
-         i84DaOZtSlm775eFzUP2Gi32lCLhGywnd1xpCdQunzjzwsKXGV0MzwZamI1nS1ESz74s
-         Km0Q==
+        bh=a4qcMZXDxN4eP7v1btEoZe17jDw7PgjqyrZUAWz1Vwk=;
+        b=g4zMkvgshqqI4hTH/sym59ZjJkU/SYj4qcZ0CzJWY0Rz0/6dgz5AzMWBISEev0Tj8h
+         kkfSiKENjq53RXVM/oEtyJlnJ8df/k+PtZgg48d70xwXKVxGBNylY0XPQlHhvvysQruj
+         9B46heVszRxkS6FXlzHMt95vF2Q+eJBQV06qtJDD9eiExMThJDqJ56mh2vghGOQeT6SU
+         OrAje5rjvcSnMA1KFSiYNl6Ap1oc55+TYbXaQjjwiJ0pQ3gcWuhvgPxo9husNfXVMO6l
+         Ihs5naWC3P3LF+DII+29CsJvWKF1EeSjUokM4VlkU3hThkHyPeXyVnfVD8Ykkkj/CytY
+         hZNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=97Ii7Mnf20tLRy+FmbI0Die2YsZZlSa+I/V2fOHbZwc=;
-        b=tlCBLmeOrFK4zhaW34JneX9oiVBSYEbb/0JLnWVGOLFyj3GtHMjdG3ekUtbMeePdvF
-         pLtUqr+cKIk7V75RNi4NbydBIdp1JHueBHBHLNz9352YJXKTBvnrbhF3Szk+vxv92LC5
-         yIFIRUIw0+TfSPUxKj00l6IR5xcOWDm9TVbUYwlw9g1AoW/k5Ke2Y7IhRL8WMsUdjgU/
-         8RzCWPCTIpszhBU9ogAKsq3Q7GP+gDPpp1eWHCEJlzHmaRjJaFXwX7PGqbsSFDSBvVWV
-         EocQhxfr6Y1OL8L7t5eCBNk7h0bw5oxB13wfw7Wn1RnCT6MSXMdtOXLrTD+EtfcqWPO+
-         gQrA==
-X-Gm-Message-State: ACrzQf029W7aGIw1UhcAdBHFYGyD5v8GGpRax3hOIrA/BGQKtkgt7GF4
-	a/KnZW9oeK8jEYKxkUxy5Ro=
-X-Google-Smtp-Source: AMsMyM7cyTazGbfi/wnVNEDpVnYyZ3YssJ+h4Hs0qP1sYhnoX42d6uv3MVswRHiZ/d2/8gXY7k+Xbw==
-X-Received: by 2002:aa7:c9c4:0:b0:452:1d98:1be3 with SMTP id i4-20020aa7c9c4000000b004521d981be3mr19353121edt.289.1664139374536;
-        Sun, 25 Sep 2022 13:56:14 -0700 (PDT)
-Received: from [192.168.1.100] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id g2-20020a17090604c200b0072b3406e9c2sm7302997eja.95.2022.09.25.13.56.13
+        bh=a4qcMZXDxN4eP7v1btEoZe17jDw7PgjqyrZUAWz1Vwk=;
+        b=YI0uQx43x4L+APQ6PaBIMqHAMfGWhvEgmMtmj3YfvLp9UoyEiQt99IZYfGB8NXUa+n
+         zfK7VmNlAggFo/adQpy/3a6amy/ABbkgxbrNq60qwSr5meoAMmSTIEOdsd8gWr1YY8jS
+         CVoQ30+XDbAHWCCPYId90kkj+QRCsQ5z1e273nOvBy3r9fJ8Vspz062zuJh8ucnlNb+1
+         YUPnVR8xnp8dHmnw74nEg4tyveopAoc9QUYli/c0kIrkQur5HIvOU42pe8OxMCy3l5L2
+         e8CRrl3LIC3F20od42k4afSfzl/5oWGMFo5nXw34NZOJa++c8ik4wq001c81pTCbvPBs
+         daPA==
+X-Gm-Message-State: ACrzQf1eXpeBBngEqJgxbJKA3F2+sqMmUFUTYK38vbI8HvKOm68imb8K
+	L/RYROhFUnoeulIq6RLXwYs=
+X-Google-Smtp-Source: AMsMyM5hcUZAHyDhsGV2je/Axq/RhxGNyeQ8VJ7u+8AUBu+qtiK3zVotYkCuQGIVLY9HH5cS4a3sgA==
+X-Received: by 2002:a17:907:75f7:b0:77b:4579:2aee with SMTP id jz23-20020a17090775f700b0077b45792aeemr15386515ejc.529.1664139954591;
+        Sun, 25 Sep 2022 14:05:54 -0700 (PDT)
+Received: from [192.168.1.101] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id ti5-20020a170907c20500b007813968e154sm6933846ejc.86.2022.09.25.14.05.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Sep 2022 13:56:14 -0700 (PDT)
-Message-ID: <79133187-c2b5-f5ed-07eb-365c4f482a73@gmail.com>
-Date: Sun, 25 Sep 2022 22:56:13 +0200
+        Sun, 25 Sep 2022 14:05:54 -0700 (PDT)
+Message-ID: <c6677024-0c7f-65c6-f7d0-5916840c9a4f@gmail.com>
+Date: Sun, 25 Sep 2022 23:05:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,193 +48,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3] staging: rtl8192e: fix CamelCase struct member
+Subject: Re: [PATCH 0/2] staging: r8188eu: drop some stop/removed checks in
+ the led layer
 Content-Language: en-US
-To: Valentin Vidic <vvidic@valentin-vidic.from.hr>,
+To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220925122335.2489902-1-vvidic@valentin-vidic.from.hr>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220925140406.112991-1-martin@kaiser.cx>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20220925122335.2489902-1-vvidic@valentin-vidic.from.hr>
+In-Reply-To: <20220925140406.112991-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/25/22 14:23, Valentin Vidic wrote:
-> Fix checkpatch warnings for struct member pFirmware.
-This is too short description as you take out:
-struct rt_firmware *pfirmware = priv->pFirmware;
-And replace pfirmware with priv->firmware
+On 9/25/22 16:04, Martin Kaiser wrote:
+> Here's two small patches that remove unnecessary checks of
+> bSurpriseRemoved and bDriverStopped in the led layer.
 > 
-> Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
-> ---
-> v2: drop the 'p' prefix from the struct member and always
->      use priv->firmware for access.
-> v3: rebase on staging-testing branch
+> Martin Kaiser (2):
+>    staging: r8188eu: don't check bSurpriseRemoved in SwLedOff
+>    staging: r8188eu: don't check for stop/removal in the blink worker
 > 
->   .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  8 +++---
->   .../rtl8192e/rtl8192e/r8192E_firmware.c       | 25 ++++++++-----------
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  8 +++---
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  2 +-
->   4 files changed, 20 insertions(+), 23 deletions(-)
+>   drivers/staging/r8188eu/core/rtw_led.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> index 5832ccdb4e50..54f5c7574f8a 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> @@ -622,19 +622,19 @@ bool rtl92e_start_adapter(struct net_device *dev)
->   		rtl92e_writeb(dev, ANAPAR, 0x37);
->   		mdelay(500);
->   	}
-> -	priv->pFirmware->status = FW_STATUS_0_INIT;
-> +	priv->firmware->status = FW_STATUS_0_INIT;
->   
->   	if (priv->RegRfOff)
->   		priv->rtllib->eRFPowerState = eRfOff;
->   
->   	ulRegRead = rtl92e_readl(dev, CPU_GEN);
-> -	if (priv->pFirmware->status == FW_STATUS_0_INIT)
-> +	if (priv->firmware->status == FW_STATUS_0_INIT)
->   		ulRegRead |= CPU_GEN_SYSTEM_RESET;
-> -	else if (priv->pFirmware->status == FW_STATUS_5_READY)
-> +	else if (priv->firmware->status == FW_STATUS_5_READY)
->   		ulRegRead |= CPU_GEN_FIRMWARE_RESET;
->   	else
->   		netdev_err(dev, "%s(): undefined firmware state: %d.\n",
-> -			   __func__, priv->pFirmware->status);
-> +			   __func__, priv->firmware->status);
->   
->   	rtl92e_writel(dev, CPU_GEN, ulRegRead);
->   
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
-> index 789d288d7503..b4b702623bfe 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_firmware.c
-> @@ -51,32 +51,31 @@ static bool _rtl92e_fw_check_ready(struct net_device *dev,
->   				   u8 load_fw_status)
->   {
->   	struct r8192_priv *priv = rtllib_priv(dev);
-> -	struct rt_firmware *pfirmware = priv->pFirmware;
->   	bool rt_status  = true;
->   
->   	switch (load_fw_status) {
->   	case FW_INIT_STEP0_BOOT:
-> -		pfirmware->status = FW_STATUS_1_MOVE_BOOT_CODE;
-> +		priv->firmware->status = FW_STATUS_1_MOVE_BOOT_CODE;
->   		break;
->   
->   	case FW_INIT_STEP1_MAIN:
-> -		pfirmware->status = FW_STATUS_2_MOVE_MAIN_CODE;
-> +		priv->firmware->status = FW_STATUS_2_MOVE_MAIN_CODE;
->   
->   		rt_status = _rtl92e_fw_boot_cpu(dev);
->   		if (rt_status)
-> -			pfirmware->status = FW_STATUS_3_TURNON_CPU;
-> +			priv->firmware->status = FW_STATUS_3_TURNON_CPU;
->   		else
->   			netdev_dbg(dev, "_rtl92e_fw_boot_cpu fail!\n");
->   
->   		break;
->   
->   	case FW_INIT_STEP2_DATA:
-> -		pfirmware->status = FW_STATUS_4_MOVE_DATA_CODE;
-> +		priv->firmware->status = FW_STATUS_4_MOVE_DATA_CODE;
->   		mdelay(1);
->   
->   		rt_status = _rtl92e_wait_for_fw(dev, CPU_GEN_FIRM_RDY, 20);
->   		if (rt_status)
-> -			pfirmware->status = FW_STATUS_5_READY;
-> +			priv->firmware->status = FW_STATUS_5_READY;
->   		break;
->   	default:
->   		rt_status = false;
-> @@ -134,22 +133,20 @@ bool rtl92e_init_fw(struct net_device *dev)
->   	enum opt_rst_type rst_opt = OPT_SYSTEM_RESET;
->   	enum firmware_init_step starting_state = FW_INIT_STEP0_BOOT;
->   
-> -	struct rt_firmware *pfirmware = priv->pFirmware;
-> -
->   	netdev_dbg(dev, " PlatformInitFirmware()==>\n");
->   
-> -	if (pfirmware->status == FW_STATUS_0_INIT) {
-> +	if (priv->firmware->status == FW_STATUS_0_INIT) {
->   		rst_opt = OPT_SYSTEM_RESET;
->   		starting_state = FW_INIT_STEP0_BOOT;
->   
-> -	} else if (pfirmware->status == FW_STATUS_5_READY) {
-> +	} else if (priv->firmware->status == FW_STATUS_5_READY) {
->   		rst_opt = OPT_FIRMWARE_RESET;
->   		starting_state = FW_INIT_STEP2_DATA;
->   	}
->   
->   	for (i = starting_state; i <= FW_INIT_STEP2_DATA; i++) {
->   		if (rst_opt == OPT_SYSTEM_RESET) {
-> -			if (pfirmware->blobs[i].size == 0) {
-> +			if (priv->firmware->blobs[i].size == 0) {
->   				const char *fw_name[3] = {
->   					RTL8192E_BOOT_IMG_FW,
->   					RTL8192E_MAIN_IMG_FW,
-> @@ -161,15 +158,15 @@ bool rtl92e_init_fw(struct net_device *dev)
->   					pad = 128;
->   
->   				if (!_rtl92e_fw_prepare(dev,
-> -							&pfirmware->blobs[i],
-> +							&priv->firmware->blobs[i],
->   							fw_name[i],
->   							pad))
->   					goto download_firmware_fail;
->   			}
->   		}
->   
-> -		mapped_file = pfirmware->blobs[i].data;
-> -		file_length = pfirmware->blobs[i].size;
-> +		mapped_file = priv->firmware->blobs[i].data;
-> +		file_length = priv->firmware->blobs[i].size;
->   
->   		rt_status = rtl92e_send_cmd_pkt(dev, DESC_PACKET_TYPE_INIT,
->   						mapped_file, file_length);
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> index 671fe547639b..94e8f0706ed4 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> @@ -907,8 +907,8 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
->   
->   	priv->card_type = PCI;
->   
-> -	priv->pFirmware = vzalloc(sizeof(struct rt_firmware));
-> -	if (!priv->pFirmware)
-> +	priv->firmware = vzalloc(sizeof(*priv->firmware));
-> +	if (!priv->firmware)
->   		netdev_err(dev,
->   			   "rtl8192e: Unable to allocate space for firmware\n");
->   
-> @@ -2409,8 +2409,8 @@ static void _rtl92e_pci_disconnect(struct pci_dev *pdev)
->   		priv->polling_timer_on = 0;
->   		_rtl92e_down(dev, true);
->   		rtl92e_dm_deinit(dev);
-> -		vfree(priv->pFirmware);
-> -		priv->pFirmware = NULL;
-> +		vfree(priv->firmware);
-> +		priv->firmware = NULL;
->   		_rtl92e_free_rx_ring(dev);
->   		for (i = 0; i < MAX_TX_QUEUE_COUNT; i++)
->   			_rtl92e_free_tx_ring(dev, i);
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-> index 093887bcd463..dba789f0c9e6 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-> @@ -343,7 +343,7 @@ struct r8192_priv {
->   
->   	enum acm_method AcmMethod;
->   
-> -	struct rt_firmware			*pFirmware;
-> +	struct rt_firmware			*firmware;
->   	enum rtl819x_loopback LoopbackMode;
->   
->   	struct timer_list			watch_dog_timer;
 
-A simple connection test works.
+Quick download test is working.
+Observed LED is working fine
 
-This patch cannot be applied on top of my 10 series patch send earlier. 
-Sorry for that.
-
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
