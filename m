@@ -1,100 +1,129 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com [203.205.221.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE41366
-	for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 06:11:04 +0000 (UTC)
-Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MbXLv4MynzHtfk;
-	Mon, 26 Sep 2022 14:06:15 +0800 (CST)
-Received: from dggpeml500008.china.huawei.com (7.185.36.147) by
- dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 14:11:01 +0800
-Received: from huawei.com (10.67.175.34) by dggpeml500008.china.huawei.com
- (7.185.36.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 26 Sep
- 2022 14:11:01 +0800
-From: Ren Zhijie <renzhijie2@huawei.com>
-To: <prabhakar.csengg@gmail.com>, <mchehab@kernel.org>,
-	<gregkh@linuxfoundation.org>, <hverkuil-cisco@xs4all.nl>
-CC: <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Ren Zhijie <renzhijie2@huawei.com>
-Subject: [PATCH -next] media: davinci: Fix Kconfig dependency
-Date: Mon, 26 Sep 2022 06:07:26 +0000
-Message-ID: <20220926060726.44556-1-renzhijie2@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9452F365
+	for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 07:10:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1664176245;
+	bh=DAdxeF0Jy1h05TSKR77+DI1s+EbnLB6RMzd5CjjIMI0=;
+	h=From:To:Cc:Subject:Date;
+	b=rNVUtXIDVhXKA7R/dPgM34vA79q/6IEB9ChkrN8B9rdUYPW4PcGkq4wO33Bmla4yi
+	 HGrzPowpY+DB5GJE+PHfMTimKm+rVx7qf2kfBoFHuvvWD+XO/VIWotAbbCr2K8U3gY
+	 0AvO9Z7HCMVJvpMrSIJxWnUxWB+OWVezRnw6Zpdk=
+Received: from localhost.localdomain ([59.172.176.188])
+	by newxmesmtplogicsvrsza9.qq.com (NewEsmtp) with SMTP
+	id 1D73F6C3; Mon, 26 Sep 2022 15:07:23 +0800
+X-QQ-mid: xmsmtpt1664176043t9cs56w36
+Message-ID: <tencent_F11EC221954CFE8F406298A3732539562809@qq.com>
+X-QQ-XMAILINFO: OAh6HToZKqQ0zSZ9HRPu4udPWaib+M7I2nFX9YEE+peFB78SgoB3waUpmcQ97b
+	 ojDDQWev7IpvQVV1oNifDMFJ0Wi9ZV7Mcgs2dubrmQI4/fhjZoksfLZeOzogl2eXcbZEJlhbsyLD
+	 2D2un/EfRp+gnfseb6eviY/5UJpuBvjXwTnIWKUzKxvwzndSQaRszrorl7zzfDiXkKofXeTVq0fJ
+	 MviqsqVUDHXRFAJJjgTirLFwFvqvm7+H6Ta/qZTQc97BnKKZxB1u0jonebHdYG3Ll1y5mEFs8r4o
+	 qz0B7gLwAfDh+b5UuYqz3gqgz4c1d1Ci310XfvfOt5myPT7+hMjh+V2S3i3VNSFNh/jNBNU8nLFu
+	 W1ZxY7oKr1w3uN9Tq+p8nxmBC2q9cQFvs88cpouJvDnbf+rjagKRbcfqB6c5/1evCb3gRqGWbn5Y
+	 vvLG9EyEbGmQ0h8vLZVaHlwJJKmLLrFWtN+cCVZuFxXLXNsx7+kt7IfZ2FX8BtAkNUm3adYo5WJd
+	 cXFbfUHXcnqfoAciGU4+gMFLbxgyW+k4Ylzdo3W/5cqcuf99a09pG7gN+9du/4m4Y1vqNm3N6yxG
+	 +27EvcQ2lxawQL5bjDDdcln+D0QTUy4YgaB1MiY7zQPmf5BwwWypfLq8+Mnr7cRv/MPojOhzF3bH
+	 s+7YzsZwc9IAmdZKppEFqVZ5WAe87htgbnravi22UyA+srKP9lPlqCjhyH5lQO8qnEz8q68R5DGh
+	 sSVODf67HO5pkeVRsrIQsFVbp3xelJAVFA0jEeTJrN+8d/QfHV/atfJZW5RIBKJrrUyzXK7LYa/L
+	 e1v2kTEfGROcRpk/SSbz7Nytw2HWBvQ5VlBp29XRaHudf90QjJDe0OlTqubBEz97MdAzzWLb0wyJ
+	 UN4M8BtdHcyaalpRgfIZ/Waebamej5FkTSjTOxrd5Os4tev28FdjQZ2jpXg+eLJRaYfA7hn6rkMc
+	 sEW8LTaeve/qhZlC03yQT3BBW0bwJb2TtVem2583Qzumwutxn17SX5H5ac8aaKi9ywBGDBwDG8NY
+	 rZI12wIjbkdQ95IP4OSFMV94zkBs4g4uJjIhiZjRU5AwJBtVFkkqA61ILscCQz0Ovell7Mxg==
+From: xkernel.wang@foxmail.com
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH v3] staging: rtl8712: fix potential memory leak in _r8712_init_xmit_priv()
+Date: Mon, 26 Sep 2022 15:06:05 +0800
+X-OQ-MSGID: <20220926070605.3363-1-xkernel.wang@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.34]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500008.china.huawei.com (7.185.36.147)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 
-If CONFIG_VIDEO_DAVINCI_VPBE_DISPLAY is not set,
-make ARCH=x86_64 CROSS_COMPILE=x86_64-linux-gnu-,
-will be failed, like this:
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: In function `ccdc_configure':
-dm644x_ccdc.c:(.text+0xa46): undefined reference to `vpss_clear_wbl_overflow'
-dm644x_ccdc.c:(.text+0xd46): undefined reference to `vpss_clear_wbl_overflow'
-drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: In function `ccdc_sbl_reset':
-dm644x_ccdc.c:(.text+0x696): undefined reference to `vpss_clear_wbl_overflow'
-drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: In function `ccdc_restore_defaults':
-dm355_ccdc.c:(.text+0x43a): undefined reference to `vpss_select_ccdc_source'
-dm355_ccdc.c:(.text+0x453): undefined reference to `vpss_enable_clock'
-drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: In function `ccdc_close':
-dm355_ccdc.c:(.text+0x475): undefined reference to `vpss_enable_clock'
-drivers/staging/media/deprecated/vpfe_capture/isif.o: In function `isif_open':
-isif.c:(.text+0x654): undefined reference to `vpss_enable_clock'
-isif.c:(.text+0x663): undefined reference to `vpss_enable_clock'
-isif.c:(.text+0x672): undefined reference to `vpss_enable_clock'
-isif.c:(.text+0x67e): undefined reference to `vpss_select_ccdc_source'
-drivers/staging/media/deprecated/vpfe_capture/isif.o: In function `isif_configure':
-isif.c:(.text+0xe61): undefined reference to `dm365_vpss_set_sync_pol'
-isif.c:(.text+0xe7b): undefined reference to `dm365_vpss_set_pg_frame_size'
-isif.c:(.text+0xe85): undefined reference to `vpss_select_ccdc_source'
+In _r8712_init_xmit_priv(), if `pxmitbuf->pallocated_buf` is allocated in
+failure or `r8712_xmit_resource_alloc(padapter, pxmitbuf)` fails, then it
+just returns -ENOMEM but not releases the previous allocated resources,
+which can lead to various memory leaks.
 
-Add select VIDEO_DAVINCI_VPBE_DISPLAY dependency to Kconfig.
+To fix them, this patch unifies the error handler in the above function.
+Note that if `r8712_xmit_resource_alloc(padapter, pxmitbuf)` fails, we
+first call `kfree(pxmitbuf->pallocated_buf);` before goto the error
+section so that we do not need to concern the failed item.
 
-Fixes: 6971757bdccc ("media: davinci: deprecate dm644x_ccdc, dm355_cddc and dm365_isif")
-Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
+As there is no proper device to test with, no runtime testing was
+performed.
+
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
- drivers/staging/media/deprecated/vpfe_capture/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+ChangeLog:
+v1->v2 update the description.
+v2->v3 update the description.
+ drivers/staging/rtl8712/rtl871x_xmit.c | 27 ++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/media/deprecated/vpfe_capture/Kconfig b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-index 10250e7e566b..63a0808ed104 100644
---- a/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-+++ b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-@@ -6,6 +6,7 @@ config VIDEO_DM6446_CCDC
- 	depends on ARCH_DAVINCI || COMPILE_TEST
- 	depends on I2C
- 	select VIDEOBUF_DMA_CONTIG
-+	select VIDEO_DAVINCI_VPBE_DISPLAY
- 	help
- 	  Enables DaVinci CCD hw module. DaVinci CCDC hw interfaces
- 	  with decoder modules such as TVP5146 over BT656 or
-@@ -26,6 +27,7 @@ config VIDEO_DM355_CCDC
- 	depends on ARCH_DAVINCI || COMPILE_TEST
- 	depends on I2C
- 	select VIDEOBUF_DMA_CONTIG
-+	select VIDEO_DAVINCI_VPBE_DISPLAY
- 	help
- 	  Enables DM355 CCD hw module. DM355 CCDC hw interfaces
- 	  with decoder modules such as TVP5146 over BT656 or
-@@ -46,6 +48,7 @@ config VIDEO_DM365_ISIF
- 	depends on ARCH_DAVINCI || COMPILE_TEST
- 	depends on I2C
- 	select VIDEOBUF_DMA_CONTIG
-+	select VIDEO_DAVINCI_VPBE_DISPLAY
- 	help
- 	  Enables ISIF hw module. This is the hardware module for
- 	  configuring ISIF in VPFE to capture Raw Bayer RGB data from
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+index 090345b..dcf3f76 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.c
++++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+@@ -117,11 +117,8 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
+ 	pxmitpriv->pallocated_xmitbuf =
+ 		kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4, GFP_ATOMIC);
+-	if (!pxmitpriv->pallocated_xmitbuf) {
+-		kfree(pxmitpriv->pallocated_frame_buf);
+-		pxmitpriv->pallocated_frame_buf = NULL;
+-		return -ENOMEM;
+-	}
++	if (!pxmitpriv->pallocated_xmitbuf)
++		goto free_frame_buf;
+ 	pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 -
+ 			      ((addr_t)(pxmitpriv->pallocated_xmitbuf) & 3);
+ 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+@@ -130,12 +127,14 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 		pxmitbuf->pallocated_buf =
+ 			kmalloc(MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ, GFP_ATOMIC);
+ 		if (!pxmitbuf->pallocated_buf)
+-			return -ENOMEM;
++			goto free_xmitbuf;
+ 		pxmitbuf->pbuf = pxmitbuf->pallocated_buf + XMITBUF_ALIGN_SZ -
+ 				 ((addr_t) (pxmitbuf->pallocated_buf) &
+ 				 (XMITBUF_ALIGN_SZ - 1));
+-		if (r8712_xmit_resource_alloc(padapter, pxmitbuf))
+-			return -ENOMEM;
++		if (r8712_xmit_resource_alloc(padapter, pxmitbuf)) {
++			kfree(pxmitbuf->pallocated_buf);
++			goto free_xmitbuf;
++		}
+ 		list_add_tail(&pxmitbuf->list,
+ 				 &(pxmitpriv->free_xmitbuf_queue.queue));
+ 		pxmitbuf++;
+@@ -146,6 +145,18 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+ 	tasklet_setup(&pxmitpriv->xmit_tasklet, r8712_xmit_bh);
+ 	return 0;
++
++free_xmitbuf:
++	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
++	while (i--) {
++		r8712_xmit_resource_free(padapter, pxmitbuf);
++		kfree(pxmitbuf->pallocated_buf);
++		pxmitbuf++;
++	}
++	kfree(pxmitpriv->pallocated_xmitbuf);
++free_frame_buf:
++	kfree(pxmitpriv->pallocated_frame_buf);
++	return -ENOMEM;
+ }
+ 
+ void _free_xmit_priv(struct xmit_priv *pxmitpriv)
 -- 
-2.17.1
-
