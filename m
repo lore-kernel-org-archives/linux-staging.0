@@ -1,42 +1,42 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07514428
-	for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 17:32:51 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id sb3so15612086ejb.9
-        for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 10:32:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CE3442C
+	for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 17:32:52 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id 30so10026028edw.5
+        for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 10:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=kRLijR5oyAOegAsMr9uRqxn4ejdUkVTR852YUUghNUE=;
-        b=HAKciU4TTD/RKp/d/Zwr4SkfntWLJ6I2A59VOxclITi0+ND1ld1jMAF4vl1KCNsZd6
-         nxcQE7zKVfS/a//nrFteMMgaydHNI2DLLDsvt4O3UoWoSMA4pZuv3BpGdsprZ9O5o0/6
-         NMgAh5uw0Y49tl4lbwz1lXqEe9ASBi+78/kAOgDk+VgJuLS82Z/Rs+DFmvmLtZt1b8UK
-         N9GPSfeCtrmreSAbve3PHFOeYHIUy2ntW7zZRAKbBpHhTb4P4FeselQwBNpbxYq8yxH2
-         ixRvNU/AhDKWdJNb51bDc6OrRVj2SNJoeu2jGKJDhU8+ncvjsDaXpG0XAu14Yqvx/ncG
-         qpAA==
+        bh=chQdQ1OJInZBPZSx9Da9erBbPScxyL3Yh0RTnHzjDog=;
+        b=mMrt+yWZg8MJ0vlVlYf0aeWrXVRCmn5VOZUqe2P7roWiwSemQVuLkGga1ckz5ph/k5
+         fIOk4idieZuCZpUBOkQe4e9Z6IrVsPclropIR/d7lQieSQDf9bumfkLqzvNuB8srbC+x
+         /1vylDmA170vwMv7A1j7eUxmXAGZdkSccjdB7TbHaRaDrsTL9D32pNKkvH2BTHjPeHwc
+         kir1ZKNL9SF1RThJu+Ye2fCi3HWgvmox27cgSGj1WtXHByA0EI6I2skBq7YSor1AZEo4
+         6Vpcq8EVbw0oK1mA7yH/gJevDjNySby/UHosVROTDbHKJJziW6GgCTA+B770CEidYuWF
+         SnNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=kRLijR5oyAOegAsMr9uRqxn4ejdUkVTR852YUUghNUE=;
-        b=qiISNklt1PvI1g+SPiURWu+ex68y+HyzO/B8DxYO9I3hDwtirn19I5h15hAnH7T/am
-         9Oc1AsXN/Fq2xMR5mJV9CP/yo2Lg+00t+TDmt+aQ9D5zDmeSbezshqS0cgYVoiRm/dqm
-         IldZI8uBTTX3KbavdYZ9f5v2RcP5n+Sgkz1Ou76Zp4lVkAerV0ulin1ofllc1v/jSxuF
-         Azt7o3W+WrIdsaxHmk08sOShi48yX8Hh5v68FA7LCZ0R2tZXYo9rw1A3a+C8GW7krO3s
-         TaM+jO9HEuB9fKbteNxjiw49CNpFuCipeZwftGKw4P9rULGhPMC31K3sc60vkrTnSVcN
-         el3A==
-X-Gm-Message-State: ACrzQf25u4OMrD7bM1QoRz/s462JuQq4wUE+H2SFtde/bIYaUSKOZX8F
-	Y2dimQwucS7IulcaIr7bke4=
-X-Google-Smtp-Source: AMsMyM7m9kNWqUF+vdLNEDJ+Oh4nkq5deojnLJRurAWBKV3yeD4Q6lMxcOu4GxwXON075c8s1fexxQ==
-X-Received: by 2002:a17:906:854b:b0:782:4c6f:5ff6 with SMTP id h11-20020a170906854b00b007824c6f5ff6mr18231861ejy.603.1664213570117;
+        bh=chQdQ1OJInZBPZSx9Da9erBbPScxyL3Yh0RTnHzjDog=;
+        b=I/x53sL6kGD8Ljh6qXu+CTu0wgSTuUTpai2UXaXEm1QuHwUJE2cWWJ3ulCNLoim8rp
+         yvO3csZzzgY9zXzC+ObdUdfXDJd+E7DhMRTY1HMPj0DKVu1CJtnKve8OiryIwVWqGae8
+         KJ9E6Dmz4sjl5iVCtHxIseWICn5lxsTqEjWlxxNMP38Q1LM66+5wK1M4anRy5YX48A0F
+         omYxWIQPO/rUOJNLhC+Twl5o47DOaacNX+0zysUF5fni6tUL+koAAfpoPRJBvhnvfHZN
+         nvJSoVgLlBh6ReZBHOc9d1Fh5a3nyydQxiPHZ7ryamW/tx9wF0d8rn0N319v4YHYslD+
+         mn3Q==
+X-Gm-Message-State: ACrzQf1qVw+ws1SHj9dOA/EpF21UxSAOofRgGCGnMiNdgofiOz99QMwm
+	PXLsiUmDv/1bWQFfz84XI4c=
+X-Google-Smtp-Source: AMsMyM7LRZevVNJGFSlpW39DHMVH4Gvjb+2uC0freI1aEdDjrQW2ti09AlZb14Mp6upd/1aPNkSAeQ==
+X-Received: by 2002:aa7:cd8e:0:b0:452:2682:a955 with SMTP id x14-20020aa7cd8e000000b004522682a955mr23796156edv.379.1664213570721;
         Mon, 26 Sep 2022 10:32:50 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb59.dynamic.kabel-deutschland.de. [95.90.187.89])
-        by smtp.gmail.com with ESMTPSA id y4-20020a1709060a8400b00782667df018sm6554617ejf.54.2022.09.26.10.32.49
+        by smtp.gmail.com with ESMTPSA id y4-20020a1709060a8400b00782667df018sm6554617ejf.54.2022.09.26.10.32.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Sep 2022 10:32:49 -0700 (PDT)
+        Mon, 26 Sep 2022 10:32:50 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -44,9 +44,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/3] staging: r8188eu: make odm_ConfigMAC_8188E() static
-Date: Mon, 26 Sep 2022 19:32:41 +0200
-Message-Id: <20220926173243.8767-2-straube.linux@gmail.com>
+Subject: [PATCH 2/3] staging: r8188eu: make odm_ConfigRF_RadioA_8188E() static
+Date: Mon, 26 Sep 2022 19:32:42 +0200
+Message-Id: <20220926173243.8767-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220926173243.8767-1-straube.linux@gmail.com>
 References: <20220926173243.8767-1-straube.linux@gmail.com>
@@ -58,57 +58,108 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function odm_ConfigMAC_8188E() is only used in HalHWImg8188E_MAC.c.
-Make it static.
+The function odm_ConfigRF_RadioA_8188E() is only used in
+HalHWImg8188E_RF.c. Make it static.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c      | 5 +++++
- drivers/staging/r8188eu/hal/odm_RegConfig8188E.c     | 5 -----
- drivers/staging/r8188eu/include/odm_RegConfig8188E.h | 2 --
- 3 files changed, 5 insertions(+), 7 deletions(-)
+ .../staging/r8188eu/hal/HalHWImg8188E_RF.c    | 30 +++++++++++++++++++
+ .../staging/r8188eu/hal/odm_RegConfig8188E.c  | 30 -------------------
+ .../r8188eu/include/odm_RegConfig8188E.h      |  3 --
+ 3 files changed, 30 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-index 77b25885c63b..e615bc37c74f 100644
---- a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-+++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-@@ -126,6 +126,11 @@ static u32 array_MAC_REG_8188E[] = {
- 		0x70B, 0x00000087,
+diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+index 08cbfce3808d..ea123817e3d5 100644
+--- a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
++++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+@@ -130,6 +130,36 @@ static u32 Array_RadioA_1T_8188E[] = {
+ 		0x000, 0x00033E60,
  };
  
-+static void odm_ConfigMAC_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u8 Data)
++static void odm_ConfigRFReg_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr,
++				  u32 Data, u32 RegAddr)
 +{
-+	rtw_write8(pDM_Odm->Adapter, Addr, Data);
++	if (Addr == 0xffe) {
++		msleep(50);
++	} else if (Addr == 0xfd) {
++		mdelay(5);
++	} else if (Addr == 0xfc) {
++		mdelay(1);
++	} else if (Addr == 0xfb) {
++		udelay(50);
++	} else if (Addr == 0xfa) {
++		udelay(5);
++	} else if (Addr == 0xf9) {
++		udelay(1);
++	} else {
++		rtl8188e_PHY_SetRFReg(pDM_Odm->Adapter, RegAddr, bRFRegOffsetMask, Data);
++		/*  Add 1us delay between BB/RF register setting. */
++		udelay(1);
++	}
 +}
 +
- enum HAL_STATUS ODM_ReadAndConfig_MAC_REG_8188E(struct odm_dm_struct *dm_odm)
++static void odm_ConfigRF_RadioA_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u32 Data)
++{
++	u32  content = 0x1000; /*  RF_Content: radioa_txt */
++	u32 maskforPhySet = (u32)(content & 0xE000);
++
++	odm_ConfigRFReg_8188E(pDM_Odm, Addr, Data, Addr | maskforPhySet);
++}
++
+ enum HAL_STATUS ODM_ReadAndConfig_RadioA_1T_8188E(struct odm_dm_struct *pDM_Odm)
  {
- 	#define READ_NEXT_PAIR(v1, v2, i) do { i += 2; v1 = array[i]; v2 = array[i + 1]; } while (0)
+ 	#define READ_NEXT_PAIR(v1, v2, i) do	\
 diff --git a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
-index 0fa17a99f9e9..e6e10a3c8d54 100644
+index e6e10a3c8d54..963697574e9e 100644
 --- a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
 +++ b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
-@@ -33,11 +33,6 @@ void odm_ConfigRF_RadioA_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u32 Data
- 	odm_ConfigRFReg_8188E(pDM_Odm, Addr, Data, Addr | maskforPhySet);
- }
+@@ -3,36 +3,6 @@
  
--void odm_ConfigMAC_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u8 Data)
+ #include "../include/drv_types.h"
+ 
+-static void odm_ConfigRFReg_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr,
+-				  u32 Data, u32 RegAddr)
 -{
--	rtw_write8(pDM_Odm->Adapter, Addr, Data);
+-	if (Addr == 0xffe) {
+-		msleep(50);
+-	} else if (Addr == 0xfd) {
+-		mdelay(5);
+-	} else if (Addr == 0xfc) {
+-		mdelay(1);
+-	} else if (Addr == 0xfb) {
+-		udelay(50);
+-	} else if (Addr == 0xfa) {
+-		udelay(5);
+-	} else if (Addr == 0xf9) {
+-		udelay(1);
+-	} else {
+-		rtl8188e_PHY_SetRFReg(pDM_Odm->Adapter, RegAddr, bRFRegOffsetMask, Data);
+-		/*  Add 1us delay between BB/RF register setting. */
+-		udelay(1);
+-	}
+-}
+-
+-void odm_ConfigRF_RadioA_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u32 Data)
+-{
+-	u32  content = 0x1000; /*  RF_Content: radioa_txt */
+-	u32 maskforPhySet = (u32)(content & 0xE000);
+-
+-	odm_ConfigRFReg_8188E(pDM_Odm, Addr, Data, Addr | maskforPhySet);
 -}
 -
  void odm_ConfigBB_AGC_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u32 Bitmask, u32 Data)
  {
  	rtl8188e_PHY_SetBBReg(pDM_Odm->Adapter, Addr, Bitmask, Data);
 diff --git a/drivers/staging/r8188eu/include/odm_RegConfig8188E.h b/drivers/staging/r8188eu/include/odm_RegConfig8188E.h
-index 683fa4a07956..9cecbf9532f5 100644
+index 9cecbf9532f5..ce8af50d13bb 100644
 --- a/drivers/staging/r8188eu/include/odm_RegConfig8188E.h
 +++ b/drivers/staging/r8188eu/include/odm_RegConfig8188E.h
-@@ -7,8 +7,6 @@
- void odm_ConfigRF_RadioA_8188E(struct odm_dm_struct *pDM_Odm,
- 			       u32 Addr, u32 Data);
+@@ -4,9 +4,6 @@
+ #ifndef __INC_ODM_REGCONFIG_H_8188E
+ #define __INC_ODM_REGCONFIG_H_8188E
  
--void odm_ConfigMAC_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u8 Data);
+-void odm_ConfigRF_RadioA_8188E(struct odm_dm_struct *pDM_Odm,
+-			       u32 Addr, u32 Data);
 -
  void odm_ConfigBB_AGC_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr,
  			    u32 Bitmask, u32 Data);
