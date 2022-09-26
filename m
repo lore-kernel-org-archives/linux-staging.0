@@ -1,94 +1,100 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D738E366
-	for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 04:31:02 +0000 (UTC)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MbV9X2vNFzpVV5;
-	Mon, 26 Sep 2022 12:28:00 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by dggpemm500022.china.huawei.com
- (7.185.36.162) with Microsoft SMTP Server (version=TLS1_2,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE41366
+	for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 06:11:04 +0000 (UTC)
+Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.57])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MbXLv4MynzHtfk;
+	Mon, 26 Sep 2022 14:06:15 +0800 (CST)
+Received: from dggpeml500008.china.huawei.com (7.185.36.147) by
+ dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 26 Sep 2022 14:11:01 +0800
+Received: from huawei.com (10.67.175.34) by dggpeml500008.china.huawei.com
+ (7.185.36.147) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 26 Sep
- 2022 12:30:53 +0800
-From: Zeng Heng <zengheng4@huawei.com>
+ 2022 14:11:01 +0800
+From: Ren Zhijie <renzhijie2@huawei.com>
 To: <prabhakar.csengg@gmail.com>, <mchehab@kernel.org>,
-	<gregkh@linuxfoundation.org>
+	<gregkh@linuxfoundation.org>, <hverkuil-cisco@xs4all.nl>
 CC: <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<liwei391@huawei.com>, <zengheng4@huawei.com>
-Subject: [PATCH -next] media: vpfe_capture: fix kconfig dependency errors
-Date: Mon, 26 Sep 2022 12:37:41 +0800
-Message-ID: <20220926043741.553781-1-zengheng4@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	<linux-kernel@vger.kernel.org>, Ren Zhijie <renzhijie2@huawei.com>
+Subject: [PATCH -next] media: davinci: Fix Kconfig dependency
+Date: Mon, 26 Sep 2022 06:07:26 +0000
+Message-ID: <20220926060726.44556-1-renzhijie2@huawei.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
+X-Originating-IP: [10.67.175.34]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500022.china.huawei.com (7.185.36.162)
+ dggpeml500008.china.huawei.com (7.185.36.147)
 X-CFilter-Loop: Reflected
 
-CONFIG_VIDEO_DM6446_CCDC & CONFIG_VIDEO_DM355_CCDC
-& CONFIG_VIDEO_DM365_ISIF all depend on feature
-VIDEO_DAVINCI_VPBE_DISPLAY, or the compiler would
-complain build errors as below:
+If CONFIG_VIDEO_DAVINCI_VPBE_DISPLAY is not set,
+make ARCH=x86_64 CROSS_COMPILE=x86_64-linux-gnu-,
+will be failed, like this:
 
-ld: drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: in function `ccdc_sbl_reset':
-/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c:238: undefined reference to `vpss_clear_wbl_overflow'
-ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c:238: undefined reference to `vpss_clear_wbl_overflow'
-ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c:238: undefined reference to `vpss_clear_wbl_overflow'
-ld: drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: in function `ccdc_restore_defaults':
-/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c:175: undefined reference to `vpss_select_ccdc_source'
-ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c:180: undefined reference to `vpss_enable_clock'
-ld: drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: in function `ccdc_close':
-/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c:196: undefined reference to `vpss_enable_clock'
-ld: drivers/staging/media/deprecated/vpfe_capture/isif.o: in function `isif_restore_defaults':
-/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:252: undefined reference to `vpss_enable_clock'
-ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:253: undefined reference to `vpss_enable_clock'
-ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:254: undefined reference to `vpss_enable_clock'
-ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:257: undefined reference to `vpss_select_ccdc_source'
-ld: drivers/staging/media/deprecated/vpfe_capture/isif.o: in function `isif_config_raw':
-/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:680: undefined reference to `dm365_vpss_set_sync_pol'
-ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:683: undefined reference to `dm365_vpss_set_pg_frame_size'
-ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:684: undefined reference to `vpss_select_ccdc_source'
+drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: In function `ccdc_configure':
+dm644x_ccdc.c:(.text+0xa46): undefined reference to `vpss_clear_wbl_overflow'
+dm644x_ccdc.c:(.text+0xd46): undefined reference to `vpss_clear_wbl_overflow'
+drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: In function `ccdc_sbl_reset':
+dm644x_ccdc.c:(.text+0x696): undefined reference to `vpss_clear_wbl_overflow'
+drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: In function `ccdc_restore_defaults':
+dm355_ccdc.c:(.text+0x43a): undefined reference to `vpss_select_ccdc_source'
+dm355_ccdc.c:(.text+0x453): undefined reference to `vpss_enable_clock'
+drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: In function `ccdc_close':
+dm355_ccdc.c:(.text+0x475): undefined reference to `vpss_enable_clock'
+drivers/staging/media/deprecated/vpfe_capture/isif.o: In function `isif_open':
+isif.c:(.text+0x654): undefined reference to `vpss_enable_clock'
+isif.c:(.text+0x663): undefined reference to `vpss_enable_clock'
+isif.c:(.text+0x672): undefined reference to `vpss_enable_clock'
+isif.c:(.text+0x67e): undefined reference to `vpss_select_ccdc_source'
+drivers/staging/media/deprecated/vpfe_capture/isif.o: In function `isif_configure':
+isif.c:(.text+0xe61): undefined reference to `dm365_vpss_set_sync_pol'
+isif.c:(.text+0xe7b): undefined reference to `dm365_vpss_set_pg_frame_size'
+isif.c:(.text+0xe85): undefined reference to `vpss_select_ccdc_source'
 
-Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+Add select VIDEO_DAVINCI_VPBE_DISPLAY dependency to Kconfig.
+
+Fixes: 6971757bdccc ("media: davinci: deprecate dm644x_ccdc, dm355_cddc and dm365_isif")
+Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
 ---
  drivers/staging/media/deprecated/vpfe_capture/Kconfig | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/staging/media/deprecated/vpfe_capture/Kconfig b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-index 10250e7e566b..557603b51b3f 100644
+index 10250e7e566b..63a0808ed104 100644
 --- a/drivers/staging/media/deprecated/vpfe_capture/Kconfig
 +++ b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-@@ -5,6 +5,7 @@ config VIDEO_DM6446_CCDC
- 	depends on VIDEO_DEV
+@@ -6,6 +6,7 @@ config VIDEO_DM6446_CCDC
  	depends on ARCH_DAVINCI || COMPILE_TEST
  	depends on I2C
-+	depends on VIDEO_DAVINCI_VPBE_DISPLAY
  	select VIDEOBUF_DMA_CONTIG
++	select VIDEO_DAVINCI_VPBE_DISPLAY
  	help
  	  Enables DaVinci CCD hw module. DaVinci CCDC hw interfaces
-@@ -25,6 +26,7 @@ config VIDEO_DM355_CCDC
- 	depends on VIDEO_DEV
+ 	  with decoder modules such as TVP5146 over BT656 or
+@@ -26,6 +27,7 @@ config VIDEO_DM355_CCDC
  	depends on ARCH_DAVINCI || COMPILE_TEST
  	depends on I2C
-+	depends on VIDEO_DAVINCI_VPBE_DISPLAY
  	select VIDEOBUF_DMA_CONTIG
++	select VIDEO_DAVINCI_VPBE_DISPLAY
  	help
  	  Enables DM355 CCD hw module. DM355 CCDC hw interfaces
-@@ -45,6 +47,7 @@ config VIDEO_DM365_ISIF
- 	depends on VIDEO_DEV
+ 	  with decoder modules such as TVP5146 over BT656 or
+@@ -46,6 +48,7 @@ config VIDEO_DM365_ISIF
  	depends on ARCH_DAVINCI || COMPILE_TEST
  	depends on I2C
-+	depends on VIDEO_DAVINCI_VPBE_DISPLAY
  	select VIDEOBUF_DMA_CONTIG
++	select VIDEO_DAVINCI_VPBE_DISPLAY
  	help
  	  Enables ISIF hw module. This is the hardware module for
+ 	  configuring ISIF in VPFE to capture Raw Bayer RGB data from
 -- 
-2.25.1
+2.17.1
 
