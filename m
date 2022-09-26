@@ -1,148 +1,82 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0CD63A
-	for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 09:25:19 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28Q8lBv2020651;
-	Mon, 26 Sep 2022 09:25:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=mnv1WV5DcIyfqzyFMOLGidhCBr8Vy551iBa3jVn9ZS0=;
- b=cN+VeJpsw2xVSlS/z/DNjQjJZujg47k72k9O4sVLchgSUk7UKFHcI+M8tlxQpDy3K3xo
- XT4tVyhlnG5k/tGUPZ4GQY7KUmkySCLtZz82gJ22bixHhlRvVi5bs/QDeDMvRkyirjrw
- QacHsU7iIcenC2h3XrGmLaaFFgJmJjNubZtsXSW7z5yrNbERv0ih3VLynZ5mZKBJ6eEW
- OZR3jDyK7i32iQ+eNUFg+noq2JOAqPQjoR/tUaH+47GXroFgAz1a3Ry5FiF1OzpF6IeA
- WK2krR6K4ifF+9Zd9/dk7BuXdsnUO9oM2fNjQgxUZycqOMGyX3I1ydzKkHMZC2heCluc Lg== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jsstpk2jv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 26 Sep 2022 09:25:12 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 28Q97Rn9001466;
-	Mon, 26 Sep 2022 09:25:11 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3jtpuy9u25-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 26 Sep 2022 09:25:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OF18bzx2Q/Ta7jI68PcXqOQuuGn6/LLgr0KyEkoWapfdGet23G2CnMvkhYib0jklxWu7pGFFsTEz86UXLAOV53jr2grGC/8xYhbLVNgo2ZXKNdDK4rRxydN6BScfOX8q8jQUJjd92PdxvqIOCMqxdz2LK1OEUG6YGgxs5EZH3UsfzrJNvQRMDddrkwMKX1uKynQ4ffbQRkamugY88kv6rWXElqdt5GCKNa4Pt9kofSXyk+qHdAkez6IYAMW/ONCMTJ3fObyQczbT+3UmnBxdQyoQejBSBvxHBJ/DOLKzTSLs0eF+OxBQbtB1RETwuodetK3Fs5XtKc9JxNP3+jBaTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mnv1WV5DcIyfqzyFMOLGidhCBr8Vy551iBa3jVn9ZS0=;
- b=LbLypS0FRpQXQRtvTgfZxrEHWUrtiYMsaO3WGr44V5JpbKp8gF0dnDohjJ+iQnkuA/v9Gl4DhazsxVuhiwufeyhDQASph+FwJGUsrYUi0xVvGQdNwy6RrQiBwe39VCi5unQsBBaB/9wU3/3Qu202u/4inAzYwdw0EpkNzX0Zla+VmTh/fZFD3qb2oBOVq1fpPI0X/SrPL8lXItp5jOrOFd1txmJvsuHFVEfVgykWxzp3WAqE+q+2fat3QiNimCzR44wKbkgLMTKWO9/iWR7vOGv33MpVnkzBZaOXZhRtMlqkv78brTkNA4WK03BbiMm0aemRV+1ohKyhUgcTjNHC3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48036441E
+	for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 17:32:51 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id y8so10010962edc.10
+        for <linux-staging@lists.linux.dev>; Mon, 26 Sep 2022 10:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mnv1WV5DcIyfqzyFMOLGidhCBr8Vy551iBa3jVn9ZS0=;
- b=JVKNfJPO1sixfaHW7vnSRjATtIJXiwkqh0LOrfNqE+f5/S95PXTLJOqeMk9c83J0TStKZjlH64c51Wiv//BOhijaJ9YNca0E2RXYdS/GB5HLVpzJlhkD46Xa5Q/dlsK/SbBPVjeCBMZaX6rmcSuAkhl4GkDUpWejEn6nH97Hs1A=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by PH7PR10MB5830.namprd10.prod.outlook.com
- (2603:10b6:510:127::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Mon, 26 Sep
- 2022 09:25:10 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::a493:38d9:86ee:73d6]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::a493:38d9:86ee:73d6%6]) with mapi id 15.20.5654.025; Mon, 26 Sep 2022
- 09:25:09 +0000
-Date: Mon, 26 Sep 2022 12:24:59 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/10] staging: rtl8192e: Rename and remove variables in
- rtl819x_HTProc.c
-Message-ID: <YzFv6/sbwTN03NEO@kadam>
-References: <cover.1664055213.git.philipp.g.hortmann@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1664055213.git.philipp.g.hortmann@gmail.com>
-X-ClientProxiedBy: MR1P264CA0179.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:58::9) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=czNq/wdzwKqMnN7AWANCg6E2ckeA0Bn9PlwJV/1m2J8=;
+        b=CpoumwMF7v9NlYEo+5acV9Mv7ILoX/7xo3wlW7VFAi4YKf1V2wYukgx26Bu8WAGpDO
+         aBMY/VdBnscCGV205g/t0tD1sXt+DLo/WD9PEcLjKsmhIdaoOOv79XMJdOkDLqBaMnty
+         /dj5n9umncSUgSDNBLKKLah0xYmoKuy75H6bCmPL2s6m8XNpHRtsmo9m9vBuk9a29qmf
+         g19cIeqfpdofmYI5hv+3gbNBwK4iD1i8aCHS0in+th+7gDm8uLetGQo+mkXxI1Szbm1z
+         7XQvXCu3J3iLjYpyQDKtcBYdoHr3gNUbBGe4DR5llleI68OGKr8ejpAmwdmBvtoN8wDx
+         o6Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=czNq/wdzwKqMnN7AWANCg6E2ckeA0Bn9PlwJV/1m2J8=;
+        b=ID96oAwtD8vtunBLLJefB8LaIsCNRF6j2XQQ0qiElvBdnAr6I2SBKJe1VL6q22CmX1
+         YzOKrdIzDhYTXIbd3wx187t07kLfMnrwyX1++k9NhDCXEetwvgtN0JmmZFGFRb+g06bO
+         plVrXqB7eJtN7NXdpW23xWwiImVqVjwKzm0cNCoOFYm7s1YVe8NFypg6+j7pxql2WAI4
+         tscuJ7HYFUG9Cl/PH3H6ihD3YPrUs4ePbxmQC37Ly6zUSV3yPMjLbzJmxTwJ8aamAgs6
+         eGbVVYKMEcKzIJ8V+2SQEXOri/FYN2akAw10Ecx+arC8RwgvGVLSxIKnwHnXYtnMeuzI
+         fTrg==
+X-Gm-Message-State: ACrzQf24so3PqfsSAHlqKb9g4wGzxGCPuAeaKg7hRiHyXLeWSMvxKSEr
+	6V951kTMEMQN4uq5ga7K8s4=
+X-Google-Smtp-Source: AMsMyM42ylEsTk3jaOh/XaMiGsMugt2TS1DFTNtUpMqmgjgktaic2g4oWINFx6ZfvU1/6cS3cuKqDg==
+X-Received: by 2002:aa7:c78d:0:b0:454:fe1d:8eb1 with SMTP id n13-20020aa7c78d000000b00454fe1d8eb1mr23485082eds.59.1664213569566;
+        Mon, 26 Sep 2022 10:32:49 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb59.dynamic.kabel-deutschland.de. [95.90.187.89])
+        by smtp.gmail.com with ESMTPSA id y4-20020a1709060a8400b00782667df018sm6554617ejf.54.2022.09.26.10.32.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 10:32:49 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: remove odm_RegConfig8188E.c
+Date: Mon, 26 Sep 2022 19:32:40 +0200
+Message-Id: <20220926173243.8767-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|PH7PR10MB5830:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f63886b-beda-467e-0bbc-08da9fa10112
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	zYA1Kgkk9mFSmuOqViHaj8U3d4J+3L5JlHzzEEVCvf615otGLtWxw+FP3vSKZzBPoYkHwzdktPomUW3JDtmGE0bMdZoEpK2feyCwsh4lLzGP6lU0yHPlE8fX8k5zCXQGCNmbmcdlIwIDl5o+nqu8PMyEGvIU0RMAaUALTK3c59iHa0vU5w0esOQEqULheR72tBlwPqyqVuYblh43sYKmVc7FLPLU02mPkWXTLmfiU9LX7D4cXTc8xv1944ZISIJmJaeGMoabcU+DHIgRy7YVhDFI9x/7crhcFbvFxwMFvAFH4s+UMXtA7a+rjQFEppQTOHJvU8ZEjzsAAOMs0eiuy5hvEFXIgDGCx0o/M1/njlJNWZ12A8cXtnuZQWt5zv/yHDznaMaickzkNfI1hypZMRzccCph+OCW009u3T4Vv4nRnTsAvOjmYOUbhnSunCaCqDBB7ptf43c5scxhRHWg9xm+A+WZxVJeSQa0ZULebtOQfIml3Ie1PljhUXF1/TyIbZlq472IIzjxTJOhsHIZQcuMSBZyFa6ricPOvT7dd6B+3M5ewGF7GAMAYcuSpZdshVwY4PXirAAKDAGKBotDpqrxLX5108PI2DKvcUwoulsmWOlOkVNWf66SfGMC8OePP7Q1q5KQ1AwGTTxeAQz7UAL2hvsuhexB4JLMUTZaB/xnzJCh7tTWRdrEQASlXZGHd6Qwl5oBBGwQ8O/zies4jA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(376002)(136003)(396003)(366004)(39860400002)(346002)(451199015)(33716001)(2906002)(4326008)(38100700002)(4744005)(86362001)(8936002)(44832011)(66476007)(66946007)(8676002)(66556008)(5660300002)(316002)(41300700001)(6916009)(186003)(26005)(478600001)(6512007)(9686003)(6486002)(6506007)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?xhkRZKnPvjoD3+QmVkTnt/72sNuD7+1rEj3dNQ5awMgjGvfjOySxjpmwXRg8?=
- =?us-ascii?Q?jsO1ule8X3m3j7KdIZR9+7oY9tFCVSN50+PoqKzBHkOsaXQg7VQay1KtLy59?=
- =?us-ascii?Q?MP5+VmcfTRHIrIzuE3fbEz4B6lja9Ft+/u5RFhNrgWoVJe0Hh+eYowSqLsH7?=
- =?us-ascii?Q?UYjt7l70pPb6wPA1Hn/L/JV8963uluLDWUp9lgMANFkMvjzzIv/wLatfahaa?=
- =?us-ascii?Q?lJoufDxv/xYP3ryfwhbvnCDIG6zJqbwgYGu016Ti23/63UXSMgkk6aHwDqrU?=
- =?us-ascii?Q?8Av+EntPuozy+lgeA7Z+QHdlLD8nDkxPZtyoNu+fc6N6jN4iIeTuqjm8kGH2?=
- =?us-ascii?Q?sWpn9Q9Id4eZbd+T4xwbqOOAj2uHvEZBJUzTYdayXNGqZCWfMU+OTQ1EmMK/?=
- =?us-ascii?Q?AvQ8kxykMLAueL7SMaoWZpkEAmuboKqKC4YGkonBcYnOcL1UWJKe6ETrjy9R?=
- =?us-ascii?Q?qDIdhZT9Waau3lMvl/664fmvbaIaAQ5PxAAjVxCdu4jNjjU+Ym4kVIgV+61t?=
- =?us-ascii?Q?JmYPY/kVlHyHcMoLOu1TYjrj8RO30BxD+cWuCdGdKD5ynRkgelHd3HXssM5x?=
- =?us-ascii?Q?BQYIYWeOOVR502audj8RXz/G10JaFcZRORpIVU4FAXszmm4i9E9m+tZ4rsxt?=
- =?us-ascii?Q?ULCqb+aOh+KEY/SOMCP1OnI070jQVEx37fyVsEDwrvKZMp4WZJD55zqag+uI?=
- =?us-ascii?Q?kHbcz2e5Or++U+Q58txpM9my0q8bT+QD+0phtU4lRZJfaPxTJKB25DvR3xvS?=
- =?us-ascii?Q?Z2QxjKv88TfCfITXfWOIADm0lutB+mNpByNHTildJOTnPzvJs/s15bFxUZQr?=
- =?us-ascii?Q?iQsLf9i8DZHLVkYQLSUSpBK7HkXGAozVbhN7NlXyhGmX5+mHPncEaK4e3GXs?=
- =?us-ascii?Q?drznb1/oo9fpMK4O4hMNBX/zEyiAwCHpf7K6H350W5zdpDxPuuBmKre6l5po?=
- =?us-ascii?Q?lCb1yE3p2eAa2wRaOUtRp5zhBEuGMCHtrR7anRELIF/ISDFAQK8CMLvglZ/c?=
- =?us-ascii?Q?C6wtCcuwAfppOHQb+FhZTcd4mGeWbZeQ4ua73ZsRjxgOofV/YUFTh5O0zbuT?=
- =?us-ascii?Q?CPpQNeDtwtcPTZTVyqW9RF012AoZI98wLqr0QiCCO0NwERvNJq6QgywsqgZO?=
- =?us-ascii?Q?HG6mcw2CUIXX6/J+1nx/2sdZSvCj9E8rAY4fA9yUTIk30lucjYJ6ZV8Ll4ZQ?=
- =?us-ascii?Q?PV6jA6a65Gt7UqB66g9mTjiINnVMnNjnu1XUyvPsOnSDi62OSPpQzVkgUtRF?=
- =?us-ascii?Q?q7Q2Xkxa461cJfnc5We/lvDGwzFqPJhUZz+/faE2cp2he1dwobMC26UdtDPc?=
- =?us-ascii?Q?ieSwVWOguU53XtajjVt3/0SeE+CmVZu84aoCYWhCE2RleD/9CTTkH1d1R5iy?=
- =?us-ascii?Q?CVTTkuTdda5AWBVYTti9bEO3QxaCFD5SYuSiy33/Ru3Vo5gHum25Xpv49HqX?=
- =?us-ascii?Q?AgrNJS+o9JzkjM8GqvjNA0IyvudRTWzho6M5lqVlPONHX9SDJcJnvjy1um/Z?=
- =?us-ascii?Q?f/mbtMqyeqgVOhrua28XtTAyuQXo9dwUK38d/a3yw+4hOomr89LQGLuJ20C6?=
- =?us-ascii?Q?lrCK0JRfgjjzjeH6Yq131zbarUMn7tiEg9FNv/OJ?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f63886b-beda-467e-0bbc-08da9fa10112
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2022 09:25:09.8949
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KPhV/+STE0Ur/iNf4FH4d/+W48kNL0jHNogHtDZrsSNSNb8zqykIvO/YUhsVsyX03fwwd27C2RUGDVEUnxF/yI8j3oApmHiDFI4aUwUsTuE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5830
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-26_06,2022-09-22_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 phishscore=0
- mlxscore=0 mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2209260059
-X-Proofpoint-ORIG-GUID: LSot0IwdRzp-LgL7kKl8cWGPtTxCIn2U
-X-Proofpoint-GUID: LSot0IwdRzp-LgL7kKl8cWGPtTxCIn2U
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 25, 2022 at 12:02:50AM +0200, Philipp Hortmann wrote:
-> Rename and remove variables to avoid CamelCase which is not accepted by
-> checkpatch.
-> 
-> Tested with rtl8192e
-> Transferred this patch over wlan connection of rtl8192e
-> 
+This series removes hal/odm_RegConfig8188E.c and its header
+odm_RegConfig8188E.h by making the functions defined in that file
+static.
 
-Thanks!
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Michael Straube (3):
+  staging: r8188eu: make odm_ConfigMAC_8188E() static
+  staging: r8188eu: make odm_ConfigRF_RadioA_8188E() static
+  staging: r8188eu: remove hal/odm_RegConfig8188E.c
 
-regards,
-dan carpenter
+ drivers/staging/r8188eu/Makefile              |  1 -
+ .../staging/r8188eu/hal/HalHWImg8188E_BB.c    | 50 +++++++++++
+ .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |  5 ++
+ .../staging/r8188eu/hal/HalHWImg8188E_RF.c    | 30 +++++++
+ .../staging/r8188eu/hal/odm_RegConfig8188E.c  | 89 -------------------
+ .../r8188eu/include/odm_RegConfig8188E.h      | 21 -----
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  1 -
+ 7 files changed, 85 insertions(+), 112 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+ delete mode 100644 drivers/staging/r8188eu/include/odm_RegConfig8188E.h
+
+-- 
+2.37.3
 
