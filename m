@@ -1,163 +1,120 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8ED7F4
-	for <linux-staging@lists.linux.dev>; Tue, 27 Sep 2022 11:54:31 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id dv25so20088919ejb.12
-        for <linux-staging@lists.linux.dev>; Tue, 27 Sep 2022 04:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=iQSg98bKZou7iOEHRXVJ6yfM/g7cHdR+S7GJ5NNyeVg=;
-        b=PTGOkhw5Q0RHA0RubfHuXl5h9YAKDl/zJUiqyThDrXttrQspIpfm36H/re1sO954Sf
-         phAOWr1f/jAgK/QnUU4p6kNzDQ8qLfJxi3lNapt7MV3Fi/tWax//H8398psrjZG/3QyP
-         YegjDXJCGnpiv8Fl+wt2+W31bSFSrvj88D6h7mSBQlGRQwCpZcR/y75re/G7/zH9zDP7
-         OXjVueU01gAlPiYw55nok2wxfYShUJluT3MytShRLg5VjGxATgmjMLGccgfkkBEm7Hbu
-         cDy9LggbOV2837I7uwfgNfVfqVfmABO91ZxTZZLAYu/2vwUV/YCtGSzgraLj4TUsMQ6/
-         GKHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=iQSg98bKZou7iOEHRXVJ6yfM/g7cHdR+S7GJ5NNyeVg=;
-        b=m76SEQZuHXK8Mbp3uMc1xk0I7ZEqz0ejDcLPqbU+bJdtoeomr7HSiE4hMEJfokUTOb
-         47+0xW/CrPP/ARTAP+s2qwbb+6XxUqww6Zd9MRCzTNYCyQKkuwohs0L29CjwutKNNDAW
-         db7Dj7fou3CI6h1pAKOKglvSdiETg1jglaPhlJkEiE28g8HzL5LRaS2DJT/HTvAgVVCD
-         YQ/NiHqeJvS0VU32SVq8ekcYxAncEHpgCiCe4Cg1lqgsexOrWouvneMZoWpKUNy97ONn
-         ftaWQtTrarwhtbbL82rWReFJU0JmslWxyry+a1frbIvbiXpneLBGCnzRg/So7974lx2p
-         kMJw==
-X-Gm-Message-State: ACrzQf3FW9R0LaOiUYSxsEh8nr9Dzvbmbbe88hQHf2HwoMMLqRKRzNuD
-	o9eu+JLuSOBCnqeEdey+wY0=
-X-Google-Smtp-Source: AMsMyM4oGuPJDzq86wEPW1opYmEFKE9c9MUAYBJ8yIm63lgdzL+P/uxXvFd9OY0nUuLsnTm6oB3wfw==
-X-Received: by 2002:a17:907:a48:b0:77c:51b0:5aeb with SMTP id be8-20020a1709070a4800b0077c51b05aebmr22757261ejc.61.1664279669534;
-        Tue, 27 Sep 2022 04:54:29 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-158.ip.prioritytelecom.net. [217.105.46.158])
-        by smtp.gmail.com with ESMTPSA id 17-20020a170906211100b00741383c1c5bsm678853ejt.196.2022.09.27.04.54.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 04:54:29 -0700 (PDT)
-Date: Tue, 27 Sep 2022 13:54:27 +0200
-From: Nam Cao <namcaov@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: forest@alittletooquiet.net, gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [RFC PATCH 5/5] staging: vt6655: implement allocation failure
- handling
-Message-ID: <20220927115427.GC10468@nam-dell>
-References: <cover.1663273218.git.namcaov@gmail.com>
- <dd63998765f1ea1bf507a94c2d49317b36b5f32c.1663273218.git.namcaov@gmail.com>
- <YyhAhiUlclk7HxE3@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D93780C
+	for <linux-staging@lists.linux.dev>; Tue, 27 Sep 2022 12:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1664283309;
+	bh=42xfWSmhmYjq+twL20Yxs1MCHTnMRhNYnQ9ldZwy/Rs=;
+	h=From:To:Cc:Subject:Date;
+	b=xMO2xKkAHQKFEvZzbi+vWLWtiDB7TcPE4jc9eWNLetHKk5mBMnFh8sqxm6MorknHt
+	 v2cl65Bfrk920xLR1lBxEM4nonhx48r16kzvFtVaK2ZI8IFIuGbX1ymDJq58T7nXae
+	 k+L1JQPy2aRCYUdH0x9t1bCFQiCT4bwodJwut3kg=
+X-QQ-FEAT: oHWrrGTW1dDJ34LybywUcSCPpAkOV9c4
+X-QQ-SSF: 00000000000000F0000000000000
+X-QQ-XMAILINFO: OZiGlmjmGvyhz+Fl1v8DirpiVJ32lMdcI4u69eni3+5I4OSUoCGndESeQL4cH9
+	 xcB47NT2lW6qO8+x/ooIhmqFNE2WDENG9Jdg/kqJ6DWe01nKutKgw25lqQvxFqG7sjxQTZMUoG3KT
+	 oj9q3YmbX2i5/8dItlAcKgWteQZTPFbUNQ49YavH1OAMIHGT74x4NsmkEyP5sgjROU4VXUx1CsnWQ
+	 FypB4bAVRtEY5kP6LMcwp31z82tawu309+UvmmpSw4tpINSVbOla2n1dCVeG8Ra8ccz82EDTvm10g
+	 AaXRqAZF6WqVX+PRTHzC7QVN85FWrIN8gU4VWoqYKG9krSsMMzenyt15q4zTjqwKmQLmWwvTbKkCl
+	 g00rVAL3ZZlzzArC/kPHhyCCY8lscAsilzb6vUkWcQA3aQ6FbkrsDtfRFVVF5CTvnPMFKDNe6wtxd
+	 JNXj1LZ7hckvB/kK+09I7eudYQBNrPJuQOt7arKKzniYWRP8KOhTMN/2OYjc71TWQyYEWwFuVHEj3
+	 rBbh7Yrp6GCsgAnS/M9IqgbxgrOt83XoJj/kGGKF9j8VGeML4tp448/NqP9cRc88rhbZfDcUljcCv
+	 8KgiDvH9FARtPZxWEC7jo78QxjjH9t6MQeOJ8k0AMy54I143rQsVVyKKG0td3bquGJBPJW10AT06i
+	 TGcDQ56zvdiQ2wOp0TyiUimanrNOKrcnBgrYeXhtEidaKR2pSWz9OkYQM9Xr75gUjp/7KBKdQlsY1
+	 SQhi3aPmJa3I0MujBjNI0MQUkyXevvH+uknqvq56e3HHtyQBLXbuMcfc1gV0vfJ54Evfr1RnMDmpf
+	 YS0BOVaoUtBQfEWAXxn/bt7BeNcklG+7hsbC92U8+hZqgfnxKXTf9sWoybUp/AZQZ8sIHBBbxWVu8
+	 uqzRA/WPiOBCq7HhqzqdPk0T4TjHwg0jQynq1KSR12qA908dM/obgydk2ESkjgAumKXMK0Be+1EqF
+	 4hndg/xGI44w3/4MMt
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 111.47.122.156
+X-QQ-STYLE: 
+X-QQ-mid: webmail740t1664283308t8147702
+From: "=?ISO-8859-1?B?WGlhb2tlIFdhbmc=?=" <xkernel.wang@foxmail.com>
+To: "=?ISO-8859-1?B?RGFuIENhcnBlbnRlcg==?=" <dan.carpenter@oracle.com>
+Cc: "=?ISO-8859-1?B?TGFycnkuRmluZ2Vy?=" <Larry.Finger@lwfinger.net>, "=?ISO-8859-1?B?Zmxvcmlhbi5jLnNjaGlsaGFiZWw=?=" <florian.c.schilhabel@googlemail.com>, "=?ISO-8859-1?B?Z3JlZ2to?=" <gregkh@linuxfoundation.org>, "=?ISO-8859-1?B?bGludXgtc3RhZ2luZw==?=" <linux-staging@lists.linux.dev>, "=?ISO-8859-1?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] staging: rtl8712: fix potential memory leak in _r8712_init_xmit_priv()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YyhAhiUlclk7HxE3@kadam>
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="ISO-8859-1"
+Content-Transfer-Encoding: base64
+Date: Tue, 27 Sep 2022 20:55:08 +0800
+X-Priority: 3
+Message-ID: <tencent_FACCCAB91E1C6F141FE1CA4AC1FF2420DA08@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
 
-On Mon, Sep 19, 2022 at 01:12:22PM +0300, Dan Carpenter wrote:
-> On Thu, Sep 15, 2022 at 10:29:36PM +0200, Nam Cao wrote:
-> > The function device_rx_srv does not handle allocation failure very well.
-> > Currently, it performs these steps:
-> >         - Unmap DMA buffer and hand over the buffer to mac80211
-> 
-> Does the unmapping happens in vnt_receive_frame();?
-
-Yes.
-
-> 
-> >         - Allocate and dma-map new buffer
-> 
-> Is the new buffer for the next frame?  So in your patch if we don't
-> have space for the next frame then we do not process the current frame?
-> (Rhetorical questions are a bad idea on development lists.  I genuinely
-> don't know the answers to these questions).
-
-Almost correct: if we don't have space for next frame, we _drop_ the
-current frame. Note that this is also how it is implemented in similar
-drivers, such as:
-  - adm8211_interrupt_rci() in drivers/net/wireless/admtek/adm8211.c
-  - rtl8180_handle_rx() in drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c
-
-> 
-> >         - If allocation fails, abort
-> > 
-> > The problem is that, it aborts while still marking the buffer as
-> > OWNED_BY_HOST. So when this function is called again in the future, it
-> > incorrectly perceives the same buffer as valid and dma-unmap and hand
-> > over this buffer to mac80211 again.
-> 
-> Where is it supposed to get marked as OWNED_BY_HOST?
-
-By the device/hardware.
-
-The basic idea how this driver works is that: the cpu allocates buffers
-and marks them as OWNED_BY_NIC, basically telling the device that "here
-are some buffers that you can use". When there is new frame, the device
-looks for buffer marked with OWNED_BY_NIC and write data in there; then
-it marks the buffer as OWNED_BY_HOST, basically saying "there is some
-valid data in this buffer, you should read it".
-
-> 
-> > 
-> > Re-implement this function to do things in a different order:
-> >         - Allocate and dma-map new buffer
-> >         - If allocation fails, abort and give up the ownership of the
-> >           buffer (so that the device can re-use this buffer)
-> >         - If allocation does not fail: unmap dma buffer and hand over
-> >           the buffer to mac80211
-> > 
-> > Thus, when the driver cannot allocate new buffer, it simply discards the
-> > received data and re-use the current buffer.
-> > 
-> > Signed-off-by: Nam Cao <namcaov@gmail.com>
-> > ---
-> >  drivers/staging/vt6655/device_main.c | 13 ++++++++-----
-> >  1 file changed, 8 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-> > index ca6c4266f010..8ae4ecca2ee3 100644
-> > --- a/drivers/staging/vt6655/device_main.c
-> > +++ b/drivers/staging/vt6655/device_main.c
-> > @@ -826,6 +826,7 @@ static void device_free_td1_ring(struct vnt_private *priv)
-> >  static int device_rx_srv(struct vnt_private *priv, unsigned int idx)
-> >  {
-> >  	struct vnt_rx_desc *rd;
-> > +	struct vnt_rd_info new_info;
-> >  	int works = 0;
-> >  
-> >  	for (rd = priv->pCurrRD[idx];
-> > @@ -837,16 +838,18 @@ static int device_rx_srv(struct vnt_private *priv, unsigned int idx)
-> >  		if (!rd->rd_info->skb)
-> >  			break;
-> >  
-> > -		vnt_receive_frame(priv, rd);
-> > -
-> > -		if (!device_alloc_rx_buf(priv, rd->rd_info)) {
-> > +		if (!device_alloc_rx_buf(priv, &new_info)) {
-> >  			dev_err(&priv->pcid->dev,
-> >  				"can not allocate rx buf\n");
-> > +			rd->rd0.owner = OWNED_BY_NIC;
-> >  			break;
-> > -		} else {
-> > -			device_init_rx_desc(priv, rd);
-> >  		}
-> >  
-> > +		vnt_receive_frame(priv, rd);
-> > +
-> > +		memcpy(rd->rd_info, &new_info, sizeof(new_info));
-> > +		device_init_rx_desc(priv, rd);
-> > +
-> >  		rd->rd0.owner = OWNED_BY_NIC;
->                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> The device_init_rx_desc() function sets it to OWNED_BY_NIC so this line
-> can be deleted.
-
-Noted. Thanks.
-
-Best regards,
-Nam
+T24gVHVlLCBTZXAgMjcsIDIwMjIgMDM6NTcgUE0sIGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNv
+bSB3cm90ZToKJmd0OyBPbiBNb24sIFNlcCAyNiwgMjAyMiBhdCAwMzowNjowNVBNICswODAw
+LCB4a2VybmVsLndhbmdAZm94bWFpbC5jb20gd3JvdGU6CiZndDsmZ3Q7IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL3N0YWdpbmcvcnRsODcxMi9ydGw4NzF4X3htaXQuYyBiL2RyaXZlcnMvc3Rh
+Z2luZy9ydGw4NzEyL3J0bDg3MXhfeG1pdC5jCiZndDsmZ3Q7IGluZGV4IDA5MDM0NWIuLmRj
+ZjNmNzYgMTAwNjQ0CiZndDsmZ3Q7IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9ydGw4NzEyL3J0
+bDg3MXhfeG1pdC5jCiZndDsmZ3Q7ICsrKyBiL2RyaXZlcnMvc3RhZ2luZy9ydGw4NzEyL3J0
+bDg3MXhfeG1pdC5jCiZndDsmZ3Q7IEBAIC0xMTcsMTEgKzExNyw4IEBAIGludCBfcjg3MTJf
+aW5pdF94bWl0X3ByaXYoc3RydWN0IHhtaXRfcHJpdiAqcHhtaXRwcml2LAomZ3Q7Jmd0OyBf
+aW5pdF9xdWV1ZSgmYW1wO3B4bWl0cHJpdi0mZ3Q7cGVuZGluZ194bWl0YnVmX3F1ZXVlKTsK
+Jmd0OyZndDsgcHhtaXRwcml2LSZndDtwYWxsb2NhdGVkX3htaXRidWYgPQomZ3Q7Jmd0OyAg
+a21hbGxvYyhOUl9YTUlUQlVGRiAqIHNpemVvZihzdHJ1Y3QgeG1pdF9idWYpICsgNCwgR0ZQ
+X0FUT01JQyk7CiZndDsmZ3Q7IC0gaWYgKCFweG1pdHByaXYtJmd0O3BhbGxvY2F0ZWRfeG1p
+dGJ1ZikgewomZ3Q7Jmd0OyAta2ZyZWUocHhtaXRwcml2LSZndDtwYWxsb2NhdGVkX2ZyYW1l
+X2J1Zik7CiZndDsmZ3Q7IC1weG1pdHByaXYtJmd0O3BhbGxvY2F0ZWRfZnJhbWVfYnVmID0g
+TlVMTDsKJmd0OyZndDsgLXJldHVybiAtRU5PTUVNOwomZ3Q7Jmd0OyAtIH0KJmd0OyZndDsg
+KyBpZiAoIXB4bWl0cHJpdi0mZ3Q7cGFsbG9jYXRlZF94bWl0YnVmKQomZ3Q7Jmd0OyArZ290
+byBmcmVlX2ZyYW1lX2J1ZjsKCk5vdGUgaGVyZTogbWF5IGhhdmUgdGhlIHNhbWUgY29uY2Vy
+bi4KCiZndDsmZ3Q7IHB4bWl0cHJpdi0mZ3Q7cHhtaXRidWYgPSBweG1pdHByaXYtJmd0O3Bh
+bGxvY2F0ZWRfeG1pdGJ1ZiArIDQgLQomZ3Q7Jmd0OyAgICAgICAoKGFkZHJfdCkocHhtaXRw
+cml2LSZndDtwYWxsb2NhdGVkX3htaXRidWYpICZhbXA7IDMpOwomZ3Q7Jmd0OyBweG1pdGJ1
+ZiA9IChzdHJ1Y3QgeG1pdF9idWYgKilweG1pdHByaXYtJmd0O3B4bWl0YnVmOwomZ3Q7Jmd0
+OyBAQCAtMTMwLDEyICsxMjcsMTQgQEAgaW50IF9yODcxMl9pbml0X3htaXRfcHJpdihzdHJ1
+Y3QgeG1pdF9wcml2ICpweG1pdHByaXYsCiZndDsmZ3Q7ICBweG1pdGJ1Zi0mZ3Q7cGFsbG9j
+YXRlZF9idWYgPQomZ3Q7Jmd0OyBrbWFsbG9jKE1BWF9YTUlUQlVGX1NaICsgWE1JVEJVRl9B
+TElHTl9TWiwgR0ZQX0FUT01JQyk7CiZndDsmZ3Q7ICBpZiAoIXB4bWl0YnVmLSZndDtwYWxs
+b2NhdGVkX2J1ZikKJmd0OyZndDsgLSByZXR1cm4gLUVOT01FTTsKJmd0OyZndDsgKyBnb3Rv
+IGZyZWVfeG1pdGJ1ZjsKJmd0OyZndDsgIHB4bWl0YnVmLSZndDtwYnVmID0gcHhtaXRidWYt
+Jmd0O3BhbGxvY2F0ZWRfYnVmICsgWE1JVEJVRl9BTElHTl9TWiAtCiZndDsmZ3Q7ICgoYWRk
+cl90KSAocHhtaXRidWYtJmd0O3BhbGxvY2F0ZWRfYnVmKSAmYW1wOwomZ3Q7Jmd0OyAoWE1J
+VEJVRl9BTElHTl9TWiAtIDEpKTsKJmd0OyZndDsgLWlmIChyODcxMl94bWl0X3Jlc291cmNl
+X2FsbG9jKHBhZGFwdGVyLCBweG1pdGJ1ZikpCiZndDsmZ3Q7IC0gcmV0dXJuIC1FTk9NRU07
+CiZndDsmZ3Q7ICtpZiAocjg3MTJfeG1pdF9yZXNvdXJjZV9hbGxvYyhwYWRhcHRlciwgcHht
+aXRidWYpKSB7CiZndDsmZ3Q7ICsga2ZyZWUocHhtaXRidWYtJmd0O3BhbGxvY2F0ZWRfYnVm
+KTsKJmd0OyZndDsgKyBnb3RvIGZyZWVfeG1pdGJ1ZjsKJmd0OyZndDsgK30KJmd0OyZndDsg
+IGxpc3RfYWRkX3RhaWwoJmFtcDtweG1pdGJ1Zi0mZ3Q7bGlzdCwKJmd0OyZndDsgJmFtcDso
+cHhtaXRwcml2LSZndDtmcmVlX3htaXRidWZfcXVldWUucXVldWUpKTsKJmd0OwomZ3Q7CiZn
+dDsgcHhtaXRidWYgcG9pbnRzIHRvIHNvbWV3aGVyZSBpbiB0aGUgbWlkZGxlIG9mIHB4bWl0
+cHJpdi0mZ3Q7cGFsbG9jYXRlZF94bWl0YnVmLgomZ3Q7IFdlIGFkZCBpdCB0byB0aGUgbGlz
+dCBoZXJlLgomZ3Q7CiZndDsmZ3Q7ICBweG1pdGJ1ZisrOwomZ3Q7Jmd0OyBAQCAtMTQ2LDYg
+KzE0NSwxOCBAQCBpbnQgX3I4NzEyX2luaXRfeG1pdF9wcml2KHN0cnVjdCB4bWl0X3ByaXYg
+KnB4bWl0cHJpdiwKJmd0OyZndDsgaW5pdF9od3htaXRzKHB4bWl0cHJpdi0mZ3Q7aHd4bWl0
+cywgcHhtaXRwcml2LSZndDtod3htaXRfZW50cnkpOwomZ3Q7Jmd0OyB0YXNrbGV0X3NldHVw
+KCZhbXA7cHhtaXRwcml2LSZndDt4bWl0X3Rhc2tsZXQsIHI4NzEyX3htaXRfYmgpOwomZ3Q7
+Jmd0OyByZXR1cm4gMDsKJmd0OyZndDsgKwomZ3Q7Jmd0OyArZnJlZV94bWl0YnVmOgomZ3Q7
+Jmd0OyArIHB4bWl0YnVmID0gKHN0cnVjdCB4bWl0X2J1ZiAqKXB4bWl0cHJpdi0mZ3Q7cHht
+aXRidWY7CiZndDsmZ3Q7ICsgd2hpbGUgKGktLSkgewomZ3Q7Jmd0OyArcjg3MTJfeG1pdF9y
+ZXNvdXJjZV9mcmVlKHBhZGFwdGVyLCBweG1pdGJ1Zik7CiZndDsmZ3Q7ICtrZnJlZShweG1p
+dGJ1Zi0mZ3Q7cGFsbG9jYXRlZF9idWYpOwomZ3Q7Jmd0OyArcHhtaXRidWYrKzsKJmd0OyZn
+dDsgKyB9CiZndDsmZ3Q7ICsga2ZyZWUocHhtaXRwcml2LSZndDtwYWxsb2NhdGVkX3htaXRi
+dWYpOwomZ3Q7CiZndDsgQnV0IHRoZW4gd2UgZnJlZSBweG1pdHByaXYtJmd0O3BhbGxvY2F0
+ZWRfeG1pdGJ1ZiBoZXJlIGJ1dCBpdCB0aGUgbWVtb3J5CiZndDsgaXMgc3RpbGwgb24gdGhl
+IGxpc3QuICBTbyB0aGF0IG1lYW5zIHRoZXJlIHdpbGwgYmUgYSB1c2UgYWZ0ZXIgZnJlZQom
+Z3Q7IGV2ZW50dWFsbHkuCgpZZXMsIHRoZSBtZW1vcnkgYWRkcmVzcyBpcyBzdGlsbCBvbiB0
+aGUgbGlzdCwgYW5kIGF0IHRoZSBhYm92ZSBwb3NpdGlvbiBvZgpgTm90ZWAsIHRoZSBhZGRy
+ZXNzIG9mIGBweG1pdHByaXYtJmd0O3BhbGxvY2F0ZWRfZnJhbWVfYnVmYCBpcyBhbHNvIGxl
+ZnQgb24gYQpsaXN0IG5hbWVkIGBweG1pdHByaXYtJmd0O2ZyZWVfeG1pdF9xdWV1ZWAuCkhv
+d2V2ZXIsIHRoZXNlIGxpc3RzIGFyZSBpbiBgcHhtaXRwcml2YCBhbmQgdGhpcyBmdW5jdGlv
+biBpcyBmb3IKaW5pdGlhbGl6aW5nIGBweG1pdHByaXZgLiBXaGVuIHRoaXMgZnVuY3Rpb24g
+ZmFpbHMsIHRoZSBwcm9iZSBmdW5jdGlvbiBvZgp0aGlzIGRyaXZlciB3aWxsIGZpbmFsbHkg
+ZmFpbC4gU28gSSBndWVzcyB0aGUgbGlzdCBpbiBgcHhtaXRwcml2YCB3aWxsIG5vdApiZSBh
+Y2Nlc3NlZC4KClBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3Ugc3RpbGwgaG9sZCBzdWNoIGNv
+bmNlcm5zLCBJIGFtIGdsYWQgdG8gZmluZCBhCnRpbWUgKGluIDIgd2Vla3MgSSBndWVzcykg
+dG8gYWRkIGBsaXN0X2RlbF9pbml0KClgIG9uIHRoZSBlcnJvciBwYXRocwp0byBjbGVhciBh
+bGwgdGhlIGltcHJvcGVyIHBvaW50aW5nIHJlY29yZHMuCgpSZWdhcmRzLApYaWFva2UgV2Fu
+Zw==
+ÿÿÿÿI
