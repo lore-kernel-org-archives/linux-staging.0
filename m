@@ -1,41 +1,42 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B784A11
-	for <linux-staging@lists.linux.dev>; Wed, 28 Sep 2022 17:23:21 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id c30so17017585edn.2
-        for <linux-staging@lists.linux.dev>; Wed, 28 Sep 2022 10:23:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B72B4A11
+	for <linux-staging@lists.linux.dev>; Wed, 28 Sep 2022 17:23:26 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id z97so18137194ede.8
+        for <linux-staging@lists.linux.dev>; Wed, 28 Sep 2022 10:23:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=l7u6sxjGd4Up3n2EXEn7w9kG6KJBfmCH4ZVKabih4Ew=;
-        b=C89c5692ohREy/7/FUOPApXHUtVSRPnO5sFmt3ft7MSAkvaKl76Vo2bgYkXdYgqtvP
-         y2Dr2BSmjjxUCkYD451sEAnK0vxq5ysRpnih3PmadsdFcCTktMRRHwlFdCHraQbY0hWT
-         apF12bmB3vS3T+/I9tp0DpjN16gEncbJhwGX/6fFqI4coOuFww24Cay0NyyxICEQZAYw
-         sIyJqx0ln5Zr1HPGU4hP1WbtOIUaimLpefxv21zyYxS7vNDRFGvAi7ZsHTbXmEKpM0E3
-         SMDfNkrKPqAfKb9ad4u6cGKUoh2CgldA5KSjOFiiuyIkesxOnsYQDY/v5HxlHH4D3sFg
-         0vYQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=bAT4lI1cS6DeEw/8Q0cGUzgW7gwK5qXIMg6NrWzIWKo=;
+        b=fEIfyz2lCaTo35Ue4OkF0Ce0XXDTMNKrW9uOD2H5Cn97v72XOAopWJnlWZxkrScF7d
+         D1gfVWLXpX6mprk0QT7U0Y9ZfP2P5byBEQ32LQRkZYf/qDtSm4Rhhv50+gR8f68Yloue
+         P6OJd3Ta24r6AREVrl6pKVKk8CfOvABnFByko0wbNtZgIg9EPm/Mr0pjBGWuL9QWoQfD
+         r8sKcyhekFWOmI7Bag7qyThRdjrTXB7UhB97qCMr33ZoMFkw7rvZs3DxEGeWu9urmlJa
+         JFMLNtGxIfqACdW/SXFNGNc5O6uVRS2m8mQJ/mePChfQ48grsZVQUTckhOhIxV9bHmxx
+         UsAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=l7u6sxjGd4Up3n2EXEn7w9kG6KJBfmCH4ZVKabih4Ew=;
-        b=XZc6zXjQ9BCeNAOa9cMNHY4P82vEzKiKf0BkVYCCg9esJ0oqZwD262VDHG/Y0xrvXS
-         KZivDticykbwZULI6iuY844Rb/6yc74TCetzAobCKK2oI4KHdCUEsoBsIpK5GygfZfq/
-         +UIzyaYuw+jkr2zdtowMwSTL34+nEotoGg3Lkkm2SPs6g8sgIaoOn10KmgMLDMMnzcu7
-         MD6zT1Qu6m2Wj6TYTip16MbqW12MLBODbO5qiS9p3jQcLGiLMaW1DeB6OUlNfdsO4Czp
-         Cklz5U4Kgw1zDKHDJreSQRQaxt5Ngpl3tCVOLaotLS2LrOJt6ltof7Vl2Mgrp3Dq411G
-         1Llw==
-X-Gm-Message-State: ACrzQf3j1k7TmwThBpbfU5J7QedGDU9BcU+A90MgU1vdaWWaTEW1whej
-	y/U16xBuMwVafgXz88zeljE=
-X-Google-Smtp-Source: AMsMyM5d6RiOwXpEaubR6tBVWznwUhpZzM+IErIZv9qy7j+dLzajQ6bYEqyepTS9aWZI5w8RLR+WRg==
-X-Received: by 2002:a05:6402:b0f:b0:458:1b:fc9a with SMTP id bm15-20020a0564020b0f00b00458001bfc9amr2183786edb.365.1664385799812;
-        Wed, 28 Sep 2022 10:23:19 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=bAT4lI1cS6DeEw/8Q0cGUzgW7gwK5qXIMg6NrWzIWKo=;
+        b=kb67Bw0kyecc8w0/bcg8EKPeH42HlZChORt4RP/f5x9y0ur/tZU/ch6aerPadTqlLL
+         +WCuBSovU5pBq5mMfmeD6184iwPGCCbuKgb/Khtf+zoAZfQPZ556iWg+9GMnz6FiyRbO
+         xYB15aka2YH816nARrOb5XIvE7SbrSNHvN96b28P/RqypcgzTnUDfuKfgANwgF7CIRVD
+         u2hnxLXG2MxpNz6hOc+5BOahh5uD/QMdUGDYU4qKYsl10lESFzQfezt6KAMp+dmQIzvg
+         gz1uDgSVHGYbyZNNwYdruVQQS8/ZepQd0kRQFkrDUIdr0mQxFw5jLFBAuTe5EHmIYTze
+         QvHg==
+X-Gm-Message-State: ACrzQf1hG4Kn7lTGVrTYb6jxcUiPqMSMJaVIPUlS9qgTgtHg18I37rzJ
+	fU85mmjLPtPTTL8yz8PqUI0=
+X-Google-Smtp-Source: AMsMyM7VZsEXH6/txaWqMLlbcIlXV7P46ZdA8KCN1Hlp0FtfoZLURwXphOhPimW+QJ1dy03zkv77nQ==
+X-Received: by 2002:a05:6402:2694:b0:450:d537:f6d6 with SMTP id w20-20020a056402269400b00450d537f6d6mr35433802edd.344.1664385804315;
+        Wed, 28 Sep 2022 10:23:24 -0700 (PDT)
 Received: from localhost.localdomain (ip-217-105-46-158.ip.prioritytelecom.net. [217.105.46.158])
-        by smtp.gmail.com with ESMTPSA id lb6-20020a170907784600b007306a4ecc9dsm2725063ejc.18.2022.09.28.10.23.19
+        by smtp.gmail.com with ESMTPSA id lb6-20020a170907784600b007306a4ecc9dsm2725063ejc.18.2022.09.28.10.23.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 10:23:19 -0700 (PDT)
+        Wed, 28 Sep 2022 10:23:24 -0700 (PDT)
 From: Nam Cao <namcaov@gmail.com>
 To: forest@alittletooquiet.net,
 	gregkh@linuxfoundation.org,
@@ -44,10 +45,12 @@ Cc: namcaov@gmail.com,
 	philipp.g.hortmann@gmail.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [RFC PATCH v2 0/4] staging: vt6655: Implement allocation failure handling
-Date: Wed, 28 Sep 2022 19:21:46 +0200
-Message-Id: <cover.1664384503.git.namcaov@gmail.com>
+Subject: [RFC PATCH v2 1/4] staging: vt6655: remove redundant if condition
+Date: Wed, 28 Sep 2022 19:21:47 +0200
+Message-Id: <6a4028a10308d3abcd31421a28e760fc3ca61a72.1664384503.git.namcaov@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1664384503.git.namcaov@gmail.com>
+References: <cover.1664384503.git.namcaov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,32 +59,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver does not handle allocation failure when receiving data very
-well. This patchset implements better handling in the case of allocation
-failure.
+The function vnt_receive_frame always returns true, so checking its
+return value is redundant. Remove it.
 
-Also do some necessary clean-up to implement this.
+Signed-off-by: Nam Cao <namcaov@gmail.com>
+---
+ drivers/staging/vt6655/device_main.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-v2:
-  - squash 3 commits that were doing a single thing
-  - add new commit which removes a redundant assignment
-  - take device_init_rx_desc() out of unnecessary else condition.
-  - remove return statement at the end of void function
-  - add a missing rd = rd->next statement in device_rx_srv(): because
-    we already drop the current buffer, we should move on to the next
-    buffer in the ring where new data will be written to.
-
-Nam Cao (4):
-  staging: vt6655: remove redundant if condition
-  staging: vt6655: change vnt_receive_frame return type to void
-  staging: vt6655: remove redundant assignment
-  staging: vt6655: implement allocation failure handling
-
- drivers/staging/vt6655/device_main.c | 40 +++++++++++++++++-----------
- drivers/staging/vt6655/dpc.c         |  8 +++---
- drivers/staging/vt6655/dpc.h         |  2 +-
- 3 files changed, 28 insertions(+), 22 deletions(-)
-
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 56c3cf3ba53d..21d10d9fde47 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -832,12 +832,12 @@ static int device_rx_srv(struct vnt_private *priv, unsigned int idx)
+ 		if (!rd->rd_info->skb)
+ 			break;
+ 
+-		if (vnt_receive_frame(priv, rd)) {
+-			if (!device_alloc_rx_buf(priv, rd)) {
+-				dev_err(&priv->pcid->dev,
+-					"can not allocate rx buf\n");
+-				break;
+-			}
++		vnt_receive_frame(priv, rd);
++
++		if (!device_alloc_rx_buf(priv, rd)) {
++			dev_err(&priv->pcid->dev,
++				"can not allocate rx buf\n");
++			break;
+ 		}
+ 		rd->rd0.owner = OWNED_BY_NIC;
+ 	}
 -- 
 2.25.1
 
