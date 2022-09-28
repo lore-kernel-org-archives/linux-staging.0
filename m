@@ -1,40 +1,40 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B083D74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E848C3D79
 	for <linux-staging@lists.linux.dev>; Wed, 28 Sep 2022 14:43:37 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id x92so4415322ede.9
+Received: by mail-ed1-f44.google.com with SMTP id a41so17569596edf.4
         for <linux-staging@lists.linux.dev>; Wed, 28 Sep 2022 07:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=O+dr3jl5gDyh/hm3RWAslgURxfqQlnNRpD5jykGjHFc=;
-        b=UWAfkNXJmZSXjk3jAT9AIhAo3LsFU0ZtlgIahUUNIoPa3XTJHqklTJsE9Y9SvaB6Ct
-         BwNq1NanHi52y2TsJ73xJbl92w1bORPCyPc7VFHtcloopM1hyBfFDoh+Bvoxv8HRPdBV
-         bTDZtNG9aDKL+Syv1f0IhB7m+KitFrHdp+pOYp67eLsTDnWePO29ysU0IscbWHsEgPCa
-         0vVemr1UmFnyhU/OpjF4mjE5dXI1tAdymtFW2MeNft9G1/Dsqa3Eg8ToF5lbOtnBXckl
-         ogipwACn1Vl7AuO1ASIxOqkrKx4dFFqKKyuXqrkaYiE4p14W7n/vUsChvxrD5YdbKrlm
-         m+BQ==
+        bh=h0QBqL8bDYRDNQY1NCC3Lk6vT+duKqCdRuYqj6GWkXI=;
+        b=QyN+97jyeY7R8iLI/2ntliULvowBQuIoRdx5avccfIQxBNOcjMzC3UOT8KcV1FPVs+
+         eITlF6hKTfSKpUtwlVyOZUbjp7ofB5rNaBL2Di3mlzDVQKH5ZEUfj2DgotiNBxRTAkCX
+         Teoo8/QbQ0UboNN+BLp1c/nmh+7ZbeFHxt8US4Zx+LcmKCWs7jaWqEQYksxYhqe3xQE0
+         II6VirD0i+ZTaGdsv+6elFpbWxa13EuBA9fvxuhCAKfmKGGfZ2ZKu4WLmqKrrfXjpdyW
+         vPFeuEE7NDQloDiUKFkS6XRkCPOYNd7GVrROCAc7n9vh4gNuCdIS3AkXeMvQ+lxvCIQv
+         BtPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=O+dr3jl5gDyh/hm3RWAslgURxfqQlnNRpD5jykGjHFc=;
-        b=2Wtmr2NgN89q1KEBQlnqkOOe3IDY8xNiZ6KZwMo2IDTfQzhpXOvkDhaTkhhrqWHweM
-         lFNgDlM+QGNIZGfvfT1K7ZoV5H8GLhkNNjrxpELjcWJ0HUohUksM80zkIPxmevWxP85Z
-         ZU1HLtnwN3cGHb2WCuitBOhOJKInaeOznk8B0wilToSmUvvNGzTs85rsY4HsnR2/TpHv
-         A6Hw4drUZPen8KThax5Hf0SYDi22zWPeAgh72T0bJLBVf+y701xik6xa9Y2Ma3cY/FBj
-         lszOddePCrlmYA/2T/C0733IEzOB4FNkVjOnLqZcsgLQvZwBnHBrdL4x8uPX7UqrFW6H
-         1Oog==
-X-Gm-Message-State: ACrzQf0rJoUgvWICg3puLzBwJ4UrNR1LX0/bau9HMag79c12W8mjO+Cn
-	WX9tVTtR7b11+gsHcDfiMEk=
-X-Google-Smtp-Source: AMsMyM7XI0TKigLfWw76HQyG9NSSOojQ3ZlGp2cIohJwVNCl38fh5TdQknBto3q1igRhZh1otKXMxA==
-X-Received: by 2002:a50:fc13:0:b0:457:1075:42de with SMTP id i19-20020a50fc13000000b00457107542demr20807256edr.310.1664376215473;
-        Wed, 28 Sep 2022 07:43:35 -0700 (PDT)
+        bh=h0QBqL8bDYRDNQY1NCC3Lk6vT+duKqCdRuYqj6GWkXI=;
+        b=ASugaPjVKBZcGbB0VoRVNS13sIWTV+QB768cLgH6LKkXR71Qya+buKziilp/5ji2CF
+         k44Mq9mujpRJH+8+H5EBjQaP+TeoR+Y7Yvd0JkkRoXqTBKzGzLTRnJjvcJlZ4kPNt/TZ
+         9m0BVYwImlY+neIqX8VJgryUwxRExA72OGyPsl5HW/R+utTtK01OCy3VxaHndLcVqGHX
+         Rcjo0k1KfHvjMnJTBmIgMummaQ75Zi/SnBSvjAzN42dz0HuSdo1FX15aufQHrrUTB2b+
+         C7YB82XId0yNDPBBYzAUtO/bdmcBwHECq3qEbZv/lUoKG1MYQiqt3kT2iQU4sSzdx41B
+         epBQ==
+X-Gm-Message-State: ACrzQf077X7wFVB1zEgIkrpQFyXSct9awveDBl/aIgRseroEX5IcMQ70
+	SaqredmGXzlNSTUdRZMtow8=
+X-Google-Smtp-Source: AMsMyM6qc9LlM9+jqiBtZ0HKIGwaR1YU0CC3QqeqNdgKaaj+wiblS2r+PjguN+7gqISLh84Z9icvVw==
+X-Received: by 2002:aa7:c58a:0:b0:457:463d:c19d with SMTP id g10-20020aa7c58a000000b00457463dc19dmr16417452edq.323.1664376216170;
+        Wed, 28 Sep 2022 07:43:36 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb59.dynamic.kabel-deutschland.de. [95.90.187.89])
-        by smtp.gmail.com with ESMTPSA id u9-20020a50eac9000000b00456c6b4b777sm3456973edp.69.2022.09.28.07.43.34
+        by smtp.gmail.com with ESMTPSA id u9-20020a50eac9000000b00456c6b4b777sm3456973edp.69.2022.09.28.07.43.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 28 Sep 2022 07:43:35 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -44,9 +44,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/4] staging: r8188eu: convert ODM_ReadAndConfig_PHY_REG_1T_8188E() to int
-Date: Wed, 28 Sep 2022 16:43:22 +0200
-Message-Id: <20220928144323.13164-4-straube.linux@gmail.com>
+Subject: [PATCH 4/4] staging: r8188eu: convert ODM_ReadAndConfig_AGC_TAB_1T_8188E() to int
+Date: Wed, 28 Sep 2022 16:43:23 +0200
+Message-Id: <20220928144323.13164-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928144323.13164-1-straube.linux@gmail.com>
 References: <20220928144323.13164-1-straube.linux@gmail.com>
@@ -58,40 +58,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function ODM_ReadAndConfig_PHY_REG_1T_8188E() has return type
+The function ODM_ReadAndConfig_AGC_TAB_1T_8188E() has return type
 'enum HAL_STATUS'. Convert the return type to int and use common
 kernel error logic. Return 0 on success and negative values on
-failure. The goal is to get rid of enum HAL_STATUS in the end.
+failure. The enum HAL_STATUS is unused now and we can remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
  drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c     | 9 ++++-----
  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c      | 2 +-
  drivers/staging/r8188eu/include/HalHWImg8188E_BB.h | 2 +-
- 3 files changed, 6 insertions(+), 7 deletions(-)
+ drivers/staging/r8188eu/include/odm_types.h        | 5 -----
+ 4 files changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-index a4eb2879b77e..8d60eee7ab50 100644
+index 8d60eee7ab50..23b7205722b5 100644
 --- a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
 +++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-@@ -473,7 +473,7 @@ static void odm_ConfigBB_PHY_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u32
- 	}
+@@ -173,7 +173,7 @@ static void odm_ConfigBB_AGC_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u32
+ 	udelay(1);
  }
  
--enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
-+int ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
+-enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
++int ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
  {
  	u32     hex         = 0;
  	u32     i           = 0;
-@@ -483,7 +483,6 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
+@@ -183,7 +183,6 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
  	struct adapter *adapter =  dm_odm->Adapter;
  	struct xmit_frame *pxmit_frame = NULL;
  	u8 bndy_cnt = 1;
 -	enum HAL_STATUS rst = HAL_STATUS_SUCCESS;
+ 
  	hex += ODM_ITRF_USB << 8;
  	hex += ODM_CE << 16;
- 	hex += 0xFF000000;
-@@ -493,7 +492,7 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
+@@ -194,7 +193,7 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
  		pxmit_frame = rtw_IOL_accquire_xmit_frame(adapter);
  		if (!pxmit_frame) {
  			pr_info("rtw_IOL_accquire_xmit_frame failed\n");
@@ -100,12 +101,11 @@ index a4eb2879b77e..8d60eee7ab50 100644
  		}
  	}
  
-@@ -575,11 +574,11 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
- 	}
+@@ -245,10 +244,10 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
  	if (biol) {
  		if (!rtl8188e_IOL_exec_cmds_sync(dm_odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
+ 			printk("~~~ %s IOL_exec_cmds Failed !!!\n", __func__);
 -			rst = HAL_STATUS_FAILURE;
- 			pr_info("~~~ IOL Config %s Failed !!!\n", __func__);
 +			return -1;
  		}
  	}
@@ -115,31 +115,47 @@ index a4eb2879b77e..8d60eee7ab50 100644
  
  /******************************************************************************
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index 7bcaddc9128b..f31c1b7a469a 100644
+index f31c1b7a469a..532c63bce0bf 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -455,7 +455,7 @@ static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
- 	/*  1. Read PHY_REG.TXT BB INIT!! */
- 	/*  We will separate as 88C / 92C according to chip version */
- 	/*  */
--	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_PHY_REG_1T_8188E(&pHalData->odmpriv))
-+	if (ODM_ReadAndConfig_PHY_REG_1T_8188E(&pHalData->odmpriv))
+@@ -465,7 +465,7 @@ static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
+ 	}
+ 
+ 	/*  3. BB AGC table Initialization */
+-	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_AGC_TAB_1T_8188E(&pHalData->odmpriv))
++	if (ODM_ReadAndConfig_AGC_TAB_1T_8188E(&pHalData->odmpriv))
  		return _FAIL;
  
- 	/*  2. If EEPROM or EFUSE autoload OK, We must config by PHY_REG_PG.txt */
+ 	return _SUCCESS;
 diff --git a/drivers/staging/r8188eu/include/HalHWImg8188E_BB.h b/drivers/staging/r8188eu/include/HalHWImg8188E_BB.h
-index 8270fdbc2844..787fd2cf8d4e 100644
+index 787fd2cf8d4e..0a290bc31c4d 100644
 --- a/drivers/staging/r8188eu/include/HalHWImg8188E_BB.h
 +++ b/drivers/staging/r8188eu/include/HalHWImg8188E_BB.h
-@@ -16,7 +16,7 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *odm);
- *                           PHY_REG_1T.TXT
+@@ -10,7 +10,7 @@
+ *                           AGC_TAB_1T.TXT
  ******************************************************************************/
  
--enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *odm);
-+int ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *odm);
+-enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *odm);
++int ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *odm);
  
  /******************************************************************************
- *                           PHY_REG_PG.TXT
+ *                           PHY_REG_1T.TXT
+diff --git a/drivers/staging/r8188eu/include/odm_types.h b/drivers/staging/r8188eu/include/odm_types.h
+index 08ba7a418ba8..76302df4b330 100644
+--- a/drivers/staging/r8188eu/include/odm_types.h
++++ b/drivers/staging/r8188eu/include/odm_types.h
+@@ -6,11 +6,6 @@
+ 
+ #define	ODM_CE			0x04	/* BIT(2) */
+ 
+-enum HAL_STATUS {
+-	HAL_STATUS_SUCCESS,
+-	HAL_STATUS_FAILURE,
+-};
+-
+ #define SET_TX_DESC_ANTSEL_A_88E(__ptxdesc, __value)			\
+ 	le32p_replace_bits((__le32 *)(__ptxdesc + 8), __value, BIT(24))
+ #define SET_TX_DESC_ANTSEL_B_88E(__ptxdesc, __value)			\
 -- 
 2.37.3
 
