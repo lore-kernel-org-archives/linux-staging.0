@@ -1,215 +1,91 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6D64A11
-	for <linux-staging@lists.linux.dev>; Wed, 28 Sep 2022 18:03:55 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id i15-20020a17090a4b8f00b0020073b4ac27so2357020pjh.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Sep 2022 11:03:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE1433FF
+	for <linux-staging@lists.linux.dev>; Thu, 29 Sep 2022 20:30:38 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id m15so3442568edb.13
+        for <linux-staging@lists.linux.dev>; Thu, 29 Sep 2022 13:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=3whcrT3V6ZbW5bQsmrpMZmHA21DaBxS83EoyihXfhc8=;
-        b=j5mCBCXEpARD02oZvltEJnt9jJJfGXA0zan7h7syIwgw1gzv0l5jYgwROoAYPen0mx
-         sbh1v1DeyNyeXyq445mlx0tkVvc3g7DN1xYB9PNofr7trkuU8MkpevCUwTiJGyTvyM3v
-         YTob7qAGbQ+GosnN0Q4B6ouzsA3jboVl2i88t6ZeDwjGgHjA+ogZc7L37WvBsVXlAH6i
-         00YkQtAwFv0079z1+XC0jJxYjn9YlIrV+QigMnG4Jj+R89zB8mEbH+2vlmo8nAfWztfM
-         1TNc0q+ODAzMt0xRzcNLDwfjJuir9455GeFXu99+u5FDKkjAxWwFzx4E70MjN0udNzra
-         a8Vw==
+        bh=H9rd+oTv5GMGM1TPz7tjk3H33t9w0+zXf4MssGv+aVY=;
+        b=VGnB3aMFioBJTem01NR0YOvnGZlaiJTWAN8LUYpK5bFMUzeSgFrCzcx3EOwrKgT/kP
+         ckNmPuYiiUKi48Iyhz/GWYBeZtYGcW9Ho26wPxj9zpIBnPDlgIknxo0eSxpMIy8HBctY
+         wUWAbpJvRN/SnRG1ROO1SkbobnjlNftpCWcc1U6EtsaglrTNVd7v777H82EaDSpgFFAj
+         lSZE888tSozQ5tOFag6vKCTKBqapyDEwz/HDZQRIt5+Ln3lpiArmYfM2e1q+uX/02vih
+         JA3RHNqfnzH8NdLqmN2m39wEaIgQpXemobkL/jVsGlucTcN45mF9tzwMeUOBArkxCsXL
+         ujYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=3whcrT3V6ZbW5bQsmrpMZmHA21DaBxS83EoyihXfhc8=;
-        b=Kx5Y2VEj/vk7/zKlAXZ+45lC8ERm6kD1X+GOda9slfNjQ0chy3w38W4Q9k9iC6QSsz
-         t2CTrQa587M0zAvZvms6rRTV8cibP+uL0JfXS0panvYzG+XE8YE2bANzONLX00Xa7i/0
-         hoS2dPRIqPgmslBVaRpBiMnbZcGKPmFb0sV/7xg8yc7YeHj3TP3jp6ovw/n6mJgrUj2C
-         6HH0EzVYHqTBuitn1Rl+xkvw3j4X/4dhBMl0N4KBVzxEgEls669if1NSInnnffH4UlFg
-         GddgEWX9Wy03f50W2QOjaVuJIO9B+aaXLh/2U5KDwupeDfdDAzszNHk8l4Md9U9aAxhs
-         0TAA==
-X-Gm-Message-State: ACrzQf0bWzcvAEQtFl0U8Sjf/37Ek/Df7EJtxiyl/hoqr063mxuZLf+C
-	fLe5rlWfVMJv1OKmd5zwhX8=
-X-Google-Smtp-Source: AMsMyM4fQJjrgFJy7W+/zu2tTiZfQLy/K7D4j7UknVL2CVrS+Qdb5NGiw3bawGQyeKXnrJwzWnU7zA==
-X-Received: by 2002:a17:902:f34c:b0:179:e3d6:306b with SMTP id q12-20020a170902f34c00b00179e3d6306bmr1038482ple.34.1664388235111;
-        Wed, 28 Sep 2022 11:03:55 -0700 (PDT)
-Received: from zephyrus ([103.251.210.220])
-        by smtp.gmail.com with ESMTPSA id v6-20020a637a06000000b0041ae78c3493sm3887141pgc.52.2022.09.28.11.03.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 11:03:54 -0700 (PDT)
-Date: Wed, 28 Sep 2022 23:33:50 +0530
-From: Yogesh Hegde <yogi.kernel@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8192e: Rename variable Bandwidth to avoid
- CamelCase
-Message-ID: <20220928180350.GA82748@zephyrus>
+        bh=H9rd+oTv5GMGM1TPz7tjk3H33t9w0+zXf4MssGv+aVY=;
+        b=n1/8b+bTBmEoOW/tSOHONIw7B1ZtUY1S08uB10XapMSG+9Iwck/EIr3DRIGtZ2u+XU
+         a9W9vhNKF350LwGSiRNNIoEgXWkaxTxX0ueSt7P4G9GBOrkyQILzmSBGAyzph/d0f98a
+         Vvk/v74zdivd0HAlNppaGcZ7ccRgNjbRcGDJi/5+/udCk1rrRMQ/ZQS4nj3atLxTay6b
+         dwaewTwWJGPhOXD8TP0NvzkzDxsUqMdHMernKg+VEjQDo1ufs2mY+HNIcgK+tQ3MHc1b
+         h1V+gS/0oMPSJlmuArMkartNWyD8FUhb7pZVTzGOmHXD1TllGb6/reH4+nA2L1ERxRJA
+         QbFg==
+X-Gm-Message-State: ACrzQf0JxpEj07ugt4Ysq0z03A2jYD5Njnd0F1XWaPlDf1jUI3qNm7Sj
+	R5hWc2r+9fevCRH4yUjkL+Y=
+X-Google-Smtp-Source: AMsMyM7YwaXyZCkAhDZChQE/PSwo0ArkF5UT2AlZFOB9epXTAvHenejXFnNRqxOP5f8q3W1LyzCGvg==
+X-Received: by 2002:a05:6402:14c3:b0:457:faf8:1880 with SMTP id f3-20020a05640214c300b00457faf81880mr4755317edx.118.1664483437110;
+        Thu, 29 Sep 2022 13:30:37 -0700 (PDT)
+Received: from [192.168.1.101] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id s16-20020a170906355000b0078015cebd8csm71864eja.117.2022.09.29.13.30.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 13:30:36 -0700 (PDT)
+Message-ID: <c6a4363f-efa5-febe-a38c-c172019c1903@gmail.com>
+Date: Thu, 29 Sep 2022 22:30:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC PATCH v2 0/4] staging: vt6655: Implement allocation failure
+ handling
+Content-Language: en-US
+To: Nam Cao <namcaov@gmail.com>, forest@alittletooquiet.net,
+ gregkh@linuxfoundation.org, dan.carpenter@oracle.com
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <cover.1664384503.git.namcaov@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <cover.1664384503.git.namcaov@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rename variable Bandwidth to bandwidth to avoid CamelCase
-which is not accepted by checkpatch.pl .
+On 9/28/22 19:21, Nam Cao wrote:
+> This driver does not handle allocation failure when receiving data very
+> well. This patchset implements better handling in the case of allocation
+> failure.
+> 
+> Also do some necessary clean-up to implement this.
+> 
+> v2:
+>    - squash 3 commits that were doing a single thing
+>    - add new commit which removes a redundant assignment
+>    - take device_init_rx_desc() out of unnecessary else condition.
+>    - remove return statement at the end of void function
+>    - add a missing rd = rd->next statement in device_rx_srv(): because
+>      we already drop the current buffer, we should move on to the next
+>      buffer in the ring where new data will be written to.
+> 
+> Nam Cao (4):
+>    staging: vt6655: remove redundant if condition
+>    staging: vt6655: change vnt_receive_frame return type to void
+>    staging: vt6655: remove redundant assignment
+>    staging: vt6655: implement allocation failure handling
+> 
+>   drivers/staging/vt6655/device_main.c | 40 +++++++++++++++++-----------
+>   drivers/staging/vt6655/dpc.c         |  8 +++---
+>   drivers/staging/vt6655/dpc.h         |  2 +-
+>   3 files changed, 28 insertions(+), 22 deletions(-)
+> 
 
-Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
----
-
-Changes in v2:
-    - Rename variable Bandwidth in file rtl819x_HTProc.c which was missed in v1
-
----
- drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c | 6 +++---
- drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.h | 2 +-
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c     | 4 ++--
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h     | 2 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c          | 8 ++++----
- drivers/staging/rtl8192e/rtllib.h                  | 4 ++--
- 6 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
-index 956e8e2a728c..ab2e9b729883 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
-@@ -10,7 +10,7 @@
- #include "r8190P_rtl8256.h"
- 
- void rtl92e_set_bandwidth(struct net_device *dev,
--			  enum ht_channel_width Bandwidth)
-+			  enum ht_channel_width bandwidth)
- {
- 	u8	eRFPath;
- 	struct r8192_priv *priv = rtllib_priv(dev);
-@@ -25,7 +25,7 @@ void rtl92e_set_bandwidth(struct net_device *dev,
- 		if (!rtl92e_is_legal_rf_path(dev, eRFPath))
- 			continue;
- 
--		switch (Bandwidth) {
-+		switch (bandwidth) {
- 		case HT_CHANNEL_WIDTH_20:
- 			rtl92e_set_rf_reg(dev, (enum rf90_radio_path)eRFPath,
- 					  0x0b, bMask12Bits, 0x100);
-@@ -44,7 +44,7 @@ void rtl92e_set_bandwidth(struct net_device *dev,
- 			break;
- 		default:
- 			netdev_err(dev, "%s(): Unknown bandwidth: %#X\n",
--				   __func__, Bandwidth);
-+				   __func__, bandwidth);
- 			break;
- 		}
- 	}
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.h b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.h
-index 4cb483f1a152..3c52e2b43095 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.h
-@@ -9,7 +9,7 @@
- 
- #define RTL819X_TOTAL_RF_PATH 2
- void rtl92e_set_bandwidth(struct net_device *dev,
--			  enum ht_channel_width Bandwidth);
-+			  enum ht_channel_width bandwidth);
- bool rtl92e_config_rf(struct net_device *dev);
- void rtl92e_set_cck_tx_power(struct net_device *dev, u8	powerlevel);
- void rtl92e_set_ofdm_tx_power(struct net_device *dev, u8 powerlevel);
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index 594db05b6558..1b592258e640 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -1194,7 +1194,7 @@ static void _rtl92e_set_bw_mode_work_item(struct net_device *dev)
- 	priv->SetBWModeInProgress = false;
- }
- 
--void rtl92e_set_bw_mode(struct net_device *dev, enum ht_channel_width Bandwidth,
-+void rtl92e_set_bw_mode(struct net_device *dev, enum ht_channel_width bandwidth,
- 			enum ht_extchnl_offset Offset)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
-@@ -1206,7 +1206,7 @@ void rtl92e_set_bw_mode(struct net_device *dev, enum ht_channel_width Bandwidth,
- 	atomic_inc(&(priv->rtllib->atm_swbw));
- 	priv->SetBWModeInProgress = true;
- 
--	priv->CurrentChannelBW = Bandwidth;
-+	priv->CurrentChannelBW = bandwidth;
- 
- 	if (Offset == HT_EXTCHNL_OFFSET_LOWER)
- 		priv->nCur40MhzPrimeSC = HAL_PRIME_CHNL_OFFSET_UPPER;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-index e89c9ac90989..75629f5df954 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-@@ -75,7 +75,7 @@ u8 rtl92e_config_rf_path(struct net_device *dev, enum rf90_radio_path eRFPath);
- 
- u8 rtl92e_set_channel(struct net_device *dev, u8 channel);
- void rtl92e_set_bw_mode(struct net_device *dev,
--			enum ht_channel_width Bandwidth,
-+			enum ht_channel_width bandwidth,
- 			enum ht_extchnl_offset Offset);
- void rtl92e_init_gain(struct net_device *dev, u8 Operation);
- 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 4a3bd49ce81a..ef3dca51cf99 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -503,7 +503,7 @@ static u8 HTFilterMCSRate(struct rtllib_device *ieee, u8 *pSupportMCS,
- }
- 
- void HTSetConnectBwMode(struct rtllib_device *ieee,
--			enum ht_channel_width Bandwidth,
-+			enum ht_channel_width bandwidth,
- 			enum ht_extchnl_offset Offset);
- 
- void HTOnAssocRsp(struct rtllib_device *ieee)
-@@ -850,7 +850,7 @@ static void HTSetConnectBwModeCallback(struct rtllib_device *ieee)
- }
- 
- void HTSetConnectBwMode(struct rtllib_device *ieee,
--			enum ht_channel_width Bandwidth,
-+			enum ht_channel_width bandwidth,
- 			enum ht_extchnl_offset Offset)
- {
- 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
-@@ -859,13 +859,13 @@ void HTSetConnectBwMode(struct rtllib_device *ieee,
- 		return;
- 
- 	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev))
--		Bandwidth = HT_CHANNEL_WIDTH_20;
-+		bandwidth = HT_CHANNEL_WIDTH_20;
- 
- 	if (pHTInfo->sw_bw_in_progress) {
- 		pr_info("%s: sw_bw_in_progress!!\n", __func__);
- 		return;
- 	}
--	if (Bandwidth == HT_CHANNEL_WIDTH_20_40) {
-+	if (bandwidth == HT_CHANNEL_WIDTH_20_40) {
- 		if (ieee->current_network.channel < 2 &&
- 		    Offset == HT_EXTCHNL_OFFSET_LOWER)
- 			Offset = HT_EXTCHNL_OFFSET_NO_EXT;
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index f7c786c8117e..3c72ed2a30a4 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1765,7 +1765,7 @@ struct rtllib_device {
- 	/* check whether Tx hw resource available */
- 	short (*check_nic_enough_desc)(struct net_device *dev, int queue_index);
- 	void (*SetBWModeHandler)(struct net_device *dev,
--				 enum ht_channel_width Bandwidth,
-+				 enum ht_channel_width bandwidth,
- 				 enum ht_extchnl_offset Offset);
- 	bool (*GetNmodeSupportBySecCfg)(struct net_device *dev);
- 	void (*SetWirelessMode)(struct net_device *dev, u8 wireless_mode);
-@@ -2073,7 +2073,7 @@ int rtllib_wx_get_rts(struct rtllib_device *ieee, struct iw_request_info *info,
- #define MAX_RECEIVE_BUFFER_SIZE 9100
- 
- void HTSetConnectBwMode(struct rtllib_device *ieee,
--			enum ht_channel_width Bandwidth,
-+			enum ht_channel_width bandwidth,
- 			enum ht_extchnl_offset Offset);
- void HTUpdateDefaultSetting(struct rtllib_device *ieee);
- void HTConstructCapabilityElement(struct rtllib_device *ieee,
--- 
-2.25.1
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
