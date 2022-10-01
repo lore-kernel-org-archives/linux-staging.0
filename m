@@ -1,107 +1,160 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2D423D1
-	for <linux-staging@lists.linux.dev>; Sat,  1 Oct 2022 09:41:42 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id m15so8774161edb.13
-        for <linux-staging@lists.linux.dev>; Sat, 01 Oct 2022 02:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date;
-        bh=Ca9/JtjBAXJ7Q/8G7d35DLgFmFXGEU6y4hZXwsO0isA=;
-        b=CgBGAp8RNTb0dLB7cxjyWocMCTUYTjRUlaCLbpBUUXE/v3vW8YOasfJF9JNuq3MKlf
-         CBl/ozhfugPlpwjPgJKX0LkrlTS6xjkunpxlEdLpD8Ndg3kK8spa9MmE2+GrabCjwNtX
-         LVrHBgnLdtAtHLuq57f08s+c/mdIo6DHL5cMpHkGIO3+EA06818U7YRqxwMLI0rOZnw8
-         NLCB6GyNOUOiCMrnDnX8eJA1GTQpNfljbO4Lr2Gij2fVsk31ILcBXHBTXvF5CgzmSJ3+
-         WRGJ59FBSY1rOxs92dANuuCOgSxk0Nk5X2esfKZJEAS4ZxxnxTG3V1QBDMZyoQGUCwgl
-         /iDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=Ca9/JtjBAXJ7Q/8G7d35DLgFmFXGEU6y4hZXwsO0isA=;
-        b=TniwfmtFMcaYrhoN3Cw0eJGjCSHQ3tLUA4gR+Ov9Q10O5m44LUpuX82mVRgy6GQ31j
-         LhrIyada2lGhFxiWSEqnkS7F1lb/GwQLdmKQh7bkqMsLiexAV8Lw2biFfxBxWfvgIpYQ
-         V7cV1shepBq6C3lh0EKC8kQYpotDvHepRo7Z+meJ4PYXIU52QwKc8KpvcEb7a9ADzjLN
-         nZETAA8jTD0Vaf89uTOe9x/9AOmP7FHtO0YcGlJST/wCpfRNr7XtKb9QpK1yxSHXdb/F
-         +fNGZ+xs2jKLy/m9x9cq3yTYx5Yzb9Xne5JC2m8BOEudFjMLWuiUeV4mwd3CZCO/2H7x
-         PAzQ==
-X-Gm-Message-State: ACrzQf2lJqIJ7txZT4vfCkLFGY8tvwwkyAMrurULrlfKJ5aGXZvqi4rN
-	WcOSwLj0WgsIr52/8jf3GqrbUI77Cqs=
-X-Google-Smtp-Source: AMsMyM65+/F7PMcMt7l0HNHwPmRBYZP58HiM14eRdaqKqNMSqnxNCyc6U4obN4KkD0gw1O/Mj9vADg==
-X-Received: by 2002:a05:6402:518d:b0:451:6655:5fb4 with SMTP id q13-20020a056402518d00b0045166555fb4mr11036255edd.150.1664617300895;
-        Sat, 01 Oct 2022 02:41:40 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id p12-20020a17090653cc00b0074150f51d86sm2442272ejo.162.2022.10.01.02.41.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Oct 2022 02:41:40 -0700 (PDT)
-Date: Sat, 1 Oct 2022 11:41:38 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/10] staging: rtl8192e: Remove unused variable
- bDriverIsGoingToUnload
-Message-ID: <48a84cbe359f159cc9c296b261256a405ee3884e.1664616227.git.philipp.g.hortmann@gmail.com>
-References: <cover.1664616227.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B267B
+	for <linux-staging@lists.linux.dev>; Sat,  1 Oct 2022 17:06:35 +0000 (UTC)
+Received: from dslb-188-104-058-002.188.104.pools.vodafone-ip.de ([188.104.58.2] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1oefwX-0008H7-Mz; Sat, 01 Oct 2022 19:06:25 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH] staging: r8188eu: remove bLedLinkBlinkInProgress
+Date: Sat,  1 Oct 2022 19:06:18 +0200
+Message-Id: <20221001170618.444444-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1664616227.git.philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-bDriverIsGoingToUnload is never evaluated. Remove resulting dead code.
+Remove the bLedLinkBlinkInProgress component from struct led_priv. Its
+only use is to block requests for "link blinking" when this blinking
+pattern is already active.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+The "link blinking" pattern is a continuous blinking pattern (as opposed
+to other patterns where we blink N times), it's no problem to restart this
+pattern when it's already running.
+
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 3 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 1 -
- 2 files changed, 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_led.c    | 14 --------------
+ drivers/staging/r8188eu/include/rtw_led.h |  1 -
+ 2 files changed, 15 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index f07f0fc690a3..213aac943ef7 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -686,7 +686,6 @@ static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
- 					(&priv->rtllib->PowerSaveControl);
- 	bool init_status;
+diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+index 1e316e6358ea..2527c252c3e9 100644
+--- a/drivers/staging/r8188eu/core/rtw_led.c
++++ b/drivers/staging/r8188eu/core/rtw_led.c
+@@ -26,7 +26,6 @@ static void ResetLedStatus(struct led_priv *pLed)
  
--	priv->bDriverIsGoingToUnload = false;
- 	priv->bdisable_nic = false;
+ 	pLed->BlinkTimes = 0; /*  Number of times to toggle led state for blinking. */
  
- 	priv->up = 1;
-@@ -735,7 +734,6 @@ static int _rtl92e_sta_down(struct net_device *dev, bool shutdownrf)
- 	if (priv->rtllib->state == RTLLIB_LINKED)
- 		rtl92e_leisure_ps_leave(dev);
+-	pLed->bLedLinkBlinkInProgress = false;
+ 	pLed->bLedScanBlinkInProgress = false;
+ }
  
--	priv->bDriverIsGoingToUnload = true;
- 	priv->up = 0;
- 	priv->rtllib->ieee_up = 0;
- 	priv->bfirst_after_down = true;
-@@ -838,7 +836,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
- 	priv->polling_timer_on = 0;
- 	priv->up_first_time = 1;
- 	priv->blinked_ingpio = false;
--	priv->bDriverIsGoingToUnload = false;
- 	priv->being_init_adapter = false;
- 	priv->initialized_at_probe = false;
- 	priv->bdisable_nic = false;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index c536131ecd5d..1ae3c77e2fef 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -311,7 +311,6 @@ struct r8192_priv {
- 	bool		bfirst_after_down;
- 	bool		initialized_at_probe;
- 	bool		being_init_adapter;
--	bool		bDriverIsGoingToUnload;
+@@ -99,7 +98,6 @@ static void blink_work(struct work_struct *work)
+ 		pLed->BlinkTimes--;
+ 		if (pLed->BlinkTimes == 0) {
+ 			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+-				pLed->bLedLinkBlinkInProgress = true;
+ 				pLed->CurrLedState = LED_BLINK_NORMAL;
+ 				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+ 			} else {
+@@ -115,7 +113,6 @@ static void blink_work(struct work_struct *work)
+ 		pLed->BlinkTimes--;
+ 		if (pLed->BlinkTimes == 0) {
+ 			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+-				pLed->bLedLinkBlinkInProgress = true;
+ 				pLed->CurrLedState = LED_BLINK_NORMAL;
+ 				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+ 			} else {
+@@ -132,7 +129,6 @@ static void blink_work(struct work_struct *work)
+ 		break;
+ 	case LED_BLINK_WPS_STOP:	/* WPS success */
+ 		if (!pLed->bLedOn) {
+-			pLed->bLedLinkBlinkInProgress = true;
+ 			pLed->CurrLedState = LED_BLINK_NORMAL;
+ 			schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
  
- 	int		irq;
- 	short	irq_enabled;
+@@ -189,23 +185,18 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+ 
+ 		cancel_delayed_work(&pLed->blink_work);
+ 
+-		pLed->bLedLinkBlinkInProgress = false;
+ 		pLed->bLedBlinkInProgress = false;
+ 
+ 		pLed->CurrLedState = LED_BLINK_SLOWLY;
+ 		schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
+ 		break;
+ 	case LED_CTL_LINK:
+-		if (!pLed->bLedLinkBlinkInProgress)
+-			return;
+-
+ 		if (pLed->CurrLedState == LED_BLINK_SCAN || IS_LED_WPS_BLINKING(pLed))
+ 			return;
+ 
+ 		cancel_delayed_work(&pLed->blink_work);
+ 
+ 		pLed->bLedBlinkInProgress = false;
+-		pLed->bLedLinkBlinkInProgress = true;
+ 
+ 		pLed->CurrLedState = LED_BLINK_NORMAL;
+ 		schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+@@ -222,7 +213,6 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+ 
+ 		cancel_delayed_work(&pLed->blink_work);
+ 
+-		pLed->bLedLinkBlinkInProgress = false;
+ 		pLed->bLedBlinkInProgress = false;
+ 		pLed->bLedScanBlinkInProgress = true;
+ 
+@@ -240,7 +230,6 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+ 
+ 		cancel_delayed_work(&pLed->blink_work);
+ 
+-		pLed->bLedLinkBlinkInProgress = false;
+ 		pLed->bLedBlinkInProgress = true;
+ 
+ 		pLed->CurrLedState = LED_BLINK_TXRX;
+@@ -253,7 +242,6 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+ 
+ 		cancel_delayed_work(&pLed->blink_work);
+ 
+-		pLed->bLedLinkBlinkInProgress = false;
+ 		pLed->bLedBlinkInProgress = false;
+ 		pLed->bLedScanBlinkInProgress = false;
+ 		pLed->bLedWPSBlinkInProgress = true;
+@@ -263,7 +251,6 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+ 	case LED_CTL_STOP_WPS:
+ 		cancel_delayed_work(&pLed->blink_work);
+ 
+-		pLed->bLedLinkBlinkInProgress = false;
+ 		pLed->bLedBlinkInProgress = false;
+ 		pLed->bLedScanBlinkInProgress = false;
+ 		pLed->bLedWPSBlinkInProgress = true;
+@@ -283,7 +270,6 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+ 		break;
+ 	case LED_CTL_POWER_OFF:
+ 		pLed->CurrLedState = RTW_LED_OFF;
+-		pLed->bLedLinkBlinkInProgress = false;
+ 		pLed->bLedBlinkInProgress = false;
+ 		pLed->bLedWPSBlinkInProgress = false;
+ 		pLed->bLedScanBlinkInProgress = false;
+diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
+index 8520f022a67f..f57dcf6c8b24 100644
+--- a/drivers/staging/r8188eu/include/rtw_led.h
++++ b/drivers/staging/r8188eu/include/rtw_led.h
+@@ -47,7 +47,6 @@ struct led_priv {
+ 
+ 	u32 BlinkTimes; /*  Number of times to toggle led state for blinking. */
+ 
+-	bool bLedLinkBlinkInProgress;
+ 	bool bLedScanBlinkInProgress;
+ 	struct delayed_work blink_work;
+ };
 -- 
-2.37.3
+2.30.2
 
