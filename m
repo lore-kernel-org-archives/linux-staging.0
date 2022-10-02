@@ -1,96 +1,73 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242F82560
-	for <linux-staging@lists.linux.dev>; Sun,  2 Oct 2022 08:59:18 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id m3so10960915eda.12
-        for <linux-staging@lists.linux.dev>; Sun, 02 Oct 2022 01:59:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D299B7B
+	for <linux-staging@lists.linux.dev>; Sun,  2 Oct 2022 14:35:54 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id sd10so17684368ejc.2
+        for <linux-staging@lists.linux.dev>; Sun, 02 Oct 2022 07:35:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=uVu0SvdloXokDRTN006ycde9T0CVjOI7b8JYiukwlsM=;
-        b=NVVzoCvK7tW4W0iqLO3s7uc8Mf/czS+Ipe8F1aqxk7jXXcJ7SBRt/OGU9xfhrtRCXv
-         aPB6epmYJielpX9Bi+h2wDYL/UlQnJQJisiWRC89iw9A/3Fq3MY1WnOI+SvbUISKc+a3
-         hUm4UP49xEIhUAyAQ1FXggui9a84o/kvu0stGiytHGym7gRO9dNEWh3tH3OTb3k1diBf
-         +cLyK+kdEbrqnD9gAnx9cLUE1rw8AYyA50X/C0f1SW42A4LIwe72M0+59nxk4fRB87vp
-         OxVogXxpNq/74CqBYalixwhBW/8SWqmXXk/SGbYGwlMKw8t43ce7D95jy+Uv//DWUbPW
-         w8GQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=bc5eiXxNF6lAuSNI8nCdi3lf1DQ5k+XIN3ee4g+RQ7o=;
+        b=fVoHSgG5614hcdqS185DfH52igj/BcOJSSQ0enSfLX42LacIpTQWU8rPW50NqLE0io
+         PTYSH7sCOA+E4D9r+1srs+HsCCZTMi8Y32KswLCwoDhstW0RjAmwk3RvIcGM3/3XClEu
+         GGzKrnBGP7T9II+jEvaU31NoHSQ4jMz+S9Rveesyu9RInqmph8fLsm5aVWzZf+rTXDjl
+         exJZ4WLanG8CR6v5+CGpMBKBHURSEHjEP7Hfc1Iwc6cS2q7IA1d/ZcVCgeuxluF3WPK3
+         Lliw5sHW1q9uQ9Tj/ghBr484EXLsLh3MYlzaWxvjzc7dznlDCLrDkCRJqEdNi+6F1lCl
+         PQLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=uVu0SvdloXokDRTN006ycde9T0CVjOI7b8JYiukwlsM=;
-        b=uQRPsJEqGGxgGzN+vfxSwwZoYMZHsSnsP8td78H0dB2cp/BmYNGA2/7F59UueCa/L6
-         T/a7AMWYg9yboFStSkOm6lt+MTdkpXhRFJBBcD7wxAikCvMDuHqEg2FPPLf1oXwLXJjc
-         phxsozZGv3G4DrpCtpPmSavc0VayFCAie1df68JIezzE23/FYIdr9IDRoyfI1P34cOuS
-         8bjKqkBpcTsaq/TRFV9IXpKYt7gsaJ2FALClRXq22AlP00ORq69dQHxuk43sAFC+FvUC
-         1olQVNOguPo1YSLDTJ4V0hLLRI5vVP9xsNdfwxcknPoQ/GkE2T387PflWwU12X7K9xVW
-         mlHw==
-X-Gm-Message-State: ACrzQf046f+Yh/KuskjGi5lHHvS3qaDwyGT6fqy1FnTY4wL01hF3odqT
-	foYGGLASmND8jCp1REOG8Y4=
-X-Google-Smtp-Source: AMsMyM6Q725JSWV2qqiSDrNxPMcuR7pPZkXxQTyg4CVtFlRiHibRyt/1R6KkgtmR0QnmIzMEp0704w==
-X-Received: by 2002:a50:9991:0:b0:458:a612:bf5a with SMTP id m17-20020a509991000000b00458a612bf5amr6286995edb.22.1664701156414;
-        Sun, 02 Oct 2022 01:59:16 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f3e:6a95:e9c7:da34:4bcf:58e7? (p200300c78f3e6a95e9c7da344bcf58e7.dip0.t-ipconnect.de. [2003:c7:8f3e:6a95:e9c7:da34:4bcf:58e7])
-        by smtp.gmail.com with ESMTPSA id c24-20020aa7c758000000b00443d657d8a4sm4926486eds.61.2022.10.02.01.59.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Oct 2022 01:59:16 -0700 (PDT)
-Message-ID: <3d4a383b-8029-90e3-867b-c91a19345263@gmail.com>
-Date: Sun, 2 Oct 2022 10:59:15 +0200
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=bc5eiXxNF6lAuSNI8nCdi3lf1DQ5k+XIN3ee4g+RQ7o=;
+        b=dhkNju75oe9L2PTyLnSUM0xXKjuv1z7JBC0AFrQaVxBgKCTIIRSDgk21diDDr4wv37
+         KJ/0fAgzvY+b0hIw8vnI6ez7s8a65lzWWzet+CC6Q9zVFtCDITw0yyjCvk7dqqAdDOBB
+         i1RlMB1XsNmXR3btT+YtY4gpicTaQGtGxKXIaBk5wtuQ+bAHbCZ+sBI6NCHZGkhlUmXo
+         ex8LTSQnI8OWhc7eM9Gw3W62NQgEUOUx85b4QFPFPpo0zsecm+gzPNee+6IULU/DNKis
+         L3V8eT4isBmJ2CO1hpl+lS/uQNDmy+N4r4ZRAwTRQ8oitxuGQtlevEUshMCurC5pPmFc
+         9KOQ==
+X-Gm-Message-State: ACrzQf2kxRbkZd/JYhhb3Pg3swTkBO5MlMF7EMSitgqCSUnK9EqKbt/+
+	s6RjbJiGinEcJjqmmotcw0w=
+X-Google-Smtp-Source: AMsMyM5IOqGjIuKeoADZ6+lyLE1jB++RQhqZJarLSc4VeOzyyxevvrALA0SeJ3G4J1Hma0+p1X1+UQ==
+X-Received: by 2002:a17:906:4fd1:b0:787:434f:d755 with SMTP id i17-20020a1709064fd100b00787434fd755mr12224992ejw.356.1664721353151;
+        Sun, 02 Oct 2022 07:35:53 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb59.dynamic.kabel-deutschland.de. [95.90.187.89])
+        by smtp.gmail.com with ESMTPSA id 17-20020a170906301100b00731582babcasm4082334ejz.71.2022.10.02.07.35.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Oct 2022 07:35:52 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/2] staging: r8188eu: convert two functions to void
+Date: Sun,  2 Oct 2022 16:35:42 +0200
+Message-Id: <20221002143544.7974-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/5] staging: r8188eu: some cleanups
-Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221002074827.8566-1-straube.linux@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221002074827.8566-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/2/22 09:48, Michael Straube wrote:
-> The first patch of this series merges leftover macros in odm_types.h
-> into appropriate other headers and removes odm_types.h.
-> 
-> The other patches convert some functions away from returning _FAIL /
-> _SUCCESS.
-> 
-> Note: Converting _rtw_init_xmit_priv() and _rtw_init_recv_priv() away
-> from _FAIL / _SUCCESS is a bit more complicated. I am going to do that
-> in follow up patches.
-> 
-> Tested on x86_64 with Inter-Tech DMG-02.
-> 
-> Michael Straube (5):
->    staging: r8188eu: merge odm_types.h into other headers
->    staging: r8188eu: convert rtw_init_evt_priv() to common error logic
->    staging: r8188eu: convert rtw_init_cmd_priv() to common error logic
->    staging: r8188eu: convert rtw_init_mlme_priv() to common error logic
->    staging: r8188eu: convert _rtw_init_sta_priv() to common error logic
-> 
->   drivers/staging/r8188eu/core/rtw_cmd.c         | 16 +++++++---------
->   drivers/staging/r8188eu/core/rtw_mlme.c        | 12 ++++--------
->   drivers/staging/r8188eu/core/rtw_sta_mgt.c     |  6 +++---
->   drivers/staging/r8188eu/include/odm.h          |  3 ++-
->   drivers/staging/r8188eu/include/odm_RTL8188E.h |  7 +++++++
->   drivers/staging/r8188eu/include/odm_types.h    | 16 ----------------
->   drivers/staging/r8188eu/include/rtl8188e_hal.h |  1 -
->   drivers/staging/r8188eu/include/rtw_cmd.h      |  4 ++--
->   drivers/staging/r8188eu/include/sta_info.h     |  2 +-
->   drivers/staging/r8188eu/os_dep/os_intfs.c      |  8 ++++----
->   10 files changed, 30 insertions(+), 45 deletions(-)
->   delete mode 100644 drivers/staging/r8188eu/include/odm_types.h
-> 
+This series converts two functions return type from u8 to void as
+part of getting rid of _FAIL / _SUCCESS.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Tested on x86_64 with Inter-Tech DMG-02.
+
+Michael Straube (2):
+  staging: r8188eu: convert rtw_reset_drv_sw() to void
+  staging: r8188eu: convert rtw_free_drv_sw() to void
+
+ drivers/staging/r8188eu/include/osdep_intf.h | 4 ++--
+ drivers/staging/r8188eu/os_dep/os_intfs.c    | 8 ++------
+ 2 files changed, 4 insertions(+), 8 deletions(-)
+
+-- 
+2.37.3
+
