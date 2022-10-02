@@ -1,38 +1,38 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8647523BF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA15623C1
 	for <linux-staging@lists.linux.dev>; Sun,  2 Oct 2022 07:48:49 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id s2so291093edd.2
+Received: by mail-ed1-f52.google.com with SMTP id m15so10852572edb.13
         for <linux-staging@lists.linux.dev>; Sun, 02 Oct 2022 00:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=w+EWhQ/spGU7Ku7CRdrNSboZT6E/J8iiRvKE32O8saI=;
-        b=B4KhHBB0VlRi4Wqe3ZxycoZkgdRkGgdABoqeX87nPUnLh5kfybH1xYSqKJDenZ7U5v
-         tlUccxpIaExWL7joyMlrZj0WxmDXo1KFZ8FEpUKRZwLJpoFw73qy9O/phAFSFJU2KSCa
-         OuTLqBKjn+MD/cpscCn33HdqZnXiug6Exq37sQvi1LNl9wsYwuQeCRh+RBefTL+OIlBM
-         YlzleyygGEyDF1hovX6sFF6pZMgN2cU1KX9n17T1Yuuqcj+vref2ONK9P0cYgtckzWt6
-         qzikF3k02A9UKOTrRGWmcXP+574gDN0eqhx7z+9S2iWm1aVZXIlSRIvx1o6/bAc+T6o9
-         Delw==
+        bh=MeUagKMqLt8xwygfI7Rpy9NQam9xN4XTEL4NIRU0X5U=;
+        b=X88fLBEp/yxMlHnIPnDMWluSdNXYBG+JJCy2GcrYkxP4+y4Ew++JA/32GKUKFW064z
+         9tEJRuqa7ZzqiZPr4PFMn5qMsd08HP0W/oyekST+9AmfJMiS3hGZrkdr7PoM3UGcrhO4
+         Yq/rIPF/0jWYUkrb/KHRjnKRZMH8GTVQkuBdKQGmT40niFD5VQGvwwUdyX231f2peCDF
+         TPb+zwrDAMhzLXV3vTRugwxnUfES6dvSYChDrOeoT+iFbT53tZCMtryCAw/pioubTnld
+         AzfwBhbNlTzru6OqRhk1ci/wra1YAfpF/GHKdvzFGUx6RlWXS8oweFdul8YVV9KWYfLJ
+         HaRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=w+EWhQ/spGU7Ku7CRdrNSboZT6E/J8iiRvKE32O8saI=;
-        b=jy1Mdrmc+IA+NtecfFH0avqm4yWUpOcMzYeIqLrIez2EJNUAd7WcKHJ+ut4aoQI44B
-         2gnnmzgmiRc5vv+gweA0FExygZRgONAtSscroPaA2xJCpL9lK9m/c7YgiuG3YSegM5Du
-         93obV5MOr0YrOG6i4L25XN5ub9bf46mrr/JbcyuluGgPZJ3r/AgfLqo0nEqBAcmUOvz8
-         HSrGlXF2LMeVAJK8G9xQ9ZYnWaaO/vVo6E4Z8Gy9gzphE91S/tHL5xUQyCdqMbskP7nd
-         bj5UVyUGlMaJEL3DQtFWtBY1G7ARafb0VrhEKMBREGAX3KZ2eKThan36UUg3+F4zBxrz
-         K2Zg==
-X-Gm-Message-State: ACrzQf3L+H4ud81gl3AgtshhB2GSr1hGiwimk4I5jgxnad0r81obSDm4
-	l3014wTIEonf0I5zabEzaBs7ynX5N1Y=
-X-Google-Smtp-Source: AMsMyM6unR/8rXfKlWjqDnUQZhBl+DfICMc7oVL+kzOWeow7f43gxUO3rz73V4jXfEs6UK8M0JTtqw==
-X-Received: by 2002:a05:6402:34d5:b0:451:335c:2f1e with SMTP id w21-20020a05640234d500b00451335c2f1emr13944586edc.160.1664696927700;
-        Sun, 02 Oct 2022 00:48:47 -0700 (PDT)
+        bh=MeUagKMqLt8xwygfI7Rpy9NQam9xN4XTEL4NIRU0X5U=;
+        b=cj9k9FFkV0lElzD06uiFECNAHEPIdwovhpreXYBfmmgyIYSoyT3FuuQdl94HvNmXS5
+         sQigMN7KSLm8jjl3OunwtNB6ImJe1fZqEPqZmhZBprzjK76PT/X1P3Phtp/P14bjdS5t
+         nMixIKurqzUSHaP7stddjn3HW6128ruK2TLYZaWcjBMX1c4Kmtf5GluteZK70NHo3PVd
+         7KTceQZLbHrh3fg2gfVozN/WtE6QYTZrTMMzp6GqWfE0RZPLbrbgJ5A3Cp1a0kbrVbWb
+         IrO4ufgz778zUqRGEoR7Xgp1rJ6iEVNKPaoeTXPrHFoVgc9Iu4MJ3+Rb7paWtqmq2afV
+         lxTg==
+X-Gm-Message-State: ACrzQf2+M9WkJ3N4iouyCD/a10jDkonWjEK02KzP5r7WHXow3ZULFdPL
+	pWlGaIcneFHJubQ35eb1t/M=
+X-Google-Smtp-Source: AMsMyM4SKYf2u5KGEOkJ72hBl/3xQH6I+tj5+Zc7/drnjl7FqUag/vegCrfr4/0MLTNXinkxIDzXaw==
+X-Received: by 2002:a05:6402:3603:b0:451:fdda:dddd with SMTP id el3-20020a056402360300b00451fddaddddmr13748554edb.81.1664696928230;
+        Sun, 02 Oct 2022 00:48:48 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb59.dynamic.kabel-deutschland.de. [95.90.187.89])
         by smtp.gmail.com with ESMTPSA id q26-20020a17090676da00b0077ce503bd77sm3608536ejn.129.2022.10.02.00.48.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -44,9 +44,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/5] staging: r8188eu: merge odm_types.h into other headers
-Date: Sun,  2 Oct 2022 09:48:23 +0200
-Message-Id: <20221002074827.8566-2-straube.linux@gmail.com>
+Subject: [PATCH 2/5] staging: r8188eu: convert rtw_init_evt_priv() to common error logic
+Date: Sun,  2 Oct 2022 09:48:24 +0200
+Message-Id: <20221002074827.8566-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221002074827.8566-1-straube.linux@gmail.com>
 References: <20221002074827.8566-1-straube.linux@gmail.com>
@@ -58,90 +58,72 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The macros SET_TX_DESC_ANTSEL_{A,B,C}_88E are used in odm_RTL8188E.c.
-Move them from odm_types.h to odm_RTL8188E.h.
-
-ODM_CE is used in places where also ODM_ITRF_USB is used in the code.
-Move the ODM_CE define to the header that defines ODM_ITRF_USB. While
-at it remove an extra space between '#' and 'define ODM_ITRF_USB'.
-
-The haeder odm_types.h is now empty and we can remove it.
+Convert the function rtw_init_evt_priv() to common kernel error logic.
+Return 0 on success and negative value on failure. This is part of
+getting rid of returning _SUCCESS and _FAIL which uses inverted error
+logic and is used all over the driver.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/odm.h          |  3 ++-
- drivers/staging/r8188eu/include/odm_RTL8188E.h |  7 +++++++
- drivers/staging/r8188eu/include/odm_types.h    | 16 ----------------
- drivers/staging/r8188eu/include/rtl8188e_hal.h |  1 -
- 4 files changed, 9 insertions(+), 18 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/odm_types.h
+ drivers/staging/r8188eu/core/rtw_cmd.c    | 8 +++-----
+ drivers/staging/r8188eu/include/rtw_cmd.h | 2 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c | 2 +-
+ 3 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index f131e17167bf..89b01dd614ba 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -119,7 +119,8 @@ enum odm_ability_def {
- 	ODM_BB_PWR_TRA			= BIT(8),
- };
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 3fadace33de6..88b939e42f5a 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -90,10 +90,8 @@ u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 	return _SUCCESS;
+ }
  
--# define ODM_ITRF_USB 0x2
-+#define ODM_ITRF_USB	0x2
-+#define ODM_CE		0x04
+-u32 rtw_init_evt_priv(struct evt_priv *pevtpriv)
++int rtw_init_evt_priv(struct evt_priv *pevtpriv)
+ {
+-	u32 res = _SUCCESS;
+-
+ 	/* allocate DMA-able/Non-Page memory for cmd_buf and rsp_buf */
+ 	atomic_set(&pevtpriv->event_seq, 0);
  
- /*  ODM_CMNINFO_WM_MODE */
- enum odm_wireless_mode {
-diff --git a/drivers/staging/r8188eu/include/odm_RTL8188E.h b/drivers/staging/r8188eu/include/odm_RTL8188E.h
-index 3c6471f1a893..4f16af248591 100644
---- a/drivers/staging/r8188eu/include/odm_RTL8188E.h
-+++ b/drivers/staging/r8188eu/include/odm_RTL8188E.h
-@@ -11,6 +11,13 @@
- #define	MAIN_ANT_CGCS_RX	0
- #define	AUX_ANT_CGCS_RX	1
+@@ -101,9 +99,9 @@ u32 rtw_init_evt_priv(struct evt_priv *pevtpriv)
+ 	pevtpriv->c2h_wk_alive = false;
+ 	pevtpriv->c2h_queue = rtw_cbuf_alloc(C2H_QUEUE_MAX_LEN + 1);
+ 	if (!pevtpriv->c2h_queue)
+-		res = _FAIL;
++		return -ENOMEM;
  
-+#define SET_TX_DESC_ANTSEL_A_88E(__ptxdesc, __value)			\
-+	le32p_replace_bits((__le32 *)(__ptxdesc + 8), __value, BIT(24))
-+#define SET_TX_DESC_ANTSEL_B_88E(__ptxdesc, __value)			\
-+	le32p_replace_bits((__le32 *)(__ptxdesc + 8), __value, BIT(25))
-+#define SET_TX_DESC_ANTSEL_C_88E(__ptxdesc, __value)			\
-+	le32p_replace_bits((__le32 *)(__ptxdesc + 28), __value, BIT(29))
-+
- void ODM_AntennaDiversityInit_88E(struct odm_dm_struct *pDM_Odm);
+-	return res;
++	return 0;
+ }
  
- void ODM_AntennaDiversity_88E(struct odm_dm_struct *pDM_Odm);
-diff --git a/drivers/staging/r8188eu/include/odm_types.h b/drivers/staging/r8188eu/include/odm_types.h
-deleted file mode 100644
-index 76302df4b330..000000000000
---- a/drivers/staging/r8188eu/include/odm_types.h
-+++ /dev/null
-@@ -1,16 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef __ODM_TYPES_H__
--#define __ODM_TYPES_H__
--
--#define	ODM_CE			0x04	/* BIT(2) */
--
--#define SET_TX_DESC_ANTSEL_A_88E(__ptxdesc, __value)			\
--	le32p_replace_bits((__le32 *)(__ptxdesc + 8), __value, BIT(24))
--#define SET_TX_DESC_ANTSEL_B_88E(__ptxdesc, __value)			\
--	le32p_replace_bits((__le32 *)(__ptxdesc + 8), __value, BIT(25))
--#define SET_TX_DESC_ANTSEL_C_88E(__ptxdesc, __value)			\
--	le32p_replace_bits((__le32 *)(__ptxdesc + 28), __value, BIT(29))
--
--#endif /*  __ODM_TYPES_H__ */
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index ed4091e7cc7e..a1e88e6d5c0c 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -14,7 +14,6 @@
- #include "rtl8188e_xmit.h"
- #include "rtl8188e_cmd.h"
- #include "rtw_efuse.h"
--#include "odm_types.h"
- #include "odm.h"
- #include "odm_HWConfig.h"
- #include "odm_RegDefine11N.h"
+ void rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
+diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
+index 9a76aa85de94..c6c48e1fb961 100644
+--- a/drivers/staging/r8188eu/include/rtw_cmd.h
++++ b/drivers/staging/r8188eu/include/rtw_cmd.h
+@@ -85,7 +85,7 @@ int rtw_cmd_thread(void *context);
+ u32 rtw_init_cmd_priv(struct cmd_priv *pcmdpriv);
+ void rtw_free_cmd_priv(struct cmd_priv *pcmdpriv);
+ 
+-u32 rtw_init_evt_priv(struct evt_priv *pevtpriv);
++int rtw_init_evt_priv(struct evt_priv *pevtpriv);
+ void rtw_free_evt_priv(struct evt_priv *pevtpriv);
+ void rtw_evt_notify_isr(struct evt_priv *pevtpriv);
+ u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType);
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 6a45315d01a2..dd4c89d7390d 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -468,7 +468,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ 
+ 	padapter->cmdpriv.padapter = padapter;
+ 
+-	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL) {
++	if (rtw_init_evt_priv(&padapter->evtpriv)) {
+ 		dev_err(dvobj_to_dev(padapter->dvobj), "rtw_init_evt_priv failed\n");
+ 		goto free_cmd_priv;
+ 	}
 -- 
 2.37.3
 
