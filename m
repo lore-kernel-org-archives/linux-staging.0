@@ -1,50 +1,52 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48DE3D8A
-	for <linux-staging@lists.linux.dev>; Tue,  4 Oct 2022 15:35:42 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id j7so16558659wrr.3
-        for <linux-staging@lists.linux.dev>; Tue, 04 Oct 2022 08:35:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B034A3D8A
+	for <linux-staging@lists.linux.dev>; Tue,  4 Oct 2022 16:13:39 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id y23-20020a1c4b17000000b003bd336914f9so1115221wma.4
+        for <linux-staging@lists.linux.dev>; Tue, 04 Oct 2022 09:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date;
-        bh=Fnxz/FgbBcFq4rNqZeP0eKgDgySuZn3DQygIlWco2j8=;
-        b=CtaHLELVve9x0A7M4dLcyD7n2V8rEhtcfmFiZAoD5is91S2xCNveQdtEASbT+c9ry2
-         qejCWansKCrnDqDxPkMgY4Bkdc0AGKYgESdnjY9Nzrxp487vmshc55O2tTbrFJu4WzV6
-         TRYyNSw6D64uqca2iKAhTM4cLCsyPdrw8Vy1kpDnsOaQ88hjpDs02okrYgdKTV4V4J33
-         FR32o2ur803faw6h7OhUFJw7oXFgmBH4OUQqzK4G4vk6oKCIveTrgDxyeim9hSQESRov
-         END+zdoFiPh4nVGrkp+U/27Lha5FwAYr6pSrs7JShJwSfQ6vidbq0/7NPdW/b7mxTpgn
-         00+g==
+        bh=l1KZpUgo00G/5L4dmMW5myayn4Zqd7m3fQ8mEVKtoi0=;
+        b=ZaacCWCIe0ILL/+CwFEyO4+MxyQwkhPj6wNUBHx/wY4ZSIzoXw4ecmNJOCYM57Sv4C
+         vAKGjElpFDakNao2KI3c0I4dTS6XTzz9EdDBu4z6927BruzU1CtKm0bGl6fqAAPedpWu
+         rs9UhjZUc+EkaoCEK0EPc1b6mleAaw9jkD1D7kWIukyTJsSoHj62KTP2QbDa29qn0DbJ
+         xfCx+buSmZrf+YOJ1UGmr8xU0RirEDs1zTa+MSMsO1WHfU3JFF69FvHqeFEQESkLk3gm
+         xhZI9jtNNZosaQaWVWXG6aBvzdd9kzda2Aflh3/OeAt5CCrh80FRIDwGbkbvD/Kq4VQv
+         WWqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=Fnxz/FgbBcFq4rNqZeP0eKgDgySuZn3DQygIlWco2j8=;
-        b=osri9iR9zc8lqhOySJzqxsz2Lf7aItuNoL45CAHf3DhI6o43c34FNEsrqZDpoUKo86
-         7LK/UaC7+TEyjISgHIqxOl8eIoaSY8cXm+NmAW3ofZZv2gUlaIxY25DULPRLZPA8k1lD
-         MrhAihzCGrDdqMi8Yg0HPifdLcg+tvNMKVRJbRanFeppnAvcJunmvaCCKyva/l4GnIBr
-         mGSRICFJjXuaN/E6ymRa8hPb9etwWjt1iOlN/NfUlun6QdJH0YsJS/JFWcWZB6CDyFzx
-         +dxlZL2r10a9Yos1UpgtILa9haAW90Zn+a7PqCEIkYKwHOwcCoHC/yJKl8WH5w6jAsiG
-         l9cg==
-X-Gm-Message-State: ACrzQf2tq5qY/52B6zpcYSqAuYB3ZmIUpVGm4Er672KvKI58TsITJ5zn
-	ZJCxI9aDNNNxHkJc/5Q1oZY=
-X-Google-Smtp-Source: AMsMyM4u+Eg/UjClIph3yU19zrsXuO9gz7e0Xl6gewESqCAluwQoVYTRmyh0IU8sHkfGI8LNK4OBsg==
-X-Received: by 2002:a5d:59af:0:b0:22e:32be:60f1 with SMTP id p15-20020a5d59af000000b0022e32be60f1mr8897460wrr.81.1664897740920;
-        Tue, 04 Oct 2022 08:35:40 -0700 (PDT)
+        bh=l1KZpUgo00G/5L4dmMW5myayn4Zqd7m3fQ8mEVKtoi0=;
+        b=77vvRamV++9QiLnHwpJ3rsNU1JBkIj4XC16AnEKXR9A8EZgBXkFCeNVCsoujk2PGJA
+         yXGOWJh8OR+BUIkQz3kv5ZjLEITVYVgu4eyIBtXLroXmweZDHdtOg5pNNbIR63WCotUd
+         FaSn71T9WJZ5LIOIVlgxBgBBkMxXfbB+B4qav8+pz8sPoLgNgqThU3uMFGFtsXltmJyr
+         +hyy+DcBC2C6uoidPJ11O7R/NWLnijnbSjT34IUMVDooqSZsXSStERGq5Jn14xTK0Ekq
+         aSHr/wWoew+aBlhJrhyh1kzWhxE6eLZicJU7XdOpoYnYCJ83jZfe6q8+0KU/6fky+Hoe
+         whWA==
+X-Gm-Message-State: ACrzQf2ERZw638eTWxQIf9uPF9Y+MdnPsM2KLvvr8VpUqyWhWBiqTpZp
+	G4BSFu2yEu2U2ku/Ah5eZvmazOG8xixQiWdb
+X-Google-Smtp-Source: AMsMyM5fuTuElVWbTJBd+GRRwB0eIy4mOiqZXTScu7eYqYNWJ4h3qgVk9rHIVmD1F/k1NAZEMaOc0Q==
+X-Received: by 2002:a05:600c:3b13:b0:3b4:757d:93a5 with SMTP id m19-20020a05600c3b1300b003b4757d93a5mr354003wms.183.1664900018064;
+        Tue, 04 Oct 2022 09:13:38 -0700 (PDT)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id fc9-20020a05600c524900b003b31c560a0csm16200200wmb.12.2022.10.04.08.35.39
+        by smtp.gmail.com with ESMTPSA id h9-20020a1c2109000000b003b4fac020c8sm19116073wmh.16.2022.10.04.09.13.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 08:35:40 -0700 (PDT)
+        Tue, 04 Oct 2022 09:13:37 -0700 (PDT)
 From: Colin Ian King <colin.i.king@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Saurav Girepunje <saurav.girepunje@gmail.com>,
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Cc: kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: Remove redundant initialization of variable efuseValue
-Date: Tue,  4 Oct 2022 16:35:39 +0100
-Message-Id: <20221004153539.150867-1-colin.i.king@gmail.com>
+Subject: [PATCH] media: atomisp: Fix spelling mistake "modee" -> "mode"
+Date: Tue,  4 Oct 2022 17:13:36 +0100
+Message-Id: <20221004161336.155337-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,32 +57,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-The variable efuseValue is being initialized with a value that is never
-read. The variable is being re-assigned later on. The initialization is
-redundant and can be removed.
-
-Cleans up warning:
-drivers/staging/rtl8723bs/core/rtw_efuse.c:285:6: warning: variable
-'efuseValue' set but not used [-Wunused-but-set-variable]
+There is a spelling mistake in a literal string. Fix it.
 
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c | 2 +-
+ .../media/atomisp/pci/css_2401_system/host/pixelgen_private.h   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index 06e727ce9cc2..eb848f9bbf2c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -282,7 +282,7 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
- {
- 	u8 tmpidx = 0;
- 	u8 bResult = false;
--	u32 efuseValue = 0;
-+	u32 efuseValue;
- 
- 	if (bPseudoTest)
- 		return Efuse_Write1ByteToFakeContent(addr, data);
+diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h b/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
+index 1c7938d8ccb5..8f79424bedb2 100644
+--- a/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
++++ b/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
+@@ -161,7 +161,7 @@ STORAGE_CLASS_PIXELGEN_C void pixelgen_ctrl_dump_state(
+ 		     state->syng_stat_fcnt);
+ 	ia_css_print("Pixel Generator ID %d syng stat done  0x%x\n", ID,
+ 		     state->syng_stat_done);
+-	ia_css_print("Pixel Generator ID %d tpg modee  0x%x\n", ID, state->tpg_mode);
++	ia_css_print("Pixel Generator ID %d tpg mode  0x%x\n", ID, state->tpg_mode);
+ 	ia_css_print("Pixel Generator ID %d tpg hcnt mask  0x%x\n", ID,
+ 		     state->tpg_hcnt_mask);
+ 	ia_css_print("Pixel Generator ID %d tpg hcnt mask  0x%x\n", ID,
 -- 
 2.37.1
 
