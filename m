@@ -1,134 +1,90 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1anam02on2080.outbound.protection.outlook.com [40.107.96.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C44322B
-	for <linux-staging@lists.linux.dev>; Wed,  5 Oct 2022 16:10:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ciuo0NNosZ95mcX8KKCTil6VNyq7HZrsT6LxQ5m3TbTtPnwcSjaSr5Qh986ywvXjxC57ucUlf/74aIsrwnM2dzgfPx08/eW3aHHFuaSKt4E3+6KdnTpXAYyN2zEdKANA/ekbG5pIAr8ek7Buvg5QYl3TAp4XGz6M4bT1dgKA7XSWKtWp+lI1smoYJMch9t8jQInr5LCrZJQt8TGKPk4Q+VE1QpY1Xobh5fVQ9VUsLCWaWBzls2Sw4bF6uQrX69eBW/Uo+cdt5bVNLMVDJAcVvuDGSm/QP0PTvcVhDQms4IIExX5ZrGMniupk16cC56x92jeAd49uuu/exK1oId1vow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5lbocmqso65Nm61naEJ91gjCoUGy51y3HBaL4ntgDaE=;
- b=UWIhXAa21xvns7JBNbxUgqjTeceHjEX41g/eFvYiFpWAzkmiNOhe1Ea68EORsgF7sypb+W+B4IjU2muWyGGOQQAD0HXbtW1YW1llMcysdH5JJXEMyca0uL0T/xV30jJxziF4wmIm8bifSG+L6vovsEh40nBi4VkBROs3ZN1URdPlfAu/dc0BRkMec4l5QbB6GyIX4Lq3acvcwNRAnvslJyCq4TovakAE0nGQmUMKL9Bkf2bl82mu6n0EeNzzwk5rzamyvn4tDGsSi9USeK6vB0rIiDcjcG3Tr9DBwEeS0mACw9qeCryoPJM4f0DtoeBoBuBPnQsFKzd+nNnsU3whqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=knights.ucf.edu; dmarc=pass action=none
- header.from=knights.ucf.edu; dkim=pass header.d=knights.ucf.edu; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C7A33F1
+	for <linux-staging@lists.linux.dev>; Wed,  5 Oct 2022 23:57:46 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id a13so674090edj.0
+        for <linux-staging@lists.linux.dev>; Wed, 05 Oct 2022 16:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=knightsucfedu39751.onmicrosoft.com;
- s=selector2-knightsucfedu39751-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5lbocmqso65Nm61naEJ91gjCoUGy51y3HBaL4ntgDaE=;
- b=hxwvQVxGbAE8MNQPTCQa7NABQfZNKUCndfi37063JOUiF1SEUso2kEefXbHNOEdO6EXqo5lJPmFFvEW9FGC23mwuUbXrhzQ03EoxNBOrkVHQm5dXz1/9rVZe1ik1uw90dR0/fyMufoop+SqTyqlw1UZ3Fp+tcYHEyfbwZc3PLJ4=
-Received: from BN7PR07MB4195.namprd07.prod.outlook.com (2603:10b6:406:b1::33)
- by DM5PR07MB3131.namprd07.prod.outlook.com (2603:10b6:3:df::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Wed, 5 Oct
- 2022 16:10:44 +0000
-Received: from BN7PR07MB4195.namprd07.prod.outlook.com
- ([fe80::c50d:50af:a2a0:b08a]) by BN7PR07MB4195.namprd07.prod.outlook.com
- ([fe80::c50d:50af:a2a0:b08a%3]) with mapi id 15.20.5676.031; Wed, 5 Oct 2022
- 16:10:44 +0000
-From: Brent Pappas <pappasbrent@Knights.ucf.edu>
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC: "cai.huoqing@linux.dev" <cai.huoqing@linux.dev>, "kuba@kernel.org"
-	<kuba@kernel.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] staging: most: net: Replace macros HB and LB with static
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=aEfEliKsuauHqKdKxHLW94n4jylnSfwinxLKm0znj80=;
+        b=eZHoNR9QM8zqCFZEkkIK6CEYP3UvO4RG4LCukozoU4VwLH4Ur2Mt3UHVTW9u9RsiUH
+         UUyC2SRPvE4oekShfuFO0KEr7p+6Eq0+PFf/gdD3j2H/OYzRwYAlqlqYLX6h4iBGhvZI
+         uld/HMXHvk7zAi9IHfZZWZYcBw87folqCnP4OQmrbiFt/iEMZAQoy8rPQY1lCQcRbiJ2
+         bZDKJhAsJyG0oRNl1yKtFzHs6/9/1l17DOw8eGYWGFp7/5i+nLGjF+/WCM0JQgh4jCVe
+         4mVkTRwIyotUNaFV214rYRNMmrfRA/D8cRvt8dEni8gobB00Y96HflLssHhEEQZcMX5r
+         pzIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=aEfEliKsuauHqKdKxHLW94n4jylnSfwinxLKm0znj80=;
+        b=Ad/LBkH+CiPiR8RaJtx7INNby2cBqa23sBWpp4V5Ej4BCl9fgh7zqaj3CLhjP10pl9
+         2SZVIwZWP0c7BPcTqR3fjOQybeGi9cT7dq2KokGMDZ7zHO7B9sz+LgCeGHvaCyFwGqnf
+         /RG4Ao05LYUuAC1QBe3f3vlEOZrvrni/kk8njQSjWD6oJgYr/8S8a8AnXmibq3C7FSFG
+         l2aZXxL1K+RiUaYrKbuoYnIXXKDVEPiCfn+X4li6uISnYXEYhB/0MlHEjuWIOoEd//JL
+         3n3AKBqrcT5b4g/xz7z74v/ru/OR3l3Mi+W1rFbUkE7jZlTQ/uAelaLvuTM7x63BFnwQ
+         Uj2g==
+X-Gm-Message-State: ACrzQf2aq1c+bT9rHxPYI1P65tIx2q+T807+uqeJHs2dL0oT+Qp1C3dp
+	fwmdM+Rik339QQ9HSYb47hA=
+X-Google-Smtp-Source: AMsMyM59fRhAVfuLlqqfBsq+sSCqEj3R7DAkNeGkv5SxOuS3qiZQj6bSfe90oMKmAJ9iidqs4rZEqg==
+X-Received: by 2002:a05:6402:40cf:b0:459:d7de:d5 with SMTP id z15-20020a05640240cf00b00459d7de00d5mr600496edb.288.1665014265007;
+        Wed, 05 Oct 2022 16:57:45 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-158.ip.prioritytelecom.net. [217.105.46.158])
+        by smtp.gmail.com with ESMTPSA id r2-20020a17090609c200b00730b3bdd8d7sm9463175eje.179.2022.10.05.16.57.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Oct 2022 16:57:44 -0700 (PDT)
+Date: Thu, 6 Oct 2022 01:57:28 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: Brent Pappas <pappasbrent@Knights.ucf.edu>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"cai.huoqing@linux.dev" <cai.huoqing@linux.dev>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: most: net: Replace macros HB and LB with static
  inline functions
-Thread-Topic: [PATCH] staging: most: net: Replace macros HB and LB with static
- inline functions
-Thread-Index: AQHY2NCS+bpUHPbVE0O7eKPldm0pFw==
-Date: Wed, 5 Oct 2022 16:10:44 +0000
-Message-ID:
- <BN7PR07MB419563C5B405ED4082D7841DF65D9@BN7PR07MB4195.namprd07.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=Knights.ucf.edu;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN7PR07MB4195:EE_|DM5PR07MB3131:EE_
-x-ms-office365-filtering-correlation-id: b3f2ab11-4898-4a1d-7a3f-08daa6ec2869
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- d1tZUuvkLLB3xwI6XyBewzOgb83ptlCCGGtc6Bxff764LXtd6vNZes/Wf/ZOOLjLIN4N/Vern/UhI6RoXmdQNLu8EB6dWmPcCwa+lXj8RyIbjuyfgrmnqt7Z+K+hBulTOk8f7rE549y3SVgS5dViibjVaxgl6m3UFG3VDOpCP8Meq0lYZ93cLk3UPpiuG0ZUCLaFa4kvoyV8KjtwBHF0vkyKSp4H4s0RcRuVo2DuhxowRWx0mI8AytdNjTRDbxAMzXqMJSewMFiLW0fxAxtDy4Gl9NRCFi8lfT39T7icNFTMVrJHpdpm2K0klHwY1Pz9T4Uj9WLfu+uuhCPTFVzUzYgjYdSinsR8OFkZHaQVc+7AMw28dr1ON+BRGcwtB/zMrYQWiudkoe68Jlo3wz5rCAft+Au3cFjlrBm/O3NOYfNwulAPMun7vxiYPKs66mxdBprwssRfufFcvIX6X0C/7a2toFXUXG2hVMVcGvhNTapLiEIS3aQW9URww+pMi+YtjpECJHSsUQG/bG9abzESsl9Qucrk+GeJlnzM+vYhTpUnuMGch+3xL5+TH5TRHiAdkmoWemkV63LKvMOOXMuP0/sO5qIpq0IFwTKDumfsuFOrsYciX2WMWso9/WiZ8oVHV3IW64WLQbcOG/lqvgqzqu+Z4SzF3pkwqRRkDHOR11vV9Lh30WGWsn//JbIESF+lzVXorQrRCU2msZXFXF5tAUhgDBzcDYvuHdPDELGBsB+wZTvJpAlbK3XL5QqVs+4y
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PR07MB4195.namprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(346002)(376002)(366004)(396003)(451199015)(4744005)(5660300002)(122000001)(41320700001)(38100700002)(75432002)(55016003)(38070700005)(52536014)(8936002)(86362001)(33656002)(478600001)(71200400001)(7696005)(6506007)(66946007)(66476007)(66556008)(64756008)(8676002)(4326008)(66446008)(91956017)(76116006)(786003)(316002)(6916009)(54906003)(2906002)(41300700001)(26005)(9686003)(186003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?NuxUC8Vj3YBLjsWY5QrUc/6/Z+T8f7BjW58JnlEQKvIJPsQU9gfDBkGch8?=
- =?iso-8859-1?Q?AWKZ+QJ+g4i2XsNPdj5KzTjA4+Q3R6qXPMa+dqO8XH2kap/LhYO7HVpY1x?=
- =?iso-8859-1?Q?ffEDE0vIdxnXyb6N0Q68+dyduedqLkrdzdAY+u71ZNDCVqlCErfFO8o+LW?=
- =?iso-8859-1?Q?vMe4ped8NFSvl6RVu/FJTU7KZpqIHfJoRR+mHP247tQlW+Win9uuHRI5TQ?=
- =?iso-8859-1?Q?TJItxDCwWOBr7wjc43uSi3StKsIgC9ET6Ie+DLyVycxbynvzQnAp9mmkBp?=
- =?iso-8859-1?Q?PndAp15wcT7esoyIZjGzphewMq6jFgBgsnfWe5IG+cnzDQqL2b1D38ekVX?=
- =?iso-8859-1?Q?VYzSAxKbG6O1xrVh2XrcIEab4R0jQXrT1JwYFHk3DJOLu7NZcxZZUfDc6s?=
- =?iso-8859-1?Q?vHXM1JSCW88RPZp2xjXYECIQXWDSz1KRNwHqkttY4HIfMPlCS7SJfr4UAI?=
- =?iso-8859-1?Q?m3cJFzwZTpYf9cxPzblpvGEafni//kKPRlNzejOrCBBoC3Cus8MrJR0qj6?=
- =?iso-8859-1?Q?3c1Zf7WCIp4DvgdzSkvrHsN92HjIEJYly1BgDX2sHHDIpuyge7ghsfZ7xO?=
- =?iso-8859-1?Q?xc7EpjWVt7soR0CrGxR3ug1CTiZmv76LNGHfDb+fOUCVhSIVuy8KyXwUp9?=
- =?iso-8859-1?Q?xjuPS7odlSMDppeZObLdZhUUJfAPDyvpVQRXU/M/30AHoa/AGHrdCYUZev?=
- =?iso-8859-1?Q?VIJszwR/tLvrPzLym7mMNo2eQI5guqSwGoDKbrp5xceJSHE2C6dOTKFpBl?=
- =?iso-8859-1?Q?p8XZ0jAktD4XBGOdToB5tf3EMq74WlVIsN/7gHqTatNcTFo1de0YehMxRH?=
- =?iso-8859-1?Q?J56TaZdSDWxyGBRXH1zRBw4z+wIvoTqsrsg4686FWvVtknCR572OctPf3O?=
- =?iso-8859-1?Q?CmJQvvCGnM9ILfrTv/REArx4vciIEGVZgz1v1b6z+xQS95nPWyIwUWVMo2?=
- =?iso-8859-1?Q?fv6Rl7AgBQstaNU68zMbv8MR/1IEoVUWlGV6MJ79I5hiQr1aVwJGqkXNhw?=
- =?iso-8859-1?Q?Zx8njwuZNl86QdVfr93R2AVW8apG+Xd7MxeckQzLDk6NVpJcHpSWzGnNp5?=
- =?iso-8859-1?Q?fzY2xfeInxcLQPEZp7K1HyPxxkSysMYw1hjgxIzflmthMklGfRA2CsJc41?=
- =?iso-8859-1?Q?f1zviLZYu2mtWmBbNBQFU6T61GJ29QWXJMxR2kFIKA25CvwOhputShBQsj?=
- =?iso-8859-1?Q?ddtX3Whaclb8KQsbUB3vX1Mt3pY7JyacHFsbP+KU4Pf1POSOuzNLirW6mL?=
- =?iso-8859-1?Q?pZM/3/Gxrbsi5U66E8KNi0p454xhCaGpTC+cLjjxwqz77aZP8jP7j7VlNn?=
- =?iso-8859-1?Q?eq+g+2coeJ01Wv8AyICI4UFJrusmR/VbpZR4+fIszlKbcTC5QxExlNLHri?=
- =?iso-8859-1?Q?sWeTyrgUaS0VmP9T0kuaii8OhBMjntrngZiVxzhZFYR1h1WKNHtQqAqpYB?=
- =?iso-8859-1?Q?tbiUs88RndOOyzG8iFiTugleET/4MiV3QMErh96FnCUkvozL9H5WOjaYh3?=
- =?iso-8859-1?Q?t77Npq6l1Ea5tF/oWfW+H4HxeBHUaisYtVCendWML/Qc0A2ZahTTFBKMLt?=
- =?iso-8859-1?Q?U2RBKe6cGK7FNnwDn5DRsW/WRxFkNjaIvdOyvhIQwMrmsTK1dV5j6Xz6oI?=
- =?iso-8859-1?Q?7oijO8QNbi57aW8WPk1DX4vq3Rfl1F5H03?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <20221005235728.GA118549@nam-dell>
+References: <BN7PR07MB419563C5B405ED4082D7841DF65D9@BN7PR07MB4195.namprd07.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: knights.ucf.edu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN7PR07MB4195.namprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3f2ab11-4898-4a1d-7a3f-08daa6ec2869
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2022 16:10:44.6527
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5b16e182-78b3-412c-9196-68342689eeb7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: trNJ7FDoD9oNjd9td3xz8rzCsRGZIOdBVtxjzFBJjj6Z88aUn4IUQbHgNNk68xzQMP3IUYq3WR0zNBpsbG61O36KUvdvIe9M58b8pvS8aHw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR07MB3131
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN7PR07MB419563C5B405ED4082D7841DF65D9@BN7PR07MB4195.namprd07.prod.outlook.com>
 
-Replace function-like macros "HB" and "LB" with static inline functions=0A=
-to comply with preferred Linux coding style standards.=0A=
-=0A=
-Signed-off-by: Brent Pappas <pappasbrent@knights.ucf.edu>=0A=
----=0A=
-diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.=
-c=0A=
-index 1d1fe8bff7ee..8a8fbc274b73 100644=0A=
---- a/drivers/staging/most/net/net.c=0A=
-+++ b/drivers/staging/most/net/net.c=0A=
-@@ -36,8 +36,8 @@=0A=
- #define PMS_TELID_MASK         0x0F=0A=
- #define PMS_TELID_SHIFT                4=0A=
- =0A=
--#define HB(value)              ((u8)((u16)(value) >> 8))=0A=
--#define LB(value)              ((u8)(value))=0A=
-+static inline u8 HB(unsigned int value)                { return ((u8)((u16=
-)(value) >> 8)); }=0A=
-+static inline u8 LB(unsigned int value)                { return ((u8)(valu=
-e)); }=0A=
- =0A=
- #define EXTRACT_BIT_SET(bitset_name, value) \=0A=
-        (((value) >> bitset_name##_SHIFT) & bitset_name##_MASK)=
+On Wed, Oct 05, 2022 at 04:10:44PM +0000, Brent Pappas wrote:
+> Replace function-like macros "HB" and "LB" with static inline functions
+> to comply with preferred Linux coding style standards.
+> 
+> Signed-off-by: Brent Pappas <pappasbrent@knights.ucf.edu>
+> ---
+> diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.c
+> index 1d1fe8bff7ee..8a8fbc274b73 100644
+> --- a/drivers/staging/most/net/net.c
+> +++ b/drivers/staging/most/net/net.c
+> @@ -36,8 +36,8 @@
+>  #define PMS_TELID_MASK         0x0F
+>  #define PMS_TELID_SHIFT                4
+>  
+> -#define HB(value)              ((u8)((u16)(value) >> 8))
+> -#define LB(value)              ((u8)(value))
+> +static inline u8 HB(unsigned int value)                { return ((u8)((u16)(value) >> 8)); }
+> +static inline u8 LB(unsigned int value)                { return ((u8)(value)); }
+>  
+>  #define EXTRACT_BIT_SET(bitset_name, value) \
+>         (((value) >> bitset_name##_SHIFT) & bitset_name##_MASK)
+
+I cannot apply your patch. I think your email client modified some
+whitespace characters.
+
+Check this for more information:
+https://www.kernel.org/doc/html/v4.10/process/email-clients.html
+
+Best regards,
+Nam
