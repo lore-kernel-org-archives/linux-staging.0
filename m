@@ -1,98 +1,87 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mailout-pe-b.jellyfish.systems (mailout-pe-b.jellyfish.systems [198.54.127.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35734690
-	for <linux-staging@lists.linux.dev>; Thu,  6 Oct 2022 17:44:52 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id m15so3839386edb.13
-        for <linux-staging@lists.linux.dev>; Thu, 06 Oct 2022 10:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=gNQoC7Wql533/i6PEr6vVJ6voNwKK6BkxbmL0tsbQvs=;
-        b=N75m94E+t6OiU5sjq9WXvskIO2PalAI6t1ATsn6e5nLieEigRrduinFUFF8l+ZdBA5
-         txCgP0pTXoUiM05Ws11NN/WhnwYwgZd8jaha2PHWl52NDYY4ZM4VzDn0Tz4s/qAttKqu
-         K671b2CiVQMtqVfsTrRyzeHvCoa78AIcJA7mRlSKdF3wTv9RVkU2qUZ8gon/Y1+o9a4L
-         tAr9rhL1yUqkVx7FOl6J5pt0LNNU7YjJKufUOTcxBLWSbjrBy8PG59MaQi3FvRrpMHEM
-         1VKhlGeAr33LpVVdsLVqGvkBB4/dQWO2zIr+4nJ0Fog43UZY0aoBoeJO13Qus2lEXMXZ
-         A8cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=gNQoC7Wql533/i6PEr6vVJ6voNwKK6BkxbmL0tsbQvs=;
-        b=OdrtVGrjvFKYIVi/kY4ZtOQ1RfOsCD1HlmG7CiwCMbkmMiJJrnelvqSP95Dlk8m/F8
-         mEq5G4mL9HR3L5NlceObEohlODnW+96uxO0SINpmtgimPqk0jsPLjqMI+PKuQwNRdNGy
-         6xO6Dlo0+EwUnUzN0KNteSKT3TFVfDPFbYq3eqlxQcCd3/4yy98/BLlm6LtQQc/Qf1Dv
-         /T3hJhKDwd6rJrY+wMWLdOHoT4yLuy4k19mGPI7VvKpSWkVjgHvB9s/p3WnNl8A5kXoW
-         f8SPTcCX916vukgqCGNwprzfTzbgDvAiyeoRIAtSlkZHHXafeXkhkl53WI5cRvup7qka
-         uZXA==
-X-Gm-Message-State: ACrzQf3d79iarh49UR1WXkqENLNu6Qu4cc1g2hYc228GLw/k9RvXVgr+
-	tPHUBY9PEuF8itI3xLBCBd8=
-X-Google-Smtp-Source: AMsMyM5cTnZjCFVqHBG1q1ZYxN5IVqdeUyVIs+7qSpAmSMnf1GR1/u1FY3znGi5TJjC76f52tycygQ==
-X-Received: by 2002:a05:6402:70c:b0:459:7b65:fead with SMTP id w12-20020a056402070c00b004597b65feadmr874172edx.209.1665078290885;
-        Thu, 06 Oct 2022 10:44:50 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-158.ip.prioritytelecom.net. [217.105.46.158])
-        by smtp.gmail.com with ESMTPSA id i16-20020a1709061e5000b0078d46aa3b82sm26457ejj.21.2022.10.06.10.44.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Oct 2022 10:44:50 -0700 (PDT)
-Date: Thu, 6 Oct 2022 19:44:36 +0200
-From: Nam Cao <namcaov@gmail.com>
-To: Brent Pappas <pappasbrent@knights.ucf.edu>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"cai.huoqing@linux.dev" <cai.huoqing@linux.dev>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] staging: most: net: Replace macros HB and LB with
- static inline functions
-Message-ID: <20221006174436.GA8933@nam-dell>
-References: <BN7PR07MB419563C5B405ED4082D7841DF65D9@BN7PR07MB4195.namprd07.prod.outlook.com>
- <20221005235728.GA118549@nam-dell>
- <Yz7WVCzAviUYstX9@knights.ucf.edu>
- <20221006134230.GA14040@nam-dell>
- <Yz8KKkZ18svZdeec@knights.ucf.edu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536A37F
+	for <linux-staging@lists.linux.dev>; Thu,  6 Oct 2022 23:15:01 +0000 (UTC)
+Received: from output-router-58994b6955-749vc (unknown [10.35.5.64])
+	by mailout-pe-b.jellyfish.systems (Postfix) with ESMTPA id 4Mk6ZS6FQHzDqGn;
+	Thu,  6 Oct 2022 23:09:04 +0000 (UTC)
+Received: from MTA-07.privateemail.com (unknown [10.50.14.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by NEW-01.privateemail.com (Postfix) with ESMTPS id 9F35818000D0;
+	Thu,  6 Oct 2022 19:09:04 -0400 (EDT)
+Received: from mta-07.privateemail.com (localhost [127.0.0.1])
+	by mta-07.privateemail.com (Postfix) with ESMTP id 7DCF318000A3;
+	Thu,  6 Oct 2022 19:09:04 -0400 (EDT)
+Received: from bpappas-XPS-13-9310.lan (050-088-217-251.res.spectrum.com [50.88.217.251])
+	by mta-07.privateemail.com (Postfix) with ESMTPA id E17AE18000A1;
+	Thu,  6 Oct 2022 19:08:55 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+	s=default; t=1665097744;
+	bh=IVLwuGDOCuSv54DN8iklpx3g2m+wYF3VGkjLroLokTw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JNAYHy+6e/+WRzMyobhTT6r2577sR1DeG9piUvsQ09UQn23v0bgZKNsVEYHQq4elP
+	 nMtXJGXR+7zdGJ2zzVnnyqSRjD/jKEALhUQ9yI4Tra4jjqVGVWc0ylgbDi+DtZ+7cC
+	 ypKt2jnDPmdukmgoaOUMqHTrSKIAmjcl+YNYx03m29tntTQOdSKkNdXkma+tgBsGrE
+	 sn0g67wKp8mlFdlIMi8dBkcZtHK1ctBAga0iQ2tiF4rKKKquA4avLyfOh/OZRZglDP
+	 6tg/B7ui34MM/P8TfoLc7SRFFcNkfWypopacDLv0DJbE7KcMZxxemS8Luy6mL3m7dJ
+	 lzRhaWEdBXmTw==
+From: Brent Pappas <bpappas@pappasbrent.com>
+To: namcaov@gmail.com
+Cc: cai.huoqing@linux.dev,
+	gregkh@linuxfoundation.org,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	pappasbrent@knights.ucf.edu,
+	Brent Pappas <bpappas@pappasbrent.com>
+Subject: [PATCH v3] Replace macros HB and LB with static inline functions
+Date: Thu,  6 Oct 2022 19:07:57 -0400
+Message-Id: <20221006230757.33369-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221006174436.GA8933@nam-dell>
+References: <20221006174436.GA8933@nam-dell>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yz8KKkZ18svZdeec@knights.ucf.edu>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-On Thu, Oct 06, 2022 at 01:02:34PM -0400, Brent Pappas wrote:
-> Replace function-like macros "HB" and "LB" with static inline functions
-> to comply with preferred Linux coding style standards.
-> 
-> Signed-off-by: Brent Pappas <pappasbrent@knights.ucf.edu>
-> ---
-> Changelog:
-> V1 -> V2: Resent diff from a mail client that would not replace tabs
->           with spaces so that patch can be successfully applied.
-> 
-> diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.c
-> index 1d1fe8bff7ee..8a8fbc274b73 100644
-> --- a/drivers/staging/most/net/net.c
-> +++ b/drivers/staging/most/net/net.c
-> @@ -36,8 +36,8 @@
->  #define PMS_TELID_MASK		0x0F
->  #define PMS_TELID_SHIFT		4
->  
-> -#define HB(value)		((u8)((u16)(value) >> 8))
-> -#define LB(value)		((u8)(value))
-> +static inline u8 HB(unsigned int value)		{ return ((u8)((u16)(value) >> 8)); }
-> +static inline u8 LB(unsigned int value)		{ return ((u8)(value)); }
->  
->  #define EXTRACT_BIT_SET(bitset_name, value) \
->  	(((value) >> bitset_name##_SHIFT) & bitset_name##_MASK) 
+Replace function-like macros "HB" and "LB" with static inline functions
+to comply with preferred Linux coding style standards.
 
-Sorry but I still can't apply your patch :(. I think you accidentally
-added a trailing space character (at the last line).
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+---
+Changelog:
+V1 -> V2: Resent diff from a mail client that would not replace tabs
+          with spaces so that patch can be successfully applied.
+V2 -> V3: Created patch using git format-patch.
+		  Tested downloading and applying patch.
+          Sent patch using git send-email.
 
-Perhaps it's a good idea to send the patch to yourself, download the
-email and try applying if it works, before sending it out.
+ drivers/staging/most/net/net.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
-Nam
+diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.c
+index 1d1fe8bff7ee..8a8fbc274b73 100644
+--- a/drivers/staging/most/net/net.c
++++ b/drivers/staging/most/net/net.c
+@@ -36,8 +36,8 @@
+ #define PMS_TELID_MASK		0x0F
+ #define PMS_TELID_SHIFT		4
+ 
+-#define HB(value)		((u8)((u16)(value) >> 8))
+-#define LB(value)		((u8)(value))
++static inline u8 HB(unsigned int value)		{ return ((u8)((u16)(value) >> 8)); }
++static inline u8 LB(unsigned int value)		{ return ((u8)(value)); }
+ 
+ #define EXTRACT_BIT_SET(bitset_name, value) \
+ 	(((value) >> bitset_name##_SHIFT) & bitset_name##_MASK)
+-- 
+2.34.1
+
