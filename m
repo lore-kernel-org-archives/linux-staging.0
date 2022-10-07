@@ -1,87 +1,83 @@
-Received: from mailout-pe-b.jellyfish.systems (mailout-pe-b.jellyfish.systems [198.54.127.79])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536A37F
-	for <linux-staging@lists.linux.dev>; Thu,  6 Oct 2022 23:15:01 +0000 (UTC)
-Received: from output-router-58994b6955-749vc (unknown [10.35.5.64])
-	by mailout-pe-b.jellyfish.systems (Postfix) with ESMTPA id 4Mk6ZS6FQHzDqGn;
-	Thu,  6 Oct 2022 23:09:04 +0000 (UTC)
-Received: from MTA-07.privateemail.com (unknown [10.50.14.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by NEW-01.privateemail.com (Postfix) with ESMTPS id 9F35818000D0;
-	Thu,  6 Oct 2022 19:09:04 -0400 (EDT)
-Received: from mta-07.privateemail.com (localhost [127.0.0.1])
-	by mta-07.privateemail.com (Postfix) with ESMTP id 7DCF318000A3;
-	Thu,  6 Oct 2022 19:09:04 -0400 (EDT)
-Received: from bpappas-XPS-13-9310.lan (050-088-217-251.res.spectrum.com [50.88.217.251])
-	by mta-07.privateemail.com (Postfix) with ESMTPA id E17AE18000A1;
-	Thu,  6 Oct 2022 19:08:55 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-	s=default; t=1665097744;
-	bh=IVLwuGDOCuSv54DN8iklpx3g2m+wYF3VGkjLroLokTw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JNAYHy+6e/+WRzMyobhTT6r2577sR1DeG9piUvsQ09UQn23v0bgZKNsVEYHQq4elP
-	 nMtXJGXR+7zdGJ2zzVnnyqSRjD/jKEALhUQ9yI4Tra4jjqVGVWc0ylgbDi+DtZ+7cC
-	 ypKt2jnDPmdukmgoaOUMqHTrSKIAmjcl+YNYx03m29tntTQOdSKkNdXkma+tgBsGrE
-	 sn0g67wKp8mlFdlIMi8dBkcZtHK1ctBAga0iQ2tiF4rKKKquA4avLyfOh/OZRZglDP
-	 6tg/B7ui34MM/P8TfoLc7SRFFcNkfWypopacDLv0DJbE7KcMZxxemS8Luy6mL3m7dJ
-	 lzRhaWEdBXmTw==
-From: Brent Pappas <bpappas@pappasbrent.com>
-To: namcaov@gmail.com
-Cc: cai.huoqing@linux.dev,
-	gregkh@linuxfoundation.org,
-	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	pappasbrent@knights.ucf.edu,
-	Brent Pappas <bpappas@pappasbrent.com>
-Subject: [PATCH v3] Replace macros HB and LB with static inline functions
-Date: Thu,  6 Oct 2022 19:07:57 -0400
-Message-Id: <20221006230757.33369-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221006174436.GA8933@nam-dell>
-References: <20221006174436.GA8933@nam-dell>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABADF4C87
+	for <linux-staging@lists.linux.dev>; Fri,  7 Oct 2022 20:29:44 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id w18so8833949wro.7
+        for <linux-staging@lists.linux.dev>; Fri, 07 Oct 2022 13:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=acRXa3EbxjDyuWzNCvorzoeftSZn5YgHw3PgsDGMlh4=;
+        b=ejhUykAcblfBmQrplTJ1MOeHuxLMSdvlZGi/Zyp4Htc37OoT3TCD+E199JOXX8ET2S
+         9kf6GTe3w8/gHeaTZm/UnnBLeOTWnQT5TXEdzs9UjqtceNJDCym/b9SJ/XzAgOxNga19
+         wM5h8hLITh6aiuR3pBTXv63m5W4/jTCCqONJDOyb9elLVqqecnJyJpT5uoN1yON3auxB
+         9zRPRO4bBf1JQ4mTQqQ0iyKIA8iV7ak5WWFnbgB13RSpqJfiUsrAOYX0sQBGS54VKNuZ
+         1h9korPY7/0Rl+uKXm/+6vHCTuEhEYdKFTL5Xir1wmZbqSEI2I/fHWB3MLKcmNa4qwMb
+         bQ7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=acRXa3EbxjDyuWzNCvorzoeftSZn5YgHw3PgsDGMlh4=;
+        b=rUPglfcTadpJQIJQdLlMd31VzLe+2bkrVmW8v+66tbrEceKYKM1OgQ+qcxsjQLVkU0
+         Y/Uui53Oninm6ofO8KIZI7zJ46fzR1fYbKpmfCpaXmbBulrcdbb/gx5kCGFJNFwjlmzx
+         D7l4FABLCPmHigVoWMCJ8gZh3n0HKLw/vNEvsL5Q+P3ueuOH0mSm3qbaREsnCL2htHfj
+         ar35WtP17TPy6/nWhaRu2zquy3lrmMbb+Z3SUSqRo2lLp7yL1KeW9rwqn6pu7U8PSHr9
+         JzcOo3iI2pZcaeeaPpzwQbaBunxjOXS/MN+N64gWlcieXgvpmyHBHSg5EbXLgjvhOdRZ
+         cfSQ==
+X-Gm-Message-State: ACrzQf0rN91CwtBf6E7TzYX9P2uqTv6hv9VhgmUPgWggDW6eFxneDgaF
+	JF16o1w+3T6aafXiURctffEVpjH0lHUA+tHZ
+X-Google-Smtp-Source: AMsMyM5Q6e6m8tHnLpJSYt1IEkbis6gB4v3Y0+Cot/ua6m2dEHtOxf18bWfz/yW4quBb9mKWTPnWZw==
+X-Received: by 2002:a05:6000:1002:b0:22e:131c:4249 with SMTP id a2-20020a056000100200b0022e131c4249mr4738044wrx.50.1665174582783;
+        Fri, 07 Oct 2022 13:29:42 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id d17-20020a5d6dd1000000b0022cd6e852a2sm3564195wrz.45.2022.10.07.13.29.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 13:29:42 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: sm750fb: Kconfig: Fix spelling mistake "accelearion" -> "acceleration"
+Date: Fri,  7 Oct 2022 21:29:41 +0100
+Message-Id: <20221007202941.2756304-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
 
-Replace function-like macros "HB" and "LB" with static inline functions
-to comply with preferred Linux coding style standards.
+There is a spelling mistake in a Kconfig description. Fix it.
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
-Changelog:
-V1 -> V2: Resent diff from a mail client that would not replace tabs
-          with spaces so that patch can be successfully applied.
-V2 -> V3: Created patch using git format-patch.
-		  Tested downloading and applying patch.
-          Sent patch using git send-email.
+ drivers/staging/sm750fb/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/most/net/net.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.c
-index 1d1fe8bff7ee..8a8fbc274b73 100644
---- a/drivers/staging/most/net/net.c
-+++ b/drivers/staging/most/net/net.c
-@@ -36,8 +36,8 @@
- #define PMS_TELID_MASK		0x0F
- #define PMS_TELID_SHIFT		4
+diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kconfig
+index 8c0d8a873d5b..2101a6605efc 100644
+--- a/drivers/staging/sm750fb/Kconfig
++++ b/drivers/staging/sm750fb/Kconfig
+@@ -8,7 +8,7 @@ config FB_SM750
+ 	select FB_CFB_IMAGEBLIT
+ 	help
+ 	  Frame buffer driver for the Silicon Motion SM750 chip
+-	  with 2D accelearion and dual head support.
++	  with 2D acceleration and dual head support.
  
--#define HB(value)		((u8)((u16)(value) >> 8))
--#define LB(value)		((u8)(value))
-+static inline u8 HB(unsigned int value)		{ return ((u8)((u16)(value) >> 8)); }
-+static inline u8 LB(unsigned int value)		{ return ((u8)(value)); }
- 
- #define EXTRACT_BIT_SET(bitset_name, value) \
- 	(((value) >> bitset_name##_SHIFT) & bitset_name##_MASK)
+ 	  This driver is also available as a module. The module will be
+ 	  called sm750fb. If you want to compile it as a module, say M
 -- 
-2.34.1
+2.37.3
 
