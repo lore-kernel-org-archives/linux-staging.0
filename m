@@ -1,24 +1,27 @@
-Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC4F71FAB
-	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 09:13:41 +0000 (UTC)
+Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C5BA1FAB
+	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 10:04:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=b0MMs
-	s7QsMlVIzDQCA4Ez6OQ7gh+DTYZigg0JBslxso=; b=MWEDcK3a5nJmAXt/Xadgs
-	vujfjpzKTnqtuIgL89DhIyoVYKkEElgqG44TBe6p1nRXMv1DEA8x0Gyr5HYqlfH9
-	0GIOy0uDMmiXIpxGFcgN6tIys+Fir9zJrNPpgvSDy86UBiLdq15/Z1DjMZZW76fK
-	TYrUejTHXvEmdg0I2oHdTM=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=mUcFp
+	mLT9kUT2t0x+XHFcFsDP2OugdtWyw1w9L5Qguk=; b=awivc3c6tiAxfF2D/lDPG
+	QtYEzbEDb3vMoLqZTVMVo7baYc0/7+AzHuAetLB+G3cYKYBq6Sly1J7/m1tLEgi7
+	C4BWlu6nKPq4yQ9sTTbuU8xuPeUyT60b7KbdKIDhZ5bfpiqarbddxHsgJLeOtUvh
+	lMmihNlMt7kd3hLkMl2fhE=
 Received: from localhost.localdomain (unknown [116.128.244.169])
-	by smtp2 (Coremail) with SMTP id GtxpCgCXGKUhjUJjFCHAjw--.47996S2;
-	Sun, 09 Oct 2022 16:58:10 +0800 (CST)
+	by smtp4 (Coremail) with SMTP id HNxpCgDXceDcmEJj+Wl6jQ--.51310S2;
+	Sun, 09 Oct 2022 17:48:12 +0800 (CST)
 From: Jiangshan Yi <13667453960@163.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jiangshan Yi <yijiangshan@kylinos.cn>,
 	k2ci <kernel-bot@kylinos.cn>
-Subject: [PATCH] staging: rtl8192u: fix spelling typo in comment
-Date: Sun,  9 Oct 2022 16:57:46 +0800
-Message-Id: <20221009085746.3149599-1-13667453960@163.com>
+Subject: [PATCH] staging: sm750fb: fix spelling typo in comment
+Date: Sun,  9 Oct 2022 17:48:09 +0800
+Message-Id: <20221009094809.3171319-1-13667453960@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -27,21 +30,21 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:GtxpCgCXGKUhjUJjFCHAjw--.47996S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWrury3GFWUXr4kJFW3Zw4fZrb_yoW8Jr4DpF
-	s7C39rCrWrKF17u3Wjyay8Ary3C34kWrWkKF1j934rXrZ3W3Z7Xrn0yFWjyF43Jr4Fk34a
-	vFW09r45Zw4DGrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UGtCcUUUUU=
+X-CM-TRANSID:HNxpCgDXceDcmEJj+Wl6jQ--.51310S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrury3WF45CFWDJw1UWr1fXrb_yoWkXrb_C3
+	Z2qw4Iqrn2kFyxAr1jkayaqFyFva15Wr4ku3Z09rZxX39xArZ8Xryqvr47Z3s8uayxtFyS
+	9r98XFy3K3WUJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1Tmh3UUUUU==
 X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: bprtllyxuvjmiwq6il2tof0z/1tbivgKV+1Zce8IfVQAAsr
+X-CM-SenderInfo: bprtllyxuvjmiwq6il2tof0z/1tbi8B2V+1uoiZvhHwAAsc
 
 From: Jiangshan Yi <yijiangshan@kylinos.cn>
 
 Fix spelling typo in comment.
 
-K2ci (Kylin Continuous Integration) is a code pre-verification tool
+K2CI (Kylin Kernel Continuous Integration) is a code pre-verification tool
 independently developed by KylinSoft, which is used for ensuring the
-code quality of code submission. K2ci includes the comment check tool
+code quality of code submission. K2CI includes the comment check tool
 notes_check.
 
 This spelling typo was found using notes_check tool.
@@ -49,22 +52,22 @@ This spelling typo was found using notes_check tool.
 Reported-by: k2ci <kernel-bot@kylinos.cn>
 Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
 ---
- drivers/staging/rtl8192u/r8192U_core.c | 2 +-
+ drivers/staging/sm750fb/ddk750_dvi.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index 0a60ef20107c..f6a0992b059b 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -4574,7 +4574,7 @@ static int rtl8192_usb_probe(struct usb_interface *intf,
- 	return ret;
- }
+diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750fb/ddk750_dvi.h
+index c2518b73bdbd..afdfdb17ffce 100644
+--- a/drivers/staging/sm750fb/ddk750_dvi.h
++++ b/drivers/staging/sm750fb/ddk750_dvi.h
+@@ -2,7 +2,7 @@
+ #ifndef DDK750_DVI_H__
+ #define DDK750_DVI_H__
  
--/* detach all the work and timer structure declared or inititialize
-+/* detach all the work and timer structure declared or initialize
-  * in r8192U_init function.
-  */
- static void rtl8192_cancel_deferred_work(struct r8192_priv *priv)
+-/* dvi chip stuffs structros */
++/* dvi chip stuffs structures */
+ 
+ typedef long (*PFN_DVICTRL_INIT)(unsigned char edge_select,
+ 				 unsigned char bus_select,
 -- 
 2.25.1
 
