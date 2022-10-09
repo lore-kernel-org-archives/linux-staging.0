@@ -1,77 +1,312 @@
-Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C5BA1FAB
-	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 10:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=mUcFp
-	mLT9kUT2t0x+XHFcFsDP2OugdtWyw1w9L5Qguk=; b=awivc3c6tiAxfF2D/lDPG
-	QtYEzbEDb3vMoLqZTVMVo7baYc0/7+AzHuAetLB+G3cYKYBq6Sly1J7/m1tLEgi7
-	C4BWlu6nKPq4yQ9sTTbuU8xuPeUyT60b7KbdKIDhZ5bfpiqarbddxHsgJLeOtUvh
-	lMmihNlMt7kd3hLkMl2fhE=
-Received: from localhost.localdomain (unknown [116.128.244.169])
-	by smtp4 (Coremail) with SMTP id HNxpCgDXceDcmEJj+Wl6jQ--.51310S2;
-	Sun, 09 Oct 2022 17:48:12 +0800 (CST)
-From: Jiangshan Yi <13667453960@163.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiangshan Yi <yijiangshan@kylinos.cn>,
-	k2ci <kernel-bot@kylinos.cn>
-Subject: [PATCH] staging: sm750fb: fix spelling typo in comment
-Date: Sun,  9 Oct 2022 17:48:09 +0800
-Message-Id: <20221009094809.3171319-1-13667453960@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E097E
+	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 10:46:58 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id a26so19637322ejc.4
+        for <linux-staging@lists.linux.dev>; Sun, 09 Oct 2022 03:46:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mg0CdsvLmV9Rwot9nVVcMOOotbr3MkEB/vCQ+EikYMM=;
+        b=YDjpOduObMEML4tvLACPHAdviK73+0C8GgZaz8HAcprPvKn6yLhk0wFtapQNLlAaHb
+         Wi5ffZvFn+tvmURYdu4K0iHNTXpGnRL35CG4LVvOWi0RMpCHONDBRW+3Cpc1eqsITSxs
+         GXdO0+YP/QJPxCC52DdZUkRGCC/dDYgnwOTYQBqABgWIi9syQdtIEE7IrHFF5OUb2GUE
+         YKMt21sxf5e99mj4DQQCFs8C5EnfdZUd9Fih2DjU8KyAdfrbLWwhHWYlTK5ZCwdKCdPw
+         N/869o8XGSagKfiELOORl4WYTdAMDBvncsYKzG9Ko5ylP42D6BpBzAJBChoU5Vbw/StZ
+         q4Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mg0CdsvLmV9Rwot9nVVcMOOotbr3MkEB/vCQ+EikYMM=;
+        b=C5ssfpp5ks1sD7jhw3aajr14edWApmt9S/IS6MD1q5T2ocsns5G3E32dFLGohsh4hv
+         76FgybhOoqt3eZTaekCggPrhqdyGESOgz9FfdDe1d6p3YOdCHQ59KCypkQfJ91e2dxD3
+         LCQrWyYI06vbgXVUSia2YIhrmTG7ezTlpjVDNkNkeVl3RHS4JYI/GoI6gxfV5Rgjd0HZ
+         4JUjcWM4cCleJOflLdgpYssIwkba8o9OQ/5iJ+cvf4tjGkJAAM8ExL7rDzU0whyiR2cw
+         lT/UAaq7K94FZ3B+CUoFvH7XiV13uRSSRJXEz5KthLUzkvLpPJ9CaB5Y1zPNLwJFmBU0
+         FnMg==
+X-Gm-Message-State: ACrzQf1QTgVDXiHA+YvHt04sxpSNmC53jZBjfuGU5QV7BsZwpcyyw0QM
+	fLDFVEAFL6oQCBPfHOj0YJj47Egs094=
+X-Google-Smtp-Source: AMsMyM7YgFTC4XbRkzbOErEpurl2VcjRyAxSuybl2nM2jqGA4XKdwWB+eUEsMLCyrDrRtBkrlmT49w==
+X-Received: by 2002:a17:907:72d2:b0:78d:4c16:a68d with SMTP id du18-20020a17090772d200b0078d4c16a68dmr10735347ejc.401.1665312416315;
+        Sun, 09 Oct 2022 03:46:56 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-158.ip.prioritytelecom.net. [217.105.46.158])
+        by smtp.gmail.com with ESMTPSA id r7-20020a170906280700b0078907275a44sm3840750ejc.42.2022.10.09.03.46.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Oct 2022 03:46:55 -0700 (PDT)
+Date: Sun, 9 Oct 2022 12:46:44 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: Rui Li <me@lirui.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: Fix braces/tabs/number/OOM warnings
+Message-ID: <20221009104644.GA49790@nam-dell>
+References: <166528776854.9.8249842126243786800.67724771@lirui.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HNxpCgDXceDcmEJj+Wl6jQ--.51310S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrury3WF45CFWDJw1UWr1fXrb_yoWkXrb_C3
-	Z2qw4Iqrn2kFyxAr1jkayaqFyFva15Wr4ku3Z09rZxX39xArZ8Xryqvr47Z3s8uayxtFyS
-	9r98XFy3K3WUJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1Tmh3UUUUU==
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: bprtllyxuvjmiwq6il2tof0z/1tbi8B2V+1uoiZvhHwAAsc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <166528776854.9.8249842126243786800.67724771@lirui.org>
 
-From: Jiangshan Yi <yijiangshan@kylinos.cn>
+On Sun, Oct 09, 2022 at 11:55:36AM +0800, Rui Li wrote:
+> Fix warnings generated by checkpatch.pl: unnecessary braces after
+> if, too many leading tabs, int type conversion before number,
+> OOM message ourput.
+> 
+> Signed-off-by: Rui Li <me@lirui.org>
+> ---
+>  .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  3 +-
+>  .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  9 ++----
+>  drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  3 --
+>  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 30 +++++++------------
+>  drivers/staging/rtl8192e/rtl819x_BAProc.c     |  5 ++--
+>  drivers/staging/rtl8192e/rtl819x_HTProc.c     |  1 +
+>  drivers/staging/rtl8192e/rtllib_rx.c          |  8 ++---
+>  drivers/staging/rtl8192e/rtllib_softmac_wx.c  |  7 ++---
+>  8 files changed, 25 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index 18e4e5d84878..8d20b0deca37 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -1112,9 +1112,8 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
+>  	if (cb_desc->bHwSec) {
+>  		static u8 tmp;
+>  
+> -		if (!tmp) {
+> +		if (!tmp)
+>  			tmp = 1;
+> -		}
+>  		switch (priv->rtllib->pairwise_key_type) {
+>  		case KEY_TYPE_WEP40:
+>  		case KEY_TYPE_WEP104:
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> index 1b592258e640..4e3d183be0f2 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> @@ -522,9 +522,8 @@ static bool _rtl92e_bb_config_para_file(struct net_device *dev)
+>  		rtStatus  = rtl92e_check_bb_and_rf(dev,
+>  						   (enum hw90_block)eCheckItem,
+>  						   (enum rf90_radio_path)0);
+> -		if (!rtStatus) {
+> +		if (!rtStatus)
+>  			return rtStatus;
+> -		}
+>  	}
+>  	rtl92e_set_bb_reg(dev, rFPGA0_RFMOD, bCCKEn|bOFDMEn, 0x0);
+>  	_rtl92e_phy_config_bb(dev, BaseBand_Config_PHY_REG);
+> @@ -1379,9 +1378,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
+>  					i++;
+>  				}
+>  
+> -				if (i >= MAX_DOZE_WAITING_TIMES_9x) {
+> +				if (i >= MAX_DOZE_WAITING_TIMES_9x)
+>  					break;
+> -				}
+>  			}
+>  			rtl92e_set_rf_off(dev);
+>  			break;
+> @@ -1398,9 +1396,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
+>  					i++;
+>  				}
+>  
+> -				if (i >= MAX_DOZE_WAITING_TIMES_9x) {
+> +				if (i >= MAX_DOZE_WAITING_TIMES_9x)
+>  					break;
+> -				}
+>  			}
+>  
+>  			if (pPSC->RegRfPsLevel & RT_RF_OFF_LEVL_HALT_NIC &&
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> index 89bc989cffba..b2facb273474 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+> @@ -908,9 +908,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
+>  	priv->card_type = PCI;
+>  
+>  	priv->pFirmware = vzalloc(sizeof(struct rt_firmware));
+> -	if (!priv->pFirmware)
+> -		netdev_err(dev,
+> -			   "rtl8192e: Unable to allocate space for firmware\n");
+>  
+>  	skb_queue_head_init(&priv->skb_queue);
+>  
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> index 702551056227..32494ad2298b 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> @@ -267,9 +267,8 @@ static void _rtl92e_dm_check_ac_dc_power(struct net_device *dev)
+>  			"PATH=/usr/bin:/bin",
+>  			 NULL};
+>  
+> -	if (priv->ResetProgress == RESET_TYPE_SILENT) {
+> +	if (priv->ResetProgress == RESET_TYPE_SILENT)
+>  		return;
+> -	}
+>  
+>  	if (priv->rtllib->state != RTLLIB_LINKED)
+>  		return;
+> @@ -330,9 +329,8 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
+>  	bool bshort_gi_enabled = false;
+>  	static u8 ping_rssi_state;
+>  
+> -	if (!priv->up) {
+> +	if (!priv->up)
+>  		return;
+> -	}
+>  
+>  	if (pra->rate_adaptive_disabled)
+>  		return;
+> @@ -777,9 +775,8 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
+>  		tmpRegA = rtl92e_get_bb_reg(dev, rOFDM0_XATxIQImbalance,
+>  					    bMaskDWord);
+>  		for (i = 0; i < OFDM_Table_Length; i++) {
+> -			if (tmpRegA == OFDMSwingTable[i]) {
+> +			if (tmpRegA == OFDMSwingTable[i])
+>  				priv->OFDM_index[0] = i;
+> -			}
+>  		}
+>  
+>  		TempCCk = rtl92e_get_bb_reg(dev, rCCK0_TxFilter1, bMaskByte2);
+> @@ -1066,9 +1063,8 @@ void rtl92e_dm_restore_state(struct net_device *dev)
+>  	u32	reg_ratr = priv->rate_adaptive.last_ratr;
+>  	u32 ratr_value;
+>  
+> -	if (!priv->up) {
+> +	if (!priv->up)
+>  		return;
+> -	}
+>  
+>  	if (priv->rate_adaptive.rate_adaptive_disabled)
+>  		return;
+> @@ -1877,20 +1873,16 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
+>  						tmp_cck_sec_pwdb = cur_cck_pwdb;
+>  						cck_rx_ver2_sec_index = i;
+>  					} else if (cur_cck_pwdb ==
+> -						   tmp_cck_sec_pwdb) {
+> -						if (tmp_cck_sec_pwdb ==
+> -						    tmp_cck_min_pwdb) {
+> -							tmp_cck_sec_pwdb =
+> -								 cur_cck_pwdb;
+> -							cck_rx_ver2_sec_index =
+> -								 i;
+> -						}
+> +							tmp_cck_sec_pwdb &&
+> +							tmp_cck_sec_pwdb == tmp_cck_min_pwdb) {
+> +						tmp_cck_sec_pwdb = cur_cck_pwdb;
+> +						cck_rx_ver2_sec_index = i;
 
-Fix spelling typo in comment.
+This is not functionally equivalent. Are you sure the entire if else
+chain still behaves correctly?
 
-K2CI (Kylin Kernel Continuous Integration) is a code pre-verification tool
-independently developed by KylinSoft, which is used for ensuring the
-code quality of code submission. K2CI includes the comment check tool
-notes_check.
+>  					} else if ((cur_cck_pwdb < tmp_cck_sec_pwdb) &&
+>  						   (cur_cck_pwdb > tmp_cck_min_pwdb)) {
+>  						;
+> -					} else if (cur_cck_pwdb == tmp_cck_min_pwdb) {
+> -						if (tmp_cck_sec_pwdb == tmp_cck_min_pwdb)
+> -							tmp_cck_min_pwdb = cur_cck_pwdb;
+> +					} else if (cur_cck_pwdb == tmp_cck_min_pwdb &&
+> +						tmp_cck_sec_pwdb == tmp_cck_min_pwdb) {
+> +						tmp_cck_min_pwdb = cur_cck_pwdb;
 
-This spelling typo was found using notes_check tool.
+Same story as above.
 
-Reported-by: k2ci <kernel-bot@kylinos.cn>
-Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
----
- drivers/staging/sm750fb/ddk750_dvi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>  					} else if (cur_cck_pwdb < tmp_cck_min_pwdb) {
+>  						tmp_cck_min_pwdb = cur_cck_pwdb;
+>  					}
+> diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+> index 19d13b3fcecf..e932ad1a9e96 100644
+> --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
+> +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+> @@ -180,11 +180,10 @@ static void rtllib_send_ADDBAReq(struct rtllib_device *ieee, u8 *dst,
+>  
+>  	skb = rtllib_ADDBA(ieee, dst, pBA, 0, ACT_ADDBAREQ);
+>  
+> -	if (skb) {
+> +	if (skb)
+>  		softmac_mgmt_xmit(skb, ieee);
+> -	} else {
+> +	else
+>  		netdev_dbg(ieee->dev, "Failed to generate ADDBAReq packet.\n");
+> -	}
+>  }
+>  
+>  static void rtllib_send_ADDBARsp(struct rtllib_device *ieee, u8 *dst,
+> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> index ef3dca51cf99..b763cf0ba356 100644
+> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> @@ -70,6 +70,7 @@ static u8 LINKSYS_MARVELL_4400N[3] = {0x00, 0x14, 0xa4};
+>  void HTUpdateDefaultSetting(struct rtllib_device *ieee)
+>  {
+>  	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
+> +
+>  	pHTInfo->bRegShortGI20MHz = 1;
+>  	pHTInfo->bRegShortGI40MHz = 1;
+>  
+> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+> index 46d75e925ee9..ca7eba826ece 100644
+> --- a/drivers/staging/rtl8192e/rtllib_rx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
+> @@ -454,14 +454,14 @@ static bool AddReorderEntry(struct rx_ts_record *pTS,
+>  	while (pList->next != &pTS->rx_pending_pkt_list) {
+>  		if (SN_LESS(pReorderEntry->SeqNum, ((struct rx_reorder_entry *)
+>  		    list_entry(pList->next, struct rx_reorder_entry,
+> -		    List))->SeqNum))
+> +		    List))->SeqNum)) {
+>  			pList = pList->next;
+> -		else if (SN_EQUAL(pReorderEntry->SeqNum,
+> +			continue;
+> +		} else if (SN_EQUAL(pReorderEntry->SeqNum,
+>  			((struct rx_reorder_entry *)list_entry(pList->next,
+>  			struct rx_reorder_entry, List))->SeqNum))
+>  			return false;
+> -		else
+> -			break;
+> +		break;
+>  	}
+>  	pReorderEntry->List.next = pList->next;
+>  	pReorderEntry->List.next->prev = &pReorderEntry->List;
+> diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> index f9589c5b62ba..4fc4fb25d8d6 100644
+> --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> @@ -41,8 +41,8 @@ int rtllib_wx_set_freq(struct rtllib_device *ieee, struct iw_request_info *a,
+>  
+>  	/* if setting by freq convert to channel */
+>  	if (fwrq->e == 1) {
+> -		if ((fwrq->m >= (int)2.412e8 &&
+> -		     fwrq->m <= (int)2.487e8)) {
+> +		if ((fwrq->m >= 2.412e8 &&
+> +		     fwrq->m <= 2.487e8)) {
 
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750fb/ddk750_dvi.h
-index c2518b73bdbd..afdfdb17ffce 100644
---- a/drivers/staging/sm750fb/ddk750_dvi.h
-+++ b/drivers/staging/sm750fb/ddk750_dvi.h
-@@ -2,7 +2,7 @@
- #ifndef DDK750_DVI_H__
- #define DDK750_DVI_H__
- 
--/* dvi chip stuffs structros */
-+/* dvi chip stuffs structures */
- 
- typedef long (*PFN_DVICTRL_INIT)(unsigned char edge_select,
- 				 unsigned char bus_select,
--- 
-2.25.1
+This turns integer conversions into floating point conversions. I don't
+this floating point operations are allowed in the kernel.
 
+>  			int f = fwrq->m / 100000;
+>  			int c = 0;
+>  
+> @@ -571,9 +571,8 @@ int rtllib_wx_set_power(struct rtllib_device *ieee,
+>  		ieee->ps = RTLLIB_PS_DISABLED;
+>  		goto exit;
+>  	}
+> -	if (wrqu->power.flags & IW_POWER_TIMEOUT) {
+> +	if (wrqu->power.flags & IW_POWER_TIMEOUT)
+>  		ieee->ps_timeout = wrqu->power.value / 1000;
+> -	}
+>  
+>  	if (wrqu->power.flags & IW_POWER_PERIOD)
+>  		ieee->ps_period = wrqu->power.value / 1000;
 
-No virus found
-		Checked by Hillstone Network AntiVirus
+Your patch does too many things at once. Please try to break it into
+smallers patches that only do one (logical) change.
 
+Best regards,
+Nam
