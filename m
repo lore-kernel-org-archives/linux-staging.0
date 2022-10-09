@@ -1,138 +1,76 @@
-Received: from valentin-vidic.from.hr (valentin-vidic.from.hr [109.200.23.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADC82F56
-	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 16:11:16 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at valentin-vidic.from.hr
-Received: by valentin-vidic.from.hr (Postfix, from userid 1000)
-	id 7407928E46; Sun,  9 Oct 2022 18:05:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=valentin-vidic.from.hr; s=2020; t=1665331538;
-	bh=14Fx3Vttwfe4cUsybASXYvJK+oD3p3DL1tdWjsiEBsA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=su76Hr/TGsBF8ye6H5EFzZ+H2y1PrFpXJBaryxva46WHLO3qFgYLcUvmktCwo/pWZ
-	 7c0NFFgG9xEih18ZMCx4J1l8bsDnWk14rBd2t9M3PwprEN5Lg3mX88n6UQow1wHRgd
-	 vK4Xx6MwI/DctM7/ROWdXlQfd1eCzNMCZ7ZsmWH2oklhNBJfVQ8FCgPfa1nJORjOCv
-	 ELvAEiY5HPCTLDRXRMyGjnequgRpS8w/jB5g4KJHVPlCsoxHlzrnKwM6ZBitnwgG6i
-	 UZPJ7pdEx0lW0puZaijGklVraMhSwqk1li7EZDQnGZPhpaXJ6+pOdF1te5+3FBmKTs
-	 eeeLzYSzqLjTmY0XE8ZL9bZE/iCqv1Eoz12NRDrYy8t3nIY/4znYTiMSGMOptCH7AT
-	 yk8TK/aEMaivMvQqhyVeQt9V6NPvvkTy70erX2WmXwt6x4TDSOs/S89pcsSxc0seUY
-	 AyR/NJGk8BHRI2OiKIKTKgXJeS8WAbXuXoGqxPGmFU0Fcwu7b76Llg8YFSStRNKYH0
-	 BygXoPObQCL0/gP8QIFbAc15jA9C62fwjreYkeReke7vz2AUKNoaOVvQpEIKfbBRjM
-	 SPFhsjx3Xknwki4SHmYqE3m1VtMbMNxjG+2zMgbDOP6B9hkod9FD1scW+t3/5+v3Bd
-	 QG8rCqtBlRu6+57VdYByT8D0=
-From: Valentin Vidic <vvidic@valentin-vidic.from.hr>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Valentin Vidic <vvidic@valentin-vidic.from.hr>
-Subject: [PATCH v2] staging: rtl8192e: cleanup if statements
-Date: Sun,  9 Oct 2022 18:05:34 +0200
-Message-Id: <20221009160534.922592-1-vvidic@valentin-vidic.from.hr>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2E81876
+	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 17:49:41 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id nb11so20783228ejc.5
+        for <linux-staging@lists.linux.dev>; Sun, 09 Oct 2022 10:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nZejLgz2KhY9qLr7ifuLCXoUfoCiZZhSwHm/qMEzGqc=;
+        b=lJdQtW8Cft4FLGQkC30bXvrSKFFr1T9Otds+XTl7N/Hrg7APAuLUINc28ugYpC9xqb
+         XKoS1UnYh63VInfYA3m/Ul6fr1pFicO+7BlQaVDYAlC6g5LeJ+jIAK/JhgJQP9T1QcGV
+         z8PoWxIzH1lTqJiJcCj+ZzSORIRrONGS7LIV/REAfR0ozq9s2FrGQja7v6nCaGYcUDJF
+         k7dtHbXF+VjIsfNHAB+wlnmVTE4IVXn5BaLrygrC64shw2cqQcysxNH+hd2By0zaJiNC
+         WkPGkC23Uw1ovjOl+vkJJ/Hnrggh23ZZqWisd2RzNp5nOGc2MnRG3stAycDjCBfTGOcN
+         0KeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nZejLgz2KhY9qLr7ifuLCXoUfoCiZZhSwHm/qMEzGqc=;
+        b=nb2SP7qyycUpOSt+GazTCHH4Itqir20CTZ1kuix6DJFezOOIAFqXy6YriEHOKIyeHC
+         deJkUekDobiX5OFI4VJz1p5Yh6c/MIzLLpM8f1A9lMrml/lpuc0HmE6dNqIVgpvaGf0u
+         +jYOA5/n5ASjDcxUbm3G2yb+xp6fFOPHnGfFRiyA6tkXBdtwoXOjilQ2gIeXifjnv9H4
+         0E//lKPCK+6BWbedYaRYzdX5+XhjcAB/5FwwPTjT4S74l+RIuWu3wtTq+SL4YXq05InT
+         N0lV53nHV7Wtp8vL1xikk3fNAmKi+OctvnTF76PlSn7JhXRa/ZIX8RTMmlmdLbmJTetl
+         I6Sg==
+X-Gm-Message-State: ACrzQf2RFaiSSf7Sym1ut4IJLKuH1HsUfYzjlv6nUIhg1JwylbcNNsnF
+	b9/vgkV6oneq0Utv2BTTD58=
+X-Google-Smtp-Source: AMsMyM69T9Sm1c3Oc3V3smOQxTUTnJHlN6nIA2lMu6COU5Ee5zNy51hO2/yOm9YfryUSNG+rypjMWw==
+X-Received: by 2002:a17:907:2cea:b0:78d:4e84:778d with SMTP id hz10-20020a1709072cea00b0078d4e84778dmr11011773ejc.246.1665337780002;
+        Sun, 09 Oct 2022 10:49:40 -0700 (PDT)
+Received: from nam-dell ([131.155.245.44])
+        by smtp.gmail.com with ESMTPSA id bo1-20020a170906d04100b0077b2b0563f4sm4248453ejb.173.2022.10.09.10.49.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Oct 2022 10:49:39 -0700 (PDT)
+Date: Sun, 9 Oct 2022 19:49:25 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: Rui Li <me@lirui.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8192e: remove necessary braces for single
+ statement blocks
+Message-ID: <20221009174925.GA17573@nam-dell>
+References: <166532561205.8.1223417525390189864.67805880@lirui.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <166532561205.8.1223417525390189864.67805880@lirui.org>
 
-Fix checkpatch warnings for if statements in rtl_wx.c:
+On Sun, Oct 09, 2022 at 10:26:31PM +0800, Rui Li wrote:
+> This commit cleans up checkpatch warning as follows:
+> braces {} are not necessary for single statement blocks
+> 
+> Signed-off-by: Rui Li <me@lirui.org>
+> ---
+>  drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  3 +--
+>  drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c |  9 +++------
+>  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 12 ++++--------
+>  3 files changed, 8 insertions(+), 16 deletions(-)
 
-CHECK: Comparison to NULL could be written "!expr"
-CHECK: Using comparison to true is error prone
-CHECK: braces {} should be used on all arms of this statement
-CHECK: Unbalanced braces around else statement
-CHECK: Alignment should match open parenthesis
+Greg expects a change log describing what has changed compared to the
+last version. You should send a v3 with a changelog.
 
-Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
----
-v2: rebase and update description
+Additionally, did you mean "unnecessary" in the title?
 
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index 4920cb49e381..d8c4326fece0 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -313,7 +313,7 @@ static int _rtl92e_wx_get_range(struct net_device *dev,
- 	/* ~130 Mb/s real (802.11n) */
- 	range->throughput = 130 * 1000 * 1000;
- 
--	if (priv->rf_set_sens != NULL)
-+	if (priv->rf_set_sens)
- 		/* signal level threshold range */
- 		range->sensitivity = priv->max_sens;
- 
-@@ -395,7 +395,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
- 	rt_state = priv->rtllib->rf_power_state;
- 	if (!priv->up)
- 		return -ENETDOWN;
--	if (priv->rtllib->LinkDetectInfo.bBusyTraffic == true)
-+	if (priv->rtllib->LinkDetectInfo.bBusyTraffic)
- 		return -EAGAIN;
- 
- 	if (wrqu->data.flags & IW_SCAN_THIS_ESSID) {
-@@ -582,9 +582,9 @@ static int _rtl92e_wx_set_frag(struct net_device *dev,
- 	if (priv->hw_radio_off)
- 		return 0;
- 
--	if (wrqu->frag.disabled)
-+	if (wrqu->frag.disabled) {
- 		priv->rtllib->fts = DEFAULT_FRAG_THRESHOLD;
--	else {
-+	} else {
- 		if (wrqu->frag.value < MIN_FRAG_THRESHOLD ||
- 		    wrqu->frag.value > MAX_FRAG_THRESHOLD)
- 			return -EINVAL;
-@@ -821,7 +821,7 @@ static int _rtl92e_wx_get_sens(struct net_device *dev,
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
--	if (priv->rf_set_sens == NULL)
-+	if (!priv->rf_set_sens)
- 		return -1; /* we have not this support for this radio */
- 	wrqu->sens.value = priv->sens;
- 	return 0;
-@@ -839,7 +839,7 @@ static int _rtl92e_wx_set_sens(struct net_device *dev,
- 		return 0;
- 
- 	mutex_lock(&priv->wx_mutex);
--	if (priv->rf_set_sens == NULL) {
-+	if (!priv->rf_set_sens) {
- 		err = -1; /* we have not this support for this radio */
- 		goto exit;
- 	}
-@@ -882,7 +882,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
- 		u8 idx = 0, alg = 0, group = 0;
- 
- 		if ((encoding->flags & IW_ENCODE_DISABLED) ||
--		     ext->alg == IW_ENCODE_ALG_NONE) {
-+		    ext->alg == IW_ENCODE_ALG_NONE) {
- 			ieee->pairwise_key_type = ieee->group_key_type
- 						= KEY_TYPE_NA;
- 			rtl92e_cam_reset(dev);
-@@ -919,7 +919,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
- 					 key, 0);
- 		} else {
- 			if ((ieee->pairwise_key_type == KEY_TYPE_CCMP) &&
--			     ieee->pHTInfo->bCurrentHTSupport)
-+			    ieee->pHTInfo->bCurrentHTSupport)
- 				rtl92e_writeb(dev, 0x173, 1);
- 			rtl92e_set_key(dev, 4, idx, alg,
- 				       (u8 *)ieee->ap_mac_addr, 0, key);
-@@ -993,7 +993,7 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	struct rtllib_device *ieee = priv->rtllib;
- 
--	if (ieee->wpa_ie_len == 0 || ieee->wpa_ie == NULL) {
-+	if (ieee->wpa_ie_len == 0 || !ieee->wpa_ie) {
- 		data->data.length = 0;
- 		return 0;
- 	}
--- 
-2.30.2
-
+Best regards,
+Nam
