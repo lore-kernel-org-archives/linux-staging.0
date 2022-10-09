@@ -1,128 +1,146 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-200164.simplelogin.co (mail-200164.simplelogin.co [176.119.200.164])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F11187C
-	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 13:36:27 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id p14so4402609pfq.5
-        for <linux-staging@lists.linux.dev>; Sun, 09 Oct 2022 06:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BPRUb5fXBvpUrUoLBXNgAFQk1VijQRqMyh2TnAMTGtg=;
-        b=beTouj+LzjAy8bHGQMDqKT9uxR7+7XKjjMVtkF5HUjZjFOyWy5MDeNI0sbikopgIIR
-         b853xvaVfPCinMZcjhK3cK9ZxbH48csvVi4Q+kS9WXDK2k6+72s0hGK1qNUUK05AjBaE
-         jZBiYyaQbnQyHvOCjpcpD0mxGfUNbrEZH2YwoOVVEPtvu+MBqiUINPqUVhyO9wuQsfHO
-         4oG4OHGOG6DSnGHTk918cYqYMXiOHOjL45kdhlgEbPtr8lW0f8WjdidP1pmcZkibX89d
-         iov0kHe+ZZa0qBmA042j2VMWtIS6apB+vSd6m2sgkXzzUOeiJshDMDHL1VLdE4c6IEws
-         QJNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BPRUb5fXBvpUrUoLBXNgAFQk1VijQRqMyh2TnAMTGtg=;
-        b=bjFwUrRySCuZFhrGknsaMHoFvjeXtlxIFvRasXmTJxrnV5ARpiRyCUOEkaw01xPuBd
-         LOGNm/q3+AYOJ1qPrCaK+EgdYgQeYlgDiIl6QJX7ceam5bRTylPVIwVIwYvcVJi5sjPc
-         xnm+KrkWAG9h77g6FrlRy0ozKGnP3MZ0eqwkOVWGDLz53Q4pyIGacTEdR8OUjxTq9s2Z
-         Y3KI5bavH1wUOCLLLc9uzbe81zneztYLYKuRCStJ7I/SpTIZSZQtv4eDU6zZ7G2xUyhb
-         ibAHyShYHo22NPGO43LBYAL+ZZ49TXd8++3L2tWmgdwTeZlqTDjeFH0sHRXR69645XZQ
-         zJhg==
-X-Gm-Message-State: ACrzQf1MHcTISIr6yGSAXDBLv+SzOr3xgT5dnLbMAUKch0ZZwN82Utzj
-	hq820sfxRVW6SNlWvGca4XY=
-X-Google-Smtp-Source: AMsMyM7qirq+CTtzxgDgLaxC/gCx4mvSFpalSIjpkC4n504fPbAnHr170mHWnY2T6hWKZyD6AXF5JA==
-X-Received: by 2002:a05:6a00:179c:b0:561:64fc:3037 with SMTP id s28-20020a056a00179c00b0056164fc3037mr14842409pfg.76.1665322586893;
-        Sun, 09 Oct 2022 06:36:26 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-66.three.co.id. [180.214.233.66])
-        by smtp.gmail.com with ESMTPSA id u1-20020a17090ae00100b0020a7d076bfesm4469527pjy.2.2022.10.09.06.36.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Oct 2022 06:36:26 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-	id ED98F1039BF; Sun,  9 Oct 2022 20:36:22 +0700 (WIB)
-Date: Sun, 9 Oct 2022 20:36:22 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jiangshan Yi <13667453960@163.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiangshan Yi <yijiangshan@kylinos.cn>, k2ci <kernel-bot@kylinos.cn>
-Subject: Re: [PATCH] staging: sm750fb: fix spelling typo in comment
-Message-ID: <Y0LOVuL8uNJ19bjV@debian.me>
-References: <20221009094809.3171319-1-13667453960@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1222571
+	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 14:33:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=dkim;
+	t=1665325612;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vxRLQnC1TPIsFjno5QqFACO5g0YeqSMUr0a0L0dYjNw=;
+	b=nhJraiBhp8VVnsjSbmxhstUUjQsPMRq7NhdMoOZ3bKiILu7tqYSU+1so93/tjmWvMFo9J6
+	LfjNOV5Tbw7BI92amkpRmGV0gCqkgOVsaPFeiO3n8UziHcKP2d1+nsT5FrYMtzxZJRtqaO
+	kvFZ7SgRiJkgZat3ZwyLlQlqmuSTqQU=
+Subject: [PATCH v2] staging: rtl8192e: remove necessary braces for single
+ statement blocks
+Date: Sun,  9 Oct 2022 22:26:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dZhQDIkS5gtuuN7K"
-Content-Disposition: inline
-In-Reply-To: <20221009094809.3171319-1-13667453960@163.com>
+Content-Transfer-Encoding: 8bit
+From: Rui Li <me@lirui.org>
+To: Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org
+Message-ID: <166532561205.8.1223417525390189864.67805880@lirui.org>
+X-SimpleLogin-Type: Reply
+X-SimpleLogin-EmailLog-ID: 67805879
+X-SimpleLogin-Want-Signing: yes
+
+This commit cleans up checkpatch warning as follows:
+braces {} are not necessary for single statement blocks
+
+Signed-off-by: Rui Li <me@lirui.org>
+---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  3 +--
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c |  9 +++------
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 12 ++++--------
+ 3 files changed, 8 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index 18e4e5d84878..8d20b0deca37 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -1112,9 +1112,8 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
+ 	if (cb_desc->bHwSec) {
+ 		static u8 tmp;
+ 
+-		if (!tmp) {
++		if (!tmp)
+ 			tmp = 1;
+-		}
+ 		switch (priv->rtllib->pairwise_key_type) {
+ 		case KEY_TYPE_WEP40:
+ 		case KEY_TYPE_WEP104:
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+index 1b592258e640..4e3d183be0f2 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+@@ -522,9 +522,8 @@ static bool _rtl92e_bb_config_para_file(struct net_device *dev)
+ 		rtStatus  = rtl92e_check_bb_and_rf(dev,
+ 						   (enum hw90_block)eCheckItem,
+ 						   (enum rf90_radio_path)0);
+-		if (!rtStatus) {
++		if (!rtStatus)
+ 			return rtStatus;
+-		}
+ 	}
+ 	rtl92e_set_bb_reg(dev, rFPGA0_RFMOD, bCCKEn|bOFDMEn, 0x0);
+ 	_rtl92e_phy_config_bb(dev, BaseBand_Config_PHY_REG);
+@@ -1379,9 +1378,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
+ 					i++;
+ 				}
+ 
+-				if (i >= MAX_DOZE_WAITING_TIMES_9x) {
++				if (i >= MAX_DOZE_WAITING_TIMES_9x)
+ 					break;
+-				}
+ 			}
+ 			rtl92e_set_rf_off(dev);
+ 			break;
+@@ -1398,9 +1396,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
+ 					i++;
+ 				}
+ 
+-				if (i >= MAX_DOZE_WAITING_TIMES_9x) {
++				if (i >= MAX_DOZE_WAITING_TIMES_9x)
+ 					break;
+-				}
+ 			}
+ 
+ 			if (pPSC->RegRfPsLevel & RT_RF_OFF_LEVL_HALT_NIC &&
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+index 702551056227..641961a14c52 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+@@ -267,9 +267,8 @@ static void _rtl92e_dm_check_ac_dc_power(struct net_device *dev)
+ 			"PATH=/usr/bin:/bin",
+ 			 NULL};
+ 
+-	if (priv->ResetProgress == RESET_TYPE_SILENT) {
++	if (priv->ResetProgress == RESET_TYPE_SILENT)
+ 		return;
+-	}
+ 
+ 	if (priv->rtllib->state != RTLLIB_LINKED)
+ 		return;
+@@ -330,9 +329,8 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
+ 	bool bshort_gi_enabled = false;
+ 	static u8 ping_rssi_state;
+ 
+-	if (!priv->up) {
++	if (!priv->up)
+ 		return;
+-	}
+ 
+ 	if (pra->rate_adaptive_disabled)
+ 		return;
+@@ -777,9 +775,8 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
+ 		tmpRegA = rtl92e_get_bb_reg(dev, rOFDM0_XATxIQImbalance,
+ 					    bMaskDWord);
+ 		for (i = 0; i < OFDM_Table_Length; i++) {
+-			if (tmpRegA == OFDMSwingTable[i]) {
++			if (tmpRegA == OFDMSwingTable[i])
+ 				priv->OFDM_index[0] = i;
+-			}
+ 		}
+ 
+ 		TempCCk = rtl92e_get_bb_reg(dev, rCCK0_TxFilter1, bMaskByte2);
+@@ -1066,9 +1063,8 @@ void rtl92e_dm_restore_state(struct net_device *dev)
+ 	u32	reg_ratr = priv->rate_adaptive.last_ratr;
+ 	u32 ratr_value;
+ 
+-	if (!priv->up) {
++	if (!priv->up)
+ 		return;
+-	}
+ 
+ 	if (priv->rate_adaptive.rate_adaptive_disabled)
+ 		return;
+-- 
+2.30.2
 
 
---dZhQDIkS5gtuuN7K
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Oct 09, 2022 at 05:48:09PM +0800, Jiangshan Yi wrote:
-> From: Jiangshan Yi <yijiangshan@kylinos.cn>
->=20
-> Fix spelling typo in comment.
->=20
-
-What comment are you trying to do this typofix? Even seeing the diff
-below, I can't figure out that due to insufficient context.
-
-> K2CI (Kylin Kernel Continuous Integration) is a code pre-verification tool
-> independently developed by KylinSoft, which is used for ensuring the
-> code quality of code submission. K2CI includes the comment check tool
-> notes_check.
->=20
-> This spelling typo was found using notes_check tool.
->=20
-
-For CI bot like this, I'd like to see publicly-accessible reports (like
-build status), just like what kernel test robot (aka LKP aka 01-DAY CI)
-does (try searching LKML for recent report by it). Don't forget to add
-Link: tag to the report.
-
-> Reported-by: k2ci <kernel-bot@kylinos.cn>
-> Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
-> ---
->  drivers/staging/sm750fb/ddk750_dvi.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750=
-fb/ddk750_dvi.h
-> index c2518b73bdbd..afdfdb17ffce 100644
-> --- a/drivers/staging/sm750fb/ddk750_dvi.h
-> +++ b/drivers/staging/sm750fb/ddk750_dvi.h
-> @@ -2,7 +2,7 @@
->  #ifndef DDK750_DVI_H__
->  #define DDK750_DVI_H__
-> =20
-> -/* dvi chip stuffs structros */
-> +/* dvi chip stuffs structures */
-> =20
->  typedef long (*PFN_DVICTRL_INIT)(unsigned char edge_select,
->  				 unsigned char bus_select,
-
-Are the structures really plural (many instances of the struct)?
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---dZhQDIkS5gtuuN7K
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY0LOUgAKCRD2uYlJVVFO
-o5abAQDCCPg+8fcvsOLmLonB7xsYw1IuPRjkPfOSqr/8ap6WEwEAn5L6/13EPykf
-a2SW0VQuhr/iphjQnmqDUEb/ftTmHgM=
-=zi0w
------END PGP SIGNATURE-----
-
---dZhQDIkS5gtuuN7K--
