@@ -1,68 +1,138 @@
-Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F169C2F56
-	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 15:25:42 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.100.34])
-	by smtp.orange.fr with ESMTPA
-	id hY42oBgzsPMmahY42osAN0; Sun, 09 Oct 2022 17:18:04 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 09 Oct 2022 17:18:04 +0200
-X-ME-IP: 86.243.100.34
-Message-ID: <a5ce79f2-2027-24d9-9636-330471cfcf6a@wanadoo.fr>
-Date: Sun, 9 Oct 2022 17:18:02 +0200
+Received: from valentin-vidic.from.hr (valentin-vidic.from.hr [109.200.23.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADC82F56
+	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 16:11:16 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at valentin-vidic.from.hr
+Received: by valentin-vidic.from.hr (Postfix, from userid 1000)
+	id 7407928E46; Sun,  9 Oct 2022 18:05:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=valentin-vidic.from.hr; s=2020; t=1665331538;
+	bh=14Fx3Vttwfe4cUsybASXYvJK+oD3p3DL1tdWjsiEBsA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=su76Hr/TGsBF8ye6H5EFzZ+H2y1PrFpXJBaryxva46WHLO3qFgYLcUvmktCwo/pWZ
+	 7c0NFFgG9xEih18ZMCx4J1l8bsDnWk14rBd2t9M3PwprEN5Lg3mX88n6UQow1wHRgd
+	 vK4Xx6MwI/DctM7/ROWdXlQfd1eCzNMCZ7ZsmWH2oklhNBJfVQ8FCgPfa1nJORjOCv
+	 ELvAEiY5HPCTLDRXRMyGjnequgRpS8w/jB5g4KJHVPlCsoxHlzrnKwM6ZBitnwgG6i
+	 UZPJ7pdEx0lW0puZaijGklVraMhSwqk1li7EZDQnGZPhpaXJ6+pOdF1te5+3FBmKTs
+	 eeeLzYSzqLjTmY0XE8ZL9bZE/iCqv1Eoz12NRDrYy8t3nIY/4znYTiMSGMOptCH7AT
+	 yk8TK/aEMaivMvQqhyVeQt9V6NPvvkTy70erX2WmXwt6x4TDSOs/S89pcsSxc0seUY
+	 AyR/NJGk8BHRI2OiKIKTKgXJeS8WAbXuXoGqxPGmFU0Fcwu7b76Llg8YFSStRNKYH0
+	 BygXoPObQCL0/gP8QIFbAc15jA9C62fwjreYkeReke7vz2AUKNoaOVvQpEIKfbBRjM
+	 SPFhsjx3Xknwki4SHmYqE3m1VtMbMNxjG+2zMgbDOP6B9hkod9FD1scW+t3/5+v3Bd
+	 QG8rCqtBlRu6+57VdYByT8D0=
+From: Valentin Vidic <vvidic@valentin-vidic.from.hr>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Valentin Vidic <vvidic@valentin-vidic.from.hr>
+Subject: [PATCH v2] staging: rtl8192e: cleanup if statements
+Date: Sun,  9 Oct 2022 18:05:34 +0200
+Message-Id: <20221009160534.922592-1-vvidic@valentin-vidic.from.hr>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] staging: rtl8192e: remove necessary braces for single
- statement blocks
-Content-Language: fr, en-US
-To: Rui Li <me@lirui.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <166532561205.8.1223417525390189864.67805880@lirui.org>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <166532561205.8.1223417525390189864.67805880@lirui.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 09/10/2022 à 16:26, Rui Li a écrit :
-> This commit cleans up checkpatch warning as follows:
-> braces {} are not necessary for single statement blocks
-> 
-> Signed-off-by: Rui Li <me@lirui.org>
-> ---
->   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  3 +--
->   drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c |  9 +++------
->   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 12 ++++--------
->   3 files changed, 8 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> index 18e4e5d84878..8d20b0deca37 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> @@ -1112,9 +1112,8 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
->   	if (cb_desc->bHwSec) {
->   		static u8 tmp;
->   
-> -		if (!tmp) {
-> +		if (!tmp)
->   			tmp = 1;
-> -		}
+Fix checkpatch warnings for if statements in rtl_wx.c:
 
-Hi, unrelated to this patch, but 'tmp' and the 'if' block' can be 
-removed as well.
-Is is just dead code.
+CHECK: Comparison to NULL could be written "!expr"
+CHECK: Using comparison to true is error prone
+CHECK: braces {} should be used on all arms of this statement
+CHECK: Unbalanced braces around else statement
+CHECK: Alignment should match open parenthesis
 
-CJ
+Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
+---
+v2: rebase and update description
 
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
->   		switch (priv->rtllib->pairwise_key_type) {
->   		case KEY_TYPE_WEP40:
->   		case KEY_TYPE_WEP104:
-
-[...]
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+index 4920cb49e381..d8c4326fece0 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
+@@ -313,7 +313,7 @@ static int _rtl92e_wx_get_range(struct net_device *dev,
+ 	/* ~130 Mb/s real (802.11n) */
+ 	range->throughput = 130 * 1000 * 1000;
+ 
+-	if (priv->rf_set_sens != NULL)
++	if (priv->rf_set_sens)
+ 		/* signal level threshold range */
+ 		range->sensitivity = priv->max_sens;
+ 
+@@ -395,7 +395,7 @@ static int _rtl92e_wx_set_scan(struct net_device *dev,
+ 	rt_state = priv->rtllib->rf_power_state;
+ 	if (!priv->up)
+ 		return -ENETDOWN;
+-	if (priv->rtllib->LinkDetectInfo.bBusyTraffic == true)
++	if (priv->rtllib->LinkDetectInfo.bBusyTraffic)
+ 		return -EAGAIN;
+ 
+ 	if (wrqu->data.flags & IW_SCAN_THIS_ESSID) {
+@@ -582,9 +582,9 @@ static int _rtl92e_wx_set_frag(struct net_device *dev,
+ 	if (priv->hw_radio_off)
+ 		return 0;
+ 
+-	if (wrqu->frag.disabled)
++	if (wrqu->frag.disabled) {
+ 		priv->rtllib->fts = DEFAULT_FRAG_THRESHOLD;
+-	else {
++	} else {
+ 		if (wrqu->frag.value < MIN_FRAG_THRESHOLD ||
+ 		    wrqu->frag.value > MAX_FRAG_THRESHOLD)
+ 			return -EINVAL;
+@@ -821,7 +821,7 @@ static int _rtl92e_wx_get_sens(struct net_device *dev,
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 
+-	if (priv->rf_set_sens == NULL)
++	if (!priv->rf_set_sens)
+ 		return -1; /* we have not this support for this radio */
+ 	wrqu->sens.value = priv->sens;
+ 	return 0;
+@@ -839,7 +839,7 @@ static int _rtl92e_wx_set_sens(struct net_device *dev,
+ 		return 0;
+ 
+ 	mutex_lock(&priv->wx_mutex);
+-	if (priv->rf_set_sens == NULL) {
++	if (!priv->rf_set_sens) {
+ 		err = -1; /* we have not this support for this radio */
+ 		goto exit;
+ 	}
+@@ -882,7 +882,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 		u8 idx = 0, alg = 0, group = 0;
+ 
+ 		if ((encoding->flags & IW_ENCODE_DISABLED) ||
+-		     ext->alg == IW_ENCODE_ALG_NONE) {
++		    ext->alg == IW_ENCODE_ALG_NONE) {
+ 			ieee->pairwise_key_type = ieee->group_key_type
+ 						= KEY_TYPE_NA;
+ 			rtl92e_cam_reset(dev);
+@@ -919,7 +919,7 @@ static int _rtl92e_wx_set_encode_ext(struct net_device *dev,
+ 					 key, 0);
+ 		} else {
+ 			if ((ieee->pairwise_key_type == KEY_TYPE_CCMP) &&
+-			     ieee->pHTInfo->bCurrentHTSupport)
++			    ieee->pHTInfo->bCurrentHTSupport)
+ 				rtl92e_writeb(dev, 0x173, 1);
+ 			rtl92e_set_key(dev, 4, idx, alg,
+ 				       (u8 *)ieee->ap_mac_addr, 0, key);
+@@ -993,7 +993,7 @@ static int _rtl92e_wx_get_gen_ie(struct net_device *dev,
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rtllib_device *ieee = priv->rtllib;
+ 
+-	if (ieee->wpa_ie_len == 0 || ieee->wpa_ie == NULL) {
++	if (ieee->wpa_ie_len == 0 || !ieee->wpa_ie) {
+ 		data->data.length = 0;
+ 		return 0;
+ 	}
+-- 
+2.30.2
 
