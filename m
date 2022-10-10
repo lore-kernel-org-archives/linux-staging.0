@@ -1,30 +1,28 @@
 Received: from m1374.mail.163.com (m1374.mail.163.com [220.181.13.74])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 730341FB2
-	for <linux-staging@lists.linux.dev>; Mon, 10 Oct 2022 02:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93AEE1FB2
+	for <linux-staging@lists.linux.dev>; Mon, 10 Oct 2022 03:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=2YhiT
-	nPIQ4MDIZ3nx9WHggkgfBvqFh2UA8aSL+N9Vew=; b=a0jGYpuoyaHCPrGDV1HrX
-	XOSK9y1T3ngLCUIhPFNeIDDTuQ1knhg3UgJlX0+KIlSMQiQ0YwJ4tmemlegUj9hh
-	S00OPEKOjJ2he2EWu3o/p2sD3ZOlpe8NxuXpGG+jOeSQTbWV4unjc1Q91qkv3luh
-	wu68sZ3GQL7GUtWvU6hscg=
+	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=FPlOv
+	6E0d95uizJ1AnrTWWJMw+0UCKD22EtcCEPuDrc=; b=atH7QxfZYsINri0EMxa1M
+	MPKYocZw/Phrt2JnTEhsgv+lqkLfN8djn3flKUbywZDfnQEnfzoL4F5Uf7yjihYi
+	z/voMcI4z6p54/VlKHLbkgfnSCs2wSIf1E0L4l37oW6XTDpV4YzIR9D0/2IhHOvu
+	a12QIJUV5fiErn5XhS6jJc=
 Received: from 13667453960$163.com ( [111.48.58.12] ) by
- ajax-webmail-wmsvr74 (Coremail) ; Mon, 10 Oct 2022 10:30:36 +0800 (CST)
+ ajax-webmail-wmsvr74 (Coremail) ; Mon, 10 Oct 2022 11:07:31 +0800 (CST)
 X-Originating-IP: [111.48.58.12]
-Date: Mon, 10 Oct 2022 10:30:36 +0800 (CST)
+Date: Mon, 10 Oct 2022 11:07:31 +0800 (CST)
 From: "Yi Jiangshan" <13667453960@163.com>
 To: "Greg KH" <gregkh@linuxfoundation.org>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, 
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	"Jiangshan Yi" <yijiangshan@kylinos.cn>, 
 	k2ci <kernel-bot@kylinos.cn>
-Subject: Re:Re: [PATCH] staging: sm750fb: fix spelling typo in comment
+Subject: Re:Re: [PATCH] staging: rtl8723bs: fix spelling typo in comment
 X-Priority: 3
 X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
  Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <Y0MRcIyBtLlzjRzi@kroah.com>
-References: <20221009094809.3171319-1-13667453960@163.com>
- <Y0MRcIyBtLlzjRzi@kroah.com>
+In-Reply-To: <Y0MROo7YMrVoYyZ8@kroah.com>
+References: <20221009065647.2635700-1-13667453960@163.com>
+ <Y0MROo7YMrVoYyZ8@kroah.com>
 Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset=GBK
 Precedence: bulk
@@ -33,17 +31,45 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <f427e25.1615.183bfbad6a1.Coremail.13667453960@163.com>
+Message-ID: <382427df.1d30.183bfdca4b0.Coremail.13667453960@163.com>
 X-Coremail-Locale: zh_CN
-X-CM-TRANSID:SsGowACnLW_Mg0NjhYxMAA--.59363W
-X-CM-SenderInfo: bprtllyxuvjmiwq6il2tof0z/1tbivguV+1Zce8Xw2gACsH
+X-CM-TRANSID:SsGowAA3w2xzjENjFpdMAA--.52374W
+X-CM-SenderInfo: bprtllyxuvjmiwq6il2tof0z/1tbivhOW+1Zce8mgdAAAss
 X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-CkF0IDIwMjItMTAtMTAgMDI6MjI6NDAsICJHcmVnIEtIIiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlv
-bi5vcmc+IHdyb3RlOgo+T24gU3VuLCBPY3QgMDksIDIwMjIgYXQgMDU6NDg6MDlQTSArMDgwMCwg
+CkF0IDIwMjItMTAtMTAgMDI6MjE6NDYsICJHcmVnIEtIIiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlv
+bi5vcmc+IHdyb3RlOgo+T24gU3VuLCBPY3QgMDksIDIwMjIgYXQgMDI6NTY6NDdQTSArMDgwMCwg
 SmlhbmdzaGFuIFlpIHdyb3RlOgo+PiBGcm9tOiBKaWFuZ3NoYW4gWWkgPHlpamlhbmdzaGFuQGt5
-bGlub3MuY24+Cj4KPkFnYWluLCB3aHkgMTYzLmNvbT8KPgoKCgpUaGVyZSBpcyBhIHByb2JsZW0g
-d2l0aCB0aGUgY29tcGFueSdzIG1haWxib3gsIGFuZCBzb21ldGltZXMgSSBjYW4ndCByZWNlaXZl
-IGVtYWlscy4gU28gSSB0ZW1wb3JhcmlseSB1c2UgbXkgcGVyc29uYWwgZW1haWwgdG8gc2VuZCBw
-YXRjaGVzLCBzbyB0aGF0IEkgY2FuIHJlY2VpdmUgZmVlZGJhY2sgZnJvbSB0aGUgY29tbXVuaXR5
-IGluIGEgdGltZWx5IG1hbm5lci4KCgp0aGFua3OjrAoKCkppYW5nc2hhbiBZaQ==
+bGlub3MuY24+Cj4KPlRoZW4gd2h5IGlzIHRoaXMgYmVpbmcgc2VudCBmcm9tIGEgMTYzLmNvbSBh
+ZGRyZXNzPwo+Cgo+V2hhdCBpcyB3cm9uZyB3aXRoIHVzaW5nIHlvdXIgcmVhbCBtYWlsIHNlcnZl
+cj8KCgpUaGVyZSBpcyBhIHByb2JsZW0gd2l0aCB0aGUgY29tcGFueSdzIG1haWxib3gsIGFuZCBz
+b21ldGltZXMgSSBjYW4ndCByZWNlaXZlIGVtYWlscy4gU28gSSB0ZW1wb3JhcmlseSB1c2UgbXkg
+cGVyc29uYWwgbWFpbGJveCB0byBzZW5kIHBhdGNoZXMsIHNvIHRoYXQgSSBjYW4gcmVjZWl2ZSBm
+ZWVkYmFjayBmcm9tIHRoZSBjb21tdW5pdHkgaW4gYSB0aW1lbHkgbWFubmVyLgoKCj4+IEBAIC0x
+NjU2LDcgKzE2NTYsNyBAQCB1OCBydHdfYzJoX3BhY2tldF93a19jbWQoc3RydWN0IGFkYXB0ZXIg
+KnBhZGFwdGVyLCB1OCAqcGJ1ZiwgdTE2IGxlbmd0aCkKPj4gIAlyZXR1cm4gcmVzOwo+PiAgfQo+
+PiAgCj4+IC0vKiBkb250IGNhbGwgUi9XIGluIHRoaXMgZnVuY3Rpb24sIGJldWNhc2UgU0RJTyBp
+bnRlcnJ1cHQgaGF2ZSBjbGFpbSBob3N0ICovCj4+ICsvKiBkb24ndCBjYWxsIFIvVyBpbiB0aGlz
+IGZ1bmN0aW9uLCBiZWNhdXNlIFNESU8gaW50ZXJydXB0IGhhdmUgY2xhaW0gaG9zdCAqLwo+Cj5U
+aGF0IGlzIG5vdCBhIHNwZWxsaW5nIGZpeCwgYnV0IHJhdGhlciBhICJwdW5jdHVhdGlvbiIgZml4
+IGlmIHlvdSB3YW50Cj50byBiZSBwaWNreSA6KQoKClRoZSBwYXRjaCBkb2VzIHMvYmV1Y2FzZS9i
+ZWNhdXNlLyAgYW5kICBzL2RvbnQvZG9uJ3QvLgpGb2xsb3cgRG9jdW1lbnRhdGlvbi9wcm9jZXNz
+L2NvZGluZy1zdHlsZS5yc3SjrHNvbWV0aGluZyB3cml0ZSBsaWtlIHRoaXM6Ci0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpLZXJuZWwgZGV2ZWxvcGVycyBsaWtlIHRvIGJl
+IHNlZW4gYXMgbGl0ZXJhdGUuIERvIG1pbmQgdGhlIHNwZWxsaW5nCm9mIGtlcm5lbCBtZXNzYWdl
+cyB0byBtYWtlIGEgZ29vZCBpbXByZXNzaW9uLiBEbyBub3QgdXNlIGluY29ycmVjdApjb250cmFj
+dGlvbnMgbGlrZSBgYGRvbnRgYDsgdXNlIGBgZG8gbm90YGAgb3IgYGBkb24ndGBgIGluc3RlYWQu
+IE1ha2UgdGhlCm1lc3NhZ2VzIGNvbmNpc2UsIGNsZWFyLCBhbmQgdW5hbWJpZ3VvdXMuCi0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpTbyBkb2VzIHRoZSBjb21tZW50LgoK
+Cj4+ICAvKiBvciBkZWFkbG9jayB3aWxsIGhhcHBlbiBhbmQgY2F1c2Ugc3BlY2lhbC1zeXN0ZW1z
+ZXJ2ZXItZGllZCBpbiBhbmRyb2lkICovCj4+ICB1OCBydHdfYzJoX3drX2NtZChzdHJ1Y3QgYWRh
+cHRlciAqcGFkYXB0ZXIsIHU4ICpjMmhfZXZ0KQo+PiAgewo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19lZnVzZS5jIGIvZHJpdmVycy9zdGFnaW5nL3J0
+bDg3MjNicy9jb3JlL3J0d19lZnVzZS5jCj4+IGluZGV4IDA2ZTcyN2NlOWNjMi4uNzE4MDA5MTdk
+MTMyIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X2Vm
+dXNlLmMKPj4gKysrIGIvZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19lZnVzZS5j
+Cj4+IEBAIC0yNzcsNyArMjc3LDcgQEAgYm9vbAkJYlBzZXVkb1Rlc3QpCj4+ICAJcmV0dXJuIGJS
+ZXN1bHQ7Cj4+ICB9Cj4+ICAKPj4gLS8qICAxMS8xNi8yMDA4IE1IIFdyaXRlIG9uZSBieXRlIHRv
+IHJlYWxkIEVmdXNlLiAqLwo+PiArLyogIDExLzE2LzIwMDggTUggV3JpdGUgb25lIGJ5dGUgdG8g
+cmVhbCBFZnVzZS4gKi8KPgo+VGhlIGRhdGUgc2hvdWxkIGp1c3QgYmUgcmVtb3ZlZCBlbnRpcmVs
+eSwgcmlnaHQ/CgoKWW91J3JlIHJpZ2h0LgoKCnRoYW5rcywKCgpKaWFuZ3NoYW4gWWkK
