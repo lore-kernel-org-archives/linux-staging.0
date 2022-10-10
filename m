@@ -1,153 +1,47 @@
-Received: from mail-200162.simplelogin.co (mail-200162.simplelogin.co [176.119.200.162])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8F11C2E
-	for <linux-staging@lists.linux.dev>; Sun,  9 Oct 2022 23:38:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=dkim;
-	t=1665357692;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GE81zLXpV1t0gzZ6uOCRv3Jz/nVmC8+25fUTxenq7DE=;
-	b=mizJvc7XghLZRkzA+0unCLv6IUiptTgKXdDf6jl41VVnt8pJ04x/rHlNYh4pxzTrh5QoDm
-	oh0H2QF4w94SS2SblVP5pZLNBOtnNpX8UYkg3nDdATrvQ66Ds/dCir4dbZmOE4mfx9VOdE
-	w8qOw7QaobDoco6DLAPBIekZdpBVdRU=
-Subject: [PATCH v3] staging: rtl8192e: remove unnecessary braces for single
- statement blocks
-Date: Mon, 10 Oct 2022 07:21:05 +0800
+Received: from m1374.mail.163.com (m1374.mail.163.com [220.181.13.74])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB394185F
+	for <linux-staging@lists.linux.dev>; Mon, 10 Oct 2022 02:35:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=fqc7P
+	OfcW+wefL87nJX++WuyipQJOgC3GBIb6bkLx0U=; b=R63w0yfmyEWgbFGAVFNB1
+	aRuI+WhhMRv06EVBqwmilbBz724b8i2vB8P8/rZTCaHElRHYi/N2IC6ozBzH8UEW
+	DHo3j8ta1N26pfShiHis2X61eyvLFhTMHFSa54cPXdlXfu0KeWZctnhVOLv7x/7n
+	2VaOWbFK3dI+BDceGZXRaM=
+Received: from 13667453960$163.com ( [111.48.58.12] ) by
+ ajax-webmail-wmsvr74 (Coremail) ; Mon, 10 Oct 2022 10:35:01 +0800 (CST)
+X-Originating-IP: [111.48.58.12]
+Date: Mon, 10 Oct 2022 10:35:01 +0800 (CST)
+From: "Yi Jiangshan" <13667453960@163.com>
+To: "Greg KH" <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	"Jiangshan Yi" <yijiangshan@kylinos.cn>, 
+	k2ci <kernel-bot@kylinos.cn>
+Subject: Re:Re: [PATCH] staging: rtl8192u: fix spelling typo in comment
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+In-Reply-To: <Y0MRTlpjuG3rJX9o@kroah.com>
+References: <20221009085746.3149599-1-13667453960@163.com>
+ <Y0MRTlpjuG3rJX9o@kroah.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-From: Rui Li <me@lirui.org>
-To: Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org
-Message-ID: <166535769195.7.8013937898116750731.67872946@lirui.org>
-X-SimpleLogin-Type: Reply
-X-SimpleLogin-EmailLog-ID: 67872948
-X-SimpleLogin-Want-Signing: yes
+Message-ID: <36da6995.16ee.183bfbee245.Coremail.13667453960@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:SsGowAC3QmzVhENj5Y1MAA--.52454W
+X-CM-SenderInfo: bprtllyxuvjmiwq6il2tof0z/1tbivhaW+1Zce8k6SQABsP
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-This commit cleans up checkpatch warning as follows:
-braces {} are not necessary for single statement blocks
-
-Signed-off-by: Rui Li <me@lirui.org>
----
-Changes since v2:
- - Correct commit message title
- - Add changelog
-
-Changes since v1:
- - Only fix one of checkpatch warnings
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  3 +--
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c |  9 +++------
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 12 ++++--------
- 3 files changed, 8 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 18e4e5d84878..8d20b0deca37 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1112,9 +1112,8 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
- 	if (cb_desc->bHwSec) {
- 		static u8 tmp;
- 
--		if (!tmp) {
-+		if (!tmp)
- 			tmp = 1;
--		}
- 		switch (priv->rtllib->pairwise_key_type) {
- 		case KEY_TYPE_WEP40:
- 		case KEY_TYPE_WEP104:
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index 1b592258e640..4e3d183be0f2 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -522,9 +522,8 @@ static bool _rtl92e_bb_config_para_file(struct net_device *dev)
- 		rtStatus  = rtl92e_check_bb_and_rf(dev,
- 						   (enum hw90_block)eCheckItem,
- 						   (enum rf90_radio_path)0);
--		if (!rtStatus) {
-+		if (!rtStatus)
- 			return rtStatus;
--		}
- 	}
- 	rtl92e_set_bb_reg(dev, rFPGA0_RFMOD, bCCKEn|bOFDMEn, 0x0);
- 	_rtl92e_phy_config_bb(dev, BaseBand_Config_PHY_REG);
-@@ -1379,9 +1378,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
- 					i++;
- 				}
- 
--				if (i >= MAX_DOZE_WAITING_TIMES_9x) {
-+				if (i >= MAX_DOZE_WAITING_TIMES_9x)
- 					break;
--				}
- 			}
- 			rtl92e_set_rf_off(dev);
- 			break;
-@@ -1398,9 +1396,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
- 					i++;
- 				}
- 
--				if (i >= MAX_DOZE_WAITING_TIMES_9x) {
-+				if (i >= MAX_DOZE_WAITING_TIMES_9x)
- 					break;
--				}
- 			}
- 
- 			if (pPSC->RegRfPsLevel & RT_RF_OFF_LEVL_HALT_NIC &&
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 702551056227..641961a14c52 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -267,9 +267,8 @@ static void _rtl92e_dm_check_ac_dc_power(struct net_device *dev)
- 			"PATH=/usr/bin:/bin",
- 			 NULL};
- 
--	if (priv->ResetProgress == RESET_TYPE_SILENT) {
-+	if (priv->ResetProgress == RESET_TYPE_SILENT)
- 		return;
--	}
- 
- 	if (priv->rtllib->state != RTLLIB_LINKED)
- 		return;
-@@ -330,9 +329,8 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
- 	bool bshort_gi_enabled = false;
- 	static u8 ping_rssi_state;
- 
--	if (!priv->up) {
-+	if (!priv->up)
- 		return;
--	}
- 
- 	if (pra->rate_adaptive_disabled)
- 		return;
-@@ -777,9 +775,8 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
- 		tmpRegA = rtl92e_get_bb_reg(dev, rOFDM0_XATxIQImbalance,
- 					    bMaskDWord);
- 		for (i = 0; i < OFDM_Table_Length; i++) {
--			if (tmpRegA == OFDMSwingTable[i]) {
-+			if (tmpRegA == OFDMSwingTable[i])
- 				priv->OFDM_index[0] = i;
--			}
- 		}
- 
- 		TempCCk = rtl92e_get_bb_reg(dev, rCCK0_TxFilter1, bMaskByte2);
-@@ -1066,9 +1063,8 @@ void rtl92e_dm_restore_state(struct net_device *dev)
- 	u32	reg_ratr = priv->rate_adaptive.last_ratr;
- 	u32 ratr_value;
- 
--	if (!priv->up) {
-+	if (!priv->up)
- 		return;
--	}
- 
- 	if (priv->rate_adaptive.rate_adaptive_disabled)
- 		return;
--- 
-2.30.2
-
-
+CkF0IDIwMjItMTAtMTAgMDI6MjI6MDYsICJHcmVnIEtIIiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlv
+bi5vcmc+IHdyb3RlOgo+T24gU3VuLCBPY3QgMDksIDIwMjIgYXQgMDQ6NTc6NDZQTSArMDgwMCwg
+SmlhbmdzaGFuIFlpIHdyb3RlOgo+PiBGcm9tOiBKaWFuZ3NoYW4gWWkgPHlpamlhbmdzaGFuQGt5
+bGlub3MuY24+Cj4KPkFnYWluLCB3aHkgYSAxNjMuY29tIGFkZHJlc3M/Cj4KClRoZXJlIGlzIGEg
+cHJvYmxlbSB3aXRoIHRoZSBjb21wYW55J3MgbWFpbGJveCwgYW5kIHNvbWV0aW1lcyBJIGNhbid0
+IHJlY2VpdmUgZW1haWxzLiBTbyBJIHRlbXBvcmFyaWx5IHVzZSBteSBwZXJzb25hbCBtYWlsYm94
+IHRvIHNlbmQgcGF0Y2hlcywgc28gdGhhdCBJIGNhbiByZWNlaXZlIGZlZWRiYWNrIGZyb20gdGhl
+IGNvbW11bml0eSBpbiBhIHRpbWVseSBtYW5uZXIuCgp0aGFua3OjrAoKSmlhbmdzaGFuIFlp
