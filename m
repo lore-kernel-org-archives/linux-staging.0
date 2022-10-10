@@ -1,75 +1,58 @@
-Received: from m1374.mail.163.com (m1374.mail.163.com [220.181.13.74])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93AEE1FB2
-	for <linux-staging@lists.linux.dev>; Mon, 10 Oct 2022 03:07:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=FPlOv
-	6E0d95uizJ1AnrTWWJMw+0UCKD22EtcCEPuDrc=; b=atH7QxfZYsINri0EMxa1M
-	MPKYocZw/Phrt2JnTEhsgv+lqkLfN8djn3flKUbywZDfnQEnfzoL4F5Uf7yjihYi
-	z/voMcI4z6p54/VlKHLbkgfnSCs2wSIf1E0L4l37oW6XTDpV4YzIR9D0/2IhHOvu
-	a12QIJUV5fiErn5XhS6jJc=
-Received: from 13667453960$163.com ( [111.48.58.12] ) by
- ajax-webmail-wmsvr74 (Coremail) ; Mon, 10 Oct 2022 11:07:31 +0800 (CST)
-X-Originating-IP: [111.48.58.12]
-Date: Mon, 10 Oct 2022 11:07:31 +0800 (CST)
-From: "Yi Jiangshan" <13667453960@163.com>
-To: "Greg KH" <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	"Jiangshan Yi" <yijiangshan@kylinos.cn>, 
-	k2ci <kernel-bot@kylinos.cn>
-Subject: Re:Re: [PATCH] staging: rtl8723bs: fix spelling typo in comment
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <Y0MROo7YMrVoYyZ8@kroah.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C6A1FD9
+	for <linux-staging@lists.linux.dev>; Mon, 10 Oct 2022 06:22:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0100C433D6;
+	Mon, 10 Oct 2022 06:22:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1665382942;
+	bh=eU6nKUGRICKBPqnh8VlPl5I90p3qXrHPn9KVy3p8Wqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UEfO3gHb80kHnvl6D2XTXYxjI0ALQtEYiyS/FSVrfgB7xyyLbdnkTFowyQd6AD8p8
+	 oIMicDWuLAILcgn5X0EyzRvaC2nflcsTKmFOr25TWz2l/7vdhU3puvBtbj4qC8cwOn
+	 1vY4Vq/6m8qseY50lN1rBUs37PSA9uD5mZkgJTrs=
+Date: Mon, 10 Oct 2022 08:23:05 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yi Jiangshan <13667453960@163.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jiangshan Yi <yijiangshan@kylinos.cn>, k2ci <kernel-bot@kylinos.cn>
+Subject: Re: Re: [PATCH] staging: rtl8723bs: fix spelling typo in comment
+Message-ID: <Y0O6SckZK8a9FNG2@kroah.com>
 References: <20221009065647.2635700-1-13667453960@163.com>
  <Y0MROo7YMrVoYyZ8@kroah.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+ <382427df.1d30.183bfdca4b0.Coremail.13667453960@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <382427df.1d30.183bfdca4b0.Coremail.13667453960@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:SsGowAA3w2xzjENjFpdMAA--.52374W
-X-CM-SenderInfo: bprtllyxuvjmiwq6il2tof0z/1tbivhOW+1Zce8mgdAAAss
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <382427df.1d30.183bfdca4b0.Coremail.13667453960@163.com>
 
-CkF0IDIwMjItMTAtMTAgMDI6MjE6NDYsICJHcmVnIEtIIiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlv
-bi5vcmc+IHdyb3RlOgo+T24gU3VuLCBPY3QgMDksIDIwMjIgYXQgMDI6NTY6NDdQTSArMDgwMCwg
-SmlhbmdzaGFuIFlpIHdyb3RlOgo+PiBGcm9tOiBKaWFuZ3NoYW4gWWkgPHlpamlhbmdzaGFuQGt5
-bGlub3MuY24+Cj4KPlRoZW4gd2h5IGlzIHRoaXMgYmVpbmcgc2VudCBmcm9tIGEgMTYzLmNvbSBh
-ZGRyZXNzPwo+Cgo+V2hhdCBpcyB3cm9uZyB3aXRoIHVzaW5nIHlvdXIgcmVhbCBtYWlsIHNlcnZl
-cj8KCgpUaGVyZSBpcyBhIHByb2JsZW0gd2l0aCB0aGUgY29tcGFueSdzIG1haWxib3gsIGFuZCBz
-b21ldGltZXMgSSBjYW4ndCByZWNlaXZlIGVtYWlscy4gU28gSSB0ZW1wb3JhcmlseSB1c2UgbXkg
-cGVyc29uYWwgbWFpbGJveCB0byBzZW5kIHBhdGNoZXMsIHNvIHRoYXQgSSBjYW4gcmVjZWl2ZSBm
-ZWVkYmFjayBmcm9tIHRoZSBjb21tdW5pdHkgaW4gYSB0aW1lbHkgbWFubmVyLgoKCj4+IEBAIC0x
-NjU2LDcgKzE2NTYsNyBAQCB1OCBydHdfYzJoX3BhY2tldF93a19jbWQoc3RydWN0IGFkYXB0ZXIg
-KnBhZGFwdGVyLCB1OCAqcGJ1ZiwgdTE2IGxlbmd0aCkKPj4gIAlyZXR1cm4gcmVzOwo+PiAgfQo+
-PiAgCj4+IC0vKiBkb250IGNhbGwgUi9XIGluIHRoaXMgZnVuY3Rpb24sIGJldWNhc2UgU0RJTyBp
-bnRlcnJ1cHQgaGF2ZSBjbGFpbSBob3N0ICovCj4+ICsvKiBkb24ndCBjYWxsIFIvVyBpbiB0aGlz
-IGZ1bmN0aW9uLCBiZWNhdXNlIFNESU8gaW50ZXJydXB0IGhhdmUgY2xhaW0gaG9zdCAqLwo+Cj5U
-aGF0IGlzIG5vdCBhIHNwZWxsaW5nIGZpeCwgYnV0IHJhdGhlciBhICJwdW5jdHVhdGlvbiIgZml4
-IGlmIHlvdSB3YW50Cj50byBiZSBwaWNreSA6KQoKClRoZSBwYXRjaCBkb2VzIHMvYmV1Y2FzZS9i
-ZWNhdXNlLyAgYW5kICBzL2RvbnQvZG9uJ3QvLgpGb2xsb3cgRG9jdW1lbnRhdGlvbi9wcm9jZXNz
-L2NvZGluZy1zdHlsZS5yc3SjrHNvbWV0aGluZyB3cml0ZSBsaWtlIHRoaXM6Ci0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpLZXJuZWwgZGV2ZWxvcGVycyBsaWtlIHRvIGJl
-IHNlZW4gYXMgbGl0ZXJhdGUuIERvIG1pbmQgdGhlIHNwZWxsaW5nCm9mIGtlcm5lbCBtZXNzYWdl
-cyB0byBtYWtlIGEgZ29vZCBpbXByZXNzaW9uLiBEbyBub3QgdXNlIGluY29ycmVjdApjb250cmFj
-dGlvbnMgbGlrZSBgYGRvbnRgYDsgdXNlIGBgZG8gbm90YGAgb3IgYGBkb24ndGBgIGluc3RlYWQu
-IE1ha2UgdGhlCm1lc3NhZ2VzIGNvbmNpc2UsIGNsZWFyLCBhbmQgdW5hbWJpZ3VvdXMuCi0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpTbyBkb2VzIHRoZSBjb21tZW50LgoK
-Cj4+ICAvKiBvciBkZWFkbG9jayB3aWxsIGhhcHBlbiBhbmQgY2F1c2Ugc3BlY2lhbC1zeXN0ZW1z
-ZXJ2ZXItZGllZCBpbiBhbmRyb2lkICovCj4+ICB1OCBydHdfYzJoX3drX2NtZChzdHJ1Y3QgYWRh
-cHRlciAqcGFkYXB0ZXIsIHU4ICpjMmhfZXZ0KQo+PiAgewo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19lZnVzZS5jIGIvZHJpdmVycy9zdGFnaW5nL3J0
-bDg3MjNicy9jb3JlL3J0d19lZnVzZS5jCj4+IGluZGV4IDA2ZTcyN2NlOWNjMi4uNzE4MDA5MTdk
-MTMyIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X2Vm
-dXNlLmMKPj4gKysrIGIvZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19lZnVzZS5j
-Cj4+IEBAIC0yNzcsNyArMjc3LDcgQEAgYm9vbAkJYlBzZXVkb1Rlc3QpCj4+ICAJcmV0dXJuIGJS
-ZXN1bHQ7Cj4+ICB9Cj4+ICAKPj4gLS8qICAxMS8xNi8yMDA4IE1IIFdyaXRlIG9uZSBieXRlIHRv
-IHJlYWxkIEVmdXNlLiAqLwo+PiArLyogIDExLzE2LzIwMDggTUggV3JpdGUgb25lIGJ5dGUgdG8g
-cmVhbCBFZnVzZS4gKi8KPgo+VGhlIGRhdGUgc2hvdWxkIGp1c3QgYmUgcmVtb3ZlZCBlbnRpcmVs
-eSwgcmlnaHQ/CgoKWW91J3JlIHJpZ2h0LgoKCnRoYW5rcywKCgpKaWFuZ3NoYW4gWWkK
+On Mon, Oct 10, 2022 at 11:07:31AM +0800, Yi Jiangshan wrote:
+> 
+> At 2022-10-10 02:21:46, "Greg KH" <gregkh@linuxfoundation.org> wrote:
+> >On Sun, Oct 09, 2022 at 02:56:47PM +0800, Jiangshan Yi wrote:
+> >> From: Jiangshan Yi <yijiangshan@kylinos.cn>
+> >
+> >Then why is this being sent from a 163.com address?
+> >
+> 
+> >What is wrong with using your real mail server?
+> 
+> 
+> There is a problem with the company's mailbox, and sometimes I can't receive emails. So I temporarily use my personal mailbox to send patches, so that I can receive feedback from the community in a timely manner.
+
+But how do I know that this is a valid company email address at all?
+It's not authenticated as such, so many companies do not like people
+faking their address.
+
+Please send from your company address and you can always cc: the 163.com
+one, right?
+
+thanks,
+
+greg k-h
