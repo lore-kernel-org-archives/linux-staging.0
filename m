@@ -1,45 +1,45 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CA23D75
-	for <linux-staging@lists.linux.dev>; Tue, 11 Oct 2022 19:44:37 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id v12so3342073edc.6
-        for <linux-staging@lists.linux.dev>; Tue, 11 Oct 2022 12:44:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D223D75
+	for <linux-staging@lists.linux.dev>; Tue, 11 Oct 2022 19:50:36 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id u21so21617972edi.9
+        for <linux-staging@lists.linux.dev>; Tue, 11 Oct 2022 12:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=MHcyhXBS8LO+1pTGUBy6875y1oBGWuaCiIaP8C/oCic=;
-        b=LaTXMmM76cYuz6MbiBv81nh/oLam6SjjvVL0PCGEwxnNOACwAsqvz7AAospOvs2t3e
-         6kcMT3jOcY1KeSdYSMhkssSjkgv/Das6SAxpA9BU6aVpl1Ys14xxqw5EZs7I5J4IWkUg
-         pEp7TwOJBtoJpaFXOR4yG4UWKIiHQSoTzS3dRFxYVjOr5+kq2ZTlmzzmpWF6sOlpbpyy
-         K18DDWq1OIH9+PRQFud0sg1FKK+nwStGtVUPSf/Ia8Oqslv9HtuHU3+7kgVNlDfkhCXe
-         /8XfAx6Sl4DZ1V+v5YhXRGQP2tfacXM91tdqY6xFYLy5MkYwRAc1HsIGHMjvnhShDw1L
-         oG1w==
+        bh=M89Vx2J0KtMWAdMcthflIEuzD6tUlYrH96nIaPjnnvE=;
+        b=QWoEO75NAvLSgM7TpG0IH05vifJHnXawd8BnYsvWBiBGCix5bKvv66irbmkvNy3VtO
+         /NgHq0SvK+KvTjVT8sbKuDyaDEWg119NLH1D/1e75moMKlkcIgb+/eSTvlowV4y/fBfO
+         ynPX6R44LiRuZAEq7mMAzzhsurnUlFOEPY7TEqPSDSlE0BxIxlutYMB5HhoPE6mdMwjr
+         PH2xFwgOnpy1TYp302LV0Hg3ACswQQntPxFcrP/iyWbyfsmzdfeisgvoY/eC6bPDkAZx
+         LoeP0wfEHXiT1nOkLNwS2vy8lIuG5WhJeFbG4RPu6udmtlKkHxHfpTMXJOfsnJ4ggU41
+         YjOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MHcyhXBS8LO+1pTGUBy6875y1oBGWuaCiIaP8C/oCic=;
-        b=7tEg8wHgKbLLJSU0vp96GqF44+fPaZhbmnu5vjZSmmaUtB47YQnRHPgBU7b7GgpI7E
-         trapYCnzGK6MSWlfQHgQZ4U5q81WJV6cyNkgJKhd4xn2a/zSQtQ5zsmByMvBjfbSdwrX
-         qho+vInYYO7gSYyndbMrO3ljzNIpYFdsCMRfCnnElxB72CTUGoYHivtBscjZl8SA/v6l
-         OQuckj5wTLw9S03b+RU6GwXAUVRrrsLJexYFrChgYGzoHJu2iRoazhkb48yM+157f4wI
-         hnSRaEpgIBKzcfAzyC9v6hgeJzaGBcRGL1td1AfznnLl2D8fOQaUdT2PuABDsusVyDJR
-         7/3Q==
-X-Gm-Message-State: ACrzQf194QWlAk82OKyYkS9jMlgKndgV+ELWxwaAK9GepSL4egYL9AC1
-	twbGfiMKk6ARV40wjKl1pF4=
-X-Google-Smtp-Source: AMsMyM7J/Datky3CcDpyErFNVWXXewoU1ysci2hdUpQTsxkNV1fXPV+wNo3d7NidfpcugfFX1nz6OA==
-X-Received: by 2002:a05:6402:358e:b0:45c:aa8b:f7e9 with SMTP id y14-20020a056402358e00b0045caa8bf7e9mr6767edc.33.1665517475883;
-        Tue, 11 Oct 2022 12:44:35 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f3e:6a25:da79:77b5:fd5d:5e3f? (p200300c78f3e6a25da7977b5fd5d5e3f.dip0.t-ipconnect.de. [2003:c7:8f3e:6a25:da79:77b5:fd5d:5e3f])
-        by smtp.gmail.com with ESMTPSA id e15-20020a50fb8f000000b00459f4974128sm9808966edq.50.2022.10.11.12.44.35
+        bh=M89Vx2J0KtMWAdMcthflIEuzD6tUlYrH96nIaPjnnvE=;
+        b=EQHwnyw4zB6FAauXiUu9p4Sk9YPquvVq2n5FKgbOFFmRMSAnZ5RMzhUrPLr7Q5ArJ2
+         3Hr0cuM+xHwayXNEbL2owIpHW67ubSQInJKufaEhxooc07VDNojEJpnztrsDvlz7R/nU
+         9pOw4ksexmhvIW4pkep0PDeacPvRNapsW6tGsJRXGrffCgZfIF0K0Txm/KUKzRCigCfl
+         hqke6OOqQax2Ilqpb8lCSx6YG73yi8f7DDV+LPj+DG19rZVtq1pgJpV4qvqmwloj9OA0
+         gzKyX3iG//ngzx7ddYEzNhlhbXpoiOARBCmGm5hUYjhAGGzk6DT0I1eV4nLGPnbK/+vy
+         jl6w==
+X-Gm-Message-State: ACrzQf2i1rQX0OFUR8IwoV/vKoXBQJwqsqcU0RD7jWUeTBg/Nu3p1rXH
+	uu8IkYL9hQBzuNK0OOOJQpFwSe3SRbQ=
+X-Google-Smtp-Source: AMsMyM7NPEOWHr4E70WwMC8sqC8pFKS2G6I+xg/o0LCVKDtnnICIVL8IhzZcldBNNijvcZ61JOfHxg==
+X-Received: by 2002:a05:6402:11d1:b0:45c:1fef:ee43 with SMTP id j17-20020a05640211d100b0045c1fefee43mr11268817edw.36.1665517835056;
+        Tue, 11 Oct 2022 12:50:35 -0700 (PDT)
+Received: from [192.168.1.102] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id z8-20020a1709060f0800b0077826b92d99sm193784eji.12.2022.10.11.12.50.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 12:44:35 -0700 (PDT)
-Message-ID: <633927a0-c763-ae41-e023-1e797d95f1d9@gmail.com>
-Date: Tue, 11 Oct 2022 21:44:34 +0200
+        Tue, 11 Oct 2022 12:50:34 -0700 (PDT)
+Message-ID: <7b2302e1-7212-95f0-8936-b642a431b033@gmail.com>
+Date: Tue, 11 Oct 2022 21:50:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,30 +48,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: rtl8192e: Remove single statement braces
+Subject: Re: [PATCH v3] staging: rtl8192e: remove unnecessary braces for
+ single statement blocks
 Content-Language: en-US
-To: Dragan Cvetic <dragan.m.cvetic@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221010190252.12402-1-dragan.m.cvetic@gmail.com>
+To: Rui Li <me@lirui.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <166535769195.7.8013937898116750731.67872946@lirui.org>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221010190252.12402-1-dragan.m.cvetic@gmail.com>
+In-Reply-To: <166535769195.7.8013937898116750731.67872946@lirui.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/10/22 21:02, Dragan Cvetic wrote:
-> Remove braces around single line statement, to resolve checkpatch.pl
-> warnings "braces {} are not necessary for single statement blocks"
+On 10/10/22 01:21, Rui Li wrote:
+> This commit cleans up checkpatch warning as follows:
+> braces {} are not necessary for single statement blocks
 > 
-> Signed-off-by: Dragan Cvetic <dragan.m.cvetic@gmail.com>
+> Signed-off-by: Rui Li <me@lirui.org>
 > ---
->   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 13 ++++---------
->   1 file changed, 4 insertions(+), 9 deletions(-)
+> Changes since v2:
+>   - Correct commit message title
+>   - Add changelog
 > 
+> Changes since v1:
+>   - Only fix one of checkpatch warnings
+> ---
+>   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  3 +--
+>   drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c |  9 +++------
+>   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 12 ++++--------
+>   3 files changed, 8 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> index 18e4e5d84878..8d20b0deca37 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+> @@ -1112,9 +1112,8 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
+>   	if (cb_desc->bHwSec) {
+>   		static u8 tmp;
+>   
+> -		if (!tmp) {
+> +		if (!tmp)
+>   			tmp = 1;
+> -		}
+>   		switch (priv->rtllib->pairwise_key_type) {
+>   		case KEY_TYPE_WEP40:
+>   		case KEY_TYPE_WEP104:
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> index 1b592258e640..4e3d183be0f2 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+> @@ -522,9 +522,8 @@ static bool _rtl92e_bb_config_para_file(struct net_device *dev)
+>   		rtStatus  = rtl92e_check_bb_and_rf(dev,
+>   						   (enum hw90_block)eCheckItem,
+>   						   (enum rf90_radio_path)0);
+> -		if (!rtStatus) {
+> +		if (!rtStatus)
+>   			return rtStatus;
+> -		}
+>   	}
+>   	rtl92e_set_bb_reg(dev, rFPGA0_RFMOD, bCCKEn|bOFDMEn, 0x0);
+>   	_rtl92e_phy_config_bb(dev, BaseBand_Config_PHY_REG);
+> @@ -1379,9 +1378,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
+>   					i++;
+>   				}
+>   
+> -				if (i >= MAX_DOZE_WAITING_TIMES_9x) {
+> +				if (i >= MAX_DOZE_WAITING_TIMES_9x)
+>   					break;
+> -				}
+>   			}
+>   			rtl92e_set_rf_off(dev);
+>   			break;
+> @@ -1398,9 +1396,8 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
+>   					i++;
+>   				}
+>   
+> -				if (i >= MAX_DOZE_WAITING_TIMES_9x) {
+> +				if (i >= MAX_DOZE_WAITING_TIMES_9x)
+>   					break;
+> -				}
+>   			}
+>   
+>   			if (pPSC->RegRfPsLevel & RT_RF_OFF_LEVL_HALT_NIC &&
 > diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> index 702551056227..d7bfaf68291c 100644
+> index 702551056227..641961a14c52 100644
 > --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 > +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> @@ -267,10 +267,8 @@ static void _rtl92e_dm_check_ac_dc_power(struct net_device *dev)
+> @@ -267,9 +267,8 @@ static void _rtl92e_dm_check_ac_dc_power(struct net_device *dev)
 >   			"PATH=/usr/bin:/bin",
 >   			 NULL};
 >   
@@ -79,11 +141,10 @@ On 10/10/22 21:02, Dragan Cvetic wrote:
 > +	if (priv->ResetProgress == RESET_TYPE_SILENT)
 >   		return;
 > -	}
-> -
+>   
 >   	if (priv->rtllib->state != RTLLIB_LINKED)
 >   		return;
->   	call_usermodehelper(ac_dc_script, argv, envp, UMH_WAIT_PROC);
-> @@ -330,9 +328,8 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
+> @@ -330,9 +329,8 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
 >   	bool bshort_gi_enabled = false;
 >   	static u8 ping_rssi_state;
 >   
@@ -94,7 +155,7 @@ On 10/10/22 21:02, Dragan Cvetic wrote:
 >   
 >   	if (pra->rate_adaptive_disabled)
 >   		return;
-> @@ -777,9 +774,8 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
+> @@ -777,9 +775,8 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
 >   		tmpRegA = rtl92e_get_bb_reg(dev, rOFDM0_XATxIQImbalance,
 >   					    bMaskDWord);
 >   		for (i = 0; i < OFDM_Table_Length; i++) {
@@ -105,7 +166,7 @@ On 10/10/22 21:02, Dragan Cvetic wrote:
 >   		}
 >   
 >   		TempCCk = rtl92e_get_bb_reg(dev, rCCK0_TxFilter1, bMaskByte2);
-> @@ -1066,9 +1062,8 @@ void rtl92e_dm_restore_state(struct net_device *dev)
+> @@ -1066,9 +1063,8 @@ void rtl92e_dm_restore_state(struct net_device *dev)
 >   	u32	reg_ratr = priv->rate_adaptive.last_ratr;
 >   	u32 ratr_value;
 >   
@@ -117,10 +178,4 @@ On 10/10/22 21:02, Dragan Cvetic wrote:
 >   	if (priv->rate_adaptive.rate_adaptive_disabled)
 >   		return;
 
-This patch interferes with:
-[PATCH v3] staging: rtl8192e: remove unnecessary braces for single 
-statement blocks
-from: me@lirui.org
-
-Bye Philipp
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
