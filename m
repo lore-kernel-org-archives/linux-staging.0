@@ -1,40 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1751B7B
-	for <linux-staging@lists.linux.dev>; Thu, 13 Oct 2022 00:18:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BA21C433C1;
-	Thu, 13 Oct 2022 00:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FD97B
+	for <linux-staging@lists.linux.dev>; Thu, 13 Oct 2022 00:19:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40D8CC433D6;
+	Thu, 13 Oct 2022 00:19:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1665620325;
-	bh=vJu1Y7GbKIjXmmyKAwbmFglhJbzjORDEqYMQcVUSLbM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jQtEcWLLvJSuF4fHsyME+ogJgsZEO76ar4J6vQxSuzyg/vnJk2OiEMOtO6uorMKAS
-	 z/L2en4kbWUXNOBOaPEG9y+mJDMD/6sEyNjzeZiuxnFcamRfRoO1ztUCo4XlzHM+Z1
-	 dRHbzSEX7wCWUoXkk2pQqdAllXo0zuGHFLOAJXrRL4yiaccQjgIv7YJizOe1aufto9
-	 /T4P25zbjSESmZxdLp9Peu4hjQIYzsiSFjcfBZcMct5s23tT3ZqHap5c3AAXW6JTo4
-	 PMb/q40KpR3XhihsA0KXpg31Xb3uRpSLzENnnYBwY8Yn+Yw/ZyfiRJWGiDomQ6YfGc
-	 kJN7dunHRC/iQ==
+	s=k20201202; t=1665620363;
+	bh=KpnnWPP1OE+ebkDCcqGFFLm7Mvkg7iBOomUlwMr6yc4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jL5fj5yg1nT36Zo+JxsBCwTY+3d2eN7NqsMBhqlIxDh6tAc3q3LMH+DUkDLHIGNkU
+	 FDHR83HlvsZ/gUGrb4XFKAVaH0Nq1BAbkwHp3iNlCfIi88XsffEtsiIPsFRfHzELm2
+	 4qhmVGFNZzjCU4QvHajfznWtX6SY/YcoV0E/iuZc3DvSvvkHVit2vdnkbfcGUvzFUb
+	 X8pFUchpqcS3V2Lp73ZSbDnJW7vaYNYpiCxGJtkPdQyVRzE+bqEHXyAou98NUxgcN1
+	 /y2qKGLTy8aQ+hAediQG5nksUzrR1Ne1p+hTAV1RPyjD47APpm4i8FaQszxCPM0B2b
+	 DIIv5+0yHmAsg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Michael Straube <straube.linux@gmail.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+Cc: GUO Zihua <guozihua@huawei.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	paskripkin@gmail.com,
-	gszymaszek@short.pl,
+	florian.c.schilhabel@googlemail.com,
 	fmdefrancesco@gmail.com,
-	makvihas@gmail.com,
-	saurav.girepunje@gmail.com,
+	asif.kgauri@gmail.com,
+	skumark1902@gmail.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.19 01/63] staging: r8188eu: do not spam the kernel log
-Date: Wed, 12 Oct 2022 20:17:35 -0400
-Message-Id: <20221013001842.1893243-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.19 15/63] staging: rtl8712: Fix return type for implementation of ndo_start_xmit
+Date: Wed, 12 Oct 2022 20:17:49 -0400
+Message-Id: <20221013001842.1893243-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
+References: <20221013001842.1893243-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,59 +43,72 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Michael Straube <straube.linux@gmail.com>
+From: GUO Zihua <guozihua@huawei.com>
 
-[ Upstream commit 9a4d0d1c21b974454926c3b832b4728679d818eb ]
+[ Upstream commit 307d343620e1fc7a6a2b7a1cdadb705532c9b6a5 ]
 
-Drivers should not spam the kernel log if they work properly. Convert
-the functions Hal_EfuseParseIDCode88E() and _netdev_open() to use
-netdev_dbg() instead of pr_info() so that developers can still enable
-it if they want to see this information.
+CFI (Control Flow Integrity) is a safety feature allowing the system to
+detect and react should a potential control flow hijacking occurs. In
+particular, the Forward-Edge CFI protects indirect function calls by
+ensuring the prototype of function that is actually called matches the
+definition of the function hook.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
-Link: https://lore.kernel.org/r/20220808065023.3175-1-straube.linux@gmail.com
+Since Linux now supports CFI, it will be a good idea to fix mismatched
+return type for implementation of hooks. Otherwise this would get
+cought out by CFI and cause a panic.
+
+Use enums from netdev_tx_t as return value instead, then change return
+type to netdev_tx_t.
+
+Signed-off-by: GUO Zihua <guozihua@huawei.com>
+Link: https://lore.kernel.org/r/20220905130230.11230-1-guozihua@huawei.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 ++-
- drivers/staging/r8188eu/os_dep/os_intfs.c       | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8712/xmit_linux.c | 6 +++---
+ drivers/staging/rtl8712/xmit_osdep.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 5549e7be334a..859acea58d35 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -676,6 +676,7 @@ Hal_EfuseParseIDCode88E(
- 	)
- {
- 	struct eeprom_priv *pEEPROM = &padapter->eeprompriv;
-+	struct net_device *netdev = padapter->pnetdev;
- 	u16			EEPROMId;
- 
- 	/*  Check 0x8129 again for making sure autoload status!! */
-@@ -687,7 +688,7 @@ Hal_EfuseParseIDCode88E(
- 		pEEPROM->bautoload_fail_flag = false;
- 	}
- 
--	pr_info("EEPROM ID = 0x%04x\n", EEPROMId);
-+	netdev_dbg(netdev, "EEPROM ID = 0x%04x\n", EEPROMId);
+diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
+index 4a93839bf947..e84b9fa231cd 100644
+--- a/drivers/staging/rtl8712/xmit_linux.c
++++ b/drivers/staging/rtl8712/xmit_linux.c
+@@ -140,7 +140,7 @@ void r8712_xmit_complete(struct _adapter *padapter, struct xmit_frame *pxframe)
+ 	pxframe->pkt = NULL;
  }
  
- static void Hal_ReadPowerValueFromPROM_8188E(struct txpowerinfo24g *pwrInfo24G, u8 *PROMContent, bool AutoLoadFail)
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index aa100b5141e1..f5e3660555a1 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -636,7 +636,7 @@ int _netdev_open(struct net_device *pnetdev)
- 		if (status == _FAIL)
- 			goto netdev_open_error;
+-int r8712_xmit_entry(_pkt *pkt, struct  net_device *netdev)
++netdev_tx_t r8712_xmit_entry(_pkt *pkt, struct  net_device *netdev)
+ {
+ 	struct xmit_frame *xmitframe = NULL;
+ 	struct _adapter *adapter = netdev_priv(netdev);
+@@ -165,11 +165,11 @@ int r8712_xmit_entry(_pkt *pkt, struct  net_device *netdev)
+ 	}
+ 	xmitpriv->tx_pkts++;
+ 	xmitpriv->tx_bytes += xmitframe->attrib.last_txcmdsz;
+-	return 0;
++	return NETDEV_TX_OK;
+ _xmit_entry_drop:
+ 	if (xmitframe)
+ 		r8712_free_xmitframe(xmitpriv, xmitframe);
+ 	xmitpriv->tx_drop++;
+ 	dev_kfree_skb_any(pkt);
+-	return 0;
++	return NETDEV_TX_OK;
+ }
+diff --git a/drivers/staging/rtl8712/xmit_osdep.h b/drivers/staging/rtl8712/xmit_osdep.h
+index b76021b568f8..1ad42658c883 100644
+--- a/drivers/staging/rtl8712/xmit_osdep.h
++++ b/drivers/staging/rtl8712/xmit_osdep.h
+@@ -34,7 +34,7 @@ struct sta_xmit_priv;
+ struct xmit_frame;
+ struct xmit_buf;
  
--		pr_info("MAC Address = %pM\n", pnetdev->dev_addr);
-+		netdev_dbg(pnetdev, "MAC Address = %pM\n", pnetdev->dev_addr);
- 
- 		status = rtw_start_drv_threads(padapter);
- 		if (status == _FAIL) {
+-int r8712_xmit_entry(_pkt *pkt, struct  net_device *pnetdev);
++netdev_tx_t r8712_xmit_entry(_pkt *pkt, struct  net_device *pnetdev);
+ void r8712_SetFilter(struct work_struct *work);
+ int r8712_xmit_resource_alloc(struct _adapter *padapter,
+ 			      struct xmit_buf *pxmitbuf);
 -- 
 2.35.1
 
