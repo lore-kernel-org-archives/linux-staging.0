@@ -1,64 +1,102 @@
-Received: from h7.fbrelay.privateemail.com (h7.fbrelay.privateemail.com [162.0.218.230])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50431321E
-	for <linux-staging@lists.linux.dev>; Wed, 12 Oct 2022 21:24:46 +0000 (UTC)
-Received: from MTA-07-4.privateemail.com (mta-07.privateemail.com [198.54.127.57])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by h7.fbrelay.privateemail.com (Postfix) with ESMTPS id 9B26760569
-	for <linux-staging@lists.linux.dev>; Wed, 12 Oct 2022 21:16:30 +0000 (UTC)
-Received: from mta-07.privateemail.com (localhost [127.0.0.1])
-	by mta-07.privateemail.com (Postfix) with ESMTP id A312B18000A3;
-	Wed, 12 Oct 2022 17:16:22 -0400 (EDT)
-Received: from fedora.. (93-55-228-234.ip265.fastwebnet.it [93.55.228.234])
-	by mta-07.privateemail.com (Postfix) with ESMTPA id 15C1418000A1;
-	Wed, 12 Oct 2022 17:16:16 -0400 (EDT)
-From: Rigel Di Scala <zedr@zedr.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	rigeld@gmail.com,
-	Rigel Di Scala <zedr@zedr.com>
-Subject: [PATCH] Staging: rtl8192e: fix a brace style issue
-Date: Wed, 12 Oct 2022 21:16:12 +0000
-Message-Id: <20221012211612.75871-1-zedr@zedr.com>
-X-Mailer: git-send-email 2.37.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1074B7B
+	for <linux-staging@lists.linux.dev>; Thu, 13 Oct 2022 00:15:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21CDCC433C1;
+	Thu, 13 Oct 2022 00:15:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1665620157;
+	bh=PFXDyzCvVi7sPptlSoSC5COyic15dxm5s3UNNFHXn/0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XOtPlrwWUxloBn1+WhVRPXUoYOIM9vdIdYagpVOsvW53aOmxhZOJwbuU0wuWpPXHs
+	 6tdInbZNxjA/K/CHYz+hqljozqZDqqN6qKY5YqOrH/CAj1k+UMqBNuI0bZxbSRDVtW
+	 0tQyXQ2Gz6tmzSJzOPHqxrZNEJ3uRzF2PRk0uH51BqH7dL5oiEc1Hhha/iKCpt5OdB
+	 l1Y6N1oaws0OCFbpkZMimSTwyDMokclJakuNHTnlUOlK0oJKsZ6VlW8oj56ARy9hl5
+	 wdKP/++I9r+YugNQ4jFhcjupdSB0wz/w9Q3g91HDYuqQDJtzk3z+6dnyjAtxgYHdLj
+	 TVQOGUbOaxTNw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Michael Straube <straube.linux@gmail.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	paskripkin@gmail.com,
+	gszymaszek@short.pl,
+	saurav.girepunje@gmail.com,
+	makvihas@gmail.com,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.0 01/67] staging: r8188eu: do not spam the kernel log
+Date: Wed, 12 Oct 2022 20:14:42 -0400
+Message-Id: <20221013001554.1892206-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
 
-Fixed a coding style issue affecting a conditional if statement.
+From: Michael Straube <straube.linux@gmail.com>
 
-Signed-off-by: Rigel Di Scala <zedr@zedr.com>
+[ Upstream commit 9a4d0d1c21b974454926c3b832b4728679d818eb ]
+
+Drivers should not spam the kernel log if they work properly. Convert
+the functions Hal_EfuseParseIDCode88E() and _netdev_open() to use
+netdev_dbg() instead of pr_info() so that developers can still enable
+it if they want to see this information.
+
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Link: https://lore.kernel.org/r/20220808065023.3175-1-straube.linux@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/rtl8192e/rtl819x_BAProc.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 ++-
+ drivers/staging/r8188eu/os_dep/os_intfs.c       | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-index 19d13b3fc..e932ad1a9 100644
---- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-@@ -180,11 +180,10 @@ static void rtllib_send_ADDBAReq(struct rtllib_device *ieee, u8 *dst,
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 5b8f1a912bbb..58a193334b91 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -688,6 +688,7 @@ Hal_EfuseParseIDCode88E(
+ 	)
+ {
+ 	struct eeprom_priv *pEEPROM = &padapter->eeprompriv;
++	struct net_device *netdev = padapter->pnetdev;
+ 	u16			EEPROMId;
  
- 	skb = rtllib_ADDBA(ieee, dst, pBA, 0, ACT_ADDBAREQ);
+ 	/*  Check 0x8129 again for making sure autoload status!! */
+@@ -699,7 +700,7 @@ Hal_EfuseParseIDCode88E(
+ 		pEEPROM->bautoload_fail_flag = false;
+ 	}
  
--	if (skb) {
-+	if (skb)
- 		softmac_mgmt_xmit(skb, ieee);
--	} else {
-+	else
- 		netdev_dbg(ieee->dev, "Failed to generate ADDBAReq packet.\n");
--	}
+-	pr_info("EEPROM ID = 0x%04x\n", EEPROMId);
++	netdev_dbg(netdev, "EEPROM ID = 0x%04x\n", EEPROMId);
  }
  
- static void rtllib_send_ADDBARsp(struct rtllib_device *ieee, u8 *dst,
+ static void Hal_ReadPowerValueFromPROM_8188E(struct txpowerinfo24g *pwrInfo24G, u8 *PROMContent, bool AutoLoadFail)
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index aa100b5141e1..f5e3660555a1 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -636,7 +636,7 @@ int _netdev_open(struct net_device *pnetdev)
+ 		if (status == _FAIL)
+ 			goto netdev_open_error;
+ 
+-		pr_info("MAC Address = %pM\n", pnetdev->dev_addr);
++		netdev_dbg(pnetdev, "MAC Address = %pM\n", pnetdev->dev_addr);
+ 
+ 		status = rtw_start_drv_threads(padapter);
+ 		if (status == _FAIL) {
 -- 
-2.37.3
+2.35.1
 
