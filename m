@@ -1,38 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BB47B;
-	Thu, 13 Oct 2022 00:26:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C904C433D7;
-	Thu, 13 Oct 2022 00:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A817B
+	for <linux-staging@lists.linux.dev>; Thu, 13 Oct 2022 00:26:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B3F4C433C1;
+	Thu, 13 Oct 2022 00:26:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1665620765;
-	bh=aUtu/lpREqGhiOct7mEgMbHuIL7L4i+oj4RQj4p8H/I=;
+	s=k20201202; t=1665620794;
+	bh=OMc2Noxt8vfl1gcPTrZ8XL2sdgJFYQXsLCvRYvKJc0I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oA17L6youwzNoZ/mVipIYjGOeUFjmq6+oAyJMw1tT/h6OLhbwnArnjPjMsA254B3/
-	 dnVDbHSSiV/05hsmAUSp9ksB8TQepa2HeF6/NXN66zPGdzK6rvtBhm6L55IvL0scGE
-	 MQrw7z89raUUFZG4iv4+F/ww++VCxRnKepmt6rK8qQAoKg4oLRUkoB/oh/hqdq71wA
-	 y2vlt5b2OcY7UX80RLaAgBgRBx3+5plBBUEcff46VBUUPQx2JLOsGo/qoixyJO98f6
-	 T+ntwt8S7I6yHEhstrLGrY4y4UkD3y+dwFwYH16Gs+Zlj58KJ4uB5HYmW93ak0aBZx
-	 sHJV4GASSIzJw==
+	b=H0OOrS7nXruDbzMNuqj0aAV6HzaSjCHlqlX9ziXlKDgFWU0R5YLN+dgGU6elblytb
+	 1ux7GQ0nqWGEuN5WE7uBaiLnxNI0tVN9SXvB6jx5b8J6HVZr6BlCY59w4YnD7sBOEa
+	 57Ztfeuv3pRWLeTXnF3u/6aMqkHpsqDfS2G4UNoStoEGYnAkWjsQm7zsEuqwe32fUU
+	 rhKBQxzRiFNQAv+dNV3+Ex/KFrMTa+XWELhVpcc3MtiuPnpJI2j+Lpyy7juqdGhAl6
+	 HHWiSacFwYPwJm4o2gc5yiZLmRqhf+oBUW3ndEO1qYsarBhKetK8j17bJjUpROuFq6
+	 GHoTHB4ctXc9w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nathan Huckleberry <nhuck@google.com>,
-	llvm@lists.linux.dev,
-	Dan Carpenter <error27@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
+Cc: Nam Cao <namcaov@gmail.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	ndesaulniers@google.com,
+	forest@alittletooquiet.net,
+	tomm.merciai@gmail.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 21/27] staging: octeon: Fix return type of cvm_oct_xmit and cvm_oct_xmit_pow
-Date: Wed, 12 Oct 2022 20:24:53 -0400
-Message-Id: <20221013002501.1895204-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 05/19] staging: vt6655: fix potential memory leak
+Date: Wed, 12 Oct 2022 20:26:04 -0400
+Message-Id: <20221013002623.1895576-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013002501.1895204-1-sashal@kernel.org>
-References: <20221013002501.1895204-1-sashal@kernel.org>
+In-Reply-To: <20221013002623.1895576-1-sashal@kernel.org>
+References: <20221013002623.1895576-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,70 +41,40 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Nathan Huckleberry <nhuck@google.com>
+From: Nam Cao <namcaov@gmail.com>
 
-[ Upstream commit b77599043f00fce9253d0f22522c5d5b521555ce ]
+[ Upstream commit c8ff91535880d41b49699b3829fb6151942de29e ]
 
-The ndo_start_xmit field in net_device_ops is expected to be of type
-netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
+In function device_init_td0_ring, memory is allocated for member
+td_info of priv->apTD0Rings[i], with i increasing from 0. In case of
+allocation failure, the memory is freed in reversed order, with i
+decreasing to 0. However, the case i=0 is left out and thus memory is
+leaked.
 
-The mismatched return type breaks forward edge kCFI since the underlying
-function definition does not match the function hook definition.
+Modify the memory freeing loop to include the case i=0.
 
-The return type of cvm_oct_xmit and cvm_oct_xmit_pow should be changed
-from int to netdev_tx_t.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-Cc: llvm@lists.linux.dev
-Reported-by: Dan Carpenter <error27@gmail.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-Link: https://lore.kernel.org/r/20220914211057.423617-1-nhuck@google.com
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: Nam Cao <namcaov@gmail.com>
+Link: https://lore.kernel.org/r/20220909141338.19343-1-namcaov@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/octeon/ethernet-tx.c | 4 ++--
- drivers/staging/octeon/ethernet-tx.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/vt6655/device_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index fe6e1ae73460..15568bf2ca56 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -125,7 +125,7 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
-  *
-  * Returns Always returns NETDEV_TX_OK
-  */
--int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
-+netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
- {
- 	cvmx_pko_command_word0_t pko_command;
- 	union cvmx_buf_ptr hw_buffer;
-@@ -507,7 +507,7 @@ int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 76f434c1c088..0cedb27c052d 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -677,7 +677,7 @@ static int device_init_td0_ring(struct vnt_private *priv)
+ 	return 0;
  
-  * Returns Always returns zero
-  */
--int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
-+netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
- {
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	void *packet_buffer;
-diff --git a/drivers/staging/octeon/ethernet-tx.h b/drivers/staging/octeon/ethernet-tx.h
-index 78936e9b33b0..6c524668f65a 100644
---- a/drivers/staging/octeon/ethernet-tx.h
-+++ b/drivers/staging/octeon/ethernet-tx.h
-@@ -5,8 +5,8 @@
-  * Copyright (c) 2003-2007 Cavium Networks
-  */
- 
--int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev);
--int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev);
-+netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev);
-+netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev);
- int cvm_oct_transmit_qos(struct net_device *dev, void *work_queue_entry,
- 			 int do_free, int qos);
- void cvm_oct_tx_initialize(void);
+ err_free_desc:
+-	while (--i) {
++	while (i--) {
+ 		desc = &priv->apTD0Rings[i];
+ 		kfree(desc->td_info);
+ 	}
 -- 
 2.35.1
 
