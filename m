@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F112C7B;
-	Thu, 13 Oct 2022 00:17:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FE21C43470;
-	Thu, 13 Oct 2022 00:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFF77B
+	for <linux-staging@lists.linux.dev>; Thu, 13 Oct 2022 00:17:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78D2BC433D6;
+	Thu, 13 Oct 2022 00:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1665620274;
-	bh=r6vSej3gjd+5Y2O1GhWUlII1RKH5uIuDL/+bhV/uJhI=;
+	s=k20201202; t=1665620278;
+	bh=TZI+pygGR9VgAS6VCGq1EY8I+61HOj+ZEUc/tgiwZGI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Cv7yFP1mhlcfhT9ouu8FbzO0hbWs5sbj5CbTvkMTsOq5kvoWD1jmqNWmLH4/Z2Yqn
-	 Le3RwpcPn0nvQ8G87KbuUYDAYTiW+Arc5DWci3XGyDSoLHTn0/J0fBXO/ZIDoCl4Ok
-	 P/+JJOZHfZjYV9K4McydsBNcUMub1A7EI6WzwovSAhnMbv5pD8eQ848AXtM3sV0xgG
-	 x/C97QHpK1Y9tPNHHaPzzPmrPWzKpuquKTz+zfDe/KbDDjMLKr6KFjVj/N1xu4zF3X
-	 RwWpuQcd9+UrWFAnwf6rVEAn9R4stO6f0AM1tIYpVDKlvq4nOyS6T/pKQC3JKVMUCf
-	 1HHHErZLuEbGw==
+	b=AodJ2zsZglDVLcKgEqPAolzGbVAchOKYYRQOnI+CBOi9kWm6bRWGjPd9YThurRAfo
+	 KLE7N3AJzmrDiSC6Mf96y5gbeykP/e4zbTlElLsbyDpPyGPvvZaFLbDBjG/2BNbu1O
+	 FdCwaXpO+iRtBYFCpr6X5uoFDs2kAa/DwgDegYZPu8xbmx5On6oeKXbnaAhwzS1DLQ
+	 ODTNNhxw8PeeNgA63mZcqn2rVvDrQChfDvkHH2JmVQ+T3xciDzhqxdPmt7r0lK6Klj
+	 DJSo0v/3A3quevdBKzaoS9qLMJegWCxxTl0uD5SgODTWEuKAdFfA3aplfVnlIJvr9V
+	 3cAtZtGNVEo+w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nathan Huckleberry <nhuck@google.com>,
-	llvm@lists.linux.dev,
-	Dan Carpenter <error27@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
+Cc: Xiaoke Wang <xkernel.wang@foxmail.com>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	ndesaulniers@google.com,
+	Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	remckee0@gmail.com,
+	martin@kaiser.cx,
+	straube.linux@gmail.com,
+	makvihas@gmail.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.0 48/67] staging: octeon: Fix return type of cvm_oct_xmit and cvm_oct_xmit_pow
-Date: Wed, 12 Oct 2022 20:15:29 -0400
-Message-Id: <20221013001554.1892206-48-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 49/67] staging: r8188eu: fix a potential memory leak in rtw_init_cmd_priv()
+Date: Wed, 12 Oct 2022 20:15:30 -0400
+Message-Id: <20221013001554.1892206-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221013001554.1892206-1-sashal@kernel.org>
 References: <20221013001554.1892206-1-sashal@kernel.org>
@@ -43,70 +45,76 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Nathan Huckleberry <nhuck@google.com>
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-[ Upstream commit b77599043f00fce9253d0f22522c5d5b521555ce ]
+[ Upstream commit 06bfdb6d889f57fe9ce7bd139ce278b68f3a59de ]
 
-The ndo_start_xmit field in net_device_ops is expected to be of type
-netdev_tx_t (*ndo_start_xmit)(struct sk_buff *skb, struct net_device *dev).
+In rtw_init_cmd_priv(), if `pcmdpriv->rsp_allocated_buf` is allocated
+in failure, then `pcmdpriv->cmd_allocated_buf` will not be properly
+released. Besides, considering there are only two error paths and the
+first one can directly return, we do not need to implicitly jump to the
+`exit` tag to execute the error handling code.
 
-The mismatched return type breaks forward edge kCFI since the underlying
-function definition does not match the function hook definition.
+So this patch added `kfree(pcmdpriv->cmd_allocated_buf);` on the error
+path to release the resource and simplified the return logic of
+rtw_init_cmd_priv(). As there is no proper device to test with, no
+runtime testing was performed.
 
-The return type of cvm_oct_xmit and cvm_oct_xmit_pow should be changed
-from int to netdev_tx_t.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1703
-Cc: llvm@lists.linux.dev
-Reported-by: Dan Carpenter <error27@gmail.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-Link: https://lore.kernel.org/r/20220914211057.423617-1-nhuck@google.com
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+Link: https://lore.kernel.org/r/tencent_1B6AAE10471D4556788892F8FF3E4812F306@qq.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/octeon/ethernet-tx.c | 4 ++--
- drivers/staging/octeon/ethernet-tx.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index 1ad94c5060b5..a36e36701c74 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -125,7 +125,7 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
-  *
-  * Returns Always returns NETDEV_TX_OK
-  */
--int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
-+netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
- {
- 	union cvmx_pko_command_word0 pko_command;
- 	union cvmx_buf_ptr hw_buffer;
-@@ -506,7 +506,7 @@ int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
-  * @dev:    Device info structure
-  * Returns Always returns zero
-  */
--int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
-+netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
- {
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	void *packet_buffer;
-diff --git a/drivers/staging/octeon/ethernet-tx.h b/drivers/staging/octeon/ethernet-tx.h
-index 78936e9b33b0..6c524668f65a 100644
---- a/drivers/staging/octeon/ethernet-tx.h
-+++ b/drivers/staging/octeon/ethernet-tx.h
-@@ -5,8 +5,8 @@
-  * Copyright (c) 2003-2007 Cavium Networks
-  */
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 5b6a891b5d67..5eb1751a43ac 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -58,8 +58,6 @@ static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
  
--int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev);
--int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev);
-+netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev);
-+netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev);
- int cvm_oct_transmit_qos(struct net_device *dev, void *work_queue_entry,
- 			 int do_free, int qos);
- void cvm_oct_tx_initialize(void);
+ u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ {
+-	u32 res = _SUCCESS;
+-
+ 	init_completion(&pcmdpriv->enqueue_cmd);
+ 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
+ 	init_completion(&pcmdpriv->start_cmd_thread);
+@@ -74,27 +72,24 @@ u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 	pcmdpriv->cmd_allocated_buf = kzalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ,
+ 					      GFP_KERNEL);
+ 
+-	if (!pcmdpriv->cmd_allocated_buf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
++	if (!pcmdpriv->cmd_allocated_buf)
++		return _FAIL;
+ 
+ 	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((size_t)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
+ 
+ 	pcmdpriv->rsp_allocated_buf = kzalloc(MAX_RSPSZ + 4, GFP_KERNEL);
+ 
+ 	if (!pcmdpriv->rsp_allocated_buf) {
+-		res = _FAIL;
+-		goto exit;
++		kfree(pcmdpriv->cmd_allocated_buf);
++		return _FAIL;
+ 	}
+ 
+ 	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf  +  4 - ((size_t)(pcmdpriv->rsp_allocated_buf) & 3);
+ 
+ 	pcmdpriv->cmd_done_cnt = 0;
+ 	pcmdpriv->rsp_cnt = 0;
+-exit:
+ 
+-	return res;
++	return _SUCCESS;
+ }
+ 
+ u32 rtw_init_evt_priv(struct evt_priv *pevtpriv)
 -- 
 2.35.1
 
