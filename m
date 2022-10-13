@@ -1,40 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D31B7B
-	for <linux-staging@lists.linux.dev>; Thu, 13 Oct 2022 00:20:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDD95C43142;
-	Thu, 13 Oct 2022 00:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA8C7B
+	for <linux-staging@lists.linux.dev>; Thu, 13 Oct 2022 00:22:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 333C5C433C1;
+	Thu, 13 Oct 2022 00:22:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1665620446;
-	bh=TZI+pygGR9VgAS6VCGq1EY8I+61HOj+ZEUc/tgiwZGI=;
+	s=k20201202; t=1665620523;
+	bh=EVWTMBdrIl0rdooeaOXXeRpDIuBj92DVN5Ph5M/rTMg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QBqLdh3i3VbpaapoXatCcpikbwHN5O7447CNpbp2jhN15yz/LPUotoyWrbi03JNB3
-	 3wVnpGPPcFOf8lXx7Q4ttmzBVSb/QGhWLFx+UMh08tq3qjYk9ojhGYnqAD0jDbixa4
-	 8/SD0sQXLfuBk21UYH1LGdG1RYU3oX8z/YiGwao9OOlG4lITdn5VgT6e1OeKWj0uch
-	 mIeKq8E8xgr3mVtyGRSIEp5e6EB/a40gfOXNKJTXPFvxkuJmSxAARCOaw1l4MhekqB
-	 rF/bUsuSZxWssvfhgtBB+xHqXgUe0hHALb4vizLQYLb/uV5u3ZmLJAJ52+Vo7/la3C
-	 54r6JCTPDo47w==
+	b=bD3oej40Y9Dv03cD+0BAwZ41pMjU1KsOLUMc9cnuMFjxbHPUYFJlXR6xLJQQ+F7wZ
+	 9XENhCYhSwr/OR6Y5wf8R+iwBedu1bT15gF5KmQKKqCwvlp2wsEHW2eWMAyI/aLpKq
+	 7Mh+7Q6e/lR0rXeJbCDFynA0q8erT+YMEXD92b/TmC+2V8M+qnU+esfhTTzxMcAUrx
+	 B2Qff8jRXd2MHAFhN/eH971A2CJeWGwcQL7O9bF367TFLQtm0IyAs4q3VuwImwP66D
+	 8OGIHXRIBWR4uy4ycbqeCKw8PLtYgmfPOmHwd2n/gPKdOKnDwRWbsQa4pGH/vH4sh1
+	 cYflAH34sQyDA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Xiaoke Wang <xkernel.wang@foxmail.com>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+Cc: GUO Zihua <guozihua@huawei.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	remckee0@gmail.com,
-	martin@kaiser.cx,
-	straube.linux@gmail.com,
-	makvihas@gmail.com,
+	florian.c.schilhabel@googlemail.com,
+	skumark1902@gmail.com,
+	fmdefrancesco@gmail.com,
+	asif.kgauri@gmail.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.19 47/63] staging: r8188eu: fix a potential memory leak in rtw_init_cmd_priv()
-Date: Wed, 12 Oct 2022 20:18:21 -0400
-Message-Id: <20221013001842.1893243-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 11/47] staging: rtl8712: Fix return type for implementation of ndo_start_xmit
+Date: Wed, 12 Oct 2022 20:20:46 -0400
+Message-Id: <20221013002124.1894077-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221013001842.1893243-1-sashal@kernel.org>
-References: <20221013001842.1893243-1-sashal@kernel.org>
+In-Reply-To: <20221013002124.1894077-1-sashal@kernel.org>
+References: <20221013002124.1894077-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,76 +43,72 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+From: GUO Zihua <guozihua@huawei.com>
 
-[ Upstream commit 06bfdb6d889f57fe9ce7bd139ce278b68f3a59de ]
+[ Upstream commit 307d343620e1fc7a6a2b7a1cdadb705532c9b6a5 ]
 
-In rtw_init_cmd_priv(), if `pcmdpriv->rsp_allocated_buf` is allocated
-in failure, then `pcmdpriv->cmd_allocated_buf` will not be properly
-released. Besides, considering there are only two error paths and the
-first one can directly return, we do not need to implicitly jump to the
-`exit` tag to execute the error handling code.
+CFI (Control Flow Integrity) is a safety feature allowing the system to
+detect and react should a potential control flow hijacking occurs. In
+particular, the Forward-Edge CFI protects indirect function calls by
+ensuring the prototype of function that is actually called matches the
+definition of the function hook.
 
-So this patch added `kfree(pcmdpriv->cmd_allocated_buf);` on the error
-path to release the resource and simplified the return logic of
-rtw_init_cmd_priv(). As there is no proper device to test with, no
-runtime testing was performed.
+Since Linux now supports CFI, it will be a good idea to fix mismatched
+return type for implementation of hooks. Otherwise this would get
+cought out by CFI and cause a panic.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
-Link: https://lore.kernel.org/r/tencent_1B6AAE10471D4556788892F8FF3E4812F306@qq.com
+Use enums from netdev_tx_t as return value instead, then change return
+type to netdev_tx_t.
+
+Signed-off-by: GUO Zihua <guozihua@huawei.com>
+Link: https://lore.kernel.org/r/20220905130230.11230-1-guozihua@huawei.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8712/xmit_linux.c | 6 +++---
+ drivers/staging/rtl8712/xmit_osdep.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 5b6a891b5d67..5eb1751a43ac 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -58,8 +58,6 @@ static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
- 
- u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- {
--	u32 res = _SUCCESS;
--
- 	init_completion(&pcmdpriv->enqueue_cmd);
- 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
- 	init_completion(&pcmdpriv->start_cmd_thread);
-@@ -74,27 +72,24 @@ u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- 	pcmdpriv->cmd_allocated_buf = kzalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ,
- 					      GFP_KERNEL);
- 
--	if (!pcmdpriv->cmd_allocated_buf) {
--		res = _FAIL;
--		goto exit;
--	}
-+	if (!pcmdpriv->cmd_allocated_buf)
-+		return _FAIL;
- 
- 	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((size_t)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
- 
- 	pcmdpriv->rsp_allocated_buf = kzalloc(MAX_RSPSZ + 4, GFP_KERNEL);
- 
- 	if (!pcmdpriv->rsp_allocated_buf) {
--		res = _FAIL;
--		goto exit;
-+		kfree(pcmdpriv->cmd_allocated_buf);
-+		return _FAIL;
- 	}
- 
- 	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf  +  4 - ((size_t)(pcmdpriv->rsp_allocated_buf) & 3);
- 
- 	pcmdpriv->cmd_done_cnt = 0;
- 	pcmdpriv->rsp_cnt = 0;
--exit:
- 
--	return res;
-+	return _SUCCESS;
+diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
+index 90d34cf9d2ff..2ef56bbe5981 100644
+--- a/drivers/staging/rtl8712/xmit_linux.c
++++ b/drivers/staging/rtl8712/xmit_linux.c
+@@ -146,7 +146,7 @@ void r8712_xmit_complete(struct _adapter *padapter, struct xmit_frame *pxframe)
+ 	pxframe->pkt = NULL;
  }
  
- u32 rtw_init_evt_priv(struct evt_priv *pevtpriv)
+-int r8712_xmit_entry(_pkt *pkt, struct  net_device *netdev)
++netdev_tx_t r8712_xmit_entry(_pkt *pkt, struct  net_device *netdev)
+ {
+ 	struct xmit_frame *xmitframe = NULL;
+ 	struct _adapter *adapter = netdev_priv(netdev);
+@@ -171,11 +171,11 @@ int r8712_xmit_entry(_pkt *pkt, struct  net_device *netdev)
+ 	}
+ 	xmitpriv->tx_pkts++;
+ 	xmitpriv->tx_bytes += xmitframe->attrib.last_txcmdsz;
+-	return 0;
++	return NETDEV_TX_OK;
+ _xmit_entry_drop:
+ 	if (xmitframe)
+ 		r8712_free_xmitframe(xmitpriv, xmitframe);
+ 	xmitpriv->tx_drop++;
+ 	dev_kfree_skb_any(pkt);
+-	return 0;
++	return NETDEV_TX_OK;
+ }
+diff --git a/drivers/staging/rtl8712/xmit_osdep.h b/drivers/staging/rtl8712/xmit_osdep.h
+index b76021b568f8..1ad42658c883 100644
+--- a/drivers/staging/rtl8712/xmit_osdep.h
++++ b/drivers/staging/rtl8712/xmit_osdep.h
+@@ -34,7 +34,7 @@ struct sta_xmit_priv;
+ struct xmit_frame;
+ struct xmit_buf;
+ 
+-int r8712_xmit_entry(_pkt *pkt, struct  net_device *pnetdev);
++netdev_tx_t r8712_xmit_entry(_pkt *pkt, struct  net_device *pnetdev);
+ void r8712_SetFilter(struct work_struct *work);
+ int r8712_xmit_resource_alloc(struct _adapter *padapter,
+ 			      struct xmit_buf *pxmitbuf);
 -- 
 2.35.1
 
