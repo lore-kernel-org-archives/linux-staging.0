@@ -1,45 +1,45 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688CB3C13
-	for <linux-staging@lists.linux.dev>; Fri, 14 Oct 2022 16:56:11 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id d26so11749190eje.10
-        for <linux-staging@lists.linux.dev>; Fri, 14 Oct 2022 09:56:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3EA440C
+	for <linux-staging@lists.linux.dev>; Fri, 14 Oct 2022 19:00:53 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id bj12so12361129ejb.13
+        for <linux-staging@lists.linux.dev>; Fri, 14 Oct 2022 12:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+ycRi29HNGzJsYqIV0PQZFjUg4SSWnYtQKjFXj41VIU=;
-        b=q6OUZOBAYpZhF0HMURyGKoC2Dbf8GVUt4hr7xNspUKQlGUEEh5y4L+3ql8om/lrR3R
-         JBlA5po0rKArSFNyKfeeuP1roO2Hog+2FibtdZDfUXNtwagGJnQ16t+J/8I0mX8ohAQd
-         bsukgtvcc03VC6TVA2ASWsN543lOuWV1TcFNsEh7XRegpmcvlNHFqXk9Ee6jvze2HSMQ
-         da5k1z1EenZr1re3UXyYOek2lKN0xIJYe21w4VFAmQ38xriuytucPD3zw6070Z3jZCeK
-         q+NqSjaoFy9byj45fmekRO4cgbqBKvi7FXPad29GbX19SB2CwSCPtx4wdmQjHOeAJI7Y
-         a09g==
+        bh=kXobvSQVt9q6I8i2aGg0lLZQfL1YP6gSaNYsr3Rxk60=;
+        b=MImgUmR/yHX1E0wPk6/pe8Y9ZukXGsPrzZUJoI7er6YIzUUX9PGYs1Kkqnh+rjcz5H
+         PAQDUFhnB7zWElUEIj2xnieF7UCB8cwG17+EWsy5j7tXXUXzrTd+CiqWw2iA59Z24k8X
+         H9fgPbgfYVqLJeVTtvnZ/IoqLkGIE+MmVC0S97WsP8BVr1Qat0sc3VW4IUgNGP1u9ZjQ
+         oQWCmuyxRrcs7hAfBJDMXVtW8KkyykN3GS5CctUlkbKzRDpivPeut160BffgdjC+AIh4
+         HraRHKrwWPry6MMeIQq3OkjmBsph6ZAbZl5VQ3yhLpvfkQZ33tCTHj6zLRMVLgx+bM+1
+         3ruQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+ycRi29HNGzJsYqIV0PQZFjUg4SSWnYtQKjFXj41VIU=;
-        b=KWhQlEo8iCzLLgRvaPY/Va+37fwskiz4/2hPhyxVT8kepNRbXJ0wvCAmsh4C4I8Y7m
-         2n9ArNVEnctLWI2yLzkl93pv2DLen7O/h/p7aPYLh9dv6BNq72gxchJjfKxZtpLZlW8c
-         03qZriTl9eMlLYXTAFIW5bShjEB11tnGlrK2WzDqbHI/8lA/OF8OcjLs7ZT4P+X/q9Bp
-         nRuglKbWMOBA4KN3wXoHvibhemEVNl7ctXSUmsXZ+tMqqHkGXUYNbkLNohzogVZXDCke
-         tbdh6pvqW10l26KB/M7vXuGHp3P6fIVt3Vk3uHe2puVPDm6fqxoZ8tciBZitW4ZA0c8F
-         kZ+g==
-X-Gm-Message-State: ACrzQf2kOqaCfR69kBw6Kjp/aGbe7eDuAc0p8yqFLd5BvPaqN0Zmn+WG
-	cS0A9gX1GFCGzZ8O/T9BBUgSb6mSAZ0=
-X-Google-Smtp-Source: AMsMyM6Gtop/ipLAmL+w9SYX5VT78bZu7hhlyg2cE/p7KwrM52FSicwlEtbya4Fc4go6g5AFQ/qjXg==
-X-Received: by 2002:a17:907:1deb:b0:78d:4a0e:f654 with SMTP id og43-20020a1709071deb00b0078d4a0ef654mr4260694ejc.757.1665766569596;
-        Fri, 14 Oct 2022 09:56:09 -0700 (PDT)
-Received: from [192.168.1.102] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
-        by smtp.gmail.com with ESMTPSA id c22-20020a170906155600b007081282cbd8sm1784257ejd.76.2022.10.14.09.56.08
+        bh=kXobvSQVt9q6I8i2aGg0lLZQfL1YP6gSaNYsr3Rxk60=;
+        b=hIrvh4bcWhE/7e9+n6j37/fQ0yhHCBhF8wkN1LGugz994nQn6QkT8kA0OILRp2/biS
+         a5FEqiPkqpV7B/C3muO767Ard3Xt7gjCWDLTxWE4gnSgZFTwULkHQ03Pw2klzw6H7auA
+         NaMj3HdmR2sUQ/kG9RmUIBzd4w5HTz3JxmuwhtOVtDi5Xrz3TV5T2SFbOghYddu0m2tp
+         w2Out7bBulNWWTfns8LX39rE8qmIAO/dirSi70hMGm8qBUWRx/+OBVlNIqUqDYnDIHyp
+         mt+eZ69s9IbYoVKgeAK8smh5FWBNZH7KFuJNV2WKHJ2sMK4ejXheSJodD6LA1JmduP5s
+         K/xw==
+X-Gm-Message-State: ACrzQf1al0bzm4l2G9fJzHUXjVJ3nFnvD6GUTL1mXY3Giio5Kqg8dzAJ
+	aR/aqvOaq/9qD6aHw1nr+KzQQb9TUHjUpQ==
+X-Google-Smtp-Source: AMsMyM7kttQMMDCGdRoDZGbNC9xVlTlXZ2gPlhBicHGv49oUodGeRkXKffWrQvK809oBpVw5XkBmow==
+X-Received: by 2002:a17:907:94c3:b0:78e:2866:f89f with SMTP id dn3-20020a17090794c300b0078e2866f89fmr2266274ejc.617.1665774052116;
+        Fri, 14 Oct 2022 12:00:52 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f3e:6a24:d9ca:fb25:65a1:90fa? (p200300c78f3e6a24d9cafb2565a190fa.dip0.t-ipconnect.de. [2003:c7:8f3e:6a24:d9ca:fb25:65a1:90fa])
+        by smtp.gmail.com with ESMTPSA id v25-20020aa7dbd9000000b00456c6b4b777sm2199943edt.69.2022.10.14.12.00.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Oct 2022 09:56:09 -0700 (PDT)
-Message-ID: <08887454-0ea8-107d-196d-b21b46e357da@gmail.com>
-Date: Fri, 14 Oct 2022 18:56:08 +0200
+        Fri, 14 Oct 2022 12:00:51 -0700 (PDT)
+Message-ID: <38990e85-b74f-0910-8d64-ad614c3bd8e4@gmail.com>
+Date: Fri, 14 Oct 2022 21:00:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,43 +48,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] Staging: rtl8192e: fix a brace style issue
+Subject: Re: [PATCH 3/4] Staging: rtl8192e: make alignment match open
+ parenthesis
 Content-Language: en-US
-To: Rigel Di Scala <zedr@zedr.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- rigeld@gmail.com
-References: <20221012211612.75871-1-zedr@zedr.com>
+To: Anjandev Momi <anjan@momi.ca>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221014081839.23902-1-anjan@momi.ca>
+ <20221014081839.23902-4-anjan@momi.ca>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221012211612.75871-1-zedr@zedr.com>
+In-Reply-To: <20221014081839.23902-4-anjan@momi.ca>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/12/22 23:16, Rigel Di Scala wrote:
-> Fixed a coding style issue affecting a conditional if statement.
+On 10/14/22 10:18, Anjandev Momi wrote:
+> This patch removes the following checks generated by checkpatch.pl:
 > 
-> Signed-off-by: Rigel Di Scala <zedr@zedr.com>
+> 	./drivers/staging/rtl8192e/rtl819x_BAProc.c:261: CHECK:
+> 	Alignment should match open parenthesis
+> 	./drivers/staging/rtl8192e/rtl819x_BAProc.c:284: CHECK:
+> 	Alignment should match open parenthesis
+> 	./drivers/staging/rtl8192e/rtl819x_BAProc.c:421: CHECK:
+> 	Alignment should match open parenthesis
+> 	./drivers/staging/rtl8192e/rtl819x_BAProc.c:441: CHECK:
+> 	Alignment should match open parenthesis
+> 
+> Signed-off-by: Anjandev Momi <anjan@momi.ca>
 > ---
->   drivers/staging/rtl8192e/rtl819x_BAProc.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>   drivers/staging/rtl8192e/rtl819x_BAProc.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> index 19d13b3fc..e932ad1a9 100644
+> index f36c24c2a..8d92b3426 100644
 > --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
 > +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> @@ -180,11 +180,10 @@ static void rtllib_send_ADDBAReq(struct rtllib_device *ieee, u8 *dst,
+> @@ -258,7 +258,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
+>   		goto OnADDBAReq_Fail;
+>   	}
+>   	if (!GetTs(ieee, (struct ts_common_info **)&pTS, dst,
+> -	    (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
+> +		   (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
+>   		rc = ADDBA_STATUS_REFUSED;
+>   		netdev_warn(ieee->dev, "%s(): can't get TS\n", __func__);
+>   		goto OnADDBAReq_Fail;
+> @@ -281,7 +281,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
+>   	pBA->ba_start_seq_ctrl = *pBaStartSeqCtrl;
 >   
->   	skb = rtllib_ADDBA(ieee, dst, pBA, 0, ACT_ADDBAREQ);
->   
-> -	if (skb) {
-> +	if (skb)
->   		softmac_mgmt_xmit(skb, ieee);
-> -	} else {
-> +	else
->   		netdev_dbg(ieee->dev, "Failed to generate ADDBAReq packet.\n");
-> -	}
->   }
->   
->   static void rtllib_send_ADDBARsp(struct rtllib_device *ieee, u8 *dst,
+>   	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev) ||
+> -	   (ieee->pHTInfo->IOTAction & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Did a git pull 2 hours ago.
+Cannot apply this patch because IOTAction was already renamed.
+
+Bye Philipp
+
+> +	    (ieee->pHTInfo->IOTAction & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
+>   		pBA->ba_param_set.field.buffer_size = 1;
+>   	else
+>   		pBA->ba_param_set.field.buffer_size = 32;
+> @@ -418,7 +418,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+>   	}
+>   
+>   	if (!ieee->current_network.qos_data.active ||
+> -		!ieee->pHTInfo->bCurrentHTSupport) {
+> +	    !ieee->pHTInfo->bCurrentHTSupport) {
+>   		netdev_warn(ieee->dev,
+>   			    "received DELBA while QOS or HT is not supported(%d, %d)\n",
+>   			    ieee->current_network. qos_data.active,
+> @@ -438,7 +438,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
+>   		struct rx_ts_record *pRxTs;
+>   
+>   		if (!GetTs(ieee, (struct ts_common_info **)&pRxTs, dst,
+> -		    (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
+> +			   (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
+>   			netdev_warn(ieee->dev,
+>   				    "%s(): can't get TS for RXTS. dst:%pM TID:%d\n",
+>   				    __func__, dst,
 
