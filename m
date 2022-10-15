@@ -1,45 +1,45 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF61520E0
-	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 15:42:03 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id bp15so11430012lfb.13
-        for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 08:42:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B831820E0
+	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 15:56:11 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id by36so9292843ljb.4
+        for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 08:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=T3HHUyAX1B91skwUMpCNzF5YH2X1NSjsOWajnMHTyfg=;
-        b=NcMgL1fI/W6UHod6hJJkyRTb5pbZ24URofllLCclllXe7jqHORqbqxW6iGd40O3Xg7
-         famY83tWIAKrqDNcN8QXJj6wkJ7/a79K0Yq1+WnKVwGSysxot408y117Ox2aj5gD4Y0/
-         RN9iUUOyDf010En5ysQC6HP1/j6tPdg/dv5xbWMFX58JHDO8CgB59Q8qcuF6YYnHljSq
-         9NHifa8v3H8tHNP1OWXlEot0HZgc7UQYZsWk7Wv66CBoNf3wfC6oQUJ5cpONxR8v58ty
-         Aj/AnDEIxc8tEWSxu6o015SNir+gQ57OrE/7hRXAW12Ti+vTd+PIY9E826aSP73/D4We
-         /RAw==
+        bh=noQRZN2ZP8lry0vAqiwCpeRdos+Kq8TILTVK4c4gvCM=;
+        b=Dn2I5KA/tXhbk6IPGYja0JueYiCVPHmc9XJF8sv2B4ZOR2uI56gdYEcP7oMUBA689i
+         R12OGsTjS42kVQkRRn60Lg4LuSNCOcer3lCRPLSnHCrK7vA3AuiE9zsL36EeVdVjhkoR
+         xKgIgHrsEFflpvX5fL2RTAmzKdgzeBL4cDwkTxdqSfnicaSaX40DHmV5+KQTha1K9xi7
+         Wqcu1csoVWPvq6Tj8bqGhYiApkX5VODi24Icvo+fLQhvQrUPRBqGB8C2xphRaint993U
+         0ieUV41M1pPo8loP68hlu4egW3NNUsYAOi0OZel7X/m5U8WUJ3W0l7vUJTXBH36yhQuC
+         VoZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T3HHUyAX1B91skwUMpCNzF5YH2X1NSjsOWajnMHTyfg=;
-        b=L3UMD+iziJruyFLQsMDQh8TGeIV2Gek+cuF1PhbHBdYCeCChS83vZFXrNFj6ssAivw
-         jb3GJh7M0h+3UNBUdLL+Xy33hFuyS4aj0r6/Hx/Zn/dTdpSwW6462FSv+CITJUB0JDaQ
-         N8tW5WzLiNPrFZ1AWta5Ca8g8CqGiPwWvhK5BAZHffYKnfnJqSqHiW9dEIHwNouicklh
-         11VKwdmppUJFPTRNfJh55f6fiqykI5CVqH+4hw4BMCcI94+odXXl7RL6xBh5eBo0abpT
-         i4TPZXQh/rHm7Lg5DFkn55meNtNlsfGPRO6KtBLASnHLFZ6q20QLFXVvovi3yTC1GP2X
-         VHMg==
-X-Gm-Message-State: ACrzQf3DkSLTuMbmizT+iY0qiyAuzUYCyqpg5OVJT0kIlA7Zz1YjUOzp
-	UwB5b9ugWw+PnWBX/YjtaFc=
-X-Google-Smtp-Source: AMsMyM6Wy7WYd6X5pGMIDcG/lk2nziAz1b/YfYrOGhcYSODfIStqVlvhLSZVA8L/8ohsY/V3iTDasg==
-X-Received: by 2002:a05:6512:1196:b0:4a2:4ddb:8415 with SMTP id g22-20020a056512119600b004a24ddb8415mr1139044lfr.518.1665848521488;
-        Sat, 15 Oct 2022 08:42:01 -0700 (PDT)
+        bh=noQRZN2ZP8lry0vAqiwCpeRdos+Kq8TILTVK4c4gvCM=;
+        b=QgxznpAD07rbick5D3P3ifzYedkAoNqpabG82CKnw+Fc2xA+q+wQatPShT+djeF6wF
+         FDHrnTtjhl/kjFhTUq/kDGHFnkKcujPeExmN0Z2u9sDz3THjTde6+Py4dN5SXdbMq/Th
+         ISIMLWQDYYTJRCYNTWyglgWz32prqZYUYiwhqeFOV7jup+OM/iYRzbergtynnkZB7kOr
+         Hdvz4IugCEieoM4cvrAWepo+bJ4LKgUV33YjK56jgRCENnUDbFR1qgNKyAZt38+g8JOF
+         c9gKDPmg1Bt13Qp8l4eyWsWMeEOKxTbDkgEQpwFSgKp2aeuJCIxh9JakZiZwL/8o9FFY
+         DvwQ==
+X-Gm-Message-State: ACrzQf0Bftk+MiorjxejT0JQ0Q2RP1kihfXVh3GJ1+pWNJrqACDg6p8x
+	IPFrdQbk6BwMcUACK5/GFsWD5XfdvsJGOw==
+X-Google-Smtp-Source: AMsMyM406ccu+N2C8OduWfAYER8yoPabSe/u4U/PZNrjPtvci8S6XoseM3boGZEbsnrOFKhL3BqSyw==
+X-Received: by 2002:a05:651c:1542:b0:26d:bf29:8cd5 with SMTP id y2-20020a05651c154200b0026dbf298cd5mr1127663ljp.304.1665849369613;
+        Sat, 15 Oct 2022 08:56:09 -0700 (PDT)
 Received: from [192.168.1.11] ([94.103.224.165])
-        by smtp.gmail.com with ESMTPSA id du13-20020a056512298d00b0048b143c09c2sm761317lfb.259.2022.10.15.08.42.00
+        by smtp.gmail.com with ESMTPSA id i11-20020ac2522b000000b00499bf7605afsm779667lfl.143.2022.10.15.08.56.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Oct 2022 08:42:00 -0700 (PDT)
-Message-ID: <7d72c804-265e-b515-78a7-976deaa06310@gmail.com>
-Date: Sat, 15 Oct 2022 18:42:00 +0300
+        Sat, 15 Oct 2022 08:56:09 -0700 (PDT)
+Message-ID: <a1aec6a3-a8d1-41c2-b127-0799e10e5f13@gmail.com>
+Date: Sat, 15 Oct 2022 18:56:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,56 +48,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
-Subject: Re: [PATCH 03/10] staging: r8188eu: fix status updates in SwLedOff
+Subject: Re: [PATCH 0/9] staging: r8188eu: clean up the OnDeAuth function
+Content-Language: en-US
 To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
  Phillip Potter <phil@philpotter.co.uk>,
  Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20221015151115.232095-1-martin@kaiser.cx>
- <20221015151115.232095-4-martin@kaiser.cx>
-Content-Language: en-US
+References: <20221015152440.232281-1-martin@kaiser.cx>
 From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20221015151115.232095-4-martin@kaiser.cx>
+In-Reply-To: <20221015152440.232281-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi Martin,
 
 Martin Kaiser <martin@kaiser.cx> says:
-> Update bLedOn only if we could update the REG_LEDCFG2 register.
+> This series cleans up the OnDeAuth function and tries to replace
+> driver-specific parsing code with helpers from ieee80211.h.
 > 
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->   drivers/staging/r8188eu/core/rtw_led.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+> Martin Kaiser (9):
+>    staging: r8188eu: replace one GetAddr3Ptr call
+>    staging: r8188eu: get reason code from mgmt struct
+>    staging: r8188eu: clarify the bBusyTraffic assignment
+>    staging: r8188eu: use sa instead of Addr2
+>    staging: r8188eu: get bssid from mgmt struct
+>    staging: r8188eu: exit for deauth from unknown station
+>    staging: r8188eu: remove unnecessary return
+>    staging: r8188eu: summarize two flags checks
+>    staging: r8188eu: ignore_received_deauth is a boolean
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-> index 4f1cad890cae..38433296d327 100644
-> --- a/drivers/staging/r8188eu/core/rtw_led.c
-> +++ b/drivers/staging/r8188eu/core/rtw_led.c
-> @@ -43,10 +43,11 @@ static void SwLedOn(struct adapter *padapter, struct led_priv *pLed)
->   static void SwLedOff(struct adapter *padapter, struct led_priv *pLed)
->   {
->   	if (padapter->bDriverStopped)
-> -		goto exit;
-> +		return;
-> +
-> +	if (rtw_write8(padapter, REG_LEDCFG2, BIT(5) | BIT(3)) != _SUCCESS)
-> +		return;
->   
-> -	rtw_write8(padapter, REG_LEDCFG2, BIT(5) | BIT(3));
-> -exit:
->   	pLed->bLedOn = false;
->   }
->  
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 45 ++++++++++-----------
+>   1 file changed, 21 insertions(+), 24 deletions(-)
+> 
 
-If we don't always update the state then, I think, it's better to inform 
-the callers about it
+works for me, thanks
 
-I guess, this won't happen often, but you are changing semantic of the 
-function
+Acked-by: Pavel Skripkin <paskripkin@gmail.com>
+
 
 
 
