@@ -1,45 +1,45 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C622FAE
-	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 20:22:33 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id o20-20020a05600c4fd400b003b4a516c479so6554517wmq.1
-        for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 13:22:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDA8620
+	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 20:31:05 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id az22-20020a05600c601600b003c6b72797fdso6549994wmb.5
+        for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 13:31:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=AxtZfyRz4DqFhQRD0xbcThZRBAwEjGb4U9UgrEyeyDo=;
-        b=JhzprXKxm9NR7qpiY5jVshzjeyasBR3mZQc3J+H8WDFgReGoxuRUY1PYBEAg9c/8rY
-         gO+zt48P3ljzoJ1vvNdPjQ4KBC+wkVYcb1lnOou8qQQu32V8qvRmbVqRKMtXmkL/BbqM
-         T1d6tcQ7nlBd0d//wYEUUr/ohC7HwjPhN9+pTa/iVllwZs/qoHIoAkXdZKTczlp7arE+
-         D3ChtG8UKBbhwYOMaC9xJuauIBguba+EuCBRCqXyK2qtBeyl/W0Eo6rrtQWI+63LjIp1
-         QY5BJoRdoMyReBRQ4gaJ23DLNbi4OQC6AR6oIe1U8HBhiNXBV1YIg+hMnX2za+Jcqxbg
-         XPLQ==
+        bh=cEht+Hed26jyN2iktDH0mX7R8M68D/uz7j0TTK9tqVc=;
+        b=pSrTvIWYfURgZVScr8B8ehmEe7G7HX7VqfvNNfP4UGUJEKZp53Cq1Ui1apU3xDkGLq
+         0VItiOfb5JpdchEGhYK0FIGZMpxndFgrp6rTlcU8PV1hnLFGV8isOiwm5Jf5qw2Dr80b
+         PLXepJH9tdU1GIdvziNyBe34WQgtR3YG8zNMPthpLtO7BEYwszr0eU9CpLb8q4HMEQH3
+         o+G2w8UgcsLnqyi2erzK2NtInIjpC5Gs3WomWxmv8YBIDLkbKC/2//ISsbU6xvWX1JxU
+         QIQspEwuhniPjNJvJbEVhv8X10l7t/j9QiU/0Jg3ULfun3nBezwaOEXyreCoPrnfRO0s
+         NSHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AxtZfyRz4DqFhQRD0xbcThZRBAwEjGb4U9UgrEyeyDo=;
-        b=7Y6N0DQx1Zh4VM66p2Inb/bsKKicOhrlYYQhMkL2Xgv9oHaha8hiLSawYZs/h8Int5
-         nkyGYBDTiyRnR+7XgIPCiQo6bpRYX1arLcqD2HpUC3/ubGXQVmC6uMX82wLn3tUv/zbq
-         KOiH5hMgjCLic29PPVIbJ0W5lN40Z/1M3eyuHdaypixcZgyxjBvXSoPqGpnlf0aFQ2Pd
-         aennoGxg8UV+qsMrc7uqeD4tJiO7SHfgb1bQEgMmBtBaZQ0vQw/c5Cfo4sJkXpOm4xPS
-         7+XNuIVe6mEEeAH2fU+vaPdDYjY4QwOCByJ0rkw2AP6418GVoc4QgwjbEtcdmiAFz48d
-         MIDg==
-X-Gm-Message-State: ACrzQf3rv5wTeoGLcv1ShGs0oOkw0uLvBduMSWAPoNYbMa+fFM7uE5Vu
-	sACsWl+UxrKLRWCHUe/mN6k=
-X-Google-Smtp-Source: AMsMyM5ksp5Sj9loeHlnugslgVWid4F2uKM9G0+zTcQcUQkrN539glSsecZGra0gGk8c9w7IL2s4Cw==
-X-Received: by 2002:a05:600c:548c:b0:3c6:d8dd:2a72 with SMTP id iv12-20020a05600c548c00b003c6d8dd2a72mr12069638wmb.179.1665865352272;
-        Sat, 15 Oct 2022 13:22:32 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f3e:6a25:7a44:7fe7:2435:1530? (p200300c78f3e6a257a447fe724351530.dip0.t-ipconnect.de. [2003:c7:8f3e:6a25:7a44:7fe7:2435:1530])
-        by smtp.gmail.com with ESMTPSA id e38-20020a5d5966000000b002252884cc91sm4833806wri.43.2022.10.15.13.22.31
+        bh=cEht+Hed26jyN2iktDH0mX7R8M68D/uz7j0TTK9tqVc=;
+        b=CcBJdXiLGsNp1Hnb5zvuud9URHeaPP4E9z4YMUrDim/WCJPKeYflA9aP2i/cY8ODI7
+         Egqq9tN9RPf04GDQzaqBcsNIw7R2DMLh6Y8WaFrhC9vU0nl+b7hLYxFzPJWz5+AJOqzG
+         OlrnlVMJnkEMyOiC1gtC+CgZuUZKgxhkuK+BqYVJRJHRXpvBB0rikxal6ayovAXIVTdA
+         DowH1SBm8peCfcZgjBto7DP9hSsgyTSumQ/zm5mVifyYdkj0bKpiSYj+SVwQ7buFRkeJ
+         85OeNXauhbXBqLAAxYYCYjCbx9Va5+fyAEsYSEPJ1d13T0B+GUTZMGz3v03jol9zBwJi
+         bBHw==
+X-Gm-Message-State: ACrzQf3JbbAMdzl+nlZzDj1hC07hI0tSv7nhwzAjBEpmB3EkGw7VEypd
+	cH9jHlkmN13fcM0NwxGxYPEuSoL0XFw=
+X-Google-Smtp-Source: AMsMyM4JPDi93GvH3YBL86OxrRZIMAHjB30flKU18k+eV5/g4gNGpwDK1JnjCyvkRgnu3qOU+NUJhw==
+X-Received: by 2002:a05:600c:1c16:b0:3c6:bb05:702c with SMTP id j22-20020a05600c1c1600b003c6bb05702cmr14184549wms.203.1665865864023;
+        Sat, 15 Oct 2022 13:31:04 -0700 (PDT)
+Received: from [192.168.1.100] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id k8-20020a05600c1c8800b003b47e75b401sm10350318wms.37.2022.10.15.13.31.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Oct 2022 13:22:31 -0700 (PDT)
-Message-ID: <41f4482a-a213-8e71-be43-2e8539b646eb@gmail.com>
-Date: Sat, 15 Oct 2022 22:22:30 +0200
+        Sat, 15 Oct 2022 13:31:03 -0700 (PDT)
+Message-ID: <6dfa32b5-ffef-dce3-fb27-5c91779c01d0@gmail.com>
+Date: Sat, 15 Oct 2022 22:31:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 10/10] staging: r8188eu: summarize tx/rx and scan blinking
+Subject: Re: [PATCH 0/9] staging: r8188eu: clean up the OnDeAuth function
 Content-Language: en-US
 To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -57,65 +57,29 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
  Michael Straube <straube.linux@gmail.com>,
  Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20221015151115.232095-1-martin@kaiser.cx>
- <20221015151115.232095-11-martin@kaiser.cx>
+References: <20221015152440.232281-1-martin@kaiser.cx>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221015151115.232095-11-martin@kaiser.cx>
+In-Reply-To: <20221015152440.232281-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/15/22 17:11, Martin Kaiser wrote:
-> Summarize the code for tx/rx blinking and for scan blinking in blink_work.
-> The only difference is the delay for scheduling the next worker.
+On 10/15/22 17:24, Martin Kaiser wrote:
+> This series cleans up the OnDeAuth function and tries to replace
+> driver-specific parsing code with helpers from ieee80211.h.
 > 
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->   drivers/staging/r8188eu/core/rtw_led.c | 19 +++----------------
->   1 file changed, 3 insertions(+), 16 deletions(-)
+> Martin Kaiser (9):
+>    staging: r8188eu: replace one GetAddr3Ptr call
+>    staging: r8188eu: get reason code from mgmt struct
+>    staging: r8188eu: clarify the bBusyTraffic assignment
+>    staging: r8188eu: use sa instead of Addr2
+>    staging: r8188eu: get bssid from mgmt struct
+>    staging: r8188eu: exit for deauth from unknown station
+>    staging: r8188eu: remove unnecessary return
+>    staging: r8188eu: summarize two flags checks
+>    staging: r8188eu: ignore_received_deauth is a boolean
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-> index f8bd183fba1e..ce8de2eb7845 100644
-> --- a/drivers/staging/r8188eu/core/rtw_led.c
-> +++ b/drivers/staging/r8188eu/core/rtw_led.c
-> @@ -81,21 +81,6 @@ static void blink_work(struct work_struct *work)
->   		schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
->   		break;
->   	case LED_BLINK_SCAN:
-> -		pLed->BlinkTimes--;
-> -		if (pLed->BlinkTimes == 0) {
-> -			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
-> -				pLed->CurrLedState = LED_BLINK_NORMAL;
-> -				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
-> -			} else {
-> -				pLed->CurrLedState = LED_BLINK_SLOWLY;
-> -				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
-> -			}
-> -			pLed->bLedBlinkInProgress = false;
-> -			pLed->bLedScanBlinkInProgress = false;
-> -		} else {
-> -			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
-> -		}
-> -		break;
->   	case LED_BLINK_TXRX:
->   		pLed->BlinkTimes--;
->   		if (pLed->BlinkTimes == 0) {
-> @@ -109,7 +94,9 @@ static void blink_work(struct work_struct *work)
->   			pLed->bLedBlinkInProgress = false;
->   			pLed->bLedScanBlinkInProgress = false;
->   		} else {
-> -			schedule_delayed_work(&pLed->blink_work, LED_BLINK_FASTER_INTVL);
-> +			schedule_delayed_work(&pLed->blink_work,
-> +					      pLed->CurrLedState == LED_BLINK_SCAN ?
-> +					      LED_BLINK_SCAN_INTVL : LED_BLINK_FASTER_INTVL);
->   		}
->   		break;
->   	case LED_BLINK_WPS:
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 45 ++++++++++-----------
+>   1 file changed, 21 insertions(+), 24 deletions(-)
+> 
 
-
-I cannot apply this patch.
-
-Applying: staging: r8188eu: summarize tx/rx and scan blinking
-error: patch failed: drivers/staging/r8188eu/core/rtw_led.c:81
-error: drivers/staging/r8188eu/core/rtw_led.c: patch does not apply
-Patch failed at 0001 staging: r8188eu: summarize tx/rx and scan blinking
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
