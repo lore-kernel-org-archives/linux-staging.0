@@ -1,94 +1,146 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B831820E0
-	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 15:56:11 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id by36so9292843ljb.4
-        for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 08:56:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240D380C
+	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 16:53:05 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id d26so16510940eje.10
+        for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 09:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=noQRZN2ZP8lry0vAqiwCpeRdos+Kq8TILTVK4c4gvCM=;
-        b=Dn2I5KA/tXhbk6IPGYja0JueYiCVPHmc9XJF8sv2B4ZOR2uI56gdYEcP7oMUBA689i
-         R12OGsTjS42kVQkRRn60Lg4LuSNCOcer3lCRPLSnHCrK7vA3AuiE9zsL36EeVdVjhkoR
-         xKgIgHrsEFflpvX5fL2RTAmzKdgzeBL4cDwkTxdqSfnicaSaX40DHmV5+KQTha1K9xi7
-         Wqcu1csoVWPvq6Tj8bqGhYiApkX5VODi24Icvo+fLQhvQrUPRBqGB8C2xphRaint993U
-         0ieUV41M1pPo8loP68hlu4egW3NNUsYAOi0OZel7X/m5U8WUJ3W0l7vUJTXBH36yhQuC
-         VoZg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IO03v7Eu4frTx8XORYprvbtJg3DfjQHE8pVEQpoJiQk=;
+        b=cPDjmz8IVr/JT8UWgmvVty1YGgFPj0VMyeQPcVmM+T1lstD6OYtjE3fsC8Qf4E7t+Z
+         bC1eJxixVqNSU2A8j8bxcZzu1XQtQ9ewuXfhhFjjPEjPi/J5J9heHPoOZZZTXrDzgyq9
+         p+49EnfMtGwEGOKzl1sctt67urktS0qbuF/Ul/9VqFnUK9dcUkOqddxn2TjYlb4YaC+6
+         R7LNb/WW9YmxP+Fh1AsTqmPc2ICUd0JtFEymstxPZ/w5V79/yL4PNCsaTuzQiBISIb/E
+         Dcvb0DAlQtybbcZB+HuNcG45b1xrg4lEUCk7lNBzBOPJJcRYujT/Dp3gpq39l4CZ/Un1
+         dlsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=noQRZN2ZP8lry0vAqiwCpeRdos+Kq8TILTVK4c4gvCM=;
-        b=QgxznpAD07rbick5D3P3ifzYedkAoNqpabG82CKnw+Fc2xA+q+wQatPShT+djeF6wF
-         FDHrnTtjhl/kjFhTUq/kDGHFnkKcujPeExmN0Z2u9sDz3THjTde6+Py4dN5SXdbMq/Th
-         ISIMLWQDYYTJRCYNTWyglgWz32prqZYUYiwhqeFOV7jup+OM/iYRzbergtynnkZB7kOr
-         Hdvz4IugCEieoM4cvrAWepo+bJ4LKgUV33YjK56jgRCENnUDbFR1qgNKyAZt38+g8JOF
-         c9gKDPmg1Bt13Qp8l4eyWsWMeEOKxTbDkgEQpwFSgKp2aeuJCIxh9JakZiZwL/8o9FFY
-         DvwQ==
-X-Gm-Message-State: ACrzQf0Bftk+MiorjxejT0JQ0Q2RP1kihfXVh3GJ1+pWNJrqACDg6p8x
-	IPFrdQbk6BwMcUACK5/GFsWD5XfdvsJGOw==
-X-Google-Smtp-Source: AMsMyM406ccu+N2C8OduWfAYER8yoPabSe/u4U/PZNrjPtvci8S6XoseM3boGZEbsnrOFKhL3BqSyw==
-X-Received: by 2002:a05:651c:1542:b0:26d:bf29:8cd5 with SMTP id y2-20020a05651c154200b0026dbf298cd5mr1127663ljp.304.1665849369613;
-        Sat, 15 Oct 2022 08:56:09 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.224.165])
-        by smtp.gmail.com with ESMTPSA id i11-20020ac2522b000000b00499bf7605afsm779667lfl.143.2022.10.15.08.56.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Oct 2022 08:56:09 -0700 (PDT)
-Message-ID: <a1aec6a3-a8d1-41c2-b127-0799e10e5f13@gmail.com>
-Date: Sat, 15 Oct 2022 18:56:08 +0300
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IO03v7Eu4frTx8XORYprvbtJg3DfjQHE8pVEQpoJiQk=;
+        b=MKzCtcylm+U/65FG1/cmPWKiwDD/CWAgT+Wmn9/yl/2m199mUDhuP0XPf47R9q+bj5
+         UGFBcJPYmLRW/hreIldqwVAtfMXJ6ItX/15GJ4wDOHuU3TsTZhdnS5FDrX6Jp6AklfU5
+         jX/u9KeDwiK76Eqt5yu0CsPZwu8rV1PUb0+g8b8mEUM86g/KwpPIU0fy4D71tnZ/5HKE
+         6/v6geIq1byxsGNE4KD8aiBDbhF0ihAqZJ+Oe+twdTj+zlVI7OS7qyuSTl6xvtQ3i18B
+         ltPBZLnu4rroPkcxT6e4/d8dswBmdik58isGPDWeJm2ddkeXTde5EedrNSFO5NPcNZM0
+         Ztkg==
+X-Gm-Message-State: ACrzQf245EhupF4I44wzUmLrCO5KF666yOAPP9rkLeHErkcDJEiSDvRV
+	dtNZj4DbsZK6j6umPQx/Tk0=
+X-Google-Smtp-Source: AMsMyM69v2BI1v3tk6VjMrS7brGMzwRfazQPa44EIZIMXrqdKjo6xkDk+JGIysnAT75IecWEx6aNqQ==
+X-Received: by 2002:a17:906:9fc1:b0:761:9192:504f with SMTP id hj1-20020a1709069fc100b007619192504fmr2670030ejc.116.1665852783427;
+        Sat, 15 Oct 2022 09:53:03 -0700 (PDT)
+Received: from dkorent-GL753VD ([188.252.198.222])
+        by smtp.gmail.com with ESMTPSA id g7-20020a170906348700b0074ae59d85a4sm3363189ejb.20.2022.10.15.09.53.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Oct 2022 09:53:03 -0700 (PDT)
+From: Danijel Korent <danijel.korent@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	philipp.g.hortmann@gmail.com,
+	Danijel Korent <danijel.korent@gmail.com>
+Subject: [PATCH] staging: rtl8192e: Added spaces around operators in rtl_cam.c/rtl_eeprom.c
+Date: Sat, 15 Oct 2022 18:50:23 +0200
+Message-Id: <20221015165023.487200-1-danijel.korent@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 0/9] staging: r8188eu: clean up the OnDeAuth function
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20221015152440.232281-1-martin@kaiser.cx>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20221015152440.232281-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Martin,
+Fixed "spaces preferred around operator" type of problems reported by
+checkpatch
 
-Martin Kaiser <martin@kaiser.cx> says:
-> This series cleans up the OnDeAuth function and tries to replace
-> driver-specific parsing code with helpers from ieee80211.h.
-> 
-> Martin Kaiser (9):
->    staging: r8188eu: replace one GetAddr3Ptr call
->    staging: r8188eu: get reason code from mgmt struct
->    staging: r8188eu: clarify the bBusyTraffic assignment
->    staging: r8188eu: use sa instead of Addr2
->    staging: r8188eu: get bssid from mgmt struct
->    staging: r8188eu: exit for deauth from unknown station
->    staging: r8188eu: remove unnecessary return
->    staging: r8188eu: summarize two flags checks
->    staging: r8188eu: ignore_received_deauth is a boolean
-> 
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 45 ++++++++++-----------
->   1 file changed, 21 insertions(+), 24 deletions(-)
-> 
+Signed-off-by: Danijel Korent <danijel.korent@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.c   | 23 +++++++++----------
+ .../staging/rtl8192e/rtl8192e/rtl_eeprom.c    |  2 +-
+ 2 files changed, 12 insertions(+), 13 deletions(-)
 
-works for me, thanks
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+index 41faeb4b9b9b..671a64b04a8b 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+@@ -17,7 +17,7 @@ void rtl92e_cam_reset(struct net_device *dev)
+ {
+ 	u32 ulcommand = 0;
+ 
+-	ulcommand |= BIT31|BIT30;
++	ulcommand |= BIT31 | BIT30;
+ 	rtl92e_writel(dev, RWCAM, ulcommand);
+ }
+ 
+@@ -40,7 +40,6 @@ void rtl92e_enable_hw_security_config(struct net_device *dev)
+ 		SECR_value |= SCR_TxUseDK;
+ 	}
+ 
+-
+ 	ieee->hwsec_active = 1;
+ 	if ((ieee->pHTInfo->iot_action & HT_IOT_ACT_PURE_N_MODE) || !hwwep) {
+ 		ieee->hwsec_active = 0;
+@@ -100,33 +99,33 @@ void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
+ 	}
+ 
+ 	if (DefaultKey)
+-		usConfig |= BIT15 | (KeyType<<2);
++		usConfig |= BIT15 | (KeyType << 2);
+ 	else
+-		usConfig |= BIT15 | (KeyType<<2) | KeyIndex;
++		usConfig |= BIT15 | (KeyType << 2) | KeyIndex;
+ 
+ 
+ 	for (i = 0; i < CAM_CONTENT_COUNT; i++) {
+ 		TargetCommand  = i + CAM_CONTENT_COUNT * EntryNo;
+-		TargetCommand |= BIT31|BIT16;
++		TargetCommand |= BIT31 | BIT16;
+ 
+ 		if (i == 0) {
+-			TargetContent = (u32)(*(MacAddr+0)) << 16 |
+-				(u32)(*(MacAddr+1)) << 24 |
++			TargetContent = (u32)(*(MacAddr + 0)) << 16 |
++				(u32)(*(MacAddr + 1)) << 24 |
+ 				(u32)usConfig;
+ 
+ 			rtl92e_writel(dev, WCAMI, TargetContent);
+ 			rtl92e_writel(dev, RWCAM, TargetCommand);
+ 		} else if (i == 1) {
+-			TargetContent = (u32)(*(MacAddr+2)) |
+-				(u32)(*(MacAddr+3)) <<  8 |
+-				(u32)(*(MacAddr+4)) << 16 |
+-				(u32)(*(MacAddr+5)) << 24;
++			TargetContent = (u32)(*(MacAddr + 2)) |
++				(u32)(*(MacAddr + 3)) <<  8 |
++				(u32)(*(MacAddr + 4)) << 16 |
++				(u32)(*(MacAddr + 5)) << 24;
+ 			rtl92e_writel(dev, WCAMI, TargetContent);
+ 			rtl92e_writel(dev, RWCAM, TargetCommand);
+ 		} else {
+ 			if (KeyContent != NULL) {
+ 				rtl92e_writel(dev, WCAMI,
+-					      (u32)(*(KeyContent+i-2)));
++					      (u32)(*(KeyContent + i - 2)));
+ 				rtl92e_writel(dev, RWCAM, TargetCommand);
+ 				udelay(100);
+ 			}
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_eeprom.c b/drivers/staging/rtl8192e/rtl8192e/rtl_eeprom.c
+index 59532ed2156d..db57c655c695 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_eeprom.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_eeprom.c
+@@ -79,6 +79,6 @@ u32 rtl92e_eeprom_read(struct net_device *dev, u32 addr)
+ 		ret = _rtl92e_eeprom_xfer(dev, (addr & 0x3F) | (0x6 << 6), 9);
+ 
+ 	rtl92e_writeb(dev, EPROM_CMD,
+-		      (EPROM_CMD_NORMAL<<EPROM_CMD_OPERATING_MODE_SHIFT));
++		      (EPROM_CMD_NORMAL << EPROM_CMD_OPERATING_MODE_SHIFT));
+ 	return ret;
+ }
+-- 
+2.34.1
 
-Acked-by: Pavel Skripkin <paskripkin@gmail.com>
-
-
-
-
-With regards,
-Pavel Skripkin
