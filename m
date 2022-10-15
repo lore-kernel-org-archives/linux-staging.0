@@ -1,127 +1,107 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3EA440C
-	for <linux-staging@lists.linux.dev>; Fri, 14 Oct 2022 19:00:53 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id bj12so12361129ejb.13
-        for <linux-staging@lists.linux.dev>; Fri, 14 Oct 2022 12:00:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kXobvSQVt9q6I8i2aGg0lLZQfL1YP6gSaNYsr3Rxk60=;
-        b=MImgUmR/yHX1E0wPk6/pe8Y9ZukXGsPrzZUJoI7er6YIzUUX9PGYs1Kkqnh+rjcz5H
-         PAQDUFhnB7zWElUEIj2xnieF7UCB8cwG17+EWsy5j7tXXUXzrTd+CiqWw2iA59Z24k8X
-         H9fgPbgfYVqLJeVTtvnZ/IoqLkGIE+MmVC0S97WsP8BVr1Qat0sc3VW4IUgNGP1u9ZjQ
-         oQWCmuyxRrcs7hAfBJDMXVtW8KkyykN3GS5CctUlkbKzRDpivPeut160BffgdjC+AIh4
-         HraRHKrwWPry6MMeIQq3OkjmBsph6ZAbZl5VQ3yhLpvfkQZ33tCTHj6zLRMVLgx+bM+1
-         3ruQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kXobvSQVt9q6I8i2aGg0lLZQfL1YP6gSaNYsr3Rxk60=;
-        b=hIrvh4bcWhE/7e9+n6j37/fQ0yhHCBhF8wkN1LGugz994nQn6QkT8kA0OILRp2/biS
-         a5FEqiPkqpV7B/C3muO767Ard3Xt7gjCWDLTxWE4gnSgZFTwULkHQ03Pw2klzw6H7auA
-         NaMj3HdmR2sUQ/kG9RmUIBzd4w5HTz3JxmuwhtOVtDi5Xrz3TV5T2SFbOghYddu0m2tp
-         w2Out7bBulNWWTfns8LX39rE8qmIAO/dirSi70hMGm8qBUWRx/+OBVlNIqUqDYnDIHyp
-         mt+eZ69s9IbYoVKgeAK8smh5FWBNZH7KFuJNV2WKHJ2sMK4ejXheSJodD6LA1JmduP5s
-         K/xw==
-X-Gm-Message-State: ACrzQf1al0bzm4l2G9fJzHUXjVJ3nFnvD6GUTL1mXY3Giio5Kqg8dzAJ
-	aR/aqvOaq/9qD6aHw1nr+KzQQb9TUHjUpQ==
-X-Google-Smtp-Source: AMsMyM7kttQMMDCGdRoDZGbNC9xVlTlXZ2gPlhBicHGv49oUodGeRkXKffWrQvK809oBpVw5XkBmow==
-X-Received: by 2002:a17:907:94c3:b0:78e:2866:f89f with SMTP id dn3-20020a17090794c300b0078e2866f89fmr2266274ejc.617.1665774052116;
-        Fri, 14 Oct 2022 12:00:52 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f3e:6a24:d9ca:fb25:65a1:90fa? (p200300c78f3e6a24d9cafb2565a190fa.dip0.t-ipconnect.de. [2003:c7:8f3e:6a24:d9ca:fb25:65a1:90fa])
-        by smtp.gmail.com with ESMTPSA id v25-20020aa7dbd9000000b00456c6b4b777sm2199943edt.69.2022.10.14.12.00.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Oct 2022 12:00:51 -0700 (PDT)
-Message-ID: <38990e85-b74f-0910-8d64-ad614c3bd8e4@gmail.com>
-Date: Fri, 14 Oct 2022 21:00:50 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE63120E0
+	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 15:11:34 +0000 (UTC)
+Received: from ipservice-092-217-066-135.092.217.pools.vodafone-ip.de ([92.217.66.135] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1ojip1-0006sp-Er; Sat, 15 Oct 2022 17:11:31 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>,
+	stable@vger.kernel.org
+Subject: [PATCH 01/10] staging: r8188eu: fix led register settings
+Date: Sat, 15 Oct 2022 17:11:06 +0200
+Message-Id: <20221015151115.232095-2-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221015151115.232095-1-martin@kaiser.cx>
+References: <20221015151115.232095-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/4] Staging: rtl8192e: make alignment match open
- parenthesis
-Content-Language: en-US
-To: Anjandev Momi <anjan@momi.ca>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221014081839.23902-1-anjan@momi.ca>
- <20221014081839.23902-4-anjan@momi.ca>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221014081839.23902-4-anjan@momi.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/14/22 10:18, Anjandev Momi wrote:
-> This patch removes the following checks generated by checkpatch.pl:
-> 
-> 	./drivers/staging/rtl8192e/rtl819x_BAProc.c:261: CHECK:
-> 	Alignment should match open parenthesis
-> 	./drivers/staging/rtl8192e/rtl819x_BAProc.c:284: CHECK:
-> 	Alignment should match open parenthesis
-> 	./drivers/staging/rtl8192e/rtl819x_BAProc.c:421: CHECK:
-> 	Alignment should match open parenthesis
-> 	./drivers/staging/rtl8192e/rtl819x_BAProc.c:441: CHECK:
-> 	Alignment should match open parenthesis
-> 
-> Signed-off-by: Anjandev Momi <anjan@momi.ca>
-> ---
->   drivers/staging/rtl8192e/rtl819x_BAProc.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> index f36c24c2a..8d92b3426 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
-> @@ -258,7 +258,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
->   		goto OnADDBAReq_Fail;
->   	}
->   	if (!GetTs(ieee, (struct ts_common_info **)&pTS, dst,
-> -	    (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
-> +		   (u8)(pBaParamSet->field.tid), RX_DIR, true)) {
->   		rc = ADDBA_STATUS_REFUSED;
->   		netdev_warn(ieee->dev, "%s(): can't get TS\n", __func__);
->   		goto OnADDBAReq_Fail;
-> @@ -281,7 +281,7 @@ int rtllib_rx_ADDBAReq(struct rtllib_device *ieee, struct sk_buff *skb)
->   	pBA->ba_start_seq_ctrl = *pBaStartSeqCtrl;
->   
->   	if (ieee->GetHalfNmodeSupportByAPsHandler(ieee->dev) ||
-> -	   (ieee->pHTInfo->IOTAction & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
+Using an InterTech DMG-02 dongle, the led remains on when the system goes
+into standby mode. After wakeup, it's no longer possible to control the
+led.
 
-Did a git pull 2 hours ago.
-Cannot apply this patch because IOTAction was already renamed.
+It turned out that the register settings to enable or disable the led were
+not correct. They worked for some dongles like the Edimax V2 but not for
+others like the InterTech DMG-02.
 
-Bye Philipp
+This patch fixes the register settings. Bit 3 in the led_cfg2 register
+controls the led status, bit 5 must always be set to be able to control
+the led, bit 6 has no influence on the led. Setting the mac_pinmux_cfg
+register is not necessary.
 
-> +	    (ieee->pHTInfo->IOTAction & HT_IOT_ACT_ALLOW_PEER_AGG_ONE_PKT))
->   		pBA->ba_param_set.field.buffer_size = 1;
->   	else
->   		pBA->ba_param_set.field.buffer_size = 32;
-> @@ -418,7 +418,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
->   	}
->   
->   	if (!ieee->current_network.qos_data.active ||
-> -		!ieee->pHTInfo->bCurrentHTSupport) {
-> +	    !ieee->pHTInfo->bCurrentHTSupport) {
->   		netdev_warn(ieee->dev,
->   			    "received DELBA while QOS or HT is not supported(%d, %d)\n",
->   			    ieee->current_network. qos_data.active,
-> @@ -438,7 +438,7 @@ int rtllib_rx_DELBA(struct rtllib_device *ieee, struct sk_buff *skb)
->   		struct rx_ts_record *pRxTs;
->   
->   		if (!GetTs(ieee, (struct ts_common_info **)&pRxTs, dst,
-> -		    (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
-> +			   (u8)pDelBaParamSet->field.tid, RX_DIR, false)) {
->   			netdev_warn(ieee->dev,
->   				    "%s(): can't get TS for RXTS. dst:%pM TID:%d\n",
->   				    __func__, dst,
+These settings were tested with Edimax V2 and InterTech DMG-02.
+
+Cc: stable@vger.kernel.org
+Fixes: 8cd574e6af54 ("staging: r8188eu: introduce new hal dir for RTL8188eu driver")
+Suggested-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/core/rtw_led.c | 25 ++-----------------------
+ 1 file changed, 2 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+index 2527c252c3e9..5b214488571b 100644
+--- a/drivers/staging/r8188eu/core/rtw_led.c
++++ b/drivers/staging/r8188eu/core/rtw_led.c
+@@ -31,40 +31,19 @@ static void ResetLedStatus(struct led_priv *pLed)
+ 
+ static void SwLedOn(struct adapter *padapter, struct led_priv *pLed)
+ {
+-	u8	LedCfg;
+-	int res;
+-
+ 	if (padapter->bDriverStopped)
+ 		return;
+ 
+-	res = rtw_read8(padapter, REG_LEDCFG2, &LedCfg);
+-	if (res)
+-		return;
+-
+-	rtw_write8(padapter, REG_LEDCFG2, (LedCfg & 0xf0) | BIT(5) | BIT(6)); /*  SW control led0 on. */
++	rtw_write8(padapter, REG_LEDCFG2, BIT(5)); /*  SW control led0 on. */
+ 	pLed->bLedOn = true;
+ }
+ 
+ static void SwLedOff(struct adapter *padapter, struct led_priv *pLed)
+ {
+-	u8	LedCfg;
+-	int res;
+-
+ 	if (padapter->bDriverStopped)
+ 		goto exit;
+ 
+-	res = rtw_read8(padapter, REG_LEDCFG2, &LedCfg);/* 0x4E */
+-	if (res)
+-		goto exit;
+-
+-	LedCfg &= 0x90; /*  Set to software control. */
+-	rtw_write8(padapter, REG_LEDCFG2, (LedCfg | BIT(3)));
+-	res = rtw_read8(padapter, REG_MAC_PINMUX_CFG, &LedCfg);
+-	if (res)
+-		goto exit;
+-
+-	LedCfg &= 0xFE;
+-	rtw_write8(padapter, REG_MAC_PINMUX_CFG, LedCfg);
++	rtw_write8(padapter, REG_LEDCFG2, BIT(5) | BIT(3));
+ exit:
+ 	pLed->bLedOn = false;
+ }
+-- 
+2.30.2
 
