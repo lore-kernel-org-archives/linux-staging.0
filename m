@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA33210C
-	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 15:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90C220E0
+	for <linux-staging@lists.linux.dev>; Sat, 15 Oct 2022 15:29:39 +0000 (UTC)
 Received: from ipservice-092-217-066-135.092.217.pools.vodafone-ip.de ([92.217.66.135] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1ojj20-000722-7k; Sat, 15 Oct 2022 17:24:56 +0200
+	id 1ojios-0006sp-LB; Sat, 15 Oct 2022 17:11:22 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,12 +17,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 9/9] staging: r8188eu: ignore_received_deauth is a boolean
-Date: Sat, 15 Oct 2022 17:24:40 +0200
-Message-Id: <20221015152440.232281-10-martin@kaiser.cx>
+Subject: [PATCH 00/10] staging: r8188eu: led layer fix and cleanups
+Date: Sat, 15 Oct 2022 17:11:05 +0200
+Message-Id: <20221015151115.232095-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221015152440.232281-1-martin@kaiser.cx>
-References: <20221015152440.232281-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,40 +29,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The ignore_received_deauth is in fact a boolean variable. Change its type
-to bool and use true, false for its values.
+Here's another series to clean up the led layer and fix a problem with
+leds during suspend/resume on some devices.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Martin Kaiser (10):
+  staging: r8188eu: fix led register settings
+  staging: r8188eu: handle rtw_write8 errors in SwLedOn
+  staging: r8188eu: fix status updates in SwLedOff
+  staging: r8188eu: SwLedOn needs no padapter parameter
+  staging: r8188eu: SwLedOff needs no padapter parameter
+  staging: r8188eu: remove two unused defines
+  staging: r8188eu: don't include rtw_led.h from rtw_cmd.h
+  staging: r8188eu: remove padapter from struct led_priv
+  staging: r8188eu: set two more state variables
+  staging: r8188eu: summarize tx/rx and scan blinking
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 09ffecc5b2b3..fda446b6779c 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -1493,7 +1493,7 @@ unsigned int OnDeAuth(struct adapter *padapter, struct recv_frame *precv_frame)
- 
- 		associated_clients_update(padapter, updated);
- 	} else {
--		int	ignore_received_deauth = 0;
-+		bool ignore_received_deauth = false;
- 
- 		/* Before sending the auth frame to start the STA/GC mode connection with AP/GO,
- 		 *	we will send the deauth first.
-@@ -1502,10 +1502,10 @@ unsigned int OnDeAuth(struct adapter *padapter, struct recv_frame *precv_frame)
- 		 */
- 		if (pmlmeinfo->state & (WIFI_FW_AUTH_STATE | WIFI_FW_ASSOC_STATE)) {
- 			if (reason == WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA) {
--				ignore_received_deauth = 1;
-+				ignore_received_deauth = true;
- 			} else if (reason == WLAN_REASON_PREV_AUTH_NOT_VALID) {
- 				// TODO: 802.11r
--				ignore_received_deauth = 1;
-+				ignore_received_deauth = true;
- 			}
- 		}
- 
+ drivers/staging/r8188eu/core/rtw_led.c    | 62 +++++++----------------
+ drivers/staging/r8188eu/include/rtw_cmd.h |  5 --
+ drivers/staging/r8188eu/include/rtw_led.h |  2 -
+ 3 files changed, 18 insertions(+), 51 deletions(-)
+
 -- 
 2.30.2
 
