@@ -1,35 +1,25 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DD923A1;
-	Sun, 16 Oct 2022 15:50:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1665935449; bh=AoozS+vSA6vbET7eAeKnaDEsTTnvel6kQb67esZyuBY=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=ZvVQ99tSiKfAp9sQVvmK9T9+QxFfjO0I1txUeDkmRUqnIEM20I7LyA5nykpqaQobJ
-	 KI7iL1C/JKjk0MK/lBYhkSyxTFJivFSjng1m/botWVc2RXHJQprxwFw8Q51pktl1b3
-	 1aX1ZeZ/oxiimGwXjx5J9D3FJMS2w7e1rSog6aJw=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-	via [213.182.55.206]
-	Sun, 16 Oct 2022 17:50:49 +0200 (CEST)
-X-EA-Auth: 71gdXik5VMeVCC3uHpYdR+rbfISKW7FskXk49SjjS2cyLGwOct+7TLRPYQPvabRUNd/Ytpj+QJDHDrAdTYj6pFxecK1omYyk
-Date: Sun, 16 Oct 2022 11:50:45 -0400
-From: Deepak R Varma <drv@mailo.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
-	pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: loopback: enclose macro statements in
- do-while loop
-Message-ID: <Y0woVSgGfUuvJUzY@debian-BULLSEYE-live-builder-AMD64>
-References: <Y0wS4HQo9m/W/TrQ@debian-BULLSEYE-live-builder-AMD64>
- <alpine.DEB.2.22.394.2210161649400.2876@hadrien>
- <Y0wdDTUBrUT/cr9w@lion2204>
- <alpine.DEB.2.22.394.2210161709440.2876@hadrien>
- <Y0wi4itS3d8aExFc@debian-BULLSEYE-live-builder-AMD64>
- <Y0wmC2oi0TOpvpPM@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761CE23A1
+	for <linux-staging@lists.linux.dev>; Sun, 16 Oct 2022 16:07:27 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1ok6AW-0008HP-ME; Sun, 16 Oct 2022 18:07:16 +0200
+Date: Sun, 16 Oct 2022 18:07:16 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/10] staging: r8188eu: summarize tx/rx and scan blinking
+Message-ID: <20221016160716.mdofznui73w4ir2c@viti.kaiser.cx>
+References: <20221015151115.232095-1-martin@kaiser.cx>
+ <20221015151115.232095-11-martin@kaiser.cx>
+ <41f4482a-a213-8e71-be43-2e8539b646eb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,60 +28,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y0wmC2oi0TOpvpPM@kroah.com>
+In-Reply-To: <41f4482a-a213-8e71-be43-2e8539b646eb@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-On Sun, Oct 16, 2022 at 05:40:59PM +0200, Greg KH wrote:
-> On Sun, Oct 16, 2022 at 11:27:30AM -0400, Deepak R Varma wrote:
-> > On Sun, Oct 16, 2022 at 05:10:17PM +0200, Julia Lawall wrote:
-> > >
-> > >
-> > > On Sun, 16 Oct 2022, Deepak R Varma wrote:
-> > >
-> > > > On Sun, Oct 16, 2022 at 04:51:09PM +0200, Julia Lawall wrote:
-> > > > >
-> > > > >
-> > > > > On Sun, 16 Oct 2022, Deepak R Varma wrote:
-> > > > >
-> > > > > > Include multiple statements of macro definition inside do-while{0} loop
-> > > > > > to avoid possible partial program execution. Issue reported by
-> > > > > > checkpatch script:
-> > > > > >
-> > > > > > ERROR: Macros with multiple statements should be enclosed in a do - while loop
-> > > > >
-> > > > > I don't think this change will compile.  See if you can figure out why
-> > > > > not.
-> > > >
-> > > > It did compile. I built the greybus driver and loaded it as well with the
-> > > > modinfo tool. Can you please tell why you think it won't compile?
-> > >
-> > > Do you have a .o file for the .c file that you changed?
-> >
-> > I see many .o files and a greybus.ko as well, but not the loopback.o
-> > Am I missing anything with my configuration? I did set Greybus Support to (M) in
-> > the menuconfig.
->
-> CONFIG_GREYBUS_LOOPBACK has to be enabled in order to build the
-> drivers/staging/greybus/loopback.c file.
->
-> A simple check would be to do:
-> 	make drivers/staging/greybus/loopback.o
->
-> does that work with your change?
+Hi Philipp,
 
-No, it did not. I understand why it did not. My apologies for not looking into
-the build of loopback.o file when the greybus module was rebuilt.
+Thus wrote Philipp Hortmann (philipp.g.hortmann@gmail.com):
 
-Please ignore my patch.
+> On 10/15/22 17:11, Martin Kaiser wrote:
+> > Summarize the code for tx/rx blinking and for scan blinking in blink_work.
+> > The only difference is the delay for scheduling the next worker.
 
-Thank you Julia and Greg for the feedback.
-./drv
+> > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> > ---
+> >   drivers/staging/r8188eu/core/rtw_led.c | 19 +++----------------
+> >   1 file changed, 3 insertions(+), 16 deletions(-)
 
-
-
->
-> thanks,
->
-> greg k-h
->
+> > diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+> > index f8bd183fba1e..ce8de2eb7845 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_led.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_led.c
+> > @@ -81,21 +81,6 @@ static void blink_work(struct work_struct *work)
+> >   		schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+> >   		break;
+> >   	case LED_BLINK_SCAN:
+> > -		pLed->BlinkTimes--;
+> > -		if (pLed->BlinkTimes == 0) {
+> > -			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+> > -				pLed->CurrLedState = LED_BLINK_NORMAL;
+> > -				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+> > -			} else {
+> > -				pLed->CurrLedState = LED_BLINK_SLOWLY;
+> > -				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
+> > -			}
+> > -			pLed->bLedBlinkInProgress = false;
+> > -			pLed->bLedScanBlinkInProgress = false;
+> > -		} else {
+> > -			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
+> > -		}
+> > -		break;
+> >   	case LED_BLINK_TXRX:
+> >   		pLed->BlinkTimes--;
+> >   		if (pLed->BlinkTimes == 0) {
+> > @@ -109,7 +94,9 @@ static void blink_work(struct work_struct *work)
+> >   			pLed->bLedBlinkInProgress = false;
+> >   			pLed->bLedScanBlinkInProgress = false;
+> >   		} else {
+> > -			schedule_delayed_work(&pLed->blink_work, LED_BLINK_FASTER_INTVL);
+> > +			schedule_delayed_work(&pLed->blink_work,
+> > +					      pLed->CurrLedState == LED_BLINK_SCAN ?
+> > +					      LED_BLINK_SCAN_INTVL : LED_BLINK_FASTER_INTVL);
+> >   		}
+> >   		break;
+> >   	case LED_BLINK_WPS:
 
 
+> I cannot apply this patch.
+
+> Applying: staging: r8188eu: summarize tx/rx and scan blinking
+> error: patch failed: drivers/staging/r8188eu/core/rtw_led.c:81
+> error: drivers/staging/r8188eu/core/rtw_led.c: patch does not apply
+> Patch failed at 0001 staging: r8188eu: summarize tx/rx and scan blinking
+
+did you apply the patch "staging: r8188eu: remove bLedLinkBlinkInProgress"
+(that I sent on Oct 1st) before this series?
+
+I didn't mention this dependency in the cover letter, sorry for that.
+
+Thanks,
+Martin
