@@ -1,78 +1,108 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mailout-pe-b.jellyfish.systems (mailout-pe-b.jellyfish.systems [198.54.127.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A1E2F27;
-	Mon, 17 Oct 2022 16:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666024309; bh=5Yb+4ARq0ilueDytZ8Aus4VvXa+Y2d6ob8lG8tdYn6Q=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=DBiNru1rwGsndvb1zvVhRATyquIvXFopsqiwtzvZ3xq3wBzL/EQuu+quMmYDl6b+p
-	 9Oo9Sk1CCh3jJ8Qdq+qLRTkeY2AuLGamWayCbUaSdaleTcCSx4OHQPanBjUirLgOhZ
-	 VduQ7mu3U4wEjikmPc1Cg1WY9EQ1K9uYzOsdGHDc=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-	via [213.182.55.206]
-	Mon, 17 Oct 2022 18:31:49 +0200 (CEST)
-X-EA-Auth: meiLiH2MjlqbGeP19xG3i5vTjOcBFdWpEMpA6VJRjK1RxUQRQ+qOTmbj7ivi43w+fWgY/6qsxOaQrsReyV7DzTCWa8jKfopK
-Date: Mon, 17 Oct 2022 21:32:17 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: [PATCH v1 4/4] staging: r8188eu: use htons macro instead of
- __constant_htons
-Message-ID: <cb4c340251fe80ea9f83c2530f6a624219701c10.1666021212.git.drv@mailo.com>
-References: <cover.1666021212.git.drv@mailo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5C14699
+	for <linux-staging@lists.linux.dev>; Mon, 17 Oct 2022 17:25:01 +0000 (UTC)
+Received: from output-router-58994b6955-smsdz (unknown [10.35.5.64])
+	by mailout-pe-b.jellyfish.systems (Postfix) with ESMTPA id 4MrkFn42hczGp46;
+	Mon, 17 Oct 2022 17:17:33 +0000 (UTC)
+Received: from MTA-07.privateemail.com (unknown [10.50.14.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by NEW-01.privateemail.com (Postfix) with ESMTPS id 7884D18000D0;
+	Mon, 17 Oct 2022 13:17:33 -0400 (EDT)
+Received: from mta-07.privateemail.com (localhost [127.0.0.1])
+	by mta-07.privateemail.com (Postfix) with ESMTP id 59FA618000AD;
+	Mon, 17 Oct 2022 13:17:33 -0400 (EDT)
+Received: from bpappas-XPS-13-9310.wppl.org (unknown [131.226.25.151])
+	by mta-07.privateemail.com (Postfix) with ESMTPA id 6D68D18000A4;
+	Mon, 17 Oct 2022 13:17:28 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+	s=default; t=1666027053;
+	bh=aNeyk48AOwzSbd9WzVFlb+MjlJ0dkJAtLpWqe7mkpss=;
+	h=From:To:Cc:Subject:Date:From;
+	b=k8p1r7CEvBrvPBRXck6Ydxzn4SAXchY6EOJ7yaODajJ9kpaWOuz2Y4voAdE4CRHLm
+	 lq3Tki5VFhWYVw83i7arcD9dWcyx0GRv5Xd1tDI3pc8XV5lAlLj9jQlU5l+mi4FhHv
+	 poeJWthiqhm5ZcdnN9GGo7vWYRGnBRMBjiN1c+ghCbFtXoWicHGjnIf4LXHA6Jc26Q
+	 vDrNQmwBHzoQmFI8wQg+ywOZ0GQK7tYqDL4AMgxBR4JfD4ocAfaQsz8eHvDdHFtIlJ
+	 9iE/9yvtcTIywCnxWZ6jeR9Zn1N6Heamn9FYLTT1ijHX+0s0YQBPjh8sjTUB4i+Fjo
+	 iLPrOV5qaYKmQ==
+From: Brent Pappas <bpappas@pappasbrent.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Brent Pappas <pappasbrent@gmail.com>,
+	Brent Pappas <bpappas@pappasbrent.com>
+Subject: [PATCH] staging: rtl8723bs: core: Replace macros RotR1 through Mk16 with static inline functions
+Date: Mon, 17 Oct 2022 13:16:54 -0400
+Message-Id: <20221017171653.12578-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1666021212.git.drv@mailo.com>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-Macro "htons" is more efficient and clearer. It should be used for
-constants instead of the __contast_htons macro. Resolves following
-checkpatch script complaint:
-        WARNING: __constant_htons should be htons
+From: Brent Pappas <pappasbrent@gmail.com>
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
+Replace macros "RotR1", "Lo8", "Hi8", "Lo16", "Hi16", and "Mk16" with
+static inline functions to comply with Linux coding style standards.
+
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
 ---
+ drivers/staging/rtl8723bs/core/rtw_security.c | 35 +++++++++++++++----
+ 1 file changed, 29 insertions(+), 6 deletions(-)
 
-Changes in v1:
-   1. Correct spelling in patch description.
-
- drivers/staging/r8188eu/core/rtw_br_ext.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index 14797c2d6d76..718133c991d7 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -609,14 +609,14 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
- 	if (!priv->ethBrExtInfo.dhcp_bcst_disable) {
- 		__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
-
--		if (protocol == __constant_htons(ETH_P_IP)) { /*  IP */
-+		if (protocol == htons(ETH_P_IP)) { /*  IP */
- 			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
-
- 			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
- 				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
-
--				if ((udph->source == __constant_htons(CLIENT_PORT)) &&
--				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
-+				if ((udph->source == htons(CLIENT_PORT)) &&
-+				    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
- 					struct dhcpMessage *dhcph =
- 						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
- 					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
---
-2.30.2
-
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index ac731415f733..519e141fb82c 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -253,12 +253,35 @@ void rtw_seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len, u8 *mic_cod
+ }
+ 
+ /* macros for extraction/creation of unsigned char/unsigned short values  */
+-#define RotR1(v16)   ((((v16) >> 1) & 0x7FFF) ^ (((v16) & 1) << 15))
+-#define   Lo8(v16)   ((u8)((v16)       & 0x00FF))
+-#define   Hi8(v16)   ((u8)(((v16) >> 8) & 0x00FF))
+-#define  Lo16(v32)   ((u16)((v32)       & 0xFFFF))
+-#define  Hi16(v32)   ((u16)(((v32) >> 16) & 0xFFFF))
+-#define  Mk16(hi, lo) ((lo) ^ (((u16)(hi)) << 8))
++static inline u16 RotR1(u16 v16)
++{
++	return ((((v16) >> 1) & 0x7FFF) ^ (((v16) & 1) << 15));
++}
++
++static inline u8 Lo8(u16 v16)
++{
++	return ((u8)((v16)       & 0x00FF));
++}
++
++static inline u8 Hi8(u16 v16)
++{
++	return ((u8)(((v16) >> 8) & 0x00FF));
++}
++
++static inline u16 Lo16(u32 v32)
++{
++	return ((u16)((v32)       & 0xFFFF));
++}
++
++static inline u32 Hi16(u32 v32)
++{
++	return ((u16)(((v32) >> 16) & 0xFFFF));
++}
++
++static u16 Mk16(u8 hi, u8 lo)
++{
++	return ((lo) ^ (((u16)(hi)) << 8));
++}
+ 
+ /* select the Nth 16-bit word of the temporal key unsigned char array TK[]   */
+ #define  TK16(N)     Mk16(tk[2*(N)+1], tk[2*(N)])
+-- 
+2.34.1
 
