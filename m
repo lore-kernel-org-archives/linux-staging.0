@@ -1,105 +1,52 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CB210F9
-	for <linux-staging@lists.linux.dev>; Mon, 17 Oct 2022 08:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1665996749;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YgyPtG2D7KJgGVVAPTOg/f4XZbzbpdj3TrZEbxLCmGA=;
-	b=C8pvmutnQkG2G/jMTM5vPQEWSBLLL8OcvwmS6jcppP71CedLqDrr16H5lKOpeb/ZCK7o6H
-	vJY6+N0P6OyAOyQcbaZMje0G17+sUvkEWBsT8ctAdu3v+IwpYj6mLuvHbQyWGAywb4onV/
-	y/L0Zqe1wZztNqyQF0zpTwAmJUlYcEU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-185-eQRZTa12NNWaQNG54L042A-1; Mon, 17 Oct 2022 04:52:25 -0400
-X-MC-Unique: eQRZTa12NNWaQNG54L042A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 014AD29A8AEB;
-	Mon, 17 Oct 2022 08:51:50 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.44])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5D8BD10A58CE;
-	Mon, 17 Oct 2022 08:51:41 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 14/17] media: atomisp: Fix atomisp_try_fmt_cap() always returning YUV420 pixelformat
-Date: Mon, 17 Oct 2022 10:50:54 +0200
-Message-Id: <20221017085057.7483-15-hdegoede@redhat.com>
-In-Reply-To: <20221017085057.7483-1-hdegoede@redhat.com>
-References: <20221017085057.7483-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B9D137C;
+	Mon, 17 Oct 2022 13:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1666014631; bh=MzgpgvOPXYYJ9uSTLDb04aRoEwgOCBfg49mTGRCTv8I=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=Pt1dXwphxmDDCZUJDL11IORUQydSiKczFZMAmmwDYJK5ZG3H57MWTF1fidnCOyacH
+	 Qk2GM0ehYBcdBe6fwUEbIVQf4inuuEeaA9tIPVxmaMftDyYhmi/IUta/aulitvA8+/
+	 hXPOZ+/k8ser+cYeZ9YblRNveHTZB934/r3ujnrM=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+	via [213.182.55.206]
+	Mon, 17 Oct 2022 15:50:31 +0200 (CEST)
+X-EA-Auth: HE7Tpv6JQEWvZeHv9+YdRxBEHahqvDhatAHw+8AH9EVhBZQho4m/Ar1QBYKSPJRb36xFdr31nAHmMFKHNLCYGxJ6+4CCscH8
+Date: Mon, 17 Oct 2022 18:50:57 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, paskripkin@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
+Subject: [PATCH 0/4] staging: r8188eu: trivial code cleanup patches
+Message-ID: <cover.1666011479.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The atomisp_try_fmt() call in atomisp_try_fmt_cap() replaces
-the pixelformat passed by userspace with the sensors native pixelformat.
+Address different kinds of checkpatch complains for the staging/r8188eu module.
+The patches are required to be applied in sequence.
 
-Which always gets replaced by V4L2_PIX_FMT_YUV420 by atomisp_adjust_fmt()
-because raw sensor formats are not supported.
 
-This needs to be fixed so that userspace which does a try_fmt call before
-s_fmt does not end up always getting YUV420 even if it passed something
-else into the try_fmt call.
+Deepak R Varma (4):
+  staging: r8188eu: use Linux kernel variable naming convention
+  staging: r8188eu: reformat long computation lines
+  staging: r8188eu: remove {} for single statement blocks
+  staging: r8188eu: use htons macro instead of __constant_htons
 
-To fix this restore the userspace requested pixelformat before
-the atomisp_adjust_fmt() call. atomisp_adjust_fmt() will replace this
-with V4L2_PIX_FMT_YUV420 in case an unsupported format is requested.
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 125 +++++++++++-----------
+ 1 file changed, 65 insertions(+), 60 deletions(-)
 
-Note this relies on the "media: atomisp: Refactor atomisp_adjust_fmt()"
-change, before that atomisp_adjust_fmt() would return -EINVAL for
-unsupported pixelformats.
+--
+2.30.2
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index fbcd377fcb08..149f7ebafb36 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -922,6 +922,7 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
- 			       struct v4l2_format *f)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	u32 pixfmt = f->fmt.pix.pixelformat;
- 	int ret;
- 
- 	/*
-@@ -935,6 +936,12 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * atomisp_try_fmt() replaces pixelformat with the sensors native
-+	 * format, restore the actual format requested by userspace.
-+	 */
-+	f->fmt.pix.pixelformat = pixfmt;
-+
- 	return atomisp_adjust_fmt(f);
- }
- 
--- 
-2.37.3
 
