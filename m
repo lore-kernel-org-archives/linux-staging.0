@@ -1,100 +1,136 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D54910F7
-	for <linux-staging@lists.linux.dev>; Mon, 17 Oct 2022 08:35:03 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BFE6CCF;
-	Mon, 17 Oct 2022 10:29:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1665995361;
-	bh=sVZCLSgX6k6MUk9kICNW2SQeppujn+8ITE9dOx6WEps=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TQhfME+rXpgkfi5VecYtgR3HKbcRwya1/4W3jPJMEBnxuiGmSzEyzF2XdDd5Y+wqR
-	 IGqbu1ShhI9VMJN/B9CpfUkn6ENgIDt+qpphx4KYNYu7HkDHvdukGGInjGgaMRe8hK
-	 JGAWGgxTkYSfaF/PeWIXn3jh9cPWDq/13EuBbxJA=
-Date: Mon, 17 Oct 2022 11:28:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel@puri.sm,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCHv3 1/1 RESEND] media: imx: Round line size to 4 bytes
-Message-ID: <Y00SSRMFuL3Drjd4@pendragon.ideasonboard.com>
-References: <20221016163928.1ef0a4fe.dorota.czaplejewicz@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9F610F7
+	for <linux-staging@lists.linux.dev>; Mon, 17 Oct 2022 08:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1665996666;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FjYHEebma8UYIFvq1Yz9+6YiyBVirhL+oeP6HjonLqk=;
+	b=Z7OPnbPjkpTV9PldQSqsj1wFqkytcr6irwLqSb+c56X5RdH1QkYz9cwMOr2ZpE8AAEyLJC
+	m2oU2QECv0t/kvE72ng5TnhNHlheaB0OkVQRnuJ0X4VFpMRpyyPGDCYY/FsSGTGZi/5B3C
+	+UbCJyLmcQMDK+Xk5lRblmh8v6R+Pv8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-10-NsTFl27aP5243UdZdk9oPQ-1; Mon, 17 Oct 2022 04:51:02 -0400
+X-MC-Unique: NsTFl27aP5243UdZdk9oPQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A299186E91C;
+	Mon, 17 Oct 2022 08:51:01 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.194.44])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3273A10A58CE;
+	Mon, 17 Oct 2022 08:50:59 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 00/17] media: atomisp: Convert to videobuf2
+Date: Mon, 17 Oct 2022 10:50:40 +0200
+Message-Id: <20221017085057.7483-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221016163928.1ef0a4fe.dorota.czaplejewicz@puri.sm>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 
-Hi Dorota,
+Hi All,
 
-Thank you for the patch.
+This patch series converts the staging atomisp driver to use the videobuf2
+framework, fixing MMP mode now working.
 
-On Sun, Oct 16, 2022 at 04:39:28PM +0200, Dorota Czaplejewicz wrote:
-> Section 13.7.6.13 "CSI Image Parameter Register" of the
-> i.MX 8M Quad Applications Processors Reference Manual
-> states that the line size should be divisible by 8 bytes.
-> However, the hardware also accepts sizes divisible by 4 bytes,
-> which are needed to fully utilize the S5K3L6XX sensors.
-> 
-> This patch accepts line sizes divisible by 4 bytes.
+This also contains an important fix to try_fmt handling, so that
+the various supported output formats can actually be used by userspace
+which calls try_fmt before doing s_fmt.
 
-The patch itself looks fine, but I always worry when we depart from the
-documentation (sometimes that's a worry about documentation inaccuracies
-:-)). In this particular case, we need to test the change on i.MX7 too,
-as the alignment constraints could be platform-specific.
+One thing missing from this conversion is moving over to using a per queue
+mutex. After getting the basic videobuf2 conversion in place I first needed
+to do a bunch of other fixes (like the try_fmt one) to make camorama work
+again, so I ran out of time this weekend.
 
-I would also very much appreciate feedback from NXP on this. There's a
-risk of ill side-effects that I would prefer ruling out very clearly.
+There is a bunch of preparation in the form of commented
+out code + FIXME comments in "media: atomisp: Convert to videobuf2"
+this causes a bunch of checkpatch warnings. Moving to a per queue
+mutex is my next planned patch (series?).
 
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> ---
-> Hello,
-> 
-> the Librem 5 is using an out-of-tree driver for s5k3l6xx, and rounding to 4 is optimal to operate it.
-> 
-> This revision improves the commit message.
-> 
-> Cheers,
-> Dorota Czaplejewicz
-> 
->  drivers/staging/media/imx/imx7-media-csi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index a0553c24cce4..af821b410c3f 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -999,10 +999,10 @@ static int imx7_csi_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
->  	}
->  
->  	/* Round up width for minimum burst size */
-> -	width = round_up(mbus->width, 8);
-> +	width = round_up(mbus->width, 4);
->  
->  	/* Round up stride for IDMAC line start address alignment */
-> -	stride = round_up((width * cc->bpp) >> 3, 8);
-> +	stride = round_up((width * cc->bpp) >> 3, 4);
->  
->  	pix->width = width;
->  	pix->height = mbus->height;
+So slowly this is starting to look more and more like a standard
+v4l2 device (with all the complex pipeline handling hidden in the driver,
+moving that to userspace seems to be impossible with this design since
+multiple pipeline steps are handled by a single firmware program).
 
--- 
 Regards,
 
-Laurent Pinchart
+Hans
+
+
+Hans de Goede (17):
+  media: atomisp: Add hmm_create_from_vmalloc_buf() function
+  media: atomisp: Add ia_css_frame_init_from_info() function
+  media: atomisp: Make atomisp_q_video_buffers_to_css() static
+  media: atomisp: On streamoff wait for buffers owned by the CSS to be
+    given back
+  media: atomisp: Remove unused atomisp_buffers_queued[_pipe] functions
+  media: atomisp: Also track buffers in a list when submitted to the ISP
+  media: atomisp: Add an index helper variable to atomisp_buf_done()
+  media: atomisp: Use new atomisp_flush_video_pipe() helper in
+    atomisp_streamoff()
+  media: atomisp: Add ia_css_frame_get_info() helper
+  media: atomisp: Convert to videobuf2
+  media: atomisp: Make it possible to call atomisp_set_fmt() without a
+    file handle
+  media: atomisp: Fix VIDIOC_REQBUFS failing when VIDIOC_S_FMT has not
+    been called yet
+  media: atomisp: Refactor atomisp_adjust_fmt()
+  media: atomisp: Fix atomisp_try_fmt_cap() always returning YUV420
+    pixelformat
+  media: atomisp: Make atomisp_g_fmt_cap() default to YUV420
+  media: atomisp: Remove __atomisp_get_pipe() helper
+  media: atomisp: gc0310: Power on sensor from set_fmt() callback
+
+ .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +-
+ drivers/staging/media/atomisp/i2c/gc0310.h    |   1 +
+ .../staging/media/atomisp/include/hmm/hmm.h   |   2 +
+ .../media/atomisp/include/hmm/hmm_bo.h        |   4 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 353 ++++--------
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   9 +-
+ .../media/atomisp/pci/atomisp_common.h        |   6 +-
+ .../media/atomisp/pci/atomisp_compat.h        |   3 +-
+ .../media/atomisp/pci/atomisp_compat_css20.c  |   6 +-
+ .../staging/media/atomisp/pci/atomisp_fops.c  | 521 ++++++-----------
+ .../staging/media/atomisp/pci/atomisp_fops.h  |  13 -
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 543 ++++--------------
+ .../staging/media/atomisp/pci/atomisp_ioctl.h |  10 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |   1 +
+ .../media/atomisp/pci/atomisp_subdev.h        |  20 +-
+ drivers/staging/media/atomisp/pci/hmm/hmm.c   |  15 +-
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    |  32 +-
+ .../media/atomisp/pci/ia_css_frame_public.h   |  36 +-
+ .../bayer_io_ls/ia_css_bayer_io.host.c        |  10 +-
+ .../yuv444_io_ls/ia_css_yuv444_io.host.c      |  10 +-
+ .../isp/kernels/ref/ref_1.0/ia_css_ref.host.c |   2 +-
+ .../isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c |   4 +-
+ .../pci/runtime/debug/src/ia_css_debug.c      |  26 +-
+ .../atomisp/pci/runtime/frame/src/frame.c     |  82 +--
+ drivers/staging/media/atomisp/pci/sh_css.c    |  38 +-
+ .../staging/media/atomisp/pci/sh_css_params.c |  17 +-
+ drivers/staging/media/atomisp/pci/sh_css_sp.c |  52 +-
+ 27 files changed, 643 insertions(+), 1187 deletions(-)
+
+-- 
+2.37.3
+
