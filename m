@@ -1,99 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177411C12;
-	Mon, 17 Oct 2022 14:09:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572F7C433D6;
-	Mon, 17 Oct 2022 14:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666015792;
-	bh=yJ08HzHEX+1X61S0D+yCv7kNru6KQif5JswxlVdBe1c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=peRR6IDCuyeyvt1k3vFBMReMldWHIyyLQlSP4aaxeg7fcFwvxi2Qbxy7y3X/lT3Kb
-	 4+m3k2Qb/md9Ep2+GbOByIRBl5KjJ/VjPfqvsWRLd8WPHbiwEiHiEOsgBDKSVKl2rb
-	 Aasrg1+r7laegS/f8WvNlnw1yxgqoqtRFDtNvsrs=
-Date: Mon, 17 Oct 2022 16:09:49 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH 2/4] staging: r8188eu: reformat long computation lines
-Message-ID: <Y01iLXp20G0FSJFG@kroah.com>
-References: <cover.1666011479.git.drv@mailo.com>
- <2dd27eff9aab5ffe31e61086c0584982794507cf.1666011479.git.drv@mailo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306171109
+	for <linux-staging@lists.linux.dev>; Mon, 17 Oct 2022 14:31:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 4F130DF771;
+	Mon, 17 Oct 2022 07:31:14 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4C8rzvhNkA2M; Mon, 17 Oct 2022 07:31:13 -0700 (PDT)
+Date: Mon, 17 Oct 2022 16:30:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1666017073; bh=o+aJRKJ3sFKSwuftgFx085zenCbITyr/0J/mwErAjJo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BXF57OTkVnlR2p2KP9rqaWlk/KYEM2WTlIwB7RfX/02zllRU/7p/cGgK3w9IpY6qL
+	 NRu1P37vyhD1wFF0i+C1Wm3aiyu2ON/jGOGXs91mpbm+N8bz3Wzf9ToxJML1Tt3rVl
+	 Kl/BtBEgedrOHgIQ515Qa5bnc86Ood8nUdr6h23EuEAPc4vvGKysLeGosDPc+7Qrkz
+	 zHZl5WYDsWM7QR2gjpBom/vv8qgZqB/lM/WW/UKctma60JcSdqc8IDvgMhceFwoLti
+	 udG4sC+DUFD3y79QiZ3X8vvaL+V/LChZ32bonoDCaia1ZyPXt95Q8fKwskvvTxNDLc
+	 sMk2/YlXaOz6Q==
+From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: Re: [PATCHv3 1/1 RESEND] media: imx: Round line size to 4 bytes
+Message-ID: <20221017163059.377ac677.dorota.czaplejewicz@puri.sm>
+In-Reply-To: <Y00SSRMFuL3Drjd4@pendragon.ideasonboard.com>
+References: <20221016163928.1ef0a4fe.dorota.czaplejewicz@puri.sm>
+	<Y00SSRMFuL3Drjd4@pendragon.ideasonboard.com>
+Organization: Purism
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2dd27eff9aab5ffe31e61086c0584982794507cf.1666011479.git.drv@mailo.com>
+Content-Type: multipart/signed; boundary="Sig_/QmAeHAJcc4AAIcgpE63DMc3";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Mon, Oct 17, 2022 at 06:52:50PM +0530, Deepak R Varma wrote:
-> Reformat long running computation instructions to improve code readability.
-> Address following checkpatch script complaints:
-> 	CHECK: line length of 171 exceeds 100 columns
-> 	CHECK: line length of 113 exceeds 100 columns
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_br_ext.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> index 79daf8f269d6..427da7e8ba4c 100644
-> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> @@ -211,8 +211,10 @@ static int __nat25_network_hash(unsigned char *network_addr)
->  	} else if (network_addr[0] == NAT25_IPX) {
->  		unsigned long x;
-> 
-> -		x = network_addr[1] ^ network_addr[2] ^ network_addr[3] ^ network_addr[4] ^ network_addr[5] ^
-> -			network_addr[6] ^ network_addr[7] ^ network_addr[8] ^ network_addr[9] ^ network_addr[10];
-> +		x = network_addr[1] ^ network_addr[2] ^ network_addr[3] ^
+--Sig_/QmAeHAJcc4AAIcgpE63DMc3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Why not go out to [4] here and then you are one line shorter?
+Hi,
 
-> +		    network_addr[4] ^ network_addr[5] ^ network_addr[6] ^
-> +		    network_addr[7] ^ network_addr[8] ^ network_addr[9] ^
-> +		    network_addr[10];
-> 
->  		return x & (NAT25_HASH_SIZE - 1);
->  	} else if (network_addr[0] == NAT25_APPLE) {
-> @@ -224,16 +226,20 @@ static int __nat25_network_hash(unsigned char *network_addr)
->  	} else if (network_addr[0] == NAT25_PPPOE) {
->  		unsigned long x;
-> 
-> -		x = network_addr[0] ^ network_addr[1] ^ network_addr[2] ^ network_addr[3] ^ network_addr[4] ^ network_addr[5] ^ network_addr[6] ^ network_addr[7] ^ network_addr[8];
-> +		x = network_addr[0] ^ network_addr[1] ^ network_addr[2] ^
-> +		    network_addr[3] ^ network_addr[4] ^ network_addr[5] ^
+On Mon, 17 Oct 2022 11:28:57 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-Same here
+> Hi Dorota,
+>=20
+> Thank you for the patch.
+>=20
+> On Sun, Oct 16, 2022 at 04:39:28PM +0200, Dorota Czaplejewicz wrote:
+> > Section 13.7.6.13 "CSI Image Parameter Register" of the
+> > i.MX 8M Quad Applications Processors Reference Manual
+> > states that the line size should be divisible by 8 bytes.
+> > However, the hardware also accepts sizes divisible by 4 bytes,
+> > which are needed to fully utilize the S5K3L6XX sensors.
+> >=20
+> > This patch accepts line sizes divisible by 4 bytes. =20
+>=20
+> The patch itself looks fine, but I always worry when we depart from the
+> documentation (sometimes that's a worry about documentation inaccuracies
+> :-)). In this particular case, we need to test the change on i.MX7 too,
+> as the alignment constraints could be platform-specific.
+>=20
+I don't have access to any i.MX7 hardware, unfortunately. I can help anyone=
+ who does and wants to test this.
+
+> I would also very much appreciate feedback from NXP on this. There's a
+> risk of ill side-effects that I would prefer ruling out very clearly.
+
+I posted a question on the NXP forum: https://community.nxp.com/t5/i-MX-Pro=
+cessors/i-MX8MQ-CSI-line-size-constraint-documentation-mistake/m-p/1538629#=
+M196448
+
+--Dorota
+>=20
+> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > ---
+> > Hello,
+> >=20
+> > the Librem 5 is using an out-of-tree driver for s5k3l6xx, and rounding =
+to 4 is optimal to operate it.
+> >=20
+> > This revision improves the commit message.
+> >=20
+> > Cheers,
+> > Dorota Czaplejewicz
+> >=20
+> >  drivers/staging/media/imx/imx7-media-csi.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/stagi=
+ng/media/imx/imx7-media-csi.c
+> > index a0553c24cce4..af821b410c3f 100644
+> > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > @@ -999,10 +999,10 @@ static int imx7_csi_mbus_fmt_to_pix_fmt(struct v4=
+l2_pix_format *pix,
+> >  	}
+> > =20
+> >  	/* Round up width for minimum burst size */
+> > -	width =3D round_up(mbus->width, 8);
+> > +	width =3D round_up(mbus->width, 4);
+> > =20
+> >  	/* Round up stride for IDMAC line start address alignment */
+> > -	stride =3D round_up((width * cc->bpp) >> 3, 8);
+> > +	stride =3D round_up((width * cc->bpp) >> 3, 4);
+> > =20
+> >  	pix->width =3D width;
+> >  	pix->height =3D mbus->height; =20
+>=20
 
 
-> +		    network_addr[6] ^ network_addr[7] ^ network_addr[8];
-> 
->  		return x & (NAT25_HASH_SIZE - 1);
->  	} else if (network_addr[0] == NAT25_IPV6) {
->  		unsigned long x;
-> 
-> -		x = network_addr[1] ^ network_addr[2] ^ network_addr[3] ^ network_addr[4] ^ network_addr[5] ^
-> -			network_addr[6] ^ network_addr[7] ^ network_addr[8] ^ network_addr[9] ^ network_addr[10] ^
-> -			network_addr[11] ^ network_addr[12] ^ network_addr[13] ^ network_addr[14] ^ network_addr[15] ^
-> -			network_addr[16];
-> +		x = network_addr[1] ^ network_addr[2] ^ network_addr[3] ^
-> +		    network_addr[4] ^ network_addr[5] ^ network_addr[6] ^
-> +		    network_addr[7] ^ network_addr[8] ^ network_addr[9] ^
-> +		    network_addr[10] ^ network_addr[11] ^ network_addr[12] ^
-> +		    network_addr[13] ^ network_addr[14] ^ network_addr[15] ^
-> +		    network_addr[16];
+--Sig_/QmAeHAJcc4AAIcgpE63DMc3
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-And here.
+-----BEGIN PGP SIGNATURE-----
 
-thanks,
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmNNZyMACgkQADBpX4S8
+Znc74hAAiYKFNGGfNNsBLc3PbZgtbYTGiZaB8Ow2s/3CVjCwVrnK0wnmL0DnHSnI
+vn3RjQ/GD2Ul2yeaJaNGOar7Uyk5ZmnyQTqJxJdQOWl01GHDW52A+uIG+Boz0fry
+sRkMGt2TtUSuFF5dRINb1bzsdIxXhjxanDiAGVimwZNA93atIhsPNFMvdA0iPtyH
+lvAY88s6X3zP4l289Xgx8MNoOgNPBqqnJkBM7qcRyMf60MdddYmjz43/2D6AbNvZ
+Wt4MKCoPWlur8Nl6u0oEI2SxDb8LEKLhg542sCKq4T9/8wDUoAU9iUnRRVTOMeqf
+9/CeHNY7opXcqyux/zL2yQ/9u+q2WdPWVpavGorINbtLRJ423eNBz8qa/qPhYrGv
+KUtYT5iMwKZHyBmizBsLH7nfZ+6Bq1WIPwASs4ibsJmzqzMhXFogsZrAg+FLaVGC
+zM6TU6SpjSSBdRSWFgBsF+vId2ThD6C8u1ebKGGTEd8Gg6iLpNZ7IRaLdo/YHnD8
+Q5yy7qUH3klPKLfPYMHtGs+rCwyZPUvOyfWouojg70sDmfSyYePgDkOvroa2dZ0Q
+lyG87d2zzTQ2Wp6YRSguSI329wZIQoq/qzP2NesY4wHcZIDCrVKZyfnVFNRp9KiG
+2PKynGL8eQ508zqYMdXvVXyTRa6TyVobHLTXnQhrrApAifISNCU=
+=hZK2
+-----END PGP SIGNATURE-----
 
-greg k-h
+--Sig_/QmAeHAJcc4AAIcgpE63DMc3--
