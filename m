@@ -1,107 +1,116 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143A97F;
-	Mon, 17 Oct 2022 21:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666040748; bh=vtw5hXDB4zueH2hLIVyRWPMtb7MOa/LxMyQnrNM0I90=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=iZMNZjTUW7eR0ru9UAVs94dLpe1f8CAcgh7hzPhOTkTTeTm7aHZXwX0esFVdMIF18
-	 jRnTsmd4zFzSkc28UyjD+3QVD6DE1cmg9ZETbn2SAL8sOgH/V/x02TFYpxgwYwcEgw
-	 gj7DHSczjjy3cGu8CBf0B14KzYePn+NYJmbWY7Dk=
-Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
-	via [213.182.55.206]
-	Mon, 17 Oct 2022 23:05:48 +0200 (CEST)
-X-EA-Auth: slUdyKLY0YFpRa7Q8yUAnoqkQKTYA7BQSzx+lvgyXyaYXMdg/jb8ykPJLy++e4IS1meRsVw1IaITvvPAUrLhOxmy4o5Tp/eQ
-Date: Tue, 18 Oct 2022 02:35:40 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH] staging: most: dim2: read done_buffers count locally
- from HDM channel
-Message-ID: <Y03DpMMiOsedm6Dl@lion2204>
-References: <Y022wjdPGYwyx7lB@debian-BULLSEYE-live-builder-AMD64>
- <alpine.DEB.2.22.394.2210172255250.16433@hadrien>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084407F;
+	Mon, 17 Oct 2022 21:06:22 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id iv17so9475950wmb.4;
+        Mon, 17 Oct 2022 14:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ny9S84ddMU/C3tkLJNxlEIFlBnKSkg7GhMCarBjMO4Q=;
+        b=QlTlQ0/Gn+KJSTCePByReUXYSh/U0B4FRFME4WIA6QXwUPH+oMXWtbKdMueJ2F9N8i
+         UFvPp5gZhswevOSeG/3xinkO/wBwalFH/8vdhqDu42/o9B6KqawED2AIA7kB0VVAmKFH
+         Sgw1bceGoRnG+C5wLhBaBWO9YI+FhEbwd8sKyn/TKWQKDioYUPdsWVTVcjEVSWLYj61j
+         yNDJaXQ57YW5v0iqXIAABEghuroeKbBQ/wFPppeCXsJY4ZBCVrtHdUTsRGAnTJpsaiaU
+         dxao9aDjAK9HuE2xwShYxiuxsVyQaxbWhsdwMpU4DJrqg70j+qLhTZkc3QS8efmsviwW
+         /sxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ny9S84ddMU/C3tkLJNxlEIFlBnKSkg7GhMCarBjMO4Q=;
+        b=hYXwNeLI2H2WnUDjvuGTTk3aE8D8xXem3qJQGkTVqJDJ2BHAV2h/arOBlGCcWUX/z2
+         rCFKugjA9NgvmEV3vDStWzdp4PjMKXy9E6D83gU6IZRgeTyaYoG7qWj+cSJa/e2ih6gx
+         OmFIEhiO4StUOqucuPu1emseW7I0JuOe2n13+4JbYsCElRkFZ2z9eGH5ZO1GyMq6R24W
+         jDixKcc4Jrqq88wejkopEKGaUXYtk63PJWObFvEnUhmKYVKrjz3t5MSNX7MZYBaK9yTy
+         k7SKGjHt2HIozB25A1fuQQQbkPLhcbtQgd/khRYaWTz4yKyPKWn4YaV6Wh2P99z6I4YM
+         xHnQ==
+X-Gm-Message-State: ACrzQf1X4/Oq1yTs5cbEOt0y7fwo3Kh2+KtZmX4hiz7/lnvE93C38THx
+	ak1VnSibOk/O3u1qoo+RR3g=
+X-Google-Smtp-Source: AMsMyM4XdCoQpXejZXuEi4kxewPjDf//Qgwvgno6/Vza+YHole7Od6uFXjHHZOLzidb9HSq2V6ROww==
+X-Received: by 2002:a05:600c:4e51:b0:3c0:55e0:7719 with SMTP id e17-20020a05600c4e5100b003c055e07719mr8919840wmq.3.1666040781142;
+        Mon, 17 Oct 2022 14:06:21 -0700 (PDT)
+Received: from [192.168.1.104] (p57ba2cf5.dip0.t-ipconnect.de. [87.186.44.245])
+        by smtp.gmail.com with ESMTPSA id h21-20020a05600c499500b003c4ecff4e25sm11058305wmp.9.2022.10.17.14.06.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Oct 2022 14:06:20 -0700 (PDT)
+Message-ID: <da0daaa7-8e2c-103e-0261-8685739e297d@gmail.com>
+Date: Mon, 17 Oct 2022 23:06:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2210172255250.16433@hadrien>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Subject: Re: [PATCH v1 0/4] staging: r8188eu: trivial code cleanup patches
+To: Deepak R Varma <drv@mailo.com>, outreachy@lists.linux.dev,
+ Larry.Finger@lwfinger.net, phil@philpotter.co.uk, paskripkin@gmail.com,
+ gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
+References: <cover.1666021212.git.drv@mailo.com>
+Content-Language: en-US
+In-Reply-To: <cover.1666021212.git.drv@mailo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 17, 2022 at 10:56:03PM +0200, Julia Lawall wrote:
->
->
-> On Tue, 18 Oct 2022, Deepak R Varma wrote:
->
-> > The done_buffer count can be directly read from HDM channel instead of
-> > calling the dim_get_channel_state function. This change also results in
-> > obsoleting the dim_channel_state local structure variable.
-> >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> >
-> > PLEASE NOTE: I have only built the module on my machine, but have not tested it.
-> > I am not sure how to test this change. I am willing to test it with appropriate
-> > guidance provided I have the necessary hardware.
->
-> For non experts, maybe it would be helpful to explain what motivated you
-> to do this?
+On 10/17/22 17:56, Deepak R Varma wrote:
+> Address different kinds of checkpatch complains for the staging/r8188eu module.
+> The patches are required to be applied in sequence.
+> 
+> Changes in v1:
+>     1. Improve language / grammar for the patch descriptions
+>     2. Further improve code reformatting
+> 
+> Deepak R Varma (4):
+>    staging: r8188eu: use Linux kernel variable naming convention
+>    staging: r8188eu: reformat long computation lines
+>    staging: r8188eu: remove {} for single statement blocks
+>    staging: r8188eu: use htons macro instead of __constant_htons
+> 
+>   drivers/staging/r8188eu/core/rtw_br_ext.c | 122 +++++++++++-----------
+>   1 file changed, 62 insertions(+), 60 deletions(-)
+> 
+> --
+> 2.30.2
+> 
+> 
+> 
+> 
 
-I was actually trying to understand the implementation of this module to
-determine if I can replace BUG_ON calls by WARN_ON_ONCE. A "ctrl+]" navigation
-took me to this function and I started wondering about why the function call
-would be necessary. Hence the change.
+I think this patch series should be v2 as the first one was a v1. The 
+next one should be the v3.
 
-While reading the Documentation under dim2 directory, I realised this module may
-need a specialised hardware for testing [automotive???]. Hence I was not sure
-how to test the same.
+Please do variable changes driver wide and not only limited to a file.
+Example:
+This line contains the old variable:
+void *scdb_findEntry(struct adapter *priv, unsigned char *ipAddr);
 
-Are you suggesting I mention this in the patch description (the motivation)?
+But in this line you have already changed ip_addr.
+void *scdb_findEntry(struct adapter *priv, unsigned char *ip_addr)
+{
+	unsigned char network_addr[MAX_NETWORK_ADDR_LEN];
+	struct nat25_network_db_entry *db;
+	int hash;
+...
 
-Thank you,
-./drv
 
->
-> julia
->
-> >
-> >  drivers/staging/most/dim2/dim2.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> > index ab72e11ac5ab..4c1f27898a29 100644
-> > --- a/drivers/staging/most/dim2/dim2.c
-> > +++ b/drivers/staging/most/dim2/dim2.c
-> > @@ -259,7 +259,6 @@ static void retrieve_netinfo(struct dim2_hdm *dev, struct mbo *mbo)
-> >  static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
-> >  {
-> >  	struct hdm_channel *hdm_ch = dev->hch + ch_idx;
-> > -	struct dim_ch_state_t st;
-> >  	struct list_head *head;
-> >  	struct mbo *mbo;
-> >  	int done_buffers;
-> > @@ -271,7 +270,7 @@ static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
-> >
-> >  	spin_lock_irqsave(&dim_lock, flags);
-> >
-> > -	done_buffers = dim_get_channel_state(&hdm_ch->ch, &st)->done_buffers;
-> > +	done_buffers = hdm_ch->ch.done_sw_buffers_number;
-> >  	if (!done_buffers) {
-> >  		spin_unlock_irqrestore(&dim_lock, flags);
-> >  		return;
-> > --
-> > 2.30.2
-> >
-> >
-> >
-> >
-> >
+Please change all networkAddr and not only some.
+
+Is it possible to changing __constant_htons as well in the entire driver?
+
+Driver can be applied and compiled.
+Tested device.
+
+Thanks
+
+Bye Philipp
 
 
