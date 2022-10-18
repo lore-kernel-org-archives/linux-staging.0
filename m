@@ -1,32 +1,47 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5664C64;
-	Tue, 18 Oct 2022 13:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666100909; bh=8aehwf6lSmpoBzDxdJZjx59IrR44GaUW+YlwpK8P2uU=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=coYheQ5aACvX08iMUatbjBFIxmbASSbqpDcPNQQ8wMBb2Hwdq5mOQcanxkaHjr5i1
-	 PgjjL7ZMj59BT4mDPnZ11rbds2XBYb9YxIFj1LNZ/q5TIJ7OGZw2CXduZ+XjCJLQyM
-	 1vw9FdFfLQGJUS1q6vvI/hJ4wGA/NF0qyPAzVLKY=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-	via [213.182.55.206]
-	Tue, 18 Oct 2022 15:48:29 +0200 (CEST)
-X-EA-Auth: k4G4rsvDakyFRKQIvS/qsd53JTOEyb7ufL/dtXEEHiNrdWCS67WUOrR8aJLkosl6ro7PA6QePOuzV4lABlb8yLTdzYpYmvz4
-Date: Tue, 18 Oct 2022 19:18:25 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH v2] staging: most: dim2: read done_buffers count locally
- from HDM channel
-Message-ID: <Y06uqcQmtJATZ6YH@debian-BULLSEYE-live-builder-AMD64>
-References: <Y05TNQBXLMJMgQ2r@debian-BULLSEYE-live-builder-AMD64>
- <1e2a71a9-4ac5-96f3-b875-a063ff62f3ad@inria.fr>
- <Y06g2llpa5S/025M@debian-BULLSEYE-live-builder-AMD64>
- <80696861-c73f-cdb9-b4e1-36c29ece78bb@inria.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8A04C64;
+	Tue, 18 Oct 2022 14:05:01 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id m23so18018959lji.2;
+        Tue, 18 Oct 2022 07:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cmkA2nahqdV5ZLpSxnhtvorkwi04wOolQrPdVytHYxY=;
+        b=iWheTxqNCTGD6qvm2sGjasEQyED8ePFU44tPaGNDrpaJjoPe0dH+S41dNqxChtvW5M
+         q5b/S3rYjJsIwrcV/pk7wvSkVGfCx2Xf8RtyRfFW2skFRLg80j+bzq4z20gDuB43J88H
+         Edtntnqx/mw7GNiSJxZxAasKAM8SgN32D3DULcXHN2xFbIl//d5Al0K3CjeCXkyreBFf
+         iw5823odvlMw5gBsnSB+SmEc+TO1ftMSfJp78de4cLSX/DaJyR9ZSCzjsMSIvExsR/xQ
+         QhqAdsemR3fg5ETBkKvfFWfWK4q+MxO6OeCzHEWiJvUBmGzynSmqthjLyWmp9oYeztPY
+         pwMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cmkA2nahqdV5ZLpSxnhtvorkwi04wOolQrPdVytHYxY=;
+        b=JTQwS1bGGsPqmXnkmyI3PwZ79u8zAXms7k6YNki7riw8btW5TkbzwjTdSZJD4wpH+X
+         UUsqOzo9pysavvhUL9SZ+9WtwahtgkntS0jR9Ag6p4LAOxx6hk6SnlVk0U1sMwjKJmVC
+         1/JbNF5AgrqC1dvYSNrA3sC+ZHgc4Y49WwkKrlzXXMk3qEUBzO5zubH1ccYeu5e+lW/I
+         vYVKHJQ8+0hJzzz+LRASiBbgYa1fwc4ylntwxdQtlj6sJ981JBqXVTaVOWvuZYaVVUtT
+         oZ7OOj6TFd1Sa4kRcmIVGsuKEbk1E9KylngTOcgWk6lPDvQUUJN5F9pWpv7ae7C+yQm4
+         xaPw==
+X-Gm-Message-State: ACrzQf1sjwO72FJc2gaDfL+HiN/dYty57Ec4tN1p6APF7+dBq3pUn+BZ
+	wMGYISlwn9dFbZ6NNo0zJoPCYGWUhWk69tCF
+X-Google-Smtp-Source: AMsMyM7R+09+9nCvaMMUp+hbCV4Cov9DsqksHf3+0pMwbNT+EH5zakKKH6rKc72O2RgKizvbC1mVpg==
+X-Received: by 2002:a2e:3310:0:b0:26e:61d7:870b with SMTP id d16-20020a2e3310000000b0026e61d7870bmr1210454ljc.88.1666101898734;
+        Tue, 18 Oct 2022 07:04:58 -0700 (PDT)
+Received: from elroy-temp-vm ([20.240.130.248])
+        by smtp.gmail.com with ESMTPSA id l29-20020ac2555d000000b00498fd423cc3sm1859113lfk.295.2022.10.18.07.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Oct 2022 07:04:58 -0700 (PDT)
+Date: Tue, 18 Oct 2022 14:04:56 +0000
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: [PATCH] staging: rts5208: Replace instances of udelay by usleep_range
+Message-ID: <Y06yiBaluz6X0C4G@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,61 +50,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <80696861-c73f-cdb9-b4e1-36c29ece78bb@inria.fr>
 
-On Tue, Oct 18, 2022 at 02:52:21PM +0200, Julia Lawall wrote:
->
->
-> On Tue, 18 Oct 2022, Deepak R Varma wrote:
->
-> > On Tue, Oct 18, 2022 at 09:39:08AM +0200, Julia Lawall wrote:
-> > >
-> > >
-> > > On Tue, 18 Oct 2022, Deepak R Varma wrote:
-> > >
-> > > > The done_buffer count is already available in the hdm_channel struct.
-> > > > Calling dim_get_channel_state function to source this value out of
-> > > > the same structure is unnecessary.
-> > > > Further, the second parameter struct dim_ch_state_t to this function
-> > > > is filled by using the hdm_channel inside the function. This filled in
-> > > > variable is never used in the caller and can be altogether removed.
-> > > > So, a call to dim_get_channel_state function in this context also
-> > > > deems expensive.
-> > >
-> > > Thanks for the rewrite.
-> > >
-> > > I find "source this value out of" hard to understand.
-> > >
-> > > I would have written something like the following:
-> > >
-> > > The function dim_get_channel_state only serves to initialize the ready and
-> > > done_buffers fields of the structure passed as its second argument.  In
-> > > service_done_flag, this structure is never used again and the only purpose
-> > > of the call is to get the value that is put in the done_buffers field.
-> > > But that value is just the done_sw_buffers_number field of the call's
-> > > first argument.  So the whole call is useless, and we can just replace it
-> > > with an access to this field.
-> > >
-> > > This change implies that the variable st is no longer used, so drop it as
-> > > well.
-> >
-> > This is really well written. Sounds much structured. Now my own log message
-> > sounds a little random :)
-> >
-> > Is it okay for me to use your verbiage as is in my patch log?
->
-> Yes.
+Replace the use of udelay by usleep_range as suggested by checkpatch:
 
-Thank you. Can I convert this into a patch set and include the other suggestion
-from you to correct the dim_ch_state_t struct name? Or should these be separate
-patches now?
+CHECK: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst
++               udelay(30);
 
-./drv
+CHECK: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst
++               udelay(50);
 
+Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+---
+ drivers/staging/rts5208/ms.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
->
-> julia
->
-
+diff --git a/drivers/staging/rts5208/ms.c b/drivers/staging/rts5208/ms.c
+index 14449f8afad5..ae72437b5482 100644
+--- a/drivers/staging/rts5208/ms.c
++++ b/drivers/staging/rts5208/ms.c
+@@ -3235,7 +3235,7 @@ static int ms_write_multiple_pages(struct rtsx_chip *chip, u16 old_blk,
+ 			return STATUS_FAIL;
+ 		}
+ 
+-		udelay(30);
++		usleep_range(30, 30);
+ 
+ 		rtsx_init_cmd(chip);
+ 
+@@ -4157,7 +4157,7 @@ int mg_set_ICV(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 
+ #ifdef MG_SET_ICV_SLOW
+ 	for (i = 0; i < 2; i++) {
+-		udelay(50);
++		usleep_range(50, 50);
+ 
+ 		rtsx_init_cmd(chip);
+ 
+-- 
+2.34.1
 
