@@ -1,30 +1,29 @@
 Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9474C72;
-	Tue, 18 Oct 2022 17:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71B04C72;
+	Tue, 18 Oct 2022 17:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666114839; bh=pgONLymTn89lOE59p6sJahd4CgjQPy6R1+7mUegtTpc=;
+	t=1666114898; bh=6nlFqTQIDFJBZON/b1YWt8WoagF5LhXfRTGzet31JT8=;
 	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
 	 MIME-Version:Content-Type:In-Reply-To;
-	b=ipqtsBJ5jg9SGQ1M+zCgDdbl9gGV2neJqecHcKNUF+6sqyEhwAg7PVus7C74SYaaa
-	 KWCzpZA7uGWPF1ZybEVnu3XongumJQQAoF8Qprg3ggPU/phMCiGHQuKTk96jrlkJEs
-	 PV3+oQUnRiM5zFPPP7giYY3kVIzxZq52lrIw4oRI=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+	b=dIuSi6cL/PyF0+MakRmAc5t7j6YXHYmGlwpcXPmLfEDU02IrZ1/t0lYNDQ/h70sTs
+	 xT6coU5Xqg/RW0fcRMAqK3p3gJ8i2FudZAoNZsqabY8ztgDQULd4waFiku4P9dX2ZS
+	 q19peJyg7N3pr+L1gv0XmS31btxkI6p+9AFc5a/M=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
 	via [213.182.55.206]
-	Tue, 18 Oct 2022 19:40:39 +0200 (CEST)
-X-EA-Auth: kz4u5iGodiiz535+4Dg7OW/WuvWZsV8D06NQQz5xleiM+Ccf4n6xvqO4wlWKnpNSl7hLmjiub7qpG4myGHQQJ8tjTSiB9D5t
-Date: Tue, 18 Oct 2022 23:10:34 +0530
+	Tue, 18 Oct 2022 19:41:37 +0200 (CEST)
+X-EA-Auth: 2K/3isRMWv89QB7+MFBNbojKPj0XdVa9VUsChrj+h2BOrKk05czs9l7TjgbZB7J9X6ly9TolhKJxq0Y83K7EPpUhwFMrNMdS
+Date: Tue, 18 Oct 2022 23:11:34 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: most: dim2: read done_buffers count locally
- from HDM channel
-Message-ID: <Y07lEqq+UaA3xTkk@debian-BULLSEYE-live-builder-AMD64>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: most: dim2: correct misleading variable name
+Message-ID: <Y07lTucIpLgohi0J@debian-BULLSEYE-live-builder-AMD64>
 References: <cover.1666105876.git.drv@mailo.com>
- <83fd237d2ac157d234e9c7cce1206904c2d8773d.1666105876.git.drv@mailo.com>
- <Y07ejaO8vrtPU5JX@kroah.com>
+ <b8550823920f40c4d02a3a691acca1af18998878.1666105876.git.drv@mailo.com>
+ <66e6d6f-3574-e317-946e-2c2467726eab@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,50 +32,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y07ejaO8vrtPU5JX@kroah.com>
+In-Reply-To: <66e6d6f-3574-e317-946e-2c2467726eab@inria.fr>
 
-On Tue, Oct 18, 2022 at 07:12:45PM +0200, Greg KH wrote:
-> On Tue, Oct 18, 2022 at 10:19:21PM +0530, Deepak R Varma wrote:
-> > The function dim_get_channel_state only serves to initialize the ready and
-> > done_buffers fields of the structure passed as its second argument. In
-> > service_done_flag, this structure is never used again and the only purpose
-> > of the call is to get the value that is put in the done_buffers field.
-> > But that value is just the done_sw_buffers_number field of the call's
-> > first argument.  So the whole call is useless, and we can just replace it
-> > with an access to this field.
-> >
-> > This change implies that the variable st is no longer used, so drop it as
-> > well.
-> >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> >
-> > PLEASE NOTE:
-> >    1. I have only built the module on my machine, but have not tested it.
-> >       I am not sure how to test this change. I am willing to test it with
-> >       appropriate guidance provided I have the necessary hardware.
-> >    2. This was a standalone patch earlier. It is now combined into a patch set
-> >       with another patch for the same driver. Hence I am carry forwarding the
-> >       change log for this patch here:
-> >
-> > Changes in v3:
-> >    1. The patch log message is further improved. This revised verbiage is as
-> >       thankfully provided by julia.lawall@inria.fr
-> >
-> > Changes in v2:
-> >    1. Update patch log message to be more descriptive about the reason for change.
-> >       Feedback provided by julia.lawall@inria.fr
-> >
+On Tue, Oct 18, 2022 at 06:59:59PM +0200, Julia Lawall wrote:
 >
-> You need to say this is a v3 in the subject line as documented :(
 >
-Hi Greg,
-This was a standalone patch earlier and first time included in the patch set. I
-was not aware I am allowed to version a patch individually, different from the
-cover letter. I have posted a query to Outreachy mailing list for additional
-clarification. I will send in a v4 once I have clarity.
+> On Tue, 18 Oct 2022, Deepak R Varma wrote:
+>
+> > Correct misleading struct variable name dim_ch_state_t to dim_ch_state
+> > since this not a typedef but a normal variable declaration.
+>
+> Actually, it's not the name of a variable, but the name of a type.
+
+oops.. my bad. I will wait for any other feedback on this patch set and
+accordingly send in the revision.
 
 Thank you,
 ./drv
+
+>
+> julia
+>
+> >
+> > Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> >  drivers/staging/most/dim2/dim2.c | 2 +-
+> >  drivers/staging/most/dim2/hal.c  | 4 ++--
+> >  drivers/staging/most/dim2/hal.h  | 6 +++---
+> >  3 files changed, 6 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+> > index 4c1f27898a29..a69a61a69283 100644
+> > --- a/drivers/staging/most/dim2/dim2.c
+> > +++ b/drivers/staging/most/dim2/dim2.c
+> > @@ -161,7 +161,7 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
+> >  	struct list_head *head = &hdm_ch->pending_list;
+> >  	struct mbo *mbo;
+> >  	unsigned long flags;
+> > -	struct dim_ch_state_t st;
+> > +	struct dim_ch_state st;
+> >
+> >  	BUG_ON(!hdm_ch);
+> >  	BUG_ON(!hdm_ch->is_initialized);
+> > diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
+> > index 65282c276862..a5d40b5b138a 100644
+> > --- a/drivers/staging/most/dim2/hal.c
+> > +++ b/drivers/staging/most/dim2/hal.c
+> > @@ -943,8 +943,8 @@ u8 dim_service_channel(struct dim_channel *ch)
+> >  	return channel_service(ch);
+> >  }
+> >
+> > -struct dim_ch_state_t *dim_get_channel_state(struct dim_channel *ch,
+> > -					     struct dim_ch_state_t *state_ptr)
+> > +struct dim_ch_state *dim_get_channel_state(struct dim_channel *ch,
+> > +					   struct dim_ch_state *state_ptr)
+> >  {
+> >  	if (!ch || !state_ptr)
+> >  		return NULL;
+> > diff --git a/drivers/staging/most/dim2/hal.h b/drivers/staging/most/dim2/hal.h
+> > index 20531449acab..ef10a8741c10 100644
+> > --- a/drivers/staging/most/dim2/hal.h
+> > +++ b/drivers/staging/most/dim2/hal.h
+> > @@ -27,7 +27,7 @@ enum mlb_clk_speed {
+> >  	CLK_8192FS = 7,
+> >  };
+> >
+> > -struct dim_ch_state_t {
+> > +struct dim_ch_state {
+> >  	bool ready; /* Shows readiness to enqueue next buffer */
+> >  	u16 done_buffers; /* Number of completed buffers */
+> >  };
+> > @@ -87,8 +87,8 @@ void dim_service_ahb_int_irq(struct dim_channel *const *channels);
+> >
+> >  u8 dim_service_channel(struct dim_channel *ch);
+> >
+> > -struct dim_ch_state_t *dim_get_channel_state(struct dim_channel *ch,
+> > -					     struct dim_ch_state_t *state_ptr);
+> > +struct dim_ch_state *dim_get_channel_state(struct dim_channel *ch,
+> > +					   struct dim_ch_state *state_ptr);
+> >
+> >  u16 dim_dbr_space(struct dim_channel *ch);
+> >
+> > --
+> > 2.30.2
+> >
+> >
+> >
+> >
+> >
+>
 
 
