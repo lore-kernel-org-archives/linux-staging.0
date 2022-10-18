@@ -1,121 +1,86 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B181FAF;
-	Tue, 18 Oct 2022 07:39:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=iW9dXL6VFX/U4TvJJVvpq8/X1w2S20KxSchfam1Hs/I=;
-  b=sANx5wj9qEbJsr5P67y520bH84o3V6fM0LNWliWh59HmK6/+6EJcekLY
-   ONuwfn0XYvq/neCzp0nTSfZJtH8YgwlIYiO814SjZ/wachGPzKzIFRT6K
-   T58yYGewXbGhC51ytYXcw1wKDjyWDN0D5aq2fx6TmJmsaLXIUN6pwgtF8
-   o=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.95,193,1661810400"; 
-   d="scan'208";a="65642959"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2022 09:39:08 +0200
-Date: Tue, 18 Oct 2022 09:39:08 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Deepak R Varma <drv@mailo.com>
-cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH v2] staging: most: dim2: read done_buffers count locally
- from HDM channel
-In-Reply-To: <Y05TNQBXLMJMgQ2r@debian-BULLSEYE-live-builder-AMD64>
-Message-ID: <1e2a71a9-4ac5-96f3-b875-a063ff62f3ad@inria.fr>
-References: <Y05TNQBXLMJMgQ2r@debian-BULLSEYE-live-builder-AMD64>
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B53077B
+	for <linux-staging@lists.linux.dev>; Tue, 18 Oct 2022 08:41:33 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [10.162.98.155])
+	by mail-app4 (Coremail) with SMTP id cS_KCgC3294QZU5jXctcBw--.7796S2;
+	Tue, 18 Oct 2022 16:34:32 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	paskripkin@gmail.com,
+	gregkh@linuxfoundation.org,
+	martin@kaiser.cx,
+	straube.linux@gmail.com,
+	kuba@kernel.org,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH] drivers: staging: r8188eu: Fix sleep-in-atomic-context bug in rtw_join_timeout_handler
+Date: Tue, 18 Oct 2022 16:34:24 +0800
+Message-Id: <20221018083424.79741-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cS_KCgC3294QZU5jXctcBw--.7796S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrW5Gw1xurW8tr1kCryDWrg_yoWkKFXEgr
+	Z2qF47Zr1kAFn7Jw15AanIvrySva1UWF40q3yvgFWaq3yUJayxXrn2grWDCF15Gay7AF9x
+	AF1vgw1rAr1xAjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbs8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+	vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl6s0DM28EF7xvwVC2z280
+	aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07
+	x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18
+	McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr4
+	1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI
+	7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
+	C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+	wI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+	v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
+	jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43
+	ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgIHAVZdtb+JnwAUsF
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
+The rtw_join_timeout_handler() is a timer handler that
+runs in atomic context, but it could call msleep().
+As a result, the sleep-in-atomic-context bug will happen.
+The process is shown below:
 
+     (atomic context)
+rtw_join_timeout_handler
+ _rtw_join_timeout_handler
+  rtw_do_join
+   rtw_select_and_join_from_scanned_queue
+    rtw_indicate_disconnect
+     rtw_lps_ctrl_wk_cmd
+      lps_ctrl_wk_hdl
+       LPS_Leave
+        LPS_RF_ON_check
+         msleep //sleep in atomic context
 
-On Tue, 18 Oct 2022, Deepak R Varma wrote:
+Fix by removing msleep() and replacing with mdelay().
 
-> The done_buffer count is already available in the hdm_channel struct.
-> Calling dim_get_channel_state function to source this value out of
-> the same structure is unnecessary.
-> Further, the second parameter struct dim_ch_state_t to this function
-> is filled by using the hdm_channel inside the function. This filled in
-> variable is never used in the caller and can be altogether removed.
-> So, a call to dim_get_channel_state function in this context also
-> deems expensive.
-
-Thanks for the rewrite.
-
-I find "source this value out of" hard to understand.
-
-I would have written something like the following:
-
-The function dim_get_channel_state only serves to initialize the ready and
-done_buffers fields of the structure passed as its second argument.  In
-service_done_flag, this structure is never used again and the only purpose
-of the call is to get the value that is put in the done_buffers field.
-But that value is just the done_sw_buffers_number field of the call's
-first argument.  So the whole call is useless, and we can just replace it
-with an access to this field.
-
-This change implies that the variable st is no longer used, so drop it as
-well.
-
+Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you want to work some more in this code, the name of the type
-dim_ch_state_t should not have an _t at the end of it.  It looks like it
-used to be a typedef and someone eliminated the typedef but didn't drop
-the _t.
+diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+index 870d81735b8..5290ac36f08 100644
+--- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
++++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+@@ -273,7 +273,7 @@ static s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
+ 			err = -1;
+ 			break;
+ 		}
+-		msleep(1);
++		mdelay(1);
+ 	}
+ 
+ 	return err;
+-- 
+2.17.1
 
-julia
-
-
->
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
-> Changes in v2:
->    1. Update patch log message to be more descriptive about the reason for change.
->       Feedback provided by julia.lawall@inria.fr
->
-> PLEASE NOTE: I have only built the module on my machine, but have not tested it.
-> I am not sure how to test this change. I am willing to test it with appropriate
-> guidance provided I have the necessary hardware.
->
->
->  drivers/staging/most/dim2/dim2.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> index ab72e11ac5ab..4c1f27898a29 100644
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -259,7 +259,6 @@ static void retrieve_netinfo(struct dim2_hdm *dev, struct mbo *mbo)
->  static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
->  {
->  	struct hdm_channel *hdm_ch = dev->hch + ch_idx;
-> -	struct dim_ch_state_t st;
->  	struct list_head *head;
->  	struct mbo *mbo;
->  	int done_buffers;
-> @@ -271,7 +270,7 @@ static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
->
->  	spin_lock_irqsave(&dim_lock, flags);
->
-> -	done_buffers = dim_get_channel_state(&hdm_ch->ch, &st)->done_buffers;
-> +	done_buffers = hdm_ch->ch.done_sw_buffers_number;
->  	if (!done_buffers) {
->  		spin_unlock_irqrestore(&dim_lock, flags);
->  		return;
-> --
-> 2.30.2
->
->
->
->
->
