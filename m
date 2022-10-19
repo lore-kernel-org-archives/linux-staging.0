@@ -1,48 +1,62 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A8F7E;
-	Wed, 19 Oct 2022 16:05:09 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id h8so22785834lja.11;
-        Wed, 19 Oct 2022 09:05:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2YCDHsYWcIY96mUtSqodHKe31qpMLaWDuKz478pSr00=;
-        b=KHhsVmAmNGZintp/YIDAd4pSn0E5e4hSFuGvoY3fG+1VV7PhE59oWENJD8FG30TEEr
-         0ilGqC28Ik/psjVonwjvg6NUDSasG8ZN0rYkQepcXQrRdA1IfXqweE6Oc9Z7ZlD2s4WS
-         XNZUohjsBfohMb9ulzAdIq+6ukXKwPMby4m5bpGY43zRnf7RSCvK3lrX4U3Gcj+2I2bw
-         V+heCQ3Huv6aFh6iRdVogsawozkdU0dKgJh9KhUgVsoLAr5P0oO7CzHtUiMS8aT7NDmR
-         5GSfkUadveG1N/RNPalqsJPUwO9rI4cetSRu7q+suD6YvwYLCPSRdlxEjkmEda/Tl2ZG
-         IRBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2YCDHsYWcIY96mUtSqodHKe31qpMLaWDuKz478pSr00=;
-        b=k/taKLqlWwlEEJCMF/WF+4pBOdB5aXdlsHyJ1GYTpqk0qJV3h03F9I/6NCf7zi+P0M
-         hFlDMqvTKNHmj/2QsU7bDTFgOL8cDUW9r0XsYJyY5YXe9hp9tG+7QPuAV7cBs5itHH1D
-         3P7MFuS+evmBiDeJ4oqyx8l7W9i04Py2dcrdny4IyHvEdKhgGlbhQxL8Z7vitBfl89Ul
-         XDIa5jPc8vn4ewPqcwtJLut44xTsAsoImM9W+N89Qt8FTT6XDb+r3PtIJRB+NaWarz6N
-         4i+t7Y8hBM8Xz6nRMExvpWzo7Mx5kLZKNQOFkxJ7P4QjDj80IFc3G4TPAO5yU7otPuF7
-         F40Q==
-X-Gm-Message-State: ACrzQf0CJ+E8C3vB2Bk4L54h+6JINBOgHaxsmRUWQwzrUxLFsP6Eyky/
-	WIGR81R4L2STk1CyV04wFF3y4vkTjjpntQ==
-X-Google-Smtp-Source: AMsMyM6fO5UYQBYujCKvc6CqltqY94UNh41cSyMFXrGhpAbyftVmOEivr9+vv8IHfUrxjlCqIyuwKA==
-X-Received: by 2002:a05:651c:88e:b0:26d:dd92:73e7 with SMTP id d14-20020a05651c088e00b0026ddd9273e7mr3094859ljq.503.1666195507195;
-        Wed, 19 Oct 2022 09:05:07 -0700 (PDT)
-Received: from elroy-temp-vm ([20.240.130.248])
-        by smtp.gmail.com with ESMTPSA id g3-20020a056512118300b0049876c1bb24sm2337411lfr.225.2022.10.19.09.05.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 09:05:06 -0700 (PDT)
-Date: Wed, 19 Oct 2022 16:05:06 +0000
-From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-To: greg@kroah.com, forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH] staging: vt6655: Fix Lines should not end with a '('
-Message-ID: <Y1AgMjTsmy3C5qcK@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BD14A1C;
+	Wed, 19 Oct 2022 17:00:12 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 2D1375C0121;
+	Wed, 19 Oct 2022 13:00:11 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 19 Oct 2022 13:00:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1666198811; x=1666285211; bh=BkubxaaQP/
+	pRE+X3k8IHiuqvh0MP//74GbYUHpjY764=; b=a8OUHYwxVenUgNZQPBYwk5P6Rv
+	wPtYathobbuItjWvsLctpusp5vAM9Y5iBh6LYdoV4kNORybI0h91CREvkXg30tS8
+	NEMPqB6JRXBxSosw582NWNukwT6OTVSX7DP1CsicMt4sAw7oXV8kS4NNER5fPMCm
+	LMeUEF+EvICeQhKu4GcX/knArr0+Z6Lufc3ih0Cy2EYbCACp4ProQN2ymAVwXRAp
+	3ehHrTr+F1xt6MHxvsM5ptgeOVzqSs+yQBmAJsO4QTKbOg+HDz7jzZ0JDLXP1TZB
+	leWAuxzLMyk6zHPv7W4HT7J4aEOwJgxoufl8Xox71RC80TXHuiPXo6+zAegg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1666198811; x=1666285211; bh=BkubxaaQP/pRE+X3k8IHiuqvh0MP
+	//74GbYUHpjY764=; b=UwrOURvqm7EuWKouLdRtvuMjj6WPhYW76YuWaCuQkagG
+	VLk9OammAfbcRvLcGPaAd/890XM4r1Td8MiIL32SIc8ESEjpUTuKg+PLWJ9enmo5
+	RCcGDrtAX3Xj6A+wuyU8GToybNesIQoGhWyEOBZ0SvFU6npUTEWy7hhM3p3jPVj9
+	yw82sO19Eyzw900ufB584kYFhTNZ1kId4lR4ztS/pPQLXhlwxw1AB3aDt0W2qRkN
+	ID5rwZj/P+J60jymuw7Ke1jHRjw+bFqfMakXWCoqWXmGVwFmmWTBZ6Uc6qZIji0G
+	Sal/ShsVd5+SV6xrbM0xSbk37K+fhb0ogmR5Z4ilJg==
+X-ME-Sender: <xms:Gi1QY0d6meIGz8ckwvgFMOz8GK5a7fO96hN_NgGzTy7IfxrtNJeU7w>
+    <xme:Gi1QY2P2nvJ_FivZK2AXunYIfDzieoyAREW5F5lXWHrmKX2xiVVnIIMVeaFplWv7t
+    4UKIyUZSKITWQ>
+X-ME-Received: <xmr:Gi1QY1gysBMQ5HxGxwNfQ646BQByl1NJTa1wQBPqQU_Mcn_9vpgfqFcQg-twG00EOh8Ks9ZTPU6Oj013n0Bv7gSjzR8-ifG->
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelgedguddtiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgv
+    ghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehge
+    dvvedvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhroh
+    grhhdrtghomh
+X-ME-Proxy: <xmx:Gy1QY5_rQ60YherYLRQIKfszv_hfK4F7XVWeouTQB2kqG28WpADWnw>
+    <xmx:Gy1QYwvxcyB2ZnBQ-IC5dyfnOZbZHjjKSB3wJ3uYfTTDb6TVk8EfUQ>
+    <xmx:Gy1QYwEg-DyJhCA0vc_X0--H4fB-AUlB81-PrYrmUXj7-ipcAarvnw>
+    <xmx:Gy1QY-BgsGfSfC5YZE8tBQ3uRF769frbWBwILcylo9UGjsCfCr0D4Q>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Oct 2022 13:00:10 -0400 (EDT)
+Date: Wed, 19 Oct 2022 19:00:07 +0200
+From: Greg KH <greg@kroah.com>
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Cc: forest@alittletooquiet.net, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: vt6655: Fix Lines should not end with a '('
+Message-ID: <Y1AtF+t5sipqDKuU@kroah.com>
+References: <Y1AgMjTsmy3C5qcK@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,75 +65,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y1AgMjTsmy3C5qcK@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 
-Code style warnings reported by checkpatch.
-Improve the layout of a function header:
-Put the first parameter immediately after the '(' and align the other
-parameters underneath it.
+On Wed, Oct 19, 2022 at 04:05:06PM +0000, Tanjuate Brunostar wrote:
+> Code style warnings reported by checkpatch.
+> Improve the layout of a function header:
+> Put the first parameter immediately after the '(' and align the other
+> parameters underneath it.
+> 
+> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+> ---
+>  drivers/staging/vt6655/rxtx.c | 44 ++++++++++++++++-------------------
+>  1 file changed, 20 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index 5bdb5176772c..ff855def0bd5 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -87,33 +87,29 @@ static const unsigned short wFB_Opt1[2][5] = {
+>  /*---------------------  Static Functions  --------------------------*/
+>  static
+>  void
+> -s_vFillRTSHead(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	void *pvRTS,
+> -	unsigned int	cbFrameLength,
+> -	bool bNeedAck,
+> -	bool bDisCRC,
+> -	struct ieee80211_hdr *hdr,
+> -	unsigned short wCurrentRate,
+> -	unsigned char byFBOption
+> -);
+> +s_vFillRTSHead(struct vnt_private *pDevice,
+> +		unsigned char byPktType,
+> +		void *pvRTS,
+> +		unsigned int	cbFrameLength,
+> +		bool bNeedAck,
+> +		bool bDisCRC,
+> +		struct ieee80211_hdr *hdr,
+> +		unsigned short wCurrentRate,
+> +		unsigned char byFBOption);
 
-Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
----
- drivers/staging/vt6655/rxtx.c | 44 ++++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 24 deletions(-)
+Why not also put the "static void" on the same line as the function
+name?
 
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 5bdb5176772c..ff855def0bd5 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -87,33 +87,29 @@ static const unsigned short wFB_Opt1[2][5] = {
- /*---------------------  Static Functions  --------------------------*/
- static
- void
--s_vFillRTSHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pvRTS,
--	unsigned int	cbFrameLength,
--	bool bNeedAck,
--	bool bDisCRC,
--	struct ieee80211_hdr *hdr,
--	unsigned short wCurrentRate,
--	unsigned char byFBOption
--);
-+s_vFillRTSHead(struct vnt_private *pDevice,
-+		unsigned char byPktType,
-+		void *pvRTS,
-+		unsigned int	cbFrameLength,
-+		bool bNeedAck,
-+		bool bDisCRC,
-+		struct ieee80211_hdr *hdr,
-+		unsigned short wCurrentRate,
-+		unsigned char byFBOption);
- 
- static
- void
--s_vGenerateTxParameter(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	struct vnt_tx_fifo_head *,
--	void *pvRrvTime,
--	void *pvRTS,
--	void *pvCTS,
--	unsigned int	cbFrameSize,
--	bool bNeedACK,
--	unsigned int	uDMAIdx,
--	void *psEthHeader,
--	unsigned short wCurrentRate
--);
-+s_vGenerateTxParameter(struct vnt_private *pDevice,
-+		unsigned char byPktType,
-+		struct vnt_tx_fifo_head *,
-+		void *pvRrvTime,
-+		void *pvRTS,
-+		void *pvCTS,
-+		unsigned int	cbFrameSize,
-+		bool bNeedACK,
-+		unsigned int	uDMAIdx,
-+		void *psEthHeader,
-+		unsigned short wCurrentRate);
- 
- static unsigned int
- s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
--- 
-2.34.1
+>  
+>  static
+>  void
+> -s_vGenerateTxParameter(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	struct vnt_tx_fifo_head *,
+> -	void *pvRrvTime,
+> -	void *pvRTS,
+> -	void *pvCTS,
+> -	unsigned int	cbFrameSize,
+> -	bool bNeedACK,
+> -	unsigned int	uDMAIdx,
+> -	void *psEthHeader,
+> -	unsigned short wCurrentRate
+> -);
+> +s_vGenerateTxParameter(struct vnt_private *pDevice,
+> +		unsigned char byPktType,
+> +		struct vnt_tx_fifo_head *,
+> +		void *pvRrvTime,
+> +		void *pvRTS,
+> +		void *pvCTS,
+> +		unsigned int	cbFrameSize,
+> +		bool bNeedACK,
+> +		unsigned int	uDMAIdx,
+> +		void *psEthHeader,
+> +		unsigned short wCurrentRate);
 
+I do not understand this indentation at all, how did you choose it?
+
+thanks,
+
+greg k-h
