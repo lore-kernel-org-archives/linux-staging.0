@@ -1,145 +1,102 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BD14A1C;
-	Wed, 19 Oct 2022 17:00:12 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 2D1375C0121;
-	Wed, 19 Oct 2022 13:00:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 19 Oct 2022 13:00:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1666198811; x=1666285211; bh=BkubxaaQP/
-	pRE+X3k8IHiuqvh0MP//74GbYUHpjY764=; b=a8OUHYwxVenUgNZQPBYwk5P6Rv
-	wPtYathobbuItjWvsLctpusp5vAM9Y5iBh6LYdoV4kNORybI0h91CREvkXg30tS8
-	NEMPqB6JRXBxSosw582NWNukwT6OTVSX7DP1CsicMt4sAw7oXV8kS4NNER5fPMCm
-	LMeUEF+EvICeQhKu4GcX/knArr0+Z6Lufc3ih0Cy2EYbCACp4ProQN2ymAVwXRAp
-	3ehHrTr+F1xt6MHxvsM5ptgeOVzqSs+yQBmAJsO4QTKbOg+HDz7jzZ0JDLXP1TZB
-	leWAuxzLMyk6zHPv7W4HT7J4aEOwJgxoufl8Xox71RC80TXHuiPXo6+zAegg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1666198811; x=1666285211; bh=BkubxaaQP/pRE+X3k8IHiuqvh0MP
-	//74GbYUHpjY764=; b=UwrOURvqm7EuWKouLdRtvuMjj6WPhYW76YuWaCuQkagG
-	VLk9OammAfbcRvLcGPaAd/890XM4r1Td8MiIL32SIc8ESEjpUTuKg+PLWJ9enmo5
-	RCcGDrtAX3Xj6A+wuyU8GToybNesIQoGhWyEOBZ0SvFU6npUTEWy7hhM3p3jPVj9
-	yw82sO19Eyzw900ufB584kYFhTNZ1kId4lR4ztS/pPQLXhlwxw1AB3aDt0W2qRkN
-	ID5rwZj/P+J60jymuw7Ke1jHRjw+bFqfMakXWCoqWXmGVwFmmWTBZ6Uc6qZIji0G
-	Sal/ShsVd5+SV6xrbM0xSbk37K+fhb0ogmR5Z4ilJg==
-X-ME-Sender: <xms:Gi1QY0d6meIGz8ckwvgFMOz8GK5a7fO96hN_NgGzTy7IfxrtNJeU7w>
-    <xme:Gi1QY2P2nvJ_FivZK2AXunYIfDzieoyAREW5F5lXWHrmKX2xiVVnIIMVeaFplWv7t
-    4UKIyUZSKITWQ>
-X-ME-Received: <xmr:Gi1QY1gysBMQ5HxGxwNfQ646BQByl1NJTa1wQBPqQU_Mcn_9vpgfqFcQg-twG00EOh8Ks9ZTPU6Oj013n0Bv7gSjzR8-ifG->
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelgedguddtiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgv
-    ghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehge
-    dvvedvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhroh
-    grhhdrtghomh
-X-ME-Proxy: <xmx:Gy1QY5_rQ60YherYLRQIKfszv_hfK4F7XVWeouTQB2kqG28WpADWnw>
-    <xmx:Gy1QYwvxcyB2ZnBQ-IC5dyfnOZbZHjjKSB3wJ3uYfTTDb6TVk8EfUQ>
-    <xmx:Gy1QYwEg-DyJhCA0vc_X0--H4fB-AUlB81-PrYrmUXj7-ipcAarvnw>
-    <xmx:Gy1QY-BgsGfSfC5YZE8tBQ3uRF769frbWBwILcylo9UGjsCfCr0D4Q>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Oct 2022 13:00:10 -0400 (EDT)
-Date: Wed, 19 Oct 2022 19:00:07 +0200
-From: Greg KH <greg@kroah.com>
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Cc: forest@alittletooquiet.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: vt6655: Fix Lines should not end with a '('
-Message-ID: <Y1AtF+t5sipqDKuU@kroah.com>
-References: <Y1AgMjTsmy3C5qcK@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FD04C72;
+	Wed, 19 Oct 2022 17:45:56 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id u21so26364075edi.9;
+        Wed, 19 Oct 2022 10:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b3qQsYa/7ZweA0u9kpHAV4Ioh1PIQ7YV+2Zy1Ir6xbc=;
+        b=EF+8GxOqjD7tz5bBqhQA4A8MVrYO9BfsHFXvcqliLTVztgNGNy46gTL+cw8it3RwDk
+         I/yhw3zBTCKhOcz/MgyqQTstezO7xTAkqm0DgFYQ4Tx83dsic6vwctukoJj3QKIMWym0
+         x75Ep7MCrpFRgXJuifRFM79uan1zhrm/Yy7bXUf/HDFQ3dP3EMZUYM6SGW5RNUd6aL5u
+         EUc/wtxvAwVC0n+0OSEmsqktGpgf6+SMfQdJgBK7Jxr4LzxOhQpW+d2LaXnc+cpxZdmp
+         xqyfYl5yO4B1HRkjPdhh33z4p7MAPeFrW3wRXwICAgaTIPIVpFTcNF0U9GRU0JWpsX/e
+         LRkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b3qQsYa/7ZweA0u9kpHAV4Ioh1PIQ7YV+2Zy1Ir6xbc=;
+        b=z4EdcLkFilnwSu6XyAN7bg7lgyS+eu7Nv5fQMeRUq+zk1cesp8x9MnnMOu5wDeY76O
+         +vhWzDAJCWlY4cnoATyfNU7BiItFIGqTgOXkmS4uRKGsk6jiW5ZKGFuwBkuJF8PGfxjm
+         TxRNbd/5CScaOFsJBUABC5teWMkJx5wS6XhyR9WG61fP/VcVnWKejGvqriQLdPo6hD9w
+         HzghXrNibIAxfXW3Iwvj3nqHe4ttBNXwZgl8pkZhAOQmb7rb8qaAYG4MhZfaS0ZO4daT
+         d5Lwre5krG1huhYrcH4Fgw7zwAE0BxibKjVjrNfnh1isjsNmVVb6oYd1/iVA2cNUkNY3
+         SDlQ==
+X-Gm-Message-State: ACrzQf3rk+RJi5807Zxv2djcx763OBCLplZozuvwZjritLZf+b/OBIjv
+	GrY/ifm5cPcywsDnc1fFkXw=
+X-Google-Smtp-Source: AMsMyM7+C12t1o8higEU9r6SRH5hrJEdLyfeE4a3rQuBGmahnVZeQqTgOz5AVJmtx85oAd+c0bbn/g==
+X-Received: by 2002:aa7:ca45:0:b0:458:d9a2:6164 with SMTP id j5-20020aa7ca45000000b00458d9a26164mr8734873edt.340.1666201555073;
+        Wed, 19 Oct 2022 10:45:55 -0700 (PDT)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id qn24-20020a170907211800b0073c10031dc9sm9218382ejb.80.2022.10.19.10.45.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Oct 2022 10:45:54 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	wens@csie.org,
+	samuel@sholland.org,
+	hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/2] media: cedrus: h264/h265: Improve aux buffer management
+Date: Wed, 19 Oct 2022 19:45:49 +0200
+Message-Id: <20221019174551.2695149-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.38.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1AgMjTsmy3C5qcK@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 19, 2022 at 04:05:06PM +0000, Tanjuate Brunostar wrote:
-> Code style warnings reported by checkpatch.
-> Improve the layout of a function header:
-> Put the first parameter immediately after the '(' and align the other
-> parameters underneath it.
-> 
-> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-> ---
->  drivers/staging/vt6655/rxtx.c | 44 ++++++++++++++++-------------------
->  1 file changed, 20 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-> index 5bdb5176772c..ff855def0bd5 100644
-> --- a/drivers/staging/vt6655/rxtx.c
-> +++ b/drivers/staging/vt6655/rxtx.c
-> @@ -87,33 +87,29 @@ static const unsigned short wFB_Opt1[2][5] = {
->  /*---------------------  Static Functions  --------------------------*/
->  static
->  void
-> -s_vFillRTSHead(
-> -	struct vnt_private *pDevice,
-> -	unsigned char byPktType,
-> -	void *pvRTS,
-> -	unsigned int	cbFrameLength,
-> -	bool bNeedAck,
-> -	bool bDisCRC,
-> -	struct ieee80211_hdr *hdr,
-> -	unsigned short wCurrentRate,
-> -	unsigned char byFBOption
-> -);
-> +s_vFillRTSHead(struct vnt_private *pDevice,
-> +		unsigned char byPktType,
-> +		void *pvRTS,
-> +		unsigned int	cbFrameLength,
-> +		bool bNeedAck,
-> +		bool bDisCRC,
-> +		struct ieee80211_hdr *hdr,
-> +		unsigned short wCurrentRate,
-> +		unsigned char byFBOption);
+Current handling of mv col aux buffers in h264 and h265 code is not
+optimal. In h264 case, it allocates pool for worst case possible which
+basically never happens with typical videos. This also prevents it from
+working well on very memory constrained devices, where CMA pool is very
+small. In h265 case, number of buffers in a pool is equal to number of
+capture buffers allocated before streaming is started. If any capture
+buffer is allocated afterwards, Cedrus gets bogus pointers. This might
+cause memory corruption.
 
-Why not also put the "static void" on the same line as the function
-name?
+Solution is the same in both cases. Instead of using memory pool, do
+individual allocations later, right before aux buffer is first used.
+Such approach allocates just right amount of buffers of optimal size.
 
->  
->  static
->  void
-> -s_vGenerateTxParameter(
-> -	struct vnt_private *pDevice,
-> -	unsigned char byPktType,
-> -	struct vnt_tx_fifo_head *,
-> -	void *pvRrvTime,
-> -	void *pvRTS,
-> -	void *pvCTS,
-> -	unsigned int	cbFrameSize,
-> -	bool bNeedACK,
-> -	unsigned int	uDMAIdx,
-> -	void *psEthHeader,
-> -	unsigned short wCurrentRate
-> -);
-> +s_vGenerateTxParameter(struct vnt_private *pDevice,
-> +		unsigned char byPktType,
-> +		struct vnt_tx_fifo_head *,
-> +		void *pvRrvTime,
-> +		void *pvRTS,
-> +		void *pvCTS,
-> +		unsigned int	cbFrameSize,
-> +		bool bNeedACK,
-> +		unsigned int	uDMAIdx,
-> +		void *psEthHeader,
-> +		unsigned short wCurrentRate);
+Proposed solution frees aux buffers in streaming off callback, which
+is first possible occasion. I can move this to .buf_cleanup too, if you
+think that it's more appropriate.
 
-I do not understand this indentation at all, how did you choose it?
+Finally, h265 patch can be considered as a fix (prevents overwriting
+random memory). If deemed appropriate, fixes tag can be added.
 
-thanks,
+Let me know what you think.
 
-greg k-h
+Best regards,
+Jernej
+
+Jernej Skrabec (2):
+  media: cedrus: h265: Associate mv col buffers with buffer
+  media: cedrus: h264: Optimize mv col buffer allocation
+
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  16 +--
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  | 118 +++++++++---------
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  63 +++++-----
+ 3 files changed, 99 insertions(+), 98 deletions(-)
+
+--
+2.38.0
+
