@@ -1,73 +1,82 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E6F1874
-	for <linux-staging@lists.linux.dev>; Wed, 19 Oct 2022 10:31:28 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-306-19UG_-sFOqOSys9fWgfDtg-1; Wed, 19 Oct 2022 11:31:19 +0100
-X-MC-Unique: 19UG_-sFOqOSys9fWgfDtg-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 19 Oct
- 2022 11:31:17 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.042; Wed, 19 Oct 2022 11:31:17 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Kang Minchul' <tegongkang@gmail.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Paulo Miguel Almeida
-	<paulo.miguel.almeida.rodenas@gmail.com>
-CC: Dan Carpenter <error27@gmail.com>, Sidong Yang <realwakka@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] staging: pi433: Use div64_u64 instead of do_div
-Thread-Topic: [PATCH] staging: pi433: Use div64_u64 instead of do_div
-Thread-Index: AQHY46M8g2A3zaXXyE2gPdBmwjkSwq4Vg27w
-Date: Wed, 19 Oct 2022 10:31:17 +0000
-Message-ID: <e2ec77060cc84a33b49d5fd11d7867f6@AcuMS.aculab.com>
-References: <20221019094015.832398-1-tegongkang@gmail.com>
-In-Reply-To: <20221019094015.832398-1-tegongkang@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2772F47
+	for <linux-staging@lists.linux.dev>; Wed, 19 Oct 2022 14:20:42 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id k6so17881054vsp.0
+        for <linux-staging@lists.linux.dev>; Wed, 19 Oct 2022 07:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V8Xl1MAOKM4xcc4bVxr28fUMdxQmcz7hUdzLkpuaWdE=;
+        b=qnhn/64DOYlX1MUVxnToRuu87RlY1M9oyXB7zBK43hP8cc9jxGxvB8c9CXxMtBK5CG
+         QBxwEupMdBk3hixwwqtETqDWbeEURwuTTGnn+rFIW12RuvIXCQ2EiXSWDYh24BmZJ6De
+         2WSAFTyYjnA9eXcqxz3BqO1Y+75Szb813/flxb1u+IOD3AulCmHjWw36XD7Zfj6AEcEI
+         icuLkiZcTQNNktC15KRyeb9OhaEMdjplqDVeV+MJwSAYaePJWAn1YzSCkmaKzYJW/a0d
+         SD0l7aSVxY4G0sy+Z5JSEaG2JPc8MxIWXUjb2ZUM2ZUAxRyCDc9WYkB32KZI7PJnY9+1
+         Fzsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V8Xl1MAOKM4xcc4bVxr28fUMdxQmcz7hUdzLkpuaWdE=;
+        b=0ZG4hson8ZUFe6dUd910Es+8qnCLANLs0yhjYjuaPkUDdihlhHGpEFkFfrgQ3q8oiw
+         PuT4ISw4cfhbdCoDG1dFyJnVsyQZdyXGvSfFbqkdUJOFVhezHbDzhFGEUUQxtIHHnCW+
+         sHYjprF/1N69mBx+sObiBNdyVVVRYbidOsb76+W7VLcPN0UkqqLW1EDDarkxg9Qqat9h
+         PFTsG9HmB3M2lI+bhcos769ZYs4c1ktCuwWKb8/yBl3G6zwVFYIUs1YqfxuWW0uGKQ76
+         fhGTZMMIlf3wfEVWwOOsDDbj1Ddc9saascJtgwOwo3CdYoeVfJb44F0MN2SpyQcdSJiY
+         e50g==
+X-Gm-Message-State: ACrzQf3R2Hqgt0FaNbVubgYi9rMenPRQix2Nb0FjqU8s/oC98uHEwoRu
+	e7gVlcW64knuBO9HQnp6WSI9jWm0hszpQtAnIR8=
+X-Google-Smtp-Source: AMsMyM5WQkBxDruObCaDPx7rtiP8WzO9yD3wyJZ7sQYWmDWtCmHUq4NFvKBsuyhkQkXbC9WBboQLvXTsvz+BLfjp/pM=
+X-Received: by 2002:a67:b303:0:b0:3a9:61e4:2769 with SMTP id
+ a3-20020a67b303000000b003a961e42769mr3845827vsm.0.1666189241497; Wed, 19 Oct
+ 2022 07:20:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+References: <20221019094015.832398-1-tegongkang@gmail.com> <e2ec77060cc84a33b49d5fd11d7867f6@AcuMS.aculab.com>
+In-Reply-To: <e2ec77060cc84a33b49d5fd11d7867f6@AcuMS.aculab.com>
+From: Kang Minchul <tegongkang@gmail.com>
+Date: Wed, 19 Oct 2022 23:20:30 +0900
+Message-ID: <CA+uqrQDM6sQkVz8jQyv0VEoQK3Ucmx5i4CX5PxMEiA5Lsu28Vw@mail.gmail.com>
+Subject: Re: [PATCH] staging: pi433: Use div64_u64 instead of do_div
+To: David Laight <David.Laight@aculab.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>, Dan Carpenter <error27@gmail.com>, 
+	Sidong Yang <realwakka@gmail.com>, 
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-From: Kang Minchul
-> Sent: 19 October 2022 10:40
->=20
-> This commit removes warning generated by cocci as follows:
->=20
-> do_div() does a 64-by-32 division, please consider using div64_u64 instea=
-d.
->=20
-> Using div64_u64 instead of do_div can avoid potential truncation.
+2022=EB=85=84 10=EC=9B=94 19=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 7:31, =
+David Laight <David.Laight@aculab.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1=
+:
+>
+> From: Kang Minchul
+> > Sent: 19 October 2022 10:40
+> >
+> > This commit removes warning generated by cocci as follows:
+> >
+> > do_div() does a 64-by-32 division, please consider using div64_u64 inst=
+ead.
+> >
+> > Using div64_u64 instead of do_div can avoid potential truncation.
+>
+> Cocci is lying to you.
+>
+> do_div() exists because a 64 by 32 bit divide is significantly
+> faster than a 64 by 64 divide.
+> This is particularly true on 32bit cpu, but is also true on
+> Intel x86_64 bit cpu.
+I guess I have missed that point,
+Thanks for your feedback!
 
-Cocci is lying to you.
-
-do_div() exists because a 64 by 32 bit divide is significantly
-faster than a 64 by 64 divide.
-This is particularly true on 32bit cpu, but is also true on
-Intel x86_64 bit cpu.
-
-So unless the result might actually be larger than 32 bits
-(which requires code analysis) then do_div() is correct.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+Kang Minchul
