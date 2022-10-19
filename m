@@ -1,97 +1,109 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB532577;
-	Wed, 19 Oct 2022 09:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666171712; bh=p/AkUWQYNtmzcleDP4tnrKL/46ylIOjaifjptR55RKc=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=fUQilEL6nfY0wIfMzM3z26IVauAmr7Mj4amG4xZz/OPmrt2Koe0e5DrcphIAK9tpx
-	 9JIp7/fJb274RVDHkz9JLpc3sioqhT0e08OJ44DzRWLXqLPMBMyDEefdjbabtR1z3g
-	 SOtIcVuxRsQnjWyL2y3MavFbQFlmJ1G7pG3rgyk8=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-	via [213.182.55.206]
-	Wed, 19 Oct 2022 11:28:32 +0200 (CEST)
-X-EA-Auth: BMqE3Pe/9FyIFIDYDtpEaU4AEAIIprZob7kZRTi3v5ckz3l3t0MvGzmwVZr6bw1WR8j2on1zF/edTwAMzQYr89ajSenuytzV
-Date: Wed, 19 Oct 2022 14:57:11 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Joe Perches <joe@perches.com>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
-	saurabh.truth@gmail.com
-Subject: Re: [PATCH 4/4] staging: r8188eu: use htons macro instead of
- __constant_htons
-Message-ID: <Y0/C788JWsOcv4lH@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1666011479.git.drv@mailo.com>
- <595559852924cc1b58778659d2dbca8e263ee9d8.1666011479.git.drv@mailo.com>
- <49002a284dd29b8f784b52cb1527e687183ca175.camel@perches.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2EF2577
+	for <linux-staging@lists.linux.dev>; Wed, 19 Oct 2022 09:40:21 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id c24so16452023pls.9
+        for <linux-staging@lists.linux.dev>; Wed, 19 Oct 2022 02:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SF1fl++U+j/mY88q9ogCinNcnaen6ZIX+6+t5RwhoIM=;
+        b=DlCGggHWY+p58GuPoeTXjD2I5F1u7nPQNxrYEXmmluzk6DVlmKUPG1HgCJf41PBdxA
+         XTlinPyNOlWg5/90VLRbwMyA02x8kiJlwLAM/BUKfzvZ6sIkopvKo9BwkKtCbthlcYoH
+         ykoF1P8mElDRzc8CLuqAkABevEBMNTm3FC/53xiZC609OkYpYoSeaukXBcLtykvXBrHx
+         kH+Xqu5+5v/Fq9H+iZfDwsP1smGZwjrPMhgnLskaZuqaYMWgUMxvfD4L5GYv9w6vfzxL
+         ZqcwnG+bMRs1gpEqNIj2sRhaPX4wrOEAhIIKG9wJQ2spQPIjGeXntfu6llgvkNgY1K3O
+         +aXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SF1fl++U+j/mY88q9ogCinNcnaen6ZIX+6+t5RwhoIM=;
+        b=k2f3gmS+Ze9uz2s0NgqqhGSJujzUl+DnWs5Jy0RLWojcfLICIT9d90d3T7XUHfw6rx
+         1NL9qrRVDRvtbmdbRIuHkwS/TWrwd3Nv1jbWpvvGK6n/X1MlsMj0zU5sSGiD+lxx7o5n
+         RLGQfFJ6Xt/KY/yE3AsQCsnS3Rm59gy9a/uC5LIAKo9GJorZMfIzfpIMu/UmuEDdNxtW
+         ENVTWiVDbgVKYp3RUDPciQkntQnZRdhoR5ptbS9xBm8i6OZpDasfLDdHD7ijrs4tbgTW
+         HUTkWIOd4fC8cf4wxb4WfJMKW2jyuwfalooDa/FlFWiHkG2jTlmGV+oKPKu8O0Yqx83R
+         ecHA==
+X-Gm-Message-State: ACrzQf1ya83r986S5for058MRnHLwn84bbj2I5CcdX/cApz98e3fjqzT
+	/pR89HAytwKGXGmlwLtA5C8=
+X-Google-Smtp-Source: AMsMyM6drZ9IFo8GAjkczH7bNco+FjLEg4ZDrS5fRndom63HpFPRQOHcff0ToUp6Zdto3gNFqQ2sbQ==
+X-Received: by 2002:a17:902:e806:b0:181:ebae:3ec3 with SMTP id u6-20020a170902e80600b00181ebae3ec3mr7399989plg.26.1666172420914;
+        Wed, 19 Oct 2022 02:40:20 -0700 (PDT)
+Received: from uftrace.. ([14.5.161.231])
+        by smtp.gmail.com with ESMTPSA id q59-20020a17090a1b4100b001efa9e83927sm12739970pjq.51.2022.10.19.02.40.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Oct 2022 02:40:20 -0700 (PDT)
+From: Kang Minchul <tegongkang@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Cc: Dan Carpenter <error27@gmail.com>,
+	Sidong Yang <realwakka@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kang Minchul <tegongkang@gmail.com>
+Subject: [PATCH] staging: pi433: Use div64_u64 instead of do_div
+Date: Wed, 19 Oct 2022 18:40:15 +0900
+Message-Id: <20221019094015.832398-1-tegongkang@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <49002a284dd29b8f784b52cb1527e687183ca175.camel@perches.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 18, 2022 at 11:08:06PM -0700, Joe Perches wrote:
-> On Mon, 2022-10-17 at 18:54 +0530, Deepak R Varma wrote:
-> > Macro "htons" is more efficiant and clearer. It should be used for
-> > constants instead of the __contast_htons macro. Resolves following
->
-> typo: __constant_htons
->
-> > checkpatch script complaint:
-> > 	WARNING: __constant_htons should be htons
-> []
-> > diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> []
-> > @@ -612,14 +612,14 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
-> >  	if (!priv->ethBrExtInfo.dhcp_bcst_disable) {
-> >  		__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
-> >
-> > -		if (protocol == __constant_htons(ETH_P_IP)) { /*  IP */
-> > +		if (protocol == htons(ETH_P_IP)) { /*  IP */
-> >  			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
-> >
-> >  			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
-> >  				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
-> >
-> > -				if ((udph->source == __constant_htons(CLIENT_PORT)) &&
-> > -				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
-> > +				if ((udph->source == htons(CLIENT_PORT)) &&
-> > +				    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
->
-> OK, this bit seems fine
->
-> >  					struct dhcpMessage *dhcph =
-> >  						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
->
-> IMO: this existing code however is ugly.
->      Casting a pointer to a size_t isn't great.
->
-> Perhaps:
->
-> 				struct dhcpMessage *dhcp;
->
-> 				dhcp = (void *)udhp + sizeof(struct udphdr);
->
-> in a separate patch.
->
-> > 					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
->
-> And dhcph->cookie already is a __be32 so the cast is pointless.
->
-> drivers/staging/r8188eu/core/rtw_br_ext.c-598-  __be32 cookie;
+This commit removes warning generated by cocci as follows:
 
-Thank you Joe. I will include this code clean up as separates patches are resend
-the patch set.
+do_div() does a 64-by-32 division, please consider using div64_u64 instead.
 
->
->
+Using div64_u64 instead of do_div can avoid potential truncation.
 
+Signed-off-by: Kang Minchul <tegongkang@gmail.com>
+---
+ drivers/staging/pi433/rf69.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index 8c7fab6a46bb..683dd94489f9 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -252,11 +252,11 @@ int rf69_set_deviation(struct spi_device *spi, u32 deviation)
+ 
+ 	// calculat f step
+ 	f_step = F_OSC * factor;
+-	do_div(f_step, 524288); //  524288 = 2^19
++	div64_u64(f_step, 524288); //  524288 = 2^19
+ 
+ 	// calculate register settings
+ 	f_reg = deviation * factor;
+-	do_div(f_reg, f_step);
++	div64_u64(f_reg, f_step);
+ 
+ 	msb = (f_reg & 0xff00) >> 8;
+ 	lsb = (f_reg & 0xff);
+@@ -291,7 +291,7 @@ int rf69_set_frequency(struct spi_device *spi, u32 frequency)
+ 
+ 	// calculat f step
+ 	f_step = F_OSC * factor;
+-	do_div(f_step, 524288); //  524288 = 2^19
++	div64_u64(f_step, 524288); //  524288 = 2^19
+ 
+ 	// check input value
+ 	f_max = div_u64(f_step * 8388608, factor);
+@@ -302,7 +302,7 @@ int rf69_set_frequency(struct spi_device *spi, u32 frequency)
+ 
+ 	// calculate reg settings
+ 	f_reg = frequency * factor;
+-	do_div(f_reg, f_step);
++	div64_u64(f_reg, f_step);
+ 
+ 	msb = (f_reg & 0xff0000) >> 16;
+ 	mid = (f_reg & 0xff00)   >>  8;
+-- 
+2.34.1
 
