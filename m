@@ -1,27 +1,28 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D52C53A3;
-	Wed, 19 Oct 2022 19:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D76253A3;
+	Wed, 19 Oct 2022 19:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666209205; bh=nNXwKU1Ppl1AKa70b/f+2U0MS7Cyq2/czmAaiBlx53o=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=VVfRx/mpKP1CVQhc7zc1zeGGXpPsrtRH20uXAQL0NNQKpy5/+KhtgMWIgs1KS24jn
-	 zbn7D3rKdRddQxVoGlX2oYvFg63sre+ed1FVeMz+g7AFbfgd9MFEpB7ujDlHiYAGes
-	 z8mnCWWT9RznfHWdlN9bQHvlguEUHS6+4nsm3MV8=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+	t=1666209298; bh=rWuVo5ArWe0A4Pt0jIryo1pM/iFzQ7NFsBkrARvSvXo=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=gyCgb0pIvTLXHQ871p27n3Vrwl3FHTRJaV5uSbRBwbwV4dSlAk+aE7Y3Jv7dgXt+k
+	 rIprmUwHY6IJ/K/PZBYxrhJ1xfHTM2T/PoGX8i5GPgqeGJibXiivrGc5JufdsQs1hP
+	 F3kZnWm4zEzBVObyLYOBvvKki76U12CauNJS3MGk=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
 	via [213.182.55.206]
-	Wed, 19 Oct 2022 21:53:25 +0200 (CEST)
-X-EA-Auth: l8mDwtAV0BDO3bjb0LZpCiCJNtFyTDFWWrTwGQ3xJ0RWyYBlAO1M0Oltyqbdcf+h9dpnO5itJBkEnn536veef+u5CJ/GItUT
-Date: Thu, 20 Oct 2022 01:23:20 +0530
+	Wed, 19 Oct 2022 21:54:58 +0200 (CEST)
+X-EA-Auth: AdR9hdmXB7TSkPVfT4xk/8eiuJeuqJrx3mvKeq4HmEc1ZfTC58atNSmqQf8dzzvh7bfNsoL+8Yf7C1zfhKo8638OrGLIKzOt
+Date: Thu, 20 Oct 2022 01:24:53 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Cc: kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: [PATCH v4 0/2] staging: most: dim2: remove unnecessary function call
- and variable usage
-Message-ID: <cover.1666208065.git.drv@mailo.com>
+Subject: [PATCH v4 1/2] staging: most: dim2: read done_buffers count locally
+ from HDM channel
+Message-ID: <83fd237d2ac157d234e9c7cce1206904c2d8773d.1666208065.git.drv@mailo.com>
+References: <cover.1666208065.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,29 +31,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1666208065.git.drv@mailo.com>
 
-Patch set simplifies service_done_flag function by eliminating call to
-dim_get_channel_state. Also corrects the misleading dim_ch_state_t variable
-type name.
+The function dim_get_channel_state only serves to initialize the ready and
+done_buffers fields of the structure passed as its second argument. In
+service_done_flag, this structure is never used again and the only purpose
+of the call is to get the value that is put in the done_buffers field.
+But that value is just the done_sw_buffers_number field of the call's
+first argument.  So the whole call is useless, and we can just replace it
+with an access to this field.
+
+This change implies that the variable st is no longer used, so drop it as
+well.
+
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+
+PLEASE NOTE:
+   1. I have only built the module on my machine, but have not tested it.
+      I am not sure how to test this change. I am willing to test it with
+      appropriate guidance provided I have the necessary hardware.
+   2. This was a standalone patch earlier. It is now combined into a patch set
+      with another patch for the same driver. Hence I am carry forwarding the
+      change log for this patch here:
 
 Changes in v4:
-   1. Patch set versioning missed earlier. Now added. [feedback from gregkh@linuxfoundation.org]
-   2. Patch 1/2 : None.
-   3. Patch 2/2 : Correct patch subject and log. [feedback from julia.lawall@inria.fr]
+   -- None.
 
-Change in v3:
-   1. Patch set introduced since another patch from same area added.
+Changes in v3:
+   1. The patch log message is further improved. This revised verbiage is as
+      thankfully provided by julia.lawall@inria.fr
+
+Changes in v2:
+   1. Update patch log message to be more descriptive about the reason for change.
+      Feedback provided by julia.lawall@inria.fr
 
 
-Deepak R Varma (2):
-  staging: most: dim2: read done_buffers count locally from HDM channel
-  staging: most: dim2: correct misleading struct type name
+ drivers/staging/most/dim2/dim2.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
- drivers/staging/most/dim2/dim2.c | 5 ++---
- drivers/staging/most/dim2/hal.c  | 4 ++--
- drivers/staging/most/dim2/hal.h  | 6 +++---
- 3 files changed, 7 insertions(+), 8 deletions(-)
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index ab72e11ac5ab..4c1f27898a29 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -259,7 +259,6 @@ static void retrieve_netinfo(struct dim2_hdm *dev, struct mbo *mbo)
+ static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
+ {
+ 	struct hdm_channel *hdm_ch = dev->hch + ch_idx;
+-	struct dim_ch_state_t st;
+ 	struct list_head *head;
+ 	struct mbo *mbo;
+ 	int done_buffers;
+@@ -271,7 +270,7 @@ static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
 
+ 	spin_lock_irqsave(&dim_lock, flags);
+
+-	done_buffers = dim_get_channel_state(&hdm_ch->ch, &st)->done_buffers;
++	done_buffers = hdm_ch->ch.done_sw_buffers_number;
+ 	if (!done_buffers) {
+ 		spin_unlock_irqrestore(&dim_lock, flags);
+ 		return;
 --
 2.30.2
 
