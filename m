@@ -1,109 +1,73 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2EF2577
-	for <linux-staging@lists.linux.dev>; Wed, 19 Oct 2022 09:40:21 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id c24so16452023pls.9
-        for <linux-staging@lists.linux.dev>; Wed, 19 Oct 2022 02:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SF1fl++U+j/mY88q9ogCinNcnaen6ZIX+6+t5RwhoIM=;
-        b=DlCGggHWY+p58GuPoeTXjD2I5F1u7nPQNxrYEXmmluzk6DVlmKUPG1HgCJf41PBdxA
-         XTlinPyNOlWg5/90VLRbwMyA02x8kiJlwLAM/BUKfzvZ6sIkopvKo9BwkKtCbthlcYoH
-         ykoF1P8mElDRzc8CLuqAkABevEBMNTm3FC/53xiZC609OkYpYoSeaukXBcLtykvXBrHx
-         kH+Xqu5+5v/Fq9H+iZfDwsP1smGZwjrPMhgnLskaZuqaYMWgUMxvfD4L5GYv9w6vfzxL
-         ZqcwnG+bMRs1gpEqNIj2sRhaPX4wrOEAhIIKG9wJQ2spQPIjGeXntfu6llgvkNgY1K3O
-         +aXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SF1fl++U+j/mY88q9ogCinNcnaen6ZIX+6+t5RwhoIM=;
-        b=k2f3gmS+Ze9uz2s0NgqqhGSJujzUl+DnWs5Jy0RLWojcfLICIT9d90d3T7XUHfw6rx
-         1NL9qrRVDRvtbmdbRIuHkwS/TWrwd3Nv1jbWpvvGK6n/X1MlsMj0zU5sSGiD+lxx7o5n
-         RLGQfFJ6Xt/KY/yE3AsQCsnS3Rm59gy9a/uC5LIAKo9GJorZMfIzfpIMu/UmuEDdNxtW
-         ENVTWiVDbgVKYp3RUDPciQkntQnZRdhoR5ptbS9xBm8i6OZpDasfLDdHD7ijrs4tbgTW
-         HUTkWIOd4fC8cf4wxb4WfJMKW2jyuwfalooDa/FlFWiHkG2jTlmGV+oKPKu8O0Yqx83R
-         ecHA==
-X-Gm-Message-State: ACrzQf1ya83r986S5for058MRnHLwn84bbj2I5CcdX/cApz98e3fjqzT
-	/pR89HAytwKGXGmlwLtA5C8=
-X-Google-Smtp-Source: AMsMyM6drZ9IFo8GAjkczH7bNco+FjLEg4ZDrS5fRndom63HpFPRQOHcff0ToUp6Zdto3gNFqQ2sbQ==
-X-Received: by 2002:a17:902:e806:b0:181:ebae:3ec3 with SMTP id u6-20020a170902e80600b00181ebae3ec3mr7399989plg.26.1666172420914;
-        Wed, 19 Oct 2022 02:40:20 -0700 (PDT)
-Received: from uftrace.. ([14.5.161.231])
-        by smtp.gmail.com with ESMTPSA id q59-20020a17090a1b4100b001efa9e83927sm12739970pjq.51.2022.10.19.02.40.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 02:40:20 -0700 (PDT)
-From: Kang Minchul <tegongkang@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>,
-	Sidong Yang <realwakka@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kang Minchul <tegongkang@gmail.com>
-Subject: [PATCH] staging: pi433: Use div64_u64 instead of do_div
-Date: Wed, 19 Oct 2022 18:40:15 +0900
-Message-Id: <20221019094015.832398-1-tegongkang@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E6F1874
+	for <linux-staging@lists.linux.dev>; Wed, 19 Oct 2022 10:31:28 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-306-19UG_-sFOqOSys9fWgfDtg-1; Wed, 19 Oct 2022 11:31:19 +0100
+X-MC-Unique: 19UG_-sFOqOSys9fWgfDtg-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 19 Oct
+ 2022 11:31:17 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.042; Wed, 19 Oct 2022 11:31:17 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Kang Minchul' <tegongkang@gmail.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Paulo Miguel Almeida
+	<paulo.miguel.almeida.rodenas@gmail.com>
+CC: Dan Carpenter <error27@gmail.com>, Sidong Yang <realwakka@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] staging: pi433: Use div64_u64 instead of do_div
+Thread-Topic: [PATCH] staging: pi433: Use div64_u64 instead of do_div
+Thread-Index: AQHY46M8g2A3zaXXyE2gPdBmwjkSwq4Vg27w
+Date: Wed, 19 Oct 2022 10:31:17 +0000
+Message-ID: <e2ec77060cc84a33b49d5fd11d7867f6@AcuMS.aculab.com>
+References: <20221019094015.832398-1-tegongkang@gmail.com>
+In-Reply-To: <20221019094015.832398-1-tegongkang@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This commit removes warning generated by cocci as follows:
+From: Kang Minchul
+> Sent: 19 October 2022 10:40
+>=20
+> This commit removes warning generated by cocci as follows:
+>=20
+> do_div() does a 64-by-32 division, please consider using div64_u64 instea=
+d.
+>=20
+> Using div64_u64 instead of do_div can avoid potential truncation.
 
-do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+Cocci is lying to you.
 
-Using div64_u64 instead of do_div can avoid potential truncation.
+do_div() exists because a 64 by 32 bit divide is significantly
+faster than a 64 by 64 divide.
+This is particularly true on 32bit cpu, but is also true on
+Intel x86_64 bit cpu.
 
-Signed-off-by: Kang Minchul <tegongkang@gmail.com>
----
- drivers/staging/pi433/rf69.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+So unless the result might actually be larger than 32 bits
+(which requires code analysis) then do_div() is correct.
 
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index 8c7fab6a46bb..683dd94489f9 100644
---- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -252,11 +252,11 @@ int rf69_set_deviation(struct spi_device *spi, u32 deviation)
- 
- 	// calculat f step
- 	f_step = F_OSC * factor;
--	do_div(f_step, 524288); //  524288 = 2^19
-+	div64_u64(f_step, 524288); //  524288 = 2^19
- 
- 	// calculate register settings
- 	f_reg = deviation * factor;
--	do_div(f_reg, f_step);
-+	div64_u64(f_reg, f_step);
- 
- 	msb = (f_reg & 0xff00) >> 8;
- 	lsb = (f_reg & 0xff);
-@@ -291,7 +291,7 @@ int rf69_set_frequency(struct spi_device *spi, u32 frequency)
- 
- 	// calculat f step
- 	f_step = F_OSC * factor;
--	do_div(f_step, 524288); //  524288 = 2^19
-+	div64_u64(f_step, 524288); //  524288 = 2^19
- 
- 	// check input value
- 	f_max = div_u64(f_step * 8388608, factor);
-@@ -302,7 +302,7 @@ int rf69_set_frequency(struct spi_device *spi, u32 frequency)
- 
- 	// calculate reg settings
- 	f_reg = frequency * factor;
--	do_div(f_reg, f_step);
-+	div64_u64(f_reg, f_step);
- 
- 	msb = (f_reg & 0xff0000) >> 16;
- 	mid = (f_reg & 0xff00)   >>  8;
--- 
-2.34.1
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
