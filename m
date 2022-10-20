@@ -1,122 +1,131 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDCC5C96;
-	Thu, 20 Oct 2022 17:20:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666286405; bh=y6f5yuwFB+7dnXtKXxkno+O53LHKdZ313hR7lgO+0+8=;
-	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=FbODB1m/snmKR53dyym2wqd6Gay0C6rLOo+K86CJCJCk4Xf+yEhg3vnvY5bJbwB2v
-	 3hHER9fH5oznV88TxzD99EsxH9V0wMjFE47PIWRQi3oKZ8xEjno9fOZReDSNEvYkGA
-	 dpDOraP8vkHzshmUcQ4jnOWV84Y3L0twWyK0YT00=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-	via [213.182.55.206]
-	Thu, 20 Oct 2022 19:20:04 +0200 (CEST)
-X-EA-Auth: wpa2NRXTxRpbcD6NcHXdGUXpqYLgRLwpFui68DnSAbKr31OTGDY/COyXD9aKaffAbelAvE0GWuk1GAAiWY9OcUfuTBr7wkDw
-Date: Thu, 20 Oct 2022 22:50:00 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: [PATCH v5] staging: most: dim2: correct misleading struct type name
-Message-ID: <Y1GDQO+06fD24Pf/@debian-BULLSEYE-live-builder-AMD64>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB315CA3
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 18:18:23 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id ez6so201808pjb.1
+        for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 11:18:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+D88zAQmUjUUnV7neTR8OZUejbee9w/pcibOo1Ecx3I=;
+        b=RX6sDdyqulsiJ2eQHToA0GFzp10LDvWUvDx6IRf6EVR6AhdRpkEZ3C31uxBaXKyyyL
+         onnd+rFlG4Ma9HSCQswC3oq3YKCKZKPcjkgDLQknH6vCFOQZEpF00SWuWUAmVh9ecDkO
+         xPebucm2bga0DWiXH2PSC48b08kPlqhNemK1u+HxXw9Oc9LpY7I1L4H/ON9E1A2pIEcG
+         koEoZcXSi91k1KD4bTMcEYzypRTsAsx3px1kX4YXAxk2pU4N+T8wmotqYMhLqeoui/cF
+         wlGYJ5Kqs1e2RNyGNgGsxj5H7DFFt3XQ7e7W8ogISNtTvZJtTu3GcFaLIrEBrWhj90Aa
+         dF8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+D88zAQmUjUUnV7neTR8OZUejbee9w/pcibOo1Ecx3I=;
+        b=7sn3x9/Jet9Lc1+DbiMVnlgTFl465+KaRvPv40eOMfZbhN72kVET6uJM+hNApPhy4r
+         f1ZFbzEaR74EOFGpwfkwhydeJBLMOCkxJcwOaGdYN5nw2kDyNpokaPpTx4mV0gkb0BeM
+         eAHfzxw7wxVmuyOaXA97z/v0UglcyCzPDfmp0kBnsS9Esl4RLHaMZziElrxGtBsaD9so
+         kXm1CV+JiPa4h1RaK1K40KPhJbGGaNge+Wl5tnOm7fGQzmKBf8oLfhIbsgDQmgoXW64w
+         Fl8WjcJiIsDjx+YrqGt+8YViXqz2gzZPGBLs+rqDDdV3ODPcXI5EqdSFUUe7lWBA2zHd
+         /7HA==
+X-Gm-Message-State: ACrzQf2T6W26ZuLfs1+EJJ6lmjhqs14cdKSMSOG9qstSbJ3C4FCcoPg5
+	LJlbRy+POhBa1JzWDBqaablCTA3VSi+PFw==
+X-Google-Smtp-Source: AMsMyM6QCBdQPq88BTvJLBXTt62lRRB5nHqBuuw/kDUI0aQQnyQfxrhgzxy//6AAVLzHRlPEdlLgbA==
+X-Received: by 2002:a17:90b:350d:b0:20d:5438:f59a with SMTP id ls13-20020a17090b350d00b0020d5438f59amr16915677pjb.41.1666289902465;
+        Thu, 20 Oct 2022 11:18:22 -0700 (PDT)
+Received: from biggie.. ([103.230.148.187])
+        by smtp.gmail.com with ESMTPSA id c18-20020a170902d49200b001745662d568sm13240581plg.278.2022.10.20.11.18.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Oct 2022 11:18:21 -0700 (PDT)
+From: Gautam Menghani <gautammenghani201@gmail.com>
+To: gregkh@linuxfoundation.org,
+	paulo.miguel.almeida.rodenas@gmail.com
+Cc: Gautam Menghani <gautammenghani201@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drivers/staging/pi433: Change data type of bit_rate to be u32
+Date: Thu, 20 Oct 2022 23:48:15 +0530
+Message-Id: <20221020181815.31245-1-gautammenghani201@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Correct the misleading struct type name dim_ch_state_t to dim_ch_state
-since this not a typedef but a normal structure declaration.
+A TODO asks to convert the bit_rate variable to be a u32 so that bit 
+rates up to 300kbps can be supported as per the spec.
 
-Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-Signed-off-by: Deepak R Varma <drv@mailo.com>
+Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
 ---
+Please note that this patch is only compile tested.
 
-Changes in v5:
-   This patch was part of a patch set earlier. Since the only other patch of the
-   set is to be handled separately, the patch set is no more applicable. Hence
-   this now becomes a standalone patch in v5. Feedback from gregkh@linuxfoundation.org
+ drivers/staging/pi433/TODO       | 2 --
+ drivers/staging/pi433/pi433_if.h | 4 ++--
+ drivers/staging/pi433/rf69.c     | 2 +-
+ drivers/staging/pi433/rf69.h     | 2 +-
+ 4 files changed, 4 insertions(+), 6 deletions(-)
 
-Changes in v4:
-   1. Correct patch subject and log message. Use struct type name instead of
-      variable name for the change description. Feedback from julia.lawall@inria.fr
-
-Changes in v3:
-   1. Patch introduced in the patch set
-
- drivers/staging/most/dim2/dim2.c | 4 ++--
- drivers/staging/most/dim2/hal.c  | 4 ++--
- drivers/staging/most/dim2/hal.h  | 6 +++---
- 3 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index ab72e11ac5ab..5547b69b31a4 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -161,7 +161,7 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
- 	struct list_head *head = &hdm_ch->pending_list;
- 	struct mbo *mbo;
- 	unsigned long flags;
--	struct dim_ch_state_t st;
-+	struct dim_ch_state st;
-
- 	BUG_ON(!hdm_ch);
- 	BUG_ON(!hdm_ch->is_initialized);
-@@ -259,7 +259,7 @@ static void retrieve_netinfo(struct dim2_hdm *dev, struct mbo *mbo)
- static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
- {
- 	struct hdm_channel *hdm_ch = dev->hch + ch_idx;
--	struct dim_ch_state_t st;
-+	struct dim_ch_state st;
- 	struct list_head *head;
- 	struct mbo *mbo;
- 	int done_buffers;
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index 65282c276862..a5d40b5b138a 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -943,8 +943,8 @@ u8 dim_service_channel(struct dim_channel *ch)
- 	return channel_service(ch);
+diff --git a/drivers/staging/pi433/TODO b/drivers/staging/pi433/TODO
+index 5cf3fd99d521..8530bbe61d70 100644
+--- a/drivers/staging/pi433/TODO
++++ b/drivers/staging/pi433/TODO
+@@ -1,5 +1,3 @@
+ * currently the code introduces new IOCTLs. I'm afraid this is a bad idea.
+   -> Replace this with another interface, hints are welcome!
+ * Some missing data (marked with ###) needs to be added in the documentation
+-* Change (struct pi433_tx_cfg)->bit_rate to be a u32 so that we can support
+-    bit rates up to 300kbps per the spec.
+diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
+index 25ee0b77a32c..c958dcfa9f96 100644
+--- a/drivers/staging/pi433/pi433_if.h
++++ b/drivers/staging/pi433/pi433_if.h
+@@ -51,7 +51,7 @@ enum option_on_off {
+ #define PI433_TX_CFG_IOCTL_NR	0
+ struct pi433_tx_cfg {
+ 	__u32			frequency;
+-	__u16			bit_rate;
++	__u32			bit_rate;
+ 	__u32			dev_frequency;
+ 	enum modulation		modulation;
+ 	enum mod_shaping	mod_shaping;
+@@ -99,7 +99,7 @@ struct pi433_tx_cfg {
+ #define PI433_RX_CFG_IOCTL_NR	1
+ struct pi433_rx_cfg {
+ 	__u32			frequency;
+-	__u16			bit_rate;
++	__u32			bit_rate;
+ 	__u32			dev_frequency;
+ 
+ 	enum modulation		modulation;
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index 8c7fab6a46bb..7e754a3aef5f 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -185,7 +185,7 @@ int rf69_set_modulation_shaping(struct spi_device *spi,
+ 	}
  }
-
--struct dim_ch_state_t *dim_get_channel_state(struct dim_channel *ch,
--					     struct dim_ch_state_t *state_ptr)
-+struct dim_ch_state *dim_get_channel_state(struct dim_channel *ch,
-+					   struct dim_ch_state *state_ptr)
+ 
+-int rf69_set_bit_rate(struct spi_device *spi, u16 bit_rate)
++int rf69_set_bit_rate(struct spi_device *spi, u32 bit_rate)
  {
- 	if (!ch || !state_ptr)
- 		return NULL;
-diff --git a/drivers/staging/most/dim2/hal.h b/drivers/staging/most/dim2/hal.h
-index 20531449acab..ef10a8741c10 100644
---- a/drivers/staging/most/dim2/hal.h
-+++ b/drivers/staging/most/dim2/hal.h
-@@ -27,7 +27,7 @@ enum mlb_clk_speed {
- 	CLK_8192FS = 7,
- };
-
--struct dim_ch_state_t {
-+struct dim_ch_state {
- 	bool ready; /* Shows readiness to enqueue next buffer */
- 	u16 done_buffers; /* Number of completed buffers */
- };
-@@ -87,8 +87,8 @@ void dim_service_ahb_int_irq(struct dim_channel *const *channels);
-
- u8 dim_service_channel(struct dim_channel *ch);
-
--struct dim_ch_state_t *dim_get_channel_state(struct dim_channel *ch,
--					     struct dim_ch_state_t *state_ptr);
-+struct dim_ch_state *dim_get_channel_state(struct dim_channel *ch,
-+					   struct dim_ch_state *state_ptr);
-
- u16 dim_dbr_space(struct dim_channel *ch);
-
---
-2.30.2
-
-
+ 	int retval;
+ 	u32 bit_rate_reg;
+diff --git a/drivers/staging/pi433/rf69.h b/drivers/staging/pi433/rf69.h
+index 78fa0b8bab8b..46a1fb2d5329 100644
+--- a/drivers/staging/pi433/rf69.h
++++ b/drivers/staging/pi433/rf69.h
+@@ -24,7 +24,7 @@ int rf69_set_data_mode(struct spi_device *spi, u8 data_mode);
+ int rf69_set_modulation(struct spi_device *spi, enum modulation modulation);
+ int rf69_set_modulation_shaping(struct spi_device *spi,
+ 				enum mod_shaping mod_shaping);
+-int rf69_set_bit_rate(struct spi_device *spi, u16 bit_rate);
++int rf69_set_bit_rate(struct spi_device *spi, u32 bit_rate);
+ int rf69_set_deviation(struct spi_device *spi, u32 deviation);
+ int rf69_set_frequency(struct spi_device *spi, u32 frequency);
+ int rf69_enable_amplifier(struct spi_device *spi, u8 amplifier_mask);
+-- 
+2.34.1
 
