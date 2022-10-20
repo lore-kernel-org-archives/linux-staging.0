@@ -1,84 +1,114 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6E67B;
-	Thu, 20 Oct 2022 04:04:11 +0000 (UTC)
-Received: from [192.168.1.139] (unknown [122.171.21.142])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 94EE920FCF6F;
-	Wed, 19 Oct 2022 21:04:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 94EE920FCF6F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1666238650;
-	bh=ZxKeui9DDYM5zMtc/eLYUVIUvOOnKSjXi5ZjbM8qn5I=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=OPycTYoDbKI+GsVsg6X01LXGyMsdDUarjXCdiWfCt4VuuWqIVTrHG67P+R1iRnq4N
-	 UI7GyxokT/PUe4jm+59sFIpjJlxqnfBh+iykKy4083rytW/mLBjZYHPeKAmbpNoRPr
-	 AX5mo7cNmkXzfQ23baAylUsznIOCxOw0O0ohOMlo=
-Message-ID: <7025b8d8-e23a-0148-75b5-a06c18c6dbcb@linux.microsoft.com>
-Date: Thu, 20 Oct 2022 09:34:07 +0530
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BE815A6
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 04:35:44 +0000 (UTC)
+Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id DFA19407D0;
+	Thu, 20 Oct 2022 04:35:36 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id B0C8E1D;
+	Thu, 20 Oct 2022 04:35:19 +0000 (UTC)
+Message-ID: <8617109bdc3e192b98e5c3b21ba871501a87f6d9.camel@perches.com>
+Subject: Re: [PATCH] staging: r8188eu: replace IEs with ies
+From: Joe Perches <joe@perches.com>
+To: Jacob Bai <jacob.bai.au@gmail.com>, Larry Finger
+ <Larry.Finger@lwfinger.net>,  Phillip Potter <phil@philpotter.co.uk>, Pavel
+ Skripkin <paskripkin@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+Date: Wed, 19 Oct 2022 21:35:32 -0700
+In-Reply-To: <20221018105409.18331-1-jacob.bai.au@gmail.com>
+References: <20221018105409.18331-1-jacob.bai.au@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 1/3] staging: rtl8723bs: fix white space warnings
-Content-Language: en-US
-To: Emily Peri <eperi1024@gmail.com>, gregkh@linuxfoundation.org,
- outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1666230736.git.eperi1024@gmail.com>
- <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
-From: Praveen Kumar <kumarpraveen@linux.microsoft.com>
-In-Reply-To: <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Stat-Signature: rfok4zuziardpanwcbjbbbnbgsr55e4y
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: B0C8E1D
+X-Spam-Status: No, score=-2.50
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+5Om/jhcTLg7XsLvbFgngGLJbNoCiU3VE=
+X-HE-Tag: 1666240519-612510
 
-On 20-10-2022 07:40, Emily Peri wrote:
-> Fix the following checkpatch warnings in rtw_ioctl_set:
-> 1) Add missing blankline after declaration
-> 2) Replace spaces used for indent with tab
-> 3) Remove space before tab
-> 
-> Signed-off-by: Emily Peri <eperi1024@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> index 8c11daff2d59..354e61a8f2bd 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> @@ -78,6 +78,7 @@ u8 rtw_do_join(struct adapter *padapter)
->  		goto exit;
->  	} else {
->  		int select_ret;
-> +
->  		spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
->  		select_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
->  		if (select_ret == _SUCCESS) {
-> @@ -311,7 +312,7 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
->  		if ((*pold_state == Ndis802_11Infrastructure) || (*pold_state == Ndis802_11IBSS)) {
->  			if (check_fwstate(pmlmepriv, _FW_LINKED) == true)
->  				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have checked whether issue dis-assoc_cmd or not */
-> -	       }
-> +		}
+On Tue, 2022-10-18 at 21:54 +1100, Jacob Bai wrote:
+> Replace wlan_bssid_ex struct member IEs to ies.
+> CamelCase issue found by checkpatch.
 
-I think indentation is wrong here, it should be only 1 tab instead of 2 tabs ?
+Please try to avoid changing code merely to appease checkpatch.
 
->  
->  		*pold_state = networktype;
->  
-> @@ -367,7 +368,7 @@ u8 rtw_set_802_11_disassociate(struct adapter *padapter)
->  
->  u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_ssid *pssid, int ssid_max_num)
->  {
-> -	struct	mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
-> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
->  	u8 res = true;
->  
->  	if (!padapter) {
+What is the value of the last s?
+When is a specific index of the IEs array actually used?
 
-Regards,
+Mere renaming may be removing useful markings.
 
-~Praveen.
+(removing a lot of the rename blocks)
+
+> diff --git a/drivers/staging/r8188eu/include/wlan_bssdef.h b/drivers/stag=
+ing/r8188eu/include/wlan_bssdef.h
+[]
+> @@ -239,7 +239,7 @@ struct wlan_bssid_ex {
+>  	unsigned char SupportedRates[NDIS_802_11_LENGTH_RATES_EX];
+>  	struct wlan_phy_info	PhyInfo;
+>  	u32  IELength;
+> -	u8  IEs[MAX_IE_SZ];	/* timestamp, beacon interval, and
+> +	u8  ies[MAX_IE_SZ];	/* timestamp, beacon interval, and
+>  				 * capability information) */
+>  } __packed;
+[]
+> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/stagi=
+ng/r8188eu/os_dep/ioctl_linux.c
+[]
+> @@ -104,11 +104,11 @@ static char *translate_scan(struct adapter *padapte=
+r,
+> =20
+>  			if (pnetwork->network.Reserved[0] =3D=3D 2) {/*  Probe Request */
+>  				/*	Verifying the P2P IE */
+> -				if (rtw_get_p2p_ie(pnetwork->network.IEs, pnetwork->network.IELength=
+, NULL, &p2pielen))
+> +				if (rtw_get_p2p_ie(pnetwork->network.ies, pnetwork->network.IELength=
+, NULL, &p2pielen))
+>  					blnGotP2PIE =3D true;
+>  			} else {/*  Beacon or Probe Respones */
+>  				/*	Verifying the P2P IE */
+> -				if (rtw_get_p2p_ie(&pnetwork->network.IEs[12], pnetwork->network.IEL=
+ength - 12, NULL, &p2pielen))
+> +				if (rtw_get_p2p_ie(&pnetwork->network.ies[12], pnetwork->network.IEL=
+ength - 12, NULL, &p2pielen))
+
+For instance, these consistent 12 and "- 12" uses may be better as some
+alternate array.
+
+>  					blnGotP2PIE =3D true;
+>  			}
+>  		}
+> @@ -131,7 +131,7 @@ static char *translate_scan(struct adapter *padapter,
+>  	start =3D iwe_stream_add_point(info, start, stop, &iwe, pnetwork->netwo=
+rk.Ssid.Ssid);
+> =20
+>  	/* parsing HT_CAP_IE */
+> -	p =3D rtw_get_ie(&pnetwork->network.IEs[12], _HT_CAPABILITY_IE_, &ht_ie=
+len, pnetwork->network.IELength - 12);
+> +	p =3D rtw_get_ie(&pnetwork->network.ies[12], _HT_CAPABILITY_IE_, &ht_ie=
+len, pnetwork->network.IELength - 12);
+> =20
+>  	if (p && ht_ielen > 0) {
+>  		struct ieee80211_ht_cap *pht_capie;
+
+etc...
+
+Also this may be removing similarities between a few other realtek
+staging drivers
+
+$ git grep  "\[MAX_IE_SZ\]"
+drivers/staging/r8188eu/include/wlan_bssdef.h:  u8  IEs[MAX_IE_SZ];     /* =
+timestamp, beacon interval, and
+drivers/staging/rtl8712/wlan_bssdef.h:  u8 IEs[MAX_IE_SZ];
+drivers/staging/rtl8723bs/include/wlan_bssdef.h:        u8  ies[MAX_IE_SZ];=
+     /* timestamp, beacon interval, and capability information) */
+
