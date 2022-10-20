@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9376102
-	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 19:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655E97E
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 19:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1666295768;
+	s=mimecast20190719; t=1666295771;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3FxkEeuYB9E/Bpn9/vrXptSy4AqhwtkoM0gyjPMZHrI=;
-	b=P+1vERYwRpfj/wX4uJxmyLV+Q4YYAHLJ+U3dP9Amr4JuhR4GrcE0A9BLuAX5U9/tlTk4bN
-	s89iqznrvn+MEGENKOS75Nl00Jq4Tiv4/aJI4SCHckrzmqW1Vjv9Dnt4yVQRCI5LdfXmCl
-	liw3aJJ2vy0VaO2Qb69oWkdBoJzw3CM=
+	bh=5aJ4y9zXYN1XfvG7bXPRv0SXndeDWXlxS8RiKpUM6LI=;
+	b=OM0Knf2gADS7yIr6Pff2v3I/xnU4dLbBz8uOVwmSfI/qbZylrUCg4eGClNDZ8n6+XYP7SS
+	tQ1dBCzsixUdHBx6NDNijVF4Rm0CQtpt0t37h2Y34Hvhr+488qbkeAK+lwQ0Em2+tAZ2g5
+	NmV+NygWmGzGvlzioA3cU7KlAx99Ipk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-346-fslx2olvPCSh8oQ-PI59lw-1; Thu, 20 Oct 2022 15:56:05 -0400
-X-MC-Unique: fslx2olvPCSh8oQ-PI59lw-1
+ us-mta-439-EotDZJeBPqWPXJc3UUzJhg-1; Thu, 20 Oct 2022 15:56:07 -0400
+X-MC-Unique: EotDZJeBPqWPXJc3UUzJhg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECE8E185A7A3;
-	Thu, 20 Oct 2022 19:56:04 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A23BD185A78B;
+	Thu, 20 Oct 2022 19:56:06 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.86])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7A14A40C6EC2;
-	Thu, 20 Oct 2022 19:56:03 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2C80040C6EC2;
+	Thu, 20 Oct 2022 19:56:05 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 14/17] media: atomisp: Fix atomisp_try_fmt_cap() always returning YUV420 pixelformat
-Date: Thu, 20 Oct 2022 21:55:30 +0200
-Message-Id: <20221020195533.114049-15-hdegoede@redhat.com>
+Subject: [PATCH v2 15/17] media: atomisp: Make atomisp_g_fmt_cap() default to YUV420
+Date: Thu, 20 Oct 2022 21:55:31 +0200
+Message-Id: <20221020195533.114049-16-hdegoede@redhat.com>
 In-Reply-To: <20221020195533.114049-1-hdegoede@redhat.com>
 References: <20221020195533.114049-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,53 +52,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 
-The atomisp_try_fmt() call in atomisp_try_fmt_cap() replaces
-the pixelformat passed by userspace with the sensors native pixelformat.
-
-Which always gets replaced by V4L2_PIX_FMT_YUV420 by atomisp_adjust_fmt()
-because raw sensor formats are not supported.
-
-This needs to be fixed so that userspace which does a try_fmt call before
-s_fmt does not end up always getting YUV420 even if it passed something
-else into the try_fmt call.
-
-To fix this restore the userspace requested pixelformat before
-the atomisp_adjust_fmt() call. atomisp_adjust_fmt() will replace this
-with V4L2_PIX_FMT_YUV420 in case an unsupported format is requested.
-
-Note this relies on the "media: atomisp: Refactor atomisp_adjust_fmt()"
-change, before that atomisp_adjust_fmt() would return -EINVAL for
-unsupported pixelformats.
+Make atomisp_g_fmt_cap() default to YUV420 so that it matches with what
+atomisp_try_fmt_cap() and atomisp_queue_setup() do when they need to
+pick a default pixelformat.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 5034a5509a3b..384b231de8bc 100644
+index 384b231de8bc..c8f6f0c2f368 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -922,6 +922,7 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
- 			       struct v4l2_format *f)
- {
- 	struct video_device *vdev = video_devdata(file);
-+	u32 pixfmt = f->fmt.pix.pixelformat;
- 	int ret;
+@@ -959,7 +959,7 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
+ 	if (f->fmt.pix.sizeimage)
+ 		return 0;
  
- 	/*
-@@ -935,6 +936,12 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * atomisp_try_fmt() replaces pixelformat with the sensors native
-+	 * format, restore the actual format requested by userspace.
-+	 */
-+	f->fmt.pix.pixelformat = pixfmt;
-+
- 	return atomisp_adjust_fmt(f);
- }
+-	f->fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
++	f->fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420;
+ 	f->fmt.pix.width = 10000;
+ 	f->fmt.pix.height = 10000;
  
 -- 
 2.37.3
