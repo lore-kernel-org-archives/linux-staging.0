@@ -1,126 +1,90 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3333C20;
-	Thu, 20 Oct 2022 12:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666270576; bh=duRMsrf/gJ7eie8q7NwBQZsK46u4dqLgK9IzhR286ik=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=k1ZMMcqFHwn/r84X+NBia1cQtwpT+tc8fizY1FbI3tyBftJBUExjd6/z2LEehkaQo
-	 mumawSv6tN0xfUN6J1gxnbPlDfYp7amUZnw8+TOyDSVsvKuyocaf0gxijr8qWLnV5c
-	 2rpSDNk6PVusk/kLfGATqNVIizzch93J0ZuTv9/0=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
-	via [213.182.55.206]
-	Thu, 20 Oct 2022 14:56:16 +0200 (CEST)
-X-EA-Auth: AlTAwPZszBxM1uQBnXrH9iLqAFvpsaWg3rmVNN9Wnhue8gs3W50bHpDCKoKsIAiY6x1b92R8GsmPP7c7aY0iGD4rRILIiyZc
-Date: Thu, 20 Oct 2022 18:26:12 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH v4 2/2] staging: most: dim2: correct misleading struct
- type name
-Message-ID: <Y1FFbB8BWi1IHYgB@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1666208065.git.drv@mailo.com>
- <6b772a1ac06ae3b0d63e198e7238c1590b14703a.1666208065.git.drv@mailo.com>
- <alpine.DEB.2.22.394.2210192208290.3068@hadrien>
- <Y1BeZYBf/xsW8F4O@debian-BULLSEYE-live-builder-AMD64>
- <Y1E1kv6YSmxVzjkf@debian-BULLSEYE-live-builder-AMD64>
- <404cc67c-efd6-4a70-c3ca-7958db21bcb@inria.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7EE3C20
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 13:16:12 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id w18so34383730wro.7
+        for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 06:16:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pB1ESJX/kbTXjRBj9KyRdymHjlLM30GkaaeMOBkpYiw=;
+        b=ACtfuk0A0fGqABdtjv0rrhqqZFD50vnWR7DW7SsPw/XYnBiSS6PKHYTuLXjyaiaIB/
+         HWh99gDIMFWZGZyzUuFF9ix2FCm0alKmHktZ2PHZ/6v62+aOL9C0vMlabzD275JsutPr
+         VaD5bGlPYdoKaf4aIXA/EkVQhyy1fzFCIo2J/qeG23Hb6+1g2HXvadQnqEaPEGGUNo3z
+         lDGiEY3FRCer9W98q0ARbYfN/C1D6V/4xNti+rXFxw37erTkNBObgBlNEdx1Nl+heSWm
+         1eyZ4rtteQDGd/JnL7s2Y3ECr58BzFpZPDciheBoCUYr282IS8SDzDAqvqX7pUVDgNlr
+         zS5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pB1ESJX/kbTXjRBj9KyRdymHjlLM30GkaaeMOBkpYiw=;
+        b=WluFecPavhFAlGzhsNW8e4mGeoqa9qIoPWMq5qp2bYJAXAxpGgqnmEtR7tkOWvuO5W
+         ptTeSKSVSrfHKyb6oqzHGWnjPrcUFqQOxiloHUWUCGculdJVDWufHQ8Yb26LcHNyvrNN
+         Qb8UCOXBLhq45zc9dyIjT2QKUL0blRdYYSpbRaaMOdwc+lItXk+/QDR17QkGPQnO+2EV
+         cwM8GA4YquaKrZ3ImLELCoBkQlS9FhRjn3Spu5vo2pLrpQCo1gyCwAng1eeE+l6XhId+
+         ugPlevmeCbSSzsUp42MQV49dPqJsWCfTlL9pseo6iCdT8fTWqV7js0q95erw22pMfh4v
+         VkcQ==
+X-Gm-Message-State: ACrzQf10hZZFMQCt6E5QN08Rn2ZKY4a0r5TjlFstjhmHr/7us2VTIevP
+	j5D6M1GVD2CmrYS2jv0zpRw=
+X-Google-Smtp-Source: AMsMyM6iyMTy0D2qEILjPok8dwQukw7kiGAtGVtmVPMZjrE2xyShlxHjyHV2Wpa7qGW9t5oACmGxkA==
+X-Received: by 2002:a05:6000:1843:b0:22e:77b0:2e5 with SMTP id c3-20020a056000184300b0022e77b002e5mr8400914wri.215.1666271770601;
+        Thu, 20 Oct 2022 06:16:10 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id g10-20020a5d554a000000b002364c77bcacsm365525wrw.38.2022.10.20.06.16.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Oct 2022 06:16:10 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: octeon: remove redundant variable total_freed
+Date: Thu, 20 Oct 2022 14:16:09 +0100
+Message-Id: <20221020131609.1546667-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <404cc67c-efd6-4a70-c3ca-7958db21bcb@inria.fr>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 20, 2022 at 02:06:41PM +0200, Julia Lawall wrote:
->
->
-> On Thu, 20 Oct 2022, Deepak R Varma wrote:
->
-> > On Thu, Oct 20, 2022 at 02:00:29AM +0530, Deepak R Varma wrote:
-> > > On Wed, Oct 19, 2022 at 10:08:53PM +0200, Julia Lawall wrote:
-> > > >
-> > > >
-> > > > On Thu, 20 Oct 2022, Deepak R Varma wrote:
-> > > >
-> > > > > Correct misleading struct type name dim_ch_state_t to dim_ch_state
-> > > > > since this not a typedef but a normal structure declaration.
-> > > > >
-> > > > > Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > > ---
-> > > > >
-> > > > > Changes in v4:
-> > > > >    1. Correct patch subject and log message. Use struct type name instead of
-> > > > >       variable name for the change description. Feedback from julia.lawall@inria.fr
-> > > > >
-> > > > > Changes in v3:
-> > > > >    1. Patch introduced in the patch set
-> > > > >
-> > > > >  drivers/staging/most/dim2/dim2.c | 2 +-
-> > > > >  drivers/staging/most/dim2/hal.c  | 4 ++--
-> > > > >  drivers/staging/most/dim2/hal.h  | 6 +++---
-> > > > >  3 files changed, 6 insertions(+), 6 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> > > > > index 4c1f27898a29..a69a61a69283 100644
-> > > > > --- a/drivers/staging/most/dim2/dim2.c
-> > > > > +++ b/drivers/staging/most/dim2/dim2.c
-> > > > > @@ -161,7 +161,7 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
-> > > > >  	struct list_head *head = &hdm_ch->pending_list;
-> > > > >  	struct mbo *mbo;
-> > > > >  	unsigned long flags;
-> > > > > -	struct dim_ch_state_t st;
-> > > > > +	struct dim_ch_state st;
-> > > >
-> > > > Is there another use in service_done_flag?
-> > >
-> > > Hi,
-> > > I did not understand your question fully. This is from a different function
-> > > try_start_dim_transfer where the variable st is used down the line in the
-> > > execution. This time the channel state is retrieved by calling
-> > > dim_get_channel_state function. The state is simply computed and set. Should I
-> > > improve this as well?
-> > >
-> > > If you are asking something different, could you please elaborate?
-> >
-> > Hi Julia,
-> > Can you please review and comment on my response?
->
-> In my kernel there is an occurrence of the type name in service_done_flag.
-> But I have the mainline, not Greg's staging tree, so there could be some
-> differences.
->
-> When I do git grep dim_ch_state_t, I get two occurrences in
-> drivers/staging/most/dim2/dim2.c
+The variable total_freed is accumulating skb_to_free however it is not
+being used after this. The use of total_freed is redundant and hence
+the variable can be removed.
 
-Okay. Still unclear. Following snip is what I see in my local staging-testing branch.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/octeon/ethernet-tx.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-<snip>
-	drv@debian:~/git/kernels/staging$ git grep dim_ch_state_t
-	drivers/staging/most/dim2/dim2.c:       struct dim_ch_state_t st;
-	drivers/staging/most/dim2/dim2.c:       struct dim_ch_state_t st;
-	drivers/staging/most/dim2/hal.c:struct dim_ch_state_t *dim_get_channel_state(struct dim_channel *ch,
-	drivers/staging/most/dim2/hal.c:                                             struct dim_ch_state_t *state_ptr)
-	drivers/staging/most/dim2/hal.h:struct dim_ch_state_t {
-	drivers/staging/most/dim2/hal.h:struct dim_ch_state_t *dim_get_channel_state(struct dim_channel *ch,
-	drivers/staging/most/dim2/hal.h:                                             struct dim_ch_state_t *state_ptr);
-	drv@debian:~/git/kernels/staging$
-</snip>
-
-Does that help?
-
-./drv
-
-
->
-> julia
-
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index a36e36701c74..bbf33b88bb7c 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -73,7 +73,6 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
+ {
+ 	int skb_to_free;
+ 	int qos, queues_per_port;
+-	int total_freed = 0;
+ 	int total_remaining = 0;
+ 	unsigned long flags;
+ 	struct octeon_ethernet *priv = netdev_priv(dev);
+@@ -87,7 +86,6 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
+ 						       MAX_SKB_TO_FREE);
+ 		skb_to_free = cvm_oct_adjust_skb_to_free(skb_to_free,
+ 							 priv->fau + qos * 4);
+-		total_freed += skb_to_free;
+ 		if (skb_to_free > 0) {
+ 			struct sk_buff *to_free_list = NULL;
+ 
+-- 
+2.37.3
 
