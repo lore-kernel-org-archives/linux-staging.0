@@ -1,57 +1,45 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77F115A6;
-	Thu, 20 Oct 2022 04:46:27 +0000 (UTC)
-Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 224901A036F;
-	Thu, 20 Oct 2022 04:40:35 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id 64F6E1A;
-	Thu, 20 Oct 2022 04:40:18 +0000 (UTC)
-Message-ID: <c3c211c1c99cd19f86fb801576c55b2ae2216c6f.camel@perches.com>
-Subject: Re: [PATCH] staging: rts5208: Replace instances of udelay by
- usleep_range
-From: Joe Perches <joe@perches.com>
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>, 
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Date: Wed, 19 Oct 2022 21:40:31 -0700
-In-Reply-To: <Y06yiBaluz6X0C4G@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
-References: 
-	<Y06yiBaluz6X0C4G@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00FD15A6;
+	Thu, 20 Oct 2022 04:57:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4000AC433D6;
+	Thu, 20 Oct 2022 04:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1666241826;
+	bh=Ni4r2wMFH0K6x/UKO1tZ8E4iMWvcsU87QJi7cnK12BA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DrLjh0yhAZ5zE3jnwCwfCq45IvFU167umi6Bn41dUmXPpRtTMDX7DqQC9XgsNjBxi
+	 tXjn2atJNeClii/ysuCTmXrktwS1IGlEx/91yGDsr0mJQYmS5odoEIXeACAukFL9Qa
+	 bOzZPyXz4YUFh8bYceke5YD3k2ozzi/L6P1jR4rM=
+Date: Thu, 20 Oct 2022 06:57:03 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Emily Peri <eperi1024@gmail.com>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] staging: rtl8723bs: fix white space warnings
+Message-ID: <Y1DVH+UatalfjDN5@kroah.com>
+References: <cover.1666230736.git.eperi1024@gmail.com>
+ <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.10
-X-Stat-Signature: usmgqx4pixopy5egm85zxz4z9qnn1kia
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 64F6E1A
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18nOiWvhA8sshLgAaiSMN3kHKN/Czo5MVc=
-X-HE-Tag: 1666240818-841376
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
 
-On Tue, 2022-10-18 at 14:04 +0000, Tanjuate Brunostar wrote:
-> Replace the use of udelay by usleep_range as suggested by checkpatch:
->=20
-> CHECK: usleep_range is preferred over udelay; see Documentation/timers/ti=
-mers-howto.rst
-> +               udelay(30);
-[]
-> diff --git a/drivers/staging/rts5208/ms.c b/drivers/staging/rts5208/ms.c
-[]
-> @@ -3235,7 +3235,7 @@ static int ms_write_multiple_pages(struct rtsx_chip=
- *chip, u16 old_blk,
->  			return STATUS_FAIL;
->  		}
-> =20
-> -		udelay(30);
-> +		usleep_range(30, 30);
+On Wed, Oct 19, 2022 at 07:10:51PM -0700, Emily Peri wrote:
+> Fix the following checkpatch warnings in rtw_ioctl_set:
+> 1) Add missing blankline after declaration
+> 2) Replace spaces used for indent with tab
+> 3) Remove space before tab
 
-This isn't useful.  Please read the Documentation/timers.
+When you have to list the different things you do, you should really
+break that up into individual patches.  This should be 3.
 
+thanks,
+
+greg k-h
