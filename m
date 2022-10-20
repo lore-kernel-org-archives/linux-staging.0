@@ -1,29 +1,29 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D46A7B;
-	Thu, 20 Oct 2022 21:30:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC837B;
+	Thu, 20 Oct 2022 21:30:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666301418; bh=BSJjUKJn2IEY/wVtRjtEixPryZo2Sh/OIsI/yVAm/xw=;
+	t=1666301440; bh=kSz0GKYwtwvlodtOLhHDydQIyMIvnHNfquDPQLL9jV0=;
 	h=X-EA-Auth:Date:From:To:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:In-Reply-To;
-	b=CCatwa4YRauNw4YgZU0S3iSDgIPd+4YFxldiiQPKVeYVYGLYdFW7z2N9vK1o0rWTV
-	 pQP8USKqxpMBp5BixrDLsfrVBsUtH4Jj0DB6KRHOIVkUbdg4H4G4VA9CSJpRrdu7Fx
-	 vRLJCqX3Lh+C62NwaNQbeIp/BULGRx9dQjEW2ERo=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+	b=G7TjePXY3uBx8l6mJcMzkrDOXjxgCdxrab1XnJmR5maXrEhhJ2npTfW00pldqroTL
+	 U4Mz5zmIayH16GAVXqU8FLDpQbmQE2PLayl/1W8kbPkPL6QjjjRBrfWy2Xan3/RFuv
+	 VSqHNIJck+Rr7qwHCnXCzhjFcJ4iRTdmGxQr+hBU=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
 	via [213.182.55.206]
-	Thu, 20 Oct 2022 23:30:18 +0200 (CEST)
-X-EA-Auth: g0IWTAGH5LbX3GizWFIdmtNTr3ru39Zepw7PrMTqZ8VihjhPEal4VfnRfWAyLCHvX5pc+upCANsNYJF2ggrzapMvFZ11JFJY
-Date: Fri, 21 Oct 2022 03:00:13 +0530
+	Thu, 20 Oct 2022 23:30:40 +0200 (CEST)
+X-EA-Auth: LK14eXzF3qDHiT2C4nFqFyv5YeLhLCwE1pg+UAFgO5CTEIgMa0wTayR1pzMKf1EdkbhkaORuGZ2wVzL7OtNzogZBvRSPk76q
+Date: Fri, 21 Oct 2022 03:00:35 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
 	phil@philpotter.co.uk, paskripkin@gmail.com,
 	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
 	saurabh.truth@gmail.com
-Subject: [PATCH v4 06/11] staging: r8188eu: Add space between function &
- macro parameters
-Message-ID: <ce200b3a986628f943dfb0c4e412276793e59bbc.1666299151.git.drv@mailo.com>
+Subject: [PATCH v4 07/11] staging: r8188eu: Associate pointer symbol with
+ parameter name
+Message-ID: <d946b69bfdfb44baae3a130e412ed2e217a710a7.1666299151.git.drv@mailo.com>
 References: <cover.1666299151.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -35,148 +35,149 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1666299151.git.drv@mailo.com>
 
-Space required between function and macro parameters to improve code
-readability. This Linux kernel coding style guideline resolves following
-error reported by checkpatch script:
-	ERROR: space required after that ',' (ctx:VxV)
+The pointer symbol '*' should be associated with the function parameter
+name and not its type. This improves code readability and adheres to the
+coding-style guidelines. Address following checkpatch reported error:
+	ERROR: "foo *   bar" should be "foo *bar"
+
+While in there, update parameter name at one place to match other function
+declarations.
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
 
 Changes in v4:
-   1. Implement corrections provided by julia.lawall@inria.fr
+   -- None.
 
 Changes in v3:
    1. Patch newly added to the patch set.
 
- .../staging/r8188eu/include/osdep_service.h   |  4 +--
- .../staging/r8188eu/include/rtl8188e_hal.h    |  2 +-
- drivers/staging/r8188eu/include/rtw_cmd.h     | 18 ++++++------
- drivers/staging/r8188eu/include/rtw_io.h      | 28 +++++++++----------
- 4 files changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 72990a1cdc66..ec2631455f08 100644
---- a/drivers/staging/r8188eu/include/osdep_service.h
-+++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -53,7 +53,7 @@ static inline struct list_head *get_list_head(struct __queue *queue)
- 	return (&(queue->queue));
- }
 
--static inline void _set_timer(struct timer_list *ptimer,u32 delay_time)
-+static inline void _set_timer(struct timer_list *ptimer, u32 delay_time)
- {
- 	mod_timer(ptimer, jiffies + msecs_to_jiffies(delay_time));
- }
-@@ -108,7 +108,7 @@ void rtw_free_netdev(struct net_device *netdev);
- #define FUNC_ADPT_FMT "%s(%s)"
- #define FUNC_ADPT_ARG(adapter) __func__, adapter->pnetdev->name
-
--#define rtw_signal_process(pid, sig) kill_pid(find_vpid((pid)),(sig), 1)
-+#define rtw_signal_process(pid, sig) kill_pid(find_vpid((pid)), (sig), 1)
-
- /* Macros for handling unaligned memory accesses */
+ drivers/staging/r8188eu/include/rtl8188e_hal.h  |  2 +-
+ drivers/staging/r8188eu/include/rtw_cmd.h       | 16 ++++++++--------
+ drivers/staging/r8188eu/include/rtw_ioctl_set.h |  4 ++--
+ drivers/staging/r8188eu/include/rtw_mlme.h      |  2 +-
+ drivers/staging/r8188eu/include/rtw_mlme_ext.h  |  8 ++++----
+ 5 files changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 25f9200b1151..577cd3f4f797 100644
+index 577cd3f4f797..ae33a0f8b5ce 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -165,7 +165,7 @@ void Hal_ReadTxPowerInfo88E(struct adapter *padapter, u8 *hwinfo,
-
- void rtl8188e_EfuseParseChnlPlan(struct adapter *padapter, u8 *hwinfo,
+@@ -167,7 +167,7 @@ void rtl8188e_EfuseParseChnlPlan(struct adapter *padapter, u8 *hwinfo,
  				 bool AutoLoadFail);
--void Hal_ReadAntennaDiversity88E(struct adapter *pAdapter,u8 *PROMContent,
-+void Hal_ReadAntennaDiversity88E(struct adapter *pAdapter, u8 *PROMContent,
+ void Hal_ReadAntennaDiversity88E(struct adapter *pAdapter, u8 *PROMContent,
  				 bool AutoLoadFail);
- void Hal_ReadThermalMeter_88E(struct adapter *	dapter, u8 *PROMContent,
+-void Hal_ReadThermalMeter_88E(struct adapter *	dapter, u8 *PROMContent,
++void Hal_ReadThermalMeter_88E(struct adapter *padapter, u8 *PROMContent,
  			      bool AutoloadFail);
+ void Hal_EfuseParseXtal_8188E(struct adapter *pAdapter, u8 *hwinfo,
+ 			      bool AutoLoadFail);
 diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index d0d6c53e2aa7..8495ce1719ac 100644
+index 8495ce1719ac..61fb523afb08 100644
 --- a/drivers/staging/r8188eu/include/rtw_cmd.h
 +++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -730,17 +730,17 @@ struct TDLSoption_param
- #define H2C_CMD_OVERFLOW	0x06
- #define H2C_RESERVED		0x07
-
--u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num);
--u8 rtw_createbss_cmd(struct adapter  *padapter);
-+u8 rtw_sitesurvey_cmd(struct adapter *padapter, struct ndis_802_11_ssid *ssid, int ssid_num);
-+u8 rtw_createbss_cmd(struct adapter *padapter);
+@@ -734,25 +734,25 @@ u8 rtw_sitesurvey_cmd(struct adapter *padapter, struct ndis_802_11_ssid *ssid, i
+ u8 rtw_createbss_cmd(struct adapter *padapter);
  u8 rtw_setstakey_cmd(struct adapter *padapter, u8 *psta, u8 unicast_key);
  u8 rtw_clearstakey_cmd(struct adapter *padapter, u8 *psta, u8 entry, u8 enqueue);
--u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network* pnetwork);
-+u8 rtw_joinbss_cmd(struct adapter *padapter, struct wlan_network* pnetwork);
+-u8 rtw_joinbss_cmd(struct adapter *padapter, struct wlan_network* pnetwork);
++u8 rtw_joinbss_cmd(struct adapter *padapter, struct wlan_network *pnetwork);
  u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueue);
--u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infra networktype);
--u8 rtw_setdatarate_cmd(struct adapter  *padapter, u8 *rateset);
--u8 rtw_setrfintfs_cmd(struct adapter  *padapter, u8 mode);
-+u8 rtw_setopmode_cmd(struct adapter *padapter, enum ndis_802_11_network_infra networktype);
-+u8 rtw_setdatarate_cmd(struct adapter *padapter, u8 *rateset);
-+u8 rtw_setrfintfs_cmd(struct adapter *padapter, u8 mode);
+ u8 rtw_setopmode_cmd(struct adapter *padapter, enum ndis_802_11_network_infra networktype);
+ u8 rtw_setdatarate_cmd(struct adapter *padapter, u8 *rateset);
+ u8 rtw_setrfintfs_cmd(struct adapter *padapter, u8 mode);
 
--u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset,u8 *pval);
-+u8 rtw_gettssi_cmd(struct adapter *padapter, u8 offset, u8 *pval);
- u8 rtw_setfwdig_cmd(struct adapter*padapter, u8 type);
- u8 rtw_setfwra_cmd(struct adapter*padapter, u8 type);
+ u8 rtw_gettssi_cmd(struct adapter *padapter, u8 offset, u8 *pval);
+-u8 rtw_setfwdig_cmd(struct adapter*padapter, u8 type);
+-u8 rtw_setfwra_cmd(struct adapter*padapter, u8 type);
++u8 rtw_setfwdig_cmd(struct adapter *padapter, u8 type);
++u8 rtw_setfwra_cmd(struct adapter *padapter, u8 type);
 
-@@ -751,10 +751,10 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *adapter);
- u8 rtw_lps_ctrl_wk_cmd(struct adapter*padapter, u8 lps_ctrl_type, u8 enqueue);
- u8 rtw_rpt_timer_cfg_cmd(struct adapter*padapter, u16 minRptTime);
+-u8 rtw_addbareq_cmd(struct adapter*padapter, u8 tid, u8 *addr);
++u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr);
 
-- u8 rtw_antenna_select_cmd(struct adapter*padapter, u8 antenna,u8 enqueue);
-+u8 rtw_antenna_select_cmd(struct adapter*padapter, u8 antenna, u8 enqueue);
- u8 rtw_ps_cmd(struct adapter*padapter);
+ u8 rtw_dynamic_chk_wk_cmd(struct adapter *adapter);
 
--u8 rtw_chk_hi_queue_cmd(struct adapter*padapter);
-+u8 rtw_chk_hi_queue_cmd(struct adapter *padapter);
+-u8 rtw_lps_ctrl_wk_cmd(struct adapter*padapter, u8 lps_ctrl_type, u8 enqueue);
+-u8 rtw_rpt_timer_cfg_cmd(struct adapter*padapter, u16 minRptTime);
++u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue);
++u8 rtw_rpt_timer_cfg_cmd(struct adapter *padapter, u16 minRptTime);
 
- u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan);
+-u8 rtw_antenna_select_cmd(struct adapter*padapter, u8 antenna, u8 enqueue);
+-u8 rtw_ps_cmd(struct adapter*padapter);
++u8 rtw_antenna_select_cmd(struct adapter *padapter, u8 antenna, u8 enqueue);
++u8 rtw_ps_cmd(struct adapter *padapter);
 
-diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
-index 925c7967ac04..87fcf6c94ff3 100644
---- a/drivers/staging/r8188eu/include/rtw_io.h
-+++ b/drivers/staging/r8188eu/include/rtw_io.h
-@@ -209,7 +209,7 @@ struct io_priv {
- };
+ u8 rtw_chk_hi_queue_cmd(struct adapter *padapter);
 
- uint ioreq_flush(struct adapter *adapter, struct io_queue *ioqueue);
--void sync_ioreq_enqueue(struct io_req *preq,struct io_queue *ioqueue);
-+void sync_ioreq_enqueue(struct io_req *preq, struct io_queue *ioqueue);
- uint sync_ioreq_flush(struct adapter *adapter, struct io_queue *ioqueue);
- uint free_ioreq(struct io_req *preq, struct io_queue *pio_queue);
- struct io_req *alloc_ioreq(struct io_queue *pio_q);
-@@ -285,18 +285,18 @@ void bus_sync_io(struct io_queue *pio_q);
- u32 _ioreq2rwmem(struct io_queue *pio_q);
- void dev_power_down(struct adapter *Adapter, u8 bpwrup);
+diff --git a/drivers/staging/r8188eu/include/rtw_ioctl_set.h b/drivers/staging/r8188eu/include/rtw_ioctl_set.h
+index 7365079c704f..abe460d6504d 100644
+--- a/drivers/staging/r8188eu/include/rtw_ioctl_set.h
++++ b/drivers/staging/r8188eu/include/rtw_ioctl_set.h
+@@ -10,10 +10,10 @@ typedef u8 NDIS_802_11_PMKID_VALUE[16];
 
--#define PlatformEFIOWrite1Byte(_a,_b,_c)		\
--	rtw_write8(_a,_b,_c)
--#define PlatformEFIOWrite2Byte(_a,_b,_c)		\
--	rtw_write16(_a,_b,_c)
--#define PlatformEFIOWrite4Byte(_a,_b,_c)		\
--	rtw_write32(_a,_b,_c)
--
--#define PlatformEFIORead1Byte(_a,_b)		\
--		rtw_read8(_a,_b)
--#define PlatformEFIORead2Byte(_a,_b)		\
--		rtw_read16(_a,_b)
--#define PlatformEFIORead4Byte(_a,_b)		\
--		rtw_read32(_a,_b)
-+#define PlatformEFIOWrite1Byte(_a, _b, _c)		\
-+	rtw_write8(_a, _b, _c)
-+#define PlatformEFIOWrite2Byte(_a, _b, _c)		\
-+	rtw_write16(_a, _b, _c)
-+#define PlatformEFIOWrite4Byte(_a, _b, _c)		\
-+	rtw_write32(_a, _b, _c)
-+
-+#define PlatformEFIORead1Byte(_a, _b)		\
-+		rtw_read8(_a, _b)
-+#define PlatformEFIORead2Byte(_a, _b)		\
-+		rtw_read16(_a, _b)
-+#define PlatformEFIORead4Byte(_a, _b)		\
-+		rtw_read32(_a, _b)
+ u8 rtw_set_802_11_authentication_mode(struct adapter *adapt,
+ 				      enum ndis_802_11_auth_mode authmode);
+-u8 rtw_set_802_11_bssid(struct adapter*adapter, u8 *bssid);
++u8 rtw_set_802_11_bssid(struct adapter *adapter, u8 *bssid);
+ u8 rtw_set_802_11_add_wep(struct adapter *adapter, struct ndis_802_11_wep *wep);
+ u8 rtw_set_802_11_disassociate(struct adapter *adapter);
+-u8 rtw_set_802_11_bssid_list_scan(struct adapter*adapter,
++u8 rtw_set_802_11_bssid_list_scan(struct adapter *adapter,
+ 				  struct ndis_802_11_ssid *pssid,
+ 				  int ssid_max_num);
+ u8 rtw_set_802_11_infrastructure_mode(struct adapter *adapter,
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/staging/r8188eu/include/rtw_mlme.h
+index b69989cbab21..7658f864136e 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme.h
+@@ -547,7 +547,7 @@ void _rtw_free_network(struct mlme_priv *pmlmepriv,
+ void _rtw_free_network_nolock(struct mlme_priv *pmlmepriv,
+ 			      struct wlan_network *pnetwork);
 
- #endif	/* _RTL8711_IO_H_ */
+-struct wlan_network* _rtw_find_network(struct __queue *scanned_queue, u8 *addr);
++struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr);
+
+ void _rtw_free_network_queue(struct adapter *padapter, u8 isfreeall);
+
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index b322d0848db9..be470f913a94 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -479,11 +479,11 @@ void report_survey_event(struct adapter *padapter, struct recv_frame *precv_fram
+ void report_surveydone_event(struct adapter *padapter);
+ void report_del_sta_event(struct adapter *padapter,
+ 			  unsigned char *addr, unsigned short reason);
+-void report_add_sta_event(struct adapter *padapter, unsigned char* addr,
++void report_add_sta_event(struct adapter *padapter, unsigned char *addr,
+ 			  int cam_idx);
+
+ void beacon_timing_control(struct adapter *padapter);
+-extern u8 set_tx_beacon_cmd(struct adapter*padapter);
++extern u8 set_tx_beacon_cmd(struct adapter *padapter);
+ unsigned int setup_beacon_frame(struct adapter *padapter,
+ 				unsigned char *beacon_frame);
+ void update_mgnt_tx_rate(struct adapter *padapter, u8 rate);
+@@ -502,7 +502,7 @@ void issue_p2p_GO_request(struct adapter *padapter, u8 *raddr);
+ void issue_probereq_p2p(struct adapter *padapter, u8 *da);
+ void issue_p2p_invitation_response(struct adapter *padapter, u8 *raddr,
+ 				   u8 dialogToken, u8 success);
+-void issue_p2p_invitation_request(struct adapter *padapter, u8* raddr);
++void issue_p2p_invitation_request(struct adapter *padapter, u8 *raddr);
+ void issue_beacon(struct adapter *padapter, int timeout_ms);
+ void issue_probersp(struct adapter *padapter, unsigned char *da,
+ 		    u8 is_valid_p2p_probereq);
+@@ -514,7 +514,7 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta,
+ void issue_probereq(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
+ 		    u8 *da);
+ s32 issue_probereq_ex(struct adapter *adapter, struct ndis_802_11_ssid *pssid,
+-		      u8* da, int try_cnt, int wait_ms);
++		      u8 *da, int try_cnt, int wait_ms);
+ int issue_nulldata(struct adapter *padapter, unsigned char *da,
+ 		   unsigned int power_mode, int try_cnt, int wait_ms);
+ int issue_qos_nulldata(struct adapter *padapter, unsigned char *da,
 --
 2.30.2
 
