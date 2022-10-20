@@ -1,24 +1,24 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BE815A6
-	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 04:35:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77F115A6;
+	Thu, 20 Oct 2022 04:46:27 +0000 (UTC)
 Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id DFA19407D0;
-	Thu, 20 Oct 2022 04:35:36 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id B0C8E1D;
-	Thu, 20 Oct 2022 04:35:19 +0000 (UTC)
-Message-ID: <8617109bdc3e192b98e5c3b21ba871501a87f6d9.camel@perches.com>
-Subject: Re: [PATCH] staging: r8188eu: replace IEs with ies
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 224901A036F;
+	Thu, 20 Oct 2022 04:40:35 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id 64F6E1A;
+	Thu, 20 Oct 2022 04:40:18 +0000 (UTC)
+Message-ID: <c3c211c1c99cd19f86fb801576c55b2ae2216c6f.camel@perches.com>
+Subject: Re: [PATCH] staging: rts5208: Replace instances of udelay by
+ usleep_range
 From: Joe Perches <joe@perches.com>
-To: Jacob Bai <jacob.bai.au@gmail.com>, Larry Finger
- <Larry.Finger@lwfinger.net>,  Phillip Potter <phil@philpotter.co.uk>, Pavel
- Skripkin <paskripkin@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Date: Wed, 19 Oct 2022 21:35:32 -0700
-In-Reply-To: <20221018105409.18331-1-jacob.bai.au@gmail.com>
-References: <20221018105409.18331-1-jacob.bai.au@gmail.com>
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>, 
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Date: Wed, 19 Oct 2022 21:40:31 -0700
+In-Reply-To: <Y06yiBaluz6X0C4G@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+References: 
+	<Y06yiBaluz6X0C4G@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
@@ -28,87 +28,30 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Stat-Signature: rfok4zuziardpanwcbjbbbnbgsr55e4y
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: B0C8E1D
-X-Spam-Status: No, score=-2.50
+X-Spam-Status: No, score=-0.10
+X-Stat-Signature: usmgqx4pixopy5egm85zxz4z9qnn1kia
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 64F6E1A
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+5Om/jhcTLg7XsLvbFgngGLJbNoCiU3VE=
-X-HE-Tag: 1666240519-612510
+X-Session-ID: U2FsdGVkX18nOiWvhA8sshLgAaiSMN3kHKN/Czo5MVc=
+X-HE-Tag: 1666240818-841376
 
-On Tue, 2022-10-18 at 21:54 +1100, Jacob Bai wrote:
-> Replace wlan_bssid_ex struct member IEs to ies.
-> CamelCase issue found by checkpatch.
-
-Please try to avoid changing code merely to appease checkpatch.
-
-What is the value of the last s?
-When is a specific index of the IEs array actually used?
-
-Mere renaming may be removing useful markings.
-
-(removing a lot of the rename blocks)
-
-> diff --git a/drivers/staging/r8188eu/include/wlan_bssdef.h b/drivers/stag=
-ing/r8188eu/include/wlan_bssdef.h
+On Tue, 2022-10-18 at 14:04 +0000, Tanjuate Brunostar wrote:
+> Replace the use of udelay by usleep_range as suggested by checkpatch:
+>=20
+> CHECK: usleep_range is preferred over udelay; see Documentation/timers/ti=
+mers-howto.rst
+> +               udelay(30);
 []
-> @@ -239,7 +239,7 @@ struct wlan_bssid_ex {
->  	unsigned char SupportedRates[NDIS_802_11_LENGTH_RATES_EX];
->  	struct wlan_phy_info	PhyInfo;
->  	u32  IELength;
-> -	u8  IEs[MAX_IE_SZ];	/* timestamp, beacon interval, and
-> +	u8  ies[MAX_IE_SZ];	/* timestamp, beacon interval, and
->  				 * capability information) */
->  } __packed;
+> diff --git a/drivers/staging/rts5208/ms.c b/drivers/staging/rts5208/ms.c
 []
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/stagi=
-ng/r8188eu/os_dep/ioctl_linux.c
-[]
-> @@ -104,11 +104,11 @@ static char *translate_scan(struct adapter *padapte=
-r,
-> =20
->  			if (pnetwork->network.Reserved[0] =3D=3D 2) {/*  Probe Request */
->  				/*	Verifying the P2P IE */
-> -				if (rtw_get_p2p_ie(pnetwork->network.IEs, pnetwork->network.IELength=
-, NULL, &p2pielen))
-> +				if (rtw_get_p2p_ie(pnetwork->network.ies, pnetwork->network.IELength=
-, NULL, &p2pielen))
->  					blnGotP2PIE =3D true;
->  			} else {/*  Beacon or Probe Respones */
->  				/*	Verifying the P2P IE */
-> -				if (rtw_get_p2p_ie(&pnetwork->network.IEs[12], pnetwork->network.IEL=
-ength - 12, NULL, &p2pielen))
-> +				if (rtw_get_p2p_ie(&pnetwork->network.ies[12], pnetwork->network.IEL=
-ength - 12, NULL, &p2pielen))
-
-For instance, these consistent 12 and "- 12" uses may be better as some
-alternate array.
-
->  					blnGotP2PIE =3D true;
->  			}
+> @@ -3235,7 +3235,7 @@ static int ms_write_multiple_pages(struct rtsx_chip=
+ *chip, u16 old_blk,
+>  			return STATUS_FAIL;
 >  		}
-> @@ -131,7 +131,7 @@ static char *translate_scan(struct adapter *padapter,
->  	start =3D iwe_stream_add_point(info, start, stop, &iwe, pnetwork->netwo=
-rk.Ssid.Ssid);
 > =20
->  	/* parsing HT_CAP_IE */
-> -	p =3D rtw_get_ie(&pnetwork->network.IEs[12], _HT_CAPABILITY_IE_, &ht_ie=
-len, pnetwork->network.IELength - 12);
-> +	p =3D rtw_get_ie(&pnetwork->network.ies[12], _HT_CAPABILITY_IE_, &ht_ie=
-len, pnetwork->network.IELength - 12);
-> =20
->  	if (p && ht_ielen > 0) {
->  		struct ieee80211_ht_cap *pht_capie;
+> -		udelay(30);
+> +		usleep_range(30, 30);
 
-etc...
-
-Also this may be removing similarities between a few other realtek
-staging drivers
-
-$ git grep  "\[MAX_IE_SZ\]"
-drivers/staging/r8188eu/include/wlan_bssdef.h:  u8  IEs[MAX_IE_SZ];     /* =
-timestamp, beacon interval, and
-drivers/staging/rtl8712/wlan_bssdef.h:  u8 IEs[MAX_IE_SZ];
-drivers/staging/rtl8723bs/include/wlan_bssdef.h:        u8  ies[MAX_IE_SZ];=
-     /* timestamp, beacon interval, and capability information) */
+This isn't useful.  Please read the Documentation/timers.
 
