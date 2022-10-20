@@ -1,29 +1,29 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26CA97B;
-	Thu, 20 Oct 2022 21:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC4D7B;
+	Thu, 20 Oct 2022 21:28:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666301271; bh=osZn+6l7ZcamOnQm1Kj8TWDodwur+Vk/CJgdHGyMLV4=;
+	t=1666301324; bh=+D5i5YAW0v+FHBQ6QCrtrhRjGBTE/RrYIjjNrkBdjj4=;
 	h=X-EA-Auth:Date:From:To:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:In-Reply-To;
-	b=JDK6sXJHHZPm1X1JTA/3n1F0TgXNsvYRopXGLFEr5mI1yLZZ1dz6m4AqcEvcbQYBY
-	 evKOVFQUCHJRFrGEfqcp8HQPKUS5emEfNRaIJOHzyLoZLOhy2Jhaifsq2zeW29Pfmb
-	 X2gfsMsaAzSo685ocId1avlE15cNXTK52QEj3Ya8=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+	b=A37Nr65/D2dcsKbQtBdpnVHEDAyROUC/nYZ3/0+fYNu5ellsArjU9LhAp4fx1M0IS
+	 CPMOPQVJXEkTs6n3AhPb5I+E+RQ+5rvrrpuIwtsK0Y9ygB5/6ugpDxTqkao/giH4Oz
+	 54saFkF4aE8uYHcSbLklzSRvFyhEmNuQBGVNnpxk=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
 	via [213.182.55.206]
-	Thu, 20 Oct 2022 23:27:51 +0200 (CEST)
-X-EA-Auth: 0SzVPJnUCFVymnvhYnT+ZBDlwrBjoO0BYlm5VbZ1Sfr7f4NihbYSY1U9y0GZvCNK20pdPkmZbPno2jP9oXOwF2kaZfor+WOo
-Date: Fri, 21 Oct 2022 02:57:47 +0530
+	Thu, 20 Oct 2022 23:28:44 +0200 (CEST)
+X-EA-Auth: CyLcF3VfroT4pXZI0VzvRRNpJ3VaUuKb2iSqeqe617a37HYTO0EI3Y0ELdHaS8zezYCM+UFghpkGOvnV4eCs+JaQRitBM+q9
+Date: Fri, 21 Oct 2022 02:58:39 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
 	phil@philpotter.co.uk, paskripkin@gmail.com,
 	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
 	saurabh.truth@gmail.com
-Subject: [PATCH v4 03/11] staging: r8188eu: remove {} for single statement
- blocks
-Message-ID: <a50460e1507621b29a7901cc4ff9501b172417db.1666299151.git.drv@mailo.com>
+Subject: [PATCH v4 04/11] staging: r8188eu: use htons macro instead of
+ __constant_htons
+Message-ID: <b46adfbdce0362ed0dbe0fc957ef2f47a93c24bb.1666299151.git.drv@mailo.com>
 References: <cover.1666299151.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -35,8 +35,10 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1666299151.git.drv@mailo.com>
 
-As per the Linux kernel coding-style guidelines, there is no need to
-use {} for single statement blocks. Issue flagged by checkpatch script.
+Macro "htons" is more efficient and clearer. It should be used for
+constants instead of the __constant_htons macro. Resolves following
+checkpatch script complaint:
+        WARNING: __constant_htons should be htons
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
@@ -45,30 +47,88 @@ Changes in v4:
    -- None.
 
 Changes in v3:
-   -- None.
-
-Changes in v1 [actually v2]:
-   1. Improve patch description language to make it simpler. Feedback received
-      from julia.lawall@inria.fr
+   1. Make this a driver-wide change. Feedback from philipp.g.hortmann@gmail.com
+   2. Correct spelling in patch log. Feedback from joe@perches.com
 
 
- drivers/staging/r8188eu/core/rtw_br_ext.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_br_ext.c |  6 +++---
+ drivers/staging/r8188eu/core/rtw_xmit.c   | 14 +++++++-------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index d4059f0fc362..b418cbc307b3 100644
+index b418cbc307b3..a23f7df373ed 100644
 --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -649,9 +649,8 @@ void *scdb_findEntry(struct adapter *priv, unsigned char *ip_addr)
- 	hash = __nat25_network_hash(addr);
- 	db = priv->nethash[hash];
- 	while (db) {
--		if (!memcmp(db->networkAddr, addr, MAX_NETWORK_ADDR_LEN)) {
-+		if (!memcmp(db->networkAddr, addr, MAX_NETWORK_ADDR_LEN))
- 			return (void *)db;
--		}
+@@ -606,14 +606,14 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
+ 	if (!priv->ethBrExtInfo.dhcp_bcst_disable) {
+ 		__be16 protocol = *((__be16 *)(skb->data + 2 * ETH_ALEN));
 
- 		db = db->next_hash;
+-		if (protocol == __constant_htons(ETH_P_IP)) { /*  IP */
++		if (protocol == htons(ETH_P_IP)) { /*  IP */
+ 			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
+
+ 			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
+ 				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
+
+-				if ((udph->source == __constant_htons(CLIENT_PORT)) &&
+-				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
++				if ((udph->source == htons(CLIENT_PORT)) &&
++				    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
+ 					struct dhcpMessage *dhcph =
+ 						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
+ 					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 873d2c5c3634..4f8220428328 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -1622,14 +1622,14 @@ static int rtw_br_client_tx(struct adapter *padapter, struct sk_buff **pskb)
+ 	spin_lock_bh(&padapter->br_ext_lock);
+ 	if (!(skb->data[0] & 1) && br_port &&
+ 	    memcmp(skb->data + ETH_ALEN, padapter->br_mac, ETH_ALEN) &&
+-	    *((__be16 *)(skb->data + ETH_ALEN * 2)) != __constant_htons(ETH_P_8021Q) &&
+-	    *((__be16 *)(skb->data + ETH_ALEN * 2)) == __constant_htons(ETH_P_IP) &&
++	    *((__be16 *)(skb->data + ETH_ALEN * 2)) != htons(ETH_P_8021Q) &&
++	    *((__be16 *)(skb->data + ETH_ALEN * 2)) == htons(ETH_P_IP) &&
+ 	    !memcmp(padapter->scdb_mac, skb->data + ETH_ALEN, ETH_ALEN) && padapter->scdb_entry) {
+ 		memcpy(skb->data + ETH_ALEN, GET_MY_HWADDR(padapter), ETH_ALEN);
+ 		padapter->scdb_entry->ageing_timer = jiffies;
+ 		spin_unlock_bh(&padapter->br_ext_lock);
+ 	} else {
+-		if (*((__be16 *)(skb->data + ETH_ALEN * 2)) == __constant_htons(ETH_P_8021Q)) {
++		if (*((__be16 *)(skb->data + ETH_ALEN * 2)) == htons(ETH_P_8021Q)) {
+ 			is_vlan_tag = 1;
+ 			vlan_hdr = *((unsigned short *)(skb->data + ETH_ALEN * 2 + 2));
+ 			for (i = 0; i < 6; i++)
+@@ -1637,10 +1637,10 @@ static int rtw_br_client_tx(struct adapter *padapter, struct sk_buff **pskb)
+ 			skb_pull(skb, 4);
+ 		}
+ 		if (!memcmp(skb->data + ETH_ALEN, padapter->br_mac, ETH_ALEN) &&
+-		    (*((__be16 *)(skb->data + ETH_ALEN * 2)) == __constant_htons(ETH_P_IP)))
++		    (*((__be16 *)(skb->data + ETH_ALEN * 2)) == htons(ETH_P_IP)))
+ 			memcpy(padapter->br_ip, skb->data + WLAN_ETHHDR_LEN + 12, 4);
+
+-		if (*((__be16 *)(skb->data + ETH_ALEN * 2)) == __constant_htons(ETH_P_IP)) {
++		if (*((__be16 *)(skb->data + ETH_ALEN * 2)) == htons(ETH_P_IP)) {
+ 			if (memcmp(padapter->scdb_mac, skb->data + ETH_ALEN, ETH_ALEN)) {
+ 				padapter->scdb_entry = (struct nat25_network_db_entry *)scdb_findEntry(padapter,
+ 							skb->data + WLAN_ETHHDR_LEN + 12);
+@@ -1669,7 +1669,7 @@ static int rtw_br_client_tx(struct adapter *padapter, struct sk_buff **pskb)
+ 					skb_push(skb, 4);
+ 					for (i = 0; i < 6; i++)
+ 						*((unsigned short *)(skb->data + i * 2)) = *((unsigned short *)(skb->data + 4 + i * 2));
+-					*((__be16 *)(skb->data + ETH_ALEN * 2)) = __constant_htons(ETH_P_8021Q);
++					*((__be16 *)(skb->data + ETH_ALEN * 2)) = htons(ETH_P_8021Q);
+ 					*((unsigned short *)(skb->data + ETH_ALEN * 2 + 2)) = vlan_hdr;
+ 				}
+
+@@ -1708,7 +1708,7 @@ static int rtw_br_client_tx(struct adapter *padapter, struct sk_buff **pskb)
+ 			skb_push(skb, 4);
+ 			for (i = 0; i < 6; i++)
+ 				*((unsigned short *)(skb->data + i * 2)) = *((unsigned short *)(skb->data + 4 + i * 2));
+-			*((__be16 *)(skb->data + ETH_ALEN * 2)) = __constant_htons(ETH_P_8021Q);
++			*((__be16 *)(skb->data + ETH_ALEN * 2)) = htons(ETH_P_8021Q);
+ 			*((unsigned short *)(skb->data + ETH_ALEN * 2 + 2)) = vlan_hdr;
+ 		}
  	}
 --
 2.30.2
