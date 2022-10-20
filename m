@@ -1,169 +1,97 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05E47B;
-	Thu, 20 Oct 2022 11:30:39 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id p8so6826355lfu.11;
-        Thu, 20 Oct 2022 04:30:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C897B;
+	Thu, 20 Oct 2022 11:34:15 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id g16so8636439qtu.2;
+        Thu, 20 Oct 2022 04:34:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2HlZkA9cMQXxGdkJxrvcIgpC4zTHT7PCGOSCarF98fw=;
-        b=Qddp436yqykHlrELlixj3k7NnlnNDEqKzvEbjFUTOqsb4kZr/FoIo7TuVLPE1LB/lp
-         AVHcLPErhpjht6pRQ6uTZGC6cM4/RJejveNBDaEBt+SlBZfNr/MzgahIbsbidQOUNwPf
-         KqP3hZ0imeFVyj3wqtv0mzCV94GTtTPi1Pd45O0vg334rnq81qrg9rI8xMuXFyna4GIX
-         WwOLc6yuKOCXGWSORC8SGgNgOaP7FRGIRb/g/B9Z0BzPfUz9piBNHQRN8daYyxMJZDKL
-         V5rUJV35otovgOI7gHWaUOeHPTxIOoRdIG3orBL7e12ssR1PiCsoah2z2lfbI9CdHu3/
-         giIQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+QdMHmI8npmmp+iYes8th9cPUVQ/ZQTtTKsNhs4o290=;
+        b=qheArqHOO71lgaxRDsfwopO5wrdcUUQ0s20Pl8qqXReJ13WtTpgMzxd9t6rvKMctJA
+         JA7IkSeVg63ohWqHrjF7GkpLcWCR1YgyKPszJabKQJk74iIeR2F714hcTC5jLyVQ4DSI
+         H8IDJBj5FSETG5M399pKEBTt+VMH8hjrCMm5r6O7AsYxkqOpkNbDz8guGIpBEERd1nqI
+         V4BuE2GmjfrXL8dvJShmgeuXEGVL4V1MeySxm5IMkqrujd5+rK5FubbP5ufjWfpQ4dNZ
+         wpvbdWmSgg/3TNtv+L9Xs2SRqCn7V//yuu0fK9LV2YwI10BweGOZhjK1JJQaWJhb6GSf
+         pt1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2HlZkA9cMQXxGdkJxrvcIgpC4zTHT7PCGOSCarF98fw=;
-        b=XH3BMST8ZKXdhawVvn4TOSi5NMoS1V9Dt1AstO8Byb1uhbCppGM8+aCib4f2CMzYnE
-         auwlAgszmzfN6WBSRXfB/x2NdrGE7ZYvAgYaDcECDfqNDxhs5oGMihfqddjow5lrGnIq
-         +n0DAXh/V3PEBfunPJ3TBWsgWfEmOtR2Ig9UP7cxf6xZnPfL0wNoXlog9xF+/ZLAReZO
-         6k6qdwI2HDa+vQk8EtLSF2VDV9QC3iZoj8fjtKvJPcZp3N2NZ3xLWIjG9zeP/tnqs1bS
-         PwtfJZ2ubfMvlgkaPZgvF/glFs2i4Pu/zya2aHmfYaSnVvH+Y2qqguvBt1EKFaSi2mpA
-         bBuw==
-X-Gm-Message-State: ACrzQf3PkHbTZbGYy602O38ofU31jzoseSjpr/BBwclKi5yO6GBLIz4t
-	hGluVIPZ4BQJU+lQnI0X2kVvMC7miE8Y8RW3
-X-Google-Smtp-Source: AMsMyM5xkAS9ayI6cah9ixTnnB2Rip+uKkfjC69qVdQiWrA2av434aXTqVsInhtUCy6EpyERywbnTQ==
-X-Received: by 2002:ac2:5b9b:0:b0:4a2:3d0d:cb47 with SMTP id o27-20020ac25b9b000000b004a23d0dcb47mr5002714lfn.610.1666265437643;
-        Thu, 20 Oct 2022 04:30:37 -0700 (PDT)
-Received: from elroy-temp-vm ([20.240.130.248])
-        by smtp.gmail.com with ESMTPSA id s5-20020a05651c200500b0026ddaf38b0fsm2885429ljo.96.2022.10.20.04.30.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 04:30:37 -0700 (PDT)
-Date: Thu, 20 Oct 2022 11:30:36 +0000
-From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: [PATCH v3] staging: vt6655: Fix Lines should not end with a '('
-Message-ID: <Y1ExXEuhV3cJnTiD@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+QdMHmI8npmmp+iYes8th9cPUVQ/ZQTtTKsNhs4o290=;
+        b=6WBzvNoYyFF3IhY3ptQFlva3zkF6SSoLWwpmfUhC0BW5485IW5Ut5QkHXMDGVReUA6
+         iN4Rz9vGxXbzxyGI1LeezdVCTMU3bhJy7lcxLyR3KGI4fyr6DlIvuJQ60ZMKp3xJGRZ2
+         jjfsls9SHaB4SDPzq1Gyzoy4MAzrViBBrhauDFf7iA2Z3GgiliJKZ2fMqEUIqLkBZiiL
+         uOCmtmN8BpT21ZLdsTaJ+hexhT0kwtfmsuobDSc8/PORp2CMCcA6ZovgmtUtNZTiTjEu
+         vnO4tofSijJqc+dSp0JduU4Z+EgwqQmj9tbXd4VOQi9VWIbaj5tb9qoxu/kga2MMalAK
+         yaWg==
+X-Gm-Message-State: ACrzQf3pjg0Ak7HOxVdQVFplzf/hmaQE9LJgt7GEZX5Gy7SRSsQMpZQP
+	6Lo7RlJu9QPK7oVWjv8GQVzN9WVcLTb2LfaKqcg=
+X-Google-Smtp-Source: AMsMyM7JviV/L/yl/wxRPTtsFVdFqARChEv1PYvqyMCb1l0y7trenutZtt5XlmVfuNH+RGmWfIimVg9AZZAugCVNgXo=
+X-Received: by 2002:a05:622a:147:b0:39c:dc0d:7d0f with SMTP id
+ v7-20020a05622a014700b0039cdc0d7d0fmr10070312qtw.281.1666265654402; Thu, 20
+ Oct 2022 04:34:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <Y1Eqa7uKB+Wk+Mb+@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+ <CAOkYk0iU0B98JsH77avky--AS19V=GhQox2f_b4PAG3ZBB+SVQ@mail.gmail.com>
+In-Reply-To: <CAOkYk0iU0B98JsH77avky--AS19V=GhQox2f_b4PAG3ZBB+SVQ@mail.gmail.com>
+From: Tanju Brunostar <tanjubrunostar0@gmail.com>
+Date: Thu, 20 Oct 2022 12:34:02 +0100
+Message-ID: <CAHJEyKX=yyuyYFajs880CuPdc019dBOm_LCkgXHzjFaA-Jgt2A@mail.gmail.com>
+Subject: Re: Request for assistance
+To: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Code style warnings reported by checkpatch.
-Improve the layout of a function header:
-Put the first parameter immediately after the '(' and align the other
-parameters underneath it.
+On Thu, Oct 20, 2022 at 12:27 PM Bhaskar Chowdhury
+<unixbhaskar@gmail.com> wrote:
+>
+> Use forward slash at the end every single chunk or piece of that line.
+>
+> Example :
+>
+> Veryyyyyyylooooooong. Linerrrrrrrrrrrrrrr
+>
+> Veryyyyyyyyyyyyy /
+>
+> Looooonggggggggg /
+>
+>
+> Linerrrrrrrrrrr /
+>
+Thanks
 
-Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-
----
-v2: put static and void on the same line and adjusted the indentation as
-suggested by Greg KH
----
-v3: Reformat the code by inserting tabs and white space as recommended
-by Nam Cao and Julia Lawall
-
- drivers/staging/vt6655/rxtx.c | 78 +++++++++++++++--------------------
- 1 file changed, 33 insertions(+), 45 deletions(-)
-
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 5bdb5176772c..1e5036121665 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -85,35 +85,27 @@ static const unsigned short wFB_Opt1[2][5] = {
- #define DATADUR_A_F1    13
- 
- /*---------------------  Static Functions  --------------------------*/
--static
--void
--s_vFillRTSHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pvRTS,
--	unsigned int	cbFrameLength,
--	bool bNeedAck,
--	bool bDisCRC,
--	struct ieee80211_hdr *hdr,
--	unsigned short wCurrentRate,
--	unsigned char byFBOption
--);
--
--static
--void
--s_vGenerateTxParameter(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	struct vnt_tx_fifo_head *,
--	void *pvRrvTime,
--	void *pvRTS,
--	void *pvCTS,
--	unsigned int	cbFrameSize,
--	bool bNeedACK,
--	unsigned int	uDMAIdx,
--	void *psEthHeader,
--	unsigned short wCurrentRate
--);
-+static void s_vFillRTSHead(struct vnt_private *pDevice,
-+			   unsigned char byPktType,
-+			   void *pvRTS,
-+			   unsigned int	cbFrameLength,
-+			   bool bNeedAck,
-+			   bool bDisCRC,
-+			   struct ieee80211_hdr *hdr,
-+			   unsigned short wCurrentRate,
-+			   unsigned char byFBOption);
-+
-+static void s_vGenerateTxParameter(struct vnt_private *pDevice,
-+				   unsigned char byPktType,
-+				   struct vnt_tx_fifo_head *,
-+				   void *pvRrvTime,
-+				   void *pvRTS,
-+				   void *pvCTS,
-+				   unsigned int	cbFrameSize,
-+				   bool bNeedACK,
-+				   unsigned int	uDMAIdx,
-+				   void *psEthHeader,
-+				   unsigned short wCurrentRate);
- 
- static unsigned int
- s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
-@@ -121,22 +113,18 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
- 		  unsigned int uDMAIdx, struct vnt_tx_desc *pHeadTD,
- 		  unsigned int uNodeIndex);
- 
--static
--__le16
--s_uFillDataHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pTxDataHead,
--	unsigned int cbFrameLength,
--	unsigned int uDMAIdx,
--	bool bNeedAck,
--	unsigned int uFragIdx,
--	unsigned int cbLastFragmentSize,
--	unsigned int uMACfragNum,
--	unsigned char byFBOption,
--	unsigned short wCurrentRate,
--	bool is_pspoll
--);
-+static __le16 s_uFillDataHead(struct vnt_private *pDevice,
-+			      unsigned char byPktType,
-+			      void *pTxDataHead,
-+			      unsigned int cbFrameLength,
-+			      unsigned int uDMAIdx,
-+			      bool bNeedAck,
-+			      unsigned int uFragIdx,
-+			      unsigned int cbLastFragmentSize,
-+			      unsigned int uMACfragNum,
-+			      unsigned char byFBOption,
-+			      unsigned short wCurrentRate,
-+			      bool is_pspoll);
- 
- /*---------------------  Export Variables  --------------------------*/
- 
--- 
-2.34.1
-
+>
+> On Thu, 20 Oct 2022 at 16:43, Ubuntu <tanjubrunostar0@gmail.com> wrote:
+>>
+>> Hello,
+>> I have a diffictly deciding where exactly to split a long line of code. for example, this line of code is too long
+>>
+>> uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+>>
+>> if i spit it this way:
+>> uCTSTime =
+>>         bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+>>
+>> It does not help as the second line is still too long. I considered doing it this way instead:
+>> uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14,
+>>                                 pDevice->byTopCCKBasicRate);
+>> But i did this on one of my patches and i was told it is not advisable to split a line between
+>> parenthesis '(' and ')'
+>>
+>> how can i go about this please?
+>
+> --
+>
+>
+> Bhaskar Chowdhury
+> about.me/unixbhaskar
