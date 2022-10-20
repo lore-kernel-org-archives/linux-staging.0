@@ -1,84 +1,84 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577357E;
-	Thu, 20 Oct 2022 02:14:44 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id h185so17927217pgc.10;
-        Wed, 19 Oct 2022 19:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5cxlbEVDeF4plEeh62JkmWpXJNLBpkyMDDpLc8c5MkU=;
-        b=i/ZHwd6vtO8tnDAAAmZSyChgftK9wsSwRMKMhPJZoaiURvJ8gEdumCl6AOR1lR5ZKf
-         KiSg3hanIqMlz291v/w0umgZzgIlR2uzUcVqDvwEixzgGYYzFsSMdrIaIuQlV6Rw6F53
-         xPstk3O+7bTDGXwmtBKvBDzmThnbs3TbXKwf927+rJ53uQ2sN/9sRQUSqFF2vlWe+TW0
-         IDpScgosPWp7njzSoz9BBlkhTkXfAIyb7j0ZGWvQir9/DCt8HA9tw0YwQ958YU3pyPk+
-         x00xiEredWYJvKcyy8BxPhMoxSrwqcywKSGxXYxgemgV3tJp8+lcglLt5p1gphgCPvMM
-         Rldw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5cxlbEVDeF4plEeh62JkmWpXJNLBpkyMDDpLc8c5MkU=;
-        b=P6rJeyU6yTW1ihnq/LZf2ZHwUwtdBXLWlCs7AnjbZAHrQrRviARybrfkaj4mxwszC/
-         nPin7AKnV079ZQjp6UaTX4cPonXqvg2TuVax5C1kUueH4H5xk0aNbmsJ1t2Ed1rOfceb
-         RhYql4HyQD256QXG1hl3ubXBbDVxyzYWg0whG+RbYHkvN9OFX7lb216PYMwmyhrjkYej
-         y/74P+WdJXdMn8qVxF8WT3un8oi9eKZlEG7XunIeT3bdRiDg1vk1ZIBVunxK7kUM9CBy
-         0Xj7IrQnzStilzEL7p/AVVdM3ORH1HJ46bYsHf62XI06ynDiR9axL6u9KZObKDLyNn/C
-         G4QQ==
-X-Gm-Message-State: ACrzQf2BzsZjPDMn3oZ7aD7ZLfnntY2OCAZWrPOCprkrUkgGhXep6fQM
-	+DF0wFtbs3Lpn35SeG1Isws=
-X-Google-Smtp-Source: AMsMyM6w3Kn9m+GCRlAqC2fbXBLFG9tRtOfO2XMsER+YC571XMz1GzczedPWGtvXX0+kFvqmMtE5Qw==
-X-Received: by 2002:a63:2c8:0:b0:46e:9da9:8083 with SMTP id 191-20020a6302c8000000b0046e9da98083mr456343pgc.186.1666232083946;
-        Wed, 19 Oct 2022 19:14:43 -0700 (PDT)
-Received: from localhost.localdomain (192-184-163-51.fiber.dynamic.sonic.net. [192.184.163.51])
-        by smtp.gmail.com with ESMTPSA id n18-20020aa79852000000b005631af4ece2sm11942936pfq.182.2022.10.19.19.14.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 19:14:43 -0700 (PDT)
-From: Emily Peri <eperi1024@gmail.com>
-To: gregkh@linuxfoundation.org,
-	outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Emily Peri <eperi1024@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: remove unnecessary parenthesis
-Date: Wed, 19 Oct 2022 19:10:53 -0700
-Message-Id: <a08a440eabddd8e78d045ca9898a415d81f6f6d7.1666230736.git.eperi1024@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1666230736.git.eperi1024@gmail.com>
-References: <cover.1666230736.git.eperi1024@gmail.com>
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6E67B;
+	Thu, 20 Oct 2022 04:04:11 +0000 (UTC)
+Received: from [192.168.1.139] (unknown [122.171.21.142])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 94EE920FCF6F;
+	Wed, 19 Oct 2022 21:04:09 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 94EE920FCF6F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1666238650;
+	bh=ZxKeui9DDYM5zMtc/eLYUVIUvOOnKSjXi5ZjbM8qn5I=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=OPycTYoDbKI+GsVsg6X01LXGyMsdDUarjXCdiWfCt4VuuWqIVTrHG67P+R1iRnq4N
+	 UI7GyxokT/PUe4jm+59sFIpjJlxqnfBh+iykKy4083rytW/mLBjZYHPeKAmbpNoRPr
+	 AX5mo7cNmkXzfQ23baAylUsznIOCxOw0O0ohOMlo=
+Message-ID: <7025b8d8-e23a-0148-75b5-a06c18c6dbcb@linux.microsoft.com>
+Date: Thu, 20 Oct 2022 09:34:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 1/3] staging: rtl8723bs: fix white space warnings
+Content-Language: en-US
+To: Emily Peri <eperi1024@gmail.com>, gregkh@linuxfoundation.org,
+ outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <cover.1666230736.git.eperi1024@gmail.com>
+ <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
+From: Praveen Kumar <kumarpraveen@linux.microsoft.com>
+In-Reply-To: <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Remove extra parenthesis in conditional statement in rtw_ioctl_set.
-Issue found by checkpatch.
+On 20-10-2022 07:40, Emily Peri wrote:
+> Fix the following checkpatch warnings in rtw_ioctl_set:
+> 1) Add missing blankline after declaration
+> 2) Replace spaces used for indent with tab
+> 3) Remove space before tab
+> 
+> Signed-off-by: Emily Peri <eperi1024@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+> index 8c11daff2d59..354e61a8f2bd 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+> @@ -78,6 +78,7 @@ u8 rtw_do_join(struct adapter *padapter)
+>  		goto exit;
+>  	} else {
+>  		int select_ret;
+> +
+>  		spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
+>  		select_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
+>  		if (select_ret == _SUCCESS) {
+> @@ -311,7 +312,7 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+>  		if ((*pold_state == Ndis802_11Infrastructure) || (*pold_state == Ndis802_11IBSS)) {
+>  			if (check_fwstate(pmlmepriv, _FW_LINKED) == true)
+>  				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have checked whether issue dis-assoc_cmd or not */
+> -	       }
+> +		}
 
-Signed-off-by: Emily Peri <eperi1024@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think indentation is wrong here, it should be only 1 tab instead of 2 tabs ?
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index ac957035bf1a..32194dabd587 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -160,7 +160,7 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct ndis_802_11_ssid *ssid)
- 	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) == true) {
- 		if ((pmlmepriv->assoc_ssid.ssid_length == ssid->ssid_length) &&
- 		    (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, ssid->ssid_length))) {
--			if ((check_fwstate(pmlmepriv, WIFI_STATION_STATE) == false)) {
-+			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == false) {
- 				if (rtw_is_same_ibss(padapter, pnetwork) == false) {
- 					/* if in WIFI_ADHOC_MASTER_STATE | WIFI_ADHOC_STATE, create bss or rejoin again */
- 					rtw_disassoc_cmd(padapter, 0, true);
--- 
-2.34.1
+>  
+>  		*pold_state = networktype;
+>  
+> @@ -367,7 +368,7 @@ u8 rtw_set_802_11_disassociate(struct adapter *padapter)
+>  
+>  u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_ssid *pssid, int ssid_max_num)
+>  {
+> -	struct	mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
+> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+>  	u8 res = true;
+>  
+>  	if (!padapter) {
 
+Regards,
+
+~Praveen.
