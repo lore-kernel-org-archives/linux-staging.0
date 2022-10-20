@@ -1,103 +1,135 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8157E;
-	Thu, 20 Oct 2022 09:24:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=AygbfjnKnB+/RDS1GNl/7N5AgIDAmqmAzOgJPCJ0Cqw=;
-  b=uDVC7WsR4KlqUZexSOGg9BjKogYc6Mn3lWRYiiJc5mg1ACGnSBcosMxP
-   FetlqLPEAr1lXpeFxYKMobVhgEpeJ8srZ1n95nLzCBUJQQxe8OEPcQllr
-   rtoM1yCLzbHJOWFbwiBEM/8B5SEAZdtTvdlPxRzsEEZBKTahEc6OAesk+
-   8=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.95,198,1661810400"; 
-   d="scan'208";a="66133235"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 11:24:52 +0200
-Date: Thu, 20 Oct 2022 11:24:52 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Deepak R Varma <drv@mailo.com>
-cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net, 
-    phil@philpotter.co.uk, paskripkin@gmail.com, gregkh@linuxfoundation.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH v3 05/10] staging: r8188eu: correct misspelled words in
- comments
-In-Reply-To: <3235c0f681d817f7f89dd80537f36e1f9686fa24.1666249716.git.drv@mailo.com>
-Message-ID: <d89421f-7546-f33-e621-815b428b71d8@inria.fr>
-References: <cover.1666249715.git.drv@mailo.com> <3235c0f681d817f7f89dd80537f36e1f9686fa24.1666249716.git.drv@mailo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D231D7E;
+	Thu, 20 Oct 2022 10:02:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1666260128; bh=PMZ5O0pXLfBj3FVZGJgvSf4d9uot3HnLI2rEzfbprUg=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=F5RClkqjd4Ho5/l48GGKejUTYmfZmG48f9//ihkRl9RCoRYJ5BNLP0KORF5MouWlR
+	 pElvaci439uwFB0lrXPnNE+Z2Av0WhAwMHrkWvrfdiCl8dw7qdUlj9JVwcz/+G0EA2
+	 xOyrD+a1DmHc70pHTgjFVSj7DCPSFgmMKhk32mmY=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+	via [213.182.55.206]
+	Thu, 20 Oct 2022 12:02:07 +0200 (CEST)
+X-EA-Auth: zFy64hILC+i7bB8QTgin2nFo2Qz5ZqqbH7+TB7JlPeTeUAdjnYMXgGF0nuOITrzkzCcGgdelScgqScT4Yr9X0TxqALK/sffP
+Date: Thu, 20 Oct 2022 15:32:02 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, paskripkin@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
+	saurabh.truth@gmail.com
+Subject: Re: [PATCH v3 06/10] staging: r8188eu: Add space between function &
+ macro parameters
+Message-ID: <Y1EcmphZyExVVttR@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1666249715.git.drv@mailo.com>
+ <79e0aa96b1c8b2bc0c0f8ef9e651ab254629c7a8.1666249716.git.drv@mailo.com>
+ <114d7521-a15-9569-cb38-69f4bb8990f7@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <114d7521-a15-9569-cb38-69f4bb8990f7@inria.fr>
 
-
-
-On Thu, 20 Oct 2022, Deepak R Varma wrote:
-
-> Incorrectly spelled words should be corrected as per the Linux
-> coding-style guidelines.
-
-This seems a bit verbose.  I think that spelling mistakes should just be
-fixed, and the need for fixes shouldn't have to rely on style guidelines.
-
-Fix spelling mistakes in code comments across the driver.
-
-> @@ -4615,7 +4615,7 @@ int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
->  	return ret;
->  }
+On Thu, Oct 20, 2022 at 11:17:21AM +0200, Julia Lawall wrote:
 >
-> -/*  if psta == NULL, indiate we are station(client) now... */
-> +/*  if psta == NULL, indicate we are station(client) now... */
-
-Does station plat the role of a function call?  If (client) is just giving
-some extra information there should eb a space before the (.
-
->  void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short status)
->  {
->  	struct xmit_frame *pmgntframe;
-> @@ -5014,7 +5014,7 @@ void issue_assocreq(struct adapter *padapter)
->  				if (!padapter->registrypriv.wifi_spec) {
->  					/* Commented by Kurt 20110629 */
->  					/* In some older APs, WPS handshake */
-> -					/* would be fail if we append vender extensions informations to AP */
-> +					/* would be fail if we append vender extensions information to AP */
-
-envder -> vendor
-extensions -> extension
-
-> @@ -5344,7 +5344,7 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16
->  	return ret;
->  }
 >
-> -/* when wait_ms > 0 , this function shoule be called at process context */
-> +/* when wait_ms > 0 , this function should be called at process context */
+> On Thu, 20 Oct 2022, Deepak R Varma wrote:
+>
+> > Space required between function and macro parameters to improve code
+> > readability. This Linux kernel coding style guideline resolves following
+> > error reported by checkpatch script:
+> > 	ERROR: space required after that ',' (ctx:VxV)
+> >
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> >
+> > Changes in v3:
+> >    1. Patch newly added to the patch set.
+> >
+> >
+> >
+> > -u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset,u8 *pval);
+> > +u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset, u8 *pval);
+> >  u8 rtw_setfwdig_cmd(struct adapter*padapter, u8 type);
+> >  u8 rtw_setfwra_cmd(struct adapter*padapter, u8 type);
+>
+> Strange double space.
 
-Unnecessary space before the comma.
+Agreed, made a note.
 
-> @@ -6058,7 +6058,7 @@ void site_survey(struct adapter *padapter)
->  		} else {
->  			/*  20100721:Interrupt scan operation here. */
->  			/*  For SW antenna diversity before link, it needs to switch to another antenna and scan again. */
-> -			/*  It compares the scan result and select beter one to do connection. */
-> +			/*  It compares the scan result and select better one to do connection. */
+>
+> >
+> > @@ -751,7 +751,7 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *adapter);
+> >  u8 rtw_lps_ctrl_wk_cmd(struct adapter*padapter, u8 lps_ctrl_type, u8 enqueue);
+> >  u8 rtw_rpt_timer_cfg_cmd(struct adapter*padapter, u16 minRptTime);
+> >
+> > - u8 rtw_antenna_select_cmd(struct adapter*padapter, u8 antenna,u8 enqueue);
+> > + u8 rtw_antenna_select_cmd(struct adapter*padapter, u8 antenna, u8 enqueue);
+>
+> Missing space before *.
 
-select -> selects a
+Agreed, made a note.
 
-> +++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-> @@ -94,7 +94,7 @@ void rtl8188e_PHY_SetBBReg(struct adapter *Adapter, u32 RegAddr, u32 BitMask, u3
->  /**
->  * Function:	phy_RFSerialRead
->  *
-> -* OverView:	Read regster from RF chips
-> +* OverView:	Read register from RF chips
+>
+> >  u8 rtw_ps_cmd(struct adapter*padapter);
+> >
+> > diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
+> > index 925c7967ac04..87fcf6c94ff3 100644
+> > --- a/drivers/staging/r8188eu/include/rtw_io.h
+> > +++ b/drivers/staging/r8188eu/include/rtw_io.h
+> > @@ -209,7 +209,7 @@ struct io_priv {
+> >  };
+> >
+> > -#define PlatformEFIOWrite1Byte(_a,_b,_c)		\
+> > -	rtw_write8(_a,_b,_c)
+> > -#define PlatformEFIOWrite2Byte(_a,_b,_c)		\
+> > -	rtw_write16(_a,_b,_c)
+> > -#define PlatformEFIOWrite4Byte(_a,_b,_c)		\
+> > -	rtw_write32(_a,_b,_c)
+> > -
+> > -#define PlatformEFIORead1Byte(_a,_b)		\
+> > -		rtw_read8(_a,_b)
+> > -#define PlatformEFIORead2Byte(_a,_b)		\
+> > -		rtw_read16(_a,_b)
+> > -#define PlatformEFIORead4Byte(_a,_b)		\
+> > -		rtw_read32(_a,_b)
+> > +#define PlatformEFIOWrite1Byte(_a, _b, _c)		\
+> > +	rtw_write8(_a, _b, _c)
+> > +#define PlatformEFIOWrite2Byte(_a, _b, _c)		\
+> > +	rtw_write16(_a, _b, _c)
+> > +#define PlatformEFIOWrite4Byte(_a, _b, _c)		\
+> > +	rtw_write32(_a, _b, _c)
+> > +
+> > +#define PlatformEFIORead1Byte(_a, _b)		\
+> > +		rtw_read8(_a, _b)
+> > +#define PlatformEFIORead2Byte(_a, _b)		\
+> > +		rtw_read16(_a, _b)
+> > +#define PlatformEFIORead4Byte(_a, _b)		\
+> > +		rtw_read32(_a, _b)
+>
+> Could these be inline functions?
 
-Not sure why View is capitalized.
+I am actually not seeing these macros being used anywhere. These macros were
+added recently [commit ID: 7884fc0a1473c2721f496f1d1ddc9d2c91aefa53] in 2021. I
+am unsure if they are intended to be used in the future or can removed entirely.
 
-julia
+Making these inline functions can be done, however, will we need to measure
+performance impact? I will need help and time for this evaluation.
+
+Let me know what you think is right thing to do here.
+
+Thank you,
+./drv
+
+>
+> julia
+
+
