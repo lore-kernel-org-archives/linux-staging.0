@@ -1,43 +1,43 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF8A5CA3;
-	Thu, 20 Oct 2022 18:29:45 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id a29so936617lfo.1;
-        Thu, 20 Oct 2022 11:29:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A355CA3;
+	Thu, 20 Oct 2022 18:29:48 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id o12so849238lfq.9;
+        Thu, 20 Oct 2022 11:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s10DD2bi79V+xICsKZzl2wJQlQcRDXrwKveFEEfHFNU=;
-        b=Qd5U4LiDXA6FuonSe3Y4QdQO30sUdfBCSDiezwfWqixsQ81peTxRnkcBkhgo18/HnS
-         Fecne8UMUr8/wm/DVZgB5BqrxQaj/5K1+8Nk7oL8/YEP9FQTJF4BsEpESNdMgV/npoa9
-         3rlvBgyS3S/hvOrlrpempdjEQIzHA/JnXq243e1i05vt6GRClKGaVmmyPU0H6YzclNQu
-         O1NFckB1dt/2WqEf47XvSWsTtppo2nsXfTvQYpU3jf1uvlp8S2+V8RAGqfyZAc3p2DbM
-         goebqfokRduLAbW8SaoyF9r7xEnzFEry8x0oPQASP5mUX2SOKUcC80g1PZx5wpOlbr1i
-         rjRw==
+        bh=H7IxJfQYGufvahI+8q4Dz6LMvBxctykZ1GGtydHvATw=;
+        b=H7967F9S03AMlK7QJoC47R/2WJIfJoAexwxCmi3WndYfREI0b41xaKhbDKoUG9C464
+         I5Ws0NmJPdUV+IxMoASL68O2dORKinmBKaHwlu0tmD6GgvyUWNiKJcKTuKiUM3jgjnr5
+         F9VG1sJK7TyT/l5m0XaQrsA3StWc5d4hufaviC2FE8DcXiSZSVPXutt1O9JiMByz0rTG
+         7TdH56bdoQuLev5ANjGjhekLaO5CdSbpo3C0r/iCSDkgATSV0ognzKMhsZgvxpqkQX33
+         yEyAXCjPtlEZUu44Q0uP+dzrKsQuceq0QdG8G3PKmu9Q5LiPOoNxrUBXHh9XgcgOJ8ru
+         Vx8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s10DD2bi79V+xICsKZzl2wJQlQcRDXrwKveFEEfHFNU=;
-        b=gClUfRSvge8zT6DL5eguNFxF84/9WDuk/im/JyCQh0aPCReLTBSHaZQUC+vOtDBVWf
-         PBmUYaArp3Ja8BSdw/nLVZ4w0IhSPmhM96qCrYwaY6FduTH+jXUcB5dZT6WbViTTXl2M
-         krxwRr6CdHAUxpdzoCqWGnCuFDw2a9oN2zFBo5/yZx7YNnyldxj9NnWZyWcqtS/3dT8I
-         gQ5Aeu4EX83GK7yHfmMRgCr9B+F9bXzlBP8I7jb/OZQFL9D5tqDjtK0RQjdaYnyOovRM
-         RG6C7aTeqQn7XRTxuk+d7SbnBR85OvnGnNcOlJg4MXVmvEs7yJE2q96ab029Llj+JgMU
-         bB8w==
-X-Gm-Message-State: ACrzQf3y58YWMA4iEbgAC2+lUg/L+VzTQ3GlPeLIcqQss3cuIG5laKGt
-	X0m3ARNQCcqIFeTCzlx57nk=
-X-Google-Smtp-Source: AMsMyM73Q8wIFXFHiDUNsnAoDrIilohOmQDGU70XZXMJFKoveJIa8SKAr4mAnY0rK6ny9g7ZEcUvHA==
-X-Received: by 2002:a05:6512:487:b0:4a2:2977:3a83 with SMTP id v7-20020a056512048700b004a229773a83mr5476069lfq.88.1666290584010;
-        Thu, 20 Oct 2022 11:29:44 -0700 (PDT)
+        bh=H7IxJfQYGufvahI+8q4Dz6LMvBxctykZ1GGtydHvATw=;
+        b=YYoED8j1Km/PJgivafNt2jYy0w32KhIS7xIA+V2wQL/4Z28OiKF0QQzFqKgTrSKRAP
+         dkPrCmelt1Mk+mY+d/i2zxupcg3LhYqn4uRDsuzPf87nZ2wE1sINMhJch7LSN60TPgpy
+         r61V6qWRayljso7esGkQTxl97gHfickwc7R160bmd/Hd0rcSWCMb7uZRNwamc+U45G1e
+         ZRY75jJUcRdVr6Pjc5FM6ul5I9+BrdaA9tZTyhsDO96jR9FohJ2GcVGm9tAlFpipOo9n
+         iGVgh1jDulMX5el/clP4Cu6CI4M+A1BqsGdlk21d3ah6v7n6IDg0C7szqD/Q/fYRDfMq
+         HHMg==
+X-Gm-Message-State: ACrzQf3NLnQ0FxnsXNymqpr2MdmbQWdTOlrkh0r2KQhxRUCQQHeOimtg
+	OpASxQT1CtF/mHMRK8767qs=
+X-Google-Smtp-Source: AMsMyM7kJye3P2KI77EljgQUEw0IotfVBUMK0CBpL5EPAtdjGIvxOHJogv1N4zTIidIbDVlARN+7/Q==
+X-Received: by 2002:a19:a406:0:b0:4a5:feb1:af0d with SMTP id q6-20020a19a406000000b004a5feb1af0dmr3208221lfc.401.1666290586194;
+        Thu, 20 Oct 2022 11:29:46 -0700 (PDT)
 Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
-        by smtp.googlemail.com with ESMTPSA id h10-20020a0565123c8a00b00497a3e11608sm2797216lfv.303.2022.10.20.11.29.43
+        by smtp.googlemail.com with ESMTPSA id h10-20020a0565123c8a00b00497a3e11608sm2797216lfv.303.2022.10.20.11.29.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 11:29:43 -0700 (PDT)
+        Thu, 20 Oct 2022 11:29:45 -0700 (PDT)
 From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 To: forest@alittletooquiet.net
 Cc: greg@kroah.com,
@@ -45,9 +45,9 @@ Cc: greg@kroah.com,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Subject: [PATCH 4/6] staging: vt6655: refactor long lines of code in s_vGenerateTxParameter
-Date: Thu, 20 Oct 2022 18:27:44 +0000
-Message-Id: <03dd39114b1e5c029cd8022245403a079ff03ae7.1666288416.git.tanjubrunostar0@gmail.com>
+Subject: [PATCH 5/6] staging: vt6655: refactor long lines of code in the rest of the file
+Date: Thu, 20 Oct 2022 18:27:45 +0000
+Message-Id: <cb8d4223b263d4aea2d560be98b04ccd47fd1797.1666288416.git.tanjubrunostar0@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1666288416.git.tanjubrunostar0@gmail.com>
 References: <cover.1666288416.git.tanjubrunostar0@gmail.com>
@@ -59,132 +59,197 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix checkpatch errors by refactoring long lines of code in the function: s_vGenerateTxParameter
+fix checkpatch errors by refactoring long lines of code in the rest of
+the file
 
 Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 ---
- drivers/staging/vt6655/rxtx.c | 70 ++++++++++++++++++++++++-----------
- 1 file changed, 48 insertions(+), 22 deletions(-)
+ drivers/staging/vt6655/rxtx.c | 105 ++++++++++++++++++++++------------
+ 1 file changed, 67 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index dc853b83459b..42f4261293ba 100644
+index 42f4261293ba..b8b21cd39534 100644
 --- a/drivers/staging/vt6655/rxtx.c
 +++ b/drivers/staging/vt6655/rxtx.c
-@@ -839,7 +839,8 @@ s_vFillCTSHead(struct vnt_private *pDevice,
- 	}
+@@ -1106,44 +1106,60 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+ 		if (byFBOption == AUTO_FB_NONE) {
+ 			if (bRTS) {/* RTS_need */
+ 				pvRrvTime = (void *)(pbyTxBufferAddr + wTxBufSize);
+-				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_rts));
+-				pvRTS = (void *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_rts) + cbMICHDR);
++				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize +
++					   sizeof(struct vnt_rrv_time_rts));
++				pvRTS = (void *)(pbyTxBufferAddr + wTxBufSize +
++						 sizeof(struct vnt_rrv_time_rts) + cbMICHDR);
+ 				pvCTS = NULL;
+-				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_rts) +
+-							cbMICHDR + sizeof(struct vnt_rts_g));
+-				cbHeaderLength = wTxBufSize + sizeof(struct vnt_rrv_time_rts) +
+-							cbMICHDR + sizeof(struct vnt_rts_g) +
+-							sizeof(struct vnt_tx_datahead_g);
++				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize +
++						      sizeof(struct vnt_rrv_time_rts) +
++						      cbMICHDR + sizeof(struct vnt_rts_g));
++				cbHeaderLength =
++					wTxBufSize + sizeof(struct vnt_rrv_time_rts) +
++					cbMICHDR + sizeof(struct vnt_rts_g) +
++					sizeof(struct vnt_tx_datahead_g);
+ 			} else { /* RTS_needless */
+ 				pvRrvTime = (void *)(pbyTxBufferAddr + wTxBufSize);
+-				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_cts));
++				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize +
++								 sizeof(struct vnt_rrv_time_cts));
+ 				pvRTS = NULL;
+-				pvCTS = (void *) (pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_cts) + cbMICHDR);
++				pvCTS = (void *)(pbyTxBufferAddr + wTxBufSize +
++						  sizeof(struct vnt_rrv_time_cts) + cbMICHDR);
+ 				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize +
+-						sizeof(struct vnt_rrv_time_cts) + cbMICHDR + sizeof(struct vnt_cts));
++						      sizeof(struct vnt_rrv_time_cts) +
++						      cbMICHDR + sizeof(struct vnt_cts));
+ 				cbHeaderLength = wTxBufSize + sizeof(struct vnt_rrv_time_cts) +
+-							cbMICHDR + sizeof(struct vnt_cts) + sizeof(struct vnt_tx_datahead_g);
++							cbMICHDR + sizeof(struct vnt_cts) +
++							sizeof(struct vnt_tx_datahead_g);
+ 			}
+ 		} else {
+ 			/* Auto Fall Back */
+ 			if (bRTS) {/* RTS_need */
+ 				pvRrvTime = (void *)(pbyTxBufferAddr + wTxBufSize);
+-				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_rts));
+-				pvRTS = (void *) (pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_rts) + cbMICHDR);
++				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize +
++								 sizeof(struct vnt_rrv_time_rts));
++				pvRTS = (void *)(pbyTxBufferAddr + wTxBufSize +
++						  sizeof(struct vnt_rrv_time_rts) + cbMICHDR);
+ 				pvCTS = NULL;
+-				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_rts) +
++				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize +
++						      sizeof(struct vnt_rrv_time_rts) +
+ 					cbMICHDR + sizeof(struct vnt_rts_g_fb));
+ 				cbHeaderLength = wTxBufSize + sizeof(struct vnt_rrv_time_rts) +
+-					cbMICHDR + sizeof(struct vnt_rts_g_fb) + sizeof(struct vnt_tx_datahead_g_fb);
++					cbMICHDR + sizeof(struct vnt_rts_g_fb) +
++					sizeof(struct vnt_tx_datahead_g_fb);
+ 			} else { /* RTS_needless */
+ 				pvRrvTime = (void *)(pbyTxBufferAddr + wTxBufSize);
+-				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_cts));
++				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize +
++								 sizeof(struct vnt_rrv_time_cts));
+ 				pvRTS = NULL;
+-				pvCTS = (void *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_cts) + cbMICHDR);
+-				pvTxDataHd = (void  *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_cts) +
+-					cbMICHDR + sizeof(struct vnt_cts_fb));
++				pvCTS = (void *)(pbyTxBufferAddr + wTxBufSize +
++						 sizeof(struct vnt_rrv_time_cts) + cbMICHDR);
++				pvTxDataHd = (void  *)(pbyTxBufferAddr + wTxBufSize +
++						       sizeof(struct vnt_rrv_time_cts) +
++						       cbMICHDR + sizeof(struct vnt_cts_fb));
+ 				cbHeaderLength = wTxBufSize + sizeof(struct vnt_rrv_time_cts) +
+-					cbMICHDR + sizeof(struct vnt_cts_fb) + sizeof(struct vnt_tx_datahead_g_fb);
++					cbMICHDR + sizeof(struct vnt_cts_fb) +
++					sizeof(struct vnt_tx_datahead_g_fb);
+ 			}
+ 		} /* Auto Fall Back */
+ 	} else {/* 802.11a/b packet */
+@@ -1151,19 +1167,25 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+ 		if (byFBOption == AUTO_FB_NONE) {
+ 			if (bRTS) {
+ 				pvRrvTime = (void *)(pbyTxBufferAddr + wTxBufSize);
+-				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_ab));
+-				pvRTS = (void *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_ab) + cbMICHDR);
++				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize +
++								 sizeof(struct vnt_rrv_time_ab));
++				pvRTS = (void *)(pbyTxBufferAddr + wTxBufSize +
++						 sizeof(struct vnt_rrv_time_ab) + cbMICHDR);
+ 				pvCTS = NULL;
+ 				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize +
+-					sizeof(struct vnt_rrv_time_ab) + cbMICHDR + sizeof(struct vnt_rts_ab));
++						      sizeof(struct vnt_rrv_time_ab) + cbMICHDR +
++						      sizeof(struct vnt_rts_ab));
+ 				cbHeaderLength = wTxBufSize + sizeof(struct vnt_rrv_time_ab) +
+-					cbMICHDR + sizeof(struct vnt_rts_ab) + sizeof(struct vnt_tx_datahead_ab);
++					cbMICHDR + sizeof(struct vnt_rts_ab) +
++					sizeof(struct vnt_tx_datahead_ab);
+ 			} else { /* RTS_needless, need MICHDR */
+ 				pvRrvTime = (void *)(pbyTxBufferAddr + wTxBufSize);
+-				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_ab));
++				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize +
++								 sizeof(struct vnt_rrv_time_ab));
+ 				pvRTS = NULL;
+ 				pvCTS = NULL;
+-				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_ab) + cbMICHDR);
++				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize +
++						      sizeof(struct vnt_rrv_time_ab) + cbMICHDR);
+ 				cbHeaderLength = wTxBufSize + sizeof(struct vnt_rrv_time_ab) +
+ 					cbMICHDR + sizeof(struct vnt_tx_datahead_ab);
+ 			}
+@@ -1171,19 +1193,25 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+ 			/* Auto Fall Back */
+ 			if (bRTS) { /* RTS_need */
+ 				pvRrvTime = (void *)(pbyTxBufferAddr + wTxBufSize);
+-				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_ab));
+-				pvRTS = (void *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_ab) + cbMICHDR);
++				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize +
++								 sizeof(struct vnt_rrv_time_ab));
++				pvRTS = (void *)(pbyTxBufferAddr + wTxBufSize +
++						 sizeof(struct vnt_rrv_time_ab) + cbMICHDR);
+ 				pvCTS = NULL;
+ 				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize +
+-					sizeof(struct vnt_rrv_time_ab) + cbMICHDR + sizeof(struct vnt_rts_a_fb));
++						      sizeof(struct vnt_rrv_time_ab) + cbMICHDR +
++						      sizeof(struct vnt_rts_a_fb));
+ 				cbHeaderLength = wTxBufSize + sizeof(struct vnt_rrv_time_ab) +
+-					cbMICHDR + sizeof(struct vnt_rts_a_fb) + sizeof(struct vnt_tx_datahead_a_fb);
++					cbMICHDR + sizeof(struct vnt_rts_a_fb) +
++					sizeof(struct vnt_tx_datahead_a_fb);
+ 			} else { /* RTS_needless */
+ 				pvRrvTime = (void *)(pbyTxBufferAddr + wTxBufSize);
+-				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_ab));
++				pMICHDR = (struct vnt_mic_hdr *)(pbyTxBufferAddr + wTxBufSize +
++								 sizeof(struct vnt_rrv_time_ab));
+ 				pvRTS = NULL;
+ 				pvCTS = NULL;
+-				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize + sizeof(struct vnt_rrv_time_ab) + cbMICHDR);
++				pvTxDataHd = (void *)(pbyTxBufferAddr + wTxBufSize +
++						      sizeof(struct vnt_rrv_time_ab) + cbMICHDR);
+ 				cbHeaderLength = wTxBufSize + sizeof(struct vnt_rrv_time_ab) +
+ 					cbMICHDR + sizeof(struct vnt_tx_datahead_a_fb);
+ 			}
+@@ -1198,8 +1226,9 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+ 	s_vGenerateTxParameter(pDevice, byPktType, tx_buffer_head, pvRrvTime, pvRTS, pvCTS,
+ 			       cbFrameSize, bNeedACK, uDMAIdx, hdr, pDevice->wCurrentRate);
+ 	/* Fill DataHead */
+-	uDuration = s_uFillDataHead(pDevice, byPktType, pvTxDataHd, cbFrameSize, uDMAIdx, bNeedACK,
+-				    0, 0, uMACfragNum, byFBOption, pDevice->wCurrentRate, is_pspoll);
++	uDuration = s_uFillDataHead(pDevice, byPktType, pvTxDataHd, cbFrameSize,
++				    uDMAIdx, bNeedACK, 0, 0, uMACfragNum, byFBOption,
++				    pDevice->wCurrentRate, is_pspoll);
  
- 	if (byPktType == PK_TYPE_11GB || byPktType == PK_TYPE_11GA) {
--		if (byFBOption != AUTO_FB_NONE && uDMAIdx != TYPE_ATIMDMA && uDMAIdx != TYPE_BEACONDMA) {
-+		if (byFBOption != AUTO_FB_NONE && uDMAIdx !=
-+		    TYPE_ATIMDMA && uDMAIdx != TYPE_BEACONDMA) {
- 			/* Auto Fall back */
- 			struct vnt_cts_fb *buf = pvCTS;
- 			/* Get SignalField, ServiceField & Length */
-@@ -878,7 +879,10 @@ s_vFillCTSHead(struct vnt_private *pDevice,
+ 	hdr->duration_id = uDuration;
  
- 			ether_addr_copy(buf->data.ra,
- 					pDevice->abyCurrentNetAddr);
--		} else { /* if (byFBOption != AUTO_FB_NONE && uDMAIdx != TYPE_ATIMDMA && uDMAIdx != TYPE_BEACONDMA) */
-+		} else {
-+			/* if (byFBOption != AUTO_FB_NONE && uDMAIdx != TYPE_ATIMDMA &&
-+			 * uDMAIdx != TYPE_BEACONDMA)
-+			 */
- 			struct vnt_cts *buf = pvCTS;
- 			/* Get SignalField, ServiceField & Length */
- 			vnt_get_phy_field(pDevice, uCTSFrameLen,
-@@ -964,50 +968,72 @@ static void s_vGenerateTxParameter(struct vnt_private *pDevice,
- 			/* Fill RsvTime */
- 			struct vnt_rrv_time_rts *buf = pvRrvTime;
+@@ -1447,8 +1476,8 @@ static int vnt_beacon_xmit(struct vnt_private *priv,
+ 		/* Get Duration and TimeStampOff */
+ 		short_head->duration =
+ 			cpu_to_le16((u16)s_uGetDataDuration(priv, DATADUR_B,
+-				    frame_size, PK_TYPE_11A, current_rate,
+-				    false, 0, 0, 1, AUTO_FB_NONE));
++							    frame_size, PK_TYPE_11A, current_rate,
++							    false, 0, 0, 1, AUTO_FB_NONE));
  
--			buf->rts_rrv_time_aa = get_rtscts_time(pDevice, 2, byPktType, cbFrameSize, wCurrentRate);
--			buf->rts_rrv_time_ba = get_rtscts_time(pDevice, 1, byPktType, cbFrameSize, wCurrentRate);
--			buf->rts_rrv_time_bb = get_rtscts_time(pDevice, 0, byPktType, cbFrameSize, wCurrentRate);
--			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
--			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
--
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			buf->rts_rrv_time_aa = get_rtscts_time(pDevice, 2, byPktType, cbFrameSize,
-+							       wCurrentRate);
-+			buf->rts_rrv_time_ba = get_rtscts_time(pDevice, 1, byPktType, cbFrameSize,
-+							       wCurrentRate);
-+			buf->rts_rrv_time_bb = get_rtscts_time(pDevice, 0, byPktType, cbFrameSize,
-+							       wCurrentRate);
-+			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize,
-+								wCurrentRate, bNeedACK);
-+			buf->rrv_time_b =
-+				vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize,
-+						      pDevice->byTopCCKBasicRate, bNeedACK);
-+
-+			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC,
-+				       psEthHeader, wCurrentRate, byFBOption);
- 		} else {/* RTS_needless, PCF mode */
- 			struct vnt_rrv_time_cts *buf = pvRrvTime;
+ 		short_head->time_stamp_off =
+ 				vnt_time_stamp_off(priv, current_rate);
+@@ -1463,8 +1492,8 @@ static int vnt_beacon_xmit(struct vnt_private *priv,
+ 		/* Get Duration and TimeStampOff */
+ 		short_head->duration =
+ 			cpu_to_le16((u16)s_uGetDataDuration(priv, DATADUR_B,
+-				    frame_size, PK_TYPE_11B, current_rate,
+-				    false, 0, 0, 1, AUTO_FB_NONE));
++							    frame_size, PK_TYPE_11B, current_rate,
++							    false, 0, 0, 1, AUTO_FB_NONE));
  
--			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
--			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
--			buf->cts_rrv_time_ba = get_rtscts_time(pDevice, 3, byPktType, cbFrameSize, wCurrentRate);
-+			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize,
-+								wCurrentRate, bNeedACK);
-+			buf->rrv_time_b =
-+				vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize,
-+						      pDevice->byTopCCKBasicRate, bNeedACK);
-+			buf->cts_rrv_time_ba = get_rtscts_time(pDevice, 3, byPktType, cbFrameSize,
-+							       wCurrentRate);
- 
- 			/* Fill CTS */
--			s_vFillCTSHead(pDevice, uDMAIdx, byPktType, pvCTS, cbFrameSize, bNeedACK, bDisCRC, wCurrentRate, byFBOption);
-+			s_vFillCTSHead(pDevice, uDMAIdx, byPktType, pvCTS, cbFrameSize, bNeedACK,
-+				       bDisCRC, wCurrentRate, byFBOption);
- 		}
- 	} else if (byPktType == PK_TYPE_11A) {
- 		if (pvRTS) {/* RTS_need, non PCF mode */
--			struct vnt_rrv_time_ab *buf = pvRrvTime;
-+			struct vnt_rrv_time_ab *buf = pvRrvT
-+				ime;
- 
--			buf->rts_rrv_time = get_rtscts_time(pDevice, 2, byPktType, cbFrameSize, wCurrentRate);
--			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
-+			buf->rts_rrv_time = get_rtscts_time(pDevice, 2, byPktType, cbFrameSize,
-+							    wCurrentRate);
-+			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize,
-+							      wCurrentRate, bNeedACK);
- 
- 			/* Fill RTS */
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC,
-+				       psEthHeader, wCurrentRate, byFBOption);
- 		} else if (!pvRTS) {/* RTS_needless, non PCF mode */
- 			struct vnt_rrv_time_ab *buf = pvRrvTime;
- 
--			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11A, cbFrameSize, wCurrentRate, bNeedACK);
-+			buf->rrv_time =
-+				vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11A, cbFrameSize,
-+						      wCurrentRate, bNeedACK);
- 		}
- 	} else if (byPktType == PK_TYPE_11B) {
- 		if (pvRTS) {/* RTS_need, non PCF mode */
- 			struct vnt_rrv_time_ab *buf = pvRrvTime;
- 
--			buf->rts_rrv_time = get_rtscts_time(pDevice, 0, byPktType, cbFrameSize, wCurrentRate);
--			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
-+			buf->rts_rrv_time = get_rtscts_time(pDevice, 0, byPktType, cbFrameSize,
-+							    wCurrentRate);
-+			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize,
-+							      wCurrentRate, bNeedACK);
- 
- 			/* Fill RTS */
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC,
-+				       psEthHeader, wCurrentRate, byFBOption);
- 		} else { /* RTS_needless, non PCF mode */
- 			struct vnt_rrv_time_ab *buf = pvRrvTime;
- 
--			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
-+			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize,
-+							      wCurrentRate, bNeedACK);
- 		}
- 	}
- }
+ 		short_head->time_stamp_off =
+ 			vnt_time_stamp_off(priv, current_rate);
 -- 
 2.34.1
 
