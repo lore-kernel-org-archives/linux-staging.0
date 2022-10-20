@@ -1,35 +1,47 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335867B;
-	Thu, 20 Oct 2022 10:35:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666262125; bh=VhN67bXT0itmKjXgVI45C2R1vHjRepe0Kb9Pi+xEtqQ=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=Mif79EZLoeznCgQ0lXr1SVfFtqssM1xVfL4aplIsnm4ziVIdnBoNLWftuGLRblNYM
-	 HdWWBqOwgbaTp2FuEKMosZoSLhCbuI+wuN4fZVkItD3jJia/O/w7bVBzKW3weDHdXo
-	 xEWbdQVqJqxmVpArES10HSImc1NEvooCN9MGDUpM=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-	via [213.182.55.206]
-	Thu, 20 Oct 2022 12:35:25 +0200 (CEST)
-X-EA-Auth: 3fqsQwinURa5yNBDG3ytptSeV5h8uXROphmeEhi6S4t+vud9l8NgbbMmBkXc5IAaXX1mjKyMlnqBLwgLXF2aLKXcNYG6g8YK
-Date: Thu, 20 Oct 2022 16:05:19 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
-	saurabh.truth@gmail.com
-Subject: Re: [PATCH v3 06/10] staging: r8188eu: Add space between function &
- macro parameters
-Message-ID: <Y1EkZ7+1yiH8PI0a@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1666249715.git.drv@mailo.com>
- <79e0aa96b1c8b2bc0c0f8ef9e651ab254629c7a8.1666249716.git.drv@mailo.com>
- <114d7521-a15-9569-cb38-69f4bb8990f7@inria.fr>
- <Y1EcmphZyExVVttR@debian-BULLSEYE-live-builder-AMD64>
- <8e7c457c-a58a-9c2a-ba0-d520c5e0f53e@inria.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060BC7B;
+	Thu, 20 Oct 2022 10:56:36 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id g1so32852742lfu.12;
+        Thu, 20 Oct 2022 03:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tEmNh4R0QJOPxLimqEC/Xs1kq2UBfm/vuBxLtj1a2rk=;
+        b=FzDOPEbcl6MLFkqFsxogyoko0ePdQin24WYBfDNjGcQIJ8Y+uGJKaxHeCIbKQ8epTL
+         is3Kr8df9p/UKPWbCQIpA2JJCZGs5owrfOmU0zXIlqoSQvwxWtcK49S6ghZU/BETxSgE
+         xK9i3Hmf2flYAtoy9JkR3o0mTTYiK30gONRIV1FaUhNeS9Jt2ZD3ErCbww23P52W2ZwJ
+         VysRHseEJaGUmdOszO+C3G6lK0dLYerwbH3ara1+TNqIcOYdT8oxnDQeqyGMJM7sCqvS
+         pvSPEQlMzqIxu2usXj4Z4iyPrRnC0tVuuwStUK3EzM+zZwco3NllNe4EOQs+Yl+YnwII
+         S6/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tEmNh4R0QJOPxLimqEC/Xs1kq2UBfm/vuBxLtj1a2rk=;
+        b=Zb1HmP2fThSBAHyb954Oaqd8Yfrv+kL6be5vhnvhDr3hMKlS+dJMO1iWWEQlU5+UO0
+         PN34yVVyjMJANYEwYmguInPF3pZ2OJ7M5+mQNwR2P+KrLemqu9rDH50mENdVPWVLF364
+         ljRu+cm9oxelKW5teeiex7LHlniQrFFN1K/D7eCpCfjnhn5IYTc8Zov75eMO2yXDo/zn
+         RvJFIrkr7nlrlzn4MDrExtMXLLayhyl0+VBPIsva/uc3rqAZDmU4CtEkDlmsJepp3jit
+         f97iVeehNYYtfmVrCsbrSbFRIhbehwlq3SYHX8Fra8N4DefIiWa/18hY/tLEK7K0VFv3
+         V8+w==
+X-Gm-Message-State: ACrzQf3nF5WbYq+VVvmkl7AGxnzyjabZXswkDp3lhZKqN8hZdLldmWMi
+	4vxdtfWCySdpLzXqYIs54r7NASkHbzpnZMye
+X-Google-Smtp-Source: AMsMyM4NjRYVbyF9c0UBDUWKKZYrkmDQVLMRNszxHlNWlpezD6//ODWPGs5a8o9KnZIyZclvbCcZBA==
+X-Received: by 2002:ac2:47fc:0:b0:4a2:4e9a:64f5 with SMTP id b28-20020ac247fc000000b004a24e9a64f5mr4803257lfp.434.1666263394979;
+        Thu, 20 Oct 2022 03:56:34 -0700 (PDT)
+Received: from elroy-temp-vm ([20.240.130.248])
+        by smtp.gmail.com with ESMTPSA id bf38-20020a2eaa26000000b0026fdecfa6ebsm2447081ljb.15.2022.10.20.03.56.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Oct 2022 03:56:34 -0700 (PDT)
+Date: Thu, 20 Oct 2022 10:56:33 +0000
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: outreachy@lists.linux.dev, greg@kroah.com, forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: vt6655: Fix Lines should not end with a '('
+Message-ID: <Y1EpYbkrau17uhDI@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,69 +50,65 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8e7c457c-a58a-9c2a-ba0-d520c5e0f53e@inria.fr>
 
-On Thu, Oct 20, 2022 at 12:21:35PM +0200, Julia Lawall wrote:
-> > > > -#define PlatformEFIOWrite1Byte(_a,_b,_c)		\
-> > > > -	rtw_write8(_a,_b,_c)
-> > > > -#define PlatformEFIOWrite2Byte(_a,_b,_c)		\
-> > > > -	rtw_write16(_a,_b,_c)
-> > > > -#define PlatformEFIOWrite4Byte(_a,_b,_c)		\
-> > > > -	rtw_write32(_a,_b,_c)
-> > > > -
-> > > > -#define PlatformEFIORead1Byte(_a,_b)		\
-> > > > -		rtw_read8(_a,_b)
-> > > > -#define PlatformEFIORead2Byte(_a,_b)		\
-> > > > -		rtw_read16(_a,_b)
-> > > > -#define PlatformEFIORead4Byte(_a,_b)		\
-> > > > -		rtw_read32(_a,_b)
-> > > > +#define PlatformEFIOWrite1Byte(_a, _b, _c)		\
-> > > > +	rtw_write8(_a, _b, _c)
-> > > > +#define PlatformEFIOWrite2Byte(_a, _b, _c)		\
-> > > > +	rtw_write16(_a, _b, _c)
-> > > > +#define PlatformEFIOWrite4Byte(_a, _b, _c)		\
-> > > > +	rtw_write32(_a, _b, _c)
-> > > > +
-> > > > +#define PlatformEFIORead1Byte(_a, _b)		\
-> > > > +		rtw_read8(_a, _b)
-> > > > +#define PlatformEFIORead2Byte(_a, _b)		\
-> > > > +		rtw_read16(_a, _b)
-> > > > +#define PlatformEFIORead4Byte(_a, _b)		\
-> > > > +		rtw_read32(_a, _b)
-> > >
-> > > Could these be inline functions?
-> >
-> > I am actually not seeing these macros being used anywhere. These macros were
-> > added recently [commit ID: 7884fc0a1473c2721f496f1d1ddc9d2c91aefa53] in 2021. I
-> > am unsure if they are intended to be used in the future or can removed entirely.
-> >
-> > Making these inline functions can be done, however, will we need to measure
-> > performance impact? I will need help and time for this evaluation.
->
-> Inline functions shouldn't have any performance impact.  For these simple
-> things the compiler should inline them.
+Code style warnings reported by checkpatch.
+Improve the layout of a function header:
+Put the first parameter immediately after the '(' and align the other
+parameters underneath it.
 
-Understood. For these simple cases, it should not.
->
-> The reason why a macro may be needed is if it is not possible to find a
-> single type for all of the possible argument values, or if some argument
-> values are assigned to by the macro definition, and not just read.
+Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 
-Okay. This is helpful. Thank you.
+---
+v2: put static and void on the same line and adjusted the indentation as
+suggested by Greg KH
+---
+ drivers/staging/vt6655/rxtx.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
->
-> I would have suggested to look at all of the uses to see if there are any
-> concerns like this, but if there aren't any uses, that won't be possible.
-> There seems to be no special knowledge in these macros that is worth
-> preserving, so I think that they can just be dropped.
-
-Sounds good. I will drop them in the revision.
-
-Thank you Julia.
-./drv
-
->
-> julia
->
-
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 5bdb5176772c..d987f7dff02a 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -85,10 +85,8 @@ static const unsigned short wFB_Opt1[2][5] = {
+ #define DATADUR_A_F1    13
+ 
+ /*---------------------  Static Functions  --------------------------*/
+-static
+-void
+-s_vFillRTSHead(
+-	struct vnt_private *pDevice,
++static void
++s_vFillRTSHead(struct vnt_private *pDevice,
+ 	unsigned char byPktType,
+ 	void *pvRTS,
+ 	unsigned int	cbFrameLength,
+@@ -96,13 +94,10 @@ s_vFillRTSHead(
+ 	bool bDisCRC,
+ 	struct ieee80211_hdr *hdr,
+ 	unsigned short wCurrentRate,
+-	unsigned char byFBOption
+-);
++	unsigned char byFBOption);
+ 
+-static
+-void
+-s_vGenerateTxParameter(
+-	struct vnt_private *pDevice,
++static void
++s_vGenerateTxParameter(struct vnt_private *pDevice,
+ 	unsigned char byPktType,
+ 	struct vnt_tx_fifo_head *,
+ 	void *pvRrvTime,
+@@ -112,8 +107,7 @@ s_vGenerateTxParameter(
+ 	bool bNeedACK,
+ 	unsigned int	uDMAIdx,
+ 	void *psEthHeader,
+-	unsigned short wCurrentRate
+-);
++	unsigned short wCurrentRate);
+ 
+ static unsigned int
+ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+-- 
+2.34.1
 
