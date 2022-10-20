@@ -1,151 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A416101
-	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 19:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1666295774;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z/LGaP82Z3OspARd/Dsr8XKsYnvURyTClqeA+KCi1Jw=;
-	b=G1ETNZbIogUEdwCBSEWIts2eW6+MgBlOVJ5GjRDnsgrQTjNEdEEeofvVD7oO6Fr22K9uUJ
-	CYtHmc5SO27J37OzXrBcDovi2Ry1q6nHj9hn735BZzw1vo92pmG8ocBsfCrQY3IaBMBCG1
-	g1IFf30UdGkXzD5zbCTp9vj5M2pXWu8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-217-SzmqXmjkPc-tChR8L5aQKw-1; Thu, 20 Oct 2022 15:56:10 -0400
-X-MC-Unique: SzmqXmjkPc-tChR8L5aQKw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F3421C051A3;
-	Thu, 20 Oct 2022 19:56:10 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.86])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8EABF40C6EC2;
-	Thu, 20 Oct 2022 19:56:08 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 17/17] media: atomisp: gc0310: Power on sensor from set_fmt() callback
-Date: Thu, 20 Oct 2022 21:55:33 +0200
-Message-Id: <20221020195533.114049-18-hdegoede@redhat.com>
-In-Reply-To: <20221020195533.114049-1-hdegoede@redhat.com>
-References: <20221020195533.114049-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B3B7E
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 20:16:00 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id h12so505348pjk.0
+        for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 13:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wikui5zgMClbBeCdN445jqfppxsvsQZJYe9z/nf05m0=;
+        b=ASoOmFYLo5BTraLYzv/b7dLlDyzP0vgBCEknTYECrAhZkt+PpKZ1PTM75k0/hhInvx
+         1Ysx98awdp1c/ubfYxfmV8fc1f26ao0wGB1psiiU1Avz6SZif3CxTM670a1fC1CC/zgH
+         tgiiWPhk7gQ2OXf+ASObEMmn+Z51DONYr+9RYGVr/JDM1iboSxcXoxY+5GYGTGRNa7pd
+         MiZeqA90vWubpr4ZlT+f0MK/SwtiHrI0Kv5dl5f2UaS/+fjS/Ie7nzfVNIWukOsxnfpQ
+         UVSzZAxE+Yc4vxEz0DKdSvG/oCKe5wTtFZQy0+DWA9B+Rbmtv7xZpIJjzPevAfGROyM5
+         Fxaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wikui5zgMClbBeCdN445jqfppxsvsQZJYe9z/nf05m0=;
+        b=i3S+a6N9ssY7IKdIWP9TlrfbpPWEVUSwtOTdlGCfqMMvtBUrfSHqAbYuREP4h755Xv
+         OAYOVQIBS39DS1vnF8Qf8jOXD3bJ0M2tYEZ3ohwJDVT6HhOEkb9OwreJMlir8PsfFhj7
+         KRDQq9Ltcsr6OQL6ZFLt6sPkPN9UMEbu45jFMSYZH7sxAUD84e9lUWO0R5D4vVQ8aN0b
+         cn5LEqM33YQjYGb+BnoiJcWQ6+EfzlDn4GTuC+vxAili+fow1Vc4cJbKz/dbWL+WO7fj
+         r/xe2VkICGbadkonzPb08hEUN/o53fgKwqJ/sAokfPUto3Q0ITTliTSZiQ+rciQzLkZH
+         xB5Q==
+X-Gm-Message-State: ACrzQf3y0x2uSnXitBl0BFuOjPw3+IDO7DKBhbcVHsUCoxIrEmY6bwN0
+	DMvxSqFS99R82h+RLCbIEa4=
+X-Google-Smtp-Source: AMsMyM4/3D1Pz5sNpGtnA0LdFxLhp4bIZISRVx0CyF1f15UBM6lrxC5MlxiDLjFeba2y6inz18ilqw==
+X-Received: by 2002:a17:90a:e393:b0:20a:eded:cbae with SMTP id b19-20020a17090ae39300b0020aededcbaemr54542555pjz.168.1666296960090;
+        Thu, 20 Oct 2022 13:16:00 -0700 (PDT)
+Received: from mail.google.com ([202.36.29.252])
+        by smtp.gmail.com with ESMTPSA id n18-20020a170903111200b00176ba091cd3sm13538528plh.196.2022.10.20.13.15.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Oct 2022 13:15:59 -0700 (PDT)
+Date: Fri, 21 Oct 2022 09:15:53 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: Gautam Menghani <gautammenghani201@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers/staging/pi433: Change data type of bit_rate to
+ be u32
+Message-ID: <Y1GseU1Z+CCHJs9I@mail.google.com>
+References: <20221020181815.31245-1-gautammenghani201@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221020181815.31245-1-gautammenghani201@gmail.com>
 
-Depending on which order userspace makes various v4l2 calls, the sensor
-might still be powered down when set_fmt is called.
+On Thu, Oct 20, 2022 at 11:48:15PM +0530, Gautam Menghani wrote:
+> A TODO asks to convert the bit_rate variable to be a u32 so that bit 
+> rates up to 300kbps can be supported as per the spec.
+> 
+Thanks for sending this patch. Comments added in-line.
 
-What should really happen here is delay the writing of the mode-related
-registers till streaming is started, but for now use the same quick fix
-as the atomisp_ov2680 code and call power_up() from set_fmt() in
-combination with keeping track of the power-state to avoid doing the
-power-up sequence twice.
+> diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
+> index 25ee0b77a32c..c958dcfa9f96 100644
+> --- a/drivers/staging/pi433/pi433_if.h
+> +++ b/drivers/staging/pi433/pi433_if.h
+> @@ -51,7 +51,7 @@ enum option_on_off {
+>  #define PI433_TX_CFG_IOCTL_NR	0
+>  struct pi433_tx_cfg {
+>  	__u32			frequency;
+> -	__u16			bit_rate;
+> +	__u32			bit_rate;
+>  	__u32			dev_frequency;
+>  	enum modulation		modulation;
+>  	enum mod_shaping	mod_shaping;
+> @@ -99,7 +99,7 @@ struct pi433_tx_cfg {
+>  #define PI433_RX_CFG_IOCTL_NR	1
+>  struct pi433_rx_cfg {
+>  	__u32			frequency;
+> -	__u16			bit_rate;
+> +	__u32			bit_rate;
+>  	__u32			dev_frequency;
+>  
+>  	enum modulation		modulation;
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 14 ++++++++++++--
- drivers/staging/media/atomisp/i2c/gc0310.h         |  1 +
- 2 files changed, 13 insertions(+), 2 deletions(-)
+Cutting a long story short, you won't be able to change bit_rate's type before 
+addressing the fact that both pi433_tx_cfg ans pi433_rx_cfg are part of the UAPI.
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index 783f1b88ebf2..87a634bf9ff5 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -786,8 +786,6 @@ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
- 	return ret;
- }
- 
--static int power_down(struct v4l2_subdev *sd);
--
- static int power_up(struct v4l2_subdev *sd)
- {
- 	struct gc0310_device *dev = to_gc0310_sensor(sd);
-@@ -800,6 +798,9 @@ static int power_up(struct v4l2_subdev *sd)
- 		return -ENODEV;
- 	}
- 
-+	if (dev->power_on)
-+		return 0; /* Already on */
-+
- 	/* power control */
- 	ret = power_ctrl(sd, 1);
- 	if (ret)
-@@ -820,6 +821,7 @@ static int power_up(struct v4l2_subdev *sd)
- 
- 	msleep(100);
- 
-+	dev->power_on = true;
- 	return 0;
- 
- fail_gpio:
-@@ -844,6 +846,9 @@ static int power_down(struct v4l2_subdev *sd)
- 		return -ENODEV;
- 	}
- 
-+	if (!dev->power_on)
-+		return 0; /* Already off */
-+
- 	/* gpio ctrl */
- 	ret = gpio_ctrl(sd, 0);
- 	if (ret) {
-@@ -861,6 +866,7 @@ static int power_down(struct v4l2_subdev *sd)
- 	if (ret)
- 		dev_err(&client->dev, "vprog failed.\n");
- 
-+	dev->power_on = false;
- 	return ret;
- }
- 
-@@ -935,6 +941,9 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
- 		return 0;
- 	}
- 
-+	/* s_power has not been called yet for std v4l2 clients (camorama) */
-+	power_up(sd);
-+
- 	dev_dbg(&client->dev, "%s: before gc0310_write_reg_array %s\n",
- 		__func__, dev->res->desc);
- 	ret = startup(sd);
-@@ -1073,6 +1082,7 @@ static int gc0310_s_config(struct v4l2_subdev *sd,
- 	 * as first power on by board may not fulfill the
- 	 * power on sequqence needed by the module
- 	 */
-+	dev->power_on = true; /* force power_down() to run */
- 	ret = power_down(sd);
- 	if (ret) {
- 		dev_err(&client->dev, "gc0310 power-off err.\n");
-diff --git a/drivers/staging/media/atomisp/i2c/gc0310.h b/drivers/staging/media/atomisp/i2c/gc0310.h
-index db643ebc3909..4b9ce681bd93 100644
---- a/drivers/staging/media/atomisp/i2c/gc0310.h
-+++ b/drivers/staging/media/atomisp/i2c/gc0310.h
-@@ -152,6 +152,7 @@ struct gc0310_device {
- 	int vt_pix_clk_freq_mhz;
- 	struct gc0310_resolution *res;
- 	u8 type;
-+	bool power_on;
- };
- 
- enum gc0310_tok_type {
--- 
-2.37.3
+Usually there are 2 approaches that most people go for when talking about
+changes in drivers:
+
+1) Add changes in a backwards compatible way, so whether users are using the
+        bitrate member as u32 or u64, it would simply work. But that leads to
+        sometimes hard-to-read code.... but this is still a card up your sleeve.
+
+        One suggestion given by Dan Carpenter was to leave the IOCTL impl alone
+        and start a sysfs implementation. That way you could have a u64 bit_rate
+        synthetic file.
+
+        https://lore.kernel.org/all/20220119053410.GW1978@kadam/
+
+2) Change the tools that make use of this driver at the same time as you change
+        the UAPI. This can be tricky. There is a thread I started in the
+        kernelnewbies mailing list on the subject which I think might be relevant
+        for you to read.
+
+        https://lore.kernel.org/all/YjHvLFSV06w%2FORgV@kroah.com/
+
+Happy coding :-)
+
+Paulo A.
 
