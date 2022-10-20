@@ -1,90 +1,66 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7EE3C20
-	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 13:16:12 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id w18so34383730wro.7
-        for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 06:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pB1ESJX/kbTXjRBj9KyRdymHjlLM30GkaaeMOBkpYiw=;
-        b=ACtfuk0A0fGqABdtjv0rrhqqZFD50vnWR7DW7SsPw/XYnBiSS6PKHYTuLXjyaiaIB/
-         HWh99gDIMFWZGZyzUuFF9ix2FCm0alKmHktZ2PHZ/6v62+aOL9C0vMlabzD275JsutPr
-         VaD5bGlPYdoKaf4aIXA/EkVQhyy1fzFCIo2J/qeG23Hb6+1g2HXvadQnqEaPEGGUNo3z
-         lDGiEY3FRCer9W98q0ARbYfN/C1D6V/4xNti+rXFxw37erTkNBObgBlNEdx1Nl+heSWm
-         1eyZ4rtteQDGd/JnL7s2Y3ECr58BzFpZPDciheBoCUYr282IS8SDzDAqvqX7pUVDgNlr
-         zS5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pB1ESJX/kbTXjRBj9KyRdymHjlLM30GkaaeMOBkpYiw=;
-        b=WluFecPavhFAlGzhsNW8e4mGeoqa9qIoPWMq5qp2bYJAXAxpGgqnmEtR7tkOWvuO5W
-         ptTeSKSVSrfHKyb6oqzHGWnjPrcUFqQOxiloHUWUCGculdJVDWufHQ8Yb26LcHNyvrNN
-         Qb8UCOXBLhq45zc9dyIjT2QKUL0blRdYYSpbRaaMOdwc+lItXk+/QDR17QkGPQnO+2EV
-         cwM8GA4YquaKrZ3ImLELCoBkQlS9FhRjn3Spu5vo2pLrpQCo1gyCwAng1eeE+l6XhId+
-         ugPlevmeCbSSzsUp42MQV49dPqJsWCfTlL9pseo6iCdT8fTWqV7js0q95erw22pMfh4v
-         VkcQ==
-X-Gm-Message-State: ACrzQf10hZZFMQCt6E5QN08Rn2ZKY4a0r5TjlFstjhmHr/7us2VTIevP
-	j5D6M1GVD2CmrYS2jv0zpRw=
-X-Google-Smtp-Source: AMsMyM6iyMTy0D2qEILjPok8dwQukw7kiGAtGVtmVPMZjrE2xyShlxHjyHV2Wpa7qGW9t5oACmGxkA==
-X-Received: by 2002:a05:6000:1843:b0:22e:77b0:2e5 with SMTP id c3-20020a056000184300b0022e77b002e5mr8400914wri.215.1666271770601;
-        Thu, 20 Oct 2022 06:16:10 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id g10-20020a5d554a000000b002364c77bcacsm365525wrw.38.2022.10.20.06.16.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 06:16:10 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: octeon: remove redundant variable total_freed
-Date: Thu, 20 Oct 2022 14:16:09 +0100
-Message-Id: <20221020131609.1546667-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.37.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6C133DC;
+	Thu, 20 Oct 2022 14:43:08 +0000 (UTC)
+Received: from cwcc.thunk.org (pool-173-48-120-46.bstnma.fios.verizon.net [173.48.120.46])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 29KEdmUl009069
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Oct 2022 10:39:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1666276789; bh=kG1ree45kEImwHBAJ1rz5gdQQphkhdtRHQIe70Qv3bQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Bt6zkpa0llmvbW8hygwCb6IzIQFAarbADX+6SD4I9Gf9VczYrRa/22Q23QAkXffRt
+	 A1LoTxldWA6YQeUhMp35reOCWxzjy3QPvUsJhPyedjV2C2bPF7WvpkfDQ3UCtPHLrk
+	 9JjzmiZHA86Nn9jpNWSPdo6lP7WisDjFZPEJqnff/TVYCE9a53uqF+VNpSHurf83mj
+	 uGgliJsNUMLzktOo/XCGx3KU5P4nybYfAO5EDUWhU3JGkAEbORx0l0qH9h+TGQ+mV2
+	 yBMNpOfUNw/djKpwE1DkuO8Y83pm+smQHATBeZGaXEmDgTQsnvy4fN6OLB5vPKpSg6
+	 fzyeFCHnSvyLg==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+	id DEEA415C3AD1; Thu, 20 Oct 2022 10:39:47 -0400 (EDT)
+Date: Thu, 20 Oct 2022 10:39:47 -0400
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Tanju Brunostar <tanjubrunostar0@gmail.com>,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        outreachy@lists.linux.dev
+Subject: Re: Request for assistance
+Message-ID: <Y1Fds7BJjY/OcwU0@mit.edu>
+References: <Y1Eqa7uKB+Wk+Mb+@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+ <CAOkYk0iU0B98JsH77avky--AS19V=GhQox2f_b4PAG3ZBB+SVQ@mail.gmail.com>
+ <CAHJEyKX=yyuyYFajs880CuPdc019dBOm_LCkgXHzjFaA-Jgt2A@mail.gmail.com>
+ <Y1E6qYkzkRxlloNp@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y1E6qYkzkRxlloNp@kroah.com>
 
-The variable total_freed is accumulating skb_to_free however it is not
-being used after this. The use of total_freed is redundant and hence
-the variable can be removed.
+Tanju, some additional hints.  First of all, please don't send cleanup
+patches to address checkpatch --file complaints about overly long
+lines.  It's generally not worth the code churn.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/staging/octeon/ethernet-tx.c | 2 --
- 1 file changed, 2 deletions(-)
+Secondly for code that *you* are writing, think about why you have
+lines which are exceeding the line width in the first place.  Is it
+because code is being nested too deeply, and perhaps some judicious
+function refactoring with good function names might make the code
+clearer?  Would adding some temporary variables that are judiciously
+named make the code look clearer?
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index a36e36701c74..bbf33b88bb7c 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -73,7 +73,6 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
- {
- 	int skb_to_free;
- 	int qos, queues_per_port;
--	int total_freed = 0;
- 	int total_remaining = 0;
- 	unsigned long flags;
- 	struct octeon_ethernet *priv = netdev_priv(dev);
-@@ -87,7 +86,6 @@ static void cvm_oct_free_tx_skbs(struct net_device *dev)
- 						       MAX_SKB_TO_FREE);
- 		skb_to_free = cvm_oct_adjust_skb_to_free(skb_to_free,
- 							 priv->fau + qos * 4);
--		total_freed += skb_to_free;
- 		if (skb_to_free > 0) {
- 			struct sk_buff *to_free_list = NULL;
- 
--- 
-2.37.3
+The rules about "thou shalt never have lines which exceed 78
+characters" are rules of thumb.  The high level goal is to make the
+code more readable and easier to understand, since good code is
+maintainable code.  And sometimes it's not just about where to split
+lines of code but whether there is a better way to structure the code
+so that long lines aren't needed in the first place.
 
+Cheers,
+
+					- Ted
