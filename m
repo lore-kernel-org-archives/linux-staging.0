@@ -1,29 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081FE3D60;
-	Thu, 20 Oct 2022 15:48:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55B8FC433D7;
-	Thu, 20 Oct 2022 15:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818AB3D60
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 15:49:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52F5C433C1;
+	Thu, 20 Oct 2022 15:49:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666280905;
-	bh=Hwu+96h8enH9xyMd6w9YLf6jCX6PecU111s9EGhz4sk=;
+	s=korg; t=1666280993;
+	bh=8J2nnXNa6iCRJnyAygg98e7pMS9osOMSjxW0Z9nbm+A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AFV9qSDSb5ECw0H7oIKm6rBSpO6+ZKPpEy6NU5EGA/6qcL8alR+rrdGRZ2m5VjvSr
-	 cBjDGD/6D7TjBdwBBdi/qBDex/5yqSttiG40WYh2ogByaHAJqgt+80xiaYtKyzoo1R
-	 RG8wsUiRm1OoApJEayn85v5aVrcuLzXdS0sBfVfo=
-Date: Thu, 20 Oct 2022 17:48:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH v3 01/10] staging: r8188eu: use Linux kernel variable
- naming convention
-Message-ID: <Y1Ftx/Q69AHVR4oZ@kroah.com>
-References: <cover.1666249715.git.drv@mailo.com>
- <5226d30242be78ab1ee32bfdd87239ca82569642.1666249716.git.drv@mailo.com>
+	b=f/X2LARCDCf7QfM7J4C2rjkrlziXPG2cbgDOBUP8xpkBm99kne1TTpDc5vrjBv2se
+	 mTK/MBXWGwLJPAOSQ4qXvcxe/1Nec0Bpok5e4RdXl035Q/QIaptHAdVIDv2s2q4UO9
+	 FVTcHVAhtogAeJqT2ZuJBjFTiNjjNUg/0pArPbck=
+Date: Thu, 20 Oct 2022 17:49:50 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/4] staging: rtl8192u: Provide a TODO file for this
+ driver
+Message-ID: <Y1FuHoeNNcUhNSpB@kroah.com>
+References: <20221016110743.1448067-1-pbrobinson@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,62 +28,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5226d30242be78ab1ee32bfdd87239ca82569642.1666249716.git.drv@mailo.com>
+In-Reply-To: <20221016110743.1448067-1-pbrobinson@gmail.com>
 
-On Thu, Oct 20, 2022 at 01:22:50PM +0530, Deepak R Varma wrote:
-> Follow the Linux Kernel coding style variable naming convention instead
-> of using camelCase style. Issue reported by checkpatch script for
-> these variables:
->         tagLen, tagType, networkAddr, ipAddr, macAddr
+On Sun, Oct 16, 2022 at 12:07:40PM +0100, Peter Robinson wrote:
+> Provide a TODO file that lists the tasks that should be carried out in
+> order to move this driver off drivers/staging. It's missing from original
+> addition of this driver.
 > 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 > ---
+>  drivers/staging/rtl8192u/TODO | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>  create mode 100644 drivers/staging/rtl8192u/TODO
 > 
-> Changes in v3:
->    -- None
-> 
-> Changes in v1 [actually v2]:
->    1. Improve patch description per feedback from julia.lawall@inria.fr
-> 
-> 
->  drivers/staging/r8188eu/core/rtw_br_ext.c | 112 +++++++++++-----------
->  1 file changed, 56 insertions(+), 56 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> index 4c5f30792a46..79daf8f269d6 100644
-> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> @@ -50,17 +50,17 @@
->  static unsigned char *__nat25_find_pppoe_tag(struct pppoe_hdr *ph, unsigned short type)
->  {
->  	unsigned char *cur_ptr, *start_ptr;
-> -	unsigned short tagLen, tagType;
-> +	unsigned short tag_len, tag_type;
-> 
->  	start_ptr = (unsigned char *)ph->tag;
->  	cur_ptr = (unsigned char *)ph->tag;
->  	while ((cur_ptr - start_ptr) < ntohs(ph->length)) {
->  		/*  prevent un-alignment access */
-> -		tagType = (unsigned short)((cur_ptr[0] << 8) + cur_ptr[1]);
-> -		tagLen  = (unsigned short)((cur_ptr[2] << 8) + cur_ptr[3]);
-> -		if (tagType == type)
-> +		tag_type = (unsigned short)((cur_ptr[0] << 8) + cur_ptr[1]);
-> +		tag_len  = (unsigned short)((cur_ptr[2] << 8) + cur_ptr[3]);
-> +		if (tag_type == type)
->  			return cur_ptr;
-> -		cur_ptr = cur_ptr + TAG_HDR_LEN + tagLen;
-> +		cur_ptr = cur_ptr + TAG_HDR_LEN + tag_len;
->  	}
->  	return NULL;
->  }
-> @@ -111,32 +111,32 @@ static int  __nat25_has_expired(struct nat25_network_db_entry *fdb)
->  	return 0;
->  }
-> 
-> -static void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr,
+> diff --git a/drivers/staging/rtl8192u/TODO b/drivers/staging/rtl8192u/TODO
+> new file mode 100644
+> index 000000000000..ab9d5d145b3b
+> --- /dev/null
+> +++ b/drivers/staging/rtl8192u/TODO
+> @@ -0,0 +1,16 @@
+> +To-do list:
+> +
+> +* Correct the coding style according to Linux guidelines; please read the document
+> +  at https://www.kernel.org/doc/html/latest/process/coding-style.html.
+> +* Remove unnecessary debugging/printing macros; for those that are still needed
+> +  use the proper kernel API (pr_debug(), dev_dbg(), netdev_dbg()).
+> +* Remove dead code such as unusued functions, variables, fields, etc..
+> +* Use in-kernel API and remove unnecessary wrappers where possible.
+> +* Fix bugs due to code that sleeps in atomic context.
+> +* Remove the HAL layer and migrate its functionality into the relevant parts of
+> +  the driver.
+> +* Switch to use LIB80211.
+> +* Switch to use MAC80211.
+> +* Switch to use CFG80211.
+> +* Improve the error handling of various functions, particularly those that use
+> +  existing kernel APIs.
 
-As others have said, just make "networkAddr" be "addr" and then it will
-be a lot cleaner and smaller overall.
+Where did this list come from?
+
+How do you know they are all needed?
 
 thanks,
 
