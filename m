@@ -1,79 +1,94 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334B317C4;
-	Thu, 20 Oct 2022 05:28:45 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id z5-20020a17090a8b8500b00210a3a2364fso1676374pjn.0;
-        Wed, 19 Oct 2022 22:28:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E64E17C4;
+	Thu, 20 Oct 2022 05:59:05 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id b12so28339654edd.6;
+        Wed, 19 Oct 2022 22:59:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=idaemZJ4csdYQSk5DNwSXmcpzySUvaL6oGtY2A/pmHc=;
-        b=bPyjIzfP8NR+KGkFgJtIYT2TRbQoO0X5uDTBkC6qKpQa+6t+BPqZCc6IrFdzL3TM8D
-         3voGE7l/kHaG2qYIZxfW0ixOKDyFLYrbKV/YvIA7IfXxXZfShZqRscZ/4+xSdQ9OEoex
-         lo5HMIQZtXxUVX9VoUG8SOlajoZ5TajJNjClnfJBWQIGusHVhWUIY9NSzqtBtQ4TJXSN
-         ChybBcVm9jNL/MEJrt/ZS5iLKnUdAV/q3Z1px+7iHHL7+cO1KfxLDFDLXrzn3xtFz0uY
-         1tKYKxRq/OCN0V7Cmg+y2UYvTpOW1w1iOlELao/FdHCsbUXwPkpDKqzkNr8IAAeZx3sp
-         rc/g==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yTeWtLc9iuDGFKFl9h7/VcDmaMI9wa+7Pbxnp/ORjl8=;
+        b=JAuBCAVsFVOEIzlPbzy0vu38g44tEL83lti6tKpbc93b7aYSEkE5UZ1b+HuAJefMCu
+         o50SoZAvCyXTe7/I2ss7BH9FWIKqEcPvBcjnqP+5S8Q5ILB+narxBQ03eryc/nDQeav7
+         3HdOr9M7W/nGjTlndKXY1momaZvUkvDst5o4ZH1I9ygDl8YpM7liUqPaK7adwd8M10Wx
+         NwQ/J736XbuefugZqPMsLlYtcWkUdetAh26CsQoCEgy2HAdUpPBoaVGJbdMdx1Tr1Uz3
+         jD9Y2diqtiWpt36lBMbRTaFj4z312ES2/geHgfulA5G3K+N7GXkm4GO7Yx+Y4ZKfjEEA
+         yasg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=idaemZJ4csdYQSk5DNwSXmcpzySUvaL6oGtY2A/pmHc=;
-        b=cppfJbVwdxzHjlifFuk9XgRG6depgCxn1PnDm+1Zdw0aiAL95fJAvfkE57fI85qbdJ
-         DmUjoRPluXPrGkrXw5glG39LsAMR3pGEA4K2kSJFwxav8S4iEHA6aNHyHassukfKMOWL
-         vCfORigRO1GtVlcD4uXOjn2qdxlXC3/c30yIS4IDn6VLm6YYbWQD1QVo3dCdUjZdePe0
-         D6ZO8O+sC4CqKKSOTfC77aXorvCPdrgdh4ook621ZrErmutgoUZXd/CHGqhXtL7NM5UE
-         PNUvFp8L487I2Do8DUQp7dMHiPkaQK83rvjNFB82h2jI0IcT+h2MERqp5kHmLp73rht5
-         eXyw==
-X-Gm-Message-State: ACrzQf2SRYzPwrTjz+Tj2G0hilu26HSIdgjB8d1DNCuj4PpG23YYdbHx
-	0zxsCqGpKMUHtb0Q4BnCt0vXNlFOWjXe+Q==
-X-Google-Smtp-Source: AMsMyM7Ghg0TLaHKU8+0sdAQTVXNr1b0AdUrotXbCxjXB3blG78Ufy8peRucdlv0AdNoEKKqVCIxWA==
-X-Received: by 2002:a17:90b:33d0:b0:20d:5edf:8b92 with SMTP id lk16-20020a17090b33d000b0020d5edf8b92mr13865210pjb.117.1666243724769;
-        Wed, 19 Oct 2022 22:28:44 -0700 (PDT)
-Received: from marshmallow (192-184-163-51.fiber.dynamic.sonic.net. [192.184.163.51])
-        by smtp.gmail.com with ESMTPSA id y8-20020a17090322c800b0017c19d7c89bsm11796630plg.269.2022.10.19.22.28.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 22:28:44 -0700 (PDT)
-Date: Wed, 19 Oct 2022 22:28:42 -0700
-From: Emily Peri <eperi1024@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] staging: rtl8723bs: fix white space warnings
-Message-ID: <Y1DcimyMZwkSDm+C@marshmallow>
-References: <cover.1666230736.git.eperi1024@gmail.com>
- <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
- <Y1DVH+UatalfjDN5@kroah.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yTeWtLc9iuDGFKFl9h7/VcDmaMI9wa+7Pbxnp/ORjl8=;
+        b=XN9TawkFqdFY1ELKmzfSSZWokcTSS4vWLlqaUH/3VPi20oq3YPI8N1b3Ew9G6WhZAN
+         qluMihPxRAFyIrfh0sYTsogXFRZtB/Y+DUOHH5PE52bj1l8fro5l1J54SEKQy+dgB7s3
+         U+byMxBQHnlQYnXuAwLaR/Rd5TfPFXelOOyN1jYQCkTa8llyWvGhq/o/w/2Bs+DQhdYk
+         f1IMbxzfL7uNn9kIfHIFV1AOmCt09IdA01cJ0kcCOuAA3x1wRUcVE3Z8rTR5//XgdBPg
+         giyUwxvodVem+IBSA6mpk8r1bFvLbdJWBSByQp67BWlDU3pHbJkMtyTWumFgNXe2I/g9
+         JyEg==
+X-Gm-Message-State: ACrzQf3rYjICmltfU5+U42nfd3KW29kFxIlUGdgE2Ld9OX8fethUTCqc
+	PyMzXu2VV8wQ8ZTnanXl1Yo=
+X-Google-Smtp-Source: AMsMyM67D46OvwHEI6Wq29SnNnoQgIzSxnhbTpOutN+fPKo+6OpCGefoic2psE4DdbBdgIKqoil4kw==
+X-Received: by 2002:aa7:c956:0:b0:43b:206d:c283 with SMTP id h22-20020aa7c956000000b0043b206dc283mr10691464edt.381.1666245543360;
+        Wed, 19 Oct 2022 22:59:03 -0700 (PDT)
+Received: from [192.168.0.100] (ip5f5abb58.dynamic.kabel-deutschland.de. [95.90.187.88])
+        by smtp.gmail.com with ESMTPSA id l17-20020a1709063d3100b0073cf6ec3276sm9744027ejf.207.2022.10.19.22.59.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Oct 2022 22:59:02 -0700 (PDT)
+Message-ID: <56f4cf2c-bc9f-e6a3-d7a0-7f293465166e@gmail.com>
+Date: Thu, 20 Oct 2022 07:59:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1DVH+UatalfjDN5@kroah.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 1/3] staging: rtl8723bs: fix white space warnings
+To: Emily Peri <eperi1024@gmail.com>,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>
+Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1666230736.git.eperi1024@gmail.com>
+ <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
+ <7025b8d8-e23a-0148-75b5-a06c18c6dbcb@linux.microsoft.com>
+ <Y1DXNYai6M6niWXQ@marshmallow>
+Content-Language: en-US
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <Y1DXNYai6M6niWXQ@marshmallow>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 20, 2022 at 06:57:03AM +0200, Greg KH wrote:
-> On Wed, Oct 19, 2022 at 07:10:51PM -0700, Emily Peri wrote:
-> > Fix the following checkpatch warnings in rtw_ioctl_set:
-> > 1) Add missing blankline after declaration
-> > 2) Replace spaces used for indent with tab
-> > 3) Remove space before tab
+On 10/20/22 07:05, Emily Peri wrote:
+>>>   
+>>>   		*pold_state = networktype;
+>>>   
+>>> @@ -367,7 +368,7 @@ u8 rtw_set_802_11_disassociate(struct adapter *padapter)
+>>>   
+>>>   u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_ssid *pssid, int ssid_max_num)
+>>>   {
+>>> -	struct	mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
+>>> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+>>>   	u8 res = true;
+>>>   
+>>>   	if (!padapter) {
+>>
+>> Regards,
+>>
+>> ~Praveen.
 > 
-> When you have to list the different things you do, you should really
-> break that up into individual patches.  This should be 3.
-> 
-> thanks,
-> 
-> greg k-h
+> Now that I think about-- in this last edit I removed a space to appease
+> checkpatch, but maybe I actually should have removed the tab?
 
-Thanks greg for the feedback! I got the idea to put them all in the same
-patch from the PatchPhilosophy guide, which suggested combining a bunch
-of white space corrections into one commit. But, it sounds like I
-misinterpreted what the guide was saying. Maybe if there are identical
-warnings, such as "trailing white space" in the driver code, could those
-corrections go together in a single patch?
+Hi Emily,
+
+you are right, just use spaces.
+
+struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+
+thanks,
+Michael
