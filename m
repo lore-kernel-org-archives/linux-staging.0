@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBFB7E
-	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 19:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B036A6101
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 19:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1666295753;
+	s=mimecast20190719; t=1666295756;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ilOvCV9hI+oLEULT7HJL/2M26nM1vm48TMXZUfrIkbc=;
-	b=Ox/6jjPZeOHu9CzlMlQ2l24a0hTxvPdq/oIeeQfj3N2k1/dg1zDXayz/qDbz+PjIriDw4R
-	0HJXhrmzu02Mv0fKGnvl9EkMnKzZoGQtIgzTZsoDlr6rxvMeADe5bL/wgmujJyO8s2Ckm+
-	3pxzjkaZDIv9inXA60SUr0MuRQvBzSc=
+	bh=tSAfvOpTPfs45olrPvRu3409ppoiPz/StGpkDBR/pzk=;
+	b=e8/Lio/RTh8Vh1/HSF6vL1CSSAO2yZoby+7BuemCWfo3D1Bwjah1bCU5CNXQ5mCm8xdZAQ
+	DwelczyG6DpOevKjapojIwn6ou+RRaqycNcx0PMepMnbhEJ8k1rpfjhYE26gcm8mdwLwht
+	KpjrXDW5rOWPzFotCpoWrtNr2jWu9wY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-sCYHQbowMKWf6GSy8bpzbQ-1; Thu, 20 Oct 2022 15:55:49 -0400
-X-MC-Unique: sCYHQbowMKWf6GSy8bpzbQ-1
+ us-mta-543-j6cbFwp0OKitwIOM0u0zhg-1; Thu, 20 Oct 2022 15:55:53 -0400
+X-MC-Unique: j6cbFwp0OKitwIOM0u0zhg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43AB685A583;
-	Thu, 20 Oct 2022 19:55:49 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A23D5101A52A;
+	Thu, 20 Oct 2022 19:55:52 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.86])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B2F6E40C6EC2;
-	Thu, 20 Oct 2022 19:55:47 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2DD5240C6EC2;
+	Thu, 20 Oct 2022 19:55:51 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 05/17] media: atomisp: Remove unused atomisp_buffers_queued[_pipe] functions
-Date: Thu, 20 Oct 2022 21:55:21 +0200
-Message-Id: <20221020195533.114049-6-hdegoede@redhat.com>
+Subject: [PATCH v2 07/17] media: atomisp: Add an index helper variable to atomisp_buf_done()
+Date: Thu, 20 Oct 2022 21:55:23 +0200
+Message-Id: <20221020195533.114049-8-hdegoede@redhat.com>
 In-Reply-To: <20221020195533.114049-1-hdegoede@redhat.com>
 References: <20221020195533.114049-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,56 +52,135 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 
-The atomisp_buffers_queued[_pipe] functions are not used anywhere,
-remove them.
+With the videobuf2 conversion accessing the index of a frame is going
+to become more involved and writing this out each time is undesired.
+
+Add an 'i' helper variable for the index and assing this once as
+preparation for the videobuf2 conversion.
+
+This also makes use of the new rules wrt max line-lengths in the kernel
+to avoid breaking up a bunch of lines. Not breaking these lines results
+in better readable code (IMHO).
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 15 ---------------
- drivers/staging/media/atomisp/pci/atomisp_cmd.h |  4 ----
- 2 files changed, 19 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 70 ++++++++-----------
+ 1 file changed, 28 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index c72d0e344671..0d3a4ff99730 100644
+index 5f0bebefcadd..a97c54615ba4 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -640,21 +640,6 @@ void atomisp_clear_css_buffer_counters(struct atomisp_sub_device *asd)
- 	asd->video_out_video_capture.buffers_in_css = 0;
- }
+@@ -878,7 +878,6 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 	struct atomisp_video_pipe *pipe = NULL;
+ 	struct atomisp_css_buffer buffer;
+ 	bool requeue = false;
+-	int err;
+ 	unsigned long irqflags;
+ 	struct ia_css_frame *frame = NULL;
+ 	struct atomisp_s3a_buf *s3a_buf = NULL, *_s3a_buf_tmp, *s3a_iter;
+@@ -887,6 +886,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 	enum atomisp_metadata_type md_type;
+ 	struct atomisp_device *isp = asd->isp;
+ 	struct v4l2_control ctrl;
++	int i, err;
  
--/* ISP2400 */
--bool atomisp_buffers_queued(struct atomisp_sub_device *asd)
--{
--	return asd->video_out_capture.buffers_in_css ||
--	       asd->video_out_vf.buffers_in_css ||
--	       asd->video_out_preview.buffers_in_css ||
--	       asd->video_out_video_capture.buffers_in_css;
--}
--
--/* ISP2401 */
--bool atomisp_buffers_queued_pipe(struct atomisp_video_pipe *pipe)
--{
--	return pipe->buffers_in_css ? true : false;
--}
--
- /* 0x100000 is the start of dmem inside SP */
- #define SP_DMEM_BASE	0x100000
+ 	lockdep_assert_held(&isp->mutex);
  
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index c9f92f1326b6..fc1cfda718e1 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -57,10 +57,6 @@ struct atomisp_video_pipe *atomisp_to_video_pipe(struct video_device *dev);
- int atomisp_reset(struct atomisp_device *isp);
- void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd);
- void atomisp_clear_css_buffer_counters(struct atomisp_sub_device *asd);
--/* ISP2400 */
--bool atomisp_buffers_queued(struct atomisp_sub_device *asd);
--/* ISP2401 */
--bool atomisp_buffers_queued_pipe(struct atomisp_video_pipe *pipe);
+@@ -1072,66 +1072,52 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 			break;
+ 		}
  
- /* Interrupt functions */
- void atomisp_msi_irq_init(struct atomisp_device *isp);
++		i = vb->i;
++
+ 		/* free the parameters */
+-		if (pipe->frame_params[vb->i]) {
+-			if (asd->params.dvs_6axis ==
+-			    pipe->frame_params[vb->i]->params.dvs_6axis)
++		if (pipe->frame_params[i]) {
++			if (asd->params.dvs_6axis == pipe->frame_params[i]->params.dvs_6axis)
+ 				asd->params.dvs_6axis = NULL;
+-			atomisp_free_css_parameters(
+-			    &pipe->frame_params[vb->i]->params);
+-			kvfree(pipe->frame_params[vb->i]);
+-			pipe->frame_params[vb->i] = NULL;
++			atomisp_free_css_parameters(&pipe->frame_params[i]->params);
++			kvfree(pipe->frame_params[i]);
++			pipe->frame_params[i] = NULL;
+ 		}
+ 
+-		pipe->frame_config_id[vb->i] = frame->isp_config_id;
++		pipe->frame_config_id[i] = frame->isp_config_id;
+ 		ctrl.id = V4L2_CID_FLASH_MODE;
+ 		if (asd->params.flash_state == ATOMISP_FLASH_ONGOING) {
+-			if (frame->flash_state
+-			    == IA_CSS_FRAME_FLASH_STATE_PARTIAL) {
+-				asd->frame_status[vb->i] =
+-				    ATOMISP_FRAME_STATUS_FLASH_PARTIAL;
+-				dev_dbg(isp->dev, "%s partially flashed\n",
+-					__func__);
+-			} else if (frame->flash_state
+-				   == IA_CSS_FRAME_FLASH_STATE_FULL) {
+-				asd->frame_status[vb->i] =
+-				    ATOMISP_FRAME_STATUS_FLASH_EXPOSED;
++			if (frame->flash_state == IA_CSS_FRAME_FLASH_STATE_PARTIAL) {
++				asd->frame_status[i] = ATOMISP_FRAME_STATUS_FLASH_PARTIAL;
++				dev_dbg(isp->dev, "%s partially flashed\n", __func__);
++			} else if (frame->flash_state == IA_CSS_FRAME_FLASH_STATE_FULL) {
++				asd->frame_status[i] = ATOMISP_FRAME_STATUS_FLASH_EXPOSED;
+ 				asd->params.num_flash_frames--;
+-				dev_dbg(isp->dev, "%s completely flashed\n",
+-					__func__);
++				dev_dbg(isp->dev, "%s completely flashed\n", __func__);
+ 			} else {
+-				asd->frame_status[vb->i] =
+-				    ATOMISP_FRAME_STATUS_OK;
+-				dev_dbg(isp->dev,
+-					"%s no flash in this frame\n",
+-					__func__);
++				asd->frame_status[i] = ATOMISP_FRAME_STATUS_OK;
++				dev_dbg(isp->dev, "%s no flash in this frame\n", __func__);
+ 			}
+ 
+ 			/* Check if flashing sequence is done */
+-			if (asd->frame_status[vb->i] ==
+-			    ATOMISP_FRAME_STATUS_FLASH_EXPOSED)
++			if (asd->frame_status[i] == ATOMISP_FRAME_STATUS_FLASH_EXPOSED)
+ 				asd->params.flash_state = ATOMISP_FLASH_DONE;
+ 		} else if (isp->flash) {
+-			if (v4l2_g_ctrl(isp->flash->ctrl_handler, &ctrl) ==
+-			    0 && ctrl.value == ATOMISP_FLASH_MODE_TORCH) {
++			if (v4l2_g_ctrl(isp->flash->ctrl_handler, &ctrl) == 0 &&
++			    ctrl.value == ATOMISP_FLASH_MODE_TORCH) {
+ 				ctrl.id = V4L2_CID_FLASH_TORCH_INTENSITY;
+-				if (v4l2_g_ctrl(isp->flash->ctrl_handler, &ctrl)
+-				    == 0 && ctrl.value > 0) {
+-					asd->frame_status[vb->i] =
+-					    ATOMISP_FRAME_STATUS_FLASH_EXPOSED;
+-				} else {
+-					asd->frame_status[vb->i] =
+-					    ATOMISP_FRAME_STATUS_OK;
+-				}
++				if (v4l2_g_ctrl(isp->flash->ctrl_handler, &ctrl) == 0 &&
++				    ctrl.value > 0)
++					asd->frame_status[i] = ATOMISP_FRAME_STATUS_FLASH_EXPOSED;
++				else
++					asd->frame_status[i] = ATOMISP_FRAME_STATUS_OK;
+ 			} else {
+-				asd->frame_status[vb->i] =
+-				    ATOMISP_FRAME_STATUS_OK;
++				asd->frame_status[i] = ATOMISP_FRAME_STATUS_OK;
+ 			}
+ 		} else {
+-			asd->frame_status[vb->i] = ATOMISP_FRAME_STATUS_OK;
++			asd->frame_status[i] = ATOMISP_FRAME_STATUS_OK;
+ 		}
+ 
+-		asd->params.last_frame_status = asd->frame_status[vb->i];
++		asd->params.last_frame_status = asd->frame_status[i];
+ 
+ 		if (asd->continuous_mode->val) {
+ 			if (css_pipe_id == IA_CSS_PIPE_ID_PREVIEW ||
 -- 
 2.37.3
 
