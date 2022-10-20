@@ -1,28 +1,28 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BE723BF;
-	Thu, 20 Oct 2022 07:07:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A3C6C433D6;
-	Thu, 20 Oct 2022 07:07:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666249655;
-	bh=5vrQ4C20DD+nj92Hyn6OUvjArtEEknzGS96jSH4NC0M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bmHHsZRgVyHSnkW6USsjrxMMUPRPSHUZY7Rxz4tTj+AH6sAs5GsbqEHFGz+jMIzny
-	 tJ2yE3N5AHmb3PYooOD55UMFunqnPNl16draY60edNReC9KI71Ko6CX3PzswPnAVTA
-	 idVMfTj3mMw79OuT4z5ULXFkC/ZG+MmQdQHkRBJw=
-Date: Thu, 20 Oct 2022 09:07:33 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Emily Peri <eperi1024@gmail.com>
-Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] staging: rtl8723bs: fix white space warnings
-Message-ID: <Y1DztSHmsjFWpXJy@kroah.com>
-References: <cover.1666230736.git.eperi1024@gmail.com>
- <45558673b486808e7978e2e4838c6ce5a2485b8b.1666230736.git.eperi1024@gmail.com>
- <Y1DVH+UatalfjDN5@kroah.com>
- <Y1DcimyMZwkSDm+C@marshmallow>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BD9259B;
+	Thu, 20 Oct 2022 07:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1666252343; bh=IDxcId1QkT7hrlZDNW6yFY1xSb80oaphOlu0dv7CxTI=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=lULIsknrK7h2gT9YSw6Nm7OI6qDBJNaWDtmoTnvq+RnIemTK9mZQTe/RZq14dxb6r
+	 OgJz/2frvCHR49bUiKqFQjJRsAmGj5fkEBWOEgLXouZI2Z0uCCdQadVFffeaq1t8Co
+	 wQaOoA1DlBc93A+EijkoCmh5oZwnBpyP1DW2Vgg0=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+	via [213.182.55.206]
+	Thu, 20 Oct 2022 09:52:23 +0200 (CEST)
+X-EA-Auth: uFKiTbVSLLsHOwrxlJNQ2/+NSGS5G7jnaBTa8x7mBmImRrJp0lk6jBMqryZJI0j9MRaoSFmWWw2fYjCJRTbnH+fb9yrP12mX
+Date: Thu, 20 Oct 2022 13:22:17 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, paskripkin@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
+	saurabh.truth@gmail.com
+Subject: [PATCH v3 00/10] staging: r8188eu: trivial code cleanup patches
+Message-ID: <cover.1666249715.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,34 +31,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y1DcimyMZwkSDm+C@marshmallow>
 
-On Wed, Oct 19, 2022 at 10:28:42PM -0700, Emily Peri wrote:
-> On Thu, Oct 20, 2022 at 06:57:03AM +0200, Greg KH wrote:
-> > On Wed, Oct 19, 2022 at 07:10:51PM -0700, Emily Peri wrote:
-> > > Fix the following checkpatch warnings in rtw_ioctl_set:
-> > > 1) Add missing blankline after declaration
-> > > 2) Replace spaces used for indent with tab
-> > > 3) Remove space before tab
-> > 
-> > When you have to list the different things you do, you should really
-> > break that up into individual patches.  This should be 3.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> Thanks greg for the feedback! I got the idea to put them all in the same
-> patch from the PatchPhilosophy guide, which suggested combining a bunch
-> of white space corrections into one commit. But, it sounds like I
-> misinterpreted what the guide was saying. Maybe if there are identical
-> warnings, such as "trailing white space" in the driver code, could those
-> corrections go together in a single patch?
-> 
+Address different kinds of checkpatch complains for the staging/r8188eu module.
+The patches are required to be applied in sequence.
 
-Yes, you are correct, you could do a "fix all trailing whitespace in
-this file" in one patch.
+Changes in v3:
+   1. Patch 4: Extend the __constant_htons to htons change to other files of the driver.
+      This was suggested by philipp.g.hortmann@gmail.com
+   2. Patch 4: Spelling mistake corrected as pointed out by joe@perches.com
+   3. Patch 5 through 10: Included in this version. Additional clean up patches.
 
-thanks,
+Changes in v2:
+   I incorrectly labeled the first revision as v1 instead of v2. So,
+   following change recorded under v1 is actually changes for v2. Feedback
+   provided by philipp.g.hortmann@gmail.com
+      1. Improve language / grammar for the patch descriptions
+      2. Further improve code reformatting
 
-greg k-h
+Deepak R Varma (10):
+  staging: r8188eu: use Linux kernel variable naming convention
+  staging: r8188eu: reformat long computation lines
+  staging: r8188eu: remove {} for single statement blocks
+  staging: r8188eu: use htons macro instead of __constant_htons
+  staging: r8188eu: correct misspelled words in comments
+  staging: r8188eu: Add space between function & macro parameters
+  staging: r8188eu: Associate pointer symbol with parameter name
+  staging: r8188eu: replace leading spaces by tabs
+  staging: r8188eu: Put '{" on the symbol declaration line
+  staging: r8188eu: Correct missing or extra space in the statements
+
+ drivers/staging/r8188eu/core/rtw_br_ext.c     | 122 +++++++++---------
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  |   2 +-
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  36 +++---
+ drivers/staging/r8188eu/core/rtw_recv.c       |   8 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  14 +-
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |   2 +-
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c    |   2 +-
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |   2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |   4 +-
+ .../staging/r8188eu/include/Hal8188EPhyReg.h  |   4 +-
+ .../staging/r8188eu/include/osdep_service.h   |   4 +-
+ .../staging/r8188eu/include/rtl8188e_hal.h    |   6 +-
+ .../staging/r8188eu/include/rtl8188e_spec.h   |  18 +--
+ drivers/staging/r8188eu/include/rtw_cmd.h     |  52 ++++----
+ drivers/staging/r8188eu/include/rtw_io.h      |  28 ++--
+ .../staging/r8188eu/include/rtw_ioctl_set.h   |   4 +-
+ drivers/staging/r8188eu/include/rtw_mlme.h    |  22 ++--
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  12 +-
+ drivers/staging/r8188eu/include/rtw_recv.h    |   4 +-
+ drivers/staging/r8188eu/include/rtw_xmit.h    |   2 +-
+ drivers/staging/r8188eu/include/wifi.h        |  12 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |   6 +-
+ 22 files changed, 181 insertions(+), 185 deletions(-)
+
+--
+2.30.2
+
+
+
