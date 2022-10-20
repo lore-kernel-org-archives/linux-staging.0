@@ -1,156 +1,158 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2903928E2;
-	Thu, 20 Oct 2022 08:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666252803; bh=KZogcX23PzzPa1tx6zdFOcH2ZnPUvNt/ThaGDD/8Dyw=;
-	h=X-EA-Auth:Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:In-Reply-To;
-	b=mHjOBXz/STV3tvgxgwPcCdLl2UdXNDPSBwRY5qHlveCvq+lAp7cUfq4B7wLjBzk96
-	 A6EZx8FLSNoCV47Men1RL1MIfB17EAXJBYoRbZVevam4ZyS7mTfwvJSp4hG+JeZ+A0
-	 oS6DR2F4eCEL7QeA/WTQEy7k8RGmMhblpKlARHXs=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-	via [213.182.55.206]
-	Thu, 20 Oct 2022 10:00:03 +0200 (CEST)
-X-EA-Auth: kEbeVOkRIzsClWki16rMN3tDT4Gwd8JyyJxmSCJmHoIL/4lrk7GZcHTzqeVzNQ6YO3R6GGG/FpmuFiBFvoOGmDY6OomUcqP7
-Date: Thu, 20 Oct 2022 13:29:58 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
-	saurabh.truth@gmail.com
-Subject: [PATCH v3 10/10] staging: r8188eu: Correct missing or extra space in
- the statements
-Message-ID: <f400fa71f29ffb3a684ce415a054fc1fc9efe7c0.1666249716.git.drv@mailo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3458F2908;
+	Thu, 20 Oct 2022 08:22:42 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29K5pDRp017748;
+	Thu, 20 Oct 2022 08:22:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2022-7-12;
+ bh=Clfj87675GHdX4Rj6pHC1Kc3scNEvSoiZL9LOWBWvEs=;
+ b=KzqjY7aN76EFNvEnVqk9a+JILx2ZdqRh21Bk+yHWNtn0be9VAmwpiDu4NGfqPjwxXgBQ
+ 0bl+hQw5lZzwAO9BxILkwtebfwCTcgyu+faNj2L05h+EymKcJoVTaUkENvCLqZHHd9IS
+ nXM97YFGoiArq8w1W85WKsyaM5EnuIF1msvEtL/Ouy2xb+0oDPfx28vEtGiQXbP4mqt7
+ 3lBJIXHOBiHwYM2pF6+1o6+8a75tDUD0KmaqW/NuQLU2xmU+5nEf7maoCbnMuumIyyAC
+ LHpwit14/M6js2kJLCcp6iimgCHtIbhHMBVHReL4zuMtoNoPbbZhyExEJh6jd9aTlaZd hg== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k7ndtn0ae-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 Oct 2022 08:22:32 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 29K4pY0P003893;
+	Thu, 20 Oct 2022 08:22:31 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3k8j0srk8g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 Oct 2022 08:22:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MOOjnl5nQD9APnKw+YzCkEzPPxL33LTjiaAjBvBME7A8DCy6MAT+0jtQWSTCYhBgJ5qK9bEmRhphA0AMysvOD6Is1NE2p6Q/tEHxSF06etElFR4zUU4PN82ay3SX5kvYryZUieGNUwjPrXhvDHbEunA3RutoyMl7bvTMpDQj79WQZASJHIhJIEgCXZFTwcH0UiR74Y7bGQhcUIg/nj/0HSycbaxQ2h+FF8gOlfMek4moBV6lViTYa3pgWg+8bmu3UlG11ZwkHD4Tb8Ih9fG0Fb3IRgVHgDzyXXPxxIzVNofAJgv11b09mHUcv1EvM1Zyft+0Vps4wlQyirwRuhSGiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Clfj87675GHdX4Rj6pHC1Kc3scNEvSoiZL9LOWBWvEs=;
+ b=EmhJJIBqSfzCKzjA5f4W3Ocrzyuzro1nkSRb5wQRssLcWCXtQWSHj3py9PSkdsz2TB1bHiK0NOZbynLwkv9HUdQVGgdoh7YjjhO8785kbJPLAd+SlKfQLcF6+cRR3ZzyCcWa1siPfRhDtmJwHNnqH2Fw59/lxvXSK/DkfEZ+umrHbuhaWlcRM/7Sk9x2eXWye/36gWu3IRUgVePmEIfANcWVlRTanGIyzK8Om5dt3D8o7/GlE5cUvcfvr8WWFZe/Wjegs62EQBzDzS0s9ODCEfkgULcV2DQefeDVnu0prEyyu9QB5UYThsAc+JsIKm/+xohfTSGiP+aw3eDPnhyQ7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Clfj87675GHdX4Rj6pHC1Kc3scNEvSoiZL9LOWBWvEs=;
+ b=heTCzWt+uXG+b33hIW2VJtZh6B6k3JmKw5kdtOtJIyjOP++LxpFeTaaHibjfmSGAns273ITi8zgugzwv/+5SSviBMDc53UdCQnXaA/UbQYPZMnNTIMhiMpdKave9fBYSM6EgD+pROT9yTkAtm331oVzjs82KG/EOt2xf3v760gQ=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MN0PR10MB5934.namprd10.prod.outlook.com
+ (2603:10b6:208:3ce::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.33; Thu, 20 Oct
+ 2022 08:22:29 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::1b8e:540e:10f0:9aec]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::1b8e:540e:10f0:9aec%4]) with mapi id 15.20.5676.031; Thu, 20 Oct 2022
+ 08:22:29 +0000
+Date: Thu, 20 Oct 2022 11:22:10 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
+        phil@philpotter.co.uk, paskripkin@gmail.com,
+        gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
+        saurabh.truth@gmail.com
+Subject: Re: [PATCH v3 05/10] staging: r8188eu: correct misspelled words in
+ comments
+Message-ID: <Y1EFMt6fjLdRirnA@kadam>
 References: <cover.1666249715.git.drv@mailo.com>
+ <3235c0f681d817f7f89dd80537f36e1f9686fa24.1666249716.git.drv@mailo.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3235c0f681d817f7f89dd80537f36e1f9686fa24.1666249716.git.drv@mailo.com>
+X-ClientProxiedBy: JNXP275CA0014.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::26)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1666249715.git.drv@mailo.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|MN0PR10MB5934:EE_
+X-MS-Office365-Filtering-Correlation-Id: e125a5a1-2aa4-46bd-b61e-08dab27439aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Zh/Ym6Q+o1Op8VCbghsWNC16p1bEZ9aR3mwenLIGsdmM6XzOXFKn7IyESZXjFXdW80p75ARgtqI7RJoM5AkYFpxzb3QP5tDC2ZNDQTDhesjqVFQFwwl0hSFSOjQ0Ik2R/9z2YepjnzCsfj0UFMM2UQ6jmUif7YHnZJFGFrIxfgdVTkKylERyJMg5hAdSSOKgA/sgbV26r3V/vRr2r/miOB9w02amLE46HixLJTf76y1rw0XRH9UBnIxnUSUjj+bZjpuaqCR3nJIB6xO3oTy8wLrTxJOmx6cfJmk/dQGaa7xt+rg76hgVaQ6vSZHdAfg0bKKTWPqZzkP3b7fNytvp/az/gsPrejsMgFu1bsyR8xiHG9DS4WxiHSzHM5B/RH2e8M6Qwpy2TGOsMc69m5iWee4QJqHW2+wVmfLZr9Kk/tDRxFk/ZpA7bsG1hncbkDRONsjHIGqCmBi2nXfpVo1O3dxXfyfNFwlIliAmSr5KlEk+/CnFJmI9wVv3jaq85jI4+8p5/Sim6KZ/grTlYXv65/hX9G02Cnv6vXRot6jrlVpW8OaC5nIE8vKgHr2I7KaG7418jaN7KQrs1nvjWP2g/msQgnfGHePGdPiaxHrzh2KslzTj/TXCNkYX+pcROZS5Eab9lFRzFN2LRza/2E0nFVs4++8G6MTZXUwrBZX/qDzh5qzjXoRJkGvY+EUsnnReHMaoq7pNNyG5e8PWI7UyZQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(39860400002)(366004)(396003)(346002)(136003)(376002)(451199015)(2906002)(44832011)(4744005)(4326008)(66476007)(7416002)(41300700001)(5660300002)(33716001)(38100700002)(8936002)(66556008)(8676002)(26005)(9686003)(6506007)(6512007)(186003)(6486002)(478600001)(6916009)(6666004)(66946007)(316002)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?etxcMbKNmdkaur+Ncl7fuasLDOCGtG1b5hYk7ixjMz9zRxBpi5nxrBHq5gbM?=
+ =?us-ascii?Q?7D5+cujNe+/baxqPd1zb+9aQie92UFfG4GQyWMJnE+IYyK5vW5WRt1Tiqk9L?=
+ =?us-ascii?Q?dbk+eNJreJ9sNWSgwrKtK7NyCilKyUsHsVoz+qa8zIji3uXlVp6fR5kNu7NQ?=
+ =?us-ascii?Q?o/YWQLE0paHppvwE8i4J0qQN93l8YObR9135Pfj8SS2agyl2lv5fbyHaPpIT?=
+ =?us-ascii?Q?Rkc8BPFEGWT39BQCsIq5l5dox9+9b6fV3tIfjZixLUnoj3hARqj/zy5FO16u?=
+ =?us-ascii?Q?m+pvYjw0k+YKI04X7vqZj/OyCjyg0W7rEZvGEvODXg3OkM0maUnLa4Jwy4qY?=
+ =?us-ascii?Q?zychTqS1RsqbdUIYvibLOg6yDdMTLQTvJ843ccryCW+2TIklG1zZzpSunF2F?=
+ =?us-ascii?Q?esd0ZyJVrJJLrkHnEPfHDkPYN/14rVc8OrGMNDt8Lo7lECIKe3aKnfR4oPPs?=
+ =?us-ascii?Q?QojNayx/dGugA6abOdBxLPO+LLxLWJ+jcESa50DMDU6Hz8K331DCh18rAPBO?=
+ =?us-ascii?Q?W5EX5tNLIKFTu2gVjwc/svDFeSlJT8iJTiAEGAazqN1of40MVZoA5o67Cyhu?=
+ =?us-ascii?Q?TARFj0x6vEINuGjXRd2ZXT9G9B3uNpoz4auUJlTcb4yGy6njjFG4UcWqBns6?=
+ =?us-ascii?Q?DoExYxhXnig2Cj4ljadKFdJunidLkWFp/6TbAoVqNMiEybKUs34ngHU3YJVd?=
+ =?us-ascii?Q?Pcto2T73Fx7na3X/F+u6Ox0FW0d8D0gz/ma6/c/v3FXxzu5iDj+KUh9HyJ9+?=
+ =?us-ascii?Q?Ac96wEEzZW977cboEb3K9kAx/BdVsZSz0f2wzOVDracc6C6UeR4uxTcmHKWe?=
+ =?us-ascii?Q?gZRZ+NETCnE8pcEt/WTZIttWwmA8o1kHtL2PX+Zh67IlyufPIt3TP7xstHQG?=
+ =?us-ascii?Q?C3fQTmsnbAp+6h0V2nLAbkzjJ29iDVzCotq0PaIabOpqVnHOIoQVNiq1z7xG?=
+ =?us-ascii?Q?OpRmgHsuASkqbhJozxUBeonTH081WdYDJ7SCcAqGM4q03WE5w3X31JHDTKSc?=
+ =?us-ascii?Q?KJVT8CvsF72owgwx2yJpIksS5YPBG019Obu3uRtTq3CxotZ57tXgQokVF5Qn?=
+ =?us-ascii?Q?n/BwuAC/B3I+YVj7ao2ZO42VH7fDpRBUdKigf6fHUWU/MuFia6c58r0kNajx?=
+ =?us-ascii?Q?cZZ8bTVckpYaP/lIqcpKFXlCIfunXAZDvx1z5idy/eygmxoZRt9A4zwQD+bE?=
+ =?us-ascii?Q?dW6/TtIftuJbuB0PY3YroRm3DF89m6SBBS3sXJ+LNJ+DEtqUMebt7P4x8vP0?=
+ =?us-ascii?Q?lM8aGweeQ5w5o2PjtJ6MrzEi2SbHgp3uBCiptw5/MHOuxdy2TIXcgtW/uUG+?=
+ =?us-ascii?Q?A8lLoFW+4roHXT1VtJ/qpNYHClR/O7XYkhsnYOkGfRyXbBv1PIq+wFteaobN?=
+ =?us-ascii?Q?aqAeiBF4v4g6KQ5AifPdNXIXKSgaZzY9lKJF/Kdw0ReYXpQ/YRgJXbs/OfuE?=
+ =?us-ascii?Q?X8xsnX56iJKymyVUxvfytLSWIts7p+3cJiwJXMcY12L+z7HJ+JMba1oJS1cf?=
+ =?us-ascii?Q?ZNjSyAgOoEujjfAl9NvxQSIlaHEkdJ24aOfKzt6jsGivrPRUpugJAmNpdkFw?=
+ =?us-ascii?Q?naV3Yvr9MIaH230nBOnAcDKEjkxuQFsja6JdctBh0wfk3Ez2l8U3+FMlJ/5p?=
+ =?us-ascii?Q?tA=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e125a5a1-2aa4-46bd-b61e-08dab27439aa
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2022 08:22:29.0097
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bwBhQEBRg5rpj6pTnp040fBy+Ta77+GeGpaY92qaUPescwi9d3FU+hHVf70LYipS7Kg5AFj6HjeBCe2cLMRmZcYX4RV7S19YurXR+FQKYx0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR10MB5934
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-20_02,2022-10-19_04,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210200048
+X-Proofpoint-ORIG-GUID: UH9umQ1zz44VZ0oycO35wQ0XuKhL6SL1
+X-Proofpoint-GUID: UH9umQ1zz44VZ0oycO35wQ0XuKhL6SL1
 
-Properly spacing out code statements/instructions improves code
-readability. Add missing or remove extra space as necessary according
-to the Linux Kernel coding-style guidelines. Following errors reported
-by checkpatch script for inconsistent code spacing:
-	ERROR: space prohibited before that close parenthesis ')'
-	ERROR: space prohibited before that ',' (ctx:WxW)
-	CHECK: spaces preferred around that '&' (ctx:VxV)
-
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
-
-Changes in v3:
-   1. Patch newly added to the patch set.
-
-
-
- .../staging/r8188eu/include/rtl8188e_spec.h    | 12 ++++++------
- drivers/staging/r8188eu/include/rtw_mlme.h     | 18 +++++++++---------
- drivers/staging/r8188eu/include/rtw_mlme_ext.h |  2 +-
- 3 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_spec.h b/drivers/staging/r8188eu/include/rtl8188e_spec.h
-index e34ecdc09688..3fa3b3e5dd64 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_spec.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_spec.h
-@@ -900,12 +900,12 @@ Current IOREG MAP
- #define HQSEL_HIQ			BIT(5)
-
- /*  For normal driver, 0x10C */
--#define _TXDMA_HIQ_MAP(x)		(((x)&0x3) << 14)
--#define _TXDMA_MGQ_MAP(x)		(((x)&0x3) << 12)
--#define _TXDMA_BKQ_MAP(x)		(((x)&0x3) << 10)
--#define _TXDMA_BEQ_MAP(x)		(((x)&0x3) << 8 )
--#define _TXDMA_VIQ_MAP(x)		(((x)&0x3) << 6 )
--#define _TXDMA_VOQ_MAP(x)		(((x)&0x3) << 4 )
-+#define _TXDMA_HIQ_MAP(x)		(((x) & 0x3) << 14)
-+#define _TXDMA_MGQ_MAP(x)		(((x) & 0x3) << 12)
-+#define _TXDMA_BKQ_MAP(x)		(((x) & 0x3) << 10)
-+#define _TXDMA_BEQ_MAP(x)		(((x) & 0x3) << 8)
-+#define _TXDMA_VIQ_MAP(x)		(((x) & 0x3) << 6)
-+#define _TXDMA_VOQ_MAP(x)		(((x) & 0x3) << 4)
-
- #define QUEUE_LOW			1
- #define QUEUE_NORMAL			2
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/staging/r8188eu/include/rtw_mlme.h
-index ebf7168a7ef9..ca539c652f26 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme.h
-@@ -101,17 +101,17 @@ struct rt_link_detect {
-
- struct profile_info {
- 	u8	ssidlen;
--	u8	ssid[ WLAN_SSID_MAXLEN ];
--	u8	peermac[ ETH_ALEN ];
-+	u8	ssid[WLAN_SSID_MAXLEN];
-+	u8	peermac[ETH_ALEN];
- };
-
- struct tx_invite_req_info {
- 	u8	token;
- 	u8	benable;
--	u8	go_ssid[ WLAN_SSID_MAXLEN ];
-+	u8	go_ssid[WLAN_SSID_MAXLEN];
- 	u8	ssidlen;
--	u8	go_bssid[ ETH_ALEN ];
--	u8	peer_macaddr[ ETH_ALEN ];
-+	u8	go_bssid[ETH_ALEN];
-+	u8	peer_macaddr[ETH_ALEN];
- 	u8	operating_ch;	/* This information will be set by using the
- 				 * p2p_set op_ch=x */
- 	u8	peer_ch;	/* The listen channel for peer P2P device */
-@@ -154,9 +154,9 @@ struct tx_nego_req_info {
- };
-
- struct group_id_info {
--	u8	go_device_addr[ ETH_ALEN ];	/* The GO's device address of
-+	u8	go_device_addr[ETH_ALEN];	/* The GO's device address of
- 						 * this P2P group */
--	u8	ssid[ WLAN_SSID_MAXLEN ];	/* The SSID of this P2P group */
-+	u8	ssid[WLAN_SSID_MAXLEN];	/* The SSID of this P2P group */
- };
-
- struct scan_limit_info {
-@@ -459,7 +459,7 @@ static inline void set_fwstate(struct mlme_priv *pmlmepriv, int state)
- {
- 	pmlmepriv->fw_state |= state;
- 	/* FOR HW integration */
--	if (_FW_UNDER_SURVEY==state)
-+	if (_FW_UNDER_SURVEY == state)
- 		pmlmepriv->bScanInProcess = true;
- }
-
-@@ -467,7 +467,7 @@ static inline void _clr_fwstate_(struct mlme_priv *pmlmepriv, int state)
- {
- 	pmlmepriv->fw_state &= ~state;
- 	/* FOR HW integration */
--	if (_FW_UNDER_SURVEY==state)
-+	if (_FW_UNDER_SURVEY == state)
- 		pmlmepriv->bScanInProcess = false;
- }
-
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index 413b94e38744..66aa8b497aa1 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -729,7 +729,7 @@ enum rtw_c2h_event {
- 	GEN_EVT_CODE(_Survey),	 /*8*/
- 	GEN_EVT_CODE(_SurveyDone),	 /*9*/
-
--	GEN_EVT_CODE(_JoinBss) , /*10*/
-+	GEN_EVT_CODE(_JoinBss), /*10*/
- 	GEN_EVT_CODE(_AddSTA),
- 	GEN_EVT_CODE(_DelSTA),
- 	GEN_EVT_CODE(_AtimDone),
---
-2.30.2
+On Thu, Oct 20, 2022 at 01:25:16PM +0530, Deepak R Varma wrote:
+> diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> index 55e6b0f41dc3..1de808832ed8 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> @@ -287,7 +287,7 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+> 
+>  		if ((*pold_state == Ndis802_11Infrastructure) || (*pold_state == Ndis802_11IBSS)) {
+>  			if (check_fwstate(pmlmepriv, _FW_LINKED))
+> -				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have chked whether  issue dis-assoc_cmd or not */
+> +				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have cheked whether  issue dis-assoc_cmd or not */
 
 
+s/cheked/checked/
 
+>  	       }
+> 
+>  		*pold_state = networktype;
+
+regards,
+dan carpenter
