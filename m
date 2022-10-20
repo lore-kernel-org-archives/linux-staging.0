@@ -1,56 +1,45 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901A45CA3;
-	Thu, 20 Oct 2022 18:29:52 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id b18so432738ljr.13;
-        Thu, 20 Oct 2022 11:29:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RswLkUQZgOX210lwrclExJv9Imy6Jbq5VPuyg8KfHoM=;
-        b=ky4WgJ2sV1PKnE8V5sQnBnftORIfi49y4SjH4oUyu15+Z1iit3HvxuvXusNDPpkC/P
-         9d1d+8xdpZqzETTAoyoa5f9T2h7q+hFRwgvYnXJtNyh14QkZ6hLaki+k9bcSOsWR6oBh
-         RMOMdLpKGbwWdpN0mIyTy1cNFDY4pfsF1IeM5IZP+uZxr/dincFH1s8x6EQ7Bt/PZz3F
-         UZcIiJjlojYVBxPXAyC7Xljk771vVl5yfBf6PFncSz6y4qr1FzSE3TXZXSrBC6V4f3ZS
-         zEVKicD4gUs5YRhi6DX6X63eyFOaex+IQhBDBVQvqCAC3+8nWZRg1SuzCDMl5rw4trh/
-         oZMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RswLkUQZgOX210lwrclExJv9Imy6Jbq5VPuyg8KfHoM=;
-        b=UnWOoklpWjdDeNzETdFypPnZAQ/DwyKq/seCQcEZ3HYrkyxo/D5+xwVaPTEtsIXdVI
-         WtjwAprJma1amILLV3RR1LjLlQZvTGP9F8dx2DmUp+QdCmMlS9p9BLcKIqSgrbSduFer
-         hYWxuGRQkpxV18ZA4oBscVw/tBtf6maZgtYmLJBXAd+zRHdiBly9e5xTUuBptYpJxsk/
-         RXz29i4h0Hgl34i5uXOXmuprlDE32UpISJQapQczT8byiYoN1CE87bTF0IGOL+rKZUiK
-         wEMl8gDQf4QjpWyngzRgiodPGJrrSeRfuY0x5UUFUAX72LX4cGCVPCjPacSXT6qQOY7I
-         vDPg==
-X-Gm-Message-State: ACrzQf22u5UxGvRx4k0ac86BpQbOoJ37ma+M8W76c9F1rAIkZloGj5gv
-	GgKtFsIJIpMf5ZdmzFbzk3FSPzABTwChsegA
-X-Google-Smtp-Source: AMsMyM5HGU+/pes5W2kxsVEOQOmXCwax5PtNMYm1egRpzn5Dy8X2bInzQVHGLH2Y8GyAV92LNrl3vw==
-X-Received: by 2002:a2e:b0c3:0:b0:26e:6617:ed08 with SMTP id g3-20020a2eb0c3000000b0026e6617ed08mr5135924ljl.120.1666290592079;
-        Thu, 20 Oct 2022 11:29:52 -0700 (PDT)
-Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
-        by smtp.googlemail.com with ESMTPSA id h10-20020a0565123c8a00b00497a3e11608sm2797216lfv.303.2022.10.20.11.29.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 11:29:51 -0700 (PDT)
-From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-To: forest@alittletooquiet.net
-Cc: greg@kroah.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Subject: [PATCH v3] staging: vt6655: Fix Lines should not end with a '('
-Date: Thu, 20 Oct 2022 18:27:47 +0000
-Message-Id: <20221020182948.14982-1-tanjubrunostar0@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1666288416.git.tanjubrunostar0@gmail.com>
-References: <cover.1666288416.git.tanjubrunostar0@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488707E
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 19:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1666295745;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6kSfRgV2BZv3Dzycdbn9g6qwtfB3Vtm5f+Ue155uRUk=;
+	b=HP+ywMLXgSpo7dpxWrk9ziv5XWqyA+IQm/yJjaGAIr3BAZtTW/MO9HS32maGTxHzRT74gy
+	HZu5W9pXY8E8XaHTAY4wqxIEi2VPGmV01mrPAiqgc6CGBFqsDb23Z5O7FvEtfbPeX+P+5b
+	rV7Exr/C9XdQuOX8LvH1sNq3/xYCSNY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-141-4q5j0E4WM0OyhZbGHndtlA-1; Thu, 20 Oct 2022 15:55:41 -0400
+X-MC-Unique: 4q5j0E4WM0OyhZbGHndtlA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A545F1C051A4;
+	Thu, 20 Oct 2022 19:55:40 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.86])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2553940C6EC3;
+	Thu, 20 Oct 2022 19:55:39 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 00/17] media: atomisp: Convert to videobuf2
+Date: Thu, 20 Oct 2022 21:55:16 +0200
+Message-Id: <20221020195533.114049-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,117 +47,89 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 
-Code style warnings reported by checkpatch.
-Improve the layout of a function header:
-Put the first parameter immediately after the '(' and align the other
-parameters underneath it.
+Hi All,
 
-Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Here is v2 of my patch series converting the staging atomisp driver to use
+the videobuf2 framework, fixing MMAP mode not working.
 
----
-v2: put static and void on the same line and adjusted the indentation as
-suggested by Greg KH
----
- drivers/staging/vt6655/rxtx.c | 78 +++++++++++++++--------------------
- 1 file changed, 33 insertions(+), 45 deletions(-)
+New in v2 is that the "media: atomisp: Convert to videobuf2" patch
+now also contains moving over to using a per vb_queue lock as is
+standard for v4l2 drivers. This removes a bunch of FIXME + checkpatch
+warnings (due to commented out prep for this) from v1 of this patch.
+This v2 also fixes the 1 new warning pointed out by the lkp test robot.
 
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 5bdb5176772c..1e5036121665 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -85,35 +85,27 @@ static const unsigned short wFB_Opt1[2][5] = {
- #define DATADUR_A_F1    13
- 
- /*---------------------  Static Functions  --------------------------*/
--static
--void
--s_vFillRTSHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pvRTS,
--	unsigned int	cbFrameLength,
--	bool bNeedAck,
--	bool bDisCRC,
--	struct ieee80211_hdr *hdr,
--	unsigned short wCurrentRate,
--	unsigned char byFBOption
--);
--
--static
--void
--s_vGenerateTxParameter(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	struct vnt_tx_fifo_head *,
--	void *pvRrvTime,
--	void *pvRTS,
--	void *pvCTS,
--	unsigned int	cbFrameSize,
--	bool bNeedACK,
--	unsigned int	uDMAIdx,
--	void *psEthHeader,
--	unsigned short wCurrentRate
--);
-+static void s_vFillRTSHead(struct vnt_private *pDevice,
-+			   unsigned char byPktType,
-+			   void *pvRTS,
-+			   unsigned int	cbFrameLength,
-+			   bool bNeedAck,
-+			   bool bDisCRC,
-+			   struct ieee80211_hdr *hdr,
-+			   unsigned short wCurrentRate,
-+			   unsigned char byFBOption);
-+
-+static void s_vGenerateTxParameter(struct vnt_private *pDevice,
-+				   unsigned char byPktType,
-+				   struct vnt_tx_fifo_head *,
-+				   void *pvRrvTime,
-+				   void *pvRTS,
-+				   void *pvCTS,
-+				   unsigned int	cbFrameSize,
-+				   bool bNeedACK,
-+				   unsigned int	uDMAIdx,
-+				   void *psEthHeader,
-+				   unsigned short wCurrentRate);
- 
- static unsigned int
- s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
-@@ -121,22 +113,18 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
- 		  unsigned int uDMAIdx, struct vnt_tx_desc *pHeadTD,
- 		  unsigned int uNodeIndex);
- 
--static
--__le16
--s_uFillDataHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pTxDataHead,
--	unsigned int cbFrameLength,
--	unsigned int uDMAIdx,
--	bool bNeedAck,
--	unsigned int uFragIdx,
--	unsigned int cbLastFragmentSize,
--	unsigned int uMACfragNum,
--	unsigned char byFBOption,
--	unsigned short wCurrentRate,
--	bool is_pspoll
--);
-+static __le16 s_uFillDataHead(struct vnt_private *pDevice,
-+			      unsigned char byPktType,
-+			      void *pTxDataHead,
-+			      unsigned int cbFrameLength,
-+			      unsigned int uDMAIdx,
-+			      bool bNeedAck,
-+			      unsigned int uFragIdx,
-+			      unsigned int cbLastFragmentSize,
-+			      unsigned int uMACfragNum,
-+			      unsigned char byFBOption,
-+			      unsigned short wCurrentRate,
-+			      bool is_pspoll);
- 
- /*---------------------  Export Variables  --------------------------*/
- 
+For some more background info here are the still relevant bits of
+the v1 cover-letter:
+
+This also contains an important fix to try_fmt handling, so that
+the various supported output formats can actually be used by userspace
+which calls try_fmt before doing s_fmt.
+
+So slowly this is starting to look more and more like a standard
+v4l2 device (with all the complex pipeline handling hidden in the driver,
+moving that to userspace seems to be impossible with this design since
+multiple pipeline steps are handled by a single firmware program).
+
+Regards,
+
+Hans
+
+
+Hans de Goede (17):
+  media: atomisp: Add hmm_create_from_vmalloc_buf() function
+  media: atomisp: Add ia_css_frame_init_from_info() function
+  media: atomisp: Make atomisp_q_video_buffers_to_css() static
+  media: atomisp: On streamoff wait for buffers owned by the CSS to be
+    given back
+  media: atomisp: Remove unused atomisp_buffers_queued[_pipe] functions
+  media: atomisp: Also track buffers in a list when submitted to the ISP
+  media: atomisp: Add an index helper variable to atomisp_buf_done()
+  media: atomisp: Use new atomisp_flush_video_pipe() helper in
+    atomisp_streamoff()
+  media: atomisp: Add ia_css_frame_get_info() helper
+  media: atomisp: Convert to videobuf2
+  media: atomisp: Make it possible to call atomisp_set_fmt() without a
+    file handle
+  media: atomisp: Fix VIDIOC_REQBUFS failing when VIDIOC_S_FMT has not
+    been called yet
+  media: atomisp: Refactor atomisp_adjust_fmt()
+  media: atomisp: Fix atomisp_try_fmt_cap() always returning YUV420
+    pixelformat
+  media: atomisp: Make atomisp_g_fmt_cap() default to YUV420
+  media: atomisp: Remove __atomisp_get_pipe() helper
+  media: atomisp: gc0310: Power on sensor from set_fmt() callback
+
+ .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +-
+ drivers/staging/media/atomisp/i2c/gc0310.h    |   1 +
+ .../staging/media/atomisp/include/hmm/hmm.h   |   2 +
+ .../media/atomisp/include/hmm/hmm_bo.h        |   4 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 353 ++++--------
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   9 +-
+ .../media/atomisp/pci/atomisp_common.h        |   6 +-
+ .../media/atomisp/pci/atomisp_compat.h        |   3 +-
+ .../media/atomisp/pci/atomisp_compat_css20.c  |   6 +-
+ .../staging/media/atomisp/pci/atomisp_fops.c  | 528 ++++++-----------
+ .../staging/media/atomisp/pci/atomisp_fops.h  |  13 -
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 536 ++++--------------
+ .../staging/media/atomisp/pci/atomisp_ioctl.h |  10 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |   2 +
+ .../media/atomisp/pci/atomisp_subdev.h        |  22 +-
+ drivers/staging/media/atomisp/pci/hmm/hmm.c   |  15 +-
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    |  32 +-
+ .../media/atomisp/pci/ia_css_frame_public.h   |  36 +-
+ .../bayer_io_ls/ia_css_bayer_io.host.c        |  10 +-
+ .../yuv444_io_ls/ia_css_yuv444_io.host.c      |  10 +-
+ .../isp/kernels/ref/ref_1.0/ia_css_ref.host.c |   2 +-
+ .../isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c |   4 +-
+ .../pci/runtime/debug/src/ia_css_debug.c      |  26 +-
+ .../atomisp/pci/runtime/frame/src/frame.c     |  82 +--
+ drivers/staging/media/atomisp/pci/sh_css.c    |  38 +-
+ .../staging/media/atomisp/pci/sh_css_params.c |  17 +-
+ drivers/staging/media/atomisp/pci/sh_css_sp.c |  52 +-
+ 27 files changed, 640 insertions(+), 1193 deletions(-)
+
 -- 
-2.34.1
+2.37.3
 
