@@ -1,135 +1,87 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D231D7E;
-	Thu, 20 Oct 2022 10:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666260128; bh=PMZ5O0pXLfBj3FVZGJgvSf4d9uot3HnLI2rEzfbprUg=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=F5RClkqjd4Ho5/l48GGKejUTYmfZmG48f9//ihkRl9RCoRYJ5BNLP0KORF5MouWlR
-	 pElvaci439uwFB0lrXPnNE+Z2Av0WhAwMHrkWvrfdiCl8dw7qdUlj9JVwcz/+G0EA2
-	 xOyrD+a1DmHc70pHTgjFVSj7DCPSFgmMKhk32mmY=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
-	via [213.182.55.206]
-	Thu, 20 Oct 2022 12:02:07 +0200 (CEST)
-X-EA-Auth: zFy64hILC+i7bB8QTgin2nFo2Qz5ZqqbH7+TB7JlPeTeUAdjnYMXgGF0nuOITrzkzCcGgdelScgqScT4Yr9X0TxqALK/sffP
-Date: Thu, 20 Oct 2022 15:32:02 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
-	saurabh.truth@gmail.com
-Subject: Re: [PATCH v3 06/10] staging: r8188eu: Add space between function &
- macro parameters
-Message-ID: <Y1EcmphZyExVVttR@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1666249715.git.drv@mailo.com>
- <79e0aa96b1c8b2bc0c0f8ef9e651ab254629c7a8.1666249716.git.drv@mailo.com>
- <114d7521-a15-9569-cb38-69f4bb8990f7@inria.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4FD7E;
+	Thu, 20 Oct 2022 10:15:51 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id a5so12443721qkl.6;
+        Thu, 20 Oct 2022 03:15:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QwJgtBGQmZdLQupX+ESzBTFLWc6n9kUQz57Nvp54uJo=;
+        b=WjJRlkVwDhD5PSVz1u9sMYo53DGbNpPiqdwbF8DP2N2sVl5DeBvNoQBiho7Izg6l/y
+         fz579yHz2NjGfna2wVbnnV4B91fz3VnH30TwNqwi+QsSbYqI+eX11Tm2n+dPKEKhvoPI
+         b0MVjjPLaZIUHETpAHDw4v1MSBInxw5YbCwYzHsOimSoVQsoVBXMvCKZ2E8/B5FCckzE
+         aaX11127bsTkYVoNJj33z4B0KEEAXrNGdBBvINDmjGiRwcFFRjWFI3fSTfpW1W/suU7h
+         ejZ9tEhCcozNmh0c1bq6uAS7bTnpKs+6yYTj1SqRKLJk7vqN7c0MI0nb2tozCUExRHen
+         6zPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QwJgtBGQmZdLQupX+ESzBTFLWc6n9kUQz57Nvp54uJo=;
+        b=o3TNedzcKSxxbIGTSH+kv9oYdnNBFKOLjdDM8ClUpty8JaNPGh8H+UZmX6IX+35vXM
+         ZvtWO9CatFCI1Upqhjr6g/Q5vqOzU8Imh0ukqGrET73sgzXHOhYE1Og8qT45uHNdij6B
+         jVpVm0yF4Nh9rFHwSGQ8fvFRB6expjEusyUFdwJe/U42KjZQSkJGdoJ8jgUtDyBrdHOt
+         T/B3l8EuKKXpaDLQAdX7LOb+TtoomTOCfAbxtmHS2Qa/JO3aYS3ER9jO0vXp/t/pOBOD
+         lP6PTt6YIMcCzrJrRe/oCVOKXGhtbrFTOgWLN70ChN/2KKEN34HbDwF+3sChb2gWKfYX
+         QedQ==
+X-Gm-Message-State: ACrzQf2v82gmSPURR35o41X5zxW7uIuZmPrQUql+ZSVRMZuxMYMWa2/I
+	tRItozRiu6wYXm6Tgsth43QVSveaCfxDlPgmrNzF/XikJWU9HiHAc3r4/A==
+X-Google-Smtp-Source: AMsMyM678yzTbhZ6Wi35yGYH3+/dUCyMJ2QqvzaXS5CMEpyZXZK9eRLCliTGMAJ7WaDpOQE+ec0KBqq7mWEi2x1gKi0=
+X-Received: by 2002:a05:620a:22c3:b0:6ec:53bb:d296 with SMTP id
+ o3-20020a05620a22c300b006ec53bbd296mr8532799qki.158.1666260950158; Thu, 20
+ Oct 2022 03:15:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <114d7521-a15-9569-cb38-69f4bb8990f7@inria.fr>
+References: <Y1BN6wPMrpxPB3qP@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+ <20221019223446.GA154747@nam-dell>
+In-Reply-To: <20221019223446.GA154747@nam-dell>
+From: Tanju Brunostar <tanjubrunostar0@gmail.com>
+Date: Thu, 20 Oct 2022 11:15:38 +0100
+Message-ID: <CAHJEyKUsZ-V0waEwBEy67g+MNMR29MGJbBx3qCA4axKyPk9RGQ@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: vt6655: Fix Lines should not end with a '('
+To: Nam Cao <namcaov@gmail.com>
+Cc: greg@kroah.com, forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 20, 2022 at 11:17:21AM +0200, Julia Lawall wrote:
+On Wed, Oct 19, 2022 at 11:35 PM Nam Cao <namcaov@gmail.com> wrote:
 >
->
-> On Thu, 20 Oct 2022, Deepak R Varma wrote:
->
-> > Space required between function and macro parameters to improve code
-> > readability. This Linux kernel coding style guideline resolves following
-> > error reported by checkpatch script:
-> > 	ERROR: space required after that ',' (ctx:VxV)
+> On Wed, Oct 19, 2022 at 07:20:11PM +0000, Tanjuate Brunostar wrote:
+> > Code style warnings reported by checkpatch.
+> > Improve the layout of a function header:
+> > Put the first parameter immediately after the '(' and align the other
+> > parameters underneath it.
 > >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+> >
 > > ---
-> >
-> > Changes in v3:
-> >    1. Patch newly added to the patch set.
-> >
-> >
-> >
-> > -u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset,u8 *pval);
-> > +u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset, u8 *pval);
-> >  u8 rtw_setfwdig_cmd(struct adapter*padapter, u8 type);
-> >  u8 rtw_setfwra_cmd(struct adapter*padapter, u8 type);
+> > v2: put static and void on the same line and adjusted the indentation as
+> > suggested by Greg KH
 >
-> Strange double space.
-
-Agreed, made a note.
-
+> I think he meant putting "static" and "void" and also function name on
+> the same line.
 >
-> >
-> > @@ -751,7 +751,7 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *adapter);
-> >  u8 rtw_lps_ctrl_wk_cmd(struct adapter*padapter, u8 lps_ctrl_type, u8 enqueue);
-> >  u8 rtw_rpt_timer_cfg_cmd(struct adapter*padapter, u16 minRptTime);
-> >
-> > - u8 rtw_antenna_select_cmd(struct adapter*padapter, u8 antenna,u8 enqueue);
-> > + u8 rtw_antenna_select_cmd(struct adapter*padapter, u8 antenna, u8 enqueue);
+Oh I will do this now. thanks
+
+> Additionally, I think your patch introduces new checkpatch problems. Did
+> you run checkpatch.pl on your patch?
 >
-> Missing space before *.
-
-Agreed, made a note.
-
+> Best regards,
+> Nam
 >
-> >  u8 rtw_ps_cmd(struct adapter*padapter);
-> >
-> > diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
-> > index 925c7967ac04..87fcf6c94ff3 100644
-> > --- a/drivers/staging/r8188eu/include/rtw_io.h
-> > +++ b/drivers/staging/r8188eu/include/rtw_io.h
-> > @@ -209,7 +209,7 @@ struct io_priv {
-> >  };
-> >
-> > -#define PlatformEFIOWrite1Byte(_a,_b,_c)		\
-> > -	rtw_write8(_a,_b,_c)
-> > -#define PlatformEFIOWrite2Byte(_a,_b,_c)		\
-> > -	rtw_write16(_a,_b,_c)
-> > -#define PlatformEFIOWrite4Byte(_a,_b,_c)		\
-> > -	rtw_write32(_a,_b,_c)
-> > -
-> > -#define PlatformEFIORead1Byte(_a,_b)		\
-> > -		rtw_read8(_a,_b)
-> > -#define PlatformEFIORead2Byte(_a,_b)		\
-> > -		rtw_read16(_a,_b)
-> > -#define PlatformEFIORead4Byte(_a,_b)		\
-> > -		rtw_read32(_a,_b)
-> > +#define PlatformEFIOWrite1Byte(_a, _b, _c)		\
-> > +	rtw_write8(_a, _b, _c)
-> > +#define PlatformEFIOWrite2Byte(_a, _b, _c)		\
-> > +	rtw_write16(_a, _b, _c)
-> > +#define PlatformEFIOWrite4Byte(_a, _b, _c)		\
-> > +	rtw_write32(_a, _b, _c)
-> > +
-> > +#define PlatformEFIORead1Byte(_a, _b)		\
-> > +		rtw_read8(_a, _b)
-> > +#define PlatformEFIORead2Byte(_a, _b)		\
-> > +		rtw_read16(_a, _b)
-> > +#define PlatformEFIORead4Byte(_a, _b)		\
-> > +		rtw_read32(_a, _b)
->
-> Could these be inline functions?
+Yes I did. the checkpatch says this:
+Alignment should match open parenthesis
+#89: FILE: drivers/staging/vt6655/rxtx.c:89:
++static void s_vFillRTSHead(struct vnt_private *pDevice,
++               unsigned char byPktType,
 
-I am actually not seeing these macros being used anywhere. These macros were
-added recently [commit ID: 7884fc0a1473c2721f496f1d1ddc9d2c91aefa53] in 2021. I
-am unsure if they are intended to be used in the future or can removed entirely.
-
-Making these inline functions can be done, however, will we need to measure
-performance impact? I will need help and time for this evaluation.
-
-Let me know what you think is right thing to do here.
-
-Thank you,
-./drv
-
->
-> julia
-
-
+The only way to resolve this would be to add white space which would
+generate another checkpatch problem. how do i fix this please?
