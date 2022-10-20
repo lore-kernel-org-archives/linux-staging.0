@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A845CBD
-	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 19:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3A17E
+	for <linux-staging@lists.linux.dev>; Thu, 20 Oct 2022 19:55:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1666295746;
+	s=mimecast20190719; t=1666295748;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/4luUEan7kJYj4SgeWmlq0vs682vGqU9S7pG9/yzTSg=;
-	b=EwEJoa3AqowBUHTDbG5A6IpflAVysYMIZVblYvycfXtaAIoT9vhEz9PFkaR0qbEDDJqSwp
-	2y7o1dalgXFU+uXBWJuc65Nd7CHtTDRvez5xFlJE0kTQDmy6w2xyIE0r580R1f7RnXwTiV
-	ofskoERURmBn1Rn4tmwJuTRY4bMuoCw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ih1fLJDty9tJEpj13ee4LV7nQlVfKVmChokICFtDDZI=;
+	b=G0tmBtpgKLSYLWa/8MjljtLKy+xEeizBce+hqCDKVx5d7ilQPE8/6u24h727CIr6DjOq/U
+	V+iKHQoDIM9UOcEE2OsmTxVPfIxw8vBbyOZHTi/A8I5P5wjB0GeTgKRNTb+y6Tv56SnOrk
+	xLXcUWBBi6oerZvgCF/L/yqlpoMDOqE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-294-dQS69_n6OriK60ffL72MPg-1; Thu, 20 Oct 2022 15:55:42 -0400
-X-MC-Unique: dQS69_n6OriK60ffL72MPg-1
+ us-mta-231-kH1YFEUUOquxEQuSzVWgKg-1; Thu, 20 Oct 2022 15:55:46 -0400
+X-MC-Unique: kH1YFEUUOquxEQuSzVWgKg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B6133C0F238;
-	Thu, 20 Oct 2022 19:55:42 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4215811E84;
+	Thu, 20 Oct 2022 19:55:45 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.86])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DA99140C6EC2;
-	Thu, 20 Oct 2022 19:55:40 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4E31D40C6EC2;
+	Thu, 20 Oct 2022 19:55:44 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 01/17] media: atomisp: Add hmm_create_from_vmalloc_buf() function
-Date: Thu, 20 Oct 2022 21:55:17 +0200
-Message-Id: <20221020195533.114049-2-hdegoede@redhat.com>
+Subject: [PATCH v2 03/17] media: atomisp: Make atomisp_q_video_buffers_to_css() static
+Date: Thu, 20 Oct 2022 21:55:19 +0200
+Message-Id: <20221020195533.114049-4-hdegoede@redhat.com>
 In-Reply-To: <20221020195533.114049-1-hdegoede@redhat.com>
 References: <20221020195533.114049-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,166 +52,53 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 
-Add a new hmm creating function to create a vmm object from a vmalloc-ed
-kernel buffer. This is a preparation patch for adding videobuf2 (and
-working MMAP mode) support.
+atomisp_q_video_buffers_to_css() is only used insidd atomisp_fops.c, make
+it static.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/include/hmm/hmm.h   |  2 ++
- .../media/atomisp/include/hmm/hmm_bo.h        |  4 ++-
- drivers/staging/media/atomisp/pci/hmm/hmm.c   | 15 ++++++---
- .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 32 +++++++++++++++----
- 4 files changed, 42 insertions(+), 11 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_fops.c | 10 +++++-----
+ drivers/staging/media/atomisp/pci/atomisp_fops.h |  6 ------
+ 2 files changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm.h b/drivers/staging/media/atomisp/include/hmm/hmm.h
-index c0384bb0a762..b81b8580d405 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm.h
-@@ -38,6 +38,8 @@ void hmm_cleanup(void);
- 
- ia_css_ptr hmm_alloc(size_t bytes);
- ia_css_ptr hmm_create_from_userdata(size_t bytes, const void __user *userptr);
-+ia_css_ptr hmm_create_from_vmalloc_buf(size_t bytes, void *vmalloc_addr);
-+
- void hmm_free(ia_css_ptr ptr);
- int hmm_load(ia_css_ptr virt, void *data, unsigned int bytes);
- int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes);
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-index c5cbae1d9cf9..a51d89f0b5cc 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-@@ -73,6 +73,7 @@
- 
- enum hmm_bo_type {
- 	HMM_BO_PRIVATE,
-+	HMM_BO_VMALLOC,
- 	HMM_BO_USER,
- 	HMM_BO_LAST,
- };
-@@ -207,7 +208,8 @@ int hmm_bo_allocated(struct hmm_buffer_object *bo);
-  */
- int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
- 		       enum hmm_bo_type type,
--		       const void __user *userptr);
-+		       const void __user *userptr,
-+		       void *vmalloc_addr);
- void hmm_bo_free_pages(struct hmm_buffer_object *bo);
- int hmm_bo_page_allocated(struct hmm_buffer_object *bo);
- 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index fc6cfe9f7744..207a834e37bf 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -168,7 +168,9 @@ void hmm_cleanup(void)
- 	hmm_initialized = false;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index 84a84e0cdeef..d47b7f19125f 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -206,11 +206,11 @@ static int atomisp_q_one_dis_buffer(struct atomisp_sub_device *asd,
+ 	return 0;
  }
  
--static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type, const void __user *userptr)
-+static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
-+			      const void __user *userptr,
-+			      void *vmalloc_addr)
+-int atomisp_q_video_buffers_to_css(struct atomisp_sub_device *asd,
+-				   struct atomisp_video_pipe *pipe,
+-				   enum atomisp_input_stream_id stream_id,
+-				   enum ia_css_buffer_type css_buf_type,
+-				   enum ia_css_pipe_id css_pipe_id)
++static int atomisp_q_video_buffers_to_css(struct atomisp_sub_device *asd,
++					  struct atomisp_video_pipe *pipe,
++					  enum atomisp_input_stream_id stream_id,
++					  enum ia_css_buffer_type css_buf_type,
++					  enum ia_css_pipe_id css_pipe_id)
  {
- 	unsigned int pgnr;
- 	struct hmm_buffer_object *bo;
-@@ -192,7 +194,7 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type, const void __
- 	}
+ 	struct videobuf_vmalloc_memory *vm_mem;
+ 	struct atomisp_css_params_with_list *param;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.h b/drivers/staging/media/atomisp/pci/atomisp_fops.h
+index 3f1e442ba782..8d3ea33a7d9a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.h
+@@ -22,12 +22,6 @@
+ #define	__ATOMISP_FOPS_H__
+ #include "atomisp_subdev.h"
  
- 	/* Allocate pages for memory */
--	ret = hmm_bo_alloc_pages(bo, type, userptr);
-+	ret = hmm_bo_alloc_pages(bo, type, userptr, vmalloc_addr);
- 	if (ret) {
- 		dev_err(atomisp_dev, "hmm_bo_alloc_pages failed.\n");
- 		goto alloc_page_err;
-@@ -221,12 +223,17 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type, const void __
+-int atomisp_q_video_buffers_to_css(struct atomisp_sub_device *asd,
+-				   struct atomisp_video_pipe *pipe,
+-				   enum atomisp_input_stream_id stream_id,
+-				   enum ia_css_buffer_type css_buf_type,
+-				   enum ia_css_pipe_id css_pipe_id);
+-
+ unsigned int atomisp_dev_users(struct atomisp_device *isp);
+ unsigned int atomisp_sub_dev_users(struct atomisp_sub_device *asd);
  
- ia_css_ptr hmm_alloc(size_t bytes)
- {
--	return __hmm_alloc(bytes, HMM_BO_PRIVATE, NULL);
-+	return __hmm_alloc(bytes, HMM_BO_PRIVATE, NULL, NULL);
-+}
-+
-+ia_css_ptr hmm_create_from_vmalloc_buf(size_t bytes, void *vmalloc_addr)
-+{
-+	return __hmm_alloc(bytes, HMM_BO_VMALLOC, NULL, vmalloc_addr);
- }
- 
- ia_css_ptr hmm_create_from_userdata(size_t bytes, const void __user *userptr)
- {
--	return __hmm_alloc(bytes, HMM_BO_USER, userptr);
-+	return __hmm_alloc(bytes, HMM_BO_USER, userptr, NULL);
- }
- 
- void hmm_free(ia_css_ptr virt)
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index a5fd6d38d3c4..465ba837f2ed 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -694,18 +694,38 @@ static int alloc_user_pages(struct hmm_buffer_object *bo,
- 	return -ENOMEM;
- }
- 
-+static int alloc_vmalloc_pages(struct hmm_buffer_object *bo, void *vmalloc_addr)
-+{
-+	void *vaddr = vmalloc_addr;
-+	int i;
-+
-+	for (i = 0; i < bo->pgnr; i++) {
-+		bo->pages[i] = vmalloc_to_page(vaddr);
-+		if (!bo->pages[i]) {
-+			dev_err(atomisp_dev, "Error could not get page %d of vmalloc buf\n", i);
-+			return -ENOMEM;
-+		}
-+		vaddr += PAGE_SIZE;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * allocate/free physical pages for the bo.
-  *
-  * type indicate where are the pages from. currently we have 3 types
-- * of memory: HMM_BO_PRIVATE, HMM_BO_USER.
-+ * of memory: HMM_BO_PRIVATE, HMM_BO_VMALLOC, HMM_BO_USER.
-+ *
-+ * vmalloc_addr is only valid when type is HMM_BO_VMALLOC.
-  *
-  * userptr is only valid when type is HMM_BO_USER, it indicates
-  * the start address from user space task.
-  */
- int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
- 		       enum hmm_bo_type type,
--		       const void __user *userptr)
-+		       const void __user *userptr,
-+		       void *vmalloc_addr)
- {
- 	int ret = -EINVAL;
- 
-@@ -720,12 +740,10 @@ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
- 		goto alloc_err;
- 	}
- 
--	/*
--	 * TO DO:
--	 * add HMM_BO_USER type
--	 */
- 	if (type == HMM_BO_PRIVATE) {
- 		ret = alloc_private_pages(bo);
-+	} else if (type == HMM_BO_VMALLOC) {
-+		ret = alloc_vmalloc_pages(bo, vmalloc_addr);
- 	} else if (type == HMM_BO_USER) {
- 		ret = alloc_user_pages(bo, userptr);
- 	} else {
-@@ -771,6 +789,8 @@ void hmm_bo_free_pages(struct hmm_buffer_object *bo)
- 
- 	if (bo->type == HMM_BO_PRIVATE)
- 		free_private_bo_pages(bo);
-+	else if (bo->type == HMM_BO_VMALLOC)
-+		; /* No-op, nothing to do */
- 	else if (bo->type == HMM_BO_USER)
- 		free_user_pages(bo, bo->pgnr);
- 	else
 -- 
 2.37.3
 
