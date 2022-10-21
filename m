@@ -1,92 +1,73 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0B88F4D;
-	Fri, 21 Oct 2022 06:11:16 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id 8so1461266qka.1;
-        Thu, 20 Oct 2022 23:11:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4TDVEecvJ/SyUgNeYkrUsV7GwIq/acYXERijSp1ev9I=;
-        b=af+XHWpH2wFmLESBvoDa53/Ahgt8ffIl6QGSwnrtokuIRg/3jRps7FrEa4rWTzzk6O
-         hdg3enDxjfSk0bsJWevvglz+TrZHs4tHrW0cFUDPrr41FAlyt203JnzvIGZ9p2K8KZX8
-         AbMZsczY4IsDZHUgoHwvDMC7vMC94CDGQbwcMh4h2XqngsAdWdZ/pa2UzxU5nzJysEkW
-         Bw00aouawlA5J5rNTMTFQS9Jl0qc18SR6tgSQwxVaiIdZQ7Axmn0ZygbslzsNpB+EZIE
-         lURoYnIoE3c5QrwkN/s+dVQvtNvHjvMGsXfqUR8IAdA8PKNa6G8S0wALt3Sssq+/TDJa
-         AjQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4TDVEecvJ/SyUgNeYkrUsV7GwIq/acYXERijSp1ev9I=;
-        b=iexUR+oq0lfHqqAFoBrnGSgHSAoZqVa2cuGjBr9I82TXeEUgU4JH+96mAyRH0Gg+AA
-         as+MjOMBGRHoAMCLq1gVDoj81/wc0C7iz/SJ8vKVsDDzirklsWARBjnzucE/ziGaS1uR
-         KV9Kg62R9uO8Yv3+GD1k7SSqHlQwARL3LluGtLCIMNGI3JYPioy9jJLtoLrmKcXe/8ZY
-         i4tY2pQwTJOE85WL4FLn3KlGOoM9RRF9xr0loNBroZlen7WcL6z3oOSXALltDbojWvyR
-         Qj/8nnuPCRj7mKEIZWE5BubwOurQrC5I0OSKMtzSME06r+cTNwN4VIZjoz+OU4AnNuBF
-         Ix6g==
-X-Gm-Message-State: ACrzQf0aiQth9d1Py4p14WMm1kTTXbE/SG3B44QayJ+RdGfIU84xiCt2
-	xaYJ6+QyClRTdeK4aqWGKBGge7CwQh/ZnHOgmXM=
-X-Google-Smtp-Source: AMsMyM4KFK7vhngr/End276m/Ke1VLWd6CSQzc7IjKQg45J57OCw0TjBWsZmBaJPhSDIeAUpkVh9FKOvIY97lUZRkSs=
-X-Received: by 2002:a05:620a:2699:b0:6cf:3a7f:5fe6 with SMTP id
- c25-20020a05620a269900b006cf3a7f5fe6mr12797372qkp.103.1666332675621; Thu, 20
- Oct 2022 23:11:15 -0700 (PDT)
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D19B9182
+	for <linux-staging@lists.linux.dev>; Fri, 21 Oct 2022 06:32:26 +0000 (UTC)
+Received: by ajax-webmail-mail-app2 (Coremail) ; Fri, 21 Oct 2022 14:32:12
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.192.136.77]
+Date: Fri, 21 Oct 2022 14:32:12 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Greg KH" <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Larry.Finger@lwfinger.net, phil@philpotter.co.uk, 
+	paskripkin@gmail.com, martin@kaiser.cx, straube.linux@gmail.com, 
+	kuba@kernel.org
+Subject: Re: [PATCH] drivers: staging: r8188eu: Fix sleep-in-atomic-context
+ bug in rtw_join_timeout_handler
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <Y1FtZzV9wRQRaTYk@kroah.com>
+References: <20221018083424.79741-1-duoming@zju.edu.cn>
+ <Y1FtZzV9wRQRaTYk@kroah.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Y1Eqa7uKB+Wk+Mb+@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
- <CAOkYk0iU0B98JsH77avky--AS19V=GhQox2f_b4PAG3ZBB+SVQ@mail.gmail.com>
- <CAHJEyKX=yyuyYFajs880CuPdc019dBOm_LCkgXHzjFaA-Jgt2A@mail.gmail.com>
- <Y1E6qYkzkRxlloNp@kroah.com> <Y1Fds7BJjY/OcwU0@mit.edu> <Y1Hby38PE/QVlRhF@Slackware>
-In-Reply-To: <Y1Hby38PE/QVlRhF@Slackware>
-From: Tanju Brunostar <tanjubrunostar0@gmail.com>
-Date: Fri, 21 Oct 2022 07:11:01 +0100
-Message-ID: <CAHJEyKU7dH6HQW4rrd3gq5pnYUxOA0MGRUqtnC_yExt3PBok1g@mail.gmail.com>
-Subject: Re: Request for assistance
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>, "Theodore Ts'o" <tytso@mit.edu>, 
-	Greg KH <gregkh@linuxfoundation.org>, Tanju Brunostar <tanjubrunostar0@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	outreachy@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <77ff753.140ebd.183f93dfb04.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:by_KCgBHC7HsPFJj1p8gBw--.42190W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgoKAVZdtcBqRQADsR
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Fri, Oct 21, 2022 at 12:38 AM Bhaskar Chowdhury
-<unixbhaskar@gmail.com> wrote:
->
-> On 10:39 Thu 20 Oct 2022, Theodore Ts'o wrote:
-> >Tanju, some additional hints.  First of all, please don't send cleanup
-> >patches to address checkpatch --file complaints about overly long
-> >lines.  It's generally not worth the code churn.
-> >
-> >Secondly for code that *you* are writing, think about why you have
-> >lines which are exceeding the line width in the first place.  Is it
-> >because code is being nested too deeply, and perhaps some judicious
-> >function refactoring with good function names might make the code
-> >clearer?  Would adding some temporary variables that are judiciously
-> >named make the code look clearer?
-> >
-> >The rules about "thou shalt never have lines which exceed 78
-> >characters" are rules of thumb.  The high level goal is to make the
-> >code more readable and easier to understand, since good code is
-> >maintainable code.  And sometimes it's not just about where to split
-> >lines of code but whether there is a better way to structure the code
-> >so that long lines aren't needed in the first place.
-> >
-> >Cheers,
-> >
-> >                                       - Ted
-> Righto!! I failed to miss it my replies. That an editor can be trained or
-> customized to that way. Especially , vim and emacs.
-> --
-> Thanks,
-> Bhaskar
->
-> "Here's looking at you kid"-- Casablanca
-> https://about.me/unixbhaskar
-I appreciate all your replies. They have been quite helpful. I will
-try to apply them as I continue on my journey of contributing to the
-kernel
+SGVsbG8sCgpPbiBUaHUsIDIwIE9jdCAyMDIyIDE3OjQ2OjQ3ICswMjAwIEdyZWcgS0ggd3JvdGU6
+Cgo+IE9uIFR1ZSwgT2N0IDE4LCAyMDIyIGF0IDA0OjM0OjI0UE0gKzA4MDAsIER1b21pbmcgWmhv
+dSB3cm90ZToKPiA+IFRoZSBydHdfam9pbl90aW1lb3V0X2hhbmRsZXIoKSBpcyBhIHRpbWVyIGhh
+bmRsZXIgdGhhdAo+ID4gcnVucyBpbiBhdG9taWMgY29udGV4dCwgYnV0IGl0IGNvdWxkIGNhbGwg
+bXNsZWVwKCkuCj4gPiBBcyBhIHJlc3VsdCwgdGhlIHNsZWVwLWluLWF0b21pYy1jb250ZXh0IGJ1
+ZyB3aWxsIGhhcHBlbi4KPiA+IFRoZSBwcm9jZXNzIGlzIHNob3duIGJlbG93Ogo+ID4gCj4gPiAg
+ICAgIChhdG9taWMgY29udGV4dCkKPiA+IHJ0d19qb2luX3RpbWVvdXRfaGFuZGxlcgo+IAo+IFdh
+aXQsIGhvdyBpcyB0aGlzIGFuIGF0b21pYyB0aW1lb3V0PwoKQmVjYXVzZSB0aGlzIGZ1bmN0aW9u
+IGlzIGRlZmluZWQgYXMgYSB0aW1lciBoYW5kbGVyIG9mICJhc3NvY190aW1lciIuCgpUaGUgZm9s
+bG93aW5nIGlzIHRoZSBkZXRhaWw6Cgp2b2lkIHJ0d19pbml0X21sbWVfdGltZXIoc3RydWN0IGFk
+YXB0ZXIgKnBhZGFwdGVyKQp7CglzdHJ1Y3QJbWxtZV9wcml2ICpwbWxtZXByaXYgPSAmcGFkYXB0
+ZXItPm1sbWVwcml2OwoKCXRpbWVyX3NldHVwKCZwbWxtZXByaXYtPmFzc29jX3RpbWVyLCBydHdf
+am9pbl90aW1lb3V0X2hhbmRsZXIsIDApOwogICAgICAgIC4uLgp9CgpodHRwczovL2VsaXhpci5i
+b290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2RyaXZlcnMvc3RhZ2luZy9yODE4OGV1L29z
+X2RlcC9tbG1lX2xpbnV4LmMjTDM2Cgo+IFdoZW4gY2FuIHRoYXQgaGFwcGVuPwoKV2hlbiB0aGUg
+YWRhcHRlciB0cnlzIHRvIGpvaW4gYW5kIHNlbGVjdHMgc2Nhbm5pbmcgcXVldWUgc3VjY2Vzc2Z1
+bGx5LAp0aGUgYXNzb2NfdGltZXIgd2lsbCBiZSBhY3RpdmVkLiBJZiB0aGlzIHByb2Nlc3MgaXMg
+dGltZW91dCwgdGhlIGNhbGxiYWNrCmZ1bmN0aW9uIHJ0d19qb2luX3RpbWVvdXRfaGFuZGxlciB3
+aWxsIHJ1bi4KCj4gPiAgX3J0d19qb2luX3RpbWVvdXRfaGFuZGxlcgo+ID4gICBydHdfZG9fam9p
+bgo+ID4gICAgcnR3X3NlbGVjdF9hbmRfam9pbl9mcm9tX3NjYW5uZWRfcXVldWUKPiA+ICAgICBy
+dHdfaW5kaWNhdGVfZGlzY29ubmVjdAo+ID4gICAgICBydHdfbHBzX2N0cmxfd2tfY21kCj4gPiAg
+ICAgICBscHNfY3RybF93a19oZGwKPiA+ICAgICAgICBMUFNfTGVhdmUKPiA+ICAgICAgICAgTFBT
+X1JGX09OX2NoZWNrCj4gPiAgICAgICAgICBtc2xlZXAgLy9zbGVlcCBpbiBhdG9taWMgY29udGV4
+dAo+IAo+IEhvdyB3YXMgdGhpcyBmb3VuZD8KPiAKPiA+IEZpeCBieSByZW1vdmluZyBtc2xlZXAo
+KSBhbmQgcmVwbGFjaW5nIHdpdGggbWRlbGF5KCkuCj4gCj4gV291bGRuJ3QgcGVvcGxlIGhhdmUg
+c2VlbiBhbiBlcnJvciBhbHJlYWR5IGlmIG1zbGVlcCgpIHdhcyByZWFsbHkgY2FsbGVkCj4gaW4g
+YXRvbWljIGNvbnRleHQ/CgpJIGFtIHNvcnJ5LCBUaGlzIGlzIHRoZSBmYWxzZSBhbGFybS4KCnJ0
+d19pbmRpY2F0ZV9kaXNjb25uZWN0KCkKICAtLT5ydHdfbHBzX2N0cmxfd2tfY21kKHBhZGFwdGVy
+LCBMUFNfQ1RSTF9ESVNDT05ORUNULCAxKTsKCnU4IHJ0d19scHNfY3RybF93a19jbWQoc3RydWN0
+IGFkYXB0ZXIgKnBhZGFwdGVyLCB1OCBscHNfY3RybF90eXBlLCB1OCBlbnF1ZXVlKQp7Ci4uLgpp
+ZiAoZW5xdWV1ZSkgewouLi4KfWVsc2UgewogICAgbHBzX2N0cmxfd2tfaGRsKHBhZGFwdGVyLCBs
+cHNfY3RybF90eXBlKTsKfQoKVGhlIGVucXVldWUgZXF1YWxzIHRvIDEgYW5kIHRoZSBscHNfY3Ry
+bF93a19oZGwoKSB3aWxsIG5vdCBleGVjdXRlLgoKSSB3aWxsIGNoZWNrIGNhcmVmdWxseSBhbmQg
+YXZvaWQgZmFsc2UgYWxhcm0gbmV4dCB0aW1lLiBUaGFuayB5b3UgZm9yIHlvdXIgcmVwbHkuCgpC
+ZXN0IHJlZ2FyZHMsCkR1b21pbmcgWmhvdQ==
