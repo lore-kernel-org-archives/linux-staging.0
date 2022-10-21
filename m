@@ -1,131 +1,202 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609377B
-	for <linux-staging@lists.linux.dev>; Fri, 21 Oct 2022 11:20:58 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id g8-20020a17090a128800b0020c79f987ceso6370127pja.5
-        for <linux-staging@lists.linux.dev>; Fri, 21 Oct 2022 04:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PVxrbdloPyeC7I/bClCHPaphZOmS62WhGrOJR/1SEx0=;
-        b=MyJKtJ/ZCHJdYsCn2j64p5BmT6QyI5frJjqts7FvsQSznMxcSspaLyESPqEOHYiyfN
-         0gcY0cQ1CZCbz/CRw53i9ur6YO1StEHMH4daMsTL9kRYb+H7zVgRiucjG2gpoHvAeoZN
-         8r/kATvwxpzdya4feBBsqjztLWSacMdF9SahGB1HlLlDm/JMR8tP5onZ9qoNmMlxZCpV
-         aZXeJfPlhvwUt1QKoJVLwcpgRG1mccvv6+8fjroaoIlwADYcwELV9TGGx8kh4L15cFJH
-         qYH7luxxGN/1hvb5XksLYjpflCsCwFCcei/xNneMaOMJqKGvixfZYFcIxI71FXdCNNJd
-         Eb/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PVxrbdloPyeC7I/bClCHPaphZOmS62WhGrOJR/1SEx0=;
-        b=uZJkIfzlR0+p/PeCFNdhAh0D1tLpEwMOtyAItAcQ6sQtOzx7/H2zgOKT2sXApzB6jW
-         ClMsluOKVO/4wn16KINn1LFzFxvNZVFxakunLxYOuWDFYoeFyneEkovNvBeB8DwazgW4
-         Bv47/Artvy88wvIYwLahkqZgCnuroN5idPIZdXyuJXBuOONramCjQYKwvh900Hyq5Bzw
-         v8flIKPm+nrsCn+HgCP7A9chC42SaqEzYaXxz05oGDA+Dhkfj10r+2/x0SxN3lzxLb7S
-         5olkTcBH42ebpEpA0R97xm2KCt1Coa8Ae/bCqrWfwAb5Mvk9wlGaDTcsRj7O7N+TH7Dg
-         lskA==
-X-Gm-Message-State: ACrzQf2KDW/pVrkn5V+TEr9oQ+zYdh6QBB2W8gzt3gx3HIc22AqrIemk
-	eOeWTbhKGEfkzabq4PLW3sA=
-X-Google-Smtp-Source: AMsMyM7f6OAkLIejzpa1Mw+h4+S7hXcJYNWXrgn44dgnez1Vgxyg0/EY/g/eVmZkfbWeQoUOq9uoDA==
-X-Received: by 2002:a17:90b:3d1:b0:212:732d:a1c8 with SMTP id go17-20020a17090b03d100b00212732da1c8mr8188889pjb.189.1666351257756;
-        Fri, 21 Oct 2022 04:20:57 -0700 (PDT)
-Received: from jacob-Ubuntu (126.224.215.218.sta.wbroadband.net.au. [218.215.224.126])
-        by smtp.gmail.com with ESMTPSA id t16-20020a170902e85000b00179eaf275d5sm14711612plg.27.2022.10.21.04.20.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 04:20:57 -0700 (PDT)
-Date: Fri, 21 Oct 2022 22:20:52 +1100
-From: Jacob Bai <jacob.bai.au@gmail.com>
-To: Joe Perches <joe@perches.com>, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: replace IEs with ies
-Message-ID: <Y1KAlCIt64/y/PE7@jacob-Ubuntu>
-References: <20221018105409.18331-1-jacob.bai.au@gmail.com>
- <8617109bdc3e192b98e5c3b21ba871501a87f6d9.camel@perches.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C8423C8;
+	Fri, 21 Oct 2022 14:14:38 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id AAD0F40005;
+	Fri, 21 Oct 2022 14:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1666361671;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D1ajsY8pZfc8bFaZEztL4M52XOdc6x7Su0C40vNEpBE=;
+	b=UVBc+7G3S1Tm8p4Wf2nV81f4SM/fxgXOgdidSTOBMaH2p/nym5CJKGuXj3Kqp8xUoxd2wd
+	kgMhdSK1aCxY5EI8/3zb4u/4pUgwZ3LdZCKSTF1tIF4imEQkJq/M57IhqCpqG9SEkFlf9N
+	cApfPDGZgUqLQLtZE4k3S9g49wbPk1L3T9pw6VfwH88I+LCWfKpkXMLVm1vdFxhvuwjc5i
+	uDFF4m3UMVmamB0p/MJvgXK9YsDyJgeViWO4NyQ1bc384yG91CwjsslQcs6qWist2loLpq
+	n1aX574lsLOhjZ+rnAKVXNJ6Ea+JTrLYQ0+VgR7a8GromJ+BIwfaDfNfV35E+A==
+Date: Fri, 21 Oct 2022 16:14:26 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v7 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP
+ Driver
+Message-ID: <Y1KpQl5Nlhd0kKId@aptenodytes>
+References: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="+76NLuqt2Dz00PeX"
 Content-Disposition: inline
-In-Reply-To: <8617109bdc3e192b98e5c3b21ba871501a87f6d9.camel@perches.com>
+In-Reply-To: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
 
-On Wed, Oct 19, 2022 at 09:35:32PM -0700, Joe Perches wrote:
-> On Tue, 2022-10-18 at 21:54 +1100, Jacob Bai wrote:
-> > Replace wlan_bssid_ex struct member IEs to ies.
-> > CamelCase issue found by checkpatch.
-> 
-> Please try to avoid changing code merely to appease checkpatch.
-> 
-> What is the value of the last s?
-> When is a specific index of the IEs array actually used?
-> 
-> Mere renaming may be removing useful markings.
-> 
-> (removing a lot of the rename blocks)
-> 
-Thanks for those advices. As this was my first patch, I tried to 
-pick up an easier one to start with and followed commit 341f27d0
-but changed "IEs" only. 
-> > diff --git a/drivers/staging/r8188eu/include/wlan_bssdef.h b/drivers/staging/r8188eu/include/wlan_bssdef.h
-> []
-> > @@ -239,7 +239,7 @@ struct wlan_bssid_ex {
-> >  	unsigned char SupportedRates[NDIS_802_11_LENGTH_RATES_EX];
-> >  	struct wlan_phy_info	PhyInfo;
-> >  	u32  IELength;
-> > -	u8  IEs[MAX_IE_SZ];	/* timestamp, beacon interval, and
-> > +	u8  ies[MAX_IE_SZ];	/* timestamp, beacon interval, and
-> >  				 * capability information) */
-> >  } __packed;
-> []
-> > diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> []
-> > @@ -104,11 +104,11 @@ static char *translate_scan(struct adapter *padapter,
-> >  
-> >  			if (pnetwork->network.Reserved[0] == 2) {/*  Probe Request */
-> >  				/*	Verifying the P2P IE */
-> > -				if (rtw_get_p2p_ie(pnetwork->network.IEs, pnetwork->network.IELength, NULL, &p2pielen))
-> > +				if (rtw_get_p2p_ie(pnetwork->network.ies, pnetwork->network.IELength, NULL, &p2pielen))
-> >  					blnGotP2PIE = true;
-> >  			} else {/*  Beacon or Probe Respones */
-> >  				/*	Verifying the P2P IE */
-> > -				if (rtw_get_p2p_ie(&pnetwork->network.IEs[12], pnetwork->network.IELength - 12, NULL, &p2pielen))
-> > +				if (rtw_get_p2p_ie(&pnetwork->network.ies[12], pnetwork->network.IELength - 12, NULL, &p2pielen))
-> 
-> For instance, these consistent 12 and "- 12" uses may be better as some
-> alternate array.
-Could you please be more detail on this?
-> 
-> >  					blnGotP2PIE = true;
-> >  			}
-> >  		}
-> > @@ -131,7 +131,7 @@ static char *translate_scan(struct adapter *padapter,
-> >  	start = iwe_stream_add_point(info, start, stop, &iwe, pnetwork->network.Ssid.Ssid);
-> >  
-> >  	/* parsing HT_CAP_IE */
-> > -	p = rtw_get_ie(&pnetwork->network.IEs[12], _HT_CAPABILITY_IE_, &ht_ielen, pnetwork->network.IELength - 12);
-> > +	p = rtw_get_ie(&pnetwork->network.ies[12], _HT_CAPABILITY_IE_, &ht_ielen, pnetwork->network.IELength - 12);
-> >  
-> >  	if (p && ht_ielen > 0) {
-> >  		struct ieee80211_ht_cap *pht_capie;
-> 
-> etc...
-> 
-> Also this may be removing similarities between a few other realtek
-> staging drivers
-> 
-> $ git grep  "\[MAX_IE_SZ\]"
-> drivers/staging/r8188eu/include/wlan_bssdef.h:  u8  IEs[MAX_IE_SZ];     /* timestamp, beacon interval, and
-> drivers/staging/rtl8712/wlan_bssdef.h:  u8 IEs[MAX_IE_SZ];
-> drivers/staging/rtl8723bs/include/wlan_bssdef.h:        u8  ies[MAX_IE_SZ];     /* timestamp, beacon interval, and capability information) */
-> 
-looks like rtl8723bs has already been updated with ies, should I replace
-IELength as well like the commit I followed?
+
+--+76NLuqt2Dz00PeX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Sat 24 Sep 22, 17:32, Paul Kocialkowski wrote:
+> This part only concerns the introduction of the new ISP driver and related
+> adaptation of the CSI driver.
+
+I don't think there is any significant issue preventing this series from
+being merged in Linux 6.2 at this point.
+
+Could we move forward on it? It's been around for quite some time now.
+
+Thanks!
+
+Paul
+
+> Most non-dt patches still need reviewing but should be pretty straightfor=
+ward.=20
+> Since this multi-part series has been going on for a while, it would be g=
+reat
+> to see it merged soon!
+>=20
+> Changes since v6:
+> - Added a per-compatible check for the required port in dt binding;
+> - Reworded ISP output port description in dt binding;
+> - Reversed ISP detection order to have fwnode first;
+> - Removed info print when ISP link is detected;
+> - Added warn print when ISP is linked but not enabled in config;
+> - Fixed sun6i_csi_isp_detect return type;
+> - Removed useless initialization in sun6i_csi_isp_detect;
+> - Fixed typo in sun6i_csi_isp_detect;
+> - Added collected tags;
+>=20
+> Changes since v5:
+> - Rebased on latest media tree;
+> - Added collected tag;
+> - Switched to using media_pad_remote_pad_first;
+> - Switched to using media_pad_remote_pad_unique.
+>=20
+> Changes since v4:
+> - Fixed device-tree binding indent-align;
+> - Added collected tag;
+> - Rebased on latest media tree;
+>=20
+> Changes since v3:
+> - Removed the v4l2 controls handler from the driver;
+> - Added variant structure for table sizes;
+> - Removed the info message about video device registration;
+> - Removed comments in uAPI header;
+> - Used '/schemas/graph.yaml#/properties/port' whenever possible in bindin=
+gs;
+> - Added CSI patches dependent on the ISP driver;
+> - Rebased on the latest media tree;
+>=20
+> Changes since all-in-one v2:
+> - Updated Kconfig to follow the latest media-wide changes;
+> - Reworked async subdev handling with a dedicated structure holding the
+>   corresponding source to avoid matching in the driver;
+> - Switched to clock-managed regmap mmio;
+> - Used helper to get a single enabled link for an entity's pad, to replace
+>   source selection at link_validate time and select the remote source at
+>   stream on time instead;
+> - Added mutex for mbus format serialization;
+> - Used endpoint-base instead of video-interface for "internal" endpoints
+>   in device-tree schema;
+> - Added TODO with unstaging requirements;
+> - Various cosmetic cleanups;
+> - Updated copyright years;
+>=20
+> Paul Kocialkowski (6):
+>   dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+>   dt-bindings: media: sun6i-a31-csi: Add internal output port to the ISP
+>   staging: media: Add support for the Allwinner A31 ISP
+>   MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+>   media: sun6i-csi: Detect the availability of the ISP
+>   media: sun6i-csi: Add support for hooking to the isp devices
+>=20
+>  .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 101 +++
+>  MAINTAINERS                                   |   9 +
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  75 +-
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
+>  drivers/staging/media/sunxi/Kconfig           |   1 +
+>  drivers/staging/media/sunxi/Makefile          |   1 +
+>  drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
+>  .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
+>  .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+>  .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
+>  .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
+>  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
+>  .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
+>  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
+>  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
+>  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 577 ++++++++++++++
+>  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
+>  .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
+>  .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+>  23 files changed, 3309 insertions(+), 13 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun=
+6i-a31-isp.yaml
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_captu=
+re.c
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_captu=
+re.h
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_param=
+s.c
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_param=
+s.h
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
+>  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-=
+config.h
+>=20
+> --=20
+> 2.37.3
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--+76NLuqt2Dz00PeX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmNSqUIACgkQ3cLmz3+f
+v9E9qQf/e6CZP3vspGNFsSTlpYbKP0gLTcBx4CWwJ810BzPsvBiAFWWPLDsbeNXG
+SDdtAoTfjFF0g2wR/xzgL4NdH0uxBTQk+XoPTHwguJKJTzSXtCdAkyr0M6ilGlpe
+Bz/95TZ2Za4SswSPhHtcd23lixzrpG3xg7It/7itWeARX/vd1U/AZgiIIc6yyPix
+bjEJHJWg0y77fmhtZ4lds9er4kesL7xirmDGyLIBOU1hlWl2q+lKNC4BE09j43pJ
+ofrRUmhgI6cjr0T6NDcrlArFndpj6IyAVSLX0MWa4HHyDtjrPpBHWN8X5mQDlHo8
+7MvX1B2sht4qKu1E69ZG9yI2yPDCGw==
+=BoRq
+-----END PGP SIGNATURE-----
+
+--+76NLuqt2Dz00PeX--
