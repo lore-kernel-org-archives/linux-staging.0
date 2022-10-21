@@ -1,202 +1,213 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C8423C8;
-	Fri, 21 Oct 2022 14:14:38 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id AAD0F40005;
-	Fri, 21 Oct 2022 14:14:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1666361671;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D1ajsY8pZfc8bFaZEztL4M52XOdc6x7Su0C40vNEpBE=;
-	b=UVBc+7G3S1Tm8p4Wf2nV81f4SM/fxgXOgdidSTOBMaH2p/nym5CJKGuXj3Kqp8xUoxd2wd
-	kgMhdSK1aCxY5EI8/3zb4u/4pUgwZ3LdZCKSTF1tIF4imEQkJq/M57IhqCpqG9SEkFlf9N
-	cApfPDGZgUqLQLtZE4k3S9g49wbPk1L3T9pw6VfwH88I+LCWfKpkXMLVm1vdFxhvuwjc5i
-	uDFF4m3UMVmamB0p/MJvgXK9YsDyJgeViWO4NyQ1bc384yG91CwjsslQcs6qWist2loLpq
-	n1aX574lsLOhjZ+rnAKVXNJ6Ea+JTrLYQ0+VgR7a8GromJ+BIwfaDfNfV35E+A==
-Date: Fri, 21 Oct 2022 16:14:26 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v7 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP
- Driver
-Message-ID: <Y1KpQl5Nlhd0kKId@aptenodytes>
-References: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8493D63;
+	Fri, 21 Oct 2022 16:52:05 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id z97so8092336ede.8;
+        Fri, 21 Oct 2022 09:52:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QbrCp/HWAk2XalwN6dfLLMnF26XFvPbxtk7oc/fpzfU=;
+        b=Rne4X40YqguefqluQHEtSDoHqQgXtSIgBeawR5BuSnobBKnzTChwcP1YQ6GpslwkJF
+         j9Ey39cE9YT0swFN500VpbztykxkRxoXFlk5zpEVQpLtgBofXlRIt3WcToAgwpZXSyVs
+         VmcgktjVdxTlvceMBsgopEjkIBHGndTtIHYpuD53+FvS2inZhG5y8MdLJk1enB6G2X8M
+         q/wImA/MZdZaRCDaI4HWe4qgfkxIIeltCa9htj5Khz5slqygUEGxWr0cBFUhqRIpmnmd
+         6lwxyoo8yssZO7/kTbK/232MtyipQ1FaWf1EVU/6gdWrT6k+9AmVsZk+3cPwR55QE9bs
+         5h5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QbrCp/HWAk2XalwN6dfLLMnF26XFvPbxtk7oc/fpzfU=;
+        b=ml9jxu2MLoHIC4ZTS4dwl+RTysX8s1DjEmenh6c18ivwcj7Ma73Y4McCo1lpFsRB4/
+         3+Hrfra6R46SPzNnyaxFSL1ehUR8U5Q02GHJp7oYfPHKzOsR1iFcu2meZwO9xbTuxn87
+         hGZT/WrBAemhOvg01ifm4vkvK2gxGSGmb+WQ0D9V2A6zNJY4Mn93aQR6WnKBjGD6i3gc
+         Q9JXloGP7AHWY3eLBo3yAuXV7yLge8WNPspRHCTc4MQTOVrK+0WlqG8ID9zqM6iC6GPZ
+         yhPrp3FVTZdQAVCWl0Ptie+708TUxzEBTEWgOLMGtAqcuzfhpiLJfi7XmIoXnl2wxv6v
+         gvgg==
+X-Gm-Message-State: ACrzQf1nIy7QGl1J6fIrvVbg/F1FtCNo3fVr4R6lVh+TrUqKl3ze4fDA
+	w4d8+PKqxBHEdI+judYlLtXZTq52/nk=
+X-Google-Smtp-Source: AMsMyM7fejRzmzMDyKaNCxsUKD31P+4MAAm5bKX8Pp1V+3yJg2L6GtizRGdBooe5PYqdqYY3CNc8KA==
+X-Received: by 2002:a05:6402:428d:b0:460:b26c:82a5 with SMTP id g13-20020a056402428d00b00460b26c82a5mr8387063edc.66.1666371123917;
+        Fri, 21 Oct 2022 09:52:03 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f3e:6a49:b759:f2e4:df8e:f54e? (p200300c78f3e6a49b759f2e4df8ef54e.dip0.t-ipconnect.de. [2003:c7:8f3e:6a49:b759:f2e4:df8e:f54e])
+        by smtp.gmail.com with ESMTPSA id y2-20020aa7ccc2000000b00458d383a6ddsm13820616edt.44.2022.10.21.09.52.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Oct 2022 09:52:03 -0700 (PDT)
+Message-ID: <02a45afb-f81d-639c-1cc6-6376e31351a6@gmail.com>
+Date: Fri, 21 Oct 2022 18:52:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="+76NLuqt2Dz00PeX"
-Content-Disposition: inline
-In-Reply-To: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 4/6] staging: vt6655: refactor long lines of code in
+ s_vGenerateTxParameter
+Content-Language: en-US
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev
+References: <cover.1666347511.git.tanjubrunostar0@gmail.com>
+ <03dd39114b1e5c029cd8022245403a079ff03ae7.1666347511.git.tanjubrunostar0@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <03dd39114b1e5c029cd8022245403a079ff03ae7.1666347511.git.tanjubrunostar0@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 10/21/22 12:33, Tanjuate Brunostar wrote:
+> fix checkpatch errors by refactoring long lines of code in the function: s_vGenerateTxParameter
+> 
+> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+> ---
+>   drivers/staging/vt6655/rxtx.c | 70 ++++++++++++++++++++++++-----------
+>   1 file changed, 48 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index dc853b83459b..42f4261293ba 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -839,7 +839,8 @@ s_vFillCTSHead(struct vnt_private *pDevice,
+>   	}
+>   
+>   	if (byPktType == PK_TYPE_11GB || byPktType == PK_TYPE_11GA) {
+> -		if (byFBOption != AUTO_FB_NONE && uDMAIdx != TYPE_ATIMDMA && uDMAIdx != TYPE_BEACONDMA) {
+> +		if (byFBOption != AUTO_FB_NONE && uDMAIdx !=
+> +		    TYPE_ATIMDMA && uDMAIdx != TYPE_BEACONDMA) {
+>   			/* Auto Fall back */
+>   			struct vnt_cts_fb *buf = pvCTS;
+>   			/* Get SignalField, ServiceField & Length */
+> @@ -878,7 +879,10 @@ s_vFillCTSHead(struct vnt_private *pDevice,
+>   
+>   			ether_addr_copy(buf->data.ra,
+>   					pDevice->abyCurrentNetAddr);
+> -		} else { /* if (byFBOption != AUTO_FB_NONE && uDMAIdx != TYPE_ATIMDMA && uDMAIdx != TYPE_BEACONDMA) */
+> +		} else {
+> +			/* if (byFBOption != AUTO_FB_NONE && uDMAIdx != TYPE_ATIMDMA &&
+> +			 * uDMAIdx != TYPE_BEACONDMA)
+> +			 */
+>   			struct vnt_cts *buf = pvCTS;
+>   			/* Get SignalField, ServiceField & Length */
+>   			vnt_get_phy_field(pDevice, uCTSFrameLen,
+> @@ -964,50 +968,72 @@ static void s_vGenerateTxParameter(struct vnt_private *pDevice,
+>   			/* Fill RsvTime */
+>   			struct vnt_rrv_time_rts *buf = pvRrvTime;
+>   
+> -			buf->rts_rrv_time_aa = get_rtscts_time(pDevice, 2, byPktType, cbFrameSize, wCurrentRate);
+> -			buf->rts_rrv_time_ba = get_rtscts_time(pDevice, 1, byPktType, cbFrameSize, wCurrentRate);
+> -			buf->rts_rrv_time_bb = get_rtscts_time(pDevice, 0, byPktType, cbFrameSize, wCurrentRate);
+> -			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
+> -			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
+> -
+> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+> +			buf->rts_rrv_time_aa = get_rtscts_time(pDevice, 2, byPktType, cbFrameSize,
+> +							       wCurrentRate);
+> +			buf->rts_rrv_time_ba = get_rtscts_time(pDevice, 1, byPktType, cbFrameSize,
+> +							       wCurrentRate);
+> +			buf->rts_rrv_time_bb = get_rtscts_time(pDevice, 0, byPktType, cbFrameSize,
+> +							       wCurrentRate);
+> +			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize,
+> +								wCurrentRate, bNeedACK);
+> +			buf->rrv_time_b =
+> +				vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize,
+> +						      pDevice->byTopCCKBasicRate, bNeedACK);
+> +
+> +			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC,
+> +				       psEthHeader, wCurrentRate, byFBOption);
+>   		} else {/* RTS_needless, PCF mode */
+>   			struct vnt_rrv_time_cts *buf = pvRrvTime;
+>   
+> -			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
+> -			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
+> -			buf->cts_rrv_time_ba = get_rtscts_time(pDevice, 3, byPktType, cbFrameSize, wCurrentRate);
+> +			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize,
+> +								wCurrentRate, bNeedACK);
+> +			buf->rrv_time_b =
+> +				vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize,
+> +						      pDevice->byTopCCKBasicRate, bNeedACK);
+> +			buf->cts_rrv_time_ba = get_rtscts_time(pDevice, 3, byPktType, cbFrameSize,
+> +							       wCurrentRate);
+>   
+>   			/* Fill CTS */
+> -			s_vFillCTSHead(pDevice, uDMAIdx, byPktType, pvCTS, cbFrameSize, bNeedACK, bDisCRC, wCurrentRate, byFBOption);
+> +			s_vFillCTSHead(pDevice, uDMAIdx, byPktType, pvCTS, cbFrameSize, bNeedACK,
+> +				       bDisCRC, wCurrentRate, byFBOption);
+>   		}
+>   	} else if (byPktType == PK_TYPE_11A) {
+>   		if (pvRTS) {/* RTS_need, non PCF mode */
+> -			struct vnt_rrv_time_ab *buf = pvRrvTime;
 
---+76NLuqt2Dz00PeX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Error during compiliation in next line
 
-Hi,
+> +			struct vnt_rrv_time_ab *buf = pvRrvT
+> +				ime;
 
-On Sat 24 Sep 22, 17:32, Paul Kocialkowski wrote:
-> This part only concerns the introduction of the new ISP driver and related
-> adaptation of the CSI driver.
+make: Entering directory '/home/kernel/Documents/git/kernels/staging'
+   CC [M]  drivers/staging/vt6655/rxtx.o
+drivers/staging/vt6655/rxtx.c: In function ‘s_vGenerateTxParameter’:
+drivers/staging/vt6655/rxtx.c:1014:34: error: ‘pvRrvT’ undeclared (first 
+use in this function)
+  1014 |    struct vnt_rrv_time_ab *buf = pvRrvT
+       |                                  ^~~~~~
+drivers/staging/vt6655/rxtx.c:1014:34: note: each undeclared identifier 
+is reported only once for each function it appears in
+drivers/staging/vt6655/rxtx.c:1015:5: error: expected ‘,’ or ‘;’ before 
+‘ime’
+  1015 |     ime;
+       |     ^~~
+make[1]: *** [scripts/Makefile.build:250: drivers/staging/vt6655/rxtx.o] 
+Error 1
+make: *** [Makefile:1992: drivers/staging/vt6655] Error 2
+make: Leaving directory '/home/kernel/Documents/git/kernels/staging'
 
-I don't think there is any significant issue preventing this series from
-being merged in Linux 6.2 at this point.
+>   
+> -			buf->rts_rrv_time = get_rtscts_time(pDevice, 2, byPktType, cbFrameSize, wCurrentRate);
+> -			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
+> +			buf->rts_rrv_time = get_rtscts_time(pDevice, 2, byPktType, cbFrameSize,
+> +							    wCurrentRate);
+> +			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize,
+> +							      wCurrentRate, bNeedACK);
+>   
+>   			/* Fill RTS */
+> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+> +			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC,
+> +				       psEthHeader, wCurrentRate, byFBOption);
+>   		} else if (!pvRTS) {/* RTS_needless, non PCF mode */
+>   			struct vnt_rrv_time_ab *buf = pvRrvTime;
+>   
+> -			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11A, cbFrameSize, wCurrentRate, bNeedACK);
+> +			buf->rrv_time =
+> +				vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11A, cbFrameSize,
+> +						      wCurrentRate, bNeedACK);
+>   		}
+>   	} else if (byPktType == PK_TYPE_11B) {
+>   		if (pvRTS) {/* RTS_need, non PCF mode */
+>   			struct vnt_rrv_time_ab *buf = pvRrvTime;
+>   
+> -			buf->rts_rrv_time = get_rtscts_time(pDevice, 0, byPktType, cbFrameSize, wCurrentRate);
+> -			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
+> +			buf->rts_rrv_time = get_rtscts_time(pDevice, 0, byPktType, cbFrameSize,
+> +							    wCurrentRate);
+> +			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize,
+> +							      wCurrentRate, bNeedACK);
+>   
+>   			/* Fill RTS */
+> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+> +			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC,
+> +				       psEthHeader, wCurrentRate, byFBOption);
+>   		} else { /* RTS_needless, non PCF mode */
+>   			struct vnt_rrv_time_ab *buf = pvRrvTime;
+>   
+> -			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
+> +			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize,
+> +							      wCurrentRate, bNeedACK);
+>   		}
+>   	}
+>   }
 
-Could we move forward on it? It's been around for quite some time now.
-
-Thanks!
-
-Paul
-
-> Most non-dt patches still need reviewing but should be pretty straightfor=
-ward.=20
-> Since this multi-part series has been going on for a while, it would be g=
-reat
-> to see it merged soon!
->=20
-> Changes since v6:
-> - Added a per-compatible check for the required port in dt binding;
-> - Reworded ISP output port description in dt binding;
-> - Reversed ISP detection order to have fwnode first;
-> - Removed info print when ISP link is detected;
-> - Added warn print when ISP is linked but not enabled in config;
-> - Fixed sun6i_csi_isp_detect return type;
-> - Removed useless initialization in sun6i_csi_isp_detect;
-> - Fixed typo in sun6i_csi_isp_detect;
-> - Added collected tags;
->=20
-> Changes since v5:
-> - Rebased on latest media tree;
-> - Added collected tag;
-> - Switched to using media_pad_remote_pad_first;
-> - Switched to using media_pad_remote_pad_unique.
->=20
-> Changes since v4:
-> - Fixed device-tree binding indent-align;
-> - Added collected tag;
-> - Rebased on latest media tree;
->=20
-> Changes since v3:
-> - Removed the v4l2 controls handler from the driver;
-> - Added variant structure for table sizes;
-> - Removed the info message about video device registration;
-> - Removed comments in uAPI header;
-> - Used '/schemas/graph.yaml#/properties/port' whenever possible in bindin=
-gs;
-> - Added CSI patches dependent on the ISP driver;
-> - Rebased on the latest media tree;
->=20
-> Changes since all-in-one v2:
-> - Updated Kconfig to follow the latest media-wide changes;
-> - Reworked async subdev handling with a dedicated structure holding the
->   corresponding source to avoid matching in the driver;
-> - Switched to clock-managed regmap mmio;
-> - Used helper to get a single enabled link for an entity's pad, to replace
->   source selection at link_validate time and select the remote source at
->   stream on time instead;
-> - Added mutex for mbus format serialization;
-> - Used endpoint-base instead of video-interface for "internal" endpoints
->   in device-tree schema;
-> - Added TODO with unstaging requirements;
-> - Various cosmetic cleanups;
-> - Updated copyright years;
->=20
-> Paul Kocialkowski (6):
->   dt-bindings: media: Add Allwinner A31 ISP bindings documentation
->   dt-bindings: media: sun6i-a31-csi: Add internal output port to the ISP
->   staging: media: Add support for the Allwinner A31 ISP
->   MAINTAINERS: Add entry for the Allwinner A31 ISP driver
->   media: sun6i-csi: Detect the availability of the ISP
->   media: sun6i-csi: Add support for hooking to the isp devices
->=20
->  .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
->  .../media/allwinner,sun6i-a31-isp.yaml        | 101 +++
->  MAINTAINERS                                   |   9 +
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  75 +-
->  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
->  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
->  drivers/staging/media/sunxi/Kconfig           |   1 +
->  drivers/staging/media/sunxi/Makefile          |   1 +
->  drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
->  .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
->  .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
->  .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
->  .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
->  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 577 ++++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
->  .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
->  23 files changed, 3309 insertions(+), 13 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun=
-6i-a31-isp.yaml
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_captu=
-re.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_captu=
-re.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_param=
-s.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_param=
-s.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-=
-config.h
->=20
-> --=20
-> 2.37.3
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---+76NLuqt2Dz00PeX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmNSqUIACgkQ3cLmz3+f
-v9E9qQf/e6CZP3vspGNFsSTlpYbKP0gLTcBx4CWwJ810BzPsvBiAFWWPLDsbeNXG
-SDdtAoTfjFF0g2wR/xzgL4NdH0uxBTQk+XoPTHwguJKJTzSXtCdAkyr0M6ilGlpe
-Bz/95TZ2Za4SswSPhHtcd23lixzrpG3xg7It/7itWeARX/vd1U/AZgiIIc6yyPix
-bjEJHJWg0y77fmhtZ4lds9er4kesL7xirmDGyLIBOU1hlWl2q+lKNC4BE09j43pJ
-ofrRUmhgI6cjr0T6NDcrlArFndpj6IyAVSLX0MWa4HHyDtjrPpBHWN8X5mQDlHo8
-7MvX1B2sht4qKu1E69ZG9yI2yPDCGw==
-=BoRq
------END PGP SIGNATURE-----
-
---+76NLuqt2Dz00PeX--
