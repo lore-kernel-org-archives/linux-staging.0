@@ -1,36 +1,25 @@
-Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACC3625
-	for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 09:45:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1666518347; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=n0djU2Bcz7eYnsBAcPeKlyvR6aq2jmNAtN8kcNZGqT0FQnuB3hUo7PgkydrmbhUwynC/hF5FncLUpwBWtcOOFQQNxbe3GxlY46bqM+NuVbhCNPfIiYya5Vz74bNieAz8RPRklZkx29XmFzIdORHw1cpsCNz11uKO+ELiqVe6n98=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1666518347; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=ivNt5vYMgwnw429QXPfXjURSmbe5Iv+xz1tsl5G5fNc=; 
-	b=Zsi+X29bOR3VqdU3tO1E5NYMCWi1YlCNJYfiAw3jRcYpXlxrocOG8apnwK0PnOKbzfl44FH6kTKZneXNxtV6ZNmjtv0L3dEy8zlAU44OjyBO7yhgwR5LiJjHxquWiKbdIAZsNYnD/S7p+XGegBhKeyxVWS1G5ts23erUH07KWTc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=t4rmin@zohomail.com;
-	dmarc=pass header.from=<t4rmin@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666518347;
-	s=zm2022; d=zohomail.com; i=t4rmin@zohomail.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=ivNt5vYMgwnw429QXPfXjURSmbe5Iv+xz1tsl5G5fNc=;
-	b=dJG+o16uOV35Bms1qM3STrK1Q/HJyEQGiVIunVe9Ef0yHy60omQktorYDNctpPq5
-	uzWSM8ZL9NmoL7cA7qHWyJ97erZWME8qjAtBqpCMElrta9W2D2qvN5ofGllOiDgae5j
-	UUahMtngxrsR0XRuK7zD82kJGUSVPuRDviEPlY2c=
-Received: from plymouth (101.128.127.165 [101.128.127.165]) by mx.zohomail.com
-	with SMTPS id 16665183462521005.4633904721092; Sun, 23 Oct 2022 02:45:46 -0700 (PDT)
-Date: Sun, 23 Oct 2022 16:45:37 +0700
-From: Aaron Lawrence <t4rmin@zohomail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] Staging: rtl8192e: rtl819x_HTProc: fixed unnecessary
- parentheses
-Message-ID: <d2168b90726dda2f02279a3483b53b8d9b34cb30.1666502177.git.t4rmin@zohomail.com>
-References: <cover.1666502177.git.t4rmin@zohomail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EE61369;
+	Sun, 23 Oct 2022 11:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1666523044; bh=CXFYkS/9I3ecfwQqOB0xh0UmIHm5NvOthOCQ+wQCho4=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=TeJ3SkKVax6heRHLZamZ2Mmo62DLNhNYc5TxC/0rdoGn4kut72/lY6+GaQVBYSYKf
+	 e/Kou/u3O6zE0sXJRlh1Ij8RHXyF1mQ2MbzvfWnSuopE/D6MRFTG3dOYNcNs6URTy9
+	 w5dMGaBBAMkxzTtql7EJnY7swAt/++k4hx7T+E5E=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+	via [213.182.55.206]
+	Sun, 23 Oct 2022 13:04:04 +0200 (CEST)
+X-EA-Auth: Yjri6/BpUBj1GUUFqZyfaA0i881R5h6QtDnu49t/H5do4HKgbeG8VkdOdzAdzB+pCSYB6zJ2QORaobSbl4yso6Khm2FmV9wY
+Date: Sat, 22 Oct 2022 01:03:42 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: wlan-ng: remove commented debug printk messages
+Message-ID: <Y1L0FiKvrM9jjZG9@debian-BULLSEYE-live-builder-AMD64>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,58 +28,128 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1666502177.git.t4rmin@zohomail.com>
-X-ZohoMailClient: External
 
-Fixed multiple unnecessary parentheses as per the Linux kernel
-coding-style regulations. The issues were flagged by the
-checkpatch script.
+printk messages are added for program flow tracing and are left
+commented. These commented log messages should be removed as they
+are no more useful for program execution.
 
-Signed-off-by: Aaron Lawrence <t4rmin@zohomail.com>
+Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index a701be8c2923..62aa8e893c34 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -285,7 +285,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
- 		u8	EWC11NHTCap[] = {0x00, 0x90, 0x4c, 0x33};
- 
- 		memcpy(posHTCap, EWC11NHTCap, sizeof(EWC11NHTCap));
--		pCapELE = (struct ht_capab_ele *)&(posHTCap[4]);
-+		pCapELE = (struct ht_capab_ele *)&posHTCap[4];
- 		*len = 30 + 2;
- 	} else {
- 		pCapELE = (struct ht_capab_ele *)posHTCap;
-@@ -644,13 +644,13 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 	pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
- 	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
- 
--	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
-+	memset((void *)(&pHTInfo->SelfHTCap), 0,
- 	       sizeof(pHTInfo->SelfHTCap));
--	memset((void *)(&(pHTInfo->SelfHTInfo)), 0,
-+	memset((void *)(&pHTInfo->SelfHTInfo), 0,
- 	       sizeof(pHTInfo->SelfHTInfo));
--	memset((void *)(&(pHTInfo->PeerHTCapBuf)), 0,
-+	memset((void *)(&pHTInfo->PeerHTCapBuf), 0,
- 	       sizeof(pHTInfo->PeerHTCapBuf));
--	memset((void *)(&(pHTInfo->PeerHTInfoBuf)), 0,
-+	memset((void *)(&pHTInfo->PeerHTInfoBuf), 0,
- 	       sizeof(pHTInfo->PeerHTInfoBuf));
- 
- 	pHTInfo->sw_bw_in_progress = false;
-@@ -666,7 +666,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 	pHTInfo->iot_ra_func = 0;
- 
- 	{
--		u8 *RegHTSuppRateSets = &(ieee->RegHTSuppRateSet[0]);
-+		u8 *RegHTSuppRateSets = &ieee->RegHTSuppRateSet[0];
- 
- 		RegHTSuppRateSets[0] = 0xFF;
- 		RegHTSuppRateSets[1] = 0xFF;
--- 
-2.38.1
+Changes in v2:
+   1. Resending as v2 since I incorrectly send multiple emails for the patch
+   earlier. Feedback from gregkh@linuxfoundation.org
+
+
+ drivers/staging/wlan-ng/p80211netdev.c | 22 ----------------------
+ 1 file changed, 22 deletions(-)
+
+diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
+index e04fc666d218..6bef419e8ad0 100644
+--- a/drivers/staging/wlan-ng/p80211netdev.c
++++ b/drivers/staging/wlan-ng/p80211netdev.c
+@@ -881,55 +881,42 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
+ 		wlandev->rx.mgmt++;
+ 		switch (fstype) {
+ 		case WLAN_FSTYPE_ASSOCREQ:
+-			/* printk("assocreq"); */
+ 			wlandev->rx.assocreq++;
+ 			break;
+ 		case WLAN_FSTYPE_ASSOCRESP:
+-			/* printk("assocresp"); */
+ 			wlandev->rx.assocresp++;
+ 			break;
+ 		case WLAN_FSTYPE_REASSOCREQ:
+-			/* printk("reassocreq"); */
+ 			wlandev->rx.reassocreq++;
+ 			break;
+ 		case WLAN_FSTYPE_REASSOCRESP:
+-			/* printk("reassocresp"); */
+ 			wlandev->rx.reassocresp++;
+ 			break;
+ 		case WLAN_FSTYPE_PROBEREQ:
+-			/* printk("probereq"); */
+ 			wlandev->rx.probereq++;
+ 			break;
+ 		case WLAN_FSTYPE_PROBERESP:
+-			/* printk("proberesp"); */
+ 			wlandev->rx.proberesp++;
+ 			break;
+ 		case WLAN_FSTYPE_BEACON:
+-			/* printk("beacon"); */
+ 			wlandev->rx.beacon++;
+ 			break;
+ 		case WLAN_FSTYPE_ATIM:
+-			/* printk("atim"); */
+ 			wlandev->rx.atim++;
+ 			break;
+ 		case WLAN_FSTYPE_DISASSOC:
+-			/* printk("disassoc"); */
+ 			wlandev->rx.disassoc++;
+ 			break;
+ 		case WLAN_FSTYPE_AUTHEN:
+-			/* printk("authen"); */
+ 			wlandev->rx.authen++;
+ 			break;
+ 		case WLAN_FSTYPE_DEAUTHEN:
+-			/* printk("deauthen"); */
+ 			wlandev->rx.deauthen++;
+ 			break;
+ 		default:
+-			/* printk("unknown"); */
+ 			wlandev->rx.mgmt_unknown++;
+ 			break;
+ 		}
+-		/* printk("\n"); */
+ 		drop = 2;
+ 		break;
+
+@@ -943,35 +930,27 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
+ 		wlandev->rx.ctl++;
+ 		switch (fstype) {
+ 		case WLAN_FSTYPE_PSPOLL:
+-			/* printk("pspoll"); */
+ 			wlandev->rx.pspoll++;
+ 			break;
+ 		case WLAN_FSTYPE_RTS:
+-			/* printk("rts"); */
+ 			wlandev->rx.rts++;
+ 			break;
+ 		case WLAN_FSTYPE_CTS:
+-			/* printk("cts"); */
+ 			wlandev->rx.cts++;
+ 			break;
+ 		case WLAN_FSTYPE_ACK:
+-			/* printk("ack"); */
+ 			wlandev->rx.ack++;
+ 			break;
+ 		case WLAN_FSTYPE_CFEND:
+-			/* printk("cfend"); */
+ 			wlandev->rx.cfend++;
+ 			break;
+ 		case WLAN_FSTYPE_CFENDCFACK:
+-			/* printk("cfendcfack"); */
+ 			wlandev->rx.cfendcfack++;
+ 			break;
+ 		default:
+-			/* printk("unknown"); */
+ 			wlandev->rx.ctl_unknown++;
+ 			break;
+ 		}
+-		/* printk("\n"); */
+ 		drop = 2;
+ 		break;
+
+@@ -1007,7 +986,6 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
+ 			wlandev->rx.cfack_cfpoll++;
+ 			break;
+ 		default:
+-			/* printk("unknown"); */
+ 			wlandev->rx.data_unknown++;
+ 			break;
+ 		}
+--
+2.30.2
+
+
 
