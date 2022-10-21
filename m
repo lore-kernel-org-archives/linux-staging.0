@@ -1,35 +1,47 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69B67E;
-	Fri, 21 Oct 2022 08:36:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666341366; bh=FInV2/69P5hzluTR/+qki+dkW2XiNEaLTE/gwpAeJwQ=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=KTy0zDhRxQ3LoM6aZLsbM3OmevGbLLVPKDvOaqxSzwmwd7L/b1SNWxcexuxJsgSHV
-	 gsEfHkwoW2Z9RNeRdQSrE4cnhL8JcMZOmlEgqsfR1gdS9bpFHf/kj9RbW28lis6Vex
-	 gifzYI+KmQuCVkYSiwIgZVJBdgbgVGX9bbH+Bhj0=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-	via [213.182.55.206]
-	Fri, 21 Oct 2022 10:36:06 +0200 (CEST)
-X-EA-Auth: /gC4Pi2zaJqUwWKMC+QMhWaIJ+d9M0BuJ4rAQ07uvVuNjlurNpHpXXJIaHDEGeSy0bKHnsVy7aHJ8B9Xa19uKGrG7wRPPUxU
-Date: Fri, 21 Oct 2022 05:20:41 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
-	outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	saurabh.truth@gmail.com
-Subject: Re: [PATCH v4 11/11] staging: r8188eu: Remove unused macros
-Message-ID: <Y1He0f+TqQhb9qr4@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1666299151.git.drv@mailo.com>
- <efaf637a14b6f7fdd0178e2aecf8abf17e6922f6.1666299151.git.drv@mailo.com>
- <b038a335-29a3-5118-bda6-9b3230094f90@linux.microsoft.com>
- <Y1I0dcZqMJAzHSm2@kroah.com>
- <Y1HbDZbZvdme1hJb@debian-BULLSEYE-live-builder-AMD64>
- <Y1JZdembzkkQPaOQ@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EF97E;
+	Fri, 21 Oct 2022 09:25:52 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id r14so4140105lfm.2;
+        Fri, 21 Oct 2022 02:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C2MVCCy2Kj88bAGrrwyous+SY2zFdp50BJwaTNbSgJs=;
+        b=e1Ug2fbqBV828vW2hp81OZQM8ZZrtqzFoCgUtgF1WPGaTyc+HKq4vG6c/GhnbLHqs/
+         G34p+YJXUqnyngkTTPuvqC3bVytW4N/GYy4OyczPzpg+BBUlNFmJwrqC4xICbSIJdGVq
+         oTLTLNJXWuZlKtpB3+ZcBBceSmeXnnTjQCghJpJqk+BztA39iGgHGgeYr1Ypb5DonO0A
+         JWnPCiGhpyQg5gtS4ywgKcQRgr3cLDK3m/cZ6jrod8s+I6nZbZX3XkZxrYocUebwMO1v
+         RZBtWS7qIZ1PY9GrYy4RBUurwv1D8cznf9ihBC01AYjnLx2RhjAL4LG31co9eZKB1iQg
+         m15w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C2MVCCy2Kj88bAGrrwyous+SY2zFdp50BJwaTNbSgJs=;
+        b=LzZoVFbDu8PCb8vDtROpVudwmyIb4UatEEJ5CJdi/PshF8Wif/yeh94Kiv//0r1Xgb
+         Qit6gtYnN6+DvzCpuxzWZ9UmQ2PVQ9aU7hGz5OrbLlIpncaTV3Zda+xo84ivfhwcVxF1
+         miS+Ol/QHWmbEArsXejQKJ9BdoQMEfb53Apl5DLTnm4VcWv/FEmXajGwfJyOu9gY7AbV
+         8DbPRUfc8E7gEJ7uWJxW4vD3ch1TvHB5SfK7QzgNxN/XRmfz5YZoCBWQjosKSSzuodaE
+         oqisMe7DmiBLa5egJELfoJR9tvTVfvkzaHBVGeln5wc1+bt3PnH2oh6PyOfGsIdUHpT4
+         5HUg==
+X-Gm-Message-State: ACrzQf3joWWBgBCwXsfJtzlW7aCrlsz0Sxybc60WWEvmm7p2KSloEPx7
+	OOx2v4NBzXS+R6As6lDzOMLakskaS4UEjL39
+X-Google-Smtp-Source: AMsMyM4+5YCd0Luf4TS2xNZ0ncMzTartBJCb60IU0qioV9xKWdxD8sActTvNkZmCQGyb5TZ9G5oWjA==
+X-Received: by 2002:ac2:44c1:0:b0:4a6:113f:ab60 with SMTP id d1-20020ac244c1000000b004a6113fab60mr4222002lfm.475.1666344349940;
+        Fri, 21 Oct 2022 02:25:49 -0700 (PDT)
+Received: from elroy-temp-vm ([20.240.130.248])
+        by smtp.gmail.com with ESMTPSA id n13-20020ac2490d000000b0049b8c0571e5sm3091491lfi.113.2022.10.21.02.25.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Oct 2022 02:25:49 -0700 (PDT)
+Date: Fri, 21 Oct 2022 09:25:48 +0000
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: [PATCH v4] staging: vt6655: Fix Lines should not end with a '('
+Message-ID: <Y1JlnJ/UpBgm9XEC@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,67 +50,122 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y1JZdembzkkQPaOQ@kroah.com>
 
-On Fri, Oct 21, 2022 at 10:33:57AM +0200, Greg KH wrote:
-> On Fri, Oct 21, 2022 at 05:04:37AM +0530, Deepak R Varma wrote:
-> > On Fri, Oct 21, 2022 at 07:56:05AM +0200, Greg KH wrote:
-> > > On Fri, Oct 21, 2022 at 11:21:06AM +0530, Praveen Kumar wrote:
-> > > > On 21-10-2022 03:02, Deepak R Varma wrote:
-> > > > > Simple variants of macros PlatformEFIOWrite and PlatformEFIORead are
-> > > > > defined but never used. As they do not appear to be designed for anything
-> > > > > significant, we can remove them to avoid unexpected usage.
-> > > > >
-> > > > > Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > > ---
-> > > > >
-> > > > > Changes in v4:
-> > > > >    1. Patch newly added to the patch set.
-> > > > >
-> > > > >
-> > > > >  drivers/staging/r8188eu/include/rtw_io.h | 14 --------------
-> > > > >  1 file changed, 14 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
-> > > > > index 87fcf6c94ff3..e9744694204b 100644
-> > > > > --- a/drivers/staging/r8188eu/include/rtw_io.h
-> > > > > +++ b/drivers/staging/r8188eu/include/rtw_io.h
-> > > > > @@ -285,18 +285,4 @@ void bus_sync_io(struct io_queue *pio_q);
-> > > > >  u32 _ioreq2rwmem(struct io_queue *pio_q);
-> > > > >  void dev_power_down(struct adapter *Adapter, u8 bpwrup);
-> > > > >
-> > > > > -#define PlatformEFIOWrite1Byte(_a, _b, _c)		\
-> > > > > -	rtw_write8(_a, _b, _c)
-> > > > > -#define PlatformEFIOWrite2Byte(_a, _b, _c)		\
-> > > > > -	rtw_write16(_a, _b, _c)
-> > > > > -#define PlatformEFIOWrite4Byte(_a, _b, _c)		\
-> > > > > -	rtw_write32(_a, _b, _c)
-> > > > > -
-> > > > > -#define PlatformEFIORead1Byte(_a, _b)		\
-> > > >
-> > > > Can the naming be reworked to make more Linux friendly ? something like PLATFORM_EFIO_READ1BYTE or better if there are other suggestions?
-> > > > Rest others as applicable ?
-> > >
-> > > All of these should just be removed entirely and the normal calls here
-> > > made instead.  There is no need for these #defines at all.
-> >
-> > Hello Greg,
-> > The current patch scope results in removal of these #defines. Can you please
-> > clarify what you mean by "normal calls here made instead"? Do you mean the
-> > calling function should directly call the wrapped functions OR you are
-> > suggesting converting these #defines to inline functions?
->
-> The calling function should call the wrapped function instead, there is
-> no need for another pointless level of indirection here.
+Code style warnings reported by checkpatch.
+Improve the layout of a function header:
+Put the first parameter immediately after the '(' and align the other
+parameters underneath it.
 
-Sounds good. Thank you for the clarification.
+Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 
-./drv
+---
+v2: put static and void on the same line and adjusted the indentation as
+suggested by Greg KH
+---
+v3: Reformat the code by inserting tabs and white space as recommended
+by Nam Cao and Julia Lawall
+---
+v4: final version of this patch
 
->
-> thanks,
->
-> greg k-h
+ drivers/staging/vt6655/rxtx.c | 78 +++++++++++++++--------------------
+ 1 file changed, 33 insertions(+), 45 deletions(-)
 
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 5bdb5176772c..1e5036121665 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -85,35 +85,27 @@ static const unsigned short wFB_Opt1[2][5] = {
+ #define DATADUR_A_F1    13
+ 
+ /*---------------------  Static Functions  --------------------------*/
+-static
+-void
+-s_vFillRTSHead(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	void *pvRTS,
+-	unsigned int	cbFrameLength,
+-	bool bNeedAck,
+-	bool bDisCRC,
+-	struct ieee80211_hdr *hdr,
+-	unsigned short wCurrentRate,
+-	unsigned char byFBOption
+-);
+-
+-static
+-void
+-s_vGenerateTxParameter(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	struct vnt_tx_fifo_head *,
+-	void *pvRrvTime,
+-	void *pvRTS,
+-	void *pvCTS,
+-	unsigned int	cbFrameSize,
+-	bool bNeedACK,
+-	unsigned int	uDMAIdx,
+-	void *psEthHeader,
+-	unsigned short wCurrentRate
+-);
++static void s_vFillRTSHead(struct vnt_private *pDevice,
++			   unsigned char byPktType,
++			   void *pvRTS,
++			   unsigned int	cbFrameLength,
++			   bool bNeedAck,
++			   bool bDisCRC,
++			   struct ieee80211_hdr *hdr,
++			   unsigned short wCurrentRate,
++			   unsigned char byFBOption);
++
++static void s_vGenerateTxParameter(struct vnt_private *pDevice,
++				   unsigned char byPktType,
++				   struct vnt_tx_fifo_head *,
++				   void *pvRrvTime,
++				   void *pvRTS,
++				   void *pvCTS,
++				   unsigned int	cbFrameSize,
++				   bool bNeedACK,
++				   unsigned int	uDMAIdx,
++				   void *psEthHeader,
++				   unsigned short wCurrentRate);
+ 
+ static unsigned int
+ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+@@ -121,22 +113,18 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+ 		  unsigned int uDMAIdx, struct vnt_tx_desc *pHeadTD,
+ 		  unsigned int uNodeIndex);
+ 
+-static
+-__le16
+-s_uFillDataHead(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	void *pTxDataHead,
+-	unsigned int cbFrameLength,
+-	unsigned int uDMAIdx,
+-	bool bNeedAck,
+-	unsigned int uFragIdx,
+-	unsigned int cbLastFragmentSize,
+-	unsigned int uMACfragNum,
+-	unsigned char byFBOption,
+-	unsigned short wCurrentRate,
+-	bool is_pspoll
+-);
++static __le16 s_uFillDataHead(struct vnt_private *pDevice,
++			      unsigned char byPktType,
++			      void *pTxDataHead,
++			      unsigned int cbFrameLength,
++			      unsigned int uDMAIdx,
++			      bool bNeedAck,
++			      unsigned int uFragIdx,
++			      unsigned int cbLastFragmentSize,
++			      unsigned int uMACfragNum,
++			      unsigned char byFBOption,
++			      unsigned short wCurrentRate,
++			      bool is_pspoll);
+ 
+ /*---------------------  Export Variables  --------------------------*/
+ 
+-- 
+2.34.1
 
