@@ -1,149 +1,77 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988547B;
-	Fri, 21 Oct 2022 10:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666348248; bh=jtnn88d1QPB9a8mRoXuB6CbwtjfRDKBhxTxl4zKQrP4=;
-	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=HeLbNfrFAqlt4VrX/p16fHl0VxuqpFPrzI4F4XAnYpC4U7fa3w32DZYt2OGnTpabU
-	 68tFio7t55EcbVF9qv5TBW5d5zN2LiMz/E9QDMNTvxFg3ExBRJ5J3DJF3o7j019ZKh
-	 9tkb1D+trVoHLdmj8lwd1oSb+I/6aJ8LAA4KWG6I=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-	via [213.182.55.206]
-	Fri, 21 Oct 2022 12:30:48 +0200 (CEST)
-X-EA-Auth: XTE0cHlHiFPu0Grh051zZPg/T10f6Lv7jpO0dfQPpzSSA5nlFWt/T6Q08N+I8jkXf48XFgOrLbVKAmCewc5zNb7NJ5jgj0bW
-Date: Fri, 21 Oct 2022 07:15:24 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: wlan-ng: remove commented debug printk messages
-Message-ID: <Y1H5tJXjMZqiB6rh@debian-BULLSEYE-live-builder-AMD64>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70147B;
+	Fri, 21 Oct 2022 10:33:35 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id d6so4310121lfs.10;
+        Fri, 21 Oct 2022 03:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NgAh3eOsehBHDRMN9LqNbEShmB7iObrHTkO9H5vd/vA=;
+        b=kyo0932RUqFoS76pXGEb6enHdCW8tgABYyWI+add2taDA+ePymUB7IKoMR2iX68ai5
+         Fn7wR1QcXLDfp+6hJ+iWUh8upP44qRHzChr+H/zjhUcvaDKtDmo7kB8zmTHbhlxYLd0e
+         EJFHMZD25S7PHb9CF78GiK2abCsF+uqZM99Ytk6uMhKBvyG1btiMsr2rmErrI3oHAw+S
+         d1TGNOU0D4bEaBIf+FRWcFRqGsetOH36xDK96Ru6J3C0IXzz82spi9ZtQVHAaSUgtwU7
+         G0xagF0T+RRtY4WRijQ5L+75Wf51owiadfMWfjwgycuxTG16PZ4l2TCektxrRc6VdYcQ
+         gELQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NgAh3eOsehBHDRMN9LqNbEShmB7iObrHTkO9H5vd/vA=;
+        b=5LCXayJppduH7UpCVTNiwjKwWVYbhHeE8tWXzpECphVXLne45ksAxx08igSgAUePUT
+         3adi4IYIXOQDO+NAcvcCqvWefC1w0rX9dcXIvDizpJR6SHwYEgidpqGnxFzqdUMmL3xX
+         ZUZhX407WATVW+UzFewwyziz90Ul+k91nZhfBiIwN4CtFzYPBSwuYA7vVc3vg7LQRX/J
+         07cwSfHuDruXyMYh61B2Tm+QvO6p9sC0AttlAdr4hMTGS8uRlh7iibgITy6kovvQ/7tF
+         sQFW6pLrOM1lf9wcLJ358Z44bDLx6eePhyupegZZLVVGpXTE4Q26tSo7RQODvNR3kQLW
+         UkdA==
+X-Gm-Message-State: ACrzQf1ugOXbQk+Q3Kwx3EEmv64Ojso7xKBGEVKl8pVLS32RaMW4Ydpa
+	isyitfuft1IMkG7N5ANfFfc=
+X-Google-Smtp-Source: AMsMyM5H5HQi404bwAYD4Pr2ZzoQ3xkfQaC4zGB+6uor/t8JI/PCmKWwFsXrOfd154GUyjofYZDqow==
+X-Received: by 2002:a05:6512:1052:b0:4a2:7f09:4f1f with SMTP id c18-20020a056512105200b004a27f094f1fmr6723174lfb.59.1666348413568;
+        Fri, 21 Oct 2022 03:33:33 -0700 (PDT)
+Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
+        by smtp.googlemail.com with ESMTPSA id u12-20020ac258cc000000b00492d7a7b4e3sm3119775lfo.4.2022.10.21.03.33.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Oct 2022 03:33:33 -0700 (PDT)
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Subject: [PATCH v2 0/6] a series of checkpatch fixes on the file: rxtx.c
+Date: Fri, 21 Oct 2022 10:33:04 +0000
+Message-Id: <cover.1666347511.git.tanjubrunostar0@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-printk messages are added for program flow tracing and are left
-commented. These commented log messages should be removed as they
-are no more useful for program execution.
+The fixes are similar, mostly long lines splitting. I had to make
+serveral patches to ease the work of inspectors
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
- drivers/staging/wlan-ng/p80211netdev.c | 22 ----------------------
- 1 file changed, 22 deletions(-)
+v2: fixed a compilation error found by the kernel test robot and
+recompiled the code
 
-diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
-index e04fc666d218..6bef419e8ad0 100644
---- a/drivers/staging/wlan-ng/p80211netdev.c
-+++ b/drivers/staging/wlan-ng/p80211netdev.c
-@@ -881,55 +881,42 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
- 		wlandev->rx.mgmt++;
- 		switch (fstype) {
- 		case WLAN_FSTYPE_ASSOCREQ:
--			/* printk("assocreq"); */
- 			wlandev->rx.assocreq++;
- 			break;
- 		case WLAN_FSTYPE_ASSOCRESP:
--			/* printk("assocresp"); */
- 			wlandev->rx.assocresp++;
- 			break;
- 		case WLAN_FSTYPE_REASSOCREQ:
--			/* printk("reassocreq"); */
- 			wlandev->rx.reassocreq++;
- 			break;
- 		case WLAN_FSTYPE_REASSOCRESP:
--			/* printk("reassocresp"); */
- 			wlandev->rx.reassocresp++;
- 			break;
- 		case WLAN_FSTYPE_PROBEREQ:
--			/* printk("probereq"); */
- 			wlandev->rx.probereq++;
- 			break;
- 		case WLAN_FSTYPE_PROBERESP:
--			/* printk("proberesp"); */
- 			wlandev->rx.proberesp++;
- 			break;
- 		case WLAN_FSTYPE_BEACON:
--			/* printk("beacon"); */
- 			wlandev->rx.beacon++;
- 			break;
- 		case WLAN_FSTYPE_ATIM:
--			/* printk("atim"); */
- 			wlandev->rx.atim++;
- 			break;
- 		case WLAN_FSTYPE_DISASSOC:
--			/* printk("disassoc"); */
- 			wlandev->rx.disassoc++;
- 			break;
- 		case WLAN_FSTYPE_AUTHEN:
--			/* printk("authen"); */
- 			wlandev->rx.authen++;
- 			break;
- 		case WLAN_FSTYPE_DEAUTHEN:
--			/* printk("deauthen"); */
- 			wlandev->rx.deauthen++;
- 			break;
- 		default:
--			/* printk("unknown"); */
- 			wlandev->rx.mgmt_unknown++;
- 			break;
- 		}
--		/* printk("\n"); */
- 		drop = 2;
- 		break;
+Tanjuate Brunostar (6):
+  staging: vt6655: fix lines ending in a '('
+  staging: vt6655: refactor long lines of code in s_uGetRTSCTSDuration
+  staging: vt6655: refactor long lines of code in s_uFillDataHead
+  staging: vt6655: refactor long lines of code in s_vGenerateTxParameter
+  staging: vt6655: refactor long lines of code in the rest of the file
+  staging: vt6655: refactor code to avoid a line ending in '('
 
-@@ -943,35 +930,27 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
- 		wlandev->rx.ctl++;
- 		switch (fstype) {
- 		case WLAN_FSTYPE_PSPOLL:
--			/* printk("pspoll"); */
- 			wlandev->rx.pspoll++;
- 			break;
- 		case WLAN_FSTYPE_RTS:
--			/* printk("rts"); */
- 			wlandev->rx.rts++;
- 			break;
- 		case WLAN_FSTYPE_CTS:
--			/* printk("cts"); */
- 			wlandev->rx.cts++;
- 			break;
- 		case WLAN_FSTYPE_ACK:
--			/* printk("ack"); */
- 			wlandev->rx.ack++;
- 			break;
- 		case WLAN_FSTYPE_CFEND:
--			/* printk("cfend"); */
- 			wlandev->rx.cfend++;
- 			break;
- 		case WLAN_FSTYPE_CFENDCFACK:
--			/* printk("cfendcfack"); */
- 			wlandev->rx.cfendcfack++;
- 			break;
- 		default:
--			/* printk("unknown"); */
- 			wlandev->rx.ctl_unknown++;
- 			break;
- 		}
--		/* printk("\n"); */
- 		drop = 2;
- 		break;
+ drivers/staging/vt6655/rxtx.c | 535 ++++++++++++++++++++--------------
+ 1 file changed, 323 insertions(+), 212 deletions(-)
 
-@@ -1007,7 +986,6 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
- 			wlandev->rx.cfack_cfpoll++;
- 			break;
- 		default:
--			/* printk("unknown"); */
- 			wlandev->rx.data_unknown++;
- 			break;
- 		}
---
-2.30.2
-
-
+-- 
+2.34.1
 
