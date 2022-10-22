@@ -1,117 +1,91 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from 005.lax.mailroute.net (005.lax.mailroute.net [199.89.1.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAE4441F;
-	Sat, 22 Oct 2022 19:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666467954; bh=WUEJ8LIJXWvv1saHl+RLKcZFwmk9DIjuDaA5XV0CvcA=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
-	b=lcNCARL43jASSGjMEKI92i+tlWApUTueOU+8pqNUtsO2k4bfCTMM5Ias3439r8S2S
-	 qy/13+tuYIRXQFMwzj+ikrtpDvfKX7rUYrZtj+1XLjwxN/RTZRcsG14E1omHibr9t7
-	 L2a6/7nSk64jFIl8CPR8g+gOCbOSaZ14vjRi7k/Q=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
-	via [213.182.55.206]
-	Sat, 22 Oct 2022 21:45:54 +0200 (CEST)
-X-EA-Auth: hfqt9AylkVo773CYc4VKlOR4dKDu7bAeyIc2xThFM+Vr+cYgqcUPYhOm+GZmP6YtXcUmAoY7az6CAoijkSWgBCpvMp2vDe4e
-Date: Fri, 21 Oct 2022 22:19:43 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH v4 00/11] staging: r8188eu: trivial code cleanup patches
-Message-ID: <Y1LNpxJ6SaEJ8lo8@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1666299151.git.drv@mailo.com>
- <Y1OkUMCNb4lMH6Km@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B00441F
+	for <linux-staging@lists.linux.dev>; Sat, 22 Oct 2022 20:08:31 +0000 (UTC)
+Received: from 001.lax.mailroute.net (001.lax.mailroute.net [199.89.1.4])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by 005.lax.mailroute.net (Postfix) with ESMTPS id 4Mvspd3skQz1T5Dr
+	for <linux-staging@lists.linux.dev>; Sat, 22 Oct 2022 20:08:25 +0000 (UTC)
+Received: from localhost (001.lax.mailroute.net [127.0.0.1])
+	by 001.lax.mailroute.net (Postfix) with ESMTP id 4MvspV44S0z1M8Hh
+	for <linux-staging@lists.linux.dev>; Sat, 22 Oct 2022 20:08:18 +0000 (UTC)
+X-Virus-Scanned: by MailRoute
+Received: from 001.lax.mailroute.net ([199.89.1.4])
+	by localhost (001.lax [127.0.0.1]) (mroute_mailscanner, port 10026)
+	with LMTP id aLk6NTqsHSH3 for <linux-staging@lists.linux.dev>;
+	Sat, 22 Oct 2022 20:08:17 +0000 (UTC)
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by 001.lax.mailroute.net (Postfix) with ESMTPS id 4MvspT1zLlz1M8Gf
+	for <linux-staging@lists.linux.dev>; Sat, 22 Oct 2022 20:08:17 +0000 (UTC)
+Received: by mail-pf1-f200.google.com with SMTP id v1-20020aa78081000000b005636d8a1947so2988843pff.0
+        for <linux-staging@lists.linux.dev>; Sat, 22 Oct 2022 13:08:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sladewatkins.net; s=googled;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sM4EI5EG8aFU0eCqXxfKOVx9vcJ9fHC3LeTBs0eo7r0=;
+        b=Vp5HkvPRblNR7maW8zuZrwdq2lE0SXcr+CtwyVTGZn1L2pCKCKgh8KnAif6jf4iD/B
+         7Y+G1PZa4tMXeu0plBaywXBc+Bee92QSCz4JGUjigl4ll3QxehlxMlaTNPi9ORTNGU7s
+         UFtfLgxAoNQrSdhlo2lLPHKK/FWMu29+tyrv5eUMdH92woXr2Xb7OBFbHu5Vq9s+aHt6
+         a3duvn8piFheu2ThyPoG6e8hTQmq7fYeTKg8w+n0MGamtMpOe1s2BliDMcbZTAl33JLr
+         kduISj+Ex0nvmXiXCpDWCjJ76TzfGU67GN/DmKbYnv/At9tXskaIitYqnsMe40iRr4dT
+         +TEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sM4EI5EG8aFU0eCqXxfKOVx9vcJ9fHC3LeTBs0eo7r0=;
+        b=0HQ1UvQMHgsQ4Ke/7cO/rdOzorganJiRZOFhqCqqlgfl/SHCrp24hWnP7KnCt4YwZi
+         RdEo4P5nWwBx3Efm44PLn3RYkNjlGXw3YGGnMh9ZsZWFYmfXU1GJwvJ2nL1NdLx+vslE
+         48CPfomvH2wNgYDm7WroGKMae0h1+kuKrDkil2xlwPktDb399uvQX+sLiCvIgdlDU5Jc
+         SlDzo44P/cDUhpYbRl3++fx6AijmNj/TdainP9lw6WLsX0NGkOlG/eVyuAEIUA/L+ANW
+         NnX7MW68BEzlCaKjXI1BZPOQFqIjXK5bQ475bR25KonKHwSowqmfrYBF9skRbImQYKii
+         YgYA==
+X-Gm-Message-State: ACrzQf0t/+NriAa5oigYF8DcQth/CJcq74MMUicPipYQVz0tE1E8xNZc
+	6BVGLdFE3F5PRt7nXmuK6to1z2wnmq6xolnrvaMJXmYzOQ9fR9LfhHnLRRoNFZZCdO7lhS913RZ
+	FgCKUDpekjHIm1NK2bJalnTrJPUMM0BCZCemKXivM+cM/TMUr4mdgmx6u
+X-Received: by 2002:a05:6a00:8d0:b0:53b:2cbd:fab6 with SMTP id s16-20020a056a0008d000b0053b2cbdfab6mr25812764pfu.3.1666469295622;
+        Sat, 22 Oct 2022 13:08:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4TQlnIFWemjieXYFHB4kZCU06MWCA0fuLbWzeSKkOadrNWOw5GKkPPMHCMsnRSY108W+f8AO/qejDPa7Rc+Pc=
+X-Received: by 2002:a05:6a00:8d0:b0:53b:2cbd:fab6 with SMTP id
+ s16-20020a056a0008d000b0053b2cbdfab6mr25812755pfu.3.1666469295383; Sat, 22
+ Oct 2022 13:08:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y1OkUMCNb4lMH6Km@kroah.com>
+References: <d4898956a848c85fc93c3f7d25cafbfc49a46e60.camel@zohomail.com>
+In-Reply-To: <d4898956a848c85fc93c3f7d25cafbfc49a46e60.camel@zohomail.com>
+From: Slade Watkins <srw@sladewatkins.net>
+Date: Sat, 22 Oct 2022 16:08:04 -0400
+Message-ID: <CA+pv=HOrpzS8j6Pq=GD8_U6n9VWA8pyTwKRP40dixSHsZ3=MXw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] Staging: rtl8192e: rtl819x_HTProc: fixed missing
+ blank space
+To: t4rmin@zohomail.com
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Oct 22, 2022 at 10:05:36AM +0200, Greg KH wrote:
-> On Fri, Oct 21, 2022 at 02:56:10AM +0530, Deepak R Varma wrote:
-> > Address different kinds of checkpatch complains for the staging/r8188eu module.
-> > The patches are required to be applied in sequence.
-> >
-> > Changes in v4:
-> >    1. Include patch 11 in the set for unused macro clean up. Suggested by julia.lawall@inria.fr
-> >    2. Update patch 1 per feedback from David.Laight@ACULAB.COM
-> >    3. Update patch 5 & 6 per feedback from dan.carpenter@oracle.com & julia.lawall@inria.fr
-> >
-> > Changes in v3:
-> >    1. Patch 4: Extend the __constant_htons to htons change to other files of the driver.
-> >       This was suggested by philipp.g.hortmann@gmail.com
-> >    2. Patch 4: Spelling mistake corrected as pointed out by joe@perches.com
-> >    3. Patch 5 through 10: Included in this version. Additional clean up patches.
-> >
-> > Changes in v2:
-> >    I incorrectly labeled the first revision as v1 instead of v2. So,
-> >    following change recorded under v1 is actually changes for v2. Feedback
-> >    provided by philipp.g.hortmann@gmail.com
-> >       1. Improve language / grammar for the patch descriptions
-> >       2. Further improve code reformatting
-> >
+On Sat, Oct 22, 2022 at 11:48 AM Aaron Lawrence <t4rmin@zohomail.com> wrote:
 >
-> I've taken these, but note, your email system is not properly being
-> authenticated.  Here's the results I get when I use the tool 'b4' to
-> apply the patches:
->
-> Grabbing thread from lore.kernel.org/all/cover.1666299151.git.drv%40mailo.com/t.mbox.gz
-> Analyzing 20 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
->   ✗ [PATCH v4 1/11] staging: r8188eu: use Linux kernel variable naming convention
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 2/11] staging: r8188eu: reformat long computation lines
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 3/11] staging: r8188eu: remove {} for single statement blocks
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 4/11] staging: r8188eu: use htons macro instead of __constant_htons
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 5/11] staging: r8188eu: correct misspelled words in comments
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 6/11] staging: r8188eu: Add space between function & macro parameters
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 7/11] staging: r8188eu: Associate pointer symbol with parameter name
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 8/11] staging: r8188eu: replace leading spaces by tabs
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 9/11] staging: r8188eu: Put '{" on the symbol declaration line
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 10/11] staging: r8188eu: Correct missing or extra space in the statements
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ✗ [PATCH v4 11/11] staging: r8188eu: Remove unused macros
->     + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
->   ---
->   ✗ BADSIG: DKIM/mailo.com
-> ---
-> Total patches: 11
->
->
-> Please look into fixing up your DKIM settings.
+> From e6635103e3cf2426220767955b99d2e2b62a7329 Mon Sep 17 00:00:00 2001
+> Message-Id: <e6635103e3cf2426220767955b99d2e2b62a7329.1666450553.git.t4rmin@zohomail.com>
+> In-Reply-To: <cover.1666450553.git.t4rmin@zohomail.com>
+> References: <cover.1666450553.git.t4rmin@zohomail.com>
+> From: Aaron Lawrence <t4rmin@zohomail.com>
+> Date: Sat, 22 Oct 2022 20:46:25 +0700
+> Subject: [PATCH 1/3] Staging: rtl8192e: rtl819x_HTProc: fixed missing blank
+>  space
 
-Hi Greg,
-Yeah, there is some trouble with my email settings and I have already written to
-the tech support.
-I will also look DKIM authentication issue and let you know if I need further
-guidance from you all.
+Hey there,
+Could you resend this without the above? For whatever reason it was
+included in the message, even though it shouldn't be.
 
-Thank you for highlight it.
-
-
-./drv
-
->
-> thanks,
->
-> greg k-h
-
-
+-srw
