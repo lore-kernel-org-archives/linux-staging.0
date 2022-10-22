@@ -1,55 +1,56 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068B46130;
-	Fri, 21 Oct 2022 19:56:30 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id 204so3539006pfx.10;
-        Fri, 21 Oct 2022 12:56:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E142717E
+	for <linux-staging@lists.linux.dev>; Sat, 22 Oct 2022 04:35:57 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id y4so4084311plb.2
+        for <linux-staging@lists.linux.dev>; Fri, 21 Oct 2022 21:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q87+XlhQn6Tk3P1abcoeuNg9gQxaeIvmWYCmU3ZSX0w=;
-        b=e0zwMkMHKkJlf9+RGMoru+W87WKCq8xNa/1hVwEGzJNTqSO4gA+72IUm5X5QYaw4MM
-         b0Y+4xDS3CNIkcjZ8/BIx4pdqJLd/pkGg/9yFM6OHJM1GpHcnTot1+qXayEyKHlbsm58
-         EoXGJQpLzjqk1QVmnD6Fj1HCWVfh00PkxEHQgmwlaEpsuj4ZEzpWI10ABgOU6K0pU/1D
-         Ou6ya4V2MWr8B9lmN+L1JX5guAf9zwwOsp7iV0L7UhUOiGO2LVuPSIdcN6eJaEfgkgJS
-         SvTdNBi1rYpn8pHHOvbMdTllC7bPVYrOVq7d92/Nst74zo4lMTSorzbbNTnRGthdd//t
-         5J4g==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wQYm5LqzX57uwWQZcQgQcLEzWEXhv56KAAGUn4/bM1s=;
+        b=pQvvard2nxmZEuToHQCoxqKq7E+NyOPozW/OVGgcTjUXIuXUtthCc7761Sz21nK1Ck
+         Q+8eGKtasc1vPLudAPwPMPJPFstelL3PbyCrl0dSQq+DvXA8k6SlKFDmHUn/5M+b/RGz
+         W+CDlMrwQrXwHTjgmA5AfhFRGHL8ZLzIxI/QXty7DHZLWsYMOkGwH+UcfoN7vPB1wmo9
+         6WlrXsoTcwNMG3I7REK8U4MpPMoGsafYEh/PUKmO2Qi36ARLc7tQ+Eb/BUQ1buaLGjs1
+         FnX4Wplsz7wWStPIBsq/tcdrieUbUWspX769DNftAFHlJRNSrsSUjnHE9mdJl6RwN5YA
+         OR0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q87+XlhQn6Tk3P1abcoeuNg9gQxaeIvmWYCmU3ZSX0w=;
-        b=bSiIRjxQz9CoI9hRNjHeqJdc4OxH8qn+9dF2xGsJCBJJEJzbHDFbsdbhSogNKpUY2g
-         SXeBCj+YAZ+1ZJrzICo5Zzb+7r/cBjcaI08FtJ6C/bjH6ft52CEo8eMar1iO4Ftpgrle
-         oxZ5rI63wYZfBEJZ/6ijI24eQwOdtsi3cApz5qWC+EJ0cbyVi7R1tnsmh60CvIYuWNlX
-         hrSQuEV95hFI64EoJ7swSENrZ74y7UDSG80wprCJXuFhO4dH23vF13/UUYXuv/W3XOqg
-         hrorh9ZiIILDRNtzPp/tXmCtrno3AwumXABHgwkzFLDG5ws50CzMGg8JSPjxbX+9zQxz
-         Zphg==
-X-Gm-Message-State: ACrzQf07M/lYelbvLduBWQbl1dWS2j6g1jBDK2ODGQeZNQGQ4ZnJZH72
-	avVy7oi7ubIIGaNjtZMyXfo3yR3E947hpg==
-X-Google-Smtp-Source: AMsMyM4xqb6gSapkyekAI3xQRGN8PuvNIv5AfbBFdOkanjUQMGgYGMON0kG502mfjhXtN+OO3+rvkA==
-X-Received: by 2002:a65:6d1a:0:b0:3fb:2109:7b87 with SMTP id bf26-20020a656d1a000000b003fb21097b87mr17299819pgb.127.1666382190589;
-        Fri, 21 Oct 2022 12:56:30 -0700 (PDT)
-Received: from localhost.localdomain (192-184-163-51.fiber.dynamic.sonic.net. [192.184.163.51])
-        by smtp.gmail.com with ESMTPSA id g13-20020aa79dcd000000b005668b26ade0sm15179345pfq.136.2022.10.21.12.56.29
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wQYm5LqzX57uwWQZcQgQcLEzWEXhv56KAAGUn4/bM1s=;
+        b=6pCTuSi+PAH0t9ZvqyP7203NmTzh/6DvfrjdVbYHP6AfZMWD+kogm2y9s2qX+1fy2H
+         wJv/iQg87UDDkSd89Yj4EcApy9XbniqPVBajic5jrP1qoKafTnjlBqxTBvwhCPJicj9U
+         jVKZDCdh+K9DMj7SWuc/vj7cnqMggWy/R8kwrv4OrhLBRfkCgMcrVeQ2i2guf549bWUM
+         y9160UEzZms2xtWSJfMfze6C4cB2Snkk1LCxWO/OCBw46VtRr6bvqI6RJy0dHMEDUQ6J
+         HWSEkuzTf0lsdjHfri+KJlVrITl3mR9s7lqhspph/JwDdSTePlbVe0Xn2K+NGK2665W5
+         c5hA==
+X-Gm-Message-State: ACrzQf1P6NS2niwRwmH4cnSPwVFJWeJ+CSgfTjv20KQaRZtBXMbUMjm3
+	dbQDNSsDlKlsASmbgQwu5lk=
+X-Google-Smtp-Source: AMsMyM57V05ZKji27dZkrlNCQ2qo4WzjK3QyXijF498quz/JdHwf2kSi+mgkZ9Dg64BlKvl6JfMA6g==
+X-Received: by 2002:a17:903:40d2:b0:186:6f1d:608c with SMTP id t18-20020a17090340d200b001866f1d608cmr9815540pld.52.1666413357291;
+        Fri, 21 Oct 2022 21:35:57 -0700 (PDT)
+Received: from localhost.localdomain ([2001:8003:d90f:f801:7164:b4e6:b90b:c4d5])
+        by smtp.gmail.com with ESMTPSA id u4-20020a17090341c400b0017eb2d62bbesm402812ple.99.2022.10.21.21.35.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 12:56:30 -0700 (PDT)
-From: Emily Peri <eperi1024@gmail.com>
-To: gregkh@linuxfoundation.org,
-	outreachy@lists.linux.dev,
+        Fri, 21 Oct 2022 21:35:56 -0700 (PDT)
+From: "Scott J. Crouch" <scottjcrouch@gmail.com>
+To: Florian Fainelli <f.fainelli@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel-janitors@vger.kernel.org,
+	"Scott J. Crouch" <scottjcrouch@gmail.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Emily Peri <eperi1024@gmail.com>
-Subject: [PATCH v2 3/3] staging: rtl8723bs: use tab instead of spaces for indent
-Date: Fri, 21 Oct 2022 12:54:57 -0700
-Message-Id: <0516cac046c617b55718fddb2aac3a50d543d84c.1666380274.git.eperi1024@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1666380274.git.eperi1024@gmail.com>
-References: <cover.1666380274.git.eperi1024@gmail.com>
+Subject: [PATCH] staging: vchiq: add 'static' to function definition
+Date: Sat, 22 Oct 2022 15:35:48 +1100
+Message-Id: <20221022043548.1671644-1-scottjcrouch@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,27 +59,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace spaces with tab for indent and correct alignment for closing
-brace in rtw_ioctl_set. Issue found by checkpatch.
+This fixes the following sparse error:
 
-Signed-off-by: Emily Peri <eperi1024@gmail.com>
+    warning: symbol 'vchiq_platform_init' was not declared. Should it be static?
+
+Signed-off-by: Scott J. Crouch <scottjcrouch@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 2 +-
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index 47323160e72d..3b44f0dd5b0a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -312,7 +312,7 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
- 		if ((*pold_state == Ndis802_11Infrastructure) || (*pold_state == Ndis802_11IBSS)) {
- 			if (check_fwstate(pmlmepriv, _FW_LINKED) == true)
- 				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have checked whether issue dis-assoc_cmd or not */
--	       }
-+		}
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index dc33490ba7fb..ffa517077b80 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -462,7 +462,7 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
+ 	cleanup_pagelistinfo(instance, pagelistinfo);
+ }
  
- 		*pold_state = networktype;
- 
+-int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
++static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
 -- 
-2.34.1
+2.37.3
 
