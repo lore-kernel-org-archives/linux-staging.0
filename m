@@ -1,73 +1,89 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24AC28F3;
-	Sat, 22 Oct 2022 08:21:26 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id f14so3387708qvo.3;
-        Sat, 22 Oct 2022 01:21:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E43928F3;
+	Sat, 22 Oct 2022 08:22:13 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id l28so3031364qtv.4;
+        Sat, 22 Oct 2022 01:22:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8XCmu4eeANl3gUPR6NIj7yvs9tk1YzIUAXdrodS0x50=;
-        b=CaTK8xgEp6jm46Ypv+4caVLKIUmW/lKmjKL1d8LQ+94iH+djTdChMUbSwP8PIDMeSI
-         kIdHxTUsOJDJ7QT4Wl8G7ePG2e7Yi38NLdofrzg3tUCY8PBYvWrIf/yv412H1OhygW9j
-         rjkBLDCiuvprqde3dlSuAsNbSh/gDJkohuuTsvKzg0wJbCjT/OtL2+lfLLcwchv1BItz
-         bM8EJpfuvzaEiu6cRI/w3iNRmH4FXwIOvl2U0DEs6+jcDvCIbi1+1YiP5NICkoa469de
-         VzJ3289elNfglQ6TUDOF9EaPC8xTqlC/l3PUS1geeLBT9JYVgx0ZTONTzGdZKf2lSvyQ
-         Dfpw==
+        bh=iX6ZB1mXxDt5cJkxRAfDaCVuPNu25Wfl4HIXasXp/zE=;
+        b=DtjYEobqYqn1PVq/AajYffhPc7LJyHOQ9CA3/KoXG+ez8a5IYQRrTz+GqqTGI1o2LM
+         nXsGsbGuvQ5CzezAp0SOJqFHfqQu+AjM8MD4tEkoJpCdvNfg9siuagh4CSdN339c97YE
+         D0/I08DG3kQKfLLoJe6AWEsMJVg1jhwx2c0VHwnCzieZw1kYf3gpAlD4h1JSirhQ9sGF
+         YNA77kgqEjS5stjGliBuaoZBHXn6aTlst7TXHMRk0bIKbM7zzDmoLGrPYZnrCG7eBsFe
+         ke0zzW13Gm+bkbSP0VDcVE/umejOgnSAcquIZ8ZcWv7uC+PpoC0z9cx0366JQOPOHmgy
+         g8UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8XCmu4eeANl3gUPR6NIj7yvs9tk1YzIUAXdrodS0x50=;
-        b=UyqYm4mINTmqfbPlTUlYg7QDIISK4rwo9iQuolauuR/MBBGc6JbMRqDKAGsk1YwE2k
-         oPGCg2Y4Y0aDUxeFFx7z9jJZobcjtE1zFhSe+4AEnHeuz6oJJfEBtOkZqOZEbl5j5kC+
-         N8TxiE0zOrNSnfDoUJHgIoZDk4E5D6GRdQBLLfrpzsqC5O6JR4qNPiKwuaGqrhNd4O4e
-         D3iTedBALm0xdPHrKU/rhJ+D2EqfEUkgrpZrso1fyqnhMQVjTFxpPynhwBNpE2piuvp2
-         44+A1ygrH1Sd16wBSqhjxsCpIHDbCu1iqemo68VKgftskBW9hXB+SB3JjW/C4nDXyWiC
-         FO8g==
-X-Gm-Message-State: ACrzQf3nKbecJHXTSP4YXdArccWEHZXSjD0ARSDAB60hQmQsZtJxZNxM
-	OI4WPeXywLYx1cybwtl1bxneMQhnwdl9yB3bj/A=
-X-Google-Smtp-Source: AMsMyM5D48G0cVp9t1wgqQ7DcnqcSdpMM104wFSVoxci7F80s/Dj3bVv3dKqC07wjHpTSY0eYahbAHeojcH34+PnL/Q=
-X-Received: by 2002:a05:6214:d69:b0:4b4:525e:c987 with SMTP id
- 9-20020a0562140d6900b004b4525ec987mr19999969qvs.82.1666426885758; Sat, 22 Oct
- 2022 01:21:25 -0700 (PDT)
+        bh=iX6ZB1mXxDt5cJkxRAfDaCVuPNu25Wfl4HIXasXp/zE=;
+        b=3HzAY2jZMDdDWHaqrdv1frYUXKa/gTn79II/JsKu75xLnkGiBgugMWoWsNuFafBx/w
+         Nkq1+pTWRtFQ+VY1P6Q/KXZE3UPmo3TWQla9wzS4pD9QMJXwDEwKWtYMyEmyMmlF0hQy
+         fQgAOHCgqo/FlcCkYrUvDjmC/X3eBdxgApkwINo/nPFv8Qqri3e5FYH5pvbw4csrYrXC
+         vw+bGwksnA00ZzBRLXINzWpEB+1yjIBcpX0/BN79EdYL3rjRLBKOZCFJMemSlaRuCdpZ
+         QTunYNsG/i1ifMQ5gnCn9dt0pxtBBP7phEOEmzgh8Z0ghph2dCh+VIjub6YPTZK2dtmq
+         t/wA==
+X-Gm-Message-State: ACrzQf3YJ7Vcdtku2qOya3RsgktkNQ2j8ilUeE9x9I+/wcCU2ARLj3F0
+	R0UVHq/VJ1j/aodowEysaY7tkIl7jpZ3UPowRRRXYnGYTKqKNv/quuc=
+X-Google-Smtp-Source: AMsMyM5PyvIFnw7iJHcdHMBCUIsTVHymZdfP1Ub2JfJlRvOFhkTr/4Gk/oNAhxPPpG83UBJhFoETd7COaQYyxFvJUHQ=
+X-Received: by 2002:ac8:5902:0:b0:39c:e440:6adb with SMTP id
+ 2-20020ac85902000000b0039ce4406adbmr19603840qty.18.1666426932343; Sat, 22 Oct
+ 2022 01:22:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAHJEyKVi=Bw1=-cH8dbJratKw3Lk3ubh_9bcBB=iKPm5H7P1Yw@mail.gmail.com>
- <alpine.DEB.2.22.394.2210221013071.2700@hadrien>
-In-Reply-To: <alpine.DEB.2.22.394.2210221013071.2700@hadrien>
+References: <20221022070612.13009-1-tanjubrunostar0@gmail.com> <Y1OdSYH45MNbp03k@kroah.com>
+In-Reply-To: <Y1OdSYH45MNbp03k@kroah.com>
 From: Tanju Brunostar <tanjubrunostar0@gmail.com>
-Date: Sat, 22 Oct 2022 09:20:38 +0100
-Message-ID: <CAHJEyKXxB0O+r3G5rEsWJJLPY4Ar5Fw9HSgZgyiH12oijV5yvw@mail.gmail.com>
-Subject: Re: request for assistance
-To: Julia Lawall <julia.lawall@inria.fr>
+Date: Sat, 22 Oct 2022 09:22:00 +0100
+Message-ID: <CAHJEyKXYtMiUusyq8427SjJo5VFO09O6HH0kkBYsmYzx8BMeAQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] a series of checkpatch fixes on the file: rxtx.c
+To: Greg KH <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	outreachy@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Oct 22, 2022 at 9:13 AM Julia Lawall <julia.lawall@inria.fr> wrote:
+On Sat, Oct 22, 2022 at 9:15 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
+> On Sat, Oct 22, 2022 at 07:06:06AM +0000, Tanjuate Brunostar wrote:
+> > The fixes are similar, mostly long lines splitting. I had to make
+> > serveral patches to ease the work of inspectors
+> >
+> > v2: fixed a compilation error found by the kernel test robot and
+> > recompiled the code
+> >
+> > v3: tends out the error persisted in the second version. this version is
+> > a correction of that
+> >
+> > Tanjuate Brunostar (6):
+> >   staging: vt6655: fix lines ending in a '('
+> >   staging: vt6655: refactor long lines of code in s_uGetRTSCTSDuration
+> >   staging: vt6655: refactor long lines of code in s_uFillDataHead
+> >   staging: vt6655: refactor long lines of code in s_vGenerateTxParameter
+> >   staging: vt6655: refactor long lines of code in the rest of the file
+> >   staging: vt6655: refactor code to avoid a line ending in '('
+> >
+> >  drivers/staging/vt6655/rxtx.c | 532 ++++++++++++++++++++--------------
+> >  1 file changed, 321 insertions(+), 211 deletions(-)
+> >
+> > --
+> > 2.34.1
+> >
+> >
 >
+> Any reason you do not have "staging: vt6655:" as the prefix for this 0/X
+> email subject line?
 >
-> On Sat, 22 Oct 2022, Tanju Brunostar wrote:
+> thanks,
 >
-> > There is a portion of the Outreachy first patch wiki I would like to
-> > edit. How do I go about doing this?
-> > - Should I just go on and edit it? or
-> > - Do I have to make a proposition addressed to someone or somewhere,
-> > stating what it is I want to change and why?
-> > I would appreciate your help.
->
-> It would be good to post your proposed changes to the mailing list, if it
-> is something more substantial than fixing a spelling mistake.
->
-> julia
+> greg k-h
 
-Ok Thanks
+oh I forgot to include it
