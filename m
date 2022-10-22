@@ -1,96 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C87020F0
-	for <linux-staging@lists.linux.dev>; Sat, 22 Oct 2022 05:57:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3E35C433C1;
-	Sat, 22 Oct 2022 05:57:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666418273;
-	bh=IJ+1ChbV+AuNZ3jJtulLPbuwkBPemms0TDHufKO/CZk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xDWFp8lsB5TcreZjH+eG7y4wkArrhM9oZSQ2ZJmOlHIlgwb1adOh0fXxws9rCIdXZ
-	 0kM1yVBE6vL6qLgicYVxmk97gMj8VcAXZXKrE2oqrBqr9iJGEPyPtjJlX9rHfPHkIr
-	 oSsEQa9JHQUJFwgwwFwgSUayNdN8vRLnt8HPeXoQ=
-Date: Sat, 22 Oct 2022 07:58:37 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Aaron Lawrence <t4rmin@zohomail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: rtl8192e: fixed multiple coding style issues
-Message-ID: <Y1OGjf7gRmhTQFJV@kroah.com>
-References: <be839b05d799ff8e62fc2f79e6f0aaec81a8cd19.camel@zohomail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAB77C;
+	Sat, 22 Oct 2022 07:06:23 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id p8so8688626lfu.11;
+        Sat, 22 Oct 2022 00:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CKp0vNQJo1Xjancyd+0lhoBs/j1rOPyn9CnjbmCY3h4=;
+        b=N9jN1oR4Tl0T5jyg3x5iKJa8xLdEYKinhrjmzufnw2qDIQkR0IyFYM8zNzqDa0qehy
+         0BAtdlc7B+C7OdpATs/zbuwdvmcSg4+Se6//Ew+twkb0zuZagLdT5l7440NWSHLuCFhU
+         yn74RR+sEaZPXt63syylA0d7yl6WcuzRDs29/geUfEq62kgVDW3iyFYX/r188kmx+m/x
+         v9p2h+DK460iYGJYdqxY+AJNFOcf0txZauXuaq7TFJmlLokNqbtudpL02sun7IJOAtLt
+         ExT/wPX4TiEPhS11wmGO2vCuziIGdm6an4kBARMZay/R99V8COaSteWoZ4/Tu1/NR++5
+         MyeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CKp0vNQJo1Xjancyd+0lhoBs/j1rOPyn9CnjbmCY3h4=;
+        b=oKUlFJO9mA5G35HilXt62B7L/ys3fsWr9sdR1fRxH2bz1kodblw1D1xexCyiimPJCZ
+         0pZKNzpLT4cS4Us3ZbJvlk8TiNwreWnfPiODK7KII7OmTGa6+d1DFDXvg2P3mO+LR0r+
+         fa6helFPGzWS6omo/M4lGebfB4/zcgswnUBqpigrWUx4W2/ETvQUR9e+tufksiY/8ZE2
+         HdkhNvkCy6vtoYwHQ/TwfXW3XSkrSNYN8WttH3vWHLyTnXh7CFZSRASCcgIMSM//xRHC
+         cZu4al5JT9EMiMuRrLJArsxJKmepUMQUmarn7FDYqg5pH4c5dwNru1LV4Vr93PLOgQof
+         Xe9w==
+X-Gm-Message-State: ACrzQf01rLjM8+fqOBmxG61NKdbE5GB22CQsquFCtiaJwe51BDKjyxMi
+	z4wcplcDgf/yY4hfKHD1Kxs=
+X-Google-Smtp-Source: AMsMyM5i8jcmTVSuJJsemiVoGPbJ4DVnYIne0FheNXPwydmvxdU908gexeN3q6ZPBOj0rv/rduiDYQ==
+X-Received: by 2002:a05:6512:304e:b0:4a2:6c66:8355 with SMTP id b14-20020a056512304e00b004a26c668355mr9101117lfb.238.1666422381725;
+        Sat, 22 Oct 2022 00:06:21 -0700 (PDT)
+Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
+        by smtp.googlemail.com with ESMTPSA id s5-20020a2e1505000000b00276d2537921sm390404ljd.59.2022.10.22.00.06.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Oct 2022 00:06:21 -0700 (PDT)
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Subject: [PATCH v3 0/6] a series of checkpatch fixes on the file: rxtx.c
+Date: Sat, 22 Oct 2022 07:06:06 +0000
+Message-Id: <20221022070612.13009-1-tanjubrunostar0@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be839b05d799ff8e62fc2f79e6f0aaec81a8cd19.camel@zohomail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 22, 2022 at 12:05:58PM +0700, Aaron Lawrence wrote:
-> 
+The fixes are similar, mostly long lines splitting. I had to make
+serveral patches to ease the work of inspectors
 
-> From 66a313db135ffaa86d2aaddb3b2286c7b004b5f1 Mon Sep 17 00:00:00 2001
-> From: Aaron Lawrence <t4rmin@zohomail.com>
-> Date: Sat, 22 Oct 2022 11:30:22 +0700
-> Subject: [PATCH] Staging: rtl8192e: fixed multiple coding style issues
-> 
-> Fixed multiple coding style issues on multiple files
-> according to the checkpatchscript.
-> 
-> Signed-off-by: Aaron Lawrence <t4rmin@zohomail.com>
-> ---
->  drivers/staging/rtl8192e/rtl819x_HTProc.c    |  1 +
->  drivers/staging/rtl8192e/rtl819x_TSProc.c    | 11 ++++----
->  drivers/staging/rtl8192e/rtllib_crypt_ccmp.c | 12 +--------
->  drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 28 +-------------------
->  drivers/staging/rtl8192e/rtllib_crypt_wep.c  | 10 +------
->  drivers/staging/rtl8192e/rtllib_tx.c         | 15 +++++------
->  6 files changed, 15 insertions(+), 62 deletions(-)
+v2: fixed a compilation error found by the kernel test robot and
+recompiled the code
 
-Hi,
+v3: tends out the error persisted in the second version. this version is
+a correction of that
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Tanjuate Brunostar (6):
+  staging: vt6655: fix lines ending in a '('
+  staging: vt6655: refactor long lines of code in s_uGetRTSCTSDuration
+  staging: vt6655: refactor long lines of code in s_uFillDataHead
+  staging: vt6655: refactor long lines of code in s_vGenerateTxParameter
+  staging: vt6655: refactor long lines of code in the rest of the file
+  staging: vt6655: refactor code to avoid a line ending in '('
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+ drivers/staging/vt6655/rxtx.c | 532 ++++++++++++++++++++--------------
+ 1 file changed, 321 insertions(+), 211 deletions(-)
 
-- Your patch was attached, please place it inline so that it can be
-  applied directly from the email message itself.
+-- 
+2.34.1
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
