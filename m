@@ -1,27 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967E028F3;
-	Sat, 22 Oct 2022 08:16:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3E45C433C1;
-	Sat, 22 Oct 2022 08:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1868528F3
+	for <linux-staging@lists.linux.dev>; Sat, 22 Oct 2022 08:17:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 697FFC433D7;
+	Sat, 22 Oct 2022 08:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666426614;
-	bh=SVl9QTL0d/kdPqe3qSjUFuC2B7qpIuWhdsqvq6xVd5M=;
+	s=korg; t=1666426650;
+	bh=6Q2uxz1B7vfOOGyexsJzzI/HLQ9fABoGPQ9qwp8rvBM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pFxHWqrcVgdMv3Z61AERre/TqJ40lTbSPzLOWcSXgNNrwO+tWN830SOrrZsM+pazZ
-	 o7VNzJuG+opsuONCearIb6CSGC7ibPa8INTF7SmwHd+Bp3QDWMuLRbZrT4t0Y6g4LK
-	 MfhDbi5Jf8YfX8+Epda+zr3tXdFECnm+LYgntpjg=
-Date: Sat, 22 Oct 2022 10:05:36 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, paskripkin@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kumarpraveen@linux.microsoft.com, saurabh.truth@gmail.com
-Subject: Re: [PATCH v4 00/11] staging: r8188eu: trivial code cleanup patches
-Message-ID: <Y1OkUMCNb4lMH6Km@kroah.com>
-References: <cover.1666299151.git.drv@mailo.com>
+	b=V6dGJEiheLMmdnSNzgyi0y3/G2rjlocKrFCAWE9AEcWwrIWXgdIU+Vv1glszc2Apj
+	 Ps4HZYMaUlBC0rHRQx1zqyKX/VUgBQPLJOp7bgpuvAVTByuePBtLlqpC03d8GZuBiI
+	 v0l/aJaF1raSY5rJ2t/qioyfX7y8f223UJMgzWkM=
+Date: Sat, 22 Oct 2022 10:07:02 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Scott J. Crouch" <scottjcrouch@gmail.com>
+Cc: Florian Fainelli <f.fainelli@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	kernel-janitors@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vchiq: add 'static' to function definition
+Message-ID: <Y1Okpjbi2kKU2GFz@kroah.com>
+References: <20221022043548.1671644-1-scottjcrouch@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,68 +33,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1666299151.git.drv@mailo.com>
+In-Reply-To: <20221022043548.1671644-1-scottjcrouch@gmail.com>
 
-On Fri, Oct 21, 2022 at 02:56:10AM +0530, Deepak R Varma wrote:
-> Address different kinds of checkpatch complains for the staging/r8188eu module.
-> The patches are required to be applied in sequence.
+On Sat, Oct 22, 2022 at 03:35:48PM +1100, Scott J. Crouch wrote:
+> This fixes the following sparse error:
 > 
-> Changes in v4:
->    1. Include patch 11 in the set for unused macro clean up. Suggested by julia.lawall@inria.fr
->    2. Update patch 1 per feedback from David.Laight@ACULAB.COM
->    3. Update patch 5 & 6 per feedback from dan.carpenter@oracle.com & julia.lawall@inria.fr
+>     warning: symbol 'vchiq_platform_init' was not declared. Should it be static?
 > 
-> Changes in v3:
->    1. Patch 4: Extend the __constant_htons to htons change to other files of the driver.
->       This was suggested by philipp.g.hortmann@gmail.com
->    2. Patch 4: Spelling mistake corrected as pointed out by joe@perches.com
->    3. Patch 5 through 10: Included in this version. Additional clean up patches.
+> Signed-off-by: Scott J. Crouch <scottjcrouch@gmail.com>
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Changes in v2:
->    I incorrectly labeled the first revision as v1 instead of v2. So,
->    following change recorded under v1 is actually changes for v2. Feedback
->    provided by philipp.g.hortmann@gmail.com
->       1. Improve language / grammar for the patch descriptions
->       2. Further improve code reformatting
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index dc33490ba7fb..ffa517077b80 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -462,7 +462,7 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
+>  	cleanup_pagelistinfo(instance, pagelistinfo);
+>  }
+>  
+> -int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+> +static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
+> -- 
+> 2.37.3
+> 
 > 
 
-I've taken these, but note, your email system is not properly being
-authenticated.  Here's the results I get when I use the tool 'b4' to
-apply the patches:
+Nice try, but this breaks the build in a very horrible and strange way
+that no one has been able to figure out yet:
 
-Grabbing thread from lore.kernel.org/all/cover.1666299151.git.drv%40mailo.com/t.mbox.gz
-Analyzing 20 messages in the thread
-Checking attestation on all messages, may take a moment...
----
-  ✗ [PATCH v4 1/11] staging: r8188eu: use Linux kernel variable naming convention
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 2/11] staging: r8188eu: reformat long computation lines
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 3/11] staging: r8188eu: remove {} for single statement blocks
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 4/11] staging: r8188eu: use htons macro instead of __constant_htons
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 5/11] staging: r8188eu: correct misspelled words in comments
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 6/11] staging: r8188eu: Add space between function & macro parameters
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 7/11] staging: r8188eu: Associate pointer symbol with parameter name
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 8/11] staging: r8188eu: replace leading spaces by tabs
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 9/11] staging: r8188eu: Put '{" on the symbol declaration line
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 10/11] staging: r8188eu: Correct missing or extra space in the statements
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ✗ [PATCH v4 11/11] staging: r8188eu: Remove unused macros
-    + Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> (✓ DKIM/gmail.com)
-  ---
-  ✗ BADSIG: DKIM/mailo.com
----
-Total patches: 11
+ CC [M]  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.o
+In file included from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:16:
+In function ‘memcpy_to_page’,
+    inlined from ‘free_pagelist’ at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:433:4,
+    inlined from ‘vchiq_complete_bulk’ at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:648:3:
+./include/linux/highmem.h:377:9: error: argument 2 null where non-null expected [-Werror=nonnull]
+  377 |         memcpy(to + offset, from, len);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./arch/x86/include/asm/string.h:5,
+                 from ./include/linux/string.h:20,
+                 from ./include/linux/bitmap.h:11,
+                 from ./include/linux/cpumask.h:12,
+                 from ./arch/x86/include/asm/cpumask.h:5,
+                 from ./arch/x86/include/asm/msr.h:11,
+                 from ./arch/x86/include/asm/processor.h:22,
+                 from ./arch/x86/include/asm/timex.h:5,
+                 from ./include/linux/timex.h:67,
+                 from ./include/linux/time32.h:13,
+                 from ./include/linux/time.h:60,
+                 from ./include/linux/stat.h:19,
+                 from ./include/linux/module.h:13,
+                 from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function ‘vchiq_complete_bulk’:
+./arch/x86/include/asm/string_64.h:19:14: note: in a call to function ‘memcpy’ declared ‘nonnull’
+   19 | extern void *memcpy(void *to, const void *from, size_t len);
+      |              ^~~~~~
+In file included from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:16:
+In function ‘memcpy_to_page’,
+    inlined from ‘free_pagelist’ at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:440:4,
+    inlined from ‘vchiq_complete_bulk’ at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:648:3:
+./include/linux/highmem.h:377:9: error: ‘memcpy’ offset 0 is out of the bounds [0, 0] [-Werror=array-bounds]
+  377 |         memcpy(to + offset, from, len);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
 
 
-Please look into fixing up your DKIM settings.
+So we can't take this patch.
+
+Also remember to always test-build your patches before sending them.
 
 thanks,
 
