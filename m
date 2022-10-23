@@ -1,93 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449837B;
-	Sun, 23 Oct 2022 12:36:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AAF4C433D6;
-	Sun, 23 Oct 2022 12:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666528613;
-	bh=TlatSqRfmWj6SvyrETxoNuLar38YhNpt1XsCCEbNmmM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WYMRIe0ZhfIrWP4jxLDfTCDQeoYqxFXboaTMSYB6SVsj801iZvaiBqk4XfLGokVAE
-	 KaKNTfZJW3sxHyfroiLF7UZiBmnWXrou7OX1+ICq/WOaRmZqp3027Hhye2Q5YxoULa
-	 78LnHUWyaG65OtXTl5MDtwECGsK18s1Tvd+c1m3yBMloZ3gIDSV9weT21qjLuIidVY
-	 0ujqsMKlOORp7fDyfyqyDEr8oepomsu3WUgxGyaN0dzzVRTyshu5g9LNzpT2SCyMi/
-	 cN4CRkfp3n2FeRXcHE8Grbfjp8aa9MvSQUNvpKdOW/E5lvOGCEx6DIURp9q5QzABDF
-	 nqzoAsXRgGx1w==
-Date: Sun, 23 Oct 2022 13:37:28 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Deepak R Varma <drv@mailo.com>, outreachy@lists.linux.dev,
- lars@metafoo.de, Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
- saurabh.truth@gmail.com
-Subject: Re: [PATCH] staging: iio: frequency: ad9834: merge unnecessary
- split lines
-Message-ID: <20221023133728.35b6ef26@jic23-huawei>
-In-Reply-To: <alpine.DEB.2.22.394.2210170909430.2965@hadrien>
-References: <Y0z2/qFe3kW96MTs@debian-BULLSEYE-live-builder-AMD64>
-	<alpine.DEB.2.22.394.2210170909430.2965@hadrien>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED567B;
+	Sun, 23 Oct 2022 13:35:52 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id p14so6913223pfq.5;
+        Sun, 23 Oct 2022 06:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7z7YqZZVbpAlAQvHExqoCDqTGuVoNoLe8669wm15dZQ=;
+        b=X1QU2qo7zbp0vSQFgaWQd9/E/APQZawGwjkDIxtoMead8XocGOf60T2kMam0HO3bLp
+         pnYd5zmI5vPm2MYUDGEcqdXPXq48gb4MyDs3OSUJAG3nDGM9Mhpn0pSUKVyi1tqZAZTP
+         7z0+oGGDGCrHTBtYyFkuHfOgIN9CVrwmpFls4rxjigNVJeWAomb4fq9sTUYeQ4k3Vdgh
+         kdo21BJsD66YrssTxjOmhXYRrTYYzqWaIZx5aqZxBk7ckSnaynCjvc2Eb0rjARQlj52w
+         pVQs/eioAjjTWmH1PACCwVOgbW5pXvp9uqj4BGbppp9AVEyKZWzs6qq/baTwbKREIc3j
+         sFXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7z7YqZZVbpAlAQvHExqoCDqTGuVoNoLe8669wm15dZQ=;
+        b=A0OB+LctM90aYqrZWKhschnEFRdsA6lIZ1xywtIjQxLoNswQfR8AqiiMfaubGXU322
+         fdp/nkYyMP7IzjoR84D47QUizdQ2G3e1Y3PmnuVWOtQ3hmavQzD7ynZsKiYncTytlg/V
+         QipieiBijFk00m45J4w39DeQ2GZ+Ts8LUeuN9qYFXaTn9RNZ8x7rNxbSmxtnsh0eMr2E
+         ueJmHsG+083VC9Wrmq044drcrHuIOPMibabLvXUp/krAdQj39ZC2GPfqm80EnaSF+ggs
+         KbP4+x4PpzAXdnKX5qFhTak88KGr8gvc6t9j6qo5ibgdVrCNHaRQKvtgNMZn/jIJU0Ah
+         tpjA==
+X-Gm-Message-State: ACrzQf1RW9ZnIjBDc+TxcR/fHevDxUmXR+aTu0FOmvK0Td3ZnBiiSaQq
+	YvqeL+T6fM+EQht/ZisVOzE=
+X-Google-Smtp-Source: AMsMyM5K8ktLCq8rquQ11MICFwPrZxwfEWif2dHkxiDXAgW3bgpbFWSAvGNz86OG1fZWT3TkhiS1aA==
+X-Received: by 2002:a63:1b58:0:b0:45f:e7ba:a223 with SMTP id b24-20020a631b58000000b0045fe7baa223mr23273411pgm.548.1666532151686;
+        Sun, 23 Oct 2022 06:35:51 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-1.three.co.id. [180.214.232.1])
+        by smtp.gmail.com with ESMTPSA id e1-20020a17090301c100b0016eef326febsm4772754plh.1.2022.10.23.06.35.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Oct 2022 06:35:51 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id C6FC81005FC; Sun, 23 Oct 2022 20:35:47 +0700 (WIB)
+Date: Sun, 23 Oct 2022 20:35:47 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: wlan-ng: remove commented debug printk
+ messages
+Message-ID: <Y1VDM2kWIi1I5dqI@debian.me>
+References: <Y1L0FiKvrM9jjZG9@debian-BULLSEYE-live-builder-AMD64>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="poWQKV2hrqk2xXjk"
+Content-Disposition: inline
+In-Reply-To: <Y1L0FiKvrM9jjZG9@debian-BULLSEYE-live-builder-AMD64>
 
-On Mon, 17 Oct 2022 09:10:15 +0200 (CEST)
-Julia Lawall <julia.lawall@inria.fr> wrote:
 
-> On Mon, 17 Oct 2022, Deepak R Varma wrote:
-> 
-> > Improve code readability by merging unnecessary split lines that are
-> > well within the code-style guidelines post merge.
-> >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>  
-> 
-> Acked-by: Julia Lawall <julia.lawall@inria.fr>
+--poWQKV2hrqk2xXjk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Not a huge benefit to readability, but as this is in staging, fair enough!
+On Sat, Oct 22, 2022 at 01:03:42AM +0530, Deepak R Varma wrote:
+> diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wla=
+n-ng/p80211netdev.c
+> index e04fc666d218..6bef419e8ad0 100644
+> --- a/drivers/staging/wlan-ng/p80211netdev.c
+> +++ b/drivers/staging/wlan-ng/p80211netdev.c
+> @@ -881,55 +881,42 @@ static int p80211_rx_typedrop(struct wlandevice *wl=
+andev, u16 fc)
+>  		wlandev->rx.mgmt++;
+>  		switch (fstype) {
+>  		case WLAN_FSTYPE_ASSOCREQ:
+> -			/* printk("assocreq"); */
+>  			wlandev->rx.assocreq++;
+>  			break;
+>  		case WLAN_FSTYPE_ASSOCRESP:
+> -			/* printk("assocresp"); */
+>  			wlandev->rx.assocresp++;
+>  			break;
+>  		case WLAN_FSTYPE_REASSOCREQ:
+> -			/* printk("reassocreq"); */
+>  			wlandev->rx.reassocreq++;
+>  			break;
+>  		case WLAN_FSTYPE_REASSOCRESP:
+> -			/* printk("reassocresp"); */
+>  			wlandev->rx.reassocresp++;
+>  			break;
+>  		case WLAN_FSTYPE_PROBEREQ:
+> -			/* printk("probereq"); */
+>  			wlandev->rx.probereq++;
+>  			break;
+>  		case WLAN_FSTYPE_PROBERESP:
+> -			/* printk("proberesp"); */
+>  			wlandev->rx.proberesp++;
+>  			break;
+>  		case WLAN_FSTYPE_BEACON:
+> -			/* printk("beacon"); */
+>  			wlandev->rx.beacon++;
+>  			break;
+>  		case WLAN_FSTYPE_ATIM:
+> -			/* printk("atim"); */
+>  			wlandev->rx.atim++;
+>  			break;
+>  		case WLAN_FSTYPE_DISASSOC:
+> -			/* printk("disassoc"); */
+>  			wlandev->rx.disassoc++;
+>  			break;
+>  		case WLAN_FSTYPE_AUTHEN:
+> -			/* printk("authen"); */
+>  			wlandev->rx.authen++;
+>  			break;
+>  		case WLAN_FSTYPE_DEAUTHEN:
+> -			/* printk("deauthen"); */
+>  			wlandev->rx.deauthen++;
+>  			break;
+>  		default:
+> -			/* printk("unknown"); */
+>  			wlandev->rx.mgmt_unknown++;
+>  			break;
+>  		}
+> -		/* printk("\n"); */
+>  		drop =3D 2;
+>  		break;
+>=20
+> @@ -943,35 +930,27 @@ static int p80211_rx_typedrop(struct wlandevice *wl=
+andev, u16 fc)
+>  		wlandev->rx.ctl++;
+>  		switch (fstype) {
+>  		case WLAN_FSTYPE_PSPOLL:
+> -			/* printk("pspoll"); */
+>  			wlandev->rx.pspoll++;
+>  			break;
+>  		case WLAN_FSTYPE_RTS:
+> -			/* printk("rts"); */
+>  			wlandev->rx.rts++;
+>  			break;
+>  		case WLAN_FSTYPE_CTS:
+> -			/* printk("cts"); */
+>  			wlandev->rx.cts++;
+>  			break;
+>  		case WLAN_FSTYPE_ACK:
+> -			/* printk("ack"); */
+>  			wlandev->rx.ack++;
+>  			break;
+>  		case WLAN_FSTYPE_CFEND:
+> -			/* printk("cfend"); */
+>  			wlandev->rx.cfend++;
+>  			break;
+>  		case WLAN_FSTYPE_CFENDCFACK:
+> -			/* printk("cfendcfack"); */
+>  			wlandev->rx.cfendcfack++;
+>  			break;
+>  		default:
+> -			/* printk("unknown"); */
+>  			wlandev->rx.ctl_unknown++;
+>  			break;
+>  		}
+> -		/* printk("\n"); */
+>  		drop =3D 2;
+>  		break;
+>=20
+> @@ -1007,7 +986,6 @@ static int p80211_rx_typedrop(struct wlandevice *wla=
+ndev, u16 fc)
+>  			wlandev->rx.cfack_cfpoll++;
+>  			break;
+>  		default:
+> -			/* printk("unknown"); */
+>  			wlandev->rx.data_unknown++;
+>  			break;
+>  		}
 
-Applied to the togreg branch of iio.git and pushed out as testing for
-the autobuilders to see if we missed anything.
+Shouldn't these printks be guarded under CONFIG_DEBUG_KERNEL instead?
 
-Thanks,
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Jonathan
+--poWQKV2hrqk2xXjk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> > ---
-> >  drivers/staging/iio/frequency/ad9834.c | 6 ++----
-> >  1 file changed, 2 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-> > index 2b4267a87e65..285df0e489a6 100644
-> > --- a/drivers/staging/iio/frequency/ad9834.c
-> > +++ b/drivers/staging/iio/frequency/ad9834.c
-> > @@ -331,11 +331,9 @@ static IIO_DEV_ATTR_PHASE(0, 1, 0200, NULL, ad9834_write, AD9834_REG_PHASE1);
-> >  static IIO_DEV_ATTR_PHASESYMBOL(0, 0200, NULL, ad9834_write, AD9834_PSEL);
-> >  static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"); /* 2PI/2^12 rad*/
-> >
-> > -static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL,
-> > -	ad9834_write, AD9834_PIN_SW);
-> > +static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL, ad9834_write, AD9834_PIN_SW);
-> >  static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL, ad9834_write, AD9834_RESET);
-> > -static IIO_DEV_ATTR_OUTY_ENABLE(0, 1, 0200, NULL,
-> > -	ad9834_write, AD9834_OPBITEN);
-> > +static IIO_DEV_ATTR_OUTY_ENABLE(0, 1, 0200, NULL, ad9834_write, AD9834_OPBITEN);
-> >  static IIO_DEV_ATTR_OUT_WAVETYPE(0, 0, ad9834_store_wavetype, 0);
-> >  static IIO_DEV_ATTR_OUT_WAVETYPE(0, 1, ad9834_store_wavetype, 1);
-> >
-> > --
-> > 2.30.2
-> >
-> >
-> >
-> >
-> >  
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1VDLwAKCRD2uYlJVVFO
+oyncAQCxZQScet80h1V0jIpeJeicBZGgSrtnUhtAia3r9SOb0AEAobtYi8GrOk/3
+jJZ/0L5cff15DnBaSAb6Wi3y5TUryAg=
+=8oiv
+-----END PGP SIGNATURE-----
+
+--poWQKV2hrqk2xXjk--
