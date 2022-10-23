@@ -1,28 +1,54 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5413F2F59
-	for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 17:08:29 +0000 (UTC)
-Received: from ipservice-092-217-070-181.092.217.pools.vodafone-ip.de ([92.217.70.181] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1omeSS-0000Rj-4e; Sun, 23 Oct 2022 19:08:20 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F59F39A
+	for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 20:05:40 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id f9so2672680pgj.2
+        for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 13:05:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6sPUPb6oRl7KEqD6mV4SRu4u5doWDjb3blZucpwF334=;
+        b=n/6o2lGh9DT0UTU0OI91LTHKxInhidxtX42U/UHHdGpfGD1dvmoFK7+znOdm7d2eim
+         Gt4PcxRDtV/rg0FOxugPT3Z+VT75Yk84whGAp9Z0HPH2FBRiLj+8iD9g7y4bQ7uNex5x
+         rR6YC4+T4jhEccaYmgyuLXf4QX+WJ8j0qsMzt2mo7JGHFWcZHvsPM4JgGH6crl0veeCm
+         I4QwJXr1gcmCfys7Q4L4GBAxsSuG2xjgQlQcn9Zp9oE7cuIs6W59wgelTH4cwFni2UOb
+         0lPur2WFLtA+2T31jPxBy+gdKUeXk65Yjzrlueo2SDZJeIGCpGia1+LEolRGioLkKxpE
+         8Rpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6sPUPb6oRl7KEqD6mV4SRu4u5doWDjb3blZucpwF334=;
+        b=yllYMA5QuUL6eVwayBUasgPqHVyPxgvew5QSRrPGvhl8qeIWvLhZZAnzcpZPXq7ZKw
+         CZJw7DQtPXtbk0qQjw1CkcRepPEqSzPfMYwTI5gER6CR/WS3U8PAVl1tlnCByjLLB/ND
+         rWrIbXVzr9GkMyQ5mcxeLfFgqcdsDLAWDOwWXhz07Nf5RI1OhRrxgkzYUZL4UllcP077
+         B14Vcdjjli+Og3BkFtXVg93GjGaHiuTIA2x4Jusy8IiQ+xW2W837U3ufL00nCU2L3MM3
+         0zA55iwg/snsZ8UiJULiDkhxgE3PvubMilzIhMbD29CTZ/vfuV/R33KH5fTZnCnhS/dp
+         A9Cw==
+X-Gm-Message-State: ACrzQf3A4fBlU5vT8B5JsEUXvn/K7iMi3yd2nd6hK31Uqn4DjRixDaRx
+	V96ZQwnArrunUqgIWHpgOYY=
+X-Google-Smtp-Source: AMsMyM5dnunP5CXd5LNnMnemSewA8Nz4tf0FT3lhkKpCyI127u8FnW/CPxYORVuzCNrlsMBjUuug2A==
+X-Received: by 2002:a63:90c8:0:b0:46e:cd36:adb3 with SMTP id a191-20020a6390c8000000b0046ecd36adb3mr9255961pge.487.1666555539477;
+        Sun, 23 Oct 2022 13:05:39 -0700 (PDT)
+Received: from uftrace.. ([14.5.161.231])
+        by smtp.gmail.com with ESMTPSA id e13-20020aa798cd000000b0056bc0578c7dsm1130649pfm.110.2022.10.23.13.05.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Oct 2022 13:05:38 -0700 (PDT)
+From: Kang Minchul <tegongkang@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 5/5] staging: r8188eu: bCardDisableWOHSM is write-only
-Date: Sun, 23 Oct 2022 19:08:08 +0200
-Message-Id: <20221023170808.46233-6-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221023170808.46233-1-martin@kaiser.cx>
-References: <20221023170808.46233-1-martin@kaiser.cx>
+	Kang Minchul <tegongkang@gmail.com>
+Subject: [PATCH 0/4] staging: r8188eu: cleaning up unused variable
+Date: Mon, 24 Oct 2022 05:05:28 +0900
+Message-Id: <20221023200532.259276-1-tegongkang@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,61 +57,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-bCardDisableWOHSM in struct adapter is only written but never read.
-It can be removed.
+This patch series cleans up unused variables in r8188eu
+causing coccicheck warnings.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/include/drv_types.h | 1 -
- drivers/staging/r8188eu/os_dep/os_intfs.c   | 4 ----
- 2 files changed, 5 deletions(-)
+Kang Minchul (4):
+  staging: r8188eu: remove unnecessary variable in ioctl_linux
+  staging: r8188eu: remove unnecessary variable in rtw_recv
+  staging: r8188eu: remove unnecessary variable in rtl8188eu_xmit
+  staging: r8188eu: remove unnecessary variable in rtw_ap
 
-diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-index 1bd0c8f3a358..8fef5759c36a 100644
---- a/drivers/staging/r8188eu/include/drv_types.h
-+++ b/drivers/staging/r8188eu/include/drv_types.h
-@@ -167,7 +167,6 @@ struct adapter {
- 
- 	s32	bDriverStopped;
- 	s32	bSurpriseRemoved;
--	s32	bCardDisableWOHSM;
- 
- 	u8	hw_init_completed;
- 	s8	signal_strength;
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 38e324754c8f..970f380bac96 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -620,7 +620,6 @@ static int _netdev_open(struct net_device *pnetdev)
- 	if (!padapter->bup) {
- 		padapter->bDriverStopped = false;
- 		padapter->bSurpriseRemoved = false;
--		padapter->bCardDisableWOHSM = false;
- 
- 		status = rtw_hal_init(padapter);
- 		if (status == _FAIL)
-@@ -686,7 +685,6 @@ static int  ips_netdrv_open(struct adapter *padapter)
- 
- 	padapter->bDriverStopped = false;
- 	padapter->bSurpriseRemoved = false;
--	padapter->bCardDisableWOHSM = false;
- 
- 	status = rtw_hal_init(padapter);
- 	if (status == _FAIL)
-@@ -718,13 +716,11 @@ int rtw_ips_pwr_up(struct adapter *padapter)
- 
- void rtw_ips_pwr_down(struct adapter *padapter)
- {
--	padapter->bCardDisableWOHSM = true;
- 	padapter->net_closed = true;
- 
- 	rtw_led_control(padapter, LED_CTL_POWER_OFF);
- 
- 	rtw_ips_dev_unload(padapter);
--	padapter->bCardDisableWOHSM = false;
- }
- 
- static void rtw_fifo_cleanup(struct adapter *adapter)
+ drivers/staging/r8188eu/core/rtw_ap.c        | 5 ++---
+ drivers/staging/r8188eu/core/rtw_recv.c      | 3 +--
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 3 +--
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
+ 4 files changed, 5 insertions(+), 10 deletions(-)
+
 -- 
-2.30.2
+2.34.1
 
