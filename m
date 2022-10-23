@@ -1,100 +1,59 @@
 Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38923625
-	for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 09:06:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1666515959; cv=none; 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2C1625
+	for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 09:40:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1666518047; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=JrzpiFWU5QBv41VZlKxsAeaSvlOa+84QdcGKsFRClwfq1GLE36l/JNgBaMpKe1ABJAyuo4qFOHckZE6Y88txSIDI1LR45D8Bx1HgB8qjpkxQGccapkYpu/o/7+bWHlwwUwn8Iag2+ahg8ZaSVrveRbIQNOQ7YjPm6998WHuGF/Y=
+	b=dGjwKzMimMzK7xsqKCxWSi9DIaURzFZk5p5dSdNzz7Po3LvTvcAYqFcxkaxCqbEU+VeEQ4ckTdhyDxV9R08xRX6FZ6qJmueSyRWX+749YvF2CmYsbZcrP+tjhWSzn7wc6X093Ueenp2MA3ksor2RP50PNo2aAn+aM/L0tKaTeFY=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1666515959; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=0rOuIG6qt8WPxHPXhtiCyN7VKQ7GPvMiBmq66pv+LPU=; 
-	b=TcnEHnf8c9GKnB5PRrhHkoVNasvp+m61ndyChIL7DKSru7hg261RUcBQO1qx3srwi2UPxcC4PIMdeU/QTQ3EOPq0CmfmQN3GZ8jF0Ea2Rkz7eMaTGLkRR9XDC7vO4rva+aw+fThO2dHtw21DDHa38qM2S4rUuhgMRNtT5abvj8E=
+	t=1666518047; h=Content-Type:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=1Far/HHjb++ilNLR8nhNCNUd/ZBTwZW+m+N2jmHuo9M=; 
+	b=R5Sbts/7YoMdBlMLhLTIG8connTyEnC5IdEQ+S0cflkn/HlEC9fLaEoW9YHpC1L854FuI0HiIZwJeifce0KSsjEGuxh2yoX4Hpd9aVxCl7xi/D8ejWoILE4oOzuhi7PumS4x7jWaQGlC0HIEOhRLy0iCSlGuJTDi4QGmAbFoYK8=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=zohomail.com;
 	spf=pass  smtp.mailfrom=t4rmin@zohomail.com;
 	dmarc=pass header.from=<t4rmin@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666515959;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666518047;
 	s=zm2022; d=zohomail.com; i=t4rmin@zohomail.com;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=0rOuIG6qt8WPxHPXhtiCyN7VKQ7GPvMiBmq66pv+LPU=;
-	b=M98urZqeTXfvMtjdicLW21Mm7ADtZEKp4WY1jl3bpWbrxdOX8SPyXQzg1/ur7ppM
-	Kt1CnFiHXH1S8zAbMI6PRnYwXJMP2DCCV4vmH/tiUwuE4KHnJGBkIlBgSiX6w2CkW2J
-	HRh2EPktWp1z97hVXvd9fNPRSmH4XVyjXiQQYets=
-Received: from [192.168.0.106] (101.128.127.165 [101.128.127.165]) by mx.zohomail.com
-	with SMTPS id 1666515957272213.95334367704515; Sun, 23 Oct 2022 02:05:57 -0700 (PDT)
-Message-ID: <58a34e59c75e2f9fbb918d632590f3115a585bfc.camel@zohomail.com>
-Subject: Re: [PATCH 1/3] Staging: rtl8192e: rtl819x_HTProc: fixed missing
- blank space
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:Message-Id:Reply-To;
+	bh=1Far/HHjb++ilNLR8nhNCNUd/ZBTwZW+m+N2jmHuo9M=;
+	b=W/787IvuLHV9l006/1amIia+xEGuPvUr7VQVRx5vT65QhtiwJpS3TAtS9j1nTq3v
+	62kSZOv6yyyqJCa5n9EWaXgHhKOufQKom8pVPh7P6Mg5gaf5wHunJFIhTDm+hNNH0W9
+	6QgfQ34IQiuVZ681IrMOVcBHh4W82Pi6wQGHpcQw=
+Received: from plymouth (101.128.127.165 [101.128.127.165]) by mx.zohomail.com
+	with SMTPS id 1666518045221279.8220034711304; Sun, 23 Oct 2022 02:40:45 -0700 (PDT)
+Date: Sun, 23 Oct 2022 16:40:16 +0700
 From: Aaron Lawrence <t4rmin@zohomail.com>
-To: Nam Cao <namcaov@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Sun, 23 Oct 2022 16:05:50 +0700
-In-Reply-To: <20221022182100.GA16464@nam-dell>
-References: <d4898956a848c85fc93c3f7d25cafbfc49a46e60.camel@zohomail.com>
-	 <20221022182100.GA16464@nam-dell>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] staging: rtl8192e: rtl819x_HTProc: code cleanup
+ patches on the rtl8192x_HTProc.c file.
+Message-ID: <cover.1666502177.git.t4rmin@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-ZohoMailClient: External
 
-On Sat, 2022-10-22 at 20:21 +0200, Nam Cao wrote:
-> On Sat, Oct 22, 2022 at 10:48:08PM +0700, Aaron Lawrence wrote:
-> > > From e6635103e3cf2426220767955b99d2e2b62a7329 Mon Sep 17 00:00:00 200=
-1
-> > Message-Id: <e6635103e3cf2426220767955b99d2e2b62a7329.1666450553.git.t4=
-rmin@zohomail.com>
-> > In-Reply-To: <cover.1666450553.git.t4rmin@zohomail.com>
-> > References: <cover.1666450553.git.t4rmin@zohomail.com>
-> > From: Aaron Lawrence <t4rmin@zohomail.com>
-> > Date: Sat, 22 Oct 2022 20:46:25 +0700
->=20
-> I think you messed up something here. These are not supposed to be in
-> the email description. All your patches are sent separatedly, instead of
-> being in the same thread.
->=20
-> I can recommend follow the instructions in this website:
-> https://kernelnewbies.org/FirstKernelPatch
->=20
-> > Subject: [PATCH 1/3] Staging: rtl8192e: rtl819x_HTProc: fixed missing b=
-lank
-> > =C2=A0space
-> >=20
-> > Added a missing blank space as per the Linux kernel coding-style
-> > regulations. The issue was flagged by the checkpatch script as a
-> > warning.
-> >=20
-> > Signed-off-by: Aaron Lawrence <t4rmin@zohomail.com>
-> > ---
-> > =C2=A0drivers/staging/rtl8192e/rtl819x_HTProc.c | 1 +
-> > =C2=A01 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/stagin=
-g/rtl8192e/rtl819x_HTProc.c
-> > index ef3dca51cf99..b763cf0ba356 100644
-> > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > @@ -70,6 +70,7 @@ static u8 LINKSYS_MARVELL_4400N[3] =3D {0x00, 0x14, 0=
-xa4};
-> > =C2=A0void HTUpdateDefaultSetting(struct rtllib_device *ieee)
-> > =C2=A0{
-> > =C2=A0struct rt_hi_throughput *pHTInfo =3D ieee->pHTInfo;
-> > +
-> > =C2=A0pHTInfo->bRegShortGI20MHz =3D 1;
-> > =C2=A0pHTInfo->bRegShortGI40MHz =3D 1;
-> > --=20
-> > 2.38.1
-> >=20
-> >=20
+Multiple patches regarding the cleanup of code in the rtl819x_HTProc.c
+file according to the checkpatch script aside from the CamelCase issues.
 
-Ah, I see. I (hopefully) will be sending the correct email=C2=A0
-patchset format next time. Thanks.
+Fixed patchset email format in v2.
 
-Aaron
+Aaron Lawrence (3):
+  Staging: rtl8192e: rtl819x_HTProc: fixed missing blank space
+  Staging: rtl8192e: rtl819x_HTProc: fixed alignment matching open
+    parenthesis
+  Staging: rtl8192e: rtl819x_HTProc: fixed unnecessary parentheses
+
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 38 ++++++++++++-----------
+ 1 file changed, 20 insertions(+), 18 deletions(-)
+
+-- 
+2.38.1
+
