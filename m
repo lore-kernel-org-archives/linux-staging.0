@@ -1,43 +1,43 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6D7322A
-	for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 20:05:55 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id pb15so6624569pjb.5
-        for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 13:05:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310AA322A
+	for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 20:05:59 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id jo13so3259990plb.13
+        for <linux-staging@lists.linux.dev>; Sun, 23 Oct 2022 13:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nNelz6psOVZvSdJm4dYtPRIHqRerfX2/bz4SfbnUV0M=;
-        b=Xp2i7pQ6YdRkMmb3NqArPS7+CKXjjGodgOQz04VliMqLh9z/B410y1zU9naf8/fjO1
-         SQE4f0B+axTeHDrqzq0RmmMErWjyeYUFY8CpJIeNTKrsb9F03drqDdGQIiqPeCGIq729
-         3Qj6S8XYjCwm9Ikt/9Gr11/ptRIXi+bUZ9McPsLFVqSTsaiIf16zrUJ6qvLLMTnyJcTJ
-         yfxuOsm8K7Bim0Ona9cf8dDcseInkv3LvgCUoJBwYEgpBI2ioTkClb9E93xsSbWDDx+M
-         2LVjwZYDkYgjwkQw9ohHfvvHonCeVNQE3ywqkMVlVTnvQByBqxqSAq0poTlcm1QJc3Ub
-         +mKw==
+        bh=NnolCiMBjl8qX8ASTYaNnJALNGKZaQCXHfWumAnTsTM=;
+        b=iYtagsbcU/h0TyJgU4pXRWZSC4sr8vpuy8Tn3ao6ioil6LBbPMIzwZjGjaql/4vVbz
+         RiifYv5fBiYrgFc2P2oWJNn/T+vBIVqf9FQc2fNCXMUXL7a6o9BW3G5L1Ql44Ha0MGLi
+         FbKjRmtpeIXFP7IadMrxTXTjIV8Ynbz9pHSjvcUm3eQ7AbO6pEVF5+uC1qtCcpo6RidW
+         Eq8HzFkUQ612Z/sF9GTYbaav5q06ZkNwUyqWAocx4IUOBRaiim7t7lJQVzvMzDsDxf/1
+         ERJsClRVDGY6LtbCSYHTmLftNqyPr+yOUjfpPJloS3RqHW77xMTLz9FR+dRTjcg/cSMf
+         RsYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nNelz6psOVZvSdJm4dYtPRIHqRerfX2/bz4SfbnUV0M=;
-        b=ieEkyZfoshOkKzUGJbgGuNg0giKGxXT1ipRI7MTfsMP8HFTTUL2BWAloYMAWm8KmZ3
-         IKPxYfT/mWwspNrkYZRcSiNpbFVqOdnDj9EfyZ/Pt5inhGOW32SnI5KiY7JLQwCAhmMB
-         NpzJ3p1h19joYkyot1FoExTv0ppYUZHM/lP/1TGq5sYaBTiMEmGcDXH3AFqfDRozKu33
-         PZ3fej9HleWFLZoVRP8Nxh3bzd0+VzPRzpmXNOmzSVuA4/rO9SgvG0Be0FkpJy6MXkA3
-         9zLDpNwhBc+simZIEEBgXqdmcSJxMy0sFrz6UTPPVnPrQqxPOdWkKBJdTHiWK+w/fS87
-         e5aw==
-X-Gm-Message-State: ACrzQf3Pr3CdRc38vaLgs5aQf44I4/252LVwp7IV2XWu6eEqk8bQzT4a
-	NBl3o/7GD1YMRGG9/cc0tTC32Z5y2WfxYOHp
-X-Google-Smtp-Source: AMsMyM4oIJdUSzUpG7D8ydxO97fEzgQ+9pqqYZ054cRX2SoOmQidSkCoAJiel+mlXFzZhaixTTylTg==
-X-Received: by 2002:a17:90b:3b45:b0:20c:2eae:e70 with SMTP id ot5-20020a17090b3b4500b0020c2eae0e70mr34726662pjb.240.1666555554776;
-        Sun, 23 Oct 2022 13:05:54 -0700 (PDT)
+        bh=NnolCiMBjl8qX8ASTYaNnJALNGKZaQCXHfWumAnTsTM=;
+        b=tGJ9GbiSBrsaKXOLfWRXwvh4wfSGj7+tuHCTguzZABIrpo18rmXszTtFKVctUmcB56
+         5etYIzayajcA758SFHDIr1NGKgfSwVwCRTU1Fd41wHI8asdewzZzqlX/c+0KDvpDMakv
+         CSydZ0oysEFq7Ml0mbWw/MKFsKb62K33C0iEp6sA2bJqx2XPw9ayfzPY+/gjhXd/XXT8
+         8M845mOtDnJ8VE5135RPJ+kZqEOgJREnfdr+4G29e7/6+hKSeD5rt1NJu0D5vX7RNzal
+         XczGx926k7t7wC79y4mqcd1KZEDOyOZFha2m4766f5IGWdE9n6sf/IxyrEh4lwdPsZG+
+         n9/g==
+X-Gm-Message-State: ACrzQf3yEu0R1OyGHpFQzllHKuVkpKM7IV2GfxeQgebkazz6dJCklM4v
+	FhuV674ZA12EldxyyYICOmw=
+X-Google-Smtp-Source: AMsMyM75nzS235WrzxnOC5yv0x+K2rUHyGvTa2pFF6tigetffeJ9YCziWFB/NGTfaSQAq+/Z4oMfQA==
+X-Received: by 2002:a17:902:f786:b0:180:6f9e:23b with SMTP id q6-20020a170902f78600b001806f9e023bmr30930599pln.37.1666555558692;
+        Sun, 23 Oct 2022 13:05:58 -0700 (PDT)
 Received: from uftrace.. ([14.5.161.231])
-        by smtp.gmail.com with ESMTPSA id e13-20020aa798cd000000b0056bc0578c7dsm1130649pfm.110.2022.10.23.13.05.52
+        by smtp.gmail.com with ESMTPSA id e13-20020aa798cd000000b0056bc0578c7dsm1130649pfm.110.2022.10.23.13.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Oct 2022 13:05:54 -0700 (PDT)
+        Sun, 23 Oct 2022 13:05:58 -0700 (PDT)
 From: Kang Minchul <tegongkang@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -46,9 +46,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Kang Minchul <tegongkang@gmail.com>
-Subject: [PATCH 2/4] staging: r8188eu: remove unnecessary variable in rtw_recv
-Date: Mon, 24 Oct 2022 05:05:30 +0900
-Message-Id: <20221023200532.259276-3-tegongkang@gmail.com>
+Subject: [PATCH 3/4] staging: r8188eu: remove unnecessary variable in rtl8188eu_xmit
+Date: Mon, 24 Oct 2022 05:05:31 +0900
+Message-Id: <20221023200532.259276-4-tegongkang@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221023200532.259276-1-tegongkang@gmail.com>
 References: <20221023200532.259276-1-tegongkang@gmail.com>
@@ -60,37 +60,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Return _SUCCESS directly instead of storing it in a variable.
+Return 0 directly instead of storing it in a variable.
 This can prevent cocci warning as follows:
 
-  Unneeded variable: "ret". Return "_SUCCESS" on line 1516
+  Unneeded variable: "pull". Return "0" on line 298
 
 Signed-off-by: Kang Minchul <tegongkang@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 3 +--
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index bb5c3b3888e0..9e98aea09583 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1415,7 +1415,6 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+index 8e4a5acc0b18..6d1f56d1f9d7 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+@@ -149,7 +149,6 @@ static void fill_txdesc_phy(struct pkt_attrib *pattrib, __le32 *pdw)
  
- 	struct recv_priv *precvpriv = &padapter->recvpriv;
- 	struct __queue *pfree_recv_queue = &precvpriv->free_recv_queue;
--	int	ret = _SUCCESS;
+ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bagg_pkt)
+ {
+-	int	pull = 0;
+ 	uint	qsel;
+ 	u8 data_rate, pwr_status, offset;
+ 	struct adapter		*adapt = pxmitframe->padapter;
+@@ -295,7 +294,7 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
+ 	ODM_SetTxAntByTxInfo_88E(&haldata->odmpriv, pmem, pattrib->mac_id);
  
- 	nr_subframes = 0;
- 
-@@ -1513,7 +1512,7 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
- 	prframe->len = 0;
- 	rtw_free_recvframe(prframe, pfree_recv_queue);/* free this recv_frame */
- 
--	return ret;
-+	return _SUCCESS;
+ 	rtl8188eu_cal_txdesc_chksum(ptxdesc);
+-	return pull;
++	return 0;
  }
  
- static bool check_indicate_seq(struct recv_reorder_ctrl *preorder_ctrl, u16 seq_num)
+ /* for non-agg data frame or  management frame */
 -- 
 2.34.1
 
