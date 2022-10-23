@@ -1,155 +1,93 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EE61369;
-	Sun, 23 Oct 2022 11:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666523044; bh=CXFYkS/9I3ecfwQqOB0xh0UmIHm5NvOthOCQ+wQCho4=;
-	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=TeJ3SkKVax6heRHLZamZ2Mmo62DLNhNYc5TxC/0rdoGn4kut72/lY6+GaQVBYSYKf
-	 e/Kou/u3O6zE0sXJRlh1Ij8RHXyF1mQ2MbzvfWnSuopE/D6MRFTG3dOYNcNs6URTy9
-	 w5dMGaBBAMkxzTtql7EJnY7swAt/++k4hx7T+E5E=
-Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
-	via [213.182.55.206]
-	Sun, 23 Oct 2022 13:04:04 +0200 (CEST)
-X-EA-Auth: Yjri6/BpUBj1GUUFqZyfaA0i881R5h6QtDnu49t/H5do4HKgbeG8VkdOdzAdzB+pCSYB6zJ2QORaobSbl4yso6Khm2FmV9wY
-Date: Sat, 22 Oct 2022 01:03:42 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: wlan-ng: remove commented debug printk messages
-Message-ID: <Y1L0FiKvrM9jjZG9@debian-BULLSEYE-live-builder-AMD64>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449837B;
+	Sun, 23 Oct 2022 12:36:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AAF4C433D6;
+	Sun, 23 Oct 2022 12:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1666528613;
+	bh=TlatSqRfmWj6SvyrETxoNuLar38YhNpt1XsCCEbNmmM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WYMRIe0ZhfIrWP4jxLDfTCDQeoYqxFXboaTMSYB6SVsj801iZvaiBqk4XfLGokVAE
+	 KaKNTfZJW3sxHyfroiLF7UZiBmnWXrou7OX1+ICq/WOaRmZqp3027Hhye2Q5YxoULa
+	 78LnHUWyaG65OtXTl5MDtwECGsK18s1Tvd+c1m3yBMloZ3gIDSV9weT21qjLuIidVY
+	 0ujqsMKlOORp7fDyfyqyDEr8oepomsu3WUgxGyaN0dzzVRTyshu5g9LNzpT2SCyMi/
+	 cN4CRkfp3n2FeRXcHE8Grbfjp8aa9MvSQUNvpKdOW/E5lvOGCEx6DIURp9q5QzABDF
+	 nqzoAsXRgGx1w==
+Date: Sun, 23 Oct 2022 13:37:28 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Deepak R Varma <drv@mailo.com>, outreachy@lists.linux.dev,
+ lars@metafoo.de, Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kumarpraveen@linux.microsoft.com,
+ saurabh.truth@gmail.com
+Subject: Re: [PATCH] staging: iio: frequency: ad9834: merge unnecessary
+ split lines
+Message-ID: <20221023133728.35b6ef26@jic23-huawei>
+In-Reply-To: <alpine.DEB.2.22.394.2210170909430.2965@hadrien>
+References: <Y0z2/qFe3kW96MTs@debian-BULLSEYE-live-builder-AMD64>
+	<alpine.DEB.2.22.394.2210170909430.2965@hadrien>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-printk messages are added for program flow tracing and are left
-commented. These commented log messages should be removed as they
-are no more useful for program execution.
+On Mon, 17 Oct 2022 09:10:15 +0200 (CEST)
+Julia Lawall <julia.lawall@inria.fr> wrote:
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
+> On Mon, 17 Oct 2022, Deepak R Varma wrote:
+> 
+> > Improve code readability by merging unnecessary split lines that are
+> > well within the code-style guidelines post merge.
+> >
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>  
+> 
+> Acked-by: Julia Lawall <julia.lawall@inria.fr>
 
-Changes in v2:
-   1. Resending as v2 since I incorrectly send multiple emails for the patch
-   earlier. Feedback from gregkh@linuxfoundation.org
+Not a huge benefit to readability, but as this is in staging, fair enough!
 
+Applied to the togreg branch of iio.git and pushed out as testing for
+the autobuilders to see if we missed anything.
 
- drivers/staging/wlan-ng/p80211netdev.c | 22 ----------------------
- 1 file changed, 22 deletions(-)
+Thanks,
 
-diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
-index e04fc666d218..6bef419e8ad0 100644
---- a/drivers/staging/wlan-ng/p80211netdev.c
-+++ b/drivers/staging/wlan-ng/p80211netdev.c
-@@ -881,55 +881,42 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
- 		wlandev->rx.mgmt++;
- 		switch (fstype) {
- 		case WLAN_FSTYPE_ASSOCREQ:
--			/* printk("assocreq"); */
- 			wlandev->rx.assocreq++;
- 			break;
- 		case WLAN_FSTYPE_ASSOCRESP:
--			/* printk("assocresp"); */
- 			wlandev->rx.assocresp++;
- 			break;
- 		case WLAN_FSTYPE_REASSOCREQ:
--			/* printk("reassocreq"); */
- 			wlandev->rx.reassocreq++;
- 			break;
- 		case WLAN_FSTYPE_REASSOCRESP:
--			/* printk("reassocresp"); */
- 			wlandev->rx.reassocresp++;
- 			break;
- 		case WLAN_FSTYPE_PROBEREQ:
--			/* printk("probereq"); */
- 			wlandev->rx.probereq++;
- 			break;
- 		case WLAN_FSTYPE_PROBERESP:
--			/* printk("proberesp"); */
- 			wlandev->rx.proberesp++;
- 			break;
- 		case WLAN_FSTYPE_BEACON:
--			/* printk("beacon"); */
- 			wlandev->rx.beacon++;
- 			break;
- 		case WLAN_FSTYPE_ATIM:
--			/* printk("atim"); */
- 			wlandev->rx.atim++;
- 			break;
- 		case WLAN_FSTYPE_DISASSOC:
--			/* printk("disassoc"); */
- 			wlandev->rx.disassoc++;
- 			break;
- 		case WLAN_FSTYPE_AUTHEN:
--			/* printk("authen"); */
- 			wlandev->rx.authen++;
- 			break;
- 		case WLAN_FSTYPE_DEAUTHEN:
--			/* printk("deauthen"); */
- 			wlandev->rx.deauthen++;
- 			break;
- 		default:
--			/* printk("unknown"); */
- 			wlandev->rx.mgmt_unknown++;
- 			break;
- 		}
--		/* printk("\n"); */
- 		drop = 2;
- 		break;
+Jonathan
 
-@@ -943,35 +930,27 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
- 		wlandev->rx.ctl++;
- 		switch (fstype) {
- 		case WLAN_FSTYPE_PSPOLL:
--			/* printk("pspoll"); */
- 			wlandev->rx.pspoll++;
- 			break;
- 		case WLAN_FSTYPE_RTS:
--			/* printk("rts"); */
- 			wlandev->rx.rts++;
- 			break;
- 		case WLAN_FSTYPE_CTS:
--			/* printk("cts"); */
- 			wlandev->rx.cts++;
- 			break;
- 		case WLAN_FSTYPE_ACK:
--			/* printk("ack"); */
- 			wlandev->rx.ack++;
- 			break;
- 		case WLAN_FSTYPE_CFEND:
--			/* printk("cfend"); */
- 			wlandev->rx.cfend++;
- 			break;
- 		case WLAN_FSTYPE_CFENDCFACK:
--			/* printk("cfendcfack"); */
- 			wlandev->rx.cfendcfack++;
- 			break;
- 		default:
--			/* printk("unknown"); */
- 			wlandev->rx.ctl_unknown++;
- 			break;
- 		}
--		/* printk("\n"); */
- 		drop = 2;
- 		break;
-
-@@ -1007,7 +986,6 @@ static int p80211_rx_typedrop(struct wlandevice *wlandev, u16 fc)
- 			wlandev->rx.cfack_cfpoll++;
- 			break;
- 		default:
--			/* printk("unknown"); */
- 			wlandev->rx.data_unknown++;
- 			break;
- 		}
---
-2.30.2
-
-
+> 
+> > ---
+> >  drivers/staging/iio/frequency/ad9834.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+> > index 2b4267a87e65..285df0e489a6 100644
+> > --- a/drivers/staging/iio/frequency/ad9834.c
+> > +++ b/drivers/staging/iio/frequency/ad9834.c
+> > @@ -331,11 +331,9 @@ static IIO_DEV_ATTR_PHASE(0, 1, 0200, NULL, ad9834_write, AD9834_REG_PHASE1);
+> >  static IIO_DEV_ATTR_PHASESYMBOL(0, 0200, NULL, ad9834_write, AD9834_PSEL);
+> >  static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"); /* 2PI/2^12 rad*/
+> >
+> > -static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL,
+> > -	ad9834_write, AD9834_PIN_SW);
+> > +static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL, ad9834_write, AD9834_PIN_SW);
+> >  static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL, ad9834_write, AD9834_RESET);
+> > -static IIO_DEV_ATTR_OUTY_ENABLE(0, 1, 0200, NULL,
+> > -	ad9834_write, AD9834_OPBITEN);
+> > +static IIO_DEV_ATTR_OUTY_ENABLE(0, 1, 0200, NULL, ad9834_write, AD9834_OPBITEN);
+> >  static IIO_DEV_ATTR_OUT_WAVETYPE(0, 0, ad9834_store_wavetype, 0);
+> >  static IIO_DEV_ATTR_OUT_WAVETYPE(0, 1, ad9834_store_wavetype, 1);
+> >
+> > --
+> > 2.30.2
+> >
+> >
+> >
+> >
+> >  
 
