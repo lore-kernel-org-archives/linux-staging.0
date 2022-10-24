@@ -1,86 +1,68 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1D53D6B;
-	Mon, 24 Oct 2022 15:21:02 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DEB88BF;
-	Mon, 24 Oct 2022 17:12:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1666624359;
-	bh=XynA4ysgfEg2/idRBdKxuEVP9aT5qllM1ojw2hUTpSw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ufYo+6pP3UUZQMwQ+T7GXvYnXwNgM4htrPA+NCqg9RpoPEh2Gyb3uY/2Fz5E2ETbm
-	 p46TiJyLWoQ/bGEi5Oxo65pn9do2Vcv6UAgP6/O3gZVNJs2MTjdVy0zmBbZLJpx0QT
-	 m+aOT43JUTD7lxQOSSLj5bToXb/938sp+LQ4L92o=
-Date: Mon, 24 Oct 2022 18:12:14 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60E42904
+	for <linux-staging@lists.linux.dev>; Mon, 24 Oct 2022 16:30:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAC2EC433C1;
+	Mon, 24 Oct 2022 16:30:11 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Ma9rewKQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+	t=1666629011;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xdL1NVuJwtwsuL0TB2J6TklwZ2b5cGwYyuTwheXB4Uc=;
+	b=Ma9rewKQP/7xELPv+VqvGFOaqWxWVTLP17e+Pk0QexyRAN/pvYdtEjhtOm24bRtGnZnfyq
+	JXPnkPphElQLPFRX7O0QDzRi5GqlZJvxM/+9wn+c20izEtYLUNLkAgTN/ogvyXIznlb6yr
+	35rUbSgenBB25dPrWc8DCUm8g3ueCEs=
+Received: 
+	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 29887f1f (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Mon, 24 Oct 2022 16:30:10 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: linux-kernel@vger.kernel.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: media: imx: imx7-media-csi: Fix parenthesis
- alignment
-Message-ID: <Y1arTntXnJmyrMyy@pendragon.ideasonboard.com>
-References: <20221024150744.72641-1-lima.gabriel.luz@gmail.com>
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: rtl8192e: use explicitly signed char
+Date: Mon, 24 Oct 2022 18:30:05 +0200
+Message-Id: <20221024163005.536097-1-Jason@zx2c4.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221024150744.72641-1-lima.gabriel.luz@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Gabriel,
+With char becoming unsigned by default, and with `char` alone being
+ambiguous and based on architecture, signed chars need to be marked
+explicitly as such. In this case, passing `char *extra` is part of the
+iw API, and that extra is mostly intended to be somewhat opaque. So just
+cast to `s8 *` for the sign test. This fixes warnings like:
 
-Thank you for the patch.
+drivers/staging/rtl8192e/rtllib_softmac_wx.c:459 rtllib_wx_set_essid() warn: impossible condition '(extra[i] < 0) => (0-255 < 0)'
 
-On Mon, Oct 24, 2022 at 12:07:44PM -0300, Gabriel Lima Luz wrote:
-> Adhere to Linux kernel coding style.
-> 
-> Reported by checkpatch:
-> 
-> CHECK: Alignment should match open parenthesis
-> 
-> Signed-off-by: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index cbc66ef0eda8..9ad7205a3f2f 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -1704,7 +1704,7 @@ static int imx7_csi_init_cfg(struct v4l2_subdev *sd,
->  		mf->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(mf->colorspace);
->  		mf->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(mf->colorspace);
->  		mf->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(!cc->yuv,
-> -					mf->colorspace, mf->ycbcr_enc);
-> +								 mf->colorspace, mf->ycbcr_enc);
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think this is a valid exception to the coding style, to increase
-readability by avoiding long lines. Otherwise, I'd wrap it as
-
-		mf->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(!cc->yuv,
-								 mf->colorspace,
-								 mf->ycbcr_enc);
-
->  
->  		csi->cc[i] = cc;
->  	}
-
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index f9589c5b62ba..4563e3b5bd47 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -456,7 +456,7 @@ int rtllib_wx_set_essid(struct rtllib_device *ieee,
+ 	}
+ 
+ 	for (i = 0; i < len; i++) {
+-		if (extra[i] < 0) {
++		if (((s8 *)extra)[i] < 0) {
+ 			ret = -1;
+ 			goto out;
+ 		}
 -- 
-Regards,
+2.38.1
 
-Laurent Pinchart
