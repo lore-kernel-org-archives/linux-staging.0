@@ -1,42 +1,43 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F4A6130;
-	Mon, 24 Oct 2022 20:15:31 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id t25so2107385ejb.8;
-        Mon, 24 Oct 2022 13:15:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BCB6AC2;
+	Mon, 24 Oct 2022 20:15:32 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id d26so7573639eje.10;
+        Mon, 24 Oct 2022 13:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1fBlLJXdA6H7C7X3qALVt9OFqOQbonL8kspTcSbYe8A=;
-        b=YPJ3jwQsNmm9WLt/GBkLWWRa6lFn8eahlu81M8lp72RvYGLMe/rQjA2qPa5v1u4tT6
-         90ivSVYqP66OxTklswMOTjjr9ecvUkAP0NUIauygidG6sWAb1j1q05ALUBQxKfn0aTu5
-         2S3QwjiaKOaIMvBqG9wc3wTVwidG1wG8FEuhFE+iEE2VUjwRX7c+FY1I7Xdn55PK08z9
-         i2ufSZEQzWz2r7uSmuMUBEkFRjVqHQY1evrOLHZ5Fk2qSSqIk/Jn+sTiLw0wQLqe4tal
-         36VZBHwYk13cnxp/sU7GMLV7E/HHAvlWE1h6zbYbhyPiwxfyyLicgnWx9g4h+13XZg8z
-         xLMg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cnqNra0lgbLAKch8eagvznAxGId4NWgXejGlEDMRG8I=;
+        b=lwrCsYSnWfTQh15cwQ7ueF8f2lHMOTa+mOmouTY1ExaPRtPNGsHigtjtgstssCXaYm
+         ancy3xk6f/FVT7y7wCLjlA6BsuUUXeHs4ZHkH4SuIUD7KjjDO3846Vc1R0rPTSumc61v
+         LalmebgrfMGEjsqMPtBCY00khGcDmd7uTUYZNzbsyXfw6011zIQHliWjCMom/eIGcTUU
+         ldtE2WbEj0OpKk06UYAkVBBhrUbOw1UONE7L3m1ucx1O9OA076r1vNBjPrjoUCV+wnK3
+         h//Ppkdlb5BCIptz5p+PM7yzrUGr+GOnMtaSUNN3xM3L67L+KB7CKZvV0Su+62ggUxKo
+         0ZuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1fBlLJXdA6H7C7X3qALVt9OFqOQbonL8kspTcSbYe8A=;
-        b=T9pfy/TxfoLhQ93rHnCFiSOLDQXLHErmV0mPoEMek3/hmXvmUOi/guadTztBh375K8
-         M7kskJ81oPdnW6TNhlNDORGPnu5UOteuiupJbb1skDi26DB3BP+5HbkS0b521DPcN4tQ
-         7VgD+6+dDGrbxNPJeApBSs9orYmM7XWYGl3TovELRIyPy6ajDYdFLr6aGv7Vk6sq1Zms
-         ZNBTIjvuhUZQfy+7xl5aRu84y+bG/1GuLUxJ4vJganllCzIKT1re7dmr8driptxC7f7m
-         k+gfIaKfkk+5/wNSQa2BWL4eDebuV2keBan/9afjqI3aYILsIeC9N3nXEE0BFe3ihgr/
-         kPeg==
-X-Gm-Message-State: ACrzQf0pATbTzslAF9w68aXWqAbmG2YTACTIiMTq0b0HFdWtx76Z92tt
-	2jr5m2EuG/HYgsTGxMT5SZ4=
-X-Google-Smtp-Source: AMsMyM6Tfi2MudIbF6SuC3N6qkh7fPJgYp0ed+IaKSyzxHBs7xvcwSqolHobZJoh1xVju7+sSEmzxA==
-X-Received: by 2002:a17:907:7e87:b0:78e:2dc3:945 with SMTP id qb7-20020a1709077e8700b0078e2dc30945mr29430002ejc.326.1666642529414;
-        Mon, 24 Oct 2022 13:15:29 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cnqNra0lgbLAKch8eagvznAxGId4NWgXejGlEDMRG8I=;
+        b=TxWRcqaXar6Axhm6agFUyz9QNR/ybtgT1z1huE02zpefCgi/ck5LPIkPTYmjNI7oIH
+         vfNfkxBOBlALdCKM7KRWoHYLecofbGGpaj1pv/tSJe/GDYGK4dOeNRW1ckwwuI4QuOGJ
+         7Gpzq8teYK54Cz2Mdmj6mLZdnJeHIHuBzp0Uz0cV216VKEhS6E0bAy1AjouVy7qTkkU0
+         miOAa3A+ikCEJDv0HS19K9fv6TF4OXRDZFmaDuKQYJB6+ERjGF8voOs0ZG5K5OG7TA9/
+         +ig0aKdonQWPBncmXz/QQnX2AjRLFvzuR8HJtvnhs9b0L4U3C1KErnf+lRGCfpPr6qXw
+         bcQg==
+X-Gm-Message-State: ACrzQf0vQPJAH9m4P7YS6nCaakTmJ5h5GuE/bkc5YAZwBNzoBHDW9UUx
+	lG/jDPm7bQn5eanLyA0PK+Y=
+X-Google-Smtp-Source: AMsMyM4Ycr2oU2oWv7YasBF3FD7v1Z17AUdjCIvRaf87Sh6hZnQbyMESFWwCBG86hp9Bd3BVL2ydTg==
+X-Received: by 2002:a17:907:c03:b0:781:fd5a:c093 with SMTP id ga3-20020a1709070c0300b00781fd5ac093mr29229259ejc.89.1666642530469;
+        Mon, 24 Oct 2022 13:15:30 -0700 (PDT)
 Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id op7-20020a170906bce700b0073d638a7a89sm332023ejb.99.2022.10.24.13.15.27
+        by smtp.gmail.com with ESMTPSA id op7-20020a170906bce700b0073d638a7a89sm332023ejb.99.2022.10.24.13.15.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 13:15:28 -0700 (PDT)
+        Mon, 24 Oct 2022 13:15:30 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com
@@ -51,10 +52,12 @@ Cc: mchehab@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 00/11] media: cedrus: Format handling improvements and 10-bit HEVC support
-Date: Mon, 24 Oct 2022 22:15:04 +0200
-Message-Id: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+Subject: [PATCH 01/11] media: cedrus: remove superfluous call
+Date: Mon, 24 Oct 2022 22:15:05 +0200
+Message-Id: <20221024201515.34129-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,50 +66,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While my first intention was to just add 10-bit HEVC handling, I noticed
-a few format handling issues and a bit of redundancy in some cases. Final
-result is that driver now sticks to stateless decoder rules better.
+cedrus_try_fmt_vid_out() is called two times inside
+cedrus_s_fmt_vid_out(), but nothing changes between calls which would
+influence output format. Remove first call, which was added later.
 
-Format handling improvements:
-1. Default format selection is now based on HW capabilities. Before, MPEG2
-   was hardcoded but some Cedrus variants don't actually support it.
-2. Controls are registered only if related codec is supported by HW.
-3. Untiled output format is preferred, if supported, over tiled one. All
-   display engine cores support untiled format, but only first generation
-   supports tiled one.
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-I hope this makes Cedrus eligible for destaging.
-
-Best regards,
-Jernej
-
-Jernej Skrabec (11):
-  media: cedrus: remove superfluous call
-  media: cedrus: Add format reset helpers
-  media: cedrus: use helper to set default formats
-  media: cedrus: Add helper for checking capabilities
-  media: cedrus: Filter controls based on capability
-  media: cedrus: set codec ops immediately
-  media: cedrus: Remove cedrus_codec enum
-  media: cedrus: prefer untiled capture format
-  media: cedrus: initialize controls a bit later
-  media: cedrus: Adjust buffer size based on control values
-  media: cedrus: h265: Support decoding 10-bit frames
-
- drivers/staging/media/sunxi/cedrus/cedrus.c   |  97 +++++-----
- drivers/staging/media/sunxi/cedrus/cedrus.h   |  22 +--
- .../staging/media/sunxi/cedrus/cedrus_dec.c   |   4 +-
- .../staging/media/sunxi/cedrus/cedrus_h264.c  |   2 +-
- .../staging/media/sunxi/cedrus/cedrus_h265.c  |  37 +++-
- .../staging/media/sunxi/cedrus/cedrus_hw.c    |  18 +-
- .../staging/media/sunxi/cedrus/cedrus_hw.h    |   2 +-
- .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   2 +-
- .../staging/media/sunxi/cedrus/cedrus_regs.h  |  16 ++
- .../staging/media/sunxi/cedrus/cedrus_video.c | 166 ++++++++++--------
- .../staging/media/sunxi/cedrus/cedrus_video.h |   2 +
- .../staging/media/sunxi/cedrus/cedrus_vp8.c   |   2 +-
- 12 files changed, 225 insertions(+), 145 deletions(-)
-
---
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index 33726175d980..1c3c1d080d31 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -309,10 +309,6 @@ static int cedrus_s_fmt_vid_out(struct file *file, void *priv,
+ 	struct vb2_queue *peer_vq;
+ 	int ret;
+ 
+-	ret = cedrus_try_fmt_vid_out(file, priv, f);
+-	if (ret)
+-		return ret;
+-
+ 	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+ 	/*
+ 	 * In order to support dynamic resolution change,
+-- 
 2.38.1
 
