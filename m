@@ -1,88 +1,166 @@
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE2D809
-	for <linux-staging@lists.linux.dev>; Mon, 24 Oct 2022 11:23:20 +0000 (UTC)
-Received: by mail-vs1-f50.google.com with SMTP id n63so7534331vsc.8
-        for <linux-staging@lists.linux.dev>; Mon, 24 Oct 2022 04:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Awx4Y/bO+loraqXV2AwEp2ffosaIQWTq0T6Y6GrQT7k=;
-        b=Cz6V7CP8AWHCdwsemLxu07MC9m7ITS+yO8mBsVa1Li7ubhohU9ejYTd6wpV/DBbAkH
-         18PwV7GrJ5iAl+ZyO+WodecqmYYXHKjhfgUsjzCAH8jPdVorpUVaYbDC2cYrbpJscuZ9
-         RxT/X9/kzbbL5ypjogrMqUXwUMk+HJmdNuSMOFptvq6hW2+jIFnNLUN8gmjbVAMbTsO/
-         hore48c+Rbeimbyx3YUo4gMXWMfYRXZU5zNDFoJ1P+/pRh1xfuvA3EorJlzK2Nkag/lt
-         nSy9gl84iB3rugxbdxIZObICASo2iYQoITLpWmm4RhdPDlVON+XeOoTiz8z77ht6Jd4x
-         RahQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Awx4Y/bO+loraqXV2AwEp2ffosaIQWTq0T6Y6GrQT7k=;
-        b=UEw4F2tptLnnMe3hfFGTG19RYkGclbDvGu2PculxKztDS+L3hyUJCJC8X0+m0AhpmZ
-         yOX7fDaOCMski4dCEsAXzJDpZsN+YEcb5faScjkO/IMWZU5qO2BOdjq0kLQqFBv/+26n
-         JBhqicOTbpL9r3ThY80WOYT9ois+xYHYmd2mdLu4ADBKEYaG/l5n/Yjuq8ODj3CM6vA1
-         KuJMbo8ClhzRtepP+bCAqgAVlIsO7HCEIj5vCKqlZJbzu/NZrk77tL1Ne9YCPAJx4vrH
-         rKhhU0GfJ88FpKUXeGbIWjHdFIIlCdT8RthUZ0VqP/aKr4ZkUpG9gWsruYszQ6IpLevy
-         MwBg==
-X-Gm-Message-State: ACrzQf1F/3D00HoEmhySAB9vz/KWGuliEVwkjGlgkXDmiCzIFhvjVXdl
-	tAPK5jSS6dQbzd/mgifDisf/TbPkFSOo3JzfXFM=
-X-Google-Smtp-Source: AMsMyM4w1m/n473eX50mXZOCB5avuhNpyZkjf7DSvmHsNlfuajMASiPUtsXyBVnUfUSAi+5Mu8c5pAIHU5fijfO9em8=
-X-Received: by 2002:a67:db0d:0:b0:3aa:12be:c26c with SMTP id
- z13-20020a67db0d000000b003aa12bec26cmr3828320vsj.26.1666610599422; Mon, 24
- Oct 2022 04:23:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254F4809;
+	Mon, 24 Oct 2022 11:38:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869C1C43143;
+	Mon, 24 Oct 2022 11:38:38 +0000 (UTC)
+Message-ID: <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
+Date: Mon, 24 Oct 2022 13:38:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221024084925.262289-1-tegongkang@gmail.com>
-In-Reply-To: <20221024084925.262289-1-tegongkang@gmail.com>
-From: Kang Minchul <tegongkang@gmail.com>
-Date: Mon, 24 Oct 2022 20:23:08 +0900
-Message-ID: <CA+uqrQDuJQ3yBY8_re===u0f97pyr_hn_VNu6LqLJAZnDeqhVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] staging: r8188eu: cleaning up unused variables
-To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, 
-	Pavel Skripkin <paskripkin@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v1] media: cedrus: Propagate error code from
+ cedrus_h265_skip_bits()
+Content-Language: en-US
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+References: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-2022=EB=85=84 10=EC=9B=94 24=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 5:49, =
-Kang Minchul <tegongkang@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> This patch series cleans up unused variables in r8188eu
-> causing coccicheck warnings.
->
-> Difference between v1 and this patch is that this patch series
-> include making function amsdu_to_msdu in /r8188eu/core/rtw_recv.c
-> into void function.
->
-> Kang Minchul (4):
->   staging: r8188eu: remove unnecessary variable in ioctl_linux
->   staging: r8188eu: make amsdu_to_msdu void function
->   staging: r8188eu: remove unnecessary variable in rtl8188eu_xmit
->   staging: r8188eu: remove unnecessary variable in rtw_ap
->
->  drivers/staging/r8188eu/core/rtw_ap.c        | 5 ++---
->  drivers/staging/r8188eu/core/rtw_recv.c      | 5 +----
->  drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 3 +--
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
->  4 files changed, 5 insertions(+), 12 deletions(-)
->
-> --
-> 2.34.1
->
-Oh, I guess patch 4/4 can be fixed as well.
-I think the function rtw_sta_flush can be void as well.
+Hi Dmitry,
 
-I'll resend the patch later.
+This patch has a conflict with this patch from Jernej:
 
-regards,
-Kang Minchul
+https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.1198301-1-jernej.skrabec@gmail.com/
+
+I decided to take Jernej's patch first. Can you make a v2 that sits on top of
+that patch?
+
+Thanks!
+
+	Hans
+
+On 9/14/22 17:01, Dmitry Osipenko wrote:
+> The cedrus_h265_skip_bits() may get into infinite loop if decoding
+> parameters are incorrect. In this case we detect the loop and print
+> a error message, continuing the decoding that is fated to fail.
+> 
+> Will be cleaner to abort the decoding early. Propagate the error code
+> to cedrus_device_run() and reset hardware on the cedrus_h265_skip_bits()
+> failure.
+> 
+> Suggested-by: Jernej Škrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_dec.c  |  2 ++
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 15 ++++++++++++---
+>  drivers/staging/media/sunxi/cedrus/cedrus_hw.c   |  7 ++++++-
+>  drivers/staging/media/sunxi/cedrus/cedrus_hw.h   |  2 ++
+>  4 files changed, 22 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> index e7f7602a5ab4..ae5df3dc01c0 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> @@ -112,6 +112,8 @@ void cedrus_device_run(void *priv)
+>  
+>  		dev->dec_ops[ctx->current_codec]->trigger(ctx);
+>  	} else {
+> +		cedrus_hw_reset(dev);
+> +
+>  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
+>  						 ctx->fh.m2m_ctx,
+>  						 VB2_BUF_STATE_ERROR);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> index 4952fc17f3e6..f409f59452d8 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -224,9 +224,10 @@ static void cedrus_h265_pred_weight_write(struct cedrus_dev *dev,
+>  	}
+>  }
+>  
+> -static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+> +static int cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+>  {
+>  	int count = 0;
+> +	int err;
+>  
+>  	while (count < num) {
+>  		int tmp = min(num - count, 32);
+> @@ -235,11 +236,16 @@ static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+>  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+>  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+>  
+> -		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY))
+> +		err = cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY);
+> +		if (err) {
+>  			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
+> +			return err;
+> +		}
+>  
+>  		count += tmp;
+>  	}
+> +
+> +	return 0;
+>  }
+>  
+>  static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
+> @@ -408,6 +414,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  	u32 pic_order_cnt[2];
+>  	u8 *padding;
+>  	int count;
+> +	int err;
+>  	u32 reg;
+>  
+>  	sps = run->h265.sps;
+> @@ -534,7 +541,9 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  	/* Include the one bit. */
+>  	count++;
+>  
+> -	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
+> +	err = cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
+> +	if (err)
+> +		return err;
+>  
+>  	/* Bitstream parameters. */
+>  
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> index a6470a89851e..e9ceca332062 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -168,11 +168,16 @@ void cedrus_watchdog(struct work_struct *work)
+>  					 VB2_BUF_STATE_ERROR);
+>  }
+>  
+> +void cedrus_hw_reset(struct cedrus_dev *dev)
+> +{
+> +	reset_control_reset(dev->rstc);
+> +}
+> +
+>  int cedrus_hw_suspend(struct device *device)
+>  {
+>  	struct cedrus_dev *dev = dev_get_drvdata(device);
+>  
+> -	reset_control_assert(dev->rstc);
+> +	cedrus_hw_reset(dev);
+>  
+>  	clk_disable_unprepare(dev->ram_clk);
+>  	clk_disable_unprepare(dev->mod_clk);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> index 7c92f00e36da..919c4475f0d7 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> @@ -30,4 +30,6 @@ void cedrus_hw_remove(struct cedrus_dev *dev);
+>  
+>  void cedrus_watchdog(struct work_struct *work);
+>  
+> +void cedrus_hw_reset(struct cedrus_dev *dev);
+> +
+>  #endif
