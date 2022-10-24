@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8687E6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26AB7EA
 	for <linux-staging@lists.linux.dev>; Mon, 24 Oct 2022 08:14:29 +0000 (UTC)
 Received: from ipservice-092-217-079-032.092.217.pools.vodafone-ip.de ([92.217.79.32] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1omsbI-0000nk-Vq; Mon, 24 Oct 2022 10:14:25 +0200
+	id 1omsbK-0000nk-HT; Mon, 24 Oct 2022 10:14:26 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,10 +17,12 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 00/17] staging: r8188eu: clean up mlme handlers
-Date: Mon, 24 Oct 2022 10:14:00 +0200
-Message-Id: <20221024081417.66441-1-martin@kaiser.cx>
+Subject: [PATCH 01/17] staging: r8188eu: restructure mlme subfunction handling
+Date: Mon, 24 Oct 2022 10:14:01 +0200
+Message-Id: <20221024081417.66441-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221024081417.66441-1-martin@kaiser.cx>
+References: <20221024081417.66441-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,39 +31,158 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series cleans up the mlme handlers that process incoming management
-frames.
+Move some code around in rtw_mlme_ext.c to make it simpler.
 
-We can reorder the handler functions and remove forward declarations. We
-can also remove unused return values and simplify the error handling.
+mlme_sta_tbl is used only by mgt_dispatcher. Move the table inside the
+function. Move mgt_dispatcher behind the handler functions. We can then
+make the handler functions static.
 
-This series should be applied after the "some more small cleanups" series.
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 116 ++++++++++----------
+ 1 file changed, 57 insertions(+), 59 deletions(-)
 
-As usual, this series was tested with EdimaxV2 on an arm32 system.
-
-Martin Kaiser (17):
-  staging: r8188eu: restructure mlme subfunction handling
-  staging: r8188eu: make OnAssocReq static
-  staging: r8188eu: make OnAssocRsp static
-  staging: r8188eu: make OnProbeReq static
-  staging: r8188eu: make OnProbeRsp static
-  staging: r8188eu: make OnBeacon static
-  staging: r8188eu: make OnDisassoc static
-  staging: r8188eu: make OnAuthClient static
-  staging: r8188eu: make OnDeAuth static
-  staging: r8188eu: make OnAction static
-  staging: r8188eu: make OnAuth static
-  staging: r8188eu: change mlme handlers to void
-  staging: r8188eu: remove unnecessary label
-  staging: r8188eu: remove unnecessary else branch
-  staging: r8188eu: remove unnecessary return
-  staging: r8188eu: remove an else branch
-  staging: r8188eu: go2asoc is not needed
-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 226 ++++++++----------
- .../staging/r8188eu/include/rtw_mlme_ext.h    |  23 +-
- 2 files changed, 100 insertions(+), 149 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index d44e455f09ca..15b7148fa898 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -12,24 +12,6 @@
+ #include "../include/rtl8188e_xmit.h"
+ #include "../include/rtl8188e_dm.h"
+ 
+-/* response function for each management frame subtype, do not reorder */
+-static mlme_handler mlme_sta_tbl[] = {
+-	OnAssocReq,
+-	OnAssocRsp,
+-	OnAssocReq,
+-	OnAssocRsp,
+-	OnProbeReq,
+-	OnProbeRsp,
+-	NULL,
+-	NULL,
+-	OnBeacon,
+-	NULL,
+-	OnDisassoc,
+-	OnAuthClient,
+-	OnDeAuth,
+-	OnAction,
+-};
+-
+ static u8 null_addr[ETH_ALEN] = {0, 0, 0, 0, 0, 0};
+ 
+ /**************************************************
+@@ -393,47 +375,6 @@ void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
+ 	}
+ }
+ 
+-void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+-{
+-	int index;
+-	mlme_handler fct;
+-	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)precv_frame->rx_data;
+-	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, hdr->addr2);
+-
+-	if (!ieee80211_is_mgmt(hdr->frame_control))
+-		return;
+-
+-	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
+-	if (memcmp(hdr->addr1, myid(&padapter->eeprompriv), ETH_ALEN) &&
+-	    !is_broadcast_ether_addr(hdr->addr1))
+-		return;
+-
+-	index = (le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_STYPE) >> 4;
+-	if (index >= ARRAY_SIZE(mlme_sta_tbl))
+-		return;
+-	fct = mlme_sta_tbl[index];
+-
+-	if (psta) {
+-		if (ieee80211_has_retry(hdr->frame_control)) {
+-			if (precv_frame->attrib.seq_num == psta->RxMgmtFrameSeqNum)
+-				/* drop the duplicate management frame */
+-				return;
+-		}
+-		psta->RxMgmtFrameSeqNum = precv_frame->attrib.seq_num;
+-	}
+-
+-	if (ieee80211_is_auth(hdr->frame_control)) {
+-		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+-			fct = OnAuth;
+-		else
+-			fct = OnAuthClient;
+-	}
+-
+-	if (fct)
+-		fct(padapter, precv_frame);
+-}
+-
+ static u32 p2p_listen_state_process(struct adapter *padapter, unsigned char *da)
+ {
+ 	bool response = true;
+@@ -4004,6 +3945,63 @@ struct xmit_frame *alloc_mgtxmitframe(struct xmit_priv *pxmitpriv)
+ 	return pmgntframe;
+ }
+ 
++void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
++{
++	mlme_handler mlme_sta_tbl[] = {
++		OnAssocReq,
++		OnAssocRsp,
++		OnAssocReq,
++		OnAssocRsp,
++		OnProbeReq,
++		OnProbeRsp,
++		NULL,
++		NULL,
++		OnBeacon,
++		NULL,
++		OnDisassoc,
++		OnAuthClient,
++		OnDeAuth,
++		OnAction,
++	};
++	int index;
++	mlme_handler fct;
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)precv_frame->rx_data;
++	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, hdr->addr2);
++
++	if (!ieee80211_is_mgmt(hdr->frame_control))
++		return;
++
++	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
++	if (memcmp(hdr->addr1, myid(&padapter->eeprompriv), ETH_ALEN) &&
++	    !is_broadcast_ether_addr(hdr->addr1))
++		return;
++
++	index = (le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_STYPE) >> 4;
++	if (index >= ARRAY_SIZE(mlme_sta_tbl))
++		return;
++	fct = mlme_sta_tbl[index];
++
++	if (psta) {
++		if (ieee80211_has_retry(hdr->frame_control)) {
++			if (precv_frame->attrib.seq_num == psta->RxMgmtFrameSeqNum)
++				/* drop the duplicate management frame */
++				return;
++		}
++		psta->RxMgmtFrameSeqNum = precv_frame->attrib.seq_num;
++	}
++
++	if (ieee80211_is_auth(hdr->frame_control)) {
++		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
++			fct = OnAuth;
++		else
++			fct = OnAuthClient;
++	}
++
++	if (fct)
++		fct(padapter, precv_frame);
++}
++
+ /****************************************************************************
+ 
+ Following are some TX functions for WiFi MLME
 -- 
 2.30.2
 
