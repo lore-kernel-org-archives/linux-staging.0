@@ -1,43 +1,43 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621146ADD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0766C6D17
 	for <linux-staging@lists.linux.dev>; Mon, 24 Oct 2022 21:24:28 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id m16so33396221edc.4
+Received: by mail-ej1-f51.google.com with SMTP id k2so8041960ejr.2
         for <linux-staging@lists.linux.dev>; Mon, 24 Oct 2022 14:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O4TfgwncnU/HwDrEet2mPSVCmyGRLpO7aAKR17oXTOM=;
-        b=ZvCH3I055bsQxyZ2EFbe/WK0etuo4Ftc4KWHjKWllkkcQHDdtU9Wih+G9leYJphdlX
-         Eqo72/eHiCAO9cKSri1OYJOUn7RxXYE8rqflcXWY5suZSedpJykeoNPQImJy9RNN7zF5
-         jG0e+X9NHnXcyOZuXz0CMwmvzUSkQ7qWuAbk4bEIGCZk6nUsh4RJKCXjAY55hGqmPAib
-         jc36hCrwkdajUgB6zbzmUgw728cGkuBMXe91Kurk5XmL5KvB5cGJ6jBlQJvp4RQVmVRC
-         k5kucKtxMeIEd6E5Rc6hb/Y7ZV0/gatFY7c8jwDT+tg6kQalpdC6nsclVEeaxYVnOYKm
-         vJIA==
+        bh=ZnIGn/8lQxIvkBxIYAS0VX64KIDCnkMm+kr3eEDYl88=;
+        b=XIP4bEFIcdIw/T9jh4VAzKatrQJkOlQZmO7SqvJALwsEKkkJYu8vPujUgOwlI8cLot
+         F20Fp89nNXajchE43quObfLKMOnQgDQBC0Tn3nBTJ5Ex9cAN+zbOR30X9n42DcyYOyQB
+         G97s31gHJPtUnkFRmIjo06ukG++F4eHcJOxj3jPX7u4NKtVfGpxk5PBvMRvFkAeKI86t
+         8URuIMqoVKs7vr5qg4W+0yWE1aTn2nu74wsZYjAyZbVkWVJhqlsKtVZ/IDxCmQiA80HM
+         WuWcrzYlFmozzQRs8+MnWdWkfiUJesTAYwzTxfFA2U1/g0STRvhu8xe97VMEmYgt1UpN
+         ZDFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O4TfgwncnU/HwDrEet2mPSVCmyGRLpO7aAKR17oXTOM=;
-        b=OMEGgJXL5nndZupegqYVqA6rS6CexdrOMnQE+fxlV9E/HUCrWHJBjAiP9RGPLmqzoa
-         cvteFO+81qQO1w/orD33zrdotdz8WHZ162BIClSdFiRGRHIjeTx7k93GXvQ8qMSDnZ/c
-         pii6TtBDldRme+nCatcXTPTGGQPtTJOFTb5o1gNEaWqXvp5GRPdRh9PO+RAW1h5tPAti
-         NzIomvY34cRFVhBwb8K48d0u/MaU86vma3jawclcKDxZLHLyXn1nkragxAP9Ikd13HhF
-         HixN9HwuKFiXQTtH6zbzTQ+OgrCK1u6KJyXKAyUyzyS6i2Wa7N/tC5ZAr38zhWbDx7ze
-         fUOw==
-X-Gm-Message-State: ACrzQf0ReENChbQLagjSLHsjF4hLl9YErdtGTvlkvXMGN7KvS2QjDDEj
-	MfLmzep82CU5YdLQuAK4R2w=
-X-Google-Smtp-Source: AMsMyM7VgT0h8faK9qer4AruU019XwyqUcMD+U0WYjbRMdtVTBL+cM4HSyxblSfwbMnnndIhUT9SEg==
-X-Received: by 2002:a05:6402:40c7:b0:461:ecdb:1c41 with SMTP id z7-20020a05640240c700b00461ecdb1c41mr3511218edb.288.1666646666234;
-        Mon, 24 Oct 2022 14:24:26 -0700 (PDT)
+        bh=ZnIGn/8lQxIvkBxIYAS0VX64KIDCnkMm+kr3eEDYl88=;
+        b=1dMguNwzx6GoBZ6LiUra5xbDugGTpARCt5gGYjo2mj3MKhgoaAsVClEay1KMteCCkJ
+         lAYu69CpiWtKo9qf0Dc2uzz0PG3HqJtaD+/aISJtrKvWIqPfP6cFQbZP1iOTVuGjOYqB
+         gaQrvDsP2Sj3D+rUGDiVIqQxhHosdK43cqODeiu1DWCSIZUo8Xz3rgKwB3CH4Z32fRDp
+         MpW3aee9hUJGJmnKmf5acbTy4offh40dKuvOMp+S2ZX2ot/mxSfes0PN0uDO3a27fEBA
+         2q/WLtY/IWXkqweVMcB0N3aiysVeE0wq43nYID85nqjWIZYpS8ZFnd0op8L3eGjPi+xs
+         wzlQ==
+X-Gm-Message-State: ACrzQf1aaQB11zJsMNH1tnAqS8lvtEv4nOl7KB0NeRFiGe7HiPNFx2Xw
+	t7dzMuqOEhlI3Pnv/HLbLW7Ai1gYm9g=
+X-Google-Smtp-Source: AMsMyM4As13GMai/yS+FNzNmUkg75fu7jjtSd9W12kGYnpIJ+ZxCsw0m14bKSffg3fiLMS28oMuarg==
+X-Received: by 2002:a17:906:9b93:b0:78d:eb36:1ce7 with SMTP id dd19-20020a1709069b9300b0078deb361ce7mr29772911ejc.621.1666646667267;
+        Mon, 24 Oct 2022 14:24:27 -0700 (PDT)
 Received: from localhost.localdomain (ip-217-105-46-178.ip.prioritytelecom.net. [217.105.46.178])
-        by smtp.gmail.com with ESMTPSA id r1-20020a1709061ba100b007a9c3831409sm379354ejg.137.2022.10.24.14.24.25
+        by smtp.gmail.com with ESMTPSA id r1-20020a1709061ba100b007a9c3831409sm379354ejg.137.2022.10.24.14.24.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 14:24:25 -0700 (PDT)
+        Mon, 24 Oct 2022 14:24:26 -0700 (PDT)
 From: Nam Cao <namcaov@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
@@ -45,9 +45,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 Cc: namcaov@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] staging: rtl8712: check for return value of _r8712_init_xmit_priv()
-Date: Mon, 24 Oct 2022 23:24:08 +0200
-Message-Id: <9314f33cc91f69d7d5c79912fe55136faca7927f.1666645510.git.namcaov@gmail.com>
+Subject: [PATCH 4/4] staging: rtl8712: fix potential memory leak
+Date: Mon, 24 Oct 2022 23:24:09 +0200
+Message-Id: <43674a56b0734618291dccee5bbeb756d940f55b.1666645510.git.namcaov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1666645510.git.namcaov@gmail.com>
 References: <cover.1666645510.git.namcaov@gmail.com>
@@ -59,34 +59,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The return value of _r8712_init_xmit_priv() is never checked and the driver
-always continue execution as if all is well. This will cause problems
-if, for example, buffers cannot be allocated and the driver continue and
-use those buffers.
+In r8712_init_drv_sw(), whenever any function call returns error, it is
+returned immediately without properly cleaning up the other successfully
+executed functions. This can cause memory leak.
 
-Check for return value of _r8712_init_xmit_priv() and return error (if any)
-during probing.
+Instead of return immediately, free all the allocated buffers first.
 
 Signed-off-by: Nam Cao <namcaov@gmail.com>
 ---
- drivers/staging/rtl8712/os_intfs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8712/os_intfs.c | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
-index 47d7d998fa86..ade57dd89eee 100644
+index ade57dd89eee..a2f3645be0cc 100644
 --- a/drivers/staging/rtl8712/os_intfs.c
 +++ b/drivers/staging/rtl8712/os_intfs.c
-@@ -308,7 +308,9 @@ int r8712_init_drv_sw(struct _adapter *padapter)
+@@ -304,28 +304,42 @@ int r8712_init_drv_sw(struct _adapter *padapter)
+ 	padapter->cmdpriv.padapter = padapter;
+ 	ret = r8712_init_evt_priv(&padapter->evtpriv);
+ 	if (ret)
+-		return ret;
++		goto free_cmd;
  	ret = r8712_init_mlme_priv(padapter);
  	if (ret)
- 		return ret;
--	_r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
-+	ret = _r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
-+	if (ret)
-+		return ret;
+-		return ret;
++		goto free_evt;
+ 	ret = _r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
+ 	if (ret)
+-		return ret;
++		goto free_mlme;
  	ret = _r8712_init_recv_priv(&padapter->recvpriv, padapter);
- 		return ret;
+-		return ret;
++	if (ret)
++		goto free_xmit;
  	memset((unsigned char *)&padapter->securitypriv, 0,
+ 	       sizeof(struct security_priv));
+ 	timer_setup(&padapter->securitypriv.tkip_timer,
+ 		    r8712_use_tkipkey_handler, 0);
+ 	ret = _r8712_init_sta_priv(&padapter->stapriv);
+ 	if (ret)
+-		return ret;
++		goto free_recv;
+ 	padapter->stapriv.padapter = padapter;
+ 	r8712_init_bcmc_stainfo(padapter);
+ 	r8712_init_pwrctrl_priv(padapter);
+ 	mp871xinit(padapter);
+ 	init_default_value(padapter);
+ 	r8712_InitSwLeds(padapter);
++
++	return 0;
++
++free_recv:
++	_r8712_free_recv_priv(&padapter->recvpriv);
++free_xmit:
++	_free_xmit_priv(&padapter->xmitpriv);
++free_mlme:
++	r8712_free_mlme_priv(&padapter->mlmepriv);
++free_evt:
++	r8712_free_evt_priv(&padapter->evtpriv);
++free_cmd:
++	r8712_free_cmd_priv(&padapter->cmdpriv);
+ 	return ret;
+ }
+ 
 -- 
 2.25.1
 
