@@ -1,43 +1,43 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912E76AC2;
-	Mon, 24 Oct 2022 20:15:36 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id m16so33195178edc.4;
-        Mon, 24 Oct 2022 13:15:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66F96130;
+	Mon, 24 Oct 2022 20:15:37 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id n12so2271874eja.11;
+        Mon, 24 Oct 2022 13:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7jVp3CG27o9+HdXrqFxf0SW9oZkiMXAzJ2FPuuiQx3Y=;
-        b=AtN2GbQYKT6lPoTuMCBqyujg/iuyMiylMdjB+nkJ73us1MGbIG6V5NCEdtNN48a3Je
-         Z3QKpfNwo0N3X3fTZ8ijGu71yjluzrtZteqa+uIRMgxLCZ9n9+HhIPN5mE6sOdgAhuLk
-         BxNBaxlN5ghjjysmLNPNH4+29o5Kfb/t2IyqglOHA0eu0Ybkp7gmAa4qWFtwiXb6+Zf4
-         jVCCk50+1ermsEL3r1qkRWODvUsIySj0CDoiWmhm38Ov+El7TNFL9URXEShbQ3usuBYT
-         8ItrcYb8/hOaZq1bJlJfSK7QQqDiGQizSwtncL3umvhsz5WoA/khIMoP3zmzwmbHcLIg
-         bXaw==
+        bh=Y/yrkhmb9tAthV0Ih6jG4Lgj5q7DIPyJ6gH6VCA6KiY=;
+        b=RoYMwdfZ5hVLNE9a178c+4dilMAsXZLvQ6aJaNOlSOfy91iZdFwVz4IYyAMJhzDWOJ
+         Y15WC9ST9YilKFbVoOOUkgtDYqUSinbPAbd7+cJ4wkDw7p+BCAEt4L9MgPMMbAIZCd/x
+         0mAamL/Y/RMmytDZ8N3CgTuu73It9W6l1tbEpTe6GVm1JXb3sEnUUOaW5RF3+ZkNzWun
+         Yc6ch1AabQOrXdyWNqQhMYm0XRp0r7/BCbEs5J4uOTjNCGhMQSwDFuilO8kEpJPMEeDO
+         lDE+/AAUygxZ6b7rZrHEi72oDPkh1OhIbiAaDWEzxpfzc0jBYb2O9GUHlrHQrDpvj7OM
+         YvMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7jVp3CG27o9+HdXrqFxf0SW9oZkiMXAzJ2FPuuiQx3Y=;
-        b=w3X4gnc5rx7yyHgXAqy4XFSR65fQRakhcTRj3JHgoCdix+YgiQm00Ge6Xv40gpfn3Y
-         6sMpt/sfRpkqydFOck8EiI10MCfR4reLqVCuEArfKbqizyRHsSEB3chPg4bDgV81j5yy
-         Dtrmaq+WKFUso/nm541e4cc39VJTVjkE+mDUWAzF2S4N/6jwcpQiUtMjmsAgMt/H7BR6
-         MAlm31wzCj3Q4qufJJ/ZrU+muVNaOsOK1X2CYjstswRS3Kl+NRFjXmxUq1tG6wY6MJGy
-         TpxurtshIDhrpxx82MuY3ndD1Pnk0ivDzIuPzQtOyWxVAchFeu4znbgQonZ6qpmQ7XI1
-         GPIQ==
-X-Gm-Message-State: ACrzQf0C24yu6+7Q/FePps3FlUEiqhXgV3sVQRg2P0ZNgmD+mabcYBgt
-	fPTzDnrZg8vbONAnswoMQ1E=
-X-Google-Smtp-Source: AMsMyM5TZlmeIOe3i3DfrLsflw3y8/P19jMGoXJVrhuDfy549fh1803BHPep9M2rsrPSNmpLQGVrXQ==
-X-Received: by 2002:a05:6402:b99:b0:461:afc3:9a02 with SMTP id cf25-20020a0564020b9900b00461afc39a02mr8405459edb.175.1666642534924;
-        Mon, 24 Oct 2022 13:15:34 -0700 (PDT)
+        bh=Y/yrkhmb9tAthV0Ih6jG4Lgj5q7DIPyJ6gH6VCA6KiY=;
+        b=TJkf10BIuyrVDxusQmd5/+3pWx+U7GaDn6JKhY5rINZYaSHGO8bOB+WRAmFZdSsm8i
+         fyhI5PnJsl1GJSajQpkz+2emyl0mBiiPSNpq4j1N8TBLpr1iPzQC03pEkWj+ejudCNO6
+         upjR69D8eIkAKCQLhqA00qCQVSr8nWbHzICK3MKx9QDtr8JaSXNU9sJ2gz/U8ieTf0C0
+         Q0tuuKrtL7Z5gKHxiAPdT4N7ThYWauNO/7RDIDWKiIgtQ6TQJqFV/yCE2+fnwhR5vYgS
+         +ZitioYkcYdpsKeAIrKmTFUM8z89eaHzYNv7yeA0Iwk4G8X3T5rUo3sFieQGuAOm0u+P
+         99vg==
+X-Gm-Message-State: ACrzQf2q1LADyUo3iphDJXCfME6PudyPyvsh2jDldKMQzOYlTEXSYRKG
+	vRLOugHQKuKiLvXh22gc5ks=
+X-Google-Smtp-Source: AMsMyM7mkAib8Vjas6bq+HemGI/3sQzpoihvo98VYIEWD0NKeQ5VogzERdadSOlwtPwXeAIrpso73w==
+X-Received: by 2002:a17:907:6d23:b0:78d:8f0f:1266 with SMTP id sa35-20020a1709076d2300b0078d8f0f1266mr29663460ejc.762.1666642535989;
+        Mon, 24 Oct 2022 13:15:35 -0700 (PDT)
 Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id op7-20020a170906bce700b0073d638a7a89sm332023ejb.99.2022.10.24.13.15.33
+        by smtp.gmail.com with ESMTPSA id op7-20020a170906bce700b0073d638a7a89sm332023ejb.99.2022.10.24.13.15.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 13:15:34 -0700 (PDT)
+        Mon, 24 Oct 2022 13:15:35 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com
@@ -52,9 +52,9 @@ Cc: mchehab@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 05/11] media: cedrus: Filter controls based on capability
-Date: Mon, 24 Oct 2022 22:15:09 +0200
-Message-Id: <20221024201515.34129-6-jernej.skrabec@gmail.com>
+Subject: [PATCH 06/11] media: cedrus: set codec ops immediately
+Date: Mon, 24 Oct 2022 22:15:10 +0200
+Message-Id: <20221024201515.34129-7-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221024201515.34129-1-jernej.skrabec@gmail.com>
 References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
@@ -66,211 +66,173 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Because not all Cedrus variants supports all codecs, controls should be
-registered only if codec related to individual control is supported by
-Cedrus.
-
-Replace codec enum, which is not used at all, with capabilities flags
-and register control only if capabilities are met.
+We'll need codec ops soon after output format is set in following
+commits. Let's move current codec setup to set output format callback.
+While at it, let's remove one level of indirection by changing
+current_codec to point to codec ops structure directly.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.c | 45 +++++++++++----------
- drivers/staging/media/sunxi/cedrus/cedrus.h |  2 +-
- 2 files changed, 25 insertions(+), 22 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  5 ---
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +-
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |  6 +--
+ .../staging/media/sunxi/cedrus/cedrus_video.c | 44 ++++++++-----------
+ 5 files changed, 25 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 2f284a58d787..023566b02dc5 100644
+index 023566b02dc5..8cfe47574c39 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -77,56 +77,56 @@ static const struct cedrus_control cedrus_controls[] = {
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_MPEG2_SEQUENCE,
- 		},
--		.codec		= CEDRUS_CODEC_MPEG2,
-+		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_MPEG2_PICTURE,
- 		},
--		.codec		= CEDRUS_CODEC_MPEG2,
-+		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_MPEG2_QUANTISATION,
- 		},
--		.codec		= CEDRUS_CODEC_MPEG2,
-+		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_H264_DECODE_PARAMS,
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_H264_SLICE_PARAMS,
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_H264_SPS,
- 			.ops	= &cedrus_ctrl_ops,
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_H264_PPS,
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_H264_SCALING_MATRIX,
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_H264_PRED_WEIGHTS,
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	{
- 		.cfg = {
-@@ -134,7 +134,7 @@ static const struct cedrus_control cedrus_controls[] = {
- 			.max	= V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
- 			.def	= V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	{
- 		.cfg = {
-@@ -142,7 +142,7 @@ static const struct cedrus_control cedrus_controls[] = {
- 			.max	= V4L2_STATELESS_H264_START_CODE_NONE,
- 			.def	= V4L2_STATELESS_H264_START_CODE_NONE,
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	/*
- 	 * We only expose supported profiles information,
-@@ -160,20 +160,20 @@ static const struct cedrus_control cedrus_controls[] = {
- 			.menu_skip_mask =
- 				BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
- 		},
--		.codec		= CEDRUS_CODEC_H264,
-+		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_HEVC_SPS,
- 			.ops	= &cedrus_ctrl_ops,
- 		},
--		.codec		= CEDRUS_CODEC_H265,
-+		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_HEVC_PPS,
- 		},
--		.codec		= CEDRUS_CODEC_H265,
-+		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
- 	},
- 	{
- 		.cfg = {
-@@ -181,13 +181,13 @@ static const struct cedrus_control cedrus_controls[] = {
- 			/* The driver can only handle 1 entry per slice for now */
- 			.dims   = { 1 },
- 		},
--		.codec		= CEDRUS_CODEC_H265,
-+		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
- 		},
--		.codec		= CEDRUS_CODEC_H265,
-+		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
- 	},
- 	{
- 		.cfg = {
-@@ -197,7 +197,7 @@ static const struct cedrus_control cedrus_controls[] = {
- 			.max = 0xffffffff,
- 			.step = 1,
- 		},
--		.codec		= CEDRUS_CODEC_H265,
-+		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
- 	},
- 	{
- 		.cfg = {
-@@ -205,7 +205,7 @@ static const struct cedrus_control cedrus_controls[] = {
- 			.max	= V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
- 			.def	= V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
- 		},
--		.codec		= CEDRUS_CODEC_H265,
-+		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
- 	},
- 	{
- 		.cfg = {
-@@ -213,19 +213,19 @@ static const struct cedrus_control cedrus_controls[] = {
- 			.max	= V4L2_STATELESS_HEVC_START_CODE_NONE,
- 			.def	= V4L2_STATELESS_HEVC_START_CODE_NONE,
- 		},
--		.codec		= CEDRUS_CODEC_H265,
-+		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_VP8_FRAME,
- 		},
--		.codec		= CEDRUS_CODEC_VP8,
-+		.capabilities	= CEDRUS_CAPABILITY_VP8_DEC,
- 	},
- 	{
- 		.cfg = {
- 			.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
- 		},
--		.codec		= CEDRUS_CODEC_H265,
-+		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
- 	},
- };
+@@ -455,11 +455,6 @@ static int cedrus_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
  
-@@ -275,6 +275,9 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev, struct cedrus_ctx *ctx)
- 		return -ENOMEM;
+-	dev->dec_ops[CEDRUS_CODEC_MPEG2] = &cedrus_dec_ops_mpeg2;
+-	dev->dec_ops[CEDRUS_CODEC_H264] = &cedrus_dec_ops_h264;
+-	dev->dec_ops[CEDRUS_CODEC_H265] = &cedrus_dec_ops_h265;
+-	dev->dec_ops[CEDRUS_CODEC_VP8] = &cedrus_dec_ops_vp8;
+-
+ 	mutex_init(&dev->dev_mutex);
  
- 	for (i = 0; i < CEDRUS_CONTROLS_COUNT; i++) {
-+		if (!cedrus_is_capable(ctx, cedrus_controls[i].capabilities))
-+			continue;
-+
- 		ctrl = v4l2_ctrl_new_custom(hdl, &cedrus_controls[i].cfg,
- 					    NULL);
- 		if (hdl->error) {
+ 	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index 1a98790a99af..7a1619967513 100644
+index 7a1619967513..0b082b1fae22 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -57,7 +57,7 @@ enum cedrus_h264_pic_type {
+@@ -126,7 +126,7 @@ struct cedrus_ctx {
  
- struct cedrus_control {
- 	struct v4l2_ctrl_config cfg;
--	enum cedrus_codec	codec;
-+	unsigned int		capabilities;
- };
+ 	struct v4l2_pix_format		src_fmt;
+ 	struct v4l2_pix_format		dst_fmt;
+-	enum cedrus_codec		current_codec;
++	struct cedrus_dec_ops		*current_codec;
  
- struct cedrus_h264_run {
+ 	struct v4l2_ctrl_handler	hdl;
+ 	struct v4l2_ctrl		**ctrls;
+@@ -185,7 +185,6 @@ struct cedrus_dev {
+ 	struct platform_device	*pdev;
+ 	struct device		*dev;
+ 	struct v4l2_m2m_dev	*m2m_dev;
+-	struct cedrus_dec_ops	*dec_ops[CEDRUS_CODEC_LAST];
+ 
+ 	/* Device file mutex */
+ 	struct mutex		dev_mutex;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+index e7f7602a5ab4..fbbf9e6f0f50 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+@@ -94,7 +94,7 @@ void cedrus_device_run(void *priv)
+ 
+ 	cedrus_dst_format_set(dev, &ctx->dst_fmt);
+ 
+-	error = dev->dec_ops[ctx->current_codec]->setup(ctx, &run);
++	error = ctx->current_codec->setup(ctx, &run);
+ 	if (error)
+ 		v4l2_err(&ctx->dev->v4l2_dev,
+ 			 "Failed to setup decoding job: %d\n", error);
+@@ -110,7 +110,7 @@ void cedrus_device_run(void *priv)
+ 		schedule_delayed_work(&dev->watchdog_work,
+ 				      msecs_to_jiffies(2000));
+ 
+-		dev->dec_ops[ctx->current_codec]->trigger(ctx);
++		ctx->current_codec->trigger(ctx);
+ 	} else {
+ 		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
+ 						 ctx->fh.m2m_ctx,
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+index a6470a89851e..c3387cd1e80f 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+@@ -132,12 +132,12 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+ 		return IRQ_NONE;
+ 	}
+ 
+-	status = dev->dec_ops[ctx->current_codec]->irq_status(ctx);
++	status = ctx->current_codec->irq_status(ctx);
+ 	if (status == CEDRUS_IRQ_NONE)
+ 		return IRQ_NONE;
+ 
+-	dev->dec_ops[ctx->current_codec]->irq_disable(ctx);
+-	dev->dec_ops[ctx->current_codec]->irq_clear(ctx);
++	ctx->current_codec->irq_disable(ctx);
++	ctx->current_codec->irq_clear(ctx);
+ 
+ 	if (status == CEDRUS_IRQ_ERROR)
+ 		state = VB2_BUF_STATE_ERROR;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index 04b7b87ef0b7..3591bf9d7d9c 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -335,6 +335,21 @@ static int cedrus_s_fmt_vid_out_p(struct cedrus_ctx *ctx,
+ 		break;
+ 	}
+ 
++	switch (ctx->src_fmt.pixelformat) {
++	case V4L2_PIX_FMT_MPEG2_SLICE:
++		ctx->current_codec = &cedrus_dec_ops_mpeg2;
++		break;
++	case V4L2_PIX_FMT_H264_SLICE:
++		ctx->current_codec = &cedrus_dec_ops_h264;
++		break;
++	case V4L2_PIX_FMT_HEVC_SLICE:
++		ctx->current_codec = &cedrus_dec_ops_h265;
++		break;
++	case V4L2_PIX_FMT_VP8_FRAME:
++		ctx->current_codec = &cedrus_dec_ops_vp8;
++		break;
++	}
++
+ 	/* Propagate format information to capture. */
+ 	ctx->dst_fmt.colorspace = pix_fmt->colorspace;
+ 	ctx->dst_fmt.xfer_func = pix_fmt->xfer_func;
+@@ -493,34 +508,13 @@ static int cedrus_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	struct cedrus_dev *dev = ctx->dev;
+ 	int ret = 0;
+ 
+-	switch (ctx->src_fmt.pixelformat) {
+-	case V4L2_PIX_FMT_MPEG2_SLICE:
+-		ctx->current_codec = CEDRUS_CODEC_MPEG2;
+-		break;
+-
+-	case V4L2_PIX_FMT_H264_SLICE:
+-		ctx->current_codec = CEDRUS_CODEC_H264;
+-		break;
+-
+-	case V4L2_PIX_FMT_HEVC_SLICE:
+-		ctx->current_codec = CEDRUS_CODEC_H265;
+-		break;
+-
+-	case V4L2_PIX_FMT_VP8_FRAME:
+-		ctx->current_codec = CEDRUS_CODEC_VP8;
+-		break;
+-
+-	default:
+-		return -EINVAL;
+-	}
+-
+ 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
+ 		ret = pm_runtime_resume_and_get(dev->dev);
+ 		if (ret < 0)
+ 			goto err_cleanup;
+ 
+-		if (dev->dec_ops[ctx->current_codec]->start) {
+-			ret = dev->dec_ops[ctx->current_codec]->start(ctx);
++		if (ctx->current_codec->start) {
++			ret = ctx->current_codec->start(ctx);
+ 			if (ret)
+ 				goto err_pm;
+ 		}
+@@ -542,8 +536,8 @@ static void cedrus_stop_streaming(struct vb2_queue *vq)
+ 	struct cedrus_dev *dev = ctx->dev;
+ 
+ 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
+-		if (dev->dec_ops[ctx->current_codec]->stop)
+-			dev->dec_ops[ctx->current_codec]->stop(ctx);
++		if (ctx->current_codec->stop)
++			ctx->current_codec->stop(ctx);
+ 
+ 		pm_runtime_put(dev->dev);
+ 	}
 -- 
 2.38.1
 
