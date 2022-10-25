@@ -1,106 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A162748E
-	for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 17:43:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C656C433D7
-	for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 17:43:46 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="bCMiDkUU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-	t=1666719822;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+vJqwIUPfAcqJps/uK/0x+HfmEw2EsJ0Z503zsGHjAE=;
-	b=bCMiDkUUCC9d0WnRGLv1xiyGLAPwaxUYFEiqt0HcJk/a3H+WAYOroflUSHjPKuiMdNJUSv
-	GQ4lsCGq31J4mvc3stEmjpUdFocQNRafbJZ+GiM1YWb4kxNCvfEnwu9TeeMofiW9kbL2W3
-	vA17yh7AvPbrRPLEoA07WQXHSNWgy3E=
-Received: 
-	by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 60556228 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
-	for <linux-staging@lists.linux.dev>;
-	Tue, 25 Oct 2022 17:43:42 +0000 (UTC)
-Received: by mail-vk1-f180.google.com with SMTP id v81so6557832vkv.5
-        for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 10:43:42 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3HbHGp8bmQGWPAvtsfr5iwvvDMDr93CIlR7Da706QkS7qxcgEH
-	txERaoJiF8AYk7OOr2efH7nGjDbCezJnj0O7tds=
-X-Google-Smtp-Source: AMsMyM5qRoXEj10ln68EWm1iDs0305P0ItRfe9qXZRx216ECvrCrHFVc0+8to77AuLgBULeSrnvQP+ivi0pdqsViRZ4=
-X-Received: by 2002:a05:6122:317:b0:3b7:6590:daa1 with SMTP id
- c23-20020a056122031700b003b76590daa1mr5369383vko.37.1666719821023; Tue, 25
- Oct 2022 10:43:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980CF748E
+	for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 18:03:10 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id q9so14867674ejd.0
+        for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 11:03:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=88oNzPUt/hklNuT3+gVgNnDseM0gTXsCehPcE6SyWPQ=;
+        b=GFYJZG6otnGca9bScD7Poayx7YyMh2FQbAJYYZO3QTDhm0J/ucT8+44fWMqe5epE+B
+         mktFu4Mbxv/S2SNToMGRkwQxhMKIzRbV2HO4ew52bvRjHsQug1NjA2+9lHZLwQYVXpj9
+         TA1HCWRyJT1FctP5TNLJdqtez7ud9GmQGDZxpsm8DYertGakPGB3a2v0BpCvdVKZyG8i
+         DeW3eE+l2KUCw6PEKqU7bxH+tXdoK1bP+2ImGVveCvseM680HkxvW1uTC02f4C3oWfBT
+         eXopxfnGFa3zfi+AmyRBGlo9Uqa5E1DV2zZEL7yiaPW64t6TJxAxgCxe2gTNGoixjuep
+         mmZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=88oNzPUt/hklNuT3+gVgNnDseM0gTXsCehPcE6SyWPQ=;
+        b=eMPoOoE4UizqThrmIYNEM8zy6kYN53cmoJXrPDCjs+LH3lPBTWE7s+2GET+xQFWGci
+         WvP4B9kM6azV0anPEMqkyfMFA6jUQWawu61dauNrocS1lTrvbcBno3066QHWOU9MwLQa
+         RX5vifh+4Z/sHgIXre9gBz0MOtX6PiKJoOk4zdm+sTkMnVTIG0iEyi5Xs5/nAlALh0Zb
+         aImTgtrLNTGVuY7vDe83hK1XzjZKaD5zQHdGDQWpuWvlFwYtYtDaxgU5hRTFq5FMXwvR
+         EzuXWPaOG7CfWZEEN7g+FH/qikgwp7AaNu7UZF3IH3In/XxFQANdK37KUw0ef/o5wqso
+         Q++Q==
+X-Gm-Message-State: ACrzQf3YPiPKohqhVI4uTouofbL1fu1Ekriqrhi+dYLasQlyDS8lk4kv
+	/PYMSDdcOV90Th/ghPloj0U=
+X-Google-Smtp-Source: AMsMyM7jxemvRjEyCefHxnSbqR9TVfe194cy8GGDQOoh2WAI27lcc+ychBfZC384Krp8HbdE96KbFA==
+X-Received: by 2002:a17:907:2cce:b0:77a:6958:5aaa with SMTP id hg14-20020a1709072cce00b0077a69585aaamr32168489ejc.245.1666720988827;
+        Tue, 25 Oct 2022 11:03:08 -0700 (PDT)
+Received: from [192.168.1.100] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
+        by smtp.gmail.com with ESMTPSA id j5-20020a170906830500b0072f112a6ad2sm1746651ejx.97.2022.10.25.11.03.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 11:03:08 -0700 (PDT)
+Message-ID: <262e9819-88c4-abc9-dcce-ee020b847c6a@gmail.com>
+Date: Tue, 25 Oct 2022 20:03:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Y1e+SmS3O2ZaPVoe@kroah.com> <20221025122150.583617-1-Jason@zx2c4.com>
- <f0b755d2-6d73-5b04-e013-59f622e143da@gmail.com>
-In-Reply-To: <f0b755d2-6d73-5b04-e013-59f622e143da@gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 25 Oct 2022 19:43:29 +0200
-X-Gmail-Original-Message-ID: <CAHmME9oOtdQkC_UVwiEJOcY7chz5RMuys20B+fZ9gOEz7z5zhg@mail.gmail.com>
-Message-ID: <CAHmME9oOtdQkC_UVwiEJOcY7chz5RMuys20B+fZ9gOEz7z5zhg@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8192e: remove bogus ssid character sign test
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	dan.carpenter@oracle.com, gregkh@linuxfoundation.org, kvalo@kernel.org, 
-	linux-wireless@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] staging: rtl8192e: rtllib_crypt_wep: multiple blank lines
+ removal
+Content-Language: en-US
+To: Aaron Lawrence <t4rmin@zohomail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221025104402.xvbfobi7sdnwlqs2@plymouth>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20221025104402.xvbfobi7sdnwlqs2@plymouth>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 25, 2022 at 7:35 PM Philipp Hortmann
-<philipp.g.hortmann@gmail.com> wrote:
->
-> On 10/25/22 14:21, Jason A. Donenfeld wrote:
-> > This error triggers on some architectures with unsigned `char` types:
-> >
-> > drivers/staging/rtl8192e/rtllib_softmac_wx.c:459 rtllib_wx_set_essid() warn: impossible condition '(extra[i] < 0) => (0-255 < 0)'
-> >
-> > But actually, the entire test is bogus, as ssids don't have any sign
-> > validity rules like that. So just remove this check look all together.
-> >
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: linux-staging@lists.linux.dev
-> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > ---
-> > Changes v1->v2:
-> > - Remove ssid sign test entirely rather than casting to `s8 *`.
-> >
-> >   drivers/staging/rtl8192e/rtllib_softmac_wx.c | 9 +--------
-> >   1 file changed, 1 insertion(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > index f9589c5b62ba..1e5ad3b476ef 100644
-> > --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > @@ -439,7 +439,7 @@ int rtllib_wx_set_essid(struct rtllib_device *ieee,
-> >                       union iwreq_data *wrqu, char *extra)
-> >   {
-> >
-> > -     int ret = 0, len, i;
-> > +     int ret = 0, len;
-> >       short proto_started;
-> >       unsigned long flags;
-> >
-> > @@ -455,13 +455,6 @@ int rtllib_wx_set_essid(struct rtllib_device *ieee,
-> >               goto out;
-> >       }
-> >
-> > -     for (i = 0; i < len; i++) {
-> > -             if (extra[i] < 0) {
-> > -                     ret = -1;
-> > -                     goto out;
-> > -             }
-> > -     }
-> > -
-> >       if (proto_started)
-> >               rtllib_stop_protocol(ieee, true);
->
-> This patch cannot be applied on:
-> [PATCH] staging: rtl8192e: use explicitly signed char
+On 10/25/22 12:44, Aaron Lawrence wrote:
+> Removal of multiple unnecessary blank lines in accordance with the
+> Linux kernel coding-style regulations. Said issues ware detected on
+> this file by the checkpatch script.
+> 
+> Signed-off-by: Aaron Lawrence <t4rmin@zohomail.com>
+> ---
+>   drivers/staging/rtl8192e/rtllib_crypt_wep.c | 8 --------
+>   1 file changed, 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_crypt_wep.c b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+> index 7790271a6a40..062285e4d939 100644
+> --- a/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+> +++ b/drivers/staging/rtl8192e/rtllib_crypt_wep.c
+> @@ -27,7 +27,6 @@ struct prism2_wep_data {
+>   	struct arc4_ctx tx_ctx_arc4;
+>   };
+>   
+> -
+>   static void *prism2_wep_init(int keyidx)
+>   {
+>   	struct prism2_wep_data *priv;
+> @@ -46,7 +45,6 @@ static void *prism2_wep_init(int keyidx)
+>   	return priv;
+>   }
+>   
+> -
+>   static void prism2_wep_deinit(void *priv)
+>   {
+>   	kfree_sensitive(priv);
+> @@ -120,7 +118,6 @@ static int prism2_wep_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+>   	return 0;
+>   }
+>   
+> -
+>   /* Perform WEP decryption on given struct buffer. Buffer includes whole WEP
+>    * part of the frame: IV (4 bytes), encrypted payload (including SNAP header),
+>    * ICV (4 bytes). len includes both IV and ICV.
+> @@ -180,7 +177,6 @@ static int prism2_wep_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
+>   	return 0;
+>   }
+>   
+> -
+>   static int prism2_wep_set_key(void *key, int len, u8 *seq, void *priv)
+>   {
+>   	struct prism2_wep_data *wep = priv;
+> @@ -194,7 +190,6 @@ static int prism2_wep_set_key(void *key, int len, u8 *seq, void *priv)
+>   	return 0;
+>   }
+>   
+> -
+>   static int prism2_wep_get_key(void *key, int len, u8 *seq, void *priv)
+>   {
+>   	struct prism2_wep_data *wep = priv;
+> @@ -207,7 +202,6 @@ static int prism2_wep_get_key(void *key, int len, u8 *seq, void *priv)
+>   	return wep->key_len;
+>   }
+>   
+> -
+>   static void prism2_wep_print_stats(struct seq_file *m, void *priv)
+>   {
+>   	struct prism2_wep_data *wep = priv;
+> @@ -231,13 +225,11 @@ static struct lib80211_crypto_ops rtllib_crypt_wep = {
+>   	.owner			= THIS_MODULE,
+>   };
+>   
+> -
+>   static int __init rtllib_crypto_wep_init(void)
+>   {
+>   	return lib80211_register_crypto_ops(&rtllib_crypt_wep);
+>   }
+>   
+> -
+>   static void __exit rtllib_crypto_wep_exit(void)
+>   {
+>   	lib80211_unregister_crypto_ops(&rtllib_crypt_wep);
 
-They're mutually exclusive, which is why this one here was marked as a
-v2 and sent in reply to that one. Greg picked up the v2 and all is
-well.
-
-Jason
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
