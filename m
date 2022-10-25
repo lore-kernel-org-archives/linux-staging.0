@@ -1,125 +1,81 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442957487
-	for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 17:06:42 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id w189so10988134pfw.4
-        for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 10:06:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A357479
+	for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 17:21:54 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id 13so14428352ejn.3
+        for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 10:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1C3nf306oEfMsyZ7A/6P43aOoOgNlqhI8zKR7LmGgzA=;
-        b=YH5a7Qf7bHqiUjamMDYDR4fYo3/lUlFVkLQzAby/DSDXbs61FsJcGUTuYr0CsEeAQl
-         nribGEDcxzKJjIrLikwWrkn3XFPKHeTq9WhZMLwGKUl3gTpvEZcvSD6YeX12pKiPOsBN
-         Te1Nt9UwnpYWqqPngotKBzn4EJ7KngORvCr6iOGvXuZJ4cJ+7PD2HbdUvCyxn8/uM0V4
-         ml9fHAYBG/rsQy3GeMz90vj1FV/Xg6YqLtSdJRqedYKsA1YqqtV6oY270UKORZfjGkiy
-         FPpfMtiVTjI/JlF8NfhzI/S0QrHNETwDjh9ybJYOTcz7lWBT1gJlI3DW+LrIZ2rJOy6c
-         Fwcw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=y+8ezpSXG9f5s0TQm+JcAdCBCJW2Ee26V8uyhpVTtwk=;
+        b=WJcktbbZr9sGw+XRgDKxWJU8g1XW8zy/DDcMTA1AURk9KipBXAu+IvVIXrfS6NNvJ7
+         Jruv5qGKJABuMJyfzeExDyueBvcmsCijs4PevnepbhKTkRJLX2NpM81z78/2YixufEeg
+         MB0TtXG+Ot77hZwQ8edj6AscvFCK8wiJDgybaCLFXbfwdpFjof3B9shGsYoBY6GAjHD3
+         f0Qjxy4uyVhF49Hee40BHCqgbSpif6ltps34hFCKm1c1yo23U2ZZ3Gc6+4Ygo1iY1uuC
+         vDVakKwQWLkLAFa3xqiT6i1SyKT+FLadcHWNbonMb3TjcI+Q65ylzIHWoQ8gBgxfCiSV
+         ETpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1C3nf306oEfMsyZ7A/6P43aOoOgNlqhI8zKR7LmGgzA=;
-        b=bU4/3cENbWXnc4u9hWzN9a7FNxtCQHZBw0Zhy+Kqv6BQxIummD8BZaVTvbOvGuc8s6
-         OepCrPQBLmkV+AABl4vyfRWOJLmYkTziwHEAD0blyiw0aDDn0LC2Kwnl/+VjeJ6vyPXZ
-         xyaoG5RMM3Cg9HD9dxofr8nVwIuQRYnajMNBNSQWwOAzHsGUX8K9sMSGhxHqftFJuYhP
-         m/diYluxj/uFDxJ+vXhvAcg2YjAfyeqqS+i7s/+6zDdaFqQKdyilubjMqNM1t7t9tdp/
-         kfZ1mBTE+n/iL5sdy1JzNT3gB0xmGhhbI2BK3fxBWkv/gqddSXCsjcqRrnH+6nUBkWbf
-         iv6Q==
-X-Gm-Message-State: ACrzQf0vr+R//zoOz/yv/5onaHvI8Hy9vKYbbo0sTnwbWDF0b9LaI9eX
-	QzmprUWQbiPa6x16Sa3klbA=
-X-Google-Smtp-Source: AMsMyM7aQOD7s+fLCpENRTkVTAulDiw35iTwSviEl9Z5P1iLESwlJg0vQLxrFvdNJk2Oxz5SyEDd0A==
-X-Received: by 2002:aa7:8299:0:b0:562:4c48:a0cb with SMTP id s25-20020aa78299000000b005624c48a0cbmr40291105pfm.66.1666717601709;
-        Tue, 25 Oct 2022 10:06:41 -0700 (PDT)
-Received: from uftrace.. ([14.5.161.231])
-        by smtp.gmail.com with ESMTPSA id a1-20020aa794a1000000b0056bcf0dd175sm1592373pfl.215.2022.10.25.10.06.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 10:06:41 -0700 (PDT)
-From: Kang Minchul <tegongkang@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Pavel Skripkin <paskripkin@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kang Minchul <tegongkang@gmail.com>
-Subject: [PATCH v3 4/4] staging: r8188eu: make rtw_sta_flush to void
-Date: Wed, 26 Oct 2022 02:06:21 +0900
-Message-Id: <20221025170621.271903-5-tegongkang@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221025170621.271903-1-tegongkang@gmail.com>
-References: <20221025170621.271903-1-tegongkang@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y+8ezpSXG9f5s0TQm+JcAdCBCJW2Ee26V8uyhpVTtwk=;
+        b=pF6pewresWP4Rd2mUaMc/q3p89OgT81QxEwVgd7VizreG7uP2rsxzr2fRHKALf9Mz+
+         cirQD1GjeWvMjzqlx2Sub8PZ7Trs4yzAz9zygPkD9hqlDSlJP3qLtzmjLPf1w+sZy3sp
+         6P3mdiogixag5PeyLJNNl+dQr/1VWiT+PTRgyzAo93WLoSfxp5La7XaQxzMueDj2yWjd
+         3EpOWPlcAXdWyIbUN1D+37wkBBw5X868PrKr9VGv+7OrNS8W+zmmRh98LS7sTBTAQ7Pc
+         DRK261MTJJ3LiOc6VqWPyaCz5udhA+GqZhnUre+2NUb9AvTvTAWUD+BUKVEuqz7QlJMb
+         ThGQ==
+X-Gm-Message-State: ACrzQf3Ys5Bf7zbhdbWXLKQZpsCWVKYRRP6gpv3UU+t7DMVAgHR5Se/L
+	h88ClNO7GOdtnbBd8bKFFb58m6JHWIg=
+X-Google-Smtp-Source: AMsMyM6cZSHPL1F88m4gyB1rg0+1wsZ9sS3nXR2vT4KH6nQ64Uhklmz+bX0tW0nFLV9o74OSSUR1dg==
+X-Received: by 2002:a17:907:7610:b0:79e:da2d:c126 with SMTP id jx16-20020a170907761000b0079eda2dc126mr18784865ejc.27.1666718512448;
+        Tue, 25 Oct 2022 10:21:52 -0700 (PDT)
+Received: from [192.168.1.100] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
+        by smtp.gmail.com with ESMTPSA id f11-20020a170906048b00b00783c545544fsm1684258eja.215.2022.10.25.10.21.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 10:21:52 -0700 (PDT)
+Message-ID: <ed5f9b82-6b7e-5f23-63ce-8f604147d7e0@gmail.com>
+Date: Tue, 25 Oct 2022 19:21:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/5] staging: rtl8192e: rtllib_tx: code cleanup patches on
+ the rtllib_tx.c file
+Content-Language: en-US
+To: Aaron Lawrence <t4rmin@zohomail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1666612946.git.t4rmin@zohomail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <cover.1666612946.git.t4rmin@zohomail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Make function rtw_sta_flush to void in order to
-prevent cocci warning as follows:
+On 10/24/22 14:25, Aaron Lawrence wrote:
+> Multiple patches regarding the cleanup of code in the rtllib_tx.c file.
+> Fixes were applied according to the report generated by the checkpatch
+> script on said file, aside from the CamelCase issues.
+> 
+> Aaron Lawrence (5):
+>    Staging: rtl8192e: rtllib_tx: fixed multiple blank lines
+>    Staging: rtl8192e: rtllib_tx: fixed alignment matching open
+>      parenthesis
+>    Staging: rtl8192e: rtllib_tx: added spaces around operators
+>    Staging: rtl8192e: rtllib_tx: fixed lines ending with an open
+>      parenthesis
+>    Staging: rtl8192e: rtllib_tx: removed unnecessary blank line before a
+>      close brace
+> 
+>   drivers/staging/rtl8192e/rtllib_tx.c | 42 ++++++++++++----------------
+>   1 file changed, 18 insertions(+), 24 deletions(-)
+> 
 
-  Unneeded variable: "ret". Return "0" on line 1031
-
-Signed-off-by: Kang Minchul <tegongkang@gmail.com>
----
-v2 -> v3: made rtw_sta_flush into void function
-
- drivers/staging/r8188eu/core/rtw_ap.c    | 7 ++-----
- drivers/staging/r8188eu/include/rtw_ap.h | 2 +-
- 2 files changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 24eb8dce9bfe..e0ca4b6e17cc 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -1017,10 +1017,9 @@ u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
- 	return beacon_updated;
- }
- 
--int rtw_sta_flush(struct adapter *padapter)
-+void rtw_sta_flush(struct adapter *padapter)
- {
- 	struct list_head *phead, *plist;
--	int ret = 0;
- 	struct sta_info *psta = NULL;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-@@ -1028,7 +1027,7 @@ int rtw_sta_flush(struct adapter *padapter)
- 	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 
- 	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
--		return ret;
-+		return;
- 
- 	spin_lock_bh(&pstapriv->asoc_list_lock);
- 	phead = &pstapriv->asoc_list;
-@@ -1050,8 +1049,6 @@ int rtw_sta_flush(struct adapter *padapter)
- 	issue_deauth(padapter, bc_addr, WLAN_REASON_DEAUTH_LEAVING);
- 
- 	associated_clients_update(padapter, true);
--
--	return ret;
- }
- 
- /* called > TSR LEVEL for USB or SDIO Interface*/
-diff --git a/drivers/staging/r8188eu/include/rtw_ap.h b/drivers/staging/r8188eu/include/rtw_ap.h
-index 8b4134eb3095..89b02c97e041 100644
---- a/drivers/staging/r8188eu/include/rtw_ap.h
-+++ b/drivers/staging/r8188eu/include/rtw_ap.h
-@@ -26,7 +26,7 @@ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta);
- void sta_info_update(struct adapter *padapter, struct sta_info *psta);
- u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
- 	       bool active, u16 reason);
--int rtw_sta_flush(struct adapter *padapter);
-+void rtw_sta_flush(struct adapter *padapter);
- void start_ap_mode(struct adapter *padapter);
- void stop_ap_mode(struct adapter *padapter);
- void update_bmc_sta(struct adapter *padapter);
--- 
-2.34.1
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
