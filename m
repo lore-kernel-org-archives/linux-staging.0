@@ -1,245 +1,126 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6FF7B;
-	Tue, 25 Oct 2022 15:15:12 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::226])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 67817C7239;
-	Tue, 25 Oct 2022 15:03:13 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id DDA81C0003;
-	Tue, 25 Oct 2022 15:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1666710184;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gHB07rwCP5LAp4+eGWzJmc9PH06Hl/WaV00j/1veN+g=;
-	b=DY+Yef9+ehdc35GpuwjadD3ZZiO/HDEOKtL8GWhLQeaWMUZuTLxrpoWUPi7OLYsIlNUWZV
-	zqcbS3AEpIo6YndoKXDD9wFNQw3xyAXMLOZ8OR+E2+sYMNz2XK8dq+3vpXJw8hlLZdLyKZ
-	gPcfjkVHZUDJUfekCzUaZK+PFwPlrJT+ufuY66kQRe0HV+c4em+Kl+p+4H3EmuMz8vUibd
-	Rn2+QReWa/HQ+vKP1TwkAjwqN6i+EQjjpkpPmNBY47B3vH5BTcUjxFl8YUewEIS+8z0T1D
-	szZdxB1jHpEn0XaUct44s7MtRwFqPCpIiUJbm1i+i73/0yyCTqJ+/6/EqhiRtg==
-Date: Tue, 25 Oct 2022 17:03:01 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/11] media: cedrus: Remove cedrus_codec enum
-Message-ID: <Y1f6pUZwoDVHFCU7@aptenodytes>
-References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
- <20221024201515.34129-8-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084167B;
+	Tue, 25 Oct 2022 15:15:40 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id a14so18851113wru.5;
+        Tue, 25 Oct 2022 08:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r6+tPR/kzu6yF7DNjbTLOGctUOsV7x2e9sXfAZuE0k4=;
+        b=K/0n8sGD13R9NapDToBhBYXraQ2lv2zWdofXSCF4F7BjIa6/wKU3fG1eRxjlEYsiXD
+         c0YVX3StPEiX4/sDk8pF3BaoYxnxE5Vg9oaC/nl/oBwgbsZ9G/MHJVhgjkli8c9Lhp4n
+         6x0BxFVlSjNYR76+vjd8I13nj/0cnPKK2k/kheJm9JmQhW0XsHpUsVv59PlUHo9WeZtt
+         1puXpbkugYO9+ew8skdfhTD830InDexc/trs5T3qjef/5mdty2ideJ22l4a3lJwPTSqy
+         HXSPlN7zpHx8QjtdKG8rXkzIhq3paMF8+XYbZQzMg3Jpv1D0phBioMJx6tAE3oMEfCRV
+         BI5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r6+tPR/kzu6yF7DNjbTLOGctUOsV7x2e9sXfAZuE0k4=;
+        b=tnzENKk4FzCH4gtmNsFQkVEIBZr+OX3Y/HQta+GK1kvNYlFnOSAi6IUEPi8U0saRdI
+         eIAV2yHFGqRGIx05KpVs/VWNNDnqGUwbYngKiuDlLob6ukUvi9EhcuLBFGB4zyqSA081
+         IdmOYEgWYRAhNK0crzlVEaGKoIhGXuodEXFywLvPLFdB/3ycxv5Dqmaxhqn8HeF6Va5c
+         62OE2ymTVwHE1K2T/XfiMekTycYlfmg8YIPR5AkgqQ8tUUtDdT1AX/W3FZn9bMi8wXy/
+         +roBX0pwoiK7bSu50V6b1wAsoyrqsw2VHAw5aw/7K2kDPuL4iBhYtnMfqbO8FamUW6Px
+         cj6Q==
+X-Gm-Message-State: ACrzQf1rvzUhqp2c8frJPN0mnN5JTdmLIuQKZ4PlSriZbtMitm3WNisp
+	vakUnDv4wf7GqnYhNrHBPFl5yYjmAVRofQ==
+X-Google-Smtp-Source: AMsMyM6L8Y9mJA8bh1cRNm85m47Dxo8RyLw6mQrzRo0S0OGLSTb5Y6EY/LQsZhz+jpc7NS+0GIN/Ww==
+X-Received: by 2002:a05:6000:1862:b0:230:fc9a:813b with SMTP id d2-20020a056000186200b00230fc9a813bmr25408691wri.552.1666710928334;
+        Tue, 25 Oct 2022 08:15:28 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id j37-20020a05600c1c2500b003b4c979e6bcsm12181227wms.10.2022.10.25.08.15.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 08:15:27 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/11] media: cedrus: prefer untiled capture format
+Date: Tue, 25 Oct 2022 17:15:26 +0200
+Message-ID: <4749341.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <Y1f7LCVwRgT9FHDe@aptenodytes>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com> <20221024201515.34129-9-jernej.skrabec@gmail.com> <Y1f7LCVwRgT9FHDe@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zH+NmU6EKRT85VpY"
-Content-Disposition: inline
-In-Reply-To: <20221024201515.34129-8-jernej.skrabec@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Dne torek, 25. oktober 2022 ob 17:05:16 CEST je Paul Kocialkowski napisal(a):
+> Hi Jernej,
+> 
+> On Mon 24 Oct 22, 22:15, Jernej Skrabec wrote:
+> > While all generations of display engine on Allwinner SoCs support
+> > untiled format, only first generation supports tiled format.  Let's
+> > move untiled format up, so it can be picked before tiled one. If
+> > Cedrus variant doesn't support untiled format, tiled will still be
+> > picked as default format.
+> 
+> Makes sense to me. Of course the order shouldn't matter to smart-enough
+> userspace but it doesn't hurt to serve the most generic case first.
+
+Per Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst driver 
+should select most appropriate format for current platform by default. Setting 
+capture format is optional by aforementioned document.
+
+Best regards,
+Jernej
+
+> 
+> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> 
+> Cheers,
+> 
+> Paul
+> 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_video.c index
+> > 3591bf9d7d9c..f9f723ea3f79 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > @@ -56,13 +56,13 @@ static struct cedrus_format cedrus_formats[] = {
+> > 
+> >  		.capabilities	= CEDRUS_CAPABILITY_VP8_DEC,
+> >  	
+> >  	},
+> >  	{
+> > 
+> > -		.pixelformat	= V4L2_PIX_FMT_NV12_32L32,
+> > +		.pixelformat	= V4L2_PIX_FMT_NV12,
+> > 
+> >  		.directions	= CEDRUS_DECODE_DST,
+> > 
+> > +		.capabilities	= CEDRUS_CAPABILITY_UNTILED,
+> > 
+> >  	},
+> >  	{
+> > 
+> > -		.pixelformat	= V4L2_PIX_FMT_NV12,
+> > +		.pixelformat	= V4L2_PIX_FMT_NV12_32L32,
+> > 
+> >  		.directions	= CEDRUS_DECODE_DST,
+> > 
+> > -		.capabilities	= CEDRUS_CAPABILITY_UNTILED,
+> > 
+> >  	},
+> >  
+> >  };
 
 
---zH+NmU6EKRT85VpY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Jernej,
 
-On Mon 24 Oct 22, 22:15, Jernej Skrabec wrote:
-> Last user of cedrus_codec enum is cedrus_engine_enable() but this
-> argument is completely redundant. Same information can be obtained via
-> source pixel format. Let's remove this argument and enum.
->=20
-> No functional changes intended.
-
-Looks good to me!
-
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-See a suggestion below but out of the scope of this patch.
-
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.h       |  8 --------
->  drivers/staging/media/sunxi/cedrus/cedrus_h264.c  |  2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 12 ++++++------
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.h    |  2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c |  2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus_vp8.c   |  2 +-
->  7 files changed, 11 insertions(+), 19 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.h
-> index 0b082b1fae22..5904294f3108 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> @@ -35,14 +35,6 @@
->  #define CEDRUS_CAPABILITY_VP8_DEC	BIT(4)
->  #define CEDRUS_CAPABILITY_H265_10_DEC	BIT(5)
-> =20
-> -enum cedrus_codec {
-> -	CEDRUS_CODEC_MPEG2,
-> -	CEDRUS_CODEC_H264,
-> -	CEDRUS_CODEC_H265,
-> -	CEDRUS_CODEC_VP8,
-> -	CEDRUS_CODEC_LAST,
-> -};
-> -
->  enum cedrus_irq_status {
->  	CEDRUS_IRQ_NONE,
->  	CEDRUS_IRQ_ERROR,
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h264.c
-> index c92dec21c1ac..dfb401df138a 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -518,7 +518,7 @@ static int cedrus_h264_setup(struct cedrus_ctx *ctx, =
-struct cedrus_run *run)
->  	struct cedrus_dev *dev =3D ctx->dev;
->  	int ret;
-> =20
-> -	cedrus_engine_enable(ctx, CEDRUS_CODEC_H264);
-> +	cedrus_engine_enable(ctx);
-> =20
->  	cedrus_write(dev, VE_H264_SDROT_CTRL, 0);
->  	cedrus_write(dev, VE_H264_EXTRA_BUFFER1,
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h265.c
-> index 7a438cd22c34..5d3da50ce46a 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -471,7 +471,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, =
-struct cedrus_run *run)
->  	}
-> =20
->  	/* Activate H265 engine. */
-> -	cedrus_engine_enable(ctx, CEDRUS_CODEC_H265);
-> +	cedrus_engine_enable(ctx);
-> =20
->  	/* Source offset and length in bits. */
-> =20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
-ging/media/sunxi/cedrus/cedrus_hw.c
-> index c3387cd1e80f..fa86a658fdc6 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -31,7 +31,7 @@
->  #include "cedrus_hw.h"
->  #include "cedrus_regs.h"
-> =20
-> -int cedrus_engine_enable(struct cedrus_ctx *ctx, enum cedrus_codec codec)
-> +int cedrus_engine_enable(struct cedrus_ctx *ctx)
->  {
->  	u32 reg =3D 0;
-> =20
-> @@ -42,18 +42,18 @@ int cedrus_engine_enable(struct cedrus_ctx *ctx, enum=
- cedrus_codec codec)
->  	reg |=3D VE_MODE_REC_WR_MODE_2MB;
->  	reg |=3D VE_MODE_DDR_MODE_BW_128;
-> =20
-> -	switch (codec) {
-> -	case CEDRUS_CODEC_MPEG2:
-> +	switch (ctx->src_fmt.pixelformat) {
-> +	case V4L2_PIX_FMT_MPEG2_SLICE:
->  		reg |=3D VE_MODE_DEC_MPEG;
->  		break;
-> =20
->  	/* H.264 and VP8 both use the same decoding mode bit. */
-> -	case CEDRUS_CODEC_H264:
-> -	case CEDRUS_CODEC_VP8:
-> +	case V4L2_PIX_FMT_H264_SLICE:
-> +	case V4L2_PIX_FMT_VP8_FRAME:
->  		reg |=3D VE_MODE_DEC_H264;
-
-Could be nice to declare VE_MODE_DEC_VP8 with the same bit or to rename it
-VE_MODE_DEC_H264_VP8. There's no particular reason why H264 should prevail
-over VP8.
-
-Cheers,
-
-Paul
-
->  		break;
-> =20
-> -	case CEDRUS_CODEC_H265:
-> +	case V4L2_PIX_FMT_HEVC_SLICE:
->  		reg |=3D VE_MODE_DEC_H265;
->  		break;
-> =20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/sta=
-ging/media/sunxi/cedrus/cedrus_hw.h
-> index 7c92f00e36da..6f1e701b1ea8 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> @@ -16,7 +16,7 @@
->  #ifndef _CEDRUS_HW_H_
->  #define _CEDRUS_HW_H_
-> =20
-> -int cedrus_engine_enable(struct cedrus_ctx *ctx, enum cedrus_codec codec=
-);
-> +int cedrus_engine_enable(struct cedrus_ctx *ctx);
->  void cedrus_engine_disable(struct cedrus_dev *dev);
-> =20
->  void cedrus_dst_format_set(struct cedrus_dev *dev,
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/drivers/=
-staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> index c1128d2cd555..10e98f08aafc 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> @@ -66,7 +66,7 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *ctx, s=
-truct cedrus_run *run)
->  	quantisation =3D run->mpeg2.quantisation;
-> =20
->  	/* Activate MPEG engine. */
-> -	cedrus_engine_enable(ctx, CEDRUS_CODEC_MPEG2);
-> +	cedrus_engine_enable(ctx);
-> =20
->  	/* Set intra quantisation matrix. */
->  	matrix =3D quantisation->intra_quantiser_matrix;
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/st=
-aging/media/sunxi/cedrus/cedrus_vp8.c
-> index f7714baae37d..969677a3bbf9 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-> @@ -662,7 +662,7 @@ static int cedrus_vp8_setup(struct cedrus_ctx *ctx, s=
-truct cedrus_run *run)
->  	int header_size;
->  	u32 reg;
-> =20
-> -	cedrus_engine_enable(ctx, CEDRUS_CODEC_VP8);
-> +	cedrus_engine_enable(ctx);
-> =20
->  	cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8);
-> =20
-> --=20
-> 2.38.1
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---zH+NmU6EKRT85VpY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmNX+qUACgkQ3cLmz3+f
-v9HEGQf/ZLAOK1r93LJu8pBAqG4xFejKX4hjPCieCPjI3OYk9648ETOzKG7/QMaJ
-XZHEagh2o0nnEyv0FUagiV23eXOxmJZnKB3RSM/ynADLDUC+Y+cbpCO2Wqzrd73f
-jXyeKO9rfZEF9a2epU8C0xiLcUIFBUoIaeV1JAXLmFKHYyvmybT+rk9SfssUVWkH
-/QaNEBuS0T1H1BzYiJiAUOfzykILgxgVOY29a7AZqA/uPp3J5Y21CC/FKJAAkQlb
-7f8ZAmvUUlv3HY6lQs4p7f8T/OrZQgZWx5RdlHEwfS08n8erjnhAqpCgnualaVyh
-4Ogqr+i5vJRtR0EosNuXiM5Rz8IWxQ==
-=QAXg
------END PGP SIGNATURE-----
-
---zH+NmU6EKRT85VpY--
