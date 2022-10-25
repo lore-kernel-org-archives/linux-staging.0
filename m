@@ -1,299 +1,81 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004777B;
-	Tue, 25 Oct 2022 15:16:48 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id DAB51C0002;
-	Tue, 25 Oct 2022 15:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1666711006;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uly7ckkhJ2QaaComUjr1tUEanSEoMRUyfouydzaxF4Q=;
-	b=af37qNXCOQfJN2YCS+hKn6lR8J5vIO2LiaMYB7Xu6AxkWBe5+JOGQIFTiq9aZQB6HfeM8Y
-	0pMFpTGKmlScEzWJUtTvBADhoIMZFRzhESRdc5j5L1I2bIaL7vAqsAoTJldg5Wmdy5yYQU
-	Uymz6VfKcZ3jkK3Hadl5UPXyrxcE2sswBsVUzefbGTQPL47JnxZ+FMqEjevB474KiQCya6
-	+XyVSZ33YG0U2YXXsmo8eSC1LOvce1ZTaeY38n+xDnb7d3nCHvq1CfcJjq6e3o+eO/iIbl
-	qxf85t8+KRx45IfwVOxfs51y+mT+JUqwCZcRN1UnjxdiULiS3Tu4ly4u12V1dg==
-Date: Tue, 25 Oct 2022 17:16:44 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/11] media: cedrus: Filter controls based on capability
-Message-ID: <Y1f93E4HvTVr2DuC@aptenodytes>
-References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
- <20221024201515.34129-6-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDA27B;
+	Tue, 25 Oct 2022 15:17:50 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id v1so21641395wrt.11;
+        Tue, 25 Oct 2022 08:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZNYnzxUYxZx4XD4Lwaw+hJ+8re+ot06tXHAq9yK6z6I=;
+        b=lLz0o4cAIskTwp7ABd3e6vyx5q9XxRcKxkusLDtvncdPEUydTQN6ylznML/3yB/0B6
+         Y9gCW+xnxc00wI62CK2Id71kIm2nTL5yZ6A9kA4FnEBAnSCc+YMg/zWSLzBdSSwxqcbO
+         Q2tBKIH/Q5WtjxR1VQVZ0eHNyECpX6rskKU9JCTZT3eWsAvwGobcfo8EFNJt5Uih/aue
+         lWPYXHA6lKVRqJyFit/eNyzZqiib9/lf19QFCa61PAguWbmSrV6SWapCKMCjARNSzg89
+         2E82SAv44NB+Irys2ei9Y6ka7JobgmEq+Vym3LLPyxclsI3iiYFhh9QZhsqc/ZSXWigz
+         iLMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZNYnzxUYxZx4XD4Lwaw+hJ+8re+ot06tXHAq9yK6z6I=;
+        b=rF3UDeL5cicRTZs6jp8Mx0JbtaGR/aMV1iywkt1cFCEDAlxgINkvdkeN+A6eFB6Y0f
+         OSG/hL2oECiqSML927aopzVrIYXkXXqYUDgE+o6Em+A4dZrtNkYKQeUIEn31vzPBf7Sn
+         PkfCWigzYjLQCLY/LCMmkAq57EHPdvGHFE1zdquifzTeSPZV2blOhj8LdHsLPXCTzCf8
+         MbD/AH7HnVoQCFJFLlTOPicW+vh5UpDTtQj+orwwGo4TYsd1xtduGBYorXTjKVBLZxiE
+         RlLAFWKC+95LhXV2GH6Fm0Lxd1ewdrziIJhiZY8+lQhf6s2WQpEDSkIVHTmR9eeJ56pm
+         /MgQ==
+X-Gm-Message-State: ACrzQf3suvGRN3JsSIVPkZM7Q6ap238An94v4xS5LW62vsBWiXm6mfX5
+	YlXTOTz1nujwTmpdli2gJUk=
+X-Google-Smtp-Source: AMsMyM4k+sL9ejhrgxIrUG2j+VYySP/clvgyL/EnFgkDZ96m1kQCxllzpWiqTW4fA086/Ds6KHJt9w==
+X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id p15-20020adfba8f000000b0022cdef31179mr26168784wrg.571.1666711068568;
+        Tue, 25 Oct 2022 08:17:48 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id f9-20020a5d5689000000b0022e3538d305sm3358017wrv.117.2022.10.25.08.17.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 08:17:48 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/11] media: cedrus: Add helper for checking capabilities
+Date: Tue, 25 Oct 2022 17:17:47 +0200
+Message-ID: <13124586.uLZWGnKmhe@jernej-laptop>
+In-Reply-To: <Y1eChJS/0aEchtpH@kadam>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com> <20221024201515.34129-5-jernej.skrabec@gmail.com> <Y1eChJS/0aEchtpH@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xdfw+kjfC1LhWNk0"
-Content-Disposition: inline
-In-Reply-To: <20221024201515.34129-6-jernej.skrabec@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Dne torek, 25. oktober 2022 ob 08:30:28 CEST je Dan Carpenter napisal(a):
+> On Mon, Oct 24, 2022 at 10:15:08PM +0200, Jernej Skrabec wrote:
+> > There is several different Cedrus cores with varying capabilities, so
+> > some operations like listing formats depends on checks if feature is
+> > supported or not.
+> > 
+> > Currently check for capabilities is only in format enumeration helper,
+> > but it will be used also elsewhere later. Let's convert this check to
+> > helper and while at it, also simplify it. There is no need to check if
+> > capability mask is zero, condition will still work properly.
+> 
+> Sure.  That's true.  Out of curiousity, can cedrus_formats[i].capabilities
+> be zero?  Because it feels like that's what should be checked.
+
+Yes, it can be. It's the case for V4L2_PIX_FMT_NV12_32L32. All variants 
+supports it, so there is no special capability needed in order to be listed. 
+What would you check in such case? Condition still works for this case.
+
+Best regards,
+Jernej
 
 
---xdfw+kjfC1LhWNk0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
 
-On Mon 24 Oct 22, 22:15, Jernej Skrabec wrote:
-> Because not all Cedrus variants supports all codecs, controls should be
-> registered only if codec related to individual control is supported by
-> Cedrus.
->=20
-> Replace codec enum, which is not used at all, with capabilities flags
-> and register control only if capabilities are met.
->=20
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Cheers,
-
-Paul
-
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 45 +++++++++++----------
->  drivers/staging/media/sunxi/cedrus/cedrus.h |  2 +-
->  2 files changed, 25 insertions(+), 22 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index 2f284a58d787..023566b02dc5 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -77,56 +77,56 @@ static const struct cedrus_control cedrus_controls[] =
-=3D {
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_MPEG2_SEQUENCE,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_MPEG2,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_MPEG2_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_MPEG2_PICTURE,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_MPEG2,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_MPEG2_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_MPEG2_QUANTISATION,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_MPEG2,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_MPEG2_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_H264_DECODE_PARAMS,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_H264_SLICE_PARAMS,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_H264_SPS,
->  			.ops	=3D &cedrus_ctrl_ops,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_H264_PPS,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_H264_SCALING_MATRIX,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_H264_PRED_WEIGHTS,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg =3D {
-> @@ -134,7 +134,7 @@ static const struct cedrus_control cedrus_controls[] =
-=3D {
->  			.max	=3D V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
->  			.def	=3D V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg =3D {
-> @@ -142,7 +142,7 @@ static const struct cedrus_control cedrus_controls[] =
-=3D {
->  			.max	=3D V4L2_STATELESS_H264_START_CODE_NONE,
->  			.def	=3D V4L2_STATELESS_H264_START_CODE_NONE,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	/*
->  	 * We only expose supported profiles information,
-> @@ -160,20 +160,20 @@ static const struct cedrus_control cedrus_controls[=
-] =3D {
->  			.menu_skip_mask =3D
->  				BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H264,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H264_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_HEVC_SPS,
->  			.ops	=3D &cedrus_ctrl_ops,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H265,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_HEVC_PPS,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H265,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg =3D {
-> @@ -181,13 +181,13 @@ static const struct cedrus_control cedrus_controls[=
-] =3D {
->  			/* The driver can only handle 1 entry per slice for now */
->  			.dims   =3D { 1 },
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H265,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H265,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg =3D {
-> @@ -197,7 +197,7 @@ static const struct cedrus_control cedrus_controls[] =
-=3D {
->  			.max =3D 0xffffffff,
->  			.step =3D 1,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H265,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg =3D {
-> @@ -205,7 +205,7 @@ static const struct cedrus_control cedrus_controls[] =
-=3D {
->  			.max	=3D V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
->  			.def	=3D V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H265,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg =3D {
-> @@ -213,19 +213,19 @@ static const struct cedrus_control cedrus_controls[=
-] =3D {
->  			.max	=3D V4L2_STATELESS_HEVC_START_CODE_NONE,
->  			.def	=3D V4L2_STATELESS_HEVC_START_CODE_NONE,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H265,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id	=3D V4L2_CID_STATELESS_VP8_FRAME,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_VP8,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_VP8_DEC,
->  	},
->  	{
->  		.cfg =3D {
->  			.id =3D V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
->  		},
-> -		.codec		=3D CEDRUS_CODEC_H265,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
->  	},
->  };
-> =20
-> @@ -275,6 +275,9 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev, =
-struct cedrus_ctx *ctx)
->  		return -ENOMEM;
-> =20
->  	for (i =3D 0; i < CEDRUS_CONTROLS_COUNT; i++) {
-> +		if (!cedrus_is_capable(ctx, cedrus_controls[i].capabilities))
-> +			continue;
-> +
->  		ctrl =3D v4l2_ctrl_new_custom(hdl, &cedrus_controls[i].cfg,
->  					    NULL);
->  		if (hdl->error) {
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.h
-> index 1a98790a99af..7a1619967513 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> @@ -57,7 +57,7 @@ enum cedrus_h264_pic_type {
-> =20
->  struct cedrus_control {
->  	struct v4l2_ctrl_config cfg;
-> -	enum cedrus_codec	codec;
-> +	unsigned int		capabilities;
->  };
-> =20
->  struct cedrus_h264_run {
-> --=20
-> 2.38.1
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---xdfw+kjfC1LhWNk0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmNX/dwACgkQ3cLmz3+f
-v9Gb+Af/dywkX70PM27smnwIoZUvkk+GkgAiROlYkJtOX3TFHHV60AL1U7hXh481
-hv4ql8tekS+p4kwbYpAEcHYj4dYvRbGyNtqiBHYTvXrZ4XzWfK6fTvZLjhQqtJg+
-iqRwuARVppbTy2yCEFH77daCfcWA17IpgFt0JwAohLKFK1uiWblcM7NvLx4AB6Oy
-BacxFsSAtdC7r0GrSKPLlxg/cq4CNjgwKKdqQQPjiyN4Kjvf4JyGDl7CAsmHM8Xy
-rgDQf97GQ5xFFQlBqaOWx/b6J1h/3mVTCfjI435CJiy45EIFLm8h/+9ak+rvtKB4
-roCIOHld+cX2Fh2pXRFt5zoCobeuDg==
-=6s+C
------END PGP SIGNATURE-----
-
---xdfw+kjfC1LhWNk0--
