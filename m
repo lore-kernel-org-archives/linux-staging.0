@@ -1,81 +1,71 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A357479
-	for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 17:21:54 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id 13so14428352ejn.3
-        for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 10:21:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y+8ezpSXG9f5s0TQm+JcAdCBCJW2Ee26V8uyhpVTtwk=;
-        b=WJcktbbZr9sGw+XRgDKxWJU8g1XW8zy/DDcMTA1AURk9KipBXAu+IvVIXrfS6NNvJ7
-         Jruv5qGKJABuMJyfzeExDyueBvcmsCijs4PevnepbhKTkRJLX2NpM81z78/2YixufEeg
-         MB0TtXG+Ot77hZwQ8edj6AscvFCK8wiJDgybaCLFXbfwdpFjof3B9shGsYoBY6GAjHD3
-         f0Qjxy4uyVhF49Hee40BHCqgbSpif6ltps34hFCKm1c1yo23U2ZZ3Gc6+4Ygo1iY1uuC
-         vDVakKwQWLkLAFa3xqiT6i1SyKT+FLadcHWNbonMb3TjcI+Q65ylzIHWoQ8gBgxfCiSV
-         ETpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y+8ezpSXG9f5s0TQm+JcAdCBCJW2Ee26V8uyhpVTtwk=;
-        b=pF6pewresWP4Rd2mUaMc/q3p89OgT81QxEwVgd7VizreG7uP2rsxzr2fRHKALf9Mz+
-         cirQD1GjeWvMjzqlx2Sub8PZ7Trs4yzAz9zygPkD9hqlDSlJP3qLtzmjLPf1w+sZy3sp
-         6P3mdiogixag5PeyLJNNl+dQr/1VWiT+PTRgyzAo93WLoSfxp5La7XaQxzMueDj2yWjd
-         3EpOWPlcAXdWyIbUN1D+37wkBBw5X868PrKr9VGv+7OrNS8W+zmmRh98LS7sTBTAQ7Pc
-         DRK261MTJJ3LiOc6VqWPyaCz5udhA+GqZhnUre+2NUb9AvTvTAWUD+BUKVEuqz7QlJMb
-         ThGQ==
-X-Gm-Message-State: ACrzQf3Ys5Bf7zbhdbWXLKQZpsCWVKYRRP6gpv3UU+t7DMVAgHR5Se/L
-	h88ClNO7GOdtnbBd8bKFFb58m6JHWIg=
-X-Google-Smtp-Source: AMsMyM6cZSHPL1F88m4gyB1rg0+1wsZ9sS3nXR2vT4KH6nQ64Uhklmz+bX0tW0nFLV9o74OSSUR1dg==
-X-Received: by 2002:a17:907:7610:b0:79e:da2d:c126 with SMTP id jx16-20020a170907761000b0079eda2dc126mr18784865ejc.27.1666718512448;
-        Tue, 25 Oct 2022 10:21:52 -0700 (PDT)
-Received: from [192.168.1.100] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
-        by smtp.gmail.com with ESMTPSA id f11-20020a170906048b00b00783c545544fsm1684258eja.215.2022.10.25.10.21.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 10:21:52 -0700 (PDT)
-Message-ID: <ed5f9b82-6b7e-5f23-63ce-8f604147d7e0@gmail.com>
-Date: Tue, 25 Oct 2022 19:21:51 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36727479
+	for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 17:22:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BC39C433C1;
+	Tue, 25 Oct 2022 17:22:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1666718539;
+	bh=b2jLgOkbVkgTFTZHzgyPA7Qmaai4R+6ZbvML08sPZ8Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XGcaCVTWH69C0Hr/M2My2JludMZyyrkr7NYNOM8i6rIGudr+GcROIX1eqmUgJvi1m
+	 rOQp1BVl++YOu+PK1vY/AVI7g5pDGh1eUqVRNkG8tUVDXudml2D4uZDGTJQUt4AaWA
+	 zTdg0yObDCvWmchtRx6I5H264wxT7WZiBolLodaM=
+Date: Tue, 25 Oct 2022 19:22:01 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Kang Minchul <tegongkang@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] staging: r8188eu: cleaning up unused variables
+Message-ID: <Y1gbOfBBkqt1m5rS@kroah.com>
+References: <20221024084925.262289-1-tegongkang@gmail.com>
+ <CA+uqrQDuJQ3yBY8_re===u0f97pyr_hn_VNu6LqLJAZnDeqhVQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/5] staging: rtl8192e: rtllib_tx: code cleanup patches on
- the rtllib_tx.c file
-Content-Language: en-US
-To: Aaron Lawrence <t4rmin@zohomail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1666612946.git.t4rmin@zohomail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1666612946.git.t4rmin@zohomail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+uqrQDuJQ3yBY8_re===u0f97pyr_hn_VNu6LqLJAZnDeqhVQ@mail.gmail.com>
 
-On 10/24/22 14:25, Aaron Lawrence wrote:
-> Multiple patches regarding the cleanup of code in the rtllib_tx.c file.
-> Fixes were applied according to the report generated by the checkpatch
-> script on said file, aside from the CamelCase issues.
+On Mon, Oct 24, 2022 at 08:23:08PM +0900, Kang Minchul wrote:
+> 2022년 10월 24일 (월) 오후 5:49, Kang Minchul <tegongkang@gmail.com>님이 작성:
+> >
+> > This patch series cleans up unused variables in r8188eu
+> > causing coccicheck warnings.
+> >
+> > Difference between v1 and this patch is that this patch series
+> > include making function amsdu_to_msdu in /r8188eu/core/rtw_recv.c
+> > into void function.
+> >
+> > Kang Minchul (4):
+> >   staging: r8188eu: remove unnecessary variable in ioctl_linux
+> >   staging: r8188eu: make amsdu_to_msdu void function
+> >   staging: r8188eu: remove unnecessary variable in rtl8188eu_xmit
+> >   staging: r8188eu: remove unnecessary variable in rtw_ap
+> >
+> >  drivers/staging/r8188eu/core/rtw_ap.c        | 5 ++---
+> >  drivers/staging/r8188eu/core/rtw_recv.c      | 5 +----
+> >  drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 3 +--
+> >  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
+> >  4 files changed, 5 insertions(+), 12 deletions(-)
+> >
+> > --
+> > 2.34.1
+> >
+> Oh, I guess patch 4/4 can be fixed as well.
+> I think the function rtw_sta_flush can be void as well.
 > 
-> Aaron Lawrence (5):
->    Staging: rtl8192e: rtllib_tx: fixed multiple blank lines
->    Staging: rtl8192e: rtllib_tx: fixed alignment matching open
->      parenthesis
->    Staging: rtl8192e: rtllib_tx: added spaces around operators
->    Staging: rtl8192e: rtllib_tx: fixed lines ending with an open
->      parenthesis
->    Staging: rtl8192e: rtllib_tx: removed unnecessary blank line before a
->      close brace
-> 
->   drivers/staging/rtl8192e/rtllib_tx.c | 42 ++++++++++++----------------
->   1 file changed, 18 insertions(+), 24 deletions(-)
-> 
+> I'll resend the patch later.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+You broke the build in this series, please fix up and send a v3.
+
+thanks,
+
+greg k-h
