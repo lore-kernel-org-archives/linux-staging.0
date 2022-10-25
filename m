@@ -1,102 +1,86 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FB76FDF
-	for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 22:21:59 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id fy4so16501907ejc.5
-        for <linux-staging@lists.linux.dev>; Tue, 25 Oct 2022 15:21:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6DD7B;
+	Tue, 25 Oct 2022 23:37:34 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id u2so10253030ljl.3;
+        Tue, 25 Oct 2022 16:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8y6RcNcqeipKdBc0KcpoWpoQGRSinTxo6WlCtAHVVFw=;
-        b=lh0NRBFqQ37Pp2fRnoeAAM9cc7X8nP27UkZ1i/XKX98gMIpAuWUq5KWBlTtqlHiGeq
-         x6ZUVZyTfxE60QHtbDFf1iaEJ1JKez+YvG7mQJOpKgOrDcKPZUhocxXh9mST2A1Sl9pS
-         r0njkfhIIwycM7yO055a3feai4rOqXPvHneHE7E7dQQKKJ1EXFqRDXIC5mpU9vEwFK/a
-         0efce3mBwTUymRzty/FhP9OhD8Jf5Q3vIhkjYFsNi805ptOa3ZGf/5+yqJTBinUPmsiP
-         ZZeVmaWbMBtE5h9DRqCOxmlZWO9TEsB4eNGNeob4TWmijCb+PdiakLs0eQrr/FsCelZY
-         19Tw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=27VAIO94eRQO+RwOuEpnXhEC4l04Hlzg1oSuTTKX2ZY=;
+        b=HXU+5uf9Cfca3x4Xl+h10Vwznw+kQ8kv0pgPkWjQV9jPXeYoLKHWA8ro1kiyqSXs5U
+         7XVX4X/VXyUpZ9CqZsJZFe0JJcNh4sGGVNgCEOrcuqlXBpc3Sr1tBJsXN2IaRZqri9gy
+         nGpvXW1g3AIIvcG4DXyJa6dT1kByeVTPHuDgq/tCkzrdYYimiIhxMwCyxaqsrpM8laLe
+         kB7jgAthV9KQJucQB/UZmmNi3NgQnLnP7clY3K02mUaLOM5KKyKy4f0PPAm8JucV4G2O
+         id/F1zntnXiS3Off+OMm75+ATLjBZLU0kutrnSqf+4FpyWxImLr7D0UYDaAoAQuL9xHz
+         VpDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8y6RcNcqeipKdBc0KcpoWpoQGRSinTxo6WlCtAHVVFw=;
-        b=guUL8EFPhEuglyTs0ORLQicEPxCdoGIKkU7XwXR0WAPrbfMWGUZP6FjcH4QNQVkjfu
-         7th/AX8FR3uK8lFkTaXwweIbG7kJd0hUWowPR0wlJjRSPm0VNh86wKMIeGirhDXvpxBu
-         y+F3gWOrQBHPvh3EHgesOzLV4Xj6FzDcG+i+UyxrJgm6mnXrKfb9U+Vx5XPLhA5paeQS
-         +M2P4xl1ttmq0AseiU0q1Blb00kU8+J5I3E+IM+UcFaIrAkJkVOR5w/M49KaUgTjfcL3
-         +PQv4si/t9Q7f79n1wkHtJqKlZtCNxPSehbWz+ThG/fB4wEYzUWhW65dwZHVRcgZTP2H
-         8A6g==
-X-Gm-Message-State: ACrzQf0Hq3F2KIOrJRTcDHfYji9NXmY+bcoMvybhLFLEavWJImsKlSgW
-	AXYvJX0mTIagS/suN1sZFZnS9d/KclvHZPSCUj0=
-X-Google-Smtp-Source: AMsMyM6QITyQ7lHAa6lVQOgcVckdNVw20OEmjkUIHcwCzj/lp0O4BWOPYfKxzljxsA4kVmMiP28cLm/yW8CevROpj8k=
-X-Received: by 2002:a17:906:c14f:b0:793:30e1:96be with SMTP id
- dp15-20020a170906c14f00b0079330e196bemr29549937ejc.447.1666736518361; Tue, 25
- Oct 2022 15:21:58 -0700 (PDT)
+        bh=27VAIO94eRQO+RwOuEpnXhEC4l04Hlzg1oSuTTKX2ZY=;
+        b=l6gKJNDYrwHj1pzv6oE71ba7aRykpvjcq/gI0UoTyiNCFgb6grneW35djeXCuQ0c8x
+         xkpYyLl7F4aIS715NrFnBph/WOpksOGe47wEZz+lg0wioAN0riqAP3pgYUHc+fz/N3YC
+         Mjmn0DVYRtYj5Q2DoEchtAr+3Fipbl7qdK8Fss4PgAsiCxXSew1mBj1XtR3QUoMdpU7O
+         iIXJQHvOfyAc53VY1TxNNtQnY3xQg0HZ0voR0T3z+B6TaoBvE01lbruGxdqKAsoTmv6n
+         uX6nzTrN5d2FHWULMmkNPUJ4MqqdVPilSgTD9qymBDNTi8IIB+am+MRq+NyoDmLdXPwW
+         uDwQ==
+X-Gm-Message-State: ACrzQf2xA50U20NmjZ9MICU16W4+LyJI2Yv8sMBj/gYSiiVbhOXpYAws
+	2pGLL1Ktr28AJnkb3VjgdnA=
+X-Google-Smtp-Source: AMsMyM7aJBJclSLMtrGeBVGgE907guL4x24jScSExKWC8uCn/BsicsRuqJcKCzSQBjS5TzKykof/Pg==
+X-Received: by 2002:a2e:9897:0:b0:277:fcb:f69e with SMTP id b23-20020a2e9897000000b002770fcbf69emr4262609ljj.48.1666741052865;
+        Tue, 25 Oct 2022 16:37:32 -0700 (PDT)
+Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
+        by smtp.googlemail.com with ESMTPSA id w17-20020a05651c119100b0026daf4fc0f7sm701969ljo.92.2022.10.25.16.37.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 16:37:32 -0700 (PDT)
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Subject: [PATCH 00/17] staging: vt6655: a series of checkpatch fixes on the file: rxtx.c
+Date: Tue, 25 Oct 2022 23:36:56 +0000
+Message-Id: <cover.1666740522.git.tanjubrunostar0@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221019152947.3857217-1-arnd@kernel.org> <20221019152947.3857217-14-arnd@kernel.org>
-In-Reply-To: <20221019152947.3857217-14-arnd@kernel.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 25 Oct 2022 23:21:31 +0100
-Message-ID: <CA+V-a8vH+rD2aJWc-5sVhnhe0-VYUCQ27KfQRS2BsimqJheWqw@mail.gmail.com>
-Subject: Re: [PATCH 13/14] staging: media: remove davinci vpfe_capture driver
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Sekhar Nori <nsekhar@ti.com>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-arm-kernel@lists.infradead.org, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>, 
-	Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 19, 2022 at 4:40 PM Arnd Bergmann <arnd@kernel.org> wrote:>
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> This driver was for the davinci dm644x and dm3xx platforms that are
-> now removed from the kernel, so there are no more users.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  MAINTAINERS                                   |    1 -
->  drivers/staging/media/Kconfig                 |    1 -
->  drivers/staging/media/Makefile                |    1 -
->  .../media/deprecated/vpfe_capture/Kconfig     |   58 -
->  .../media/deprecated/vpfe_capture/Makefile    |    4 -
->  .../media/deprecated/vpfe_capture/TODO        |    7 -
->  .../deprecated/vpfe_capture/ccdc_hw_device.h  |   80 -
->  .../deprecated/vpfe_capture/dm355_ccdc.c      |  934 --------
->  .../deprecated/vpfe_capture/dm355_ccdc.h      |  308 ---
->  .../deprecated/vpfe_capture/dm355_ccdc_regs.h |  297 ---
->  .../deprecated/vpfe_capture/dm644x_ccdc.c     |  879 --------
->  .../deprecated/vpfe_capture/dm644x_ccdc.h     |  171 --
->  .../vpfe_capture/dm644x_ccdc_regs.h           |  140 --
->  .../media/deprecated/vpfe_capture/isif.c      | 1127 ----------
->  .../media/deprecated/vpfe_capture/isif.h      |  518 -----
->  .../media/deprecated/vpfe_capture/isif_regs.h |  256 ---
->  .../deprecated/vpfe_capture/vpfe_capture.c    | 1902 -----------------
->  include/media/davinci/vpfe_capture.h          |  177 --
->  18 files changed, 6861 deletions(-)
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/Kconfig
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/Makefile
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/TODO
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/ccdc_hw_device.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc_regs.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc_regs.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif.c
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/isif_regs.h
->  delete mode 100644 drivers/staging/media/deprecated/vpfe_capture/vpfe_capture.c
->  delete mode 100644 include/media/davinci/vpfe_capture.h
->
-Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
+The fixes are similar, mostly changing variable and functions names to
+match the linux naming style. I had to make
+serveral patches to ease the work of inspectors
 
-Cheers,
-Prabhakar
+Tanjuate Brunostar (17):
+  staging: vt6655: changed variable names: wFB_Opt0
+  staging: vt6655: changed variable names: s_vFillRTSHead
+  staging: vt6655: changed variable name: pDevice
+  staging: vt6655: changed variable name: byPktType
+  staging: vt6655: changed variable name: pvRTS
+  staging: vt6655: changed variable name: cbFrameLength
+  staging: vt6655: changed variable name: b_need_ack
+  staging: vt6655: changed variable name: bDisCRC
+  staging: vt6655: changed variable name: byFBOption
+  staging: vt6655: changed variable name: s_vGenerateTxParameter
+  staging: vt6655: changed variable name: pvRrvTime
+  staging: vt6655: changed variable name: cbFrameSize
+  staging: vt6655: changed variable name: bNeedACK
+  staging: vt6655: changed variable name: uDMAIdx
+  staging: vt6655: changed variable name: psEthHeader
+  staging: vt6655: changed variable name: s_cbFillTxBufHead
+  staging: vt6655: changed variable name: pbyTxBufferAddr
+
+ drivers/staging/vt6655/rxtx.c | 1062 +++++++++++++++++----------------
+ 1 file changed, 536 insertions(+), 526 deletions(-)
+
+-- 
+2.34.1
+
