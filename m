@@ -1,52 +1,52 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06D97B;
-	Tue, 25 Oct 2022 23:37:54 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id bx35so13442234ljb.2;
-        Tue, 25 Oct 2022 16:37:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429B38464;
+	Tue, 25 Oct 2022 23:37:56 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id j16so5707674lfe.12;
+        Tue, 25 Oct 2022 16:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1PdLirpLV6lpEban/gZoe78yVzKjxuzACUa6QXtdzHw=;
-        b=F5kYhw4rLKn+wqfXUM9pf+I8wfBQO8SBWO2tV7cNOVc3pnYZh+d1prXQJAeDXB5M+z
-         ivpRXsrN2bED857w7QDPzxmcksXIVKvuiQbHR+j6197iTY/qiCR7KeGIGzw/tTKUuahD
-         Tf9NzBjDLHXScK6CsITFK/1ABPLgrVvd34MkMR4F83qp//OK/hDRQD4ENsgGaPMh5UpW
-         VbEplDnaSKkTn2EqnaCd7FoRBzwJYko1+qTIUBlubcWjFTPaWl4Bqpm8BD2QlLcFtjIh
-         1YwlI9/J8qKNcnTydaLBBaA1EcC2MIkEdbCPx7VjSgwMDEqGsGP/8sR6XR5Sq8GbluLI
-         2Yug==
+        bh=I/urUot3cNFITmccYXucAWbb6h0aY9AK/ky19fLze9Y=;
+        b=eW2kzFNFulbHPkEY7L5bBP+QwQ3W37hMKKPg0Qaeboh3BrZ7/uL6LUSZ5FFptG3XZ7
+         NS0PqiWbQ0EeEyzfFWoobh4lME1DosqR8XHU9m7mu6pU6vZ8NSUAEhR/II8EQWim5kV/
+         mlkodIg0psVC7jLm+cbtiapnCeeN9shZyLVNC7THLMoMeS7K55gHiALm2PyiMS4uuuFx
+         prQqbGpXyuSFdPNDnrayMe4jyat+D0Tde7eiRJF05I16Z1bObQaouZ0GYffCCkrEsqrU
+         BmcSqY7wTbf3sJNdSjSKZZHcFSawKk8h+J1MpiVfycLoeeLa7FrB92I7AGmZHky8Y20B
+         bMHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1PdLirpLV6lpEban/gZoe78yVzKjxuzACUa6QXtdzHw=;
-        b=Z6OaP+iqjilx+kdfDFGLAcrJVo3anh6N5pFP82RzXFdHk3zrjXCacO7eePACvRcC77
-         lFPBx9ugR6NdfPgQ054S9VFp/TaYEBBfBmnW7XukVlGn5aqFTPumSwvD/4buzLXqltCt
-         nxK5wbnlv2rK9VVpQmSb7ujLjGrgnNCO6rfm98OnlBwo1HaXHwW1azTb+VUnibUs8tkE
-         V7LqxPc/gtwOeVj03nifgKlCV3PBCVgcVPy+yQrfwlvFdJkaa1cCS3Mfvx24N5ZPp5Uy
-         zKYdItdilvGLcFDh0YKqGwIGeMVUuU8TRwv/NCBKcXfURAx/CB0hEi+d1xs/kELEHNFs
-         Lk3g==
-X-Gm-Message-State: ACrzQf0TUs2wxu2U/EvifTK2oTBvdLdbgZwQP4du6kC+rIeGqJY6SoWd
-	ygHmiDbQVbIgI8tF9l0HXLE=
-X-Google-Smtp-Source: AMsMyM5dEKSRQKf5DrOfygOKx1BNR0qrr3KwdJrNNiZIPbd6T4z1GwwcHBQpP4Sy+pM3a1GajKkC5w==
-X-Received: by 2002:a2e:a490:0:b0:277:e5b:ec07 with SMTP id h16-20020a2ea490000000b002770e5bec07mr4600417lji.371.1666741072756;
-        Tue, 25 Oct 2022 16:37:52 -0700 (PDT)
+        bh=I/urUot3cNFITmccYXucAWbb6h0aY9AK/ky19fLze9Y=;
+        b=aYDsPgCYfbgW8/EkWxTXU3m3BJRtXKkgjRrdUYecw5OEk2FBuh5Fqc7KVf4zz0JVHz
+         psG+Unpux1awkC0AIzHXQBbsE4lxCzpIpgqjhyrhLb7Avce/EYOWCLCk8EdxPUdcKAp/
+         7uW1rUa1YCUp8giHUHMjSUZ6h2Y5cjyF9hGgwS89H/l84f7is9EYNEdc3OZNLzSyY4ar
+         Ab5OOXcpVj/IQt0S9F1Iz7kO+G9c+IWU/1gCiYWPYSG+ORHIQurBi0iv2wBpU8QCJrYk
+         /Sd+NRfYCbOwSEisvTrt2qZoCRfbrxu4nBSYeWZvqMmG3Sus1u+yaxWwzWVmaLMYrrQm
+         XQbw==
+X-Gm-Message-State: ACrzQf1OdMDXRR8/yCyVAUMCSprfLuKHhyUZ5ZGVbX8KF3BwkruscFB4
+	mBIaZMyR04nUNAo0F5xLCXw=
+X-Google-Smtp-Source: AMsMyM4/u8NvgBgAVSW7nJHMWTZ4tIpusPuAe4BeRtt5DfV4jV37O9yX7AZSzNvJXNl/EM1m5GT/7Q==
+X-Received: by 2002:ac2:4a6b:0:b0:4a2:46f7:93f1 with SMTP id q11-20020ac24a6b000000b004a246f793f1mr15337574lfp.675.1666741074451;
+        Tue, 25 Oct 2022 16:37:54 -0700 (PDT)
 Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
-        by smtp.googlemail.com with ESMTPSA id w17-20020a05651c119100b0026daf4fc0f7sm701969ljo.92.2022.10.25.16.37.52
+        by smtp.googlemail.com with ESMTPSA id w17-20020a05651c119100b0026daf4fc0f7sm701969ljo.92.2022.10.25.16.37.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 16:37:52 -0700 (PDT)
+        Tue, 25 Oct 2022 16:37:54 -0700 (PDT)
 From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Subject: [PATCH 07/17] staging: vt6655: changed variable name: b_need_ack
-Date: Tue, 25 Oct 2022 23:37:03 +0000
-Message-Id: <3990f2dbe4cf931092a113e3eeb79b9917861cb5.1666740522.git.tanjubrunostar0@gmail.com>
+Subject: [PATCH 08/17] staging: vt6655: changed variable name: bDisCRC
+Date: Tue, 25 Oct 2022 23:37:04 +0000
+Message-Id: <45a1de2d980f814ccc7e5c3932e4084d4d057f9e.1666740522.git.tanjubrunostar0@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1666740522.git.tanjubrunostar0@gmail.com>
 References: <cover.1666740522.git.tanjubrunostar0@gmail.com>
@@ -58,510 +58,116 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-change variable names pDevice to meet the
+change variable names bDisCRC to meet the
 linux coding standard, as it says to avoid using camelCase naming
 style. Cought by checkpatch
 
 Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 ---
- drivers/staging/vt6655/rxtx.c | 129 +++++++++++++++++-----------------
- 1 file changed, 65 insertions(+), 64 deletions(-)
+ drivers/staging/vt6655/rxtx.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 699ca2685052..1949a647a443 100644
+index 1949a647a443..cb6d915fe7d0 100644
 --- a/drivers/staging/vt6655/rxtx.c
 +++ b/drivers/staging/vt6655/rxtx.c
-@@ -89,7 +89,7 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
- 			      unsigned char by_pkt_type,
+@@ -90,7 +90,7 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
  			      void *pv_rts,
  			      unsigned int	cb_frame_length,
--			      bool bNeedAck,
-+			      bool b_need_ack,
- 			      bool bDisCRC,
+ 			      bool b_need_ack,
+-			      bool bDisCRC,
++			      bool b_dis_crc,
  			      struct ieee80211_hdr *hdr,
  			      unsigned short wCurrentRate,
-@@ -118,7 +118,7 @@ static __le16 s_uFillDataHead(struct vnt_private *p_device,
- 			      void *pTxDataHead,
- 			      unsigned int cb_frame_length,
- 			      unsigned int uDMAIdx,
--			      bool bNeedAck,
-+			      bool b_need_ack,
- 			      unsigned int uFragIdx,
- 			      unsigned int cbLastFragmentSize,
- 			      unsigned int uMACfragNum,
-@@ -143,13 +143,13 @@ static unsigned int s_uGetTxRsvTime(struct vnt_private *p_device,
- 				    unsigned char by_pkt_type,
- 				    unsigned int cb_frame_length,
- 				    unsigned short wRate,
--				    bool bNeedAck)
-+				    bool b_need_ack)
- {
- 	unsigned int uDataTime, uAckTime;
- 
- 	uDataTime = bb_get_frame_time(p_device->preamble_type, by_pkt_type, cb_frame_length, wRate);
- 
--	if (!bNeedAck)
-+	if (!b_need_ack)
- 		return uDataTime;
- 
- 	/*
-@@ -224,7 +224,7 @@ static unsigned int s_uGetDataDuration(struct vnt_private *p_device,
- 				       unsigned int cb_frame_length,
- 				       unsigned char by_pkt_type,
- 				       unsigned short wRate,
--				       bool bNeedAck,
-+				       bool b_need_ack,
- 				       unsigned int uFragIdx,
- 				       unsigned int cbLastFragmentSize,
- 				       unsigned int uMACfragNum,
-@@ -243,51 +243,51 @@ static unsigned int s_uGetDataDuration(struct vnt_private *p_device,
- 
- 	switch (byDurType) {
- 	case DATADUR_B:    /* DATADUR_B */
--		if (bNeedAck) {
-+		if (b_need_ack) {
- 			uAckTime = bb_get_frame_time(p_device->preamble_type,
- 						     by_pkt_type, 14,
- 						     p_device->byTopCCKBasicRate);
- 		}
- 		/* Non Frag or Last Frag */
- 		if ((uMACfragNum == 1) || bLastFrag) {
--			if (!bNeedAck)
-+			if (!b_need_ack)
- 				return 0;
- 		} else {
- 			/* First Frag or Mid Frag */
- 			uNextPktTime = s_uGetTxRsvTime(p_device, by_pkt_type,
--						       len, wRate, bNeedAck);
-+						       len, wRate, b_need_ack);
- 		}
- 
- 		return p_device->uSIFS + uAckTime + uNextPktTime;
- 
- 	case DATADUR_A:    /* DATADUR_A */
--		if (bNeedAck) {
-+		if (b_need_ack) {
- 			uAckTime = bb_get_frame_time(p_device->preamble_type,
- 						     by_pkt_type, 14,
- 						     p_device->byTopOFDMBasicRate);
- 		}
- 		/* Non Frag or Last Frag */
- 		if ((uMACfragNum == 1) || bLastFrag) {
--			if (!bNeedAck)
-+			if (!b_need_ack)
- 				return 0;
- 		} else {
- 			/* First Frag or Mid Frag */
- 			uNextPktTime = s_uGetTxRsvTime(p_device, by_pkt_type,
--						       len, wRate, bNeedAck);
-+						       len, wRate, b_need_ack);
- 		}
- 
- 		return p_device->uSIFS + uAckTime + uNextPktTime;
- 
- 	case DATADUR_A_F0:    /* DATADUR_A_F0 */
- 	case DATADUR_A_F1:    /* DATADUR_A_F1 */
--		if (bNeedAck) {
-+		if (b_need_ack) {
- 			uAckTime = bb_get_frame_time(p_device->preamble_type,
- 						     by_pkt_type, 14,
- 						     p_device->byTopOFDMBasicRate);
- 		}
- 		/* Non Frag or Last Frag */
- 		if ((uMACfragNum == 1) || bLastFrag) {
--			if (!bNeedAck)
-+			if (!b_need_ack)
- 				return 0;
- 		} else {
- 			/* First Frag or Mid Frag */
-@@ -304,7 +304,7 @@ static unsigned int s_uGetDataDuration(struct vnt_private *p_device,
- 				wRate = w_fb_opt_1[FB_RATE0][wRate];
- 
- 			uNextPktTime = s_uGetTxRsvTime(p_device, by_pkt_type,
--						       len, wRate, bNeedAck);
-+						       len, wRate, b_need_ack);
- 		}
- 
- 		return p_device->uSIFS + uAckTime + uNextPktTime;
-@@ -322,7 +322,7 @@ static __le16 s_uGetRTSCTSDuration(struct vnt_private *p_device,
- 				   unsigned int cb_frame_length,
- 				   unsigned char by_pkt_type,
- 				   unsigned short wRate,
--				   bool bNeedAck,
-+				   bool b_need_ack,
- 				   unsigned char byFBOption)
- {
- 	unsigned int uCTSTime = 0, uDurTime = 0;
-@@ -332,26 +332,26 @@ static __le16 s_uGetRTSCTSDuration(struct vnt_private *p_device,
- 		uCTSTime = bb_get_frame_time(p_device->preamble_type, by_pkt_type, 14,
- 					     p_device->byTopCCKBasicRate);
- 		uDurTime = uCTSTime + 2 * p_device->uSIFS +
--			s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length, wRate, bNeedAck);
-+			s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length, wRate, b_need_ack);
- 		break;
- 
- 	case RTSDUR_BA:    /* RTSDuration_ba */
- 		uCTSTime = bb_get_frame_time(p_device->preamble_type, by_pkt_type, 14,
- 					     p_device->byTopCCKBasicRate);
- 		uDurTime = uCTSTime + 2 * p_device->uSIFS +
--			s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length, wRate, bNeedAck);
-+			s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length, wRate, b_need_ack);
- 		break;
- 
- 	case RTSDUR_AA:    /* RTSDuration_aa */
- 		uCTSTime = bb_get_frame_time(p_device->preamble_type, by_pkt_type, 14,
- 					     p_device->byTopOFDMBasicRate);
- 		uDurTime = uCTSTime + 2 * p_device->uSIFS +
--			s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length, wRate, bNeedAck);
-+			s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length, wRate, b_need_ack);
- 		break;
- 
- 	case CTSDUR_BA:    /* CTSDuration_ba */
- 		uDurTime = p_device->uSIFS + s_uGetTxRsvTime(p_device, by_pkt_type,
--							    cb_frame_length, wRate, bNeedAck);
-+							    cb_frame_length, wRate, b_need_ack);
- 		break;
- 
- 	case RTSDUR_BA_F0: /* RTSDuration_ba_f0 */
-@@ -360,11 +360,11 @@ static __le16 s_uGetRTSCTSDuration(struct vnt_private *p_device,
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_0[FB_RATE0][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_0[FB_RATE0][wRate - RATE_18M], b_need_ack);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_1[FB_RATE0][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_1[FB_RATE0][wRate - RATE_18M], b_need_ack);
- 
- 		break;
- 
-@@ -374,11 +374,11 @@ static __le16 s_uGetRTSCTSDuration(struct vnt_private *p_device,
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_0[FB_RATE0][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_0[FB_RATE0][wRate - RATE_18M], b_need_ack);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_1[FB_RATE0][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_1[FB_RATE0][wRate - RATE_18M], b_need_ack);
- 
- 		break;
- 
-@@ -388,11 +388,11 @@ static __le16 s_uGetRTSCTSDuration(struct vnt_private *p_device,
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_0[FB_RATE1][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_0[FB_RATE1][wRate - RATE_18M], b_need_ack);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_1[FB_RATE1][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_1[FB_RATE1][wRate - RATE_18M], b_need_ack);
- 
- 		break;
- 
-@@ -402,11 +402,11 @@ static __le16 s_uGetRTSCTSDuration(struct vnt_private *p_device,
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_0[FB_RATE1][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_0[FB_RATE1][wRate - RATE_18M], b_need_ack);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_1[FB_RATE1][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_1[FB_RATE1][wRate - RATE_18M], b_need_ack);
- 
- 		break;
- 
-@@ -414,11 +414,11 @@ static __le16 s_uGetRTSCTSDuration(struct vnt_private *p_device,
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_0[FB_RATE0][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_0[FB_RATE0][wRate - RATE_18M], b_need_ack);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_1[FB_RATE0][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_1[FB_RATE0][wRate - RATE_18M], b_need_ack);
- 
- 		break;
- 
-@@ -426,11 +426,11 @@ static __le16 s_uGetRTSCTSDuration(struct vnt_private *p_device,
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_0[FB_RATE1][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_0[FB_RATE1][wRate - RATE_18M], b_need_ack);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = p_device->uSIFS +
- 				s_uGetTxRsvTime(p_device, by_pkt_type, cb_frame_length,
--						w_fb_opt_1[FB_RATE1][wRate - RATE_18M], bNeedAck);
-+						w_fb_opt_1[FB_RATE1][wRate - RATE_18M], b_need_ack);
- 
- 		break;
- 
-@@ -446,7 +446,7 @@ static __le16 s_uFillDataHead(struct vnt_private *p_device,
- 			      void *pTxDataHead,
- 			      unsigned int cb_frame_length,
- 			      unsigned int uDMAIdx,
--			      bool bNeedAck,
-+			      bool b_need_ack,
- 			      unsigned int uFragIdx,
- 			      unsigned int cbLastFragmentSize,
- 			      unsigned int uMACfragNum,
-@@ -484,7 +484,8 @@ static __le16 s_uFillDataHead(struct vnt_private *p_device,
- 					cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_A,
- 									    cb_frame_length,
- 									    by_pkt_type,
--									    wCurrentRate, bNeedAck,
-+									    wCurrentRate,
-+									    b_need_ack,
- 									    uFragIdx,
- 									    cbLastFragmentSize,
- 									    uMACfragNum,
-@@ -494,7 +495,7 @@ static __le16 s_uFillDataHead(struct vnt_private *p_device,
- 									    cb_frame_length,
- 									    PK_TYPE_11B,
- 									    p_device->byTopCCKBasicRate,
--									    bNeedAck, uFragIdx,
-+									    b_need_ack, uFragIdx,
- 									    cbLastFragmentSize,
- 									    uMACfragNum,
- 									    byFBOption));
-@@ -517,26 +518,26 @@ static __le16 s_uFillDataHead(struct vnt_private *p_device,
- 		/* Get Duration and TimeStamp */
- 		buf->duration_a = cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_A,
- 								      cb_frame_length, by_pkt_type,
--								      wCurrentRate, bNeedAck,
-+								      wCurrentRate, b_need_ack,
- 								      uFragIdx, cbLastFragmentSize,
- 								      uMACfragNum, byFBOption));
- 		buf->duration_b = cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_B,
- 								      cb_frame_length, PK_TYPE_11B,
- 								      p_device->byTopCCKBasicRate,
--								      bNeedAck, uFragIdx,
-+								      b_need_ack, uFragIdx,
- 								      cbLastFragmentSize,
- 								      uMACfragNum, byFBOption));
- 		buf->duration_a_f0 = cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_A_F0,
- 									 cb_frame_length,
- 									 by_pkt_type,
--									 wCurrentRate, bNeedAck,
-+									 wCurrentRate, b_need_ack,
- 									 uFragIdx,
- 									 cbLastFragmentSize,
- 									 uMACfragNum, byFBOption));
- 		buf->duration_a_f1 = cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_A_F1,
- 									 cb_frame_length,
- 									 by_pkt_type,
--									 wCurrentRate, bNeedAck,
-+									 wCurrentRate, b_need_ack,
- 									 uFragIdx,
- 									 cbLastFragmentSize,
- 									 uMACfragNum, byFBOption));
-@@ -560,19 +561,19 @@ static __le16 s_uFillDataHead(struct vnt_private *p_device,
- 			buf->duration =
- 				cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_A,
- 								    cb_frame_length, by_pkt_type,
--								    wCurrentRate, bNeedAck,
-+								    wCurrentRate, b_need_ack,
- 								    uFragIdx, cbLastFragmentSize,
- 								    uMACfragNum, byFBOption));
- 			buf->duration_f0 =
- 				cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_A_F0,
- 								    cb_frame_length, by_pkt_type,
--								    wCurrentRate, bNeedAck,
-+								    wCurrentRate, b_need_ack,
- 								    uFragIdx, cbLastFragmentSize,
- 								    uMACfragNum, byFBOption));
- 			buf->duration_f1 =
- 				cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_A_F1,
- 								    cb_frame_length, by_pkt_type,
--								    wCurrentRate, bNeedAck,
-+								    wCurrentRate, b_need_ack,
- 								    uFragIdx, cbLastFragmentSize,
- 								    uMACfragNum, byFBOption));
- 			buf->time_stamp_off = vnt_time_stamp_off(p_device, wCurrentRate);
-@@ -592,7 +593,7 @@ static __le16 s_uFillDataHead(struct vnt_private *p_device,
- 			buf->duration =
- 				cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_A,
- 								    cb_frame_length, by_pkt_type,
--								    wCurrentRate, bNeedAck,
-+								    wCurrentRate, b_need_ack,
- 								    uFragIdx, cbLastFragmentSize,
- 								    uMACfragNum, byFBOption));
- 		}
-@@ -613,7 +614,7 @@ static __le16 s_uFillDataHead(struct vnt_private *p_device,
- 		/* Get Duration and TimeStampOff */
- 		buf->duration =
- 			cpu_to_le16((u16)s_uGetDataDuration(p_device, DATADUR_B, cb_frame_length,
--							    by_pkt_type, wCurrentRate, bNeedAck,
-+							    by_pkt_type, wCurrentRate, b_need_ack,
- 							    uFragIdx, cbLastFragmentSize,
- 							    uMACfragNum, byFBOption));
- 	}
-@@ -626,7 +627,7 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
- 			      unsigned char by_pkt_type,
+ 			      unsigned char byFBOption);
+@@ -628,7 +628,7 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
  			      void *pv_rts,
  			      unsigned int cb_frame_length,
--			      bool bNeedAck,
-+			      bool b_need_ack,
- 			      bool bDisCRC,
+ 			      bool b_need_ack,
+-			      bool bDisCRC,
++			      bool b_dis_crc,
  			      struct ieee80211_hdr *hdr,
  			      unsigned short wCurrentRate,
-@@ -664,16 +665,16 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_BB,
- 						     cb_frame_length, PK_TYPE_11B,
- 						     p_device->byTopCCKBasicRate,
--						     bNeedAck, byFBOption);
-+						     b_need_ack, byFBOption);
- 			buf->duration_aa =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_AA,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->duration_ba =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_BA,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
+ 			      unsigned char byFBOption)
+@@ -638,7 +638,7 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
+ 	if (!pv_rts)
+ 		return;
  
- 			buf->data.duration = buf->duration_aa;
-@@ -699,36 +700,36 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_BB,
- 						     cb_frame_length, PK_TYPE_11B,
- 						     p_device->byTopCCKBasicRate,
--						     bNeedAck, byFBOption);
-+						     b_need_ack, byFBOption);
- 			buf->duration_aa =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_AA,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->duration_ba =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_BA,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->rts_duration_ba_f0 =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_BA_F0,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->rts_duration_aa_f0 =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_AA_F0,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->rts_duration_ba_f1 =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_BA_F1,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->rts_duration_aa_f1 =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_AA_F1,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->data.duration = buf->duration_aa;
- 			/* Get RTS Frame body */
-@@ -750,7 +751,7 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
- 			buf->duration =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_AA,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->data.duration = buf->duration;
- 			/* Get RTS Frame body */
-@@ -770,17 +771,17 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
- 			buf->duration =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_AA,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->rts_duration_f0 =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_AA_F0,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->rts_duration_f1 =
- 				s_uGetRTSCTSDuration(p_device, RTSDUR_AA_F1,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
- 			buf->data.duration = buf->duration;
- 			/* Get RTS Frame body */
-@@ -800,7 +801,7 @@ static void s_v_fill_rts_head(struct vnt_private *p_device,
- 		/* Get Duration */
- 		buf->duration =
- 			s_uGetRTSCTSDuration(p_device, RTSDUR_BB, cb_frame_length,
--					     by_pkt_type, wCurrentRate, bNeedAck,
-+					     by_pkt_type, wCurrentRate, b_need_ack,
- 					     byFBOption);
- 
- 		buf->data.duration = buf->duration;
-@@ -818,7 +819,7 @@ static void s_vFillCTSHead(struct vnt_private *p_device,
- 			   unsigned char by_pkt_type,
+-	if (bDisCRC) {
++	if (b_dis_crc) {
+ 		/* When CRCDIS bit is on, H/W forgot to generate FCS for
+ 		 * RTS frame, in this case we need to decrease its length by 4.
+ 		 */
+@@ -820,7 +820,7 @@ static void s_vFillCTSHead(struct vnt_private *p_device,
  			   void *pvCTS,
  			   unsigned int cb_frame_length,
--			   bool bNeedAck,
-+			   bool b_need_ack,
- 			   bool bDisCRC,
+ 			   bool b_need_ack,
+-			   bool bDisCRC,
++			   bool b_dis_crc,
  			   unsigned short wCurrentRate,
  			   unsigned char byFBOption)
-@@ -849,21 +850,21 @@ static void s_vFillCTSHead(struct vnt_private *p_device,
- 			buf->duration_ba =
- 				s_uGetRTSCTSDuration(p_device, CTSDUR_BA,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
+ {
+@@ -829,7 +829,7 @@ static void s_vFillCTSHead(struct vnt_private *p_device,
+ 	if (!pvCTS)
+ 		return;
  
- 			/* Get CTSDuration_ba_f0 */
- 			buf->cts_duration_ba_f0 =
- 				s_uGetRTSCTSDuration(p_device, CTSDUR_BA_F0,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
+-	if (bDisCRC) {
++	if (b_dis_crc) {
+ 		/* When CRCDIS bit is on, H/W forgot to generate FCS for
+ 		 * CTS frame, in this case we need to decrease its length by 4.
+ 		 */
+@@ -947,13 +947,13 @@ static void s_vGenerateTxParameter(struct vnt_private *p_device,
+ 				   unsigned short wCurrentRate)
+ {
+ 	u16 fifo_ctl = le16_to_cpu(tx_buffer_head->fifo_ctl);
+-	bool bDisCRC = false;
++	bool b_dis_crc = false;
+ 	unsigned char byFBOption = AUTO_FB_NONE;
  
- 			/* Get CTSDuration_ba_f1 */
- 			buf->cts_duration_ba_f1 =
- 				s_uGetRTSCTSDuration(p_device, CTSDUR_BA_F1,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
+ 	tx_buffer_head->current_rate = cpu_to_le16(wCurrentRate);
  
- 			/* Get CTS Frame body */
-@@ -892,7 +893,7 @@ static void s_vFillCTSHead(struct vnt_private *p_device,
- 			buf->duration_ba =
- 				s_uGetRTSCTSDuration(p_device, CTSDUR_BA,
- 						     cb_frame_length, by_pkt_type,
--						     wCurrentRate, bNeedAck,
-+						     wCurrentRate, b_need_ack,
- 						     byFBOption);
+ 	if (fifo_ctl & FIFOCTL_CRCDIS)
+-		bDisCRC = true;
++		b_dis_crc = true;
  
- 			/* Get CTS Frame body */
+ 	if (fifo_ctl & FIFOCTL_AUTO_FB_0)
+ 		byFBOption = AUTO_FB_0;
+@@ -981,7 +981,7 @@ static void s_vGenerateTxParameter(struct vnt_private *p_device,
+ 								bNeedACK);
+ 
+ 			s_v_fill_rts_head(p_device, by_pkt_type, pv_rts, cbFrameSize, bNeedACK,
+-					  bDisCRC, psEthHeader, wCurrentRate, byFBOption);
++					  b_dis_crc, psEthHeader, wCurrentRate, byFBOption);
+ 		} else {/* RTS_needless, PCF mode */
+ 			struct vnt_rrv_time_cts *buf = pvRrvTime;
+ 
+@@ -995,7 +995,7 @@ static void s_vGenerateTxParameter(struct vnt_private *p_device,
+ 
+ 			/* Fill CTS */
+ 			s_vFillCTSHead(p_device, uDMAIdx, by_pkt_type, pvCTS, cbFrameSize, bNeedACK,
+-				       bDisCRC, wCurrentRate, byFBOption);
++				       b_dis_crc, wCurrentRate, byFBOption);
+ 		}
+ 	} else if (by_pkt_type == PK_TYPE_11A) {
+ 		if (pv_rts) {/* RTS_need, non PCF mode */
+@@ -1008,7 +1008,7 @@ static void s_vGenerateTxParameter(struct vnt_private *p_device,
+ 
+ 			/* Fill RTS */
+ 			s_v_fill_rts_head(p_device, by_pkt_type, pv_rts, cbFrameSize, bNeedACK,
+-					  bDisCRC, psEthHeader, wCurrentRate, byFBOption);
++					  b_dis_crc, psEthHeader, wCurrentRate, byFBOption);
+ 		} else if (!pv_rts) {/* RTS_needless, non PCF mode */
+ 			struct vnt_rrv_time_ab *buf = pvRrvTime;
+ 
+@@ -1026,7 +1026,7 @@ static void s_vGenerateTxParameter(struct vnt_private *p_device,
+ 
+ 			/* Fill RTS */
+ 			s_v_fill_rts_head(p_device, by_pkt_type, pv_rts, cbFrameSize, bNeedACK,
+-					  bDisCRC, psEthHeader, wCurrentRate, byFBOption);
++					  b_dis_crc, psEthHeader, wCurrentRate, byFBOption);
+ 		} else { /* RTS_needless, non PCF mode */
+ 			struct vnt_rrv_time_ab *buf = pvRrvTime;
+ 
 -- 
 2.34.1
 
