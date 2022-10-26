@@ -1,27 +1,26 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B8CA28;
-	Wed, 26 Oct 2022 10:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A52A10F9;
+	Wed, 26 Oct 2022 10:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666780585; bh=Nu1SWNtGRTsJcwbwP/PERGl+2UsXTpRN4McY4HN8/lU=;
+	t=1666780641; bh=2o2vObTUWUB0Kdk6K5kLMVJ/u7FvQKx9DpX0JHVrhzY=;
 	h=X-EA-Auth:Date:From:To:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:In-Reply-To;
-	b=hzqCngcJ3D74gZj2HTKcDVabu5ff2OFAjuk8kImoZz+jEtFE+iwW1IBX3K423H1Bx
-	 cweHeqCgkWRRqyj4jAdN04YoI2ECGCtYm/0mCjWlnZe8g4pCHpJS2dU6UypT96UwVZ
-	 7lzzs2Qn5/qLLLrDACdUuZglS3sOqS1ByrhaqdTE=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+	b=n9MF0KHexYUfDnyDE20lf405Xu6eQgg5AD5PItaKVVcUlo/0pSqv2Uo8X9GKspeLF
+	 kIQHC/9qfA8NkdVphP9gpGmrjfwXyXJgkE0cfHw0ToeWMZHAGe1rSE8zlb0NOCrEd3
+	 8Py/EIBBA+0A8igYR+rev85Ac5ZXBOYREYl3lbPs=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
 	via [213.182.55.206]
-	Wed, 26 Oct 2022 12:36:25 +0200 (CEST)
-X-EA-Auth: y/mb8iDgGK/LUCLB3d9Yyf+f8YvHkDUOK07o/RseykjYFs9uRR5y5S+zFb7fRulsBZmvsdLjVduxZR90zqY1ubUqOpWVaCBA
-Date: Wed, 26 Oct 2022 08:57:48 +0530
+	Wed, 26 Oct 2022 12:37:21 +0200 (CEST)
+X-EA-Auth: H2CtVnUc+erUdiJhAzCjTta69U9/k8Kq8sa4I6xa+4zRi0CNntGfIIw5oc42fnlqqx4kU74pVOSz5wALBQUyjFZB9nU7T7yB
+Date: Wed, 26 Oct 2022 08:58:44 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: outreachy@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] staging: rtl8192u: remove unnecessary function
- implementation
-Message-ID: <a15fe9f6167e76e4422d303ceafbd4d9b432dd13.1666754500.git.drv@mailo.com>
+Subject: [PATCH 2/2] staging: rtl8192u: remove unused macro definition
+Message-ID: <b7053d8737c048d6a878609f0ec24d66b18c5abd.1666754500.git.drv@mailo.com>
 References: <cover.1666754500.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -33,67 +32,27 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1666754500.git.drv@mailo.com>
 
-Current implementation of function ieee80211_tkip_null simply returns
-back to the caller without any useful instruction executions. This makes
-the function call and its implementation unnecessary and should be
-removed.
+Pre-processor macros that are defined but are never used should be
+cleaned up to avoid unexpected usage.
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/staging/rtl8192u/ieee80211/ieee80211.h            | 3 ---
- drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c | 6 ------
- drivers/staging/rtl8192u/ieee80211/ieee80211_module.c     | 3 ---
- 3 files changed, 12 deletions(-)
+ drivers/staging/rtl8192u/ieee80211/ieee80211.h | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211.h b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-index 9cd4b1896745..00c07455cbb3 100644
+index 00c07455cbb3..0b3dda59d7c0 100644
 --- a/drivers/staging/rtl8192u/ieee80211/ieee80211.h
 +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-@@ -232,8 +232,6 @@ struct cb_desc {
+@@ -230,8 +230,6 @@ struct cb_desc {
+ #define ieee80211_unregister_crypto_ops ieee80211_unregister_crypto_ops_rsl
+ #define ieee80211_get_crypto_ops	ieee80211_get_crypto_ops_rsl
 
- #define ieee80211_ccmp_null		ieee80211_ccmp_null_rsl
-
--#define ieee80211_tkip_null		ieee80211_tkip_null_rsl
+-#define ieee80211_ccmp_null		ieee80211_ccmp_null_rsl
 -
  #define free_ieee80211			free_ieee80211_rsl
  #define alloc_ieee80211			alloc_ieee80211_rsl
 
-@@ -2256,7 +2254,6 @@ void ieee80211_ps_tx_ack(struct ieee80211_device *ieee, short success);
- void softmac_mgmt_xmit(struct sk_buff *skb, struct ieee80211_device *ieee);
-
- /* ieee80211_crypt_ccmp&tkip&wep.c */
--void ieee80211_tkip_null(void);
-
- int ieee80211_crypto_init(void);
- void ieee80211_crypto_deinit(void);
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-index 7b120b8cb982..9bfd24ad46b6 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-@@ -716,9 +716,3 @@ void ieee80211_crypto_tkip_exit(void)
- {
- 	ieee80211_unregister_crypto_ops(&ieee80211_crypt_tkip);
- }
--
--void ieee80211_tkip_null(void)
--{
--//    printk("============>%s()\n", __func__);
--	return;
--}
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_module.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_module.c
-index b94fe9b449b6..3f93939bc4ee 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_module.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_module.c
-@@ -159,9 +159,6 @@ struct net_device *alloc_ieee80211(int sizeof_priv)
- 		ieee->last_packet_time[i] = 0;
- 	}
-
--/* These function were added to load crypte module autoly */
--	ieee80211_tkip_null();
--
- 	return dev;
-
-  failed:
 --
 2.30.2
 
