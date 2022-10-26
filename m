@@ -1,26 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99381C03;
-	Wed, 26 Oct 2022 13:52:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F7F8C433C1;
-	Wed, 26 Oct 2022 13:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFE41C03;
+	Wed, 26 Oct 2022 13:54:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C3D9C433C1;
+	Wed, 26 Oct 2022 13:54:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666792361;
-	bh=K7jEal6x1Na5c8Q6HECvo3yVgzCvvO7sXemhZBWHVF8=;
+	s=korg; t=1666792449;
+	bh=qtJhkpBNI09xyN+fRFiz2dyg8X03xHEV6Ai99KiJV2Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I5WSECAYn6puczp/4foqTqyreDtLM8K/aNF7zi1w6LKgtsdEO3qqyx540JZWdoVG/
-	 3LBw4McEZ/g4fKuqfspPdXP2Iv6wtvZl6YKBf9m6yA4GEqOpiH4YtwEyIgf/LvivsC
-	 0u251EByaHFDCBnBo2wdhNiS3AdnziFKHunrX+uc=
-Date: Wed, 26 Oct 2022 15:53:34 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: UMWARI JOVIAL <umwarijovial@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] Fixed[ERROR:trailing whitespace and braces around scalar
- initializer]
-Message-ID: <Y1k73n3yIZ1yQpss@kroah.com>
-References: <20221026132838.GA44037@rdm>
+	b=EnfwyRUSZErm+pvgMwTNddfTWovLzhr1Oh8B35+Dabsp1Yg4o6DX7PCJYh1l5DQ7p
+	 0GwS/I8io1kir1Cnlkrf01C/fG/tl6Kz1X/6Gv/uVUj47oHrB95v7JUqX89LKHfcTx
+	 lDUpBN+JKgKfi4Vy5O+ssXCkdX76BkNKoiqzUtwQ=
+Date: Wed, 26 Oct 2022 15:55:01 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Deepak R Varma <drv@mailo.com>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: rtl8192u: remove unused macro definition
+Message-ID: <Y1k8NWuTxOf6z5zL@kroah.com>
+References: <cover.1666754500.git.drv@mailo.com>
+ <b7053d8737c048d6a878609f0ec24d66b18c5abd.1666754500.git.drv@mailo.com>
+ <Y1kyr/hWqbKCzaaR@kroah.com>
+ <Y1k5y5PVT6t0+OIS@debian-BULLSEYE-live-builder-AMD64>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,63 +31,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221026132838.GA44037@rdm>
+In-Reply-To: <Y1k5y5PVT6t0+OIS@debian-BULLSEYE-live-builder-AMD64>
 
-On Wed, Oct 26, 2022 at 04:28:38PM +0300, UMWARI JOVIAL wrote:
-> Using the checkpatch.pl script, found the below errors and  fixed
-> ERROR: trailing whitespace
-> CHECK: Please don't use multiple blank lines
-> warning: braces around scalar initializer
+On Wed, Oct 26, 2022 at 07:14:43PM +0530, Deepak R Varma wrote:
+> On Wed, Oct 26, 2022 at 03:14:23PM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Oct 26, 2022 at 08:58:44AM +0530, Deepak R Varma wrote:
+> > > Pre-processor macros that are defined but are never used should be
+> > > cleaned up to avoid unexpected usage.
+> > >
+> > > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > > ---
+> > >  drivers/staging/rtl8192u/ieee80211/ieee80211.h | 2 --
+> > >  1 file changed, 2 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211.h b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > > index 00c07455cbb3..0b3dda59d7c0 100644
+> > > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > > @@ -230,8 +230,6 @@ struct cb_desc {
+> > >  #define ieee80211_unregister_crypto_ops ieee80211_unregister_crypto_ops_rsl
+> > >  #define ieee80211_get_crypto_ops	ieee80211_get_crypto_ops_rsl
+> > >
+> > > -#define ieee80211_ccmp_null		ieee80211_ccmp_null_rsl
+> > > -
+> > >  #define free_ieee80211			free_ieee80211_rsl
+> > >  #define alloc_ieee80211			alloc_ieee80211_rsl
+> >
+> > These #defines are a mess, please look into unwinding them as they
+> > should not be needed at all.
 > 
-> Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
-> ---
->  drivers/staging/most/dim2/dim2.c | 2 --
->  1 file changed, 2 deletions(-)
+> Hello Greg,
+> I would like to know what you mean by "unwind them". Is there a documentation or past
+> commit that I can review to understand the expectations better?
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Look at them and try to figure out why they are there, and then work to
+remove them entirely.  A define like this is very odd in the kernel, it
+should not be needed at all, right?
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
