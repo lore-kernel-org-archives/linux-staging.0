@@ -1,79 +1,48 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9B9EBF;
-	Wed, 26 Oct 2022 03:24:15 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id d26so17843686eje.10;
-        Tue, 25 Oct 2022 20:24:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YCzzirgjwOdUAnOkRY53VJyqkWpOMP9smR0zkz0PYTo=;
-        b=Eddol3R5wxuDuqINpE1iuUEar3C1wHj4Ohl35+H7sX5BqnpqoQ1rGRk/SygDLmx+wI
-         ee4YKWc55O1xuZhLgpVdawjS9Oz2DCOE+MG/TYL3d1j8/msCw+qHOMF9nRTy+Mk0h7UO
-         JYyuw/HM7Zgt3CzJ9y3PZ3+Ap9ivgk5lRGrGSY66BwGqUSrA/xGYwyItp8HUzKN11WRw
-         yJzIOdaCrkGigP2RxrtbJ8i4YX/P96hienWdXevqyhPDXe949R7YNZHKdNLIUrUno8Xz
-         LPTICeJj5jOZV94DeoiCa+pYacT7eHLWx4X+bsFJ43ne123/1gRYnl45RwJyewZTv2/7
-         oN9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YCzzirgjwOdUAnOkRY53VJyqkWpOMP9smR0zkz0PYTo=;
-        b=TaREVfyH3LMJ+NAL/GabdUn67NJiWFRWzndNEiIG1vuW5TLW2bm4ocKvrBzbzPc79y
-         dIZiaFk7G3KUdmd6GXcIAoqmT6WV19dHLq4tetCM0JJwl5Hq1/XzIzpLgqSd0luRiF7U
-         SCm+HUJDuhKeryKb9qHCR+mnnoT2MRiNN0HJmmp5OYb5EZ9LeGvsYah7pT0iwjLRRZjC
-         yzTtC3SaC+j7RJ2XAQeObbzR6e9i7cEhJ9ku7fHL1CzlrQqNyH/Dwg4a9+YnvSYYn2NI
-         fuHrKkR+PyAVyc1TU6yZ3bLpnJMR14XaCMRJzLmmrzRrPE2Pzta6n5f8K2dtnJqHzx3v
-         vYVA==
-X-Gm-Message-State: ACrzQf20nXDN6FtQnXdENXAIkiLFQI9Rm8pPy96Wvu6qH4N6rFj9qp/r
-	9W12AIfja57QUdr4LYagI7JeLjqTeRc=
-X-Google-Smtp-Source: AMsMyM6ZoEN3yiCLyBdNCGFw96yq+oeOazpuBqB89ZxlVjDwzMWdIsldOrC9h1JhWdM9KUq8Uhvl2w==
-X-Received: by 2002:a17:906:c151:b0:78d:cdbc:9fb7 with SMTP id dp17-20020a170906c15100b0078dcdbc9fb7mr34069296ejc.688.1666754653365;
-        Tue, 25 Oct 2022 20:24:13 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2a:b844:c952:3daa:e0a:40ba? (p200300c78f2ab844c9523daa0e0a40ba.dip0.t-ipconnect.de. [2003:c7:8f2a:b844:c952:3daa:e0a:40ba])
-        by smtp.gmail.com with ESMTPSA id e9-20020a170906314900b007acd04fcedcsm1409251eje.46.2022.10.25.20.24.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 20:24:12 -0700 (PDT)
-Message-ID: <365358f4-eabe-8d91-e585-733cf1bb9924@gmail.com>
-Date: Wed, 26 Oct 2022 05:24:12 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6F7A28;
+	Wed, 26 Oct 2022 10:35:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1666780518; bh=CkgEmYMxD29PBWn79CaVb5kHVMygiKiP3es92Nhi7G4=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=IUMJ9OPXIxcVfEhq0wlj3/GG/3fLt5rQglxV/+hYIjDRNyLSykbeagy6SoueDJFJR
+	 q8vq9OBDerG2nIB00mZhmhsXrKSyvEfrauxwRE9zEvSVqOyFMSOKydEXiLL6V9HJSv
+	 QK/TdFovR3WgQNP79nqoCAfYRqGvkoJT2kVJ3yeU=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+	via [213.182.55.206]
+	Wed, 26 Oct 2022 12:35:18 +0200 (CEST)
+X-EA-Auth: mHdDbY5qqCmgEzKCFIMRuZDAPpX5m4qL514Kcl9/eEshuHcNJYNG/6XRE55NbdQbMTUezGV/ge/YfFB8u8Bc2rkvBGvwUTxp
+Date: Wed, 26 Oct 2022 08:56:41 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] staging: rtl8192u: unused code cleanup
+Message-ID: <cover.1666754500.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 01/17] staging: vt6655: changed variable names: wFB_Opt0
-Content-Language: en-US
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy@lists.linux.dev
-References: <cover.1666740522.git.tanjubrunostar0@gmail.com>
- <62f69eddc9641ac9eb045edf8a9453bf36a02b36.1666740522.git.tanjubrunostar0@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <62f69eddc9641ac9eb045edf8a9453bf36a02b36.1666740522.git.tanjubrunostar0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/26/22 01:36, Tanjuate Brunostar wrote:
-> change variable names wFB_Opt0 and wFB_Opt1 to meet the
-> linux coding standard, as it says to avoid using camelCase naming style.
-> Cought by checkpatch
-> 
-> Signed-off-by: Tanjuate Brunostar<tanjubrunostar0@gmail.com>
-> ---
->   drivers/staging/vt6655/rxtx.c | 32 ++++++++++++++++----------------
->   1 file changed, 16 insertions(+), 16 deletions(-)
+Remove code that is unnecessary or unused.
 
-Applying: staging: vt6655: changed variable names: wFB_Opt0
-error: sha1 information is lacking or useless 
-(drivers/staging/vt6655/rxtx.c).
-error: could not build fake ancestor
-Patch failed at 0001 staging: vt6655: changed variable names: wFB_Opt0
+Deepak R Varma (2):
+  staging: rtl8192u: remove unnecessary function implementation
+  staging: rtl8192u: remove unused macro definition
 
-Please rebase
+ drivers/staging/rtl8192u/ieee80211/ieee80211.h            | 5 -----
+ drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c | 6 ------
+ drivers/staging/rtl8192u/ieee80211/ieee80211_module.c     | 3 ---
+ 3 files changed, 14 deletions(-)
+
+--
+2.30.2
+
+
+
