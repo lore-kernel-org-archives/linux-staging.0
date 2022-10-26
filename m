@@ -1,27 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C68139F;
-	Wed, 26 Oct 2022 13:51:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86151C433C1;
-	Wed, 26 Oct 2022 13:51:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99381C03;
+	Wed, 26 Oct 2022 13:52:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F7F8C433C1;
+	Wed, 26 Oct 2022 13:52:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666792297;
-	bh=HKTXbklFgkZRcsC9KCxAcDRF1DhW6GsskRH6sDGwdoQ=;
+	s=korg; t=1666792361;
+	bh=K7jEal6x1Na5c8Q6HECvo3yVgzCvvO7sXemhZBWHVF8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TUmSDcH1+dPCaB5/1lDr7wepq/jZSmLYFP94fi90Dk7weU573EjVrO2DqKyLBmK4z
-	 wbiC8qFflt/alrzUQ53urFGw9D0uqoL/knn+7gb0OQipjTEuA6XRy/0+osyePZfK7w
-	 qNM6RISbGRSjA3I7RWUrA3q+gKFfvxQyV7IcZpPo=
-Date: Wed, 26 Oct 2022 15:52:29 +0200
+	b=I5WSECAYn6puczp/4foqTqyreDtLM8K/aNF7zi1w6LKgtsdEO3qqyx540JZWdoVG/
+	 3LBw4McEZ/g4fKuqfspPdXP2Iv6wtvZl6YKBf9m6yA4GEqOpiH4YtwEyIgf/LvivsC
+	 0u251EByaHFDCBnBo2wdhNiS3AdnziFKHunrX+uc=
+Date: Wed, 26 Oct 2022 15:53:34 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: UMWARI JOVIAL <umwarijovial@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Subject: Re: [PATCH 02/17] staging: vt6655: changed variable names:
- s_vFillRTSHead
-Message-ID: <Y1k7nY8LnibU5lMh@kroah.com>
-References: <cover.1666740522.git.tanjubrunostar0@gmail.com>
- <8afb904f9fb22a262b3563d5cfc5804863bfb5ea.1666740522.git.tanjubrunostar0@gmail.com>
+Subject: Re: [PATCH] Fixed[ERROR:trailing whitespace and braces around scalar
+ initializer]
+Message-ID: <Y1k73n3yIZ1yQpss@kroah.com>
+References: <20221026132838.GA44037@rdm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,17 +29,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8afb904f9fb22a262b3563d5cfc5804863bfb5ea.1666740522.git.tanjubrunostar0@gmail.com>
+In-Reply-To: <20221026132838.GA44037@rdm>
 
-On Tue, Oct 25, 2022 at 11:36:58PM +0000, Tanjuate Brunostar wrote:
->     change variable names s_vFillRTSHead and wTimeStampOff to meet the
->     linux coding standard, as it says to avoid using camelCase naming style.
->     Cought by checkpatch
+On Wed, Oct 26, 2022 at 04:28:38PM +0300, UMWARI JOVIAL wrote:
+> Using the checkpatch.pl script, found the below errors and  fixed
+> ERROR: trailing whitespace
+> CHECK: Please don't use multiple blank lines
+> warning: braces around scalar initializer
+> 
+> Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+> ---
+>  drivers/staging/most/dim2/dim2.c | 2 --
+>  1 file changed, 2 deletions(-)
 
-s_vFillRTSHead is not a variable name.  It is a function name, and ick,
-that's a horrid name, please make it sane (i.e. do NOT put the type of
-the function in the name like they did here.)
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
