@@ -1,48 +1,29 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198D21374;
-	Wed, 26 Oct 2022 13:28:52 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id o4so18110856wrq.6;
-        Wed, 26 Oct 2022 06:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BQjuqzUbSlDqvGhbLmWueKhvNccMA5rF1ebwhNIRC8o=;
-        b=G1//KcT6j5z5YfC3wUevGXsdon0yVPojTloeyZWcGQUIBIpxrMzrrmxlKdUMgcoZCC
-         Vzjun/6shaKnwzglVWT5DQi/RVTo0SXYUWk165DbwchhlZtG2EvVyC1aOY8hJeIqoWnt
-         5dbY0P199x+Dg8MlAcNsjsZFpyvpkuQ2yMUlMEp7FMZaRw+drjxs+/DDwmBTek/dpYQ7
-         T+q4dVQXQ7SfjsX19UaZLQt1ZRGkq0mhQiQrRRvOI0ZT2n/Ia9SuW0k/gnxhNKdEs70u
-         KKk03DLDus9d0JECKciycUKSEw1dP94wsoJ6Dw2+/HVFhj7eDLfckwDW03CRjrdDvbFE
-         UbSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BQjuqzUbSlDqvGhbLmWueKhvNccMA5rF1ebwhNIRC8o=;
-        b=N27AIcdiqpMCc+rBQwiGKVI/ZiiYNYiH8a/TmYuC9EKIYPXfR3kgkfkJeaIzXhzzGK
-         4GaJoH/tWrAZjV902TFkuC4bokrWOh8fR18BDPHLpRKb0RDa4CB069P1HIsVXAhYW0/2
-         RTbpSVyrm2NIqfigrlwAe52qQpTHIKt9j5LBsPegIiQyjkmXte5NGRmacJBYd19Wyg0T
-         0GlyfF7tTd0cJqIFYBkyM9cpOrTqTdDs84TiWJ+reCdcxKuterJFHyeWXrDqzXuCR4Ih
-         Vd3KOamiEgwdhWrscKTC3XxYSsFVdZSm1mdA4iTchwgNcOcgJWWfsa6Kqrnp2+nnrPeD
-         2fwg==
-X-Gm-Message-State: ACrzQf367yaIU3t0aCYSfQillvnMhmzIuEvi+zzT8286Cv183fDAA0tR
-	zwU++dkGsXI6/YwyqIhFeLGAD7hqjqhAimq6
-X-Google-Smtp-Source: AMsMyM78UzBXXIbb9unvFZjujdL/F1OC0cQ2qXXhpRfAXkOjGjJNAIPF9DIUo7PeTAW2K3bTJo03Hw==
-X-Received: by 2002:a5d:42c6:0:b0:235:1b3a:8d2e with SMTP id t6-20020a5d42c6000000b002351b3a8d2emr23154184wrr.689.1666790930423;
-        Wed, 26 Oct 2022 06:28:50 -0700 (PDT)
-Received: from rdm ([41.75.188.129])
-        by smtp.gmail.com with ESMTPSA id 24-20020a05600c021800b003c6c2ff7f25sm1842410wmi.15.2022.10.26.06.28.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 06:28:50 -0700 (PDT)
-Date: Wed, 26 Oct 2022 16:28:38 +0300
-From: UMWARI JOVIAL <umwarijovial@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: [PATCH] Fixed[ERROR:trailing whitespace and braces around scalar
- initializer]
-Message-ID: <20221026132838.GA44037@rdm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B551374;
+	Wed, 26 Oct 2022 13:44:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1666791886; bh=ysuEu2gcIIZ9Gls3WpW2bMj8egi1afgluP/NBc5EWnw=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=HmW0HhlZBEtQaXq4byFmXum8bkT8E96SObxAfid3j2s2cB79r4Yo29QJT5ip/cWxf
+	 hPTcI+GQvnVGwAkFGPxQF7mS8PlZN04v9OQhGspAbZI5gaELFtlATFWXnKRuIzQEO9
+	 XWCdXikR3FZwDtb6+MJzO0+Eby3yV/jBzzT0aDtY=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+	via [213.182.55.206]
+	Wed, 26 Oct 2022 15:44:46 +0200 (CEST)
+X-EA-Auth: N64AvuwQIp1I6Tw9cugKwmAqQwT+msEiS9FYfZa5FQBqVXeGcp75mkjIq995/MNmMfQMYPIEE1BZ3hgkWpENz5mYrJibjHPf
+Date: Wed, 26 Oct 2022 19:14:43 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: rtl8192u: remove unused macro definition
+Message-ID: <Y1k5y5PVT6t0+OIS@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1666754500.git.drv@mailo.com>
+ <b7053d8737c048d6a878609f0ec24d66b18c5abd.1666754500.git.drv@mailo.com>
+ <Y1kyr/hWqbKCzaaR@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,37 +32,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y1kyr/hWqbKCzaaR@kroah.com>
 
-Using the checkpatch.pl script, found the below errors and  fixed
-ERROR: trailing whitespace
-CHECK: Please don't use multiple blank lines
-warning: braces around scalar initializer
+On Wed, Oct 26, 2022 at 03:14:23PM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Oct 26, 2022 at 08:58:44AM +0530, Deepak R Varma wrote:
+> > Pre-processor macros that are defined but are never used should be
+> > cleaned up to avoid unexpected usage.
+> >
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> >  drivers/staging/rtl8192u/ieee80211/ieee80211.h | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211.h b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > index 00c07455cbb3..0b3dda59d7c0 100644
+> > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > @@ -230,8 +230,6 @@ struct cb_desc {
+> >  #define ieee80211_unregister_crypto_ops ieee80211_unregister_crypto_ops_rsl
+> >  #define ieee80211_get_crypto_ops	ieee80211_get_crypto_ops_rsl
+> >
+> > -#define ieee80211_ccmp_null		ieee80211_ccmp_null_rsl
+> > -
+> >  #define free_ieee80211			free_ieee80211_rsl
+> >  #define alloc_ieee80211			alloc_ieee80211_rsl
+>
+> These #defines are a mess, please look into unwinding them as they
+> should not be needed at all.
 
-Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
----
- drivers/staging/most/dim2/dim2.c | 2 --
- 1 file changed, 2 deletions(-)
+Hello Greg,
+I would like to know what you mean by "unwind them". Is there a documentation or past
+commit that I can review to understand the expectations better?
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index 7a5f80e637a0..28259ce05024 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -987,7 +987,6 @@ static int rcar_gen2_enable(struct platform_device *pdev)
- 		writel(0x04, dev->io_base + 0x600);
- 	}
- 
--
- 	/* BBCR = 0b11 */
- 	writel(0x03, dev->io_base + 0x500);
- 	writel(0x0002FF02, dev->io_base + 0x508);
-@@ -1084,7 +1083,6 @@ static const struct of_device_id dim2_of_match[] = {
- 	{
- 		.compatible = "xlnx,axi4-os62420_6pin-1.00.a",
- 	},
--	{},
- };
- 
- MODULE_DEVICE_TABLE(of, dim2_of_match);
--- 
-2.25.1
+Thank you,
+./drv
+
+>
+> thanks,
+>
+> greg k-h
+>
+
 
