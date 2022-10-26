@@ -1,35 +1,35 @@
 Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512111374
-	for <linux-staging@lists.linux.dev>; Wed, 26 Oct 2022 12:43:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1666788185; cv=none; 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562091374
+	for <linux-staging@lists.linux.dev>; Wed, 26 Oct 2022 12:44:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1666788241; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=VhtDcv9QqQmhe/+i5FaDmjXoI0uKRy68wpAEUQRBht5dkLyf3K5uAzW1kJPHgDBLkDTZw7Yn+4v+patub59VWkqJHG8TP1ai9Q+4MRZlSfOAVLtCiHcO1W83SHAtm+YtxNfbxicqurQhRxRNEfXOwR15iBO4ZKHBq3GlXloxEGA=
+	b=QN5FgsdNhFnCRS91LIc1akmaEeCbcgyHzXjErDezIqawzV0F+aaazgd79hi41Y73rHxyqkYU02iTRcsPBx4/aD06+yhV7AP9aKy50I8vJcU9nyfKjMQ3zk2DaIo1z3V+uSxsC2xT3nsbzNpDWe3+fg0FKWyn8xJmGGhlJHHYf/I=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1666788185; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=gn9CWmy4W7rmZ/rwXWSEgHAWya2y6DKl9JZAkcJcx+8=; 
-	b=BcpmUA4XhoyhPWGwznGP6pqWGJhg9xzD4iVpNj0vlqnLslAhqZsSvOdt7oOn9O05obyRzEE/ZHjCcg+9PwH7qdOuscOAmuO+AG2FrE10VAA524eA7moNzDnbJawrzEPyOiUY+4WiZV9+/j/tOVWCzd5s/6uCJAFWn7mk95Kq1I4=
+	t=1666788241; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=NhEnCBIWiWhW0byYC8XES1kb52GQs7ocwSW0WqCzYhU=; 
+	b=dky9QHdmNKDaZRvMGqvVSC0P9sT8h8h98WHNxHqJ6+4ioBbuCQc8z9Scgc7ymzcr3+vHTz/bLrxk1M9fOGSeg/Z20PZuHOx+dC+RgtEHWbvoR008mRrf9iL9bkpBlYQrD5wmFiT9NuJdiepvT110Jh15eKYLHZQbv9Rj2ICJHo4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=zohomail.com;
 	spf=pass  smtp.mailfrom=t4rmin@zohomail.com;
 	dmarc=pass header.from=<t4rmin@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666788185;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666788241;
 	s=zm2022; d=zohomail.com; i=t4rmin@zohomail.com;
 	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=gn9CWmy4W7rmZ/rwXWSEgHAWya2y6DKl9JZAkcJcx+8=;
-	b=OlIEGgpfjt8ftu+jBMfBvsLDv6mv06kzsJ82KAy3RBNwKnWDb814hQO7FBLP4u9A
-	Nx/vsnJJ9WOkGAtHfMc5qWZmsCblatKWL3vHIvkIxsv5t6i+G2iCGa9q6s06jqC9/Bp
-	eIaVC2+4ftbSehWN/LJNYrX4Mqcmr/OA6VKkrJqE=
-Received: from plymouth (103.47.132.34 [103.47.132.34]) by mx.zohomail.com
-	with SMTPS id 1666788184977888.9014581744829; Wed, 26 Oct 2022 05:43:04 -0700 (PDT)
-Date: Wed, 26 Oct 2022 19:42:55 +0700
+	bh=NhEnCBIWiWhW0byYC8XES1kb52GQs7ocwSW0WqCzYhU=;
+	b=KREsLJTuBSGqOnc1o8WLJhi4ND33J/qKx8k2x3pg9Q/TQ8AyZFRSh4rXbc8tAcmT
+	GJ1JTXY/+F4PDQ6I600+rcppd5k9cmYs42bqlVUHlP7JTB6yvaAJky/DHlahGLUq6YC
+	DyoH9iVJooVktIgqsI5pU5IIQqSt1r2ckOFE2VEI=
+Received: from plymouth (103.47.132.12 [103.47.132.12]) by mx.zohomail.com
+	with SMTPS id 1666788239134352.55749610584144; Wed, 26 Oct 2022 05:43:59 -0700 (PDT)
+Date: Wed, 26 Oct 2022 19:43:51 +0700
 From: Aaron Lawrence <t4rmin@zohomail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] staging: rtl8192e: rtllib_crypt_tkip: split multiple
- assignments
-Message-ID: <a9ab257d0042afd3b3231eefe4f58c0c3ac7649f.1666787061.git.t4rmin@zohomail.com>
+Subject: [PATCH 6/6] staging: rtl8192e: rtllib_crypt_tkip: rewritten
+ comparison to NULL
+Message-ID: <ca33296630627020694f4b653580f689a8a3d1c7.1666787061.git.t4rmin@zohomail.com>
 References: <cover.1666787061.git.t4rmin@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -42,38 +42,28 @@ Content-Disposition: inline
 In-Reply-To: <cover.1666787061.git.t4rmin@zohomail.com>
 X-ZohoMailClient: External
 
-Split a multiple assignments statement to individual assignments
-on different lines in accordance with the Linux kernel coding-style
-regulations. Also repositioned comments on it and the statement
-before for increased legibility. The multiple assignments issue
-was found by the checkpatch script, with the comments legibility
-issue were through direct observation.
+Rewritten a comparison to NULL with a negation operator in
+accordance with the Linux kernel coding-style regulations. The fix
+was directly recommended by the checkpatch script.
 
 Signed-off-by: Aaron Lawrence <t4rmin@zohomail.com>
 ---
- drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-index d1b86de76eb2..b8a52b9f9d07 100644
+index b8a52b9f9d07..9fdfcc017ee6 100644
 --- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
 +++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-@@ -488,9 +488,13 @@ static void michael_mic_hdr(struct sk_buff *skb, u8 *hdr)
- 		break;
- 	}
+@@ -62,7 +62,7 @@ static void *rtllib_tkip_init(int key_idx)
+ 		return NULL;
  
--	hdr[12] = 0; /* priority */
-+	/* priority */
-+	hdr[12] = 0;
+ 	priv = kzalloc(sizeof(*priv), GFP_ATOMIC);
+-	if (priv == NULL)
++	if (!priv)
+ 		goto fail;
+ 	priv->key_idx = key_idx;
  
--	hdr[13] = hdr[14] = hdr[15] = 0; /* reserved */
-+	/* reserved */
-+	hdr[13] = 0;
-+	hdr[14] = 0;
-+	hdr[15] = 0;
- }
- 
- static int rtllib_michael_mic_add(struct sk_buff *skb, int hdr_len, void *priv)
 -- 
 2.38.1
 
