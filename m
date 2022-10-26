@@ -1,48 +1,47 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC29610F9;
-	Wed, 26 Oct 2022 10:56:22 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id i21so19718457edj.10;
-        Wed, 26 Oct 2022 03:56:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A641110;
+	Wed, 26 Oct 2022 11:06:32 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id j15so15189170wrq.3;
+        Wed, 26 Oct 2022 04:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
         bh=f8fw059w/DKGSzGISpKiD55jlFKGFxUmcqcrxLcKoWk=;
-        b=CLEyjBFayA83BBqUPHPVD2k/po+HkWh80ebuuSYJmU6QuV0NfDstV9jg4d+d3EgyME
-         WApB62DSAgaDijYteIBvDCaxHE8heH4IGMqAJiheySzR77fbZWNpBVeAWv04GbJUdnAV
-         /RfIbn1PNj7MREkpjGK8I0wpN3Ymy+M0JIRrNPsnFEPqOAi+y8MIQaOy/+cbcrs7/d/0
-         gdMzMiKZWy4llAsPQeQthS+0qlJhhYbR7S7r5eIMLYFwtVAItFWAfKU8PTwU7EvC/ouO
-         ZJmGUlIxj9lV1LIKH3ZSp1nqWKEO2+pt/iuQlsGsIoz5YADu3ZplTV5uBJRuej9VJZLQ
-         ue7Q==
+        b=L5rHIBQ3/dPpSeWOe9aN4GAPujJGcy+UIpAjXeVt+wCcGjILATyaGSYM5c7NpfVYIz
+         KLhqOwdpJiJv5/Ys8yn+8p6C+KA2rTVjT8W3/FL+NuGNRk2X5mc4AX8cYrSvPbpGAqIY
+         xnFClyAhyW97mvY2bgfoKJFCwzasqIEmLIOzHCDCQx8sULd7DYFgKb6qG5x32IaHMYOn
+         O5fOhl6/7fTjnb/JMuRtIqWoXlemHQ2SaQE3ou0Em+YJTKPj01HxZKpSckHFoL8xWz+3
+         p2JRuEeT1PYkK3lm5CDTjWN2WI1EsOeFBUjuPP/t8SMops1975KMa8eo+bp/uxnYyQAn
+         Gwew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=f8fw059w/DKGSzGISpKiD55jlFKGFxUmcqcrxLcKoWk=;
-        b=wkRD4R5ERVbrY+WcGmyJUKiSunJy5Y/T9gvs4UYqQTNG/bt3tx6OmhIIQo8/9UvYfA
-         p6bw73w5ebihGurToDKP1ybnNrWXvnAncdRPWbJUTTbDZrpuiRqG7S2Vo1s3FDpjcI0S
-         V1/Wn5U1iWkAMG2LbhcHpw3ARKPXo6UIEpm8Ij4DGlMajGL2z7a/6cKNnHevbUi9V5hU
-         b2eU1qtryw18iL3usaYvOcfFWyF6ErrJc9kMflcRwieXVntx1Pr6WuyT+XTHwule4q2W
-         +GGuc4tnwiz1ujd8lIfM5DK94M20Z99m8oHNb/Wv1grqF+nUqOsVg8nTB4WZOyoSqFIy
-         v4+w==
-X-Gm-Message-State: ACrzQf2ydKmfMXoiN9BehBaiZliKuY2MESncNuKfh6zzl6Xmx3czz1/L
-	W34idk8PgF6PnveNj820JUA=
-X-Google-Smtp-Source: AMsMyM6/tZmI5E8Yt3bmfs3zBrVnzh4DNNGgxvX1Cffob+Gfq9EdJtZbqag9MZprSWpOTwc0dIBVuA==
-X-Received: by 2002:aa7:c14b:0:b0:461:c47d:48cf with SMTP id r11-20020aa7c14b000000b00461c47d48cfmr14101576edp.83.1666781781005;
-        Wed, 26 Oct 2022 03:56:21 -0700 (PDT)
-Received: from rdm ([41.75.188.39])
-        by smtp.gmail.com with ESMTPSA id g8-20020aa7d1c8000000b004589da5e5cesm3265597edp.41.2022.10.26.03.56.16
+        b=zQKMTzjUwocSCsciBfT/0uFmCnGjYG6rR/WYlTBFTpv//iZ4/jxxU8pWy4djLnPnkP
+         YdFfFeAe9Q1Mcr5r6ZqTrdM8GaFqlj+2ciDxPFJbcisaGBakzgXjjX2h+yDL7IpDQD8J
+         fCgKHFoS3HAKTH/JoXB+6NKB3LQGxvJSGtFozoeVEimWcOf+kNFEPwwh2BADDp8QxA3u
+         3dlyGfbDdIQXRRvc+gpmdS9TviocVjQfV1O/krPSO7jRjpl0k2LsxvixsDt2eCqITsCC
+         y49xZT9fiYpHSzvuxqYdCEHk0yOpnIYspb7b/gxMBdAkvi56joZyvw/o+VHTnQD3uAUr
+         qWWQ==
+X-Gm-Message-State: ACrzQf1QyiQxKnibRefyDbc6y0LgJYS0o0OZiT4ak0woESEpHChxX5HG
+	5j0veWMnUFmgsGTmdNyohDdcYnpA7KeQ06lC
+X-Google-Smtp-Source: AMsMyM7oPIoIE/u7ZKsOay8p997qZyK/s4D5Ay9/yVEXL2Ya6jVDAv7Jo9S6B8DaLvpudGyjSiU2mA==
+X-Received: by 2002:a05:6000:1ace:b0:22f:7201:74c0 with SMTP id i14-20020a0560001ace00b0022f720174c0mr28767128wry.216.1666782380391;
+        Wed, 26 Oct 2022 04:06:20 -0700 (PDT)
+Received: from rdm ([41.75.188.129])
+        by smtp.gmail.com with ESMTPSA id h14-20020a5d688e000000b0023660f6cecfsm4867344wru.80.2022.10.26.04.06.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 03:56:20 -0700 (PDT)
-Date: Wed, 26 Oct 2022 13:56:11 +0300
+        Wed, 26 Oct 2022 04:06:20 -0700 (PDT)
+Date: Wed, 26 Oct 2022 14:06:07 +0300
 From: UMWARI JOVIAL <umwarijovial@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Outreachy Linux <outreachy@lists.linux.dev>
+To: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: [PATCH] staging: most: dim2: hal: aligning function parameters
-Message-ID: <20221026105611.GA37633@rdm>
+Message-ID: <20221026110607.GA37960@rdm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
