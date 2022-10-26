@@ -1,35 +1,35 @@
 Received: from sender4-pp-o95.zoho.com (sender4-pp-o95.zoho.com [136.143.188.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3141374
-	for <linux-staging@lists.linux.dev>; Wed, 26 Oct 2022 12:40:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1666788024; cv=none; 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEE61374
+	for <linux-staging@lists.linux.dev>; Wed, 26 Oct 2022 12:41:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1666788082; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=YUPFAJcWa6doiWlEPxdAbuwGVJWZQg9mj3RUNUfd9GODZ9w9rqpkucik9lhIcCvahAepgWezYyiQTIA+I3BVw2FGcLDIkjbYDPZW2zIX8T1NlA6zVr628VFFFs+4EFykTHtO6Z3xMSgQY69dQOzDZF+vZxj2T4gNuGjT2G+UnlA=
+	b=nR587+sAzj/nSGmJKUbHMJtXGauiUY93OQ0xneYGgdnwLiw3Vc7EqCZu3VJwzG5N+sRGE/lhhcXYXPy318tdN2HiC2lZelteZ7xSucIlY27rHrupNsKiVm6JhmbBhC6+x4l94710O3hGY4hgYYHuxAVrGtZn0+SMhfqzua4Rt9I=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1666788024; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=OfyJwTiWx+2RzcwoDlVjx0+DSd/U0Zg3cQSdnUzsHwg=; 
-	b=D7wuEhzQ8x16XKtmu1ErUvZMjd14cHGVjKZ8s9kHPloBqb518GO3m96Or0Rta/n9B6UCR7hfi71MGYhaQdcQtOlIyjBkZ2TQRPq47PL+1rQxJPQpylS0dlruPvypGL7OF1GfcOl61TW/g8MVkzU5GfI9Bn4dROJrcJXTIUH+tGc=
+	t=1666788082; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=EnEvUgX/cg7EkNND7kN2OeHnLSvX3S1JlCRvtSnaMjE=; 
+	b=Lu9QhhTe1wpgKAbZ3KOo2oUPkxV7PcMKzOuWChnwYmBkrO20j4iT1I6bIw1QvXqdQ5kgCoJ8zUQFbivace9Dyx+hc2pIyMTmHmTwfyIsIn7K7X/AM03PNNs0Ri8sk4kvKEBEkJJ5lQs2HW5CR7REIcMjL/uAMoGrauewH++hE0k=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=zohomail.com;
 	spf=pass  smtp.mailfrom=t4rmin@zohomail.com;
 	dmarc=pass header.from=<t4rmin@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666788024;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666788082;
 	s=zm2022; d=zohomail.com; i=t4rmin@zohomail.com;
 	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=OfyJwTiWx+2RzcwoDlVjx0+DSd/U0Zg3cQSdnUzsHwg=;
-	b=Jy0qaeRp51aucJVBZr40t+MbHbVvcF6GskRQuAtJ0/cotM0VO/yVCPaed7Uoc8QD
-	xCYn+WJeFyjMFNuzkZknHQ6a10XX+l9O7KLWpRbFDP/fCoLubfjtWwrhPU3IIY/TKPL
-	asfEyWXhXJFI9RNdgDRtMcMEFqSGBkI7kZvWbUAw=
-Received: from plymouth (103.47.132.27 [103.47.132.27]) by mx.zohomail.com
-	with SMTPS id 1666788022817369.81207230669327; Wed, 26 Oct 2022 05:40:22 -0700 (PDT)
-Date: Wed, 26 Oct 2022 19:40:15 +0700
+	bh=EnEvUgX/cg7EkNND7kN2OeHnLSvX3S1JlCRvtSnaMjE=;
+	b=OyyNlnwQjaMQrcc193eKi32nfmS+6a18V32WoVAqV+SHAaPshbPWpy/nWFR+dMnC
+	7qZRDU3S4mteTPLUPjQRa6NR62nf8VQLC9tDtgNYWd0HkmraxlGKZKHrYI+w9bQgZ/3
+	ptLrXVfVmCxuagwiIy0+bENE8yjcDtwuYMNYjLhA=
+Received: from plymouth (103.47.132.43 [103.47.132.43]) by mx.zohomail.com
+	with SMTPS id 1666788081516748.8350874300916; Wed, 26 Oct 2022 05:41:21 -0700 (PDT)
+Date: Wed, 26 Oct 2022 19:41:08 +0700
 From: Aaron Lawrence <t4rmin@zohomail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/6] staging: rtl8192e: rtllib_crypt_tkip: blank line before
- close brace removal
-Message-ID: <1ba11754f1b1e39b1525a837b8493ba8434d5e3b.1666787061.git.t4rmin@zohomail.com>
+Subject: [PATCH 3/6] staging: rtl8192e: rtllib_crypt_tkip: fixed alignment
+ matching open parentheses
+Message-ID: <4253b94d6b7d94713afb02fa63d0a98686e77cc1.1666787061.git.t4rmin@zohomail.com>
 References: <cover.1666787061.git.t4rmin@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -42,35 +42,49 @@ Content-Disposition: inline
 In-Reply-To: <cover.1666787061.git.t4rmin@zohomail.com>
 X-ZohoMailClient: External
 
-Removed multiple blank lines that are not necessary before a closing
-brace. The issues were found with the checkpatch script and were
-dealt with in accordance with the Linux kernel coding-style guidelines.
+Aligned multiple lines to be at the same indentation of open
+parentheses before it in accordance with the Linux kernel
+coding-style regulations. The issues were found by running the
+checkpatch script on the file.
 
 Signed-off-by: Aaron Lawrence <t4rmin@zohomail.com>
 ---
- drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-index 468f28f48eba..40930c9b0017 100644
+index 40930c9b0017..6c98f43f967e 100644
 --- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
 +++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-@@ -321,7 +321,6 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 	if (!tcb_desc->bHwSec)
- 		return ret;
- 	return 0;
--
- }
- 
- static int rtllib_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
-@@ -420,7 +419,6 @@ static int rtllib_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 			tkey->dot11RSNAStatsTKIPICVErrors++;
- 			return -5;
+@@ -271,7 +271,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 	if (!tcb_desc->bHwSec) {
+ 		if (!tkey->tx_phase1_done) {
+ 			tkip_mixing_phase1(tkey->tx_ttak, tkey->key, hdr->addr2,
+-					tkey->tx_iv32);
++					   tkey->tx_iv32);
+ 			tkey->tx_phase1_done = 1;
  		}
--
- 	}
+ 		tkip_mixing_phase2(rc4key, tkey->key, tkey->tx_ttak,
+@@ -372,8 +372,8 @@ static int rtllib_tkip_decrypt(struct sk_buff *skb, int hdr_len, void *priv)
  
- 	/* Update real counters only after Michael MIC verification has
+ 	if (!tcb_desc->bHwSec || (skb->cb[0] == 1)) {
+ 		if ((iv32 < tkey->rx_iv32 ||
+-		    (iv32 == tkey->rx_iv32 && iv16 <= tkey->rx_iv16)) &&
+-		    tkey->initialized) {
++		     (iv32 == tkey->rx_iv32 && iv16 <= tkey->rx_iv16)) &&
++		     tkey->initialized) {
+ 			if (net_ratelimit()) {
+ 				netdev_dbg(skb->dev,
+ 					   "Replay detected: STA= %pM previous TSC %08x%04x received TSC %08x%04x\n",
+@@ -513,7 +513,7 @@ static int rtllib_michael_mic_add(struct sk_buff *skb, int hdr_len, void *priv)
+ 		tkey->tx_hdr[12] = *(skb->data + hdr_len - 2) & 0x07;
+ 	pos = skb_put(skb, 8);
+ 	if (michael_mic(tkey->tx_tfm_michael, &tkey->key[16], tkey->tx_hdr,
+-	    skb->data + hdr_len, skb->len - 8 - hdr_len, pos))
++			skb->data + hdr_len, skb->len - 8 - hdr_len, pos))
+ 		return -1;
+ 
+ 	return 0;
 -- 
 2.38.1
 
