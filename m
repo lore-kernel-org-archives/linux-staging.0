@@ -1,52 +1,51 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3591848B;
-	Wed, 26 Oct 2022 17:13:12 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id pb15so14630256pjb.5;
-        Wed, 26 Oct 2022 10:13:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F2C1C12;
+	Wed, 26 Oct 2022 17:14:49 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id f27so12609012eje.1;
+        Wed, 26 Oct 2022 10:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jfokEDXd6/gpOhsgv16VeO7g9nwTqw6aA9kadqbiv3s=;
-        b=CjYOTZLv5y0xdXE4waE/y1+lSrUuyZYhbn7hydrIev/nxsHUzD0by5cUacZPZC+hVw
-         QEa8ldI/3OXAQF+N7eae/pAG5Wvpw+yVafRK4tYZlsQyXo+iJo9qfBFtDE+M2QbxekGP
-         CjtBG8zqd70yUSrP4myhXoSDpnsbWooXSoCIhSrQCUPpCJiLE5DQKJbVvNpdRYvJMDb6
-         bdUpJA9fPCwkEkvg2WRfoo1jAvAbHf3RJ0pzSSgprMyVXQcFMR+vT0f3LECgW6U0Scz8
-         GjkYo9nrG/4m+1u0hZR507QcdNFscCSIC2gYDJJygYSw3J8AsJTdWnH3pt0wjRw1jMd/
-         qhtw==
+        bh=FRxHoxm6P1RvhdSeOwNej3/a2XKscd0zPEdZFSfHcAM=;
+        b=fz5My3zIF5XGZhEoSzEVFDLGy9W8SAMCYayn36lNzsdTEetRLrOGWRE0KK72DXBjcB
+         WF5v1NCWW97wXQx+n5jTNHG6VdRsSmaKekLetVYqPe/vPeFvqdnLslrO9DpFb7U6dCHv
+         Tty1PsNwXDbNr3B+mgyJ92nHDEUkhv2fG9hlgKHXVifi91eVXIg22cjnAyAzuJOWxoYW
+         6441COwsIGhicA+ZgODplc2V4XGxhdlabztlCGBNOGZITC7tqHhKPYa4z7yeHfXgQpLO
+         NjMNHR8fP8lsaTblgYpxxwYbj/y3o/gvZtP0kN32dT5OA4jB+67JYpkZBTMXoysYSONo
+         TrNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jfokEDXd6/gpOhsgv16VeO7g9nwTqw6aA9kadqbiv3s=;
-        b=DR19gKPvZkGQm2eoc1QvmRB8nWW6cYZJ/dh02oFHAJ5482u0jYZANwax7Kb8NMWOuG
-         I7Bc/eISvq7/dUhs4Qmh1v1nhrym54k6NemlFRWgCDhl6G+Up2XxB+qdORkQqMXYI2pD
-         05W/3u6c2fQAl+/WrCn5S4CN4WhHG8SQ8eSaBvUkVqm6cWp55mRBnLMgvfYjxi4hw1A7
-         xuX5l1kgd3wea3IolrEq81Foxq4PPwg0RHf/NtyDnIHP4OmjX6aL1LT+d5XW436EKXuk
-         RknUrWnY+SQvZ5IjJmlTXFfp+/IzpzT8kVfefhuOTgRbl4NYrUEpq8MNH7fk8tAI5YfT
-         8Y4A==
-X-Gm-Message-State: ACrzQf1W3vFaklJ4bB6oWG4Ecr/ep4SH3OGydAdvordqqRWZAH2P1+zf
-	NKM2gLPUWpEYKdSQ9DdraKE357nYwLfc6A==
-X-Google-Smtp-Source: AMsMyM7Bt25uoWhJgPIQrtjo0Xca21ZZ+xS1LYCDAJgpcw3y04aRnDP372h4vK9M28Mece7zB0qB5w==
-X-Received: by 2002:a17:902:dad1:b0:183:243c:d0d0 with SMTP id q17-20020a170902dad100b00183243cd0d0mr45312837plx.157.1666804381797;
-        Wed, 26 Oct 2022 10:13:01 -0700 (PDT)
-Received: from marshmallow (192-184-163-51.fiber.dynamic.sonic.net. [192.184.163.51])
-        by smtp.gmail.com with ESMTPSA id k13-20020aa7998d000000b00561dcfa700asm3241965pfh.107.2022.10.26.10.13.00
+        bh=FRxHoxm6P1RvhdSeOwNej3/a2XKscd0zPEdZFSfHcAM=;
+        b=KMqAFxva8AHAFw4b4/eMYhyEMVbzUs7W+B2a/Gzs+egmEyjrZ+VmST1JReVzwF4LWg
+         T/uKnA5RGIjQv07HsomvmBVhsYUmZv8gdFiN5h//PD0HHyRCR2HS+Z3e5nWkaoqpVJvE
+         RTv93KTCwNW4revkDIi3zBbcVp9XcHdbJ/cr8soPZkaSdAbs0s0LjSy1hCFlvNhMXjzX
+         tyave5ANVpSh0Cmo5z3fGK2xQ5XJNw58NgmDaaxZO1QVeP/dAN6zTVvNOFn64amYd5jm
+         TbvWiXlvJkUABL/3WPCy/GvdC2LNzWYLx9pxUyMz8+bOOVod7UL+FisZ328yOK5Y4UUL
+         lAHg==
+X-Gm-Message-State: ACrzQf3hntl6hI8qzK2T6iphwxp53Vkoqvn9TMGhRrA/IIxMdUxFqaXZ
+	wATBEtY4pgKmnbbZHzenfmE=
+X-Google-Smtp-Source: AMsMyM6TgIXHjE8NpfTm6poMbr7co6qgf/WZMc46uMXEicr4AWS5WGVgfcxr6lLz/y58qzTitxtKZw==
+X-Received: by 2002:a17:907:7633:b0:7ad:85ee:c66d with SMTP id jy19-20020a170907763300b007ad85eec66dmr1477367ejc.730.1666804487769;
+        Wed, 26 Oct 2022 10:14:47 -0700 (PDT)
+Received: from nam-dell (ip-217-105-46-178.ip.prioritytelecom.net. [217.105.46.178])
+        by smtp.gmail.com with ESMTPSA id b16-20020aa7cd10000000b00461bacee867sm3796683edw.25.2022.10.26.10.14.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 10:13:01 -0700 (PDT)
-Date: Wed, 26 Oct 2022 10:12:58 -0700
-From: Emily Peri <eperi1024@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Fix indentation in conditional
- statements
-Message-ID: <Y1lqmqid9Xyc7MK9@marshmallow>
-References: <Y1cH7br3mMcT4Dm5@marshmallow>
- <alpine.DEB.2.22.394.2210250703010.3214@hadrien>
+        Wed, 26 Oct 2022 10:14:47 -0700 (PDT)
+Date: Wed, 26 Oct 2022 19:14:34 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: UMWARI JOVIAL <umwarijovial@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] Fixed[ERROR:trailing whitespace and braces around scalar
+ initializer]
+Message-ID: <20221026171430.GA5592@nam-dell>
+References: <20221026132838.GA44037@rdm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,164 +54,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2210250703010.3214@hadrien>
+In-Reply-To: <20221026132838.GA44037@rdm>
 
-On Tue, Oct 25, 2022 at 07:03:17AM +0200, Julia Lawall wrote:
+On Wed, Oct 26, 2022 at 04:28:38PM +0300, UMWARI JOVIAL wrote:
+> Using the checkpatch.pl script, found the below errors and  fixed
+> ERROR: trailing whitespace
+> CHECK: Please don't use multiple blank lines
+> warning: braces around scalar initializer
 > 
+> Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+> ---
+>  drivers/staging/most/dim2/dim2.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> On Mon, 24 Oct 2022, Emily Peri wrote:
-> 
-> > Remove/add tabs in block statements in rtl8723bs/core to fix checkpatch
-> > warnings for suspect code indent for conditionals.
-> 
-> It's a bit picky, but one case is a loop.
-> 
-> julia
+> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+> index 7a5f80e637a0..28259ce05024 100644
+> --- a/drivers/staging/most/dim2/dim2.c
+> +++ b/drivers/staging/most/dim2/dim2.c
+> @@ -987,7 +987,6 @@ static int rcar_gen2_enable(struct platform_device *pdev)
+>  		writel(0x04, dev->io_base + 0x600);
+>  	}
+>  
+> -
+>  	/* BBCR = 0b11 */
+>  	writel(0x03, dev->io_base + 0x500);
+>  	writel(0x0002FF02, dev->io_base + 0x508);
+> @@ -1084,7 +1083,6 @@ static const struct of_device_id dim2_of_match[] = {
+>  	{
+>  		.compatible = "xlnx,axi4-os62420_6pin-1.00.a",
+>  	},
+> -	{},
 
-Thanks Julia, I did notice that too. I hoped by writing 'block
-statements' in the description I could cover that case. Checkpatch
-actually gave the same "WARNING: suspect code indent for conditional
-statements" for both the loop and the conditionals, so that was what I
-was referring to in the descripton. I agree I could have made that more
-clear!
+I'm no expert, but this looks like a null terminator and probably
+should not be removed.
 
-> > Signed-off-by: Emily Peri <eperi1024@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_mlme.c     | 30 +++++++++----------
-> >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  2 +-
-> >  drivers/staging/rtl8723bs/core/rtw_recv.c     |  6 ++--
-> >  drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  2 +-
-> >  4 files changed, 19 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> > index 6498fd17e1d3..c6fd6cf741ef 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> > @@ -389,7 +389,7 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
-> >  	__le16 tmps, tmpd;
-> >
-> >  	if (rtw_bug_check(dst, src, &s_cap, &d_cap) == false)
-> > -			return false;
-> > +		return false;
-> >
-> >  	memcpy((u8 *)&tmps, rtw_get_capability_from_ie(src->ies), 2);
-> >  	memcpy((u8 *)&tmpd, rtw_get_capability_from_ie(dst->ies), 2);
-> > @@ -669,7 +669,7 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
-> >  		uint ie_len = 0;
-> >
-> >  		if ((desired_encmode == Ndis802_11EncryptionDisabled) && (privacy != 0))
-> > -	    bselected = false;
-> > +			bselected = false;
-> >
-> >  		if (psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPA2PSK) {
-> >  			p = rtw_get_ie(pnetwork->network.ies + _BEACON_IE_OFFSET_, WLAN_EID_RSN, &ie_len, (pnetwork->network.ie_length - _BEACON_IE_OFFSET_));
-> > @@ -795,7 +795,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
-> >  			pmlmepriv->to_join = false;
-> >  			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
-> >  			if (s_ret == _SUCCESS) {
-> > -			     _set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
-> > +				_set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
-> >  			} else if (s_ret == 2) {/* there is no need to wait for join */
-> >  				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
-> >  				rtw_indicate_connect(adapter);
-> > @@ -2010,8 +2010,8 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
-> >
-> >  		if (in_ie[i] == 0xDD && in_ie[i+2] == 0x00 && in_ie[i+3] == 0x50  && in_ie[i+4] == 0xF2 && in_ie[i+5] == 0x02 && i+5 < in_len) { /* WMM element ID and OUI */
-> >  			for (j = i; j < i + 9; j++) {
-> > -					out_ie[ielength] = in_ie[j];
-> > -					ielength++;
-> > +				out_ie[ielength] = in_ie[j];
-> > +				ielength++;
-> >  			}
-> >  			out_ie[initial_out_len + 1] = 0x07;
-> >  			out_ie[initial_out_len + 6] = 0x00;
-> > @@ -2064,15 +2064,13 @@ static int rtw_append_pmkid(struct adapter *Adapter, int iEntry, u8 *ie, uint ie
-> >
-> >  	if (ie[13] <= 20) {
-> >  		/*  The RSN IE didn't include the PMK ID, append the PMK information */
-> > -			ie[ie_len] = 1;
-> > -			ie_len++;
-> > -			ie[ie_len] = 0;	/* PMKID count = 0x0100 */
-> > -			ie_len++;
-> > -			memcpy(&ie[ie_len], &psecuritypriv->PMKIDList[iEntry].PMKID, 16);
-> > -
-> > -			ie_len += 16;
-> > -			ie[13] += 18;/* PMKID length = 2+16 */
-> > -
-> > +		ie[ie_len] = 1;
-> > +		ie_len++;
-> > +		ie[ie_len] = 0;	/* PMKID count = 0x0100 */
-> > +		ie_len++;
-> > +		memcpy(&ie[ie_len], &psecuritypriv->PMKIDList[iEntry].PMKID, 16);
-> > +		ie_len += 16;
-> > +		ie[13] += 18;/* PMKID length = 2+16 */
-> >  	}
-> >  	return ie_len;
-> >  }
-> > @@ -2091,9 +2089,9 @@ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, u
-> >  	memcpy(out_ie, in_ie, 12);
-> >  	ielength = 12;
-> >  	if ((ndisauthmode == Ndis802_11AuthModeWPA) || (ndisauthmode == Ndis802_11AuthModeWPAPSK))
-> > -			authmode = WLAN_EID_VENDOR_SPECIFIC;
-> > +		authmode = WLAN_EID_VENDOR_SPECIFIC;
-> >  	if ((ndisauthmode == Ndis802_11AuthModeWPA2) || (ndisauthmode == Ndis802_11AuthModeWPA2PSK))
-> > -			authmode = WLAN_EID_RSN;
-> > +		authmode = WLAN_EID_RSN;
-> >
-> >  	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
-> >  		memcpy(out_ie+ielength, psecuritypriv->wps_ie, psecuritypriv->wps_ie_len);
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> > index 8e74b4f47b94..1148c9829890 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> > @@ -5447,7 +5447,7 @@ u8 disconnect_hdl(struct adapter *padapter, unsigned char *pbuf)
-> >  	u8 val8;
-> >
-> >  	if (is_client_associated_to_ap(padapter))
-> > -			issue_deauth_ex(padapter, pnetwork->mac_address, WLAN_REASON_DEAUTH_LEAVING, param->deauth_timeout_ms/100, 100);
-> > +		issue_deauth_ex(padapter, pnetwork->mac_address, WLAN_REASON_DEAUTH_LEAVING, param->deauth_timeout_ms/100, 100);
-> >
-> >  	if (((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) || ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE)) {
-> >  		/* Stop BCN */
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > index 2825375bff94..7c7b6495965f 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > @@ -161,7 +161,7 @@ int rtw_free_recvframe(union recv_frame *precvframe, struct __queue *pfree_recv_
-> >
-> >  	if (padapter) {
-> >  		if (pfree_recv_queue == &precvpriv->free_recv_queue)
-> > -				precvpriv->free_recvframe_cnt++;
-> > +			precvpriv->free_recvframe_cnt++;
-> >  	}
-> >  	spin_unlock_bh(&pfree_recv_queue->lock);
-> >  	return _SUCCESS;
-> > @@ -691,8 +691,8 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
-> >  		if (bmcast) {
-> >  			/*  For AP mode, if DA == MCAST, then BSSID should be also MCAST */
-> >  			if (!IS_MCAST(pattrib->bssid)) {
-> > -					ret = _FAIL;
-> > -					goto exit;
-> > +				ret = _FAIL;
-> > +				goto exit;
-> >  			}
-> >  		} else { /*  not mc-frame */
-> >  			/*  For AP mode, if DA is non-MCAST, then it must be BSSID, and bssid == BSSID */
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-> > index beb11d89db18..c7de81f21bec 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-> > @@ -551,7 +551,7 @@ u8 rtw_access_ctrl(struct adapter *padapter, u8 *mac_addr)
-> >  	else if (pacl_list->mode == 2)/* deny unless in accept list */
-> >  		res = match;
-> >  	else
-> > -		 res = true;
-> > +		res = true;
-> >
-> >  	return res;
-> >  }
-> > --
-> > 2.34.1
-> >
-> >
-> >
+Best regards,
+Nam
