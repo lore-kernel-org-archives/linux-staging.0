@@ -1,92 +1,82 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F2C1C12;
-	Wed, 26 Oct 2022 17:14:49 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id f27so12609012eje.1;
-        Wed, 26 Oct 2022 10:14:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB43AD23
+	for <linux-staging@lists.linux.dev>; Wed, 26 Oct 2022 20:23:41 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id f27so14066867eje.1
+        for <linux-staging@lists.linux.dev>; Wed, 26 Oct 2022 13:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FRxHoxm6P1RvhdSeOwNej3/a2XKscd0zPEdZFSfHcAM=;
-        b=fz5My3zIF5XGZhEoSzEVFDLGy9W8SAMCYayn36lNzsdTEetRLrOGWRE0KK72DXBjcB
-         WF5v1NCWW97wXQx+n5jTNHG6VdRsSmaKekLetVYqPe/vPeFvqdnLslrO9DpFb7U6dCHv
-         Tty1PsNwXDbNr3B+mgyJ92nHDEUkhv2fG9hlgKHXVifi91eVXIg22cjnAyAzuJOWxoYW
-         6441COwsIGhicA+ZgODplc2V4XGxhdlabztlCGBNOGZITC7tqHhKPYa4z7yeHfXgQpLO
-         NjMNHR8fP8lsaTblgYpxxwYbj/y3o/gvZtP0kN32dT5OA4jB+67JYpkZBTMXoysYSONo
-         TrNw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fa6W2MLAhIOcsH4x8JuPWo3b8qaW98FNvAUrqmz66L4=;
+        b=NiqpY0q9dgPxbxKa5xkdENRmgksoplcD3KV1KDOoV2iexdBVokE3mJDTnBfY6jvVe7
+         KshnVCdrRAWPT+rSAyUuhu3WO/moD3FojEAMtPl1bS0WwzqQ4tcBG3C0HcK+VcGYJiYd
+         5bvo3cJ0wcj3YViPsE+eA/80quu29P3DfE/pPnxJuEarGtMlUXGgXCRPYp0mMxZfUxnh
+         ZhMXihdBJvHMV5qjHWBpHkN1NckzDNsDa/8CBt8OVGw0IEgYTxfT+j3zTkFcZh7dj46D
+         +SDqEDYvhtWdsPo6oEsdqbAbkyLhKGRkSVpqFx/CBJuGayjxrRs3M3HXZ8YSCxrZeHEw
+         U5sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FRxHoxm6P1RvhdSeOwNej3/a2XKscd0zPEdZFSfHcAM=;
-        b=KMqAFxva8AHAFw4b4/eMYhyEMVbzUs7W+B2a/Gzs+egmEyjrZ+VmST1JReVzwF4LWg
-         T/uKnA5RGIjQv07HsomvmBVhsYUmZv8gdFiN5h//PD0HHyRCR2HS+Z3e5nWkaoqpVJvE
-         RTv93KTCwNW4revkDIi3zBbcVp9XcHdbJ/cr8soPZkaSdAbs0s0LjSy1hCFlvNhMXjzX
-         tyave5ANVpSh0Cmo5z3fGK2xQ5XJNw58NgmDaaxZO1QVeP/dAN6zTVvNOFn64amYd5jm
-         TbvWiXlvJkUABL/3WPCy/GvdC2LNzWYLx9pxUyMz8+bOOVod7UL+FisZ328yOK5Y4UUL
-         lAHg==
-X-Gm-Message-State: ACrzQf3hntl6hI8qzK2T6iphwxp53Vkoqvn9TMGhRrA/IIxMdUxFqaXZ
-	wATBEtY4pgKmnbbZHzenfmE=
-X-Google-Smtp-Source: AMsMyM6TgIXHjE8NpfTm6poMbr7co6qgf/WZMc46uMXEicr4AWS5WGVgfcxr6lLz/y58qzTitxtKZw==
-X-Received: by 2002:a17:907:7633:b0:7ad:85ee:c66d with SMTP id jy19-20020a170907763300b007ad85eec66dmr1477367ejc.730.1666804487769;
-        Wed, 26 Oct 2022 10:14:47 -0700 (PDT)
-Received: from nam-dell (ip-217-105-46-178.ip.prioritytelecom.net. [217.105.46.178])
-        by smtp.gmail.com with ESMTPSA id b16-20020aa7cd10000000b00461bacee867sm3796683edw.25.2022.10.26.10.14.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 10:14:47 -0700 (PDT)
-Date: Wed, 26 Oct 2022 19:14:34 +0200
-From: Nam Cao <namcaov@gmail.com>
-To: UMWARI JOVIAL <umwarijovial@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] Fixed[ERROR:trailing whitespace and braces around scalar
- initializer]
-Message-ID: <20221026171430.GA5592@nam-dell>
-References: <20221026132838.GA44037@rdm>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fa6W2MLAhIOcsH4x8JuPWo3b8qaW98FNvAUrqmz66L4=;
+        b=MCN0mDmvNU/9+FidkMKvhA5UUpiPUjF4fmo3uWnlvTJr7604uPynUWIEeoo8WLkdCa
+         DE5EoVHOXs9nubnyKTAZg3q55zbIIV6lwIDpDp+9uwOXeK8MIeLmLwXC0Qp4Spr+I2Xr
+         ilwv8zpylju6Z7LQG7QUcE/9idD6miGazmZPLZ/Se1TAU8HmNFzADrlcv+vuS1xUjgNy
+         dNUS3gvdrN2t29whwpyY7e8JeJf1aXtcis8Bdd4N1amm3p1o/o462wnvRh9ZWo/lbX4E
+         w0bq+XtLj//rl4ZzE9UgnZLVcZ22NFrUoC8nXwCxMdUlT+BWZIobLbNbVlYLFDEBEivs
+         TMdw==
+X-Gm-Message-State: ACrzQf0OA8BG0brSJNF9M+m09/SNNVcQczuaOfX+fBf5yJ2AniaoLL20
+	Astw1fITeuDMjuRYGk24IV0=
+X-Google-Smtp-Source: AMsMyM4F8mF1GzOxDAuFjHOfxfkyWwKwnHKvMblZSkn7NtuKSv3LQJJn+P/ROY7tl/XNPoVmK8oBEg==
+X-Received: by 2002:a17:907:7251:b0:7a5:a8f5:b86e with SMTP id ds17-20020a170907725100b007a5a8f5b86emr17835174ejc.761.1666815820010;
+        Wed, 26 Oct 2022 13:23:40 -0700 (PDT)
+Received: from [192.168.1.100] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
+        by smtp.gmail.com with ESMTPSA id kv12-20020a17090778cc00b0077b2b0563f4sm3506896ejc.173.2022.10.26.13.23.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Oct 2022 13:23:39 -0700 (PDT)
+Message-ID: <3bc86920-638a-47b3-fc68-e1ed410c8e25@gmail.com>
+Date: Wed, 26 Oct 2022 22:23:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221026132838.GA44037@rdm>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/6] staging: rtl8192e: rtllib_crypt_tkip: code cleanup on
+ rtllib_crypt_tkip.c
+Content-Language: en-US
+To: Aaron Lawrence <t4rmin@zohomail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1666787061.git.t4rmin@zohomail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <cover.1666787061.git.t4rmin@zohomail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 26, 2022 at 04:28:38PM +0300, UMWARI JOVIAL wrote:
-> Using the checkpatch.pl script, found the below errors and  fixed
-> ERROR: trailing whitespace
-> CHECK: Please don't use multiple blank lines
-> warning: braces around scalar initializer
+On 10/26/22 14:38, Aaron Lawrence wrote:
+> Multiple patches regarding the cleanup of code in rtllib_crypt_tkip.c.
+> Fixes were applied according to the reports generated by running the
+> checkpatch script on said file with minor manual adjustments by personal
+> judgement with handling the comments on the multiple assignments issue.
 > 
-> Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
-> ---
->  drivers/staging/most/dim2/dim2.c | 2 --
->  1 file changed, 2 deletions(-)
+> Aaron Lawrence (6):
+>    staging: rtl8192e: rtllib_crypt_tkip: multiple blank lines removal
+>    staging: rtl8192e: rtllib_crypt_tkip: blank line before close brace
+>      removal
+>    staging: rtl8192e: rtllib_crypt_tkip: fixed alignment matching open
+>      parentheses
+>    staging: rtl8192e: rtllib_crypt_tkip: fixes on unbalanced braces
+>    staging: rtl8192e: rtllib_crypt_tkip: split multiple assignments
+>    staging: rtl8192e: rtllib_crypt_tkip: rewritten comparison to NULL
 > 
-> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> index 7a5f80e637a0..28259ce05024 100644
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -987,7 +987,6 @@ static int rcar_gen2_enable(struct platform_device *pdev)
->  		writel(0x04, dev->io_base + 0x600);
->  	}
->  
-> -
->  	/* BBCR = 0b11 */
->  	writel(0x03, dev->io_base + 0x500);
->  	writel(0x0002FF02, dev->io_base + 0x508);
-> @@ -1084,7 +1083,6 @@ static const struct of_device_id dim2_of_match[] = {
->  	{
->  		.compatible = "xlnx,axi4-os62420_6pin-1.00.a",
->  	},
-> -	{},
+>   drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 52 ++++++--------------
+>   1 file changed, 16 insertions(+), 36 deletions(-)
+> 
 
-I'm no expert, but this looks like a null terminator and probably
-should not be removed.
-
-Best regards,
-Nam
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
