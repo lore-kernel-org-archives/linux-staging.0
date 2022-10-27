@@ -1,31 +1,36 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C8C1C13;
-	Thu, 27 Oct 2022 19:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666899222; bh=xys/aAejh7JTopsuNYt2PnyiMn9PjHrWmN/+pjwgiEE=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=KS9YmOf6EBDaxcPo/tg3HGTAuf92EmuJLBWel96a+p+8VCYMwpuPluj7RvyYISadM
-	 IoAjmxcvGPR5sbEM6w3U8Ys37h44Scfj0dIbcnLwbdkKq4MMreqmuF/lHKOQ/Wu2dH
-	 zIU3agUiYkRtpPq9h6CuvK1tsOEi2pG7GCZ3VWCk=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
-	via [213.182.55.206]
-	Thu, 27 Oct 2022 21:33:42 +0200 (CEST)
-X-EA-Auth: B0BsiMOjJQVyJF9UqMNnrzd1/hQN7g5BhYv/Vhez2hUJ+yc4MQSg/PqvKBP4gCRwzt/uBl5if8fWpFUovfKJtnJ6Bt3Q5gaY
-Date: Fri, 28 Oct 2022 01:03:36 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: rtl8192u: remove unused macro definition
-Message-ID: <Y1rdEE8HBb9CVwlq@ubunlion>
-References: <cover.1666754500.git.drv@mailo.com>
- <b7053d8737c048d6a878609f0ec24d66b18c5abd.1666754500.git.drv@mailo.com>
- <Y1kyr/hWqbKCzaaR@kroah.com>
- <Y1k5y5PVT6t0+OIS@debian-BULLSEYE-live-builder-AMD64>
- <Y1k8NWuTxOf6z5zL@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD6B1C27
+	for <linux-staging@lists.linux.dev>; Thu, 27 Oct 2022 20:16:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B85D3C433C1;
+	Thu, 27 Oct 2022 20:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1666901815;
+	bh=8HAK4m6E3POACA1m3I3Cl8FtXlz0B1YchOPXq9lU5BU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=k+5h+9HliD+/DKxTYK+Ll9WsQoU4+6L/tUCabezbJnN9zjPXXrxFq0CUllRzMWU6l
+	 eXja6U6i6FMLBPBLVR9R3Pxb01oQjTKdx4JMRI0p3v+0W2KYOwatXdmOc+Z9QLPNbr
+	 wFIDqWSiWcoyWXGXVEUZDDHm7MwlpZH6Ye7DW5s4cXaQ4XhuIJMfqwun9M7yq9eURT
+	 KM/19EZqjB4sMLsqEiP8KZxFeNSzWqoklEbPaNDD/8ldutTBm9vN0l1z3sygu6fOIZ
+	 FwUkcYVlAZfSGtRAfvOklVs+9YilA+rg4CjepT47G6qzGueP3K+L18s3or3oKTGMvP
+	 S9GYaIAy6PhsQ==
+Date: Thu, 27 Oct 2022 15:16:51 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jouni Malinen <j@w1.fi>,
+	Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>
+Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kees Cook <keescook@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v2 0/6] Avoid clashing function prototypes
+Message-ID: <cover.1666894751.git.gustavoars@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,59 +39,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y1k8NWuTxOf6z5zL@kroah.com>
 
-On Wed, Oct 26, 2022 at 03:55:01PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Oct 26, 2022 at 07:14:43PM +0530, Deepak R Varma wrote:
-> > On Wed, Oct 26, 2022 at 03:14:23PM +0200, Greg Kroah-Hartman wrote:
-> > > On Wed, Oct 26, 2022 at 08:58:44AM +0530, Deepak R Varma wrote:
-> > > > Pre-processor macros that are defined but are never used should be
-> > > > cleaned up to avoid unexpected usage.
-> > > >
-> > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > ---
-> > > >  drivers/staging/rtl8192u/ieee80211/ieee80211.h | 2 --
-> > > >  1 file changed, 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211.h b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-> > > > index 00c07455cbb3..0b3dda59d7c0 100644
-> > > > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-> > > > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-> > > > @@ -230,8 +230,6 @@ struct cb_desc {
-> > > >  #define ieee80211_unregister_crypto_ops ieee80211_unregister_crypto_ops_rsl
-> > > >  #define ieee80211_get_crypto_ops	ieee80211_get_crypto_ops_rsl
-> > > >
-> > > > -#define ieee80211_ccmp_null		ieee80211_ccmp_null_rsl
-> > > > -
-> > > >  #define free_ieee80211			free_ieee80211_rsl
-> > > >  #define alloc_ieee80211			alloc_ieee80211_rsl
-> > >
-> > > These #defines are a mess, please look into unwinding them as they
-> > > should not be needed at all.
-> >
-> > Hello Greg,
-> > I would like to know what you mean by "unwind them". Is there a documentation or past
-> > commit that I can review to understand the expectations better?
->
-> Look at them and try to figure out why they are there, and then work to
-> remove them entirely.  A define like this is very odd in the kernel, it
-> should not be needed at all, right?
+When built with Control Flow Integrity, function prototypes between
+caller and function declaration must match. These mismatches are visible
+at compile time with the new -Wcast-function-type-strict in Clang[1].
 
-Hello Greg,
-I will look into these additional macros soon and send any further edits as a
-separate patch (set). Is the current patch set with 2 patches acceptable?
+This series fixes a total of 424 -Wcast-function-type-strict warnings.
 
-Also, I am trying to get Coccinelle to work on my machine. Trying to work
-through strange issues. I will work on the macro unwinding task you suggested
-once a get the Coccinelle task completed.
+Link: https://reviews.llvm.org/D134831 [1]
 
-Thank you,
-./drv
+Changes in v2:
+ - Squash previous patches 1, 2 and 3 into a single patch
+   cfg80211.
+ - Add a couple more patches: bna and staging.
+ - Fix 254 (227 in bna and 27 in staging) more
+   -Wcast-function-type-strict warnings.
 
->
-> thanks,
->
-> greg k-h
->
+v1:
+ - Link: https://lore.kernel.org/linux-hardening/cover.1666038048.git.gustavoars@kernel.org/
 
+Gustavo A. R. Silva (6):
+  cfg80211: Avoid clashing function prototypes
+  hostap: Avoid clashing function prototypes
+  zd1201: Avoid clashing function prototypes
+  airo: Avoid clashing function prototypes
+  bna: Avoid clashing function prototypes
+  staging: ks7010: Avoid clashing function prototypes
+
+ drivers/net/ethernet/brocade/bna/bfa_cs.h     |  60 +++--
+ drivers/net/ethernet/brocade/bna/bfa_ioc.c    |  10 +-
+ drivers/net/ethernet/brocade/bna/bfa_ioc.h    |   8 +-
+ drivers/net/ethernet/brocade/bna/bfa_msgq.h   |   8 +-
+ drivers/net/ethernet/brocade/bna/bna_enet.c   |   6 +-
+ drivers/net/ethernet/brocade/bna/bna_tx_rx.c  |   6 +-
+ drivers/net/ethernet/brocade/bna/bna_types.h  |  27 +-
+ drivers/net/wireless/cisco/airo.c             | 204 ++++++++-------
+ drivers/net/wireless/intel/ipw2x00/ipw2200.c  |   2 +-
+ .../wireless/intersil/hostap/hostap_ioctl.c   | 234 ++++++++++--------
+ drivers/net/wireless/intersil/orinoco/wext.c  | 113 +++++----
+ drivers/net/wireless/zydas/zd1201.c           | 162 ++++++------
+ drivers/staging/ks7010/ks_wlan_net.c          | 184 +++++++-------
+ include/net/cfg80211-wext.h                   |  20 +-
+ net/wireless/scan.c                           |   3 +-
+ net/wireless/wext-compat.c                    | 180 ++++++--------
+ net/wireless/wext-compat.h                    |   8 +-
+ net/wireless/wext-sme.c                       |   5 +-
+ 18 files changed, 661 insertions(+), 579 deletions(-)
+
+-- 
+2.34.1
 
