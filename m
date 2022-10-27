@@ -1,38 +1,52 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C04CBA47
-	for <linux-staging@lists.linux.dev>; Thu, 27 Oct 2022 08:02:39 +0000 (UTC)
-Received: from localhost.localdomain (user-5-173-210-98.play-internet.pl [5.173.210.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 7FBF466028B1;
-	Thu, 27 Oct 2022 09:02:30 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1666857752;
-	bh=KWD1Fnlb9uRjgL3h0/EH8ZSvpkejRsdIerwN16+4xyE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hpcvyo9e+8lsYMSceyD60mQKXwsMF65yh2Nq0ulnRnw3oyIOFWBkwIsax5oRwfuNz
-	 WdG3fQhxW+omST83kFGoOzcZfD+aDyx788BWBe6QWFATfnHsBzv2JgxvFV7bBiKM50
-	 IS3ETPPgA+FE+T/AdmRDXT087QgGrygR7AaCASJxz28Ix+i7Vp7iZ8j4PsBoVUNWl+
-	 kfQN5ssQGNEVKJ5ViSfsLpZFgTaT9qUzj4iK9lY04YXKkYTbTzTY6tMwKuJgHHFzxG
-	 UqXjunbN9a+He7rjlM38pjLqt0DYePPqhs0D+l3nz6LZc9OB9UDOdkSfqZ2wLTphNX
-	 F3kRKxptrjQjA==
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To: linux-media@vger.kernel.org
-Cc: linux-rockchip@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D2CBA4E;
+	Thu, 27 Oct 2022 08:59:31 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id p8so1384759lfu.11;
+        Thu, 27 Oct 2022 01:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pb7xGr5fuIL0NtgblTv6xk3hHUrL7glkJIQ1IQxfKe0=;
+        b=enich8yCz31jib5vDHT9by/WtYR4B4iKdU6w4TTVNlj49RLa8wr/6n3Pjn7SUjk0oo
+         IVT6UtzWHHOl/kT+zmyYgftGd4nCa9G5XxjodwnRsoaRxQm5OT02MA+YxsxO+00x7kqa
+         cRwV5noqPv0o3KF6pH/avpDQrVdbCyzjYsIUL+/gVbqOthl1YT/Aj4UIsmbhshfngltc
+         O98j77Kfo65lHchFeAeo/cMmt3HuLmo0EmsKa6CX1TRZnBhpTVSoT7kdK/2Vh9LPwHQ2
+         5x+l6ymRVyrMiyEri8OX1/I0M/4ZxyZVSTPwUaLFV87Ba+bqbmvbX1Z6ZCUQKjzYgWiI
+         pdBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pb7xGr5fuIL0NtgblTv6xk3hHUrL7glkJIQ1IQxfKe0=;
+        b=rHheDJN92QIC5Z3T7n0/o2VWn6tSleeWxLBVMh0LYQ6HUo3uXu0896PNCiOLraeBm6
+         5BIEnKvvGdUSRkRltF+96KDEaJ3RXHq2F9Btk/rM2+om0LgcN/K8KfIToHOKkjk66rk9
+         qy/VHQGUjPUC7C86Jpn3es4BV/TDno0mKLKu6XPnI9lz9+5X++uquvUDHfcajLRcEEz0
+         GObkJdhNyCHEBTEFvs0p8VnV4L/Htt91SmFg091KSwLyzGptpTcy5pqRD016n3Qeptdk
+         N+sby//pDIo4uyWB2VONBx6SlqxY4S/jit0VfnRhqLp9sCI0v+oZA0LM/JfZcijAnNz6
+         mtRQ==
+X-Gm-Message-State: ACrzQf1+ypVHof4UZQkoivXR2baU7KwrNW3DaUXJO5vevU66upEMC20v
+	JnV1tIHFVoLwr8Fysrj7zC4=
+X-Google-Smtp-Source: AMsMyM5zyPFvWw0yWMbDDHUcS6QNUOYuNPKchL/VrnkY4IrnMTJnHGz7Sv3s30wQDPGNxBcBqfX4gg==
+X-Received: by 2002:ac2:4839:0:b0:4a4:4f4c:116 with SMTP id 25-20020ac24839000000b004a44f4c0116mr18204807lft.51.1666861169593;
+        Thu, 27 Oct 2022 01:59:29 -0700 (PDT)
+Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
+        by smtp.googlemail.com with ESMTPSA id m3-20020a056512114300b004a050ddc4ecsm109892lfg.125.2022.10.27.01.59.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 01:59:29 -0700 (PDT)
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Ezequiel Garcia <ezequiel@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	kernel@collabora.com
-Subject: [PATCH] media: rkvdec: Add required padding
-Date: Thu, 27 Oct 2022 10:02:17 +0200
-Message-Id: <20221027080217.6290-1-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.25.1
+	outreachy@lists.linux.dev,
+	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Subject: [PATCH v5 0/6] staging: vt6655: a series of checkpatch fixes on the file: rxtx.c
+Date: Thu, 27 Oct 2022 08:59:02 +0000
+Message-ID: <cover.1666849707.git.tanjubrunostar0@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,43 +54,32 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Message-ID: <20221027085902.HvhgJ4TfSo95yj5ha-KyczUoC2I-3DKqBQIDwd4uDmg@z>
 
-The addresses of two elements of the segmap[][] member are passed to the
-hardware which expects 128-bit aligned addresses. However, without this
-patch offsetof(struct rkvdec_vp9_priv_tbl, segmap[0]) is an odd number
-(2421) but the hardware just ignores the 5 least significant bits of the
-address. As a result, the hardware writes the segmentation map to incorrect
-locations.
+The fixes are similar, mostly long lines splitting. I had to make
+serveral patches to ease the work of inspectors
 
-Inserting 11 bytes of padding corrects this situation by making the said
-addresses divisible by 16 (i.e. aligned on a 128-bit boundary).
+v2: fixed a compilation error found by the kernel test robot and
+recompiled the code
 
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
- drivers/staging/media/rkvdec/rkvdec-vp9.c | 3 +++
- 1 file changed, 3 insertions(+)
+v3: tends out the error persisted in the second version. this version is
+a correction of that
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-vp9.c b/drivers/staging/media/rkvdec/rkvdec-vp9.c
-index d8c1c0db15c7..cfae99b40ccb 100644
---- a/drivers/staging/media/rkvdec/rkvdec-vp9.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-vp9.c
-@@ -84,6 +84,8 @@ struct rkvdec_vp9_probs {
- 		struct rkvdec_vp9_inter_frame_probs inter;
- 		struct rkvdec_vp9_intra_only_frame_probs intra_only;
- 	};
-+	/* 128 bit alignment */
-+	u8 padding1[11];
- };
- 
- /* Data structure describing auxiliary buffer format. */
-@@ -1006,6 +1008,7 @@ static int rkvdec_vp9_start(struct rkvdec_ctx *ctx)
- 
- 	ctx->priv = vp9_ctx;
- 
-+	BUILD_BUG_ON(sizeof(priv_tbl->probs) % 16); /* ensure probs size is 128-bit aligned */
- 	priv_tbl = dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
- 				      &vp9_ctx->priv_tbl.dma, GFP_KERNEL);
- 	if (!priv_tbl) {
+v4: did some corrections as recommended by Greg KH
+
+v5: shortend changelog comments as recommended by Greg KH
+
+Tanjuate Brunostar (6):
+  staging: vt6655: fix lines ending in a '('
+  staging: vt6655: refactor code in s_uGetRTSCTSDuration
+  staging: vt6655: refactor code in s_uFillDataHead
+  staging: vt6655: refactor code in s_vGenerateTxParamete
+  staging: vt6655: refactor code in the rest of the file
+  staging: vt6655: refactor code to avoid a line ending in '('
+
+ drivers/staging/vt6655/rxtx.c | 542 ++++++++++++++++++++--------------
+ 1 file changed, 324 insertions(+), 218 deletions(-)
+
 -- 
-2.25.1
+2.34.1
 
