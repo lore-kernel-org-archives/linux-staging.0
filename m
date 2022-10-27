@@ -1,79 +1,84 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7496C10EA;
-	Thu, 27 Oct 2022 01:26:58 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id b11so67779pjp.2;
-        Wed, 26 Oct 2022 18:26:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C959C7B;
+	Thu, 27 Oct 2022 06:01:40 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id bp15so671527lfb.13;
+        Wed, 26 Oct 2022 23:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GHA4PABhtEK1rXCzmMniG/pV1qITSZAaITYQ81bgOXc=;
-        b=oZtRdUiV4y1KcexeIjhm5ZaiRVBbr/CjhTTKej0NGu1CTmnwmXu37d0Y24JHY7HEKt
-         7s6XazoTKjYXoD0jedPfTjRl2jwpQHqzet7yg/RjpRRJyOjObRZXttCs4veLT3lIHD86
-         C29pmXUHUx7AHZgZH5G/JGnL39YQdSckDLNy5IN/45+EFgSeF/gHH88qdut8K6fQiXC3
-         VOaMOo5QbFS3Fnd0ntmFp1ZuMUUURgyHRHi4eJ3H+KC+toON1Pity1aBmGFLZBYVfxfX
-         ymSxLypehov09orGq+EaXgAj54GIVn9L35j3wf2mY01wTIHVmKy+upRoqyPhG2h7uSUF
-         FUiw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pb7xGr5fuIL0NtgblTv6xk3hHUrL7glkJIQ1IQxfKe0=;
+        b=B2FHC86YAHuUPEPnk72ooTJ6542hsi9NToF8YQGLWNSWfWJTu0H+QxT50J5t0vfG+C
+         aKwjSJYOa0+GIEXLvwbeEKTDJnltdlF5AYfc/E6GCoFZx/IvllRqJZ9Sgpk+sRWjBGl+
+         9xrDeRuu3ZdRgthgB7eOYwfU1kZYVjzaReKx0faJaTMGd1OPwsumlnk/sbFZjUhDKjcI
+         EWZ+KgUfJQQXMAAeJZy//IDeV8NlcOpFnHc/OuzETfFd7otDCCOlLWYBGfK09qR9BaFE
+         gah06LcZJmFayxkfGWN+0WSjS7nEq8t8T032EaruhwZanl0aQ+EYHvl6EG7npFpoW0Ir
+         lceg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GHA4PABhtEK1rXCzmMniG/pV1qITSZAaITYQ81bgOXc=;
-        b=jnUxmBxOsZOqnN9TiR6O0rV35mGm2B2RNKYpegOmmZ9VG5Du73S4V7rRmCByTeUqNI
-         +SZdAf2BeOnKwkKMtlEo4/jgk7SKgVEexI3Yq/vR/e82Ua7/tI4J4KdRE2685hfc4M6j
-         kECSvPBjByrTteODZ0KmciSpQJf3Jp7bPIACX0DrawACBjZiHBT0laXXzPvBDMvsUYc1
-         ogRpDgzqJGHdkKbxqTNMU5YPzmK15WQt1onTMGVrtb1WysaG8sa+6GSV/fD+Nq+VQM78
-         3LqK/S+YaDUjwmSBiHPvsR9Ll7BIOdjq+reQLkvnrniQMziaDOJXb6pxAfcfsVxPMRYg
-         33wg==
-X-Gm-Message-State: ACrzQf3VbfmHFgC6E8Btiogac77FTaKOGUuzVj3EIk8DTnIskgUT+VJV
-	fB7fu3/r1jGgbfGRimspY94=
-X-Google-Smtp-Source: AMsMyM5iDQZ1vf+K1ir7PueOek+T8gwlbragRmvnz13FTxQqYHuoSKpX0U4SaMmHLduBrvhlMpefGQ==
-X-Received: by 2002:a17:90a:b10b:b0:212:fbc3:e623 with SMTP id z11-20020a17090ab10b00b00212fbc3e623mr7386982pjq.5.1666834017847;
-        Wed, 26 Oct 2022 18:26:57 -0700 (PDT)
-Received: from marshmallow (192-184-163-51.fiber.dynamic.sonic.net. [192.184.163.51])
-        by smtp.gmail.com with ESMTPSA id q6-20020a17090a178600b00210c84b8ae5sm7533pja.35.2022.10.26.18.26.56
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pb7xGr5fuIL0NtgblTv6xk3hHUrL7glkJIQ1IQxfKe0=;
+        b=I0QcFfOByI/Hexi15K+ljXMNVsF85KuPEggKD/gjSOwq/z8Cie7CddwbrvvyM8k7dx
+         9IqrbESyha1Cfr27PEvU+8vhvfu4NR+PZfw8T+yt8q9pdHsw3ES3aytLh3FYBbsFb7RB
+         2jAMVgoqRqq4mJ8OSJg2Ygof9p30+7uDey+kNUFdWTSW0JTVOwHIavCFD6jddLqhCd3r
+         PgToZkBNYQsTvJEhsYGq3yjS8nVlPinl1GvTSnUbjGdqf7FhbEJJs3qJUubP5WZjtYkH
+         aj3gakxMp+BplsP/BAkDF8r+53pibuVFVJ/id35bAY8M8pXWwpkrGZU18RdYvb4CdW5N
+         y9cQ==
+X-Gm-Message-State: ACrzQf22QXpNP/il2VNbmRRvOMhyB4KOQ8toVDDitZ/6SfSoBhelTAZD
+	kekuasY2n6pyFr1IjG9cJ80=
+X-Google-Smtp-Source: AMsMyM6jL5UsUwxEgYclp9Exq7z/A9Gr+3ib1fHe0h2dM+tzH8NG0E1r0eMO6rm5UPzWF6oNE77wvw==
+X-Received: by 2002:ac2:50da:0:b0:4a2:44dc:b820 with SMTP id h26-20020ac250da000000b004a244dcb820mr18045843lfm.316.1666850498631;
+        Wed, 26 Oct 2022 23:01:38 -0700 (PDT)
+Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
+        by smtp.googlemail.com with ESMTPSA id j3-20020a056512344300b0049fff3f645esm61537lfr.70.2022.10.26.23.01.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 18:26:57 -0700 (PDT)
-Date: Wed, 26 Oct 2022 18:26:54 -0700
-From: Emily Peri <eperi1024@gmail.com>
-To: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: Replace ternary statement with min
- function
-Message-ID: <Y1neXqVYZ8mq8jH+@marshmallow>
+        Wed, 26 Oct 2022 23:01:38 -0700 (PDT)
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Subject: [PATCH v5 0/6] staging: vt6655: a series of checkpatch fixes on the file: rxtx.c
+Date: Thu, 27 Oct 2022 06:01:24 +0000
+Message-Id: <cover.1666849707.git.tanjubrunostar0@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Ternary statements that pick the min of two values can be replaced by
-the built-in min() function. This improves readability, since its quicker
-to understand min(x, y) than x < y ? x : y. Issue found by coccicheck.
+The fixes are similar, mostly long lines splitting. I had to make
+serveral patches to ease the work of inspectors
 
-Signed-off-by: Emily Peri <eperi1024@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: fixed a compilation error found by the kernel test robot and
+recompiled the code
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 6aeb169c6ebf..0cf7d9f82b83 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1551,7 +1551,7 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 
- 		wps_ie = rtw_get_wps_ie(buf, ielen, NULL, &wps_ielen);
- 		if (wps_ie && wps_ielen > 0) {
--			padapter->securitypriv.wps_ie_len = wps_ielen < MAX_WPS_IE_LEN ? wps_ielen : MAX_WPS_IE_LEN;
-+			padapter->securitypriv.wps_ie_len = min(wps_ielen, MAX_WPS_IE_LEN);
- 			memcpy(padapter->securitypriv.wps_ie, wps_ie, padapter->securitypriv.wps_ie_len);
- 			set_fwstate(&padapter->mlmepriv, WIFI_UNDER_WPS);
- 		} else {
+v3: tends out the error persisted in the second version. this version is
+a correction of that
+
+v4: did some corrections as recommended by Greg KH
+
+v5: shortend changelog comments as recommended by Greg KH
+
+Tanjuate Brunostar (6):
+  staging: vt6655: fix lines ending in a '('
+  staging: vt6655: refactor code in s_uGetRTSCTSDuration
+  staging: vt6655: refactor code in s_uFillDataHead
+  staging: vt6655: refactor code in s_vGenerateTxParamete
+  staging: vt6655: refactor code in the rest of the file
+  staging: vt6655: refactor code to avoid a line ending in '('
+
+ drivers/staging/vt6655/rxtx.c | 542 ++++++++++++++++++++--------------
+ 1 file changed, 324 insertions(+), 218 deletions(-)
+
 -- 
 2.34.1
 
