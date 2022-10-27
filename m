@@ -1,98 +1,84 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BD17B
-	for <linux-staging@lists.linux.dev>; Thu, 27 Oct 2022 14:08:43 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id BE1345C00D4;
-	Thu, 27 Oct 2022 10:08:42 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Thu, 27 Oct 2022 10:08:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1666879722; x=1666966122; bh=iCtPu1jp0I
-	wdJMYxxdjgBYCTltAD023MDCiowAfRTN0=; b=tMEWO0Zl1UM+bVWVu9dH/h+uqX
-	iIXiI4j0c0j1KS42QF0jOlIoZUd5LKmFZz6zrmjNMs0Uc3/6tgBryeA4uKaQhZpG
-	u52MmaABZTdFpHpLNnHm/O0zA9hV04leGYvdMYzO9/meG4+kxLPE/iXXx65emUdq
-	zHzOjJR53mel7bOMDVPDEXaH/gBKedBdmsHGujNIapsce34pKojUZr+fVk8tusoh
-	FFgz9FbdcZWpfqeCKcyr0kOjqNngtUNa4Tf/JHpKV38nK4edxqWG/UQ8IaS4PGK2
-	Vnu1lX375HnfXYJVzDVDvLDRQY0A3Sb5TeJHCd0HZMBex/BiSJVssO3LE+JA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1666879722; x=1666966122; bh=iCtPu1jp0IwdJMYxxdjgBYCTltAD
-	023MDCiowAfRTN0=; b=LvhG6YLgC3Sx2ZjMFu8HNgKZl5wswIxoY87GTJtJ6Qgi
-	az0mbD5/RzQ4ubRTSNROHWVNGkf4mWsEM8P4SSMzyR9knwAVgnFhvIfvSCAsEP/8
-	dMfP0UkKndKfyOJjIDYZmc/kuEfrVicPmn+ip5fHfcjKh8fDjDLKJnMntQG95Xj9
-	nE9kGVblAycz58QevBASqq2SfSu/58qr7PJD/piNOVuqgfuhB4QrWdQUOq0e407G
-	9pYwhIxWli4girVfqYdyqvLFiqm675UUWrRYCC8QlSSRkZKhIUSMS3KEJQLN+E3e
-	C1cMQn+OiAvKc+Rz1Dcst2XXgCsu0Mv2qCDdpCplbg==
-X-ME-Sender: <xms:6pBaY_Ytf-kgllGeYWso320lffZs3ScLwoghznggpxpFtZOhzV-hLw>
-    <xme:6pBaY-axL6n9e7j-Uj0vOTuKB53Bh5YCB39bZ3EG8WO_jeYhvoHOjX00LosOHnN_h
-    8Am5gymEC_v5lPp64Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdejudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:6pBaYx-7i051iGK68ZIZtwn8wnc7YtJEvBpMIVOo6VVRzCujP5j9Ng>
-    <xmx:6pBaY1ryE6OmCTW20VX1CVqz3PcVyf6Djb_J1PigrcQXNAbfmUJoag>
-    <xmx:6pBaY6rQdg7mxxvSGQ4KYF8eZzt2f1lYdczbPp5WeuEJM3OObYpTKw>
-    <xmx:6pBaY7f8iwbGHc0KJoUSJQfYek8UwHb6JrWUJyZnglpHnNc-T7GQAw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5000BB6008D; Thu, 27 Oct 2022 10:08:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72657B;
+	Thu, 27 Oct 2022 14:25:20 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id 8so1006010qka.1;
+        Thu, 27 Oct 2022 07:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GuDQalOlhKFsf9Yqc1jpknnU37kxT+pjhyntYc+6FYY=;
+        b=MCHvetBoSau9DLlXXXOAwcfa59qdAXBdT4lmQDyRlJvfDA+P7lT/NjZHnWwHhJWlGs
+         t5SOZ4uPguaiZEtUF0XIdeurImkX+E8TwjlRkt2uvMGIygfQvYWoJmTrypyQRboEMN3h
+         37wjvX4bqyijupAFgNdQAuMRsJlKBh4AeYDRPkQkCU/Lqpa3QHYtfVv5daOOTZ6sPwgC
+         jwS9HAnTUARzS6F5FQ30PJSNJJEGqL7tK0V1B5jp+1HlgB6Y0vlWRol30u6fTITuHCZI
+         2vLtM1iFpD7tNyxU31fKDtjmGphDcAvCB0NBDRPQi2OKYZtlUek+rBY0sRgCucYK0sia
+         nM/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GuDQalOlhKFsf9Yqc1jpknnU37kxT+pjhyntYc+6FYY=;
+        b=Tlm9TFD69JTjVADxO7k/IX/qq8I1CR//sJFmepSP0yMOhP5pWTePhvkymrPD0FYPyN
+         BF1qliNmmJTm5nhDIDOF3dRjtnsBcUKwn64QVdx8Op/lDhS0rWKwrm/33uYMIkM3R2Zl
+         xJt8w1iMlxb9/Ke/NSjkl9ASkavL6GqLkk0VqsQnIEltEa2Oyz1bebb8zWfeWWwxPnUj
+         6c+fMMKCXZYII1kU13Ia9EBQUZ2dGAo98TMyIVLzYQl90WqYs/fnPf0AV8xDptVvIYq+
+         zY9UtQxkpbSnNLGFlwPlzR+d9uyy0sHhyaQStaTZM4GfrB5PAnc3VJ8WLvbPD4pNKtj0
+         VJZQ==
+X-Gm-Message-State: ACrzQf0aWmHx3a0a76fr6POa9y7iGakmnlEprKP3JWyiUtfQlpGGpA7P
+	8sYqSP1rtWhzYlkn7njJmHHgEMxU9v2ugJAZtDk=
+X-Google-Smtp-Source: AMsMyM5boG+qxOLp3PS/qK6jfb6JYFkNefj+69tRO6f3D+CFULxPe92Oy4MjD3ez3m0bn5FPi+y/23tRf3IVHewXpWQ=
+X-Received: by 2002:a05:620a:2686:b0:6f5:723e:6316 with SMTP id
+ c6-20020a05620a268600b006f5723e6316mr15104081qkp.103.1666880719656; Thu, 27
+ Oct 2022 07:25:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <52599d6e-dc16-4186-9fb9-d17ce428fe9c@app.fastmail.com>
-In-Reply-To: <Y1Okpjbi2kKU2GFz@kroah.com>
-References: <20221022043548.1671644-1-scottjcrouch@gmail.com>
- <Y1Okpjbi2kKU2GFz@kroah.com>
-Date: Thu, 27 Oct 2022 16:08:22 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Scott J. Crouch" <scottjcrouch@gmail.com>
-Cc: "Florian Fainelli" <f.fainelli@gmail.com>,
- "Broadcom internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>,
- kernel-janitors@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vchiq: add 'static' to function definition
-Content-Type: text/plain
+MIME-Version: 1.0
+References: <cover.1666849707.git.tanjubrunostar0@gmail.com>
+ <0e6a307052d3a354a850a502e509f46baccdbe1e.1666849707.git.tanjubrunostar0@gmail.com>
+ <Y1pNJMvl89jgq9qz@kroah.com>
+In-Reply-To: <Y1pNJMvl89jgq9qz@kroah.com>
+From: Tanju Brunostar <tanjubrunostar0@gmail.com>
+Date: Thu, 27 Oct 2022 14:09:52 +0100
+Message-ID: <CAHJEyKVpK=BSkuM_RmJ+eUYApYJig8wfqDP4nM=cou_0mThHuw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/6] staging: vt6655: refactor code in s_uGetRTSCTSDuration
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Oct 22, 2022, at 10:07, Greg Kroah-Hartman wrote:
-> On Sat, Oct 22, 2022 at 03:35:48PM +1100, Scott J. Crouch wrote:
+On Thu, Oct 27, 2022 at 10:19 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Oct 27, 2022 at 08:59:04AM +0000, Tanjuate Brunostar wrote:
+> > refactor long lines of code in the function: s_uGetRTSCTSDuration
+>
+> Please write full sentences.
+>
+> Also please read the in-kernel documentation for how to write good
+> changelog text.  Specifically look at the section entitled "The
+> canonical patch format" in the kernel file,
+> Documentation/SubmittingPatches for a description of how to do this
+> properly.
+>
+> Do this for all of the patches in this series.
+>
+> thanks,
+>
+> greg k-h
 
-> Nice try, but this breaks the build in a very horrible and strange way
-> that no one has been able to figure out yet:
+Hello Greg
+the file does not exist in Documentations
 
-I got curious and figured out what happens:
+Also, I had to make the sentences shorter because you said changelog
+text was too long. Can you please give an example of a good changelog
+text? I feel like I have not understood you.
 
-Without CONFIG_OF, of_match_node() always returns NULL, so
-vchiq_probe() returns -EINVAL unconditionally before calling
-vchiq_platform_init(). 
+thanks
 
-If vchiq_platform_init() is marked 'static', gcc's dead code
-elimination then eliminates it, which in turn means that
-'g_fragments_base' is never initialized and gets replaced
-with a NULL pointer.
-
-I think the easiest workaround is to take this otherwise correct
-patch but at the same time add 'depends on OF' to BCM2835_VCHIQ.
-This is a correct dependency as shown by gcc above, and it still
-allows compile testing this driver on x86 allmodconfig, which
-enables CONFIG_OF.
-
-     Arnd
+Tanju
