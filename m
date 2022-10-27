@@ -1,82 +1,79 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB43AD23
-	for <linux-staging@lists.linux.dev>; Wed, 26 Oct 2022 20:23:41 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id f27so14066867eje.1
-        for <linux-staging@lists.linux.dev>; Wed, 26 Oct 2022 13:23:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7496C10EA;
+	Thu, 27 Oct 2022 01:26:58 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id b11so67779pjp.2;
+        Wed, 26 Oct 2022 18:26:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=fa6W2MLAhIOcsH4x8JuPWo3b8qaW98FNvAUrqmz66L4=;
-        b=NiqpY0q9dgPxbxKa5xkdENRmgksoplcD3KV1KDOoV2iexdBVokE3mJDTnBfY6jvVe7
-         KshnVCdrRAWPT+rSAyUuhu3WO/moD3FojEAMtPl1bS0WwzqQ4tcBG3C0HcK+VcGYJiYd
-         5bvo3cJ0wcj3YViPsE+eA/80quu29P3DfE/pPnxJuEarGtMlUXGgXCRPYp0mMxZfUxnh
-         ZhMXihdBJvHMV5qjHWBpHkN1NckzDNsDa/8CBt8OVGw0IEgYTxfT+j3zTkFcZh7dj46D
-         +SDqEDYvhtWdsPo6oEsdqbAbkyLhKGRkSVpqFx/CBJuGayjxrRs3M3HXZ8YSCxrZeHEw
-         U5sw==
+        bh=GHA4PABhtEK1rXCzmMniG/pV1qITSZAaITYQ81bgOXc=;
+        b=oZtRdUiV4y1KcexeIjhm5ZaiRVBbr/CjhTTKej0NGu1CTmnwmXu37d0Y24JHY7HEKt
+         7s6XazoTKjYXoD0jedPfTjRl2jwpQHqzet7yg/RjpRRJyOjObRZXttCs4veLT3lIHD86
+         C29pmXUHUx7AHZgZH5G/JGnL39YQdSckDLNy5IN/45+EFgSeF/gHH88qdut8K6fQiXC3
+         VOaMOo5QbFS3Fnd0ntmFp1ZuMUUURgyHRHi4eJ3H+KC+toON1Pity1aBmGFLZBYVfxfX
+         ymSxLypehov09orGq+EaXgAj54GIVn9L35j3wf2mY01wTIHVmKy+upRoqyPhG2h7uSUF
+         FUiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fa6W2MLAhIOcsH4x8JuPWo3b8qaW98FNvAUrqmz66L4=;
-        b=MCN0mDmvNU/9+FidkMKvhA5UUpiPUjF4fmo3uWnlvTJr7604uPynUWIEeoo8WLkdCa
-         DE5EoVHOXs9nubnyKTAZg3q55zbIIV6lwIDpDp+9uwOXeK8MIeLmLwXC0Qp4Spr+I2Xr
-         ilwv8zpylju6Z7LQG7QUcE/9idD6miGazmZPLZ/Se1TAU8HmNFzADrlcv+vuS1xUjgNy
-         dNUS3gvdrN2t29whwpyY7e8JeJf1aXtcis8Bdd4N1amm3p1o/o462wnvRh9ZWo/lbX4E
-         w0bq+XtLj//rl4ZzE9UgnZLVcZ22NFrUoC8nXwCxMdUlT+BWZIobLbNbVlYLFDEBEivs
-         TMdw==
-X-Gm-Message-State: ACrzQf0OA8BG0brSJNF9M+m09/SNNVcQczuaOfX+fBf5yJ2AniaoLL20
-	Astw1fITeuDMjuRYGk24IV0=
-X-Google-Smtp-Source: AMsMyM4F8mF1GzOxDAuFjHOfxfkyWwKwnHKvMblZSkn7NtuKSv3LQJJn+P/ROY7tl/XNPoVmK8oBEg==
-X-Received: by 2002:a17:907:7251:b0:7a5:a8f5:b86e with SMTP id ds17-20020a170907725100b007a5a8f5b86emr17835174ejc.761.1666815820010;
-        Wed, 26 Oct 2022 13:23:40 -0700 (PDT)
-Received: from [192.168.1.100] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
-        by smtp.gmail.com with ESMTPSA id kv12-20020a17090778cc00b0077b2b0563f4sm3506896ejc.173.2022.10.26.13.23.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 13:23:39 -0700 (PDT)
-Message-ID: <3bc86920-638a-47b3-fc68-e1ed410c8e25@gmail.com>
-Date: Wed, 26 Oct 2022 22:23:38 +0200
+        bh=GHA4PABhtEK1rXCzmMniG/pV1qITSZAaITYQ81bgOXc=;
+        b=jnUxmBxOsZOqnN9TiR6O0rV35mGm2B2RNKYpegOmmZ9VG5Du73S4V7rRmCByTeUqNI
+         +SZdAf2BeOnKwkKMtlEo4/jgk7SKgVEexI3Yq/vR/e82Ua7/tI4J4KdRE2685hfc4M6j
+         kECSvPBjByrTteODZ0KmciSpQJf3Jp7bPIACX0DrawACBjZiHBT0laXXzPvBDMvsUYc1
+         ogRpDgzqJGHdkKbxqTNMU5YPzmK15WQt1onTMGVrtb1WysaG8sa+6GSV/fD+Nq+VQM78
+         3LqK/S+YaDUjwmSBiHPvsR9Ll7BIOdjq+reQLkvnrniQMziaDOJXb6pxAfcfsVxPMRYg
+         33wg==
+X-Gm-Message-State: ACrzQf3VbfmHFgC6E8Btiogac77FTaKOGUuzVj3EIk8DTnIskgUT+VJV
+	fB7fu3/r1jGgbfGRimspY94=
+X-Google-Smtp-Source: AMsMyM5iDQZ1vf+K1ir7PueOek+T8gwlbragRmvnz13FTxQqYHuoSKpX0U4SaMmHLduBrvhlMpefGQ==
+X-Received: by 2002:a17:90a:b10b:b0:212:fbc3:e623 with SMTP id z11-20020a17090ab10b00b00212fbc3e623mr7386982pjq.5.1666834017847;
+        Wed, 26 Oct 2022 18:26:57 -0700 (PDT)
+Received: from marshmallow (192-184-163-51.fiber.dynamic.sonic.net. [192.184.163.51])
+        by smtp.gmail.com with ESMTPSA id q6-20020a17090a178600b00210c84b8ae5sm7533pja.35.2022.10.26.18.26.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Oct 2022 18:26:57 -0700 (PDT)
+Date: Wed, 26 Oct 2022 18:26:54 -0700
+From: Emily Peri <eperi1024@gmail.com>
+To: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: Replace ternary statement with min
+ function
+Message-ID: <Y1neXqVYZ8mq8jH+@marshmallow>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/6] staging: rtl8192e: rtllib_crypt_tkip: code cleanup on
- rtllib_crypt_tkip.c
-Content-Language: en-US
-To: Aaron Lawrence <t4rmin@zohomail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1666787061.git.t4rmin@zohomail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1666787061.git.t4rmin@zohomail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/26/22 14:38, Aaron Lawrence wrote:
-> Multiple patches regarding the cleanup of code in rtllib_crypt_tkip.c.
-> Fixes were applied according to the reports generated by running the
-> checkpatch script on said file with minor manual adjustments by personal
-> judgement with handling the comments on the multiple assignments issue.
-> 
-> Aaron Lawrence (6):
->    staging: rtl8192e: rtllib_crypt_tkip: multiple blank lines removal
->    staging: rtl8192e: rtllib_crypt_tkip: blank line before close brace
->      removal
->    staging: rtl8192e: rtllib_crypt_tkip: fixed alignment matching open
->      parentheses
->    staging: rtl8192e: rtllib_crypt_tkip: fixes on unbalanced braces
->    staging: rtl8192e: rtllib_crypt_tkip: split multiple assignments
->    staging: rtl8192e: rtllib_crypt_tkip: rewritten comparison to NULL
-> 
->   drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 52 ++++++--------------
->   1 file changed, 16 insertions(+), 36 deletions(-)
-> 
+Ternary statements that pick the min of two values can be replaced by
+the built-in min() function. This improves readability, since its quicker
+to understand min(x, y) than x < y ? x : y. Issue found by coccicheck.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: Emily Peri <eperi1024@gmail.com>
+---
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 6aeb169c6ebf..0cf7d9f82b83 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -1551,7 +1551,7 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
+ 
+ 		wps_ie = rtw_get_wps_ie(buf, ielen, NULL, &wps_ielen);
+ 		if (wps_ie && wps_ielen > 0) {
+-			padapter->securitypriv.wps_ie_len = wps_ielen < MAX_WPS_IE_LEN ? wps_ielen : MAX_WPS_IE_LEN;
++			padapter->securitypriv.wps_ie_len = min(wps_ielen, MAX_WPS_IE_LEN);
+ 			memcpy(padapter->securitypriv.wps_ie, wps_ie, padapter->securitypriv.wps_ie_len);
+ 			set_fwstate(&padapter->mlmepriv, WIFI_UNDER_WPS);
+ 		} else {
+-- 
+2.34.1
+
