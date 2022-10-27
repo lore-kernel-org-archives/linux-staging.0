@@ -1,52 +1,52 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF001865;
-	Thu, 27 Oct 2022 08:59:34 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id g7so1426325lfv.5;
-        Thu, 27 Oct 2022 01:59:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D64E1866;
+	Thu, 27 Oct 2022 08:59:40 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id r14so1448270lfm.2;
+        Thu, 27 Oct 2022 01:59:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5iA9FQCCsPWBm44+xNI1z9eJC+PJ5gHzpB5ZmyGrAxc=;
-        b=M/eOkBY/M1qrQu2ih4vBhov8U5PKpERtmaoXVNEiQYaV5pIEcqEmHdfknVbHK1RfVq
-         48Q7Dg5bb7QlD39LZ3tIeDIGGQvIICJc5gPLCIgibyTFL2pRvM4YDbMh9L8YcSCOQ6sk
-         ZH/MrWYTYhCvItbSpkKsTIEl+dfn1oKChK+WgueWgZ2fIiSB42zMof1uFJ6pM+tmnymC
-         sEw3v8GDCVWnrzkUpN3BmnnDcm8J8dYYUHQnxpteTOik/Y76KM2N/Hs1/exAcoKr9Y1D
-         C2ja7DpKbPFbwmAbF9kU9KTd1fT2RFwaZGO8vZF+6mq0Dlbav4+NC3y/hJrw06dN+wrB
-         YlbA==
+        bh=KG4wo9fiZVv4ZjhZHrMbGipKRmoFDP+ogMvv6qwzqFg=;
+        b=P+O5B8GnyTxoSpaOPC17mwnIoShRXeOoCDsw1bT/ApIrr+KS4BfB/L0/a39HzGgVcG
+         qIaBE4MeUtsxEd8kzx9ht1YsEBZfYmHvPRmKB9NYuG74rXqgXJXEvLQICu6QL9QXEqHo
+         46XJkrBBqkeCKiP021H6GGtM8tJgqDqPpPhW0sC07h/CQNc6lZsc+RFAJ2DhIeD52osW
+         8BTwHhRY3ADblzu3Mz8mzgdKPCljNcpM/4iDkuBXg6lgAuFiKe40CsybEWhltOiTHRd1
+         irf/n0o2pAZV3BOMG+IfhtMxQMOwAlDUWnAAplvP5uwfwgtbycXGWJe+IphAueufMc7z
+         lF3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5iA9FQCCsPWBm44+xNI1z9eJC+PJ5gHzpB5ZmyGrAxc=;
-        b=O0rMqM4T7lRCAWp0uTJrIuNPVXRu9r3qraINLHKeIMfKBRT3s8CV4nTaBvYvx6Njza
-         aJFheVGzuaKoFPNjHsRLue7sfY1f9pD7X4rrSst1UfrH4015CY02KeoRrnak6vrMePkX
-         7nMg6hvPJJHPnBWoEzmei+2ThCpYslt21bpempErUM5bTat35rJBMHV5sNFrABFZ2MjC
-         8o0Mnt/oQL+/0UKwtvuozpeLH4q0wVXKs8ypO9yN3lYw0erCpkUzWq6UOKr2ygwcHR4V
-         e7YAbdSCq0Utk+OMx+2eK4JM5He7VNvIztIRUvDbNwQkFNzJiUZj7Cr9h5eA0bFf1Yz8
-         nO5w==
-X-Gm-Message-State: ACrzQf2p7LgSNv3I6j3YTRfe9FmL/eKZkHRZN8uoDsyQc/BmjPmpzXKA
-	MIn5H8pgn1aZGq86SmVNz8s=
-X-Google-Smtp-Source: AMsMyM5Art5ntT/5rLUUMt5gpTRFW2b25wJan7qHDHhfEdL9QzvgsjDFtEVoHcyPTNE4hNfpG1FvrQ==
-X-Received: by 2002:ac2:4f03:0:b0:4af:f894:6801 with SMTP id k3-20020ac24f03000000b004aff8946801mr324100lfr.377.1666861172233;
-        Thu, 27 Oct 2022 01:59:32 -0700 (PDT)
+        bh=KG4wo9fiZVv4ZjhZHrMbGipKRmoFDP+ogMvv6qwzqFg=;
+        b=POrBNPNbYxH4vz28E3ixU+OncUA/eChvFUSMAdvA7WUsrjatXbh7z1kizMmUqBYK3M
+         O+ygntg5dXiu8wU/SsOYIsdkYwcjhE509oH0aFy4ur5CCYGowNQpNMNnb2M8POKBl8xM
+         diKURANEmRnv+t27RipsVNMNocdMfzwYy3TsDxSvYkA94kK+1fRweET1eYhEcwXec7Z+
+         lzINbyPXKObVVMe5nRUgwnOHCxYFTbm5V2vMdw321r2bAUFWfZU8H3S8QdIKOXtuwkWw
+         3cMjgSvPoZ498yIpyNqyv3NrwlCXW/Fu1hEIQx+5XuYN/bj5NBKshP9gyPklxcBzKkLP
+         3gIg==
+X-Gm-Message-State: ACrzQf3eWHVrnhlPPjK0qORzexA2pbXI31khos/o9qdFV31ggsiPKfMi
+	MfMc+FfNGSMsckSzzmvr8zo=
+X-Google-Smtp-Source: AMsMyM6p21nKIC2hpXzRwSwBAzm7cAThEGXtqFAr5EtWF3nrwwDNuAW9++Sv/wrB+9wg2FFi+zi/YA==
+X-Received: by 2002:a19:6456:0:b0:4a9:e691:921d with SMTP id b22-20020a196456000000b004a9e691921dmr9970485lfj.299.1666861178224;
+        Thu, 27 Oct 2022 01:59:38 -0700 (PDT)
 Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
-        by smtp.googlemail.com with ESMTPSA id m3-20020a056512114300b004a050ddc4ecsm109892lfg.125.2022.10.27.01.59.31
+        by smtp.googlemail.com with ESMTPSA id m3-20020a056512114300b004a050ddc4ecsm109892lfg.125.2022.10.27.01.59.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Oct 2022 01:59:31 -0700 (PDT)
+        Thu, 27 Oct 2022 01:59:37 -0700 (PDT)
 From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	outreachy@lists.linux.dev,
 	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Subject: [PATCH v5 1/6] staging: vt6655: fix lines ending in a '('
-Date: Thu, 27 Oct 2022 08:59:03 +0000
-Message-ID: <6742e42999e05ddf09318a0a3bda9ce23b6ae562.1666849707.git.tanjubrunostar0@gmail.com>
+Subject: [PATCH v5 3/6] staging: vt6655: refactor code in s_uFillDataHead
+Date: Thu, 27 Oct 2022 08:59:05 +0000
+Message-ID: <a2e720d63f4e71dc9b37cf3440831e696c7e2fd1.1666849707.git.tanjubrunostar0@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1666849707.git.tanjubrunostar0@gmail.com>
 References: <cover.1666849707.git.tanjubrunostar0@gmail.com>
@@ -57,241 +57,156 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Message-ID: <20221027085903.Kt7NcwS8Is9fa5VvANFYJjI1vE0i3UKDKhNehgtuNcU@z>
+Message-ID: <20221027085905.hFM-fMYqtyoD1BG9vcA15A7YR7BAyjTuuUEn9sph7i8@z>
 
-fix serveral checkpatch errors related to lines ending with a '(' by
-refactoring the code lines
+refactor long lines of code in the function: s_uFillDataHead
 
 Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 ---
- drivers/staging/vt6655/rxtx.c | 165 ++++++++++++++--------------------
- 1 file changed, 69 insertions(+), 96 deletions(-)
+ drivers/staging/vt6655/rxtx.c | 97 ++++++++++++++++++++++++-----------
+ 1 file changed, 67 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 1e5036121665..7eb7c6eb5cf0 100644
+index 8e56a7ee8035..7b6571ba7c36 100644
 --- a/drivers/staging/vt6655/rxtx.c
 +++ b/drivers/staging/vt6655/rxtx.c
-@@ -139,15 +139,11 @@ static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
-  * PK_TYPE_11GB    2
-  * PK_TYPE_11GA    3
-  */
--static
--unsigned int
--s_uGetTxRsvTime(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	unsigned int cbFrameLength,
--	unsigned short wRate,
--	bool bNeedAck
--)
-+static unsigned int s_uGetTxRsvTime(struct vnt_private *pDevice,
-+				    unsigned char byPktType,
-+				    unsigned int cbFrameLength,
-+				    unsigned short wRate,
-+				    bool bNeedAck)
- {
- 	unsigned int uDataTime, uAckTime;
+@@ -481,19 +481,28 @@ static __le16 s_uFillDataHead(struct vnt_private *pDevice,
+ 			} else {
+ 				/* Get Duration and TimeStamp */
+ 				buf->duration_a =
+-					cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A, cbFrameLength,
+-									    byPktType, wCurrentRate, bNeedAck, uFragIdx,
+-									    cbLastFragmentSize, uMACfragNum,
++					cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A,
++									    cbFrameLength,
++									    byPktType,
++									    wCurrentRate, bNeedAck,
++									    uFragIdx,
++									    cbLastFragmentSize,
++									    uMACfragNum,
+ 									    byFBOption));
+ 				buf->duration_b =
+-					cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_B, cbFrameLength,
+-									    PK_TYPE_11B, pDevice->byTopCCKBasicRate,
+-									    bNeedAck, uFragIdx, cbLastFragmentSize,
+-									    uMACfragNum, byFBOption));
++					cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_B,
++									    cbFrameLength,
++									    PK_TYPE_11B,
++									    pDevice->byTopCCKBasicRate,
++									    bNeedAck, uFragIdx,
++									    cbLastFragmentSize,
++									    uMACfragNum,
++									    byFBOption));
+ 			}
  
-@@ -214,20 +210,16 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
- }
+ 			buf->time_stamp_off_a = vnt_time_stamp_off(pDevice, wCurrentRate);
+-			buf->time_stamp_off_b = vnt_time_stamp_off(pDevice, pDevice->byTopCCKBasicRate);
++			buf->time_stamp_off_b = vnt_time_stamp_off(pDevice,
++								   pDevice->byTopCCKBasicRate);
  
- /* byFreqType 0: 5GHz, 1:2.4Ghz */
--static
--unsigned int
--s_uGetDataDuration(
--	struct vnt_private *pDevice,
--	unsigned char byDurType,
--	unsigned int cbFrameLength,
--	unsigned char byPktType,
--	unsigned short wRate,
--	bool bNeedAck,
--	unsigned int uFragIdx,
--	unsigned int cbLastFragmentSize,
--	unsigned int uMACfragNum,
--	unsigned char byFBOption
--)
-+static unsigned int s_uGetDataDuration(struct vnt_private *pDevice,
-+				       unsigned char byDurType,
-+				       unsigned int cbFrameLength,
-+				       unsigned char byPktType,
-+				       unsigned short wRate,
-+				       bool bNeedAck,
-+				       unsigned int uFragIdx,
-+				       unsigned int cbLastFragmentSize,
-+				       unsigned int uMACfragNum,
-+				       unsigned char byFBOption)
- {
- 	bool bLastFrag = false;
- 	unsigned int uAckTime = 0, uNextPktTime = 0, len;
-@@ -316,17 +308,13 @@ s_uGetDataDuration(
- }
+ 			return buf->duration_a;
+ 		}
+@@ -506,14 +515,29 @@ static __le16 s_uFillDataHead(struct vnt_private *pDevice,
+ 				  pDevice->byTopCCKBasicRate,
+ 				  PK_TYPE_11B, &buf->b);
+ 		/* Get Duration and TimeStamp */
+-		buf->duration_a = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A, cbFrameLength, byPktType,
+-								      wCurrentRate, bNeedAck, uFragIdx, cbLastFragmentSize, uMACfragNum, byFBOption));
+-		buf->duration_b = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_B, cbFrameLength, PK_TYPE_11B,
+-								       pDevice->byTopCCKBasicRate, bNeedAck, uFragIdx, cbLastFragmentSize, uMACfragNum, byFBOption));
+-		buf->duration_a_f0 = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A_F0, cbFrameLength, byPktType,
+-									  wCurrentRate, bNeedAck, uFragIdx, cbLastFragmentSize, uMACfragNum, byFBOption));
+-		buf->duration_a_f1 = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A_F1, cbFrameLength, byPktType,
+-									 wCurrentRate, bNeedAck, uFragIdx, cbLastFragmentSize, uMACfragNum, byFBOption));
++		buf->duration_a = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A,
++								      cbFrameLength, byPktType,
++								      wCurrentRate, bNeedAck,
++								      uFragIdx, cbLastFragmentSize,
++								      uMACfragNum, byFBOption));
++		buf->duration_b = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_B,
++								      cbFrameLength, PK_TYPE_11B,
++								      pDevice->byTopCCKBasicRate,
++								      bNeedAck, uFragIdx,
++								      cbLastFragmentSize,
++								      uMACfragNum, byFBOption));
++		buf->duration_a_f0 = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A_F0,
++									 cbFrameLength, byPktType,
++									 wCurrentRate, bNeedAck,
++									 uFragIdx,
++									 cbLastFragmentSize,
++									 uMACfragNum, byFBOption));
++		buf->duration_a_f1 = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A_F1,
++									 cbFrameLength, byPktType,
++									 wCurrentRate, bNeedAck,
++									 uFragIdx,
++									 cbLastFragmentSize,
++									 uMACfragNum, byFBOption));
  
- /* byFreqType: 0=>5GHZ 1=>2.4GHZ */
--static
--__le16
--s_uGetRTSCTSDuration(
--	struct vnt_private *pDevice,
--	unsigned char byDurType,
--	unsigned int cbFrameLength,
--	unsigned char byPktType,
--	unsigned short wRate,
--	bool bNeedAck,
--	unsigned char byFBOption
--)
-+static __le16 s_uGetRTSCTSDuration(struct vnt_private *pDevice,
-+				   unsigned char byDurType,
-+				   unsigned int cbFrameLength,
-+				   unsigned char byPktType,
-+				   unsigned short wRate,
-+				   bool bNeedAck,
-+				   unsigned char byFBOption)
- {
- 	unsigned int uCTSTime = 0, uDurTime = 0;
+ 		buf->time_stamp_off_a = vnt_time_stamp_off(pDevice, wCurrentRate);
+ 		buf->time_stamp_off_b = vnt_time_stamp_off(pDevice, pDevice->byTopCCKBasicRate);
+@@ -531,12 +555,24 @@ static __le16 s_uFillDataHead(struct vnt_private *pDevice,
+ 					  byPktType, &buf->a);
  
-@@ -409,22 +397,18 @@ s_uGetRTSCTSDuration(
- 	return cpu_to_le16((u16)uDurTime);
- }
+ 			/* Get Duration and TimeStampOff */
+-			buf->duration = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A, cbFrameLength, byPktType,
+-									    wCurrentRate, bNeedAck, uFragIdx, cbLastFragmentSize, uMACfragNum, byFBOption));
+-			buf->duration_f0 = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A_F0, cbFrameLength, byPktType,
+-									       wCurrentRate, bNeedAck, uFragIdx, cbLastFragmentSize, uMACfragNum, byFBOption));
+-			buf->duration_f1 = cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A_F1, cbFrameLength, byPktType,
+-										wCurrentRate, bNeedAck, uFragIdx, cbLastFragmentSize, uMACfragNum, byFBOption));
++			buf->duration =
++				cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A,
++								    cbFrameLength, byPktType,
++								    wCurrentRate, bNeedAck,
++								    uFragIdx, cbLastFragmentSize,
++								    uMACfragNum, byFBOption));
++			buf->duration_f0 =
++				cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A_F0,
++								    cbFrameLength, byPktType,
++								    wCurrentRate, bNeedAck,
++								    uFragIdx, cbLastFragmentSize,
++								    uMACfragNum, byFBOption));
++			buf->duration_f1 =
++				cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A_F1,
++								    cbFrameLength, byPktType,
++								    wCurrentRate, bNeedAck,
++								    uFragIdx, cbLastFragmentSize,
++								    uMACfragNum, byFBOption));
+ 			buf->time_stamp_off = vnt_time_stamp_off(pDevice, wCurrentRate);
+ 			return buf->duration;
+ 		}
+@@ -552,10 +588,11 @@ static __le16 s_uFillDataHead(struct vnt_private *pDevice,
+ 		} else {
+ 			/* Get Duration and TimeStampOff */
+ 			buf->duration =
+-				cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A, cbFrameLength, byPktType,
+-								    wCurrentRate, bNeedAck, uFragIdx,
+-								    cbLastFragmentSize, uMACfragNum,
+-								    byFBOption));
++				cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_A,
++								    cbFrameLength, byPktType,
++								    wCurrentRate, bNeedAck,
++								    uFragIdx, cbLastFragmentSize,
++								    uMACfragNum, byFBOption));
+ 		}
  
--static
--__le16
--s_uFillDataHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pTxDataHead,
--	unsigned int cbFrameLength,
--	unsigned int uDMAIdx,
--	bool bNeedAck,
--	unsigned int uFragIdx,
--	unsigned int cbLastFragmentSize,
--	unsigned int uMACfragNum,
--	unsigned char byFBOption,
--	unsigned short wCurrentRate,
--	bool is_pspoll
--)
-+static __le16 s_uFillDataHead(struct vnt_private *pDevice,
-+			      unsigned char byPktType,
-+			      void *pTxDataHead,
-+			      unsigned int cbFrameLength,
-+			      unsigned int uDMAIdx,
-+			      bool bNeedAck,
-+			      unsigned int uFragIdx,
-+			      unsigned int cbLastFragmentSize,
-+			      unsigned int uMACfragNum,
-+			      unsigned char byFBOption,
-+			      unsigned short wCurrentRate,
-+			      bool is_pspoll)
- {
- 	struct vnt_tx_datahead_ab *buf = pTxDataHead;
- 
-@@ -555,19 +539,15 @@ s_uFillDataHead(
- 	return buf->duration;
- }
- 
--static
--void
--s_vFillRTSHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pvRTS,
--	unsigned int cbFrameLength,
--	bool bNeedAck,
--	bool bDisCRC,
--	struct ieee80211_hdr *hdr,
--	unsigned short wCurrentRate,
--	unsigned char byFBOption
--)
-+static void s_vFillRTSHead(struct vnt_private *pDevice,
-+			   unsigned char byPktType,
-+			   void *pvRTS,
-+			   unsigned int cbFrameLength,
-+			   bool bNeedAck,
-+			   bool bDisCRC,
-+			   struct ieee80211_hdr *hdr,
-+			   unsigned short wCurrentRate,
-+			   unsigned char byFBOption)
- {
- 	unsigned int uRTSFrameLen = 20;
- 
-@@ -750,19 +730,15 @@ s_vFillRTSHead(
+ 		buf->time_stamp_off = vnt_time_stamp_off(pDevice, wCurrentRate);
+@@ -573,10 +610,10 @@ static __le16 s_uFillDataHead(struct vnt_private *pDevice,
+ 	} else {
+ 		/* Get Duration and TimeStampOff */
+ 		buf->duration =
+-			cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_B, cbFrameLength, byPktType,
+-							    wCurrentRate, bNeedAck, uFragIdx,
+-							    cbLastFragmentSize, uMACfragNum,
+-							    byFBOption));
++			cpu_to_le16((u16)s_uGetDataDuration(pDevice, DATADUR_B, cbFrameLength,
++							    byPktType, wCurrentRate, bNeedAck,
++							    uFragIdx, cbLastFragmentSize,
++							    uMACfragNum, byFBOption));
  	}
- }
  
--static
--void
--s_vFillCTSHead(
--	struct vnt_private *pDevice,
--	unsigned int uDMAIdx,
--	unsigned char byPktType,
--	void *pvCTS,
--	unsigned int cbFrameLength,
--	bool bNeedAck,
--	bool bDisCRC,
--	unsigned short wCurrentRate,
--	unsigned char byFBOption
--)
-+static void s_vFillCTSHead(struct vnt_private *pDevice,
-+			   unsigned int uDMAIdx,
-+			   unsigned char byPktType,
-+			   void *pvCTS,
-+			   unsigned int cbFrameLength,
-+			   bool bNeedAck,
-+			   bool bDisCRC,
-+			   unsigned short wCurrentRate,
-+			   unsigned char byFBOption)
- {
- 	unsigned int uCTSFrameLen = 14;
- 
-@@ -868,21 +844,17 @@ s_vFillCTSHead(
-  -
-  * unsigned int cbFrameSize, Hdr+Payload+FCS
-  */
--static
--void
--s_vGenerateTxParameter(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	struct vnt_tx_fifo_head *tx_buffer_head,
--	void *pvRrvTime,
--	void *pvRTS,
--	void *pvCTS,
--	unsigned int cbFrameSize,
--	bool bNeedACK,
--	unsigned int uDMAIdx,
--	void *psEthHeader,
--	unsigned short wCurrentRate
--)
-+static void s_vGenerateTxParameter(struct vnt_private *pDevice,
-+				   unsigned char byPktType,
-+				   struct vnt_tx_fifo_head *tx_buffer_head,
-+				   void *pvRrvTime,
-+				   void *pvRTS,
-+				   void *pvCTS,
-+				   unsigned int cbFrameSize,
-+				   bool bNeedACK,
-+				   unsigned int uDMAIdx,
-+				   void *psEthHeader,
-+				   unsigned short wCurrentRate)
- {
- 	u16 fifo_ctl = le16_to_cpu(tx_buffer_head->fifo_ctl);
- 	bool bDisCRC = false;
-@@ -954,11 +926,12 @@ s_vGenerateTxParameter(
- 	}
- }
- 
--static unsigned int
--s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
--		  unsigned char *pbyTxBufferAddr,
--		  unsigned int uDMAIdx, struct vnt_tx_desc *pHeadTD,
--		  unsigned int is_pspoll)
-+static unsigned int s_cbFillTxBufHead(struct vnt_private *pDevice,
-+				      unsigned char byPktType,
-+				      unsigned char *pbyTxBufferAddr,
-+				      unsigned int uDMAIdx,
-+				      struct vnt_tx_desc *pHeadTD,
-+				      unsigned int is_pspoll)
- {
- 	struct vnt_td_info *td_info = pHeadTD->td_info;
- 	struct sk_buff *skb = td_info->skb;
+ 	buf->time_stamp_off = vnt_time_stamp_off(pDevice, wCurrentRate);
 -- 
 2.34.1
 
