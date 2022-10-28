@@ -1,99 +1,77 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465557B;
-	Fri, 28 Oct 2022 04:56:59 +0000 (UTC)
-Received: by mail-ua1-f45.google.com with SMTP id y25so1435107ual.2;
-        Thu, 27 Oct 2022 21:56:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71F57B;
+	Fri, 28 Oct 2022 05:14:31 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id n14so2345916wmq.3;
+        Thu, 27 Oct 2022 22:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HwmBRA+APmiXYQZg1tBoj+t+gqf2adSus7ddCo9oLb8=;
-        b=aqK2XIPjlDLtOlNEGgLWQWnUPiTd1vIjnrR0nXxR8DN8msOgby2Ts6ShJhtqDf5IST
-         TCGVfCOZhmOK2GoyJ0HnhVDqi1xOrmvWs/GeM6mMORLjIGgsst45LAdZr2rhJ4Bmb6XH
-         s1Ka+rF7jG6DpxMrzH4ZL3lzP5k5PWSr8FlTlCCDb+lL0lA2agVyiT8bN1/dvXN9J+yz
-         eT2tP3RO8XRggB9xUK6wm7wRyJ6dpCAm5E9VYvzNR9ZZpgRr2vJ0Y51jsuQqeiIdp0kF
-         e60t5JJXEKqYYIW2tfAdk5kx/yv+gFaKzOD6XiPLGhjV9gZuYC68a9GnT5FgOOzqczZU
-         lzXg==
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8Cl50GxiFHirgjeWPOfiswX2gs4Kajn64w85/PEn9Q=;
+        b=aNZyiFu8QyAiNdVys2tpGzR/2lt6NUhGjCrNITFwiS+dPB5Gn1gx+YNA5KyZ/qOmYR
+         Wq2uUP33O6D5zmrCGfYuRXnySKEucM1rAyvYMAkkxnKLXujmSwgSu0U80zwzAV8FsVYM
+         A/5Y8maP6T+c4mcNrd55u+0xiUjtDrfIIASSnjSHmRT+YsNGCAn2w3zSqDqqJh5UDxNE
+         kAm6FhaWx7DKLbR46mya/kdBgj9HSjpzNODjfuVRAAvEcqetMRym80Dfns/svvHJkKcv
+         Cni4dCzTzXQ+T2+34lOGMlprcXyOUX6WcM4bcPdKM6lrgC0KKD1sKfj3KfI9nVzOhFDt
+         I2JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HwmBRA+APmiXYQZg1tBoj+t+gqf2adSus7ddCo9oLb8=;
-        b=3Fh0+mrclivmGhsLXbFTDZVtKJqGRiQCKsWAGaJUspQCZ9FbAsZioTdMU9CoIRdK8V
-         CzZMaLvUfwEGRjBdBlRaW+BV7tI+Vt10gl1tH8KgTWj658qTVLGnahyeEB2zLJX3qtz5
-         o6ivtg+fjfMOPqpNl+QO1v9QgtVc0XzM3ilxxppGIVquoxW0OFVU+N2pUjlkoisU1D1P
-         fGF80xmSq3q8cCZVI/yp+FetJVHsyaktAG/56sf2zTfM7RwNI9vKBW+7p9u/L7SuUI1s
-         p7uuxPJL9LLIN1jdq0jeK26ntfp2DK6v0Fhpzh6XGj2Dw6e67Ym24xxgGjPGXYHY/lMb
-         HbwA==
-X-Gm-Message-State: ACrzQf0KdPbSLU4oZaiz6QNxoZefSFEb3qe+vOSKTIcj8X8Ti6C6aPPR
-	Yi3bwYVWNLxUy30Uxw8ZkG1aWVDR/iOUMFu1Juo=
-X-Google-Smtp-Source: AMsMyM4qFN7TWztijVLg7jQodkESQRKvJCa/EbYFVcPPPR4p6coV5T8DX8gRYojFd2IWHg751skQF85nzYEKQjun/u0=
-X-Received: by 2002:ab0:25d4:0:b0:3c1:c353:31cb with SMTP id
- y20-20020ab025d4000000b003c1c35331cbmr30171453uan.63.1666933018093; Thu, 27
- Oct 2022 21:56:58 -0700 (PDT)
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8Cl50GxiFHirgjeWPOfiswX2gs4Kajn64w85/PEn9Q=;
+        b=0/3hnu13+4+UPmqr5oxPjYBS1Lp0Jlg/Peb1Ce7HxOUGgnWxZOC8R3bzOmbYv5JW3K
+         akxJlqe8VdDVn68NbEXJrw5Ce/C7k0BtdKUOJA9n9a8CkFBRFKhXW46PlQktRSw6aufh
+         bX88FQjcmabJl7bGQG6Jk406g+N+vZ6LajyCLdQYC/MT0xw74URcOMMGaPAnkOFNlt2X
+         4aPO8KO92N6GN72PCOlBCaH+DIpq7Qj4dVAnOwva8t7xbaqzfja8/3o4DQPu7A4nSKvk
+         tx9S47+0kQIT5XStwvQYnjnZE7Za+CJMl6GvUrjYa/vbSLET8y4g13Y95W6Yx2HujXcz
+         KDUA==
+X-Gm-Message-State: ACrzQf3FVQyNbArSZI1rzYXngHRpSUMvKdbhi5/EDM4NdeDOxOU6qGoU
+	dPCnjCPetpSehDkvGPQ/YonaPv3x1u1GN7ch
+X-Google-Smtp-Source: AMsMyM622kSlxG/TIpcADNn/5SRSeYeEfF7kG7yWa7pmhzooVofXyimagOAy9qY+BBWtZxDlj97SRQ==
+X-Received: by 2002:a05:600c:46c7:b0:3c6:f3e6:1f13 with SMTP id q7-20020a05600c46c700b003c6f3e61f13mr8040409wmo.62.1666934070110;
+        Thu, 27 Oct 2022 22:14:30 -0700 (PDT)
+Received: from rdm ([41.75.189.203])
+        by smtp.gmail.com with ESMTPSA id p23-20020a1c5457000000b003a601a1c2f7sm6357483wmi.19.2022.10.27.22.14.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 22:14:29 -0700 (PDT)
+Date: Fri, 28 Oct 2022 08:14:20 +0300
+From: UMWARI JOVIAL <umwarijovial@gmail.com>
+To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: [PATCH] WARNING: Possible repeated word: 'very'
+Message-ID: <20221028051420.GA30073@rdm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221026132838.GA44037@rdm> <20221026171430.GA5592@nam-dell> <Y1o5mktrnE5rbtCO@kadam>
-In-Reply-To: <Y1o5mktrnE5rbtCO@kadam>
-From: jovial umwari <umwarijovial@gmail.com>
-Date: Fri, 28 Oct 2022 07:56:46 +0300
-Message-ID: <CAMk1CBNwM3XFPyHVfBnE0K4XWmGX_ZwzBV-sns6Nj7Yutb4YtA@mail.gmail.com>
-Subject: Re: [PATCH] Fixed[ERROR:trailing whitespace and braces around scalar initializer]
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Nam Cao <namcaov@gmail.com>, gregkh@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-well for the start it was not giving an error but after  fixing blank
-lines  that is when i saw that
-Thank you for the hint i  fixed  it
+i used checkpatch.pl script to identify the above
+Repetition of the same word in one sentence same line
 
-On Thu, 27 Oct 2022 at 10:56, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Wed, Oct 26, 2022 at 07:14:34PM +0200, Nam Cao wrote:
-> > On Wed, Oct 26, 2022 at 04:28:38PM +0300, UMWARI JOVIAL wrote:
-> > > Using the checkpatch.pl script, found the below errors and  fixed
-> > > ERROR: trailing whitespace
-> > > CHECK: Please don't use multiple blank lines
-> > > warning: braces around scalar initializer
-> > >
-> > > Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
-> > > ---
-> > >  drivers/staging/most/dim2/dim2.c | 2 --
-> > >  1 file changed, 2 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> > > index 7a5f80e637a0..28259ce05024 100644
-> > > --- a/drivers/staging/most/dim2/dim2.c
-> > > +++ b/drivers/staging/most/dim2/dim2.c
-> > > @@ -987,7 +987,6 @@ static int rcar_gen2_enable(struct platform_device *pdev)
-> > >             writel(0x04, dev->io_base + 0x600);
-> > >     }
-> > >
-> > > -
-> > >     /* BBCR = 0b11 */
-> > >     writel(0x03, dev->io_base + 0x500);
-> > >     writel(0x0002FF02, dev->io_base + 0x508);
-> > > @@ -1084,7 +1083,6 @@ static const struct of_device_id dim2_of_match[] = {
-> > >     {
-> > >             .compatible = "xlnx,axi4-os62420_6pin-1.00.a",
-> > >     },
-> > > -   {},
-> >
-> > I'm no expert, but this looks like a null terminator and probably
-> > should not be removed.
->
-> You're absolutely correct.  Also I tried to see why checkpatch.pl was
-> printing an error for this but it doesn't print an error for me.
->
-> regards,
-> dan carpenter
->
+Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+---
+ drivers/staging/rtl8712/rtl871x_xmit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+index 090345bad223..30a0276b8b58 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.c
++++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+@@ -766,7 +766,7 @@ void r8712_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
+  * If we turn on USE_RXTHREAD, then, no need for critical section.
+  * Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
+  *
+- * Must be very very cautious...
++ * Must be very cautious...
+  *
+  */
+ struct xmit_frame *r8712_alloc_xmitframe(struct xmit_priv *pxmitpriv)
+-- 
+2.25.1
+
