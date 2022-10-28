@@ -1,52 +1,55 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D3A2F44;
-	Fri, 28 Oct 2022 17:41:10 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id z24so9258949ljn.4;
-        Fri, 28 Oct 2022 10:41:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC993209;
+	Fri, 28 Oct 2022 17:41:12 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id d3so9293163ljl.1;
+        Fri, 28 Oct 2022 10:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LgIFkJpodLhQ5UNB8CnN3tOTm9odgIidnDRK4X3byAg=;
-        b=WA90H9fRil7olR1Vlx/1sOEtZ0T3JsGEo/zahhOQwFUmffec42jXK67bQZGEdVJZ0b
-         PYwyVYcokv5NPLfkNsVbXmyXYVR9YLMFNmi7vs9nbz5JgD9VKC+53jP7g/gRZ1JDGVnS
-         lPvldw9IbWef9my0YLqiicSNaq6pP14bPdQmhtlOE8M39NmP2qkFpq5LZW2bvOuZXlgs
-         FJuJlV3ME0cnhFQpYb8shJ8a49kWaPha38YsKJt5QZD8CqX1kMlX0jFxxpsk2w2jm+jS
-         T74nIkCZBAQOf7oX1ItpdaqEDMjPJ4uxp3LxlEaHVO2KSqmva8PqV9VW8ECg0ESXmhia
-         DT7A==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5iA9FQCCsPWBm44+xNI1z9eJC+PJ5gHzpB5ZmyGrAxc=;
+        b=qcnKddy3yTCU5aLuceyXydyTteujQvtbrdlFMeIPN8+Bpxxd9DsPvm4NULnuzugHaQ
+         1ms4rnHqKkUjjF38BUBDa6CQEmA9mok6NBtdBE7IVznn31tc2vUuT2oVVSnVuRndxqe+
+         KRa/4KuR5eILFSvpnmOtsWxINWk+GJ9xOKUa3514UME54L4lksxbcxU0sf5f1110ze1I
+         cvYttmvMfxZPMaReTyojaL6oHpSveNSmdRrGqp9bOKAa0aeHgLImQ1R3h/kZbmCrCXl3
+         ztFP6YdHC/bIsnnc9Et/sX/AgnT1+8rZQ0gu5VdhJJZxk7YZbaafJNVRk0yH1JJcY8Mk
+         2/ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LgIFkJpodLhQ5UNB8CnN3tOTm9odgIidnDRK4X3byAg=;
-        b=JZ1dnJCJZrtnUl+fI6Khv0UaiGMBbHZDedgYCKndQjApEqY03/XKyJwj8FDyeAytL1
-         fwLdvdtlTKey+IZl0orViyLqFf9HyhSr7+b9QJiuh5F7HuA613BMj15+G6zZiNxQUbnA
-         1i/XWahTxPghfEJm6RQHHTWGZiaTz9naKEcB6MCZX4T/i4G8DxObzK86Ld64HZ0o9x7d
-         VXJI0fpf42VYkvaWVP9Iq+h78Tt02pGmLYaVQOefBhmKej8T/D/R581HS4eCqMyvH6+i
-         Le5N+xZLPhAlkVtbd/4nXSc3VAel0uotcOfi7YATPgapTX8/rvtQ18yy7lq4fpiXsk45
-         gRdA==
-X-Gm-Message-State: ACrzQf0IjYzjSXRVvGFtrLCLrH6FN7oC32PWbwFY4UyW3STE+wdxV+qi
-	Jx5z8tZoOah4FUTUDto+KjU=
-X-Google-Smtp-Source: AMsMyM64brzYPgM+s1MBqIb04al8rRJrwRpHxsRYZxtpixVfUpmsR7RdEF2c8Q9Bz7kscIa7No5C4Q==
-X-Received: by 2002:a05:651c:2212:b0:26c:2baf:652e with SMTP id y18-20020a05651c221200b0026c2baf652emr295510ljq.84.1666978868819;
-        Fri, 28 Oct 2022 10:41:08 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5iA9FQCCsPWBm44+xNI1z9eJC+PJ5gHzpB5ZmyGrAxc=;
+        b=28hIz6SPH44IQ/rh6Q0zdihNwxyKT56kafEGKdHjpIbjhABPQMNvRK4TiaKeSAsRpP
+         pOPhu4jzzjPS3rHdvt4WXp5pE48g0RbyJTp2PvGC30Ol8ZgzhZoX+m8SBVQ1mNme6S6W
+         ftKUWVrmxoJpYztS2mQVOsTgiugyjVBIeqm2mj5QVSLRHRwxg9l/uStduRHb7vhvsYlG
+         S3NvKfeeO7snW9KQhPPX9Ay6ovfr7aP7RobU7FmGBMLHNo4SUHFRGPkBylZ6zJUmPuVC
+         CZbYIfazrFwpVYw+VT3G7ZNUfhCmjipkDZvJV0RaXe59bbUfenVlTdW0Y80sEpiS1vno
+         uIlg==
+X-Gm-Message-State: ACrzQf3r4VWz2/ibRZLYtC9adBqjPiquGZcYNTUoJh8ib3CZ9gKe57p9
+	tslK0xhFmRC9DaU6n0bPkYQ=
+X-Google-Smtp-Source: AMsMyM4kynLWxKg4+8XmaKXXtiIQHfLnI8847IdtUkL+fKzVY18QuHAPKDvh4rol/hZxww+ytA1+zA==
+X-Received: by 2002:a2e:bd86:0:b0:26d:e64e:c230 with SMTP id o6-20020a2ebd86000000b0026de64ec230mr241489ljq.405.1666978870954;
+        Fri, 28 Oct 2022 10:41:10 -0700 (PDT)
 Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
-        by smtp.googlemail.com with ESMTPSA id s2-20020a2eb622000000b0026dfdcbccdasm725322ljn.14.2022.10.28.10.41.08
+        by smtp.googlemail.com with ESMTPSA id s2-20020a2eb622000000b0026dfdcbccdasm725322ljn.14.2022.10.28.10.41.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 10:41:08 -0700 (PDT)
+        Fri, 28 Oct 2022 10:41:10 -0700 (PDT)
 From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Subject: [PATCH v8 0/6] staging: vt6655: a series of checkpatch fixes on the file: rxtx.c
-Date: Fri, 28 Oct 2022 17:40:52 +0000
-Message-Id: <cover.1666978292.git.tanjubrunostar0@gmail.com>
+Subject: [PATCH v8 1/6] staging: vt6655: fix lines ending in a '('
+Date: Fri, 28 Oct 2022 17:40:53 +0000
+Message-Id: <6742e42999e05ddf09318a0a3bda9ce23b6ae562.1666978292.git.tanjubrunostar0@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1666978292.git.tanjubrunostar0@gmail.com>
+References: <cover.1666978292.git.tanjubrunostar0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,36 +58,239 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The fixes are similar, mostly long lines splitting. I had to make
-serveral patches to ease the work of inspectors
+fix serveral checkpatch errors related to lines ending with a '(' by
+refactoring the code lines
 
-v2: fixed a compilation error found by the kernel test robot and
-recompiled the code
+Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+---
+ drivers/staging/vt6655/rxtx.c | 165 ++++++++++++++--------------------
+ 1 file changed, 69 insertions(+), 96 deletions(-)
 
-v3: tends out the error persisted in the second version. this version is
-a correction of that
-
-v4: did some corrections as recommended by Greg KH
-
-v5: shortend changelog comments as recommended by Greg KH
-
-v6: did some corrections as recommended by Greg KH
-
-v7: fixed some errors on my changelog comments
-
-v8: fixed some errors pointed out by Philipp Hortmann
-
-Tanjuate Brunostar (6):
-  staging: vt6655: fix lines ending in a '('
-  staging: vt6655: fix long lines of code in s_uGetRTSCTSDuration
-  staging: vt6655: fix long lines of code in s_uFillDataHead
-  staging: vt6655: fix long lines of code in s_vGenerateTxParamete
-  staging: vt6655: fix long lines of code in the rest of the file
-  staging: vt6655: fix lines of code ending in a '('
-
- drivers/staging/vt6655/rxtx.c | 542 ++++++++++++++++++++--------------
- 1 file changed, 324 insertions(+), 218 deletions(-)
-
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 1e5036121665..7eb7c6eb5cf0 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -139,15 +139,11 @@ static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
+  * PK_TYPE_11GB    2
+  * PK_TYPE_11GA    3
+  */
+-static
+-unsigned int
+-s_uGetTxRsvTime(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	unsigned int cbFrameLength,
+-	unsigned short wRate,
+-	bool bNeedAck
+-)
++static unsigned int s_uGetTxRsvTime(struct vnt_private *pDevice,
++				    unsigned char byPktType,
++				    unsigned int cbFrameLength,
++				    unsigned short wRate,
++				    bool bNeedAck)
+ {
+ 	unsigned int uDataTime, uAckTime;
+ 
+@@ -214,20 +210,16 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
+ }
+ 
+ /* byFreqType 0: 5GHz, 1:2.4Ghz */
+-static
+-unsigned int
+-s_uGetDataDuration(
+-	struct vnt_private *pDevice,
+-	unsigned char byDurType,
+-	unsigned int cbFrameLength,
+-	unsigned char byPktType,
+-	unsigned short wRate,
+-	bool bNeedAck,
+-	unsigned int uFragIdx,
+-	unsigned int cbLastFragmentSize,
+-	unsigned int uMACfragNum,
+-	unsigned char byFBOption
+-)
++static unsigned int s_uGetDataDuration(struct vnt_private *pDevice,
++				       unsigned char byDurType,
++				       unsigned int cbFrameLength,
++				       unsigned char byPktType,
++				       unsigned short wRate,
++				       bool bNeedAck,
++				       unsigned int uFragIdx,
++				       unsigned int cbLastFragmentSize,
++				       unsigned int uMACfragNum,
++				       unsigned char byFBOption)
+ {
+ 	bool bLastFrag = false;
+ 	unsigned int uAckTime = 0, uNextPktTime = 0, len;
+@@ -316,17 +308,13 @@ s_uGetDataDuration(
+ }
+ 
+ /* byFreqType: 0=>5GHZ 1=>2.4GHZ */
+-static
+-__le16
+-s_uGetRTSCTSDuration(
+-	struct vnt_private *pDevice,
+-	unsigned char byDurType,
+-	unsigned int cbFrameLength,
+-	unsigned char byPktType,
+-	unsigned short wRate,
+-	bool bNeedAck,
+-	unsigned char byFBOption
+-)
++static __le16 s_uGetRTSCTSDuration(struct vnt_private *pDevice,
++				   unsigned char byDurType,
++				   unsigned int cbFrameLength,
++				   unsigned char byPktType,
++				   unsigned short wRate,
++				   bool bNeedAck,
++				   unsigned char byFBOption)
+ {
+ 	unsigned int uCTSTime = 0, uDurTime = 0;
+ 
+@@ -409,22 +397,18 @@ s_uGetRTSCTSDuration(
+ 	return cpu_to_le16((u16)uDurTime);
+ }
+ 
+-static
+-__le16
+-s_uFillDataHead(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	void *pTxDataHead,
+-	unsigned int cbFrameLength,
+-	unsigned int uDMAIdx,
+-	bool bNeedAck,
+-	unsigned int uFragIdx,
+-	unsigned int cbLastFragmentSize,
+-	unsigned int uMACfragNum,
+-	unsigned char byFBOption,
+-	unsigned short wCurrentRate,
+-	bool is_pspoll
+-)
++static __le16 s_uFillDataHead(struct vnt_private *pDevice,
++			      unsigned char byPktType,
++			      void *pTxDataHead,
++			      unsigned int cbFrameLength,
++			      unsigned int uDMAIdx,
++			      bool bNeedAck,
++			      unsigned int uFragIdx,
++			      unsigned int cbLastFragmentSize,
++			      unsigned int uMACfragNum,
++			      unsigned char byFBOption,
++			      unsigned short wCurrentRate,
++			      bool is_pspoll)
+ {
+ 	struct vnt_tx_datahead_ab *buf = pTxDataHead;
+ 
+@@ -555,19 +539,15 @@ s_uFillDataHead(
+ 	return buf->duration;
+ }
+ 
+-static
+-void
+-s_vFillRTSHead(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	void *pvRTS,
+-	unsigned int cbFrameLength,
+-	bool bNeedAck,
+-	bool bDisCRC,
+-	struct ieee80211_hdr *hdr,
+-	unsigned short wCurrentRate,
+-	unsigned char byFBOption
+-)
++static void s_vFillRTSHead(struct vnt_private *pDevice,
++			   unsigned char byPktType,
++			   void *pvRTS,
++			   unsigned int cbFrameLength,
++			   bool bNeedAck,
++			   bool bDisCRC,
++			   struct ieee80211_hdr *hdr,
++			   unsigned short wCurrentRate,
++			   unsigned char byFBOption)
+ {
+ 	unsigned int uRTSFrameLen = 20;
+ 
+@@ -750,19 +730,15 @@ s_vFillRTSHead(
+ 	}
+ }
+ 
+-static
+-void
+-s_vFillCTSHead(
+-	struct vnt_private *pDevice,
+-	unsigned int uDMAIdx,
+-	unsigned char byPktType,
+-	void *pvCTS,
+-	unsigned int cbFrameLength,
+-	bool bNeedAck,
+-	bool bDisCRC,
+-	unsigned short wCurrentRate,
+-	unsigned char byFBOption
+-)
++static void s_vFillCTSHead(struct vnt_private *pDevice,
++			   unsigned int uDMAIdx,
++			   unsigned char byPktType,
++			   void *pvCTS,
++			   unsigned int cbFrameLength,
++			   bool bNeedAck,
++			   bool bDisCRC,
++			   unsigned short wCurrentRate,
++			   unsigned char byFBOption)
+ {
+ 	unsigned int uCTSFrameLen = 14;
+ 
+@@ -868,21 +844,17 @@ s_vFillCTSHead(
+  -
+  * unsigned int cbFrameSize, Hdr+Payload+FCS
+  */
+-static
+-void
+-s_vGenerateTxParameter(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	struct vnt_tx_fifo_head *tx_buffer_head,
+-	void *pvRrvTime,
+-	void *pvRTS,
+-	void *pvCTS,
+-	unsigned int cbFrameSize,
+-	bool bNeedACK,
+-	unsigned int uDMAIdx,
+-	void *psEthHeader,
+-	unsigned short wCurrentRate
+-)
++static void s_vGenerateTxParameter(struct vnt_private *pDevice,
++				   unsigned char byPktType,
++				   struct vnt_tx_fifo_head *tx_buffer_head,
++				   void *pvRrvTime,
++				   void *pvRTS,
++				   void *pvCTS,
++				   unsigned int cbFrameSize,
++				   bool bNeedACK,
++				   unsigned int uDMAIdx,
++				   void *psEthHeader,
++				   unsigned short wCurrentRate)
+ {
+ 	u16 fifo_ctl = le16_to_cpu(tx_buffer_head->fifo_ctl);
+ 	bool bDisCRC = false;
+@@ -954,11 +926,12 @@ s_vGenerateTxParameter(
+ 	}
+ }
+ 
+-static unsigned int
+-s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+-		  unsigned char *pbyTxBufferAddr,
+-		  unsigned int uDMAIdx, struct vnt_tx_desc *pHeadTD,
+-		  unsigned int is_pspoll)
++static unsigned int s_cbFillTxBufHead(struct vnt_private *pDevice,
++				      unsigned char byPktType,
++				      unsigned char *pbyTxBufferAddr,
++				      unsigned int uDMAIdx,
++				      struct vnt_tx_desc *pHeadTD,
++				      unsigned int is_pspoll)
+ {
+ 	struct vnt_td_info *td_info = pHeadTD->td_info;
+ 	struct sk_buff *skb = td_info->skb;
 -- 
 2.34.1
 
