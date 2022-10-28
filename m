@@ -1,59 +1,88 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD1A1FAE;
-	Fri, 28 Oct 2022 08:36:11 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id t25so2997241qkm.2;
-        Fri, 28 Oct 2022 01:36:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D181FAE;
+	Fri, 28 Oct 2022 09:53:33 +0000 (UTC)
+Received: by mail-vs1-f42.google.com with SMTP id v129so4635469vsb.3;
+        Fri, 28 Oct 2022 02:53:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9Y1p+qlCnBvED9zzTgvEOAvn502VsmGTh3U1RRB9d4M=;
-        b=Ih3yYh9FIJXwEuCshZuNKX/cwFfmlEZRmef7ihrBclwuNPvkIm50GzcGBi+SXi3CNi
-         j9A7byZVlFMtYx6LiOMrEukdU26TWj5WzQXnQb5H1PX5DUBVRS0wk7y6YzZlQnGNhnKt
-         u5B8kNiUGFrHurNUMWeU6F++3LOA0BNNzP+FR/ymOd8CJKKyhChg+QAGYjeF1qyK5eun
-         woqKcvlEe5Dcm4cDQrEDYQJUxeR0pg0U9bBzAPVDMYxdW+BSq3sHzkQwwN7VtDL1fCng
-         bRRqp3rJJ1nwruNszDvZjSHCQA9vT53UcgHMozpztEb+bOz50XwPk/77mn6orkT8lip4
-         MeYQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3cbP73NK3VqxMbuuPW7YHSHMiG90mZgEraKKVLg1W4c=;
+        b=hkZK/MvkgdqjSO1l/UvJwJHNWSjUVI1cqm3jSwcg+iL8GvLt9/dVmMlh2mMmu8ouiZ
+         qe403rhZBw3rwWZlCYphvoBCiE8oo3vJRLblnrnYQa24RtdCh1ajXiJcnmB6Kb2zX8Ht
+         mRivBH25tITvo7Ls7SbnPeeryRKXc1Ds19usIcsI66OrO6j6zVBHAexAUDMbE4Mrd5wA
+         PEYpx0xJPFGyLie5W5keu8a4FSh6pgvkroclg4LPbf1To4J+wCEh8x5DDck80BIWVO9y
+         oVa0JV0YLgHY/ms7yEvmI8msdQY6N79+NVnQKQ1E835J4/3AiH3AXUwQpU2EBnkGyqQr
+         srBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9Y1p+qlCnBvED9zzTgvEOAvn502VsmGTh3U1RRB9d4M=;
-        b=G/K8w9TQfDPWMjnJvlbfeIsjzCnUKB1+et9gj/y2z7eQuSy3oO+rIy2GTzU0Y5BGJi
-         ninDJFBguU5Haf99qQkdFaLFwVJiIB1KK0IUe2RvHa3kN5klYYYPNSDmKnvF3tlGgV/C
-         EI0wG3XoXdan9j4g6p0Wedl/LPwTd55zcMJgOytu/R6RV8A3nn2vlD7vdzWSiqwxIluw
-         GxTC/XJKvYposfOw1981U6ZjgT+lIVInxXvd1MXNvMlcClVKce+xaF8w7L8bDDDPn+F1
-         sqrzTC4rGVvJ/+xmfB6p1Zf5XnaHcSCl6GQj/IWibvNtuwDCXSPUSR3wzcego7DAVOX2
-         ZOCw==
-X-Gm-Message-State: ACrzQf3D/Qt3dTABF59y9xpB8Zm11Oni2PSuoV9SdVtYvdRw5XxQxRGr
-	djuGpinXfrJ6zXtpp3AJBM9mYSmt54CkXnxepNRz4NxIoZTfcCDc
-X-Google-Smtp-Source: AMsMyM4v8P3eh9JcJMr/U6H9IOtksx0ADf18qvqW7OJhHTf4xyBA1TEwmH2d/EJyqYcj4+SLfNk9iUprf9VUwVrtYtM=
-X-Received: by 2002:a05:622a:147:b0:39c:dc0d:7d0f with SMTP id
- v7-20020a05622a014700b0039cdc0d7d0fmr43237667qtw.281.1666946159569; Fri, 28
- Oct 2022 01:35:59 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3cbP73NK3VqxMbuuPW7YHSHMiG90mZgEraKKVLg1W4c=;
+        b=1ftecSW7NPlCzIcCi8XGtMYct4KPvc7mmKXPD+YQpYH0X+Ihs2rWVp/xk6kzXMSpsQ
+         I34pYd/cwuaykSJnT86MF3RFHm9Iq5nVPyWtfd0zHZrGjQ0xvaoCdx33ACb2f2Vb8ph7
+         Udq4QaqHrHlI+XK3qDbAI29VCVGSRQKSCcNiJNNYfDPT78RHoQRdWhpq45zZ3iPTNSt9
+         4Nr4B+gG7dNq5HMNrLIZtI4iqQmotJrFOMXoVUX499nNG9QSV2h6p+dDkHtMSIoqwJ6b
+         adolgj5EWLrqmCNVcUClEcOOvAUhFI2mg4YOXjq+aRQdrRGwNFLfiYF5IM1pNxxrxL7g
+         F1XA==
+X-Gm-Message-State: ACrzQf3c3yyPZoB4NRNEZS1eyWuQLsj3F6eDumI+FH4OvzPnQvut+Ulg
+	LZLpj9Gf+6K8P5BgeThlXQtSpO9NMDqbs9rY0Bw=
+X-Google-Smtp-Source: AMsMyM4zJeL9wC1IjMA4Kc8Vd1g0zVAHzSJnFvf9uEZj1hfwKUDFgG02bFCAExx8LhkqLJRtvr6RFiFJKnYd68uORH8=
+X-Received: by 2002:a67:c205:0:b0:3aa:1613:71fe with SMTP id
+ i5-20020a67c205000000b003aa161371femr14680863vsj.57.1666950812704; Fri, 28
+ Oct 2022 02:53:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Tanju Brunostar <tanjubrunostar0@gmail.com>
-Date: Fri, 28 Oct 2022 09:35:48 +0100
-Message-ID: <CAHJEyKU8YhVLg2k4c6H_B9YJo=Va=V8ea+vkgDKH8aUZBou0wA@mail.gmail.com>
-Subject: Outreachy first patch wiki modification proposal
-To: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
+References: <20221028051420.GA30073@rdm> <Y1tx8XjmR5QKV9lQ@kroah.com>
+ <CAMk1CBOdgwnt3E7ByZMASv+O1WAmgKvsvMv5Gy9UNgg=kMBRJQ@mail.gmail.com> <Y1t2jffoLPxdOqJ3@kroah.com>
+In-Reply-To: <Y1t2jffoLPxdOqJ3@kroah.com>
+From: jovial umwari <umwarijovial@gmail.com>
+Date: Fri, 28 Oct 2022 12:53:20 +0300
+Message-ID: <CAMk1CBNe6RLybU3cFmp89iR4KrRoiMfGbsBO49WfOco3bDd5RA@mail.gmail.com>
+Subject: Re: [PATCH] WARNING: Possible repeated word: 'very'
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	outreachy@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-After setting up my mutt with Gmail, I tested it by sending an email
-but it did not go through. After some research, I realized that Gmail
-no longer allows less secure apps. The way around this is to set up
-two step verification, then generate and use "App password". I would
-like to add this to the wiki, as this will save others from the
-additional work. Please let me know if I can proceed.
+Thank you for the corrections
+i am very sorry   for All these mistakes
+i did not know
 
-Thanks,
+Best regards
+Umwari Jovial
 
-Tanju
+On Fri, 28 Oct 2022 at 09:27, Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> A: http://en.wikipedia.org/wiki/Top_post
+> Q: Were do I find info about this thing called top-posting?
+> A: Because it messes up the order in which people normally read text.
+> Q: Why is top-posting such a bad thing?
+> A: Top-posting.
+> Q: What is the most annoying thing in e-mail?
+>
+> A: No.
+> Q: Should I include quotations after my reply?
+>
+> http://daringfireball.net/2007/07/on_top
+>
+> On Fri, Oct 28, 2022 at 09:13:14AM +0300, jovial umwari wrote:
+> > Thank you
+> > working on it now
+> >
+> > Best Regards
+> > Umwari Jovial
+>
+> As you spell your name this way in emails, please use the same format
+> for your signed-off-by lines in your patches.
+>
+> thanks,
+>
+> greg k-h
