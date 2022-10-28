@@ -1,52 +1,40 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FC72F44;
-	Fri, 28 Oct 2022 17:52:06 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id b185so5376084pfb.9;
-        Fri, 28 Oct 2022 10:52:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vxp1g2Xmt0Uo27W8SXGteSZYRsjJHqr727Tb4bslW3E=;
-        b=Q9qKuLvADx6+71DawtNgaRF3zchoRqnNiuk6IX+f40y37ACZJgi6NLu+oGOI2eFiK+
-         8hP+One9mDmr9BTk00yjw23BDLUQRVWDOpjd+yVfNMRh/wA8YROkn9yUlYd8yfjMmoiK
-         dmF7xbBaMflNW7OC8JvugJ2AjI62AbiDcEJp4vEWGg0d93Hcewpq2GTbe6YZCpqxxLdX
-         Tmu3qxRWbZeZyq2eKTYfu9qE26a8OVrAlxU20IXpadzcfMSLcxR/Uo1rTs7FMSAsiL8X
-         bbusGg2u8x6jjuOPys5zIrpjtEaDRQV4eWYlVkv17KVwDEAYziscBrPOyGrPKB/uhsDx
-         ld3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vxp1g2Xmt0Uo27W8SXGteSZYRsjJHqr727Tb4bslW3E=;
-        b=hnSv3wQeazJ1yIAJmNhzqJnMykMdC2S8MEx9Z5hUAxXVZN+sGGjDWno/IKKp9tTAZy
-         a5flY1Tl/xFPJJBc/yLjr6MSbd/E4gvMEokKLoAADDJ6sPCD6NOu2SNV5B1nZxr9AkMN
-         WT52qy/oBY2qjzku32UbGOk+KJa1KX4utgqVww7I3h+I7Lzw/VOS91oWxPaPrpXDrRMi
-         UqDFbBwswa45e+YRQ0QYgh02k3vZhusTSu3sfqcT1COdCYo3jMgcbbRZtvNAJCCd3NER
-         f/chMrKXakQ7KW+WFcH/I/YN1iooqH0gIlemteQKJkCse8C2oKhnkruSWavEQab0Sugi
-         +aDQ==
-X-Gm-Message-State: ACrzQf1LKabgS9vsF7UVbUZGxtt4lZ1Gs06mh08IQOivvZhMDad1KRL+
-	giWG2iIIqKyH0/YTP96xixg=
-X-Google-Smtp-Source: AMsMyM7wdKJlMh5bMtecumc1yFHyIUOROjCTgEhBgc689Omkh7ENzstbEvgi16kBYjXnqoPapl8qkw==
-X-Received: by 2002:a63:85c8:0:b0:46f:5bbb:737f with SMTP id u191-20020a6385c8000000b0046f5bbb737fmr607990pgd.93.1666979526328;
-        Fri, 28 Oct 2022 10:52:06 -0700 (PDT)
-Received: from marshmallow (192-184-163-51.fiber.dynamic.sonic.net. [192.184.163.51])
-        by smtp.gmail.com with ESMTPSA id m4-20020a170902db0400b00186a2274382sm3364286plx.76.2022.10.28.10.52.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 10:52:04 -0700 (PDT)
-Date: Fri, 28 Oct 2022 10:52:01 -0700
-From: Emily Peri <eperi1024@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Replace ternary statement with min
- function
-Message-ID: <Y1wWwZdlXNil/lug@marshmallow>
-References: <Y1neXqVYZ8mq8jH+@marshmallow>
- <Y1oz/w9qfwQ+8gWt@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB61B3209;
+	Fri, 28 Oct 2022 17:52:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666979547; x=1698515547;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nLmozB7GOAOtC7pWQaEOBV1pltbyYLeHKZoEUgY/lIM=;
+  b=P+nd51Q+7ymRMMxKT2r8oU2/TrvMmv0dMEwQORz0ZNpVxcwGWWMIyXnx
+   dCAplPbB46HKGG6Jh0V1jUVWHgPk1yPpMORsUGt/gNYZyBHdbexpNYPN9
+   945C5wwoUSbGdCZXVA1W8AdaBuK5W0qBabq2mcsQu4xQYck3FAVEjhFLC
+   P4N5aUTFEF+PHDLWrCZlxDEodAzjmOoFVrvv2mfRzTrshLMlZyuT93If2
+   ETeecng0RBsqpovvHrRDKIbZRbq0wdgiHVRF3XuwRiOMTDD70FVCthBJT
+   5Y2J3r0E8ali3OcxoMUDoF3Uq1zL9N2qYpmaKj0DDLxzvxOXRk19kRMjM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="306169615"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="306169615"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 10:52:27 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="775452021"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="775452021"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.175.207])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 10:52:27 -0700
+Date: Fri, 28 Oct 2022 10:52:25 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v7 1/6] staging: vt6655: fix lines of code ending in a '('
+Message-ID: <Y1wW2WNpBMAYPwLA@aschofie-mobl2>
+References: <cover.1666849707.git.tanjubrunostar0@gmail.com>
+ <6742e42999e05ddf09318a0a3bda9ce23b6ae562.1666849707.git.tanjubrunostar0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,25 +43,266 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y1oz/w9qfwQ+8gWt@kadam>
+In-Reply-To: <6742e42999e05ddf09318a0a3bda9ce23b6ae562.1666849707.git.tanjubrunostar0@gmail.com>
 
-On Thu, Oct 27, 2022 at 10:32:15AM +0300, Dan Carpenter wrote:
-> On Wed, Oct 26, 2022 at 06:26:54PM -0700, Emily Peri wrote:
-> > Ternary statements that pick the min of two values can be replaced by
-> > the built-in min() function. This improves readability, since its quicker
-> > to understand min(x, y) than x < y ? x : y. Issue found by coccicheck.
-> > 
-> > Signed-off-by: Emily Peri <eperi1024@gmail.com>
+On Fri, Oct 28, 2022 at 06:39:24AM +0000, Tanjuate Brunostar wrote:
+> fix several checkpatch errors related to lines ending with a '(' by
+> joining splitted lines of code and indenting properly to increase
+> visibility
 > 
-> This breaks the build.  Use min_t(uint, wps_ielen, MAX_WPS_IE_LEN);
+> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+
+Hi Tanjuate,
+
+Thanks for your interest in the kernel community!
+
+The threading on the multiple versions of this patch series
+is unconventional. Please take a look at the archives of 
+any mailing list, or the Outreachy mailing list archive.
+I don't expect a new version of the patch set to be sent
+as a reply to a prior version.
+
+Perhaps scale this back to a single patch to see if this
+kind of fix is going to be well received, and to work on
+your patch creation skills. 
+
+Greg has pointed you to docs, and of course the First
+Patch Tutorial covers all of this too. 
+
+Thanks,
+Alison
+
+
+> ---
+>  drivers/staging/vt6655/rxtx.c | 165 ++++++++++++++--------------------
+>  1 file changed, 69 insertions(+), 96 deletions(-)
 > 
-> regards,
-> dan carpenter
-
-Oh! Thanks for the feedback, that makes sense! When you say 'breaks the
-build,' do you mean it didn't compile, or the module didn't load (or
-something else)? I'm trying to figure out what I did wrong when testing
-it.
-
-Best,
-Emily
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index 1e5036121665..7eb7c6eb5cf0 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -139,15 +139,11 @@ static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
+>   * PK_TYPE_11GB    2
+>   * PK_TYPE_11GA    3
+>   */
+> -static
+> -unsigned int
+> -s_uGetTxRsvTime(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	unsigned int cbFrameLength,
+> -	unsigned short wRate,
+> -	bool bNeedAck
+> -)
+> +static unsigned int s_uGetTxRsvTime(struct vnt_private *pDevice,
+> +				    unsigned char byPktType,
+> +				    unsigned int cbFrameLength,
+> +				    unsigned short wRate,
+> +				    bool bNeedAck)
+>  {
+>  	unsigned int uDataTime, uAckTime;
+>  
+> @@ -214,20 +210,16 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
+>  }
+>  
+>  /* byFreqType 0: 5GHz, 1:2.4Ghz */
+> -static
+> -unsigned int
+> -s_uGetDataDuration(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byDurType,
+> -	unsigned int cbFrameLength,
+> -	unsigned char byPktType,
+> -	unsigned short wRate,
+> -	bool bNeedAck,
+> -	unsigned int uFragIdx,
+> -	unsigned int cbLastFragmentSize,
+> -	unsigned int uMACfragNum,
+> -	unsigned char byFBOption
+> -)
+> +static unsigned int s_uGetDataDuration(struct vnt_private *pDevice,
+> +				       unsigned char byDurType,
+> +				       unsigned int cbFrameLength,
+> +				       unsigned char byPktType,
+> +				       unsigned short wRate,
+> +				       bool bNeedAck,
+> +				       unsigned int uFragIdx,
+> +				       unsigned int cbLastFragmentSize,
+> +				       unsigned int uMACfragNum,
+> +				       unsigned char byFBOption)
+>  {
+>  	bool bLastFrag = false;
+>  	unsigned int uAckTime = 0, uNextPktTime = 0, len;
+> @@ -316,17 +308,13 @@ s_uGetDataDuration(
+>  }
+>  
+>  /* byFreqType: 0=>5GHZ 1=>2.4GHZ */
+> -static
+> -__le16
+> -s_uGetRTSCTSDuration(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byDurType,
+> -	unsigned int cbFrameLength,
+> -	unsigned char byPktType,
+> -	unsigned short wRate,
+> -	bool bNeedAck,
+> -	unsigned char byFBOption
+> -)
+> +static __le16 s_uGetRTSCTSDuration(struct vnt_private *pDevice,
+> +				   unsigned char byDurType,
+> +				   unsigned int cbFrameLength,
+> +				   unsigned char byPktType,
+> +				   unsigned short wRate,
+> +				   bool bNeedAck,
+> +				   unsigned char byFBOption)
+>  {
+>  	unsigned int uCTSTime = 0, uDurTime = 0;
+>  
+> @@ -409,22 +397,18 @@ s_uGetRTSCTSDuration(
+>  	return cpu_to_le16((u16)uDurTime);
+>  }
+>  
+> -static
+> -__le16
+> -s_uFillDataHead(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	void *pTxDataHead,
+> -	unsigned int cbFrameLength,
+> -	unsigned int uDMAIdx,
+> -	bool bNeedAck,
+> -	unsigned int uFragIdx,
+> -	unsigned int cbLastFragmentSize,
+> -	unsigned int uMACfragNum,
+> -	unsigned char byFBOption,
+> -	unsigned short wCurrentRate,
+> -	bool is_pspoll
+> -)
+> +static __le16 s_uFillDataHead(struct vnt_private *pDevice,
+> +			      unsigned char byPktType,
+> +			      void *pTxDataHead,
+> +			      unsigned int cbFrameLength,
+> +			      unsigned int uDMAIdx,
+> +			      bool bNeedAck,
+> +			      unsigned int uFragIdx,
+> +			      unsigned int cbLastFragmentSize,
+> +			      unsigned int uMACfragNum,
+> +			      unsigned char byFBOption,
+> +			      unsigned short wCurrentRate,
+> +			      bool is_pspoll)
+>  {
+>  	struct vnt_tx_datahead_ab *buf = pTxDataHead;
+>  
+> @@ -555,19 +539,15 @@ s_uFillDataHead(
+>  	return buf->duration;
+>  }
+>  
+> -static
+> -void
+> -s_vFillRTSHead(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	void *pvRTS,
+> -	unsigned int cbFrameLength,
+> -	bool bNeedAck,
+> -	bool bDisCRC,
+> -	struct ieee80211_hdr *hdr,
+> -	unsigned short wCurrentRate,
+> -	unsigned char byFBOption
+> -)
+> +static void s_vFillRTSHead(struct vnt_private *pDevice,
+> +			   unsigned char byPktType,
+> +			   void *pvRTS,
+> +			   unsigned int cbFrameLength,
+> +			   bool bNeedAck,
+> +			   bool bDisCRC,
+> +			   struct ieee80211_hdr *hdr,
+> +			   unsigned short wCurrentRate,
+> +			   unsigned char byFBOption)
+>  {
+>  	unsigned int uRTSFrameLen = 20;
+>  
+> @@ -750,19 +730,15 @@ s_vFillRTSHead(
+>  	}
+>  }
+>  
+> -static
+> -void
+> -s_vFillCTSHead(
+> -	struct vnt_private *pDevice,
+> -	unsigned int uDMAIdx,
+> -	unsigned char byPktType,
+> -	void *pvCTS,
+> -	unsigned int cbFrameLength,
+> -	bool bNeedAck,
+> -	bool bDisCRC,
+> -	unsigned short wCurrentRate,
+> -	unsigned char byFBOption
+> -)
+> +static void s_vFillCTSHead(struct vnt_private *pDevice,
+> +			   unsigned int uDMAIdx,
+> +			   unsigned char byPktType,
+> +			   void *pvCTS,
+> +			   unsigned int cbFrameLength,
+> +			   bool bNeedAck,
+> +			   bool bDisCRC,
+> +			   unsigned short wCurrentRate,
+> +			   unsigned char byFBOption)
+>  {
+>  	unsigned int uCTSFrameLen = 14;
+>  
+> @@ -868,21 +844,17 @@ s_vFillCTSHead(
+>   -
+>   * unsigned int cbFrameSize, Hdr+Payload+FCS
+>   */
+> -static
+> -void
+> -s_vGenerateTxParameter(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	struct vnt_tx_fifo_head *tx_buffer_head,
+> -	void *pvRrvTime,
+> -	void *pvRTS,
+> -	void *pvCTS,
+> -	unsigned int cbFrameSize,
+> -	bool bNeedACK,
+> -	unsigned int uDMAIdx,
+> -	void *psEthHeader,
+> -	unsigned short wCurrentRate
+> -)
+> +static void s_vGenerateTxParameter(struct vnt_private *pDevice,
+> +				   unsigned char byPktType,
+> +				   struct vnt_tx_fifo_head *tx_buffer_head,
+> +				   void *pvRrvTime,
+> +				   void *pvRTS,
+> +				   void *pvCTS,
+> +				   unsigned int cbFrameSize,
+> +				   bool bNeedACK,
+> +				   unsigned int uDMAIdx,
+> +				   void *psEthHeader,
+> +				   unsigned short wCurrentRate)
+>  {
+>  	u16 fifo_ctl = le16_to_cpu(tx_buffer_head->fifo_ctl);
+>  	bool bDisCRC = false;
+> @@ -954,11 +926,12 @@ s_vGenerateTxParameter(
+>  	}
+>  }
+>  
+> -static unsigned int
+> -s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+> -		  unsigned char *pbyTxBufferAddr,
+> -		  unsigned int uDMAIdx, struct vnt_tx_desc *pHeadTD,
+> -		  unsigned int is_pspoll)
+> +static unsigned int s_cbFillTxBufHead(struct vnt_private *pDevice,
+> +				      unsigned char byPktType,
+> +				      unsigned char *pbyTxBufferAddr,
+> +				      unsigned int uDMAIdx,
+> +				      struct vnt_tx_desc *pHeadTD,
+> +				      unsigned int is_pspoll)
+>  {
+>  	struct vnt_td_info *td_info = pHeadTD->td_info;
+>  	struct sk_buff *skb = td_info->skb;
+> -- 
+> 2.34.1
+> 
+> 
