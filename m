@@ -1,105 +1,101 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BFA1FAD;
-	Fri, 28 Oct 2022 07:43:04 +0000 (UTC)
-Received: by mail-vs1-f42.google.com with SMTP id l190so3859852vsc.10;
-        Fri, 28 Oct 2022 00:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KFL9adKihekM8F4k25d98PC2Ll0xHE9L3wfiEmdcsI8=;
-        b=ja4yWZKyRolktBga8ujdVEg5//IwG7IHFxFwFCKwBbuCsZT82D3fGh8l4z1YaRu2rc
-         FtlLWEr09PyYdtIl/Jk+RlGoSFX7PvvRO8VomL0QYmFiB9/Trv6nuXbLLJgsX1qlWoll
-         6YIfEplsbqikpMStY8KLTY8hFfouX6VMvRIPpGt4VHcYxEawlZ79ddo4uEJSXtOLOUHV
-         b2sDEJztYSA304XkegQ90g5MbHvhohx3cqIbT8nCl4qR+7qFDw4SJri4Es57Yx9mT8r8
-         H6KrPjhQOVetwenmhL1Kg486RH7YIYSORaKvMroM3Sfq+2aVDHkNIbeSusOxV1P1oEG8
-         v3tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KFL9adKihekM8F4k25d98PC2Ll0xHE9L3wfiEmdcsI8=;
-        b=4lLNyQ2Jv3lYwk1vQjIdlxQsaj1XJmK6W6QASqFsoWDZUsESWq6tLn1Z+YY8GAWTaE
-         ZXsemUQ6B7Nzeq7jAzzHqao0InQpaHzu5yHczyfpANMIN/em6us4Cfwe6fPiIumjPuiG
-         lY8dLw6IZT1VQSoKSzhe40YVgW6fgmuNae/9+88wIkKdeHvz4FUUNZUrG4X1V9ENFfWg
-         4N5XCgDBy3rFdOhe7QPC6dQkmydqIBVuy3I7MGk89oL0QIKM8uRoheqQXmWTw9u0AWQI
-         WdiWWLcAEcsIagp6sw6FhzSlyI0EnQjyTKARiHAhBtYt+h5MA8/49TAWTWL5/QnCt0N7
-         VYPA==
-X-Gm-Message-State: ACrzQf3hoiIPPqqlz1MjxFtt85E4lT0XRuDvWDOaf17p0VRX/Wm7V6m5
-	eHTLpIK/AQMcseKNCCEUyMNyOhhA08+sDlMwqhg=
-X-Google-Smtp-Source: AMsMyM7tXiJc82o76JD4AaikiR4k2fSve2dBxpFxJoHlHd2ppquul8tY7yZ3tXhlK8qHYge4JwfGKS3I0TlFU7uvpYg=
-X-Received: by 2002:a67:1902:0:b0:3aa:3c4c:72c4 with SMTP id
- 2-20020a671902000000b003aa3c4c72c4mr8457483vsz.67.1666942983231; Fri, 28 Oct
- 2022 00:43:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA5EE83D
+	for <linux-staging@lists.linux.dev>; Fri, 28 Oct 2022 08:19:51 +0000 (UTC)
+Received: from booty.fritz.box (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPA id 150001BF205;
+	Fri, 28 Oct 2022 08:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1666945183;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vqicJIpaIUCqnWaaaf6uDqbeDvMy142ZJ+vF7cMzObg=;
+	b=bkKIitouTwGX+kxNBk+gZ1C/8NirLVohgyvNA9v481ufDHZiyykNv8jQ58K6hcQ51bJvbY
+	3OHdlEBwpIcPRdjrBnyMJMUrQjx5M40EJ9MYv+pV0cnBQKEAOrsK64BDE+428sxZpcUIYQ
+	JPt2PgbhHuZSuCnbBtHSDotME8E0JtTBMWXCggE3M1kS4AL6cpMKmccV+F4hBRiHcFNhfC
+	/J89pj8ugT6GSoSmnRrA9QGyYcM76IbCMaMqngzExsY1UX4i0q0E0cgvQM+NYyQ2ssOxWR
+	FI3nHWQUgHDxi8bzHsvF834UmiDzMf5tZzlCDb0WXFmVqMw5mcHc1WQiTe6nJA==
+From: luca.ceresoli@bootlin.com
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	stable@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media: tegra-video: fix device_node use after free
+Date: Fri, 28 Oct 2022 10:19:26 +0200
+Message-Id: <20221028081926.2320663-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221028063711.GA35659@rdm> <alpine.DEB.2.22.394.2210280918550.2845@hadrien>
-In-Reply-To: <alpine.DEB.2.22.394.2210280918550.2845@hadrien>
-From: jovial umwari <umwarijovial@gmail.com>
-Date: Fri, 28 Oct 2022 10:42:52 +0300
-Message-ID: <CAMk1CBN2Vf7XLw-J_XLTyZwASg3WHNXdnv7NxKSJDGszvu2kwQ@mail.gmail.com>
-Subject: Re: [PATCH] Remove Unnecessary typecast of c90 int constant
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-let me again look in deep into it and see why
-Thank you for the comment
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-On Fri, 28 Oct 2022 at 10:22, Julia Lawall <julia.lawall@inria.fr> wrote:
->
->
->
-> On Fri, 28 Oct 2022, UMWARI JOVIAL wrote:
->
-> > According to Linux kernel coding style.
-> >
-> > Reported by checkpatch:
-> > WARNING: Unnecessary typecast of c90 int constant - '(int)2.412e8' could be '2.412e8'
-> > WARNING: Unnecessary typecast of c90 int constant - '(int)2.487e8' could be '2.487e8'
->
-> It's not ideal to just include the checkpatch messges verbatim in your log
-> message.  It woudl be better to say what you are doing and why, in
-> complete sentences ("According to the Linux coding style" is not a
-> complete sentence).
->
-> I also suspect that the checkpatch message is wrong.  Floating point
-> numbers cannot be used in the kernel, and the case of the constant ensures
-> that the value will be converted to an integer at compile time.
->
-> julia
->
-> >
-> > Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
-> > ---
-> >  drivers/staging/rtl8192e/rtllib_softmac_wx.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > index fdf867a5dd7a..4fc4fb25d8d6 100644
-> > --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-> > @@ -41,8 +41,8 @@ int rtllib_wx_set_freq(struct rtllib_device *ieee, struct iw_request_info *a,
-> >
-> >       /* if setting by freq convert to channel */
-> >       if (fwrq->e == 1) {
-> > -             if ((fwrq->m >= (int)2.412e8 &&
-> > -                  fwrq->m <= (int)2.487e8)) {
-> > +             if ((fwrq->m >= 2.412e8 &&
-> > +                  fwrq->m <= 2.487e8)) {
-> >                       int f = fwrq->m / 100000;
-> >                       int c = 0;
-> >
-> > --
-> > 2.25.1
-> >
-> >
-> >
+At probe time this code path is followed:
+
+ * tegra_csi_init
+   * tegra_csi_channels_alloc
+     * for_each_child_of_node(node, channel) -- iterates over channels
+       * automatically gets 'channel'
+         * tegra_csi_channel_alloc()
+           * saves into chan->of_node a pointer to the channel OF node
+       * automatically gets and puts 'channel'
+       * now the node saved in chan->of_node has refcount 0, can disappear
+   * tegra_csi_channels_init
+     * iterates over channels
+       * tegra_csi_channel_init -- uses chan->of_node
+
+After that, chan->of_node keeps storing the node until the device is
+removed.
+
+of_node_get() the node and of_node_put() it during teardown to avoid any
+risk.
+
+Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
+Cc: stable@vger.kernel.org
+Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ drivers/staging/media/tegra-video/csi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+index b26e44adb2be..1b05f620b476 100644
+--- a/drivers/staging/media/tegra-video/csi.c
++++ b/drivers/staging/media/tegra-video/csi.c
+@@ -433,7 +433,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+ 	for (i = 0; i < chan->numgangports; i++)
+ 		chan->csi_port_nums[i] = port_num + i * CSI_PORTS_PER_BRICK;
+ 
+-	chan->of_node = node;
++	chan->of_node = of_node_get(node);
+ 	chan->numpads = num_pads;
+ 	if (num_pads & 0x2) {
+ 		chan->pads[0].flags = MEDIA_PAD_FL_SINK;
+@@ -640,6 +640,7 @@ static void tegra_csi_channels_cleanup(struct tegra_csi *csi)
+ 			media_entity_cleanup(&subdev->entity);
+ 		}
+ 
++		of_node_put(chan->of_node);
+ 		list_del(&chan->list);
+ 		kfree(chan);
+ 	}
+-- 
+2.34.1
+
