@@ -1,96 +1,153 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52192563;
-	Fri, 28 Oct 2022 13:41:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666964465; bh=dn3QC759JYSbdACAbjB+1SsJHL5LPhszMOHvnTxlp2w=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=BuiTchFxwmMu50w2A1Gk7O5uorgN0Egt4VIWDmHCUxOezqWSX1TL6MV2fySdDIRR/
-	 cfS8TdPTYmdcPJzIw4vXy1jimJZu16I3YEbDOXGgH/4CKG8q8Pqm1eootTMe2XdZI3
-	 yuG2kQgtmBQhGEQfLzsg6o0ydaHzy1Io+eD4j0D0=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-	via [213.182.55.206]
-	Fri, 28 Oct 2022 15:41:05 +0200 (CEST)
-X-EA-Auth: zjD3JWTuqW65h7OUlWQt+bac8mNfQPBdWtxbP4lNIW7AbDNyWoG0bkvLonVx/zdZDq6GcPCSy3C56muCCKIQ3DX2aRhZjmRq
-Date: Fri, 28 Oct 2022 19:11:00 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: wlan-ng: Use flexible-array for one /
- zero-length arrays
-Message-ID: <Y1vb7OoJqVK3C5bc@ubunlion>
-References: <Y1vNNSSWK1EkcohT@ubunlion>
- <Y1vaR0olLH9+bJbk@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D382563;
+	Fri, 28 Oct 2022 14:03:29 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id u2so8506731ljl.3;
+        Fri, 28 Oct 2022 07:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tJs9/ylITivpEH1zK/iAiHT0oINqbTDSjSRxLxJdcQw=;
+        b=Pu0ACCUhlEwq57fIuR45XKIffhHuGtFwRY3kjjOiQri3BIIoAHZxvVzQv1LvYsWzlj
+         JbfRSf876t2kARp2YzW6SHv5+Hv8F0Ahb4bMqpQa02H0Id2xa6MdsgfoxwLmsrF2PhSR
+         kA9bcxCbG49WW9qSx0LYHnblj5MZmVmaKaEAAilUP2mMsQZ7TBQeBYqFZs4uA0Ano2CZ
+         uB65+nByzfvk5EcUHC4FlZPyT7hNbDdzpfIrfRNVvP8mN3yq6PC4Yk2ZHrtN5ofB4VLg
+         jwIx75KHBuL/z3/EIimjaqehiC0g8eNH66POMt1jUd6wwMh29i4fKkcdvgbGVYUiQPed
+         hNJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tJs9/ylITivpEH1zK/iAiHT0oINqbTDSjSRxLxJdcQw=;
+        b=Ep2Ie1/cvX5MN+8nU82xl4s/nAOfaAC5W2x6lePSncMpOOyOwPPBnGFpvLUQF2n+7v
+         bgVg0n4ODMmEFE/YrmOphA/u953kN9R+xIG+U0j06FQTBNYchTcW9/gURt03Q3Uh0Lpj
+         H7JPc0uqLBtDXI3tNGKU7k0ySEZmNmOYh3aMkYCYcUdAoKyYLG/8x5MmzkHO2KRYp8QL
+         wOTFhA9SlKuejXy8uxe6jfRMWYG0BhcfiaFoszrMyvms+drURY+NqEY0cM5puyZT6r4V
+         iIa2XFc4E49hrcU74faY0iYOTr+yAfHgE/wtjY7jB5UNu464+0rSIUahqjlnzdVmrXK5
+         eY9Q==
+X-Gm-Message-State: ACrzQf3Gc1lwknrtYp6lBBcwlrzKh/0JeXDbXW3RtmQUER6digNvsgpr
+	4bNFnj3xbS5br4tfmH1aacI=
+X-Google-Smtp-Source: AMsMyM7XaoXvu5ZCen9f8QZ6699xYWIRVpbsXgv0d/Na6IjNonVqHqkrFSItkuSBhDQZNcYdAqOSww==
+X-Received: by 2002:a2e:b8ca:0:b0:26f:ebb8:79d6 with SMTP id s10-20020a2eb8ca000000b0026febb879d6mr19844395ljp.331.1666965807471;
+        Fri, 28 Oct 2022 07:03:27 -0700 (PDT)
+Received: from [192.168.0.252] ([94.103.229.28])
+        by smtp.gmail.com with ESMTPSA id b14-20020a056512070e00b0049876c1bb24sm574561lfs.225.2022.10.28.07.03.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Oct 2022 07:03:27 -0700 (PDT)
+Message-ID: <642519a2-664d-d837-983a-1d5bbc72a25e@gmail.com>
+Date: Fri, 28 Oct 2022 17:03:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1vaR0olLH9+bJbk@kadam>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH] staging: r8188eu: Use flexible-array for one length array
+ member
+Content-Language: en-US
+To: Deepak R Varma <drv@mailo.com>, outreachy@lists.linux.dev,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <Y1vRivFfRD6VoBt/@ubunlion>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <Y1vRivFfRD6VoBt/@ubunlion>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 28, 2022 at 04:33:59PM +0300, Dan Carpenter wrote:
-> On Fri, Oct 28, 2022 at 06:08:13PM +0530, Deepak R Varma wrote:
-> > Flexible-array member should be used instead of one or zero member to
-> > meet the need for having a dynamically sized trailing elements in a
-> > structure. Refer to links [1] and [2] for detailed guidance on this
-> > suggestion.
-> >
-> > [1] https://en.wikipedia.org/wiki/Flexible_array_member
-> > [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-length-and-one-element-arrays
-> >
-> > Issue identified using coccicheck.
-> >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> >  drivers/staging/wlan-ng/p80211mgmt.h  | 8 ++++----
-> >  drivers/staging/wlan-ng/p80211types.h | 2 +-
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/staging/wlan-ng/p80211mgmt.h b/drivers/staging/wlan-ng/p80211mgmt.h
-> > index 1ef30d3f3159..d6fe52de2c8f 100644
-> > --- a/drivers/staging/wlan-ng/p80211mgmt.h
-> > +++ b/drivers/staging/wlan-ng/p80211mgmt.h
-> > @@ -229,14 +229,14 @@ struct wlan_ie {
-> >  struct wlan_ie_ssid {
-> >  	u8 eid;
-> >  	u8 len;
-> > -	u8 ssid[1];		/* may be zero, ptrs may overlap */
-> > +	u8 ssid[];		/* may be zero, ptrs may overlap */
->
-> How have you ensured that changing this from a 1 byte array to a zero
-> byte array does not break anything?  It's not uncommon for a people
-> to do math like "size - 1 + length".  The "- 1" would be to take the
-> 1 element into consideration.
+Hi Deepak R,
 
-Hi Dan,
-I did a code review to understand how this structure member is used and did not
-find any computations you mentioned. I would certainly like to receive your feedback
-as well.
+Deepak R Varma <drv@mailo.com> says:
+> Flexible-array member should be used instead of one or zero member to
+> meet the need for having a dynamically sized trailing elements in a
+> structure. Refer to links [1] and [2] for detailed guidance on this
+> suggestion.
+> 
+> [1] https://en.wikipedia.org/wiki/Flexible_array_member
+> [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-length-and-one-element-arrays
+> 
+> Issue identified using coccicheck.
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+>   drivers/staging/r8188eu/include/odm.h         | 2 +-
+>   drivers/staging/r8188eu/include/wlan_bssdef.h | 6 +++---
+>   2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
+> index 89b01dd614ba..e2a9de5b9323 100644
+> --- a/drivers/staging/r8188eu/include/odm.h
+> +++ b/drivers/staging/r8188eu/include/odm.h
+> @@ -166,7 +166,7 @@ struct odm_ra_info {
+> 
+>   struct ijk_matrix_regs_set {
+>   	bool	bIQKDone;
+> -	s32	Value[1][IQK_Matrix_REG_NUM];
+> +	s32	Value[][IQK_Matrix_REG_NUM];
+>   };
+> 
 
->
-> I was trying to read through this code to check your work, but then
-> you sent a second patch which also does not explain how you are auditing
-> your changes.  Can you go a bit slower?
+you are changing the actual size of the struct. Wondering if you have 
+tested this patch somehow
 
-My apologies for rushing patches in. I will hold on for feedback on these
-patches before turning in any new patch involving similar change. I hope it is
-okay to send a different type of patch though. Please correct if I am wrong.
+>   struct odm_rf_cal {
+> diff --git a/drivers/staging/r8188eu/include/wlan_bssdef.h b/drivers/staging/r8188eu/include/wlan_bssdef.h
+> index 831c465df500..33177de194eb 100644
+> --- a/drivers/staging/r8188eu/include/wlan_bssdef.h
+> +++ b/drivers/staging/r8188eu/include/wlan_bssdef.h
+> @@ -179,7 +179,7 @@ struct ndis_802_11_status_ind {
+> 
+>   struct ndis_802_11_auth_evt {
+>   	struct ndis_802_11_status_ind       Status;
+> -	struct ndis_802_11_auth_req  Request[1];
+> +	struct ndis_802_11_auth_req  Request[];
+>   };
+> 
 
-Thank you for looking into the patches. Appreciate your time and feedback.
+this structure seems to be unused. Better to remove it instead of 
+maintaining the old code
 
-./drv
+>   struct ndis_802_11_test {
+> @@ -291,7 +291,7 @@ struct pmkid_candidate {
+>   struct ndis_802_11_pmkid_list {
+>   	u32 Version;       /*  Version of the structure */
+>   	u32 NumCandidates; /*  No. of pmkid candidates */
+> -	struct pmkid_candidate CandidateList[1];
+> +	struct pmkid_candidate CandidateList[];
+>   };
+
+this one as well
+
+> 
+>   struct ndis_802_11_auth_encrypt {
+> @@ -304,7 +304,7 @@ struct ndis_802_11_cap {
+>   	u32  Version;
+>   	u32  NoOfPMKIDs;
+>   	u32  NoOfAuthEncryptPairsSupported;
+> -	struct ndis_802_11_auth_encrypt AuthenticationEncryptionSupported[1];
+> +	struct ndis_802_11_auth_encrypt AuthenticationEncryptionSupported[];
+>   };
+> 
+>   u8 key_2char2num(u8 hch, u8 lch);
+> --
+> 2.34.1
+> 
+
+and this one as well
+
+> 
+> 
 
 
->
-> regards,
-> dan carpenter
->
 
 
+
+With regards,
+Pavel Skripkin
