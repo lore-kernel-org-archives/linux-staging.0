@@ -1,86 +1,66 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF41D50E;
-	Fri, 28 Oct 2022 18:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666982118; x=1698518118;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e6tXyHXcx1wINDytML2ECkyfhcbu00FuKqs+1j13wTc=;
-  b=ZoyJ+vZRYXdd9SFGDAWmaH2MsAIIQyBXUwkb9MgFGp0MOZjOxqreoGI5
-   /2gpE5zsr4XagvahwZsa2Ww2jrYUPIx77kkPDnY/y3AGzcEp4PDSnWDXV
-   uvJC1G/pMjM7DX+U8Ii+707YCqMAXkca496frGiSu4EcF5Af+1OQAE2TK
-   aS6f6U0w1ZOO0YD3MqMF0j+eV4IiWzaCk9nAqA2EsFOn158b+sSXjp1Jf
-   AlCCmdezJQHpOxO38WnfxVOH3m5NHJ+OGKVMVwx2MUwXbrcMssF9l1gzC
-   L8fZF0Ww5hY2fp0tOuJS0D/9K2B5v5SDwiPlEWxhIQKr1R5MJYoyAUKi9
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="288278368"
-X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
-   d="scan'208";a="288278368"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 11:35:17 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="758174577"
-X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
-   d="scan'208";a="758174577"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.175.207])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 11:35:17 -0700
-Date: Fri, 28 Oct 2022 11:35:15 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: UMWARI JOVIAL <umwarijovial@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] WARNING: Possible repeated word: 'very'
-Message-ID: <Y1wg4y6k1fe/TF0d@aschofie-mobl2>
-References: <20221028051420.GA30073@rdm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEA6D50E;
+	Fri, 28 Oct 2022 18:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=PWiV8j5n/RdXGJuppn6+le1V0xVgkNZA349ibTs5MvQ=;
+  b=nE/yAeICbF56Vj0acAgXSQsqQc/EJrv5ychSxlNWEjnl7FAYBxlyeKiI
+   R4j464tWvtg2SC3ayXBhhVf1YPy/BlrMrMaeuoXX2DZ363YxUOfaMv+Pp
+   PfgPR7BWBTPYtZ2Yw0OSwS2xKp4e6z4fnxkldSompK8qj33TPbcnHHLQH
+   o=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.95,221,1661810400"; 
+   d="scan'208";a="35863678"
+Received: from 51.123.68.85.rev.sfr.net (HELO hadrien) ([85.68.123.51])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 20:39:14 +0200
+Date: Fri, 28 Oct 2022 20:39:12 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Emily Peri <eperi1024@gmail.com>
+cc: Dan Carpenter <dan.carpenter@oracle.com>, gregkh@linuxfoundation.org, 
+    outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Replace ternary statement with min
+ function
+In-Reply-To: <Y1wWwZdlXNil/lug@marshmallow>
+Message-ID: <alpine.DEB.2.22.394.2210282038450.2987@hadrien>
+References: <Y1neXqVYZ8mq8jH+@marshmallow> <Y1oz/w9qfwQ+8gWt@kadam> <Y1wWwZdlXNil/lug@marshmallow>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221028051420.GA30073@rdm>
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri, Oct 28, 2022 at 08:14:20AM +0300, UMWARI JOVIAL wrote:
-> i used checkpatch.pl script to identify the above
-> Repetition of the same word in one sentence same line
-> 
-> Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
 
-This is my (not yet automated) response:
 
-You are sending patches to the Outreachy list, in a way
-that makes me suspect you have overlooked the Outreachy
-Project Contribution Information.
+On Fri, 28 Oct 2022, Emily Peri wrote:
 
-Please review:
-https://www.outreachy.org/outreachy-december-2022-internship-round/communities/linux-kernel/  (only accepted applicants can see this link)
+> On Thu, Oct 27, 2022 at 10:32:15AM +0300, Dan Carpenter wrote:
+> > On Wed, Oct 26, 2022 at 06:26:54PM -0700, Emily Peri wrote:
+> > > Ternary statements that pick the min of two values can be replaced by
+> > > the built-in min() function. This improves readability, since its quicker
+> > > to understand min(x, y) than x < y ? x : y. Issue found by coccicheck.
+> > >
+> > > Signed-off-by: Emily Peri <eperi1024@gmail.com>
+> >
+> > This breaks the build.  Use min_t(uint, wps_ielen, MAX_WPS_IE_LEN);
+> >
+> > regards,
+> > dan carpenter
+>
+> Oh! Thanks for the feedback, that makes sense! When you say 'breaks the
+> build,' do you mean it didn't compile, or the module didn't load (or
+> something else)? I'm trying to figure out what I did wrong when testing
+> it.
 
-https://lore.kernel.org/outreachy/Y0D+dzbjRtuc0KT4@aschofie-mobl2/
+Normally it means that it didn't compile.  Check that you actually have a
+.o file for the affected file.
 
-Alison
-
-> ---
->  drivers/staging/rtl8712/rtl871x_xmit.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
-> index 090345bad223..30a0276b8b58 100644
-> --- a/drivers/staging/rtl8712/rtl871x_xmit.c
-> +++ b/drivers/staging/rtl8712/rtl871x_xmit.c
-> @@ -766,7 +766,7 @@ void r8712_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
->   * If we turn on USE_RXTHREAD, then, no need for critical section.
->   * Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
->   *
-> - * Must be very very cautious...
-> + * Must be very cautious...
->   *
->   */
->  struct xmit_frame *r8712_alloc_xmitframe(struct xmit_priv *pxmitpriv)
-> -- 
-> 2.25.1
-> 
-> 
+julia
