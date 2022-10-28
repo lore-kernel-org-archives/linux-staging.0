@@ -1,152 +1,302 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6692592;
-	Fri, 28 Oct 2022 14:48:28 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29SBNnAI018947;
-	Fri, 28 Oct 2022 14:48:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2022-7-12;
- bh=X46OMOGXselDN60SbnjrDj1N9NMEQOlnMOTnS7VnojI=;
- b=MPw+KrmGDZ9pyYXFxeC/AAdWz33fMfClfjZSO/ku5S7sDF0ZpAkucpU8klQQ4T/FoINY
- wx9uJg8X8Dc/nVfuG0j+G8L0Nuknl2h16x2NupAn0M8eFJkSrs6HO4LkyudmBJDZOLe8
- gHKmHRsqxEr2iYlza2wA1q775qEOU+GPnBMisu9RviSTxwnB2IY8WnV0+UpEqKCBnw2p
- kcKl4CsgKJviCVyfdXvFDl1o9R9pujVmgzk6QVm2VQ6563Si9a7B2ZKIJ13F04VP+gEs
- URoM/O5+FAf/U8H/NxdiQZC5Zs/33yGg3eDUYCZDOHzrJSoTNSjD+sFFHge6eqVYrl0o +Q== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kfax7w0cd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 28 Oct 2022 14:48:26 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 29SEAtkb011664;
-	Fri, 28 Oct 2022 14:48:26 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2044.outbound.protection.outlook.com [104.47.74.44])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3kfags5j1n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 28 Oct 2022 14:48:25 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gMQejlTcldZZ6E7WYUZQjTQblhzm2Q9iDS8Dr4GURS9EGEohszW4plt1vO7y5h0mM4Fp1ta3YUFbg++BPWJbgQwPOi7UVEvA1Nmxl7leBYpwAE7bKQmbtMR54+2W3zJz4BQwav/nX6FRkT6SWz95tgrQcDNnN4FmrX4EL6d3M6YpyA4W13vwNTMcsgQVIWkBlC00Re2iIHXGCw0JrLjAVixg8spEjwsqXWtPzPv+LjA+D6XU4j4HQlhB3ugtBhWCrdEtUW4ye+pznWtO555TiAP56K+Xh4BcMw9tnB4Y9G/HOX1eDJ9WnCgHdk4ULEP+o+4aY6fPJVxlVJw8vkCpHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X46OMOGXselDN60SbnjrDj1N9NMEQOlnMOTnS7VnojI=;
- b=dfg/xt0PmGF3weVg0S7/5DQBgd4A05jAA26REEAFU9b18yw3BAuEzMF+YXDw9exbny9DesW4GhmzqCDj6KdjMmsTbMwvWONsL54O0l30Fk0hwevJTJo3Q43aRYgBlfWNkystk4n02yoYpIxo4DfIQ/UD3HUH/twr7EtsFCNz/STmgmOw6eVgvE6V8/7J+mYutyEZIjue0nbNx2Bmi72pIatYrprsLGImBy1coy5b6QdD1/QtjF7o9MSPqNidssAw9JX2kybrqOYLUIk5E0q0AQEJaD8vwDLPYJCSakfm/ff36OIDAvZauh+Y7LJ6RAEKqMMw/1zNmn3AnPOKMWnrDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D042592;
+	Fri, 28 Oct 2022 14:57:52 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id n12so13466998eja.11;
+        Fri, 28 Oct 2022 07:57:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X46OMOGXselDN60SbnjrDj1N9NMEQOlnMOTnS7VnojI=;
- b=vHNP+vtgzPbSq1MvacKxvZse+C5V2Ih7Dp9lHPc7ZSH4DYc+Hl8kTCUehi54wtu2Ymiwr33xGXnmOqD6QvmgYt9zkn+IA/yoUVarFHlnRJX061MDgSi7k4LEX7UKmJ8E0P7gQ924blxPOiS7Q24a48ssvcQo2Jc8p876dXKSxkY=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by SA0PR10MB6426.namprd10.prod.outlook.com
- (2603:10b6:806:2c0::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Fri, 28 Oct
- 2022 14:48:24 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::3809:e335:4589:331e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::3809:e335:4589:331e%7]) with mapi id 15.20.5769.015; Fri, 28 Oct 2022
- 14:48:23 +0000
-Date: Fri, 28 Oct 2022 17:48:11 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Deepak R Varma <drv@mailo.com>
-Cc: outreachy@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: wlan-ng: Use flexible-array for one /
- zero-length arrays
-Message-ID: <Y1vrq5tP3XslI5Go@kadam>
-References: <Y1vNNSSWK1EkcohT@ubunlion>
- <Y1vo+TjS/mWyT7Zc@kadam>
- <Y1vq5QdBn1oQUqij@ubunlion>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1vq5QdBn1oQUqij@ubunlion>
-X-ClientProxiedBy: JNAP275CA0012.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::17)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=icOYSs7MYMp11WlmQ02D+8dIl89RWh2kVMepQVWwcgg=;
+        b=nWAUbH6qdcOtX3VuWOQisAknaN6P5HPbu45735fM4X8gxuJG0A1xd5skVKuz+//lB9
+         G7ui/EK+LEciT/ATkreV2z5maEJJGl4bQsuvrxbgxm6g3FFKx0UzavkS9ahCk+aStl5T
+         xsZZW7QlnPDIHlSx9hWoPfJbttW1vonXhLv5taOYwjdhPKAJfya0Sd6FdrKlaQmUeZhJ
+         GKuBkKXW4qEaxJd1yXGVYnfGX7K9rScxo62Hw58BcENaYIq+3/JuX6TEbjb2r+z6D+VG
+         cgEWrOPbpek3UgmIQO3lZtVocErpayzSuNQ0TS7ZaDIBJ9SmQ8o08bXmsKpVC3YLgsmf
+         OuWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=icOYSs7MYMp11WlmQ02D+8dIl89RWh2kVMepQVWwcgg=;
+        b=AvGDemRCRngzT/bHd5Q3tixB9LS5n3FqK5Xu8YtBgcQTdi5Iw+sr/uLaJjFE0IPpqQ
+         JRAwu3SwmgjkaJx162TImr/4hOEb29CyoldSqVB1qdx9X0RUAdULyctPC4R3IC6Vex88
+         Y5Z/HO+GypNOBmikXgBk/zIQPH7Ry6c20xA84Ok1ercDmY19Wm+w0eEF/MhGbpxtelsl
+         cWQwudNm4F5f5+ilQ6Lma1XH7kKfRqB4kTAnuuwwuTBVOKZYSDa1baduPYB/AzxFLSDR
+         4zRcpIJu4BDsb6/qNHcDt4qyrvOprCHvJ/Jhw3BjVSaEDzYsth89JcdsyU/ue8lFG+Wd
+         w57Q==
+X-Gm-Message-State: ACrzQf0sx8E8SzUugQWX3zx0o0L73OeHbiHAl9WlThBl2aZ8utelByJ+
+	BzHgOoQ5VR7OeAbDmj3k0DI=
+X-Google-Smtp-Source: AMsMyM6VTOhPZxKMyp9DrhuKff9AUtBk7AlAcGbWF0fJO7ErmaM7an+lUvrphKjdWJ2/Jw30e1HOBQ==
+X-Received: by 2002:a17:907:320b:b0:780:280:7b72 with SMTP id xg11-20020a170907320b00b0078002807b72mr49065606ejb.146.1666969070821;
+        Fri, 28 Oct 2022 07:57:50 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2a:b816:54f2:8d8a:2d98:a15c? (p200300c78f2ab81654f28d8a2d98a15c.dip0.t-ipconnect.de. [2003:c7:8f2a:b816:54f2:8d8a:2d98:a15c])
+        by smtp.gmail.com with ESMTPSA id ce12-20020a170906b24c00b007828150a2f1sm2246793ejb.36.2022.10.28.07.57.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Oct 2022 07:57:50 -0700 (PDT)
+Message-ID: <647b1d2d-f25a-c088-6a0e-0c2a39904150@gmail.com>
+Date: Fri, 28 Oct 2022 16:57:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2365:EE_|SA0PR10MB6426:EE_
-X-MS-Office365-Filtering-Correlation-Id: e65c496e-2f3e-4f9c-dd70-08dab8f376c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	QfRm1CmLHoqUC7z/8AnZXQjtVR93VWHLcAXt9XpKv0SFpAiNl9/UBaMpPbtBAyqNeiHED0Z7aayC2MDsrPKCsb/l6l0RuM84gDGA6yUAG5YL7QSMEaFVg7wYYopScqdDaoXegG+OfURWjgxskXIj5rAPwAjh44S2bl3T3i4v1G3++LpawoecBIgzGbSJZtZiLPaubSfknPuCJemy/bm3m2ejURjxf+Ug5ucs0oZw3kkpOVCekbimAZ+vp1da9xEULEEBUsLXgHdKeSlYEVMwlKv8Fib20789whLAFRBhKIl23ZeaKo6IRv4M/IB4mMaxgf840E46hRuuRkcnLkANKUkG4/KAM1Jst/NdVnGzSFPTIbRZ7xFEPpf8DGo0s2lQKIGBk0LAfP4zj6pHxzM2qP27+fyeqcoe0osNLzQgBAUaKkjWLcQAKei91T81TKU60w0XczTWDnycMUsHiyM3gM0ehN8QIQgU+6UsjuOTGClo1D1l+qoKiRo/Yn+RfQe26wsoVStFl14YF/BW7HnvSheiHBqoUzujsc0/kMd7SLZsfuqw85wzwNk4AVFM7TXMrVLblQx7/fo7tGB7JenpelXv0isp/L2Z5cc12RoqzWtaCqMwOQs9LQratyPUBi0bIA4DgiXMIRT9UCiiCE2Em3XAeHMWRLJaUFieXIVeuVr3CgyQOREdLlAUaLV89oIq6l6Fmntjaerb4aGu7kyjog==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(366004)(346002)(376002)(136003)(39860400002)(396003)(451199015)(6512007)(4326008)(8936002)(186003)(2906002)(44832011)(26005)(86362001)(38100700002)(83380400001)(6666004)(66946007)(66476007)(8676002)(66556008)(6486002)(9686003)(5660300002)(6916009)(316002)(41300700001)(6506007)(33716001)(4744005)(478600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?UlpB+mcBqVt/hT4yWvhAhfanNbG7px2iJrN6lqm3aHudhL3BZrB9mzXKa6m2?=
- =?us-ascii?Q?VDm387kYNKtIS4XNqgFoLsCRX9AYKs4hnb3xev03l49zrK6DXjQf46AXlb/0?=
- =?us-ascii?Q?WpqcjNZMQvkXcBxFnEebRvDARf00Pxuh3tmTq1Zf4ldv1yC+uXktVSgD2HCU?=
- =?us-ascii?Q?UvloOmYpYJq/8jfvBNY7v0RaqJ7Dz+kTsRynIPMSweg7eg7nfJ7UpmZds5v7?=
- =?us-ascii?Q?wdZXMkPxs7esiKn6fGHWXNNPiRU4uuUC2RVTNcMCIaRNfxAyBU8gkCeFL+tO?=
- =?us-ascii?Q?zF4KrSvMHRFUO/LLTTfP2HUZTZzgcz2/ZtPZP0mSmk4LtsZZVOKB/2y2eeRe?=
- =?us-ascii?Q?7gHgmI1Lza/6dHo0WddUGMLr+UlPR09Ac8O3joCEjN2+zhdqZuQ/QBThaJsV?=
- =?us-ascii?Q?+7YanB24oyyAgzBv2I8EWqTQ1Ed3sp9NGz64hEgq/18zeVcNneZB5JgcLeYB?=
- =?us-ascii?Q?RRJ0hNMDEgAEye7vsst1HjUIcdQcWYcfUInNMlaxFtDIucUuIr/K9DVEwshs?=
- =?us-ascii?Q?IAOQoh+3MugSzBWptR+nEAWsQg0XrP0wnqYYJcqGyX4xH9eexwa/bVM3rX6t?=
- =?us-ascii?Q?/MZ714f9/B9tCMw2qXUIe5qDzBdQnD4LA2mAN64SFL0VJFj2UD2RaKyzb3wA?=
- =?us-ascii?Q?Mo24Lmns5/rIbOorXmW6rfyd/ogB1n3UvZoeNFJ909KCCho91mG/pxdIKyc2?=
- =?us-ascii?Q?EmjhyBj/XnO2eRNQReKymQ+xaq8h+GO3XYS2EG/ADt2/oN0DbnqYZ1e+3Xqg?=
- =?us-ascii?Q?B+VYOlbw1xkWq3B1EFjzHy7sABzTPini/cAv/4ouNJJv/w5J222Vr41OUZk3?=
- =?us-ascii?Q?EacR/vpTyWW6tbwfxsCnieBwEPNr1AGEjO5viFKDCXcQHCoiQNOX6CTu+RLh?=
- =?us-ascii?Q?JSCMtJW9QxtQhr+yo+0g5lQ1tDRG/eCaxBdzK/dg4Qse7WrPO3f0/MzR6hwN?=
- =?us-ascii?Q?MIQuxbXf8ukXPTzyWmKP46UhJW+44/PLEA/zpFqaN1XoVwgP/Y/eDnhxUZdv?=
- =?us-ascii?Q?zCCVoX3CTXkSVXxR42nQZtPQoPeXa3/Tcw6UwdWVfLZIxKzQCOnkeXDpRGHc?=
- =?us-ascii?Q?j6mv+0tx+/112fCCD83CoWfKH9hIpoO2mYuj+DVKwoqG4bJ+4bq8eL3GR8i3?=
- =?us-ascii?Q?ZYtGB+RlGNvbKhQ/7p+b5UTpQ2Mrenv5sBEWm26c3ZyP30FMESl3zbWNM42t?=
- =?us-ascii?Q?Ct78oM+UzM/nL5AS4rSsnFEXo/njEl1Wp8JTwhJfbd03t5s2njvOB9Xg5gB3?=
- =?us-ascii?Q?ntaqkpEJyuvWj12HQutXM+w+HgM1vUSiBwIJyvTx/PumJwNGljya2P7XY2Kr?=
- =?us-ascii?Q?xMPZkVOVHrGc8WPgizM5iwulwWqGtbX+iO1rkzKPioE4ddtY61D+x09oCmEv?=
- =?us-ascii?Q?lRKpDt43Q0lrv7dfjsHPmWlqGd5AMBCDwptu/NDPUVZv9Q+/T2hRUI9mV9gM?=
- =?us-ascii?Q?Qs0/4zksxNEzszSGhlBHegchTr98xIv3KwGfhFbtOIeB8jXdAViquvCz0EV2?=
- =?us-ascii?Q?NwFCCnqU/JNBCWZfZzoIOlDUy1mA8rmbMbI5nOye5u4yaaELTXa6RpvINqMn?=
- =?us-ascii?Q?xhIIYm24YXr6wfGu1SNrzMx0Wp2Z0c/GED6vsneFrJdy0Jpq6nEUTeSWUhkg?=
- =?us-ascii?Q?5w=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e65c496e-2f3e-4f9c-dd70-08dab8f376c8
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 14:48:23.7660
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2Iydol7TlHMFKhE/22TVW8LhZ7Yt6M/j0fsaAHnB3R8KrzQmGLkm9ZI0kntFDTCN57/OwlxLIMDlRYI/DI3XdiMj0mw+1l7CYZcePwhDTlo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR10MB6426
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-28_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=734 phishscore=0
- adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210280092
-X-Proofpoint-GUID: VuUVfJDO9gbvzqIvQQDqEOxuK1_80Pxv
-X-Proofpoint-ORIG-GUID: VuUVfJDO9gbvzqIvQQDqEOxuK1_80Pxv
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 1/6] staging: vt6655: fix lines of code ending in a '('
+Content-Language: en-US
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev
+References: <cover.1666849707.git.tanjubrunostar0@gmail.com>
+ <6742e42999e05ddf09318a0a3bda9ce23b6ae562.1666849707.git.tanjubrunostar0@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <6742e42999e05ddf09318a0a3bda9ce23b6ae562.1666849707.git.tanjubrunostar0@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 28, 2022 at 08:14:53PM +0530, Deepak R Varma wrote:
-> Also, there are a few function declarations that I do not think are used in the
-> code anywhere.
->    File: drivers/staging/wlan-ng/p80211mgmt.h
->    Line number : 500 through 519
+On 10/28/22 08:39, Tanjuate Brunostar wrote:
+> fix several checkpatch errors related to lines ending with a '(' by
+> joining splitted lines of code and indenting properly to increase
+> visibility
 > 
-> Can you please comment if it is safe to remove these functions and include this
-> clean-up as well in the proposed patch?
+> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+> ---
+>   drivers/staging/vt6655/rxtx.c | 165 ++++++++++++++--------------------
+>   1 file changed, 69 insertions(+), 96 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index 1e5036121665..7eb7c6eb5cf0 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -139,15 +139,11 @@ static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
+>    * PK_TYPE_11GB    2
+>    * PK_TYPE_11GA    3
+>    */
+> -static
+> -unsigned int
+> -s_uGetTxRsvTime(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	unsigned int cbFrameLength,
+> -	unsigned short wRate,
+> -	bool bNeedAck
+> -)
+> +static unsigned int s_uGetTxRsvTime(struct vnt_private *pDevice,
+> +				    unsigned char byPktType,
+> +				    unsigned int cbFrameLength,
+> +				    unsigned short wRate,
+> +				    bool bNeedAck)
+>   {
+>   	unsigned int uDataTime, uAckTime;
+>   
+> @@ -214,20 +210,16 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
+>   }
+>   
+>   /* byFreqType 0: 5GHz, 1:2.4Ghz */
+> -static
+> -unsigned int
+> -s_uGetDataDuration(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byDurType,
+> -	unsigned int cbFrameLength,
+> -	unsigned char byPktType,
+> -	unsigned short wRate,
+> -	bool bNeedAck,
+> -	unsigned int uFragIdx,
+> -	unsigned int cbLastFragmentSize,
+> -	unsigned int uMACfragNum,
+> -	unsigned char byFBOption
+> -)
+> +static unsigned int s_uGetDataDuration(struct vnt_private *pDevice,
+> +				       unsigned char byDurType,
+> +				       unsigned int cbFrameLength,
+> +				       unsigned char byPktType,
+> +				       unsigned short wRate,
+> +				       bool bNeedAck,
+> +				       unsigned int uFragIdx,
+> +				       unsigned int cbLastFragmentSize,
+> +				       unsigned int uMACfragNum,
+> +				       unsigned char byFBOption)
+>   {
+>   	bool bLastFrag = false;
+>   	unsigned int uAckTime = 0, uNextPktTime = 0, len;
+> @@ -316,17 +308,13 @@ s_uGetDataDuration(
+>   }
+>   
+>   /* byFreqType: 0=>5GHZ 1=>2.4GHZ */
+> -static
+> -__le16
+> -s_uGetRTSCTSDuration(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byDurType,
+> -	unsigned int cbFrameLength,
+> -	unsigned char byPktType,
+> -	unsigned short wRate,
+> -	bool bNeedAck,
+> -	unsigned char byFBOption
+> -)
+> +static __le16 s_uGetRTSCTSDuration(struct vnt_private *pDevice,
+> +				   unsigned char byDurType,
+> +				   unsigned int cbFrameLength,
+> +				   unsigned char byPktType,
+> +				   unsigned short wRate,
+> +				   bool bNeedAck,
+> +				   unsigned char byFBOption)
+>   {
+>   	unsigned int uCTSTime = 0, uDurTime = 0;
+>   
+> @@ -409,22 +397,18 @@ s_uGetRTSCTSDuration(
+>   	return cpu_to_le16((u16)uDurTime);
+>   }
+>   
+> -static
+> -__le16
+> -s_uFillDataHead(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	void *pTxDataHead,
+> -	unsigned int cbFrameLength,
+> -	unsigned int uDMAIdx,
+> -	bool bNeedAck,
+> -	unsigned int uFragIdx,
+> -	unsigned int cbLastFragmentSize,
+> -	unsigned int uMACfragNum,
+> -	unsigned char byFBOption,
+> -	unsigned short wCurrentRate,
+> -	bool is_pspoll
+> -)
+> +static __le16 s_uFillDataHead(struct vnt_private *pDevice,
+> +			      unsigned char byPktType,
+> +			      void *pTxDataHead,
+> +			      unsigned int cbFrameLength,
+> +			      unsigned int uDMAIdx,
+> +			      bool bNeedAck,
+> +			      unsigned int uFragIdx,
+> +			      unsigned int cbLastFragmentSize,
+> +			      unsigned int uMACfragNum,
+> +			      unsigned char byFBOption,
+> +			      unsigned short wCurrentRate,
+> +			      bool is_pspoll)
+>   {
+>   	struct vnt_tx_datahead_ab *buf = pTxDataHead;
+>   
+> @@ -555,19 +539,15 @@ s_uFillDataHead(
+>   	return buf->duration;
+>   }
+>   
+> -static
+> -void
+> -s_vFillRTSHead(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	void *pvRTS,
+> -	unsigned int cbFrameLength,
+> -	bool bNeedAck,
+> -	bool bDisCRC,
+> -	struct ieee80211_hdr *hdr,
+> -	unsigned short wCurrentRate,
+> -	unsigned char byFBOption
+> -)
+> +static void s_vFillRTSHead(struct vnt_private *pDevice,
+> +			   unsigned char byPktType,
+> +			   void *pvRTS,
+> +			   unsigned int cbFrameLength,
+> +			   bool bNeedAck,
+> +			   bool bDisCRC,
+> +			   struct ieee80211_hdr *hdr,
+> +			   unsigned short wCurrentRate,
+> +			   unsigned char byFBOption)
+>   {
+>   	unsigned int uRTSFrameLen = 20;
+>   
+> @@ -750,19 +730,15 @@ s_vFillRTSHead(
+>   	}
+>   }
+>   
+> -static
+> -void
+> -s_vFillCTSHead(
+> -	struct vnt_private *pDevice,
+> -	unsigned int uDMAIdx,
+> -	unsigned char byPktType,
+> -	void *pvCTS,
+> -	unsigned int cbFrameLength,
+> -	bool bNeedAck,
+> -	bool bDisCRC,
+> -	unsigned short wCurrentRate,
+> -	unsigned char byFBOption
+> -)
+> +static void s_vFillCTSHead(struct vnt_private *pDevice,
+> +			   unsigned int uDMAIdx,
+> +			   unsigned char byPktType,
+> +			   void *pvCTS,
+> +			   unsigned int cbFrameLength,
+> +			   bool bNeedAck,
+> +			   bool bDisCRC,
+> +			   unsigned short wCurrentRate,
+> +			   unsigned char byFBOption)
+>   {
+>   	unsigned int uCTSFrameLen = 14;
+>   
+> @@ -868,21 +844,17 @@ s_vFillCTSHead(
+>    -
+>    * unsigned int cbFrameSize, Hdr+Payload+FCS
+>    */
+> -static
+> -void
+> -s_vGenerateTxParameter(
+> -	struct vnt_private *pDevice,
+> -	unsigned char byPktType,
+> -	struct vnt_tx_fifo_head *tx_buffer_head,
+> -	void *pvRrvTime,
+> -	void *pvRTS,
+> -	void *pvCTS,
+> -	unsigned int cbFrameSize,
+> -	bool bNeedACK,
+> -	unsigned int uDMAIdx,
+> -	void *psEthHeader,
+> -	unsigned short wCurrentRate
+> -)
+> +static void s_vGenerateTxParameter(struct vnt_private *pDevice,
+> +				   unsigned char byPktType,
+> +				   struct vnt_tx_fifo_head *tx_buffer_head,
+> +				   void *pvRrvTime,
+> +				   void *pvRTS,
+> +				   void *pvCTS,
+> +				   unsigned int cbFrameSize,
+> +				   bool bNeedACK,
+> +				   unsigned int uDMAIdx,
+> +				   void *psEthHeader,
+> +				   unsigned short wCurrentRate)
+>   {
+>   	u16 fifo_ctl = le16_to_cpu(tx_buffer_head->fifo_ctl);
+>   	bool bDisCRC = false;
+> @@ -954,11 +926,12 @@ s_vGenerateTxParameter(
+>   	}
+>   }
+>   
+> -static unsigned int
+> -s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+> -		  unsigned char *pbyTxBufferAddr,
+> -		  unsigned int uDMAIdx, struct vnt_tx_desc *pHeadTD,
+> -		  unsigned int is_pspoll)
+> +static unsigned int s_cbFillTxBufHead(struct vnt_private *pDevice,
+> +				      unsigned char byPktType,
+> +				      unsigned char *pbyTxBufferAddr,
+> +				      unsigned int uDMAIdx,
+> +				      struct vnt_tx_desc *pHeadTD,
+> +				      unsigned int is_pspoll)
+>   {
+>   	struct vnt_td_info *td_info = pHeadTD->td_info;
+>   	struct sk_buff *skb = td_info->skb;
 
-Always feel free to delete code that is not used.
+Patch series coverletter is missing or the wrong one was send.
 
-(But send the patch tomorrow and as part of a patchset).
-
-regards,
-dan carpenter
-
+Changelog is also missing.
 
