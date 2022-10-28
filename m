@@ -1,85 +1,82 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690DA139E;
-	Fri, 28 Oct 2022 06:35:11 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id j4so6799504lfk.0;
-        Thu, 27 Oct 2022 23:35:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3060D139E;
+	Fri, 28 Oct 2022 06:37:27 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id v130-20020a1cac88000000b003bcde03bd44so5750087wme.5;
+        Thu, 27 Oct 2022 23:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pb7xGr5fuIL0NtgblTv6xk3hHUrL7glkJIQ1IQxfKe0=;
-        b=LGKirD4g4sEgrYlAgmBzFtanqc37blQX7pVANXmUEABnGRnY8Gnhu+snFNg0jtcOVA
-         YaBIDYN6P3azAhOhFP2VFHhjH++1PB+BLGNftuxPleXdycA4aDS9YOLN+wChsscxxJZg
-         1XaehjH+Yv1b3mAd5t6WkH4ESR7jAxsl/sa09FAuHpu+siIrk0paojW8++r4JVrNqFRP
-         aJ0JnQadFy9vwd8QTTsYk+wBHMDzXzOTKqknORAPdgI0M1w6Y894G4VPoSlTzMORpha6
-         eSyb3DkTxm6EE5lZtO56GyGv4uLxcIoZ1Iayal5BGHfuxU54yU9vYoaHb+Y7EwBeKXvB
-         Js7A==
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YB6oy9iPyQ2yGCx//M3l9HQNOZr7fMRdXmEHN9vRGxs=;
+        b=ezCj8/pgbobEx97CDTJE8wIGRua7WNHJQfvq//ylU1KfxosyT8seGSaf6ThKBvPq9T
+         F0YFLmtTHQlSceaoFI4PsTxZC/AJD/7s/ImXMxsTVeZ/xNcTjPSNOO5CY5AKoSwv9dnT
+         Syjo8scfL++LpWrAp+KgxGjnda4fdytYDOORZ2GOpkGZSRff06Kd+Yzr5StN59W8MFm/
+         DsSH6v4wTsiES4x8/4twyFmgqL7XqMyKufwizOdLt/uga6VvrttVWT+29OerYoVWWrp7
+         prZ7wDb8PfwKQdfS64NVEaOjepOnxBS+TTnTG+yJNkX72g/H/5V6O2Vc75GiDKqYR+g7
+         Bpow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pb7xGr5fuIL0NtgblTv6xk3hHUrL7glkJIQ1IQxfKe0=;
-        b=H6IarwXnK8Ei/tR1LPrPQE5VS9aHHoBCxofXaVKEh7PyAyBw4Z34JSrUees5ETd88c
-         0o4siIFL1/lZAb3wHuclFV/Pl1c4c3NSrVBfsXRbXxZEkqn9Vvm3WQeeMIiuO4BJjAaB
-         DA8wKmHTadp6wLxBx9vUnAvh9dQtnlK+oXvXj0JoCxBNb16f731UDDiT4VxdNCfJuJNx
-         aWBIiuROsnUyDlVJmSsRNvvh6arxZ8wyI0v+fD4Bfs37Nwt7gBG5txxmxVMb2vxFjJUE
-         BPDIWz/EAuKx7LTyaNthubaLL2a78yqXoeg4tDAh0wuaqU5kJTasje+Z5Y1CiCbtZn34
-         0AaQ==
-X-Gm-Message-State: ACrzQf2HbIp6Cp3e+V28QDr/e/0EJhzHQlFy7SV56pYEOzXMRCsd/GSz
-	7GzQqukrjXEXYx535XEdUbM=
-X-Google-Smtp-Source: AMsMyM5ce5Dwx9A9W0LAtuDx5Y8cJ+Ijh5AUsBbrGsXPkOfIY1uAdZBBp/3xYcUPUMibJR8f9HbgFQ==
-X-Received: by 2002:a05:6512:3049:b0:4a2:7daa:cca5 with SMTP id b9-20020a056512304900b004a27daacca5mr18575041lfb.44.1666938909326;
-        Thu, 27 Oct 2022 23:35:09 -0700 (PDT)
-Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
-        by smtp.googlemail.com with ESMTPSA id y16-20020a199150000000b004aa8cae6889sm440210lfj.262.2022.10.27.23.35.08
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YB6oy9iPyQ2yGCx//M3l9HQNOZr7fMRdXmEHN9vRGxs=;
+        b=IyJDJj2Mjcsw7eQCyslCGS469gi6A9EpssSrxobrqHlqHET1osHq4VA4vnBrasD/Xe
+         P+3J/CMtLPsjRIU97qZWnjj4VnBK1zB05RzpFo5IQMgbTA/HVUXTQLhDlAzYmWlc4nX6
+         M3O1eo9puURrtxd3t/thjr6zhifmu+aX+JQv1aHhvTT8TFmWI0ctWePWt+jEAwgQfBxx
+         MofjtaDyo7acGzirlyI78P95l6lI09LKv4gM8szJUvBJFKdOkNHsntDAHziGntdxpKYb
+         46JeqaX2WzFXxEnLNISUQ1/NNTtmK3X2BOGDQ8QqgmbWlk0/wkMYCdlVPe6PJfU4ZGLs
+         7E7A==
+X-Gm-Message-State: ACrzQf1Tel65n72KmC8IXuUzR/XkrdEWjvN6/ly156pm7/OOy1425Lsl
+	e0GItuoyvoYBC5Xy6Bq3/UleTAzzi1ezcBb7
+X-Google-Smtp-Source: AMsMyM4M7GKIug3hAEXg65ElbagdSwb96RaEvcC5UiLOrayiTaiYvA03SiL1oDMMDZwG4Oz+tQlvKw==
+X-Received: by 2002:a05:600c:46c7:b0:3c6:f3e6:1f13 with SMTP id q7-20020a05600c46c700b003c6f3e61f13mr8231687wmo.62.1666939045369;
+        Thu, 27 Oct 2022 23:37:25 -0700 (PDT)
+Received: from rdm ([41.75.189.203])
+        by smtp.gmail.com with ESMTPSA id 4-20020a05600c26c400b003b31c560a0csm3218041wmv.12.2022.10.27.23.37.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Oct 2022 23:35:08 -0700 (PDT)
-From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Subject: [PATCH v5 0/6] staging: vt6655: a series of checkpatch fixes on the file: rxtx.c
-Date: Fri, 28 Oct 2022 06:34:59 +0000
-Message-ID: <cover.1666849707.git.tanjubrunostar0@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 27 Oct 2022 23:37:25 -0700 (PDT)
+Date: Fri, 28 Oct 2022 09:37:11 +0300
+From: UMWARI JOVIAL <umwarijovial@gmail.com>
+To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: [PATCH] Remove Unnecessary typecast of c90 int constant
+Message-ID: <20221028063711.GA35659@rdm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Message-ID: <20221028063459.JHcfkwok3r8RFhpEOJW7N1BpV2OAAlcVFgpl9c72XKk@z>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The fixes are similar, mostly long lines splitting. I had to make
-serveral patches to ease the work of inspectors
+According to Linux kernel coding style.
 
-v2: fixed a compilation error found by the kernel test robot and
-recompiled the code
+Reported by checkpatch:
+WARNING: Unnecessary typecast of c90 int constant - '(int)2.412e8' could be '2.412e8'
+WARNING: Unnecessary typecast of c90 int constant - '(int)2.487e8' could be '2.487e8'
 
-v3: tends out the error persisted in the second version. this version is
-a correction of that
+Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+---
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-v4: did some corrections as recommended by Greg KH
-
-v5: shortend changelog comments as recommended by Greg KH
-
-Tanjuate Brunostar (6):
-  staging: vt6655: fix lines ending in a '('
-  staging: vt6655: refactor code in s_uGetRTSCTSDuration
-  staging: vt6655: refactor code in s_uFillDataHead
-  staging: vt6655: refactor code in s_vGenerateTxParamete
-  staging: vt6655: refactor code in the rest of the file
-  staging: vt6655: refactor code to avoid a line ending in '('
-
- drivers/staging/vt6655/rxtx.c | 542 ++++++++++++++++++++--------------
- 1 file changed, 324 insertions(+), 218 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index fdf867a5dd7a..4fc4fb25d8d6 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -41,8 +41,8 @@ int rtllib_wx_set_freq(struct rtllib_device *ieee, struct iw_request_info *a,
+ 
+ 	/* if setting by freq convert to channel */
+ 	if (fwrq->e == 1) {
+-		if ((fwrq->m >= (int)2.412e8 &&
+-		     fwrq->m <= (int)2.487e8)) {
++		if ((fwrq->m >= 2.412e8 &&
++		     fwrq->m <= 2.487e8)) {
+ 			int f = fwrq->m / 100000;
+ 			int c = 0;
+ 
 -- 
-2.34.1
+2.25.1
 
