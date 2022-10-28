@@ -1,135 +1,67 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6939C320E;
-	Fri, 28 Oct 2022 18:18:09 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id o28so1321460qkl.4;
-        Fri, 28 Oct 2022 11:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jg+y5pJXJAf+IzCBhzE1K677QTmOHQ5t2GVhpetBIjQ=;
-        b=DVpDLqmrpX7h2ApFtsuwad32KusLtdyYe2rCADXhN4FhRmHK8KGC7pKv879tYEZ7RK
-         3bT+7j21M/MKbmZO+ELDT9TH9QaIDMkro+7ES/hnqCV0h8QAWiiSE79meBPnixtluR6m
-         G/SCmZNO08uVR+CVcg2Ld+54+Agg8m+erJclrnOr25SDxSZDLlJyztAcXump6zY94V+P
-         Q0lfb8XUGDalb6eWwDwNqchuZ+lEYQ0eCF0sQHkel8UZxEw/Kf1MBP/qpENvwwlmGO0u
-         1h1nRrOLFMrFHKy+JowzjLMebVVBNmKR8cvU2WmPUNeiYl0HrHN4f2gTQVHBs1h6g659
-         7OOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Jg+y5pJXJAf+IzCBhzE1K677QTmOHQ5t2GVhpetBIjQ=;
-        b=UndiYLh/LeDdRsH8dfG/tpHvjsjM77wfUTaL5Pd5KXmPbjMxrb50+WR1jP9/FoFbMs
-         nvpKZnlKehUmVL46YWwENLUU4KlMI1SdadNHXOV3fYNl+XTjz6A+DIU6jGiYgxjONLwN
-         bEpYLa5lFv6UOtU62jahRwBdo05V+59CDgJu2TZKR80GBOyiy6ldTaxfRC8x6LyUyOmW
-         2tfxrCy/13LXUqch0+piO151sjZpRrMYEQFsg3KPxlgG0mRY6hCfmca6eFdGFmJMj5kn
-         AStdF+rILBB/IYbFJkJC8UF42hsGQEMwRzr+ofg67ft+UT/J81AZSbDEFY+1+jH9EI9a
-         omfQ==
-X-Gm-Message-State: ACrzQf2dRFE+DyDj8qopFDOEXkyvrYx2Xa2WVGnhlHedlvfF2ut3sY7v
-	WogEWx+xa6J5bVn5aSURU8MCBTU4mY9pakGZ5lU=
-X-Google-Smtp-Source: AMsMyM6hhYRY/DeQ9ApjbZDeIVz3lq0pMjYCdOI8iPfsPUGNNfgCJBZjsw1ZlaO2aNZ/w6caxjQUeV8WqnSBzVgBpAM=
-X-Received: by 2002:a05:620a:22c3:b0:6ec:53bb:d296 with SMTP id
- o3-20020a05620a22c300b006ec53bbd296mr465616qki.158.1666981088311; Fri, 28 Oct
- 2022 11:18:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8FE320E;
+	Fri, 28 Oct 2022 18:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666981318; x=1698517318;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WdtycWAj7ZZzF2NnGQ8L1k0yKjh4DNQY2nx3zhBw42o=;
+  b=RtP9n/dohKOu7gkVgsfoStT/Gr+p2q0Qtees5+MBwjFN7mbIOLZ9kElC
+   fi89Y3YeHSYg6+0B2LPSQ5gwLeMCpZXDdJwyzFjSpxfjv3nFFYL1pm9iZ
+   bWiXAZ1ZKSfa/x7bYvgQw71fZ9dNTg+FeVjAsrYlJG+n/6VLHDbSXnHcS
+   5ujm3dAl7tqddSvZbCSaMSxd+D06wdZh8DwNZMvRKYkShVSuGiIKkZYDb
+   xctGgXSZL33DZprelzxWmTMOYw80DvvxqBp1z4g8a0bHS9V57l0SHnOZF
+   8IvpMnfA7gkCeZ+NmnILEQpnuSgMaokavBWoBUZfloBTp1KpIuy3ZoaCG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="335207830"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="335207830"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 11:21:57 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="722145510"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="722145510"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.175.207])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 11:21:57 -0700
+Date: Fri, 28 Oct 2022 11:21:55 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Tanju Brunostar <tanjubrunostar0@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: Outreachy first patch wiki modification proposal
+Message-ID: <Y1wdw5GC8ZUhXFKj@aschofie-mobl2>
+References: <CAHJEyKU8YhVLg2k4c6H_B9YJo=Va=V8ea+vkgDKH8aUZBou0wA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1666978292.git.tanjubrunostar0@gmail.com> <Y1wbVeLCLZClEQ6L@aschofie-mobl2>
-In-Reply-To: <Y1wbVeLCLZClEQ6L@aschofie-mobl2>
-From: Tanju Brunostar <tanjubrunostar0@gmail.com>
-Date: Fri, 28 Oct 2022 19:17:56 +0100
-Message-ID: <CAHJEyKURpAYT-2a3wA9aqO2=wYRK=4MQ9sq3SBCg5yoSNKFo1Q@mail.gmail.com>
-Subject: Re: [PATCH v8 0/6] staging: vt6655: a series of checkpatch fixes on
- the file: rxtx.c
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHJEyKU8YhVLg2k4c6H_B9YJo=Va=V8ea+vkgDKH8aUZBou0wA@mail.gmail.com>
 
-On Fri, Oct 28, 2022 at 7:11 PM Alison Schofield
-<alison.schofield@intel.com> wrote:
->
-> We know it's a patchset or series, saying so in subject line is
-> redundant. Perhaps - 'Checkpatch cleanup in rxtx.c'
->
-> On Fri, Oct 28, 2022 at 05:40:52PM +0000, Tanjuate Brunostar wrote:
-> > The fixes are similar, mostly long lines splitting. I had to make
-> > serveral patches to ease the work of inspectors
->   ^
-> Please use a spell checker.
->
-> >
-> > v2: fixed a compilation error found by the kernel test robot and
-> > recompiled the code
->
-> Expected to be in reverse order, with latest changes first.
-> ie. Here you would start with v8
->
-> > v3: tends out the error persisted in the second version. this version is
-> > a correction of that
->
-> ?
->
-> >
-> > v4: did some corrections as recommended by Greg KH
->
-> State what changed. Do not expect your review to go back
-> hunting for past review comments.
->
-> Same for all below.
->
-> >
-> > v5: shortend changelog comments as recommended by Greg KH
-> >
-> > v6: did some corrections as recommended by Greg KH
-> >
-> > v7: fixed some errors on my changelog comments
-> >
-> > v8: fixed some errors pointed out by Philipp Hortmann
-> >
-> > Tanjuate Brunostar (6):
-> >   staging: vt6655: fix lines ending in a '('
->
-> Move ( to end of line
->
-> >   staging: vt6655: fix long lines of code in s_uGetRTSCTSDuration
->
-> This doesn't match what was actually done
->
-> >   staging: vt6655: fix long lines of code in s_uFillDataHead
-> >   staging: vt6655: fix long lines of code in s_vGenerateTxParamete
-> >   staging: vt6655: fix long lines of code in the rest of the file
->
-> Each commit msg needs to stand alone. The one above only makes
-> sense (still it's a poor message) when viewed in this patchset.
-> Once the patches are applied, it must stand alone.
->
-> The commit msg should read like a directive. Fix is too general.
-> Commit msg states what you did, commit log states why you did it.
->
-> I see you took 'refactoring' out of the commit messages, but left it
-> in the commit logs. It doesn't belong in the logs. As another
-> reviewer pointed out, this is not a refactor.
->
-> Alison
-The commit logs I changed  too but they did not show in the
-patches when I sent them. I don't get how that happened.
-Thanks for the corrections. like i said, I will be sticking with single patches
-for now.
+On Fri, Oct 28, 2022 at 09:35:48AM +0100, Tanju Brunostar wrote:
+> After setting up my mutt with Gmail, I tested it by sending an email
+> but it did not go through. After some research, I realized that Gmail
+> no longer allows less secure apps. The way around this is to set up
+> two step verification, then generate and use "App password". I would
+> like to add this to the wiki, as this will save others from the
+> additional work. Please let me know if I can proceed.
+
+Hi Tanju,
+
+This is an Outreachy specific question.
+Please resend it to the Outreachy list only.
+
 Thanks,
-Tanju
-> >
-> >  drivers/staging/vt6655/rxtx.c | 542 ++++++++++++++++++++--------------
-> >  1 file changed, 324 insertions(+), 218 deletions(-)
-> >
-> > --
-> > 2.34.1
-> >
-> >
->
+Alison
+
+> 
+> Thanks,
+> 
+> Tanju
+> 
