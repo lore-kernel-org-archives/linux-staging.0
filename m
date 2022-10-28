@@ -1,70 +1,99 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3E77B;
-	Thu, 27 Oct 2022 21:59:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1666907978; bh=K6jkaIWLjM8amIf1/3sGKi76LC/AewW04KWQY65UKW4=;
-	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=EhiA4AHsTTAS+Eve+c+tPPzPBk4XEFkyguh14hRkAHRwMxzOpas4XNSLmKADx553e
-	 V+VlYpHUhA6fWSZ/Fr4XnDjrbbpIKpWNXpgr/so07YXy4YIdA6TI+fsCEpAh51pXTW
-	 ebmS/OTl3eEmGDu4/n4N3QIX6oXueJi1rfywKEKg=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
-	via [213.182.55.206]
-	Thu, 27 Oct 2022 23:59:38 +0200 (CEST)
-X-EA-Auth: gPds8du2GN4EigpVxAh6zYgunt9VQITGmwhvWpkx/yxVDikGFU9mBoo7as8yKS+di+ACDryNiOD5yTMHezgeh8p9CD8AOADG
-Date: Fri, 28 Oct 2022 03:29:32 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: outreachy@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: iio: frequency: ad9834: Use div64_ul instead of
- do_div
-Message-ID: <Y1r/RAk83Csk2L3E@ubunlion>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465557B;
+	Fri, 28 Oct 2022 04:56:59 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id y25so1435107ual.2;
+        Thu, 27 Oct 2022 21:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HwmBRA+APmiXYQZg1tBoj+t+gqf2adSus7ddCo9oLb8=;
+        b=aqK2XIPjlDLtOlNEGgLWQWnUPiTd1vIjnrR0nXxR8DN8msOgby2Ts6ShJhtqDf5IST
+         TCGVfCOZhmOK2GoyJ0HnhVDqi1xOrmvWs/GeM6mMORLjIGgsst45LAdZr2rhJ4Bmb6XH
+         s1Ka+rF7jG6DpxMrzH4ZL3lzP5k5PWSr8FlTlCCDb+lL0lA2agVyiT8bN1/dvXN9J+yz
+         eT2tP3RO8XRggB9xUK6wm7wRyJ6dpCAm5E9VYvzNR9ZZpgRr2vJ0Y51jsuQqeiIdp0kF
+         e60t5JJXEKqYYIW2tfAdk5kx/yv+gFaKzOD6XiPLGhjV9gZuYC68a9GnT5FgOOzqczZU
+         lzXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HwmBRA+APmiXYQZg1tBoj+t+gqf2adSus7ddCo9oLb8=;
+        b=3Fh0+mrclivmGhsLXbFTDZVtKJqGRiQCKsWAGaJUspQCZ9FbAsZioTdMU9CoIRdK8V
+         CzZMaLvUfwEGRjBdBlRaW+BV7tI+Vt10gl1tH8KgTWj658qTVLGnahyeEB2zLJX3qtz5
+         o6ivtg+fjfMOPqpNl+QO1v9QgtVc0XzM3ilxxppGIVquoxW0OFVU+N2pUjlkoisU1D1P
+         fGF80xmSq3q8cCZVI/yp+FetJVHsyaktAG/56sf2zTfM7RwNI9vKBW+7p9u/L7SuUI1s
+         p7uuxPJL9LLIN1jdq0jeK26ntfp2DK6v0Fhpzh6XGj2Dw6e67Ym24xxgGjPGXYHY/lMb
+         HbwA==
+X-Gm-Message-State: ACrzQf0KdPbSLU4oZaiz6QNxoZefSFEb3qe+vOSKTIcj8X8Ti6C6aPPR
+	Yi3bwYVWNLxUy30Uxw8ZkG1aWVDR/iOUMFu1Juo=
+X-Google-Smtp-Source: AMsMyM4qFN7TWztijVLg7jQodkESQRKvJCa/EbYFVcPPPR4p6coV5T8DX8gRYojFd2IWHg751skQF85nzYEKQjun/u0=
+X-Received: by 2002:ab0:25d4:0:b0:3c1:c353:31cb with SMTP id
+ y20-20020ab025d4000000b003c1c35331cbmr30171453uan.63.1666933018093; Thu, 27
+ Oct 2022 21:56:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20221026132838.GA44037@rdm> <20221026171430.GA5592@nam-dell> <Y1o5mktrnE5rbtCO@kadam>
+In-Reply-To: <Y1o5mktrnE5rbtCO@kadam>
+From: jovial umwari <umwarijovial@gmail.com>
+Date: Fri, 28 Oct 2022 07:56:46 +0300
+Message-ID: <CAMk1CBNwM3XFPyHVfBnE0K4XWmGX_ZwzBV-sns6Nj7Yutb4YtA@mail.gmail.com>
+Subject: Re: [PATCH] Fixed[ERROR:trailing whitespace and braces around scalar initializer]
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Nam Cao <namcaov@gmail.com>, gregkh@linuxfoundation.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-do_div() does a 64-by-32 division. Here the divisor is an unsigned long
-which on some platforms is 64 bit wide. So use div64_ul instead of do_div
-to avoid a possible truncation. Issue identified using the
-coccicheck tool.
+well for the start it was not giving an error but after  fixing blank
+lines  that is when i saw that
+Thank you for the hint i  fixed  it
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
-
-Changes in v2:
-   1. No functional change.
-      Include outreachy mailing list on the to list
-
- drivers/staging/iio/frequency/ad9834.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 285df0e489a6..3917a76e7976 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -102,8 +102,7 @@ static unsigned int ad9834_calc_freqreg(unsigned long mclk, unsigned long fout)
- {
- 	unsigned long long freqreg = (u64)fout * (u64)BIT(AD9834_FREQ_BITS);
-
--	do_div(freqreg, mclk);
--	return freqreg;
-+	return div64_ul(freqreg, mclk);
- }
-
- static int ad9834_write_frequency(struct ad9834_state *st,
---
-2.34.1
-
-
-
+On Thu, 27 Oct 2022 at 10:56, Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Wed, Oct 26, 2022 at 07:14:34PM +0200, Nam Cao wrote:
+> > On Wed, Oct 26, 2022 at 04:28:38PM +0300, UMWARI JOVIAL wrote:
+> > > Using the checkpatch.pl script, found the below errors and  fixed
+> > > ERROR: trailing whitespace
+> > > CHECK: Please don't use multiple blank lines
+> > > warning: braces around scalar initializer
+> > >
+> > > Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+> > > ---
+> > >  drivers/staging/most/dim2/dim2.c | 2 --
+> > >  1 file changed, 2 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+> > > index 7a5f80e637a0..28259ce05024 100644
+> > > --- a/drivers/staging/most/dim2/dim2.c
+> > > +++ b/drivers/staging/most/dim2/dim2.c
+> > > @@ -987,7 +987,6 @@ static int rcar_gen2_enable(struct platform_device *pdev)
+> > >             writel(0x04, dev->io_base + 0x600);
+> > >     }
+> > >
+> > > -
+> > >     /* BBCR = 0b11 */
+> > >     writel(0x03, dev->io_base + 0x500);
+> > >     writel(0x0002FF02, dev->io_base + 0x508);
+> > > @@ -1084,7 +1083,6 @@ static const struct of_device_id dim2_of_match[] = {
+> > >     {
+> > >             .compatible = "xlnx,axi4-os62420_6pin-1.00.a",
+> > >     },
+> > > -   {},
+> >
+> > I'm no expert, but this looks like a null terminator and probably
+> > should not be removed.
+>
+> You're absolutely correct.  Also I tried to see why checkpatch.pl was
+> printing an error for this but it doesn't print an error for me.
+>
+> regards,
+> dan carpenter
+>
