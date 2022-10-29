@@ -1,78 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAF423C0;
-	Sat, 29 Oct 2022 11:59:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F4B5C433D6;
-	Sat, 29 Oct 2022 11:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667044786;
-	bh=U7Y0LfekRUqevIEdJzCxwKVxVXiVTJMwJyYoSfKxd6Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hIS7oSEfkBImSJSVDYOn5IMiAPOR04y0RK1YH9CEzK80IKmCWXJezMCYr8AHWCypS
-	 e+F2r8b6gT3Zmp7cMQbPdDgCEGWR2CqzzKC6QWpuvxBMk7hx7sgotqOgYSXBcd1AbJ
-	 mJZpTmnwBXD6yt07sRPxWmtGjJwVGccfs9HP59/EkOH8nMh/46+y05lswgh+vwvcTK
-	 Mrhs3u4Q1MMWaRrTWKUESYO7VUUFHPWLODfL8/8qIQ+fS1OC6ukhKW9RJzV2ulYxoE
-	 aa6DWUDyN9hpTEv5yo0NeUzhnYv7+LE96t4VVPbC4hqHTC7tXYI2XvJvoj47wBf4/y
-	 aq80/834kXEfA==
-Date: Sat, 29 Oct 2022 13:11:39 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Sa, Nuno" <Nuno.Sa@analog.com>
-Cc: Deepak R Varma <drv@mailo.com>, "outreachy@lists.linux.dev"
- <outreachy@lists.linux.dev>, Lars-Peter Clausen <lars@metafoo.de>,
- "Hennerich, Michael" <Michael.Hennerich@analog.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "linux-iio@vger.kernel.org"
- <linux-iio@vger.kernel.org>, "linux-staging@lists.linux.dev"
- <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: iio: frequency: ad9832: Use div64_ul instead
- of do_div
-Message-ID: <20221029131139.016c89ce@jic23-huawei>
-In-Reply-To: <SJ0PR03MB6778033906F79121A66C32DD99329@SJ0PR03MB6778.namprd03.prod.outlook.com>
-References: <Y1r+EHqpVz/HYrIm@ubunlion>
-	<SJ0PR03MB6778033906F79121A66C32DD99329@SJ0PR03MB6778.namprd03.prod.outlook.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E902574;
+	Sat, 29 Oct 2022 15:56:17 +0000 (UTC)
+Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 783E3C0110;
+	Sat, 29 Oct 2022 14:38:14 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id DCF0717;
+	Sat, 29 Oct 2022 14:37:55 +0000 (UTC)
+Message-ID: <efab1f11d5008188988813e3f3c27ce1297e71c0.camel@perches.com>
+Subject: Re: [PATCH] Remove Unnecessary typecast of c90 int constant
+From: Joe Perches <joe@perches.com>
+To: Julia Lawall <julia.lawall@inria.fr>, UMWARI JOVIAL
+ <umwarijovial@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Date: Sat, 29 Oct 2022 07:38:10 -0700
+In-Reply-To: <alpine.DEB.2.22.394.2210280918550.2845@hadrien>
+References: <20221028063711.GA35659@rdm>
+	 <alpine.DEB.2.22.394.2210280918550.2845@hadrien>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: DCF0717
+X-Spam-Status: No, score=-4.58
+X-Stat-Signature: 3kpugo777z3hb3xfdrd5mryxt7uasajh
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18BJ6iGaBQ/gDxUl5GMVObh7DN5jwxKBPo=
+X-HE-Tag: 1667054275-197456
 
-On Fri, 28 Oct 2022 10:11:56 +0000
-"Sa, Nuno" <Nuno.Sa@analog.com> wrote:
-
-> > -----Original Message-----
-> > From: Deepak R Varma <drv@mailo.com>
-> > Sent: Thursday, October 27, 2022 11:54 PM
-> > To: outreachy@lists.linux.dev; Lars-Peter Clausen <lars@metafoo.de>;
-> > Hennerich, Michael <Michael.Hennerich@analog.com>; Jonathan Cameron
-> > <jic23@kernel.org>; Greg Kroah-Hartman <gregkh@linuxfoundation.org>;
-> > linux-iio@vger.kernel.org; linux-staging@lists.linux.dev; linux-
-> > kernel@vger.kernel.org
-> > Subject: [PATCH] staging: iio: frequency: ad9832: Use div64_ul instead =
-of
-> > do_div
-> >=20
-> > [External]
-> >=20
-> > do_div() does a 64-by-32 division. Here the divisor is an unsigned long
-> > which on some platforms is 64 bit wide. So use div64_ul instead of do_d=
-iv
-> > to avoid a possible truncation. Issue identified using the
-> > coccicheck tool.
-> >=20
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > --- =20
+On Fri, 2022-10-28 at 09:22 +0200, Julia Lawall wrote:
 >=20
-> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> On Fri, 28 Oct 2022, UMWARI JOVIAL wrote:
+>=20
+> > According to Linux kernel coding style.
+> >=20
+> > Reported by checkpatch:
+> > WARNING: Unnecessary typecast of c90 int constant - '(int)2.412e8' coul=
+d be '2.412e8'
+> > WARNING: Unnecessary typecast of c90 int constant - '(int)2.487e8' coul=
+d be '2.487e8'
+>=20
+> It's not ideal to just include the checkpatch messges verbatim in your lo=
+g
+> message.  It woudl be better to say what you are doing and why, in
+> complete sentences ("According to the Linux coding style" is not a
+> complete sentence).
+>=20
+> I also suspect that the checkpatch message is wrong.  Floating point
+> numbers cannot be used in the kernel, and the case of the constant ensure=
+s
+> that the value will be converted to an integer at compile time.
 
-As per the email Greg linked to, please take a close look at the surround c=
-ode
-and include analysis of whether the value can actually be greater than 32 b=
-its.
-Note that in most cases that would actually mean the code was broken on 32 =
-bit
-platforms.
+Yes, it's a checkpatch defect.
+
+checkpatch should have this:
+---
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 4e187202e77a6..9958a774efaf1 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -6758,7 +6759,8 @@ sub process {
+                }
+=20
+ # check for cast of C90 native int or longer types constants
+-               if ($line =3D~ /(\(\s*$C90_int_types\s*\)\s*)($Constant)\b/=
+) {
++               if ($line =3D~ /(\(\s*$C90_int_types\s*\)\s*)($Constant)\b/=
+ &&
++                   $2 !~ /^$Float$/) {
+                        my $cast =3D $1;
+                        my $const =3D $2;
+                        my $suffix =3D "";
+
