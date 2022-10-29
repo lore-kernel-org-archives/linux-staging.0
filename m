@@ -1,71 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AD815C9F;
-	Sat, 29 Oct 2022 07:51:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5613DC433D6;
-	Sat, 29 Oct 2022 07:51:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667029904;
-	bh=IVYCEUyFNGvt9P7E4kn2YygjCjJ8FPO0YNOwwJNd4Rc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NAoV7eUB1tTRPhFcdphtmUuG851jzTwwnizNydu/GTOP2TWWHCf5K0b99J9gfHqRB
-	 DCtN5/RunER84XlIqozB/bSgRywWxlCM+9WJtlJS6BZzdZg0FJSF8w691ts3yqRjPk
-	 b1Lvp4A9mNtFHQAmELkv++afpX77794kgLSTYCeA=
-Date: Sat, 29 Oct 2022 09:52:40 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: outreachy@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: ad5933: Use div64_ul instead of do_div
-Message-ID: <Y1zbyJPF+YUY6xIh@kroah.com>
-References: <Y1r4EaDvEipzhaaf@ubunlion>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956C815CB6
+	for <linux-staging@lists.linux.dev>; Sat, 29 Oct 2022 11:15:31 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-146-75xd6qPbO8iGWQnN0ZN75w-1; Sat, 29 Oct 2022 12:15:28 +0100
+X-MC-Unique: 75xd6qPbO8iGWQnN0ZN75w-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Sat, 29 Oct
+ 2022 12:15:27 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.042; Sat, 29 Oct 2022 12:15:27 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Julia Lawall' <julia.lawall@inria.fr>, UMWARI JOVIAL
+	<umwarijovial@gmail.com>
+CC: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"outreachy@lists.linux.dev" <outreachy@lists.linux.dev>
+Subject: RE: [PATCH] Remove Unnecessary typecast of c90 int constant
+Thread-Topic: [PATCH] Remove Unnecessary typecast of c90 int constant
+Thread-Index: AQHY6p4QqXp6c6aJbUmajhb1BaK9064lOaUg
+Date: Sat, 29 Oct 2022 11:15:27 +0000
+Message-ID: <aca0b365ab6b46789fd20dec14454ad6@AcuMS.aculab.com>
+References: <20221028063711.GA35659@rdm>
+ <alpine.DEB.2.22.394.2210280918550.2845@hadrien>
+In-Reply-To: <alpine.DEB.2.22.394.2210280918550.2845@hadrien>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1r4EaDvEipzhaaf@ubunlion>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 28, 2022 at 02:58:49AM +0530, Deepak R Varma wrote:
-> do_div() does a 64-by-32 division. Here the divisor is an unsigned long
-> which on some platforms is 64 bit wide. So use div64_ul instead of do_div
-> to avoid a possible truncation. Issue was identified using the
-> coccicheck tool.
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  drivers/staging/iio/impedance-analyzer/ad5933.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> index f177b20f0f2d..730bb31a20d8 100644
-> --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-> +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> @@ -196,7 +196,7 @@ static int ad5933_set_freq(struct ad5933_state *st,
->  	} dat;
-> 
->  	freqreg = (u64)freq * (u64)(1 << 27);
-> -	do_div(freqreg, st->mclk_hz / 4);
-> +	freqreg = div64_ul(freqreg, st->mclk_hz / 4);
-> 
->  	switch (reg) {
->  	case AD5933_REG_FREQ_START:
-> --
-> 2.34.1
+From: Julia Lawall
+> Sent: 28 October 2022 08:23
+>=20
+> On Fri, 28 Oct 2022, UMWARI JOVIAL wrote:
+>=20
+> > According to Linux kernel coding style.
+> >
+> > Reported by checkpatch:
+> > WARNING: Unnecessary typecast of c90 int constant - '(int)2.412e8' coul=
+d be '2.412e8'
+> > WARNING: Unnecessary typecast of c90 int constant - '(int)2.487e8' coul=
+d be '2.487e8'
+>=20
+> It's not ideal to just include the checkpatch messges verbatim in your lo=
+g
+> message.  It woudl be better to say what you are doing and why, in
+> complete sentences ("According to the Linux coding style" is not a
+> complete sentence).
+>=20
+> I also suspect that the checkpatch message is wrong.  Floating point
+> numbers cannot be used in the kernel, and the case of the constant ensure=
+s
+> that the value will be converted to an integer at compile time.
 
-No, this isn't ok, please read the mailing list archives for why these
-changes are not going to be accepted:
-	https://lore.kernel.org/r/e2ec77060cc84a33b49d5fd11d7867f6@AcuMS.aculab.com
+Much better to just use 241200000u (or 241200u * 1000 for readability).
 
-Please always at least look at the archives of the past few weeks as to
-if changes like this are able to be accepted or not.
+=09David
 
-thanks,
+>=20
+> julia
+>=20
+> >
+> > Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+> > ---
+> >  drivers/staging/rtl8192e/rtllib_softmac_wx.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> > index fdf867a5dd7a..4fc4fb25d8d6 100644
+> > --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> > +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> > @@ -41,8 +41,8 @@ int rtllib_wx_set_freq(struct rtllib_device *ieee, st=
+ruct iw_request_info *a,
+> >
+> >  =09/* if setting by freq convert to channel */
+> >  =09if (fwrq->e =3D=3D 1) {
+> > -=09=09if ((fwrq->m >=3D (int)2.412e8 &&
+> > -=09=09     fwrq->m <=3D (int)2.487e8)) {
+> > +=09=09if ((fwrq->m >=3D 2.412e8 &&
+> > +=09=09     fwrq->m <=3D 2.487e8)) {
+> >  =09=09=09int f =3D fwrq->m / 100000;
+> >  =09=09=09int c =3D 0;
+> >
+> > --
+> > 2.25.1
+> >
+> >
+> >
 
-greg k-h
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
