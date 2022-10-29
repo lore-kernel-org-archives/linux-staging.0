@@ -1,82 +1,98 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E902574;
-	Sat, 29 Oct 2022 15:56:17 +0000 (UTC)
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 783E3C0110;
-	Sat, 29 Oct 2022 14:38:14 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id DCF0717;
-	Sat, 29 Oct 2022 14:37:55 +0000 (UTC)
-Message-ID: <efab1f11d5008188988813e3f3c27ce1297e71c0.camel@perches.com>
-Subject: Re: [PATCH] Remove Unnecessary typecast of c90 int constant
-From: Joe Perches <joe@perches.com>
-To: Julia Lawall <julia.lawall@inria.fr>, UMWARI JOVIAL
- <umwarijovial@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Date: Sat, 29 Oct 2022 07:38:10 -0700
-In-Reply-To: <alpine.DEB.2.22.394.2210280918550.2845@hadrien>
-References: <20221028063711.GA35659@rdm>
-	 <alpine.DEB.2.22.394.2210280918550.2845@hadrien>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B623415A9;
+	Sat, 29 Oct 2022 16:52:02 +0000 (UTC)
+Received: by mail-vk1-f169.google.com with SMTP id g4so358337vkk.6;
+        Sat, 29 Oct 2022 09:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TwYDS/mmucztJvZk+txCcsQ4F8nYeAWY6Om3fRYLydM=;
+        b=f7TmAfvDTszzxq9/s7++Odt1tI3NJPLc6cv2uaPhinMxKKDimLhZ0Y7Ef1AsDLlUqK
+         83xV20RqDznHPphKGn+8UjbbxEY0TvLEmrP884PDFeQ/UD+HwAxVi+DLZrviU9LNaiCq
+         ymSz29Uv6rdm7hymM6w4OIURY8nB3MrHPAKdvclOr5L86u4ED6WkJtQeWs8imXRngNYD
+         2TB+X2nkl/OWlOavppNBnCBAsFzb3Tly6Dk4MEYXd/Mqoi2yBPYUy+bvp1eQYW34GBQK
+         u2jxTLa6dtKLewQAPwBcS/iO140iFbpRDvII37eY2e+avH2MeJxQPn/YHvuRvEQKqGce
+         5XoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TwYDS/mmucztJvZk+txCcsQ4F8nYeAWY6Om3fRYLydM=;
+        b=Z2ZzxKi/X8zpMCfSTPio/n6WP8jEo9aSGAsNwqwJoF7Iy4fFgE+q/WHYXvsZlAf7yW
+         /9C1Ls1GK/zqmUfJwVVPXL93eWsMaZfrBzdgF9ra0/B+p7ikKfcXRnf6UkYQd4GuHsJV
+         zoTI+/p3cPLnRMk0tEZEFlnPFDrnM56VjKJbcpRXJA4JG2JR7V4xB38cfwgK+Fh1P7Mn
+         wH5t+U4zKKDbfHFReplbjQxG69cF/KfREYJbgOqQIeOe18xFzonN9vd5caqbJFEhU3KO
+         SYubjfjnaQPT++Rpi3wvbWjC1njkNSpStLaa0O1sWeZZF8TaVJZYasq0FXd1p6skXPwR
+         lyXg==
+X-Gm-Message-State: ACrzQf2W4PfMuKMtpw9ePTtYPXEF+YH0eEBIDJOifj0Wx/izkElt+/xw
+	euILiqTg1iSEjTQkDEPQtPCWCNrCwiB1ffpd0bY=
+X-Google-Smtp-Source: AMsMyM6Thke+1QuByyV8+re7bh2Evi2XZOlsWq0OhchzcovWijDvkFdCFpeOVChhPguwUmdAitZw6torQ6CRo3eIeaQ=
+X-Received: by 2002:a1f:3246:0:b0:3ae:bedf:455f with SMTP id
+ y67-20020a1f3246000000b003aebedf455fmr1965024vky.28.1667062321638; Sat, 29
+ Oct 2022 09:52:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: DCF0717
-X-Spam-Status: No, score=-4.58
-X-Stat-Signature: 3kpugo777z3hb3xfdrd5mryxt7uasajh
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18BJ6iGaBQ/gDxUl5GMVObh7DN5jwxKBPo=
-X-HE-Tag: 1667054275-197456
+References: <20221028051420.GA30073@rdm> <Y1wg4y6k1fe/TF0d@aschofie-mobl2>
+In-Reply-To: <Y1wg4y6k1fe/TF0d@aschofie-mobl2>
+From: jovial umwari <umwarijovial@gmail.com>
+Date: Sat, 29 Oct 2022 19:51:50 +0300
+Message-ID: <CAMk1CBOgUPjeMw9NmCthsQsDJXY8U4WCBTmNi-3h_BroGnh_QQ@mail.gmail.com>
+Subject: Re: [PATCH] WARNING: Possible repeated word: 'very'
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 2022-10-28 at 09:22 +0200, Julia Lawall wrote:
->=20
-> On Fri, 28 Oct 2022, UMWARI JOVIAL wrote:
->=20
-> > According to Linux kernel coding style.
-> >=20
-> > Reported by checkpatch:
-> > WARNING: Unnecessary typecast of c90 int constant - '(int)2.412e8' coul=
-d be '2.412e8'
-> > WARNING: Unnecessary typecast of c90 int constant - '(int)2.487e8' coul=
-d be '2.487e8'
->=20
-> It's not ideal to just include the checkpatch messges verbatim in your lo=
-g
-> message.  It woudl be better to say what you are doing and why, in
-> complete sentences ("According to the Linux coding style" is not a
-> complete sentence).
->=20
-> I also suspect that the checkpatch message is wrong.  Floating point
-> numbers cannot be used in the kernel, and the case of the constant ensure=
-s
-> that the value will be converted to an integer at compile time.
+Noted. Thank you sir
 
-Yes, it's a checkpatch defect.
-
-checkpatch should have this:
----
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 4e187202e77a6..9958a774efaf1 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6758,7 +6759,8 @@ sub process {
-                }
-=20
- # check for cast of C90 native int or longer types constants
--               if ($line =3D~ /(\(\s*$C90_int_types\s*\)\s*)($Constant)\b/=
-) {
-+               if ($line =3D~ /(\(\s*$C90_int_types\s*\)\s*)($Constant)\b/=
- &&
-+                   $2 !~ /^$Float$/) {
-                        my $cast =3D $1;
-                        my $const =3D $2;
-                        my $suffix =3D "";
-
+On Fri, 28 Oct 2022 at 21:35, Alison Schofield
+<alison.schofield@intel.com> wrote:
+>
+> On Fri, Oct 28, 2022 at 08:14:20AM +0300, UMWARI JOVIAL wrote:
+> > i used checkpatch.pl script to identify the above
+> > Repetition of the same word in one sentence same line
+> >
+> > Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+>
+> This is my (not yet automated) response:
+>
+> You are sending patches to the Outreachy list, in a way
+> that makes me suspect you have overlooked the Outreachy
+> Project Contribution Information.
+>
+> Please review:
+> https://www.outreachy.org/outreachy-december-2022-internship-round/communities/linux-kernel/  (only accepted applicants can see this link)
+>
+> https://lore.kernel.org/outreachy/Y0D+dzbjRtuc0KT4@aschofie-mobl2/
+>
+> Alison
+>
+> > ---
+> >  drivers/staging/rtl8712/rtl871x_xmit.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+> > index 090345bad223..30a0276b8b58 100644
+> > --- a/drivers/staging/rtl8712/rtl871x_xmit.c
+> > +++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+> > @@ -766,7 +766,7 @@ void r8712_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
+> >   * If we turn on USE_RXTHREAD, then, no need for critical section.
+> >   * Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
+> >   *
+> > - * Must be very very cautious...
+> > + * Must be very cautious...
+> >   *
+> >   */
+> >  struct xmit_frame *r8712_alloc_xmitframe(struct xmit_priv *pxmitpriv)
+> > --
+> > 2.25.1
+> >
+> >
