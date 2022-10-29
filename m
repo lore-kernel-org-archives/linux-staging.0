@@ -1,33 +1,33 @@
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3144B2CA5;
-	Sat, 29 Oct 2022 17:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAA52F2D;
+	Sat, 29 Oct 2022 17:35:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=gqjvVIWAB0oapWcgghjNtAYXtMW4JBKKZXBEyHZ/CnE=;
-  b=l5V0nP+O7hU5hocOYpeD0hGW0G01Hp0ITBxLWz/jXZGP0vl66HLcSeq/
-   lADTEbu9fFNdM6JmRB5DxbVU7xh58uzpVi060pXs/a6dllgemJ8tOEJvj
-   tXNmDh3uHrXMrBuMDdxFEPnPInbNzXIjzlOkrvkJewAWCnqA+o6Bp0cS1
-   Q=;
+  bh=u8OiKICe3FtMF3Aua0AmfkX/86XOOv3X8TCH3zNeLhU=;
+  b=syNpMhvlIWgyltAS/DbjuexL8QR36URSgWcCRu50Lkl9rOp8CNTkO+q6
+   79UFYS/aBYzrgSvKMG3loK712sRRA8b7DO4mbG2Xly2oFYUkY5h8nmnkb
+   Wpx2CDJy0NHgTJqZuwsYrG1/A1tQtXYAECAxHIa6oRc5dGlZoHYKcxKA3
+   0=;
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="5.95,224,1661810400"; 
-   d="scan'208";a="72171888"
+   d="scan'208";a="72171987"
 Received: from 51.123.68.85.rev.sfr.net (HELO hadrien) ([85.68.123.51])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 19:34:26 +0200
-Date: Sat, 29 Oct 2022 19:34:26 +0200 (CEST)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 19:35:22 +0200
+Date: Sat, 29 Oct 2022 19:35:22 +0200 (CEST)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
-To: Deepak R Varma <drv@mailo.com>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
-    dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: Use ARRAY_SIZE() to get argument count
-In-Reply-To: <Y11b0oCmle2pbRel@ubunlion>
-Message-ID: <alpine.DEB.2.22.394.2210291931590.2917@hadrien>
-References: <Y1vZXUi0Bjiub8HZ@ubunlion> <Y1zXIjCe3LGwApWD@kroah.com> <Y11b0oCmle2pbRel@ubunlion>
+To: jovial umwari <umwarijovial@gmail.com>
+cc: Alison Schofield <alison.schofield@intel.com>, gregkh@linuxfoundation.org, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+    outreachy@lists.linux.dev
+Subject: Re: [PATCH] WARNING: Possible repeated word: 'very'
+In-Reply-To: <CAMk1CBOgUPjeMw9NmCthsQsDJXY8U4WCBTmNi-3h_BroGnh_QQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2210291934400.2917@hadrien>
+References: <20221028051420.GA30073@rdm> <Y1wg4y6k1fe/TF0d@aschofie-mobl2> <CAMk1CBOgUPjeMw9NmCthsQsDJXY8U4WCBTmNi-3h_BroGnh_QQ@mail.gmail.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -39,47 +39,59 @@ Content-Type: text/plain; charset=US-ASCII
 
 
 
-On Sat, 29 Oct 2022, Deepak R Varma wrote:
+On Sat, 29 Oct 2022, jovial umwari wrote:
 
-> On Sat, Oct 29, 2022 at 09:32:50AM +0200, Greg Kroah-Hartman wrote:
-> > On Fri, Oct 28, 2022 at 07:00:05PM +0530, Deepak R Varma wrote:
-> > > The ARRAY_SIZE(foo) macro should be preferred over sizeof operator
-> > > based computation such as sizeof(foo)/sizeof(foo[0]) for finding
-> > > number of elements in an array. Issue identified using coccicheck.
-> > >
-> > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > ---
-> > >  drivers/staging/fbtft/fbtft.h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-> > > index 2c2b5f1c1df3..5506a473be91 100644
-> > > --- a/drivers/staging/fbtft/fbtft.h
-> > > +++ b/drivers/staging/fbtft/fbtft.h
-> > > @@ -231,7 +231,7 @@ struct fbtft_par {
-> > >  	bool polarity;
-> > >  };
-> > >
-> > > -#define NUMARGS(...)  (sizeof((int[]){__VA_ARGS__}) / sizeof(int))
-> > > +#define NUMARGS(...)  ARRAY_SIZE(((int[]){ __VA_ARGS__ }))
-> >
-> > Please please please test-build your patches before sending them out.
-> > To not do so just wastes reviewer resources :(
->
-> Hello Greg,
-> I did build the .ko files by making the driver/staging/fbtft/ path. I verified
-> .o and .ko files were built.
->
-> I did a make clean just now and was again able to rebuild without any errors.
-> Please see the attached log file.
->
-> Is there something wrong with the way I am firing the build?
+> Noted. Thank you sir
 
-The change is in the definition of a macro.  The compiler won't help you
-in this case unless the macro is actually used in code that is compiled.
-Find the uses and check for any nearby ifdefs.  For file foo.c you can
-also do make foo.i to see the result of reducing ifdef and expanding
-macros.  Then you can see if the code you changed is actually included in
-the build.
+Please don't top post.  Your reponse should appear below the text that you
+are responding to.
 
 julia
+
+
+>
+> On Fri, 28 Oct 2022 at 21:35, Alison Schofield
+> <alison.schofield@intel.com> wrote:
+> >
+> > On Fri, Oct 28, 2022 at 08:14:20AM +0300, UMWARI JOVIAL wrote:
+> > > i used checkpatch.pl script to identify the above
+> > > Repetition of the same word in one sentence same line
+> > >
+> > > Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+> >
+> > This is my (not yet automated) response:
+> >
+> > You are sending patches to the Outreachy list, in a way
+> > that makes me suspect you have overlooked the Outreachy
+> > Project Contribution Information.
+> >
+> > Please review:
+> > https://www.outreachy.org/outreachy-december-2022-internship-round/communities/linux-kernel/  (only accepted applicants can see this link)
+> >
+> > https://lore.kernel.org/outreachy/Y0D+dzbjRtuc0KT4@aschofie-mobl2/
+> >
+> > Alison
+> >
+> > > ---
+> > >  drivers/staging/rtl8712/rtl871x_xmit.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+> > > index 090345bad223..30a0276b8b58 100644
+> > > --- a/drivers/staging/rtl8712/rtl871x_xmit.c
+> > > +++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+> > > @@ -766,7 +766,7 @@ void r8712_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
+> > >   * If we turn on USE_RXTHREAD, then, no need for critical section.
+> > >   * Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
+> > >   *
+> > > - * Must be very very cautious...
+> > > + * Must be very cautious...
+> > >   *
+> > >   */
+> > >  struct xmit_frame *r8712_alloc_xmitframe(struct xmit_priv *pxmitpriv)
+> > > --
+> > > 2.25.1
+> > >
+> > >
+>
+>
