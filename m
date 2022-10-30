@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2908F4C
-	for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 17:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601248F4D
+	for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 17:33:54 +0000 (UTC)
 Received: from ipservice-092-217-067-184.092.217.pools.vodafone-ip.de ([92.217.67.184] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1opCBy-000469-8K; Sun, 30 Oct 2022 18:33:50 +0100
+	id 1opCBt-000469-Le; Sun, 30 Oct 2022 18:33:45 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 12/13] staging: r8188eu: rtw_action_public_decache's token is a u8
-Date: Sun, 30 Oct 2022 18:33:25 +0100
-Message-Id: <20221030173326.1588647-13-martin@kaiser.cx>
+Subject: [PATCH v2 06/13] staging: r8188eu: remove category check in OnAction_p2p
+Date: Sun, 30 Oct 2022 18:33:19 +0100
+Message-Id: <20221030173326.1588647-7-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221030173326.1588647-1-martin@kaiser.cx>
 References: <20221030173326.1588647-1-martin@kaiser.cx>
@@ -31,53 +31,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Both callers of rtw_action_public_decache pass a u8 value for the token
-parameter. We can change token from s32 to u8 and remove the code for
-token < 0.
+The caller of OnAction_p2p has already checked the action category. We can
+remove the check in OnAction_p2p.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index f5923792f067..93f3d387e92d 100644
+index f1054192bfb1..efcb2f3b6d3f 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -3490,7 +3490,7 @@ inline void issue_probereq_p2p(struct adapter *adapter, u8 *da)
- 	_issue_probereq_p2p(adapter, da);
- }
- 
--static s32 rtw_action_public_decache(struct recv_frame *recv_frame, s32 token)
-+static s32 rtw_action_public_decache(struct recv_frame *recv_frame, u8 token)
+@@ -3835,7 +3835,7 @@ static void on_action_public(struct adapter *padapter, struct recv_frame *precv_
+ static void OnAction_p2p(struct adapter *padapter, struct recv_frame *precv_frame)
  {
- 	struct adapter *adapter = recv_frame->adapter;
- 	struct mlme_ext_priv *mlmeext = &adapter->mlmeextpriv;
-@@ -3499,21 +3499,13 @@ static s32 rtw_action_public_decache(struct recv_frame *recv_frame, s32 token)
- 		(recv_frame->attrib.frag_num & 0xf);
+ 	u8 *frame_body;
+-	u8 category, OUI_Subtype;
++	u8 OUI_Subtype;
+ 	u8 *pframe = precv_frame->rx_data;
+ 	uint len = precv_frame->len;
+ 	struct	wifidirect_info	*pwdinfo = &padapter->wdinfo;
+@@ -3846,10 +3846,6 @@ static void OnAction_p2p(struct adapter *padapter, struct recv_frame *precv_fram
  
- 	if (GetRetry(frame)) {
--		if (token >= 0) {
--			if ((seq_ctrl == mlmeext->action_public_rxseq) &&
--			    (token == mlmeext->action_public_dialog_token))
--				return _FAIL;
--		} else {
--			if (seq_ctrl == mlmeext->action_public_rxseq)
--				return _FAIL;
--		}
-+		if ((seq_ctrl == mlmeext->action_public_rxseq) &&
-+		    (token == mlmeext->action_public_dialog_token))
-+			return _FAIL;
- 	}
+ 	frame_body = (unsigned char *)(pframe + sizeof(struct ieee80211_hdr_3addr));
  
- 	mlmeext->action_public_rxseq = seq_ctrl;
+-	category = frame_body[0];
+-	if (category != RTW_WLAN_CATEGORY_P2P)
+-		return;
 -
--	if (token >= 0)
--		mlmeext->action_public_dialog_token = token;
--
-+	mlmeext->action_public_dialog_token = token;
- 	return _SUCCESS;
- }
+ 	if (be32_to_cpu(*((__be32 *)(frame_body + 1))) != P2POUI)
+ 		return;
  
 -- 
 2.30.2
