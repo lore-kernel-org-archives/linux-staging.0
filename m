@@ -1,82 +1,81 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9F191
-	for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 08:10:34 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id f7so7838020edc.6
-        for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 01:10:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D5D33FD
+	for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 10:39:54 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id n12so22853602eja.11
+        for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 03:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PQ7i0JvA6S2JuLGZoRuDp03Ajf9dqeVkCmxRUIqVwsg=;
-        b=UyCPntXNQ0ukh7YFw3calkwPkRS6ybko2jmJT21uHy39lfS76EE/6yKfl66uzOddhh
-         TBu4dJscMNXjtTkG8SI6S5jMUV9z1672YCsOhjpCwnu37hvrE7aNh0Dv1yaxc2mhfaay
-         XgcWt3MY3JCZTSVsoEPUMZrCsgiA25+8m6wAEQYd6bDimx+pHhOEsaIj6H/IkXX9DzaY
-         +qnfqddVI4nABEHIvQdyZ9TPDGqNA/z73MrdVFyifBTSfQ1kUuC05IITq82iLnOptscN
-         ptgpv09V8SZ8afUijdzJWSJUZ4vyOnrGCdWIZlaTxIKQXSocvztozYl67bMgrfLqluj6
-         G0cQ==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HYqTXO3cxaJyUvj4QsU8V2dteTiq/1Q+Qyd/LuGBD/Q=;
+        b=g+g0bR9Pob12K1+TXDVYIb0y8WqOuxq46Ri2bEkdYn6sti7ZWfMvr81jHAj/v1Wn/y
+         vJbw3nPFsVmru1/DgeHVkkNPFjrcqbPULYnPjEAzvj/MunLr1oMTPOV38ZvEQPG93fsn
+         XbgfCHvNw2bpJCf0KkM62CH5laynSZ2qs8akGqwkIUWRAwoRdvQ2wrozlsnIq4uZIOB7
+         8XAo4xr5Lh9IdUr1xlOFJavLVG6kWbWQsaav6sRR5FFgrj6xcXaqK0VIdnsQHzbLsiQ4
+         pCl62vbanVntTL7Tar6fQLjl/MaFC0Cz8WG3+jl8mvE8jxtIM+u4h/m5ACiSurvvlT6u
+         gYaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PQ7i0JvA6S2JuLGZoRuDp03Ajf9dqeVkCmxRUIqVwsg=;
-        b=68a971uNktiqhCBAPnhlpp5eSzU38xqlEfPRGFnJoRa8NmB1QkxjgjxgYE+z91iWW7
-         UZ2b0z0LPgHNIkB1gP8IUumWWpsJLInQYe2+sxZswg9psKbz0D5909eZKjfO0uOHL1WX
-         WtRGbpddD9+JSC1Dgibv3FTySWWIVZmwXinREqyGBwFZmO2k2u/t40BGbWR2AYCzCGr3
-         E/UCFf81bSTow/yorTmJtGkfHoJSd5gNY6R6vSf/aSM36dDQ7k8Y8vpX7xc2TALSZJjJ
-         6yVBncuqn4wSptkyD/75U2cAt+XqR4QQU0uiFXHlInJjOQNqg7ySp3lYq2WV9WJW0//F
-         kJzQ==
-X-Gm-Message-State: ACrzQf2oysUXCwkz6uj/CsuDokLbYvFDTJ+/MkO5Z0NBC2UmQ8Ou9ADu
-	7pv2k3IGaV7p8lPZDPTM0qw=
-X-Google-Smtp-Source: AMsMyM76qqm07bZab47IsZf4MMb1ozUN42P8iWvASUTA1VPGFcBGs0gzXWaDObygso6EVOOlGe5iNQ==
-X-Received: by 2002:a05:6402:33c5:b0:447:e4a3:c930 with SMTP id a5-20020a05640233c500b00447e4a3c930mr7690017edc.401.1667117432262;
-        Sun, 30 Oct 2022 01:10:32 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb7e.dynamic.kabel-deutschland.de. [95.90.187.126])
-        by smtp.gmail.com with ESMTPSA id la10-20020a170907780a00b0079dbf06d558sm1567299ejc.184.2022.10.30.01.10.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Oct 2022 01:10:31 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: use min() instead of ternary operator
-Date: Sun, 30 Oct 2022 09:10:20 +0100
-Message-Id: <20221030081020.8533-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.38.0
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HYqTXO3cxaJyUvj4QsU8V2dteTiq/1Q+Qyd/LuGBD/Q=;
+        b=4gc4dumtoj3PRKzqq+4BAg8yv2OThKfS8kduVcnNqPdDlw8mcNmjt6WM2tzqSDyIRx
+         rMT1g0/f+7s97lfVUc9Uxy/nIGI9S4h7O6M6Ltp7y8qtJYSSICGx/W1/xZdV1pkIkUW1
+         ZbJdqH1ugToxSMMbsY86HtZzqVdIwXirVcZmQ2E8J6KFUSo+5x7Ynekrrjc+mcxU8zHJ
+         dpXEqAG/Jmhpd1wNPYtwAe1XdwpKNEY/AKKSIsTv2FeTi+NCXsTB4rwcWLaesnVqvfZA
+         22qXLIku33o6Yn3k3FgY1W4m8Z07aCbf2NFBAQbmVzTICsbKZvVLgaq9tTOYmLhLq+Nk
+         zACg==
+X-Gm-Message-State: ACrzQf2t3yqZ9KVY8RSA7WP24EEKZqD5+VsTh+VU0GQ5Soh4Cxkzbk6D
+	wbjwqWzO5xm2MHRuKdAGcWc=
+X-Google-Smtp-Source: AMsMyM5xPiy5dGPlv3OzudlM6a1HixLr4tzn4Pizdou/xnRCgAyHntBsVi+PlhThG2O0x1gBuFrkGg==
+X-Received: by 2002:a17:907:7da5:b0:78e:2c3b:55a2 with SMTP id oz37-20020a1709077da500b0078e2c3b55a2mr7521387ejc.96.1667126393164;
+        Sun, 30 Oct 2022 03:39:53 -0700 (PDT)
+Received: from [192.168.1.102] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
+        by smtp.gmail.com with ESMTPSA id g14-20020a170906538e00b007262a5e2204sm1706272ejo.153.2022.10.30.03.39.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 30 Oct 2022 03:39:52 -0700 (PDT)
+Message-ID: <cfe7c682-53b9-f30c-c423-8a6c551ac966@gmail.com>
+Date: Sun, 30 Oct 2022 11:39:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/2] staging: r8188eu: remove the last get_da calls
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20221029171011.1572091-1-martin@kaiser.cx>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20221029171011.1572091-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Replace a ternary operator usage with the min() macro to improve
-readability.
+On 10/29/22 19:10, Martin Kaiser wrote:
+> Replace the remaining two get_da calls with ieee80211_get_DA and
+> remove get_da.
+> 
+> Martin Kaiser (2):
+>    staging: r8188eu: replace get_da with ieee80211_get_DA
+>    staging: r8188eu: remove get_da
+> 
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  3 ++-
+>   drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c |  3 ++-
+>   drivers/staging/r8188eu/include/wifi.h        | 22 -------------------
+>   3 files changed, 4 insertions(+), 24 deletions(-)
+> 
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 8516e253bb03..22aab3f986b4 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -3568,7 +3568,7 @@ static int rtw_wx_set_priv(struct net_device *dev,
- 
- 		if ((_VENDOR_SPECIFIC_IE_ == probereq_wpsie[0]) &&
- 		    (!memcmp(&probereq_wpsie[2], wps_oui, 4))) {
--			cp_sz = probereq_wpsie_len > MAX_WPS_IE_LEN ? MAX_WPS_IE_LEN : probereq_wpsie_len;
-+			cp_sz = min(probereq_wpsie_len, MAX_WPS_IE_LEN);
- 
- 			pmlmepriv->wps_probe_req_ie_len = 0;
- 			kfree(pmlmepriv->wps_probe_req_ie);
--- 
-2.38.0
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
