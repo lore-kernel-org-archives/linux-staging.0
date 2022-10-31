@@ -1,47 +1,32 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5887E;
-	Mon, 31 Oct 2022 14:44:01 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id g12so19613684lfh.3;
-        Mon, 31 Oct 2022 07:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2lKadDZkcrZY+mBoo+J3JnRJGkskmKs9cjQkiel3sGM=;
-        b=mBBMvP91Xmkn6K5qBGVyEILzaAn5KIkGShixlUXwALpTb3uX9+NYN1upHeZtb4NZdg
-         1YHQWtIq6Jj2UWRPty/Ce06X1EyKjIpdWBVPnuhxxKFoCVMBU/IrqqM339Mg6xYzra8e
-         cgNGZuLyL6uMdPZubO4lgUh3y80/yrJB53mWON4wstGfQ5zzg5AVuwH+TIF3ZUu9Dec8
-         gob3Ust2j/2GL+GoeZheZdFVmFrHsGYIBMr9GGK+w9Oq6lIDdXD4qKMqedAD95Kd6BXl
-         +RQ92+FCp731L64K9y1a1J7hGRg8i0g2YRxgov9LlUxtnvb3N2Kj+gKD/6/8bFMqVl1k
-         q7Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2lKadDZkcrZY+mBoo+J3JnRJGkskmKs9cjQkiel3sGM=;
-        b=7ZihuN/tSraD7Y+8qt3HJJqmBMk0tVvz/eCrxEotrsw8OFmynAwIamevgLi+Sx94g8
-         c79bv8tGFAJrKJcUwNddVmEwCH1IrNYLg6tQV7cnaa9mTV51gGjkdryqdmVhdYpJ3WFL
-         jlvo9By03z3yWcwOvNceZnv66jHqp9kiOb7WEN29YlpxlAwoKJUtmPHfpypsWcHoSpQX
-         kydu/nCt37TrNxhYdW9JYfFdKXzGndFWhqAyILhtclbkwd1FJ8zYKaspPuLAxI80UUG4
-         3dnDiGdPEaH4K0Xjb0ewonsziBbPAMGTruUIRCuctKNA52vaKfDwkICoQzMuSM/3A2br
-         a94A==
-X-Gm-Message-State: ACrzQf0b4+jnXGof5F2bD95q4AxCc5nG5KJAi/aBNCoAwTWMSzy3OcJk
-	aH17XoWOm24vHsS+Dikb7lASOR1V7KE=
-X-Google-Smtp-Source: AMsMyM6qQ9vzT88EZhBSFHbtnUIKUFmgv4qNmKjKYLynpGSqlr9JNStxjgy11rhMPt60rEuY7ntW0Q==
-X-Received: by 2002:a05:6512:2983:b0:4a0:5745:f7ca with SMTP id du3-20020a056512298300b004a05745f7camr6196994lfb.116.1667227439363;
-        Mon, 31 Oct 2022 07:43:59 -0700 (PDT)
-Received: from elroy-temp-vm ([20.240.130.248])
-        by smtp.gmail.com with ESMTPSA id 7-20020ac25f07000000b004a050ddc4ecsm1303457lfq.125.2022.10.31.07.43.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 07:43:59 -0700 (PDT)
-Date: Mon, 31 Oct 2022 14:43:58 +0000
-From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: [PATCH] staging: vt6655: change variable name wTimeStampOff
-Message-ID: <Y1/fLjJmma28LudO@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30357E;
+	Mon, 31 Oct 2022 14:45:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667227551; bh=F7/jUVASJHFdFrib2qiFCrAoDx3j0XxPPYgG1AbgNR4=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=bV3JJgsu14hA7EAeUOslFLEl5VDNVbvrXQWBrehz5fziUiV/pA5r53roxk4F4pze8
+	 nEV9A5wF0mbA3wNk6KNitu9ecRDKbITWqGSNhBoIKWZWRine5QqL0ehsbIR9nv+7L6
+	 BWHRO5dGDVCIz45TEs6oMTGujocN196LXK5keb5A=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+	via [213.182.55.206]
+	Mon, 31 Oct 2022 15:45:51 +0100 (CET)
+X-EA-Auth: 6XfSXNO20IQJl9fhQUCf1G+bp7BY2kb6am+RAmSXTh5tu9X2ORcRGUnf+30EMF8X96Pg0x/BStdiBjjZ2egP+0gDc3tLiq9N
+Date: Mon, 31 Oct 2022 20:15:51 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: rtl8192u: remove unused macro definition
+Message-ID: <Y1/fn1+cthIdPKl2@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1666754500.git.drv@mailo.com>
+ <b7053d8737c048d6a878609f0ec24d66b18c5abd.1666754500.git.drv@mailo.com>
+ <Y1kyr/hWqbKCzaaR@kroah.com>
+ <Y1k5y5PVT6t0+OIS@debian-BULLSEYE-live-builder-AMD64>
+ <Y1k8NWuTxOf6z5zL@kroah.com>
+ <Y1rdEE8HBb9CVwlq@ubunlion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,36 +35,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y1rdEE8HBb9CVwlq@ubunlion>
 
-The Linux coding style does not allow CamelCase variable naming.
+On Fri, Oct 28, 2022 at 01:03:36AM +0530, Deepak Varma wrote:
+> On Wed, Oct 26, 2022 at 03:55:01PM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Oct 26, 2022 at 07:14:43PM +0530, Deepak R Varma wrote:
+> > > On Wed, Oct 26, 2022 at 03:14:23PM +0200, Greg Kroah-Hartman wrote:
+> > > > On Wed, Oct 26, 2022 at 08:58:44AM +0530, Deepak R Varma wrote:
+> > > > > Pre-processor macros that are defined but are never used should be
+> > > > > cleaned up to avoid unexpected usage.
+> > > > >
+> > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > > > > ---
+> > > > >  drivers/staging/rtl8192u/ieee80211/ieee80211.h | 2 --
+> > > > >  1 file changed, 2 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211.h b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > > > > index 00c07455cbb3..0b3dda59d7c0 100644
+> > > > > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > > > > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
+> > > > > @@ -230,8 +230,6 @@ struct cb_desc {
+> > > > >  #define ieee80211_unregister_crypto_ops ieee80211_unregister_crypto_ops_rsl
+> > > > >  #define ieee80211_get_crypto_ops	ieee80211_get_crypto_ops_rsl
+> > > > >
+> > > > > -#define ieee80211_ccmp_null		ieee80211_ccmp_null_rsl
+> > > > > -
+> > > > >  #define free_ieee80211			free_ieee80211_rsl
+> > > > >  #define alloc_ieee80211			alloc_ieee80211_rsl
+> > > >
+> > > > These #defines are a mess, please look into unwinding them as they
+> > > > should not be needed at all.
+> > >
+> > > Hello Greg,
+> > > I would like to know what you mean by "unwind them". Is there a documentation or past
+> > > commit that I can review to understand the expectations better?
+> >
+> > Look at them and try to figure out why they are there, and then work to
+> > remove them entirely.  A define like this is very odd in the kernel, it
+> > should not be needed at all, right?
+>
+> Hello Greg,
+> I will look into these additional macros soon and send any further edits as a
+> separate patch (set). Is the current patch set with 2 patches acceptable?
+>
+> Also, I am trying to get Coccinelle to work on my machine. Trying to work
+> through strange issues. I will work on the macro unwinding task you suggested
+> once a get the Coccinelle task completed.
 
-Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
----
- drivers/staging/vt6655/rxtx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hello Greg,
+Most of these macro defines appear to be unused in the module anywhere.
+I can simply delete the #defines for these and let the original function
+names be retained.
+The other way is to rename the functions by the defined value. So, we will have
+to make the code change to use the foo_rsl symbol names at all places. This will
+be a bigger change involving the API name change itself.
 
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 1e5036121665..9bdcf2337235 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -54,7 +54,7 @@
-  */
- #define CRITICAL_PACKET_LEN      256
- 
--static const unsigned short wTimeStampOff[2][MAX_RATE] = {
-+static const unsigned short time_stamp_off[2][MAX_RATE] = {
- 	{384, 288, 226, 209, 54, 43, 37, 31, 28, 25, 24, 23}, /* Long Preamble */
- 	{384, 192, 130, 113, 54, 43, 37, 31, 28, 25, 24, 23}, /* Short Preamble */
- };
-@@ -130,7 +130,7 @@ static __le16 s_uFillDataHead(struct vnt_private *pDevice,
- 
- static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
- {
--	return cpu_to_le16(wTimeStampOff[priv->preamble_type % 2]
-+	return cpu_to_le16(time_stamp_off[priv->preamble_type % 2]
- 							[rate % MAX_RATE]);
- }
- 
--- 
-2.34.1
+I am unable to determine the initial intention as to why these #defines were
+added. Can you please suggest what would be the recommended way for the clean up
+of these unused macros?
+
+Thank you,
+./drv
+
+>
+> Thank you,
+> ./drv
+>
+> >
+> > thanks,
+> >
+> > greg k-h
+> >
+>
+>
+>
+
 
