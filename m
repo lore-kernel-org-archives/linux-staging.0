@@ -1,45 +1,45 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E178F52
-	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 21:59:05 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id v27so19421334eda.1
-        for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 14:59:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187688F52
+	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 22:00:59 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id d26so32764537eje.10
+        for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 15:00:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VLh5w4dw99cth2pYg0unkJaNdj+Qh3WCd+DLAPd/pBs=;
-        b=R26ruTSmLvdCBjoOwOBlKd9UVjaTtqmWxL5c8i+lNxONvfdhw/vj86CLpJC/o156JZ
-         kmxnkI2bXcs/R5P5mluMzZPPjaiSqKR9wjVeYn8U5JwloI5DLOX+h+gTa5fXkVpgPBC3
-         pf+ceMQEWEAwVKvW5l7JSjXeGok4Re1vvNy11N+s1BJBhZB7IZzkOlLFJWMbXqMKRg9F
-         of1LWYcAwbD2SGocDN4beDMeIece9SEYhrSF9FmNAK9+sYMllvReUZh+nys2p77zfM+t
-         qbN7lux3C3rRpbnKP+xAInXYc2DeGadFmcBh7/tLqKqOOHO9RtRmyv12L/QETauVN4w9
-         6C8A==
+        bh=TYmK8qj7euiKCTy77L+jTnVdwmHVwE99ZMrhhT9gdIQ=;
+        b=PH2PsoGijRgnfGZ3bijqOzE8hgcu+jGABXBogjxVuXnQhPJHHH1fikvzydt6pFJ6V7
+         Ky49+yWADDBa+bEVPa/ibd7jm4jgCvNxP1K3LHjuKkV8jDA/c+XkwjWtd7+kLXmP9e29
+         P1mPcrDAaKrWzjlyucuHFQaJmvRO9HaKnfH1Fk445TmQ/WLn2lqpkeS2wcLi0OAVGzpz
+         CkUEqxWwipbMfhnSEIQjpTiwJivIvV2bl70+F7QuGiMp+9vfqmdogcdJi9/rQbFgO+SM
+         E6nQSR61Gf4Z9Kb21UW2qIYB4lLOK2Qz2/rh4JjbQgF5jERTGj5lhEcWTp6nCoD6UEme
+         eqiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VLh5w4dw99cth2pYg0unkJaNdj+Qh3WCd+DLAPd/pBs=;
-        b=17jFc2+7d7dytSo8SF7rxuB+fKH40O1R3MATp+nIO5SY1K4NY6rj5HCgVIX0w7whz8
-         EnKDzRPJz5FAOJuqFMWJEvAIp/t4KOF179rLcVhd8quuGzQB5AMgzbQHkrErcydiBbXz
-         pYv9QBKnoc1X5MDkCkodAN6Mn8pxtPdj0iDNx4cfwkwS2z3HvqtN9GmH002+ucW1LFGT
-         w7iADpk1NAJVvLsF593doEGX+QIb2LXF1qQC16DVZ/wQa2t8UCJkN/Mt8QQSOGQEn9nd
-         57eExKs9HXetgq0NVKU4HBGBjRzYtSS1KXR8TWfKBs1i9ttaPseaCn/0DK/xmsVL6hC9
-         3NOg==
-X-Gm-Message-State: ACrzQf25C43IaDw5qUOcrx8OH6kRDe8vcRtujNsjNzwFsvW+aHKjkooW
-	245S9cU2qEMO8p42MR/fx7Q=
-X-Google-Smtp-Source: AMsMyM6qOq7PL0h583tpUee7cd+FX84Wn3i+EyvDC3Vu3jSI8Xn/e9DEoxszVXP2fixzXFHKuoZ4DQ==
-X-Received: by 2002:a05:6402:524e:b0:461:fa05:aff8 with SMTP id t14-20020a056402524e00b00461fa05aff8mr15963504edd.283.1667253543544;
-        Mon, 31 Oct 2022 14:59:03 -0700 (PDT)
+        bh=TYmK8qj7euiKCTy77L+jTnVdwmHVwE99ZMrhhT9gdIQ=;
+        b=UDdehpywMre9JI4F1EtK9m0c/s5hR3wtdSIFhJPtdonfl+ii8PNvwqqGEUv0VUMJ1b
+         myeQ48FtH5/SeO5JblRkGwLs1iWCKNnP6LduUYDdBsUwk0KYFHYmY2J4mHn9TwZZt1Dv
+         xNUudtW7fTMdTq/V6XdYfYlGapnHFv4PCNmCq9megv0qgFeH0pKGad2iS0cYA5wqdo05
+         EQ6/5rrhjm6rLrccWoOkaWD5nstEhusYBDAjbR4NeAD68DhCw4w3IPYvh/TEXdr6Kn3E
+         KiEEMrT+JzpntXux9s+V79IEJWtPjs0lAlu9Scey/zPIasA3fJj2+3TTxwSncNZl65EI
+         Rk2A==
+X-Gm-Message-State: ACrzQf0KmjpW1Jth3WzqaxQ29EkjenC3Zxm5kjZ0RWtCfWcXFrNEB2Q/
+	oxsyzQSee1KOgb7oXkt8I28=
+X-Google-Smtp-Source: AMsMyM4C7d4bA8v7ZFPNK9507ow2gzTi1GzZWQY11diWsBPM749ZVZRNa2Tt4VNgBNII2+X9mohBPw==
+X-Received: by 2002:a17:906:401:b0:73d:af73:b78 with SMTP id d1-20020a170906040100b0073daf730b78mr15708924eja.122.1667253657287;
+        Mon, 31 Oct 2022 15:00:57 -0700 (PDT)
 Received: from [192.168.1.102] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
-        by smtp.gmail.com with ESMTPSA id 7-20020a170906308700b0077e6be40e4asm3487922ejv.175.2022.10.31.14.59.02
+        by smtp.gmail.com with ESMTPSA id f14-20020a056402150e00b004610899742asm3692669edw.13.2022.10.31.15.00.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 14:59:02 -0700 (PDT)
-Message-ID: <07f09a85-8875-42e1-38d6-40f6626ad27c@gmail.com>
-Date: Mon, 31 Oct 2022 22:59:01 +0100
+        Mon, 31 Oct 2022 15:00:56 -0700 (PDT)
+Message-ID: <3fc39e22-c352-ecd0-3caa-b2376747b505@gmail.com>
+Date: Mon, 31 Oct 2022 23:00:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,78 +48,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: r8188eu: replace ternary operator with min, max,
- abs macros
+Subject: Re: [PATCH] staging: r8188eu: use ether_addr_equal in OnAction
 Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221031153743.8801-1-straube.linux@gmail.com>
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Joe Perches <joe@perches.com>
+References: <20221031205140.124682-1-martin@kaiser.cx>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221031153743.8801-1-straube.linux@gmail.com>
+In-Reply-To: <20221031205140.124682-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/31/22 16:37, Michael Straube wrote:
-> Replace some ternary operators with the min(), max() or abs() macros
-> to improve readability.
+On 10/31/22 21:51, Martin Kaiser wrote:
+> Use ether_addr_equal to compare two mac addresses in OnAction.
 > 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> Both struct ieee80211_mgmt and struct eeprom_priv's mac_addr component
+> are 2-byte aligned.
+> 
+> Suggested-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->   drivers/staging/r8188eu/core/rtw_xmit.c      | 3 +--
->   drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 2 +-
->   drivers/staging/r8188eu/hal/odm_RTL8188E.c   | 4 ++--
->   3 files changed, 4 insertions(+), 5 deletions(-)
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index 4f8220428328..bd6c1a401c59 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -476,8 +476,7 @@ static uint rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, uint rlen)
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index e985fc5fc575..6679d4037d6b 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -3823,7 +3823,7 @@ static void OnAction(struct adapter *padapter, struct recv_frame *precv_frame)
 >   {
->   	uint len;
+>   	struct ieee80211_mgmt *mgmt = (struct ieee80211_mgmt *)precv_frame->rx_data;
 >   
-> -	len = rtw_remainder_len(pfile);
-> -	len = (rlen > len) ? len : rlen;
-> +	len = min(rtw_remainder_len(pfile), rlen);
+> -	if (memcmp(myid(&padapter->eeprompriv), mgmt->da, ETH_ALEN))
+> +	if (!ether_addr_equal(myid(&padapter->eeprompriv), mgmt->da))
+>   		return;
 >   
->   	if (rmem)
->   		skb_copy_bits(pfile->pkt, pfile->buf_len - pfile->pkt_len, rmem, len);
-> diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-> index 60cdfcf80daa..622f95d3f2ed 100644
-> --- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-> +++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-> @@ -583,7 +583,7 @@ static bool phy_SimularityCompare_8188E(
->   			tmp2 = resulta[c2][i];
->   		}
->   
-> -		diff = (tmp1 > tmp2) ? (tmp1 - tmp2) : (tmp2 - tmp1);
-> +		diff = abs(tmp1 - tmp2);
->   
->   		if (diff > MAX_TOLERANCE) {
->   			if ((i == 2 || i == 6) && !sim_bitmap) {
-> diff --git a/drivers/staging/r8188eu/hal/odm_RTL8188E.c b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-> index dd9c8291f025..f3f4074d4316 100644
-> --- a/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-> +++ b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-> @@ -199,7 +199,7 @@ static void odm_HWAntDiv(struct odm_dm_struct *dm_odm)
->   			Aux_RSSI = (dm_fat_tbl->AuxAnt_Cnt[i] != 0) ? (dm_fat_tbl->AuxAnt_Sum[i] / dm_fat_tbl->AuxAnt_Cnt[i]) : 0;
->   			TargetAnt = (Main_RSSI >= Aux_RSSI) ? MAIN_ANT : AUX_ANT;
->   			/* 2 Select MaxRSSI for DIG */
-> -			LocalMaxRSSI = (Main_RSSI > Aux_RSSI) ? Main_RSSI : Aux_RSSI;
-> +			LocalMaxRSSI = max(Main_RSSI, Aux_RSSI);
->   			if ((LocalMaxRSSI > AntDivMaxRSSI) && (LocalMaxRSSI < 40))
->   				AntDivMaxRSSI = LocalMaxRSSI;
->   			if (LocalMaxRSSI > MaxRSSI)
-> @@ -211,7 +211,7 @@ static void odm_HWAntDiv(struct odm_dm_struct *dm_odm)
->   			else if ((dm_fat_tbl->RxIdleAnt == AUX_ANT) && (Aux_RSSI == 0))
->   				Aux_RSSI = Main_RSSI;
->   
-> -			LocalMinRSSI = (Main_RSSI > Aux_RSSI) ? Aux_RSSI : Main_RSSI;
-> +			LocalMinRSSI = min(Main_RSSI, Aux_RSSI);
->   			if (LocalMinRSSI < MinRSSI) {
->   				MinRSSI = LocalMinRSSI;
->   				RxIdleAnt = TargetAnt;
+>   	switch (mgmt->u.action.category) {
 
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
-
