@@ -1,137 +1,59 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6641D33ED;
-	Mon, 31 Oct 2022 17:56:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667238968; bh=aOtt4C+rUZiN07CbINVnZCOezF5iwOq3whPuF7n+d/k=;
-	h=X-EA-Auth:Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:In-Reply-To;
-	b=gtbneUnhfA+lN3vZB0SRzsDMD9rVk4JkqJTZzCgm9zZayMfq+YYFe/JaTpWKXHRbo
-	 krfQpWupvMPDHGdOfy2ZqoYeFfbKmHMT0nXWGF5xPiHkL+OkLKAlNC1aykMwFRx8X7
-	 NvD0Z1JaC03m5MeIr0TeOjqWO7YM7N52TjzJixU8=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-	via [213.182.55.206]
-	Mon, 31 Oct 2022 18:56:07 +0100 (CET)
-X-EA-Auth: j/FgF5M8s+oz1krS6oB+hT1Y1Zz4ICDzarTe/XqJODSEsIIhQP+pN7ujH5XcAfZOWu/8rMUdAgrjl1nJ9GVCyrzcY+Sm6tTJ
-Date: Mon, 31 Oct 2022 23:26:09 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] staging: rtl8192u: remove redundant macro definition
-Message-ID: <3908a0694102793f3130ba1202f1a3580aa9e187.1667237959.git.drv@mailo.com>
-References: <cover.1667237959.git.drv@mailo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B50443D
+	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 20:52:15 +0000 (UTC)
+Received: from dslb-084-059-234-234.084.059.pools.vodafone-ip.de ([84.59.234.234] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1opblL-0006y5-FT; Mon, 31 Oct 2022 21:52:03 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>,
+	Joe Perches <joe@perches.com>
+Subject: [PATCH] staging: r8188eu: use ether_addr_equal in OnAction
+Date: Mon, 31 Oct 2022 21:51:41 +0100
+Message-Id: <20221031205140.124682-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1667237959.git.drv@mailo.com>
+Content-Transfer-Encoding: 8bit
 
-Several ieee80211_* symbol names are extended with _rsl tag using
-macros. This is done to avoid a conflict when a similar symbol is
-already in use in another part of kernel and may lead to conflicts.
-However, most of these base symbol names are not found to being used
-anywhere in the code and hence are not useful today. These symbols
-are not used outside of the module and hence can be safely removed.
-The code continues to use the original symbol names.
+Use ether_addr_equal to compare two mac addresses in OnAction.
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Deepak R Varma <drv@mailo.com>
+Both struct ieee80211_mgmt and struct eeprom_priv's mac_addr component
+are 2-byte aligned.
+
+Suggested-by: Joe Perches <joe@perches.com>
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
-   1. Review other similar macro defines and clean those up as well.
-      Suggested by gregkh@linuxfoundation.org
-   2. Revise patch log to explain impact of the patch
-      Suggested by julia.lawall@inria.fr
-
-
- .../staging/rtl8192u/ieee80211/ieee80211.h    | 64 -------------------
- 1 file changed, 64 deletions(-)
-
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211.h b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-index 00c07455cbb3..a92f847f2394 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-@@ -223,72 +223,8 @@ struct cb_desc {
- #define MAX_IE_LEN  0xff
-
- // added for kernel conflict
--#define ieee80211_crypt_deinit_entries	ieee80211_crypt_deinit_entries_rsl
--#define ieee80211_crypt_deinit_handler	ieee80211_crypt_deinit_handler_rsl
--#define ieee80211_crypt_delayed_deinit	ieee80211_crypt_delayed_deinit_rsl
--#define ieee80211_register_crypto_ops	ieee80211_register_crypto_ops_rsl
--#define ieee80211_unregister_crypto_ops ieee80211_unregister_crypto_ops_rsl
--#define ieee80211_get_crypto_ops	ieee80211_get_crypto_ops_rsl
--
--#define ieee80211_ccmp_null		ieee80211_ccmp_null_rsl
--
--#define free_ieee80211			free_ieee80211_rsl
--#define alloc_ieee80211			alloc_ieee80211_rsl
--
--#define ieee80211_rx			ieee80211_rx_rsl
--#define ieee80211_rx_mgt		ieee80211_rx_mgt_rsl
--
--#define ieee80211_get_beacon		ieee80211_get_beacon_rsl
--#define ieee80211_wake_queue		ieee80211_wake_queue_rsl
--#define ieee80211_stop_queue		ieee80211_stop_queue_rsl
--#define ieee80211_reset_queue		ieee80211_reset_queue_rsl
--#define ieee80211_softmac_stop_protocol	ieee80211_softmac_stop_protocol_rsl
--#define ieee80211_softmac_start_protocol ieee80211_softmac_start_protocol_rsl
--#define ieee80211_is_shortslot		ieee80211_is_shortslot_rsl
--#define ieee80211_is_54g		ieee80211_is_54g_rsl
--#define ieee80211_wpa_supplicant_ioctl	ieee80211_wpa_supplicant_ioctl_rsl
--#define ieee80211_ps_tx_ack		ieee80211_ps_tx_ack_rsl
--#define ieee80211_softmac_xmit		ieee80211_softmac_xmit_rsl
--#define ieee80211_stop_send_beacons	ieee80211_stop_send_beacons_rsl
- #define notify_wx_assoc_event		notify_wx_assoc_event_rsl
- #define SendDisassociation		SendDisassociation_rsl
--#define ieee80211_disassociate		ieee80211_disassociate_rsl
--#define ieee80211_start_send_beacons	ieee80211_start_send_beacons_rsl
--#define ieee80211_stop_scan		ieee80211_stop_scan_rsl
--#define ieee80211_send_probe_requests	ieee80211_send_probe_requests_rsl
--#define ieee80211_softmac_scan_syncro	ieee80211_softmac_scan_syncro_rsl
--#define ieee80211_start_scan_syncro	ieee80211_start_scan_syncro_rsl
--
--#define ieee80211_wx_get_essid		ieee80211_wx_get_essid_rsl
--#define ieee80211_wx_set_essid		ieee80211_wx_set_essid_rsl
--#define ieee80211_wx_set_rate		ieee80211_wx_set_rate_rsl
--#define ieee80211_wx_get_rate		ieee80211_wx_get_rate_rsl
--#define ieee80211_wx_set_wap		ieee80211_wx_set_wap_rsl
--#define ieee80211_wx_get_wap		ieee80211_wx_get_wap_rsl
--#define ieee80211_wx_set_mode		ieee80211_wx_set_mode_rsl
--#define ieee80211_wx_get_mode		ieee80211_wx_get_mode_rsl
--#define ieee80211_wx_set_scan		ieee80211_wx_set_scan_rsl
--#define ieee80211_wx_get_freq		ieee80211_wx_get_freq_rsl
--#define ieee80211_wx_set_freq		ieee80211_wx_set_freq_rsl
--#define ieee80211_wx_set_rawtx		ieee80211_wx_set_rawtx_rsl
--#define ieee80211_wx_get_name		ieee80211_wx_get_name_rsl
--#define ieee80211_wx_set_power		ieee80211_wx_set_power_rsl
--#define ieee80211_wx_get_power		ieee80211_wx_get_power_rsl
--#define ieee80211_wlan_frequencies	ieee80211_wlan_frequencies_rsl
--#define ieee80211_wx_set_rts		ieee80211_wx_set_rts_rsl
--#define ieee80211_wx_get_rts		ieee80211_wx_get_rts_rsl
--
--#define ieee80211_txb_free		ieee80211_txb_free_rsl
--
--#define ieee80211_wx_set_gen_ie		ieee80211_wx_set_gen_ie_rsl
--#define ieee80211_wx_get_scan		ieee80211_wx_get_scan_rsl
--#define ieee80211_wx_set_encode		ieee80211_wx_set_encode_rsl
--#define ieee80211_wx_get_encode		ieee80211_wx_get_encode_rsl
--#define ieee80211_wx_set_mlme		ieee80211_wx_set_mlme_rsl
--#define ieee80211_wx_set_auth		ieee80211_wx_set_auth_rsl
--#define ieee80211_wx_set_encode_ext	ieee80211_wx_set_encode_ext_rsl
--#define ieee80211_wx_get_encode_ext	ieee80211_wx_get_encode_ext_rsl
--
-
- struct ieee_param {
- 	u32 cmd;
---
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index e985fc5fc575..6679d4037d6b 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -3823,7 +3823,7 @@ static void OnAction(struct adapter *padapter, struct recv_frame *precv_frame)
+ {
+ 	struct ieee80211_mgmt *mgmt = (struct ieee80211_mgmt *)precv_frame->rx_data;
+ 
+-	if (memcmp(myid(&padapter->eeprompriv), mgmt->da, ETH_ALEN))
++	if (!ether_addr_equal(myid(&padapter->eeprompriv), mgmt->da))
+ 		return;
+ 
+ 	switch (mgmt->u.action.category) {
+-- 
 2.30.2
-
-
 
