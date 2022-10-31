@@ -1,99 +1,96 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCED817CB6
-	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 03:54:25 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id z5-20020a17090a8b8500b00210a3a2364fso11986096pjn.0
-        for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 20:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vrjorLBlvDtmWtMSJKOwvcOGTL2TqDIUVSt7WPVuaGg=;
-        b=kxC/JHgD5g+3CdtjhcprQSYNsvW7ZfjvM7O8/VZrDSZ6xzM5VD1ENqgdVMAtHLpNvn
-         4Lpx9e6TFgCLM2Sv4Ujo30KCW0tjWYxRVqfdGf+xRHOCN506soQxcqBOH9P1au6xM8T3
-         bBx4ZisODvpk/FU1HMV6VMI2rGJIu0Ke/x+/RUstPdW5rcBBEUly34CUdOE2XPkD470O
-         0NJwu9xKy7cCGOHFuxEudkBQ7V9HCPVOATRBksYQuUt4TGoafbTGmo/ZZGrGptf9ZYzG
-         hwq/1s1OXs5gV6Po7eB+nlfKdVdDBx7ScvzCa4RDldzLs+coPmcr6nQ7oPaAbeph9RH4
-         kRrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vrjorLBlvDtmWtMSJKOwvcOGTL2TqDIUVSt7WPVuaGg=;
-        b=M5aJzDHhyCmF/tYijei8e2iDSi4kyL50WR7Lw2Iaws2CFuqJNuQw0WE1Ua+hExM7Z2
-         p4zFFopIgPuvmBAQ4jcAYn5KLKJ6zOug2/Ued/FU7QkH9G4lR9+wsibQp4r+hZJzgD42
-         V3MvXxbLFIyrX1axJkx4XvhQ37EiIuMxqSBeVI9gdPFGsw11xlDwyA7HEISqlLOEWjN1
-         NGYogdov9SyYVsEcUi+8gZSTP0cpuUH5K62R8J5x/YttURl76Xd9pSLUDS2n6d1l1l/w
-         UggSBVjwJv0kw7st0Ua5YHEvi8tvGuTms17tfeYuxZ3ch7oLfauGEzGuFBI/frjlfBcE
-         icHg==
-X-Gm-Message-State: ACrzQf1hsC67l4bQk47XsIgTqpfSgJCQ7Kw0NXnxECF4HSOkSyr9qpSA
-	dVlL3wxGY9J/vNbui8Bwok8=
-X-Google-Smtp-Source: AMsMyM5kp2e8NvsHp2XdASiuuGMQsvky9EELpwXRgZCNLWHCX16hweF8Nt6o+0Xy3gQAwzbejcE8zg==
-X-Received: by 2002:a17:902:e54e:b0:187:ba9:4305 with SMTP id n14-20020a170902e54e00b001870ba94305mr9109070plf.167.1667188465185;
-        Sun, 30 Oct 2022 20:54:25 -0700 (PDT)
-Received: from ?IPV6:2001:8003:d90f:f801:7164:b4e6:b90b:c4d5? ([2001:8003:d90f:f801:7164:b4e6:b90b:c4d5])
-        by smtp.gmail.com with ESMTPSA id z11-20020a1709027e8b00b00186f81a074fsm3332363pla.290.2022.10.30.20.54.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Oct 2022 20:54:24 -0700 (PDT)
-Message-ID: <67bef642-a301-e825-142c-afcfe8c898a1@gmail.com>
-Date: Mon, 31 Oct 2022 14:54:18 +1100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78D317CCE;
+	Mon, 31 Oct 2022 07:21:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667200906; bh=fEkcGv4YwJBOgvGb34R/II7LTO2Xc8lQDxRnl4xZAbQ=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=fT9iha+NV+wVMQgLXmYYJU64rPaVXitGlLxtTTyQuGnblzRH0+3ARfR5Bnr/M7woc
+	 dwuhAUny6NpdaM4ZWJMnfMtCGIyjqoOqSsuKtyU7saOPWL/a9u0JIVLJbPJTD6NdvM
+	 UJaCFByzRXgQoj8KyeTA1hayCHmcifaR4chKmEIw=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+	via [213.182.55.206]
+	Mon, 31 Oct 2022 08:21:46 +0100 (CET)
+X-EA-Auth: OMPKm0D6NR0UfEu61VC4V3zXIgDSyaMG14J/jya0ucpUTCrwEwb+wLUV9k6tqzTYmdxtASeyttk+Bd1SMzB+Xc4ydYgQbVyz
+Date: Mon, 31 Oct 2022 12:41:40 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	outreachy@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: Use ARRAY_SIZE() to get argument count
+Message-ID: <Y191LI7zKVRA5LEb@ubunlion>
+References: <Y1vZXUi0Bjiub8HZ@ubunlion>
+ <Y1zXIjCe3LGwApWD@kroah.com>
+ <Y11b0oCmle2pbRel@ubunlion>
+ <alpine.DEB.2.22.394.2210291931590.2917@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] staging: vchiq: add 'static' to function definition
-Content-Language: en-GB-large
-To: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-janitors@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221022043548.1671644-1-scottjcrouch@gmail.com>
- <Y1Okpjbi2kKU2GFz@kroah.com>
- <52599d6e-dc16-4186-9fb9-d17ce428fe9c@app.fastmail.com>
- <b874e6ff-6a19-410f-1fe8-2334a58f503a@gmail.com>
- <d64dc0b4-ba82-49f4-9a43-c50b735ad91d@app.fastmail.com>
-From: "Scott J. Crouch" <scottjcrouch@gmail.com>
-In-Reply-To: <d64dc0b4-ba82-49f4-9a43-c50b735ad91d@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2210291931590.2917@hadrien>
 
-On 30/10/22 21:46, Arnd Bergmann wrote:
-> Hmm, I see an of_node_put() between devm_rpi_firmware_get() and the
-> error check. With OF_DYNAMIC=y, this is an external function call, so
-> I guess gcc can no longer assume that drvdata->fw is NULL after that,
-> so it doesn't make this optimization.
+On Sat, Oct 29, 2022 at 07:34:26PM +0200, Julia Lawall wrote:
+>
+>
+> On Sat, 29 Oct 2022, Deepak R Varma wrote:
+>
+> > On Sat, Oct 29, 2022 at 09:32:50AM +0200, Greg Kroah-Hartman wrote:
+> > > On Fri, Oct 28, 2022 at 07:00:05PM +0530, Deepak R Varma wrote:
+> > > > The ARRAY_SIZE(foo) macro should be preferred over sizeof operator
+> > > > based computation such as sizeof(foo)/sizeof(foo[0]) for finding
+> > > > number of elements in an array. Issue identified using coccicheck.
+> > > >
+> > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > > > ---
+> > > >  drivers/staging/fbtft/fbtft.h | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+> > > > index 2c2b5f1c1df3..5506a473be91 100644
+> > > > --- a/drivers/staging/fbtft/fbtft.h
+> > > > +++ b/drivers/staging/fbtft/fbtft.h
+> > > > @@ -231,7 +231,7 @@ struct fbtft_par {
+> > > >  	bool polarity;
+> > > >  };
+> > > >
+> > > > -#define NUMARGS(...)  (sizeof((int[]){__VA_ARGS__}) / sizeof(int))
+> > > > +#define NUMARGS(...)  ARRAY_SIZE(((int[]){ __VA_ARGS__ }))
+> > >
+> > > Please please please test-build your patches before sending them out.
+> > > To not do so just wastes reviewer resources :(
+> >
+> > Hello Greg,
+> > I did build the .ko files by making the driver/staging/fbtft/ path. I verified
+> > .o and .ko files were built.
+> >
+> > I did a make clean just now and was again able to rebuild without any errors.
+> > Please see the attached log file.
+> >
+> > Is there something wrong with the way I am firing the build?
+>
+> The change is in the definition of a macro.  The compiler won't help you
+> in this case unless the macro is actually used in code that is compiled.
+> Find the uses and check for any nearby ifdefs.  For file foo.c you can
+> also do make foo.i to see the result of reducing ifdef and expanding
+> macros.  Then you can see if the code you changed is actually included in
+> the build.
 
-Ah, of course, you're right.
+Okay. This is helpful. I understand. Looking into the file where the macro
+expansion is reported to be failed.
 
-> Ok, I see. My best guess would be OF_DYNAMIC
+Thank you,
+./drv
 
-I checked and you are correct.
+>
+> julia
+>
 
-> but I don't actually see how that changes anything in this file
-
-Yeah.  I had a look as well and I'm similarly puzzled.
-
-> This would mean you only get a warning when both RASPBERRYPI_FIRMWARE
-> and OF_DYNAMIC are disabled. If you can confirm that, adding a dependency
-> on RASPBERRYPI_FIRMWARE is still the correct fix.
-
-It builds ok as long as OF_DYNAMIC is set; RASPBERRYPI_FIRMWARE doesn't need
-setting (maybe since devm_rpi_firmware_get() is a static inline it's optimized
-differently?).  Perhaps RASPBERRYPI_FIRMWARE ought to be made a dependency in
-any case, but since it depends on ARCH_BCM2835, doing so will mean one is
-unable to test-compile/run sparse on x86.  Which is fine; I wouldn't expect to
-be able to; I'm not really sure what accommodations (if any) are usually made
-in this regard with respect to drivers.
-
-Scott.
 
