@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DC62F27
-	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 16:49:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10BB1C433C1;
-	Mon, 31 Oct 2022 16:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3A32F27
+	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 16:52:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD29FC433C1;
+	Mon, 31 Oct 2022 16:52:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667234990;
-	bh=QI8zw9/JvSlOn+sVbxNRsxyM4n7AqGNg4R4xhEVvo7U=;
+	s=korg; t=1667235132;
+	bh=4LBbaOp5pkVKnJvh0thaErh2rpcgi2vvQSPR6sAuTmM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mMKVPWPzdFUgYyT3Rr/v9ennfGrHwgxl9RDutESfJaTt7gqd0PY0YMsVYDkpt3OEP
-	 B7+TYmfdYUDeeSKPqt+Z/CGkXD1gUySp+t4K2FGVV+d1sAhXO29EYxUKH7M05xu+ZH
-	 cvn9CidAEIhCB3PHbdMdbQn/hIQ1teS2znU0vW0M=
-Date: Mon, 31 Oct 2022 17:50:46 +0100
+	b=VH5KIN5cCvqym505CXMlogO9wxchEgnm9y4Z9IFmYdeQA5qPnO2DvjlEQObz0Vnoe
+	 WUABDQI32Rne0BsEdU81IWOcA2AZq9DbN6nODuiAaUBCcO22qqWG44YNjiHYdx/RLN
+	 KDL9nQN9v70o/8xO+8uM0r+/rY9jT1YovgvJ7dyo=
+Date: Mon, 31 Oct 2022 17:53:08 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: drake@draketalley.com
 Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
 	Coiby Xu <coiby.xu@gmail.com>, netdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] staging: qlge: replace msleep with usleep_range
-Message-ID: <Y1/85jGvMRAJ8bYh@kroah.com>
+Subject: Re: [PATCH 3/3] staging: qlge: add comment explaining memory barrier
+Message-ID: <Y1/9dMavegJ+bQza@kroah.com>
 References: <20221031142516.266704-1-drake@draketalley.com>
- <20221031142516.266704-3-drake@draketalley.com>
+ <20221031142516.266704-4-drake@draketalley.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,38 +30,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221031142516.266704-3-drake@draketalley.com>
+In-Reply-To: <20221031142516.266704-4-drake@draketalley.com>
 
-On Mon, Oct 31, 2022 at 10:25:15AM -0400, drake@draketalley.com wrote:
+On Mon, Oct 31, 2022 at 10:25:16AM -0400, drake@draketalley.com wrote:
 > From: Drake Talley <drake@draketalley.com>
 > 
-> Since msleep may delay for up to 20ms, usleep_range is recommended for
-> short durations in the docs linked in the below warning.  I set the
-> range to 1000-2000 based on looking at other usages of usleep_range.
+> codestyle change that fixes the following report from checkpatch:
 > 
-> Reported by checkpatch:
+> > WARNING: memory barrier without comment
+> > #2101: FILE: drivers/staging/qlge/qlge_main.c:2101:
 > 
-> WARNING: msleep < 20ms can sleep for up to 20ms; see Documentation/timers/timers-howto.rst
+> The added comment identifies the next item from the circular
+> buffer (rx_ring->curr_entry) and its handling/unmapping as the two
+> operations that must not be reordered.  Based on the kernel
+> documentation for memory barriers in circular buffers
+> (https://www.kernel.org/doc/Documentation/circular-buffers.txt) and
+> the presence of atomic operations in the current context I'm assuming
+> this usage of the memory barrier is akin to what is explained in the
+> linked doc.
+> 
+> There are a couple of other uncommented usages of memory barriers in
+> the current file.  If this comment is adequate I can add similar
+> comments to the others.
 > 
 > Signed-off-by: Drake Talley <drake@draketalley.com>
 > ---
->  drivers/staging/qlge/qlge_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/qlge/qlge_main.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 > diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> index 8c1fdd8ebba0..c8403dbb5bad 100644
+> index c8403dbb5bad..f70390bce6d8 100644
 > --- a/drivers/staging/qlge/qlge_main.c
 > +++ b/drivers/staging/qlge/qlge_main.c
-> @@ -3890,7 +3890,7 @@ static int qlge_close(struct net_device *ndev)
->  	 * (Rarely happens, but possible.)
->  	 */
->  	while (!test_bit(QL_ADAPTER_UP, &qdev->flags))
-> -		msleep(1);
-> +		usleep_range(1000, 2000);
+> @@ -2098,6 +2098,12 @@ static int qlge_clean_outbound_rx_ring(struct rx_ring *rx_ring)
+>  			     rx_ring->cq_id, prod, rx_ring->cnsmr_idx);
+>  
+>  		net_rsp = (struct qlge_ob_mac_iocb_rsp *)rx_ring->curr_entry;
+> +		/*
+> +		 * Ensure that the next item from the ring buffer is loaded
+> +		 * before being processed.
+> +		 * Adding rmb() prevents the compiler from reordering the read
+> +		 * and subsequent handling of the outbound completion pointer.
+> +		 */
 
-Please see the mailing list archives for why making this type of change
-without the hardware to test it is not a good idea.
+Which "next item"?
 
-sorry,
+>  		rmb();
+
+>  		switch (net_rsp->opcode) {
+
+So the opcode read is what you want to prevent from reordering?  Where
+is the other users of this that could have changed it?
+
+Changes like this are hard to determine if your comments are correct.
+We know what a rmb() does, the question that needs to be answered here
+is _why_ it is used here.  So try to step back and see if it really is
+needed at all.
+
+If it is needed, why?  And go from there on how to document this
+properly.
+
+thanks,
 
 greg k-h
