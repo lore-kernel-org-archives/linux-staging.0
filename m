@@ -1,79 +1,143 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283078F52
-	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 22:01:35 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id kt23so32781253ejc.7
-        for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 15:01:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D908F76
+	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 22:52:53 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id q9so33158478ejd.0
+        for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 15:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IHO3++iCZaM9dl+qOlhIzyeoPvBu+xAAp7dKYAWyoHk=;
-        b=jS2WTs2+y11Y1213da7iIpPNmNbAIyuag1zHt2xBmLP9j3e9U8QqkUdrtmpTPWqkns
-         o5OOzlXL1cytyPWtdE/kfR/JHxocrZdwy3J/sGKSNd3zfKCtCNLs1Dd4ap3sLDI5dTvx
-         cwn2tL+IDstSXgVCvigsSLxafMABFLCnBIVMqUouAO44a+KZxO1LRamFP1OWbGNTUD/6
-         AYpVRzbn9Mr8vhsO4W0BF0k1EBzOwO6r5uQE5/PXSwuswwxzFmjipKAhjlpQr9Oo8ZmV
-         WyYlw9lmj/JAOyyRVVUcw+5Ir3sS3XgiEbw1OZdeMn5tCbNXJD5J4snD7W4tfv3598P/
-         nDFA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UJIs643oAL5c/63LTolWUa5z+l7GDyqyf25JL0+db0E=;
+        b=mBFIrX7TMv9ObbTZdo12IujkhmRytwBezp5HbgU1xl8eyQ7ss1XehZrk9Oc58S5xcp
+         IuijQcvHRlMLRvTPbyd2+QX7iVyaecue/RyDvEry2UydgycpwAO1W5cyfxg9N/UM8vsN
+         jlb+z5rmAnyVRtPzbT3mGLMzw417S/KO8wKEjwSbBjzSeDN7Wm/6BK+smBJ8h1K2aMK2
+         MbzXMd3jNG5w+lh2sekm4NTNohB5X9shwYTvYEMLkpkXKddMKGm/Ir19zitmEmwa2UXF
+         Sm9KfWkYejUwbqAKh1WSmp7u9iIG0uAPA8o5qlt3xf7ql7tTRt+QsMUqQC0nQnYVr0w/
+         uEPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IHO3++iCZaM9dl+qOlhIzyeoPvBu+xAAp7dKYAWyoHk=;
-        b=oDdweC5SB9ydERXsm2lnslVhY0x2srhTBCOyyf7HV6umxlPiT66kXkwfmflq6wkbNF
-         50UmL01opCA501r45xFA6yQsAKS2joBZdDm2GT1c3xjv5+nVNDK5ZFqerTUEBRxHylL6
-         DXk1KKn17HKL4r35hkGS0ulV40vOM/qDUg2WdB0eVdIPxUbxrm667La37eDBGcOcxHtJ
-         tb8swk21np/070wD8Z5Tk36I6HCfNlu68/yvcbrVzcmA+wH8XxVDn4/FmkRvtAHbdPrR
-         lTSE9qj9tuwgB3wRKe3rOPOII4lwts6TVuPYI8pcBZXt9xF6u+XlRrLQlsBK8blya9r5
-         EhBQ==
-X-Gm-Message-State: ACrzQf25lMhvjbjvejguyYk6PTtaF4CMXvr80IGO4vvJJDX5LYgWn9To
-	DjL/XzD6AFq89ZJKgq8mOS4=
-X-Google-Smtp-Source: AMsMyM5P6MmwqkKSPM9M+x1tK/wnVylg/gHshyeXVJE4B+AJeXbYWTSoxXevEvh4cePHeeD6R6vo9w==
-X-Received: by 2002:a17:907:7704:b0:780:da38:4480 with SMTP id kw4-20020a170907770400b00780da384480mr15389478ejc.64.1667253693342;
-        Mon, 31 Oct 2022 15:01:33 -0700 (PDT)
-Received: from [192.168.1.102] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
-        by smtp.gmail.com with ESMTPSA id l7-20020a1709066b8700b007402796f065sm3454893ejr.132.2022.10.31.15.01.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Oct 2022 15:01:32 -0700 (PDT)
-Message-ID: <8bfd6953-a083-5dfc-e333-b8f979e6fcd7@gmail.com>
-Date: Mon, 31 Oct 2022 23:01:31 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UJIs643oAL5c/63LTolWUa5z+l7GDyqyf25JL0+db0E=;
+        b=jVIKJUciGk1k+bFjBLFy5AYjgwLaErjaM3+QIiKIU7CjXHZ9BX0teSFy5REARVZiT4
+         B6v4heukYGP5ZjjzSo8HwVam5116pJwDqlSduDNDot3m7+XgY2+Wal509z23TBeog/k3
+         lGHbEOE9SXEsjs0qL4J0P1wdkhXGtdikzSTk4GSOqzoDbbIgx++Fx2ip40gyKwBvlbxF
+         +l3PdMIQVu0KcoM2vO2/PKOnZGOrusuJy/Cxlc4bAEB7KICGSvS5A/t/4G8ojXYMJggt
+         BjwP/gWY3RmEudJwPWHpFVpR9dPI3ifXlGugLnOG8buqQt2ZYvLe0xBs9shHiXqqR2kr
+         Hw9A==
+X-Gm-Message-State: ACrzQf2/zoDnUpghjpbAclgOjHsCWHbsCS/JxL1udes0s/nGRwpvwCpi
+	GXaPrEggO3im8tluhzvi914=
+X-Google-Smtp-Source: AMsMyM7w8AzoadH2iGc6rbisb33dUQKpQylrnzfErOQ3aori+DoHmWVMutfUtFCxETGVgzKP5oMNSw==
+X-Received: by 2002:a17:907:761b:b0:7a3:86dd:d330 with SMTP id jx27-20020a170907761b00b007a386ddd330mr15142348ejc.34.1667256771828;
+        Mon, 31 Oct 2022 15:52:51 -0700 (PDT)
+Received: from ZBook.localdomain (86-90-194-80.fixed.kpn.net. [86.90.194.80])
+        by smtp.gmail.com with ESMTPSA id ux8-20020a170907cf8800b0078194737761sm3462098ejc.124.2022.10.31.15.52.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 15:52:51 -0700 (PDT)
+From: Jerom van der Sar <jerom.vandersar@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philip.g.hortmann@gmail.com,
+	error27@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jerom van der Sar <jerom.vandersar@gmail.com>
+Subject: [PATCH] staging: rtl8192e: cleanup coding style issues with spacing
+Date: Mon, 31 Oct 2022 23:51:55 +0100
+Message-Id: <20221031225155.15678-1-jerom.vandersar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/3] staging: r8188eu: clean up
- update_recvframe_phyinfo_88e
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20221031205412.124871-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221031205412.124871-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/31/22 21:54, Martin Kaiser wrote:
-> Here's three simple cleanups in the update_recvframe_phyinfo_88e function.
-> 
-> Martin Kaiser (3):
->    staging: r8188eu: use ether_addr_equal for address comparison
->    staging: r8188eu: use hdr->frame_control instead of fc
->    staging: r8188eu: use ieee80211_get_SA
-> 
->   drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-> 
+Fixed several coding style issues in rtl_cam.c such as double blank lines
+and lack of spaces around binary operators. It passes without trivial
+warnings about spaces. Some other warnings still remain.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Signed-off-by: Jerom van der Sar <jerom.vandersar@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.c | 25 +++++++++------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+index 41faeb4b9b9b..aeef735679db 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+@@ -17,7 +17,7 @@ void rtl92e_cam_reset(struct net_device *dev)
+ {
+ 	u32 ulcommand = 0;
+ 
+-	ulcommand |= BIT31|BIT30;
++	ulcommand |= BIT31 | BIT30;
+ 	rtl92e_writel(dev, RWCAM, ulcommand);
+ }
+ 
+@@ -40,7 +40,6 @@ void rtl92e_enable_hw_security_config(struct net_device *dev)
+ 		SECR_value |= SCR_TxUseDK;
+ 	}
+ 
+-
+ 	ieee->hwsec_active = 1;
+ 	if ((ieee->pHTInfo->iot_action & HT_IOT_ACT_PURE_N_MODE) || !hwwep) {
+ 		ieee->hwsec_active = 0;
+@@ -100,33 +99,32 @@ void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
+ 	}
+ 
+ 	if (DefaultKey)
+-		usConfig |= BIT15 | (KeyType<<2);
++		usConfig |= BIT15 | (KeyType << 2);
+ 	else
+-		usConfig |= BIT15 | (KeyType<<2) | KeyIndex;
+-
++		usConfig |= BIT15 | (KeyType << 2) | KeyIndex;
+ 
+ 	for (i = 0; i < CAM_CONTENT_COUNT; i++) {
+ 		TargetCommand  = i + CAM_CONTENT_COUNT * EntryNo;
+-		TargetCommand |= BIT31|BIT16;
++		TargetCommand |= BIT31 | BIT16;
+ 
+ 		if (i == 0) {
+-			TargetContent = (u32)(*(MacAddr+0)) << 16 |
+-				(u32)(*(MacAddr+1)) << 24 |
++			TargetContent = (u32)(*(MacAddr + 0)) << 16 |
++				(u32)(*(MacAddr + 1)) << 24 |
+ 				(u32)usConfig;
+ 
+ 			rtl92e_writel(dev, WCAMI, TargetContent);
+ 			rtl92e_writel(dev, RWCAM, TargetCommand);
+ 		} else if (i == 1) {
+-			TargetContent = (u32)(*(MacAddr+2)) |
+-				(u32)(*(MacAddr+3)) <<  8 |
+-				(u32)(*(MacAddr+4)) << 16 |
+-				(u32)(*(MacAddr+5)) << 24;
++			TargetContent = (u32)(*(MacAddr + 2)) |
++				(u32)(*(MacAddr + 3)) <<  8 |
++				(u32)(*(MacAddr + 4)) << 16 |
++				(u32)(*(MacAddr + 5)) << 24;
+ 			rtl92e_writel(dev, WCAMI, TargetContent);
+ 			rtl92e_writel(dev, RWCAM, TargetCommand);
+ 		} else {
+ 			if (KeyContent != NULL) {
+ 				rtl92e_writel(dev, WCAMI,
+-					      (u32)(*(KeyContent+i-2)));
++					      (u32)(*(KeyContent + i - 2)));
+ 				rtl92e_writel(dev, RWCAM, TargetCommand);
+ 				udelay(100);
+ 			}
+@@ -152,7 +150,6 @@ void rtl92e_cam_restore(struct net_device *dev)
+ 
+ 	if ((priv->rtllib->pairwise_key_type == KEY_TYPE_WEP40) ||
+ 	    (priv->rtllib->pairwise_key_type == KEY_TYPE_WEP104)) {
+-
+ 		for (EntryId = 0; EntryId < 4; EntryId++) {
+ 			MacAddr = CAM_CONST_ADDR[EntryId];
+ 			if (priv->rtllib->swcamtable[EntryId].bused) {
+-- 
+2.34.1
+
