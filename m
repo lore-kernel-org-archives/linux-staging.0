@@ -1,116 +1,99 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0BB8F5E
-	for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 19:15:42 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id q9so24821361ejd.0
-        for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 12:15:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCED817CB6
+	for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 03:54:25 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id z5-20020a17090a8b8500b00210a3a2364fso11986096pjn.0
+        for <linux-staging@lists.linux.dev>; Sun, 30 Oct 2022 20:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WCt//reQCph6olqDoKtED7itGlrW7yrg5Li1Wffc30A=;
-        b=W6b1rTaklPfa16uZMAp2Ndof1pbYMCMUcVa/FB6uMEujB2tSJISZhhS+Mk/7JHhxF3
-         TeNgUOJpv99D+hS5I73n+w8e9qTh2OGSpOke+4fAHExS6Rzk6OKbTxgD+t0wIB2Sw803
-         uroft+ddfcLuEjrNZ3rVgn1D/psr47583WyLAkVokqwVn7n1cspz2Qv5ESM6RNbOZIaA
-         ypw+E8P/dox+CZAVXSHrCA5PXfVg/Osa3JHC8tMLY/wps/QS4i6dS8rkYVFxgk4igtEu
-         H809QfVM5E2vOPei8Ckl2gmUVnUV1KZXnPdN2mQj0uGjxNrKyDiM8RvYuY1CcMuiAp0T
-         ILmg==
+        bh=vrjorLBlvDtmWtMSJKOwvcOGTL2TqDIUVSt7WPVuaGg=;
+        b=kxC/JHgD5g+3CdtjhcprQSYNsvW7ZfjvM7O8/VZrDSZ6xzM5VD1ENqgdVMAtHLpNvn
+         4Lpx9e6TFgCLM2Sv4Ujo30KCW0tjWYxRVqfdGf+xRHOCN506soQxcqBOH9P1au6xM8T3
+         bBx4ZisODvpk/FU1HMV6VMI2rGJIu0Ke/x+/RUstPdW5rcBBEUly34CUdOE2XPkD470O
+         0NJwu9xKy7cCGOHFuxEudkBQ7V9HCPVOATRBksYQuUt4TGoafbTGmo/ZZGrGptf9ZYzG
+         hwq/1s1OXs5gV6Po7eB+nlfKdVdDBx7ScvzCa4RDldzLs+coPmcr6nQ7oPaAbeph9RH4
+         kRrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WCt//reQCph6olqDoKtED7itGlrW7yrg5Li1Wffc30A=;
-        b=IECOX8yoBefwpklAi69ebjWt5ifwR+aR1tV4Vh191GTeSPc9P7v80KQovg3lNir59X
-         c0/G2voKDTlm4apGD1QQCQ0Pxfs/KOXELjT93Q01iHkXRKPlXJNo8Qwxkm4FemWTG+Tq
-         v7Fj4F0gBFK5fmMC0IYviqTLCzvgw8dhvSfb9veFVHcbKbNA20Lx6L3TBtv+OlD3/85Q
-         lPnTz7gyFAn1sQOKWJdigEMbZduecBs36ioVmAMkOPhNAoRXlo9xUTXcaxarcSZY1wil
-         Wj1bpm8/lVjbTOmDZ8cCLEoq/gOb1Hru00hx1k24c4i/HD9c4Sx5l05zgNYcvtMrNP8L
-         chXw==
-X-Gm-Message-State: ACrzQf34nqMmdfqwcemNH0QcALryIzaZxMpxHpsPLqEaInn0dGqHM/9t
-	LGGWFaA84yQq6kFoaouzDl0=
-X-Google-Smtp-Source: AMsMyM6v6VmlO+ju8JeVienNERY/Zhv62XiVmwS1oScww+yPkbn76f46Xgf3QkI7vg/n0cn6KKLMpg==
-X-Received: by 2002:a17:906:9be3:b0:7ad:d3a4:9df3 with SMTP id de35-20020a1709069be300b007add3a49df3mr1023758ejc.682.1667157340784;
-        Sun, 30 Oct 2022 12:15:40 -0700 (PDT)
-Received: from [192.168.1.102] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
-        by smtp.gmail.com with ESMTPSA id ss23-20020a170907039700b0077a201f6d1esm2099475ejb.87.2022.10.30.12.15.39
+        bh=vrjorLBlvDtmWtMSJKOwvcOGTL2TqDIUVSt7WPVuaGg=;
+        b=M5aJzDHhyCmF/tYijei8e2iDSi4kyL50WR7Lw2Iaws2CFuqJNuQw0WE1Ua+hExM7Z2
+         p4zFFopIgPuvmBAQ4jcAYn5KLKJ6zOug2/Ued/FU7QkH9G4lR9+wsibQp4r+hZJzgD42
+         V3MvXxbLFIyrX1axJkx4XvhQ37EiIuMxqSBeVI9gdPFGsw11xlDwyA7HEISqlLOEWjN1
+         NGYogdov9SyYVsEcUi+8gZSTP0cpuUH5K62R8J5x/YttURl76Xd9pSLUDS2n6d1l1l/w
+         UggSBVjwJv0kw7st0Ua5YHEvi8tvGuTms17tfeYuxZ3ch7oLfauGEzGuFBI/frjlfBcE
+         icHg==
+X-Gm-Message-State: ACrzQf1hsC67l4bQk47XsIgTqpfSgJCQ7Kw0NXnxECF4HSOkSyr9qpSA
+	dVlL3wxGY9J/vNbui8Bwok8=
+X-Google-Smtp-Source: AMsMyM5kp2e8NvsHp2XdASiuuGMQsvky9EELpwXRgZCNLWHCX16hweF8Nt6o+0Xy3gQAwzbejcE8zg==
+X-Received: by 2002:a17:902:e54e:b0:187:ba9:4305 with SMTP id n14-20020a170902e54e00b001870ba94305mr9109070plf.167.1667188465185;
+        Sun, 30 Oct 2022 20:54:25 -0700 (PDT)
+Received: from ?IPV6:2001:8003:d90f:f801:7164:b4e6:b90b:c4d5? ([2001:8003:d90f:f801:7164:b4e6:b90b:c4d5])
+        by smtp.gmail.com with ESMTPSA id z11-20020a1709027e8b00b00186f81a074fsm3332363pla.290.2022.10.30.20.54.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Oct 2022 12:15:40 -0700 (PDT)
-Message-ID: <3aa15459-6e0b-7101-178c-424a066b7dbc@gmail.com>
-Date: Sun, 30 Oct 2022 20:15:38 +0100
+        Sun, 30 Oct 2022 20:54:24 -0700 (PDT)
+Message-ID: <67bef642-a301-e825-142c-afcfe8c898a1@gmail.com>
+Date: Mon, 31 Oct 2022 14:54:18 +1100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 00/13] staging: r8188eu: clean up action frame handlers
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20221030173326.1588647-1-martin@kaiser.cx>
- <e032d410-60ed-9e0b-2818-bb849adebc78@gmail.com>
- <20221030184840.2root56lrro57xo5@viti.kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221030184840.2root56lrro57xo5@viti.kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] staging: vchiq: add 'static' to function definition
+Content-Language: en-GB-large
+To: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Florian Fainelli <f.fainelli@gmail.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, kernel-janitors@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221022043548.1671644-1-scottjcrouch@gmail.com>
+ <Y1Okpjbi2kKU2GFz@kroah.com>
+ <52599d6e-dc16-4186-9fb9-d17ce428fe9c@app.fastmail.com>
+ <b874e6ff-6a19-410f-1fe8-2334a58f503a@gmail.com>
+ <d64dc0b4-ba82-49f4-9a43-c50b735ad91d@app.fastmail.com>
+From: "Scott J. Crouch" <scottjcrouch@gmail.com>
+In-Reply-To: <d64dc0b4-ba82-49f4-9a43-c50b735ad91d@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/30/22 19:48, Martin Kaiser wrote:
-> Thus wrote Philipp Hortmann (philipp.g.hortmann@gmail.com):
-> 
->> On 10/30/22 18:33, Martin Kaiser wrote:
->>> Clean up the handlers for action frames. Summarize common code, remove
->>> unnecessary return values.
-> 
->>> Please apply this on top of the "remove the last get_da calls" series.
-> 
->>> Changes in v2
->>> - remove on_action_public's ret variable in patch 3, not in patch 9
-> 
->>> Martin Kaiser (13):
->>>     staging: r8188eu: replace a GetAddr1Ptr call
->>>     staging: r8188eu: remove duplicate category check
->>>     staging: r8188eu: make on_action_public static void
->>>     staging: r8188eu: make OnAction_back static void
->>>     staging: r8188eu: make OnAction_p2p static void
->>>     staging: r8188eu: remove category check in OnAction_p2p
->>>     staging: r8188eu: replace switch-case with if
->>>     staging: r8188eu: replace GetAddr1Ptr call in OnAction_p2p
->>>     staging: r8188eu: clean up on_action_public
->>>     staging: r8188eu: remove return value from on_action_public_vendor
->>>     staging: r8188eu: remove return value from on_action_public_default
->>>     staging: r8188eu: rtw_action_public_decache's token is a u8
->>>     staging: r8188eu: check destination address in OnAction
-> 
->>>    drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 116 +++++-------------
->>>    .../staging/r8188eu/include/rtw_mlme_ext.h    |   7 --
->>>    2 files changed, 28 insertions(+), 95 deletions(-)
-> 
-> 
->> Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
-> 
-> Thanks, Philipp.
-> 
-> I just realized that I forgot to add your Tested-by from the previous
-> version. The final code hasn't changed in v2, only the intermediate
-> steps were fixed.
-> 
-> Martin
+On 30/10/22 21:46, Arnd Bergmann wrote:
+> Hmm, I see an of_node_put() between devm_rpi_firmware_get() and the
+> error check. With OF_DYNAMIC=y, this is an external function call, so
+> I guess gcc can no longer assume that drvdata->fw is NULL after that,
+> so it doesn't make this optimization.
 
-Hi Martin,
+Ah, of course, you're right.
 
-thanks for the offer but I prefer to test each new version by myself.
+> Ok, I see. My best guess would be OF_DYNAMIC
 
-I do trust you a lot but mistakes can always happen.
+I checked and you are correct.
 
-Bye Philipp
+> but I don't actually see how that changes anything in this file
+
+Yeah.  I had a look as well and I'm similarly puzzled.
+
+> This would mean you only get a warning when both RASPBERRYPI_FIRMWARE
+> and OF_DYNAMIC are disabled. If you can confirm that, adding a dependency
+> on RASPBERRYPI_FIRMWARE is still the correct fix.
+
+It builds ok as long as OF_DYNAMIC is set; RASPBERRYPI_FIRMWARE doesn't need
+setting (maybe since devm_rpi_firmware_get() is a static inline it's optimized
+differently?).  Perhaps RASPBERRYPI_FIRMWARE ought to be made a dependency in
+any case, but since it depends on ARCH_BCM2835, doing so will mean one is
+unable to test-compile/run sparse on x86.  Which is fine; I wouldn't expect to
+be able to; I'm not really sure what accommodations (if any) are usually made
+in this regard with respect to drivers.
+
+Scott.
+
