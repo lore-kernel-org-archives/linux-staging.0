@@ -1,52 +1,52 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104437C;
-	Tue,  1 Nov 2022 12:38:32 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id d6so23340635lfs.10;
-        Tue, 01 Nov 2022 05:38:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430557C;
+	Tue,  1 Nov 2022 12:38:38 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id j14so20659897ljh.12;
+        Tue, 01 Nov 2022 05:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iH9vhU7zv5GDc91Wl04v1T86uct201Qybf+k0VYUxHY=;
-        b=EjZ6e9OVZvrI71SL4MWaxmryGcntIUx9723MW27hUMhjG+dn5Lv5KBAVfTUaImKFe9
-         veyEUi93Njbdqj6+lzd/Qr3ll83KrIFT3twvl8CWAhm4i4gdTuLQ+OIbxjyhSOOK2Yfb
-         wSTN63ulqw2GzsPl0DYqh6ZPbFT3/6o/7XiJItmVatnpNHMy6VUV+71i0BSfknMZLCwk
-         OeDF4zRda9EjgdkpS3/GYkBRpvJVbjc1CUxgoPDTqJgeYfNlvDoNW7FV2N2PZHheNSwj
-         xZG9Bq6iWk0XM3L9IL4OS/7qfwn5gdstZGBcDa32zf8iTQXvUbitfNI53G7M1Nbs9YBs
-         9T6A==
+        bh=ZlF0TxgQdB9El9HMgVNkTNkSGlJ7JQkiUcra0SV3NJs=;
+        b=RiuNuV6nMsbcTgUz7pjtL2BQMXHduzlKBqVSBRHcEKIXtt6nlr7VSsLb7k4YT5/yQZ
+         WGx2IqMXqzn3eWQpRJuYMPrzBy3wP/fr76BFRBTTEOTwC+7ARRauDtTnwtwL+oJvAmtc
+         unDPCbIsyxnmymgUzTRv4XD9KR6YGp8FrrRlFOVHTBN0H1JdkN+vJ55C4zk1YcUtAHbo
+         977nnMtd8y5A431ynshkAfwOKwVlvsKjicaeHGzD1Afv47SUYtNxjLc97eZ3grwQfHQ/
+         xAxabuXGh1Cuaydtgd8vkweYX14ssjGPbBwOvVbfGpuDckDsitmarZXfxvSIDC0Z+1Nc
+         CDiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iH9vhU7zv5GDc91Wl04v1T86uct201Qybf+k0VYUxHY=;
-        b=tNwvvBDXlbjkFfBGLR96oWuwOARTY5ZH+L6CZrPcAI5LaOohYaXTJ+iTdFHDpN/1E9
-         xjLL8+ozP0Kg4ovQ9bMqmsfbBqNZvTXgOw/k3MAkzTLkylZ7qlN6CmgutpRCV7KNuAB4
-         AuTYXJZ3QOrWOmdd1hcUELb9qzEa0kU/DFnOdBAWykjEA39Vft/CKdx26tOhquP78hzK
-         jlgVmO2NgwR/CHDydRqvuHjkmq3pCgF7eqNofJ/+8GQE2eMuINmqCHtDs7qqf+6YHXlG
-         PfMn4fqN7amU/9CCm/gp/IP1kQUcidNfzpf0r85ry0Nr+bd0b/bRe7b1GoJy5I/ymzbu
-         p7xg==
-X-Gm-Message-State: ACrzQf2QYF9kqcaeBhHUH0SXAx8/wmcZ9g7cbe2At+uaAOZ2WXeUl73E
-	JxauN80zHDlvy7qb0hMJxq18ker84I+Nog==
-X-Google-Smtp-Source: AMsMyM6xU01iBBnD4wgyTps3ciOLOEnhuAAcCU9m9LJnE4Qb5Lh0e1ZnMCt3TI18lfpEhD/vrHFUFg==
-X-Received: by 2002:a05:6512:16a9:b0:4a0:349d:d30c with SMTP id bu41-20020a05651216a900b004a0349dd30cmr6843068lfb.149.1667306310957;
-        Tue, 01 Nov 2022 05:38:30 -0700 (PDT)
+        bh=ZlF0TxgQdB9El9HMgVNkTNkSGlJ7JQkiUcra0SV3NJs=;
+        b=HaXFC0KsA39erfzm+rXnv0Lrgy0oCtAeOF3wKxiVv1rYLvdS3GZgkNY0H/+rE5SQOh
+         gPm2+TWDNMwfzkrz+sZyAuoztI6bMdnMuJ9HvXK6yk8aiZndAP86WU8x6Muib/sxuY7V
+         TYF6VE1m6WUtsey2SotBu9D+pOHuWSIBmArKVLyBNKJJR+KHZ4k/JdokDZAeZbVpIAH/
+         C1FfZYfP63rae9P8wQMQFyroVy8u8vMWXbExi0mFZVNdl13wWxIgY/1FXIjkoaghVWP0
+         6obBPsIGKUFnyvtetJWmocWWOfbhgaQtuczrx+Dais0806cGd6Mi4PVzsFa6GdOwQulK
+         lqLw==
+X-Gm-Message-State: ACrzQf3y5IdVWzELA3ZdSg6OarL6OiRrT2XvuqdE9dCVSllVRvclkA9G
+	QXE8MJ2XY3U4ohKgMkWVbnw=
+X-Google-Smtp-Source: AMsMyM7nNIiARjaLTsBqKh2XT1ggp+KS7+iocKtcVW5UZrOI+mCtoJ//DXkSrajuYUgAQEspsj0ziw==
+X-Received: by 2002:a2e:9018:0:b0:277:a4e:98f2 with SMTP id h24-20020a2e9018000000b002770a4e98f2mr829467ljg.358.1667306316170;
+        Tue, 01 Nov 2022 05:38:36 -0700 (PDT)
 Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
-        by smtp.googlemail.com with ESMTPSA id p21-20020a2eb7d5000000b0026e897e3236sm1771625ljo.6.2022.11.01.05.38.30
+        by smtp.googlemail.com with ESMTPSA id p21-20020a2eb7d5000000b0026e897e3236sm1771625ljo.6.2022.11.01.05.38.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 05:38:30 -0700 (PDT)
+        Tue, 01 Nov 2022 05:38:35 -0700 (PDT)
 From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Subject: [PATCH v2 1/2] change the function name s_vFillRTSHead
-Date: Tue,  1 Nov 2022 12:37:59 +0000
-Message-Id: <ea25c687d28f5cf40c315b8191d98fa0608f8a76.1667305446.git.tanjubrunostar0@gmail.com>
+Subject: [PATCH v2 2/2] Join some lines of code to avoid code lines ending in (
+Date: Tue,  1 Nov 2022 12:38:00 +0000
+Message-Id: <04122308bf02e5c99329f120fe076bcffc16b08f.1667305446.git.tanjubrunostar0@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1667305446.git.tanjubrunostar0@gmail.com>
 References: <cover.1667305446.git.tanjubrunostar0@gmail.com>
@@ -58,78 +58,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the use of Hungarian notation, which is not used in the Linux
-kernel. Reported by checkpatch
+Fix checkpatch error related to code line ends with a '(', by joining
+some lines and indenting correctly. This improves visibility
 
 Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 ---
- drivers/staging/vt6655/rxtx.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/staging/vt6655/rxtx.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 31ae99b3cb35..d7e439cd8675 100644
+index d7e439cd8675..df7473155704 100644
 --- a/drivers/staging/vt6655/rxtx.c
 +++ b/drivers/staging/vt6655/rxtx.c
-@@ -23,7 +23,7 @@
-  *      s_uGetTxRsvTime- get frame reserved time
-  *      s_vFillCTSHead- fulfill CTS ctl header
-  *      s_vFillFragParameter- Set fragment ctl parameter.
-- *      s_vFillRTSHead- fulfill RTS ctl header
-+ *      fill_rts_head- fulfill RTS ctl header
-  *      s_vFillTxKey- fulfill tx encrypt key
-  *      s_vSWencryption- Software encrypt header
-  *      vDMA0_tx_80211- tx 802.11 frame via dma0
-@@ -85,15 +85,15 @@ static const unsigned short fb_opt1[2][5] = {
- #define DATADUR_A_F1    13
+@@ -555,19 +555,15 @@ s_uFillDataHead(
+ 	return buf->duration;
+ }
  
- /*---------------------  Static Functions  --------------------------*/
--static void s_vFillRTSHead(struct vnt_private *pDevice,
--			   unsigned char byPktType,
--			   void *pvRTS,
--			   unsigned int	cbFrameLength,
--			   bool bNeedAck,
--			   bool bDisCRC,
--			   struct ieee80211_hdr *hdr,
--			   unsigned short wCurrentRate,
--			   unsigned char byFBOption);
+-static
+-void
+-s_vFillRTSHead(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	void *pvRTS,
+-	unsigned int cbFrameLength,
+-	bool bNeedAck,
+-	bool bDisCRC,
+-	struct ieee80211_hdr *hdr,
+-	unsigned short wCurrentRate,
+-	unsigned char byFBOption
+-)
 +static void fill_rts_head(struct vnt_private *pDevice,
 +			  unsigned char byPktType,
 +			  void *pvRTS,
-+			  unsigned int	cbFrameLength,
++			  unsigned int cbFrameLength,
 +			  bool bNeedAck,
 +			  bool bDisCRC,
 +			  struct ieee80211_hdr *hdr,
 +			  unsigned short wCurrentRate,
-+			  unsigned char byFBOption);
- 
- static void s_vGenerateTxParameter(struct vnt_private *pDevice,
- 				   unsigned char byPktType,
-@@ -912,7 +912,7 @@ s_vGenerateTxParameter(
- 			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
- 			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
- 
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			fill_rts_head(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
- 		} else {/* RTS_needless, PCF mode */
- 			struct vnt_rrv_time_cts *buf = pvRrvTime;
- 
-@@ -931,7 +931,7 @@ s_vGenerateTxParameter(
- 			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
- 
- 			/* Fill RTS */
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			fill_rts_head(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
- 		} else if (!pvRTS) {/* RTS_needless, non PCF mode */
- 			struct vnt_rrv_time_ab *buf = pvRrvTime;
- 
-@@ -945,7 +945,7 @@ s_vGenerateTxParameter(
- 			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
- 
- 			/* Fill RTS */
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			fill_rts_head(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
- 		} else { /* RTS_needless, non PCF mode */
- 			struct vnt_rrv_time_ab *buf = pvRrvTime;
++			  unsigned char byFBOption)
+ {
+ 	unsigned int uRTSFrameLen = 20;
  
 -- 
 2.34.1
