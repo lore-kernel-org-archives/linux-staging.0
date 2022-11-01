@@ -1,70 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE727E
-	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 11:31:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F1CC433C1;
-	Tue,  1 Nov 2022 11:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667302309;
-	bh=qfPtwSHuxdqmU3RDuO0CxE1LqMmqchKl638v/0OFALY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fBQaZwFaHIjp2RhSGm3IQ0KZHMSpNypMF/3RAZ0p7WkA1d+PpdQdrANanYs9hyAXp
-	 qcbbI6Ftuwj0kkMSjQgDCXBibt7WicGd/P4PoAsNoa9Eo3ZD8Pc0ssralBhEJuY7uK
-	 aLLGYrr+hPj+IZyrkv4yVs/ztFO+VFPUrAQMZhOwT9/owuesz4r0oKd8HETkqvqnf6
-	 MFUeWY3ff6G5W27GWxbSEwd7AWcMctMflSYOtvB3XxPuexZbeiITIsTgkoium4ETTM
-	 BkPU5jfiWrf3NBzCzZjQrjKaaz44Xy6FaHCHCHiCTh5TqsxCo2UACoVwHp5Sr1gSsk
-	 piqUq7jnjOyDA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.9 1/3] media: s5p_cec: limit msg.len to CEC_MAX_MSG_SIZE
-Date: Tue,  1 Nov 2022 07:31:43 -0400
-Message-Id: <20221101113147.801048-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2491C1843;
+	Tue,  1 Nov 2022 11:32:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=V6n2MWOOY0pZymd4oI7C3sh0yOHwVS9t/O1/Ve2U86c=;
+  b=iJhovUMRxnlYU7s9ovRxCni5GeoF71yAaxNNqL1NVoxvHC/+Fwgioc7d
+   Upt8+wJ4uLADBi+txphErOkCuGqpKjJtSGwOXrv9PhJmUuOA55aQ8+Zar
+   77uUwzxk/5IbfNtiDdPeM7cPGYYAa3Vml3Cy14tiFnzA5ANi9lsCUn+bD
+   A=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.95,230,1661810400"; 
+   d="scan'208";a="36170295"
+Received: from 51.123.68.85.rev.sfr.net (HELO hadrien) ([85.68.123.51])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 12:32:49 +0100
+Date: Tue, 1 Nov 2022 12:32:48 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH 1/2] change the function name s_vFillRTSHead
+In-Reply-To: <16e1033e32dd5a82e058c7c69ea2ec93800a30b7.1667300134.git.tanjubrunostar0@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2211011232260.2834@hadrien>
+References: <cover.1667300134.git.tanjubrunostar0@gmail.com> <16e1033e32dd5a82e058c7c69ea2ec93800a30b7.1667300134.git.tanjubrunostar0@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 93f65ce036863893c164ca410938e0968964b26c ]
 
-I expect that the hardware will have limited this to 16, but just in
-case it hasn't, check for this corner case.
+On Tue, 1 Nov 2022, Tanjuate Brunostar wrote:
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/staging/media/s5p-cec/s5p_cec.c | 2 ++
- 1 file changed, 2 insertions(+)
+> Remove the use of Hungarian notation, which is not used in the Linux
+> kernel
 
-diff --git a/drivers/staging/media/s5p-cec/s5p_cec.c b/drivers/staging/media/s5p-cec/s5p_cec.c
-index bebd44d9bd51..f6d1d98431a7 100644
---- a/drivers/staging/media/s5p-cec/s5p_cec.c
-+++ b/drivers/staging/media/s5p-cec/s5p_cec.c
-@@ -112,6 +112,8 @@ static irqreturn_t s5p_cec_irq_handler(int irq, void *priv)
- 				dev_dbg(cec->dev, "Buffer overrun (worker did not process previous message)\n");
- 			cec->rx = STATE_BUSY;
- 			cec->msg.len = status >> 24;
-+			if (cec->msg.len > CEC_MAX_MSG_SIZE)
-+				cec->msg.len = CEC_MAX_MSG_SIZE;
- 			cec->msg.rx_status = CEC_RX_STATUS_OK;
- 			s5p_cec_get_rx_buf(cec, cec->msg.len,
- 					cec->msg.msg);
--- 
-2.35.1
+Period at the end of the sentence.  It woudl still be good to acknowledge
+checkpatch.
 
+julia
+
+>
+> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+> ---
+>  drivers/staging/vt6655/rxtx.c | 26 +++++++++++++-------------
+>  1 file changed, 13 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index 31ae99b3cb35..d7e439cd8675 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -23,7 +23,7 @@
+>   *      s_uGetTxRsvTime- get frame reserved time
+>   *      s_vFillCTSHead- fulfill CTS ctl header
+>   *      s_vFillFragParameter- Set fragment ctl parameter.
+> - *      s_vFillRTSHead- fulfill RTS ctl header
+> + *      fill_rts_head- fulfill RTS ctl header
+>   *      s_vFillTxKey- fulfill tx encrypt key
+>   *      s_vSWencryption- Software encrypt header
+>   *      vDMA0_tx_80211- tx 802.11 frame via dma0
+> @@ -85,15 +85,15 @@ static const unsigned short fb_opt1[2][5] = {
+>  #define DATADUR_A_F1    13
+>
+>  /*---------------------  Static Functions  --------------------------*/
+> -static void s_vFillRTSHead(struct vnt_private *pDevice,
+> -			   unsigned char byPktType,
+> -			   void *pvRTS,
+> -			   unsigned int	cbFrameLength,
+> -			   bool bNeedAck,
+> -			   bool bDisCRC,
+> -			   struct ieee80211_hdr *hdr,
+> -			   unsigned short wCurrentRate,
+> -			   unsigned char byFBOption);
+> +static void fill_rts_head(struct vnt_private *pDevice,
+> +			  unsigned char byPktType,
+> +			  void *pvRTS,
+> +			  unsigned int	cbFrameLength,
+> +			  bool bNeedAck,
+> +			  bool bDisCRC,
+> +			  struct ieee80211_hdr *hdr,
+> +			  unsigned short wCurrentRate,
+> +			  unsigned char byFBOption);
+>
+>  static void s_vGenerateTxParameter(struct vnt_private *pDevice,
+>  				   unsigned char byPktType,
+> @@ -912,7 +912,7 @@ s_vGenerateTxParameter(
+>  			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
+>  			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
+>
+> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+> +			fill_rts_head(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+>  		} else {/* RTS_needless, PCF mode */
+>  			struct vnt_rrv_time_cts *buf = pvRrvTime;
+>
+> @@ -931,7 +931,7 @@ s_vGenerateTxParameter(
+>  			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
+>
+>  			/* Fill RTS */
+> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+> +			fill_rts_head(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+>  		} else if (!pvRTS) {/* RTS_needless, non PCF mode */
+>  			struct vnt_rrv_time_ab *buf = pvRrvTime;
+>
+> @@ -945,7 +945,7 @@ s_vGenerateTxParameter(
+>  			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
+>
+>  			/* Fill RTS */
+> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+> +			fill_rts_head(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
+>  		} else { /* RTS_needless, non PCF mode */
+>  			struct vnt_rrv_time_ab *buf = pvRrvTime;
+>
+> --
+> 2.34.1
+>
+>
+>
