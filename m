@@ -1,33 +1,32 @@
 Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03296631;
-	Tue,  1 Nov 2022 08:39:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE3D631;
+	Tue,  1 Nov 2022 08:43:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=Od/uiMYSX3xApsTiRyOIA9wZRUzo3nbEDUya5/r31Rg=;
-  b=eMffM7TbSdYwhftrA1QNx0mKcRQwJeBhb1bEDqGZyW9oDHCqklF7SEWS
-   3aWqE2eeqFXdVBAMZGrpRM1JMVmpUWyyayIMPTB54OW381SZpmxrq4Y7Z
-   bVbWgZqaxRtdgYHWe15pBlxDpoF++slB0mvZq9PNfzJKDP/cHgh0IV77n
-   Y=;
+  bh=wM1mxNTDtcUairCqBrzy8WxTnxIB4SujjebDqIvqZu4=;
+  b=WErk21H6rbeVJ2neJoBo7FqqC41EOY9IdoXV49POgQtG7NmEjnlFa2nB
+   PJgv3VCZ1tZxyQn6453/9lGY58K39gCFYIfutFADcgjnDd2OvX8GGAAYZ
+   08+UaKdovDIh+mGjtEAtzXJIYmEi0zrNyrAQFtlGgje3F9+p1yUyUdGM4
+   E=;
 Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="5.95,230,1661810400"; 
-   d="scan'208";a="36158278"
+   d="scan'208";a="36158477"
 Received: from 51.123.68.85.rev.sfr.net (HELO hadrien) ([85.68.123.51])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 09:39:54 +0100
-Date: Tue, 1 Nov 2022 09:39:52 +0100 (CET)
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 09:43:51 +0100
+Date: Tue, 1 Nov 2022 09:43:50 +0100 (CET)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
-To: UMWARI JOVIAL <umwarijovial@gmail.com>
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
     linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [RESEND PATCH v2] staging: most: dim2: hal: aligning function
- parameters
-In-Reply-To: <20221101080006.GA63438@rdm>
-Message-ID: <alpine.DEB.2.22.394.2211010938240.2834@hadrien>
-References: <20221101080006.GA63438@rdm>
+Subject: Re: [PATCH v2] staging: vt6655: change variable name wTimeStampOff
+In-Reply-To: <Y2DXsnrQjQeP2PfO@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+Message-ID: <alpine.DEB.2.22.394.2211010942210.2834@hadrien>
+References: <Y2DXsnrQjQeP2PfO@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -39,49 +38,56 @@ Content-Type: text/plain; charset=US-ASCII
 
 
 
-On Tue, 1 Nov 2022, UMWARI JOVIAL wrote:
+On Tue, 1 Nov 2022, Tanjuate Brunostar wrote:
 
-> According to Linux Kernel Coding Style, lines should not end with a '('
-> Fix-issue reported by checkpatch.pl script.
+> Change the variable name wTimeStampOff to adhear to Linux kernel coding
+> style, which does not allow naming variables in CamelCase. error is
+> reported by checkpatch
 
-How about something like "To improve readability, start the list of
-function parameters on the same line as the function name.  Issue reported
-by checkpatch."
+adhear -> adhere
 
-That would more clearly explain the intent behind the change.
+error -> Error
+
+Actually, the variable is written in Hungarian notation, given the little
+w at the beginning of its name.
+
+Maybe
+
+"Remove the use of Hungarian notation, which is not used in the Linux
+kernel."
 
 julia
 
-
 >
-> Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 > ---
+>  drivers/staging/vt6655/rxtx.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> Changes in v2:
->     1.Resending this patch because it was sent multiple times earlier.No
->       functional changes.
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index 1e5036121665..9bdcf2337235 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -54,7 +54,7 @@
+>   */
+>  #define CRITICAL_PACKET_LEN      256
 >
->  drivers/staging/most/dim2/hal.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> -static const unsigned short wTimeStampOff[2][MAX_RATE] = {
+> +static const unsigned short time_stamp_off[2][MAX_RATE] = {
+>  	{384, 288, 226, 209, 54, 43, 37, 31, 28, 25, 24, 23}, /* Long Preamble */
+>  	{384, 192, 130, 113, 54, 43, 37, 31, 28, 25, 24, 23}, /* Short Preamble */
+>  };
+> @@ -130,7 +130,7 @@ static __le16 s_uFillDataHead(struct vnt_private *pDevice,
 >
-> diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-> index a5d40b5b138a..6abe3ab2b2cf 100644
-> --- a/drivers/staging/most/dim2/hal.c
-> +++ b/drivers/staging/most/dim2/hal.c
-> @@ -346,9 +346,8 @@ static void dim2_clear_ctram(void)
->  		dim2_clear_ctr(ctr_addr);
+>  static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
+>  {
+> -	return cpu_to_le16(wTimeStampOff[priv->preamble_type % 2]
+> +	return cpu_to_le16(time_stamp_off[priv->preamble_type % 2]
+>  							[rate % MAX_RATE]);
 >  }
 >
-> -static void dim2_configure_channel(
-> -	u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address, u16 hw_buffer_size,
-> -	u16 packet_length)
-> +static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address,
-> +				   u16 hw_buffer_size, u16 packet_length)
->  {
->  	dim2_configure_cdt(ch_addr, dbr_address, hw_buffer_size, packet_length);
->  	dim2_configure_cat(MLB_CAT, ch_addr, type, is_tx ? 1 : 0);
 > --
-> 2.25.1
+> 2.34.1
 >
 >
 >
