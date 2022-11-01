@@ -1,34 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1948F7E
-	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 11:30:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFB93C43145;
-	Tue,  1 Nov 2022 11:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB757E
+	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 11:30:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B262C433D7;
+	Tue,  1 Nov 2022 11:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667302218;
-	bh=Vje9gAoWu//vjHCQV2WQYJ3jC/VDrOWpj/Foi4eVcco=;
+	s=k20201202; t=1667302228;
+	bh=1+Gtk/lM3WWJOYb0UT2QDICBrYedhOEGI6VJvrirL4c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nTUk7npi9/HAZDHFF1sbc+HIavmZ88CSUHjAKo7DVZ9wIl+DT9OxzTz0Yj6UjvCAJ
-	 raP07xae0d2pHs1YUjdVcb5w+IZ6fjYYwoqcUhO3C457eDVCuZJpEiE96pRrlKHZHW
-	 rwsjA1uw88pB5gl1L2ALc5L6O2e+1azSDMzIFWy2COa8qaLiGcz6kXwz2DtgHgv4uo
-	 dUZ5Nxsf3TKE5MjxkCd/PKKWJiKqr1UieWoRUyRJzFGOQtYqLj87KuLnE4YFzIKUL5
-	 ptaYtxbp6vZnu81p/SgQ6YU1rTeBACk5uyodqdNdJ4R1lPPepAFLS2WGBxeZSPqJVZ
-	 nglI66xJnO+wA==
+	b=pRRWm956jbQ0SmXrIl9M+9wWIptHnhfgN0F2UdFWnydWP+3MGdmpUsUq0mMy7l+Ph
+	 IirGMmUln9wEdrjAtsaJHkhqnb/JXekpfwwJldiDvg6NmqBJ/CCK8WTCmr1z1fxm4P
+	 Z57FrBi1+zJaVn+b+1bov89eQZlzmmP4ZuugOTa5gcJl3ibmf7rEqwmtKH07t+kP1H
+	 oOMuq7FlJiUgPG13hGwCNOHkEgi3sHLDePgBvb7I7JKwVtOkgJ6g/bwi9BOmKwdsAI
+	 2Fu+548KBtPXfhfrm7hMqCFjuBRrVmRQqmTcC2gBsqM1JZDTVFpG7C9AIiENqRSZO9
+	 ewxLdKP6RkHZA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
+Cc: Hangyu Hua <hbh25y@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	neil.armstrong@linaro.org,
 	gregkh@linuxfoundation.org,
+	khilman@baylibre.com,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 02/14] media: rkisp1: Zero v4l2_subdev_format fields in when validating links
-Date: Tue,  1 Nov 2022 07:29:58 -0400
-Message-Id: <20221101113012.800271-2-sashal@kernel.org>
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 06/14] media: meson: vdec: fix possible refcount leak in vdec_probe()
+Date: Tue,  1 Nov 2022 07:30:02 -0400
+Message-Id: <20221101113012.800271-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221101113012.800271-1-sashal@kernel.org>
 References: <20221101113012.800271-1-sashal@kernel.org>
@@ -42,44 +45,41 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Hangyu Hua <hbh25y@gmail.com>
 
-[ Upstream commit c53e3a049f35978a150526671587fd46b1ae7ca1 ]
+[ Upstream commit 7718999356234d9cc6a11b4641bb773928f1390f ]
 
-The local sd_fmt variable in rkisp1_capture_link_validate() has
-uninitialized fields, which causes random failures when calling the
-subdev .get_fmt() operation. Fix it by initializing the variable when
-declaring it, which zeros all other fields.
+v4l2_device_unregister need to be called to put the refcount got by
+v4l2_device_register when vdec_probe fails or vdec_remove is called.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/rkisp1/rkisp1-capture.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/staging/media/meson/vdec/vdec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-index 0c934ca5adaa..8936f5a81680 100644
---- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-@@ -1258,11 +1258,12 @@ static int rkisp1_capture_link_validate(struct media_link *link)
- 	struct rkisp1_capture *cap = video_get_drvdata(vdev);
- 	const struct rkisp1_capture_fmt_cfg *fmt =
- 		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
--	struct v4l2_subdev_format sd_fmt;
-+	struct v4l2_subdev_format sd_fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+		.pad = link->source->index,
-+	};
- 	int ret;
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 5ccb3846c879..7a818ca15b37 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -1109,6 +1109,7 @@ static int vdec_probe(struct platform_device *pdev)
  
--	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
--	sd_fmt.pad = link->source->index;
- 	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
- 	if (ret)
- 		return ret;
+ err_vdev_release:
+ 	video_device_release(vdev);
++	v4l2_device_unregister(&core->v4l2_dev);
+ 	return ret;
+ }
+ 
+@@ -1117,6 +1118,7 @@ static int vdec_remove(struct platform_device *pdev)
+ 	struct amvdec_core *core = platform_get_drvdata(pdev);
+ 
+ 	video_unregister_device(core->vdev_dec);
++	v4l2_device_unregister(&core->v4l2_dev);
+ 
+ 	return 0;
+ }
 -- 
 2.35.1
 
