@@ -1,36 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415E27E
-	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 11:27:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69A4C433D7;
-	Tue,  1 Nov 2022 11:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D281A7E
+	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 11:27:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87A2C433D6;
+	Tue,  1 Nov 2022 11:27:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667302075;
-	bh=b+tOwlQfc42Ncz47RnuqxCIhFUSWfgZuPWXMdk9EOzI=;
+	s=k20201202; t=1667302079;
+	bh=ny54Y6RUGC4IhFUZ4LUspzh7kDc7wWblm4DkM9brLsA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K8x6Te07yn+54I5W0CN7L52abTQvozAySpzSqJWCCyrbdx9hSkS3WsCNFX40WRBHj
-	 oNGgvsM/sanzknXwr0/ndG6RQzc+eHi/PcR/wc1ZrTEQrDbgTw1gcscrNl7PzHxsEB
-	 a0iS2FTngGkEfLNW3NGUrgXTJ0DMH1fz2PQUS9OdUr+cFAW7YIfc1JxeW80XfykH8u
-	 GzHw2kra/efqXtS8Ab1vKP2fxtiffjS6wgvZ38fArJ3XF/gUvhAT9csnMWXJTaEkdX
-	 SwJE2kLfV0FbI21/Nd1diYDw4KlIXHVj/SvNzdBOcd6TKfCuTH8DBT7kyF40x1MLRR
-	 6uRFCXcTyY6rQ==
+	b=kqbDTRmv/zKxsNJH4y4qCWGecs1rK868oMuJJkpyVFFjLSBxhsvjoQdLLuvMa5vrQ
+	 Zop00gPfKbFpy5VCi96MzhPpzUqhChzBv3/6uVH4Jza9k+qlxisM3oo99qMPE6Tsi4
+	 mXw3PiaSl2mIlZJfxIWPEqi9Yg86VWl2/Sr4zCsb0Otw8AqF7VPeWi9NKNjhH+YyIC
+	 bMdff9sKOd+8FORgKmzNZoojpRcych8GPOm8ARbbbkm+e+l2+uoKe1vGJ7kCTnBcdk
+	 QnbQ+I7D/umycstWAb4Yi9/ZUK2NKrivqb1ik8qftiIRiFENHMXn7UH4386335N8jB
+	 z3ZdNkn+wTcXg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	p.zabel@pengutronix.de,
 	gregkh@linuxfoundation.org,
 	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.0 13/34] media: hantro: HEVC: Fix chroma offset computation
-Date: Tue,  1 Nov 2022 07:27:05 -0400
-Message-Id: <20221101112726.799368-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 15/34] media: atomisp-ov2680: Fix ov2680_set_fmt()
+Date: Tue,  1 Nov 2022 07:27:07 -0400
+Message-Id: <20221101112726.799368-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221101112726.799368-1-sashal@kernel.org>
 References: <20221101112726.799368-1-sashal@kernel.org>
@@ -44,35 +41,50 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit f64853ad7f964b3bf7c1d63b27ca7ef972797a1c ]
+[ Upstream commit adea153b4f6537f367fe77abada263fde8a1f7b6 ]
 
-The chroma offset depends of the bitstream depth.
-Make sure that ctx->bit_depth is used to compute it.
+On sets actually store the set (closest) format inside ov2680_device.dev,
+so that it also properly gets returned by get_fmt.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+This fixes the following problem:
+
+1. App does an VIDIOC_SET_FMT 640x480, calling ov2680_set_fmt()
+2. Internal buffers (atomisp_create_pipes_stream()) get allocated
+   at 640x480 size by atomisp_set_fmt()
+3. ov2680_get_fmt() gets called later on and returns 1600x1200
+   since ov2680_device.dev was not updated. So things get configured
+   to stream at 1600x1200, but the internal buffers created during
+   atomisp_create_pipes_stream() do not get updated in size
+4. streaming starts, internal buffers overflow and the entire
+   machine freezes eventually due to memory being corrupted
+
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 233ecd863d5f..a917079a6ed3 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -12,7 +12,7 @@
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+index 4ba99c660681..ab52e35266bb 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+@@ -894,11 +894,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 	if (v_flag)
+ 		ov2680_v_flip(sd, v_flag);
  
- static size_t hantro_hevc_chroma_offset(struct hantro_ctx *ctx)
- {
--	return ctx->dst_fmt.width * ctx->dst_fmt.height;
-+	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
- }
- 
- static size_t hantro_hevc_motion_vectors_offset(struct hantro_ctx *ctx)
+-	/*
+-	 * ret = startup(sd);
+-	 * if (ret)
+-	 * dev_err(&client->dev, "ov2680 startup err\n");
+-	 */
++	dev->res = res;
+ err:
+ 	mutex_unlock(&dev->input_lock);
+ 	return ret;
 -- 
 2.35.1
 
