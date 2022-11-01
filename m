@@ -1,129 +1,53 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86341E9F6;
-	Tue,  1 Nov 2022 18:18:07 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id j4so24637963lfk.0;
-        Tue, 01 Nov 2022 11:18:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xGATexOV6vnPuB2p8dA7jNyMLlzx3cNJwqnDQnqy0Lw=;
-        b=NICToIixUPdDC32HkPXSHGZ1OMrDXhb4jM2cPeHaAvS2JEaa2zUnm66gEKccp1vn6q
-         TJe9bqk7bU677eyWlRrS1UOuV8IIvBlHe92LgKfoWwoQSo80n4gBq89IHxby2/KdSPk4
-         7xAwjrBbqSFqWH+wEWb/BVyMowVJ73LYiihQVyyfEUr+jjjy9JUypFrR5Z62pGFsVoM5
-         GjjzCGUT6FrUHfLa15E2lh5lEk4yFd2VPqGv9A+zq/JicOzxi6Xxz0vlly4AkgsRKqs+
-         +WYcSWDqz9W42R9Obd0vuaVkuChUbSD4relDbwEAnFVbBtkO8kwZKei57JNKspdUXmqe
-         HfdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xGATexOV6vnPuB2p8dA7jNyMLlzx3cNJwqnDQnqy0Lw=;
-        b=0FiVMWzMazV2e3I4bhH4WnqicI9Df2vVJYtRd11Rh4wK0Dj8JoO38/FVBtEAy5KROH
-         yjkIqhdalkZB+ytQiPuVtgwW46kPYjIXe9T1T/NJ+iyGXQzHb4Injt/qNvkdSevUQVTP
-         ex1f8nktJNb6VHO9Hs6I8Xs0xHSRrYegM31T49C5pFqR7pSVTHzRgP7EuU59Usc+hhCZ
-         G2zYYXEZiHB9NpKkJd/xvP/0AUDjzR2zMAMB+1I3sBcRmEdeFPIK/RipZqUj/IdJxV2i
-         9uf7UOERZCEcjOlVp4RhdukR7N9lrqetwtGKsIG3SIfKDnd653a8E5SDCHlQhcwqmt6S
-         m9Kg==
-X-Gm-Message-State: ACrzQf0iYo4h4bBMVxGO0YlotpexWJHRdjrGRotSf1KWwhvnaGOT8uJf
-	nRfXvr/NyV2K6uJpymCJ0PMwlrEP3hdqtA==
-X-Google-Smtp-Source: AMsMyM5vxq7beSkQn4ZNXzOnIzBhVzpDtibz5gLX1Urhz4O4JUcKpGt/nmGCQtS0K+bpPG5SFLqHEQ==
-X-Received: by 2002:ac2:5193:0:b0:4ab:db5d:10f0 with SMTP id u19-20020ac25193000000b004abdb5d10f0mr7574671lfi.225.1667326686066;
-        Tue, 01 Nov 2022 11:18:06 -0700 (PDT)
-Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
-        by smtp.googlemail.com with ESMTPSA id 190-20020a2e05c7000000b0026f9cb6d10fsm1850601ljf.45.2022.11.01.11.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 11:18:05 -0700 (PDT)
-From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Subject: [PATCH v3 2/2] staging: vt6655: Join some lines of code to avoid code lines ending in (
-Date: Tue,  1 Nov 2022 18:17:49 +0000
-Message-Id: <4433970c86a4d1bf9e3af5d6c34eb972f7be26e9.1667326000.git.tanjubrunostar0@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1667326000.git.tanjubrunostar0@gmail.com>
-References: <cover.1667326000.git.tanjubrunostar0@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD231E9F6;
+	Tue,  1 Nov 2022 18:20:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A42C433D6;
+	Tue,  1 Nov 2022 18:20:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1667326851;
+	bh=/Z8SIuoKFu10X29ldMMaee847d8Lg9sBDgx1jCyVmAo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Iy8rVSN34Mc3N/EFUGZxRd67bMKZtDjyDx9/YsGPsLq35D54/8bgtPke+No0NR0mz
+	 5wFufKsElm5BdzwcExNJuoRqfrkExUdGRp67Dg/L20evnOgS9sTMQX2P0V6xq/ImMK
+	 /E0YILFT+g+6BIIV8HaDQFk18tez6PU2Pl6n4YX0=
+Date: Tue, 1 Nov 2022 19:21:44 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH v2 0/2] some checkpatch fixes in the file rxtx.c
+Message-ID: <Y2FjuHeVzY5VYG97@kroah.com>
+References: <cover.1667305446.git.tanjubrunostar0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1667305446.git.tanjubrunostar0@gmail.com>
 
-Fix checkpatch error related to code line ends with a '(', by joining
-some lines and indenting correctly. This improves visibility
+On Tue, Nov 01, 2022 at 12:37:58PM +0000, Tanjuate Brunostar wrote:
+> These fixes are focused on the function s_vFillRTSHead
+> 
+> v2: changed confusing changelog messages
+> 
+> Tanjuate Brunostar (2):
+>   change the function name s_vFillRTSHead
+>   Join some lines of code to avoid code lines ending in (
+> 
+>  drivers/staging/vt6655/rxtx.c | 48 ++++++++++++++++-------------------
+>  1 file changed, 22 insertions(+), 26 deletions(-)
 
-Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
----
- drivers/staging/vt6655/rxtx.c | 40 ++++++++++++++++-------------------
- 1 file changed, 18 insertions(+), 22 deletions(-)
+Please look at your subject lines you are using here, and look at the
+mailing list for previous patch submissions, and at the git log for this
+file, and fix them up to have the proper prefixes on them.
 
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index c01fc1a593f3..debc5d5daede 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -85,15 +85,15 @@ static const unsigned short fb_opt1[2][5] = {
- #define DATADUR_A_F1    13
- 
- /*---------------------  Static Functions  --------------------------*/
--static void fill_rts_head(struct vnt_private *pDevice,
--			  unsigned char byPktType,
--			  void *pvRTS,
--			  unsigned int	cbFrameLength,
--			  bool bNeedAck,
--			  bool bDisCRC,
--			  struct ieee80211_hdr *hdr,
--			  unsigned short wCurrentRate,
--			  unsigned char byFBOption);
-+static void fill_rts_header(struct vnt_private *pDevice,
-+			    unsigned char byPktType,
-+			    void *pvRTS,
-+			    unsigned int	cbFrameLength,
-+			    bool bNeedAck,
-+			    bool bDisCRC,
-+			    struct ieee80211_hdr *hdr,
-+			    unsigned short wCurrentRate,
-+			    unsigned char byFBOption);
- 
- static void s_vGenerateTxParameter(struct vnt_private *pDevice,
- 				   unsigned char byPktType,
-@@ -555,19 +555,15 @@ s_uFillDataHead(
- 	return buf->duration;
- }
- 
--static
--void
--s_vFillRTSHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pvRTS,
--	unsigned int cbFrameLength,
--	bool bNeedAck,
--	bool bDisCRC,
--	struct ieee80211_hdr *hdr,
--	unsigned short wCurrentRate,
--	unsigned char byFBOption
--)
-+static void fill_rts_header(struct vnt_private *pDevice,
-+			    unsigned char byPktType,
-+			    void *pvRTS,
-+			    unsigned int cbFrameLength,
-+			    bool bNeedAck,
-+			    bool bDisCRC,
-+			    struct ieee80211_hdr *hdr,
-+			    unsigned short wCurrentRate,
-+			    unsigned char byFBOption)
- {
- 	unsigned int uRTSFrameLen = 20;
- 
--- 
-2.34.1
+As is, I can't take these.
 
+thanks,
+
+greg k-h
