@@ -1,96 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23662641;
-	Tue,  1 Nov 2022 09:57:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF2EC433C1;
-	Tue,  1 Nov 2022 09:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667296637;
-	bh=1Bxrnk+9FXXmhGagERBq1YQ+2rMQximZy39dIJDtQpc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e2N9RCz2VCHu1rPbXfsv82ufhgj2dGpJuJ4fmdHYF2iujo048kuXV7qwTgc0TT0Xv
-	 F1QO5aH7XeJOAJ3aTrSxozQBszzGmbLEznYEGwOa0Nnggz3UlxoVEv2Tn61iMUhLip
-	 cR46D+Oti2dhldvP1gzs93z75PBXrvIlbFE9JmZU=
-Date: Tue, 1 Nov 2022 10:40:14 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] staging: vt6655: change variable name wTimeStampOff
-Message-ID: <Y2DpfhfnZMFh/Ysn@kroah.com>
-References: <Y2DXsnrQjQeP2PfO@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0C17E;
+	Tue,  1 Nov 2022 10:35:00 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id c15so2030365qtw.8;
+        Tue, 01 Nov 2022 03:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2aaGLKKXcT3j30MpIDyxy2HNmeZ1E4qLEn3KEfbdC2E=;
+        b=cx3LSgS0miVBOswaIFOKRNQjF55iGsu65SdP4m1PqTNNWLvZImGG1LSc647FTNZHXm
+         XW5UnjFDCxXV9N/vKS0vvBbHWfwhkuF7KzoenqHVksvfQPsz2zIXkhQMvGYSKR1RliFR
+         nsRPmXVieOb/NjiCwsThAglShVRJEUgLCWbuS6kzwnLpfGRkZbulqKjucdtZfqoZLcWv
+         Q08VStTwlCqVNIfnzc3L474VXyH0zZnDP8uWNUOe96HQxLNsMhKZiK9MKfTHc0mPZ149
+         i+4gBOo7hJeRBJdTQx4pYYyUIGE3tDqXZvC0sIcX0ge9DztESv7u2THXFilP2CAKNGym
+         u5Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2aaGLKKXcT3j30MpIDyxy2HNmeZ1E4qLEn3KEfbdC2E=;
+        b=EVWp4XaXttOPkVKiohic7U9KnSsj38xJWNfpPu6jOOer1Ho5xjECVPU+W0V4NAmmXo
+         +pBdK1WDMhTqS76esJMzo5Aj3SF+pJ4a5NHksXY1uR6FSh4L9sIpnylbAByGpYRA6UPx
+         XmAqtxa2K6MY6m/G/pgLEbkHIPveFYbWOkryQtKOy8x5bzoJCknQEXIrfmRTvs1C2JCb
+         u5w+4NQNjQm6ur+OrZPZgLBlcK4QY4nHQFkujCjeBTWzi29mxpwYLBknDfHhyg7t3uRC
+         3eFylEIRpP14irBA/Gxgkm5W/wUgZkdRgN1Iuf8Miqofkvr9i/TtyhksuOqI/tsUvJX6
+         yUag==
+X-Gm-Message-State: ACrzQf2c7e4ZhzgMIAHmnuGR6z2qnhC2dIWWDILGGTZyMp78eiEEu2KA
+	0RoK1tp87nMaeDK/QiDTFVHFRP8PAmxjUKB5q4bfoRKuc2jsmQ==
+X-Google-Smtp-Source: AMsMyM7UV3u7zRqR6wGPLF4qbbQbM86yDXQPB54lE++xeoWkG/RqZ5CMpMicLcFNZ7JRXuQmB5WeU3DbsGWCzf2nCDo=
+X-Received: by 2002:ac8:58cd:0:b0:39c:b865:8c71 with SMTP id
+ u13-20020ac858cd000000b0039cb8658c71mr13955440qta.38.1667298899772; Tue, 01
+ Nov 2022 03:34:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2DXsnrQjQeP2PfO@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+References: <20221101080006.GA63438@rdm> <alpine.DEB.2.22.394.2211010938240.2834@hadrien>
+In-Reply-To: <alpine.DEB.2.22.394.2211010938240.2834@hadrien>
+From: jovial umwari <umwarijovial@gmail.com>
+Date: Tue, 1 Nov 2022 13:34:48 +0300
+Message-ID: <CAMk1CBNsheLvpw=jvZrbyK3MC1VJjoBNeuoCQsmCutBTat3jmw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v2] staging: most: dim2: hal: aligning function parameters
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 01, 2022 at 08:24:18AM +0000, Tanjuate Brunostar wrote:
-> Change the variable name wTimeStampOff to adhear to Linux kernel coding
-> style, which does not allow naming variables in CamelCase. error is
-> reported by checkpatch
-> 
-> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-> ---
->  drivers/staging/vt6655/rxtx.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-> index 1e5036121665..9bdcf2337235 100644
-> --- a/drivers/staging/vt6655/rxtx.c
-> +++ b/drivers/staging/vt6655/rxtx.c
-> @@ -54,7 +54,7 @@
->   */
->  #define CRITICAL_PACKET_LEN      256
->  
-> -static const unsigned short wTimeStampOff[2][MAX_RATE] = {
-> +static const unsigned short time_stamp_off[2][MAX_RATE] = {
->  	{384, 288, 226, 209, 54, 43, 37, 31, 28, 25, 24, 23}, /* Long Preamble */
->  	{384, 192, 130, 113, 54, 43, 37, 31, 28, 25, 24, 23}, /* Short Preamble */
->  };
-> @@ -130,7 +130,7 @@ static __le16 s_uFillDataHead(struct vnt_private *pDevice,
->  
->  static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
->  {
-> -	return cpu_to_le16(wTimeStampOff[priv->preamble_type % 2]
-> +	return cpu_to_le16(time_stamp_off[priv->preamble_type % 2]
->  							[rate % MAX_RATE]);
->  }
->  
-> -- 
-> 2.34.1
-> 
-> 
+Will do. Thanks
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+On Tue, 1 Nov 2022 at 11:39, Julia Lawall <julia.lawall@inria.fr> wrote:
+>
+>
+>
+> On Tue, 1 Nov 2022, UMWARI JOVIAL wrote:
+>
+> > According to Linux Kernel Coding Style, lines should not end with a '('
+> > Fix-issue reported by checkpatch.pl script.
+>
+> How about something like "To improve readability, start the list of
+> function parameters on the same line as the function name.  Issue reported
+> by checkpatch."
+>
+> That would more clearly explain the intent behind the change.
+>
+> julia
+>
+>
+> >
+> > Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
+> > ---
+> >
+> > Changes in v2:
+> >     1.Resending this patch because it was sent multiple times earlier.No
+> >       functional changes.
+> >
+> >  drivers/staging/most/dim2/hal.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
+> > index a5d40b5b138a..6abe3ab2b2cf 100644
+> > --- a/drivers/staging/most/dim2/hal.c
+> > +++ b/drivers/staging/most/dim2/hal.c
+> > @@ -346,9 +346,8 @@ static void dim2_clear_ctram(void)
+> >               dim2_clear_ctr(ctr_addr);
+> >  }
+> >
+> > -static void dim2_configure_channel(
+> > -     u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address, u16 hw_buffer_size,
+> > -     u16 packet_length)
+> > +static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address,
+> > +                                u16 hw_buffer_size, u16 packet_length)
+> >  {
+> >       dim2_configure_cdt(ch_addr, dbr_address, hw_buffer_size, packet_length);
+> >       dim2_configure_cat(MLB_CAT, ch_addr, type, is_tx ? 1 : 0);
+> > --
+> > 2.25.1
+> >
+> >
+> >
