@@ -1,55 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA930322B;
-	Tue,  1 Nov 2022 18:03:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857CFC433C1;
-	Tue,  1 Nov 2022 18:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667325792;
-	bh=pxSo9hVqAhSTWjdj5bUbjVfB5nZy/0Gn4TlVQXlbfSE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1TUGAXGLccW4U1c0GxDsN4qduMWTHoEtQBNoqYvdGcqeOzj6NZ5i92YzrLtq0NWZN
-	 fbi3+uw8GZtkdROg0y9D/MEsw1sbL8ojsuHD0c5yP3XQ+1C/vlwZHCXXB26a+kqDLq
-	 vtocC6gKXFJrAEi+PtDzw3o7CmQ8QYZwXPfdxUzk=
-Date: Tue, 1 Nov 2022 19:04:05 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: UMWARI JOVIAL <umwarijovial@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [RESEND PATCH v3] staging: most: dim2: hal: aligning function
- parameters
-Message-ID: <Y2FflTSQEdPFCh4H@kroah.com>
-References: <20221101105727.GA162791@rdm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E62A1E9F6;
+	Tue,  1 Nov 2022 18:17:59 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id a15so22109490ljb.7;
+        Tue, 01 Nov 2022 11:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=19Xxsc9yxQk7AdY/KcLWGJoR0iY+GZN806fyiNbs/DQ=;
+        b=qYgXgt0uWuPo0bMR3BYGYeXINK+f7aQU3fqeU9fMZiGuBOPp3VlJLPFP2yQod+17Gu
+         zkOB4LQrKTTE2ZYaIjn9CDohWZ1/LtwzogE0CgJ6Kl7ZJLtSxDnsGMKrd83z/hwEpqQf
+         VnhVZosM/EWl2w5fnO96frfoYySmGQ5An0fDAibmZxsSdY672Ka+tBB4DinVnA0NqZq1
+         HyNCP4tCJfZbF/JB5m0BxmyGLsuj+fAjUk/rhT3nljRLk4y3e1YLkDBaOMdLlPA8RGBD
+         dAZnGIG9/eb0fJ7N2feTHg7p32V5BgD6Bb1hVrznlOzuG+j0/s5LTjtX23fzHBF9LrAq
+         C47g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=19Xxsc9yxQk7AdY/KcLWGJoR0iY+GZN806fyiNbs/DQ=;
+        b=ljmujEzq5xD4kIq/5GxUGdDFZCSrniP2XTqAdyy8nfKjltDwvRoIY/5TZQjRMXcTUc
+         Z+OFw2GhdnGkoMBf/KJkamFv+3WA7OXfZq5nTVgTzV5gDxBXP+74Vk02OOTGpzWqkb06
+         puhndQdaKec86GB1ap9amg7ZNjMB82X7iRwhAs1eckQhoIxoTm38wLoYMCdhDzSWRn2F
+         eZAwRaIdYtwJCk0X55A7KRf6naMZBn11u7P5AgzsAE+pNFLAwC3FF7GJ4stv+mV9M5w1
+         VDbUqEU5PQ8hySDjIgJVWaqj/eb9JPvWd9mRSB4rV69/Ydnpa9y7GYkdWMkWHPDH6hI2
+         mYzQ==
+X-Gm-Message-State: ACrzQf1/6jSZ37ynfPKFVBNdfjVhz4WtTE4fEGEMTGMwnfZQsCIcwYAN
+	QX06UAw+nJ3znP2llDqI1iI=
+X-Google-Smtp-Source: AMsMyM6LSPuRGyQoKi0EZ7AmX7s0fTDkbx/DgMxTG7eBZCESlkkWiVIWGIXv1jy1MwsYAEZdPMVQ5Q==
+X-Received: by 2002:a2e:4802:0:b0:277:54e2:48b8 with SMTP id v2-20020a2e4802000000b0027754e248b8mr4905244lja.44.1667326677477;
+        Tue, 01 Nov 2022 11:17:57 -0700 (PDT)
+Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
+        by smtp.googlemail.com with ESMTPSA id 190-20020a2e05c7000000b0026f9cb6d10fsm1850601ljf.45.2022.11.01.11.17.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Nov 2022 11:17:57 -0700 (PDT)
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Subject: [PATCH v3 0/2] staging: vt6655: some checkpatch fixes in the file rxtx.c
+Date: Tue,  1 Nov 2022 18:17:47 +0000
+Message-Id: <cover.1667326000.git.tanjubrunostar0@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221101105727.GA162791@rdm>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 01, 2022 at 01:57:27PM +0300, UMWARI JOVIAL wrote:
-> To improve readability, start the list of
-> function parameters on the same line as the function name.
+These fixes are focused on the function s_vFillRTSHead
 
-Odd line-wrapping, please fix.
+v3: changed the function name from fill_rts_head to fill_rts_header as
+head is conventionally used in lists
 
-> Issue reported by checkpatch.
-> 
-> Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
-> ---
-> 
-> Changes in v3:
->     1.Updated the commit message to well explain the  changes made 
+v2: changed confusing changelog messages
 
-What were the changes in v2?
+Tanjuate Brunostar (2):
+  staging: vt6655: change the function name s_vFillRTSHead
+  staging: vt6655: Join some lines of code to avoid code lines ending in
+    (
 
-Also, why do you have "RESEND" in the subject line?  This is not a
-resend of the v3 patch, it is the first time we have seen it.
+ drivers/staging/vt6655/rxtx.c | 48 ++++++++++++++++-------------------
+ 1 file changed, 22 insertions(+), 26 deletions(-)
 
-thanks,
+-- 
+2.34.1
 
-greg k-h
