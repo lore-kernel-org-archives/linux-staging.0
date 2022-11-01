@@ -1,91 +1,75 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195607C;
-	Tue,  1 Nov 2022 13:56:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667311007; bh=JPykuD8T9RQ/X19Iy553YJXPe5shmR+PDc3N+UV36LM=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=LsvL7w4sH6xdWYFWXXyoOslvKQ6yDfU6QLzOkeDjLSwrGe26I3dJflQT8s5GkVOxO
-	 e58Ltt0fUHBAAzOV83vV0uTX9hsFZoQRZcXjW5borNsl1mS4IeQVxD5qOayYteXPbU
-	 EuETj5+jUtzUkloL6vzRd7l6yglW++0GT27lqgxc=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
-	via [213.182.55.206]
-	Tue,  1 Nov 2022 14:56:47 +0100 (CET)
-X-EA-Auth: 4QOZfuW4GsQ43Tu+jZwOt/civAdfEv1MQ4FFxftclqd4EwxLplnbk9yZxbE7MiajB8GRvec1vZR8ayTW+UHNqxdQ0YprlJCF
-Date: Tue, 1 Nov 2022 19:26:42 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: wlan-ng: Use flexible-array for one /
- zero-length arrays
-Message-ID: <Y2Elmj2kvaWp5hw+@ubunlion>
-References: <Y1vNNSSWK1EkcohT@ubunlion>
- <Y1vo+TjS/mWyT7Zc@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73B920F6;
+	Tue,  1 Nov 2022 14:56:06 +0000 (UTC)
+Received: by mail-qv1-f52.google.com with SMTP id h10so10444333qvq.7;
+        Tue, 01 Nov 2022 07:56:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=91Pi1sgd0zTVujDHIVVyfFUD/3uaMubrRUnbeHfYyeI=;
+        b=fRDx55YIuvo3rjltGc0Bfuid1YLiG8Aj2v7JiRiqgJzNtqOigagNjxgTi21qsG60da
+         31/WYflyGGBailfSZhPkcKHnpIxsjqw2a3iGIpSm4W+/bbNxaUb2YWfRLLkdgGr809Xb
+         02CzHgVQhrhe+wgCBDBoERD+OQgg4VS+9yiPcOkDKlbDQxMP22ISAOLDWfj2frFbw0ug
+         INy4keqNqMCS8mZfnmfKOTKER42HQHw4XM78vqIScoO5ynaqm0jlTxosKb3A1tEyVQj8
+         +D5Wg9WyaCTZRPxRBhBfDjhx62EDu+OGdh+qSj6AIQ97SwpFMX/bM63fFGWsLr7xPPSe
+         NUAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=91Pi1sgd0zTVujDHIVVyfFUD/3uaMubrRUnbeHfYyeI=;
+        b=niCpdiMUjqMErH5dgZE26x/f6kTWwZWKxYyu+wSTA+k0k8Abcz8GonTiDPA5xwJp9V
+         hW8DxZiv7l/sKPqixeAxr1MGgOOXC/xXIbloJTSpCDEVj/QXh1I6FtUFhbWnxGJj2DOR
+         pW7pBI31GFvFYrK+6urACc0GBfeYpuvjWbTYcyZ9Qad5vNS6lXA9KDpwphg+JHMxBbT5
+         IYOZmlWvF4xGJcxNWao8QeamK28EugP/5rFDIt6aILOM1im50PnAgAIuuYy4dighqxaT
+         Ttxq/dDN+/w0AExgehIEhVdg28u40YijGTwwSuiKuorDe1zMZP1H7X+rqStC8oOpu7ho
+         ag9g==
+X-Gm-Message-State: ACrzQf3kpi0b7NK88fZVzhW07ZFd6yDu1DX/VeNAC0Qq8n9u/GJaJuqe
+	o1Haufa2RQGPILTHqdAUrQemF1CQgwS/v3G1cWY=
+X-Google-Smtp-Source: AMsMyM5+VC0MbPsIUuv66pB203xFny42zcAiRVPVoqdEHirqq+IojKHlO94SZEMMAfcULWsc73j3D3FjHaoi+Gs/A4w=
+X-Received: by 2002:ad4:5bac:0:b0:4bb:db4d:b60f with SMTP id
+ 12-20020ad45bac000000b004bbdb4db60fmr13176764qvq.105.1667314565724; Tue, 01
+ Nov 2022 07:56:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1vo+TjS/mWyT7Zc@kadam>
+References: <cover.1667305446.git.tanjubrunostar0@gmail.com>
+ <ea25c687d28f5cf40c315b8191d98fa0608f8a76.1667305446.git.tanjubrunostar0@gmail.com>
+ <ea1476128e2f21956ad99e52b01f0c99f46e70ba.camel@perches.com>
+In-Reply-To: <ea1476128e2f21956ad99e52b01f0c99f46e70ba.camel@perches.com>
+From: Tanju Brunostar <tanjubrunostar0@gmail.com>
+Date: Tue, 1 Nov 2022 15:55:54 +0100
+Message-ID: <CAHJEyKXhEGnFRfdv5xSQeEp4bTS4FsvU9oU=hfeuUdYVaovWHQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] change the function name s_vFillRTSHead
+To: Joe Perches <joe@perches.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Oct 28, 2022 at 05:36:41PM +0300, Dan Carpenter wrote:
-> On Fri, Oct 28, 2022 at 06:08:13PM +0530, Deepak R Varma wrote:
-> > Flexible-array member should be used instead of one or zero member to
-> > meet the need for having a dynamically sized trailing elements in a
-> > structure. Refer to links [1] and [2] for detailed guidance on this
-> > suggestion.
-> >
-> > [1] https://en.wikipedia.org/wiki/Flexible_array_member
-> > [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-length-and-one-element-arrays
-> >
-> > Issue identified using coccicheck.
-> >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> >  drivers/staging/wlan-ng/p80211mgmt.h  | 8 ++++----
-> >  drivers/staging/wlan-ng/p80211types.h | 2 +-
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/staging/wlan-ng/p80211mgmt.h b/drivers/staging/wlan-ng/p80211mgmt.h
-> > index 1ef30d3f3159..d6fe52de2c8f 100644
-> > --- a/drivers/staging/wlan-ng/p80211mgmt.h
-> > +++ b/drivers/staging/wlan-ng/p80211mgmt.h
-> > @@ -229,14 +229,14 @@ struct wlan_ie {
-> >  struct wlan_ie_ssid {
-> >  	u8 eid;
-> >  	u8 len;
-> > -	u8 ssid[1];		/* may be zero, ptrs may overlap */
-> > +	u8 ssid[];		/* may be zero, ptrs may overlap */
-> >  } __packed;
+On Tue, Nov 1, 2022 at 2:32 PM Joe Perches <joe@perches.com> wrote:
 >
-> When you're writing this change look at where struct wlan_ie_ssid is
-> used.  It's included in five different structs:
+> On Tue, 2022-11-01 at 12:37 +0000, Tanjuate Brunostar wrote:
+> > Remove the use of Hungarian notation, which is not used in the Linux
+> > kernel. Reported by checkpatch
+> []
+> > diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> []
+> > @@ -23,7 +23,7 @@
+> >   *      s_uGetTxRsvTime- get frame reserved time
+> >   *      s_vFillCTSHead- fulfill CTS ctl header
+> >   *      s_vFillFragParameter- Set fragment ctl parameter.
+> > - *      s_vFillRTSHead- fulfill RTS ctl header
+> > + *      fill_rts_head- fulfill RTS ctl header
 >
-> 	struct wlan_ie_ssid *ssid;
+> Perhaps use header as head is conventionally used in lists.
 >
-> But none of those *ssid pointers are used.  So instead of doing this
-> just delete the wlan_ie_ssid struct and delete every reference to it.
-> Send that as a patch by itself and then repeat that process for the next
-> struct.
-
-Hello Dan and Pavel,
-I have built a patch set based on your feedback on this (and the other similar
-patch for r8188eu driver). I have only covered one driver for now and would wait
-for feedback before I do the same thing for the other driver.
-
-Thank you,
-./drv
-
+>         fill_rts_header
 >
-> regards,
-> dan carpenter
->
-
-
+OK, thanks
