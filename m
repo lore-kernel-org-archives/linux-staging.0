@@ -1,27 +1,26 @@
 Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79F67C;
-	Tue,  1 Nov 2022 13:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3328C7C;
+	Tue,  1 Nov 2022 13:50:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667310597; bh=8G8ijNpzwZYatDZANaufMBhLpqqvE5uH9B3jRw4pOhY=;
+	t=1667310617; bh=XmP1+R7p/DnWE5QzKvv5uzhyseayhrVNsX9HWBGsGr8=;
 	h=X-EA-Auth:Date:From:To:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:In-Reply-To;
-	b=gK9A2sJRRps4UWAIDEHosJmKh9OD7mP3p0gT9bezi4UTuzaAKiBEZaIoHGofN0NuL
-	 Cb+v7BwGGrmF+xZJ9s0drzohIy6G6e1YInWzk1ZmlQHQ6gKZhSzGS+MUnQYo0e6tLr
-	 nhdIM37Wiv9n/FIbhoHU8rF7eUzlDeJD8Dd/ofog=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+	b=VExi3kuq/HmPb0/aDWSXNQOY7ISbyBbW5d+yK/DcBRJJbrcicNKbfVEnpQcDo9LWC
+	 OKD6Pn7tR1b5UM93MgwQH4p9YDr8/vkFxYSY3joD3Gp8io459DD5XSsisSzy9d1hp/
+	 Uaf+yt33pz5i2snxiBKpsRjMBPnA6wS1tGQu/PZw=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
 	via [213.182.55.206]
-	Tue,  1 Nov 2022 14:49:57 +0100 (CET)
-X-EA-Auth: erc4JnmKzL1p+tdhqH73lJrMemUhI3sHaSNaLbA9SpuJm69EGX8ipr5WtgnlWcNI72YacsbfxkMSKIccpnyGFcZZZiD7bJJf
-Date: Tue, 1 Nov 2022 19:19:54 +0530
+	Tue,  1 Nov 2022 14:50:17 +0100 (CET)
+X-EA-Auth: gOpbJ+yZ/65L/9kxRhFEwwz17m1XTt5yz03Fd6XsbTcl10l1/WuCWkGYjjQ3rWczKNL8G2kBfpJrudGWB+4lLwoE5KQGl5/e
+Date: Tue, 1 Nov 2022 19:20:13 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: outreachy@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/7] staging: wlan-ng: Remove unused struct p80211macarray
- definition
-Message-ID: <b42eff9b8f73542bc9015948e5e4684416982e1b.1667308828.git.drv@mailo.com>
+Subject: [PATCH v2 6/7] staging: wlan-ng: Remove unused function declarations
+Message-ID: <09e2af8d702e33c15ed9f655b0a1190b4e8bec86.1667308828.git.drv@mailo.com>
 References: <cover.1667308828.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -33,39 +32,50 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1667308828.git.drv@mailo.com>
 
-struct p80211macarray is defined but is never used. Remove the unused
-struct declaration.
-Issue identified as part of coccicheck based code analysis.
+Several functions are declared but are not implemented or used in any
+part of the code. Remove such unimplemented function declarations.
 
-Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-Suggested-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
 Changes in v2:
-   1. Include additional code clean-up opportunities and combine changes in a
-      patch set based on impact areas.
+   1. Patch included in patch set.
    2. The patch changes are compile tested only on X86 arch.
 
- drivers/staging/wlan-ng/p80211types.h | 6 ------
- 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/wlan-ng/p80211types.h b/drivers/staging/wlan-ng/p80211types.h
-index 6486612a8f31..b2ed96960413 100644
---- a/drivers/staging/wlan-ng/p80211types.h
-+++ b/drivers/staging/wlan-ng/p80211types.h
-@@ -231,12 +231,6 @@ struct p80211pstr32 {
- 	u8 data[MAXLEN_PSTR32];
- } __packed;
+ drivers/staging/wlan-ng/p80211mgmt.h | 22 ----------------------
+ 1 file changed, 22 deletions(-)
 
--/* MAC address array */
--struct p80211macarray {
--	u32 cnt;
--	u8 data[1][MAXLEN_PSTR6];
--} __packed;
+diff --git a/drivers/staging/wlan-ng/p80211mgmt.h b/drivers/staging/wlan-ng/p80211mgmt.h
+index 816b25641f5a..da824bc36365 100644
+--- a/drivers/staging/wlan-ng/p80211mgmt.h
++++ b/drivers/staging/wlan-ng/p80211mgmt.h
+@@ -449,26 +449,4 @@ struct wlan_fr_deauthen {
+ 	/*-- info elements ----------*/
+
+ };
 -
- /* prototype template */
- struct p80211item {
- 	u32 did;
+-void wlan_mgmt_encode_beacon(struct wlan_fr_beacon *f);
+-void wlan_mgmt_decode_beacon(struct wlan_fr_beacon *f);
+-void wlan_mgmt_encode_disassoc(struct wlan_fr_disassoc *f);
+-void wlan_mgmt_decode_disassoc(struct wlan_fr_disassoc *f);
+-void wlan_mgmt_encode_assocreq(struct wlan_fr_assocreq *f);
+-void wlan_mgmt_decode_assocreq(struct wlan_fr_assocreq *f);
+-void wlan_mgmt_encode_assocresp(struct wlan_fr_assocresp *f);
+-void wlan_mgmt_decode_assocresp(struct wlan_fr_assocresp *f);
+-void wlan_mgmt_encode_reassocreq(struct wlan_fr_reassocreq *f);
+-void wlan_mgmt_decode_reassocreq(struct wlan_fr_reassocreq *f);
+-void wlan_mgmt_encode_reassocresp(struct wlan_fr_reassocresp *f);
+-void wlan_mgmt_decode_reassocresp(struct wlan_fr_reassocresp *f);
+-void wlan_mgmt_encode_probereq(struct wlan_fr_probereq *f);
+-void wlan_mgmt_decode_probereq(struct wlan_fr_probereq *f);
+-void wlan_mgmt_encode_proberesp(struct wlan_fr_proberesp *f);
+-void wlan_mgmt_decode_proberesp(struct wlan_fr_proberesp *f);
+-void wlan_mgmt_encode_authen(struct wlan_fr_authen *f);
+-void wlan_mgmt_decode_authen(struct wlan_fr_authen *f);
+-void wlan_mgmt_encode_deauthen(struct wlan_fr_deauthen *f);
+-void wlan_mgmt_decode_deauthen(struct wlan_fr_deauthen *f);
+-
+ #endif /* _P80211MGMT_H */
 --
 2.34.1
 
