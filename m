@@ -1,25 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEEC365
-	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 04:53:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0872C433D6;
-	Tue,  1 Nov 2022 04:53:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667278384;
-	bh=c5uB2a3E/LYa5L/Er0rR/6WTHDtnfj9MnFRKHgSmjHc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2Ectvr5JmpE0Tw9FFp1vSi9V4HxsjxoIqsPPAw53WckXD9Y11kbGNdTHq2Yq/jZWo
-	 cc/Vywfc1H5+hx/sEU8TSzoyDKZaxdWhe+9c5CzcVb8yAgVwj5m49sG6/DREqLwy5N
-	 HXxnovnb7BeciBXejEn0ey7jpjS5xO7S8prJe010=
-Date: Tue, 1 Nov 2022 05:53:52 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Gabhyun Kim <kimgaby415@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A7F365
+	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 06:26:41 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id p21so8848970plr.7
+        for <linux-staging@lists.linux.dev>; Mon, 31 Oct 2022 23:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fmtzlJtofIdyT91pfPGIdJT3CouMXo21i2AbO1DpQkE=;
+        b=Q3ObJHWoSQyQnVhBa7/0d2PopodKZvFO0jqSSwZr+4UueRCxWev/G/wIkRLDcgQ4Pu
+         eXnUcskEwJRBnx+4sZLGmqVdE9nZt9LqXeUF2uGLPCfXA3TNMrT5mqOzCNfkKSL0sjdg
+         fqJa05T/3PfJxdsIJt3r1G76i+EBnTjltpJiE4H0nwnlUEtBPE36KzToyYucjvp1C0lx
+         EQcVflp5291JLQPyK9cOZRDnXn2B9TiasbjVp4YsWuYY6ggKmhT6AWqcFjHR7DLOIbMd
+         AqdD17rU25IVRitJnDPvkmO3Lx0lg9iKx84C4hznaUoiITGs4vtRsWiF69C6WW1QDcbr
+         DtbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fmtzlJtofIdyT91pfPGIdJT3CouMXo21i2AbO1DpQkE=;
+        b=nGWho5Ybxy7MGDJ44Bet5QU/RG09C8aBqh7BIQL8SqUz7JaYD54BBXUr2cgFND3tMo
+         e48PUvOgtw5sIF1AB67fBisOeDwEa/OS8PbhXrJIAGqRW/qy6zbOT+DafdiIxZLzZRg5
+         iYYTIwg7glJYASjQS6YbEvhQITrqEtG1PxPZSrUquhLK3Vd7BMFO76SSfSS7xXq5O6TQ
+         sKjs/CsCKIZVFrhm7U14Ro7T8ZpSw4451fjlNI3b0XSXwFrXTbCa/SZ7Ms2PVBgVGSzR
+         dznuCwKDOb+iQ3BlQZz3cbeierUkJ7oi+5LEzEcGjQvhQl7wHKQtvvGG1aFqQ6n0XcdX
+         PY/g==
+X-Gm-Message-State: ACrzQf0leAn9mydOPOSHc3860nk/633flHUlJKL9ePx5+FNPPe4uJDgp
+	zP47Ujr+9/MnADzuG3ljY94PHCldSt4=
+X-Google-Smtp-Source: AMsMyM7v/qFUuD2ZpJ/6Dk3ddoWdOKrqjZRuA7qPaHuyL/UJHX2S4us9Ej1r+CzMc/+5BrfNKS7CSA==
+X-Received: by 2002:a17:90a:d901:b0:213:dc98:8b0d with SMTP id c1-20020a17090ad90100b00213dc988b0dmr10345145pjv.11.1667284000883;
+        Mon, 31 Oct 2022 23:26:40 -0700 (PDT)
+Received: from ubuntu ([218.237.158.230])
+        by smtp.gmail.com with ESMTPSA id r11-20020aa7988b000000b0056babe4fb8asm5660439pfl.49.2022.10.31.23.26.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 23:26:40 -0700 (PDT)
+Date: Tue, 1 Nov 2022 15:26:36 +0900
+From: Gabhyun Kim <kimgaby415@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Remove line breaks to match coding
+Subject: [PATCH v2] staging: rtl8192e: Remove line breaks to match coding
  style
-Message-ID: <Y2CmYKLzKTVqKqcP@kroah.com>
-References: <20221101011507.GA3802@ubuntu>
+Message-ID: <20221101062636.GA3257@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,45 +51,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221101011507.GA3802@ubuntu>
 
-On Tue, Nov 01, 2022 at 10:15:07AM +0900, Gabhyun Kim wrote:
-> Remove redundant line breaks between function definitions to correct the coding style
+Remove redundant line break in function definition to
+correct coding style.
 
-Nit, your changelog text is too wide, please properly wrap your lines at
-72 columns.
+Signed-off-by: Gabhyun Kim <kimgaby415@gmail.com>
+---
+Changes in v2:
+ -only one logical type of change per patch
 
-> 
-> Signed-off-by: Gabhyun Kim <kimgaby415@gmail.com>
-> ---
->  drivers/staging/rtl8192e/rtllib_softmac.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-> index 1a3ca3e57623..78828ecac28a 100644
-> --- a/drivers/staging/rtl8192e/rtllib_softmac.c
-> +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-> @@ -22,7 +22,6 @@
->  
->  static void rtllib_sta_wakeup(struct rtllib_device *ieee, short nl);
->  
-> -
->  static short rtllib_is_54g(struct rtllib_network *net)
->  {
->  	return (net->rates_ex_len > 0) || (net->rates_len > 4);
-> @@ -147,9 +146,7 @@ static void init_mgmt_queue(struct rtllib_device *ieee)
->  	ieee->mgmt_queue_tail = ieee->mgmt_queue_head = 0;
->  }
->  
-> -
-> -u8
-> -MgntQuery_TxRateExcludeCCKRates(struct rtllib_device *ieee)
-> +u8 MgntQuery_TxRateExcludeCCKRates(struct rtllib_device *ieee)
->  {
+ drivers/staging/rtl8192e/rtllib_softmac.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-You are doing two different types of things here, please only do one
-"logical" type of thing at a time in a patch.
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 1a3ca3e57623..1253de481805 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -148,8 +148,7 @@ static void init_mgmt_queue(struct rtllib_device *ieee)
+ }
+ 
+ 
+-u8
+-MgntQuery_TxRateExcludeCCKRates(struct rtllib_device *ieee)
++u8 MgntQuery_TxRateExcludeCCKRates(struct rtllib_device *ieee)
+ {
+ 	u16	i;
+ 	u8	QueryRate = 0;
+-- 
+2.25.1
 
-thanks,
-
-greg k-h
