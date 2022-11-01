@@ -1,86 +1,69 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6557E;
-	Tue,  1 Nov 2022 10:57:35 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id sc25so35981153ejc.12;
-        Tue, 01 Nov 2022 03:57:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F957E;
+	Tue,  1 Nov 2022 11:13:54 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id j4so23159560lfk.0;
+        Tue, 01 Nov 2022 04:13:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MzqF9B0T/NfF3Y4vRqndF5M9IfCaL8dvD7GSKzyTcP8=;
-        b=lQGDwX/mWuxEUr0j4yMjkVoxpOFzdmm9g1Sds8p+12S6LSzemeZIlDx96T/pzJgZws
-         otH531H7MNRSIYOaMAJQGEn4AaAn0OAg3BLD/bdvAILXP79FRy3qpeCXqULMs0lyZUtt
-         cVP+8vQOwsLGNLoQgF5g5245kxFB0uAAeIHw4bb1KDxbB3ALNJwBrCs+DZqRgaOtxhKm
-         LryB8E4YQfIOhD2IJCwsZEYrXGLpoGenJvhpxch/+NPwTbBQwInV8xxIoAOwKmWwPKSY
-         5QtB9kZA5Ghzgx6X9KUcUzYqnde4yEpKX4TaPWJsMmIk2146abylK5y80KLEdTeX351K
-         AVVQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HDB5ezW4+6sXLiqpzEKi5SRHMOOxuike7Ppi2PFiGsQ=;
+        b=HsGMMStkyjYZ+5O9MMh5D/AnccE1466rSH/qC0v0W53hLoRFnibE0BCd+I3tuR7X9S
+         JSsLJOgo8YtBtfpWQTb+hLB9fqlXWrmGqyt2/rWp1M5eAPjEs2WS51dKC2T/jTYOluJz
+         iWg/Enz2DZ1JyawxGMoh1hbJtQCZ6z0mpjJm9k9p89DD1zVeK4y0KAqdLC5yyYpgKfVv
+         b4bI5GJoYPvvAaBZgZt/hbzwjpoHf1WBTqE2abfHxLbgpEUrm+ilpmv/UIisQqolAHhs
+         GeLEUJjjtg79vDXo5OEzLcoImoQbE9Qw8eSOJc9KH6AskZF+cLeqF2dAAkV+07YTXFLg
+         HF+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MzqF9B0T/NfF3Y4vRqndF5M9IfCaL8dvD7GSKzyTcP8=;
-        b=cl4tpMqcJJqhWQ9kwHg0rwFQa/lLma9oaSzc4d8G66ROxryQSD5xoAtQmHNGahPaSV
-         AyQtCyLkGDeUAgbh28/qfk4sveVkcrzObok59J4qUTYTGwIi1OxXpUH7oX12SfPMBwf9
-         RFAxeGOusO6XT/jrxeWhw7GRd3o/oQvrl/Av8XGAWLUGz+wNixbIAmGzUTjzBm/raswA
-         H/xjHfhFeXxTpbbLKEN6WU+fPJBHgpKPHHfqXeZU7AFs5eqmXKGRaBmHVVXZ6tpx7eUM
-         A8W7xAQ6aaDFWRd7gwEnO/HQBCaGxXtImF4CwTIId4U9dPH7wtvtkBljJ4tx5ckHnC8/
-         H1Ow==
-X-Gm-Message-State: ACrzQf2RsanS7zeBmyzIjyVKU/V5K3bOvd2nLXqfuI2xo6slLyHZ8SSe
-	KgfEcusKOa54ngBhPrh9jN8=
-X-Google-Smtp-Source: AMsMyM5TlyWQMlfm4DDf8XjillnEJmZCm2eqgKjjRdzFp6MIN+0BwxHVhyeClBW4dYDu1dWcQ7SUyQ==
-X-Received: by 2002:a17:907:7f02:b0:73d:dffa:57b3 with SMTP id qf2-20020a1709077f0200b0073ddffa57b3mr18307043ejc.19.1667300253693;
-        Tue, 01 Nov 2022 03:57:33 -0700 (PDT)
-Received: from rdm ([137.63.146.164])
-        by smtp.gmail.com with ESMTPSA id p3-20020a17090653c300b007adf2e4c6f7sm368781ejo.195.2022.11.01.03.57.31
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HDB5ezW4+6sXLiqpzEKi5SRHMOOxuike7Ppi2PFiGsQ=;
+        b=XX36n0WHirV3rn8hvcJovI7ARPKSViiqA4oZigcNG66zGPsCD0ft5zi5pf9BgLHyIu
+         QBh7mbhkqHQ72af6wRUzSvGY0jnR2bnpL1uz/hpz7v9Wa4lnq51+Zrf6ZDha8Sd4x39l
+         Pf6wLXCDQztjh8VXLwkeLcsvKEeS1dkq132DcUJAxZIUPvKblkPeRejAwNaB1HQ9MsAx
+         b/42QJBhDvE/ipIrS0vvA6vaaLObgiU2K9UQZ2Q0jxjY8Ax6EOhD0HhwlTF+OCdttA2U
+         G/Z7Gflenb+C/Wn7fGQxZOTrjvQ4Svs/69mr8GxnMkVh0Ti6QZ+p3yO6k439VoBV5XbQ
+         gHMA==
+X-Gm-Message-State: ACrzQf1Xks5uL54k99+Zhk3l22hstxqr1m99mio5hHiT3dLthB0IHBEJ
+	5iWyCnEsaQQ1mZAxUGZc+ng=
+X-Google-Smtp-Source: AMsMyM5Nh/2vQN06PYkuQd40IPYt/6Zh1lnhaF7bQmhVDcO2gVKWTNaFx2sinpk6uH7JeKd/6A/IKQ==
+X-Received: by 2002:a05:6512:12c8:b0:4a2:cc20:d51b with SMTP id p8-20020a05651212c800b004a2cc20d51bmr7433507lfg.474.1667301232849;
+        Tue, 01 Nov 2022 04:13:52 -0700 (PDT)
+Received: from elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net ([20.240.130.248])
+        by smtp.googlemail.com with ESMTPSA id e17-20020a05651236d100b0048af3c090f8sm1629472lfs.13.2022.11.01.04.13.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 03:57:33 -0700 (PDT)
-Date: Tue, 1 Nov 2022 13:57:27 +0300
-From: UMWARI JOVIAL <umwarijovial@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: [RESEND PATCH v3] staging: most: dim2: hal: aligning function
- parameters
-Message-ID: <20221101105727.GA162791@rdm>
+        Tue, 01 Nov 2022 04:13:52 -0700 (PDT)
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Subject: [PATCH 0/2] some checkpatch fixes in the file rxtx.c
+Date: Tue,  1 Nov 2022 11:13:25 +0000
+Message-Id: <cover.1667300134.git.tanjubrunostar0@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-To improve readability, start the list of
-function parameters on the same line as the function name.
-Issue reported by checkpatch.
+These fixes are focused on the function s_vFillRTSHead
 
-Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
----
+Tanjuate Brunostar (2):
+  change the function name s_vFillRTSHead
+  Join some lines of code to avoid code lines ending in (
 
-Changes in v3:
-    1.Updated the commit message to well explain the  changes made 
+ drivers/staging/vt6655/rxtx.c | 48 ++++++++++++++++-------------------
+ 1 file changed, 22 insertions(+), 26 deletions(-)
 
- drivers/staging/most/dim2/hal.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
-index a5d40b5b138a..6abe3ab2b2cf 100644
---- a/drivers/staging/most/dim2/hal.c
-+++ b/drivers/staging/most/dim2/hal.c
-@@ -346,9 +346,8 @@ static void dim2_clear_ctram(void)
- 		dim2_clear_ctr(ctr_addr);
- }
- 
--static void dim2_configure_channel(
--	u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address, u16 hw_buffer_size,
--	u16 packet_length)
-+static void dim2_configure_channel(u8 ch_addr, u8 type, u8 is_tx, u16 dbr_address,
-+				   u16 hw_buffer_size, u16 packet_length)
- {
- 	dim2_configure_cdt(ch_addr, dbr_address, hw_buffer_size, packet_length);
- 	dim2_configure_cat(MLB_CAT, ch_addr, type, is_tx ? 1 : 0);
 -- 
-2.25.1
+2.34.1
 
