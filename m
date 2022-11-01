@@ -1,176 +1,55 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585571E9E4;
-	Tue,  1 Nov 2022 17:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=FUb8dsII9LrVUU01XvTNyCWT+TBKRL7CN/lN3uy92k4=;
-  b=ae+6XUsLnWJFbVqcNQ6xp6OM30OG8EqRqZkIOItFSJgNRt0gb04jQKru
-   eLhH0a7BexlvFGlcdTe5IVXBSkyNU53WPjtKoy82uVUzV7zd9jYjM6xT8
-   AS/rQbfhkXV/HcI61RGG31b/eaBNEua+9VAL+gy6MUvGPTOEut8quhm3Y
-   I=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.95,231,1661810400"; 
-   d="scan'208";a="72525300"
-Received: from 51.123.68.85.rev.sfr.net (HELO hadrien) ([85.68.123.51])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 18:14:02 +0100
-Date: Tue, 1 Nov 2022 18:14:01 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Deepak R Varma <drv@mailo.com>
-cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>, 
-    Phillip Potter <phil@philpotter.co.uk>, 
-    Pavel Skripkin <paskripkin@gmail.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: remove unwanted variable
- implementation
-In-Reply-To: <Y2FPOON3UcqqAQFy@ubunlion>
-Message-ID: <alpine.DEB.2.22.394.2211011811400.2834@hadrien>
-References: <Y2FPOON3UcqqAQFy@ubunlion>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA930322B;
+	Tue,  1 Nov 2022 18:03:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857CFC433C1;
+	Tue,  1 Nov 2022 18:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1667325792;
+	bh=pxSo9hVqAhSTWjdj5bUbjVfB5nZy/0Gn4TlVQXlbfSE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=1TUGAXGLccW4U1c0GxDsN4qduMWTHoEtQBNoqYvdGcqeOzj6NZ5i92YzrLtq0NWZN
+	 fbi3+uw8GZtkdROg0y9D/MEsw1sbL8ojsuHD0c5yP3XQ+1C/vlwZHCXXB26a+kqDLq
+	 vtocC6gKXFJrAEi+PtDzw3o7CmQ8QYZwXPfdxUzk=
+Date: Tue, 1 Nov 2022 19:04:05 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: UMWARI JOVIAL <umwarijovial@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [RESEND PATCH v3] staging: most: dim2: hal: aligning function
+ parameters
+Message-ID: <Y2FflTSQEdPFCh4H@kroah.com>
+References: <20221101105727.GA162791@rdm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221101105727.GA162791@rdm>
 
+On Tue, Nov 01, 2022 at 01:57:27PM +0300, UMWARI JOVIAL wrote:
+> To improve readability, start the list of
+> function parameters on the same line as the function name.
 
+Odd line-wrapping, please fix.
 
-On Tue, 1 Nov 2022, Deepak R Varma wrote:
-
-> Local variables intended as the function return value are
-> initialized but their value does not change during function
-> execution. The initial value assigned to the variable is simply
-> returned to the caller. This makes the variable declaration
-> unnecessary and the initial value can be directly returned.
-
-I think it would be better to make an argument for each case as to why the
-change is correct, and no more interesting return value is needed.  For
-example, looking at the code in
-drivers/staging/r8188eu/hal/rtl8188eu_xmit.c, it seems that the variable
-pull was used in a more interesting way previously, but some previous
-patches removed the relevant code.
-
-julia
-
->
-> The patch is produced using the following coccicheck options:
->    COCCI=./scripts/coccinelle/misc/returnvar.cocci
->    M=driver/staging/r8188eu/
->    MODE=patch
->
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> Issue reported by checkpatch.
+> 
+> Signed-off-by: UMWARI JOVIAL <umwarijovial@gmail.com>
 > ---
->  drivers/staging/r8188eu/core/rtw_ap.c        | 5 ++---
->  drivers/staging/r8188eu/core/rtw_recv.c      | 3 +--
->  drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 3 +--
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
->  4 files changed, 5 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-> index 24eb8dce9bfe..9eaf345e6a00 100644
-> --- a/drivers/staging/r8188eu/core/rtw_ap.c
-> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
-> @@ -1020,7 +1020,6 @@ u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
->  int rtw_sta_flush(struct adapter *padapter)
->  {
->  	struct list_head *phead, *plist;
-> -	int ret = 0;
->  	struct sta_info *psta = NULL;
->  	struct sta_priv *pstapriv = &padapter->stapriv;
->  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-> @@ -1028,7 +1027,7 @@ int rtw_sta_flush(struct adapter *padapter)
->  	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
->
->  	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
-> -		return ret;
-> +		return 0;
->
->  	spin_lock_bh(&pstapriv->asoc_list_lock);
->  	phead = &pstapriv->asoc_list;
-> @@ -1051,7 +1050,7 @@ int rtw_sta_flush(struct adapter *padapter)
->
->  	associated_clients_update(padapter, true);
->
-> -	return ret;
-> +	return 0;
->  }
->
->  /* called > TSR LEVEL for USB or SDIO Interface*/
-> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> index 4b68a543f68b..94f85cd7038d 100644
-> --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> @@ -1415,7 +1415,6 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
->
->  	struct recv_priv *precvpriv = &padapter->recvpriv;
->  	struct __queue *pfree_recv_queue = &precvpriv->free_recv_queue;
-> -	int	ret = _SUCCESS;
->
->  	nr_subframes = 0;
->
-> @@ -1513,7 +1512,7 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
->  	prframe->len = 0;
->  	rtw_free_recvframe(prframe, pfree_recv_queue);/* free this recv_frame */
->
-> -	return ret;
-> +	return _SUCCESS;
->  }
->
->  static bool check_indicate_seq(struct recv_reorder_ctrl *preorder_ctrl, u16 seq_num)
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-> index 8e4a5acc0b18..6d1f56d1f9d7 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-> @@ -149,7 +149,6 @@ static void fill_txdesc_phy(struct pkt_attrib *pattrib, __le32 *pdw)
->
->  static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bagg_pkt)
->  {
-> -	int	pull = 0;
->  	uint	qsel;
->  	u8 data_rate, pwr_status, offset;
->  	struct adapter		*adapt = pxmitframe->padapter;
-> @@ -295,7 +294,7 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
->  	ODM_SetTxAntByTxInfo_88E(&haldata->odmpriv, pmem, pattrib->mac_id);
->
->  	rtl8188eu_cal_txdesc_chksum(ptxdesc);
-> -	return pull;
-> +	return 0;
->  }
->
->  /* for non-agg data frame or  management frame */
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 8516e253bb03..59a97c5fb80c 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -2979,8 +2979,6 @@ static int rtw_p2p_set(struct net_device *dev,
->  			       struct iw_request_info *info,
->  			       union iwreq_data *wrqu, char *extra)
->  {
-> -	int ret = 0;
-> -
->  	if (!memcmp(extra, "enable =", 7)) {
->  		rtw_wext_p2p_enable(dev, info, wrqu, &extra[7]);
->  	} else if (!memcmp(extra, "setDN =", 6)) {
-> @@ -3027,7 +3025,7 @@ static int rtw_p2p_set(struct net_device *dev,
->  		rtw_p2p_set_persistent(dev, info, wrqu, &extra[11]);
->  	}
->
-> -	return ret;
-> +	return 0;
->  }
->
->  static int rtw_p2p_get2(struct net_device *dev,
-> --
-> 2.34.1
->
->
->
->
->
+> 
+> Changes in v3:
+>     1.Updated the commit message to well explain the  changes made 
+
+What were the changes in v2?
+
+Also, why do you have "RESEND" in the subject line?  This is not a
+resend of the v3 patch, it is the first time we have seen it.
+
+thanks,
+
+greg k-h
