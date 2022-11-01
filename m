@@ -1,123 +1,295 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3A77B
-	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 22:29:32 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id kt23so40688044ejc.7
-        for <linux-staging@lists.linux.dev>; Tue, 01 Nov 2022 15:29:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0C921D75;
+	Tue,  1 Nov 2022 22:56:53 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id r14so23909210edc.7;
+        Tue, 01 Nov 2022 15:56:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G74Wuy6JUbEZeguR9z8D5PigaA7SQEA2iQsub/0ykr4=;
-        b=Wh/schGSPH2trCP5hnARhLA/9Na4tDKwK5YAadg5v8IoqogJ7WV1qKrcaEVjDOhax6
-         mZ3rNlzr8APzJ28E6BJLyK3LglC94wCYp62W2KuWi6EhiJJE4ywYUex5rEGfP4LiKlyk
-         Kn/esG2/3Pv7EVyy2+mnvTBF+F2V4nKAKklHu0GLrHAl6e9PqyVm6M/Jhp4vJZmXvaX6
-         EsG6P8+V8W4HCgUgPeFa8+VMBIR+Ba48SzZrsGTRLhB295bEo+vLk7EkdWUaN+QnSafs
-         zbTmtzklEQ2RrsI2lNEqQD74g1w9N8h0IBdU2Jsw726yz/T4S3plQmNOEVbmD/JRttHz
-         n1Lw==
+        bh=Sd8jKs4tdxesO+PR444FHbSJvw1vCZI71YqUB5zSy+4=;
+        b=noZZW365vyPqp3/6l2w0rgrza+Jf6SMdGGiPeaq6IEEN7MqNKRvnmpTk9Zveysb8zB
+         jJinoewyBEvOaD09hH0w/rVPIhztdHfmiWaOkI8A6mBiOv/Uzn9UhFxTu2cvnCaHhfzG
+         Mt5oPSO+Wj3L5g1Ad3Z7/XZtsvXHICy0jXW4XzlYaa95ruiBFHokOSbLhbC9LV7MBsqp
+         OI2ULAZ44X73SHOsNGrhRAJQ5v607QIQCkF9oo49R4Jw63SzNeaYKwgyXTWRbHfz0TLp
+         vxDQvHqWUwy1a4uUJ76tCkLH5YtaIHpnE/eJDC/tCC5Zl/OUvFGrxM4U8W3SslGR5FSc
+         vfgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G74Wuy6JUbEZeguR9z8D5PigaA7SQEA2iQsub/0ykr4=;
-        b=kQrYqWUnFrfGaX8OrAEISHOpsGBv0iQhlS0nSGo6fmeOVsB8aA1nFy5hqjzSa3AUuI
-         QcKlfllXsD3VwC09wFU5XXcxtPVGQGecoYdxB0Mv0gQA5J3qZEAOWAlmEtUtldWuaz7s
-         3zAfUaKLU5YP+6kw+LvcO+ZRqJ4VlTCEpUt/kXYL25bi9uX1xyG14UHd2oZm7WliMWc0
-         YB297BrOghs51/5uy7UX4MNrjv5B4ypSjJYOSErJqzj+RPCBkOzUIWKTQXeETG5JtzOB
-         /T/t7WmFIZjE7nSiLNFOrLWCelvCqqsOei3bnkHvdHHW0orhEI+qLSFkF03auP8wQEzc
-         yI3A==
-X-Gm-Message-State: ACrzQf3qBZbh/XfdfyiAVcvahQB7XKM9hAZFvMBCTSejA8qDR7E5KN8l
-	ehJmkpYMyjGAkHo9bsjhxNU=
-X-Google-Smtp-Source: AMsMyM4f8eMxJOLzvij00f87n2slJuioPe1icpzbqIX3dgqUzFUi38de5v2xR40Tzb4RnYudA6Ek7g==
-X-Received: by 2002:a17:906:8477:b0:7ad:9ada:a6a4 with SMTP id hx23-20020a170906847700b007ad9adaa6a4mr20744760ejc.674.1667341770785;
-        Tue, 01 Nov 2022 15:29:30 -0700 (PDT)
-Received: from ZBook.localdomain (86-90-194-80.fixed.kpn.net. [86.90.194.80])
-        by smtp.gmail.com with ESMTPSA id f15-20020a17090631cf00b007a03313a78esm4650773ejf.20.2022.11.01.15.29.30
+        bh=Sd8jKs4tdxesO+PR444FHbSJvw1vCZI71YqUB5zSy+4=;
+        b=a85vlGdZSjgsRczmS7QQuTI4Ooiq/4UMlTYnoUJ+LZwouJdJQso/hEeVpQHgXaRBa/
+         4dtddPo1MvsF533zKD9PNWMzgQrGAklkmVaukx6EumUSKdy1cVTPzrTfOxkHfTwRYzO8
+         y3ICiZdlmVLX03Gcbhqps3CDPIFa6gfapY9YVHh1oNWfSksjcNIIsO/10FGGdxBf5ORO
+         +gsB4YwDkxeoOnGzLcocR/h4cKyPi9fhSdX3WsgjkLKYay08lo8D6PRqd2MxtXLrl8ng
+         Y6+FP1oCJW2gzglOuECQ4lz8cr1lVACqhIIIPqU+sBv1N9TgmaQa26WdosA2aWvle21A
+         B0Yw==
+X-Gm-Message-State: ACrzQf0d83mi05/nTt/Nh2bjx6ju8H/8CCOWVCBi/MCeQGtMOE1XVcpt
+	Cn6BUQbwPbu5perK68CtP74=
+X-Google-Smtp-Source: AMsMyM7Gxfvvt5MNrTj+Wb0osWhHMipmKhBlCHZudlpAsGu/WDGgLWZlqNMFKFid6V9BPYw1VcvL+w==
+X-Received: by 2002:aa7:d996:0:b0:461:88b8:c581 with SMTP id u22-20020aa7d996000000b0046188b8c581mr21435355eds.111.1667343411529;
+        Tue, 01 Nov 2022 15:56:51 -0700 (PDT)
+Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id b7-20020a0564021f0700b00458a03203b1sm4992951edb.31.2022.11.01.15.56.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 15:29:30 -0700 (PDT)
-From: Jerom van der Sar <jerom.vandersar@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: philipp.g.hortmann@gmail.com,
-	error27@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jerom van der Sar <jerom.vandersar@gmail.com>
-Subject: [PATCH v3] staging: rtl8192e: space formatting fixes in rtl_cam.c
-Date: Tue,  1 Nov 2022 23:29:00 +0100
-Message-Id: <20221101222900.4681-1-jerom.vandersar@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <f391a7cd-e57a-0643-1ba1-c859bf2f83a6@gmail.com>
-References: <f391a7cd-e57a-0643-1ba1-c859bf2f83a6@gmail.com>
+        Tue, 01 Nov 2022 15:56:50 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 05/11] media: cedrus: Filter controls based on capability
+Date: Tue, 01 Nov 2022 23:56:49 +0100
+Message-ID: <5872247.lOV4Wx5bFT@kista>
+In-Reply-To: <20221024201515.34129-6-jernej.skrabec@gmail.com>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com> <20221024201515.34129-6-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Fixed a few coding style issues in rtl_cam.c such as double blank lines
-and lack of spaces around binary operators.Some other warnings still
-remain. These issues were found by scripts/checkpatch.pl.
+Dne ponedeljek, 24. oktober 2022 ob 22:15:09 CET je Jernej Skrabec napisal(a):
+> Because not all Cedrus variants supports all codecs, controls should be
+> registered only if codec related to individual control is supported by
+> Cedrus.
+> 
+> Replace codec enum, which is not used at all, with capabilities flags
+> and register control only if capabilities are met.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 45 +++++++++++----------
+>  drivers/staging/media/sunxi/cedrus/cedrus.h |  2 +-
+>  2 files changed, 25 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> 2f284a58d787..023566b02dc5 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -77,56 +77,56 @@ static const struct cedrus_control cedrus_controls[] = {
+> .cfg = {
+>  			.id	= 
+V4L2_CID_STATELESS_MPEG2_SEQUENCE,
+>  		},
+> -		.codec		= CEDRUS_CODEC_MPEG2,
+> +		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= 
+V4L2_CID_STATELESS_MPEG2_PICTURE,
+>  		},
+> -		.codec		= CEDRUS_CODEC_MPEG2,
+> +		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= 
+V4L2_CID_STATELESS_MPEG2_QUANTISATION,
+>  		},
+> -		.codec		= CEDRUS_CODEC_MPEG2,
+> +		.capabilities	= CEDRUS_CAPABILITY_MPEG2_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= 
+V4L2_CID_STATELESS_H264_DECODE_PARAMS,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= 
+V4L2_CID_STATELESS_H264_SLICE_PARAMS,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= V4L2_CID_STATELESS_H264_SPS,
+>  			.ops	= &cedrus_ctrl_ops,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= V4L2_CID_STATELESS_H264_PPS,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= 
+V4L2_CID_STATELESS_H264_SCALING_MATRIX,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= 
+V4L2_CID_STATELESS_H264_PRED_WEIGHTS,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+> @@ -134,7 +134,7 @@ static const struct cedrus_control cedrus_controls[] = {
+> .max	= V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
+>  			.def	= 
+V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+> @@ -142,7 +142,7 @@ static const struct cedrus_control cedrus_controls[] = {
+> .max	= V4L2_STATELESS_H264_START_CODE_NONE,
+>  			.def	= 
+V4L2_STATELESS_H264_START_CODE_NONE,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	/*
+>  	 * We only expose supported profiles information,
+> @@ -160,20 +160,20 @@ static const struct cedrus_control cedrus_controls[] =
+> { .menu_skip_mask =
+>  				
+BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
+>  		},
+> -		.codec		= CEDRUS_CODEC_H264,
+> +		.capabilities	= CEDRUS_CAPABILITY_H264_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= V4L2_CID_STATELESS_HEVC_SPS,
+>  			.ops	= &cedrus_ctrl_ops,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H265,
+> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= V4L2_CID_STATELESS_HEVC_PPS,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H265,
+> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+> @@ -181,13 +181,13 @@ static const struct cedrus_control cedrus_controls[] =
+> { /* The driver can only handle 1 entry per slice for now */
+>  			.dims   = { 1 },
+>  		},
+> -		.codec		= CEDRUS_CODEC_H265,
+> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= 
+V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H265,
+> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+> @@ -197,7 +197,7 @@ static const struct cedrus_control cedrus_controls[] = {
+> .max = 0xffffffff,
+>  			.step = 1,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H265,
+> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+> @@ -205,7 +205,7 @@ static const struct cedrus_control cedrus_controls[] = {
+> .max	= V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
+>  			.def	= 
+V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H265,
+> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+> @@ -213,19 +213,19 @@ static const struct cedrus_control cedrus_controls[] =
+> { .max	= V4L2_STATELESS_HEVC_START_CODE_NONE,
+>  			.def	= 
+V4L2_STATELESS_HEVC_START_CODE_NONE,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H265,
+> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id	= V4L2_CID_STATELESS_VP8_FRAME,
+>  		},
+> -		.codec		= CEDRUS_CODEC_VP8,
+> +		.capabilities	= CEDRUS_CAPABILITY_VP8_DEC,
+>  	},
+>  	{
+>  		.cfg = {
+>  			.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
+>  		},
+> -		.codec		= CEDRUS_CODEC_H265,
+> +		.capabilities	= CEDRUS_CAPABILITY_H265_DEC,
+>  	},
+>  };
+> 
+> @@ -275,6 +275,9 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev,
+> struct cedrus_ctx *ctx) return -ENOMEM;
+> 
+>  	for (i = 0; i < CEDRUS_CONTROLS_COUNT; i++) {
+> +		if (!cedrus_is_capable(ctx, 
+cedrus_controls[i].capabilities))
+> +			continue;
 
-This patch helps clean up the rtl8192e driver in staging, making it
-easier to read and maintain.
+While it's not visible from this commit, above filtering causes issues when 
+searching for controls in ctx->ctrls[]. Now are not packed together and search 
+functions (cedrus_find_control_data, cedrus_get_num_of_controls) rely on 
+controls not being null. null control marks end of the array.
 
-Signed-off-by: Jerom van der Sar <jerom.vandersar@gmail.com>
----
-Changes in v3:
-  - Fixed faulty dot at the end of the patch sign-off.
+I'll fix that in next revision.
 
-Changes in v2:
-  - Reverted some formatting fixes to make the diff easier to review.
+Best regards,
+Jernej
 
- drivers/staging/rtl8192e/rtl8192e/rtl_cam.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+> +
+>  		ctrl = v4l2_ctrl_new_custom(hdl, 
+&cedrus_controls[i].cfg,
+>  					    NULL);
+>  		if (hdl->error) {
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> b/drivers/staging/media/sunxi/cedrus/cedrus.h index
+> 1a98790a99af..7a1619967513 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> @@ -57,7 +57,7 @@ enum cedrus_h264_pic_type {
+> 
+>  struct cedrus_control {
+>  	struct v4l2_ctrl_config cfg;
+> -	enum cedrus_codec	codec;
+> +	unsigned int		capabilities;
+>  };
+> 
+>  struct cedrus_h264_run {
+> --
+> 2.38.1
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-index 41faeb4b9b9b..d5aaf24a0ddb 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-@@ -17,7 +17,7 @@ void rtl92e_cam_reset(struct net_device *dev)
- {
- 	u32 ulcommand = 0;
- 
--	ulcommand |= BIT31|BIT30;
-+	ulcommand |= BIT31 | BIT30;
- 	rtl92e_writel(dev, RWCAM, ulcommand);
- }
- 
-@@ -40,7 +40,6 @@ void rtl92e_enable_hw_security_config(struct net_device *dev)
- 		SECR_value |= SCR_TxUseDK;
- 	}
- 
--
- 	ieee->hwsec_active = 1;
- 	if ((ieee->pHTInfo->iot_action & HT_IOT_ACT_PURE_N_MODE) || !hwwep) {
- 		ieee->hwsec_active = 0;
-@@ -104,10 +103,9 @@ void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
- 	else
- 		usConfig |= BIT15 | (KeyType<<2) | KeyIndex;
- 
--
- 	for (i = 0; i < CAM_CONTENT_COUNT; i++) {
- 		TargetCommand  = i + CAM_CONTENT_COUNT * EntryNo;
--		TargetCommand |= BIT31|BIT16;
-+		TargetCommand |= BIT31 | BIT16;
- 
- 		if (i == 0) {
- 			TargetContent = (u32)(*(MacAddr+0)) << 16 |
-@@ -152,7 +150,6 @@ void rtl92e_cam_restore(struct net_device *dev)
- 
- 	if ((priv->rtllib->pairwise_key_type == KEY_TYPE_WEP40) ||
- 	    (priv->rtllib->pairwise_key_type == KEY_TYPE_WEP104)) {
--
- 		for (EntryId = 0; EntryId < 4; EntryId++) {
- 			MacAddr = CAM_CONST_ADDR[EntryId];
- 			if (priv->rtllib->swcamtable[EntryId].bused) {
--- 
-2.34.1
 
