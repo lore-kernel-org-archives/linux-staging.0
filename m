@@ -1,56 +1,59 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFDA7C;
-	Tue,  1 Nov 2022 13:32:26 +0000 (UTC)
-Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id 73062140A19;
-	Tue,  1 Nov 2022 13:32:19 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id A231B20010;
-	Tue,  1 Nov 2022 13:31:27 +0000 (UTC)
-Message-ID: <ea1476128e2f21956ad99e52b01f0c99f46e70ba.camel@perches.com>
-Subject: Re: [PATCH v2 1/2] change the function name s_vFillRTSHead
-From: Joe Perches <joe@perches.com>
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>, 
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev
-Date: Tue, 01 Nov 2022 06:32:15 -0700
-In-Reply-To: <ea25c687d28f5cf40c315b8191d98fa0608f8a76.1667305446.git.tanjubrunostar0@gmail.com>
-References: <cover.1667305446.git.tanjubrunostar0@gmail.com>
-	 <ea25c687d28f5cf40c315b8191d98fa0608f8a76.1667305446.git.tanjubrunostar0@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCEB7C;
+	Tue,  1 Nov 2022 13:47:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667310454; bh=7jTJtPDuvOB4UjP4GvxdQueh87xLMlDPi/Mqzt+n5G0=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=lB6xDl1sDGjv3GtGZQBgw60sAB+cuWMDNzmltKRksha1WAHF093y9HHlC3NztsyI8
+	 U1Sbzo3ifHEbQFbYKKXghpysTsT4IueFFvZnenmfmzAzLNhFbiMyBkFOnmsR9rQRts
+	 P/KhuZQZs46rIqZh8r1CF8Mm0T3FEhinXa8U3ryo=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+	via [213.182.55.206]
+	Tue,  1 Nov 2022 14:47:34 +0100 (CET)
+X-EA-Auth: DfQ3DHXejnins+N2KjtND5TsIgSXGYhJ7du0CuWJRoHUgib7V4P3WtP15n7USff9UsVtKlni9XmdVpw0oYMVDJ+tGLC47Zf+
+Date: Tue, 1 Nov 2022 19:17:30 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] wlan-ng: Unused code clean-up patch set
+Message-ID: <cover.1667308828.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.00
-X-Stat-Signature: bqygm3jsbejrzbgd6drrra7iuu8fj6wi
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: A231B20010
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19vCoHjt09qItJOcQk9xglaTnJ4aqTq5NI=
-X-HE-Tag: 1667309487-134588
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2022-11-01 at 12:37 +0000, Tanjuate Brunostar wrote:
-> Remove the use of Hungarian notation, which is not used in the Linux
-> kernel. Reported by checkpatch
-[]
-> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.=
-c
-[]
-> @@ -23,7 +23,7 @@
->   *      s_uGetTxRsvTime- get frame reserved time
->   *      s_vFillCTSHead- fulfill CTS ctl header
->   *      s_vFillFragParameter- Set fragment ctl parameter.
-> - *      s_vFillRTSHead- fulfill RTS ctl header
-> + *      fill_rts_head- fulfill RTS ctl header
+The patch set proposes to clean unused code from the wlan-ng driver. The patches
+are compile tested on my x86 machine.
 
-Perhaps use header as head is conventionally used in lists.
+Change in v2:
+   1. Review and include additional code clean-up opportunities as
+      suggested by dan.carpenter@oracle.com and paskripkin@gmail.com
+   2. Combine changes for different impact areas into a path sea.
+      Suggested by dan.carpenter@oracle.com
 
-	fill_rts_header
+Deepak R Varma (7):
+  staging: wlan-ng: Remove unused struct wlan_ie_ssid references
+  staging: wlan-ng: Remove unused struct wlan_ie_supp_rates references
+  staging: wlan-ng: Remove unused struct wlan_ie_tim references
+  staging: wlan-ng: Remove unused struct wlan_ie_ibss_parms references
+  staging: wlan-ng: Remove unused struct p80211macarray definition
+  staging: wlan-ng: Remove unused function declarations
+  staging: wlan-ng: Remove unused structure definitions
+
+ drivers/staging/wlan-ng/p80211mgmt.h  | 301 --------------------------
+ drivers/staging/wlan-ng/p80211types.h |   6 -
+ 2 files changed, 307 deletions(-)
+
+--
+2.34.1
+
+
 
