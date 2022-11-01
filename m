@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058DF7E
-	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 11:30:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A76EDC433C1;
-	Tue,  1 Nov 2022 11:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4C27E
+	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 11:31:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BC6BC43140;
+	Tue,  1 Nov 2022 11:31:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667302235;
-	bh=cmNTbBy0ITeyQAOWKJ1WhJquHtMEaGIfAStDm/zXi/g=;
+	s=k20201202; t=1667302268;
+	bh=LD0hUez/+4eQ/JcqQmqxn2cEjEtVgr9CXGubJIH/Jtg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FQW6zXZU2NQLpgsgZy4nmfayTOEIqFoK6ZudxvFuQcTkEL5ivtQK91xyLsniUwOdX
-	 owMnwV95PJfTUv/efCrn3tQRI1DKx/HhN7lTe5BANfRcfdn+73vgvUStLh5JUMReDE
-	 IU04oMYMdh3Q2XQtIzygF8GsGS7Ep4OraPLfdnCj1Fq3U2J5XK/LmzPuUiOH+y/iVQ
-	 K+dE/NRnuyx+YMdwDIV98utJuQGhh3Z1gOALoTacrfqjlZgjJr+8aqOIoZesRaCrrO
-	 1FkT2bro2GxCF00ypBi/Ka5PfPgSzpfRDPJgg/qYXupDNqni+dTrlE3H11aDpfCxra
-	 PmyU2scCz6E/g==
+	b=lc1fFQmtZMJ5icOpHseNSqPWED6HhDZlhjctrN8SIkQKH736XGah+X5m0NGbunqwe
+	 D2IJ5nAf8pMqyPzpYk/5e7RedhWERwYn8RcIQ2Byzy6aaGerSuauUO3C+da4SJr9VX
+	 2AN67HJQnePNiRh/FSd7VXHJS997qxKOBCdDNcPQtupcGX57iS6ctr+JF+/YGkrJXu
+	 1a0vPyeU6AII2giOIJBs3ksFH9CTzCh7PN50S2alp3+biYQYGX9gOCC346BKC3xulU
+	 thwYzy7n/8Fw1fuNRQC5h4N75OCgQwiMZGBvrCq/G12PGFs7waDqJSWH0SzHk6W8MW
+	 SHuSh/4RkFwrg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
+Cc: Hangyu Hua <hbh25y@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	neil.armstrong@linaro.org,
 	gregkh@linuxfoundation.org,
-	andriy.shevchenko@linux.intel.com,
-	kitakar@gmail.com,
-	alan@linux.intel.com,
+	khilman@baylibre.com,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 08/14] media: atomisp: Fix v4l2_fh resource leak on open errors
-Date: Tue,  1 Nov 2022 07:30:04 -0400
-Message-Id: <20221101113012.800271-8-sashal@kernel.org>
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.4 4/8] media: meson: vdec: fix possible refcount leak in vdec_probe()
+Date: Tue,  1 Nov 2022 07:30:53 -0400
+Message-Id: <20221101113059.800777-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221101113012.800271-1-sashal@kernel.org>
-References: <20221101113012.800271-1-sashal@kernel.org>
+In-Reply-To: <20221101113059.800777-1-sashal@kernel.org>
+References: <20221101113059.800777-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,33 +45,41 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Hangyu Hua <hbh25y@gmail.com>
 
-[ Upstream commit 5b9853ad1329be49343a608d574eb232ff1273d0 ]
+[ Upstream commit 7718999356234d9cc6a11b4641bb773928f1390f ]
 
-When atomisp_open() fails then it must call v4l2_fh_release() to undo
-the results of v4l2_fh_open().
+v4l2_device_unregister need to be called to put the refcount got by
+v4l2_device_register when vdec_probe fails or vdec_remove is called.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/media/meson/vdec/vdec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index b751df31cc24..ccf398b42520 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -890,6 +890,7 @@ static int atomisp_open(struct file *file)
- 	hmm_pool_unregister(HMM_POOL_TYPE_DYNAMIC);
- 	pm_runtime_put(vdev->v4l2_dev->dev);
- 	rt_mutex_unlock(&isp->mutex);
-+	v4l2_fh_release(file);
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 8dd1396909d7..a242bbe23ba2 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -1074,6 +1074,7 @@ static int vdec_probe(struct platform_device *pdev)
+ 
+ err_vdev_release:
+ 	video_device_release(vdev);
++	v4l2_device_unregister(&core->v4l2_dev);
  	return ret;
  }
  
+@@ -1082,6 +1083,7 @@ static int vdec_remove(struct platform_device *pdev)
+ 	struct amvdec_core *core = platform_get_drvdata(pdev);
+ 
+ 	video_unregister_device(core->vdev_dec);
++	v4l2_device_unregister(&core->v4l2_dev);
+ 
+ 	return 0;
+ }
 -- 
 2.35.1
 
