@@ -1,101 +1,73 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653D67B;
-	Tue,  1 Nov 2022 22:15:40 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id k2so40703760ejr.2;
-        Tue, 01 Nov 2022 15:15:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538A67B
+	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 22:25:12 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id i21so23807236edj.10
+        for <linux-staging@lists.linux.dev>; Tue, 01 Nov 2022 15:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+Tj6LMlid1xqeP/OugEx6eshEoLxwhpJ2MaPH/4J8sc=;
-        b=HTFJBL9J0F7Z1cd/8Hjsp3KSPVYnmAiSIdeEF+dtoljPVhoG5SMj9H8jzOvl/1ur2b
-         INV80sxQYR6xrhtKoMgnQI8qr+moluapFVh0T1sGH+k+oTlVt7CzdEzhLmSpfMfCTEMz
-         Mu/uX7n+gyVhBQASGIOpfy+OmRrgQHvseyi5eDbcLrqm5AoKI+hsZPfXIWOkgmJK4CPd
-         LL9gCZS8ptzuhukIUo8s51ZwGvvmAfMT0Os816kLJYxWsjUCUUAVb+aIXgYClDB82h8J
-         XRhihvbP1Mivm2jnjFuB+8KkIxrwluOUZs4YeisAirTZzli6odoGA5JrkhKAJf7ECoW8
-         j/DA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Y0TtHVNR0Zt2jBbXANXyzyZbG58TNvz96BB5dak+Do=;
+        b=XTD1f7Yp1DKCBTkuRWo2+SvHQxYrb6N1nL03Lr76IqyAxIsPcJtgrsAxq8dokZGxpf
+         Pf9aHTVUu2ry1awbP1Nk2Tqva0NMyq+Ml5AYGTbrIpKoHESdjVoPmwey/OJylxbSRT49
+         Y316EdFrieSqTgP2uWz+rihiXkVtjpne1MrcZCmVCSrOQ85Fn4rDAJvyIj73YylwcqmI
+         NKj6zuvvBoK0w9rr09a1yjFrTnQLW3eYtj2kxVIUYKA0Led89We1MY1E+wVhMUoKF6vo
+         GQjS9Q7k+1TMAOx4/tKUwkMPH9gJcNhX4vvr8wmKPiMpqIhFTBqHbEjDdB862qAjf/YS
+         pcfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Tj6LMlid1xqeP/OugEx6eshEoLxwhpJ2MaPH/4J8sc=;
-        b=Vk2vA1TDOpVquaj7B2UztfZHNF8duAiwTe1bZDDOWl2A3CHZscDnn6saFgumkG+coX
-         QGsU7phPu7cZBkl6x2fWb/CF+rkGnFXIkGwCGJF+igvQiAF7fgw7bpiCEIlJEH04ZClv
-         0zWLikF9cHKEqr3kqSCo7Zs6WCu29FXBG02udCpF4Jhyt2TKY0+N/LESIONqs0O7MQEc
-         2TdKLpYZDOsuSN2Vpm0AY1ACtaxwSp0KsIdm0sUu7cW2mnLVTvTaDNs71hHPUjvZYmSP
-         KkgF8ycZMH4ZU9cScMyecQraOlCClrFM0XF2nZmGpZXDB5kjYrD3Zquc4wuYgVle7HAb
-         0RHw==
-X-Gm-Message-State: ACrzQf098Z5KoDgZXhLF9f68G+oxSsCWUkjHkuBOPlyPxds5fBkJybaB
-	mV1oMiAvEnYWPFLkOY4acUU=
-X-Google-Smtp-Source: AMsMyM61egOW8fwD1jxTVRXlrrlYoJderSJOPSy+elRTByUuddOZPISb2AArbAAKex/5lgo5BZLTrw==
-X-Received: by 2002:a17:907:971f:b0:7ad:e232:f115 with SMTP id jg31-20020a170907971f00b007ade232f115mr8922207ejc.754.1667340938658;
-        Tue, 01 Nov 2022 15:15:38 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f2a:b885:c7c8:ee47:4872:331d? (p200300c78f2ab885c7c8ee474872331d.dip0.t-ipconnect.de. [2003:c7:8f2a:b885:c7c8:ee47:4872:331d])
-        by smtp.gmail.com with ESMTPSA id d25-20020aa7c1d9000000b00456c6b4b777sm4874818edp.69.2022.11.01.15.15.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Nov 2022 15:15:38 -0700 (PDT)
-Message-ID: <f67a1a02-addf-3197-e423-7c66ab97f6df@gmail.com>
-Date: Tue, 1 Nov 2022 23:15:37 +0100
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1Y0TtHVNR0Zt2jBbXANXyzyZbG58TNvz96BB5dak+Do=;
+        b=Pr+a6y4Od9I2G+tAFWqPy7c/iKZUA9LQqlRr6fv+ztKs3FqHQDCcqi/l1bOGNCJaka
+         pAgPeTYjOY06gTVPfuhXM3L7T2WUputyTag+uVknJpbwwyJ81hxgh3RRU1jTVQZnMcVh
+         xCqaSqADwhDx5/WZuOR6gcVW6CJk5g8XdSMOq9sW1SdvaKQP7tEltjc186JxltbpqGHQ
+         q7GMAviXxAjcA7vRIV9hjYz8eYo/SnflAPxLdiwslDI0cEh88S4yDLt3XM0SYxwEh2Oa
+         SezPbrrDklNZBgbmRktlNvHmtU+tCDM8xBTCoiUy7y/ckrEhrCCMCcewIU2UkgzaEUx+
+         QSaA==
+X-Gm-Message-State: ACrzQf0QvEZYBm2uL/TZAMUkPUPuqos9NQsNmvIUg/SrRLmoovAO87Ap
+	nWPFHQGec11NWeWaVKAvLig=
+X-Google-Smtp-Source: AMsMyM6LzPa2RCiNmCR+IRBXvZBNmChmGLbhjGBuWPneabK4epdnsZKYenQf3jxpNORYfuMBLkXSeQ==
+X-Received: by 2002:a05:6402:51c8:b0:462:3e90:aef with SMTP id r8-20020a05640251c800b004623e900aefmr21986115edd.225.1667341510532;
+        Tue, 01 Nov 2022 15:25:10 -0700 (PDT)
+Received: from ZBook.localdomain (86-90-194-80.fixed.kpn.net. [86.90.194.80])
+        by smtp.gmail.com with ESMTPSA id z20-20020aa7c654000000b0045b3853c4b7sm4964843edr.51.2022.11.01.15.25.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Nov 2022 15:25:09 -0700 (PDT)
+From: Jerom van der Sar <jerom.vandersar@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	error27@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8192e: space formatting fixes in rtl_cam.c
+Date: Tue,  1 Nov 2022 23:25:09 +0100
+Message-Id: <20221101222509.4596-1-jerom.vandersar@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <f391a7cd-e57a-0643-1ba1-c859bf2f83a6@gmail.com>
+References: <f391a7cd-e57a-0643-1ba1-c859bf2f83a6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 0/2] staging: vt6655: some checkpatch fixes in the file
- rxtx.c
-Content-Language: en-US
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy@lists.linux.dev
-References: <cover.1667326000.git.tanjubrunostar0@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <cover.1667326000.git.tanjubrunostar0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/1/22 19:17, Tanjuate Brunostar wrote:
-> These fixes are focused on the function s_vFillRTSHead
-> 
-> v3: changed the function name from fill_rts_head to fill_rts_header as
-> head is conventionally used in lists
-> 
-> v2: changed confusing changelog messages
-> 
-> Tanjuate Brunostar (2):
->    staging: vt6655: change the function name s_vFillRTSHead
->    staging: vt6655: Join some lines of code to avoid code lines ending in
->      (
-> 
->   drivers/staging/vt6655/rxtx.c | 48 ++++++++++++++++-------------------
->   1 file changed, 22 insertions(+), 26 deletions(-)
-> 
+On 11/1/22 23:11, Philipp Hortman wrote:
+> WARNING: Unexpected content after email: 'Jerom van der Sar 
+> <jerom.vandersar@gmail.com>.', should be: 'Jerom van der Sar 
+> <jerom.vandersar@gmail.com>'
+> #14:
+> Signed-off-by: Jerom van der Sar <jerom.vandersar@gmail.com>.
+>
+>
+> I cannot apply your patch.
+>
+> Bye Philipp
 
-Patch failed at 0001 staging: vt6655: change the function name 
-s_vFillRTSHead
-
-
-WARNING: line length of 138 exceeds 100 columns
-#58: FILE: drivers/staging/vt6655/rxtx.c:915:
-+			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, 
-bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-
-WARNING: line length of 138 exceeds 100 columns
-#67: FILE: drivers/staging/vt6655/rxtx.c:934:
-+			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, 
-bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-
-WARNING: line length of 138 exceeds 100 columns
-#76: FILE: drivers/staging/vt6655/rxtx.c:948:
-+			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, 
-bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-
-May be you need to consider to break this lines.
-
-Bye Philipp
+Thanks for the catch. Will fix.
