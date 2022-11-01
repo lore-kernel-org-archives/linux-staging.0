@@ -1,120 +1,177 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143187E
-	for <linux-staging@lists.linux.dev>; Tue,  1 Nov 2022 19:15:07 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id d26so39481909eje.10
-        for <linux-staging@lists.linux.dev>; Tue, 01 Nov 2022 12:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=URSBztTq5HXujid4PUnbsPAmYdL6Ka0hNq1mm6n6cno=;
-        b=fqX5yYexYI0j5kK909nrQwP2vwkyAGRQl0POVblf3X8XEadNzCO8lJzlbIQ3rqONRl
-         KEpwUe1BPjJETcDhiB0DF+sECLDvw43PywmMPEyv21fxleB6TXKwUFW/A+0wSWaACvwU
-         frmADMZngwXzQQhG8jArGThluWuUIcuTGNazV6cOW87OK5P5ORYmRo5q2AA+GuJ0OqSI
-         gYepMIRrCxZ+nRDm1zDqyQC/g+mQPVcw7We4M2HoIfEsIFXcgPn7/FMmERxUjeOY9cgr
-         l5oSEkrQGpjkhDAevijaOEjkYbvLvbDmwiyt0U0G9Lnz2v6Me+1zTR15rOA8nybhvFwI
-         bv4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=URSBztTq5HXujid4PUnbsPAmYdL6Ka0hNq1mm6n6cno=;
-        b=W/Iou/dNF2b1+LKfI/aaEFRR9p7gcfRivfYh5L9zSFvqGSraSN4D49A/KojfwcwpH8
-         B9WIu5vXY/QVeqOnxV4Py9wxZA/m1HASdOrUks1Ewq4iwWw0USkW/etU6KVSlG3nFe9x
-         FZbok2w4atf0P2fKWvv2AodtdVJF0CRiIRJyKUTeOf4NGWHeD0/sbuEYmxNhkt/aq0pv
-         aMXmuZNiEn9zhDXCmhvWXfLB0qE0KIvx/pZRu+hFyCyltt/oruAczYQnRCZx8/37ZDlx
-         98gx0L4hvNKrqBn6yEkBRDnXGIxWgIk0a0gHwtKHR1+ezlV9zEj74KSEVMmB09n7zmv7
-         8++g==
-X-Gm-Message-State: ACrzQf17LBcJSW1jjJsh7XiPxkRqZz895xGElCTO9GK/tO3GlnMOHjEX
-	YGkmy6+Qu4h+mKn95+TQ+6M=
-X-Google-Smtp-Source: AMsMyM5CXH16D7IbYQTiafXplecV8l3pNJWjj7aQ8TMiJc9+p785pNwbUydD/vDmaOjJy7oyr4/a5A==
-X-Received: by 2002:a17:906:974f:b0:7aa:f705:e580 with SMTP id o15-20020a170906974f00b007aaf705e580mr18916152ejy.530.1667330105418;
-        Tue, 01 Nov 2022 12:15:05 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb7a.dynamic.kabel-deutschland.de. [95.90.187.122])
-        by smtp.gmail.com with ESMTPSA id hw20-20020a170907a0d400b007ade5cc6e7asm1643853ejc.39.2022.11.01.12.15.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 12:15:05 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: convert rtw_free_stainfo() to void
-Date: Tue,  1 Nov 2022 20:14:58 +0100
-Message-Id: <20221101191458.8619-3-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221101191458.8619-1-straube.linux@gmail.com>
-References: <20221101191458.8619-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DC11EA18;
+	Tue,  1 Nov 2022 20:18:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667333908; bh=BkjXWlc0++dK5F1VA40ezcKdiL7mFatw/lwsnE+mg4s=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=eGfm3e/sYf70VLDsRKajG3/d/YCHdHb2Xqm1M/Codp0Ng5AhowJ2W8YMLeOGtBTH4
+	 tE4fsfHyo/c4yqbzHJCn/DKhUkP0/iKzZEjIT4CNNhnlf2H88badFLvrXfCcL8Ryfl
+	 vBDtfLPYd+3efLyvNMRD9o2++E+HRUjzhTMf5tPI=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+	via [213.182.55.206]
+	Tue,  1 Nov 2022 21:18:27 +0100 (CET)
+X-EA-Auth: bOEGrmhbXJNbPaPsvafkiw4ZtMkF0un82yihd8dwy1jDnv9hcDq9II9y30NwBBnDyW5QN4KpKF18JalbmAvTap9g85tSDmIz
+Date: Wed, 2 Nov 2022 01:48:18 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: r8188eu: remove unwanted variable implementation
+Message-ID: <Y2F/CtEnjWlHgw9f@ubunlion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The function rtw_free_stainfo() returns always _SUCCESS and none of
-its callers uses the return value. We can safely make the function
-void. Yet another tiny step towards getting rid of _FAIL / _SUCCESS.
+Local variables intended as the function return value are
+initialized but their value does not change during function
+execution. The initial value assigned to the variable is simply
+returned to the caller. This makes the variable declaration
+unnecessary and the initial value can be directly returned.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Following table lists the initial commits when the variables were first
+introduced but have not been used since inception:
+
+Variable  Function	File			     Inception Commit
+ret	  rtw_sta_flush	r8188eu/core/rtw_ap.c	     [1]
+ret	  amsdu_to_msdu r8188eu/core/rtw_recv.c	     [2]
+ret	  rtw_p2p_set	r8188eu/os_dep/ioctl_linux.c [3]
+
+[1] 'commit 9a7fe54ddc3a ("staging: r8188eu: Add source files for new driver - part 1")'
+[2] 'commit 1cc18a22b96b ("staging: r8188eu: Add files for new driver - part 5")'
+[3] 'commit a2c60d42d97c ("staging: r8188eu: Add files for new driver - part 16")'
+
+However, local variable pull of the function update_txdesc from file
+r8188eu/hal/rtl8188eu_xmit.c was in use prior to introduction of
+commit ID [4] 7bdedfef085bb65. The clean-up associated with this
+commit left the variable pull redundant.
+
+[4] 'commit 7bdedfef085b ("staging: r8188eu: Remove mp, a.k.a. manufacturing process, code")'
+
+The patch is produced using the following coccicheck options:
+   COCCI=./scripts/coccinelle/misc/returnvar.cocci
+   M=driver/staging/r8188eu/
+   MODE=patch
+
+Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/staging/r8188eu/core/rtw_sta_mgt.c | 8 ++------
- drivers/staging/r8188eu/include/sta_info.h | 2 +-
- 2 files changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-index 51324e708697..b4aee8623099 100644
---- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-@@ -242,7 +242,7 @@ struct	sta_info *rtw_alloc_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
- }
- 
- /*  using pstapriv->sta_hash_lock to protect */
--u32	rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
-+void rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+Changes in v2:
+   1. Include reason for why the variable declarations are not useful. Suggested
+      by Julia Lawall <julia.lawall@inria.fr>
+
+
+ drivers/staging/r8188eu/core/rtw_ap.c        | 5 ++---
+ drivers/staging/r8188eu/core/rtw_recv.c      | 3 +--
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 3 +--
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
+ 4 files changed, 5 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index 24eb8dce9bfe..9eaf345e6a00 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -1020,7 +1020,6 @@ u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
+ int rtw_sta_flush(struct adapter *padapter)
  {
- 	int i;
- 	struct __queue *pfree_sta_queue;
-@@ -252,7 +252,7 @@ u32	rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- 	struct	sta_priv *pstapriv = &padapter->stapriv;
- 
- 	if (!psta)
--		goto exit;
-+		return;
- 
- 	pfree_sta_queue = &pstapriv->free_sta_queue;
- 
-@@ -356,10 +356,6 @@ u32	rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- 	spin_lock_bh(&pfree_sta_queue->lock);
- 	list_add_tail(&psta->list, get_list_head(pfree_sta_queue));
- 	spin_unlock_bh(&pfree_sta_queue->lock);
--
--exit:
--
--	return _SUCCESS;
+ 	struct list_head *phead, *plist;
+-	int ret = 0;
+ 	struct sta_info *psta = NULL;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+@@ -1028,7 +1027,7 @@ int rtw_sta_flush(struct adapter *padapter)
+ 	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+
+ 	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
+-		return ret;
++		return 0;
+
+ 	spin_lock_bh(&pstapriv->asoc_list_lock);
+ 	phead = &pstapriv->asoc_list;
+@@ -1051,7 +1050,7 @@ int rtw_sta_flush(struct adapter *padapter)
+
+ 	associated_clients_update(padapter, true);
+
+-	return ret;
++	return 0;
  }
- 
- /*  free all stainfo which in sta_hash[all] */
-diff --git a/drivers/staging/r8188eu/include/sta_info.h b/drivers/staging/r8188eu/include/sta_info.h
-index 55ea5edc2914..e42f4b4c6e24 100644
---- a/drivers/staging/r8188eu/include/sta_info.h
-+++ b/drivers/staging/r8188eu/include/sta_info.h
-@@ -303,7 +303,7 @@ int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta);
- struct sta_info *rtw_get_stainfo_by_offset(struct sta_priv *stapriv, int off);
- 
- struct sta_info *rtw_alloc_stainfo(struct sta_priv *stapriv, u8 *hwaddr);
--u32	rtw_free_stainfo(struct adapter *adapt, struct sta_info *psta);
-+void rtw_free_stainfo(struct adapter *adapt, struct sta_info *psta);
- void rtw_free_all_stainfo(struct adapter *adapt);
- struct sta_info *rtw_get_stainfo(struct sta_priv *stapriv, u8 *hwaddr);
- u32 rtw_init_bcmc_stainfo(struct adapter *adapt);
--- 
-2.38.0
+
+ /* called > TSR LEVEL for USB or SDIO Interface*/
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 4b68a543f68b..94f85cd7038d 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -1415,7 +1415,6 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
+
+ 	struct recv_priv *precvpriv = &padapter->recvpriv;
+ 	struct __queue *pfree_recv_queue = &precvpriv->free_recv_queue;
+-	int	ret = _SUCCESS;
+
+ 	nr_subframes = 0;
+
+@@ -1513,7 +1512,7 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
+ 	prframe->len = 0;
+ 	rtw_free_recvframe(prframe, pfree_recv_queue);/* free this recv_frame */
+
+-	return ret;
++	return _SUCCESS;
+ }
+
+ static bool check_indicate_seq(struct recv_reorder_ctrl *preorder_ctrl, u16 seq_num)
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+index 8e4a5acc0b18..6d1f56d1f9d7 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+@@ -149,7 +149,6 @@ static void fill_txdesc_phy(struct pkt_attrib *pattrib, __le32 *pdw)
+
+ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bagg_pkt)
+ {
+-	int	pull = 0;
+ 	uint	qsel;
+ 	u8 data_rate, pwr_status, offset;
+ 	struct adapter		*adapt = pxmitframe->padapter;
+@@ -295,7 +294,7 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
+ 	ODM_SetTxAntByTxInfo_88E(&haldata->odmpriv, pmem, pattrib->mac_id);
+
+ 	rtl8188eu_cal_txdesc_chksum(ptxdesc);
+-	return pull;
++	return 0;
+ }
+
+ /* for non-agg data frame or  management frame */
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 8516e253bb03..59a97c5fb80c 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -2979,8 +2979,6 @@ static int rtw_p2p_set(struct net_device *dev,
+ 			       struct iw_request_info *info,
+ 			       union iwreq_data *wrqu, char *extra)
+ {
+-	int ret = 0;
+-
+ 	if (!memcmp(extra, "enable =", 7)) {
+ 		rtw_wext_p2p_enable(dev, info, wrqu, &extra[7]);
+ 	} else if (!memcmp(extra, "setDN =", 6)) {
+@@ -3027,7 +3025,7 @@ static int rtw_p2p_set(struct net_device *dev,
+ 		rtw_p2p_set_persistent(dev, info, wrqu, &extra[11]);
+ 	}
+
+-	return ret;
++	return 0;
+ }
+
+ static int rtw_p2p_get2(struct net_device *dev,
+--
+2.34.1
+
+
 
