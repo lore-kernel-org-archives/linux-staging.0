@@ -1,43 +1,43 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8D824F25;
-	Wed,  2 Nov 2022 18:08:29 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id x2so27749707edd.2;
-        Wed, 02 Nov 2022 11:08:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5AC24F26;
+	Wed,  2 Nov 2022 18:08:30 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id a5so27694331edb.11;
+        Wed, 02 Nov 2022 11:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lOVecSCg58WLAt5MFbBf+7umb5iX32HjizH1LHXmtzY=;
-        b=c4sCG5TAZ2UUoS2lgWb76UO1do1+DNv9lhf4f4V7zz8ljX4X5EhvcAsgEefuVLOg+q
-         gaywl+w/4OLpyHt3F/9Bwyiwk5P2gVSKETjqXN25CxxveeMkl1P02LTapxNRpEbc4ncS
-         y0DtjSpEZpoo2aYks0chPXEMt1SraV5egn74lh0bqLCfULmWstsxoJQzoNKJwcM24qu5
-         exgx3cKeSyDCHntD25R80Aed0dN9MnlXk9pnJP8nJ5srwQ3D4KTDuWMqgQDoOgnlpd23
-         V9+2EcH2DuN9nLi3yQK1rC1Vva6WPZ/ddX8HBC+0qQqm0AeUMYHozRY7sbi8QTnZCa4A
-         ZmUw==
+        bh=zTX/CJSb7MB7yBzrjB/XPnpPEfJPqcJy2sRni4DNHhc=;
+        b=BWwH0PLp6JQ9eYWdTML13I1KDHGFTpJL2HjwEIHw81SznXWlFHTHSGWOlc7rSeX503
+         9wqgaJhi0gATwz9JUOCOVIlEvlOcAAxSSw4jpkKHc1XQj8MYdzptxvQQa10K74lJnjKO
+         jYsqyFNonzO42fSV0aDTHyZcLt48Xwneh3+krvC2SQV75tXrTQ6zEY8ieSrftyVNXarC
+         FxZCPMocPoPCtGFhYjDdZjDakeFDyxbJUOA5ueFmLMmXM7e5+tsZ8JllrRhSr7gjS0Tj
+         QXKdq4b+3GH/aCvfMgDMokftvmjIQP3LAxTJP355QlPNg/lpS8lip99Qg0Ha4m7/3OA1
+         daRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lOVecSCg58WLAt5MFbBf+7umb5iX32HjizH1LHXmtzY=;
-        b=bOswE/EDmfkwUGrhup7OiNXx0geliKHWO5j7IVYN43qnu5ZaaFKxo8vJINUtO7cA57
-         jtyaejvOCn/hnACAZ4zGNVl7n2PV1tKTtRwzk9d6VIHTaknPhTufH4+C0Buxqw6ZIJq2
-         MVWYA+NY7s+pSwXSB7HjhANDP13qMGcSebSlYpwIg0/bw+wxIT2yvkvIMesop3Wdrrpv
-         1Z8/VGDnPFHLsBeud5cQwc28GLXDVJ8OpypM71bD3XHdron+UgfhlHr8hE1p6zgBh+q4
-         /1+bgojU3Yf42541QSALqSenC6LEIYEwcDp8U2k0JYqD0DR+s8jni7DdgLqgm/1nVp5N
-         yugA==
-X-Gm-Message-State: ACrzQf3A4oYZjbMYhs87+8apAz/8HQg9J4NHW25NJ3fFsJV5ooxY9QRW
-	GdizFKJBnnl0iWF4B7yKVfk=
-X-Google-Smtp-Source: AMsMyM6muLY2M00Knxi/o8lVph4GJlPIjeZVu+nV5Y9ZTqSo+P6497kNAnSyQ3n27WFCtlCImp3mvg==
-X-Received: by 2002:a05:6402:249b:b0:460:cb11:27d4 with SMTP id q27-20020a056402249b00b00460cb1127d4mr25895603eda.410.1667412507718;
-        Wed, 02 Nov 2022 11:08:27 -0700 (PDT)
+        bh=zTX/CJSb7MB7yBzrjB/XPnpPEfJPqcJy2sRni4DNHhc=;
+        b=CE83avwifKJXq0YI4idn9yIXBkgbEtQrP0ke22x2A0LMtIIJjCCKtN3QESGokP9TQM
+         MBVjP2MJrQp/2s/rE4RO9Yrcx9QceFMCWR8NncLkGcAXMmOZb5N/s0+/5V+74dhocutQ
+         UHePFuNA99JOvGCvPERUWHiynnBTRipKsmT359gYf4dhZCwAioaZuCrqNCwrhUmuanSI
+         sPPH98Bbe6qwB9dROAzelb1JMr0CkRHByXeW5yfHKjjHcM/BmpveiI8SjN2E4uRaTVA/
+         OFm33Tx3OMW/qhNnbbC37Vi9xzYHNJKjn9RKoVJnbOrwwKBb8N7XqiYDsQGFS+H0cgYS
+         7+JA==
+X-Gm-Message-State: ACrzQf1S08iIl9kxKxh/OI3i5anVMSm9Z/IwEOu/fu4WderiPT4GzHt1
+	W1cnSbPdoJb+m95a3TlsWfM=
+X-Google-Smtp-Source: AMsMyM7IKKboWbODn0dEZMDDWaIh2XhF9lJrzZnIHY8gQG+UF2lAOeAb//oR918UqPONo5aKDRZFjg==
+X-Received: by 2002:a05:6402:528a:b0:454:8613:6560 with SMTP id en10-20020a056402528a00b0045486136560mr26656883edb.252.1667412508810;
+        Wed, 02 Nov 2022 11:08:28 -0700 (PDT)
 Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id gy8-20020a170906f24800b007317f017e64sm5677460ejb.134.2022.11.02.11.08.26
+        by smtp.gmail.com with ESMTPSA id gy8-20020a170906f24800b007317f017e64sm5677460ejb.134.2022.11.02.11.08.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 11:08:27 -0700 (PDT)
+        Wed, 02 Nov 2022 11:08:28 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com
@@ -52,9 +52,9 @@ Cc: mchehab@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 09/11] media: cedrus: initialize controls a bit later
-Date: Wed,  2 Nov 2022 19:08:08 +0100
-Message-Id: <20221102180810.267252-10-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 10/11] media: cedrus: Adjust buffer size based on control values
+Date: Wed,  2 Nov 2022 19:08:09 +0100
+Message-Id: <20221102180810.267252-11-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221102180810.267252-1-jernej.skrabec@gmail.com>
 References: <20221102180810.267252-1-jernej.skrabec@gmail.com>
@@ -66,58 +66,72 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While it doesn't matter if controls are initialized before or after
-queues and formats from open handler standpoint, initializing them last
-helps keeping s_ctrl handler simpler, since everything has already valid
-values.
-
-This is just preparation for follow up changes. No functional change is
-intended.
+In some cases decoding engine needs extra space in capture buffers. This
+is the case for decoding 10-bit HEVC frames into 8-bit capture format.
+This commit only adds infrastructure for such cases.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c       | 14 ++++++++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus.h       |  2 ++
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c |  4 ++++
+ 3 files changed, 20 insertions(+)
 
 diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 37b1df9a9d6a..6a2c08928613 100644
+index 6a2c08928613..c36999e47591 100644
 --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
 +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -355,27 +355,27 @@ static int cedrus_open(struct file *file)
- 	file->private_data = &ctx->fh;
- 	ctx->dev = dev;
- 
--	ret = cedrus_init_ctrls(dev, ctx);
--	if (ret)
--		goto err_free;
--
- 	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, ctx,
- 					    &cedrus_queue_init);
- 	if (IS_ERR(ctx->fh.m2m_ctx)) {
- 		ret = PTR_ERR(ctx->fh.m2m_ctx);
--		goto err_ctrls;
-+		goto err_free;
- 	}
- 
- 	cedrus_reset_out_format(ctx);
- 
-+	ret = cedrus_init_ctrls(dev, ctx);
-+	if (ret)
-+		goto err_m2m_release;
-+
- 	v4l2_fh_add(&ctx->fh);
- 
- 	mutex_unlock(&dev->dev_mutex);
- 
+@@ -68,8 +68,22 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
  	return 0;
+ }
  
--err_ctrls:
--	v4l2_ctrl_handler_free(&ctx->hdl);
-+err_m2m_release:
-+	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
- err_free:
- 	kfree(ctx);
- 	mutex_unlock(&dev->dev_mutex);
++static int cedrus_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct cedrus_ctx *ctx = container_of(ctrl->handler,
++					      struct cedrus_ctx, hdl);
++	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
++					       V4L2_BUF_TYPE_VIDEO_CAPTURE);
++
++	if (!vb2_is_busy(vq) && !vb2_is_streaming(vq))
++		cedrus_reset_cap_format(ctx);
++
++	return 0;
++}
++
+ static const struct v4l2_ctrl_ops cedrus_ctrl_ops = {
+ 	.try_ctrl = cedrus_try_ctrl,
++	.s_ctrl = cedrus_s_ctrl,
+ };
+ 
+ static const struct cedrus_control cedrus_controls[] = {
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+index 5904294f3108..774fe8048ce3 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+@@ -162,6 +162,8 @@ struct cedrus_dec_ops {
+ 	int (*start)(struct cedrus_ctx *ctx);
+ 	void (*stop)(struct cedrus_ctx *ctx);
+ 	void (*trigger)(struct cedrus_ctx *ctx);
++	unsigned int (*extra_cap_size)(struct cedrus_ctx *ctx,
++				       struct v4l2_pix_format *pix_fmt);
+ };
+ 
+ struct cedrus_variant {
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index dec5d3ae4871..dc67940f1ade 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -250,6 +250,10 @@ static int cedrus_try_fmt_vid_cap_p(struct cedrus_ctx *ctx,
+ 	pix_fmt->height = ctx->src_fmt.height;
+ 	cedrus_prepare_format(pix_fmt);
+ 
++	if (ctx->current_codec->extra_cap_size)
++		pix_fmt->sizeimage +=
++			ctx->current_codec->extra_cap_size(ctx, pix_fmt);
++
+ 	return 0;
+ }
+ 
 -- 
 2.38.1
 
