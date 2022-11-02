@@ -1,97 +1,154 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FB97C;
-	Wed,  2 Nov 2022 08:02:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667376155; bh=VKIIIg5Ow9y7BYrYGszDe/O+as8FGmI810ThX44IikU=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=Y0xyzs5pGSR1Iu1TqYpMZd2aE6Yk6L8Ehh0dO8hF/1rFvyz7Ok7ZUmmL35tzeFY3S
-	 PdOMxMsYc4jNSnk5dbak8agMnrWb60Ox2AKmm90Wsa5DT4uTGYAjs4z+lEU+vmD+V/
-	 E+E3hSNAH9TJNaoNZTmIHpDrA5y/XqKK+gGsJQQ8=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-	via [213.182.55.206]
-	Wed,  2 Nov 2022 09:02:35 +0100 (CET)
-X-EA-Auth: Xiede22fg5z65ZXwe/phWqFYfA6aaPeKR4bYp/aKyNsXF48FnuXBwt3VccAy9XBmO8VfenHNaxZxb8Y5YaXJxC0Gl2Kz7BAM
-Date: Wed, 2 Nov 2022 13:32:30 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: remove unwanted variable
- implementation
-Message-ID: <Y2IkFqxujKnZ/9MQ@ubunlion>
-References: <Y2F/CtEnjWlHgw9f@ubunlion>
- <Y2IccKxNDyd/MEqY@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C127ED
+	for <linux-staging@lists.linux.dev>; Wed,  2 Nov 2022 09:36:08 +0000 (UTC)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id B6BC1240004;
+	Wed,  2 Nov 2022 09:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1667381759;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fxxn1EtGefbBmnWxZ8XrxEIUXbiJwyzDeE5y9WnF5dA=;
+	b=PtXD1S/+PYPuTw+0ABw0LDMREsiFR8UIk9Rt+urGLzui62MyUwWUmpQ0TGuc0oOJlrvEcR
+	HKCCoSQDA1vC2gq8eVHDUmrPtp6VIuEtEB/nLGQJqcAJ2LWxhc05PoyWr5wZF8gMmbHTM2
+	ADuYsLLkMSWr3yX/j/Z5v0yDa+Tp2q1cABNreOV+QTrHtOPP6SXc8Ske81OELMNWVvR613
+	/ahgljVxTG2akxnhZXa9Soj/ZlujC2ECgzl9Usa7qzJyJ3G5/be3YU0/4qSX7UPvAQ8Uxc
+	jnYoyijD3fep9LEncAlhn7lSZpKYbKljWydwwp1XQbXjlxduzu81XWZT/j+pFA==
+Date: Wed, 2 Nov 2022 10:35:56 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: tegra-video: fix device_node use after
+ free
+Message-ID: <20221102103556.4f556d6c@booty>
+In-Reply-To: <Y1wMGpthKxr2egtY@kadam>
+References: <20221028081926.2320663-1-luca.ceresoli@bootlin.com>
+	<Y1vMX/Zciz/XQ+4p@kadam>
+	<20221028185847.5454a98d@booty>
+	<Y1wMGpthKxr2egtY@kadam>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2IccKxNDyd/MEqY@kroah.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 02, 2022 at 08:29:52AM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Nov 02, 2022 at 01:48:18AM +0530, Deepak R Varma wrote:
-> > Local variables intended as the function return value are
-> > initialized but their value does not change during function
-> > execution. The initial value assigned to the variable is simply
-> > returned to the caller. This makes the variable declaration
-> > unnecessary and the initial value can be directly returned.
-> >
-> > Following table lists the initial commits when the variables were first
-> > introduced but have not been used since inception:
-> >
-> > Variable  Function	File			     Inception Commit
-> > ret	  rtw_sta_flush	r8188eu/core/rtw_ap.c	     [1]
-> > ret	  amsdu_to_msdu r8188eu/core/rtw_recv.c	     [2]
-> > ret	  rtw_p2p_set	r8188eu/os_dep/ioctl_linux.c [3]
-> >
-> > [1] 'commit 9a7fe54ddc3a ("staging: r8188eu: Add source files for new driver - part 1")'
-> > [2] 'commit 1cc18a22b96b ("staging: r8188eu: Add files for new driver - part 5")'
-> > [3] 'commit a2c60d42d97c ("staging: r8188eu: Add files for new driver - part 16")'
-> >
-> > However, local variable pull of the function update_txdesc from file
-> > r8188eu/hal/rtl8188eu_xmit.c was in use prior to introduction of
-> > commit ID [4] 7bdedfef085bb65. The clean-up associated with this
-> > commit left the variable pull redundant.
-> >
-> > [4] 'commit 7bdedfef085b ("staging: r8188eu: Remove mp, a.k.a. manufacturing process, code")'
-> >
-> > The patch is produced using the following coccicheck options:
-> >    COCCI=./scripts/coccinelle/misc/returnvar.cocci
-> >    M=driver/staging/r8188eu/
-> >    MODE=patch
-> >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> >
-> > Changes in v2:
-> >    1. Include reason for why the variable declarations are not useful. Suggested
-> >       by Julia Lawall <julia.lawall@inria.fr>
->
-> Does not apply to my tree at all :(
->
-> Please rebase and resubmit.
+Hello Dan,
 
-Hello Greg,
-Looks like there was another patch effort in parallel to correct this coccicheck
-complaint. I am checking if all the observations from my patch are resolved. If
-not, I will rebase and send in revised patch.
+On Fri, 28 Oct 2022 20:06:34 +0300
+Dan Carpenter <dan.carpenter@oracle.com> wrote:
 
-Thank you.
-./drv
+> On Fri, Oct 28, 2022 at 06:58:47PM +0200, Luca Ceresoli wrote:
+> > Hello Dan,
+> > 
+> > On Fri, 28 Oct 2022 15:34:39 +0300
+> > Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> >   
+> > > On Fri, Oct 28, 2022 at 10:19:26AM +0200, luca.ceresoli@bootlin.com wrote:  
+> > > > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > > 
+> > > > At probe time this code path is followed:
+> > > > 
+> > > >  * tegra_csi_init
+> > > >    * tegra_csi_channels_alloc
+> > > >      * for_each_child_of_node(node, channel) -- iterates over channels
+> > > >        * automatically gets 'channel'
+> > > >          * tegra_csi_channel_alloc()
+> > > >            * saves into chan->of_node a pointer to the channel OF node
+> > > >        * automatically gets and puts 'channel'
+> > > >        * now the node saved in chan->of_node has refcount 0, can disappear
+> > > >    * tegra_csi_channels_init
+> > > >      * iterates over channels
+> > > >        * tegra_csi_channel_init -- uses chan->of_node
+> > > > 
+> > > > After that, chan->of_node keeps storing the node until the device is
+> > > > removed.
+> > > > 
+> > > > of_node_get() the node and of_node_put() it during teardown to avoid any
+> > > > risk.
+> > > > 
+> > > > Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
+> > > > Cc: stable@vger.kernel.org
+> > > > Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
+> > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > > ---
+> > > >  drivers/staging/media/tegra-video/csi.c | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+> > > > index b26e44adb2be..1b05f620b476 100644
+> > > > --- a/drivers/staging/media/tegra-video/csi.c
+> > > > +++ b/drivers/staging/media/tegra-video/csi.c
+> > > > @@ -433,7 +433,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+> > > >  	for (i = 0; i < chan->numgangports; i++)
+> > > >  		chan->csi_port_nums[i] = port_num + i * CSI_PORTS_PER_BRICK;
+> > > >  
+> > > > -	chan->of_node = node;
+> > > > +	chan->of_node = of_node_get(node);
+> > > >  	chan->numpads = num_pads;
+> > > >  	if (num_pads & 0x2) {
+> > > >  		chan->pads[0].flags = MEDIA_PAD_FL_SINK;
+> > > > @@ -640,6 +640,7 @@ static void tegra_csi_channels_cleanup(struct tegra_csi *csi)
+> > > >  			media_entity_cleanup(&subdev->entity);
+> > > >  		}
+> > > >  
+> > > > +		of_node_put(chan->of_node);
+> > > >  		list_del(&chan->list);
+> > > >  		kfree(chan);    
+> > > 
+> > > Not related to your patch, but this kind of "one function cleans up
+> > > everything" style is always buggy.  For example, here it should be:
+> > > 
+> > > -		if (chan->mipi)
+> > > +		if (!IS_ERR_OR_NULL(chan->mipi))
+> > > 			tegra_mipi_free(chan->mipi);  
+> > 
+> > I sort of agree the code could be clearer here, but looking at the code
+> > in detail, this cannot happen. chan->mipi is set in one place only, and
+> > if it is an error the whole probe fails. So it can be either NULL or a
+> > valid pointer here.  
+> 
+> I assumed that tegra_csi_channels_cleanup() would clean up if
+> tegra_csi_channel_alloc() fails.  Otherwise then that's several
+> different even worse bugs.
+> 
+> HINT: Let's all hope my initial analysis was correct.
 
->
-> thanks,
->
-> greg k-h
->
->
+Indeed you have a point. Apologies for having replied in a hurry and for
+the resulting noise.
 
+I'm going to send a patch to fix the chan->mipi mess. However I think
+the best way to do so would be a oneliner:
 
+@@ -491,6 +491,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+        chan->mipi = tegra_mipi_request(csi->dev, node);
+        if (IS_ERR(chan->mipi)) {
+                ret = PTR_ERR(chan->mipi);
++               chan->mipi = NULL;
+                dev_err(csi->dev, "failed to get mipi device: %d\n", ret);
+        }
+
+This would be a correct implementation of the initial intent as it can
+be inferred from the code, i.e. chan->mipi being either NULL or a valid
+pointer. This makes sense as chan->mipi is assigned in a single place.
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
