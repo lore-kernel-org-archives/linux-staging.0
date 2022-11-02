@@ -1,111 +1,126 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5058F76;
-	Wed,  2 Nov 2022 22:56:28 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id l11so581955edb.4;
-        Wed, 02 Nov 2022 15:56:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454758F76
+	for <linux-staging@lists.linux.dev>; Wed,  2 Nov 2022 23:36:41 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id m7-20020a05600c090700b003cf8a105d9eso120929wmp.5
+        for <linux-staging@lists.linux.dev>; Wed, 02 Nov 2022 16:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GvHltcSmK4KB84UjgoRavJNl81LE4r8A3c+x/iev4MA=;
-        b=GGAex3CI7HG5F0f46SDhbIa74JgV50de0+Qc8WZMJHFXAt//qMhC7JCLq9iHR2Hg9T
-         fno+KA0jY6Jft4HLv53ZdqOyImOjFBRal2NEFMuXXF9JsNzfmWSJSLb+b6iZa2uBEelf
-         NyE7K66vR5r7QGFagRa99NXTK/1yxR+OTK+MgdFNe0p8bWU0xxVlDqg7MA31GdAOfPe/
-         lN9AfRIz1ESKJ8pWmdXdbJ/S0xMkri7MC6UxKcGPw7ITo+uOG/UaDYrqb9okfSAn8w46
-         42U6UgzltIqKu+Xtig1R1BzNiHo+pCErmAh3QYM9c3bh4XMeHIZTIOs3mE43+04JNaWY
-         6P4A==
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6GuXLQ6vhVDG4TgPBv/5Wsey/201XSbJAndndtIsyw0=;
+        b=bc6bpRmE6lctskpzg/AXlU4FdXZrTU55tsvvapbtRbQPXozNNZV1gLPl+skgOfh1+J
+         bGGQiRlB/J4BI31QhEXBwa7hHEy3/oGF8SRSqdvVyfoyRjr82+Y8vvDccRIdRBqPQixR
+         8NuMiRGQ2us8OUnx2isGDAqzdZpxZGyhNiW86pPtiTKxmj+XhT0q3JSRMbMKR1hVKfPy
+         A0ppjmldCrQj1dpv9G4Jc1nI9C20czMcSuQcEW8PK1zZw8KPPYjtrhVixUdqVoT6lnzn
+         jzyk/cBdHiyb34OzSoeuLSjkka8AXo9QBnDr/Ib7/uLlIOVSmlsv8j/9DfjWvWS1flqb
+         kNWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GvHltcSmK4KB84UjgoRavJNl81LE4r8A3c+x/iev4MA=;
-        b=DD46cyRRXXhGzlYr8VU/QjB+DXlfLUU8PYMxsHcce1YWfP8T338YStmVS+vByRxYpq
-         04TcYGYoK7DNNrX+R2K3cO1Uc8lEI0JJEbLKBxlkBsBr4as2RbzkUXiqVa4aKunjfj+Y
-         3+4VBsiIYXYGrNBy5SRrkRVRMrqaLEr5Y/LVmeSV19k0Ztqd3WbzGgOht+ENjrBc4PBe
-         DJ54CEJwVU96MrKan4MptItO4qRTCpPh7soMUV7vVSQMiYfgb1nVmX+6I6Vc9mL1+SI2
-         ZW5ncF+hi1toT3d1VuCVi7sVH4S8P3yK2QwPJggmXDh6cE37+zJj4p/zIaUJ0m2gmnPQ
-         0yxQ==
-X-Gm-Message-State: ACrzQf1EEBifDA0Ocdt1wTMKGQG4LsRHbgt8PQAusiodWj+fOJmL4Lnz
-	3S5rbWplktrbuiiwnyHlJmI=
-X-Google-Smtp-Source: AMsMyM7AsyW0ijpFauuTaWekHGQ3xgTxJ1jYaN1OW6eR4n2or7ItpJKxllFbvFndEIAa6d3qAHX0AQ==
-X-Received: by 2002:a50:d0c4:0:b0:464:14ed:834 with SMTP id g4-20020a50d0c4000000b0046414ed0834mr3871229edf.174.1667429787244;
-        Wed, 02 Nov 2022 15:56:27 -0700 (PDT)
-Received: from [192.168.1.100] (p57935738.dip0.t-ipconnect.de. [87.147.87.56])
-        by smtp.gmail.com with ESMTPSA id ee13-20020a056402290d00b0046267f8150csm6284073edb.19.2022.11.02.15.56.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 15:56:26 -0700 (PDT)
-Message-ID: <4c2497a4-cf86-af1a-5a0b-0d980f02f152@gmail.com>
-Date: Wed, 2 Nov 2022 23:56:25 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6GuXLQ6vhVDG4TgPBv/5Wsey/201XSbJAndndtIsyw0=;
+        b=zbCyEIRLR+ZN6plPwaDkXmkh5+d+dFnxI3YiM/n6xYV3PDPsdyeOgCJ+lUJGGPjyw/
+         NJ5zgMRYt5sI6VFF8pmjES29MWoE3+q6ZxRQknhahyEP/HCH8FhH4VOs8itoDi7TZp7E
+         IzuEAdV3sYfrOXzOOO3OPNq1eGfTl90Knnkwmi3VSkW+PrRjp6r6L/aX4gz799nVZXqD
+         UhWs5rdl8IA/NIpKRy+PmNP7990PE4j4MMtNA+ExL/E42Ni9Ud0XA9wKW9pS4BBjN2x4
+         l/wBNw8ml51xrUGnSq5BmpZBDv8aDImxZqGm1Fld8/z80itMeZ+g+LCNeS2FaEV35YHH
+         IkyA==
+X-Gm-Message-State: ACrzQf2JC7qnaPooNOHFmcIM7A0tX6cVilAqLD9cT99VXXBB76yuFLNW
+	F5vXqhzDfH0hYO0qB3o2hnUciw==
+X-Google-Smtp-Source: AMsMyM7Qlrm740hSv4WADLaEG+xM3c17GxpMIfi2d2PRLdlsIKOw3KOye2lCX3jQnYsdvtUfIhRImA==
+X-Received: by 2002:a05:600c:5407:b0:3be:d303:d352 with SMTP id he7-20020a05600c540700b003bed303d352mr27141904wmb.94.1667432199495;
+        Wed, 02 Nov 2022 16:36:39 -0700 (PDT)
+Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
+        by smtp.gmail.com with ESMTPSA id l14-20020a05600c1d0e00b003cf71b1f66csm4617231wms.0.2022.11.02.16.36.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 16:36:39 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	paskripkin@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: change return type of rtw_set_802_11_disassociate to void
+Date: Wed,  2 Nov 2022 23:36:37 +0000
+Message-Id: <20221102233637.6648-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: rtl8192e: Use min_t/max_t macros for variable
- comparison
-Content-Language: en-US
-To: Deepak R Varma <drv@mailo.com>, outreachy@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <Y2LxC2kziM1TznhO@qemulion>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <Y2LxC2kziM1TznhO@qemulion>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/2/22 23:36, Deepak R Varma wrote:
-> Simplify code by using min_t and max_t helper macros in place of lengthy
-> if/else block oriented logical evaluation and value assignment. This
-> issue is identified by coccicheck using the minmax.cocci file.
-> 
-> Use the *_t variants of min/max macros to avoid compiler warnings about
-> data typecast.
-> Also, use u32 as type for min_t macro to avoid any truncation of data
-> associated with enum constant HT_AGG_SIZE_32K.
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->   drivers/staging/rtl8192e/rtl819x_HTProc.c | 13 ++++---------
->   1 file changed, 4 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index 62aa8e893c34..ccb86660ab48 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -587,17 +587,12 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
->   			else
->   				pHTInfo->CurrentAMPDUFactor = HT_AGG_SIZE_64K;
->   		} else {
-> -			if (pPeerHTCap->MaxRxAMPDUFactor < HT_AGG_SIZE_32K)
-> -				pHTInfo->CurrentAMPDUFactor =
-> -						 pPeerHTCap->MaxRxAMPDUFactor;
-> -			else
-> -				pHTInfo->CurrentAMPDUFactor = HT_AGG_SIZE_32K;
-> +			pHTInfo->CurrentAMPDUFactor = min_t(u32, pPeerHTCap->MaxRxAMPDUFactor,
-> +							    HT_AGG_SIZE_32K);
->   		}
->   	}
-> -	if (pHTInfo->MPDU_Density > pPeerHTCap->MPDUDensity)
-> -		pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
-> -	else
-> -		pHTInfo->current_mpdu_density = pPeerHTCap->MPDUDensity;
-> +	pHTInfo->current_mpdu_density = max_t(u8, pHTInfo->MPDU_Density,
-> +					      pPeerHTCap->MPDUDensity);
->   	if (pHTInfo->iot_action & HT_IOT_ACT_TX_USE_AMSDU_8K) {
->   		pHTInfo->bCurrentAMPDUEnable = false;
->   		pHTInfo->ForcedAMSDUMode = HT_AGG_FORCE_ENABLE;
-> --
-> 2.34.1
-> 
-> 
-> 
-> 
+Change return type of rtw_set_802_11_disassociate to void. This function
+always returns 'true' no matter what, so there is no need to return a
+value, and no need to check for it in the two call sites within
+rtw_wx_set_mlme.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+---
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c    | 4 +---
+ drivers/staging/r8188eu/include/rtw_ioctl_set.h | 2 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 6 ++----
+ 3 files changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+index 786431826659..785c0dba508f 100644
+--- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
++++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+@@ -314,7 +314,7 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+ 	return true;
+ }
+ 
+-u8 rtw_set_802_11_disassociate(struct adapter *padapter)
++void rtw_set_802_11_disassociate(struct adapter *padapter)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+@@ -328,8 +328,6 @@ u8 rtw_set_802_11_disassociate(struct adapter *padapter)
+ 	}
+ 
+ 	spin_unlock_bh(&pmlmepriv->lock);
+-
+-	return true;
+ }
+ 
+ u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_ssid *pssid, int ssid_max_num)
+diff --git a/drivers/staging/r8188eu/include/rtw_ioctl_set.h b/drivers/staging/r8188eu/include/rtw_ioctl_set.h
+index abe460d6504d..c3eb2479f27b 100644
+--- a/drivers/staging/r8188eu/include/rtw_ioctl_set.h
++++ b/drivers/staging/r8188eu/include/rtw_ioctl_set.h
+@@ -12,7 +12,7 @@ u8 rtw_set_802_11_authentication_mode(struct adapter *adapt,
+ 				      enum ndis_802_11_auth_mode authmode);
+ u8 rtw_set_802_11_bssid(struct adapter *adapter, u8 *bssid);
+ u8 rtw_set_802_11_add_wep(struct adapter *adapter, struct ndis_802_11_wep *wep);
+-u8 rtw_set_802_11_disassociate(struct adapter *adapter);
++void rtw_set_802_11_disassociate(struct adapter *adapter);
+ u8 rtw_set_802_11_bssid_list_scan(struct adapter *adapter,
+ 				  struct ndis_802_11_ssid *pssid,
+ 				  int ssid_max_num);
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index dda48a2a6d0c..04d9384d239a 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -1020,12 +1020,10 @@ static int rtw_wx_set_mlme(struct net_device *dev,
+ 
+ 	switch (mlme->cmd) {
+ 	case IW_MLME_DEAUTH:
+-		if (!rtw_set_802_11_disassociate(padapter))
+-			ret = -1;
++		rtw_set_802_11_disassociate(padapter);
+ 		break;
+ 	case IW_MLME_DISASSOC:
+-		if (!rtw_set_802_11_disassociate(padapter))
+-			ret = -1;
++		rtw_set_802_11_disassociate(padapter);
+ 		break;
+ 	default:
+ 		return -EOPNOTSUPP;
+-- 
+2.38.1
+
