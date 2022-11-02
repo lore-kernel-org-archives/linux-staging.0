@@ -1,124 +1,108 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6312E29A0;
-	Wed,  2 Nov 2022 19:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667416783; bh=02jfJdHjiuApcBPXp0F07fIvSINqtaBx9AWZYbB7XE8=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=hgEzR+29U19ai+qxHZoDTmRRc7b1ODBfV4A4/hFv7l9dMgXy3kGNjK2C657uRZex8
-	 axpGTU1rZY0T1EHYO5kgVyxMFub72dxCBVtp51wWlA+lZoLM0V3E4jkW18ouzC1TeL
-	 iZVFiRVmKb61QsFMobcefCnMNrmFPVR8c89fxXsU=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-	via [213.182.55.206]
-	Wed,  2 Nov 2022 20:19:43 +0100 (CET)
-X-EA-Auth: KVRuk3vVw19iYkSAVFc2EHPsG3glS/xo9WfyoQLIUERx8jv4MXF3Cfcu5PkopOHEwCrhZYgrlx3dpuktkDgScAEXRJ4DUjst
-Date: Thu, 3 Nov 2022 00:49:38 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>,
-	Pavel Skripkin <paskripkin@gmail.com>
-Cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Use flexible-array for one length
- array member
-Message-ID: <Y2LCykj5Ntx7yHxu@qemulion>
-References: <Y1vRivFfRD6VoBt/@ubunlion>
- <642519a2-664d-d837-983a-1d5bbc72a25e@gmail.com>
- <Y1vjKtM9druO2bSN@ubunlion>
- <Y1vqd/ij5WqcL3Qe@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDE62F36
+	for <linux-staging@lists.linux.dev>; Wed,  2 Nov 2022 20:03:28 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id kt23so48147511ejc.7
+        for <linux-staging@lists.linux.dev>; Wed, 02 Nov 2022 13:03:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PDnrSW+2135+Xqb7eTyI0FY4hstVp+d9eOCLWyHr250=;
+        b=gCvOUF5kPz358SzEWhcIlHuAGTOF/oPvE9is9fj0H1d5LVVPLp+tJcHtlKKYGafmm5
+         kKPmZSM6PCXwG4zAF5fh2naeS5xI4vbk+9vBEfV2fqu0RMFXtL4UL7fOTMDCijqoraOQ
+         NGpG5OjEIHg1j3ma9noCF4Q8qROcR8JLSmH5Rgh6hE4vipunr8aS2bVfPR0cPBLJIZjH
+         3b8wsxTJwYrIaBLWqvFwlv4J0hF1m3PCuwkmGhYg/LM1qU2sPm1aKRECFkTNDgzwCF9n
+         XKEB50M3PWfXe8HFnJevp0nBSGgvN1ykspoF3TAUZXt1/8kHmke4UVB58mOu7FQOYb4/
+         EbAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PDnrSW+2135+Xqb7eTyI0FY4hstVp+d9eOCLWyHr250=;
+        b=XQUyf64L1FtwyFgt5zjBeDqDCNp58MaAhrvqmFyDFqRtxdzZTc18NiYkNu4iwYZnr6
+         OCrDoHuNUZ3ghKggPS7Ay0IioAmR067N/vwE+vKAisaWl9Yat1o7wgddd3/7qKyJrz1d
+         Ap5/YnUVb7Cia4/ctIhre/1y4EKMmo7QDw2+THlmhEI0nfIA+Cmldil4xeTZmi3dOHn3
+         A8EcFZVSrSBKBZFZU91ZQW3+vZp2+j4zWQ76jjworBk4fs1IdjLFj+3WWpVPNO41XTHr
+         klYhUBXCRTnUyPH+GIAJ9SanyXYtd4BjM38pMM03X/W809OkSbijDoNBf2ASxTxXmAMW
+         220g==
+X-Gm-Message-State: ACrzQf06F90s0AUoTYUGCDWriz/nmlKSTWU9Tp7e09bkegwdNhD+rq3o
+	0KFQ3MIoRH1kmW2FsJQn2uRI2LheOv6ZzQ==
+X-Google-Smtp-Source: AMsMyM4mrW5FGAdWh0XXYf6GbrwWeEVYGtq6S+ZebIemMpHR0alzU5UP+UBv46vWVo3qw/K7+NJuUA==
+X-Received: by 2002:a17:906:8a57:b0:7ad:69fb:3a with SMTP id gx23-20020a1709068a5700b007ad69fb003amr25232087ejc.179.1667419406921;
+        Wed, 02 Nov 2022 13:03:26 -0700 (PDT)
+Received: from ZBook.localdomain (86-90-194-80.fixed.kpn.net. [86.90.194.80])
+        by smtp.gmail.com with ESMTPSA id o3-20020a170906768300b0079e552fd860sm5752239ejm.152.2022.11.02.13.03.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 13:03:26 -0700 (PDT)
+From: Jerom van der Sar <jerom.vandersar@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	error27@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jerom van der Sar <jerom.vandersar@gmail.com>
+Subject: [PATCH v4] staging: rtl8192e: space formatting fixes in rtl_cam.c
+Date: Wed,  2 Nov 2022 21:00:58 +0100
+Message-Id: <20221102200057.397-1-jerom.vandersar@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <Y2IbI8ib5+k+bVRo@kroah.com>
+References: <Y2IbI8ib5+k+bVRo@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1vqd/ij5WqcL3Qe@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 28, 2022 at 05:43:03PM +0300, Dan Carpenter wrote:
-> On Fri, Oct 28, 2022 at 07:41:54PM +0530, Deepak R Varma wrote:
-> > On Fri, Oct 28, 2022 at 05:03:25PM +0300, Pavel Skripkin wrote:
-> > > Hi Deepak R,
-> > >
-> > > Deepak R Varma <drv@mailo.com> says:
-> > > > Flexible-array member should be used instead of one or zero member to
-> > > > meet the need for having a dynamically sized trailing elements in a
-> > > > structure. Refer to links [1] and [2] for detailed guidance on this
-> > > > suggestion.
-> > > >
-> > > > [1] https://en.wikipedia.org/wiki/Flexible_array_member
-> > > > [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-length-and-one-element-arrays
-> > > >
-> > > > Issue identified using coccicheck.
-> > > >
-> > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > ---
-> > > >   drivers/staging/r8188eu/include/odm.h         | 2 +-
-> > > >   drivers/staging/r8188eu/include/wlan_bssdef.h | 6 +++---
-> > > >   2 files changed, 4 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-> > > > index 89b01dd614ba..e2a9de5b9323 100644
-> > > > --- a/drivers/staging/r8188eu/include/odm.h
-> > > > +++ b/drivers/staging/r8188eu/include/odm.h
-> > > > @@ -166,7 +166,7 @@ struct odm_ra_info {
-> > > >
-> > > >   struct ijk_matrix_regs_set {
-> > > >   	bool	bIQKDone;
-> > > > -	s32	Value[1][IQK_Matrix_REG_NUM];
-> > > > +	s32	Value[][IQK_Matrix_REG_NUM];
-> > > >   };
-> > > >
-> > >
-> > > you are changing the actual size of the struct. Wondering if you have tested
-> > > this patch somehow
-> >
-> > Hello Pavel,
-> > Thank you for reviewing the patch. I build the module post making the changes an
-> > ensured that the build is successful. However, I am not sure how to check the
-> > changes I am proposing. Could you please direct me to some information on how to
-> > test patches? Is there some documentation generic/driver-specific that I can
-> > refer to?
->
-> You just have to look at every place where it is used and especially
-> look at where it is allocated.  It is only used in one place:
->
-> 	struct ijk_matrix_regs_set IQKMatrixRegSetting;
->
-> But that is in the middle of a struct and generally it doesn't make
-> sense to have a flex array in the middle of a struct.  So investigating
-> further, we see that it really is a one element array:
->
-> Do a grep:
->
-> 	pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][1]);
->
-> The first element is always zero.  So this patch introduces memory
-> corruption.
->
-> The code is messy and should be cleaned up, of course.
+Fixed a few coding style issues in rtl_cam.c: two times lack of
+spaces around binary operators. Some other warnings still remain.
+These issues were found by scripts/checkpatch.pl.
 
-Hello Pavel and Dan,
-I looked at the surround code and places where the proposed patch will have an
-impact. As you rightly pointed out this array can't be treated as a flexible
-array since it fits right in the middle of another struct.
+This patch helps clean up the rtl8192e driver in staging, making it
+easier to read and maintain.
 
-I am wondering if ijk_matrix_regs_set (or IQKMatrixRegSetting) is a one element
-array, why is it declared as a two dimensional array? Can this be a simple one
-dimensional array instead? Is this the cleanup you are referring to when you say
-"code is messy and should be cleaned up"?
+Signed-off-by: Jerom van der Sar <jerom.vandersar@gmail.com>
+---
+Changes in v4:
+ - Reverted more double blank line formatting fixes to make the patch
+   even smaller.
 
+Changes in v3:
+  - Fixed faulty dot at the end of the patch sign-off.
 
-Thank you,
-./drv
+Changes in v2:
+  - Reverted some formatting fixes to make the diff easier to review.
 
->
-> regards,
-> dan carpenter
->
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+index 41faeb4b9b9b..41bff46d1b3a 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
+@@ -17,7 +17,7 @@ void rtl92e_cam_reset(struct net_device *dev)
+ {
+ 	u32 ulcommand = 0;
+ 
+-	ulcommand |= BIT31|BIT30;
++	ulcommand |= BIT31 | BIT30;
+ 	rtl92e_writel(dev, RWCAM, ulcommand);
+ }
+ 
+@@ -107,7 +107,7 @@ void rtl92e_set_key(struct net_device *dev, u8 EntryNo, u8 KeyIndex,
+ 
+ 	for (i = 0; i < CAM_CONTENT_COUNT; i++) {
+ 		TargetCommand  = i + CAM_CONTENT_COUNT * EntryNo;
+-		TargetCommand |= BIT31|BIT16;
++		TargetCommand |= BIT31 | BIT16;
+ 
+ 		if (i == 0) {
+ 			TargetContent = (u32)(*(MacAddr+0)) << 16 |
+-- 
+2.34.1
 
