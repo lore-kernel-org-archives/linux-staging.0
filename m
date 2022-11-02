@@ -1,43 +1,43 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AF324F26;
-	Wed,  2 Nov 2022 18:08:28 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id d26so47412829eje.10;
-        Wed, 02 Nov 2022 11:08:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8D824F25;
+	Wed,  2 Nov 2022 18:08:29 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id x2so27749707edd.2;
+        Wed, 02 Nov 2022 11:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VdOwqqxxYEZRd9acvNPnTYoR6lmdOOAyvQmf0ex2vO8=;
-        b=HCjeFIP8UyzZhiT1DfZSmx9y0DaO9+xtJgKkH2ojsI4ewcVjk9DRYxTLcrOZeDekjq
-         A43BnfqCo1CclbOe4QwMVAKshpXEaatIwlFqjhgabD4haNE/C0CBWd8g0A7DpXG6P/cF
-         UZT1mEUmWiz6OmECxCcTOXMCEkjUENtYt5l4bEUMDjwImhhUDz98GLoTmJfDw68/v1Qb
-         vqSXiP8YzopVl/1a21kUMvX19dpsoexISLnBjyvAVAmxn7KAARKrsbDHP77G+ax14U4W
-         3qbeIvDWgaa7o2UWu6OIMk4H4i2iG1bdZw0m2Vmc7HK0RPrVYDktYw9UTo72OGVM17Zn
-         tIpw==
+        bh=lOVecSCg58WLAt5MFbBf+7umb5iX32HjizH1LHXmtzY=;
+        b=c4sCG5TAZ2UUoS2lgWb76UO1do1+DNv9lhf4f4V7zz8ljX4X5EhvcAsgEefuVLOg+q
+         gaywl+w/4OLpyHt3F/9Bwyiwk5P2gVSKETjqXN25CxxveeMkl1P02LTapxNRpEbc4ncS
+         y0DtjSpEZpoo2aYks0chPXEMt1SraV5egn74lh0bqLCfULmWstsxoJQzoNKJwcM24qu5
+         exgx3cKeSyDCHntD25R80Aed0dN9MnlXk9pnJP8nJ5srwQ3D4KTDuWMqgQDoOgnlpd23
+         V9+2EcH2DuN9nLi3yQK1rC1Vva6WPZ/ddX8HBC+0qQqm0AeUMYHozRY7sbi8QTnZCa4A
+         ZmUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VdOwqqxxYEZRd9acvNPnTYoR6lmdOOAyvQmf0ex2vO8=;
-        b=aJ0h/H9X15mYUPi4CHo8RzQGcFVUqu99rKDOHQP+H/bsSt3fDxNmc7EcQP9LqH2Bsr
-         drBzCPaDBcXO2h13KSQGV33YiHTzwuIazZUDMpoYH3g4mlOCzTRNg6yVkvIsCLqEentx
-         yop9x8geaAuj6tpvdBS4RhJXRcuzFHyYsGS+fmX1lKZdClaPahDCrCANmvYQD1sdrr3+
-         VIKCrMgr/QeYdsstCzZSelAouB+3s5wpoPZJ9vVMT/eZAgmA4fq7OQfwb6ZwsQcdx/N2
-         rrFZK1/+JHTW1bZbhZxFHaA2tFjQxpYh42ENYwkruJK2BCcO6AUrNJ5JXCsetD3trI9U
-         AKBg==
-X-Gm-Message-State: ACrzQf3Fo3ezQGsqbT+66iKIZOlhw+Ej097j52vTnB6xVCpTkvew8s3F
-	WgrkBNNyXHUU8n8mB5iE/PU=
-X-Google-Smtp-Source: AMsMyM5ESq06l/CLF/S76CA9K2WIH6qaugl08P/TEhcqmBK3ysB98KByBVKRNooXPHlpgNsVAjagNw==
-X-Received: by 2002:a17:906:5dae:b0:78e:302f:4218 with SMTP id n14-20020a1709065dae00b0078e302f4218mr26430520ejv.22.1667412506572;
-        Wed, 02 Nov 2022 11:08:26 -0700 (PDT)
+        bh=lOVecSCg58WLAt5MFbBf+7umb5iX32HjizH1LHXmtzY=;
+        b=bOswE/EDmfkwUGrhup7OiNXx0geliKHWO5j7IVYN43qnu5ZaaFKxo8vJINUtO7cA57
+         jtyaejvOCn/hnACAZ4zGNVl7n2PV1tKTtRwzk9d6VIHTaknPhTufH4+C0Buxqw6ZIJq2
+         MVWYA+NY7s+pSwXSB7HjhANDP13qMGcSebSlYpwIg0/bw+wxIT2yvkvIMesop3Wdrrpv
+         1Z8/VGDnPFHLsBeud5cQwc28GLXDVJ8OpypM71bD3XHdron+UgfhlHr8hE1p6zgBh+q4
+         /1+bgojU3Yf42541QSALqSenC6LEIYEwcDp8U2k0JYqD0DR+s8jni7DdgLqgm/1nVp5N
+         yugA==
+X-Gm-Message-State: ACrzQf3A4oYZjbMYhs87+8apAz/8HQg9J4NHW25NJ3fFsJV5ooxY9QRW
+	GdizFKJBnnl0iWF4B7yKVfk=
+X-Google-Smtp-Source: AMsMyM6muLY2M00Knxi/o8lVph4GJlPIjeZVu+nV5Y9ZTqSo+P6497kNAnSyQ3n27WFCtlCImp3mvg==
+X-Received: by 2002:a05:6402:249b:b0:460:cb11:27d4 with SMTP id q27-20020a056402249b00b00460cb1127d4mr25895603eda.410.1667412507718;
+        Wed, 02 Nov 2022 11:08:27 -0700 (PDT)
 Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id gy8-20020a170906f24800b007317f017e64sm5677460ejb.134.2022.11.02.11.08.25
+        by smtp.gmail.com with ESMTPSA id gy8-20020a170906f24800b007317f017e64sm5677460ejb.134.2022.11.02.11.08.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 11:08:26 -0700 (PDT)
+        Wed, 02 Nov 2022 11:08:27 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com
@@ -52,9 +52,9 @@ Cc: mchehab@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 08/11] media: cedrus: prefer untiled capture format
-Date: Wed,  2 Nov 2022 19:08:07 +0100
-Message-Id: <20221102180810.267252-9-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 09/11] media: cedrus: initialize controls a bit later
+Date: Wed,  2 Nov 2022 19:08:08 +0100
+Message-Id: <20221102180810.267252-10-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221102180810.267252-1-jernej.skrabec@gmail.com>
 References: <20221102180810.267252-1-jernej.skrabec@gmail.com>
@@ -66,42 +66,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While all generations of display engine on Allwinner SoCs support
-untiled format, only first generation supports tiled format.  Let's
-move untiled format up, so it can be picked before tiled one. If
-Cedrus variant doesn't support untiled format, tiled will still be
-picked as default format.
+While it doesn't matter if controls are initialized before or after
+queues and formats from open handler standpoint, initializing them last
+helps keeping s_ctrl handler simpler, since everything has already valid
+values.
 
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+This is just preparation for follow up changes. No functional change is
+intended.
+
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index f6305ffe2c4f..dec5d3ae4871 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -55,15 +55,15 @@ static struct cedrus_format cedrus_formats[] = {
- 		.directions	= CEDRUS_DECODE_SRC,
- 		.capabilities	= CEDRUS_CAPABILITY_VP8_DEC,
- 	},
--	{
--		.pixelformat	= V4L2_PIX_FMT_NV12_32L32,
--		.directions	= CEDRUS_DECODE_DST,
--	},
- 	{
- 		.pixelformat	= V4L2_PIX_FMT_NV12,
- 		.directions	= CEDRUS_DECODE_DST,
- 		.capabilities	= CEDRUS_CAPABILITY_UNTILED,
- 	},
-+	{
-+		.pixelformat	= V4L2_PIX_FMT_NV12_32L32,
-+		.directions	= CEDRUS_DECODE_DST,
-+	},
- };
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 37b1df9a9d6a..6a2c08928613 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -355,27 +355,27 @@ static int cedrus_open(struct file *file)
+ 	file->private_data = &ctx->fh;
+ 	ctx->dev = dev;
  
- #define CEDRUS_FORMATS_COUNT	ARRAY_SIZE(cedrus_formats)
+-	ret = cedrus_init_ctrls(dev, ctx);
+-	if (ret)
+-		goto err_free;
+-
+ 	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, ctx,
+ 					    &cedrus_queue_init);
+ 	if (IS_ERR(ctx->fh.m2m_ctx)) {
+ 		ret = PTR_ERR(ctx->fh.m2m_ctx);
+-		goto err_ctrls;
++		goto err_free;
+ 	}
+ 
+ 	cedrus_reset_out_format(ctx);
+ 
++	ret = cedrus_init_ctrls(dev, ctx);
++	if (ret)
++		goto err_m2m_release;
++
+ 	v4l2_fh_add(&ctx->fh);
+ 
+ 	mutex_unlock(&dev->dev_mutex);
+ 
+ 	return 0;
+ 
+-err_ctrls:
+-	v4l2_ctrl_handler_free(&ctx->hdl);
++err_m2m_release:
++	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ err_free:
+ 	kfree(ctx);
+ 	mutex_unlock(&dev->dev_mutex);
 -- 
 2.38.1
 
