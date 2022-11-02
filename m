@@ -1,48 +1,41 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5766E80C
-	for <linux-staging@lists.linux.dev>; Wed,  2 Nov 2022 11:11:34 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id EBCD6C8E14
-	for <linux-staging@lists.linux.dev>; Wed,  2 Nov 2022 11:02:26 +0000 (UTC)
-Received: from booty.fritz.box (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPA id E13CDFF81B;
-	Wed,  2 Nov 2022 11:02:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1667386938;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BsVwSyTy7VR6zA7SYC3DsZTfRvN6uc9dyTL1pmSjsKc=;
-	b=S9wMALCHC+8JwGZW0fLzV0Yl0hnE4rD+7X1HlvjAbPHVOE9uzHDWQWMVKB9odDx3QD1cma
-	grde237SUWw9gSJ1zZDAlB7eBlLjo7OGi+MBtMQVd3nIjRL+SZIksNHMxKDyXNzeQGo+eU
-	iU6BmZ2aDzL6ZrkXg2ip3K+pdJg3/SrLG+lr2T5EhhU8aWndjlbfC+uk5jx0Hd1UGRfbRs
-	6QjHSBOfKvvzuZwAYU0Uov+FEbsrVMORETB2FW3ZW6Hvdku2aEBPNFc6O7eM2gSo7IMpY6
-	vZ0SICKwlBKnqvrdlQVhP2/zn1TBi0jnMUqgulniY995e1OMxtn12ptSzk29XQ==
-From: luca.ceresoli@bootlin.com
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Dmitry Osipenko <digetx@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] staging: media: tegra-video: fix device_node use after free
-Date: Wed,  2 Nov 2022 12:01:02 +0100
-Message-Id: <20221102110102.25050-2-luca.ceresoli@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221102110102.25050-1-luca.ceresoli@bootlin.com>
-References: <20221102110102.25050-1-luca.ceresoli@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB202108
+	for <linux-staging@lists.linux.dev>; Wed,  2 Nov 2022 13:15:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1667394928; x=1698930928;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6iK9mY5qqDaeZWS9d2Uy0TPR3A7tuD5t2+NlvJr7Z1A=;
+  b=mzFRnGePZvdnN7ikSalebcad0QvnnJFViaocEklBkL4yx6VywrhAWPHX
+   Q9v+txBvF906PWqGD66ruesi45WqzgkoeerG9nYvENRxZj+dXEdTdY+YD
+   Qg2P55iMCiH0hdJJD3BHqS6zGcK/C+XRPY83IEpY/lrCKgMe/vjlr1/bL
+   d9ZZoEjopvkqiaz1Pc6ohU6OKh1n8OxOLw8qTm6cOFsx+eNdW3A9sq//k
+   eJyAEby+F+91WJso5Y62tlUdEaw/rD62YT82shThPip/XEaYc9fq+KFdz
+   6l8muXiEAoyyUtRjxZBQzIb/QxbXEcN2ot4DRiR6Zv26sltkr21XF0aMn
+   g==;
+X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; 
+   d="scan'208";a="187289360"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 02 Nov 2022 06:15:27 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Wed, 2 Nov 2022 06:15:25 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.12 via Frontend Transport; Wed, 2 Nov 2022 06:15:23 -0700
+From: Eugen Hristev <eugen.hristev@microchip.com>
+To: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<hverkuil-cisco@xs4all.nl>, <jacopo@jmondi.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-staging@lists.linux.dev>,
+	Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH v11 0/6] media: atmel: atmel-isc: driver redesign
+Date: Wed, 2 Nov 2022 15:14:54 +0200
+Message-ID: <20221102131500.476024-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,62 +43,140 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-At probe time this code path is followed:
+This series is a continuation of the series that converts the atmel-isc driver
+to media controller paradigm:
+https://lore.kernel.org/lkml/20220503095127.48710-1-eugen.hristev@microchip.com/T/#mccad96a3122f2817bf1ae1db7eddf1a8cecb2749
 
- * tegra_csi_init
-   * tegra_csi_channels_alloc
-     * for_each_child_of_node(node, channel) -- iterates over channels
-       * automatically gets 'channel'
-         * tegra_csi_channel_alloc()
-           * saves into chan->of_node a pointer to the channel OF node
-       * automatically gets and puts 'channel'
-       * now the node saved in chan->of_node has refcount 0, can disappear
-   * tegra_csi_channels_init
-     * iterates over channels
-       * tegra_csi_channel_init -- uses chan->of_node
+As discussed on ML, the current Atmel ISC driver is moved to staging to keep the
+existing users happy, and readded to platform/microchip under a different
+Kconfig symbol and with the new media controller support which was reviewed in
+v10.
+I kept the original v10 patches on top of the movement of the driver
+to make it more clear what the conversion to media controller brings.
 
-After that, chan->of_node keeps storing the node until the device is
-removed.
+Please let me know if this is okay or acceptable to take as it is,
+and if it complies with the requirements for the subsystem/ABI breakage, etc.
 
-of_node_get() the node and of_node_put() it during teardown to avoid any
-risk.
+Thanks to everyone for reviewing and helping in the discussions !
 
-Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
-Cc: stable@vger.kernel.org
-Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+PLEASE NOTE: the series depends on the patch:
+vb2: add support for (un)prepare_streaming queue ops
+by Hans Verkuil
 
----
+I have a different patch as the last in the series that uses the new callbacks
+(and only that patch is dependant on the
+vb2: add support for (un)prepare_streaming queue ops
+)
 
-No changes in v2.
----
- drivers/staging/media/tegra-video/csi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Eugen
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 6b59ef55c525..426e653bd55d 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -433,7 +433,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
- 	for (i = 0; i < chan->numgangports; i++)
- 		chan->csi_port_nums[i] = port_num + i * CSI_PORTS_PER_BRICK;
- 
--	chan->of_node = node;
-+	chan->of_node = of_node_get(node);
- 	chan->numpads = num_pads;
- 	if (num_pads & 0x2) {
- 		chan->pads[0].flags = MEDIA_PAD_FL_SINK;
-@@ -641,6 +641,7 @@ static void tegra_csi_channels_cleanup(struct tegra_csi *csi)
- 			media_entity_cleanup(&subdev->entity);
- 		}
- 
-+		of_node_put(chan->of_node);
- 		list_del(&chan->list);
- 		kfree(chan);
- 	}
+Changes in v11:
+- moved atmel isc to staging
+- created platform/microchip to host the new MICROCHIP_ISC driver
+- it was natural to move the MICROCHIP_CSI2DC here
+- on top, add the patches that move to media controller
+
+Full series history:
+
+Changes in v10:
+-> split the series into this first fixes part.
+-> moved IO_MC addition from first patch to the second patch on the driver changes
+-> edited commit messages
+-> DT nodes now disabled by default.
+
+Changes in v9:
+-> kernel robot reported isc_link_validate is not static, changed to static.
+
+Changes in v8:
+-> scaler: modified crop bounds to have the exact source size
+
+Changes in v7:
+-> scaler: modified crop bounds to have maximum isc size
+-> format propagation: did small changes as per Jacopo review
+
+
+Changes in v6:
+-> worked a bit on scaler, added try crop and other changes as per Jacopo review
+-> worked on isc-base enum_fmt , reworked as per Jacopo review
+
+Changes in v5:
+-> removed patch that removed the 'stop' variable as it was still required
+-> added two new trivial patches
+-> reworked some parts of the scaler and format propagation after discussions with Jacopo
+
+
+Changes in v4:
+-> as reviewed by Hans, added new patch to remove the 'stop' variable and reworked
+one patch that was using it
+-> as reviewed by Jacopo, reworked some parts of the media controller implementation
+
+
+Changes in v3:
+- change in bindings, small fixes in csi2dc driver and conversion to mc
+for the isc-base.
+- removed some MAINTAINERS patches and used patterns in MAINTAINERS
+
+Changes in v2:
+- integrated many changes suggested by Jacopo in the review of the v1 series.
+- add a few new patches
+
+Eugen Hristev (6):
+  media: atmel: atmel-isc: move to staging
+  media: atmel: move microchip_csi2dc to dedicated microchip platform
+  media: microchip: re-add ISC driver as Microchip ISC
+  media: microchip: microchip-isc: prepare for media controller support
+  media: microchip: microchip-isc: implement media controller
+  media: microchip: microchip-isc: move media_pipeline_* to (un)prepare
+    cb
+
+ MAINTAINERS                                   |    8 +-
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/atmel/Kconfig          |   51 -
+ drivers/media/platform/atmel/Makefile         |    7 -
+ drivers/media/platform/microchip/Kconfig      |   61 +
+ drivers/media/platform/microchip/Makefile     |    9 +
+ .../{atmel => microchip}/microchip-csi2dc.c   |    0
+ .../platform/microchip/microchip-isc-base.c   | 2040 +++++++++++++++++
+ .../microchip-isc-clk.c}                      |    4 +-
+ .../platform/microchip/microchip-isc-regs.h   |  413 ++++
+ .../platform/microchip/microchip-isc-scaler.c |  267 +++
+ .../media/platform/microchip/microchip-isc.h  |  400 ++++
+ .../microchip/microchip-sama5d2-isc.c         |  683 ++++++
+ .../microchip/microchip-sama7g5-isc.c         |  646 ++++++
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/atmel/Kconfig           |   40 +
+ drivers/staging/media/atmel/Makefile          |    8 +
+ .../media}/atmel/atmel-isc-base.c             |   20 +-
+ drivers/staging/media/atmel/atmel-isc-clk.c   |  311 +++
+ .../media}/atmel/atmel-isc-regs.h             |    0
+ .../media}/atmel/atmel-isc.h                  |   16 +-
+ .../media}/atmel/atmel-sama5d2-isc.c          |   18 +-
+ .../media}/atmel/atmel-sama7g5-isc.c          |   18 +-
+ 25 files changed, 4926 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/media/platform/microchip/Kconfig
+ create mode 100644 drivers/media/platform/microchip/Makefile
+ rename drivers/media/platform/{atmel => microchip}/microchip-csi2dc.c (100%)
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-base.c
+ rename drivers/media/platform/{atmel/atmel-isc-clk.c => microchip/microchip-isc-clk.c} (99%)
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-regs.h
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-scaler.c
+ create mode 100644 drivers/media/platform/microchip/microchip-isc.h
+ create mode 100644 drivers/media/platform/microchip/microchip-sama5d2-isc.c
+ create mode 100644 drivers/media/platform/microchip/microchip-sama7g5-isc.c
+ create mode 100644 drivers/staging/media/atmel/Kconfig
+ create mode 100644 drivers/staging/media/atmel/Makefile
+ rename drivers/{media/platform => staging/media}/atmel/atmel-isc-base.c (99%)
+ create mode 100644 drivers/staging/media/atmel/atmel-isc-clk.c
+ rename drivers/{media/platform => staging/media}/atmel/atmel-isc-regs.h (100%)
+ rename drivers/{media/platform => staging/media}/atmel/atmel-isc.h (96%)
+ rename drivers/{media/platform => staging/media}/atmel/atmel-sama5d2-isc.c (97%)
+ rename drivers/{media/platform => staging/media}/atmel/atmel-sama7g5-isc.c (97%)
+
 -- 
-2.34.1
+2.25.1
 
