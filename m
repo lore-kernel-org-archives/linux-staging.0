@@ -1,133 +1,161 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689752108
-	for <linux-staging@lists.linux.dev>; Wed,  2 Nov 2022 13:16:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1667395007; x=1698931007;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=cOD+lDlaA4B/ArMiUay7i5XoiBIAeb6MV0seZdHgvxg=;
-  b=BZ/N1X1HcbLDJvmRjoPrW+E/KIjKgoGKWf89PkB/p5+dIeIWRwsgRt/r
-   wb+xrl0UPpWyzKI2dUJDoovz3gsrJJZjbfcf9ZBhrt7OHgIXmOfjz/rhU
-   7YPBkAc26Qx+xFlSI83dsO53vCzyv4vIRLwQlfh5+k1c92Wxm5gXduDDE
-   Z7u5XysrnNrY3godR3OQPnnR/Ow1delVUHlhBYG58ixxR3b5qRnEiFkPo
-   OllLrik/XoY3YM2WZBS2ZsDWcEscrxPguZRrW0nPIcjN1FE0F2su3mEMN
-   MAOayk6kxm3+MZiiFX4IwhW9sU6HZDklvqkJd/0XZmIQjW/ltIeob/4O7
-   A==;
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; 
-   d="scan'208";a="185022392"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 02 Nov 2022 06:15:37 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Wed, 2 Nov 2022 06:15:38 -0700
-Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.12 via Frontend Transport; Wed, 2 Nov 2022 06:15:36 -0700
-From: Eugen Hristev <eugen.hristev@microchip.com>
-To: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<hverkuil-cisco@xs4all.nl>, <jacopo@jmondi.org>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-staging@lists.linux.dev>,
-	Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v11 6/6] media: microchip: microchip-isc: move media_pipeline_* to (un)prepare cb
-Date: Wed, 2 Nov 2022 15:15:00 +0200
-Message-ID: <20221102131500.476024-7-eugen.hristev@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221102131500.476024-1-eugen.hristev@microchip.com>
-References: <20221102131500.476024-1-eugen.hristev@microchip.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF1B2108;
+	Wed,  2 Nov 2022 13:23:11 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id b3so3063695lfv.2;
+        Wed, 02 Nov 2022 06:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/Zh1hXzWG300x1tJ+PiggBzYHPDsOFvxwpkpySZm8UE=;
+        b=iJs155NNKolwHHu1NnnWBKJTp+bzYIP5CB2Wrn6o5GymuS2ILRsKz1o0HkN33qW1Ye
+         Mryv/Q9cNXfxrBekiR37AKgxk9wYra2D1AWqBjq+lauP9CjNLGq3yMA7t6Bv40x5qOxV
+         Rv/cqrzXc99nqP2qvbqRTXEJIvhlzXMI8W3rEbo/y7jPpXI+aOb4X7uiYYxopk0MOo6W
+         hVwTv5SbV1TUy4DBUXWr2dywnXmdBoHbGAGmMZUd+hvSUbyE4EfbWdEa7790R5kYdcPX
+         j3fNNFlz5U9vtPjazw/LW9oMZK64ncwGzn+twYrRgoHJi/5TLx8djcoKiXerafjS5HXs
+         zrfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/Zh1hXzWG300x1tJ+PiggBzYHPDsOFvxwpkpySZm8UE=;
+        b=XyfHd7elQqzopyO6bpQTinfmQwN6jeqMlR+MF+3abN6FNTzgOZqFW9oUvo4sU/+UcX
+         MWUn/vkKZJmYs3PwEPFWYlSi/TyotMY3am+JSSuUZV0xAmsEq2xIPPoJgq+eeYGesTYP
+         ExiR33xCZZrRTTyc2bfhq3/Ruz6YWUVHrygTl7uojyYhZPFQEvFQ5CAHjdtMFiBbmlR2
+         iDfq/IKUAWeADEuu6z8Rgdxa5E9CKq0x/Dsu+ARBW+XlV2DipzRoRvDDRwC0PMKTb62f
+         npR5unVWyLTyvQ0zDhjpvmZlkzXI8qiIt4wpCsZ62GPmvIcmoxcCQ7s7z92tmtfAQ5ph
+         ViGg==
+X-Gm-Message-State: ACrzQf3digNJRD4Td9krbFs+fuA0h3yIZp7PzhP6RRG2nDKkTiDFuecS
+	ntqRfC7YZviPxv9Bj1T/0ix+lW3iFWbSvA==
+X-Google-Smtp-Source: AMsMyM7FJiAT+77JGZa/wf10WHe2u5r2pscCMMoeQWHYW1vhgwocT8TLHdKFK3NWnz76R+C4eKnQIA==
+X-Received: by 2002:ac2:5b4e:0:b0:4aa:301f:3e2e with SMTP id i14-20020ac25b4e000000b004aa301f3e2emr8689723lfp.90.1667395389063;
+        Wed, 02 Nov 2022 06:23:09 -0700 (PDT)
+Received: from elroy-temp-vm ([20.240.130.248])
+        by smtp.gmail.com with ESMTPSA id p19-20020ac24ed3000000b0048a8c907fe9sm1996939lfr.167.2022.11.02.06.23.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 06:23:08 -0700 (PDT)
+Date: Wed, 2 Nov 2022 13:23:07 +0000
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: [PATCH v2] staging: vt6655: change 2 variable names wFB_Opt0 and
+ wFB_Opt1
+Message-ID: <Y2JvO29KoDJCyw7R@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Move the media_pipeline_start/stop calls from start/stop streaming to
-the new prepare_streaming and unprepare_streaming callbacks.
+These variables are named using Hungarian notation, which is not used
+in the Linux kernel.
 
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
 ---
- .../platform/microchip/microchip-isc-base.c   | 27 ++++++++++++-------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ drivers/staging/vt6655/rxtx.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
-index 00651c313e9d..eed96e2a6a00 100644
---- a/drivers/media/platform/microchip/microchip-isc-base.c
-+++ b/drivers/media/platform/microchip/microchip-isc-base.c
-@@ -328,6 +328,13 @@ static int isc_configure(struct isc_device *isc)
- 	return isc_update_profile(isc);
- }
- 
-+static int isc_prepare_streaming(struct vb2_queue *vq)
-+{
-+	struct isc_device *isc = vb2_get_drv_priv(vq);
-+
-+	return media_pipeline_start(isc->video_dev.entity.pads, &isc->mpipe);
-+}
-+
- static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
- {
- 	struct isc_device *isc = vb2_get_drv_priv(vq);
-@@ -336,10 +343,6 @@ static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	unsigned long flags;
- 	int ret;
- 
--	ret = media_pipeline_start(isc->video_dev.entity.pads, &isc->mpipe);
--	if (ret)
--		goto err_pipeline_start;
--
- 	/* Enable stream on the sub device */
- 	ret = v4l2_subdev_call(isc->current_subdev->sd, video, s_stream, 1);
- 	if (ret && ret != -ENOIOCTLCMD) {
-@@ -389,9 +392,6 @@ static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	v4l2_subdev_call(isc->current_subdev->sd, video, s_stream, 0);
- 
- err_start_stream:
--	media_pipeline_stop(isc->video_dev.entity.pads);
--
--err_pipeline_start:
- 	spin_lock_irqsave(&isc->dma_queue_lock, flags);
- 	list_for_each_entry(buf, &isc->dma_queue, list)
- 		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_QUEUED);
-@@ -401,6 +401,14 @@ static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	return ret;
- }
- 
-+static void isc_unprepare_streaming(struct vb2_queue *vq)
-+{
-+	struct isc_device *isc = vb2_get_drv_priv(vq);
-+
-+	/* Stop media pipeline */
-+	media_pipeline_stop(isc->video_dev.entity.pads);
-+}
-+
- static void isc_stop_streaming(struct vb2_queue *vq)
- {
- 	struct isc_device *isc = vb2_get_drv_priv(vq);
-@@ -430,9 +438,6 @@ static void isc_stop_streaming(struct vb2_queue *vq)
- 	if (ret && ret != -ENOIOCTLCMD)
- 		v4l2_err(&isc->v4l2_dev, "stream off failed in subdev\n");
- 
--	/* Stop media pipeline */
--	media_pipeline_stop(isc->video_dev.entity.pads);
--
- 	/* Release all active buffers */
- 	spin_lock_irqsave(&isc->dma_queue_lock, flags);
- 	if (unlikely(isc->cur_frm)) {
-@@ -472,6 +477,8 @@ static const struct vb2_ops isc_vb2_ops = {
- 	.start_streaming	= isc_start_streaming,
- 	.stop_streaming		= isc_stop_streaming,
- 	.buf_queue		= isc_buffer_queue,
-+	.prepare_streaming	= isc_prepare_streaming,
-+	.unprepare_streaming	= isc_unprepare_streaming,
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 9bdcf2337235..31ae99b3cb35 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -59,12 +59,12 @@ static const unsigned short time_stamp_off[2][MAX_RATE] = {
+ 	{384, 192, 130, 113, 54, 43, 37, 31, 28, 25, 24, 23}, /* Short Preamble */
  };
  
- static int isc_querycap(struct file *file, void *priv,
+-static const unsigned short wFB_Opt0[2][5] = {
++static const unsigned short fb_opt0[2][5] = {
+ 	{RATE_12M, RATE_18M, RATE_24M, RATE_36M, RATE_48M}, /* fallback_rate0 */
+ 	{RATE_12M, RATE_12M, RATE_18M, RATE_24M, RATE_36M}, /* fallback_rate1 */
+ };
+ 
+-static const unsigned short wFB_Opt1[2][5] = {
++static const unsigned short fb_opt1[2][5] = {
+ 	{RATE_12M, RATE_18M, RATE_24M, RATE_24M, RATE_36M}, /* fallback_rate0 */
+ 	{RATE_6M,  RATE_6M,  RATE_12M, RATE_12M, RATE_18M}, /* fallback_rate1 */
+ };
+@@ -298,9 +298,9 @@ s_uGetDataDuration(
+ 			wRate -= RATE_18M;
+ 
+ 			if (byFBOption == AUTO_FB_0)
+-				wRate = wFB_Opt0[FB_RATE0][wRate];
++				wRate = fb_opt0[FB_RATE0][wRate];
+ 			else
+-				wRate = wFB_Opt1[FB_RATE0][wRate];
++				wRate = fb_opt1[FB_RATE0][wRate];
+ 
+ 			uNextPktTime = s_uGetTxRsvTime(pDevice, byPktType,
+ 						       len, wRate, bNeedAck);
+@@ -353,52 +353,52 @@ s_uGetRTSCTSDuration(
+ 	case RTSDUR_BA_F0: /* RTSDuration_ba_f0 */
+ 		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case RTSDUR_AA_F0: /* RTSDuration_aa_f0 */
+ 		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case RTSDUR_BA_F1: /* RTSDuration_ba_f1 */
+ 		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case RTSDUR_AA_F1: /* RTSDuration_aa_f1 */
+ 		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case CTSDUR_BA_F0: /* CTSDuration_ba_f0 */
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case CTSDUR_BA_F1: /* CTSDuration_ba_f1 */
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
 -- 
-2.25.1
+2.34.1
 
