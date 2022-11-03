@@ -1,75 +1,109 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720B5A23;
-	Thu,  3 Nov 2022 09:17:37 +0000 (UTC)
-Received: by mail-qv1-f46.google.com with SMTP id x15so728827qvp.1;
-        Thu, 03 Nov 2022 02:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=S27rf3kqtxPFXY27Pis05ywWuW6Og2HFmNiBpLHzMEw=;
-        b=UCAeBUMO3aUcMiCHOkkum/+gUdMFLZHG0lTSPjNC6VodHeS1weOjt+8XYkTaveoIQP
-         J0nM33wjeRHMcj0P3N4QMMBRv4uAT3EpPVkM73Y3zJVZ63oqJV0TfnmlQQtEA/hgvNaO
-         SLv/3oxGdvQj7S9OYC7snzo9XnaDv0ECc6wQzRcL1OmfufmqfMSj1GC+2Inh75qRxUKO
-         XBAd3DWA9KdL39StkCN3q05Ejp/zfXZt06jQfzqa8JE9dbCBdLjuRu6g4BxJstz0N6L3
-         2erYzwxuTq1CBSv3E8IHTAt6XqUdySll7AsiXFdA1nWc2VCh1jJPh3cRLDlqIdhap82a
-         kreA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S27rf3kqtxPFXY27Pis05ywWuW6Og2HFmNiBpLHzMEw=;
-        b=2Hvy7n8vzLLBNEAlff6Lr3SSVToNp7x6RSvAUjB87URPxemRfchDy03NejTKwB9/RO
-         O9lhh1g10SJ078hF4EnY0VMV0DaDKslNY/q04j8mriomKqSTVevNc1K6wkunPzKSb425
-         6XV7sdr2XnazADiBPB8GyphM7fu6CVO6O9PhvpM62IVSTfZfw+nfkbo4TM9IFJFxCOcb
-         mvn4j/HcxbM4iuVAIWs0BKv7ALxk0nxs/Cr59GXNw7NTAku0aKctSbBkqzHcPJ99HLzb
-         lJiNvfNdAd2UIipVkH6Wzqvs82bJJtboOX1PUdgJK8/Ev6odh8qpDHiShoPwWuopyaPh
-         f6wQ==
-X-Gm-Message-State: ACrzQf02AKM+CksEzZEg6Qk1PxLe50uyq+mhK/jzxnKkvCgxkl0aXgZI
-	BE/fjYB9R8/WTdPjZD49GF6LTPmWXWiWiXoVBDk=
-X-Google-Smtp-Source: AMsMyM5Oj6gFJGt+vv1xABt2GvnCRYvT3lh97M+rZ/HIwYczm9bdVU2DEbSLEDSndFW2q6XByLsn7mEzHBnG1gfBTfs=
-X-Received: by 2002:a0c:e547:0:b0:4bb:66d2:2d58 with SMTP id
- n7-20020a0ce547000000b004bb66d22d58mr25788188qvm.69.1667467056490; Thu, 03
- Nov 2022 02:17:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8658A23;
+	Thu,  3 Nov 2022 09:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667467121; bh=1FFyeCB1hsvWSZFVl4Cqf8cr/xeMPMTwxPelch+HVkI=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=EeZejlVQ/tZqrGfYydi+VCs7I1D4NSzQRoumLgidzbI2cgsVeO7/PKStGXl6eCgfa
+	 c30K5t4HuvvqAW+06jcpqOliI5EnwlGIjSBwbpaZl/T3Zh459MBN/XCTcHhbhnQ1lT
+	 o5sMCt3OmN8D9q86F15gVi/XOZ2KWKJPIzTXpG/8=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+	via [213.182.55.206]
+	Thu,  3 Nov 2022 10:18:41 +0100 (CET)
+X-EA-Auth: lRmrKz4m7pPIlT6G9wgNSAXAl/QL4q8IeqYV3yT3ly6KzkRBk4KKck/th0wDBHggEFJP7QaLRArA0ckubZhz+ziq/dVwzlM2
+Date: Thu, 3 Nov 2022 14:48:35 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: David Laight <David.Laight@aculab.com>,
+	"outreachy@lists.linux.dev" <outreachy@lists.linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8192e: Use min_t/max_t macros for variable
+ comparison
+Message-ID: <Y2OHVoXD82CIHL8R@qemulion>
+References: <Y2LxC2kziM1TznhO@qemulion>
+ <d8fa86bf71694f23b8f175245722e86f@AcuMS.aculab.com>
+ <Y2OBmWIwhRMOk6V/@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1667397591.git.tanjubrunostar0@gmail.com>
- <5a0649c6019f1717cb2e2e8fc4e262f3747d73a5.1667397591.git.tanjubrunostar0@gmail.com>
- <bfc8e714fbe80a16428a447768def5764083526d.camel@perches.com>
- <CAHJEyKV75q90E1OU2YOGK70EBLm8dQe181m_nS_qmPRsPaB8TQ@mail.gmail.com> <Y2OExzH0QJqHEfNf@kadam>
-In-Reply-To: <Y2OExzH0QJqHEfNf@kadam>
-From: Tanju Brunostar <tanjubrunostar0@gmail.com>
-Date: Thu, 3 Nov 2022 10:17:24 +0100
-Message-ID: <CAHJEyKVP9ZvO-EbzGgi+Hu_XoBq18dvpnOjs886gjgvwuAdv_g@mail.gmail.com>
-Subject: Re: [PATCH V4 1/2] staging: vt6655: change the function name s_vFillRTSHead
-To: Dan Carpenter <error27@gmail.com>
-Cc: Joe Perches <joe@perches.com>, gregkh@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2OBmWIwhRMOk6V/@kadam>
 
-On Thu, Nov 3, 2022 at 10:07 AM Dan Carpenter <error27@gmail.com> wrote:
->
-> On Thu, Nov 03, 2022 at 09:48:59AM +0100, Tanju Brunostar wrote:
-> > The second commit under this patchset resolves this. please take a
-> > look at it and let me know if I should change anything
+On Thu, Nov 03, 2022 at 11:53:45AM +0300, Dan Carpenter wrote:
+> On Thu, Nov 03, 2022 at 08:24:15AM +0000, David Laight wrote:
+> > > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> > > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> > > @@ -587,17 +587,12 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
+> > >  			else
+> > >  				pHTInfo->CurrentAMPDUFactor = HT_AGG_SIZE_64K;
+> > >  		} else {
+> > > -			if (pPeerHTCap->MaxRxAMPDUFactor < HT_AGG_SIZE_32K)
+> > > -				pHTInfo->CurrentAMPDUFactor =
+> > > -						 pPeerHTCap->MaxRxAMPDUFactor;
+> > > -			else
+> > > -				pHTInfo->CurrentAMPDUFactor = HT_AGG_SIZE_32K;
+> > > +			pHTInfo->CurrentAMPDUFactor = min_t(u32, pPeerHTCap->MaxRxAMPDUFactor,
+> > > +							    HT_AGG_SIZE_32K);
+> >
+> > For min() to fail there must be a signed v unsigned mismatch.
+> > Maybe that ought to be fixed.
 > >
 >
-> Please don't top post on email.
-> http://www.catb.org/jargon/html/T/top-post.html
+> u32 is the right choice here.
 >
-Oh my mistake. sorry
-> Don't break the kernel and then fix it in a later patch.  Just fix it
-> without first breaking it.
+> I'm having a hard time understanding your email.  You might be saying
+> we could declare HT_AGG_SIZE_32K as a u32 so then we could use min()
+> instead of min_t()?  HT_AGG_SIZE_32K is an enum.
+>
+> pPeerHTCap->MaxRxAMPDUFactor is a bitfield.
+>
+> 	u8 MaxRxAMPDUFactor:2;
+>
+> We will never be able to use min().
+
+I think we could do min((u32)a, (u32)b), but it is just unwrapped min_t
+if I understand David's comment.
+
+>
+> > >  		}
+> > >  	}
+> > > -	if (pHTInfo->MPDU_Density > pPeerHTCap->MPDUDensity)
+> > > -		pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
+> > > -	else
+> > > -		pHTInfo->current_mpdu_density = pPeerHTCap->MPDUDensity;
+> > > +	pHTInfo->current_mpdu_density = max_t(u8, pHTInfo->MPDU_Density,
+> > > +					      pPeerHTCap->MPDUDensity);
+> >
+> > Using u8 with max_t() really doesn't make any sense.
+>
+> Using u8 looks wrong because you would worry that one of the types is
+> larger than U8_MAX.  But it's actually fine.  The types are u8 vs another
+> bitfield.  I would probably have gone with u32 here as well.
+I will take your advise and upgrade the type to u32 as a revision.
+>
+> > The value will get promoted to signed int prior to the comparison.
+> >
+>
+> That's sort of true-ish but I don't understand what you are saying?
+> #confused
+
+Yes, I too did not understand David's comment. I tried to dig dipper into max_t but
+it gets very complex. Can you please elaborate how you determined the promotion
+to signed int?
+
 >
 > regards,
 > dan carpenter
 >
-I see. So I should send the changes in one patch right?
+>
+
+
