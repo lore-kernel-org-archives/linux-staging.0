@@ -1,65 +1,103 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724007E2;
-	Thu,  3 Nov 2022 05:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667453154; bh=FufVo+HFMo3MVhvPeLvfq/RyBj3cNiGx245dUoTqmJU=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=iBJlL+mWHsrh7x0N3fKFFXMMBUXy3LhUUEQZyMU5qJyUejZsVMc7B2plh/3MTU6wr
-	 RYgzTYyKeFMNqsmkiKBoy0VCYcoQ4PU0+WHOFTuuJ/xAhaj9E6/l0cTsI+JeupeRoW
-	 aof5rObKL/8Uuhq3I9/hUlgoU5qMlPI/bXGrT+UU=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-	via [213.182.55.206]
-	Thu,  3 Nov 2022 06:25:53 +0100 (CET)
-X-EA-Auth: sT/AI6qkYYmy785Y8+YqN/cDQZl5Q7Pej6Ql4n93P4imGzzGbUN3YjFwvbY6p7yflJ+0rjGD1TILhqpBL7JIsLea1C8jlblu
-Date: Thu, 3 Nov 2022 10:55:47 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Pavel Skripkin <paskripkin@gmail.com>, outreachy@lists.linux.dev,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Use flexible-array for one length
- array member
-Message-ID: <Y2NQ23peeelHrCqW@qemulion>
-References: <Y1vRivFfRD6VoBt/@ubunlion>
- <642519a2-664d-d837-983a-1d5bbc72a25e@gmail.com>
- <Y1vjKtM9druO2bSN@ubunlion>
- <Y1vqd/ij5WqcL3Qe@kadam>
- <Y2LCykj5Ntx7yHxu@qemulion>
- <Y2NQBgUdNPB7g0Tf@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237C07E2
+	for <linux-staging@lists.linux.dev>; Thu,  3 Nov 2022 05:37:41 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id bj12so2345388ejb.13
+        for <linux-staging@lists.linux.dev>; Wed, 02 Nov 2022 22:37:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N6yuz4vaBpXGDDofkp9biEi/JZM9rALV78sm7Rm0mFs=;
+        b=nIKDt+21vRMTOrnwSIevXDaFC6NEbImnogX/D4tvD0xfn1Pj7HmpQIpHuD8vZKnsjT
+         tyU3gGqazU0vZWd6lemwHKRiic4xZqjRpEZYVZrDfUgzHGcky3HMFZcanNgKOuff3IcN
+         Pzd+Zc0mS7047vA2ELUq+6AYPoE0NqyVpI/MWOrPMH6GOsxzYhUH8cxbFq4Us3RT2IYb
+         zTJtJC0438wwYAVzf0fTckqgGlq3dT/+0U/bjLnuHWGshgUlOTNTc0Z/8Iit/UTNJaJB
+         JyuD/uf2g0y5O8lWfrl5wgnZio2iHAWX6nXuJz1xV8gxqSYH8T8QuwK/cincf0Mk2XAW
+         gHFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N6yuz4vaBpXGDDofkp9biEi/JZM9rALV78sm7Rm0mFs=;
+        b=ZIdeFiAcslApvaZnftdd6XtT/mjSkYfrAQcdMQRu4cSBZhhhx91ZMJBJH6nrNHeKe9
+         Oe2Xz4WzacCy36W+tZC3r2MB3zKDSiey+hqcwfZmWDfpB/CdLxfBvSo/xG7+/ve0V9Ko
+         JoIO2hA8Yosun1n5Lb/9n3TtW3SNcklXtceXG7mEA37Q+ZTC9sMupWRUBfkEqh2RBRD0
+         9oMOLPF0jG/EQw959gHnpt/i4nR0xAyN0ufnno8fGVPFoh05In1KyYy525tdxfJNmkgl
+         IBavVrwNC/9acQK3y3sGxNBAii5oiNuOk9v9H910WFc4HsMe6gKi/+cjCRh3OWhn9q64
+         SZZw==
+X-Gm-Message-State: ACrzQf1IJZtBCUwzyC0nhGbbdhHhv1hQdJ4eNaVXybxIEl2XuQXCdRoi
+	eo+65zm2gZKZekZzQm5DypI=
+X-Google-Smtp-Source: AMsMyM40GLHvYKeS3BzkTPHm0n5pKPvj/IL9FROYw3v0be2+HGt7yHQWxBCrrmwFgnOOpHxbdPo1/A==
+X-Received: by 2002:a17:907:3f95:b0:7a2:36c7:31bd with SMTP id hr21-20020a1709073f9500b007a236c731bdmr27738226ejc.353.1667453859321;
+        Wed, 02 Nov 2022 22:37:39 -0700 (PDT)
+Received: from [192.168.0.101] (ip5f5abb6c.dynamic.kabel-deutschland.de. [95.90.187.108])
+        by smtp.gmail.com with ESMTPSA id lb18-20020a170907785200b00741a0c3f4cdsm11090ejc.189.2022.11.02.22.37.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Nov 2022 22:37:38 -0700 (PDT)
+Message-ID: <2e065cba-8094-3900-67e6-3a647bec3a7c@gmail.com>
+Date: Thu, 3 Nov 2022 06:37:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2NQBgUdNPB7g0Tf@kadam>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] staging: r8188eu: change return type of
+ rtw_set_802_11_disassociate to void
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, paskripkin@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221102233637.6648-1-phil@philpotter.co.uk>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20221102233637.6648-1-phil@philpotter.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 03, 2022 at 08:22:14AM +0300, Dan Carpenter wrote:
-> On Thu, Nov 03, 2022 at 12:49:38AM +0530, Deepak R Varma wrote:
-> > I am wondering if ijk_matrix_regs_set (or IQKMatrixRegSetting) is a one element
-> > array, why is it declared as a two dimensional array? Can this be a simple one
-> > dimensional array instead? Is this the cleanup you are referring to when you say
-> > "code is messy and should be cleaned up"?
->
-> Yes.  You have interpreted that correctly.
+Hi Phillip,
 
-Thank you for the confirmation. This will be an interesting correction. I will
-review and submit a patch shortly.
+On 11/3/22 00:36, Phillip Potter wrote:
+> Change return type of rtw_set_802_11_disassociate to void. This function
+> always returns 'true' no matter what, so there is no need to return a
+> value, and no need to check for it in the two call sites within
+> rtw_wx_set_mlme.
+> 
+> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> ---
+>   drivers/staging/r8188eu/core/rtw_ioctl_set.c    | 4 +---
+>   drivers/staging/r8188eu/include/rtw_ioctl_set.h | 2 +-
+>   drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 6 ++----
+>   3 files changed, 4 insertions(+), 8 deletions(-)
+> 
 
-Thank you,
-./drv
+<snip>
 
->
-> regards,
-> dan carpenter
->
->
+> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> @@ -1020,12 +1020,10 @@ static int rtw_wx_set_mlme(struct net_device *dev,
+>   
+>   	switch (mlme->cmd) {
+>   	case IW_MLME_DEAUTH:
+> -		if (!rtw_set_802_11_disassociate(padapter))
+> -			ret = -1;
+> +		rtw_set_802_11_disassociate(padapter);
+>   		break;
+>   	case IW_MLME_DISASSOC:
+> -		if (!rtw_set_802_11_disassociate(padapter))
+> -			ret = -1;
+> +		rtw_set_802_11_disassociate(padapter);
+>   		break;
+>   	default:
+>   		return -EOPNOTSUPP;
 
+You could also remove the ret variable and return 0 directly, since ret
+is not changed anymore in the function.
 
+regards,
+Michael
