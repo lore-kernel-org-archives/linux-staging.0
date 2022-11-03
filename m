@@ -1,33 +1,27 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8658A23;
-	Thu,  3 Nov 2022 09:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633C5A23;
+	Thu,  3 Nov 2022 09:33:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667467121; bh=1FFyeCB1hsvWSZFVl4Cqf8cr/xeMPMTwxPelch+HVkI=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=EeZejlVQ/tZqrGfYydi+VCs7I1D4NSzQRoumLgidzbI2cgsVeO7/PKStGXl6eCgfa
-	 c30K5t4HuvvqAW+06jcpqOliI5EnwlGIjSBwbpaZl/T3Zh459MBN/XCTcHhbhnQ1lT
-	 o5sMCt3OmN8D9q86F15gVi/XOZ2KWKJPIzTXpG/8=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+	t=1667468017; bh=u4ZMyCJTtwT9XM0J3JSr+5jhaUWlQ9C7oJqTqy8JPvU=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=P48xDqiYtixEd4xMotP9apBBx9fXFI+Q3FCAS+DxRKaF6v1+m8U1nw2J+TO8WbGJZ
+	 DyY7ASx9Vlk5OX29eAyRWaLefK4O0tTX7hf7H8cY6y0fW6aTKbxz5Xc5QpLz6XhEoH
+	 2TP8bUaRlUYHQR+MBoW9bDdYd+/BR8lpopI4FPjU=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
 	via [213.182.55.206]
-	Thu,  3 Nov 2022 10:18:41 +0100 (CET)
-X-EA-Auth: lRmrKz4m7pPIlT6G9wgNSAXAl/QL4q8IeqYV3yT3ly6KzkRBk4KKck/th0wDBHggEFJP7QaLRArA0ckubZhz+ziq/dVwzlM2
-Date: Thu, 3 Nov 2022 14:48:35 +0530
+	Thu,  3 Nov 2022 10:33:37 +0100 (CET)
+X-EA-Auth: hF2FJLaDPFT0hZmNHvh6y/Itb5Izeetu6Xp6eqBJ5RVBeGH4W2bLWnm02z/QsIonphbvwWNdqcVqTMIMy6QTHSVvpmEoNdsX
+Date: Thu, 3 Nov 2022 15:03:29 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: David Laight <David.Laight@aculab.com>,
-	"outreachy@lists.linux.dev" <outreachy@lists.linux.dev>,
+To: outreachy@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8192e: Use min_t/max_t macros for variable
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: rtl8723bs: Use min/max macros for variable
  comparison
-Message-ID: <Y2OHVoXD82CIHL8R@qemulion>
-References: <Y2LxC2kziM1TznhO@qemulion>
- <d8fa86bf71694f23b8f175245722e86f@AcuMS.aculab.com>
- <Y2OBmWIwhRMOk6V/@kadam>
+Message-ID: <Y2OK6fcIkH3S2/1f@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,74 +30,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2OBmWIwhRMOk6V/@kadam>
 
-On Thu, Nov 03, 2022 at 11:53:45AM +0300, Dan Carpenter wrote:
-> On Thu, Nov 03, 2022 at 08:24:15AM +0000, David Laight wrote:
-> > > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > > @@ -587,17 +587,12 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
-> > >  			else
-> > >  				pHTInfo->CurrentAMPDUFactor = HT_AGG_SIZE_64K;
-> > >  		} else {
-> > > -			if (pPeerHTCap->MaxRxAMPDUFactor < HT_AGG_SIZE_32K)
-> > > -				pHTInfo->CurrentAMPDUFactor =
-> > > -						 pPeerHTCap->MaxRxAMPDUFactor;
-> > > -			else
-> > > -				pHTInfo->CurrentAMPDUFactor = HT_AGG_SIZE_32K;
-> > > +			pHTInfo->CurrentAMPDUFactor = min_t(u32, pPeerHTCap->MaxRxAMPDUFactor,
-> > > +							    HT_AGG_SIZE_32K);
-> >
-> > For min() to fail there must be a signed v unsigned mismatch.
-> > Maybe that ought to be fixed.
-> >
->
-> u32 is the right choice here.
->
-> I'm having a hard time understanding your email.  You might be saying
-> we could declare HT_AGG_SIZE_32K as a u32 so then we could use min()
-> instead of min_t()?  HT_AGG_SIZE_32K is an enum.
->
-> pPeerHTCap->MaxRxAMPDUFactor is a bitfield.
->
-> 	u8 MaxRxAMPDUFactor:2;
->
-> We will never be able to use min().
+Simplify code by using min and max helper macros in place of lengthy
+if/else block oriented logical evaluation and value assignment. This
+issue is identified by coccicheck using the minmax.cocci file.
 
-I think we could do min((u32)a, (u32)b), but it is just unwrapped min_t
-if I understand David's comment.
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
 
->
-> > >  		}
-> > >  	}
-> > > -	if (pHTInfo->MPDU_Density > pPeerHTCap->MPDUDensity)
-> > > -		pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
-> > > -	else
-> > > -		pHTInfo->current_mpdu_density = pPeerHTCap->MPDUDensity;
-> > > +	pHTInfo->current_mpdu_density = max_t(u8, pHTInfo->MPDU_Density,
-> > > +					      pPeerHTCap->MPDUDensity);
-> >
-> > Using u8 with max_t() really doesn't make any sense.
->
-> Using u8 looks wrong because you would worry that one of the types is
-> larger than U8_MAX.  But it's actually fine.  The types are u8 vs another
-> bitfield.  I would probably have gone with u32 here as well.
-I will take your advise and upgrade the type to u32 as a revision.
->
-> > The value will get promoted to signed int prior to the comparison.
-> >
->
-> That's sort of true-ish but I don't understand what you are saying?
-> #confused
+Changes in v2:
+   1. Remove unnecessary parenthesis around the min/max macro arguments as
+      suggested by julia.lawall@inria.fr
 
-Yes, I too did not understand David's comment. I tried to dig dipper into max_t but
-it gets very complex. Can you please elaborate how you determined the promotion
-to signed int?
+Please note:
+   1. Using min for max_AMPDU_len computation warning was NOT auto generated by
+      the coccicheck command. This was caught while surround code review and
+      was manually changed.
+   2. Checkpatch script continues to complaint about min_MPDU_spacing
+      computation line being more than 100 character in length. I did not find a
+      better formatting that will address this checkpatch warning. Any
+      suggestions are most welcome.
+   3. Proposed changes are compile tested only on my x86 based VM.
 
->
-> regards,
-> dan carpenter
->
->
+
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 12 ++++--------
+ drivers/staging/rtl8723bs/hal/odm_DIG.c        |  5 +----
+ 2 files changed, 5 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 18ba846c0b7b..ba39c8b1a9ae 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -986,15 +986,11 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ 			pmlmeinfo->HT_caps.u.HT_cap[i] &= (pIE->data[i]);
+ 		} else {
+ 			/* modify from  fw by Thomas 2010/11/17 */
+-			if ((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3) > (pIE->data[i] & 0x3))
+-				max_AMPDU_len = (pIE->data[i] & 0x3);
+-			else
+-				max_AMPDU_len = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3);
++			max_AMPDU_len = min(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3,
++					    pIE->data[i] & 0x3);
+
+-			if ((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c) > (pIE->data[i] & 0x1c))
+-				min_MPDU_spacing = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c);
+-			else
+-				min_MPDU_spacing = (pIE->data[i] & 0x1c);
++			min_MPDU_spacing = max(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c,
++					       pIE->data[i] & 0x1c);
+
+ 			pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para = max_AMPDU_len | min_MPDU_spacing;
+ 		}
+diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+index 07edf74ccfe5..97a51546463a 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
++++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+@@ -598,10 +598,7 @@ void odm_DIGbyRSSI_LPS(void *pDM_VOID)
+ 	/* Lower bound checking */
+
+ 	/* RSSI Lower bound check */
+-	if ((pDM_Odm->RSSI_Min-10) > DM_DIG_MIN_NIC)
+-		RSSI_Lower = pDM_Odm->RSSI_Min-10;
+-	else
+-		RSSI_Lower = DM_DIG_MIN_NIC;
++	RSSI_Lower = max(pDM_Odm->RSSI_Min - 10, DM_DIG_MIN_NIC);
+
+ 	/* Upper and Lower Bound checking */
+ 	if (CurrentIGI > DM_DIG_MAX_NIC)
+--
+2.34.1
+
 
 
