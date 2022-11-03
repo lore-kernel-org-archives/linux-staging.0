@@ -1,160 +1,95 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFA42F34;
-	Thu,  3 Nov 2022 12:38:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B066FCC
+	for <linux-staging@lists.linux.dev>; Thu,  3 Nov 2022 13:06:23 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id v1so2648108wrt.11
+        for <linux-staging@lists.linux.dev>; Thu, 03 Nov 2022 06:06:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=B8CXOE4IBhnP/UwGXPbiJS7DwU6NzAK3VAxg643ZQgc=;
-  b=FHJqE1l2/am+OPTdJOYYmxKVDqUQBlffMeuBu96hNrLxJZpMIR2mCRv6
-   09utJyqld/2vBux6SnenNjPsdv44E1x001RW4OykKGY1TvoiJCwcNVAiv
-   Anvj3m0vrP4SkW3k7LbaUQdkznvBkUl2Df0L0zLjNCeR35rSkNXB6a/Kg
-   g=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.95,235,1661810400"; 
-   d="scan'208";a="72819154"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 13:38:00 +0100
-Date: Thu, 3 Nov 2022 13:38:00 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: vt6655: change the function name
- s_vFillRTSHead
-In-Reply-To: <Y2OPStg4jXtWpJcd@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
-Message-ID: <d0d6d613-174b-f7dd-7d45-45eecd26a850@inria.fr>
-References: <Y2OPStg4jXtWpJcd@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fxui20KvNriC9XitvtEzDQZsPD1wh2iQuea1gk/77Mw=;
+        b=pB//Raqfkxykfv8IuPbNdoswD4V05DPzrriADnM/RRLIyHcvyN0jjiqPuRoH/dQXIL
+         Th4Y19P+XSS3Gd9UmX+ipgYtJnfClI2Y8ZFZM1xl0WD95N38b7iK9dBGzZ7oLtCWhOV8
+         o4lBfF/z8NDMC7/G1UybmUMM3mTcVRShaQ0FGyOzzAP5wQ8ICoGdM5KhfAjDtVj522jS
+         M4QnoXdKc2wIkOCETz1eQXWRN4p1krgK84w0Hj+t43sYhWxqjFDfq4TbmX1g/vSa1Ygz
+         ec5GpNt7YfIuY9jQEm66QYVh8KVaUryAyZXNio4i24MEUKvOjrEoxJ0YFHO5bUK9ZSy8
+         0ZfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fxui20KvNriC9XitvtEzDQZsPD1wh2iQuea1gk/77Mw=;
+        b=Ffj+hTUZXCEGVFsD9feRyGB/+YTO8BCJ1InzPojGgrfSmFKXAY6Oc7fQhD5EeJzrhF
+         6S0UZJsXSfvPXUvJyR5trQuJdsGZpffNsdGW2lZ2UA4AFjZPmxrGwUpKQgpraZkwOUJi
+         y4xdDhhMAHL4cqRsq1cLcw0+ZbGsxfjg749LYQUqNwCDvqyZV3jK+uTaiZPN2WDPpKXn
+         647oaV3QM4Jghi7TY0Ut6SShmpHi38cKJ7Z8mKDi0tQRwWd+rV0qyS3utzOuUa8Gi+yc
+         QijvY/8Ejn6sIGsRt8qOrUacvwC609+s0G4tRlvF+/zPT9gU/fhm82DJNdkAYgz0hkgs
+         oIGw==
+X-Gm-Message-State: ACrzQf268M7BqxK6yahBauqAOggGH46jXpffGFfN1KjlnYA36brzz4Q7
+	dLJoX60RhJQ4ObebQnFBk28=
+X-Google-Smtp-Source: AMsMyM55qyrSvfMGDqYrZzEgYnch4RFuC18ZSjNjhAWLi6kk7whlNNYZmbQFnW2jM5ixRoU4RgKOcw==
+X-Received: by 2002:a5d:4008:0:b0:235:a4c4:97c2 with SMTP id n8-20020a5d4008000000b00235a4c497c2mr19201064wrp.295.1667480781075;
+        Thu, 03 Nov 2022 06:06:21 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id w12-20020a05600c474c00b003b4a699ce8esm5608162wmo.6.2022.11.03.06.06.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 06:06:20 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Aaron Lawrence <t4rmin@zohomail.com>,
+	Yogesh Hegde <yogi.kernel@gmail.com>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] staging: rtl8192e: rtl819x_HTProc: make arrays const and one static
+Date: Thu,  3 Nov 2022 13:06:19 +0000
+Message-Id: <20221103130619.78413-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+Make two dead-only arrays const. Make array EWC11NHTCap static const
+so it is not populated on the stack, makes the code smaller too.
 
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On Thu, 3 Nov 2022, Tanjuate Brunostar wrote:
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index 62aa8e893c34..84ec8df047d7 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -282,7 +282,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
+ 	memset(posHTCap, 0, *len);
+ 
+ 	if ((bAssoc) && (pHT->ePeerHTSpecVer == HT_SPEC_VER_EWC)) {
+-		u8	EWC11NHTCap[] = {0x00, 0x90, 0x4c, 0x33};
++		static const u8	EWC11NHTCap[] = { 0x00, 0x90, 0x4c, 0x33 };
+ 
+ 		memcpy(posHTCap, EWC11NHTCap, sizeof(EWC11NHTCap));
+ 		pCapELE = (struct ht_capab_ele *)&posHTCap[4];
+@@ -515,8 +515,8 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
+ 	u16 nMaxAMSDUSize = 0;
+ 	u8 *pMcsFilter = NULL;
+ 
+-	static u8 EWC11NHTCap[] = {0x00, 0x90, 0x4c, 0x33};
+-	static u8 EWC11NHTInfo[] = {0x00, 0x90, 0x4c, 0x34};
++	static const u8 EWC11NHTCap[] = { 0x00, 0x90, 0x4c, 0x33 };
++	static const u8 EWC11NHTInfo[] = { 0x00, 0x90, 0x4c, 0x34 };
+ 
+ 	if (!pHTInfo->bCurrentHTSupport) {
+ 		netdev_warn(ieee->dev, "%s(): HT_DISABLE\n", __func__);
+-- 
+2.38.1
 
-> Remove the use of Hungarian notation, which is not used in the Linux
-> kernel. Reported by checkpatch
->
-> Fix checkpatch error related to code line ends with a '(', by joining
-> some lines and indenting correctly. This improves visibility
-
-I don't think it will be appreciated to do two things at once.
-
->
-> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-> ---
->  drivers/staging/vt6655/rxtx.c | 48 ++++++++++++++++-------------------
->  1 file changed, 22 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-> index 31ae99b3cb35..debc5d5daede 100644
-> --- a/drivers/staging/vt6655/rxtx.c
-> +++ b/drivers/staging/vt6655/rxtx.c
-> @@ -23,7 +23,7 @@
->   *      s_uGetTxRsvTime- get frame reserved time
->   *      s_vFillCTSHead- fulfill CTS ctl header
->   *      s_vFillFragParameter- Set fragment ctl parameter.
-> - *      s_vFillRTSHead- fulfill RTS ctl header
-> + *      fill_rts_header- fulfill RTS ctl header
->   *      s_vFillTxKey- fulfill tx encrypt key
->   *      s_vSWencryption- Software encrypt header
->   *      vDMA0_tx_80211- tx 802.11 frame via dma0
-> @@ -85,15 +85,15 @@ static const unsigned short fb_opt1[2][5] = {
->  #define DATADUR_A_F1    13
->
->  /*---------------------  Static Functions  --------------------------*/
-> -static void s_vFillRTSHead(struct vnt_private *pDevice,
-> -			   unsigned char byPktType,
-> -			   void *pvRTS,
-> -			   unsigned int	cbFrameLength,
-> -			   bool bNeedAck,
-> -			   bool bDisCRC,
-> -			   struct ieee80211_hdr *hdr,
-> -			   unsigned short wCurrentRate,
-> -			   unsigned char byFBOption);
-> +static void fill_rts_header(struct vnt_private *pDevice,
-> +			    unsigned char byPktType,
-> +			    void *pvRTS,
-> +			    unsigned int	cbFrameLength,
-
-Strange spacing in the above parameter declaration.  Maybe there is a tab
-that should be a space?
-
-julia
-
-> +			    bool bNeedAck,
-> +			    bool bDisCRC,
-> +			    struct ieee80211_hdr *hdr,
-> +			    unsigned short wCurrentRate,
-> +			    unsigned char byFBOption);
->
->  static void s_vGenerateTxParameter(struct vnt_private *pDevice,
->  				   unsigned char byPktType,
-> @@ -555,19 +555,15 @@ s_uFillDataHead(
->  	return buf->duration;
->  }
->
-> -static
-> -void
-> -s_vFillRTSHead(
-> -	struct vnt_private *pDevice,
-> -	unsigned char byPktType,
-> -	void *pvRTS,
-> -	unsigned int cbFrameLength,
-> -	bool bNeedAck,
-> -	bool bDisCRC,
-> -	struct ieee80211_hdr *hdr,
-> -	unsigned short wCurrentRate,
-> -	unsigned char byFBOption
-> -)
-> +static void fill_rts_header(struct vnt_private *pDevice,
-> +			    unsigned char byPktType,
-> +			    void *pvRTS,
-> +			    unsigned int cbFrameLength,
-> +			    bool bNeedAck,
-> +			    bool bDisCRC,
-> +			    struct ieee80211_hdr *hdr,
-> +			    unsigned short wCurrentRate,
-> +			    unsigned char byFBOption)
->  {
->  	unsigned int uRTSFrameLen = 20;
->
-> @@ -912,7 +908,7 @@ s_vGenerateTxParameter(
->  			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
->  			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
->
-> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-> +			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->  		} else {/* RTS_needless, PCF mode */
->  			struct vnt_rrv_time_cts *buf = pvRrvTime;
->
-> @@ -931,7 +927,7 @@ s_vGenerateTxParameter(
->  			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
->
->  			/* Fill RTS */
-> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-> +			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->  		} else if (!pvRTS) {/* RTS_needless, non PCF mode */
->  			struct vnt_rrv_time_ab *buf = pvRrvTime;
->
-> @@ -945,7 +941,7 @@ s_vGenerateTxParameter(
->  			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
->
->  			/* Fill RTS */
-> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-> +			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->  		} else { /* RTS_needless, non PCF mode */
->  			struct vnt_rrv_time_ab *buf = pvRrvTime;
->
-> --
-> 2.34.1
->
->
->
