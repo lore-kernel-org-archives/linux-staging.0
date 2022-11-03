@@ -1,47 +1,57 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BA9A5B;
-	Thu,  3 Nov 2022 09:52:13 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id r12so1935110lfp.1;
-        Thu, 03 Nov 2022 02:52:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A11A5B;
+	Thu,  3 Nov 2022 10:09:26 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id w14so1913901wru.8;
+        Thu, 03 Nov 2022 03:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dwDKMymvmRecMVv+Yu1YP/lKTyHvR7o4RJWcrXGZQkU=;
-        b=Fsb+tFo1Mh+LJNBrbfqJfBMoJ5E9/H6dHJ4VWiP8OZYHAgHW/s6QawW3a/J9EvVHaP
-         r3qGufzumL2LpzHJdti2X0Eg+3hSfVMOSa9cBj2ajbJA4zU2cSYlxoyLl9UnaRTZ5LGt
-         dMKVobvn7TiN51VHTZDTOnRnqBcHHcIndH2R5tnNc8fmPAth5AgPCXHa0NbMJUxhtSxR
-         hl1cuC4Q0I7NAevpiGBHvTXMj8RUvIStA9cO8uYSfKCRAvjIRtpvUsP1+mKEx5TcxsnA
-         KDZfDYnSomVE04Zfq0+18s43vbM8/6yW471A6x4ZU3IFNpd+/liAErS3eVkGH4nEdFgi
-         H9nQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L0wnizAzl3HkVHdeAXObckS2MEtXEo1KXOTu1gmrjbk=;
+        b=j/odngKPWcdtC3w4YSMdl/4iRBvHz/8j6MaJk4gDTA1b3eQgrjqGq9fVw4M/Yfdu6M
+         k5saHmHEtX8ewFe+tqAwTKRhvPUMk0FEaFYbSIMtRAwsmcX3Me5hphhQc2k9PaUYOojk
+         dRMJVOoWaecI6lN3Rd4eFkS8AhoFxVJILx0pzWPiqcm1PhN5mZs7iTFkyhtLkezLA3ws
+         zlm7dQP3F4nFCtA4knaeqdNwEyIEjpiQ9DSv7YADzfwtzX4S+Sb5dG47O1R13Ylvz3yS
+         BbnbdkACoJZ0D2cz9MNE2kJoE3CKchY5Qq5ItVrWHtYKJ6Z+1gmncMGu9fhUDAeGqf5L
+         udug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dwDKMymvmRecMVv+Yu1YP/lKTyHvR7o4RJWcrXGZQkU=;
-        b=Ko8d69JN4OW3cPSMVQwGT7ZjhLKAJ1ZHIIiBrGY/0RQrFQL9ozgm4u12FovGD7eAiU
-         HFBIfENi3sCwgv4G6dt/BBgVfCn6S0Fn9bJesjAvYOg7M5/3nOfnAWTsenhlN67Yff07
-         GXEuuIrzjI5kZqoODqmEpWkwHS3RWB6W7+5IynkvtgwN76FiZqtWPfep+0zDU/8AGx0u
-         ORqxRL355P1vmTWr75kjGoq8NlPCGHjAIOkEdvovwxF6/n/5/yUdzNzWiHrm1ONZI2nz
-         wUp7yoQ7EQLXbMDiVbWuHwDIEfFSIIyflRGjUwdYZGmMbx/oels0HJ2M0bydWzQ7V/g2
-         QVGA==
-X-Gm-Message-State: ACrzQf20pCQ+Gq4cD++xnReNo2rpR5CJ59kz/FVBa9seUpN+UXW+CIIY
-	3TtbAabzcFxbZBYuvFJ1GL92JJWQBy8xAw==
-X-Google-Smtp-Source: AMsMyM7d99LemBFqXDxntepB+7QSAXMsS8Pfy69BL364aDonu9tJKmxPkwjshE8Dw5sA2cEYGpBjvQ==
-X-Received: by 2002:a05:6512:1108:b0:4a2:504f:b3f with SMTP id l8-20020a056512110800b004a2504f0b3fmr10980794lfg.169.1667469131064;
-        Thu, 03 Nov 2022 02:52:11 -0700 (PDT)
-Received: from elroy-temp-vm ([20.240.130.248])
-        by smtp.gmail.com with ESMTPSA id x26-20020a05651c105a00b002770eafaafbsm30792ljm.99.2022.11.03.02.52.10
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L0wnizAzl3HkVHdeAXObckS2MEtXEo1KXOTu1gmrjbk=;
+        b=I6mhiexfY1KWJ9szWS7JEy7TdQmHfMxdAIh/mHS36Ano60dK6C9hx5jS1JA1lntqpK
+         Qg3fc3IIBwrvKD/DJRXuTWa/Qp8AeeZXKVwRDDc8wMjsmf3i3XGFZK4cgN78JHqIMWMj
+         IIFjRccp3g+60IFFJFofZ8nFNuqjw1M0OZ5/oviE0RPcnSySAUv6ovuaa437V3660ujK
+         5c25pI8SjF2m0HlsneaZcWq85pxnRWs9VKWoXJlNNn2ZJ91K2h030u9fsFP0uTVE2WD7
+         LwrRZHDX47VM5vNTGJPEMzEb/9LClyIhuvaEGeDtqtTgXHdiCwxyjVtBFJCKkTJZe5sl
+         hriw==
+X-Gm-Message-State: ACrzQf3U1XyiCB+9vcszsp7RzWO884gqTniJXqWX6KzWSDeqW22MeGZ9
+	KctDjmP9x+rNYFxIsN47q+g=
+X-Google-Smtp-Source: AMsMyM6iBUKFK5LiPO819JziFcRSUmE8DawVilmyWPheq+jFToya3+y9gunIwcfD0mwQwZ1TBL1Exg==
+X-Received: by 2002:adf:f14e:0:b0:236:d073:dad with SMTP id y14-20020adff14e000000b00236d0730dadmr12531228wro.15.1667470164615;
+        Thu, 03 Nov 2022 03:09:24 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b003b4ac05a8a4sm5547149wmo.27.2022.11.03.03.09.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 02:52:10 -0700 (PDT)
-Date: Thu, 3 Nov 2022 09:52:10 +0000
-From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: [PATCH] staging: vt6655: change the function name s_vFillRTSHead
-Message-ID: <Y2OPStg4jXtWpJcd@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+        Thu, 03 Nov 2022 03:09:23 -0700 (PDT)
+Date: Thu, 3 Nov 2022 13:09:20 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: David Laight <David.Laight@aculab.com>,
+	"outreachy@lists.linux.dev" <outreachy@lists.linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8192e: Use min_t/max_t macros for variable
+ comparison
+Message-ID: <Y2OTUAo1OliSFCJh@kadam>
+References: <Y2LxC2kziM1TznhO@qemulion>
+ <d8fa86bf71694f23b8f175245722e86f@AcuMS.aculab.com>
+ <Y2OBmWIwhRMOk6V/@kadam>
+ <Y2OHVoXD82CIHL8R@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,112 +60,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y2OHVoXD82CIHL8R@qemulion>
 
-Remove the use of Hungarian notation, which is not used in the Linux
-kernel. Reported by checkpatch
+On Thu, Nov 03, 2022 at 02:48:35PM +0530, Deepak R Varma wrote:
+> On Thu, Nov 03, 2022 at 11:53:45AM +0300, Dan Carpenter wrote:
+> > On Thu, Nov 03, 2022 at 08:24:15AM +0000, David Laight wrote:
+> > > > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> > > > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> > > > @@ -587,17 +587,12 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
+> > > >  			else
+> > > >  				pHTInfo->CurrentAMPDUFactor = HT_AGG_SIZE_64K;
+> > > >  		} else {
+> > > > -			if (pPeerHTCap->MaxRxAMPDUFactor < HT_AGG_SIZE_32K)
+> > > > -				pHTInfo->CurrentAMPDUFactor =
+> > > > -						 pPeerHTCap->MaxRxAMPDUFactor;
+> > > > -			else
+> > > > -				pHTInfo->CurrentAMPDUFactor = HT_AGG_SIZE_32K;
+> > > > +			pHTInfo->CurrentAMPDUFactor = min_t(u32, pPeerHTCap->MaxRxAMPDUFactor,
+> > > > +							    HT_AGG_SIZE_32K);
+> > >
+> > > For min() to fail there must be a signed v unsigned mismatch.
+> > > Maybe that ought to be fixed.
+> > >
+> >
+> > u32 is the right choice here.
+> >
+> > I'm having a hard time understanding your email.  You might be saying
+> > we could declare HT_AGG_SIZE_32K as a u32 so then we could use min()
+> > instead of min_t()?  HT_AGG_SIZE_32K is an enum.
+> >
+> > pPeerHTCap->MaxRxAMPDUFactor is a bitfield.
+> >
+> > 	u8 MaxRxAMPDUFactor:2;
+> >
+> > We will never be able to use min().
+> 
+> I think we could do min((u32)a, (u32)b), but it is just unwrapped min_t
+> if I understand David's comment.
+> 
 
-Fix checkpatch error related to code line ends with a '(', by joining
-some lines and indenting correctly. This improves visibility
+No.  Do not do that.  I think it's a checkpatch warning.  What you have
+is fine.
 
-Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
----
- drivers/staging/vt6655/rxtx.c | 48 ++++++++++++++++-------------------
- 1 file changed, 22 insertions(+), 26 deletions(-)
+> >
+> > > >  		}
+> > > >  	}
+> > > > -	if (pHTInfo->MPDU_Density > pPeerHTCap->MPDUDensity)
+> > > > -		pHTInfo->current_mpdu_density = pHTInfo->MPDU_Density;
+> > > > -	else
+> > > > -		pHTInfo->current_mpdu_density = pPeerHTCap->MPDUDensity;
+> > > > +	pHTInfo->current_mpdu_density = max_t(u8, pHTInfo->MPDU_Density,
+> > > > +					      pPeerHTCap->MPDUDensity);
+> > >
+> > > Using u8 with max_t() really doesn't make any sense.
+> >
+> > Using u8 looks wrong because you would worry that one of the types is
+> > larger than U8_MAX.  But it's actually fine.  The types are u8 vs another
+> > bitfield.  I would probably have gone with u32 here as well.
+> I will take your advise and upgrade the type to u32 as a revision.
 
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 31ae99b3cb35..debc5d5daede 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -23,7 +23,7 @@
-  *      s_uGetTxRsvTime- get frame reserved time
-  *      s_vFillCTSHead- fulfill CTS ctl header
-  *      s_vFillFragParameter- Set fragment ctl parameter.
-- *      s_vFillRTSHead- fulfill RTS ctl header
-+ *      fill_rts_header- fulfill RTS ctl header
-  *      s_vFillTxKey- fulfill tx encrypt key
-  *      s_vSWencryption- Software encrypt header
-  *      vDMA0_tx_80211- tx 802.11 frame via dma0
-@@ -85,15 +85,15 @@ static const unsigned short fb_opt1[2][5] = {
- #define DATADUR_A_F1    13
- 
- /*---------------------  Static Functions  --------------------------*/
--static void s_vFillRTSHead(struct vnt_private *pDevice,
--			   unsigned char byPktType,
--			   void *pvRTS,
--			   unsigned int	cbFrameLength,
--			   bool bNeedAck,
--			   bool bDisCRC,
--			   struct ieee80211_hdr *hdr,
--			   unsigned short wCurrentRate,
--			   unsigned char byFBOption);
-+static void fill_rts_header(struct vnt_private *pDevice,
-+			    unsigned char byPktType,
-+			    void *pvRTS,
-+			    unsigned int	cbFrameLength,
-+			    bool bNeedAck,
-+			    bool bDisCRC,
-+			    struct ieee80211_hdr *hdr,
-+			    unsigned short wCurrentRate,
-+			    unsigned char byFBOption);
- 
- static void s_vGenerateTxParameter(struct vnt_private *pDevice,
- 				   unsigned char byPktType,
-@@ -555,19 +555,15 @@ s_uFillDataHead(
- 	return buf->duration;
- }
- 
--static
--void
--s_vFillRTSHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pvRTS,
--	unsigned int cbFrameLength,
--	bool bNeedAck,
--	bool bDisCRC,
--	struct ieee80211_hdr *hdr,
--	unsigned short wCurrentRate,
--	unsigned char byFBOption
--)
-+static void fill_rts_header(struct vnt_private *pDevice,
-+			    unsigned char byPktType,
-+			    void *pvRTS,
-+			    unsigned int cbFrameLength,
-+			    bool bNeedAck,
-+			    bool bDisCRC,
-+			    struct ieee80211_hdr *hdr,
-+			    unsigned short wCurrentRate,
-+			    unsigned char byFBOption)
- {
- 	unsigned int uRTSFrameLen = 20;
- 
-@@ -912,7 +908,7 @@ s_vGenerateTxParameter(
- 			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
- 			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
- 
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
- 		} else {/* RTS_needless, PCF mode */
- 			struct vnt_rrv_time_cts *buf = pvRrvTime;
- 
-@@ -931,7 +927,7 @@ s_vGenerateTxParameter(
- 			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
- 
- 			/* Fill RTS */
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
- 		} else if (!pvRTS) {/* RTS_needless, non PCF mode */
- 			struct vnt_rrv_time_ab *buf = pvRrvTime;
- 
-@@ -945,7 +941,7 @@ s_vGenerateTxParameter(
- 			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
- 
- 			/* Fill RTS */
--			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-+			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
- 		} else { /* RTS_needless, non PCF mode */
- 			struct vnt_rrv_time_ab *buf = pvRrvTime;
- 
--- 
-2.34.1
+Sounds good.  It's not something I would have asked you to redo the
+patch over, but it would have been my personal preference.
+
+regards,
+dan carpenter
 
