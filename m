@@ -1,29 +1,30 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F9AA31;
-	Thu,  3 Nov 2022 08:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A2BA31;
+	Thu,  3 Nov 2022 08:19:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667463180; bh=O+mMeFtgdlxXHJDP6iXzPllPw2adCXFQra8DGX8IuI4=;
+	t=1667463587; bh=Q1gtZhNcPAX6xPcOwW6C1nKDG54ohaBKBclCqQEXMWk=;
 	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
 	 MIME-Version:Content-Type:In-Reply-To;
-	b=OfXeZ79UI0yImxGq76C1OX6yu6aKHY0p32h0/ZNAVg1Asy2ulkJOKweB+PVpnRi4K
-	 rbzASdTHE18fnZTC8Rjp8wEKIE5xn+2p4EMeP57q7i4XEz1sm43Cts4fFbBmXAUHr4
-	 Zkriud/QkDSWldOsgLp4pis/gs+EkXbvuiP3guz0=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+	b=XfiMZgjzTJCbMdf2XBXxvyuOpQLjeHMnDB6uR+0SgX2SkvgmOFfaqVKH16vgzfuin
+	 tEXqanqbE4eI+Vz4I8thlwW94GnLWJntlvnBlA/WZ6X8x7JQFQBfa1lNgLU3r0DPG+
+	 +vRa1NZeTx2B7+zDmuR+istc/O8UKzzArDh/y3y4=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
 	via [213.182.55.206]
-	Thu,  3 Nov 2022 09:13:00 +0100 (CET)
-X-EA-Auth: plpUEzRR4JMlyjZPE/X+H+BtojrboKHPOU9QZLL1HF9xTNqdkXpdJxtRb174iW7t5xjmdWu8l+BLEYYl7rS9TUNuNjis1Di3
-Date: Thu, 3 Nov 2022 13:42:56 +0530
+	Thu,  3 Nov 2022 09:19:47 +0100 (CET)
+X-EA-Auth: fvalj0XVWmHSXWkNpFkJL08fpLTtLNaG1NjteZ/jLJzTnmY2SmvlE1rmcvDFi8TXOF516L1c6KrAqLYXA9LD+P6zPCocubVs
+Date: Thu, 3 Nov 2022 13:49:42 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Dan Carpenter <error27@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
 Cc: outreachy@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: staging: emxx_udc question on i_write_length datatype
-Message-ID: <Y2N4CBhaAYBG2jGz@qemulion>
-References: <Y2NtTXwMef0kp01s@qemulion>
- <Y2Nz7wB5ovzgrs6N@kadam>
+Subject: Re: [PATCH] staging: rtl8723bs: Use min/max macros for variable
+ comparison
+Message-ID: <Y2N5nuF9a62KPN3s@qemulion>
+References: <Y2NncTaRJhLvJ4fV@qemulion>
+ <alpine.DEB.2.22.394.2211030854260.17767@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,67 +33,100 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2Nz7wB5ovzgrs6N@kadam>
+In-Reply-To: <alpine.DEB.2.22.394.2211030854260.17767@hadrien>
 
-On Thu, Nov 03, 2022 at 10:55:27AM +0300, Dan Carpenter wrote:
-> On Thu, Nov 03, 2022 at 12:57:09PM +0530, Deepak R Varma wrote:
-> > Hello,
-> > While reviewing this [1] coccicheck warning, I observed something that concerned
-> > me. The variable i_write_length is declared to be of u32 type. Later it is
-> > assigned a value DMA_MAX_COUNT * mpkt; which is 256 * u32;
-> >
-> > I am unable to estimate if mpkt (or max packet size) can attain value greater
-> > than 16777215 in which case the result will overflow the 32 bits of
-> > i_write_length. Is it safe to make i_write_length to be a u64?
-> >
-> > [1] drivers/staging/emxx_udc/emxx_udc.c:1007:28-29: WARNING opportunity for min()
-> >
+On Thu, Nov 03, 2022 at 08:55:32AM +0100, Julia Lawall wrote:
 >
-> drivers/staging/emxx_udc/emxx_udc.c
->    983  static int _nbu2ss_in_dma(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
->    984                            struct nbu2ss_req *req, u32 num, u32 length)
->    985  {
->    986          dma_addr_t      p_buffer;
->    987          u32             mpkt;           /* MaxPacketSize */
->    988          u32             lmpkt;          /* Last Packet Data Size */
->    989          u32             dmacnt;         /* IN Data Size */
->    990          u32             i_write_length;
->    991          u32             data;
->    992          int             result = -EINVAL;
->    993          struct fc_regs __iomem *preg = udc->p_regs;
->    994
->    995          if (req->dma_flag)
->    996                  return 1;               /* DMA is forwarded */
->    997
->    998  #ifdef USE_DMA
->    999          if (req->req.actual == 0)
->   1000                  _nbu2ss_dma_map_single(udc, ep, req, USB_DIR_IN);
->   1001  #endif
->   1002          req->dma_flag = true;
->   1003
->   1004          /* MAX Packet Size */
->   1005          mpkt = _nbu2ss_readl(&preg->EP_REGS[num].EP_PCKT_ADRS) & EPN_MPKT;
->                                                                          ^^^^^^^^
-> mpkt is 0-0x7ff so 256 * 0x7ff will not be greater than UINT_MAX.
+>
+> On Thu, 3 Nov 2022, Deepak R Varma wrote:
+>
+> > Simplify code by using min and max helper macros in place of lengthy
+> > if/else block oriented logical evaluation and value assignment. This
+> > issue is identified by coccicheck using the minmax.cocci file.
+> >
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> >
+> > Please note:
+> >    1. Using min for max_AMPDU_len computation warning was NOT auto generated by
+> >       the cocciecheck command. This was caught while surround code review and
+> >       was manually changed.
+> >    2. Checkpatch script continues to complaint about min_MPDU_spacing
+> >       computation line being more than 100 character in length. I did not find a
+> >       better formatting that will address this checkpatch warning. Any
+> >       suggestions are most welcome.
+> >    3. Proposed changes are compile tested only on my x86 based VM.
+> >
+> >
+> >  drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 12 ++++--------
+> >  drivers/staging/rtl8723bs/hal/odm_DIG.c        |  5 +----
+> >  2 files changed, 5 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+> > index 18ba846c0b7b..dcda587b84bc 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+> > @@ -986,15 +986,11 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+> >  			pmlmeinfo->HT_caps.u.HT_cap[i] &= (pIE->data[i]);
+> >  		} else {
+> >  			/* modify from  fw by Thomas 2010/11/17 */
+> > -			if ((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3) > (pIE->data[i] & 0x3))
+> > -				max_AMPDU_len = (pIE->data[i] & 0x3);
+> > -			else
+> > -				max_AMPDU_len = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3);
+> > +			max_AMPDU_len = min((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3),
+> > +					    (pIE->data[i] & 0x3));
+> >
+> > -			if ((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c) > (pIE->data[i] & 0x1c))
+> > -				min_MPDU_spacing = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c);
+> > -			else
+> > -				min_MPDU_spacing = (pIE->data[i] & 0x1c);
+> > +			min_MPDU_spacing = max((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c),
+> > +					       (pIE->data[i] & 0x1c));
+>
+> There seem to be a lot of unnecessary parentheses.  Admittedly they were
+> there before, but since you are creating the max call from scratch in this
+> patch, perhaps the parentheses around the arguments could be dropped at
+> the same time.
 
-Thank you Dan. I understand now. "& EPN_MPKT" keeps the size under control.
-Appreciate very much.
+Sounds good. I will improve further and send in a revision.
 
+Also, do you have a comment on why coccicheck did not catch the min opportunity
+for max_AMPDU_len computation? I am not seeing anything different with the
+if/else blocks here.
+
+Thank you,
 ./drv
 
 >
->   1006
->   1007          if ((DMA_MAX_COUNT * mpkt) < length)
->   1008                  i_write_length = DMA_MAX_COUNT * mpkt;
->   1009          else
->   1010                  i_write_length = length;
->   1011
->   1012          /*------------------------------------------------------------*/
->   1013          /* Number of transmission packets */
->   1014          if (mpkt < i_write_length) {
+> julia
 >
-> regards,
-> dan carpenter
+> >
+> >  			pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para = max_AMPDU_len | min_MPDU_spacing;
+> >  		}
+> > diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> > index 07edf74ccfe5..97a51546463a 100644
+> > --- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> > +++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> > @@ -598,10 +598,7 @@ void odm_DIGbyRSSI_LPS(void *pDM_VOID)
+> >  	/* Lower bound checking */
+> >
+> >  	/* RSSI Lower bound check */
+> > -	if ((pDM_Odm->RSSI_Min-10) > DM_DIG_MIN_NIC)
+> > -		RSSI_Lower = pDM_Odm->RSSI_Min-10;
+> > -	else
+> > -		RSSI_Lower = DM_DIG_MIN_NIC;
+> > +	RSSI_Lower = max(pDM_Odm->RSSI_Min - 10, DM_DIG_MIN_NIC);
+> >
+> >  	/* Upper and Lower Bound checking */
+> >  	if (CurrentIGI > DM_DIG_MAX_NIC)
+> > --
+> > 2.34.1
+> >
+> >
+> >
+> >
+> >
 >
 
 
