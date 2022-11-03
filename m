@@ -1,116 +1,99 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A029A8
-	for <linux-staging@lists.linux.dev>; Thu,  3 Nov 2022 20:05:19 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1322d768ba7so3454540fac.5
-        for <linux-staging@lists.linux.dev>; Thu, 03 Nov 2022 13:05:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCE279C1;
+	Thu,  3 Nov 2022 21:19:08 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id t25so8657688ejb.8;
+        Thu, 03 Nov 2022 14:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=QJqmk5I6DAgiLsobZTGa57P2bCxeBPQdNtIGsZHnmfo=;
-        b=fhg/fjhDvPlrIUzjSmWqpspjw+rGGlKIeolmzQWRiNGUdii5IMjJx1jz6sN1AVjccA
-         Fo7mo3HkOMRJBFiWrECJYtfzGpBrvxUd+h02JAqrV6NEZdKghONQDyxTikE6kVCa56WD
-         /E3tkjjQLUVBnzKmwBckmnzvpkiBJky00erYc0viedcQID+Ua/TvESwDB03S2ND8eF0O
-         va8n8xHHuFuAntxHJRIAvhZla7bXk7z4i3Blaxbdja6qfkASmvnIolYyHYIdIC7HNXO9
-         JPB2c9y7idm53B5OFPBSVtFZ1CLAcTqSWtoONJSbqEFOBwVKURkyo33ndJLs3U2cnwKX
-         6pLA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ImDG//sNXg/oy5XZPOuBFIhl7k6YK/gX5hImljVQwNU=;
+        b=i7qVVi6QJzHOHsEyF2H3U4f5BeR1vqQ/kDwBUG+qLwh2CKBdbxFvjlU1NDRlZWCCpv
+         of5a1WNQfehJN8bsNpyjehVNs9eSgIztGtu/hL+pmDwe1CTX6Co8eJvifN63coVyARjd
+         SvBBi6iH8toGKC6+4APYxAACJDaW316sIqWQbSQPa7XWYx8xgXYXzzH2RpjY8zu0WEPU
+         TMdY43lbQ8a1wJBk1yHYHzPpIYe+c/DnyU+nVSH/su1e/aAEsZ4miSYLzLffNjRTAqNe
+         m3xv4eVf22zWK86RAjEKJfL8/v9GtOInlGlmel9QLoO0pjS1mpub40YrpTl2TmfuBkvu
+         azpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QJqmk5I6DAgiLsobZTGa57P2bCxeBPQdNtIGsZHnmfo=;
-        b=25Qgb+7IYqGg/hVwukvDws7hgbCeLbQ+CAkBqQ3+insFwMiVLSk/+t0UXaq83IwLg7
-         SnO/lC/82AegkPlsPITft7g5tezVDYKHeGa+XExOyNJ5d4mmUXd12pTVfQBEOsMyN1Jl
-         koOp2nnSgzn/i1C6pxgSC0MHajdDT9tcxPUPVK4mnvitPlnSUcqplii2EPS3B7XVbaL5
-         PLsYB2mUBizMAspDAC9MoM1DEwoeZcGD327dDxpHwJomXklEPyUuZmGYXpS2dAC7WfQS
-         mwFGRexi+2TV0P//uuNsLV16PRxV5PaZ/Yvhh6L/MQtiacS0YI555Ql3i+dMfh1XsTMc
-         7FaQ==
-X-Gm-Message-State: ACrzQf10n6/HGgLuG4dkfPAy59UDsNhCfLsX7/FzbGAXX00I2qyMttkb
-	aozFZK53U6rIFJg97UDnSvA=
-X-Google-Smtp-Source: AMsMyM7EfiNrp3ewtr+mhaU+GV1tgaMCY+ryP1oN2nP0SoFejOu/QzoP2U6LFoUFqTKpfKb1cMVAXg==
-X-Received: by 2002:a05:6871:891:b0:13b:86bc:7b51 with SMTP id r17-20020a056871089100b0013b86bc7b51mr19830284oaq.174.1667505918579;
-        Thu, 03 Nov 2022 13:05:18 -0700 (PDT)
-Received: from localhost.localdomain ([216.130.59.33])
-        by smtp.gmail.com with ESMTPSA id r3-20020a056870e98300b0013bc40b09dasm842286oao.17.2022.11.03.13.05.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 13:05:18 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-To: gregkh@linuxfoundation.org
-Cc: phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] staging: rtl8192e: Fix divide fault when calculating beacon age
-Date: Thu,  3 Nov 2022 15:05:07 -0500
-Message-Id: <20221103200507.14304-1-Larry.Finger@lwfinger.net>
-X-Mailer: git-send-email 2.38.0
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ImDG//sNXg/oy5XZPOuBFIhl7k6YK/gX5hImljVQwNU=;
+        b=tn9weWuTUvhrx7C5eiMIJxJUtlyuxew/0mw4CiCpkKQCdTs5BDQvViOB1FW7CJJkpI
+         fJoC3gYhm4/kZPXrBEUxJlroFzgS33TKOtdm0gWmcnOt5Z9froP64i9dCZ1zjea4xzmu
+         PTnoKecye5bVolM2aHjUazajXa64Mi+02HGSjmLfEdu1JjeYUmvESH2PR54uM3H7Ek8m
+         g6HP+as+s4v+RH5g+WlYAEze8RwV8Nv9WtPgsUx9/yJDUbw4MJ2/5+iCsn0v4jeY0B9G
+         rQBOZYmCK+3pZfDpTRxUkiF++24OBktKahMDBquGJk01mLJR6sRqVq1YVAc5qUXoSvN/
+         w5xQ==
+X-Gm-Message-State: ACrzQf2jcvcFi+HT1MsieXftfF1La1qWwytojUQyoQlQtmmOxhTZ01TA
+	IPN55PWiJ0M2bKMnb7AvMqI=
+X-Google-Smtp-Source: AMsMyM7Kh4e60noIwDR139plI/hWSD9OSNgFT8xfKVvgoTo9o2S/R19CkOOAEcIyeni3GZNwo9ShVA==
+X-Received: by 2002:a17:906:6a17:b0:794:f0e8:1918 with SMTP id qw23-20020a1709066a1700b00794f0e81918mr31466676ejc.474.1667510346827;
+        Thu, 03 Nov 2022 14:19:06 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f2a:b895:1d95:7d32:5509:657e? (p200300c78f2ab8951d957d325509657e.dip0.t-ipconnect.de. [2003:c7:8f2a:b895:1d95:7d32:5509:657e])
+        by smtp.gmail.com with ESMTPSA id td11-20020a1709078c8b00b00773f3ccd989sm964617ejc.68.2022.11.03.14.19.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Nov 2022 14:19:06 -0700 (PDT)
+Message-ID: <2aeb10bc-178f-836e-eecd-c77f3eb2f0b5@gmail.com>
+Date: Thu, 3 Nov 2022 22:19:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] staging: r8188eu: remove unused struct declarations
+Content-Language: en-US
+To: Deepak R Varma <drv@mailo.com>
+Cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin
+ <paskripkin@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <Y2LYvhr74ng+xFbz@qemulion>
+ <e76c5fd4-442b-0f0e-73e8-c17acf11b471@gmail.com> <Y2OOM8g0Qj1o6dRI@qemulion>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <Y2OOM8g0Qj1o6dRI@qemulion>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When the configuration parameter CONFIG_HZ is less that 100, the compiler
-generates an error as follows:
+On 11/3/22 10:47, Deepak R Varma wrote:
+> Hello Philipp,
+> Thank you for testing the changes.
+> 
+> Request (not urgent):
+> Can you please help me understand how do you
+> test such changes? Do we need specific hardware for functional tests? Is there a
+> documentation available to know more about the testing? I am interested in
+> attaching a physical device to my machine and be able to debug and test the
+> changes. Can you please provide details when you have time?
+> 
+> Thank you in advance!
+> ./drv
 
-../drivers/staging/rtl8192e/rtllib_wx.c: In function 'rtl819x_translate_scan':
-../drivers/staging/rtl8192e/rtllib_wx.c:220:57: warning: division by zero [-Wdiv-by-zero]
-  220 |                       (jiffies - network->last_scanned) / (HZ / 100));
-      |                                                         ^
-In file included from ../include/linux/skbuff.h:45,
-                 from ../include/linux/if_ether.h:19,
-                 from ../include/linux/etherdevice.h:20,
-                 from ../drivers/staging/rtl8192e/rtllib_wx.c:18:
-../drivers/staging/rtl8192e/rtllib_wx.c: In function 'rtllib_wx_get_scan':
-../drivers/staging/rtl8192e/rtllib_wx.c:261:70: warning: division by zero [-Wdiv-by-zero]
-  261 |                                    (jiffies - network->last_scanned) /
-      |
+Hi Deepak,
 
-In fact, is HZ is not a multiple of 100, the calculation will be wrong, but it
-will compile correctly.
+I do have one device for the following drivers:
 
-The fix is to get rid of the (HZ / 100) portion. To decrease any round-off
-errors, the compiler is forced to perform the 100 * jiffies-difference before
-dividing by HX. This patch is only compile tested.
+vt6656
+vt6655
+r8188eu
+r8192e_pci
+r8712u
 
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
----
- drivers/staging/rtl8192e/rtllib_wx.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Minimum test is to measure the transfer speed and see if that is as 
+expected.
 
-diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-index da2c41c9b92f..7013425102dd 100644
---- a/drivers/staging/rtl8192e/rtllib_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_wx.c
-@@ -217,7 +217,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
- 	p = custom;
- 	p += scnprintf(p, MAX_CUSTOM_LEN - (p - custom),
- 		      " Last beacon: %lums ago",
--		      (jiffies - network->last_scanned) / (HZ / 100));
-+		      (100 *(jiffies - network->last_scanned)) / HZ);
- 	iwe.u.data.length = p - custom;
- 	if (iwe.u.data.length)
- 		start = iwe_stream_add_point_rsl(info, start, stop,
-@@ -258,8 +258,8 @@ int rtllib_wx_get_scan(struct rtllib_device *ieee,
- 				   escape_essid(network->ssid,
- 						network->ssid_len),
- 				   network->bssid,
--				   (jiffies - network->last_scanned) /
--				   (HZ / 100));
-+				   (100 * (jiffies - network->last_scanned)) /
-+				   HZ);
- 	}
- 
- 	spin_unlock_irqrestore(&ieee->lock, flags);
--- 
-2.38.0
+When I doubt that the changed code is used I use ftrace to see if the 
+code is used. But of course I do not test every possibility.
 
+I hope you have the money to be able to buy hardware. Without it is not fun.
+
+I would choose r8188eu (USB) or r8192e_pci.
+
+Bye Philipp
