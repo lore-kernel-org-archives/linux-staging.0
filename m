@@ -1,110 +1,116 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12C929A8
-	for <linux-staging@lists.linux.dev>; Thu,  3 Nov 2022 19:23:29 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id n186so3044017oih.7
-        for <linux-staging@lists.linux.dev>; Thu, 03 Nov 2022 12:23:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A029A8
+	for <linux-staging@lists.linux.dev>; Thu,  3 Nov 2022 20:05:19 +0000 (UTC)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1322d768ba7so3454540fac.5
+        for <linux-staging@lists.linux.dev>; Thu, 03 Nov 2022 13:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BqziTjxfdQl0fNRtQ4I0OSYSj/ru4qxDbXBeei7oy4s=;
-        b=BnyE+BDM7GHsEAGM5bYv3B7xOcr4hDUpNNIG/ujmPbCwgopB8ytsNW48mYGReHAjuO
-         2z+ZmXr3SuxLQGENZljdN9QXqxdbyJ7e3PzTyOVtBQWeGfZjfsDEY4JOb+UFx9/iwPuD
-         lp0dXMt4zkSopM8MYmpcJHUTts45+pRIhommyG5fzFdtomjRUJlkAuGNVRyaFAx2DS5r
-         5Z4VyY0NFmzDDnRToUdHfgdSZXSVKtxaoyHAQQDWX1HQCdKeywVSoRKgFhm5rIy0JAHl
-         hiPMOW8I+NEKBVzIno/dGEaBd8bXdmuZWXivk3my0fevn5hNDrL2WweH4LRR0k6Yw+wr
-         grYA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=QJqmk5I6DAgiLsobZTGa57P2bCxeBPQdNtIGsZHnmfo=;
+        b=fhg/fjhDvPlrIUzjSmWqpspjw+rGGlKIeolmzQWRiNGUdii5IMjJx1jz6sN1AVjccA
+         Fo7mo3HkOMRJBFiWrECJYtfzGpBrvxUd+h02JAqrV6NEZdKghONQDyxTikE6kVCa56WD
+         /E3tkjjQLUVBnzKmwBckmnzvpkiBJky00erYc0viedcQID+Ua/TvESwDB03S2ND8eF0O
+         va8n8xHHuFuAntxHJRIAvhZla7bXk7z4i3Blaxbdja6qfkASmvnIolYyHYIdIC7HNXO9
+         JPB2c9y7idm53B5OFPBSVtFZ1CLAcTqSWtoONJSbqEFOBwVKURkyo33ndJLs3U2cnwKX
+         6pLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BqziTjxfdQl0fNRtQ4I0OSYSj/ru4qxDbXBeei7oy4s=;
-        b=CfsBApiAyYHaC6oorA3hRsbsEbXyjDtMYrtHLrl1U+vGQ2VA5HS9LyytVerIWy19yK
-         u4MDWH436+nW/0uy8haIFoIY9YHlL9CfSBYvz9Gb4RX33nMeLV3NBWaG4fJYSS+hJrfH
-         GHfebRwiRJ0TLZaRqsIqQCgvow1gyIqZCNXAU5DpyS675o/CfxisSCKc8h2KgqtvFJY8
-         yQsCLhO8LUC+Uf76xDsU9yW9FqGFKIzlfQBA5sTVHrGXJN/chl28dwjl4weLyapxk2EU
-         JdAeLiizo1f69MlcpJgOP6G7g7kS0UaLZ1kscvotDLZMche2RZ3FQk29cybSykSomQpm
-         TSQg==
-X-Gm-Message-State: ACrzQf0hJDJXcV/UlRAsmn3NLp1wnKkYi1ETxCbL1hrGOZpVfQoibZRy
-	n3DwMxd9V1JncocAa46p9p4=
-X-Google-Smtp-Source: AMsMyM6QCfO3tdz6iQo6iPdNduV07dDacddY1xQyOJNkK+T5SSqWUKtlCDMdf1uJAiHhiMSCAGypBw==
-X-Received: by 2002:a05:6808:181e:b0:35a:5959:5909 with SMTP id bh30-20020a056808181e00b0035a59595909mr238097oib.35.1667503408758;
-        Thu, 03 Nov 2022 12:23:28 -0700 (PDT)
-Received: from [192.168.0.158] ([216.130.59.33])
-        by smtp.gmail.com with ESMTPSA id r3-20020a056870e98300b0013bc40b09dasm790796oao.17.2022.11.03.12.23.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 12:23:28 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QJqmk5I6DAgiLsobZTGa57P2bCxeBPQdNtIGsZHnmfo=;
+        b=25Qgb+7IYqGg/hVwukvDws7hgbCeLbQ+CAkBqQ3+insFwMiVLSk/+t0UXaq83IwLg7
+         SnO/lC/82AegkPlsPITft7g5tezVDYKHeGa+XExOyNJ5d4mmUXd12pTVfQBEOsMyN1Jl
+         koOp2nnSgzn/i1C6pxgSC0MHajdDT9tcxPUPVK4mnvitPlnSUcqplii2EPS3B7XVbaL5
+         PLsYB2mUBizMAspDAC9MoM1DEwoeZcGD327dDxpHwJomXklEPyUuZmGYXpS2dAC7WfQS
+         mwFGRexi+2TV0P//uuNsLV16PRxV5PaZ/Yvhh6L/MQtiacS0YI555Ql3i+dMfh1XsTMc
+         7FaQ==
+X-Gm-Message-State: ACrzQf10n6/HGgLuG4dkfPAy59UDsNhCfLsX7/FzbGAXX00I2qyMttkb
+	aozFZK53U6rIFJg97UDnSvA=
+X-Google-Smtp-Source: AMsMyM7EfiNrp3ewtr+mhaU+GV1tgaMCY+ryP1oN2nP0SoFejOu/QzoP2U6LFoUFqTKpfKb1cMVAXg==
+X-Received: by 2002:a05:6871:891:b0:13b:86bc:7b51 with SMTP id r17-20020a056871089100b0013b86bc7b51mr19830284oaq.174.1667505918579;
+        Thu, 03 Nov 2022 13:05:18 -0700 (PDT)
+Received: from localhost.localdomain ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id r3-20020a056870e98300b0013bc40b09dasm842286oao.17.2022.11.03.13.05.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 13:05:18 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
-Content-Type: multipart/mixed; boundary="------------jEpg7InBUcZ4C7rHTIpvDrTk"
-Message-ID: <fdbd7d7b-7e3f-8343-1dd9-8fd5c167d91d@lwfinger.net>
-Date: Thu, 3 Nov 2022 14:23:27 -0500
+From: Larry Finger <Larry.Finger@lwfinger.net>
+To: gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] staging: rtl8192e: Fix divide fault when calculating beacon age
+Date: Thu,  3 Nov 2022 15:05:07 -0500
+Message-Id: <20221103200507.14304-1-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.38.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: staging: rtl8192e: build warning on HZ
-Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: wlanfae@realtek.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <a916c06e-a9b5-1cd2-2da7-ac8e46b512c9@infradead.org>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <a916c06e-a9b5-1cd2-2da7-ac8e46b512c9@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-This is a multi-part message in MIME format.
---------------jEpg7InBUcZ4C7rHTIpvDrTk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+When the configuration parameter CONFIG_HZ is less that 100, the compiler
+generates an error as follows:
 
-On 11/3/22 13:07, Randy Dunlap wrote:
-> FYI:
-> 
-> When CONFIG_HZ=24 (arch/mips/):
-> 
-> ../drivers/staging/rtl8192e/rtllib_wx.c: In function 'rtl819x_translate_scan':
-> ../drivers/staging/rtl8192e/rtllib_wx.c:220:57: warning: division by zero [-Wdiv-by-zero]
->    220 |                       (jiffies - network->last_scanned) / (HZ / 100));
->        |                                                         ^
-> In file included from ../include/linux/skbuff.h:45,
->                   from ../include/linux/if_ether.h:19,
->                   from ../include/linux/etherdevice.h:20,
->                   from ../drivers/staging/rtl8192e/rtllib_wx.c:18:
-> ../drivers/staging/rtl8192e/rtllib_wx.c: In function 'rtllib_wx_get_scan':
-> ../drivers/staging/rtl8192e/rtllib_wx.c:261:70: warning: division by zero [-Wdiv-by-zero]
->    261 |                                    (jiffies - network->last_scanned) /
->        |
+../drivers/staging/rtl8192e/rtllib_wx.c: In function 'rtl819x_translate_scan':
+../drivers/staging/rtl8192e/rtllib_wx.c:220:57: warning: division by zero [-Wdiv-by-zero]
+  220 |                       (jiffies - network->last_scanned) / (HZ / 100));
+      |                                                         ^
+In file included from ../include/linux/skbuff.h:45,
+                 from ../include/linux/if_ether.h:19,
+                 from ../include/linux/etherdevice.h:20,
+                 from ../drivers/staging/rtl8192e/rtllib_wx.c:18:
+../drivers/staging/rtl8192e/rtllib_wx.c: In function 'rtllib_wx_get_scan':
+../drivers/staging/rtl8192e/rtllib_wx.c:261:70: warning: division by zero [-Wdiv-by-zero]
+  261 |                                    (jiffies - network->last_scanned) /
+      |
 
-That statement is messed up. Does the attached patch fix it?
+In fact, is HZ is not a multiple of 100, the calculation will be wrong, but it
+will compile correctly.
 
+The fix is to get rid of the (HZ / 100) portion. To decrease any round-off
+errors, the compiler is forced to perform the 100 * jiffies-difference before
+dividing by HX. This patch is only compile tested.
 
-Larry
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+---
+ drivers/staging/rtl8192e/rtllib_wx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---------------jEpg7InBUcZ4C7rHTIpvDrTk
-Content-Type: text/x-patch; charset=UTF-8; name="test_patch_fr_rtl8192e.patch"
-Content-Disposition: attachment; filename="test_patch_fr_rtl8192e.patch"
-Content-Transfer-Encoding: base64
+diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+index da2c41c9b92f..7013425102dd 100644
+--- a/drivers/staging/rtl8192e/rtllib_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_wx.c
+@@ -217,7 +217,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+ 	p = custom;
+ 	p += scnprintf(p, MAX_CUSTOM_LEN - (p - custom),
+ 		      " Last beacon: %lums ago",
+-		      (jiffies - network->last_scanned) / (HZ / 100));
++		      (100 *(jiffies - network->last_scanned)) / HZ);
+ 	iwe.u.data.length = p - custom;
+ 	if (iwe.u.data.length)
+ 		start = iwe_stream_add_point_rsl(info, start, stop,
+@@ -258,8 +258,8 @@ int rtllib_wx_get_scan(struct rtllib_device *ieee,
+ 				   escape_essid(network->ssid,
+ 						network->ssid_len),
+ 				   network->bssid,
+-				   (jiffies - network->last_scanned) /
+-				   (HZ / 100));
++				   (100 * (jiffies - network->last_scanned)) /
++				   HZ);
+ 	}
+ 
+ 	spin_unlock_irqrestore(&ieee->lock, flags);
+-- 
+2.38.0
 
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9ydGw4MTkyZS9ydGxsaWJfd3guYyBiL2Ry
-aXZlcnMvc3RhZ2luZy9ydGw4MTkyZS9ydGxsaWJfd3guYwppbmRleCBkYTJjNDFjOWI5MmYu
-LjBhMDA3ZjU1Zjk4OCAxMDA2NDQKLS0tIGEvZHJpdmVycy9zdGFnaW5nL3J0bDgxOTJlL3J0
-bGxpYl93eC5jCisrKyBiL2RyaXZlcnMvc3RhZ2luZy9ydGw4MTkyZS9ydGxsaWJfd3guYwpA
-QCAtMjE2LDggKzIxNiw4IEBAIHN0YXRpYyBpbmxpbmUgY2hhciAqcnRsODE5eF90cmFuc2xh
-dGVfc2NhbihzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIAlpd2UuY21kID0gSVdFVkNV
-U1RPTTsKIAlwID0gY3VzdG9tOwogCXAgKz0gc2NucHJpbnRmKHAsIE1BWF9DVVNUT01fTEVO
-IC0gKHAgLSBjdXN0b20pLAotCQkgICAgICAiIExhc3QgYmVhY29uOiAlbHVtcyBhZ28iLAot
-CQkgICAgICAoamlmZmllcyAtIG5ldHdvcmstPmxhc3Rfc2Nhbm5lZCkgLyAoSFogLyAxMDAp
-KTsKKwkJICAgICAgIiBMYXN0IGJlYWNvbjogJWx1cyBhZ28iLAorCQkgICAgICAoamlmZmll
-cyAtIG5ldHdvcmstPmxhc3Rfc2Nhbm5lZCkgLyBIWik7CiAJaXdlLnUuZGF0YS5sZW5ndGgg
-PSBwIC0gY3VzdG9tOwogCWlmIChpd2UudS5kYXRhLmxlbmd0aCkKIAkJc3RhcnQgPSBpd2Vf
-c3RyZWFtX2FkZF9wb2ludF9yc2woaW5mbywgc3RhcnQsIHN0b3AsCg==
-
---------------jEpg7InBUcZ4C7rHTIpvDrTk--
