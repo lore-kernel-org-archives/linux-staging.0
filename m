@@ -1,95 +1,66 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B066FCC
-	for <linux-staging@lists.linux.dev>; Thu,  3 Nov 2022 13:06:23 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id v1so2648108wrt.11
-        for <linux-staging@lists.linux.dev>; Thu, 03 Nov 2022 06:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fxui20KvNriC9XitvtEzDQZsPD1wh2iQuea1gk/77Mw=;
-        b=pB//Raqfkxykfv8IuPbNdoswD4V05DPzrriADnM/RRLIyHcvyN0jjiqPuRoH/dQXIL
-         Th4Y19P+XSS3Gd9UmX+ipgYtJnfClI2Y8ZFZM1xl0WD95N38b7iK9dBGzZ7oLtCWhOV8
-         o4lBfF/z8NDMC7/G1UybmUMM3mTcVRShaQ0FGyOzzAP5wQ8ICoGdM5KhfAjDtVj522jS
-         M4QnoXdKc2wIkOCETz1eQXWRN4p1krgK84w0Hj+t43sYhWxqjFDfq4TbmX1g/vSa1Ygz
-         ec5GpNt7YfIuY9jQEm66QYVh8KVaUryAyZXNio4i24MEUKvOjrEoxJ0YFHO5bUK9ZSy8
-         0ZfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fxui20KvNriC9XitvtEzDQZsPD1wh2iQuea1gk/77Mw=;
-        b=Ffj+hTUZXCEGVFsD9feRyGB/+YTO8BCJ1InzPojGgrfSmFKXAY6Oc7fQhD5EeJzrhF
-         6S0UZJsXSfvPXUvJyR5trQuJdsGZpffNsdGW2lZ2UA4AFjZPmxrGwUpKQgpraZkwOUJi
-         y4xdDhhMAHL4cqRsq1cLcw0+ZbGsxfjg749LYQUqNwCDvqyZV3jK+uTaiZPN2WDPpKXn
-         647oaV3QM4Jghi7TY0Ut6SShmpHi38cKJ7Z8mKDi0tQRwWd+rV0qyS3utzOuUa8Gi+yc
-         QijvY/8Ejn6sIGsRt8qOrUacvwC609+s0G4tRlvF+/zPT9gU/fhm82DJNdkAYgz0hkgs
-         oIGw==
-X-Gm-Message-State: ACrzQf268M7BqxK6yahBauqAOggGH46jXpffGFfN1KjlnYA36brzz4Q7
-	dLJoX60RhJQ4ObebQnFBk28=
-X-Google-Smtp-Source: AMsMyM55qyrSvfMGDqYrZzEgYnch4RFuC18ZSjNjhAWLi6kk7whlNNYZmbQFnW2jM5ixRoU4RgKOcw==
-X-Received: by 2002:a5d:4008:0:b0:235:a4c4:97c2 with SMTP id n8-20020a5d4008000000b00235a4c497c2mr19201064wrp.295.1667480781075;
-        Thu, 03 Nov 2022 06:06:21 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id w12-20020a05600c474c00b003b4a699ce8esm5608162wmo.6.2022.11.03.06.06.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 06:06:20 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Aaron Lawrence <t4rmin@zohomail.com>,
-	Yogesh Hegde <yogi.kernel@gmail.com>,
-	linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] staging: rtl8192e: rtl819x_HTProc: make arrays const and one static
-Date: Thu,  3 Nov 2022 13:06:19 +0000
-Message-Id: <20221103130619.78413-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.38.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B036FD6;
+	Thu,  3 Nov 2022 13:26:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB275C433C1;
+	Thu,  3 Nov 2022 13:26:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1667481992;
+	bh=97o4Fn/VearIoWyrFZioD/aKcRCOwlQ5khIdoWWXOuc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=zU4d210oOIhnfSQU2SJIOc10ojXs10gdqtpENdtuOVr9dZmNxxI0qM4luqXo6j44K
+	 4QQZrFkvI7TYzkFJmY6cbCsDjk39pqL3N1FrqJAj2ASdYUO9GZcmV+szfVtAHgMbNT
+	 e9Mq9myzGcezCC+D9V++pEwM3ZEgTeDKEfB7wbIo=
+Date: Thu, 3 Nov 2022 22:27:12 +0900
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Deepak R Varma <drv@mailo.com>
+Cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: replace one element 2D array by 1D
+ array
+Message-ID: <Y2PBsBEyeO4tTYy0@kroah.com>
+References: <Y2OsUYcBYe1fZR1W@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2OsUYcBYe1fZR1W@qemulion>
 
-Make two dead-only arrays const. Make array EWC11NHTCap static const
-so it is not populated on the stack, makes the code smaller too.
+On Thu, Nov 03, 2022 at 05:26:01PM +0530, Deepak R Varma wrote:
+> A single element two dimensional array is constrained to index 0 for
+> that element. This constraint makes it similar to a one dimensional
+> array.  Hence convert such array to a simplified one dimensional
+> equivalent. Resultant code is simpler and easy to maintain.
+> 
+> Suggested-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+>  drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 2 +-
+>  drivers/staging/r8188eu/include/odm.h        | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+> index 622f95d3f2ed..c0706c5b3fd8 100644
+> --- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+> +++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+> @@ -886,7 +886,7 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
+>  /* by sherry 20120321 */
+>  	if (final_candidate < 4) {
+>  		for (i = 0; i < IQK_Matrix_REG_NUM; i++)
+> -			dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][i] = result[final_candidate][i];
+> +			dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[i] = result[final_candidate][i];
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Why is this field only being set and never used?
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 62aa8e893c34..84ec8df047d7 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -282,7 +282,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
- 	memset(posHTCap, 0, *len);
- 
- 	if ((bAssoc) && (pHT->ePeerHTSpecVer == HT_SPEC_VER_EWC)) {
--		u8	EWC11NHTCap[] = {0x00, 0x90, 0x4c, 0x33};
-+		static const u8	EWC11NHTCap[] = { 0x00, 0x90, 0x4c, 0x33 };
- 
- 		memcpy(posHTCap, EWC11NHTCap, sizeof(EWC11NHTCap));
- 		pCapELE = (struct ht_capab_ele *)&posHTCap[4];
-@@ -515,8 +515,8 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
- 	u16 nMaxAMSDUSize = 0;
- 	u8 *pMcsFilter = NULL;
- 
--	static u8 EWC11NHTCap[] = {0x00, 0x90, 0x4c, 0x33};
--	static u8 EWC11NHTInfo[] = {0x00, 0x90, 0x4c, 0x34};
-+	static const u8 EWC11NHTCap[] = { 0x00, 0x90, 0x4c, 0x33 };
-+	static const u8 EWC11NHTInfo[] = { 0x00, 0x90, 0x4c, 0x34 };
- 
- 	if (!pHTInfo->bCurrentHTSupport) {
- 		netdev_warn(ieee->dev, "%s(): HT_DISABLE\n", __func__);
--- 
-2.38.1
+Is it even needed at all?  If not, why not just remove it entirely?
 
+thanks,
+
+greg k-h
