@@ -1,103 +1,164 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237C07E2
-	for <linux-staging@lists.linux.dev>; Thu,  3 Nov 2022 05:37:41 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id bj12so2345388ejb.13
-        for <linux-staging@lists.linux.dev>; Wed, 02 Nov 2022 22:37:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39A5A29;
+	Thu,  3 Nov 2022 06:16:18 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id d20so979715ljc.12;
+        Wed, 02 Nov 2022 23:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=N6yuz4vaBpXGDDofkp9biEi/JZM9rALV78sm7Rm0mFs=;
-        b=nIKDt+21vRMTOrnwSIevXDaFC6NEbImnogX/D4tvD0xfn1Pj7HmpQIpHuD8vZKnsjT
-         tyU3gGqazU0vZWd6lemwHKRiic4xZqjRpEZYVZrDfUgzHGcky3HMFZcanNgKOuff3IcN
-         Pzd+Zc0mS7047vA2ELUq+6AYPoE0NqyVpI/MWOrPMH6GOsxzYhUH8cxbFq4Us3RT2IYb
-         zTJtJC0438wwYAVzf0fTckqgGlq3dT/+0U/bjLnuHWGshgUlOTNTc0Z/8Iit/UTNJaJB
-         JyuD/uf2g0y5O8lWfrl5wgnZio2iHAWX6nXuJz1xV8gxqSYH8T8QuwK/cincf0Mk2XAW
-         gHFA==
+        bh=rrfbmwRxgTBua+UIgy4veL3zJxNxBpaatJ0zTVadbS4=;
+        b=i8P+Pe8B3Kk9RWcdlCnGlrthLUP8XN9+bOm0ZN2HJ8i08nIZZqo4JZgzbI/pwyJjtD
+         jETl9c+EPQfEUEn6KZiQBW4Et80HU6RC7uGS2dj2JHcOPrUDSUeXjLaQd8ZxAC960+v1
+         t7NTVdj/PzyLGMWsIyH2V8ovfMsGHOa2lDTxWjkRDJqdIl51w3vKrcpuuCL0+Xle3xpi
+         60dQWxt4BM7fylBIH+sJ9x1Cy2d3ZItK57Ea/++kT6BWdRM+KKs+/wwzbXMnu9/A7KEq
+         N4oxjvEpRnQM3A8DwirzP0PBpqYqPFeQ1TUJkywuUTu3GKk2lutzOt6V5IKf2Oq0yl1c
+         n09g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N6yuz4vaBpXGDDofkp9biEi/JZM9rALV78sm7Rm0mFs=;
-        b=ZIdeFiAcslApvaZnftdd6XtT/mjSkYfrAQcdMQRu4cSBZhhhx91ZMJBJH6nrNHeKe9
-         Oe2Xz4WzacCy36W+tZC3r2MB3zKDSiey+hqcwfZmWDfpB/CdLxfBvSo/xG7+/ve0V9Ko
-         JoIO2hA8Yosun1n5Lb/9n3TtW3SNcklXtceXG7mEA37Q+ZTC9sMupWRUBfkEqh2RBRD0
-         9oMOLPF0jG/EQw959gHnpt/i4nR0xAyN0ufnno8fGVPFoh05In1KyYy525tdxfJNmkgl
-         IBavVrwNC/9acQK3y3sGxNBAii5oiNuOk9v9H910WFc4HsMe6gKi/+cjCRh3OWhn9q64
-         SZZw==
-X-Gm-Message-State: ACrzQf1IJZtBCUwzyC0nhGbbdhHhv1hQdJ4eNaVXybxIEl2XuQXCdRoi
-	eo+65zm2gZKZekZzQm5DypI=
-X-Google-Smtp-Source: AMsMyM40GLHvYKeS3BzkTPHm0n5pKPvj/IL9FROYw3v0be2+HGt7yHQWxBCrrmwFgnOOpHxbdPo1/A==
-X-Received: by 2002:a17:907:3f95:b0:7a2:36c7:31bd with SMTP id hr21-20020a1709073f9500b007a236c731bdmr27738226ejc.353.1667453859321;
-        Wed, 02 Nov 2022 22:37:39 -0700 (PDT)
-Received: from [192.168.0.101] (ip5f5abb6c.dynamic.kabel-deutschland.de. [95.90.187.108])
-        by smtp.gmail.com with ESMTPSA id lb18-20020a170907785200b00741a0c3f4cdsm11090ejc.189.2022.11.02.22.37.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 22:37:38 -0700 (PDT)
-Message-ID: <2e065cba-8094-3900-67e6-3a647bec3a7c@gmail.com>
-Date: Thu, 3 Nov 2022 06:37:38 +0100
+        bh=rrfbmwRxgTBua+UIgy4veL3zJxNxBpaatJ0zTVadbS4=;
+        b=gIbxlxVAR8nPaO5vTln4B22XEgnDsQ9h9MPXzZtzrXiceLHFvNCgX+ek0iX+tmO1Kh
+         lX3c8GPvHhfgA6ep+pMnQ03wi4RIXqyA0SpFFo6MY1wQlUK+u3iTl14zOrMNh7k2shZU
+         M9yt+xCG+tCEB6vhlqrZM1nQeB87IgHXMStRF05VkYb/d4gSL7IW54WDbnvs//Rn3DfR
+         92POskxnz36Na9neBz2xZnU/qLPBW6GGXJkJqyCQJCqqcsy+qmO/O+SLeH9ElIIPK6PJ
+         bKohPL/7Fnbc+4NbvDe0akIT3/uXad8zTCxag6XdbHrOjeWlMg15yGRVQIJV6TZHbu4Y
+         Nh2g==
+X-Gm-Message-State: ACrzQf0VG2yBT+3d7ngjb2N2usi3cl5mgF2Hyp6Ud6IPeSrXg2HYKqQc
+	+Qipd+QpYTGbshof+iRgnNJ32QS8wQWTuA==
+X-Google-Smtp-Source: AMsMyM79l6AKyBD207cscxzp5SmdzcSoDgQwpqlHS0M8pUG+yehiIfRzjbVCK2Yha51q5hBzHtHnhQ==
+X-Received: by 2002:a2e:9cd9:0:b0:277:452a:892a with SMTP id g25-20020a2e9cd9000000b00277452a892amr9073046ljj.349.1667456176438;
+        Wed, 02 Nov 2022 23:16:16 -0700 (PDT)
+Received: from elroy-temp-vm ([20.240.130.248])
+        by smtp.gmail.com with ESMTPSA id s8-20020a056512314800b00497b198987bsm4406lfi.26.2022.11.02.23.16.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 23:16:15 -0700 (PDT)
+Date: Thu, 3 Nov 2022 06:16:15 +0000
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: [RESEND PATCH v2] staging: vt6655: change 2 variable names wFB_Opt0
+ and wFB_Opt1
+Message-ID: <Y2Ncr9fQ5P6OChuV@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] staging: r8188eu: change return type of
- rtw_set_802_11_disassociate to void
-Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, paskripkin@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221102233637.6648-1-phil@philpotter.co.uk>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20221102233637.6648-1-phil@philpotter.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Phillip,
+These variables are named using Hungarian notation, which is not used
+in the Linux kernel.
 
-On 11/3/22 00:36, Phillip Potter wrote:
-> Change return type of rtw_set_802_11_disassociate to void. This function
-> always returns 'true' no matter what, so there is no need to return a
-> value, and no need to check for it in the two call sites within
-> rtw_wx_set_mlme.
-> 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->   drivers/staging/r8188eu/core/rtw_ioctl_set.c    | 4 +---
->   drivers/staging/r8188eu/include/rtw_ioctl_set.h | 2 +-
->   drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 6 ++----
->   3 files changed, 4 insertions(+), 8 deletions(-)
-> 
+Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+---
 
-<snip>
+v2: corrected errors on the subject line of this patch
 
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -1020,12 +1020,10 @@ static int rtw_wx_set_mlme(struct net_device *dev,
->   
->   	switch (mlme->cmd) {
->   	case IW_MLME_DEAUTH:
-> -		if (!rtw_set_802_11_disassociate(padapter))
-> -			ret = -1;
-> +		rtw_set_802_11_disassociate(padapter);
->   		break;
->   	case IW_MLME_DISASSOC:
-> -		if (!rtw_set_802_11_disassociate(padapter))
-> -			ret = -1;
-> +		rtw_set_802_11_disassociate(padapter);
->   		break;
->   	default:
->   		return -EOPNOTSUPP;
+ drivers/staging/vt6655/rxtx.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-You could also remove the ret variable and return 0 directly, since ret
-is not changed anymore in the function.
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 9bdcf2337235..31ae99b3cb35 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -59,12 +59,12 @@ static const unsigned short time_stamp_off[2][MAX_RATE] = {
+ 	{384, 192, 130, 113, 54, 43, 37, 31, 28, 25, 24, 23}, /* Short Preamble */
+ };
+ 
+-static const unsigned short wFB_Opt0[2][5] = {
++static const unsigned short fb_opt0[2][5] = {
+ 	{RATE_12M, RATE_18M, RATE_24M, RATE_36M, RATE_48M}, /* fallback_rate0 */
+ 	{RATE_12M, RATE_12M, RATE_18M, RATE_24M, RATE_36M}, /* fallback_rate1 */
+ };
+ 
+-static const unsigned short wFB_Opt1[2][5] = {
++static const unsigned short fb_opt1[2][5] = {
+ 	{RATE_12M, RATE_18M, RATE_24M, RATE_24M, RATE_36M}, /* fallback_rate0 */
+ 	{RATE_6M,  RATE_6M,  RATE_12M, RATE_12M, RATE_18M}, /* fallback_rate1 */
+ };
+@@ -298,9 +298,9 @@ s_uGetDataDuration(
+ 			wRate -= RATE_18M;
+ 
+ 			if (byFBOption == AUTO_FB_0)
+-				wRate = wFB_Opt0[FB_RATE0][wRate];
++				wRate = fb_opt0[FB_RATE0][wRate];
+ 			else
+-				wRate = wFB_Opt1[FB_RATE0][wRate];
++				wRate = fb_opt1[FB_RATE0][wRate];
+ 
+ 			uNextPktTime = s_uGetTxRsvTime(pDevice, byPktType,
+ 						       len, wRate, bNeedAck);
+@@ -353,52 +353,52 @@ s_uGetRTSCTSDuration(
+ 	case RTSDUR_BA_F0: /* RTSDuration_ba_f0 */
+ 		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case RTSDUR_AA_F0: /* RTSDuration_aa_f0 */
+ 		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case RTSDUR_BA_F1: /* RTSDuration_ba_f1 */
+ 		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case RTSDUR_AA_F1: /* RTSDuration_aa_f1 */
+ 		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case CTSDUR_BA_F0: /* CTSDuration_ba_f0 */
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
++			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+ 	case CTSDUR_BA_F1: /* CTSDuration_ba_f1 */
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+-			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
++			uDurTime = pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, fb_opt1[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 
+ 		break;
+ 
+-- 
+2.34.1
 
-regards,
-Michael
