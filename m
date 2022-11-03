@@ -1,45 +1,45 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C331C79C1;
-	Thu,  3 Nov 2022 21:40:35 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id z14so4634932wrn.7;
-        Thu, 03 Nov 2022 14:40:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F177679C9
+	for <linux-staging@lists.linux.dev>; Thu,  3 Nov 2022 22:01:10 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id t1so1985705wmi.4
+        for <linux-staging@lists.linux.dev>; Thu, 03 Nov 2022 15:01:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VZyl9CUC3qLMBJXHxG9ZqJV4uZS4TQJZR+zIFGtaSXA=;
-        b=nN9gM6pR9LbMjvNNgBc/B8L1oQrfszC+JsM1PBO5F/loU69b5jyQ2TQNlFoG7gpD9r
-         GoTvV0wWTAlipcag9zPTOIQzTDUY2jkzF9yE+iAutaRSZG5ocw3v+r23XRRJvxVI9by2
-         ffowuAqPU3R5CjMXMyM7COlD+4JfkN02LYx9DAK1NhlGajsBr1kiJShA/kUFqZyrFT5m
-         7PPqgL31HNs5sJtiKA+bRRNdZOVlmF1jh/dB2LmfhcEFbXYP6I3ujYU8jFgugaY9j9ST
-         pNubOKnrhSbTAhUeUBt2rL71NeT/GKwDHqKwY/5FGYvZvwlYn8A4+p0AT1NbUVEIqS9O
-         W/TQ==
+        bh=u+myOUTcxqEfQMThAIiz8SuyliK2/UIGrMCMSymFxCE=;
+        b=AmdVWJTMGlB+aeXO5lJVwIXZbrQi9HxoRtizfLu5L2hcXfWEBlSHTSM3KJryGovgTY
+         CKNPJI7J6RHgpO4EsaSDF0LooJw/O8HIYszvadGs8HkW9Wr65whqcIkC4MPiJIx6Mfju
+         PDQZJASGe93huPUApG4ofiZ8J/A5aXlOufac4y5CzUvlP4njBeoK4Funt8HQndQM62TK
+         3bxqG6ZXeGq2YDpJATgc5hGLWe42soNzB8kgffvCRowAi/qjPMyeIf7giSqdocMNoe4u
+         JuOskU9FiwQkpjEwy+PanOhiMIv2XCiLxRST+wRuFiw0rgkSvYx/7T7Gf1DTB/JtM6+f
+         1zhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VZyl9CUC3qLMBJXHxG9ZqJV4uZS4TQJZR+zIFGtaSXA=;
-        b=USUsMcpw+GU8eoHo/lZrU1noKmNSn+hK8L2dpmJOz803iX6yhR9u4ol2RrG/QWQ4YU
-         2q7Y9IMnvaPO7HBnbpCXs8TYCQt+XM+lcWcbW458h9im8ViutEqLvT4MiyTiDgUO8dxn
-         ubHYiXru06UprnQHhfa9XFxDZS4c3NiVzfBWrImBs8Po2B8u669TDiWqTN4tN/Dyum1/
-         P2cmJXxy7m/WnYHU7AYHPyi35cpQzkrZAYL5sXDyeX+5p6Bgr4zXbO6OWs8BNm/BK9jc
-         8oNe6XU4d6omLLKld8YUGC0n9mi0o+OSn/tyUNFdYEN+6n3Qvv/ut331S13b8HyitLeP
-         bopQ==
-X-Gm-Message-State: ACrzQf0qhduBGemLteu+TQhay0mV57QOsWywIpbwSAfGSztY1lG8gOoM
-	w9vE4lL8rONI9SLOpcWgaL4=
-X-Google-Smtp-Source: AMsMyM5dS8phVTDVJPBYVzbpc2RYb+ER9Ps1PKo543G+OO5DwUVtbuxjT0XhUYPtBduzWIn2Srus6w==
-X-Received: by 2002:adf:df0b:0:b0:236:cdb9:8167 with SMTP id y11-20020adfdf0b000000b00236cdb98167mr14453832wrl.99.1667511633962;
-        Thu, 03 Nov 2022 14:40:33 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f35:4b87:d1d7:d30e:756e:79c7? (p200300c78f354b87d1d7d30e756e79c7.dip0.t-ipconnect.de. [2003:c7:8f35:4b87:d1d7:d30e:756e:79c7])
-        by smtp.gmail.com with ESMTPSA id q12-20020a05600c46cc00b003b4ac05a8a4sm1212635wmo.27.2022.11.03.14.40.33
+        bh=u+myOUTcxqEfQMThAIiz8SuyliK2/UIGrMCMSymFxCE=;
+        b=FSXOIRUYSCjviIXVo9ICbeF2wG478SLn3FXEZMaajyUMgZDBvuJAa4iET5MNmMWXVR
+         mEfuAXJxqujcyFy9KStpPBMG20iRNL1aPfBy3kY+IpgG+Wu57goj8733e7KZ7pv0/Tn4
+         2GeHLdsuTAgYcnGB3XAZFgNkaeuWUkFqDdBtQuPKVYil4C9RXPwuKNQTngS5kVTxcbO8
+         h4yaueQYskYy5yIcmc5hi/hL6rhmPCy/bCcf+q45HcXag11ao2kZ6G3Xkx0J3kdk4D6o
+         ApNrPjgaW+CmYtzyMDVRyooCbxFFHc9m2T2UtfRSPnorTitCSF4VjiLxBlkacXvL+Gph
+         3hlA==
+X-Gm-Message-State: ACrzQf2NpwQvODd7KeWUdFzuu5q9PnFhbv4zN9XqlRJ+1aX2XeSZd5iY
+	j/KkYEEI6BGrRtRPw+yD92c=
+X-Google-Smtp-Source: AMsMyM70OsXMXIK4GT9TB+3XvT3T7jZvU99hqANplgZXzTxldVCV+1dR9wX9tarA3BzewNNPJVkbyg==
+X-Received: by 2002:a1c:f311:0:b0:3b5:18ca:fc5e with SMTP id q17-20020a1cf311000000b003b518cafc5emr21477669wmq.70.1667512869173;
+        Thu, 03 Nov 2022 15:01:09 -0700 (PDT)
+Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id x5-20020a5d4905000000b0023655e51c14sm1821127wrq.32.2022.11.03.15.01.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 14:40:33 -0700 (PDT)
-Message-ID: <fb3209c3-bcb2-62e4-e050-735339d1083a@gmail.com>
-Date: Thu, 3 Nov 2022 22:40:32 +0100
+        Thu, 03 Nov 2022 15:01:08 -0700 (PDT)
+Message-ID: <2c51855b-cd74-5701-d9fc-ad75818e7c28@gmail.com>
+Date: Thu, 3 Nov 2022 23:01:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,128 +48,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2] staging: vt6655: change the function name
- s_vFillRTSHead
+Subject: Re: [PATCH] staging: rtl8192e: Fix divide fault when calculating
+ beacon age
 Content-Language: en-US
-To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>,
- gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-References: <Y2QTON8cjU/D0GqO@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+To: Larry Finger <Larry.Finger@lwfinger.net>, gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <20221103200507.14304-1-Larry.Finger@lwfinger.net>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <Y2QTON8cjU/D0GqO@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+In-Reply-To: <20221103200507.14304-1-Larry.Finger@lwfinger.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/3/22 20:15, Tanjuate Brunostar wrote:
-> Remove the use of Hungarian notation, which is not used in the Linux
-> kernel. Reported by checkpatch
+On 11/3/22 21:05, Larry Finger wrote:
+> When the configuration parameter CONFIG_HZ is less that 100, the compiler
+> generates an error as follows:
 > 
-> Add indentation to the affected function headers to follow the Linux
-> kernel coding style
+> ../drivers/staging/rtl8192e/rtllib_wx.c: In function 'rtl819x_translate_scan':
+> ../drivers/staging/rtl8192e/rtllib_wx.c:220:57: warning: division by zero [-Wdiv-by-zero]
+>    220 |                       (jiffies - network->last_scanned) / (HZ / 100));
+>        |                                                         ^
+> In file included from ../include/linux/skbuff.h:45,
+>                   from ../include/linux/if_ether.h:19,
+>                   from ../include/linux/etherdevice.h:20,
+>                   from ../drivers/staging/rtl8192e/rtllib_wx.c:18:
+> ../drivers/staging/rtl8192e/rtllib_wx.c: In function 'rtllib_wx_get_scan':
+> ../drivers/staging/rtl8192e/rtllib_wx.c:261:70: warning: division by zero [-Wdiv-by-zero]
+>    261 |                                    (jiffies - network->last_scanned) /
+>        |
 > 
-> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+> In fact, is HZ is not a multiple of 100, the calculation will be wrong, but it
+> will compile correctly.
+> 
+> The fix is to get rid of the (HZ / 100) portion. To decrease any round-off
+> errors, the compiler is forced to perform the 100 * jiffies-difference before
+> dividing by HX. This patch is only compile tested.
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 > ---
+>   drivers/staging/rtl8192e/rtllib_wx.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> v2: corrected confusing changlog message on this patch
-> 
->   drivers/staging/vt6655/rxtx.c | 48 ++++++++++++++++-------------------
->   1 file changed, 22 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-> index 31ae99b3cb35..debc5d5daede 100644
-> --- a/drivers/staging/vt6655/rxtx.c
-> +++ b/drivers/staging/vt6655/rxtx.c
-> @@ -23,7 +23,7 @@
->    *      s_uGetTxRsvTime- get frame reserved time
->    *      s_vFillCTSHead- fulfill CTS ctl header
->    *      s_vFillFragParameter- Set fragment ctl parameter.
-> - *      s_vFillRTSHead- fulfill RTS ctl header
-> + *      fill_rts_header- fulfill RTS ctl header
->    *      s_vFillTxKey- fulfill tx encrypt key
->    *      s_vSWencryption- Software encrypt header
->    *      vDMA0_tx_80211- tx 802.11 frame via dma0
-> @@ -85,15 +85,15 @@ static const unsigned short fb_opt1[2][5] = {
->   #define DATADUR_A_F1    13
+> diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
+> index da2c41c9b92f..7013425102dd 100644
+> --- a/drivers/staging/rtl8192e/rtllib_wx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_wx.c
+> @@ -217,7 +217,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
+>   	p = custom;
+>   	p += scnprintf(p, MAX_CUSTOM_LEN - (p - custom),
+>   		      " Last beacon: %lums ago",
+> -		      (jiffies - network->last_scanned) / (HZ / 100));
+> +		      (100 *(jiffies - network->last_scanned)) / HZ);
+>   	iwe.u.data.length = p - custom;
+>   	if (iwe.u.data.length)
+>   		start = iwe_stream_add_point_rsl(info, start, stop,
+> @@ -258,8 +258,8 @@ int rtllib_wx_get_scan(struct rtllib_device *ieee,
+>   				   escape_essid(network->ssid,
+>   						network->ssid_len),
+>   				   network->bssid,
+> -				   (jiffies - network->last_scanned) /
+> -				   (HZ / 100));
+> +				   (100 * (jiffies - network->last_scanned)) /
+> +				   HZ);
+>   	}
 >   
->   /*---------------------  Static Functions  --------------------------*/
-> -static void s_vFillRTSHead(struct vnt_private *pDevice,
-> -			   unsigned char byPktType,
-> -			   void *pvRTS,
-> -			   unsigned int	cbFrameLength,
-> -			   bool bNeedAck,
-> -			   bool bDisCRC,
-> -			   struct ieee80211_hdr *hdr,
-> -			   unsigned short wCurrentRate,
-> -			   unsigned char byFBOption);
-> +static void fill_rts_header(struct vnt_private *pDevice,
-> +			    unsigned char byPktType,
-> +			    void *pvRTS,
-> +			    unsigned int cbFrameLength,
-> +			    bool bNeedAck,
-> +			    bool bDisCRC,
-> +			    struct ieee80211_hdr *hdr,
-> +			    unsigned short wCurrentRate,
-> +			    unsigned char byFBOption);
->   
->   static void s_vGenerateTxParameter(struct vnt_private *pDevice,
->   				   unsigned char byPktType,
-> @@ -555,19 +555,15 @@ s_uFillDataHead(
->   	return buf->duration;
->   }
->   
-> -static
-> -void
-> -s_vFillRTSHead(
-> -	struct vnt_private *pDevice,
-> -	unsigned char byPktType,
-> -	void *pvRTS,
-> -	unsigned int cbFrameLength,
-> -	bool bNeedAck,
-> -	bool bDisCRC,
-> -	struct ieee80211_hdr *hdr,
-> -	unsigned short wCurrentRate,
-> -	unsigned char byFBOption
-> -)
-> +static void fill_rts_header(struct vnt_private *pDevice,
-> +			    unsigned char byPktType,
-> +			    void *pvRTS,
-> +			    unsigned int cbFrameLength,
-> +			    bool bNeedAck,
-> +			    bool bDisCRC,
-> +			    struct ieee80211_hdr *hdr,
-> +			    unsigned short wCurrentRate,
-> +			    unsigned char byFBOption)
->   {
->   	unsigned int uRTSFrameLen = 20;
->   
-> @@ -912,7 +908,7 @@ s_vGenerateTxParameter(
->   			buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
->   			buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
->   
-> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-> +			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->   		} else {/* RTS_needless, PCF mode */
->   			struct vnt_rrv_time_cts *buf = pvRrvTime;
->   
-> @@ -931,7 +927,7 @@ s_vGenerateTxParameter(
->   			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
->   
->   			/* Fill RTS */
-> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-> +			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->   		} else if (!pvRTS) {/* RTS_needless, non PCF mode */
->   			struct vnt_rrv_time_ab *buf = pvRrvTime;
->   
-> @@ -945,7 +941,7 @@ s_vGenerateTxParameter(
->   			buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
->   
->   			/* Fill RTS */
-> -			s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
-> +			fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->   		} else { /* RTS_needless, non PCF mode */
->   			struct vnt_rrv_time_ab *buf = pvRrvTime;
->   
+>   	spin_unlock_irqrestore(&ieee->lock, flags);
 
-I cannot apply your patch.
+Line length of the description is to long.
 
-Bye Philipp
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+
