@@ -1,93 +1,108 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2069D8471;
-	Fri,  4 Nov 2022 16:55:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667580912; bh=hK6mqgJ+sOVpRgVX06v+zmV4Tw1LFEgTKYWKc1OCxOU=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=KMvnN5sopXVCGeEFEYViuop2afWaMmcxcYKF3G8fuUNrIhtTayo0N/FTszpEii0iD
-	 lwsUr/CswOSCtaRWP+O6nKx+s8xTj2bAXJFtu88rekt/qX6+qR0OSG0Mrtsh5I6XlX
-	 YAFNMdRPLUP0TRmWXKTw/DjFVcL2CL11JUfquGxQ=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Fri,  4 Nov 2022 17:55:12 +0100 (CET)
-X-EA-Auth: /omeScJ7L58w8McXgv460L47f3glzT4opVlNXbZp8Yq58W9dGImxfJjOe3K13s7qAoWmdE4gpkgpUfxlP/b/bTrajVVo0I5h
-Date: Fri, 4 Nov 2022 22:25:06 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: remove unused struct declarations
-Message-ID: <Y2VD6qTxXPpuufOo@qemulion>
-References: <Y2LYvhr74ng+xFbz@qemulion>
- <e76c5fd4-442b-0f0e-73e8-c17acf11b471@gmail.com>
- <Y2OOM8g0Qj1o6dRI@qemulion>
- <2aeb10bc-178f-836e-eecd-c77f3eb2f0b5@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C7E8471
+	for <linux-staging@lists.linux.dev>; Fri,  4 Nov 2022 17:00:36 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id w26-20020a056830061a00b0066c320f5b49so2991176oti.5
+        for <linux-staging@lists.linux.dev>; Fri, 04 Nov 2022 10:00:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
+        b=TyCMiI4ARMPxd18RVlEv+qm2LWR7zC104Hlivn40qb5lZJslIeDFuCNMNvjneFE/Nj
+         LFwCX5vAwmEX/R8qjGO9x9K9/hgdwoRd2q59WUqMzWoiDvISQjer+tTT1jJ7UfSLA8Vn
+         fR3VeAjk206NeR5DC2lSXJH82ZME8JVM9jplc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
+        b=ulaEnbYwD3/4Q3X95BGLvpDWje86PHHp5vK8XEoX+Xuxo9rb3OSiPFjrcmJ6Z9mI5b
+         Cp/ZqLzPWBCD9jFT5DsLdsVPDZ04q1skS5utRt/ZunW6Wja0UjGiD6Acc09OY7AL6kph
+         psdsYVcOmMzmgyF0fiTOzhFxcVP1vJRrBS40Gj+ogQ47eB9uSCAcrBRNLHz1UZ0DBhoj
+         ZAzolrr4PNfIwDjnwBIOhXUUCp+giqDNcjholAPX2o4A9hWqypu3gCo2yUfhBHfSYU12
+         ayHwWgAc/QdOcOFG3o05KC6yreKB3MaGVDX+PJYiS4cnrEgBzU0S66/UKrd8QUUpYu4c
+         DVfA==
+X-Gm-Message-State: ACrzQf2iAAvIJQwcG/ikUvS7HIOntwlUDDxYoBoBg1072BlNwqIUsJAi
+	9aYVg05F1q3lwRvC9GJ8Dq0tLwhJjXpq0g==
+X-Google-Smtp-Source: AMsMyM4KmLhoMxsN/JpgHXJTTBv7TyRSzJwz0Sj+u5IklDPVKjNoyE6nTyrqkDoROZkoar/UZBaG6A==
+X-Received: by 2002:a05:6830:61cc:b0:661:a38c:8bf9 with SMTP id cc12-20020a05683061cc00b00661a38c8bf9mr18249445otb.99.1667581235058;
+        Fri, 04 Nov 2022 10:00:35 -0700 (PDT)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
+        by smtp.gmail.com with ESMTPSA id 5-20020a9d0f05000000b00661ad8741b4sm1641654ott.24.2022.11.04.10.00.30
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Nov 2022 10:00:31 -0700 (PDT)
+Received: by mail-ot1-f42.google.com with SMTP id br15-20020a056830390f00b0061c9d73b8bdso2988379otb.6
+        for <linux-staging@lists.linux.dev>; Fri, 04 Nov 2022 10:00:30 -0700 (PDT)
+X-Received: by 2002:a81:8241:0:b0:370:5fad:47f0 with SMTP id
+ s62-20020a818241000000b003705fad47f0mr27409344ywf.441.1667581219811; Fri, 04
+ Nov 2022 10:00:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2aeb10bc-178f-836e-eecd-c77f3eb2f0b5@gmail.com>
+References: <20221104054053.431922658@goodmis.org>
+In-Reply-To: <20221104054053.431922658@goodmis.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 4 Nov 2022 10:00:03 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
+Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
+Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
+ freeing timers
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, 
+	Stephen Boyd <sboyd@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Anna-Maria Gleixner <anna-maria@linutronix.de>, Andrew Morton <akpm@linux-foundation.org>, 
+	rcu@vger.kernel.org, linux-doc@vger.kernel.org, linux-s390@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-edac@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
+	linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com, 
+	linux-bluetooth@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org, 
+	linux-input@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
+	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org, 
+	bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org, 
+	coreteam@netfilter.org, lvs-devel@vger.kernel.org, 
+	linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org, 
+	tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 03, 2022 at 10:19:05PM +0100, Philipp Hortmann wrote:
-> On 11/3/22 10:47, Deepak R Varma wrote:
-> > Hello Philipp,
-> > Thank you for testing the changes.
-> >
-> > Request (not urgent):
-> > Can you please help me understand how do you
-> > test such changes? Do we need specific hardware for functional tests? Is there a
-> > documentation available to know more about the testing? I am interested in
-> > attaching a physical device to my machine and be able to debug and test the
-> > changes. Can you please provide details when you have time?
-> >
-> > Thank you in advance!
-> > ./drv
+On Thu, Nov 3, 2022 at 10:48 PM Steven Rostedt <rostedt@goodmis.org> wrote:
 >
-> Hi Deepak,
->
-> I do have one device for the following drivers:
->
-> vt6656
-> vt6655
-> r8188eu
-> r8192e_pci
-> r8712u
+> Ideally, I would have the first patch go into this rc cycle, which is mostly
+> non functional as it will allow the other patches to come in via the respective
+> subsystems in the next merge window.
 
-Wow... that sounds like a very useful set (and a lot of testing time :) )
+Ack.
 
->
-> Minimum test is to measure the transfer speed and see if that is as
-> expected.
->
-> When I doubt that the changed code is used I use ftrace to see if the code
-> is used. But of course I do not test every possibility.
+I also wonder if we could do the completely trivially correct
+conversions immediately.
 
-Okay. May be as I gain more knowledge, I will be able to apply it as well. I
-hope it will be okay to connect with you in future if an opportunity arises.
+I'm talking about the scripted ones where it's currently a
+"del_timer_sync()", and the very next action is freeing whatever data
+structure the timer is in (possibly with something like free_irq() in
+between - my point is that there's an unconditional free that is very
+clear and unambiguous), so that there is absolutely no question about
+whether they should use "timer_shutdown_sync()" or not.
 
->
-> I hope you have the money to be able to buy hardware. Without it is not fun.
->
-> I would choose r8188eu (USB) or r8192e_pci.
+IOW, things like patches 03, 17 and 31, and at least parts others in
+this series.
 
-Thank you so much for the recommendation. I will find out the cost and see if I
-can buy one of those.
+This series clearly has several much more complex cases that need
+actual real code review, and I think it would help to have the
+completely unambiguous cases out of the way, just to get rid of noise.
 
-Have a great weekend!
-./drv
+So I'd take that first patch, and a scripted set of "this cannot
+change any semantics" patches early.
 
->
-> Bye Philipp
->
-
-
+                Linus
