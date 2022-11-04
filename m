@@ -1,108 +1,194 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C7E8471
-	for <linux-staging@lists.linux.dev>; Fri,  4 Nov 2022 17:00:36 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id w26-20020a056830061a00b0066c320f5b49so2991176oti.5
-        for <linux-staging@lists.linux.dev>; Fri, 04 Nov 2022 10:00:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB798493;
+	Fri,  4 Nov 2022 18:10:55 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id d26so15296614eje.10;
+        Fri, 04 Nov 2022 11:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
-        b=TyCMiI4ARMPxd18RVlEv+qm2LWR7zC104Hlivn40qb5lZJslIeDFuCNMNvjneFE/Nj
-         LFwCX5vAwmEX/R8qjGO9x9K9/hgdwoRd2q59WUqMzWoiDvISQjer+tTT1jJ7UfSLA8Vn
-         fR3VeAjk206NeR5DC2lSXJH82ZME8JVM9jplc=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zI5Rfzsxc8rNV7iJcfSyH9aK8iAlVJHWFV6jyxPEIok=;
+        b=hso72QBPITUbbmDTleVSZzhKAzH1N/pTXymcIBO8s2I23+psuEJGPHJfZwz4jtvXhV
+         iwYCaHDYdJe7kYiqgKRRga4szZW9IfpF9avjaBsJzHIyASoMf7l+zl3FpjWtpf9Flr+Y
+         0gMNBn/Jp4thIlhAt3qoSsgv0o0a5fUJSgUUwXMDaLih8ESneA6S784vbCEGsa4hcU1V
+         FsXmcwZnXQVymAWTHDNppgdrNGcZQtfKjy3C0jn5wnLb7MIU2qDC8zIkh4bDkSP4E4IJ
+         wIbR0PqzUGD+iEC6CvUKfuJ0Uvun6UAYkcUQ/bjE0BVbgIOZzsOlKRG/B1JT0Xplpfkn
+         g+Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
-        b=ulaEnbYwD3/4Q3X95BGLvpDWje86PHHp5vK8XEoX+Xuxo9rb3OSiPFjrcmJ6Z9mI5b
-         Cp/ZqLzPWBCD9jFT5DsLdsVPDZ04q1skS5utRt/ZunW6Wja0UjGiD6Acc09OY7AL6kph
-         psdsYVcOmMzmgyF0fiTOzhFxcVP1vJRrBS40Gj+ogQ47eB9uSCAcrBRNLHz1UZ0DBhoj
-         ZAzolrr4PNfIwDjnwBIOhXUUCp+giqDNcjholAPX2o4A9hWqypu3gCo2yUfhBHfSYU12
-         ayHwWgAc/QdOcOFG3o05KC6yreKB3MaGVDX+PJYiS4cnrEgBzU0S66/UKrd8QUUpYu4c
-         DVfA==
-X-Gm-Message-State: ACrzQf2iAAvIJQwcG/ikUvS7HIOntwlUDDxYoBoBg1072BlNwqIUsJAi
-	9aYVg05F1q3lwRvC9GJ8Dq0tLwhJjXpq0g==
-X-Google-Smtp-Source: AMsMyM4KmLhoMxsN/JpgHXJTTBv7TyRSzJwz0Sj+u5IklDPVKjNoyE6nTyrqkDoROZkoar/UZBaG6A==
-X-Received: by 2002:a05:6830:61cc:b0:661:a38c:8bf9 with SMTP id cc12-20020a05683061cc00b00661a38c8bf9mr18249445otb.99.1667581235058;
-        Fri, 04 Nov 2022 10:00:35 -0700 (PDT)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
-        by smtp.gmail.com with ESMTPSA id 5-20020a9d0f05000000b00661ad8741b4sm1641654ott.24.2022.11.04.10.00.30
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 10:00:31 -0700 (PDT)
-Received: by mail-ot1-f42.google.com with SMTP id br15-20020a056830390f00b0061c9d73b8bdso2988379otb.6
-        for <linux-staging@lists.linux.dev>; Fri, 04 Nov 2022 10:00:30 -0700 (PDT)
-X-Received: by 2002:a81:8241:0:b0:370:5fad:47f0 with SMTP id
- s62-20020a818241000000b003705fad47f0mr27409344ywf.441.1667581219811; Fri, 04
- Nov 2022 10:00:19 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zI5Rfzsxc8rNV7iJcfSyH9aK8iAlVJHWFV6jyxPEIok=;
+        b=0F8vrLF0+z1H3A6Yr4WW1SB1K1E1szrEfggsGMwCtmGM7BIMoeSRxfJZmQTTho20YL
+         iFoJP2aTPPmxfkhR8fE+pPUQjMhSePBjnc3okBXKRCgCcn/OfSa4+KVSkm1c2RbMOKMk
+         DnnZb8er5/YfOZ5kiJ3ztjNorofJVACgwi7PuVexsWpkRWdG0XHv4zHBwNLfuiEeEofi
+         YqcI5pMtM4dydbf3FfKczu7VlNemTn5ysPLLiaRPoMFRCZmmDqSuhk5S4z+Wdb4WErfK
+         cNk9ZctQpBOS+ldPQjmWeSd7CZLuwh2NOlAjQ0kveIEAtHFS9L2FeF2sjv+8FqKYgWmO
+         PCnw==
+X-Gm-Message-State: ACrzQf3nhZTF9w+TUBWOiQ73xnAQRNLDwWIG7xDXlsLdCGSLfsNu0PU9
+	fyDVP9JSuF49DoTYu1DuisY=
+X-Google-Smtp-Source: AMsMyM7thWyBYHE/ivRxLw9DZwILGgEJyeA4LgCqmhP078HXispIbQGy34uZRIqCeIXpq/OAQAQxrA==
+X-Received: by 2002:a17:906:fe44:b0:77c:e313:a8e8 with SMTP id wz4-20020a170906fe4400b0077ce313a8e8mr36352481ejb.700.1667585454095;
+        Fri, 04 Nov 2022 11:10:54 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id gh30-20020a1709073c1e00b007919ba4295esm2086563ejc.216.2022.11.04.11.10.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Nov 2022 11:10:53 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, paul.kocialkowski@bootlin.com, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 10/11] media: cedrus: Adjust buffer size based on control values
+Date: Fri, 04 Nov 2022 19:10:52 +0100
+Message-ID: <1908973.PYKUYFuaPT@jernej-laptop>
+In-Reply-To: <76c3fc1b-e90f-748c-39ee-74be93fd6811@xs4all.nl>
+References: <20221102180810.267252-1-jernej.skrabec@gmail.com> <20221102180810.267252-11-jernej.skrabec@gmail.com> <76c3fc1b-e90f-748c-39ee-74be93fd6811@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221104054053.431922658@goodmis.org>
-In-Reply-To: <20221104054053.431922658@goodmis.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 4 Nov 2022 10:00:03 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
-Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
-Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
- freeing timers
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, 
-	Stephen Boyd <sboyd@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Anna-Maria Gleixner <anna-maria@linutronix.de>, Andrew Morton <akpm@linux-foundation.org>, 
-	rcu@vger.kernel.org, linux-doc@vger.kernel.org, linux-s390@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-edac@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
-	linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com, 
-	linux-bluetooth@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org, 
-	linux-input@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org, 
-	bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org, 
-	coreteam@netfilter.org, lvs-devel@vger.kernel.org, 
-	linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org, 
-	tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Nov 3, 2022 at 10:48 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> Ideally, I would have the first patch go into this rc cycle, which is mostly
-> non functional as it will allow the other patches to come in via the respective
-> subsystems in the next merge window.
+Dne petek, 04. november 2022 ob 16:27:29 CET je Hans Verkuil napisal(a):
+> Hi Jernej,
+> 
+> On 02/11/2022 19:08, Jernej Skrabec wrote:
+> > In some cases decoding engine needs extra space in capture buffers. This
+> > is the case for decoding 10-bit HEVC frames into 8-bit capture format.
+> > This commit only adds infrastructure for such cases.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus.c       | 14 ++++++++++++++
+> >  drivers/staging/media/sunxi/cedrus/cedrus.h       |  2 ++
+> >  drivers/staging/media/sunxi/cedrus/cedrus_video.c |  4 ++++
+> >  3 files changed, 20 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> > 6a2c08928613..c36999e47591 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > @@ -68,8 +68,22 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+> > 
+> >  	return 0;
+> >  
+> >  }
+> > 
+> > +static int cedrus_s_ctrl(struct v4l2_ctrl *ctrl)
+> > +{
+> > +	struct cedrus_ctx *ctx = container_of(ctrl->handler,
+> > +					      struct 
+cedrus_ctx, hdl);
+> > +	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+> > +					       
+V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> > +
+> > +	if (!vb2_is_busy(vq) && !vb2_is_streaming(vq))
+> 
+> You can drop the !vb2_is_streaming part. If you are streaming, then
+> it will also be 'busy'.
+> 
+> > +		cedrus_reset_cap_format(ctx);
+> 
+> This is weird. I would expect that this is only called for specific
+> controls, since presumably not all will change the sizeimage value. It
+> looks like it applies only to V4L2_CID_STATELESS_HEVC_SPS, so I see no
+> reason why you would call cedrus_reset_cap_format() for other controls as
+> well.
 
-Ack.
+It's more general approach. It's harmless for other cases, still within specs. 
+Anyway, I can make it more specific.
 
-I also wonder if we could do the completely trivially correct
-conversions immediately.
+> 
+> And what happens if someone makes such a change *while streaming*?
+> Shouldn't cedrus_try_ctrl detect that and fail with -EBUSY in that case?
 
-I'm talking about the scripted ones where it's currently a
-"del_timer_sync()", and the very next action is freeing whatever data
-structure the timer is in (possibly with something like free_irq() in
-between - my point is that there's an unconditional free that is very
-clear and unambiguous), so that there is absolutely no question about
-whether they should use "timer_shutdown_sync()" or not.
+SPS can also be changed during streaming, so we can't outright deny setting it 
+during streaming. Also, if it changes from 10 to 8, that also works, since 
+capture buffers are still big enough. Only change from 8 to 10 during streaming 
+won't work and that check can be added.
 
-IOW, things like patches 03, 17 and 31, and at least parts others in
-this series.
+> 
+> Regardless, this is unexpected behavior, so some explanatory comments
+> would be useful.
+> 
+> I'm also not sure whether it isn't better to add cedrus_s_ctrl in the next
+> patch, I think it would be more understandable when seen with an actual
+> control.
 
-This series clearly has several much more complex cases that need
-actual real code review, and I think it would help to have the
-completely unambiguous cases out of the way, just to get rid of noise.
+I guess I can move logic to cedrus_try_ctrl(), where some of this logic 
+already exists and it would be just a little bit expanded and more selective.
 
-So I'd take that first patch, and a scripted set of "this cannot
-change any semantics" patches early.
+Best regards,
+Jernej
 
-                Linus
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > 
+> >  static const struct v4l2_ctrl_ops cedrus_ctrl_ops = {
+> >  
+> >  	.try_ctrl = cedrus_try_ctrl,
+> > 
+> > +	.s_ctrl = cedrus_s_ctrl,
+> > 
+> >  };
+> >  
+> >  static const struct cedrus_control cedrus_controls[] = {
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
+> > 5904294f3108..774fe8048ce3 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > @@ -162,6 +162,8 @@ struct cedrus_dec_ops {
+> > 
+> >  	int (*start)(struct cedrus_ctx *ctx);
+> >  	void (*stop)(struct cedrus_ctx *ctx);
+> >  	void (*trigger)(struct cedrus_ctx *ctx);
+> > 
+> > +	unsigned int (*extra_cap_size)(struct cedrus_ctx *ctx,
+> > +				       struct v4l2_pix_format 
+*pix_fmt);
+> > 
+> >  };
+> >  
+> >  struct cedrus_variant {
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_video.c index
+> > dec5d3ae4871..dc67940f1ade 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > @@ -250,6 +250,10 @@ static int cedrus_try_fmt_vid_cap_p(struct cedrus_ctx
+> > *ctx,> 
+> >  	pix_fmt->height = ctx->src_fmt.height;
+> >  	cedrus_prepare_format(pix_fmt);
+> > 
+> > +	if (ctx->current_codec->extra_cap_size)
+> > +		pix_fmt->sizeimage +=
+> > +			ctx->current_codec->extra_cap_size(ctx, 
+pix_fmt);
+> > +
+> > 
+> >  	return 0;
+> >  
+> >  }
+
+
+
+
