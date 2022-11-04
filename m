@@ -1,103 +1,110 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4058498;
-	Fri,  4 Nov 2022 18:47:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667587667; bh=qE5ym1opJyH1PNJ1hV7aXZmTv5qh7+ufkF7+tQ0SLhk=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
-	b=G6Tjjeri/M4V+ersaBajryieEc2mRd3uMTpRrqFQaLAOOGJdLbJ8ecm8rPEAOJQ8P
-	 4wCEj8oZp9Tgth6bwS3I34f5Bd0BJxPfvmx97xqjCkGoAtN+oy6fTcKir89BCSUZhW
-	 eKcatSn1vCWf+aV9Q5sAqVxikI+wSwueFjPXucKo=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Fri,  4 Nov 2022 19:47:47 +0100 (CET)
-X-EA-Auth: pMehuuPrIcJnoivIYphP0EkQOW37Pfr1TslTm/dWkmny4O42PS+BcrVQ/qfnAAaTtT0GQf2c5ZwF5h7AAUC9g2wFcFQvL+zl
-Date: Sat, 5 Nov 2022 00:17:39 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: David Laight <David.Laight@aculab.com>
-Cc: "'Sa, Nuno'" <Nuno.Sa@analog.com>,
-	"outreachy@lists.linux.dev" <outreachy@lists.linux.dev>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	"Hennerich, Michael" <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: iio: ad5933: Use div64_ul instead of do_div
-Message-ID: <Y2VeS8NgPhrr8pYR@qemulion>
-References: <Y1r4EaDvEipzhaaf@ubunlion>
- <SJ0PR03MB6778EAAB4132374270E96FFB99329@SJ0PR03MB6778.namprd03.prod.outlook.com>
- <5740bcb3490d4c17bd9bc731e79b174b@AcuMS.aculab.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FB7AD22
+	for <linux-staging@lists.linux.dev>; Fri,  4 Nov 2022 19:22:35 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id n83so6151111oif.11
+        for <linux-staging@lists.linux.dev>; Fri, 04 Nov 2022 12:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+CrrtBZaWaBIBfDEz9a9BacRZtXiPhURWnCTyiBknKU=;
+        b=f7SabvhELt4tvu58wD/HGUQtx2q3c42bp4689l/poRMwjHONs2y+uJybLQ6btnBic8
+         iSYK/T680hWQ8YubanyiQ/jk4TxtOOSgyzZyzTjBStaumbjkRAc3PTfrEP9z1ET4ppjL
+         os0cjm+F8kyIi27l3gX1TCu+EYDnb6I6sC6rEheSVAEJvEJuF1rkSUHHVYhQ9PjtWNZC
+         /KoHUhscmHo/jN1PCMTUxC8NT4KR3QukfsWt+gbIkumzBVh1p3Sny9bKzJeet5110tpk
+         HzVFo5k5iKj3j88DvNf1ucVPdH/av+bU0vEDu76g9bGVlHfWhJDUhqHlYTifQBH3QuBi
+         oWFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+CrrtBZaWaBIBfDEz9a9BacRZtXiPhURWnCTyiBknKU=;
+        b=uCDe5pbBGN88AsW/v5JHbNpOKb1wfUeb5o+HHITPS3oSNhXqhpYiceH/ub/oifLVMG
+         eXcJ/WqTJE76YHXxXc1s0QJDI3BA3SAfXBeoR36rujtlqTbSa3ROmHhpdx1sMW1oAGWt
+         weplFCZnv+S6kH14EmtusMfcqFfSUDZ1aaOqST6kuxBTKcJYuQxdsP8JtD8exzcmbYkx
+         Sd7tvpbmypSTHjwClEhvDzyhpAWmpuJ8qkBUsijSctrtwNfdB7NNGqdlmpZCMpJoxgCX
+         gTC6eo/yG2PXs7jTC6zfdl5zbtA+oXGxqQrKNP4pcD9JvP8goN+8QUYHt2vTbft/uK+p
+         IYRg==
+X-Gm-Message-State: ACrzQf2PAWpRLJ/0sv5DCb0mJVQc5yx7XQYwOh683Y862w11g1f58Cbf
+	NwEpyt3VJDd2VW5idyUmpjc=
+X-Google-Smtp-Source: AMsMyM5j57nGJ6ihP9Jnolnn5vAnBZp3njFzbqkVuO45h5Gs91zBtM7qMBV3ZTA/jEfxwCmFGOBzYQ==
+X-Received: by 2002:aca:2819:0:b0:359:f8a7:c88 with SMTP id 25-20020aca2819000000b00359f8a70c88mr260428oix.278.1667589755023;
+        Fri, 04 Nov 2022 12:22:35 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n132-20020acabd8a000000b003547a3401e6sm1729901oif.43.2022.11.04.12.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Nov 2022 12:22:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 4 Nov 2022 12:22:32 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Anna-Maria Gleixner <anna-maria@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+	netdev@vger.kernel.org, linux-pm@vger.kernel.org,
+	drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+	linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+	bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+	linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
+ freeing timers
+Message-ID: <20221104192232.GA2520396@roeck-us.net>
+References: <20221104054053.431922658@goodmis.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5740bcb3490d4c17bd9bc731e79b174b@AcuMS.aculab.com>
+In-Reply-To: <20221104054053.431922658@goodmis.org>
 
-On Sat, Oct 29, 2022 at 11:23:06AM +0000, David Laight wrote:
-> > > -----Original Message-----
-> > > From: Deepak R Varma <drv@mailo.com>
-> > >
-> > > [External]
-> > >
-> > > do_div() does a 64-by-32 division. Here the divisor is an unsigned long
-> > > which on some platforms is 64 bit wide. So use div64_ul instead of do_div
-> > > to avoid a possible truncation. Issue was identified using the
-> > > coccicheck tool.
->
-> These changes should all get nacked unless the domain of the values
-> can be shown to be out of range.
+On Fri, Nov 04, 2022 at 01:40:53AM -0400, Steven Rostedt wrote:
+> 
+> Back in April, I posted an RFC patch set to help mitigate a common issue
+> where a timer gets armed just before it is freed, and when the timer
+> goes off, it crashes in the timer code without any evidence of who the
+> culprit was. I got side tracked and never finished up on that patch set.
+> Since this type of crash is still our #1 crash we are seeing in the field,
+> it has become a priority again to finish it.
+> 
+> This is v3 of that patch set. Thomas Gleixner posted an untested version
+> that makes timer->function NULL as the flag that it is shutdown. I took that
+> code, tested it (fixed it up), added more comments, and changed the
+> name to timer_shutdown_sync(). I also converted it to use WARN_ON_ONCE()
+> instead of just WARN_ON() as Linus asked for.
+> 
 
-Hello David,
-I looked through the data sheets for these hardware [ad983*] and believe the
-divisor max can attain 75MHz which fits well in a 32 bit size. Hence the
-proposed changes for these drivers to switch to div64_ul may actually slowdown
-the division. Please correct if I said something incorrect.
+Unfortunately the renaming caused some symbol conflicts.
 
-Requesting to kindly ignore my proposed changes.
+Global definition: timer_shutdown
 
->
-> The entire point of do_div() is that because division is expensive
-> using a limited range division is significantly faster.
->
-> Even on Intel 64 bit cpu the 64 by 32 divide is significantly
-> faster then a full 64 bit divide for the same input values.
->
-> One might also question why the divisor is actually 'unsigned long'
-> at all. The code is almost certainly expected to compile for 32bit
-> so the domain of the value should fit in 32 bits.
-> So either the type could be unsigned int, or it really doesn't matter
-> that the value is truncated to 32bit because it can never be larger.
+  File             Line
+0 time.c            93 static inline void timer_shutdown(struct clock_event_device *evt)
+1 arm_arch_timer.c 690 static __always_inline int timer_shutdown(const int access,
+2 timer-fttmr010.c 105 int (*timer_shutdown)(struct clock_event_device *evt);
+3 timer-sp804.c    158 static inline void timer_shutdown(struct clock_event_device *evt)
+4 timer.h          239 static inline int timer_shutdown(struct timer_list *timer)
 
-Thank you for the detailed explanation. This is very helpful.
-
-
-
-Thank you for the detailed explanation. This is very helpful.
-
-./drv
-
->
-> 	David
->
->
-> > >
-> > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > ---
-> >
-> > Reviewed-by: Nuno Sá <nuno.sa@analog.com>
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
->
-
-
+Guenter
