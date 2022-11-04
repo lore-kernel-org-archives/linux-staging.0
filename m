@@ -1,97 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A101C3F;
-	Fri,  4 Nov 2022 15:31:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8C8BC433D7;
-	Fri,  4 Nov 2022 15:31:10 +0000 (UTC)
-Message-ID: <74f2c9cc-4856-4985-5b37-13ee20411b32@xs4all.nl>
-Date: Fri, 4 Nov 2022 16:31:09 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2069D8471;
+	Fri,  4 Nov 2022 16:55:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667580912; bh=hK6mqgJ+sOVpRgVX06v+zmV4Tw1LFEgTKYWKc1OCxOU=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=KMvnN5sopXVCGeEFEYViuop2afWaMmcxcYKF3G8fuUNrIhtTayo0N/FTszpEii0iD
+	 lwsUr/CswOSCtaRWP+O6nKx+s8xTj2bAXJFtu88rekt/qX6+qR0OSG0Mrtsh5I6XlX
+	 YAFNMdRPLUP0TRmWXKTw/DjFVcL2CL11JUfquGxQ=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Fri,  4 Nov 2022 17:55:12 +0100 (CET)
+X-EA-Auth: /omeScJ7L58w8McXgv460L47f3glzT4opVlNXbZp8Yq58W9dGImxfJjOe3K13s7qAoWmdE4gpkgpUfxlP/b/bTrajVVo0I5h
+Date: Fri, 4 Nov 2022 22:25:06 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: remove unused struct declarations
+Message-ID: <Y2VD6qTxXPpuufOo@qemulion>
+References: <Y2LYvhr74ng+xFbz@qemulion>
+ <e76c5fd4-442b-0f0e-73e8-c17acf11b471@gmail.com>
+ <Y2OOM8g0Qj1o6dRI@qemulion>
+ <2aeb10bc-178f-836e-eecd-c77f3eb2f0b5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2 00/11] media: cedrus: Format handling improvements and
- 10-bit HEVC support
-Content-Language: en-US
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
- paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
- samuel@sholland.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221102180810.267252-1-jernej.skrabec@gmail.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20221102180810.267252-1-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2aeb10bc-178f-836e-eecd-c77f3eb2f0b5@gmail.com>
 
-Hi Jernej,
+On Thu, Nov 03, 2022 at 10:19:05PM +0100, Philipp Hortmann wrote:
+> On 11/3/22 10:47, Deepak R Varma wrote:
+> > Hello Philipp,
+> > Thank you for testing the changes.
+> >
+> > Request (not urgent):
+> > Can you please help me understand how do you
+> > test such changes? Do we need specific hardware for functional tests? Is there a
+> > documentation available to know more about the testing? I am interested in
+> > attaching a physical device to my machine and be able to debug and test the
+> > changes. Can you please provide details when you have time?
+> >
+> > Thank you in advance!
+> > ./drv
+>
+> Hi Deepak,
+>
+> I do have one device for the following drivers:
+>
+> vt6656
+> vt6655
+> r8188eu
+> r8192e_pci
+> r8712u
 
-On 02/11/2022 19:07, Jernej Skrabec wrote:
-> While my first intention was to just add 10-bit HEVC handling, I noticed
-> a few format handling issues and a bit of redundancy in some cases. Final
-> result is that driver now sticks to stateless decoder rules better.
-> 
-> Format handling improvements:
-> 1. Default format selection is now based on HW capabilities. Before, MPEG2
->    was hardcoded but some Cedrus variants don't actually support it.
-> 2. Controls are registered only if related codec is supported by HW.
-> 3. Untiled output format is preferred, if supported, over tiled one. All
->    display engine cores support untiled format, but only first generation
->    supports tiled one.
-> 
-> I hope this makes Cedrus eligible for destaging.
-> 
-> Best regards,
-> Jernej
-> 
-> Changes from v1:
-> - collected acks, except for patch 5, which was changed
-> - use cedrus_is_capable() for cedrus_find_format() too (patch 4)
-> - tightly pack control pointers in ctx->ctrls[] (patch 5)
-> 
-> Jernej Skrabec (11):
->   media: cedrus: remove superfluous call
->   media: cedrus: Add format reset helpers
->   media: cedrus: use helper to set default formats
->   media: cedrus: Add helper for checking capabilities
->   media: cedrus: Filter controls based on capability
->   media: cedrus: set codec ops immediately
->   media: cedrus: Remove cedrus_codec enum
->   media: cedrus: prefer untiled capture format
->   media: cedrus: initialize controls a bit later
+Wow... that sounds like a very useful set (and a lot of testing time :) )
 
-I'm going to merge the first 9 patches, but leave out the last
-two. It's weird what happens there, and I think those two need a
-bit more work.
+>
+> Minimum test is to measure the transfer speed and see if that is as
+> expected.
+>
+> When I doubt that the changed code is used I use ftrace to see if the code
+> is used. But of course I do not test every possibility.
 
-Regards,
+Okay. May be as I gain more knowledge, I will be able to apply it as well. I
+hope it will be okay to connect with you in future if an opportunity arises.
 
-	Hans
+>
+> I hope you have the money to be able to buy hardware. Without it is not fun.
+>
+> I would choose r8188eu (USB) or r8192e_pci.
 
->   media: cedrus: Adjust buffer size based on control values
->   media: cedrus: h265: Support decoding 10-bit frames
-> 
->  drivers/staging/media/sunxi/cedrus/cedrus.c   | 102 +++++----
->  drivers/staging/media/sunxi/cedrus/cedrus.h   |  22 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   4 +-
->  .../staging/media/sunxi/cedrus/cedrus_h264.c  |   2 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  37 +++-
->  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  18 +-
->  .../staging/media/sunxi/cedrus/cedrus_hw.h    |   2 +-
->  .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   2 +-
->  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  16 ++
->  .../staging/media/sunxi/cedrus/cedrus_video.c | 200 ++++++++++--------
->  .../staging/media/sunxi/cedrus/cedrus_video.h |   2 +
->  .../staging/media/sunxi/cedrus/cedrus_vp8.c   |   2 +-
->  12 files changed, 244 insertions(+), 165 deletions(-)
-> 
-> --
-> 2.38.1
-> 
+Thank you so much for the recommendation. I will find out the cost and see if I
+can buy one of those.
+
+Have a great weekend!
+./drv
+
+>
+> Bye Philipp
+>
+
 
