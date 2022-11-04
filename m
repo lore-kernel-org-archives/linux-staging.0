@@ -1,77 +1,127 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028FF1C10;
-	Fri,  4 Nov 2022 14:42:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667572936; bh=T3OgI0NGyKucc5ebvWG2uKcZ/0JteubuO2ZxTytgP/I=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=HMAP6Fz8KezIEsbOy3MjSIi+qjYMEKBviCJoBDqW3Qld2gF6TCB2s0+QKo38TwBtI
-	 bb9gx1EduHn4/h6xaN2zczdtuDNehmB7aeyOmgb+pxlyhnboXkVFLbKdY8VfsQR3oa
-	 lcYJbF9Dy0U8CMjCzCOTWfUAzQf9OVXicHvLCFe4=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Fri,  4 Nov 2022 15:42:16 +0100 (CET)
-X-EA-Auth: DdVu9IX4hw4A4UzDQdO9q5PajoGUFgj0H9It2PZJAKB2I8CzY4aZOF0ISi2FL8RcG6fVet1LWR9fkyueDxeTTHQoqTZt0r18
-Date: Fri, 4 Nov 2022 20:12:11 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Julia Lawall <julia.lawall@inria.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: Use ARRAY_SIZE() to get argument count
-Message-ID: <Y2UkwwUn+IaCq3wf@qemulion>
-References: <Y1vZXUi0Bjiub8HZ@ubunlion>
- <Y1zXIjCe3LGwApWD@kroah.com>
- <Y11b0oCmle2pbRel@ubunlion>
- <alpine.DEB.2.22.394.2210291931590.2917@hadrien>
- <Y191LI7zKVRA5LEb@ubunlion>
- <Y1+YC5OuycA5hLFx@ubunlion>
- <7dc9b4d2-413-3f65-1381-b164d810c3ee@inria.fr>
- <Y2T/FA0Ws9ExS+uz@qemulion>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FF21C3F;
+	Fri,  4 Nov 2022 15:27:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D9BC433D7;
+	Fri,  4 Nov 2022 15:27:31 +0000 (UTC)
+Message-ID: <76c3fc1b-e90f-748c-39ee-74be93fd6811@xs4all.nl>
+Date: Fri, 4 Nov 2022 16:27:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2T/FA0Ws9ExS+uz@qemulion>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v2 10/11] media: cedrus: Adjust buffer size based on
+ control values
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+ samuel@sholland.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221102180810.267252-1-jernej.skrabec@gmail.com>
+ <20221102180810.267252-11-jernej.skrabec@gmail.com>
+Content-Language: en-US
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20221102180810.267252-11-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 04, 2022 at 05:31:24PM +0530, Deepak R Varma wrote:
-> On Mon, Oct 31, 2022 at 01:05:32PM +0100, Julia Lawall wrote:
-> >
-> >
-> > I took a look, but it's pretty complex.  You could take the code and
-> > reorganize it so that it is more readable, and then take the definition of
-> > the ARRAY_SIZE macro, to better see what is going on.
-> >
-> > julia
-> >
->
-> Hello Greg, Julia,
-> I was able to successfully build the fbtft object file for arm architecture as
-> well. I used gcc 6.5.0 and 9.5.0 tool chains. It was successful using both. I
-> have attached the build log from my machine for your reference.
->
-> I am also looking at the .i file and rearrange the expanded macro to understand
-> it. However, since it is built successfully, I am not sure if that is truly the
-> problem area.
->
-> Should I resend the patch and check if it still errors the kernel build bot?
-> Anything else I can try?
+Hi Jernej,
 
-Looks like the change I proposed is causing nesting inside the write_reg
-function due to additional set of { & } brackets for the __VA_ARGS__ symbol.
+On 02/11/2022 19:08, Jernej Skrabec wrote:
+> In some cases decoding engine needs extra space in capture buffers. This
+> is the case for decoding 10-bit HEVC frames into 8-bit capture format.
+> This commit only adds infrastructure for such cases.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c       | 14 ++++++++++++++
+>  drivers/staging/media/sunxi/cedrus/cedrus.h       |  2 ++
+>  drivers/staging/media/sunxi/cedrus/cedrus_video.c |  4 ++++
+>  3 files changed, 20 insertions(+)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> index 6a2c08928613..c36999e47591 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -68,8 +68,22 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+>  
+> +static int cedrus_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct cedrus_ctx *ctx = container_of(ctrl->handler,
+> +					      struct cedrus_ctx, hdl);
+> +	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+> +					       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +
+> +	if (!vb2_is_busy(vq) && !vb2_is_streaming(vq))
 
-Am I understanding it right?
+You can drop the !vb2_is_streaming part. If you are streaming, then
+it will also be 'busy'.
 
->
-> Thank you,
-> ./drv
+> +		cedrus_reset_cap_format(ctx);
 
+This is weird. I would expect that this is only called for specific controls,
+since presumably not all will change the sizeimage value. It looks like
+it applies only to V4L2_CID_STATELESS_HEVC_SPS, so I see no reason why
+you would call cedrus_reset_cap_format() for other controls as well.
 
+And what happens if someone makes such a change *while streaming*?
+Shouldn't cedrus_try_ctrl detect that and fail with -EBUSY in that case?
+
+Regardless, this is unexpected behavior, so some explanatory comments
+would be useful.
+
+I'm also not sure whether it isn't better to add cedrus_s_ctrl in the next
+patch, I think it would be more understandable when seen with an actual
+control.
+
+Regards,
+
+	Hans
+
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_ctrl_ops cedrus_ctrl_ops = {
+>  	.try_ctrl = cedrus_try_ctrl,
+> +	.s_ctrl = cedrus_s_ctrl,
+>  };
+>  
+>  static const struct cedrus_control cedrus_controls[] = {
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> index 5904294f3108..774fe8048ce3 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> @@ -162,6 +162,8 @@ struct cedrus_dec_ops {
+>  	int (*start)(struct cedrus_ctx *ctx);
+>  	void (*stop)(struct cedrus_ctx *ctx);
+>  	void (*trigger)(struct cedrus_ctx *ctx);
+> +	unsigned int (*extra_cap_size)(struct cedrus_ctx *ctx,
+> +				       struct v4l2_pix_format *pix_fmt);
+>  };
+>  
+>  struct cedrus_variant {
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> index dec5d3ae4871..dc67940f1ade 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -250,6 +250,10 @@ static int cedrus_try_fmt_vid_cap_p(struct cedrus_ctx *ctx,
+>  	pix_fmt->height = ctx->src_fmt.height;
+>  	cedrus_prepare_format(pix_fmt);
+>  
+> +	if (ctx->current_codec->extra_cap_size)
+> +		pix_fmt->sizeimage +=
+> +			ctx->current_codec->extra_cap_size(ctx, pix_fmt);
+> +
+>  	return 0;
+>  }
+>  
 
