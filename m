@@ -1,210 +1,162 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAB11FA6
-	for <linux-staging@lists.linux.dev>; Sat,  5 Nov 2022 10:00:45 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id 4so7046302pli.0
-        for <linux-staging@lists.linux.dev>; Sat, 05 Nov 2022 03:00:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C83E185B
+	for <linux-staging@lists.linux.dev>; Sat,  5 Nov 2022 11:07:00 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id y16so10094490wrt.12
+        for <linux-staging@lists.linux.dev>; Sat, 05 Nov 2022 04:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JToYLUSSy/i5m9Py7IH/T54uqRiJj7SvKEgsJsBwYtc=;
-        b=YgwCtTuZYJ//lmjh+GHpYXIMqFSoQBNpDazWKHjIbdxv+yjFzv4LYnSYD5XzEMuE5Z
-         7StXWVhGbbNgbASn+odYhDRCP8sh+YBMDSEtecU9794/EGNp+PMatucq2fqpVY2l1tYQ
-         97u10QeplCBvqrHSUngVSwUSrUgW2PoNZwSwT+9ETfki+ZS4CV1RPYvUP+R5qkb86pB2
-         ZhAEh3Kl3o3ekdml9cHjP5ZYkbyd1D7jE9V09NWL5fpae7n/LUl4lq9mujCMf++9wQOD
-         MQnitSMwn486VycY2O+XVUcAqPoaSvheFfw7HnDAYQA2hqFcjPYECafdIK09O0fMgkqh
-         6Qdw==
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Esm2JJwSNEtII9L8+muwgLgVSZNMbFgxAhVuFsoBzJo=;
+        b=c5+aIiBdvqAKKrDFxzewBNxEU0MCXXczY9NEnI9ntcRQWR59O6mh3ZcLogXk+k5/s7
+         TUw5r7fWxjURengwrylerkNusffeCAOXcfnIyj48vVJyTaSc6jX/XFLPP1z3GDjUdrM0
+         BBzo8BfXgu6GNnp+iiwJCrdq+f6S2BOURpsDs5iWyki6KCspnwh0tvPNNuJoQxzPxoQv
+         VE7knBtABQyBW4C7Zpe6kgoWLNH2V7THs63pkR+wS79sq77bePn3OrBm9SKvrguZt762
+         tnNvjPRFUdU8kdM1Kc/UjccG6GuNamLgeevFqMtRPwlUVVRLGscaMa1YdUNRD1jT60hx
+         LshA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JToYLUSSy/i5m9Py7IH/T54uqRiJj7SvKEgsJsBwYtc=;
-        b=zsTH/JrJmFNs6RQ0TRNzh2+QJLqHOGQiQ+tOhhCE2tP9YGa8lszmjbzWD0arIktP5g
-         DZyKCQcfrJMqZYoQOUBZTTOKlZV/97kJw8M9tCnDSd15t0k8dkomVvPAw22CVGXaVWtP
-         iOF7kS1n7XdQM5D4j2/je2964wYx+zc2VqH5oI+lY89NSqMeh0jd5Vd72MMG784CFAbk
-         rMGGXZo25qGzf5Sq1rQ152NP4MHCqrtELNnyRMVYOElUj4QfoBVOBFHlz5Q9wrzhkcTF
-         +1mm9FYBEYRyiAQS8jgd3O/st1YYs9T2VQCpaL8YYD25x8AQ4gvIOPS2b0+kgLN2KCxl
-         M5AA==
-X-Gm-Message-State: ACrzQf2ltcgmG2843MxG2skk3QY82ljx1nVnlxrV6mR8SRuPjf7Jg9ex
-	AqvCfptm61AQAUZ7Trgf7MFH8asCXNb9z23B
-X-Google-Smtp-Source: AMsMyM4e+mUO4sg6qtsu0zY4bqfOq2cBTeUC3O4Z1WHF+1Z5QBZUgeEwREL/vbd/JeeqREXuicnfWA==
-X-Received: by 2002:a17:902:d54a:b0:186:e852:6775 with SMTP id z10-20020a170902d54a00b00186e8526775mr39989783plf.44.1667642445183;
-        Sat, 05 Nov 2022 03:00:45 -0700 (PDT)
-Received: from jacob-Ubuntu (126.224.215.218.sta.wbroadband.net.au. [218.215.224.126])
-        by smtp.gmail.com with ESMTPSA id h37-20020a635765000000b00412a708f38asm979171pgm.35.2022.11.05.03.00.44
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Esm2JJwSNEtII9L8+muwgLgVSZNMbFgxAhVuFsoBzJo=;
+        b=QgK01paYrelKLt75a/NCBntLzeB0nMF9KK6t0PgEfuDgrPMpK+bAUiOpkq7dG+Pk3G
+         uPknaaPtH8bQ0pkwdgD4cu716LcjVIFtNe5CckBDxKbOPcpTkiP06wWIOfz+ybxR+uTb
+         EJ9/xy1FW9GPo9E9Jl62cbyHkyAjwIBdAzjBRfgV9tafQ3KQMcPEZ3ckB5s/eEHOVYS/
+         5aFVwENFY/pOvfAD5w6x+jO3CmKts2q+jWSK+oYpmMSHyj//tStNHDuLTHHbpalVQqFc
+         WYF0MdZi+PfXtpaW2K7CB0wwAN5S1IrmYPXbZbxvjBwEqBX7cbEk02klj7MR7/jnyGzZ
+         /42Q==
+X-Gm-Message-State: ACrzQf2TxNkq9E5FH8Dru+2gfBgoMftxeYTch3nbsBkFLosJDdm2MAEQ
+	/Cs0kRMmYIVex/tTDV37mreykA==
+X-Google-Smtp-Source: AMsMyM6bWqNuvE/LnoopQ1YGfhnMh3Fy0fDRMD4RQRLm7T1BJFBq0X19aIWJyJU5F5wGAB58SPrnKA==
+X-Received: by 2002:adf:e64e:0:b0:236:76a9:446 with SMTP id b14-20020adfe64e000000b0023676a90446mr26046252wrn.696.1667646418698;
+        Sat, 05 Nov 2022 04:06:58 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id iv9-20020a05600c548900b003cf87623c16sm6196172wmb.4.2022.11.05.04.06.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Nov 2022 03:00:44 -0700 (PDT)
-From: Jacob Bai <jacob.bai.au@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Jacob Bai <jacob.bai.au@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8192e: remove unnecesscary macro define
-Date: Sat,  5 Nov 2022 21:00:30 +1100
-Message-Id: <f71f1bd4e20f41fbe99944240437d8fca35e8d0c.1667641211.git.jacob.bai.au@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1667641211.git.jacob.bai.au@gmail.com>
-References: <cover.1667641211.git.jacob.bai.au@gmail.com>
+        Sat, 05 Nov 2022 04:06:58 -0700 (PDT)
+Date: Sat, 5 Nov 2022 11:06:56 +0000
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: convert three functions to bool
+Message-ID: <Y2ZD0B6bsDbdpa6A@equinox>
+References: <20221105093916.8255-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221105093916.8255-1-straube.linux@gmail.com>
 
-remove useless macro defines
+On Sat, Nov 05, 2022 at 10:39:16AM +0100, Michael Straube wrote:
+> The functions
+> 
+> is_client_associated_to_ap()
+> is_client_associated_to_ibss()
+> is_IBSS_empty()
+> 
+> return boolean values. Convert their return type to bool and replace
+> _FAIL, which is defined as 0, with false. Another step to get rid of
+> _SUCCESS / _FAIL.
+> 
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_wlan_util.c   | 18 +++++++++---------
+>  drivers/staging/r8188eu/include/rtw_mlme_ext.h |  6 +++---
+>  2 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> index e50631848cab..c95438a12b59 100644
+> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> @@ -331,35 +331,35 @@ u16 get_beacon_interval(struct wlan_bssid_ex *bss)
+>  	return le16_to_cpu(val);
+>  }
+>  
+> -int is_client_associated_to_ap(struct adapter *padapter)
+> +bool is_client_associated_to_ap(struct adapter *padapter)
+>  {
+>  	struct mlme_ext_priv	*pmlmeext;
+>  	struct mlme_ext_info	*pmlmeinfo;
+>  
+>  	if (!padapter)
+> -		return _FAIL;
+> +		return false;
+>  
+>  	pmlmeext = &padapter->mlmeextpriv;
+>  	pmlmeinfo = &pmlmeext->mlmext_info;
+>  
+>  	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE))
+>  		return true;
+> -	else
+> -		return _FAIL;
+> +
+> +	return false;
+>  }
+>  
+> -int is_client_associated_to_ibss(struct adapter *padapter)
+> +bool is_client_associated_to_ibss(struct adapter *padapter)
+>  {
+>  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+>  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+>  
+>  	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
+>  		return true;
+> -	else
+> -		return _FAIL;
+> +
+> +	return false;
+>  }
+>  
+> -int is_IBSS_empty(struct adapter *padapter)
+> +bool is_IBSS_empty(struct adapter *padapter)
+>  {
+>  	unsigned int i;
+>  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+> @@ -367,7 +367,7 @@ int is_IBSS_empty(struct adapter *padapter)
+>  
+>  	for (i = IBSS_START_MAC_ID; i < NUM_STA; i++) {
+>  		if (pmlmeinfo->FW_sta_info[i].status == 1)
+> -			return _FAIL;
+> +			return false;
+>  	}
+>  	return true;
+>  }
+> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> index e234a3b9af6f..7652e72a03f4 100644
+> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> @@ -432,9 +432,9 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
+>  u8 *get_my_bssid(struct wlan_bssid_ex *pnetwork);
+>  u16 get_beacon_interval(struct wlan_bssid_ex *bss);
+>  
+> -int is_client_associated_to_ap(struct adapter *padapter);
+> -int is_client_associated_to_ibss(struct adapter *padapter);
+> -int is_IBSS_empty(struct adapter *padapter);
+> +bool is_client_associated_to_ap(struct adapter *padapter);
+> +bool is_client_associated_to_ibss(struct adapter *padapter);
+> +bool is_IBSS_empty(struct adapter *padapter);
+>  
+>  unsigned char check_assoc_AP(u8 *pframe, uint len);
+>  
+> -- 
+> 2.38.0
+> 
 
-Signed-off-by: Jacob Bai <jacob.bai.au@gmail.com>
----
- .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 52 +++++++++----------
- .../staging/rtl8192e/rtl8192e/r8192E_phy.h    | 20 -------
- 2 files changed, 26 insertions(+), 46 deletions(-)
+Hi Michael,
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index eabb4187d907..aad1842857c0 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -307,12 +307,12 @@ void rtl92e_config_mac(struct net_device *dev)
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
- 	if (priv->bTXPowerDataReadFromEEPORM) {
--		dwArrayLen = MACPHY_Array_PGLength;
--		pdwArray = Rtl819XMACPHY_Array_PG;
-+		dwArrayLen = RTL8192E_MAC_ARRAY_PG_LEN;
-+		pdwArray = RTL8192E_MAC_ARRAY_PG;
- 
- 	} else {
--		dwArrayLen = MACPHY_ArrayLength;
--		pdwArray = Rtl819XMACPHY_Array;
-+		dwArrayLen = RTL8192E_MAC_ARRAY_LEN;
-+		pdwArray = RTL8192E_MAC_ARRAY;
- 	}
- 	for (i = 0; i < dwArrayLen; i += 3) {
- 		if (pdwArray[i] == 0x318)
-@@ -332,14 +332,14 @@ static void _rtl92e_phy_config_bb(struct net_device *dev, u8 ConfigType)
- 	u16 AGCTAB_ArrayLen, PHY_REGArrayLen = 0;
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
--	AGCTAB_ArrayLen = AGCTAB_ArrayLength;
--	Rtl819XAGCTAB_Array_Table = Rtl819XAGCTAB_Array;
-+	AGCTAB_ArrayLen = RTL8192E_AGC_TAB_ARRAY_LEN;
-+	Rtl819XAGCTAB_Array_Table = RTL8192E_AGC_TAB_ARRAY;
- 	if (priv->rf_type == RF_2T4R) {
--		PHY_REGArrayLen = PHY_REGArrayLength;
--		Rtl819XPHY_REGArray_Table = Rtl819XPHY_REGArray;
-+		PHY_REGArrayLen = RTL8192E_PHY_REG_ARRAY_LEN;
-+		Rtl819XPHY_REGArray_Table = RTL8192E_PHY_REG_ARRAY;
- 	} else if (priv->rf_type == RF_1T2R) {
--		PHY_REGArrayLen = PHY_REG_1T2RArrayLength;
--		Rtl819XPHY_REGArray_Table = Rtl819XPHY_REG_1T2RArray;
-+		PHY_REGArrayLen = RTL8192E_PHY_REG_1T2R_ARRAY_LEN;
-+		Rtl819XPHY_REGArray_Table = RTL8192E_PHY_REG_1T2R_ARRAY;
- 	}
- 
- 	if (ConfigType == BaseBand_Config_PHY_REG) {
-@@ -668,50 +668,50 @@ u8 rtl92e_config_rf_path(struct net_device *dev, enum rf90_radio_path eRFPath)
- 
- 	switch (eRFPath) {
- 	case RF90_PATH_A:
--		for (i = 0; i < RadioA_ArrayLength; i += 2) {
--			if (Rtl819XRadioA_Array[i] == 0xfe) {
-+		for (i = 0; i < RTL8192E_RADIOA_ARRAY_LEN; i += 2) {
-+			if (RTL8192E_RADIOA_ARRAY[i] == 0xfe) {
- 				msleep(100);
- 				continue;
- 			}
--			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioA_Array[i],
-+			rtl92e_set_rf_reg(dev, eRFPath, RTL8192E_RADIOA_ARRAY[i],
- 					  bMask12Bits,
--					  Rtl819XRadioA_Array[i+1]);
-+					  RTL8192E_RADIOA_ARRAY[i+1]);
- 
- 		}
- 		break;
- 	case RF90_PATH_B:
--		for (i = 0; i < RadioB_ArrayLength; i += 2) {
--			if (Rtl819XRadioB_Array[i] == 0xfe) {
-+		for (i = 0; i < RTL8192E_RADIOB_ARRAY_LEN; i += 2) {
-+			if (RTL8192E_RADIOB_ARRAY[i] == 0xfe) {
- 				msleep(100);
- 				continue;
- 			}
--			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioB_Array[i],
-+			rtl92e_set_rf_reg(dev, eRFPath, RTL8192E_RADIOB_ARRAY[i],
- 					  bMask12Bits,
--					  Rtl819XRadioB_Array[i+1]);
-+					  RTL8192E_RADIOB_ARRAY[i+1]);
- 
- 		}
- 		break;
- 	case RF90_PATH_C:
--		for (i = 0; i < RadioC_ArrayLength; i += 2) {
--			if (Rtl819XRadioC_Array[i] == 0xfe) {
-+		for (i = 0; i < RTL8192E_RADIOC_ARRAY_LEN; i += 2) {
-+			if (RTL8192E_RADIOC_ARRAY[i] == 0xfe) {
- 				msleep(100);
- 				continue;
- 			}
--			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioC_Array[i],
-+			rtl92e_set_rf_reg(dev, eRFPath, RTL8192E_RADIOC_ARRAY[i],
- 					  bMask12Bits,
--					  Rtl819XRadioC_Array[i+1]);
-+					  RTL8192E_RADIOC_ARRAY[i+1]);
- 
- 		}
- 		break;
- 	case RF90_PATH_D:
--		for (i = 0; i < RadioD_ArrayLength; i += 2) {
--			if (Rtl819XRadioD_Array[i] == 0xfe) {
-+		for (i = 0; i < RTL8192E_RADIOD_ARRAY_LEN; i += 2) {
-+			if (RTL8192E_RADIOD_ARRAY[i] == 0xfe) {
- 				msleep(100);
- 				continue;
- 			}
--			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioD_Array[i],
-+			rtl92e_set_rf_reg(dev, eRFPath, RTL8192E_RADIOD_ARRAY[i],
- 					  bMask12Bits,
--					  Rtl819XRadioD_Array[i+1]);
-+					  RTL8192E_RADIOD_ARRAY[i+1]);
- 
- 		}
- 		break;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-index e1c1f19b71a3..5e6527e835db 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-@@ -9,26 +9,6 @@
- 
- #define MAX_DOZE_WAITING_TIMES_9x 64
- 
--#define AGCTAB_ArrayLength			RTL8192E_AGC_TAB_ARRAY_LEN
--#define MACPHY_ArrayLength			RTL8192E_MAC_ARRAY_LEN
--#define RadioA_ArrayLength			RTL8192E_RADIOA_ARRAY_LEN
--#define RadioB_ArrayLength			RTL8192E_RADIOB_ARRAY_LEN
--#define MACPHY_Array_PGLength			RTL8192E_MAC_ARRAY_PG_LEN
--#define RadioC_ArrayLength			RTL8192E_RADIOC_ARRAY_LEN
--#define RadioD_ArrayLength			RTL8192E_RADIOD_ARRAY_LEN
--#define PHY_REGArrayLength			RTL8192E_PHY_REG_ARRAY_LEN
--#define PHY_REG_1T2RArrayLength			RTL8192E_PHY_REG_1T2R_ARRAY_LEN
--
--#define Rtl819XMACPHY_Array_PG			RTL8192E_MAC_ARRAY_PG
--#define Rtl819XMACPHY_Array			RTL8192E_MAC_ARRAY
--#define Rtl819XRadioA_Array			RTL8192E_RADIOA_ARRAY
--#define Rtl819XRadioB_Array			RTL8192E_RADIOB_ARRAY
--#define Rtl819XRadioC_Array			RTL8192E_RADIOC_ARRAY
--#define Rtl819XRadioD_Array			RTL8192E_RADIOD_ARRAY
--#define Rtl819XAGCTAB_Array			RTL8192E_AGC_TAB_ARRAY
--#define Rtl819XPHY_REGArray			RTL8192E_PHY_REG_ARRAY
--#define Rtl819XPHY_REG_1T2RArray		RTL8192E_PHY_REG_1T2R_ARRAY
--
- extern u32 rtl819XAGCTAB_Array[];
- 
- enum hw90_block {
--- 
-2.34.1
+Thanks for the patch. Just my personal opinion, but I would prefer to
+keep the return type as int, and have 0 for success and then _FAIL
+replaced with an appropriate error code depending on the circumstance,
+(e.g. -ENOMEM). This is generally the convention elsewhere in the
+kernel. Others may not agree though.
 
+All the best,
+Phil
