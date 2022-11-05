@@ -1,50 +1,27 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C83E185B
-	for <linux-staging@lists.linux.dev>; Sat,  5 Nov 2022 11:07:00 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id y16so10094490wrt.12
-        for <linux-staging@lists.linux.dev>; Sat, 05 Nov 2022 04:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Esm2JJwSNEtII9L8+muwgLgVSZNMbFgxAhVuFsoBzJo=;
-        b=c5+aIiBdvqAKKrDFxzewBNxEU0MCXXczY9NEnI9ntcRQWR59O6mh3ZcLogXk+k5/s7
-         TUw5r7fWxjURengwrylerkNusffeCAOXcfnIyj48vVJyTaSc6jX/XFLPP1z3GDjUdrM0
-         BBzo8BfXgu6GNnp+iiwJCrdq+f6S2BOURpsDs5iWyki6KCspnwh0tvPNNuJoQxzPxoQv
-         VE7knBtABQyBW4C7Zpe6kgoWLNH2V7THs63pkR+wS79sq77bePn3OrBm9SKvrguZt762
-         tnNvjPRFUdU8kdM1Kc/UjccG6GuNamLgeevFqMtRPwlUVVRLGscaMa1YdUNRD1jT60hx
-         LshA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Esm2JJwSNEtII9L8+muwgLgVSZNMbFgxAhVuFsoBzJo=;
-        b=QgK01paYrelKLt75a/NCBntLzeB0nMF9KK6t0PgEfuDgrPMpK+bAUiOpkq7dG+Pk3G
-         uPknaaPtH8bQ0pkwdgD4cu716LcjVIFtNe5CckBDxKbOPcpTkiP06wWIOfz+ybxR+uTb
-         EJ9/xy1FW9GPo9E9Jl62cbyHkyAjwIBdAzjBRfgV9tafQ3KQMcPEZ3ckB5s/eEHOVYS/
-         5aFVwENFY/pOvfAD5w6x+jO3CmKts2q+jWSK+oYpmMSHyj//tStNHDuLTHHbpalVQqFc
-         WYF0MdZi+PfXtpaW2K7CB0wwAN5S1IrmYPXbZbxvjBwEqBX7cbEk02klj7MR7/jnyGzZ
-         /42Q==
-X-Gm-Message-State: ACrzQf2TxNkq9E5FH8Dru+2gfBgoMftxeYTch3nbsBkFLosJDdm2MAEQ
-	/Cs0kRMmYIVex/tTDV37mreykA==
-X-Google-Smtp-Source: AMsMyM6bWqNuvE/LnoopQ1YGfhnMh3Fy0fDRMD4RQRLm7T1BJFBq0X19aIWJyJU5F5wGAB58SPrnKA==
-X-Received: by 2002:adf:e64e:0:b0:236:76a9:446 with SMTP id b14-20020adfe64e000000b0023676a90446mr26046252wrn.696.1667646418698;
-        Sat, 05 Nov 2022 04:06:58 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id iv9-20020a05600c548900b003cf87623c16sm6196172wmb.4.2022.11.05.04.06.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Nov 2022 04:06:58 -0700 (PDT)
-Date: Sat, 5 Nov 2022 11:06:56 +0000
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2029C1FBE;
+	Sat,  5 Nov 2022 11:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667646959; bh=qpdJDaTBBCeIGg/s5FF6Owl+Qmp6uRMXzQxAbIrbnuI=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=QEqVKTAPIE8aJpYbG134PB+D10efGJZIBF3i4rmr9CyGOt5QNa7T3Z3Oqr9ay+x4S
+	 2KdJvUt8JCf58UlxTFlFurGsWnIaNT2EbcrVNzRveBajL2cI3nq1J2xB1m0QOURsnL
+	 q1RLEaBbTFP2OHAc/zG0OLNitkQEuGQLTr/kLHKg=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Sat,  5 Nov 2022 12:15:59 +0100 (CET)
+X-EA-Auth: 0a3f/EhSvrbBZHBeZyD0G94mZtjjVEpUBuHyJrOYrVpONyWHt6JggA7qfN8IfBJcHiOq+0DctaiIqmf6ffj7q2hvF9duzjeM
+Date: Sat, 5 Nov 2022 16:45:52 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: convert three functions to bool
-Message-ID: <Y2ZD0B6bsDbdpa6A@equinox>
-References: <20221105093916.8255-1-straube.linux@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: replace underutilized struct by array
+ variable
+Message-ID: <Y2ZF6O1KU3zZ6r3C@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,110 +30,135 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221105093916.8255-1-straube.linux@gmail.com>
 
-On Sat, Nov 05, 2022 at 10:39:16AM +0100, Michael Straube wrote:
-> The functions
-> 
-> is_client_associated_to_ap()
-> is_client_associated_to_ibss()
-> is_IBSS_empty()
-> 
-> return boolean values. Convert their return type to bool and replace
-> _FAIL, which is defined as 0, with false. Another step to get rid of
-> _SUCCESS / _FAIL.
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_wlan_util.c   | 18 +++++++++---------
->  drivers/staging/r8188eu/include/rtw_mlme_ext.h |  6 +++---
->  2 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> index e50631848cab..c95438a12b59 100644
-> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> @@ -331,35 +331,35 @@ u16 get_beacon_interval(struct wlan_bssid_ex *bss)
->  	return le16_to_cpu(val);
->  }
->  
-> -int is_client_associated_to_ap(struct adapter *padapter)
-> +bool is_client_associated_to_ap(struct adapter *padapter)
->  {
->  	struct mlme_ext_priv	*pmlmeext;
->  	struct mlme_ext_info	*pmlmeinfo;
->  
->  	if (!padapter)
-> -		return _FAIL;
-> +		return false;
->  
->  	pmlmeext = &padapter->mlmeextpriv;
->  	pmlmeinfo = &pmlmeext->mlmext_info;
->  
->  	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE))
->  		return true;
-> -	else
-> -		return _FAIL;
-> +
-> +	return false;
->  }
->  
-> -int is_client_associated_to_ibss(struct adapter *padapter)
-> +bool is_client_associated_to_ibss(struct adapter *padapter)
->  {
->  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
->  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
->  
->  	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
->  		return true;
-> -	else
-> -		return _FAIL;
-> +
-> +	return false;
->  }
->  
-> -int is_IBSS_empty(struct adapter *padapter)
-> +bool is_IBSS_empty(struct adapter *padapter)
->  {
->  	unsigned int i;
->  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
-> @@ -367,7 +367,7 @@ int is_IBSS_empty(struct adapter *padapter)
->  
->  	for (i = IBSS_START_MAC_ID; i < NUM_STA; i++) {
->  		if (pmlmeinfo->FW_sta_info[i].status == 1)
-> -			return _FAIL;
-> +			return false;
->  	}
->  	return true;
->  }
-> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> index e234a3b9af6f..7652e72a03f4 100644
-> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> @@ -432,9 +432,9 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
->  u8 *get_my_bssid(struct wlan_bssid_ex *pnetwork);
->  u16 get_beacon_interval(struct wlan_bssid_ex *bss);
->  
-> -int is_client_associated_to_ap(struct adapter *padapter);
-> -int is_client_associated_to_ibss(struct adapter *padapter);
-> -int is_IBSS_empty(struct adapter *padapter);
-> +bool is_client_associated_to_ap(struct adapter *padapter);
-> +bool is_client_associated_to_ibss(struct adapter *padapter);
-> +bool is_IBSS_empty(struct adapter *padapter);
->  
->  unsigned char check_assoc_AP(u8 *pframe, uint len);
->  
-> -- 
-> 2.38.0
-> 
+For structure iqk_matrix_regs_setting, only the "Value" member variable
+is utilized whereas the other struct members are only declared but not
+utilised. Replace the struct declaration and implementation by an
+equivalent variable similar to the only used struct member variable.
+While in there, update the macro mixed case names to uppercase style.
+The resultant code is simpler and is easy to maintain.
 
-Hi Michael,
+Suggested-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
 
-Thanks for the patch. Just my personal opinion, but I would prefer to
-keep the return type as int, and have 0 for success and then _FAIL
-replaced with an appropriate error code depending on the circumstance,
-(e.g. -ENOMEM). This is generally the convention elsewhere in the
-kernel. Others may not agree though.
+Changes in v2:
 
-All the best,
-Phil
+This patch now replaces the earlier patchset titled: "staging: rtl8723bs: struct
+iqk_matrix_regs_setting cleanup" made up of following two patches:
+   1. staging: rtl8723bs: Simplify underutilized 2D array to 1D array
+   2. staging: rtl8723bs: Remove unused member variable
+
+Based on the feedback received from gregkh@linuxfoundation.org and further code
+analysis, it is determined that the code can be further cleaned up and
+simplified. Hence the changes are now consolidated into a single patch replacing
+the earlier split patches.
+
+The changes are compile tested only.
+
+
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 21 +++++++++----------
+ drivers/staging/rtl8723bs/hal/odm.h           | 12 +++--------
+ 2 files changed, 13 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index a52748f7b56e..22e33b97800d 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -244,8 +244,8 @@ void ODM_TxPwrTrackSetPwr_8723B(
+ 			Final_CCK_Swing_Index = 0;
+
+ 		setIqkMatrix_8723B(pDM_Odm, Final_OFDM_Swing_Index, RFPath,
+-			pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][0],
+-			pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][1]);
++			pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[ChannelMappedIndex][0],
++			pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[ChannelMappedIndex][1]);
+
+ 		setCCKFilterCoefficient(pDM_Odm, Final_CCK_Swing_Index);
+
+@@ -257,8 +257,8 @@ void ODM_TxPwrTrackSetPwr_8723B(
+ 			pDM_Odm->Remnant_OFDMSwingIdx[RFPath] = Final_OFDM_Swing_Index - PwrTrackingLimit_OFDM;
+
+ 			setIqkMatrix_8723B(pDM_Odm, PwrTrackingLimit_OFDM, RFPath,
+-				pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][0],
+-				pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][1]);
++				pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[ChannelMappedIndex][0],
++				pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[ChannelMappedIndex][1]);
+
+ 			pDM_Odm->Modify_TxAGC_Flag_PathA = true;
+ 			PHY_SetTxPowerIndexByRateSection(Adapter, RFPath, pHalData->CurrentChannel, OFDM);
+@@ -267,16 +267,16 @@ void ODM_TxPwrTrackSetPwr_8723B(
+ 			pDM_Odm->Remnant_OFDMSwingIdx[RFPath] = Final_OFDM_Swing_Index;
+
+ 			setIqkMatrix_8723B(pDM_Odm, 0, RFPath,
+-				pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][0],
+-				pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][1]);
++				pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[ChannelMappedIndex][0],
++				pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[ChannelMappedIndex][1]);
+
+ 			pDM_Odm->Modify_TxAGC_Flag_PathA = true;
+ 			PHY_SetTxPowerIndexByRateSection(Adapter, RFPath, pHalData->CurrentChannel, OFDM);
+ 			PHY_SetTxPowerIndexByRateSection(Adapter, RFPath, pHalData->CurrentChannel, HT_MCS0_MCS7);
+ 		} else {
+ 			setIqkMatrix_8723B(pDM_Odm, Final_OFDM_Swing_Index, RFPath,
+-				pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][0],
+-				pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[ChannelMappedIndex].Value[0][1]);
++				pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[ChannelMappedIndex][0],
++				pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[ChannelMappedIndex][1]);
+
+ 			if (pDM_Odm->Modify_TxAGC_Flag_PathA) { /* If TxAGC has changed, reset TxAGC again */
+ 				pDM_Odm->Remnant_OFDMSwingIdx[RFPath] = 0;
+@@ -1759,9 +1759,8 @@ void PHY_IQCalibrate_8723B(
+ /* To Fix BSOD when final_candidate is 0xff */
+ /* by sherry 20120321 */
+ 	if (final_candidate < 4) {
+-		for (i = 0; i < IQK_Matrix_REG_NUM; i++)
+-			pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][i] = result[final_candidate][i];
+-		pDM_Odm->RFCalibrateInfo.IQKMatrixRegSetting[0].bIQKDone = true;
++		for (i = 0; i < IQK_MATRIX_REG_NUM; i++)
++			pDM_Odm->RFCalibrateInfo.iqk_matrix_regs_setting_value[0][i] = result[final_candidate][i];
+ 	}
+
+ 	_PHY_SaveADDARegisters8723B(padapter, IQK_BB_REG_92C, pDM_Odm->RFCalibrateInfo.IQK_BB_backup_recover, 9);
+diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
+index fe9782d2d4fd..f5c804a1b9d5 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.h
++++ b/drivers/staging/rtl8723bs/hal/odm.h
+@@ -193,8 +193,8 @@ struct odm_rate_adaptive {
+ #define HP_THERMAL_NUM		8
+
+ #define AVG_THERMAL_NUM		8
+-#define IQK_Matrix_REG_NUM	8
+-#define IQK_Matrix_Settings_NUM	14 /* Channels_2_4G_NUM */
++#define IQK_MATRIX_REG_NUM	8
++#define IQK_MATRIX_SETTINGS_NUM	14 /* Channels_2_4G_NUM */
+
+ #define		DM_Type_ByFW			0
+ #define		DM_Type_ByDriver		1
+@@ -479,12 +479,6 @@ enum odm_type_alna_e { /* tag_ODM_TYPE_ALNA_Definition */
+ 	TYPE_ALNA3 = BIT(3)|BIT(2)|BIT(1)|BIT(0)
+ };
+
+-struct iqk_matrix_regs_setting { /* _IQK_MATRIX_REGS_SETTING */
+-	bool bIQKDone;
+-	s32 Value[3][IQK_Matrix_REG_NUM];
+-	bool bBWIqkResultSaved[3];
+-};
+-
+ /* Remove PATHDIV_PARA struct to odm_PathDiv.h */
+
+ struct odm_rf_cal_t { /* ODM_RF_Calibration_Structure */
+@@ -530,7 +524,7 @@ struct odm_rf_cal_t { /* ODM_RF_Calibration_Structure */
+
+ 	u8 ThermalValue_HP[HP_THERMAL_NUM];
+ 	u8 ThermalValue_HP_index;
+-	struct iqk_matrix_regs_setting IQKMatrixRegSetting[IQK_Matrix_Settings_NUM];
++	s32 iqk_matrix_regs_setting_value[IQK_MATRIX_SETTINGS_NUM][IQK_MATRIX_REG_NUM];
+ 	bool bNeedIQK;
+ 	bool bIQKInProgress;
+ 	u8 Delta_IQK;
+--
+2.34.1
+
+
+
