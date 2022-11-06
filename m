@@ -1,113 +1,82 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF0F1851
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 14:35:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667745325; bh=Q/kWR0ROKF1W2o+qbF4bLCol/5LeEdbMZeXPMdUA0lI=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=ESwUuOJiJO5QGhfX5L4NLM7ByD9PJeJ7lAnUldjVotNQkTO8BdonXgkuv+sQolUON
-	 y7/PMTgEy+6E1QxM4VU15AniGK7/1K0VfYGE9h9Xs3yY/z4uZ2TRmyIXXgaRMWlCbe
-	 2+aQ5erXWqbcW4FUPvYju5eJwgsXPiPMLk+zWmA0=
-Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Sun,  6 Nov 2022 15:35:24 +0100 (CET)
-X-EA-Auth: YnrYQM0wED9JlR5wUwaNZRRqudN9GbO8Yahy7ySl9Z6jyfgQZJwR/uwJBs0+Is73pl51ajY3Gn33AiH/4peR9hCsFsruYFW+
-Date: Sun, 6 Nov 2022 20:05:06 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: clean up error handling in
- rtw_start_drv_threads()
-Message-ID: <Y2fGGsV5ZwxmkTNB@qemulion>
-References: <20221106133443.8872-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58ACD28EC
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 15:35:00 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id k2so24360710ejr.2
+        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 07:35:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9FDFktrW0wAx1f1BHMw8rTl7LtbuKPcvRcQH3aU1BUY=;
+        b=i1F0zpJdoS7qsJHG0GXrYnqlWxoIIgR98FqkJOT4VIq6uqdMEPlOrbb/9YtnRU7yAt
+         G1opFuHvwMiAwq/eWRolKzHqBzAOe4iocyZs9vnTuT4GQf3mL6gxJE3RRTMjA9KG5Mrj
+         57seTB88bwzKb9Zxki1vGNDTzZtzZ4vOIECiihG8fSHvOrPZ3ijUK46nI9L9v9eRYTqb
+         9vVYJHFqp51OvteKzRB1cuwbTmlWX9YajCyRHmAMsd0kkSC1W/0nvpNcn5a6lwlMkeqt
+         kRCFjMVNss63ocgICbmC7PajbzzfssQ2oA1C+MfWzGjf5k670t6Y1dajkc31F/+BsOxd
+         SjmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9FDFktrW0wAx1f1BHMw8rTl7LtbuKPcvRcQH3aU1BUY=;
+        b=Fs2VJgqHfyMDaXv+R2JDwl7pg9SGeu0CWu7iB5ftjt+DDoNeKNOxHfn4a72Sbt4xBh
+         ujWsDUsEVsFHD5Z0BUXKenKp1H5Ix1G05NoEcYvSdt3IyT6lDt5Dp9CQTDF30e3Bg8zw
+         o3OvZXjDamv+JO9tYGYnN/9yw/uC0sxuJH36DDEd8/TMTpA2bVw7QpmvP9O0Tq7i02fE
+         tvP9R0sQ1jM/YLEwaDRV+6g37V+LatsB6WGdSMTnShlrTmeHBzBRIGCTcBrpG1wKHUz5
+         TnciOUY/5wxPrF4NMi2eBoKN9NTbBRKMBKoXD07oFOmUahrQATfP5LIqsgfpivvJLrWP
+         +uUg==
+X-Gm-Message-State: ACrzQf0X5vFBQ063OEOqmFrJlXiFt7xf9yj/p9L+nbWRcbizs34Xu6+s
+	i+971zd7ukGbwScEipR0Pwc=
+X-Google-Smtp-Source: AMsMyM4Wusv1N6eymYj7LFUZv5YPrfkF3/s4LOCO8kwE4pocykCIEAsR5icMC7SwSgCi++NCEvYC/A==
+X-Received: by 2002:a17:907:2710:b0:7ad:86f9:9bad with SMTP id w16-20020a170907271000b007ad86f99badmr44542860ejk.32.1667748898578;
+        Sun, 06 Nov 2022 07:34:58 -0800 (PST)
+Received: from [192.168.0.101] (ip5f5abba7.dynamic.kabel-deutschland.de. [95.90.187.167])
+        by smtp.gmail.com with ESMTPSA id s26-20020aa7cb1a000000b00462e1d8e914sm2782339edt.68.2022.11.06.07.34.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Nov 2022 07:34:58 -0800 (PST)
+Message-ID: <5fa89086-c81d-0a3d-8d0d-0bb293052c5c@gmail.com>
+Date: Sun, 6 Nov 2022 16:34:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221106133443.8872-1-straube.linux@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] staging: r8188eu: clean up error handling in
+ rtw_start_drv_threads()
+To: Deepak R Varma <drv@mailo.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20221106133443.8872-1-straube.linux@gmail.com>
+ <Y2fGGsV5ZwxmkTNB@qemulion>
+Content-Language: en-US
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <Y2fGGsV5ZwxmkTNB@qemulion>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 06, 2022 at 02:34:43PM +0100, Michael Straube wrote:
-> Convert the error handling in the function rtw_start_drv_threads() to
-> the common logic used in the kernel. Another step to get rid of _FAIL
-> and _SUCCESS which uses inverted logic.
+On 11/6/22 15:35, Deepak R Varma wrote:
+> On Sun, Nov 06, 2022 at 02:34:43PM +0100, Michael Straube wrote:
+>> Convert the error handling in the function rtw_start_drv_threads() to
+>> the common logic used in the kernel. Another step to get rid of _FAIL
+>> and _SUCCESS which uses inverted logic.
+> 
+> Hello Michael,
+> Can you please tell how did you find this opportunity for improvement? Are you
+> using some tool or is it a manual code review/analysis?
+> 
 
-Hello Michael,
-Can you please tell how did you find this opportunity for improvement? Are you
-using some tool or is it a manual code review/analysis?
+Hi Deepak,
 
-Thank you,
-./drv
+I just used git grep to search for _FAIL or _SUCCESS and then looked at
+the code manually.
 
->
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->  drivers/staging/r8188eu/include/osdep_intf.h |  2 +-
->  drivers/staging/r8188eu/os_dep/os_intfs.c    | 17 +++++++----------
->  2 files changed, 8 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
-> index 0f7d74a3ff6d..6d66cb57225e 100644
-> --- a/drivers/staging/r8188eu/include/osdep_intf.h
-> +++ b/drivers/staging/r8188eu/include/osdep_intf.h
-> @@ -46,7 +46,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter);
->  void rtw_free_drv_sw(struct adapter *padapter);
->  void rtw_reset_drv_sw(struct adapter *padapter);
->
-> -u32 rtw_start_drv_threads(struct adapter *padapter);
-> +int rtw_start_drv_threads(struct adapter *padapter);
->  void rtw_stop_drv_threads (struct adapter *padapter);
->  void rtw_cancel_all_timer(struct adapter *padapter);
->
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index 970f380bac96..66556e07ed93 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -363,18 +363,16 @@ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
->  	return pnetdev;
->  }
->
-> -u32 rtw_start_drv_threads(struct adapter *padapter)
-> +int rtw_start_drv_threads(struct adapter *padapter)
->  {
-> -	u32 _status = _SUCCESS;
-> -
->  	padapter->cmdThread = kthread_run(rtw_cmd_thread, padapter, "RTW_CMD_THREAD");
->  	if (IS_ERR(padapter->cmdThread))
-> -		_status = _FAIL;
-> -	else
-> -		/* wait for rtw_cmd_thread() to start running */
-> -		wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
-> +		return PTR_ERR(padapter->cmdThread);
->
-> -	return _status;
-> +	/* wait for rtw_cmd_thread() to start running */
-> +	wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
-> +
-> +	return 0;
->  }
->
->  void rtw_stop_drv_threads(struct adapter *padapter)
-> @@ -627,8 +625,7 @@ static int _netdev_open(struct net_device *pnetdev)
->
->  		netdev_dbg(pnetdev, "MAC Address = %pM\n", pnetdev->dev_addr);
->
-> -		status = rtw_start_drv_threads(padapter);
-> -		if (status == _FAIL) {
-> +		if (rtw_start_drv_threads(padapter)) {
->  			pr_info("Initialize driver software resource Failed!\n");
->  			goto netdev_open_error;
->  		}
-> --
-> 2.38.0
->
->
-
-
+Regards,
+Michael
