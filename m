@@ -1,62 +1,114 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571132592
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 12:49:20 +0000 (UTC)
-Received: from ipservice-092-217-068-220.092.217.pools.vodafone-ip.de ([92.217.68.220] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1orf5M-0008Dj-20; Sun, 06 Nov 2022 13:49:12 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 5/9] staging: r8188eu: remove state checks in rtw_led_control
-Date: Sun,  6 Nov 2022 13:48:57 +0100
-Message-Id: <20221106124901.720785-6-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221106124901.720785-1-martin@kaiser.cx>
-References: <20221106124901.720785-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3431C7F
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 13:18:17 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id l6so8317646pjj.0
+        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 05:18:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+wIjgNU88aVc2+sFYCEelT5KhuJ8SvI5h9ckpOpuCAw=;
+        b=cLWYtVzcHUtnpfMsI2JPuan2DjSbptj21Zx5CkyiQCczT8+hkJ+LsIrHLdIoiphGvl
+         WGVF/69phwq3w7xsDDnZkaE9RFgBsa4gdXsoVL7VwrA+aDOXRaca22oozlnDYJCS5FCD
+         GCM2IZOF2XbB65knjTDgyAD25a7hxx7aajJiAvduVJyVitxJYEjE/TKJk1MNB7scsHk4
+         LZP41KG5Z7mEefbzZPh3vJDvnabxbrb6jIopUQkrxDy1vFfd45O1s0rs8rnBFg+jFQsy
+         N2RIKkuIEkdEaQoVkSms3R+fh/kBb2XWMkZaq7kFpGxATdV+FSG92TUJffime1JSjO88
+         m98A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+wIjgNU88aVc2+sFYCEelT5KhuJ8SvI5h9ckpOpuCAw=;
+        b=WD8blo7hM4S05ahwNtLkmppoZRGDkZ6v7A2q7EbeBNbPS3dQPwvt0wYhKXl/Ze/WTM
+         IQcEtx1DGj9GlLE+9kSqENRdAx3/Pg03/gu0BVt/ygGrqSnaDyQICr/NlAKBSGQo8cGX
+         CWpLZgMMV01lSv342jooyvGJ8Qq6H3u/3c/OR9KUHZxNlYLWKaWHubTRVnEvpjEiBR4O
+         rHd1EZiK2877mV5HJeRUzFVcHaX5n3HC6iquwf8rl0fufQgFZKJI6JKT6JXUdAjAFD1N
+         Dmi+AzyrYzp+RpX5DWTh9eCtoabCJkRMaeMZK5CvR/69TxePM0YshxlzG+FCvT19e6aD
+         rrZw==
+X-Gm-Message-State: ACrzQf2JXU6lh7axwm/LBEef14DhLEAPJNG9uKLwJuB/vmx+ldJ9tMK0
+	S+Wkf6+O9qSN2xCL1GjwaiU=
+X-Google-Smtp-Source: AMsMyM5SZU8IK6OonUxj9BXiRHmLPbjt9Sv7BYUURuiD9z3/Q8ZHBDilsoqvmk8+aCHNrqXx4tE9kw==
+X-Received: by 2002:a17:90a:590a:b0:20a:e93e:2022 with SMTP id k10-20020a17090a590a00b0020ae93e2022mr45021261pji.141.1667740696609;
+        Sun, 06 Nov 2022 05:18:16 -0800 (PST)
+Received: from zephyrus ([103.251.210.204])
+        by smtp.gmail.com with ESMTPSA id i4-20020a63cd04000000b0045751ef6423sm2537049pgg.87.2022.11.06.05.18.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Nov 2022 05:18:16 -0800 (PST)
+Date: Sun, 6 Nov 2022 18:48:11 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com, dragan.m.cvetic@gmail.com,
+	wjsota@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Rename variables TM_Trigger and
+ TxPowerCheckCnt to avoid CamelCase
+Message-ID: <20221106131811.GA50668@zephyrus>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-There's no need to check for bSurpriseRemoved or bDriverStopped in the
-rtw_led_control function. This function schedules a delayed worker which
-calls SwLedOn or SwLedOff (or the function calls SwLedOff directly).
+Rename variables
+* TM_trigger to tm_trigger
+* TxPowerCheckCnt to txpower_check_count
+to avoid CamelCase which is not accepted by checkpatch.pl .
 
-SwLedOn and SwLedOff check bDriverStopped themselves or they initiate a
-USB control transfer via usb_write, where bSurpriseRemoved is checked.
-
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_led.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index ce8de2eb7845..48725ce9d369 100644
---- a/drivers/staging/r8188eu/core/rtw_led.c
-+++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -140,8 +140,7 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
- 	struct registry_priv *registry_par;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+index 767c746fc73d..0652940eecc5 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+@@ -919,32 +919,32 @@ static void _rtl92e_dm_check_tx_power_tracking_tssi(struct net_device *dev)
+ static void _rtl92e_dm_check_tx_power_tracking_thermal(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+-	static u8	TM_Trigger;
+-	u8		TxPowerCheckCnt = 0;
++	static u8 tm_trigger;
++	u8 txpower_check_count = 0;
  
--	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped) ||
--	    (!padapter->hw_init_completed))
-+	if (!padapter->hw_init_completed)
+ 	if (IS_HARDWARE_TYPE_8192SE(dev))
+-		TxPowerCheckCnt = 5;
++		txpower_check_count = 5;
+ 	else
+-		TxPowerCheckCnt = 2;
++		txpower_check_count = 2;
+ 	if (!priv->btxpower_tracking)
  		return;
  
- 	if (!pLed->bRegUseLed)
+-	if (priv->txpower_count  <= TxPowerCheckCnt) {
++	if (priv->txpower_count  <= txpower_check_count) {
+ 		priv->txpower_count++;
+ 		return;
+ 	}
+ 
+-	if (!TM_Trigger) {
++	if (!tm_trigger) {
+ 		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
+ 		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
+ 		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
+ 		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
+-		TM_Trigger = 1;
++		tm_trigger = 1;
+ 		return;
+ 	}
+ 	netdev_info(dev, "===============>Schedule TxPowerTrackingWorkItem\n");
+ 	schedule_delayed_work(&priv->txpower_tracking_wq, 0);
+-	TM_Trigger = 0;
++	tm_trigger = 0;
+ 
+ }
+ 
 -- 
-2.30.2
+2.25.1
 
