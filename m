@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8817F2FB6
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 17:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303CF3210
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 17:05:05 +0000 (UTC)
 Received: from ipservice-092-217-068-220.092.217.pools.vodafone-ip.de ([92.217.68.220] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1orj4u-0001KU-8f; Sun, 06 Nov 2022 18:05:00 +0100
+	id 1orj4v-0001KU-QH; Sun, 06 Nov 2022 18:05:01 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 1/3] staging: r8188eu: use a qos_hdr in validate_recv_data_frame
-Date: Sun,  6 Nov 2022 18:04:53 +0100
-Message-Id: <20221106170455.743058-2-martin@kaiser.cx>
+Subject: [PATCH 3/3] staging: r8188eu: drop removal/stop check in dump_mgntframe_and_wait_ack
+Date: Sun,  6 Nov 2022 18:04:55 +0100
+Message-Id: <20221106170455.743058-4-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221106170455.743058-1-martin@kaiser.cx>
 References: <20221106170455.743058-1-martin@kaiser.cx>
@@ -31,43 +31,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Define a struct ieee80211_qos_hdr in the validate_recv_data_frame
-function. Use this struct to replace some numeric offsets and make the
-code easier to understand.
+We can remove the checks for bDriverStopped and bSurpriseRemoved in
+dump_mgntframe_and_wait_ack.
+
+The code path from this function looks like
+
+dump_mgntframe_and_wait_ack
+   rtl8188eu_mgnt_xmit
+      rtw_dump_xframe
+         loop over all fragments
+
+rtw_write_port is called for each fragment. bSurpriseRemoved and
+bDriverStopped are checked in rtw_write_port.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index cb0f35d7ab98..245b931c483d 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1032,7 +1032,6 @@ static int validate_recv_data_frame(struct adapter *adapter,
- 				    struct recv_frame *precv_frame)
- {
- 	struct sta_info *psta = NULL;
--	u8 *ptr = precv_frame->rx_data;
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)precv_frame->rx_data;
- 	struct rx_pkt_attrib	*pattrib = &precv_frame->attrib;
- 	struct security_priv	*psecuritypriv = &adapter->securitypriv;
-@@ -1071,10 +1070,12 @@ static int validate_recv_data_frame(struct adapter *adapter,
- 	pattrib->ack_policy = 0;
- 	/* parsing QC field */
- 	if (pattrib->qos) {
-+		struct ieee80211_qos_hdr *qos_hdr = (struct ieee80211_qos_hdr *)hdr;
-+
- 		pattrib->priority = ieee80211_get_tid(hdr);
--		pattrib->ack_policy = GetAckpolicy((ptr + 24));
--		pattrib->amsdu = GetAMsdu((ptr + 24));
--		pattrib->hdrlen = 26;
-+		pattrib->ack_policy = GetAckpolicy(&qos_hdr->qos_ctrl);
-+		pattrib->amsdu = GetAMsdu(&qos_hdr->qos_ctrl);
-+		pattrib->hdrlen += sizeof(*qos_hdr);
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index bfd6afd7266e..be33489d3dfd 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -3988,9 +3988,6 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
+ 	u32 timeout_ms = 500;/*   500ms */
+ 	struct xmit_priv	*pxmitpriv = &padapter->xmitpriv;
  
- 		if (pattrib->priority != 0 && pattrib->priority != 3)
- 			adapter->recvpriv.bIsAnyNonBEPkts = true;
+-	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
+-		return -1;
+-
+ 	mutex_lock(&pxmitpriv->ack_tx_mutex);
+ 	pxmitpriv->ack_tx = true;
+ 
 -- 
 2.30.2
 
