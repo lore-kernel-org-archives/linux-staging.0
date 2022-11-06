@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841C51FA7
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 16:40:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7B5CC433C1;
-	Sun,  6 Nov 2022 16:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFC929CA
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 16:43:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D12C433D6;
+	Sun,  6 Nov 2022 16:43:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667752808;
-	bh=LyOp62cjZP3dNAd8XRe1V09GUeAtpY0II7lncWg3Kdo=;
+	s=korg; t=1667753021;
+	bh=DqJbdByfgSiyjE2Pg/kYXTeQpByNVtD3R7IyUGu7NI8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G+ThkAotMh+uLMdFtM7keufX4DtxdhyPE6kOOXKXCCSSKKsPLCoqhKAMOZYEDb1eQ
-	 SBUkqZT/aeHufSnkSzWgFXlucq07Jxgj24ZEHkz66qsLBMOmQ3nBktL6K9UXqGfug0
-	 Ty6mBAVODaViqlwgUcbOvbIJ60lA67iiuBnQc4hs=
-Date: Sun, 6 Nov 2022 17:40:05 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yogesh Hegde <yogi.kernel@gmail.com>
-Cc: philipp.g.hortmann@gmail.com, dragan.m.cvetic@gmail.com,
-	wjsota@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192e: Rename variables TM_Trigger and
- TxPowerCheckCnt to avoid CamelCase
-Message-ID: <Y2fjZbZdoZE86u50@kroah.com>
-References: <20221106131811.GA50668@zephyrus>
+	b=oXfcaR5U1UBwAhBQoQneNSLTnbLUog92sEGazVO3NzIDrcdYW7XQdbhtGKk4aZMAg
+	 2Uq2RgOspL25y1sC/yGUmRuP7Exs6G+tptAP5ts3E7PfP1dW98AQWjMdOH69MnLLEu
+	 IqJsl0X4U9V/8i7SQsiA3fdIo8ugQ2WJ5klP5P+o=
+Date: Sun, 6 Nov 2022 17:43:38 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Deepak R Varma <drv@mailo.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: simplify complex pointer casting
+Message-ID: <Y2fkOjPM0aEfJQOl@kroah.com>
+References: <Y2dvmdGxQfmK4O6F@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,66 +30,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221106131811.GA50668@zephyrus>
+In-Reply-To: <Y2dvmdGxQfmK4O6F@qemulion>
 
-On Sun, Nov 06, 2022 at 06:48:11PM +0530, Yogesh Hegde wrote:
-> Rename variables
-> * TM_trigger to tm_trigger
-> * TxPowerCheckCnt to txpower_check_count
-> to avoid CamelCase which is not accepted by checkpatch.pl .
+On Sun, Nov 06, 2022 at 01:56:01PM +0530, Deepak R Varma wrote:
+> Pointers to structures udphdr and dhcpMessage are derived by casting
+> adjacent pointers with size_t. Such typecast of pointer using size_t
+> is not preferred. The code looks complex and delicate. Simplify such
+> casting by utilizing generic "void *" casting.
+> While at this change, remove the unnecessary __be32 casting for member
+> variable "cookie".
+
+Wait, why is that unecessary?
+
+And why is that part of this change, that should be a separate one, so
+that it can be reverted when it's found to be buggy :)
+
 > 
-> Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
+> Suggested-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
->  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> index 767c746fc73d..0652940eecc5 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> @@ -919,32 +919,32 @@ static void _rtl92e_dm_check_tx_power_tracking_tssi(struct net_device *dev)
->  static void _rtl92e_dm_check_tx_power_tracking_thermal(struct net_device *dev)
->  {
->  	struct r8192_priv *priv = rtllib_priv(dev);
-> -	static u8	TM_Trigger;
-> -	u8		TxPowerCheckCnt = 0;
-> +	static u8 tm_trigger;
-> +	u8 txpower_check_count = 0;
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index a23f7df373ed..e9b0906d0d74 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -610,13 +610,15 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
+>  			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
+> 
+>  			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
+> -				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
+> +				struct udphdr *udph = (void *)iph + (iph->ihl << 2);
+> 
+>  				if ((udph->source == htons(CLIENT_PORT)) &&
+>  				    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
+> -					struct dhcpMessage *dhcph =
+> -						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
+> -					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
+> +					u32 cookie;
+> +					struct dhcpMessage *dhcph;
 
-While this is nice overall, I think you just found a bug in the driver.
+Why reorder these variables?
 
-Why is this a static variable?  That means this affects all devices that
-this driver touches, which seems very wrong, right?
+> +
+> +					dhcph = (void *)udph + sizeof(struct udphdr);
+> +					cookie = be32_to_cpu(dhcph->cookie);
 
-So shouldn't tm_trigger be a per-device attribute?
-
->  	if (IS_HARDWARE_TYPE_8192SE(dev))
-> -		TxPowerCheckCnt = 5;
-> +		txpower_check_count = 5;
->  	else
-> -		TxPowerCheckCnt = 2;
-> +		txpower_check_count = 2;
->  	if (!priv->btxpower_tracking)
->  		return;
->  
-> -	if (priv->txpower_count  <= TxPowerCheckCnt) {
-> +	if (priv->txpower_count  <= txpower_check_count) {
->  		priv->txpower_count++;
->  		return;
->  	}
->  
-> -	if (!TM_Trigger) {
-> +	if (!tm_trigger) {
->  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
->  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
->  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
->  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
-> -		TM_Trigger = 1;
-> +		tm_trigger = 1;
-
-It also should be a boolean, right?
-
-Can you fix this up to be a per-device attribute instead?
+The cookie change should be separate please.
 
 thanks,
 
