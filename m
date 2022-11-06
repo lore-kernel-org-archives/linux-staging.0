@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD1E3209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D58320A
 	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 17:05:04 +0000 (UTC)
 Received: from ipservice-092-217-068-220.092.217.pools.vodafone-ip.de ([92.217.68.220] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1orj4u-0001KU-Vi; Sun, 06 Nov 2022 18:05:01 +0100
+	id 1orj4s-0001KU-RV; Sun, 06 Nov 2022 18:04:58 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,12 +17,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 2/3] staging: r8188eu: drop another removal/stop check
-Date: Sun,  6 Nov 2022 18:04:54 +0100
-Message-Id: <20221106170455.743058-3-martin@kaiser.cx>
+Subject: [PATCH 0/3] staging: r8188eu: another round of cleanups
+Date: Sun,  6 Nov 2022 18:04:52 +0100
+Message-Id: <20221106170455.743058-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221106170455.743058-1-martin@kaiser.cx>
-References: <20221106170455.743058-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,39 +29,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There's no need to check bDriverStopped and bSurpriseRemoved in
-issue_probereq_ex.
+Here's some more cleanups, mostly related to bSurpriseRemoved and
+bDriverStopped.
 
-The code path looks like
+Please apply them after the first patchset I sent earlier today.
 
-issue_probereq_ex
-   _issue_probereq
-      dump_mgntframe
-      or
-      dump_mgntframe_and_wait_ack
+Martin Kaiser (3):
+  staging: r8188eu: use a qos_hdr in validate_recv_data_frame
+  staging: r8188eu: drop another removal/stop check
+  staging: r8188eu: drop removal/stop check in
+    dump_mgntframe_and_wait_ack
 
-All paths from dump_mgntframe check the two variables.
-dump_mgntframe_and_wait_ack contains a check as well.
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ------
+ drivers/staging/r8188eu/core/rtw_recv.c     | 9 +++++----
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 17803aca83c8..bfd6afd7266e 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -4496,9 +4496,6 @@ int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
- 
- 		i++;
- 
--		if (padapter->bDriverStopped || padapter->bSurpriseRemoved)
--			break;
--
- 		if (i < try_cnt && wait_ms > 0 && ret == _FAIL)
- 			msleep(wait_ms);
- 
 -- 
 2.30.2
 
