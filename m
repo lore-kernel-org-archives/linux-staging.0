@@ -1,72 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03DB7C
-	for <linux-staging@lists.linux.dev>; Sat,  5 Nov 2022 21:47:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37383C433D6;
-	Sat,  5 Nov 2022 21:47:58 +0000 (UTC)
-Date: Sat, 5 Nov 2022 17:47:56 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, Anna-Maria Gleixner
- <anna-maria@linutronix.de>, Andrew Morton <akpm@linux-foundation.org>,
- rcu@vger.kernel.org, linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
- cgroups@vger.kernel.org, linux-block@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- netdev@vger.kernel.org, linux-pm@vger.kernel.org,
- drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- intel-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-leds@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
- linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- lvs-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
- alsa-devel@alsa-project.org
-Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing
- timers
-Message-ID: <20221105174756.38062fce@rorschach.local.home>
-In-Reply-To: <CAHk-=wjkkomrdcrAxxFijs-Lih6vHze+A2TgM+v7-Z7ZkXT+WA@mail.gmail.com>
-References: <20221105060024.598488967@goodmis.org>
-	<CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
-	<20221105123642.596371c7@rorschach.local.home>
-	<Y2bPlllkHo5DUmLY@zx2c4.com>
-	<CAHk-=wjkkomrdcrAxxFijs-Lih6vHze+A2TgM+v7-Z7ZkXT+WA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19377F
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 01:11:50 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id p12so2645670plq.4
+        for <linux-staging@lists.linux.dev>; Sat, 05 Nov 2022 18:11:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r9sXGVgxlgucjcB491+VVt6fi0bJrGLCKS3sBo3gKhU=;
+        b=JykyOAMSIMcEcsBRsaS37YRp6g+2b5Vc7stDMREvIjXCs6QeCyd/HYGL9OXf7/mNvX
+         THJ+4uu1JemfnvOUgXNrRDuks/CIBPV3M/jxG+zZaMOL82W6P/TV8rA2nFb99QgVzAfL
+         3FZQvHm6uVM7VOqWKqbURNLr8ZjkoxpMKnmyTaHcYmiPboPHdRtpB+gYo/CxSP97ufQW
+         0+cooDENmqsENiVQiiRb7NCJkBvplfotc89Onc4sqzO3CMcH754enPNDvVmFGQWCHcJs
+         j+AYIDSgbXCO2duhwKLGPDccLZpjPUl3+MI2GFels6rulyu5ybK9qsW2tjc46NzKQKPt
+         gQaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r9sXGVgxlgucjcB491+VVt6fi0bJrGLCKS3sBo3gKhU=;
+        b=HCKPO85oTauxP76zCpV8QXVIoSZFkNRId57HK2Qqq29WBHf9kf03v8kQnUZpnNHvox
+         4e8MxF8pMPrdeL2jWyeCVCKxjxiDKjAlS1V4GMZ1KgNjit+j1YQY2TQo+0GzO2Cr54d+
+         qmOsE0X3/Ui5lphwuXosJn2zHi65/63MYm07CiRMzj+1o7bNntIwcU2AcebJeAR1v+cj
+         uKu38kX9XI8/sQBg4utXx9EhzJXZPbb/fgCAGFYazCT/3Xnk5MJocpnvkDgxK+mA5uPd
+         IgAo3zvTwqdYuYke9sgSjETMOtOgQUbfryOE4lANCgIviaYjcqBxw7rWKXkCL0f3OoLx
+         GdqQ==
+X-Gm-Message-State: ACrzQf251JwpNDw14o5bYXHQ9QzA+rZnYpplACq2vjOVNXE5kMHy9uqC
+	NQ9RAIud2gfDryhfI6lAj4k=
+X-Google-Smtp-Source: AMsMyM7B34fDzvbojkDxXNhYI3UCM8uvz5tOnH3xmqPyoBcsVOtRs4pNsoLF4eT+lS/QjYQFucEcrA==
+X-Received: by 2002:a17:90b:3013:b0:213:ab5f:d388 with SMTP id hg19-20020a17090b301300b00213ab5fd388mr42359103pjb.66.1667697110084;
+        Sat, 05 Nov 2022 18:11:50 -0700 (PDT)
+Received: from jacob-Ubuntu (126.224.215.218.sta.wbroadband.net.au. [218.215.224.126])
+        by smtp.gmail.com with ESMTPSA id c18-20020a63ea12000000b00462255f5aeasm1812343pgi.40.2022.11.05.18.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Nov 2022 18:11:49 -0700 (PDT)
+From: Jacob Bai <jacob.bai.au@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Jacob Bai <jacob.bai.au@gmail.com>
+Subject: [PATCH v2 0/3] staging: rtl8192e: trivial code cleanup patches
+Date: Sun,  6 Nov 2022 12:11:42 +1100
+Message-Id: <cover.1667694826.git.jacob.bai.au@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 5 Nov 2022 14:13:14 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+Rename few variables and source files to make it align with other
+rtlwifi drivers.
+The patches are required to be applied in sequence.
 
-> (Comparing output is also fun because the ordering of the patches is
-> random, so consecutive runs with the same rule will give different
-> patches. I assume that it's just because it's done in parallel, but it
-> doesn't help the "try to see what changes when you change the script"
-> ;)
+Changes in v2:
+	1. Patch 2: modify r8192E_firmware.c to include table.h instead of
+r8192E_hwimg.h.
 
-What I do to compare is:
+Jacob Bai (3):
+  staging: rtl8192e: rename tables in r8192e_hwimg.c
+  staging: rtl8192e: rename r8192E_hwimg.c/h to table.c/h
+  staging: rtl8192e: remove unnecesscary macro defines
 
- patch -p1 < cocci1.patch
- git commit -a
- git show | patch -p1 -R
- patch -p1 < cocci2.patch
- git diff
+ drivers/staging/rtl8192e/rtl8192e/Makefile    |  2 +-
+ .../rtl8192e/rtl8192e/r8192E_firmware.c       |  2 +-
+ .../staging/rtl8192e/rtl8192e/r8192E_hwimg.h  | 33 ------------
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 54 +++++++++----------
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.h    | 20 -------
+ .../rtl8192e/{r8192E_hwimg.c => table.c}      | 20 +++----
+ drivers/staging/rtl8192e/rtl8192e/table.h     | 33 ++++++++++++
+ 7 files changed, 72 insertions(+), 92 deletions(-)
+ delete mode 100644 drivers/staging/rtl8192e/rtl8192e/r8192E_hwimg.h
+ rename drivers/staging/rtl8192e/rtl8192e/{r8192E_hwimg.c => table.c} (95%)
+ create mode 100644 drivers/staging/rtl8192e/rtl8192e/table.h
 
-Then I see how things changed. This is how I was able to show you the
-tweaks I made.
+-- 
+2.34.1
 
--- Steve
