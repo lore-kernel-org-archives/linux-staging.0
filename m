@@ -1,31 +1,27 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F99629A9
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 15:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667749984; bh=dmKfIeO1VeBT4R+Kq0XhzSljt+SmVaKK6PEqQdi6PAA=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=LmoUC3G34R1DwCWQ+F1NNFrRF2PorUAQehSztPMaLCENSzQYuwI+Pmd+oWDbGEujg
-	 IUU+5pQt7e1bReIBuJtgduu9nWmyF8lIjK5hsPvhEeyHtWwyidJeb1Rl40KIwa5x0v
-	 oMTkcxjFdpfmLwSFMp0pJWbpAEmhw7dLI+Lgp9vA=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Sun,  6 Nov 2022 16:53:04 +0100 (CET)
-X-EA-Auth: 9t6s0BerjpqO1VYQo8v6OMTRabzSBetVRZqnZqWKLooLO7w9iv/byaeqo9eiQoRh15bx9tbDz930YaQtsUqfGmA0p3kX7sdT
-Date: Sun, 6 Nov 2022 21:22:55 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841C51FA7
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 16:40:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7B5CC433C1;
+	Sun,  6 Nov 2022 16:40:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1667752808;
+	bh=LyOp62cjZP3dNAd8XRe1V09GUeAtpY0II7lncWg3Kdo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G+ThkAotMh+uLMdFtM7keufX4DtxdhyPE6kOOXKXCCSSKKsPLCoqhKAMOZYEDb1eQ
+	 SBUkqZT/aeHufSnkSzWgFXlucq07Jxgj24ZEHkz66qsLBMOmQ3nBktL6K9UXqGfug0
+	 Ty6mBAVODaViqlwgUcbOvbIJ60lA67iiuBnQc4hs=
+Date: Sun, 6 Nov 2022 17:40:05 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yogesh Hegde <yogi.kernel@gmail.com>
+Cc: philipp.g.hortmann@gmail.com, dragan.m.cvetic@gmail.com,
+	wjsota@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: clean up error handling in
- rtw_start_drv_threads()
-Message-ID: <Y2fYVzU6JDxocTdC@qemulion>
-References: <20221106133443.8872-1-straube.linux@gmail.com>
- <Y2fGGsV5ZwxmkTNB@qemulion>
- <5fa89086-c81d-0a3d-8d0d-0bb293052c5c@gmail.com>
+Subject: Re: [PATCH] staging: rtl8192e: Rename variables TM_Trigger and
+ TxPowerCheckCnt to avoid CamelCase
+Message-ID: <Y2fjZbZdoZE86u50@kroah.com>
+References: <20221106131811.GA50668@zephyrus>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,31 +30,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5fa89086-c81d-0a3d-8d0d-0bb293052c5c@gmail.com>
+In-Reply-To: <20221106131811.GA50668@zephyrus>
 
-On Sun, Nov 06, 2022 at 04:34:57PM +0100, Michael Straube wrote:
-> On 11/6/22 15:35, Deepak R Varma wrote:
-> > On Sun, Nov 06, 2022 at 02:34:43PM +0100, Michael Straube wrote:
-> > > Convert the error handling in the function rtw_start_drv_threads() to
-> > > the common logic used in the kernel. Another step to get rid of _FAIL
-> > > and _SUCCESS which uses inverted logic.
-> >
-> > Hello Michael,
-> > Can you please tell how did you find this opportunity for improvement? Are you
-> > using some tool or is it a manual code review/analysis?
-> >
->
-> Hi Deepak,
->
-> I just used git grep to search for _FAIL or _SUCCESS and then looked at
-> the code manually.
->
-> Regards,
-> Michael
->
+On Sun, Nov 06, 2022 at 06:48:11PM +0530, Yogesh Hegde wrote:
+> Rename variables
+> * TM_trigger to tm_trigger
+> * TxPowerCheckCnt to txpower_check_count
+> to avoid CamelCase which is not accepted by checkpatch.pl .
+> 
+> Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
+> ---
+>  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> index 767c746fc73d..0652940eecc5 100644
+> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> @@ -919,32 +919,32 @@ static void _rtl92e_dm_check_tx_power_tracking_tssi(struct net_device *dev)
+>  static void _rtl92e_dm_check_tx_power_tracking_thermal(struct net_device *dev)
+>  {
+>  	struct r8192_priv *priv = rtllib_priv(dev);
+> -	static u8	TM_Trigger;
+> -	u8		TxPowerCheckCnt = 0;
+> +	static u8 tm_trigger;
+> +	u8 txpower_check_count = 0;
 
-Okay. That is very helpful. Thank you Michael.
+While this is nice overall, I think you just found a bug in the driver.
 
-./drv
+Why is this a static variable?  That means this affects all devices that
+this driver touches, which seems very wrong, right?
 
+So shouldn't tm_trigger be a per-device attribute?
 
+>  	if (IS_HARDWARE_TYPE_8192SE(dev))
+> -		TxPowerCheckCnt = 5;
+> +		txpower_check_count = 5;
+>  	else
+> -		TxPowerCheckCnt = 2;
+> +		txpower_check_count = 2;
+>  	if (!priv->btxpower_tracking)
+>  		return;
+>  
+> -	if (priv->txpower_count  <= TxPowerCheckCnt) {
+> +	if (priv->txpower_count  <= txpower_check_count) {
+>  		priv->txpower_count++;
+>  		return;
+>  	}
+>  
+> -	if (!TM_Trigger) {
+> +	if (!tm_trigger) {
+>  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
+>  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
+>  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
+>  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
+> -		TM_Trigger = 1;
+> +		tm_trigger = 1;
+
+It also should be a boolean, right?
+
+Can you fix this up to be a per-device attribute instead?
+
+thanks,
+
+greg k-h
