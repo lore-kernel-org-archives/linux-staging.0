@@ -1,45 +1,45 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406B023A9
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 08:36:11 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id k2so23053451ejr.2
-        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 01:36:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EC023A9
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 08:42:00 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id kt23so23015202ejc.7
+        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 01:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+7CekdsHq3o9kP3EBlvL2Isxys3n4Y2CKKaBFtZHFmY=;
-        b=jtSJGBK1bieEG6sijFoat41fEfFt2bMDnVRsldhV8stdSoZNPoLuWbh7z3CK4+Y7IR
-         9wkdJ2DUxJfe2NykXYBrOltrog2pdZWKGrm9wZ4nxQ0BAKNWVfif/rUtM1vuauQTZgd8
-         tlYcF8K0dfwxamnY24gFvN77nO9Lkr89r9YvId47XIVXItBWVFrA14Q076CeVsvP+tRM
-         g+WJR2rWuf7cK5w1SXeAfwL/BCR0ge33A3S29nezEwHlyhSiShREGwgE0KvIfjXHN383
-         slF34HDr++WiyETl3eATA76SdLZqszMbDPpzfTiP7SfKwQ9QFWHRXbH4ZUQLpt1StUcn
-         7ZrA==
+        bh=IedN9hGTjUJRM2QkZwLtvVtdrbrOyzLZkXMJyjsl+hA=;
+        b=g+obRviENN53QePdR7rWfD4VqexqHxi++mvPGoZHbL+JzhjrpwZB+cfV9C7azOCYch
+         oCdxuPHJ36o+qQAieEMvvx6LImmFSdXdOkisTvvVLsmZ0LxwwWKnmkZ7R60AxX5Dc8/k
+         4BNFTXIJzG9513WV19xwuAyYwocdazDT8KhrFo94JK0fvwrA+Y3u/p7k1N7mytFts1Ze
+         5B91MphoyrQ+k8ha3pM5qSnDLNf+tQSUpby6CmJb74nskXo4tNHrUmBoBWFQdzpGigRf
+         ei3GYKirviw/dZe9q4KYQkmEiOJla3fPe+hJdnY5BLl0NugVEkiWrdHJE1C/NxeqCBwe
+         VS1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+7CekdsHq3o9kP3EBlvL2Isxys3n4Y2CKKaBFtZHFmY=;
-        b=HpTdMR68HGXlnHNVuA18+MvX5efVLrDUSUpiFdXFerl9RiDuer9ff9eIqp8rr2wijI
-         JX+/9n+r3JolQaMtZO2nuuWn+jymw4R2axnZI9RA+SmQfn1VBe9wKUBuPnj5Dt9AUie+
-         q0nFXr9rjwr51/rgxbnrdNOUqgyMsW67wzRSeZN4LYOmGM2QA+C9Ar6y4nJxiLv6DeCO
-         O3PsB6qt+tcKDh7U1skNPSmJPwztXCqBi+NUJRUEOnphukgB57qO3K6RZ46GCmhZC+p0
-         WqFpxf0XlLQKzVfr/RsQnEA5p7D0Ql7Vr2YeaQzx3M/7i53b9CWNHp7+aHp/JEMEfMEI
-         Wc5w==
-X-Gm-Message-State: ACrzQf3wk/ZJYeS2b8+2WzMrk+dy4v7YQtOs5wR8OXIE33g6Z9m9gJVc
-	5pUYiSYz01QFoFnCNExM8pE=
-X-Google-Smtp-Source: AMsMyM6O6gGj9j+axrISZpxtKlQI88MGa12/mobBrIOrm3TgGf5zFgJsDuMWH59fCp5ujW0QwWLbpA==
-X-Received: by 2002:a17:907:1def:b0:7ad:9673:8668 with SMTP id og47-20020a1709071def00b007ad96738668mr41376461ejc.698.1667723769523;
-        Sun, 06 Nov 2022 01:36:09 -0700 (PDT)
-Received: from [192.168.1.100] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id g26-20020a056402321a00b00463bc1ddc76sm2314024eda.28.2022.11.06.01.36.08
+        bh=IedN9hGTjUJRM2QkZwLtvVtdrbrOyzLZkXMJyjsl+hA=;
+        b=3VsjAOwebQ+QinQ2tsVlZotpVCgClskqsTbp7zoFy0fPnBBg6Muk0fVnv65GPEorDC
+         i+nyvJY1xQVaok3qkwvPfnMSgVa0QRbqcPFNsdQY2fWEKnfAtYQ9fMKEprwDzRBl+bEW
+         +QU08eJ/SafPytEkkBkREdOVb5xfINEooXSMt8O7ZaKHdYELBhC5TpzLE9tPxSGhZtep
+         X7D8CwaonNI49icszLILCv4BrliCb64gvgf6SRkHVkOkHDadULeSU7kqfe6ThI+t7/wf
+         68YSov3W6Lc963VyiNEZui8d+Xr11cmTG6YUAVD4srpukxeDJqVbc9zKeXAD3QF18XmG
+         8bkw==
+X-Gm-Message-State: ACrzQf3h4pw1F5qrXQ5ZH3HFu778lvZpnqUbzXJy5GI7ZTi3gPoZg/t/
+	FaYP83DIEXPye/2XhIQ/QJM=
+X-Google-Smtp-Source: AMsMyM7u07RjQ3ASogJmMcT0hLRCJpmj2isSmn2b/XDouMeBcnXp38LkRVSuoOJ9amhzori9kW5QvA==
+X-Received: by 2002:a17:907:1ddd:b0:7ad:8371:b59c with SMTP id og29-20020a1709071ddd00b007ad8371b59cmr41935954ejc.429.1667724119358;
+        Sun, 06 Nov 2022 01:41:59 -0700 (PDT)
+Received: from [192.168.1.101] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id ku15-20020a170907788f00b007ae1ab8f887sm1918549ejc.14.2022.11.06.01.41.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Nov 2022 01:36:09 -0700 (PDT)
-Message-ID: <9d8ed71b-abee-bc3e-df66-fc9d8d498d1d@gmail.com>
-Date: Sun, 6 Nov 2022 09:36:08 +0100
+        Sun, 06 Nov 2022 01:41:59 -0700 (PDT)
+Message-ID: <d564a877-c2f1-20f7-90eb-d4ccfcb70277@gmail.com>
+Date: Sun, 6 Nov 2022 09:41:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,106 +48,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: r8188eu: convert three functions to bool
+Subject: Re: [PATCH v4 0/3] staging: rtl8192e: trivial code cleanup patches
 Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+To: Jacob Bai <jacob.bai.au@gmail.com>, gregkh@linuxfoundation.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221105093916.8255-1-straube.linux@gmail.com>
+References: <cover.1667723306.git.jacob.bai.au@gmail.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221105093916.8255-1-straube.linux@gmail.com>
+In-Reply-To: <cover.1667723306.git.jacob.bai.au@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/5/22 10:39, Michael Straube wrote:
-> The functions
+On 11/6/22 09:31, Jacob Bai wrote:
+> Rename few variables and source files to make it align with other
+> rtlwifi drivers.
+> The patches are required to be applied in sequence.
 > 
-> is_client_associated_to_ap()
-> is_client_associated_to_ibss()
-> is_IBSS_empty()
+> Changes in v4:
+> 	1. missing vision number in the v3
 > 
-> return boolean values. Convert their return type to bool and replace
-> _FAIL, which is defined as 0, with false. Another step to get rid of
-> _SUCCESS / _FAIL.
+> Changes in v3:
+> 	1.Patch 3: use ARRAY_SIZE() to replace macros, feedback from
+> joe@perches.com
 > 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_wlan_util.c   | 18 +++++++++---------
->   drivers/staging/r8188eu/include/rtw_mlme_ext.h |  6 +++---
->   2 files changed, 12 insertions(+), 12 deletions(-)
+> Changes in v2:
+> 	1. Patch 2: modify r8192E_firmware.c to include table.h instead of
+> r8192E_hwimg.h.
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> index e50631848cab..c95438a12b59 100644
-> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> @@ -331,35 +331,35 @@ u16 get_beacon_interval(struct wlan_bssid_ex *bss)
->   	return le16_to_cpu(val);
->   }
->   
-> -int is_client_associated_to_ap(struct adapter *padapter)
-> +bool is_client_associated_to_ap(struct adapter *padapter)
->   {
->   	struct mlme_ext_priv	*pmlmeext;
->   	struct mlme_ext_info	*pmlmeinfo;
->   
->   	if (!padapter)
-> -		return _FAIL;
-> +		return false;
->   
->   	pmlmeext = &padapter->mlmeextpriv;
->   	pmlmeinfo = &pmlmeext->mlmext_info;
->   
->   	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE))
->   		return true;
-> -	else
-> -		return _FAIL;
-> +
-> +	return false;
->   }
->   
-> -int is_client_associated_to_ibss(struct adapter *padapter)
-> +bool is_client_associated_to_ibss(struct adapter *padapter)
->   {
->   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
->   	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
->   
->   	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
->   		return true;
-> -	else
-> -		return _FAIL;
-> +
-> +	return false;
->   }
->   
-> -int is_IBSS_empty(struct adapter *padapter)
-> +bool is_IBSS_empty(struct adapter *padapter)
->   {
->   	unsigned int i;
->   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
-> @@ -367,7 +367,7 @@ int is_IBSS_empty(struct adapter *padapter)
->   
->   	for (i = IBSS_START_MAC_ID; i < NUM_STA; i++) {
->   		if (pmlmeinfo->FW_sta_info[i].status == 1)
-> -			return _FAIL;
-> +			return false;
->   	}
->   	return true;
->   }
-> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> index e234a3b9af6f..7652e72a03f4 100644
-> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> @@ -432,9 +432,9 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
->   u8 *get_my_bssid(struct wlan_bssid_ex *pnetwork);
->   u16 get_beacon_interval(struct wlan_bssid_ex *bss);
->   
-> -int is_client_associated_to_ap(struct adapter *padapter);
-> -int is_client_associated_to_ibss(struct adapter *padapter);
-> -int is_IBSS_empty(struct adapter *padapter);
-> +bool is_client_associated_to_ap(struct adapter *padapter);
-> +bool is_client_associated_to_ibss(struct adapter *padapter);
-> +bool is_IBSS_empty(struct adapter *padapter);
->   
->   unsigned char check_assoc_AP(u8 *pframe, uint len);
->   
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+> Jacob Bai (3):
+>    staging: rtl8192e: rename tables in r8192e_hwimg.c
+>    staging: rtl8192e: rename r8192E_hwimg.c/h to table.c/h
+>    staging: rtl8192e: replace macro defines with ARRAY_SIZE
+> 
+>   drivers/staging/rtl8192e/rtl8192e/Makefile    |  2 +-
+>   .../rtl8192e/rtl8192e/r8192E_firmware.c       |  2 +-
+>   .../staging/rtl8192e/rtl8192e/r8192E_hwimg.h  | 33 ------------
+>   .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 54 +++++++++----------
+>   .../staging/rtl8192e/rtl8192e/r8192E_phy.h    | 20 -------
+>   .../rtl8192e/{r8192E_hwimg.c => table.c}      | 34 +++++++-----
+>   drivers/staging/rtl8192e/rtl8192e/table.h     | 33 ++++++++++++
+>   7 files changed, 84 insertions(+), 94 deletions(-)
+>   delete mode 100644 drivers/staging/rtl8192e/rtl8192e/r8192E_hwimg.h
+>   rename drivers/staging/rtl8192e/rtl8192e/{r8192E_hwimg.c => table.c} (91%)
+>   create mode 100644 drivers/staging/rtl8192e/rtl8192e/table.h
+> 
+
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
