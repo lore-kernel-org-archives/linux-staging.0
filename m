@@ -1,84 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFC929CA
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 16:43:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D12C433D6;
-	Sun,  6 Nov 2022 16:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667753021;
-	bh=DqJbdByfgSiyjE2Pg/kYXTeQpByNVtD3R7IyUGu7NI8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oXfcaR5U1UBwAhBQoQneNSLTnbLUog92sEGazVO3NzIDrcdYW7XQdbhtGKk4aZMAg
-	 2Uq2RgOspL25y1sC/yGUmRuP7Exs6G+tptAP5ts3E7PfP1dW98AQWjMdOH69MnLLEu
-	 IqJsl0X4U9V/8i7SQsiA3fdIo8ugQ2WJ5klP5P+o=
-Date: Sun, 6 Nov 2022 17:43:38 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD1E3209
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 17:05:04 +0000 (UTC)
+Received: from ipservice-092-217-068-220.092.217.pools.vodafone-ip.de ([92.217.68.220] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1orj4u-0001KU-Vi; Sun, 06 Nov 2022 18:05:01 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
 	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: simplify complex pointer casting
-Message-ID: <Y2fkOjPM0aEfJQOl@kroah.com>
-References: <Y2dvmdGxQfmK4O6F@qemulion>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 2/3] staging: r8188eu: drop another removal/stop check
+Date: Sun,  6 Nov 2022 18:04:54 +0100
+Message-Id: <20221106170455.743058-3-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221106170455.743058-1-martin@kaiser.cx>
+References: <20221106170455.743058-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2dvmdGxQfmK4O6F@qemulion>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 06, 2022 at 01:56:01PM +0530, Deepak R Varma wrote:
-> Pointers to structures udphdr and dhcpMessage are derived by casting
-> adjacent pointers with size_t. Such typecast of pointer using size_t
-> is not preferred. The code looks complex and delicate. Simplify such
-> casting by utilizing generic "void *" casting.
-> While at this change, remove the unnecessary __be32 casting for member
-> variable "cookie".
+There's no need to check bDriverStopped and bSurpriseRemoved in
+issue_probereq_ex.
 
-Wait, why is that unecessary?
+The code path looks like
 
-And why is that part of this change, that should be a separate one, so
-that it can be reverted when it's found to be buggy :)
+issue_probereq_ex
+   _issue_probereq
+      dump_mgntframe
+      or
+      dump_mgntframe_and_wait_ack
 
-> 
-> Suggested-by: Joe Perches <joe@perches.com>
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_br_ext.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> index a23f7df373ed..e9b0906d0d74 100644
-> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> @@ -610,13 +610,15 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
->  			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
-> 
->  			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
-> -				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
-> +				struct udphdr *udph = (void *)iph + (iph->ihl << 2);
-> 
->  				if ((udph->source == htons(CLIENT_PORT)) &&
->  				    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
-> -					struct dhcpMessage *dhcph =
-> -						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
-> -					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
-> +					u32 cookie;
-> +					struct dhcpMessage *dhcph;
+All paths from dump_mgntframe check the two variables.
+dump_mgntframe_and_wait_ack contains a check as well.
 
-Why reorder these variables?
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-> +
-> +					dhcph = (void *)udph + sizeof(struct udphdr);
-> +					cookie = be32_to_cpu(dhcph->cookie);
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 17803aca83c8..bfd6afd7266e 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -4496,9 +4496,6 @@ int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
+ 
+ 		i++;
+ 
+-		if (padapter->bDriverStopped || padapter->bSurpriseRemoved)
+-			break;
+-
+ 		if (i < try_cnt && wait_ms > 0 && ret == _FAIL)
+ 			msleep(wait_ms);
+ 
+-- 
+2.30.2
 
-The cookie change should be separate please.
-
-thanks,
-
-greg k-h
