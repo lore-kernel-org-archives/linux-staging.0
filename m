@@ -1,114 +1,123 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3431C7F
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 13:18:17 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id l6so8317646pjj.0
-        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 05:18:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7687F
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 13:34:55 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id v27so13843462eda.1
+        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 05:34:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+wIjgNU88aVc2+sFYCEelT5KhuJ8SvI5h9ckpOpuCAw=;
-        b=cLWYtVzcHUtnpfMsI2JPuan2DjSbptj21Zx5CkyiQCczT8+hkJ+LsIrHLdIoiphGvl
-         WGVF/69phwq3w7xsDDnZkaE9RFgBsa4gdXsoVL7VwrA+aDOXRaca22oozlnDYJCS5FCD
-         GCM2IZOF2XbB65knjTDgyAD25a7hxx7aajJiAvduVJyVitxJYEjE/TKJk1MNB7scsHk4
-         LZP41KG5Z7mEefbzZPh3vJDvnabxbrb6jIopUQkrxDy1vFfd45O1s0rs8rnBFg+jFQsy
-         N2RIKkuIEkdEaQoVkSms3R+fh/kBb2XWMkZaq7kFpGxATdV+FSG92TUJffime1JSjO88
-         m98A==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vczVhc3OPBbJJv7puS37X+vgFWWnV3V2UNdSHwQBMYc=;
+        b=i1b1IJU/LpVhIaTvS94dUc2JKge3gJ6cj0xyMOOnQLqDgOEnYFCjY8jrr6cHsQwPot
+         gg75MroaDsVi+JOeSjYDsJUR8/aVLPF/xmq+wCulcgZri2P1+PM2+ieYK09NQt12N1Pb
+         gKfaYTqbwd7uY1lg88saCybSe/MukoIFM++tgDuV3057/dPcS5Crbmp3u1rxNyCG3Yvw
+         bFrSraUWHeLs6go9xfRuRoLEmMdJGzyPXa6Nt9XVlNsFGb+FSEuhprfgD/uNvtMBHokQ
+         MRN8pTDBEvgBLWaXT6i3mkG+DN4EQQwHWeAnBJAcwok9xtIsm+TlVBIstiGpy321oOLx
+         AcBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+wIjgNU88aVc2+sFYCEelT5KhuJ8SvI5h9ckpOpuCAw=;
-        b=WD8blo7hM4S05ahwNtLkmppoZRGDkZ6v7A2q7EbeBNbPS3dQPwvt0wYhKXl/Ze/WTM
-         IQcEtx1DGj9GlLE+9kSqENRdAx3/Pg03/gu0BVt/ygGrqSnaDyQICr/NlAKBSGQo8cGX
-         CWpLZgMMV01lSv342jooyvGJ8Qq6H3u/3c/OR9KUHZxNlYLWKaWHubTRVnEvpjEiBR4O
-         rHd1EZiK2877mV5HJeRUzFVcHaX5n3HC6iquwf8rl0fufQgFZKJI6JKT6JXUdAjAFD1N
-         Dmi+AzyrYzp+RpX5DWTh9eCtoabCJkRMaeMZK5CvR/69TxePM0YshxlzG+FCvT19e6aD
-         rrZw==
-X-Gm-Message-State: ACrzQf2JXU6lh7axwm/LBEef14DhLEAPJNG9uKLwJuB/vmx+ldJ9tMK0
-	S+Wkf6+O9qSN2xCL1GjwaiU=
-X-Google-Smtp-Source: AMsMyM5SZU8IK6OonUxj9BXiRHmLPbjt9Sv7BYUURuiD9z3/Q8ZHBDilsoqvmk8+aCHNrqXx4tE9kw==
-X-Received: by 2002:a17:90a:590a:b0:20a:e93e:2022 with SMTP id k10-20020a17090a590a00b0020ae93e2022mr45021261pji.141.1667740696609;
-        Sun, 06 Nov 2022 05:18:16 -0800 (PST)
-Received: from zephyrus ([103.251.210.204])
-        by smtp.gmail.com with ESMTPSA id i4-20020a63cd04000000b0045751ef6423sm2537049pgg.87.2022.11.06.05.18.13
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vczVhc3OPBbJJv7puS37X+vgFWWnV3V2UNdSHwQBMYc=;
+        b=hplt3A2tJJTvQqhzaVHG//mwdecOg/33+bhKahMMG5xRlYjaNxy17BHCYhdgJ+1tgN
+         LOVDTJbu3ylFG1ETRjLsA/sIGJFwiegqgmG15kDOoPdL+vWmRRZ8EAyd14MkatNDNkEw
+         17H6hZHIjY5AAhXrXiq/eDFWXo19avmmHAxgQJZoNEAsh3gM/2slVoRnMFJemTkTytTD
+         1YOiXzpcd4L0rdY/nQcLbCPAc1WOMmStqwkg7y7bdS7iZZr3hB8alY8KRMvpbs0kh1/e
+         IkeSeA8FYa5f2I0yGtCCDQaCTR2rnvqe9zKs3+PkR0+3Apooyi9QWwwMaDRAx4y6wPcf
+         EjKQ==
+X-Gm-Message-State: ACrzQf05CKK/Qbw9RV/2nhdV6zxJJCBzEOQZPGQNTODu+ot2EYXNiwVk
+	9/2l+N9derN6xbPTw2+VASg=
+X-Google-Smtp-Source: AMsMyM58sIvXMQ7yJf2mzm4IBOjz5GUtQrFbrW0f3mcVLNuEfr7CyNdtZn7qfMBPLBJqthPifEvL5g==
+X-Received: by 2002:a05:6402:1ca9:b0:461:30d8:6742 with SMTP id cz9-20020a0564021ca900b0046130d86742mr601164edb.172.1667741693392;
+        Sun, 06 Nov 2022 05:34:53 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abba7.dynamic.kabel-deutschland.de. [95.90.187.167])
+        by smtp.gmail.com with ESMTPSA id lj18-20020a170906f9d200b007adade0e9easm2103614ejb.85.2022.11.06.05.34.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 05:18:16 -0800 (PST)
-Date: Sun, 6 Nov 2022 18:48:11 +0530
-From: Yogesh Hegde <yogi.kernel@gmail.com>
+        Sun, 06 Nov 2022 05:34:52 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: philipp.g.hortmann@gmail.com, dragan.m.cvetic@gmail.com,
-	wjsota@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8192e: Rename variables TM_Trigger and
- TxPowerCheckCnt to avoid CamelCase
-Message-ID: <20221106131811.GA50668@zephyrus>
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: clean up error handling in rtw_start_drv_threads()
+Date: Sun,  6 Nov 2022 14:34:43 +0100
+Message-Id: <20221106133443.8872-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.38.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Rename variables
-* TM_trigger to tm_trigger
-* TxPowerCheckCnt to txpower_check_count
-to avoid CamelCase which is not accepted by checkpatch.pl .
+Convert the error handling in the function rtw_start_drv_threads() to
+the common logic used in the kernel. Another step to get rid of _FAIL
+and _SUCCESS which uses inverted logic.
 
-Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/r8188eu/include/osdep_intf.h |  2 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c    | 17 +++++++----------
+ 2 files changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 767c746fc73d..0652940eecc5 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -919,32 +919,32 @@ static void _rtl92e_dm_check_tx_power_tracking_tssi(struct net_device *dev)
- static void _rtl92e_dm_check_tx_power_tracking_thermal(struct net_device *dev)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
--	static u8	TM_Trigger;
--	u8		TxPowerCheckCnt = 0;
-+	static u8 tm_trigger;
-+	u8 txpower_check_count = 0;
+diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
+index 0f7d74a3ff6d..6d66cb57225e 100644
+--- a/drivers/staging/r8188eu/include/osdep_intf.h
++++ b/drivers/staging/r8188eu/include/osdep_intf.h
+@@ -46,7 +46,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter);
+ void rtw_free_drv_sw(struct adapter *padapter);
+ void rtw_reset_drv_sw(struct adapter *padapter);
  
- 	if (IS_HARDWARE_TYPE_8192SE(dev))
--		TxPowerCheckCnt = 5;
-+		txpower_check_count = 5;
- 	else
--		TxPowerCheckCnt = 2;
-+		txpower_check_count = 2;
- 	if (!priv->btxpower_tracking)
- 		return;
+-u32 rtw_start_drv_threads(struct adapter *padapter);
++int rtw_start_drv_threads(struct adapter *padapter);
+ void rtw_stop_drv_threads (struct adapter *padapter);
+ void rtw_cancel_all_timer(struct adapter *padapter);
  
--	if (priv->txpower_count  <= TxPowerCheckCnt) {
-+	if (priv->txpower_count  <= txpower_check_count) {
- 		priv->txpower_count++;
- 		return;
- 	}
- 
--	if (!TM_Trigger) {
-+	if (!tm_trigger) {
- 		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
- 		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
- 		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
- 		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
--		TM_Trigger = 1;
-+		tm_trigger = 1;
- 		return;
- 	}
- 	netdev_info(dev, "===============>Schedule TxPowerTrackingWorkItem\n");
- 	schedule_delayed_work(&priv->txpower_tracking_wq, 0);
--	TM_Trigger = 0;
-+	tm_trigger = 0;
- 
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 970f380bac96..66556e07ed93 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -363,18 +363,16 @@ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
+ 	return pnetdev;
  }
  
+-u32 rtw_start_drv_threads(struct adapter *padapter)
++int rtw_start_drv_threads(struct adapter *padapter)
+ {
+-	u32 _status = _SUCCESS;
+-
+ 	padapter->cmdThread = kthread_run(rtw_cmd_thread, padapter, "RTW_CMD_THREAD");
+ 	if (IS_ERR(padapter->cmdThread))
+-		_status = _FAIL;
+-	else
+-		/* wait for rtw_cmd_thread() to start running */
+-		wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
++		return PTR_ERR(padapter->cmdThread);
+ 
+-	return _status;
++	/* wait for rtw_cmd_thread() to start running */
++	wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
++
++	return 0;
+ }
+ 
+ void rtw_stop_drv_threads(struct adapter *padapter)
+@@ -627,8 +625,7 @@ static int _netdev_open(struct net_device *pnetdev)
+ 
+ 		netdev_dbg(pnetdev, "MAC Address = %pM\n", pnetdev->dev_addr);
+ 
+-		status = rtw_start_drv_threads(padapter);
+-		if (status == _FAIL) {
++		if (rtw_start_drv_threads(padapter)) {
+ 			pr_info("Initialize driver software resource Failed!\n");
+ 			goto netdev_open_error;
+ 		}
 -- 
-2.25.1
+2.38.0
 
