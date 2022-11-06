@@ -1,123 +1,113 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7687F
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 13:34:55 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id v27so13843462eda.1
-        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 05:34:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vczVhc3OPBbJJv7puS37X+vgFWWnV3V2UNdSHwQBMYc=;
-        b=i1b1IJU/LpVhIaTvS94dUc2JKge3gJ6cj0xyMOOnQLqDgOEnYFCjY8jrr6cHsQwPot
-         gg75MroaDsVi+JOeSjYDsJUR8/aVLPF/xmq+wCulcgZri2P1+PM2+ieYK09NQt12N1Pb
-         gKfaYTqbwd7uY1lg88saCybSe/MukoIFM++tgDuV3057/dPcS5Crbmp3u1rxNyCG3Yvw
-         bFrSraUWHeLs6go9xfRuRoLEmMdJGzyPXa6Nt9XVlNsFGb+FSEuhprfgD/uNvtMBHokQ
-         MRN8pTDBEvgBLWaXT6i3mkG+DN4EQQwHWeAnBJAcwok9xtIsm+TlVBIstiGpy321oOLx
-         AcBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vczVhc3OPBbJJv7puS37X+vgFWWnV3V2UNdSHwQBMYc=;
-        b=hplt3A2tJJTvQqhzaVHG//mwdecOg/33+bhKahMMG5xRlYjaNxy17BHCYhdgJ+1tgN
-         LOVDTJbu3ylFG1ETRjLsA/sIGJFwiegqgmG15kDOoPdL+vWmRRZ8EAyd14MkatNDNkEw
-         17H6hZHIjY5AAhXrXiq/eDFWXo19avmmHAxgQJZoNEAsh3gM/2slVoRnMFJemTkTytTD
-         1YOiXzpcd4L0rdY/nQcLbCPAc1WOMmStqwkg7y7bdS7iZZr3hB8alY8KRMvpbs0kh1/e
-         IkeSeA8FYa5f2I0yGtCCDQaCTR2rnvqe9zKs3+PkR0+3Apooyi9QWwwMaDRAx4y6wPcf
-         EjKQ==
-X-Gm-Message-State: ACrzQf05CKK/Qbw9RV/2nhdV6zxJJCBzEOQZPGQNTODu+ot2EYXNiwVk
-	9/2l+N9derN6xbPTw2+VASg=
-X-Google-Smtp-Source: AMsMyM58sIvXMQ7yJf2mzm4IBOjz5GUtQrFbrW0f3mcVLNuEfr7CyNdtZn7qfMBPLBJqthPifEvL5g==
-X-Received: by 2002:a05:6402:1ca9:b0:461:30d8:6742 with SMTP id cz9-20020a0564021ca900b0046130d86742mr601164edb.172.1667741693392;
-        Sun, 06 Nov 2022 05:34:53 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abba7.dynamic.kabel-deutschland.de. [95.90.187.167])
-        by smtp.gmail.com with ESMTPSA id lj18-20020a170906f9d200b007adade0e9easm2103614ejb.85.2022.11.06.05.34.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 05:34:52 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: clean up error handling in rtw_start_drv_threads()
-Date: Sun,  6 Nov 2022 14:34:43 +0100
-Message-Id: <20221106133443.8872-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.38.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF0F1851
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 14:35:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667745325; bh=Q/kWR0ROKF1W2o+qbF4bLCol/5LeEdbMZeXPMdUA0lI=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=ESwUuOJiJO5QGhfX5L4NLM7ByD9PJeJ7lAnUldjVotNQkTO8BdonXgkuv+sQolUON
+	 y7/PMTgEy+6E1QxM4VU15AniGK7/1K0VfYGE9h9Xs3yY/z4uZ2TRmyIXXgaRMWlCbe
+	 2+aQ5erXWqbcW4FUPvYju5eJwgsXPiPMLk+zWmA0=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Sun,  6 Nov 2022 15:35:24 +0100 (CET)
+X-EA-Auth: YnrYQM0wED9JlR5wUwaNZRRqudN9GbO8Yahy7ySl9Z6jyfgQZJwR/uwJBs0+Is73pl51ajY3Gn33AiH/4peR9hCsFsruYFW+
+Date: Sun, 6 Nov 2022 20:05:06 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: clean up error handling in
+ rtw_start_drv_threads()
+Message-ID: <Y2fGGsV5ZwxmkTNB@qemulion>
+References: <20221106133443.8872-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221106133443.8872-1-straube.linux@gmail.com>
 
-Convert the error handling in the function rtw_start_drv_threads() to
-the common logic used in the kernel. Another step to get rid of _FAIL
-and _SUCCESS which uses inverted logic.
+On Sun, Nov 06, 2022 at 02:34:43PM +0100, Michael Straube wrote:
+> Convert the error handling in the function rtw_start_drv_threads() to
+> the common logic used in the kernel. Another step to get rid of _FAIL
+> and _SUCCESS which uses inverted logic.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/include/osdep_intf.h |  2 +-
- drivers/staging/r8188eu/os_dep/os_intfs.c    | 17 +++++++----------
- 2 files changed, 8 insertions(+), 11 deletions(-)
+Hello Michael,
+Can you please tell how did you find this opportunity for improvement? Are you
+using some tool or is it a manual code review/analysis?
 
-diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
-index 0f7d74a3ff6d..6d66cb57225e 100644
---- a/drivers/staging/r8188eu/include/osdep_intf.h
-+++ b/drivers/staging/r8188eu/include/osdep_intf.h
-@@ -46,7 +46,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter);
- void rtw_free_drv_sw(struct adapter *padapter);
- void rtw_reset_drv_sw(struct adapter *padapter);
- 
--u32 rtw_start_drv_threads(struct adapter *padapter);
-+int rtw_start_drv_threads(struct adapter *padapter);
- void rtw_stop_drv_threads (struct adapter *padapter);
- void rtw_cancel_all_timer(struct adapter *padapter);
- 
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 970f380bac96..66556e07ed93 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -363,18 +363,16 @@ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
- 	return pnetdev;
- }
- 
--u32 rtw_start_drv_threads(struct adapter *padapter)
-+int rtw_start_drv_threads(struct adapter *padapter)
- {
--	u32 _status = _SUCCESS;
--
- 	padapter->cmdThread = kthread_run(rtw_cmd_thread, padapter, "RTW_CMD_THREAD");
- 	if (IS_ERR(padapter->cmdThread))
--		_status = _FAIL;
--	else
--		/* wait for rtw_cmd_thread() to start running */
--		wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
-+		return PTR_ERR(padapter->cmdThread);
- 
--	return _status;
-+	/* wait for rtw_cmd_thread() to start running */
-+	wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
-+
-+	return 0;
- }
- 
- void rtw_stop_drv_threads(struct adapter *padapter)
-@@ -627,8 +625,7 @@ static int _netdev_open(struct net_device *pnetdev)
- 
- 		netdev_dbg(pnetdev, "MAC Address = %pM\n", pnetdev->dev_addr);
- 
--		status = rtw_start_drv_threads(padapter);
--		if (status == _FAIL) {
-+		if (rtw_start_drv_threads(padapter)) {
- 			pr_info("Initialize driver software resource Failed!\n");
- 			goto netdev_open_error;
- 		}
--- 
-2.38.0
+Thank you,
+./drv
+
+>
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>  drivers/staging/r8188eu/include/osdep_intf.h |  2 +-
+>  drivers/staging/r8188eu/os_dep/os_intfs.c    | 17 +++++++----------
+>  2 files changed, 8 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
+> index 0f7d74a3ff6d..6d66cb57225e 100644
+> --- a/drivers/staging/r8188eu/include/osdep_intf.h
+> +++ b/drivers/staging/r8188eu/include/osdep_intf.h
+> @@ -46,7 +46,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter);
+>  void rtw_free_drv_sw(struct adapter *padapter);
+>  void rtw_reset_drv_sw(struct adapter *padapter);
+>
+> -u32 rtw_start_drv_threads(struct adapter *padapter);
+> +int rtw_start_drv_threads(struct adapter *padapter);
+>  void rtw_stop_drv_threads (struct adapter *padapter);
+>  void rtw_cancel_all_timer(struct adapter *padapter);
+>
+> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> index 970f380bac96..66556e07ed93 100644
+> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
+> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> @@ -363,18 +363,16 @@ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
+>  	return pnetdev;
+>  }
+>
+> -u32 rtw_start_drv_threads(struct adapter *padapter)
+> +int rtw_start_drv_threads(struct adapter *padapter)
+>  {
+> -	u32 _status = _SUCCESS;
+> -
+>  	padapter->cmdThread = kthread_run(rtw_cmd_thread, padapter, "RTW_CMD_THREAD");
+>  	if (IS_ERR(padapter->cmdThread))
+> -		_status = _FAIL;
+> -	else
+> -		/* wait for rtw_cmd_thread() to start running */
+> -		wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
+> +		return PTR_ERR(padapter->cmdThread);
+>
+> -	return _status;
+> +	/* wait for rtw_cmd_thread() to start running */
+> +	wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
+> +
+> +	return 0;
+>  }
+>
+>  void rtw_stop_drv_threads(struct adapter *padapter)
+> @@ -627,8 +625,7 @@ static int _netdev_open(struct net_device *pnetdev)
+>
+>  		netdev_dbg(pnetdev, "MAC Address = %pM\n", pnetdev->dev_addr);
+>
+> -		status = rtw_start_drv_threads(padapter);
+> -		if (status == _FAIL) {
+> +		if (rtw_start_drv_threads(padapter)) {
+>  			pr_info("Initialize driver software resource Failed!\n");
+>  			goto netdev_open_error;
+>  		}
+> --
+> 2.38.0
+>
+>
+
 
