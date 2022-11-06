@@ -1,30 +1,53 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111D129CA
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 17:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667754582; bh=Ld/Z16g7SIkkL1FuhUxiyS6/Ac1WX31pQ6hpg87mRYs=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=YGgoBwQl+x0DQzZJTg3CdGqDeP959qF0N92Rwae2iuXZ2bVMBKV0R++f4aXTQUVZo
-	 obTb7lx6LuNxWgI4exU1XJTcGTHAG1rAaDZDz0mSMUZZkrBoGi28pgnYtpi2eG+VCH
-	 CHOGGP2OzgEN4Zo+spXOihJDx61XmS/HVGLwopyM=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Sun,  6 Nov 2022 18:09:42 +0100 (CET)
-X-EA-Auth: f0nvYiJw7c9bc6Q1tpvtSx9cFvZUG+UprOPKaN5pVi/ekrch3L6XtGyMy13HMutgeFHvR1Kk/KHaFP6aK2X01ScK4GRtximP
-Date: Sun, 6 Nov 2022 22:39:25 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: simplify complex pointer casting
-Message-ID: <Y2fqRTWZ/MTsrM+N@qemulion>
-References: <Y2dvmdGxQfmK4O6F@qemulion>
- <Y2fkOjPM0aEfJQOl@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534393209
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 17:47:07 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so12504098pjc.3
+        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 09:47:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=waaUEAFDD/D6NTTqqW97C2FgIUZi+eMX54bJ9dfJefo=;
+        b=czPr75AjocxS7HuDFf8u11IsaSiWTFlWWBDjoO/xzgMzI8DV4vMcBfuOb4GxIKJMBq
+         ILQInC8OgBLLPog+4gDfRor/vHDhzOd/zutuugdO3TlYt+6LMp7Xe7sJ0DABeuCcJ5xo
+         DSidLYiNds05YrIkYF5TQbpbIlCEwIalqquYP3CFmj00fxzaPQRkf13YZsG2yjzzTKXo
+         3cGvmBn60r/+jPrCGfHTydHdljQWTqi3kk1kscs8+4QdSPf0EwAPm6dcF48Irxr/khJk
+         xVl5SYy7FCIvAzRVALRbRC5DFBh04u2hfXJGkRW31sIJxy2tTl17LrZgLz8e0gu5caW1
+         mWmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=waaUEAFDD/D6NTTqqW97C2FgIUZi+eMX54bJ9dfJefo=;
+        b=MXFiON9Dulbq7gzbhAOMbqTMRoyMTvzenknEWoVN7Tt6WFmaukb9+d/iZ2LqafLDnP
+         WAUvbBBNaTADxY3pcOxLhic/xgexLHtzx7i79UksO6Umat6xkUfK76Sy2hTuxUT9M3ap
+         bvEzju/08P2m4y4c0/fVqi0GcSN0GMQDQn3YZH9srU6YPLLcASUzOSQQr9cPZso/+3U9
+         CRLkdaHvp1E/U9z6rLVQjjN5LdjGiY0zFbckdnaSw8eFYI852XaD67kmY7wULBlbwLml
+         ltXtsR+mTlZiIRnyEBNcD/aekMdw/7w9FI8ezL+fZ6QpP/BegkY9FpSdJ1/4zrcdXfwg
+         1nEA==
+X-Gm-Message-State: ACrzQf0i2rUctyPQPbcwQb3iOikmd0lN8PScNQJTnxfTEd2AfHmzUWoX
+	vb684LPBbinDz3BCwgfZ7T8=
+X-Google-Smtp-Source: AMsMyM7/ZdWxxsqT7zUNI/3xYHZkKysP3v5qB00z0u3a1AcHpyClal5oOLY5pnUsGFjPdlkhUGETwg==
+X-Received: by 2002:a17:902:7897:b0:178:9292:57b9 with SMTP id q23-20020a170902789700b00178929257b9mr47129602pll.102.1667756826748;
+        Sun, 06 Nov 2022 09:47:06 -0800 (PST)
+Received: from zephyrus ([103.251.210.204])
+        by smtp.gmail.com with ESMTPSA id g5-20020a625205000000b0056bb191f176sm2947301pfb.14.2022.11.06.09.47.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Nov 2022 09:47:06 -0800 (PST)
+Date: Sun, 6 Nov 2022 23:17:01 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: philipp.g.hortmann@gmail.com, dragan.m.cvetic@gmail.com,
+	wjsota@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: Rename variables TM_Trigger and
+ TxPowerCheckCnt to avoid CamelCase
+Message-ID: <20221106174701.GA69420@zephyrus>
+References: <20221106131811.GA50668@zephyrus>
+ <Y2fjZbZdoZE86u50@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,80 +56,83 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2fkOjPM0aEfJQOl@kroah.com>
+In-Reply-To: <Y2fjZbZdoZE86u50@kroah.com>
 
-On Sun, Nov 06, 2022 at 05:43:38PM +0100, Greg Kroah-Hartman wrote:
-> On Sun, Nov 06, 2022 at 01:56:01PM +0530, Deepak R Varma wrote:
-> > Pointers to structures udphdr and dhcpMessage are derived by casting
-> > adjacent pointers with size_t. Such typecast of pointer using size_t
-> > is not preferred. The code looks complex and delicate. Simplify such
-> > casting by utilizing generic "void *" casting.
-> > While at this change, remove the unnecessary __be32 casting for member
-> > variable "cookie".
->
-> Wait, why is that unecessary?
-
-Hello Greg,
-cookie is already defined to be a __be32 type as part of the dhcpMesssade
-structure declared in the same file.
-
- 15 struct dhcpMessage {
- 14         u_int8_t op;
-  1         u_int8_t file[128];
-597         __be32 cookie;
-  1         u_int8_t options[308]; /* 312 - cookie */
-  2 };
-  3
-
->
-> And why is that part of this change, that should be a separate one, so
-> that it can be reverted when it's found to be buggy :)
-
-Sounds good. I will submit that as a separate patch.
->
-> >
-> > Suggested-by: Joe Perches <joe@perches.com>
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+On Sun, Nov 06, 2022 at 05:40:05PM +0100, Greg KH wrote:
+> On Sun, Nov 06, 2022 at 06:48:11PM +0530, Yogesh Hegde wrote:
+> > Rename variables
+> > * TM_trigger to tm_trigger
+> > * TxPowerCheckCnt to txpower_check_count
+> > to avoid CamelCase which is not accepted by checkpatch.pl .
+> > 
+> > Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 > > ---
-> >  drivers/staging/r8188eu/core/rtw_br_ext.c | 10 ++++++----
-> >  1 file changed, 6 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> > index a23f7df373ed..e9b0906d0d74 100644
-> > --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> > +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> > @@ -610,13 +610,15 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
-> >  			struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
-> >
-> >  			if (iph->protocol == IPPROTO_UDP) { /*  UDP */
-> > -				struct udphdr *udph = (struct udphdr *)((size_t)iph + (iph->ihl << 2));
-> > +				struct udphdr *udph = (void *)iph + (iph->ihl << 2);
-> >
-> >  				if ((udph->source == htons(CLIENT_PORT)) &&
-> >  				    (udph->dest == htons(SERVER_PORT))) { /*  DHCP request */
-> > -					struct dhcpMessage *dhcph =
-> > -						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
-> > -					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
-> > +					u32 cookie;
-> > +					struct dhcpMessage *dhcph;
->
-> Why reorder these variables?
+> >  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 16 ++++++++--------
+> >  1 file changed, 8 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> > index 767c746fc73d..0652940eecc5 100644
+> > --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> > +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+> > @@ -919,32 +919,32 @@ static void _rtl92e_dm_check_tx_power_tracking_tssi(struct net_device *dev)
+> >  static void _rtl92e_dm_check_tx_power_tracking_thermal(struct net_device *dev)
+> >  {
+> >  	struct r8192_priv *priv = rtllib_priv(dev);
+> > -	static u8	TM_Trigger;
+> > -	u8		TxPowerCheckCnt = 0;
+> > +	static u8 tm_trigger;
+> > +	u8 txpower_check_count = 0;
+> 
+> While this is nice overall, I think you just found a bug in the driver.
+> 
+> Why is this a static variable?  That means this affects all devices that
+> this driver touches, which seems very wrong, right?
+> 
+> So shouldn't tm_trigger be a per-device attribute?
+Yes you are right! 
+> 
+> >  	if (IS_HARDWARE_TYPE_8192SE(dev))
+> > -		TxPowerCheckCnt = 5;
+> > +		txpower_check_count = 5;
+> >  	else
+> > -		TxPowerCheckCnt = 2;
+> > +		txpower_check_count = 2;
+> >  	if (!priv->btxpower_tracking)
+> >  		return;
+> >  
+> > -	if (priv->txpower_count  <= TxPowerCheckCnt) {
+> > +	if (priv->txpower_count  <= txpower_check_count) {
+> >  		priv->txpower_count++;
+> >  		return;
+> >  	}
+> >  
+> > -	if (!TM_Trigger) {
+> > +	if (!tm_trigger) {
+> >  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
+> >  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
+> >  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4d);
+> >  		rtl92e_set_rf_reg(dev, RF90_PATH_A, 0x02, bMask12Bits, 0x4f);
+> > -		TM_Trigger = 1;
+> > +		tm_trigger = 1;
+> 
+> It also should be a boolean, right?
+> 
+Yes, it should a boolean, But in the mainline, the maintainers have kept it u8 for some reason [1].
 
-No specific reason. Since next instruction is associated with *dhcph, I thought
-it will simpler to follow. I will revise and resend.
+So I am not sure if it should be boolean. Please let me know your 
+thoughts on this. 
 
->
-> > +
-> > +					dhcph = (void *)udph + sizeof(struct udphdr);
-> > +					cookie = be32_to_cpu(dhcph->cookie);
->
-> The cookie change should be separate please.
+> Can you fix this up to be a per-device attribute instead?
 
-Sounds good. Will split the patch into a patch set and resubmit.
->
-> thanks,
->
-> greg k-h
->
+Sure, just to make sure that we are on the same page, you are expecting
+a patch similar to this [2] right? 
+
+Since I am new to mainline kernel development, I wanted to ensure that I am on the right track.  
+
+Thanks 
+Yogesh
+
+[1] https://github.com/gregkh/linux/blob/30a0b95b1335e12efef89dd78518ed3e4a71a763/drivers/net/wireless/realtek/rtlwifi/wifi.h#L1812
+[2] https://lore.kernel.org/all/20150615093119.2F8431407E7@smtp.codeaurora.org/T/
 
 
