@@ -1,82 +1,73 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FFC23A9;
-	Sun,  6 Nov 2022 09:13:14 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id b2so23126393eja.6;
-        Sun, 06 Nov 2022 01:13:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFBF23A9
+	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 09:37:52 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id v17so13358148edc.8
+        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 01:37:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kB5x5Lb8Br6d/Jeea8bVOt5eSs5IgdDtxZC3hRWWkBA=;
-        b=U8zWoIusLivflIrhe/QqeEUiTBHp0weDQtpu7a3iD1sc9QTKpwALpgF1vtgRfCzikb
-         37wK32SeseS2JESpp01aC/H0tP0qOFSyd2ZFLVWP+RvfWoyE1KbjxaH3rxX0jkxtrlgJ
-         D6USi7yXUC6kWqFuNsQzUPJaqoT9qZlwHyH2mQA4rILUJwQh3tpZaZbOgdAsquswiD1L
-         p2ZpctsvirMCFQ/3saaqaii0fPnzKCyGC/7aHR+enUeY8lG7bv/DW4W44BETId09iXoa
-         RX3yDYau3yE4BILllMhrojO6TJGi2PlX34S51wpMGtyy5OCxFuyQPOtqjporW0oe+YLD
-         5mpg==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=io0/8bk23qfo5CTsPUcvXEb6MGcn33aYZt9gOjPuGXI=;
+        b=Dj6BHM0FILQ+S8vjBLGgRJrvGiAGvjHQCCxlNtlYEMmA5waobtlnz0w5oFNqgJ1/as
+         AO+XzcybTmbo9U8tXt5YzHupgd/XhhIbc0nI2sTc8ZdtLl8u1Z3FT+1RNcdUaAeaN8C+
+         Zx4gjP+acw1eD/R4lUcUoI3ndpGxLgx68b6POiRY624+x4EAiUi/qB1bnyt82+LGi0Bi
+         BNyMIRFTlF85VFiknNre4hRjnMBz63bajVoJIBnLjgOh02aEEQ9RiNFf2mVhwu/CTCyJ
+         +35zTv+tEoa05MBiM15bqOCArw3R0xgIXJHT2NFuY28lW3NXJaIc4Kikmb4Nvy2H5Jt6
+         8LCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kB5x5Lb8Br6d/Jeea8bVOt5eSs5IgdDtxZC3hRWWkBA=;
-        b=Y+c5uQwCWFHdCCjCc5PidwB1X2n2AOdK+D6ZQ+FRD0RIHd4ALjTNViBLS74wyPKIlh
-         bbb6QhhKOthvUM6Yc4SCa5skDOX0IlZ8fpn8dvTexJvLYwoE8V6P/VKjfk9VTMfIxil4
-         +gJh6ETocP5A5Iih9d8JB5zg/DDd8HcGlvkkMooSzcn3eY5fUCh8FMpyDfSx9k/KeKWb
-         WQwxNgVomvnvXBFr0V/pidqwARvsFk9LX0c+PUJD0PGsXxGb3YuEZkjNyvfol2QqiAst
-         9YSzMzbdkScL7XeQbRj2ezq0QbNrdPQIpZhopBhkh1PtqR+VLriwBaSDjUvZ0VNOfQO4
-         3Y1w==
-X-Gm-Message-State: ACrzQf21u5bCwtC+NQSsvEHs7+7R4KNey5BO8/5y8TynI3gdzYb/ITh1
-	/cITjadCD7iFRSx0PHxy+3s=
-X-Google-Smtp-Source: AMsMyM7WcxErEBkvYvl5QcgwyJodv5qAgL63AB5uiIt8PX9pxynGvsrLzYqtMYJ/J3DxD2waFR33CQ==
-X-Received: by 2002:a17:907:a4e:b0:77d:94d:8148 with SMTP id be14-20020a1709070a4e00b0077d094d8148mr40810136ejc.607.1667725992932;
-        Sun, 06 Nov 2022 01:13:12 -0800 (PST)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id r23-20020aa7d597000000b004638ba0ea96sm2301896edq.97.2022.11.06.01.13.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 01:13:12 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hans.verkuil@cisco.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v8 6/6] media: sun6i-csi: Add support for hooking to the isp devices
-Date: Sun, 06 Nov 2022 10:13:11 +0100
-Message-ID: <2085642.OBFZWjSADL@jernej-laptop>
-In-Reply-To: <20221103163717.246217-7-paul.kocialkowski@bootlin.com>
-References: <20221103163717.246217-1-paul.kocialkowski@bootlin.com> <20221103163717.246217-7-paul.kocialkowski@bootlin.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=io0/8bk23qfo5CTsPUcvXEb6MGcn33aYZt9gOjPuGXI=;
+        b=Lh9yogCV+qVtrLdvP6BB9Sa85/kA0atDvSazUGu97pf407h1Hxs+N9ORWUbLqZ+C5b
+         qBtL7+MsWT/WXsW9XawqriQTGVMa+9sMhOZwSOWgneURFGgbWR7t2sC0Rrmc0/bQrS1X
+         x/ACGGOyDnjKUaPdYUI3Y42Q424jrIHC4Mk9GiTpnCibQjL8u5ZQaJ21+e3b4QEZc6+T
+         kjxV2HvLiW0mz1tqE9UfdC1NZ2TMHkt0EGZa9UjJKzbpcQOzo9knmtp8WCF6YE0zh5js
+         lxbeErnOIjF8mUaJL0D27PzxutlfbB29SJeAmctZrqgaHtVOHyYPTvWinXXdD14Gvo4O
+         QNfw==
+X-Gm-Message-State: ACrzQf1uaZvHuVQaw4E8I7NScwaGZ9eT0foyruTKHT/3vVxYSbgbtxSr
+	sn5EAVPxD+saLP7toTN0L6M=
+X-Google-Smtp-Source: AMsMyM4XpkPstkk1eZEL2oVdpiHe0WCxgkqtOASRuqNIW07B0OkrJOVWofCYsTeWF6RvVwIMspg6yQ==
+X-Received: by 2002:a05:6402:2073:b0:461:5462:9dc9 with SMTP id bd19-20020a056402207300b0046154629dc9mr45132451edb.52.1667727471043;
+        Sun, 06 Nov 2022 01:37:51 -0800 (PST)
+Received: from [192.168.0.101] (ip5f5abba7.dynamic.kabel-deutschland.de. [95.90.187.167])
+        by smtp.gmail.com with ESMTPSA id n20-20020a05640204d400b004588ef795easm2402500edw.34.2022.11.06.01.37.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Nov 2022 01:37:50 -0800 (PST)
+Message-ID: <c630dd74-83a2-5f98-bd8f-c1eab7df5f96@gmail.com>
+Date: Sun, 6 Nov 2022 10:37:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] staging: r8188eu: convert three functions to bool
+To: Greg KH <gregkh@linuxfoundation.org>,
+ Phillip Potter <phil@philpotter.co.uk>
+Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20221105093916.8255-1-straube.linux@gmail.com>
+ <Y2ZD0B6bsDbdpa6A@equinox> <Y2ZIMCv7n8OgzqTG@kroah.com>
+Content-Language: en-US
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <Y2ZIMCv7n8OgzqTG@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Dne =C4=8Detrtek, 03. november 2022 ob 17:37:17 CET je Paul Kocialkowski=20
-napisal(a):
-> In order to use the isp and csi together, both devices need to be
-> parented to the same v4l2 and media devices. We use the isp as
-> top-level device and let the csi code hook to its v4l2 and media
-> devices when async subdev registration takes place.
->=20
-> As a result v4l2/media device setup is only called when the ISP
-> is missing and the capture device is registered after the devices
-> are hooked. The bridge subdev and its notifier are registered
-> without any device when the ISP is available. Top-level pointers
-> for the devices are introduced to either redirect to the hooked ones
-> (isp available) or the registered ones (isp missing).
->=20
-> Also keep track of whether the capture node was setup or not to
-> avoid cleaning up resources when it wasn't.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+On 11/5/22 12:25, Greg KH wrote:
+> However, these function names are horrible for being in the global
+> namespace, but that's a totally different issue that can be fixed up in
+> a later patch.
+> 
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+I'll send a patch to address that after this patch is accepted.
 
-Best regards,
-Jernej
-
-
+Thanks,
+Michael
