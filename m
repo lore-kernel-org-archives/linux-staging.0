@@ -1,82 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7082AD49
-	for <linux-staging@lists.linux.dev>; Sun,  6 Nov 2022 21:26:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C35DC433C1;
-	Sun,  6 Nov 2022 21:26:31 +0000 (UTC)
-Received: from rostedt by gandalf.local.home with local (Exim 4.96)
-	(envelope-from <rostedt@goodmis.org>)
-	id 1ornAT-008Cga-2Z;
-	Sun, 06 Nov 2022 16:27:01 -0500
-Message-ID: <20221106212427.739928660@goodmis.org>
-User-Agent: quilt/0.66
-Date: Sun, 06 Nov 2022 16:24:27 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C59717C7
+	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 03:32:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 780BFC433C1;
+	Mon,  7 Nov 2022 03:32:58 +0000 (UTC)
+Date: Sun, 6 Nov 2022 22:32:56 -0500
 From: Steven Rostedt <rostedt@goodmis.org>
-To: linux-kernel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Stephen Boyd <sboyd@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Anna-Maria Gleixner <anna-maria@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- Julia Lawall <Julia.Lawall@inria.fr>,
- linux-sh@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org,
- linux-block@vger.kernel.org,
- linux-acpi@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net,
- netdev@vger.kernel.org,
- drbd-dev@lists.linbit.com,
- linux-bluetooth@vger.kernel.org,
- intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org,
- linux-media@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org,
- linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org,
- linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev,
- linux-ext4@vger.kernel.org,
- linux-nilfs@vger.kernel.org,
- bridge@lists.linux-foundation.org,
- netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org,
- lvs-devel@vger.kernel.org,
- linux-afs@lists.infradead.org,
- linux-nfs@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net,
- alsa-devel@alsa-project.org
-Subject: [PATCH v6a 0/5] timers: Use timer_shutdown*() before freeing timers
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>, Guenter Roeck
+ <linux@roeck-us.net>, Anna-Maria Gleixner <anna-maria@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Julia Lawall
+ <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+ drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: [GIT PULL] treewide: timers: Use timer_shutdown*() before freeing
+ timers
+Message-ID: <20221106223256.4bbdb018@rorschach.local.home>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-del_timer_sync() is often called before the object that owns the timer is
-freed. But sometimes there's a race that enables the timer again before it is
-freed and causes a use after free when that timer triggers. This patch set
-adds a new "shutdown" timer state, which is set on the new timer_shutdown()
-API. Once a timer is in this state, it can not be re-armed and if it is, it
-will warn.
 
-The first three patches change existing timer_shutdown() functions used
-locally in ARM and some drivers to better namespace names.
 
-The fourth patch implements the new API.
+Linus,
 
-The fifth patch is now a treewide patch that uses a coccinelle script to
-convert the trivial locations where a del_timer*() is called on a timer of an
-object that is freed immediately afterward (or at least in the same function).
+As discussed here:
 
-Changes since v5a: https://lore.kernel.org/all/20221106054535.709068702@goodmis.org/
+  https://lore.kernel.org/all/20221106212427.739928660@goodmis.org/
 
- - Updated the script to make ptr and slab into expressions instead of
-   using identifiers (Julia Lawall and Linus Torvalds)
+Add a "shutdown" state for timers. This is performed by the new
+timer_shutdown_sync() and timer_shutdown() function calls. When this is
+called on a timer, it will no longer be able to be re-armed. This should
+be called before a timer is freed to prevent it from being re-armed after
+being removed from the timer queue and then causing a crash in the timer
+code when the timer triggers.
+
+This required renaming some functions that were using the name
+timer_shutdown() statically to something more appropriate.
+
+Then a coccinelle script was executed on the entire kernel tree to find
+the trivial locations that remove the timer and then frees the object that
+the timer exists on.
+
+These changes are not enough to solve all the locations where timers may
+be of an issue. But by adding the shutdown infrastructure and the obvious
+cases, the more complex cases can be added after they have been reviewed
+more closely.
+
+
+Please pull the following tree, which can be found at:
+
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
+add-timer-shutdown
+
+Tag SHA1: 7685328352dfd2908e23048f563e328dbd3526e9
+Head SHA1: 870556da63870e01ade9bb8418ac5a21862f2f10
+
 
 Steven Rostedt (Google) (5):
       ARM: spear: Do not use timer namespace for timer_shutdown() function
@@ -165,3 +165,4 @@ Steven Rostedt (Google) (5):
  sound/i2c/other/ak4117.c                           |  2 +-
  sound/synth/emux/emux.c                            |  2 +-
  78 files changed, 207 insertions(+), 148 deletions(-)
+---------------------------
