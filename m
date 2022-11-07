@@ -1,96 +1,130 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22D77F
-	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 17:29:33 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id t1so7319424wmi.4
-        for <linux-staging@lists.linux.dev>; Mon, 07 Nov 2022 09:29:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:organization:references:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=xkR0EU5MF5krvYFbRD8gmAbuCphspKLMpA2k8o/icr4=;
-        b=jSV89Nd7BOcmUAVxEDddbuNTIYUCBXZutjnld8k4uAuTk1pp9sn+3pw3Joc1NASBoj
-         4nVR3LJtXBrpaPW+Cs/OU3xoHH8Qj3HfJ+VRHRBInFLo5QAj2kiOtKR/VXoJTvqYsMd+
-         99yUhXBdVs6C5VpVwJLzl2NUdmE5pWId+MP6y0qxgEOPgH3dmLt/40OUyBxPU3JZ/atz
-         Sd+2aE/nprLxPxFw1H4Qy0mycrAKfFYpaXbpdFdSzUJXm9KnFcOQosDiMHDpoZ54NdRe
-         FbQ5eRq0hhQfqljmkvR4icco1gzyvCgz4mSug1vcSwW4uYOlBI+qhNS1Wo68EB6Kac/d
-         1o5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:references:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xkR0EU5MF5krvYFbRD8gmAbuCphspKLMpA2k8o/icr4=;
-        b=pDpaEzmlH4JnWUBV7X0+gnynYbGCvwt25dp3N/kImibBFzz7BnBxDwgOmcXTVV9gGt
-         2sx8r8ROdPxRUBF0YYrwZG4/SC9XuQkObYeuAu+keDkiK07uSRPGS+rP89A4toQ82Oo5
-         2RpSe1JI75yhp4zSOtxONhE8JSph6kBASTxo++No/WQ3k2RI8IqLkO1F4TmXBETAuQAC
-         BuSQpNSjvrd4WiHVqaYPxjv+pegv7Tu+KZOaKzMcscQgy4UdVZNeuT4FgchU/qA+5m2E
-         1zi30cj1U9FHgqtPbJipmoPw1/WSVyfhR979c/J0dVoegMwk5uTb/gjZIq42cR6VnN5a
-         du/Q==
-X-Gm-Message-State: ACrzQf0O/oaDo4DzGEg3PG3ioZAIZgfToIGa9SKbZlx+v93E5KQMz8/O
-	SWF6atLlLKccpUbK95rZfP3dbQ==
-X-Google-Smtp-Source: AMsMyM59E4kUPCWhlqtaCDaCwUhPCvbjXQd61lqCiTFlXO9OHbwPcQvIUzUroZ3V1idre5W77pTe4Q==
-X-Received: by 2002:a05:600c:31a2:b0:3cf:8a86:cf1c with SMTP id s34-20020a05600c31a200b003cf8a86cf1cmr17606048wmp.113.1667842172024;
-        Mon, 07 Nov 2022 09:29:32 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:64c8:555c:905:adc6? ([2a01:e0a:982:cbb0:64c8:555c:905:adc6])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d6604000000b002366fb99cdasm7715664wru.50.2022.11.07.09.29.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 09:29:31 -0800 (PST)
-Message-ID: <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
-Date: Mon, 7 Nov 2022 18:29:30 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A757F
+	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 17:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667843571; bh=58ErT4QpRqXdWTiUxomBj2IPCdd8QNB/JsnhQ4gVmuI=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=MzYP0h4+syPx/Nby1i/2hY8QlHazvNLx7JxqB1ojnfmg0eZD2S6SaOmNiiWHHMWgz
+	 S+URdsYJEBopjph01agkD4sbyj1bYZgDmAL8xt+pYILSyIFENwBlJM6p9TOl1fYSaS
+	 Ef7YHt5WJuciDMS0hPie+4nYGUjxidDbEPXnR4tY=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Mon,  7 Nov 2022 18:52:50 +0100 (CET)
+X-EA-Auth: 9lejEj7kUnOJLlXO/mv+0blyfacoZBYDob5YtkXUEAdj8FhObVwkt+9O17zeDxBX6MFBl7Lb+Ypx6+KX/d4OUIsxwHxL+qLH
+Date: Mon, 7 Nov 2022 23:22:45 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: most: video: use min_t() for comparison and
+ assignment
+Message-ID: <Y2lF7dHx3aHfrSoB@qemulion>
+References: <Y2iHl5CuqyR2vEc8@qemulion>
+ <Y2kGG3zuvvDLZKWq@kadam>
+ <Y2kf40kSbFWkWkLl@qemulion>
+ <Y2kiixRDxjxSwFp+@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: patches for staging:media drivers
-Content-Language: en-US
-To: Deepak R Varma <drv@mailo.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <Y2eSCZJNWn6DzCUu@qemulion>
-Organization: Linaro Developer Services
-In-Reply-To: <Y2eSCZJNWn6DzCUu@qemulion>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2kiixRDxjxSwFp+@kadam>
 
-Hi,
+On Mon, Nov 07, 2022 at 06:21:47PM +0300, Dan Carpenter wrote:
+> On Mon, Nov 07, 2022 at 08:40:27PM +0530, Deepak R Varma wrote:
+> > On Mon, Nov 07, 2022 at 04:20:27PM +0300, Dan Carpenter wrote:
+> > > On Mon, Nov 07, 2022 at 09:50:39AM +0530, Deepak R Varma wrote:
+> > > > Simplify code by using min_t helper macro for logical evaluation
+> > > > and value assignment. Use the _t variant of min macro since the
+> > > > variable types are not same.
+> > > > This issue is identified by coccicheck using the minmax.cocci file.
+> > > >
+> > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > > > ---
+> > > >
+> > > > Changes in v2:
+> > > >    1. Revise patch description. No functional change.
+> > > >
+> > > >  drivers/staging/most/video/video.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> > > > index ffa97ef21ea5..d5cc7eea3b52 100644
+> > > > --- a/drivers/staging/most/video/video.c
+> > > > +++ b/drivers/staging/most/video/video.c
+> > > > @@ -173,7 +173,7 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
+> > > >  	while (count > 0 && data_ready(mdev)) {
+> > > >  		struct mbo *const mbo = get_top_mbo(mdev);
+> > > >  		int const rem = mbo->processed_length - fh->offs;
+> > > > -		int const cnt = rem < count ? rem : count;
+> > > > +		int const cnt = min_t(int, rem, count);
+> > >
+> > > TL;DR use size_t instead of int.
+> >
+> > Hi Dan,
+> > Thank you for reviewing the patch. Please see my queries inline.
+> >
+> > >
+> > > Using "int" here is wrong.  size_t is unsigned long meaning that it has
+> > > 64 bits to use to represent positive values.  (Let's ignore 32 bit
+> > > arches).  You have chopped it down to say that it now has 31 bits for
+> > > positives and if BIT(31) is set then treat it as negative.  Everything
+> > > which is larger than INT_MAX will be broken.
+> >
+> > I did worry about the truncation int might cause to the size_t variable,
+> > however, as the result is being assigned to an int, I decided to go for int to
+> > be the typecast for min_t.
+>
+> Let's ignore that other layers prevent "count" from being greater than
+> INT_MAX.  mbo->processed_length is a u16.  Also if "fh->offs" is more
+> than mbo->processed_length that's a separate bug and we are already
+> screwed.
 
-On 06/11/2022 11:52, Deepak R Varma wrote:
-> Greetings to all.
-> My name is Deepak R Varma and I was part of the recent Outreachy internship
-> round. I learned during this program that patches for the media drivers were
-> prohibited to be included in the Outreachy effort due to lack of bandwidth for
-> the maintainers to respond on those.
-> 
-> The Outreachy round is now over but I am continuing to work on code improvement
-> and changes. I would like to know if it is okay for me to now identify
-> opportunities in the media drivers and send patch proposal for your kind
-> consideration. I intend to send couple of Coccinelle identified code
-> improvements as patches.
-> 
-> Please let me know.
+Yes, "u16 - u32" looks wrong on the face, but it should always evaluat
+positive, else we would have had other issues down the line.
 
-I won't say no but since the media maintainers will need to apply them,
-the problem is the same.
+>
+> So that means rem is a relatively small number.  A small number can
+> easily fit in "int cnt".  So we are eating a big pie ("count") but we
+> are taking small bites ("cnt").  Everything works fine.
+>
+> But if we chop the pie in half or treat it as negative pie then the
+> math breaks.
 
-Neil
+That makes perfect sense. Thank you so much Dan for the explanation.
 
-> 
-> Thank you,
-> ./drv
-> 
-> 
+>
+> >
+> > Also, won't size_t will force the int rem to be treated as unsigned value which
+> > will impact the comparison when rem indeed is negative. If rem will never be
+> > -ve, my worry will be void.
+>
+> Is "-ve" the TikTok way of abbreviating negative?  Am I old?
+
+No no... sorry. My fingers were catching up with the thoughts. :)
+
+>
+> The small bites are always positive.  But if we are eating negative
+> pie then we take negative size bites.  min_t() should almost always use
+> unsigned types.  Everything else is a headache.  I have often wondered
+> why people do it but I think it's because of the 80 character rule and
+> the word "int" is shorter than "unsigned long".
+
+Understood. I will send in a revision with size_t type for min_t.
+Thank you once again for the detailed answer. Much appreciate.
+
+./drv
+
+>
+> regards,
+> dan carpenter
+>
+>
+
 
