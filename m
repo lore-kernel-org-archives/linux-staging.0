@@ -1,45 +1,45 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5308A23AA
-	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 06:22:40 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id y14so27332629ejd.9
-        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 22:22:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97EB23AA
+	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 06:22:59 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id k2so27390855ejr.2
+        for <linux-staging@lists.linux.dev>; Sun, 06 Nov 2022 22:22:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lnpRV+RKEKi831sEC3+boeMrq5kKsgR7b+4traW7Org=;
-        b=LTio5AnZiJ2/ECwsKEgwzly/F/6/pPkpSNvRDR84K1GY8nYgYtl+Y0lecthSm1sL/z
-         vMTPFVBXb25gibDplG0tti8QNrydsABbz0YBWaft8cDnQtLNed3I5zFQf5HkfXiaXIRZ
-         ZNeAWQbQlT5pf/KyX0+lsxNkm6kcW17wVRVj9AlLhD8aIQ9D6ZO07XWUtwNjE0BifgIW
-         aST8fyXyLX2xtAchYtC03bOfzX8ff1QMC9ZDES5npnnqrDjPfQBzQxDs/t+ni1lfZVjO
-         4p+g86n0oILL4/vheWb4ao7Tn3gqV+w4jMsn+35AigsdD50SATt2YmN0z0X5IzdUHT4m
-         K70w==
+        bh=SG+WLFgRHzlm3QlcyB7thQ6tK8u5/bVePL0R10tV/m8=;
+        b=pNqk/WsdFKJ1bR5HrycbB5fMIZhGYW951DKCUbVlo6SrW992rZPik76jdMDEjlS1Jl
+         r6yiCcXZHcPUE8ShNJBDCF9ZUsFaYOar2/IV75iekVjiAjf32se9jSFwk+h+Ylj3+xxC
+         N7/p3mssjFSo+RTJKf+WQ1oWnP/lWNpNfDIAVUKstOcciY+zgoMoYRf2c8n06prWxduG
+         Wlmxkwz5m+lK/ZV6nEPATqgJwBMSfYnmXPeffklJZBRYmYIa3Og241NBjdbzY8jhFwgP
+         CLO41S/KDIKHdqd1DgszHwK44Iv5a9flvXTUgttcQHbmolf53AzThRM0h1p0tupoN1Ef
+         24iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lnpRV+RKEKi831sEC3+boeMrq5kKsgR7b+4traW7Org=;
-        b=cDjS2bolc7xEOawMXbcBB2RcGvpzT6F4eGA5jSMGX3oFPat3s+yfylzy2TIgU8/OTg
-         TXH631B3KRl8CwZzITl0KX+5MXj9dXkh8CO8PSIyESX0Q/gZv40p41LcpvFcRojWQAXs
-         00Y5lHIYHM6nk0XwU19Sn31PXr+ckfJ8nRT435gJVIOHwuIT8EKC9PBVdd12qKYhcNay
-         qjvWq0X7oXHiirVRRHWmFiLssjhy+B/cJr6BWXa6vc+lVe51ABA4MFtubY6IoVIUqGau
-         dJLwjMS73Rc4f/VDTqH8+ozbPFEJdJ3AREiDZe3c29HcvC+KANHXl7piYXZ384G0Gb8b
-         tcWw==
-X-Gm-Message-State: ACrzQf29dmdBm1LSKy85iYkEIBRfBi9HuGb5GpQtLc70VFMDrRiwsuOD
-	gZ5DyuLlKk2qwl1aNs+1NNM=
-X-Google-Smtp-Source: AMsMyM6NnAjqds3G9LPHWrxbJamVxExt9r9JQadQSnok2snF/zjbOghyJoO3Aif0t6lax3wZMlOK+g==
-X-Received: by 2002:a17:907:25c5:b0:782:978d:c3da with SMTP id ae5-20020a17090725c500b00782978dc3damr44530343ejc.623.1667802158385;
-        Sun, 06 Nov 2022 22:22:38 -0800 (PST)
+        bh=SG+WLFgRHzlm3QlcyB7thQ6tK8u5/bVePL0R10tV/m8=;
+        b=kJt5Bw8Kts2hCQ8rqgbC2n45tzApGD4eNbiu9vw/hr+YNtwHC17b2d7jefYEuzCgkJ
+         y9JemorCl/mC3xHlt+Pkz0hGPz1YKPEeh9T+Sjsd0+kyrjTKArEOvdPeaJRMnqUbGkDC
+         S7ba1oEFJNStYAgsFtLTP8OzIYT52X1kf3R8xYbMYNMq9E4UWBvpjM7G9ftbF0pj3/lY
+         xm3S/MjS3BMVzo2TNP3EhPnfTyk7arQWT1YaD1BHSM7q66c6TRgJliy43XJqu/nUtoGc
+         qlUzlhIzYvCNMeCDHsmZ8Xq8VaZP+jfCyJWpIVIgYkSpUnXERrnQR50SRBSo0/J19n57
+         O56Q==
+X-Gm-Message-State: ACrzQf0Q1liChyfF8G1UNSHDYdGKJu1yWpZ5MqlTQKVqpuy+znEB/P7W
+	KRJb5wsV0NIi0S2J7krmQ8c=
+X-Google-Smtp-Source: AMsMyM7y1M9TTJXq1cck+LlnUpWS7wa06FMkbDEJsVuzBWJxGFBhEsAFcF8HU7RVgVvukgDpnZKWBA==
+X-Received: by 2002:a17:907:3e02:b0:782:1267:f2c8 with SMTP id hp2-20020a1709073e0200b007821267f2c8mr45581825ejc.585.1667802178093;
+        Sun, 06 Nov 2022 22:22:58 -0800 (PST)
 Received: from [192.168.1.100] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id u12-20020a170906068c00b007919ba4295esm2917783ejb.216.2022.11.06.22.22.35
+        by smtp.gmail.com with ESMTPSA id x6-20020a05640225c600b00463a83ce063sm3595500edb.96.2022.11.06.22.22.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Nov 2022 22:22:38 -0800 (PST)
-Message-ID: <e6fc2b31-146c-b5bc-dd7a-17ce95f8ed07@gmail.com>
-Date: Mon, 7 Nov 2022 07:22:34 +0100
+        Sun, 06 Nov 2022 22:22:57 -0800 (PST)
+Message-ID: <18bb5b61-5dda-c00c-b025-b73e887259bc@gmail.com>
+Date: Mon, 7 Nov 2022 07:22:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,45 +48,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 0/9] staging: r8188eu: another round of cleanups
+Subject: Re: [PATCH] staging: r8188eu: clean up error handling in
+ rtw_start_drv_threads()
 Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20221106124901.720785-1-martin@kaiser.cx>
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221106133443.8872-1-straube.linux@gmail.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221106124901.720785-1-martin@kaiser.cx>
+In-Reply-To: <20221106133443.8872-1-straube.linux@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/6/22 13:48, Martin Kaiser wrote:
-> Here's another patch set with several cleanups throughout the driver.
+On 11/6/22 14:34, Michael Straube wrote:
+> Convert the error handling in the function rtw_start_drv_threads() to
+> the common logic used in the kernel. Another step to get rid of _FAIL
+> and _SUCCESS which uses inverted logic.
 > 
-> Martin Kaiser (9):
->    staging: r8188eu: don't store addba request
->    staging: r8188eu: remove some obsolete comments
->    staging: r8188eu: reorder assignments, clarify the header format
->    staging: r8188eu: reformat a function header
->    staging: r8188eu: remove state checks in rtw_led_control
->    staging: r8188eu: clean up rtw_hal_init
->    staging: r8188eu: remove get_fwstate
->    staging: r8188eu: merge two rtw_free_network_nolock functions
->    staging: r8188eu: remove checks in dump_mgntframe
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>   drivers/staging/r8188eu/include/osdep_intf.h |  2 +-
+>   drivers/staging/r8188eu/os_dep/os_intfs.c    | 17 +++++++----------
+>   2 files changed, 8 insertions(+), 11 deletions(-)
 > 
->   drivers/staging/r8188eu/core/rtw_led.c        |  3 +-
->   drivers/staging/r8188eu/core/rtw_mlme.c       | 23 ++++++---------
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 28 ++++++++-----------
->   drivers/staging/r8188eu/core/rtw_recv.c       |  2 --
->   drivers/staging/r8188eu/hal/hal_intf.c        | 19 +++++--------
->   .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  6 +---
->   drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c | 15 ++++------
->   drivers/staging/r8188eu/include/rtw_mlme.h    |  7 -----
->   .../staging/r8188eu/include/rtw_mlme_ext.h    |  4 +--
->   drivers/staging/r8188eu/include/wifi.h        |  8 ------
->   10 files changed, 36 insertions(+), 79 deletions(-)
-> 
+> diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
+> index 0f7d74a3ff6d..6d66cb57225e 100644
+> --- a/drivers/staging/r8188eu/include/osdep_intf.h
+> +++ b/drivers/staging/r8188eu/include/osdep_intf.h
+> @@ -46,7 +46,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter);
+>   void rtw_free_drv_sw(struct adapter *padapter);
+>   void rtw_reset_drv_sw(struct adapter *padapter);
+>   
+> -u32 rtw_start_drv_threads(struct adapter *padapter);
+> +int rtw_start_drv_threads(struct adapter *padapter);
+>   void rtw_stop_drv_threads (struct adapter *padapter);
+>   void rtw_cancel_all_timer(struct adapter *padapter);
+>   
+> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> index 970f380bac96..66556e07ed93 100644
+> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
+> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> @@ -363,18 +363,16 @@ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
+>   	return pnetdev;
+>   }
+>   
+> -u32 rtw_start_drv_threads(struct adapter *padapter)
+> +int rtw_start_drv_threads(struct adapter *padapter)
+>   {
+> -	u32 _status = _SUCCESS;
+> -
+>   	padapter->cmdThread = kthread_run(rtw_cmd_thread, padapter, "RTW_CMD_THREAD");
+>   	if (IS_ERR(padapter->cmdThread))
+> -		_status = _FAIL;
+> -	else
+> -		/* wait for rtw_cmd_thread() to start running */
+> -		wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
+> +		return PTR_ERR(padapter->cmdThread);
+>   
+> -	return _status;
+> +	/* wait for rtw_cmd_thread() to start running */
+> +	wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
+> +
+> +	return 0;
+>   }
+>   
+>   void rtw_stop_drv_threads(struct adapter *padapter)
+> @@ -627,8 +625,7 @@ static int _netdev_open(struct net_device *pnetdev)
+>   
+>   		netdev_dbg(pnetdev, "MAC Address = %pM\n", pnetdev->dev_addr);
+>   
+> -		status = rtw_start_drv_threads(padapter);
+> -		if (status == _FAIL) {
+> +		if (rtw_start_drv_threads(padapter)) {
+>   			pr_info("Initialize driver software resource Failed!\n");
+>   			goto netdev_open_error;
+>   		}
 Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
