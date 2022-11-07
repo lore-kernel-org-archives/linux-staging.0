@@ -1,40 +1,40 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CECD519
-	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 14:18:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBB2D518
+	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 14:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1667830726; x=1699366726;
+  t=1667830731; x=1699366731;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Tq3Hh0bofOkQXI48ZPfM0ndYV3g5+FvaA/EGF0x6MDs=;
-  b=WykoANGMzhoxLE1W0d+rcb1F4g4igmDRgWY+RCZDJnxge4sT4bnuvhmG
-   UW3AS1RrW1zEgimFy62AyeWrfAEUR+sRukEbtZk1XZXmvvtba+lMWJ/qJ
-   FyMOOH5Z0lq/X+4IHUSymgxupHHZ6JbD4eIdyuGywcuAtda9JV6dqWnI3
-   Itd1OvCNLwA7Vx8zOKOX6HJ5Kq0MxOQ8Ds+BE9KN0g83oC43xvyPqXR8i
-   CoNbOaK/RVz2fE+FVAtP8YRIFIF/b/AVYGvImR6Ir9MH91aoeXm2m3MgG
-   WETjPK5wRDo7ZIpG2rJJvzldQr3TnynZWNTuSqbb+W8X/uIo3KJcK7ONd
-   g==;
+  bh=5VT1nZc4qdpr+u+9x7BX59zm6n1Wh1FSGfeGbR4ItgI=;
+  b=pzwWjncJmhEEBQ5b5GxWUvJFkJtcJ9K6i9lY4TdxYcjGWpSToOVgPeuu
+   b4mYZ5hcP6Q2aDoCEfPqLJw29KA2km0lM6dmm0XRlzGEnYINnnhj+gvZk
+   v2ct8jLzfRa8hfYvlUiJMok8oEHjTj408wAbXQvgDILEQPbcaowdxJGK3
+   3Tx27SDQGvta5BIJ2si7PGOXcvdAiXwkfX71Qkf/8gK5qy1WcTKyqW14t
+   hFRi2px7eYPXGy/dhBj+RfQi8DKzhbbTmmoC1t3zD38zZXrew75I/urMn
+   ZMnow04pSrgJJC7uceB3yJ+BfZrgGvyqiQ9qAWyIZj9Z1Pw0eK4hy6wke
+   Q==;
 X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="198727482"
+   d="scan'208";a="182277019"
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Nov 2022 07:18:42 -0700
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Nov 2022 07:18:38 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Mon, 7 Nov 2022 07:18:41 -0700
+ 15.1.2507.12; Mon, 7 Nov 2022 07:18:37 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.12 via Frontend Transport; Mon, 7 Nov 2022 07:18:39 -0700
+ 15.1.2507.12 via Frontend Transport; Mon, 7 Nov 2022 07:18:35 -0700
 From: Eugen Hristev <eugen.hristev@microchip.com>
 To: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
 	<hverkuil-cisco@xs4all.nl>, <jacopo@jmondi.org>
 CC: <linux-arm-kernel@lists.infradead.org>, <linux-staging@lists.linux.dev>,
 	Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v12 6/6] media: atmel: atmel-isc: move to staging
-Date: Mon, 7 Nov 2022 16:18:18 +0200
-Message-ID: <20221107141818.104937-7-eugen.hristev@microchip.com>
+Subject: [PATCH v12 4/6] media: microchip: microchip-isc: implement media controller
+Date: Mon, 7 Nov 2022 16:18:16 +0200
+Message-ID: <20221107141818.104937-5-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221107141818.104937-1-eugen.hristev@microchip.com>
 References: <20221107141818.104937-1-eugen.hristev@microchip.com>
@@ -47,598 +47,864 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-The Atmel ISC driver is not compliant with media controller specification.
-In order to evolve this driver, it has to move to media controller, to
-support enhanced features and future products which embed it.
-The move to media controller involves several changes which are
-not backwards compatible with the current usability of the driver.
-
-The best example is the way the format is propagated from the top video
-driver /dev/videoX down to the sensor.
-
-In a simple configuration sensor ==> isc , the isc just calls subdev s_fmt
-and controls the sensor directly. This is achieved by having a lot of code
-inside the driver that will query the subdev at probe time and make a list
-of formats which are usable.
-Basically the user has nothing to configure, as the isc will handle
-everything at the top level. This is an easy way to capture, but also comes
-with the drawback of lack of flexibility.
-In a more complicated pipeline
-sensor ==> controller 1 ==> controller 2 ==> isc
-this will not be achievable, as controller 1 and controller 2 might be
-media-controller configurable, and will not propagate the formats down to
-the sensor.
-
-After discussions with the media maintainers, the decision is to move
-Atmel ISC to staging as-is, to keep the Kconfig symbols and the users
-to the driver in staging. Thus, all the existing users of the non
-media-controller paradigm will continue to be happy and use the old config
-way.
-
-The new driver was added in the media subsystem with a different
-symbol, with the conversion to media controller done, and new users
-of the driver will be able to use all the new features.
-
-This patch is merely a file move to staging, not affecting any of the
-users.
-
-The exported symbols had to be renamed to atmel_* to avoid duplication with
-the new Microchip ISC driver.
+As a top MC video driver, the microchip-isc should not propagate the format
+to the subdevice, it should rather check at start_streaming() time if the
+subdev is properly configured with a compatible format.
+Removed the whole format finding logic, and reworked the format
+verification at start_streaming time, such that the ISC will return an
+error if the subdevice is not properly configured.
+To achieve this, media_pipeline_start is called and a link_validate
+callback is created to check the formats.
+With this being done, the module parameter 'sensor_preferred' makes no
+sense anymore. The ISC should not decide which format the sensor is using.
+The ISC should only cope with the situation and inform userspace if the
+streaming is possible in the current configuration.
+The redesign of the format propagation has also risen the question of the
+enumfmt callback. If enumfmt is called with an mbus_code, the enumfmt
+handler should only return the formats that are supported for this
+mbus_code. Otherwise, the enumfmt will report all the formats that the ISC
+could output.
+With this rework, the dynamic list of user formats is removed. It makes no
+more sense to identify at complete time which formats the sensor could
+emit, and add those into a separate dynamic list.
+The ISC will start with a simple preconfigured default format, and at
+link validate time, decide whether it can use the format that is
+configured on the sink or not.
+From now on, the driver also advertises the IO_MC capability.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
 Changes in v12:
-- move to deprecated dir
-- added TODO file
-- make it dependant on !VIDEO_MICROCHIP_ISC_BASE
+- all exported symbols now prefixed by microchip_
 
- MAINTAINERS                                   |  4 +-
- drivers/media/platform/atmel/Kconfig          | 36 --------------
- drivers/media/platform/atmel/Makefile         |  6 ---
- drivers/staging/media/Kconfig                 |  1 +
- drivers/staging/media/Makefile                |  1 +
- .../staging/media/deprecated/atmel/Kconfig    | 48 +++++++++++++++++++
- .../staging/media/deprecated/atmel/Makefile   |  8 ++++
- drivers/staging/media/deprecated/atmel/TODO   | 34 +++++++++++++
- .../media/deprecated}/atmel/atmel-isc-base.c  | 20 ++++----
- .../media/deprecated}/atmel/atmel-isc-clk.c   |  8 ++--
- .../media/deprecated}/atmel/atmel-isc-regs.h  |  0
- .../media/deprecated}/atmel/atmel-isc.h       | 16 +++----
- .../deprecated}/atmel/atmel-sama5d2-isc.c     | 18 +++----
- .../deprecated}/atmel/atmel-sama7g5-isc.c     | 18 +++----
- 14 files changed, 134 insertions(+), 84 deletions(-)
- create mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
- create mode 100644 drivers/staging/media/deprecated/atmel/Makefile
- create mode 100644 drivers/staging/media/deprecated/atmel/TODO
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-base.c (99%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-clk.c (97%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-regs.h (100%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc.h (96%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama5d2-isc.c (97%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama7g5-isc.c (97%)
+Changes in v11:
+- changed to apply on top of MICROCHIP_ISC
+- changed media pipeline_stop/start to use new type of first parameter
+- s/Atmel/Microchip
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1fa2438e540e..c8447917924c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13488,8 +13488,8 @@ L:	linux-media@vger.kernel.org
- S:	Supported
- F:	Documentation/devicetree/bindings/media/atmel,isc.yaml
- F:	Documentation/devicetree/bindings/media/microchip,xisc.yaml
--F:	drivers/media/platform/atmel/atmel-isc*
--F:	drivers/media/platform/atmel/atmel-sama*-isc*
-+F:	drivers/staging/media/deprecated/atmel/atmel-isc*
-+F:	drivers/staging/media/deprecated/atmel/atmel-sama*-isc*
- F:	drivers/media/platform/microchip/microchip-isc*
- F:	drivers/media/platform/microchip/microchip-sama*-isc*
- F:	include/linux/atmel-isc-media.h
-diff --git a/drivers/media/platform/atmel/Kconfig b/drivers/media/platform/atmel/Kconfig
-index 6d07a31d4c0e..3866ccae07df 100644
---- a/drivers/media/platform/atmel/Kconfig
-+++ b/drivers/media/platform/atmel/Kconfig
-@@ -2,42 +2,6 @@
- 
- comment "Atmel media platform drivers"
- 
--config VIDEO_ATMEL_ISC
--	tristate "ATMEL Image Sensor Controller (ISC) support"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	help
--	   This module makes the ATMEL Image Sensor Controller available
--	   as a v4l2 device.
--
--config VIDEO_ATMEL_XISC
--	tristate "ATMEL eXtended Image Sensor Controller (XISC) support"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	help
--	   This module makes the ATMEL eXtended Image Sensor Controller
--	   available as a v4l2 device.
--
--config VIDEO_ATMEL_ISC_BASE
--	tristate
--	default n
--	help
--	  ATMEL ISC and XISC common code base.
--
- config VIDEO_ATMEL_ISI
- 	tristate "ATMEL Image Sensor Interface (ISI) support"
+Changes in v10:
+- moved IO_MC to this patch
+- edited commit message
+
+Changes in v9:
+- isc_link_validate now static
+
+Changes in v7:
+- minor typos as suggested by Jacopo
+- small changes, reduce some indentation, modified an index, as suggested by
+Jacopo
+
+Changes in v6:
+- reworked a bit enum_fmt as suggested by Jacopo
+
+Changes in v5:
+- removed user_formats dynamic list as it is now pointless
+- greatly simplified the enum_fmt function
+- removed some init code that was useless now
+
+Changes in v4:
+- moved validation code into link_validate and used media_pipeline_start
+- merged this patch with the enum_fmt patch which was previously in v3 of
+the series
+
+Changes in v3:
+- clamp to maximum resolution once the frame size from the subdev is found
+
+ drivers/media/platform/microchip/Kconfig      |   2 +-
+ .../platform/microchip/microchip-isc-base.c   | 416 ++++++++----------
+ .../platform/microchip/microchip-isc-scaler.c |   5 +
+ .../media/platform/microchip/microchip-isc.h  |  13 +-
+ .../microchip/microchip-sama5d2-isc.c         |  20 +
+ .../microchip/microchip-sama7g5-isc.c         |  20 +
+ 6 files changed, 239 insertions(+), 237 deletions(-)
+
+diff --git a/drivers/media/platform/microchip/Kconfig b/drivers/media/platform/microchip/Kconfig
+index 4f30807aae43..4734ecced029 100644
+--- a/drivers/media/platform/microchip/Kconfig
++++ b/drivers/media/platform/microchip/Kconfig
+@@ -23,7 +23,7 @@ config VIDEO_MICROCHIP_ISC
+ config VIDEO_MICROCHIP_XISC
+ 	tristate "Microchip eXtended Image Sensor Controller (XISC) support"
  	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/atmel/Makefile b/drivers/media/platform/atmel/Makefile
-index ab3890f95776..a14ac6b5211d 100644
---- a/drivers/media/platform/atmel/Makefile
-+++ b/drivers/media/platform/atmel/Makefile
-@@ -1,9 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
--atmel-isc-objs = atmel-sama5d2-isc.o
--atmel-xisc-objs = atmel-sama7g5-isc.o
--atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
- 
- obj-$(CONFIG_VIDEO_ATMEL_ISI) += atmel-isi.o
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
--obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
--obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index d4f03b203ae5..b79f93684c4f 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -51,6 +51,7 @@ menuconfig STAGING_MEDIA_DEPRECATED
- 	  If in doubt, say N here.
- 
- if STAGING_MEDIA_DEPRECATED
-+source "drivers/staging/media/deprecated/atmel/Kconfig"
- source "drivers/staging/media/deprecated/cpia2/Kconfig"
- source "drivers/staging/media/deprecated/fsl-viu/Kconfig"
- source "drivers/staging/media/deprecated/meye/Kconfig"
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index a387692b84f2..54bbdd4b0d08 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
- obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
- obj-$(CONFIG_VIDEO_CPIA2)	+= deprecated/cpia2/
- obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
-diff --git a/drivers/staging/media/deprecated/atmel/Kconfig b/drivers/staging/media/deprecated/atmel/Kconfig
-new file mode 100644
-index 000000000000..7d8af45d59d3
---- /dev/null
-+++ b/drivers/staging/media/deprecated/atmel/Kconfig
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Atmel media platform drivers"
-+
-+config VIDEO_ATMEL_ISC
-+	tristate "ATMEL Image Sensor Controller (ISC) support (DEPRECATED)"
-+	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_DEV && COMMON_CLK && VIDEO_V4L2_SUBDEV_API
 +	depends on VIDEO_DEV && COMMON_CLK
-+	depends on ARCH_AT91 || COMPILE_TEST
-+	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select VIDEOBUF2_DMA_CONTIG
-+	select REGMAP_MMIO
-+	select V4L2_FWNODE
-+	select VIDEO_ATMEL_ISC_BASE
-+	help
-+	   This module makes the ATMEL Image Sensor Controller available
-+	   as a v4l2 device.
-+
-+	   This driver is deprecated and is scheduled for removal by
-+	   the beginning of 2026. See the TODO file for more information.
-+
-+config VIDEO_ATMEL_XISC
-+	tristate "ATMEL eXtended Image Sensor Controller (XISC) support (DEPRECATED)"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_DEV && COMMON_CLK
-+	depends on ARCH_AT91 || COMPILE_TEST
-+	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
-+	select VIDEOBUF2_DMA_CONTIG
-+	select REGMAP_MMIO
-+	select V4L2_FWNODE
-+	select VIDEO_ATMEL_ISC_BASE
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	help
-+	   This module makes the ATMEL eXtended Image Sensor Controller
-+	   available as a v4l2 device.
-+
-+	   This driver is deprecated and is scheduled for removal by
-+	   the beginning of 2026. See the TODO file for more information.
-+
-+config VIDEO_ATMEL_ISC_BASE
-+	tristate
-+	default n
-+	help
-+	  ATMEL ISC and XISC common code base.
-+
-diff --git a/drivers/staging/media/deprecated/atmel/Makefile b/drivers/staging/media/deprecated/atmel/Makefile
-new file mode 100644
-index 000000000000..34eaeeac5bba
---- /dev/null
-+++ b/drivers/staging/media/deprecated/atmel/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+atmel-isc-objs = atmel-sama5d2-isc.o
-+atmel-xisc-objs = atmel-sama7g5-isc.o
-+atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
-+
-+obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
-+obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
-+obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
-diff --git a/drivers/staging/media/deprecated/atmel/TODO b/drivers/staging/media/deprecated/atmel/TODO
-new file mode 100644
-index 000000000000..71691df07a80
---- /dev/null
-+++ b/drivers/staging/media/deprecated/atmel/TODO
-@@ -0,0 +1,34 @@
-+The Atmel ISC driver is not compliant with media controller specification.
-+In order to evolve this driver, it has to move to media controller, to
-+support enhanced features and future products which embed it.
-+The move to media controller involves several changes which are
-+not backwards compatible with the current usability of the driver.
-+
-+The best example is the way the format is propagated from the top video
-+driver /dev/videoX down to the sensor.
-+
-+In a simple configuration sensor ==> isc , the isc just calls subdev s_fmt
-+and controls the sensor directly. This is achieved by having a lot of code
-+inside the driver that will query the subdev at probe time and make a list
-+of formats which are usable.
-+Basically the user has nothing to configure, as the isc will handle
-+everything at the top level. This is an easy way to capture, but also comes
-+with the drawback of lack of flexibility.
-+In a more complicated pipeline
-+sensor ==> controller 1 ==> controller 2 ==> isc
-+this will not be achievable, as controller 1 and controller 2 might be
-+media-controller configurable, and will not propagate the formats down to
-+the sensor.
-+
-+After discussions with the media maintainers, the decision is to move
-+Atmel ISC to staging as-is, to keep the Kconfig symbols and the users
-+to the driver in staging. Thus, all the existing users of the non
-+media-controller paradigm will continue to be happy and use the old config
-+way.
-+
-+The new driver was added in the media subsystem with a different
-+symbol, with the conversion to media controller done, and new users
-+of the driver will be able to use all the new features.
-+
-+The replacement driver is named VIDEO_MICROCHIP_ISC or
-+VIDEO_MICROCHIP_XISC depending on the product flavor.
-diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
-similarity index 99%
-rename from drivers/media/platform/atmel/atmel-isc-base.c
-rename to drivers/staging/media/deprecated/atmel/atmel-isc-base.c
-index 9e5317a7d516..99e61bbfc9bc 100644
---- a/drivers/media/platform/atmel/atmel-isc-base.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
-@@ -1221,7 +1221,7 @@ static const struct v4l2_file_operations isc_fops = {
- 	.poll		= vb2_fop_poll,
- };
+ 	depends on ARCH_AT91 || COMPILE_TEST
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select REGMAP_MMIO
+diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
+index 9034d8f97831..28749a09b0c3 100644
+--- a/drivers/media/platform/microchip/microchip-isc-base.c
++++ b/drivers/media/platform/microchip/microchip-isc-base.c
+@@ -36,11 +36,6 @@ static unsigned int debug;
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "debug level (0-2)");
  
--irqreturn_t isc_interrupt(int irq, void *dev_id)
-+irqreturn_t atmel_isc_interrupt(int irq, void *dev_id)
- {
- 	struct isc_device *isc = (struct isc_device *)dev_id;
- 	struct regmap *regmap = isc->regmap;
-@@ -1267,7 +1267,7 @@ irqreturn_t isc_interrupt(int irq, void *dev_id)
- 
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(isc_interrupt);
-+EXPORT_SYMBOL_GPL(atmel_isc_interrupt);
- 
- static void isc_hist_count(struct isc_device *isc, u32 *min, u32 *max)
- {
-@@ -1934,14 +1934,14 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
- 	return ret;
- }
- 
--const struct v4l2_async_notifier_operations isc_async_ops = {
-+const struct v4l2_async_notifier_operations atmel_isc_async_ops = {
- 	.bound = isc_async_bound,
- 	.unbind = isc_async_unbind,
- 	.complete = isc_async_complete,
- };
--EXPORT_SYMBOL_GPL(isc_async_ops);
-+EXPORT_SYMBOL_GPL(atmel_isc_async_ops);
- 
--void isc_subdev_cleanup(struct isc_device *isc)
-+void atmel_isc_subdev_cleanup(struct isc_device *isc)
- {
- 	struct isc_subdev_entity *subdev_entity;
- 
-@@ -1952,9 +1952,9 @@ void isc_subdev_cleanup(struct isc_device *isc)
- 
- 	INIT_LIST_HEAD(&isc->subdev_entities);
- }
--EXPORT_SYMBOL_GPL(isc_subdev_cleanup);
-+EXPORT_SYMBOL_GPL(atmel_isc_subdev_cleanup);
- 
--int isc_pipeline_init(struct isc_device *isc)
-+int atmel_isc_pipeline_init(struct isc_device *isc)
- {
- 	struct device *dev = isc->dev;
- 	struct regmap *regmap = isc->regmap;
-@@ -1993,17 +1993,17 @@ int isc_pipeline_init(struct isc_device *isc)
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(isc_pipeline_init);
-+EXPORT_SYMBOL_GPL(atmel_isc_pipeline_init);
- 
- /* regmap configuration */
- #define ATMEL_ISC_REG_MAX    0xd5c
--const struct regmap_config isc_regmap_config = {
-+const struct regmap_config atmel_isc_regmap_config = {
- 	.reg_bits       = 32,
- 	.reg_stride     = 4,
- 	.val_bits       = 32,
- 	.max_register	= ATMEL_ISC_REG_MAX,
- };
--EXPORT_SYMBOL_GPL(isc_regmap_config);
-+EXPORT_SYMBOL_GPL(atmel_isc_regmap_config);
- 
- MODULE_AUTHOR("Songjun Wu");
- MODULE_AUTHOR("Eugen Hristev");
-diff --git a/drivers/media/platform/atmel/atmel-isc-clk.c b/drivers/staging/media/deprecated/atmel/atmel-isc-clk.c
-similarity index 97%
-rename from drivers/media/platform/atmel/atmel-isc-clk.c
-rename to drivers/staging/media/deprecated/atmel/atmel-isc-clk.c
-index 2059fe376b00..d442b5f4c931 100644
---- a/drivers/media/platform/atmel/atmel-isc-clk.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-isc-clk.c
-@@ -277,7 +277,7 @@ static int isc_clk_register(struct isc_device *isc, unsigned int id)
- 	return 0;
- }
- 
--int isc_clk_init(struct isc_device *isc)
-+int atmel_isc_clk_init(struct isc_device *isc)
- {
- 	unsigned int i;
- 	int ret;
-@@ -293,9 +293,9 @@ int isc_clk_init(struct isc_device *isc)
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(isc_clk_init);
-+EXPORT_SYMBOL_GPL(atmel_isc_clk_init);
- 
--void isc_clk_cleanup(struct isc_device *isc)
-+void atmel_isc_clk_cleanup(struct isc_device *isc)
- {
- 	unsigned int i;
- 
-@@ -308,4 +308,4 @@ void isc_clk_cleanup(struct isc_device *isc)
- 			clk_unregister(isc_clk->clk);
- 	}
- }
--EXPORT_SYMBOL_GPL(isc_clk_cleanup);
-+EXPORT_SYMBOL_GPL(atmel_isc_clk_cleanup);
-diff --git a/drivers/media/platform/atmel/atmel-isc-regs.h b/drivers/staging/media/deprecated/atmel/atmel-isc-regs.h
-similarity index 100%
-rename from drivers/media/platform/atmel/atmel-isc-regs.h
-rename to drivers/staging/media/deprecated/atmel/atmel-isc-regs.h
-diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/staging/media/deprecated/atmel/atmel-isc.h
-similarity index 96%
-rename from drivers/media/platform/atmel/atmel-isc.h
-rename to drivers/staging/media/deprecated/atmel/atmel-isc.h
-index ff60ba020cb9..dfc030b5a08f 100644
---- a/drivers/media/platform/atmel/atmel-isc.h
-+++ b/drivers/staging/media/deprecated/atmel/atmel-isc.h
-@@ -350,13 +350,13 @@ struct isc_device {
- 	u32				formats_list_size;
- };
- 
--extern const struct regmap_config isc_regmap_config;
--extern const struct v4l2_async_notifier_operations isc_async_ops;
+-static unsigned int sensor_preferred = 1;
+-module_param(sensor_preferred, uint, 0644);
+-MODULE_PARM_DESC(sensor_preferred,
+-		 "Sensor is preferred to output the specified format (1-on 0-off), default 1");
 -
--irqreturn_t isc_interrupt(int irq, void *dev_id);
--int isc_pipeline_init(struct isc_device *isc);
--int isc_clk_init(struct isc_device *isc);
--void isc_subdev_cleanup(struct isc_device *isc);
--void isc_clk_cleanup(struct isc_device *isc);
-+extern const struct regmap_config atmel_isc_regmap_config;
-+extern const struct v4l2_async_notifier_operations atmel_isc_async_ops;
+ #define ISC_IS_FORMAT_RAW(mbus_code) \
+ 	(((mbus_code) & 0xf000) == 0x3000)
+ 
+@@ -341,6 +336,10 @@ static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	unsigned long flags;
+ 	int ret;
+ 
++	ret = media_pipeline_start(isc->video_dev.entity.pads, &isc->mpipe);
++	if (ret)
++		goto err_pipeline_start;
 +
-+irqreturn_t atmel_isc_interrupt(int irq, void *dev_id);
-+int atmel_isc_pipeline_init(struct isc_device *isc);
-+int atmel_isc_clk_init(struct isc_device *isc);
-+void atmel_isc_subdev_cleanup(struct isc_device *isc);
-+void atmel_isc_clk_cleanup(struct isc_device *isc);
+ 	/* Enable stream on the sub device */
+ 	ret = v4l2_subdev_call(isc->current_subdev->sd, video, s_stream, 1);
+ 	if (ret && ret != -ENOIOCTLCMD) {
+@@ -390,6 +389,9 @@ static int isc_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	v4l2_subdev_call(isc->current_subdev->sd, video, s_stream, 0);
  
- #endif
-diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-similarity index 97%
-rename from drivers/media/platform/atmel/atmel-sama5d2-isc.c
-rename to drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-index 9881d89a645b..ba0614f981a2 100644
---- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-@@ -408,7 +408,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	if (IS_ERR(io_base))
- 		return PTR_ERR(io_base);
+ err_start_stream:
++	media_pipeline_stop(isc->video_dev.entity.pads);
++
++err_pipeline_start:
+ 	spin_lock_irqsave(&isc->dma_queue_lock, flags);
+ 	list_for_each_entry(buf, &isc->dma_queue, list)
+ 		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_QUEUED);
+@@ -428,6 +430,9 @@ static void isc_stop_streaming(struct vb2_queue *vq)
+ 	if (ret && ret != -ENOIOCTLCMD)
+ 		v4l2_err(&isc->v4l2_dev, "stream off failed in subdev\n");
  
--	isc->regmap = devm_regmap_init_mmio(dev, io_base, &isc_regmap_config);
-+	isc->regmap = devm_regmap_init_mmio(dev, io_base, &atmel_isc_regmap_config);
- 	if (IS_ERR(isc->regmap)) {
- 		ret = PTR_ERR(isc->regmap);
- 		dev_err(dev, "failed to init register map: %d\n", ret);
-@@ -419,7 +419,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
++	/* Stop media pipeline */
++	media_pipeline_stop(isc->video_dev.entity.pads);
++
+ 	/* Release all active buffers */
+ 	spin_lock_irqsave(&isc->dma_queue_lock, flags);
+ 	if (unlikely(isc->cur_frm)) {
+@@ -459,22 +464,6 @@ static void isc_buffer_queue(struct vb2_buffer *vb)
+ 	spin_unlock_irqrestore(&isc->dma_queue_lock, flags);
+ }
  
--	ret = devm_request_irq(dev, irq, isc_interrupt, 0,
-+	ret = devm_request_irq(dev, irq, atmel_isc_interrupt, 0,
- 			       "atmel-sama5d2-isc", isc);
- 	if (ret < 0) {
- 		dev_err(dev, "can't register ISR for IRQ %u (ret=%i)\n",
-@@ -464,7 +464,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	/* sama5d2-isc : ISPCK is required and mandatory */
- 	isc->ispck_required = true;
+-static struct isc_format *find_format_by_fourcc(struct isc_device *isc,
+-						unsigned int fourcc)
+-{
+-	unsigned int num_formats = isc->num_user_formats;
+-	struct isc_format *fmt;
+-	unsigned int i;
+-
+-	for (i = 0; i < num_formats; i++) {
+-		fmt = isc->user_formats[i];
+-		if (fmt->fourcc == fourcc)
+-			return fmt;
+-	}
+-
+-	return NULL;
+-}
+-
+ static const struct vb2_ops isc_vb2_ops = {
+ 	.queue_setup		= isc_queue_setup,
+ 	.wait_prepare		= vb2_ops_wait_prepare,
+@@ -503,23 +492,57 @@ static int isc_enum_fmt_vid_cap(struct file *file, void *priv,
+ {
+ 	struct isc_device *isc = video_drvdata(file);
+ 	u32 index = f->index;
+-	u32 i, supported_index;
++	u32 i, supported_index = 0;
++	struct isc_format *fmt;
++
++	/*
++	 * If we are not asked a specific mbus_code, we have to report all
++	 * the formats that we can output.
++	 */
++	if (!f->mbus_code) {
++		if (index >= isc->controller_formats_size)
++			return -EINVAL;
  
--	ret = isc_pipeline_init(isc);
-+	ret = atmel_isc_pipeline_init(isc);
- 	if (ret)
- 		return ret;
- 
-@@ -481,7 +481,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 		return ret;
+-	if (index < isc->controller_formats_size) {
+ 		f->pixelformat = isc->controller_formats[index].fourcc;
++
++		return 0;
++	}
++
++	/*
++	 * If a specific mbus_code is requested, check if we support
++	 * this mbus_code as input for the ISC.
++	 * If it's supported, then we report the corresponding pixelformat
++	 * as first possible option for the ISC.
++	 * E.g. mbus MEDIA_BUS_FMT_YUYV8_2X8 and report
++	 * 'YUYV' (YUYV 4:2:2)
++	 */
++	fmt = isc_find_format_by_code(isc, f->mbus_code, &i);
++	if (!fmt)
++		return -EINVAL;
++
++	if (!index) {
++		f->pixelformat = fmt->fourcc;
++
+ 		return 0;
  	}
  
--	ret = isc_clk_init(isc);
-+	ret = atmel_isc_clk_init(isc);
- 	if (ret) {
- 		dev_err(dev, "failed to init isc clock: %d\n", ret);
- 		goto unprepare_hclk;
-@@ -523,7 +523,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 			goto cleanup_subdev;
+-	index -= isc->controller_formats_size;
++	supported_index++;
+ 
+-	supported_index = 0;
++	/* If the index is not raw, we don't have anymore formats to report */
++	if (!ISC_IS_FORMAT_RAW(f->mbus_code))
++		return -EINVAL;
+ 
+-	for (i = 0; i < isc->formats_list_size; i++) {
+-		if (!ISC_IS_FORMAT_RAW(isc->formats_list[i].mbus_code) ||
+-		    !isc->formats_list[i].sd_support)
++	/*
++	 * We are asked for a specific mbus code, which is raw.
++	 * We have to search through the formats we can convert to.
++	 * We have to skip the raw formats, we cannot convert to raw.
++	 * E.g. 'AR12' (16-bit ARGB 4-4-4-4), 'AR15' (16-bit ARGB 1-5-5-5), etc.
++	 */
++	for (i = 0; i < isc->controller_formats_size; i++) {
++		if (isc->controller_formats[i].raw)
+ 			continue;
+-		if (supported_index == index) {
+-			f->pixelformat = isc->formats_list[i].fourcc;
++		if (index == supported_index) {
++			f->pixelformat = isc->controller_formats[i].fourcc;
+ 			return 0;
  		}
+ 		supported_index++;
+@@ -590,20 +613,30 @@ static int isc_try_validate_formats(struct isc_device *isc)
+ 		break;
+ 	default:
+ 	/* any other different formats are not supported */
++		v4l2_err(&isc->v4l2_dev, "Requested unsupported format.\n");
+ 		ret = -EINVAL;
+ 	}
+ 	v4l2_dbg(1, debug, &isc->v4l2_dev,
+ 		 "Format validation, requested rgb=%u, yuv=%u, grey=%u, bayer=%u\n",
+ 		 rgb, yuv, grey, bayer);
  
--		subdev_entity->notifier.ops = &isc_async_ops;
-+		subdev_entity->notifier.ops = &atmel_isc_async_ops;
+-	/* we cannot output RAW if we do not receive RAW */
+-	if ((bayer) && !ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code))
++	if (bayer &&
++	    !ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
++		v4l2_err(&isc->v4l2_dev, "Cannot output RAW if we do not receive RAW.\n");
+ 		return -EINVAL;
++	}
  
- 		ret = v4l2_async_nf_register(&isc->v4l2_dev,
- 					     &subdev_entity->notifier);
-@@ -567,7 +567,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- 
- cleanup_subdev:
--	isc_subdev_cleanup(isc);
-+	atmel_isc_subdev_cleanup(isc);
- 
- unregister_v4l2_device:
- 	v4l2_device_unregister(&isc->v4l2_dev);
-@@ -575,7 +575,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- unprepare_hclk:
- 	clk_disable_unprepare(isc->hclock);
- 
--	isc_clk_cleanup(isc);
-+	atmel_isc_clk_cleanup(isc);
+-	/* we cannot output GREY if we do not receive RAW/GREY */
+ 	if (grey && !ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code) &&
+-	    !ISC_IS_FORMAT_GREY(isc->try_config.sd_format->mbus_code))
++	    !ISC_IS_FORMAT_GREY(isc->try_config.sd_format->mbus_code)) {
++		v4l2_err(&isc->v4l2_dev, "Cannot output GREY if we do not receive RAW/GREY.\n");
+ 		return -EINVAL;
++	}
++
++	if ((rgb || bayer || yuv) &&
++	    ISC_IS_FORMAT_GREY(isc->try_config.sd_format->mbus_code)) {
++		v4l2_err(&isc->v4l2_dev, "Cannot convert GREY to another format.\n");
++		return -EINVAL;
++	}
  
  	return ret;
  }
-@@ -586,14 +586,14 @@ static int atmel_isc_remove(struct platform_device *pdev)
+@@ -831,7 +864,7 @@ static void isc_try_fse(struct isc_device *isc,
+ 	 * If we do not know yet which format the subdev is using, we cannot
+ 	 * do anything.
+ 	 */
+-	if (!isc->try_config.sd_format)
++	if (!isc->config.sd_format)
+ 		return;
  
- 	pm_runtime_disable(&pdev->dev);
+ 	fse.code = isc->try_config.sd_format->mbus_code;
+@@ -852,180 +885,139 @@ static void isc_try_fse(struct isc_device *isc,
+ 	}
+ }
  
--	isc_subdev_cleanup(isc);
-+	atmel_isc_subdev_cleanup(isc);
+-static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f,
+-		       u32 *code)
++static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f)
+ {
+-	int i;
+-	struct isc_format *sd_fmt = NULL, *direct_fmt = NULL;
+ 	struct v4l2_pix_format *pixfmt = &f->fmt.pix;
+-	struct v4l2_subdev_pad_config pad_cfg = {};
+-	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg
+-		};
+-	struct v4l2_subdev_format format = {
+-		.which = V4L2_SUBDEV_FORMAT_TRY,
+-	};
+-	u32 mbus_code;
+-	int ret;
+-	bool rlp_dma_direct_dump = false;
++	unsigned int i;
  
- 	v4l2_device_unregister(&isc->v4l2_dev);
+ 	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
  
- 	clk_disable_unprepare(isc->ispck);
- 	clk_disable_unprepare(isc->hclock);
+-	/* Step 1: find a RAW format that is supported */
+-	for (i = 0; i < isc->num_user_formats; i++) {
+-		if (ISC_IS_FORMAT_RAW(isc->user_formats[i]->mbus_code)) {
+-			sd_fmt = isc->user_formats[i];
++	isc->try_config.fourcc = isc->controller_formats[0].fourcc;
++
++	/* find if the format requested is supported */
++	for (i = 0; i < isc->controller_formats_size; i++)
++		if (isc->controller_formats[i].fourcc == pixfmt->pixelformat) {
++			isc->try_config.fourcc = pixfmt->pixelformat;
+ 			break;
+ 		}
+-	}
+-	/* Step 2: We can continue with this RAW format, or we can look
+-	 * for better: maybe sensor supports directly what we need.
+-	 */
+-	direct_fmt = find_format_by_fourcc(isc, pixfmt->pixelformat);
+-
+-	/* Step 3: We have both. We decide given the module parameter which
+-	 * one to use.
+-	 */
+-	if (direct_fmt && sd_fmt && sensor_preferred)
+-		sd_fmt = direct_fmt;
+-
+-	/* Step 4: we do not have RAW but we have a direct format. Use it. */
+-	if (direct_fmt && !sd_fmt)
+-		sd_fmt = direct_fmt;
+-
+-	/* Step 5: if we are using a direct format, we need to package
+-	 * everything as 8 bit data and just dump it
+-	 */
+-	if (sd_fmt == direct_fmt)
+-		rlp_dma_direct_dump = true;
+-
+-	/* Step 6: We have no format. This can happen if the userspace
+-	 * requests some weird/invalid format.
+-	 * In this case, default to whatever we have
+-	 */
+-	if (!sd_fmt && !direct_fmt) {
+-		sd_fmt = isc->user_formats[isc->num_user_formats - 1];
+-		v4l2_dbg(1, debug, &isc->v4l2_dev,
+-			 "Sensor not supporting %.4s, using %.4s\n",
+-			 (char *)&pixfmt->pixelformat, (char *)&sd_fmt->fourcc);
+-	}
+-
+-	if (!sd_fmt) {
+-		ret = -EINVAL;
+-		goto isc_try_fmt_err;
+-	}
+-
+-	/* Step 7: Print out what we decided for debugging */
+-	v4l2_dbg(1, debug, &isc->v4l2_dev,
+-		 "Preferring to have sensor using format %.4s\n",
+-		 (char *)&sd_fmt->fourcc);
+-
+-	/* Step 8: at this moment we decided which format the subdev will use */
+-	isc->try_config.sd_format = sd_fmt;
+-
+-	/* Limit to Microchip ISC hardware capabilities */
+-	if (pixfmt->width > isc->max_width)
+-		pixfmt->width = isc->max_width;
+-	if (pixfmt->height > isc->max_height)
+-		pixfmt->height = isc->max_height;
+-
+-	/*
+-	 * The mbus format is the one the subdev outputs.
+-	 * The pixels will be transferred in this format Sensor -> ISC
+-	 */
+-	mbus_code = sd_fmt->mbus_code;
+-
+-	/*
+-	 * Validate formats. If the required format is not OK, default to raw.
+-	 */
+-
+-	isc->try_config.fourcc = pixfmt->pixelformat;
+-
+-	if (isc_try_validate_formats(isc)) {
+-		pixfmt->pixelformat = isc->try_config.fourcc = sd_fmt->fourcc;
+-		/* Re-try to validate the new format */
+-		ret = isc_try_validate_formats(isc);
+-		if (ret)
+-			goto isc_try_fmt_err;
+-	}
+-
+-	ret = isc_try_configure_rlp_dma(isc, rlp_dma_direct_dump);
+-	if (ret)
+-		goto isc_try_fmt_err;
+-
+-	ret = isc_try_configure_pipeline(isc);
+-	if (ret)
+-		goto isc_try_fmt_err;
+-
+-	/* Obtain frame sizes if possible to have crop requirements ready */
+-	isc_try_fse(isc, &pad_state);
  
--	isc_clk_cleanup(isc);
-+	atmel_isc_clk_cleanup(isc);
+-	v4l2_fill_mbus_format(&format.format, pixfmt, mbus_code);
+-	ret = v4l2_subdev_call(isc->current_subdev->sd, pad, set_fmt,
+-			       &pad_state, &format);
+-	if (ret < 0)
+-		goto isc_try_fmt_subdev_err;
+-
+-	v4l2_fill_pix_format(pixfmt, &format.format);
++	isc_try_configure_rlp_dma(isc, false);
+ 
+ 	/* Limit to Microchip ISC hardware capabilities */
+-	if (pixfmt->width > isc->max_width)
+-		pixfmt->width = isc->max_width;
+-	if (pixfmt->height > isc->max_height)
+-		pixfmt->height = isc->max_height;
+-
++	v4l_bound_align_image(&pixfmt->width, 16, isc->max_width, 0,
++			      &pixfmt->height, 16, isc->max_height, 0, 0);
++	/* If we did not find the requested format, we will fallback here */
++	pixfmt->pixelformat = isc->try_config.fourcc;
++	pixfmt->colorspace = V4L2_COLORSPACE_SRGB;
+ 	pixfmt->field = V4L2_FIELD_NONE;
++
+ 	pixfmt->bytesperline = (pixfmt->width * isc->try_config.bpp_v4l2) >> 3;
+ 	pixfmt->sizeimage = ((pixfmt->width * isc->try_config.bpp) >> 3) *
+ 			     pixfmt->height;
+ 
+-	if (code)
+-		*code = mbus_code;
++	isc->try_fmt = *f;
  
  	return 0;
++}
+ 
+-isc_try_fmt_err:
+-	v4l2_err(&isc->v4l2_dev, "Could not find any possible format for a working pipeline\n");
+-isc_try_fmt_subdev_err:
+-	memset(&isc->try_config, 0, sizeof(isc->try_config));
++static int isc_set_fmt(struct isc_device *isc, struct v4l2_format *f)
++{
++	isc_try_fmt(isc, f);
+ 
+-	return ret;
++	/* make the try configuration active */
++	isc->config = isc->try_config;
++	isc->fmt = isc->try_fmt;
++
++	v4l2_dbg(1, debug, &isc->v4l2_dev, "ISC set_fmt to %.4s @%dx%d\n",
++		 (char *)&f->fmt.pix.pixelformat,
++		 f->fmt.pix.width, f->fmt.pix.height);
++
++	return 0;
  }
-diff --git a/drivers/media/platform/atmel/atmel-sama7g5-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-similarity index 97%
-rename from drivers/media/platform/atmel/atmel-sama7g5-isc.c
-rename to drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-index 8b11aa8340d7..01ababdfcbd9 100644
---- a/drivers/media/platform/atmel/atmel-sama7g5-isc.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-@@ -397,7 +397,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	if (IS_ERR(io_base))
- 		return PTR_ERR(io_base);
  
--	isc->regmap = devm_regmap_init_mmio(dev, io_base, &isc_regmap_config);
-+	isc->regmap = devm_regmap_init_mmio(dev, io_base, &atmel_isc_regmap_config);
- 	if (IS_ERR(isc->regmap)) {
- 		ret = PTR_ERR(isc->regmap);
- 		dev_err(dev, "failed to init register map: %d\n", ret);
-@@ -408,7 +408,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
+-static int isc_set_fmt(struct isc_device *isc, struct v4l2_format *f)
++static int isc_validate(struct isc_device *isc)
+ {
++	int ret;
++	int i;
++	struct isc_format *sd_fmt = NULL;
++	struct v4l2_pix_format *pixfmt = &isc->fmt.fmt.pix;
+ 	struct v4l2_subdev_format format = {
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
++		.pad = isc->remote_pad,
++	};
++	struct v4l2_subdev_pad_config pad_cfg = {};
++	struct v4l2_subdev_state pad_state = {
++		.pads = &pad_cfg,
+ 	};
+-	u32 mbus_code = 0;
+-	int ret;
  
--	ret = devm_request_irq(dev, irq, isc_interrupt, 0,
-+	ret = devm_request_irq(dev, irq, atmel_isc_interrupt, 0,
- 			       "microchip-sama7g5-xisc", isc);
- 	if (ret < 0) {
- 		dev_err(dev, "can't register ISR for IRQ %u (ret=%i)\n",
-@@ -453,7 +453,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	/* sama7g5-isc : ISPCK does not exist, ISC is clocked by MCK */
- 	isc->ispck_required = false;
- 
--	ret = isc_pipeline_init(isc);
-+	ret = atmel_isc_pipeline_init(isc);
+-	ret = isc_try_fmt(isc, f, &mbus_code);
++	/* Get current format from subdev */
++	ret = v4l2_subdev_call(isc->current_subdev->sd, pad, get_fmt, NULL,
++			       &format);
  	if (ret)
  		return ret;
  
-@@ -470,7 +470,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 		return ret;
+-	v4l2_fill_mbus_format(&format.format, &f->fmt.pix, mbus_code);
+-	ret = v4l2_subdev_call(isc->current_subdev->sd, pad,
+-			       set_fmt, NULL, &format);
+-	if (ret < 0)
+-		return ret;
++	/* Identify the subdev's format configuration */
++	for (i = 0; i < isc->formats_list_size; i++)
++		if (isc->formats_list[i].mbus_code == format.format.code) {
++			sd_fmt = &isc->formats_list[i];
++			break;
++		}
++
++	/* Check if the format is not supported */
++	if (!sd_fmt) {
++		v4l2_err(&isc->v4l2_dev,
++			 "Current subdevice is streaming a media bus code that is not supported 0x%x\n",
++			 format.format.code);
++		return -EPIPE;
++	}
++
++	/* At this moment we know which format the subdev will use */
++	isc->try_config.sd_format = sd_fmt;
++
++	/* If the sensor is not RAW, we can only do a direct dump */
++	if (!ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code))
++		isc_try_configure_rlp_dma(isc, true);
+ 
+ 	/* Limit to Microchip ISC hardware capabilities */
+-	if (f->fmt.pix.width > isc->max_width)
+-		f->fmt.pix.width = isc->max_width;
+-	if (f->fmt.pix.height > isc->max_height)
+-		f->fmt.pix.height = isc->max_height;
++	v4l_bound_align_image(&format.format.width, 16, isc->max_width, 0,
++			      &format.format.height, 16, isc->max_height, 0, 0);
+ 
+-	isc->fmt = *f;
++	/* Check if the frame size is the same. Otherwise we may overflow */
++	if (pixfmt->height != format.format.height ||
++	    pixfmt->width != format.format.width) {
++		v4l2_err(&isc->v4l2_dev,
++			 "ISC not configured with the proper frame size: %dx%d\n",
++			 format.format.width, format.format.height);
++		return -EPIPE;
++	}
++
++	v4l2_dbg(1, debug, &isc->v4l2_dev,
++		 "Identified subdev using format %.4s with %dx%d %d bpp\n",
++		 (char *)&sd_fmt->fourcc, pixfmt->width, pixfmt->height,
++		 isc->try_config.bpp);
+ 
++	/* Reset and restart AWB if the subdevice changed the format */
+ 	if (isc->try_config.sd_format && isc->config.sd_format &&
+ 	    isc->try_config.sd_format != isc->config.sd_format) {
+ 		isc->ctrls.hist_stat = HIST_INIT;
+ 		isc_reset_awb_ctrls(isc);
+ 		isc_update_v4l2_ctrls(isc);
  	}
+-	/* make the try configuration active */
++
++	/* Validate formats */
++	ret = isc_try_validate_formats(isc);
++	if (ret)
++		return ret;
++
++	/* Obtain frame sizes if possible to have crop requirements ready */
++	isc_try_fse(isc, &pad_state);
++
++	/* Configure ISC pipeline for the config */
++	ret = isc_try_configure_pipeline(isc);
++	if (ret)
++		return ret;
++
+ 	isc->config = isc->try_config;
  
--	ret = isc_clk_init(isc);
-+	ret = atmel_isc_clk_init(isc);
+ 	v4l2_dbg(1, debug, &isc->v4l2_dev, "New ISC configuration in place\n");
+@@ -1049,7 +1041,7 @@ static int isc_try_fmt_vid_cap(struct file *file, void *priv,
+ {
+ 	struct isc_device *isc = video_drvdata(file);
+ 
+-	return isc_try_fmt(isc, f, NULL);
++	return isc_try_fmt(isc, f);
+ }
+ 
+ static int isc_enum_input(struct file *file, void *priv,
+@@ -1104,10 +1096,6 @@ static int isc_enum_framesizes(struct file *file, void *fh,
+ 	if (fsize->index)
+ 		return -EINVAL;
+ 
+-	for (i = 0; i < isc->num_user_formats; i++)
+-		if (isc->user_formats[i]->fourcc == fsize->pixel_format)
+-			ret = 0;
+-
+ 	for (i = 0; i < isc->controller_formats_size; i++)
+ 		if (isc->controller_formats[i].fourcc == fsize->pixel_format)
+ 			ret = 0;
+@@ -1785,52 +1773,6 @@ struct isc_format *isc_find_format_by_code(struct isc_device *isc,
+ }
+ EXPORT_SYMBOL_GPL(isc_find_format_by_code);
+ 
+-static int isc_formats_init(struct isc_device *isc)
+-{
+-	struct isc_format *fmt;
+-	struct v4l2_subdev *subdev = isc->current_subdev->sd;
+-	unsigned int num_fmts, i, j;
+-	u32 list_size = isc->formats_list_size;
+-	struct v4l2_subdev_mbus_code_enum mbus_code = {
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-	};
+-
+-	num_fmts = 0;
+-	while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
+-				 NULL, &mbus_code)) {
+-		mbus_code.index++;
+-
+-		fmt = isc_find_format_by_code(isc, mbus_code.code, &i);
+-		if (!fmt) {
+-			v4l2_warn(&isc->v4l2_dev, "Mbus code %x not supported\n",
+-				  mbus_code.code);
+-			continue;
+-		}
+-
+-		fmt->sd_support = true;
+-		num_fmts++;
+-	}
+-
+-	if (!num_fmts)
+-		return -ENXIO;
+-
+-	isc->num_user_formats = num_fmts;
+-	isc->user_formats = devm_kcalloc(isc->dev,
+-					 num_fmts, sizeof(*isc->user_formats),
+-					 GFP_KERNEL);
+-	if (!isc->user_formats)
+-		return -ENOMEM;
+-
+-	fmt = &isc->formats_list[0];
+-	for (i = 0, j = 0; i < list_size; i++) {
+-		if (fmt->sd_support)
+-			isc->user_formats[j++] = fmt;
+-		fmt++;
+-	}
+-
+-	return 0;
+-}
+-
+ static int isc_set_default_fmt(struct isc_device *isc)
+ {
+ 	struct v4l2_format f = {
+@@ -1839,12 +1781,12 @@ static int isc_set_default_fmt(struct isc_device *isc)
+ 			.width		= VGA_WIDTH,
+ 			.height		= VGA_HEIGHT,
+ 			.field		= V4L2_FIELD_NONE,
+-			.pixelformat	= isc->user_formats[0]->fourcc,
++			.pixelformat	= isc->controller_formats[0].fourcc,
+ 		},
+ 	};
+ 	int ret;
+ 
+-	ret = isc_try_fmt(isc, &f, NULL);
++	ret = isc_try_fmt(isc, &f);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1899,13 +1841,6 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+ 	spin_lock_init(&isc->dma_queue_lock);
+ 	spin_lock_init(&isc->awb_lock);
+ 
+-	ret = isc_formats_init(isc);
+-	if (ret < 0) {
+-		v4l2_err(&isc->v4l2_dev,
+-			 "Init format failed: %d\n", ret);
+-		goto isc_async_complete_err;
+-	}
+-
+ 	ret = isc_set_default_fmt(isc);
  	if (ret) {
- 		dev_err(dev, "failed to init isc clock: %d\n", ret);
- 		goto unprepare_hclk;
-@@ -513,7 +513,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 			goto cleanup_subdev;
- 		}
+ 		v4l2_err(&isc->v4l2_dev, "Could not set default format\n");
+@@ -1928,7 +1863,8 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+ 	vdev->queue		= q;
+ 	vdev->lock		= &isc->lock;
+ 	vdev->ctrl_handler	= &isc->ctrls.handler;
+-	vdev->device_caps	= V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE;
++	vdev->device_caps	= V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE |
++				  V4L2_CAP_IO_MC;
+ 	video_set_drvdata(vdev, isc);
  
--		subdev_entity->notifier.ops = &isc_async_ops;
-+		subdev_entity->notifier.ops = &atmel_isc_async_ops;
- 
- 		ret = v4l2_async_nf_register(&isc->v4l2_dev,
- 					     &subdev_entity->notifier);
-@@ -536,7 +536,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	return 0;
- 
- cleanup_subdev:
--	isc_subdev_cleanup(isc);
-+	atmel_isc_subdev_cleanup(isc);
- 
- unregister_v4l2_device:
- 	v4l2_device_unregister(&isc->v4l2_dev);
-@@ -544,7 +544,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- unprepare_hclk:
- 	clk_disable_unprepare(isc->hclock);
- 
--	isc_clk_cleanup(isc);
-+	atmel_isc_clk_cleanup(isc);
- 
- 	return ret;
+ 	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+@@ -2018,6 +1954,24 @@ int microchip_isc_pipeline_init(struct isc_device *isc)
  }
-@@ -555,13 +555,13 @@ static int microchip_xisc_remove(struct platform_device *pdev)
+ EXPORT_SYMBOL_GPL(microchip_isc_pipeline_init);
  
- 	pm_runtime_disable(&pdev->dev);
++static int isc_link_validate(struct media_link *link)
++{
++	struct video_device *vdev =
++		media_entity_to_video_device(link->sink->entity);
++	struct isc_device *isc = video_get_drvdata(vdev);
++	int ret;
++
++	ret = v4l2_subdev_link_validate(link);
++	if (ret)
++		return ret;
++
++	return isc_validate(isc);
++}
++
++static const struct media_entity_operations isc_entity_operations = {
++	.link_validate = isc_link_validate,
++};
++
+ int isc_mc_init(struct isc_device *isc, u32 ver)
+ {
+ 	const struct of_device_id *match;
+@@ -2025,6 +1979,8 @@ int isc_mc_init(struct isc_device *isc, u32 ver)
  
--	isc_subdev_cleanup(isc);
-+	atmel_isc_subdev_cleanup(isc);
+ 	isc->video_dev.entity.function = MEDIA_ENT_F_IO_V4L;
+ 	isc->video_dev.entity.flags = MEDIA_ENT_FL_DEFAULT;
++	isc->video_dev.entity.ops = &isc_entity_operations;
++
+ 	isc->pads[ISC_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
  
- 	v4l2_device_unregister(&isc->v4l2_dev);
+ 	ret = media_entity_pads_init(&isc->video_dev.entity, ISC_PADS_NUM,
+diff --git a/drivers/media/platform/microchip/microchip-isc-scaler.c b/drivers/media/platform/microchip/microchip-isc-scaler.c
+index 80fff803e6bb..0f29a32d15ce 100644
+--- a/drivers/media/platform/microchip/microchip-isc-scaler.c
++++ b/drivers/media/platform/microchip/microchip-isc-scaler.c
+@@ -173,6 +173,10 @@ static const struct v4l2_subdev_pad_ops isc_scaler_pad_ops = {
+ 	.init_cfg = isc_scaler_init_cfg,
+ };
  
- 	clk_disable_unprepare(isc->hclock);
++static const struct media_entity_operations isc_scaler_entity_ops = {
++	.link_validate = v4l2_subdev_link_validate,
++};
++
+ static const struct v4l2_subdev_ops xisc_scaler_subdev_ops = {
+ 	.pad = &isc_scaler_pad_ops,
+ };
+@@ -190,6 +194,7 @@ int isc_scaler_init(struct isc_device *isc)
  
--	isc_clk_cleanup(isc);
-+	atmel_isc_clk_cleanup(isc);
+ 	isc->scaler_sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	isc->scaler_sd.entity.function = MEDIA_ENT_F_PROC_VIDEO_SCALER;
++	isc->scaler_sd.entity.ops = &isc_scaler_entity_ops;
+ 	isc->scaler_pads[ISC_SCALER_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
+ 	isc->scaler_pads[ISC_SCALER_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
  
- 	return 0;
- }
+diff --git a/drivers/media/platform/microchip/microchip-isc.h b/drivers/media/platform/microchip/microchip-isc.h
+index 1ba951df4f15..e3a6c7367e70 100644
+--- a/drivers/media/platform/microchip/microchip-isc.h
++++ b/drivers/media/platform/microchip/microchip-isc.h
+@@ -63,15 +63,16 @@ struct isc_subdev_entity {
+  * @cfa_baycfg:		If this format is RAW BAYER, indicate the type of bayer.
+ 			this is either BGBG, RGRG, etc.
+  * @pfe_cfg0_bps:	Number of hardware data lines connected to the ISC
++ * @raw:		If the format is raw bayer.
+  */
+ 
+ struct isc_format {
+ 	u32	fourcc;
+ 	u32	mbus_code;
+ 	u32	cfa_baycfg;
+-
+-	bool	sd_support;
+ 	u32	pfe_cfg0_bps;
++
++	bool	raw;
+ };
+ 
+ /* Pipeline bitmap */
+@@ -216,8 +217,7 @@ enum isc_scaler_pads {
+  * @comp:		completion reference that signals frame completion
+  *
+  * @fmt:		current v42l format
+- * @user_formats:	list of formats that are supported and agreed with sd
+- * @num_user_formats:	how many formats are in user_formats
++ * @try_fmt:		current v4l2 try format
+  *
+  * @config:		current ISC format configuration
+  * @try_config:		the current ISC try format , not yet activated
+@@ -272,6 +272,7 @@ enum isc_scaler_pads {
+  * @formats_list_size:	size of formats_list array
+  * @pads:		media controller pads for isc video entity
+  * @mdev:		media device that is registered by the isc
++ * @mpipe:		media device pipeline used by the isc
+  * @remote_pad:		remote pad on the connected subdevice
+  * @scaler_sd:		subdevice for the scaler that isc registers
+  * @scaler_pads:	media controller pads for the scaler subdevice
+@@ -298,8 +299,7 @@ struct isc_device {
+ 	struct completion	comp;
+ 
+ 	struct v4l2_format	fmt;
+-	struct isc_format	**user_formats;
+-	unsigned int		num_user_formats;
++	struct v4l2_format	try_fmt;
+ 
+ 	struct fmt_config	config;
+ 	struct fmt_config	try_config;
+@@ -369,6 +369,7 @@ struct isc_device {
+ 	struct {
+ 		struct media_pad		pads[ISC_PADS_NUM];
+ 		struct media_device		mdev;
++		struct media_pipeline		mpipe;
+ 
+ 		u32				remote_pad;
+ 	};
+diff --git a/drivers/media/platform/microchip/microchip-sama5d2-isc.c b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+index c702d2537738..ac4715d91de6 100644
+--- a/drivers/media/platform/microchip/microchip-sama5d2-isc.c
++++ b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
+@@ -80,20 +80,40 @@ static const struct isc_format sama5d2_controller_formats[] = {
+ 		.fourcc		= V4L2_PIX_FMT_Y10,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SBGGR8,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGBRG8,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGRBG8,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SRGGB8,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SBGGR10,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGBRG10,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGRBG10,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SRGGB10,
++		.raw		= true,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SBGGR12,
++		.raw		= true,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGBRG12,
++		.raw		= true,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGRBG12,
++		.raw		= true,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SRGGB12,
++		.raw		= true,
+ 	},
+ };
+ 
+diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+index 75a0a5caa8d8..d583eafe5cc1 100644
+--- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
++++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+@@ -89,20 +89,40 @@ static const struct isc_format sama7g5_controller_formats[] = {
+ 		.fourcc		= V4L2_PIX_FMT_Y16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SBGGR8,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGBRG8,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGRBG8,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SRGGB8,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SBGGR10,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGBRG10,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGRBG10,
++		.raw		= true,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SRGGB10,
++		.raw		= true,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SBGGR12,
++		.raw		= true,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGBRG12,
++		.raw		= true,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGRBG12,
++		.raw		= true,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SRGGB12,
++		.raw		= true,
+ 	},
+ };
+ 
 -- 
 2.25.1
 
