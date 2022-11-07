@@ -1,85 +1,85 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB493D527
-	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 15:22:37 +0000 (UTC)
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 8E6F2A0F08;
-	Mon,  7 Nov 2022 15:22:28 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id 17D7D25;
-	Mon,  7 Nov 2022 15:22:05 +0000 (UTC)
-Message-ID: <41a43f3865f3c86c6c2d1fbf3d82c42b685c7041.camel@perches.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8046AD531
+	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 15:38:40 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id bs21so16828163wrb.4
+        for <linux-staging@lists.linux.dev>; Mon, 07 Nov 2022 07:38:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oPAYTOGqtJ5XNV/1AT7caGCJRWNvYtUi2mlJFlDAdFo=;
+        b=abAkHaHp92Z2vtzOj1SozYZLRTomRw3rmtSms/q6U5bxMks3IC1kG7T1Jj4coIvsix
+         tRZ9kGDrhxY2WOBrqZ+srAh5EIXZeZZJu8Nw9C0e+XWMxLvKW+GszXbLWi4Zuu1oDmsY
+         C3w27S4X2EkcCE9alBkubM8pg6EYA0ATRKTF2b6HAgkRSRRp8U0fq2y75zHN2JoBgaOP
+         UR5BramKRFnMm+wjf/Wx0Ii3mOE6drzHT/JySGDZA2yeSBtjdejVQReg9OBVH6nBzhs2
+         PPL6fT0xAnExUe9uKeBMQ9K0QV8nNEfAY4MTG22q1++GvoL6Dd6asO5aL+b5v2S9S/Uu
+         HEtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oPAYTOGqtJ5XNV/1AT7caGCJRWNvYtUi2mlJFlDAdFo=;
+        b=4itrQAZ/RKCo+OngKgta2oRnn9ARGxINWY/3D+b4JZeTNRj55mEgoL8YjIUWL93MOq
+         4885PrOjTjGaU9W/xg+QpV/npWaSjC9UE0o82gDhkLGgWW0IhxPKHWT9uk+aF2P6WGvK
+         BnWjTvA4eVXWZGyRfQOoYuEjh9W689WSER8B1mRAYaoEnRIUaDqhancqueklUx6qUWO8
+         fx1IZMksj7W4TB8RzSTBaAq1xyWrcVfpjnyBgmuubRxvHkS5RyhF22kYJyrdI4t8su9y
+         v8mWIxKapJ9TUyA9dIwlU2nFz0hQ8eUCpvqjDZIni9s8w88KC3bspsD1nIY2Y41C+xsp
+         4ZHw==
+X-Gm-Message-State: ACrzQf2jK3v1bfwtrpdM5A4JenVWeXAu05PJmNFoNyFFq1swvRtQFr4m
+	Lt3SuL23uwQk0ZxuTrUqDmA=
+X-Google-Smtp-Source: AMsMyM6ogAqWyRekdBf34FVtsdxyzLUCwPGo0tD7wXyPyPl0rvifJ3bdaOFSULsXiP7FU2+hhTrvXg==
+X-Received: by 2002:a05:6000:18d:b0:236:8f9d:6d41 with SMTP id p13-20020a056000018d00b002368f9d6d41mr33498809wrx.658.1667835518709;
+        Mon, 07 Nov 2022 07:38:38 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id r17-20020a05600c35d100b003c6cd82596esm12778680wmq.43.2022.11.07.07.38.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 07:38:38 -0800 (PST)
+Date: Mon, 7 Nov 2022 18:38:35 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Joe Perches <joe@perches.com>
+Cc: Deepak R Varma <drv@mailo.com>, Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: iio: meter: use min() for comparison and
  assignment
-From: Joe Perches <joe@perches.com>
-To: Dan Carpenter <error27@gmail.com>, Deepak R Varma <drv@mailo.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org
-Date: Mon, 07 Nov 2022 07:22:24 -0800
-In-Reply-To: <Y2kDTxE38epBN368@kadam>
-References: <Y2iFGA3A1w+XMlYU@qemulion> <Y2kDTxE38epBN368@kadam>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+Message-ID: <Y2kme/FDg/4K2VW5@kadam>
+References: <Y2iFGA3A1w+XMlYU@qemulion>
+ <Y2kDTxE38epBN368@kadam>
+ <41a43f3865f3c86c6c2d1fbf3d82c42b685c7041.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Stat-Signature: ky5cyx8rpp6n63dr7r7rfoo9ffsryz5t
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 17D7D25
-X-Spam-Status: No, score=-3.73
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18cwuHY1nYUIb4QN9Tjc8AMikZIUD/bCaY=
-X-HE-Tag: 1667834525-888536
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <41a43f3865f3c86c6c2d1fbf3d82c42b685c7041.camel@perches.com>
 
-On Mon, 2022-11-07 at 16:08 +0300, Dan Carpenter wrote:
-> On Mon, Nov 07, 2022 at 09:40:00AM +0530, Deepak R Varma wrote:
-> > Simplify code by using recommended min helper macro for logical
-> > evaluation and value assignment. This issue is identified by
-> > coccicheck using the minmax.cocci file.
-> >=20
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> >  drivers/staging/iio/meter/ade7854-i2c.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/staging/iio/meter/ade7854-i2c.c b/drivers/staging/=
-iio/meter/ade7854-i2c.c
-> > index a9a06e8dda51..a6ce7b24cc8f 100644
-> > --- a/drivers/staging/iio/meter/ade7854-i2c.c
-> > +++ b/drivers/staging/iio/meter/ade7854-i2c.ck
-> > @@ -61,7 +61,7 @@ static int ade7854_i2c_write_reg(struct device *dev,
-> >  unlock:
-> >  	mutex_unlock(&st->buf_lock);
-> >=20
-> > -	return ret < 0 ? ret : 0;
-> > +	return min(ret, 0);
->=20
-> The original code is better.
->=20
-> If it's a failure return the error code.  If it's not return zero.
->=20
-> You can only compare apples to apples.  min() makes sense if you're
-> talking about two lengths.  But here if ret is negative that's an error
-> code.  If it's positive that's the number of bytes.  If the error
-> code is less than the number of bytes then return that?  What???  It
-> makes no sense.
->=20
-> In terms of run time, this patch is fine but in terms of reading the
-> code using min() makes it less readable.
+On Mon, Nov 07, 2022 at 07:22:24AM -0800, Joe Perches wrote:
+> > In terms of run time, this patch is fine but in terms of reading the
+> > code using min() makes it less readable.
+> 
+> It's not a runtime question, either should compile to the same object
+> code.  It's definitely a readabiity and standardization issue.
+> 
+> In this case, IMO it'd be better to use the much more common
+> 
+> 	if (ret < 0)
+> 		return ret;
+> 
+> 	return 0;
 
-It's not a runtime question, either should compile to the same object
-code.  It's definitely a readabiity and standardization issue.
+I also prefer this format.
 
-In this case, IMO it'd be better to use the much more common
+But at the same time, I can't advise Deepak to go around changing
+existing code where the author like ternaries.
 
-	if (ret < 0)
-		return ret;
-
-	return 0;
-
+regards,
+dan carpenter
