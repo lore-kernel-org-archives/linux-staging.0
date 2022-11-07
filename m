@@ -1,55 +1,51 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DFF3209
-	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 13:08:36 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id m7-20020a05600c090700b003cf8a105d9eso7098905wmp.5
-        for <linux-staging@lists.linux.dev>; Mon, 07 Nov 2022 05:08:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A9CAD48
+	for <linux-staging@lists.linux.dev>; Mon,  7 Nov 2022 13:20:32 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id y16so16127792wrt.12
+        for <linux-staging@lists.linux.dev>; Mon, 07 Nov 2022 05:20:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OjQ3EIftToSDAs8kIxnNN64z6dj2+/KZibkFT+hIH+I=;
-        b=L+hnZtSjLy47alR2cv82vQMSOeIO5hmyynkrCswoFbg6CZe+MECKFqdR+16N+FwdRV
-         mTfeI/nKmiCpm7kXfdpfr2o6wVMlc77JTgoDiJoY2GfASOCYamlmMnaKRBtOCzdw4ciT
-         tP6ez2pQmAgww836XsX1PtCqwsGCx9/QvbWx97gYyqKd+XV4/oZANewMfhCa9gpaAtxq
-         G8phyU/pynmFQBuB8oQbtjGidYGlYpHSnzubftS0CApdvaO+oyWT8x5xPexUzGuovy1V
-         EkR9q8lSk5G9NVpuc5lO4AMHgRr7qRnMgs2iUZJ0S5hjgXz0m6n2IbwqkPiOT05AiriD
-         bR6w==
+        bh=rQkhty8T6POVcU0azwPlKsIEvLSkT2jpd0kdC7pkzz0=;
+        b=ew4Bjy04DI9e5uryHgtndcjXp7MrPHICFFUqFV3AugH3b1UShyzEM/SAirrVHiAl83
+         PVmFgozsEbeu6JDph10T15ypDT+tLWM653yGhNcnL3qWab7Wp0ueNotW7YUWIYs9HQ3h
+         I6OVDxc3D176IlpO8mTZ34in308iaW6xkLWh+hEVyY5MwlM2E2jbNfH0+3ogAqfaSS58
+         3S19a/4DM9vKUaT8B9CUc/0++7ZFOWmgk0ZmnWHnCRX//F6eKCwElFNwgI/K2L6MejIQ
+         tgfEMzbF3cAuOa2GYXwISRtsHS/uM/D0Dbc6pjZpDS64kz7bzYsK8/0c01s+x6ZdRo5q
+         x/mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OjQ3EIftToSDAs8kIxnNN64z6dj2+/KZibkFT+hIH+I=;
-        b=Usp18D9VRg/t+2RMXzVPJm1AmyAOLMWZfIR5X9d3wD1RUEpeY8c5gAoYBC/NRbzp4j
-         A0dm7UjwSx6fm6eDwiCPLQ69fM6LJD3on8gocgtfH1bJ6lNVpPIeKzpMe9+MHQVvnRpN
-         fvduc25ymGlTHsJQwgNDJZdGOg+e1llP3zuYoUrVgWfnMTZ5feWXpTn4T2HadCkAaeBC
-         HxpTI34aNPaE9z1RN7cLbL6udUpI0AWvs7VVpctxwy1PgnoS9jjX/0lQ+fDt6kTbIsYe
-         aAsWmllKT6LOZj27408pluaFHsAQcV7Z2BW39YRt3L1kUbNwl7/1u2m5W5O0FDwVeFkr
-         XpQw==
-X-Gm-Message-State: ACrzQf1laTKHAmGQtbgXQEYtNj1K+IYZFN+EQPmb7BXirmuVA7t+n7m0
-	RlnoELAbiN7tgCXNiOnuiaQ=
-X-Google-Smtp-Source: AMsMyM5XlevBa2XTwPGVMGYwItpf9GANoVu6vIuqwg96EaKpvguJYcU66RI593ZqRNf1hMY8VrkxUw==
-X-Received: by 2002:a7b:cc8c:0:b0:3cf:7b8c:d18a with SMTP id p12-20020a7bcc8c000000b003cf7b8cd18amr25194367wma.0.1667826514866;
-        Mon, 07 Nov 2022 05:08:34 -0800 (PST)
+        bh=rQkhty8T6POVcU0azwPlKsIEvLSkT2jpd0kdC7pkzz0=;
+        b=yEe4fTocU3jKbDPYtbObBIYcrI3Vx2Hu2Q+cmGAOHXKNvPwpPqL0HqAF8KMnP5Y8cS
+         tYyIHMxZ3xoSaI3SIm9LmmY3GboqhGfwXm5y0B6mzp17oL4voEwFaESAHW84kc6CQ7BK
+         tyr2dijwvufeo2KRRtds/VGJXQwu7w3q7Hc7qNB9L2srWtmXR2fF1oixOmG5AVUkeKH/
+         9Ff+44fu0SO0HpLVWjRi9vrLKaXbbAhe3f2nB0Zg/z+z9pK7XvPUji62VQHbiJdnZzjK
+         3RJlKbrTN+B6X/3baXRyEsI1ZlDBfofb3opL7awMZaW/1dAm6rFi4gATF3lOQtIn1PSG
+         8+GA==
+X-Gm-Message-State: ACrzQf3cVu8cBpnVDs2x2IF7Lyi5POERzK/hlF3cQhmwE0yhLOFyzzee
+	jQjW1zT35rLyyEwGWKpB30+vlSGid3bWVw==
+X-Google-Smtp-Source: AMsMyM67ieLID2xmpb5tqDsb0FoMSwND0Ma2RaIdA+o1o/Ikv6l0mI6mTXhxzxUplvxTUH8HZwcyMg==
+X-Received: by 2002:adf:f2c5:0:b0:236:aad0:b361 with SMTP id d5-20020adff2c5000000b00236aad0b361mr30264804wrp.228.1667827230815;
+        Mon, 07 Nov 2022 05:20:30 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bg20-20020a05600c3c9400b003c6bd12ac27sm8667304wmb.37.2022.11.07.05.08.33
+        by smtp.gmail.com with ESMTPSA id bw9-20020a0560001f8900b00236c1f2cecesm8935240wrb.81.2022.11.07.05.20.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 05:08:34 -0800 (PST)
-Date: Mon, 7 Nov 2022 16:08:31 +0300
+        Mon, 07 Nov 2022 05:20:30 -0800 (PST)
+Date: Mon, 7 Nov 2022 16:20:27 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Deepak R Varma <drv@mailo.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: meter: use min() for comparison and
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: most: video: use min_t() for comparison and
  assignment
-Message-ID: <Y2kDTxE38epBN368@kadam>
-References: <Y2iFGA3A1w+XMlYU@qemulion>
+Message-ID: <Y2kGG3zuvvDLZKWq@kadam>
+References: <Y2iHl5CuqyR2vEc8@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,41 +54,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2iFGA3A1w+XMlYU@qemulion>
+In-Reply-To: <Y2iHl5CuqyR2vEc8@qemulion>
 
-On Mon, Nov 07, 2022 at 09:40:00AM +0530, Deepak R Varma wrote:
-> Simplify code by using recommended min helper macro for logical
-> evaluation and value assignment. This issue is identified by
-> coccicheck using the minmax.cocci file.
+On Mon, Nov 07, 2022 at 09:50:39AM +0530, Deepak R Varma wrote:
+> Simplify code by using min_t helper macro for logical evaluation
+> and value assignment. Use the _t variant of min macro since the
+> variable types are not same.
+> This issue is identified by coccicheck using the minmax.cocci file.
 > 
 > Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
->  drivers/staging/iio/meter/ade7854-i2c.c | 2 +-
+> 
+> Changes in v2:
+>    1. Revise patch description. No functional change.
+> 
+>  drivers/staging/most/video/video.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/iio/meter/ade7854-i2c.c b/drivers/staging/iio/meter/ade7854-i2c.c
-> index a9a06e8dda51..a6ce7b24cc8f 100644
-> --- a/drivers/staging/iio/meter/ade7854-i2c.c
-> +++ b/drivers/staging/iio/meter/ade7854-i2c.c
-> @@ -61,7 +61,7 @@ static int ade7854_i2c_write_reg(struct device *dev,
->  unlock:
->  	mutex_unlock(&st->buf_lock);
-> 
-> -	return ret < 0 ? ret : 0;
-> +	return min(ret, 0);
+> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> index ffa97ef21ea5..d5cc7eea3b52 100644
+> --- a/drivers/staging/most/video/video.c
+> +++ b/drivers/staging/most/video/video.c
+> @@ -173,7 +173,7 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
+>  	while (count > 0 && data_ready(mdev)) {
+>  		struct mbo *const mbo = get_top_mbo(mdev);
+>  		int const rem = mbo->processed_length - fh->offs;
+> -		int const cnt = rem < count ? rem : count;
+> +		int const cnt = min_t(int, rem, count);
 
-The original code is better.
+TL;DR use size_t instead of int.
 
-If it's a failure return the error code.  If it's not return zero.
+Using "int" here is wrong.  size_t is unsigned long meaning that it has
+64 bits to use to represent positive values.  (Let's ignore 32 bit
+arches).  You have chopped it down to say that it now has 31 bits for
+positives and if BIT(31) is set then treat it as negative.  Everything
+which is larger than INT_MAX will be broken.
 
-You can only compare apples to apples.  min() makes sense if you're
-talking about two lengths.  But here if ret is negative that's an error
-code.  If it's positive that's the number of bytes.  If the error
-code is less than the number of bytes then return that?  What???  It
-makes no sense.
-
-In terms of run time, this patch is fine but in terms of reading the
-code using min() makes it less readable.
+Fortunately, in this code the value of count will never go higher than
+"INT_MAX - PAGE_SIZE" because Linus understands that it's easy to
+introduce bugs like this.
 
 regards,
 dan carpenter
+
