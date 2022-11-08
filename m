@@ -1,25 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EC08BE1;
-	Tue,  8 Nov 2022 15:14:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAAA1C433C1;
-	Tue,  8 Nov 2022 15:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8BB8BE1;
+	Tue,  8 Nov 2022 15:16:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C8AFC433C1;
+	Tue,  8 Nov 2022 15:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667920460;
-	bh=UwGvGkskwck3rVTxWfnG1rG6Cix751U5AsQ6BVkQU8c=;
+	s=korg; t=1667920600;
+	bh=VyObGno3eWCppLggnWSbcxxTvObvPyRmksOsBBBl7WQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L5N6NfxRtdPv3FT7DDBTuv8QquDWbDARFSRmIrIYeS6mksdEoDT7sT09fqlAXnA53
-	 aKjnyO7pfTQYBJzeQvnIJYL5KfTn5nHV0VSRS532/51r3fvb9b8eQj+h69Kzs/WH9h
-	 7tp+m3UJhtl/jgN52iqjYjSMm6gSSl6KjLPJdgag=
-Date: Tue, 8 Nov 2022 16:14:16 +0100
+	b=Fy5/LIDtHF/+VUnhwnkeFl4WowNnzzkCvBAMzvZWRQ6IynAx+dDXVqYRnGxfnDCCa
+	 gURISwHChRbdJKfMWMKq3qGaI53m3MRcPDXgmNCCg0lg1CJG/B1Pgrvd27q8sbtr39
+	 F1lA16Ce/E3VZZucEEYJZfilaBT9FZxeP+IaPNgg=
+Date: Tue, 8 Nov 2022 16:16:36 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] staging: rtl8192u: unused code cleanup
-Message-ID: <Y2pySMu0kBgh3xFh@kroah.com>
-References: <cover.1667398621.git.drv@mailo.com>
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: vt6655: change the function name
+ s_vGenerateTxParameter
+Message-ID: <Y2py1M0HC/olQxWD@kroah.com>
+References: <Y2OmAuBswNbWFWRd@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,24 +29,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1667398621.git.drv@mailo.com>
+In-Reply-To: <Y2OmAuBswNbWFWRd@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 
-On Wed, Nov 02, 2022 at 08:07:52PM +0530, Deepak R Varma wrote:
-> Remove unnecessary or unused code.
+On Thu, Nov 03, 2022 at 11:29:06AM +0000, Tanjuate Brunostar wrote:
+> Remove the use of Hongarian notation which is not used in Linux kernel.
+> Join some lines of code to avoid a line ending in a '('
+> Reported by Checkpatch
 > 
-> Changes in v3:
->    Patch-1:
->       1. Already accepted and applied to the stating-testing tree. Hence not
->          included in this patch set now.
->    Patch-2:
->       1. The patch caused staging tree build to fail due to EXPORT_SYMBOL
->          conflict. Fixed the issue caused due to deletion of 2 macros.
->          Correction and re-submission asked by gregkh@linuxfoundation.org
+> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+> ---
+>  drivers/staging/vt6655/rxtx.c | 54 ++++++++++++++++-------------------
+>  1 file changed, 25 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index debc5d5daede..793a63b2ff46 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -10,7 +10,7 @@
+>   * Date: May 20, 2003
+>   *
+>   * Functions:
+> - *      s_vGenerateTxParameter - Generate tx dma required parameter.
+> + *      generate_tx_parameter - Generate tx dma required parameter.
+>   *      vGenerateMACHeader - Translate 802.3 to 802.11 header
+>   *      cbGetFragCount - Calculate fragment number count
+>   *      csBeacon_xmit - beacon tx function
+> @@ -95,17 +95,17 @@ static void fill_rts_header(struct vnt_private *pDevice,
+>  			    unsigned short wCurrentRate,
+>  			    unsigned char byFBOption);
+>  
+> -static void s_vGenerateTxParameter(struct vnt_private *pDevice,
+> -				   unsigned char byPktType,
+> -				   struct vnt_tx_fifo_head *,
+> -				   void *pvRrvTime,
+> -				   void *pvRTS,
+> -				   void *pvCTS,
+> -				   unsigned int	cbFrameSize,
+> -				   bool bNeedACK,
+> -				   unsigned int	uDMAIdx,
+> -				   void *psEthHeader,
+> -				   unsigned short wCurrentRate);
+> +static void generate_tx_parameter(struct vnt_private *pDevice,
+> +				  unsigned char byPktType,
+> +				  struct vnt_tx_fifo_head *,
+> +				  void *pvRrvTime,
+> +				  void *pvRTS,
+> +				  void *pvCTS,
+> +				  unsigned int	cbFrameSize,
+> +				  bool bNeedACK,
+> +				  unsigned int	uDMAIdx,
+> +				  void *psEthHeader,
+> +				  unsigned short wCurrentRate);
+>  
 
-But now this patch set looks like it is missing a patch, which confuses
-everything.
-
-Please just send a new patch, v4, 1/1, and all will be better.
+This function prototype is not needed at all, right?  So just delete it
+instead of renaming it.
 
 thanks,
 
