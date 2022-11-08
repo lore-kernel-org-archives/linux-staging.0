@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB388BE1;
-	Tue,  8 Nov 2022 15:13:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD78CC433B5;
-	Tue,  8 Nov 2022 15:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EC08BE1;
+	Tue,  8 Nov 2022 15:14:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAAA1C433C1;
+	Tue,  8 Nov 2022 15:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667920395;
-	bh=yjUEyhaRIiHMqqO27oI8Zj9p/9BwETLNtnjjbRI3gdc=;
+	s=korg; t=1667920460;
+	bh=UwGvGkskwck3rVTxWfnG1rG6Cix751U5AsQ6BVkQU8c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TnykQP2KcAzGAG/+CJJg8u7H4NN9PjTW3S24WLXdrw/LYKque3tsoHXiT/uT1NJB1
-	 +07FaD7LPaEt5y2Lp1nW6IVlWLQLOdqIFoURyuKEKAwO5/+oByVWgdECQuB+I4vpro
-	 z7ab5TdoPCnhUQetg4jz2Xthrnl1bdez0tJRFONM=
-Date: Tue, 8 Nov 2022 16:13:12 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	b=L5N6NfxRtdPv3FT7DDBTuv8QquDWbDARFSRmIrIYeS6mksdEoDT7sT09fqlAXnA53
+	 aKjnyO7pfTQYBJzeQvnIJYL5KfTn5nHV0VSRS532/51r3fvb9b8eQj+h69Kzs/WH9h
+	 7tp+m3UJhtl/jgN52iqjYjSMm6gSSl6KjLPJdgag=
+Date: Tue, 8 Nov 2022 16:14:16 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Deepak R Varma <drv@mailo.com>
-Cc: outreachy@lists.linux.dev, Sven Van Asbroeck <TheSven73@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fieldbus: convert snprintf to scnprintf
-Message-ID: <Y2pyCA/tRunNVRQt@kroah.com>
-References: <Y2K2MD7+WBu4QouU@qemulion>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] staging: rtl8192u: unused code cleanup
+Message-ID: <Y2pySMu0kBgh3xFh@kroah.com>
+References: <cover.1667398621.git.drv@mailo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,35 +28,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2K2MD7+WBu4QouU@qemulion>
+In-Reply-To: <cover.1667398621.git.drv@mailo.com>
 
-On Wed, Nov 02, 2022 at 11:55:52PM +0530, Deepak R Varma wrote:
-> It is recommended to use scnprintf instead of snprintf to accurately
-> return the size of the encoded data. Following article [1] has details
-> on the reason for this kernel level migration. This issue was identified
-> using coccicheck.
+On Wed, Nov 02, 2022 at 08:07:52PM +0530, Deepak R Varma wrote:
+> Remove unnecessary or unused code.
 > 
-> [1] https://lwn.net/Articles/69419/
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  drivers/staging/fieldbus/dev_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/fieldbus/dev_core.c b/drivers/staging/fieldbus/dev_core.c
-> index 5aab734606ea..d51f2b02d5e6 100644
-> --- a/drivers/staging/fieldbus/dev_core.c
-> +++ b/drivers/staging/fieldbus/dev_core.c
-> @@ -70,7 +70,7 @@ static ssize_t card_name_show(struct device *dev, struct device_attribute *attr,
->  	 * card_name was provided by child driver, could potentially be long.
->  	 * protect against buffer overrun.
->  	 */
-> -	return snprintf(buf, PAGE_SIZE, "%s\n", fb->card_name);
-> +	return scnprintf(buf, PAGE_SIZE, "%s\n", fb->card_name);
+> Changes in v3:
+>    Patch-1:
+>       1. Already accepted and applied to the stating-testing tree. Hence not
+>          included in this patch set now.
+>    Patch-2:
+>       1. The patch caused staging tree build to fail due to EXPORT_SYMBOL
+>          conflict. Fixed the issue caused due to deletion of 2 macros.
+>          Correction and re-submission asked by gregkh@linuxfoundation.org
 
-No, neither of these are correct.
+But now this patch set looks like it is missing a patch, which confuses
+everything.
 
-Please use sysfs_emit() for sysfs show callbacks.
+Please just send a new patch, v4, 1/1, and all will be better.
 
 thanks,
 
