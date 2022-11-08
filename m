@@ -1,28 +1,25 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8B08BE1
-	for <linux-staging@lists.linux.dev>; Tue,  8 Nov 2022 15:12:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F0A4C433D6;
-	Tue,  8 Nov 2022 15:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667920341;
-	bh=dY6YcVEKd8/kTJ0bxrcHw4OlBXje9C80yhXhEcnFW7o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nv6VmbiwMcOdoVuhP5Uf/6AWhaG3U/FMGv3WOoIuv6kXMukzQzotu69aIFPIfDI1L
-	 Xry70c5bCNViipvtbaOA4VIhYGHxEXhROppgaswjmi2BZY4+KOnb0gMvL+pamUQZa6
-	 FgDJu6Tj16AWP6EJKDz6R9cQgpRC3Bmh8iK6zwXs=
-Date: Tue, 8 Nov 2022 16:12:17 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3148BE1
+	for <linux-staging@lists.linux.dev>; Tue,  8 Nov 2022 15:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667920385; bh=sejP4aBDdhMo3HG9Xhj2vvP0zlb9qbq1zHjDd4eRHUM=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=ZuiOdBdjtkEIP+oN7dr8IVxqYOpsonyeISX+DbXtTEo1QPmbjl5am5DM8za3qZ0YY
+	 hwaGCcfhBAUEM4DKUfgUUCHhTIDXJ6Iw9CUsAipf/cfzP5aMAKLYAaDEnmnAuYnxB4
+	 4crHcJX4yRfHt2doHIiidtWeZ+qN/DXubq635474=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Tue,  8 Nov 2022 16:13:05 +0100 (CET)
+X-EA-Auth: OlqpyWd3qQcgdjOz9yJAVFrkj87A1WXK9JgBsKUSYg+jqfeXlddkMDsowDf2k8clG2dGPZ5qCVS6zAKNw6gfGH2vXDnrj/ry
+Date: Tue, 8 Nov 2022 20:42:59 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: meter: use min() for comparison and
- assignment
-Message-ID: <Y2px0THYSMaU4gyZ@kroah.com>
-References: <Y2iFGA3A1w+XMlYU@qemulion>
+Subject: staging/wlan-ng query: convert to flexible array member
+Message-ID: <Y2px+zOGjkpGh6qC@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,32 +28,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2iFGA3A1w+XMlYU@qemulion>
 
-On Mon, Nov 07, 2022 at 09:40:00AM +0530, Deepak R Varma wrote:
-> Simplify code by using recommended min helper macro for logical
-> evaluation and value assignment. This issue is identified by
-> coccicheck using the minmax.cocci file.
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  drivers/staging/iio/meter/ade7854-i2c.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/iio/meter/ade7854-i2c.c b/drivers/staging/iio/meter/ade7854-i2c.c
-> index a9a06e8dda51..a6ce7b24cc8f 100644
-> --- a/drivers/staging/iio/meter/ade7854-i2c.c
-> +++ b/drivers/staging/iio/meter/ade7854-i2c.c
-> @@ -61,7 +61,7 @@ static int ade7854_i2c_write_reg(struct device *dev,
->  unlock:
->  	mutex_unlock(&st->buf_lock);
-> 
-> -	return ret < 0 ? ret : 0;
-> +	return min(ret, 0);
+Hello,
 
-As others have said, this isn't ok, and I hate ? : usage, so if you
-want, spell that out please.
+First, my apologies for the long email.
+I am requesting guidance on how to approach resolving the zero element flexible
+VLO struct implementation in this driver in file drivers/staging/waln-ng/hfa384x.f
 
-thanks,
+The struct hfa384x_pdrec contains nested structs with zero element arrays.  These
+zero element structs are part of a union 'data' inside the struct container. This
+union 'data' is the last element of this container. Please see the code snip below:
 
-greg k-h
+<snip>
+
+	1068 struct hfa384x_pdrec {
+	   1         __le16 len;             /* in words */
+	   2         __le16 code;
+	   3         union pdr {
+	   4                 struct hfa384x_pdr_pcb_partnum pcb_partnum;
+	  11                 struct hfa384x_pdr_nicid nicid;
+	  12                 struct hfa384x_pdr_refdac_measurements refdac_measurements;
+	  13                 struct hfa384x_pdr_vgdac_measurements vgdac_measurements;
+	  14                 struct hfa384x_pdr_level_comp_measurements level_compc_measurements;
+	  15                 struct hfa384x_pdr_mac_address mac_address;
+	  39         } data;
+	  40 } __packed;
+
+</snip>
+
+The three structures in question are declared as follows in the same file:
+
+<snip>
+	962  struct hfa384x_pdr_refdac_measurements {
+	   1         u16 value[0];
+	   2 } __packed;
+	   3
+	   4 struct hfa384x_pdr_vgdac_measurements {
+	   5         u16 value[0];
+	   6 } __packed;
+	   7
+	   8 struct hfa384x_pdr_level_comp_measurements {
+	   9         u16 value[0];
+	  10 } __packed;
+</snip>
+
+As per the C99 specifications, the flexible array struct should have at least
+one member other than the true flexible array member. So converting these from
+[0] to [] is not feasible in the current form.
+
+I did not find these struct variables being used for memory allocation in the
+code directly. My find may be short since the implementation appears to get very
+complex as I tried to get deeper.
+
+Can you please suggest how should I approach correcting the zero element flex
+array implementation here? Can these structs be removed if they are unused?
+
+Thank you.
+./drv
+
+
+
