@@ -1,30 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F34AA460
-	for <linux-staging@lists.linux.dev>; Tue,  8 Nov 2022 19:43:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6239C433D6;
-	Tue,  8 Nov 2022 19:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667936636;
-	bh=TQ6VFDWTvj3p3Yd6Y1xo0jQurPlby9PFkfx1GZjMErk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bfz7D7gmLm2Br9AJtb6DgitIxC8cghs5DDRlyOpX+d5CZl/XoNyMi7tNZS70hvXM0
-	 1DIiEkdbbWBvTXqAyHzMVc7ysPOaEwU9483leLU3uhJTjfRhjN4V+iOltT3b4Wholr
-	 APtqJj0WUM/JnyhEv/ax7UIyyR9WhEHRLiJrbmHM=
-Date: Tue, 8 Nov 2022 20:43:52 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: staging/wlan-ng query: convert to flexible array member
-Message-ID: <Y2qxeDQ+76CvfN1c@kroah.com>
-References: <Y2px+zOGjkpGh6qC@qemulion>
- <Y2p29zc/TeX8OFWU@kroah.com>
- <Y2p5hqdFo5UZoHUY@qemulion>
- <Y2p7TOeg8vzK0rvB@kroah.com>
- <Y2qT0zSlhtQrYwl+@qemulion>
- <Y2qgs3hu95Okjs2w@kroah.com>
- <Y2qiMbpBobzvR4ED@qemulion>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3AFFA460
+	for <linux-staging@lists.linux.dev>; Tue,  8 Nov 2022 20:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=cu/Nq8NSTxGmNeXXn7OeR7u1GCvrQSeqPMHwOJbQwEI=; b=pvB41jdPI6bkGA/24CTuwPpNuX
+	ynqPInOEv1yVnKKuAHtMi1nF9Oso4ySQCCD2LgaLeO5svhMvT/pylgBgB/FkuvFsVAACPv6QbD/J9
+	CcTR0JolyTtagPedXrnd3meQQsiyNbgD4KzDL9sKlgXG7PzT9tRyTI66iXB5tAT81ocg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1osVC0-001r2n-Aq; Tue, 08 Nov 2022 21:27:32 +0100
+Date: Tue, 8 Nov 2022 21:27:32 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+	Deepak R Varma <drv@mailo.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: patches for staging:media drivers
+Message-ID: <Y2q7tFF7YeX16H20@lunn.ch>
+References: <Y2eSCZJNWn6DzCUu@qemulion>
+ <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
+ <Y2oO7fU4whKr+3hb@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,29 +40,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2qiMbpBobzvR4ED@qemulion>
+In-Reply-To: <Y2oO7fU4whKr+3hb@kadam>
 
-On Wed, Nov 09, 2022 at 12:08:41AM +0530, Deepak R Varma wrote:
-> On Tue, Nov 08, 2022 at 07:32:19PM +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Nov 08, 2022 at 11:07:23PM +0530, Deepak R Varma wrote:
-> > > On Tue, Nov 08, 2022 at 04:52:44PM +0100, Greg Kroah-Hartman wrote:
-> > > > On Tue, Nov 08, 2022 at 09:15:10PM +0530, Deepak R Varma wrote:
-> > > > > On Tue, Nov 08, 2022 at 04:34:15PM +0100, Greg Kroah-Hartman wrote:
-> > > > > 	  MODPOST drivers/staging/wlan-ng/Module.symvers
-> > > > > 	  LD [M]  drivers/staging/wlan-ng/prism2_usb.ko
-> > > > > 	  BTF [M] drivers/staging/wlan-ng/prism2_usb.ko
-> > > > > 	drv@qemulion:~/git/kernels/staging$
-> > > > > </snip>
-> > > > >
-> > > >
-> > > > Test the device to make sure it still works?
-> > >
-> > > I was able to build and load the driver on my machine. I do not have p54 device
-> > > to test. Is there another way to test it? Some sort of a udev program???
-> >
-> > You need the real hardware to test it properly.
+On Tue, Nov 08, 2022 at 11:10:21AM +0300, Dan Carpenter wrote:
+> On Mon, Nov 07, 2022 at 06:29:30PM +0100, Neil Armstrong wrote:
+> > Hi,
+> > 
+> > On 06/11/2022 11:52, Deepak R Varma wrote:
+> > > Greetings to all.
+> > > My name is Deepak R Varma and I was part of the recent Outreachy internship
+> > > round. I learned during this program that patches for the media drivers were
+> > > prohibited to be included in the Outreachy effort due to lack of bandwidth for
+> > > the maintainers to respond on those.
+> > > 
+> > > The Outreachy round is now over but I am continuing to work on code improvement
+> > > and changes. I would like to know if it is okay for me to now identify
+> > > opportunities in the media drivers and send patch proposal for your kind
+> > > consideration. I intend to send couple of Coccinelle identified code
+> > > improvements as patches.
+> > > 
+> > > Please let me know.
+> > 
+> > I won't say no but since the media maintainers will need to apply them,
+> > the problem is the same.
 > 
-> Do you know if I work with someone to test the change locally rather than
-> sending in a untested change?
+> Yeah.  Me either.  Those rules are for Outreachy so they don't apply to
+> anyone else, but at the same time no one is going to Ack your patches
+> without seeing them and especially for a subsystem they don't maintain.
+> 
+> I always try to think about if maintainers will want my patches.  Like
+> I sometimes see people returning -1 instead of -ENOMEM but, you know,
+> unless it reaches user space it's not technically a bug.  You can't go
+> around fixing everyone's bad taste.  But everyone likes bug fixes.
 
-If you can find someone, sure!
+I cannot say anything about the media subsystem, but for networking
+patches, i will be much more willing to help somebody going from
+Outreach to being a full kernel developers if they decide to take on
+something more than just some Coccinelle changes. If it looks like you
+have the hardware and want to make it better, have a vision where the
+driver should go, then you are likely to get more help from me. So if
+media drivers are what you interested in, go buy some hardware which
+uses one of the drivers in staging, look at the TODO file, and submit
+bigger patches than just -1 to -ENOMEM.
+
+     Andrew
