@@ -1,24 +1,31 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23188BE7
-	for <linux-staging@lists.linux.dev>; Tue,  8 Nov 2022 15:34:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A06C433D7;
-	Tue,  8 Nov 2022 15:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1667921658;
-	bh=QULdRw93pmvMhegOa4ePuSQURnFlXlrdf9tEjj03QEU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vLDabxVgpbNTSTwEWB3ZHvOVjlO8SaGNBAcpiztSlSLwy7uH3nCw2udS/4Wus2EI3
-	 553gkZ9ijOdEjlDteLyE+agQjchnFbdCpsTrsV6IOTd84rRivdmZHcKiYSd76/6Mse
-	 33yNLzFtCtTN/aOWcjNQQAyfEqc/qi2w0iDOw5wU=
-Date: Tue, 8 Nov 2022 16:34:15 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: staging/wlan-ng query: convert to flexible array member
-Message-ID: <Y2p29zc/TeX8OFWU@kroah.com>
-References: <Y2px+zOGjkpGh6qC@qemulion>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D563C8BE7
+	for <linux-staging@lists.linux.dev>; Tue,  8 Nov 2022 15:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1667921791; bh=u8mE0RgfI7DF59MjU6HsCI5ArTqJuAPJ2NL8flSA2Os=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=bGsqNaQMT2/NWStg8QCkAH+CkdEN0kBZAXlAC1Gu3mg9WmQhtHabUbCifsjGYKNgm
+	 kfXLKfUBAbVJAcBas+mlZH45ap0Ipq8SxLfbAgCPeEC5abyvZMbxqmiy2vEpIv0rMr
+	 Kpo/U134via1+UGBNu/8H9EGh6j2UlbmtPQ8beu0=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Tue,  8 Nov 2022 16:36:31 +0100 (CET)
+X-EA-Auth: PydSInO7T9JIGOf/URLb9LCRSKwC2QrlsACITB8ckZx4hr3VWORvrMJPY5XBWexlZ1jwRUVBgTsvIzJmSGxjyMElojwG1MVG
+Date: Tue, 8 Nov 2022 21:06:24 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: meter: use min() for comparison and
+ assignment
+Message-ID: <Y2p3eIQjdyBWs1xD@ubunlion>
+References: <Y2iFGA3A1w+XMlYU@qemulion>
+ <Y2px0THYSMaU4gyZ@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,69 +34,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2px+zOGjkpGh6qC@qemulion>
+In-Reply-To: <Y2px0THYSMaU4gyZ@kroah.com>
 
-On Tue, Nov 08, 2022 at 08:42:59PM +0530, Deepak R Varma wrote:
-> Hello,
-> 
-> First, my apologies for the long email.
-> I am requesting guidance on how to approach resolving the zero element flexible
-> VLO struct implementation in this driver in file drivers/staging/waln-ng/hfa384x.f
-> 
-> The struct hfa384x_pdrec contains nested structs with zero element arrays.  These
-> zero element structs are part of a union 'data' inside the struct container. This
-> union 'data' is the last element of this container. Please see the code snip below:
-> 
-> <snip>
-> 
-> 	1068 struct hfa384x_pdrec {
-> 	   1         __le16 len;             /* in words */
-> 	   2         __le16 code;
-> 	   3         union pdr {
-> 	   4                 struct hfa384x_pdr_pcb_partnum pcb_partnum;
-> 	  11                 struct hfa384x_pdr_nicid nicid;
-> 	  12                 struct hfa384x_pdr_refdac_measurements refdac_measurements;
-> 	  13                 struct hfa384x_pdr_vgdac_measurements vgdac_measurements;
-> 	  14                 struct hfa384x_pdr_level_comp_measurements level_compc_measurements;
-> 	  15                 struct hfa384x_pdr_mac_address mac_address;
-> 	  39         } data;
-> 	  40 } __packed;
-> 
-> </snip>
-> 
-> The three structures in question are declared as follows in the same file:
-> 
-> <snip>
-> 	962  struct hfa384x_pdr_refdac_measurements {
-> 	   1         u16 value[0];
-> 	   2 } __packed;
-> 	   3
-> 	   4 struct hfa384x_pdr_vgdac_measurements {
-> 	   5         u16 value[0];
-> 	   6 } __packed;
-> 	   7
-> 	   8 struct hfa384x_pdr_level_comp_measurements {
-> 	   9         u16 value[0];
-> 	  10 } __packed;
-> </snip>
-> 
-> As per the C99 specifications, the flexible array struct should have at least
-> one member other than the true flexible array member. So converting these from
-> [0] to [] is not feasible in the current form.
-> 
-> I did not find these struct variables being used for memory allocation in the
-> code directly. My find may be short since the implementation appears to get very
-> complex as I tried to get deeper.
-> 
-> Can you please suggest how should I approach correcting the zero element flex
-> array implementation here? Can these structs be removed if they are unused?
+On Tue, Nov 08, 2022 at 04:12:17PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Nov 07, 2022 at 09:40:00AM +0530, Deepak R Varma wrote:
+> > Simplify code by using recommended min helper macro for logical
+> > evaluation and value assignment. This issue is identified by
+> > coccicheck using the minmax.cocci file.
+> >
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> >  drivers/staging/iio/meter/ade7854-i2c.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/iio/meter/ade7854-i2c.c b/drivers/staging/iio/meter/ade7854-i2c.c
+> > index a9a06e8dda51..a6ce7b24cc8f 100644
+> > --- a/drivers/staging/iio/meter/ade7854-i2c.c
+> > +++ b/drivers/staging/iio/meter/ade7854-i2c.c
+> > @@ -61,7 +61,7 @@ static int ade7854_i2c_write_reg(struct device *dev,
+> >  unlock:
+> >  	mutex_unlock(&st->buf_lock);
+> >
+> > -	return ret < 0 ? ret : 0;
+> > +	return min(ret, 0);
+>
+> As others have said, this isn't ok, and I hate ? : usage, so if you
+> want, spell that out please.
 
-Are you sure they are unused?
+Hello Greg,
+Just want to make sure I am getting it right:
+Are you suggesting me to resubmit the patch with revised patch description?
 
-They look like structures that are read from the memory of a device,
-right?  Try removing the structures from the union and see what happens
-:)
+Should I consider using the "if" based evaluation rather than using min() macro?
 
-thanks,
+Thank you,
+./drv
 
-greg k-h
+>
+> thanks,
+>
+> greg k-h
+>
+
+
