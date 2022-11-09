@@ -1,33 +1,26 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B552114
-	for <linux-staging@lists.linux.dev>; Wed,  9 Nov 2022 06:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667976699; bh=ExypxdAet/mf4rZXfaz8Msk/ciHV77CT05iXnSAj0K0=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=esikdfQFWrWPohf8OZh6U6Sxk6hAeO4u7sWVO4nyuZbNy6B71pYxqQ5q7R6iqTrFn
-	 wMWlMvwJwWdrB/YkLRceWxhvE6vso26coXcOmuyLG2K3c/jFarIGvFt3vbm9u/l4Fy
-	 QSPsdAYNGpC5e747iEyLIgSMrSNaUL5HvqwTzGnU=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Wed,  9 Nov 2022 07:51:39 +0100 (CET)
-X-EA-Auth: HzTQK8+OWDs0qY3dbkyDZ/7/IRH01+0Cn+3bQVowOWiV2Ds32Ar+ww2qQMm6mfUgLy125X4SQjVpfy61iIxROpYdwu3peC48
-Date: Wed, 9 Nov 2022 12:21:30 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: staging/wlan-ng query: convert to flexible array member
-Message-ID: <Y2tN8u5zwH5Ufkgd@qemulion>
-References: <Y2px+zOGjkpGh6qC@qemulion>
- <Y2p29zc/TeX8OFWU@kroah.com>
- <Y2p5hqdFo5UZoHUY@qemulion>
- <Y2p7TOeg8vzK0rvB@kroah.com>
- <Y2qT0zSlhtQrYwl+@qemulion>
- <Y2qgs3hu95Okjs2w@kroah.com>
- <Y2qiMbpBobzvR4ED@qemulion>
- <Y2qxeDQ+76CvfN1c@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8316257B;
+	Wed,  9 Nov 2022 07:30:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C5C0C433D6;
+	Wed,  9 Nov 2022 07:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1667979029;
+	bh=A7qt0zFqAaMzmKHQqsEQpxmG5gXY5Z/MDjAh8xxm+Gs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MKbJbSnPC/vbm6nr0l4ySwZbWNlOLsm4jzpCufyhgeV8ORzOrhSpquySZriHG1/Tk
+	 h4A4fJNBqvNNQ1kHPeSpc/xqDaVOuBzakyMuE+5LTg1D9aJVD9T6Z4KjJIC8lSQMXs
+	 Nrb96WvDIgbV94vy9Prf5Huj0GWzGZEeb6IVzF9I=
+Date: Wed, 9 Nov 2022 08:30:26 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Deepak R Varma <drv@mailo.com>
+Cc: outreachy@lists.linux.dev, Sven Van Asbroeck <TheSven73@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: fieldbus: replace snprintf in show functions
+ with sysfs_emit
+Message-ID: <Y2tXEibm2QxH37FK@kroah.com>
+References: <Y2tBJFSsyUzdb+eO@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,36 +29,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2qxeDQ+76CvfN1c@kroah.com>
+In-Reply-To: <Y2tBJFSsyUzdb+eO@qemulion>
 
-On Tue, Nov 08, 2022 at 08:43:52PM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Nov 09, 2022 at 12:08:41AM +0530, Deepak R Varma wrote:
-> > On Tue, Nov 08, 2022 at 07:32:19PM +0100, Greg Kroah-Hartman wrote:
-> > > > > Test the device to make sure it still works?
-> > > >
-> > > > I was able to build and load the driver on my machine. I do not have p54 device
-> > > > to test. Is there another way to test it? Some sort of a udev program???
-> > >
-> > > You need the real hardware to test it properly.
-> >
-> > Do you know if I work with someone to test the change locally rather than
-> > sending in a untested change?
->
-> If you can find someone, sure!
+On Wed, Nov 09, 2022 at 11:26:52AM +0530, Deepak R Varma wrote:
+> The show() methods should only use sysfs_emit() when formatting values
+> to be returned to the user space.
+> Ref: Documentation/filesystems/sysfs.rst
+> Issue identified by coccicheck.
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+> 
+> Changes in v2:
+>    1. Switch to using sysfs_emit instead of scnprintf
+>    2. Update patch subject and log accordingly
+>       Feedback from gregkh@linuxfoundation.org
+> 
+> 
+>  drivers/staging/fieldbus/dev_core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/fieldbus/dev_core.c b/drivers/staging/fieldbus/dev_core.c
+> index 5aab734606ea..d32599f4eb44 100644
+> --- a/drivers/staging/fieldbus/dev_core.c
+> +++ b/drivers/staging/fieldbus/dev_core.c
+> @@ -67,10 +67,10 @@ static ssize_t card_name_show(struct device *dev, struct device_attribute *attr,
+>  	struct fieldbus_dev *fb = dev_get_drvdata(dev);
+> 
+>  	/*
+> -	 * card_name was provided by child driver, could potentially be long.
+> -	 * protect against buffer overrun.
+> +	 * sysfs provides PAGE_SIZE long buffer to take care of potentially
 
-Hello Greg,
-I reached out to couple of recent patch authors to check if they are able to
-help test the change.
+No need to ever mention PAGE_SIZE at all, this comment should just be:
+	/* card_name was provided by child driver */
 
-Hello all,
-Does anyone have a hardware that can test prism2_usb [wlan-ng] driver change? I
-assume it would be quick to test the change I am proposing. Let me know if you
-are able to help.
+But the larger question is, why did you only convert one of the sysfs
+show functions in this file?  Why not do them all?
 
-Thank you!
-./drv
+thanks,
 
-
->
-
-
+greg k-h
