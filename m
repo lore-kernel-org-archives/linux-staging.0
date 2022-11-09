@@ -1,38 +1,33 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014F62114
-	for <linux-staging@lists.linux.dev>; Wed,  9 Nov 2022 06:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B552114
+	for <linux-staging@lists.linux.dev>; Wed,  9 Nov 2022 06:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667976048; bh=s2xnc8dtE9RdQHld1qiAbNnZOdtNe2s+3N0KAhbpfss=;
+	t=1667976699; bh=ExypxdAet/mf4rZXfaz8Msk/ciHV77CT05iXnSAj0K0=;
 	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
 	 MIME-Version:Content-Type:In-Reply-To;
-	b=ndkZyXusVJy9VW0jXi8vkuuV13fsCt/56qU728chMOc2JpCE9kTefADbxnUar/XZm
-	 57OMxk53j5ZQRPy0AU3esFAWUQt9a6H3neQoMExVrjFBs7oy9uf/3PvLMLckzXPBP6
-	 onkglGt2BakIfxgSo1wNSLgj/CmT09/K+yQFVt6k=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+	b=esikdfQFWrWPohf8OZh6U6Sxk6hAeO4u7sWVO4nyuZbNy6B71pYxqQ5q7R6iqTrFn
+	 wMWlMvwJwWdrB/YkLRceWxhvE6vso26coXcOmuyLG2K3c/jFarIGvFt3vbm9u/l4Fy
+	 QSPsdAYNGpC5e747iEyLIgSMrSNaUL5HvqwTzGnU=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
 	via ip-206.mailobj.net [213.182.55.206]
-	Wed,  9 Nov 2022 07:40:48 +0100 (CET)
-X-EA-Auth: F61TFAW5EIxTOLGMc0AqWx1vFt0VZ8WWn5l9nu0xUmZiOFCbHY9NJ+7ODh/iOVr28E2+bZFRA3PVvl3YE6fgdY81AlgJbShA
-Date: Wed, 9 Nov 2022 12:10:37 +0530
+	Wed,  9 Nov 2022 07:51:39 +0100 (CET)
+X-EA-Auth: HzTQK8+OWDs0qY3dbkyDZ/7/IRH01+0Cn+3bQVowOWiV2Ds32Ar+ww2qQMm6mfUgLy125X4SQjVpfy61iIxROpYdwu3peC48
+Date: Wed, 9 Nov 2022 12:21:30 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Dan Carpenter <error27@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: patches for staging:media drivers
-Message-ID: <Y2tLZaPSUT45TF4f@qemulion>
-References: <Y2eSCZJNWn6DzCUu@qemulion>
- <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
- <Y2oO7fU4whKr+3hb@kadam>
- <Y2q7tFF7YeX16H20@lunn.ch>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: staging/wlan-ng query: convert to flexible array member
+Message-ID: <Y2tN8u5zwH5Ufkgd@qemulion>
+References: <Y2px+zOGjkpGh6qC@qemulion>
+ <Y2p29zc/TeX8OFWU@kroah.com>
+ <Y2p5hqdFo5UZoHUY@qemulion>
+ <Y2p7TOeg8vzK0rvB@kroah.com>
+ <Y2qT0zSlhtQrYwl+@qemulion>
+ <Y2qgs3hu95Okjs2w@kroah.com>
+ <Y2qiMbpBobzvR4ED@qemulion>
+ <Y2qxeDQ+76CvfN1c@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,37 +36,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2q7tFF7YeX16H20@lunn.ch>
+In-Reply-To: <Y2qxeDQ+76CvfN1c@kroah.com>
 
-On Tue, Nov 08, 2022 at 09:27:32PM +0100, Andrew Lunn wrote:
-> On Tue, Nov 08, 2022 at 11:10:21AM +0300, Dan Carpenter wrote:
+On Tue, Nov 08, 2022 at 08:43:52PM +0100, Greg Kroah-Hartman wrote:
+> On Wed, Nov 09, 2022 at 12:08:41AM +0530, Deepak R Varma wrote:
+> > On Tue, Nov 08, 2022 at 07:32:19PM +0100, Greg Kroah-Hartman wrote:
+> > > > > Test the device to make sure it still works?
+> > > >
+> > > > I was able to build and load the driver on my machine. I do not have p54 device
+> > > > to test. Is there another way to test it? Some sort of a udev program???
+> > >
+> > > You need the real hardware to test it properly.
+> >
+> > Do you know if I work with someone to test the change locally rather than
+> > sending in a untested change?
 >
-> I cannot say anything about the media subsystem, but for networking
-> patches, i will be much more willing to help somebody going from
-> Outreach to being a full kernel developers if they decide to take on
-> something more than just some Coccinelle changes. If it looks like you
-> have the hardware and want to make it better, have a vision where the
-> driver should go, then you are likely to get more help from me. So if
-> media drivers are what you interested in, go buy some hardware which
-> uses one of the drivers in staging, look at the TODO file, and submit
-> bigger patches than just -1 to -ENOMEM.
+> If you can find someone, sure!
 
-Hello Andrew,
-Thank you so much for your kind advice and willingness to help a newbie
-become a valued kernel developer. I am committed to acquire necessary
-knowledge and skills to contribute more than current cleanup and minor
-correction patches. I am sure that the upcoming Coccinelle based project
-work [if I am shortlisted] will be much more complex and meaningful.
+Hello Greg,
+I reached out to couple of recent patch authors to check if they are able to
+help test the change.
 
-I will explore the staging directory to identify a hardware I can afford.
-I would welcome suggestion on a driver that is not much expensive and
-complex to start with. Anything for the networking subsystem???
+Hello all,
+Does anyone have a hardware that can test prism2_usb [wlan-ng] driver change? I
+assume it would be quick to test the change I am proposing. Let me know if you
+are able to help.
 
-Thank you once again!
+Thank you!
 ./drv
 
->
->      Andrew
+
 >
 
 
