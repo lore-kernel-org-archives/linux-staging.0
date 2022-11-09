@@ -1,29 +1,26 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548D0257B;
-	Wed,  9 Nov 2022 07:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C808F62;
+	Wed,  9 Nov 2022 10:42:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1667979968; bh=4y+p6G+6Eyrf3pYDyQ3PW7+HxDBRFvP76sfcfvr405o=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=Tx3A3hiw1+wUw/GGd3EY1Vy10Eu0OfaNks4pN6IpVUGYN0NPsu7J6GTniwOdr2OS+
-	 OrFvVOtSWLzW4iqDe6C5CaMXmc4BPWWE27bCpCW3421zQSqM+JUCn+00wnXvZ1pijO
-	 sPkMmsgjE5CZvrPAxec1kwNX0kFus2Tg3CMOiXIE=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+	t=1667990568; bh=jUiIEEBr0PQ3TlHP6XT1/IoPO61Uc972/r6uV3hAGxY=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=RuVTcNw0N5jlqQAAeZINsuVULCsmSlYlhS7Vo3ei1ol+8UZ1Gc2J2uegL2yKAB0bP
+	 SocErEhvm/g6cXP2dj9gC7KRwU0SOUCMHQ1QJSMTE4dQPB48xrqIRBpYHeUo5tre7T
+	 zFt+m+QycfHEpG2wVLMQGfJyj8qnGroEe6Am1+UE=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
 	via ip-206.mailobj.net [213.182.55.206]
-	Wed,  9 Nov 2022 08:46:08 +0100 (CET)
-X-EA-Auth: 5WhwHM9XqEWUpElfHoVsyiSNRigbkBV1oekffDsZQS3OO3TMni5CBDdtyn7IdurPP3ccJ3dnRKFudoW0pY8qUOwkWzy7vJiN
-Date: Wed, 9 Nov 2022 13:16:02 +0530
+	Wed,  9 Nov 2022 11:42:48 +0100 (CET)
+X-EA-Auth: U6c2K4A2f5pmUeNAepVjavyPCN7n3Q4c6Y9CLpNN+n4Tlwq45cabVuBXOf3B2m56oEegsmPlB3mxm+lJktSYOYm45Y3wKp3I
+Date: Wed, 9 Nov 2022 16:12:43 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, Sven Van Asbroeck <TheSven73@gmail.com>,
+To: outreachy@lists.linux.dev, Sven Van Asbroeck <TheSven73@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: fieldbus: replace snprintf in show functions
- with sysfs_emit
-Message-ID: <Y2taurqOvGiPo3jB@qemulion>
-References: <Y2tBJFSsyUzdb+eO@qemulion>
- <Y2tXEibm2QxH37FK@kroah.com>
+Subject: [PATCH v3] staging: fieldbus: use sysfs_emit() in show functions
+Message-ID: <Y2uEIzebbM/Fs5Jz@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,40 +29,93 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2tXEibm2QxH37FK@kroah.com>
 
-On Wed, Nov 09, 2022 at 08:30:26AM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Nov 09, 2022 at 11:26:52AM +0530, Deepak R Varma wrote:
-> > The show() methods should only use sysfs_emit() when formatting values
-> > to be returned to the user space.
-> > Ref: Documentation/filesystems/sysfs.rst
-> > Issue identified by coccicheck.
-> >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> >  	/*
-> > -	 * card_name was provided by child driver, could potentially be long.
-> > -	 * protect against buffer overrun.
-> > +	 * sysfs provides PAGE_SIZE long buffer to take care of potentially
->
-> No need to ever mention PAGE_SIZE at all, this comment should just be:
-> 	/* card_name was provided by child driver */
+The show() methods should only use sysfs_emit() when formatting values
+to be returned to the user space.
+Ref: Documentation/filesystems/sysfs.rst
+Issue identified by coccicheck.
 
-Sure. I will update the comment in the revision.
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+Changes in v3:
+   1. Include other show functions from the same file in the scope of this
+      patch. Feedback from gregkh@linuxfoundation.org
+   2. Simplify code comment.
 
->
-> But the larger question is, why did you only convert one of the sysfs
-> show functions in this file?  Why not do them all?
+Changes in v2:
+   1. Switch to using sysfs_emit instead of scnprintf
+   2. Update patch subject and log accordingly
+      Feedback from gregkh@linuxfoundation.org
 
-I was limiting it to what is reported by coccicheck. I will review other such
-show functions and send a consolidated patch.
 
-Thank you,
-./drv
+ drivers/staging/fieldbus/dev_core.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
->
-> thanks,
->
-> greg k-h
->
+diff --git a/drivers/staging/fieldbus/dev_core.c b/drivers/staging/fieldbus/dev_core.c
+index 5aab734606ea..5f54f2674bd1 100644
+--- a/drivers/staging/fieldbus/dev_core.c
++++ b/drivers/staging/fieldbus/dev_core.c
+@@ -28,7 +28,7 @@ static ssize_t online_show(struct device *dev, struct device_attribute *attr,
+ {
+ 	struct fieldbus_dev *fb = dev_get_drvdata(dev);
+
+-	return sprintf(buf, "%d\n", !!fb->online);
++	return sysfs_emit(buf, "%d\n", !!fb->online);
+ }
+ static DEVICE_ATTR_RO(online);
+
+@@ -39,7 +39,7 @@ static ssize_t enabled_show(struct device *dev, struct device_attribute *attr,
+
+ 	if (!fb->enable_get)
+ 		return -EINVAL;
+-	return sprintf(buf, "%d\n", !!fb->enable_get(fb));
++	return sysfs_emit(buf, "%d\n", !!fb->enable_get(fb));
+ }
+
+ static ssize_t enabled_store(struct device *dev, struct device_attribute *attr,
+@@ -66,11 +66,8 @@ static ssize_t card_name_show(struct device *dev, struct device_attribute *attr,
+ {
+ 	struct fieldbus_dev *fb = dev_get_drvdata(dev);
+
+-	/*
+-	 * card_name was provided by child driver, could potentially be long.
+-	 * protect against buffer overrun.
+-	 */
+-	return snprintf(buf, PAGE_SIZE, "%s\n", fb->card_name);
++	/* card_name was provided by child driver. */
++	return sysfs_emit(buf, "%s\n", fb->card_name);
+ }
+ static DEVICE_ATTR_RO(card_name);
+
+@@ -79,7 +76,7 @@ static ssize_t read_area_size_show(struct device *dev,
+ {
+ 	struct fieldbus_dev *fb = dev_get_drvdata(dev);
+
+-	return sprintf(buf, "%zu\n", fb->read_area_sz);
++	return sysfs_emit(buf, "%zu\n", fb->read_area_sz);
+ }
+ static DEVICE_ATTR_RO(read_area_size);
+
+@@ -88,7 +85,7 @@ static ssize_t write_area_size_show(struct device *dev,
+ {
+ 	struct fieldbus_dev *fb = dev_get_drvdata(dev);
+
+-	return sprintf(buf, "%zu\n", fb->write_area_sz);
++	return sysfs_emit(buf, "%zu\n", fb->write_area_sz);
+ }
+ static DEVICE_ATTR_RO(write_area_size);
+
+@@ -116,7 +113,7 @@ static ssize_t fieldbus_type_show(struct device *dev,
+ 		break;
+ 	}
+
+-	return sprintf(buf, "%s\n", t);
++	return sysfs_emit(buf, "%s\n", t);
+ }
+ static DEVICE_ATTR_RO(fieldbus_type);
+
+--
+2.34.1
+
 
 
