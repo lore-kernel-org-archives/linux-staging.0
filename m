@@ -1,81 +1,172 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA2B29B2
-	for <linux-staging@lists.linux.dev>; Wed,  9 Nov 2022 13:50:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=VpdNtU3cb37xXzV9sTyynd43haU0/uQaTTIosl+w+Vs=; b=o5dKZ60fvsHa/8H7A+lpjtUyi8
-	O3+p9tUG4t4U8Cc/NAJF2UWn3hI4268wI8/fJP3UseE23YJLdfZ6id+pAiS3c5rzuZ+ZqrLUq+klV
-	xy+EzrlJROMxf/eEUI+JTzy59HIBzFjx/NnLbb1Wl3zywEHm2jaorffCXvfKu9UHEZ/w=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1oslSJ-001v3D-Fu; Wed, 09 Nov 2022 14:49:27 +0100
-Date: Wed, 9 Nov 2022 14:49:27 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Deepak R Varma <drv@mailo.com>
-Cc: Dan Carpenter <error27@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0A317CD3
+	for <linux-staging@lists.linux.dev>; Wed,  9 Nov 2022 14:19:18 +0000 (UTC)
+Received: from booty.fritz.box (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPA id 57288FF804;
+	Wed,  9 Nov 2022 14:19:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1668003550;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kDIfdqkfme+Jq0Kp8EdrxwE7slaIQ6UkG0ZphGZ60T8=;
+	b=B97F4uUYLSsNcszZDnXtr665xosAPvLqT0FxShMsGjpOMTv4meG8gmaxHfJwVzcUSYor2D
+	9UxKZtEfqc+Cg5UV3j86Df9I7OTFdESm5xRJI0vBtm1jQXyDvviojuopDqFl1ZOzrI+DLJ
+	0U8Ak+Mimled4Rbo4Q5KDCet9tvHHGWJgDpvEmEU32lr9p4ULvx8O80IkPy05x8FOnfF79
+	4dDVGdhx0D1vrUGa+Nx4GymEe41q81fhETeCtI6OqNorLJW0B5YIn20Bsn1iwQjRLDU5I9
+	+NLVNI3EkVDaEoxJNkezTzdtNoUlxqku+UXYwNG2p1zsPruGkpobV9VDSCUb4Q==
+From: luca.ceresoli@bootlin.com
+To: David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: patches for staging:media drivers
-Message-ID: <Y2uv56k515cKTXU4@lunn.ch>
-References: <Y2eSCZJNWn6DzCUu@qemulion>
- <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
- <Y2oO7fU4whKr+3hb@kadam>
- <Y2q7tFF7YeX16H20@lunn.ch>
- <Y2tLZaPSUT45TF4f@qemulion>
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Dmitry Osipenko <digetx@gmail.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Richard Leitner <richard.leitner@skidata.com>
+Subject: [PATCH 00/23] Add Tegra20 parallel video input capture
+Date: Wed,  9 Nov 2022 15:18:29 +0100
+Message-Id: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2tLZaPSUT45TF4f@qemulion>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 09, 2022 at 12:10:37PM +0530, Deepak R Varma wrote:
-> On Tue, Nov 08, 2022 at 09:27:32PM +0100, Andrew Lunn wrote:
-> > On Tue, Nov 08, 2022 at 11:10:21AM +0300, Dan Carpenter wrote:
-> >
-> > I cannot say anything about the media subsystem, but for networking
-> > patches, i will be much more willing to help somebody going from
-> > Outreach to being a full kernel developers if they decide to take on
-> > something more than just some Coccinelle changes. If it looks like you
-> > have the hardware and want to make it better, have a vision where the
-> > driver should go, then you are likely to get more help from me. So if
-> > media drivers are what you interested in, go buy some hardware which
-> > uses one of the drivers in staging, look at the TODO file, and submit
-> > bigger patches than just -1 to -ENOMEM.
-> 
-> Hello Andrew,
-> Thank you so much for your kind advice and willingness to help a newbie
-> become a valued kernel developer. I am committed to acquire necessary
-> knowledge and skills to contribute more than current cleanup and minor
-> correction patches. I am sure that the upcoming Coccinelle based project
-> work [if I am shortlisted] will be much more complex and meaningful.
-> 
-> I will explore the staging directory to identify a hardware I can afford.
-> I would welcome suggestion on a driver that is not much expensive and
-> complex to start with. Anything for the networking subsystem???
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Staging drivers for network tend to be USB dongles for WiFi. Some of
-those drivers need throwing away and starting again, others need less
-work. If you are interested in that, i would suggest asking on
-linux-wireless@vger.kernel.org.
+Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
+receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
+and "VIP" in the documentation). The kernel currently has a staging driver
+for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
+capture.
 
-Another option might be pi433? The problem with that is, i don't know
-how it fits into the rest of the network stack? Could it maybe fit
-under ieee802154? Or is it just unique and needs to do its own thing?
+Unfortunately I had no real documentation available to base this work on,
+and I started from a working downstream 3.1 kernel, that I have heavily
+reworked to fit into the existing tegra-video driver. The existing code
+appears written with the intent of being modular and allow adding new input
+mechanisms and new SoCs while keeping a unique VI core module. However its
+modularity and extensibility was not enough to add Tegra20 VIP support, so
+I added some hooks to turn hard-coded behaviour into per-SoC or per-bus
+customizable code. There are also some fixes, some generic cleanups and DT
+bindings.
 
-      Andrew
+Quick tour of the patches:
+
+ * Device tree bindings and minor DTS improvements
+
+   01. dt-bindings: display: tegra: add bindings for Tegra20 VIP
+   02. dt-bindings: display: tegra: vi: add 'vip' property and example
+   03. ARM: dts: tegra20: add label to nvidia,tegra20-vi node
+   04. ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
+
+ * A fix
+
+   05. staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return all formats
+
+ * Minor improvements to logging, comments, cleanups
+
+   06. staging: media: tegra-video: improve documentation of tegra_video_format fields
+   07. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
+   08. staging: media: tegra-video: fix typos in comment
+   09. staging: media: tegra-video: improve error messages
+   10. staging: media: tegra-video: slightly simplify cleanup on errors
+   11. staging: media: tegra-video: move private struct declaration to C file
+   12. staging: media: tegra-video: remove unneeded include
+
+ * Preparation to make the VI module generic enough to host Tegra20 and VIP
+
+   13. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+   14. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
+   15. staging: media: tegra-video: move default format to soc-specific data
+   16. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
+   17. staging: media: tegra-video: add a per-soc enable/disable op
+   18. staging: media: tegra-video: move syncpt init/free to a per-soc op
+   19. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
+   20. staging: media: tegra-video: add hooks for planar YUV and H/V flip
+   21. staging: media: tegra-video: add H/V flip controls
+
+ * Implementation of VIP and Tegra20
+
+   22. staging: media: tegra-video: add support for VIP (parallel video input)
+   23. staging: media: tegra-video: add tegra20 variant
+
+Enjoy!
+
+Luca
+
+Luca Ceresoli (23):
+  dt-bindings: display: tegra: add bindings for Tegra20 VIP
+  dt-bindings: display: tegra: vi: add 'vip' property and example
+  ARM: dts: tegra20: add label to nvidia,tegra20-vi node
+  ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
+  staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return
+    all formats
+  staging: media: tegra-video: improve documentation of
+    tegra_video_format fields
+  staging: media: tegra-video: document
+    tegra_channel_get_remote_source_subdev
+  staging: media: tegra-video: fix typos in comment
+  staging: media: tegra-video: improve error messages
+  staging: media: tegra-video: slightly simplify cleanup on errors
+  staging: media: tegra-video: move private struct declaration to C file
+  staging: media: tegra-video: remove unneeded include
+  staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+  staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
+    op
+  staging: media: tegra-video: move default format to soc-specific data
+  staging: media: tegra-video: move MIPI calibration calls from VI to
+    CSI
+  staging: media: tegra-video: add a per-soc enable/disable op
+  staging: media: tegra-video: move syncpt init/free to a per-soc op
+  staging: media: tegra-video: add syncpts for Tegra20 to struct
+    tegra_vi
+  staging: media: tegra-video: add hooks for planar YUV and H/V flip
+  staging: media: tegra-video: add H/V flip controls
+  staging: media: tegra-video: add support for VIP (parallel video
+    input)
+  staging: media: tegra-video: add tegra20 variant
+
+ .../display/tegra/nvidia,tegra20-vi.yaml      |  68 ++
+ .../display/tegra/nvidia,tegra20-vip.yaml     |  64 ++
+ MAINTAINERS                                   |  10 +
+ arch/arm/boot/dts/tegra20-tamonten.dtsi       |   2 +-
+ arch/arm/boot/dts/tegra20.dtsi                |   2 +-
+ drivers/staging/media/tegra-video/Kconfig     |   1 +
+ drivers/staging/media/tegra-video/Makefile    |   2 +
+ drivers/staging/media/tegra-video/csi.c       |  44 ++
+ drivers/staging/media/tegra-video/tegra20.c   | 649 ++++++++++++++++++
+ drivers/staging/media/tegra-video/tegra210.c  |  97 ++-
+ drivers/staging/media/tegra-video/vi.c        | 321 ++-------
+ drivers/staging/media/tegra-video/vi.h        |  76 +-
+ drivers/staging/media/tegra-video/video.c     |   5 +
+ drivers/staging/media/tegra-video/video.h     |   2 +-
+ drivers/staging/media/tegra-video/vip.c       | 298 ++++++++
+ drivers/staging/media/tegra-video/vip.h       |  72 ++
+ 16 files changed, 1425 insertions(+), 288 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ create mode 100644 drivers/staging/media/tegra-video/tegra20.c
+ create mode 100644 drivers/staging/media/tegra-video/vip.c
+ create mode 100644 drivers/staging/media/tegra-video/vip.h
+
+-- 
+2.34.1
+
