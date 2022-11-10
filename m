@@ -1,126 +1,87 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA93A49B;
-	Wed,  9 Nov 2022 18:23:23 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id m22so11915379eji.10;
-        Wed, 09 Nov 2022 10:23:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA51F361
+	for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 00:10:53 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id b29so237287pfp.13
+        for <linux-staging@lists.linux.dev>; Wed, 09 Nov 2022 16:10:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GYJAiQuT0XSlTdhgreKgdulXp6/w2lPhvIYXiq8zxTE=;
-        b=aOA3HqzdmUu+a6U8yTCceoTf3BgX2YXntK6kY8v6DcXvOlKWy1zYdVmMAV3ZB0eaKY
-         T+aVaZp5yqWQSZIs4ouT3Tatqw+rnt8MpwV9N+rB9IsrY0DYOjTOQY3AFDhAvtg8Zekl
-         HupB1ZvN8t67+0gA3p35/e0JQ8KELzcv+8OpV9sHJZUkV6NDkkjKx7CEffuksjwzOTW4
-         2/iHfbUvI0+0Ve0BpPSETQpzyCHQG3OsRE0mpnAG1oowjeWeYmmoOp7VBscDlnd0O6N+
-         GJFYmITehGUmAi1YNkcXAaPzfSs4aoozU/ROizboqXgtMy3Fluze/L6UEUhq22Ieys7d
-         WBIA==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yfINp8pb5N6Kx42V2kF3zccXP5miAwmr+YVzAQR38b8=;
+        b=hrulcqmGHvIDI7EqZKqSueWhh85PNmFzN08aIKM7w4yjyfwkcS4HuPqLRRHwcVjggo
+         jpKx4rESzVfQK/lHta+SCGcvocKoB4TOc1+BvhJeW5UbuYExMukkbO58TBObElRpmcBA
+         16H84vUhdPO6YaHsoin3oZPfwskSYzp++yb/M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GYJAiQuT0XSlTdhgreKgdulXp6/w2lPhvIYXiq8zxTE=;
-        b=HpW0EtJ8WH78Wv6swoW+NM92CZMznK/Iqb211IjBhshckJEAjf1YsqB7gwFTnZvAF1
-         YLyiEe6zx/goEEU4Sx5sayBnvBcH0rXkZUzbJrb2cEu6G0Qb00wg+ve/aqpRsFXo9YrE
-         Gz23vULWonm0GHneg6gBweWXtuEMgxJS2HTw+igeFrKKeJksntShJdfhyOl2l8gLtceI
-         +HTZSPdgJwMrtUEa1sN8Y9cDih6LTIywtXMo5vRxTIK91UYwqSkvdP0qilCwmR/ZvflZ
-         vws0MmmMG5TfCWBAs8GJuIzl6U+tdnvmOtr3H451D1aRwtDLgXfGo3jqjAzWlBjox97r
-         s09Q==
-X-Gm-Message-State: ANoB5pncElri7My9l+cYuGc2xk+pAl1D+jyHwHPmQW7NBo9kPB3MGfNk
-	+lHVD1Jsmp9MEQzFPmgrkjs=
-X-Google-Smtp-Source: AMsMyM7Hk8P3/65sZw0ml9e5JkSq2G6yChfkmgqBVE7B1+Xp9Oae5bh+Uk+ELHm8FeCjsi69FrIqeg==
-X-Received: by 2002:a17:907:7b8a:b0:7ae:3957:f4e1 with SMTP id ne10-20020a1709077b8a00b007ae3957f4e1mr26146059ejc.720.1668018202133;
-        Wed, 09 Nov 2022 10:23:22 -0800 (PST)
-Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id gj26-20020a170906e11a00b007a0b28c324dsm6029400ejb.126.2022.11.09.10.23.21
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yfINp8pb5N6Kx42V2kF3zccXP5miAwmr+YVzAQR38b8=;
+        b=7m4nypJfkP5ZJPFZUOKfdnKzdPD5ubszbNCytdrGcy02b5BOrH0vNAW/wtrrwZu8rg
+         liiN5RklIpbUiwM1n+58mA7rOmrdxGMEyDJc9F4ypmTrBgQpynI4I9ZP+SSsbTCybKPZ
+         PQxW5eMVYI3yVtfJAwscC95AriR+3fad0a7S3OQeuh+C13QrEWJUz/geBvPTIWptcGhq
+         GxaGD0EHED5gNNUILnV+WPMKuk36TRzIRF4rvt9Mi9+2yYsiYpijgCMpqdcdDLQMPcEg
+         Cxy6yctqYDDB10KAfRBBZy4Hliw1Cy70uYZaM301tgNz8ZNhYE4Z2Tt5JshSomR+7YxF
+         KxNA==
+X-Gm-Message-State: ACrzQf2cX+LvLjMBi1nudAoQDjK7h5voEhDP+WmRRsldi8rciSV7fpCe
+	mHSbC2+psU9koe7w0DCshl+pzQ==
+X-Google-Smtp-Source: AMsMyM5Ur4+2jdo21Hc7VyMq48tFV/jggd85uZGIwa6o2cvJu/+hjBRLNTLAWr8lbwDHdOX2nk1e5w==
+X-Received: by 2002:a63:2cd2:0:b0:41c:5901:67d8 with SMTP id s201-20020a632cd2000000b0041c590167d8mr53661261pgs.365.1668039053278;
+        Wed, 09 Nov 2022 16:10:53 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b4-20020a170902650400b001869079d083sm9748551plk.90.2022.11.09.16.10.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 10:23:21 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@csie.org,
-	samuel@sholland.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 3/3] media: cedrus: Relax HEVC SPS restrictions
-Date: Wed,  9 Nov 2022 19:23:09 +0100
-Message-Id: <20221109182309.2475221-4-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221109182309.2475221-1-jernej.skrabec@gmail.com>
-References: <20221109182309.2475221-1-jernej.skrabec@gmail.com>
+        Wed, 09 Nov 2022 16:10:52 -0800 (PST)
+Date: Wed, 9 Nov 2022 16:10:52 -0800
+From: Kees Cook <keescook@chromium.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 7/7] staging: ks7010: Avoid clashing function
+ prototypes
+Message-ID: <202211091610.8D12F1F@keescook>
+References: <cover.1667934775.git.gustavoars@kernel.org>
+ <8d2ceee1248b5a76e9b6c379f578e65482c91168.1667934775.git.gustavoars@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8d2ceee1248b5a76e9b6c379f578e65482c91168.1667934775.git.gustavoars@kernel.org>
 
-Testing reference video TSUNEQBD_A_MAIN10_Technicolor_2 has show that
-Cedrus is capable of decoding frames with different chroma and luma bit
-depths.
+On Tue, Nov 08, 2022 at 02:34:46PM -0600, Gustavo A. R. Silva wrote:
+> When built with Control Flow Integrity, function prototypes between
+> caller and function declaration must match. These mismatches are visible
+> at compile time with the new -Wcast-function-type-strict in Clang[1].
+> 
+> Fix a total of 27 warnings like these:
+> 
+> drivers/staging/ks7010/ks_wlan_net.c:2415:2: warning: cast from 'int (*)(struct net_device *, struct iw_request_info *, struct iw_point *, char *)' to 'iw_handler' (aka 'int (*)(struct net_device *, struct iw_request_info *, union iwreq_data *, char *)') converts to incompatible function type [-Wcast-function-type-strict]
+>         (iw_handler)ks_wlan_get_firmware_version,/* 3 KS_WLAN_GET_FIRM_VERSION */
+>         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> The ks_wlan_net Wireless Extension handler callbacks (iw_handler) use a
+> union for the data argument. Actually use the union and perform explicit
+> member selection in the function body instead of having a function
+> prototype mismatch. There are no resulting binary differences
+> before/after changes.
+> 
+> These changes were made partly manually and partly with the help of
+> Coccinelle.
+> 
+> Link: https://reviews.llvm.org/D134831 [1]
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Relax restrictions so only highest depth is checked.
+The "mode" churn makes this a bit harder to review, but I think the
+final result looks better.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus.c | 24 ++++++++-------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 2e860cf60136..a43d5ff66716 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -45,30 +45,24 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
- 	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
- 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
- 		struct cedrus_ctx *ctx = container_of(ctrl->handler, struct cedrus_ctx, hdl);
--		unsigned int bit_depth;
-+		unsigned int bit_depth, max_depth;
- 		struct vb2_queue *vq;
- 
- 		if (sps->chroma_format_idc != 1)
- 			/* Only 4:2:0 is supported */
- 			return -EINVAL;
- 
--		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
--			/* Luma and chroma bit depth mismatch */
--			return -EINVAL;
--
--		if (ctx->dev->capabilities & CEDRUS_CAPABILITY_H265_10_DEC) {
--			if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
--				/* Only 8-bit and 10-bit are supported */
--				return -EINVAL;
--		} else {
--			if (sps->bit_depth_luma_minus8 != 0)
--				/* Only 8-bit is supported */
--				return -EINVAL;
--		}
--
- 		bit_depth = max(sps->bit_depth_luma_minus8,
- 				sps->bit_depth_chroma_minus8) + 8;
- 
-+		if (cedrus_is_capable(ctx, CEDRUS_CAPABILITY_H265_10_DEC))
-+			max_depth = 10;
-+		else
-+			max_depth = 8;
-+
-+		if (bit_depth > max_depth)
-+			return -EINVAL;
-+
- 		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
- 				     V4L2_BUF_TYPE_VIDEO_CAPTURE);
- 
 -- 
-2.38.1
-
+Kees Cook
