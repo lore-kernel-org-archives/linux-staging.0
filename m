@@ -1,52 +1,51 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94966185E
-	for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 11:07:08 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id o4so1726867wrq.6
-        for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 03:07:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50ACF12DAC
+	for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 11:24:09 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id t1so926810wmi.4
+        for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 03:24:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qDtELxG2pjhBBxJl2d7+OAI9FoT6ZVqcBQqrZubApBo=;
-        b=phLYZJ+uh6cOW8osdoGD2YoQRQYOvhS7h1MD8zcvdPhYuU1tnlQR3QapS6MJSA01ue
-         SQKB3V/4NFj9fU2njEDHJm5d/+evzApG6UbNTYJlT7BwvXlB+zZmLXaD0eBwK+0RFI9F
-         38IQP3Clqx2VoJY/BQ5sS50KV9jKXISrQUUNTwrjY0BclAAVCrgdJ/CrYR8RVqoF0Jk7
-         zAmfHEp3OfGhkQOSAqwQ2UJB5DIU/TAypo5j6au0xg8jULfnW/ER9CCBtzVPOHvfTQa+
-         lsmJfTXnO7+SwOyVMP++BpXtmiBFjoyAMqeOskvhv2YwGxWuy0Xlg9MGA1XcdcSzO+Uo
-         byAg==
+        bh=/Mo/HZpj8w38ANVpEVSro9TPOmrz4MXgGYRbhOeboqg=;
+        b=Btd6nmuMr4PsvGpdVwfteWzw4NkDlkaneWAUfCD8UO4/JuLHh9wcR+JtHPs+sPRpOy
+         KxyTIeppbNF955qujMWbr365v6mdM546i8zMJp3Z1bL51oAY3vyEvfY9QOMWpz8KGKb1
+         DYP/mdtmwLipFJeX2f+M4AeSNFiJQLlENqDuTLIDYo5v5lk8nNSoc9+YD+vUTII9noCq
+         0H9TOx7I28qDKwNjvlt+iWQMmFkKYq/4EkuBsOmeX7a+EbJ2ETLJFQLuisfEHx1SRB2V
+         73oZFS8m6J845TxgIJmkKdyBrikZvSicpAh5dE3A0Sj03nHCwF9SoD4HoqoEtySd0TBf
+         BeLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qDtELxG2pjhBBxJl2d7+OAI9FoT6ZVqcBQqrZubApBo=;
-        b=nZ7kZ9xPNCDToJlbWg1RHrVUtu2KPQY7w3yBs7MQYPnYe54jRHQduK4wUmY1gNbZtb
-         QCvhlwDBPky/bFGrJPQIiOKU5LybG0QIRuYi5Gz+gV0mqOXRRAsS8sLVSdWXhrQQYq85
-         MQY4PnjrBZU6MqKc5Vs6CFSQAn1oZXFsRU1uiNgrDR7JOebVf8DmgTnZ/VxjGfu5WiAB
-         IdK974jqGBwNx4ZrXKfAy6tlI+KRjuUuHrXS05ZIbYeWgf3C0HxxSOKXJHZtl9Yfzhmc
-         YS29dvTB3+IYyEYKPER4P6nc7oOUu11aWb6gikIIGkLcqkKzmkS/CQ21dLO3B2u6lmN0
-         /PgA==
-X-Gm-Message-State: ACrzQf1l9sv8OQXn92nikWbjma5ZlQg9Jz+laytPrBgG1vwdYEaTVg3Z
-	AlGXRwPgGVxnNpjbRLDgAMs=
-X-Google-Smtp-Source: AMsMyM69vyORlfbR5KwRfwyoaSWG4uOdtnNEmFwPVWzlRBZKjmL8e/6zAYbguV1RVwHNC7p5EohL3Q==
-X-Received: by 2002:adf:fa01:0:b0:236:debd:f682 with SMTP id m1-20020adffa01000000b00236debdf682mr31424167wrr.49.1668078426699;
-        Thu, 10 Nov 2022 03:07:06 -0800 (PST)
+        bh=/Mo/HZpj8w38ANVpEVSro9TPOmrz4MXgGYRbhOeboqg=;
+        b=q+Ovrzg6sYfYUV7aCuJ7pOaoVydppBRKoRq1REh0/LrXBdOem5qnvt5C32WV51L4Rj
+         yHf4ypo/pUr86WB4LKaaH5Wu4KefMuKscnAiC3aHOafXJzz9jLl1A++bBE4GX+fiUM8l
+         zGjF4hzhEHeTASoK0De2hgz4ffJF/Rgqmb9k5jq9iH8BzLJUWpJD2kM0axR6Gng7mvN6
+         Lg2MKd9k+QPunkZMeNfr+SdZW2NDZRPWjM+kqa98bUQTYHANznKEAIRbKYx/tdd4qzLn
+         WssijLKdqZjXOtbD7bj5bBfoePorD+1vHb41xxZgDBxgmQOeXzTIMVcZ/Y606grgO+m3
+         d71g==
+X-Gm-Message-State: ANoB5pkiAJ0GFNgWyTDSdiwFAjniR7mcc9rq9MqVbkt7YzpKFi5pF8mc
+	YxO8b4R3tg+uYSnTEUQXoHrkQ24d8Dw=
+X-Google-Smtp-Source: AA0mqf7a4QVTKL4NLbGglhdl2KfKEyVq2aRSN6y8tzERBF/mhOqgcSzHi05o3QOaAIUS6GyjPH/GQg==
+X-Received: by 2002:a05:600c:3049:b0:3cf:a985:767d with SMTP id n9-20020a05600c304900b003cfa985767dmr14659772wmh.32.1668079447504;
+        Thu, 10 Nov 2022 03:24:07 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id fn14-20020a05600c688e00b003c6bd91caa5sm4537185wmb.17.2022.11.10.03.07.05
+        by smtp.gmail.com with ESMTPSA id u6-20020a05600c19c600b003b497138093sm5312260wmq.47.2022.11.10.03.24.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 03:07:06 -0800 (PST)
-Date: Thu, 10 Nov 2022 14:07:03 +0300
+        Thu, 10 Nov 2022 03:24:07 -0800 (PST)
+Date: Thu, 10 Nov 2022 14:24:03 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Jacob Bai <jacob.bai.au@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] staging: rtl8192e: replace macro defines with
- variables
-Message-ID: <Y2zbV6xDUGPv8mVY@kadam>
+Subject: Re: [PATCH v5 1/2] staging: rtl8192e: rename tables in r8192e_hwimg.c
+Message-ID: <Y2zfU+Cw0/odYATm@kadam>
 References: <cover.1668075486.git.jacob.bai.au@gmail.com>
- <354847ce7b2f9ea4dc549bf13656192c1db7c231.1668075486.git.jacob.bai.au@gmail.com>
+ <01eb4d9cb22be5f76aa39eedd406577cdfd9f486.1668075486.git.jacob.bai.au@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,31 +54,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <354847ce7b2f9ea4dc549bf13656192c1db7c231.1668075486.git.jacob.bai.au@gmail.com>
+In-Reply-To: <01eb4d9cb22be5f76aa39eedd406577cdfd9f486.1668075486.git.jacob.bai.au@gmail.com>
 
-On Thu, Nov 10, 2022 at 09:35:11PM +1100, Jacob Bai wrote:
-> -u32 RTL8192E_PHY_REG_1T2R_ARRAY[RTL8192E_PHY_REG_1T2R_ARRAY_LEN] = {
-> +u32 RTL8192E_PHY_REG_1T2R_ARRAY[] = {
->  	0x800, 0x00000000,
->  	0x804, 0x00000001,
->  	0x808, 0x0000fc00,
-> @@ -158,8 +159,9 @@ u32 RTL8192E_PHY_REG_1T2R_ARRAY[RTL8192E_PHY_REG_1T2R_ARRAY_LEN] = {
->  	0xe18, 0x161a1a1a,
->  	0xe1c, 0x12121416,
->  };
-> +u32 RTL8192E_PHY_REG_1T2R_ARRAY_LEN = ARRAY_SIZE(RTL8192E_PHY_REG_1T2R_ARRAY);
+Look at how these defines are used.  Take RTL8192E_PHY_REG_ARRAY_LEN
+as an example.
 
-This patch is kind of a headache to review.  I have to go through and
-count 148 array elements to ensure that the array hasn't changed size.
+On Thu, Nov 10, 2022 at 09:35:10PM +1100, Jacob Bai wrote:
+> +u32 RTL8192E_PHY_REG_ARRAY[RTL8192E_PHY_REG_ARRAY_LEN] = {0x0,};
+> +#define RTL8192E_PHY_REG_ARRAY_LEN 1
+> +extern u32 RTL8192E_PHY_REG_ARRAY[RTL8192E_PHY_REG_ARRAY_LEN];
+> +#define PHY_REGArrayLength			RTL8192E_PHY_REG_ARRAY_LEN
 
-But the first patch renames all these arrays, so I first have go back
-to patch #1 to find the original name.  It might be easier to do the
-renames afterward.
+It's only used to create the PHY_REGArrayLength define.  Layers upon
+layers of indirection.  Get rid of the RTL8192E_PHY_REG_ARRAY_LEN
+completely just do:
 
-Also the commit message should say something like "I have checked the
-object code and there is no change at all" or "I have counted all these
-array elements and there is no change to the size of the array."
+#define PHY_REGArrayLength 1
 
-regards,
+Except get rid of that as well and use ARRAY_SIZE().
+
+What I'm saying is don't send a v6 of this patch.  Just step back and
+try to figure out how to get rid of all this code instead of renaming
+the variable.s
+
+regars,
 dan carpenter
 
