@@ -1,50 +1,52 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA51F361
-	for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 00:10:53 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id b29so237287pfp.13
-        for <linux-staging@lists.linux.dev>; Wed, 09 Nov 2022 16:10:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8910626
+	for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 07:53:17 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so4051534pjs.4
+        for <linux-staging@lists.linux.dev>; Wed, 09 Nov 2022 23:53:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yfINp8pb5N6Kx42V2kF3zccXP5miAwmr+YVzAQR38b8=;
-        b=hrulcqmGHvIDI7EqZKqSueWhh85PNmFzN08aIKM7w4yjyfwkcS4HuPqLRRHwcVjggo
-         jpKx4rESzVfQK/lHta+SCGcvocKoB4TOc1+BvhJeW5UbuYExMukkbO58TBObElRpmcBA
-         16H84vUhdPO6YaHsoin3oZPfwskSYzp++yb/M=
+        bh=PqGMk/XG3aXOYy5I5CRkI+EonIV4UA20sJ/q6wzok1k=;
+        b=FyeL2pd+UI7MXNEwJAJnHcObNqlv4Pgl5irbsPLFqazAx9LxifF+ZVvX0et0i2Mqvi
+         3yanEqOnC31xYTPvCHqy455O0qghMpLaR3xe9vJCHAoAvW2T6QtRAen0zE4MS+2/oRnS
+         Rlc3yftINmKl66/RbSivrPodoOknR9NQNOAL4K44WBNq1ymUvUJ6LPqZYQ5his1dDIyi
+         ninZRiaML/1+W1mYvZdQC5bxdr6KzPCFYEtVyQQ+4a6RJavbe1G/DxUHbcD4GSDTbwqJ
+         kda8juosekbFWRJuEJRzYQZgpQqYnJZVCnZSuObz0KoNZCQ1rnP7UAmvMhikg7FoUcYc
+         8GtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yfINp8pb5N6Kx42V2kF3zccXP5miAwmr+YVzAQR38b8=;
-        b=7m4nypJfkP5ZJPFZUOKfdnKzdPD5ubszbNCytdrGcy02b5BOrH0vNAW/wtrrwZu8rg
-         liiN5RklIpbUiwM1n+58mA7rOmrdxGMEyDJc9F4ypmTrBgQpynI4I9ZP+SSsbTCybKPZ
-         PQxW5eMVYI3yVtfJAwscC95AriR+3fad0a7S3OQeuh+C13QrEWJUz/geBvPTIWptcGhq
-         GxaGD0EHED5gNNUILnV+WPMKuk36TRzIRF4rvt9Mi9+2yYsiYpijgCMpqdcdDLQMPcEg
-         Cxy6yctqYDDB10KAfRBBZy4Hliw1Cy70uYZaM301tgNz8ZNhYE4Z2Tt5JshSomR+7YxF
-         KxNA==
-X-Gm-Message-State: ACrzQf2cX+LvLjMBi1nudAoQDjK7h5voEhDP+WmRRsldi8rciSV7fpCe
-	mHSbC2+psU9koe7w0DCshl+pzQ==
-X-Google-Smtp-Source: AMsMyM5Ur4+2jdo21Hc7VyMq48tFV/jggd85uZGIwa6o2cvJu/+hjBRLNTLAWr8lbwDHdOX2nk1e5w==
-X-Received: by 2002:a63:2cd2:0:b0:41c:5901:67d8 with SMTP id s201-20020a632cd2000000b0041c590167d8mr53661261pgs.365.1668039053278;
-        Wed, 09 Nov 2022 16:10:53 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b4-20020a170902650400b001869079d083sm9748551plk.90.2022.11.09.16.10.52
+        bh=PqGMk/XG3aXOYy5I5CRkI+EonIV4UA20sJ/q6wzok1k=;
+        b=yl2pmsicufnyjhW3xk6W1ZaAd+KpWPgRBiBN/s8EmeWv8SiB0h2Mg3DAp2wudJdC3y
+         rIRvBRtLY2rXX2z1auap0rV9FfJsOMgnXNEQelee5qM/UY+LT4KK2HdnQ+vmVZ9GebuO
+         zoYuIqEe+CFs+N4JkURdMrlp44qzOmhKnywCMN28OorR912Fe+F4MxrY6I1wZ9xwbWza
+         K2sXMB1m4XNHfgLxMW5mdVk44S+fsBtAGdCS3OQr1dHec+KyawvcNpP3Hd6HVOL9rBma
+         dt3Zk070zaS5jA2lnTY3dAl39JT61dRoOY+VqRhkoJcOMjmBnsOMfp901j7pJR+8/imK
+         fy9Q==
+X-Gm-Message-State: ACrzQf1c8L4n1B7I2tGN28m3nQgbd7zFDxnJGZ4B8E5OSxt8yFYty6z/
+	wAXB5QejMTqD/TVcB5uOdMU=
+X-Google-Smtp-Source: AMsMyM4Pl7aUvQSZw9rdxm1t+NMgI3bo4cIXFh45xCB1cjpczgGo3FODOtf4fi/KRXBHLRINk4950Q==
+X-Received: by 2002:a17:90b:e86:b0:213:8092:e19a with SMTP id fv6-20020a17090b0e8600b002138092e19amr72906994pjb.56.1668066797156;
+        Wed, 09 Nov 2022 23:53:17 -0800 (PST)
+Received: from jacob-Ubuntu (126.224.215.218.sta.wbroadband.net.au. [218.215.224.126])
+        by smtp.gmail.com with ESMTPSA id o8-20020a655bc8000000b0046fb2a58f11sm8556376pgr.29.2022.11.09.23.53.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 16:10:52 -0800 (PST)
-Date: Wed, 9 Nov 2022 16:10:52 -0800
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] staging: ks7010: Avoid clashing function
- prototypes
-Message-ID: <202211091610.8D12F1F@keescook>
-References: <cover.1667934775.git.gustavoars@kernel.org>
- <8d2ceee1248b5a76e9b6c379f578e65482c91168.1667934775.git.gustavoars@kernel.org>
+        Wed, 09 Nov 2022 23:53:16 -0800 (PST)
+Date: Thu, 10 Nov 2022 18:53:12 +1100
+From: Jacob Bai <jacob.bai.au@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] staging: rtl8192e: rename r8192E_hwimg.c/h to
+ table.c/h
+Message-ID: <Y2yt6ERX3szKn2W7@jacob-Ubuntu>
+References: <cover.1667723306.git.jacob.bai.au@gmail.com>
+ <9bb563727915e3f3edd863837608336b99564462.1667723306.git.jacob.bai.au@gmail.com>
+ <Y2p0dNLBqiWFPzB9@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,35 +55,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8d2ceee1248b5a76e9b6c379f578e65482c91168.1667934775.git.gustavoars@kernel.org>
+In-Reply-To: <Y2p0dNLBqiWFPzB9@kroah.com>
 
-On Tue, Nov 08, 2022 at 02:34:46PM -0600, Gustavo A. R. Silva wrote:
-> When built with Control Flow Integrity, function prototypes between
-> caller and function declaration must match. These mismatches are visible
-> at compile time with the new -Wcast-function-type-strict in Clang[1].
+On Tue, Nov 08, 2022 at 04:23:32PM +0100, Greg KH wrote:
+> On Sun, Nov 06, 2022 at 07:31:17PM +1100, Jacob Bai wrote:
+> > Same as other rtlwifi drivers, use table.c/h.
 > 
-> Fix a total of 27 warnings like these:
+> You say what you do here, but not why.
 > 
-> drivers/staging/ks7010/ks_wlan_net.c:2415:2: warning: cast from 'int (*)(struct net_device *, struct iw_request_info *, struct iw_point *, char *)' to 'iw_handler' (aka 'int (*)(struct net_device *, struct iw_request_info *, union iwreq_data *, char *)') converts to incompatible function type [-Wcast-function-type-strict]
->         (iw_handler)ks_wlan_get_firmware_version,/* 3 KS_WLAN_GET_FIRM_VERSION */
->         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Why rename the file?  What's wrong with the existing name?  It's not
+> causing any problems, right?
 > 
-> The ks_wlan_net Wireless Extension handler callbacks (iw_handler) use a
-> union for the data argument. Actually use the union and perform explicit
-> member selection in the function body instead of having a function
-> prototype mismatch. There are no resulting binary differences
-> before/after changes.
+> thanks,
 > 
-> These changes were made partly manually and partly with the help of
-> Coccinelle.
-> 
-> Link: https://reviews.llvm.org/D134831 [1]
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> greg k-h
+>
+No, it's not causing problems. As we are trying to move this driver out
+of staging folder, so I checked how current drivers naming
+files/variables, turns out they all named those two files as table.c/h.
+Maybe we can do the file renaming as the last step.
 
-The "mode" churn makes this a bit harder to review, but I think the
-final result looks better.
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
+Jacob
