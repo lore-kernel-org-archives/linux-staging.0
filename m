@@ -1,204 +1,77 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932A91A635
-	for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 20:19:27 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id f5so8001295ejc.5
-        for <linux-staging@lists.linux.dev>; Thu, 10 Nov 2022 12:19:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CBB36A
+	for <linux-staging@lists.linux.dev>; Fri, 11 Nov 2022 08:37:43 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id f27so11098865eje.1
+        for <linux-staging@lists.linux.dev>; Fri, 11 Nov 2022 00:37:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TPDc8TL84zpRt/4rjPz8yYNt2FvfBRHAKStc4F1CD/4=;
-        b=ShYFipp3orcCBsBzXghfD9q/4BFTaF81ft/NdhctVH5ZiGv1qlXeB+y/G4WJAgfUMb
-         DE9BhmH9T/OML8ROiOtMalXHKnPYQGmhVI11996LB1tmxHoDmtWq4TAIi8yUQ2CFifgc
-         uNEcNtl2sJZEro4sISszqQSv5QRBsskpoZSVxW+ZwcOvx7YmoaWBCT/AuaB/Q0jIbEmJ
-         8fo45F7QXsy/Qxs67kvVlvuy41ApxRIeuLOMm6oDdAqCbJwN/KdYB3sOY4CEb3DWQpkt
-         PvEd1V6IPY0wWrd5F0LzojXISZOt5otRPbVE/RR0cK+N00luHgXcRvUmC0+dM4Uocmhk
-         LjhA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QRcKVfIS8NDafd59OlyUFdzDuB31g5yY5UyB64GKppc=;
+        b=SyvdF3FbMU8xxvtzWNKLFujAL/SkyCinpdysIw+4QBwISd7ANJfgSeWN+jfDXJXkdu
+         5APNx5TeLxTQ6PyGMl2MxqO0y3MVka/YypI1qgGto/Ciday9F57hFisf0cWQdjxRYcXh
+         FMO8YgnvK99GoYJy3ZcyhTBWR7c0aJx4Me/S4sptvnaSjKSKJW4vFLXNaN61CT24mKZb
+         Vl42J9QpTGalvPOiY8Udw+dkc5n5k8/0fEpf9lC5zdQciS3XqOLcbsU0yv/UJTQDaXft
+         9+kXPwwkDWlyLBp7i+NI+VWLEiaMLMpROkV6vygm3e6cyQ6Uc/0jLGtTkWiMEdA2/BxV
+         6eKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TPDc8TL84zpRt/4rjPz8yYNt2FvfBRHAKStc4F1CD/4=;
-        b=5Rpk2R5+syDkWOazIdy8vyV7qXb9+mAjqS74OJvmdnQfHAzFF2kKxHUsdK6ZLzIqkk
-         WVZY45Wv/ytOX7DyeyTSiPtrQEggz1WSKvIupX3Ld2Ae0xzsvGHEsRSIMpqDY8SEboYy
-         F+ij0/vECj6osiMJS+a9FWVKTWDtB3qoyWyHHhgERK8VSmer20KWqzrqWqpvBzy6+PVn
-         iqLcc6Ev0kEy/xV22PpATlHF9If36p9G4700DWhQrpysyFzjWwWces4LCwLRhIyWSkyK
-         vy/tt9VXaXpiGC0SJUiDdm1gsUfTcfbSO6eYF/grzOgNj/k8DNf9gshHXhgBO4aOi7Qt
-         5toA==
-X-Gm-Message-State: ACrzQf29tdVjFRj5KYPVjjJ52wHp+N8gv+kf5MP9ig7bQYaP7rrA2d7e
-	GA6dzj6aehJ0skVlWZJXBIw=
-X-Google-Smtp-Source: AMsMyM5D6T9CerJ8C+WEOF21v77J5jbIKBh1zxPFfLRXTzjuwnS7nVt1ymJRcUcjlruZsWtPY2OqEA==
-X-Received: by 2002:a17:907:8d11:b0:78d:851f:ae17 with SMTP id tc17-20020a1709078d1100b0078d851fae17mr3820488ejc.475.1668111565694;
-        Thu, 10 Nov 2022 12:19:25 -0800 (PST)
-Received: from [192.168.1.100] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id o10-20020aa7dd4a000000b0043bbb3535d6sm218191edw.66.2022.11.10.12.19.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Nov 2022 12:19:25 -0800 (PST)
-Message-ID: <188093c6-b67c-fa08-54e7-62d41ee2a19b@gmail.com>
-Date: Thu, 10 Nov 2022 21:19:23 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QRcKVfIS8NDafd59OlyUFdzDuB31g5yY5UyB64GKppc=;
+        b=fbL7epLL4w1aUg0LihNmodN6hnKEKmp5Kjo5vCZMrK3ejWK8MIrRYwLH/GwnxhVRXi
+         uzGr2MPPPjay06vYZqCtEHtnzGFGgMw2Q1+R2XtP7H6RtLVMDWKkNUXG0J5BDcT0KwsO
+         tBBPeGpji7/4rKb2a7G9gfOZwIaP8qTYQG+xVmpVp4/Q+jrNyByDGb8WIvAtQ8XJYkzd
+         VJ4K1jfGS/34pIMaH98yzreKyKqf0o/CKiq+kSMvCnAn7uCkWS0tBO52gwKSDZhmI4Q0
+         MTYRwIbZS629o7PCxYe/2BUKk6NatQF/FaEazM++cdrHJCnGoY/JIQNHFIdexxgsKwm2
+         MlyQ==
+X-Gm-Message-State: ANoB5pkA4yTSPEtFjbBU2kvdNb56WmCrjlQpAGfeo5gK0FmuhHJvCtlG
+	0kCgGVSpo1dINqvW+SRNv7A=
+X-Google-Smtp-Source: AA0mqf5EOz8LdwplhrJ1YQ0zy9XkFlFd9VEaRauyBvfRrYu9Hn+N7W6MWtKOYca0QissDU/Oq/WnMQ==
+X-Received: by 2002:a17:907:2348:b0:78d:f796:c00d with SMTP id we8-20020a170907234800b0078df796c00dmr1042024ejb.251.1668155861940;
+        Fri, 11 Nov 2022 00:37:41 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb9a.dynamic.kabel-deutschland.de. [95.90.187.154])
+        by smtp.gmail.com with ESMTPSA id b2-20020a1709063ca200b007ae566edb8bsm643190ejh.73.2022.11.11.00.37.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Nov 2022 00:37:41 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/4] staging: r8188eu: some _FAIL, _SUCCESS removals
+Date: Fri, 11 Nov 2022 09:37:29 +0100
+Message-Id: <20221111083733.3144-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] staging: r8188eu: rename three functions
-Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20221110090927.17274-1-straube.linux@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221110090927.17274-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/10/22 10:09, Michael Straube wrote:
-> Prefix the names of the following functions with the driver name. The
-> original names are bad for the global namespace. While at it, convert
-> is_IBSS_empty() to all lower case to follow kernel coding style.
-> 
-> is_client_associated_to_ap()
-> is_client_associated_to_ibss()
-> is_IBSS_empty()
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 14 +++++++-------
->   drivers/staging/r8188eu/core/rtw_wlan_util.c   |  8 ++++----
->   drivers/staging/r8188eu/include/rtw_mlme_ext.h |  6 +++---
->   3 files changed, 14 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index be33489d3dfd..161cb67f7882 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -5831,7 +5831,7 @@ void rtw_mlme_site_survey_done(struct adapter *adapter)
->   	int res;
->   	u8 reg;
->   
-> -	if ((is_client_associated_to_ap(adapter)) ||
-> +	if ((r8188eu_is_client_associated_to_ap(adapter)) ||
->   	    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)) {
->   		/* enable to rx data frame */
->   		rtw_write16(adapter, REG_RXFLTMAP2, 0xFFFF);
-> @@ -5982,7 +5982,7 @@ void site_survey(struct adapter *padapter)
->   			Restore_DM_Func_Flag(padapter);
->   			/* Switch_DM_Func(padapter, DYNAMIC_ALL_FUNC_ENABLE, true); */
->   
-> -			if (is_client_associated_to_ap(padapter))
-> +			if (r8188eu_is_client_associated_to_ap(padapter))
->   				issue_nulldata(padapter, NULL, 0, 3, 500);
->   
->   			rtw_mlme_site_survey_done(padapter);
-> @@ -6952,7 +6952,7 @@ void mlmeext_sta_del_event_callback(struct adapter *padapter)
->   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
->   	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
->   
-> -	if (is_client_associated_to_ap(padapter) || is_IBSS_empty(padapter)) {
-> +	if (r8188eu_is_client_associated_to_ap(padapter) || r8188eu_is_ibss_empty(padapter)) {
->   		mlme_disconnect(padapter);
->   		rtw_set_bssid(padapter, null_addr);
->   
-> @@ -7025,7 +7025,7 @@ void linked_status_chk(struct adapter *padapter)
->   
->   	rtl8188e_sreset_linked_status_check(padapter);
->   
-> -	if (is_client_associated_to_ap(padapter)) {
-> +	if (r8188eu_is_client_associated_to_ap(padapter)) {
->   		/* linked infrastructure client mode */
->   
->   		int tx_chk = _SUCCESS, rx_chk = _SUCCESS;
-> @@ -7097,7 +7097,7 @@ void linked_status_chk(struct adapter *padapter)
->   				pmlmeinfo->link_count = 0;
->   			}
->   		} /* end of if ((psta = rtw_get_stainfo(pstapriv, passoc_res->network.MacAddress)) != NULL) */
-> -	} else if (is_client_associated_to_ibss(padapter)) {
-> +	} else if (r8188eu_is_client_associated_to_ibss(padapter)) {
->   		/* linked IBSS mode */
->   		/* for each assoc list entry to check the rx pkt counter */
->   		for (i = IBSS_START_MAC_ID; i < NUM_STA; i++) {
-> @@ -7415,7 +7415,7 @@ u8 disconnect_hdl(struct adapter *padapter, unsigned char *pbuf)
->   	u8 val8;
->   	int res;
->   
-> -	if (is_client_associated_to_ap(padapter))
-> +	if (r8188eu_is_client_associated_to_ap(padapter))
->   		issue_deauth_ex(padapter, pnetwork->MacAddress, WLAN_REASON_DEAUTH_LEAVING, param->deauth_timeout_ms / 100, 100);
->   
->   	mlme_disconnect(padapter);
-> @@ -7527,7 +7527,7 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
->   		pmlmeext->sitesurvey_res.scan_mode = pparm->scan_mode;
->   
->   		/* issue null data if associating to the AP */
-> -		if (is_client_associated_to_ap(padapter)) {
-> +		if (r8188eu_is_client_associated_to_ap(padapter)) {
->   			pmlmeext->sitesurvey_res.state = SCAN_TXNULL;
->   
->   			issue_nulldata(padapter, NULL, 1, 3, 500);
-> diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> index c95438a12b59..965bb7da4cce 100644
-> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> @@ -331,7 +331,7 @@ u16 get_beacon_interval(struct wlan_bssid_ex *bss)
->   	return le16_to_cpu(val);
->   }
->   
-> -bool is_client_associated_to_ap(struct adapter *padapter)
-> +bool r8188eu_is_client_associated_to_ap(struct adapter *padapter)
->   {
->   	struct mlme_ext_priv	*pmlmeext;
->   	struct mlme_ext_info	*pmlmeinfo;
-> @@ -348,7 +348,7 @@ bool is_client_associated_to_ap(struct adapter *padapter)
->   	return false;
->   }
->   
-> -bool is_client_associated_to_ibss(struct adapter *padapter)
-> +bool r8188eu_is_client_associated_to_ibss(struct adapter *padapter)
->   {
->   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
->   	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
-> @@ -359,7 +359,7 @@ bool is_client_associated_to_ibss(struct adapter *padapter)
->   	return false;
->   }
->   
-> -bool is_IBSS_empty(struct adapter *padapter)
-> +bool r8188eu_is_ibss_empty(struct adapter *padapter)
->   {
->   	unsigned int i;
->   	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
-> @@ -893,7 +893,7 @@ int rtw_check_bcn_info(struct adapter  *Adapter, u8 *pframe, u32 packet_len)
->   	unsigned short	ht_cap_info;
->   	unsigned char	ht_info_infos_0;
->   
-> -	if (!is_client_associated_to_ap(Adapter))
-> +	if (!r8188eu_is_client_associated_to_ap(Adapter))
->   		return true;
->   
->   	len = packet_len - sizeof(struct ieee80211_hdr_3addr);
-> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> index 9c0af4704607..c46fc1a53085 100644
-> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-> @@ -431,9 +431,9 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
->   u8 *get_my_bssid(struct wlan_bssid_ex *pnetwork);
->   u16 get_beacon_interval(struct wlan_bssid_ex *bss);
->   
-> -bool is_client_associated_to_ap(struct adapter *padapter);
-> -bool is_client_associated_to_ibss(struct adapter *padapter);
-> -bool is_IBSS_empty(struct adapter *padapter);
-> +bool r8188eu_is_client_associated_to_ap(struct adapter *padapter);
-> +bool r8188eu_is_client_associated_to_ibss(struct adapter *padapter);
-> +bool r8188eu_is_ibss_empty(struct adapter *padapter);
->   
->   unsigned char check_assoc_AP(u8 *pframe, uint len);
->   
+This series removes some more uses of _FAIL and _SUCCESS.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Michael Straube (4):
+  staging: r8188eu: convert aes_cipher() to void
+  staging: r8188eu: convert rtw_xmit_resource_alloc() to common error
+    logic
+  staging: r8188eu: convert _rtw_init_xmit_priv() to common error logic
+  staging: r8188eu: binstallGrpkey is set to _FAIL
+
+ drivers/staging/r8188eu/core/rtw_security.c |  4 +--
+ drivers/staging/r8188eu/core/rtw_xmit.c     | 37 +++++++--------------
+ drivers/staging/r8188eu/include/rtw_xmit.h  |  2 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c   |  4 +--
+ 4 files changed, 16 insertions(+), 31 deletions(-)
+
+-- 
+2.38.1
+
