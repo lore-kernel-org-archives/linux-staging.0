@@ -1,205 +1,75 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F54A809
-	for <linux-staging@lists.linux.dev>; Fri, 11 Nov 2022 08:37:49 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id k2so11089599ejr.2
-        for <linux-staging@lists.linux.dev>; Fri, 11 Nov 2022 00:37:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4UYmpKHsIr2qFT7M5inAn4KP/0IUYZikxzDGvUZY1YE=;
-        b=UQrzctyhSUruz7hukRcYiRergxj/lpzlJuqn9IYYCx8q8WcTX11QIA1Z2iEUcFt0gd
-         GGrTTrNXaKpl9NdH6YqI0knvp1Bkdfh2lR2B2m8VYsQM+N48RKipOeF2348z0XToU7qY
-         gbUiOYN6juqY1ITOusxq81EZ6HdxfYMjssineB6fCS5O95IMlMb+DMNeRpBLZD18+Ia2
-         DC2Wo30qij3bKu0yc6YK6zcC6sgqk2ABtiQNlsJ/ajBDgiVXPEKHkf3aOUgrNu33RQDO
-         HWTG83PvAM6lchc/LG3rrcnXFYSk1GZkD8asBbaQSuO6RxxGJhROJEqcOLw7bOvN1S/7
-         cV0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4UYmpKHsIr2qFT7M5inAn4KP/0IUYZikxzDGvUZY1YE=;
-        b=g9iyWxKS0NxsE/UKbBgkF9dkbrECVQCG9+wa84WuU82afSrAi+KiEH9zc+8bimp/TD
-         e0mEmF5W5bbfLFEzqFmid9mpTlCjGwdC8rG6qGliBtoJiuf18SZ2Gjt1AfSCGjSKkwT8
-         WjAvtwH44yTmVbo/ktKCbmOzN6RFGfiUJAOOdh9VC0EM4SYjLFRU1U1nDPe0v5a7FNg6
-         o1tN/ao+j/H1ZVjvDEoGBJFLnBHxT2oypCv/yZYjRmGaThTXrmTI9131vHX2+lOn2tW+
-         h4MBYcX4D4UKajaBRNj0XRu2UmmSR4DClGhL1Y6KT4PMgwG3HTAwiPGgEY26cy8rzZOC
-         SEmw==
-X-Gm-Message-State: ANoB5pmjbqDX6yGLys3/v4COONnphnH4da4Dijj3Ahn0wwwifGT/CzIj
-	wOOBw5/o0kEr4kw+mEoHcxg=
-X-Google-Smtp-Source: AA0mqf4qf1donTG8dSx7WM1waQY5qdS0lfSeMO4R2GESQE+fh8uIQOz13i3oUvfL5zJ3pqvFhIZQBA==
-X-Received: by 2002:a17:906:5e05:b0:7ae:21bc:89f0 with SMTP id n5-20020a1709065e0500b007ae21bc89f0mr1089186eju.132.1668155867840;
-        Fri, 11 Nov 2022 00:37:47 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abb9a.dynamic.kabel-deutschland.de. [95.90.187.154])
-        by smtp.gmail.com with ESMTPSA id b2-20020a1709063ca200b007ae566edb8bsm643190ejh.73.2022.11.11.00.37.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Nov 2022 00:37:47 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/4] staging: r8188eu: convert _rtw_init_xmit_priv() to common error logic
-Date: Fri, 11 Nov 2022 09:37:32 +0100
-Message-Id: <20221111083733.3144-4-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221111083733.3144-1-straube.linux@gmail.com>
-References: <20221111083733.3144-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FDA2F2B
+	for <linux-staging@lists.linux.dev>; Fri, 11 Nov 2022 17:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1668186674; bh=1RIQ/IkEDUmv9IHs9QgFqfOSQHFRaOMUNJ4hAer8V7U=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=i7Ych6tATqnDt3txDGmf4tl2aOt6j5CZYTlZdYNIJWf5jIb9uQuKygWkgFAfZdqt/
+	 pYrneCIpfWlMV9VzuVz1ZdUqjO5895K1q/RDvnlQak9uzy2G+RuZRW4GNIOXG9pjr+
+	 /MEslRNG8FbBCpBUn7yCQyVWVglS7ckWx9LuL6Ws=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Fri, 11 Nov 2022 18:11:14 +0100 (CET)
+X-EA-Auth: V+drH4vY8UWXrgfnZZR7Hc2mA9wgmxew3GLoFUFYAmzIxO1+7Zdb/tpLl6NXQrz5gJPwo7XaSp0gWCF9ff8cCxjJDfF2L6q4
+Date: Fri, 11 Nov 2022 22:41:03 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Dan Carpenter <error27@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: patches for staging:media drivers
+Message-ID: <Y26CJ9L52AmPBQYC@qemulion>
+References: <Y2eSCZJNWn6DzCUu@qemulion>
+ <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
+ <Y2oO7fU4whKr+3hb@kadam>
+ <Y2q7tFF7YeX16H20@lunn.ch>
+ <Y2tLZaPSUT45TF4f@qemulion>
+ <Y2uv56k515cKTXU4@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2uv56k515cKTXU4@lunn.ch>
 
-Convert the function _rtw_init_xmit_priv() away from returning _FAIL
-or _SUCCESS which uses inverted error logic. Use the common error
-logic instead. Return 0 for success and negative values for failure.
+On Wed, Nov 09, 2022 at 02:49:27PM +0100, Andrew Lunn wrote:
+> On Wed, Nov 09, 2022 at 12:10:37PM +0530, Deepak R Varma wrote:
+> > On Tue, Nov 08, 2022 at 09:27:32PM +0100, Andrew Lunn wrote:
+>
+> Staging drivers for network tend to be USB dongles for WiFi. Some of
+> those drivers need throwing away and starting again, others need less
+> work. If you are interested in that, i would suggest asking on
+> linux-wireless@vger.kernel.org.
+>
+> Another option might be pi433? The problem with that is, i don't know
+> how it fits into the rest of the network stack? Could it maybe fit
+> under ieee802154? Or is it just unique and needs to do its own thing?
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_xmit.c    | 28 +++++++---------------
- drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
- drivers/staging/r8188eu/os_dep/os_intfs.c  |  2 +-
- 3 files changed, 10 insertions(+), 22 deletions(-)
+Hello Andrew,
+I looked at the pi433 driver and it appears to be a good starting point. I have
+started studying more about the hardware, the RF technology etc. There is a TODO
+file with reasonable challenges.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index c0fda6ce7c56..34494f08c0cd 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -59,12 +59,11 @@ static void rtw_xmit_resource_free(struct adapter *padapter, struct xmit_buf *px
- 	kfree(pxmitbuf->pallocated_buf);
- }
- 
--s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
-+int _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- {
- 	int i;
- 	struct xmit_buf *pxmitbuf;
- 	struct xmit_frame *pxframe;
--	int	res = _SUCCESS;
- 	u32 max_xmit_extbuf_size = MAX_XMIT_EXTBUF_SZ;
- 	u32 num_xmit_extbuf = NR_XMIT_EXTBUFF;
- 
-@@ -97,7 +96,6 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	if (!pxmitpriv->pallocated_frame_buf) {
- 		pxmitpriv->pxmit_frame_buf = NULL;
--		res = _FAIL;
- 		goto exit;
- 	}
- 	pxmitpriv->pxmit_frame_buf = (u8 *)ALIGN((size_t)(pxmitpriv->pallocated_frame_buf), 4);
-@@ -132,10 +130,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	pxmitpriv->pallocated_xmitbuf = vzalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4);
- 
--	if (!pxmitpriv->pallocated_xmitbuf) {
--		res = _FAIL;
-+	if (!pxmitpriv->pallocated_xmitbuf)
- 		goto free_frame_buf;
--	}
- 
- 	pxmitpriv->pxmitbuf = (u8 *)ALIGN((size_t)(pxmitpriv->pallocated_xmitbuf), 4);
- 	/* pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 - */
-@@ -153,10 +149,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		/* Tx buf allocation may fail sometimes, so sleep and retry. */
- 		if (rtw_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ))) {
- 			msleep(10);
--			if (rtw_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ))) {
--				res = _FAIL;
-+			if (rtw_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ)))
- 				goto free_xmitbuf;
--			}
- 		}
- 
- 		pxmitbuf->flags = XMIT_VO_QUEUE;
-@@ -172,10 +166,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	pxmitpriv->pallocated_xmit_extbuf = vzalloc(num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
- 
--	if (!pxmitpriv->pallocated_xmit_extbuf) {
--		res = _FAIL;
-+	if (!pxmitpriv->pallocated_xmit_extbuf)
- 		goto free_xmitbuf;
--	}
- 
- 	pxmitpriv->pxmit_extbuf = (u8 *)ALIGN((size_t)(pxmitpriv->pallocated_xmit_extbuf), 4);
- 
-@@ -188,10 +180,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		pxmitbuf->padapter = padapter;
- 		pxmitbuf->ext_tag = true;
- 
--		if (rtw_xmit_resource_alloc(padapter, pxmitbuf, max_xmit_extbuf_size + XMITBUF_ALIGN_SZ)) {
--			res = _FAIL;
-+		if (rtw_xmit_resource_alloc(padapter, pxmitbuf, max_xmit_extbuf_size + XMITBUF_ALIGN_SZ))
- 			goto free_xmit_extbuf;
--		}
- 
- 		list_add_tail(&pxmitbuf->list, &pxmitpriv->free_xmit_extbuf_queue.queue);
- 		pxmitbuf++;
-@@ -199,10 +189,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
- 
--	if (rtw_alloc_hwxmits(padapter)) {
--		res = _FAIL;
-+	if (rtw_alloc_hwxmits(padapter))
- 		goto free_xmit_extbuf;
--	}
- 
- 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
- 
-@@ -225,7 +213,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	rtl8188eu_init_xmit_priv(padapter);
- 
--	return _SUCCESS;
-+	return 0;
- 
- free_xmit_extbuf:
- 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmit_extbuf;
-@@ -245,7 +233,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- free_frame_buf:
- 	vfree(pxmitpriv->pallocated_frame_buf);
- exit:
--	return res;
-+	return -ENOMEM;
- }
- 
- static void rtw_pkt_complete(struct adapter *padapter, struct sk_buff *pkt)
-diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index cff065554608..6e7ebea5362d 100644
---- a/drivers/staging/r8188eu/include/rtw_xmit.h
-+++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -351,7 +351,7 @@ s32 rtw_txframes_pending(struct adapter *padapter);
- s32 rtw_txframes_sta_ac_pending(struct adapter *padapter,
- 				struct pkt_attrib *pattrib);
- void rtw_init_hwxmits(struct hw_xmit *phwxmit, int entry);
--s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter);
-+int _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter);
- void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv);
- int rtw_alloc_hwxmits(struct adapter *padapter);
- void rtw_free_hwxmits(struct adapter *padapter);
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 66556e07ed93..44eb95a7682c 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -480,7 +480,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 
- 	init_mlme_ext_priv(padapter);
- 
--	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
-+	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter)) {
- 		dev_err(dvobj_to_dev(padapter->dvobj), "_rtw_init_xmit_priv failed\n");
- 		goto free_mlme_ext;
- 	}
--- 
-2.38.1
+Thank you for the recommendation.
+
+Have a nice weekend!
+./drv
+
+>
+>       Andrew
+>
+
 
