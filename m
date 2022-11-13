@@ -1,114 +1,71 @@
-Received: from antelope.elm.relay.mailchannels.net (antelope.elm.relay.mailchannels.net [23.83.212.4])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E88ED1;
-	Sun, 13 Nov 2022 05:12:50 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id AA5ED5413B7;
-	Sun, 13 Nov 2022 01:47:28 +0000 (UTC)
-Received: from pdx1-sub0-mail-a294.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id B368E54158A;
-	Sun, 13 Nov 2022 01:47:27 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1668304047; a=rsa-sha256;
-	cv=none;
-	b=C/a36Lue2+xlU0Gx9n1S0GpQ0v4+aZ8BpvKLAlsf3ggjP5DhZCIsN422eKbk7vnBTx3XXy
-	y6TwInxnqI8W4SzxEFz0+p/93VNcjcGyN4jdGr+WmgmvNVlvkChgDtHmpsBpMIfCJAVT+c
-	LQ11wMeRqv57migfpoj3mFP/vx6wenrrXwSl0noWmQkacn8ZVWt8WfEeIjwcQVb4AEF3z4
-	CZjB4Z4OESe0sWncIhCCMKfm/YDTePZR2EkwPzw+1pq0/4Y1CnY9notLiAIuHKDwlifzBM
-	91eTtydt5bI+/D0fNM+v2Bok2y1EVdR3phM0353k0UnG/TgX0loYOQjQwPVfTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1668304047;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=8MXI6eMFhlcVW6d8iIhtDQvZaOjaIpdiHvOtU2ZUZ2k=;
-	b=8gNzcAmAMRLYd9WAdv0nnXm39tWnCpVxkrT106iK/w+JV0k/5H15k+Nr3k1SYHyPF7nYWj
-	asp57fNAU/ttWiZBfvvzFuMBWuyAjbaS6ht12ivF2ac4y6IuT5yAgyn92l2gpWkI72YKm5
-	9TTQmbIql+JUCVHvzgwKOPCIAzxadM82tHrUi07I0p9KRNQiS8YvwUdNSgvvzRAFXUAX92
-	vIgufc2EK40X5gQZOq303CeuEjuCHpHAflmicZ8W1PRn/I83XHxImgMRMsQHr7aUr4T7dF
-	5jaohrsnVv7O/1XPffvSE+xBXH6fiyvKbI0WUtB2Y/iIDK0eS/myAQwooB1wUg==
-ARC-Authentication-Results: i=1;
-	rspamd-5cb65d95c4-2vfk6;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Stop-Belong: 35b1dff75189b88b_1668304048091_1075577376
-X-MC-Loop-Signature: 1668304048091:1382251446
-X-MC-Ingress-Time: 1668304048091
-Received: from pdx1-sub0-mail-a294.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.103.24.13 (trex/6.7.1);
-	Sun, 13 Nov 2022 01:47:28 +0000
-Received: from rhino.lan (dsl-50-5-144-34.fuse.net [50.5.144.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian@linux.cowan.aero)
-	by pdx1-sub0-mail-a294.dreamhost.com (Postfix) with ESMTPSA id 4N8wL61ZxCz6K;
-	Sat, 12 Nov 2022 17:47:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-	s=dreamhost; t=1668304047;
-	bh=8MXI6eMFhlcVW6d8iIhtDQvZaOjaIpdiHvOtU2ZUZ2k=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=T0kmReoQTSo7nU70DDaPYP0Wxyngq1XNDels0E30wwdp9eZGCN80MxxoQ4UePHVnx
-	 SEGQnotwSFaURglPuBQyrWplp5YSHRwVRFKd5UtDhb/omQNEKvoIwV4ZD4DSF6PiWJ
-	 fYIvGDI6+CO0NbDgtxrE7OGsziycHjMNuvIeKuxQwe4dIEYISMgPb8EpEXVo0qWImL
-	 vLxNP/r3nYJCP3THqwG/acvLmpSbA0Zz3GHObTRIcfF3/LzBypzBqMLbSBjemuXXhP
-	 mYaJg1EaWNY5bH64PMGWyQp8m/k7Y6yvfbhda3V6yzE8wiWk3zitAhRMqYUeLGwlJr
-	 LjbtzR+T1tvfQ==
-From: Ian Cowan <ian@linux.cowan.aero>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42006ED1
+	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 05:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1668317305; bh=EeFml0IaVh7+u5qnzQtagdJSc1KAvZBsWOHbyeOYNx4=;
+	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=KOZBBF8ZzyP8+Adcy+qOLOZzOlkxrcXlV/1gn5tau/R9wVfOoUJwBjMBw4dgrF8Xy
+	 FNBEvwDrkBjBBI5ROCWMnrzzG0hUM/5ObBfQIBD1sRz7bUIX+qmBm+77nacecf3XSG
+	 s5xjE/VaNHnLq42LOGys6eFaIvs9F6g+emXjAzkc=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Sun, 13 Nov 2022 06:28:25 +0100 (CET)
+X-EA-Auth: V2uAWhgOqEgUOklpFT9QYQ6PeJWA+huKz/8ufkfSmKApy7VUb1qN+/MMT5P9VdXiAkkpb7O+rZRnkB5ETyQ03u9943HdS/7G
+Date: Sun, 13 Nov 2022 10:58:20 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ian Cowan <ian@linux.cowan.aero>
-Subject: [PATCH] staging: media: sunxi: cedrus: make vb2_ops struct definition const
-Date: Sat, 12 Nov 2022 20:47:03 -0500
-Message-Id: <20221113014703.138717-1-ian@linux.cowan.aero>
-X-Mailer: git-send-email 2.38.1
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: iio: meter: replace ternary operator by if
+ condition
+Message-ID: <Y3CAdCa17WdWDYUa@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This cleans up a checkstyle warning where the vb2_ops struct definitions
-should be const.
+Replace ternary operator by simple if based evaluation of the return
+value. Issue identified using coccicheck.
 
-Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 66714609b577..0664b4a4fdac 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -548,7 +548,7 @@ static void cedrus_buf_request_complete(struct vb2_buffer *vb)
- 	v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->hdl);
+Changes in v2:
+   1. Use if based evaluation instead of using min macro
+      suggested by Joe Perches.
+
+
+ drivers/staging/iio/meter/ade7854-i2c.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/iio/meter/ade7854-i2c.c b/drivers/staging/iio/meter/ade7854-i2c.c
+index a9a06e8dda51..71b67dd3c8e9 100644
+--- a/drivers/staging/iio/meter/ade7854-i2c.c
++++ b/drivers/staging/iio/meter/ade7854-i2c.c
+@@ -61,7 +61,10 @@ static int ade7854_i2c_write_reg(struct device *dev,
+ unlock:
+ 	mutex_unlock(&st->buf_lock);
+
+-	return ret < 0 ? ret : 0;
++	if (ret < 0)
++		return ret;
++
++	return 0;
  }
- 
--static struct vb2_ops cedrus_qops = {
-+static const struct vb2_ops cedrus_qops = {
- 	.queue_setup		= cedrus_queue_setup,
- 	.buf_prepare		= cedrus_buf_prepare,
- 	.buf_queue		= cedrus_buf_queue,
--- 
-2.38.1
+
+ static int ade7854_i2c_read_reg(struct device *dev,
+--
+2.34.1
+
+
 
