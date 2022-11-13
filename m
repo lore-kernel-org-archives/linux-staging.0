@@ -1,116 +1,98 @@
-Received: from butterfly.birch.relay.mailchannels.net (butterfly.birch.relay.mailchannels.net [23.83.209.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F64EA0
-	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 02:29:10 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id A05569215DA;
-	Sun, 13 Nov 2022 00:34:09 +0000 (UTC)
-Received: from pdx1-sub0-mail-a294.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 0846A921761;
-	Sun, 13 Nov 2022 00:34:09 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1668299649; a=rsa-sha256;
-	cv=none;
-	b=ma6lrhkUf8uCtUEDpKvXhfDmjsb0M7paiCO9kYoOYYjDHQFjAvgqWAwrfaz5K7PtqNNZnr
-	ZmvUhnDA6X2TctZ0wSFAzAdNigOdzjslsxugEPDZm3W5DvNNWdhJf2ogk9f+dHd9sm3mkX
-	MyjPK8DVFs5PSo2wZtJgumrMix9liBrFe7H8S1rLQ4ch2sqKSyMfFvc6ENlrAtuNeOWJal
-	NcbMrMwGaqmbyuOwRxraammsXzU7LHf1CyoGuIRj3bisCpzrqySaauTHV8nK1Q41nd4xgh
-	R/BqSkAH8KTWb2H54DQ6yQuHhfm9JulQDEv9YSeBhb9GfEmEIny8DOvGtn9EXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1668299649;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=M6IIwBOYgKSoXfGxRWMpbbBoj288YwgeCsZzd5ssM7s=;
-	b=bx+hCdQy3I+qVnNPAUXMQoUn8fh6NLRd9oCN8al5r0n+8fuSCvQuw8pWTyowc0OLcc4ENS
-	lZ00fRPC4VCChxDxhriFHeIo8Yo+H+q/nepDt25lYmO/B51dJSXzKu0DW9Jb9c4w3k5Rja
-	in+9cHXcLQ/hjVer0SSQrdbOdPv+1wtdza2I4Es6R2xav6X5myEPlTqouTretONCVnke9q
-	OT7L5rnm0C2ZxSVWpVTj8izaK+EoNgkimziLQdvEeFr53c3U5IMgfJ8piiNcu/VHnvmJy+
-	1jAmIgUaBq4bRmhSTJMsKelldOeJUM1VAuspHNEEd8MUPZWEfnbjhPU7GcAWRw==
-ARC-Authentication-Results: i=1;
-	rspamd-7f9bbcf788-nvvnz;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Average-Stop: 2ad6ad9a7b319d8f_1668299649314_839199821
-X-MC-Loop-Signature: 1668299649314:468532582
-X-MC-Ingress-Time: 1668299649314
-Received: from pdx1-sub0-mail-a294.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.109.196.213 (trex/6.7.1);
-	Sun, 13 Nov 2022 00:34:09 +0000
-Received: from rhino.lan (dsl-50-5-144-34.fuse.net [50.5.144.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian@linux.cowan.aero)
-	by pdx1-sub0-mail-a294.dreamhost.com (Postfix) with ESMTPSA id 4N8tjX16x8z6K;
-	Sat, 12 Nov 2022 16:34:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-	s=dreamhost; t=1668299648;
-	bh=M6IIwBOYgKSoXfGxRWMpbbBoj288YwgeCsZzd5ssM7s=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=1B+3ESfXdFqSFffHJ0KTxzzT7VgWLrlb5MQBFmSWc9oVNpDiF41PWTjB/HFhHAIcJ
-	 GEU9Dpa0JBDa2i1Yr5B4Kw+MBF8vAy0Q/S5uWyCfghD1NYIhiBgDi2g4isJLL5mOpv
-	 k3Lto8KmVqfp+CP6kpDGDrznL5Hb2eBFICzm1oOciyLEMeXftgeMhzDGmz5MFpfSdC
-	 /3ZzHDRmAaU54a2MbPiaeg8HuVrW4nk/K7pCzdsuxnb4WOjyAlnxl+/ImQFfpWEE2R
-	 EGavIcc/pIeupobvv6/yRUDiruY0NI5y/PDnj4Cp8KBpmNHXi7hg0xwgmSxFyFvfY+
-	 Oh89HaR3TF08w==
-From: Ian Cowan <ian@linux.cowan.aero>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ian Cowan <ian@linux.cowan.aero>
-Subject: [PATCH] staging: media: omap4iss: correct cacheflush import
-Date: Sat, 12 Nov 2022 19:33:47 -0500
-Message-Id: <20221113003347.93483-1-ian@linux.cowan.aero>
-X-Mailer: git-send-email 2.38.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318DAA23
+	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 04:34:49 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id o30so5186534wms.2
+        for <linux-staging@lists.linux.dev>; Sat, 12 Nov 2022 20:34:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nCKi5GtHXbTVBeDHqx5uVf+WaRYOSHhlcuCz5nUTI7s=;
+        b=LUIEkpaW+Hkt+An3AxiBlimQsNY4+/jgONzEafi3nIDQwAZYiPDsnb5HS92/eYKGJz
+         JpPb34lkNOjkFxpKw0DuJh1umGT4oZzjuGtlz1/0E5E56bnr7ceG1wNGlexkRE0cw7r9
+         g8wyM3y5rzns0EQfpg1z3TsZCa6qf7r77OA/QM08IJrC0UXRnYIvsVrrectgaTV9cBGo
+         puXgzStE2Dp6taDP7zrpbqLcu9m83fAl65rLlKdhpyZK5O4x1aSO26r8MYtJ9BczFMI8
+         LkIKABTChEJIsGffpqvkXuY9JwhN3vDwmxqhTQc8Pc8P7uo21Y8KvX1PNtEz9s+z/SDg
+         8e5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nCKi5GtHXbTVBeDHqx5uVf+WaRYOSHhlcuCz5nUTI7s=;
+        b=yIsXVQ6L4M5cMBHhe44q03JxlwGyq8rBt9/5nOz1IAeOLZKDQIgPw5N8iNDKwGyZ4f
+         L5xfM5iTzZRis/ecQys72uZCVvkv0nTGupLLK3u2QeMO95JTiky829N4e3Dm+fHuG9tc
+         +x+otQoNLRfri9IQ/O2T5L7KmWTyLy58IQREABLLfyA1NjC5UUT0saYBXcJaFWHOc+3X
+         2wnpxpxorhCHQxPQaHkzI3SyDvf8GPT3pbzP5t1yS2jCihAJmIkUbXdj4OMEBG0z+oTq
+         bkjSNx70ydSpfOiUrjmXbzX3KvqHDumAFG+VdMMVMRnzmTTlBrj7zcUnR2mKDp9I1SOt
+         kbdQ==
+X-Gm-Message-State: ANoB5pnZxw5Dp7ppoGnK5iwXhPYwuKWWNN1z8A7lkuXn/c4VYdNtdudJ
+	yZ2yYt1GsDWQgHNuKKranY0=
+X-Google-Smtp-Source: AA0mqf5FlalJlXDjf96E1LlH1uqOWzttrqBz79j8k07gV96iiAYWqwVeIuQ6CGHa95txIA6NVTCtiw==
+X-Received: by 2002:a05:600c:54c3:b0:3cf:70a0:f689 with SMTP id iw3-20020a05600c54c300b003cf70a0f689mr5058976wmb.161.1668314087339;
+        Sat, 12 Nov 2022 20:34:47 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id d8-20020a1c7308000000b003cf7928e731sm8382491wmb.9.2022.11.12.20.34.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Nov 2022 20:34:46 -0800 (PST)
+Date: Sun, 13 Nov 2022 05:34:44 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/10] staging: rtl8192e: Rename variables in rtl819x_HTProc.c
+Message-ID: <cover.1668313325.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Correct the import for cacheflush from the asm directory to the linux
-directory.
+Rename variables to avoid CamelCase which is not accepted by checkpatch.
 
-Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
----
- drivers/staging/media/omap4iss/iss_video.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-index 842509dcfedf..9f08dd976a24 100644
---- a/drivers/staging/media/omap4iss/iss_video.c
-+++ b/drivers/staging/media/omap4iss/iss_video.c
-@@ -7,6 +7,7 @@
-  * Author: Sergio Aguirre <sergio.a.aguirre@gmail.com>
-  */
- 
-+#include <linux/cacheflush.h>
- #include <linux/clk.h>
- #include <linux/mm.h>
- #include <linux/pagemap.h>
-@@ -19,8 +20,6 @@
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-mc.h>
- 
--#include <asm/cacheflush.h>
--
- #include "iss_video.h"
- #include "iss.h"
- 
+Philipp Hortmann (10):
+  staging: rtl8192e: Rename bTxDisableRate.., RegMaxLPSAwa.. and
+    bTxUseD..
+  staging: rtl8192e: Rename Regdot11HTOper.., bSupportM.. and
+    PowerSaveCo..
+  staging: rtl8192e: Rename Regdot11TxHT.., dot11HTOpera.. and
+    RegHTSuppRa..
+  staging: rtl8192e: Rename pPSC
+  staging: rtl8192e: Rename RFInProgres.., bEnableHT and RegChannelPlan
+  staging: rtl8192e: Rename LinkDetectInfo
+  staging: rtl8192e: Rename bNetPromisc.., IntelPromiscu.. and
+    bPromiscu..
+  staging: rtl8192e: Rename bFilterSour.., CCKPresentAt.. and
+    ResetProg..
+  staging: rtl8192e: Rename InterruptLog, RxCounter and bHwRfOffAction
+  staging: rtl8192e: Rename pHTInfo
+
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  40 +-
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  40 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_cam.c   |   2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 168 ++++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  12 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  72 ++--
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c    |  42 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  46 +--
+ drivers/staging/rtl8192e/rtl819x_BAProc.c     |  20 +-
+ drivers/staging/rtl8192e/rtl819x_HT.h         |   2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c     | 376 +++++++++---------
+ drivers/staging/rtl8192e/rtl819x_TSProc.c     |   2 +-
+ drivers/staging/rtl8192e/rtllib.h             |  44 +-
+ drivers/staging/rtl8192e/rtllib_module.c      |   6 +-
+ drivers/staging/rtl8192e/rtllib_rx.c          |  34 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 170 ++++----
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c  |  16 +-
+ drivers/staging/rtl8192e/rtllib_tx.c          |  78 ++--
+ 18 files changed, 585 insertions(+), 585 deletions(-)
+
 -- 
-2.38.1
+2.37.3
 
