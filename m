@@ -1,30 +1,28 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42006ED1
-	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 05:49:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1668317305; bh=EeFml0IaVh7+u5qnzQtagdJSc1KAvZBsWOHbyeOYNx4=;
-	h=X-EA-Auth:Date:From:To:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=KOZBBF8ZzyP8+Adcy+qOLOZzOlkxrcXlV/1gn5tau/R9wVfOoUJwBjMBw4dgrF8Xy
-	 FNBEvwDrkBjBBI5ROCWMnrzzG0hUM/5ObBfQIBD1sRz7bUIX+qmBm+77nacecf3XSG
-	 s5xjE/VaNHnLq42LOGys6eFaIvs9F6g+emXjAzkc=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Sun, 13 Nov 2022 06:28:25 +0100 (CET)
-X-EA-Auth: V2uAWhgOqEgUOklpFT9QYQ6PeJWA+huKz/8ufkfSmKApy7VUb1qN+/MMT5P9VdXiAkkpb7O+rZRnkB5ETyQ03u9943HdS/7G
-Date: Sun, 13 Nov 2022 10:58:20 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: iio: meter: replace ternary operator by if
- condition
-Message-ID: <Y3CAdCa17WdWDYUa@qemulion>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA247B
+	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 06:34:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF8FAC433C1;
+	Sun, 13 Nov 2022 06:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668321240;
+	bh=hzl62ZDmVbJ9+az2Dx/Rrye4SlLQXn5fe4FKPuII4B4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OCVkSdlRWBGYkQarFJSz2VtSYO4wP3johKo4djqoXVsV7VWmst9XwEjLbq6zATbLk
+	 9NpHF9kcD5TQeBPbNrKQKhhdTHs8mS6zKJgt+lIIDJYZ6VaRVLfLzc9mgCMyxfJHQa
+	 5ETKGrY3eTZJ4uVr+zmfTG5kodj1x1FqFouuciMduxZRHF/IcONG+PC7ZBHBiJUkfs
+	 yF+ItYiD47gPq8IXPxNLDOhnm6nvpWlPMnWjdmcjLNiGPKtt9PJb572iJsHABQIB0F
+	 5leQhF9FNAw3J0YR5ndn6NoE2WhtVZqq8Dd9yGvfF5p7lfVRqNc8xYCKwdKSGvMo39
+	 KySxbYd6MiBGQ==
+Date: Sun, 13 Nov 2022 00:33:43 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Deepak R Varma <drv@mailo.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: staging/wlan-ng query: convert to flexible array member
+Message-ID: <Y3CPx0IFf1la7Zy0@work>
+References: <Y2px+zOGjkpGh6qC@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,39 +31,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y2px+zOGjkpGh6qC@qemulion>
 
-Replace ternary operator by simple if based evaluation of the return
-value. Issue identified using coccicheck.
+On Tue, Nov 08, 2022 at 08:42:59PM +0530, Deepak R Varma wrote:
+> 
+> Can you please suggest how should I approach correcting the zero element flex
+> array implementation here? Can these structs be removed if they are unused?
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
+You can try using DECLARE_FLEX_ARRAY(). See this[1] patch.
 
-Changes in v2:
-   1. Use if based evaluation instead of using min macro
-      suggested by Joe Perches.
-
-
- drivers/staging/iio/meter/ade7854-i2c.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/iio/meter/ade7854-i2c.c b/drivers/staging/iio/meter/ade7854-i2c.c
-index a9a06e8dda51..71b67dd3c8e9 100644
---- a/drivers/staging/iio/meter/ade7854-i2c.c
-+++ b/drivers/staging/iio/meter/ade7854-i2c.c
-@@ -61,7 +61,10 @@ static int ade7854_i2c_write_reg(struct device *dev,
- unlock:
- 	mutex_unlock(&st->buf_lock);
-
--	return ret < 0 ? ret : 0;
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
- }
-
- static int ade7854_i2c_read_reg(struct device *dev,
 --
-2.34.1
+Gustavo
 
-
-
+[1] https://git.kernel.org/linus/6e4a53ee7989c8a2b9fc3b14cd90f6e2d613ca76
