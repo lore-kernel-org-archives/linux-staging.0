@@ -1,59 +1,86 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C057B
-	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 07:38:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1668325092; bh=/gqu1lsWyTjcfCcPlDZtf0bO+X7rcloTRYdvV60b/js=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=F6j3S/v+ZrbH1u2ep8mmyhsuXJbjKU90OlBPoCbXD7QETQdxQyEoKS25ASxiB+Yxx
-	 veeKmmQ2EDrdZ3A1ehTBZG5YTejc7slf6nR3cl2sHueKtNBGe6QBqcrldeb3YLXkIn
-	 iv8hAzdXBXq8gWVV7mL9FoRn+ZKOUhcdv4KWr25E=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Sun, 13 Nov 2022 08:38:12 +0100 (CET)
-X-EA-Auth: Pzg4gb5ovajsndCtuD3467EUPzyaWs80Yp+bfsZep4qberlSPWrmpI3lxe9viaQ0qdL+22fwfib7RcSfIlDxFp46GjhvThYV
-Date: Sun, 13 Nov 2022 13:08:09 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: staging/wlan-ng query: convert to flexible array member
-Message-ID: <Y3Ce4TochNsaiT6J@qemulion>
-References: <Y2px+zOGjkpGh6qC@qemulion>
- <Y3CPx0IFf1la7Zy0@work>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3921FA28
+	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 12:50:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75DA6C433D6;
+	Sun, 13 Nov 2022 12:50:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668343850;
+	bh=ZLs7zKpVQjz7HMM6k+kFXTlpaYFs0LUhExq4XQcd1s4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bRL9hllLDlw9+RuOxEp/BTtZqu0sxnMGpsShotQYUQBomE5dvFVoD1N24YGwz6V+E
+	 bls9ihBMe9GMjEry7sBd0YrrC6rli2crxqF6LGgLrP2JxooH2LV3J8Bw3VYvsrfs+W
+	 w05hHQ6W8XSvWUY5qtl9FMmxNWvaVq0KPH1abZ6krHZoEF/uWowqkzHh7neWwe1S5m
+	 34TbGm40XsmFHKDxe+ppF8fgJ9eywuHPOBe8NTVUnLHre3t+AgUrS3t3tphhayQUul
+	 rZZZhKLrlX52Dr3j+Ch0cOJiZFcA6fekyRn6LnDIK9fHTqyyLtxou9VntemQz768m9
+	 y85c6lNFSvivw==
+Date: Sun, 13 Nov 2022 13:03:06 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Deepak R Varma <drv@mailo.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: iio: meter: replace ternary operator by if
+ condition
+Message-ID: <20221113130306.517e7aa3@jic23-huawei>
+In-Reply-To: <Y3CAdCa17WdWDYUa@qemulion>
+References: <Y3CAdCa17WdWDYUa@qemulion>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3CPx0IFf1la7Zy0@work>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 13, 2022 at 12:33:43AM -0600, Gustavo A. R. Silva wrote:
-> On Tue, Nov 08, 2022 at 08:42:59PM +0530, Deepak R Varma wrote:
-> >
-> > Can you please suggest how should I approach correcting the zero element flex
-> > array implementation here? Can these structs be removed if they are unused?
->
-> You can try using DECLARE_FLEX_ARRAY(). See this[1] patch.
+On Sun, 13 Nov 2022 10:58:20 +0530
+Deepak R Varma <drv@mailo.com> wrote:
 
-Thank you very much for the quick reply. The link you provided is very helpful.
-I will review it in detail and correct my patch proposal accordingly.
+> Replace ternary operator by simple if based evaluation of the return
+> value. Issue identified using coccicheck.
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 
-ps: Also. thank you for including the cc list. I has already made a lot of noise
-with on the lists, so did not copy them intentionally in my email to you.
+Applied to the togreg branch of iio.git and pushed out as testing to
+see if 0-day can find anything we missed.
 
-./drv
+Thanks,
 
->
+Jonathan
+
+> ---
+> 
+> Changes in v2:
+>    1. Use if based evaluation instead of using min macro
+>       suggested by Joe Perches.
+> 
+> 
+>  drivers/staging/iio/meter/ade7854-i2c.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/iio/meter/ade7854-i2c.c b/drivers/staging/iio/meter/ade7854-i2c.c
+> index a9a06e8dda51..71b67dd3c8e9 100644
+> --- a/drivers/staging/iio/meter/ade7854-i2c.c
+> +++ b/drivers/staging/iio/meter/ade7854-i2c.c
+> @@ -61,7 +61,10 @@ static int ade7854_i2c_write_reg(struct device *dev,
+>  unlock:
+>  	mutex_unlock(&st->buf_lock);
+> 
+> -	return ret < 0 ? ret : 0;
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+>  }
+> 
+>  static int ade7854_i2c_read_reg(struct device *dev,
 > --
-> Gustavo
->
-> [1] https://git.kernel.org/linus/6e4a53ee7989c8a2b9fc3b14cd90f6e2d613ca76
->
-
+> 2.34.1
+> 
+> 
+> 
 
