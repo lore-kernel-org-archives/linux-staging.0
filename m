@@ -1,49 +1,49 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7EEED1
-	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 04:34:58 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id p13-20020a05600c468d00b003cf8859ed1bso5550348wmo.1
-        for <linux-staging@lists.linux.dev>; Sat, 12 Nov 2022 20:34:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4E4ED1
+	for <linux-staging@lists.linux.dev>; Sun, 13 Nov 2022 04:35:15 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id r7-20020a1c4407000000b003cfdd569507so54849wma.4
+        for <linux-staging@lists.linux.dev>; Sat, 12 Nov 2022 20:35:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oAWsbWp78QUbwJYkMpafVAHECF2EYb69Stx3JjLvYOQ=;
-        b=nf81Mq/+xahfo8zf8EKAT/QdV1cKt7E9G/tSFG0mJxYlwVnM/wZFBBQwnVLq6kMieL
-         0sPqFoSbV58vABF7JXnaVlHDZS3ftVA5+aAo/U/KQPdgPtefBPaJPyj+T9VUIMjOiPf3
-         5LKJuTOFl0YuwJZ1n/9AdK33PUBVyBpIada6he634J+1LrEtb7FhRTlIwtOqd8fB52yl
-         UNXXH1cSLdJ1+06A3dYBDY/QsCKX8GRoDC699jpzUXEtgOUk0EgwWj38YYP11Hmluz98
-         iYPVCLTg9ciXUdaSSP10yXJ6xFFy8mdzOLBOW242MMkVMMspK75kqI0u8b+M2KYKScbR
-         s/yw==
+        bh=2/o6EraAMHRFczQfa/cndaMxG5eJqM4XVYqY/gLHBFE=;
+        b=O0j/ndj4Q6/BRI+wENUeg9dUFH0gzI5urlQjcsjzDPJxheO8771IGfBo1eBFvW+i4R
+         1JQaeM0Mc4hZ3yX8yLCJ4+s1HPIL3Z1emofsHQtURufs2wHyceL8pfQUhJLnQzp/cpz9
+         6S60LCJvdIaGCif5eMbSLGlhjxYbhXdAJvNqC81bEgCIiKIWfQIrswcvQjx8wNlAu8is
+         JVA60/N0PvkuOtnafY8ZNIGyQ35W4gN/ttJGYt54k05it5ohHALRJHZqpT30vjJLGJ0y
+         zqsP9Z822qWrfcohaUgo+JJYJuapviax2JoS3nxvqxvEFgYmbx+UwPyJwODHajmApjsw
+         eEKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oAWsbWp78QUbwJYkMpafVAHECF2EYb69Stx3JjLvYOQ=;
-        b=yFF8ciwqMetwx5voILMGZ7/wdNE3lXZ96/3CVvz7cQS+G+WtlBmxkYmANsnXxgm27I
-         4dvjgo/qSCztUX2pNHZcucouXdZPnz0eUYUU+3hMkF/DbC/m6dMyTcsg1SZmd+0mCa/U
-         p0sK7m0wqd1sdvIX/QtodGCt0TXY9ffwFmGQ7V4LtVYBElA6d9ohA+7tVDowsOMBkznP
-         +D32uHFFookZuyyiKb5fm5lYuc3UoHU7262mxbRqadRE5APOoTKH5D37ZTe/AjD4VnQv
-         b4cnnxdHZ0OmtbbXGbJ8Jfoeq0llLng4FtnosesYPt5F2wCSJF/GC6gWvsdw2zyXKa1U
-         rQSQ==
-X-Gm-Message-State: ANoB5pnioxsToE7pzOiAQa1wONSSz1OMzrnfQrpjkMo+cRLDuJdfqShL
-	RbKmD68qzBH3pIFfWX+0e24=
-X-Google-Smtp-Source: AA0mqf40PHWzizxXwoZEMCCbXgQ0xHjuGvwiTwPZZunfTm9pIwmgo6xca2PBpEyJYKf8xRKMTY46ww==
-X-Received: by 2002:a7b:cb97:0:b0:3cf:a359:de90 with SMTP id m23-20020a7bcb97000000b003cfa359de90mr4999369wmi.122.1668314096849;
-        Sat, 12 Nov 2022 20:34:56 -0800 (PST)
+        bh=2/o6EraAMHRFczQfa/cndaMxG5eJqM4XVYqY/gLHBFE=;
+        b=Ao9FSsiXns+wQYx0Wqb+qrb2/vM9jwiSMGy/WVK6fdi3gcXjUvX6BABE2DNb46TTNB
+         dkClFNMpWSq4jHV33nU18Q/BTNOt9L/+gpy4acGAartVisPE2xw2ZzZ6vn6VvKsRE6zE
+         w91XonhV6J/bFXgi5EYvjSN8coFwcTXndUs52pA5rtRqqcXhc+4t1EDCNp+QIDXR2FgR
+         8KHPCqWdeoYVMIXcfBRTZWNJPHVjn69RsixfU5zNt44Ffow+YUI4foV4PGv2CDBgEr6I
+         LOxEOshFhq4i6FVjuICK9YrDvdHOiLkPXmpsvVdwnuiDCgySprczpiOT1NriiXonvtle
+         1kZQ==
+X-Gm-Message-State: ANoB5pncosHCpmrJc4laABpznCLPMGdl/2U7pW+mIGv0qHU9GUsqt3AU
+	P9swpNsxosyuW+M2vTWZNDeIsfjU6fw=
+X-Google-Smtp-Source: AA0mqf4HwOlEt7Ph+7yaJWMCwU+h25eLl56zG2E48mghbCuCKPuwIG83eLzhOhnanu2uKMq0uGgkbQ==
+X-Received: by 2002:a05:600c:1c0a:b0:3cf:84e9:e722 with SMTP id j10-20020a05600c1c0a00b003cf84e9e722mr4868314wms.8.1668314114031;
+        Sat, 12 Nov 2022 20:35:14 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id e1-20020adfe381000000b0023662d97130sm5881812wrm.20.2022.11.12.20.34.56
+        by smtp.gmail.com with ESMTPSA id i17-20020adfefd1000000b00236b2804d79sm6047007wrp.2.2022.11.12.20.35.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Nov 2022 20:34:56 -0800 (PST)
-Date: Sun, 13 Nov 2022 05:34:54 +0100
+        Sat, 12 Nov 2022 20:35:13 -0800 (PST)
+Date: Sun, 13 Nov 2022 05:35:12 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 01/10] staging: rtl8192e: Rename bTxDisableRate..,
- RegMaxLPSAwa.. and bTxUseD..
-Message-ID: <092eb2dc73d37daf851ea9ef9cb7e4df6f766845.1668313325.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 02/10] staging: rtl8192e: Rename Regdot11HTOper..,
+ bSupportM.. and PowerSaveCo..
+Message-ID: <1ef7fd22b4a037c4d1f8685065ce7916b6f0930b.1668313325.git.philipp.g.hortmann@gmail.com>
 References: <cover.1668313325.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,237 +55,278 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1668313325.git.philipp.g.hortmann@gmail.com>
 
-Rename variable bTxDisableRateFallBack to tx_dis_rate_fallback,
-RegMaxLPSAwakeIntvl to reg_max_lps_awake_intvl and
-bTxUseDriverAssingedRate to tx_use_drv_assinged_rate to avoid CamelCase
-which is not accepted by checkpatch.
+Rename variable Regdot11HTOperationalRateSet to
+reg_dot11ht_oper_rate_set, bSupportMode to support_mode and
+PowerSaveControl to pwr_save_ctrl to avoid CamelCase which is not accepted
+by checkpatch. Fix unnecessary parentheses warning from checkpatch when
+used with this variables.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  4 ++--
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 10 ++++----
- drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  2 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c     |  4 ++--
- drivers/staging/rtl8192e/rtllib.h             | 10 ++++----
- drivers/staging/rtl8192e/rtllib_softmac.c     | 14 +++++------
- drivers/staging/rtl8192e/rtllib_tx.c          | 24 +++++++++----------
- 7 files changed, 34 insertions(+), 34 deletions(-)
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 30 +++++++++----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c    | 10 +++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c    |  4 +--
+ drivers/staging/rtl8192e/rtl819x_HTProc.c     |  2 +-
+ drivers/staging/rtl8192e/rtllib.h             |  4 +--
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 10 +++----
+ 7 files changed, 31 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 210b7ecc273a..39aac83d8960 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1136,8 +1136,8 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
- 							  cb_desc->priority);
- 	pdesc->TxFWInfoSize = sizeof(struct tx_fwinfo_8190pci);
- 
--	pdesc->DISFB = cb_desc->bTxDisableRateFallBack;
--	pdesc->USERATE = cb_desc->bTxUseDriverAssingedRate;
-+	pdesc->DISFB = cb_desc->tx_dis_rate_fallback;
-+	pdesc->USERATE = cb_desc->tx_use_drv_assinged_rate;
- 
- 	pdesc->FirstSeg = 1;
- 	pdesc->LastSeg = 1;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+index 58da2dab55bd..b14497423cbf 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+@@ -1304,7 +1304,7 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					(&(priv->rtllib->PowerSaveControl));
++					(&priv->rtllib->pwr_save_ctrl);
+ 	bool bResult = true;
+ 	u8	i = 0, QueueID = 0;
+ 	struct rtl8192_tx_ring  *ring = NULL;
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 213aac943ef7..952fe8d7a7be 100644
+index 952fe8d7a7be..16e15b8e1b7a 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -494,8 +494,8 @@ static void _rtl92e_prepare_beacon(struct tasklet_struct *t)
- 	tcb_desc->queue_index = BEACON_QUEUE;
- 	tcb_desc->data_rate = 2;
- 	tcb_desc->RATRIndex = 7;
--	tcb_desc->bTxDisableRateFallBack = 1;
--	tcb_desc->bTxUseDriverAssingedRate = 1;
-+	tcb_desc->tx_dis_rate_fallback = 1;
-+	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	skb_push(pnewskb, priv->rtllib->tx_headroom);
+@@ -607,13 +607,13 @@ static void _rtl92e_refresh_support_rate(struct r8192_priv *priv)
  
- 	pdesc = &ring->desc[0];
-@@ -822,7 +822,7 @@ static void _rtl92e_init_priv_constant(struct net_device *dev)
- 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
- 					&priv->rtllib->PowerSaveControl;
+ 	if (ieee->mode == WIRELESS_MODE_N_24G ||
+ 	    ieee->mode == WIRELESS_MODE_N_5G) {
+-		memcpy(ieee->Regdot11HTOperationalRateSet,
++		memcpy(ieee->reg_dot11ht_oper_rate_set,
+ 		       ieee->RegHTSuppRateSet, 16);
+ 		memcpy(ieee->Regdot11TxHTOperationalRateSet,
+ 		       ieee->RegHTSuppRateSet, 16);
  
--	pPSC->RegMaxLPSAwakeIntvl = 5;
-+	pPSC->reg_max_lps_awake_intvl = 5;
+ 	} else {
+-		memset(ieee->Regdot11HTOperationalRateSet, 0, 16);
++		memset(ieee->reg_dot11ht_oper_rate_set, 0, 16);
+ 	}
  }
  
- static void _rtl92e_init_priv_variable(struct net_device *dev)
-@@ -1538,8 +1538,8 @@ static int _rtl92e_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
- 	}
+@@ -642,19 +642,19 @@ static u8 _rtl92e_get_supported_wireless_mode(struct net_device *dev)
+ void rtl92e_set_wireless_mode(struct net_device *dev, u8 wireless_mode)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+-	u8 bSupportMode = _rtl92e_get_supported_wireless_mode(dev);
++	u8 support_mode = _rtl92e_get_supported_wireless_mode(dev);
  
- 	tcb_desc->RATRIndex = 7;
--	tcb_desc->bTxDisableRateFallBack = 1;
--	tcb_desc->bTxUseDriverAssingedRate = 1;
-+	tcb_desc->tx_dis_rate_fallback = 1;
-+	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	tcb_desc->bTxEnableFwCalcDur = 1;
- 	skb_push(skb, priv->rtllib->tx_headroom);
- 	ret = _rtl92e_tx(dev, skb);
+ 	if ((wireless_mode == WIRELESS_MODE_AUTO) ||
+-	    ((wireless_mode & bSupportMode) == 0)) {
+-		if (bSupportMode & WIRELESS_MODE_N_24G) {
++	    ((wireless_mode & support_mode) == 0)) {
++		if (support_mode & WIRELESS_MODE_N_24G) {
+ 			wireless_mode = WIRELESS_MODE_N_24G;
+-		} else if (bSupportMode & WIRELESS_MODE_N_5G) {
++		} else if (support_mode & WIRELESS_MODE_N_5G) {
+ 			wireless_mode = WIRELESS_MODE_N_5G;
+-		} else if ((bSupportMode & WIRELESS_MODE_A)) {
++		} else if ((support_mode & WIRELESS_MODE_A)) {
+ 			wireless_mode = WIRELESS_MODE_A;
+-		} else if ((bSupportMode & WIRELESS_MODE_G)) {
++		} else if ((support_mode & WIRELESS_MODE_G)) {
+ 			wireless_mode = WIRELESS_MODE_G;
+-		} else if ((bSupportMode & WIRELESS_MODE_B)) {
++		} else if ((support_mode & WIRELESS_MODE_B)) {
+ 			wireless_mode = WIRELESS_MODE_B;
+ 		} else {
+ 			netdev_info(dev,
+@@ -683,7 +683,7 @@ static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					(&priv->rtllib->PowerSaveControl);
++					(&priv->rtllib->pwr_save_ctrl);
+ 	bool init_status;
+ 
+ 	priv->bdisable_nic = false;
+@@ -820,7 +820,7 @@ static void _rtl92e_init_priv_constant(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					&priv->rtllib->PowerSaveControl;
++					&priv->rtllib->pwr_save_ctrl;
+ 
+ 	pPSC->reg_max_lps_awake_intvl = 5;
+ }
+@@ -877,7 +877,7 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
+ 	priv->rf_change_in_progress = false;
+ 	priv->bHwRfOffAction = 0;
+ 	priv->SetRFPowerStateInProgress = false;
+-	priv->rtllib->PowerSaveControl.bLeisurePs = true;
++	priv->rtllib->pwr_save_ctrl.bLeisurePs = true;
+ 	priv->rtllib->LPSDelayCnt = 0;
+ 	priv->rtllib->sta_sleep = LPS_IS_WAKE;
+ 	priv->rtllib->rf_power_state = rf_on;
+@@ -1272,7 +1272,7 @@ static void _rtl92e_watchdog_wq_cb(void *data)
+ 	static u8 check_reset_cnt;
+ 	unsigned long flags;
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					(&priv->rtllib->PowerSaveControl);
++					(&priv->rtllib->pwr_save_ctrl);
+ 	bool bBusyTraffic = false;
+ 	bool	bHigherBusyTraffic = false;
+ 	bool	bHigherBusyRxTraffic = false;
+@@ -1295,7 +1295,7 @@ static void _rtl92e_watchdog_wq_cb(void *data)
+ 		     RTLLIB_NOLINK) &&
+ 		     (ieee->rf_power_state == rf_on) && !ieee->is_set_key &&
+ 		     (!ieee->proto_stoppping) && !ieee->wx_set_enc) {
+-			if ((ieee->PowerSaveControl.ReturnPoint ==
++			if ((ieee->pwr_save_ctrl.ReturnPoint ==
+ 			     IPS_CALLBACK_NONE) &&
+ 			     (!ieee->bNetPromiscuousMode)) {
+ 				rtl92e_ips_enter(dev);
+@@ -2422,7 +2422,7 @@ bool rtl92e_enable_nic(struct net_device *dev)
+ 	bool init_status = true;
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					(&priv->rtllib->PowerSaveControl);
++					(&priv->rtllib->pwr_save_ctrl);
+ 
+ 	if (!priv->up) {
+ 		netdev_warn(dev, "%s(): Driver is already down!\n", __func__);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+index 1501f7be8eee..8a6b7f58ebfd 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+@@ -101,7 +101,7 @@ static void _rtl92e_ps_update_rf_state(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					&(priv->rtllib->PowerSaveControl);
++					&priv->rtllib->pwr_save_ctrl;
+ 
+ 	pPSC->bSwRfProcessing = true;
+ 	rtl92e_set_rf_state(dev, pPSC->eInactivePowerState, RF_CHANGE_BY_IPS);
+@@ -113,7 +113,7 @@ void rtl92e_ips_enter(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					&(priv->rtllib->PowerSaveControl);
++					&priv->rtllib->pwr_save_ctrl;
+ 	enum rt_rf_power_state rt_state;
+ 
+ 	rt_state = priv->rtllib->rf_power_state;
+@@ -129,7 +129,7 @@ void rtl92e_ips_leave(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					&(priv->rtllib->PowerSaveControl);
++					&priv->rtllib->pwr_save_ctrl;
+ 	enum rt_rf_power_state rt_state;
+ 
+ 	rt_state = priv->rtllib->rf_power_state;
+@@ -207,7 +207,7 @@ void rtl92e_leisure_ps_enter(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					&(priv->rtllib->PowerSaveControl);
++					&priv->rtllib->pwr_save_ctrl;
+ 
+ 	if (!((priv->rtllib->iw_mode == IW_MODE_INFRA) &&
+ 	    (priv->rtllib->state == RTLLIB_LINKED))
+@@ -233,7 +233,7 @@ void rtl92e_leisure_ps_leave(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					&(priv->rtllib->PowerSaveControl);
++					&priv->rtllib->pwr_save_ctrl;
+ 
+ 	if (pPSC->bLeisurePs) {
+ 		if (priv->rtllib->ps != RTLLIB_PS_DISABLED) {
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-index 12eea4fcb9dd..ffef63e8dcae 100644
+index ffef63e8dcae..d68f8f5902c8 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_wx.c
-@@ -196,7 +196,7 @@ static int _rtl92e_wx_set_lps_awake_interval(struct net_device *dev,
- 	netdev_info(dev, "%s(): set lps awake interval ! extra is %d\n",
- 		    __func__, *extra);
+@@ -160,7 +160,7 @@ static int _rtl92e_wx_adapter_power_status(struct net_device *dev,
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					(&priv->rtllib->PowerSaveControl);
++					(&priv->rtllib->pwr_save_ctrl);
+ 	struct rtllib_device *ieee = priv->rtllib;
  
--	pPSC->RegMaxLPSAwakeIntvl = *extra;
-+	pPSC->reg_max_lps_awake_intvl = *extra;
- 	mutex_unlock(&priv->wx_mutex);
- 	return 0;
- }
+ 	mutex_lock(&priv->wx_mutex);
+@@ -189,7 +189,7 @@ static int _rtl92e_wx_set_lps_awake_interval(struct net_device *dev,
+ {
+ 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	struct rt_pwr_save_ctrl *pPSC = (struct rt_pwr_save_ctrl *)
+-					(&priv->rtllib->PowerSaveControl);
++					(&priv->rtllib->pwr_save_ctrl);
+ 
+ 	mutex_lock(&priv->wx_mutex);
+ 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 2c0a8d5c8f27..7fad983ad4be 100644
+index 7fad983ad4be..52f41562dd82 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -91,8 +91,8 @@ void HTUpdateDefaultSetting(struct rtllib_device *ieee)
- 	pHTInfo->self_mimo_ps = 3;
- 	if (pHTInfo->self_mimo_ps == 2)
- 		pHTInfo->self_mimo_ps = 3;
--	ieee->bTxDisableRateFallBack = 0;
--	ieee->bTxUseDriverAssingedRate = 0;
-+	ieee->tx_dis_rate_fallback = 0;
-+	ieee->tx_use_drv_assinged_rate = 0;
+@@ -323,7 +323,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
+ 		pCapELE->MPDUDensity	= 0;
+ 	}
  
- 	ieee->bTxEnableFwCalcDur = 1;
+-	memcpy(pCapELE->MCS, ieee->Regdot11HTOperationalRateSet, 16);
++	memcpy(pCapELE->MCS, ieee->reg_dot11ht_oper_rate_set, 16);
+ 	memset(&pCapELE->ExtHTCapInfo, 0, 2);
+ 	memset(pCapELE->TxBFCap, 0, 4);
  
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index e0fa87b12ceb..ca9e016ffa9f 100644
+index ca9e016ffa9f..d80883b211ce 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -126,8 +126,8 @@ struct cb_desc {
- 	u8 bFirstSeg:1;
- 	u8 bLastSeg:1;
- 	u8 bEncrypt:1;
--	u8 bTxDisableRateFallBack:1;
--	u8 bTxUseDriverAssingedRate:1;
-+	u8 tx_dis_rate_fallback:1;
-+	u8 tx_use_drv_assinged_rate:1;
- 	u8 bHwSec:1;
+@@ -1435,7 +1435,7 @@ struct rtllib_device {
+ 	struct rt_hi_throughput *pHTInfo;
  
- 	u8 nStuckCount;
-@@ -1256,7 +1256,7 @@ struct rt_pwr_save_ctrl {
- 
- 	bool				bLeisurePs;
- 	u8				LpsIdleCount;
--	u8				RegMaxLPSAwakeIntvl;
-+	u8				reg_max_lps_awake_intvl;
- 	u8				LPSAwakeIntvl;
- 
- 	u32				CurPsLevel;
-@@ -1441,8 +1441,8 @@ struct rtllib_device {
+ 	spinlock_t reorder_spinlock;
+-	u8	Regdot11HTOperationalRateSet[16];
++	u8	reg_dot11ht_oper_rate_set[16];
+ 	u8	Regdot11TxHTOperationalRateSet[16];
+ 	u8	dot11HTOperationalRateSet[16];
  	u8	RegHTSuppRateSet[16];
- 	u8	HTCurrentOperaRate;
- 	u8	HTHighestOperaRate;
--	u8	bTxDisableRateFallBack;
--	u8	bTxUseDriverAssingedRate;
-+	u8	tx_dis_rate_fallback;
-+	u8	tx_use_drv_assinged_rate;
- 	u8	bTxEnableFwCalcDur;
- 	atomic_t	atm_swbw;
+@@ -1645,7 +1645,7 @@ struct rtllib_device {
  
+ 	struct rt_link_detect LinkDetectInfo;
+ 	bool bIsAggregateFrame;
+-	struct rt_pwr_save_ctrl PowerSaveControl;
++	struct rt_pwr_save_ctrl pwr_save_ctrl;
+ 
+ 	/* used if IEEE_SOFTMAC_TX_QUEUE is set */
+ 	struct tx_pending tx_pending;
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 1253de481805..604d4fd7e2cd 100644
+index 604d4fd7e2cd..498febc88b15 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -220,8 +220,8 @@ inline void softmac_mgmt_xmit(struct sk_buff *skb, struct rtllib_device *ieee)
+@@ -1504,7 +1504,7 @@ static void rtllib_associate_complete_wq(void *data)
+ 				     container_of_work_rsl(data,
+ 				     struct rtllib_device,
+ 				     associate_complete_wq);
+-	struct rt_pwr_save_ctrl *pPSC = &(ieee->PowerSaveControl);
++	struct rt_pwr_save_ctrl *pPSC = &ieee->pwr_save_ctrl;
  
- 	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
- 	tcb_desc->RATRIndex = 7;
--	tcb_desc->bTxDisableRateFallBack = 1;
--	tcb_desc->bTxUseDriverAssingedRate = 1;
-+	tcb_desc->tx_dis_rate_fallback = 1;
-+	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	if (single) {
- 		if (ieee->queue_stop) {
- 			enqueue_mgmt(ieee, skb);
-@@ -298,8 +298,8 @@ softmac_ps_mgmt_xmit(struct sk_buff *skb,
- 
- 	tcb_desc->data_rate = MgntQuery_MgntFrameTxRate(ieee);
- 	tcb_desc->RATRIndex = 7;
--	tcb_desc->bTxDisableRateFallBack = 1;
--	tcb_desc->bTxUseDriverAssingedRate = 1;
-+	tcb_desc->tx_dis_rate_fallback = 1;
-+	tcb_desc->tx_use_drv_assinged_rate = 1;
- 	if (single) {
- 		if (type != RTLLIB_FTYPE_CTL) {
- 			header->seq_ctl = cpu_to_le16(ieee->seq_ctrl[0] << 4);
-@@ -1996,12 +1996,12 @@ static short rtllib_sta_ps_sleep(struct rtllib_device *ieee, u64 *time)
- 
- 			if (pPSC->LPSAwakeIntvl == 0)
- 				pPSC->LPSAwakeIntvl = 1;
--			if (pPSC->RegMaxLPSAwakeIntvl == 0)
-+			if (pPSC->reg_max_lps_awake_intvl == 0)
- 				MaxPeriod = 1;
--			else if (pPSC->RegMaxLPSAwakeIntvl == 0xFF)
-+			else if (pPSC->reg_max_lps_awake_intvl == 0xFF)
- 				MaxPeriod = ieee->current_network.dtim_period;
- 			else
--				MaxPeriod = pPSC->RegMaxLPSAwakeIntvl;
-+				MaxPeriod = pPSC->reg_max_lps_awake_intvl;
- 			pPSC->LPSAwakeIntvl = (pPSC->LPSAwakeIntvl >=
- 					       MaxPeriod) ? MaxPeriod :
- 					       (pPSC->LPSAwakeIntvl + 1);
-diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-index 101f44129145..be3779efcd23 100644
---- a/drivers/staging/rtl8192e/rtllib_tx.c
-+++ b/drivers/staging/rtl8192e/rtllib_tx.c
-@@ -477,13 +477,13 @@ static void rtllib_query_protectionmode(struct rtllib_device *ieee,
- static void rtllib_txrate_selectmode(struct rtllib_device *ieee,
- 				     struct cb_desc *tcb_desc)
+ 	netdev_info(ieee->dev, "Associated successfully with %pM\n",
+ 		    ieee->current_network.bssid);
+@@ -1960,7 +1960,7 @@ static short rtllib_sta_ps_sleep(struct rtllib_device *ieee, u64 *time)
  {
--	if (ieee->bTxDisableRateFallBack)
--		tcb_desc->bTxDisableRateFallBack = true;
-+	if (ieee->tx_dis_rate_fallback)
-+		tcb_desc->tx_dis_rate_fallback = true;
+ 	int timeout;
+ 	u8 dtim;
+-	struct rt_pwr_save_ctrl *pPSC = &(ieee->PowerSaveControl);
++	struct rt_pwr_save_ctrl *pPSC = &ieee->pwr_save_ctrl;
  
--	if (ieee->bTxUseDriverAssingedRate)
--		tcb_desc->bTxUseDriverAssingedRate = true;
--	if (!tcb_desc->bTxDisableRateFallBack ||
--	    !tcb_desc->bTxUseDriverAssingedRate) {
-+	if (ieee->tx_use_drv_assinged_rate)
-+		tcb_desc->tx_use_drv_assinged_rate = true;
-+	if (!tcb_desc->tx_dis_rate_fallback ||
-+	    !tcb_desc->tx_use_drv_assinged_rate) {
- 		if (ieee->iw_mode == IW_MODE_INFRA ||
- 		    ieee->iw_mode == IW_MODE_ADHOC)
- 			tcb_desc->RATRIndex = 0;
-@@ -886,14 +886,14 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 			    HT_IOT_ACT_WA_IOT_Broadcom) {
- 				tcb_desc->data_rate =
- 					 MgntQuery_TxRateExcludeCCKRates(ieee);
--				tcb_desc->bTxDisableRateFallBack = false;
-+				tcb_desc->tx_dis_rate_fallback = false;
- 			} else {
- 				tcb_desc->data_rate = ieee->basic_rate;
--				tcb_desc->bTxDisableRateFallBack = 1;
-+				tcb_desc->tx_dis_rate_fallback = 1;
- 			}
+ 	if (ieee->LPSDelayCnt) {
+ 		ieee->LPSDelayCnt--;
+@@ -2984,9 +2984,9 @@ int rtllib_softmac_init(struct rtllib_device *ieee)
+ 	ieee->ps = RTLLIB_PS_DISABLED;
+ 	ieee->sta_sleep = LPS_IS_WAKE;
  
- 			tcb_desc->RATRIndex = 7;
--			tcb_desc->bTxUseDriverAssingedRate = 1;
-+			tcb_desc->tx_use_drv_assinged_rate = 1;
- 		} else {
- 			if (is_multicast_ether_addr(header.addr1))
- 				tcb_desc->bMulticast = 1;
-@@ -910,14 +910,14 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
- 				    HT_IOT_ACT_WA_IOT_Broadcom) {
- 					tcb_desc->data_rate =
- 					   MgntQuery_TxRateExcludeCCKRates(ieee);
--					tcb_desc->bTxDisableRateFallBack = false;
-+					tcb_desc->tx_dis_rate_fallback = false;
- 				} else {
- 					tcb_desc->data_rate = MGN_1M;
--					tcb_desc->bTxDisableRateFallBack = 1;
-+					tcb_desc->tx_dis_rate_fallback = 1;
- 				}
+-	ieee->Regdot11HTOperationalRateSet[0] = 0xff;
+-	ieee->Regdot11HTOperationalRateSet[1] = 0xff;
+-	ieee->Regdot11HTOperationalRateSet[4] = 0x01;
++	ieee->reg_dot11ht_oper_rate_set[0] = 0xff;
++	ieee->reg_dot11ht_oper_rate_set[1] = 0xff;
++	ieee->reg_dot11ht_oper_rate_set[4] = 0x01;
  
- 				tcb_desc->RATRIndex = 7;
--				tcb_desc->bTxUseDriverAssingedRate = 1;
-+				tcb_desc->tx_use_drv_assinged_rate = 1;
- 				tcb_desc->bdhcp = 1;
- 			}
- 
+ 	ieee->Regdot11TxHTOperationalRateSet[0] = 0xff;
+ 	ieee->Regdot11TxHTOperationalRateSet[1] = 0xff;
 -- 
 2.37.3
 
