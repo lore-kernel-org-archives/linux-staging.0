@@ -1,80 +1,77 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497C24C63
-	for <linux-staging@lists.linux.dev>; Mon, 14 Nov 2022 12:22:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="313758413"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="313758413"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 04:22:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="616292190"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="616292190"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 14 Nov 2022 04:22:14 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andy@kernel.org>)
-	id 1ouYTc-00CA4N-0X;
-	Mon, 14 Nov 2022 14:22:12 +0200
-Date: Mon, 14 Nov 2022 14:22:11 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CD74C78
+	for <linux-staging@lists.linux.dev>; Mon, 14 Nov 2022 14:07:33 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-76-14-120-nat.elisa-mobile.fi [85.76.14.120])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E850891;
+	Mon, 14 Nov 2022 15:07:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1668434846;
+	bh=/o81K5ZaEIsKIK1E5LeS0R4ufj8imWkNuqxcjDuntt0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HDBOYzpBZbutDsK3ZdTxIsdQBHQxoQErEEU0x1FeVq8F5uGHiMaQElRqJEsuMEOm7
+	 d5ZzzAUoS6QOjt6CdAgH+RHPZGrZ2Y6V6k7dQrZ5nF2oZEq/zu5GMJIpNDVdg6euFZ
+	 DMmZwTNgE2rtQg4vwoCIOKKEK1HrDzQ9dSWZ/R24=
+Date: Mon, 14 Nov 2022 16:06:50 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ian Cowan <ian@linux.cowan.aero>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 00/17] media: atomisp: Convert to videobuf2
-Message-ID: <Y3Iy86AUKvoMz2l1@smile.fi.intel.com>
-References: <20221020195533.114049-1-hdegoede@redhat.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: omap4iss: correct cacheflush import
+Message-ID: <Y3JLenvvuRhb0xfZ@pendragon.ideasonboard.com>
+References: <20221113003347.93483-1-ian@linux.cowan.aero>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221020195533.114049-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20221113003347.93483-1-ian@linux.cowan.aero>
 
-On Thu, Oct 20, 2022 at 09:55:16PM +0200, Hans de Goede wrote:
-> Hi All,
-> 
-> Here is v2 of my patch series converting the staging atomisp driver to use
-> the videobuf2 framework, fixing MMAP mode not working.
-> 
-> New in v2 is that the "media: atomisp: Convert to videobuf2" patch
-> now also contains moving over to using a per vb_queue lock as is
-> standard for v4l2 drivers. This removes a bunch of FIXME + checkpatch
-> warnings (due to commented out prep for this) from v1 of this patch.
-> This v2 also fixes the 1 new warning pointed out by the lkp test robot.
-> 
-> For some more background info here are the still relevant bits of
-> the v1 cover-letter:
-> 
-> This also contains an important fix to try_fmt handling, so that
-> the various supported output formats can actually be used by userspace
-> which calls try_fmt before doing s_fmt.
-> 
-> So slowly this is starting to look more and more like a standard
-> v4l2 device (with all the complex pipeline handling hidden in the driver,
-> moving that to userspace seems to be impossible with this design since
-> multiple pipeline steps are handled by a single firmware program).
+Hi Ian,
 
-I completely in favour of the series, so
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-for non-commented patches, for the commented, where comment is a "side note".
+Thank you for the patch.
 
-For the rest depends on your action, if you are going to address as suggested,
-feel free to add my tag.
+On Sat, Nov 12, 2022 at 07:33:47PM -0500, Ian Cowan wrote:
+> Correct the import for cacheflush from the asm directory to the linux
+> directory.
+
+Unless I'm mistaken, it looks like the header is actually not needed at
+all.
+
+> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+> ---
+>  drivers/staging/media/omap4iss/iss_video.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
+> index 842509dcfedf..9f08dd976a24 100644
+> --- a/drivers/staging/media/omap4iss/iss_video.c
+> +++ b/drivers/staging/media/omap4iss/iss_video.c
+> @@ -7,6 +7,7 @@
+>   * Author: Sergio Aguirre <sergio.a.aguirre@gmail.com>
+>   */
+>  
+> +#include <linux/cacheflush.h>
+>  #include <linux/clk.h>
+>  #include <linux/mm.h>
+>  #include <linux/pagemap.h>
+> @@ -19,8 +20,6 @@
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-mc.h>
+>  
+> -#include <asm/cacheflush.h>
+> -
+>  #include "iss_video.h"
+>  #include "iss.h"
+>  
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Laurent Pinchart
