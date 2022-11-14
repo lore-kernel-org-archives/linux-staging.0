@@ -1,77 +1,101 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from black.elm.relay.mailchannels.net (black.elm.relay.mailchannels.net [23.83.212.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CD74C78
-	for <linux-staging@lists.linux.dev>; Mon, 14 Nov 2022 14:07:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (85-76-14-120-nat.elisa-mobile.fi [85.76.14.120])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E850891;
-	Mon, 14 Nov 2022 15:07:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1668434846;
-	bh=/o81K5ZaEIsKIK1E5LeS0R4ufj8imWkNuqxcjDuntt0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HDBOYzpBZbutDsK3ZdTxIsdQBHQxoQErEEU0x1FeVq8F5uGHiMaQElRqJEsuMEOm7
-	 d5ZzzAUoS6QOjt6CdAgH+RHPZGrZ2Y6V6k7dQrZ5nF2oZEq/zu5GMJIpNDVdg6euFZ
-	 DMmZwTNgE2rtQg4vwoCIOKKEK1HrDzQ9dSWZ/R24=
-Date: Mon, 14 Nov 2022 16:06:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ian Cowan <ian@linux.cowan.aero>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006FD6FC1
+	for <linux-staging@lists.linux.dev>; Mon, 14 Nov 2022 16:13:27 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 91A335C2590;
+	Mon, 14 Nov 2022 16:06:59 +0000 (UTC)
+Received: from pdx1-sub0-mail-a241.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 16F145C27B9;
+	Mon, 14 Nov 2022 16:06:59 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1668442019; a=rsa-sha256;
+	cv=none;
+	b=s1yZvtVPW/gIoEQWzBNkaEHDiT08UF6gI5LgF9hpRCR9MkSFwosG5P0iZBWIglerPaDvO9
+	1FNlF3+enoYmfkuOGR/GGqkABjq6F69Ldwxy8JNPJ2Fx2HcjkaeZX4nMcsqPzCn7KwAOmQ
+	XjgXyLPng9Wa0qMnoWildK3Hv+RAmHUXWXfb0CUDa1ijdolfdWiezkbDShwBcpT69+6vm1
+	YW3vXg4uZLveStDkb5/P45N3/9z+B85QvY+9rfvS9ypBk1J+sFB3otoVc5D+fGDhfMUiSf
+	5EoYqmB0zwLqPQm1BbhBVTaTVFt+8V0eGG3V8rAigfAxm1RI3pAhYFanuRArCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1668442019;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=jlRQp2sBofyNE5/aWx3Rzbioe7sWD5hZgsnEii6QZ3s=;
+	b=Sn9/kYntar7B35rzYVuu1R85uZZmyK3x6mZmmKTvKHu5qxLlvD4kTKlIy6xPlZlLdsLQbR
+	tVdNErPrJqDNX2r24EUhPpj+Mp31R00FLBPTDTEGNnQZu/3zKPQBq89wvkxasZceotZ1A+
+	vgt8AK+Ngg61T2rCTE7E0GklMQ01as4NGUAith8EWNBxB4nlGQuk1P+Kist/Grd9Eyg+LV
+	zjF7AaWLKxKxYeoxNJYZsAnFW2fQLkdnTK9wfxtsGQLCM450IdG3FLP9M7SF8f8uIR34+D
+	p6DEBIO6b7Ppaa0iB/0MBBwdvVacUqL4xprSXVUlZ/yw6buGOKledfc3QVMnaw==
+ARC-Authentication-Results: i=1;
+	rspamd-7f9bbcf788-84scr;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Exultant-Ski: 516d52175caaac81_1668442019385_3972363587
+X-MC-Loop-Signature: 1668442019385:3251711514
+X-MC-Ingress-Time: 1668442019384
+Received: from pdx1-sub0-mail-a241.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.97.74.26 (trex/6.7.1);
+	Mon, 14 Nov 2022 16:06:59 +0000
+Received: from rhino (dsl-50-5-144-34.fuse.net [50.5.144.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a241.dreamhost.com (Postfix) with ESMTPSA id 4N9vMQ2Jhxz2m;
+	Mon, 14 Nov 2022 08:06:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1668442018;
+	bh=jlRQp2sBofyNE5/aWx3Rzbioe7sWD5hZgsnEii6QZ3s=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=ZDS4Gh4S+zFT+j7sgoMjdxr3RKzhHJju14gFdpcMXnu0+7C8T3eG9YQy2ROfY+68D
+	 WzY5Oj4dqJnsonpdwEOfztiZI1hrImYYa+OAS/V5UeXP2lqyNbWzaXc/EiFtibQ3Tv
+	 mu3yq9or6rU3WKH++1ErRfyYO+AWFD9r8qOuHloemahChPxuZA+n4RFaQi42u+EP+l
+	 eRCFyCLhQjOSY8/TK6oX1e3pj7yVoFFcZd06p8DafUxqHySgmkEfqjn6TRcj5xRFkp
+	 HBZcETOdBSkA9L+JlGFV5RpdCLoWxr4b15d+74rYdjKNXEMozGWaeXt/BbwolitVE4
+	 Ibgo1rdBbkVpA==
+Date: Mon, 14 Nov 2022 11:06:56 -0500
+From: Ian Cowan <ian@linux.cowan.aero>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: media: omap4iss: correct cacheflush import
-Message-ID: <Y3JLenvvuRhb0xfZ@pendragon.ideasonboard.com>
+Message-ID: <Y3JnoHyGBttwc45O@rhino>
 References: <20221113003347.93483-1-ian@linux.cowan.aero>
+ <Y3JLenvvuRhb0xfZ@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221113003347.93483-1-ian@linux.cowan.aero>
+In-Reply-To: <Y3JLenvvuRhb0xfZ@pendragon.ideasonboard.com>
 
-Hi Ian,
-
-Thank you for the patch.
-
-On Sat, Nov 12, 2022 at 07:33:47PM -0500, Ian Cowan wrote:
-> Correct the import for cacheflush from the asm directory to the linux
-> directory.
-
-Unless I'm mistaken, it looks like the header is actually not needed at
-all.
-
-> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
-> ---
->  drivers/staging/media/omap4iss/iss_video.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+On Mon, Nov 14, 2022 at 04:06:50PM +0200, Laurent Pinchart wrote:
+> Hi Ian,
 > 
-> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-> index 842509dcfedf..9f08dd976a24 100644
-> --- a/drivers/staging/media/omap4iss/iss_video.c
-> +++ b/drivers/staging/media/omap4iss/iss_video.c
-> @@ -7,6 +7,7 @@
->   * Author: Sergio Aguirre <sergio.a.aguirre@gmail.com>
->   */
->  
-> +#include <linux/cacheflush.h>
->  #include <linux/clk.h>
->  #include <linux/mm.h>
->  #include <linux/pagemap.h>
-> @@ -19,8 +20,6 @@
->  #include <media/v4l2-ioctl.h>
->  #include <media/v4l2-mc.h>
->  
-> -#include <asm/cacheflush.h>
-> -
->  #include "iss_video.h"
->  #include "iss.h"
->  
+> Thank you for the patch.
+> 
+> On Sat, Nov 12, 2022 at 07:33:47PM -0500, Ian Cowan wrote:
+> > Correct the import for cacheflush from the asm directory to the linux
+> > directory.
+> 
+> Unless I'm mistaken, it looks like the header is actually not needed at
+> all.
 
--- 
-Regards,
+Good catch - it's not needed at all. I'll submit a patch momentarily
+that removes it completely.
 
-Laurent Pinchart
+ian
