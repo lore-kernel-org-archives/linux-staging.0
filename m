@@ -1,37 +1,39 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D97D256D
-	for <linux-staging@lists.linux.dev>; Mon, 14 Nov 2022 09:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A960256D
+	for <linux-staging@lists.linux.dev>; Mon, 14 Nov 2022 10:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668419450; x=1699955450;
+  t=1668421262; x=1699957262;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bvCV3Uy48/vF8dFJSL00AfaeR+dqTwb/LElJZziN7Qw=;
-  b=jnyKcvY39ySyIFN35t9jpWILHXCuTCA810Yxlp0Cq5+oFNNTrmA7e9sL
-   B6bjKCfQlLlDqmy7tMdwgXtoH7Py6CHl0JsYobt4d5N88sdN3PbWJFT3C
-   dxUP7zs0CMDQKc6NOucn6uVaTg/b8t4+40DkvyBGWmnorOaZ/wXtvjGlz
-   h/sv1Tj/8R9OAj1mMphbwaRuN0jE1nVZjDZmPMQC/Clgkj8FtPq7k5ESg
-   FKwfFBlxZCI6ETpvK6HFxSzEfCvj9vQrlfh83AM9HkvYK+jdnEvMow8wT
-   xuNt6SrRUFeI7MZPE8iRQbPiBaJV34AksaXKxFIZxWwREexN1pbMsadVH
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="292327424"
+  bh=K5wPzpccjMxIfZGkMrxAyy4j5vQB4o52SipEQ2qLVls=;
+  b=XqiGJkuppUpIoJGZIQcEC1M65WaRkL8qKH8XT8xutNFE06YTlPz/yD2f
+   UI38Xb8zPuw2mEm64YQ3v1CfXePWtzYGu8mLy1RYeOi5lrxx3s2158BY4
+   FAtd0XrQR8d1CfP/mE2iFTMoQFPDLTfd/MIQDsvYIM6YjxHjTDzzGjsrV
+   1o4LGZVboIjjFjLYR2zkPcmkhzbk9L6ku1UL0leTn2a7ZBuHfdSpJveL2
+   4TT3cB4b1Rw+lrK+7ltTvrzJK6uqbweSuZea0kfo8M/euOdLPZxKdqGvx
+   +Rrzf+fmlcUksF0x+68pcQD3dx1DJj/Bx6+X4imlig31k5P61EUrKVk4X
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="398225459"
 X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="292327424"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 01:50:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="813193793"
+   d="scan'208";a="398225459"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 02:21:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="671506019"
 X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="813193793"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 01:50:47 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id BAB4F201D2;
-	Mon, 14 Nov 2022 11:50:44 +0200 (EET)
-Date: Mon, 14 Nov 2022 09:50:44 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="671506019"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP; 14 Nov 2022 02:20:59 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ouWaH-00C7Mq-0b;
+	Mon, 14 Nov 2022 12:20:57 +0200
+Date: Mon, 14 Nov 2022 12:20:56 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Thierry Reding <thierry.reding@gmail.com>,
@@ -41,9 +43,10 @@ Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH v1 1/1] staging: media: tegra-video: Replace custom
  implementation of device_match_fwnode()
-Message-ID: <Y3IPdAg8wnjzbQPU@paasikivi.fi.intel.com>
+Message-ID: <Y3IWiNTjOose0ewr@smile.fi.intel.com>
 References: <20220927173011.72571-1-andriy.shevchenko@linux.intel.com>
  <Y3IO4zVqex78+rTn@smile.fi.intel.com>
+ <Y3IPdAg8wnjzbQPU@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,26 +55,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3IO4zVqex78+rTn@smile.fi.intel.com>
+In-Reply-To: <Y3IPdAg8wnjzbQPU@paasikivi.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Andy,
-
-On Mon, Nov 14, 2022 at 11:48:19AM +0200, Andy Shevchenko wrote:
-> On Tue, Sep 27, 2022 at 08:30:11PM +0300, Andy Shevchenko wrote:
-> > Replace custom implementation of the device_match_fwnode().
+On Mon, Nov 14, 2022 at 09:50:44AM +0000, Sakari Ailus wrote:
+> On Mon, Nov 14, 2022 at 11:48:19AM +0200, Andy Shevchenko wrote:
+> > On Tue, Sep 27, 2022 at 08:30:11PM +0300, Andy Shevchenko wrote:
+> > > Replace custom implementation of the device_match_fwnode().
+> > 
+> > Sakari, here you are in Cc list and I never have any response on this patch.
+> > 
+> > Maybe something wrong with emails somewhere?
 > 
-> Sakari, here you are in Cc list and I never have any response on this patch.
+> You should have received a notification from Patchwork the patch is "under
+> review".
+
+It it was one, it was not a separate (per patch basis), so I may definitely
+missed it.
+
+> It's in my PR to Mauro now:
 > 
-> Maybe something wrong with emails somewhere?
+> <URL:https://patchwork.linuxtv.org/project/linux-media/patch/Y3IJwomIow2+vdMh@valkosipuli.retiisi.eu/>
 
-You should have received a notification from Patchwork the patch is "under
-review".
-
-It's in my PR to Mauro now:
-
-<URL:https://patchwork.linuxtv.org/project/linux-media/patch/Y3IJwomIow2+vdMh@valkosipuli.retiisi.eu/>
+Thank you!
 
 -- 
-Kind regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
