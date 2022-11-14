@@ -1,91 +1,70 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8EC46BB;
-	Sun, 13 Nov 2022 17:52:43 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id CE34C32000D7;
-	Sun, 13 Nov 2022 12:52:41 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sun, 13 Nov 2022 12:52:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1668361961; x=
-	1668448361; bh=to/nS/YHMoZGbUTDuWf2VM+aexKdoy83Yy01COB+YwM=; b=a
-	t2EimwiO/ysCMb22zBUjRkyV0jxhCFdV+AVDxGEcP7/Hk1nZ5W708+NRAzNxxqdz
-	p688weQVZDjjVt2Xk+z/E8mv+/XGIp/wesIKyDqhP4pOTe67pf/lDcoUUtZe8/h/
-	DKuubPgbtJUrTDhU0vWTzM77oJWJxg541UPcUJvxkL+jwC+jwq/MIqmSywGxH1V7
-	vl4oigCbtcVgNhVQ2A7LExVdOlYYPUs7WzJ2WAZn+JZgwgP8LekOSWcCWLRRum3q
-	zwfotOoIwEdYdiJg5ks1KSGPLReeBFayHo6tCMg2QoADsGTSN4SwSIZtCyTrBXdR
-	P2wHkzjuOvPCo+CveBpbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668361961; x=
-	1668448361; bh=to/nS/YHMoZGbUTDuWf2VM+aexKdoy83Yy01COB+YwM=; b=d
-	lhvUDCOq4JE6ZuE1umxApYq0nFICgA7M0vtK36b5pzVP3IvLjhBsKBkG37Ip8Sb7
-	ZhQC+APr7SIel6RXVDXp9Haw0vVYS1M9AbdKLy4tqrmMHbbGEUJK1FXwRhWFqjsn
-	KmGMl0hTuUej0R+DNnDy13R+/nDCSoBd9cW0CJJUR3DVFzyzzKOg+iLw7PX9/EJF
-	4cu6yvgH6mexNDnInxiehM2Xjn5lA48q3tdzTXnl3Mb7WViF6a2hFTDfAFvkFiiI
-	9XyzPg4ONuNnKd64z/jX+xny7KpIPfvU2gpijcOb24yk0ofp+n7kMdIHDB9+7AVu
-	3QQka0F+paRMfVqrIBK8A==
-X-ME-Sender: <xms:6S5xY_HqUtD0dfLAbIP08fB9tnBvXBj_LpKCcFbMPy6JrWYobP4n1g>
-    <xme:6S5xY8WqhA57rpdlmcxyYFki5pXu4dSP5LdLzAVaAg2Y0izAQg-1V11ZEGN__nOg7
-    z3yIS_If20hKianuA>
-X-ME-Received: <xmr:6S5xYxIM5pq1IFTW1w911ar0_T1xcuJr_d6x6bBnCtR2WXsMwlOmN2-b_64FEIYMl-b5sUSYAjo-vw708UH-5R_Syb6dJ9EChDZ8o2199nZiZdhFeEwBv0XqEA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedtgddutdejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeekjeelleefiedthfdtgfekgeehudefudeugeffvdfhudekleel
-    fedtteejhedutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:6S5xY9G7RqRmRJ6LTMe0CZ0VI3vhN0Hs28A20Nz0jsfhQihDbByceQ>
-    <xmx:6S5xY1WCyx2wETriDeKho8DBGI3kOp4fmQKl4iYFDo93v6Egb3l73w>
-    <xmx:6S5xY4N4AeQBnDn6JHcQux1907-Ial8snGe50GP2jDEzVhKUMaMhPg>
-    <xmx:6S5xY-NTm6YwlLmY1ubB8jn_Axs4zeDaXM7mGaTENvnZmfpKQ9C9hQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 13 Nov 2022 12:52:39 -0500 (EST)
-Message-ID: <658c5d48-e84c-9c92-84e7-b31dc8861fec@sholland.org>
-Date: Sun, 13 Nov 2022 11:52:38 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F72256D
+	for <linux-staging@lists.linux.dev>; Mon, 14 Nov 2022 09:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668419321; x=1699955321;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tw0S/mrhgXEwhusCWL7HJKtSrqKRfg78N9jta7g7Sfg=;
+  b=itbCIYtN7ZiNuP2xPNKdEtcRLU7JET61SAEBvNpA9MDYCoS5ZeNccV5G
+   5B4uqLCXxDVHydRTSWj0v+cc8VHwlEeHUsBCLKDe34VO9mipLiBcPSNR4
+   xRAXFNJMHN6ggAKb1qPWlyXnJyJ9OtXzbLTUj5vxJI4ECo1O4z7qONdue
+   4iLT6EilNnr2VxE26D9laLo484eMDFtRbupNmazAj/mfK0zrDSgqpEiog
+   V1TLZXWZXToEuDOUBosUJwlorhPahLkt2960mcZyO88/75v7/NHUtYrob
+   m9Cwc96LMhZ3/z8knQSADpHr+1z31yrwRgLYddnApyZyOAeyavn0/zS2K
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="376194144"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
+   d="scan'208";a="376194144"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 01:48:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="883475174"
+X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
+   d="scan'208";a="883475174"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006.fm.intel.com with ESMTP; 14 Nov 2022 01:48:21 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ouW4h-00C6V5-2B;
+	Mon, 14 Nov 2022 11:48:19 +0200
+Date: Mon, 14 Nov 2022 11:48:19 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/1] staging: media: tegra-video: Replace custom
+ implementation of device_match_fwnode()
+Message-ID: <Y3IO4zVqex78+rTn@smile.fi.intel.com>
+References: <20220927173011.72571-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] staging: media: sunxi: cedrus: make vb2_ops struct
- definition const
-Content-Language: en-US
-To: Ian Cowan <ian@linux.cowan.aero>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
-References: <20221113014703.138717-1-ian@linux.cowan.aero>
-From: Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221113014703.138717-1-ian@linux.cowan.aero>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220927173011.72571-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 11/12/22 19:47, Ian Cowan wrote:
-> This cleans up a checkstyle warning where the vb2_ops struct definitions
-> should be const.
-> 
-> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Sep 27, 2022 at 08:30:11PM +0300, Andy Shevchenko wrote:
+> Replace custom implementation of the device_match_fwnode().
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Sakari, here you are in Cc list and I never have any response on this patch.
+
+Maybe something wrong with emails somewhere?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
