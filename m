@@ -1,86 +1,118 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7101EAD28
-	for <linux-staging@lists.linux.dev>; Tue, 15 Nov 2022 12:16:27 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id a29so24120060lfj.9
-        for <linux-staging@lists.linux.dev>; Tue, 15 Nov 2022 04:16:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A8D3C2D;
+	Tue, 15 Nov 2022 12:40:51 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id d20so17298441ljc.12;
+        Tue, 15 Nov 2022 04:40:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Rw1sjbR71GpDX4+lhHk1yLaScEbbe6ryeafI3CiJP10=;
-        b=tR3w+a+JPTo0vZAk4sSj/mNTKv+ZhOTcOtCx2+3qEkMteQ3XTVzYbbKnLZLDmXNQZm
-         EpWwiKYR7wHiNnFffVMVMw6i/SIXUy6yohd81DoWzdGvds6PL3NO/qTsBfqLMYhwbcPv
-         +sLgujjc/1qTpymQnm2VbB4NjDWm6oZP7PTKtPAGtlgIFU1P3IotJ+Yg720TvfvWK5LY
-         So997eksu3gD1Yrl5CpB2+flKWypWap7lE2wGRgW5DGu26fYiFHytTfTK5NYRcUtI4Rt
-         OndCqUCzEim7UJBrC8EzWWZ93vwXJ8uYvAvn6KlHwiXbfEJU14Zda6YMkqNoUA5y05u3
-         YGaA==
+        bh=9K7OHdISQ9ndYJcM7FeOopDqicN3TnOW0AKBc0hd7r4=;
+        b=EVuGADnY9FOdegDv7u0W/l+DAgxjrGyqM1nvo/0V8YD48lTvchKrzuP2BgRcg3tDPJ
+         VTWFGGJ+O2+qzQQmKcehwOqfck9Ko+M7mEXMZ+po+CfyuC2AiDE6LEoH7T2i+BcNLzOv
+         vd2wqOughcTVA4qpAdm2s09ax7/ayxh+CvjNp+MjGUOjuk3h+5B3pAeB+WmesJJmzczQ
+         druyVSwW5blhk1WfLwcnfBoTGcD0mDTYDvfY26njwbp1eXFC9py7fIZTmoHmJ7J6UG9w
+         i9D0UovTO6iCe4qUvwlgs/yq6gNIdSRlmxIr9x41MI9Z3nki6BIPmTX8VbKxA3RVMgzm
+         Zv+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rw1sjbR71GpDX4+lhHk1yLaScEbbe6ryeafI3CiJP10=;
-        b=34u8nu8k2puPslTn7WdcrzvPYrmGGbhgEEjSnPDF9V6qSShPeeoescJRXNwoN6LAP6
-         Ye6eF3k0eMUcmF+V6gznYANPc6zngM4i98qNaC3Y/cNKYHb/YkzzI7B3R6F9boKzTUrC
-         W9qNI2bz+EB13lIg9wt2Mx8ad2+ba4+EPMLeeObH4eZiLnVO77dXZvPltQCK2Aor6Rcs
-         tPiMl5rolWkHNxjIZDV0reSNJ29AN+12GpS89GowkJ6nUva3HxuuIyreUOZCBX8ZMfgW
-         +WC4ClNMWnJk5e2VOjMtIOlyKpZlh/7t/H2jbA/gEcHwNE3Sl2/WFf495kQa+2XN3uMx
-         FTQw==
-X-Gm-Message-State: ANoB5pmTy+T5WPE4oFh+Tcs1nvAIK+yvYmXpC/3nCKvBdpUfDYi506u6
-	jrBQwATmaP5m73G/Lo1G1i1mxQ==
-X-Google-Smtp-Source: AA0mqf7VWxyl1RZKscxhjDznC/kqYEwrVwdbg5fIWlrY+D8kHURt5sGT6UffK1OwKrikT7PXoa0dPA==
-X-Received: by 2002:ac2:47ea:0:b0:4b4:1324:6ed3 with SMTP id b10-20020ac247ea000000b004b413246ed3mr5262252lfp.19.1668514585345;
-        Tue, 15 Nov 2022 04:16:25 -0800 (PST)
-Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id u11-20020a2eb80b000000b0026dc7b59d8esm2482225ljo.22.2022.11.15.04.16.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Nov 2022 04:16:24 -0800 (PST)
-Message-ID: <35bb9f38-d89b-77c6-a546-f575da5a79f5@linaro.org>
-Date: Tue, 15 Nov 2022 13:16:23 +0100
+        bh=9K7OHdISQ9ndYJcM7FeOopDqicN3TnOW0AKBc0hd7r4=;
+        b=e8gUDYDdnaOYn2p6H5utpfNAJWlAtS2ns+WQuGD5TYweBoUN/7HKpPGSF3gNzo9gkT
+         O4KzI8AIfa4qocg4WzslT0szZOdWZwzFyrBkxxtG5WKM2Ogbx0gJMG+dV3SyiYNuaSJg
+         aP79U8GbLGg6rEDlCftQfQqBll8wrwCVaTOgfczHHsQLqmLsXntOCif7CA0xhCm9KSKo
+         vgc2ey0L8iAxAtDNq5lox8M/C4cS5jboS809UPSnZTdSoRDqj/zJqgw/4Lirqx3IpsmK
+         P0gVjeHwzW05oVjyejOKW/nLck672U53OxL4vEFjnLJCrsJqXVMsWvFklZV4eR0r20h5
+         eJOA==
+X-Gm-Message-State: ANoB5pkcxaXzCILTVeFubDiEydW4ae3vm6rWMIxvR18JhWOwQ5kJePyd
+	2omkJRMq30Zb8Ug/jXET4m6LPibfub1dWQ==
+X-Google-Smtp-Source: AA0mqf63kRve2WrOP8O0jvw0gQ3MiYYKl3f+DbyQEsGsomyVUGztVQISw5/2YzfQkk0nH/qPGRziAg==
+X-Received: by 2002:a2e:a814:0:b0:277:40f:4c1c with SMTP id l20-20020a2ea814000000b00277040f4c1cmr5301342ljq.410.1668516049622;
+        Tue, 15 Nov 2022 04:40:49 -0800 (PST)
+Received: from elroy-temp-vm ([20.240.130.248])
+        by smtp.gmail.com with ESMTPSA id a3-20020a05651c030300b002772414817esm2495208ljp.1.2022.11.15.04.40.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Nov 2022 04:40:49 -0800 (PST)
+Date: Tue, 15 Nov 2022 12:40:48 +0000
+From: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: vt6655: change the function name s_vFillCTSHead
+Message-ID: <Y3OI0Brhp90/tbBh@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 03/23] ARM: dts: tegra20: add label to nvidia,tegra20-vi
- node
-Content-Language: en-US
-To: luca.ceresoli@bootlin.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Richard Leitner <richard.leitner@skidata.com>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
- <20221109141852.729246-4-luca.ceresoli@bootlin.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221109141852.729246-4-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
-> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> Useful to enable it from a board DTS.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Remove the use of Hungarian notation, which is not used in the Linux
+kernel. Reported by checkpatch
+Add indentation to the affected function to follow the Linux kernel
+coding style. This improves visibility
 
-Adding unused labels is not useful at all.
+Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+---
+ drivers/staging/vt6655/rxtx.c | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 341e23054817..869685d27abe 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -21,7 +21,7 @@
+  *      s_uGetRTSCTSDuration- get rtx/cts required duration
+  *      get_rtscts_time- get rts/cts reserved time
+  *      s_uGetTxRsvTime- get frame reserved time
+- *      s_vFillCTSHead- fulfill CTS ctl header
++ *      fill_cts_header- fulfill CTS ctl header
+  *      s_vFillFragParameter- Set fragment ctl parameter.
+  *      fill_rts_header- fulfill RTS ctl header
+  *      s_vFillTxKey- fulfill tx encrypt key
+@@ -724,19 +724,15 @@ static void fill_rts_header(struct vnt_private *pDevice,
+ 	}
+ }
+ 
+-static
+-void
+-s_vFillCTSHead(
+-	struct vnt_private *pDevice,
+-	unsigned int uDMAIdx,
+-	unsigned char byPktType,
+-	void *pvCTS,
+-	unsigned int cbFrameLength,
+-	bool bNeedAck,
+-	bool bDisCRC,
+-	unsigned short wCurrentRate,
+-	unsigned char byFBOption
+-)
++static void fill_cts_header(struct vnt_private *pDevice,
++			    unsigned int uDMAIdx,
++			    unsigned char byPktType,
++			    void *pvCTS,
++			    unsigned int cbFrameLength,
++			    bool bNeedAck,
++			    bool bDisCRC,
++			    unsigned short wCurrentRate,
++			    unsigned char byFBOption)
+ {
+ 	unsigned int uCTSFrameLen = 14;
+ 
+@@ -891,7 +887,7 @@ static void generate_tx_parameter(struct vnt_private *pDevice,
+ 			buf->cts_rrv_time_ba = get_rtscts_time(pDevice, 3, byPktType, cbFrameSize, wCurrentRate);
+ 
+ 			/* Fill CTS */
+-			s_vFillCTSHead(pDevice, uDMAIdx, byPktType, pvCTS, cbFrameSize, bNeedACK, bDisCRC, wCurrentRate, byFBOption);
++			fill_cts_header(pDevice, uDMAIdx, byPktType, pvCTS, cbFrameSize, bNeedACK, bDisCRC, wCurrentRate, byFBOption);
+ 		}
+ 	} else if (byPktType == PK_TYPE_11A) {
+ 		if (pvRTS) {/* RTS_need, non PCF mode */
+-- 
+2.34.1
 
