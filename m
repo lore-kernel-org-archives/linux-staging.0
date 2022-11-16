@@ -1,45 +1,45 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDACD52D;
-	Wed, 16 Nov 2022 18:53:44 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id bj12so46293758ejb.13;
-        Wed, 16 Nov 2022 10:53:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C97D52D;
+	Wed, 16 Nov 2022 19:12:26 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id x102so12816753ede.0;
+        Wed, 16 Nov 2022 11:12:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=DCRx1P+KwMIztXXzalL7wF+4lXeQ0p/A8da8gIDiFwQ=;
-        b=Uq9Zt/Gmp3WIvxBD1gMCjIU/KRgYsEY9WKnbj7NbuZ5HDFbLrHQeQKhn+ffrijGFV9
-         PcxhhqthdvY5WS2yzEhRi8U5+sCc5V2Lfc0crcQbRVsrH4Tkkq1XCQ8Cy4rKnY5yxXl+
-         z+2oC339xvacLBMbZUZwJjPBfcVbw2RzYRnzwXh761WMtlCZbBBAuiImvToc+g3JBxGW
-         NBtq6zjFlw1zKZQ9CHQEgQB8otHusvHwYWaJYNyBEVRzZN4IjpKIVlXTYOffUYmI41b5
-         +9fNBt5O3smedH28J2k3jLN3Whyu+VaWnHwfro0j14w9IHVNs3M29lQJBrwlc6fbrMgh
-         c1aQ==
+        bh=08pM1gv30LggQjgAzS6y9T5V02Bhy022fNx+5dfUfno=;
+        b=SUSxsEitWfVe4tH9Q7pGX+7jtGtMRPAExtgKfTJlvBym3hWJ5ofEVqcL10YP0E3F0q
+         g6WQIePM3JEtstv6HqtRL2v6zOEenhj01tPjN0AUODwmHSFsfSvYmXKtE0vf5Uw5ngAn
+         8hgiY1vd70Z3i6U9v1jdNDAR9PPaviEBuvRmGzlzWHD0NwcRlA5GsoYLrxHBc2swnluC
+         Tui7ycTTxU+HDAgrBQ5oBevLWLW26ejI9kczEXZl96OcY6mm38is5Kp+pccXeWr40evr
+         fxhzhN0OG9cuxmXIUMkoEQKFAtLOlBnKVU/tXMJm1U4xZHpXf1gnEoVfMymrjStG6sDv
+         9Z9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DCRx1P+KwMIztXXzalL7wF+4lXeQ0p/A8da8gIDiFwQ=;
-        b=oNh79Yk1DQzVwsNIC3BtyNKWRuZ+9QSE8+FXknQf3cAmYF9fgp/ZlOOpYI8vt7KI+3
-         qbjLBbvFv6IHFN8jlsg+Ny5EdWxBLbN/Lt1cNHP/ixyQ5XZ2ziOmnmZ0itFDXDHMVZio
-         zaB+S5YtvGrVM7o+EWbIxnBpUu/1AUJ+GcGpaPSEmZWY0i96F1NLjznAF9c53jAAnao9
-         OquAYWxJQcD2J1k6C03GAGXy6R1AeEl1Of3aPvxbggFi1mXmzsf82YEcEreySgQIB1Qr
-         xfSxgaSrSpVBoJWYP/pCkFZX+B0zKMLt4FgrVY8IvK6dJ7p5VOymtUNLF2jqzDEydlEr
-         NdKw==
-X-Gm-Message-State: ANoB5pngJtuW57zG4EylXeEeFngDRZwWfu0EYTI/yK3qr9akq3IjFFkT
-	cj44zvYrmvTOzk+FCF5VdEM=
-X-Google-Smtp-Source: AA0mqf4OONCebl/IGhnx1wS3TN6OxLZRKs0outOURgx4KO81i/2HnncYhoJDq6reZrYhI5MjI0Bj1w==
-X-Received: by 2002:a17:906:79a:b0:73d:715c:5730 with SMTP id l26-20020a170906079a00b0073d715c5730mr18370075ejc.293.1668624822784;
-        Wed, 16 Nov 2022 10:53:42 -0800 (PST)
+        bh=08pM1gv30LggQjgAzS6y9T5V02Bhy022fNx+5dfUfno=;
+        b=E7PirYjodzYKB701rOuqsU3QMCumCIlPfi9Tk7otbhSNSva4LApM+0eyCIk4Wg+kdK
+         Zqt/w/Mj8mBcWFMuQ46JrP5BibeQc+1vNB27puMxDqUrqXirGioy90WKxgFktt/MG//4
+         Llqj/z7uy96afMTzZNQZjRno8aUy4aOBg+v3/hriZEwuTkcSEslE+13ssVaeFHk9eiXt
+         sY9GB7T04Cw7ASBdUBjDk7OunmhndKSjgKd73iKR5EPubvA+hcjD6CubEX8XKFUjDxZv
+         +kEz359PEA+dZWAKU/N5VQ+F/Wdu0sxO0P+NHqF/POD5Z4sRLYCcStAfCJTAbdvx/jFa
+         FlPQ==
+X-Gm-Message-State: ANoB5plkY8V+nzg2Xk89YcUy2pVtuNul6Jhgncz8XKXZdyDFmdd2VHXH
+	seYMm2qike2p12zSnmbbDRI=
+X-Google-Smtp-Source: AA0mqf6twgLt7WpKAE7GhWLHzHR36saOG0xnhjna/Df0Je/W9o97LehDrL3xS/bFmXTmSZqVJmO9NA==
+X-Received: by 2002:aa7:d3c6:0:b0:463:c64e:bc75 with SMTP id o6-20020aa7d3c6000000b00463c64ebc75mr20540586edr.205.1668625945028;
+        Wed, 16 Nov 2022 11:12:25 -0800 (PST)
 Received: from ?IPV6:2003:c7:8f35:4b36:b14a:31a9:5cf4:bef4? (p200300c78f354b36b14a31a95cf4bef4.dip0.t-ipconnect.de. [2003:c7:8f35:4b36:b14a:31a9:5cf4:bef4])
-        by smtp.gmail.com with ESMTPSA id r1-20020a1709062cc100b00773c60c2129sm7291387ejr.141.2022.11.16.10.53.42
+        by smtp.gmail.com with ESMTPSA id i15-20020a05640200cf00b00463c5c32c6esm7843288edu.89.2022.11.16.11.12.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 10:53:42 -0800 (PST)
-Message-ID: <1f36ed17-73fa-c4f5-3e04-03d4295a2933@gmail.com>
-Date: Wed, 16 Nov 2022 19:53:41 +0100
+        Wed, 16 Nov 2022 11:12:24 -0800 (PST)
+Message-ID: <d145c4f9-7bde-527c-03e9-b2784c3162f4@gmail.com>
+Date: Wed, 16 Nov 2022 20:12:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,251 +48,157 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3] staging: vt6655: change the function name
- s_vFillRTSHead
+Subject: Re: [PATCH v2] staging: vt6655: change the function name
+ s_vGenerateTxParameter
 Content-Language: en-US
-To: Tanju Brunostar <tanjubrunostar0@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-References: <Y3KJBdUue5otWgOT@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
- <480340b3-c1c1-74b5-1889-f49dcb644469@gmail.com>
- <CAHJEyKWRm_wzUcz7wzcveLLGND9F3m3HM23mpwQ=zjeO5zh5FA@mail.gmail.com>
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <CAHJEyKWRm_wzUcz7wzcveLLGND9F3m3HM23mpwQ=zjeO5zh5FA@mail.gmail.com>
+To: Tanjuate Brunostar <tanjubrunostar0@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev
+References: <Y3KN+kVLZ8gRzccm@elroy-temp-vm.gaiao0uenmiufjlowqgp5yxwdh.gvxx.internal.cloudapp.net>
+ <1a95a72e-85b9-a03c-51ad-d5ca4b5d0e0e@gmail.com>
+In-Reply-To: <1a95a72e-85b9-a03c-51ad-d5ca4b5d0e0e@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/14/22 23:59, Tanju Brunostar wrote:
-> On Mon, Nov 14, 2022 at 9:19 PM Philipp Hortmann
-> <philipp.g.hortmann@gmail.com> wrote:
+On 11/14/22 21:16, Philipp Hortmann wrote:
+> On 11/14/22 19:50, Tanjuate Brunostar wrote:
+>> Remove the use of Hungarian notation, which is not used in the Linux
+>> kernel. Reported by checkpatch
+>> Add indentation to the affected function to follow the Linux kernel
+>> coding style. This improves code visibility
 >>
->> On 11/14/22 19:29, Tanjuate Brunostar wrote:
->>> Remove the use of Hungarian notation, which is not used in the Linux
->>> kernel. Reported by checkpatch
->>> Add indentation to the affected function to follow the Linux kernel
->>> coding style. This improves visibility
->>>
->>> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
->>> ---
->>> v2: corrected confusing changlog message on this patch
->>> v3: removed unnecessary function prototype
->>>
->>>    drivers/staging/vt6655/rxtx.c | 40 ++++++++++++-----------------------
->>>    1 file changed, 13 insertions(+), 27 deletions(-)
->>>
->>> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
->>> index 31ae99b3cb35..715b323cd2a8 100644
->>> --- a/drivers/staging/vt6655/rxtx.c
->>> +++ b/drivers/staging/vt6655/rxtx.c
->>> @@ -23,7 +23,7 @@
->>>     *      s_uGetTxRsvTime- get frame reserved time
->>>     *      s_vFillCTSHead- fulfill CTS ctl header
->>>     *      s_vFillFragParameter- Set fragment ctl parameter.
->>> - *      s_vFillRTSHead- fulfill RTS ctl header
->>> + *      fill_rts_header- fulfill RTS ctl header
->>>     *      s_vFillTxKey- fulfill tx encrypt key
->>>     *      s_vSWencryption- Software encrypt header
->>>     *      vDMA0_tx_80211- tx 802.11 frame via dma0
->>> @@ -85,16 +85,6 @@ static const unsigned short fb_opt1[2][5] = {
->>>    #define DATADUR_A_F1    13
->>>
->>>    /*---------------------  Static Functions  --------------------------*/
->>> -static void s_vFillRTSHead(struct vnt_private *pDevice,
->>> -                        unsigned char byPktType,
->>> -                        void *pvRTS,
->>> -                        unsigned int cbFrameLength,
->>> -                        bool bNeedAck,
->>> -                        bool bDisCRC,
->>> -                        struct ieee80211_hdr *hdr,
->>> -                        unsigned short wCurrentRate,
->>> -                        unsigned char byFBOption);
->>> -
->>>    static void s_vGenerateTxParameter(struct vnt_private *pDevice,
->>>                                   unsigned char byPktType,
->>>                                   struct vnt_tx_fifo_head *,
->>> @@ -555,19 +545,15 @@ s_uFillDataHead(
->>>        return buf->duration;
->>>    }
->>>
->>> -static
->>> -void
->>> -s_vFillRTSHead(
->>> -     struct vnt_private *pDevice,
->>> -     unsigned char byPktType,
->>> -     void *pvRTS,
->>> -     unsigned int cbFrameLength,
->>> -     bool bNeedAck,
->>> -     bool bDisCRC,
->>> -     struct ieee80211_hdr *hdr,
->>> -     unsigned short wCurrentRate,
->>> -     unsigned char byFBOption
->>> -)
->>> +static void fill_rts_header(struct vnt_private *pDevice,
->>> +                         unsigned char byPktType,
->>> +                         void *pvRTS,
->>> +                         unsigned int cbFrameLength,
->>> +                         bool bNeedAck,
->>> +                         bool bDisCRC,
->>> +                         struct ieee80211_hdr *hdr,
->>> +                         unsigned short wCurrentRate,
->>> +                         unsigned char byFBOption)
->>>    {
->>>        unsigned int uRTSFrameLen = 20;
->>>
->>> @@ -912,7 +898,7 @@ s_vGenerateTxParameter(
->>>                        buf->rrv_time_a = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
->>>                        buf->rrv_time_b = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, pDevice->byTopCCKBasicRate, bNeedACK);
->>>
->>> -                     s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->>> +                     fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->>>                } else {/* RTS_needless, PCF mode */
->>>                        struct vnt_rrv_time_cts *buf = pvRrvTime;
->>>
->>> @@ -931,7 +917,7 @@ s_vGenerateTxParameter(
->>>                        buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, byPktType, cbFrameSize, wCurrentRate, bNeedACK);
->>>
->>>                        /* Fill RTS */
->>> -                     s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->>> +                     fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->>>                } else if (!pvRTS) {/* RTS_needless, non PCF mode */
->>>                        struct vnt_rrv_time_ab *buf = pvRrvTime;
->>>
->>> @@ -945,7 +931,7 @@ s_vGenerateTxParameter(
->>>                        buf->rrv_time = vnt_rxtx_rsvtime_le16(pDevice, PK_TYPE_11B, cbFrameSize, wCurrentRate, bNeedACK);
->>>
->>>                        /* Fill RTS */
->>> -                     s_vFillRTSHead(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->>> +                     fill_rts_header(pDevice, byPktType, pvRTS, cbFrameSize, bNeedACK, bDisCRC, psEthHeader, wCurrentRate, byFBOption);
->>>                } else { /* RTS_needless, non PCF mode */
->>>                        struct vnt_rrv_time_ab *buf = pvRrvTime;
->>>
+>> Signed-off-by: Tanjuate Brunostar <tanjubrunostar0@gmail.com>
+>> ---
 >>
->> Hi,
+>> v2: removed unnecessary function prototype
 >>
->> I cannot apply your patch.
+>>   drivers/staging/vt6655/rxtx.c | 44 +++++++++++------------------------
+>>   1 file changed, 14 insertions(+), 30 deletions(-)
 >>
->> Here my git infos:
->> git remote show origin
->> * remote origin
->>     Fetch URL:
->> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
->> ...
->> git branch -a
->> my branch: staging-testing
->>
->> Bye Philipp
+>> diff --git a/drivers/staging/vt6655/rxtx.c 
+>> b/drivers/staging/vt6655/rxtx.c
+>> index 715b323cd2a8..341e23054817 100644
+>> --- a/drivers/staging/vt6655/rxtx.c
+>> +++ b/drivers/staging/vt6655/rxtx.c
+>> @@ -10,7 +10,7 @@
+>>    * Date: May 20, 2003
+>>    *
+>>    * Functions:
+>> - *      s_vGenerateTxParameter - Generate tx dma required parameter.
+>> + *      generate_tx_parameter - Generate tx dma required parameter.
+>>    *      vGenerateMACHeader - Translate 802.3 to 802.11 header
+>>    *      cbGetFragCount - Calculate fragment number count
+>>    *      csBeacon_xmit - beacon tx function
+>> @@ -85,18 +85,6 @@ static const unsigned short fb_opt1[2][5] = {
+>>   #define DATADUR_A_F1    13
+>>   /*---------------------  Static Functions  --------------------------*/
+>> -static void s_vGenerateTxParameter(struct vnt_private *pDevice,
+>> -                   unsigned char byPktType,
+>> -                   struct vnt_tx_fifo_head *,
+>> -                   void *pvRrvTime,
+>> -                   void *pvRTS,
+>> -                   void *pvCTS,
+>> -                   unsigned int    cbFrameSize,
+>> -                   bool bNeedACK,
+>> -                   unsigned int    uDMAIdx,
+>> -                   void *psEthHeader,
+>> -                   unsigned short wCurrentRate);
+>> -
+>>   static unsigned int
+>>   s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+>>             unsigned char *pbyTxBufferAddr,
+>> @@ -854,21 +842,17 @@ s_vFillCTSHead(
+>>    -
+>>    * unsigned int cbFrameSize, Hdr+Payload+FCS
+>>    */
+>> -static
+>> -void
+>> -s_vGenerateTxParameter(
+>> -    struct vnt_private *pDevice,
+>> -    unsigned char byPktType,
+>> -    struct vnt_tx_fifo_head *tx_buffer_head,
+>> -    void *pvRrvTime,
+>> -    void *pvRTS,
+>> -    void *pvCTS,
+>> -    unsigned int cbFrameSize,
+>> -    bool bNeedACK,
+>> -    unsigned int uDMAIdx,
+>> -    void *psEthHeader,
+>> -    unsigned short wCurrentRate
+>> -)
+>> +static void generate_tx_parameter(struct vnt_private *pDevice,
+>> +                  unsigned char byPktType,
+>> +                  struct vnt_tx_fifo_head *tx_buffer_head,
+>> +                  void *pvRrvTime,
+>> +                  void *pvRTS,
+>> +                  void *pvCTS,
+>> +                  unsigned int cbFrameSize,
+>> +                  bool bNeedACK,
+>> +                  unsigned int uDMAIdx,
+>> +                  void *psEthHeader,
+>> +                  unsigned short wCurrentRate)
+>>   {
+>>       u16 fifo_ctl = le16_to_cpu(tx_buffer_head->fifo_ctl);
+>>       bool bDisCRC = false;
+>> @@ -1097,8 +1081,8 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, 
+>> unsigned char byPktType,
+>>       memset((void *)(pbyTxBufferAddr + wTxBufSize), 0, 
+>> (cbHeaderLength - wTxBufSize));
+>>       /* Fill FIFO,RrvTime,RTS,and CTS */
+>> -    s_vGenerateTxParameter(pDevice, byPktType, tx_buffer_head, 
+>> pvRrvTime, pvRTS, pvCTS,
+>> -                   cbFrameSize, bNeedACK, uDMAIdx, hdr, 
+>> pDevice->wCurrentRate);
+>> +    generate_tx_parameter(pDevice, byPktType, tx_buffer_head, 
+>> pvRrvTime, pvRTS, pvCTS,
+>> +                  cbFrameSize, bNeedACK, uDMAIdx, hdr, 
+>> pDevice->wCurrentRate);
+>>       /* Fill DataHead */
+>>       uDuration = s_uFillDataHead(pDevice, byPktType, pvTxDataHd, 
+>> cbFrameSize, uDMAIdx, bNeedACK,
+>>                       0, 0, uMACfragNum, byFBOption, 
+>> pDevice->wCurrentRate, is_pspoll);
 > 
-> I was recently asked to rebase to the staging-next branch. I think
-> this is where there is conflict
+> I cannot apply your patch.
+> 
+> Bye Philipp
 
-
-Hi,
-
-now I can tell you where the issue is:
+Hi
 
 kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git apply 
 --reject --ignore-space-change --ignore-whitespace 
-~/Downloads/20221114-\[PATCH\ v3\]\ staging_\ vt6655_\ change\ the\ 
-function\ name\ s_vFillRTSHead-5397.txt
+~/Downloads/20221114-\[PATCH\ v2\]\ staging_\ vt6655_\ change\ the\ 
+function\ name\ s_vGenerateTxParameter-5399.txt
 Checking patch drivers/staging/vt6655/rxtx.c...
 error: while searching for:
 #define DATADUR_A_F1    13
 
 /*---------------------  Static Functions  --------------------------*/
-static void s_vFillRTSHead(struct vnt_private *pDevice,
-			   unsigned char byPktType,
-			   void *pvRTS,
-			   unsigned int	cbFrameLength,
-			   bool bNeedAck,
-			   bool bDisCRC,
-			   struct ieee80211_hdr *hdr,
-			   unsigned short wCurrentRate,
-			   unsigned char byFBOption);
-
 static void s_vGenerateTxParameter(struct vnt_private *pDevice,
 				   unsigned char byPktType,
 				   struct vnt_tx_fifo_head *,
+				   void *pvRrvTime,
+				   void *pvRTS,
+				   void *pvCTS,
+				   unsigned int	cbFrameSize,
+				   bool bNeedACK,
+				   unsigned int	uDMAIdx,
+				   void *psEthHeader,
+				   unsigned short wCurrentRate);
+
+static unsigned int
+s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+		  unsigned char *pbyTxBufferAddr,
 
 error: patch failed: drivers/staging/vt6655/rxtx.c:85
-Hunk #3 succeeded at 567 (offset 22 lines).
-Hunk #4 succeeded at 920 (offset 22 lines).
-Hunk #5 succeeded at 939 (offset 22 lines).
-Hunk #6 succeeded at 953 (offset 22 lines).
+Hunk #3 succeeded at 880 (offset 38 lines).
+Hunk #4 succeeded at 1119 (offset 38 lines).
 Applying patch drivers/staging/vt6655/rxtx.c with 1 reject...
 Hunk #1 applied cleanly.
 Rejected hunk #2.
 Hunk #3 applied cleanly.
 Hunk #4 applied cleanly.
-Hunk #5 applied cleanly.
-Hunk #6 applied cleanly.
 
-Here how this place looks like in my repo:
-#define DATADUR_A_F1    13
-
-/*---------------------  Static Functions  --------------------------*/
-static
-void
-s_vFillRTSHead(
-	struct vnt_private *pDevice,
-	unsigned char byPktType,
-	void *pvRTS,
-	unsigned int	cbFrameLength,
-	bool bNeedAck,
-	bool bDisCRC,
-	struct ieee80211_hdr *hdr,
-	unsigned short wCurrentRate,
-	unsigned char byFBOption
-);
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-switching branch
-
-kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git branch -a
-* staging-next
-
-kernel@matrix-ESPRIMO-P710:~/Documents/git/kernels/staging$ git apply 
---reject --ignore-space-change --ignore-whitespace 
-~/Downloads/20221114-\[PATCH\ v3\]\ staging_\ vt6655_\ change\ the\ 
-function\ name\ s_vFillRTSHead-5397.txt
-Checking patch drivers/staging/vt6655/rxtx.c...
-error: while searching for:
-#define DATADUR_A_F1    13
-
-/*---------------------  Static Functions  --------------------------*/
-static void s_vFillRTSHead(struct vnt_private *pDevice,
-			   unsigned char byPktType,
-			   void *pvRTS,
-			   unsigned int	cbFrameLength,
-			   bool bNeedAck,
-			   bool bDisCRC,
-			   struct ieee80211_hdr *hdr,
-			   unsigned short wCurrentRate,
-			   unsigned char byFBOption);
-
-static void s_vGenerateTxParameter(struct vnt_private *pDevice,
-				   unsigned char byPktType,
-				   struct vnt_tx_fifo_head *,
-
-error: patch failed: drivers/staging/vt6655/rxtx.c:85
-Hunk #3 succeeded at 567 (offset 22 lines).
-Hunk #4 succeeded at 920 (offset 22 lines).
-Hunk #5 succeeded at 939 (offset 22 lines).
-Hunk #6 succeeded at 953 (offset 22 lines).
-Applying patch drivers/staging/vt6655/rxtx.c with 1 reject...
-Hunk #1 applied cleanly.
-Rejected hunk #2.
-Hunk #3 applied cleanly.
-Hunk #4 applied cleanly.
-Hunk #5 applied cleanly.
-Hunk #6 applied cleanly.
-
-Same issue.
 
 Bye Philipp
-
-
-
-
-
