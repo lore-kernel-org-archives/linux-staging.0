@@ -1,129 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE0F8BE0
-	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 18:02:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5464C433D6;
-	Thu, 17 Nov 2022 18:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D9A8BE0
+	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 18:12:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DB60C433D6;
+	Thu, 17 Nov 2022 18:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1668708147;
-	bh=TRjm0WT33DZOnm4zQ5Af86jucgIaP3z093GvYTORYYs=;
+	s=korg; t=1668708778;
+	bh=KCxIvC+hdiZE+1xFJ8BT4IQmgI+9o6zwKKamoBYbuNM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mTbXHZNNdEIy33+Uk8+Oq9oCmUpdng8aTdMFnD1OG+4HLFcapT9PyeYQ6P8DKydRT
-	 9UNFybcWRDzgvRltMBWtwR8utLTYsLBVPsFNQyquckIKoXAefKdNhGhsDMtDTlEPRK
-	 nu3CDMx6eoIgfv4foyowbh8LnaW96W3NM2qLxPmM=
-Date: Thu, 17 Nov 2022 19:02:10 +0100
+	b=VZEIAlFP2o9Yg1Z/w7VpifR6D0Fwaxj/sMh8ldKE1jsH9NbJwe2MwIfRjTAHJeJjE
+	 9KAfvkOaR9UmvUrI/KUoZ5IXk3Cdjiwuw99hwL7kwsjS22tKw08hw/ST2ptF2Iio+z
+	 Ta/6iFmu/XE88+Udz+7LzikWgNIrnawguU5YZQeo=
+Date: Thu, 17 Nov 2022 19:03:21 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-	Ray Jui <rjui@broadcom.com>, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/3] Revert "staging: mmal-vchiq: Avoid use of bool in
- structures"
-Message-ID: <Y3Z3Is8u4wGZfKU5@kroah.com>
-References: <20221117160015.344528-1-umang.jain@ideasonboard.com>
- <20221117160015.344528-2-umang.jain@ideasonboard.com>
- <166870135963.50677.14827688186331561108@Monstersaurus>
- <c718624a-bb6f-5474-5cc3-4319b1fdb282@ideasonboard.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gustavoars@kernel.org
+Subject: Re: [PATCH] staging: wlan-ng: Replace zero-length arrays with
+ DECLARE_FLEX_ARRAY() helper
+Message-ID: <Y3Z3aatcaISvqURJ@kroah.com>
+References: <Y3YKhee8L+kAfHM4@qemulion>
+ <Y3YvGdkyGm7azGg4@kroah.com>
+ <Y3Y1N6AwWEXLpSrx@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c718624a-bb6f-5474-5cc3-4319b1fdb282@ideasonboard.com>
+In-Reply-To: <Y3Y1N6AwWEXLpSrx@qemulion>
 
-On Thu, Nov 17, 2022 at 11:25:48PM +0530, Umang Jain wrote:
-> Hi Kieran,
-> 
-> On 11/17/22 9:39 PM, Kieran Bingham wrote:
-> > Quoting Umang Jain (2022-11-17 16:00:13)
-> > > This reverts commit 640e77466e69d9c28de227bc76881f5501f532ca.
-> > > 
-> > > In commit 7967656ffbfa ("coding-style: Clarify the expectations around
-> > > bool") the check to dis-allow bool structure members was removed from
-> > > checkpatch.pl. It promotes bool structure members to store boolean
-> > > values. This enhances code readability.
-> > > 
-> > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+On Thu, Nov 17, 2022 at 06:50:55PM +0530, Deepak R Varma wrote:
+> On Thu, Nov 17, 2022 at 01:54:49PM +0100, Greg Kroah-Hartman wrote:
+> > On Thu, Nov 17, 2022 at 03:48:45PM +0530, Deepak R Varma wrote:
+> > > The code currently uses C90 standard extension based zero length arrays.
+> > > The zero length array member also happens to be the only member of the
+> > > structs. Such zero length array declarations are deprecated and the
+> > > new C99 standard extension of flexible array declarations are to be
+> > > used instead.
+> > >
+> > > The DECLARE_FLEX_ARRAY() helper allows for a flexible array member as
+> > > the only member in a structure. Refer to these links [1], [2] for
+> > > details.
+> > >
+> > > [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> > > [2] https://lkml.kernel.org/r/YxKY6O2hmdwNh8r8@work
+> > >
+> > > Issue identified using Coccinelle.
+> > >
+> > > Signed-off-by: Deepak R Varma <drv@mailo.com>
 > > > ---
-> > >   .../staging/vc04_services/vchiq-mmal/mmal-vchiq.c    | 12 ++++++------
-> > >   .../staging/vc04_services/vchiq-mmal/mmal-vchiq.h    |  4 ++--
-> > >   2 files changed, 8 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> > > index cb921c94996a..4abb6178cb9f 100644
-> > > --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> > > +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> > > @@ -863,9 +863,9 @@ static int port_info_get(struct vchiq_mmal_instance *instance,
-> > >                  goto release_msg;
-> > >          if (rmsg->u.port_info_get_reply.port.is_enabled == 0)
-> > > -               port->enabled = 0;
-> > > +               port->enabled = false;
-> > >          else
-> > > -               port->enabled = 1;
-> > > +               port->enabled = true;
-> > >          /* copy the values out of the message */
-> > >          port->handle = rmsg->u.port_info_get_reply.port_handle;
-> > > @@ -1304,7 +1304,7 @@ static int port_disable(struct vchiq_mmal_instance *instance,
-> > >          if (!port->enabled)
-> > >                  return 0;
-> > > -       port->enabled = 0;
-> > > +       port->enabled = false;
-> > >          ret = port_action_port(instance, port,
-> > >                                 MMAL_MSG_PORT_ACTION_TYPE_DISABLE);
-> > > @@ -1359,7 +1359,7 @@ static int port_enable(struct vchiq_mmal_instance *instance,
-> > >          if (ret)
-> > >                  goto done;
-> > > -       port->enabled = 1;
-> > > +       port->enabled = true;
-> > >          if (port->buffer_cb) {
-> > >                  /* send buffer headers to videocore */
-> > > @@ -1531,7 +1531,7 @@ int vchiq_mmal_port_connect_tunnel(struct vchiq_mmal_instance *instance,
-> > >                          pr_err("failed disconnecting src port\n");
-> > >                          goto release_unlock;
-> > >                  }
-> > > -               src->connected->enabled = 0;
-> > > +               src->connected->enabled = false;
-> > >                  src->connected = NULL;
-> > >          }
-> > > @@ -1799,7 +1799,7 @@ int vchiq_mmal_component_disable(struct vchiq_mmal_instance *instance,
-> > >          ret = disable_component(instance, component);
-> > >          if (ret == 0)
-> > > -               component->enabled = 0;
-> > > +               component->enabled = false;
-> > >          mutex_unlock(&instance->vchiq_mutex);
-> > > diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> > > index 6006e29232b3..70eda6cac1c6 100644
-> > > --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> > > +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> > > @@ -48,7 +48,7 @@ typedef void (*vchiq_mmal_buffer_cb)(
-> > >                  int status, struct mmal_buffer *buffer);
-> > >   struct vchiq_mmal_port {
-> > > -       u32 enabled:1;
-> > > +       bool enabled:1;
-> > Is this a direct revert with 'git revert' ?
+> > >
+> > > Notes:
+> > >    1. Proposed change is compile tested only.
+> > >    2. Solution feedback from gustavoars@kernel.org
+> > >
+> > >
+> > >  drivers/staging/wlan-ng/hfa384x.h | 6 +++---
+> > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
+> > > index 0611e37df6ac..3a1edcb43e07 100644
+> > > --- a/drivers/staging/wlan-ng/hfa384x.h
+> > > +++ b/drivers/staging/wlan-ng/hfa384x.h
+> > > @@ -960,15 +960,15 @@ struct hfa384x_pdr_nicid {
+> > >  } __packed;
+> > >
+> > >  struct hfa384x_pdr_refdac_measurements {
+> > > -	u16 value[0];
+> > > +	DECLARE_FLEX_ARRAY(u16, value);
+> > >  } __packed;
+> >
+> > Why?  This structure is never used anywhere, right?  So why is this
+> > needed to be changed and not just removed entirely?  Same for the other
+> > structures in this patch.
 > 
-> 
-> No. It had conflicts plus I added the ':1' initialization to keep the logic
-> same (in case 'enabled' gets used directly). Similar pattern come up with:
->     ($) git grep 'bool' -- '*.[h]' | grep '\:1'
-> 
-> So it shouldn't be an issue.
+> Hello Greg,
+> I am unable to confirm that these structures are truly not needed in the absence
+> if a real device based testing. I could only validate that using the compile
+> build and driver loading.
 
-Please don't do that "bool foo:1" makes no sense.  Drop the ":1"
-please.
+Think this through, if no one is actually using this structure, and it
+is of 0 size, then do you think it is being used?
 
-thanks,
+> This change that I am proposing in the interim would enable the compiler to
+> protect the structure from addition of a new member below the zero length array.
+
+Why would you want to add a new member below this?  That's not what is
+happening here at all.
+
+Please think this through a bit more.
+
+good luck!
 
 greg k-h
