@@ -1,20 +1,13 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7938BE0
-	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 18:22:58 +0000 (UTC)
-Received: from [192.168.1.104] (unknown [103.251.226.79])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7174D929;
-	Thu, 17 Nov 2022 19:22:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1668709376;
-	bh=/uNJ82PcKZ6WOksjhF7ctrrz9evlTe/0VuHO9zd5Y0I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mdRlUub6Tn9i9gRhdG7/OYVpatKGavAdcJ91AOEQQrXi2TJ8lCixrII4j29eZP1I9
-	 TYya4AHwhZRHqqQYW8+Mw358BYlq2Cjc0PTjthJPOIjixJ4hNOzVzvmCuoxMReeFjJ
-	 fTTuhhMUJuPKGcj9g/2yM2uiWL8r5yNzfSRTWECA=
-Message-ID: <c5e03c65-2994-6518-c79d-f6ad1557c4e0@ideasonboard.com>
-Date: Thu, 17 Nov 2022 23:52:47 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7565B8BE0
+	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 18:25:45 +0000 (UTC)
+Received: from [192.168.1.139] ([37.4.248.43]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MRBac-1oYYAc40d2-00N9JG; Thu, 17 Nov 2022 19:11:43 +0100
+Message-ID: <dd05ca8a-c60c-a56f-66e6-9892cb933315@i2se.com>
+Date: Thu, 17 Nov 2022 19:11:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -22,126 +15,63 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 1/3] Revert "staging: mmal-vchiq: Avoid use of bool in
- structures"
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 0/3] vc04_services: Promote bool usage
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: kieran.bingham@ideasonboard.com,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Umang Jain <umang.jain@ideasonboard.com>, Ray Jui <rjui@broadcom.com>,
  Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Florian Fainelli <f.fainelli@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Ray Jui <rjui@broadcom.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-staging@lists.linux.dev
 References: <20221117160015.344528-1-umang.jain@ideasonboard.com>
- <20221117160015.344528-2-umang.jain@ideasonboard.com>
- <166870135963.50677.14827688186331561108@Monstersaurus>
- <c718624a-bb6f-5474-5cc3-4319b1fdb282@ideasonboard.com>
- <Y3Z3Is8u4wGZfKU5@kroah.com>
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <Y3Z3Is8u4wGZfKU5@kroah.com>
+Content-Language: en-US
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20221117160015.344528-1-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:v+yHu1Uvt3QU9GBLdXtKiy5Gtp6DZtAd5x9kAsCbgZddr7sCpwW
+ YgpqInjBN5e7Jg8gHXUNNDDAojqouRTvvRR8Ou1F8zfpf9QSp368awubWM2F1sxb1D7o+lG
+ KxOXQVJ94H0QY73UzYeYAmRJT+dxCn4GJr0UpXWw+u0vxTZt6K9YRpP/Ek91socwXkNlwl1
+ mc2rBrqoCUX1Kjzbkrk8A==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8x0yV4F0e/8=:Kgdw7lOfOiJEAJAzUr2LtV
+ /qoeh2DIfKtsqmVQP9F7FJB3RL6zEhQeWpmfosS454lC0CwxgsoKJfnaHdMnKsREx31UsWRtI
+ F84wZYG/XQX2qCo/JklBGQXcHZVAiWHPq8ZOVHj8TILM7gXOr5bjUl+PH2Bhl1r8Bg1r22Sex
+ rM4a9vwGx91OkO9emS7rBntElZBenPEuebev2BxVhs94cJSerZRSj1n5DYdnHJZ10y+yISKkF
+ LwlWan0lYhpC8N12gIItnyarrKIrRDbxQWUD3FFXVkYxu1uEjbfXQbgq2sBm4hxwIcXFAxdga
+ YZ7xa6VVqI8gXnbefgRfVfaqBhJAy97vQWK619d7EUdIeh1FjtrELfDmFrMn1IpyvpWasM/iq
+ 8dZLamrL8Pksib19YTtOGFgtyOR9x4egV0EfpbGjIpYQGGgg9QTKMNbcoo/ehvI4qsBhiSVRN
+ WIv3Cwmc12OcpyW6ZS28qD7nr/G2EB40tW0wy3h8OZpohsDKsevMaoPWfeZNvaYxfXUzJQO+0
+ grYp/vsvZxztoSahcDEh+7ySgk3zb5O7Fk/EEB0PFgHCd81Ak8j6MHmuRw30a1iFV/hX4yVmd
+ +ptuNlDnByqXZeJV8knPcuF5TGRZnyVfxSZt+E3G2bCHGKWE3XcFSM+fQJR6MJpfV35BMAHei
+ 1OW5D1Qh1PUyOotlLwEWCrt75RcQiTyaIKBiDnZBMddM2mwO8uMeMBHo/9sEfSS5W6L8UwhkX
+ 3N+IBFo57KH/XDCjYU/eU3ixCp4tioV4TA56RaTR3TFg4pplWAEGQDbChreh827zXJyBkrVQ4
+ aPDMbgtd57OwtHdsS7sDdnL81aK0Q==
 
-Hi Greg,
+Hi Dave,
 
-On 11/17/22 11:32 PM, Greg Kroah-Hartman wrote:
-> On Thu, Nov 17, 2022 at 11:25:48PM +0530, Umang Jain wrote:
->> Hi Kieran,
->>
->> On 11/17/22 9:39 PM, Kieran Bingham wrote:
->>> Quoting Umang Jain (2022-11-17 16:00:13)
->>>> This reverts commit 640e77466e69d9c28de227bc76881f5501f532ca.
->>>>
->>>> In commit 7967656ffbfa ("coding-style: Clarify the expectations around
->>>> bool") the check to dis-allow bool structure members was removed from
->>>> checkpatch.pl. It promotes bool structure members to store boolean
->>>> values. This enhances code readability.
->>>>
->>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>>> ---
->>>>    .../staging/vc04_services/vchiq-mmal/mmal-vchiq.c    | 12 ++++++------
->>>>    .../staging/vc04_services/vchiq-mmal/mmal-vchiq.h    |  4 ++--
->>>>    2 files changed, 8 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
->>>> index cb921c94996a..4abb6178cb9f 100644
->>>> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
->>>> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
->>>> @@ -863,9 +863,9 @@ static int port_info_get(struct vchiq_mmal_instance *instance,
->>>>                   goto release_msg;
->>>>           if (rmsg->u.port_info_get_reply.port.is_enabled == 0)
->>>> -               port->enabled = 0;
->>>> +               port->enabled = false;
->>>>           else
->>>> -               port->enabled = 1;
->>>> +               port->enabled = true;
->>>>           /* copy the values out of the message */
->>>>           port->handle = rmsg->u.port_info_get_reply.port_handle;
->>>> @@ -1304,7 +1304,7 @@ static int port_disable(struct vchiq_mmal_instance *instance,
->>>>           if (!port->enabled)
->>>>                   return 0;
->>>> -       port->enabled = 0;
->>>> +       port->enabled = false;
->>>>           ret = port_action_port(instance, port,
->>>>                                  MMAL_MSG_PORT_ACTION_TYPE_DISABLE);
->>>> @@ -1359,7 +1359,7 @@ static int port_enable(struct vchiq_mmal_instance *instance,
->>>>           if (ret)
->>>>                   goto done;
->>>> -       port->enabled = 1;
->>>> +       port->enabled = true;
->>>>           if (port->buffer_cb) {
->>>>                   /* send buffer headers to videocore */
->>>> @@ -1531,7 +1531,7 @@ int vchiq_mmal_port_connect_tunnel(struct vchiq_mmal_instance *instance,
->>>>                           pr_err("failed disconnecting src port\n");
->>>>                           goto release_unlock;
->>>>                   }
->>>> -               src->connected->enabled = 0;
->>>> +               src->connected->enabled = false;
->>>>                   src->connected = NULL;
->>>>           }
->>>> @@ -1799,7 +1799,7 @@ int vchiq_mmal_component_disable(struct vchiq_mmal_instance *instance,
->>>>           ret = disable_component(instance, component);
->>>>           if (ret == 0)
->>>> -               component->enabled = 0;
->>>> +               component->enabled = false;
->>>>           mutex_unlock(&instance->vchiq_mutex);
->>>> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
->>>> index 6006e29232b3..70eda6cac1c6 100644
->>>> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
->>>> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
->>>> @@ -48,7 +48,7 @@ typedef void (*vchiq_mmal_buffer_cb)(
->>>>                   int status, struct mmal_buffer *buffer);
->>>>    struct vchiq_mmal_port {
->>>> -       u32 enabled:1;
->>>> +       bool enabled:1;
->>> Is this a direct revert with 'git revert' ?
->>
->> No. It had conflicts plus I added the ':1' initialization to keep the logic
->> same (in case 'enabled' gets used directly). Similar pattern come up with:
->>      ($) git grep 'bool' -- '*.[h]' | grep '\:1'
->>
->> So it shouldn't be an issue.
-> Please don't do that "bool foo:1" makes no sense.  Drop the ":1"
-> please.
-
-It won't affect this patch but if you take a look at 2/3 - you'll see a 
-bool flag 'in_use' that needs to be initialized (as it's getting used 
-directly).
-
-I can move the initialization part in the function (_init() or 
-something) and drop the ":1" as you mentioned. That's  fine as well but 
-I do find patterns of 'bool foo:1' in the codebase so I assumed it would 
-be safe to use.
-
-
->   
+Am 17.11.22 um 17:00 schrieb Umang Jain:
+> In commit 7967656ffbfa ("coding-style: Clarify the expectations around
+> bool") the check to dis-allow bool structure members was removed from
+> checkpatch.pl. It promotes bool structure members to store boolean
+> values. This enhances code readability.
 >
-> thanks,
+> Umang Jain (3):
+>    Revert "staging: mmal-vchiq: Avoid use of bool in structures"
+>    vc04_services: mmal-vchiq: Use bool for vchiq_mmal_component.in_use
+>    vc04_services: bcm2835-camera: Use bool values for
+>      mmal_fmt.remove_padding
 >
-> greg k-h
-
+>   .../bcm2835-camera/bcm2835-camera.c           | 30 +++++++++----------
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 18 +++++------
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.h     |  6 ++--
+could you please check these changes to be safe? I'm not sure that the 
+affected declarations are really internal. I'm afraid this might affect 
+firmware or userspace.
+>   3 files changed, 27 insertions(+), 27 deletions(-)
+>
