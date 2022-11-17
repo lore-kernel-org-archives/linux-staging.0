@@ -1,34 +1,29 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1862F3A
-	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 13:13:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2314FC433C1;
-	Thu, 17 Nov 2022 13:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1668690832;
-	bh=8/wv6QDY2hSZTUr8xypWmCWEqdTGGHFAJ/VXIdpEZSc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B1VKBD4uF4pb0NzSYTn7Q16gq7Hm7S+f5YcWkipELr0PetzS/U0eGOntQ1FX9fnC2
-	 b4mHTcqdMlHLPiDMaauEYQ5EnBlORdt4R4QHnJ7JiReoYqJrutOWKktUKZo7UVmS6g
-	 lxSbuiWx0L8/4uPZ7h1JBfMDGfgxQEuFXV+Hh1ns=
-Date: Thu, 17 Nov 2022 14:13:46 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: Florian Fainelli <f.fainelli@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 1/2] staging: vc04_services: mmal-vchiq: Do not assign
- bool to u32
-Message-ID: <Y3Yziqaj9majJlNl@kroah.com>
-References: <20221117125953.88441-1-umang.jain@ideasonboard.com>
- <20221117125953.88441-2-umang.jain@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541512F30
+	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 13:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1668691261; bh=N9pDZUTKVWmcCMLDo7BDwGJ71H9koLDvz0Lw4Lwo6pQ=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=Y/pQXmvAbDfPJC2BXP/MP7acs7sOO8XEv4QnGYFRLasTAsRNAVyOBPvWGFJboPdv1
+	 bsdK/WJDPci3NIBO7bOMHQcuPGMO4G2btrPw0UAjmyCoE4XRmAvLb2nsmZX8Up38bq
+	 Cm9CZG8+rP84Ly+46oaOkiuzS1UilPVpLtBcPys4=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Thu, 17 Nov 2022 14:21:00 +0100 (CET)
+X-EA-Auth: UijATNLUhksPhklMt0RnzdQPPKNk33NwzW2kr3ZK5xnRR3INQDOR1bX/0JRfebmWS/jsblxg8mESktDJkPEfVbXPwqGPnOpG
+Date: Thu, 17 Nov 2022 18:50:55 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gustavoars@kernel.org
+Subject: Re: [PATCH] staging: wlan-ng: Replace zero-length arrays with
+ DECLARE_FLEX_ARRAY() helper
+Message-ID: <Y3Y1N6AwWEXLpSrx@qemulion>
+References: <Y3YKhee8L+kAfHM4@qemulion>
+ <Y3YvGdkyGm7azGg4@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,34 +32,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221117125953.88441-2-umang.jain@ideasonboard.com>
+In-Reply-To: <Y3YvGdkyGm7azGg4@kroah.com>
 
-On Thu, Nov 17, 2022 at 06:29:52PM +0530, Umang Jain wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> 
-> struct vchiq_mmal_component.enabled is a u32 type. Do not assign
-> it a bool.
-> 
-> Fixes: 640e77466e69 ("staging: mmal-vchiq: Avoid use of bool in structures")
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> index cb921c94996a..17f8ceda87ca 100644
-> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> @@ -1773,7 +1773,7 @@ int vchiq_mmal_component_enable(struct vchiq_mmal_instance *instance,
->  
->  	ret = enable_component(instance, component);
->  	if (ret == 0)
-> -		component->enabled = true;
-> +		component->enabled = 1;
+On Thu, Nov 17, 2022 at 01:54:49PM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Nov 17, 2022 at 03:48:45PM +0530, Deepak R Varma wrote:
+> > The code currently uses C90 standard extension based zero length arrays.
+> > The zero length array member also happens to be the only member of the
+> > structs. Such zero length array declarations are deprecated and the
+> > new C99 standard extension of flexible array declarations are to be
+> > used instead.
+> >
+> > The DECLARE_FLEX_ARRAY() helper allows for a flexible array member as
+> > the only member in a structure. Refer to these links [1], [2] for
+> > details.
+> >
+> > [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> > [2] https://lkml.kernel.org/r/YxKY6O2hmdwNh8r8@work
+> >
+> > Issue identified using Coccinelle.
+> >
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> >
+> > Notes:
+> >    1. Proposed change is compile tested only.
+> >    2. Solution feedback from gustavoars@kernel.org
+> >
+> >
+> >  drivers/staging/wlan-ng/hfa384x.h | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
+> > index 0611e37df6ac..3a1edcb43e07 100644
+> > --- a/drivers/staging/wlan-ng/hfa384x.h
+> > +++ b/drivers/staging/wlan-ng/hfa384x.h
+> > @@ -960,15 +960,15 @@ struct hfa384x_pdr_nicid {
+> >  } __packed;
+> >
+> >  struct hfa384x_pdr_refdac_measurements {
+> > -	u16 value[0];
+> > +	DECLARE_FLEX_ARRAY(u16, value);
+> >  } __packed;
+>
+> Why?  This structure is never used anywhere, right?  So why is this
+> needed to be changed and not just removed entirely?  Same for the other
+> structures in this patch.
 
-Why not make enabled a bool instead?
+Hello Greg,
+I am unable to confirm that these structures are truly not needed in the absence
+if a real device based testing. I could only validate that using the compile
+build and driver loading.
 
-thanks,
+This change that I am proposing in the interim would enable the compiler to
+protect the structure from addition of a new member below the zero length array.
 
-greg k-h
+If there is a way to confirm that the structures are indeed not needed, I can
+revise the patch and send the cleanup accordingly. Please suggest.
+
+Thank you,
+./drv
+
+
+>
+> thanks,
+>
+> greg k-h
+
+
