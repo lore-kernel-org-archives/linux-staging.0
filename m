@@ -1,66 +1,79 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C0217D8
-	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 03:59:23 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NCR3m4S7CzHvcB;
-	Thu, 17 Nov 2022 11:58:44 +0800 (CST)
-Received: from cgs.huawei.com (10.244.148.83) by
- kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 17 Nov 2022 11:59:15 +0800
-From: Gaosheng Cui <cuigaosheng1@huawei.com>
-To: <martyn@welchs.me.uk>, <manohar.vanga@gmail.com>,
-	<gregkh@linuxfoundation.org>, <jerrykang026@gmail.com>, <arnd@arndb.de>,
-	<cuigaosheng1@huawei.com>, <dmitry.kalinkin@gmail.com>
-CC: <linux-staging@lists.linux.dev>
-Subject: [PATCH] staging: vme_user: Fix possible UAF in tsi148_dma_list_add
-Date: Thu, 17 Nov 2022 11:59:14 +0800
-Message-ID: <20221117035914.2954454-1-cuigaosheng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D7C15CC
+	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 12:54:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00812C433C1;
+	Thu, 17 Nov 2022 12:54:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1668689696;
+	bh=/W7ORfPPE7zeYmKBjDaQfbuKt0and2UyiFiMkLGVGuA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IzrURmewnPxmkdCaTET97qa0Ng3E/qd39BLCotcA/X5Iv+prRsgGh3rPb/PhvWIFe
+	 A85x0qsXyN2mAkxDzSoNAGpVEplUhLatFkl+cfUsBo7srz53+fMpY8OTO6yDx9sQrs
+	 +8BHb6CE/94z95xrtAWLgTDpc6mAZq7ZYWBnZGRY=
+Date: Thu, 17 Nov 2022 13:54:49 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Deepak R Varma <drv@mailo.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gustavoars@kernel.org
+Subject: Re: [PATCH] staging: wlan-ng: Replace zero-length arrays with
+ DECLARE_FLEX_ARRAY() helper
+Message-ID: <Y3YvGdkyGm7azGg4@kroah.com>
+References: <Y3YKhee8L+kAfHM4@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.244.148.83]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500012.china.huawei.com (7.221.188.12)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3YKhee8L+kAfHM4@qemulion>
 
-Smatch report warning as follows:
+On Thu, Nov 17, 2022 at 03:48:45PM +0530, Deepak R Varma wrote:
+> The code currently uses C90 standard extension based zero length arrays.
+> The zero length array member also happens to be the only member of the
+> structs. Such zero length array declarations are deprecated and the
+> new C99 standard extension of flexible array declarations are to be
+> used instead.
+> 
+> The DECLARE_FLEX_ARRAY() helper allows for a flexible array member as
+> the only member in a structure. Refer to these links [1], [2] for
+> details.
+> 
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://lkml.kernel.org/r/YxKY6O2hmdwNh8r8@work
+> 
+> Issue identified using Coccinelle.
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+> 
+> Notes:
+>    1. Proposed change is compile tested only.
+>    2. Solution feedback from gustavoars@kernel.org
+> 
+> 
+>  drivers/staging/wlan-ng/hfa384x.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
+> index 0611e37df6ac..3a1edcb43e07 100644
+> --- a/drivers/staging/wlan-ng/hfa384x.h
+> +++ b/drivers/staging/wlan-ng/hfa384x.h
+> @@ -960,15 +960,15 @@ struct hfa384x_pdr_nicid {
+>  } __packed;
+> 
+>  struct hfa384x_pdr_refdac_measurements {
+> -	u16 value[0];
+> +	DECLARE_FLEX_ARRAY(u16, value);
+>  } __packed;
 
-drivers/staging/vme_user/vme_tsi148.c:1757 tsi148_dma_list_add() warn:
-  '&entry->list' not removed from list
+Why?  This structure is never used anywhere, right?  So why is this
+needed to be changed and not just removed entirely?  Same for the other
+structures in this patch.
 
-In tsi148_dma_list_add(), the error path "goto err_dma" will not
-remove entry->list from list->entries, but entry will be freed,
-then list traversal may cause UAF.
+thanks,
 
-Fix by removeing it from list->entries before free().
-
-Fixes: b2383c90a9d6 ("vme: tsi148: fix first DMA item mapping")
-Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
----
- drivers/staging/vme_user/vme_tsi148.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index 020e0b3bce64..0171f46d1848 100644
---- a/drivers/staging/vme_user/vme_tsi148.c
-+++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -1751,6 +1751,7 @@ static int tsi148_dma_list_add(struct vme_dma_list *list,
- 	return 0;
- 
- err_dma:
-+	list_del(&entry->list);
- err_dest:
- err_source:
- err_align:
--- 
-2.25.1
-
+greg k-h
