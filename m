@@ -1,322 +1,53 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D326194
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 18:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668796972; x=1700332972;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=V5Hw9NYkCkvMm5f8vj1Mv2/Ssn9brYUwFrrE08qkFnQ=;
-  b=DMOr4KknFjsdLAqd4f3WcH14pFziVWxNp6GKQrTl6KqcIZ7GX4PIdqPn
-   YPMjXEOlt264qff9pfahATtDoEEoCbnLZueS4s0qpDHEcKaKfIIhQqjQX
-   hprd0r8ZvYXwdHi+P5eqeig9MjjjdmZWrTUy9+hgRGuDQyiSOyObrFuUj
-   He6zqD9rbG2L9knwwJ/esr3GJP/W0doj5hyjT1pmIsZiOYQ1WhNam89md
-   9Uk5rHN7B76N2WD4ru5wxlm3xnw8jJtrSmxuF+DUMwZT90BhxdQlqZWGM
-   wtcqTGjyRjjGXoCGj5/DD7n5sK3BDjPz4Tn7gapEcGCsqhlv9P/H1KOeq
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="311908718"
-X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
-   d="scan'208";a="311908718"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 10:42:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="746101486"
-X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
-   d="scan'208";a="746101486"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2022 10:42:49 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 707EA10E; Fri, 18 Nov 2022 20:43:14 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v1 1/1] atomisp: Make bds_factors_list be type of struct u32_fract
-Date: Fri, 18 Nov 2022 20:43:09 +0200
-Message-Id: <20221118184309.60834-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2C9A473
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 20:21:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CF282C433C1;
+	Fri, 18 Nov 2022 20:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668802859;
+	bh=6iI6TvYDawwQ+2kytuwWuZn2a5xW2H0B1LFfTmKXJ2A=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=UwGRl7CXPTP0FPvwDnorxjWqLY9+PzwfCikhLflRCOZJnbkts8OcytEUukc6Gp+F5
+	 S0/gsE0Djbip4swUHerFOK87y7T3U9lJknBUnneJ+dbssss5tm6pTE6Y/ZDNlFisQa
+	 +XB/bLqRv6RiIhm6Tm3tdDVQl9CWUb2YL6d1BdyHBRu0cK435zwAKFjnZPlDmk6o8V
+	 tLAxs1Fjr6u7Js16f8M1yPTVttFd+6P5MW7KWtLvATxg4kgpmtG2AGZLH2AM16R/PN
+	 DTij+el3pN/GirmS2rxpuRpT1CmTzUreQhA/ExiGIlV7WNIdlNBD1vDtTR7ib/uhRP
+	 5axAPzZxG2UDw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BE226C395F3;
+	Fri, 18 Nov 2022 20:20:59 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fix for 6.1-rc6
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Y3fJ4o2sEO7Kef0y@kroah.com>
+References: <Y3fJ4o2sEO7Kef0y@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <Y3fJ4o2sEO7Kef0y@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.1-rc6
+X-PR-Tracked-Commit-Id: 937ec9f7d5f2625d60077bb7824fee35dc447c6e
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 12fe29ee259f9a14fba4c593eff55b851ef264fe
+Message-Id: <166880285977.9331.8704744718538007263.pr-tracker-bot@kernel.org>
+Date: Fri, 18 Nov 2022 20:20:59 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The list contains the Bayer scale index, and rational fraction of it.
-The struct u32_fract is suitable type to hold that. Convert the driver
-to use latter instead of former.
+The pull request you sent on Fri, 18 Nov 2022 19:07:30 +0100:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../pipe/interface/ia_css_pipe_binarydesc.h   | 13 ++---
- .../pci/camera/pipe/src/pipe_binarydesc.c     | 55 ++++++++-----------
- .../atomisp/pci/runtime/binary/src/binary.c   | 42 +++++---------
- .../media/atomisp/pci/sh_css_param_shading.c  | 19 +++----
- 4 files changed, 51 insertions(+), 78 deletions(-)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.1-rc6
 
-diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/interface/ia_css_pipe_binarydesc.h b/drivers/staging/media/atomisp/pci/camera/pipe/interface/ia_css_pipe_binarydesc.h
-index 965cfda50707..e42eeaeb3ee4 100644
---- a/drivers/staging/media/atomisp/pci/camera/pipe/interface/ia_css_pipe_binarydesc.h
-+++ b/drivers/staging/media/atomisp/pci/camera/pipe/interface/ia_css_pipe_binarydesc.h
-@@ -16,6 +16,8 @@
- #ifndef __IA_CSS_PIPE_BINARYDESC_H__
- #define __IA_CSS_PIPE_BINARYDESC_H__
- 
-+#include <linux/math.h>
-+
- #include <ia_css_types.h>		/* ia_css_pipe */
- #include <ia_css_frame_public.h>	/* ia_css_frame_info */
- #include <ia_css_binary.h>		/* ia_css_binary_descr */
-@@ -56,17 +58,12 @@ void ia_css_pipe_get_vfpp_binarydesc(
-  *
-  * @param[in] bds_factor: The bayer downscaling factor.
-  *		(= The bds_factor member in the sh_css_bds_factor structure.)
-- * @param[out] bds_factor_numerator: The numerator of the bayer downscaling factor.
-- *		(= The numerator member in the sh_css_bds_factor structure.)
-- * @param[out] bds_factor_denominator: The denominator of the bayer downscaling factor.
-- *		(= The denominator member in the sh_css_bds_factor structure.)
-+ * @param[out] bds: The rational fraction of the bayer downscaling factor.
-+ *		(= The respective member in the sh_css_bds_factor structure.)
-  * @return	0 or error code upon error.
-  *
-  */
--int sh_css_bds_factor_get_numerator_denominator(
--    unsigned int bds_factor,
--    unsigned int *bds_factor_numerator,
--    unsigned int *bds_factor_denominator);
-+int sh_css_bds_factor_get_fract(unsigned int bds_factor, struct u32_fract *bds);
- 
- /* @brief Get a binary descriptor for preview stage.
-  *
-diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-index 7dd0e4a53c8b..06664ce75b60 100644
---- a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-+++ b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-@@ -13,6 +13,9 @@
-  * more details.
-  */
- 
-+#include <linux/kernel.h>
-+#include <linux/math.h>
-+
- #include "ia_css_pipe_binarydesc.h"
- #include "ia_css_frame_format.h"
- #include "ia_css_pipe.h"
-@@ -23,7 +26,6 @@
- #include <assert_support.h>
- /* HRT_GDC_N */
- #include "gdc_device.h"
--#include <linux/kernel.h>
- 
- /* This module provides a binary descriptions to used to find a binary. Since,
-  * every stage is associated with a binary, it implicity helps stage
-@@ -126,40 +128,29 @@ void ia_css_pipe_get_vfpp_binarydesc(
- 	IA_CSS_LEAVE_PRIVATE("");
- }
- 
--static struct sh_css_bds_factor bds_factors_list[] = {
--	{1, 1, SH_CSS_BDS_FACTOR_1_00},
--	{5, 4, SH_CSS_BDS_FACTOR_1_25},
--	{3, 2, SH_CSS_BDS_FACTOR_1_50},
--	{2, 1, SH_CSS_BDS_FACTOR_2_00},
--	{9, 4, SH_CSS_BDS_FACTOR_2_25},
--	{5, 2, SH_CSS_BDS_FACTOR_2_50},
--	{3, 1, SH_CSS_BDS_FACTOR_3_00},
--	{4, 1, SH_CSS_BDS_FACTOR_4_00},
--	{9, 2, SH_CSS_BDS_FACTOR_4_50},
--	{5, 1, SH_CSS_BDS_FACTOR_5_00},
--	{6, 1, SH_CSS_BDS_FACTOR_6_00},
--	{8, 1, SH_CSS_BDS_FACTOR_8_00}
-+static struct u32_fract bds_factors_list[] = {
-+	[SH_CSS_BDS_FACTOR_1_00] = {1, 1},
-+	[SH_CSS_BDS_FACTOR_1_25] = {5, 4},
-+	[SH_CSS_BDS_FACTOR_1_50] = {3, 2},
-+	[SH_CSS_BDS_FACTOR_2_00] = {2, 1},
-+	[SH_CSS_BDS_FACTOR_2_25] = {9, 4},
-+	[SH_CSS_BDS_FACTOR_2_50] = {5, 2},
-+	[SH_CSS_BDS_FACTOR_3_00] = {3, 1},
-+	[SH_CSS_BDS_FACTOR_4_00] = {4, 1},
-+	[SH_CSS_BDS_FACTOR_4_50] = {9, 2},
-+	[SH_CSS_BDS_FACTOR_5_00] = {5, 1},
-+	[SH_CSS_BDS_FACTOR_6_00] = {6, 1},
-+	[SH_CSS_BDS_FACTOR_8_00] = {8, 1},
- };
- 
--int sh_css_bds_factor_get_numerator_denominator(
--    unsigned int bds_factor,
--    unsigned int *bds_factor_numerator,
--    unsigned int *bds_factor_denominator)
-+int sh_css_bds_factor_get_fract(unsigned int bds_factor, struct u32_fract *bds)
- {
--	unsigned int i;
--
--	/* Loop over all bds factors until a match is found */
--	for (i = 0; i < ARRAY_SIZE(bds_factors_list); i++) {
--		if (bds_factors_list[i].bds_factor == bds_factor) {
--			*bds_factor_numerator = bds_factors_list[i].numerator;
--			*bds_factor_denominator = bds_factors_list[i].denominator;
--			return 0;
--		}
--	}
-+	/* Throw an error since bds_factor cannot be found in bds_factors_list */
-+	if (bds_factor >= ARRAY_SIZE(bds_factors_list))
-+		return -EINVAL;
- 
--	/* Throw an error since bds_factor cannot be found
--	in bds_factors_list */
--	return -EINVAL;
-+	*bds = bds_factors_list[bds_factor];
-+	return 0;
- }
- 
- int binarydesc_calculate_bds_factor(
-@@ -194,7 +185,7 @@ int binarydesc_calculate_bds_factor(
- 			    (out_h * num / den <= in_h);
- 
- 		if (cond) {
--			*bds_factor = bds_factors_list[i].bds_factor;
-+			*bds_factor = i;
- 			return 0;
- 		}
- 	}
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index 406ed5fb4c6a..768da86b8c2c 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -13,6 +13,8 @@
-  * more details.
-  */
- 
-+#include <linux/math.h>
-+
- #include <math_support.h>
- #include <gdc_device.h>	/* HR_GDC_N */
- 
-@@ -128,16 +130,8 @@ ia_css_binary_compute_shading_table_bayer_origin(
- {
- 	int err;
- 
--	/* Numerator and denominator of the fixed bayer downscaling factor.
--	(numerator >= denominator) */
--	unsigned int bds_num, bds_den;
--
--	/* Horizontal/Vertical ratio of bayer scaling
--	between input area and output area. */
--	unsigned int bs_hor_ratio_in;
--	unsigned int bs_hor_ratio_out;
--	unsigned int bs_ver_ratio_in;
--	unsigned int bs_ver_ratio_out;
-+	/* Rational fraction of the fixed bayer downscaling factor. */
-+	struct u32_fract bds;
- 
- 	/* Left padding set by InputFormatter. */
- 	unsigned int left_padding_bqs;			/* in bqs */
-@@ -158,19 +152,11 @@ ia_css_binary_compute_shading_table_bayer_origin(
- 	unsigned int bad_bqs_on_top_before_bs;	/* in bqs */
- 	unsigned int bad_bqs_on_top_after_bs;	/* in bqs */
- 
--	/* Get the numerator and denominator of bayer downscaling factor. */
--	err = sh_css_bds_factor_get_numerator_denominator
--	(required_bds_factor, &bds_num, &bds_den);
-+	/* Get the rational fraction of bayer downscaling factor. */
-+	err = sh_css_bds_factor_get_fract(required_bds_factor, &bds);
- 	if (err)
- 		return err;
- 
--	/* Set the horizontal/vertical ratio of bayer scaling
--	between input area and output area. */
--	bs_hor_ratio_in  = bds_num;
--	bs_hor_ratio_out = bds_den;
--	bs_ver_ratio_in  = bds_num;
--	bs_ver_ratio_out = bds_den;
--
- 	/* Set the left padding set by InputFormatter. (ifmtr.c) */
- 	if (stream_config->left_padding == -1)
- 		left_padding_bqs = _ISP_BQS(binary->left_padding);
-@@ -228,18 +214,18 @@ ia_css_binary_compute_shading_table_bayer_origin(
- 	located on the shading table during the shading correction. */
- 	res->sc_bayer_origin_x_bqs_on_shading_table =
- 		((left_padding_adjusted_bqs + bad_bqs_on_left_before_bs)
--		* bs_hor_ratio_out + bs_hor_ratio_in / 2) / bs_hor_ratio_in
-+		* bds.denominator + bds.numerator / 2) / bds.numerator
- 		+ bad_bqs_on_left_after_bs;
--	/* "+ bs_hor_ratio_in/2": rounding for division by bs_hor_ratio_in */
-+	/* "+ bds.numerator / 2": rounding for division by bds.numerator */
- 	res->sc_bayer_origin_y_bqs_on_shading_table =
--		(bad_bqs_on_top_before_bs * bs_ver_ratio_out + bs_ver_ratio_in / 2) / bs_ver_ratio_in
-+		(bad_bqs_on_top_before_bs * bds.denominator + bds.numerator / 2) / bds.numerator
- 		+ bad_bqs_on_top_after_bs;
--	/* "+ bs_ver_ratio_in/2": rounding for division by bs_ver_ratio_in */
-+	/* "+ bds.numerator / 2": rounding for division by bds.numerator */
- 
--	res->bayer_scale_hor_ratio_in  = (uint32_t)bs_hor_ratio_in;
--	res->bayer_scale_hor_ratio_out = (uint32_t)bs_hor_ratio_out;
--	res->bayer_scale_ver_ratio_in  = (uint32_t)bs_ver_ratio_in;
--	res->bayer_scale_ver_ratio_out = (uint32_t)bs_ver_ratio_out;
-+	res->bayer_scale_hor_ratio_in  = bds.numerator;
-+	res->bayer_scale_hor_ratio_out = bds.denominator;
-+	res->bayer_scale_ver_ratio_in  = bds.numerator;
-+	res->bayer_scale_ver_ratio_out = bds.denominator;
- 
- 	return err;
- }
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-index 41a4c9162319..5b43cc656269 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-@@ -13,6 +13,7 @@
-  * more details.
-  */
- 
-+#include <linux/math.h>
- #include <linux/slab.h>
- 
- #include <math_support.h>
-@@ -239,10 +240,9 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
- {
- 	unsigned int input_width, input_height, table_width, table_height, i;
- 	unsigned int left_padding, top_padding, left_cropping;
--	unsigned int bds_numerator, bds_denominator;
--	int right_padding;
--
- 	struct ia_css_shading_table *result;
-+	struct u32_fract bds;
-+	int right_padding;
- 
- 	assert(target_table);
- 	assert(binary);
-@@ -265,17 +265,16 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
- 	left_cropping = (binary->info->sp.pipeline.left_cropping == 0) ?
- 			binary->dvs_envelope.width : 2 * ISP_VEC_NELEMS;
- 
--	sh_css_bds_factor_get_numerator_denominator
--	(bds_factor, &bds_numerator, &bds_denominator);
-+	sh_css_bds_factor_get_fract(bds_factor, &bds);
- 
- 	left_padding  = (left_padding + binary->info->sp.pipeline.left_cropping) *
--			bds_numerator / bds_denominator -
-+			bds.numerator / bds.denominator -
- 			binary->info->sp.pipeline.left_cropping;
- 	right_padding = (binary->internal_frame_info.res.width -
--			 binary->effective_in_frame_res.width * bds_denominator /
--			 bds_numerator - left_cropping) * bds_numerator / bds_denominator;
--	top_padding = binary->info->sp.pipeline.top_cropping * bds_numerator /
--		      bds_denominator -
-+			 binary->effective_in_frame_res.width * bds.denominator /
-+			 bds.numerator - left_cropping) * bds.numerator / bds.denominator;
-+	top_padding = binary->info->sp.pipeline.top_cropping * bds.numerator /
-+		      bds.denominator -
- 		      binary->info->sp.pipeline.top_cropping;
- 
- 	/*
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/12fe29ee259f9a14fba4c593eff55b851ef264fe
+
+Thank you!
+
 -- 
-2.35.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
