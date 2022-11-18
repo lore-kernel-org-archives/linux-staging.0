@@ -1,53 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2C9A473
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 20:21:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CF282C433C1;
-	Fri, 18 Nov 2022 20:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668802859;
-	bh=6iI6TvYDawwQ+2kytuwWuZn2a5xW2H0B1LFfTmKXJ2A=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=UwGRl7CXPTP0FPvwDnorxjWqLY9+PzwfCikhLflRCOZJnbkts8OcytEUukc6Gp+F5
-	 S0/gsE0Djbip4swUHerFOK87y7T3U9lJknBUnneJ+dbssss5tm6pTE6Y/ZDNlFisQa
-	 +XB/bLqRv6RiIhm6Tm3tdDVQl9CWUb2YL6d1BdyHBRu0cK435zwAKFjnZPlDmk6o8V
-	 tLAxs1Fjr6u7Js16f8M1yPTVttFd+6P5MW7KWtLvATxg4kgpmtG2AGZLH2AM16R/PN
-	 DTij+el3pN/GirmS2rxpuRpT1CmTzUreQhA/ExiGIlV7WNIdlNBD1vDtTR7ib/uhRP
-	 5axAPzZxG2UDw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BE226C395F3;
-	Fri, 18 Nov 2022 20:20:59 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fix for 6.1-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Y3fJ4o2sEO7Kef0y@kroah.com>
-References: <Y3fJ4o2sEO7Kef0y@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <Y3fJ4o2sEO7Kef0y@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.1-rc6
-X-PR-Tracked-Commit-Id: 937ec9f7d5f2625d60077bb7824fee35dc447c6e
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 12fe29ee259f9a14fba4c593eff55b851ef264fe
-Message-Id: <166880285977.9331.8704744718538007263.pr-tracker-bot@kernel.org>
-Date: Fri, 18 Nov 2022 20:20:59 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09363D61
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 22:48:23 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1owA9f-0005Dg-Vg; Fri, 18 Nov 2022 23:48:16 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1owA9d-0058rG-0g; Fri, 18 Nov 2022 23:48:13 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1owA9d-0000Tl-C9; Fri, 18 Nov 2022 23:48:13 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+To: Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Grant Likely <grant.likely@linaro.org>,
+	Wolfram Sang <wsa@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-i2c@vger.kernel.org,
+	kernel@pengutronix.de,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 568/606] staging: iio: ade7854: Convert to i2c's .probe_new()
+Date: Fri, 18 Nov 2022 23:45:02 +0100
+Message-Id: <20221118224540.619276-569-uwe@kleine-koenig.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-The pull request you sent on Fri, 18 Nov 2022 19:07:30 +0100:
+From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.1-rc6
+The probe function doesn't make use of the i2c_device_id * parameter so it
+can be trivially converted.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/12fe29ee259f9a14fba4c593eff55b851ef264fe
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/staging/iio/meter/ade7854-i2c.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Thank you!
-
+diff --git a/drivers/staging/iio/meter/ade7854-i2c.c b/drivers/staging/iio/meter/ade7854-i2c.c
+index 71b67dd3c8e9..572d714eb0dd 100644
+--- a/drivers/staging/iio/meter/ade7854-i2c.c
++++ b/drivers/staging/iio/meter/ade7854-i2c.c
+@@ -112,8 +112,7 @@ static int ade7854_i2c_read_reg(struct device *dev,
+ 	return ret;
+ }
+ 
+-static int ade7854_i2c_probe(struct i2c_client *client,
+-			     const struct i2c_device_id *id)
++static int ade7854_i2c_probe(struct i2c_client *client)
+ {
+ 	struct ade7854_state *st;
+ 	struct iio_dev *indio_dev;
+@@ -144,7 +143,7 @@ static struct i2c_driver ade7854_i2c_driver = {
+ 	.driver = {
+ 		.name = "ade7854",
+ 	},
+-	.probe    = ade7854_i2c_probe,
++	.probe_new = ade7854_i2c_probe,
+ 	.id_table = ade7854_id,
+ };
+ module_i2c_driver(ade7854_i2c_driver);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.38.1
+
