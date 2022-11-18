@@ -1,106 +1,186 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6274428E3
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 09:01:39 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id r126-20020a1c4484000000b003cffd336e24so2348985wma.4
-        for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 01:01:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K6hK8A2rAN4d24KDK5ABoo0V031IyWeiGrh9El3YUPY=;
-        b=WMSkKPKVgzPshxJZXoPqCgykFa2Q6jLIDq9gctLfPDbYW+zXN5wTHSIOyT1Eqpzyqy
-         /Oa6/hyYWTWoxAgyQ5e54+GfGzjsC6e7lzw0KFQUOy/KhcOef3ixOCdXPvzhKZ1lnY4v
-         URbbGTQ+S5yFATOWflB8AcCgi1tBqLVboO42SF/ZJ31z45/vWC4Ul3tJnKZ2HayJSeVT
-         +/s4y5x8cNP10J5PiZhhqsDB5LGh/BXwIECwjIm34lqTwr7Lk6d0J3Fu1ouImD0g8LKJ
-         3Phczu2ipekrMIa8aVYmFGgO1bN2tCRJ/3YTw2xZwUWvwS4L/DAJkXWcKeTON9p6dRyh
-         d1HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K6hK8A2rAN4d24KDK5ABoo0V031IyWeiGrh9El3YUPY=;
-        b=IRsdgS57/2yY99A5BMPZTCC8uzUzzIHcrR+52LvUtX8lRzH6YIRy0oC84EfXZcmur+
-         ob2oXNci33lbVbkdt+/FoZDIYOzET7PATpUkQfWhf3ptqKjNiNF+PV2MZXrebc5g3qXt
-         2yCuAKff47pOwJLsshsTzPYRWjkUpe5O4d2m/96JvwC8M+2a/u8mJFsFvpW/Gv509xmw
-         0eeuuGYvibUNrk5vywA2gsLI1/AzY1QhUCT5ggTBXjaa29RygRtYS0DbLuVEZitWn7RE
-         eVwPIcT4iyat2XgzQgPqml397DGwaEFntoTqaRETeEJlMBK0wBak17xDDxilOx8HxeL0
-         kk+g==
-X-Gm-Message-State: ANoB5pkqZEkCyH4edDIdi+L5cDjyTgVVjlDbI27SHkfWY8ivOMEhpsC0
-	BiNvFMfQZVae3gYihwm8UU4=
-X-Google-Smtp-Source: AA0mqf69UydmZ4WVQnY3pESaLTvOyJU7cFdL5tejY53onzOZSvxdUOc1AtYvBrSboRJgr+axBmvemQ==
-X-Received: by 2002:a05:600c:35cf:b0:3cf:aa11:93a8 with SMTP id r15-20020a05600c35cf00b003cfaa1193a8mr7851714wmq.31.1668762097604;
-        Fri, 18 Nov 2022 01:01:37 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 23-20020a05600c229700b003cf75213bb9sm7980034wmf.8.2022.11.18.01.01.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 01:01:37 -0800 (PST)
-Date: Fri, 18 Nov 2022 12:01:34 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 2/3] vc04_services: mmal-vchiq: Use bool for
- vchiq_mmal_component.in_use
-Message-ID: <Y3dJ7mETwKNVH7dU@kadam>
-References: <20221117160015.344528-1-umang.jain@ideasonboard.com>
- <20221117160015.344528-3-umang.jain@ideasonboard.com>
- <Y3bQiDw11t4pRokP@lunn.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD2017F3
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 09:08:08 +0000 (UTC)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 7A6901BF207;
+	Fri, 18 Nov 2022 09:08:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1668762486;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hk4AOBalIifEeElfq46iL3XmVWZkthoRP4j/dELNq74=;
+	b=PYaFvwIBT1fZvme+y7/XZhypZc3UGJ3ePCvBZDeMt2zQO1MUbe0YBjbLrxU0sCOC0e5JF5
+	Fbyffoq9cAiim1MkYGqDT2ReFThFRTBY16CeKQ7N0oNXL2lXwTFwauHUmgEtbxhHwaw1uR
+	IcWwAVz1wE+Rs2xHOy0PPNZk8T9c6ab9Xg09GRCJenTNtguS0VyW4VWvyrGHZG66g9xAkA
+	wvcqxvJPvXP0OYmTXe9yYhryfScr61gXbfi5llscfY1ci7Jref8RW5UzkRXPGnGll9iy2R
+	rnBq6epnoqVkVxsKa40UFORjMIP9xFhEhdv/O6admiHsdEFYJ9ZLuuuQJJU9Pg==
+Date: Fri, 18 Nov 2022 10:08:00 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, Richard Leitner
+ <richard.leitner@skidata.com>, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH 01/23] dt-bindings: display: tegra: add bindings for
+ Tegra20 VIP
+Message-ID: <20221118100800.4950aec0@booty>
+In-Reply-To: <ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
+References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+	<20221109141852.729246-2-luca.ceresoli@bootlin.com>
+	<ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3bQiDw11t4pRokP@lunn.ch>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 18, 2022 at 01:23:36AM +0100, Andrew Lunn wrote:
-> >  struct vchiq_mmal_component {
-> > -	u32 in_use:1;
-> > +	bool in_use:1;
-> >  	bool enabled:1;
+Hello Krzysztof,
+
+thanks for the review. I'm glad my error rate on bindings is lower than
+it used to be before I attended your ELCE talk! ;)
+
+On Tue, 15 Nov 2022 13:12:44 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+
+> On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
+> > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > 
+> > VIP is the parallel video capture component within the video input
+> > subsystem of Tegra20 (and other Tegra chips, apparently).  
 > 
-> The patch you referenced says:
+> Subject: drop second, redundant "bindings".
 > 
-> +If a structure has many true/false values, consider consolidating them into a
-> +bitfield with 1 bit members, or using an appropriate fixed width type, such as
-> +u8.
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > ---
+> >  .../display/tegra/nvidia,tegra20-vip.yaml     | 64 +++++++++++++++++++
+> >  MAINTAINERS                                   |  7 ++
+> >  2 files changed, 71 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+> > new file mode 100644
+> > index 000000000000..934dabfd2307
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+> > @@ -0,0 +1,64 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: NVIDIA Tegra VIP (parallel video capture) controller
+> > +
+> > +maintainers:
+> > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > +
+> > +properties:
+> > +  $nodename:
+> > +    const: vip  
 > 
-> The code did exactly this, using two bits fields, in one u32. A bool
-> probably takes up 4 bytes, maybe 8 bytes, so this change probably
-> doubles the storage size for these two fields.
+> No need to enforce names in device schemas, especially that this does
+> not look like a generic name.
+> 
+> > +
+> > +  compatible:
+> > +    enum:
+> > +      - nvidia,tegra20-vip
+> > +
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +  channel@0:  
+> 
+> Missing description.
 
-In GCC and Clang bools take a byte, but the C language is vague and
-other compilers are free to do it differently.
+OK, I think this should do:
 
-> Are these fields on the
-> hot path, where an extra AND instruction would make a difference?
+  description: parallel video capture interface for the VI
 
-This patch takes the first u32 for "in_use" and squeezes it into the
-same byte as "enabled" so it makes the struct four bytes smaller.  There
-is still a 3 byte struct hole between "enabled" and "handle" so we could
-add more 62 bool bitfields if we wanted.
+> > +    type: object  
+> 
+> Do you expect it to grow to more channels?
 
-In the v2 patch these become:
+Not on Tegra20, it has one input only, but for other SoCs it's likely.
+Definitely some (including Tegra20 itself) have multiple CSI-2 inputs,
+and it's reasonable that this can apply to parallel input too.
 
-	bool in_use;
-	bool enabled;
+Is this enough motivation to make room for more channels, or should I
+remove it since I have no plans to introduce support for other Tegra
+chips?
 
-One byte each and there is a two byte gap before "handle".
+> > +
+> > +    properties:
+> > +      reg: true  
+> 
+> const: 0
+> 
+> > +
+> > +      ports:
+> > +        $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +        properties:
+> > +          port@0:
+> > +            $ref: /schemas/graph.yaml#/properties/port
+> > +            description:
+> > +              Port receiving the video stream from the sensor
+> > +
+> > +          port@1:
+> > +            $ref: /schemas/graph.yaml#/properties/port
+> > +            description:
+> > +              Port sending the video stream to the VI
+> > +
+> > +        required:
+> > +          - port@0
+> > +          - port@1
+> > +
+> > +    additionalProperties: false
+> > +
+> > +    required:
+> > +      - reg
+> > +      - ports
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - "#address-cells"
+> > +  - "#size-cells"
+> > +  - channel@0
+> > +
+> > +# see nvidia,tegra20-vi.yaml for an example  
+> 
+> That file does not have this compatible. At least not on next-20221109.
 
-regards,
-dan carpenter
+It's added in patch 2. It's a chicken-egg problem, should I add a third
+patch that adds this line only?
 
+ACK for all other comments you wrote.
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
