@@ -1,38 +1,36 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD1FEBE2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BE4EBE1
 	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 22:48:24 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1owA9g-0005Dq-1Q; Fri, 18 Nov 2022 23:48:16 +0100
+	id 1owA9g-0005Er-An; Fri, 18 Nov 2022 23:48:16 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1owA9d-0058rK-3q; Fri, 18 Nov 2022 23:48:14 +0100
+	id 1owA9d-0058rU-Ih; Fri, 18 Nov 2022 23:48:14 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1owA9d-0000Ti-6m; Fri, 18 Nov 2022 23:48:13 +0100
+	id 1owA9d-0000Tu-Mq; Fri, 18 Nov 2022 23:48:13 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To: Angel Iglesias <ang.iglesiasg@gmail.com>,
 	Lee Jones <lee.jones@linaro.org>,
 	Grant Likely <grant.likely@linaro.org>,
 	Wolfram Sang <wsa@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
+	Jens Frederich <jfrederich@gmail.com>,
+	Jon Nettleton <jon.nettleton@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-i2c@vger.kernel.org,
 	kernel@pengutronix.de,
 	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 567/606] staging: iio: ad5933: Convert to i2c's .probe_new()
-Date: Fri, 18 Nov 2022 23:45:01 +0100
-Message-Id: <20221118224540.619276-568-uwe@kleine-koenig.org>
+Subject: [PATCH 570/606] staging: olpc_dcon: Convert to i2c's .probe_new()
+Date: Fri, 18 Nov 2022 23:45:04 +0100
+Message-Id: <20221118224540.619276-571-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -51,39 +49,36 @@ X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
 From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-.probe_new() doesn't get the i2c_device_id * parameter, so determine
-that explicitly in the probe function.
+The probe function doesn't make use of the i2c_device_id * parameter so it
+can be trivially converted.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/olpc_dcon/olpc_dcon.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index f177b20f0f2d..b3152f7153fb 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -674,9 +674,9 @@ static void ad5933_clk_disable(void *data)
- 	clk_disable_unprepare(st->mclk);
+diff --git a/drivers/staging/olpc_dcon/olpc_dcon.c b/drivers/staging/olpc_dcon/olpc_dcon.c
+index 4fb9b9f10799..2fba52e0bd7b 100644
+--- a/drivers/staging/olpc_dcon/olpc_dcon.c
++++ b/drivers/staging/olpc_dcon/olpc_dcon.c
+@@ -579,7 +579,7 @@ static int dcon_detect(struct i2c_client *client, struct i2c_board_info *info)
+ 	return 0;
  }
  
--static int ad5933_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int ad5933_probe(struct i2c_client *client)
+-static int dcon_probe(struct i2c_client *client, const struct i2c_device_id *id)
++static int dcon_probe(struct i2c_client *client)
  {
-+	const struct i2c_device_id *id = i2c_client_get_device_id(client);
- 	int ret;
- 	struct ad5933_state *st;
- 	struct iio_dev *indio_dev;
-@@ -781,7 +781,7 @@ static struct i2c_driver ad5933_driver = {
- 		.name = "ad5933",
- 		.of_match_table = ad5933_of_match,
+ 	struct dcon_priv *dcon;
+ 	int rc, i, j;
+@@ -779,7 +779,7 @@ static struct i2c_driver dcon_driver = {
  	},
--	.probe = ad5933_probe,
-+	.probe_new = ad5933_probe,
- 	.id_table = ad5933_id,
- };
- module_i2c_driver(ad5933_driver);
+ 	.class = I2C_CLASS_DDC | I2C_CLASS_HWMON,
+ 	.id_table = dcon_idtable,
+-	.probe = dcon_probe,
++	.probe_new = dcon_probe,
+ 	.remove = dcon_remove,
+ 	.detect = dcon_detect,
+ 	.address_list = normal_i2c,
 -- 
 2.38.1
 
