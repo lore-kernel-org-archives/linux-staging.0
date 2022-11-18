@@ -1,186 +1,146 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD2017F3
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 09:08:08 +0000 (UTC)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7A6901BF207;
-	Fri, 18 Nov 2022 09:08:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1668762486;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hk4AOBalIifEeElfq46iL3XmVWZkthoRP4j/dELNq74=;
-	b=PYaFvwIBT1fZvme+y7/XZhypZc3UGJ3ePCvBZDeMt2zQO1MUbe0YBjbLrxU0sCOC0e5JF5
-	Fbyffoq9cAiim1MkYGqDT2ReFThFRTBY16CeKQ7N0oNXL2lXwTFwauHUmgEtbxhHwaw1uR
-	IcWwAVz1wE+Rs2xHOy0PPNZk8T9c6ab9Xg09GRCJenTNtguS0VyW4VWvyrGHZG66g9xAkA
-	wvcqxvJPvXP0OYmTXe9yYhryfScr61gXbfi5llscfY1ci7Jref8RW5UzkRXPGnGll9iy2R
-	rnBq6epnoqVkVxsKa40UFORjMIP9xFhEhdv/O6admiHsdEFYJ9ZLuuuQJJU9Pg==
-Date: Fri, 18 Nov 2022 10:08:00 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans
- Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, Richard Leitner
- <richard.leitner@skidata.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH 01/23] dt-bindings: display: tegra: add bindings for
- Tegra20 VIP
-Message-ID: <20221118100800.4950aec0@booty>
-In-Reply-To: <ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
-	<20221109141852.729246-2-luca.ceresoli@bootlin.com>
-	<ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13302320D
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 10:21:09 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86C67AF4;
+	Fri, 18 Nov 2022 11:21:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1668766867;
+	bh=JKnBzxfXovb0tLwxFVvmmGsWChmiTr5mJEqcRlUT6eI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=ScjWB42MLc45TmwtfQqFJVNud+HcPVvcdEAjezOrjWDpfyKGrnoRu5UumiY+tpgE6
+	 eGmElSQx6zhNDyYA3jUgr7NQYNXSutz87Ov7uX5EjuI76+bYpWSYoNAssndlX7/xPL
+	 Ryn7sb0sPBgFqDgYJmVSa4ZRTKOVGtR25LR5IIAY=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221118084244.199909-2-umang.jain@ideasonboard.com>
+References: <20221118084244.199909-1-umang.jain@ideasonboard.com> <20221118084244.199909-2-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v2 1/3] Revert "staging: mmal-vchiq: Avoid use of bool in structures"
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>
+To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dan Carpenter <error27@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Florian Fainelli <f.fainelli@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Ray Jui <rjui@broadcom.com>, Umang Jain <umang.jain@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Date: Fri, 18 Nov 2022 10:21:04 +0000
+Message-ID: <166876686476.50677.13666680068580068271@Monstersaurus>
+User-Agent: alot/0.10
 
-Hello Krzysztof,
+Quoting Umang Jain (2022-11-18 08:42:42)
+> This reverts commit 640e77466e69d9c28de227bc76881f5501f532ca.
+>=20
+> In commit 7967656ffbfa ("coding-style: Clarify the expectations around
+> bool") the check to dis-allow bool structure members was removed from
+> checkpatch.pl. It promotes bool structure members to store boolean
+> values. This enhances code readability.
+>=20
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 
-thanks for the review. I'm glad my error rate on bindings is lower than
-it used to be before I attended your ELCE talk! ;)
+Thanks,
 
-On Tue, 15 Nov 2022 13:12:44 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+That's a more direct revert of 640e77466e69 ("staging: mmal-vchiq: Avoid
+use of bool in structures") indeed.
 
-> On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
-> > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > 
-> > VIP is the parallel video capture component within the video input
-> > subsystem of Tegra20 (and other Tegra chips, apparently).  
-> 
-> Subject: drop second, redundant "bindings".
-> 
-> > 
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > ---
-> >  .../display/tegra/nvidia,tegra20-vip.yaml     | 64 +++++++++++++++++++
-> >  MAINTAINERS                                   |  7 ++
-> >  2 files changed, 71 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> > new file mode 100644
-> > index 000000000000..934dabfd2307
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> > @@ -0,0 +1,64 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: NVIDIA Tegra VIP (parallel video capture) controller
-> > +
-> > +maintainers:
-> > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > +
-> > +properties:
-> > +  $nodename:
-> > +    const: vip  
-> 
-> No need to enforce names in device schemas, especially that this does
-> not look like a generic name.
-> 
-> > +
-> > +  compatible:
-> > +    enum:
-> > +      - nvidia,tegra20-vip
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +  channel@0:  
-> 
-> Missing description.
+I see Stefan was concerned about clarifying that this won't affect
+firmware or userspace, it may still be good to hear from Dave to
+confirm, but my understanding of 640e77466e69, means I believe this is
+safe. I don't expect this structure to be used as any kind of ABI to
+firmware or userspace.
 
-OK, I think this should do:
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-  description: parallel video capture interface for the VI
 
-> > +    type: object  
-> 
-> Do you expect it to grow to more channels?
-
-Not on Tegra20, it has one input only, but for other SoCs it's likely.
-Definitely some (including Tegra20 itself) have multiple CSI-2 inputs,
-and it's reasonable that this can apply to parallel input too.
-
-Is this enough motivation to make room for more channels, or should I
-remove it since I have no plans to introduce support for other Tegra
-chips?
-
-> > +
-> > +    properties:
-> > +      reg: true  
-> 
-> const: 0
-> 
-> > +
-> > +      ports:
-> > +        $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +        properties:
-> > +          port@0:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description:
-> > +              Port receiving the video stream from the sensor
-> > +
-> > +          port@1:
-> > +            $ref: /schemas/graph.yaml#/properties/port
-> > +            description:
-> > +              Port sending the video stream to the VI
-> > +
-> > +        required:
-> > +          - port@0
-> > +          - port@1
-> > +
-> > +    additionalProperties: false
-> > +
-> > +    required:
-> > +      - reg
-> > +      - ports
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - "#address-cells"
-> > +  - "#size-cells"
-> > +  - channel@0
-> > +
-> > +# see nvidia,tegra20-vi.yaml for an example  
-> 
-> That file does not have this compatible. At least not on next-20221109.
-
-It's added in patch 2. It's a chicken-egg problem, should I add a third
-patch that adds this line only?
-
-ACK for all other comments you wrote.
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> ---
+>  .../staging/vc04_services/vchiq-mmal/mmal-vchiq.c    | 12 ++++++------
+>  .../staging/vc04_services/vchiq-mmal/mmal-vchiq.h    |  4 ++--
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/driv=
+ers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> index cb921c94996a..4abb6178cb9f 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> @@ -863,9 +863,9 @@ static int port_info_get(struct vchiq_mmal_instance *=
+instance,
+>                 goto release_msg;
+> =20
+>         if (rmsg->u.port_info_get_reply.port.is_enabled =3D=3D 0)
+> -               port->enabled =3D 0;
+> +               port->enabled =3D false;
+>         else
+> -               port->enabled =3D 1;
+> +               port->enabled =3D true;
+> =20
+>         /* copy the values out of the message */
+>         port->handle =3D rmsg->u.port_info_get_reply.port_handle;
+> @@ -1304,7 +1304,7 @@ static int port_disable(struct vchiq_mmal_instance =
+*instance,
+>         if (!port->enabled)
+>                 return 0;
+> =20
+> -       port->enabled =3D 0;
+> +       port->enabled =3D false;
+> =20
+>         ret =3D port_action_port(instance, port,
+>                                MMAL_MSG_PORT_ACTION_TYPE_DISABLE);
+> @@ -1359,7 +1359,7 @@ static int port_enable(struct vchiq_mmal_instance *=
+instance,
+>         if (ret)
+>                 goto done;
+> =20
+> -       port->enabled =3D 1;
+> +       port->enabled =3D true;
+> =20
+>         if (port->buffer_cb) {
+>                 /* send buffer headers to videocore */
+> @@ -1531,7 +1531,7 @@ int vchiq_mmal_port_connect_tunnel(struct vchiq_mma=
+l_instance *instance,
+>                         pr_err("failed disconnecting src port\n");
+>                         goto release_unlock;
+>                 }
+> -               src->connected->enabled =3D 0;
+> +               src->connected->enabled =3D false;
+>                 src->connected =3D NULL;
+>         }
+> =20
+> @@ -1799,7 +1799,7 @@ int vchiq_mmal_component_disable(struct vchiq_mmal_=
+instance *instance,
+> =20
+>         ret =3D disable_component(instance, component);
+>         if (ret =3D=3D 0)
+> -               component->enabled =3D 0;
+> +               component->enabled =3D false;
+> =20
+>         mutex_unlock(&instance->vchiq_mutex);
+> =20
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/driv=
+ers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+> index 6006e29232b3..6d984cf5a83a 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+> @@ -48,7 +48,7 @@ typedef void (*vchiq_mmal_buffer_cb)(
+>                 int status, struct mmal_buffer *buffer);
+> =20
+>  struct vchiq_mmal_port {
+> -       u32 enabled:1;
+> +       bool enabled;
+>         u32 handle;
+>         u32 type; /* port type, cached to use on port info set */
+>         u32 index; /* port index, cached to use on port info set */
+> @@ -83,7 +83,7 @@ struct vchiq_mmal_port {
+> =20
+>  struct vchiq_mmal_component {
+>         u32 in_use:1;
+> -       u32 enabled:1;
+> +       bool enabled;
+>         u32 handle;  /* VideoCore handle for component */
+>         u32 inputs;  /* Number of input ports */
+>         u32 outputs; /* Number of output ports */
+> --=20
+> 2.38.1
+>
