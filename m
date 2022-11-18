@@ -1,42 +1,59 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2308417E8
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 03:59:06 +0000 (UTC)
-Received: from [192.168.1.102] (unknown [103.251.226.79])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE6584DD;
-	Fri, 18 Nov 2022 04:58:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1668743944;
-	bh=6oOaTMB/v9QU4ojRYCNukfq71v21+xVeeAcdhfMrSwI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OlOo2O/LBzDt9bq9tXJpsn/urtWBC/iW0HR4EQgaL8NrR08Pi2N5ZHCNVQIq9Jcmp
-	 zFLmetQEjL64iBPi77sMajNdzGJ+FCFFTn1532G4YbQRR/DbsxWPu+GpX2fQ8Q40aH
-	 nEgCrbZbXRGOKv+KNN7cKrRoD+mY0ZM2wcrldcFk=
-Message-ID: <79cc1057-bd62-02bb-a8e4-a440aa469109@ideasonboard.com>
-Date: Fri, 18 Nov 2022 09:28:54 +0530
-Precedence: bulk
-X-Mailing-List: linux-staging@lists.linux.dev
-List-Id: <linux-staging.lists.linux.dev>
-List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8F119B
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 08:35:58 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id a11-20020a05600c2d4b00b003cf6f5fd9f1so3523100wmg.2
+        for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 00:35:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sZBJWsvuPM4N2XNgGuD0Fakzbbh9G5ci/DsGRyhIEdY=;
+        b=bHGQfWHm3z3WfK33pmq9dlJOKNe03OeJp8opslres0KGRyyM4Da5kMG28KGUnBQdZC
+         l9FVIn02fotJTFGEW2mp0UPJY0Dv22nW97wBkpIpwq/YTlrcrE4pTMWxw5Mn9XEsl//H
+         tVot2J6vWtg2iBpIfPhruW8kaSBPK8jbKxDD0anU1IRwyhAoUpvO2s4jQIMRMjRVlutx
+         g7qfLtgVN/iTTZCLePMtmadGA9ELPDI52fAfZWoKncymcDepeYnqU+3oM5p66eqMCvXy
+         mxfQA4WVE9x0zlv8M619hy96MSUGohRBf9xHo5uUWp9nrXmObbgv8a2RpP97HybC/Awx
+         bXKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sZBJWsvuPM4N2XNgGuD0Fakzbbh9G5ci/DsGRyhIEdY=;
+        b=1GQHvXP2axnFf4tDFrTbmViQpQpUoOBz4oEpZbOY9fE43Usm+yWQ6QnB2UNN/CVAdK
+         QOSBQSvDyouv16VsMSkJQP+kDmf+/GU/CyaV8cEUQOOt1wxD/YM8CxIyRCJjPPfXM56J
+         XBkY4EVTeve6dm+eaKQJKp5hb2C/qvOIXenvIYHOc6GfHzMhSULpPb9tW81P0HhTLPc6
+         F1KYm2fVYGTd9S9C+Wln714iH/uji9Yp7lVBTI2rC/qUA/kTOFijY/UsU3odMPxgZQT6
+         oNosDHcacqiy8aIhgdX88Nfi3D7NJEIraInu8sf6hbSEBf1z5kiuU5gW/zsVcIbwMO8r
+         1c1Q==
+X-Gm-Message-State: ANoB5pmojqXFZzPjzhwm1yj99YWPF2MLH4MOtbWl0qDtfLVlFE2U7JOb
+	0NWMBgtxLj/hxFFjeesyA7M=
+X-Google-Smtp-Source: AA0mqf60YsmnRdTamyBcHrdL4qYmUzr0MzwnwfkljypGszjucXInCUwcNUvqDYFv+EfSlNtYYPr1rg==
+X-Received: by 2002:a05:600c:4f12:b0:3cf:e7bd:303a with SMTP id l18-20020a05600c4f1200b003cfe7bd303amr7953544wmq.151.1668760556423;
+        Fri, 18 Nov 2022 00:35:56 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v3-20020a1cf703000000b003cf774c31a0sm7538328wmh.16.2022.11.18.00.35.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 00:35:55 -0800 (PST)
+Date: Fri, 18 Nov 2022 11:35:52 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Umang Jain <umang.jain@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	Ray Jui <rjui@broadcom.com>, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev
 Subject: Re: [PATCH 1/3] Revert "staging: mmal-vchiq: Avoid use of bool in
  structures"
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Ray Jui <rjui@broadcom.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
+Message-ID: <Y3dD6Lg2L7CgkDFe@kadam>
 References: <20221117160015.344528-1-umang.jain@ideasonboard.com>
  <20221117160015.344528-2-umang.jain@ideasonboard.com>
  <166870135963.50677.14827688186331561108@Monstersaurus>
@@ -44,39 +61,30 @@ References: <20221117160015.344528-1-umang.jain@ideasonboard.com>
  <Y3Z3Is8u4wGZfKU5@kroah.com>
  <c5e03c65-2994-6518-c79d-f6ad1557c4e0@ideasonboard.com>
  <Y3bN8I7DlxRUZumH@lunn.ch>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
+Precedence: bulk
+X-Mailing-List: linux-staging@lists.linux.dev
+List-Id: <linux-staging.lists.linux.dev>
+List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <Y3bN8I7DlxRUZumH@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi,
+On Fri, Nov 18, 2022 at 01:12:32AM +0100, Andrew Lunn wrote:
+> 
+> Does :1 really initialise the variable?
 
-On 11/18/22 5:42 AM, Andrew Lunn wrote:
->>>>>>     struct vchiq_mmal_port {
->>>>>> -       u32 enabled:1;
->>>>>> +       bool enabled:1;
->>>>> Is this a direct revert with 'git revert' ?
->>>> No. It had conflicts plus I added the ':1' initialization to keep the logic
->>>> same (in case 'enabled' gets used directly). Similar pattern come up with:
->>>>       ($) git grep 'bool' -- '*.[h]' | grep '\:1'
->>>>
->>>> So it shouldn't be an issue.
->>> Please don't do that "bool foo:1" makes no sense.  Drop the ":1"
->>> please.
->> It won't affect this patch but if you take a look at 2/3 - you'll see a bool
->> flag 'in_use' that needs to be initialized (as it's getting used directly).
->>
->> I can move the initialization part in the function (_init() or something)
->> and drop the ":1" as you mentioned. That's  fine as well but I do find
->> patterns of 'bool foo:1' in the codebase so I assumed it would be safe to
->> use.
-> Does :1 really initialise the variable? In "u32 enabled:1" it means
+Obviously not.
+
+> In "u32 enabled:1" it means
 > this is a 1 bit wide bit field. It seems odd that bool is somehow
 > special and :1 means something else.
 
+If you have a bunch of consecutive bool a:1; bool b:1; then GCC will
+squeeze them into the same byte.  But if you have bool a; bool b; then
+they each take a byte with GCC.  I have specified GCC because the size
+of bool types are a bit vague in the C standard.
 
-Yup you are correct - seems I mis-read :1 as initialization
-
->
-> 	Andrew
+regards,
+dan carpenter
