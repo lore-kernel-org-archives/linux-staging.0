@@ -1,18 +1,18 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13302320D
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 10:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E395198
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 10:30:22 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86C67AF4;
-	Fri, 18 Nov 2022 11:21:07 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F66449C;
+	Fri, 18 Nov 2022 11:30:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1668766867;
-	bh=JKnBzxfXovb0tLwxFVvmmGsWChmiTr5mJEqcRlUT6eI=;
+	s=mail; t=1668767420;
+	bh=sH88uNandLFM8Idyh7Z25gR1H2U7S+DF9vjx8nxGh5Q=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=ScjWB42MLc45TmwtfQqFJVNud+HcPVvcdEAjezOrjWDpfyKGrnoRu5UumiY+tpgE6
-	 eGmElSQx6zhNDyYA3jUgr7NQYNXSutz87Ov7uX5EjuI76+bYpWSYoNAssndlX7/xPL
-	 Ryn7sb0sPBgFqDgYJmVSa4ZRTKOVGtR25LR5IIAY=
+	b=ufKjTUYB2EDNoPofR7vc1V5z2utB1DgO5xzx39ZdDleQ+akXgRAQarqyBdTAvNdwU
+	 fUoX/3YAOjc/0ykB8PCQIZuUNrW4es2nDzTeliiBO1GLDC8QSya/R+IVemoN1qWy2E
+	 uNrtmVeaXAxwNVKM3cRG8m7+sQhZ4tfi0XoOal+g=
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -21,126 +21,92 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221118084244.199909-2-umang.jain@ideasonboard.com>
-References: <20221118084244.199909-1-umang.jain@ideasonboard.com> <20221118084244.199909-2-umang.jain@ideasonboard.com>
-Subject: Re: [PATCH v2 1/3] Revert "staging: mmal-vchiq: Avoid use of bool in structures"
+In-Reply-To: <20221118084244.199909-3-umang.jain@ideasonboard.com>
+References: <20221118084244.199909-1-umang.jain@ideasonboard.com> <20221118084244.199909-3-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v2 2/3] vc04_services: mmal-vchiq: Use bool for vchiq_mmal_component.in_use
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc: Umang Jain <umang.jain@ideasonboard.com>
 To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dan Carpenter <error27@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Florian Fainelli <f.fainelli@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Ray Jui <rjui@broadcom.com>, Umang Jain <umang.jain@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Date: Fri, 18 Nov 2022 10:21:04 +0000
-Message-ID: <166876686476.50677.13666680068580068271@Monstersaurus>
+Date: Fri, 18 Nov 2022 10:30:17 +0000
+Message-ID: <166876741790.50677.17305359640652054680@Monstersaurus>
 User-Agent: alot/0.10
 
-Quoting Umang Jain (2022-11-18 08:42:42)
-> This reverts commit 640e77466e69d9c28de227bc76881f5501f532ca.
->=20
+Quoting Umang Jain (2022-11-18 08:42:43)
 > In commit 7967656ffbfa ("coding-style: Clarify the expectations around
 > bool") the check to dis-allow bool structure members was removed from
 > checkpatch.pl. It promotes bool structure members to store boolean
 > values. This enhances code readability.
->=20
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 
-Thanks,
+This only talks about 7967656ffbfa as I can interpret it.  A sentence
+here describing what we're going to do about it in /this/ patch would be
+clearer as a second paragraph:
 
-That's a more direct revert of 640e77466e69 ("staging: mmal-vchiq: Avoid
-use of bool in structures") indeed.
+"""
+Convert the remaining bit-field storage for 'in-use' to a bool and use
+it accordingly.
+"""
 
-I see Stefan was concerned about clarifying that this won't affect
-firmware or userspace, it may still be good to hear from Dave to
-confirm, but my understanding of 640e77466e69, means I believe this is
-safe. I don't expect this structure to be used as any kind of ABI to
-firmware or userspace.
+But that's trivial and not worth a v3 specifically. (unless anyone
+applying this wants to add it).
 
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-
+>=20
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->  .../staging/vc04_services/vchiq-mmal/mmal-vchiq.c    | 12 ++++++------
->  .../staging/vc04_services/vchiq-mmal/mmal-vchiq.h    |  4 ++--
->  2 files changed, 8 insertions(+), 8 deletions(-)
+>  drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 6 +++---
+>  drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h | 2 +-
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 >=20
 > diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/driv=
 ers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> index cb921c94996a..4abb6178cb9f 100644
+> index 4abb6178cb9f..294b184d4a49 100644
 > --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
 > +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> @@ -863,9 +863,9 @@ static int port_info_get(struct vchiq_mmal_instance *=
-instance,
->                 goto release_msg;
-> =20
->         if (rmsg->u.port_info_get_reply.port.is_enabled =3D=3D 0)
-> -               port->enabled =3D 0;
-> +               port->enabled =3D false;
->         else
-> -               port->enabled =3D 1;
-> +               port->enabled =3D true;
-> =20
->         /* copy the values out of the message */
->         port->handle =3D rmsg->u.port_info_get_reply.port_handle;
-> @@ -1304,7 +1304,7 @@ static int port_disable(struct vchiq_mmal_instance =
-*instance,
->         if (!port->enabled)
->                 return 0;
-> =20
-> -       port->enabled =3D 0;
-> +       port->enabled =3D false;
-> =20
->         ret =3D port_action_port(instance, port,
->                                MMAL_MSG_PORT_ACTION_TYPE_DISABLE);
-> @@ -1359,7 +1359,7 @@ static int port_enable(struct vchiq_mmal_instance *=
-instance,
->         if (ret)
->                 goto done;
-> =20
-> -       port->enabled =3D 1;
-> +       port->enabled =3D true;
-> =20
->         if (port->buffer_cb) {
->                 /* send buffer headers to videocore */
-> @@ -1531,7 +1531,7 @@ int vchiq_mmal_port_connect_tunnel(struct vchiq_mma=
-l_instance *instance,
->                         pr_err("failed disconnecting src port\n");
->                         goto release_unlock;
+> @@ -1648,7 +1648,7 @@ int vchiq_mmal_component_init(struct vchiq_mmal_ins=
+tance *instance,
+>         for (idx =3D 0; idx < VCHIQ_MMAL_MAX_COMPONENTS; idx++) {
+>                 if (!instance->component[idx].in_use) {
+>                         component =3D &instance->component[idx];
+> -                       component->in_use =3D 1;
+> +                       component->in_use =3D true;
+>                         break;
 >                 }
-> -               src->connected->enabled =3D 0;
-> +               src->connected->enabled =3D false;
->                 src->connected =3D NULL;
 >         }
+> @@ -1724,7 +1724,7 @@ int vchiq_mmal_component_init(struct vchiq_mmal_ins=
+tance *instance,
+>         destroy_component(instance, component);
+>  unlock:
+>         if (component)
+> -               component->in_use =3D 0;
+> +               component->in_use =3D false;
+>         mutex_unlock(&instance->vchiq_mutex);
 > =20
-> @@ -1799,7 +1799,7 @@ int vchiq_mmal_component_disable(struct vchiq_mmal_=
-instance *instance,
+>         return ret;
+> @@ -1747,7 +1747,7 @@ int vchiq_mmal_component_finalise(struct vchiq_mmal=
+_instance *instance,
 > =20
->         ret =3D disable_component(instance, component);
->         if (ret =3D=3D 0)
-> -               component->enabled =3D 0;
-> +               component->enabled =3D false;
+>         ret =3D destroy_component(instance, component);
+> =20
+> -       component->in_use =3D 0;
+> +       component->in_use =3D false;
 > =20
 >         mutex_unlock(&instance->vchiq_mutex);
 > =20
 > diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/driv=
 ers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> index 6006e29232b3..6d984cf5a83a 100644
+> index 6d984cf5a83a..09f030919d4e 100644
 > --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
 > +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> @@ -48,7 +48,7 @@ typedef void (*vchiq_mmal_buffer_cb)(
->                 int status, struct mmal_buffer *buffer);
-> =20
->  struct vchiq_mmal_port {
-> -       u32 enabled:1;
-> +       bool enabled;
->         u32 handle;
->         u32 type; /* port type, cached to use on port info set */
->         u32 index; /* port index, cached to use on port info set */
-> @@ -83,7 +83,7 @@ struct vchiq_mmal_port {
+> @@ -82,7 +82,7 @@ struct vchiq_mmal_port {
+>  };
 > =20
 >  struct vchiq_mmal_component {
->         u32 in_use:1;
-> -       u32 enabled:1;
-> +       bool enabled;
+> -       u32 in_use:1;
+> +       bool in_use;
+>         bool enabled;
 >         u32 handle;  /* VideoCore handle for component */
 >         u32 inputs;  /* Number of input ports */
->         u32 outputs; /* Number of output ports */
 > --=20
 > 2.38.1
 >
