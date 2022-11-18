@@ -1,39 +1,39 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F48E8F65
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 17:22:29 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id f18so14682374ejz.5
-        for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 09:22:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F138F65
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 17:23:48 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id f18so14691196ejz.5
+        for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 09:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tGlHMVAixSLQ2/vSJKtVJw1fS47SH8DBN8tgE+O+1Dw=;
-        b=OjlT+FkV3ubQznoPIsACkVupwz5M/BwNXgn9nTXGpJQCMt858j95Bbt5uaocOT6zFt
-         18FjSBC/7LGXjKqU37PeyaBP9NipzTpWgsr41BiQfe9ZyGXXRyBSHqgyYsSt1UU+7aWg
-         HqR+3cay+O13G9V+9VbC+9DNlTn3vMb90kT+QHVobVy2PLUjD17zi5uyZdNGFMP48Y9B
-         qMTqGh9BPsEmeWB3pG+MoVMwFq4wK7M6gTbpU7CKznn87Lnta2WnpAL4A0/8UdnZ+u2T
-         ooxthkH0fMlCsUozhubGVi1WCF9tF6z6+T+sAZ572CXMThA0V70d2P7JerZNUPCHFf0T
-         r0NQ==
+        bh=rxvyRD/NaQsAjl7K9p9F/GYKO4FmZoDr+beCQYxmtZI=;
+        b=JwN8fFEeS4qgw8afhvGopypDngHomKWs5ndp82K5dFOXpXoqZkjoqr1dYNvtHXBJZM
+         ZKXpkjwwHIMmfppCizC4+GJcF552v5gqeUOtQC4B2WVl9PpCq/+T1ZgIn2Indvgc3QDu
+         dlxR4gBHoXs6WXzni+YfT8g2OOe1/CWr38S1R8nAh+btShvaU6btMyH+gvwr1oSHL32Z
+         necOa83otX/U/X3gCSdVLi2KvmVDYFoCRsf+YJSUtbSW+XlTFO8HTrG+0atUEMaNG7N5
+         SwuTGhR0Rim03AaZDagnyb1LC0eJxhigr2tjlV+Ma5lq1DYSclrwMiUMRu+8ltHmq4pU
+         BQRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tGlHMVAixSLQ2/vSJKtVJw1fS47SH8DBN8tgE+O+1Dw=;
-        b=aBatbRSHq6uOArNYWrV7olPlzBs3YryE66nn2hk9SkxY6748HEjB+pUkcE8UtVAM0Q
-         exg8N++gETt6ozh4c6DCd9zPWfSCf4NoLxpWVKSSaJOAavQeNtece9clqw/m+yGJ95DJ
-         vVepBw2UCFtmploPw19Vqkmr0s7SblN6mgGDGQ+xPlMRQD9fxRvo6dcytpU8IDlUSluF
-         PtYT5ZWkqICowmfaBc5wkGIKrCzHV1JIPsAMICutB5AhwtASFj8eqjftuNSwqbhhBWOL
-         ulN++8ibJ9QujN1ae/GAglrTrmRlmtr9IczHIw6QarjnRbLRlhSfzCEt/z8F1am9UBMv
-         Ya0Q==
-X-Gm-Message-State: ANoB5pllipAYD1cIIenzSW7qQlybDhPd0RgcHM9KO25I5b6SZ8rpQSjs
-	VYhtRSUBfATCLzbT+wswiY2+7Lcwd+ZHl4ykMV/U8Q==
-X-Google-Smtp-Source: AA0mqf5RTDYL95yJLINf+DHoUvPAbKBKfzSUkMLfE676P01sHCik4FCCjPl1FZtbx4cSowoLTeqPlB3L+yyX8On2pds=
-X-Received: by 2002:a17:906:9246:b0:7af:da0:aebe with SMTP id
- c6-20020a170906924600b007af0da0aebemr6761187ejx.723.1668792147755; Fri, 18
- Nov 2022 09:22:27 -0800 (PST)
+        bh=rxvyRD/NaQsAjl7K9p9F/GYKO4FmZoDr+beCQYxmtZI=;
+        b=f4Ws3Vwb3US5B6RS9I2ho1A04agJh9rATzn27bs8DXfMbCTou8VUHY5jFzGaKxVnzK
+         Q8Jenhyru42FBsWJ/V5nlqiG2yAz08ZJbs1uwHLTaONU7q50EG4LQTenjaqrI15a0LCc
+         Yi4ppyPsd0hawHU5WVsjvINYEEfF2SKnrTogVHzgAbqVLMcq4z8SS4zM3wjF+xZKCVnY
+         3AtH/poN2h33ffuWG4YKtHTsuylavZ/3LiAPeEmEfZvaWUzOy0omfVVVgLxKSHIEellE
+         4TqXfhk+4rpXvbJZp5FKgV5ymDBmYgh2ogsMEzKUEf8VNiTvQI1GMsUixOJnXidM4kMY
+         d9ag==
+X-Gm-Message-State: ANoB5pkfXS6FpZMsCxLeJ3d2oMCihOUp6xScVSIfrrimmO2i1N5hL5gc
+	Au0IDz6CV2Cj/WOxYtumHnuDI+MMdboH3KWc4VLJ+w==
+X-Google-Smtp-Source: AA0mqf5E3U3QDe/kxJnwRhAE2vuP8wTjd8B7GNWb3t/Y7tj+K6BqfHf/4CMtd+8p3qkNHsDfZwf03vVvq29hHp4Ai2U=
+X-Received: by 2002:a17:906:1dc3:b0:7ad:bbcc:814 with SMTP id
+ v3-20020a1709061dc300b007adbbcc0814mr6848924ejh.425.1668792227111; Fri, 18
+ Nov 2022 09:23:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,12 +41,12 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20221118084244.199909-1-umang.jain@ideasonboard.com>
- <20221118084244.199909-3-umang.jain@ideasonboard.com> <166876741790.50677.17305359640652054680@Monstersaurus>
-In-Reply-To: <166876741790.50677.17305359640652054680@Monstersaurus>
+ <20221118084244.199909-4-umang.jain@ideasonboard.com> <166876862357.50677.2208743534141685703@Monstersaurus>
+In-Reply-To: <166876862357.50677.2208743534141685703@Monstersaurus>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 18 Nov 2022 17:22:12 +0000
-Message-ID: <CAPY8ntDMM-0S_gz5A+4rWQ7M2gmUMeOYRW__cr8v=afo5fM_sA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] vc04_services: mmal-vchiq: Use bool for vchiq_mmal_component.in_use
+Date: Fri, 18 Nov 2022 17:23:32 +0000
+Message-ID: <CAPY8ntCk5ztM2FJtYS0X50rq4E658_4LtqUqEC2154s9dRb8ng@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] vc04_services: bcm2835-camera: Use bool values for mmal_fmt.remove_padding
 To: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
 	Dan Carpenter <error27@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, 
@@ -57,86 +57,167 @@ Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
 	linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Umang & Kieran
-
-On Fri, 18 Nov 2022 at 10:30, Kieran Bingham
+On Fri, 18 Nov 2022 at 10:50, Kieran Bingham
 <kieran.bingham@ideasonboard.com> wrote:
 >
-> Quoting Umang Jain (2022-11-18 08:42:43)
-> > In commit 7967656ffbfa ("coding-style: Clarify the expectations around
-> > bool") the check to dis-allow bool structure members was removed from
-> > checkpatch.pl. It promotes bool structure members to store boolean
-> > values. This enhances code readability.
+> Quoting Umang Jain (2022-11-18 08:42:44)
+> > mmal_fmt.remove_padding is defined as a boolean type hence, use boolean
+> > values for it instead of 0/1 integers. This enhances code readability.
 >
-> This only talks about 7967656ffbfa as I can interpret it.  A sentence
-> here describing what we're going to do about it in /this/ patch would be
-> clearer as a second paragraph:
+> This could be (optionally) expanded:
 >
 > """
-> Convert the remaining bit-field storage for 'in-use' to a bool and use
-> it accordingly.
-> """
+> The field 'remove_padding' in 'struct mmal_fmt' is defined as a boolean
+> type.
 >
-> But that's trivial and not worth a v3 specifically. (unless anyone
-> applying this wants to add it).
+> The initialisation of the formats[] array stores integer 0/1 values into
+> this field rather than a more readable bool type.
+>
+> Convert the usages to boolean true/false, and fix up the local storage
+> type in mmal_setup_components() to enhance code readability.
+> """
 
-Totally agree.
+Again I'll agree.
 
 > Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-> >
+>
 > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > > ---
-> >  drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 6 +++---
-> >  drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h | 2 +-
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
+> >  .../bcm2835-camera/bcm2835-camera.c           | 30 +++++++++----------
+> >  1 file changed, 15 insertions(+), 15 deletions(-)
 > >
-> > diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> > index 4abb6178cb9f..294b184d4a49 100644
-> > --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> > +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> > @@ -1648,7 +1648,7 @@ int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
-> >         for (idx = 0; idx < VCHIQ_MMAL_MAX_COMPONENTS; idx++) {
-> >                 if (!instance->component[idx].in_use) {
-> >                         component = &instance->component[idx];
-> > -                       component->in_use = 1;
-> > +                       component->in_use = true;
-> >                         break;
-> >                 }
-> >         }
-> > @@ -1724,7 +1724,7 @@ int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
-> >         destroy_component(instance, component);
-> >  unlock:
-> >         if (component)
-> > -               component->in_use = 0;
-> > +               component->in_use = false;
-> >         mutex_unlock(&instance->vchiq_mutex);
-> >
-> >         return ret;
-> > @@ -1747,7 +1747,7 @@ int vchiq_mmal_component_finalise(struct vchiq_mmal_instance *instance,
-> >
-> >         ret = destroy_component(instance, component);
-> >
-> > -       component->in_use = 0;
-> > +       component->in_use = false;
-> >
-> >         mutex_unlock(&instance->vchiq_mutex);
-> >
-> > diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> > index 6d984cf5a83a..09f030919d4e 100644
-> > --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> > +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> > @@ -82,7 +82,7 @@ struct vchiq_mmal_port {
+> > diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> > index fd456d1f7061..797ebe2a973a 100644
+> > --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> > +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> > @@ -87,21 +87,21 @@ static struct mmal_fmt formats[] = {
+> >                 .depth = 12,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 1,
+> > -               .remove_padding = 1,
+> > +               .remove_padding = true,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_YUYV,
+> >                 .mmal = MMAL_ENCODING_YUYV,
+> >                 .depth = 16,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 2,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_RGB24,
+> >                 .mmal = MMAL_ENCODING_RGB24,
+> >                 .depth = 24,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 3,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_JPEG,
+> >                 .flags = V4L2_FMT_FLAG_COMPRESSED,
+> > @@ -109,7 +109,7 @@ static struct mmal_fmt formats[] = {
+> >                 .depth = 8,
+> >                 .mmal_component = COMP_IMAGE_ENCODE,
+> >                 .ybbp = 0,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_H264,
+> >                 .flags = V4L2_FMT_FLAG_COMPRESSED,
+> > @@ -117,7 +117,7 @@ static struct mmal_fmt formats[] = {
+> >                 .depth = 8,
+> >                 .mmal_component = COMP_VIDEO_ENCODE,
+> >                 .ybbp = 0,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_MJPEG,
+> >                 .flags = V4L2_FMT_FLAG_COMPRESSED,
+> > @@ -125,63 +125,63 @@ static struct mmal_fmt formats[] = {
+> >                 .depth = 8,
+> >                 .mmal_component = COMP_VIDEO_ENCODE,
+> >                 .ybbp = 0,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_YVYU,
+> >                 .mmal = MMAL_ENCODING_YVYU,
+> >                 .depth = 16,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 2,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_VYUY,
+> >                 .mmal = MMAL_ENCODING_VYUY,
+> >                 .depth = 16,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 2,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_UYVY,
+> >                 .mmal = MMAL_ENCODING_UYVY,
+> >                 .depth = 16,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 2,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_NV12,
+> >                 .mmal = MMAL_ENCODING_NV12,
+> >                 .depth = 12,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 1,
+> > -               .remove_padding = 1,
+> > +               .remove_padding = true,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_BGR24,
+> >                 .mmal = MMAL_ENCODING_BGR24,
+> >                 .depth = 24,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 3,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_YVU420,
+> >                 .mmal = MMAL_ENCODING_YV12,
+> >                 .depth = 12,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 1,
+> > -               .remove_padding = 1,
+> > +               .remove_padding = true,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_NV21,
+> >                 .mmal = MMAL_ENCODING_NV21,
+> >                 .depth = 12,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 1,
+> > -               .remove_padding = 1,
+> > +               .remove_padding = true,
+> >         }, {
+> >                 .fourcc = V4L2_PIX_FMT_BGR32,
+> >                 .mmal = MMAL_ENCODING_BGRA,
+> >                 .depth = 32,
+> >                 .mmal_component = COMP_CAMERA,
+> >                 .ybbp = 4,
+> > -               .remove_padding = 0,
+> > +               .remove_padding = false,
+> >         },
 > >  };
 > >
-> >  struct vchiq_mmal_component {
-> > -       u32 in_use:1;
-> > +       bool in_use;
-> >         bool enabled;
-> >         u32 handle;  /* VideoCore handle for component */
-> >         u32 inputs;  /* Number of input ports */
+> > @@ -1147,7 +1147,7 @@ static int mmal_setup_components(struct bcm2835_mmal_dev *dev,
+> >         struct vchiq_mmal_port *port = NULL, *camera_port = NULL;
+> >         struct vchiq_mmal_component *encode_component = NULL;
+> >         struct mmal_fmt *mfmt = get_format(f);
+> > -       u32 remove_padding;
+> > +       bool remove_padding;
+> >
+> >         if (!mfmt)
+> >                 return -EINVAL;
 > > --
 > > 2.38.1
 > >
