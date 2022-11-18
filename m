@@ -1,20 +1,20 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EB5EBE0
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 22:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD1FEBE2
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 22:48:24 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1owA9f-0005Ck-P7; Fri, 18 Nov 2022 23:48:15 +0100
+	id 1owA9g-0005Dq-1Q; Fri, 18 Nov 2022 23:48:16 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1owA9c-0058r6-QT; Fri, 18 Nov 2022 23:48:13 +0100
+	id 1owA9d-0058rK-3q; Fri, 18 Nov 2022 23:48:14 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1owA9d-0000Te-1g; Fri, 18 Nov 2022 23:48:13 +0100
+	id 1owA9d-0000Ti-6m; Fri, 18 Nov 2022 23:48:13 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
 To: Angel Iglesias <ang.iglesiasg@gmail.com>,
 	Lee Jones <lee.jones@linaro.org>,
@@ -30,9 +30,9 @@ Cc: linux-i2c@vger.kernel.org,
 	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 566/606] staging: iio: adt7316: Convert to i2c's .probe_new()
-Date: Fri, 18 Nov 2022 23:45:00 +0100
-Message-Id: <20221118224540.619276-567-uwe@kleine-koenig.org>
+Subject: [PATCH 567/606] staging: iio: ad5933: Convert to i2c's .probe_new()
+Date: Fri, 18 Nov 2022 23:45:01 +0100
+Message-Id: <20221118224540.619276-568-uwe@kleine-koenig.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
@@ -56,34 +56,34 @@ that explicitly in the probe function.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/iio/addac/adt7316-i2c.c | 6 +++---
+ drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/iio/addac/adt7316-i2c.c b/drivers/staging/iio/addac/adt7316-i2c.c
-index 5543cc909707..7e3d1a6f30ba 100644
---- a/drivers/staging/iio/addac/adt7316-i2c.c
-+++ b/drivers/staging/iio/addac/adt7316-i2c.c
-@@ -93,9 +93,9 @@ static int adt7316_i2c_multi_write(void *client, u8 reg, u8 count, u8 *data)
-  * device probe and remove
-  */
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index f177b20f0f2d..b3152f7153fb 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -674,9 +674,9 @@ static void ad5933_clk_disable(void *data)
+ 	clk_disable_unprepare(st->mclk);
+ }
  
--static int adt7316_i2c_probe(struct i2c_client *client,
--			     const struct i2c_device_id *id)
-+static int adt7316_i2c_probe(struct i2c_client *client)
+-static int ad5933_probe(struct i2c_client *client,
+-			const struct i2c_device_id *id)
++static int ad5933_probe(struct i2c_client *client)
  {
 +	const struct i2c_device_id *id = i2c_client_get_device_id(client);
- 	struct adt7316_bus bus = {
- 		.client = client,
- 		.irq = client->irq,
-@@ -138,7 +138,7 @@ static struct i2c_driver adt7316_driver = {
- 		.of_match_table = adt7316_of_match,
- 		.pm = ADT7316_PM_OPS,
+ 	int ret;
+ 	struct ad5933_state *st;
+ 	struct iio_dev *indio_dev;
+@@ -781,7 +781,7 @@ static struct i2c_driver ad5933_driver = {
+ 		.name = "ad5933",
+ 		.of_match_table = ad5933_of_match,
  	},
--	.probe = adt7316_i2c_probe,
-+	.probe_new = adt7316_i2c_probe,
- 	.id_table = adt7316_i2c_id,
+-	.probe = ad5933_probe,
++	.probe_new = ad5933_probe,
+ 	.id_table = ad5933_id,
  };
- module_i2c_driver(adt7316_driver);
+ module_i2c_driver(ad5933_driver);
 -- 
 2.38.1
 
