@@ -1,117 +1,77 @@
-Received: from mailout-pe-b.jellyfish.systems (mailout-pe-b.jellyfish.systems [198.54.127.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7CA8C03
-	for <linux-staging@lists.linux.dev>; Thu, 17 Nov 2022 20:05:01 +0000 (UTC)
-Received: from output-router-58994b6955-tvtjg (unknown [10.35.5.64])
-	by mailout-pe-b.jellyfish.systems (Postfix) with ESMTPA id 4NCrGz3JPlzFqTJ;
-	Thu, 17 Nov 2022 19:54:51 +0000 (UTC)
-Received: from MTA-05.privateemail.com (unknown [10.50.14.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by NEW-01.privateemail.com (Postfix) with ESMTPS id 5BDF318000CF;
-	Thu, 17 Nov 2022 14:54:51 -0500 (EST)
-Received: from mta-05.privateemail.com (localhost [127.0.0.1])
-	by mta-05.privateemail.com (Postfix) with ESMTP id 3ABDD18000A5;
-	Thu, 17 Nov 2022 14:54:51 -0500 (EST)
-Received: from bpappas-XPS-13-9310.wppl.org (unknown [131.226.25.151])
-	by mta-05.privateemail.com (Postfix) with ESMTPA id 6967518000A6;
-	Thu, 17 Nov 2022 14:54:46 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-	s=default; t=1668714891;
-	bh=+5+iPAU4icdKGKy6PTarUF+CqZfqw/ulQHjgcef+9hY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pUjdSDkMQxAWPFzl2bOR53hb+MzCOsHtZDhMtXYq7wKutSvOBE86kBXSv1f+3Ecg6
-	 2V6+vSHXLJQ8ANJYP1nTaWWkQnzHLRuKNwQe5Y+bn7pcYoUSOJbYrT0UGovDUSXp+1
-	 VzyLydq4CXNm0BTUv2wHknkfd9qSxR9lH622V+gsJiuVrIIEmj4NT47Q3PzjUcVtkW
-	 OyInaSPYDVCFZ5RY6OZpxYDaYMTEWL1IQEcXaw5BxsH+/lGeCi9FHueuz+A9syNJBI
-	 Ej4FvJj+snuctYdaUVGvuPJpOvLnSZKkpd6hs2Gb9+0z92Ef4Hg7H0HddqcrTwfHEl
-	 A2q6ZplujiXrw==
-From: Brent Pappas <bpappas@pappasbrent.com>
-To: gregkh@linuxfoundation.org
-Cc: bpappas@pappasbrent.com,
-	johan@kernel.org,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0FA17E
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 00:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=PuApb2pByjk98IZchlL2evjxCv1+LxfcRXQWp9SAu+4=; b=N3
+	T1+fOh2/fK1epLVAaYd7TGL8sFiN+NFvM7chaaz0tgCgVt47SzidXZxOPdBwpY7DenTAqvlI7+YOf
+	GYaQDIYc2itiZLw9hEx1HYYuQd1V7kAr3n2uhbBjjQ5F4CEq6ARchcHubG35UTE8CuLheamsd8Xnl
+	/UUeWE2S0sIYMaM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1ovozg-002kCI-PH; Fri, 18 Nov 2022 01:12:32 +0100
+Date: Fri, 18 Nov 2022 01:12:32 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	Ray Jui <rjui@broadcom.com>, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 1/1 v2] staging: gdm724x: Replace macro GDM_TTY_READY with static inline function
-Date: Thu, 17 Nov 2022 14:54:43 -0500
-Message-Id: <20221117195443.19616-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <Y3aCV4rSrfrptA0q@kroah.com>
-References: <Y3aCV4rSrfrptA0q@kroah.com>
+Subject: Re: [PATCH 1/3] Revert "staging: mmal-vchiq: Avoid use of bool in
+ structures"
+Message-ID: <Y3bN8I7DlxRUZumH@lunn.ch>
+References: <20221117160015.344528-1-umang.jain@ideasonboard.com>
+ <20221117160015.344528-2-umang.jain@ideasonboard.com>
+ <166870135963.50677.14827688186331561108@Monstersaurus>
+ <c718624a-bb6f-5474-5cc3-4319b1fdb282@ideasonboard.com>
+ <Y3Z3Is8u4wGZfKU5@kroah.com>
+ <c5e03c65-2994-6518-c79d-f6ad1557c4e0@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+In-Reply-To: <c5e03c65-2994-6518-c79d-f6ad1557c4e0@ideasonboard.com>
 
-Replace the macro GDM_TTY_READY with a static inline function
-to follow the Linux kernel coding style.
+> > > > >    struct vchiq_mmal_port {
+> > > > > -       u32 enabled:1;
+> > > > > +       bool enabled:1;
+> > > > Is this a direct revert with 'git revert' ?
+> > > 
+> > > No. It had conflicts plus I added the ':1' initialization to keep the logic
+> > > same (in case 'enabled' gets used directly). Similar pattern come up with:
+> > >      ($) git grep 'bool' -- '*.[h]' | grep '\:1'
+> > > 
+> > > So it shouldn't be an issue.
+> > Please don't do that "bool foo:1" makes no sense.  Drop the ":1"
+> > please.
+> 
+> It won't affect this patch but if you take a look at 2/3 - you'll see a bool
+> flag 'in_use' that needs to be initialized (as it's getting used directly).
+> 
+> I can move the initialization part in the function (_init() or something)
+> and drop the ":1" as you mentioned. That's  fine as well but I do find
+> patterns of 'bool foo:1' in the codebase so I assumed it would be safe to
+> use.
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
----
-Changelog:
-V1 -> V2: Change gdm_tty_ready return type from int to bool.
+Does :1 really initialise the variable? In "u32 enabled:1" it means
+this is a 1 bit wide bit field. It seems odd that bool is somehow
+special and :1 means something else.
 
- drivers/staging/gdm724x/gdm_tty.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
-index cc6d80554c98..e1a84d6020f4 100644
---- a/drivers/staging/gdm724x/gdm_tty.c
-+++ b/drivers/staging/gdm724x/gdm_tty.c
-@@ -21,7 +21,10 @@
- 
- #define MUX_TX_MAX_SIZE 2048
- 
--#define GDM_TTY_READY(gdm) (gdm && gdm->tty_dev && gdm->port.count)
-+static inline bool gdm_tty_ready(struct gdm *gdm)
-+{
-+	return gdm && gdm->tty_dev && gdm->port.count;
-+}
- 
- static struct tty_driver *gdm_driver[TTY_MAX_COUNT];
- static struct gdm *gdm_table[TTY_MAX_COUNT][GDM_TTY_MINOR];
-@@ -113,7 +116,7 @@ static int gdm_tty_recv_complete(void *data,
- {
- 	struct gdm *gdm = tty_dev->gdm[index];
- 
--	if (!GDM_TTY_READY(gdm)) {
-+	if (!gdm_tty_ready(gdm)) {
- 		if (complete == RECV_PACKET_PROCESS_COMPLETE)
- 			gdm->tty_dev->recv_func(gdm->tty_dev->priv_dev,
- 						gdm_tty_recv_complete);
-@@ -140,7 +143,7 @@ static void gdm_tty_send_complete(void *arg)
- {
- 	struct gdm *gdm = arg;
- 
--	if (!GDM_TTY_READY(gdm))
-+	if (!gdm_tty_ready(gdm))
- 		return;
- 
- 	tty_port_tty_wakeup(&gdm->port);
-@@ -154,7 +157,7 @@ static int gdm_tty_write(struct tty_struct *tty, const unsigned char *buf,
- 	int sent_len = 0;
- 	int sending_len = 0;
- 
--	if (!GDM_TTY_READY(gdm))
-+	if (!gdm_tty_ready(gdm))
- 		return -ENODEV;
- 
- 	if (!len)
-@@ -181,7 +184,7 @@ static unsigned int gdm_tty_write_room(struct tty_struct *tty)
- {
- 	struct gdm *gdm = tty->driver_data;
- 
--	if (!GDM_TTY_READY(gdm))
-+	if (!gdm_tty_ready(gdm))
- 		return 0;
- 
- 	return WRITE_SIZE;
--- 
-2.34.1
-
+	Andrew
