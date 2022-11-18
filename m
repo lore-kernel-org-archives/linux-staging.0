@@ -1,39 +1,39 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C678F65
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 17:21:02 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id t25so14617495ejb.8
-        for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 09:21:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F48E8F65
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 17:22:29 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id f18so14682374ejz.5
+        for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 09:22:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JzroJqAv3M6sf8fzH1HhvWkLLcpsOU2xXGPSmtWKfqU=;
-        b=Zqzd+ZrMp02NE2FL9eOGW+OVCzFu2SuqncS9QeRfLERKvTjjlYyVEIzlUCHj8wpgZQ
-         05EHgWRJr1qQSqOQ9eb2vyu6KYSMyrNeM8OTxpwfo8o03tKRdx5N2PM6Gi7tZvfZU5vD
-         3cJA+vT8viVgreZgiUXUztG870WZ3zgzkX8SBxfqH/ahDdi9fU97PaFzBfw0hjNHyEsA
-         rT0YJuCtIU4knPRLfshSOM1BUmJmAbDV98zwv3zWWWGQAa6yz/3j+TNq0W8cILywnOMJ
-         xizwHZNsTd8k88TSuSGb1iRK2TLsq4EBcNd5YLpELFn7kchD26kuOJ7au/t+a1yzGJno
-         OosQ==
+        bh=tGlHMVAixSLQ2/vSJKtVJw1fS47SH8DBN8tgE+O+1Dw=;
+        b=OjlT+FkV3ubQznoPIsACkVupwz5M/BwNXgn9nTXGpJQCMt858j95Bbt5uaocOT6zFt
+         18FjSBC/7LGXjKqU37PeyaBP9NipzTpWgsr41BiQfe9ZyGXXRyBSHqgyYsSt1UU+7aWg
+         HqR+3cay+O13G9V+9VbC+9DNlTn3vMb90kT+QHVobVy2PLUjD17zi5uyZdNGFMP48Y9B
+         qMTqGh9BPsEmeWB3pG+MoVMwFq4wK7M6gTbpU7CKznn87Lnta2WnpAL4A0/8UdnZ+u2T
+         ooxthkH0fMlCsUozhubGVi1WCF9tF6z6+T+sAZ572CXMThA0V70d2P7JerZNUPCHFf0T
+         r0NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JzroJqAv3M6sf8fzH1HhvWkLLcpsOU2xXGPSmtWKfqU=;
-        b=IPo3TDqfAKP2UcMU4Bbp6a3ZS/AAdqtozsMEEWcrjQu6lHHj1kKN8XxDGbnzXCk99w
-         O6OI7MY7dnSWBVSEQU438SP2f7nrN4ppndOhF1GNWdlm/ve1gQN1tGyOX+lNjlLzxeqY
-         1Rtv28wemk1v5p4/Wfkr1OaMdCCuGrf4kQuBDBxI/WB24zpMUuvv7uZnhelaEgta4y+q
-         YEaLgGvUMQrfZ84NUW+IKoMoliX2Om3Gb6X7bDAba+00cRFPVkcUauvUGSDE2RCJRB16
-         Fpt8Iwc56575Tw9kBL+roh8W5Vy6hlNbZcwhWvrn7jr3U8wFmOWhodTOOSBeAhQAQhIN
-         qnHQ==
-X-Gm-Message-State: ANoB5pkaeS+H20lKpl+t1h29tcrEg0CioQA536YPtkdjh8dTX2lcLbvh
-	B0J2MkAZWkTf+YtKpLgAiY8AIXX1r6jjZOyv5hUlIw==
-X-Google-Smtp-Source: AA0mqf4WFCPNljwJkRycjcBwNdwQzGAkw/qXvy3oH+d5RnEdM++hSTjzA2532WCZ4OwMfdU7NRf7P5g0nxMEkkhmna4=
-X-Received: by 2002:a17:906:2650:b0:7b2:c004:55fe with SMTP id
- i16-20020a170906265000b007b2c00455femr2471380ejc.742.1668792060796; Fri, 18
- Nov 2022 09:21:00 -0800 (PST)
+        bh=tGlHMVAixSLQ2/vSJKtVJw1fS47SH8DBN8tgE+O+1Dw=;
+        b=aBatbRSHq6uOArNYWrV7olPlzBs3YryE66nn2hk9SkxY6748HEjB+pUkcE8UtVAM0Q
+         exg8N++gETt6ozh4c6DCd9zPWfSCf4NoLxpWVKSSaJOAavQeNtece9clqw/m+yGJ95DJ
+         vVepBw2UCFtmploPw19Vqkmr0s7SblN6mgGDGQ+xPlMRQD9fxRvo6dcytpU8IDlUSluF
+         PtYT5ZWkqICowmfaBc5wkGIKrCzHV1JIPsAMICutB5AhwtASFj8eqjftuNSwqbhhBWOL
+         ulN++8ibJ9QujN1ae/GAglrTrmRlmtr9IczHIw6QarjnRbLRlhSfzCEt/z8F1am9UBMv
+         Ya0Q==
+X-Gm-Message-State: ANoB5pllipAYD1cIIenzSW7qQlybDhPd0RgcHM9KO25I5b6SZ8rpQSjs
+	VYhtRSUBfATCLzbT+wswiY2+7Lcwd+ZHl4ykMV/U8Q==
+X-Google-Smtp-Source: AA0mqf5RTDYL95yJLINf+DHoUvPAbKBKfzSUkMLfE676P01sHCik4FCCjPl1FZtbx4cSowoLTeqPlB3L+yyX8On2pds=
+X-Received: by 2002:a17:906:9246:b0:7af:da0:aebe with SMTP id
+ c6-20020a170906924600b007af0da0aebemr6761187ejx.723.1668792147755; Fri, 18
+ Nov 2022 09:22:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,12 +41,12 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20221118084244.199909-1-umang.jain@ideasonboard.com>
- <20221118084244.199909-2-umang.jain@ideasonboard.com> <166876686476.50677.13666680068580068271@Monstersaurus>
-In-Reply-To: <166876686476.50677.13666680068580068271@Monstersaurus>
+ <20221118084244.199909-3-umang.jain@ideasonboard.com> <166876741790.50677.17305359640652054680@Monstersaurus>
+In-Reply-To: <166876741790.50677.17305359640652054680@Monstersaurus>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 18 Nov 2022 17:20:45 +0000
-Message-ID: <CAPY8ntAAYzYtESJpBBN0FPni178qjBn2x8-g0h1ROqzBXvzF9w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] Revert "staging: mmal-vchiq: Avoid use of bool in structures"
+Date: Fri, 18 Nov 2022 17:22:12 +0000
+Message-ID: <CAPY8ntDMM-0S_gz5A+4rWQ7M2gmUMeOYRW__cr8v=afo5fM_sA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] vc04_services: mmal-vchiq: Use bool for vchiq_mmal_component.in_use
 To: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
 	Dan Carpenter <error27@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, 
@@ -59,118 +59,84 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi Umang & Kieran
 
-On Fri, 18 Nov 2022 at 10:21, Kieran Bingham
+On Fri, 18 Nov 2022 at 10:30, Kieran Bingham
 <kieran.bingham@ideasonboard.com> wrote:
 >
-> Quoting Umang Jain (2022-11-18 08:42:42)
-> > This reverts commit 640e77466e69d9c28de227bc76881f5501f532ca.
-> >
+> Quoting Umang Jain (2022-11-18 08:42:43)
 > > In commit 7967656ffbfa ("coding-style: Clarify the expectations around
 > > bool") the check to dis-allow bool structure members was removed from
 > > checkpatch.pl. It promotes bool structure members to store boolean
 > > values. This enhances code readability.
-> >
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 >
-> Thanks,
+> This only talks about 7967656ffbfa as I can interpret it.  A sentence
+> here describing what we're going to do about it in /this/ patch would be
+> clearer as a second paragraph:
 >
-> That's a more direct revert of 640e77466e69 ("staging: mmal-vchiq: Avoid
-> use of bool in structures") indeed.
+> """
+> Convert the remaining bit-field storage for 'in-use' to a bool and use
+> it accordingly.
+> """
 >
-> I see Stefan was concerned about clarifying that this won't affect
-> firmware or userspace, it may still be good to hear from Dave to
-> confirm, but my understanding of 640e77466e69, means I believe this is
-> safe. I don't expect this structure to be used as any kind of ABI to
-> firmware or userspace.
+> But that's trivial and not worth a v3 specifically. (unless anyone
+> applying this wants to add it).
 
-If it were one of the structs in one of the mmal-msh*.h files, then
-I'd worry about the firmware ABI. This is internal state solely on the
-kernel side so it's fine.
+Totally agree.
 
 > Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
->
+> >
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > > ---
-> >  .../staging/vc04_services/vchiq-mmal/mmal-vchiq.c    | 12 ++++++------
-> >  .../staging/vc04_services/vchiq-mmal/mmal-vchiq.h    |  4 ++--
-> >  2 files changed, 8 insertions(+), 8 deletions(-)
+> >  drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 6 +++---
+> >  drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h | 2 +-
+> >  2 files changed, 4 insertions(+), 4 deletions(-)
 > >
 > > diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> > index cb921c94996a..4abb6178cb9f 100644
+> > index 4abb6178cb9f..294b184d4a49 100644
 > > --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
 > > +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> > @@ -863,9 +863,9 @@ static int port_info_get(struct vchiq_mmal_instance *instance,
-> >                 goto release_msg;
-> >
-> >         if (rmsg->u.port_info_get_reply.port.is_enabled == 0)
-> > -               port->enabled = 0;
-> > +               port->enabled = false;
-> >         else
-> > -               port->enabled = 1;
-> > +               port->enabled = true;
-> >
-> >         /* copy the values out of the message */
-> >         port->handle = rmsg->u.port_info_get_reply.port_handle;
-> > @@ -1304,7 +1304,7 @@ static int port_disable(struct vchiq_mmal_instance *instance,
-> >         if (!port->enabled)
-> >                 return 0;
-> >
-> > -       port->enabled = 0;
-> > +       port->enabled = false;
-> >
-> >         ret = port_action_port(instance, port,
-> >                                MMAL_MSG_PORT_ACTION_TYPE_DISABLE);
-> > @@ -1359,7 +1359,7 @@ static int port_enable(struct vchiq_mmal_instance *instance,
-> >         if (ret)
-> >                 goto done;
-> >
-> > -       port->enabled = 1;
-> > +       port->enabled = true;
-> >
-> >         if (port->buffer_cb) {
-> >                 /* send buffer headers to videocore */
-> > @@ -1531,7 +1531,7 @@ int vchiq_mmal_port_connect_tunnel(struct vchiq_mmal_instance *instance,
-> >                         pr_err("failed disconnecting src port\n");
-> >                         goto release_unlock;
+> > @@ -1648,7 +1648,7 @@ int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
+> >         for (idx = 0; idx < VCHIQ_MMAL_MAX_COMPONENTS; idx++) {
+> >                 if (!instance->component[idx].in_use) {
+> >                         component = &instance->component[idx];
+> > -                       component->in_use = 1;
+> > +                       component->in_use = true;
+> >                         break;
 > >                 }
-> > -               src->connected->enabled = 0;
-> > +               src->connected->enabled = false;
-> >                 src->connected = NULL;
 > >         }
+> > @@ -1724,7 +1724,7 @@ int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
+> >         destroy_component(instance, component);
+> >  unlock:
+> >         if (component)
+> > -               component->in_use = 0;
+> > +               component->in_use = false;
+> >         mutex_unlock(&instance->vchiq_mutex);
 > >
-> > @@ -1799,7 +1799,7 @@ int vchiq_mmal_component_disable(struct vchiq_mmal_instance *instance,
+> >         return ret;
+> > @@ -1747,7 +1747,7 @@ int vchiq_mmal_component_finalise(struct vchiq_mmal_instance *instance,
 > >
-> >         ret = disable_component(instance, component);
-> >         if (ret == 0)
-> > -               component->enabled = 0;
-> > +               component->enabled = false;
+> >         ret = destroy_component(instance, component);
+> >
+> > -       component->in_use = 0;
+> > +       component->in_use = false;
 > >
 > >         mutex_unlock(&instance->vchiq_mutex);
 > >
 > > diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> > index 6006e29232b3..6d984cf5a83a 100644
+> > index 6d984cf5a83a..09f030919d4e 100644
 > > --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
 > > +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> > @@ -48,7 +48,7 @@ typedef void (*vchiq_mmal_buffer_cb)(
-> >                 int status, struct mmal_buffer *buffer);
-> >
-> >  struct vchiq_mmal_port {
-> > -       u32 enabled:1;
-> > +       bool enabled;
-> >         u32 handle;
-> >         u32 type; /* port type, cached to use on port info set */
-> >         u32 index; /* port index, cached to use on port info set */
-> > @@ -83,7 +83,7 @@ struct vchiq_mmal_port {
+> > @@ -82,7 +82,7 @@ struct vchiq_mmal_port {
+> >  };
 > >
 > >  struct vchiq_mmal_component {
-> >         u32 in_use:1;
-> > -       u32 enabled:1;
-> > +       bool enabled;
+> > -       u32 in_use:1;
+> > +       bool in_use;
+> >         bool enabled;
 > >         u32 handle;  /* VideoCore handle for component */
 > >         u32 inputs;  /* Number of input ports */
-> >         u32 outputs; /* Number of output ports */
 > > --
 > > 2.38.1
 > >
