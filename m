@@ -1,192 +1,153 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51AD29AD
-	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 10:50:27 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 954A349C;
-	Fri, 18 Nov 2022 11:50:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1668768625;
-	bh=1CsWy/GmyIFnYxae/LDO/zoah3Qc8VosycoLHVtCM/c=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=Sk7X679FDVTwWZyGdinLcsA3j0tQFr6iwEo9vF/+oBe0+HSTF0hYCFQ6Nl4kyqdZX
-	 JXteJnucFzeBrHnB0Na+BWVdhKWB4zU1uqNJr9jwJPmpXWBR3VCTG2mcgdoJ0vcimf
-	 7NgfxkJJcczL8/aZnu0HBeGmBzT1OLI3SRobt5y4=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66A033ED
+	for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 13:11:50 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id x21so6683600ljg.10
+        for <linux-staging@lists.linux.dev>; Fri, 18 Nov 2022 05:11:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gWNSpfNgmKIkoqMVV5tmWYlIFYhEHax9TrvGPimvErs=;
+        b=v4nFmk80qIBizuw3D1YMYQGM+vnSIvdnLk9TyHIG0in5TwlQhnPkUxZ9S2wEGIO7+5
+         NloDoVXNp29Tv+V2Ab46XHQlVhufLDrh990FfdE+BCoIabs2Kjsu5+aPGZVZoHtgLY4E
+         Asv3aahR7nX4q3ptImiN2N8+/PiZfDlpXIUl1AV2LXskiukPE0YGDHopQfy42JWo9qrt
+         RjcBxuxPFUEZJvL+xxHGOm3mC4odbJeVAynBHG5r5Luy+JASyjK9R5dMYXHe5TtcRUSw
+         Bjx+cNlKFLPOsmFRX4yckjQy25Tw2A/rEuh0/jCHDai5aJj3brf0FiV2KlBCDADvWndd
+         BnKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gWNSpfNgmKIkoqMVV5tmWYlIFYhEHax9TrvGPimvErs=;
+        b=Zl7/LDmOTAtHdJBpXEhbN0RipXh9+RxYw/HuSK/e6pc4YNFkqHBnI/uLUYNvZ4nbyY
+         W8Cz8qmwo7tbOEfVe3bfxQW4vvy9MFBV1dbFXHvED8N43eph48KicEI64ng1GKdM+7hm
+         jlVIDzm/1VJ/zFuNvpJx4rZEprojJc/B02UTW2Ue/1kRrR0D/8Y4HcIDt0oRfYfbXyKH
+         sJA0pkwgcONNZcNnSWPdw1LzgSVTZWKp5T8/NUMWx7EpqbJHhn6PoM5rypsNWXamTV25
+         gWbtv6jRkWz7v+JjeIF4urcYVRd2UsWlZeukEE/FEPsx5hayOmrvhSc83NM1gORdVaHN
+         2+Wg==
+X-Gm-Message-State: ANoB5pnkTUREqFsqMmbXPgoUeNxyTi3CuUDdHZUVedbhrhYvglG/NgBt
+	Ec/Om2/N7ufzE9pEDbdIpUq9VA==
+X-Google-Smtp-Source: AA0mqf5PKOpsepLXZQM4MZvGilr6TDpkzUoFgDlnpUqKg2bm3LymDyhlqEiF6bM8W2n4RIlehziIUw==
+X-Received: by 2002:a05:651c:178d:b0:278:a59c:390c with SMTP id bn13-20020a05651c178d00b00278a59c390cmr2455317ljb.512.1668777108719;
+        Fri, 18 Nov 2022 05:11:48 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id n4-20020a195504000000b00492ce573726sm661503lfe.47.2022.11.18.05.11.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Nov 2022 05:11:48 -0800 (PST)
+Message-ID: <5292cc1b-c951-c5c5-b2ef-c154baf6d7fd@linaro.org>
+Date: Fri, 18 Nov 2022 14:11:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221118084244.199909-4-umang.jain@ideasonboard.com>
-References: <20221118084244.199909-1-umang.jain@ideasonboard.com> <20221118084244.199909-4-umang.jain@ideasonboard.com>
-Subject: Re: [PATCH v2 3/3] vc04_services: bcm2835-camera: Use bool values for mmal_fmt.remove_padding
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>
-To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dan Carpenter <error27@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Florian Fainelli <f.fainelli@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Ray Jui <rjui@broadcom.com>, Umang Jain <umang.jain@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Date: Fri, 18 Nov 2022 10:50:23 +0000
-Message-ID: <166876862357.50677.2208743534141685703@Monstersaurus>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 01/23] dt-bindings: display: tegra: add bindings for
+ Tegra20 VIP
+Content-Language: en-US
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+ <20221109141852.729246-2-luca.ceresoli@bootlin.com>
+ <ca5f3b54-25bd-4dd5-799f-c7bda08cdef6@linaro.org>
+ <20221118100800.4950aec0@booty>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221118100800.4950aec0@booty>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Quoting Umang Jain (2022-11-18 08:42:44)
-> mmal_fmt.remove_padding is defined as a boolean type hence, use boolean
-> values for it instead of 0/1 integers. This enhances code readability.
+On 18/11/2022 10:08, Luca Ceresoli wrote:
+>   description: parallel video capture interface for the VI
+> 
+>>> +    type: object  
+>>
+>> Do you expect it to grow to more channels?
+> 
+> Not on Tegra20, it has one input only, but for other SoCs it's likely.
+> Definitely some (including Tegra20 itself) have multiple CSI-2 inputs,
+> and it's reasonable that this can apply to parallel input too.
+> 
+> Is this enough motivation to make room for more channels, or should I
+> remove it since I have no plans to introduce support for other Tegra
+> chips?
 
-This could be (optionally) expanded:
+The best would be to add some more Tegra SoCs here, so that this @0
+makes sense.
 
-"""
-The field 'remove_padding' in 'struct mmal_fmt' is defined as a boolean
-type.
+But I guess the block can be re-used in future, so it could also stay
+like this.
 
-The initialisation of the formats[] array stores integer 0/1 values into
-this field rather than a more readable bool type.
+> 
+>>> +
+>>> +    properties:
+>>> +      reg: true  
+>>
+>> const: 0
+>>
+>>> +
+>>> +      ports:
+>>> +        $ref: /schemas/graph.yaml#/properties/ports
+>>> +
+>>> +        properties:
+>>> +          port@0:
+>>> +            $ref: /schemas/graph.yaml#/properties/port
+>>> +            description:
+>>> +              Port receiving the video stream from the sensor
+>>> +
+>>> +          port@1:
+>>> +            $ref: /schemas/graph.yaml#/properties/port
+>>> +            description:
+>>> +              Port sending the video stream to the VI
+>>> +
+>>> +        required:
+>>> +          - port@0
+>>> +          - port@1
+>>> +
+>>> +    additionalProperties: false
+>>> +
+>>> +    required:
+>>> +      - reg
+>>> +      - ports
+>>> +
+>>> +unevaluatedProperties: false
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - "#address-cells"
+>>> +  - "#size-cells"
+>>> +  - channel@0
+>>> +
+>>> +# see nvidia,tegra20-vi.yaml for an example  
+>>
+>> That file does not have this compatible. At least not on next-20221109.
+> 
+> It's added in patch 2. It's a chicken-egg problem, should I add a third
+> patch that adds this line only?
+> 
+> ACK for all other comments you wrote.
 
-Convert the usages to boolean true/false, and fix up the local storage
-type in mmal_setup_components() to enhance code readability.
-"""
+It's ok.
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Best regards,
+Krzysztof
 
-
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../bcm2835-camera/bcm2835-camera.c           | 30 +++++++++----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
->=20
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.=
-c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index fd456d1f7061..797ebe2a973a 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -87,21 +87,21 @@ static struct mmal_fmt formats[] =3D {
->                 .depth =3D 12,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 1,
-> -               .remove_padding =3D 1,
-> +               .remove_padding =3D true,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_YUYV,
->                 .mmal =3D MMAL_ENCODING_YUYV,
->                 .depth =3D 16,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 2,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_RGB24,
->                 .mmal =3D MMAL_ENCODING_RGB24,
->                 .depth =3D 24,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 3,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_JPEG,
->                 .flags =3D V4L2_FMT_FLAG_COMPRESSED,
-> @@ -109,7 +109,7 @@ static struct mmal_fmt formats[] =3D {
->                 .depth =3D 8,
->                 .mmal_component =3D COMP_IMAGE_ENCODE,
->                 .ybbp =3D 0,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_H264,
->                 .flags =3D V4L2_FMT_FLAG_COMPRESSED,
-> @@ -117,7 +117,7 @@ static struct mmal_fmt formats[] =3D {
->                 .depth =3D 8,
->                 .mmal_component =3D COMP_VIDEO_ENCODE,
->                 .ybbp =3D 0,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_MJPEG,
->                 .flags =3D V4L2_FMT_FLAG_COMPRESSED,
-> @@ -125,63 +125,63 @@ static struct mmal_fmt formats[] =3D {
->                 .depth =3D 8,
->                 .mmal_component =3D COMP_VIDEO_ENCODE,
->                 .ybbp =3D 0,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_YVYU,
->                 .mmal =3D MMAL_ENCODING_YVYU,
->                 .depth =3D 16,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 2,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_VYUY,
->                 .mmal =3D MMAL_ENCODING_VYUY,
->                 .depth =3D 16,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 2,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_UYVY,
->                 .mmal =3D MMAL_ENCODING_UYVY,
->                 .depth =3D 16,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 2,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_NV12,
->                 .mmal =3D MMAL_ENCODING_NV12,
->                 .depth =3D 12,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 1,
-> -               .remove_padding =3D 1,
-> +               .remove_padding =3D true,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_BGR24,
->                 .mmal =3D MMAL_ENCODING_BGR24,
->                 .depth =3D 24,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 3,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_YVU420,
->                 .mmal =3D MMAL_ENCODING_YV12,
->                 .depth =3D 12,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 1,
-> -               .remove_padding =3D 1,
-> +               .remove_padding =3D true,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_NV21,
->                 .mmal =3D MMAL_ENCODING_NV21,
->                 .depth =3D 12,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 1,
-> -               .remove_padding =3D 1,
-> +               .remove_padding =3D true,
->         }, {
->                 .fourcc =3D V4L2_PIX_FMT_BGR32,
->                 .mmal =3D MMAL_ENCODING_BGRA,
->                 .depth =3D 32,
->                 .mmal_component =3D COMP_CAMERA,
->                 .ybbp =3D 4,
-> -               .remove_padding =3D 0,
-> +               .remove_padding =3D false,
->         },
->  };
-> =20
-> @@ -1147,7 +1147,7 @@ static int mmal_setup_components(struct bcm2835_mma=
-l_dev *dev,
->         struct vchiq_mmal_port *port =3D NULL, *camera_port =3D NULL;
->         struct vchiq_mmal_component *encode_component =3D NULL;
->         struct mmal_fmt *mfmt =3D get_format(f);
-> -       u32 remove_padding;
-> +       bool remove_padding;
-> =20
->         if (!mfmt)
->                 return -EINVAL;
-> --=20
-> 2.38.1
->
