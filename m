@@ -1,26 +1,26 @@
 Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC888C1C
-	for <linux-staging@lists.linux.dev>; Sat, 19 Nov 2022 17:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF842F4A
+	for <linux-staging@lists.linux.dev>; Sat, 19 Nov 2022 19:54:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1668877882; bh=FKEbaY7IyPQFMpBoG5mhguHiFjbHZh8X2ncstYTLPn0=;
+	t=1668887665; bh=ZzvCx/aKQd3EBJiLy/UGUsE7vHM6TVSTh1wAr6CeKRc=;
 	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
 	 Content-Type;
-	b=TYkmpQm6NGtu87aycupjCmDXfNZKu64JDeqvj2c0vFicANOkhB6byigpTRtd3X/Gr
-	 HzUMa+UQyGnMB4XxSLI3V/qyaF6/HQOe6dZyKcuI96ZMoHROBAupfrqTi+ST7JgQKL
-	 hzGkKTpmqf0IjSgArjgYvkmgrZ771UfHGfNSyq8Y=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+	b=lCSzw6arnyhsMU2jhj2JAJ6v39ZZEghds1jmihmrtdDk48TvXpqDehIjAkkHJ+eLv
+	 GcQyQoD2ej/wsYB+lhFC1qcmNTW+Qg7dk+nrtfxBq0PBmng7uHifQU6pDSCts7EemG
+	 8B4DY8kWoQCpYQnScxRg/5TD2MfIDkjIOP1awN0c=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
 	via ip-206.mailobj.net [213.182.55.206]
-	Sat, 19 Nov 2022 18:11:22 +0100 (CET)
-X-EA-Auth: ni8jdc27RGu78A+owJy87OHmQyFyTnn+3qZB4CS5snT62QN7iRjoo7WeH1t5COwJD/1OxtourPBt3HBrZTRIJeF5UApw/Mpc
-Date: Sat, 19 Nov 2022 22:41:17 +0530
+	Sat, 19 Nov 2022 20:54:25 +0100 (CET)
+X-EA-Auth: YoniFlBPfdtLBBKBkWGtb73v/GdX0sJh9s2NeO1AaQWeVUawd3H2BKTvclMzz/T07W55oJrfEUk89QEC2n3jFxzh/Throbsk
+Date: Sun, 20 Nov 2022 01:24:21 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Cc: drv@mailo.com
-Subject: [PATCH] staging: pi433: call set_lan_gain for receiver config
-Message-ID: <Y3kONX7KhQ1GX9QW@qemulion>
+Subject: [PATCH] staging: pi433: set DCC setting to spec recommended value
+Message-ID: <Y3k0bbM2/5jXfNKQ@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,30 +30,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Value for the LNA gain is captured from the user as part of the struct
-pi433_rx_cfg, however, the corresponding function rf69_set_lna_gain() is
-never called to set it. Include a call to this function as part of
-setting up the rx configurations.
+The DCCFreq value is used to obtain the DC offset canceller cut-off
+frequency. Upon device power reset, the bits 7-5 of the RegRxBw register
+that represent the DCCFreq setting are set to 0x4, which evaluates the
+cut-off frequency to be 1% of RxBw.
+
+In the current implementation, first, there is no configuration variable
+defined in the struct pi433_rx_cfg for the user to set this value as
+part of the UAPI. Second, the code simply ignores the value of DCC
+setting and allows it to never change.
+
+As per the RFM69HCW tech specs, the default value for DCC frequency is
+recommended to be 4% of the RxBw; which requires the DCC setting bits
+to be set to 010. So allow the DCC setting to change to recommended /
+default value for improved rx sensitivity.
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- drivers/staging/pi433/pi433_if.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index d4e06a3929f3..e588a98d7f33 100644
---- a/drivers/staging/pi433/pi433_if.c
-+++ b/drivers/staging/pi433/pi433_if.c
-@@ -176,6 +176,9 @@ rf69_set_rx_cfg(struct pi433_device *dev, struct pi433_rx_cfg *rx_cfg)
- 	if (ret < 0)
- 		return ret;
- 	ret = rf69_set_antenna_impedance(dev->spi, rx_cfg->antenna_impedance);
-+	if (ret < 0)
-+		return ret;
-+	ret = rf69_set_lna_gain(dev->spi, rx_cfg->lna_gain);
- 	if (ret < 0)
- 		return ret;
- 	ret = rf69_set_rssi_threshold(dev->spi, rx_cfg->rssi_threshold);
+Please Note: The proposed change is compile tested only. I am unable to perform
+device based testing in the absence of the hardware, both the RasPi board and the
+Pi433 device. Please let me know if it is necessary for me to test such patches
+on the real device myself. I will stop sending the patches till I have the hardware
+to test them. Thanks.
+
+
+
+ drivers/staging/pi433/rf69.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index 8c7fab6a46bb..8468d4717dd0 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -465,6 +465,13 @@ static int rf69_set_bandwidth_intern(struct spi_device *spi, u8 reg,
+ 	// read old value
+ 	bandwidth = rf69_read_reg(spi, reg);
+
++	/* DCC setting bits [7-5] are set to 0x4 on reset. Since there is no user
++	 * input available in the rx config struct, we should set it to default
++	 * or the recommended value as per the technical specification.
++	 */
++	if ((bandwidth >> 5) == 0x4)
++		bandwidth = bandwidth & BW_DCC_4_PERCENT;
++
+ 	// "delete" mantisse and exponent = just keep the DCC setting
+ 	bandwidth = bandwidth & MASK_BW_DCC_FREQ;
+
 --
 2.34.1
 
