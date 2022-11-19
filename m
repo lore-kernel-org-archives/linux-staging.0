@@ -1,87 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D82F630;
-	Sat, 19 Nov 2022 06:50:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 86E7AC433B5;
-	Sat, 19 Nov 2022 06:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658E420E4;
+	Sat, 19 Nov 2022 11:10:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 763BCC433C1;
+	Sat, 19 Nov 2022 11:10:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668840616;
-	bh=J6A2zN+GaxubPoA4pynMpJ9aRQjTm1qSEAaKvZV9V00=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=d+WNCYrodp79kOfNGIXr5PvvIs5GCF6E/TB0CDa2g+OZEp77Ua/U5QlZvwsWMDrK4
-	 OlLD/U4jjbYyhWaiA4rct4JoYkz9IWVscixQD26JhUaXY3yUQEg8Y11+kSP0F7KpB8
-	 zMZfwDOJzrlQ9jze8VoIW1mJ3xn1MyS9umDxW8U4aWjYwb6wOYhonyX7dPSQGn//c3
-	 ES9sycuBVsgfSKQQ6UBEnGpryiRSmirdvQs2tXppPiSbnayeSEWB/Bx525GuMc+yZz
-	 4Kon/n6VmXCwbfBd8TB8yHub9wkc/uggzN+T8rGWKeov06QFTXG5sVNeaRlrWw+yQP
-	 EzUp1tL6honhQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 64E94E524E4;
-	Sat, 19 Nov 2022 06:50:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1668856217;
+	bh=ene1SzTvsJEbW7r9yE4HzkF6rHfAR+aLIm+4UV/wgpo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AwWwg8hTEvU1lRotHevSh1bppQ+LWfLwM9aU/yyuaFSoeFCmSwjJ4hNXPYNKPqyxF
+	 RwoQt69tGMzjEml+0YwDwVnLfETtKSINebD6ZDDIjJG2YZ26iP67zsjgz4cgG6uGnz
+	 NeH6bx6FUo9hgiiy06aaBkM2k9pRw5peXY9fXGbpIdefsltNF4FVq05z66zkCjnicj
+	 f/YnghTN3aq/ykMs6EmMfO5tnMvkQz4JaZBC1pmyIfU8l5HPFc7Qkk3nYySibldc2a
+	 4zm4rXtEkUSkKLdGBy0DoGhHf7XI5Gph/tChnTnqwzMKjNhd3aisTxqnB1pP+2RhuX
+	 Z5WZrjjMLqJaQ==
+Date: Sat, 19 Nov 2022 12:10:11 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+Cc: Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Grant Likely <grant.likely@linaro.org>, linux-i2c@vger.kernel.org,
+	kernel@pengutronix.de, linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-media@vger.kernel.org, patches@opensource.cirrus.com,
+	linux-actions@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
+	linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
+	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net
+Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-ID: <Y3i5kz6IL7tFbVwX@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Grant Likely <grant.likely@linaro.org>, linux-i2c@vger.kernel.org,
+	kernel@pengutronix.de, linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-media@vger.kernel.org, patches@opensource.cirrus.com,
+	linux-actions@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
+	linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
+	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <166884061640.19423.12726268813615488480.git-patchwork-notify@kernel.org>
-Date: Sat, 19 Nov 2022 06:50:16 +0000
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xRatB1/o2GNYTDWD"
+Content-Disposition: inline
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cuwe=40kleine-koenig=2Eorg=3E?=@ci.codeaurora.org
-Cc: ang.iglesiasg@gmail.com, lee.jones@linaro.org, grant.likely@linaro.org,
- wsa@kernel.org, linux-i2c@vger.kernel.org, kernel@pengutronix.de,
- linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-gpio@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
- patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
- alsa-devel@alsa-project.org, linux-omap@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-pm@vger.kernel.org, kernel@puri.sm,
- linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net
 
-Hello:
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+--xRatB1/o2GNYTDWD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 18 Nov 2022 23:35:34 +0100 you wrote:
-> Hello,
-> 
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
-> 
+Hi Uwe,
+
 > This series completes all drivers to this new callback (unless I missed
 > something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
-> 
-> [...]
 
-Here is the summary with links:
-  - [512/606] platform/chrome: cros_ec: Convert to i2c's .probe_new()
-    https://git.kernel.org/chrome-platform/c/f9e510dc92df
+Thanks for this work, really, but oh my poor inbox...
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> I don't think it's feasable to apply this series in one go, so I ask the
+> maintainers of the changed files to apply via their tree.
+
+This seems reasonable. It would have made sense to send "patch series
+per subsystem" then. So people only see the subset they are interested
+in. I know filename-to-subsys mapping is hardly ever perfect. But in my
+experience, even imperfect, it is more convenient than such a huge patch
+series.
+
+Happy hacking,
+
+   Wolfram
 
 
+--xRatB1/o2GNYTDWD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmN4uY8ACgkQFA3kzBSg
+KbYEfw/+L6nVN4bUDqiN6AeU0yv+Wq/oAFkIUgM8TLT/4gzeEwPsCcTwHBaHQFEF
+sO9yZWukjVYlt2YlcEZglBVIAl7Ha17oQfv2HbWzZXl4cv8PEMfodh6PuOpcPuna
+P+RjiB40nPPxUt5hZ7EjiOpqML0Xy9G8X9Uzs5rA4Yt2OSXcGSYhCZb+U/Vygwlo
+VmLhSQhUnluCyhMZlbTn+bnmVCSHW8Bk5YBKOWygj8K7/LRYKfcNKXjMV35OsBix
+3rezawgwT9KZlZ6ABJZ6U/o5Lp91OP/XeUfhMp76fmAOBcrh25HhWcunmbfRNto7
+gsYho2Ov6yLtz3/Gq4gsDB2HULSajZW1behtfyfufpmkyGd8+C5+/uUjfltWtpqm
+qaAL4YC+kjzarFDRKtIINCqlixjh0VUUKCkf6c4IDCNoLD4HW5KGevjvMvG0kJ9S
+ftPKDwBpZ+cMZtpTcYgRQRiEb30VekQVyWM8SL+350sLO2dVhy7tjAX1jTnWZ843
+4L3c6tSTioFtNmuIREzKl4EX2xkZUq6ajI4QeAcleHXAsBKHB5kvDpfKYIfGZ49X
+mvIEEWRaUXGZAyqx2tMBXvuSA2aL+Gk9hrW3cvCHoBh6EkGfa6R4flw7yN0RkYHR
+Fzq+Jpg1jOHfQhNDoZ8yqFo2xQZQpp1oDdVAjW70IRrE5KPvV0k=
+=eSNj
+-----END PGP SIGNATURE-----
+
+--xRatB1/o2GNYTDWD--
