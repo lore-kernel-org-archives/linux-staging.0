@@ -1,161 +1,103 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89213220;
-	Sun, 20 Nov 2022 19:43:53 +0000 (UTC)
-Received: from mercury (unknown [185.209.196.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 981D16602381;
-	Sun, 20 Nov 2022 19:43:45 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1668973425;
-	bh=T3nU7r4TDRBfUE21qBPtx6/vbbqNd5aTZrUhEKVEpe8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eTDOl2wCVRsu/tyZH+YPJZtqzX+lTk+zyDWIOt7B5OERtVQXV05JqgkECzvZaxhvq
-	 GWHynwzbAdTGjQc4EiizPb4JzuNJErOOA6MGMcIE1OOBJsR2nJxdyKqik4rZXW8I8S
-	 YL9hLYJH9B0qYNlv0ofE25pkedfO3Zr0ukRr6nTWoiYIF0ElBn0uG1ehB/KKpnJkB6
-	 LmHZCe95IKsjPugXIHsbUyR3TPbe/Uz/FTgEe5YV5fHfIiRZ+dwYB8lU4/MgAmu4vM
-	 BZjO4bgM9A0wAKu6Ub+wy7zE/lgrgtzyeA/1iFwakjmg/vd8UL0auYvToqpQCZqsxv
-	 +Bmg67/Ow+Rwg==
-Received: by mercury (Postfix, from userid 1000)
-	id 1C1D2106F223; Sun, 20 Nov 2022 20:43:43 +0100 (CET)
-Date: Sun, 20 Nov 2022 20:43:43 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-Cc: Angel Iglesias <ang.iglesiasg@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Grant Likely <grant.likely@linaro.org>,
-	Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
-	kernel@pengutronix.de, linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-media@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-actions@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
-	linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-pm@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
-	linux-pwm@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-ID: <20221120194343.nnpzhgjapep7iwqk@mercury.elektranox.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8B980B
+	for <linux-staging@lists.linux.dev>; Sun, 20 Nov 2022 21:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1668981355;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=70/m7cIp/vsG8qVJ5kAKqw8ft3BEh2reYWs4pFDO8EY=;
+	b=WIJZ3/GQ5CiHBVBUtTCAbQkqiy9xIplcNaNkwYpOGlruGd8YyZaijrW53N6DTCvByPStVT
+	1424eOSRap5iEqZ90a8iPOFxLfRHeMZg9q6JiP+E4+4BF7XEuOjVFHz1PRHcCeymlEyy4E
+	6j2Z38XXN6x2lC0jcy28+iRgwdaJxpo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-91-YgcmmyYzOiyRj4AVJCClLQ-1; Sun, 20 Nov 2022 16:55:54 -0500
+X-MC-Unique: YgcmmyYzOiyRj4AVJCClLQ-1
+Received: by mail-ed1-f69.google.com with SMTP id b13-20020a056402350d00b00464175c3f1eso5437301edd.11
+        for <linux-staging@lists.linux.dev>; Sun, 20 Nov 2022 13:55:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=70/m7cIp/vsG8qVJ5kAKqw8ft3BEh2reYWs4pFDO8EY=;
+        b=ZpOQm6YZSNdIEifPBU6fqak3oqXusaZHCnLcZOShh6PrdciYtepwIubftZKkx/EdZH
+         OnOa15y9TToRw5QR3WuVTmL71T7fQ1S+oU8psarVGY6bKE18BIyYtJicZmDId8BRwsFD
+         vQ/jZCNmqTs+RjTEihkbBGysyLeEHiQZ3srvf3O0HrDS9lY8XAVT2tm69jYo5gw+EgIr
+         bfHx4H+oYXT/uljL8rLCxK+pLeaVSSFxcjgZq6bvCLXE+C+q7UX3jL9MpGKkaGV4/v/f
+         XMfm1+GaQSpkaf5DUlSZDuCxaC4s3JwsX/fj00nu6wFsJojMF41e7yOrsJGFIHG2iL38
+         LCUw==
+X-Gm-Message-State: ANoB5plF1TLuBLK37X0N9dH3AsTPXphaXYdB7zge3lzSxVi/RYqkVZ/k
+	SrKf6dO1JSmWadaPdXGYUqscpQns1vuUVI2KWERFHMaeYYp8P6Mcth/VyzUFqBxe9Lx7Hs7fyYW
+	LDUEhVnosZPFC4gB8ZQMXgZFtlQ==
+X-Received: by 2002:aa7:d803:0:b0:467:f948:6df4 with SMTP id v3-20020aa7d803000000b00467f9486df4mr13617622edq.217.1668981352979;
+        Sun, 20 Nov 2022 13:55:52 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4JLlGdlV7kxjwNxqnupTpkzo5Zy5GbkiSadqyGgrPUHOGYjhNYANm70MTv4LPn4tb8XoGdrw==
+X-Received: by 2002:aa7:d803:0:b0:467:f948:6df4 with SMTP id v3-20020aa7d803000000b00467f9486df4mr13617612edq.217.1668981352813;
+        Sun, 20 Nov 2022 13:55:52 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id e25-20020a056402105900b004610899742asm4350678edu.13.2022.11.20.13.55.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Nov 2022 13:55:52 -0800 (PST)
+Message-ID: <632a6420-3d61-841a-a18d-01b1ed1eece7@redhat.com>
+Date: Sun, 20 Nov 2022 22:55:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wvm2z6appxwdd5fa"
-Content-Disposition: inline
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-
-
---wvm2z6appxwdd5fa
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 04/17] media: atomisp: On streamoff wait for buffers
+ owned by the CSS to be given back
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
+ Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20221020195533.114049-1-hdegoede@redhat.com>
+ <20221020195533.114049-5-hdegoede@redhat.com>
+ <Y3IalSFWZcG0ycjM@smile.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y3IalSFWZcG0ycjM@smile.fi.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On Fri, Nov 18, 2022 at 11:35:34PM +0100, Uwe Kleine-K=F6nig wrote:
-> Hello,
->=20
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
->=20
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch t=
-hat
-> you can pull into your tree to get it:
->=20
-> 	https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/client=
-_device_id_helper-immutable
->=20
-> I don't think it's feasable to apply this series in one go, so I ask the
-> maintainers of the changed files to apply via their tree. I guess it
-> will take a few kernel release iterations until all patch are in, but I
-> think a single tree creates too much conflicts.
->=20
-> The last patch changes i2c_driver::probe, all non-converted drivers will
-> fail to compile then. So I hope the build bots will tell me about any
-> driver I missed to convert. This patch is obviously not for application
-> now.
->=20
-> I dropped most individuals from the recipents of this mail to not
-> challenge the mail servers and mailing list filters too much. Sorry if
-> you had extra efforts to find this mail.
->=20
-> Best regards
-> Uwe
+On 11/14/22 11:38, Andy Shevchenko wrote:
+> On Thu, Oct 20, 2022 at 09:55:20PM +0200, Hans de Goede wrote:
+>> There is no guarantee that when we stop the pipeline all buffers owned
+>> by the CSS are cleanly returned to the videobuf queue.
+>>
+>> This is a problem with videobuf2 which will complain loudly when not
+>> all buffers have been returned after the streamoff() queue op has
+>> returned.
+>>
+>> And this also allows moving a WARN() in the continuous mode path.
+> 
+> ...
+> 
+>> +	if (ret <= 0)
+>> +		return ret ? ret : -ETIME;
+> 
+> You can use Elvis and ETIME is not correct AFAIU, should be -ETIMEDOUT.
 
-=2E..
+Both fixed in the version which I'm about to push to:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
 
->   power: supply: adp5061: Convert to i2c's .probe_new()
->   power: supply: bq2415x: Convert to i2c's .probe_new()
->   power: supply: bq24190: Convert to i2c's .probe_new()
->   power: supply: bq24257: Convert to i2c's .probe_new()
->   power: supply: bq24735: Convert to i2c's .probe_new()
->   power: supply: bq2515x: Convert to i2c's .probe_new()
->   power: supply: bq256xx: Convert to i2c's .probe_new()
->   power: supply: bq25890: Convert to i2c's .probe_new()
->   power: supply: bq25980: Convert to i2c's .probe_new()
->   power: supply: bq27xxx: Convert to i2c's .probe_new()
->   power: supply: ds2782: Convert to i2c's .probe_new()
->   power: supply: lp8727: Convert to i2c's .probe_new()
->   power: supply: ltc2941: Convert to i2c's .probe_new()
->   power: supply: ltc4162-l: Convert to i2c's .probe_new()
->   power: supply: max14656: Convert to i2c's .probe_new()
->   power: supply: max17040: Convert to i2c's .probe_new()
->   power: supply: max17042_battery: Convert to i2c's .probe_new()
->   power: supply: rt5033_battery: Convert to i2c's .probe_new()
->   power: supply: rt9455: Convert to i2c's .probe_new()
->   power: supply: sbs: Convert to i2c's .probe_new()
->   power: supply: sbs-manager: Convert to i2c's .probe_new()
->   power: supply: smb347: Convert to i2c's .probe_new()
->   power: supply: ucs1002: Convert to i2c's .probe_new()
->   power: supply: z2_battery: Convert to i2c's .probe_new()
->   [...]
+Regards,
 
-Thanks, I queued patches 513-536 to the power-supply subsystem.
+Hans
 
--- Sebastian
-
---wvm2z6appxwdd5fa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmN6g2YACgkQ2O7X88g7
-+pocPA/+MG7rp45xJuAH0zlIFTM8ovBviXnLvra0hpvK+vMB8SVdh4K8vRCAoeoT
-lxML9oRVfhraHzo/3X6+7V87cw+QzEx3GZbYsIasGqic46MoFYkbA2i3Q8s8hS5y
-qpAcKn/efXJaBtdIxWQnOc0xU0YCiteiIik8Idb9MjHFupUspLxtIjCzTAmvKQ0k
-hJ5u5cqv3d/MP6VpsOCUYPDet9nS9ByPeg8Kr9Ux1a0WEldPYUO+dU0ObqRdhliZ
-agftaEtCvFYkfO9k8ubBL/x00gTn002xOB7gp+5s0V0D3wKfT5EPVYOoUZbeYMIu
-QOZaLHkNkBtV85kGm18h7IFdQZQY9ahcaGTYZplyz/YzHlK/AlfjA2umKS1+rs5m
-A+DDqnAkuWw9fLg0MJ4dLSPwOSPX3VfgmVS3By3Do2gotQkCqXsRdhrG1cIoE1aL
-AZYpSwLTn2rAYF59poL3rgSqx/MhgrLwmKQOH3fjwZ3R7PIAWFhYP1We2UtKdCEM
-Gjpr7QfAUiOuXDKi5OrBbWr4m2eX26A4uifwR62OyldwH8pUWAq3umgkw3rotQAA
-hdwOOPM+cHTyLbtP8kaP1XSR6u0ybuTbw8OQE/XPDNVceoMqR4XxUSYbs0Q0UzY6
-fwljGfbakuGbaNlb7s2LBsy0ESZuiz64Za/0gfJhI5rP1eNRR1U=
-=Dh+o
------END PGP SIGNATURE-----
-
---wvm2z6appxwdd5fa--
