@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376EAEBEB
-	for <linux-staging@lists.linux.dev>; Sun, 20 Nov 2022 22:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C51DEBFD
+	for <linux-staging@lists.linux.dev>; Sun, 20 Nov 2022 22:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1668984102;
+	s=mimecast20190719; t=1668984103;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LcxYMmqa9JOQ4v9gp9mtmfp5xuK6AjWkfCwozPHsc5o=;
-	b=H1HWfeolJcCApQGYZFTBG+A/wUTbtUMRrHCS248OOCDqkI7RRPzoKMx9G9/a8AjLsfnIOQ
-	t3NsrCq4BU2zf3/IUVU2K+kPqMMMy3ZLbA+K94eDc9LUmNWQ+nXPBe5s0AFZX8VT3SRUz+
-	AG0xW5BIsNclwI1SGfjSV8U+YMsw2fU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=sb2hyytH28hqJKy6Q8eTe0ytgNivgpFlz8aL/4DglRo=;
+	b=Z+OETODnugdLTnjBjWmMGWptjBcrZfPUiJZCLrKMVL2En7nd0DxqrZwfh7HVyHgjKISMS/
+	i8Og2y6wxXDRv7ybfRTRDWELGkT/EL0KutucR0ZsyrY4HHE2aJ/cpY1ri8LCKUFLOj5JUQ
+	3JS+fHzBcmPXzqByujEZs8KxVCt/LRg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-IcuL8E8gMaC0toPygrZKdQ-1; Sun, 20 Nov 2022 17:41:35 -0500
-X-MC-Unique: IcuL8E8gMaC0toPygrZKdQ-1
+ us-mta-280-C3DGdYmtPL2qGy6yhFudfQ-1; Sun, 20 Nov 2022 17:41:39 -0500
+X-MC-Unique: C3DGdYmtPL2qGy6yhFudfQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2BBF92999B2D;
-	Sun, 20 Nov 2022 22:41:35 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81C3B833A09;
+	Sun, 20 Nov 2022 22:41:38 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.70])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id AAE9A47505E;
-	Sun, 20 Nov 2022 22:41:33 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 11B9647505E;
+	Sun, 20 Nov 2022 22:41:36 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 14/20] media: atomisp: Remove atomisp_css_suspend()/_resume()
-Date: Sun, 20 Nov 2022 23:40:55 +0100
-Message-Id: <20221120224101.746199-15-hdegoede@redhat.com>
+Subject: [PATCH 16/20] media: atomisp: Remove duplication between runtime-pm and normal-pm code
+Date: Sun, 20 Nov 2022 23:40:57 +0100
+Message-Id: <20221120224101.746199-17-hdegoede@redhat.com>
 In-Reply-To: <20221120224101.746199-1-hdegoede@redhat.com>
 References: <20221120224101.746199-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,96 +52,144 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 
-atomisp_css_suspend() is a 1:1 copy of atomisp_css_uninit() and
-atomisp_css_resume() is a 1:1 copy of atomisp_css_init().
+atomisp_suspend() contains a 1:1 copy of atomisp_runtime_suspend() and
+the same goes for the resume() functions.
 
-Remove the 2 copies and have their one caller just call
-atomisp_css_uninit() / atomisp_css_init() instead.
+Rename the runtime functions to atomisp_power_on()/_off() and use these
+as runtime-pm handlers as well as helper in other places to remove
+the code duplication.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  4 +--
- .../media/atomisp/pci/atomisp_compat.h        |  4 ---
- .../media/atomisp/pci/atomisp_compat_css20.c  | 29 -------------------
- 3 files changed, 2 insertions(+), 35 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  8 ++--
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |  4 +-
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 46 +++----------------
+ 3 files changed, 12 insertions(+), 46 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index c69a646aa4d5..e80038e46e0e 100644
+index 475ba82b858b..dac19db55625 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -307,7 +307,7 @@ int atomisp_reset(struct atomisp_device *isp)
- 	int ret = 0;
+@@ -303,13 +303,13 @@ int atomisp_reset(struct atomisp_device *isp)
  
  	dev_dbg(isp->dev, "%s\n", __func__);
--	atomisp_css_suspend(isp);
-+	atomisp_css_uninit(isp);
- 	ret = atomisp_runtime_suspend(isp->dev);
+ 	atomisp_css_uninit(isp);
+-	ret = atomisp_runtime_suspend(isp->dev);
++	ret = atomisp_power_off(isp->dev);
  	if (ret < 0)
- 		dev_err(isp->dev, "atomisp_runtime_suspend failed, %d\n", ret);
-@@ -316,7 +316,7 @@ int atomisp_reset(struct atomisp_device *isp)
- 	if (ret < 0)
- 		dev_err(isp->dev, "atomisp_runtime_resume failed, %d\n", ret);
+-		dev_err(isp->dev, "atomisp_runtime_suspend failed, %d\n", ret);
++		dev_err(isp->dev, "atomisp_power_off failed, %d\n", ret);
  
--	ret = atomisp_css_resume(isp);
-+	ret = atomisp_css_init(isp);
+-	ret = atomisp_runtime_resume(isp->dev);
++	ret = atomisp_power_on(isp->dev);
+ 	if (ret < 0)
+-		dev_err(isp->dev, "atomisp_runtime_resume failed, %d\n", ret);
++		dev_err(isp->dev, "atomisp_power_on failed, %d\n", ret);
+ 
+ 	ret = atomisp_css_init(isp);
  	if (ret)
- 		isp->isp_fatal_error = true;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index 61cbdc1215de..f7647edb25fb 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -341,6 +341,6 @@ int atomisp_inject_a_fake_event(struct atomisp_sub_device *asd, int *event);
+ int atomisp_get_invalid_frame_num(struct video_device *vdev,
+ 				  int *invalid_frame_num);
  
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-index f73801197dd7..7316eb9f974a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-@@ -41,10 +41,6 @@ int atomisp_css_init(struct atomisp_device *isp);
- 
- void atomisp_css_uninit(struct atomisp_device *isp);
- 
--void atomisp_css_suspend(struct atomisp_device *isp);
--
--int atomisp_css_resume(struct atomisp_device *isp);
--
- void atomisp_css_init_struct(struct atomisp_sub_device *asd);
- 
- int atomisp_css_irq_translate(struct atomisp_device *isp,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 3237585d3044..9d6008659e02 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -868,35 +868,6 @@ void atomisp_css_uninit(struct atomisp_device *isp)
- 	ia_css_uninit();
+-int atomisp_runtime_suspend(struct device *dev);
+-int atomisp_runtime_resume(struct device *dev);
++int atomisp_power_off(struct device *dev);
++int atomisp_power_on(struct device *dev);
+ #endif /* __ATOMISP_CMD_H__ */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 579cbf502fd1..f670517bc141 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -720,7 +720,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ 	return -EBUSY;
  }
  
--void atomisp_css_suspend(struct atomisp_device *isp)
--{
--	isp->css_initialized = false;
--	ia_css_uninit();
--}
+-int atomisp_runtime_suspend(struct device *dev)
++int atomisp_power_off(struct device *dev)
+ {
+ 	struct atomisp_device *isp = (struct atomisp_device *)
+ 				     dev_get_drvdata(dev);
+@@ -738,7 +738,7 @@ int atomisp_runtime_suspend(struct device *dev)
+ 	return atomisp_mrfld_power(isp, false);
+ }
+ 
+-int atomisp_runtime_resume(struct device *dev)
++int atomisp_power_on(struct device *dev)
+ {
+ 	struct atomisp_device *isp = (struct atomisp_device *)
+ 				     dev_get_drvdata(dev);
+@@ -771,7 +771,6 @@ static int __maybe_unused atomisp_suspend(struct device *dev)
+ 	/* FIXME: only has one isp_subdev at present */
+ 	struct atomisp_sub_device *asd = &isp->asd[0];
+ 	unsigned long flags;
+-	int ret;
+ 
+ 	/*
+ 	 * FIXME: Suspend is not supported by sensors. Abort if any video
+@@ -788,45 +787,12 @@ static int __maybe_unused atomisp_suspend(struct device *dev)
+ 	}
+ 	spin_unlock_irqrestore(&isp->lock, flags);
+ 
+-	ret = atomisp_mrfld_pre_power_down(isp);
+-	if (ret)
+-		return ret;
 -
--int atomisp_css_resume(struct atomisp_device *isp)
--{
--	unsigned int mmu_base_addr;
+-	/*Turn off the ISP d-phy */
+-	ret = atomisp_ospm_dphy_down(isp);
+-	if (ret) {
+-		dev_err(isp->dev, "fail to power off ISP\n");
+-		return ret;
+-	}
+-	cpu_latency_qos_update_request(&isp->pm_qos, PM_QOS_DEFAULT_VALUE);
+-	return atomisp_mrfld_power(isp, false);
++	return atomisp_power_off(dev);
+ }
+ 
+ static int __maybe_unused atomisp_resume(struct device *dev)
+ {
+-	struct atomisp_device *isp = (struct atomisp_device *)
+-				     dev_get_drvdata(dev);
 -	int ret;
 -
--	ret = hmm_get_mmu_base_addr(isp->dev, &mmu_base_addr);
+-	ret = atomisp_mrfld_power(isp, true);
+-	if (ret)
+-		return ret;
+-
+-	cpu_latency_qos_update_request(&isp->pm_qos, isp->max_isr_latency);
+-
+-	/*Turn on ISP d-phy */
+-	ret = atomisp_ospm_dphy_up(isp);
 -	if (ret) {
--		dev_err(isp->dev, "get base address error.\n");
+-		dev_err(isp->dev, "Failed to power up ISP!.\n");
 -		return -EINVAL;
 -	}
 -
--	ret = ia_css_init(isp->dev, &isp->css_env.isp_css_env, NULL,
--			  mmu_base_addr, IA_CSS_IRQ_TYPE_PULSE);
--	if (ret) {
--		dev_err(isp->dev, "re-init css failed.\n");
--		return -EINVAL;
--	}
--	ia_css_enable_isys_event_queue(true);
+-	/*restore register values for iUnit and iUnitPHY registers*/
+-	if (isp->saved_regs.pcicmdsts)
+-		atomisp_restore_iunit_reg(isp);
 -
--	isp->css_initialized = true;
+-	atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_LOW, true);
 -	return 0;
--}
--
- int atomisp_css_irq_translate(struct atomisp_device *isp,
- 			      unsigned int *infos)
- {
++	return atomisp_power_on(dev);
+ }
+ 
+ int atomisp_csi_lane_config(struct atomisp_device *isp)
+@@ -1755,8 +1721,8 @@ static const struct pci_device_id atomisp_pci_tbl[] = {
+ MODULE_DEVICE_TABLE(pci, atomisp_pci_tbl);
+ 
+ static const struct dev_pm_ops atomisp_pm_ops = {
+-	.runtime_suspend = atomisp_runtime_suspend,
+-	.runtime_resume = atomisp_runtime_resume,
++	.runtime_suspend = atomisp_power_off,
++	.runtime_resume = atomisp_power_on,
+ 	.suspend = atomisp_suspend,
+ 	.resume = atomisp_resume,
+ };
 -- 
 2.38.1
 
