@@ -1,177 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04010EBF8
-	for <linux-staging@lists.linux.dev>; Sun, 20 Nov 2022 22:41:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1668984110;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MWyOxLMViW1TAHabsoOU/2cIorVkoo4S1pV51b0SvFE=;
-	b=b/jhIdwN8H6Sz5ieLY/386+MyTEtoRlhA427kbNhBKO8hoplWs/zm2o9PleQjkPcW5jyjf
-	eI0B9xJAtaTnFUItIFGrvKgSyi5gou81qtO0kdZlPG3+hWI+/yq1yQxdTIBj7wXBg/4QjT
-	+Jmgp53/QN8pUUaYmyPAaomFI5HlyxE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-3eDJ2gTsOzmVKnJ_yOVQkw-1; Sun, 20 Nov 2022 17:41:46 -0500
-X-MC-Unique: 3eDJ2gTsOzmVKnJ_yOVQkw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E537801755;
-	Sun, 20 Nov 2022 22:41:45 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.70])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BE02B47505E;
-	Sun, 20 Nov 2022 22:41:43 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 20/20] media: atomisp_ov2680: Fix 1280x720 -> 1296x736 resolution
-Date: Sun, 20 Nov 2022 23:41:01 +0100
-Message-Id: <20221120224101.746199-21-hdegoede@redhat.com>
-In-Reply-To: <20221120224101.746199-1-hdegoede@redhat.com>
-References: <20221120224101.746199-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A31442A
+	for <linux-staging@lists.linux.dev>; Sun, 20 Nov 2022 23:30:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DBEEC433C1;
+	Sun, 20 Nov 2022 23:30:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668987004;
+	bh=zphVPuwwcLjthlyE7wv5/pH/nYXfv5WDHxfhfw6GXd4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ckk0MPMIupM7/8nYBopEfL5uUkZueg6QWwoY9j+tw89MC/mzIOHA5FtjPEyh+g37X
+	 XekDVzkcIbPos8wuNnZuDaTT8iTBaQh10sQUghJvmegV87E+LN+b4BYbuZyiMgVgU1
+	 FD2r5qb4fSm3jqVlxfJoKkNn9Vy7AQRBWnSmDomHRjQGOLsWXIMiRuM3ACvWViRJzc
+	 3u8RNPJ7Pp4XtrzsZtZHsmlHXDyWbMGRIjJmuNLJdByFgLv0Uy1/pYR8wSIM1JZ8iR
+	 yktRQ1hodNPAXug8W1vTjL7b9lNDMRzRRO/o33EyPOQWal8RHOrqPbKwEDb9XsYm/3
+	 lqxAKYjuG5ijA==
+Date: Sun, 20 Nov 2022 23:29:56 +0000
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Tsuchiya Yuto
+ <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>, Yury Luneff
+ <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>,
+ andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 12/17] media: atomisp: Fix VIDIOC_REQBUFS failing
+ when VIDIOC_S_FMT has not been called yet
+Message-ID: <20221120232956.6df4784b@sal.lan>
+In-Reply-To: <f5f0e988-d5a2-12ea-cbb7-caa49f1c00d8@redhat.com>
+References: <20221020195533.114049-1-hdegoede@redhat.com>
+	<20221020195533.114049-13-hdegoede@redhat.com>
+	<20221114203819.44e7baad@sal.lan>
+	<f5f0e988-d5a2-12ea-cbb7-caa49f1c00d8@redhat.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The ov2680_720p_30fps register init list used for the 1296x736 resolution
-sets the hsize register to 1296 and the vsize register to 736.
+Em Sun, 20 Nov 2022 23:17:56 +0100
+Hans de Goede <hdegoede@redhat.com> escreveu:
 
-This is actually the right thing to do when combined with the atomISP2
-because the ISP requires 16 bytes padding leaving userspace to see
-1280x720.
+> Hi,
+> 
+> On 11/14/22 21:38, Mauro Carvalho Chehab wrote:
+> > Em Thu, 20 Oct 2022 21:55:28 +0200
+> > Hans de Goede <hdegoede@redhat.com> escreveu:
+> >   
+> >> camorama calls VIDIOC_REQBUFS(V4L2_MEMORY_MMAP) to test if MMAP support
+> >> works (this was added specifically because of the previously broken
+> >> MMAP support in atomisp).
+> >>
+> >> Currently this fails because atomisp_get_css_frame_info() fails in this
+> >> case. Although it is weird to call VIDIOC_REQBUFS before VIDIOC_S_FMT,
+> >> it is allowed to do this.
+> >>
+> >> Fix this not working by doing a S_FMT to V4L2_PIX_FMT_YUV420 + the highest
+> >> supported resolution.
+> >>
+> >> Note this will cause camorama to use mmap mode, which means it will also
+> >> use libv4l2 to do format conversion. libv4l2 will pick V4L2_PIX_FMT_RGB565
+> >> as input format and this will lead to a garbled video display. This is
+> >> a libv4lconvert bug, the RGB565 -> RGB24 path in libv4lconvert assumes
+> >> that stride == width which is not true on the atomisp.  
+> > 
+> > Hmm... should we add a patch on Camorama for it to not use libv4l2 if
+> > format == V4L2_PIX_FMT_RGB565?  
+> 
+> This is not controlled by Camorama but by libv4lconvert, AFAICT there are
+> no atomisp2 native formats which are supported in Camorama without libv4l  ?
 
-But the resolution list entries for this was incorrectly reporting
-the resolution being send to the ISP as already being 1280x720,
-leaving usespace to see 1274x704 as resolution.
+Actually, I added support on Camorama to decode it, plus other formats.
+It currently supports:
 
-Worse then userspace seeing a weird resolution selecting the
-1280x720 sensor resolution (which in reality is sending 1296x736
-to the ISP was causing the ISP to hang on Cherry Trail based tablets
-(Bay Trail works fine for some reason).
+	V4L2_PIX_FMT_ABGR32
+	V4L2_PIX_FMT_ARGB32
+	V4L2_PIX_FMT_BGR24
+	V4L2_PIX_FMT_BGR32
+	V4L2_PIX_FMT_NV12
+	V4L2_PIX_FMT_NV21
+	V4L2_PIX_FMT_RGB24
+	V4L2_PIX_FMT_RGB32
+	V4L2_PIX_FMT_RGB565
+	V4L2_PIX_FMT_RGB565X
+	V4L2_PIX_FMT_UYVY
+	V4L2_PIX_FMT_VYUY
+	V4L2_PIX_FMT_YUYV
+	V4L2_PIX_FMT_YVYU
+	V4L2_PIX_FMT_XBGR32
+	V4L2_PIX_FMT_XRGB32
+	V4L2_PIX_FMT_YUV420
+	V4L2_PIX_FMT_YVU420
 
-This commit also adds a bunch of comments annotating what
-the various register writes in the init lists are doing.
+It is just that it defaults to request RGB24 when not in userptr mode
+or when --dont-use-libv4l2 is not used.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/staging/media/atomisp/i2c/ov2680.h | 46 +++++++++++-----------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+I guess it makes sense to make it smarter by using a native format,
+using its internal logic if the format is directly supported on it.
 
-diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
-index 4e351196fe34..7ab337b859ad 100644
---- a/drivers/staging/media/atomisp/i2c/ov2680.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2680.h
-@@ -485,19 +485,19 @@ static struct ov2680_reg const ov2680_720x592_30fps[] = {
- static struct ov2680_reg const ov2680_800x600_30fps[] = {
- 	{0x3086, 0x01},
- 	{0x370a, 0x23},
--	{0x3801, 0x00},
-+	{0x3801, 0x00}, /* hstart 0 */
- 	{0x3802, 0x00},
--	{0x3803, 0x00},
-+	{0x3803, 0x00}, /* vstart 0 */
- 	{0x3804, 0x06},
--	{0x3805, 0x4f},
-+	{0x3805, 0x4f}, /* hend 1615 */
- 	{0x3806, 0x04},
--	{0x3807, 0xbf},
-+	{0x3807, 0xbf}, /* vend 1215 */
- 	{0x3808, 0x03},
--	{0x3809, 0x20},
-+	{0x3809, 0x20}, /* hsize 800 */
- 	{0x380a, 0x02},
--	{0x380b, 0x58},
-+	{0x380b, 0x58}, /* vsize 600 */
- 	{0x380c, 0x06},
--	{0x380d, 0xac},
-+	{0x380d, 0xac}, /* htotal 1708 */
- 	{0x3810, 0x00},
- 	{0x3811, 0x00},
- 	{0x3812, 0x00},
-@@ -524,19 +524,19 @@ static struct ov2680_reg const ov2680_800x600_30fps[] = {
- static struct ov2680_reg const ov2680_720p_30fps[] = {
- 	{0x3086, 0x00},
- 	{0x370a, 0x21},
--	{0x3801, 0xa0},
-+	{0x3801, 0xa0}, /* hstart 160 */
- 	{0x3802, 0x00},
--	{0x3803, 0xf2},
-+	{0x3803, 0xf2}, /* vstart 242 */
- 	{0x3804, 0x05},
--	{0x3805, 0xbf},
-+	{0x3805, 0xbf}, /* hend 1471 */
- 	{0x3806, 0x03},
--	{0x3807, 0xdd},
-+	{0x3807, 0xdd}, /* vend 989 */
- 	{0x3808, 0x05},
--	{0x3809, 0x10},
-+	{0x3809, 0x10}, /* hsize 1296 */
- 	{0x380a, 0x02},
--	{0x380b, 0xe0},
-+	{0x380b, 0xe0}, /* vsize 736 */
- 	{0x380c, 0x06},
--	{0x380d, 0xa8},
-+	{0x380d, 0xa8}, /* htotal 1704 */
- 	{0x3810, 0x00},
- 	{0x3811, 0x08},
- 	{0x3812, 0x00},
-@@ -563,19 +563,19 @@ static struct ov2680_reg const ov2680_720p_30fps[] = {
- static struct ov2680_reg const ov2680_1296x976_30fps[] = {
- 	{0x3086, 0x00},
- 	{0x370a, 0x21},
--	{0x3801, 0xa0},
-+	{0x3801, 0xa0}, /* hstart 160 */
- 	{0x3802, 0x00},
--	{0x3803, 0x78},
-+	{0x3803, 0x78}, /* vstart 120 */
- 	{0x3804, 0x05},
--	{0x3805, 0xbf},
-+	{0x3805, 0xbf}, /* hend 1471 */
- 	{0x3806, 0x04},
--	{0x3807, 0x57},
-+	{0x3807, 0x57}, /* vend 1111 */
- 	{0x3808, 0x05},
--	{0x3809, 0x10},
-+	{0x3809, 0x10}, /* hsize 1296 */
- 	{0x380a, 0x03},
--	{0x380b, 0xd0},
-+	{0x380b, 0xd0}, /* vsize 976 */
- 	{0x380c, 0x06},
--	{0x380d, 0xa8},
-+	{0x380d, 0xa8}, /* htotal 1704 */
- 	{0x3810, 0x00},
- 	{0x3811, 0x08},
- 	{0x3812, 0x00},
-@@ -820,8 +820,8 @@ static struct ov2680_resolution ov2680_res_preview[] = {
- 		.regs = ov2680_1296x976_30fps,
- 	},
- 	{
--		.width = 1280,
--		.height = 720,
-+		.width = 1296,
-+		.height = 736,
- 		.fps = 60,
- 		.pix_clk_freq = 66,
- 		.pixels_per_line = 1698,//1704,
--- 
-2.38.1
+It would also make sense to add Bayer and MPEG formats to it
+as well.
 
+> >> I've already send out a libv4lconvert fix for this. Also this can be worked
+> >> around by passing --dont-use-libv4l2 as argument to camorama.  
+> > 
+> > Was the patch already applied? The better would be to apply it at
+> > libv4l2 upstream, as a fix, porting it to old versions, and mentioning
+> > on what versions this got fixed on this changeset.  
+> 
+> I see that you have already found the patches. I will add a comment
+> to the commit msg pointing to the now applied patch.
+
+Ok.
+
+Regards,
+Mauro
