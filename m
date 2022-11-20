@@ -1,7 +1,7 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C50BEBF8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F446EBEB
 	for <linux-staging@lists.linux.dev>; Sun, 20 Nov 2022 22:41:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1668984094;
@@ -9,23 +9,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=S0UtkBCP79CbX4HC5j9osnoAbl+WZJiovxaTKMd1zGs=;
-	b=M8pFkLEIWQmG1R/iBhWioNpVTjHmsaKn6s5WjvGSBUiy+XbICAZsNTVNvfHgiN/W7Lb/b8
-	Zr59o8nlyOjC6Z4EopLNdbDXwyYtzp+uws9YejAj2tJw4B73qnQOUltBtybjHDVCqucbhW
-	l3s4EPR7zPMPJVehlFtpJRJ6DjYswbU=
+	bh=4TqMfHU2WtW9dP91YrXnJUNngz4nZrbVS91NAKAbt9I=;
+	b=foQBnoxaMu2K0ubvFg/ohCCv7KgTqTeOmNoQn8BElAbYUOfBEkaibD4Mc2hd8NBQuC4kmW
+	wm0h1k5ivv+p1plrUChzmdaeyhpihdPVdKh6rajTM+XRBlKoJ/FlOFdQp3eC9UupNmkNgI
+	TmKcnwk1XxsQyFly5qnuklivGYzjZls=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-xIXREmFYMse3npL2dS0jyA-1; Sun, 20 Nov 2022 17:41:30 -0500
-X-MC-Unique: xIXREmFYMse3npL2dS0jyA-1
+ us-mta-16-OGlMGEMSOSih8mSLTBXznQ-1; Sun, 20 Nov 2022 17:41:28 -0500
+X-MC-Unique: OGlMGEMSOSih8mSLTBXznQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CB2B85A588;
-	Sun, 20 Nov 2022 22:41:30 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.70])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A0CBF47505E;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B0AF833A06;
 	Sun, 20 Nov 2022 22:41:28 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.70])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EC2EC47505E;
+	Sun, 20 Nov 2022 22:41:26 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 11/20] media: atomisp: Remove double atomisp_mrfld_power_down()/_up() calls from atomisp_reset()
-Date: Sun, 20 Nov 2022 23:40:52 +0100
-Message-Id: <20221120224101.746199-12-hdegoede@redhat.com>
+Subject: [PATCH 10/20] media: atomisp: Drop userptr support from hmm
+Date: Sun, 20 Nov 2022 23:40:51 +0100
+Message-Id: <20221120224101.746199-11-hdegoede@redhat.com>
 In-Reply-To: <20221120224101.746199-1-hdegoede@redhat.com>
 References: <20221120224101.746199-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,79 +52,202 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 
-atomisp_reset() calls atomisp_mrfld_power_down() after calling
-atomisp_runtime_suspend(), which already calls
-atomisp_mrfld_power_down() itself.
-
-And the some goes for atomisp_runtime_resume() / atomisp_mrfld_power_up().
+After the conversion to videobuf2 userptr support is no longer needed,
+drop it.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c  | 16 +++++-----------
- drivers/staging/media/atomisp/pci/atomisp_cmd.h  |  2 --
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c |  4 ++--
- 3 files changed, 7 insertions(+), 15 deletions(-)
+ .../staging/media/atomisp/include/hmm/hmm.h   |  1 -
+ .../media/atomisp/include/hmm/hmm_bo.h        |  2 -
+ drivers/staging/media/atomisp/pci/hmm/hmm.c   | 19 +++----
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 53 +------------------
+ 4 files changed, 7 insertions(+), 68 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 7f33a2f1e3fc..c69a646aa4d5 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -311,17 +311,11 @@ int atomisp_reset(struct atomisp_device *isp)
- 	ret = atomisp_runtime_suspend(isp->dev);
- 	if (ret < 0)
- 		dev_err(isp->dev, "atomisp_runtime_suspend failed, %d\n", ret);
--	ret = atomisp_mrfld_power_down(isp);
--	if (ret < 0) {
--		dev_err(isp->dev, "can not disable ISP power\n");
--	} else {
--		ret = atomisp_mrfld_power_up(isp);
--		if (ret < 0)
--			dev_err(isp->dev, "can not enable ISP power\n");
--		ret = atomisp_runtime_resume(isp->dev);
--		if (ret < 0)
--			dev_err(isp->dev, "atomisp_runtime_resume failed, %d\n", ret);
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm.h b/drivers/staging/media/atomisp/include/hmm/hmm.h
+index b81b8580d405..2bc323b34f89 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm.h
+@@ -37,7 +37,6 @@ int hmm_init(void);
+ void hmm_cleanup(void);
+ 
+ ia_css_ptr hmm_alloc(size_t bytes);
+-ia_css_ptr hmm_create_from_userdata(size_t bytes, const void __user *userptr);
+ ia_css_ptr hmm_create_from_vmalloc_buf(size_t bytes, void *vmalloc_addr);
+ 
+ void hmm_free(ia_css_ptr ptr);
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+index a51d89f0b5cc..b4c03e0ca9c0 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+@@ -74,7 +74,6 @@
+ enum hmm_bo_type {
+ 	HMM_BO_PRIVATE,
+ 	HMM_BO_VMALLOC,
+-	HMM_BO_USER,
+ 	HMM_BO_LAST,
+ };
+ 
+@@ -208,7 +207,6 @@ int hmm_bo_allocated(struct hmm_buffer_object *bo);
+  */
+ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
+ 		       enum hmm_bo_type type,
+-		       const void __user *userptr,
+ 		       void *vmalloc_addr);
+ void hmm_bo_free_pages(struct hmm_buffer_object *bo);
+ int hmm_bo_page_allocated(struct hmm_buffer_object *bo);
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index a262477104fc..e266628be332 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -42,9 +42,8 @@ static bool hmm_initialized;
+ /*
+  * p: private
+  * v: vmalloc
+- * u: user
+  */
+-static const char hmm_bo_type_string[] = "pvu";
++static const char hmm_bo_type_string[] = "pv";
+ 
+ static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
+ 		       char *buf, struct list_head *bo_list, bool active)
+@@ -168,7 +167,6 @@ void hmm_cleanup(void)
+ }
+ 
+ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+-			      const void __user *userptr,
+ 			      void *vmalloc_addr)
+ {
+ 	unsigned int pgnr;
+@@ -193,7 +191,7 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+ 	}
+ 
+ 	/* Allocate pages for memory */
+-	ret = hmm_bo_alloc_pages(bo, type, userptr, vmalloc_addr);
++	ret = hmm_bo_alloc_pages(bo, type, vmalloc_addr);
+ 	if (ret) {
+ 		dev_err(atomisp_dev, "hmm_bo_alloc_pages failed.\n");
+ 		goto alloc_page_err;
+@@ -207,8 +205,8 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+ 	}
+ 
+ 	dev_dbg(atomisp_dev,
+-		"%s: pages: 0x%08x (%zu bytes), type: %d, user ptr %p\n",
+-		__func__, bo->start, bytes, type, userptr);
++		"%s: pages: 0x%08x (%zu bytes), type: %d, vmalloc %p\n",
++		__func__, bo->start, bytes, type, vmalloc);
+ 
+ 	return bo->start;
+ 
+@@ -222,17 +220,12 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
+ 
+ ia_css_ptr hmm_alloc(size_t bytes)
+ {
+-	return __hmm_alloc(bytes, HMM_BO_PRIVATE, NULL, NULL);
++	return __hmm_alloc(bytes, HMM_BO_PRIVATE, NULL);
+ }
+ 
+ ia_css_ptr hmm_create_from_vmalloc_buf(size_t bytes, void *vmalloc_addr)
+ {
+-	return __hmm_alloc(bytes, HMM_BO_VMALLOC, NULL, vmalloc_addr);
+-}
+-
+-ia_css_ptr hmm_create_from_userdata(size_t bytes, const void __user *userptr)
+-{
+-	return __hmm_alloc(bytes, HMM_BO_USER, userptr, NULL);
++	return __hmm_alloc(bytes, HMM_BO_VMALLOC, vmalloc_addr);
+ }
+ 
+ void hmm_free(ia_css_ptr virt)
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 3c150268db51..11c43e296de1 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -652,49 +652,6 @@ static int alloc_private_pages(struct hmm_buffer_object *bo)
+ 	return 0;
+ }
+ 
+-static void free_user_pages(struct hmm_buffer_object *bo,
+-			    unsigned int page_nr)
+-{
+-	int i;
+-
+-	for (i = 0; i < page_nr; i++)
+-		put_page(bo->pages[i]);
+-}
+-
+-/*
+- * Convert user space virtual address into pages list
+- */
+-static int alloc_user_pages(struct hmm_buffer_object *bo,
+-			    const void __user *userptr)
+-{
+-	int page_nr;
+-
+-	userptr = untagged_addr(userptr);
+-
+-	/* Handle frame buffer allocated in user space */
+-	mutex_unlock(&bo->mutex);
+-	page_nr = get_user_pages_fast((unsigned long)userptr, bo->pgnr, 1, bo->pages);
+-	mutex_lock(&bo->mutex);
+-
+-	/* can be written by caller, not forced */
+-	if (page_nr != bo->pgnr) {
+-		dev_err(atomisp_dev,
+-			"get_user_pages err: bo->pgnr = %d, pgnr actually pinned = %d.\n",
+-			bo->pgnr, page_nr);
+-		if (page_nr < 0)
+-			page_nr = 0;
+-		goto out_of_mem;
 -	}
-+
-+	ret = atomisp_runtime_resume(isp->dev);
-+	if (ret < 0)
-+		dev_err(isp->dev, "atomisp_runtime_resume failed, %d\n", ret);
-+
- 	ret = atomisp_css_resume(isp);
- 	if (ret)
- 		isp->isp_fatal_error = true;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index d9110bba8c28..61cbdc1215de 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -341,8 +341,6 @@ int atomisp_inject_a_fake_event(struct atomisp_sub_device *asd, int *event);
- int atomisp_get_invalid_frame_num(struct video_device *vdev,
- 				  int *invalid_frame_num);
- 
--int atomisp_mrfld_power_up(struct atomisp_device *isp);
--int atomisp_mrfld_power_down(struct atomisp_device *isp);
- int atomisp_runtime_suspend(struct device *dev);
- int atomisp_runtime_resume(struct device *dev);
- #endif /* __ATOMISP_CMD_H__ */
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index d5bb9906ca6f..d7fb700252fa 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -725,13 +725,13 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
- }
- 
- /* Workaround for pmu_nc_set_power_state not ready in MRFLD */
--int atomisp_mrfld_power_down(struct atomisp_device *isp)
-+static int atomisp_mrfld_power_down(struct atomisp_device *isp)
+-
+-	return 0;
+-
+-out_of_mem:
+-
+-	free_user_pages(bo, page_nr);
+-
+-	return -ENOMEM;
+-}
+-
+ static int alloc_vmalloc_pages(struct hmm_buffer_object *bo, void *vmalloc_addr)
  {
- 	return atomisp_mrfld_power(isp, false);
- }
- 
- /* Workaround for pmu_nc_set_power_state not ready in MRFLD */
--int atomisp_mrfld_power_up(struct atomisp_device *isp)
-+static int atomisp_mrfld_power_up(struct atomisp_device *isp)
+ 	void *vaddr = vmalloc_addr;
+@@ -716,16 +673,12 @@ static int alloc_vmalloc_pages(struct hmm_buffer_object *bo, void *vmalloc_addr)
+  * allocate/free physical pages for the bo.
+  *
+  * type indicate where are the pages from. currently we have 3 types
+- * of memory: HMM_BO_PRIVATE, HMM_BO_VMALLOC, HMM_BO_USER.
++ * of memory: HMM_BO_PRIVATE, HMM_BO_VMALLOC.
+  *
+  * vmalloc_addr is only valid when type is HMM_BO_VMALLOC.
+- *
+- * userptr is only valid when type is HMM_BO_USER, it indicates
+- * the start address from user space task.
+  */
+ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
+ 		       enum hmm_bo_type type,
+-		       const void __user *userptr,
+ 		       void *vmalloc_addr)
  {
- 	return atomisp_mrfld_power(isp, true);
- }
+ 	int ret = -EINVAL;
+@@ -745,8 +698,6 @@ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
+ 		ret = alloc_private_pages(bo);
+ 	} else if (type == HMM_BO_VMALLOC) {
+ 		ret = alloc_vmalloc_pages(bo, vmalloc_addr);
+-	} else if (type == HMM_BO_USER) {
+-		ret = alloc_user_pages(bo, userptr);
+ 	} else {
+ 		dev_err(atomisp_dev, "invalid buffer type.\n");
+ 		ret = -EINVAL;
+@@ -792,8 +743,6 @@ void hmm_bo_free_pages(struct hmm_buffer_object *bo)
+ 		free_private_bo_pages(bo);
+ 	else if (bo->type == HMM_BO_VMALLOC)
+ 		; /* No-op, nothing to do */
+-	else if (bo->type == HMM_BO_USER)
+-		free_user_pages(bo, bo->pgnr);
+ 	else
+ 		dev_err(atomisp_dev, "invalid buffer type.\n");
+ 
 -- 
 2.38.1
 
