@@ -1,84 +1,67 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF842F4A
-	for <linux-staging@lists.linux.dev>; Sat, 19 Nov 2022 19:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1668887665; bh=ZzvCx/aKQd3EBJiLy/UGUsE7vHM6TVSTh1wAr6CeKRc=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=lCSzw6arnyhsMU2jhj2JAJ6v39ZZEghds1jmihmrtdDk48TvXpqDehIjAkkHJ+eLv
-	 GcQyQoD2ej/wsYB+lhFC1qcmNTW+Qg7dk+nrtfxBq0PBmng7uHifQU6pDSCts7EemG
-	 8B4DY8kWoQCpYQnScxRg/5TD2MfIDkjIOP1awN0c=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Sat, 19 Nov 2022 20:54:25 +0100 (CET)
-X-EA-Auth: YoniFlBPfdtLBBKBkWGtb73v/GdX0sJh9s2NeO1AaQWeVUawd3H2BKTvclMzz/T07W55oJrfEUk89QEC2n3jFxzh/Throbsk
-Date: Sun, 20 Nov 2022 01:24:21 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: drv@mailo.com
-Subject: [PATCH] staging: pi433: set DCC setting to spec recommended value
-Message-ID: <Y3k0bbM2/5jXfNKQ@qemulion>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1717262D
+	for <linux-staging@lists.linux.dev>; Sun, 20 Nov 2022 08:49:26 +0000 (UTC)
+Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.54])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NFPHy2gbhzFqLm;
+	Sun, 20 Nov 2022 16:46:06 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sun, 20 Nov 2022 16:49:19 +0800
+Received: from localhost.localdomain (10.175.112.70) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sun, 20 Nov 2022 16:49:18 +0800
+From: Zhang Changzhong <zhangchangzhong@huawei.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Won Kang
+	<wkang77@gmail.com>
+CC: Zhang Changzhong <zhangchangzhong@huawei.com>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] staging: gdm724x: fix potential memleak in register_lte_device()
+Date: Sun, 20 Nov 2022 17:08:35 +0800
+Message-ID: <1668935315-40471-1-git-send-email-zhangchangzhong@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.70]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 
-The DCCFreq value is used to obtain the DC offset canceller cut-off
-frequency. Upon device power reset, the bits 7-5 of the RegRxBw register
-that represent the DCCFreq setting are set to 0x4, which evaluates the
-cut-off frequency to be 1% of RxBw.
+The register_lte_device() forgets to free the current netdev in case of
+register_netdev() fails, add free_netdev() to fix it.
 
-In the current implementation, first, there is no configuration variable
-defined in the struct pi433_rx_cfg for the user to set this value as
-part of the UAPI. Second, the code simply ignores the value of DCC
-setting and allows it to never change.
+Compile tested only.
 
-As per the RFM69HCW tech specs, the default value for DCC frequency is
-recommended to be 4% of the RxBw; which requires the DCC setting bits
-to be set to 010. So allow the DCC setting to change to recommended /
-default value for improved rx sensitivity.
-
-Signed-off-by: Deepak R Varma <drv@mailo.com>
+Fixes: 61e121047645 ("staging: gdm7240: adding LTE USB driver")
+Signed-off-by: Zhang Changzhong <zhangchangzhong@huawei.com>
 ---
+ drivers/staging/gdm724x/gdm_lte.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Please Note: The proposed change is compile tested only. I am unable to perform
-device based testing in the absence of the hardware, both the RasPi board and the
-Pi433 device. Please let me know if it is necessary for me to test such patches
-on the real device myself. I will stop sending the patches till I have the hardware
-to test them. Thanks.
-
-
-
- drivers/staging/pi433/rf69.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index 8c7fab6a46bb..8468d4717dd0 100644
---- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -465,6 +465,13 @@ static int rf69_set_bandwidth_intern(struct spi_device *spi, u8 reg,
- 	// read old value
- 	bandwidth = rf69_read_reg(spi, reg);
-
-+	/* DCC setting bits [7-5] are set to 0x4 on reset. Since there is no user
-+	 * input available in the rx config struct, we should set it to default
-+	 * or the recommended value as per the technical specification.
-+	 */
-+	if ((bandwidth >> 5) == 0x4)
-+		bandwidth = bandwidth & BW_DCC_4_PERCENT;
-+
- 	// "delete" mantisse and exponent = just keep the DCC setting
- 	bandwidth = bandwidth & MASK_BW_DCC_FREQ;
-
---
-2.34.1
-
-
+diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gdm_lte.c
+index 671ee88..34ac9e0 100644
+--- a/drivers/staging/gdm724x/gdm_lte.c
++++ b/drivers/staging/gdm724x/gdm_lte.c
+@@ -905,8 +905,10 @@ int register_lte_device(struct phy_dev *phy_dev,
+ 		SET_NETDEV_DEVTYPE(net, &wwan_type);
+ 
+ 		ret = register_netdev(net);
+-		if (ret)
++		if (ret) {
++			free_netdev(net);
+ 			goto err;
++		}
+ 
+ 		netif_carrier_on(net);
+ 
+-- 
+2.9.5
 
