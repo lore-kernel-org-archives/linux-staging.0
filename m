@@ -1,98 +1,67 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55FD63AA
-	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 13:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669037505; x=1700573505;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ceh0DaFQWSL4oJtGHDPdZNHSDLWu93eSVmt8Lic6F1g=;
-  b=lWocZUdjZibHHe+AGZs5UiYZ+DGNUvn3hmIdRXkWC4jRemkQrLgwm1Jy
-   YDrDgtsW1jP0I6wewFNIH5jN7Vtn7NhQvqFzAE2ibdjwxn755UGrj1qGm
-   qr/dXZYy7Kxirfl7hWjQz7/AFVTvMtZAowMijBtuOFSyUzMuljZckBJa8
-   e8xoLRzHEG7ZbpIbK1B4yQuDdi/d4TbgQT9vayjZcfo1smEFQ0+oE4/3N
-   C+hZAALMGT/dhsCfKw5m3cFCHp1A3Aobr3mEVKcAUHy+fz3dVLwtrCAbO
-   FigtQKSReIf1u8RvNwIxdyFrIIoPrP5p7o1KO71f2BCXy/Clgu+zOoe4m
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="293945697"
-X-IronPort-AV: E=Sophos;i="5.96,181,1665471600"; 
-   d="scan'208";a="293945697"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2022 05:31:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="643320284"
-X-IronPort-AV: E=Sophos;i="5.96,181,1665471600"; 
-   d="scan'208";a="643320284"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2022 05:31:34 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ox6tY-00FI8e-2N;
-	Mon, 21 Nov 2022 15:31:32 +0200
-Date: Mon, 21 Nov 2022 15:31:32 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364D263D1
+	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 16:06:22 +0000 (UTC)
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4NGBrg55brz4x1C4
+	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 16:58:43 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:4821:1ba5:2638:5c3a])
+	by laurent.telenet-ops.be with bizsmtp
+	id n3yb2800D5WXlCv013ybwv; Mon, 21 Nov 2022 16:58:35 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1ox9Bq-0019GF-Nt; Mon, 21 Nov 2022 16:58:34 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1ox9Bp-00BRbY-Vb; Mon, 21 Nov 2022 16:58:33 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/1] atomisp: Make bds_factors_list be type of struct
- u32_fract
-Message-ID: <Y3t9tNlXZCHcw4jd@smile.fi.intel.com>
-References: <20221118184309.60834-1-andriy.shevchenko@linux.intel.com>
- <837c5412-5019-c78a-d890-7fedd4064a9e@redhat.com>
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH resend] media: staging: stkwebcam: Restore MEDIA_{USB,CAMERA}_SUPPORT dependencies
+Date: Mon, 21 Nov 2022 16:58:33 +0100
+Message-Id: <a50fa46075fb760d8409ff6ea2232b2ddb7a102b.1669046259.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <837c5412-5019-c78a-d890-7fedd4064a9e@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 21, 2022 at 02:21:30PM +0100, Hans de Goede wrote:
-> On 11/18/22 19:43, Andy Shevchenko wrote:
+By moving support for the USB Syntek DC1125 Camera to staging, the
+dependencies on MEDIA_USB_SUPPORT and MEDIA_CAMERA_SUPPORT were lost.
 
-...
+Fixes: 56280c64ecacc971 ("media: stkwebcam: deprecate driver, move to staging")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/staging/media/deprecated/stkwebcam/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Thanks, patch looks good to me:
-> 
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> I've added this to my media-atomisp branch now and will
-> include this in the pull-req which I will send to Mauro after I've
-> run some quick tests (tonight or tomorrow).
-
-Thank you!
-
-...
-
-> >  	res->sc_bayer_origin_x_bqs_on_shading_table =
-> >  		((left_padding_adjusted_bqs + bad_bqs_on_left_before_bs)
-> > -		* bs_hor_ratio_out + bs_hor_ratio_in / 2) / bs_hor_ratio_in
-> > +		* bds.denominator + bds.numerator / 2) / bds.numerator
-> >  		+ bad_bqs_on_left_after_bs;
-> > -	/* "+ bs_hor_ratio_in/2": rounding for division by bs_hor_ratio_in */
-> > +	/* "+ bds.numerator / 2": rounding for division by bds.numerator */
-> >  	res->sc_bayer_origin_y_bqs_on_shading_table =
-> > -		(bad_bqs_on_top_before_bs * bs_ver_ratio_out + bs_ver_ratio_in / 2) / bs_ver_ratio_in
-> > +		(bad_bqs_on_top_before_bs * bds.denominator + bds.numerator / 2) / bds.numerator
-> >  		+ bad_bqs_on_top_after_bs;
-> > -	/* "+ bs_ver_ratio_in/2": rounding for division by bs_ver_ratio_in */
-> > +	/* "+ bds.numerator / 2": rounding for division by bds.numerator */
-
-While reading this code again I just realized this is open coded
-DIV_ROUND_CLOSEST(). But, thinking more, I believe we may rather introduce
-the FRACT_DIV_ROUND_CLOSEST() macro in the math.h and take struct *_fract
-as a parameter. In any case, it's for the future improvements.
-
+diff --git a/drivers/staging/media/deprecated/stkwebcam/Kconfig b/drivers/staging/media/deprecated/stkwebcam/Kconfig
+index 4450403dff41fb64..7234498e634ac61c 100644
+--- a/drivers/staging/media/deprecated/stkwebcam/Kconfig
++++ b/drivers/staging/media/deprecated/stkwebcam/Kconfig
+@@ -2,7 +2,7 @@
+ config VIDEO_STKWEBCAM
+ 	tristate "USB Syntek DC1125 Camera support (DEPRECATED)"
+ 	depends on VIDEO_DEV
+-	depends on USB
++	depends on MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
+ 	help
+ 	  Say Y here if you want to use this type of camera.
+ 	  Supported devices are typically found in some Asus laptops,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
