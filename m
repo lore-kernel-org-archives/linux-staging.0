@@ -1,24 +1,24 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF40EA4F
-	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 09:14:32 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="399800445"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D11A4F
+	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 09:17:04 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="301056792"
 X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
-   d="scan'208";a="399800445"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2022 01:14:32 -0800
+   d="scan'208";a="301056792"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2022 01:17:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="643246585"
+X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="746828979"
 X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
-   d="scan'208";a="643246585"
+   d="scan'208";a="746828979"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2022 01:14:29 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2022 01:17:01 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
 	(envelope-from <andy@kernel.org>)
-	id 1ox2sl-00FC7R-21;
-	Mon, 21 Nov 2022 11:14:27 +0200
-Date: Mon, 21 Nov 2022 11:14:27 +0200
+	id 1ox2vE-00FCA4-01;
+	Mon, 21 Nov 2022 11:17:00 +0200
+Date: Mon, 21 Nov 2022 11:16:59 +0200
 From: Andy Shevchenko <andy@kernel.org>
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -28,11 +28,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
 	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 17/20] media: atomisp: Move calling of css_[un]init() to
- power_on()/_off()
-Message-ID: <Y3tBc4u/oZ6jacrm@smile.fi.intel.com>
+Subject: Re: [PATCH 15/20] media: atomisp: Remove sw_contex.power_state checks
+Message-ID: <Y3tCC/AU0ixWRBa8@smile.fi.intel.com>
 References: <20221120224101.746199-1-hdegoede@redhat.com>
- <20221120224101.746199-18-hdegoede@redhat.com>
+ <20221120224101.746199-16-hdegoede@redhat.com>
+ <Y3tAWI/K3VgeOBrh@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,43 +41,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221120224101.746199-18-hdegoede@redhat.com>
+In-Reply-To: <Y3tAWI/K3VgeOBrh@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sun, Nov 20, 2022 at 11:40:58PM +0100, Hans de Goede wrote:
-> atomisp_css_init() is always called after calling atomisp_power_on()
-> either directly or through getting a runtime-pm reference.
+On Mon, Nov 21, 2022 at 11:09:44AM +0200, Andy Shevchenko wrote:
+> On Sun, Nov 20, 2022 at 11:40:56PM +0100, Hans de Goede wrote:
+> > Remove the unnecessary sw_contex.power_state checks:
+> > 
+> > 1. atomisp_freq_scaling() and atomisp_stop_streaming() only run when the
+> >    ISP is powered up through runtime-pm, so the checkes are not necessary
+> > 
+> > 2. atomisp_mrfld_pre_power_down() and atomisp_runtime_resume() are only
+> >    called through the driver-core pm handling code which already
+> >    guarantees they are not called when already powered down / up.
+> > 
+> > 3. atomisp_isr() also checks isp->css_initialized which only gets set
+> >    by atomisp_css_init() which runs *after* powering up the ISP and
+> >    which gets cleared by atomisp_css_uninit() *before* before powering
+> >    down the ISP.
+> > 
+> > So all the checks are unnecessary, remove them as well as the
+> > sw_contex.power_state field itself.
 > 
-> Likewise atomisp_css_uninit() is always called after calling
-> atomisp_power_off().
+> ...
 > 
-> Move the call site of these 2 functions to inside atomisp_power_on() /
-> atomisp_power_off() to make this more explicit.
+> > +	/*Turn on ISP d-phy */
+> 
+> While at it, you may add a whitespace after /*.
 
-...
+Okay, it's going to be removed by one of the following changes.
+No need to amend.
 
->  	dev_dbg(isp->dev, "%s\n", __func__);
-> -	atomisp_css_uninit(isp);
-> +
->  	ret = atomisp_power_off(isp->dev);
->  	if (ret < 0)
->  		dev_err(isp->dev, "atomisp_power_off failed, %d\n", ret);
->  
->  	ret = atomisp_power_on(isp->dev);
-> -	if (ret < 0)
-> +	if (ret < 0) {
->  		dev_err(isp->dev, "atomisp_power_on failed, %d\n", ret);
-> -
-> -	ret = atomisp_css_init(isp);
-> -	if (ret)
-
->  		isp->isp_fatal_error = true;
-
-This was only set when css_init() failed, now it may be set even when
-power_on() fails. Why is it not a problem? Commit message doesn't shed
-a light on this change.
-
-> +	}
+> > +	ret = atomisp_ospm_dphy_up(isp);
+> > +	if (ret) {
+> > +		dev_err(isp->dev, "Failed to power up ISP!.\n");
+> > +		return -EINVAL;
+> >  	}
 
 -- 
 With Best Regards,
