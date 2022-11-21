@@ -1,37 +1,37 @@
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364D263D1
-	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 16:06:22 +0000 (UTC)
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4NGBrg55brz4x1C4
-	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 16:58:43 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:4821:1ba5:2638:5c3a])
-	by laurent.telenet-ops.be with bizsmtp
-	id n3yb2800D5WXlCv013ybwv; Mon, 21 Nov 2022 16:58:35 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1ox9Bq-0019GF-Nt; Mon, 21 Nov 2022 16:58:34 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1ox9Bp-00BRbY-Vb; Mon, 21 Nov 2022 16:58:33 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD640EC1D
+	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 21:48:30 +0000 (UTC)
+Received: from umang.jainideasonboard.com (unknown [103.86.18.138])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C7A874C;
+	Mon, 21 Nov 2022 22:48:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1669067303;
+	bh=Kf8EluE+fwGC8xwbosUvV+6ZUTupXQpqvZZJfMfS7d0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HsnS9bclZArwzfpxLL+o8KkAul0WxmhjXy6rfb9jfWCOuG0AgkBM9xqiPBWQ7+C0/
+	 TM9+SHUe8S0YVt38onB4DplHnLtelhAfnqhoj6eCiIdKfSiCx3Laj2s13PoCMGAlUi
+	 lO1/bGpcYtT2Q4Lo1+BDqGnGqlghywdxXbs/e2JQ=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	kernel-list@raspberrypi.com,
 	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH resend] media: staging: stkwebcam: Restore MEDIA_{USB,CAMERA}_SUPPORT dependencies
-Date: Mon, 21 Nov 2022 16:58:33 +0100
-Message-Id: <a50fa46075fb760d8409ff6ea2232b2ddb7a102b.1669046259.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+Date: Tue, 22 Nov 2022 03:17:08 +0530
+Message-Id: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,28 +40,128 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-By moving support for the USB Syntek DC1125 Camera to staging, the
-dependencies on MEDIA_USB_SUPPORT and MEDIA_CAMERA_SUPPORT were lost.
+This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+independent subset of earlier series [2] posted to upport CSI-2/CCP2
+receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
+SoCs (namely BCM2711). Unicam is still under active development to work
+with multistream support to get into mainline. Hence only the ISP driver
+will remain the primary area of this series.
 
-Fixes: 56280c64ecacc971 ("media: stkwebcam: deprecate driver, move to staging")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/staging/media/deprecated/stkwebcam/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patch (01-02)/14  adds a new driver named vc-sm-cma to handle memory sharing
+with the VC4 VPU. 
 
-diff --git a/drivers/staging/media/deprecated/stkwebcam/Kconfig b/drivers/staging/media/deprecated/stkwebcam/Kconfig
-index 4450403dff41fb64..7234498e634ac61c 100644
---- a/drivers/staging/media/deprecated/stkwebcam/Kconfig
-+++ b/drivers/staging/media/deprecated/stkwebcam/Kconfig
-@@ -2,7 +2,7 @@
- config VIDEO_STKWEBCAM
- 	tristate "USB Syntek DC1125 Camera support (DEPRECATED)"
- 	depends on VIDEO_DEV
--	depends on USB
-+	depends on MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
- 	help
- 	  Say Y here if you want to use this type of camera.
- 	  Supported devices are typically found in some Asus laptops,
+Patch 03/14 adds a small extension to videobuf2 to allow exporting as a
+dma_buf instead of a file-descriptor.
+
+Patch (04-05)/14 adds a couple of improvements/support for
+bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
+
+Patch (06-09)/14 adds the core bcm2835-isp driver along with headers
+and format defintions.
+
+Patch (10-11)/14 deals with the colorspace support.
+Note: This is still WIP since the implementation of colorspace is still
+getting ironed out (especially around setting of colorspace flags handling).
+
+Patch 12/14 allows multiple instances of the ISP.
+
+Patch 13/14 adds a admin-guide document on bcm2835-isp.
+
+Patch 14/14 wires all this up with the vchiq-mmal driver.
+
+Testing:
+Tested with RPi Model 4B running linux mainline v6.1-rc6. To test
+end-to-end, I choose to cherry-pick the Unicam patches and OV5647 DT
+bindings from [1]). Once done, functional testing was conducted with
+libcamera[3] and its utility tools.
+
+Also note: Reviews given on [2] for the relevant ISP driver patches have
+been incorporated in this version.
+
+Known issues:
+- Colorspace handling 
+- vc-sm-cma spamming kernel log with
+	- pr_err("%s: Expecting an uncached alias for dma_addr %pad\n"
+
+[1]: https://github.com/raspberrypi/linux
+[2]: https://lore.kernel.org/linux-media/20200504092611.9798-1-laurent.pinchart@ideasonboard.com/
+[3]: https://libcamera.org/getting-started.html
+
+Dave Stevenson (7):
+  staging: vc04_services: Add new vc-sm-cma driver
+  staging: vchiq_arm: Register vcsm-cma as a platform driver
+  media: videobuf2: Allow exporting of a struct dmabuf
+  staging: mmal-vchiq: Add support for event callbacks
+  staging: mmal-vchiq: Use vc-sm-cma to support zero copy
+  staging: mmal_vchiq: Add image formats to be used by bcm2835-isp
+  uapi: bcm2835-isp: Add bcm2835-isp uapi header file
+
+David Plowman (2):
+  vc04_services: bcm2835-isp: Allow formats with different colour spaces
+  vc04_services: bcm2835-isp: Permit all sRGB colour spaces on ISP
+    outputs
+
+Naushir Patuck (5):
+  media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
+  staging: vc04_services: bcm2835-isp: Add a more complex ISP processing
+    component
+  staging: vc04_services: bcm2835_isp: Allow multiple users
+  docs: admin-guide: media: bcm2835-isp: Add documentation for
+    bcm2835-isp
+  staging: vc04_services: vchiq: Load bcm2835_isp driver from vchiq
+
+ .../admin-guide/media/bcm2835-isp.rst         |  127 ++
+ .../userspace-api/media/drivers/index.rst     |    1 +
+ .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+ .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   41 +
+ MAINTAINERS                                   |    9 +
+ .../media/common/videobuf2/videobuf2-core.c   |   36 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ drivers/staging/vc04_services/Kconfig         |    4 +
+ drivers/staging/vc04_services/Makefile        |    2 +
+ .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
+ .../vc04_services/bcm2835-isp/Makefile        |    8 +
+ .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
+ .../bcm2835-isp/bcm2835-isp-fmts.h            |  558 +++++
+ .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1817 +++++++++++++++++
+ .../interface/vchiq_arm/vchiq_arm.c           |    6 +
+ .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
+ .../staging/vc04_services/vc-sm-cma/Makefile  |   12 +
+ .../staging/vc04_services/vc-sm-cma/vc_sm.c   |  801 ++++++++
+ .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   54 +
+ .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  507 +++++
+ .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
+ .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  187 ++
+ .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
+ .../staging/vc04_services/vchiq-mmal/Kconfig  |    1 +
+ .../vc04_services/vchiq-mmal/mmal-common.h    |    5 +
+ .../vc04_services/vchiq-mmal/mmal-encodings.h |   66 +
+ .../vc04_services/vchiq-mmal/mmal-msg.h       |   35 +
+ .../vchiq-mmal/mmal-parameters.h              |  165 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  253 ++-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.h     |    5 +
+ include/media/videobuf2-core.h                |   15 +
+ include/uapi/linux/bcm2835-isp.h              |  347 ++++
+ include/uapi/linux/v4l2-controls.h            |    6 +
+ include/uapi/linux/videodev2.h                |    1 +
+ 34 files changed, 5225 insertions(+), 33 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stats.rst
+ create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
+ create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
+ create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-ctrls.h
+ create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-fmts.h
+ create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+ create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
+ create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
+ create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
+ create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
+ create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
+ create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
+ create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
+ create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
+ create mode 100644 include/uapi/linux/bcm2835-isp.h
+
 -- 
-2.25.1
+2.37.3
 
