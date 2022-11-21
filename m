@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5F11079F
-	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 23:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508371079F
+	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 23:41:38 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2404588F;
-	Tue, 22 Nov 2022 00:36:02 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2322788F;
+	Tue, 22 Nov 2022 00:41:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1669073762;
-	bh=3VWpmzoh5E5Wu8pU8xTt80N7017DTFHJ6/6yLl+OX5c=;
+	s=mail; t=1669074096;
+	bh=OsNzWOxt+1Uz9pblEiTC7lBWE1dWJGL9cCym66ao+hA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m3D9zVzZY9O/z86qEYnCXv+Mmiz0DYEQJq6OoYJ1aSA6y/dPIin5oAumzlg5myhRf
-	 H3RLAvu2Y3K0v7Srli5unumLxaI8SXCdjnCwfByBUDSgDM0piU6RxZ0oyCHowpEfEW
-	 KHuUOv7MhZYfAHR7xQBXHySRaiuwwYuj9GcJT2sQ=
-Date: Tue, 22 Nov 2022 01:35:47 +0200
+	b=BSYxu68Bxi+i6zA2IBtJTdyNSgC0QbSR4M/jE4FDeatfguQNWpW/e5l8ysyKLwagi
+	 qm4CIZU/Dt1P7hV3Wzymz4NWWtinO9DHg33OD5e+dVVePLMzJH/58FnjkXkH7t9jRS
+	 zb8qd3rPQ3qx2kNM42eps2A/QcP3kQeRt66HXCdg=
+Date: Tue, 22 Nov 2022 01:41:21 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Umang Jain <umang.jain@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
@@ -25,12 +25,11 @@ Cc: linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
 	Naushir Patuck <naush@raspberrypi.com>,
 	David Plowman <david.plowman@raspberrypi.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 12/14] staging: vc04_services: bcm2835_isp: Allow
- multiple users
-Message-ID: <Y3wLUwfOn0TzndZe@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 13/14] docs: admin-guide: media: bcm2835-isp: Add
+ documentation for bcm2835-isp
+Message-ID: <Y3wMof/ERK7ZBINW@pendragon.ideasonboard.com>
 References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <20221121214722.22563-13-umang.jain@ideasonboard.com>
- <Y3wJ6/+Hl6JTm1Bu@pendragon.ideasonboard.com>
+ <20221121214722.22563-14-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,193 +38,188 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y3wJ6/+Hl6JTm1Bu@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221121214722.22563-14-umang.jain@ideasonboard.com>
 
-On Tue, Nov 22, 2022 at 01:29:48AM +0200, Laurent Pinchart wrote:
-> Hi Umang and Naush,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Nov 22, 2022 at 03:17:20AM +0530, Umang Jain wrote:
-> > From: Naushir Patuck <naush@raspberrypi.com>
-> > 
-> > Add a second (identical) set of device nodes to allow concurrent use of
-> > the bcm2835-isp hardware by another user. This change effectively
-> > creates a second state structure (struct bcm2835_isp_dev) to maintain
-> > independent state for the second user. Node and media entity names are
-> > appened with the instance index appropriately.
-> > 
-> > Further users can be added by changing the BCM2835_ISP_NUM_INSTANCES
-> > define.
-> > 
-> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> 
-> Let's squash this with 09/14.
+Hi Umang and Naush,
 
-Also, the documentation in 13/14 should be updated.
+Thank you for the patch.
 
-> > ---
-> >  .../bcm2835-isp/bcm2835-v4l2-isp.c            | 77 +++++++++++++++----
-> >  1 file changed, 61 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c b/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
-> > index cb7cdba76682..0dbcb25595e7 100644
-> > --- a/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
-> > +++ b/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
-> > @@ -28,13 +28,19 @@
-> >  
-> >  MODULE_IMPORT_NS(DMA_BUF);
-> >  
-> > +/*
-> > + * We want to instantiate 2 independent instances allowing 2 simultaneous users
-> > + * of the ISP hardware.
-> > + */
-> > +#define BCM2835_ISP_NUM_INSTANCES 2
-> > +
-> >  static unsigned int debug;
-> >  module_param(debug, uint, 0644);
-> >  MODULE_PARM_DESC(debug, "activates debug info");
-> >  
-> > -static unsigned int video_nr = 13;
-> > -module_param(video_nr, uint, 0644);
-> > -MODULE_PARM_DESC(video_nr, "base video device number");
-> > +static unsigned int video_nr[BCM2835_ISP_NUM_INSTANCES] = { 13, 20 };
-> > +module_param_array(video_nr, uint, NULL, 0644);
-> > +MODULE_PARM_DESC(video_nr, "base video device numbers");
-> >  
-> >  #define BCM2835_ISP_NAME "bcm2835-isp"
-> >  #define BCM2835_ISP_ENTITY_NAME_LEN 32
-> > @@ -1286,6 +1292,7 @@ static int bcm2835_isp_get_supported_fmts(struct bcm2835_isp_node *node)
-> >   * or output nodes.
-> >   */
-> >  static int register_node(struct bcm2835_isp_dev *dev,
-> > +			 unsigned int instance,
-> >  			 struct bcm2835_isp_node *node,
-> >  			 int index)
-> >  {
-> > @@ -1447,7 +1454,7 @@ static int register_node(struct bcm2835_isp_dev *dev,
-> >  	snprintf(vfd->name, sizeof(node->vfd.name), "%s-%s%d", BCM2835_ISP_NAME,
-> >  		 node->name, node->id);
-> >  
-> > -	ret = video_register_device(vfd, VFL_TYPE_VIDEO, video_nr + index);
-> > +	ret = video_register_device(vfd, VFL_TYPE_VIDEO, video_nr[instance]);
-> >  	if (ret) {
-> >  		v4l2_err(&dev->v4l2_dev,
-> >  			 "Failed to register video %s[%d] device node\n",
-> > @@ -1668,9 +1675,8 @@ static int media_controller_register(struct bcm2835_isp_dev *dev)
-> >  	return ret;
-> >  }
-> >  
-> > -static int bcm2835_isp_remove(struct platform_device *pdev)
-> > +static void bcm2835_isp_remove_instance(struct bcm2835_isp_dev *dev)
-> >  {
-> > -	struct bcm2835_isp_dev *dev = platform_get_drvdata(pdev);
-> >  	unsigned int i;
-> >  
-> >  	media_controller_unregister(dev);
-> > @@ -1685,11 +1691,11 @@ static int bcm2835_isp_remove(struct platform_device *pdev)
-> >  					      dev->component);
-> >  
-> >  	vchiq_mmal_finalise(dev->mmal_instance);
-> > -
-> > -	return 0;
-> >  }
-> >  
-> > -static int bcm2835_isp_probe(struct platform_device *pdev)
-> > +static int bcm2835_isp_probe_instance(struct platform_device *pdev,
-> > +				      struct bcm2835_isp_dev **dev_int,
-> > +				      unsigned int instance)
-> >  {
-> >  	struct bcm2835_isp_dev *dev;
-> >  	unsigned int i;
-> > @@ -1699,6 +1705,7 @@ static int bcm2835_isp_probe(struct platform_device *pdev)
-> >  	if (!dev)
-> >  		return -ENOMEM;
-> >  
-> > +	*dev_int = dev;
-> >  	dev->dev = &pdev->dev;
-> >  
-> >  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
-> > @@ -1716,7 +1723,7 @@ static int bcm2835_isp_probe(struct platform_device *pdev)
-> >  	if (ret) {
-> >  		v4l2_err(&dev->v4l2_dev,
-> >  			 "%s: failed to create ril.isp component\n", __func__);
-> > -		goto error;
-> > +		return ret;
-> >  	}
-> >  
-> >  	if (dev->component->inputs < BCM2835_ISP_NUM_OUTPUTS ||
-> > @@ -1728,7 +1735,7 @@ static int bcm2835_isp_probe(struct platform_device *pdev)
-> >  			  BCM2835_ISP_NUM_OUTPUTS,
-> >  			  dev->component->outputs,
-> >  			  BCM2835_ISP_NUM_CAPTURES + BCM2835_ISP_NUM_METADATA);
-> > -		goto error;
-> > +		return -EINVAL;
-> >  	}
-> >  
-> >  	atomic_set(&dev->num_streaming, 0);
-> > @@ -1736,17 +1743,55 @@ static int bcm2835_isp_probe(struct platform_device *pdev)
-> >  	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++) {
-> >  		struct bcm2835_isp_node *node = &dev->node[i];
-> >  
-> > -		ret = register_node(dev, node, i);
-> > +		ret = register_node(dev, instance, node, i);
-> >  		if (ret)
-> > -			goto error;
-> > +			return ret;
-> >  	}
-> >  
-> >  	ret = media_controller_register(dev);
-> >  	if (ret)
-> > -		goto error;
-> > +		return ret;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int bcm2835_isp_remove(struct platform_device *pdev)
-> > +{
-> > +	struct bcm2835_isp_dev **bcm2835_isp_instances;
-> > +	unsigned int i;
-> > +
-> > +	bcm2835_isp_instances = platform_get_drvdata(pdev);
-> > +	for (i = 0; i < BCM2835_ISP_NUM_INSTANCES; i++) {
-> > +		if (bcm2835_isp_instances[i])
-> > +			bcm2835_isp_remove_instance(bcm2835_isp_instances[i]);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int bcm2835_isp_probe(struct platform_device *pdev)
-> > +{
-> > +	struct bcm2835_isp_dev **bcm2835_isp_instances;
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	bcm2835_isp_instances = devm_kzalloc(&pdev->dev,
-> > +					     sizeof(bcm2835_isp_instances) *
-> > +						      BCM2835_ISP_NUM_INSTANCES,
-> > +					     GFP_KERNEL);
-> > +	if (!bcm2835_isp_instances)
-> > +		return -ENOMEM;
-> > +
-> > +	platform_set_drvdata(pdev, bcm2835_isp_instances);
-> > +
-> > +	for (i = 0; i < BCM2835_ISP_NUM_INSTANCES; i++) {
-> > +		ret = bcm2835_isp_probe_instance(pdev,
-> > +						 &bcm2835_isp_instances[i], i);
-> > +		if (ret)
-> > +			goto error;
-> > +	}
-> >  
-> > -	platform_set_drvdata(pdev, dev);
-> > -	v4l2_info(&dev->v4l2_dev, "Loaded V4L2 %s\n", BCM2835_ISP_NAME);
-> > +	dev_info(&pdev->dev, "Loaded V4L2 %s\n", BCM2835_ISP_NAME);
-> >  	return 0;
-> >  
-> >  error:
+On Tue, Nov 22, 2022 at 03:17:21AM +0530, Umang Jain wrote:
+> From: Naushir Patuck <naush@raspberrypi.com>
+> 
+> Document device nodes, frame buffer formats and initial set of
+> configuraiton that can be set from userspace to configure the pipeline.
+
+s/configuraiton/configuration/
+
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../admin-guide/media/bcm2835-isp.rst         | 127 ++++++++++++++++++
+>  .../userspace-api/media/drivers/index.rst     |   1 +
+>  2 files changed, 128 insertions(+)
+>  create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
+> 
+> diff --git a/Documentation/admin-guide/media/bcm2835-isp.rst b/Documentation/admin-guide/media/bcm2835-isp.rst
+> new file mode 100644
+> index 000000000000..e1c19f78435e
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/bcm2835-isp.rst
+> @@ -0,0 +1,127 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +BCM2835 ISP Driver
+> +==================
+> +
+> +Introduction
+> +------------
+> +
+> +The BCM2835 Image Sensor Pipeline (ISP) is a fixed function hardware pipeline
+> +for performing image processing operations.  Images are fed to the input
+> +of the ISP through memory frame buffers.  These images may be in various YUV,
+> +RGB, or Bayer formats.
+
+Does the ISP really support RGB or YUV input images ? Is this supported
+by the driver ?
+
+> A typical use case would have Bayer images obtained from
+> +an image sensor by the BCM2835 Unicam peripheral, written to a memory
+> +frame buffer, and finally fed into the input of the ISP.  Two concurrent output
+> +images may be generated in YUV or RGB format at different resolutions.
+> +Statistics output is also generated for Bayer input images.
+> +
+> +The bcm2835-isp driver exposes the following media pads as V4L2 device nodes:
+
+This sounds weird. Pads are not video nodes, are they ? Or are those
+MMAL pads ?
+
+> +
+> +.. tabularcolumns:: |l|l|l|l|
+> +
+> +.. cssclass: longtable
+> +
+> +.. flat-table::
+> +
+> +    * - *Pad*
+> +      - *Direction*
+> +      - *Purpose*
+> +      - *Formats*
+> +
+> +    * - "bcm2835-isp0-output0"
+> +      - sink
+> +      - Accepts Bayer, RGB or YUV format frame buffers as input to the ISP HW
+> +        pipeline.
+> +      - :ref:`RAW8 <V4L2-PIX-FMT-SRGGB8>`,
+> +        :ref:`RAW10P <V4L2-PIX-FMT-SRGGB10P>`,
+> +        :ref:`RAW12P <V4L2-PIX-FMT-SRGGB12P>`,
+> +        :ref:`RAW14P <V4L2-PIX-FMT-SRGGB14P>`,
+> +        :ref:`RAW16 <V4L2-PIX-FMT-SRGGB16>`,
+> +        :ref:`RGB24/BGR24 <V4L2-PIX-FMT-RGB24>`,
+> +        :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
+> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
+> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
+> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`,
+> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`
+> +
+> +    * - "bcm2835-isp0-capture1"
+> +      - source
+> +      - High resolution YUV or RGB processed output from the ISP.
+> +      - :ref:`RGB565 <V4L2-PIX-FMT-RGB565>`,
+> +        :ref:`RGB24/BGR24 <V4L2-PIX-FMT-RGB24>`,
+> +        :ref:`ABGR32 <V4L2-PIX-FMT-ABGR32>`,
+> +        :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
+> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
+> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
+> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`.
+> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`,
+> +        :ref:`NV12/NV21 <V4L2-PIX-FMT-NV12>`,
+> +
+> +    * - "bcm2835-isp0-capture2"
+> +      - source
+> +      - Low resolution YUV processed output from the ISP. The output of
+> +        this pad cannot have a resolution larger than the "bcm2835-isp0-capture1" pad in any dimension.
+> +      - :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
+> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
+> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
+> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`.
+> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`,
+> +        :ref:`NV12/NV21 <V4L2-PIX-FMT-NV12>`,
+> +
+> +    * - "bcm2835-isp0-capture1"
+
+Is that capture3 ?
+
+Maybe the video nodes should be renamed to make their purpose clearer ?
+
+> +      - source
+> +      - Image statistics calculated from the input image provided on the
+> +        "bcm2835-isp0-output0" pad.  Statistics are only available for Bayer
+> +        format input images.
+> +      - :ref:`v4l2-meta-fmt-bcm2835-isp-stats`.
+> +
+> +Pipeline Configuration
+> +----------------------
+> +
+> +The ISP pipeline can be configure through user-space by calling
+> +:ref:`VIDIOC_S_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` on the “bcm2835-isp0-output0”
+> +node with the appropriate parameters as shown in the table below.
+> +
+> +.. tabularcolumns:: |p{2cm}|p{5.0cm}|
+> +
+> +.. cssclass: longtable
+> +
+> +.. flat-table::
+> +
+> +    * - *id*
+> +      - *Parameter*
+> +
+> +    * - ``V4L2_CID_USER_BCM2835_ISP_CC_MATRIX``
+> +      - struct :c:type:`bcm2835_isp_custom_ccm`
+> +
+> +    * - ``V4L2_CID_USER_BCM2835_ISP_LENS_SHADING``
+> +      - struct :c:type:`bcm2835_isp_lens_shading`
+> +
+> +    * - ``V4L2_CID_USER_BCM2835_ISP_BLACK_LEVEL``
+> +      - struct :c:type:`bcm2835_isp_black_level`
+> +
+> +    * - ``V4L2_CID_USER_BCM2835_ISP_GEQ``
+> +      - struct :c:type:`bcm2835_isp_geq`
+> +
+> +    * - ``V4L2_CID_USER_BCM2835_ISP_GAMMA``
+> +      - struct :c:type:`bcm2835_isp_gamma`
+> +
+> +    * - ``V4L2_CID_USER_BCM2835_ISP_DENOISE``
+> +      - struct :c:type:`bcm2835_isp_denoise`
+> +
+> +    * - ``V4L2_CID_USER_BCM2835_ISP_SHARPEN``
+> +      - struct :c:type:`bcm2835_isp_sharpen`
+> +
+> +    * - ``V4L2_CID_USER_BCM2835_ISP_DPC``
+> +      - struct :c:type:`bcm2835_isp_dpc`
+> +
+> +++++++++++++++++++++++++
+> +Configuration Parameters
+> +++++++++++++++++++++++++
+> +
+> +.. kernel-doc:: include/uapi/linux/bcm2835-isp.h
+> +   :functions: bcm2835_isp_rational bcm2835_isp_ccm bcm2835_isp_custom_ccm
+> +                bcm2835_isp_gain_format bcm2835_isp_lens_shading
+> +                bcm2835_isp_black_level bcm2835_isp_geq bcm2835_isp_gamma
+> +                bcm2835_isp_denoise bcm2835_isp_sharpen
+> +                bcm2835_isp_dpc_mode bcm2835_isp_dpc
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> index 32f82aed47d9..34e0d7102ef0 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -31,6 +31,7 @@ For more details see the file COPYING in the source distribution of Linux.
+>  	:maxdepth: 5
+>  	:numbered:
+>  
+> +	bcm2835-isp
+>  	ccs
+>  	cx2341x-uapi
+>  	dw100
 
 -- 
 Regards,
