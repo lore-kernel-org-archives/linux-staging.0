@@ -1,124 +1,95 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33BC6FD1
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 13:35:49 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1oxTR4-0004Q1-Ha; Tue, 22 Nov 2022 14:35:38 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1oxTR1-005rZK-1b; Tue, 22 Nov 2022 14:35:35 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1oxTR1-000o5d-AE; Tue, 22 Nov 2022 14:35:35 +0100
-Date: Tue, 22 Nov 2022 14:35:34 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
-	Angel Iglesias <ang.iglesiasg@gmail.com>, linux-i2c@vger.kernel.org,
-	kernel@pengutronix.de, Grant Likely <grant.likely@linaro.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH 567/606] staging: iio: ad5933: Convert to i2c's
- .probe_new()
-Message-ID: <20221122133534.zoosrjjszpgmgb64@pengutronix.de>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-568-uwe@kleine-koenig.org>
- <Y3y/DxNp+cYu7GTH@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB57D6FD1
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 13:55:29 +0000 (UTC)
+Received: by mail-oo1-f45.google.com with SMTP id v7-20020a4aa507000000b00496e843fdfeso2263182ook.7
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 05:55:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2SBGeqgV8aQ4ClE1rxARDUjCn/QaGrg5bogBswoE+Gk=;
+        b=SnJrJJJB+uAOWpogJlqoVY6znPbePuzs8v8E+Jasq1bg9moQq8Gbla8WPFPotFYdUs
+         rdiNTyjJgUOpZ//qEmNSffWMfpXCemCqV4jqqOLcafNGMG3y7VzHk2z9V6YfIYYTp81D
+         df5NkH3zm4zUw3PzBRdPGQ4f8CJIBaeUTQh9hasrwmNEXQM/Q4hIQ6dVrmQyovTykNlk
+         RNdlw5G+f5UCJDWk4RkG0HUq6cWwz+Pat2UDROelcqWZxV0KlNgJCCVHtdzbVNto0nKe
+         fES8l3XJEdiw4y/2lEdykL46NhCsN3MbN/y7RDB/FanhyNqBLX9zLaQeCHNrj9s0p+p2
+         fKaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2SBGeqgV8aQ4ClE1rxARDUjCn/QaGrg5bogBswoE+Gk=;
+        b=bZMcfe5EQiCkvdWV3FJgcwyArBX/5J5xReRyPmAu5rRZ6Va31k8un/q9UFp6DeII8Q
+         IoLwn/IJk73jIrQtFtbXamXbEQxBfuLVt3rkFLocotOlqBwmxVoMvisX8MUK8V78GUsF
+         6XjaOek9iShstR1J8mFhZsEvRkecSm0Kq8WrXfk7Z0XGAGdrHhJKrVF+KqRBNPZVmpl8
+         GYIFWt6D1DQSxLSRxWZPvjznWaIgMYjHr0sjJOmjEJGt2EKADwdonWwL7A7idrsTrAsX
+         Vm9KiO/Yxx3X5BIS/aWrv08OXOpFxr8e5rO/+lLc3CGoN4Jsh6MGTUdBxwO+KPSqWeR6
+         j+Cg==
+X-Gm-Message-State: ANoB5pmm8Rs2hylAKXQ4M2ZKcR42tvLKMDe3o+EyyD/yNcZ//8pTc5QX
+	TRt6TBop9AmE6T4wZHw2buTDNabE1bvfA3eSRek=
+X-Google-Smtp-Source: AA0mqf7ykzweR9BqX2Z1bFr3kRAAU5C3xDVsZgtZl+Svh5PRx1RmM9Dz5FRt4dxqYY1KiJhP24NikZC0YwM35U5Onhk=
+X-Received: by 2002:a4a:d1b2:0:b0:498:ce46:9fb1 with SMTP id
+ z18-20020a4ad1b2000000b00498ce469fb1mr6131515oor.97.1669125328656; Tue, 22
+ Nov 2022 05:55:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ulcjetf4btcckz7d"
-Content-Disposition: inline
-In-Reply-To: <Y3y/DxNp+cYu7GTH@kroah.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+References: <CAHk-=wjKJyzfJmOzBdEOqCFRc8Fh-rdGM4tvMXfW0WXbbHwV0w@mail.gmail.com>
+ <20221122105054.4062213-1-geert@linux-m68k.org> <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
+In-Reply-To: <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 22 Nov 2022 08:55:17 -0500
+Message-ID: <CADnq5_PvouSKugXxJXqkVeZf+kbP8+hhUKFgVALSO=MOW3jzvA@mail.gmail.com>
+Subject: Re: Build regressions/improvements in v6.1-rc6
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-um@lists.infradead.org, 
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, Nov 22, 2022 at 5:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> On Tue, 22 Nov 2022, Geert Uytterhoeven wrote:
+> > JFYI, when comparing v6.1-rc6[1] to v6.1-rc5[3], the summaries are:
+> >  - build errors: +6/-0
+>
+>    + /kisskb/src/arch/sh/include/asm/io.h: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]:  => 239:34
+>
+> sh4-gcc11/sh-allmodconfig (in cvm_oct_free_hw_memory())
+>
+>    + /kisskb/src/arch/um/include/asm/processor-generic.h: error: called object is not a function or function pointer:  => 94:18
+>    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: control reaches end of non-void function [-Werror=return-type]:  => 1934:1
+>
+> um-x86_64/um-all{mod,yes}config (in kfd_cpumask_to_apic_id())
 
---ulcjetf4btcckz7d
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Presumably cpu_data is not defined on um-x86_64?  Does it even make
+sense to build drivers on um-x86_64?
 
-Hello Greg,
+Alex
 
-On Tue, Nov 22, 2022 at 01:22:39PM +0100, Greg Kroah-Hartman wrote:
-> On Fri, Nov 18, 2022 at 11:45:01PM +0100, Uwe Kleine-K=F6nig wrote:
-> > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> >=20
-> > .probe_new() doesn't get the i2c_device_id * parameter, so determine
-> > that explicitly in the probe function.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
-> >  drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/=
-staging/iio/impedance-analyzer/ad5933.c
-> > index f177b20f0f2d..b3152f7153fb 100644
-> > --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-> > +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> > @@ -674,9 +674,9 @@ static void ad5933_clk_disable(void *data)
-> >  	clk_disable_unprepare(st->mclk);
-> >  }
-> > =20
-> > -static int ad5933_probe(struct i2c_client *client,
-> > -			const struct i2c_device_id *id)
-> > +static int ad5933_probe(struct i2c_client *client)
-> >  {
-> > +	const struct i2c_device_id *id =3D i2c_client_get_device_id(client);
->=20
-> Breaks the build in my tree as this function is not in Linus's tree yet
-> :(
-
-As pointed out in the cover letter[1] you want to make sure that
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/client_d=
-evice_id_helper-immutable
-
-is part of your tree first. So either pull that into your tree, or wait
-until this hits Linus's tree.
-
-Best regards
-Uwe
-
-[1] https://lore.kernel.org/linux-kernel/20221118224540.619276-1-uwe@kleine=
--koenig.org
-    (It wasn't sent to every thread participant because that would have
-    been too many.)
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ulcjetf4btcckz7d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmN80CAACgkQwfwUeK3K
-7Al35ggAnqzvJT6O1dZcuSdZThRtBdo5YPsZq63WDB/TRDChLUiYlceIBo9rzETz
-t3nH4M6MjjxnOWepddEk/P2hqOl7Bw6h9oarQZvWf2sYdHtoqRkPoSthUjz+glrB
-UWDIIA5F4SeaXakKujDbz4YcIHsEXnnnWuut10edAIkeMWgwIvZzN/sJNXF2pvrh
-QVU7kpB5yWmp0O5ieU3itSPAHwWb4FQFWWi35AS0tJOYQpOuKoHT+HrcYBWKq/mf
-nK3ijGYIRwRVgIDlS6F9tRtoU3eAFJ4ctnztSwoNcZ0giVZbHWoCOIK0WaAlDqNS
-JSXk/So3urvJXWDkg+4T7xEuwZVfxA==
-=mV0I
------END PGP SIGNATURE-----
-
---ulcjetf4btcckz7d--
+>
+>    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'X86_VENDOR_AMD' undeclared (first use in this function):  => 149:37
+>    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'struct cpuinfo_um' has no member named 'x86_vendor':  => 149:22
+>    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: control reaches end of non-void function [-Werror=return-type]:  => 150:1
+>
+> um-x86_64/um-allyesconfig
+>
+> > [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/eb7081409f94a9a8608593d0fb63a1aa3d6f95d8/ (all 149 configs)
+> > [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/094226ad94f471a9f19e8f8e7140a09c2625abaa/ (all 149 configs)
+>
+> Gr{oetje,eeting}s,
+>
+>                                                 Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                                             -- Linus Torvalds
