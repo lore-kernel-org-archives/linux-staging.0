@@ -1,76 +1,110 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190D2ED0
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 16:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Z2J/AOx23miWElPmE+7zDiqIr927sWbMxM+vCpv8Szo=; b=wTtbG4QhN7bfXNkk5Lo4RVfuaq
-	ZxHvocPeWadBgn/JFrjJ2RElxv3AzRYNQwycazhkpATW1uTxbxStM0GmQ75nLVgGlZ+O+ym+klS0z
-	Cm9hG4G7V3+oqlbQblo8aNmQAqb78/oJYjH+sm+dpW9fYGLmocYm4+/9C+OGUvQ3917A8vlXDUlNM
-	4J8zQwm5A5iQNa7QHsUQnL1/lP4SOdG91Loikz90io5tazIE1JHT9oBaJL1ADokpG8e1tCsfdoBAG
-	EQuJTM8rGkMDHns0UrOsUAN0q6J3+xOfXjZuFXdRweMyPeaHLg4Bx8clpx07A1I1AW5QjgDBpTDfs
-	AwAq39vQ==;
-Received: from [2601:1c2:d80:3110::a2e7]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oxWao-00AtEM-BC; Tue, 22 Nov 2022 16:57:54 +0000
-Message-ID: <5e27ba9e-69a1-bf70-941e-88637b4f5a3c@infradead.org>
-Date: Tue, 22 Nov 2022 08:57:52 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C611107A1
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 18:28:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 814A3C433C1;
+	Tue, 22 Nov 2022 18:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669141683;
+	bh=armo7pUTYG5p2QhFDoh2d1c54OWTXaeCob37qaFm5qY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eblzWPISo+BrrAfC7F704FIpl2P2jDaBNA0T4X1GnfpCzsCff+tSBwAyFTMvdFGvS
+	 hD2VMBQRuLuXljc3MfnDzUYYVidpBeEq5nM2s7UgYWjhNMqLg2nnbgGCa4DudUeSOQ
+	 SDL2TEATZ5wDVB49WEqbDl75qkxDn3r1n5K9+HCK4I7HU8hKq06FJP1A+yAr4G+qSp
+	 vDZWzE3bjRDQldscEOyDHFop85Ijtj+2fJoZCdUQ/3F6xpU2im9fqf9weKrT10qUGR
+	 aRZBRp+Mwgrk0XWNjTj0Yo8Ik9pGn/PrghWC/xrxL6FYjzdyqNn9ltPCBbLmD02IvN
+	 9n9uVt4d0CSIQ==
+Date: Tue, 22 Nov 2022 18:40:33 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Uwe =?UTF-8?B?S2xl?=
+ =?UTF-8?B?aW5lLUvDtm5pZw==?= <uwe@kleine-koenig.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Wolfram Sang <wsa@kernel.org>, Angel Iglesias
+ <ang.iglesiasg@gmail.com>, linux-i2c@vger.kernel.org,
+ kernel@pengutronix.de, Grant Likely <grant.likely@linaro.org>, Lee Jones
+ <lee.jones@linaro.org>
+Subject: Re: [PATCH 567/606] staging: iio: ad5933: Convert to i2c's
+ .probe_new()
+Message-ID: <20221122184033.6cae4473@jic23-huawei>
+In-Reply-To: <20221122133534.zoosrjjszpgmgb64@pengutronix.de>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+	<20221118224540.619276-568-uwe@kleine-koenig.org>
+	<Y3y/DxNp+cYu7GTH@kroah.com>
+	<20221122133534.zoosrjjszpgmgb64@pengutronix.de>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: Build regressions/improvements in v6.1-rc6
-Content-Language: en-US
-To: Johannes Berg <johannes@sipsolutions.net>,
- Alex Deucher <alexdeucher@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-um@lists.infradead.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <CAHk-=wjKJyzfJmOzBdEOqCFRc8Fh-rdGM4tvMXfW0WXbbHwV0w@mail.gmail.com>
- <20221122105054.4062213-1-geert@linux-m68k.org>
- <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
- <CADnq5_PvouSKugXxJXqkVeZf+kbP8+hhUKFgVALSO=MOW3jzvA@mail.gmail.com>
- <021efb6c9295402cf05406bb319c441c0b0229b3.camel@sipsolutions.net>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <021efb6c9295402cf05406bb319c441c0b0229b3.camel@sipsolutions.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, 22 Nov 2022 14:35:34 +0100
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> wrote:
 
+> Hello Greg,
+>=20
+> On Tue, Nov 22, 2022 at 01:22:39PM +0100, Greg Kroah-Hartman wrote:
+> > On Fri, Nov 18, 2022 at 11:45:01PM +0100, Uwe Kleine-K=C3=B6nig wrote: =
+=20
+> > > From: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > >=20
+> > > .probe_new() doesn't get the i2c_device_id * parameter, so determine
+> > > that explicitly in the probe function.
+> > >=20
+> > > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > > ---
+> > >  drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
+> > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > >=20
+> > > diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/driver=
+s/staging/iio/impedance-analyzer/ad5933.c
+> > > index f177b20f0f2d..b3152f7153fb 100644
+> > > --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
+> > > +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+> > > @@ -674,9 +674,9 @@ static void ad5933_clk_disable(void *data)
+> > >  	clk_disable_unprepare(st->mclk);
+> > >  }
+> > > =20
+> > > -static int ad5933_probe(struct i2c_client *client,
+> > > -			const struct i2c_device_id *id)
+> > > +static int ad5933_probe(struct i2c_client *client)
+> > >  {
+> > > +	const struct i2c_device_id *id =3D i2c_client_get_device_id(client)=
+; =20
+> >=20
+> > Breaks the build in my tree as this function is not in Linus's tree yet
+> > :( =20
+>=20
+> As pointed out in the cover letter[1] you want to make sure that
+>=20
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/client=
+_device_id_helper-immutable
+>=20
+> is part of your tree first. So either pull that into your tree, or wait
+> until this hits Linus's tree.
 
-On 11/22/22 07:00, Johannes Berg wrote:
-> On Tue, 2022-11-22 at 08:55 -0500, Alex Deucher wrote:
->>>
->>>    + /kisskb/src/arch/um/include/asm/processor-generic.h: error: called object is not a function or function pointer:  => 94:18
->>>    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: control reaches end of non-void function [-Werror=return-type]:  => 1934:1
->>>
->>> um-x86_64/um-all{mod,yes}config (in kfd_cpumask_to_apic_id())
->>
->> Presumably cpu_data is not defined on um-x86_64?  Does it even make
->> sense to build drivers on um-x86_64?
-> 
-> Drivers in general yes ;-)
-> 
-> This driver, probably not.
-> 
-> But the issue is that a lot of drivers "depends on X86_64" or such,
-> where only "X86" is the arch symbol. You could add "X86 && X86_64" to
-> really build on x86 64-bit only.
-> 
-> I didn't check this driver, but this has mostly popped up since UM got
-> PCI support some time ago (which I added.)
+Greg,
 
-I have patches for lots of these issues, but some people said that they
-would want to build DRM drivers for use with KUNIT (i.e. UML), so I thought
-that meant my patches were not needed.
+I'm already carrying that tree so I'll pick these up unless you particularl=
+y want to take
+the IIO staging ones with whatever else there is in staging from this serie=
+s.
 
--- 
-~Randy
+Jonathan
+
+>=20
+> Best regards
+> Uwe
+>=20
+> [1] https://lore.kernel.org/linux-kernel/20221118224540.619276-1-uwe@klei=
+ne-koenig.org
+>     (It wasn't sent to every thread participant because that would have
+>     been too many.)
+>=20
+
