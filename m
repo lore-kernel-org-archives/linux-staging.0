@@ -1,73 +1,76 @@
-Received: from mailout-pe-b.jellyfish.systems (mailout-pe-b.jellyfish.systems [198.54.127.79])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E4B1C15
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 21:23:54 +0000 (UTC)
-Received: from output-router-58994b6955-tvtjg (unknown [10.35.5.64])
-	by mailout-pe-b.jellyfish.systems (Postfix) with ESMTPA id 4NGy1D3bhlzDqRJ;
-	Tue, 22 Nov 2022 21:23:44 +0000 (UTC)
-Received: from MTA-13.privateemail.com (unknown [10.50.14.29])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by NEW-01.privateemail.com (Postfix) with ESMTPS id 69A7F18000CF;
-	Tue, 22 Nov 2022 16:23:44 -0500 (EST)
-Received: from mta-13.privateemail.com (localhost [127.0.0.1])
-	by mta-13.privateemail.com (Postfix) with ESMTP id 42DAD18000B2;
-	Tue, 22 Nov 2022 16:23:44 -0500 (EST)
-Received: from bpappas-XPS-13-9310.wppl.org (unknown [131.226.25.151])
-	by mta-13.privateemail.com (Postfix) with ESMTPA id 13FFF18000AF;
-	Tue, 22 Nov 2022 16:23:36 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-	s=default; t=1669152224;
-	bh=p+WdSq8yxg9uUyI+r1wYQtUA9kjPikh1LL+rjuRzmRs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Y12Uka78C9YKBxcVP02/1A+LDIeSO889SgUBn2zf6Mb2OzqeWOqBV0BmrC38GVWq3
-	 bYCa44M4geuAe2/I9m5/3XBl6IulPjm0J6vZZlDtGemTVHM8tYdZZWqUS6tpqCX5zQ
-	 ODy0dFV0jZAVjY2cnHBoZwSfVV/eRq/VChxhaE8omcc+bRscK9xN/eikksngZtTHBH
-	 t/Zt98qAP2g7do7iOeWAJT9J447YTqSrH3FULVoRnK9cTRgMaE6/9/Sap6d2OEV+gM
-	 lkaDq3TbnBO+DLSvOZpacFMAwSmsajtbhnevq6f7XRSCynOBmOallgx1MCcbdqf7BV
-	 /tQluWC0IWoEQ==
-From: Brent Pappas <bpappas@pappasbrent.com>
-To: mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Brent Pappas <bpappas@pappasbrent.com>
-Subject: [PATCH] staging: media: atomisp: Remove unused macro PAGE_VALID
-Date: Tue, 22 Nov 2022 16:22:41 -0500
-Message-Id: <20221122212240.12654-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A112F3F
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 22:45:53 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id g12so26955625wrs.10
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 14:45:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HwnAmAjAMwtjZoPh/wvNWfHfRdEY7FzZJcayQD/cYNo=;
+        b=dVQCNhCbERZyTd+bv2KF63naFelmgh73AJnR5uDLCAAkpNf2Fy7unE4i3UpRBOiHdv
+         XWv+eqY4Qc/5Z57DPvm2ZeUiLOFji+aYkh9ylayw1bhkVOD6RA5CRa/jnd5QX9xtoMxz
+         kRkAHtZu7XFIPFThpSJtufFIFYa12IOOJWIaK3lB3P+yUcRcqlUriymVpsuIFeLH3oI6
+         PbwmfJNeWhMWqs5d8pLXXtJaZD/+wB2Ni1DcBSLljjPzKmNYMtbbewWiCE8qqO9WNGSF
+         VfvqGZa+GYnMDlw47ox1IrBX6pr6lynk7PK+A51udtddGGKdAtRx7fe7YWzXOh9XaItH
+         pVMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HwnAmAjAMwtjZoPh/wvNWfHfRdEY7FzZJcayQD/cYNo=;
+        b=IaAX+M27WKjcZFbCQkau7VUxThCgE+51noLqXEqrLumAfa800kjRLMaE7Hde32EaVa
+         0UAwBhZVO6A9YLkFwSvpwUja4Eb53tWhzc49tDFf2s/7daXh0fcVhmwLf2cxnDiUDOK5
+         0I3/UyOOEmflNMWvkgO+MWnExwMgteRR3cbH3BqyAvt0Evsqh2Y5toXWPkagiK8Wqxk7
+         nBzpFCo5Rp9tMA6DbdSUyuY9F18CjY8TlGsBRqxkUwqDkghBVuAEQwvcNo+miXekKQFl
+         QnKiyskQXLxmS73tv8kZtWpqFom7TtTxLk3FiAwK51BCqCqT4XmSjv53SnYAMeCKeTt0
+         0tnA==
+X-Gm-Message-State: ANoB5pn8R/ZouIIo1SvpUP54i36ncwmRpoicQLHcP2PFO9DhQ8HZdSTT
+	oCH+3i9oFChRG7UEBFjwrwU=
+X-Google-Smtp-Source: AA0mqf7KDia5bRWua40jNjtBWXuw+NCBaVXTq+aJZMnz/ReWXZpoAKjGKkJo+38DQk0JPtmYWDT+Sg==
+X-Received: by 2002:a5d:6b84:0:b0:236:6fb2:ff91 with SMTP id n4-20020a5d6b84000000b002366fb2ff91mr15066595wrx.520.1669157151478;
+        Tue, 22 Nov 2022 14:45:51 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id bg3-20020a05600c3c8300b003c71358a42dsm231159wmb.18.2022.11.22.14.45.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 14:45:50 -0800 (PST)
+Date: Tue, 22 Nov 2022 23:45:48 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] staging: rtl8192e: Remove unused variables in rtl_core.h
+Message-ID: <cover.1669156825.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Remove the unused macro PAGE_VALID.
+Remove unchanged and unused CamelCase variables that lead to dead code.
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
----
- drivers/staging/media/atomisp/include/mmu/isp_mmu.h | 1 -
- 1 file changed, 1 deletion(-)
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-diff --git a/drivers/staging/media/atomisp/include/mmu/isp_mmu.h b/drivers/staging/media/atomisp/include/mmu/isp_mmu.h
-index 268560954792..77546c773754 100644
---- a/drivers/staging/media/atomisp/include/mmu/isp_mmu.h
-+++ b/drivers/staging/media/atomisp/include/mmu/isp_mmu.h
-@@ -124,7 +124,6 @@ struct isp_mmu {
- 	((pte) & ISP_PTE_VALID_MASK(mmu))
- 
- #define	NULL_PAGE	((phys_addr_t)(-1) & ISP_PAGE_MASK)
--#define	PAGE_VALID(page)	((page) != NULL_PAGE)
- 
- /*
-  * init mmu with specific mmu driver.
+Philipp Hortmann (5):
+  staging: rtl8192e: Remove unchanged variable AcmMethod
+  staging: rtl8192e: Remove unused variable skb_aggQ
+  staging: rtl8192e: Remove unused variable initialized_at_probe
+  staging: rtl8192e: Remove unused variable ChannelAccessSetting
+  staging: rtl8192e: Remove unused variable int_log
+
+ drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 15 ---------------
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  4 ----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c   |  7 -------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 17 -----------------
+ drivers/staging/rtl8192e/rtl819x_Qos.h         |  7 -------
+ drivers/staging/rtl8192e/rtllib.h              |  1 -
+ 6 files changed, 51 deletions(-)
+
 -- 
-2.34.1
+2.37.3
 
