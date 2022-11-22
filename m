@@ -1,71 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09DE1C03
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 12:22:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF703C433C1;
-	Tue, 22 Nov 2022 12:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1669119762;
-	bh=1RsX6ENFcjBr8IB+4mVrBxY3lKXrZ7Oluu3EWhp/OTY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xekBgBAyNYNYAbCEwTr7Omvw1WA3yMh74q4QqUkO72G+lL3dMLrqZtdSA7TBVdBBv
-	 cTRB2IDnvqSew/Gn2vNdnTSwrxhckZN/aNWq7wjZ7OnzQrHpsQU9L1TazIE0AUiXjf
-	 HmXarVwyDfAO+hOIydeGMpekwLeHF3x6lvgrJeQI=
-Date: Tue, 22 Nov 2022 13:22:39 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
-Cc: Angel Iglesias <ang.iglesiasg@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Grant Likely <grant.likely@linaro.org>,
-	Wolfram Sang <wsa@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-i2c@vger.kernel.org,
-	kernel@pengutronix.de,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 567/606] staging: iio: ad5933: Convert to i2c's
- .probe_new()
-Message-ID: <Y3y/DxNp+cYu7GTH@kroah.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221118224540.619276-568-uwe@kleine-koenig.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCD7EA6
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 12:30:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1669120193; bh=ZQVTktCaJMSJoAUilenuVtVqaVzw6QgpmXOKe+X/kzo=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=KiJWlsdEVvQG1zWCPN+LFYJETHdaHmp5LE8Awln8pzvwV4FcSs/OemxhucwgKdc0r
+	 ke2Rg8xLlCSIX/0GmrzDShWx9Uo8Xb4ujKzlqFPJZ8nbFHwd6HFjPgzi1kozqLjaES
+	 9zPcPAABagXa+cpUenkRKPziveL00gzgZPk0fJ9c=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Tue, 22 Nov 2022 13:29:53 +0100 (CET)
+X-EA-Auth: Du6cW+R97fU19tg8ZpfTQyvMhiVbLDriT+NRPtYzKC4H6dSsFWPtqi4ukIDslkgLagjDOC+pFnGnV1YRwL4W3zGYh6ZdkLDo
+Date: Tue, 22 Nov 2022 17:59:45 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: call set_lan_gain for receiver config
+Message-ID: <Y3zAucwpK9TUgrig@qemulion>
+References: <Y3kONX7KhQ1GX9QW@qemulion>
+ <Y3y7v1WAumU1o5na@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221118224540.619276-568-uwe@kleine-koenig.org>
+In-Reply-To: <Y3y7v1WAumU1o5na@kroah.com>
 
-On Fri, Nov 18, 2022 at 11:45:01PM +0100, Uwe Kleine-König wrote:
-> From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> 
-> .probe_new() doesn't get the i2c_device_id * parameter, so determine
-> that explicitly in the probe function.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> index f177b20f0f2d..b3152f7153fb 100644
-> --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-> +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> @@ -674,9 +674,9 @@ static void ad5933_clk_disable(void *data)
->  	clk_disable_unprepare(st->mclk);
->  }
->  
-> -static int ad5933_probe(struct i2c_client *client,
-> -			const struct i2c_device_id *id)
-> +static int ad5933_probe(struct i2c_client *client)
->  {
-> +	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+On Tue, Nov 22, 2022 at 01:08:31PM +0100, Greg Kroah-Hartman wrote:
+> On Sat, Nov 19, 2022 at 10:41:17PM +0530, Deepak R Varma wrote:
+> > Value for the LNA gain is captured from the user as part of the struct
+> > pi433_rx_cfg, however, the corresponding function rf69_set_lna_gain() is
+> > never called to set it. Include a call to this function as part of
+> > setting up the rx configurations.
+> >
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> >  drivers/staging/pi433/pi433_if.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+>
+> How was this change tested?
 
-Breaks the build in my tree as this function is not in Linus's tree yet
-:(
+Hi Greg,
+This was compile tested only.
+
+As per your message on the other patch for this driver, I am holding back such
+patches until I have the ability to test the change with a real device myself.
+
+I most welcome if there is any other feedback on the patches. It will help me
+consolidate the feedback and react to them in one go.
+
+Thank you,
+./drv
+
+>
+> thanks,
+>
+> greg k-h
+>
+
 
