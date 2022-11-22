@@ -1,52 +1,51 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF361C03
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 11:35:48 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id n188so10703240iof.8
-        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 03:35:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595E81C03
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 11:42:40 +0000 (UTC)
+Received: by mail-il1-f174.google.com with SMTP id bp12so6963866ilb.9
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 03:42:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Weuvsj9Ph1lxw8aHlC9F8s8S70wYA+EI0s4JK82WZpo=;
-        b=SG70hc5F0o9EuDoI9bLz5Dfer2Q3CDA0Wi9uHtgdyghw9TLwsNkMTxDgc/TOJzUC+x
-         he2wW6JLQ0ouUqsrWKsm0YjHYNSXHkssD5q+Dj5hTBgaq+YJ+dDsbF9LKUosIqQuaVxz
-         k8z4if7TjMi/eZJXH3mp4+GEYNakIyltJcRBOSRNb1X3aQOhLIxfBU1vNUyLG02tadPp
-         PT65TdDAH7deRrtmlkrXcDqsi5QIDgs/vEtDrwF4H432lv5OP0m6dKsfEXbNg73JEtEN
-         d1hOq0FIUldofK7PbDxkvepK7iM5w+xaEgSvdzuh03EvYEhN8ElQOJUPGwdhKthHJQq1
-         LmRg==
+        bh=qN4bq7rhJmbsASifkFdopqqK3ZXMq/RRJe82gn4yruE=;
+        b=AxWmjW5lDzgeFN1g1yQNfCUhwThMsKHcnJrwynI/j3dRzCUcOa/ZhXVk13q4VPK29h
+         abeD7LiuC7XUQujuOGPwIQbhaD3uZH4Ws/7dUj4D9YfvDz+TMCD+X8DMBJ24JPfx9VPD
+         zimzJ9xu3mv3vsU355VTEe/MxfZ+4NKAy3yh5YYymU+GbA/LEuJhIEl8N9kfJ49pHzIw
+         FRcv0AvI7A5jK9GO9dJF91MxzDmzLvUdeDrA1aaDWQ2PrWrNwLhXCNQfG2u8on0A6J/0
+         NysbWUtfSI+Fz5j9H0C/QzTl14VUv/740gQxxhBYEOVIgWcBVKpmsVeS+Qx1yibuZCS4
+         epNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Weuvsj9Ph1lxw8aHlC9F8s8S70wYA+EI0s4JK82WZpo=;
-        b=5EHhq1fSkQo/8HlIt9g5hNhn+LbNcZ6v14pEBJJILI4frlYPS9g7lJiCuxSU4x4vXO
-         bn1ug4bZ3WAqd3JGTnulVuWUhg4xI1i7kaA+i0IEkJi9YldqcURJYMeA7zLhwAsU6HSo
-         32lbEb5E0BergSyfoZtZx7XjUy7j2eUYn59vQzanPthmSLt2+VocIcv6RsSF++OxkDY0
-         hWgNdHqc7zI0AwQuQ74GD0sVrWNgv4D/RiCC4Hzn8ZC16a9NK0+YBNNtiikPncbuy8Li
-         tROeCwpMqRFFS7pXaXYR/so9c7gV9Dtr5EtCpdI+kbLdFu489XmTyoFyN/XMtEqT1cdZ
-         Kz5g==
-X-Gm-Message-State: ANoB5pkY/Lftck6yLsEYj0BR40xH7kzjHzr6gpsIY9R8rTyGnOAh8moP
-	2gPDlb5pGHPPcPN/2iVYTjn1dGT4zRg8WGSOybaeHA==
-X-Google-Smtp-Source: AA0mqf5cKFaxMU39VgUo7JRFFXTv0Cyxe45k89SDohlm5M2uJI0q9fvnmrkz8wehsFuY/Fccm//Ja7pEUw7xwcTS4JE=
-X-Received: by 2002:a05:6602:e:b0:6d6:d016:b56a with SMTP id
- b14-20020a056602000e00b006d6d016b56amr4052778ioa.204.1669116947650; Tue, 22
- Nov 2022 03:35:47 -0800 (PST)
+        bh=qN4bq7rhJmbsASifkFdopqqK3ZXMq/RRJe82gn4yruE=;
+        b=BJ3UA0ZCj/9afqDmSGyjc3UdDMmx30t74wJuWl3RRyCSeRywU/K4/8RbtDltXoaJiT
+         E7Qet3bRLhU3U+/RexBPpvQ2OMXWkKMd6LX3dXUhqLnxRs/idSiBA3IW9qcLgPWUzrTs
+         zAznE3N3y9nSRKSV6u6L06GxY2jwTfL/27XUuV8Kaac+YIqRGU6EXGxi+f3WExELOjzq
+         g+znd2N+AbR8Sb7VGR6gD4QxTxA2izGFSsP7lbqpzBW7lE5gXFcRgWF+aR0+9H14kFMW
+         74JPwcf/QeJ+xGRk2lkYuGIgLzPeuuqL1EZF+KmWh6otOGIz95a7Ymr7UP5KEzcnFxww
+         fq5Q==
+X-Gm-Message-State: ANoB5plKvFYRmTHyNNXPoYf2uIRjARt3YjsCOPUM1+hsPH6kgjwsHpy/
+	fl8oMlVaxVS6/cddaPfgQtQ4qEYz8dZDig/aEhPt0A==
+X-Google-Smtp-Source: AA0mqf65UWNzQ0vL7id209ir9dKbqf9j0HVrcEYRyCApESrKVFUjZeoKGOFNoLCAMZHQ/7Yc1CXPLjroY96LK/6Xd5U=
+X-Received: by 2002:a92:d311:0:b0:302:d31c:46c2 with SMTP id
+ x17-20020a92d311000000b00302d31c46c2mr1550373ila.304.1669117359152; Tue, 22
+ Nov 2022 03:42:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <20221121214722.22563-4-umang.jain@ideasonboard.com> <Y3wHKfeNB6Fv9Xpo@pendragon.ideasonboard.com>
-In-Reply-To: <Y3wHKfeNB6Fv9Xpo@pendragon.ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com> <Y3v4uZuhZTve2UI5@pendragon.ideasonboard.com>
+In-Reply-To: <Y3v4uZuhZTve2UI5@pendragon.ideasonboard.com>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 22 Nov 2022 11:35:31 +0000
-Message-ID: <CAPY8ntAtbnUqhJRd7+bWLRUz+K=1Hnd33XwSR930hPVfc7EPPg@mail.gmail.com>
-Subject: Re: [PATCH 03/14] media: videobuf2: Allow exporting of a struct dmabuf
+Date: Tue, 22 Nov 2022 11:42:23 +0000
+Message-ID: <CAPY8ntBrLvj_m_Rwt5SOjHypM5W3Foc6wRemFCcc1rpNQjMV0g@mail.gmail.com>
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, 
 	kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org, 
@@ -55,168 +54,153 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
 	Florian Fainelli <f.fainelli@gmail.com>, Naushir Patuck <naush@raspberrypi.com>, 
 	David Plowman <david.plowman@raspberrypi.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.org>
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 21 Nov 2022 at 23:18, Laurent Pinchart
+Hi Umang and Laurent
+
+On Mon, 21 Nov 2022 at 22:16, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Umang and Dave,
+> Hi Umang,
 >
-> Thank you for the patch.
+> Nice to see this series on the list !
 >
-> On Tue, Nov 22, 2022 at 03:17:11AM +0530, Umang Jain wrote:
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> On Tue, Nov 22, 2022 at 03:17:08AM +0530, Umang Jain wrote:
+> > This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+> > independent subset of earlier series [2] posted to upport CSI-2/CCP2
+> > receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
+> > SoCs (namely BCM2711). Unicam is still under active development to work
+> > with multistream support to get into mainline. Hence only the ISP driver
+> > will remain the primary area of this series.
 > >
-> > videobuf2 only allowed exporting a dmabuf as a file descriptor,
-> > but there are instances where having the struct dma_buf is
-> > useful within the kernel.
+> > Patch (01-02)/14  adds a new driver named vc-sm-cma to handle memory sharing
+> > with the VC4 VPU.
 > >
-> > Split the current implementation into two, one step which
-> > exports a struct dma_buf, and the second which converts that
-> > into an fd.
+> > Patch 03/14 adds a small extension to videobuf2 to allow exporting as a
+> > dma_buf instead of a file-descriptor.
 > >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > ---
-> >  .../media/common/videobuf2/videobuf2-core.c   | 36 +++++++++++++------
-> >  include/media/videobuf2-core.h                | 15 ++++++++
-> >  2 files changed, 40 insertions(+), 11 deletions(-)
+> > Patch (04-05)/14 adds a couple of improvements/support for
+> > bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
 > >
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> > index ab9697f3b5f1..32b26737cac4 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> > @@ -2184,49 +2184,49 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
-> >       return -EINVAL;
-> >  }
+> > Patch (06-09)/14 adds the core bcm2835-isp driver along with headers
+> > and format defintions.
 > >
-> > -int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
-> > -             unsigned int index, unsigned int plane, unsigned int flags)
-> > +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
-> > +                                    unsigned int index, unsigned int plane,
-> > +                                    unsigned int flags)
+> > Patch (10-11)/14 deals with the colorspace support.
+> > Note: This is still WIP since the implementation of colorspace is still
+> > getting ironed out (especially around setting of colorspace flags handling).
+> >
+> > Patch 12/14 allows multiple instances of the ISP.
+> >
+> > Patch 13/14 adds a admin-guide document on bcm2835-isp.
+> >
+> > Patch 14/14 wires all this up with the vchiq-mmal driver.
+> >
+> > Testing:
+> > Tested with RPi Model 4B running linux mainline v6.1-rc6. To test
+> > end-to-end, I choose to cherry-pick the Unicam patches and OV5647 DT
+> > bindings from [1]). Once done, functional testing was conducted with
+> > libcamera[3] and its utility tools.
+> >
+> > Also note: Reviews given on [2] for the relevant ISP driver patches have
+> > been incorporated in this version.
+> >
+> > Known issues:
+> > - Colorspace handling
 >
-> This function is used in the ISP driver, in bcm2835_isp_buf_prepare(),
-> for MMAP buffers, and as far as I can tell, its only purpose is to
-> create a dma_buf instance to then be imported in
-> vchiq_mmal_submit_buffer() with a call to vc_sm_cma_import_dmabuf().
-> That sounds like a very complicated set of operations, and quite
-> inefficient :-(
+> This will require further discussions, I'll try to comment on this topic
+> in the review of the ISP driver patch.
+>
+> > - vc-sm-cma spamming kernel log with
+> >       - pr_err("%s: Expecting an uncached alias for dma_addr %pad\n"
+>
+> Do you have any plan to address this ? Is the root cause known ?
 
-Are you saying that dmabufs are not the preferred route for sharing
-buffers between kernel subsystems? What are you suggesting instead?
-
-If the VPU (firmware) has a handle to the buffer then we need to
-manage the lifetime such that it is not freed until the VPU has
-released it. That is handled for you with dmabufs, therefore why
-reinvent the wheel?
+You've picked up an old version of the downstream driver.
+Pi0&1 share the VPU L2 cache with the ARM in the architecture, so they
+use the 0x8 cache alias.
+See https://github.com/raspberrypi/linux/commit/e22927f8ec9dc87772ac61d6aba00dc8046b4f49
 
   Dave
 
-> >  {
-> >       struct vb2_buffer *vb = NULL;
-> >       struct vb2_plane *vb_plane;
-> > -     int ret;
-> >       struct dma_buf *dbuf;
+> > [1]: https://github.com/raspberrypi/linux
+> > [2]: https://lore.kernel.org/linux-media/20200504092611.9798-1-laurent.pinchart@ideasonboard.com/
+> > [3]: https://libcamera.org/getting-started.html
 > >
-> >       if (q->memory != VB2_MEMORY_MMAP) {
-> >               dprintk(q, 1, "queue is not currently set up for mmap\n");
-> > -             return -EINVAL;
-> > +             return ERR_PTR(-EINVAL);
-> >       }
+> > Dave Stevenson (7):
+> >   staging: vc04_services: Add new vc-sm-cma driver
+> >   staging: vchiq_arm: Register vcsm-cma as a platform driver
+> >   media: videobuf2: Allow exporting of a struct dmabuf
+> >   staging: mmal-vchiq: Add support for event callbacks
+> >   staging: mmal-vchiq: Use vc-sm-cma to support zero copy
+> >   staging: mmal_vchiq: Add image formats to be used by bcm2835-isp
+> >   uapi: bcm2835-isp: Add bcm2835-isp uapi header file
 > >
-> >       if (!q->mem_ops->get_dmabuf) {
-> >               dprintk(q, 1, "queue does not support DMA buffer exporting\n");
-> > -             return -EINVAL;
-> > +             return ERR_PTR(-EINVAL);
-> >       }
+> > David Plowman (2):
+> >   vc04_services: bcm2835-isp: Allow formats with different colour spaces
+> >   vc04_services: bcm2835-isp: Permit all sRGB colour spaces on ISP
+> >     outputs
 > >
-> >       if (flags & ~(O_CLOEXEC | O_ACCMODE)) {
-> >               dprintk(q, 1, "queue does support only O_CLOEXEC and access mode flags\n");
-> > -             return -EINVAL;
-> > +             return ERR_PTR(-EINVAL);
-> >       }
+> > Naushir Patuck (5):
+> >   media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
+> >   staging: vc04_services: bcm2835-isp: Add a more complex ISP processing
+> >     component
+> >   staging: vc04_services: bcm2835_isp: Allow multiple users
+> >   docs: admin-guide: media: bcm2835-isp: Add documentation for
+> >     bcm2835-isp
+> >   staging: vc04_services: vchiq: Load bcm2835_isp driver from vchiq
 > >
-> >       if (type != q->type) {
-> >               dprintk(q, 1, "invalid buffer type\n");
-> > -             return -EINVAL;
-> > +             return ERR_PTR(-EINVAL);
-> >       }
-> >
-> >       if (index >= q->num_buffers) {
-> >               dprintk(q, 1, "buffer index out of range\n");
-> > -             return -EINVAL;
-> > +             return ERR_PTR(-EINVAL);
-> >       }
-> >
-> >       vb = q->bufs[index];
-> >
-> >       if (plane >= vb->num_planes) {
-> >               dprintk(q, 1, "buffer plane out of range\n");
-> > -             return -EINVAL;
-> > +             return ERR_PTR(-EINVAL);
-> >       }
-> >
-> >       if (vb2_fileio_is_active(q)) {
-> >               dprintk(q, 1, "expbuf: file io in progress\n");
-> > -             return -EBUSY;
-> > +             return ERR_PTR(-EBUSY);
-> >       }
-> >
-> >       vb_plane = &vb->planes[plane];
-> > @@ -2238,9 +2238,23 @@ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
-> >       if (IS_ERR_OR_NULL(dbuf)) {
-> >               dprintk(q, 1, "failed to export buffer %d, plane %d\n",
-> >                       index, plane);
-> > -             return -EINVAL;
-> > +             return ERR_PTR(-EINVAL);
-> >       }
-> >
-> > +     return dbuf;
-> > +}
-> > +EXPORT_SYMBOL_GPL(vb2_core_expbuf_dmabuf);
-> > +
-> > +int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
-> > +                 unsigned int index, unsigned int plane, unsigned int flags)
-> > +{
-> > +     struct dma_buf *dbuf;
-> > +     int ret;
-> > +
-> > +     dbuf = vb2_core_expbuf_dmabuf(q, type, index, plane, flags);
-> > +     if (IS_ERR(dbuf))
-> > +             return PTR_ERR(dbuf);
-> > +
-> >       ret = dma_buf_fd(dbuf, flags & ~O_ACCMODE);
-> >       if (ret < 0) {
-> >               dprintk(q, 3, "buffer %d, plane %d failed to export (%d)\n",
-> > diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> > index 3253bd2f6fee..33629ed2b64f 100644
-> > --- a/include/media/videobuf2-core.h
-> > +++ b/include/media/videobuf2-core.h
-> > @@ -911,6 +911,21 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type);
-> >   */
-> >  int vb2_core_streamoff(struct vb2_queue *q, unsigned int type);
-> >
-> > +/**
-> > + * vb2_core_expbuf_dmabuf() - Export a buffer as a dma_buf structure
-> > + * @q:         videobuf2 queue
-> > + * @type:      buffer type
-> > + * @index:     id number of the buffer
-> > + * @plane:     index of the plane to be exported, 0 for single plane queues
-> > + * @flags:     flags for newly created file, currently only O_CLOEXEC is
-> > + *             supported, refer to manual of open syscall for more details
-> > + *
-> > + * Return: Returns the dmabuf pointer
-> > + */
-> > +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
-> > +                                    unsigned int index, unsigned int plane,
-> > +                                    unsigned int flags);
-> > +
-> >  /**
-> >   * vb2_core_expbuf() - Export a buffer as a file descriptor.
-> >   * @q:               pointer to &struct vb2_queue with videobuf2 queue.
+> >  .../admin-guide/media/bcm2835-isp.rst         |  127 ++
+> >  .../userspace-api/media/drivers/index.rst     |    1 +
+> >  .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+> >  .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   41 +
+> >  MAINTAINERS                                   |    9 +
+> >  .../media/common/videobuf2/videobuf2-core.c   |   36 +-
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+> >  drivers/staging/vc04_services/Kconfig         |    4 +
+> >  drivers/staging/vc04_services/Makefile        |    2 +
+> >  .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
+> >  .../vc04_services/bcm2835-isp/Makefile        |    8 +
+> >  .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
+> >  .../bcm2835-isp/bcm2835-isp-fmts.h            |  558 +++++
+> >  .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1817 +++++++++++++++++
+> >  .../interface/vchiq_arm/vchiq_arm.c           |    6 +
+> >  .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
+> >  .../staging/vc04_services/vc-sm-cma/Makefile  |   12 +
+> >  .../staging/vc04_services/vc-sm-cma/vc_sm.c   |  801 ++++++++
+> >  .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   54 +
+> >  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  507 +++++
+> >  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
+> >  .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  187 ++
+> >  .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
+> >  .../staging/vc04_services/vchiq-mmal/Kconfig  |    1 +
+> >  .../vc04_services/vchiq-mmal/mmal-common.h    |    5 +
+> >  .../vc04_services/vchiq-mmal/mmal-encodings.h |   66 +
+> >  .../vc04_services/vchiq-mmal/mmal-msg.h       |   35 +
+> >  .../vchiq-mmal/mmal-parameters.h              |  165 +-
+> >  .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  253 ++-
+> >  .../vc04_services/vchiq-mmal/mmal-vchiq.h     |    5 +
+> >  include/media/videobuf2-core.h                |   15 +
+> >  include/uapi/linux/bcm2835-isp.h              |  347 ++++
+> >  include/uapi/linux/v4l2-controls.h            |    6 +
+> >  include/uapi/linux/videodev2.h                |    1 +
+> >  34 files changed, 5225 insertions(+), 33 deletions(-)
+> >  create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
+> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stats.rst
+> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
+> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
+> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-ctrls.h
+> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-fmts.h
+> >  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
+> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
+> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
+> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
+> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
+> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
+> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
+> >  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
+> >  create mode 100644 include/uapi/linux/bcm2835-isp.h
 >
 > --
 > Regards,
