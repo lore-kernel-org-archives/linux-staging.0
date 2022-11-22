@@ -1,95 +1,194 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB57D6FD1
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 13:55:29 +0000 (UTC)
-Received: by mail-oo1-f45.google.com with SMTP id v7-20020a4aa507000000b00496e843fdfeso2263182ook.7
-        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 05:55:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2SBGeqgV8aQ4ClE1rxARDUjCn/QaGrg5bogBswoE+Gk=;
-        b=SnJrJJJB+uAOWpogJlqoVY6znPbePuzs8v8E+Jasq1bg9moQq8Gbla8WPFPotFYdUs
-         rdiNTyjJgUOpZ//qEmNSffWMfpXCemCqV4jqqOLcafNGMG3y7VzHk2z9V6YfIYYTp81D
-         df5NkH3zm4zUw3PzBRdPGQ4f8CJIBaeUTQh9hasrwmNEXQM/Q4hIQ6dVrmQyovTykNlk
-         RNdlw5G+f5UCJDWk4RkG0HUq6cWwz+Pat2UDROelcqWZxV0KlNgJCCVHtdzbVNto0nKe
-         fES8l3XJEdiw4y/2lEdykL46NhCsN3MbN/y7RDB/FanhyNqBLX9zLaQeCHNrj9s0p+p2
-         fKaQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB4A746C
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 15:23:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1669130596;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ojW41h0RdJfN52cCZflfu82DPiwzwXenRSuetwhRix8=;
+	b=OAkFAKl/c2sMQHBbmudv9ZLJOH/TV0pSqjeW7INFqQm1Ca/1XCyqejArhDtWiN0Flobppd
+	xdfin6rZ8cePpqcsb1XDGiyvTipq61qQjOqzo96jAI8Ym3UyFnGT8DYJcidk7asfcmUt6Z
+	0eV9W2OuvlY6dDq8jBe9QHPuh2jnFn0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-626-LhM_X60yOOeVRzAxzgznhw-1; Tue, 22 Nov 2022 10:23:15 -0500
+X-MC-Unique: LhM_X60yOOeVRzAxzgznhw-1
+Received: by mail-ed1-f71.google.com with SMTP id h9-20020a05640250c900b00461d8ee12e2so9028580edb.23
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 07:23:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2SBGeqgV8aQ4ClE1rxARDUjCn/QaGrg5bogBswoE+Gk=;
-        b=bZMcfe5EQiCkvdWV3FJgcwyArBX/5J5xReRyPmAu5rRZ6Va31k8un/q9UFp6DeII8Q
-         IoLwn/IJk73jIrQtFtbXamXbEQxBfuLVt3rkFLocotOlqBwmxVoMvisX8MUK8V78GUsF
-         6XjaOek9iShstR1J8mFhZsEvRkecSm0Kq8WrXfk7Z0XGAGdrHhJKrVF+KqRBNPZVmpl8
-         GYIFWt6D1DQSxLSRxWZPvjznWaIgMYjHr0sjJOmjEJGt2EKADwdonWwL7A7idrsTrAsX
-         Vm9KiO/Yxx3X5BIS/aWrv08OXOpFxr8e5rO/+lLc3CGoN4Jsh6MGTUdBxwO+KPSqWeR6
-         j+Cg==
-X-Gm-Message-State: ANoB5pmm8Rs2hylAKXQ4M2ZKcR42tvLKMDe3o+EyyD/yNcZ//8pTc5QX
-	TRt6TBop9AmE6T4wZHw2buTDNabE1bvfA3eSRek=
-X-Google-Smtp-Source: AA0mqf7ykzweR9BqX2Z1bFr3kRAAU5C3xDVsZgtZl+Svh5PRx1RmM9Dz5FRt4dxqYY1KiJhP24NikZC0YwM35U5Onhk=
-X-Received: by 2002:a4a:d1b2:0:b0:498:ce46:9fb1 with SMTP id
- z18-20020a4ad1b2000000b00498ce469fb1mr6131515oor.97.1669125328656; Tue, 22
- Nov 2022 05:55:28 -0800 (PST)
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ojW41h0RdJfN52cCZflfu82DPiwzwXenRSuetwhRix8=;
+        b=Ox0hGORjem1etknfrMwoHtzaqGZX+jMl0M70Vjoet0wy/8eU9TdJYztJYYzFtYvMfn
+         jTEIsf6sr66IDRyrTFVw309iErtp5NgLXwa9t/5+NtS5H7dYMiP5Q7Me0/uDQLxo1xY0
+         uFNpoUl2xgwFGLbQzDCNBX0espicBrRW7ZFEUIvFA3R6NxtW0mKpmai7BqO82TajJc+p
+         9Qa6wYTwHCC2IMd8MzsIMnqTnOiawF3LO0EZBsxNMtvTCJGziqPsQQAIdim7/G9DWCWm
+         +jCH7EaccTIucUQ3bigOprOJMXI1kkmi5RaHVBC/u1qc6P02RRHXMRNhbixIRL2Oxoj/
+         VIjQ==
+X-Gm-Message-State: ANoB5pkp7PtZUhEznDBjy1TNXMd0AIYL3HWKUdxPCu7q6zdv33185a/F
+	16nw+ElVbEhljp3lFWHtPCPppOML+va292euRyI6gE6DndUeMi186R3G1uLMfrv09N6uSdyfOnm
+	wKNXbHnUF3gda0O7joj1xVUGPhQ==
+X-Received: by 2002:a05:6402:2070:b0:467:5e4f:591 with SMTP id bd16-20020a056402207000b004675e4f0591mr7260633edb.414.1669130593230;
+        Tue, 22 Nov 2022 07:23:13 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf53rVMHOuxZHxrhLSvtXdejQx7YllwXwfWEX7E4yGdwDlfN0tp8Bp0q0/+ULpVJAjLX0eEF+w==
+X-Received: by 2002:a05:6402:2070:b0:467:5e4f:591 with SMTP id bd16-20020a056402207000b004675e4f0591mr7260617edb.414.1669130593019;
+        Tue, 22 Nov 2022 07:23:13 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id lb3-20020a170907784300b007417041fb2bsm6145322ejc.116.2022.11.22.07.23.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Nov 2022 07:23:12 -0800 (PST)
+Message-ID: <460fca9c-4583-724b-519b-2f5a9530415f@redhat.com>
+Date: Tue, 22 Nov 2022 16:23:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAHk-=wjKJyzfJmOzBdEOqCFRc8Fh-rdGM4tvMXfW0WXbbHwV0w@mail.gmail.com>
- <20221122105054.4062213-1-geert@linux-m68k.org> <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
-In-Reply-To: <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Nov 2022 08:55:17 -0500
-Message-ID: <CADnq5_PvouSKugXxJXqkVeZf+kbP8+hhUKFgVALSO=MOW3jzvA@mail.gmail.com>
-Subject: Re: Build regressions/improvements in v6.1-rc6
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-um@lists.infradead.org, 
-	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] media: atomisp: Changes for 6.2-1
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-staging@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 22, 2022 at 5:56 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> On Tue, 22 Nov 2022, Geert Uytterhoeven wrote:
-> > JFYI, when comparing v6.1-rc6[1] to v6.1-rc5[3], the summaries are:
-> >  - build errors: +6/-0
->
->    + /kisskb/src/arch/sh/include/asm/io.h: error: cast to pointer from integer of different size [-Werror=int-to-pointer-cast]:  => 239:34
->
-> sh4-gcc11/sh-allmodconfig (in cvm_oct_free_hw_memory())
->
->    + /kisskb/src/arch/um/include/asm/processor-generic.h: error: called object is not a function or function pointer:  => 94:18
->    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: control reaches end of non-void function [-Werror=return-type]:  => 1934:1
->
-> um-x86_64/um-all{mod,yes}config (in kfd_cpumask_to_apic_id())
+Hi Mauro,
 
-Presumably cpu_data is not defined on um-x86_64?  Does it even make
-sense to build drivers on um-x86_64?
+Here are all my atomisp changes for 6.2 + 1 atomisp patch from Andy.
 
-Alex
+All these patches have been posted on the list and I have addressed
+all review remarks to these patches.
 
->
->    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'X86_VENDOR_AMD' undeclared (first use in this function):  => 149:37
->    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: 'struct cpuinfo_um' has no member named 'x86_vendor':  => 149:22
->    + /kisskb/src/drivers/infiniband/hw/qib/qib_wc_x86_64.c: error: control reaches end of non-void function [-Werror=return-type]:  => 150:1
->
-> um-x86_64/um-allyesconfig
->
-> > [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/eb7081409f94a9a8608593d0fb63a1aa3d6f95d8/ (all 149 configs)
-> > [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/094226ad94f471a9f19e8f8e7140a09c2625abaa/ (all 149 configs)
->
-> Gr{oetje,eeting}s,
->
->                                                 Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                                             -- Linus Torvalds
+Highlights:
+-videobuf2 support (including working mmap support!)
+-v4l2 API fixes, fixing TRY_FMT so that various pixelformats now work
+-remove more dead code, dropping another 1800 lines of code
+-power-management cleanup, this is preparation work for getting rid of
+ the errors in dmesg on (runtime) suspend/resume
+
+Regards,
+
+Hans
+
+
+The following changes since commit f0c4d9fc9cc9462659728d168387191387e903cc:
+
+  Linux 6.1-rc4 (2022-11-06 15:07:11 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.2-1
+
+for you to fetch changes up to 72b02aeb99edcf1670ee7ba6cf4aee02d4b07fdd:
+
+  media: atomisp: Make bds_factors_list be type of struct u32_fract (2022-11-21 14:08:32 +0100)
+
+----------------------------------------------------------------
+Highlights:
+-videobuf2 support (including working mmap support!)
+-v4l2 API fixes, fixing TRY_FMT so that various pixelformats now work
+-remove more dead code, dropping another 1800 lines of code
+-power-management cleanup, this is preparation work for getting rid of
+ the errors in dmesg on (runtime) suspend/resume
+
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      media: atomisp: Make bds_factors_list be type of struct u32_fract
+
+Hans de Goede (37):
+      media: atomisp: Add hmm_create_from_vmalloc_buf() function
+      media: atomisp: Add ia_css_frame_init_from_info() function
+      media: atomisp: Make atomisp_q_video_buffers_to_css() static
+      media: atomisp: On streamoff wait for buffers owned by the CSS to be given back
+      media: atomisp: Remove unused atomisp_buffers_queued[_pipe] functions
+      media: atomisp: Also track buffers in a list when submitted to the ISP
+      media: atomisp: Add an index helper variable to atomisp_buf_done()
+      media: atomisp: Use new atomisp_flush_video_pipe() helper in atomisp_streamoff()
+      media: atomisp: Add ia_css_frame_get_info() helper
+      media: atomisp: Convert to videobuf2
+      media: atomisp: Make it possible to call atomisp_set_fmt() without a file handle
+      media: atomisp: Fix VIDIOC_REQBUFS failing when VIDIOC_S_FMT has not been called yet
+      media: atomisp: Refactor atomisp_adjust_fmt()
+      media: atomisp: Fix atomisp_try_fmt_cap() always returning YUV420 pixelformat
+      media: atomisp: Make atomisp_g_fmt_cap() default to YUV420
+      media: atomisp: Remove __atomisp_get_pipe() helper
+      media: atomisp: gc0310: Power on sensor from set_fmt() callback
+      media: atomisp: Silence: 'atomisp_q_one_s3a_buffer: drop one s3a stat which has exp_id xx' log messages
+      media: atomisp: Remove accelerator pipe creation code
+      media: atomisp: Remove unused QOS defines / structure member
+      media: atomisp: Flush queue on atomisp_css_start() error
+      media: atomisp: Log an error on failing to alloc private-mem
+      media: atomisp: Fix deadlock when the /dev/video# node is closed while still streaming
+      media: atomisp: Remove 2 unused accelerator mode related functions
+      media: atomisp: Remove atomisp_css_yuvpp_configure_viewfinder() function
+      media: atomisp: Remove unused ia_css_frame_*() functions
+      media: atomisp: Drop userptr support from hmm
+      media: atomisp: Remove double atomisp_mrfld_power_down()/_up() calls from atomisp_reset()
+      media: atomisp: Remove atomisp_mrfld_power_down()/_up()
+      media: atomisp: Remove clearing of config from atomisp_css_uninit()
+      media: atomisp: Remove atomisp_css_suspend()/_resume()
+      media: atomisp: Remove sw_contex.power_state checks
+      media: atomisp: Remove duplication between runtime-pm and normal-pm code
+      media: atomisp: Move calling of css_[un]init() to power_on()/_off()
+      media: atomisp: Remove atomisp_ospm_dphy_down() call from probe error path
+      media: atomisp: Remove atomisp_ospm_dphy_up()/_down() functions
+      media: atomisp_ov2680: Fix 1280x720 -> 1296x736 resolution
+
+ drivers/staging/media/atomisp/i2c/atomisp-gc0310.c |  14 +-
+ drivers/staging/media/atomisp/i2c/gc0310.h         |   1 +
+ drivers/staging/media/atomisp/i2c/ov2680.h         |  46 +-
+ drivers/staging/media/atomisp/include/hmm/hmm.h    |   3 +-
+ drivers/staging/media/atomisp/include/hmm/hmm_bo.h |   4 +-
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c    | 430 ++++----------
+ drivers/staging/media/atomisp/pci/atomisp_cmd.h    |  17 +-
+ drivers/staging/media/atomisp/pci/atomisp_common.h |   6 +-
+ drivers/staging/media/atomisp/pci/atomisp_compat.h |  14 +-
+ .../media/atomisp/pci/atomisp_compat_css20.c       |  94 +--
+ drivers/staging/media/atomisp/pci/atomisp_fops.c   | 535 ++++++-----------
+ drivers/staging/media/atomisp/pci/atomisp_fops.h   |  13 -
+ .../staging/media/atomisp/pci/atomisp_internal.h   |   1 -
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c  | 615 +++++---------------
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.h  |  10 +-
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c |   2 +
+ drivers/staging/media/atomisp/pci/atomisp_subdev.h |  22 +-
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c   | 104 +---
+ .../camera/pipe/interface/ia_css_pipe_binarydesc.h |  13 +-
+ .../camera/pipe/interface/ia_css_pipe_stagedesc.h  |   5 -
+ .../atomisp/pci/camera/pipe/src/pipe_binarydesc.c  |  55 +-
+ .../atomisp/pci/camera/pipe/src/pipe_stagedesc.c   |  21 -
+ drivers/staging/media/atomisp/pci/hmm/hmm.c        |  20 +-
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c     |  64 +-
+ .../media/atomisp/pci/ia_css_frame_public.h        | 108 ++--
+ drivers/staging/media/atomisp/pci/ia_css_pipe.h    |   3 +-
+ .../staging/media/atomisp/pci/ia_css_pipe_public.h |  69 ---
+ .../ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c  |  10 +-
+ .../yuv444_io_ls/ia_css_yuv444_io.host.c           |  10 +-
+ .../pci/isp/kernels/ref/ref_1.0/ia_css_ref.host.c  |   2 +-
+ .../pci/isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c  |   4 +-
+ .../media/atomisp/pci/runtime/binary/src/binary.c  |  42 +-
+ .../atomisp/pci/runtime/debug/src/ia_css_debug.c   |  33 +-
+ .../media/atomisp/pci/runtime/frame/src/frame.c    | 203 ++-----
+ .../runtime/pipeline/interface/ia_css_pipeline.h   |   2 -
+ .../atomisp/pci/runtime/pipeline/src/pipeline.c    |   8 -
+ drivers/staging/media/atomisp/pci/sh_css.c         | 646 +--------------------
+ .../staging/media/atomisp/pci/sh_css_internal.h    |  13 -
+ drivers/staging/media/atomisp/pci/sh_css_legacy.h  |   1 -
+ .../media/atomisp/pci/sh_css_param_shading.c       |  19 +-
+ drivers/staging/media/atomisp/pci/sh_css_params.c  |  17 +-
+ drivers/staging/media/atomisp/pci/sh_css_sp.c      |  54 +-
+ 42 files changed, 776 insertions(+), 2577 deletions(-)
+
