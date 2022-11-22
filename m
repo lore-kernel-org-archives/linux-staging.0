@@ -1,73 +1,175 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [144.76.43.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1AB746C
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 15:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=+NFpLSd8ScOHEVd4DHTztoyZ+UkB3J/9rUIzBb7GyY0=;
-	t=1669131573; x=1670341173; b=gD/oHIvcPlmiPYSo1UMmy1V2KDbKuqz93yKdoqZCNAgbJqd
-	0K89rqxtaOdmwJLvd8tPlC5/CACb22ivocUHOU+wD7NmTq7NkMDoDyj5dLQ30StBCnAOC0mTkmw5p
-	hqZOfJiaG9oDICfh4/TnZY+5C7wqCW0wh5GZTdvrK8jgpSQmdlGlWEKgIx6ooJOHv8aHjxWN7sejU
-	UFkuXjbU7kaOGvpIxoEyWzUEdcJyG6FoW9V1YDOg9C4YU6IzcayGVtLwHzKeB/V6ezRlU/dnFCKhH
-	WozrqGxejbN2Mld0QSraUOMWdrAik3p2K53rfVmYJSw3TsHdHEvWwH4jnsXYgW6Q==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1oxUlH-006Ngc-2Z;
-	Tue, 22 Nov 2022 16:00:35 +0100
-Message-ID: <021efb6c9295402cf05406bb319c441c0b0229b3.camel@sipsolutions.net>
-Subject: Re: Build regressions/improvements in v6.1-rc6
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Alex Deucher <alexdeucher@gmail.com>, Geert Uytterhoeven
-	 <geert@linux-m68k.org>
-Cc: linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-um@lists.infradead.org, 
-	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Date: Tue, 22 Nov 2022 16:00:34 +0100
-In-Reply-To: <CADnq5_PvouSKugXxJXqkVeZf+kbP8+hhUKFgVALSO=MOW3jzvA@mail.gmail.com>
-References: 
-	<CAHk-=wjKJyzfJmOzBdEOqCFRc8Fh-rdGM4tvMXfW0WXbbHwV0w@mail.gmail.com>
-	 <20221122105054.4062213-1-geert@linux-m68k.org>
-	 <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
-	 <CADnq5_PvouSKugXxJXqkVeZf+kbP8+hhUKFgVALSO=MOW3jzvA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7066FD1
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 16:09:42 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id t1so11057316wmi.4
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 08:09:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MB7sh8EfMeiMpT6eyk0gEECQb5t5VgXPL9obUDUw5Sc=;
+        b=mVDeJYEkvQC6eWfFWLtGuUF637u9WsgKRxpLDgfw8QzLz9JsB+URj8WuFMXEpz0Mww
+         MgAp+g9ay+YEVSueITnwwqqtN1rWa9OS5/0GRbDdcdgvJMy03n/QJcQeAN3jezT1z6pt
+         oX06q0G9b/lvpcLBRVF1Ia3e5YoQVkUIcPjO0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MB7sh8EfMeiMpT6eyk0gEECQb5t5VgXPL9obUDUw5Sc=;
+        b=Eno6F8VDZPJsAiC/ku9BJsAVSo+Jfq2DJ7qHVsUKexTFC9wd8dcgr9ZPfpt0NsdajA
+         mXUdcb1JGHTGn9jVAWYSsNQnaXeOjbVny0K5pXt5F1fSEZtpLsgxuHL6Lj92gx4AddVh
+         lmmFUctZNW204Jqn/jJbJR1TxbabgG8cdO2OKBO69RV4y4tfGoWyKdMC5yiIDQy/yAgL
+         s4RW7vqx9ZyYoejhzOgzJhpzU7NTgXneHsE1t80ZbhMReKNzmd9BQP971eRyb9DoGNdx
+         +It9vSbUZNllGp2TamZACoyQDh/0qoOy5DgOZhUjPQjuMbSAJrPfyfK38iFZ9bUKL/GO
+         L0TA==
+X-Gm-Message-State: ANoB5pl8YjwgDC0UGX/18wVpAeY+X9CeOrATwg75pgoiG99nzNmZj5LJ
+	jGBg8aDaFcSifrfx9jWIJQ04lA==
+X-Google-Smtp-Source: AA0mqf5NtqJ76RIotfZLCAGTg2jm4dfBI9IjABHCpRidd+mpCKzKmdG8CWw7n5MGPzF5JoVww0RHxg==
+X-Received: by 2002:a1c:7404:0:b0:3cf:b091:e5a1 with SMTP id p4-20020a1c7404000000b003cfb091e5a1mr16700981wmc.44.1669133380511;
+        Tue, 22 Nov 2022 08:09:40 -0800 (PST)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-55-94.cust.vodafonedsl.it. [188.217.55.94])
+        by smtp.gmail.com with ESMTPSA id n24-20020a7bcbd8000000b003b4fdbb6319sm22345740wmi.21.2022.11.22.08.09.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 08:09:39 -0800 (PST)
+Date: Tue, 22 Nov 2022 17:09:37 +0100
+From: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: imx: remove code for non-existing config
+ IMX_GPT_ICAP
+Message-ID: <20221122160937.GB39395@tom-ThinkPad-T14s-Gen-2i>
+References: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
 
-On Tue, 2022-11-22 at 08:55 -0500, Alex Deucher wrote:
-> >=20
-> >    + /kisskb/src/arch/um/include/asm/processor-generic.h: error: called=
- object is not a function or function pointer:  =3D> 94:18
-> >    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: e=
-rror: control reaches end of non-void function [-Werror=3Dreturn-type]:  =
-=3D> 1934:1
-> >=20
-> > um-x86_64/um-all{mod,yes}config (in kfd_cpumask_to_apic_id())
->=20
-> Presumably cpu_data is not defined on um-x86_64?  Does it even make
-> sense to build drivers on um-x86_64?
+Hi Lukas,
 
-Drivers in general yes ;-)
+On Tue, Nov 22, 2022 at 02:23:30PM +0100, Lukas Bulwahn wrote:
+> There never was a config IMX_GPT_ICAP in the repository. So remove the code
+> conditional on this config and simplify the callers that just called empty
+> functions.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>  drivers/staging/media/imx/imx-media-fim.c | 54 -----------------------
+>  1 file changed, 54 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+> index 3a9182933508..19a48eb445fd 100644
+> --- a/drivers/staging/media/imx/imx-media-fim.c
+> +++ b/drivers/staging/media/imx/imx-media-fim.c
+> @@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
+>  		send_fim_event(fim, error_avg);
+>  }
+>  
+> -#ifdef CONFIG_IMX_GPT_ICAP
+> -/*
+> - * Input Capture method of measuring frame intervals. Not subject
+> - * to interrupt latency.
+> - */
+> -static void fim_input_capture_handler(int channel, void *dev_id,
+> -				      ktime_t timestamp)
+> -{
+> -	struct imx_media_fim *fim = dev_id;
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&fim->lock, flags);
+> -
+> -	frame_interval_monitor(fim, timestamp);
+> -
+> -	if (!completion_done(&fim->icap_first_event))
+> -		complete(&fim->icap_first_event);
+> -
+> -	spin_unlock_irqrestore(&fim->lock, flags);
+> -}
+> -
+> -static int fim_request_input_capture(struct imx_media_fim *fim)
+> -{
+> -	init_completion(&fim->icap_first_event);
+> -
+> -	return mxc_request_input_capture(fim->icap_channel,
+> -					 fim_input_capture_handler,
+> -					 fim->icap_flags, fim);
+> -}
+> -
+> -static void fim_free_input_capture(struct imx_media_fim *fim)
+> -{
+> -	mxc_free_input_capture(fim->icap_channel, fim);
+> -}
+> -
+> -#else /* CONFIG_IMX_GPT_ICAP */
+> -
+> -static int fim_request_input_capture(struct imx_media_fim *fim)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void fim_free_input_capture(struct imx_media_fim *fim)
+> -{
+> -}
+> -
+> -#endif /* CONFIG_IMX_GPT_ICAP */
+> -
+>  /*
+>   * In case we are monitoring the first frame interval after streamon
+>   * (when fim->num_skip = 0), we need a valid fim->last_ts before we
+> @@ -435,14 +387,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+>  		spin_unlock_irqrestore(&fim->lock, flags);
+>  
+>  		if (icap_enabled(fim)) {
+> -			ret = fim_request_input_capture(fim);
+> -			if (ret)
+> -				goto out;
+>  			fim_acquire_first_ts(fim);
+>  		}
 
-This driver, probably not.
+As suggested by the checkpatch.pl:
+WARNING: braces {} are not necessary for single statement blocks
 
-But the issue is that a lot of drivers "depends on X86_64" or such,
-where only "X86" is the arch symbol. You could add "X86 && X86_64" to
-really build on x86 64-bit only.
+> -	} else {
+> -		if (icap_enabled(fim))
+> -			fim_free_input_capture(fim);
+>  	}
+>  
+>  	fim->stream_on = on;
+> -- 
+> 2.17.1
+> 
 
-I didn't check this driver, but this has mostly popped up since UM got
-PCI support some time ago (which I added.)
+Apart of this, patch looks good to me.
+Thanks.
 
-johannes
+Regards,
+Tommaso
 
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
 
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
