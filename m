@@ -1,227 +1,106 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508371079F
-	for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 23:41:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2322788F;
-	Tue, 22 Nov 2022 00:41:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1669074096;
-	bh=OsNzWOxt+1Uz9pblEiTC7lBWE1dWJGL9cCym66ao+hA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BSYxu68Bxi+i6zA2IBtJTdyNSgC0QbSR4M/jE4FDeatfguQNWpW/e5l8ysyKLwagi
-	 qm4CIZU/Dt1P7hV3Wzymz4NWWtinO9DHg33OD5e+dVVePLMzJH/58FnjkXkH7t9jRS
-	 zb8qd3rPQ3qx2kNM42eps2A/QcP3kQeRt66HXCdg=
-Date: Tue, 22 Nov 2022 01:41:21 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-	linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 13/14] docs: admin-guide: media: bcm2835-isp: Add
- documentation for bcm2835-isp
-Message-ID: <Y3wMof/ERK7ZBINW@pendragon.ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <20221121214722.22563-14-umang.jain@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1771E10E8
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 07:46:02 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id v124-20020a1cac82000000b003cf7a4ea2caso14563571wme.5
+        for <linux-staging@lists.linux.dev>; Mon, 21 Nov 2022 23:46:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZNmvxzsFPisXHjCgZO/o9Pz9De/lKUYqkCffScEry/w=;
+        b=LwoDNLjwCvfI1ik/v9RMhMXTMLe2S9Y8bfuTQDEMWJmzfFBAwqhhSC71aW/GE4XpBd
+         YmZ19e39fCylq1AHSUYMFgByYoNs9StS9Vlw9al84PbdJWJuOph4d0p6OFtf5bRYptn8
+         HM6whfTvfmPYovw6wys5j4ZySPmUKHHFcO/s28sq8OIeqbUStCD3isZIS4JjhN1v8g/w
+         F2+V19r8JEX3jntVearjflpR489oA0t95h44e7KU1QNnl7Qu7hP6DJdkvsDxS3Rbe/KQ
+         OQaujboNLP3i7AGPNhFEaPBxtya5H/KwuxwxHQpmddz8oh/rdn4sTXpSGXcvQjrFGhUk
+         Q0yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZNmvxzsFPisXHjCgZO/o9Pz9De/lKUYqkCffScEry/w=;
+        b=ypxY3Ph7mKD9PPQewDSCqFgJgL8+RzMsnOzaXVFkFGRww3Wq55l2iWnyYoSapYUupK
+         17Z2BFrRgmHSg72k2B+miMS8Q330FKVMOjNVhqUgLDL+Ln+C9gEo/7qIxjjGurANNGs7
+         NDv9telo/aLhzMmh+H1VrvcogBwRsDw9ybjEqhnltyzmE2ZsW8+3bCxV8BgX2qc70bDZ
+         2Gd3h4GK57bzA9rbajntUpilx19Yq+mrUNGidndkAtw34tC+MjEGQycLt2h/JH5bp9oB
+         RtS6sYmcPXawq8WgyEQmRnZd3YdoXfVAwDb9RganA1oE4/92ihSFCDoOf3//d0CXfTiB
+         8gCA==
+X-Gm-Message-State: ANoB5pnlZFE7BpflOgajBnsKU4efyMBqCliQ0iBt0M9l9zLdxuhsvJoB
+	FbTVXSDZYRbntKgvouks+vw=
+X-Google-Smtp-Source: AA0mqf4qiRmqD8D6z7JqsqsrSDepgSQyG1OLRWUwqYK/7nLmriXC09dkq2ejw+WK5+2AaMsRAMGwww==
+X-Received: by 2002:a05:600c:4f90:b0:3c1:aeb9:29b6 with SMTP id n16-20020a05600c4f9000b003c1aeb929b6mr1651380wmq.97.1669103160315;
+        Mon, 21 Nov 2022 23:46:00 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o18-20020a05600c4fd200b003cfa26c410asm23070763wmq.20.2022.11.21.23.45.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Nov 2022 23:45:59 -0800 (PST)
+Date: Tue, 22 Nov 2022 10:45:49 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: wsa+renesas@sang-engineering.com
+Cc: linux-staging@lists.linux.dev
+Subject: [bug report] staging: ks7010: add driver from Nanonote
+ extra-repository
+Message-ID: <Y3x+Lb4Qe0xvBkaS@kili>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221121214722.22563-14-umang.jain@ideasonboard.com>
 
-Hi Umang and Naush,
+Hello Wolfram Sang,
 
-Thank you for the patch.
+The patch 13a9930d15b4: "staging: ks7010: add driver from Nanonote
+extra-repository" from May 31, 2016, leads to the following Smatch
+static checker warning:
 
-On Tue, Nov 22, 2022 at 03:17:21AM +0530, Umang Jain wrote:
-> From: Naushir Patuck <naush@raspberrypi.com>
-> 
-> Document device nodes, frame buffer formats and initial set of
-> configuraiton that can be set from userspace to configure the pipeline.
+	drivers/staging/ks7010/ks_wlan_net.c:2108 ks_wlan_set_wps_probe_req()
+	error: 'len' from user is not capped properly
 
-s/configuraiton/configuration/
+drivers/staging/ks7010/ks_wlan_net.c
+    2088 static int ks_wlan_set_wps_probe_req(struct net_device *dev,
+    2089                                      struct iw_request_info *info,
+    2090                                      union iwreq_data *uwrq, char *extra)
+    2091 {
+    2092         struct iw_point *dwrq = &uwrq->data;
+    2093         u8 *p = extra;
+    2094         unsigned char len;
+                 ^^^^^^^^^^^^^^^^^^
 
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../admin-guide/media/bcm2835-isp.rst         | 127 ++++++++++++++++++
->  .../userspace-api/media/drivers/index.rst     |   1 +
->  2 files changed, 128 insertions(+)
->  create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
-> 
-> diff --git a/Documentation/admin-guide/media/bcm2835-isp.rst b/Documentation/admin-guide/media/bcm2835-isp.rst
-> new file mode 100644
-> index 000000000000..e1c19f78435e
-> --- /dev/null
-> +++ b/Documentation/admin-guide/media/bcm2835-isp.rst
-> @@ -0,0 +1,127 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +BCM2835 ISP Driver
-> +==================
-> +
-> +Introduction
-> +------------
-> +
-> +The BCM2835 Image Sensor Pipeline (ISP) is a fixed function hardware pipeline
-> +for performing image processing operations.  Images are fed to the input
-> +of the ISP through memory frame buffers.  These images may be in various YUV,
-> +RGB, or Bayer formats.
+    2095         struct ks_wlan_private *priv = netdev_priv(dev);
+    2096 
+    2097         if (priv->sleep_mode == SLP_SLEEP)
+    2098                 return -EPERM;
+    2099 
+    2100         /* length check */
+    2101         if (p[1] + 2 != dwrq->length || dwrq->length > 256)
 
-Does the ISP really support RGB or YUV input images ? Is this supported
-by the driver ?
+Should this be >= instead of >?  Otherwise if it's 256
 
-> A typical use case would have Bayer images obtained from
-> +an image sensor by the BCM2835 Unicam peripheral, written to a memory
-> +frame buffer, and finally fed into the input of the ISP.  Two concurrent output
-> +images may be generated in YUV or RGB format at different resolutions.
-> +Statistics output is also generated for Bayer input images.
-> +
-> +The bcm2835-isp driver exposes the following media pads as V4L2 device nodes:
+    2102                 return -EINVAL;
+    2103 
+    2104         priv->wps.ielen = p[1] + 2 + 1;        /* IE header + IE + sizeof(len) */
+    2105         len = p[1] + 2;        /* IE header + IE */
 
-This sounds weird. Pads are not video nodes, are they ? Or are those
-MMAL pads ?
+That means that "len" gets truncated to zero.
 
-> +
-> +.. tabularcolumns:: |l|l|l|l|
-> +
-> +.. cssclass: longtable
-> +
-> +.. flat-table::
-> +
-> +    * - *Pad*
-> +      - *Direction*
-> +      - *Purpose*
-> +      - *Formats*
-> +
-> +    * - "bcm2835-isp0-output0"
-> +      - sink
-> +      - Accepts Bayer, RGB or YUV format frame buffers as input to the ISP HW
-> +        pipeline.
-> +      - :ref:`RAW8 <V4L2-PIX-FMT-SRGGB8>`,
-> +        :ref:`RAW10P <V4L2-PIX-FMT-SRGGB10P>`,
-> +        :ref:`RAW12P <V4L2-PIX-FMT-SRGGB12P>`,
-> +        :ref:`RAW14P <V4L2-PIX-FMT-SRGGB14P>`,
-> +        :ref:`RAW16 <V4L2-PIX-FMT-SRGGB16>`,
-> +        :ref:`RGB24/BGR24 <V4L2-PIX-FMT-RGB24>`,
-> +        :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
-> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
-> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
-> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`,
-> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`
-> +
-> +    * - "bcm2835-isp0-capture1"
-> +      - source
-> +      - High resolution YUV or RGB processed output from the ISP.
-> +      - :ref:`RGB565 <V4L2-PIX-FMT-RGB565>`,
-> +        :ref:`RGB24/BGR24 <V4L2-PIX-FMT-RGB24>`,
-> +        :ref:`ABGR32 <V4L2-PIX-FMT-ABGR32>`,
-> +        :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
-> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
-> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
-> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`.
-> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`,
-> +        :ref:`NV12/NV21 <V4L2-PIX-FMT-NV12>`,
-> +
-> +    * - "bcm2835-isp0-capture2"
-> +      - source
-> +      - Low resolution YUV processed output from the ISP. The output of
-> +        this pad cannot have a resolution larger than the "bcm2835-isp0-capture1" pad in any dimension.
-> +      - :ref:`YUYV <V4L2-PIX-FMT-YUYV>`,
-> +        :ref:`YVYU <V4L2-PIX-FMT-YVYU>`,
-> +        :ref:`UYVY <V4L2-PIX-FMT-UYVY>`,
-> +        :ref:`VYUY <V4L2-PIX-FMT-VYUY>`.
-> +        :ref:`YUV420/YVU420 <V4L2-PIX-FMT-YUV420>`,
-> +        :ref:`NV12/NV21 <V4L2-PIX-FMT-NV12>`,
-> +
-> +    * - "bcm2835-isp0-capture1"
+    2106 
+    2107         memcpy(priv->wps.ie, &len, sizeof(len));
+--> 2108         p = memcpy(priv->wps.ie + 1, p, len);
+    2109 
+    2110         netdev_dbg(dev, "%d(%#x): %02X %02X %02X %02X ... %02X %02X %02X\n",
+    2111                    priv->wps.ielen, priv->wps.ielen, p[0], p[1], p[2], p[3],
+    2112                    p[priv->wps.ielen - 3], p[priv->wps.ielen - 2],
+    2113                    p[priv->wps.ielen - 1]);
+    2114 
+    2115         hostif_sme_enqueue(priv, SME_WPS_PROBE_REQUEST);
+    2116 
+    2117         return 0;
+    2118 }
 
-Is that capture3 ?
-
-Maybe the video nodes should be renamed to make their purpose clearer ?
-
-> +      - source
-> +      - Image statistics calculated from the input image provided on the
-> +        "bcm2835-isp0-output0" pad.  Statistics are only available for Bayer
-> +        format input images.
-> +      - :ref:`v4l2-meta-fmt-bcm2835-isp-stats`.
-> +
-> +Pipeline Configuration
-> +----------------------
-> +
-> +The ISP pipeline can be configure through user-space by calling
-> +:ref:`VIDIOC_S_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` on the “bcm2835-isp0-output0”
-> +node with the appropriate parameters as shown in the table below.
-> +
-> +.. tabularcolumns:: |p{2cm}|p{5.0cm}|
-> +
-> +.. cssclass: longtable
-> +
-> +.. flat-table::
-> +
-> +    * - *id*
-> +      - *Parameter*
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_CC_MATRIX``
-> +      - struct :c:type:`bcm2835_isp_custom_ccm`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_LENS_SHADING``
-> +      - struct :c:type:`bcm2835_isp_lens_shading`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_BLACK_LEVEL``
-> +      - struct :c:type:`bcm2835_isp_black_level`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_GEQ``
-> +      - struct :c:type:`bcm2835_isp_geq`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_GAMMA``
-> +      - struct :c:type:`bcm2835_isp_gamma`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_DENOISE``
-> +      - struct :c:type:`bcm2835_isp_denoise`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_SHARPEN``
-> +      - struct :c:type:`bcm2835_isp_sharpen`
-> +
-> +    * - ``V4L2_CID_USER_BCM2835_ISP_DPC``
-> +      - struct :c:type:`bcm2835_isp_dpc`
-> +
-> +++++++++++++++++++++++++
-> +Configuration Parameters
-> +++++++++++++++++++++++++
-> +
-> +.. kernel-doc:: include/uapi/linux/bcm2835-isp.h
-> +   :functions: bcm2835_isp_rational bcm2835_isp_ccm bcm2835_isp_custom_ccm
-> +                bcm2835_isp_gain_format bcm2835_isp_lens_shading
-> +                bcm2835_isp_black_level bcm2835_isp_geq bcm2835_isp_gamma
-> +                bcm2835_isp_denoise bcm2835_isp_sharpen
-> +                bcm2835_isp_dpc_mode bcm2835_isp_dpc
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> index 32f82aed47d9..34e0d7102ef0 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -31,6 +31,7 @@ For more details see the file COPYING in the source distribution of Linux.
->  	:maxdepth: 5
->  	:numbered:
->  
-> +	bcm2835-isp
->  	ccs
->  	cx2341x-uapi
->  	dw100
-
--- 
-Regards,
-
-Laurent Pinchart
+regards,
+dan carpenter
