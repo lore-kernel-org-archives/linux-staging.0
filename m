@@ -1,202 +1,150 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF0923B1
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 12:35:32 +0000 (UTC)
-Received: from [192.168.1.104] (unknown [103.86.18.138])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A9FB2D9;
-	Tue, 22 Nov 2022 13:35:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1669120529;
-	bh=/6M+QajsyhNYA9rP2hcLG0kUVsJ1q/Gz4kqYMfPwRbU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=O2eHZtjTE6LIOqkwO8wKRhMYrAoSZazKUA3c0pKFFmvok5PbRmU3nsVo+8aNuG50T
-	 4OLbxsgAAGzzxQ9wUDDkum4m4hewAHXikGu7ApSB7vlzdDYk4ppZvrF4mrwFuLLkWw
-	 zBivxMMYi31c1srKtitQfG6WHgKMKsR8IXsnSVHw=
-Message-ID: <74899338-8586-b24c-ae6d-213d419376a7@ideasonboard.com>
-Date: Tue, 22 Nov 2022 18:04:30 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E93223B1
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 13:23:52 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id n12so35697519eja.11
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 05:23:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WV4i7O8BzgnNi9s3HIsw9M8JIdyfTKAykF37RMUEeDI=;
+        b=FmwPwbnr0QiwbN9cFi0HeIzq91QfJ9NAmquz0Iv6i36HQBqvOLp7Xbg/fMhtUACapS
+         2W5H6W73OAc6rbsdatD8MTqCkgrmhxEPVkoQwhbQwq7frlPhDLzqs7IWxoWcEcmlZAOt
+         hZPaLY0H6iDWRRpzclVQuU8j/nK0rI7fWRYG5uaHTCpz8W6UhCP2WpdQXBd1kFC5ZglH
+         OH/pWbbGqFRMuIZkp9PeHgOlTUuGf8mBarEUFQvkfarXgHildhXmJzv0/R7ZX4bMB9aS
+         XPkuXpLV7mDnnF5mxRoJRm1OuiwRmL1/PJGZ0UxNKkdWkTHtRPIopDZziAAA7DnxWNLm
+         UaWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WV4i7O8BzgnNi9s3HIsw9M8JIdyfTKAykF37RMUEeDI=;
+        b=VG+9SzTQoe/hAX5+o62OtNOzJVCgwpnt1jlPkG4uSogX82s7VVc+4ySKXNFCzWN+Ma
+         KPzLzndu1wItqnD5CMRwhMIc5Pzlg14BBrHja6bmaSiZ2Eq48hzp0IyCiEH4kD51AReW
+         sjq1gjUR+OgtNX7gDgFKd9F0AEATm1cE1YpVsw8DiP2zJHpjQJh/wcJN+M7wVUrU4WdN
+         Cpmb8ssWnJD3y4nyeIg1tWiUAgDMs27bzXsi0CjlZ6b90ar29IwZTfy8RgVdylLtr7bT
+         SY9r0CbY6Hew8UX7lw95RCHjxUaMYIjkYvnkQJLBMWGZBDeP75ga54Tv2h1ua9JlXkLj
+         Ecsg==
+X-Gm-Message-State: ANoB5pnBJkCswJj2mF+lZChGhfSCUzJEoV5+N1KhN30F9p6l2U1ci3ad
+	AxGp6r8kVyZeXtZ/VBlnDnk=
+X-Google-Smtp-Source: AA0mqf5zQy0JMJm9xD6ZBOVIN5DHUP0heNHNJ5Y+eIMmNRJoeW2dTtMzPucyUyRkNu04MavtMVvUcA==
+X-Received: by 2002:a17:906:1244:b0:78d:d4ca:21f7 with SMTP id u4-20020a170906124400b0078dd4ca21f7mr20059292eja.128.1669123430366;
+        Tue, 22 Nov 2022 05:23:50 -0800 (PST)
+Received: from felia.fritz.box (200116b8267b3700c41d4e99e424db57.dip.versatel-1u1.de. [2001:16b8:267b:3700:c41d:4e99:e424:db57])
+        by smtp.gmail.com with ESMTPSA id bd27-20020a056402207b00b004585eba4baesm5429717edb.80.2022.11.22.05.23.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 05:23:49 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] media: imx: remove code for non-existing config IMX_GPT_ICAP
+Date: Tue, 22 Nov 2022 14:23:30 +0100
+Message-Id: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
- linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <Y3v4uZuhZTve2UI5@pendragon.ideasonboard.com>
- <CAPY8ntBrLvj_m_Rwt5SOjHypM5W3Foc6wRemFCcc1rpNQjMV0g@mail.gmail.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <CAPY8ntBrLvj_m_Rwt5SOjHypM5W3Foc6wRemFCcc1rpNQjMV0g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi Dave,
+There never was a config IMX_GPT_ICAP in the repository. So remove the code
+conditional on this config and simplify the callers that just called empty
+functions.
 
-On 11/22/22 5:12 PM, Dave Stevenson wrote:
-> Hi Umang and Laurent
->
-> On Mon, 21 Nov 2022 at 22:16, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->> Hi Umang,
->>
->> Nice to see this series on the list !
->>
->> On Tue, Nov 22, 2022 at 03:17:08AM +0530, Umang Jain wrote:
->>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
->>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->>> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
->>> SoCs (namely BCM2711). Unicam is still under active development to work
->>> with multistream support to get into mainline. Hence only the ISP driver
->>> will remain the primary area of this series.
->>>
->>> Patch (01-02)/14  adds a new driver named vc-sm-cma to handle memory sharing
->>> with the VC4 VPU.
->>>
->>> Patch 03/14 adds a small extension to videobuf2 to allow exporting as a
->>> dma_buf instead of a file-descriptor.
->>>
->>> Patch (04-05)/14 adds a couple of improvements/support for
->>> bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
->>>
->>> Patch (06-09)/14 adds the core bcm2835-isp driver along with headers
->>> and format defintions.
->>>
->>> Patch (10-11)/14 deals with the colorspace support.
->>> Note: This is still WIP since the implementation of colorspace is still
->>> getting ironed out (especially around setting of colorspace flags handling).
->>>
->>> Patch 12/14 allows multiple instances of the ISP.
->>>
->>> Patch 13/14 adds a admin-guide document on bcm2835-isp.
->>>
->>> Patch 14/14 wires all this up with the vchiq-mmal driver.
->>>
->>> Testing:
->>> Tested with RPi Model 4B running linux mainline v6.1-rc6. To test
->>> end-to-end, I choose to cherry-pick the Unicam patches and OV5647 DT
->>> bindings from [1]). Once done, functional testing was conducted with
->>> libcamera[3] and its utility tools.
->>>
->>> Also note: Reviews given on [2] for the relevant ISP driver patches have
->>> been incorporated in this version.
->>>
->>> Known issues:
->>> - Colorspace handling
->> This will require further discussions, I'll try to comment on this topic
->> in the review of the ISP driver patch.
->>
->>> - vc-sm-cma spamming kernel log with
->>>        - pr_err("%s: Expecting an uncached alias for dma_addr %pad\n"
->> Do you have any plan to address this ? Is the root cause known ?
-> You've picked up an old version of the downstream driver.
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ drivers/staging/media/imx/imx-media-fim.c | 54 -----------------------
+ 1 file changed, 54 deletions(-)
 
-I didn't pick version of driver rather, I picked commits that were 
-leading to the rpi-5.15.y branch of the downstream kernel
-
-> Pi0&1 share the VPU L2 cache with the ARM in the architecture, so they
-> use the 0x8 cache alias.
-> See https://github.com/raspberrypi/linux/commit/e22927f8ec9dc87772ac61d6aba00dc8046b4f49
-
-And certainly I missed to notice / pick this commit out on the vc-sm-cma 
-driver.
-Thanks for providing the link! I'll squash it for v2.
->
->    Dave
->
->>> [1]: https://github.com/raspberrypi/linux
->>> [2]: https://lore.kernel.org/linux-media/20200504092611.9798-1-laurent.pinchart@ideasonboard.com/
->>> [3]: https://libcamera.org/getting-started.html
->>>
->>> Dave Stevenson (7):
->>>    staging: vc04_services: Add new vc-sm-cma driver
->>>    staging: vchiq_arm: Register vcsm-cma as a platform driver
->>>    media: videobuf2: Allow exporting of a struct dmabuf
->>>    staging: mmal-vchiq: Add support for event callbacks
->>>    staging: mmal-vchiq: Use vc-sm-cma to support zero copy
->>>    staging: mmal_vchiq: Add image formats to be used by bcm2835-isp
->>>    uapi: bcm2835-isp: Add bcm2835-isp uapi header file
->>>
->>> David Plowman (2):
->>>    vc04_services: bcm2835-isp: Allow formats with different colour spaces
->>>    vc04_services: bcm2835-isp: Permit all sRGB colour spaces on ISP
->>>      outputs
->>>
->>> Naushir Patuck (5):
->>>    media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
->>>    staging: vc04_services: bcm2835-isp: Add a more complex ISP processing
->>>      component
->>>    staging: vc04_services: bcm2835_isp: Allow multiple users
->>>    docs: admin-guide: media: bcm2835-isp: Add documentation for
->>>      bcm2835-isp
->>>    staging: vc04_services: vchiq: Load bcm2835_isp driver from vchiq
->>>
->>>   .../admin-guide/media/bcm2835-isp.rst         |  127 ++
->>>   .../userspace-api/media/drivers/index.rst     |    1 +
->>>   .../userspace-api/media/v4l/meta-formats.rst  |    1 +
->>>   .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   41 +
->>>   MAINTAINERS                                   |    9 +
->>>   .../media/common/videobuf2/videobuf2-core.c   |   36 +-
->>>   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
->>>   drivers/staging/vc04_services/Kconfig         |    4 +
->>>   drivers/staging/vc04_services/Makefile        |    2 +
->>>   .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
->>>   .../vc04_services/bcm2835-isp/Makefile        |    8 +
->>>   .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
->>>   .../bcm2835-isp/bcm2835-isp-fmts.h            |  558 +++++
->>>   .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1817 +++++++++++++++++
->>>   .../interface/vchiq_arm/vchiq_arm.c           |    6 +
->>>   .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
->>>   .../staging/vc04_services/vc-sm-cma/Makefile  |   12 +
->>>   .../staging/vc04_services/vc-sm-cma/vc_sm.c   |  801 ++++++++
->>>   .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   54 +
->>>   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  507 +++++
->>>   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
->>>   .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  187 ++
->>>   .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
->>>   .../staging/vc04_services/vchiq-mmal/Kconfig  |    1 +
->>>   .../vc04_services/vchiq-mmal/mmal-common.h    |    5 +
->>>   .../vc04_services/vchiq-mmal/mmal-encodings.h |   66 +
->>>   .../vc04_services/vchiq-mmal/mmal-msg.h       |   35 +
->>>   .../vchiq-mmal/mmal-parameters.h              |  165 +-
->>>   .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  253 ++-
->>>   .../vc04_services/vchiq-mmal/mmal-vchiq.h     |    5 +
->>>   include/media/videobuf2-core.h                |   15 +
->>>   include/uapi/linux/bcm2835-isp.h              |  347 ++++
->>>   include/uapi/linux/v4l2-controls.h            |    6 +
->>>   include/uapi/linux/videodev2.h                |    1 +
->>>   34 files changed, 5225 insertions(+), 33 deletions(-)
->>>   create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
->>>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stats.rst
->>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
->>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
->>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-ctrls.h
->>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-fmts.h
->>>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
->>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
->>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
->>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
->>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
->>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
->>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
->>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
->>>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
->>>   create mode 100644 include/uapi/linux/bcm2835-isp.h
->> --
->> Regards,
->>
->> Laurent Pinchart
+diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+index 3a9182933508..19a48eb445fd 100644
+--- a/drivers/staging/media/imx/imx-media-fim.c
++++ b/drivers/staging/media/imx/imx-media-fim.c
+@@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
+ 		send_fim_event(fim, error_avg);
+ }
+ 
+-#ifdef CONFIG_IMX_GPT_ICAP
+-/*
+- * Input Capture method of measuring frame intervals. Not subject
+- * to interrupt latency.
+- */
+-static void fim_input_capture_handler(int channel, void *dev_id,
+-				      ktime_t timestamp)
+-{
+-	struct imx_media_fim *fim = dev_id;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&fim->lock, flags);
+-
+-	frame_interval_monitor(fim, timestamp);
+-
+-	if (!completion_done(&fim->icap_first_event))
+-		complete(&fim->icap_first_event);
+-
+-	spin_unlock_irqrestore(&fim->lock, flags);
+-}
+-
+-static int fim_request_input_capture(struct imx_media_fim *fim)
+-{
+-	init_completion(&fim->icap_first_event);
+-
+-	return mxc_request_input_capture(fim->icap_channel,
+-					 fim_input_capture_handler,
+-					 fim->icap_flags, fim);
+-}
+-
+-static void fim_free_input_capture(struct imx_media_fim *fim)
+-{
+-	mxc_free_input_capture(fim->icap_channel, fim);
+-}
+-
+-#else /* CONFIG_IMX_GPT_ICAP */
+-
+-static int fim_request_input_capture(struct imx_media_fim *fim)
+-{
+-	return 0;
+-}
+-
+-static void fim_free_input_capture(struct imx_media_fim *fim)
+-{
+-}
+-
+-#endif /* CONFIG_IMX_GPT_ICAP */
+-
+ /*
+  * In case we are monitoring the first frame interval after streamon
+  * (when fim->num_skip = 0), we need a valid fim->last_ts before we
+@@ -435,14 +387,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+ 		spin_unlock_irqrestore(&fim->lock, flags);
+ 
+ 		if (icap_enabled(fim)) {
+-			ret = fim_request_input_capture(fim);
+-			if (ret)
+-				goto out;
+ 			fim_acquire_first_ts(fim);
+ 		}
+-	} else {
+-		if (icap_enabled(fim))
+-			fim_free_input_capture(fim);
+ 	}
+ 
+ 	fim->stream_on = on;
+-- 
+2.17.1
 
