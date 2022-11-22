@@ -1,24 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9D61C03
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 12:08:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E080C433D6;
-	Tue, 22 Nov 2022 12:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C301C39
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 12:08:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1FFC433D7;
+	Tue, 22 Nov 2022 12:08:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1669118914;
-	bh=i1/B8KPOq23+jpieWztQH/1k9du0dfBH3YUJ5icWXhg=;
+	s=korg; t=1669118935;
+	bh=v6NsHjzd2SnTcLVVr8sZ0m3lpYwFPx7WXSFWTJ+LPEM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p5pt4jZNb0tafaiF3Oqmnp2OXIsR9giOzMApVEjLuUsPGiNAWtye6goFu2yhJr79V
-	 5PNO2nrbA8KuUnfmXOVWEvT3bG8QucY2Fx3Tsq5aSewEVF2uaxYTAAa9Si0VYkmN7S
-	 uNZ9TOSry6g2zVi0RPJUIEDzodSy0YblvpYmleLE=
-Date: Tue, 22 Nov 2022 13:08:31 +0100
+	b=c0toz47snQknZS31Pj7vosvIW/pnNCUm9XeS9LuoJO16Ph5ZdsQK320+TLljEFWdf
+	 OZRWnTysdtmxkxcNRYw/KkSCFv+BSsJxqUh6TOYDAaNMZGwLNLYtB3yV7y08bejflp
+	 zE4MzmGgsefzro8gjAtJxNPAmpjDyBoVDCw2PKpQ=
+Date: Tue, 22 Nov 2022 13:08:52 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Deepak R Varma <drv@mailo.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: call set_lan_gain for receiver config
-Message-ID: <Y3y7v1WAumU1o5na@kroah.com>
-References: <Y3kONX7KhQ1GX9QW@qemulion>
+Subject: Re: [PATCH] staging: pi433: set DCC setting to spec recommended value
+Message-ID: <Y3y71Nt/wCkyM02I@kroah.com>
+References: <Y3k0bbM2/5jXfNKQ@qemulion>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,20 +27,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3kONX7KhQ1GX9QW@qemulion>
+In-Reply-To: <Y3k0bbM2/5jXfNKQ@qemulion>
 
-On Sat, Nov 19, 2022 at 10:41:17PM +0530, Deepak R Varma wrote:
-> Value for the LNA gain is captured from the user as part of the struct
-> pi433_rx_cfg, however, the corresponding function rf69_set_lna_gain() is
-> never called to set it. Include a call to this function as part of
-> setting up the rx configurations.
+On Sun, Nov 20, 2022 at 01:24:21AM +0530, Deepak R Varma wrote:
+> The DCCFreq value is used to obtain the DC offset canceller cut-off
+> frequency. Upon device power reset, the bits 7-5 of the RegRxBw register
+> that represent the DCCFreq setting are set to 0x4, which evaluates the
+> cut-off frequency to be 1% of RxBw.
+> 
+> In the current implementation, first, there is no configuration variable
+> defined in the struct pi433_rx_cfg for the user to set this value as
+> part of the UAPI. Second, the code simply ignores the value of DCC
+> setting and allows it to never change.
+> 
+> As per the RFM69HCW tech specs, the default value for DCC frequency is
+> recommended to be 4% of the RxBw; which requires the DCC setting bits
+> to be set to 010. So allow the DCC setting to change to recommended /
+> default value for improved rx sensitivity.
 > 
 > Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
->  drivers/staging/pi433/pi433_if.c | 3 +++
->  1 file changed, 3 insertions(+)
+> 
+> Please Note: The proposed change is compile tested only. I am unable to perform
+> device based testing in the absence of the hardware, both the RasPi board and the
+> Pi433 device. Please let me know if it is necessary for me to test such patches
+> on the real device myself. I will stop sending the patches till I have the hardware
+> to test them. Thanks.
 
-How was this change tested?
+For changes like this, you need to test it on the device itself.
 
 thanks,
 
