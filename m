@@ -1,48 +1,48 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26BA2F3F
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 22:46:01 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id m7-20020a05600c090700b003cf8a105d9eso141567wmp.5
-        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 14:46:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF0917CA3
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 22:46:12 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id b12so13190949wrn.2
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 14:46:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LaM4uBFPK4LMbdxsIb7pxDSXVMQTFFMHLlfL2JcjVUM=;
-        b=bWZjjnUkUXYQxbQ42tbjZksddrd+wvEx1I46C6UKITkM/8kfuyE3hogrMMlwh2IjKw
-         rHsxbr7rxGwJQdOuptveRWF5qtSx/KQRNEA4O9k1EWu5UztaoRoDhMsIdVGRbFUqsBWp
-         GbTEhkvaPbOpvRQ5cVsx2NLYzyCXZfpl4neqUN1mvwS1egOkWxIGCnENmDAYonbRjiTH
-         B5h5konFG5/TSCSjrDJKp/W4Xx9jtmX4HqwRBVUxw4XEb/IrHhJQSYhjKfxbtlL4j3uZ
-         HfbwzAK0p0ES8y3FY7EFo3FFtimky4pJB1SWinkCpHw2hkKh9/EDP4vL9VzsX6xFjMKF
-         JS0A==
+        bh=4kX4/EANOvk92+tIojhRVqHRQq3FkLftzIvzrby6dVc=;
+        b=O+zXr+8OCFBH3GxbvFTezKFVJ1vV6pp7rEsO9XTqBKuUBAcPD9j+YRjL0x8q2kLrwA
+         4HW809wY/kZRcV0JxQYe4OCHg4xztFfFuVCJtvIN7fSrFs96wovcZj5fzvx/GjQ2ijgY
+         yz25SMG9Rr8C7MzNvPAQpvG9r5xDBJrcXt0+AGjtgZzDbBVqtsirDHBNuZpa2fXSDrJb
+         SEfDmDajMlZgkTumExqpDrCCtPu69E50ouWOy734MnDQ+u6D2Usvm6NAetu+mSDqmIH1
+         VZkL/5Qjhr6wb0gHDxkz4ivqIT9iGO8uRzGHjiKYiDYaZXPqh2d7IGCl52OCEOt/tFQ6
+         NAug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LaM4uBFPK4LMbdxsIb7pxDSXVMQTFFMHLlfL2JcjVUM=;
-        b=ZQUr8jmvdJ3OHuoEY+1QTVm0gwIV2H/rTuBM7GRZ3b/wEBEwInBMXT2Hg4PH/RNEFU
-         3DuXzyzbcI1fyTNBLO6XP269b8l8/oEEDChyhbF6+hKzR16Lw6D+n/DHOJ/6C7kMYoaz
-         w/y0Ha5nVWRPKyLgI9LQ0vbDZ4gjibiX33eAWrBwAGT46oe/GrvL9CAD1tDmATfdNeim
-         66CGbaVq0YAXeyDOWqcbtc5ytQ69BlHgJr3ypX5Eiu+WV/XrYIivyOYnWFvSGkHm4Oo8
-         qVvTahSzRgxYwraY0mAMRzSoPHFgVl7CU1hyuY7VoF1fD223mxStSgK869zXry7/23tG
-         JTFg==
-X-Gm-Message-State: ANoB5plm7H5SwoT17pTla8pOdBhBEH+MZCgzp9AhciFLfzW0I7m2hnnA
-	halj3yJRcKktTWuUaQeEGBo=
-X-Google-Smtp-Source: AA0mqf7O/pfxst0Zs/QaWzPCTIu3maDJVE6OQHbQrUhRJmYB+NpG+EhA/mdGAk3WWagvkQf9osM1LA==
-X-Received: by 2002:a05:600c:1ca4:b0:3cf:7125:fc1d with SMTP id k36-20020a05600c1ca400b003cf7125fc1dmr4421820wms.70.1669157159967;
-        Tue, 22 Nov 2022 14:45:59 -0800 (PST)
+        bh=4kX4/EANOvk92+tIojhRVqHRQq3FkLftzIvzrby6dVc=;
+        b=hvK0Bmm9QZhmTKEGrrBeVsaG3LnS520OE9nA24BPxLK9dNPXcBJr9ex1i9IEqqM5p+
+         m1MSlBQlyLaIs3A/b2K5YeLFTNhK65Tan9391ksOcNunlpKAVpnAfvzscphfL02N8TOW
+         SdcO2B1Xl672awO7+7ujDhAvHIof/+N5bm+EK1uhKyvMpUhUKyCh2ntqvoWIAosIoEw8
+         nEu0hEAztxa2jbE3eSPtWiWQSuvd0fplaLGGR4eW67bI/YLbF3JK1A09k0bsN76DRZj8
+         OZKQZvp9fsqNJNH6adivqxRgwHLJCdKwHla01QnxgMkB2dQKvXHSW73E2StCKrzq6Gfj
+         lhVQ==
+X-Gm-Message-State: ANoB5pnQFq8eKZQTQWfk0hiExFcX8mHlKAe5BhAHVflxayuiOYzc0z0H
+	GOCchr1f9yWCwqcbfX3KNbcnm8Yvfww=
+X-Google-Smtp-Source: AA0mqf6A/nblVO+geoFYaq9gruFl8YL+W6oIjovbTzlwhfG4ceSGhlTRUikeMKLrkKDwaG2NS3RzTw==
+X-Received: by 2002:a5d:4533:0:b0:241:d13a:1d52 with SMTP id j19-20020a5d4533000000b00241d13a1d52mr8711702wra.270.1669157170445;
+        Tue, 22 Nov 2022 14:46:10 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id s2-20020adff802000000b00241c712916fsm13824559wrp.0.2022.11.22.14.45.59
+        by smtp.gmail.com with ESMTPSA id m35-20020a05600c3b2300b003cfd0bd8c0asm133961wms.30.2022.11.22.14.46.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 14:45:59 -0800 (PST)
-Date: Tue, 22 Nov 2022 23:45:57 +0100
+        Tue, 22 Nov 2022 14:46:10 -0800 (PST)
+Date: Tue, 22 Nov 2022 23:46:08 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] staging: rtl8192e: Remove unchanged variable AcmMethod
-Message-ID: <7d73a66184e13d5f8d4af7d21564032247a7e923.1669156825.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/5] staging: rtl8192e: Remove unused variable skb_aggQ
+Message-ID: <3197be3cb412eea1c662a5bec1b1afda2cee675d.1669156825.git.philipp.g.hortmann@gmail.com>
 References: <cover.1669156825.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,73 +54,54 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1669156825.git.philipp.g.hortmann@gmail.com>
 
-AcmMethod is initialized and never changed. The evaluation will always
-have the same result. Remove resulting dead code.
+skb_aggQ is initialized, never used and purged. Remove resulting dead
+code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
  drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 --
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 2 --
- drivers/staging/rtl8192e/rtl819x_Qos.h         | 7 -------
- 4 files changed, 12 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 2 --
+ drivers/staging/rtl8192e/rtllib.h              | 1 -
+ 3 files changed, 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index b9c846015d28..80eba5d5ab37 100644
+index 80eba5d5ab37..f02e67f68e23 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -224,8 +224,6 @@ void rtl92e_set_reg(struct net_device *dev, u8 variable, u8 *val)
- 		u8 acm = pAciAifsn->f.acm;
- 		u8 AcmCtrl = rtl92e_readb(dev, AcmHwCtrl);
+@@ -1946,8 +1946,6 @@ void rtl92e_stop_adapter(struct net_device *dev, bool reset)
  
--		AcmCtrl = AcmCtrl | ((priv->AcmMethod == 2) ? 0x0 : 0x1);
--
- 		if (acm) {
- 			switch (eACI) {
- 			case AC0_BE:
+ 	for (i = 0; i < MAX_QUEUE_SIZE; i++)
+ 		skb_queue_purge(&priv->rtllib->skb_waitQ[i]);
+-	for (i = 0; i < MAX_QUEUE_SIZE; i++)
+-		skb_queue_purge(&priv->rtllib->skb_aggQ[i]);
+ 
+ 	skb_queue_purge(&priv->skb_queue);
+ }
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 399ee9783f99..a8cbeb9545da 100644
+index a8cbeb9545da..369a59a753fe 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -830,7 +830,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 	u8 i;
+@@ -903,8 +903,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
  
--	priv->AcmMethod = eAcmWay2_SW;
- 	priv->dot11_current_preamble_mode = PREAMBLE_AUTO;
- 	priv->rtllib->status = 0;
- 	priv->polling_timer_on = 0;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index b1656d4ecbad..54c7a2128053 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -340,8 +340,6 @@ struct r8192_priv {
- 	struct bb_reg_definition PHYRegDef[4];
- 	struct rate_adaptive rate_adaptive;
+ 	for (i = 0; i < MAX_QUEUE_SIZE; i++)
+ 		skb_queue_head_init(&priv->rtllib->skb_waitQ[i]);
+-	for (i = 0; i < MAX_QUEUE_SIZE; i++)
+-		skb_queue_head_init(&priv->rtllib->skb_aggQ[i]);
+ }
  
--	enum acm_method AcmMethod;
--
- 	struct rt_firmware			*pFirmware;
- 	enum rtl819x_loopback LoopbackMode;
+ static void _rtl92e_init_priv_lock(struct r8192_priv *priv)
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 7119c9c5e1fe..1152fbf43383 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -1624,7 +1624,6 @@ struct rtllib_device {
+ 	int mgmt_queue_tail;
+ 	u8 AsocRetryCount;
+ 	struct sk_buff_head skb_waitQ[MAX_QUEUE_SIZE];
+-	struct sk_buff_head  skb_aggQ[MAX_QUEUE_SIZE];
  
-diff --git a/drivers/staging/rtl8192e/rtl819x_Qos.h b/drivers/staging/rtl8192e/rtl819x_Qos.h
-index 5073f9f40fdc..c010eb0d6036 100644
---- a/drivers/staging/rtl8192e/rtl819x_Qos.h
-+++ b/drivers/staging/rtl8192e/rtl819x_Qos.h
-@@ -97,13 +97,6 @@ enum direction_value {
- 	DIR_BI_DIR		= 3,
- };
+ 	bool	bdynamic_txpower_enable;
  
--enum acm_method {
--	eAcmWay0_SwAndHw		= 0,
--	eAcmWay1_HW			= 1,
--	eAcmWay2_SW			= 2,
--};
--
--
- struct acm {
- 	u64		UsedTime;
- 	u64		MediumTime;
 -- 
 2.37.3
 
