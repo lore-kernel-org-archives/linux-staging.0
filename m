@@ -1,61 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C301C39
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 12:08:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1FFC433D7;
-	Tue, 22 Nov 2022 12:08:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09DE1C03
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 12:22:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF703C433C1;
+	Tue, 22 Nov 2022 12:22:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1669118935;
-	bh=v6NsHjzd2SnTcLVVr8sZ0m3lpYwFPx7WXSFWTJ+LPEM=;
+	s=korg; t=1669119762;
+	bh=1RsX6ENFcjBr8IB+4mVrBxY3lKXrZ7Oluu3EWhp/OTY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c0toz47snQknZS31Pj7vosvIW/pnNCUm9XeS9LuoJO16Ph5ZdsQK320+TLljEFWdf
-	 OZRWnTysdtmxkxcNRYw/KkSCFv+BSsJxqUh6TOYDAaNMZGwLNLYtB3yV7y08bejflp
-	 zE4MzmGgsefzro8gjAtJxNPAmpjDyBoVDCw2PKpQ=
-Date: Tue, 22 Nov 2022 13:08:52 +0100
+	b=xekBgBAyNYNYAbCEwTr7Omvw1WA3yMh74q4QqUkO72G+lL3dMLrqZtdSA7TBVdBBv
+	 cTRB2IDnvqSew/Gn2vNdnTSwrxhckZN/aNWq7wjZ7OnzQrHpsQU9L1TazIE0AUiXjf
+	 HmXarVwyDfAO+hOIydeGMpekwLeHF3x6lvgrJeQI=
+Date: Tue, 22 Nov 2022 13:22:39 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: set DCC setting to spec recommended value
-Message-ID: <Y3y71Nt/wCkyM02I@kroah.com>
-References: <Y3k0bbM2/5jXfNKQ@qemulion>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+Cc: Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Grant Likely <grant.likely@linaro.org>,
+	Wolfram Sang <wsa@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-i2c@vger.kernel.org,
+	kernel@pengutronix.de,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 567/606] staging: iio: ad5933: Convert to i2c's
+ .probe_new()
+Message-ID: <Y3y/DxNp+cYu7GTH@kroah.com>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+ <20221118224540.619276-568-uwe@kleine-koenig.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Y3k0bbM2/5jXfNKQ@qemulion>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221118224540.619276-568-uwe@kleine-koenig.org>
 
-On Sun, Nov 20, 2022 at 01:24:21AM +0530, Deepak R Varma wrote:
-> The DCCFreq value is used to obtain the DC offset canceller cut-off
-> frequency. Upon device power reset, the bits 7-5 of the RegRxBw register
-> that represent the DCCFreq setting are set to 0x4, which evaluates the
-> cut-off frequency to be 1% of RxBw.
+On Fri, Nov 18, 2022 at 11:45:01PM +0100, Uwe Kleine-König wrote:
+> From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > 
-> In the current implementation, first, there is no configuration variable
-> defined in the struct pi433_rx_cfg for the user to set this value as
-> part of the UAPI. Second, the code simply ignores the value of DCC
-> setting and allows it to never change.
+> .probe_new() doesn't get the i2c_device_id * parameter, so determine
+> that explicitly in the probe function.
 > 
-> As per the RFM69HCW tech specs, the default value for DCC frequency is
-> recommended to be 4% of the RxBw; which requires the DCC setting bits
-> to be set to 010. So allow the DCC setting to change to recommended /
-> default value for improved rx sensitivity.
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
+>  drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Please Note: The proposed change is compile tested only. I am unable to perform
-> device based testing in the absence of the hardware, both the RasPi board and the
-> Pi433 device. Please let me know if it is necessary for me to test such patches
-> on the real device myself. I will stop sending the patches till I have the hardware
-> to test them. Thanks.
+> diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+> index f177b20f0f2d..b3152f7153fb 100644
+> --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
+> +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+> @@ -674,9 +674,9 @@ static void ad5933_clk_disable(void *data)
+>  	clk_disable_unprepare(st->mclk);
+>  }
+>  
+> -static int ad5933_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int ad5933_probe(struct i2c_client *client)
+>  {
+> +	const struct i2c_device_id *id = i2c_client_get_device_id(client);
 
-For changes like this, you need to test it on the device itself.
+Breaks the build in my tree as this function is not in Linus's tree yet
+:(
 
-thanks,
-
-greg k-h
