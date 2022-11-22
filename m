@@ -1,150 +1,124 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E93223B1
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 13:23:52 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id n12so35697519eja.11
-        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 05:23:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WV4i7O8BzgnNi9s3HIsw9M8JIdyfTKAykF37RMUEeDI=;
-        b=FmwPwbnr0QiwbN9cFi0HeIzq91QfJ9NAmquz0Iv6i36HQBqvOLp7Xbg/fMhtUACapS
-         2W5H6W73OAc6rbsdatD8MTqCkgrmhxEPVkoQwhbQwq7frlPhDLzqs7IWxoWcEcmlZAOt
-         hZPaLY0H6iDWRRpzclVQuU8j/nK0rI7fWRYG5uaHTCpz8W6UhCP2WpdQXBd1kFC5ZglH
-         OH/pWbbGqFRMuIZkp9PeHgOlTUuGf8mBarEUFQvkfarXgHildhXmJzv0/R7ZX4bMB9aS
-         XPkuXpLV7mDnnF5mxRoJRm1OuiwRmL1/PJGZ0UxNKkdWkTHtRPIopDZziAAA7DnxWNLm
-         UaWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WV4i7O8BzgnNi9s3HIsw9M8JIdyfTKAykF37RMUEeDI=;
-        b=VG+9SzTQoe/hAX5+o62OtNOzJVCgwpnt1jlPkG4uSogX82s7VVc+4ySKXNFCzWN+Ma
-         KPzLzndu1wItqnD5CMRwhMIc5Pzlg14BBrHja6bmaSiZ2Eq48hzp0IyCiEH4kD51AReW
-         sjq1gjUR+OgtNX7gDgFKd9F0AEATm1cE1YpVsw8DiP2zJHpjQJh/wcJN+M7wVUrU4WdN
-         Cpmb8ssWnJD3y4nyeIg1tWiUAgDMs27bzXsi0CjlZ6b90ar29IwZTfy8RgVdylLtr7bT
-         SY9r0CbY6Hew8UX7lw95RCHjxUaMYIjkYvnkQJLBMWGZBDeP75ga54Tv2h1ua9JlXkLj
-         Ecsg==
-X-Gm-Message-State: ANoB5pnBJkCswJj2mF+lZChGhfSCUzJEoV5+N1KhN30F9p6l2U1ci3ad
-	AxGp6r8kVyZeXtZ/VBlnDnk=
-X-Google-Smtp-Source: AA0mqf5zQy0JMJm9xD6ZBOVIN5DHUP0heNHNJ5Y+eIMmNRJoeW2dTtMzPucyUyRkNu04MavtMVvUcA==
-X-Received: by 2002:a17:906:1244:b0:78d:d4ca:21f7 with SMTP id u4-20020a170906124400b0078dd4ca21f7mr20059292eja.128.1669123430366;
-        Tue, 22 Nov 2022 05:23:50 -0800 (PST)
-Received: from felia.fritz.box (200116b8267b3700c41d4e99e424db57.dip.versatel-1u1.de. [2001:16b8:267b:3700:c41d:4e99:e424:db57])
-        by smtp.gmail.com with ESMTPSA id bd27-20020a056402207b00b004585eba4baesm5429717edb.80.2022.11.22.05.23.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 05:23:49 -0800 (PST)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] media: imx: remove code for non-existing config IMX_GPT_ICAP
-Date: Tue, 22 Nov 2022 14:23:30 +0100
-Message-Id: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33BC6FD1
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 13:35:49 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1oxTR4-0004Q1-Ha; Tue, 22 Nov 2022 14:35:38 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1oxTR1-005rZK-1b; Tue, 22 Nov 2022 14:35:35 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1oxTR1-000o5d-AE; Tue, 22 Nov 2022 14:35:35 +0100
+Date: Tue, 22 Nov 2022 14:35:34 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>, linux-i2c@vger.kernel.org,
+	kernel@pengutronix.de, Grant Likely <grant.likely@linaro.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH 567/606] staging: iio: ad5933: Convert to i2c's
+ .probe_new()
+Message-ID: <20221122133534.zoosrjjszpgmgb64@pengutronix.de>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+ <20221118224540.619276-568-uwe@kleine-koenig.org>
+ <Y3y/DxNp+cYu7GTH@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ulcjetf4btcckz7d"
+Content-Disposition: inline
+In-Reply-To: <Y3y/DxNp+cYu7GTH@kroah.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-There never was a config IMX_GPT_ICAP in the repository. So remove the code
-conditional on this config and simplify the callers that just called empty
-functions.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- drivers/staging/media/imx/imx-media-fim.c | 54 -----------------------
- 1 file changed, 54 deletions(-)
+--ulcjetf4btcckz7d
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-index 3a9182933508..19a48eb445fd 100644
---- a/drivers/staging/media/imx/imx-media-fim.c
-+++ b/drivers/staging/media/imx/imx-media-fim.c
-@@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
- 		send_fim_event(fim, error_avg);
- }
- 
--#ifdef CONFIG_IMX_GPT_ICAP
--/*
-- * Input Capture method of measuring frame intervals. Not subject
-- * to interrupt latency.
-- */
--static void fim_input_capture_handler(int channel, void *dev_id,
--				      ktime_t timestamp)
--{
--	struct imx_media_fim *fim = dev_id;
--	unsigned long flags;
--
--	spin_lock_irqsave(&fim->lock, flags);
--
--	frame_interval_monitor(fim, timestamp);
--
--	if (!completion_done(&fim->icap_first_event))
--		complete(&fim->icap_first_event);
--
--	spin_unlock_irqrestore(&fim->lock, flags);
--}
--
--static int fim_request_input_capture(struct imx_media_fim *fim)
--{
--	init_completion(&fim->icap_first_event);
--
--	return mxc_request_input_capture(fim->icap_channel,
--					 fim_input_capture_handler,
--					 fim->icap_flags, fim);
--}
--
--static void fim_free_input_capture(struct imx_media_fim *fim)
--{
--	mxc_free_input_capture(fim->icap_channel, fim);
--}
--
--#else /* CONFIG_IMX_GPT_ICAP */
--
--static int fim_request_input_capture(struct imx_media_fim *fim)
--{
--	return 0;
--}
--
--static void fim_free_input_capture(struct imx_media_fim *fim)
--{
--}
--
--#endif /* CONFIG_IMX_GPT_ICAP */
--
- /*
-  * In case we are monitoring the first frame interval after streamon
-  * (when fim->num_skip = 0), we need a valid fim->last_ts before we
-@@ -435,14 +387,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
- 		spin_unlock_irqrestore(&fim->lock, flags);
- 
- 		if (icap_enabled(fim)) {
--			ret = fim_request_input_capture(fim);
--			if (ret)
--				goto out;
- 			fim_acquire_first_ts(fim);
- 		}
--	} else {
--		if (icap_enabled(fim))
--			fim_free_input_capture(fim);
- 	}
- 
- 	fim->stream_on = on;
--- 
-2.17.1
+Hello Greg,
 
+On Tue, Nov 22, 2022 at 01:22:39PM +0100, Greg Kroah-Hartman wrote:
+> On Fri, Nov 18, 2022 at 11:45:01PM +0100, Uwe Kleine-K=F6nig wrote:
+> > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> >=20
+> > .probe_new() doesn't get the i2c_device_id * parameter, so determine
+> > that explicitly in the probe function.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+> >  drivers/staging/iio/impedance-analyzer/ad5933.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/=
+staging/iio/impedance-analyzer/ad5933.c
+> > index f177b20f0f2d..b3152f7153fb 100644
+> > --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
+> > +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+> > @@ -674,9 +674,9 @@ static void ad5933_clk_disable(void *data)
+> >  	clk_disable_unprepare(st->mclk);
+> >  }
+> > =20
+> > -static int ad5933_probe(struct i2c_client *client,
+> > -			const struct i2c_device_id *id)
+> > +static int ad5933_probe(struct i2c_client *client)
+> >  {
+> > +	const struct i2c_device_id *id =3D i2c_client_get_device_id(client);
+>=20
+> Breaks the build in my tree as this function is not in Linus's tree yet
+> :(
+
+As pointed out in the cover letter[1] you want to make sure that
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/client_d=
+evice_id_helper-immutable
+
+is part of your tree first. So either pull that into your tree, or wait
+until this hits Linus's tree.
+
+Best regards
+Uwe
+
+[1] https://lore.kernel.org/linux-kernel/20221118224540.619276-1-uwe@kleine=
+-koenig.org
+    (It wasn't sent to every thread participant because that would have
+    been too many.)
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ulcjetf4btcckz7d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmN80CAACgkQwfwUeK3K
+7Al35ggAnqzvJT6O1dZcuSdZThRtBdo5YPsZq63WDB/TRDChLUiYlceIBo9rzETz
+t3nH4M6MjjxnOWepddEk/P2hqOl7Bw6h9oarQZvWf2sYdHtoqRkPoSthUjz+glrB
+UWDIIA5F4SeaXakKujDbz4YcIHsEXnnnWuut10edAIkeMWgwIvZzN/sJNXF2pvrh
+QVU7kpB5yWmp0O5ieU3itSPAHwWb4FQFWWi35AS0tJOYQpOuKoHT+HrcYBWKq/mf
+nK3ijGYIRwRVgIDlS6F9tRtoU3eAFJ4ctnztSwoNcZ0giVZbHWoCOIK0WaAlDqNS
+JSXk/So3urvJXWDkg+4T7xEuwZVfxA==
+=mV0I
+-----END PGP SIGNATURE-----
+
+--ulcjetf4btcckz7d--
