@@ -1,175 +1,76 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7066FD1
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 16:09:42 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id t1so11057316wmi.4
-        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 08:09:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MB7sh8EfMeiMpT6eyk0gEECQb5t5VgXPL9obUDUw5Sc=;
-        b=mVDeJYEkvQC6eWfFWLtGuUF637u9WsgKRxpLDgfw8QzLz9JsB+URj8WuFMXEpz0Mww
-         MgAp+g9ay+YEVSueITnwwqqtN1rWa9OS5/0GRbDdcdgvJMy03n/QJcQeAN3jezT1z6pt
-         oX06q0G9b/lvpcLBRVF1Ia3e5YoQVkUIcPjO0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MB7sh8EfMeiMpT6eyk0gEECQb5t5VgXPL9obUDUw5Sc=;
-        b=Eno6F8VDZPJsAiC/ku9BJsAVSo+Jfq2DJ7qHVsUKexTFC9wd8dcgr9ZPfpt0NsdajA
-         mXUdcb1JGHTGn9jVAWYSsNQnaXeOjbVny0K5pXt5F1fSEZtpLsgxuHL6Lj92gx4AddVh
-         lmmFUctZNW204Jqn/jJbJR1TxbabgG8cdO2OKBO69RV4y4tfGoWyKdMC5yiIDQy/yAgL
-         s4RW7vqx9ZyYoejhzOgzJhpzU7NTgXneHsE1t80ZbhMReKNzmd9BQP971eRyb9DoGNdx
-         +It9vSbUZNllGp2TamZACoyQDh/0qoOy5DgOZhUjPQjuMbSAJrPfyfK38iFZ9bUKL/GO
-         L0TA==
-X-Gm-Message-State: ANoB5pl8YjwgDC0UGX/18wVpAeY+X9CeOrATwg75pgoiG99nzNmZj5LJ
-	jGBg8aDaFcSifrfx9jWIJQ04lA==
-X-Google-Smtp-Source: AA0mqf5NtqJ76RIotfZLCAGTg2jm4dfBI9IjABHCpRidd+mpCKzKmdG8CWw7n5MGPzF5JoVww0RHxg==
-X-Received: by 2002:a1c:7404:0:b0:3cf:b091:e5a1 with SMTP id p4-20020a1c7404000000b003cfb091e5a1mr16700981wmc.44.1669133380511;
-        Tue, 22 Nov 2022 08:09:40 -0800 (PST)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-55-94.cust.vodafonedsl.it. [188.217.55.94])
-        by smtp.gmail.com with ESMTPSA id n24-20020a7bcbd8000000b003b4fdbb6319sm22345740wmi.21.2022.11.22.08.09.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 08:09:39 -0800 (PST)
-Date: Tue, 22 Nov 2022 17:09:37 +0100
-From: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: remove code for non-existing config
- IMX_GPT_ICAP
-Message-ID: <20221122160937.GB39395@tom-ThinkPad-T14s-Gen-2i>
-References: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190D2ED0
+	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 16:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Z2J/AOx23miWElPmE+7zDiqIr927sWbMxM+vCpv8Szo=; b=wTtbG4QhN7bfXNkk5Lo4RVfuaq
+	ZxHvocPeWadBgn/JFrjJ2RElxv3AzRYNQwycazhkpATW1uTxbxStM0GmQ75nLVgGlZ+O+ym+klS0z
+	Cm9hG4G7V3+oqlbQblo8aNmQAqb78/oJYjH+sm+dpW9fYGLmocYm4+/9C+OGUvQ3917A8vlXDUlNM
+	4J8zQwm5A5iQNa7QHsUQnL1/lP4SOdG91Loikz90io5tazIE1JHT9oBaJL1ADokpG8e1tCsfdoBAG
+	EQuJTM8rGkMDHns0UrOsUAN0q6J3+xOfXjZuFXdRweMyPeaHLg4Bx8clpx07A1I1AW5QjgDBpTDfs
+	AwAq39vQ==;
+Received: from [2601:1c2:d80:3110::a2e7]
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oxWao-00AtEM-BC; Tue, 22 Nov 2022 16:57:54 +0000
+Message-ID: <5e27ba9e-69a1-bf70-941e-88637b4f5a3c@infradead.org>
+Date: Tue, 22 Nov 2022 08:57:52 -0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: Build regressions/improvements in v6.1-rc6
+Content-Language: en-US
+To: Johannes Berg <johannes@sipsolutions.net>,
+ Alex Deucher <alexdeucher@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-um@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <CAHk-=wjKJyzfJmOzBdEOqCFRc8Fh-rdGM4tvMXfW0WXbbHwV0w@mail.gmail.com>
+ <20221122105054.4062213-1-geert@linux-m68k.org>
+ <alpine.DEB.2.22.394.2211221154280.284524@ramsan.of.borg>
+ <CADnq5_PvouSKugXxJXqkVeZf+kbP8+hhUKFgVALSO=MOW3jzvA@mail.gmail.com>
+ <021efb6c9295402cf05406bb319c441c0b0229b3.camel@sipsolutions.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <021efb6c9295402cf05406bb319c441c0b0229b3.camel@sipsolutions.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Lukas,
 
-On Tue, Nov 22, 2022 at 02:23:30PM +0100, Lukas Bulwahn wrote:
-> There never was a config IMX_GPT_ICAP in the repository. So remove the code
-> conditional on this config and simplify the callers that just called empty
-> functions.
+
+On 11/22/22 07:00, Johannes Berg wrote:
+> On Tue, 2022-11-22 at 08:55 -0500, Alex Deucher wrote:
+>>>
+>>>    + /kisskb/src/arch/um/include/asm/processor-generic.h: error: called object is not a function or function pointer:  => 94:18
+>>>    + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: control reaches end of non-void function [-Werror=return-type]:  => 1934:1
+>>>
+>>> um-x86_64/um-all{mod,yes}config (in kfd_cpumask_to_apic_id())
+>>
+>> Presumably cpu_data is not defined on um-x86_64?  Does it even make
+>> sense to build drivers on um-x86_64?
 > 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
->  drivers/staging/media/imx/imx-media-fim.c | 54 -----------------------
->  1 file changed, 54 deletions(-)
+> Drivers in general yes ;-)
 > 
-> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-> index 3a9182933508..19a48eb445fd 100644
-> --- a/drivers/staging/media/imx/imx-media-fim.c
-> +++ b/drivers/staging/media/imx/imx-media-fim.c
-> @@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
->  		send_fim_event(fim, error_avg);
->  }
->  
-> -#ifdef CONFIG_IMX_GPT_ICAP
-> -/*
-> - * Input Capture method of measuring frame intervals. Not subject
-> - * to interrupt latency.
-> - */
-> -static void fim_input_capture_handler(int channel, void *dev_id,
-> -				      ktime_t timestamp)
-> -{
-> -	struct imx_media_fim *fim = dev_id;
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&fim->lock, flags);
-> -
-> -	frame_interval_monitor(fim, timestamp);
-> -
-> -	if (!completion_done(&fim->icap_first_event))
-> -		complete(&fim->icap_first_event);
-> -
-> -	spin_unlock_irqrestore(&fim->lock, flags);
-> -}
-> -
-> -static int fim_request_input_capture(struct imx_media_fim *fim)
-> -{
-> -	init_completion(&fim->icap_first_event);
-> -
-> -	return mxc_request_input_capture(fim->icap_channel,
-> -					 fim_input_capture_handler,
-> -					 fim->icap_flags, fim);
-> -}
-> -
-> -static void fim_free_input_capture(struct imx_media_fim *fim)
-> -{
-> -	mxc_free_input_capture(fim->icap_channel, fim);
-> -}
-> -
-> -#else /* CONFIG_IMX_GPT_ICAP */
-> -
-> -static int fim_request_input_capture(struct imx_media_fim *fim)
-> -{
-> -	return 0;
-> -}
-> -
-> -static void fim_free_input_capture(struct imx_media_fim *fim)
-> -{
-> -}
-> -
-> -#endif /* CONFIG_IMX_GPT_ICAP */
-> -
->  /*
->   * In case we are monitoring the first frame interval after streamon
->   * (when fim->num_skip = 0), we need a valid fim->last_ts before we
-> @@ -435,14 +387,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
->  		spin_unlock_irqrestore(&fim->lock, flags);
->  
->  		if (icap_enabled(fim)) {
-> -			ret = fim_request_input_capture(fim);
-> -			if (ret)
-> -				goto out;
->  			fim_acquire_first_ts(fim);
->  		}
-
-As suggested by the checkpatch.pl:
-WARNING: braces {} are not necessary for single statement blocks
-
-> -	} else {
-> -		if (icap_enabled(fim))
-> -			fim_free_input_capture(fim);
->  	}
->  
->  	fim->stream_on = on;
-> -- 
-> 2.17.1
+> This driver, probably not.
 > 
+> But the issue is that a lot of drivers "depends on X86_64" or such,
+> where only "X86" is the arch symbol. You could add "X86 && X86_64" to
+> really build on x86 64-bit only.
+> 
+> I didn't check this driver, but this has mostly popped up since UM got
+> PCI support some time ago (which I added.)
 
-Apart of this, patch looks good to me.
-Thanks.
-
-Regards,
-Tommaso
+I have patches for lots of these issues, but some people said that they
+would want to build DRM drivers for use with KUNIT (i.e. UML), so I thought
+that meant my patches were not needed.
 
 -- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
-
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+~Randy
