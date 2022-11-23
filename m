@@ -1,84 +1,158 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10C31860
-	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 06:43:19 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id i12so24089394wrb.0
-        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 22:43:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360891860
+	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 07:52:58 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id e13so23740565edj.7
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 23:52:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wfEWeuAxvQfzW1nfRpEBj0UT4OdDwqRv3XSwMwCWnK8=;
-        b=kckRcbhlBzaM8bzbKIrqbhPBxHzXaM4nCX19z6Fin21rHq1Mf/9tfqHEvFWYqxZnFx
-         5istBw8HsJeU+q7Z2pfz0JmI8nRMz1yeqhHjJyzWcLKHW2m1aNZwDOUlvYlakkiraW4q
-         Qnh3L8Im8uGpEd3prM46yBIjM5z2tn7APY1S/fFjIJsGQP0vlTVRBDJJh1ySmi2gYTiQ
-         jYG8C7aTpYsvA4rkcDe3dIxfTJypb9siZMi6WHLhZRzSCCabl2n2JDffyIst85l7FggA
-         mer0eG3x/UFBhlSYGBUdwuOfgznrPQ8X7eA99nRYdV7wr3HbNYsnJpiruihnnFARFpUu
-         Qx1Q==
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O0yfirNFzSWzAhcJFMcFEJmgVxDm9YhSShEjcea986w=;
+        b=mVj/FwhVcYMzmmP6AxFi7yqc+VHmkYbSfU6P2CcX2UFk13En38/5mWgcINrhK99rF0
+         AqyVrj3uUWsdJ4Uk2CZjdSWHoyv0IvJidNtBFdKNHIla8e0WGA3rxv8iq3cuUuOMEu+q
+         /+yeU10agp17Su3tYED3qb4kvtY/1fs9s4BZDXc1Zc5EdkBaH3mzScuut8bO+5bW4FkJ
+         yavleHZfZCG0rqUFCOJzmFJj99LXdrlaLgGX/erQHjs3uHJBO89l88m64D7ekF/6T+XQ
+         w1dc5kNBvuEGG25my1Wz7AbUoyBOQIizysbrnKk74jbAWkPQhAiolNjeIVz0OcSWRioJ
+         EWKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wfEWeuAxvQfzW1nfRpEBj0UT4OdDwqRv3XSwMwCWnK8=;
-        b=rHPOjUL6rPg9zvZGhXKNz8autoeZelLBBYNSF7fOl0NdiRJcbe/8lRBlwyPQtoxWzb
-         ftQZEz8AJxFcm43+TFw6ucsHHCTzki1m9khNMbd4QyNhJyfNgOG/SNVCc0+qbYm1lg18
-         OzCKtDI/Q2FrmkBca8nRtBPRfGko0H09DssgGRkGAHG4vQPrtvJGtEpeBOLNW153xKdC
-         S5n/c3coC3ZuXxbFbK+c8fe+vSPYyNbl1HMB1pxCRpFs99uL0m6fprf6sCGY9VMQ+uGZ
-         Viy1BSFPWYW/ELkm7zBCtzxi/dfRg1AKYId0KB5RGlnyx7N5dQT9l39lvUrF0uwGVuJE
-         kqYw==
-X-Gm-Message-State: ANoB5pl7KzqqBzQcd0uKmLMZG08OkHE0GPTJPIuxQ2fI25OP3Z/gkCrb
-	7+b3bR5iD4op4lVvGkxEeSQ=
-X-Google-Smtp-Source: AA0mqf7GBi1HAWtpNMQ9Qfe/x7OKT1cwB+9GB2UOQFOqO4khgdyxE+eLXbItE8l2kpDzKKkU8M1ZHg==
-X-Received: by 2002:adf:facd:0:b0:231:482f:ed6b with SMTP id a13-20020adffacd000000b00231482fed6bmr16247168wrs.253.1669185797849;
-        Tue, 22 Nov 2022 22:43:17 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i1-20020a05600c354100b003b50428cf66sm1107254wmq.33.2022.11.22.22.43.16
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O0yfirNFzSWzAhcJFMcFEJmgVxDm9YhSShEjcea986w=;
+        b=y4RRuPpu4E3I4t70Dmmx7EPhtcWcniMeT/9Da1nNCkqvt2GX9pk4iWazAgvHr24pDG
+         nptMjkseJxk6MwVEE1Nd1zMgtRltYkhjb0COa50w8aekoYL8n8VVhGByfc6DH1jTmr5R
+         i3n0QDCALEVeCVI6zxvWQR9ukXpcb6ZzO6wwej51Hb1i20uwK82/Y3hcvRRwelIOyVrQ
+         MadFvmuX80/Ozi/OinTNJwY6cc3Tl1bRNca+GD04t/Cx9ACasms7uTzy3MYo+/SAoXPV
+         yGucA3tNuF6tKr5d7EHBO0lJmiciturQfoswyU9VgLKxpM3vMdAfnBvebk+GXyten+P4
+         cBNQ==
+X-Gm-Message-State: ANoB5plD/MIT+oKFkersa2JPd3Hrum8vDWqAdBgIBxYh+0SI+8Ee5IDL
+	wFT4L1NoVzygQ6FJUtlqkaE=
+X-Google-Smtp-Source: AA0mqf5Xvi3z9Sp5yVfGgZrxfUb2PGtJP+JBHOpfXSH2C8Ujhc7Qtn9CkEBRCV0uOdixgrRjfeTo6A==
+X-Received: by 2002:a05:6402:12d5:b0:469:885b:fcfd with SMTP id k21-20020a05640212d500b00469885bfcfdmr9646583edx.177.1669189976429;
+        Tue, 22 Nov 2022 23:52:56 -0800 (PST)
+Received: from felia.fritz.box (200116b826997500d517ac74edd630a9.dip.versatel-1u1.de. [2001:16b8:2699:7500:d517:ac74:edd6:30a9])
+        by smtp.gmail.com with ESMTPSA id w14-20020a056402070e00b004691de0e25bsm6112889edx.54.2022.11.22.23.52.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 22:43:17 -0800 (PST)
-Date: Wed, 23 Nov 2022 09:43:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>,
+        Tue, 22 Nov 2022 23:52:55 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: [PATCH] staging: rtl8192u: Fix use after free in ieee80211_rx()
-Message-ID: <Y33BArx3k/aw6yv/@kili>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH v2] media: imx: remove code for non-existing config IMX_GPT_ICAP
+Date: Wed, 23 Nov 2022 08:52:16 +0100
+Message-Id: <20221123075216.28193-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-We cannot dereference the "skb" pointer after calling
-ieee80211_monitor_rx(), because it is a use after free.
+There never was a config IMX_GPT_ICAP in the repository. So remove the code
+conditional on this config and simplify the callers that just called empty
+functions.
 
-Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
-Signed-off-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+v1: https://lore.kernel.org/all/20221122132330.30408-1-lukas.bulwahn@gmail.com/
 
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-index f142d0986990..5c73e3f8541a 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
-@@ -951,9 +951,11 @@ int ieee80211_rx(struct ieee80211_device *ieee, struct sk_buff *skb,
- #endif
+v1 -> v2:
+  - addressed Tommaso's feedback: remove braces for single statement blocks
+
+ drivers/staging/media/imx/imx-media-fim.c | 57 +----------------------
+ 1 file changed, 1 insertion(+), 56 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+index 3a9182933508..fb6590dcfc36 100644
+--- a/drivers/staging/media/imx/imx-media-fim.c
++++ b/drivers/staging/media/imx/imx-media-fim.c
+@@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
+ 		send_fim_event(fim, error_avg);
+ }
  
- 	if (ieee->iw_mode == IW_MODE_MONITOR) {
-+		unsigned int len = skb->len;
-+
- 		ieee80211_monitor_rx(ieee, skb, rx_stats);
- 		stats->rx_packets++;
--		stats->rx_bytes += skb->len;
-+		stats->rx_bytes += len;
- 		return 1;
+-#ifdef CONFIG_IMX_GPT_ICAP
+-/*
+- * Input Capture method of measuring frame intervals. Not subject
+- * to interrupt latency.
+- */
+-static void fim_input_capture_handler(int channel, void *dev_id,
+-				      ktime_t timestamp)
+-{
+-	struct imx_media_fim *fim = dev_id;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&fim->lock, flags);
+-
+-	frame_interval_monitor(fim, timestamp);
+-
+-	if (!completion_done(&fim->icap_first_event))
+-		complete(&fim->icap_first_event);
+-
+-	spin_unlock_irqrestore(&fim->lock, flags);
+-}
+-
+-static int fim_request_input_capture(struct imx_media_fim *fim)
+-{
+-	init_completion(&fim->icap_first_event);
+-
+-	return mxc_request_input_capture(fim->icap_channel,
+-					 fim_input_capture_handler,
+-					 fim->icap_flags, fim);
+-}
+-
+-static void fim_free_input_capture(struct imx_media_fim *fim)
+-{
+-	mxc_free_input_capture(fim->icap_channel, fim);
+-}
+-
+-#else /* CONFIG_IMX_GPT_ICAP */
+-
+-static int fim_request_input_capture(struct imx_media_fim *fim)
+-{
+-	return 0;
+-}
+-
+-static void fim_free_input_capture(struct imx_media_fim *fim)
+-{
+-}
+-
+-#endif /* CONFIG_IMX_GPT_ICAP */
+-
+ /*
+  * In case we are monitoring the first frame interval after streamon
+  * (when fim->num_skip = 0), we need a valid fim->last_ts before we
+@@ -434,15 +386,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+ 		update_fim_nominal(fim, fi);
+ 		spin_unlock_irqrestore(&fim->lock, flags);
+ 
+-		if (icap_enabled(fim)) {
+-			ret = fim_request_input_capture(fim);
+-			if (ret)
+-				goto out;
+-			fim_acquire_first_ts(fim);
+-		}
+-	} else {
+ 		if (icap_enabled(fim))
+-			fim_free_input_capture(fim);
++			fim_acquire_first_ts(fim);
  	}
  
+ 	fim->stream_on = on;
 -- 
-2.35.1
+2.17.1
 
