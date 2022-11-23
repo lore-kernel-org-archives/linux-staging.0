@@ -1,99 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6714699;
-	Wed, 23 Nov 2022 17:23:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06998C433C1;
-	Wed, 23 Nov 2022 17:23:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669224236;
-	bh=NklP56tySe3Xv444ZHt52vRJGyzaYy1R0Ex9JoaAzOM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cM7LkUwn/UGY9APeo61IFLdLFugI/mycScX1L27zLnBFWztWOvsY2/pXAQvU8BtqA
-	 zN2grVWU907Puoa1962eNoEzm7M0GyfMXDTyo0m/fYESjcYYfLenMyR420GN0LPle7
-	 fHre3CZnC438ac14FaQ0ftW3eoi7y+NqR03dNnG17mNGguUXELDqAXtYw+kabasJh/
-	 GdE3AFFOilgHHG2SfRFJ7XFkovjxBFA4x69koAbNo4eANtlUFZ7DlagmzghcWyagzN
-	 hB+OrPBoifu3z+M9f10yfPgcQGlZSqkBCHUx9fpHFf/LyumxpmD68OdmhxG3k3+QWy
-	 NRxBKM7JX5qXQ==
-From: Mark Brown <broonie@kernel.org>
-To: Wolfram Sang <wsa@kernel.org>, Lee Jones <lee.jones@linaro.org>, Uwe Kleine-König <uwe@kleine-koenig.org>,
- Angel Iglesias <ang.iglesiasg@gmail.com>, Grant Likely <grant.likely@linaro.org>
-Cc: linux-crypto@vger.kernel.org, alsa-devel@alsa-project.org, chrome-platform@lists.linux.dev,
- linux-actions@lists.infradead.org, linux-pwm@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-amlogic@lists.infradead.org, Purism Kernel Team <kernel@puri.sm>, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-spi@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-leds@vger.kernel.org, patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de, linux-omap@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-integrity@vger.kernel.org, linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-serial@vger.kernel.org, netdev@vger.kernel.org
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-Id: <166922422872.540277.7243893319002961181.b4-ty@kernel.org>
-Date: Wed, 23 Nov 2022 17:23:48 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1AC33C1
+	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 21:26:56 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id b8so34462edf.11
+        for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 13:26:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BHT4V7PExgG7rhCblyyBnYo54ms5K9ov1exp2cIvGoo=;
+        b=DfJ6F8a669zkbwBrJbAJScl7tNU0rifb3m1ktzu+qeGN0Ovf5Pijq/akXD8KIL1mky
+         /8kRJPDkerK5WhItzNQ3D9lDpx4oWkRpN9yk1LIQkaHLilADYNZLFp633Fs/Q6Q9wFmF
+         MiIa6MMZSrbG0dl//TkQd5QJ+Enfu0FGpa1QfM1WS9IgH0EBpQ+K/YK7pg3qKSKnI2AL
+         XFTcG+p7R4y9pyMM2OQoxElRCYwIEqADWtmzHcHpcoMNCgvKC5p0PvLey6bX2Ns4JJJ8
+         CjZVzgQAOCmfjr0JbQ18np6T8zqRUj9MCEUe52tCCDmUzjA4zGXWgxA20FMZA0lDmFf5
+         m4wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BHT4V7PExgG7rhCblyyBnYo54ms5K9ov1exp2cIvGoo=;
+        b=4tuNleHlLMyxJy3dblKUpv0wKg+HRylZIoODgejV5VpW4gyPzq4V47d3MVqmbgbdYn
+         dlaDoLWTz2TC7lWtKK8X1Gq2Uwu0Ve3Nf1/SipJO7jmb0AULw7Ew4JvfjX+NqBi9tXa5
+         eCvfcX992eTF0vlMQe29mrtvoiPAEs2lhgx8Oz17zxjGy31/aPiPs5MY6g4aaKDinqfu
+         tWL2Nzbfd9U5chpy2bJa9FAf24vEOPWz9+w47WebcMrT54zCmnWgfrI5frxBvoenRzcP
+         FM5oCofIvahYnTAKGhDkga9pOzRmY3fsbwR6brt4egMkzXu8x3O3yCj9GlEVopMxWFq/
+         Fsvg==
+X-Gm-Message-State: ANoB5plO6Q8hZpfaiZPE9/EcLtxATZW9/zBkYdHR83n5tvcDBFy3QMPY
+	YjAKOOsr7b67IhSTsbT7IeQ=
+X-Google-Smtp-Source: AA0mqf5yJLyUvebw6rZR+TFtbPwAzrF0gKSkNvq8dykIDspWZaUnbaoz8cJatWdLiqRwKDJy/TfEJg==
+X-Received: by 2002:a50:ff08:0:b0:461:dbcc:5176 with SMTP id a8-20020a50ff08000000b00461dbcc5176mr15071053edu.53.1669238814355;
+        Wed, 23 Nov 2022 13:26:54 -0800 (PST)
+Received: from ?IPV6:2003:c7:8f35:4b86:f759:7b33:8c22:1ed2? (p200300c78f354b86f7597b338c221ed2.dip0.t-ipconnect.de. [2003:c7:8f35:4b86:f759:7b33:8c22:1ed2])
+        by smtp.gmail.com with ESMTPSA id o7-20020aa7c7c7000000b00463c475684csm8022501eds.73.2022.11.23.13.26.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Nov 2022 13:26:53 -0800 (PST)
+Message-ID: <37f3b74d-2354-66c4-1ebb-3e1cefd2ba19@gmail.com>
+Date: Wed, 23 Nov 2022 22:26:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] staging: rtl8192e: Fix potential use-after-free in
+ rtllib_rx_Monitor()
+Content-Language: en-US
+To: YueHaibing <yuehaibing@huawei.com>, gregkh@linuxfoundation.org,
+ wlanfae@realtek.com, Larry.Finger@lwfinger.net, mikem@ring3k.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221123081253.22296-1-yuehaibing@huawei.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20221123081253.22296-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
+On 11/23/22 09:12, YueHaibing wrote:
+> The skb is delivered to netif_rx() in rtllib_monitor_rx(), which may free it,
+> after calling this, dereferencing skb may trigger use-after-free.
+> Found by Smatch.
 > 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
+> Fixes: 94a799425eee ("From: wlanfae <wlanfae@realtek.com> [PATCH 1/8] rtl8192e: Import new version of driver from realtek")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>   drivers/staging/rtl8192e/rtllib_rx.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> [...]
+> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+> index 6a0f5bbb99ef..f8965afab767 100644
+> --- a/drivers/staging/rtl8192e/rtllib_rx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
+> @@ -1489,9 +1489,9 @@ static int rtllib_rx_Monitor(struct rtllib_device *ieee, struct sk_buff *skb,
+>   		hdrlen += 4;
+>   	}
+>   
+> -	rtllib_monitor_rx(ieee, skb, rx_stats, hdrlen);
+>   	ieee->stats.rx_packets++;
+>   	ieee->stats.rx_bytes += skb->len;
+> +	rtllib_monitor_rx(ieee, skb, rx_stats, hdrlen);
+>   
+>   	return 1;
+>   }
 
-Applied to
+I was able to set the driver to Monitor mode but I did not get any 
+information from it. I think this happens due to the missing support for 
+nl80211. Please give me a hint how to do this.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+Thanks for your support.
 
-Thanks!
-
-[539/606] regulator: ad5398: Convert to i2c's .probe_new()
-          commit: 7f69edba960bbdcbc829d8d0995b1117ce29e8b1
-[544/606] regulator: lp872x: Convert to i2c's .probe_new()
-          commit: 87feccb347b25f5dc6ff451123b832c9ad5dddfe
-[546/606] regulator: ltc3589: Convert to i2c's .probe_new()
-          commit: 78c8f6cdb51d471928d481ed3b2c82dbc110a1ed
-[549/606] regulator: max8660: Convert to i2c's .probe_new()
-          commit: dbf31dac703009174226bb87b3914bd092040327
-[551/606] regulator: max8973-regulator: Convert to i2c's .probe_new()
-          commit: 4e85e5d64f66ac5e4b0286ee4b6f8e8ce1044d42
-[557/606] regulator: tps62360-regulator: Convert to i2c's .probe_new()
-          commit: 18804160277ec2ab992373385f86c6af2322b28b
-[559/606] regulator: tps65023-regulator: Convert to i2c's .probe_new()
-          commit: 3b5b07dde998f6ade7433a8db019cf816c7e35af
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Bye Philipp
