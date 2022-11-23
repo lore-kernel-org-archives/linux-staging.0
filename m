@@ -1,72 +1,97 @@
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D8F7B
-	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 08:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1669192968; bh=uLOM26+lwaPIrO6Zs6MC8yEG8/8f16KuIEX/L4wDxdQ=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=BTd3FVmaD7VTxwWhGCH4EW+2+l611V8Q1obsMwlZGHZRPG+4StQJptKKcBy9xrCEf
-	 MIULu4p9sz1U5IuczCszswf6ZAZbzjMj+dJzZCMyQr9O7+MGqOt7efcqfsUxpfz9RI
-	 Gs3fMHTpzNcv18iS10Q3w5AuDMt/isFkGwuSlPGI=
-Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Wed, 23 Nov 2022 09:42:48 +0100 (CET)
-X-EA-Auth: ubbihbPvU6XcKue8aJjQx5vs2BZy9A3laF1mVnxiysme4ADLzOM27zwftZNTmbYwiIW2HNw1qffhbet3cGihWIeb/jrQrRZh
-Date: Wed, 23 Nov 2022 14:12:41 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: remove code for non-existing config
- IMX_GPT_ICAP
-Message-ID: <Y33dAR7ukPU/5JGT@qemulion>
-References: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
- <20221122160937.GB39395@tom-ThinkPad-T14s-Gen-2i>
- <CAKXUXMxk-YoG4TdB8Em+cEMF8NA7rdMAboQz8nmhfVmVQ8oATA@mail.gmail.com>
- <20221123082148.GC39395@tom-ThinkPad-T14s-Gen-2i>
- <CAKXUXMx81Mvo_H4KzkHXgPbYq07SbEuTcs9LBae5D5GRTK_T0Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003257B
+	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 08:44:50 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id r81so12707405iod.2
+        for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 00:44:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3lZfEI82UmUSMiDuvBd158Y70vafqY1tMfhM8D96RtI=;
+        b=HBAIRoNWWQ9cExkfQ8sq0k283bcqZABHuJWJnKhqZlOxG64aVwVkOg4cCSijv7dnbc
+         yD89wMwCSX51YB3lv6ZjYuzK4ERSAmZuGYmIG0rB9I717Y0GCbbrM9kktrdKJblYQjnN
+         nTF4V6o1UVqirwksVoorAncCBskzjeppUX058=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3lZfEI82UmUSMiDuvBd158Y70vafqY1tMfhM8D96RtI=;
+        b=mZ1Ggjzs5CKYXVsV9pg0k3CgoNnZ7JKKeTGApQyRqbImEVgglANPjjeZa+c8IwZPPb
+         z/KlASqpKbN2Y7m6KzzvJduXDykTOlAi6w/fjsqXg3kxBDox8j+zBX6FWIGBrCH8YZfA
+         kZj5Ad/zD9VDGe3W0AAIAtC4HXLOBYb0+92+dhoydw0evnQc2PYWVqBrU5Or1zxAtoiv
+         dWRPcNaAhbFSmVjy9E//wgsgxzcdIQHra62sAqwtH1Kz2TsCm+/n2AMuT3ia6D62nUZ2
+         USmE2Q6gW+mfBadNDfHZ6bBy3207+1/At7G2z0m1ZMXHMsr0TgvrXxJM0Qx945JVwSUg
+         XW5g==
+X-Gm-Message-State: ANoB5pm5/zxWWb2XQNBlM6+3JOF1BQ+u3OxebvoRqYDXpMgZgwSclLCy
+	s1YFsaFlRJP5l0chF9yzbCIun9vxL8CA9w==
+X-Google-Smtp-Source: AA0mqf6LYfJ4hxRVGfSCqEcnXH+sB/wpMOLlGUCa9sE9pL6NvnlJfpBsvrbwrVulo7+ruevWsnjCNA==
+X-Received: by 2002:a6b:dc14:0:b0:6d3:5901:aeb8 with SMTP id s20-20020a6bdc14000000b006d35901aeb8mr3685285ioc.41.1669193089944;
+        Wed, 23 Nov 2022 00:44:49 -0800 (PST)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com. [209.85.166.52])
+        by smtp.gmail.com with ESMTPSA id z3-20020a029383000000b003738c0a80b4sm6223780jah.144.2022.11.23.00.44.47
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Nov 2022 00:44:47 -0800 (PST)
+Received: by mail-io1-f52.google.com with SMTP id q21so12709920iod.4
+        for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 00:44:47 -0800 (PST)
+X-Received: by 2002:a02:c897:0:b0:374:100a:b0c7 with SMTP id
+ m23-20020a02c897000000b00374100ab0c7mr3898004jao.185.1669193087058; Wed, 23
+ Nov 2022 00:44:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKXUXMx81Mvo_H4KzkHXgPbYq07SbEuTcs9LBae5D5GRTK_T0Q@mail.gmail.com>
+References: <a50fa46075fb760d8409ff6ea2232b2ddb7a102b.1669046259.git.geert+renesas@glider.be>
+In-Reply-To: <a50fa46075fb760d8409ff6ea2232b2ddb7a102b.1669046259.git.geert+renesas@glider.be>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 23 Nov 2022 09:44:35 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvb_HXpx-a9ZmAJ-s23YvefPPJfUy5kHLcEzLUkaKFqnQ@mail.gmail.com>
+Message-ID: <CANiDSCvb_HXpx-a9ZmAJ-s23YvefPPJfUy5kHLcEzLUkaKFqnQ@mail.gmail.com>
+Subject: Re: [PATCH resend] media: staging: stkwebcam: Restore
+ MEDIA_{USB,CAMERA}_SUPPORT dependencies
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 23, 2022 at 09:24:42AM +0100, Lukas Bulwahn wrote:
-> On Wed, Nov 23, 2022 at 9:21 AM Tommaso Merciai
-> <tommaso.merciai@amarulasolutions.com> wrote:
-> >
+On Mon, 21 Nov 2022 at 16:58, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> I see. I usually just run checkpatch.pl on the patch, but do not apply
-> the patch and run checkpatch on the file. That explains the difference
-> of observations. Good to know.
-
-There is a section "Git post-commit hooks" on this [1] web-link that is useful
-to configure auto-checkpatch verification at the time of commit.
-
-Hope this is useful.
-
-
-[1] https://kernelnewbies.org/Outreachyfirstpatch
-
-./drv
-
+> By moving support for the USB Syntek DC1125 Camera to staging, the
+> dependencies on MEDIA_USB_SUPPORT and MEDIA_CAMERA_SUPPORT were lost.
 >
-> Lukas
+> Fixes: 56280c64ecacc971 ("media: stkwebcam: deprecate driver, move to staging")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/staging/media/deprecated/stkwebcam/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/deprecated/stkwebcam/Kconfig b/drivers/staging/media/deprecated/stkwebcam/Kconfig
+> index 4450403dff41fb64..7234498e634ac61c 100644
+> --- a/drivers/staging/media/deprecated/stkwebcam/Kconfig
+> +++ b/drivers/staging/media/deprecated/stkwebcam/Kconfig
+> @@ -2,7 +2,7 @@
+>  config VIDEO_STKWEBCAM
+>         tristate "USB Syntek DC1125 Camera support (DEPRECATED)"
+>         depends on VIDEO_DEV
+> -       depends on USB
+> +       depends on MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
+>         help
+>           Say Y here if you want to use this type of camera.
+>           Supported devices are typically found in some Asus laptops,
+> --
+> 2.25.1
+>
 
 
+-- 
+Ricardo Ribalda
