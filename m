@@ -1,80 +1,179 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE7F1C03
-	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 08:26:23 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id p81so12392538yba.4
-        for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 00:26:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DEF1C03
+	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 08:28:28 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id r9-20020a1c4409000000b003d02dd48c45so521083wma.0
+        for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 00:28:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+vdSZUc9Cdn1ZhJJ+Fng27BZDbqUH9AaKPQTnbAy+Bg=;
-        b=M0XAuBQmpPt9pujQvqUHu35tYqAZwS+WBIzqVJH7bcdmzt3KK5cIHKAIL1da3c8AB4
-         MD8lWbHSozfZZ3qQmWKJ6jPOXf3OrVEH9UrgGPmXHUM7pSkC5dk8sePdH85APmj5tGKZ
-         sWrWKv15KtBcu4mkgN0gXtiNEz2Qstkh4+YMaXdzzcPBqc3+qU9jWhLKdFmQ/V8Yhs8W
-         vVu79A+t9pLWywG7rMWx3OiXOjzbvxelGk17j1+405UfvWjNDj0zbesGTvPeYaNjNXIx
-         LZa3gPXq/paolCcjOH86Gb0oLx+2RPvNdp8vinlAioi0J5Jx61Tuye8nByVgpnkq5UBt
-         NnCw==
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4zsa6X0bJBSeI5SJRXVN9RfXeuhhHKtuQ+n10vqBddU=;
+        b=W+ihjKp9cTQKRJ3YDH/877OHZJg9vU8/HHZlsLAPCpvSL0kAKndm70/m02bdhFuzSp
+         X9sQpLD785YHshgIkFrOJtdENKQlN41degI+v/cfxSxpuB4j0OVxqbbfl3yVnGQSjjSb
+         ScZfsPwc12zNbTrrdm0MMZ5zWW+VZkv7DiFhg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+vdSZUc9Cdn1ZhJJ+Fng27BZDbqUH9AaKPQTnbAy+Bg=;
-        b=JSD9bJAIfIP6HQdVN777tMjKn4YEyo6Q8CITn5v6ZL81Ry2R8mgu1KUXWEKlv18XtH
-         Rh35O4VW6tn0Zo9eTsKTIwczfoC2osPmOEyJkpxYezecs3xBFYkmN44WoMOZBX46FHqm
-         DS/SQNsRymvgpOF6DR+mEJSvtSuDKa6g9NMcBq8xbUqY8Etj4Hgn5xVT6aU+qAbMdqkb
-         cDwnwFDMKjmn/p3NxbI1f5g5XCKXn27DvUqCPHk+m0ZSpIVMu6OGKQSnishM2UiALhtb
-         y5xPnEsNZNgzKhgnJ6MBIXh8wCXXKZJ510CKiib4s7Q/Mi039MAOd8PllkYhzM7mXhGM
-         Ft8A==
-X-Gm-Message-State: ANoB5plmBQQowdwa/gWzRsKqfPTQr+RooLi9FpHlUHVojXRPmKXrMAiJ
-	18/dCPByo4lQNZofzV95EapJgGDCLeT7ktKt56Q=
-X-Google-Smtp-Source: AA0mqf7LtWV3L4qOZbf/svyFsK/ngz1Evoo8n+CSOf2TWrYIx7V+QH0FNPMCuKl9E67tRfAtXQ8DJFnAMP0oaX+QLtY=
-X-Received: by 2002:a25:5cb:0:b0:6e7:868:405d with SMTP id 194-20020a2505cb000000b006e70868405dmr13744528ybf.389.1669191982012;
- Wed, 23 Nov 2022 00:26:22 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4zsa6X0bJBSeI5SJRXVN9RfXeuhhHKtuQ+n10vqBddU=;
+        b=e3VLTy2mxlZZ/X83cbddZ7TDS83RFAPs3NfEd2iKCCkcydVF3H5KILaLQhLy5ebxoi
+         eZN8OiS0r3AHe4Ny8Ekgm/lYxgXnB2i/XrvCnnWhvNf0PV9ZFE3yC3W9NamFHATRsngf
+         Pt6FHysHH4aR3yBprjCTsqm01YZME+I7kmnHup+GPfiKdCb5Tj5w1HR/RnN/9NkrKgfU
+         NB1aSeKtFfOlI4Qrjx3/UQfzEXMkqdCEV58vln6BG0K5K1o83v4yKbrIGh32JNi21ySv
+         Rj9LvpFKmTQILbNzGAtlGPVtBFAfUe7IJn01r2UsUR7dM/w17zun0IhSR68av/e4oRde
+         PZYQ==
+X-Gm-Message-State: ANoB5pmn//utX3NCMjOTLGrNlL9g+lbD0MtBW9oEZ5eIny4/V3QkCXyH
+	/VFd+hZnd4pix+qPLVrGxqLLHw==
+X-Google-Smtp-Source: AA0mqf4h6G/PTAeQFiW5ZlfDJ8DIM/Eqep75hP7lJmpHXeFc8ORiMP49ipOMR+ht6BQHBWycaH5qhQ==
+X-Received: by 2002:a05:600c:538b:b0:3b4:7e87:895f with SMTP id hg11-20020a05600c538b00b003b47e87895fmr19332071wmb.30.1669192107146;
+        Wed, 23 Nov 2022 00:28:27 -0800 (PST)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-55-94.cust.vodafonedsl.it. [188.217.55.94])
+        by smtp.gmail.com with ESMTPSA id i1-20020a05600c354100b003b50428cf66sm1448192wmq.33.2022.11.23.00.28.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 00:28:26 -0800 (PST)
+Date: Wed, 23 Nov 2022 09:28:24 +0100
+From: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: imx: remove code for non-existing config
+ IMX_GPT_ICAP
+Message-ID: <20221123082824.GD39395@tom-ThinkPad-T14s-Gen-2i>
+References: <20221123075216.28193-1-lukas.bulwahn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
- <20221122160937.GB39395@tom-ThinkPad-T14s-Gen-2i> <CAKXUXMxk-YoG4TdB8Em+cEMF8NA7rdMAboQz8nmhfVmVQ8oATA@mail.gmail.com>
- <Y33SxLh9xD8fQHAo@kadam>
-In-Reply-To: <Y33SxLh9xD8fQHAo@kadam>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Wed, 23 Nov 2022 09:26:11 +0100
-Message-ID: <CAKXUXMwZ=t0wW8FPSnsJ2EjFMQGv=nfADXzB=RKropHAyNhvRQ@mail.gmail.com>
-Subject: Re: [PATCH] media: imx: remove code for non-existing config IMX_GPT_ICAP
-To: Dan Carpenter <error27@gmail.com>
-Cc: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>, 
-	Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221123075216.28193-1-lukas.bulwahn@gmail.com>
 
-On Wed, Nov 23, 2022 at 8:59 AM Dan Carpenter <error27@gmail.com> wrote:
->
-> On Wed, Nov 23, 2022 at 08:56:06AM +0100, Lukas Bulwahn wrote:
-> >
-> > Strangely, my checkpatch invocation on next-20221116 did not show that
-> > warning and I am unaware that I made any specific changes to
-> > checkpatch or its configuration.
-> >
->
-> I think you need to apply the patch and retest with the -f option.
->
+Hi Lukas,
 
-Thanks, Dan, for the hint. Now, I know. I need to see if this can
-become part of my usual patch submission workflow.
+On Wed, Nov 23, 2022 at 08:52:16AM +0100, Lukas Bulwahn wrote:
+> There never was a config IMX_GPT_ICAP in the repository. So remove the code
+> conditional on this config and simplify the callers that just called empty
+> functions.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> v1: https://lore.kernel.org/all/20221122132330.30408-1-lukas.bulwahn@gmail.com/
+> 
+> v1 -> v2:
+>   - addressed Tommaso's feedback: remove braces for single statement blocks
+> 
+>  drivers/staging/media/imx/imx-media-fim.c | 57 +----------------------
+>  1 file changed, 1 insertion(+), 56 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+> index 3a9182933508..fb6590dcfc36 100644
+> --- a/drivers/staging/media/imx/imx-media-fim.c
+> +++ b/drivers/staging/media/imx/imx-media-fim.c
+> @@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
+>  		send_fim_event(fim, error_avg);
+>  }
+>  
+> -#ifdef CONFIG_IMX_GPT_ICAP
+> -/*
+> - * Input Capture method of measuring frame intervals. Not subject
+> - * to interrupt latency.
+> - */
+> -static void fim_input_capture_handler(int channel, void *dev_id,
+> -				      ktime_t timestamp)
+> -{
+> -	struct imx_media_fim *fim = dev_id;
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&fim->lock, flags);
+> -
+> -	frame_interval_monitor(fim, timestamp);
+> -
+> -	if (!completion_done(&fim->icap_first_event))
+> -		complete(&fim->icap_first_event);
+> -
+> -	spin_unlock_irqrestore(&fim->lock, flags);
+> -}
+> -
+> -static int fim_request_input_capture(struct imx_media_fim *fim)
+> -{
+> -	init_completion(&fim->icap_first_event);
+> -
+> -	return mxc_request_input_capture(fim->icap_channel,
+> -					 fim_input_capture_handler,
+> -					 fim->icap_flags, fim);
+> -}
+> -
+> -static void fim_free_input_capture(struct imx_media_fim *fim)
+> -{
+> -	mxc_free_input_capture(fim->icap_channel, fim);
+> -}
+> -
+> -#else /* CONFIG_IMX_GPT_ICAP */
+> -
+> -static int fim_request_input_capture(struct imx_media_fim *fim)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void fim_free_input_capture(struct imx_media_fim *fim)
+> -{
+> -}
+> -
+> -#endif /* CONFIG_IMX_GPT_ICAP */
+> -
+>  /*
+>   * In case we are monitoring the first frame interval after streamon
+>   * (when fim->num_skip = 0), we need a valid fim->last_ts before we
+> @@ -434,15 +386,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+>  		update_fim_nominal(fim, fi);
+>  		spin_unlock_irqrestore(&fim->lock, flags);
+>  
+> -		if (icap_enabled(fim)) {
+> -			ret = fim_request_input_capture(fim);
+> -			if (ret)
+> -				goto out;
+> -			fim_acquire_first_ts(fim);
+> -		}
+> -	} else {
+>  		if (icap_enabled(fim))
+> -			fim_free_input_capture(fim);
+> +			fim_acquire_first_ts(fim);
+>  	}
+>  
+>  	fim->stream_on = on;
+> -- 
+> 2.17.1
+> 
 
-Lukas
+Looks good to me.
+Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 
-> regards,
-> dan carpenter
->
+Thanks & Regards,
+Tommaso
+
+
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
