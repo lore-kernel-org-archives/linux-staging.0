@@ -1,123 +1,129 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5276A10E7
-	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 10:35:22 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id z20so22751224edc.13
-        for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 02:35:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fdk6ayM1Ct66O9yHo4VxrA9gKbs+xznnUkFGTJiMlC0=;
-        b=ixd/SW/4mbmK6Eq8U/7u9FDripN0Ee0KDzFNOLNcZkTXpLexIRwydzZqRg+uK2N2Ru
-         Dcdxr5iVaE74MXUhXzk1nNzoxluSpStPsJ/g5j/xJskSFfxW5u2r9voPSKtL08AendVN
-         3nlEF2kGhoNuamYFmkMBRY1/o/FaI4tEX6WcA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fdk6ayM1Ct66O9yHo4VxrA9gKbs+xznnUkFGTJiMlC0=;
-        b=eYQF77yOIRhNG2XS8SD/mObbMBbmDV4ZWnB47Rotq1nI9xjqPrDwP/JUwSWcyCa5FY
-         KNsAAgqIpxLBES2cWSzajjX20J/TBnVfKQmdq+CBFyg9JyZLDxsIh/T/Pw7CD/CGKKcP
-         ZSFWRdL+KQCZNBZW99SD3S78P+p2H1k+yspUFxJ/fKAJwnm+ZIT13djvsAyjXpCYvzmf
-         ul5GhkCPFBAqrF5a9EzCkd0ptGoACe+v4xbZQGFhljiGrknI5RM+IjR4/G80EAsgX+oJ
-         aPbp4ylWrxWF2EZwITwOB4a+RgnJCamYOQDfRrr/gHSFYuz4zLB12kkyP3j1EF4NXZxb
-         a/7w==
-X-Gm-Message-State: ANoB5pkT/elKygbE6fI0IQ1ABqB4WcXYCZLuDtjyxIEm67T0bqFYuIXx
-	BZCat7ElQOGXPMA4j+NJ+nTJDQ==
-X-Google-Smtp-Source: AA0mqf74EvznZPyWVMWqJcVg8W8zFDmrOicPF2lAdmAcsc0cuX+YS8xaKiCmanEDyWJxlD9Befz3bw==
-X-Received: by 2002:a05:6402:291b:b0:461:60b1:5c6d with SMTP id ee27-20020a056402291b00b0046160b15c6dmr13199766edb.182.1669199720603;
-        Wed, 23 Nov 2022 02:35:20 -0800 (PST)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-55-94.cust.vodafonedsl.it. [188.217.55.94])
-        by smtp.gmail.com with ESMTPSA id e12-20020a1709062c0c00b0073d7b876621sm7043433ejh.205.2022.11.23.02.35.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 02:35:19 -0800 (PST)
-Date: Wed, 23 Nov 2022 11:35:17 +0100
-From: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH resend] media: staging: stkwebcam: Restore
- MEDIA_{USB,CAMERA}_SUPPORT dependencies
-Message-ID: <20221123103517.GA2874916@tom-ThinkPad-T14s-Gen-2i>
-References: <a50fa46075fb760d8409ff6ea2232b2ddb7a102b.1669046259.git.geert+renesas@glider.be>
- <20221123100831.GE39395@tom-ThinkPad-T14s-Gen-2i>
- <CAMuHMdUW8iKFjDj4fPtWfPvyQ1sjGcAy1Kz5j-osz9F4pdA47Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423861FA3;
+	Wed, 23 Nov 2022 12:11:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC45C433B5;
+	Wed, 23 Nov 2022 12:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669205501;
+	bh=LVCS/9pspNUOtJim3pqK4CvI0blKDQrkaBc4pcfzuoI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=rj3QTsNVa7ZgOuhLfBy9tx18KCIlTIJMB4cSkte+RplU+eSl/lFO/EDez7bdjVFd9
+	 9fX+DaKr8ANAhizoOsbjkLgSttlC83xklILjmy49JcJ/UwvKoN7SQ7eR139VwePc6M
+	 Gfek6syflcEVKoSML/mJta2HjhsXv47WgeUfGOK/KJQ1oGPhZEsEp+xISfzHjYqXec
+	 stw+LHBzRC2ZFa54Xibl4uXodosL+xXoxv0Z1tmFct2dTM8wNNExw5hthuZ2IBYSZU
+	 Y6pqeJovtUL6HrNGLMCQs4x2+LJFh8jEtzGnS7s5OAFYw+0Z3KNg7FLhXUarYVeKWK
+	 Qwq1WYu1OFoqA==
+From: Mark Brown <broonie@kernel.org>
+To: Grant Likely <grant.likely@linaro.org>, Lee Jones <lee.jones@linaro.org>, Uwe Kleine-König <uwe@kleine-koenig.org>,
+ Wolfram Sang <wsa@kernel.org>, Angel Iglesias <ang.iglesiasg@gmail.com>
+Cc: netdev@vger.kernel.org, alsa-devel@alsa-project.org, linux-i2c@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-mtd@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-crypto@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, Purism Kernel Team <kernel@puri.sm>,
+ linux-integrity@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-actions@lists.infradead.org, linux-pm@vger.kernel.org, linux-input@vger.kernel.org,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-renesas-soc@vger.kernel.org,
+ kernel@pengutronix.de, patches@opensource.cirrus.com, linux-omap@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-leds@vger.kernel.org, linux-pwm@vger.kernel.org, linux-media@vger.kernel.org
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-Id: <166920549294.105268.4063772555451021149.b4-ty@kernel.org>
+Date: Wed, 23 Nov 2022 12:11:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUW8iKFjDj4fPtWfPvyQ1sjGcAy1Kz5j-osz9F4pdA47Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-fc921
 
-Hi Gaert,
-
-On Wed, Nov 23, 2022 at 11:13:31AM +0100, Geert Uytterhoeven wrote:
-> Hi Tommaso,
+On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
 > 
-> On Wed, Nov 23, 2022 at 11:08 AM Tommaso Merciai
-> <tommaso.merciai@amarulasolutions.com> wrote:
-> > On Mon, Nov 21, 2022 at 04:58:33PM +0100, Geert Uytterhoeven wrote:
-> > > By moving support for the USB Syntek DC1125 Camera to staging, the
-> > > dependencies on MEDIA_USB_SUPPORT and MEDIA_CAMERA_SUPPORT were lost.
-> > >
-> > > Fixes: 56280c64ecacc971 ("media: stkwebcam: deprecate driver, move to staging")
-> >
-> > Patch itself looks good but we have some style issue. Applying this
-> > patch I got the following warning from checkpatchl:
-> >
-> > WARNING: Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")' - ie: 'Fixes: 56280c64ecac ("media: stkwebcam: deprecate driver, move to staging")'
-> > #10:
-> >
-> > You have to pass only the first 12 chars of the sha1 commit into Fixes
-> > msg:
-> >
-> > Use:
-> >
-> >  Fixes: 56280c64ecac ("media: stkwebcam: deprecate driver, move to staging")
-> >
-> > Instead of:
-> >
-> >  Fixes: 56280c64ecacc971 ("media: stkwebcam: deprecate driver, move to staging")
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch that
+> you can pull into your tree to get it:
 > 
-> I always use 16 chars, to avoid these becoming ambiguous in a few years.
-> 
-> Gr{oetje,eeting}s,
+> [...]
 
-Thanks for sharing this info.
+Applied to
 
-Regards,
-Tommaso
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Thanks!
 
--- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
+[538/606] regulator: act8865-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[539/606] regulator: ad5398: Convert to i2c's .probe_new()
+          (no commit info)
+[540/606] regulator: da9121-regulator: Convert to i2c's .probe_new()
+          commit: 020cf73b47414a84b666d3e6736a6ae957e27840
+[541/606] regulator: fan53555: Convert to i2c's .probe_new()
+          (no commit info)
+[542/606] regulator: isl6271a-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[543/606] regulator: lp3972: Convert to i2c's .probe_new()
+          commit: 2532d5f8d5c20d5a0a8a0d57a311bc5df00dea04
+[544/606] regulator: lp872x: Convert to i2c's .probe_new()
+          (no commit info)
+[545/606] regulator: lp8755: Convert to i2c's .probe_new()
+          commit: cb28f74b4809a00b40fdf0c44ccf51ab950581d3
+[546/606] regulator: ltc3589: Convert to i2c's .probe_new()
+          (no commit info)
+[547/606] regulator: max1586: Convert to i2c's .probe_new()
+          commit: 3d54f7ba248b0ad1791bc356e9ad3d9020a1c472
+[548/606] regulator: max8649: Convert to i2c's .probe_new()
+          commit: 3cf4417385d0ac8f02f22888e12a6d21d97d89fc
+[549/606] regulator: max8660: Convert to i2c's .probe_new()
+          (no commit info)
+[550/606] regulator: max8952: Convert to i2c's .probe_new()
+          commit: c20c36735949b3b7984692fbab3d92b0e8a845ec
+[551/606] regulator: max8973-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[552/606] regulator: pca9450-regulator: Convert to i2c's .probe_new()
+          commit: ed56fa6e804cb13bbe29e9214792308817f6e553
+[553/606] regulator: pfuze100-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[554/606] regulator: pv88080-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[555/606] regulator: rpi-panel-attiny-regulator: Convert to i2c's .probe_new()
+          commit: d85d02d17a608b558d44510e9824668c5d4fe5d8
+[556/606] regulator: tps51632-regulator: Convert to i2c's .probe_new()
+          commit: d4885f306304ff29eec06b9ad5f526a1099e0418
+[557/606] regulator: tps62360-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[558/606] regulator: tps6286x-regulator: Convert to i2c's .probe_new()
+          commit: e34782316281c78c5911f86d4699d4f35a607c9d
+[559/606] regulator: tps65023-regulator: Convert to i2c's .probe_new()
+          (no commit info)
 
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
