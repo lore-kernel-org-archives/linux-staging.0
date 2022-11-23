@@ -1,49 +1,49 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3073617CA3
-	for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 22:46:33 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id e11so14082588wru.8
-        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 14:46:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10C31860
+	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 06:43:19 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id i12so24089394wrb.0
+        for <linux-staging@lists.linux.dev>; Tue, 22 Nov 2022 22:43:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QEaJLedtxp4Hd4OqGYxt+eo5FX2zcD+DeLqh0BnkZRE=;
-        b=htH6hiIze2cA8azBJCi1YaJk/VDgg84GAWotqblQ09VK/wBHIlp4u3VqNiJ8ufYlIZ
-         yQV6VjC42gjeBOTKRlWYofvHJubGgUOHGnHFmAKufSrIStW3Df8tnKQNQ5i3xVh3jTMs
-         S6S3x5gxJn9jNSOqO7lvraQpf44qwGKunVEVOF08Flwc9u1/I6QvaYrtpluz/BP5QjHt
-         Za+Mn4P+WDNEFwQS01ihYWoC5l8zpPj7/TFC1OHRmyaSWdX/JlnKRboef72xCBl4rfPj
-         Xtiu1eNh2Rh2w+fXn0pDoN6FlIj9WP+EcGUHsbv6Ib2u9LEqD0gx0D/qD6B5zcz2omiF
-         rcsw==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wfEWeuAxvQfzW1nfRpEBj0UT4OdDwqRv3XSwMwCWnK8=;
+        b=kckRcbhlBzaM8bzbKIrqbhPBxHzXaM4nCX19z6Fin21rHq1Mf/9tfqHEvFWYqxZnFx
+         5istBw8HsJeU+q7Z2pfz0JmI8nRMz1yeqhHjJyzWcLKHW2m1aNZwDOUlvYlakkiraW4q
+         Qnh3L8Im8uGpEd3prM46yBIjM5z2tn7APY1S/fFjIJsGQP0vlTVRBDJJh1ySmi2gYTiQ
+         jYG8C7aTpYsvA4rkcDe3dIxfTJypb9siZMi6WHLhZRzSCCabl2n2JDffyIst85l7FggA
+         mer0eG3x/UFBhlSYGBUdwuOfgznrPQ8X7eA99nRYdV7wr3HbNYsnJpiruihnnFARFpUu
+         Qx1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QEaJLedtxp4Hd4OqGYxt+eo5FX2zcD+DeLqh0BnkZRE=;
-        b=UmjV9z5a4JXtf8cZ6hsv5qDVmAkZR1ftzgtdtWEIHIq0LixSzZxA3ethQm88eaZSrR
-         ep0B2uNdChe29Yp2JZoWr+wgrNbApb4yn9X0HEmxQJozMvPrdz3Tu2xH+JQvtTR2bMSl
-         /229OGxUyFiCWRaR2nueQQng0kXWi4mlu2L6wXWVFmBXa2fZThjtYwiQcpEa/chxeYtj
-         J5MmBNRV1wLaVW2ImIs4KJWtXhQsfpLHt2LxQfRdN+3E4BrJr/U6iJpq6sT48svuvJMp
-         PrhJ7j9XAgdK1pBV4RaHc/osFFhppc6FPAXkNYDlYUQL6fDRhKLtogmduefAjrptmdmE
-         0I9g==
-X-Gm-Message-State: ANoB5pm2aV4FXaKbbb/eXCpuWk1qlTcIv4NEyLf2eO6mMjuqert0/y4z
-	MZOmDIe9kQWiJGPTZKOcB7s=
-X-Google-Smtp-Source: AA0mqf6wsqjCTuK+EIEbfNaR6eiboD6gYIG0Df1WvEzxJ/tgJfrjB4le2tp8RIaqluCvI3HVucqi6A==
-X-Received: by 2002:adf:c64e:0:b0:236:78cd:f3d2 with SMTP id u14-20020adfc64e000000b0023678cdf3d2mr16049108wrg.719.1669157191563;
-        Tue, 22 Nov 2022 14:46:31 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id u17-20020a05600c19d100b003c6f8d30e40sm153935wmq.31.2022.11.22.14.46.30
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wfEWeuAxvQfzW1nfRpEBj0UT4OdDwqRv3XSwMwCWnK8=;
+        b=rHPOjUL6rPg9zvZGhXKNz8autoeZelLBBYNSF7fOl0NdiRJcbe/8lRBlwyPQtoxWzb
+         ftQZEz8AJxFcm43+TFw6ucsHHCTzki1m9khNMbd4QyNhJyfNgOG/SNVCc0+qbYm1lg18
+         OzCKtDI/Q2FrmkBca8nRtBPRfGko0H09DssgGRkGAHG4vQPrtvJGtEpeBOLNW153xKdC
+         S5n/c3coC3ZuXxbFbK+c8fe+vSPYyNbl1HMB1pxCRpFs99uL0m6fprf6sCGY9VMQ+uGZ
+         Viy1BSFPWYW/ELkm7zBCtzxi/dfRg1AKYId0KB5RGlnyx7N5dQT9l39lvUrF0uwGVuJE
+         kqYw==
+X-Gm-Message-State: ANoB5pl7KzqqBzQcd0uKmLMZG08OkHE0GPTJPIuxQ2fI25OP3Z/gkCrb
+	7+b3bR5iD4op4lVvGkxEeSQ=
+X-Google-Smtp-Source: AA0mqf7GBi1HAWtpNMQ9Qfe/x7OKT1cwB+9GB2UOQFOqO4khgdyxE+eLXbItE8l2kpDzKKkU8M1ZHg==
+X-Received: by 2002:adf:facd:0:b0:231:482f:ed6b with SMTP id a13-20020adffacd000000b00231482fed6bmr16247168wrs.253.1669185797849;
+        Tue, 22 Nov 2022 22:43:17 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i1-20020a05600c354100b003b50428cf66sm1107254wmq.33.2022.11.22.22.43.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 14:46:31 -0800 (PST)
-Date: Tue, 22 Nov 2022 23:46:29 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] staging: rtl8192e: Remove unused variable int_log
-Message-ID: <e2edcde052cc3c47e6e6b94d09e460b8cf6a49a8.1669156825.git.philipp.g.hortmann@gmail.com>
-References: <cover.1669156825.git.philipp.g.hortmann@gmail.com>
+        Tue, 22 Nov 2022 22:43:17 -0800 (PST)
+Date: Wed, 23 Nov 2022 09:43:14 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <error27@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: [PATCH] staging: rtl8192u: Fix use after free in ieee80211_rx()
+Message-ID: <Y33BArx3k/aw6yv/@kili>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,78 +52,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1669156825.git.philipp.g.hortmann@gmail.com>
 
-int_log is initialized and incremented but never evaluated. Remove
-resulting dead code.
+We cannot dereference the "skb" pointer after calling
+ieee80211_monitor_rx(), because it is a use after free.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
+Signed-off-by: Dan Carpenter <error27@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8190P_def.h | 15 ---------------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   |  3 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h   |  2 --
- 3 files changed, 20 deletions(-)
+ drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h b/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
-index 53fd79a28189..ac192254a4bb 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_def.h
-@@ -154,21 +154,6 @@ struct tx_fwinfo_8190pci {
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
+index f142d0986990..5c73e3f8541a 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_rx.c
+@@ -951,9 +951,11 @@ int ieee80211_rx(struct ieee80211_device *ieee, struct sk_buff *skb,
+ #endif
  
- };
- 
--struct log_int_8190 {
--	u32	nIMR_COMDOK;
--	u32	nIMR_MGNTDOK;
--	u32	nIMR_HIGH;
--	u32	nIMR_VODOK;
--	u32	nIMR_VIDOK;
--	u32	nIMR_BEDOK;
--	u32	nIMR_BKDOK;
--	u32	nIMR_ROK;
--	u32	nIMR_RCOK;
--	u32	nIMR_TBDOK;
--	u32	nIMR_BDOK;
--	u32	nIMR_RXFOVW;
--};
--
- struct phy_ofdm_rx_status_rxsc_sgien_exintfflag {
- 	u8			reserved:4;
- 	u8			rxsc:2;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 7b78bdfadc8d..f8fbe78ccad9 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -866,8 +866,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
- 	priv->rst_progress = RESET_TYPE_NORESET;
- 	priv->force_reset = false;
- 	memset(priv->rtllib->swcamtable, 0, sizeof(struct sw_cam_table) * 32);
--
--	memset(&priv->int_log, 0, sizeof(struct log_int_8190));
- 	priv->rx_ctr = 0;
- 	priv->rtllib->wx_set_enc = 0;
- 	priv->hw_radio_off = false;
-@@ -2185,7 +2183,6 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
- 
- 	if (inta & IMR_ROK) {
- 		priv->stats.rxint++;
--		priv->int_log.nIMR_ROK++;
- 		tasklet_schedule(&priv->irq_rx_tasklet);
+ 	if (ieee->iw_mode == IW_MODE_MONITOR) {
++		unsigned int len = skb->len;
++
+ 		ieee80211_monitor_rx(ieee, skb, rx_stats);
+ 		stats->rx_packets++;
+-		stats->rx_bytes += skb->len;
++		stats->rx_bytes += len;
+ 		return 1;
  	}
  
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index ca2e685148d4..cceb77492363 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -317,8 +317,6 @@ struct r8192_priv {
- 
- 	struct work_struct				reset_wq;
- 
--	struct log_int_8190 int_log;
--
- 	enum rt_customer_id CustomerID;
- 
- 
 -- 
-2.37.3
+2.35.1
 
