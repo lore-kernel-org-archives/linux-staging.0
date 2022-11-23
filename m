@@ -1,43 +1,24 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DEF1C03
-	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 08:28:28 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id r9-20020a1c4409000000b003d02dd48c45so521083wma.0
-        for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 00:28:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4zsa6X0bJBSeI5SJRXVN9RfXeuhhHKtuQ+n10vqBddU=;
-        b=W+ihjKp9cTQKRJ3YDH/877OHZJg9vU8/HHZlsLAPCpvSL0kAKndm70/m02bdhFuzSp
-         X9sQpLD785YHshgIkFrOJtdENKQlN41degI+v/cfxSxpuB4j0OVxqbbfl3yVnGQSjjSb
-         ScZfsPwc12zNbTrrdm0MMZ5zWW+VZkv7DiFhg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4zsa6X0bJBSeI5SJRXVN9RfXeuhhHKtuQ+n10vqBddU=;
-        b=e3VLTy2mxlZZ/X83cbddZ7TDS83RFAPs3NfEd2iKCCkcydVF3H5KILaLQhLy5ebxoi
-         eZN8OiS0r3AHe4Ny8Ekgm/lYxgXnB2i/XrvCnnWhvNf0PV9ZFE3yC3W9NamFHATRsngf
-         Pt6FHysHH4aR3yBprjCTsqm01YZME+I7kmnHup+GPfiKdCb5Tj5w1HR/RnN/9NkrKgfU
-         NB1aSeKtFfOlI4Qrjx3/UQfzEXMkqdCEV58vln6BG0K5K1o83v4yKbrIGh32JNi21ySv
-         Rj9LvpFKmTQILbNzGAtlGPVtBFAfUe7IJn01r2UsUR7dM/w17zun0IhSR68av/e4oRde
-         PZYQ==
-X-Gm-Message-State: ANoB5pmn//utX3NCMjOTLGrNlL9g+lbD0MtBW9oEZ5eIny4/V3QkCXyH
-	/VFd+hZnd4pix+qPLVrGxqLLHw==
-X-Google-Smtp-Source: AA0mqf4h6G/PTAeQFiW5ZlfDJ8DIM/Eqep75hP7lJmpHXeFc8ORiMP49ipOMR+ht6BQHBWycaH5qhQ==
-X-Received: by 2002:a05:600c:538b:b0:3b4:7e87:895f with SMTP id hg11-20020a05600c538b00b003b47e87895fmr19332071wmb.30.1669192107146;
-        Wed, 23 Nov 2022 00:28:27 -0800 (PST)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-55-94.cust.vodafonedsl.it. [188.217.55.94])
-        by smtp.gmail.com with ESMTPSA id i1-20020a05600c354100b003b50428cf66sm1448192wmq.33.2022.11.23.00.28.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Nov 2022 00:28:26 -0800 (PST)
-Date: Wed, 23 Nov 2022 09:28:24 +0100
-From: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D8F7B
+	for <linux-staging@lists.linux.dev>; Wed, 23 Nov 2022 08:43:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1669192968; bh=uLOM26+lwaPIrO6Zs6MC8yEG8/8f16KuIEX/L4wDxdQ=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=BTd3FVmaD7VTxwWhGCH4EW+2+l611V8Q1obsMwlZGHZRPG+4StQJptKKcBy9xrCEf
+	 MIULu4p9sz1U5IuczCszswf6ZAZbzjMj+dJzZCMyQr9O7+MGqOt7efcqfsUxpfz9RI
+	 Gs3fMHTpzNcv18iS10Q3w5AuDMt/isFkGwuSlPGI=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Wed, 23 Nov 2022 09:42:48 +0100 (CET)
+X-EA-Auth: ubbihbPvU6XcKue8aJjQx5vs2BZy9A3laF1mVnxiysme4ADLzOM27zwftZNTmbYwiIW2HNw1qffhbet3cGihWIeb/jrQrRZh
+Date: Wed, 23 Nov 2022 14:12:41 +0530
+From: Deepak R Varma <drv@mailo.com>
 To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
+Cc: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,10 +29,14 @@ Cc: Steve Longerbeam <slongerbeam@gmail.com>,
 	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: imx: remove code for non-existing config
+Subject: Re: [PATCH] media: imx: remove code for non-existing config
  IMX_GPT_ICAP
-Message-ID: <20221123082824.GD39395@tom-ThinkPad-T14s-Gen-2i>
-References: <20221123075216.28193-1-lukas.bulwahn@gmail.com>
+Message-ID: <Y33dAR7ukPU/5JGT@qemulion>
+References: <20221122132330.30408-1-lukas.bulwahn@gmail.com>
+ <20221122160937.GB39395@tom-ThinkPad-T14s-Gen-2i>
+ <CAKXUXMxk-YoG4TdB8Em+cEMF8NA7rdMAboQz8nmhfVmVQ8oATA@mail.gmail.com>
+ <20221123082148.GC39395@tom-ThinkPad-T14s-Gen-2i>
+ <CAKXUXMx81Mvo_H4KzkHXgPbYq07SbEuTcs9LBae5D5GRTK_T0Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,120 +45,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221123075216.28193-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <CAKXUXMx81Mvo_H4KzkHXgPbYq07SbEuTcs9LBae5D5GRTK_T0Q@mail.gmail.com>
 
-Hi Lukas,
+On Wed, Nov 23, 2022 at 09:24:42AM +0100, Lukas Bulwahn wrote:
+> On Wed, Nov 23, 2022 at 9:21 AM Tommaso Merciai
+> <tommaso.merciai@amarulasolutions.com> wrote:
+> >
+>
+> I see. I usually just run checkpatch.pl on the patch, but do not apply
+> the patch and run checkpatch on the file. That explains the difference
+> of observations. Good to know.
 
-On Wed, Nov 23, 2022 at 08:52:16AM +0100, Lukas Bulwahn wrote:
-> There never was a config IMX_GPT_ICAP in the repository. So remove the code
-> conditional on this config and simplify the callers that just called empty
-> functions.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> v1: https://lore.kernel.org/all/20221122132330.30408-1-lukas.bulwahn@gmail.com/
-> 
-> v1 -> v2:
->   - addressed Tommaso's feedback: remove braces for single statement blocks
-> 
->  drivers/staging/media/imx/imx-media-fim.c | 57 +----------------------
->  1 file changed, 1 insertion(+), 56 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-> index 3a9182933508..fb6590dcfc36 100644
-> --- a/drivers/staging/media/imx/imx-media-fim.c
-> +++ b/drivers/staging/media/imx/imx-media-fim.c
-> @@ -187,54 +187,6 @@ static void frame_interval_monitor(struct imx_media_fim *fim,
->  		send_fim_event(fim, error_avg);
->  }
->  
-> -#ifdef CONFIG_IMX_GPT_ICAP
-> -/*
-> - * Input Capture method of measuring frame intervals. Not subject
-> - * to interrupt latency.
-> - */
-> -static void fim_input_capture_handler(int channel, void *dev_id,
-> -				      ktime_t timestamp)
-> -{
-> -	struct imx_media_fim *fim = dev_id;
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&fim->lock, flags);
-> -
-> -	frame_interval_monitor(fim, timestamp);
-> -
-> -	if (!completion_done(&fim->icap_first_event))
-> -		complete(&fim->icap_first_event);
-> -
-> -	spin_unlock_irqrestore(&fim->lock, flags);
-> -}
-> -
-> -static int fim_request_input_capture(struct imx_media_fim *fim)
-> -{
-> -	init_completion(&fim->icap_first_event);
-> -
-> -	return mxc_request_input_capture(fim->icap_channel,
-> -					 fim_input_capture_handler,
-> -					 fim->icap_flags, fim);
-> -}
-> -
-> -static void fim_free_input_capture(struct imx_media_fim *fim)
-> -{
-> -	mxc_free_input_capture(fim->icap_channel, fim);
-> -}
-> -
-> -#else /* CONFIG_IMX_GPT_ICAP */
-> -
-> -static int fim_request_input_capture(struct imx_media_fim *fim)
-> -{
-> -	return 0;
-> -}
-> -
-> -static void fim_free_input_capture(struct imx_media_fim *fim)
-> -{
-> -}
-> -
-> -#endif /* CONFIG_IMX_GPT_ICAP */
-> -
->  /*
->   * In case we are monitoring the first frame interval after streamon
->   * (when fim->num_skip = 0), we need a valid fim->last_ts before we
-> @@ -434,15 +386,8 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
->  		update_fim_nominal(fim, fi);
->  		spin_unlock_irqrestore(&fim->lock, flags);
->  
-> -		if (icap_enabled(fim)) {
-> -			ret = fim_request_input_capture(fim);
-> -			if (ret)
-> -				goto out;
-> -			fim_acquire_first_ts(fim);
-> -		}
-> -	} else {
->  		if (icap_enabled(fim))
-> -			fim_free_input_capture(fim);
-> +			fim_acquire_first_ts(fim);
->  	}
->  
->  	fim->stream_on = on;
-> -- 
-> 2.17.1
-> 
+There is a section "Git post-commit hooks" on this [1] web-link that is useful
+to configure auto-checkpatch verification at the time of commit.
 
-Looks good to me.
-Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-
-Thanks & Regards,
-Tommaso
+Hope this is useful.
 
 
--- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
+[1] https://kernelnewbies.org/Outreachyfirstpatch
 
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+./drv
+
+>
+> Lukas
+
+
