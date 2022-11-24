@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5402916;
-	Thu, 24 Nov 2022 15:26:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D27C433C1;
-	Thu, 24 Nov 2022 15:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C01F2F25;
+	Thu, 24 Nov 2022 15:38:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64C55C433D6;
+	Thu, 24 Nov 2022 15:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669303607;
+	s=k20201202; t=1669304295;
 	bh=vSDY92xmrOtkiq1FJrC4dGUzlqSkjlYU9twgxHBDx1E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mRiBXpWE/eZPy2kXKxvXQFJE8eFGBstiV10hp4tz6Cp4VROBHXQ7B0A1CkM179BCa
-	 mGxv6pqoyoSfMRb5kzpy/BElYSasS6XgKyfoy0EUR/yOzwdu6ZfU5dZq2fg3aUvJtm
-	 hEoyOKf4dBwu41kqz0/PLDm2DPFHwzwPkLGEGT64ByfcjpJAbRpZYQ3eReAritDW/X
-	 9m8gBYm/+R+CPBuur5rZ5x5GvvhwCAqDPJsiIDV7ubirdoEplCti9B80KnxhRdRqPk
-	 Uf9jARMQt0Ag6FVu93osdaZ6M4cB3RaEp4DYIunFrYP9BmDwe2VPIE+ycgULlDD/FZ
-	 b4snNTt2gtvBQ==
+	b=bxbfW3D2/A7i5smFIpcvTHWNYe0UgNdkEF9lDIZ4Olpq82olRHeMcMSEzUSvX0HAn
+	 gKfYfK/Mm9cNYE+UgPkjT7dbR8ldTwc1hHwZqnIXXjW+HcXhjBwmOi+brjb1bzlCFX
+	 sNQdLO+YMREvCIHKjn7H75ZiTwmm+NNWMQ7yB1OccgGIrFvAI9YMaenPg9V0jDDYYN
+	 4Vs88Y62hgZKsZy8IvFJK8kjQnfwIhCngG+bODRFOsrofRn8z6HwXTWe5l2uwvbYbQ
+	 DBPC34l9snSoY1NNkVISkO+SHb4GDKkdOLxjPE8xpIup3HU7crHhlS7+Zu0Dz61Eeu
+	 ndfT9o7XXod/w==
 From: Mark Brown <broonie@kernel.org>
-To: Lee Jones <lee.jones@linaro.org>, Uwe Kleine-König <uwe@kleine-koenig.org>, Wolfram Sang <wsa@kernel.org>,
- Grant Likely <grant.likely@linaro.org>, Angel Iglesias <ang.iglesiasg@gmail.com>
-Cc: linux-crypto@vger.kernel.org, devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, alsa-devel@alsa-project.org,
- linux-rtc@vger.kernel.org, openipmi-developer@lists.sourceforge.net, netdev@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-omap@vger.kernel.org, linux-iio@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-media@vger.kernel.org,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, chrome-platform@lists.linux.dev,
- linux-mtd@lists.infradead.org, linux-serial@vger.kernel.org, linux-pwm@vger.kernel.org, linux-i2c@vger.kernel.org,
- patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org, linux-input@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-integrity@vger.kernel.org,
- kernel@pengutronix.de, linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-rpi-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-actions@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>
+To: Grant Likely <grant.likely@linaro.org>, Uwe Kleine-König <uwe@kleine-koenig.org>, Lee Jones <lee.jones@linaro.org>,
+ Wolfram Sang <wsa@kernel.org>, Angel Iglesias <ang.iglesiasg@gmail.com>
+Cc: linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org, chrome-platform@lists.linux.dev,
+ alsa-devel@alsa-project.org, linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, kernel@pengutronix.de,
+ linux-rtc@vger.kernel.org, linux-crypto@vger.kernel.org, linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-integrity@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-input@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-pwm@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-watchdog@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, patches@opensource.cirrus.com,
+ linux-iio@vger.kernel.org, netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org, Purism Kernel Team <kernel@puri.sm>,
+ openipmi-developer@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-i2c@vger.kernel.org
 In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
 References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-Id: <166930359891.390430.1315884943070347062.b4-ty@kernel.org>
-Date: Thu, 24 Nov 2022 15:26:38 +0000
+Message-Id: <166930428712.403984.2532283689808315264.b4-ty@kernel.org>
+Date: Thu, 24 Nov 2022 15:38:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
