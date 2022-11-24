@@ -1,188 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B77823AE
-	for <linux-staging@lists.linux.dev>; Thu, 24 Nov 2022 10:28:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26949C433D6;
-	Thu, 24 Nov 2022 10:28:45 +0000 (UTC)
-Message-ID: <d8595ab3-93ad-e852-ceaf-cc11a09c1784@xs4all.nl>
-Date: Thu, 24 Nov 2022 11:28:44 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE1923D4
+	for <linux-staging@lists.linux.dev>; Thu, 24 Nov 2022 11:30:39 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F136A496;
+	Thu, 24 Nov 2022 12:30:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1669289431;
+	bh=6iBaI/QCGoo2ZY32zk5Z6cIBXzXMw3aWSd+M5LBjEro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hDoOGVB9NV/+PAaVf6hnJ3gmE64oNM0totgTZe2GeQCKZshBs217M279RbgCpXq/M
+	 M8VKPO/ZwyrrPPgxuMJ0b0Nt7EIBlSNngDZhAw4aLU3ZtDOjxt+4/GYpIaYy1e+vft
+	 xdPGIncIclM3C/judVqykvC5qA2N1Q1HpdOGOFGg=
+Date: Thu, 24 Nov 2022 13:30:15 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, kernel@puri.sm,
+	phone-devel@vger.kernel.org
+Subject: Re: [PATCHv3 1/1 RESEND] media: imx: Round line size to 4 bytes
+Message-ID: <Y39Vx6L7MovBxOfs@pendragon.ideasonboard.com>
+References: <20221016163928.1ef0a4fe.dorota.czaplejewicz@puri.sm>
+ <Y00SSRMFuL3Drjd4@pendragon.ideasonboard.com>
+ <20221017163059.377ac677.dorota.czaplejewicz@puri.sm>
+ <20221101133834.0c1a20db.dorota.czaplejewicz@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media@vger.kernel.org, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@collabora.com, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
- <20220610125215.240539-3-nicolas.dufresne@collabora.com>
- <fed8b2cf-3098-0690-dc40-796dbe0ff424@xs4all.nl>
- <46211420a76c7608c34cd6b3569f41accdfd08a1.camel@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v1 2/5] media: rkvdec: Add an ops to check for decode
- errors
-In-Reply-To: <46211420a76c7608c34cd6b3569f41accdfd08a1.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221101133834.0c1a20db.dorota.czaplejewicz@puri.sm>
 
-Hi Nicolas,
+Hi Dorota,
 
-On 14/06/2022 18:14, Nicolas Dufresne wrote:
-> Le mardi 14 juin 2022 à 16:44 +0200, Hans Verkuil a écrit :
->> On 6/10/22 14:52, Nicolas Dufresne wrote:
->>> This optional internal ops allow each codec to do their own
->>> error status checking. The presence of an error is reported
->>> using the ERROR buffer state. This patch have no functional
->>> changes.
->>
->> If a buffer is returned with state ERROR, then that means that it is
->> seriously corrupt and userspace is expected to drop it. You might still
->> want to show it for debugging purposes, but the normal action is to drop it.
+On Tue, Nov 01, 2022 at 01:38:34PM +0100, Dorota Czaplejewicz wrote:
+> On Mon, 17 Oct 2022 16:30:59 +0200 Dorota Czaplejewicz wrote:
+> > On Mon, 17 Oct 2022 11:28:57 +0300 Laurent Pinchart wrote:
 > 
-> The discussion should be around the ERROR flag, and not the error state. Error
-> state is just an internal thing that have no meaning API wise, but turns out to
-> be the only way to get the ERROR flag to be set. With that in mind, this is not
-> what V4L2_BUF_FLAG_ERROR specification says:
+> [snip]
 > 
->> When this flag is set, the buffer has been dequeued successfully, although
->> the data might have been corrupted. This is recoverable, streaming may
->> continue as normal and the buffer may be reused normally. Drivers set 
->> this flag when the VIDIOC_DQBUF ioctl is called.
+> > > I would also very much appreciate feedback from NXP on this. There's a
+> > > risk of ill side-effects that I would prefer ruling out very clearly.  
+> > 
+> > I posted a question on the NXP forum: https://community.nxp.com/t5/i-MX-Processors/i-MX8MQ-CSI-line-size-constraint-documentation-mistake/m-p/1538629#M196448
+> > 
 > 
-> For me "seriously corrupt" and "might have been corrupted" is very different.
+> This question received a reply from NXP today: https://community.nxp.com/t5/i-MX-Processors/i-MX8MQ-CSI-line-size-constraint-documentation-mistake/m-p/1546872/highlight/true#M197067
+> 
+> Quoting NXP's answer:
+> 
+> > Do I understand correctly, that streams divisible by 4×4 will work on other i.MX8 hardware too? - Yes
+> > Will those kind of resolutions work on i.MX7 series CSI hardware? - Yes
+> 
+> which implies no bad side effects the way I read it. Is this
+> sufficient for the kernel?
 
-So I did some more digging (better late than never): the documentation for
-the stateful/stateless codecs explicitly states that ERROR should be used
-to indicate de/encoding errors.
+Ideally I'd like to test that on i.MX7 but I don't think I'll have time
+to do so in the near future. I don't want to block the patch on this, so
+I'm fine merging it, but I'd like a comment in the code that explains
+why it's safe to depart from the documentation.
 
-I am actually not that happy about that, since the original purpose of ERROR
-was really to indicate that there is something seriously wrong with the
-captured data, and applications should skip it, except for debugging purposes.
+Also, the discussion on the NXP forum said that a width that is a
+multiple of 4 bytes but not a multiple of 8 bytes works only if the
+height is also a multiple of 4. I don't see that constraint being
+enforced in the code, am I missing something ?
 
-But since it has been adopted in the codec documentation I have to accept this
-behavior for codecs.
+You mentioned in the forum that you tried 1052x779 and that failed. How
+did it fail ? Have you also tried 1052x778 ?
 
-So I am OK with this series. There were some comments about some typos, so
-I will mark it as 'Changes Requested' in patchwork, but if you post a v2, then
-I'll take it.
+> > > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > > > ---
+> > > > Hello,
+> > > > 
+> > > > the Librem 5 is using an out-of-tree driver for s5k3l6xx, and
+> > > > rounding to 4 is optimal to operate it.
+> > > > 
+> > > > This revision improves the commit message.
+> > > > 
+> > > > Cheers,
+> > > > Dorota Czaplejewicz
+> > > > 
+> > > >  drivers/staging/media/imx/imx7-media-csi.c | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > > > index a0553c24cce4..af821b410c3f 100644
+> > > > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > > > @@ -999,10 +999,10 @@ static int imx7_csi_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> > > >  	}
+> > > >  
+> > > >  	/* Round up width for minimum burst size */
+> > > > -	width = round_up(mbus->width, 8);
+> > > > +	width = round_up(mbus->width, 4);
+> > > >  
+> > > >  	/* Round up stride for IDMAC line start address alignment */
+> > > > -	stride = round_up((width * cc->bpp) >> 3, 8);
+> > > > +	stride = round_up((width * cc->bpp) >> 3, 4);
+> > > >  
+> > > >  	pix->width = width;
+> > > >  	pix->height = mbus->height;    
 
+-- 
 Regards,
 
-	Hans
-
-> 
->>
->> So this is not a valid approach for a decoder that can still produce a
->> decent picture, albeit with macroblock artifacts.
->>
->> A separate control that can be returned as part of the request and contains
->> some sort of error indication would be more appropriate.
->>
->> Buffer state ERROR is really meant for e.g. DMA errors and it shouldn't
->> be mixed with decode errors that still produce a valid picture.
-> 
-> The ERROR flag has been used for many years by the UVC driver to indicate a
-> partially received image (possibly due to DMA error). That driver went even
-> further and set the bytesused to the amount of bytes that was received. How this
-> have been interpreted (mostly due to how the spec around ERROR flag is written)
-> in GStreamer is that the buffer contains "some valid" data unless payload size
-> is 0.
-> 
-> As explained earlier, the decision to display "some valid" data is not something
-> we should decided for our users. This should be left to the application to
-> decide. Same goes for GStreamer, if a buffer exist but has "some valid data", we
-> have a GST_BUFFER_FLAG_CORRUPTED flag for it. It is then up for the application
-> to drop if needed for the application. I'm pretty sure some stateful decoders
-> also behaves like this (simply because an error is an error, regardless of the
-> nature of it).
-> 
-> It might be different today, but few years ago, dropping or not dropping was the
-> main difference between Apple Facetime (dropping) and the other video streaming
-> applications. One would freeze, the other would show "some valid data".
-> 
-> If you look at the outcome of a partially corrupted decoded images and the
-> outcome of a mid-frame DMA error (typically from a camera stream), you'll find
-> that these are visually the same. So it is unfair to consider these two error so
-> different that a new mechanism must be added. In my opinion, adding RO controls
-> to signal these corruption only make sense if the hardware can provide detailed
-> reports of what is corrupted (list/range of macro-blocks, or CTU that are
-> affected). Then you could measure the level of corruption, but in reality, I
-> doubt there would be a vast usage of this, specially that the report will likely
-> be inconsistent due to limited HW support.
-> 
-> Finally, in the bitstream decoder world, including all software decoders I've
-> worked with, the decode is a success only if all bits are perfectly decoded.
-> This is the baseline for good vs bad. Userland expected an image, and whatever
-> happened, in real-time scenario, it must send an image. Sending a corrupted
-> image, or sending the previously good image remains a decision to be made by
-> application. As application exist around the implemented mechanism here, I'd
-> prefer to go for that rather then adding a new API.
-> 
-> Nicolas
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> ---
->>>  drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++----
->>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->>>  2 files changed, 8 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->>> index 7bab7586918c..7e76f8b72885 100644
->>> --- a/drivers/staging/media/rkvdec/rkvdec.c
->>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
->>> @@ -950,6 +950,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
->>>  static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
->>>  {
->>>  	struct rkvdec_dev *rkvdec = priv;
->>> +	struct rkvdec_ctx *ctx;
->>>  	enum vb2_buffer_state state;
->>>  	u32 status;
->>>  
->>> @@ -958,12 +959,13 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
->>>  		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
->>>  
->>>  	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
->>> -	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
->>> -		struct rkvdec_ctx *ctx;
->>> +	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
->>>  
->>> -		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
->>> +	if (ctx->coded_fmt_desc->ops->check_error_info)
->>> +		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
->>> +
->>> +	if (cancel_delayed_work(&rkvdec->watchdog_work))
->>>  		rkvdec_job_finish(ctx, state);
->>> -	}
->>>  
->>>  	return IRQ_HANDLED;
->>>  }
->>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
->>> index 633335ebb9c4..4ae8e6c6b03c 100644
->>> --- a/drivers/staging/media/rkvdec/rkvdec.h
->>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
->>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->>>  		     struct vb2_v4l2_buffer *dst_buf,
->>>  		     enum vb2_buffer_state result);
->>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
->>> +	/* called from IRQ handler */
->>> +	int (*check_error_info)(struct rkvdec_ctx *ctx);
->>>  };
->>>  
->>>  struct rkvdec_coded_fmt_desc {
->>
-> 
-
+Laurent Pinchart
