@@ -1,96 +1,129 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2B22916
-	for <linux-staging@lists.linux.dev>; Thu, 24 Nov 2022 15:06:24 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 0C1BAD2D6A
-	for <linux-staging@lists.linux.dev>; Thu, 24 Nov 2022 14:56:49 +0000 (UTC)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 4B58820004;
-	Thu, 24 Nov 2022 14:56:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1669301802;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DHCQJ7ZAuuzC6UG49hSRfKeMxjBT7Ylpk7GBcGZRErE=;
-	b=CVo66w0Atcxwn8aG3nTnKq12p3m+IrxlyisSdyRW1FupbUNbjU0oG74obbqTQhTSaY9oFS
-	iusK80KUYBZbwkvG3b5V4NSZv5Z5qjNZL9KgPbPzL9ugR6BcqtooqsvBolXaTAoMIW9Ef8
-	PJrRd+Vymz7xOEXFd/lNJf83UfaQCe/bVy6et+JqxjuQbJws4xdSlLetXfiNps6PKdEW9b
-	PHOGdohwZGk43SIc+ERg4RIbHYp9cvbJLZCaqOzUyIRnqY22ZT7TpHGZiQLxaQ13PJxb4Q
-	D9X5YL3d6O82VAVCsAIT6fyLe1ZDm76d0E0y9SCTFy8xjvRmbCdhJc4AQYg/hw==
-Date: Thu, 24 Nov 2022 15:56:34 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>, linux-media@vger.kernel.org,
- linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Richard Leitner
- <richard.leitner@skidata.com>
-Subject: Re: [PATCH 00/23] Add Tegra20 parallel video input capture
-Message-ID: <20221124155634.5bc2a423@booty>
-In-Reply-To: <3ecd7c3d-b013-18b8-ea12-ca3c673de22c@xs4all.nl>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
-	<3ecd7c3d-b013-18b8-ea12-ca3c673de22c@xs4all.nl>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1BA2916;
+	Thu, 24 Nov 2022 15:15:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7997C433B5;
+	Thu, 24 Nov 2022 15:15:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669302948;
+	bh=vSDY92xmrOtkiq1FJrC4dGUzlqSkjlYU9twgxHBDx1E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Hj/R3teuOXbJhLjEIKPLLmxWhHXMEkNOCI4I9RXPi/XTt4vMZrFGydSQJM0ezsZF9
+	 Nxj+vqwZHpMqzpD2iag7xptGV4JRAHMc3ZH46iKcSjFd7EfWld1E2A9XinKZQkAjiB
+	 QqfvAJ8suINRFJhVSqMgvd01DMQV66gS+F12NkyYtQlVkYidZWz6L6Y9MLHeRoBnXC
+	 0f9bBJyncxgdLEszUPwu0zrPWZKDQgHePX69owXUuSUyznysSXXCezmfLBD7isQVS8
+	 B0cy0JQcjKfLTsmclzYm/qT8INcIwd++GHyXkr6Jq9Z0HNE7iwTaoPmYUN3CJBx0mw
+	 eW6ADSX0FfZ2w==
+From: Mark Brown <broonie@kernel.org>
+To: Angel Iglesias <ang.iglesiasg@gmail.com>, Grant Likely <grant.likely@linaro.org>, Lee Jones <lee.jones@linaro.org>,
+ Uwe Kleine-König <uwe@kleine-koenig.org>, Wolfram Sang <wsa@kernel.org>
+Cc: linux-watchdog@vger.kernel.org, linux-i2c@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-integrity@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, openipmi-developer@lists.sourceforge.net, linux-amlogic@lists.infradead.org,
+ patches@opensource.cirrus.com, Purism Kernel Team <kernel@puri.sm>, netdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-actions@lists.infradead.org, linux-pwm@vger.kernel.org, linux-crypto@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ alsa-devel@alsa-project.org, linux-serial@vger.kernel.org, linux-pm@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev, linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, kernel@pengutronix.de,
+ linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org, linux-mtd@lists.infradead.org
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-Id: <166930294048.380009.2445779534079023591.b4-ty@kernel.org>
+Date: Thu, 24 Nov 2022 15:15:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-fc921
 
-HI Hans,
-
-On Thu, 24 Nov 2022 09:36:14 +0100
-Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-
-> Hi Luca,
+On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
 > 
-> On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
-> > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > 
-> > Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
-> > receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
-> > and "VIP" in the documentation). The kernel currently has a staging driver
-> > for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
-> > capture.
-> > 
-> > Unfortunately I had no real documentation available to base this work on,
-> > and I started from a working downstream 3.1 kernel, that I have heavily
-> > reworked to fit into the existing tegra-video driver. The existing code
-> > appears written with the intent of being modular and allow adding new input
-> > mechanisms and new SoCs while keeping a unique VI core module. However its
-> > modularity and extensibility was not enough to add Tegra20 VIP support, so
-> > I added some hooks to turn hard-coded behaviour into per-SoC or per-bus
-> > customizable code. There are also some fixes, some generic cleanups and DT
-> > bindings.  
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch that
+> you can pull into your tree to get it:
 > 
-> I plan on testing this series (esp. making sure it keeps working on non-tegra210
-> hardware), but I have to find time for that. This is on my TODO list, so I will
-> get to it, but it might time.
+> [...]
 
-Thanks for letting me know!
+Applied to
 
-Indeed, with respect to what you wrote, even testing on tegra210
-hardware would be useful in case you have any, as all the hardware I
-can access is tegra20.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-Kind regards.
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thanks!
+
+[538/606] regulator: act8865-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[539/606] regulator: ad5398: Convert to i2c's .probe_new()
+          commit: 7f69edba960bbdcbc829d8d0995b1117ce29e8b1
+[540/606] regulator: da9121-regulator: Convert to i2c's .probe_new()
+          commit: 020cf73b47414a84b666d3e6736a6ae957e27840
+[541/606] regulator: fan53555: Convert to i2c's .probe_new()
+          (no commit info)
+[542/606] regulator: isl6271a-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[543/606] regulator: lp3972: Convert to i2c's .probe_new()
+          commit: 2532d5f8d5c20d5a0a8a0d57a311bc5df00dea04
+[544/606] regulator: lp872x: Convert to i2c's .probe_new()
+          commit: 87feccb347b25f5dc6ff451123b832c9ad5dddfe
+[545/606] regulator: lp8755: Convert to i2c's .probe_new()
+          commit: cb28f74b4809a00b40fdf0c44ccf51ab950581d3
+[546/606] regulator: ltc3589: Convert to i2c's .probe_new()
+          commit: 78c8f6cdb51d471928d481ed3b2c82dbc110a1ed
+[547/606] regulator: max1586: Convert to i2c's .probe_new()
+          commit: 3d54f7ba248b0ad1791bc356e9ad3d9020a1c472
+[548/606] regulator: max8649: Convert to i2c's .probe_new()
+          commit: 3cf4417385d0ac8f02f22888e12a6d21d97d89fc
+[549/606] regulator: max8660: Convert to i2c's .probe_new()
+          commit: dbf31dac703009174226bb87b3914bd092040327
+[550/606] regulator: max8952: Convert to i2c's .probe_new()
+          commit: c20c36735949b3b7984692fbab3d92b0e8a845ec
+[551/606] regulator: max8973-regulator: Convert to i2c's .probe_new()
+          commit: 4e85e5d64f66ac5e4b0286ee4b6f8e8ce1044d42
+[552/606] regulator: pca9450-regulator: Convert to i2c's .probe_new()
+          commit: ed56fa6e804cb13bbe29e9214792308817f6e553
+[553/606] regulator: pfuze100-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[554/606] regulator: pv88080-regulator: Convert to i2c's .probe_new()
+          (no commit info)
+[555/606] regulator: rpi-panel-attiny-regulator: Convert to i2c's .probe_new()
+          commit: d85d02d17a608b558d44510e9824668c5d4fe5d8
+[556/606] regulator: tps51632-regulator: Convert to i2c's .probe_new()
+          commit: d4885f306304ff29eec06b9ad5f526a1099e0418
+[557/606] regulator: tps62360-regulator: Convert to i2c's .probe_new()
+          commit: 18804160277ec2ab992373385f86c6af2322b28b
+[558/606] regulator: tps6286x-regulator: Convert to i2c's .probe_new()
+          commit: e34782316281c78c5911f86d4699d4f35a607c9d
+[559/606] regulator: tps65023-regulator: Convert to i2c's .probe_new()
+          commit: 3b5b07dde998f6ade7433a8db019cf816c7e35af
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
