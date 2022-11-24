@@ -1,121 +1,89 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE1923D4
-	for <linux-staging@lists.linux.dev>; Thu, 24 Nov 2022 11:30:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F136A496;
-	Thu, 24 Nov 2022 12:30:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1669289431;
-	bh=6iBaI/QCGoo2ZY32zk5Z6cIBXzXMw3aWSd+M5LBjEro=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hDoOGVB9NV/+PAaVf6hnJ3gmE64oNM0totgTZe2GeQCKZshBs217M279RbgCpXq/M
-	 M8VKPO/ZwyrrPPgxuMJ0b0Nt7EIBlSNngDZhAw4aLU3ZtDOjxt+4/GYpIaYy1e+vft
-	 xdPGIncIclM3C/judVqykvC5qA2N1Q1HpdOGOFGg=
-Date: Thu, 24 Nov 2022 13:30:15 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel@puri.sm,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCHv3 1/1 RESEND] media: imx: Round line size to 4 bytes
-Message-ID: <Y39Vx6L7MovBxOfs@pendragon.ideasonboard.com>
-References: <20221016163928.1ef0a4fe.dorota.czaplejewicz@puri.sm>
- <Y00SSRMFuL3Drjd4@pendragon.ideasonboard.com>
- <20221017163059.377ac677.dorota.czaplejewicz@puri.sm>
- <20221101133834.0c1a20db.dorota.czaplejewicz@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F682575;
+	Thu, 24 Nov 2022 12:27:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99110C43470;
+	Thu, 24 Nov 2022 12:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669292862;
+	bh=I79sOw6b9zoYokqFfS40Dewn8bGWeiw1FKtO/k/fKj0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=IMCiU9YUFM/Jg9eOIjBBjHAR/+6YxZ4mqCQP6EP+JonOYeqMfqFt8+KeC0QL2FNMB
+	 uxH1UtX/26pkNNg+1fM9jRiLZ+mEgmdrQ2BTv//mJhjTv41AmSCc2Km0tFQ9dXE/PT
+	 BuuFuXQzk7TinQyGjMj3mHg9eSBg872+IXzX+VcDDPxHCNCYuYvrsvTrFJXEW/nPTN
+	 hPRa3F6yFrLghv7kJvbyD48UoidMdMvyohP0cJyOo/MNFuBVIR2etMzr1VFJQiFP/2
+	 iN4v9ScfR85GgAh1ZyhDZACdCh1112vx4elZ29H/6t3cWh/Z/rlTE5mXEH9iBfOlrj
+	 H/OppHJfpsyTw==
+From: Mark Brown <broonie@kernel.org>
+To: Lee Jones <lee.jones@linaro.org>, Uwe Kleine-König <uwe@kleine-koenig.org>, Grant Likely <grant.likely@linaro.org>,
+ Wolfram Sang <wsa@kernel.org>, Angel Iglesias <ang.iglesiasg@gmail.com>
+Cc: linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-integrity@vger.kernel.org, alsa-devel@alsa-project.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, Purism Kernel Team <kernel@puri.sm>,
+ linux-rtc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-spi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de, platform-driver-x86@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, patches@opensource.cirrus.com, openipmi-developer@lists.sourceforge.net,
+ chrome-platform@lists.linux.dev, linux-media@vger.kernel.org, linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-actions@lists.infradead.org,
+ linux-leds@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-input@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-serial@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Message-Id: <166929285427.186061.11411375716036863910.b4-ty@kernel.org>
+Date: Thu, 24 Nov 2022 12:27:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221101133834.0c1a20db.dorota.czaplejewicz@puri.sm>
+X-Mailer: b4 0.10.0-dev-fc921
 
-Hi Dorota,
-
-On Tue, Nov 01, 2022 at 01:38:34PM +0100, Dorota Czaplejewicz wrote:
-> On Mon, 17 Oct 2022 16:30:59 +0200 Dorota Czaplejewicz wrote:
-> > On Mon, 17 Oct 2022 11:28:57 +0300 Laurent Pinchart wrote:
+On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
 > 
-> [snip]
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch that
+> you can pull into your tree to get it:
 > 
-> > > I would also very much appreciate feedback from NXP on this. There's a
-> > > risk of ill side-effects that I would prefer ruling out very clearly.  
-> > 
-> > I posted a question on the NXP forum: https://community.nxp.com/t5/i-MX-Processors/i-MX8MQ-CSI-line-size-constraint-documentation-mistake/m-p/1538629#M196448
-> > 
-> 
-> This question received a reply from NXP today: https://community.nxp.com/t5/i-MX-Processors/i-MX8MQ-CSI-line-size-constraint-documentation-mistake/m-p/1546872/highlight/true#M197067
-> 
-> Quoting NXP's answer:
-> 
-> > Do I understand correctly, that streams divisible by 4×4 will work on other i.MX8 hardware too? - Yes
-> > Will those kind of resolutions work on i.MX7 series CSI hardware? - Yes
-> 
-> which implies no bad side effects the way I read it. Is this
-> sufficient for the kernel?
+> [...]
 
-Ideally I'd like to test that on i.MX7 but I don't think I'll have time
-to do so in the near future. I don't want to block the patch on this, so
-I'm fine merging it, but I'd like a comment in the code that explains
-why it's safe to depart from the documentation.
+Applied to
 
-Also, the discussion on the NXP forum said that a width that is a
-multiple of 4 bytes but not a multiple of 8 bytes works only if the
-height is also a multiple of 4. I don't see that constraint being
-enforced in the code, am I missing something ?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-You mentioned in the forum that you tried 1052x779 and that failed. How
-did it fail ? Have you also tried 1052x778 ?
+Thanks!
 
-> > > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > > > ---
-> > > > Hello,
-> > > > 
-> > > > the Librem 5 is using an out-of-tree driver for s5k3l6xx, and
-> > > > rounding to 4 is optimal to operate it.
-> > > > 
-> > > > This revision improves the commit message.
-> > > > 
-> > > > Cheers,
-> > > > Dorota Czaplejewicz
-> > > > 
-> > > >  drivers/staging/media/imx/imx7-media-csi.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > > > index a0553c24cce4..af821b410c3f 100644
-> > > > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > > > @@ -999,10 +999,10 @@ static int imx7_csi_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > > >  	}
-> > > >  
-> > > >  	/* Round up width for minimum burst size */
-> > > > -	width = round_up(mbus->width, 8);
-> > > > +	width = round_up(mbus->width, 4);
-> > > >  
-> > > >  	/* Round up stride for IDMAC line start address alignment */
-> > > > -	stride = round_up((width * cc->bpp) >> 3, 8);
-> > > > +	stride = round_up((width * cc->bpp) >> 3, 4);
-> > > >  
-> > > >  	pix->width = width;
-> > > >  	pix->height = mbus->height;    
+[564/606] spi: sc18is602: Convert to i2c's .probe_new()
+          commit: c7f635bc16cefcd7c7ab6e508b2ae73d66af9ffa
+[565/606] spi: xcomm: Convert to i2c's .probe_new()
+          commit: 1a165a067ffdba66af3a696f49dfab24a0e0449e
 
--- 
-Regards,
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Laurent Pinchart
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
