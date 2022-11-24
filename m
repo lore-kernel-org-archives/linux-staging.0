@@ -1,12 +1,12 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2806A10F2
-	for <linux-staging@lists.linux.dev>; Thu, 24 Nov 2022 08:36:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800B3C433D7;
-	Thu, 24 Nov 2022 08:36:15 +0000 (UTC)
-Message-ID: <3ecd7c3d-b013-18b8-ea12-ca3c673de22c@xs4all.nl>
-Date: Thu, 24 Nov 2022 09:36:14 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B77823AE
+	for <linux-staging@lists.linux.dev>; Thu, 24 Nov 2022 10:28:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26949C433D6;
+	Thu, 24 Nov 2022 10:28:45 +0000 (UTC)
+Message-ID: <d8595ab3-93ad-e852-ceaf-cc11a09c1784@xs4all.nl>
+Date: Thu, 24 Nov 2022 11:28:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -15,159 +15,174 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [PATCH 00/23] Add Tegra20 parallel video input capture
 Content-Language: en-US
-To: luca.ceresoli@bootlin.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Richard Leitner <richard.leitner@skidata.com>
-References: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20221109141852.729246-1-luca.ceresoli@bootlin.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media@vger.kernel.org, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@collabora.com, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+ <20220610125215.240539-3-nicolas.dufresne@collabora.com>
+ <fed8b2cf-3098-0690-dc40-796dbe0ff424@xs4all.nl>
+ <46211420a76c7608c34cd6b3569f41accdfd08a1.camel@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v1 2/5] media: rkvdec: Add an ops to check for decode
+ errors
+In-Reply-To: <46211420a76c7608c34cd6b3569f41accdfd08a1.camel@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Luca,
+Hi Nicolas,
 
-On 09/11/2022 15:18, luca.ceresoli@bootlin.com wrote:
-> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+On 14/06/2022 18:14, Nicolas Dufresne wrote:
+> Le mardi 14 juin 2022 à 16:44 +0200, Hans Verkuil a écrit :
+>> On 6/10/22 14:52, Nicolas Dufresne wrote:
+>>> This optional internal ops allow each codec to do their own
+>>> error status checking. The presence of an error is reported
+>>> using the ERROR buffer state. This patch have no functional
+>>> changes.
+>>
+>> If a buffer is returned with state ERROR, then that means that it is
+>> seriously corrupt and userspace is expected to drop it. You might still
+>> want to show it for debugging purposes, but the normal action is to drop it.
 > 
-> Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
-> receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
-> and "VIP" in the documentation). The kernel currently has a staging driver
-> for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
-> capture.
+> The discussion should be around the ERROR flag, and not the error state. Error
+> state is just an internal thing that have no meaning API wise, but turns out to
+> be the only way to get the ERROR flag to be set. With that in mind, this is not
+> what V4L2_BUF_FLAG_ERROR specification says:
 > 
-> Unfortunately I had no real documentation available to base this work on,
-> and I started from a working downstream 3.1 kernel, that I have heavily
-> reworked to fit into the existing tegra-video driver. The existing code
-> appears written with the intent of being modular and allow adding new input
-> mechanisms and new SoCs while keeping a unique VI core module. However its
-> modularity and extensibility was not enough to add Tegra20 VIP support, so
-> I added some hooks to turn hard-coded behaviour into per-SoC or per-bus
-> customizable code. There are also some fixes, some generic cleanups and DT
-> bindings.
+>> When this flag is set, the buffer has been dequeued successfully, although
+>> the data might have been corrupted. This is recoverable, streaming may
+>> continue as normal and the buffer may be reused normally. Drivers set 
+>> this flag when the VIDIOC_DQBUF ioctl is called.
+> 
+> For me "seriously corrupt" and "might have been corrupted" is very different.
 
-I plan on testing this series (esp. making sure it keeps working on non-tegra210
-hardware), but I have to find time for that. This is on my TODO list, so I will
-get to it, but it might time.
+So I did some more digging (better late than never): the documentation for
+the stateful/stateless codecs explicitly states that ERROR should be used
+to indicate de/encoding errors.
 
-In the meantime, don't hesitate to post new versions (I saw comments on the
-bindings), when I have time for testing I'll pick the latest version you post.
-In other words, don't let lack of review comments from me stop you from working
-on this :-)
+I am actually not that happy about that, since the original purpose of ERROR
+was really to indicate that there is something seriously wrong with the
+captured data, and applications should skip it, except for debugging purposes.
+
+But since it has been adopted in the codec documentation I have to accept this
+behavior for codecs.
+
+So I am OK with this series. There were some comments about some typos, so
+I will mark it as 'Changes Requested' in patchwork, but if you post a v2, then
+I'll take it.
 
 Regards,
 
 	Hans
 
 > 
-> Quick tour of the patches:
+>>
+>> So this is not a valid approach for a decoder that can still produce a
+>> decent picture, albeit with macroblock artifacts.
+>>
+>> A separate control that can be returned as part of the request and contains
+>> some sort of error indication would be more appropriate.
+>>
+>> Buffer state ERROR is really meant for e.g. DMA errors and it shouldn't
+>> be mixed with decode errors that still produce a valid picture.
 > 
->  * Device tree bindings and minor DTS improvements
+> The ERROR flag has been used for many years by the UVC driver to indicate a
+> partially received image (possibly due to DMA error). That driver went even
+> further and set the bytesused to the amount of bytes that was received. How this
+> have been interpreted (mostly due to how the spec around ERROR flag is written)
+> in GStreamer is that the buffer contains "some valid" data unless payload size
+> is 0.
 > 
->    01. dt-bindings: display: tegra: add bindings for Tegra20 VIP
->    02. dt-bindings: display: tegra: vi: add 'vip' property and example
->    03. ARM: dts: tegra20: add label to nvidia,tegra20-vi node
->    04. ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
+> As explained earlier, the decision to display "some valid" data is not something
+> we should decided for our users. This should be left to the application to
+> decide. Same goes for GStreamer, if a buffer exist but has "some valid data", we
+> have a GST_BUFFER_FLAG_CORRUPTED flag for it. It is then up for the application
+> to drop if needed for the application. I'm pretty sure some stateful decoders
+> also behaves like this (simply because an error is an error, regardless of the
+> nature of it).
 > 
->  * A fix
+> It might be different today, but few years ago, dropping or not dropping was the
+> main difference between Apple Facetime (dropping) and the other video streaming
+> applications. One would freeze, the other would show "some valid data".
 > 
->    05. staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return all formats
+> If you look at the outcome of a partially corrupted decoded images and the
+> outcome of a mid-frame DMA error (typically from a camera stream), you'll find
+> that these are visually the same. So it is unfair to consider these two error so
+> different that a new mechanism must be added. In my opinion, adding RO controls
+> to signal these corruption only make sense if the hardware can provide detailed
+> reports of what is corrupted (list/range of macro-blocks, or CTU that are
+> affected). Then you could measure the level of corruption, but in reality, I
+> doubt there would be a vast usage of this, specially that the report will likely
+> be inconsistent due to limited HW support.
 > 
->  * Minor improvements to logging, comments, cleanups
+> Finally, in the bitstream decoder world, including all software decoders I've
+> worked with, the decode is a success only if all bits are perfectly decoded.
+> This is the baseline for good vs bad. Userland expected an image, and whatever
+> happened, in real-time scenario, it must send an image. Sending a corrupted
+> image, or sending the previously good image remains a decision to be made by
+> application. As application exist around the implemented mechanism here, I'd
+> prefer to go for that rather then adding a new API.
 > 
->    06. staging: media: tegra-video: improve documentation of tegra_video_format fields
->    07. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
->    08. staging: media: tegra-video: fix typos in comment
->    09. staging: media: tegra-video: improve error messages
->    10. staging: media: tegra-video: slightly simplify cleanup on errors
->    11. staging: media: tegra-video: move private struct declaration to C file
->    12. staging: media: tegra-video: remove unneeded include
+> Nicolas
 > 
->  * Preparation to make the VI module generic enough to host Tegra20 and VIP
-> 
->    13. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
->    14. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
->    15. staging: media: tegra-video: move default format to soc-specific data
->    16. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
->    17. staging: media: tegra-video: add a per-soc enable/disable op
->    18. staging: media: tegra-video: move syncpt init/free to a per-soc op
->    19. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
->    20. staging: media: tegra-video: add hooks for planar YUV and H/V flip
->    21. staging: media: tegra-video: add H/V flip controls
-> 
->  * Implementation of VIP and Tegra20
-> 
->    22. staging: media: tegra-video: add support for VIP (parallel video input)
->    23. staging: media: tegra-video: add tegra20 variant
-> 
-> Enjoy!
-> 
-> Luca
-> 
-> Luca Ceresoli (23):
->   dt-bindings: display: tegra: add bindings for Tegra20 VIP
->   dt-bindings: display: tegra: vi: add 'vip' property and example
->   ARM: dts: tegra20: add label to nvidia,tegra20-vi node
->   ARM: dts: tegra20-tamonten: add label to avdd_vdac regulator
->   staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return
->     all formats
->   staging: media: tegra-video: improve documentation of
->     tegra_video_format fields
->   staging: media: tegra-video: document
->     tegra_channel_get_remote_source_subdev
->   staging: media: tegra-video: fix typos in comment
->   staging: media: tegra-video: improve error messages
->   staging: media: tegra-video: slightly simplify cleanup on errors
->   staging: media: tegra-video: move private struct declaration to C file
->   staging: media: tegra-video: remove unneeded include
->   staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
->   staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
->     op
->   staging: media: tegra-video: move default format to soc-specific data
->   staging: media: tegra-video: move MIPI calibration calls from VI to
->     CSI
->   staging: media: tegra-video: add a per-soc enable/disable op
->   staging: media: tegra-video: move syncpt init/free to a per-soc op
->   staging: media: tegra-video: add syncpts for Tegra20 to struct
->     tegra_vi
->   staging: media: tegra-video: add hooks for planar YUV and H/V flip
->   staging: media: tegra-video: add H/V flip controls
->   staging: media: tegra-video: add support for VIP (parallel video
->     input)
->   staging: media: tegra-video: add tegra20 variant
-> 
->  .../display/tegra/nvidia,tegra20-vi.yaml      |  68 ++
->  .../display/tegra/nvidia,tegra20-vip.yaml     |  64 ++
->  MAINTAINERS                                   |  10 +
->  arch/arm/boot/dts/tegra20-tamonten.dtsi       |   2 +-
->  arch/arm/boot/dts/tegra20.dtsi                |   2 +-
->  drivers/staging/media/tegra-video/Kconfig     |   1 +
->  drivers/staging/media/tegra-video/Makefile    |   2 +
->  drivers/staging/media/tegra-video/csi.c       |  44 ++
->  drivers/staging/media/tegra-video/tegra20.c   | 649 ++++++++++++++++++
->  drivers/staging/media/tegra-video/tegra210.c  |  97 ++-
->  drivers/staging/media/tegra-video/vi.c        | 321 ++-------
->  drivers/staging/media/tegra-video/vi.h        |  76 +-
->  drivers/staging/media/tegra-video/video.c     |   5 +
->  drivers/staging/media/tegra-video/video.h     |   2 +-
->  drivers/staging/media/tegra-video/vip.c       | 298 ++++++++
->  drivers/staging/media/tegra-video/vip.h       |  72 ++
->  16 files changed, 1425 insertions(+), 288 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
->  create mode 100644 drivers/staging/media/tegra-video/tegra20.c
->  create mode 100644 drivers/staging/media/tegra-video/vip.c
->  create mode 100644 drivers/staging/media/tegra-video/vip.h
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>
+>>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>> ---
+>>>  drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++----
+>>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+>>>  2 files changed, 8 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+>>> index 7bab7586918c..7e76f8b72885 100644
+>>> --- a/drivers/staging/media/rkvdec/rkvdec.c
+>>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+>>> @@ -950,6 +950,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
+>>>  static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+>>>  {
+>>>  	struct rkvdec_dev *rkvdec = priv;
+>>> +	struct rkvdec_ctx *ctx;
+>>>  	enum vb2_buffer_state state;
+>>>  	u32 status;
+>>>  
+>>> @@ -958,12 +959,13 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+>>>  		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+>>>  
+>>>  	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+>>> -	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
+>>> -		struct rkvdec_ctx *ctx;
+>>> +	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+>>>  
+>>> -		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+>>> +	if (ctx->coded_fmt_desc->ops->check_error_info)
+>>> +		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
+>>> +
+>>> +	if (cancel_delayed_work(&rkvdec->watchdog_work))
+>>>  		rkvdec_job_finish(ctx, state);
+>>> -	}
+>>>  
+>>>  	return IRQ_HANDLED;
+>>>  }
+>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+>>> index 633335ebb9c4..4ae8e6c6b03c 100644
+>>> --- a/drivers/staging/media/rkvdec/rkvdec.h
+>>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+>>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+>>>  		     struct vb2_v4l2_buffer *dst_buf,
+>>>  		     enum vb2_buffer_state result);
+>>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+>>> +	/* called from IRQ handler */
+>>> +	int (*check_error_info)(struct rkvdec_ctx *ctx);
+>>>  };
+>>>  
+>>>  struct rkvdec_coded_fmt_desc {
+>>
 > 
 
