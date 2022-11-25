@@ -1,129 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350C42F25;
-	Thu, 24 Nov 2022 16:04:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4356C433D6;
-	Thu, 24 Nov 2022 16:04:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669305852;
-	bh=IvHYWDLn1DgR8LH4t7rSubz36Ju+jzSqmPmYrOhNPlo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WlxvzM22NwMDCoQChrQhXcrqFDVCZNvtWkzovYYg2PyBCYEXL4YaJuKbp1dQByKcF
-	 FmlwRuCiw0oQRKp2ZSDzDV/aqXNW4V8kWhrIBPIdh+/S7edLrqRPFuSS4MdSBm7BLH
-	 IDnPtjktIvP1hka5/d8VaQhqX7Yn6GZ5Hx+IOBEDhJbY4qMOFPtHIuaB8I1wIuGdL6
-	 g1de0tQjk0TcZc+A64jFItQC3XsxmvpZZRqGF7esQ3Lb9AgP1rdwW/lFgi93zL+mqf
-	 sGYMjME4SGIBJuwf4qC9yYSwep3N56gpSQJ5vy76O58xNPbhd+xJcjeFicKz9acOhD
-	 lG4G9UHzWi0mA==
-From: Mark Brown <broonie@kernel.org>
-To: Uwe Kleine-König <uwe@kleine-koenig.org>, Lee Jones <lee.jones@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Angel Iglesias <ang.iglesiasg@gmail.com>, Grant Likely <grant.likely@linaro.org>
-Cc: patches@opensource.cirrus.com, linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-integrity@vger.kernel.org, openipmi-developer@lists.sourceforge.net, Purism Kernel Team <kernel@puri.sm>,
- linux-actions@lists.infradead.org, linux-i2c@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-watchdog@vger.kernel.org, linux-staging@lists.linux.dev, linux-leds@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, alsa-devel@alsa-project.org, linux-serial@vger.kernel.org, netdev@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-omap@vger.kernel.org, linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
- devicetree@vger.kernel.org, linux-crypto@vger.kernel.org, kernel@pengutronix.de, linux-media@vger.kernel.org,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-pm@vger.kernel.org,
- linux-mtd@lists.infradead.org
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-Id: <166930584463.436148.7438729312416805991.b4-ty@kernel.org>
-Date: Thu, 24 Nov 2022 16:04:04 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AF215B5
+	for <linux-staging@lists.linux.dev>; Fri, 25 Nov 2022 01:50:11 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED57B4D5;
+	Fri, 25 Nov 2022 02:50:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1669341009;
+	bh=9m9VpgU4N/iB30ablYStr4T8l/N4LwY4oyZK9aJc3Zw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cRVxBE26zLS9aVU2qaGwdrrRSRnrHqpp+YGCMH4NuQUfvyQ7ozcm4wXZhe9jrKU/X
+	 QBBlYzwYOCaC4sn1Z1CdUDOx7vjLh2o6faZf1VcaX+1ker7DVj6/C4Jd95OuhiH8oH
+	 zKJOooTAUCZY3zi5XnhQ3kpOLq5XcEZghMlqVm9I=
+Date: Fri, 25 Nov 2022 03:49:52 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+	kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH 03/14] media: videobuf2: Allow exporting of a struct
+ dmabuf
+Message-ID: <Y4AfQLE7eh2gLZJl@pendragon.ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <20221121214722.22563-4-umang.jain@ideasonboard.com>
+ <Y3wHKfeNB6Fv9Xpo@pendragon.ideasonboard.com>
+ <CAPY8ntAtbnUqhJRd7+bWLRUz+K=1Hnd33XwSR930hPVfc7EPPg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntAtbnUqhJRd7+bWLRUz+K=1Hnd33XwSR930hPVfc7EPPg@mail.gmail.com>
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
+Hi Dave,
+
+On Tue, Nov 22, 2022 at 11:35:31AM +0000, Dave Stevenson wrote:
+> On Mon, 21 Nov 2022 at 23:18, Laurent Pinchart wrote:
+> > On Tue, Nov 22, 2022 at 03:17:11AM +0530, Umang Jain wrote:
+> > > From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> > >
+> > > videobuf2 only allowed exporting a dmabuf as a file descriptor,
+> > > but there are instances where having the struct dma_buf is
+> > > useful within the kernel.
+> > >
+> > > Split the current implementation into two, one step which
+> > > exports a struct dma_buf, and the second which converts that
+> > > into an fd.
+> > >
+> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > > ---
+> > >  .../media/common/videobuf2/videobuf2-core.c   | 36 +++++++++++++------
+> > >  include/media/videobuf2-core.h                | 15 ++++++++
+> > >  2 files changed, 40 insertions(+), 11 deletions(-)
+> > >
+> > > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> > > index ab9697f3b5f1..32b26737cac4 100644
+> > > --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> > > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> > > @@ -2184,49 +2184,49 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
+> > >       return -EINVAL;
+> > >  }
+> > >
+> > > -int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+> > > -             unsigned int index, unsigned int plane, unsigned int flags)
+> > > +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
+> > > +                                    unsigned int index, unsigned int plane,
+> > > +                                    unsigned int flags)
+> >
+> > This function is used in the ISP driver, in bcm2835_isp_buf_prepare(),
+> > for MMAP buffers, and as far as I can tell, its only purpose is to
+> > create a dma_buf instance to then be imported in
+> > vchiq_mmal_submit_buffer() with a call to vc_sm_cma_import_dmabuf().
+> > That sounds like a very complicated set of operations, and quite
+> > inefficient :-(
 > 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
+> Are you saying that dmabufs are not the preferred route for sharing
+> buffers between kernel subsystems? What are you suggesting instead?
 > 
-> [...]
+> If the VPU (firmware) has a handle to the buffer then we need to
+> manage the lifetime such that it is not freed until the VPU has
+> released it. That is handled for you with dmabufs, therefore why
+> reinvent the wheel?
 
-Applied to
+When we go through userspace, dmabuf is certainly the way to go. Here,
+we need to share buffer information between two drivers that are
+specific to the platform, so we could avoid going through so many layers
+by using a custom abstraction. However, that would require additional
+development, and probably reinventing the wheel to some extent, so it's
+probably not worth it.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+I'd like to explore if we could avoid creating a second dmabuf in
+vc_sm_cma_import_dmabuf_internal() to make all this a bit more
+lightweight. Let's discuss it in replies to patch 01/14.
 
-Thanks!
+> > >  {
+> > >       struct vb2_buffer *vb = NULL;
+> > >       struct vb2_plane *vb_plane;
+> > > -     int ret;
+> > >       struct dma_buf *dbuf;
+> > >
+> > >       if (q->memory != VB2_MEMORY_MMAP) {
+> > >               dprintk(q, 1, "queue is not currently set up for mmap\n");
+> > > -             return -EINVAL;
+> > > +             return ERR_PTR(-EINVAL);
+> > >       }
+> > >
+> > >       if (!q->mem_ops->get_dmabuf) {
+> > >               dprintk(q, 1, "queue does not support DMA buffer exporting\n");
+> > > -             return -EINVAL;
+> > > +             return ERR_PTR(-EINVAL);
+> > >       }
+> > >
+> > >       if (flags & ~(O_CLOEXEC | O_ACCMODE)) {
+> > >               dprintk(q, 1, "queue does support only O_CLOEXEC and access mode flags\n");
+> > > -             return -EINVAL;
+> > > +             return ERR_PTR(-EINVAL);
+> > >       }
+> > >
+> > >       if (type != q->type) {
+> > >               dprintk(q, 1, "invalid buffer type\n");
+> > > -             return -EINVAL;
+> > > +             return ERR_PTR(-EINVAL);
+> > >       }
+> > >
+> > >       if (index >= q->num_buffers) {
+> > >               dprintk(q, 1, "buffer index out of range\n");
+> > > -             return -EINVAL;
+> > > +             return ERR_PTR(-EINVAL);
+> > >       }
+> > >
+> > >       vb = q->bufs[index];
+> > >
+> > >       if (plane >= vb->num_planes) {
+> > >               dprintk(q, 1, "buffer plane out of range\n");
+> > > -             return -EINVAL;
+> > > +             return ERR_PTR(-EINVAL);
+> > >       }
+> > >
+> > >       if (vb2_fileio_is_active(q)) {
+> > >               dprintk(q, 1, "expbuf: file io in progress\n");
+> > > -             return -EBUSY;
+> > > +             return ERR_PTR(-EBUSY);
+> > >       }
+> > >
+> > >       vb_plane = &vb->planes[plane];
+> > > @@ -2238,9 +2238,23 @@ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+> > >       if (IS_ERR_OR_NULL(dbuf)) {
+> > >               dprintk(q, 1, "failed to export buffer %d, plane %d\n",
+> > >                       index, plane);
+> > > -             return -EINVAL;
+> > > +             return ERR_PTR(-EINVAL);
+> > >       }
+> > >
+> > > +     return dbuf;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(vb2_core_expbuf_dmabuf);
+> > > +
+> > > +int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+> > > +                 unsigned int index, unsigned int plane, unsigned int flags)
+> > > +{
+> > > +     struct dma_buf *dbuf;
+> > > +     int ret;
+> > > +
+> > > +     dbuf = vb2_core_expbuf_dmabuf(q, type, index, plane, flags);
+> > > +     if (IS_ERR(dbuf))
+> > > +             return PTR_ERR(dbuf);
+> > > +
+> > >       ret = dma_buf_fd(dbuf, flags & ~O_ACCMODE);
+> > >       if (ret < 0) {
+> > >               dprintk(q, 3, "buffer %d, plane %d failed to export (%d)\n",
+> > > diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> > > index 3253bd2f6fee..33629ed2b64f 100644
+> > > --- a/include/media/videobuf2-core.h
+> > > +++ b/include/media/videobuf2-core.h
+> > > @@ -911,6 +911,21 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type);
+> > >   */
+> > >  int vb2_core_streamoff(struct vb2_queue *q, unsigned int type);
+> > >
+> > > +/**
+> > > + * vb2_core_expbuf_dmabuf() - Export a buffer as a dma_buf structure
+> > > + * @q:         videobuf2 queue
+> > > + * @type:      buffer type
+> > > + * @index:     id number of the buffer
+> > > + * @plane:     index of the plane to be exported, 0 for single plane queues
+> > > + * @flags:     flags for newly created file, currently only O_CLOEXEC is
+> > > + *             supported, refer to manual of open syscall for more details
+> > > + *
+> > > + * Return: Returns the dmabuf pointer
+> > > + */
+> > > +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
+> > > +                                    unsigned int index, unsigned int plane,
+> > > +                                    unsigned int flags);
+> > > +
+> > >  /**
+> > >   * vb2_core_expbuf() - Export a buffer as a file descriptor.
+> > >   * @q:               pointer to &struct vb2_queue with videobuf2 queue.
 
-[538/606] regulator: act8865-regulator: Convert to i2c's .probe_new()
-          commit: 3d2a78ae5df5d7f48c002e5f73d18d8c7628d266
-[539/606] regulator: ad5398: Convert to i2c's .probe_new()
-          commit: 7f69edba960bbdcbc829d8d0995b1117ce29e8b1
-[540/606] regulator: da9121-regulator: Convert to i2c's .probe_new()
-          commit: 020cf73b47414a84b666d3e6736a6ae957e27840
-[541/606] regulator: fan53555: Convert to i2c's .probe_new()
-          commit: 655425650f5e361224a86aa11bf3c044bf04df2a
-[542/606] regulator: isl6271a-regulator: Convert to i2c's .probe_new()
-          commit: 69518d21deaa448be65b7c0be67aab230e88eaa7
-[543/606] regulator: lp3972: Convert to i2c's .probe_new()
-          commit: 2532d5f8d5c20d5a0a8a0d57a311bc5df00dea04
-[544/606] regulator: lp872x: Convert to i2c's .probe_new()
-          commit: 87feccb347b25f5dc6ff451123b832c9ad5dddfe
-[545/606] regulator: lp8755: Convert to i2c's .probe_new()
-          commit: cb28f74b4809a00b40fdf0c44ccf51ab950581d3
-[546/606] regulator: ltc3589: Convert to i2c's .probe_new()
-          commit: 78c8f6cdb51d471928d481ed3b2c82dbc110a1ed
-[547/606] regulator: max1586: Convert to i2c's .probe_new()
-          commit: 3d54f7ba248b0ad1791bc356e9ad3d9020a1c472
-[548/606] regulator: max8649: Convert to i2c's .probe_new()
-          commit: 3cf4417385d0ac8f02f22888e12a6d21d97d89fc
-[549/606] regulator: max8660: Convert to i2c's .probe_new()
-          commit: dbf31dac703009174226bb87b3914bd092040327
-[550/606] regulator: max8952: Convert to i2c's .probe_new()
-          commit: c20c36735949b3b7984692fbab3d92b0e8a845ec
-[551/606] regulator: max8973-regulator: Convert to i2c's .probe_new()
-          commit: 4e85e5d64f66ac5e4b0286ee4b6f8e8ce1044d42
-[552/606] regulator: pca9450-regulator: Convert to i2c's .probe_new()
-          commit: ed56fa6e804cb13bbe29e9214792308817f6e553
-[553/606] regulator: pfuze100-regulator: Convert to i2c's .probe_new()
-          commit: 8348c710b51bac713a6fd2e07d64eb71d5680e2e
-[554/606] regulator: pv88080-regulator: Convert to i2c's .probe_new()
-          commit: c9f9ef15b84222f4cc686b1013ee3fd192b0bab8
-[555/606] regulator: rpi-panel-attiny-regulator: Convert to i2c's .probe_new()
-          commit: d85d02d17a608b558d44510e9824668c5d4fe5d8
-[556/606] regulator: tps51632-regulator: Convert to i2c's .probe_new()
-          commit: d4885f306304ff29eec06b9ad5f526a1099e0418
-[557/606] regulator: tps62360-regulator: Convert to i2c's .probe_new()
-          commit: 18804160277ec2ab992373385f86c6af2322b28b
-[558/606] regulator: tps6286x-regulator: Convert to i2c's .probe_new()
-          commit: e34782316281c78c5911f86d4699d4f35a607c9d
-[559/606] regulator: tps65023-regulator: Convert to i2c's .probe_new()
-          commit: 3b5b07dde998f6ade7433a8db019cf816c7e35af
+-- 
+Regards,
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Laurent Pinchart
