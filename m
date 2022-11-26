@@ -1,93 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA9833DC;
-	Fri, 25 Nov 2022 14:27:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C59CBC433D6;
-	Fri, 25 Nov 2022 14:27:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669386434;
-	bh=flrWhKxQcLgnkz5HWwKc3eGDBXHd2DZVGZMjdcPc5hY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CyHabUYcBi83iBg+IXQCXTmWKh/Vsse6jNqtBrOcjWNjpEEPUkYxmD/0nZ5c5ugKO
-	 jo6Z8/gl+MgvM2sAwEq6RdlT5vgN1k6ZJ+hqcP93CQj09ymCKeE30N8oa3t0Dyb2ta
-	 8+lhrsfn7LySe/twThGMfi4tdsvHPQplnQuaeGcZds17fbxEN/133XbiwZ446jPLS9
-	 1J6PAAF8g/44RhMnx0oz0XFgtuVlOhD80/f7Dhydm3vHtZMKjn7bF0j0c8/R2UsycZ
-	 cywT0qiXBo9L2PFUprEkr+T5u7/lhadYuK2q+CTR0j12IAxjD6y0soSJBSn9D8biJo
-	 PV6iVB08gZr+A==
-From: Mark Brown <broonie@kernel.org>
-To: Angel Iglesias <ang.iglesiasg@gmail.com>, Wolfram Sang <wsa@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Grant Likely <grant.likely@linaro.org>, Uwe Kleine-König <uwe@kleine-koenig.org>
-Cc: linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- Purism Kernel Team <kernel@puri.sm>, kernel@pengutronix.de, linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-rtc@vger.kernel.org,
- linux-mtd@lists.infradead.org, platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
- openipmi-developer@lists.sourceforge.net, linux-staging@lists.linux.dev, linux-watchdog@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org, linux-input@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-samsung-soc@vger.kernel.org, netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-spi@vger.kernel.org, linux-crypto@vger.kernel.org, devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-actions@lists.infradead.org
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-Id: <166938642447.506633.10798171870515262916.b4-ty@kernel.org>
-Date: Fri, 25 Nov 2022 14:27:04 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41D3EB24
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 09:45:03 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so7878198wma.1
+        for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 01:45:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fNBK4QqpY340G3XV9v4iOSyaQo0TRWeIslb8zESvqLE=;
+        b=EsXgxdwDGtli4wpNVj7WBXbE9x4pV9ASGAdalZffmwJv3ubhkgi5w3kywjoSBubvrF
+         FSLpb6nr5AHwpqexI+G6JUD2lYvnyi8JJxwJ+fJbMeZGWI/FOJHI3yvxfXgL4Xetw+ss
+         uEdzTVhX2dywawhL8ncFrc5dZ2j2cn0o/UA9rnRYOUpG0VJlCeXjjkz3kXi9JXTbbEmN
+         sJDP0yhfNe2EKW5FWwhmx0WOUK/YqgvqKtNiwUXMBR/UnX1iRzsmqQiCf9GlSk9LzZXO
+         /Nu+KuPRbW0Z1isrScZ90BvHfUJx4pKtsxC4BjDrKaWrbP7KbnQDZYBPoYWMfdMh+H9Z
+         R1FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fNBK4QqpY340G3XV9v4iOSyaQo0TRWeIslb8zESvqLE=;
+        b=SR3p3rjwUrwyhbc5RDjLG6CxKQq94aMnUNtyPtSCXxPSfByMzj/mVjq7+mvV/yYKmZ
+         GYsC7Dv5Xh3jRbE/0cYhzV6kjh0GsshWyu0TqFFxPx/JIq3Jh2kp3lqwQmGwSiuwiyEK
+         SHN2qwxm6yc//QeS9J/O7uHt7OtEKDGPr7xZYE3hjKKm12uWCdcn1Vkul/IZOE2wfL/B
+         +SC1+yrwjZ4/NQ4PvzGaXPPFjJeVcatwkgSZVDFvqPEmV/QKr8h4uMBTYRiJWAKBtUg3
+         cEQdcURr/oa3g6wdqNAiTeeTm1sKz8DTx0TdyxALj/MKbbjtyrIjMEOvTAqryIi8D7qV
+         STDA==
+X-Gm-Message-State: ANoB5plD/HV6mPM7AP/X45qF/VwyxxBoUE34h5fFxoPnwpTwSnDCSXPZ
+	zv3n8CAIXei9Y9PU6CiSs1w=
+X-Google-Smtp-Source: AA0mqf6d8cfU4hNSGLB0APXRKgv6Kojpb29bspmLAqKJe36EnnZdCMYe0G6qOdGyD3oOdoh6vs3Gtg==
+X-Received: by 2002:a05:600c:3c96:b0:3cf:a457:2d89 with SMTP id bg22-20020a05600c3c9600b003cfa4572d89mr33816286wmb.20.1669455901774;
+        Sat, 26 Nov 2022 01:45:01 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h9-20020adffd49000000b002383fc96509sm5654788wrs.47.2022.11.26.01.44.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Nov 2022 01:45:01 -0800 (PST)
+Date: Sat, 26 Nov 2022 12:44:55 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Ekaterina Esina <eesina@astralinux.ru>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Won Kang <wkang77@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH] gdm7240: Add check for NULL for callback in r
+Message-ID: <Y4HgF21MXyb9YH+h@kadam>
+References: <20221123132345.7071-1-eesina@astralinux.ru>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221123132345.7071-1-eesina@astralinux.ru>
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
+On Wed, Nov 23, 2022 at 04:23:45PM +0300, Ekaterina Esina wrote:
+> Before dereferencing r->callback check it for NULL.
 > 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> Fixes: 61e121047645 ("staging: gdm7240: adding LTE USB driver")
+> Signed-off-by: Ekaterina Esina <eesina@astralinux.ru>
+> ---
+>  drivers/staging/gdm724x/gdm_usb.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> [...]
+> diff --git a/drivers/staging/gdm724x/gdm_usb.c b/drivers/staging/gdm724x/gdm_usb.c
+> index 54bdb64f52e8..7cf89f4c95c4 100644
+> --- a/drivers/staging/gdm724x/gdm_usb.c
+> +++ b/drivers/staging/gdm724x/gdm_usb.c
+> @@ -409,10 +409,12 @@ static void do_rx(struct work_struct *work)
+>  		switch (cmd_evt) {
+>  		case LTE_GET_INFORMATION_RESULT:
+>  			if (set_mac_address(hci->data, r->cb_data) == 0) {
+> -				r->callback(r->cb_data,
+> +				if (r->callback) {
 
-Applied to
+What makes you think r->callback can be NULL?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+So far as I can see that's not possible.  It is checked before it's
+added to the list in gdm_usb_rcv_complete().
 
-Thanks!
+regards,
+dan carpenter
 
-[601/606] ASoC: codecs: es8326: Convert to i2c's .probe_new()
-          commit: 784252bac835c831e10c48be633cd1ff0d697326
-[602/606] ASoC: max98396: Convert to i2c's .probe_new()
-          commit: 2ff85020ec5db4af3b55d35f5b8385e830c39fdd
-[603/606] ASoC: codecs: src4xxx-i2c: Convert to i2c's .probe_new()
-          commit: 830a35aa2121258d0c8283abe45ebb5c3d2fd791
-[604/606] ASoC: codecs: tas2780: Convert to i2c's .probe_new()
-          commit: 88ade2abba1e46fe581610911240054538f8db88
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
