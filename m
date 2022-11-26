@@ -1,55 +1,80 @@
-Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B18A17CB
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 13:08:01 +0000 (UTC)
-Received: from localhost.localdomain ([172.16.0.254])
-	(user=dzm91@hust.edu.cn mech=LOGIN bits=0)
-	by mx1.hust.edu.cn  with ESMTP id 2AQCuhbq014203-2AQCuhbu014203
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Sat, 26 Nov 2022 20:57:02 +0800
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Martyn Welch <martyn@welchs.me.uk>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dongliang Mu <dzm91@hust.edu.cn>, Arnd Bergmann <arnd@arndb.de>,
-        Mingyi Kang <jerrykang026@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 2/2] staging: vme_user: fix coding style
-Date: Sat, 26 Nov 2022 20:56:34 +0800
-Message-Id: <20221126125642.16358-2-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20221126125642.16358-1-dzm91@hust.edu.cn>
-References: <20221126125642.16358-1-dzm91@hust.edu.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5FC17D4
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 14:42:30 +0000 (UTC)
+Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MiJhQ-1oUqQd2vmY-00fQ6v; Sat, 26 Nov 2022 15:42:13 +0100
+Message-ID: <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
+Date: Sat, 26 Nov 2022 15:42:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Naushir Patuck <naush@raspberrypi.com>,
+ David Plowman <david.plowman@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:8slHj8WkDJRsqxXk3QgZmn+S+i3YLVteMlITc3PvYqzk28jedC4
+ rj+rgBgwyecIyhEY4Efl+Zfh71iJxNfpynuMMa2KESZQD17AFit04t2abBWBCsfPtUHGl0e
+ 6uH8OtSC1EzFomt97H52CLwfecfNMdCB0RMWx0yX/1/EYq22l5kuU98K6nekJY6pw5PsViJ
+ UJpNLSKyHBWqQ09sF1UlA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iN8eChRQexM=:3hd2ZDNNSqzS7KHNr8NdqF
+ LQ/eFh9Fti6fu91n8lVXq0EOySvmQcpWmhNU/LC7XxpOoqCkWNsXuM/wZ75+puxH8ekhsaVG2
+ oRCt4Ir84rExF11FFCnSHBkoHpTazm7tmUnaZalBcJIC2zOJfZHUdy4SLgu0Q00fa4ZIrIPhS
+ qQa9sGtYfbkuBqTVAcT+xXjdJteXbYtAyfkjNy3NoBHQZfBgHCguKmhNmeFqwwdtcb1S16Y5k
+ qZc3pu6zoWKHwWoOQkdcKa2WQ7xjatRyWmrxZsjE0DpQoyTeRlO9PZNjIrTUs9vYQWjEN+DFG
+ Hzh2JK+SMckmUUGb1E5s/qJQPBdV21ZwgyY8zqehK71NZ8czVB/uNZXwoa+pqivKvCOVW87tz
+ etzKXvISd0JF5TdSA960dS5ydQf7YQMZGoaMlr2pH0BRRiYVzVwJZQFjFqtLKVWVUIC6LYeXo
+ tRHdCvbU9+UhB6v0dGphWRCcM1dwuVNuMrRtyH1s8jMudszKh+9KKu6GtL+njuOtPnCdlmXwG
+ LNOjeKF+ynPBWpy8rCa8bTwKKHUGNKO8ZR5/faASSaeGqzz8j+Ha53RDoDomXdladzw/Cd8Kg
+ jTrMAm1/KaUtCWd36d7/3ys2sgywHIc0Cm7UL32NhtwtokEETFpHAbGiKWCRW/7Dj/gd4jWOA
+ R26SPQEU/SsLsqDPPdAFE4x70CE+BtnvnMyRr9G62OTjNe+m4g3ggLE/NNZGK6PlSB3qCDD2r
+ 29y5mlmFZK+5RHFemcVNxZvewO5N3Zr92kfXCuM2rYAY3htcZFJOXpOCZEdjHcdqPAUGmMf3y
+ pDcqGpJUlrlx2sQyo0is3Xaj/lufg==
 
-Fix coding style enforced by Linux kernel
+Hi Umang,
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- drivers/staging/vme_user/vme_tsi148.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Am 21.11.22 um 22:47 schrieb Umang Jain:
+> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+> independent subset of earlier series [2] posted to upport CSI-2/CCP2
+> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
+> SoCs (namely BCM2711). Unicam is still under active development to work
+> with multistream support to get into mainline. Hence only the ISP driver
+> will remain the primary area of this series.
 
-diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index 0171f46d1848..5ba097e4d17e 100644
---- a/drivers/staging/vme_user/vme_tsi148.c
-+++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -1755,7 +1755,7 @@ static int tsi148_dma_list_add(struct vme_dma_list *list,
- err_dest:
- err_source:
- err_align:
--		kfree(entry);
-+	kfree(entry);
- err_mem:
- 	return retval;
- }
--- 
-2.37.1 (Apple Git-137.1)
+thanks for working on this. But honestly i would prefer that vchiq comes 
+out of staging before adding more features. As Greg said some time ago 
+staging is not a place to "dump code and run away". These new files are 
+in the same bad shape as the rest of vc04 before the clean-up here in 
+staging started.
+
+I agree that VCSM is on the TODO list for vchiq, but this driver is not 
+necessary for making bcm2835-audio & bcm2835-camera leave staging. It 
+just binds more resources on a new feature.
+
+Unfortuntately i hadn't much time to work on vchiq by myself.
+
+Just my two cents
+Stefan
 
