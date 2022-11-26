@@ -1,100 +1,66 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146B317F7
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:27:21 +0000 (UTC)
-Received: from [192.168.1.104] (unknown [103.238.109.19])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 600A1471;
-	Sat, 26 Nov 2022 17:27:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1669480033;
-	bh=9JgwMYaMqW628l2Ol/scePAZkaal2MIBpF9/7ieZUYU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NyL1IUSIS9+5gvfkmBxMMqCbVEiIpkAT8Q+t9SFRNRchj2SyoOTkT0t4fGhSY+YP7
-	 uPi/myeHxO09kbL0LUFo0QSYA4If9VTQn+mygQrIQDtJxIiwXiHw/OM5/jLFrtpEwf
-	 THnXDhut39B7Bd7CPd0zmdT63lsZ1qNMfjj35iDk=
-Message-ID: <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
-Date: Sat, 26 Nov 2022 21:56:12 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABF31FD3
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:52:00 +0000 (UTC)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AQEIZbk016827
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to :
+ subject : message-id : mime-version : content-type; s=pp1;
+ bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+ b=CJzq8Z+8xWdKXMdwRdCOqwChi17A0pO0XrzUb7d5cUqbzzkeZRplTfI22pUnm4H3M698
+ EXsFMXo6ReszxpDfqu2yb/L/Ou+Mdlq8rZ2XWfW/fK0bUHo98cQav+2KFJmVLWe+/uaU
+ 5agU+AU+zOiJBFHho4VeOLapqwYz+n0uI5W+V2bDHml1OFYHktUM2Ep5xd+pvfg+8oq4
+ 3eN67HeRRHKMBYjSAtEJ/Xg5eAHZg+795jkZHU0GySsPXAkDtSrT/3g8tVt0jHZyE69O
+ 9+I9hCvblc06pGyrXh1JgJok8TyXUvs/U7/dlr7DtSN2HvNd0ivnWyNYR/tWLjAwpLCy 2g== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m3eqjxjqk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:54 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+	by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AQGpqc5014981
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:52 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+	by ppma04ams.nl.ibm.com with ESMTP id 3m3ae98hry-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:52 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+	by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2AQGpotN4784860
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:50 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 53A04A404D
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:50 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7EF0AA4040
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:49 +0000 (GMT)
+Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.103.29])
+	by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:49 +0000 (GMT)
+Date: Sat, 26 Nov 2022 22:21:37 +0530
+From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+To: linux-staging@lists.linux.dev
+Subject: subscribe
+Message-ID: <Y4JEGXjLNcUmFXe7@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To: Stefan Wahren <stefan.wahren@i2se.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tZoeb8eUVyiAs9tu21hIYmUflutglkk1
+X-Proofpoint-ORIG-GUID: tZoeb8eUVyiAs9tu21hIYmUflutglkk1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-26_10,2022-11-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ lowpriorityscore=0 clxscore=1011 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 priorityscore=1501 adultscore=0 impostorscore=0
+ mlxlogscore=522 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211260132
 
-Hi Stefan
-
-On 11/26/22 8:12 PM, Stefan Wahren wrote:
-> Hi Umang,
->
-> Am 21.11.22 um 22:47 schrieb Umang Jain:
->> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
->> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->> receiver IP core("Unicam) + the ISP driver found in BCM283x and 
->> compatible
->> SoCs (namely BCM2711). Unicam is still under active development to work
->> with multistream support to get into mainline. Hence only the ISP driver
->> will remain the primary area of this series.
->
-> thanks for working on this. But honestly i would prefer that vchiq 
-> comes out of staging before adding more features. As Greg said some 
-> time ago staging is not a place to "dump code and run away". These new 
-> files are in the same bad shape as the rest of vc04 before the 
-> clean-up here in staging started.
-
-Certainly, I am not here to do that - but I am still learning the ropes.
-
-If the staging issue is becoming a blocker for bcm2835-isp going 
-upstream, I would be happy to help here! Though I must mention that I 
-still have limited visibility so my aim would be to chart out a plan of 
-things needed to be done to get vc04_services out of staging!
-
->
-> I agree that VCSM is on the TODO list for vchiq, but this driver is 
-> not necessary for making bcm2835-audio & bcm2835-camera leave staging. 
-> It just binds more resources on a new feature.
-
-I see two TODO files in vc04_services:
-     ./bcm2835-camera/TODO
-     ./interface/TODO
-
-One of the bcm2835-camera TODO points to the vc-sm-cma driver itself. So 
-that's address in the series. The other remaining one - I will need to 
-take a deeper look before commenting on it.
-
-The main chunk of TODO are in vc04_services/interfaces/TODO.  Doing a 
-cursory reading of them suggests that these apply to *all* vc04_services 
-components? Am I right?
-
-Are these are the specific bits of cleanup you are referring to in your 
-comment?
-
-
->
-> Unfortuntately i hadn't much time to work on vchiq by myself.
->
-> Just my two cents
-> Stefan
->
-
+subscribe
