@@ -1,66 +1,148 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABF31FD3
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:52:00 +0000 (UTC)
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AQEIZbk016827
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to :
- subject : message-id : mime-version : content-type; s=pp1;
- bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
- b=CJzq8Z+8xWdKXMdwRdCOqwChi17A0pO0XrzUb7d5cUqbzzkeZRplTfI22pUnm4H3M698
- EXsFMXo6ReszxpDfqu2yb/L/Ou+Mdlq8rZ2XWfW/fK0bUHo98cQav+2KFJmVLWe+/uaU
- 5agU+AU+zOiJBFHho4VeOLapqwYz+n0uI5W+V2bDHml1OFYHktUM2Ep5xd+pvfg+8oq4
- 3eN67HeRRHKMBYjSAtEJ/Xg5eAHZg+795jkZHU0GySsPXAkDtSrT/3g8tVt0jHZyE69O
- 9+I9hCvblc06pGyrXh1JgJok8TyXUvs/U7/dlr7DtSN2HvNd0ivnWyNYR/tWLjAwpLCy 2g== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3m3eqjxjqk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:54 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-	by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AQGpqc5014981
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:52 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-	by ppma04ams.nl.ibm.com with ESMTP id 3m3ae98hry-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:52 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-	by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2AQGpotN4784860
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:50 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 53A04A404D
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:50 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7EF0AA4040
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:49 +0000 (GMT)
-Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.103.29])
-	by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 16:51:49 +0000 (GMT)
-Date: Sat, 26 Nov 2022 22:21:37 +0530
-From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
-To: linux-staging@lists.linux.dev
-Subject: subscribe
-Message-ID: <Y4JEGXjLNcUmFXe7@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929F5612F
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 22:56:46 +0000 (UTC)
+Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MCbZL-1p7cnv0cV9-009el7; Sat, 26 Nov 2022 23:56:36 +0100
+Message-ID: <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
+Date: Sat, 26 Nov 2022 23:56:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: tZoeb8eUVyiAs9tu21hIYmUflutglkk1
-X-Proofpoint-ORIG-GUID: tZoeb8eUVyiAs9tu21hIYmUflutglkk1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-26_10,2022-11-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- lowpriorityscore=0 clxscore=1011 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 priorityscore=1501 adultscore=0 impostorscore=0
- mlxlogscore=522 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211260132
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Naushir Patuck <naush@raspberrypi.com>,
+ David Plowman <david.plowman@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
+ <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:mOh+jfsovNViNNFGnkXKYR6uFOi0sqfG0SFzTs1OIoe0785Y1c8
+ MscO7c9Q1LnicN1ocUBaPyw3swJ9vwTHF13uUdWGVDIRuZXt7ENejNpiqbi4wqzirD154eJ
+ 2UNEb3o/CgOtr9nin5UnAXPx0JO5g3zeSP2SzG/odYL7ubwXPbRP7z9KgHS0SyYrHcRH+Yl
+ sX33AMEeVluzOtY5kC0Tg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wa2tfLXpUeg=:KH3HVowP0x6IOJs0dfQ3Fd
+ EAMKGhQXwBvLVWOXoRMnGLKpKiffQ/sydVQ55W6wiEo8i3PJ8qIwPXG9ikqp7xKVyZ3bZ3LQl
+ Z7S3Lg7ljRyYABImyPTar+q/pgNtPdMdAoGbMIvh+kLvUcev96LFRe+XlSEXRpOL/w8vSW3c5
+ SF7wklR2L8RckQq1GBXZGDh6y5rxpFm4QPMoyFVDtWB1yy7WD1UXx/UsGD/t/jXUKVNdhSnaN
+ Wr6H/pzFVgxVF9GE/mpBw7pqinWojF98pLXLOfZPmoKV8slzN2/L+jhujP/bOnBUNgZ2AzJQN
+ ZMcsDwt/wKMmjumPAqHi3et6eN2kDLUeIx2lpfscXalYu16ADMjwiQlgogZE90Xs7WvbfKpDx
+ yO5HywHqtXpAyFyMhxX68hKponPBkYDNhCLiFftaowlEzqLCA5eVqIIDe/qmXjolmwlwRsBAM
+ M37cOGQOBQ+gQzixhhoAz8fqtj/FPknmukvkom162pgxoJ6lDtGnR6tM4ouqKODwa/U0zZpEP
+ +yAFn/xTfRDINTJcbtOsHJAehhSIOasldotnfuCNGFjdutcG23AOkehuognrPRFKq3CU1+gTk
+ r45YomqYkZIkYj1vyHENJlsJ7SnnF7M6xVOmo0sKy/7we5tpnFHNk7CmN0wYGTZeIl5vykxyQ
+ SWM3z5OifaWCsaLDA+rdAhidJIgxEsQvz858ydVM2ydiQsfJUsrl+Q665i/P5SomlDPY1DiDF
+ mSUQVdeT5pwdI3s2f2bL6LtHl+G56lpnfZWIW9d0jg7dkBfOmQX/3qTNpGYiwJLbarqL8+U8k
+ i7UiyRUZWHdLzLycL6dzi8bUEOY4w==
 
-subscribe
+Hi Umang,
+
+Am 26.11.22 um 17:26 schrieb Umang Jain:
+> Hi Stefan
+>
+> On 11/26/22 8:12 PM, Stefan Wahren wrote:
+>> Hi Umang,
+>>
+>> Am 21.11.22 um 22:47 schrieb Umang Jain:
+>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
+>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and 
+>>> compatible
+>>> SoCs (namely BCM2711). Unicam is still under active development to work
+>>> with multistream support to get into mainline. Hence only the ISP 
+>>> driver
+>>> will remain the primary area of this series.
+>>
+>> thanks for working on this. But honestly i would prefer that vchiq 
+>> comes out of staging before adding more features. As Greg said some 
+>> time ago staging is not a place to "dump code and run away". These 
+>> new files are in the same bad shape as the rest of vc04 before the 
+>> clean-up here in staging started.
+>
+> Certainly, I am not here to do that - but I am still learning the ropes.
+no problem.
+>
+> If the staging issue is becoming a blocker for bcm2835-isp going 
+> upstream, I would be happy to help here! Though I must mention that I 
+> still have limited visibility so my aim would be to chart out a plan 
+> of things needed to be done to get vc04_services out of staging!
+
+The vchiq driver is in staging since 2016, so every step forwards is 
+good. Unfortunately all of the low hanging fruits has been gathered.
+
+For me the most important, but not to tricky steps to get vchiq out of 
+staging would be:
+
+* Cleanup logging mechanism
+
+* Get rid of custom function return values
+
+There was already an attempt for this [1]
+
+* Get rid of all non essential global structures and create a proper per
+device structure
+
+>
+>>
+>> I agree that VCSM is on the TODO list for vchiq, but this driver is 
+>> not necessary for making bcm2835-audio & bcm2835-camera leave 
+>> staging. It just binds more resources on a new feature.
+>
+> I see two TODO files in vc04_services:
+>     ./bcm2835-camera/TODO
+>     ./interface/TODO
+>
+> One of the bcm2835-camera TODO points to the vc-sm-cma driver itself. 
+> So that's address in the series. The other remaining one - I will need 
+> to take a deeper look before commenting on it.
+>
+> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing a 
+> cursory reading of them suggests that these apply to *all* 
+> vc04_services components? Am I right?
+Actually these applies just for the interfaces directory. Some of them 
+could apply to the services, but this is no priority.
+>
+> Are these are the specific bits of cleanup you are referring to in 
+> your comment?
+
+You mean about bcm2835-isp? There were too many changes to vchiq that i 
+don't remember them all. The first that come to my mind was those fancy 
+comment sections which is not kernel coding style. It has been removed.
+
+[1] - 
+https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
+
+>
+>
+>>
+>> Unfortuntately i hadn't much time to work on vchiq by myself.
+>>
+>> Just my two cents
+>> Stefan
+>>
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
