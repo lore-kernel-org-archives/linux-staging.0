@@ -1,116 +1,61 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DB617D4;
-	Sat, 26 Nov 2022 15:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669477447; x=1701013447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=TYZva1qhZaDDzx7ssD6565IlpCg24ayIFbcaC7tY8Tc=;
-  b=afaV5wieNPUjxu0caJC6JdakAXQOqaG+mJP11E9sBOfdvxW/FCdDmoSq
-   uszGkpjb5nf3De548PRwyr8tA0gjYkdzZijT5eCkTI9MaUL7wuDEK5FNd
-   DHxxEedinEuG50v1wryTy8tuS2GfxLpPE0gycyCpJAkwIvhrwC+gn8YZP
-   vqGEDAZKZz5uKM+4zWczaOB+RJUrHWVl1v9DiPG/G1MsaoSG/5NPhScuG
-   JcNKVf2MOUenZM/iTJdfierEPIRgcSWgA7CVeokYeMdRvPe3t3BpDN/xD
-   57LDEQ+dPBOukc9S9pF7aZDWoHCdzdL+VmK/32YN6VaBwDrOJGpoZ9vaZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="314638864"
-X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
-   d="scan'208";a="314638864"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 07:44:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10543"; a="620587303"
-X-IronPort-AV: E=Sophos;i="5.96,196,1665471600"; 
-   d="scan'208";a="620587303"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 26 Nov 2022 07:43:54 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1oyxLL-000Bco-1n;
-	Sat, 26 Nov 2022 17:43:51 +0200
-Date: Sat, 26 Nov 2022 17:43:51 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-	alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
-	linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
-	Lee Jones <lee.jones@linaro.org>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-	Grant Likely <grant.likely@linaro.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-actions@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	Angel Iglesias <ang.iglesiasg@gmail.com>,
-	gregkh@linuxfoundation.org, linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Purism Kernel Team <kernel@puri.sm>, patches@opensource.cirrus.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
-	linux-crypto@vger.kernel.org, kernel@pengutronix.de,
-	netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Message-ID: <Y4I0N3KpU/LSJYpd@smile.fi.intel.com>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
- <20221122185818.3740200d@jic23-huawei>
- <20221122201654.5rdaisqho33buibj@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6D717D4
+	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 15:59:37 +0000 (UTC)
+Received: from dslb-188-096-151-149.188.096.pools.vodafone-ip.de ([188.96.151.149] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1oyxKX-0000Lt-K2; Sat, 26 Nov 2022 16:43:01 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 4/5] staging: r8188eu: simplify the checks for zero address
+Date: Sat, 26 Nov 2022 16:42:52 +0100
+Message-Id: <20221126154253.178275-5-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221126154253.178275-1-martin@kaiser.cx>
+References: <20221126154253.178275-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221122201654.5rdaisqho33buibj@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Nov 22, 2022 at 09:16:54PM +0100, Uwe Kleine-König wrote:
-> On Tue, Nov 22, 2022 at 06:58:18PM +0000, Jonathan Cameron wrote:
+In function ap2sta_data_frame, we can use is_zero_ether_addr to check for
+all-zero ethernet addresses. Both pattrib->bssid and mybssid are 16-bit
+aligned.
 
-> > Queued all of the below:
-> > with one tweaked as per your suggestion and the highlighted one dropped on basis
-> > I was already carrying the equivalent - as you pointed out.
-> > 
-> > I was already carrying the required dependency.
-> > 
-> > Includes the IIO ones in staging.
-> > 
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/core/rtw_recv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-> > p.s. I perhaps foolishly did this in a highly manual way so as to
-> > also pick up Andy's RB.  So might have dropped one...
-> 
-> You could have done:
-> 
-> 	H=$(git rev-parse @)
-> 	b4 am -P 49-190 20221118224540.619276-1-uwe@kleine-koenig.org
-> 	git am ...
-> 	git filter-branch -f --msg-filter "grep -v 'Signed-off-by: Jonathan'; echo 'Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>'; echo 'Signed-off-by: Jonathan Cameron <jic23@kernel.org>'" $H..
-> 
-> (untested, but you get the idea).
-
-That's, for example (just last from the history as is), how I usually do it
-(tested):
-
- git filter-branch --msg-filter 'sed -e "/Signed-off-by: Andy Shevchenko/ a Tested-by: Daniel Scally <dan.scally@ideasonboard.com>"' -f HEAD~4..HEAD
-
-
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 5b0a66aebff1..631c500dda42 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -779,9 +779,8 @@ static int ap2sta_data_frame(
+ 		}
+ 
+ 		/*  check BSSID */
+-		if (!memcmp(pattrib->bssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
+-		    !memcmp(mybssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
+-		     (memcmp(pattrib->bssid, mybssid, ETH_ALEN))) {
++		if (is_zero_ether_addr(pattrib->bssid) || is_zero_ether_addr(mybssid) ||
++		    (memcmp(pattrib->bssid, mybssid, ETH_ALEN))) {
+ 			if (!bmcast)
+ 				issue_deauth(adapter, pattrib->bssid, WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.30.2
 
