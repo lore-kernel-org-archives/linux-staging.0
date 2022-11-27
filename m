@@ -1,13 +1,45 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929F5612F
-	for <linux-staging@lists.linux.dev>; Sat, 26 Nov 2022 22:56:46 +0000 (UTC)
-Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MCbZL-1p7cnv0cV9-009el7; Sat, 26 Nov 2022 23:56:36 +0100
-Message-ID: <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
-Date: Sat, 26 Nov 2022 23:56:31 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED32C17EF
+	for <linux-staging@lists.linux.dev>; Sun, 27 Nov 2022 14:45:16 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id bj12so20123781ejb.13
+        for <linux-staging@lists.linux.dev>; Sun, 27 Nov 2022 06:45:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HUXgxrLtiv5I/LQlNEQb4l+Oh7igXNjdXrq3rf5J8X4=;
+        b=gBMq8hfrt16Aw9izcazXcsAAESg4Uet8vUpMKOiQLkEEBKYNvi5/gOGatHK6u9dDzv
+         8jjHXi8TcYSM8vymib4BcAshPgvYZtQuOz+GhOgXuw7OXBoiUkv6uNJTjSdf6MBzieuc
+         hUTJi9MctsCbjyj6WhhDPMfmVwYUvsGSQDtuMD98cbJv3HC4r3AIhv+vxHBm0Pi2Xzba
+         V/pqfu1PYZkkQGCmH8iRNrZKgw9WaMz1KHx/s2UAyYdhKAUOuFvkUqsFHXasz1PV8mix
+         XbXanAopjcjdt6eKnklD6h5IZHdlDSZHmV3JtVRfnK5QSFZ92VrSs1E4Zg4R86pGuRJW
+         XjIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HUXgxrLtiv5I/LQlNEQb4l+Oh7igXNjdXrq3rf5J8X4=;
+        b=j2drZupNRxJEivMD/4/keCCAZCry4mwA36ObSDGw5Uy4O/EUTKO9Yr4+jE6k9jJRnJ
+         BLjqzn849YHepHsRQtDLQfSGwYFTv6QAzeghLefGFBwKCEUmTr2IGcFye4PIJVLDfeWe
+         DQ2Me4CUQM85i3Ddqoxghyuh8ndACPSe+uLf15HV1V54Xq0CGH7SDDxBjWODOHChX2EZ
+         I7Mnwc3RzJxiC068LV5XGaOpzBbmh/rMmcXSJEaifh98dS9sRlUrZlxwIEv8sAq6bvay
+         aZ19lQq/4EyJJI8m1JtGH6FU6gZN5cI5EBRn88uJTyhgBRIUmppwRn//GuG6EfAImhms
+         R7IA==
+X-Gm-Message-State: ANoB5plv+oziaHSWgPGOc7opjInSs8U+hBDEOEsYEEhmOVMKASHyKESX
+	5d7YGMKu37B80wlBpyi6Has=
+X-Google-Smtp-Source: AA0mqf6c+8WPcm/JlIo3iB1fQ/xqDK7wRMkWXpyMXY2y7dm8TQlMIs/+TF81znkGa2PL6vJqdvlpdw==
+X-Received: by 2002:a17:906:dfef:b0:7ae:db2:f10a with SMTP id lc15-20020a170906dfef00b007ae0db2f10amr25590181ejc.709.1669560315225;
+        Sun, 27 Nov 2022 06:45:15 -0800 (PST)
+Received: from [192.168.1.100] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id lb25-20020a170907785900b007933047f923sm3816923ejc.118.2022.11.27.06.45.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Nov 2022 06:45:14 -0800 (PST)
+Message-ID: <b55f9596-6a2b-a65f-7de8-63c096a36317@gmail.com>
+Date: Sun, 27 Nov 2022 15:45:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -16,133 +48,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
- <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+Subject: Re: [PATCH 0/5] staging: r8188eu: another round of cleanups
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20221126154253.178275-1-martin@kaiser.cx>
 Content-Language: en-US
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20221126154253.178275-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:mOh+jfsovNViNNFGnkXKYR6uFOi0sqfG0SFzTs1OIoe0785Y1c8
- MscO7c9Q1LnicN1ocUBaPyw3swJ9vwTHF13uUdWGVDIRuZXt7ENejNpiqbi4wqzirD154eJ
- 2UNEb3o/CgOtr9nin5UnAXPx0JO5g3zeSP2SzG/odYL7ubwXPbRP7z9KgHS0SyYrHcRH+Yl
- sX33AMEeVluzOtY5kC0Tg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wa2tfLXpUeg=:KH3HVowP0x6IOJs0dfQ3Fd
- EAMKGhQXwBvLVWOXoRMnGLKpKiffQ/sydVQ55W6wiEo8i3PJ8qIwPXG9ikqp7xKVyZ3bZ3LQl
- Z7S3Lg7ljRyYABImyPTar+q/pgNtPdMdAoGbMIvh+kLvUcev96LFRe+XlSEXRpOL/w8vSW3c5
- SF7wklR2L8RckQq1GBXZGDh6y5rxpFm4QPMoyFVDtWB1yy7WD1UXx/UsGD/t/jXUKVNdhSnaN
- Wr6H/pzFVgxVF9GE/mpBw7pqinWojF98pLXLOfZPmoKV8slzN2/L+jhujP/bOnBUNgZ2AzJQN
- ZMcsDwt/wKMmjumPAqHi3et6eN2kDLUeIx2lpfscXalYu16ADMjwiQlgogZE90Xs7WvbfKpDx
- yO5HywHqtXpAyFyMhxX68hKponPBkYDNhCLiFftaowlEzqLCA5eVqIIDe/qmXjolmwlwRsBAM
- M37cOGQOBQ+gQzixhhoAz8fqtj/FPknmukvkom162pgxoJ6lDtGnR6tM4ouqKODwa/U0zZpEP
- +yAFn/xTfRDINTJcbtOsHJAehhSIOasldotnfuCNGFjdutcG23AOkehuognrPRFKq3CU1+gTk
- r45YomqYkZIkYj1vyHENJlsJ7SnnF7M6xVOmo0sKy/7we5tpnFHNk7CmN0wYGTZeIl5vykxyQ
- SWM3z5OifaWCsaLDA+rdAhidJIgxEsQvz858ydVM2ydiQsfJUsrl+Q665i/P5SomlDPY1DiDF
- mSUQVdeT5pwdI3s2f2bL6LtHl+G56lpnfZWIW9d0jg7dkBfOmQX/3qTNpGYiwJLbarqL8+U8k
- i7UiyRUZWHdLzLycL6dzi8bUEOY4w==
+Content-Transfer-Encoding: 7bit
 
-Hi Umang,
-
-Am 26.11.22 um 17:26 schrieb Umang Jain:
-> Hi Stefan
->
-> On 11/26/22 8:12 PM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 21.11.22 um 22:47 schrieb Umang Jain:
->>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
->>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->>> receiver IP core("Unicam) + the ISP driver found in BCM283x and 
->>> compatible
->>> SoCs (namely BCM2711). Unicam is still under active development to work
->>> with multistream support to get into mainline. Hence only the ISP 
->>> driver
->>> will remain the primary area of this series.
->>
->> thanks for working on this. But honestly i would prefer that vchiq 
->> comes out of staging before adding more features. As Greg said some 
->> time ago staging is not a place to "dump code and run away". These 
->> new files are in the same bad shape as the rest of vc04 before the 
->> clean-up here in staging started.
->
-> Certainly, I am not here to do that - but I am still learning the ropes.
-no problem.
->
-> If the staging issue is becoming a blocker for bcm2835-isp going 
-> upstream, I would be happy to help here! Though I must mention that I 
-> still have limited visibility so my aim would be to chart out a plan 
-> of things needed to be done to get vc04_services out of staging!
-
-The vchiq driver is in staging since 2016, so every step forwards is 
-good. Unfortunately all of the low hanging fruits has been gathered.
-
-For me the most important, but not to tricky steps to get vchiq out of 
-staging would be:
-
-* Cleanup logging mechanism
-
-* Get rid of custom function return values
-
-There was already an attempt for this [1]
-
-* Get rid of all non essential global structures and create a proper per
-device structure
-
->
->>
->> I agree that VCSM is on the TODO list for vchiq, but this driver is 
->> not necessary for making bcm2835-audio & bcm2835-camera leave 
->> staging. It just binds more resources on a new feature.
->
-> I see two TODO files in vc04_services:
->     ./bcm2835-camera/TODO
->     ./interface/TODO
->
-> One of the bcm2835-camera TODO points to the vc-sm-cma driver itself. 
-> So that's address in the series. The other remaining one - I will need 
-> to take a deeper look before commenting on it.
->
-> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing a 
-> cursory reading of them suggests that these apply to *all* 
-> vc04_services components? Am I right?
-Actually these applies just for the interfaces directory. Some of them 
-could apply to the services, but this is no priority.
->
-> Are these are the specific bits of cleanup you are referring to in 
-> your comment?
-
-You mean about bcm2835-isp? There were too many changes to vchiq that i 
-don't remember them all. The first that come to my mind was those fancy 
-comment sections which is not kernel coding style. It has been removed.
-
-[1] - 
-https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
-
->
->
->>
->> Unfortuntately i hadn't much time to work on vchiq by myself.
->>
->> Just my two cents
->> Stefan
->>
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+On 11/26/22 16:42, Martin Kaiser wrote:
+> This series simplifies the issue_probereq_ex function and fixes other
+> minor things.
+> 
+> Martin Kaiser (5):
+>    staging: r8188eu: drop return value from issue_probereq_ex
+>    staging: r8188eu: remove wait_ms parameter
+>    staging: r8188eu: fix the number of probereq retries
+>    staging: r8188eu: simplify the checks for zero address
+>    staging: r8188eu: use ieee80211 helper for protected bit
+> 
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 30 ++++++-------------
+>   drivers/staging/r8188eu/core/rtw_recv.c       |  5 ++--
+>   .../staging/r8188eu/include/rtw_mlme_ext.h    |  3 +-
+>   drivers/staging/r8188eu/include/wifi.h        |  3 --
+>   4 files changed, 12 insertions(+), 29 deletions(-)
+> 
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
