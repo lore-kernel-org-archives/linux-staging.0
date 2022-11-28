@@ -1,31 +1,35 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F3520E2
-	for <linux-staging@lists.linux.dev>; Mon, 28 Nov 2022 07:53:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB8BC433C1;
-	Mon, 28 Nov 2022 07:53:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1669622013;
-	bh=um03zoPpxKsSPE+M2zpAJXsHvH/peut6tDHzA78ZNoM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jkdq03L2qV0u5uszScn4GnxkJ4wH4lW1f++a+IEgzYsJg5muigr6IoZU5+L2o4XUU
-	 EbPVIDsb1DEBMWPOGkAU/p4KGA0byXjOTXP8C/yFqHTVUblSV4zr1LgMi4lXsQ86eZ
-	 CXSB8knab1krmTsd5FbaPDmuVIU2Y1kjY/NjfNTk=
-Date: Mon, 28 Nov 2022 08:53:28 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C5420E2
+	for <linux-staging@lists.linux.dev>; Mon, 28 Nov 2022 08:22:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1669623723; bh=HoI7IPlyKWHD9Kn5X10ZHl3UFFv8o6ZZDjqQm365fyQ=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=cY6XYfSBgOawZ8YaNqeXmP6jyxqpCZFYLNI28OoXMK4A3C+p/hdakSydDk/j2WtkM
+	 LAjmXY72W2MxJlE/Yk8FNSzAikJWRnwPoKgf77JKw62a6eJWCYK/85VLDkbgwg+ddD
+	 XEgUh2eWj5nAWTbQc9o0ahVB52aumbNZhohYlvBw=
+Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Mon, 28 Nov 2022 09:22:03 +0100 (CET)
+X-EA-Auth: Z5uIHs5CpSgjU332Ikz4u8b+XZa03kuBLMdLqLTeFqTcZc5po3StYuaZUVJMKCr04rF8s2HCvhTHZ/3OSytxENj19ruxRHel
+Date: Mon, 28 Nov 2022 13:51:58 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	gustavoars@kernel.org
 Subject: Re: [PATCH] staging: wlan-ng: Replace zero-length arrays with
  DECLARE_FLEX_ARRAY() helper
-Message-ID: <Y4Ro+Ex+E1WemSrs@kroah.com>
+Message-ID: <Y4RvpvpmFL8zNvfB@qemulion>
 References: <Y3YKhee8L+kAfHM4@qemulion>
  <Y3YvGdkyGm7azGg4@kroah.com>
  <Y3Y1N6AwWEXLpSrx@qemulion>
  <Y3Z3aatcaISvqURJ@kroah.com>
  <Y3jqUpNOygJ4+2jy@qemulion>
  <Y4RnJyiCDYavLAJq@qemulion>
+ <Y4RoOxgo76Hc5RRP@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,53 +38,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y4RnJyiCDYavLAJq@qemulion>
+In-Reply-To: <Y4RoOxgo76Hc5RRP@kadam>
 
-On Mon, Nov 28, 2022 at 01:15:43PM +0530, Deepak R Varma wrote:
-> On Sat, Nov 19, 2022 at 08:08:15PM +0530, Deepak R Varma wrote:
-> > On Thu, Nov 17, 2022 at 07:03:21PM +0100, Greg Kroah-Hartman wrote:
-> > > On Thu, Nov 17, 2022 at 06:50:55PM +0530, Deepak R Varma wrote:
-> > > > On Thu, Nov 17, 2022 at 01:54:49PM +0100, Greg Kroah-Hartman wrote:
-> > > > > On Thu, Nov 17, 2022 at 03:48:45PM +0530, Deepak R Varma wrote:
+On Mon, Nov 28, 2022 at 10:50:19AM +0300, Dan Carpenter wrote:
+> On Mon, Nov 28, 2022 at 01:15:43PM +0530, Deepak R Varma wrote:
+> > On Sat, Nov 19, 2022 at 08:08:15PM +0530, Deepak R Varma wrote:
+> > > On Thu, Nov 17, 2022 at 07:03:21PM +0100, Greg Kroah-Hartman wrote:
+> > > > On Thu, Nov 17, 2022 at 06:50:55PM +0530, Deepak R Varma wrote:
+> > > > > On Thu, Nov 17, 2022 at 01:54:49PM +0100, Greg Kroah-Hartman wrote:
+> > > > > > On Thu, Nov 17, 2022 at 03:48:45PM +0530, Deepak R Varma wrote:
+> > > > > > >
+> > > > > > >  struct hfa384x_pdr_refdac_measurements {
+> > > > > > > -	u16 value[0];
+> > > > > > > +	DECLARE_FLEX_ARRAY(u16, value);
+> > > > > > >  } __packed;
 > > > > > >
-> > > > > >  struct hfa384x_pdr_refdac_measurements {
-> > > > > > -	u16 value[0];
-> > > > > > +	DECLARE_FLEX_ARRAY(u16, value);
-> > > > > >  } __packed;
+> > > > > > Why?  This structure is never used anywhere, right?  So why is this
+> > > > > > needed to be changed and not just removed entirely?  Same for the other
+> > > > > > structures in this patch.
 > > > > >
-> > > > > Why?  This structure is never used anywhere, right?  So why is this
-> > > > > needed to be changed and not just removed entirely?  Same for the other
-> > > > > structures in this patch.
+> > > > > Hello Greg,
+> > > > > I am unable to confirm that these structures are truly not needed in the absence
+> > > > > if a real device based testing. I could only validate that using the compile
+> > > > > build and driver loading.
 > > > >
-> > > > Hello Greg,
-> > > > I am unable to confirm that these structures are truly not needed in the absence
-> > > > if a real device based testing. I could only validate that using the compile
-> > > > build and driver loading.
+> > > > Think this through, if no one is actually using this structure, and it
+> > > > is of 0 size, then do you think it is being used?
 > > >
-> > > Think this through, if no one is actually using this structure, and it
-> > > is of 0 size, then do you think it is being used?
+> > > Hello Greg,
+> > > I did not find any memory allocation for these zero length array structures.
+> > > Also, the union or its enclosing structure do not appear to access the members.
+> > > Hence I am leaning towards concluding that these zero length array structures do
+> > > not appear to be necessary.
+> > >
+> > > There are a few other structures that are part of the same union, however, they
+> > > too do not appear to be used for accessing the memory assigned to the union [or
+> > > its enclosing structure]. I think most of the members of these unions can be
+> > > replaced by one max size structure of this union [e.g. struct
+> > > hfa384x_pdr_mkk_measurements].
+> > >
+> > > Could you please comment if I am reading the code right?
+> > >
+> > > For your quick reference, the zero length structure declaration are online 963
+> > > whereas the union is on line number 1080 of the file drivers/staging/wlan-ng/hfa384x.h
 > >
 > > Hello Greg,
-> > I did not find any memory allocation for these zero length array structures.
-> > Also, the union or its enclosing structure do not appear to access the members.
-> > Hence I am leaning towards concluding that these zero length array structures do
-> > not appear to be necessary.
+> > can you please suggest how should I approach this clean-up/correction?
 > >
-> > There are a few other structures that are part of the same union, however, they
-> > too do not appear to be used for accessing the memory assigned to the union [or
-> > its enclosing structure]. I think most of the members of these unions can be
-> > replaced by one max size structure of this union [e.g. struct
-> > hfa384x_pdr_mkk_measurements].
-> >
-> > Could you please comment if I am reading the code right?
-> >
-> > For your quick reference, the zero length structure declaration are online 963
-> > whereas the union is on line number 1080 of the file drivers/staging/wlan-ng/hfa384x.h
-> 
-> Hello Greg,
-> can you please suggest how should I approach this clean-up/correction?
+>
+> Like this:
 
-Sorry, but I do not have the bandwidth to help out with this.  I will
-gladly review changes submitted only.
+Thank you Dan. This takes me back to the very first version of this patch. I
+will send in the clean up.
 
-greg k-h
+./drv
+
+>
+> diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
+> index 0611e37df6ac..6a3df58c9e9c 100644
+> --- a/drivers/staging/wlan-ng/hfa384x.h
+> +++ b/drivers/staging/wlan-ng/hfa384x.h
+> @@ -959,10 +959,6 @@ struct hfa384x_pdr_nicid {
+>  	u16 minor;
+>  } __packed;
+>
+> -struct hfa384x_pdr_refdac_measurements {
+> -	u16 value[0];
+> -} __packed;
+> -
+>  struct hfa384x_pdr_vgdac_measurements {
+>  	u16 value[0];
+>  } __packed;
+> @@ -1077,7 +1073,6 @@ struct hfa384x_pdrec {
+>  		struct hfa384x_pdr_mfisuprange mfisuprange;
+>  		struct hfa384x_pdr_cfisuprange cfisuprange;
+>  		struct hfa384x_pdr_nicid nicid;
+> -		struct hfa384x_pdr_refdac_measurements refdac_measurements;
+>  		struct hfa384x_pdr_vgdac_measurements vgdac_measurements;
+>  		struct hfa384x_pdr_level_comp_measurements level_compc_measurements;
+>  		struct hfa384x_pdr_mac_address mac_address;
+>
+
+
