@@ -1,51 +1,25 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54FC20E2
-	for <linux-staging@lists.linux.dev>; Mon, 28 Nov 2022 07:50:24 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id v1so15336287wrt.11
-        for <linux-staging@lists.linux.dev>; Sun, 27 Nov 2022 23:50:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=55Yoxcq3+d/tHhqKEtTkuDqeutda58+RH9+uCLxHdaU=;
-        b=KDr4QKS5v9Wzz/FasCrhsx3fWubdC8WFqhJci6NolcG7farx4GD8o4IryNQQxTGjW5
-         cviPRTyGbAHLEOKoPjjqHakjocoeVVXr6kYl4Ffu5CLLX8Oii8P5BDbpTo8oIzZYjc5D
-         UU6JmZVG+iPQ9jpuSyG61+qHIf6Ufh3abObfDscUdeez4lHEQhEs7ZDyupvz6i4mhK33
-         UhcOPQhGBo73eqX643k5j61qyPGa3eG+hP79VwcEjDHtYYkJ2Sy8jArdWDjZr+YOXN+w
-         ziSmZchc2jkSW/gSgme+O9eY0GJFuuJmaAZfSz06j9U5eNU9HyNmE5Hsy3pul/ytcZmx
-         vO7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=55Yoxcq3+d/tHhqKEtTkuDqeutda58+RH9+uCLxHdaU=;
-        b=g/zaAWGiSCBgCJBYzreIEQDgjntJ4MgOhTNa48mTQPSZ9uSPmD86zdFivhBsYFIRGs
-         1yFMjpaSCjMCsUxh8Fj9xKnIAfUIjZxmVLEgW5UaD08+lup00f82fGUos03xYTKiwVn6
-         kbOu+s9Yii5NKcaQwKO5mxpyiRv2kbOlGq5sc+yHkoqjf7Nk4LJzMgzEbkyDrSMnRFpW
-         IHVEjAhxxZgQvRUHFskgS9OXyTr8Rhs9sqiJEcW6klffX9S3B+27IED1VTlAGMwzzDp7
-         P7/oOVNdKbHptQ1HhO6fX/jBG12+YknDeL+o9CbAihTjRYw0V7pTznfm1QROIz608lIc
-         zHUg==
-X-Gm-Message-State: ANoB5pncSSk0H3b3eOpsxyhvELADZ/JNUlYnxQbWUAGdV8t+KaLpYERr
-	RxZOuvyRsi4TlUY/PNfgtm0=
-X-Google-Smtp-Source: AA0mqf4DtT9wZsjWyUAYN6zeatBId7DhcpzfU4wz52q06/sbxMcArt87PiE8gaEY66Xcay8E4ZcKkg==
-X-Received: by 2002:adf:ab1d:0:b0:242:e73:f642 with SMTP id q29-20020adfab1d000000b002420e73f642mr4712465wrc.184.1669621823018;
-        Sun, 27 Nov 2022 23:50:23 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n2-20020a5d4002000000b00241727795c4sm11804792wrp.63.2022.11.27.23.50.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Nov 2022 23:50:22 -0800 (PST)
-Date: Mon, 28 Nov 2022 10:50:19 +0300
-From: Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F3520E2
+	for <linux-staging@lists.linux.dev>; Mon, 28 Nov 2022 07:53:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB8BC433C1;
+	Mon, 28 Nov 2022 07:53:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1669622013;
+	bh=um03zoPpxKsSPE+M2zpAJXsHvH/peut6tDHzA78ZNoM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Jkdq03L2qV0u5uszScn4GnxkJ4wH4lW1f++a+IEgzYsJg5muigr6IoZU5+L2o4XUU
+	 EbPVIDsb1DEBMWPOGkAU/p4KGA0byXjOTXP8C/yFqHTVUblSV4zr1LgMi4lXsQ86eZ
+	 CXSB8knab1krmTsd5FbaPDmuVIU2Y1kjY/NjfNTk=
+Date: Mon, 28 Nov 2022 08:53:28 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Deepak R Varma <drv@mailo.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	gustavoars@kernel.org
 Subject: Re: [PATCH] staging: wlan-ng: Replace zero-length arrays with
  DECLARE_FLEX_ARRAY() helper
-Message-ID: <Y4RoOxgo76Hc5RRP@kadam>
+Message-ID: <Y4Ro+Ex+E1WemSrs@kroah.com>
 References: <Y3YKhee8L+kAfHM4@qemulion>
  <Y3YvGdkyGm7azGg4@kroah.com>
  <Y3Y1N6AwWEXLpSrx@qemulion>
@@ -105,30 +79,8 @@ On Mon, Nov 28, 2022 at 01:15:43PM +0530, Deepak R Varma wrote:
 > 
 > Hello Greg,
 > can you please suggest how should I approach this clean-up/correction?
-> 
 
-Like this:
+Sorry, but I do not have the bandwidth to help out with this.  I will
+gladly review changes submitted only.
 
-diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
-index 0611e37df6ac..6a3df58c9e9c 100644
---- a/drivers/staging/wlan-ng/hfa384x.h
-+++ b/drivers/staging/wlan-ng/hfa384x.h
-@@ -959,10 +959,6 @@ struct hfa384x_pdr_nicid {
- 	u16 minor;
- } __packed;
- 
--struct hfa384x_pdr_refdac_measurements {
--	u16 value[0];
--} __packed;
--
- struct hfa384x_pdr_vgdac_measurements {
- 	u16 value[0];
- } __packed;
-@@ -1077,7 +1073,6 @@ struct hfa384x_pdrec {
- 		struct hfa384x_pdr_mfisuprange mfisuprange;
- 		struct hfa384x_pdr_cfisuprange cfisuprange;
- 		struct hfa384x_pdr_nicid nicid;
--		struct hfa384x_pdr_refdac_measurements refdac_measurements;
- 		struct hfa384x_pdr_vgdac_measurements vgdac_measurements;
- 		struct hfa384x_pdr_level_comp_measurements level_compc_measurements;
- 		struct hfa384x_pdr_mac_address mac_address;
+greg k-h
