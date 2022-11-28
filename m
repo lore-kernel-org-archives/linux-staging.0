@@ -1,90 +1,91 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9680629A1
-	for <linux-staging@lists.linux.dev>; Sun, 27 Nov 2022 14:45:28 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id r26so10217372edc.10
-        for <linux-staging@lists.linux.dev>; Sun, 27 Nov 2022 06:45:28 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DBF362
+	for <linux-staging@lists.linux.dev>; Mon, 28 Nov 2022 04:40:13 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso12827770pjt.0
+        for <linux-staging@lists.linux.dev>; Sun, 27 Nov 2022 20:40:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=oregonstate-edu.20210112.gappssmtp.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=dVJk3qEaUc/rcmLQxIcSGjFuecC7PxvDe1/aZEEm9h8=;
-        b=O+dKfA018cBRltgdnZ0kfHMokyhqUvAHSz8GMsGY5FjFA+ODkR20n4Jvbq8sDuCQtp
-         0B0wDKaFGzDyFf2n+td41rYD/qKqHpHattAto4+tpoxvKiwhN5wWxM4wnpS6TRbkBoF9
-         GujqQuEQPJouLcFU0MfD88Q8y2SmO3jn9RrBk2kIu3elDsmNizIpXuZrw3QtZipHJEA1
-         qRRodPuHGj4pw5rkrizjHZfmg+yM51JLPYBTpCYo8WCFAUT42/wYS9UpJVIlyHkP7j+n
-         +Mu7GtZFr+mGjdOI1UPJfpumEOjW30TgCla15W5Fi7fnsH9P9wI6j0SXzvnVWmqT5vex
-         Pkiw==
+        bh=G/9AzJYQfnGBFuJKCpS/EOwpF4BmCDb2G2Md0YyKoN8=;
+        b=r/+ASjtBdyMIkIrVJYRjrKRI0h/rUHKiSZfn8eEro0QAEKW+TMKjMK+MbR33Mke743
+         PHeYk5s1uinHTcHiXqPvC9RqNLF6GksEJa9a/U+mHF03Rln351l33u+smYV/aWa+rg+V
+         LPz8yrEH9TC02uVjgVDGitAsLi/eYiHitLHQCBZR4c0+tjh4+Q6z5JTwCdR33bAe7Yj1
+         45TXrUYS9IiemxQf2DRqnJvJ3MnpiKlGGHIu0wE+h6TnqpHftgQ+xYtxOYJwNwPqJman
+         R/2hTnNh8yw4xlkTbBnsVRHqwvjsEQhW5CnOMlP2YiIzgUGZex/gRk6iJUqNVJFMQIrw
+         F5BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dVJk3qEaUc/rcmLQxIcSGjFuecC7PxvDe1/aZEEm9h8=;
-        b=WkD1DiPlhnB2rfzGwvUCLc94pEx0QBBg8ejyzLJSOtRdQbPUHG1BasH1wQbMNhVFe0
-         R3sgs9w1h3zrJ80caS8bgCENylyrQQs6ZJEm+fHP4fJYZWLgEEhb6zyWYowEiICvdt/e
-         rMmtzCJvr0lIlTHDgbiq3QIwVYybe7EuJKB+7Mm2nYAjwW/snA2O0OvKAHw/1hiSVNp/
-         zWCOb3A3TsRmLICBg5lU1khBQQp/3ZQC7o0mVsJKIaXZbVQC/ayOg83bb48qcCbItVBm
-         CNoHLz1ElaXJnLGnU0YrmNGhdZi6hZwVakFzl1ePeWUC0+KZRPgiyZNqXhKMfhRI+Gna
-         dO9w==
-X-Gm-Message-State: ANoB5pl/A6e4r6ysiOlJow5EO5N9Mflpm0UdhTEv4fpFY54Z3mq7py47
-	RAm2yW4BZAOgOJtLck8h62b+s1B+TMc=
-X-Google-Smtp-Source: AA0mqf6FVtSclvEAKJPMgfwKWB/HZcfp+eM2wYuj5fNx25DLgLUQhOICc11h7SQO7DmeijQOj8Z87g==
-X-Received: by 2002:a05:6402:1c04:b0:462:6ace:c522 with SMTP id ck4-20020a0564021c0400b004626acec522mr42735926edb.91.1669560326886;
-        Sun, 27 Nov 2022 06:45:26 -0800 (PST)
-Received: from [192.168.1.100] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id a9-20020a170906190900b007bf988ce9f7sm441861eje.38.2022.11.27.06.45.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Nov 2022 06:45:26 -0800 (PST)
-Message-ID: <64393639-cd1d-ec74-01e4-67f0b208d725@gmail.com>
-Date: Sun, 27 Nov 2022 15:45:25 +0100
+        bh=G/9AzJYQfnGBFuJKCpS/EOwpF4BmCDb2G2Md0YyKoN8=;
+        b=pNpFirvk3TEGhkZnG4BuXH4uhk8YQRnfVV4tjmo1HODDaEqTpgdJTy1v0GGp5gUtVJ
+         vv/7IzmGrn3xRUyA6ohV5I7fecMzDjiGpq+AqRRKEy1Tdfa7PY6Es9XYymBPwEluyOMf
+         K9EGy3W05/H6D9K8orPwLw81ekhnBJtz8ke4lfwl6OasY/lUw5oav/e3q5HvS8USrqOD
+         lG7ggQJdpIT6/mYADt/c26w/s4uv2StT+jY3Y8gyQ5Bfm6b84wuoIxLJ0a6aznvmuRN1
+         VKZxg195uDp/z3PA2ZwIvYMsjrl4ksGYe4z0OtGU9l5qYAfSM/IMdwflS56hDhpuMK4D
+         mr4Q==
+X-Gm-Message-State: ANoB5plmOJOjMu1R/uUPUcbAspe8GZD/Lrd4BXMkU3oaoIuTc+y1g7aB
+	9uOdlqGkhqCc5ExU5SxR8J9azLB2P28r25VAvp0=
+X-Google-Smtp-Source: AA0mqf5v10Ko3O6yyi4Ky8KDwcQdwVFHTKXAvTPwcuGagHrSnR96zCSsegjWmvbT2lP3KTRl7w9NqA==
+X-Received: by 2002:a17:90a:b018:b0:214:247a:1932 with SMTP id x24-20020a17090ab01800b00214247a1932mr52659887pjq.187.1669610412939;
+        Sun, 27 Nov 2022 20:40:12 -0800 (PST)
+Received: from virt ([76.27.231.73])
+        by smtp.gmail.com with ESMTPSA id j5-20020a170903024500b0017f9db0236asm7755180plh.82.2022.11.27.20.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Nov 2022 20:40:12 -0800 (PST)
+Date: Sun, 27 Nov 2022 20:40:12 -0800
+From: Jack Schofield <schofija@oregonstate.edu>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: emxx_udc: Remove unneeded parentheses
+Message-ID: <20221128044012.GA2028@virt>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/10] staging: r8188eu: clean up OnBeacon
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20221126160129.178697-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221126160129.178697-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 11/26/22 17:01, Martin Kaiser wrote:
-> This series cleans up the OnBeacon function. It tries to replace
-> driver-sepcific message parsing with ieee80211 helper functions.
-> 
-> Please apply this after the "another round of cleanups" series.
-> 
-> Martin Kaiser (10):
->    staging: r8188eu: replace one GetAddr3Ptr call
->    staging: r8188eu: read timestamp from ieee80211_mgmt
->    staging: r8188eu: replace GetAddr2Ptr calls
->    staging: r8188eu: pass only ies to process_p2p_ps_ie
->    staging: r8188eu: use ie buffer in update_beacon_info
->    staging: r8188eu: simplify update_sta_support_rate params
->    staging: r8188eu: exit if beacon is not from our bss
->    staging: r8188eu: stop beacon processing if kmalloc fails
->    staging: r8188eu: simplify error handling for missing station
->    staging: r8188eu: remove a variable
-> 
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 130 ++++++++----------
->   drivers/staging/r8188eu/core/rtw_p2p.c        |  11 +-
->   drivers/staging/r8188eu/core/rtw_wlan_util.c  |   9 +-
->   .../staging/r8188eu/include/rtw_mlme_ext.h    |   3 +-
->   4 files changed, 66 insertions(+), 87 deletions(-)
-> 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Parentheses are not required around condition tests. Remove to follow
+Linux Kernel coding style. Issue reported by checkpatch.
+
+Signed-off-by: Jack Schofield <schofija@oregonstate.edu>
+---
+There are more instances of extra parens to cleanup. If this patch is
+welcome I can continue to cleanup this file.
+
+ drivers/staging/emxx_udc/emxx_udc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+index b4e19174bef2..1d4ac8374fe2 100644
+--- a/drivers/staging/emxx_udc/emxx_udc.c
++++ b/drivers/staging/emxx_udc/emxx_udc.c
+@@ -149,8 +149,8 @@ static void _nbu2ss_ep0_complete(struct usb_ep *_ep, struct usb_request *_req)
+ 			/* SET_FEATURE */
+ 			recipient = (u8)(p_ctrl->bRequestType & USB_RECIP_MASK);
+ 			selector  = le16_to_cpu(p_ctrl->wValue);
+-			if ((recipient == USB_RECIP_DEVICE) &&
+-			    (selector == USB_DEVICE_TEST_MODE)) {
++			if (recipient == USB_RECIP_DEVICE &&
++			    selector == USB_DEVICE_TEST_MODE) {
+ 				wIndex = le16_to_cpu(p_ctrl->wIndex);
+ 				test_mode = (u32)(wIndex >> 8);
+ 				_nbu2ss_set_test_mode(udc, test_mode);
+@@ -287,7 +287,7 @@ static int _nbu2ss_epn_exit(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep)
+ 	u32		num;
+ 	u32		data;
+ 
+-	if ((ep->epnum == 0) || (udc->vbus_active == 0))
++	if (ep->epnum == 0 || udc->vbus_active == 0)
+ 		return	-EINVAL;
+ 
+ 	num = ep->epnum - 1;
+-- 
+2.25.1
+
