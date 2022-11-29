@@ -1,29 +1,26 @@
-Received: from out30-56.freemail.mail.aliyun.com (out30-56.freemail.mail.aliyun.com [115.124.30.56])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CAF7C;
-	Tue, 29 Nov 2022 01:29:35 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0VVyDh8n_1669685364;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VVyDh8n_1669685364)
-          by smtp.aliyun-inc.com;
-          Tue, 29 Nov 2022 09:29:25 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-media@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C13BA28
+	for <linux-staging@lists.linux.dev>; Tue, 29 Nov 2022 20:52:09 +0000 (UTC)
+Received: from dslb-188-104-061-001.188.104.pools.vodafone-ip.de ([188.104.61.1] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1p07aA-0001pO-87; Tue, 29 Nov 2022 21:51:58 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] staging: media: Remove surplus dev_err() when using platform_get_irq()
-Date: Tue, 29 Nov 2022 09:29:23 +0800
-Message-Id: <20221129012923.111691-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/5] staging: r8188eu: clean up OnDisassoc
+Date: Tue, 29 Nov 2022 21:51:47 +0100
+Message-Id: <20221129205152.128172-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,32 +29,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is no need to call the dev_err() function directly to print a
-custom message when handling an error from either the platform_get_irq()
-or platform_get_irq_byname() functions as both are going to display an
-appropriate error message in case of a failure.
+Clean up the OnDisassoc function. Use a struct ieee80211_mgmt for parsing
+the incoming message and reduce the indentation levels.
 
-./drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c:390:2-9: line 390 is redundant because platform_get_irq() already prints an error
+Please apply this after the two series I sent some days ago
 
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3274
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c | 1 -
- 1 file changed, 1 deletion(-)
+Martin Kaiser (5):
+  staging: r8188eu: use ieee80211_mgmt to parse addresses
+  staging: r8188eu: read reason code from ieee80211_mgmt
+  staging: r8188eu: move bBusyTraffic update
+  staging: r8188eu: handle the non-ap case first
+  staging: r8188eu: simplify err handling for unknown station
 
-diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-index 7b7947509b69..a6e813ff413a 100644
---- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-+++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-@@ -387,7 +387,6 @@ static int sun6i_isp_resources_setup(struct sun6i_isp_device *isp_dev,
- 
- 	irq = platform_get_irq(platform_dev, 0);
- 	if (irq < 0) {
--		dev_err(dev, "failed to get interrupt\n");
- 		ret = -ENXIO;
- 		goto error_clock_rate_exclusive;
- 	}
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 47 ++++++++++-----------
+ 1 file changed, 22 insertions(+), 25 deletions(-)
+
 -- 
-2.20.1.7.g153144c
+2.30.2
 
