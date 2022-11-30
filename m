@@ -1,20 +1,45 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3A7EBE
-	for <linux-staging@lists.linux.dev>; Wed, 30 Nov 2022 10:59:16 +0000 (UTC)
-Received: from [192.168.10.186] (unknown [210.186.188.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 430F155A;
-	Wed, 30 Nov 2022 11:59:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1669805948;
-	bh=Dgm4ewWRSsnIN8XeNxqS3/1Ea1G/cX9KqXuI4pFpdSM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EHA+9iIU3JHmzpW/9b/+nKMje+783N+j75VQemGfk0MJfH5+pyCFmqFxEZoOtZIwO
-	 UvVP1LfH/N3rzzXQaeuHe0fA9dsaOQdYj7wOaZyQe6p+kncgjOA4Dbl4jiCE3ylTZp
-	 4VHHj2c7eDwm5MuGtmNjXIHe+KKI+aZjljVmrOP8=
-Message-ID: <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
-Date: Wed, 30 Nov 2022 18:58:05 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0FA6FA1
+	for <linux-staging@lists.linux.dev>; Wed, 30 Nov 2022 18:20:22 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id s12so25189056edd.5
+        for <linux-staging@lists.linux.dev>; Wed, 30 Nov 2022 10:20:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R9xqRGz1xSslCtB0mvFK3dCdt0jFZSRD11Uuiv//RHo=;
+        b=TLD/IceM5UcmZNQ1KZemZVo2iQVdc/1MDLhV7LoqCtcRZS8sC/pVSZRSshoHCn+ZWm
+         Oo6fUQbyy2D6/fT9i8pQSi47O1wB8ZZsKsfN/GUceaBVRCes76FHL2W9FU/ABSgE1PAv
+         +CQojOwtmAqwA2QJ20hTUsL7umC6zmvsRG8axjI9FNBfamhMHpA3vpoxASJTSL1h9JOy
+         txi6lKp8UropEUUGRuyVzwmTUocI5ynwNFQVhf9DX4Bw6Q6JZeGrN2UD330Qz3Qwry3I
+         B7+Iq45euH4iFnh/FuSF2sGiiNfU54ndk2yaTIiDSmZovkE4zGA58cwF0K1uV81x4MB7
+         i8gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R9xqRGz1xSslCtB0mvFK3dCdt0jFZSRD11Uuiv//RHo=;
+        b=Imu7yzKgrzFDa2Z5DnjuBX3PwxDnfxjNT1ZPZakcOnffqtbzkHvUgSRATHxhOAtrLM
+         AnC3Sty3r63RgI6JfHp+hjkyVugp7E5lNqr791ofUeRx9MYSI+9LFKF/z4E7kMUqDMJA
+         clQDsQjDyXaaRK/CVn8RV3bvbAt5tEEJdpzBIrr+uIJF/hLIJgtRM2GBRdlc+YY6CES/
+         TtYD8+W99lExnxcHf1zAwQQKhvB0R6bXAk+FlEATyjO1QUFyrHE5CLamTFvdsl8nzx57
+         3mHkxQZ10zIEh8ofY/vqeVWAADagQhpWa4cCx/Bz5aUp9kFrLOfzFz6U4Jzsngri7til
+         ewUw==
+X-Gm-Message-State: ANoB5pnECBqja2PNTKpYWdVELHGSJcYFccZbWLs6RpP+koBNQFbrD7d7
+	0WjPIwYvG0FXvqUZK6oZcFJOz/yGuok=
+X-Google-Smtp-Source: AA0mqf5neyWSsNdfRR7tR8TUGmuQLDl8sVDAGKKnK+PbwdhNqO4Lfr/sfsSthWGU48gQTGRpZ4bNnw==
+X-Received: by 2002:a05:6402:530c:b0:462:df63:5ec5 with SMTP id eo12-20020a056402530c00b00462df635ec5mr56788105edb.147.1669832420465;
+        Wed, 30 Nov 2022 10:20:20 -0800 (PST)
+Received: from [192.168.1.100] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id ky16-20020a170907779000b007c08091ad7esm887001ejc.208.2022.11.30.10.20.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Nov 2022 10:20:19 -0800 (PST)
+Message-ID: <a9f7f851-af2e-a0e1-adb9-d7cac6c0c57f@gmail.com>
+Date: Wed, 30 Nov 2022 19:20:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -22,139 +47,36 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 0/5] staging: r8188eu: clean up OnDisassoc
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20221129205152.128172-1-martin@kaiser.cx>
 Content-Language: en-US
-To: Stefan Wahren <stefan.wahren@i2se.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
- <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
- <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20221129205152.128172-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Stefan,
-
-On 11/27/22 6:56 AM, Stefan Wahren wrote:
-> Hi Umang,
->
-> Am 26.11.22 um 17:26 schrieb Umang Jain:
->> Hi Stefan
->>
->> On 11/26/22 8:12 PM, Stefan Wahren wrote:
->>> Hi Umang,
->>>
->>> Am 21.11.22 um 22:47 schrieb Umang Jain:
->>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and 
->>>> is a
->>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and 
->>>> compatible
->>>> SoCs (namely BCM2711). Unicam is still under active development to 
->>>> work
->>>> with multistream support to get into mainline. Hence only the ISP 
->>>> driver
->>>> will remain the primary area of this series.
->>>
->>> thanks for working on this. But honestly i would prefer that vchiq 
->>> comes out of staging before adding more features. As Greg said some 
->>> time ago staging is not a place to "dump code and run away". These 
->>> new files are in the same bad shape as the rest of vc04 before the 
->>> clean-up here in staging started.
->>
->> Certainly, I am not here to do that - but I am still learning the ropes.
-> no problem.
->>
->> If the staging issue is becoming a blocker for bcm2835-isp going 
->> upstream, I would be happy to help here! Though I must mention that I 
->> still have limited visibility so my aim would be to chart out a plan 
->> of things needed to be done to get vc04_services out of staging!
->
-> The vchiq driver is in staging since 2016, so every step forwards is 
-> good. Unfortunately all of the low hanging fruits has been gathered.
->
-> For me the most important, but not to tricky steps to get vchiq out of 
-> staging would be:
->
-> * Cleanup logging mechanism
->
-> * Get rid of custom function return values
->
-> There was already an attempt for this [1]
->
-> * Get rid of all non essential global structures and create a proper per
-> device structure
->
->>
->>>
->>> I agree that VCSM is on the TODO list for vchiq, but this driver is 
->>> not necessary for making bcm2835-audio & bcm2835-camera leave 
->>> staging. It just binds more resources on a new feature.
-
-bcm2835-camera is the legacy camera stack which probably need to be 
-dropped from hereon...
->>
->> I see two TODO files in vc04_services:
->>     ./bcm2835-camera/TODO
->>     ./interface/TODO
->>
->> One of the bcm2835-camera TODO points to the vc-sm-cma driver itself. 
->> So that's address in the series. The other remaining one - I will 
->> need to take a deeper look before commenting on it.
->>
->> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing a 
->> cursory reading of them suggests that these apply to *all* 
->> vc04_services components? Am I right?
-> Actually these applies just for the interfaces directory. Some of them 
-> could apply to the services, but this is no priority.
-
-By no priority, you mean this doesn't affect the criteria required to 
-ful-fill to get these out of staging?
->>
->> Are these are the specific bits of cleanup you are referring to in 
->> your comment?
->
-> You mean about bcm2835-isp? There were too many changes to vchiq that 
-> i don't remember them all. The first that come to my mind was those 
-> fancy comment sections which is not kernel coding style. It has been 
-> removed.
-
-No, I don't mean the bcm2835-isp changes (those are upcoming / 
-out-of-tree still so...). I mean what are the specific bits / points 
-that needs to be addressed to get vc04_services out of the staging.
-
-You have mentioned it above now, so I'll follow up on those. The many 
-vchiq changes you referred to above comment (that you don't remember) 
-are from [1] as well or some other series ?
-
->
-> [1] - 
-> https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
->
->>
->>
->>>
->>> Unfortuntately i hadn't much time to work on vchiq by myself.
->>>
->>> Just my two cents
->>> Stefan
->>>
->>
->>
->> _______________________________________________
->> linux-arm-kernel mailing list
->> linux-arm-kernel@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
+On 11/29/22 21:51, Martin Kaiser wrote:
+> Clean up the OnDisassoc function. Use a struct ieee80211_mgmt for parsing
+> the incoming message and reduce the indentation levels.
+> 
+> Please apply this after the two series I sent some days ago
+> 
+> Martin Kaiser (5):
+>    staging: r8188eu: use ieee80211_mgmt to parse addresses
+>    staging: r8188eu: read reason code from ieee80211_mgmt
+>    staging: r8188eu: move bBusyTraffic update
+>    staging: r8188eu: handle the non-ap case first
+>    staging: r8188eu: simplify err handling for unknown station
+> 
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 47 ++++++++++-----------
+>   1 file changed, 22 insertions(+), 25 deletions(-)
+> 
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
