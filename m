@@ -1,51 +1,54 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B93EC4
-	for <linux-staging@lists.linux.dev>; Thu,  1 Dec 2022 05:38:55 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id p24so645974plw.1
-        for <linux-staging@lists.linux.dev>; Wed, 30 Nov 2022 21:38:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDD6ED4
+	for <linux-staging@lists.linux.dev>; Thu,  1 Dec 2022 05:38:56 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id jn7so602612plb.13
+        for <linux-staging@lists.linux.dev>; Wed, 30 Nov 2022 21:38:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oregonstate-edu.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6WVt3V8FfzgzDnwBUBeRhDNHIa04Em5O1M/U9tgg5G8=;
-        b=UZbwdtUWMNFeUxioVu4QDNsPbO8DSdnMoVXOsgd0iHeEuEuFV8fpDxJWYUUTYW3Cum
-         mQ/C1mwhZ1gVlBfO+p9rvuwsJvv0RK/xhgyFvdYftENEDpHchxWLcXvcvt8y/3eCD0f9
-         ifjVcRL5+rtGcYF/mj2B5DQ9ehVPbUA+FZL1cieacsV4rTL5udChLTPbY/RAbb2vqtbt
-         uEAYKnnAI/iJ95RcF9XgdN0iNq+w5eJxda5MFY77HC9S1b1d7e0cVUiynKUA0CIvJtzV
-         TXyaK557tzrDhaDNY80InxkqYmixwqaWPDaH4/5WY+qB20/33Ymo5zjqeHEx4uZthRlJ
-         +Pxg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qzd7T7c88aZQcOpjF7mk1g5wAmp98SNe8kgkrI3AbJ0=;
+        b=CedsK0vqoJwz3a+jhzg3J8h8zWDk2DCZ7uK/Exfjsb2mwChoCqRBmA9xfSyhlU8LBI
+         P5p9gzV3GijCYxamcfjA9HtwH9ydD9QJVwIOOf9iQLHK+6p9kWpnq3CSNXAALX1MUr/u
+         xnlN5q3tQVkjnLb8sVb2pquxr9u1ehlXqTAiii42IQrYezYHThzHWKQDhfsvFNBmWA28
+         Z6wrzATv5RJeXzI/oZ8CdPm35tO3VYs8wi83Pgn0ueMIpYmg69JtFOWRi7Uj6r3cQwxa
+         LJcNI30UPOx976SMtIXgHuewxr9pufXw/iUV6Rlg6QRSuf/QkDdtPo8+vPFQjAXS/ezo
+         /VXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6WVt3V8FfzgzDnwBUBeRhDNHIa04Em5O1M/U9tgg5G8=;
-        b=JhZGiy0gPM0SYCRJlg7P0ICa4t1rJ+Dp2mAqFcfH/6vjF9i3ty+sfoj+tnjHJ+MXRr
-         vBtSszGrkW5HjFZLYbMgtqYhtLIKGisidDbzik5EcHPIb3Yp6nvUBm4FTv27D19R1wGb
-         pcmyUUUQVKn9czlu7/Zz62Mw++9+n+3Tttd7mpd1CA8xJ5SEuNV9RZfXAow7hdrvpATS
-         cUBTpnisRbgs/xi/cp94lvy0SNJZN0j9Yx2QfY12B9JPR9pEtv0m8VUSBAsj7xz/DQN2
-         QcTolxF/qUAIsNKk+ko5lt84FbfZEJ6NdAaA4YIWoAZYgcLe/CwzUE6IZvoNqF6d++3I
-         7jcg==
-X-Gm-Message-State: ANoB5pkx0oD+fF1tgZkyVpcUzhDU5TrxlMeoYpzU5egXfEFRp5zPul4N
-	G9y9EZ2H0xISRHNE/0aYF+OoJA==
-X-Google-Smtp-Source: AA0mqf6EfHKL1F+S6GRgY8Ae0oeN5XfbYeVhUMkna1iH4YadKpdm3eH+pjdUkSrigvzfsFumjoaD9Q==
-X-Received: by 2002:a17:902:f7cb:b0:189:3e8f:fa49 with SMTP id h11-20020a170902f7cb00b001893e8ffa49mr41209551plw.142.1669873135441;
-        Wed, 30 Nov 2022 21:38:55 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qzd7T7c88aZQcOpjF7mk1g5wAmp98SNe8kgkrI3AbJ0=;
+        b=UPM+FmuTbHCmNaf2rvQzPXUe6VltM2Jk6+kTLsnohgZnAdJgJe8leqGITQsFASPU0/
+         ADq4oMHcHNg4R99DlwDHuFZE0cWoQ7EOAUv4ArqK3evvoLt8TBXvM6zOTiopYnJs4ObR
+         U3GhZaWIejSBjU12SYdbar9Go9Yz0hmTk0uIYz1/WeF1ZDg9yaR7FuhfV+2Rk3Cjw3Ov
+         pCRmDiI2LQBi/MrElDZFh2f+Icp1/b0y6PrbRiK2SHg6DPBTqZ1Kx2Vv4W5biQ9MHHaJ
+         cZd1uZp1hwc4NnbH1IppZeIKUSkM7OfW8zDCOIYMrTqDzV30it6y1DiCmADGlxCtB5kB
+         cnLQ==
+X-Gm-Message-State: ANoB5pnL1eJi/MB7NvF9DnfccEyYgIHD+yvqspGrxRTA/TKXuaD9rAq6
+	8dF71Hf703ON8m8Pf7nNfiywjA==
+X-Google-Smtp-Source: AA0mqf5ve22NoC+ei00xHE87/cE+o70Wl9tMVVuhnNNHbKszB3a5kdKZGtJoN+bGghrhf1a7C/Nb2w==
+X-Received: by 2002:a17:90a:930f:b0:218:9107:381b with SMTP id p15-20020a17090a930f00b002189107381bmr62438828pjo.75.1669873136401;
+        Wed, 30 Nov 2022 21:38:56 -0800 (PST)
 Received: from ubu ([76.27.231.73])
-        by smtp.gmail.com with ESMTPSA id t197-20020a635fce000000b00476e84c3530sm1754319pgb.60.2022.11.30.21.38.54
+        by smtp.gmail.com with ESMTPSA id 17-20020a170902e9d100b0018997f6fc88sm2523547plk.34.2022.11.30.21.38.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Nov 2022 21:38:55 -0800 (PST)
+        Wed, 30 Nov 2022 21:38:56 -0800 (PST)
 From: Jack Schofield <schofija@oregonstate.edu>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Jack Schofield <schofija@oregonstate.edu>
-Subject: [PATCH 0/3] staging: greybus: Cleanups in loopback_test
-Date: Wed, 30 Nov 2022 21:38:49 -0800
-Message-Id: <cover.1669872193.git.schofija@oregonstate.edu>
+Subject: [PATCH 1/3] staging: greybus: loopback_test: Add blank line after declaration.
+Date: Wed, 30 Nov 2022 21:38:50 -0800
+Message-Id: <048967b5c3b157e19ccf4608f71da8418fc31877.1669872193.git.schofija@oregonstate.edu>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1669872193.git.schofija@oregonstate.edu>
+References: <cover.1669872193.git.schofija@oregonstate.edu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,18 +57,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Correct issues found by checkpatch.
+Declarations are to be followed by a blank line. Add to follow Linux
+Kernel coding style. Issue reported by checkpatch.
 
-Jack Schofield (3):
-  staging: greybus: loopback_test: Add blank line after declaration.
-  staging: greybus: loopback_test: Remove void function return statement
-  staging: greybus: loopback_test: Remove extra blank lines
+Signed-off-by: Jack Schofield <schofija@oregonstate.edu>
+---
+ drivers/staging/greybus/tools/loopback_test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/staging/greybus/tools/loopback_test.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
-
-
-base-commit: 9dadff066244543780e5d9ee406b3ec7af19e22c
+diff --git a/drivers/staging/greybus/tools/loopback_test.c b/drivers/staging/greybus/tools/loopback_test.c
+index 4c42e393cd3d..242138c4f6cf 100644
+--- a/drivers/staging/greybus/tools/loopback_test.c
++++ b/drivers/staging/greybus/tools/loopback_test.c
+@@ -675,6 +675,7 @@ static int open_poll_files(struct loopback_test *t)
+ static int close_poll_files(struct loopback_test *t)
+ {
+ 	int i;
++
+ 	for (i = 0; i < t->poll_count; i++)
+ 		close(t->fds[i].fd);
+ 
 -- 
 2.25.1
 
