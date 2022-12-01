@@ -1,186 +1,180 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6691C10798
-	for <linux-staging@lists.linux.dev>; Thu,  1 Dec 2022 22:45:37 +0000 (UTC)
-Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MUY5o-1pRJ9q0q2K-00QV4K; Thu, 01 Dec 2022 23:45:26 +0100
-Message-ID: <0f683076-43e6-3f65-e5e1-052059ce7c86@i2se.com>
-Date: Thu, 1 Dec 2022 23:45:22 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EA1107A0
+	for <linux-staging@lists.linux.dev>; Thu,  1 Dec 2022 23:16:38 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id m204so3687497oib.6
+        for <linux-staging@lists.linux.dev>; Thu, 01 Dec 2022 15:16:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gNRL/xeucB6+OrmUshP7jeXkdDiSosMVb1WPEhPiXKc=;
+        b=JLXcECLlRPbSuvIZdtUwo+VaE/mkE8ItRalzBVE5ABN8Fu5r8JvHAfloaC8Kckke4R
+         qccMGhKg9FqRxD7gQpWVmMZ0UapfSVktSNiPgqVBR8gPNS4YTbtONKzupS/xwwzBZT3u
+         VW69XDAZgaiWirZwfZzL5u2aFNks04gY2IOprsrFMrGdBQWoIZtWUlW5NUtyIuAa44nG
+         Snc9DCFsLih5G6Stv4rCRNbMXqxK0sUMXl5JjB/cJb1aoB/IhYDGbtCqbWLL4AnH4u/A
+         pZcyhuJak0U2ZqJbwU93Wqplnk8PRzLMfJ9rNeGx9qPJZCCsv5+Y9VY1wy81m/MRzKIh
+         JWpQ==
+X-Gm-Message-State: ANoB5pkA8DAjhGviZPwK4ssv1bdYTRb5DJ2BEfVleSZZa3FrsxpKlvgq
+	tWWWDHH6+UpDBRX38fzp0Q==
+X-Google-Smtp-Source: AA0mqf6muhWWfnkoFwIXqCBePQ/MBBdAE6jdhns/DS7Zug2GZHo7VgeRSyRh9WVHfv7OuXgP60TIFQ==
+X-Received: by 2002:a05:6808:648:b0:35a:1139:37fb with SMTP id z8-20020a056808064800b0035a113937fbmr25391098oih.158.1669936597744;
+        Thu, 01 Dec 2022 15:16:37 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id a7-20020a9d4707000000b0066e7e4b2f76sm430735otf.17.2022.12.01.15.16.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Dec 2022 15:16:37 -0800 (PST)
+Received: (nullmailer pid 1663520 invoked by uid 1000);
+	Thu, 01 Dec 2022 23:16:36 -0000
+Date: Thu, 1 Dec 2022 17:16:36 -0600
+From: Rob Herring <robh@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Richard Leitner <richard.leitner@skidata.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 02/21] dt-bindings: display: tegra: vi: add 'vip'
+ property and example
+Message-ID: <20221201231636.GA1660613-robh@kernel.org>
+References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
+ <20221128152336.133953-3-luca.ceresoli@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
- <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
- <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
- <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:AVI9HLFirIbBTe9u1s/kpHdsYNAsYCtTE1hCN3UyP/yXGQzfy7d
- ZGRAGDezR0tYOI1WUZ/7tPXgAvgx/nATHY222skj3dt02+nUvBml3huiupYPhfK/BTHQdJf
- 8NwGQihNa0M2TvjqOMz12w7HWOIY2ZGuDIWgLEMMWsnalIpy9WIAF3FwDyxUeo7v4Vdfweo
- XxjzDRzxv6fZ9AchqFj1Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:D6o8F6DY/+s=:WU5L+AmhqeWuHvQOWdr+6Y
- ilrs3AX/B74is7TQGcT4OJRzPXa3BW7pdo2oTs/vAtSI/PxYB2Y++bXe1ybE4tF4250JpCLv1
- SX0xo1uOnPwLNaak/Aijwp9NX6N/MmwufeE9b1Mvm0XqU6yTwxjzTHpk4srKDcdXDefCyDnqo
- v1QYoVqnmLdCmZzv1A6BM2VebmNVckU/uJzvjkcO6/0H8GqCCT3neIzAp+Mcy5jflrFPBz5GM
- q/z69jbcHih5v/Tuuvv8FFIzQNfd9vHTTCdxgoKPj75KSbeRqAQMckzydiewh7jWfUCFO6xEC
- mF8Ci0rJkxCCi16FfTUCG3wVzrch7dzXj2H4AD56dpN3pXosupxqa2sZ/gkTClPqarKCueVFr
- +1zKlOHJ2PYPSmPOqX08aJCZLULNIgubVXRD2uknegngu+CtCULVil+Wy4QAWeGTZpNkXD45k
- QDRdAtTqE65d1j04h8Y3GjJzxlA0Ush4uGJ9aLb4Q3T4/BfJG/K4A857wywBbptEUvsKjXFiK
- ivCqZSApkSc4GNKb/Qgt5iCrj7Fkcwqvh0df+BFdVLSXp7VeUTg2aOkcQGvXQFZhc8QHck7CB
- 3zQW1D6lErS0FCJQODwFPWYZb9ljZ1tnjutQnQDpsDBHKU0vnTzqZi/o4pNx8vVH6l1FqrAR7
- dckDDF/0yvp40OAQ39vNsKYbVYUq3fyvp5kS5Lz4+TbWw6d2TXCI+2+VZE7fdYd1xWtOY9Yy0
- RHHMiYZGQrKJXdtiByGrpzaQNzzghCu+vjuEHIz1GAItYeFOqClFGeY8HDDA7eQiTMhL2bJJm
- 0WsOgoc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221128152336.133953-3-luca.ceresoli@bootlin.com>
 
-Hi Umang,
+On Mon, Nov 28, 2022 at 04:23:17PM +0100, Luca Ceresoli wrote:
+> The Tegra20 VI peripheral can receive parallel input from the VIP parallel
+> input module. Add it to the allowed properties and augment the existing
+> nvidia,tegra20-vi example to show a 'vip' property.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> ---
+> 
+> Changed in v2 (suggested by Krzysztof Kozlowski):
+> - rename "i2c3" -> "ic2"
+> - add review tag
+> ---
+>  .../display/tegra/nvidia,tegra20-vi.yaml      | 68 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 69 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+> index 782a4b10150a..5b5583c2b562 100644
+> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+> @@ -74,6 +74,22 @@ properties:
+>    avdd-dsi-csi-supply:
+>      description: DSI/CSI power supply. Must supply 1.2 V.
+>  
+> +  vip:
+> +    $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Input from the VIP (parallel input capture) module
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/properties/endpoint
 
-Am 30.11.22 um 11:58 schrieb Umang Jain:
-> Hi Stefan,
->
-> On 11/27/22 6:56 AM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 26.11.22 um 17:26 schrieb Umang Jain:
->>> Hi Stefan
->>>
->>> On 11/26/22 8:12 PM, Stefan Wahren wrote:
->>>> Hi Umang,
->>>>
->>>> Am 21.11.22 um 22:47 schrieb Umang Jain:
->>>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and 
->>>>> is a
->>>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->>>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and 
->>>>> compatible
->>>>> SoCs (namely BCM2711). Unicam is still under active development to 
->>>>> work
->>>>> with multistream support to get into mainline. Hence only the ISP 
->>>>> driver
->>>>> will remain the primary area of this series.
->>>>
->>>> thanks for working on this. But honestly i would prefer that vchiq 
->>>> comes out of staging before adding more features. As Greg said some 
->>>> time ago staging is not a place to "dump code and run away". These 
->>>> new files are in the same bad shape as the rest of vc04 before the 
->>>> clean-up here in staging started.
->>>
->>> Certainly, I am not here to do that - but I am still learning the 
->>> ropes.
->> no problem.
->>>
->>> If the staging issue is becoming a blocker for bcm2835-isp going 
->>> upstream, I would be happy to help here! Though I must mention that 
->>> I still have limited visibility so my aim would be to chart out a 
->>> plan of things needed to be done to get vc04_services out of staging!
->>
->> The vchiq driver is in staging since 2016, so every step forwards is 
->> good. Unfortunately all of the low hanging fruits has been gathered.
->>
->> For me the most important, but not to tricky steps to get vchiq out 
->> of staging would be:
->>
->> * Cleanup logging mechanism
->>
->> * Get rid of custom function return values
->>
->> There was already an attempt for this [1]
->>
->> * Get rid of all non essential global structures and create a proper per
->> device structure
->>
->>>
->>>>
->>>> I agree that VCSM is on the TODO list for vchiq, but this driver is 
->>>> not necessary for making bcm2835-audio & bcm2835-camera leave 
->>>> staging. It just binds more resources on a new feature.
->
-> bcm2835-camera is the legacy camera stack which probably need to be 
-> dropped from hereon...
-I don't not know if there any users left, so i would be careful here. 
-Can bcm2835-isp completely replace bcm2835-camera? Sorry, for this dumb 
-question but i'm not expert here.
->>>
->>> I see two TODO files in vc04_services:
->>>     ./bcm2835-camera/TODO
->>>     ./interface/TODO
->>>
->>> One of the bcm2835-camera TODO points to the vc-sm-cma driver 
->>> itself. So that's address in the series. The other remaining one - I 
->>> will need to take a deeper look before commenting on it.
->>>
->>> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing a 
->>> cursory reading of them suggests that these apply to *all* 
->>> vc04_services components? Am I right?
->> Actually these applies just for the interfaces directory. Some of 
->> them could apply to the services, but this is no priority.
->
-> By no priority, you mean this doesn't affect the criteria required to 
-> ful-fill to get these out of staging?
-Correct
->>>
->>> Are these are the specific bits of cleanup you are referring to in 
->>> your comment?
->>
->> You mean about bcm2835-isp? There were too many changes to vchiq that 
->> i don't remember them all. The first that come to my mind was those 
->> fancy comment sections which is not kernel coding style. It has been 
->> removed.
->
-> No, I don't mean the bcm2835-isp changes (those are upcoming / 
-> out-of-tree still so...). I mean what are the specific bits / points 
-> that needs to be addressed to get vc04_services out of the staging.
-These were the points which i mentioned in my last email. They came from 
-interface/TODO.
->
-> You have mentioned it above now, so I'll follow up on those.
-That would be great :)
-> The many vchiq changes you referred to above comment (that you don't 
-> remember) are from [1] as well or some other series ?
-Sorry, for the confusing. The many changes i refer were the dozens of 
-clean up patches for vc04_interfaces in mainline staging since the last 
-years. [1] was just a single patch which has been accepted yet.
->
->>
->> [1] - 
->> https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
->>
->>>
->>>
->>>>
->>>> Unfortuntately i hadn't much time to work on vchiq by myself.
->>>>
->>>> Just my two cents
->>>> Stefan
->>>>
->>>
->>>
->>> _______________________________________________
->>> linux-arm-kernel mailing list
->>> linux-arm-kernel@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
->
+You can drop 'endpoint'. You only need port nodes if there's no extra 
+properties in the endpoints.
+
+> +
+>  patternProperties:
+>    "^csi@[0-9a-f]+$":
+>      type: object
+> @@ -109,6 +125,22 @@ examples:
+>      #include <dt-bindings/clock/tegra20-car.h>
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        camera@48 {
+> +            compatible = "aptina,mt9v111";
+> +            reg = <0x48>;
+> +            clocks = <&camera_clk>;
+> +
+> +            port {
+> +                mt9v111_out: endpoint {
+> +                    remote-endpoint = <&vi_vip_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+>      vi@54080000 {
+>          compatible = "nvidia,tegra20-vi";
+>          reg = <0x54080000 0x00040000>;
+> @@ -116,6 +148,42 @@ examples:
+>          clocks = <&tegra_car TEGRA20_CLK_VI>;
+>          resets = <&tegra_car 100>;
+>          reset-names = "vi";
+> +
+> +        vip {
+> +            compatible = "nvidia,tegra20-vip";
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            channel@0 {
+> +                reg = <0>;
+> +                ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +                    port@0 {
+> +                        reg = <0>;
+> +                        vi_vip_in: endpoint {
+> +                            remote-endpoint = <&mt9v111_out>;
+> +                        };
+> +                    };
+> +                    port@1 {
+> +                        reg = <1>;
+> +                        vi_vip_out: endpoint {
+> +                            remote-endpoint = <&vi_in>;
+> +                        };
+> +                    };
+> +                };
+> +            };
+> +        };
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            port@0 {
+> +                reg = <0>;
+> +                vi_in: endpoint {
+> +                    remote-endpoint = <&vi_vip_out>;
+> +                };
+> +            };
+> +        };
+>      };
+>  
+>    - |
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 92c762f85f17..0c97ce22735d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20320,6 +20320,7 @@ M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
+>  L:	linux-media@vger.kernel.org
+>  L:	linux-tegra@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+>  F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+>  
+>  TEGRA XUSB PADCTL DRIVER
+> -- 
+> 2.34.1
+> 
+> 
