@@ -1,58 +1,81 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CE1257A
-	for <linux-staging@lists.linux.dev>; Fri,  2 Dec 2022 13:32:10 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 146D66E0;
-	Fri,  2 Dec 2022 14:32:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1669987928;
-	bh=T5VXjdxY9qAczDVbFLndGl88exIVDnx26xiIcb0iQyA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zz0wTUp01bn50Zl3rGvV/uf5wAMze9VNsI5qMGAQmLRuPLZMDBWYu/ziNqVKzCvn3
-	 Fveer48Z6fO7ieva8rVNoUOJU2BinPw3JCClkOG613J5ZiX/3KbEx5X0MVuO7vrPy5
-	 M9qonPILlZaj07BbFjIanJ5KpTZdBqP1o0uVOwV8=
-Date: Fri, 2 Dec 2022 15:32:06 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-	linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-Message-ID: <Y4n+VgSEO406iOs0@pendragon.ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
- <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
- <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
- <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
- <0f683076-43e6-3f65-e5e1-052059ce7c86@i2se.com>
- <910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonboard.com>
- <Y4nCnEwqs69QezPn@pendragon.ideasonboard.com>
- <CAPY8ntAK9yh6ZQkuOrZqUn2GC2=qGaJrcxEjWyGep7KcWvxkhQ@mail.gmail.com>
- <845957f9-46fc-d264-977e-7c3339c4d5c9@i2se.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950E8259C
+	for <linux-staging@lists.linux.dev>; Fri,  2 Dec 2022 13:42:45 +0000 (UTC)
+Received: by mail-vk1-f169.google.com with SMTP id o24so2295299vkl.9
+        for <linux-staging@lists.linux.dev>; Fri, 02 Dec 2022 05:42:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ra8QBM1jziHeVt1aA5j74nvHHsrKZMRLj8jTTnfDWzM=;
+        b=b5QHfNnq+HcUq0oSTWhqlO3Eic5rp+qxhVkRYMxTafGYGEGa78cDi+dmlYyGdO2Dc/
+         +1f4rhGSQlFM0L0QLnvlo6gbGkwPFIA29hLjTMpeziPwgQMiezLcmKwTTF4ITIavuuGS
+         n0OIttV57D4reviDn6qcZWt5g6STmoDspzpNTbnEd+rnBrrrU1aDSGe428+qmmh7Zvw6
+         xukE1uI8mB+NObNHKoT0AJ6zP79P8PK5bf3IAUy8cO0QQiLdn3dZgPL0zM4uD9FVN32y
+         m9uq/yDDiqgEWYbbsE/1cSeZdhoRIdpdehbexRH77xRcXw9mkziRYvoNnGXuPf+BU3mD
+         Z3kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ra8QBM1jziHeVt1aA5j74nvHHsrKZMRLj8jTTnfDWzM=;
+        b=7U0CTVjk/S6AAji1vprzYKmutxsPdBKQR+krhntieILS9yWll42dmQgHGP5zVjZtuk
+         8j6BKRTrbtZjMM9lsPSDGlg7dmiotSoCqSbGZvAyJkyLupy1AEdVsrlijXfoPATIQ14r
+         JrEROBS2+XxY27vh5le+gqacPk8sGRame8vUpB+slrDVQtEhm1zAgkJn/ZwcZaTMmzBy
+         U0TlrzKwoqR90aT8Szda7Ughbg3Bvat7G1Onj0wZpqJYu1zLOZ/zdKgIgBNDZG7jZTFK
+         vkO3l8o8lkqHphBaYLF1/trvTo8CErhMn1wtBUK3cs3Mpb2X0p1phGZ3VNcmq/82ZtUX
+         q9eQ==
+X-Gm-Message-State: ANoB5pm4R6+Ntr7NtkxKSHWHgFnpYa76yJa+UPnxw8R+d4AH2nPD3e9s
+	9tVuSMhraUMaq5xlhpsF/VpdLeAqaysGC0jW4GgidQ==
+X-Google-Smtp-Source: AA0mqf4EDgpTieGnqIGv60Owy6Z0aJQ1dQEoW/sP+a+fTFB7pAbBaN6Z4m9069t/QqA+cNM+4tdCj4EM9vx8f5dYiiE=
+X-Received: by 2002:a1f:9110:0:b0:3bc:fc56:597 with SMTP id
+ t16-20020a1f9110000000b003bcfc560597mr9850135vkd.14.1669988564279; Fri, 02
+ Dec 2022 05:42:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com> <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+ <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com> <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
+ <0f683076-43e6-3f65-e5e1-052059ce7c86@i2se.com> <910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonboard.com>
+ <Y4nCnEwqs69QezPn@pendragon.ideasonboard.com> <CAPY8ntAK9yh6ZQkuOrZqUn2GC2=qGaJrcxEjWyGep7KcWvxkhQ@mail.gmail.com>
+ <845957f9-46fc-d264-977e-7c3339c4d5c9@i2se.com>
 In-Reply-To: <845957f9-46fc-d264-977e-7c3339c4d5c9@i2se.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 2 Dec 2022 13:42:28 +0000
+Message-ID: <CAPY8ntARd+1abU2=5=k4EQOhK+LnHoD7zZk5NzhiQ9_BvxM8Qw@mail.gmail.com>
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, 
+	kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-staging@lists.linux.dev, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Stefan,
+Hi Stefan
 
-On Fri, Dec 02, 2022 at 01:41:53PM +0100, Stefan Wahren wrote:
+On Fri, 2 Dec 2022 at 12:41, Stefan Wahren <stefan.wahren@i2se.com> wrote:
+>
+> Hi Dave,
+>
 > Am 02.12.22 um 12:23 schrieb Dave Stevenson:
-> > On Fri, 2 Dec 2022 at 09:17, Laurent Pinchart wrote:
+> > Hi Laurent, Umang, and Stefan.
+> >
+> > On Fri, 2 Dec 2022 at 09:17, Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> >> Hi Umang,
+> >>
 > >> On Fri, Dec 02, 2022 at 11:57:18AM +0800, Umang Jain wrote:
 > >>> On 12/2/22 6:45 AM, Stefan Wahren wrote:
 > >>>> Am 30.11.22 um 11:58 schrieb Umang Jain:
@@ -71,16 +94,13 @@ On Fri, Dec 02, 2022 at 01:41:53PM +0100, Stefan Wahren wrote:
 > >>>>>>>> some time ago staging is not a place to "dump code and run away".
 > >>>>>>>> These new files are in the same bad shape as the rest of vc04
 > >>>>>>>> before the clean-up here in staging started.
-> >>>>>>>
 > >>>>>>> Certainly, I am not here to do that - but I am still learning the ropes.
-> >>>>>>
 > >>>>>> no problem.
 > >>>>>>
 > >>>>>>> If the staging issue is becoming a blocker for bcm2835-isp going
 > >>>>>>> upstream, I would be happy to help here! Though I must mention that
 > >>>>>>> I still have limited visibility so my aim would be to chart out a
 > >>>>>>> plan of things needed to be done to get vc04_services out of staging!
-> >>>>>>
 > >>>>>> The vchiq driver is in staging since 2016, so every step forwards is
 > >>>>>> good. Unfortunately all of the low hanging fruits has been gathered.
 > >>>>>>
@@ -99,14 +119,11 @@ On Fri, Dec 02, 2022 at 01:41:53PM +0100, Stefan Wahren wrote:
 > >>>>>>>> I agree that VCSM is on the TODO list for vchiq, but this driver
 > >>>>>>>> is not necessary for making bcm2835-audio & bcm2835-camera leave
 > >>>>>>>> staging. It just binds more resources on a new feature.
-> >>>>>
 > >>>>> bcm2835-camera is the legacy camera stack which probably need to be
 > >>>>> dropped from hereon...
-> >>>>
 > >>>> I don't not know if there any users left, so i would be careful here.
 > >>>> Can bcm2835-isp completely replace bcm2835-camera? Sorry, for this
 > >>>> dumb question but i'm not expert here.
-> >>>
 > >>> I am careful too here and probably need Input from RaspberryPi in order
 > >>> to proceed to drop it. But from my perspective - bcm2835-camera is _not_
 > >>> going out of staging - it'll either sit here (or probably dropped) as
@@ -121,7 +138,6 @@ On Fri, Dec 02, 2022 at 01:41:53PM +0100, Stefan Wahren wrote:
 > >>> (bcm2835-isp) is meant to be worked with unicam [1]. In fact, I have
 > >>> mentioned in my cover the testing of bcm2835-isp happened on top of
 > >>> unicam patches.
-> >>
 > >> To be accurate, the bcm2835-camera driver supports the VC4
 > >> firmware-based camera stack. In that setup, the camera sensors (OV5647
 > >> or IMX219), CSI-2 receiver (Unicam) and ISP are all controlled by the
@@ -138,13 +154,18 @@ On Fri, Dec 02, 2022 at 01:41:53PM +0100, Stefan Wahren wrote:
 > >> work on destaging bcm2835-camera, and as far as I'm aware, nobody else
 > >> is planning to do so either. I don't mind much if the driver stays in
 > >> staging for some more time, but I'd rather drop it if possible.
->
-> Thanks for clarification. Okay, so Unicam + bcm2835-isp are able to 
+> Thanks for clarification. Okay, so Unicam + bcm2835-isp are able to
 > handle the old camera (OV5647)?
 
-Yes, but only for applications using libcamera, directly or indirectly
-(through GStreamer for instance, or the V4L2 LD_PRELOAD-ed compatibility
-later), not natively through V4L2 only.
+There are kernel drivers in mainline for ov5647 (v1) and imx219 (v2)
+cameras, with imx477 (HQ camera) due to be done. Connected to
+bcm2835-unicam that gives you raw images from these sensors.
+
+However you have to use libcamera to get useful images with these
+drivers - raw Bayer isn't easy to consume.
+Libcamera has support for all three (and more) sensors in the RPi IPA
+(image processing algorithms), and will make use of bcm2835-isp to
+process the images appropriately.
 
 > > It would be reasonable to drop it at the point that Libcamera can work
 > > to a similar level with at least the following list of applications:
@@ -174,11 +195,18 @@ later), not natively through V4L2 only.
 > > wrong.
 > > Actually bcm2835_defconfig appears to only allocate a 32MB CMA heap,
 > > so perhaps we don't get very far.
->
-> CMA configuration should actually happen in device tree or kernel 
-> cmdline. The bcm2835_defconfig is limited to make it work even with the 
+> CMA configuration should actually happen in device tree or kernel
+> cmdline. The bcm2835_defconfig is limited to make it work even with the
 > original Pi.
->
+
+It's the original 256MB Pis that are the issue as memory is so tight.
+Losing a bigger chunk to CMA is a problem there.
+
+I see that bcm283x.dtsi sets it to 64MB, which is probably sufficient
+for most bcm2835-camera use cases, but leaves me worried that you'll
+steal it from other things.
+
+> >
 > > 2) This isn't workable within the current V4L2 frameworks. The
 > > multi-planar V4L2 pixel formats are currently allocated as independent
 > > buffers for each plane, whereas the firmware needs a single buffer
@@ -193,9 +221,19 @@ later), not natively through V4L2 only.
 > >
 > > If bcm2835-camera is the only thing holding back vc04_services, then I
 > > can have a look at it.
-> 
+>
 > No, it's the vchiq interface which needs the work.
-> 
+
+OK, I'll liaise with Umang and may look to deal with a couple of them.
+Things like documenting the memory barriers probably falls to Phil.
+
+  Dave
+
+> Thanks Stefan
+>
+> >
+> >    Dave
+> >
 > >>> [1]: https://lore.kernel.org/linux-media/20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com/
 > >>>
 > >>>>>>> I see two TODO files in vc04_services:
@@ -209,32 +247,25 @@ later), not natively through V4L2 only.
 > >>>>>>> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing
 > >>>>>>> a cursory reading of them suggests that these apply to *all*
 > >>>>>>> vc04_services components? Am I right?
-> >>>>>>
 > >>>>>> Actually these applies just for the interfaces directory. Some of
 > >>>>>> them could apply to the services, but this is no priority.
-> >>>>>
 > >>>>> By no priority, you mean this doesn't affect the criteria required to
 > >>>>> ful-fill to get these out of staging?
-> >>>>
 > >>>> Correct
 > >>>>
 > >>>>>>> Are these are the specific bits of cleanup you are referring to in
 > >>>>>>> your comment?
-> >>>>>>
 > >>>>>> You mean about bcm2835-isp? There were too many changes to vchiq
 > >>>>>> that i don't remember them all. The first that come to my mind was
 > >>>>>> those fancy comment sections which is not kernel coding style. It
 > >>>>>> has been removed.
-> >>>>>
 > >>>>> No, I don't mean the bcm2835-isp changes (those are upcoming /
 > >>>>> out-of-tree still so...). I mean what are the specific bits / points
 > >>>>> that needs to be addressed to get vc04_services out of the staging.
-> >>>>
 > >>>> These were the points which i mentioned in my last email. They came
 > >>>> from interface/TODO.
 > >>>>
 > >>>>> You have mentioned it above now, so I'll follow up on those.
-> >>>>
 > >>>> That would be great :)
 > >>>>
 > >>>>> The many vchiq changes you referred to above comment (that you don't
@@ -242,7 +273,6 @@ later), not natively through V4L2 only.
 > >>>> Sorry, for the confusing. The many changes i refer were the dozens of
 > >>>> clean up patches for vc04_interfaces in mainline staging since the
 > >>>> last years. [1] was just a single patch which has been accepted yet.
-> >>>
 > >>> Ah I see. There are many others that I've to dig out then. Thanks for
 > >>> clarifying!
 > >>>
@@ -253,8 +283,11 @@ later), not natively through V4L2 only.
 > >>>>>>>>
 > >>>>>>>> Just my two cents
 > >>>>>>>> Stefan
-
--- 
-Regards,
-
-Laurent Pinchart
+> >> --
+> >> Regards,
+> >>
+> >> Laurent Pinchart
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
