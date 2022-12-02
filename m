@@ -1,114 +1,201 @@
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1511C03
-	for <linux-staging@lists.linux.dev>; Fri,  2 Dec 2022 08:11:29 +0000 (UTC)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id AAE54240005;
-	Fri,  2 Dec 2022 08:11:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1669968681;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PAptEfvYgIwFK8ngkctQU/JTtGEWZC2Koz9VlQAcRkA=;
-	b=kstJhwEO+cLVVec3Sk9Sa/uvB4r26XymgSL33QXP8njtUT0BOxFIWIvPdYUnPHe+NQ9YnV
-	8v32TN8SCY7ufUMPXXrCfRJHlIQm8PlGtwD4KSJ1q+A2/NR42Zd0+HWuJQRET6uDEIpf/v
-	/vMIijMbtujIVkMZtWkARcIL2Wax80uO+EEn6wGnkEawZMpXyyCb7UTIq23yz8HZhqEruq
-	sTVeVu0bO793DjT3K4Wql5mZvpZyHc9mlzTN/SJEgzIuhMuiCmqR6IROge5OD3ws1YnU5Q
-	lujAdDH/jD7nAhFgQhWBUp9+T9UPjn7wDdKaRu32IH4cta0RDt+nFQvtdawnUg==
-Date: Fri, 2 Dec 2022 09:11:17 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
- linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Richard Leitner
- <richard.leitner@skidata.com>
-Subject: Re: [PATCH v2 02/21] dt-bindings: display: tegra: vi: add 'vip'
- property and example
-Message-ID: <20221202091117.52a9a8f0@booty>
-In-Reply-To: <20221201231636.GA1660613-robh@kernel.org>
-References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
-	<20221128152336.133953-3-luca.ceresoli@bootlin.com>
-	<20221201231636.GA1660613-robh@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3EF1C2B
+	for <linux-staging@lists.linux.dev>; Fri,  2 Dec 2022 09:17:21 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBD126E0;
+	Fri,  2 Dec 2022 10:17:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1669972638;
+	bh=lOdxSag4LAiKFpyv3TfTscRk1uJIx23HRosDtirBS54=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yl8LTgsp/YCUzQSjqEwO/4sCpNUwHiTOqwEqFzWo0FKP+j//5o3UsI2Sr1XQbKGnR
+	 S2WJZ/YmkKnu+PRnBtB/uq+sWehZ5bbjDZZ4odS4BNtggSFORWRRQnozlvTqT4r+4c
+	 7ON9Dr6xTQTYWVB9pMWqBJ/zQaoD9DPyUz2oecBo=
+Date: Fri, 2 Dec 2022 11:17:16 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, linux-media@vger.kernel.org,
+	kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
+Message-ID: <Y4nCnEwqs69QezPn@pendragon.ideasonboard.com>
+References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
+ <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
+ <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
+ <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
+ <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
+ <0f683076-43e6-3f65-e5e1-052059ce7c86@i2se.com>
+ <910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonboard.com>
 
-Hello Rob,
+Hi Umang,
 
-On Thu, 1 Dec 2022 17:16:36 -0600
-Rob Herring <robh@kernel.org> wrote:
-
-> On Mon, Nov 28, 2022 at 04:23:17PM +0100, Luca Ceresoli wrote:
-> > The Tegra20 VI peripheral can receive parallel input from the VIP parallel
-> > input module. Add it to the allowed properties and augment the existing
-> > nvidia,tegra20-vi example to show a 'vip' property.
-> > 
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > 
-> > ---
-> > 
-> > Changed in v2 (suggested by Krzysztof Kozlowski):
-> > - rename "i2c3" -> "ic2"
-> > - add review tag
-> > ---
-> >  .../display/tegra/nvidia,tegra20-vi.yaml      | 68 +++++++++++++++++++
-> >  MAINTAINERS                                   |  1 +
-> >  2 files changed, 69 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-> > index 782a4b10150a..5b5583c2b562 100644
-> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-> > @@ -74,6 +74,22 @@ properties:
-> >    avdd-dsi-csi-supply:
-> >      description: DSI/CSI power supply. Must supply 1.2 V.
-> >  
-> > +  vip:
-> > +    $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description:
-> > +          Input from the VIP (parallel input capture) module
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/graph.yaml#/properties/endpoint  
+On Fri, Dec 02, 2022 at 11:57:18AM +0800, Umang Jain wrote:
+> On 12/2/22 6:45 AM, Stefan Wahren wrote:
+> > Am 30.11.22 um 11:58 schrieb Umang Jain:
+> >> On 11/27/22 6:56 AM, Stefan Wahren wrote:
+> >>> Am 26.11.22 um 17:26 schrieb Umang Jain:
+> >>>> On 11/26/22 8:12 PM, Stefan Wahren wrote:
+> >>>>> Am 21.11.22 um 22:47 schrieb Umang Jain:
+> >>>>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
+> >>>>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
+> >>>>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
+> >>>>>> SoCs (namely BCM2711). Unicam is still under active development to work
+> >>>>>> with multistream support to get into mainline. Hence only the ISP driver
+> >>>>>> will remain the primary area of this series.
+> >>>>>
+> >>>>> thanks for working on this. But honestly i would prefer that vchiq 
+> >>>>> comes out of staging before adding more features. As Greg said 
+> >>>>> some time ago staging is not a place to "dump code and run away". 
+> >>>>> These new files are in the same bad shape as the rest of vc04 
+> >>>>> before the clean-up here in staging started.
+> >>>>
+> >>>> Certainly, I am not here to do that - but I am still learning the ropes.
+> >>>
+> >>> no problem.
+> >>>
+> >>>> If the staging issue is becoming a blocker for bcm2835-isp going 
+> >>>> upstream, I would be happy to help here! Though I must mention that 
+> >>>> I still have limited visibility so my aim would be to chart out a 
+> >>>> plan of things needed to be done to get vc04_services out of staging!
+> >>>
+> >>> The vchiq driver is in staging since 2016, so every step forwards is 
+> >>> good. Unfortunately all of the low hanging fruits has been gathered.
+> >>>
+> >>> For me the most important, but not to tricky steps to get vchiq out 
+> >>> of staging would be:
+> >>>
+> >>> * Cleanup logging mechanism
+> >>>
+> >>> * Get rid of custom function return values
+> >>>
+> >>> There was already an attempt for this [1]
+> >>>
+> >>> * Get rid of all non essential global structures and create a proper per
+> >>> device structure
+> >>>
+> >>>>> I agree that VCSM is on the TODO list for vchiq, but this driver 
+> >>>>> is not necessary for making bcm2835-audio & bcm2835-camera leave 
+> >>>>> staging. It just binds more resources on a new feature.
+> >>
+> >> bcm2835-camera is the legacy camera stack which probably need to be 
+> >> dropped from hereon...
+> >
+> > I don't not know if there any users left, so i would be careful here. 
+> > Can bcm2835-isp completely replace bcm2835-camera? Sorry, for this 
+> > dumb question but i'm not expert here.
 > 
-> You can drop 'endpoint'. You only need port nodes if there's no extra 
-> properties in the endpoints.
+> I am careful too here and probably need Input from RaspberryPi in order 
+> to proceed to drop it. But from my perspective - bcm2835-camera is _not_ 
+> going out of staging - it'll either sit here (or probably dropped) as 
+> statied from [1]
+> 
+> ```
+> + * There are two camera drivers in the kernel for BCM283x - this one
+> + * and bcm2835-camera (currently in staging).
+> ```
+> 
+> The bcm2835-camera is meant to be replaced by unicam [1] , but the ISP 
+> (bcm2835-isp) is meant to be worked with unicam [1]. In fact, I have 
+> mentioned in my cover the testing of bcm2835-isp happened on top of 
+> unicam patches.
 
-Oh, nice, will remove in v3.
+To be accurate, the bcm2835-camera driver supports the VC4
+firmware-based camera stack. In that setup, the camera sensors (OV5647
+or IMX219), CSI-2 receiver (Unicam) and ISP are all controlled by the
+firmware, which provides a high-level interface towards the kernel. This
+architecture has been replaced by Linux-side control of the camera
+sensors (through existing drivers in drivers/media/i2c/), Unicam
+(through the driver from [1]) and ISP (through this driver). Moving
+control to the Linux side requires complex processing in userspace,
+handled by libcamera.
 
-Krzysztof, can I keep your Reviewed-by after this change?
+bcm2835-camera is thus replaced by multiple drivers combined with
+libcamera, and that is the camera stack that is shipped by Raspberry Pi
+these days. While this may affect some userspace use cases), we will not
+work on destaging bcm2835-camera, and as far as I'm aware, nobody else
+is planning to do so either. I don't mind much if the driver stays in
+staging for some more time, but I'd rather drop it if possible.
+
+> [1]: https://lore.kernel.org/linux-media/20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com/
+>
+> >>>>
+> >>>> I see two TODO files in vc04_services:
+> >>>>     ./bcm2835-camera/TODO
+> >>>>     ./interface/TODO
+> >>>>
+> >>>> One of the bcm2835-camera TODO points to the vc-sm-cma driver 
+> >>>> itself. So that's address in the series. The other remaining one - 
+> >>>> I will need to take a deeper look before commenting on it.
+> >>>>
+> >>>> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing 
+> >>>> a cursory reading of them suggests that these apply to *all* 
+> >>>> vc04_services components? Am I right?
+> >>>
+> >>> Actually these applies just for the interfaces directory. Some of 
+> >>> them could apply to the services, but this is no priority.
+> >>
+> >> By no priority, you mean this doesn't affect the criteria required to 
+> >> ful-fill to get these out of staging?
+> >
+> > Correct
+> >
+> >>>> Are these are the specific bits of cleanup you are referring to in 
+> >>>> your comment?
+> >>>
+> >>> You mean about bcm2835-isp? There were too many changes to vchiq 
+> >>> that i don't remember them all. The first that come to my mind was 
+> >>> those fancy comment sections which is not kernel coding style. It 
+> >>> has been removed.
+> >>
+> >> No, I don't mean the bcm2835-isp changes (those are upcoming / 
+> >> out-of-tree still so...). I mean what are the specific bits / points 
+> >> that needs to be addressed to get vc04_services out of the staging.
+> >
+> > These were the points which i mentioned in my last email. They came 
+> > from interface/TODO.
+> >
+> >> You have mentioned it above now, so I'll follow up on those.
+> >
+> > That would be great :)
+> >
+> >> The many vchiq changes you referred to above comment (that you don't 
+> >> remember) are from [1] as well or some other series ?
+> >
+> > Sorry, for the confusing. The many changes i refer were the dozens of 
+> > clean up patches for vc04_interfaces in mainline staging since the 
+> > last years. [1] was just a single patch which has been accepted yet.
+> 
+> Ah I see. There are many others that I've to dig out then. Thanks for 
+> clarifying!
+>
+> >>> [1] - 
+> >>> https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
+> >>>
+> >>>>> Unfortuntately i hadn't much time to work on vchiq by myself.
+> >>>>>
+> >>>>> Just my two cents
+> >>>>> Stefan
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Regards,
+
+Laurent Pinchart
