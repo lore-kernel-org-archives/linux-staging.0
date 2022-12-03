@@ -1,91 +1,78 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3BE1FA3
-	for <linux-staging@lists.linux.dev>; Sat,  3 Dec 2022 03:05:49 +0000 (UTC)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1443a16b71cso4083053fac.13
-        for <linux-staging@lists.linux.dev>; Fri, 02 Dec 2022 19:05:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B6923B9
+	for <linux-staging@lists.linux.dev>; Sat,  3 Dec 2022 08:37:19 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id o7-20020a05600c510700b003cffc0b3374so6162758wms.0
+        for <linux-staging@lists.linux.dev>; Sat, 03 Dec 2022 00:37:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2YyULr6voUl0K8zSMvH0UpwnL7vHX7Ko6WXAdvVD7V4=;
-        b=LjKZauW2LJ43l8LQ9GYVsJbxk/jGfuyExLPKHOxAyS9agtgI7mypi1eWWBTLXIAVhQ
-         V802P1uPqd6ZrrqnnHIV/3SIlyBenE++NV44aw2GShUjd1PYJ/4eNpql1GfwBvA839PD
-         deMNeWiShyRdALtVJ2h4XKb9ljvbT7z+ps/VXyCFy9hp+TfccFyYRaSXVVDLpjUTzWua
-         973mAzQr34cfmXATF3GhEw38SllUmdHkEeSdTJheV5UVHKW+Mv29Kn4reHzQlNCHATKx
-         2+bmv0FfzIUbc2wOQLqk1hLRL78UZt+VgQsCoCtnI5zIzFyMWDbdaoY6AVJ86cCcHbcO
-         dvOw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YQS61NX1Em5a//DyKuM2uuh+62pP/e6si2f0EakzPms=;
+        b=Yv/Sj45myY9Eit4EqdZPMgKDWHOuN0KlxU948jv96xEj9zWcgJeYTHwSdELzVIiYJ4
+         sThn21T727f7KcV6LBlVOYDaakFD/CCqNIxPnkWMLd7ph63rkkoH1SDm5trhTPoSZjpo
+         zclEvVban/0BEU3LcqOUlITBwJ1j/Z0OhVbRfXlZGQyQqhMSO6XWoK6Pm5vl323A9S65
+         fXmXZSPjThLu1Gu7v2P+rPyW00mb2jwkmWSRg41mRRw5kBp45XErVzOMfiE3JHS07dUx
+         /kXcvqpVej2TrPqNcsHh2xoqWy6dHqLfJCsFOmlp2pkvO0P8zxiZ63MM7A16zIPn5p3T
+         ZNuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2YyULr6voUl0K8zSMvH0UpwnL7vHX7Ko6WXAdvVD7V4=;
-        b=0iq2a3oxF63Q0qsspCEiYBy6mHZUBmlBlVJNuBKlP2zy6At3qark3uSPMTEbx0vCOt
-         NIhCvAtRaCLDHtYpFvueoQKifyEhaN0wgTp8w/GTqTjKmpcDTkY525m+me+KHWzM+Mak
-         ukJ+vQnekMESJ+GgmZYuUft1OM7eXnR76rkqWEw6Gk/sMfZRh4Purj1TMeO1cMbGfrQX
-         qCFsuuT9bopX/FeuQqsghke7WgB67OUJbxRxQrrsyvd1KuPdH7/DqNqJ37WBtuCSgWXX
-         53Yw3xlHy8E9Uz/V2FZziDopJs3MGp8VuBhPVbECrHj1M216Zfkrm/iFKxdZxbUVFXcP
-         2ZsQ==
-X-Gm-Message-State: ANoB5pkIIG+ZPZAyvwr3IB4eM+P6ToQz8GzQr5n+qehBetRxi/t1c5ie
-	sW4s0qeQrzLrwFSOGMJtGu0=
-X-Google-Smtp-Source: AA0mqf5sSQdwViXhDoF2cR9NyqiwAhWWJMqIM9rRWq8evUJ75qaQH4GTFDpZF0m5osJ9edwkSrkd6Q==
-X-Received: by 2002:a05:6870:4720:b0:13c:2ced:9d9a with SMTP id b32-20020a056870472000b0013c2ced9d9amr32156019oaq.105.1670036748699;
-        Fri, 02 Dec 2022 19:05:48 -0800 (PST)
-Received: from otter001.hsd1.tx.comcast.net ([2601:2c0:8800:a510::6e2d])
-        by smtp.gmail.com with ESMTPSA id g13-20020a056870c14d00b001375188dae9sm5136561oad.16.2022.12.02.19.05.48
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YQS61NX1Em5a//DyKuM2uuh+62pP/e6si2f0EakzPms=;
+        b=qR5KmEc7l4Od4ixwnWc/twx6vxapGf19U9J2j3aAHPuGsCRJJ2Gswq3YHVpCyocGrw
+         2zTUC0K1Z6nUsIBTuTqVWVveNp7YYWQq7/ty6Em79yYscIvT3I2/K3A+9dikHd6A501e
+         Ty2CqNNJb3m7mpjExo1ykhfXQWLIN5tRJvv5TrdJy6ShI2rQgUHR5E82JcIbkKkH07un
+         +e+BptY1DiTVThrx0sW4klLH6hbQM0iAmK77s7uiO3pC3Qi7AMu29ER8XduzDatdVKSD
+         qzvpw7vnHiz2ZqC7OHdZ2fgbZFbExeyyiQz8E2tPzL0BfdUHqgGeX4REm6RKu2wOpj56
+         y76g==
+X-Gm-Message-State: ANoB5pktY16lRi6sXJ4IQlYNio9K3m/JwK8ML5negHYU9ZnMe4u7a0c6
+	kbA1TKugRI8/mbHn6cb8fvk=
+X-Google-Smtp-Source: AA0mqf6Y6TXvMtIrlRMjQMb5ja6ZOaIAq0Y8Q1pUS5ChZzfJvtfPL4kPWzRUeoHPLRP8hm28zT4zfQ==
+X-Received: by 2002:a05:600c:538d:b0:3d0:47c:b2ac with SMTP id hg13-20020a05600c538d00b003d0047cb2acmr41051027wmb.52.1670056637511;
+        Sat, 03 Dec 2022 00:37:17 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id bs4-20020a056000070400b0023677081f3asm9022986wrb.42.2022.12.03.00.37.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 19:05:48 -0800 (PST)
-From: Joe Peterson <jwp.linux@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Joe Peterson <jwp.linux@gmail.com>
-Subject: [PATCH] staging: board: Remove control flow from macro
-Date: Fri,  2 Dec 2022 21:05:44 -0600
-Message-Id: <20221203030544.11543-1-jwp.linux@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Sat, 03 Dec 2022 00:37:17 -0800 (PST)
+Date: Sat, 3 Dec 2022 11:37:14 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Joe Peterson <jwp.linux@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: board: Remove control flow from macro
+Message-ID: <Y4sKulRutmI+ESrB@kadam>
+References: <20221203030544.11543-1-jwp.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221203030544.11543-1-jwp.linux@gmail.com>
 
-Adhere to Linux coding style
+On Fri, Dec 02, 2022 at 09:05:44PM -0600, Joe Peterson wrote:
+> Adhere to Linux coding style
+> 
+> Reported by checkpatch:
+> 
+> WARNING: Macros with flow control statements should be avoided
+> 
+> There is only one return value possible. Remove the checkpatch warning
+> without effecting functionality.
+> 
+> Signed-off-by: Joe Peterson <jwp.linux@gmail.com>
+> ---
 
-Reported by checkpatch:
+Does this break the build?
 
-WARNING: Macros with flow control statements should be avoided
+Anyway, checkpatch is wrong here.  Just ignore checkpatch if it says
+silly stuff.
 
-There is only one return value possible. Remove the checkpatch warning
-without effecting functionality.
-
-Signed-off-by: Joe Peterson <jwp.linux@gmail.com>
----
- drivers/staging/board/board.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/staging/board/board.h b/drivers/staging/board/board.h
-index 5609daf4d869..94823d3ffbe9 100644
---- a/drivers/staging/board/board.h
-+++ b/drivers/staging/board/board.h
-@@ -33,12 +33,10 @@ void board_staging_register_devices(const struct board_staging_dev *devs,
- 				    unsigned int ndevs);
- 
- #define board_staging(str, fn)			\
--static int __init runtime_board_check(void)	\
-+static void __init runtime_board_check(void)	\
- {						\
- 	if (of_machine_is_compatible(str))	\
- 		fn();				\
--						\
--	return 0;				\
- }						\
- 						\
- device_initcall(runtime_board_check)
--- 
-2.20.1
+regards,
+dan carpenter
 
