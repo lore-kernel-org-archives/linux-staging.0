@@ -1,78 +1,91 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5087486
-	for <linux-staging@lists.linux.dev>; Fri,  2 Dec 2022 21:07:20 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id o13so14292851ejm.1
-        for <linux-staging@lists.linux.dev>; Fri, 02 Dec 2022 13:07:20 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3BE1FA3
+	for <linux-staging@lists.linux.dev>; Sat,  3 Dec 2022 03:05:49 +0000 (UTC)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1443a16b71cso4083053fac.13
+        for <linux-staging@lists.linux.dev>; Fri, 02 Dec 2022 19:05:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hEh4M8JHePZNHK/0YUY232n5+7zr7GGL4e0QmQT5TpA=;
-        b=kf5Ar+cTkU3HPMXa8IylNRTsy0ocxNGSu2AEO/1awYW8lrnSTFQqOsvbRD6DKCKUkR
-         aNzlfrnr+V3OECOCi7BmEwHKEPW+d3NIkkrR2TgXDq+d0oNeL9KGk1jP6mBs01kzIf68
-         V90sNjb1HL+5RnEC1LReHGTX5xtdoSCgQQAxvc+V01vihGRKiu4c0ssOKvsSPEgQkt6X
-         txAyJIH4+gUtyS5Z0XTNd8Fbv5YDl25FOcN9QP6DDq6bXG2PAGVcSSTQPt2a7zdh7U+b
-         AxP59YBUmuEeyssqXWxGyFnvayZps6mdHxhmjEl2D0OKpKLTZOScN4qt4Qto/GPvfWpa
-         em0w==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2YyULr6voUl0K8zSMvH0UpwnL7vHX7Ko6WXAdvVD7V4=;
+        b=LjKZauW2LJ43l8LQ9GYVsJbxk/jGfuyExLPKHOxAyS9agtgI7mypi1eWWBTLXIAVhQ
+         V802P1uPqd6ZrrqnnHIV/3SIlyBenE++NV44aw2GShUjd1PYJ/4eNpql1GfwBvA839PD
+         deMNeWiShyRdALtVJ2h4XKb9ljvbT7z+ps/VXyCFy9hp+TfccFyYRaSXVVDLpjUTzWua
+         973mAzQr34cfmXATF3GhEw38SllUmdHkEeSdTJheV5UVHKW+Mv29Kn4reHzQlNCHATKx
+         2+bmv0FfzIUbc2wOQLqk1hLRL78UZt+VgQsCoCtnI5zIzFyMWDbdaoY6AVJ86cCcHbcO
+         dvOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hEh4M8JHePZNHK/0YUY232n5+7zr7GGL4e0QmQT5TpA=;
-        b=QZi6q/3PMU8EanhnSesQTup0x6GMo81078hsiZPzi8p4LzmDd9PgNIIWFJrr7hLb1T
-         Zku68aCWxaSLwp0MOHN3qvDn9JAW61pjVvfGN2ONNoCrN8KiRutUvs2Gbll8E8G7fQzb
-         apa4v739TLfJjMvEItD3gUB1kOgk3SDk6LFUjl3VHii2VpnO7sRubQRaI8kUC7a3kvX0
-         SjEOZ8bOOQD8uHCDWUevW+vg/TUmYzIhjgjv2NDmqGRQUxXjnfMnyyq0rAcftOvuTx/V
-         +5pVylzv++Rt3isZ01yS8VxD6dTLcCfmrDJyMK+7wxVANGZ9n6549th9HqRMqi+SX0Gr
-         77ag==
-X-Gm-Message-State: ANoB5plHD0lGWT+vZOqtGn1FVdag+8Y1WmxmJ30UvvAFEqSqvWy6T41X
-	lNEE6e3rVY5GIcvTB1lsEfY=
-X-Google-Smtp-Source: AA0mqf4n6Nm+faLQOpzCo048LVTN3CKUERvfKJ8kn3FfCsPE3ayIIA5C7x/ZDD6nRFzYxttvg/aoCA==
-X-Received: by 2002:a17:907:cf92:b0:7bf:7a65:b242 with SMTP id ux18-20020a170907cf9200b007bf7a65b242mr22207251ejc.356.1670015238405;
-        Fri, 02 Dec 2022 13:07:18 -0800 (PST)
-Received: from [192.168.1.101] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id u10-20020a170906c40a00b007c0cd272a06sm749375ejz.225.2022.12.02.13.07.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Dec 2022 13:07:17 -0800 (PST)
-Message-ID: <c702b54a-51e9-9e95-8858-a5b957ded8da@gmail.com>
-Date: Fri, 2 Dec 2022 22:07:14 +0100
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2YyULr6voUl0K8zSMvH0UpwnL7vHX7Ko6WXAdvVD7V4=;
+        b=0iq2a3oxF63Q0qsspCEiYBy6mHZUBmlBlVJNuBKlP2zy6At3qark3uSPMTEbx0vCOt
+         NIhCvAtRaCLDHtYpFvueoQKifyEhaN0wgTp8w/GTqTjKmpcDTkY525m+me+KHWzM+Mak
+         ukJ+vQnekMESJ+GgmZYuUft1OM7eXnR76rkqWEw6Gk/sMfZRh4Purj1TMeO1cMbGfrQX
+         qCFsuuT9bopX/FeuQqsghke7WgB67OUJbxRxQrrsyvd1KuPdH7/DqNqJ37WBtuCSgWXX
+         53Yw3xlHy8E9Uz/V2FZziDopJs3MGp8VuBhPVbECrHj1M216Zfkrm/iFKxdZxbUVFXcP
+         2ZsQ==
+X-Gm-Message-State: ANoB5pkIIG+ZPZAyvwr3IB4eM+P6ToQz8GzQr5n+qehBetRxi/t1c5ie
+	sW4s0qeQrzLrwFSOGMJtGu0=
+X-Google-Smtp-Source: AA0mqf5sSQdwViXhDoF2cR9NyqiwAhWWJMqIM9rRWq8evUJ75qaQH4GTFDpZF0m5osJ9edwkSrkd6Q==
+X-Received: by 2002:a05:6870:4720:b0:13c:2ced:9d9a with SMTP id b32-20020a056870472000b0013c2ced9d9amr32156019oaq.105.1670036748699;
+        Fri, 02 Dec 2022 19:05:48 -0800 (PST)
+Received: from otter001.hsd1.tx.comcast.net ([2601:2c0:8800:a510::6e2d])
+        by smtp.gmail.com with ESMTPSA id g13-20020a056870c14d00b001375188dae9sm5136561oad.16.2022.12.02.19.05.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Dec 2022 19:05:48 -0800 (PST)
+From: Joe Peterson <jwp.linux@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Joe Peterson <jwp.linux@gmail.com>
+Subject: [PATCH] staging: board: Remove control flow from macro
+Date: Fri,  2 Dec 2022 21:05:44 -0600
+Message-Id: <20221203030544.11543-1-jwp.linux@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 0/2] staging: r8188eu: use ieee80211 helpers for subtype
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20221202093159.404111-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221202093159.404111-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/2/22 10:31, Martin Kaiser wrote:
-> Use the ieee80211 helper functions in some places where the frame subtype
-> is checked.
-> 
-> Martin Kaiser (2):
->    staging: r8188eu: use subtype helpers in collect_bss_info
->    staging: r8188eu: use subtype helper in rtw_check_bcn_info
-> 
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 26 +++++++++-----------
->   drivers/staging/r8188eu/core/rtw_wlan_util.c |  7 +++---
->   2 files changed, 14 insertions(+), 19 deletions(-)
-> 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Adhere to Linux coding style
+
+Reported by checkpatch:
+
+WARNING: Macros with flow control statements should be avoided
+
+There is only one return value possible. Remove the checkpatch warning
+without effecting functionality.
+
+Signed-off-by: Joe Peterson <jwp.linux@gmail.com>
+---
+ drivers/staging/board/board.h | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/staging/board/board.h b/drivers/staging/board/board.h
+index 5609daf4d869..94823d3ffbe9 100644
+--- a/drivers/staging/board/board.h
++++ b/drivers/staging/board/board.h
+@@ -33,12 +33,10 @@ void board_staging_register_devices(const struct board_staging_dev *devs,
+ 				    unsigned int ndevs);
+ 
+ #define board_staging(str, fn)			\
+-static int __init runtime_board_check(void)	\
++static void __init runtime_board_check(void)	\
+ {						\
+ 	if (of_machine_is_compatible(str))	\
+ 		fn();				\
+-						\
+-	return 0;				\
+ }						\
+ 						\
+ device_initcall(runtime_board_check)
+-- 
+2.20.1
+
