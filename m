@@ -1,300 +1,231 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFB87B
-	for <linux-staging@lists.linux.dev>; Sat,  3 Dec 2022 13:41:38 +0000 (UTC)
-Received: from [192.168.1.139] ([37.4.248.27]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N1M4p-1opkaL1MEt-012sgU; Sat, 03 Dec 2022 14:41:26 +0100
-Message-ID: <79cf6cc0-d071-f834-1db9-cb5411c1f356@i2se.com>
-Date: Sat, 3 Dec 2022 14:41:25 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDC42560
+	for <linux-staging@lists.linux.dev>; Sun,  4 Dec 2022 10:19:20 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so12231509pjc.3
+        for <linux-staging@lists.linux.dev>; Sun, 04 Dec 2022 02:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2fSlUnMO/6t25t/a1TF0aEDuwOExF29IGAIYrpdFAPg=;
+        b=d7a5DRPgcOJQ2TIwVAt0hAZwlXkQ4E4X01QQaSCgoy/a0H+kL3NYjZKtDsbJeqr0g6
+         nEg/HMTc6soeTxkoEdqyUr1SAdtCVLpXYa7YazbtUYc1K44UUj8iM33O7jcJmlxvgJOE
+         c2esxiAOwBL9kkjV0a3hRoVEjqe73aPzmCCdmyb55s4FGKpnkQGmpyvK8X7Sk9DkBTKN
+         msQk7/KoSmrBRIxwSEmpUoaaRHVn+oOua6fssy025dxuLO7Iwg8uJg3zc2cQ/MnQQwMS
+         6MP4gkyMEnkwLNw/HmLsCUmL8yAw9PGYA8H9DFE3+lk41IDAk3/BWYhZUIk0P/vbw9N4
+         bm9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2fSlUnMO/6t25t/a1TF0aEDuwOExF29IGAIYrpdFAPg=;
+        b=gVcrgGDAV4nR1zRVzDDRkhMv1fptuV7YRJFaJ4MwM3pUr7WC2LGWPx9AqxVm8cShTX
+         PC8lro8KEwtaUvx2kSOD0F7/iplhly1ByEn0COp65BfLHx8u2YFz0M0k4srV9/hA+kNR
+         AweDa44l411nsp3R/V3ka9bLE4lL0816IysnC+890vVEmA85+dTm1nG6qsod+RruLshw
+         gviOwXmfNoZQXEvE3spNWBb46RKQUEoW0HDkjH/X5ZD4kI2kEOvRVM8mdbQB4lmfvp+N
+         q2iP3MF0mitXMpcA5+LM9cODcasyA5+g6WlXZzgmnkxkG9SZZHivulfpKoxy+9m4tE6f
+         N0Fg==
+X-Gm-Message-State: ANoB5pmaN1NKhsxYWwunQSiNfy1CIabfJluLHiGvWZIuaH2d+M+5bgMN
+	mTteLwAJjHmQlqh751weOjAPa9Gkry97Yg1+
+X-Google-Smtp-Source: AA0mqf7q9fKb012dnfOLIaniOoXOQajQ08Iv2R+aCpp9/UAgYxW5GfjAcJ+IkARDr5PrcS7JNIHTKQ==
+X-Received: by 2002:a17:90a:b298:b0:212:f923:2f90 with SMTP id c24-20020a17090ab29800b00212f9232f90mr81856509pjr.93.1670149159930;
+        Sun, 04 Dec 2022 02:19:19 -0800 (PST)
+Received: from zoo868e (1-170-26-182.dynamic-ip.hinet.net. [1.170.26.182])
+        by smtp.gmail.com with ESMTPSA id lt19-20020a17090b355300b00218f5de49f4sm9426293pjb.1.2022.12.04.02.19.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Dec 2022 02:19:19 -0800 (PST)
+Date: Sun, 4 Dec 2022 18:19:16 +0800
+From: Matt Jan <zoo868e@gmail.com>
+To: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH] staging: vme_user: remove multiple blank lines
+Message-ID: <20221204101916.GA51992@zoo868e>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/14] staging: vc04_services: bcm2835-isp support
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20221121214722.22563-1-umang.jain@ideasonboard.com>
- <fc2fb888-7742-123c-69c9-cdb156ff2d9f@i2se.com>
- <a56d7687-ee44-629c-1a9d-fa34e65e847f@ideasonboard.com>
- <bb16004f-8d5b-5794-8445-aa7e1a758ffa@i2se.com>
- <c73f7261-ec33-ec88-df3e-a34cf9b8015c@ideasonboard.com>
- <0f683076-43e6-3f65-e5e1-052059ce7c86@i2se.com>
- <910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonboard.com>
- <Y4nCnEwqs69QezPn@pendragon.ideasonboard.com>
- <CAPY8ntAK9yh6ZQkuOrZqUn2GC2=qGaJrcxEjWyGep7KcWvxkhQ@mail.gmail.com>
- <845957f9-46fc-d264-977e-7c3339c4d5c9@i2se.com>
- <CAPY8ntARd+1abU2=5=k4EQOhK+LnHoD7zZk5NzhiQ9_BvxM8Qw@mail.gmail.com>
-Content-Language: en-US
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <CAPY8ntARd+1abU2=5=k4EQOhK+LnHoD7zZk5NzhiQ9_BvxM8Qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:1P1hi8oTM1z1QCUi+vX/pW+tHMwYLkheomEY85EGIOqoC0DRO0H
- B2fxY9wRa6CYsPX8yHIH+1/5D7IvTNfdiItGiNJDfQp/BPTvWCAORa4prflWzBll1uZOcBa
- bvVsnQPQl1vnPdpGALNwBL7w3GKy8TSudMEE7ou9aw6rNwRGbg+8jO4lhpWbKbd9Gudyrna
- suGuzAfmDWvB3oZHjranw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PMwMbJB28vg=:WMU6t0ruYaZ4pMTdRJRFpz
- eTzA2D0t+1Aw8BxcsYdlut0DNBGNSBm/110bL6TjVtm4shxocJeURpy65jscb5lzsoTvXmFua
- ndr/EK0HzIe7iucILgouLW46ZztGXb5RobNwiZGCPfrDGqDOvrr2zz9FQKhg/8E6xaVQpTopd
- HaE8UmXIqA6tJgq5FxWKiaMjPWMf4UujsE13AgN/aSfIT1N/KYPEFRU8ckrZPM/EtKMx1zR9Q
- eHIDuecYaTd3S0BF5zZ/yZ2ma0jlX8VMjbBC02ncR1Cwmcg9gytBPpqCqL+X6mGoGqEm8VqtF
- KhZsBKxNUwyBbGMoDoGP6PkTMFTpQPTeLp4LaGamoNHyGFKklQTdyTlv+epmsetf6oQcVekG8
- cSUdDXepLOqXXGCYYD2ZcsT1SRQihSJLxOwnprsZ1LU4UC2HVvXBPTNmXTxD9yS14ySK9cMdm
- mNrllHNRe1hrY/0oDz6Vpt2g5x9NHdnB111x/bxaFZ4+z4rUKxAbw6RAfoOaqtW9+ZB1XBjDD
- yUNFVdN7dnndBdyU/uTsRV3PnsigWUbnc/OC0vyfLrvIjgLbi65oAeWU7hMrUo6TrqN+Kc/9N
- 8AVmIAPfb5WcPHEsSRGjwXKz3K/XMgSdzRASIHIXfBu5P6BtViGlPdnlaUCxyJCJvaxvq6J9r
- +2yukhHA5wXEnk/T2jen/yFFvDxd29/pp8eMI2kKWHnmVGlkkgPd53lPD8jd5Jjm9LknIxa8c
- vUZ1g5+t+4EzvmobqlA1x6YZzE3cn//gb0+SVZVMy5lR13w0MOHHFqoaIxC2ewbpLLSCHWCWY
- NNlW79lYtnMxwIh6lqpAil1O9YXZA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dave,
+Remove multiple unnecessary blank lines in accordance with the Linux
+kernel coding-style regulations. The issues were reported by the
+checkpatch script.
 
-Am 02.12.22 um 14:42 schrieb Dave Stevenson:
-> Hi Stefan
->
-> On Fri, 2 Dec 2022 at 12:41, Stefan Wahren <stefan.wahren@i2se.com> wrote:
->> Hi Dave,
->>
->> Am 02.12.22 um 12:23 schrieb Dave Stevenson:
->>> Hi Laurent, Umang, and Stefan.
->>>
->>> On Fri, 2 Dec 2022 at 09:17, Laurent Pinchart
->>> <laurent.pinchart@ideasonboard.com> wrote:
->>>> Hi Umang,
->>>>
->>>> On Fri, Dec 02, 2022 at 11:57:18AM +0800, Umang Jain wrote:
->>>>> On 12/2/22 6:45 AM, Stefan Wahren wrote:
->>>>>> Am 30.11.22 um 11:58 schrieb Umang Jain:
->>>>>>> On 11/27/22 6:56 AM, Stefan Wahren wrote:
->>>>>>>> Am 26.11.22 um 17:26 schrieb Umang Jain:
->>>>>>>>> On 11/26/22 8:12 PM, Stefan Wahren wrote:
->>>>>>>>>> Am 21.11.22 um 22:47 schrieb Umang Jain:
->>>>>>>>>>> This series aims to upport bcm2835-isp from the RPi kernel [1] and is a
->>>>>>>>>>> independent subset of earlier series [2] posted to upport CSI-2/CCP2
->>>>>>>>>>> receiver IP core("Unicam) + the ISP driver found in BCM283x and compatible
->>>>>>>>>>> SoCs (namely BCM2711). Unicam is still under active development to work
->>>>>>>>>>> with multistream support to get into mainline. Hence only the ISP driver
->>>>>>>>>>> will remain the primary area of this series.
->>>>>>>>>> thanks for working on this. But honestly i would prefer that vchiq
->>>>>>>>>> comes out of staging before adding more features. As Greg said
->>>>>>>>>> some time ago staging is not a place to "dump code and run away".
->>>>>>>>>> These new files are in the same bad shape as the rest of vc04
->>>>>>>>>> before the clean-up here in staging started.
->>>>>>>>> Certainly, I am not here to do that - but I am still learning the ropes.
->>>>>>>> no problem.
->>>>>>>>
->>>>>>>>> If the staging issue is becoming a blocker for bcm2835-isp going
->>>>>>>>> upstream, I would be happy to help here! Though I must mention that
->>>>>>>>> I still have limited visibility so my aim would be to chart out a
->>>>>>>>> plan of things needed to be done to get vc04_services out of staging!
->>>>>>>> The vchiq driver is in staging since 2016, so every step forwards is
->>>>>>>> good. Unfortunately all of the low hanging fruits has been gathered.
->>>>>>>>
->>>>>>>> For me the most important, but not to tricky steps to get vchiq out
->>>>>>>> of staging would be:
->>>>>>>>
->>>>>>>> * Cleanup logging mechanism
->>>>>>>>
->>>>>>>> * Get rid of custom function return values
->>>>>>>>
->>>>>>>> There was already an attempt for this [1]
->>>>>>>>
->>>>>>>> * Get rid of all non essential global structures and create a proper per
->>>>>>>> device structure
->>>>>>>>
->>>>>>>>>> I agree that VCSM is on the TODO list for vchiq, but this driver
->>>>>>>>>> is not necessary for making bcm2835-audio & bcm2835-camera leave
->>>>>>>>>> staging. It just binds more resources on a new feature.
->>>>>>> bcm2835-camera is the legacy camera stack which probably need to be
->>>>>>> dropped from hereon...
->>>>>> I don't not know if there any users left, so i would be careful here.
->>>>>> Can bcm2835-isp completely replace bcm2835-camera? Sorry, for this
->>>>>> dumb question but i'm not expert here.
->>>>> I am careful too here and probably need Input from RaspberryPi in order
->>>>> to proceed to drop it. But from my perspective - bcm2835-camera is _not_
->>>>> going out of staging - it'll either sit here (or probably dropped) as
->>>>> statied from [1]
->>>>>
->>>>> ```
->>>>> + * There are two camera drivers in the kernel for BCM283x - this one
->>>>> + * and bcm2835-camera (currently in staging).
->>>>> ```
->>>>>
->>>>> The bcm2835-camera is meant to be replaced by unicam [1] , but the ISP
->>>>> (bcm2835-isp) is meant to be worked with unicam [1]. In fact, I have
->>>>> mentioned in my cover the testing of bcm2835-isp happened on top of
->>>>> unicam patches.
->>>> To be accurate, the bcm2835-camera driver supports the VC4
->>>> firmware-based camera stack. In that setup, the camera sensors (OV5647
->>>> or IMX219), CSI-2 receiver (Unicam) and ISP are all controlled by the
->>>> firmware, which provides a high-level interface towards the kernel. This
->>>> architecture has been replaced by Linux-side control of the camera
->>>> sensors (through existing drivers in drivers/media/i2c/), Unicam
->>>> (through the driver from [1]) and ISP (through this driver). Moving
->>>> control to the Linux side requires complex processing in userspace,
->>>> handled by libcamera.
->>>>
->>>> bcm2835-camera is thus replaced by multiple drivers combined with
->>>> libcamera, and that is the camera stack that is shipped by Raspberry Pi
->>>> these days. While this may affect some userspace use cases), we will not
->>>> work on destaging bcm2835-camera, and as far as I'm aware, nobody else
->>>> is planning to do so either. I don't mind much if the driver stays in
->>>> staging for some more time, but I'd rather drop it if possible.
->> Thanks for clarification. Okay, so Unicam + bcm2835-isp are able to
->> handle the old camera (OV5647)?
-> There are kernel drivers in mainline for ov5647 (v1) and imx219 (v2)
-> cameras, with imx477 (HQ camera) due to be done. Connected to
-> bcm2835-unicam that gives you raw images from these sensors.
->
-> However you have to use libcamera to get useful images with these
-> drivers - raw Bayer isn't easy to consume.
-> Libcamera has support for all three (and more) sensors in the RPi IPA
-> (image processing algorithms), and will make use of bcm2835-isp to
-> process the images appropriately.
->
->>> It would be reasonable to drop it at the point that Libcamera can work
->>> to a similar level with at least the following list of applications:
->>> - FFmpeg
->>> - Gstreamer
->>> - Chromium
->>> - Firefox
->>> - Motion
->>> And that still leaves a huge number of existing V4L2 apps out in the cold.
->>>
->>> Do you wish to make any predictions as to when that would be
->>> achievable? Or even when a v1.0 release of libcamera is going to
->>> happen?
->>> Dropping anything prior to those points would be rather premature in my book.
->>>
->>>
->>> The TODOs on bcm2835-camera are:
->>> 1) Zero copy. That comes almost for free as bcm2835-isp already does
->>> this, but it does rely on vcsm-cma.
->>> The main reason I haven't pushed it is that it then requires
->>> reasonable amounts of CMA heap for all the buffers, which until
->>> recently haven't been present in the default configurations. With the
->>> vc4 DRM driver now being default (at least for the vendor kernel) and
->>> also requiring CMA, making the change makes more sense.
->>> AFAIK there is no easy way to have one driver choosing between using
->>> vb2_vmalloc_memops and vb2_dma_contig_memops at runtime, but I may be
->>> wrong.
->>> Actually bcm2835_defconfig appears to only allocate a 32MB CMA heap,
->>> so perhaps we don't get very far.
->> CMA configuration should actually happen in device tree or kernel
->> cmdline. The bcm2835_defconfig is limited to make it work even with the
->> original Pi.
-> It's the original 256MB Pis that are the issue as memory is so tight.
-> Losing a bigger chunk to CMA is a problem there.
->
-> I see that bcm283x.dtsi sets it to 64MB, which is probably sufficient
-> for most bcm2835-camera use cases, but leaves me worried that you'll
-> steal it from other things.
->
->>> 2) This isn't workable within the current V4L2 frameworks. The
->>> multi-planar V4L2 pixel formats are currently allocated as independent
->>> buffers for each plane, whereas the firmware needs a single buffer
->>> with (currently) specific offsets for the chroma planes. The
->>> V4L2/videobuf2 core changes required to implement that are going to be
->>> significant, and have minimal gain.
->>> The specific stride handling is already dealt with (set bytesperline
->>> appropriately), it's the padding of the height to a multiple of 16
->>> before the chroma planes on YUV420 and NV12 formats that require the
->>> firmware to do a small amount of repacking. The performance hit is
->>> actually minimal anyway.
->>>
->>> If bcm2835-camera is the only thing holding back vc04_services, then I
->>> can have a look at it.
->> No, it's the vchiq interface which needs the work.
-> OK, I'll liaise with Umang and may look to deal with a couple of them.
-> Things like documenting the memory barriers probably falls to Phil.
+Signed-off-by: Matt Jan <zoo868e@gmail.com>
+---
+ drivers/staging/vme_user/vme.h        | 2 --
+ drivers/staging/vme_user/vme_fake.c   | 5 -----
+ drivers/staging/vme_user/vme_tsi148.c | 6 ------
+ drivers/staging/vme_user/vme_tsi148.h | 7 -------
+ 4 files changed, 20 deletions(-)
 
-actually this item is already done. I missed to update the TODO file and 
-send a patch soon.
+diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
+index b204a9b4be1b..98da8d039d60 100644
+--- a/drivers/staging/vme_user/vme.h
++++ b/drivers/staging/vme_user/vme.h
+@@ -27,7 +27,6 @@ enum vme_resource_type {
+ #define VME_A64_MAX	0x10000000000000000ULL
+ #define VME_CRCSR_MAX	0x1000000ULL
+ 
+-
+ /* VME Cycle Types */
+ #define VME_SCT		0x1
+ #define VME_BLT		0x2
+@@ -185,6 +184,5 @@ int vme_bus_num(struct vme_dev *);
+ int vme_register_driver(struct vme_driver *, unsigned int);
+ void vme_unregister_driver(struct vme_driver *);
+ 
+-
+ #endif /* _VME_H_ */
+ 
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index dd646b0c531d..a9d3a7f5c440 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -356,7 +356,6 @@ static int __fake_master_get(struct vme_master_resource *image, int *enabled,
+ 	return 0;
+ }
+ 
+-
+ static int fake_master_get(struct vme_master_resource *image, int *enabled,
+ 		unsigned long long *vme_base, unsigned long long *size,
+ 		u32 *aspace, u32 *cycle, u32 *dwidth)
+@@ -373,7 +372,6 @@ static int fake_master_get(struct vme_master_resource *image, int *enabled,
+ 	return retval;
+ }
+ 
+-
+ static void fake_lm_check(struct fake_driver *bridge, unsigned long long addr,
+ 			  u32 aspace, u32 cycle)
+ {
+@@ -1060,7 +1058,6 @@ static void fake_crcsr_exit(struct vme_bridge *fake_bridge)
+ 	kfree(bridge->crcsr_kernel);
+ }
+ 
+-
+ static int __init fake_init(void)
+ {
+ 	int retval, i;
+@@ -1238,7 +1235,6 @@ static int __init fake_init(void)
+ 
+ }
+ 
+-
+ static void __exit fake_exit(void)
+ {
+ 	struct list_head *pos = NULL;
+@@ -1294,7 +1290,6 @@ static void __exit fake_exit(void)
+ 	root_device_unregister(vme_root);
+ }
+ 
+-
+ MODULE_PARM_DESC(geoid, "Set geographical addressing");
+ module_param(geoid, int, 0);
+ 
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 0171f46d1848..482049cfc664 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -34,7 +34,6 @@
+ static int tsi148_probe(struct pci_dev *, const struct pci_device_id *);
+ static void tsi148_remove(struct pci_dev *);
+ 
+-
+ /* Module parameter */
+ static bool err_chk;
+ static int geoid;
+@@ -673,7 +672,6 @@ static int tsi148_slave_get(struct vme_slave_resource *image, int *enabled,
+ 	/* Need granularity before we set the size */
+ 	*size = (unsigned long long)((vme_bound - *vme_base) + granularity);
+ 
+-
+ 	if ((ctl & TSI148_LCSR_ITAT_2eSSTM_M) == TSI148_LCSR_ITAT_2eSSTM_160)
+ 		*cycle |= VME_2eSST160;
+ 	if ((ctl & TSI148_LCSR_ITAT_2eSSTM_M) == TSI148_LCSR_ITAT_2eSSTM_267)
+@@ -1142,7 +1140,6 @@ static int __tsi148_master_get(struct vme_master_resource *image, int *enabled,
+ 	return 0;
+ }
+ 
+-
+ static int tsi148_master_get(struct vme_master_resource *image, int *enabled,
+ 	unsigned long long *vme_base, unsigned long long *size, u32 *aspace,
+ 	u32 *cycle, u32 *dwidth)
+@@ -1244,7 +1241,6 @@ static ssize_t tsi148_master_read(struct vme_master_resource *image, void *buf,
+ 	return retval;
+ }
+ 
+-
+ static ssize_t tsi148_master_write(struct vme_master_resource *image, void *buf,
+ 	size_t count, loff_t offset)
+ {
+@@ -2000,7 +1996,6 @@ static int tsi148_lm_get(struct vme_lm_resource *lm,
+ 	if ((lm_ctl & TSI148_LCSR_LMAT_AS_M) == TSI148_LCSR_LMAT_AS_A64)
+ 		*aspace |= VME_A64;
+ 
+-
+ 	if (lm_ctl & TSI148_LCSR_LMAT_SUPR)
+ 		*cycle |= VME_SUPER;
+ 	if (lm_ctl & TSI148_LCSR_LMAT_NPRIV)
+@@ -2551,7 +2546,6 @@ static void tsi148_remove(struct pci_dev *pdev)
+ 
+ 	bridge = tsi148_bridge->driver_priv;
+ 
+-
+ 	dev_dbg(&pdev->dev, "Driver is being unloaded.\n");
+ 
+ 	/*
+diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
+index 226fedc6f167..b3cb4a089cc8 100644
+--- a/drivers/staging/vme_user/vme_tsi148.h
++++ b/drivers/staging/vme_user/vme_tsi148.h
+@@ -87,7 +87,6 @@ struct tsi148_dma_entry {
+  *                                Control and Status Registers
+  */
+ 
+-
+ /*
+  *  Command/Status Registers (CRG + $004)
+  */
+@@ -342,7 +341,6 @@ static const int TSI148_LCSR_VIACK[8] = { 0, TSI148_LCSR_VIACK1,
+ #define TSI148_LCSR_IT7_ITOFL		0x3F4
+ #define TSI148_LCSR_IT7_ITAT		0x3F8
+ 
+-
+ #define TSI148_LCSR_IT0		0x300
+ #define TSI148_LCSR_IT1		0x320
+ #define TSI148_LCSR_IT2		0x340
+@@ -464,7 +462,6 @@ static const int TSI148_LCSR_IT[8] = { TSI148_LCSR_IT0, TSI148_LCSR_IT1,
+ #define TSI148_LCSR_DMA0	0x500
+ #define TSI148_LCSR_DMA1	0x580
+ 
+-
+ static const int TSI148_LCSR_DMA[TSI148_MAX_DMA] = { TSI148_LCSR_DMA0,
+ 						TSI148_LCSR_DMA1 };
+ 
+@@ -532,9 +529,6 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
+ #define TSI148_CSRBSR	0xFF8
+ #define TSI148_CBAR	0xFFC
+ 
+-
+-
+-
+ 	/*
+ 	 *  TSI148 Register Bit Definitions
+ 	 */
+@@ -828,7 +822,6 @@ static const int TSI148_GCSR_MBOX[4] = { TSI148_GCSR_MBOX0,
+ #define TSI148_LCSR_VEAT_AM_M          (0x3F<<8)	/* Address Mode Mask */
+ #define TSI148_LCSR_VEAT_XAM_M         (0xFF<<0)	/* Master AMode Mask */
+ 
+-
+ /*
+  * VMEbus PCI Error Diagnostics PCI/X Attributes Register  CRG + $280
+  */
+-- 
+2.25.1
 
-Best regards
-
->
->    Dave
->
->> Thanks Stefan
->>
->>>     Dave
->>>
->>>>> [1]: https://lore.kernel.org/linux-media/20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com/
->>>>>
->>>>>>>>> I see two TODO files in vc04_services:
->>>>>>>>>       ./bcm2835-camera/TODO
->>>>>>>>>       ./interface/TODO
->>>>>>>>>
->>>>>>>>> One of the bcm2835-camera TODO points to the vc-sm-cma driver
->>>>>>>>> itself. So that's address in the series. The other remaining one -
->>>>>>>>> I will need to take a deeper look before commenting on it.
->>>>>>>>>
->>>>>>>>> The main chunk of TODO are in vc04_services/interfaces/TODO. Doing
->>>>>>>>> a cursory reading of them suggests that these apply to *all*
->>>>>>>>> vc04_services components? Am I right?
->>>>>>>> Actually these applies just for the interfaces directory. Some of
->>>>>>>> them could apply to the services, but this is no priority.
->>>>>>> By no priority, you mean this doesn't affect the criteria required to
->>>>>>> ful-fill to get these out of staging?
->>>>>> Correct
->>>>>>
->>>>>>>>> Are these are the specific bits of cleanup you are referring to in
->>>>>>>>> your comment?
->>>>>>>> You mean about bcm2835-isp? There were too many changes to vchiq
->>>>>>>> that i don't remember them all. The first that come to my mind was
->>>>>>>> those fancy comment sections which is not kernel coding style. It
->>>>>>>> has been removed.
->>>>>>> No, I don't mean the bcm2835-isp changes (those are upcoming /
->>>>>>> out-of-tree still so...). I mean what are the specific bits / points
->>>>>>> that needs to be addressed to get vc04_services out of the staging.
->>>>>> These were the points which i mentioned in my last email. They came
->>>>>> from interface/TODO.
->>>>>>
->>>>>>> You have mentioned it above now, so I'll follow up on those.
->>>>>> That would be great :)
->>>>>>
->>>>>>> The many vchiq changes you referred to above comment (that you don't
->>>>>>> remember) are from [1] as well or some other series ?
->>>>>> Sorry, for the confusing. The many changes i refer were the dozens of
->>>>>> clean up patches for vc04_interfaces in mainline staging since the
->>>>>> last years. [1] was just a single patch which has been accepted yet.
->>>>> Ah I see. There are many others that I've to dig out then. Thanks for
->>>>> clarifying!
->>>>>
->>>>>>>> [1] -
->>>>>>>> https://lore.kernel.org/linux-staging/20220712181928.17547-1-jslebodn@redhat.com/
->>>>>>>>
->>>>>>>>>> Unfortuntately i hadn't much time to work on vchiq by myself.
->>>>>>>>>>
->>>>>>>>>> Just my two cents
->>>>>>>>>> Stefan
->>>> --
->>>> Regards,
->>>>
->>>> Laurent Pinchart
->>> _______________________________________________
->>> linux-arm-kernel mailing list
->>> linux-arm-kernel@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
