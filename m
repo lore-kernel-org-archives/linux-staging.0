@@ -1,24 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9040723CC
-	for <linux-staging@lists.linux.dev>; Mon,  5 Dec 2022 12:28:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2EF5C433D6;
-	Mon,  5 Dec 2022 12:28:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311227C
+	for <linux-staging@lists.linux.dev>; Mon,  5 Dec 2022 12:31:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 780FCC433C1;
+	Mon,  5 Dec 2022 12:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1670243318;
-	bh=p0jlDmkjydJVkRUVJOWk4Ud2ZF3Mx24s6SrrqIkjF1M=;
+	s=korg; t=1670243505;
+	bh=t8lFf17v6/TznDBxy5oeG8Qrl6TA0jB7CwLFWTMheoI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2ATTqSRKnAri5kaxJlDNouOj3spRG8yzINH9U6p4dO/NXr6j55mrnlhez19R7Viif
-	 5/k79X/uMir75agfCtlCQRKqOYmj85hnEf/IkNlXqb9VwVzanHrc6HbhG7Rhay3dww
-	 WDcZji/o/c9dfZcx3dMVPb2rop8hwPSXAio8W6eg=
-Date: Mon, 5 Dec 2022 13:28:35 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jack Schofield <schofija@oregonstate.edu>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: emxx_udc: Remove unneeded parentheses
-Message-ID: <Y43j88qqo8K96TZL@kroah.com>
-References: <20221128044012.GA2028@virt>
+	b=fos8mYEuQBpLvHY81tfph3ytPpCiKWx2Kneum7qJHH3sjtTQoTAt6c6v1yeH2aZOo
+	 ZTWSPasKkJGpJt8MirYBWl9nw7uMoznd+tFcu7re9vv7MIEfol3XahIwCe3qphQRE+
+	 Dwd1mQh2o89wUUb0vDOxhuxdQmPum8kavRUJetZ8=
+Date: Mon, 5 Dec 2022 13:31:43 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Chen Zhongjin <chenzhongjin@huawei.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	martyn@welchs.me.uk, manohar.vanga@gmail.com, arnd@arndb.de
+Subject: Re: [PATCH] vme: Fix error not catched in fake_init()
+Message-ID: <Y43kr/73sorrMWA0@kroah.com>
+References: <20221205084805.147436-1-chenzhongjin@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,46 +28,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221128044012.GA2028@virt>
+In-Reply-To: <20221205084805.147436-1-chenzhongjin@huawei.com>
 
-On Sun, Nov 27, 2022 at 08:40:12PM -0800, Jack Schofield wrote:
-> Parentheses are not required around condition tests. Remove to follow
-> Linux Kernel coding style. Issue reported by checkpatch.
+On Mon, Dec 05, 2022 at 04:48:05PM +0800, Chen Zhongjin wrote:
+> In fake_init(), __root_device_register() is possible to fail but it's
+> ignored, which can cause unregistering vme_root fail when exit.
 > 
-> Signed-off-by: Jack Schofield <schofija@oregonstate.edu>
+>  general protection fault,
+>  probably for non-canonical address 0xdffffc000000008c
+>  KASAN: null-ptr-deref in range [0x0000000000000460-0x0000000000000467]
+>  RIP: 0010:root_device_unregister+0x26/0x60
+>  Call Trace:
+>   <TASK>
+>   __x64_sys_delete_module+0x34f/0x540
+>   do_syscall_64+0x38/0x90
+>   entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> 
+> Return error when __root_device_register() fails.
+> 
+> Fixes: 658bcdae9c67 ("vme: Adding Fake VME driver")
+> Signed-off-by: Chen Zhongjin <chenzhongjin@huawei.com>
 > ---
-> There are more instances of extra parens to cleanup. If this patch is
-> welcome I can continue to cleanup this file.
+>  drivers/staging/vme_user/vme_fake.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
->  drivers/staging/emxx_udc/emxx_udc.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-> index b4e19174bef2..1d4ac8374fe2 100644
-> --- a/drivers/staging/emxx_udc/emxx_udc.c
-> +++ b/drivers/staging/emxx_udc/emxx_udc.c
-> @@ -149,8 +149,8 @@ static void _nbu2ss_ep0_complete(struct usb_ep *_ep, struct usb_request *_req)
->  			/* SET_FEATURE */
->  			recipient = (u8)(p_ctrl->bRequestType & USB_RECIP_MASK);
->  			selector  = le16_to_cpu(p_ctrl->wValue);
-> -			if ((recipient == USB_RECIP_DEVICE) &&
-> -			    (selector == USB_DEVICE_TEST_MODE)) {
-> +			if (recipient == USB_RECIP_DEVICE &&
-> +			    selector == USB_DEVICE_TEST_MODE) {
->  				wIndex = le16_to_cpu(p_ctrl->wIndex);
->  				test_mode = (u32)(wIndex >> 8);
->  				_nbu2ss_set_test_mode(udc, test_mode);
-> @@ -287,7 +287,7 @@ static int _nbu2ss_epn_exit(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep)
->  	u32		num;
->  	u32		data;
+> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+> index dd646b0c531d..1ee432c223e2 100644
+> --- a/drivers/staging/vme_user/vme_fake.c
+> +++ b/drivers/staging/vme_user/vme_fake.c
+> @@ -1073,6 +1073,8 @@ static int __init fake_init(void)
 >  
-> -	if ((ep->epnum == 0) || (udc->vbus_active == 0))
-> +	if (ep->epnum == 0 || udc->vbus_active == 0)
+>  	/* We need a fake parent device */
+>  	vme_root = __root_device_register("vme", THIS_MODULE);
 
-This type of change requires you to remember the == comes before || so
-it's best to just leave the code as-is to make it much more obvious
-what is happening.
+This should be calling root_device_register() as well, not this version
+of the call.
 
-sorry,
+thanks,
 
 greg k-h
