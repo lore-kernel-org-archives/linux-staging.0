@@ -1,102 +1,69 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E45617E0
-	for <linux-staging@lists.linux.dev>; Mon,  5 Dec 2022 08:52:33 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id k2so4434901qkk.7
-        for <linux-staging@lists.linux.dev>; Mon, 05 Dec 2022 00:52:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4fUiX2BOgIO3kRlBD2IZGFHz0fAiTgFWiM9Mfq43ZtE=;
-        b=Iu8La7KAMGXv2lzvqMK5pz9D/HZQT5PlYat/572Xn4V5dMOdBjpgkghdtK1tX660iO
-         nl3XDrTnMjQijpo9EDWFCpDMFkOAi+7Gya4MTz+fNXcxUbCBAGdzOtOy1sP+MEH/1TsD
-         qdzXBXl+y94HF19w9iQSX9AW6SHYmUPanbO8IxAqtxv1MigmglOGEO4MDr6BZUnHhW52
-         fOtw+A6tN3+jeV6ATO+nj2qHG4In5qP81Etj7BFhJALNi90v7ShSzmrK0b2O6Wbkzljg
-         LuWjgAXdRTiUKJ2xvivQwTXMaFMUa0l5oqOel+Ilq2K2Rb1ZRPMi2krUWNflIarJlHLx
-         EtrQ==
-X-Gm-Message-State: ANoB5pkLQmUY+hghZOPB4FNjHrYVLZ8Zo222bAN4amj7IiaQwNclHgjV
-	EynAFsHCAiW5sVXGpewq9aZL2yCkhzncQw==
-X-Google-Smtp-Source: AA0mqf5o1SVYg1HHwCFQV4bA4csqSpF6nzeEZ6pfIwqSH/VpNdhxAF99Nst2cBn1a+0FmV3tSZmgKA==
-X-Received: by 2002:a37:4642:0:b0:6fc:a03e:fcdf with SMTP id t63-20020a374642000000b006fca03efcdfmr18094639qka.139.1670230351931;
-        Mon, 05 Dec 2022 00:52:31 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id ay40-20020a05622a22a800b003a57a317c17sm9224678qtb.74.2022.12.05.00.52.31
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Dec 2022 00:52:31 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id v206so13579388ybv.7
-        for <linux-staging@lists.linux.dev>; Mon, 05 Dec 2022 00:52:31 -0800 (PST)
-X-Received: by 2002:a25:9:0:b0:6f9:29ef:a5ee with SMTP id 9-20020a250009000000b006f929efa5eemr24512006yba.380.1670230350890;
- Mon, 05 Dec 2022 00:52:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450A917E0
+	for <linux-staging@lists.linux.dev>; Mon,  5 Dec 2022 09:06:30 +0000 (UTC)
+Received: from dggpemm500013.china.huawei.com (unknown [172.30.72.54])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NQccl1b4LzkXnx;
+	Mon,  5 Dec 2022 16:47:35 +0800 (CST)
+Received: from ubuntu1804.huawei.com (10.67.175.36) by
+ dggpemm500013.china.huawei.com (7.185.36.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 5 Dec 2022 16:51:03 +0800
+From: Chen Zhongjin <chenzhongjin@huawei.com>
+To: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: <chenzhongjin@huawei.com>, <martyn@welchs.me.uk>,
+	<manohar.vanga@gmail.com>, <gregkh@linuxfoundation.org>, <arnd@arndb.de>
+Subject: [PATCH] vme: Fix error not catched in fake_init()
+Date: Mon, 5 Dec 2022 16:48:05 +0800
+Message-ID: <20221205084805.147436-1-chenzhongjin@huawei.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221203030544.11543-1-jwp.linux@gmail.com>
-In-Reply-To: <20221203030544.11543-1-jwp.linux@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 5 Dec 2022 09:52:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW=8zBgY-Nsq2W99X1XCn8v17w5mScFixVOr8vrDpEEvg@mail.gmail.com>
-Message-ID: <CAMuHMdW=8zBgY-Nsq2W99X1XCn8v17w5mScFixVOr8vrDpEEvg@mail.gmail.com>
-Subject: Re: [PATCH] staging: board: Remove control flow from macro
-To: Joe Peterson <jwp.linux@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.67.175.36]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500013.china.huawei.com (7.185.36.172)
+X-CFilter-Loop: Reflected
 
-Hi Joe,
+In fake_init(), __root_device_register() is possible to fail but it's
+ignored, which can cause unregistering vme_root fail when exit.
 
-On Sat, Dec 3, 2022 at 4:08 AM Joe Peterson <jwp.linux@gmail.com> wrote:
-> Adhere to Linux coding style
->
-> Reported by checkpatch:
->
-> WARNING: Macros with flow control statements should be avoided
->
-> There is only one return value possible. Remove the checkpatch warning
-> without effecting functionality.
->
-> Signed-off-by: Joe Peterson <jwp.linux@gmail.com>
+ general protection fault,
+ probably for non-canonical address 0xdffffc000000008c
+ KASAN: null-ptr-deref in range [0x0000000000000460-0x0000000000000467]
+ RIP: 0010:root_device_unregister+0x26/0x60
+ Call Trace:
+  <TASK>
+  __x64_sys_delete_module+0x34f/0x540
+  do_syscall_64+0x38/0x90
+  entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-Thanks for your patch!
-But please try to compile it before submission.
+Return error when __root_device_register() fails.
 
-> --- a/drivers/staging/board/board.h
-> +++ b/drivers/staging/board/board.h
-> @@ -33,12 +33,10 @@ void board_staging_register_devices(const struct board_staging_dev *devs,
->                                     unsigned int ndevs);
->
->  #define board_staging(str, fn)                 \
-> -static int __init runtime_board_check(void)    \
-> +static void __init runtime_board_check(void)   \
+Fixes: 658bcdae9c67 ("vme: Adding Fake VME driver")
+Signed-off-by: Chen Zhongjin <chenzhongjin@huawei.com>
+---
+ drivers/staging/vme_user/vme_fake.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-device_initcalls must adhere to the initcall_t signature, regardless
-what checkpatch says, cfr. include/linux/init.h:
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index dd646b0c531d..1ee432c223e2 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1073,6 +1073,8 @@ static int __init fake_init(void)
+ 
+ 	/* We need a fake parent device */
+ 	vme_root = __root_device_register("vme", THIS_MODULE);
++	if (IS_ERR(vme_root))
++		return PTR_ERR(vme_root);
+ 
+ 	/* If we want to support more than one bridge at some point, we need to
+ 	 * dynamically allocate this so we get one per device.
+-- 
+2.17.1
 
-    typedef int (*initcall_t)(void);
-
->  {                                              \
->         if (of_machine_is_compatible(str))      \
->                 fn();                           \
-> -                                               \
-> -       return 0;                               \
->  }                                              \
->                                                 \
->  device_initcall(runtime_board_check)
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
