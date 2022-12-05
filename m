@@ -1,69 +1,43 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450A917E0
-	for <linux-staging@lists.linux.dev>; Mon,  5 Dec 2022 09:06:30 +0000 (UTC)
-Received: from dggpemm500013.china.huawei.com (unknown [172.30.72.54])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NQccl1b4LzkXnx;
-	Mon,  5 Dec 2022 16:47:35 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.175.36) by
- dggpemm500013.china.huawei.com (7.185.36.172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 5 Dec 2022 16:51:03 +0800
-From: Chen Zhongjin <chenzhongjin@huawei.com>
-To: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: <chenzhongjin@huawei.com>, <martyn@welchs.me.uk>,
-	<manohar.vanga@gmail.com>, <gregkh@linuxfoundation.org>, <arnd@arndb.de>
-Subject: [PATCH] vme: Fix error not catched in fake_init()
-Date: Mon, 5 Dec 2022 16:48:05 +0800
-Message-ID: <20221205084805.147436-1-chenzhongjin@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91D1EB3E
+	for <linux-staging@lists.linux.dev>; Mon,  5 Dec 2022 12:22:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C645C433C1;
+	Mon,  5 Dec 2022 12:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1670242948;
+	bh=qRF5edHMbAecWo8CQr4Qqz1yhE/mivsv7gKQsDWYevE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dbkyuHMWyoweKu+FVXYm+8Q1GioiZ91EeGR7pCkjU1/Kd6aIXaT3ob4Z8fzx3aYDH
+	 qycukLKE41MqFsX6bxdvqeddbXUez1R+SIZL7xYTgjyiftnpguICG/SzGas7ZATbMD
+	 DQ6HZb603IYtigmrevb/jKhVNBHjJtZvtzjC6sVo=
+Date: Mon, 5 Dec 2022 13:22:26 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Mingyi Kang <jerrykang026@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] staging: vme_user: fix coding style
+Message-ID: <Y43igvotWRmQzn+e@kroah.com>
+References: <20221126125642.16358-1-dzm91@hust.edu.cn>
+ <20221126125642.16358-2-dzm91@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.36]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500013.china.huawei.com (7.185.36.172)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221126125642.16358-2-dzm91@hust.edu.cn>
 
-In fake_init(), __root_device_register() is possible to fail but it's
-ignored, which can cause unregistering vme_root fail when exit.
+On Sat, Nov 26, 2022 at 08:56:34PM +0800, Dongliang Mu wrote:
+> Fix coding style enforced by Linux kernel
 
- general protection fault,
- probably for non-canonical address 0xdffffc000000008c
- KASAN: null-ptr-deref in range [0x0000000000000460-0x0000000000000467]
- RIP: 0010:root_device_unregister+0x26/0x60
- Call Trace:
-  <TASK>
-  __x64_sys_delete_module+0x34f/0x540
-  do_syscall_64+0x38/0x90
-  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+What coding style was changed?  Please always be specific.
 
-Return error when __root_device_register() fails.
+thanks,
 
-Fixes: 658bcdae9c67 ("vme: Adding Fake VME driver")
-Signed-off-by: Chen Zhongjin <chenzhongjin@huawei.com>
----
- drivers/staging/vme_user/vme_fake.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
-index dd646b0c531d..1ee432c223e2 100644
---- a/drivers/staging/vme_user/vme_fake.c
-+++ b/drivers/staging/vme_user/vme_fake.c
-@@ -1073,6 +1073,8 @@ static int __init fake_init(void)
- 
- 	/* We need a fake parent device */
- 	vme_root = __root_device_register("vme", THIS_MODULE);
-+	if (IS_ERR(vme_root))
-+		return PTR_ERR(vme_root);
- 
- 	/* If we want to support more than one bridge at some point, we need to
- 	 * dynamically allocate this so we get one per device.
--- 
-2.17.1
-
+greg k-h
