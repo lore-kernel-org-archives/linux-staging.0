@@ -1,80 +1,81 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190D317D0
-	for <linux-staging@lists.linux.dev>; Tue,  6 Dec 2022 02:11:57 +0000 (UTC)
-Received: from dggpemm500013.china.huawei.com (unknown [172.30.72.53])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NR3Ml0Z8jz15N4y;
-	Tue,  6 Dec 2022 09:52:51 +0800 (CST)
-Received: from [10.67.108.67] (10.67.108.67) by dggpemm500013.china.huawei.com
- (7.185.36.172) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 6 Dec
- 2022 09:53:38 +0800
-Message-ID: <8f90dbbe-51b0-67c8-d6cb-3bd9c1d9d481@huawei.com>
-Date: Tue, 6 Dec 2022 09:53:38 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B47136D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Dec 2022 09:33:34 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id ay14-20020a05600c1e0e00b003cf6ab34b61so606097wmb.2
+        for <linux-staging@lists.linux.dev>; Wed, 07 Dec 2022 01:33:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/Q6kvRFfdVCMvD/9KspZyMV4JmhJENHyXiGZYFDk44=;
+        b=fGvVgz/qLTD3VEZDyt0R79HKaMueP/MoJWsyBHUwQi8OkgR6+KCU6nDmoFMopvR3T7
+         L47YKFDIIbN+1PBNVuJIRY2y2sBhXYbp+WdEV03RNxbEMnrPE685neASGJWiaY1gOvhY
+         +OjTKux0yGwNj+htnlJ1vUL0Vb4ZBDwxovlNX1PzDo9cBHQAQGGIw7vlm0821idOlYXf
+         YYwSQDP6rPV3Uy1xXqVobWc2boYm1b4GO988NLxFWaqeE+mv4dsMuo46qAAwHODWZkAW
+         +pUpbqyVKe3qFbrq2+LelY9V4zzKwA9FIhRSzY8nPZQb5E8Iomf+wo8JR7BPFRVSNcwG
+         eDPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z/Q6kvRFfdVCMvD/9KspZyMV4JmhJENHyXiGZYFDk44=;
+        b=VUIp6qaZiOGu4eo0pTBcJQrzHOu/egHh39aADPLbzE+SZeWt06Liyni9hyfAwmejXG
+         3/G0pBcLZby/W9xkPEqY7/C52hzCITfCI59YmP66OtfTxIRSuWOSpYdBPY1YeDY3ddfY
+         odzIx9TsciIoQ1sAl9hMxxwYxgGPasm+UYcu98cMhiKtZQL4isanMBVMVBdP+Fs0oxHt
+         BvjO3INXsWQrNXBGkQYTcDk8G9S1jDKWdXb36RXf5KkXdPcxKYkX3+Hu1MwOWXZ/Sqhr
+         B0bXq5ITA7+JDPNKundyNqIsLE0WhOBs2defqqvUvyjx0JRHaz19jnYUXAVzloHuwO8y
+         5WPg==
+X-Gm-Message-State: ANoB5pkkU7gudmZdB68ju1mrf0HTfLYyAOBdASQz8Lc726CNvkIcnB0a
+	BJ+VADad3sYz0dswHOwSNJo=
+X-Google-Smtp-Source: AA0mqf65Hayvxx6HW4BpL6shqMfP5P+7WL8Kx9rrVd0hJaGecXER7SpcxDy/P4CdKLK5k/ZFAtBVDA==
+X-Received: by 2002:a05:600c:2d45:b0:3d0:8c4c:f681 with SMTP id a5-20020a05600c2d4500b003d08c4cf681mr14114048wmg.37.1670405612599;
+        Wed, 07 Dec 2022 01:33:32 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id b40-20020a05600c4aa800b003cf6a55d8e8sm1078481wmp.7.2022.12.07.01.33.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 01:33:32 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Fix spelling mistake "ContryIE" -> "CountryIE"
+Date: Wed,  7 Dec 2022 09:33:31 +0000
+Message-Id: <20221207093331.2280355-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.0
-Subject: Re: [PATCH] vme: Fix error not catched in fake_init()
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<martyn@welchs.me.uk>, <manohar.vanga@gmail.com>, <arnd@arndb.de>
-References: <20221205084805.147436-1-chenzhongjin@huawei.com>
- <Y43kr/73sorrMWA0@kroah.com>
-Content-Language: en-US
-From: Chen Zhongjin <chenzhongjin@huawei.com>
-In-Reply-To: <Y43kr/73sorrMWA0@kroah.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.108.67]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500013.china.huawei.com (7.185.36.172)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+There is a spelling mistake in a netdev_info message. Fix it.
 
-On 2022/12/5 20:31, Greg KH wrote:
-> On Mon, Dec 05, 2022 at 04:48:05PM +0800, Chen Zhongjin wrote:
->> In fake_init(), __root_device_register() is possible to fail but it's
->> ignored, which can cause unregistering vme_root fail when exit.
->>
->>   general protection fault,
->>   probably for non-canonical address 0xdffffc000000008c
->>   KASAN: null-ptr-deref in range [0x0000000000000460-0x0000000000000467]
->>   RIP: 0010:root_device_unregister+0x26/0x60
->>   Call Trace:
->>    <TASK>
->>    __x64_sys_delete_module+0x34f/0x540
->>    do_syscall_64+0x38/0x90
->>    entry_SYSCALL_64_after_hwframe+0x63/0xcd
->>
->> Return error when __root_device_register() fails.
->>
->> Fixes: 658bcdae9c67 ("vme: Adding Fake VME driver")
->> Signed-off-by: Chen Zhongjin <chenzhongjin@huawei.com>
->> ---
->>   drivers/staging/vme_user/vme_fake.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
->> index dd646b0c531d..1ee432c223e2 100644
->> --- a/drivers/staging/vme_user/vme_fake.c
->> +++ b/drivers/staging/vme_user/vme_fake.c
->> @@ -1073,6 +1073,8 @@ static int __init fake_init(void)
->>   
->>   	/* We need a fake parent device */
->>   	vme_root = __root_device_register("vme", THIS_MODULE);
-> This should be calling root_device_register() as well, not this version
-> of the call.
-Of course it should. Have sent another patch for it.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/rtl8192e/rtllib_rx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for your time!
-Chen
-> thanks,
->
-> greg k-h
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index f8965afab767..669e74a67190 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -1776,7 +1776,7 @@ static inline void rtllib_extract_country_ie(
+ 				if (rtllib_act_scanning(ieee, false) &&
+ 				    ieee->FirstIe_InScan)
+ 					netdev_info(ieee->dev,
+-						    "Received beacon ContryIE, SSID: <%s>\n",
++						    "Received beacon CountryIE, SSID: <%s>\n",
+ 						    network->ssid);
+ 				dot11d_update_country(ieee, addr2,
+ 						       info_element->len,
+-- 
+2.38.1
+
