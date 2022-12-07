@@ -1,81 +1,249 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B47136D
-	for <linux-staging@lists.linux.dev>; Wed,  7 Dec 2022 09:33:34 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id ay14-20020a05600c1e0e00b003cf6ab34b61so606097wmb.2
-        for <linux-staging@lists.linux.dev>; Wed, 07 Dec 2022 01:33:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z/Q6kvRFfdVCMvD/9KspZyMV4JmhJENHyXiGZYFDk44=;
-        b=fGvVgz/qLTD3VEZDyt0R79HKaMueP/MoJWsyBHUwQi8OkgR6+KCU6nDmoFMopvR3T7
-         L47YKFDIIbN+1PBNVuJIRY2y2sBhXYbp+WdEV03RNxbEMnrPE685neASGJWiaY1gOvhY
-         +OjTKux0yGwNj+htnlJ1vUL0Vb4ZBDwxovlNX1PzDo9cBHQAQGGIw7vlm0821idOlYXf
-         YYwSQDP6rPV3Uy1xXqVobWc2boYm1b4GO988NLxFWaqeE+mv4dsMuo46qAAwHODWZkAW
-         +pUpbqyVKe3qFbrq2+LelY9V4zzKwA9FIhRSzY8nPZQb5E8Iomf+wo8JR7BPFRVSNcwG
-         eDPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z/Q6kvRFfdVCMvD/9KspZyMV4JmhJENHyXiGZYFDk44=;
-        b=VUIp6qaZiOGu4eo0pTBcJQrzHOu/egHh39aADPLbzE+SZeWt06Liyni9hyfAwmejXG
-         3/G0pBcLZby/W9xkPEqY7/C52hzCITfCI59YmP66OtfTxIRSuWOSpYdBPY1YeDY3ddfY
-         odzIx9TsciIoQ1sAl9hMxxwYxgGPasm+UYcu98cMhiKtZQL4isanMBVMVBdP+Fs0oxHt
-         BvjO3INXsWQrNXBGkQYTcDk8G9S1jDKWdXb36RXf5KkXdPcxKYkX3+Hu1MwOWXZ/Sqhr
-         B0bXq5ITA7+JDPNKundyNqIsLE0WhOBs2defqqvUvyjx0JRHaz19jnYUXAVzloHuwO8y
-         5WPg==
-X-Gm-Message-State: ANoB5pkkU7gudmZdB68ju1mrf0HTfLYyAOBdASQz8Lc726CNvkIcnB0a
-	BJ+VADad3sYz0dswHOwSNJo=
-X-Google-Smtp-Source: AA0mqf65Hayvxx6HW4BpL6shqMfP5P+7WL8Kx9rrVd0hJaGecXER7SpcxDy/P4CdKLK5k/ZFAtBVDA==
-X-Received: by 2002:a05:600c:2d45:b0:3d0:8c4c:f681 with SMTP id a5-20020a05600c2d4500b003d08c4cf681mr14114048wmg.37.1670405612599;
-        Wed, 07 Dec 2022 01:33:32 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id b40-20020a05600c4aa800b003cf6a55d8e8sm1078481wmp.7.2022.12.07.01.33.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 01:33:32 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8192e: Fix spelling mistake "ContryIE" -> "CountryIE"
-Date: Wed,  7 Dec 2022 09:33:31 +0000
-Message-Id: <20221207093331.2280355-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.38.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3E5138C;
+	Wed,  7 Dec 2022 10:06:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD319C433D6;
+	Wed,  7 Dec 2022 10:06:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1670407568;
+	bh=I1gY2mIrXBgBXY/HorosOyog/+TjHFV37SN8mdEb6AQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZHYW6WylODu27JffiDxYYocM7Zuqx2Rjexyagh8CmR9wvxZmqPZeU7fhXH24LOPwH
+	 sd3sizABtD/uj9smJYPAX2eAupGF3ZtsGrfG9A60k/6TAGfG091sQ/omlGKoYr+38X
+	 sJU/Y9/3VyLhpRWAtkmdsX0LDiT02+ckOJBH8aPnl6ZKuNmvaZ2BcFxB5SxqLbdRBF
+	 Sib514Cf/tJYMhItNXx2yoLA0VXP6s6VyZaJkv4LZhw7DvhXZQr9K1ksqPnHaI2fDp
+	 SBapGPlNCRInJuNM8KrzynMNfy632vkWNUoWoYqXDAbBPMFRC+CM9PlolUNyr5r9WZ
+	 vjK5En/nK4zbw==
+Date: Wed, 7 Dec 2022 10:06:02 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v8 3/6] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <Y5BlisjV8Zi5fGWC@spud>
+References: <20221103163717.246217-1-paul.kocialkowski@bootlin.com>
+ <20221103163717.246217-4-paul.kocialkowski@bootlin.com>
+ <Y4RVzSM4FQ/tYQAV@dev-arch.thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="r9hFmAG5+uobH36S"
+Content-Disposition: inline
+In-Reply-To: <Y4RVzSM4FQ/tYQAV@dev-arch.thelio-3990X>
 
-There is a spelling mistake in a netdev_info message. Fix it.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/staging/rtl8192e/rtllib_rx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--r9hFmAG5+uobH36S
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index f8965afab767..669e74a67190 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -1776,7 +1776,7 @@ static inline void rtllib_extract_country_ie(
- 				if (rtllib_act_scanning(ieee, false) &&
- 				    ieee->FirstIe_InScan)
- 					netdev_info(ieee->dev,
--						    "Received beacon ContryIE, SSID: <%s>\n",
-+						    "Received beacon CountryIE, SSID: <%s>\n",
- 						    network->ssid);
- 				dot11d_update_country(ieee, addr2,
- 						       info_element->len,
--- 
-2.38.1
+On Sun, Nov 27, 2022 at 11:31:41PM -0700, Nathan Chancellor wrote:
+> Hi Paul,
+>=20
+> On Thu, Nov 03, 2022 at 05:37:14PM +0100, Paul Kocialkowski wrote:
+> > Some Allwinner platforms come with an Image Signal Processor, which
+> > supports various features in order to enhance and transform data
+> > received by image sensors into good-looking pictures. In most cases,
+> > the data is raw bayer, which gets internally converted to RGB and
+> > finally YUV, which is what the hardware produces.
+> >=20
+> > This driver supports ISPs that are similar to the A31 ISP, which was
+> > the first standalone ISP found in Allwinner platforms. Simpler ISP
+> > blocks were found in the A10 and A20, where they are tied to a CSI
+> > controller. Newer generations of Allwinner SoCs (starting with the
+> > H6, H616, etc) come with a new camera subsystem and revised ISP.
+> > Even though these previous and next-generation ISPs are somewhat
+> > similar to the A31 ISP, they have enough significant differences to
+> > be out of the scope of this driver.
+> >=20
+> > While the ISP supports many features, including 3A and many
+> > enhancement blocks, this implementation is limited to the following:
+> > - V3s (V3/S3) platform support;
+> > - Bayer media bus formats as input;
+> > - Semi-planar YUV (NV12/NV21) as output;
+> > - Debayering with per-component gain and offset configuration;
+> > - 2D noise filtering with configurable coefficients.
+> >=20
+> > Since many features are missing from the associated uAPI, the driver
+> > is aimed to integrate staging until all features are properly
+> > described.
+> >=20
+> > On the technical side, it uses the v4l2 and media controller APIs,
+> > with a video node for capture, a processor subdev and a video node
+> > for parameters submission. A specific uAPI structure and associated
+> > v4l2 meta format are used to configure parameters of the supported
+> > modules.
+> >=20
+> > One particular thing about the hardware is that configuration for
+> > module registers needs to be stored in a DMA buffer and gets copied
+> > to actual registers by the hardware at the next vsync, when instructed
+> > by a flag. This is handled by the "state" mechanism in the driver.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>=20
+> This patch is now in -next as commit e3185e1d7c14 ("media: staging:
+> media: Add support for the Allwinner A31 ISP"), where it causes the
+> following clang warnings:
 
+FWIW, this is (as yet) unfixed & thus breaking allmodconfig w/ clang.
+I had a quick look on lore but could not see a proposed fix other than
+what Nathan has pasted below.
+
+> > +void sun6i_isp_capture_configure(struct sun6i_isp_device *isp_dev)
+> > +{
+> > +	unsigned int width, height;
+> > +	unsigned int stride_luma, stride_chroma =3D 0;
+> > +	unsigned int stride_luma_div4, stride_chroma_div4;
+> > +	const struct sun6i_isp_capture_format *format;
+> > +	const struct v4l2_format_info *info;
+> > +	u32 pixelformat;
+> > +
+> > +	sun6i_isp_capture_dimensions(isp_dev, &width, &height);
+> > +	sun6i_isp_capture_format(isp_dev, &pixelformat);
+> > +
+> > +	format =3D sun6i_isp_capture_format_find(pixelformat);
+> > +	if (WARN_ON(!format))
+> > +		return;
+> > +
+> > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_SIZE_CFG_REG,
+> > +			     SUN6I_ISP_MCH_SIZE_CFG_WIDTH(width) |
+> > +			     SUN6I_ISP_MCH_SIZE_CFG_HEIGHT(height));
+> > +
+> > +	info =3D v4l2_format_info(pixelformat);
+> > +	if (WARN_ON(!info))
+> > +		return;
+> > +
+> > +	stride_luma =3D width * info->bpp[0];
+> > +	stride_luma_div4 =3D DIV_ROUND_UP(stride_luma, 4);
+> > +
+> > +	if (info->comp_planes > 1) {
+> > +		stride_chroma =3D width * info->bpp[1] / info->hdiv;
+> > +		stride_chroma_div4 =3D DIV_ROUND_UP(stride_chroma, 4);
+> > +	}
+> > +
+> > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_CFG_REG,
+> > +			     SUN6I_ISP_MCH_CFG_EN |
+> > +			     SUN6I_ISP_MCH_CFG_OUTPUT_FMT(format->output_format) |
+> > +			     SUN6I_ISP_MCH_CFG_STRIDE_Y_DIV4(stride_luma_div4) |
+> > +			     SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_chroma_div4));
+> > +}
+>=20
+>=20
+>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:135:6: error:=
+ variable 'stride_chroma_div4' is used uninitialized whenever 'if' conditio=
+n is false [-Werror,-Wsometimes-uninitialized]
+>           if (info->comp_planes > 1) {
+>               ^~~~~~~~~~~~~~~~~~~~~
+>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:144:42: note:=
+ uninitialized use occurs here
+>                               SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_chr=
+oma_div4));
+>                                                                 ^~~~~~~~~=
+~~~~~~~~~
+>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h:249:48: note: exp=
+anded from macro 'SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4'
+>   #define SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(v)     (((v) << 20) & GENMASK(=
+30, 20))
+>                                                     ^
+>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:135:2: note: =
+remove the 'if' if its condition is always true
+>           if (info->comp_planes > 1) {
+>           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c:112:51: note:=
+ initialize the variable 'stride_chroma_div4' to silence this warning
+>           unsigned int stride_luma_div4, stride_chroma_div4;
+>                                                           ^
+>                                                             =3D 0
+>=20
+> Does stride_chroma_div4 want to just be initialized to zero?
+>=20
+> > +static int sun6i_isp_proc_notifier_bound(struct v4l2_async_notifier *n=
+otifier,
+> > +					 struct v4l2_subdev *remote_subdev,
+> > +					 struct v4l2_async_subdev *async_subdev)
+> > +{
+> > +	struct sun6i_isp_device *isp_dev =3D
+> > +		container_of(notifier, struct sun6i_isp_device, proc.notifier);
+> > +	struct sun6i_isp_proc_async_subdev *proc_async_subdev =3D
+> > +		container_of(async_subdev, struct sun6i_isp_proc_async_subdev,
+> > +			     async_subdev);
+> > +	struct sun6i_isp_proc *proc =3D &isp_dev->proc;
+> > +	struct sun6i_isp_proc_source *source =3D proc_async_subdev->source;
+> > +	bool enabled;
+> > +
+> > +	switch (source->endpoint.base.port) {
+> > +	case SUN6I_ISP_PORT_CSI0:
+> > +		source =3D &proc->source_csi0;
+> > +		enabled =3D true;
+> > +		break;
+> > +	case SUN6I_ISP_PORT_CSI1:
+> > +		source =3D &proc->source_csi1;
+> > +		enabled =3D !proc->source_csi0.expected;
+> > +		break;
+> > +	default:
+> > +		break;
+> > +	}
+> > +
+> > +	source->subdev =3D remote_subdev;
+> > +
+> > +	return sun6i_isp_proc_link(isp_dev, SUN6I_ISP_PROC_PAD_SINK_CSI,
+> > +				   remote_subdev, enabled);
+> > +}
+>=20
+>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:418:2: error: va=
+riable 'enabled' is used uninitialized whenever switch default is taken [-W=
+error,-Wsometimes-uninitialized]
+>           default:
+>           ^~~~~~~
+>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:425:23: note: un=
+initialized use occurs here
+>                                     remote_subdev, enabled);
+>                                                     ^~~~~~~
+>   drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c:407:14: note: in=
+itialize the variable 'enabled' to silence this warning
+>           bool enabled;
+>                       ^
+>                       =3D 0
+>=20
+> Should there be an early return in the default case?
+>=20
+> I do not mind sending patches if you are unable to, assuming I have the
+> right fixes.
+>=20
+> Cheers,
+> Nathan
+>=20
+
+--r9hFmAG5+uobH36S
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY5BligAKCRB4tDGHoIJi
+0ukmAQDmVsJKCPxo8VajrEq7HOquWhxFMxVYfhmTx0e4zTVg9AD+JpfzzwtmPBQi
+W7meOLACGLzrk3LhZoDhDll39zPj9wg=
+=hRIk
+-----END PGP SIGNATURE-----
+
+--r9hFmAG5+uobH36S--
