@@ -1,46 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567006ADF
-	for <linux-staging@lists.linux.dev>; Thu,  8 Dec 2022 16:01:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7446C433D6;
-	Thu,  8 Dec 2022 16:01:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EB23217
+	for <linux-staging@lists.linux.dev>; Thu,  8 Dec 2022 18:20:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DFBCC433EF;
+	Thu,  8 Dec 2022 18:20:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1670515283;
-	bh=YlO69Sc0M8Hc8I5mYxw/iz45w3vbyvj2NPmlRe3hG4o=;
+	s=korg; t=1670523606;
+	bh=LjIY1Ttg9HywGnlTWGvWTLRjJQbCt+ROrm3V95k0884=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=diXhpftUYUNVV/xIU+zq/ngEF+033EtYdp0LlZUDACKMnR8/ChR42F8SMRWIyIOe4
-	 Vt8EV2+2sQJglWj2gP7yrDYXyf0E3MA0eMeumH4n75T3W+M6AXdKvQz62ca9stccxA
-	 MFYhVmHa0N9CI+blJQvgdyciE9cQI2myvEk5CpEg=
-Date: Thu, 8 Dec 2022 17:01:20 +0100
+	b=kgtKzbMgaYSdreUHxzmktHTUD3qjKxNR1addUi7Gn4pUX+mieKMhhvDROFnlkYLMj
+	 Hls58/uCE4lw80zzMVbqeq2rHrAEJho3EWywJMUHsNbs4+JJaz9QmGhFPMKfOOyeXf
+	 n04FTSLeMm8nov+WmTfLptbD7EEKpMGa7zoNddS0=
+Date: Thu, 8 Dec 2022 19:20:02 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Matt Jan <zoo868e@gmail.com>
+To: =?utf-8?B?6Km55pWs5bmz?= <zoo868e@gmail.com>
 Cc: Martyn Welch <martyn@welchs.me.uk>,
 	Manohar Vanga <manohar.vanga@gmail.com>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH v3 1/3] staging: vme_user: add the spaces around the "*"
-Message-ID: <Y5IKUMH+mq++Kx9s@kroah.com>
+Message-ID: <Y5Iq0vpqw/RzJTob@kroah.com>
 References: <20221208140531.3840-1-zoo868e@gmail.com>
+ <Y5IKUMH+mq++Kx9s@kroah.com>
+ <CAB9pA+-2tZQDXxQ4JPrXb6K0HH=gv_9SAPKp1DSrk_M6OxL06g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221208140531.3840-1-zoo868e@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAB9pA+-2tZQDXxQ4JPrXb6K0HH=gv_9SAPKp1DSrk_M6OxL06g@mail.gmail.com>
 
-On Thu, Dec 08, 2022 at 10:05:32PM +0800, Matt Jan wrote:
-> Add a space around the "*" at vme_bridge.h to clear up a checkpatch
-> check.
+On Fri, Dec 09, 2022 at 12:55:41AM +0800, 詹敬平 wrote:
+> That's weird. The email send by command 'git send-mail' not appear in my
+> '[Gmail]/Sent mail' folder, but the email send by mutt does. Maybe I need
+> configure the .gitconfog?
 > 
-> Signed-off-by: Matt Jan <zoo868e@gmail.com>
+> Here is my .gitconfog
+> 
+> [user]
+> email = zoo868e@gmail.com
+> name = Matt Jan
+> [core]
+> autocrlf = input
 
-This series never showed up on lore.kernel.org, why not?
+No idea, sorry but do realize that when you send email, gmail will not
+show mail that you sent, that's a common issue.
 
-It seems like you are spoofing the gmail.com address?  Or is something
-else going wrong on your email side?
+Also you just sent this in html format, which is rejected by the mailing
+lists :(
 
 thanks,
 
