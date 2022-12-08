@@ -1,23 +1,23 @@
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BF62F5A;
-	Thu,  8 Dec 2022 13:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3562F5A;
+	Thu,  8 Dec 2022 13:55:58 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 91DF020009;
-	Thu,  8 Dec 2022 13:55:52 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id D5D9020012;
+	Thu,  8 Dec 2022 13:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1670507754;
+	t=1670507756;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AdvPC73c9zwfkFT3idm11mKPKt/UTJmdPBrpsnJ9sEg=;
-	b=TIxJ12w9hxF1f1ILrsC/djK5bLsm10CyMS3jQyEac4kVdwvBxxnbVS+zqX3kvdkL+O8Zlp
-	7NIXFgJuyytOlji5Rr+NmY9K6w+ka/j4foYOkmQZPGdzU3C+NbymUZog270rxjIwXzI26C
-	jK98kHLK+JoIG6VycBrr7W+lQjB4q/ZwgIKL8NGIefTx9/1T6WbyCqOjDZxG5td7DGN+uL
-	ybKFppsHo4GM+v9SlLQa4cR3uEAzQ3g8qRZDc/hf2+POG08Hryd0MHf52pNiIzu7ZXczuE
-	8h2yNxIgukfm9v3pMamq+h5rEZEnB+itvAXiWoHlDgN/vcPg8OVbxGzVFOOZ/A==
+	bh=Ez+xaGXRX17SiCVJoDh8t8wWoiu7lx7UzmAXmqGgMuE=;
+	b=NNRxjaAUVStw8vOCJt2SvUiSvRS88BOkRQ8Z/wcWoiW3pwo9rtRFGjLRoUq8AeKWtf59gq
+	F8EhazONxd1IzHMblQ/8tjBHBisg6eexFhfFMN3MFlAm+QsKr3JKz5cyBHoMDNYu53kRmS
+	NJo+anYNlckuKOQEhE1WEh0FCWCTB/HJdITEkgZS4IDm/IwTH399h6PrLyQmDfi4C9Rq/A
+	/MSGgd+9Uja1AbeZTfHQ5jogZjQljkycl7iOwmm5OYsXI+pEgHkkGk9HzJ2wjjSJcM6NnX
+	YMLHsXA+C7oIg7uAPZSNdViicOsle0mV4O9wk9kzOQtn5M1gYg4h8Kl3WtYeqA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -35,9 +35,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Sakari Ailus <sakari.ailus@iki.fi>,
 	Conor Dooley <conor@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH v2 08/11] media: sun6i-isp: proc: Error out on invalid port to fix warning
-Date: Thu,  8 Dec 2022 14:55:09 +0100
-Message-Id: <20221208135512.421903-9-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2 09/11] media: sunxi-isp: proc: Declare subdev ops as static
+Date: Thu,  8 Dec 2022 14:55:10 +0100
+Message-Id: <20221208135512.421903-10-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221208135512.421903-1-paul.kocialkowski@bootlin.com>
 References: <20221208135512.421903-1-paul.kocialkowski@bootlin.com>
@@ -49,9 +49,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The enabled variable is only set for a valid port and used later,
-which triggers an uninitialized use smatch warning. Explicitly error
-out in that case to fix the warning.
+The static keyword is missing in the v4l2 subdev ops definition for the proc.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
@@ -59,18 +57,18 @@ Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
-index a95709d2c573..4f34c1bc8be9 100644
+index 4f34c1bc8be9..1ca4673df2b3 100644
 --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
 +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
-@@ -416,7 +416,7 @@ static int sun6i_isp_proc_notifier_bound(struct v4l2_async_notifier *notifier,
- 		enabled = !proc->source_csi0.expected;
- 		break;
- 	default:
--		break;
-+		return -EINVAL;
- 	}
+@@ -342,7 +342,7 @@ static const struct v4l2_subdev_pad_ops sun6i_isp_proc_pad_ops = {
+ 	.set_fmt	= sun6i_isp_proc_set_fmt,
+ };
  
- 	source->subdev = remote_subdev;
+-const struct v4l2_subdev_ops sun6i_isp_proc_subdev_ops = {
++static const struct v4l2_subdev_ops sun6i_isp_proc_subdev_ops = {
+ 	.video	= &sun6i_isp_proc_video_ops,
+ 	.pad	= &sun6i_isp_proc_pad_ops,
+ };
 -- 
 2.38.1
 
