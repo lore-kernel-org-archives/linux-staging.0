@@ -1,80 +1,47 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E272F3D;
-	Thu,  8 Dec 2022 14:20:54 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1E190C0010;
-	Thu,  8 Dec 2022 14:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1670509253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l1d1C6XOR5CdMp7rtfdwwMdKTU/wg8Y6oozqFuEEadY=;
-	b=ivdJdSy9X76V6OrTItBkoQRR+c4AdoISFooXkR8IGRL2MT3HVUScvIivkpWj1AdlsnPkc/
-	UKHvMn44v8XAb4kZHG2uEvuC9S3D42mj7i6jp4YYcmmJ7Q5qaGg7OkcDKBkrrqCd7pfULv
-	il6rbTPxXVDP1VJKyBYbb3ouJQaIiJrK2dpqi2pk4EdR+GHrIWcbSQOXuRmzOIbZNKxmDB
-	P+BIzv2n2K+mIIns3UvNnTbY5fMAhoaes9bxgZzzNOsP02Z8OsHlckCVTNca/AUMMzJ76f
-	3CO8V2NbEMBCDmo86DMYWnhoHJAqB6LAqRusyrYfnTcrS2fEXrc9gaXeAV+8HA==
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Conor Dooley <conor@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH v3 12/12] media: sun6i-isp: params: Unregister pending buffer on cleanup
-Date: Thu,  8 Dec 2022 15:20:06 +0100
-Message-Id: <20221208142006.425809-13-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221208142006.425809-1-paul.kocialkowski@bootlin.com>
-References: <20221208142006.425809-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567006ADF
+	for <linux-staging@lists.linux.dev>; Thu,  8 Dec 2022 16:01:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7446C433D6;
+	Thu,  8 Dec 2022 16:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1670515283;
+	bh=YlO69Sc0M8Hc8I5mYxw/iz45w3vbyvj2NPmlRe3hG4o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=diXhpftUYUNVV/xIU+zq/ngEF+033EtYdp0LlZUDACKMnR8/ChR42F8SMRWIyIOe4
+	 Vt8EV2+2sQJglWj2gP7yrDYXyf0E3MA0eMeumH4n75T3W+M6AXdKvQz62ca9stccxA
+	 MFYhVmHa0N9CI+blJQvgdyciE9cQI2myvEk5CpEg=
+Date: Thu, 8 Dec 2022 17:01:20 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Matt Jan <zoo868e@gmail.com>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 1/3] staging: vme_user: add the spaces around the "*"
+Message-ID: <Y5IKUMH+mq++Kx9s@kroah.com>
+References: <20221208140531.3840-1-zoo868e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221208140531.3840-1-zoo868e@gmail.com>
 
-The state cleanup helper should unregister the pending buffer from
-the state after returning it to v4l2, like it is done for other
-buffers in the wait queue.
+On Thu, Dec 08, 2022 at 10:05:32PM +0800, Matt Jan wrote:
+> Add a space around the "*" at vme_bridge.h to clear up a checkpatch
+> check.
+> 
+> Signed-off-by: Matt Jan <zoo868e@gmail.com>
 
-Before this change, the pending buffer from a previous run might have
-been returned at the beginning of the next run, causing an error.
+This series never showed up on lore.kernel.org, why not?
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Fixes: e3185e1d7c14 ("media: staging: media: Add support for the Allwinner A31 ISP")
----
- drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c | 2 ++
- 1 file changed, 2 insertions(+)
+It seems like you are spoofing the gmail.com address?  Or is something
+else going wrong on your email side?
 
-diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-index 7b41a13162b9..e28be895b486 100644
---- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-+++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-@@ -208,6 +208,8 @@ static void sun6i_isp_params_state_cleanup(struct sun6i_isp_device *isp_dev,
- 		vb2_buffer = &state->pending->v4l2_buffer.vb2_buf;
- 		vb2_buffer_done(vb2_buffer, error ? VB2_BUF_STATE_ERROR :
- 				VB2_BUF_STATE_QUEUED);
-+
-+		state->pending = NULL;
- 	}
- 
- 	list_for_each_entry(isp_buffer, &state->queue, list) {
--- 
-2.38.1
+thanks,
 
+greg k-h
