@@ -1,49 +1,26 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2E77F3
-	for <linux-staging@lists.linux.dev>; Thu,  8 Dec 2022 09:11:37 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so4011174pjs.4
-        for <linux-staging@lists.linux.dev>; Thu, 08 Dec 2022 01:11:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kMozxrhekUqthR/ZzwbfPqWM+5U9HTscLOB3qLeUQfY=;
-        b=DBsimqLIo+qEE89hMxiDEss3nJ2pNnaSSoIITz+tZkSCSpOOMi9BfHHyh/D9aJhTUW
-         +cLQyqcYWxVIc7CkFK6IvGYa5AvWgzczgw7F7Nog/uByh073u6U7WTRYdExJwarBvhGq
-         /bLDVRO3zkCZqO9qEF94XaY0FYPuRvGVZM8wPol2XpcALH+q3PLQ4kr+Qm441egmZZ9q
-         2IkpF5oyaJw1XsXUqZvln7togEZiyIRx9i8nQhS0XsNqVbJafjRXWpbgfgHWECKkVJ2f
-         ecwLuSPT3cfbwsld5ldAuijnMxgJzspAV+qByDxxTRE7orj6pMY73Z8z67KS8SPAEZOW
-         Vytw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kMozxrhekUqthR/ZzwbfPqWM+5U9HTscLOB3qLeUQfY=;
-        b=VPsLGIMIqhB8JyJWZHKd9tvBQx5UxyYUpl1cKpxD9Qt3n2MJM1tgpTtvoY/PSfOXAF
-         Gae4k+wS5A9T6GMe81dEvzMfNZQZmDdZJ+VItYR1xa3sUgFvZ4rbnbuaIWRva642BB+K
-         6W388wWNYTsvgOBMP+lXu0aCKWGVEwo9g3qJvACldLpY0si99WraNfk/iH1au/rd3mIE
-         Wncu21FTl2PRpS9hAxXoiTV08MvlIjliIoEbJXSbllz0XuJ93hj7CJGm1CEGNXThMikQ
-         eHG8XirkLp/D3EVasl5R81q0c7sxQZiQP+F6jYv6/fkOWIXALp61ha9BLJ56RhVT4fO+
-         kTyA==
-X-Gm-Message-State: ANoB5pmDJlrQ/UrCOjE2bRks8eUNu86vyzaau7ruCSzz9wD3lU+gv/Av
-	sqMrprReQYu+ul93FIyIzITc3pMUzKc2dbhe
-X-Google-Smtp-Source: AA0mqf6C2QSUugE5UVSkvjHjxR1eVa2jk+YidS6ZFLPvirzkPbRo28j3ULWyI9VDM+gJYlx2nMT/OA==
-X-Received: by 2002:a17:902:82c2:b0:189:a208:d124 with SMTP id u2-20020a17090282c200b00189a208d124mr41050534plz.143.1670490696690;
-        Thu, 08 Dec 2022 01:11:36 -0800 (PST)
-Received: from zoo868e (1-170-0-91.dynamic-ip.hinet.net. [1.170.0.91])
-        by smtp.gmail.com with ESMTPSA id n1-20020a632701000000b0047899d0d62csm8246766pgn.52.2022.12.08.01.11.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 01:11:36 -0800 (PST)
-Date: Thu, 8 Dec 2022 17:11:34 +0800
-From: Matt Jan <zoo868e@gmail.com>
-To: Martyn Welch <martyn@welchs.me.uk>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF0A7F3
+	for <linux-staging@lists.linux.dev>; Thu,  8 Dec 2022 09:30:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA82FC433D6;
+	Thu,  8 Dec 2022 09:30:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1670491827;
+	bh=Nkicfm25kIk7lK9v1K8b/hhnq6A0lK12N/yYgRIf0LA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CHS1ZiQzZb1qjxOYo4g0RSK0U0dJsvfhifSNuY7FpqWGdX2yjNlLubxuC93gisHLK
+	 oemJzQa5DYZFq+nkJ6lvrEQEy2NRWQTToVf9tgTkhmlRJ8SwCcyv6nQ79g02caj74k
+	 eqT339slGKZH70ksTNSi6yeAaxH0ndWW5LXJ5o4E=
+Date: Thu, 8 Dec 2022 10:30:24 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Matt Jan <zoo868e@gmail.com>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
 	Manohar Vanga <manohar.vanga@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 3/3] staging: vme_user: remove unnecessary spaces
-Message-ID: <20221208091134.GA95310@zoo868e>
+Subject: Re: [PATCH 1/3] staging: vme_user: add the spaces around the "*"
+Message-ID: <Y5GusPhYhyq3d1KM@kroah.com>
+References: <20221208091100.GA95120@zoo868e>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,81 +29,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20221208091100.GA95120@zoo868e>
 
-Remove unnecessary spaces before function pointer arguments in
-vme_bridge.h. This is done with command ':%s/) (/)('.
+On Thu, Dec 08, 2022 at 05:11:00PM +0800, Matt Jan wrote:
+> Add a space around the "*" at vme_bridge.h to clear up a checkpatch
+> check.
+> 
+> Signed-off-by: Matt Jan <zoo868e@gmail.com>
+> ---
+>  drivers/staging/vme_user/vme_bridge.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
+> index 0bbefe9851d7..e17a8f7de165 100644
+> --- a/drivers/staging/vme_user/vme_bridge.h
+> +++ b/drivers/staging/vme_user/vme_bridge.h
+> @@ -4,7 +4,7 @@
+>  
+>  #include "vme.h"
+>  
+> -#define VME_CRCSR_BUF_SIZE (508*1024)
+> +#define VME_CRCSR_BUF_SIZE (508 * 1024)
+>  /*
+>   * Resource structures
+>   */
+> -- 
+> 2.25.1
+> 
+> 
 
-Signed-off-by: Matt Jan <zoo868e@gmail.com>
----
- drivers/staging/vme_user/vme_bridge.h | 32 +++++++++++++--------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+I see 2 copies of this patch sent to us, one properly threaded with
+others, and one (this one), not.  Which one is correct?  As I have no
+way of guessing, I'll drop both sets :(
 
-diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
-index 9a127f6fefca..ab2e24d3b625 100644
---- a/drivers/staging/vme_user/vme_bridge.h
-+++ b/drivers/staging/vme_user/vme_bridge.h
-@@ -128,45 +128,45 @@ struct vme_bridge {
- 	struct mutex irq_mtx;
- 
- 	/* Slave Functions */
--	int (*slave_get) (struct vme_slave_resource *, int *,
-+	int (*slave_get)(struct vme_slave_resource *, int *,
- 		unsigned long long *, unsigned long long *, dma_addr_t *,
- 		u32 *, u32 *);
--	int (*slave_set) (struct vme_slave_resource *, int, unsigned long long,
-+	int (*slave_set)(struct vme_slave_resource *, int, unsigned long long,
- 		unsigned long long, dma_addr_t, u32, u32);
- 
- 	/* Master Functions */
--	int (*master_get) (struct vme_master_resource *, int *,
-+	int (*master_get)(struct vme_master_resource *, int *,
- 		unsigned long long *, unsigned long long *, u32 *, u32 *,
- 		u32 *);
--	int (*master_set) (struct vme_master_resource *, int,
-+	int (*master_set)(struct vme_master_resource *, int,
- 		unsigned long long, unsigned long long,  u32, u32, u32);
--	ssize_t (*master_read) (struct vme_master_resource *, void *, size_t,
-+	ssize_t (*master_read)(struct vme_master_resource *, void *, size_t,
- 		loff_t);
--	ssize_t (*master_write) (struct vme_master_resource *, void *, size_t,
-+	ssize_t (*master_write)(struct vme_master_resource *, void *, size_t,
- 		loff_t);
--	unsigned int (*master_rmw) (struct vme_master_resource *, unsigned int,
-+	unsigned int (*master_rmw)(struct vme_master_resource *, unsigned int,
- 		unsigned int, unsigned int, loff_t);
- 
- 	/* DMA Functions */
--	int (*dma_list_add) (struct vme_dma_list *, struct vme_dma_attr *,
-+	int (*dma_list_add)(struct vme_dma_list *, struct vme_dma_attr *,
- 		struct vme_dma_attr *, size_t);
--	int (*dma_list_exec) (struct vme_dma_list *);
--	int (*dma_list_empty) (struct vme_dma_list *);
-+	int (*dma_list_exec)(struct vme_dma_list *);
-+	int (*dma_list_empty)(struct vme_dma_list *);
- 
- 	/* Interrupt Functions */
--	void (*irq_set) (struct vme_bridge *, int, int, int);
--	int (*irq_generate) (struct vme_bridge *, int, int);
-+	void (*irq_set)(struct vme_bridge *, int, int, int);
-+	int (*irq_generate)(struct vme_bridge *, int, int);
- 
- 	/* Location monitor functions */
--	int (*lm_set) (struct vme_lm_resource *, unsigned long long, u32, u32);
--	int (*lm_get) (struct vme_lm_resource *, unsigned long long *, u32 *,
-+	int (*lm_set)(struct vme_lm_resource *, unsigned long long, u32, u32);
-+	int (*lm_get)(struct vme_lm_resource *, unsigned long long *, u32 *,
- 		u32 *);
- 	int (*lm_attach)(struct vme_lm_resource *, int,
- 			 void (*callback)(void *), void *);
--	int (*lm_detach) (struct vme_lm_resource *, int);
-+	int (*lm_detach)(struct vme_lm_resource *, int);
- 
- 	/* CR/CSR space functions */
--	int (*slot_get) (struct vme_bridge *);
-+	int (*slot_get)(struct vme_bridge *);
- 
- 	/* Bridge parent interface */
- 	void *(*alloc_consistent)(struct device *dev, size_t size,
--- 
-2.25.1
+Please fix up and resend a v2 set only once.
 
+thanks,
+
+greg k-h
