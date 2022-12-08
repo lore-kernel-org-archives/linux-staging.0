@@ -1,23 +1,23 @@
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1A9320F;
-	Thu,  8 Dec 2022 14:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657CF3224;
+	Thu,  8 Dec 2022 14:20:39 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1583EC0004;
-	Thu,  8 Dec 2022 14:20:29 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id E8DDCC001E;
+	Thu,  8 Dec 2022 14:20:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1670509231;
+	t=1670509237;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YYTNcaefDb7Hq3EpjUs2F8iw4f2OIjP/h6YQGK4LD5Y=;
-	b=GgXtQ65EjvZGV+VlKH0VTsXbAs6WxZsJ2xOxvmyTl9E0onBA+lb8gneodXFYRyvwmE4mfE
-	SLlmRZf960OCcUD3eINNLNEW7eaR8Pms/VOIfPsA/rAltgO+fNFSt6SslLRulsag+pvtbz
-	5UxsXbJJOJAuQpq2qFvB7QAm3n+K7UrbJvgQzOyJsPboLeaClkMTl1RyrCElm6oHrrVDcS
-	rQyeu6q63xvwxkauZlWh1Io66Xs6yI41RSYKuQiuUiXVxCaLGIa1xf5nySAIw+z2qOmjQy
-	3Akvp0PMikSnjr4vyIN08wFoxufv+eIzCQNs/Y6Z6cDoDM6nsetNuPpU5ajeMQ==
+	bh=DcI0CE2vpt8M7xlyKhWsNrg5u9xwZtrv/Ts2Ew1lIMc=;
+	b=NUTQupy9h9GiEVOPXOZIucyLmIa8F5OCH+jK9GuNbCCMRX/nWubMvp8590YSc0Di8t66N3
+	c2fqtdypEndYmjytjJuaVGrDAaqoDGn0nXhWWPCy4H9ECzo+lfVH3k9zxz3/MD/s/tK65c
+	/DJlwZxNCSf9vdrmsttFr424GCXMTPg2OdNwh2LpTkIHtT4O7v4fMgsIA2rdInUh4sXFfb
+	WwsXK5CHXnu12C4nteflqtOI3grHazyb0qjKY3oCQg4m8/AoB+n4GnRPcTYqgrXZhx0htd
+	B8QX6wI3kpzjjRDi04QMNGibIjIbD21CC9MjrDDWebwJE+mPwrwSPfxC6cD+Yg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -35,9 +35,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Sakari Ailus <sakari.ailus@iki.fi>,
 	Conor Dooley <conor@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH v3 02/12] media: sun6i-csi: bridge: Error out on invalid port to fix warning
-Date: Thu,  8 Dec 2022 15:19:56 +0100
-Message-Id: <20221208142006.425809-3-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v3 05/12] media: sun6i-mipi-csi2: Clarify return code handling in stream off path
+Date: Thu,  8 Dec 2022 15:19:59 +0100
+Message-Id: <20221208142006.425809-6-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221208142006.425809-1-paul.kocialkowski@bootlin.com>
 References: <20221208142006.425809-1-paul.kocialkowski@bootlin.com>
@@ -49,29 +49,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The enabled variable is only set for a valid port and used later,
-which triggers an uninitialized use smatch warning. Explicitly error
-out in that case to fix the warning.
+Explicitly set ret to zero instead of assigning it and overwriting it later,
+which is a bit confusing to understand.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Fixes: 0d2b746b1bef ("media: sun6i-csi: Add bridge v4l2 subdev with port management")
 ---
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-index 88df3a73ebfa..4517c0346eef 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-@@ -663,7 +663,7 @@ sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
- 		enabled = !bridge->source_parallel.expected;
- 		break;
- 	default:
--		break;
-+		return -EINVAL;
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+index 484ac5f054d5..a220ce849b41 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+@@ -188,7 +188,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 		return -ENODEV;
+ 
+ 	if (!on) {
+-		ret = v4l2_subdev_call(source_subdev, video, s_stream, 0);
++		v4l2_subdev_call(source_subdev, video, s_stream, 0);
++		ret = 0;
+ 		goto disable;
  	}
  
- 	source->subdev = remote_subdev;
+@@ -280,8 +281,6 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	return 0;
+ 
+ disable:
+-	if (!on)
+-		ret = 0;
+ 	phy_power_off(dphy);
+ 	sun6i_mipi_csi2_disable(csi2_dev);
+ 
 -- 
 2.38.1
 
