@@ -1,26 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF0A7F3
-	for <linux-staging@lists.linux.dev>; Thu,  8 Dec 2022 09:30:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA82FC433D6;
-	Thu,  8 Dec 2022 09:30:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1670491827;
-	bh=Nkicfm25kIk7lK9v1K8b/hhnq6A0lK12N/yYgRIf0LA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CHS1ZiQzZb1qjxOYo4g0RSK0U0dJsvfhifSNuY7FpqWGdX2yjNlLubxuC93gisHLK
-	 oemJzQa5DYZFq+nkJ6lvrEQEy2NRWQTToVf9tgTkhmlRJ8SwCcyv6nQ79g02caj74k
-	 eqT339slGKZH70ksTNSi6yeAaxH0ndWW5LXJ5o4E=
-Date: Thu, 8 Dec 2022 10:30:24 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010EC7F3
+	for <linux-staging@lists.linux.dev>; Thu,  8 Dec 2022 09:37:01 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id ay40so626341wmb.2
+        for <linux-staging@lists.linux.dev>; Thu, 08 Dec 2022 01:37:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Wk7+i0C/FWEnPCeIRF23zs5aw223SpiGHR62WUI0pA=;
+        b=S/ZRMUYscgN7PwFNXP6eiKHyPpzRzt/H+F6Y0JzP8DT/XhoxoACVk2xE653w1CIyUP
+         6jWQIEa3zfyqh1Sh8XZ3brRt/eXLpja3ZSgaEJXbXqPX2YFnBFr8opdXue+TBRZZ8XYl
+         HWK6KXOJ3yzrG/Tffknu7bxi2KxPP4L8OZURZmnJ+ckl8PL2W2ObwuBs52NLq7uhV7u4
+         eYC7f0sMBtTlkhrXKKq5zeSW58yUGmjVL/ZEbysMpRf4Ivf37TmROB0pu682pqpMJvta
+         0Tpm0vWohE0VYrc80MCFOOJwDWvmbBxNSNwd3tOpOvSVJhT/HxgQKGsBU1P6Tm+vmC/P
+         Fm8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Wk7+i0C/FWEnPCeIRF23zs5aw223SpiGHR62WUI0pA=;
+        b=48E/JjpX98HQROM6hU06fZYOxouNIWqjfJjsI7dsPtMm+vj08M4K/7juD6a8wkxUDg
+         jx7wf5T4EY5F/mWeTVEHXcD6JPWfwxcD5w1cw1NhEAXs/j5g+xc3+CiLYhoO0r9wz+Dk
+         1x2+VLV8kdLsr5w75goQCuitTFcpFIX7VybT+Za42da3NRQsOgI83v1WMFk294jNx4A2
+         Ap4BkLWjp8HELo392eIDEol3MXnGCCZUsuN/BLiQBrJIHxIdoZT4RmmhbZsNGWb03Vhz
+         yOrQoaqV3AcUfgRsUD410rdCAje4UCWOmSQqF57z6S0ETi9AjSZrg4vCRVQ2iVKUvxqk
+         BHIA==
+X-Gm-Message-State: ANoB5pkD1rOjKM9J+d9KoDPJXSfpDX4tGdsptj+aGbbCTAOhv8/XsyLx
+	Kr2zwqIsycNTJt8o4z+uBa8=
+X-Google-Smtp-Source: AA0mqf7nPhTl/OBwrtfB1SU92fVjJcQqVpKX6rUXLGgxV8LV9fXuR+r2CN5Zmpws7gZEiGUzMiB+pA==
+X-Received: by 2002:a7b:ce0e:0:b0:3d1:cae5:efe9 with SMTP id m14-20020a7bce0e000000b003d1cae5efe9mr11693567wmc.158.1670492220314;
+        Thu, 08 Dec 2022 01:37:00 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id k10-20020a056000004a00b002365730eae8sm21772828wrx.55.2022.12.08.01.36.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 01:36:59 -0800 (PST)
+Date: Thu, 8 Dec 2022 12:36:56 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: Matt Jan <zoo868e@gmail.com>
 Cc: Martyn Welch <martyn@welchs.me.uk>,
 	Manohar Vanga <manohar.vanga@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/3] staging: vme_user: add the spaces around the "*"
-Message-ID: <Y5GusPhYhyq3d1KM@kroah.com>
-References: <20221208091100.GA95120@zoo868e>
+Subject: Re: [PATCH 2/3] staging: vme_user: replace 'unsigned' with 'unsigned
+ int'
+Message-ID: <Y5GwOELXuuGDPilx@kadam>
+References: <20221208091117.GA95220@zoo868e>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,11 +56,10 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221208091100.GA95120@zoo868e>
+In-Reply-To: <20221208091117.GA95220@zoo868e>
 
-On Thu, Dec 08, 2022 at 05:11:00PM +0800, Matt Jan wrote:
-> Add a space around the "*" at vme_bridge.h to clear up a checkpatch
-> check.
+On Thu, Dec 08, 2022 at 05:11:17PM +0800, Matt Jan wrote:
+> Update the bare use of "unsigned" to the preferred "unsigned int".
 > 
 > Signed-off-by: Matt Jan <zoo868e@gmail.com>
 > ---
@@ -41,29 +67,18 @@ On Thu, Dec 08, 2022 at 05:11:00PM +0800, Matt Jan wrote:
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
-> index 0bbefe9851d7..e17a8f7de165 100644
+> index e17a8f7de165..9a127f6fefca 100644
 > --- a/drivers/staging/vme_user/vme_bridge.h
 > +++ b/drivers/staging/vme_user/vme_bridge.h
-> @@ -4,7 +4,7 @@
->  
->  #include "vme.h"
->  
-> -#define VME_CRCSR_BUF_SIZE (508*1024)
-> +#define VME_CRCSR_BUF_SIZE (508 * 1024)
->  /*
->   * Resource structures
->   */
-> -- 
-> 2.25.1
-> 
-> 
+> @@ -84,7 +84,7 @@ struct vme_error_handler {
+>  	unsigned long long end;		/* End of error window */
+>  	unsigned long long first_error;	/* Address of the first error */
+>  	u32 aspace;			/* Address space of error window*/
+> -	unsigned num_errors;		/* Number of errors */
+> +	unsigned int num_errors;		/* Number of errors */
 
-I see 2 copies of this patch sent to us, one properly threaded with
-others, and one (this one), not.  Which one is correct?  As I have no
-way of guessing, I'll drop both sets :(
+Now the comment is not aligned correctly.
 
-Please fix up and resend a v2 set only once.
+regards,
+dan carpenter
 
-thanks,
-
-greg k-h
