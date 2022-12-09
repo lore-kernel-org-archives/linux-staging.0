@@ -1,94 +1,174 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C457E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Dec 2022 02:18:56 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id t11-20020a17090a024b00b0021932afece4so6602319pje.5
-        for <linux-staging@lists.linux.dev>; Thu, 08 Dec 2022 18:18:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6279FEC1
+	for <linux-staging@lists.linux.dev>; Fri,  9 Dec 2022 12:00:38 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id x22so10949866ejs.11
+        for <linux-staging@lists.linux.dev>; Fri, 09 Dec 2022 04:00:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YP2JhvQ/nXbjiALnflrIMIPBw0fYLqdcvynpr/luaz4=;
-        b=ShYb/nGmDFKeKcQhogFI+dsBzw/V1ttzvjMr4aRxdgwo9MDnai1pDK1eURpjYi2fJZ
-         tSWE6dv5vyhz4Skq/SHYKVTnWYnEtecPQaYSzf6w8Fa52dhNAYcQDPzpoBLeuj/Hwmod
-         QYTmBU8y/hdnD/a+iln4cqucW+qCdSk+HtHxP92VnjuCuqqsml3TRB0L5AMCcc/vHcLV
-         No4ypahaipbq/zivtJ6WwVlb65GLPWeQroH2XIQ7DVNp3KNWyLSuHkaKaac4H090KUXo
-         Yn2okwEY4iumYrZMMMWkDr/5SpsdjMXrfRYp9qmoqDnL8pYG24eUWRYQq3X8OHJ+C5xE
-         i8yQ==
+        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
+        b=blV6eki9f/dE3yt8k9vQjmYbdmKqtjXhWL8aRDi0+PTy9DZ7PoASn6Hb4YDawt6/Pq
+         TOTWkNyJ1bQ0LXeAOKmZsgrohPEAxg4I9Vxq8Iql4MCfOpzd9bk59Kg8A1l2aCabzc1i
+         Pwb8zUD5pTagBDWz9wlqw8be8RXHOe4ntLhBEh7HXgPppKgizTPX68btz3fJ69iSfJef
+         zAFAyKFjvCY4s0mBfuw+77i/sj6ivMcyXsKkk5Q+7miuQY1uqqYMcxvazgbad3gQhSeN
+         osKwSC1CYREx2mikz7Rsbjiro/V/gVq1uBZVJYbtUMGcexuFEHFb/xJK0jJPCO1YVyoF
+         GpZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YP2JhvQ/nXbjiALnflrIMIPBw0fYLqdcvynpr/luaz4=;
-        b=vvW0Gy20H34b9+LPbkzAhGoNOEM9ynCCE3/I3aaP1odnDCKpU+lteZgsMhRl1haoQ4
-         sJSzCFqhposeVbuF5k7S8IgPg0qFdfNigqaRFmxueNraBeHJhDzEaKMYFrIncpJG2v3S
-         gpn2kpoOqELmKzZvBFDsICuAbhzxYRjkRXB/Pa8dyxeIPBMC3xb9eK6XsqVaNEK9Omgi
-         bX6L5oZsZmlYUrIG3ws8oVXdEH0Uwcd97Nl95ATd7XfTlKGs3PtRxQ50/vMPwMlQ8Upu
-         N0aT0Jo/EHTSsQRX/Zz6h+eQw2rQDPLqnepr5eGjr8UEgiVQSVgaTylBDJihiROoaFKs
-         A6xw==
-X-Gm-Message-State: ANoB5pluY5ASE4qsVxUW9MxTNzpuhwH4VwN0YUtQYhCVzKiAU5wh/QB5
-	qoKVd/+8z+to/1GKuigs3kk=
-X-Google-Smtp-Source: AA0mqf6EfTKaf56Mx2uMQ1tm5kYotOCc7W9e3xxXY8+PJQdooNECNmWH6SrWa4f+Hg+qFS5qxAWzZQ==
-X-Received: by 2002:a05:6a20:94c8:b0:a4:6ce5:46e7 with SMTP id ht8-20020a056a2094c800b000a46ce546e7mr5892197pzb.10.1670552335610;
-        Thu, 08 Dec 2022 18:18:55 -0800 (PST)
-Received: from localhost.localdomain (2001-b400-e283-776d-8739-aa48-f251-9f2f.emome-ip6.hinet.net. [2001:b400:e283:776d:8739:aa48:f251:9f2f])
-        by smtp.gmail.com with ESMTPSA id o16-20020a170902779000b0017f5ad327casm116249pll.103.2022.12.08.18.18.53
+        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
+        b=ATe0tAOLuXXtF19NGI2F9os2Mpqa+ntJ/MVYdv6GuP5HFdpUrqhsERJzQkM/xr7Wvb
+         Cwv7J9upZBdeHTi3+MuX1M8VJxcGpLdQiZ0BDcLTYX2h6NpF7Vd4AW0nemXNS6mvls4u
+         jiP3vjqKyZ51jXMX663qqcGYhP87bGr8Ym5LmHdVz3Ripr0p9Z7YsWGz7CoDULUPJSMs
+         Y8NLsLSLlGVJ80tkd0Ys/m5aWhjOBDo731FX38Htk2bDG13/sYXpA1KkHu+qWCVGZPr9
+         aRuxTKdHk1kS/dxmvwM9ksWkyTJiyQn1Rg8mge1hxqedWtltfDB9W1HC7ao+Ye+WVUDj
+         FAvA==
+X-Gm-Message-State: ANoB5pl1jzxEfJqgEX2jPXI3Fm7A7Gm95KdDB/3KJRTEIJpGbtHZZsrc
+	9fzrfpBUzwoRQAELKsoKHVLpvg==
+X-Google-Smtp-Source: AA0mqf7P1uuFrcKToZQL1Qs7OSMRUELHntqUphTx86r+y9eGx8OMntNtg5Twtz4wxSVo6DNFFYUZgg==
+X-Received: by 2002:a17:906:4907:b0:7c0:d4fa:3151 with SMTP id b7-20020a170906490700b007c0d4fa3151mr4765674ejq.17.1670587236522;
+        Fri, 09 Dec 2022 04:00:36 -0800 (PST)
+Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
+        by smtp.gmail.com with ESMTPSA id o23-20020a170906861700b007c0a7286c0asm489597ejx.58.2022.12.09.04.00.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 18:18:55 -0800 (PST)
-From: Matt Jan <zoo868e@gmail.com>
-To: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Fri, 09 Dec 2022 04:00:35 -0800 (PST)
+From: Robert Foss <robert.foss@linaro.org>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+	Wolfram Sang <wsa@kernel.org>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Grant Likely <grant.likely@linaro.org>,
+	Lee Jones <lee.jones@linaro.org>
+Cc: Robert Foss <robert.foss@linaro.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-gpio@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	kernel@pengutronix.de,
+	Purism Kernel Team <kernel@puri.sm>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-leds@vger.kernel.org,
+	linux-actions@lists.infradead.org,
+	netdev@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	chrome-platform@lists.linux.dev,
+	linux-crypto@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Matt Jan <zoo868e@gmail.com>
-Subject: [PATCH v3 3/3] staging: vme_user: replace 'unsigned' with 'unsigned int'
-Date: Fri,  9 Dec 2022 10:17:56 +0800
-Message-Id: <20221209021756.5597-3-zoo868e@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221209021756.5597-1-zoo868e@gmail.com>
-References: <20221209021756.5597-1-zoo868e@gmail.com>
+	alsa-devel@alsa-project.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linuxppc-dev@lists.ozlabs.org,
+	patches@opensource.cirrus.com,
+	linux-omap@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
+Date: Fri,  9 Dec 2022 13:00:14 +0100
+Message-Id: <167058708567.1651663.18170722235132459286.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
+References: <20221118224540.619276-1-uwe@kleine-koenig.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Update the bare use of "unsigned" to the preferred "unsigned int".
+On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
+> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type") from 2016 there is a "temporary" alternative probe
+> callback for i2c drivers.
+> 
+> This series completes all drivers to this new callback (unless I missed
+> something). It's based on current next/master.
+> A part of the patches depend on commit 662233731d66 ("i2c: core:
+> Introduce i2c_client_get_device_id helper function"), there is a branch that
+> you can pull into your tree to get it:
+> 
+> [...]
 
-Signed-off-by: Matt Jan <zoo868e@gmail.com>
----
+Applied all patches that build.
 
-Changelog
-v2->v3: Resend the patch set in properly threaded and move the patch
-		changelog to correct position, noted by Greg Kroah-Hartman
-		<gregkh@linuxfoundation.org>
-v1->v2: Resend the correct patch set, noted by Greg Kroah-Hartman
-		<gregkh@linuxfoundation.org>
-		Align the comment correctly, noted by Dan Carpenter
-		<error27@gmail.com>
+Patches excluded:
+ - ps8622
+ - ti-sn65dsi83
+ - adv7511
 
- drivers/staging/vme_user/vme_bridge.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Repo: https://cgit.freedesktop.org/drm/drm-misc/
 
-diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
-index 5da2643e20d5..11df0a5e7f7b 100644
---- a/drivers/staging/vme_user/vme_bridge.h
-+++ b/drivers/staging/vme_user/vme_bridge.h
-@@ -84,7 +84,7 @@ struct vme_error_handler {
- 	unsigned long long end;		/* End of error window */
- 	unsigned long long first_error;	/* Address of the first error */
- 	u32 aspace;			/* Address space of error window*/
--	unsigned num_errors;		/* Number of errors */
-+	unsigned int num_errors;	/* Number of errors */
- };
- 
- struct vme_callback {
--- 
-2.25.1
+
+[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
+          (no commit info)
+[015/606] drm/bridge/analogix/anx6345: Convert to i2c's .probe_new()
+          (no commit info)
+[016/606] drm/bridge/analogix/anx78xx: Convert to i2c's .probe_new()
+          (no commit info)
+[017/606] drm/bridge: anx7625: Convert to i2c's .probe_new()
+          (no commit info)
+[018/606] drm/bridge: icn6211: Convert to i2c's .probe_new()
+          (no commit info)
+[019/606] drm/bridge: chrontel-ch7033: Convert to i2c's .probe_new()
+          commit: 8dc6de280f01c0f7b8d40435736f3c975368ad70
+[020/606] drm/bridge: it6505: Convert to i2c's .probe_new()
+          (no commit info)
+[021/606] drm/bridge: it66121: Convert to i2c's .probe_new()
+          (no commit info)
+[022/606] drm/bridge: lt8912b: Convert to i2c's .probe_new()
+          (no commit info)
+[023/606] drm/bridge: lt9211: Convert to i2c's .probe_new()
+          (no commit info)
+[024/606] drm/bridge: lt9611: Convert to i2c's .probe_new()
+          (no commit info)
+[025/606] drm/bridge: lt9611uxc: Convert to i2c's .probe_new()
+          (no commit info)
+[026/606] drm/bridge: megachips: Convert to i2c's .probe_new()
+          (no commit info)
+[027/606] drm/bridge: nxp-ptn3460: Convert to i2c's .probe_new()
+          (no commit info)
+[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
+          (no commit info)
+[029/606] drm/bridge: sii902x: Convert to i2c's .probe_new()
+          (no commit info)
+[030/606] drm/bridge: sii9234: Convert to i2c's .probe_new()
+          (no commit info)
+[031/606] drm/bridge: sii8620: Convert to i2c's .probe_new()
+          (no commit info)
+[032/606] drm/bridge: tc358767: Convert to i2c's .probe_new()
+          (no commit info)
+[033/606] drm/bridge: tc358768: Convert to i2c's .probe_new()
+          (no commit info)
+[034/606] drm/bridge/tc358775: Convert to i2c's .probe_new()
+          (no commit info)
+[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
+          (no commit info)
+[037/606] drm/bridge: tfp410: Convert to i2c's .probe_new()
+          (no commit info)
+
+
+
+rob
 
