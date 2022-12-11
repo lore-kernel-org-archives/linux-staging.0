@@ -1,174 +1,76 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6279FEC1
-	for <linux-staging@lists.linux.dev>; Fri,  9 Dec 2022 12:00:38 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id x22so10949866ejs.11
-        for <linux-staging@lists.linux.dev>; Fri, 09 Dec 2022 04:00:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7A3186F;
+	Sun, 11 Dec 2022 10:56:53 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id w15so9260930wrl.9;
+        Sun, 11 Dec 2022 02:56:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
-        b=blV6eki9f/dE3yt8k9vQjmYbdmKqtjXhWL8aRDi0+PTy9DZ7PoASn6Hb4YDawt6/Pq
-         TOTWkNyJ1bQ0LXeAOKmZsgrohPEAxg4I9Vxq8Iql4MCfOpzd9bk59Kg8A1l2aCabzc1i
-         Pwb8zUD5pTagBDWz9wlqw8be8RXHOe4ntLhBEh7HXgPppKgizTPX68btz3fJ69iSfJef
-         zAFAyKFjvCY4s0mBfuw+77i/sj6ivMcyXsKkk5Q+7miuQY1uqqYMcxvazgbad3gQhSeN
-         osKwSC1CYREx2mikz7Rsbjiro/V/gVq1uBZVJYbtUMGcexuFEHFb/xJK0jJPCO1YVyoF
-         GpZg==
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lAvGt3vLdbPiY+2Of1sNsoY/Xfkar684+8jXtNIqH/o=;
+        b=olfa3spiHiwdBT4E0YPycmSCjFe+kp3ZbHrQPbsQmCqGxibWDc8qV4Cz+GMaAg5VrV
+         BzxYFgRm30SHRXMekG2Y+n/dNSrDUBP3mmi80lzChaXL99dUyYlG/cuQEhzo8zyZjtMR
+         qxWv49uCs4ip8zaJUbclokn8H9YjUAaQ9rC+soeBppNF2TwXGZ3i2lCc9InDHa3G3w3Z
+         +QP5le2wL94RYD5WQEKe80IIFZQHJbBgN4uvZEZ6iQrgGivWQSjPWAK/b9DYR+3AoTk2
+         onOFyAIFAudQBNZkkNMJa8pEJY4HcUQIFhm2X7CzIpd/88ifNl2FPeGeJQkpVGo+kr7X
+         AuMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CCwzWMPdgO9Dcc0FuYTNg8nT6gaYsC62geOPdirkTlQ=;
-        b=ATe0tAOLuXXtF19NGI2F9os2Mpqa+ntJ/MVYdv6GuP5HFdpUrqhsERJzQkM/xr7Wvb
-         Cwv7J9upZBdeHTi3+MuX1M8VJxcGpLdQiZ0BDcLTYX2h6NpF7Vd4AW0nemXNS6mvls4u
-         jiP3vjqKyZ51jXMX663qqcGYhP87bGr8Ym5LmHdVz3Ripr0p9Z7YsWGz7CoDULUPJSMs
-         Y8NLsLSLlGVJ80tkd0Ys/m5aWhjOBDo731FX38Htk2bDG13/sYXpA1KkHu+qWCVGZPr9
-         aRuxTKdHk1kS/dxmvwM9ksWkyTJiyQn1Rg8mge1hxqedWtltfDB9W1HC7ao+Ye+WVUDj
-         FAvA==
-X-Gm-Message-State: ANoB5pl1jzxEfJqgEX2jPXI3Fm7A7Gm95KdDB/3KJRTEIJpGbtHZZsrc
-	9fzrfpBUzwoRQAELKsoKHVLpvg==
-X-Google-Smtp-Source: AA0mqf7P1uuFrcKToZQL1Qs7OSMRUELHntqUphTx86r+y9eGx8OMntNtg5Twtz4wxSVo6DNFFYUZgg==
-X-Received: by 2002:a17:906:4907:b0:7c0:d4fa:3151 with SMTP id b7-20020a170906490700b007c0d4fa3151mr4765674ejq.17.1670587236522;
-        Fri, 09 Dec 2022 04:00:36 -0800 (PST)
-Received: from prec5560.. (freifunk-gw.bsa1-cpe1.syseleven.net. [176.74.57.43])
-        by smtp.gmail.com with ESMTPSA id o23-20020a170906861700b007c0a7286c0asm489597ejx.58.2022.12.09.04.00.34
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lAvGt3vLdbPiY+2Of1sNsoY/Xfkar684+8jXtNIqH/o=;
+        b=UyaMCew2tySFzdDkaFLie7RF6hLFNRQJyiBTaui//PIVdW+al1TckYzOfewnNu6JAC
+         v+vuqj/FvaDI/EV+ntr6QMFkzUzcQ504b8uduvWpRbJDQdnZ7Bm8LFwSMl0OXQhWBJkz
+         yURozD3XxKdLbK4zzWR1bgZNRrqCP7juQaA6R4/j8a3hmjWgBE+1CiBKIVsVrGVqXmLt
+         9GGlKzkAd0doer8ivLapdddTijzGjYjelJ4MHEiimly/6waxCtlbU3ILGdgSYaBHMFI6
+         Jv+Fgq8y435tvZFQB83RQlEyxTdWqp3y1X2WeVetSFbgYSxUWG1Rg6CZ7+E4H8/G29iH
+         D6bw==
+X-Gm-Message-State: ANoB5plYnnY3CFdASvUxMKHtFSUlgH6x2O2sRJX8O1fxjGCBE3pxcM/a
+	+aKVCDe6huqZlZ2MdaUJrw==
+X-Google-Smtp-Source: AA0mqf7zKuKHJILouCKRvL3z3BO4PlGpMm7J84X65Ob+k1s7jKSRMTqf9I/8n9TZCQ3eRFCbyf7EKg==
+X-Received: by 2002:adf:f88c:0:b0:242:5563:c3b with SMTP id u12-20020adff88c000000b0024255630c3bmr7406248wrp.59.1670756211870;
+        Sun, 11 Dec 2022 02:56:51 -0800 (PST)
+Received: from koolguy (dslb-094-217-227-056.094.217.pools.vodafone-ip.de. [94.217.227.56])
+        by smtp.gmail.com with ESMTPSA id h17-20020a5d4fd1000000b0024246991121sm5821908wrw.116.2022.12.11.02.56.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Dec 2022 04:00:35 -0800 (PST)
-From: Robert Foss <robert.foss@linaro.org>
-To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-	Wolfram Sang <wsa@kernel.org>,
-	Angel Iglesias <ang.iglesiasg@gmail.com>,
-	Grant Likely <grant.likely@linaro.org>,
-	Lee Jones <lee.jones@linaro.org>
-Cc: Robert Foss <robert.foss@linaro.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-gpio@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-input@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	kernel@pengutronix.de,
-	Purism Kernel Team <kernel@puri.sm>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-leds@vger.kernel.org,
-	linux-actions@lists.infradead.org,
-	netdev@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	chrome-platform@lists.linux.dev,
-	linux-crypto@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linuxppc-dev@lists.ozlabs.org,
-	patches@opensource.cirrus.com,
-	linux-omap@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Date: Fri,  9 Dec 2022 13:00:14 +0100
-Message-Id: <167058708567.1651663.18170722235132459286.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+        Sun, 11 Dec 2022 02:56:51 -0800 (PST)
+Date: Sun, 11 Dec 2022 11:56:49 +0100
+From: Dalvin Aiguobas <pharcodra@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: wlan-ng: fix checkpatch error for spinlock
+Message-ID: <20221211105649.GA4683@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
-> 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
-> 
-> [...]
+Checkpatch Styleproblem fixed by adding comment.
 
-Applied all patches that build.
+Signed-off-by: Dalvin <pharcodra@gmail.com>
+---
+ drivers/staging/wlan-ng/hfa384x.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Patches excluded:
- - ps8622
- - ti-sn65dsi83
- - adv7511
-
-Repo: https://cgit.freedesktop.org/drm/drm-misc/
-
-
-[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
-          (no commit info)
-[015/606] drm/bridge/analogix/anx6345: Convert to i2c's .probe_new()
-          (no commit info)
-[016/606] drm/bridge/analogix/anx78xx: Convert to i2c's .probe_new()
-          (no commit info)
-[017/606] drm/bridge: anx7625: Convert to i2c's .probe_new()
-          (no commit info)
-[018/606] drm/bridge: icn6211: Convert to i2c's .probe_new()
-          (no commit info)
-[019/606] drm/bridge: chrontel-ch7033: Convert to i2c's .probe_new()
-          commit: 8dc6de280f01c0f7b8d40435736f3c975368ad70
-[020/606] drm/bridge: it6505: Convert to i2c's .probe_new()
-          (no commit info)
-[021/606] drm/bridge: it66121: Convert to i2c's .probe_new()
-          (no commit info)
-[022/606] drm/bridge: lt8912b: Convert to i2c's .probe_new()
-          (no commit info)
-[023/606] drm/bridge: lt9211: Convert to i2c's .probe_new()
-          (no commit info)
-[024/606] drm/bridge: lt9611: Convert to i2c's .probe_new()
-          (no commit info)
-[025/606] drm/bridge: lt9611uxc: Convert to i2c's .probe_new()
-          (no commit info)
-[026/606] drm/bridge: megachips: Convert to i2c's .probe_new()
-          (no commit info)
-[027/606] drm/bridge: nxp-ptn3460: Convert to i2c's .probe_new()
-          (no commit info)
-[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
-          (no commit info)
-[029/606] drm/bridge: sii902x: Convert to i2c's .probe_new()
-          (no commit info)
-[030/606] drm/bridge: sii9234: Convert to i2c's .probe_new()
-          (no commit info)
-[031/606] drm/bridge: sii8620: Convert to i2c's .probe_new()
-          (no commit info)
-[032/606] drm/bridge: tc358767: Convert to i2c's .probe_new()
-          (no commit info)
-[033/606] drm/bridge: tc358768: Convert to i2c's .probe_new()
-          (no commit info)
-[034/606] drm/bridge/tc358775: Convert to i2c's .probe_new()
-          (no commit info)
-[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
-          (no commit info)
-[037/606] drm/bridge: tfp410: Convert to i2c's .probe_new()
-          (no commit info)
-
-
-
-rob
+diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
+index 0611e37df6ac..ad117d570bb6 100644
+--- a/drivers/staging/wlan-ng/hfa384x.h
++++ b/drivers/staging/wlan-ng/hfa384x.h
+@@ -1171,6 +1171,7 @@ struct hfa384x_usbctlx {
+ };
+ 
+ struct hfa384x_usbctlxq {
++	/* lock: Protect structure fields */
+ 	spinlock_t lock;
+ 	struct list_head pending;
+ 	struct list_head active;
+-- 
+2.25.1
 
