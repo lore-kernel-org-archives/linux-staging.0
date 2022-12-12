@@ -1,129 +1,82 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8161F2F28
-	for <linux-staging@lists.linux.dev>; Mon, 12 Dec 2022 16:37:02 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id i15so13675666edf.2
-        for <linux-staging@lists.linux.dev>; Mon, 12 Dec 2022 08:37:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
-        b=lIFXcScE+1mmzH1SBNLfPzmU2yyZ22FDa7zo6/O0Bw9aIOxDeXxYkEVfus52JWuhda
-         4ouELocZnEhmnwFppolEYq4c3c7RHYAqD4pax4M3unQDLONiM/9+ejXSM9E2FE+Z0v02
-         plxbNMhSLCExfq6g58BwEJLatQLzpt/xLWOhKWfMwSgaHbhPuPfGnoShEU2Q/8V0GhBe
-         I8mO/6POKEHTvHhiQrSmT3i/DlcfyH1o4pAMtSuNXvNoHj+mOy3GKKCsRTSQGVPFd3Z7
-         AQYI0FN6wamo3RnZf0VXDCwVvMRjPWjYDkKYXDeP5o/vQIFIn9FanCQzU/XNFNQHrfWF
-         2geA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lvYON1Uq6UT3Qph7OPPr0NH47G6rUYR8O1BO9MFwJow=;
-        b=5M2g+LOS+H+WggUyLmbE9OP3/qMYu/7/NDYTJDvZbo3MJvMraXxUR0ursl+q8LBY1H
-         h07gJAqoJjOZIuWOQp0mX7J2oMEwEXEwE5kIOeIbrXO5U60IAMHTbOeYICdT8iLFyb+N
-         gQsX4hz7ImgzDgj5wPnG4S6pkTdl0WbbbrexxFd1afzl2Yiasm7BkIvN0g9Nkg6TIc2o
-         Fs4FLTACt53CR/hBnltcBTPbNgbpDGLGvJsOjh/sJzNlBeRWKa7xdxHuAMbsvsEVM0st
-         9bGQjAqttVvwie65bDT20sxVVL+on3A4kE5snuSiAhFZc6PJ4XszM3It/i2npE6AQuYP
-         39lA==
-X-Gm-Message-State: ANoB5pnJRVolmOkpF0GoMzqlXc1etaz5D7ZQEPQlGR6O8Blc+Bp79Vwt
-	QCdWLhGpSgfFZBLyl3aXoJt84Q==
-X-Google-Smtp-Source: AA0mqf5ppTTyM6N0bPOAfBX//eKXVRPakyRimeYdkY/8NocUbAvjnOSiYLmQOcD2W7tmhBu2XO410g==
-X-Received: by 2002:a05:6402:702:b0:46f:68d0:76 with SMTP id w2-20020a056402070200b0046f68d00076mr10093614edx.34.1670863020790;
-        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
-Received: from prec5560.. ([2001:bf7:830:a7a8:ff97:7d8d:1f2e:ffaa])
-        by smtp.gmail.com with ESMTPSA id m15-20020a50930f000000b00463597d2c25sm4051979eda.74.2022.12.12.08.36.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 08:37:00 -0800 (PST)
-From: Robert Foss <robert.foss@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-	Angel Iglesias <ang.iglesiasg@gmail.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Grant Likely <grant.likely@linaro.org>
-Cc: Robert Foss <robert.foss@linaro.org>,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-actions@lists.infradead.org,
-	linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-crypto@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-input@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-integrity@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	Purism Kernel Team <kernel@puri.sm>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8EE746F
+	for <linux-staging@lists.linux.dev>; Mon, 12 Dec 2022 22:13:29 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p4r31-00031R-RS; Mon, 12 Dec 2022 23:13:19 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p4r2z-00475m-Gm; Mon, 12 Dec 2022 23:13:18 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1p4r2z-004bn5-Bo; Mon, 12 Dec 2022 23:13:17 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	alsa-devel@alsa-project.org,
-	linux-watchdog@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-mtd@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	kernel@pengutronix.de,
-	netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-fbdev@vger.kernel.org
-Subject: Re: (subset) [PATCH 000/606] i2c: Complete conversion to i2c_probe_new
-Date: Mon, 12 Dec 2022 17:36:51 +0100
-Message-Id: <167086288411.3041259.17824406556561546642.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221118224540.619276-1-uwe@kleine-koenig.org>
-References: <20221118224540.619276-1-uwe@kleine-koenig.org>
+	kernel@pengutronix.de
+Subject: [PATCH] staging: greybus: codecs: Drop empty platform remove function
+Date: Mon, 12 Dec 2022 23:13:15 +0100
+Message-Id: <20221212221315.3778788-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1177; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=l3XOAAkkql1vMFy8UQXFieGDro8LK6E6M4V+R1agfPk=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjl6d4vMKwNv1IwAiAygn4VYfarbkQt0eoqsnny6/S 34ALW9WJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY5eneAAKCRDB/BR4rcrsCTthB/ 4jB7uWGmfrH2Ruy/jLWm9yrUDSk77eoU14IH1Df1xOTvqRQyrert2HLL+/GQrdwqqtVGU4pHYTMqhH +I6npjgQSpiTt12KPiOT+mADW4PL24dWVsAzSoAOvqxEoLwlJdXB+WB8bApMV6L31GEcKq73wAb+tG ijKP2UiluBgWf88aLfxjUUS8AHf8rPYXqeqDJ/GmFoJQliwhoQegZRx7hMd3YfaRS1BZWXUWAZ1/4R c/fYJdKhpdzBpHo4Mr4XUdycuLSbhc48LhhbaSJOVOmInF7rhsfkxTTsFCpslaKOsxFM3l8hoiOoJ7 i7gWslmDsOhNrefq63I4gFuqJR/uYV
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On Fri, 18 Nov 2022 23:35:34 +0100, Uwe Kleine-König wrote:
-> since commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type") from 2016 there is a "temporary" alternative probe
-> callback for i2c drivers.
-> 
-> This series completes all drivers to this new callback (unless I missed
-> something). It's based on current next/master.
-> A part of the patches depend on commit 662233731d66 ("i2c: core:
-> Introduce i2c_client_get_device_id helper function"), there is a branch that
-> you can pull into your tree to get it:
-> 
-> [...]
+A remove callback just returning 0 is equivalent to no remove callback
+at all. So drop the useless function.
 
-Applied, thanks!
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/staging/greybus/audio_codec.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Repo: https://cgit.freedesktop.org/drm/drm-misc/
+diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+index 0ad8aeabccbf..72ace74ea605 100644
+--- a/drivers/staging/greybus/audio_codec.c
++++ b/drivers/staging/greybus/audio_codec.c
+@@ -1075,11 +1075,6 @@ static int gbaudio_codec_probe(struct platform_device *pdev)
+ 			gbaudio_dai, ARRAY_SIZE(gbaudio_dai));
+ }
+ 
+-static int gbaudio_codec_remove(struct platform_device *pdev)
+-{
+-	return 0;
+-}
+-
+ static const struct of_device_id greybus_asoc_machine_of_match[]  = {
+ 	{ .compatible = "toshiba,apb-dummy-codec", },
+ 	{},
+@@ -1094,7 +1089,6 @@ static struct platform_driver gbaudio_codec_driver = {
+ 		.of_match_table = greybus_asoc_machine_of_match,
+ 	},
+ 	.probe = gbaudio_codec_probe,
+-	.remove = gbaudio_codec_remove,
+ };
+ module_platform_driver(gbaudio_codec_driver);
+ 
 
-
-[014/606] drm/bridge: adv7511: Convert to i2c's .probe_new()
-          commit: 1c546894ff82f8b7c070998c03f9b15a3499f326
-[028/606] drm/bridge: parade-ps8622: Convert to i2c's .probe_new()
-          commit: d6b522e9bbb0cca1aeae4ef6188800534794836f
-[035/606] drm/bridge: ti-sn65dsi83: Convert to i2c's .probe_new()
-          commit: 0f6548807fa77e87bbc37964c6b1ed9ba6e1155d
-
-
-
-rob
+base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+-- 
+2.38.1
 
