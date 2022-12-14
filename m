@@ -1,136 +1,86 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98923208
-	for <linux-staging@lists.linux.dev>; Wed, 14 Dec 2022 19:09:48 +0000 (UTC)
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BEInYtq010704;
-	Wed, 14 Dec 2022 19:09:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : mime-version : content-type; s=pp1;
- bh=gAwL5yOsP8eZyWzRSC0r/H4vhJ07hATE2/rquZmH+J0=;
- b=oAYma+elAQ/ivhGPD1C7G+dajSsDpOqmQz3xpLcSucBkLxjqSHDeEcSuTg/EhmDWmbC3
- yzb8PqL4SwGZPgj0Gfwby7OaDDbFdf3LnrpAjKK9bE/zFNR12E4yPSwLI2OTHR1QC6LM
- gmy5WoY2AnQLdXPfryj7SbYhXPTjYTQmqWI316U1rsgDJhMe3SNBLBnSj2qb3uT2cSYL
- K4NoW5zUwZI//FnnzIPq5DCZPyZ7PCLV70+sN5vXSpELHQJRlmLrqaxfCFWUXaTZ1Bn4
- kqusKJuwZal9465HOMPPgC+J/QWotrw7vBEKf6AKKLb/hkJmThq4E4HiQ/cyWO2KuR/m Ng== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mfm3xgt34-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Dec 2022 19:09:41 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BEIqKig019087;
-	Wed, 14 Dec 2022 19:09:40 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mfm3xgsws-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Dec 2022 19:09:40 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-	by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BEBg8Fd030324;
-	Wed, 14 Dec 2022 19:04:35 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3mf0519bh2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Dec 2022 19:04:35 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2BEJ4X2r41025796
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Dec 2022 19:04:33 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2D71120043;
-	Wed, 14 Dec 2022 19:04:33 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CA85220049;
-	Wed, 14 Dec 2022 19:04:30 +0000 (GMT)
-Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.67.101])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 14 Dec 2022 19:04:30 +0000 (GMT)
-Date: Thu, 15 Dec 2022 00:34:27 +0530
-From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
-To: Martyn Welch <martyn@welchs.me.uk>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: [PATCH v2] staging: vme_user: Replace the "<<" with BIT macro
-Message-ID: <Y5oeO4QQIhqrYb+R@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33E62F47
+	for <linux-staging@lists.linux.dev>; Wed, 14 Dec 2022 20:52:25 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id q6so12456516lfm.10
+        for <linux-staging@lists.linux.dev>; Wed, 14 Dec 2022 12:52:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zFLdAfKk9Qm17jrt7feddSvQWDFpf/HIJxK3WcQxEl8=;
+        b=KTR///vKb6FkMxCfJhmBVJsixjYCRwNf3SNNxkY8Kcyk1KH6qKMIz1yymZbQztUH7A
+         /fOUPhDfjc1In1qZYxs8oaFdbkiae/9zT+LqK0bcnb1WHfFYPtyYJGeTt3j6GDK3kv2D
+         YicD4G7d9btkexKcOYUsSgEm6FIm/pso6E8YoQ3a0OyTk5S74l6AMPeCO6hFCZgcOXpN
+         zA+lj9Tc0iPDSMzzBPsEmM3pSmzNoCEW2MpNIq23sF3tSsj5oakULwThMcR42YqZaCcy
+         aR3tmPxvjMji1QYZsENBSNjRjyLSiteyMW+cV9GwXjvaQr45VdgdsRemcBbYxI8m3uKA
+         GuyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zFLdAfKk9Qm17jrt7feddSvQWDFpf/HIJxK3WcQxEl8=;
+        b=vG2GHEtyVcZRJJBv4nfsTL+vC9CkfhrUBfi/2g87R8qx3yKoVCT9yE6X9ABlBK86Ux
+         e8r7vguva58m/bF9AZsFI+CIcte/587N/T4JPWOJcmUpeAYmkvdMeHlt1hgArz4OcuuI
+         pwiFYbe52MmjT6gdcXJiz+TCQrSMV1onzc/xBG4jC1whteIQ//nzfbn0KILD9qiOWq4D
+         bjwsPS5llcL0vAOOAj8HPgz9xL8YfPS0P33qm2BOb/WC0P/5T4Fmgr6rUVydLjJaTS3B
+         GnFaZA7HwZTyTD79xUg8DUJyD1D6lHTEStaUy9M45EM4XLr75UtQXwgu8uSmDzlm/rR/
+         +a/A==
+X-Gm-Message-State: ANoB5pkPze7Kx7Ej4gGh7XYhPoKD82faO0B2z0i6KBC6QdFUCzcclCY/
+	HW0NRmv2Gz0RyLDBDrh3nGo=
+X-Google-Smtp-Source: AA0mqf6g4WD45xmyq30OdOjmCP1Uum4pVhBkE7h363BDFRriY9G1l8cO/jYy8Ir/u/cgIdwktccJlQ==
+X-Received: by 2002:a05:6512:3499:b0:4b5:4079:c824 with SMTP id v25-20020a056512349900b004b54079c824mr5844679lfr.46.1671051143634;
+        Wed, 14 Dec 2022 12:52:23 -0800 (PST)
+Received: from DESKTOP-5EKDQDN.localdomain (78-63-10-115.static.zebra.lt. [78.63.10.115])
+        by smtp.gmail.com with ESMTPSA id p17-20020ac246d1000000b0049e9122bd0esm930105lfo.114.2022.12.14.12.52.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Dec 2022 12:52:23 -0800 (PST)
+From: =?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>
+To: manishc@marvell.com,
+	GR-Linux-NIC-Dev@marvell.com,
+	gregkh@linuxfoundation.org,
+	netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>
+Subject: [PATCH] staging: qlge: remove unnecessary spaces before function pointer args
+Date: Wed, 14 Dec 2022 22:51:47 +0200
+Message-Id: <20221214205147.2172-1-aldas60@gmail.com>
+X-Mailer: git-send-email 2.37.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: lSzDMoRQUuEQDpQpy3Xb2veXFiBo-Th-
-X-Proofpoint-GUID: 7ecFUHCXvvw8oy7JncZP1lZhyMEY3WHM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-14_09,2022-12-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- spamscore=0 phishscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212140155
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Replace the "<<" operator with BIT macro, in accordance to the
-checkpatch.pl script and Linux kernel coding-style guidelines.
+Remove unnecessary spaces before the function pointer arguments as
+warned by checkpatch.
 
-Signed-off-by: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+Signed-off-by: Aldas Taraškevičius <aldas60@gmail.com>
 ---
-Changes in v2:
-	- Replace the previously used "<<" operator with BIT macro
+ drivers/staging/qlge/qlge.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/staging/vme_user/vme.h | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
-index 98da8d039d60..faa9816046a9 100644
---- a/drivers/staging/vme_user/vme.h
-+++ b/drivers/staging/vme_user/vme.h
-@@ -2,6 +2,8 @@
- #ifndef _VME_H_
- #define _VME_H_
+diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
+index fc8c5ca89..05e4f4744 100644
+--- a/drivers/staging/qlge/qlge.h
++++ b/drivers/staging/qlge/qlge.h
+@@ -2057,8 +2057,8 @@ enum {
+ };
  
-+#include <linux/bitops.h>
-+
- /* Resource Type */
- enum vme_resource_type {
- 	VME_MASTER,
-@@ -54,20 +56,20 @@ enum vme_resource_type {
- #define VME_R_ROBIN_MODE	0x1
- #define VME_PRIORITY_MODE	0x2
+ struct nic_operations {
+-	int (*get_flash) (struct ql_adapter *);
+-	int (*port_initialize) (struct ql_adapter *);
++	int (*get_flash)(struct ql_adapter *);
++	int (*port_initialize)(struct ql_adapter *);
+ };
  
--#define VME_DMA_PATTERN			(1<<0)
--#define VME_DMA_PCI			(1<<1)
--#define VME_DMA_VME			(1<<2)
-+#define VME_DMA_PATTERN		BIT(0)
-+#define VME_DMA_PCI			BIT(1)
-+#define VME_DMA_VME			BIT(2)
- 
--#define VME_DMA_PATTERN_BYTE		(1<<0)
--#define VME_DMA_PATTERN_WORD		(1<<1)
--#define VME_DMA_PATTERN_INCREMENT	(1<<2)
-+#define VME_DMA_PATTERN_BYTE		BIT(0)
-+#define VME_DMA_PATTERN_WORD		BIT(1)
-+#define VME_DMA_PATTERN_INCREMENT	BIT(2)
- 
--#define VME_DMA_VME_TO_MEM		(1<<0)
--#define VME_DMA_MEM_TO_VME		(1<<1)
--#define VME_DMA_VME_TO_VME		(1<<2)
--#define VME_DMA_MEM_TO_MEM		(1<<3)
--#define VME_DMA_PATTERN_TO_VME		(1<<4)
--#define VME_DMA_PATTERN_TO_MEM		(1<<5)
-+#define VME_DMA_VME_TO_MEM		BIT(0)
-+#define VME_DMA_MEM_TO_VME		BIT(1)
-+#define VME_DMA_VME_TO_VME		BIT(2)
-+#define VME_DMA_MEM_TO_MEM		BIT(3)
-+#define VME_DMA_PATTERN_TO_VME		BIT(4)
-+#define VME_DMA_PATTERN_TO_MEM		BIT(5)
- 
- struct vme_dma_attr {
- 	u32 type;
+ /*
 -- 
-2.31.1
+2.37.2
 
