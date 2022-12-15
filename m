@@ -1,105 +1,606 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2529820E8
-	for <linux-staging@lists.linux.dev>; Thu, 15 Dec 2022 04:37:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 349EEC433D2;
-	Thu, 15 Dec 2022 04:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1671079038;
-	bh=iPpQhEwGYEJvzDjn9myuRzCRrqgzmmgWSjtc0v77jC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZWh0F5DfFMlr0MK1gV6BiBbPyGgu7t8p2nXlv4k3UBaswCYoJViDbaUXnQsjk3L5M
-	 XDM6ts9j5FK/DsaH/a0hpoD4XRNcj1GJD6GeR3vfR/QbgzvBpMmCIP9550Tsna7YTs
-	 c4SROpoBFEc1G9QmqMVnYYFFNuKP+WUm31wKkySs=
-Date: Thu, 15 Dec 2022 05:37:15 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Haris M. Bhatti" <kernel@techtum.dev>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers: staging: fbtft: Replace usage of udelay
-Message-ID: <Y5qkey7Xj7tKwl48@kroah.com>
-References: <20221215013746.270404-1-kernel@techtum.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A487210D
+	for <linux-staging@lists.linux.dev>; Thu, 15 Dec 2022 06:59:24 +0000 (UTC)
+Received: from umang.jainideasonboard.com (unknown [IPv6:2401:4900:1f3e:7d24:3f0:3e81:fb16:ab4d])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0E107FA;
+	Thu, 15 Dec 2022 07:59:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1671087562;
+	bh=0uFDO7SXo6i2JjyEFYYxiJk1RdbSyKtd6xzbVq7eRAw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WiaWX8wq0yf/VXQGE7M7q7XF1LPg0KJB0yW/iWhiAnTRTugfxdSTKrXrsi5q3xNI3
+	 vC3/lRqXNH5gOmwQEzV7FuNJDILZXlPryYtX495GDRakhJ+q+bblWSTv8hO0jNNJy3
+	 y5Gn4EjkxXSNbvRW+k9XWf/NP4I8ToI231437NPw=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 1/7] staging: vc04_services: Replace vchiq_status return type to int
+Date: Thu, 15 Dec 2022 12:28:47 +0530
+Message-Id: <20221215065853.34477-2-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221215065853.34477-1-umang.jain@ideasonboard.com>
+References: <20221215065853.34477-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221215013746.270404-1-kernel@techtum.dev>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 15, 2022 at 01:37:46AM +0000, Haris M. Bhatti wrote:
-> checkpatch highlighted that use of udelay should be replaced by
-> usleep_range.
-> ---
->  drivers/staging/fbtft/fb_ra8875.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
-> index 398bdbf53c9a..75cf3bb18414 100644
-> --- a/drivers/staging/fbtft/fb_ra8875.c
-> +++ b/drivers/staging/fbtft/fb_ra8875.c
-> @@ -217,7 +217,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
->  	}
->  	len--;
->  
-> -	udelay(100);
-> +	usleep_range(100, 101);
->  
->  	if (len) {
->  		buf = (u8 *)par->buf;
-> @@ -238,7 +238,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
->  
->  	/* restore user spi-speed */
->  	par->fbtftops.write = fbtft_write_spi;
-> -	udelay(100);
-> +	usleep_range(100, 101);
->  }
->  
->  static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
-> -- 
-> 2.38.1
-> 
-> 
+Modify the functions' signature using enum vchiq_status to return int.
+Currently, this patch only touches the function signatures and
+in subsequent patches each vchiq_status enumerated value will be
+replaced by a integer value.
 
-Hi,
+This patch acts as an initial point to address the TODO item:
+	* Get rid of custom function return values
+for vc04_services/interface.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+---
+ .../bcm2835-audio/bcm2835-vchiq.c             |  8 +--
+ .../include/linux/raspberrypi/vchiq.h         | 59 +++++++++----------
+ .../interface/vchiq_arm/vchiq_arm.c           | 32 +++++-----
+ .../interface/vchiq_arm/vchiq_arm.h           | 12 ++--
+ .../interface/vchiq_arm/vchiq_core.c          | 34 +++++------
+ .../interface/vchiq_arm/vchiq_core.h          | 18 +++---
+ .../interface/vchiq_arm/vchiq_ioctl.h         |  8 +--
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  7 +--
+ 8 files changed, 88 insertions(+), 90 deletions(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+index f4c2c9506d86..0fd92affc264 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
++++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+@@ -91,10 +91,10 @@ static int bcm2835_audio_send_simple(struct bcm2835_audio_instance *instance,
+ 	return bcm2835_audio_send_msg(instance, &m, wait);
+ }
+ 
+-static enum vchiq_status audio_vchi_callback(struct vchiq_instance *vchiq_instance,
+-					     enum vchiq_reason reason,
+-					     struct vchiq_header *header,
+-					     unsigned int handle, void *userdata)
++static int audio_vchi_callback(struct vchiq_instance *vchiq_instance,
++			       enum vchiq_reason reason,
++			       struct vchiq_header *header,
++			       unsigned int handle, void *userdata)
+ {
+ 	struct bcm2835_audio_instance *instance = vchiq_get_service_userdata(vchiq_instance,
+ 									     handle);
+diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+index db1441c0cc66..71f4cb5d5cfd 100644
+--- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
++++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+@@ -57,11 +57,11 @@ struct vchiq_instance;
+ 
+ struct vchiq_service_base {
+ 	int fourcc;
+-	enum vchiq_status (*callback)(struct vchiq_instance *instance,
+-				      enum vchiq_reason reason,
+-				      struct vchiq_header *header,
+-				      unsigned int handle,
+-				      void *bulk_userdata);
++	int (*callback)(struct vchiq_instance *instance,
++			enum vchiq_reason reason,
++			struct vchiq_header *header,
++			unsigned int handle,
++			void *bulk_userdata);
+ 	void *userdata;
+ };
+ 
+@@ -74,11 +74,11 @@ struct vchiq_completion_data_kernel {
+ 
+ struct vchiq_service_params_kernel {
+ 	int fourcc;
+-	enum vchiq_status (*callback)(struct vchiq_instance *instance,
+-				      enum vchiq_reason reason,
+-				      struct vchiq_header *header,
+-				      unsigned int handle,
+-				      void *bulk_userdata);
++	int (*callback)(struct vchiq_instance *instance,
++			enum vchiq_reason reason,
++			struct vchiq_header *header,
++			unsigned int handle,
++			void *bulk_userdata);
+ 	void *userdata;
+ 	short version;       /* Increment for non-trivial changes */
+ 	short version_min;   /* Update for incompatible changes */
+@@ -86,33 +86,32 @@ struct vchiq_service_params_kernel {
+ 
+ struct vchiq_instance;
+ 
+-extern enum vchiq_status vchiq_initialise(struct vchiq_instance **pinstance);
+-extern enum vchiq_status vchiq_shutdown(struct vchiq_instance *instance);
+-extern enum vchiq_status vchiq_connect(struct vchiq_instance *instance);
+-extern enum vchiq_status vchiq_open_service(struct vchiq_instance *instance,
+-	const struct vchiq_service_params_kernel *params,
+-	unsigned int *pservice);
+-extern enum vchiq_status vchiq_close_service(struct vchiq_instance *instance,
+-					     unsigned int service);
+-extern enum vchiq_status vchiq_use_service(struct vchiq_instance *instance, unsigned int service);
+-extern enum vchiq_status vchiq_release_service(struct vchiq_instance *instance,
+-					       unsigned int service);
++extern int vchiq_initialise(struct vchiq_instance **pinstance);
++extern int vchiq_shutdown(struct vchiq_instance *instance);
++extern int vchiq_connect(struct vchiq_instance *instance);
++extern int vchiq_open_service(struct vchiq_instance *instance,
++			      const struct vchiq_service_params_kernel *params,
++			      unsigned int *pservice);
++extern int vchiq_close_service(struct vchiq_instance *instance,
++			       unsigned int service);
++extern int vchiq_use_service(struct vchiq_instance *instance, unsigned int service);
++extern int vchiq_release_service(struct vchiq_instance *instance,
++				 unsigned int service);
+ extern void vchiq_msg_queue_push(struct vchiq_instance *instance, unsigned int handle,
+ 				 struct vchiq_header *header);
+ extern void vchiq_release_message(struct vchiq_instance *instance, unsigned int service,
+ 				  struct vchiq_header *header);
+ extern int vchiq_queue_kernel_message(struct vchiq_instance *instance, unsigned int handle,
+ 				      void *data, unsigned int size);
+-extern enum vchiq_status vchiq_bulk_transmit(struct vchiq_instance *instance, unsigned int service,
+-					     const void *data, unsigned int size, void *userdata,
+-					     enum vchiq_bulk_mode mode);
+-extern enum vchiq_status vchiq_bulk_receive(struct vchiq_instance *instance, unsigned int service,
+-					    void *data, unsigned int size, void *userdata,
+-					    enum vchiq_bulk_mode mode);
++extern int vchiq_bulk_transmit(struct vchiq_instance *instance, unsigned int service,
++			       const void *data, unsigned int size, void *userdata,
++			       enum vchiq_bulk_mode mode);
++extern int vchiq_bulk_receive(struct vchiq_instance *instance, unsigned int service,
++			      void *data, unsigned int size, void *userdata,
++			      enum vchiq_bulk_mode mode);
+ extern void *vchiq_get_service_userdata(struct vchiq_instance *instance, unsigned int service);
+-extern enum vchiq_status vchiq_get_peer_version(struct vchiq_instance *instance,
+-						unsigned int handle,
+-						short *peer_version);
++extern int vchiq_get_peer_version(struct vchiq_instance *instance, unsigned int handle,
++				  short *peer_version);
+ extern struct vchiq_header *vchiq_msg_hold(struct vchiq_instance *instance, unsigned int handle);
+ 
+ #endif /* VCHIQ_H */
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index dc33490ba7fb..fa92c34890e0 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -151,7 +151,7 @@ static struct semaphore g_free_fragments_sema;
+ 
+ static DEFINE_SEMAPHORE(g_free_fragments_mutex);
+ 
+-static enum vchiq_status
++static int
+ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *data,
+ 			     unsigned int size, enum vchiq_bulk_dir dir);
+ 
+@@ -722,7 +722,7 @@ void free_bulk_waiter(struct vchiq_instance *instance)
+ 	}
+ }
+ 
+-enum vchiq_status vchiq_shutdown(struct vchiq_instance *instance)
++int vchiq_shutdown(struct vchiq_instance *instance)
+ {
+ 	enum vchiq_status status = VCHIQ_SUCCESS;
+ 	struct vchiq_state *state = instance->state;
+@@ -749,7 +749,7 @@ static int vchiq_is_connected(struct vchiq_instance *instance)
+ 	return instance->connected;
+ }
+ 
+-enum vchiq_status vchiq_connect(struct vchiq_instance *instance)
++int vchiq_connect(struct vchiq_instance *instance)
+ {
+ 	enum vchiq_status status;
+ 	struct vchiq_state *state = instance->state;
+@@ -773,7 +773,7 @@ enum vchiq_status vchiq_connect(struct vchiq_instance *instance)
+ }
+ EXPORT_SYMBOL(vchiq_connect);
+ 
+-static enum vchiq_status
++static int
+ vchiq_add_service(struct vchiq_instance *instance,
+ 		  const struct vchiq_service_params_kernel *params,
+ 		  unsigned int *phandle)
+@@ -803,7 +803,7 @@ vchiq_add_service(struct vchiq_instance *instance,
+ 	return status;
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_open_service(struct vchiq_instance *instance,
+ 		   const struct vchiq_service_params_kernel *params,
+ 		   unsigned int *phandle)
+@@ -835,7 +835,7 @@ vchiq_open_service(struct vchiq_instance *instance,
+ }
+ EXPORT_SYMBOL(vchiq_open_service);
+ 
+-enum vchiq_status
++int
+ vchiq_bulk_transmit(struct vchiq_instance *instance, unsigned int handle, const void *data,
+ 		    unsigned int size, void *userdata, enum vchiq_bulk_mode mode)
+ {
+@@ -873,9 +873,9 @@ vchiq_bulk_transmit(struct vchiq_instance *instance, unsigned int handle, const
+ }
+ EXPORT_SYMBOL(vchiq_bulk_transmit);
+ 
+-enum vchiq_status vchiq_bulk_receive(struct vchiq_instance *instance, unsigned int handle,
+-				     void *data, unsigned int size, void *userdata,
+-				     enum vchiq_bulk_mode mode)
++int vchiq_bulk_receive(struct vchiq_instance *instance, unsigned int handle,
++		       void *data, unsigned int size, void *userdata,
++		       enum vchiq_bulk_mode mode)
+ {
+ 	enum vchiq_status status;
+ 
+@@ -910,7 +910,7 @@ enum vchiq_status vchiq_bulk_receive(struct vchiq_instance *instance, unsigned i
+ }
+ EXPORT_SYMBOL(vchiq_bulk_receive);
+ 
+-static enum vchiq_status
++static int
+ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *data,
+ 			     unsigned int size, enum vchiq_bulk_dir dir)
+ {
+@@ -983,7 +983,7 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handl
+ 	return status;
+ }
+ 
+-static enum vchiq_status
++static int
+ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
+ 	       struct vchiq_header *header, struct user_service *user_service,
+ 	       void *bulk_userdata)
+@@ -1044,7 +1044,7 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
+ 	return VCHIQ_SUCCESS;
+ }
+ 
+-enum vchiq_status
++int
+ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+ 		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata)
+ {
+@@ -1314,7 +1314,7 @@ vchiq_get_state(void)
+  * Autosuspend related functionality
+  */
+ 
+-static enum vchiq_status
++static int
+ vchiq_keepalive_vchiq_callback(struct vchiq_instance *instance,
+ 			       enum vchiq_reason reason,
+ 			       struct vchiq_header *header,
+@@ -1587,7 +1587,7 @@ vchiq_instance_set_trace(struct vchiq_instance *instance, int trace)
+ 	instance->trace = (trace != 0);
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_use_service(struct vchiq_instance *instance, unsigned int handle)
+ {
+ 	enum vchiq_status ret = VCHIQ_ERROR;
+@@ -1601,7 +1601,7 @@ vchiq_use_service(struct vchiq_instance *instance, unsigned int handle)
+ }
+ EXPORT_SYMBOL(vchiq_use_service);
+ 
+-enum vchiq_status
++int
+ vchiq_release_service(struct vchiq_instance *instance, unsigned int handle)
+ {
+ 	enum vchiq_status ret = VCHIQ_ERROR;
+@@ -1695,7 +1695,7 @@ vchiq_dump_service_use_state(struct vchiq_state *state)
+ 	kfree(service_data);
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_check_service(struct vchiq_service *service)
+ {
+ 	struct vchiq_arm_state *arm_state;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+index 2851ef6b9cd0..2fb31f9b527f 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+@@ -85,13 +85,13 @@ extern struct vchiq_state g_state;
+ extern struct vchiq_state *
+ vchiq_get_state(void);
+ 
+-enum vchiq_status
++int
+ vchiq_use_service(struct vchiq_instance *instance, unsigned int handle);
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_release_service(struct vchiq_instance *instance, unsigned int handle);
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_check_service(struct vchiq_service *service);
+ 
+ extern void
+@@ -100,10 +100,10 @@ vchiq_dump_platform_use_state(struct vchiq_state *state);
+ extern void
+ vchiq_dump_service_use_state(struct vchiq_state *state);
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+ 		   enum USE_TYPE_E use_type);
+-extern enum vchiq_status
++extern int
+ vchiq_release_internal(struct vchiq_state *state,
+ 		       struct vchiq_service *service);
+ 
+@@ -137,7 +137,7 @@ static inline int vchiq_register_chrdev(struct device *parent) { return 0; }
+ 
+ #endif /* IS_ENABLED(CONFIG_VCHIQ_CDEV) */
+ 
+-extern enum vchiq_status
++extern int
+ service_callback(struct vchiq_instance *vchiq_instance, enum vchiq_reason reason,
+ 		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata);
+ 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 45ed30bfdbf5..a543c29b1598 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -463,7 +463,7 @@ mark_service_closing(struct vchiq_service *service)
+ 	mark_service_closing_internal(service, 0);
+ }
+ 
+-static inline enum vchiq_status
++static inline int
+ make_service_callback(struct vchiq_service *service, enum vchiq_reason reason,
+ 		      struct vchiq_header *header, void *bulk_userdata)
+ {
+@@ -900,7 +900,7 @@ copy_message_data(ssize_t (*copy_callback)(void *context, void *dest, size_t off
+ }
+ 
+ /* Called by the slot handler and application threads */
+-static enum vchiq_status
++static int
+ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+ 	      int msgid,
+ 	      ssize_t (*copy_callback)(void *context, void *dest,
+@@ -1139,7 +1139,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+ }
+ 
+ /* Called by the slot handler and application threads */
+-static enum vchiq_status
++static int
+ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+ 		   int msgid,
+ 		   ssize_t (*copy_callback)(void *context, void *dest,
+@@ -1299,7 +1299,7 @@ get_bulk_reason(struct vchiq_bulk *bulk)
+ }
+ 
+ /* Called by the slot handler - don't hold the bulk mutex */
+-static enum vchiq_status
++static int
+ notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
+ 	     int retry_poll)
+ {
+@@ -2486,7 +2486,7 @@ vchiq_add_service_internal(struct vchiq_state *state,
+ 	return service;
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_open_service_internal(struct vchiq_service *service, int client_id)
+ {
+ 	struct vchiq_open_payload payload = {
+@@ -2609,7 +2609,7 @@ do_abort_bulks(struct vchiq_service *service)
+ 	return (status == VCHIQ_SUCCESS);
+ }
+ 
+-static enum vchiq_status
++static int
+ close_service_complete(struct vchiq_service *service, int failstate)
+ {
+ 	enum vchiq_status status;
+@@ -2674,7 +2674,7 @@ close_service_complete(struct vchiq_service *service, int failstate)
+ }
+ 
+ /* Called by the slot handler */
+-enum vchiq_status
++int
+ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
+ {
+ 	struct vchiq_state *state = service->state;
+@@ -2832,7 +2832,7 @@ vchiq_free_service_internal(struct vchiq_service *service)
+ 	vchiq_service_put(service);
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_connect_internal(struct vchiq_state *state, struct vchiq_instance *instance)
+ {
+ 	struct vchiq_service *service;
+@@ -2879,7 +2879,7 @@ vchiq_shutdown_internal(struct vchiq_state *state, struct vchiq_instance *instan
+ 	}
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_close_service(struct vchiq_instance *instance, unsigned int handle)
+ {
+ 	/* Unregister the service */
+@@ -2937,7 +2937,7 @@ vchiq_close_service(struct vchiq_instance *instance, unsigned int handle)
+ }
+ EXPORT_SYMBOL(vchiq_close_service);
+ 
+-enum vchiq_status
++int
+ vchiq_remove_service(struct vchiq_instance *instance, unsigned int handle)
+ {
+ 	/* Unregister the service */
+@@ -3004,9 +3004,9 @@ vchiq_remove_service(struct vchiq_instance *instance, unsigned int handle)
+  * When called in blocking mode, the userdata field points to a bulk_waiter
+  * structure.
+  */
+-enum vchiq_status vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
+-				      void *offset, void __user *uoffset, int size, void *userdata,
+-				      enum vchiq_bulk_mode mode, enum vchiq_bulk_dir dir)
++int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
++			void *offset, void __user *uoffset, int size, void *userdata,
++			enum vchiq_bulk_mode mode, enum vchiq_bulk_dir dir)
+ {
+ 	struct vchiq_service *service = find_service_by_handle(instance, handle);
+ 	struct vchiq_bulk_queue *queue;
+@@ -3161,7 +3161,7 @@ enum vchiq_status vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned
+ 	return status;
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_queue_message(struct vchiq_instance *instance, unsigned int handle,
+ 		    ssize_t (*copy_callback)(void *context, void *dest,
+ 					     size_t offset, size_t maxsize),
+@@ -3277,7 +3277,7 @@ release_message_sync(struct vchiq_state *state, struct vchiq_header *header)
+ 	remote_event_signal(&state->remote->sync_release);
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_get_peer_version(struct vchiq_instance *instance, unsigned int handle, short *peer_version)
+ {
+ 	enum vchiq_status status = VCHIQ_ERROR;
+@@ -3640,7 +3640,7 @@ vchiq_loud_error_footer(void)
+ 			"============================================================================");
+ }
+ 
+-enum vchiq_status vchiq_send_remote_use(struct vchiq_state *state)
++int vchiq_send_remote_use(struct vchiq_state *state)
+ {
+ 	if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED)
+ 		return VCHIQ_RETRY;
+@@ -3648,7 +3648,7 @@ enum vchiq_status vchiq_send_remote_use(struct vchiq_state *state)
+ 	return queue_message(state, NULL, MAKE_REMOTE_USE, NULL, NULL, 0, 0);
+ }
+ 
+-enum vchiq_status vchiq_send_remote_use_active(struct vchiq_state *state)
++int vchiq_send_remote_use_active(struct vchiq_state *state)
+ {
+ 	if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED)
+ 		return VCHIQ_RETRY;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 8b4a38f5b3f2..ec3505424718 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -458,7 +458,7 @@ vchiq_init_slots(void *mem_base, int mem_size);
+ extern int
+ vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero, struct device *dev);
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_connect_internal(struct vchiq_state *state, struct vchiq_instance *instance);
+ 
+ struct vchiq_service *
+@@ -467,10 +467,10 @@ vchiq_add_service_internal(struct vchiq_state *state,
+ 			   int srvstate, struct vchiq_instance *instance,
+ 			   void (*userdata_term)(void *userdata));
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_open_service_internal(struct vchiq_service *service, int client_id);
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd);
+ 
+ extern void
+@@ -485,7 +485,7 @@ vchiq_shutdown_internal(struct vchiq_state *state, struct vchiq_instance *instan
+ extern void
+ remote_event_pollall(struct vchiq_state *state);
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *offset,
+ 		    void __user *uoffset, int size, void *userdata, enum vchiq_bulk_mode mode,
+ 		    enum vchiq_bulk_dir dir);
+@@ -536,7 +536,7 @@ vchiq_service_get(struct vchiq_service *service);
+ extern void
+ vchiq_service_put(struct vchiq_service *service);
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_queue_message(struct vchiq_instance *instance, unsigned int handle,
+ 		    ssize_t (*copy_callback)(void *context, void *dest,
+ 					     size_t offset, size_t maxsize),
+@@ -568,13 +568,13 @@ void vchiq_on_remote_release(struct vchiq_state *state);
+ 
+ int vchiq_platform_init_state(struct vchiq_state *state);
+ 
+-enum vchiq_status vchiq_check_service(struct vchiq_service *service);
++int vchiq_check_service(struct vchiq_service *service);
+ 
+ void vchiq_on_remote_use_active(struct vchiq_state *state);
+ 
+-enum vchiq_status vchiq_send_remote_use(struct vchiq_state *state);
++int vchiq_send_remote_use(struct vchiq_state *state);
+ 
+-enum vchiq_status vchiq_send_remote_use_active(struct vchiq_state *state);
++int vchiq_send_remote_use_active(struct vchiq_state *state);
+ 
+ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+ 				       enum vchiq_connstate oldstate,
+@@ -584,7 +584,7 @@ void vchiq_set_conn_state(struct vchiq_state *state, enum vchiq_connstate newsta
+ 
+ void vchiq_log_dump_mem(const char *label, u32 addr, const void *void_mem, size_t num_bytes);
+ 
+-enum vchiq_status vchiq_remove_service(struct vchiq_instance *instance, unsigned int service);
++int vchiq_remove_service(struct vchiq_instance *instance, unsigned int service);
+ 
+ int vchiq_get_client_id(struct vchiq_instance *instance, unsigned int service);
+ 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ioctl.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ioctl.h
+index 86d77f2eeea5..96f50beace44 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ioctl.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ioctl.h
+@@ -12,10 +12,10 @@
+ 
+ struct vchiq_service_params {
+ 	int fourcc;
+-	enum vchiq_status __user (*callback)(enum vchiq_reason reason,
+-				      struct vchiq_header *header,
+-				      unsigned int handle,
+-				      void *bulk_userdata);
++	int __user (*callback)(enum vchiq_reason reason,
++			       struct vchiq_header *header,
++			       unsigned int handle,
++			       void *bulk_userdata);
+ 	void __user *userdata;
+ 	short version;       /* Increment for non-trivial changes */
+ 	short version_min;   /* Update for incompatible changes */
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+index cb921c94996a..48a983f497f0 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
++++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+@@ -548,10 +548,9 @@ static void bulk_abort_cb(struct vchiq_mmal_instance *instance,
+ }
+ 
+ /* incoming event service callback */
+-static enum vchiq_status service_callback(struct vchiq_instance *vchiq_instance,
+-					  enum vchiq_reason reason,
+-					  struct vchiq_header *header,
+-					  unsigned int handle, void *bulk_ctx)
++static int service_callback(struct vchiq_instance *vchiq_instance,
++			    enum vchiq_reason reason, struct vchiq_header *header,
++			    unsigned int handle, void *bulk_ctx)
+ {
+ 	struct vchiq_mmal_instance *instance = vchiq_get_service_userdata(vchiq_instance, handle);
+ 	u32 msg_len;
+-- 
+2.38.1
 
-- Your patch does not have a Signed-off-by: line.  Please read the
-  kernel file, Documentation/SubmittingPatches and resend it after
-  adding that line.  Note, the line needs to be in the body of the
-  email, before the patch, not at the bottom of the patch or in the
-  email signature.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
