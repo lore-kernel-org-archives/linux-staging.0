@@ -1,60 +1,86 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D90258D
-	for <linux-staging@lists.linux.dev>; Fri, 16 Dec 2022 17:23:16 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1p6EQJ-0000Hx-PA; Fri, 16 Dec 2022 18:23:03 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1p6EQH-004yGT-OC; Fri, 16 Dec 2022 18:23:02 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1p6EQG-000CO8-Tw; Fri, 16 Dec 2022 18:23:00 +0100
-Message-ID: <545454630ff9f769ef61178bdd623621fafed4e2.camel@pengutronix.de>
-Subject: Re: [PATCH v2] media: imx: remove code for non-existing config
- IMX_GPT_ICAP
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Tommaso Merciai
- <tommaso.merciai@amarulasolutions.com>, Steve Longerbeam
- <slongerbeam@gmail.com>,  Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-arm-kernel@lists.infradead.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 16 Dec 2022 18:23:00 +0100
-In-Reply-To: <20221123075216.28193-1-lukas.bulwahn@gmail.com>
-References: <20221123075216.28193-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BC52F2A
+	for <linux-staging@lists.linux.dev>; Fri, 16 Dec 2022 22:39:48 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id fa4-20020a17090af0c400b002198d1328a0so9632979pjb.0
+        for <linux-staging@lists.linux.dev>; Fri, 16 Dec 2022 14:39:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yjEe+X5ai3YWKYGRZlLXYmobd2SS86iVTcoqGfxRbbE=;
+        b=VxNX8eyUQb3zZYlBnW5S7ZI9VykZHgS/jkDy6zng5xEZH1jF944iWMGoR7xFVzypd0
+         rp/quzNibbqoxoDA0w7J8iTZyo8E3Rg8sC0J2Caee84D+8O6z5vXhVDPDC+7u7LXUVfG
+         cKEA9NX5mxAaMraVmZ3TrZ3f4Mqw5eMZH4IePswnc7lAeq+sWoSHKztSgWjGsTXrX9CW
+         +VgZZSFJlH6ItJTF1w2EAuVcch7aW7wDAdksgmATtt7X83KFRiQ7k4CvFuqBvNMTdm4G
+         v1aj0MIiSeFxjXHVt5M7f+rpwk41w3q6IUpfFUXwi5lYEAjQA6tCTmBmEadbB1B9K5R3
+         Y+Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yjEe+X5ai3YWKYGRZlLXYmobd2SS86iVTcoqGfxRbbE=;
+        b=CUs2sYxuOS4T+jNTQtlecE2sWvNJKwOncxcbww1zkowwTbXFVyTDpWtBPKvPm0+4sW
+         JZQCM4ipKQydQYdzMwu9DP1TieJDMpRKvMlC43D00sDhE9kQMIEt/viWWC2ptDqZh6hB
+         5zLeTxv+WjhxkZlbMuDhD7RmSvGnJrDABFW63PWow0aLdPdYtzHNz7iJ0pni8TYGR1zo
+         ZHEvL1qXSJUPju0iVQTQQgJp9RMY5LKGCtSDhMw+ooRZ6TEB/zzL7S3EbG06BSKgEG7u
+         db+nX4VX30h/xpX5vuToz/Eel6gnseyJZDtwhF1fXfCLtnzqgUtSi4NkxmOARrTj45nT
+         Ui7Q==
+X-Gm-Message-State: ANoB5plMXVTCfprL93/KNgMNgB1J/DAuMDLIQwNibvRxr5+n+j4IDeLH
+	apsV6CRMtDeS1YY1Pcp9SIY=
+X-Google-Smtp-Source: AA0mqf75zoe5LtK8gvuEH7ivaB6zaeayqoUteJTi3v5FfVT5ebMwlMi+8LF+ABC/TBzztgGUhjHY6w==
+X-Received: by 2002:a17:902:b093:b0:189:dcc3:e4a1 with SMTP id p19-20020a170902b09300b00189dcc3e4a1mr31886523plr.9.1671230388169;
+        Fri, 16 Dec 2022 14:39:48 -0800 (PST)
+Received: from localhost.localdomain ([14.5.161.132])
+        by smtp.gmail.com with ESMTPSA id h14-20020a170902f7ce00b00189c93ce5easm2107031plw.166.2022.12.16.14.39.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Dec 2022 14:39:47 -0800 (PST)
+From: Kang Minchul <tegongkang@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>
+Cc: Pavel Skripkin <paskripkin@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Kang Minchul <tegongkang@gmail.com>
+Subject: [PATCH] staging: r8188eu: Prefer kcalloc over kzalloc
+Date: Sat, 17 Dec 2022 07:39:42 +0900
+Message-Id: <20221216223942.334221-1-tegongkang@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
-On Mi, 2022-11-23 at 08:52 +0100, Lukas Bulwahn wrote:
-> There never was a config IMX_GPT_ICAP in the repository. So remove the co=
-de
-> conditional on this config and simplify the callers that just called empt=
-y
-> functions.
->=20
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Fixed following checkpatch.pl warning:
+ * WARNING: Prefer kcalloc over kzalloc with multiply
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Instead of specifying (number of bytes) * (size) as arugment
+in kzalloc, prefer kcalloc.
 
-regards
-Philipp
+Signed-off-by: Kang Minchul <tegongkang@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_xmit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 34494f08c0cd..36ce1e3f9c81 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -1564,7 +1564,7 @@ int rtw_alloc_hwxmits(struct adapter *padapter)
+ 
+ 	pxmitpriv->hwxmit_entry = HWXMIT_ENTRY;
+ 
+-	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
++	pxmitpriv->hwxmits = kcalloc(pxmitpriv->hwxmit_entry, sizeof(struct hw_xmit), GFP_KERNEL);
+ 	if (!pxmitpriv->hwxmits)
+ 		return -ENOMEM;
+ 
+-- 
+2.34.1
+
