@@ -1,40 +1,39 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4567E
-	for <linux-staging@lists.linux.dev>; Mon, 19 Dec 2022 11:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E10E1110
+	for <linux-staging@lists.linux.dev>; Tue, 20 Dec 2022 08:44:21 +0000 (UTC)
 Received: from umang.jainideasonboard.com (unknown [IPv6:2401:4900:1f3e:7d24:3f0:3e81:fb16:ab4d])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02756825;
-	Mon, 19 Dec 2022 12:58:20 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 243D1706;
+	Tue, 20 Dec 2022 09:44:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1671451106;
-	bh=aaumRJIlPyO334JageSyVTFWQcGmFZVA0qlebhmqQM8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pIh8IVwUzeljCDadac6rHsPCeLYocKmooGmbIm1MDeU54544W1A4nX0VvnOd5HM+k
-	 RTwgBJ0NcqYb4HMjYvLHU9x2PkVzV05BmYQfpFHnT6ykSyZ7/PokwCAYJj55rPNXDt
-	 11DJFj7OOOW2IA6msIkmPMbWc6bEgXhQuFeZp0Rc=
+	s=mail; t=1671525858;
+	bh=1triUCa/aX1cYKetnYSka1IIP/TJdArJ7sRBk19dSjE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lW6yOsRXaEEx7EtzlV+p0HcHDs9Va6mi7dEkWRHKKe8cKrRZwhjZRHNid6j1USFHA
+	 8AO69cPVPSrllg21zx36nnafR2zRlujrn+3nth3/4Z4aRrtEIPAxRFk2P+AYUmmUFF
+	 kDbbBETAD4XBebiRSoQFlB5a4nGnCAE5bR5PtL3c=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-staging@lists.linux.dev,
 	linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <f.fainelli@gmail.com>,
 	Adrien Thierry <athierry@redhat.com>,
 	Dan Carpenter <error27@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Phil Elwell <phil@raspberrypi.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v2 7/7] staging: vc04_services: vchiq: Drop custom return values from TODO
-Date: Mon, 19 Dec 2022 17:27:25 +0530
-Message-Id: <20221219115725.11992-8-umang.jain@ideasonboard.com>
+Subject: [PATCH] staging: vc04_services: vchiq_arm: Create platform_device per device
+Date: Tue, 20 Dec 2022 14:14:04 +0530
+Message-Id: <20221220084404.19280-1-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221219115725.11992-1-umang.jain@ideasonboard.com>
-References: <20221219115725.11992-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,30 +42,110 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The custom return values (enum vchiq_status) has been dropped.
-Remove the TODO entry for the same.
+Create a proper per device platorm_device structure for all the child
+devices that needs to be registered by vchiq platform driver. Replace
+the vchiq_register_child() with platform_add_devices() to register the
+child devices.
+
+This is part of an effort to address TODO item "Get rid of all non
+essential global structures and create a proper per device structure"
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- drivers/staging/vc04_services/interface/TODO | 5 -----
- 1 file changed, 5 deletions(-)
+ .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
+ 1 file changed, 31 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
-index 97085a0b3223..6d9d4a800aa7 100644
---- a/drivers/staging/vc04_services/interface/TODO
-+++ b/drivers/staging/vc04_services/interface/TODO
-@@ -40,11 +40,6 @@ beneficial to go over all of them and, if correct, comment on their merits.
- Extra points to whomever confidently reviews the remote_event_*() family of
- functions.
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 22de23f3af02..fa42ea3791a7 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+ DEFINE_SPINLOCK(msg_queue_spinlock);
+ struct vchiq_state g_state;
  
--* Get rid of custom function return values
--
--Most functions use a custom set of return values, we should force proper Linux
--error numbers. Special care is needed for VCHIQ_RETRY.
--
- * Reformat core code with more sane indentations
+-static struct platform_device *bcm2835_camera;
+-static struct platform_device *bcm2835_audio;
++static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
++
++static struct platform_device bcm2835_camera = {
++	.name		= "bcm2835-camera",
++	.id		= PLATFORM_DEVID_NONE,
++	.dev		= {
++		.dma_mask	= &vchiq_device_dmamask,
++	}
++};
++
++static struct platform_device bcm2835_audio = {
++	.name		= "bcm2835_audio",
++	.id		= PLATFORM_DEVID_NONE,
++	.dev		= {
++		.dma_mask	= &vchiq_device_dmamask,
++	}
++
++};
++
++static struct platform_device *vchiq_devices[] __initdata = {
++	&bcm2835_camera,
++	&bcm2835_audio,
++};
  
- The code follows the 80 characters limitation yet tends to go 3 or 4 levels of
+ struct vchiq_drvdata {
+ 	const unsigned int cache_line_size;
+@@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, vchiq_of_match);
+ 
+-static struct platform_device *
+-vchiq_register_child(struct platform_device *pdev, const char *name)
+-{
+-	struct platform_device_info pdevinfo;
+-	struct platform_device *child;
+-
+-	memset(&pdevinfo, 0, sizeof(pdevinfo));
+-
+-	pdevinfo.parent = &pdev->dev;
+-	pdevinfo.name = name;
+-	pdevinfo.id = PLATFORM_DEVID_NONE;
+-	pdevinfo.dma_mask = DMA_BIT_MASK(32);
+-
+-	child = platform_device_register_full(&pdevinfo);
+-	if (IS_ERR(child)) {
+-		dev_warn(&pdev->dev, "%s not registered\n", name);
+-		child = NULL;
+-	}
+-
+-	return child;
+-}
+-
+ static int vchiq_probe(struct platform_device *pdev)
+ {
+ 	struct device_node *fw_node;
+@@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
+ 		goto error_exit;
+ 	}
+ 
+-	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
+-	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
++	err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
++	if (err) {
++		dev_warn(&pdev->dev, "Failed to add vchiq child devices");
++		goto error_exit;
++	}
+ 
+ 	return 0;
+ 
+@@ -1845,8 +1847,9 @@ static int vchiq_probe(struct platform_device *pdev)
+ 
+ static int vchiq_remove(struct platform_device *pdev)
+ {
+-	platform_device_unregister(bcm2835_audio);
+-	platform_device_unregister(bcm2835_camera);
++	for (unsigned int i = 0; i < ARRAY_SIZE(vchiq_devices); i++)
++		platform_device_unregister(vchiq_devices[i]);
++
+ 	vchiq_debugfs_deinit();
+ 	vchiq_deregister_chrdev();
+ 
 -- 
 2.38.1
 
