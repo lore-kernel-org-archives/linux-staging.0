@@ -1,58 +1,68 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A91B23A4
-	for <linux-staging@lists.linux.dev>; Wed, 21 Dec 2022 11:39:52 +0000 (UTC)
-Received: from [192.168.1.139] ([37.4.248.22]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MYvLi-1pL4Nx2RGq-00Uqh4; Wed, 21 Dec 2022 12:34:13 +0100
-Message-ID: <2b9c0f42-94f8-d2b7-6be6-ab699f8114d9@i2se.com>
-Date: Wed, 21 Dec 2022 12:34:12 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A13A7E
+	for <linux-staging@lists.linux.dev>; Wed, 21 Dec 2022 12:33:28 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51A6FFB;
+	Wed, 21 Dec 2022 13:33:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1671626005;
+	bh=5Fd2x2guEXhJvwsldua4/D1afcQdq+w5Tdig2fs5xT4=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=oylmFDmpwe19jgOU9ccsnHaXmatKYGIHtxpuqVJpQsyWHx+HvUbI60OYAfRcSH4Pm
+	 dFq8xU+Z2huSzm3NiJalMifeCXhUJYBS9hkIBvvv7mqyBMd35Er2jtSBSLMPLE4woj
+	 bMBrzycYHMJ+DwLgEKZnZLZp22Yw2tFHbuA53xDY=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] staging: vchiq_arm: Remove extra struct vchiq_instance
- declaration
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Adrien Thierry <athierry@redhat.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221221074047.233473-1-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <stefan.wahren@i2se.com>
+Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <20221221074047.233473-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:kiBeU43GXecUiKrJ5RXjnkBJvCO8Fs+MA/242np8vA6T412pMmf
- L1MYaAo7E6KuqwaE2mELdly4Pq3wktU/26TOEeAEpIgaEU1/qzzyJgxmxCTdQ4HU/UvKX6e
- KYY1DkiCfP3Mxq5zgsVYJRasiR7LK/Xlge9mQXkVuo0ykBhxn+JqSbbRNZPNZLGTQ9U53bT
- 51Uo54OC4Dm9ROMUOmQfQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:fKXeNMGt72Y=;e4bW1qbnpiFl3oEhMQWa2UKkgcf
- PHvdla4qKp9smTIP5WmYBefKbvqppwq4sFVyIKhi7kHfs4o3RBQt/O5hRDOvi7VngbjXl1flO
- SH/eReOcgCh896FtdeWF2QfBsBj1BzHgoHfSYt+JcsbG20yK+IafsaY9ISHBQ41ZZ6zL6H3HN
- sSML1k3KqH7yM+vlwZlfvXdI77Vocj7cUIFLE4VNyiwoJdw4hZRllNduAiZBa6uDnJWYD6v4t
- firEWV4bD+6VFScg5lHk35r2gN4+wfstzcFvk8gEmZAvff+kKlvYuzepBx4RgUNOyQp9Hs14S
- ocJemNuj45wY823yXQpg2dBylFcxv7cN5GS1FwpZNHyfRtawxRAdGMkVSmHgfV4HppzTg2TUT
- kZhG4xOvzgARJl0I2789clZsgAws5uBDlsZwAaHvAFrLIFHsDwPFZfKjuMUZkIpSHvWj/fjZC
- zecsRkY2/an/Ypyr6Qci2AyQC3LRJyKOnekAh1VD97iE1LmERmNrevpgfkUZVvZBmm6/2L0Xn
- W58m/GicZBBuquWJk2pcluoRO02USL2TFU09ZekvJQe3SKi3ySrvA1TL6TgZjFVk2kB3ypjw6
- DHD2C290M9716fX1bNKOXtEcrdSHeb1fSLua/RF0nFi+QpgW9ZQtgt1PltSTbovvWly5NR7o7
- NjfVb1P8qKtdLkJjJbw5ziZWv2VaEVeIl+CiV91hUw==
+References: <20221221074047.233473-1-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH] staging: vchiq_arm: Remove extra struct vchiq_instance declaration
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Adrien Thierry <athierry@redhat.com>, Stefan Wahren <stefan.wahren@i2se.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Umang Jain <umang.jain@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Date: Wed, 21 Dec 2022 12:33:22 +0000
+Message-ID: <167162600273.3944359.9522944722768752331@Monstersaurus>
+User-Agent: alot/0.10
 
-Am 21.12.22 um 08:40 schrieb Umang Jain:
+Quoting Umang Jain (2022-12-21 07:40:47)
 > Additional declaration of struct vchiq_instance was introduced in the
 > commit 726e79f8a648 ("staging: vchiq_arm: pass vchiq instance to
 > service callbacks"). Drop the extra declaration.
->
-> Fixes: 726e79f8a648 ("staging: vchiq_arm: pass vchiq instance to service callbacks")
+>=20
+> Fixes: 726e79f8a648 ("staging: vchiq_arm: pass vchiq instance to service =
+callbacks")
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Stefan Wahren <stefan.wahren@i2se.com>
+
+It's tempting to move the other instance up to near the top of the file
+too, but not necessary.
+
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+> ---
+>  drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchi=
+q.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> index 66965da11443..52e106f117da 100644
+> --- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> +++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> @@ -78,8 +78,6 @@ struct vchiq_service_params_kernel {
+>         short version_min;   /* Update for incompatible changes */
+>  };
+> =20
+> -struct vchiq_instance;
+> -
+>  extern int vchiq_initialise(struct vchiq_instance **pinstance);
+>  extern int vchiq_shutdown(struct vchiq_instance *instance);
+>  extern int vchiq_connect(struct vchiq_instance *instance);
+> --=20
+> 2.38.1
+>
