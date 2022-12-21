@@ -1,64 +1,183 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C691FB3
-	for <linux-staging@lists.linux.dev>; Wed, 21 Dec 2022 07:41:16 +0000 (UTC)
-Received: from umang.jainideasonboard.com (unknown [IPv6:2409:4041:6e00:8664:7b2b:8fb:60de:a205])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6649EFB;
-	Wed, 21 Dec 2022 08:41:03 +0100 (CET)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6864623A4
+	for <linux-staging@lists.linux.dev>; Wed, 21 Dec 2022 11:15:07 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17D1BFB;
+	Wed, 21 Dec 2022 12:15:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1671608468;
-	bh=eFlNBXwSSXctvuPUS9pXmGHrLnv5YhS5W9CJ67PeCAI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oD54nE+MO8FZZBeM2qhzezzombfMcjovY29Zc3E2ooJVEzhWBpC8s4lh9nZ/ekiqP
-	 bS2nSMcIyQcJH/1COl9mW9x9XHy0b3+6bT8gzWuK/66SHMrpfKtS38C4ocKyvj0nAx
-	 QfPsbtU3+09gHNSzxEzeglfviTLTQ0ULIFQ0+Lhw=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Adrien Thierry <athierry@redhat.com>,
+	s=mail; t=1671621304;
+	bh=yveR9JIKb30hOShJCMWYbHM+OTy0mDpxYqQ6MAD0wM8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g4NV3YicSsx56dEf3CRfEx2oD8ZVtpxrwM8Qvzjg0L1OEZsqKcjJyP6as+Zv6+8YC
+	 DJ7CAxa+7tog2sqUnc92yoXqWelxKN7UTaTY0pJGHWi7hAWVM5HNvL0IUKpvaCkRr8
+	 +jGtdvbLc/yB2sNTIYpmK1dfjuwiVpTEl2d4gvP8=
+Date: Wed, 21 Dec 2022 13:14:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Stefan Wahren <stefan.wahren@i2se.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH] staging: vchiq_arm: Remove extra struct vchiq_instance declaration
-Date: Wed, 21 Dec 2022 13:10:47 +0530
-Message-Id: <20221221074047.233473-1-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.38.1
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create
+ platform_device per device
+Message-ID: <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com>
+References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221220084404.19280-1-umang.jain@ideasonboard.com>
 
-Additional declaration of struct vchiq_instance was introduced in the
-commit 726e79f8a648 ("staging: vchiq_arm: pass vchiq instance to
-service callbacks"). Drop the extra declaration.
+Hi Umang,
 
-Fixes: 726e79f8a648 ("staging: vchiq_arm: pass vchiq instance to service callbacks")
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h | 2 --
- 1 file changed, 2 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-index 66965da11443..52e106f117da 100644
---- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-+++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-@@ -78,8 +78,6 @@ struct vchiq_service_params_kernel {
- 	short version_min;   /* Update for incompatible changes */
- };
- 
--struct vchiq_instance;
--
- extern int vchiq_initialise(struct vchiq_instance **pinstance);
- extern int vchiq_shutdown(struct vchiq_instance *instance);
- extern int vchiq_connect(struct vchiq_instance *instance);
+On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
+> Create a proper per device platorm_device structure for all the child
+> devices that needs to be registered by vchiq platform driver. Replace
+> the vchiq_register_child() with platform_add_devices() to register the
+> child devices.
+
+This explains what the patch does, but not why.
+
+> This is part of an effort to address TODO item "Get rid of all non
+> essential global structures and create a proper per device structure"
+
+And this explains part of the reason only. Could you please expand the
+commit message with the reasoning behind this change ? It's not clear
+from the change below why this is needed and good.
+
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
+>  1 file changed, 31 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 22de23f3af02..fa42ea3791a7 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+>  DEFINE_SPINLOCK(msg_queue_spinlock);
+>  struct vchiq_state g_state;
+>  
+> -static struct platform_device *bcm2835_camera;
+> -static struct platform_device *bcm2835_audio;
+> +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
+
+The fact that this isn't const and is used by two different
+platform_device instances is worrying. Either it can be made const, or
+it's wrong.
+
+> +
+> +static struct platform_device bcm2835_camera = {
+> +	.name		= "bcm2835-camera",
+> +	.id		= PLATFORM_DEVID_NONE,
+> +	.dev		= {
+> +		.dma_mask	= &vchiq_device_dmamask,
+> +	}
+> +};
+> +
+> +static struct platform_device bcm2835_audio = {
+> +	.name		= "bcm2835_audio",
+> +	.id		= PLATFORM_DEVID_NONE,
+> +	.dev		= {
+> +		.dma_mask	= &vchiq_device_dmamask,
+> +	}
+> +
+
+Extra blank line.
+
+> +};
+> +
+> +static struct platform_device *vchiq_devices[] __initdata = {
+
+Make it const.
+
+> +	&bcm2835_camera,
+> +	&bcm2835_audio,
+> +};
+>  
+>  struct vchiq_drvdata {
+>  	const unsigned int cache_line_size;
+> @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
+>  };
+>  MODULE_DEVICE_TABLE(of, vchiq_of_match);
+>  
+> -static struct platform_device *
+> -vchiq_register_child(struct platform_device *pdev, const char *name)
+> -{
+> -	struct platform_device_info pdevinfo;
+> -	struct platform_device *child;
+> -
+> -	memset(&pdevinfo, 0, sizeof(pdevinfo));
+> -
+> -	pdevinfo.parent = &pdev->dev;
+> -	pdevinfo.name = name;
+> -	pdevinfo.id = PLATFORM_DEVID_NONE;
+> -	pdevinfo.dma_mask = DMA_BIT_MASK(32);
+> -
+> -	child = platform_device_register_full(&pdevinfo);
+> -	if (IS_ERR(child)) {
+> -		dev_warn(&pdev->dev, "%s not registered\n", name);
+> -		child = NULL;
+> -	}
+> -
+> -	return child;
+> -}
+> -
+>  static int vchiq_probe(struct platform_device *pdev)
+>  {
+>  	struct device_node *fw_node;
+> @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
+>  		goto error_exit;
+>  	}
+>  
+> -	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
+> -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
+> +	err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
+> +	if (err) {
+> +		dev_warn(&pdev->dev, "Failed to add vchiq child devices");
+> +		goto error_exit;
+> +	}
+
+If you unbind and rebind this driver, the platform_device instances
+defined as global variables will be reused, and I'm pretty sure that
+will cause issues, for instance with the kobj->state_initialized check
+in kobject_init() (called from device_initialize(), itself called from
+platform_device_register(), from platform_add_devices()). I'm not sure
+static instances of platform_device are a very good idea in general.
+
+>  
+>  	return 0;
+>  
+> @@ -1845,8 +1847,9 @@ static int vchiq_probe(struct platform_device *pdev)
+>  
+>  static int vchiq_remove(struct platform_device *pdev)
+>  {
+> -	platform_device_unregister(bcm2835_audio);
+> -	platform_device_unregister(bcm2835_camera);
+> +	for (unsigned int i = 0; i < ARRAY_SIZE(vchiq_devices); i++)
+> +		platform_device_unregister(vchiq_devices[i]);
+> +
+>  	vchiq_debugfs_deinit();
+>  	vchiq_deregister_chrdev();
+>  
+
 -- 
-2.38.1
+Regards,
 
+Laurent Pinchart
