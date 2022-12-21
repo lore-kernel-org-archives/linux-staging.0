@@ -1,98 +1,64 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8F97E
-	for <linux-staging@lists.linux.dev>; Tue, 20 Dec 2022 21:40:31 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id 1so20624870lfz.4
-        for <linux-staging@lists.linux.dev>; Tue, 20 Dec 2022 13:40:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i0QJJAJHs8AlHPv1GFzIrByGID5+G91GQ7RiYN+XzJE=;
-        b=AGyI0rZkXfrzcC3mDk9Ocmgo5FfL5qYohqfDty0IGt1mIpDzR+ADBd/5jdkkEIYucf
-         fdivCrsy66dXu745ocmIYzzv726M4VbxrH+iIX98exDpvwE0xg0fP4LZOwEN0HUN1RQB
-         P1pknZ7u3+ZZ47CmR+Fbci/fvn882uWfnawSIfdeRnSUef2f1hCQ0NToip4Q74f6wx1G
-         Aqq+XY15pMIbZZjJhBKOtQ+ZQSKrEhTvriuEkJTg+IeY6KQgvKgW/Pqfm/+SoxkLNBaw
-         KuwrecRR7kMH8ZwKcLOUWdX+L+1jY78K9zgg50J94by/ZZt0CXnKc12dTO49GFIgErx0
-         h34A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i0QJJAJHs8AlHPv1GFzIrByGID5+G91GQ7RiYN+XzJE=;
-        b=BVnaOdZtHiEzX0DgqIHDyNf9rIUCd04zvmYlEgqnTtaMTgO+P9un+ZUxhHiQsbhipJ
-         tz8NpJhqY4DuVPgzQgdh1agY0SdzZ40Bo43Qj1Dl98F8TllSSlRfznkX185cF4PuYX3X
-         mFHETAZhu4Gr9mZi11BzWdoB8eMF3M2qaISv7lpX1iwZzSALGnSKrh7gl8jMyZpNsEhL
-         OwA1lV56HwmbXPS3e/VctP8Fl4+xA+BRb8g/um4qd3QU0ym747C3IXbh1Zghal0u6PhT
-         rmI8MuZ0G47mMrRiUH6iP7BPAkkbh91WjtL7rVfDSj6cVgeE5V4C1ZlC3+NyUKLnJVkn
-         5Qww==
-X-Gm-Message-State: ANoB5pm9HdR4znwKpP3KfWGRAWmM8k6Yo8eKwNqegTHkH2kQm9F2z9ct
-	RMfUlwf461ifkmi9Ze8fjTU=
-X-Google-Smtp-Source: AA0mqf7UCX9LfU9mAdsWfz+Q/qhvUuQxl0BkWSutbWvnPYHqlJ49tXMn0MPeBrgSGHjYxfib5jXyig==
-X-Received: by 2002:a05:6512:682:b0:4a4:68b8:f4db with SMTP id t2-20020a056512068200b004a468b8f4dbmr19035562lfe.33.1671572429262;
-        Tue, 20 Dec 2022 13:40:29 -0800 (PST)
-Received: from [192.168.2.145] (109-252-113-89.nat.spd-mgts.ru. [109.252.113.89])
-        by smtp.googlemail.com with ESMTPSA id v24-20020ac25618000000b004b549ad99adsm1598785lfd.304.2022.12.20.13.40.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Dec 2022 13:40:28 -0800 (PST)
-Message-ID: <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
-Date: Wed, 21 Dec 2022 00:40:20 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C691FB3
+	for <linux-staging@lists.linux.dev>; Wed, 21 Dec 2022 07:41:16 +0000 (UTC)
+Received: from umang.jainideasonboard.com (unknown [IPv6:2409:4041:6e00:8664:7b2b:8fb:60de:a205])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6649EFB;
+	Wed, 21 Dec 2022 08:41:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1671608468;
+	bh=eFlNBXwSSXctvuPUS9pXmGHrLnv5YhS5W9CJ67PeCAI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oD54nE+MO8FZZBeM2qhzezzombfMcjovY29Zc3E2ooJVEzhWBpC8s4lh9nZ/ekiqP
+	 bS2nSMcIyQcJH/1COl9mW9x9XHy0b3+6bT8gzWuK/66SHMrpfKtS38C4ocKyvj0nAx
+	 QfPsbtU3+09gHNSzxEzeglfviTLTQ0ULIFQ0+Lhw=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Adrien Thierry <athierry@redhat.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH] staging: vchiq_arm: Remove extra struct vchiq_instance declaration
+Date: Wed, 21 Dec 2022 13:10:47 +0530
+Message-Id: <20221221074047.233473-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20 variant
-Content-Language: en-US
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Richard Leitner <richard.leitner@skidata.com>
-References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
- <20221128152336.133953-22-luca.ceresoli@bootlin.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <20221128152336.133953-22-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-28.11.2022 18:23, Luca Ceresoli пишет:
-> +static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
-> +					 struct tegra_channel_buffer *buf)
-> +{
-> +	u32 value;
-> +	int err;
-> +
-> +	chan->next_out_sp_idx++;
-> +
-> +	tegra20_channel_vi_buffer_setup(chan, buf);
-> +
-> +	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
-> +
-> +	/* Wait for syncpt counter to reach frame start event threshold */
-> +	err = host1x_syncpt_wait(chan->out_sp, chan->next_out_sp_idx,
-> +				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);
+Additional declaration of struct vchiq_instance was introduced in the
+commit 726e79f8a648 ("staging: vchiq_arm: pass vchiq instance to
+service callbacks"). Drop the extra declaration.
 
-You're not using the "value" variable, it should be NULL.
+Fixes: 726e79f8a648 ("staging: vchiq_arm: pass vchiq instance to service callbacks")
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+---
+ drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-The "chan->out_sp" looks redundant, it duplicates the chan->mw_ack_sp.
-AFAICS from the doc, T20 has two VI channels, and thus, two mw_ack_sp,
-like T210.
+diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+index 66965da11443..52e106f117da 100644
+--- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
++++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+@@ -78,8 +78,6 @@ struct vchiq_service_params_kernel {
+ 	short version_min;   /* Update for incompatible changes */
+ };
+ 
+-struct vchiq_instance;
+-
+ extern int vchiq_initialise(struct vchiq_instance **pinstance);
+ extern int vchiq_shutdown(struct vchiq_instance *instance);
+ extern int vchiq_connect(struct vchiq_instance *instance);
+-- 
+2.38.1
 
