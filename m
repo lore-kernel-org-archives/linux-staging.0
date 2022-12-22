@@ -1,25 +1,28 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0DA12563
-	for <linux-staging@lists.linux.dev>; Thu, 22 Dec 2022 09:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D352563
+	for <linux-staging@lists.linux.dev>; Thu, 22 Dec 2022 09:12:45 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::221])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 4F363CA12A
+	for <linux-staging@lists.linux.dev>; Thu, 22 Dec 2022 09:03:57 +0000 (UTC)
 Received: from booty (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7B92DE000A;
-	Thu, 22 Dec 2022 09:03:30 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 098A8240006;
+	Thu, 22 Dec 2022 09:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1671699813;
+	t=1671699829;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=T4gOPWGjEg88chOoWuaav23pjpL5Y5e5uaZVe/EqBqE=;
-	b=QeGD5dLYPEuaEGCcki0adCUzRqSKZ/zV31K71rU2ze+Figq+pEPdRZgrSchKyv0X9dVVLd
-	E4Zgew6xIafwewAasolBVx4tkU7epbCps3/37BBPtagS1o2eBEWyQ90dPbzFI7SmayUXpC
-	/4irqMiMWzfHCCQpB45qqr1f03QVKbIlNhe7wzVxa8ZhbEsjSdhDOKmCu7oVyMzSDc/ko7
-	LY/2AlLiBGZPqUD1hUAnJngvTe6kAqNaSI7PQQK/fmEopXzCbseH5gG118ncWstV8uhhyI
-	oRv3L5QCAPiw/qPFMO7puyrSsxEEng2gkOHvWI5S2TDyya9Dy+mYxZI/dgNJ3Q==
-Date: Thu, 22 Dec 2022 10:03:28 +0100
+	bh=gktEAWN3JB8j4tgK6e174eAxgB6KpzGMlNNM9C0jpTQ=;
+	b=hkeMahLxr95J8jRRBnHvUsJYopZH+NMQb36c/kMWeoRhxAs9R0Nsx8Kqm4U4LWysvOU4rF
+	NOIWJ4Zdl2Q5dDwUN/9g+0FVXa2wXZXOsk7HTAxAy0vDhJzSm3+xBN79nR+exWUshQho0n
+	TtXXf4UQwrpswjA0RHE4dVmNNSZqJrhzz3Npot2ARR9J9w3hzGj1YuIKyMSJsiJPG42RrC
+	hed3gv6cFfcUIZtqDTYk0dIwQUY5zfKceYc9cFExuKYtMcklW7NUXc94FiHaP5kEglHpvS
+	jA0pmJ5r/t1D76kP/f+IqMwWqd69m16O/ZRCLR4rCWJLZ5XFm1xIAyAQsSY4LQ==
+Date: Thu, 22 Dec 2022 10:03:41 +0100
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Dmitry Osipenko <digetx@gmail.com>
 Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
@@ -35,11 +38,13 @@ Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
  <thomas.petazzoni@bootlin.com>, Paul Kocialkowski
  <paul.kocialkowski@bootlin.com>, Richard Leitner
  <richard.leitner@skidata.com>
-Subject: Re: [PATCH v2 00/21] Add Tegra20 parallel video input capture
-Message-ID: <20221222100328.6e341874@booty>
-In-Reply-To: <a99fa7e5-31bc-4286-17e5-6ba6e4932bcf@gmail.com>
+Subject: Re: [PATCH v2 21/21] staging: media: tegra-video: add tegra20
+ variant
+Message-ID: <20221222100341.5882c19c@booty>
+In-Reply-To: <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
 References: <20221128152336.133953-1-luca.ceresoli@bootlin.com>
- <a99fa7e5-31bc-4286-17e5-6ba6e4932bcf@gmail.com>
+ <20221128152336.133953-22-luca.ceresoli@bootlin.com>
+ <30e6b040-aa82-f6a3-1ff6-baa2c0dcb0e2@gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -53,59 +58,50 @@ Content-Transfer-Encoding: quoted-printable
 
 Hello Dmitry,
 
-thanks for your review.
-
-On Tue, 20 Dec 2022 23:21:49 +0300
+On Wed, 21 Dec 2022 00:40:20 +0300
 Dmitry Osipenko <digetx@gmail.com> wrote:
 
 > 28.11.2022 18:23, Luca Ceresoli =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
-> > receive from either MIPI CSI-2 or parallel video (called respectively "=
-CSI"
-> > and "VIP" in the documentation). The kernel currently has a staging dri=
-ver
-> > for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
-> > capture.
-> >=20
-> > Unfortunately I had no real documentation available to base this work o=
-n.
-> > I only had a working downstream 3.1 kernel, so I started with the driver
-> > found there and heavily reworked it to fit into the mainline tegra-video
-> > driver structure. The existing code appears written with the intent of
-> > being modular and allow adding new input mechanisms and new SoCs while
-> > keeping a unique VI core module. However its modularity and extensibili=
-ty
-> > was not enough to add Tegra20 VIP support, so I added some hooks to turn
-> > hard-coded behaviour into per-SoC or per-bus customizable code. There a=
-re
-> > also a fix, some generic cleanups and DT bindings.
-> >=20
-> > Quick tour of the patches:
-> >=20
-> >  * Device tree bindings and minor DTS improvements
-> >=20
-> >    01. dt-bindings: display: tegra: add Tegra20 VIP
-> >    02. dt-bindings: display: tegra: vi: add 'vip' property and example =
-=20
+> > +static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
+> > +					 struct tegra_channel_buffer *buf)
+> > +{
+> > +	u32 value;
+> > +	int err;
+> > +
+> > +	chan->next_out_sp_idx++;
+> > +
+> > +	tegra20_channel_vi_buffer_setup(chan, buf);
+> > +
+> > +	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP=
+_ENABLE);
+> > +
+> > +	/* Wait for syncpt counter to reach frame start event threshold */
+> > +	err =3D host1x_syncpt_wait(chan->out_sp, chan->next_out_sp_idx,
+> > +				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value); =20
 >=20
-> This series adds the new DT node, but there are no board DTs in upstream
-> that will use VIP? Will we see the board patches?
+> You're not using the "value" variable, it should be NULL.
 
-I'm afraid I have no such plan. I don't have any public hardware with
-Tegra20, with or without a parallel sensor. I have a custom board.
+Ah, sure, good catch.
 
-> In any case, given that you're likely the only one here who has access
-> to hardware with VIP,=20
+> The "chan->out_sp" looks redundant, it duplicates the chan->mw_ack_sp.
 
-Likely indeed.
+I agree it is redundant and can be improved.
 
-> you should promote yourself to the tegra-video
-> driver maintainers and confirm that you will be able to maintain and
-> test this code for years to come.
+> AFAICS from the doc, T20 has two VI channels, and thus, two mw_ack_sp,
+> like T210.
 
-I can definitely add myself as a maintainer of this driver and join the
-maintenance effort, I'm adding that in v3. I also have a board that I
-can permanently use for testing.
+I'm confused by this. In the current driver, each VI channel has an
+array of 2 mw_ack_sp, the second of which is only used the ganged
+CSI ports. I have no docs mentioning ganged ports so I don't know
+exactly how they work and whether T20 might need more than 1 syncpt per
+channel or not for CSI. Definitely when using VIP only one such syncpt
+per each VI (or per each VIP, as per your reply to patch 1) is needed.
+
+Bottom line: I think I can simply remove the out_sp and in the VIP code
+always use chan->mw_ack_sp[0], and document that it's what is called OUT
+in VIP terms.
+
+Does this plan seem good?
 
 --=20
 Luca Ceresoli, Bootlin
