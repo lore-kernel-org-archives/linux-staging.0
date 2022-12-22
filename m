@@ -1,122 +1,133 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C05D33D2
-	for <linux-staging@lists.linux.dev>; Thu, 22 Dec 2022 12:28:02 +0000 (UTC)
-Received: from [192.168.1.139] ([37.4.248.22]) by mrelayeu.kundenserver.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C485CBB
+	for <linux-staging@lists.linux.dev>; Thu, 22 Dec 2022 14:16:38 +0000 (UTC)
+Received: from stefanw-SCHENKER ([37.4.248.22]) by mrelayeu.kundenserver.de
  (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MV5rK-1pGXru0n2c-00S7vG; Thu, 22 Dec 2022 13:27:48 +0100
-Message-ID: <d18a1db5-0ad5-cb64-0764-d1d162657ad6@i2se.com>
-Date: Thu, 22 Dec 2022 13:27:47 +0100
+ 1MFsER-1p5s3E1lAV-00HLB2; Thu, 22 Dec 2022 15:16:23 +0100
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Subject: [PATCH] staging: vchiq_core: Add comments to remote event parts
+Date: Thu, 22 Dec 2022 15:15:53 +0100
+Message-Id: <20221222141553.138563-1-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 5/7] vc04_services: vchiq_arm: Drop VCHIQ_RETRY usage
- on disconnect
-Content-Language: en-US
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
- <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20221219115725.11992-1-umang.jain@ideasonboard.com>
- <20221219115725.11992-6-umang.jain@ideasonboard.com>
- <8fcbdf54-98ae-6a06-ecaf-591a43b863a1@i2se.com>
- <6baffa7c-ea7c-aaa6-361a-1a043b065f29@ideasonboard.com>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <6baffa7c-ea7c-aaa6-361a-1a043b065f29@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5oBNFdIcHUEPZ/hOt0ymzZuBbo6GdsY9Z6EySt2vT1rAp2FKeH1
- UybcYyne99UKNbSqy4Xty9GvJ9IKFJU1D0gg4+m2wXx2ByO+5LkHY9sbbRRfVrMySfDK/Ag
- QYyF7Tv2952oe9ho9lLXe80TsPSyuPbI+hq3neC/6REdzpAxry4GDBLX2xulqvAkGGrO3PC
- sLSwSCQezjDqSY2NWWaig==
+X-Provags-ID: V03:K1:W5Nl+lrIYpBoJ8xhdZ+/1NRR3o2mgPu4MEbmk/LtK/sX0SEhPWV
+ l68LEjxWd2UhWWnv3lyN6O0g/jadSaSNEqD1lNCRu+bvTv9QzL8KyHDd7yltPKDZW7WJM3I
+ 77Dsb6BbzUCDDyf+BYzuAHTPHbrbQcM/yKmtlnEBeu2Rpj1fk6ha06UHv0YioXtBzlROh5N
+ svjD3lF50vRNMG7/EEpMw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:2tCdS9YoLF4=;jzmIj6Fk5M0bjP+NWwjRWXVG6jT
- SgQVzXtJiWgBUGN7YvjzgnWJvGI5MIJBaTHkXIfoVFxkQkiRP0IAs7fpSdnCTsKq0FJREjPCn
- kMyIMBchE1BRmoZfc/S65OvHW43Wbb2mvcELjKAd0XG04kGEHzdW4OMLtWcwS9aLWyg96NZiD
- Zhhfcfc2+/NCuaedgdVcviXgpYUUzLpFLyRL570TkB2kZfsuMGjKeKg+qoE2ZoSD0FTXZVefN
- 3IWcWzGM3ZCf2cHgeHsIsKdoMvcurXET5GzLOjYOjbkLVkLYEuopGJt0NzAeYHwGQtOKZyr5l
- 0qCC3Czvd6sWguGodw4IjkYir50OmYF0SitFC3z5lv+TAQ6JZT5yhYpZ4s5KSTa1ty/82fAWn
- h6zSjQ4wb7cvlKhqda7gIdHuffCwShJBdlsieyJEUp5NVGB2X7Hz9YPddSe19p9khN/UKQ6+h
- qix7k7IBcPQTbF7kiuFBi9yfHL+LLicQwjs7n83Ny98ok1CjemvM3k+GCxt7GM8Ebj5ugv7IA
- rltwAz0M9cwhDOcRgmgdiWq+vt6EVLITcJ9wDFM76hstNpuRafT5lavbk16O9nG25T3gPvkG+
- P4UGCU8qy5umsBW3nYYEU8OeJfUHJLM/Q0MjFfPdt6D3QNZ+jbblHVvl5888sfBpwP1WDaOR2
- PvrXk9wKOdv1fnb1nDkCd5bsIjCAcrniMFWDYqtRlQ==
+UI-OutboundReport: notjunk:1;M01:P0:zbymciysjy0=;/q2w0GUPnkREwqyFizDDbzHy9eO
+ 0BirmsQOya+Gf/MCmqVG3boAx3F5TAH8HGDi0rtLswuFfikrIdG8RLpq1AwdxiEeUAfMfcHvw
+ /E80t8XoiwaO1s/3d+Fqq2Wki4nI+IApWhqHyZur2uEr4wEG3gPUn5iwiFTXWPfRuFgyusaag
+ eh0E68vl7zchM+GUE5Azrcqn0Zz1jSqfB5RBPLZ0ip9yMmu0C/NbHKTQttvGeAMwb6fquC+Y/
+ rkStbUOUQ3P1mgXaGSW62uyh2tgOfAYyUA/kvA7UV0QbxutSg7FfEnGiELUyeuglzf5Lf9Z+d
+ pogZ3YLZAzbSVtOA0cpuxKs5xLQ6jQV+Bn7BWTEv8jV5+57RRVyG5js/yAx17vkZhBOfJj8xj
+ OalTFr5Phf+R/4We9GnD4FEPCoVJlQWwgo7zvSBSrABjFUhL0Qn7q2q6GhOmHIbaHMAPr0wrM
+ TjB87nP3sWPcjarz050dN2rFlcUrsFv7WFB5u2ZPOtOFmFgXK8GQhzC/+PpFnOCShRIt4mytX
+ WaWxYfX1K8Diht98/rfCSNenSODKvR0Q5+INGTCNWlPEQzrELwcE80vh6ppv3O+qleU4qC4Vi
+ lTlmcxvdHHnawuNasfVqHpnRUwJ4EyyjdqV46SNsdrd0NKZnEK5yuMRCbqW4Z41nIMDoxK32B
+ cKofcSBGnZ08Phnp1bZxe3ecfwvPsgS4AeSQt10HVw==
 
-Hi Umang,
+From: Phil Elwell <phil@raspberrypi.com>
 
-Am 22.12.22 um 13:04 schrieb Umang Jain:
-> Hi Stefan,
->
-> On 12/22/22 4:37 PM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 19.12.22 um 12:57 schrieb Umang Jain:
->>> Drop the usage of VCHIQ_RETRY when the vchiq has connection status
->>> VCHIQ_CONNSTATE_DISCONNECTED. Disconnected status will not be valid to
->>> carry on a retry, replace the VCHIQ_RETRY with -ENOTCONN.
->>>
->>> This patch removes the usage of vCHIQ_RETRY completely and act as
->>> intermediatory to address the TODO item:
->>>     * Get rid of custom function return values
->>> for vc04_services/interface.
->>>
->>> Fixes: 71bad7f08641 ("staging: add bcm2708 vchiq driver")
->> please drop this fixes tag since this commit doesn't fix a real issue 
->> and also shouldn't be applied to stable.
->
-> Should I send a v3 of the series with updated commit message or can 
-> you drop the tag while applying?
+struct remote_event and the related functions remote_event_*() provides
+a higher function between ARM core and VPU. It's very helpful for a
+reviewer to have explaining comments about these parts.
 
-Greg is the maintainer of staging, so i cannot decide. But i would 
-prefer a v3 with my tested tag added and this fixes tag dropped.
+Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+---
+ .../interface/vchiq_arm/vchiq_core.c           | 10 ++++++++++
+ .../interface/vchiq_arm/vchiq_core.h           | 18 ++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-Best regards
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 45ed30bfdbf5..2571a3742745 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -498,6 +498,7 @@ vchiq_set_conn_state(struct vchiq_state *state, enum vchiq_connstate newstate)
+ 	vchiq_platform_conn_state_changed(state, oldstate, newstate);
+ }
+ 
++/* This initialises a single remote_event, and the associated wait_queue. */
+ static inline void
+ remote_event_create(wait_queue_head_t *wq, struct remote_event *event)
+ {
+@@ -536,6 +537,10 @@ remote_event_wait(wait_queue_head_t *wq, struct remote_event *event)
+ 	return 1;
+ }
+ 
++/*
++ * Acknowledge that the event has been signalled, and wake any waiters. Usually
++ * called as a result of the doorbell being rung.
++ */
+ static inline void
+ remote_event_signal_local(wait_queue_head_t *wq, struct remote_event *event)
+ {
+@@ -544,6 +549,7 @@ remote_event_signal_local(wait_queue_head_t *wq, struct remote_event *event)
+ 	wake_up_all(wq);
+ }
+ 
++/* Check if a single event has been signalled, waking the waiters if it has. */
+ static inline void
+ remote_event_poll(wait_queue_head_t *wq, struct remote_event *event)
+ {
+@@ -551,6 +557,10 @@ remote_event_poll(wait_queue_head_t *wq, struct remote_event *event)
+ 		remote_event_signal_local(wq, event);
+ }
+ 
++/*
++ * VCHIQ used a small, fixed number of remote events. It is simplest to
++ * enumerate them here for polling.
++ */
+ void
+ remote_event_pollall(struct vchiq_state *state)
+ {
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 8b4a38f5b3f2..fd6c95e91436 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -166,6 +166,24 @@ struct vchiq_bulk_queue {
+ 	struct vchiq_bulk bulks[VCHIQ_NUM_SERVICE_BULKS];
+ };
+ 
++/*
++ * Remote events provide a way of presenting several virtual doorbells to a
++ * peer (ARM host to VPU) using only one physical doorbell. They can be thought
++ * of as a way for the peer to signal a semaphore, in this case implemented as
++ * a workqueue.
++ *
++ * Remote events remain signalled until acknowledged by the receiver, and they
++ * are non-counting. They are designed in such a way as to minimise the number
++ * of interrupts and avoid unnecessary waiting.
++ *
++ * A remote_event is as small data structures that live in shared memory. It
++ * comprises two booleans - armed and fired:
++ *
++ * The sender sets fired when they signal the receiver.
++ * If fired is set, the receiver has been signalled and need not wait.
++ * The receiver sets the armed field before they begin to wait.
++ * If armed is set, the receiver is waiting and wishes to be woken by interrupt.
++ */
+ struct remote_event {
+ 	int armed;
+ 	int fired;
+-- 
+2.34.1
 
->
-> Other option would be to send v2.1  --in-reply-to this patch. I am 
-> fine with anything as long as it aligns with the merging workflow.
->
-> Thanks,
-> Umang
->>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>> ---
->>>   .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git 
->>> a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c 
->>> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->>> index 9c64d5de810e..ddb6d0f4daed 100644
->>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->>> @@ -3641,7 +3641,7 @@ vchiq_loud_error_footer(void)
->>>   int vchiq_send_remote_use(struct vchiq_state *state)
->>>   {
->>>       if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED)
->>> -        return VCHIQ_RETRY;
->>> +        return -ENOTCONN;
->>>         return queue_message(state, NULL, MAKE_REMOTE_USE, NULL, 
->>> NULL, 0, 0);
->>>   }
->>> @@ -3649,7 +3649,7 @@ int vchiq_send_remote_use(struct vchiq_state 
->>> *state)
->>>   int vchiq_send_remote_use_active(struct vchiq_state *state)
->>>   {
->>>       if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED)
->>> -        return VCHIQ_RETRY;
->>> +        return -ENOTCONN;
->>>         return queue_message(state, NULL, MAKE_REMOTE_USE_ACTIVE,
->>>                    NULL, NULL, 0, 0);
->
