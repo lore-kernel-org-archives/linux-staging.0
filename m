@@ -1,66 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD048F63
-	for <linux-staging@lists.linux.dev>; Fri, 23 Dec 2022 15:41:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55F15C433D2;
-	Fri, 23 Dec 2022 15:41:15 +0000 (UTC)
-Date: Fri, 23 Dec 2022 10:41:13 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>, Thomas Gleixner
- <tglx@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, Anna-Maria Gleixner
- <anna-maria@linutronix.de>, Andrew Morton <akpm@linux-foundation.org>,
- Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
- cgroups@vger.kernel.org, linux-block@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- netdev@vger.kernel.org, drbd-dev@lists.linbit.com,
- linux-bluetooth@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
- linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
-Message-ID: <20221223104113.0bc8d37f@gandalf.local.home>
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
-References: <20221220134519.3dd1318b@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90F633CE
+	for <linux-staging@lists.linux.dev>; Fri, 23 Dec 2022 19:38:46 +0000 (UTC)
+Received: from whitebuilder.lan (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8DACE6602CDF;
+	Fri, 23 Dec 2022 19:38:37 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1671824318;
+	bh=6GcOabw66VsX84Z/gphQUubf54+X891g3yoPH/UbEEY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=IS+eubJThqDCFvet2vxtMhCIIxaTBSisgP3jlJXdfRMboqhzqtAohn3eTY/kHiCGv
+	 bhOJc4Q9Mri0cG+gD/pNOY4Ux/uPOz1igJVblO7qQaTrE13MgZsKHWpivf72sL9JxL
+	 xXPB9WMSKho3xdK1mYz80zTPVEy1VQFrCt8cn5Vy8/a0MPZ6kgd7M1aqoEAmLlHwjW
+	 4w3r5YbiGgUg65S5lFT7bLJ9XYo9L7F4f+QYPiQ084zj3vbazndqxWfsiWmXQs+sfA
+	 ZDzp7FvKvvR0tKNEv5y1m6DEt24Hxrv5VLTq9injYmS+qg6+orM/d//pwNy8lZsU3G
+	 rqawE9lwSJHKA==
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@collabora.com,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/4] media: rkvdec: Add an ops to check for decode errors
+Date: Fri, 23 Dec 2022 14:38:03 -0500
+Message-Id: <20221223193807.914935-2-nicolas.dufresne@collabora.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
+References: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 20 Dec 2022 13:45:19 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+This optional internal ops allow each codec to do their own
+error status checking. The presence of an error is reported
+using the ERROR buffer state. This patch have no functional
+changes.
 
-> [
->   Linus,
-> 
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
-> 
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
-> 
->     What is the best way to handle this?
-> ]
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++----
+ drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-Note, I just did a git remote update, checked out the latest, re-ran the
-script, and this patch hasn't changed.
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 7bab7586918c1..7e76f8b728854 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -950,6 +950,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
+ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+ {
+ 	struct rkvdec_dev *rkvdec = priv;
++	struct rkvdec_ctx *ctx;
+ 	enum vb2_buffer_state state;
+ 	u32 status;
+ 
+@@ -958,12 +959,13 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+ 		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+ 
+ 	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+-	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
+-		struct rkvdec_ctx *ctx;
++	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+ 
+-		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
++	if (ctx->coded_fmt_desc->ops->check_error_info)
++		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
++
++	if (cancel_delayed_work(&rkvdec->watchdog_work))
+ 		rkvdec_job_finish(ctx, state);
+-	}
+ 
+ 	return IRQ_HANDLED;
+ }
+diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+index 633335ebb9c49..4ae8e6c6b03c9 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.h
++++ b/drivers/staging/media/rkvdec/rkvdec.h
+@@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+ 		     struct vb2_v4l2_buffer *dst_buf,
+ 		     enum vb2_buffer_state result);
+ 	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
++	/* called from IRQ handler */
++	int (*check_error_info)(struct rkvdec_ctx *ctx);
+ };
+ 
+ struct rkvdec_coded_fmt_desc {
+-- 
+2.38.1
 
--- Steve
