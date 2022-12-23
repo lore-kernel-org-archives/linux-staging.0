@@ -1,233 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184298F63
-	for <linux-staging@lists.linux.dev>; Fri, 23 Dec 2022 14:48:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D799C433D2;
-	Fri, 23 Dec 2022 14:48:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1671806894;
-	bh=IfzhwLvO4ZMOcaloCgK1l1B3AfqyMv/I/ORO1KE/0lg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lGhPKFtbN7ijadwiEiyilKYZ7fWgsjMVHDgMfpxbVHjx/QQoQaJOA7RaoFTDXT1y8
-	 OlWbpMWJA1ujAI4tXZHQX6Z8J3Mtn6Oh9LlRpRIjZh9PN1rRcxNSGmnKQ6W8QDPjnq
-	 sfEfKTIYxzbQwbuigQe3KM4N5SdmTgwSBeCrPBOw=
-Date: Fri, 23 Dec 2022 15:48:11 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417B28F63
+	for <linux-staging@lists.linux.dev>; Fri, 23 Dec 2022 15:25:24 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id z10so4848184wrh.10
+        for <linux-staging@lists.linux.dev>; Fri, 23 Dec 2022 07:25:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=I02zLCc3L9Vr4Pgf+3/wKwOrK6n4hccBX4ktlYit2UY=;
+        b=c4m4X9M/xPPNj/v8+Kkf5y5+5BSX4GZSZ2151sK2+8N+AEWubxmGRYPTrRLPrHKElv
+         e3720UnRSAhwxH7PGsgPDAqmEm+A8uZcvWt19GfXhy0ZCjkZyG5V834cyKAL/EyMSiwn
+         FRShKo9mDwO2MF/lxe6pUFP8z8QpE5mZfjXidStD8FXbA//Wsm9XHewUxgfOFso9EJ01
+         7o7LXeAuxs5ClqlWHoKIEKEDgAMf/QZekAHdn0vh4XMjbY0+LKrpDBq/FqZbH45YCTZd
+         /N4X9FuPGcF6vKF+tWQ5xCsy5RrVKS7S72SrHz0f07vUuWTe9uOZMcisYIX4w2vgTylq
+         V7pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I02zLCc3L9Vr4Pgf+3/wKwOrK6n4hccBX4ktlYit2UY=;
+        b=D3v9F0pINyz3ueafNAO9yVoSu3fPhGrZqFBJ8lVNyGFGZ2GXwgpTYJJmXPeyeGSgTy
+         9RZ9JKuH3Bj+9CoJfwZ1oBUVGW0TL1ztkR3mKF65YAEpPi/Ge3NVxty+couViYHCr00B
+         nwM/BVEZF7bb45dPIe2++ccKUCnyfQcmIPb0AEPTJAp4lJmJ1546DqERHt8qV3iCZX5O
+         MIyTsc7NED6JMLDVvoENjwwtjGyxHFdWt7tsYxiVkqJk62ur59jJealoNJ09Ofoj+8tI
+         H11tG02bZIxO7iZepyRJ3esGTFUlYFRty9rTdfbx+cDMgPqV/pVCqafRupxxpret5Wr6
+         YkvA==
+X-Gm-Message-State: AFqh2kp/5cYcLLF8z2ErGX8ds3M6rrsW/ZusNzvA60+7/1JpiTUtIjrt
+	VkSS29GP1ei42VogC9P0sSw=
+X-Google-Smtp-Source: AMrXdXtuhXBuZ5KqjB11un5Uda/BfZM3z+g/fpqt+KxkiSy1KgNZR1aeMy4s9hQ0phETTkGG2JhVBQ==
+X-Received: by 2002:adf:f04d:0:b0:268:2ab2:baa4 with SMTP id t13-20020adff04d000000b002682ab2baa4mr6416249wro.54.1671809122439;
+        Fri, 23 Dec 2022 07:25:22 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i13-20020a5d558d000000b00241e5b917d0sm4013973wrv.36.2022.12.23.07.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Dec 2022 07:25:21 -0800 (PST)
+Date: Fri, 23 Dec 2022 18:25:18 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Florian Fainelli <f.fainelli@gmail.com>,
 	Adrien Thierry <athierry@redhat.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Phil Elwell <phil@raspberrypi.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create
- platform_device per device
-Message-ID: <Y6W/q7v0KdYNy81+@kroah.com>
-References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
- <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com>
- <Y6MF3l40WM3onmyO@kroah.com>
- <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
- <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
- <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 5/7] vc04_services: vchiq_arm: Drop VCHIQ_RETRY usage
+ on disconnect
+Message-ID: <Y6XIXuccQD1RuBty@kadam>
+References: <20221219115725.11992-1-umang.jain@ideasonboard.com>
+ <20221219115725.11992-6-umang.jain@ideasonboard.com>
+ <8fcbdf54-98ae-6a06-ecaf-591a43b863a1@i2se.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
+In-Reply-To: <8fcbdf54-98ae-6a06-ecaf-591a43b863a1@i2se.com>
 
-On Fri, Dec 23, 2022 at 12:24:22PM +0100, Stefan Wahren wrote:
-> Hi Laurent,
-> hi Umang,
+On Thu, Dec 22, 2022 at 12:07:56PM +0100, Stefan Wahren wrote:
+> Hi Umang,
 > 
-> Am 22.12.22 um 18:35 schrieb Laurent Pinchart:
-> > Hi Umang,
+> Am 19.12.22 um 12:57 schrieb Umang Jain:
+> > Drop the usage of VCHIQ_RETRY when the vchiq has connection status
+> > VCHIQ_CONNSTATE_DISCONNECTED. Disconnected status will not be valid to
+> > carry on a retry, replace the VCHIQ_RETRY with -ENOTCONN.
 > > 
-> > On Thu, Dec 22, 2022 at 01:59:28PM +0530, Umang Jain wrote:
-> > > On 12/21/22 6:40 PM, Greg Kroah-Hartman wrote:
-> > > > On Wed, Dec 21, 2022 at 01:14:59PM +0200, Laurent Pinchart wrote:
-> > > > > On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
-> > > > > > Create a proper per device platorm_device structure for all the child
-> > > > > > devices that needs to be registered by vchiq platform driver. Replace
-> > > > > > the vchiq_register_child() with platform_add_devices() to register the
-> > > > > > child devices.
-> > > > > This explains what the patch does, but not why.
-> > > > > 
-> > > > > > This is part of an effort to address TODO item "Get rid of all non
-> > > > > > essential global structures and create a proper per device structure"
-> > > > > And this explains part of the reason only. Could you please expand the
-> > > > > commit message with the reasoning behind this change ? It's not clear
-> > > > > from the change below why this is needed and good.
-> > > Ok, I thought the TODO reference was sufficient but I'll expand on it.
-> > > 
-> > > > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > > > > > ---
-> > > > > >    .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
-> > > > > >    1 file changed, 31 insertions(+), 28 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > index 22de23f3af02..fa42ea3791a7 100644
-> > > > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
-> > > > > >    DEFINE_SPINLOCK(msg_queue_spinlock);
-> > > > > >    struct vchiq_state g_state;
-> > > > > > -static struct platform_device *bcm2835_camera;
-> > > > > > -static struct platform_device *bcm2835_audio;
-> > > > > > +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
-> > > > > The fact that this isn't const and is used by two different
-> > > > > platform_device instances is worrying. Either it can be made const, or
-> > > > > it's wrong.
-> > > ack.
-> > > 
-> > > > > > +
-> > > > > > +static struct platform_device bcm2835_camera = {
-> > > > > > +	.name		= "bcm2835-camera",
-> > > > > > +	.id		= PLATFORM_DEVID_NONE,
-> > > > > > +	.dev		= {
-> > > > > > +		.dma_mask	= &vchiq_device_dmamask,
-> > > > > > +	}
-> > > > > > +};
-> > > > > > +
-> > > > > > +static struct platform_device bcm2835_audio = {
-> > > > > > +	.name		= "bcm2835_audio",
-> > > > > > +	.id		= PLATFORM_DEVID_NONE,
-> > > > > > +	.dev		= {
-> > > > > > +		.dma_mask	= &vchiq_device_dmamask,
-> > > > > > +	}
-> > > > > > +
-> > > > > Extra blank line.
-> > > oops, checkpatch.pl didn't catch this :-/
-> > > 
-> > > > > > +};
-> > > > > > +
-> > > > > > +static struct platform_device *vchiq_devices[] __initdata = {
-> > > > > Make it const.
-> > > > > 
-> > > > > > +	&bcm2835_camera,
-> > > > > > +	&bcm2835_audio,
-> > > > > > +};
-> > > > > >    struct vchiq_drvdata {
-> > > > > >    	const unsigned int cache_line_size;
-> > > > > > @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
-> > > > > >    };
-> > > > > >    MODULE_DEVICE_TABLE(of, vchiq_of_match);
-> > > > > > -static struct platform_device *
-> > > > > > -vchiq_register_child(struct platform_device *pdev, const char *name)
-> > > > > > -{
-> > > > > > -	struct platform_device_info pdevinfo;
-> > > > > > -	struct platform_device *child;
-> > > > > > -
-> > > > > > -	memset(&pdevinfo, 0, sizeof(pdevinfo));
-> > > > > > -
-> > > > > > -	pdevinfo.parent = &pdev->dev;
-> > > > > > -	pdevinfo.name = name;
-> > > > > > -	pdevinfo.id = PLATFORM_DEVID_NONE;
-> > > > > > -	pdevinfo.dma_mask = DMA_BIT_MASK(32);
-> > > > > > -
-> > > > > > -	child = platform_device_register_full(&pdevinfo);
-> > > > > > -	if (IS_ERR(child)) {
-> > > > > > -		dev_warn(&pdev->dev, "%s not registered\n", name);
-> > > > > > -		child = NULL;
-> > > > > > -	}
-> > > > > > -
-> > > > > > -	return child;
-> > > > > > -}
-> > > > > > -
-> > > > > >    static int vchiq_probe(struct platform_device *pdev)
-> > > > > >    {
-> > > > > >    	struct device_node *fw_node;
-> > > > > > @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
-> > > > > >    		goto error_exit;
-> > > > > >    	}
-> > > > > > -	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
-> > > > > > -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
-> > > > > > +	err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
-> > > > > > +	if (err) {
-> > > > > > +		dev_warn(&pdev->dev, "Failed to add vchiq child devices");
-> > > > > > +		goto error_exit;
-> > > > > > +	}
-> > > > > If you unbind and rebind this driver, the platform_device instances
-> > > > > defined as global variables will be reused, and I'm pretty sure that
-> > > > > will cause issues, for instance with the kobj->state_initialized check
-> > > > > in kobject_init() (called from device_initialize(), itself called from
-> > > > > platform_device_register(), from platform_add_devices()). I'm not sure
-> > > > > static instances of platform_device are a very good idea in general.
-> > > > static instances of any device are a horrible idea, but it seems that
-> > > > many drivers do this and abuse platform devices this way :(
-> > > It seems  I have been a victim of the abuse usage while looking for
-> > > platform_device references in the codebase. I'm working on a new
-> > > approach for this.
-> > > 
-> > > Currently (as per the linux-next branch), the vchiq driver will happily
-> > > carry on if any of the child  platform device registration fails. That
-> > > means if bcm2835-audio fails to register, bcm2835-camera will  still
-> > > kept registered I suppose.
-> > > 
-> > > However with usage of platform_add_devices() in this patch, I introduced
-> > > a functionality change (I'm realizing this now) - any failure of child
-> > > platform device registeration will -unregister- all the other platform
-> > > devices i.e. if bcm2835-audio fails, bcm2835-camera will also get
-> > > unregistered.
-> > > 
-> > > Should I be working towards the status-quo behavior ? Or it's sane to
-> > > unregistered other platform devices if one of the fails like
-> > > platform_add_devices() does ? (This affects my new approach as well,
-> > > hence the question)
-> > If it doesn't cause too much extra complexity, it would be nice to skip
-> > devices that can't be registered successfully, and still support the
-> > other ones. I don't expect registration failures to be a occuring
-> > normally, so if this causes too much completely, I think it would still
-> > be fine to fail more harshly.
+> > This patch removes the usage of vCHIQ_RETRY completely and act as
+> > intermediatory to address the TODO item:
+> > 	* Get rid of custom function return values
+> > for vc04_services/interface.
 > > 
-> > > > Ideally this should be done properly, with the correct devices created
-> > > > automatically based on the device tree structure, NOT hard-coded into a
-> > > > .c file like this.
-> > > > 
-> > > > So I too really do not like this change, why are these not being created
-> > > > by the firware layer automatically?
-> > > Not sure if this is a helpful comment, but as far I know, there can be
-> > > vchiq child platform devices which probably don't have a Device tree
-> > > entry. like the bcm2835-isp [1] I posted earlier.
-> > > 
-> > > [1] https://lore.kernel.org/lkml/20221121214722.22563-1-umang.jain@ideasonboard.com/
-> > Those devices are implemented and exposed by the firmware running on the
-> > VC4. The device tree describes the VC4 itself with the resources
-> > required to communicate with it through a mailbox interface. I was going
-> > to say that the platform devices are then created based on what the
-> > firmware exposes, but that's not right, they're indeed hardcoded in the
-> > vchiq driver. Adding corresponding DT nodes (as children of the vchiq DT
-> > node) could make sense. Dave, do you have any opinion on this ?
-> 
-> i vaguely remember the discussion how to represent audio and camera
-> interface in the device tree. Representing as child nodes of the VC4 has
-> been rejected on the device tree mailing some years ago, because this
-> doesn't represent the physical (hardware) wiring. It's still possible to
-> access e.g. the camera interface from the ARM.
-> 
-> The whole approach with using a separate binding for all the firmware stuff
-> lead to a lot of trouble on the Raspberry Pi platform (ugly dependencies
-> between firmware, DT and kernel). So i would like to avoid this here. In
-> case the current implementation is a no go, how about letting the ARM core
-> discover the available interfaces e.g. via mailbox interface?
-> 
-> For more inspiration take a look at this old thread [1]
+> > Fixes: 71bad7f08641 ("staging: add bcm2708 vchiq driver")
+> please drop this fixes tag since this commit doesn't fix a real issue and
+> also shouldn't be applied to stable.
 
-Yes, that's the proper way to do this please!  This should be a bus and
-dynamically add the devices when found, it is NOT a platform device
-anymore.
+I asked Umang to add the Fixes tag based on the patch description and
+based on that it seemed like a behavior change just from looking at
+the patch.
 
-thanks,
+But actually you are right that the fixes tag is not required.
 
-greg k-h
+The vchiq_send_remote_use() function is never called (dead code).  The
+vchiq_send_remote_use_active() function now returns a mix of custom
+error codes and negative error codes.  (Ugly).  The caller only tests
+for VCHIQ_SUCCESS so this code does not change behavior.  I really feel
+like the commit description needs to be clearer on this.
+
+The fixes tag is not really about stable.  Stable uses the tag, but the
+fixes tag is appropriate whenever there is a bug fix.
+
+regards,
+dan carpenter
+
