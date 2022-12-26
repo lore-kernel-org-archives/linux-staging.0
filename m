@@ -1,82 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58827E3
-	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 10:27:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6701C433EF;
-	Mon, 26 Dec 2022 10:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1672050442;
-	bh=hVha1FGsr/BmeLaghWhC0c48RTyAxF2U24ZFLUAgVy8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LEzCXCcvjH80vck2xNc8lJwSRl7Ssq363WQs0RJehi4p1GOTP1f3BS8lvw3BgFB21
-	 MKx65XskwpIedzprYHvmYoTx/LzR5U1KQn3c/6hzl4qqH8IUNWW1HsBbzWAUAlMYz+
-	 HRLQVPVTvfpav5RLlt8Ta57YCl03wnAseVeuM1KQ=
-Date: Mon, 26 Dec 2022 11:27:19 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create
- platform_device per device
-Message-ID: <Y6l3B8QOdkY9adLh@kroah.com>
-References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
- <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com>
- <Y6MF3l40WM3onmyO@kroah.com>
- <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
- <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
- <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
- <Y6W/q7v0KdYNy81+@kroah.com>
- <Y6lyPS6XWhACIF5j@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E5E7EA
+	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 11:05:59 +0000 (UTC)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4NgZhj61nyz8R03d;
+	Mon, 26 Dec 2022 19:05:57 +0800 (CST)
+Received: from szxlzmapp03.zte.com.cn ([10.5.231.207])
+	by mse-fl1.zte.com.cn with SMTP id 2BQB5ip4062779;
+	Mon, 26 Dec 2022 19:05:44 +0800 (+08)
+	(envelope-from yang.yang29@zte.com.cn)
+Received: from mapi (szxlzmapp01[null])
+	by mapi (Zmail) with MAPI id mid14;
+	Mon, 26 Dec 2022 19:05:47 +0800 (CST)
+Date: Mon, 26 Dec 2022 19:05:47 +0800 (CST)
+X-Zmail-TransId: 2b0363a9800bffffffffb9415792
+X-Mailer: Zmail v1.0
+Message-ID: <202212261905476729002@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6lyPS6XWhACIF5j@pendragon.ideasonboard.com>
+Mime-Version: 1.0
+From: <yang.yang29@zte.com.cn>
+To: <larry.finger@lwfinger.net>
+Cc: <phil@philpotter.co.uk>, <paskripkin@gmail.com>, <martin@kaiser.cx>,
+        <abdun.nihaal@gmail.com>, <straube.linux@gmail.com>,
+        <sandsch@northvilleschools.net>, <error27@gmail.com>,
+        <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+        <xu.panda@zte.com.cn>, <yang.yang29@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4LW5leHRdIHN0YWdpbmc6IHI4MTg4ZXU6IHVzZSBzdHJzY3B5KCkgdG8gaW5zdGVhZCBvZiBzdHJuY3B5KCk=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 2BQB5ip4062779
+X-Fangmail-Gw-Spam-Type: 0
+X-FangMail-Miltered: at cgslv5.04-192.168.250.137.novalocal with ID 63A98015.001 by FangMail milter!
+X-FangMail-Envelope: 1672052757/4NgZhj61nyz8R03d/63A98015.001/10.5.228.132/[10.5.228.132]/mse-fl1.zte.com.cn/<yang.yang29@zte.com.cn>
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 63A98015.001/4NgZhj61nyz8R03d
 
-On Mon, Dec 26, 2022 at 12:06:53PM +0200, Laurent Pinchart wrote:
-> On Fri, Dec 23, 2022 at 03:48:11PM +0100, Greg Kroah-Hartman wrote:
-> > On Fri, Dec 23, 2022 at 12:24:22PM +0100, Stefan Wahren wrote:
-> > > i vaguely remember the discussion how to represent audio and camera
-> > > interface in the device tree. Representing as child nodes of the VC4 has
-> > > been rejected on the device tree mailing some years ago, because this
-> > > doesn't represent the physical (hardware) wiring. It's still possible to
-> > > access e.g. the camera interface from the ARM.
-> > > 
-> > > The whole approach with using a separate binding for all the firmware stuff
-> > > lead to a lot of trouble on the Raspberry Pi platform (ugly dependencies
-> > > between firmware, DT and kernel). So i would like to avoid this here. In
-> > > case the current implementation is a no go, how about letting the ARM core
-> > > discover the available interfaces e.g. via mailbox interface?
-> > > 
-> > > For more inspiration take a look at this old thread [1]
-> > 
-> > Yes, that's the proper way to do this please!  This should be a bus and
-> > dynamically add the devices when found, it is NOT a platform device
-> > anymore.
-> 
-> I'm fine with making this a bus, but when it comes to dynamically adding
-> devices, that depends on the firmware exposing an interface to enumerate
-> those devices. If that's not possible, are you fine with a custom bus
-> and hardcoded children device instantiation in the VCHIQ driver ?
+From: Xu Panda <xu.panda@zte.com.cn>
 
-Yes, that is at least a step forward and is not abusing the platform
-device/driver code.
+The implementation of strscpy() is more robust and safer.
+That's now the recommended way to copy NUL-terminated strings.
 
-thanks,
+Signed-off-by: Xu Panda <xu.panda@zte.com.cn>
+Signed-off-by: Yang Yang <yang.yang29@zte.com>
+---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-greg k-h
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 8e9b7b0664bc..e0a819970546 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -3061,8 +3061,7 @@ static int rtw_rereg_nd_name(struct net_device *dev,
+ 		char *reg_ifname;
+ 		reg_ifname = padapter->registrypriv.if2name;
+
+-		strncpy(rereg_priv->old_ifname, reg_ifname, IFNAMSIZ);
+-		rereg_priv->old_ifname[IFNAMSIZ - 1] = 0;
++		strscpy(rereg_priv->old_ifname, reg_ifname, IFNAMSIZ);
+ 	}
+
+ 	if (wrqu->data.length > IFNAMSIZ)
+@@ -3084,8 +3083,7 @@ static int rtw_rereg_nd_name(struct net_device *dev,
+ 		rtw_ips_mode_req(&padapter->pwrctrlpriv, rereg_priv->old_ips_mode);
+ 	}
+
+-	strncpy(rereg_priv->old_ifname, new_ifname, IFNAMSIZ);
+-	rereg_priv->old_ifname[IFNAMSIZ - 1] = 0;
++	strscpy(rereg_priv->old_ifname, new_ifname, IFNAMSIZ);
+
+ 	if (!memcmp(new_ifname, "disable%d", 9)) {
+ 		/*  free network queue for Android's timming issue */
+-- 
+2.15.2
