@@ -1,43 +1,43 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD01624
-	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 22:15:48 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id 187-20020a4a09c4000000b004d8f3cb09f5so228678ooa.6
-        for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 14:15:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4D12C9E
+	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 22:32:17 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id s186so11153247oia.5
+        for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 14:32:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XUckakhK2YDfWvKB+vPGRiFS4B95mA3CWPNKe4m32vE=;
-        b=mfqi0fGyCtEcfB2h/+lOc7iZKAzfGRM38qDX4ixBx6F+WRrpMGqbVFFDKlrbhU/n43
-         NLCfgWYoW6Qgfzk2FEQ5k685jM2noRs/BsYV7FvZ+wBZQUlgO+3dI6lfc1QlPVYbTqsF
-         CS2Vt3u0VNjHymZwJUKr3B3h5khXO90bTSLjjSiG+Kk+CMdH/FWEk/0zL3Gn1rDTrEsS
-         7cOTgNtjJumF1jQ7Fjnno9E15UP3FXmhjqoYqOagnTv1f6wB1eGmMUR1Ikak+ohiCnpe
-         HlxnRQPbIGXd82AdCL7A1dSg3l603RFIpwz/h2qseFzJbZ+FDy0O3TCnlRQzOJlVDHA8
-         vcQQ==
+        bh=SlgPi51AK3UbkagNMxnBcy7JswnNpWLtwnb7qSlT+Ss=;
+        b=VsKpkv7Y8Nd91YtZ+rh/hVphubdhBeguKnOXCxpDNKYcITVwP2SHNvbEYzOsFJ8e32
+         SW692J580UPv1eqhmIE/W6SrxqV+Y2j6q4alsW9HwhdWixvx7EU+xywKKynQxNNY/Tdf
+         yBIb0WJ1ahPKAv2gI/WaCeX40QR0WuyA7UYny3/pROwh6uorUw5ni04hVqiK0wn2OgWv
+         hMvnPr+LWCktZOTB/LvYk2RZNT5iE6SMqayUKRBwvkTmsWXOah1Q1x14bKLG5Bgop5af
+         53IgX8e2olPw5iwQT2CpbU7dlxhbd1924e5iZ394SV4Lu//oPJ7AaFhQ8lHPvqjpGhfN
+         HHSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XUckakhK2YDfWvKB+vPGRiFS4B95mA3CWPNKe4m32vE=;
-        b=CEb9MZS+Y8SVBTKr7fcrYnS1fEZSe0fun9XQBMdMZXhZy8e7DAmE3H0Tnxk+l6hkTD
-         IYIymBs2+ict2l8CIRUR55cAhT3yPjJx6Q/QrmmUh2xiJeG4XVxREFpC0nt+aF+GT824
-         Z5786/FfgbzPLoHhy50FqMPvUwSjp0JK+SjvCe2rBMrmy6zk91u6aiu6eLF9jGq/DjUs
-         Im2pCLZ1IHlnHFec1gk15VLFVtD7gIgQBKiwknLQAXhK3jpGbJZKtIIZjsoeA4rBj5Gu
-         ZJuoet+U8FpzQPl4gVQnvrZOvhHRgxhurc+qVQNTaLl5dmIJHhxZDcIjgG8O/sjoU28y
-         UBoQ==
-X-Gm-Message-State: AFqh2krC/Hd1nR3S0NIlLWdnq72oHH67tAyZoYvmIIMj2zdwfxPWicKW
-	QRKq5pJwFGmtTPJ/f99aydqV2A==
-X-Google-Smtp-Source: AMrXdXvn3BXZiNw7vAUdU4u5D7tsVvCvwRwrfcrB5MW9EP+EYLbjcbtJMMSMuvpr0Oy+Z35K7WzUOQ==
-X-Received: by 2002:a4a:98f1:0:b0:4a5:e527:77f8 with SMTP id b46-20020a4a98f1000000b004a5e52777f8mr8283003ooj.3.1672092948116;
-        Mon, 26 Dec 2022 14:15:48 -0800 (PST)
+        bh=SlgPi51AK3UbkagNMxnBcy7JswnNpWLtwnb7qSlT+Ss=;
+        b=FxTlKCZjxcEXGk6xljNE2azJ5R4QDYV8HdLe9699vMmJRkPpX1g12qVZp6AF3tLocG
+         5J1dPj0MD8Xw12FvWOFn7ztjsm+HNzrJncVIHYuCxfqmR1O0hjlmu/yEczi/svoZDDFU
+         jhrmSHO7nor+lwZHTP8uX5J862/PqDQVkjN9Sv2HyDIAHrLgUv5O248rSHwQt09EYA8Z
+         IbW5yN4vzZZ2ankzxYr4/nPc+f6FpesxqLyrUhs1565uEfgrlRw/uDWuIq8Dyw9Lkdg9
+         Qd3cvvtaOZGGBabmRWQWaIhwjRYMb28wsjI0PUOdeT+M2C8cBUzZg3J7WJOQoncOojGX
+         gbPA==
+X-Gm-Message-State: AFqh2koYInf9HCCIsHvTsCHBkaY2RxBdQ42z6S+1fkS/69cFOJq1z1dH
+	WILxy90v4qk41jmc5Nyg9Kg3p+1j9ex13wcq
+X-Google-Smtp-Source: AMrXdXvKFv0PBPgJoy97OX14x+yn5l3veyUdFhKa+mI48Y6d5h8542VaLJHCRysQI8B+4rxM2W9vlw==
+X-Received: by 2002:a05:6808:1ab3:b0:35e:1bba:db4e with SMTP id bm51-20020a0568081ab300b0035e1bbadb4emr7803746oib.21.1672093936807;
+        Mon, 26 Dec 2022 14:32:16 -0800 (PST)
 Received: from eze-laptop ([190.11.62.130])
-        by smtp.gmail.com with ESMTPSA id y12-20020a4a9c0c000000b004a09df5a1dbsm4776600ooj.8.2022.12.26.14.15.44
+        by smtp.gmail.com with ESMTPSA id g31-20020a9d12a2000000b00661ad8741b4sm5886396otg.24.2022.12.26.14.32.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 14:15:47 -0800 (PST)
-Date: Mon, 26 Dec 2022 19:15:41 -0300
+        Mon, 26 Dec 2022 14:32:15 -0800 (PST)
+Date: Mon, 26 Dec 2022 19:32:10 -0300
 From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -45,11 +45,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	kernel@collabora.com, linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] media: rkvdec: Add an ops to check for decode
- errors
-Message-ID: <Y6odDbRNY7g+eKag@eze-laptop>
+Subject: Re: [PATCH v2 4/4] rkvdec: Improve error handling
+Message-ID: <Y6og6ojA3a/lpAL/@eze-laptop>
 References: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
- <20221223193807.914935-2-nicolas.dufresne@collabora.com>
+ <20221223193807.914935-5-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,77 +57,129 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221223193807.914935-2-nicolas.dufresne@collabora.com>
+In-Reply-To: <20221223193807.914935-5-nicolas.dufresne@collabora.com>
 
 Hi Nicolas,
 
-Thanks for the patch.
+Thanks a lot for the patchset. I have just some style feedback.
 
-On Fri, Dec 23, 2022 at 02:38:03PM -0500, Nicolas Dufresne wrote:
-> This optional internal ops allow each codec to do their own
-> error status checking. The presence of an error is reported
-> using the ERROR buffer state. This patch have no functional
-> changes.
+On Fri, Dec 23, 2022 at 02:38:06PM -0500, Nicolas Dufresne wrote:
+> There are two ways decoding errors can occure. In one case, the ready
+> status is not set and nothing has been written into the destination,
+> while in the other case, the buffer is written but may contain a
+> certain amount of errors. In order to differentiate these, we set
+> the payload for the first case to 0.
 > 
 > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > ---
->  drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++----
->  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->  2 files changed, 8 insertions(+), 4 deletions(-)
+>  drivers/staging/media/rkvdec/rkvdec.c | 31 +++++++++++++++++++++++----
+>  1 file changed, 27 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 7bab7586918c1..7e76f8b728854 100644
+> index 7e76f8b728854..11e2bbb20aea1 100644
 > --- a/drivers/staging/media/rkvdec/rkvdec.c
 > +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -950,6 +950,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
->  static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+> @@ -27,6 +27,9 @@
+>  #include "rkvdec.h"
+>  #include "rkvdec-regs.h"
+>  
+> +static int debug;
+> +module_param(debug, int, 0644);
+> +
+>  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
 >  {
->  	struct rkvdec_dev *rkvdec = priv;
-> +	struct rkvdec_ctx *ctx;
+>  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+> @@ -954,14 +957,34 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
 >  	enum vb2_buffer_state state;
 >  	u32 status;
 >  
-> @@ -958,12 +959,13 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
->  		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+> +	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+>  	status = readl(rkvdec->regs + RKVDEC_REG_INTERRUPT);
+
+Maybe group the I/O together, i.e. the writel would
+be right after this readl:
+
+    writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+
+> -	state = (status & RKVDEC_RDY_STA) ?
+> -		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+> +
+> +	if (!(status & RKVDEC_RDY_STA)) {
+> +		struct vb2_v4l2_buffer *dst_buf = NULL;
+> +
+> +		if (status & RKVDEC_TIMEOUT_STA)
+> +			v4l2_dbg(debug, 1, &rkvdec->v4l2_dev,
+> +				 "Decoder stopped due to an internal timeout.");
+> +		else
+> +			v4l2_dbg(debug, 1, &rkvdec->v4l2_dev,
+> +				 "Decoder stopped due to an internal error.");
+
+Unless you really want to ensure this string is greppable,
+you can do something like:
+
+v4l2_dbg(debug, 1, &rkvdec->v4l2_dev, "Decoder stopped due to an internal %s.", .... ? "error" : "timeout");
+
+> +
+> +		/*
+> +		 * When this happens, the buffer is left unmodified. As it
+> +		 * contains no meaningful data we mark is as empty.
+> +		 */
+> +		dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> +		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
+
+Perhaps we can avoid this vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
+if we instead set the payload in rkvdec_job_finish_no_pm().
+It would change the behavior, as we would be setting payload
+only when state is _DONE, so maybe that's not what you want.
+
+> +		state = VB2_BUF_STATE_ERROR;
+> +	} else {
+> +		state = VB2_BUF_STATE_DONE;
+> +	}
 >  
 >  	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
-> -	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
-> -		struct rkvdec_ctx *ctx;
-> +	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+> -	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
 >  
-> -		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
-> +	if (ctx->coded_fmt_desc->ops->check_error_info)
-> +		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
-> +
-> +	if (cancel_delayed_work(&rkvdec->watchdog_work))
->  		rkvdec_job_finish(ctx, state);
-> -	}
+> -	if (ctx->coded_fmt_desc->ops->check_error_info)
+> +	if (ctx->coded_fmt_desc->ops->check_error_info &&
+> +	    state == VB2_BUF_STATE_DONE)
+>  		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
 >  
->  	return IRQ_HANDLED;
->  }
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> index 633335ebb9c49..4ae8e6c6b03c9 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.h
-> +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->  		     struct vb2_v4l2_buffer *dst_buf,
->  		     enum vb2_buffer_state result);
->  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
-> +	/* called from IRQ handler */
-> +	int (*check_error_info)(struct rkvdec_ctx *ctx);
 
-I don't think it's a good idea to mix the return of this internal API
-with enum vb2_buffer_state.
+How about this:
 
-Please make the return type of this function a boolean or an integer
-type that is decoupled from the VB2 buffer state.
+static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+{
+    struct rkvdec_dev *rkvdec = priv;
+    struct rkvdec_ctx *ctx;
+    enum vb2_buffer_state state = VB2_BUF_STATE_DONE;
+    u32 status;
+
+    ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+    status = readl(rkvdec->regs + RKVDEC_REG_INTERRUPT);
+    writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+
+    if (!(status & RKVDEC_RDY_STA)) {
+        ...
+        state = VB2_BUF_STATE_ERROR;
+    } else {
+        if (ctx->coded_fmt_desc->ops->check_error_info &&
+            ctx->coded_fmt_desc->ops->check_error_info(ctx))
+            state = VB2_BUF_STATE_ERROR;
+    }
+
+    if (cancel_delayed_work(&rkvdec->watchdog_work))
+        rkvdec_job_finish(ctx, state);
+
+    return IRQ_HANDLED;
+}
+
+So it's clear which paths lead to VB2_BUF_STATE_ERROR.
 
 Thanks!
 Ezequiel
 
->  };
->  
->  struct rkvdec_coded_fmt_desc {
+>  	if (cancel_delayed_work(&rkvdec->watchdog_work))
 > -- 
 > 2.38.1
 > 
