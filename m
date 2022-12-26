@@ -1,253 +1,69 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21DA7E3
-	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 10:06:59 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B941105;
-	Mon, 26 Dec 2022 11:06:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1672049217;
-	bh=fP68BnaD69pyQUOSxwZU1jHOt8kinIDfpW6cF4kE5+8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pzqlZ8FMJmusnRvf6pedjff0UKMQ/JsYlJS0x2rceaQ2shHulzNJ+ZNhkVxa0Z1zS
-	 +dYVDaAbvA3JVS5N7uzQUGwFmGTyRMAwvBta7RTVPEI9sSG1R+gJe9S5Ww/daoSLxu
-	 0IvtTtqcOSfwFwnXpalo49UVtS6oS2ieiOJBbIBw=
-Date: Mon, 26 Dec 2022 12:06:53 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create
- platform_device per device
-Message-ID: <Y6lyPS6XWhACIF5j@pendragon.ideasonboard.com>
-References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
- <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com>
- <Y6MF3l40WM3onmyO@kroah.com>
- <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
- <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
- <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
- <Y6W/q7v0KdYNy81+@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B7B7E3
+	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 10:07:27 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NgXxm0YrKz16Lpf;
+	Mon, 26 Dec 2022 17:47:08 +0800 (CST)
+Received: from cgs.huawei.com (10.244.148.83) by
+ kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 26 Dec 2022 17:48:21 +0800
+From: Gaosheng Cui <cuigaosheng1@huawei.com>
+To: <mchehab@kernel.org>, <gregkh@linuxfoundation.org>,
+	<hverkuil-cisco@xs4all.nl>, <ribalda@chromium.org>,
+	<neil.armstrong@linaro.org>, <cuigaosheng1@huawei.com>,
+	<geert+renesas@glider.be>
+CC: <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>
+Subject: [PATCH -next] media: staging: stkwebcam: Fix the build error with stkwebcam
+Date: Mon, 26 Dec 2022 17:48:20 +0800
+Message-ID: <20221226094820.1157244-1-cuigaosheng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y6W/q7v0KdYNy81+@kroah.com>
+Content-Type: text/plain
+X-Originating-IP: [10.244.148.83]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 
-Hi Greg,
+When I am building the kernel on arm64, set config CONFIG_USB=m &&
+CONFIG_VIDEO_STKWEBCAM=y, I get some error reports as follows:
+  drivers/staging/media/deprecated/stkwebcam/stk-webcam.o: In
+    function `stk_v4l_dev_release':
+  stk-webcam.c:(.text+0x3e0): undefined reference to `usb_put_intf'
+  stk-webcam.c:(.text+0x3e8): undefined reference to `usb_put_dev'
+  drivers/staging/media/deprecated/stkwebcam/stk-webcam.o: In
+  function `stk_clean_iso':
+  stk-webcam.c:(.text+0xb0c): undefined reference to `usb_kill_urb'
+  stk-webcam.c:(.text+0xb14): undefined reference to `usb_free_urb'
 
-On Fri, Dec 23, 2022 at 03:48:11PM +0100, Greg Kroah-Hartman wrote:
-> On Fri, Dec 23, 2022 at 12:24:22PM +0100, Stefan Wahren wrote:
-> > Am 22.12.22 um 18:35 schrieb Laurent Pinchart:
-> > > On Thu, Dec 22, 2022 at 01:59:28PM +0530, Umang Jain wrote:
-> > > > On 12/21/22 6:40 PM, Greg Kroah-Hartman wrote:
-> > > > > On Wed, Dec 21, 2022 at 01:14:59PM +0200, Laurent Pinchart wrote:
-> > > > > > On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
-> > > > > > > Create a proper per device platorm_device structure for all the child
-> > > > > > > devices that needs to be registered by vchiq platform driver. Replace
-> > > > > > > the vchiq_register_child() with platform_add_devices() to register the
-> > > > > > > child devices.
-> > > > > >
-> > > > > > This explains what the patch does, but not why.
-> > > > > > 
-> > > > > > > This is part of an effort to address TODO item "Get rid of all non
-> > > > > > > essential global structures and create a proper per device structure"
-> > > > > >
-> > > > > > And this explains part of the reason only. Could you please expand the
-> > > > > > commit message with the reasoning behind this change ? It's not clear
-> > > > > > from the change below why this is needed and good.
-> > > > 
-> > > > Ok, I thought the TODO reference was sufficient but I'll expand on it.
-> > > > 
-> > > > > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > > > > > > ---
-> > > > > > >    .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
-> > > > > > >    1 file changed, 31 insertions(+), 28 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > > index 22de23f3af02..fa42ea3791a7 100644
-> > > > > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > > @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
-> > > > > > >    DEFINE_SPINLOCK(msg_queue_spinlock);
-> > > > > > >    struct vchiq_state g_state;
-> > > > > > > -static struct platform_device *bcm2835_camera;
-> > > > > > > -static struct platform_device *bcm2835_audio;
-> > > > > > > +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
-> > > > > >
-> > > > > > The fact that this isn't const and is used by two different
-> > > > > > platform_device instances is worrying. Either it can be made const, or
-> > > > > > it's wrong.
-> > > >
-> > > > ack.
-> > > > 
-> > > > > > > +
-> > > > > > > +static struct platform_device bcm2835_camera = {
-> > > > > > > +	.name		= "bcm2835-camera",
-> > > > > > > +	.id		= PLATFORM_DEVID_NONE,
-> > > > > > > +	.dev		= {
-> > > > > > > +		.dma_mask	= &vchiq_device_dmamask,
-> > > > > > > +	}
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +static struct platform_device bcm2835_audio = {
-> > > > > > > +	.name		= "bcm2835_audio",
-> > > > > > > +	.id		= PLATFORM_DEVID_NONE,
-> > > > > > > +	.dev		= {
-> > > > > > > +		.dma_mask	= &vchiq_device_dmamask,
-> > > > > > > +	}
-> > > > > > > +
-> > > > > >
-> > > > > > Extra blank line.
-> > > >
-> > > > oops, checkpatch.pl didn't catch this :-/
-> > > > 
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +static struct platform_device *vchiq_devices[] __initdata = {
-> > > > > >
-> > > > > > Make it const.
-> > > > > > 
-> > > > > > > +	&bcm2835_camera,
-> > > > > > > +	&bcm2835_audio,
-> > > > > > > +};
-> > > > > > >    struct vchiq_drvdata {
-> > > > > > >    	const unsigned int cache_line_size;
-> > > > > > > @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
-> > > > > > >    };
-> > > > > > >    MODULE_DEVICE_TABLE(of, vchiq_of_match);
-> > > > > > > -static struct platform_device *
-> > > > > > > -vchiq_register_child(struct platform_device *pdev, const char *name)
-> > > > > > > -{
-> > > > > > > -	struct platform_device_info pdevinfo;
-> > > > > > > -	struct platform_device *child;
-> > > > > > > -
-> > > > > > > -	memset(&pdevinfo, 0, sizeof(pdevinfo));
-> > > > > > > -
-> > > > > > > -	pdevinfo.parent = &pdev->dev;
-> > > > > > > -	pdevinfo.name = name;
-> > > > > > > -	pdevinfo.id = PLATFORM_DEVID_NONE;
-> > > > > > > -	pdevinfo.dma_mask = DMA_BIT_MASK(32);
-> > > > > > > -
-> > > > > > > -	child = platform_device_register_full(&pdevinfo);
-> > > > > > > -	if (IS_ERR(child)) {
-> > > > > > > -		dev_warn(&pdev->dev, "%s not registered\n", name);
-> > > > > > > -		child = NULL;
-> > > > > > > -	}
-> > > > > > > -
-> > > > > > > -	return child;
-> > > > > > > -}
-> > > > > > > -
-> > > > > > >    static int vchiq_probe(struct platform_device *pdev)
-> > > > > > >    {
-> > > > > > >    	struct device_node *fw_node;
-> > > > > > > @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
-> > > > > > >    		goto error_exit;
-> > > > > > >    	}
-> > > > > > > -	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
-> > > > > > > -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
-> > > > > > > +	err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
-> > > > > > > +	if (err) {
-> > > > > > > +		dev_warn(&pdev->dev, "Failed to add vchiq child devices");
-> > > > > > > +		goto error_exit;
-> > > > > > > +	}
-> > > > > >
-> > > > > > If you unbind and rebind this driver, the platform_device instances
-> > > > > > defined as global variables will be reused, and I'm pretty sure that
-> > > > > > will cause issues, for instance with the kobj->state_initialized check
-> > > > > > in kobject_init() (called from device_initialize(), itself called from
-> > > > > > platform_device_register(), from platform_add_devices()). I'm not sure
-> > > > > > static instances of platform_device are a very good idea in general.
-> > > > >
-> > > > > static instances of any device are a horrible idea, but it seems that
-> > > > > many drivers do this and abuse platform devices this way :(
-> > > >
-> > > > It seems  I have been a victim of the abuse usage while looking for
-> > > > platform_device references in the codebase. I'm working on a new
-> > > > approach for this.
-> > > > 
-> > > > Currently (as per the linux-next branch), the vchiq driver will happily
-> > > > carry on if any of the child  platform device registration fails. That
-> > > > means if bcm2835-audio fails to register, bcm2835-camera will  still
-> > > > kept registered I suppose.
-> > > > 
-> > > > However with usage of platform_add_devices() in this patch, I introduced
-> > > > a functionality change (I'm realizing this now) - any failure of child
-> > > > platform device registeration will -unregister- all the other platform
-> > > > devices i.e. if bcm2835-audio fails, bcm2835-camera will also get
-> > > > unregistered.
-> > > > 
-> > > > Should I be working towards the status-quo behavior ? Or it's sane to
-> > > > unregistered other platform devices if one of the fails like
-> > > > platform_add_devices() does ? (This affects my new approach as well,
-> > > > hence the question)
-> > >
-> > > If it doesn't cause too much extra complexity, it would be nice to skip
-> > > devices that can't be registered successfully, and still support the
-> > > other ones. I don't expect registration failures to be a occuring
-> > > normally, so if this causes too much completely, I think it would still
-> > > be fine to fail more harshly.
-> > > 
-> > > > > Ideally this should be done properly, with the correct devices created
-> > > > > automatically based on the device tree structure, NOT hard-coded into a
-> > > > > .c file like this.
-> > > > > 
-> > > > > So I too really do not like this change, why are these not being created
-> > > > > by the firware layer automatically?
-> > > >
-> > > > Not sure if this is a helpful comment, but as far I know, there can be
-> > > > vchiq child platform devices which probably don't have a Device tree
-> > > > entry. like the bcm2835-isp [1] I posted earlier.
-> > > > 
-> > > > [1] https://lore.kernel.org/lkml/20221121214722.22563-1-umang.jain@ideasonboard.com/
-> > >
-> > > Those devices are implemented and exposed by the firmware running on the
-> > > VC4. The device tree describes the VC4 itself with the resources
-> > > required to communicate with it through a mailbox interface. I was going
-> > > to say that the platform devices are then created based on what the
-> > > firmware exposes, but that's not right, they're indeed hardcoded in the
-> > > vchiq driver. Adding corresponding DT nodes (as children of the vchiq DT
-> > > node) could make sense. Dave, do you have any opinion on this ?
-> > 
-> > i vaguely remember the discussion how to represent audio and camera
-> > interface in the device tree. Representing as child nodes of the VC4 has
-> > been rejected on the device tree mailing some years ago, because this
-> > doesn't represent the physical (hardware) wiring. It's still possible to
-> > access e.g. the camera interface from the ARM.
-> > 
-> > The whole approach with using a separate binding for all the firmware stuff
-> > lead to a lot of trouble on the Raspberry Pi platform (ugly dependencies
-> > between firmware, DT and kernel). So i would like to avoid this here. In
-> > case the current implementation is a no go, how about letting the ARM core
-> > discover the available interfaces e.g. via mailbox interface?
-> > 
-> > For more inspiration take a look at this old thread [1]
-> 
-> Yes, that's the proper way to do this please!  This should be a bus and
-> dynamically add the devices when found, it is NOT a platform device
-> anymore.
+Fix it by add dependency option on USB for VIDEO_STKWEBCAM.
 
-I'm fine with making this a bus, but when it comes to dynamically adding
-devices, that depends on the firmware exposing an interface to enumerate
-those devices. If that's not possible, are you fine with a custom bus
-and hardcoded children device instantiation in the VCHIQ driver ?
+Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+---
+ drivers/staging/media/deprecated/stkwebcam/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/media/deprecated/stkwebcam/Kconfig b/drivers/staging/media/deprecated/stkwebcam/Kconfig
+index 7234498e634a..083fadab232d 100644
+--- a/drivers/staging/media/deprecated/stkwebcam/Kconfig
++++ b/drivers/staging/media/deprecated/stkwebcam/Kconfig
+@@ -2,7 +2,7 @@
+ config VIDEO_STKWEBCAM
+ 	tristate "USB Syntek DC1125 Camera support (DEPRECATED)"
+ 	depends on VIDEO_DEV
+-	depends on MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
++	depends on USB && MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
+ 	help
+ 	  Say Y here if you want to use this type of camera.
+ 	  Supported devices are typically found in some Asus laptops,
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
