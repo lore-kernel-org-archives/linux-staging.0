@@ -1,53 +1,54 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6852596
-	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 17:08:55 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id 79so7435672pgf.11
-        for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 09:08:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58255624
+	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 21:33:13 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id m6-20020a9d7e86000000b0066ec505ae93so7225768otp.9
+        for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 13:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PfOozJY5dEdmZ2P9ojWGb81e5DYgu3wKw2HS3c/kYFw=;
-        b=STWFDTDxqHnzNQkA6CI5/KGEtkeSrxQS34u106cfDq+eWAnUKygOsH/oxZCGXhJlYH
-         J62LnhKK8CrqNZVadfk/nZpBKLSo/mqvparxDsltzsKEhEnjlik6nlOdYbspQPK2xSA3
-         QPRv2lp61e3xyMy4DipD97TjvoEH6cJwWcSW7GjKz6z5zEHRjQGiPzHB2nj86Xl2tB31
-         yxbe0x4/OTEBPhoOev0xane3sNTchPCW6kmeo+xr0pyhVvomaOjtpFE2o1O6V7lVfTOB
-         SFA2XBlL4RRiiX0dDWaXrFaz2LXvRGIhrkuk+XuIbB0Lgk2syw3OlsYmoqJbhqH8EMc0
-         QAvw==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WPYczn0YGxyfNylm4RLYqULvGhb7tE5TBnYQ9n6+TQ4=;
+        b=AksfF9rvGEGSGLbDaaP6t5xxNTpfhEGpVd3JMBSIRegbAz/dfcVugjaH2mjpHCpZ2i
+         9w7FouGC76y4iCb26O4IHP0MfsorGXNYHVbAcPz7spQ3tdOZjpUWMWfNbjHaR6cNDTr2
+         SCJtmr1RMUwrTcxHwq7/h1dpd7IV+K5ej3d5lxF1EYatDtcPrPcauzxLHX/FkYXNNo2R
+         1UACmCr90iFk2SV6A2cQivaLkcYldkvBD34FOsweQzB013L5S5ytJsytmreV0mra4CJD
+         aKklfo53h/HNjFNBGGrjhvvlqunfRk+BLrXAHW7j/UtB7TVy3xdWevKtIxdJLvBHQPdC
+         nYEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PfOozJY5dEdmZ2P9ojWGb81e5DYgu3wKw2HS3c/kYFw=;
-        b=tTsRfcyfW6nbtnKkwZ+TXmTCXgXYntG1a5xw97B6NS9X0FI/WA2Ov1+w0In6gdt235
-         8JTz8NJ1yC/3vz7mPND8xq7c2sxBK2TJkEl2ZGI7TeMx3Dya/LONfCF80pzy0Iplgbs4
-         wjZCPxJ9ID7P85sxNBRehB6PCX79LZxOHFcrDRddHoMPWl8njaaXEVk6SfMWIsHBkUjQ
-         Pt/0CdgHuoPKfxo8STyNIEVxDPkdKo4ccHxDy4H8zSy0TGgLFDnrRCAiWfjLbLm6v3CM
-         Dc+Rr5FMxtl/k1MdFRj1wh8nfkM3QtkPNiolTzjy+1Lyd6Bg7QykoWsEUnPdfxiXifLm
-         6ugQ==
-X-Gm-Message-State: AFqh2krmwDbPNmeZSggzoiDa5LJGmN0TtKROoR/XRhmTV+lK4h3RaajM
-	8sRlGFIwQcmjIzTULoNjPlA=
-X-Google-Smtp-Source: AMrXdXvkJ7G8ToW3OdpFWhkxsyOIMWSrE86lsNAVZnRlX9kpo5IqxSzWzbb+oK7hmX8N9cDhNS6acA==
-X-Received: by 2002:a62:648b:0:b0:57a:a199:93e7 with SMTP id y133-20020a62648b000000b0057aa19993e7mr20647746pfb.28.1672074534589;
-        Mon, 26 Dec 2022 09:08:54 -0800 (PST)
-Received: from local ([202.131.132.3])
-        by smtp.gmail.com with ESMTPSA id b67-20020a621b46000000b0053e38ac0ff4sm7119225pfb.115.2022.12.26.09.08.52
+        bh=WPYczn0YGxyfNylm4RLYqULvGhb7tE5TBnYQ9n6+TQ4=;
+        b=N0ed6VotsBjnJ2LmnuZ/t0KkQOMHRdCkbkUKpxZVaF6IQQh7JV3gxmejAoZEt3DHe9
+         HRF3xsLrgIu32PusrylDAEK4If6wTpUE8W6RodidXRWtmKigWqBoGs3a9jtMdBwFgjtQ
+         9XdiwsWVVANv/8MheTsgtBv8h4k1z/v6FCzScH45sZxe0hlXL7FaZcqFrsAJnb1zBBP9
+         qMZODYXlI1PJjso0jGeEaC/wfB4I9z3Yc32FBCjHn7HZXYepGSS5HH0Tqk1c4l5umCJM
+         INiZh2GbcmsN0nCwjSSyf/tsrGJ0Hv4D0R9QmWxwPj5W5yes/TKn66X2jysZSQOzqYkg
+         NzHg==
+X-Gm-Message-State: AFqh2kobeTQ/QT/oHheUIxyN2lB19XtWWRx660pSqneU3t6VNWAoH2Oj
+	2d2/9guk8tQBdBZt/AOW/01mnw==
+X-Google-Smtp-Source: AMrXdXtbaYC6Pk3YNeTADhvjliJr+F/irr0Zz4Tu6hOtJpg+1rzAw3f3gGvqqvdT8BmFU1k7BUXTJA==
+X-Received: by 2002:a05:6830:1b66:b0:670:51ea:f267 with SMTP id d6-20020a0568301b6600b0067051eaf267mr12068785ote.37.1672090392387;
+        Mon, 26 Dec 2022 13:33:12 -0800 (PST)
+Received: from eze-laptop ([190.11.62.130])
+        by smtp.gmail.com with ESMTPSA id bi15-20020a056830378f00b00683e80b5ca7sm1627159otb.38.2022.12.26.13.33.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 09:08:54 -0800 (PST)
-From: Anup Sharma <anupnewsmail@gmail.com>
-X-Google-Original-From: Anup Sharma <AnupSharma>
-Date: Mon, 26 Dec 2022 22:38:49 +0530
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: hal: Fix spelling mistakes in
- comments
-Message-ID: <Y6nVIdQwIDdxbhY8@local>
-References: <Y6mYdPlqIK1VgQ0Z@local>
- <Y6mnBSg6i5wMCKUV@debian.me>
+        Mon, 26 Dec 2022 13:33:11 -0800 (PST)
+Date: Mon, 26 Dec 2022 18:33:06 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel@collabora.com, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] media: rkvdec: Re-enable H.264 error detection
+Message-ID: <Y6oTEkEwuGISwr+z@eze-laptop>
+References: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
+ <20221223193807.914935-4-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,25 +57,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y6mnBSg6i5wMCKUV@debian.me>
+In-Reply-To: <20221223193807.914935-4-nicolas.dufresne@collabora.com>
 
-On Mon, Dec 26, 2022 at 08:52:05PM +0700, Bagas Sanjaya wrote:
-> On Mon, Dec 26, 2022 at 06:19:56PM +0530, Anup Sharma wrote:
-> > They are appear to be spelling mistakes, initially identified in a codespell report and never been addressed so far.
+Hi Nicolas,
+
+I'm still unsure about this patchset.
+It sounds like a good approach and a nice
+improvement, but I want to make sure I think through it.
+
+Meanwhile, a small comment...
+
+On Fri, Dec 23, 2022 at 02:38:05PM -0500, Nicolas Dufresne wrote:
+> This re-enable H.264 error detection, but using the other error mode.
+> In that mode, the decoder will skip over the error macro-block or
+> slices and complete the decoding. As a side effect, the error status
+> is not set in the interrupt status register, and instead errors are
+> detected per format. Using this mode workaround the issue that the
+> HW get stuck in error state, and allow reporting that some corruption
+> may be present in the buffer to userland.
 > 
-> Then where is the report, and what are the reported diagnostics?
-The report was generated by codespell
-
-drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:656: regsiters ==> registers
-drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:1696: beacause ==> because
-drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2092: Checl ==> Check
-drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2513: checksume ==> checksum
-drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2726: sequense ==> sequence
-drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2780: vlaue ==> value
-drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:3409: equall ==> equal, equally
-
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> index 4fc167b42cf0c..dfe3e235f099a 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> @@ -1162,14 +1162,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+>  
+>  	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
+>  
+> -	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> -	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+>  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
+>  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+>  
+>  	/* Start decoding! */
+>  	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
+> -	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
+> +	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
+> +	       RKVDEC_H264ORVP9_ERR_MODE,
+>  	       rkvdec->regs + RKVDEC_REG_INTERRUPT);
+>  
+>  	return 0;
+> @@ -1183,10 +1184,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+>  
+> +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
+> +{
+> +	struct rkvdec_dev *rkvdec = ctx->dev;
+> +	int err;
+> +
+> +	err = readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
+> +	if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
+> +		pr_debug("Decoded picture have %i/%i slices with errors.\n",
+
+... still uses pr_debug. I would change it so it uses v4l2_dbg,
+and can be controlled using the same debug parameter
+as you use in patch 4/4.
+
+> +			 RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
+> +		return VB2_BUF_STATE_ERROR;
+> +	}
+> +
+> +	return VB2_BUF_STATE_DONE;
+> +}
+> +
+>  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
+>  	.adjust_fmt = rkvdec_h264_adjust_fmt,
+>  	.start = rkvdec_h264_start,
+>  	.stop = rkvdec_h264_stop,
+>  	.run = rkvdec_h264_run,
+>  	.try_ctrl = rkvdec_h264_try_ctrl,
+> +	.check_error_info = rkvdec_h264_check_error_info,
+>  };
 > -- 
-> An old man doll... just what I always wanted! - Clara
-
-
+> 2.38.1
+> 
