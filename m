@@ -1,131 +1,276 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50960634
-	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 04:17:50 +0000 (UTC)
-Received: by mail-vs1-f42.google.com with SMTP id a64so5958555vsc.2
-        for <linux-staging@lists.linux.dev>; Sun, 25 Dec 2022 20:17:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ixVfnoBjYbfOKMbrMo78iOagSqVmsOEMtkWXnl7+1Mg=;
-        b=YH85DUnZg6aBqH+TGUu5oaDCR6VI6rAKJK+xV/01pTrNDXgjGYawcgKy8hTGpZHF43
-         2HRXmwgJItve15LH5T8JZzlJPByTHsOobI/5KjiqnB05YTnuHiK1sZjPWv8Vu92EWBOA
-         vMjWKYtB2zdN2kGCLrXlh/HcSONCSBn5POY9E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ixVfnoBjYbfOKMbrMo78iOagSqVmsOEMtkWXnl7+1Mg=;
-        b=3p93mkK2/QGpuWoFsdxFeHKCsTegoCWPj5NTFWEK+347xj3o7iEL7o9GLsN4MuAR43
-         cDRk5+87NeRThgT8v+PLuwOv08lwM5dO64AXN+eX6FeAKcnER3paXw9tEDpJ6JRvkwXY
-         OtN7HXhsFe7HExHL6aBLi5JJ8fWlDb7mlUQmjsZhriAlQNil00oEGixKWzf9kjKX54Ub
-         eqHYEdgTYSa5sF2LHb4A8du+iBxdtyntbyFECSWODNk7uPrMlHzu1WYHrpRTBXFnsihW
-         J369gOs5QojW7FBqxvOo3dNLsz/JcENNZbxAg5p1zxCOvVWO234gvdtKCNq0CnDMkEDz
-         sKLg==
-X-Gm-Message-State: AFqh2kosayKJ0GPnPxM8FMlAUPEweQMjvG0DycfaSK+lgZ8pSJGORWeX
-	CYZMee7Cq3gUHk5zNMmdxJyo1+7ANMZtmkYYeMhZXA==
-X-Google-Smtp-Source: AMrXdXtOw254JHHtoeUJ7IvvFyAdlF2AawF+OldnipmmrsBWfhK9LpuaPV1U6UUtuS66NMf8+N6xMKoEYThVYvFFfug=
-X-Received: by 2002:a05:6102:3e06:b0:3b5:fd8:7948 with SMTP id
- j6-20020a0561023e0600b003b50fd87948mr2139717vsv.85.1672028269104; Sun, 25 Dec
- 2022 20:17:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6910A7E3
+	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 10:04:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31AB4105;
+	Mon, 26 Dec 2022 11:04:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1672049082;
+	bh=xPT2fUbeNA4dVEn8/lr5sTbYUml5odLjchDFawX59Yk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pg7hSo3YUyOLyY8Q0/Jq/XQmbG/RpzQndBqMft2WLAVUn6FpYyZOHPEfjZxRFBZUW
+	 BXj3I6BX52vszbJHUJplyGmwhVf8Cetqcz8Rs7lze0feno9Rsg+rv3q5Tp+XGQGbIu
+	 Kl6SGaiTBzr3iTRMXuSp+qwdtECBcTbEelblrnU8=
+Date: Mon, 26 Dec 2022 12:04:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH] staging: vc04_services: vchiq_arm: Create
+ platform_device per device
+Message-ID: <Y6lxtk4bqWwXAyHH@pendragon.ideasonboard.com>
+References: <20221220084404.19280-1-umang.jain@ideasonboard.com>
+ <Y6Lqs8RUiyi452gM@pendragon.ideasonboard.com>
+ <Y6MF3l40WM3onmyO@kroah.com>
+ <d48462f6-de4c-2816-0a7a-b3b13993604c@ideasonboard.com>
+ <Y6SVegtHvwQ3p+3K@pendragon.ideasonboard.com>
+ <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221223193807.914935-1-nicolas.dufresne@collabora.com> <20221223193807.914935-4-nicolas.dufresne@collabora.com>
-In-Reply-To: <20221223193807.914935-4-nicolas.dufresne@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 26 Dec 2022 12:17:38 +0800
-Message-ID: <CAGXv+5GBhZ4U4y_KGrBdvgmy7odcVvH=ZJEMtsfjPvw4tQUV1A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] media: rkvdec: Re-enable H.264 error detection
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@collabora.com, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <629b3f63-74e4-5cb5-29d1-6d2846bc24c7@i2se.com>
 
-On Sat, Dec 24, 2022 at 3:39 AM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> This re-enable H.264 error detection, but using the other error mode.
-> In that mode, the decoder will skip over the error macro-block or
-> slices and complete the decoding. As a side effect, the error status
-> is not set in the interrupt status register, and instead errors are
-> detected per format. Using this mode workaround the issue that the
-> HW get stuck in error state, and allow reporting that some corruption
-> may be present in the buffer to userland.
->
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index 4fc167b42cf0c..dfe3e235f099a 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -1162,14 +1162,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
->
->         schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
->
-> -       writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> -       writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-> +       writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> +       writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+Hi Stefan,
 
-Use RKVDEC_H264_ERR_EN_HIGHBITS() here? Only lower 30 bits are valid.
+On Fri, Dec 23, 2022 at 12:24:22PM +0100, Stefan Wahren wrote:
+> Am 22.12.22 um 18:35 schrieb Laurent Pinchart:
+> > On Thu, Dec 22, 2022 at 01:59:28PM +0530, Umang Jain wrote:
+> >> On 12/21/22 6:40 PM, Greg Kroah-Hartman wrote:
+> >>> On Wed, Dec 21, 2022 at 01:14:59PM +0200, Laurent Pinchart wrote:
+> >>>> On Tue, Dec 20, 2022 at 02:14:04PM +0530, Umang Jain wrote:
+> >>>>> Create a proper per device platorm_device structure for all the child
+> >>>>> devices that needs to be registered by vchiq platform driver. Replace
+> >>>>> the vchiq_register_child() with platform_add_devices() to register the
+> >>>>> child devices.
+> >>>>
+> >>>> This explains what the patch does, but not why.
+> >>>>
+> >>>>> This is part of an effort to address TODO item "Get rid of all non
+> >>>>> essential global structures and create a proper per device structure"
+> >>>>
+> >>>> And this explains part of the reason only. Could you please expand the
+> >>>> commit message with the reasoning behind this change ? It's not clear
+> >>>> from the change below why this is needed and good.
+> >>
+> >> Ok, I thought the TODO reference was sufficient but I'll expand on it.
+> >>
+> >>>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> >>>>> ---
+> >>>>>    .../interface/vchiq_arm/vchiq_arm.c           | 59 ++++++++++---------
+> >>>>>    1 file changed, 31 insertions(+), 28 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> >>>>> index 22de23f3af02..fa42ea3791a7 100644
+> >>>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> >>>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> >>>>> @@ -65,8 +65,29 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
+> >>>>>    DEFINE_SPINLOCK(msg_queue_spinlock);
+> >>>>>    struct vchiq_state g_state;
+> >>>>>    
+> >>>>> -static struct platform_device *bcm2835_camera;
+> >>>>> -static struct platform_device *bcm2835_audio;
+> >>>>> +static u64 vchiq_device_dmamask = DMA_BIT_MASK(32);
+> >>>>
+> >>>> The fact that this isn't const and is used by two different
+> >>>> platform_device instances is worrying. Either it can be made const, or
+> >>>> it's wrong.
+> >>
+> >> ack.
+> >>
+> >>>>> +
+> >>>>> +static struct platform_device bcm2835_camera = {
+> >>>>> +	.name		= "bcm2835-camera",
+> >>>>> +	.id		= PLATFORM_DEVID_NONE,
+> >>>>> +	.dev		= {
+> >>>>> +		.dma_mask	= &vchiq_device_dmamask,
+> >>>>> +	}
+> >>>>> +};
+> >>>>> +
+> >>>>> +static struct platform_device bcm2835_audio = {
+> >>>>> +	.name		= "bcm2835_audio",
+> >>>>> +	.id		= PLATFORM_DEVID_NONE,
+> >>>>> +	.dev		= {
+> >>>>> +		.dma_mask	= &vchiq_device_dmamask,
+> >>>>> +	}
+> >>>>> +
+> >>>>
+> >>>> Extra blank line.
+> >>
+> >> oops, checkpatch.pl didn't catch this :-/
+> >>
+> >>>>> +};
+> >>>>> +
+> >>>>> +static struct platform_device *vchiq_devices[] __initdata = {
+> >>>>
+> >>>> Make it const.
+> >>>>
+> >>>>> +	&bcm2835_camera,
+> >>>>> +	&bcm2835_audio,
+> >>>>> +};
+> >>>>>    
+> >>>>>    struct vchiq_drvdata {
+> >>>>>    	const unsigned int cache_line_size;
+> >>>>> @@ -1763,28 +1784,6 @@ static const struct of_device_id vchiq_of_match[] = {
+> >>>>>    };
+> >>>>>    MODULE_DEVICE_TABLE(of, vchiq_of_match);
+> >>>>>    
+> >>>>> -static struct platform_device *
+> >>>>> -vchiq_register_child(struct platform_device *pdev, const char *name)
+> >>>>> -{
+> >>>>> -	struct platform_device_info pdevinfo;
+> >>>>> -	struct platform_device *child;
+> >>>>> -
+> >>>>> -	memset(&pdevinfo, 0, sizeof(pdevinfo));
+> >>>>> -
+> >>>>> -	pdevinfo.parent = &pdev->dev;
+> >>>>> -	pdevinfo.name = name;
+> >>>>> -	pdevinfo.id = PLATFORM_DEVID_NONE;
+> >>>>> -	pdevinfo.dma_mask = DMA_BIT_MASK(32);
+> >>>>> -
+> >>>>> -	child = platform_device_register_full(&pdevinfo);
+> >>>>> -	if (IS_ERR(child)) {
+> >>>>> -		dev_warn(&pdev->dev, "%s not registered\n", name);
+> >>>>> -		child = NULL;
+> >>>>> -	}
+> >>>>> -
+> >>>>> -	return child;
+> >>>>> -}
+> >>>>> -
+> >>>>>    static int vchiq_probe(struct platform_device *pdev)
+> >>>>>    {
+> >>>>>    	struct device_node *fw_node;
+> >>>>> @@ -1832,8 +1831,11 @@ static int vchiq_probe(struct platform_device *pdev)
+> >>>>>    		goto error_exit;
+> >>>>>    	}
+> >>>>>    
+> >>>>> -	bcm2835_camera = vchiq_register_child(pdev, "bcm2835-camera");
+> >>>>> -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
+> >>>>> +	err = platform_add_devices(vchiq_devices, ARRAY_SIZE(vchiq_devices));
+> >>>>> +	if (err) {
+> >>>>> +		dev_warn(&pdev->dev, "Failed to add vchiq child devices");
+> >>>>> +		goto error_exit;
+> >>>>> +	}
+> >>>>
+> >>>> If you unbind and rebind this driver, the platform_device instances
+> >>>> defined as global variables will be reused, and I'm pretty sure that
+> >>>> will cause issues, for instance with the kobj->state_initialized check
+> >>>> in kobject_init() (called from device_initialize(), itself called from
+> >>>> platform_device_register(), from platform_add_devices()). I'm not sure
+> >>>> static instances of platform_device are a very good idea in general.
+> >>>
+> >>> static instances of any device are a horrible idea, but it seems that
+> >>> many drivers do this and abuse platform devices this way :(
+> >>
+> >> It seems  I have been a victim of the abuse usage while looking for
+> >> platform_device references in the codebase. I'm working on a new
+> >> approach for this.
+> >>
+> >> Currently (as per the linux-next branch), the vchiq driver will happily
+> >> carry on if any of the child  platform device registration fails. That
+> >> means if bcm2835-audio fails to register, bcm2835-camera will  still
+> >> kept registered I suppose.
+> >>
+> >> However with usage of platform_add_devices() in this patch, I introduced
+> >> a functionality change (I'm realizing this now) - any failure of child
+> >> platform device registeration will -unregister- all the other platform
+> >> devices i.e. if bcm2835-audio fails, bcm2835-camera will also get
+> >> unregistered.
+> >>
+> >> Should I be working towards the status-quo behavior ? Or it's sane to
+> >> unregistered other platform devices if one of the fails like
+> >> platform_add_devices() does ? (This affects my new approach as well,
+> >> hence the question)
+> >
+> > If it doesn't cause too much extra complexity, it would be nice to skip
+> > devices that can't be registered successfully, and still support the
+> > other ones. I don't expect registration failures to be a occuring
+> > normally, so if this causes too much completely, I think it would still
+> > be fine to fail more harshly.
+> >
+> >>> Ideally this should be done properly, with the correct devices created
+> >>> automatically based on the device tree structure, NOT hard-coded into a
+> >>> .c file like this.
+> >>>
+> >>> So I too really do not like this change, why are these not being created
+> >>> by the firware layer automatically?
+> >>
+> >> Not sure if this is a helpful comment, but as far I know, there can be
+> >> vchiq child platform devices which probably don't have a Device tree
+> >> entry. like the bcm2835-isp [1] I posted earlier.
+> >>
+> >> [1] https://lore.kernel.org/lkml/20221121214722.22563-1-umang.jain@ideasonboard.com/
+> >
+> > Those devices are implemented and exposed by the firmware running on the
+> > VC4. The device tree describes the VC4 itself with the resources
+> > required to communicate with it through a mailbox interface. I was going
+> > to say that the platform devices are then created based on what the
+> > firmware exposes, but that's not right, they're indeed hardcoded in the
+> > vchiq driver. Adding corresponding DT nodes (as children of the vchiq DT
+> > node) could make sense. Dave, do you have any opinion on this ?
+> 
+> i vaguely remember the discussion how to represent audio and camera 
+> interface in the device tree. Representing as child nodes of the VC4 has 
+> been rejected on the device tree mailing some years ago, because this 
+> doesn't represent the physical (hardware) wiring. It's still possible to 
+> access e.g. the camera interface from the ARM.
 
->         writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
->         writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
->
->         /* Start decoding! */
->         writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
-> -              RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
-> +              RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
-> +              RKVDEC_H264ORVP9_ERR_MODE,
->                rkvdec->regs + RKVDEC_REG_INTERRUPT);
->
->         return 0;
-> @@ -1183,10 +1184,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
->         return 0;
->  }
->
-> +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
-> +{
-> +       struct rkvdec_dev *rkvdec = ctx->dev;
-> +       int err;
+For the camera, things have changed a lot since the mail thread you've
+linked. The CSI-2 receiver (and camera sensors) are now described in DT
+and controlled from the ARM side. I believe the firmware still supports
+controlling that hardware from the VC4 side (limited to a very small set
+of camera sensors), but I think we can ignore that from a mainline point
+of view.
 
-u32?
+The devices that are still controlled from the VC4 side are the camera
+ISP, the video codec and the audio interface. As far as I can tell,
+there's no plan to change this in neither the short term or long term
+future. Based on my limited understanding, this architecture makes sense
+for the ISP and codec as they share resources in a way that is best
+handled by the VC4 firmware. I have no idea about the audio side. Dave,
+please correct me if this is incorrect.
 
-Otherwise,
+> The whole approach with using a separate binding for all the firmware 
+> stuff lead to a lot of trouble on the Raspberry Pi platform (ugly 
+> dependencies between firmware, DT and kernel). So i would like to avoid 
+> this here. In case the current implementation is a no go, how about 
+> letting the ARM core discover the available interfaces e.g. via mailbox 
+> interface?
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+I don't know if this is possible with existing firmware, and, if not, if
+it could be implemented (the firmware isn't open-source). If not, we
+will need to handle the current situation in the best possible way,
+which would require creating devices either in the VCHIQ driver, or
+through DT. I agree the former is probably best, there would still be a
+dependency between the kernel and firmware, but DT would at least be out
+of the picture. A custom bus seems fine to me.
 
-> +
-> +       err = readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
-> +       if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
-> +               pr_debug("Decoded picture have %i/%i slices with errors.\n",
-> +                        RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
-> +               return VB2_BUF_STATE_ERROR;
-> +       }
-> +
-> +       return VB2_BUF_STATE_DONE;
-> +}
-> +
->  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
->         .adjust_fmt = rkvdec_h264_adjust_fmt,
->         .start = rkvdec_h264_start,
->         .stop = rkvdec_h264_stop,
->         .run = rkvdec_h264_run,
->         .try_ctrl = rkvdec_h264_try_ctrl,
-> +       .check_error_info = rkvdec_h264_check_error_info,
->  };
-> --
-> 2.38.1
->
+> For more inspiration take a look at this old thread [1]
+> 
+> But i agree DT binding for vchiq itself is also a TODO
+> 
+> and any help is appreciated.
+> 
+> [1] - http://lists.infradead.org/pipermail/linux-rpi-kernel/2017-February/005541.html
+
+-- 
+Regards,
+
+Laurent Pinchart
