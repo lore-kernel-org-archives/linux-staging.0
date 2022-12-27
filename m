@@ -1,185 +1,89 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4D12C9E
-	for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 22:32:17 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id s186so11153247oia.5
-        for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 14:32:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C8062C
+	for <linux-staging@lists.linux.dev>; Tue, 27 Dec 2022 01:51:06 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id m4so11984707pls.4
+        for <linux-staging@lists.linux.dev>; Mon, 26 Dec 2022 17:51:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SlgPi51AK3UbkagNMxnBcy7JswnNpWLtwnb7qSlT+Ss=;
-        b=VsKpkv7Y8Nd91YtZ+rh/hVphubdhBeguKnOXCxpDNKYcITVwP2SHNvbEYzOsFJ8e32
-         SW692J580UPv1eqhmIE/W6SrxqV+Y2j6q4alsW9HwhdWixvx7EU+xywKKynQxNNY/Tdf
-         yBIb0WJ1ahPKAv2gI/WaCeX40QR0WuyA7UYny3/pROwh6uorUw5ni04hVqiK0wn2OgWv
-         hMvnPr+LWCktZOTB/LvYk2RZNT5iE6SMqayUKRBwvkTmsWXOah1Q1x14bKLG5Bgop5af
-         53IgX8e2olPw5iwQT2CpbU7dlxhbd1924e5iZ394SV4Lu//oPJ7AaFhQ8lHPvqjpGhfN
-         HHSA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VEAztZlxp7eDOpuHvWTtK3rDDm83Upqz4T09ydgiyt0=;
+        b=Jm9EyRH+O85zhaeyTphpP+pbSn6qecmjhSl/tvEduNbz0tNUuBN6bZFwdoMzlIvOJZ
+         v/DiQDfw3VkCli3FwqNvS3NT5NndSBLTnLQp9QRHWax+ZqwU2SPvg1VuyWYjc/s0EWDT
+         8oeRM1JZVyPbBFV8j7oo5tgR1IQdeGVffW6biAoKx4O+8o/2vWiAeqgTmMW7bGjmxFya
+         A2FvVnDC42oAbfxLvBguE3606nsxPnzVkp9SChhu0RPHJ1nkZxaUbQywGMpCKgnRsi6r
+         XG70C9TQh1CwhVdad74LTIc9UhhwIBLTh7ZlwQCsq3Iddeqoo1mQ6H4pvAl0wZwStNFe
+         bfQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SlgPi51AK3UbkagNMxnBcy7JswnNpWLtwnb7qSlT+Ss=;
-        b=FxTlKCZjxcEXGk6xljNE2azJ5R4QDYV8HdLe9699vMmJRkPpX1g12qVZp6AF3tLocG
-         5J1dPj0MD8Xw12FvWOFn7ztjsm+HNzrJncVIHYuCxfqmR1O0hjlmu/yEczi/svoZDDFU
-         jhrmSHO7nor+lwZHTP8uX5J862/PqDQVkjN9Sv2HyDIAHrLgUv5O248rSHwQt09EYA8Z
-         IbW5yN4vzZZ2ankzxYr4/nPc+f6FpesxqLyrUhs1565uEfgrlRw/uDWuIq8Dyw9Lkdg9
-         Qd3cvvtaOZGGBabmRWQWaIhwjRYMb28wsjI0PUOdeT+M2C8cBUzZg3J7WJOQoncOojGX
-         gbPA==
-X-Gm-Message-State: AFqh2koYInf9HCCIsHvTsCHBkaY2RxBdQ42z6S+1fkS/69cFOJq1z1dH
-	WILxy90v4qk41jmc5Nyg9Kg3p+1j9ex13wcq
-X-Google-Smtp-Source: AMrXdXvKFv0PBPgJoy97OX14x+yn5l3veyUdFhKa+mI48Y6d5h8542VaLJHCRysQI8B+4rxM2W9vlw==
-X-Received: by 2002:a05:6808:1ab3:b0:35e:1bba:db4e with SMTP id bm51-20020a0568081ab300b0035e1bbadb4emr7803746oib.21.1672093936807;
-        Mon, 26 Dec 2022 14:32:16 -0800 (PST)
-Received: from eze-laptop ([190.11.62.130])
-        by smtp.gmail.com with ESMTPSA id g31-20020a9d12a2000000b00661ad8741b4sm5886396otg.24.2022.12.26.14.32.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 14:32:15 -0800 (PST)
-Date: Mon, 26 Dec 2022 19:32:10 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@collabora.com, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] rkvdec: Improve error handling
-Message-ID: <Y6og6ojA3a/lpAL/@eze-laptop>
-References: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
- <20221223193807.914935-5-nicolas.dufresne@collabora.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VEAztZlxp7eDOpuHvWTtK3rDDm83Upqz4T09ydgiyt0=;
+        b=VrKWZImTLRtgRY0j+PqOQ03vOZs5y7+GwjusiPiLZH4XehWN0tsW/QeV6iwwAKALzZ
+         T1w0oRihESvDCO//SgeVcmYXf1pRvg30K1uTebhWkxx/drsh4wnLtsmRSIswU4845Q2a
+         lkkYPPzzbKQ0ufRcUjEFuU9be2N0l9KiqNWahsQMTtdTrWJA3lZzzTny37WpnNtudI8q
+         NtaMwmoljkPaxPRx1krk6ym2YA1m5tIMKcAFdYeGIwwGoCIGPJ5Lii3IE/XOldsMiEVq
+         +QGZSVFETmv73ZDxUj44aAoMV4PxNvC7pXHq94TGS2gImyPkBXG8FqFuEnAJlbE/1NVA
+         KxdA==
+X-Gm-Message-State: AFqh2kqmdDTKhmZaHXq1QTbz0WoeJDBzs61bGAesPBnButzuue+EZ1+h
+	f49vSOO6kHE3nxo6duvuwdo=
+X-Google-Smtp-Source: AMrXdXse/AP26TtT+sOQZKGzt3/2YXXBS2vPf2mP3neSWp7p7RjPHorGwJ8jJ86Zo0gEDKrfC93oYA==
+X-Received: by 2002:a17:90b:124b:b0:220:7147:c981 with SMTP id gx11-20020a17090b124b00b002207147c981mr36946115pjb.29.1672105865510;
+        Mon, 26 Dec 2022 17:51:05 -0800 (PST)
+Received: from [192.168.43.80] (subs03-180-214-233-2.three.co.id. [180.214.233.2])
+        by smtp.gmail.com with ESMTPSA id y88-20020a17090a53e100b002260e8357ebsm73808pjh.30.2022.12.26.17.51.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Dec 2022 17:51:05 -0800 (PST)
+Message-ID: <c56b6b9e-27b2-a064-a4d9-a4926474f1bb@gmail.com>
+Date: Tue, 27 Dec 2022 08:51:00 +0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221223193807.914935-5-nicolas.dufresne@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] staging: rtl8723bs: hal: Fix spelling mistakes in
+ comments
+To: Anup Sharma <anupnewsmail@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <Y6mYdPlqIK1VgQ0Z@local> <Y6mnBSg6i5wMCKUV@debian.me>
+ <Y6nVIdQwIDdxbhY8@local>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <Y6nVIdQwIDdxbhY8@local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Nicolas,
-
-Thanks a lot for the patchset. I have just some style feedback.
-
-On Fri, Dec 23, 2022 at 02:38:06PM -0500, Nicolas Dufresne wrote:
-> There are two ways decoding errors can occure. In one case, the ready
-> status is not set and nothing has been written into the destination,
-> while in the other case, the buffer is written but may contain a
-> certain amount of errors. In order to differentiate these, we set
-> the payload for the first case to 0.
+On 12/27/22 00:08, Anup Sharma wrote:
+> On Mon, Dec 26, 2022 at 08:52:05PM +0700, Bagas Sanjaya wrote:
+>> On Mon, Dec 26, 2022 at 06:19:56PM +0530, Anup Sharma wrote:
+>>> They are appear to be spelling mistakes, initially identified in a codespell report and never been addressed so far.
+>>
+>> Then where is the report, and what are the reported diagnostics?
+> The report was generated by codespell
 > 
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 31 +++++++++++++++++++++++----
->  1 file changed, 27 insertions(+), 4 deletions(-)
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:656: regsiters ==> registers
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:1696: beacause ==> because
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2092: Checl ==> Check
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2513: checksume ==> checksum
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2726: sequense ==> sequence
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2780: vlaue ==> value
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:3409: equall ==> equal, equally
 > 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 7e76f8b728854..11e2bbb20aea1 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -27,6 +27,9 @@
->  #include "rkvdec.h"
->  #include "rkvdec-regs.h"
->  
-> +static int debug;
-> +module_param(debug, int, 0644);
-> +
->  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> @@ -954,14 +957,34 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
->  	enum vb2_buffer_state state;
->  	u32 status;
->  
-> +	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
->  	status = readl(rkvdec->regs + RKVDEC_REG_INTERRUPT);
 
-Maybe group the I/O together, i.e. the writel would
-be right after this readl:
+OK, please send v2 with codespell report above in your patch description.
+Also, you need to edit the patch subject to "Fix codespell-reported
+spelling mistakes".
 
-    writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+Thanks.
 
-> -	state = (status & RKVDEC_RDY_STA) ?
-> -		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-> +
-> +	if (!(status & RKVDEC_RDY_STA)) {
-> +		struct vb2_v4l2_buffer *dst_buf = NULL;
-> +
-> +		if (status & RKVDEC_TIMEOUT_STA)
-> +			v4l2_dbg(debug, 1, &rkvdec->v4l2_dev,
-> +				 "Decoder stopped due to an internal timeout.");
-> +		else
-> +			v4l2_dbg(debug, 1, &rkvdec->v4l2_dev,
-> +				 "Decoder stopped due to an internal error.");
+-- 
+An old man doll... just what I always wanted! - Clara
 
-Unless you really want to ensure this string is greppable,
-you can do something like:
-
-v4l2_dbg(debug, 1, &rkvdec->v4l2_dev, "Decoder stopped due to an internal %s.", .... ? "error" : "timeout");
-
-> +
-> +		/*
-> +		 * When this happens, the buffer is left unmodified. As it
-> +		 * contains no meaningful data we mark is as empty.
-> +		 */
-> +		dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> +		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
-
-Perhaps we can avoid this vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
-if we instead set the payload in rkvdec_job_finish_no_pm().
-It would change the behavior, as we would be setting payload
-only when state is _DONE, so maybe that's not what you want.
-
-> +		state = VB2_BUF_STATE_ERROR;
-> +	} else {
-> +		state = VB2_BUF_STATE_DONE;
-> +	}
->  
->  	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
-> -	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
->  
-> -	if (ctx->coded_fmt_desc->ops->check_error_info)
-> +	if (ctx->coded_fmt_desc->ops->check_error_info &&
-> +	    state == VB2_BUF_STATE_DONE)
->  		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
->  
-
-How about this:
-
-static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
-{
-    struct rkvdec_dev *rkvdec = priv;
-    struct rkvdec_ctx *ctx;
-    enum vb2_buffer_state state = VB2_BUF_STATE_DONE;
-    u32 status;
-
-    ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
-    status = readl(rkvdec->regs + RKVDEC_REG_INTERRUPT);
-    writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
-
-    if (!(status & RKVDEC_RDY_STA)) {
-        ...
-        state = VB2_BUF_STATE_ERROR;
-    } else {
-        if (ctx->coded_fmt_desc->ops->check_error_info &&
-            ctx->coded_fmt_desc->ops->check_error_info(ctx))
-            state = VB2_BUF_STATE_ERROR;
-    }
-
-    if (cancel_delayed_work(&rkvdec->watchdog_work))
-        rkvdec_job_finish(ctx, state);
-
-    return IRQ_HANDLED;
-}
-
-So it's clear which paths lead to VB2_BUF_STATE_ERROR.
-
-Thanks!
-Ezequiel
-
->  	if (cancel_delayed_work(&rkvdec->watchdog_work))
-> -- 
-> 2.38.1
-> 
