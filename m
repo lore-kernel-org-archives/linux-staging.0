@@ -1,54 +1,51 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E18D1C06
-	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 08:44:22 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id t15so7980439wro.9
-        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 00:44:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AF11C06
+	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 08:57:17 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso12793491wmb.0
+        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 00:57:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AY1Qo88WZIkRuG+ZDC2KWB3/2P/di58fka+9ZuMd9IM=;
-        b=fPUPE3V1beCIq5fdrMH7Hri78XL2FB98edJ99HrrtlBhq8l5XNRPF7iyUyCt+labeI
-         C+SpCW/OrJuOVVXA4AN4cvZMhp9sogQgaY3o8p1xEre1OFeD4zkomkER7UrNO/yeBovW
-         2MWRiRlJ2z5dpewZrT3uBB7DWkco4abciznSt++X9nE1FlJUhkLxbP0bjPmLVgo5bjRB
-         Rq7BLJDe44lq1a+Tdmf6MrB3t3ILyAWTE0H2A0qO9A8vw974zruExDEJ5mobmwXNMC3Y
-         d7ZzPM02CQLoKPfxRPDNrMNZa2wnhvrv1rAJAmfJzdDmMV5HM4b1ecOsgq/HvFhcYEpE
-         Yh2w==
+        bh=8ic43VHVW9R6k6oI9UHAIL60iJzHQ67Y4AV951PlE8Q=;
+        b=TxwlrCzTrDmmG+wTA3/tM+p9QAnafIRXqh4Ua1lSFsNVBWbF0OAh3Fc2WgbOY3uufN
+         oWfGxCjxvdTtJlszSquF4XztipaxbqRYAo2zgwf/t5jOI2Ud+nCsatxvBO24Yzl6UztA
+         LqNFW8XyWku+SS7o86rlIPpu4y+Nl5LMbUMdc/r3hSvesZfQtnmEzrpY6sg+U52ejUuE
+         28kwsWUqlrxmAMUgtelA8FWn0cRyl4DB2j1DZ83G2/NBl0OdZVR0sNaO1BsZA27xTucD
+         KlIVPZws7ugMec/ZotoJF2MkmgByZh6SLyGELS1R3swdE323Yzb7bIbbb4Kw2+iYw+FY
+         MlBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AY1Qo88WZIkRuG+ZDC2KWB3/2P/di58fka+9ZuMd9IM=;
-        b=nRVr9eWzQ70i7J3428a6apWinNan4g+upY+nK5P8moipv9HWFnOD9LuyxEng0wiINK
-         4pTUYi5jIRtvmljv7LS79zy3qkho7g29ciJSsemHgHblbbnvFKX7S80h4WFzT3WaQTRw
-         HFU9tJ7AabAkozFwJESgvO1oPnZjcqL7EmZAkken+KQynjM+3AksVgctjsDZQ20Hc/Bx
-         mCQgKaWnImRP3aYUOoQxGjXyQLFPYLX5xpun7FEx0nN1DYnNeedANZAoRUnUMwunsBL4
-         mT7DWoT3U+TkqoPn50hOjzzLCEoS13Ruwoxcp7NUdU0ci+fUpj717WxQ7GV+58favOSH
-         OXew==
-X-Gm-Message-State: AFqh2kqSys5zOqzaHoMo2V6KXL75XsY26gwY9LjIHLiIK6c3JC59ObYX
-	zl+WcqlKpjTFMn+CEUofw1c=
-X-Google-Smtp-Source: AMrXdXsqovVilNtg829q36pX5SKURi5x+Zw5u+rQQfok5rU8zud7SCEYkrvUy5UdpOd3f2DUPO7rJA==
-X-Received: by 2002:adf:e34e:0:b0:242:ac3:87f4 with SMTP id n14-20020adfe34e000000b002420ac387f4mr18442415wrj.50.1672303460711;
-        Thu, 29 Dec 2022 00:44:20 -0800 (PST)
+        bh=8ic43VHVW9R6k6oI9UHAIL60iJzHQ67Y4AV951PlE8Q=;
+        b=U43g7xZVBPDNDf55IHtInRsb7MFf6Rrsyk7MWeCCvnwdRi/c46+DJRnmU1aF9nQK9g
+         WihN51q7uvqPA0u4yg2WywdH9928tXZohD5ahSEorgh0VcFrSuBBtjWC8TFqpc/pQYEH
+         z+uEUCB6M8KIexfPvIHNsa/DRjPYR1JGPMqr3vXI+LJhgk+mymL7EdaYEWcX6kOR+hav
+         U2VerIoV/5YLZxE17DDx+lZ8QxY2cHm+6Xn9aONVgc08+PC6VbzWklNoCIdrzaFphH7G
+         x1kGsP9Znlja6qOqyclmOpOclPQ4sRJNkUJgdA99dkYo9tpltADocX+SasGe5rylDu8f
+         uqKg==
+X-Gm-Message-State: AFqh2kr5KmLzC9fH83bFC2WFtKQaPTpylNJ3wRgu1hqsUu3G44HxEs7o
+	8K7s2+33aFpGTcGQPHExCMKDF56LRaw97A==
+X-Google-Smtp-Source: AMrXdXvuGCKE9rhgMW5S5NuVWuaEzVHwAkNrJwGPH1OPX3mm1hl0B7t5Q7s1qhwe0EM2dQfW+RN2ug==
+X-Received: by 2002:a05:600c:5014:b0:3d3:446a:b46a with SMTP id n20-20020a05600c501400b003d3446ab46amr20624683wmr.38.1672304235499;
+        Thu, 29 Dec 2022 00:57:15 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n14-20020adfe34e000000b002366dd0e030sm17686502wrj.68.2022.12.29.00.42.57
+        by smtp.gmail.com with ESMTPSA id l6-20020a05600c4f0600b003d9780466b0sm17311651wmq.31.2022.12.29.00.57.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 00:44:20 -0800 (PST)
-Date: Thu, 29 Dec 2022 11:42:48 +0300
+        Thu, 29 Dec 2022 00:57:15 -0800 (PST)
+Date: Thu, 29 Dec 2022 11:56:42 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Anup Sharma <anupnewsmail@gmail.com>, gregkh@linuxfoundation.org,
+To: Anup Sharma <anupnewsmail@gmail.com>
+Cc: bagasdotme@gmail.com, gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: hal: Fix spelling mistakes in
- comments
-Message-ID: <Y61TCOiz2oaA7txp@kadam>
-References: <Y6mYdPlqIK1VgQ0Z@local>
- <Y6mnBSg6i5wMCKUV@debian.me>
- <Y6nVIdQwIDdxbhY8@local>
- <c56b6b9e-27b2-a064-a4d9-a4926474f1bb@gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8723bs: hal: Fix codespell-reported
+ spelling mistakes
+Message-ID: <Y61WSt4vzTjhDFS5@kadam>
+References: <Y605bbJ+gPtBFrAZ@local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,14 +54,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c56b6b9e-27b2-a064-a4d9-a4926474f1bb@gmail.com>
+In-Reply-To: <Y605bbJ+gPtBFrAZ@local>
 
-On Tue, Dec 27, 2022 at 08:51:00AM +0700, Bagas Sanjaya wrote:
-> Also, you need to edit the patch subject to "Fix codespell-reported
-> spelling mistakes".
+On Thu, Dec 29, 2022 at 12:23:33PM +0530, Anup Sharma wrote:
+> They are appear to be spelling mistakes, initially identified in a codespell report and never been addressed so far.
 
-That's nonsense advice.  Please don't make yourself into a roadblock
-for progress.
+You're going to need to wrap this line.  It's too long.  Run
+scripts/checkpatch.pl on your patches before sending them.
+
+> 
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:656: regsiters ==> registers
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:1696: beacause ==> because
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2092: Checl ==> Check
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2513: checksume ==> checksum
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2726: sequense ==> sequence
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2780: vlaue ==> value
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:3409: equall ==> equal, equally
+> 
+> Signed-off-by: Anup Sharma <anupnewsmail@gmail.com>
+> 
+> Changes in v2:
+>   - Added codespell report to make the commit message more clearer.
+> ---
+  ^^^
+You need to put the v2 note under this --- cut off marker.
+
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+v3 now.
 
 regards,
 dan carpenter
