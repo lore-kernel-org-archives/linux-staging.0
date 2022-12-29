@@ -1,51 +1,51 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AF11C06
-	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 08:57:17 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso12793491wmb.0
-        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 00:57:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB581C2B
+	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 09:45:15 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id m3so3887551wmq.0
+        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 01:45:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8ic43VHVW9R6k6oI9UHAIL60iJzHQ67Y4AV951PlE8Q=;
-        b=TxwlrCzTrDmmG+wTA3/tM+p9QAnafIRXqh4Ua1lSFsNVBWbF0OAh3Fc2WgbOY3uufN
-         oWfGxCjxvdTtJlszSquF4XztipaxbqRYAo2zgwf/t5jOI2Ud+nCsatxvBO24Yzl6UztA
-         LqNFW8XyWku+SS7o86rlIPpu4y+Nl5LMbUMdc/r3hSvesZfQtnmEzrpY6sg+U52ejUuE
-         28kwsWUqlrxmAMUgtelA8FWn0cRyl4DB2j1DZ83G2/NBl0OdZVR0sNaO1BsZA27xTucD
-         KlIVPZws7ugMec/ZotoJF2MkmgByZh6SLyGELS1R3swdE323Yzb7bIbbb4Kw2+iYw+FY
-         MlBg==
+        bh=JlwudR1yq0j8l6dXe2FNX5uZ434yQGNV8t9LPJL/6tM=;
+        b=nUHwdBrBS6LeYbs+YS3gdxxv7I3AORr8iVEX+sIMxjgK+nNK2hcm/m+/NZyGz55W4m
+         /2WiPf7rALiIl1XNGy8oNlYm3TqHrEVPzEiTZ3vAbqnFGu8msb4hHSMsifMUHYyNlYEv
+         yxE42J1SHiOffhA8G4tZzerRzzqj0unHksAtNmudLgbPN6z6KmoxOpU7iaqiNm2hUQKu
+         cTy2fPBgJQCZfabMZt1p+wQ6DrToheWRi6o8OKVPf9/NHBFNusYwYRdyMSZvkOjCTo+D
+         vAASc9hQuRqsAGS4kON3vXrPQ8HnrkOjkRy+aADHt6hRcORxzbzhyInPK3wrKpze5Z00
+         Gb7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8ic43VHVW9R6k6oI9UHAIL60iJzHQ67Y4AV951PlE8Q=;
-        b=U43g7xZVBPDNDf55IHtInRsb7MFf6Rrsyk7MWeCCvnwdRi/c46+DJRnmU1aF9nQK9g
-         WihN51q7uvqPA0u4yg2WywdH9928tXZohD5ahSEorgh0VcFrSuBBtjWC8TFqpc/pQYEH
-         z+uEUCB6M8KIexfPvIHNsa/DRjPYR1JGPMqr3vXI+LJhgk+mymL7EdaYEWcX6kOR+hav
-         U2VerIoV/5YLZxE17DDx+lZ8QxY2cHm+6Xn9aONVgc08+PC6VbzWklNoCIdrzaFphH7G
-         x1kGsP9Znlja6qOqyclmOpOclPQ4sRJNkUJgdA99dkYo9tpltADocX+SasGe5rylDu8f
-         uqKg==
-X-Gm-Message-State: AFqh2kr5KmLzC9fH83bFC2WFtKQaPTpylNJ3wRgu1hqsUu3G44HxEs7o
-	8K7s2+33aFpGTcGQPHExCMKDF56LRaw97A==
-X-Google-Smtp-Source: AMrXdXvuGCKE9rhgMW5S5NuVWuaEzVHwAkNrJwGPH1OPX3mm1hl0B7t5Q7s1qhwe0EM2dQfW+RN2ug==
-X-Received: by 2002:a05:600c:5014:b0:3d3:446a:b46a with SMTP id n20-20020a05600c501400b003d3446ab46amr20624683wmr.38.1672304235499;
-        Thu, 29 Dec 2022 00:57:15 -0800 (PST)
+        bh=JlwudR1yq0j8l6dXe2FNX5uZ434yQGNV8t9LPJL/6tM=;
+        b=ps3wcL2HO1QgUzf20wSSuyVmXbFbnWqL2/qibPKhfRwN7tdFQL02lgUlGX1VpKfAf+
+         p2TVqCuoFz+zv36kSF2HAXpXGQBHxXgGT+PQQZDiBKmpZ+dAQ+ni/K7H/ePyF9hObGji
+         G5T8h5sUgNcFyFEJX5qi5vCrbE/GVc3auPvaciURtsxMydBFF2XCVRbeZAUqsOSqi/an
+         F3+iWIOK+LM5bgi+QAOwKhWwFl5Hc7xmBWhQSFZW29ClR6UmO6BwcJIL0ECRmdNoLBD2
+         h8UxeRwQsO2ipL82KjqwORPBdxcR/ZjoRn+mnsMe0jGZ0By2cxjCZMVBUkiORQ7+rwRj
+         SH+A==
+X-Gm-Message-State: AFqh2ko89JcD+gw6R13Jjw9F46Jhp9gtMyZQ2ovNDnN37VeRn057HO2W
+	sbeQbqDde1WzYOHbsil0maU=
+X-Google-Smtp-Source: AMrXdXs5lANX27sWsHHeOuHvhjwBNhps7lPfjmKuE+KRWec7tXPH6Us7T2cE1di2Y7ptz7971G9M7w==
+X-Received: by 2002:a1c:5442:0:b0:3cf:7385:677f with SMTP id p2-20020a1c5442000000b003cf7385677fmr19294169wmi.35.1672307114296;
+        Thu, 29 Dec 2022 01:45:14 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l6-20020a05600c4f0600b003d9780466b0sm17311651wmq.31.2022.12.29.00.57.14
+        by smtp.gmail.com with ESMTPSA id i2-20020a05600c354200b003d35acb0fd7sm31043399wmq.34.2022.12.29.01.45.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 00:57:15 -0800 (PST)
-Date: Thu, 29 Dec 2022 11:56:42 +0300
+        Thu, 29 Dec 2022 01:45:13 -0800 (PST)
+Date: Thu, 29 Dec 2022 12:45:10 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Anup Sharma <anupnewsmail@gmail.com>
-Cc: bagasdotme@gmail.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: hal: Fix codespell-reported
- spelling mistakes
-Message-ID: <Y61WSt4vzTjhDFS5@kadam>
-References: <Y605bbJ+gPtBFrAZ@local>
+To: yang.yang29@zte.com.cn
+Cc: gustavoars@kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, xu.panda@zte.com.cn
+Subject: Re: [PATCH linux-next] staging: ks7010: use strscpy() to instead of
+ strncpy()
+Message-ID: <Y61hpuMcp3NKbqL5@kadam>
+References: <202212261903245548969@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,34 +54,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y605bbJ+gPtBFrAZ@local>
+In-Reply-To: <202212261903245548969@zte.com.cn>
 
-On Thu, Dec 29, 2022 at 12:23:33PM +0530, Anup Sharma wrote:
-> They are appear to be spelling mistakes, initially identified in a codespell report and never been addressed so far.
-
-You're going to need to wrap this line.  It's too long.  Run
-scripts/checkpatch.pl on your patches before sending them.
-
+On Mon, Dec 26, 2022 at 07:03:24PM +0800, yang.yang29@zte.com.cn wrote:
+> From: Xu Panda <xu.panda@zte.com.cn>
 > 
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:656: regsiters ==> registers
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:1696: beacause ==> because
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2092: Checl ==> Check
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2513: checksume ==> checksum
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2726: sequense ==> sequence
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:2780: vlaue ==> value
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:3409: equall ==> equal, equally
+> The implementation of strscpy() is more robust and safer.
+> That's now the recommended way to copy NUL-terminated strings.
 > 
-> Signed-off-by: Anup Sharma <anupnewsmail@gmail.com>
-> 
-> Changes in v2:
->   - Added codespell report to make the commit message more clearer.
+> Signed-off-by: Xu Panda <xu.panda@zte.com.cn>
+> Signed-off-by: Yang Yang <yang.yang29@zte.com>
 > ---
-  ^^^
-You need to put the v2 note under this --- cut off marker.
+>  drivers/staging/ks7010/ks_wlan_net.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/ks7010/ks_wlan_net.c b/drivers/staging/ks7010/ks_wlan_net.c
+> index 044c807ca022..e03c87f0bfe7 100644
+> --- a/drivers/staging/ks7010/ks_wlan_net.c
+> +++ b/drivers/staging/ks7010/ks_wlan_net.c
+> @@ -382,8 +382,7 @@ static int ks_wlan_get_nick(struct net_device *dev,
+>  		return -EPERM;
+> 
+>  	/* for SLEEP MODE */
+> -	strncpy(extra, priv->nick, 16);
+> -	extra[16] = '\0';
+> +	strscpy(extra, priv->nick, 17);
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+I think this code is a buffer overflow.  This is an implementation of
+SIOCGIWNICKN.
 
-v3 now.
+net/wireless/wext-core.c
+   169          [IW_IOCTL_IDX(SIOCGIWNICKN)] = {
+   170                  .header_type    = IW_HEADER_TYPE_POINT,
+   171                  .token_size     = 1,
+   172                  .max_tokens     = IW_ESSID_MAX_SIZE,
+   173          },
+
+As you can see there is a .max_tokens but no .min_tokens.  It is called
+from ioctl_standard_iw_point().  So if the user specifies something
+smaller than 17 it leads to a buffer overflow.
+
+Your patch is mechanically correct, but now that we have eyes on the
+code we should fix the security bug instead making checkpatch happy or
+whatever.
 
 regards,
 dan carpenter
