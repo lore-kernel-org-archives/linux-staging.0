@@ -1,24 +1,24 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C86346B3
-	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 13:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A32846A9
+	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 13:32:29 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPA id 2242CFF803;
-	Thu, 29 Dec 2022 13:32:16 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPA id B4B8EFF80D;
+	Thu, 29 Dec 2022 13:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1672320738;
+	t=1672320747;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4YeHQSTDdghV38Iy4vvyY44ldu+tM/1B9OLT37nvF4k=;
-	b=fgPMmhDS03mhaW4l3pbCCIQnF3QA7GGucEPDVi5rw7HVsfYdqLVLOAYsHOwxwSTxN4WTZc
-	2yIaBxw6LeMl86UEFtf3Tk5XPw37UmmHluFiBJtapD3J3gDxlNPnrOD9iLV4q0z61oLfHR
-	7wkq4AUCninWGzG/XQB/tMC7aolz2S7G7hZAMNVEwgyMLOL2Ln2v9Nqh8/XPmKu4BaDy8/
-	y5OUH+TZwm8HiwminM98M90+Svf5D7L1kD2jIo9peSJpNcGWw10bg76VPRh3kIwsD6e+mN
-	HWZzt9pXrw+Szauq9YYzDkFEWO2TCRngiXtJxQdosFZ6SoW9YNVqIoCDkCAmCA==
+	bh=3nz5wNe+Z1nzIXUX/JoabalYq7SA6k1PNej8sIBUtyg=;
+	b=ataXZHP1ot1/L18b70FdiUNXNSN61iY8tQ871oCluO9n9CmpAW2lxnU9pxee/2+gugDcQO
+	4ZPuj9bE5yx/6/8Ynk3WIJwa7BRnEtH4ONGtoRCg+MfdgJ7UgfrZ9ONjwRAP+k+peLvM1x
+	LKlGLQ8TE5ZJwDXL/MGpjROc+5ZvVeomKWk40F78p4zR7ci27RO/YW0n+sT9kdOV+4Huji
+	Rm/sZSwF8AGvQaxwt6DExIaUm9FfrTC7UCUu7+QsMse1ZzvNJs3I7b3CoeKywI6dKfboq8
+	juamKewugOlvP/rGU3VVEmMIpyUV1/njUGp8LFSDoY6FRFhKBpTdOxwrBfpoyw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -40,11 +40,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Richard Leitner <richard.leitner@skidata.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip' property and example
-Date: Thu, 29 Dec 2022 14:31:46 +0100
-Message-Id: <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+	Richard Leitner <richard.leitner@skidata.com>
+Subject: [PATCH v3 05/21] staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
+Date: Thu, 29 Dec 2022 14:31:49 +0100
+Message-Id: <20221229133205.981397-6-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
 References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
@@ -56,128 +55,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Tegra20 VI peripheral can receive parallel input from the VIP parallel
-input module. Add it to the allowed properties and augment the existing
-nvidia,tegra20-vi example to show a 'vip' property.
+Clarify what this function does.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Changed in v3 (suggested by Rob Herring):
- - drop 'endpoint', unneeded as there's no extra properties in the
-   endpoints
-
-Changed in v2 (suggested by Krzysztof Kozlowski):
- - rename "i2c3" -> "ic2"
- - add review tag
+No changes in v3
+No changes in v2
 ---
- .../display/tegra/nvidia,tegra20-vi.yaml      | 64 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 65 insertions(+)
+ drivers/staging/media/tegra-video/vi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-index 782a4b10150a..da9ce76e15ef 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-@@ -74,6 +74,18 @@ properties:
-   avdd-dsi-csi-supply:
-     description: DSI/CSI power supply. Must supply 1.2 V.
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 9dba6e97ebdd..6aecdd28bd82 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -154,6 +154,9 @@ tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
+ 	return media_entity_to_v4l2_subdev(pad->entity);
+ }
  
-+  vip:
-+    $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Input from the VIP (parallel input capture) module
-+
- patternProperties:
-   "^csi@[0-9a-f]+$":
-     type: object
-@@ -109,6 +121,22 @@ examples:
-     #include <dt-bindings/clock/tegra20-car.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        camera@48 {
-+            compatible = "aptina,mt9v111";
-+            reg = <0x48>;
-+            clocks = <&camera_clk>;
-+
-+            port {
-+                mt9v111_out: endpoint {
-+                    remote-endpoint = <&vi_vip_in>;
-+                };
-+            };
-+        };
-+    };
-+
-     vi@54080000 {
-         compatible = "nvidia,tegra20-vi";
-         reg = <0x54080000 0x00040000>;
-@@ -116,6 +144,42 @@ examples:
-         clocks = <&tegra_car TEGRA20_CLK_VI>;
-         resets = <&tegra_car 100>;
-         reset-names = "vi";
-+
-+        vip {
-+            compatible = "nvidia,tegra20-vip";
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            channel@0 {
-+                reg = <0>;
-+                ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+                    port@0 {
-+                        reg = <0>;
-+                        vi_vip_in: endpoint {
-+                            remote-endpoint = <&mt9v111_out>;
-+                        };
-+                    };
-+                    port@1 {
-+                        reg = <1>;
-+                        vi_vip_out: endpoint {
-+                            remote-endpoint = <&vi_in>;
-+                        };
-+                    };
-+                };
-+            };
-+        };
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            port@0 {
-+                reg = <0>;
-+                vi_in: endpoint {
-+                    remote-endpoint = <&vi_vip_out>;
-+                };
-+            };
-+        };
-     };
- 
-   - |
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4feb2e1258ce..dca1c47706f3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20568,6 +20568,7 @@ L:	linux-media@vger.kernel.org
- L:	linux-tegra@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-+F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
- F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
- F:	drivers/staging/media/tegra-video/
- 
++/*
++ * Walk up the chain until the initial source (e.g. image sensor)
++ */
+ struct v4l2_subdev *
+ tegra_channel_get_remote_source_subdev(struct tegra_vi_channel *chan)
+ {
 -- 
 2.34.1
 
