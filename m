@@ -1,24 +1,24 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB13733F2
-	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 13:32:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399D246A9
+	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 13:32:25 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPA id BEE2AFF804;
-	Thu, 29 Dec 2022 13:32:13 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPA id 12923FF811;
+	Thu, 29 Dec 2022 13:32:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1672320735;
+	t=1672320743;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nYFhpIFJiKUL0dNC7iOtUPI3WT1NHiJuQjKvEVnXtFQ=;
-	b=BUQVqSI1muywST3IF1vYmQ/z5dZlPmdeRrE50exL+Y5Dwkz9Wd0A636GK+wlhQXTKFU/Uo
-	JAqnyqGBBE31PvB+ugqmqoCiq1dcD1FbWdXK0goe4vWFqXFQFzuGxlVJ3kt9Hn66v6I3Au
-	taMbHJUeCKjRUZ4UotvUrSl8sONKog/TzBEi1APHlx3u1F+/JYFWeJKmJgpL5vJ7PLwJMe
-	SnUkv8JTO770db1jQcQ8Jsh1Q8gtSE3mvKs3S1VDrkmWpqfGJUFoJ/wTDJLVwkRSpAmRYb
-	HX5Pu5QV19+U8T/hCVOERdTzDMTRgDTcFddN6AJna959iYWukgKu9xE7Jq3wQA==
+	bh=p29c+GUNfmZWBqKxZlRywO6eW34k23duVEnJrnJGZho=;
+	b=SqK146vnktp4ptLaybN8gTF2MzLGHYUJjxGUckp7aDN8yZ/wPJf85YOCogpfowN3L/42ZE
+	9c2h/Fctpo9xJE5hoPiwwzyu4tGZlYwzAxc/QSdLtE8A5KyyA8FLoMp7pX0ibzS1M0sRH6
+	pmCPvLSx07/QGmbpgBVtC+WNYhSN5CPfA9UPc+sZZQ6Q3znpJFimREAsVHBueL/wgldBq9
+	tHrDEG2/txi7GZ4WClQvLqUKCSU7UnYFUnAuzhtCbdq4dRBTrKCUsupQeKcNd6evwZe3F8
+	FM2lyjwer016kpGKYDPW0zJvaZ5uS1ZXKExJcp1NhzzFijlLMgw1b3zsOmO4yg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -41,9 +41,9 @@ Cc: linux-media@vger.kernel.org,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH v3 01/21] dt-bindings: display: tegra: add Tegra20 VIP
-Date: Thu, 29 Dec 2022 14:31:45 +0100
-Message-Id: <20221229133205.981397-2-luca.ceresoli@bootlin.com>
+Subject: [PATCH v3 04/21] staging: media: tegra-video: improve documentation of tegra_video_format fields
+Date: Thu, 29 Dec 2022 14:31:48 +0100
+Message-Id: <20221229133205.981397-5-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
 References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
@@ -55,100 +55,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-VIP is the parallel video capture component within the video input
-subsystem of Tegra20 (and other Tegra chips, apparently).
+Some fields are irrelevant for Tegra20/VIP. Add a note to clarify that.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Changed in v3:
- - remove channel@0 node (Krzysztof, Rob, Dmitry)
- - add myself as a maintainer of the whole Tegra video driver (Dmitry)
-
-Changed in v2 (suggested by Krzysztof Kozlowski):
- - remove redundant "bindings" from subject line
- - remove $nodename
- - add channel@0 description
- - add reg: const: 0
+No changes in v3
+No changes in v2
 ---
- .../display/tegra/nvidia,tegra20-vip.yaml     | 49 +++++++++++++++++++
- MAINTAINERS                                   |  2 +
- 2 files changed, 51 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ drivers/staging/media/tegra-video/vi.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-new file mode 100644
-index 000000000000..c23fd02dd18e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-@@ -0,0 +1,49 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra VIP (parallel video capture) controller
-+
-+maintainers:
-+  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - nvidia,tegra20-vip
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Port receiving the video stream from the sensor
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Port sending the video stream to the VI
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - "#address-cells"
-+  - "#size-cells"
-+  - ports
-+
-+# see nvidia,tegra20-vi.yaml for an example
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f61eb221415b..4feb2e1258ce 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20563,10 +20563,12 @@ TEGRA VIDEO DRIVER
- M:	Thierry Reding <thierry.reding@gmail.com>
- M:	Jonathan Hunter <jonathanh@nvidia.com>
- M:	Sowjanya Komatineni <skomatineni@nvidia.com>
-+M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
- L:	linux-media@vger.kernel.org
- L:	linux-tegra@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-+F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
- F:	drivers/staging/media/tegra-video/
- 
- TEGRA XUSB PADCTL DRIVER
+diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
+index 183796c8a46a..dd35c3ac992b 100644
+--- a/drivers/staging/media/tegra-video/vi.h
++++ b/drivers/staging/media/tegra-video/vi.h
+@@ -256,11 +256,11 @@ enum tegra_image_dt {
+ /**
+  * struct tegra_video_format - Tegra video format description
+  *
+- * @img_dt: image data type
+- * @bit_width: format width in bits per component
++ * @img_dt: MIPI CSI-2 data type (for CSI-2 only)
++ * @bit_width: format width in bits per component (for CSI/Tegra210 only)
+  * @code: media bus format code
+  * @bpp: bytes per pixel (when stored in memory)
+- * @img_fmt: image format
++ * @img_fmt: image format (for CSI/Tegra210 only)
+  * @fourcc: V4L2 pixel format FCC identifier
+  */
+ struct tegra_video_format {
 -- 
 2.34.1
 
