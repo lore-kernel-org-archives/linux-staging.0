@@ -1,48 +1,50 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA49779C5
-	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 16:25:34 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id u9so46216034ejo.0
-        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 08:25:34 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A632B79C5
+	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 16:25:42 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id u18so25901185eda.9
+        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 08:25:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9PoCL0xlGBCqJ9wbeAI7D5ytAkpqEbAMxiagz0hFqcA=;
-        b=Rj7VveSd+eEjPteO/mcjJqlcMjyYq2rpoyEYFhjYWmpGFoMOw3krYN41SepGMT2RJ6
-         i0p8yp9tln8b0zdoD8plG/eRaD/VM0I4vtcpId89ozGC3Dn7KRQXDmOuVv6zRkw+LDWE
-         PqMj83NI/gmPLBGS0Vki/MitUMGIbvhNJdCQqKDywikLa3RCSIIyMO9hgfPmIu4ArTov
-         yXafpt6F2egKk1R2+TfEl/idWJehoVkzF8v6RXMTS/H7dUeCWfR1rHRWzxZP/ehtKSPF
-         BdiFrm1ul3L2rOZ5528MH2NvQ98j8kF6cVEhNk/N7e96zAa4khCtwfQY3KClEG7LohsQ
-         0zKg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8N//8jqLWrIkBGyfF8wv4Tl2KGsW1laCrcUj0eqwXw=;
+        b=SOjIqDPJjAG3X8J2l0O1eskK3G1j4SzA1AkgO3M8IcMOGAfztcEIN0KSRvfW5nTL1c
+         QBqK6wQBjo+GxJGcwUPfSufBmYCEG3TLjOMiDGPiiuVXw0rvqyLeALougT+LBzP5wIxj
+         FKIF5Zf3HX4K9c4oDeZV6RpaA8xspwXNhozk6x1PgN16C+nxgRIHqjGNUSzAHBcn9eaz
+         9w/cO6YzILmXE6rmSLYAZSe3PEvroAtnMweberW0+j9NEJ1iiJ8e5tvf58Pl9/Xco093
+         b2cywR8IKDTatE3ZgHYEZcH6wBbtedaqn0qeZr/RqvE9g7wzJ178dmD3oLadYRT6tBfC
+         AVCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9PoCL0xlGBCqJ9wbeAI7D5ytAkpqEbAMxiagz0hFqcA=;
-        b=RTWtUk+alwZ5lxS5Fq5YjQjg9MAlBsaM7gj1fHL1eoJJu9VMD4YRgsiREVzhtw6e5B
-         izOYZ0tFmP6AFohkaZAWrGIkteA/ADmrlSriO0vmqgL9CqOomFNyGYAb4mbHbAeUv9Fj
-         xHhSIRMhxGzgeGe3TV2HLpzVhWgj2sLnzeTuHTYuDcA+7L2culi8QgZkIl4Yq22qWB0w
-         9z2nVoMlf9eiOlncj8MHFwB6rjKPvAOTWz9wwxgmyZhU4ISHz5PH7/Mg4djTYdHvmtHl
-         D0NsvOvFlhpS1DTVSsXeJi2tms2sQTfzaU0kS84ig4geGUOcvG6SaXP3kNMcisw59IF8
-         XLxA==
-X-Gm-Message-State: AFqh2krm0BHraLTlesJiYksIajIwLrCAF40TBwQbF72GLejrUpRu/qhl
-	gTULG/K8bt0G/ycyxvrX1t6saatUIdc=
-X-Google-Smtp-Source: AMrXdXuxYXVZQnKkUGs0BuIFiexSiqju4BEwueACbXfb5H47PRFgp4em1oIuCDGNlmx5XQ5Ouqn2Vw==
-X-Received: by 2002:a17:907:8a20:b0:7c1:27c:2530 with SMTP id sc32-20020a1709078a2000b007c1027c2530mr7179266ejc.3.1672331133050;
-        Thu, 29 Dec 2022 08:25:33 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t8N//8jqLWrIkBGyfF8wv4Tl2KGsW1laCrcUj0eqwXw=;
+        b=HYayTzx9RzG2gzakhVGGvMz80rPHnoioHHy+Yn8dhiXbbK+LbzHthqHjpu1Kdh6Tes
+         LOYGac5/KeNEguljSMQCKSgOsqDvHHMfstKt+qjG+a3uFMET37p4ypJjnJvZvhbuIjSv
+         XC+GjCRvbFnfhq3/fQsVfhpf6q4OyK5efwijyaD5P1eQgdPaxANb339WfwYjy5kC7aov
+         CtzW5NyyocGTP2pdFZGVpck818EdTSno1/4Fpc7rXUldjmFLNzLf1GhMWB0uNX3QU+lE
+         3ZNZIce4cxnNEvwtb59tpdIe2IJP9A1jUSwNLfP97c0mgf9H8U26fdqBiEi8KRRKbfCj
+         CaEA==
+X-Gm-Message-State: AFqh2kqjk8rtx6pg16+43rq6lrkaDrGkS0Id6hti6PJmH1bmVZidj9W8
+	1nc0DNMJ0CB4IK3PF4vKoX4=
+X-Google-Smtp-Source: AMrXdXtAgAaBcAczHzVDiavvwBqKWtBJ7XKXpu6mOv6PHDKBjjo6OQGw73CzqRIFzxE01OfbMiFeVg==
+X-Received: by 2002:aa7:dd13:0:b0:479:8313:2fe6 with SMTP id i19-20020aa7dd13000000b0047983132fe6mr4986436edv.1.1672331140891;
+        Thu, 29 Dec 2022 08:25:40 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id o11-20020a170906768b00b0077b523d309asm8689342ejm.185.2022.12.29.08.25.32
+        by smtp.gmail.com with ESMTPSA id bm25-20020a0564020b1900b0045cf4f72b04sm8420941edb.94.2022.12.29.08.25.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 08:25:32 -0800 (PST)
-Date: Thu, 29 Dec 2022 17:25:29 +0100
+        Thu, 29 Dec 2022 08:25:40 -0800 (PST)
+Date: Thu, 29 Dec 2022 17:25:38 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/7] staging: rtl8192e: Rename variables from r8192_priv
- start with ChannelPlan
-Message-ID: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/7] staging: rtl8192e: Rename ChannelPlan,
+ eeprom_ChannelPlan and CckPwEnl
+Message-ID: <1b705718afdcf56475c10db4b284d2c91a58b250.1672330343.git.philipp.g.hortmann@gmail.com>
+References: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,28 +53,155 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
 
-Rename variables to avoid CamelCase which is not accepted by checkpatch.
+Rename variable ChannelPlan to chnl_plan, eeprom_ChannelPlan to
+eeprom_chnl_plan and CckPwEnl to cck_pwr_enl to avoid CamelCase which is
+not accepted by checkpatch.
 
-Philipp Hortmann (7):
-  staging: rtl8192e: Rename ChannelPlan, eeprom_ChannelPlan and CckPwEnl
-  staging: rtl8192e: Rename TSSI_13dBm, Pwr_Track and NumTotalRFPath
-  staging: rtl8192e: Rename CCKPresentAtt...
-  staging: rtl8192e: Rename TxPowerLevelCCK...
-  staging: rtl8192e: Rename TxPowerLevelOFDM24G...
-  staging: rtl8192e: Rename MCSTxPowerL.., LegacyHTTxPowe.. and
-    AntennaTx..
-  staging: rtl8192e: Rename SetRFPowerSta.., RfReg0Value and
-    bTXPowerDa..
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ .../rtl8192e/rtl8192e/r8190P_rtl8256.c        |  2 +-
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 20 +++++++++----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  8 ++++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  6 +++---
+ 4 files changed, 18 insertions(+), 18 deletions(-)
 
- .../rtl8192e/rtl8192e/r8190P_rtl8256.c        |  14 +--
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  78 +++++++-------
- .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 100 +++++++++---------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  10 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  42 ++++----
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  30 +++---
- 6 files changed, 137 insertions(+), 137 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+index ab2e9b729883..93928f3585c1 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+@@ -154,7 +154,7 @@ void rtl92e_set_cck_tx_power(struct net_device *dev, u8 powerlevel)
+ 		if (priv->CustomerID == RT_CID_819x_Netcore)
+ 			TxAGC = 0x22;
+ 		else
+-			TxAGC += priv->CckPwEnl;
++			TxAGC += priv->cck_pwr_enl;
+ 	}
+ 	if (TxAGC > 0x24)
+ 		TxAGC = 0x24;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index f02e67f68e23..25fa7714df4e 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -306,7 +306,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 		priv->eeprom_CustomerID = usValue & 0xff;
+ 		usValue = rtl92e_eeprom_read(dev,
+ 					     EEPROM_ICVersion_ChannelPlan>>1);
+-		priv->eeprom_ChannelPlan = usValue&0xff;
++		priv->eeprom_chnl_plan = usValue&0xff;
+ 		IC_Version = (usValue & 0xff00)>>8;
+ 
+ 		ICVer8192 = IC_Version & 0xf;
+@@ -328,7 +328,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 		priv->eeprom_vid = 0;
+ 		priv->eeprom_did = 0;
+ 		priv->eeprom_CustomerID = 0;
+-		priv->eeprom_ChannelPlan = 0;
++		priv->eeprom_chnl_plan = 0;
+ 	}
+ 
+ 	if (!priv->AutoloadFailFlag) {
+@@ -473,9 +473,9 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 	priv->rf_chip = RF_8256;
+ 
+ 	if (priv->reg_chnl_plan == 0xf)
+-		priv->ChannelPlan = priv->eeprom_ChannelPlan;
++		priv->chnl_plan = priv->eeprom_chnl_plan;
+ 	else
+-		priv->ChannelPlan = priv->reg_chnl_plan;
++		priv->chnl_plan = priv->reg_chnl_plan;
+ 
+ 	if (priv->eeprom_vid == 0x1186 &&  priv->eeprom_did == 0x3304)
+ 		priv->CustomerID =  RT_CID_DLINK;
+@@ -495,10 +495,10 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 		break;
+ 	case EEPROM_CID_TOSHIBA:
+ 		priv->CustomerID = RT_CID_TOSHIBA;
+-		if (priv->eeprom_ChannelPlan&0x80)
+-			priv->ChannelPlan = priv->eeprom_ChannelPlan&0x7f;
++		if (priv->eeprom_chnl_plan & 0x80)
++			priv->chnl_plan = priv->eeprom_chnl_plan & 0x7f;
+ 		else
+-			priv->ChannelPlan = 0x0;
++			priv->chnl_plan = 0x0;
+ 		break;
+ 	case EEPROM_CID_Nettronix:
+ 		priv->CustomerID = RT_CID_Nettronix;
+@@ -516,9 +516,9 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 		break;
+ 	}
+ 
+-	if (priv->ChannelPlan > CHANNEL_PLAN_LEN - 1)
+-		priv->ChannelPlan = 0;
+-	priv->ChannelPlan = COUNTRY_CODE_WORLD_WIDE_13;
++	if (priv->chnl_plan > CHANNEL_PLAN_LEN - 1)
++		priv->chnl_plan = 0;
++	priv->chnl_plan = COUNTRY_CODE_WORLD_WIDE_13;
+ 
+ 	if (priv->eeprom_vid == 0x1186 &&  priv->eeprom_did == 0x3304)
+ 		priv->rtllib->bSupportRemoteWakeUp = true;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index f8fbe78ccad9..92260d098eaa 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -862,7 +862,7 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
+ 	priv->cck_present_attn = 0;
+ 	priv->rfa_txpowertrackingindex = 0;
+ 	priv->rfc_txpowertrackingindex = 0;
+-	priv->CckPwEnl = 6;
++	priv->cck_pwr_enl = 6;
+ 	priv->rst_progress = RESET_TYPE_NORESET;
+ 	priv->force_reset = false;
+ 	memset(priv->rtllib->swcamtable, 0, sizeof(struct sw_cam_table) * 32);
+@@ -952,13 +952,13 @@ static short _rtl92e_get_channel_map(struct net_device *dev)
+ 		return -1;
+ 	}
+ 
+-	if (priv->ChannelPlan >= COUNTRY_CODE_MAX) {
++	if (priv->chnl_plan >= COUNTRY_CODE_MAX) {
+ 		netdev_info(dev,
+ 			    "rtl819x_init:Error channel plan! Set to default.\n");
+-		priv->ChannelPlan = COUNTRY_CODE_FCC;
++		priv->chnl_plan = COUNTRY_CODE_FCC;
+ 	}
+ 	dot11d_init(priv->rtllib);
+-	dot11d_channel_map(priv->ChannelPlan, priv->rtllib);
++	dot11d_channel_map(priv->chnl_plan, priv->rtllib);
+ 	for (i = 1; i <= 11; i++)
+ 		(priv->rtllib->active_channel_map)[i] = 1;
+ 	(priv->rtllib->active_channel_map)[12] = 2;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index cceb77492363..93b3b75a063f 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -420,7 +420,7 @@ struct r8192_priv {
+ 	u16 eeprom_vid;
+ 	u16 eeprom_did;
+ 	u8 eeprom_CustomerID;
+-	u16 eeprom_ChannelPlan;
++	u16 eeprom_chnl_plan;
+ 
+ 	u8 EEPROMTxPowerLevelCCK[14];
+ 	u8 EEPROMTxPowerLevelOFDM24G[14];
+@@ -451,7 +451,7 @@ struct r8192_priv {
+ 	bool bTXPowerDataReadFromEEPORM;
+ 
+ 	u16 reg_chnl_plan;
+-	u16 ChannelPlan;
++	u16 chnl_plan;
+ 	u8 hw_rf_off_action;
+ 
+ 	bool rf_change_in_progress;
+@@ -460,7 +460,7 @@ struct r8192_priv {
+ 
+ 	u8 DM_Type;
+ 
+-	u8 CckPwEnl;
++	u8 cck_pwr_enl;
+ 	u16 TSSI_13dBm;
+ 	u32 Pwr_Track;
+ 	u8 CCKPresentAttentuation_20Mdefault;
 -- 
 2.39.0
 
