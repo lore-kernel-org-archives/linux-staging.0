@@ -1,48 +1,49 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E57D79C5
-	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 16:26:19 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id u9so46220639ejo.0
-        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 08:26:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3251579C5
+	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 16:26:27 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id jo4so46095485ejb.7
+        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 08:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eS98uo5EwthbiK4UNGthUBCm8vqMR7EmoQLq88cB8yc=;
-        b=dQNrll5LjUVKXeTAho50UrGzlMkAGXpx4NjnpY6AaKpnQIyz3rtL8OVByzbHCQhTk6
-         h6TlQV11WRRlUmvAtfydRD5ukKB1oWHouuxWkHxckeKk+ZbM6y8130Zmimc68tpweyG7
-         z5+0oA6wsu6lYRMCX3O1zH2Lb0eoIfRSnfFbb8Tzviwxx7/jmX39Ypb38bEId/IPPKEO
-         uPOxp2jK1VNUG1ePHj2y0V164ka1FFAyR2CHvjKfHHXhLo35WgNq8wGoR7BWvpvtBWLl
-         ix4OXyYNv+GptY6Zh62yLG/37BJudOdSLpEWZejAi4w/62haczuCDQSaVw7mlWFURM3c
-         pF/Q==
+        bh=a3s3KQ51G7iN+Q95ah8Lmo1iEkBKdbq/0OpGzR/t0yI=;
+        b=i9VuJ5wtSUdxv56H3Fkd/wewLr1M3b+x4CPVeLYPzlKOWF3JutB5BIriOkgsTK0yYD
+         kQ1ZC9LvjxzhrImTbPwKIfIhIgkRlzKFcnquJ74eJxn3h0cjTjU30FFXZQ5HI2pG1Qrv
+         13n7i2f68/ANbALeX6UeA2/wj4cv3BoAd7hcDs3jVn5qgCkJR0maFdznosd44nnvAh3l
+         texqWIV6O3hSWXWN5v8mQOqqPo7eB1CYlvoXueb/093LrKXhUWmKKlKk1Xsykabb9SH5
+         4WHgmPVJM8RhAQ3C0xCyxyGsk9olYWl2p8WnLJ09Dqr5kDb/l52YwbuRnmh4HFjCljbx
+         rbNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eS98uo5EwthbiK4UNGthUBCm8vqMR7EmoQLq88cB8yc=;
-        b=JYRTkR55CM4VWFlLBDakLwawwM0lJ4dnKQGkICyUbcNJ9p5tEgAOVgp/rI8hArHfrj
-         EOUgqz76dnjLlAkpuOHzYi6eLG47/MIDKt0fCmf2KnWhsyGjz/bnRXXZry36/rIaj4aW
-         r+iLmanDPDb3uSdmNyrBk16L0naHIxs2ZQ5tJhPuZcbYUDTFDAT3lNZLNr9sThWSoo8g
-         ecLXTK6s80BVw0wzXkI/zDS94iQtYNaLbmLDBOuPdme40uP+W9Risx8XQh/SjbQ2tNhb
-         C6SCHNQFyok1/UusSgWj3x1wa8uex64yta9PXBq/fxwpXQqOWIdVEAX9pHZITxNps9A4
-         37Eg==
-X-Gm-Message-State: AFqh2krZ59Y9HFKkOcIpSaOtizoQPmWW5v7SlYNwdC2Er8LT3UUAooaa
-	I1GlRTl8o2H0VvsMZ9QyeHo=
-X-Google-Smtp-Source: AMrXdXsuQnidHP9UtNxfhIfNVn+hS4otI2YcokWsl6wDqJFdHAEeQLrkFb2JDyOvvTjdUq3/KL+SJg==
-X-Received: by 2002:a17:907:9a8a:b0:7c0:b944:fc4d with SMTP id km10-20020a1709079a8a00b007c0b944fc4dmr6367470ejc.3.1672331177817;
-        Thu, 29 Dec 2022 08:26:17 -0800 (PST)
+        bh=a3s3KQ51G7iN+Q95ah8Lmo1iEkBKdbq/0OpGzR/t0yI=;
+        b=ZEdbIHaGs2fdROhtEyxOAKx5SK+Z7Mu3jcNMloBQ82yVcsvy1BJzDUuYQ/+mJfWqfk
+         Ci5STrAQ2/RjrWI+mJX9I2t/DgkVsUE5Mt6RsKxdYN5mq28XHOymUn155qONrB7b3hEP
+         D9PzNNc9SYhV0Rdk5hBtEy5maI1GhcC7TDWd3W06pYw07FQ1XkEOaZIDgEAPNg/Ex4oo
+         Pm/OIckXmdSuOieiiOxSsZvNNJTe2DEt9BPxQwSrR3FA8ZiP/pWUO24ulv5JrFUVA+18
+         6LLKE73m93VgHqKhQtNawzGm4Uisyc/GQDzVOfaWzSQ06A082V9PCW+/EqXYbb39otS4
+         BNNA==
+X-Gm-Message-State: AFqh2kqZas63vR5Ma4Rcn1n3MrOmpSGwwQw9qve1H+xV62IEkajuTrw9
+	5AFyc7pZxPTeaPLzhSeNDxe2+ZP6nt8=
+X-Google-Smtp-Source: AMrXdXuTO4SMfzoukxRCQait7p/ML0b0M+geR4v/XGYHKr35sB3CJnYqNEd05rVv6c1Jw3LbeH98eQ==
+X-Received: by 2002:a17:907:8b95:b0:84c:95c7:302d with SMTP id tb21-20020a1709078b9500b0084c95c7302dmr300013ejc.5.1672331185565;
+        Thu, 29 Dec 2022 08:26:25 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id z25-20020a170906945900b007c1633cea13sm8855393ejx.12.2022.12.29.08.26.17
+        by smtp.gmail.com with ESMTPSA id v18-20020a170906181200b0077f324979absm8625680eje.67.2022.12.29.08.26.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 08:26:17 -0800 (PST)
-Date: Thu, 29 Dec 2022 17:26:14 +0100
+        Thu, 29 Dec 2022 08:26:25 -0800 (PST)
+Date: Thu, 29 Dec 2022 17:26:23 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] staging: rtl8192e: Rename TxPowerLevelOFDM24G...
-Message-ID: <a4fac8c1bc8b3f1f9af9959bfec0c3d37aa3a6ec.1672330343.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 6/7] staging: rtl8192e: Rename MCSTxPowerL..,
+ LegacyHTTxPowe.. and AntennaTx..
+Message-ID: <6e123b7a8d600cdc20ea7d4a8ae0b9638406b6a7.1672330343.git.philipp.g.hortmann@gmail.com>
 References: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,122 +55,163 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
 
-Rename variable TxPowerLevelOFDM24G to tx_pwr_level_ofdm_24g,
-TxPowerLevelOFDM24G_A to tx_pwr_level_ofdm_24g_a and TxPowerLevelOFDM24G_C
-to tx_pwr_level_ofdm_24g_c to avoid CamelCase which is not accepted by
-checkpatch.
+Rename variable MCSTxPowerLevelOriginalOffset to
+mcs_tx_pwr_level_org_offset, LegacyHTTxPowerDiff to legacy_ht_tx_pwr_diff
+and AntennaTxPwDiff to antenna_tx_pwr_diff to avoid CamelCase which is not
+accepted by checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 14 +++++++-------
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 12 ++++++------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h   |  6 +++---
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ .../rtl8192e/rtl8192e/r8190P_rtl8256.c        |  4 +--
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 16 +++++-----
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 30 +++++++++----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  6 ++--
+ 4 files changed, 28 insertions(+), 28 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+index 7517ec001421..1672a3fea13c 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8190P_rtl8256.c
+@@ -169,7 +169,7 @@ void rtl92e_set_ofdm_tx_power(struct net_device *dev, u8 powerlevel)
+ 	u16 RegOffset[6] = {0xe00, 0xe04, 0xe10, 0xe14, 0xe18, 0xe1c};
+ 	u8 byte0, byte1, byte2, byte3;
+ 
+-	powerBase0 = powerlevel + priv->LegacyHTTxPowerDiff;
++	powerBase0 = powerlevel + priv->legacy_ht_tx_pwr_diff;
+ 	powerBase0 = (powerBase0 << 24) | (powerBase0 << 16) |
+ 		     (powerBase0 << 8) | powerBase0;
+ 	powerBase1 = powerlevel;
+@@ -177,7 +177,7 @@ void rtl92e_set_ofdm_tx_power(struct net_device *dev, u8 powerlevel)
+ 		     (powerBase1 << 8) | powerBase1;
+ 
+ 	for (index = 0; index < 6; index++) {
+-		writeVal = (u32)(priv->MCSTxPowerLevelOriginalOffset[index] +
++		writeVal = (u32)(priv->mcs_tx_pwr_level_org_offset[index] +
+ 			   ((index < 2) ? powerBase0 : powerBase1));
+ 		byte0 = writeVal & 0x7f;
+ 		byte1 = (writeVal & 0x7f00) >> 8;
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index c121784bd810..618939dbfb13 100644
+index 618939dbfb13..4a94c40f1930 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -410,7 +410,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
- 			for (i = 0; i < 14; i++) {
- 				priv->tx_pwr_level_cck[i] =
- 					 priv->EEPROMTxPowerLevelCCK[i];
--				priv->TxPowerLevelOFDM24G[i] =
-+				priv->tx_pwr_level_ofdm_24g[i] =
+@@ -413,12 +413,12 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 				priv->tx_pwr_level_ofdm_24g[i] =
  					 priv->EEPROMTxPowerLevelOFDM24G[i];
  			}
- 			priv->LegacyHTTxPowerDiff =
-@@ -429,31 +429,31 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
- 			for (i = 0; i < 3; i++) {
- 				priv->tx_pwr_level_cck_a[i] =
- 					 priv->EEPROMRfACCKChnl1TxPwLevel[0];
--				priv->TxPowerLevelOFDM24G_A[i] =
-+				priv->tx_pwr_level_ofdm_24g_a[i] =
- 					 priv->EEPROMRfAOfdmChnlTxPwLevel[0];
- 				priv->tx_pwr_level_cck_c[i] =
- 					 priv->EEPROMRfCCCKChnl1TxPwLevel[0];
--				priv->TxPowerLevelOFDM24G_C[i] =
-+				priv->tx_pwr_level_ofdm_24g_c[i] =
- 					 priv->EEPROMRfCOfdmChnlTxPwLevel[0];
- 			}
- 			for (i = 3; i < 9; i++) {
- 				priv->tx_pwr_level_cck_a[i]  =
- 					 priv->EEPROMRfACCKChnl1TxPwLevel[1];
--				priv->TxPowerLevelOFDM24G_A[i] =
-+				priv->tx_pwr_level_ofdm_24g_a[i] =
- 					 priv->EEPROMRfAOfdmChnlTxPwLevel[1];
- 				priv->tx_pwr_level_cck_c[i] =
- 					 priv->EEPROMRfCCCKChnl1TxPwLevel[1];
--				priv->TxPowerLevelOFDM24G_C[i] =
-+				priv->tx_pwr_level_ofdm_24g_c[i] =
- 					 priv->EEPROMRfCOfdmChnlTxPwLevel[1];
- 			}
- 			for (i = 9; i < 14; i++) {
- 				priv->tx_pwr_level_cck_a[i]  =
- 					 priv->EEPROMRfACCKChnl1TxPwLevel[2];
--				priv->TxPowerLevelOFDM24G_A[i] =
-+				priv->tx_pwr_level_ofdm_24g_a[i] =
- 					 priv->EEPROMRfAOfdmChnlTxPwLevel[2];
- 				priv->tx_pwr_level_cck_c[i] =
- 					 priv->EEPROMRfCCCKChnl1TxPwLevel[2];
--				priv->TxPowerLevelOFDM24G_C[i] =
-+				priv->tx_pwr_level_ofdm_24g_c[i] =
+-			priv->LegacyHTTxPowerDiff =
++			priv->legacy_ht_tx_pwr_diff =
+ 					 priv->EEPROMLegacyHTTxPowerDiff;
+-			priv->AntennaTxPwDiff[0] = priv->EEPROMAntPwDiff & 0xf;
+-			priv->AntennaTxPwDiff[1] = (priv->EEPROMAntPwDiff &
++			priv->antenna_tx_pwr_diff[0] = priv->EEPROMAntPwDiff & 0xf;
++			priv->antenna_tx_pwr_diff[1] = (priv->EEPROMAntPwDiff &
+ 							0xf0) >> 4;
+-			priv->AntennaTxPwDiff[2] = (priv->EEPROMAntPwDiff &
++			priv->antenna_tx_pwr_diff[2] = (priv->EEPROMAntPwDiff &
+ 							0xf00) >> 8;
+ 			priv->CrystalCap = priv->EEPROMCrystalCap;
+ 			priv->ThermalMeter[0] = priv->EEPROMThermalMeter & 0xf;
+@@ -456,11 +456,11 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 				priv->tx_pwr_level_ofdm_24g_c[i] =
  					 priv->EEPROMRfCOfdmChnlTxPwLevel[2];
  			}
- 			priv->LegacyHTTxPowerDiff =
+-			priv->LegacyHTTxPowerDiff =
++			priv->legacy_ht_tx_pwr_diff =
+ 				 priv->EEPROMLegacyHTTxPowerDiff;
+-			priv->AntennaTxPwDiff[0] = 0;
+-			priv->AntennaTxPwDiff[1] = 0;
+-			priv->AntennaTxPwDiff[2] = 0;
++			priv->antenna_tx_pwr_diff[0] = 0;
++			priv->antenna_tx_pwr_diff[1] = 0;
++			priv->antenna_tx_pwr_diff[2] = 0;
+ 			priv->CrystalCap = priv->EEPROMCrystalCap;
+ 			priv->ThermalMeter[0] = priv->EEPROMThermalMeter & 0xf;
+ 			priv->ThermalMeter[1] = (priv->EEPROMThermalMeter &
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index ee6138699e10..19c65aaef3f6 100644
+index 19c65aaef3f6..cc7e72f2a52c 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -593,17 +593,17 @@ void rtl92e_set_tx_power(struct net_device *dev, u8 channel)
+@@ -535,9 +535,9 @@ static bool _rtl92e_bb_config_para_file(struct net_device *dev)
  
- 	if (priv->epromtype == EEPROM_93C46) {
- 		powerlevel = priv->tx_pwr_level_cck[channel - 1];
--		powerlevelOFDM24G = priv->TxPowerLevelOFDM24G[channel-1];
-+		powerlevelOFDM24G = priv->tx_pwr_level_ofdm_24g[channel - 1];
- 	} else if (priv->epromtype == EEPROM_93C56) {
- 		if (priv->rf_type == RF_1T2R) {
- 			powerlevel = priv->tx_pwr_level_cck_c[channel - 1];
--			powerlevelOFDM24G = priv->TxPowerLevelOFDM24G_C[channel-1];
-+			powerlevelOFDM24G = priv->tx_pwr_level_ofdm_24g_c[channel - 1];
- 		} else if (priv->rf_type == RF_2T4R) {
- 			powerlevel = priv->tx_pwr_level_cck_a[channel - 1];
--			powerlevelOFDM24G = priv->TxPowerLevelOFDM24G_A[channel-1];
-+			powerlevelOFDM24G = priv->tx_pwr_level_ofdm_24g_a[channel - 1];
- 
--			ant_pwr_diff = priv->TxPowerLevelOFDM24G_C[channel-1]
--				       - priv->TxPowerLevelOFDM24G_A[channel-1];
-+			ant_pwr_diff = priv->tx_pwr_level_ofdm_24g_c[channel - 1]
-+				       - priv->tx_pwr_level_ofdm_24g_a[channel - 1];
- 
- 			priv->RF_C_TxPwDiff = ant_pwr_diff;
- 
-@@ -727,7 +727,7 @@ static void _rtl92e_set_tx_power_level(struct net_device *dev, u8 channel)
+ 	if (priv->IC_Cut  > VERSION_8190_BD) {
+ 		if (priv->rf_type == RF_2T4R)
+-			dwRegValue = priv->AntennaTxPwDiff[2]<<8 |
+-				      priv->AntennaTxPwDiff[1]<<4 |
+-				      priv->AntennaTxPwDiff[0];
++			dwRegValue = priv->antenna_tx_pwr_diff[2] << 8 |
++				      priv->antenna_tx_pwr_diff[1] << 4 |
++				      priv->antenna_tx_pwr_diff[0];
+ 		else
+ 			dwRegValue = 0x0;
+ 		rtl92e_set_bb_reg(dev, rFPGA0_TxGainStage,
+@@ -561,17 +561,17 @@ void rtl92e_get_tx_power(struct net_device *dev)
  {
  	struct r8192_priv *priv = rtllib_priv(dev);
- 	u8	powerlevel = priv->tx_pwr_level_cck[channel - 1];
--	u8	powerlevelOFDM24G = priv->TxPowerLevelOFDM24G[channel-1];
-+	u8	powerlevelOFDM24G = priv->tx_pwr_level_ofdm_24g[channel - 1];
  
- 	switch (priv->rf_chip) {
- 	case RF_8225:
+-	priv->MCSTxPowerLevelOriginalOffset[0] =
++	priv->mcs_tx_pwr_level_org_offset[0] =
+ 		rtl92e_readl(dev, rTxAGC_Rate18_06);
+-	priv->MCSTxPowerLevelOriginalOffset[1] =
++	priv->mcs_tx_pwr_level_org_offset[1] =
+ 		rtl92e_readl(dev, rTxAGC_Rate54_24);
+-	priv->MCSTxPowerLevelOriginalOffset[2] =
++	priv->mcs_tx_pwr_level_org_offset[2] =
+ 		rtl92e_readl(dev, rTxAGC_Mcs03_Mcs00);
+-	priv->MCSTxPowerLevelOriginalOffset[3] =
++	priv->mcs_tx_pwr_level_org_offset[3] =
+ 		rtl92e_readl(dev, rTxAGC_Mcs07_Mcs04);
+-	priv->MCSTxPowerLevelOriginalOffset[4] =
++	priv->mcs_tx_pwr_level_org_offset[4] =
+ 		rtl92e_readl(dev, rTxAGC_Mcs11_Mcs08);
+-	priv->MCSTxPowerLevelOriginalOffset[5] =
++	priv->mcs_tx_pwr_level_org_offset[5] =
+ 		rtl92e_readl(dev, rTxAGC_Mcs15_Mcs12);
+ 
+ 	priv->DefaultInitialGain[0] = rtl92e_readb(dev, rOFDM0_XAAGCCore1);
+@@ -609,13 +609,13 @@ void rtl92e_set_tx_power(struct net_device *dev, u8 channel)
+ 
+ 			ant_pwr_diff &= 0xf;
+ 
+-			priv->AntennaTxPwDiff[2] = 0;
+-			priv->AntennaTxPwDiff[1] = (u8)(ant_pwr_diff);
+-			priv->AntennaTxPwDiff[0] = 0;
++			priv->antenna_tx_pwr_diff[2] = 0;
++			priv->antenna_tx_pwr_diff[1] = (u8)(ant_pwr_diff);
++			priv->antenna_tx_pwr_diff[0] = 0;
+ 
+-			u4RegValue = priv->AntennaTxPwDiff[2]<<8 |
+-				      priv->AntennaTxPwDiff[1]<<4 |
+-				      priv->AntennaTxPwDiff[0];
++			u4RegValue = priv->antenna_tx_pwr_diff[2] << 8 |
++				      priv->antenna_tx_pwr_diff[1] << 4 |
++				      priv->antenna_tx_pwr_diff[0];
+ 
+ 			rtl92e_set_bb_reg(dev, rFPGA0_TxGainStage,
+ 					  (bXBTxAGC|bXCTxAGC|bXDTxAGC),
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index a74ef0125caa..a1274a5fdf44 100644
+index a1274a5fdf44..30efc46c307c 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -473,9 +473,9 @@ struct r8192_priv {
+@@ -469,16 +469,16 @@ struct r8192_priv {
+ 	s8 cck_present_attn;
+ 	long undecorated_smoothed_pwdb;
+ 
+-	u32 MCSTxPowerLevelOriginalOffset[6];
++	u32 mcs_tx_pwr_level_org_offset[6];
  	u8 tx_pwr_level_cck[14];
  	u8 tx_pwr_level_cck_a[14];
  	u8 tx_pwr_level_cck_c[14];
--	u8		TxPowerLevelOFDM24G[14];
--	u8		TxPowerLevelOFDM24G_A[14];
--	u8		TxPowerLevelOFDM24G_C[14];
-+	u8 tx_pwr_level_ofdm_24g[14];
-+	u8 tx_pwr_level_ofdm_24g_a[14];
-+	u8 tx_pwr_level_ofdm_24g_c[14];
- 	u8		LegacyHTTxPowerDiff;
+ 	u8 tx_pwr_level_ofdm_24g[14];
+ 	u8 tx_pwr_level_ofdm_24g_a[14];
+ 	u8 tx_pwr_level_ofdm_24g_c[14];
+-	u8		LegacyHTTxPowerDiff;
++	u8 legacy_ht_tx_pwr_diff;
  	s8		RF_C_TxPwDiff;
- 	u8		AntennaTxPwDiff[3];
+-	u8		AntennaTxPwDiff[3];
++	u8 antenna_tx_pwr_diff[3];
+ 
+ 	bool		bDynamicTxHighPower;
+ 	bool		bDynamicTxLowPower;
 -- 
 2.39.0
 
