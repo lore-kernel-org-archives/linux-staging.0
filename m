@@ -1,88 +1,105 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3F91FAF
-	for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 16:32:25 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id tz12so46126452ejc.9
-        for <linux-staging@lists.linux.dev>; Thu, 29 Dec 2022 08:32:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EUcRrqj7KVVFNBxTEMN+gtchFt3l7f47KAVCKCtQJX4=;
-        b=V9C1Rce+meqGk+jTLxjCr2AcH6Pg3UnTKtfJ/z2d61mNLw1dVXaJbA2guD7+ytxM/Z
-         MdPWJJ1SXBOrYYuyeUkSfwq8WMbi/tkBrOJgHrHACj4BgKagdZmexxCX8NpG9A0TeDCC
-         QuvUCueN6PxTP8/8Tf+b8T4xM1L5B/vPaqo38n+X7vjH9KjiUNzf+hOQA7x8lakz/kgP
-         t6LlEznUiZQQUKq5AiilscXFvICLO1PugpBMFxDkbA+yhkTPuXQi8abRbTyOJtCZ1lm6
-         W291cOrdXKyxMyI9qfmyXEY4OMnIxo1LRU8e7+JzZ5vOonkwbjkGt3U1Qx9ALM+crmwu
-         HpkQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3D91FA7
+	for <linux-staging@lists.linux.dev>; Fri, 30 Dec 2022 16:34:39 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id y2so11533158ily.5
+        for <linux-staging@lists.linux.dev>; Fri, 30 Dec 2022 08:34:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EUcRrqj7KVVFNBxTEMN+gtchFt3l7f47KAVCKCtQJX4=;
-        b=uU+gIaYyCvfgMiIw0fPyDCTifYzjz3T7yhN9sYMXdz4UPtUQepWPIaMtBal5rENAxs
-         tMFKfWsSeii0nYdPoCFoLNiXKg9CfeB5So2g4jfg9Wj9Pw9aCdJ9xfWH5SMD0XHTpAAf
-         +K48vXjxCvO37OZDAffywI04vncwy/zLQnLbnvliZdUuqjXdoK5dHaQdIJ7f899RiXhm
-         YC70LQOANSHbWnX7TfsbvkE4jXymjQamP/eC5ZieturdV9QUMJa31Hz+bjpDiZZYXkuD
-         squW8+MaNMeXxeoREP/cJaeSEehW8k4Z7JvxZqkBKivmPnna27hud/DOI8JBfE9kZ6pg
-         hXTw==
-X-Gm-Message-State: AFqh2kpvI+fS4155DWKANnZr6R77hWTNeTxo8PrK1ZHSGBDzIuNOxtdJ
-	/IqKzn2p4UZZ9wVp/r39TuE=
-X-Google-Smtp-Source: AMrXdXtR5Lh3briAqybdca5viWLw7hYZ3/jLgEtA5lRgRnOGkfQBXcogBBqSpFwa5brOCKLiN0mgtQ==
-X-Received: by 2002:a17:907:3f8d:b0:7b9:62ab:dc3d with SMTP id hr13-20020a1709073f8d00b007b962abdc3dmr6922779ejc.1.1672331544220;
-        Thu, 29 Dec 2022 08:32:24 -0800 (PST)
-Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id l18-20020a1709060cd200b0084c70c187e8sm3275793ejh.165.2022.12.29.08.32.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Dec 2022 08:32:23 -0800 (PST)
-Message-ID: <4a1642a0-35a8-c978-8016-94d9235a37d6@gmail.com>
-Date: Thu, 29 Dec 2022 17:32:22 +0100
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YUQ13UNlMnnU+RdBOzrUXm3dMsngq/6hNGyj9q9MZiw=;
+        b=upJb1C2aserzFh/CXWOxbXO74iUVhAyqkQTDbaPPsR/5Pzr/44+lzNIxMlO9SXdq4e
+         hrwmwc1ydqmQZXnSxKDB6UyCpiTMYf9FQ10GLRNJHeWtTSfEgvGlPv9aQDTSVQ4rGUE8
+         BNJuMMVNdeV/6PxE5vO8YvlwDJSKRLgN6lpPnizuaqdm2atQibIqxNuKDYYmsHXTVs/U
+         HG4lGGhcjkjkG2k0/+c4/kc4hreNYXMf6Mp/pZJxsNMxv41AIZ7Y0V024wQ3+Okke3mw
+         M5xXzsvAAXdYPdBRMk2kzOGtI5hTeNK2c4x4w9JSi+YAAPGh0LIo3groy68FavYZFxp0
+         LlVg==
+X-Gm-Message-State: AFqh2kpqZnuBAa8xJyNHe4utJtxL+apdW6BTUf/68xCqnHSDdrkV5Lni
+	/TnIosxzwPNIeESnl/g3jg==
+X-Google-Smtp-Source: AMrXdXuqzf/p/KUX/Q6NKkpnki1GkGA1OTlRSftkvhspmWMJCquaB27tfx1TAffdn4xlh0Cred4a0g==
+X-Received: by 2002:a92:504:0:b0:30c:323c:f7d1 with SMTP id q4-20020a920504000000b0030c323cf7d1mr1707763ile.15.1672418078764;
+        Fri, 30 Dec 2022 08:34:38 -0800 (PST)
+Received: from robh_at_kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id o3-20020a92c683000000b00302f7654187sm6670218ilg.72.2022.12.30.08.34.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Dec 2022 08:34:38 -0800 (PST)
+Received: (nullmailer pid 1935053 invoked by uid 1000);
+	Fri, 30 Dec 2022 16:34:28 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 0/7] staging: rtl8192e: Rename variables from r8192_priv
- start with ChannelPlan
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
-Content-Language: en-US
-In-Reply-To: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Rob Herring <robh@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sowjanya Komatineni <skomatineni@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-staging@lists.linux.dev, Daniel Vetter <daniel@ffwll.ch>, Dmitry Osipenko <digetx@gmail.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+ <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+Message-Id: <167241769230.1925726.8527129486424295727.robh@kernel.org>
+Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
+ property and example
+Date: Fri, 30 Dec 2022 10:34:28 -0600
 
-On 12/29/22 17:25, Philipp Hortmann wrote:
-> Rename variables to avoid CamelCase which is not accepted by checkpatch.
+
+On Thu, 29 Dec 2022 14:31:46 +0100, Luca Ceresoli wrote:
+> The Tegra20 VI peripheral can receive parallel input from the VIP parallel
+> input module. Add it to the allowed properties and augment the existing
+> nvidia,tegra20-vi example to show a 'vip' property.
 > 
-> Philipp Hortmann (7):
->    staging: rtl8192e: Rename ChannelPlan, eeprom_ChannelPlan and CckPwEnl
->    staging: rtl8192e: Rename TSSI_13dBm, Pwr_Track and NumTotalRFPath
->    staging: rtl8192e: Rename CCKPresentAtt...
->    staging: rtl8192e: Rename TxPowerLevelCCK...
->    staging: rtl8192e: Rename TxPowerLevelOFDM24G...
->    staging: rtl8192e: Rename MCSTxPowerL.., LegacyHTTxPowe.. and
->      AntennaTx..
->    staging: rtl8192e: Rename SetRFPowerSta.., RfReg0Value and
->      bTXPowerDa..
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
->   .../rtl8192e/rtl8192e/r8190P_rtl8256.c        |  14 +--
->   .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  78 +++++++-------
->   .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 100 +++++++++---------
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  10 +-
->   drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  42 ++++----
->   drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  30 +++---
->   6 files changed, 137 insertions(+), 137 deletions(-)
+> ---
+> 
+> Changed in v3 (suggested by Rob Herring):
+>  - drop 'endpoint', unneeded as there's no extra properties in the
+>    endpoints
+> 
+> Changed in v2 (suggested by Krzysztof Kozlowski):
+>  - rename "i2c3" -> "ic2"
+>  - add review tag
+> ---
+>  .../display/tegra/nvidia,tegra20-vi.yaml      | 64 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 65 insertions(+)
 > 
 
-Tested with rtl8192e
-Transferred this patch over wlan connection of rtl8192e
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Bye Philipp
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vi@54080000: vip: Unevaluated properties are not allowed ('channel@0' was unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vi@54080000: vip: 'ports' is a required property
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vip: Unevaluated properties are not allowed ('channel@0' was unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vip: 'ports' is a required property
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221229133205.981397-3-luca.ceresoli@bootlin.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
