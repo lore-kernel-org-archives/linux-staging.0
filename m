@@ -1,105 +1,72 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3D91FA7
-	for <linux-staging@lists.linux.dev>; Fri, 30 Dec 2022 16:34:39 +0000 (UTC)
-Received: by mail-il1-f177.google.com with SMTP id y2so11533158ily.5
-        for <linux-staging@lists.linux.dev>; Fri, 30 Dec 2022 08:34:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YUQ13UNlMnnU+RdBOzrUXm3dMsngq/6hNGyj9q9MZiw=;
-        b=upJb1C2aserzFh/CXWOxbXO74iUVhAyqkQTDbaPPsR/5Pzr/44+lzNIxMlO9SXdq4e
-         hrwmwc1ydqmQZXnSxKDB6UyCpiTMYf9FQ10GLRNJHeWtTSfEgvGlPv9aQDTSVQ4rGUE8
-         BNJuMMVNdeV/6PxE5vO8YvlwDJSKRLgN6lpPnizuaqdm2atQibIqxNuKDYYmsHXTVs/U
-         HG4lGGhcjkjkG2k0/+c4/kc4hreNYXMf6Mp/pZJxsNMxv41AIZ7Y0V024wQ3+Okke3mw
-         M5xXzsvAAXdYPdBRMk2kzOGtI5hTeNK2c4x4w9JSi+YAAPGh0LIo3groy68FavYZFxp0
-         LlVg==
-X-Gm-Message-State: AFqh2kpqZnuBAa8xJyNHe4utJtxL+apdW6BTUf/68xCqnHSDdrkV5Lni
-	/TnIosxzwPNIeESnl/g3jg==
-X-Google-Smtp-Source: AMrXdXuqzf/p/KUX/Q6NKkpnki1GkGA1OTlRSftkvhspmWMJCquaB27tfx1TAffdn4xlh0Cred4a0g==
-X-Received: by 2002:a92:504:0:b0:30c:323c:f7d1 with SMTP id q4-20020a920504000000b0030c323cf7d1mr1707763ile.15.1672418078764;
-        Fri, 30 Dec 2022 08:34:38 -0800 (PST)
-Received: from robh_at_kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id o3-20020a92c683000000b00302f7654187sm6670218ilg.72.2022.12.30.08.34.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 08:34:38 -0800 (PST)
-Received: (nullmailer pid 1935053 invoked by uid 1000);
-	Fri, 30 Dec 2022 16:34:28 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E7E28F7
+	for <linux-staging@lists.linux.dev>; Fri, 30 Dec 2022 18:07:10 +0000 (UTC)
+Received: from dslb-188-097-208-179.188.097.pools.vodafone-ip.de ([188.97.208.179] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1pBJma-0004rR-KX; Fri, 30 Dec 2022 19:07:04 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 00/20] staging: r8188eu: some xmit cleanups
+Date: Fri, 30 Dec 2022 19:06:26 +0100
+Message-Id: <20221230180646.91008-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sowjanya Komatineni <skomatineni@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-staging@lists.linux.dev, Daniel Vetter <daniel@ffwll.ch>, Dmitry Osipenko <digetx@gmail.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20221229133205.981397-3-luca.ceresoli@bootlin.com>
-References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
- <20221229133205.981397-3-luca.ceresoli@bootlin.com>
-Message-Id: <167241769230.1925726.8527129486424295727.robh@kernel.org>
-Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
- property and example
-Date: Fri, 30 Dec 2022 10:34:28 -0600
+Content-Transfer-Encoding: 8bit
 
+Start cleaning up the code that transmits data frames to the dongle
+via USB.
 
-On Thu, 29 Dec 2022 14:31:46 +0100, Luca Ceresoli wrote:
-> The Tegra20 VI peripheral can receive parallel input from the VIP parallel
-> input module. Add it to the allowed properties and augment the existing
-> nvidia,tegra20-vi example to show a 'vip' property.
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> Changed in v3 (suggested by Rob Herring):
->  - drop 'endpoint', unneeded as there's no extra properties in the
->    endpoints
-> 
-> Changed in v2 (suggested by Krzysztof Kozlowski):
->  - rename "i2c3" -> "ic2"
->  - add review tag
-> ---
->  .../display/tegra/nvidia,tegra20-vi.yaml      | 64 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 65 insertions(+)
-> 
+This should be applied on top of the "merge public action functions"
+series.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Martin Kaiser (20):
+  staging: r8188eu: make xmitframe_swencrypt a void function
+  staging: r8188eu: remove some unused CAM defines
+  staging: r8188eu: cmd_seq is write-only
+  staging: r8188eu: return immediately if we're not meant to encrypt
+  staging: r8188eu: remove unused parameter
+  staging: r8188eu: simplify rtl8188eu_xmit_tasklet
+  staging: r8188eu: remove rtl8188eu_init_xmit_priv
+  staging: r8188eu: remove duplicate psta check
+  staging: r8188eu: simplify frame type check
+  staging: r8188eu: simplify rtw_make_wlanhdr's error handling
+  staging: r8188eu: clean up qos_option setting
+  staging: r8188eu: remove unused bpending array
+  staging: r8188eu: remove unused dma_transfer_addr
+  staging: r8188eu: bm_pending is not used
+  staging: r8188eu: terminate_xmitthread_sema is not used
+  staging: r8188eu: tx_retevt semaphore is not used
+  staging: r8188eu: remove unnecessary rtw_free_xmitframe call
+  staging: r8188eu: phwxmit parameter is unused
+  staging: r8188eu: rtw_init_hwxmits is not needed
+  staging: r8188eu: we use a constant number of hw_xmit entries
 
-yamllint warnings/errors:
+ drivers/staging/r8188eu/core/rtw_cmd.c        |   4 -
+ drivers/staging/r8188eu/core/rtw_xmit.c       | 239 ++++++++----------
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  27 +-
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  14 +-
+ .../staging/r8188eu/include/rtl8188e_spec.h   |  21 --
+ .../staging/r8188eu/include/rtl8188e_xmit.h   |   4 +-
+ drivers/staging/r8188eu/include/rtw_cmd.h     |   1 -
+ drivers/staging/r8188eu/include/rtw_xmit.h    |   9 +-
+ 8 files changed, 116 insertions(+), 203 deletions(-)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vi@54080000: vip: Unevaluated properties are not allowed ('channel@0' was unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vi@54080000: vip: 'ports' is a required property
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vip: Unevaluated properties are not allowed ('channel@0' was unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.example.dtb: vip: 'ports' is a required property
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221229133205.981397-3-luca.ceresoli@bootlin.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.30.2
 
