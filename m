@@ -1,105 +1,109 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584302564
-	for <linux-staging@lists.linux.dev>; Sat, 31 Dec 2022 10:08:54 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id qk9so56265739ejc.3
-        for <linux-staging@lists.linux.dev>; Sat, 31 Dec 2022 02:08:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J1HYc6BialSacaveLTPV1yjJMIxmzPFwz0VYaQcNW2E=;
-        b=RFf+40SHbhjGwbDYN7lMMm3xQ7zh2IB7U3D5THpTXjiLuvehp1sDGw0J4yi6OM1nQG
-         HFRgjJ8gw2S+iSR2aK7+wctCAxp0/cQIi08oa6A5+fZ9NQC0n2mxkY6IfEHzQtG+VI6m
-         hKUxPAJsoGh6JpASjTXfi+MPauB3GpnEFN5wYD7plcGg/pPBQY2YfAyyh5Lo3ic+s9AU
-         cdD3vCteE545Td0GdXKhFEETvvAocaxGF7L3/geO1xyzM4W4cVRKRANE1+jZvt4qYk3n
-         tUbyNzcr8O8HNoxAIW5tfMVRdxJfa1zWkzz/FOstr5DB3jabbEBOsUMcMj94No/od4xt
-         C41w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J1HYc6BialSacaveLTPV1yjJMIxmzPFwz0VYaQcNW2E=;
-        b=ko8l+MhZQzYeG5TIdPSm+/s/tKv8t1rKFVPXE8IwCEGkRZS3udfxuFu6+89A11Hd6B
-         hH97Ccl70sGiyW7vmQAiZnzkEo8HE92+PoLQP5p1sUO+cje3ltbUiILrxerEIN8etsPi
-         kHW8Ya/mBtlBHQm3VkV3wiDIjmF+188Edt2TwCmHBfMawJ5haywXupqJaLYxcpzM/TrB
-         wvgCJ//24HJVwpPt2tcJLTtdzeoBv5umZAAbry4azX6ISEE/selpgEoZ/XrR4SCK02qP
-         7nQQ1XEMFU3pV0aFgLdYTn6zzh1PZ9fKmqyQXFHZ4hE1OYclIw2J9SCQ5ifbvanUX7gG
-         HraQ==
-X-Gm-Message-State: AFqh2kola7M1twpMzZVRhjxi4FXdOpwmBAXfl8NAJXtTLbPccWRF46ki
-	wXeYsothqsaXolIqWSKmMa8=
-X-Google-Smtp-Source: AMrXdXvnSBeDaOINm7wcMXY3KGwaq7rtFQdi2kD3HW7ZhTpe9e3hjUF7IofQGk3ONtkxJ8WUZBvpDg==
-X-Received: by 2002:a17:906:9f28:b0:7c1:6f1f:6f8f with SMTP id fy40-20020a1709069f2800b007c16f1f6f8fmr6214084ejc.6.1672481332625;
-        Sat, 31 Dec 2022 02:08:52 -0800 (PST)
-Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id ky17-20020a170907779100b00849c1e5c00esm9773341ejc.72.2022.12.31.02.08.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 31 Dec 2022 02:08:51 -0800 (PST)
-Message-ID: <6a199e03-267d-9924-9926-22a4175596ff@gmail.com>
-Date: Sat, 31 Dec 2022 11:08:50 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D77623A7;
+	Sat, 31 Dec 2022 16:46:31 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id E9F6B5C009F;
+	Sat, 31 Dec 2022 11:46:30 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sat, 31 Dec 2022 11:46:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1672505190; x=1672591590; bh=IPRSVAlAA4D6HDvNWgLVkLiHQ
+	Bz7BJqcTy8N5hQX4yE=; b=IOjIQ46SoPZa4vkAaoxXi8FLpSzKMEv0GvyCfxttY
+	uXLvl8/ko1QT8vXUHgi2I2FTP+nHhdOWYCsLe2XxzPuzWNDR2B2MlG5w4FixZ6Rr
+	0gVDT2bjrGtXIZl3PVmi5TIpKoNCP7XhiGfOuo1JEwUvsdopfe6iVpfBbr8zwedG
+	eyO1vVFxdZa4iw4qmckC4MM5tho00q7X0dzcSOvDbpnVQ79gpwJ7D48BMoVRrfsD
+	jK1w5YMH91pgxG54lq2b9X9r+oFqdkfEcM7shrEIP8oAoRUJTx2DXOzGt2hYYk6O
+	KwAcyBs/UNk0/+r+ykgMYZ3oCi5tCFYmMmk+2kX0lIUKg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1672505190; x=1672591590; bh=IPRSVAlAA4D6HDvNWgLVkLiHQBz7BJqcTy8
+	N5hQX4yE=; b=X4sdFJUvDr8NMUsMd3IzTLkUDUtLV0+w4ipujJE78crDQ18stYm
+	BFRoY3S/lbDaFFUbr/YhGGVNbPsFhaz5KjXedOIkWgF/pE6StKyY0URONg3Ll/ad
+	zNnqOLhmFCDY8nLbreHEvEZar8DZk+2dNnnKn/p3+O725QOErDlhn8TdIBXHoATt
+	NAg0KzasRB5N4Nys6iV3ZlNqZ3RrJknMQmJZ5Hc1I4cGgs98/fIuTVS40eRQbQ3D
+	iWgyFx8IyXu21GcgRgPgvcy2YQy6Y4FvqqVusXNyl4rFHytPCl5LX41X/Qd+AW0h
+	/ppdaTbhNXIx8uIgjuccsnoDvQDDrllK01Q==
+X-ME-Sender: <xms:ZWewY75369dzlXIfAHhvDGNrmFzj0pT17PrrQ_9GXEXBPM6QchhMEg>
+    <xme:ZWewYw7M9OtC4dTbUucBBIF1Gy7JDrgxGdxwR65bi5vnyrnch9QN7YysJmzzW4aFk
+    u3s31nzTYCoA66ZHg>
+X-ME-Received: <xmr:ZWewYyfO155MICpCKvnm_a0orWEOf3FTgtbNwiVrG8Vf1WuXv2jOtSsrwBUe3lS6SDEFdB2_05ENWddL7dXca_0ACG285KjXI5lRAirkYbySmx9f1BFczlt2SwWd-pNkmdm0PQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieekgdeludcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
+    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:ZWewY8I88adz0HUqOWw9yKn_XeICq5lRjhc2E2-iEJcY7L5yLZQE5w>
+    <xmx:ZWewY_LuaLmQPSrCmN_kUIirZ1xHGzsQM4-zn9vMZAoGh5GFuYThog>
+    <xmx:ZWewY1zFWdx9eepJBcNa6DzxkuC9YG-vatsq6myWtDXOlt9YbSsq1Q>
+    <xmx:ZmewY0CLMJMVCej659_Tm_1qBPM7xY45PD__soSDEHKWZtA4L_QjZA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 31 Dec 2022 11:46:28 -0500 (EST)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/4] Allwinner D1 video engine support
+Date: Sat, 31 Dec 2022 10:46:23 -0600
+Message-Id: <20221231164628.19688-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/20] staging: r8188eu: some xmit cleanups
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20221230180646.91008-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20221230180646.91008-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/30/22 19:06, Martin Kaiser wrote:
-> Start cleaning up the code that transmits data frames to the dongle
-> via USB.
-> 
-> This should be applied on top of the "merge public action functions"
-> series.
-> 
-> Martin Kaiser (20):
->    staging: r8188eu: make xmitframe_swencrypt a void function
->    staging: r8188eu: remove some unused CAM defines
->    staging: r8188eu: cmd_seq is write-only
->    staging: r8188eu: return immediately if we're not meant to encrypt
->    staging: r8188eu: remove unused parameter
->    staging: r8188eu: simplify rtl8188eu_xmit_tasklet
->    staging: r8188eu: remove rtl8188eu_init_xmit_priv
->    staging: r8188eu: remove duplicate psta check
->    staging: r8188eu: simplify frame type check
->    staging: r8188eu: simplify rtw_make_wlanhdr's error handling
->    staging: r8188eu: clean up qos_option setting
->    staging: r8188eu: remove unused bpending array
->    staging: r8188eu: remove unused dma_transfer_addr
->    staging: r8188eu: bm_pending is not used
->    staging: r8188eu: terminate_xmitthread_sema is not used
->    staging: r8188eu: tx_retevt semaphore is not used
->    staging: r8188eu: remove unnecessary rtw_free_xmitframe call
->    staging: r8188eu: phwxmit parameter is unused
->    staging: r8188eu: rtw_init_hwxmits is not needed
->    staging: r8188eu: we use a constant number of hw_xmit entries
-> 
->   drivers/staging/r8188eu/core/rtw_cmd.c        |   4 -
->   drivers/staging/r8188eu/core/rtw_xmit.c       | 239 ++++++++----------
->   drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  27 +-
->   drivers/staging/r8188eu/hal/usb_ops_linux.c   |  14 +-
->   .../staging/r8188eu/include/rtl8188e_spec.h   |  21 --
->   .../staging/r8188eu/include/rtl8188e_xmit.h   |   4 +-
->   drivers/staging/r8188eu/include/rtw_cmd.h     |   1 -
->   drivers/staging/r8188eu/include/rtw_xmit.h    |   9 +-
->   8 files changed, 116 insertions(+), 203 deletions(-)
-> 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+This series finishes adding Cedrus support for Allwinner D1. I had
+tested the hardware and documented the compatible string a while back,
+but at the time I had a dummy SRAM section in the devicetree. Further
+testing shows that there is no switchable SRAM section -- there is no
+need for it, I was unable to guess the address, and the usual bits in
+the SRAM controller register have no effect on the video engine. So that
+needs to be made optional in the binding and driver.
+
+With that done, the node can be added to the devicetree.
+
+
+Samuel Holland (4):
+  media: dt-bindings: cedrus: Allow power domain references
+  media: dt-bindings: cedrus: Make allwinner,sram optional
+  media: cedrus: Make SRAM section claiming optional
+  riscv: dts: allwinner: d1: Add video engine node
+
+ .../media/allwinner,sun4i-a10-video-engine.yaml       |  4 +++-
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi     | 11 +++++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c        |  2 +-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
+
+-- 
+2.37.4
+
