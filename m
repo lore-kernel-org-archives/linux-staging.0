@@ -1,41 +1,41 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365352F22;
-	Sat, 31 Dec 2022 16:46:36 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5CE985C009C;
-	Sat, 31 Dec 2022 11:46:35 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9AA2F22;
+	Sat, 31 Dec 2022 16:46:37 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id D038F5C009F;
+	Sat, 31 Dec 2022 11:46:36 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sat, 31 Dec 2022 11:46:35 -0500
+  by compute3.internal (MEProxy); Sat, 31 Dec 2022 11:46:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1672505195; x=1672591595; bh=vE
-	ylqdPcoZ0euJOiHbHp34nwz64q54ysKO9PHy+mOik=; b=1rPKUsxgmjqpFZdAfi
-	a3OPrH3yZL9jXRY32T0irAR/mW9JrzsVFHMTs4wS1TTBaAScL4NRv+FRu/6aqzZg
-	KaKcIqdsK9o+Q6uDBMPGCetRpHL3rY+6NNGDuLcfIFtcDly/XnEBlntPQ5suVzxP
-	8ohCJq2ioga4MSmhHkNlIHJKH1gW1RTx2h0be6Bid1jgoXk0d9m91BATEY/uU9+r
-	FbyzufJrJFRRELVwD9aMsm7lRHgG1431KxLxivrxuSACB8wCeH9Vl+4197TigYFa
-	QBIZ5wB11Q2M2WhcdNAkdKaDamGnCxS5PeREAM0gELUHqUJ7uiTNbnZVpwU8qOir
-	WlFQ==
+	:subject:subject:to:to; s=fm3; t=1672505196; x=1672591596; bh=7u
+	QYAURCHALofBgFqai+eJUuH83j/8j81wXB1dd11us=; b=Z1Lc/KcetaEibwX0dY
+	JySItRjpdvUAyueivr0diViUBCr7DukMgltIDO350pBO8e2zlGGPBi1ZM5K6g8RI
+	ijpH54flxMKeCD+p9jAfaJ0FAmyxb53KCENakMz5YEBliQNhlEMIkDhuoeu8S9Kx
+	0ZU71TiJ9ihY5p3RqTU5E1eGPmsbGRQIlPSmy5UfBDioxvFyWAcw+ymVNPuhdUg7
+	PlhhqSmJXojzy2B9WJQhvC4fp0yiCVFGchz+ncWlPl8EUYzI4b2wx83efps03v1q
+	/ebkfvz+wTjFkm6Th29cL1rBogtMpAm/l97JaaA9UCqyrd+y46LkuxUpOVdqEarR
+	grCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1672505195; x=1672591595; bh=vEylqdPcoZ0eu
-	JOiHbHp34nwz64q54ysKO9PHy+mOik=; b=dM6ESZzOqo3QpkRhPj0cexpFFM+QN
-	qFoHLzZo6/l1TtN2trAen82Y1JOQUfWLhvVQms4inKKS2PWH7+KckhL8YrWhiNkU
-	V3eSIky9nSyfFbBrQnGW8lrJPQm4VGGW3Tcez3KNuvFfPBE8eewZuH3o7FU6kSq0
-	+I8L9DGHEtLApZDbHZkOT+lME2kzTmQjdcwrz70Z2gXb7tA73mbsB0+gQ3iw/HbR
-	UItu3LEfHsYCoCzTRBNEJRfVMRR9AY7zRce97J2wkksxmpwshN5IahK/NC9antDY
-	R2vmeBzMXKqKoU/YiGQTivbT17QJ2GvicLQdZh63vAZOCeQwCrNzviiYg==
-X-ME-Sender: <xms:a2ewY9cmL_dKrM9irEQfRcZcxZsYZS4WM8iCUjSHoAIVCFX6qlP2_w>
-    <xme:a2ewY7PPIiScSxUaz9veZGEIGRxogu2Ctuvlmc-pvQ9hRV7ab9uc_yghpUZ3Sr2Mu
-    5nnGTRIBdh5O7MHlA>
-X-ME-Received: <xmr:a2ewY2iZ0VPLnbvRFdFYfx7COZk6i_k879ld-Zep9vJpsH9TCwJGQpgitZmOiicUrM_pVu9TbfkF_gyjuRz7VDqNcVF39FHRJk19DcFEDzaFiMiOM-NtPEAe-nzP-YORhfXlLA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieekgdelvdcutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm2; t=1672505196; x=1672591596; bh=7uQYAURCHALof
+	BgFqai+eJUuH83j/8j81wXB1dd11us=; b=uEtyUlqWQIP6KQnLbF7xCXwWgQnnI
+	Q+68oZS1Q2BfaaSRj05sI6nC5Gb98mtUISzPKUuxFMVcN17GMeOmU8Qd1avNLwXE
+	REPaCDhAB8os+3Zt19Ni0I+jAO3e4xjy5AStkBwIPX/DmINi5N9eDEw5jXvcp9R9
+	lEofGkOsxzCviMJZVT7Tl5PXJMx0wiBedsC2ME82wRjhU6iTbs/AncZErANh/bj/
+	olZlQlAyZmcBe19ZbWsPh4FRGOjndpg0dlmHmFR29vttM6Tnfumyyi93OIuFdcsp
+	9/5Vs+lk2WeZrkPAv/GTX5DlC3Vh56lMiOBCblzOfkcm1jf+WrZq6ShuQ==
+X-ME-Sender: <xms:bGewY2YyJsoB9GYtcd0Y7RbeHn6f28O36fil5Bk07AXHPEc4tVYFPQ>
+    <xme:bGewY5Y1iZVeifPFRNJqGQbS80D47FmmWiyWe_osuVhTIcbTeXCMOlLIegRGwuQN5
+    SlrDz-VkV3i3kJ2gw>
+X-ME-Received: <xmr:bGewYw_tOGNGkqnPQfb69c_rE2IQtIqo0DZAH4GgJtnlcw5BupJRS1bI5t6IFkpGd1HRlFKtTt8L8aMgT-qMaeR53ovVSK0Rlor8EoRQ1mquSpfLdd3BZkjE3I6f4j5rqi_d7Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieekgdelfecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
@@ -43,13 +43,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieekgdelvdcutefuodetggdote
     frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
     feeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
     hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:a2ewY28t1eAnWEhOQwggTbIIFtstW7qRSw4S6RgXsdRn7-DsZmTg4g>
-    <xmx:a2ewY5vWLaIfG5o9d6bAzvRajKdViiqOCvTCIQodqrgoWM8HNFyQdw>
-    <xmx:a2ewY1E-Hv5TlgTo46ufI9apB9MorSw4wL9j7eeRyaFSc9NaStRUsg>
-    <xmx:a2ewY0nj0fcA6jli-MEERMn9d4J2sqV5BIiW65e4esUsu69xyJ2erg>
+X-ME-Proxy: <xmx:bGewY4rV7zQaxG2__glQcVtFLQp82ebxc280fvp_8943ZTBp1AxmZw>
+    <xmx:bGewYxqsc8d2IjOpXGlF5GEy2pJwTFaUISDLQeg3uPNPOTj7y7QEQA>
+    <xmx:bGewY2Q_vo2xQr8FYEHn3nEa79tQoZzMt4Qrus7v3zUGF5dpgZ4loQ>
+    <xmx:bGewY2if-Uz-np-3MUQ1eFvqDpKhjalu6n3Z6JZ2ftPjoU-txNTSHA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 31 Dec 2022 11:46:34 -0500 (EST)
+ 31 Dec 2022 11:46:35 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -71,9 +71,9 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	linux-riscv@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 3/4] media: cedrus: Make SRAM section claiming optional
-Date: Sat, 31 Dec 2022 10:46:26 -0600
-Message-Id: <20221231164628.19688-4-samuel@sholland.org>
+Subject: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
+Date: Sat, 31 Dec 2022 10:46:27 -0600
+Message-Id: <20221231164628.19688-5-samuel@sholland.org>
 X-Mailer: git-send-email 2.37.4
 In-Reply-To: <20221231164628.19688-1-samuel@sholland.org>
 References: <20221231164628.19688-1-samuel@sholland.org>
@@ -85,29 +85,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The video engine in the D1 family of SoCs does not have a switchable
-SRAM section. Allow the driver to probe even when the SRAM section
-reference is missing.
+D1 contains a video engine which is supported by the Cedrus driver.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index fa86a658fdc6..11e859617932 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -257,7 +257,7 @@ int cedrus_hw_probe(struct cedrus_dev *dev)
- 	}
+diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+index dff363a3c934..4bd374279155 100644
+--- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+@@ -34,6 +34,17 @@ soc {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
  
- 	ret = sunxi_sram_claim(dev->dev);
--	if (ret) {
-+	if (ret && ret != -ENOENT) {
- 		dev_err(dev->dev, "Failed to claim SRAM\n");
- 
- 		goto err_mem;
++		ve: video-codec@1c0e000 {
++			compatible = "allwinner,sun20i-d1-video-engine";
++			reg = <0x1c0e000 0x2000>;
++			interrupts = <SOC_PERIPHERAL_IRQ(66) IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_VE>,
++				 <&ccu CLK_VE>,
++				 <&ccu CLK_MBUS_VE>;
++			clock-names = "ahb", "mod", "ram";
++			resets = <&ccu RST_BUS_VE>;
++		};
++
+ 		pio: pinctrl@2000000 {
+ 			compatible = "allwinner,sun20i-d1-pinctrl";
+ 			reg = <0x2000000 0x800>;
 -- 
 2.37.4
 
