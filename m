@@ -1,68 +1,89 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5482366
-	for <linux-staging@lists.linux.dev>; Tue,  3 Jan 2023 08:30:09 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id i17-20020a05600c355100b003d99434b1cfso12325974wmq.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Jan 2023 00:30:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C23320E
+	for <linux-staging@lists.linux.dev>; Tue,  3 Jan 2023 11:51:03 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id v13-20020a17090a6b0d00b00219c3be9830so30818295pjj.4
+        for <linux-staging@lists.linux.dev>; Tue, 03 Jan 2023 03:51:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SxkhIR3WdUegYdjFr6N7zZV8KkU8dbXUnACWEfDXHjA=;
-        b=U0O7Kcy3PsM1cJ4UtH003YPKItoLheviE/jyVGq0yMFPsjmCyJLCQObE1X0AKIVDEQ
-         GQcpsDATHU9RK53so6RFr7TQAnykUobhEvxc6eUT/GURAk9b8qC9DBWsfSTwpXZvJfCu
-         OtybD+KuJ5jecW4jaic4PQj2td/CSyxBScXmICI2T5Y51kM2cS/gqSeePGc7uPXVcqro
-         ercmNRbFB3EoY+vvan4/h1TEGKzXsFirX+001fb+m3aQ+TeIPcFnyA/r5+ffi65Z6n9z
-         MvoqMfezgs9eZXtOEzDqUbh28WSzkXMVVNhnV2za4dNJT4ynA1Uuj1gUzMg2eCO5NW5A
-         o0ng==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=t+ASKySmgpYe6aeuyIud7plzReCzUcsxfQRRqpb3dCM=;
+        b=dLWgbFCgL/n8+lBOD8gxbhiFHszFpeZo6BLDCarxXTBswHednpdDH3tiBOUHIzQOp5
+         TI0Rdf7kTZRDLe00zrmwQUVOnpj8jr/TmHnW2/kUSku2MJ7gvJrX1vYGaPl7Y8Yn35mX
+         EogWrpq293abNtofIdw5cybQ7/bzkBtlUP+qOcJSTzOi7xIUvg7w2+E5N6c7ATvIDKZW
+         OOhoOBKu1bxEhC4gJM69Lis/aPWlt6gtIKIEvjGqcnshfQqMLj9V7XQ45PGLrUweHVfV
+         SfXHCcMqpBIIorivPDikeOufr+z7HteEdwseA9IGlJIARcJjUBY1i/ezVdzKhQBIJKLy
+         9xzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SxkhIR3WdUegYdjFr6N7zZV8KkU8dbXUnACWEfDXHjA=;
-        b=HUVYINcu6mHZ1ZmxnVluOnrTKXWyL5LEir7LtzW61lLtNqX1GuoVP6Nb9T+ljIE0LY
-         8GoM4uZ6gKgvrfI96zlMST0vRkIA1e+9zFCgud0BWd0FVvmiPO+neY9ofsSycE3PmtT0
-         2mBTYeIlFTyZRja+kuX3aWhrHENnPRe1vie8YIyOX+SzLJriVHKQOFI6p82J7pv5+GvQ
-         dpX4/5toKpw2m1avP9oFtCyD4iv3oBs8/uI9TIqPi9+wgSTOiLGJJdbBZTk7as6Bt0mT
-         bE56lZp96cO6782A9CBJrt82QFpcJ8re5Wod4FxxypUzw6UdiJ6isd/jwV6J/4xIsJ75
-         ndew==
-X-Gm-Message-State: AFqh2kqnLPoBZF+fBBh7ZUpPPdE+zIzlHlyXVjL2A1PY6QVRTjg8caSB
-	OXCWpZADJY0bdhS0WmO20zk=
-X-Google-Smtp-Source: AMrXdXsSKAQzDPooeHFHc9wCul2eM0IwEHdIsD8jnrUulL2L8h/jXoDmUJ8kfNBXnYvDd76ra/mKpg==
-X-Received: by 2002:a05:600c:1d89:b0:3d3:5cd6:781 with SMTP id p9-20020a05600c1d8900b003d35cd60781mr29942129wms.37.1672734608066;
-        Tue, 03 Jan 2023 00:30:08 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e16-20020a05600c4e5000b003c21ba7d7d6sm41943812wmq.44.2023.01.03.00.30.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 00:30:07 -0800 (PST)
-Date: Tue, 3 Jan 2023 11:30:03 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/7] staging: rtl8192e: Rename TSSI_13dBm, Pwr_Track and
- NumTotalRFPath
-Message-ID: <Y7Pni7tvFPhcz7bu@kadam>
-References: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
- <c7d3be41602e656170de46ea649b5bdf1081d5cf.1672330343.git.philipp.g.hortmann@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t+ASKySmgpYe6aeuyIud7plzReCzUcsxfQRRqpb3dCM=;
+        b=jUXdhBdeFRPTwVTzZxMuLCB5u3S3zz4G7Ts8i9PFdDxxajSBOmE8GNDS1+FItl82hI
+         wfTFoeAdWH7AzhSdv7+LsISZW/CurnWVB5T0nkruFUl29Kp2/iHx6WF7Ui51u0pdZvD1
+         osc3Y9H032UcrxUaZjmyRUDKXrgVqOa9XEukjrch7FxRDybo6IxZBmCgUxJN2Sw68aJ0
+         1JhRBLaJs0MbkpZHPc8WXIqYe50Plu3v7IOuWLwpjqyPgX2uELh2jAFsffjNDUsQjQ1t
+         eGxnkN04uoXKVvyqQ/T2fn7EKEIQKsZblIy339DHcGneVjwRN6wugYCGDZQy0YghD18v
+         uVAA==
+X-Gm-Message-State: AFqh2krzpD+lUMDD+p6v36FXG6xpHM/W1HFwu8Hb9yaeH0nchqrRiogr
+	PC1tgUARuPKmOeWjBNQdbOFDwvnqIH1B+7CxwOk=
+X-Google-Smtp-Source: AMrXdXtjlG1QUtAGeuLxA2IQuXmZaZsBpL9dcTNtyWMOgr14QYIXMLdO7UE7vUNs7b0MrUG8gFjc9kbTS0iPSsOUAFY=
+X-Received: by 2002:a17:90b:485:b0:219:720c:29cb with SMTP id
+ bh5-20020a17090b048500b00219720c29cbmr4199206pjb.76.1672746663119; Tue, 03
+ Jan 2023 03:51:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c7d3be41602e656170de46ea649b5bdf1081d5cf.1672330343.git.philipp.g.hortmann@gmail.com>
+References: <Y7QVN0XY+ld2mBk4@qemulion>
+In-Reply-To: <Y7QVN0XY+ld2mBk4@qemulion>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 3 Jan 2023 08:50:51 -0300
+Message-ID: <CAOMZO5Adkz2ZZaWF1VQgTZ43LB-+MqLxp+smS_zFBSJK+x7bjA@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: imx: remove unnecessary return variable
+To: Deepak R Varma <drv@mailo.com>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Saurabh Singh Sengar <ssengar@microsoft.com>, 
+	Praveen Kumar <kumarpraveen@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Dec 29, 2022 at 05:25:46PM +0100, Philipp Hortmann wrote:
-> Rename variable TSSI_13dBm to tssi_13dbm
+On Tue, Jan 3, 2023 at 8:45 AM Deepak R Varma <drv@mailo.com> wrote:
+>
+> The function imx_media_fim_set_stream() can directly return 0 instead of
+> using a ret variable which never changes its value. Issue identified
+> using the returnvar.cocci Coccinelle semantic patch.
+>
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+>  drivers/staging/media/imx/imx-media-fim.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
+> index fb6590dcfc36..e719227d4323 100644
+> --- a/drivers/staging/media/imx/imx-media-fim.c
+> +++ b/drivers/staging/media/imx/imx-media-fim.c
+> @@ -373,7 +373,6 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+>                              bool on)
+>  {
+>         unsigned long flags;
+> -       int ret = 0;
+>
+>         v4l2_ctrl_lock(fim->ctrl[FIM_CL_ENABLE]);
+>
+> @@ -393,7 +392,7 @@ int imx_media_fim_set_stream(struct imx_media_fim *fim,
+>         fim->stream_on = on;
+>  out:
+>         v4l2_ctrl_unlock(fim->ctrl[FIM_CL_ENABLE]);
+> -       return ret;
+> +       return 0;
 
-I would probably have kept this one as-is.  It's not CamelCase, it's the
-correct way to capitalize it.
-
-regards,
-dan carpenter
-
+Maybe you could change imx_media_fim_set_stream() to a void function instead?
