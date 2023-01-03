@@ -1,44 +1,52 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754F2320E
-	for <linux-staging@lists.linux.dev>; Mon,  2 Jan 2023 13:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672666886; x=1704202886;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CX0zuNRoqPw8io4WYHuKdvqgSF3WPmb0FFc7W4rrRCY=;
-  b=JxbyP2YCRaNjv0lTwuH/Vzmel6591v3Jjf+OpBX0WNrKTbKZUvDC0+ZP
-   GSOzDDhJKgWf9Yj3XpHjiLFSjNzLqqSBO7G8Q/ZHPpyH9sFaoBUfEt4Su
-   p+NKXYpd17rrr5YH+Ff/WON3cpTqKnYPVpgm7VlPyn1B+nvMRdVFppxeP
-   ghB4CpoPjpUpxar/WjpPnzRgE7cp0B2so8jnwDWNgMSJFVih2fBv08C9K
-   7SBSKQd4tftv3H5f4lDm9ZvBylpvAAz857vGJOQ38BdKUHCKRrAKtkJjB
-   Gq3B3DQaOnZTQ4z2tutMr0FL2aQoUfvwzsT9+noMWk58KrqBSoneelmzx
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="304993112"
-X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
-   d="scan'208";a="304993112"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 05:41:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="722976220"
-X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
-   d="scan'208";a="722976220"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 05:41:23 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 3A3F82017A;
-	Mon,  2 Jan 2023 15:41:21 +0200 (EET)
-Date: Mon, 2 Jan 2023 13:41:21 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Aleksandr Burakov <a.burakov@rosalinux.ru>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH] staging: media: ipu3: buffer overflow fix in
- imgu_map_node
-Message-ID: <Y7LfAR4QdIzp81yW@paasikivi.fi.intel.com>
-References: <20221223123025.5948-1-a.burakov@rosalinux.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5482366
+	for <linux-staging@lists.linux.dev>; Tue,  3 Jan 2023 08:30:09 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id i17-20020a05600c355100b003d99434b1cfso12325974wmq.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Jan 2023 00:30:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SxkhIR3WdUegYdjFr6N7zZV8KkU8dbXUnACWEfDXHjA=;
+        b=U0O7Kcy3PsM1cJ4UtH003YPKItoLheviE/jyVGq0yMFPsjmCyJLCQObE1X0AKIVDEQ
+         GQcpsDATHU9RK53so6RFr7TQAnykUobhEvxc6eUT/GURAk9b8qC9DBWsfSTwpXZvJfCu
+         OtybD+KuJ5jecW4jaic4PQj2td/CSyxBScXmICI2T5Y51kM2cS/gqSeePGc7uPXVcqro
+         ercmNRbFB3EoY+vvan4/h1TEGKzXsFirX+001fb+m3aQ+TeIPcFnyA/r5+ffi65Z6n9z
+         MvoqMfezgs9eZXtOEzDqUbh28WSzkXMVVNhnV2za4dNJT4ynA1Uuj1gUzMg2eCO5NW5A
+         o0ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SxkhIR3WdUegYdjFr6N7zZV8KkU8dbXUnACWEfDXHjA=;
+        b=HUVYINcu6mHZ1ZmxnVluOnrTKXWyL5LEir7LtzW61lLtNqX1GuoVP6Nb9T+ljIE0LY
+         8GoM4uZ6gKgvrfI96zlMST0vRkIA1e+9zFCgud0BWd0FVvmiPO+neY9ofsSycE3PmtT0
+         2mBTYeIlFTyZRja+kuX3aWhrHENnPRe1vie8YIyOX+SzLJriVHKQOFI6p82J7pv5+GvQ
+         dpX4/5toKpw2m1avP9oFtCyD4iv3oBs8/uI9TIqPi9+wgSTOiLGJJdbBZTk7as6Bt0mT
+         bE56lZp96cO6782A9CBJrt82QFpcJ8re5Wod4FxxypUzw6UdiJ6isd/jwV6J/4xIsJ75
+         ndew==
+X-Gm-Message-State: AFqh2kqnLPoBZF+fBBh7ZUpPPdE+zIzlHlyXVjL2A1PY6QVRTjg8caSB
+	OXCWpZADJY0bdhS0WmO20zk=
+X-Google-Smtp-Source: AMrXdXsSKAQzDPooeHFHc9wCul2eM0IwEHdIsD8jnrUulL2L8h/jXoDmUJ8kfNBXnYvDd76ra/mKpg==
+X-Received: by 2002:a05:600c:1d89:b0:3d3:5cd6:781 with SMTP id p9-20020a05600c1d8900b003d35cd60781mr29942129wms.37.1672734608066;
+        Tue, 03 Jan 2023 00:30:08 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e16-20020a05600c4e5000b003c21ba7d7d6sm41943812wmq.44.2023.01.03.00.30.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 00:30:07 -0800 (PST)
+Date: Tue, 3 Jan 2023 11:30:03 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/7] staging: rtl8192e: Rename TSSI_13dBm, Pwr_Track and
+ NumTotalRFPath
+Message-ID: <Y7Pni7tvFPhcz7bu@kadam>
+References: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
+ <c7d3be41602e656170de46ea649b5bdf1081d5cf.1672330343.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,53 +55,14 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221223123025.5948-1-a.burakov@rosalinux.ru>
+In-Reply-To: <c7d3be41602e656170de46ea649b5bdf1081d5cf.1672330343.git.philipp.g.hortmann@gmail.com>
 
-Hi Aleksandr,
+On Thu, Dec 29, 2022 at 05:25:46PM +0100, Philipp Hortmann wrote:
+> Rename variable TSSI_13dBm to tssi_13dbm
 
-On Fri, Dec 23, 2022 at 03:30:25PM +0300, Aleksandr Burakov wrote:
-> If imgu_node_map[i].css_queue is not equal to css_queue
-> then "i" after the loop could be equal to IMGU_NODE_NUM
-> that is more than the border value (IMGU_NODE_NUM - 1).
-> So imgu_map_node() call may return IMGU_NODE_NUM that is more
-> than expected value.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 7fc7af649ca7 ("media: staging/intel-ipu3: Add imgu top level pci device driver")
-> Signed-off-by: Aleksandr Burakov <a.burakov@rosalinux.ru>
-> ---
->  drivers/staging/media/ipu3/ipu3.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-> index 0c453b37f8c4..cb09eb3cc227 100644
-> --- a/drivers/staging/media/ipu3/ipu3.c
-> +++ b/drivers/staging/media/ipu3/ipu3.c
-> @@ -60,8 +60,10 @@ unsigned int imgu_map_node(struct imgu_device *imgu, unsigned int css_queue)
->  	for (i = 0; i < IMGU_NODE_NUM; i++)
->  		if (imgu_node_map[i].css_queue == css_queue)
->  			break;
-> -
-> -	return i;
-> +	if (i < IMGU_NODE_NUM)
-> +		return i;
-> +	else
-> +		return (IMGU_NODE_NUM - 1);
->  }
->  
->  /**************** Dummy buffers ****************/
+I would probably have kept this one as-is.  It's not CamelCase, it's the
+correct way to capitalize it.
 
-Thanks for the patch. It would require a bug elsewhere in the driver for
-this to happen. If some handling for this case is added, it shouldn't be
-hiding the issue.
+regards,
+dan carpenter
 
-One easy way could be to add WARN_ON() for this, and return some value (as
-you do). Zero would do equally well.
-
-I.e.
-
-	return WARN_ON(i >= IMGU_NODE_NUM) ? 0 : i;
-
--- 
-Sakari Ailus
