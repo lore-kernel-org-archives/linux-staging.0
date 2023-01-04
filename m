@@ -1,37 +1,55 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C25810
-	for <linux-staging@lists.linux.dev>; Wed,  4 Jan 2023 11:16:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="302283997"
-X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
-   d="scan'208";a="302283997"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 03:15:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="779184672"
-X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
-   d="scan'208";a="779184672"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 04 Jan 2023 03:15:56 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andy@kernel.org>)
-	id 1pD1kQ-004HN0-1U;
-	Wed, 04 Jan 2023 13:15:54 +0200
-Date: Wed, 4 Jan 2023 13:15:54 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: fix videobuf2 Kconfig depenendency
-Message-ID: <Y7Vf6nejMFXs/qAk@smile.fi.intel.com>
-References: <20230104082212.3770415-1-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97943C2B
+	for <linux-staging@lists.linux.dev>; Wed,  4 Jan 2023 13:33:12 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id bk16so19751609wrb.11
+        for <linux-staging@lists.linux.dev>; Wed, 04 Jan 2023 05:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1OZYEOsIa4HC8bLEt9jxOMrEzLh4jE7nib0ZT+FWq/g=;
+        b=SpSZbnAzW6o9lg07NRzRVSfCJpbhYU7a2YVcM/TLkt2cPBzgq5yO33mVU57wQ14Ez+
+         lzUdAcGRRgxyCuqpYSk8Bq4k3/N4Jj4C+CyVZROziBQ0kgqELjPMNQTgm2pMaIilbHz9
+         /kT+HrG87x5VlCzEnKybjkC3u2hgkRrW7cO6PDSI7BMHVAgIUuEZQE/Tx7s4dGPQxItx
+         Pwccv0rxsXD2UyJc/7TsLF0xQb8oYXWCsNegth8cxa73RWYXa2F2nKtgtqS7GiUl6/+r
+         UYsxu5am1bQCRzGlem2QX1gEh0jw0YuzNu1ROY18vdETW9ZGOoTv5nzEtZvshPytMk5b
+         szcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1OZYEOsIa4HC8bLEt9jxOMrEzLh4jE7nib0ZT+FWq/g=;
+        b=WFv/MonvxpyZhYtIONHpYf/5JEwZ04xSLkUFeM2wc6TYETF66LTYX2Au5hwRWDfsOD
+         0Ocd4Du7+16hDOF1de/6RGZEEu0TYjoE8CdszTtECrf9A0zRLvYOThzFWkzq7Y+aVzAx
+         oaNq4kdMdkpBJwNxRTAVlpUuFNEBIdf1hrG6Po+1O9ldg82fCjc4mj7gpzZ6c7+yyVEL
+         hptHEiKSEwjJEa9OaSDF/YiD8ptxs6asLRJAlFAlAzLIeNx5sNCcaWil7Qg9HX0bQ5cO
+         40aosIb49Prs68X5egpry+ATxDwizsBKO5GJfmz+wviWKvLh7lqiXoK6FErCfzzU/EK/
+         I2rw==
+X-Gm-Message-State: AFqh2kq77Zzh7TP80rJ64eYO0vpB2KVrg8iQbYzqMQctWvCQek7S+uTL
+	5tJv+JvBsvIFGs8+BQbcLBs=
+X-Google-Smtp-Source: AMrXdXs4S3mE1SgBSPU2HGJPt7oU9k09p3+BZXz1hKBcx6RAjNzKLxxc12jfkmafWZjX6s/MtZFqOw==
+X-Received: by 2002:a5d:54d0:0:b0:24a:e56d:e20 with SMTP id x16-20020a5d54d0000000b0024ae56d0e20mr29166930wrv.29.1672839190899;
+        Wed, 04 Jan 2023 05:33:10 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s13-20020adfdb0d000000b002420dba6447sm34648247wri.59.2023.01.04.05.33.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 05:33:10 -0800 (PST)
+Date: Wed, 4 Jan 2023 16:33:07 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Aleksandr Burakov <a.burakov@rosalinux.ru>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] staging: media: ipu3: buffer overflow fix in
+ imgu_map_node
+Message-ID: <Y7WAExw/lQg4cd1E@kadam>
+References: <20221223123025.5948-1-a.burakov@rosalinux.ru>
+ <Y7LfAR4QdIzp81yW@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,46 +58,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230104082212.3770415-1-arnd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <Y7LfAR4QdIzp81yW@paasikivi.fi.intel.com>
 
-On Wed, Jan 04, 2023 at 09:21:36AM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Jan 02, 2023 at 01:41:21PM +0000, Sakari Ailus wrote:
+> > diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+> > index 0c453b37f8c4..cb09eb3cc227 100644
+> > --- a/drivers/staging/media/ipu3/ipu3.c
+> > +++ b/drivers/staging/media/ipu3/ipu3.c
+> > @@ -60,8 +60,10 @@ unsigned int imgu_map_node(struct imgu_device *imgu, unsigned int css_queue)
+> >  	for (i = 0; i < IMGU_NODE_NUM; i++)
+> >  		if (imgu_node_map[i].css_queue == css_queue)
+> >  			break;
+> > -
+> > -	return i;
+> > +	if (i < IMGU_NODE_NUM)
+> > +		return i;
+> > +	else
+> > +		return (IMGU_NODE_NUM - 1);
+> >  }
+> >  
+> >  /**************** Dummy buffers ****************/
 > 
-> The recent conversion missed the Kconfig bit, so it can now
-> end up in a link error on randconfig builds:
+> Thanks for the patch. It would require a bug elsewhere in the driver for
+> this to happen. If some handling for this case is added, it shouldn't be
+> hiding the issue.
 > 
-> ld.lld: error: undefined symbol: vb2_vmalloc_memops
-> >>> referenced by atomisp_fops.c
-> >>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
-
-Tested-by: Andy Shevchenko <andy@kernel.org>
-
-> Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/staging/media/atomisp/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> One easy way could be to add WARN_ON() for this, and return some value (as
+> you do). Zero would do equally well.
 > 
-> diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
-> index 2c8d7fdcc5f7..c9bff98e5309 100644
-> --- a/drivers/staging/media/atomisp/Kconfig
-> +++ b/drivers/staging/media/atomisp/Kconfig
-> @@ -14,7 +14,7 @@ config VIDEO_ATOMISP
->  	depends on VIDEO_DEV && INTEL_ATOMISP
->  	depends on PMIC_OPREGION
->  	select IOSF_MBI
-> -	select VIDEOBUF_VMALLOC
-> +	select VIDEOBUF2_VMALLOC
->  	select VIDEO_V4L2_SUBDEV_API
->  	help
->  	  Say Y here if your platform supports Intel Atom SoC
-> -- 
-> 2.39.0
+> I.e.
+> 
+> 	return WARN_ON(i >= IMGU_NODE_NUM) ? 0 : i;
 > 
 
--- 
-With Best Regards,
-Andy Shevchenko
+I sent basically the same response but somehow my email never went
+through...  I'm using mutt with gmail Oauth2 and msmtp and so my
+weekly(?) login has expired then something silently eats my outgoing
+emails.
 
+In this case the emails that I sent directly before and after went
+through so it seems like my login wasn't expired or everything would
+have been eaten.
+
+This Oauth2 transition has just been so frustrating.  Am I the only
+person having trouble with it?
+
+regards,
+dan carpenter
 
