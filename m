@@ -1,71 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA47636
-	for <linux-staging@lists.linux.dev>; Wed,  4 Jan 2023 08:22:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89CFDC433D2;
-	Wed,  4 Jan 2023 08:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672820542;
-	bh=utRN27Crk/ZIcPnWApQgp9KevDbSfGZb7A9BBAaftmg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Q18SJ8QQ3upDQg3M1Zc9jZECSl7qUH/fuENzm2tdENAqqKC2ftIRGnEesl9TcV9iu
-	 wrT0NF9q9NIe5XxSeszHd/xklFaRAWdEBXbsPnV97BldertzSmaK94E0gcTU279rj7
-	 iJsjGksw2qu0XW/p2OSCYe4hwzbkghHFmWpXEXmqUzoPYyLJ4dZ5zyNOcfqs9PuM7a
-	 ICBglqSBFW92pqFaQu/U9+SkvfF81k+Dy+Y3tTHTptwK09sW0h39sWhqc6S3fmOJSr
-	 r+PxdgQyMTMto9Vmi2358CAKCSgDE3oGzKsF2DgMov5xIpFFD1pKFBrgDfMWGywktT
-	 kpDjeIiOHs8Ww==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C25810
+	for <linux-staging@lists.linux.dev>; Wed,  4 Jan 2023 11:16:00 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="302283997"
+X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
+   d="scan'208";a="302283997"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2023 03:15:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="779184672"
+X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
+   d="scan'208";a="779184672"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004.jf.intel.com with ESMTP; 04 Jan 2023 03:15:56 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andy@kernel.org>)
+	id 1pD1kQ-004HN0-1U;
+	Wed, 04 Jan 2023 13:15:54 +0200
+Date: Wed, 4 Jan 2023 13:15:54 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: atomisp: fix videobuf2 Kconfig depenendency
-Date: Wed,  4 Jan 2023 09:21:36 +0100
-Message-Id: <20230104082212.3770415-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.0
+Subject: Re: [PATCH] media: atomisp: fix videobuf2 Kconfig depenendency
+Message-ID: <Y7Vf6nejMFXs/qAk@smile.fi.intel.com>
+References: <20230104082212.3770415-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230104082212.3770415-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Jan 04, 2023 at 09:21:36AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The recent conversion missed the Kconfig bit, so it can now
+> end up in a link error on randconfig builds:
+> 
+> ld.lld: error: undefined symbol: vb2_vmalloc_memops
+> >>> referenced by atomisp_fops.c
+> >>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
 
-The recent conversion missed the Kconfig bit, so it can now
-end up in a link error on randconfig builds:
+Tested-by: Andy Shevchenko <andy@kernel.org>
 
-ld.lld: error: undefined symbol: vb2_vmalloc_memops
->>> referenced by atomisp_fops.c
->>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
+> Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/staging/media/atomisp/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
+> index 2c8d7fdcc5f7..c9bff98e5309 100644
+> --- a/drivers/staging/media/atomisp/Kconfig
+> +++ b/drivers/staging/media/atomisp/Kconfig
+> @@ -14,7 +14,7 @@ config VIDEO_ATOMISP
+>  	depends on VIDEO_DEV && INTEL_ATOMISP
+>  	depends on PMIC_OPREGION
+>  	select IOSF_MBI
+> -	select VIDEOBUF_VMALLOC
+> +	select VIDEOBUF2_VMALLOC
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  Say Y here if your platform supports Intel Atom SoC
+> -- 
+> 2.39.0
+> 
 
-Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/staging/media/atomisp/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
-index 2c8d7fdcc5f7..c9bff98e5309 100644
---- a/drivers/staging/media/atomisp/Kconfig
-+++ b/drivers/staging/media/atomisp/Kconfig
-@@ -14,7 +14,7 @@ config VIDEO_ATOMISP
- 	depends on VIDEO_DEV && INTEL_ATOMISP
- 	depends on PMIC_OPREGION
- 	select IOSF_MBI
--	select VIDEOBUF_VMALLOC
-+	select VIDEOBUF2_VMALLOC
- 	select VIDEO_V4L2_SUBDEV_API
- 	help
- 	  Say Y here if your platform supports Intel Atom SoC
 -- 
-2.39.0
+With Best Regards,
+Andy Shevchenko
+
 
