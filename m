@@ -1,71 +1,71 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C117C
-	for <linux-staging@lists.linux.dev>; Wed,  4 Jan 2023 03:57:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1672804662; bh=g68WjsKLgm0BGTYxv3eXQb4GtGzcoRHUdOjEJjW3wxY=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=mhmZWRg7q9RRn1gaJqCAY8aA9wv7j52nQH+wxTIS3sijktduushce/wrRS2V2pS8d
-	 fDt+TJ2PCt4MRbhjE3a5XsNSTWUPxkvi7xJ/v9vhUF+pCZHEklAiE/+uKf/TNTBaZg
-	 Gw5kxjUfHUQdURs8gEz0XTDKWko6/iP1MWGyfnZs=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Wed,  4 Jan 2023 04:57:42 +0100 (CET)
-X-EA-Auth: X/DPdo8+pBhmvVri8YvZq0puHGhoKFIrcwsvZGLQWmFtOckUnZf5FYyOYxYO9PtuPY2gUj2VwJjiahd9mMMg+B4hq+B0mD0m
-Date: Wed, 4 Jan 2023 09:27:37 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA47636
+	for <linux-staging@lists.linux.dev>; Wed,  4 Jan 2023 08:22:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89CFDC433D2;
+	Wed,  4 Jan 2023 08:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1672820542;
+	bh=utRN27Crk/ZIcPnWApQgp9KevDbSfGZb7A9BBAaftmg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q18SJ8QQ3upDQg3M1Zc9jZECSl7qUH/fuENzm2tdENAqqKC2ftIRGnEesl9TcV9iu
+	 wrT0NF9q9NIe5XxSeszHd/xklFaRAWdEBXbsPnV97BldertzSmaK94E0gcTU279rj7
+	 iJsjGksw2qu0XW/p2OSCYe4hwzbkghHFmWpXEXmqUzoPYyLJ4dZ5zyNOcfqs9PuM7a
+	 ICBglqSBFW92pqFaQu/U9+SkvfF81k+Dy+Y3tTHTptwK09sW0h39sWhqc6S3fmOJSr
+	 r+PxdgQyMTMto9Vmi2358CAKCSgDE3oGzKsF2DgMov5xIpFFD1pKFBrgDfMWGywktT
+	 kpDjeIiOHs8Ww==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Saurabh Singh Sengar <ssengar@microsoft.com>,
-	Praveen Kumar <kumarpraveen@linux.microsoft.com>,
-	Deepak R Varma <drv@mailo.com>
-Subject: [PATCH] staging: greybus: Replace zero-length array by
- DECLARE_FLEX_ARRAY() helper
-Message-ID: <Y7T5MYfANf2xVsEx@qemulion>
+Subject: [PATCH] media: atomisp: fix videobuf2 Kconfig depenendency
+Date: Wed,  4 Jan 2023 09:21:36 +0100
+Message-Id: <20230104082212.3770415-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The code currently uses C90 standard extension based zero length array
-struct which is now deprecated and the new C99 standard extension of
-flexible array declarations are to be used instead. Also, the macro
-DECLARE_FLEX_ARRAY() allows to use single flexible array member in a
-structure. Refer to these links [1], [2] for details.
+From: Arnd Bergmann <arnd@arndb.de>
 
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://lkml.kernel.org/r/YxKY6O2hmdwNh8r8@work
+The recent conversion missed the Kconfig bit, so it can now
+end up in a link error on randconfig builds:
 
-Issue identified using Coccinelle flexible_array.cocci semantic patch.
+ld.lld: error: undefined symbol: vb2_vmalloc_memops
+>>> referenced by atomisp_fops.c
+>>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
+Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/staging/greybus/usb.c | 2 +-
+ drivers/staging/media/atomisp/Kconfig | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/usb.c b/drivers/staging/greybus/usb.c
-index 8e9d9d59a357..b7badf87a3f0 100644
---- a/drivers/staging/greybus/usb.c
-+++ b/drivers/staging/greybus/usb.c
-@@ -27,7 +27,7 @@ struct gb_usb_hub_control_request {
- };
-
- struct gb_usb_hub_control_response {
--	u8 buf[0];
-+	DECLARE_FLEX_ARRAY(u8, buf);
- };
-
- struct gb_usb_device {
---
-2.34.1
-
-
+diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
+index 2c8d7fdcc5f7..c9bff98e5309 100644
+--- a/drivers/staging/media/atomisp/Kconfig
++++ b/drivers/staging/media/atomisp/Kconfig
+@@ -14,7 +14,7 @@ config VIDEO_ATOMISP
+ 	depends on VIDEO_DEV && INTEL_ATOMISP
+ 	depends on PMIC_OPREGION
+ 	select IOSF_MBI
+-	select VIDEOBUF_VMALLOC
++	select VIDEOBUF2_VMALLOC
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	help
+ 	  Say Y here if your platform supports Intel Atom SoC
+-- 
+2.39.0
 
