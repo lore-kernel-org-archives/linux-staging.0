@@ -1,80 +1,143 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688C6AD38
-	for <linux-staging@lists.linux.dev>; Wed,  4 Jan 2023 15:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1672845524; bh=4WpdPESN9laCQ+0dJmH7VyKj6Z31XLjyfTH0r5nSp8Q=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=N39HXlk0W+MGAQ5rlz8fsuFhKA54WDmJbAWuLnco2QEA0v6Tab5DUGNbT7qKkXMie
-	 aU5t/1sd6JcxZXgFXxZNsPiQcTneG5afojH2hApZrhdHFcpbiTA6ekoPSFYWTi3ldC
-	 C06SrGMstJip6vnTTLtM15bXg1PaOh+HnTF86XsE=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Wed,  4 Jan 2023 16:18:44 +0100 (CET)
-X-EA-Auth: 3o+1Ih6VxbOMPaGorsbD5/WgdCd+p/k8N8ulKnPs8eMqVrMW1/0ry1vYlZ+tKsz7zkpeAryF9JTQ4DZa68X2NjxW1nx+DONI
-Date: Wed, 4 Jan 2023 20:48:38 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Saurabh Singh Sengar <ssengar@microsoft.com>,
-	Praveen Kumar <kumarpraveen@linux.microsoft.com>,
-	Deepak R Varma <drv@mailo.com>
-Subject: [PATCH v2] staging: greybus: Replace zero-length array by
- DECLARE_FLEX_ARRAY() helper
-Message-ID: <Y7WYzkIOqaHOxDDS@qemulion>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFDB7FD
+	for <linux-staging@lists.linux.dev>; Thu,  5 Jan 2023 06:19:38 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id p1-20020a05600c1d8100b003d8c9b191e0so557355wms.4
+        for <linux-staging@lists.linux.dev>; Wed, 04 Jan 2023 22:19:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MMhTa8031xnJCr78Gg3MxS4F8Q+GpLcOHRVjapQT5tQ=;
+        b=pZbGkJ0a82BBYfxvjXBkgHpjbawrrABKwQIAbj4DFbFNcdk9Hh1AAzB2SpFwPaUUEs
+         Pkjj9Z/4P6L+IiUCsA9XJ+I5K0MD25TFMWn5rvsG1fQnX7bwCt2KZxc8ZdUBGb3TLR3Z
+         xbdMMFL9u77pErAgd+Ghho8DS3OobIww3SkSgF20CPN2kTiGc/eC1n97/RutkdDknEnr
+         jcV47llDqDGK3MkkVBKEUGbS7C3g9wMeBdDt753i/yBlTw5bUDh17M+v4BWxMROuAWi1
+         l//udJCLwBhU38b5/7emQgYfvc3wWScdAdhzxbr5UUqL8LhWaJsL6WkJ9C6ldZ93ee0S
+         1O+A==
+X-Gm-Message-State: AFqh2kox6wmxJgpHzcpdlH029eiYuOGB717hpeUk4ub/FXcGpD/j/QQ6
+	wVsSnvB/n2sK+OAf3YjOBI0=
+X-Google-Smtp-Source: AMrXdXvnbuIqp+JAgFHrP0UKIr61/hDJcQemGGF6LX9p8WLjDYXsDs+9lWsr5CrFNlnRZz9V75Ka4w==
+X-Received: by 2002:a05:600c:3d11:b0:3cf:8b22:76b3 with SMTP id bh17-20020a05600c3d1100b003cf8b2276b3mr35818833wmb.0.1672899577065;
+        Wed, 04 Jan 2023 22:19:37 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:49? ([2a0b:e7c0:0:107::aaaa:49])
+        by smtp.gmail.com with ESMTPSA id q187-20020a1c43c4000000b003c6c182bef9sm1319688wma.36.2023.01.04.22.19.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Jan 2023 22:19:36 -0800 (PST)
+Message-ID: <09043f30-c516-e173-3836-5e5dd5f5c472@kernel.org>
+Date: Thu, 5 Jan 2023 07:19:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Content-Language: en-US
+To: =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ linux-serial@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Ulf Hansson <ulf.hansson@linaro.org>, David Lin <dtwlin@gmail.com>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
+References: <20230104151531.73994-1-ilpo.jarvinen@linux.intel.com>
+ <20230104151531.73994-8-ilpo.jarvinen@linux.intel.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH 07/10] tty: Convert ->dtr_rts() to take bool argument
+In-Reply-To: <20230104151531.73994-8-ilpo.jarvinen@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The code currently uses C90 standard extension based zero length array
-struct which is now deprecated and the new C99 standard extension of
-flexible array declarations are to be used instead. Also, the macro
-DECLARE_FLEX_ARRAY() allows to use single flexible array member in a
-structure. Refer to these links [1], [2], and [3] for details.
+On 04. 01. 23, 16:15, Ilpo Järvinen wrote:
+> Convert the raise/on parameter in ->dtr_rts() to bool through the
+> callchain. The parameter is used like bool. In USB serial, there
+> remains a few implicit bool -> larger type conversions because some
+> devices use u8 in their control messages.
 
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://lore.kernel.org/lkml/YxKY6O2hmdwNh8r8@work
-[3] https://lore.kernel.org/lkml/20210827163015.3141722-2-keescook@chromium.org/
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
 
-Issue identified using Coccinelle flexible_array.cocci semantic patch.
+> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> ---
+...
+> --- a/drivers/char/pcmcia/synclink_cs.c
+> +++ b/drivers/char/pcmcia/synclink_cs.c
+> @@ -378,7 +378,7 @@ static void async_mode(MGSLPC_INFO *info);
+>   static void tx_timeout(struct timer_list *t);
+>   
+>   static bool carrier_raised(struct tty_port *port);
+> -static void dtr_rts(struct tty_port *port, int onoff);
+> +static void dtr_rts(struct tty_port *port, bool onoff);
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
-Reviewed-by: Alex Elder <elder@linaro.org>
----
-Changes in v2:
-   Following improvements as suggested by Alex Elder <elder@ieee.org>
-      - Include third reference URL in the commit message.
-      - Update 2nd reference URL
-      - Include Reviewed by tag
+Not anything for this patch, but having this dubbed "onoff" instead of 
+"on" makes it really confusing.
 
+> --- a/drivers/mmc/core/sdio_uart.c
+> +++ b/drivers/mmc/core/sdio_uart.c
+> @@ -548,14 +548,14 @@ static bool uart_carrier_raised(struct tty_port *tport)
+>    *	adjusted during an open, close and hangup.
+>    */
+>   
+> -static void uart_dtr_rts(struct tty_port *tport, int onoff)
+> +static void uart_dtr_rts(struct tty_port *tport, bool onoff)
+>   {
+>   	struct sdio_uart_port *port =
+>   			container_of(tport, struct sdio_uart_port, port);
+>   	int ret = sdio_uart_claim_func(port);
+>   	if (ret)
+>   		return;
+> -	if (onoff == 0)
+> +	if (!onoff)
+>   		sdio_uart_clear_mctrl(port, TIOCM_DTR | TIOCM_RTS);
+>   	else
+>   		sdio_uart_set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
 
- drivers/staging/greybus/usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Especially here. What does "!onoff" mean? If it were:
 
-diff --git a/drivers/staging/greybus/usb.c b/drivers/staging/greybus/usb.c
-index 8e9d9d59a357..b7badf87a3f0 100644
---- a/drivers/staging/greybus/usb.c
-+++ b/drivers/staging/greybus/usb.c
-@@ -27,7 +27,7 @@ struct gb_usb_hub_control_request {
- };
+if (on)
+   sdio_uart_set_mctrl(port, TIOCM_DTR | TIOCM_RTS);
+else
+   sdio_uart_clear_mctrl(port, TIOCM_DTR | TIOCM_RTS);
 
- struct gb_usb_hub_control_response {
--	u8 buf[0];
-+	DECLARE_FLEX_ARRAY(u8, buf);
- };
+it would be a lot more clear.
 
- struct gb_usb_device {
---
-2.34.1
+> --- a/drivers/tty/amiserial.c
+> +++ b/drivers/tty/amiserial.c
+> @@ -1459,7 +1459,7 @@ static bool amiga_carrier_raised(struct tty_port *port)
+>   	return !(ciab.pra & SER_DCD);
+>   }
+>   
+> -static void amiga_dtr_rts(struct tty_port *port, int raise)
+> +static void amiga_dtr_rts(struct tty_port *port, bool raise)
 
+Or "raise". That makes sense too and we call it as such in 
+tty_port_operations:
 
+> --- a/include/linux/tty_port.h
+> +++ b/include/linux/tty_port.h
+...
+> @@ -32,7 +32,7 @@ struct tty_struct;
+>    */
+>   struct tty_port_operations {
+>   	bool (*carrier_raised)(struct tty_port *port);
+> -	void (*dtr_rts)(struct tty_port *port, int raise);
+> +	void (*dtr_rts)(struct tty_port *port, bool raise);
+>   	void (*shutdown)(struct tty_port *port);
+>   	int (*activate)(struct tty_port *port, struct tty_struct *tty);
+>   	void (*destruct)(struct tty_port *port);
+
+Care to fix that up too?
+
+thanks,
+-- 
+js
+suse labs
 
