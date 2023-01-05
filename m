@@ -1,73 +1,50 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014702F27;
-	Thu,  5 Jan 2023 14:48:56 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 18BDD3200947;
-	Thu,  5 Jan 2023 09:48:55 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Thu, 05 Jan 2023 09:48:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1672930134; x=
-	1673016534; bh=V6G1v0bX0D4UJNGGt2xLs1w58IJyGOC4jf7dccTEEPM=; b=1
-	gZckvrW14EF6QB1iyxkjWAB6iRnHIiVv2ITPJDMOAekUfAtApvHM4joaNEsNOTPz
-	dm3iPtBjbXT4UaiyshKQ7x2M9bSXx7PR5x0ao4mHvjuJvXLV5YQjcsIwmdizvyxR
-	J8FFXJG4EoWwR3gajt9fQTRjmkPZra4YljZh21KuppF6OBhIzlmdClElEtm2m1tx
-	4yiw4oOIoqELlaB5ahYbxjeB6uB7XzysI7VPsqns2BaboVLGIDyBCtsKBx+eSJBP
-	sKhMKbVzNp0QwShyyyDt4w0JKxiHp04InkVNB4jDvkhTLK5kHUacKKEkds2otrcd
-	xCilLN3Xtiv9UpUJnbqWA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672930134; x=
-	1673016534; bh=V6G1v0bX0D4UJNGGt2xLs1w58IJyGOC4jf7dccTEEPM=; b=c
-	NOnBTbP9S0V2/aQUaA120sVik6fZ0yLzAfug1DGbwRkHr5kGzXq7wLs81ycuGu+S
-	pSddtWpa7rIvSaym3JpoG6hsxAbcr4Ga2cWr6hWkM/cN5F04En3rzIQNZ2q6elLe
-	n9Y611F4OYGB22rrilQ9mQqAVCR64GxgF96nRaeVqqcpT5fgmLCCSFt+me3GpPa6
-	7zqLyHEmY54YecWhB/MfI3973WARveHAUWZaHl5fAIhXltYID+l4BSGxLZEEDhMj
-	oatK+gHoGaubk1+APfp0w9EEaB3/N1ROSp3dUpZ9W7+NygTlSOmG9jxDgPGfQfFi
-	xYw3BS/RnUVy3dVxqwbWg==
-X-ME-Sender: <xms:VuO2Y_NkVNEO0nT_BMvVb77DrTxIi28CSm96zlAn9CwDF011NETtkw>
-    <xme:VuO2Y59pmwVnoaXykU-NV9RLgQIww6y6kd7P6f1lUnUxRakts76Xi-b1iQtGvzciu
-    kFbD_w2H8dTOa7D3A>
-X-ME-Received: <xmr:VuO2Y-QqBTy4JTZ1d_rCLqaM23Fa_KzSSvi1hfjSucarsOpGiD4ouNXPfi2g4BhqAfs_VqgYXARxGsUHj0ULvzvFrZFWA9c2sJyB96bHyUcpufT3-k61FFwqNQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgdejtdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfvvehfhffujggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepheffgfegtedttddutdfhfefhgefftdeklefgueeltdettdekgffg
-    ueehvdfhffdvnecuffhomhgrihhnpehlihhnuhigqdhsuhhngihirdhorhhgpdhgihhthh
-    husgdrtghomhdpkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:VuO2YzuHz7nqtQ1CK9xQOK1ubF4Qr2BoMFzRtn8v2K3OS98dKrCkMg>
-    <xmx:VuO2Y3dag6Hskmc6IZJ5Xd_6lHgdqLmZsIYERnaxh3D4Qh_ZmgPMmw>
-    <xmx:VuO2Y_0Kz-AfUxMnu_kCWQjpj2xSV-bTlRpBvpAavLLn5Sv0cL8JeQ>
-    <xmx:VuO2YyDiQLu7j2MiOI9kd-2203LolwT-LoaxhNGV0RgrSj2KADdDXw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Jan 2023 09:48:53 -0500 (EST)
-Message-ID: <383edfed-c9fe-9214-5b61-dbe6f017e03a@sholland.org>
-Date: Thu, 5 Jan 2023 08:48:52 -0600
-Precedence: bulk
-X-Mailing-List: linux-staging@lists.linux.dev
-List-Id: <linux-staging.lists.linux.dev>
-List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Content-Language: en-US
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC55FD536;
+	Thu,  5 Jan 2023 16:18:06 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so1693674wma.1;
+        Thu, 05 Jan 2023 08:18:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qg9Z/ezQ2VP1OzBT9xNik8ur6PBM8ZeCnIkxjvkNCdA=;
+        b=ZVjIz5m0hX8PlIXMGahJ6x/Csgadc5GJ9Zd+rVumUwtBq99GX7dkkYFL7AZQF1oj9T
+         y5ICbFMI9cC6zeXuhiqA9Sacw3BcWcoDBtJ5ON/+Eo5Jq9Vsl4zsRz3qwg3CmjEW2e4w
+         W0+bhDkAhXoq22eOKduRjSnsct8jj+IZuszeti+y2cFQnnrmg1tG82ezdd2P0oKcxWXJ
+         vFQ6FOezDrkrdLRGk/ZHZLkFZad+7zFnZjbvNVriYgMzTBayde0OMF0UDmoCzDMHrLsc
+         O5SkLRr5FLGl+wYpoCxFP5t2txoq+xnRzk4UCXCmxvGjpr4IF7kSWqsFGv4VRXabVJqt
+         poBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qg9Z/ezQ2VP1OzBT9xNik8ur6PBM8ZeCnIkxjvkNCdA=;
+        b=HOnPB6C9CVH/Mn4LxgZaNf+zPT0VoZyY3EZnclBV1qLaBzw7m7Ym+YEU9KN3biXEvt
+         BQr7q/uUxbL11hexItrxecP9lrgCloS904tmeAabV3P6pzEtgSbkas8dq7pbnRzRCWd7
+         b3UGIsbdd3d39AnviIw3pNcv8gkL1SIX1T2vGA6gY7ZzVewNaQ8o+t8Haa4A/uUUeMH6
+         IJ5KjjKDXz2VCXhMN2vrvWqERdaI4//OuhvCHD9VxOxU7Xji5zuRsPlNNvjW+Yeo3ki2
+         lWr0+0zsYf/TRlEeuhonM+xLgMBkmY16lJKsSbGK+o61hEL5HeSu+SZtaO7Ap2RU5YwN
+         Douw==
+X-Gm-Message-State: AFqh2koqp2oudz9SYd2XnrDLdkr+2ewqHY0Xxpw6vMAaZSdhFV1UDKf+
+	mbonln06cFHqnfLYuh8jygY=
+X-Google-Smtp-Source: AMrXdXvGqO38SjpeDx+nQ5mO3gltv5DwVHr3T+e4+/rn3MECG1cCKPkwM5HXIKyWHVlh4HQG9zupiA==
+X-Received: by 2002:a05:600c:4e13:b0:3c6:e63d:fcfc with SMTP id b19-20020a05600c4e1300b003c6e63dfcfcmr36682966wmq.35.1672935484869;
+        Thu, 05 Jan 2023 08:18:04 -0800 (PST)
+Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id he11-20020a05600c540b00b003d359aa353csm2779923wmb.45.2023.01.05.08.18.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jan 2023 08:18:04 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Albert Ou <aou@eecs.berkeley.edu>,
  Conor Dooley <conor@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Maxime Ripard <mripard@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
@@ -75,74 +52,62 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-riscv@lists.infradead.org,
  linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
-References: <20221231164628.19688-1-samuel@sholland.org>
- <20221231164628.19688-2-samuel@sholland.org> <Y7ap2dZdCHLNzzHb@aptenodytes>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 1/4] media: dt-bindings: cedrus: Allow power domain
- references
-In-Reply-To: <Y7ap2dZdCHLNzzHb@aptenodytes>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject:
+ Re: [PATCH 1/4] media: dt-bindings: cedrus: Allow power domain references
+Date: Thu, 05 Jan 2023 17:18:02 +0100
+Message-ID: <5891785.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20221231164628.19688-2-samuel@sholland.org>
+References:
+ <20221231164628.19688-1-samuel@sholland.org>
+ <20221231164628.19688-2-samuel@sholland.org>
+Precedence: bulk
+X-Mailing-List: linux-staging@lists.linux.dev
+List-Id: <linux-staging.lists.linux.dev>
+List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Paul,
-
-On 1/5/23 04:43, Paul Kocialkowski wrote:
-> On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
->> The Allwinner D1 SoC contains a separate power domain for its video
->> engine, controlled via the "PPU" power controller. Allow the
->> power-domains property so this can be represented in the devicetree.
+Dne sobota, 31. december 2022 ob 17:46:24 CET je Samuel Holland napisal(a):
+> The Allwinner D1 SoC contains a separate power domain for its video
+> engine, controlled via the "PPU" power controller. Allow the
+> power-domains property so this can be represented in the devicetree.
 > 
-> I've been looking around for information regarding the PPU and couldn't find
-> anything about it. Do you have some reference where it is mentionned?
-
-There are some oblique references as far back as H6 in some user manuals
-(in the bus block diagram and interrupt list) and in the vendor clock
-drivers.
-
-I gathered some information here:
-https://linux-sunxi.org/PPU
-
-It is used by OpenSBI for CPU idle:
-https://github.com/riscv-software-src/opensbi/commit/9dc5ec5c.patch
-
-and I have a series adding PPU support to Linux for the Video Engine:
-https://lore.kernel.org/linux-sunxi/20221231160402.16157-1-samuel@sholland.org/
-
-> I do see a power domain driver (apparently for the GPU) on recent allwinner
-> kernel releases but that seems to be for arm64 chips only.
-
-Yes, there is an older GPU-specific power domain hardware, and the
-generic one found on D1/R528/T113 and newer. However, I found while
-writing the Linux driver that the two are more similar than the vendor
-drivers would imply. Most of the registers from the old hardware remain
-in the new hardware; they just are not used by the new vendor driver. So
-you can reference my Linux series for a full register list.
-
-Regards,
-Samuel
-
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->>  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
->> index 541325f900a1..d5be7f604e8c 100644
->> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
->> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
->> @@ -63,6 +63,9 @@ properties:
->>        CMA pool to use for buffers allocation instead of the default
->>        CMA pool.
->>  
->> +  power-domains:
->> +    maxItems: 1
->> +
->>  required:
->>    - compatible
->>    - reg
->> -- 
->> 2.37.4
->>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
 > 
+>  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git
+> a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.
+> yaml
+> b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.
+> yaml index 541325f900a1..d5be7f604e8c 100644
+> ---
+> a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.
+> yaml +++
+> b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.
+> yaml @@ -63,6 +63,9 @@ properties:
+>        CMA pool to use for buffers allocation instead of the default
+>        CMA pool.
+> 
+> +  power-domains:
+> +    maxItems: 1
+
+Please add check if it's needed based on compatible. This yaml is one of the 
+few for sunxi platform which doesn't have strict checks. Same goes for sram 
+property.
+
+Best regards,
+Jernej
+
+> +
+>  required:
+>    - compatible
+>    - reg
+
+
+
 
