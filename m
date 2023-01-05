@@ -1,123 +1,133 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEFA2F3D;
-	Thu,  5 Jan 2023 10:43:46 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 83AEE100006;
-	Thu,  5 Jan 2023 10:43:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1672915424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Yr/nUbSQezXweJY6bNFYpcWO7a/X5IplQE9MKPs4FA=;
-	b=VV0/JX2BvGgdlR6xh7CnwhWQPLPXUZS7ei0be0XNMWNdFOAVpZSHgxJhNhoQ/IPYSjnxx3
-	PyUMV6Vpx1pV3K0VmNuHxaLFxL164X7pyeKKH8BC3JETfM47AywMB3nzzpcDu8yEpq4rUu
-	Q7jPb/MhV98WU4WoV7HpYjin0iel2BcZwhRutDK/e4mv5VVIWysy5RIXNLELSheoQBgrUa
-	PU7oL2J3HmADqcWdjJvN/MKrd2Bsmfy0/+HLA7mbbaJ8P0okGGNFYyLZ96uK2RT5xkaYjG
-	xsb4qYQ4WqN6uibTtsbQ42bTu6y+6FCGW4xckOZpqeMnfIonag3EeY0OioS0Tg==
-Date: Thu, 5 Jan 2023 11:43:37 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/4] media: dt-bindings: cedrus: Allow power domain
- references
-Message-ID: <Y7ap2dZdCHLNzzHb@aptenodytes>
-References: <20221231164628.19688-1-samuel@sholland.org>
- <20221231164628.19688-2-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A16A2F27;
+	Thu,  5 Jan 2023 14:38:42 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id B05A13200921;
+	Thu,  5 Jan 2023 09:38:40 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 05 Jan 2023 09:38:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1672929520; x=
+	1673015920; bh=0tRpqumuzD4A8ScE1T7chaSBsFg3IHBj12rmSPS7UQk=; b=d
+	4XVP0hfu/F6/aqVt3l7KnXcKsYzGCyPkegPh5cMb6DGQjil4x5jP/7hc8l4l/ZYr
+	dmW6ZFITa0tZjR4/RMJk2iVJQ/CwzSINlKcXCmiXdin90n2cK8pnCanUi0MD24Be
+	zcl0lb4i82jOmJ3e85hZigrGZoBe+t5jwX33lNdmBA+YnzNufMNu7XmeIbGhYU0f
+	c/XinqxdlpWh5ln3p+G+ikkrZ5px+5fkskZ4yXSc/sCI3CLR1ZIvENpADgRXltBn
+	hLzwEaWUGw/lpLASPwL6GWgdsG0X6zodJ+DX4iBGKyCE0Zc1JTid/+VkP+KA5Xrk
+	9JZVID+ykBC4TgsdGk9qw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672929520; x=
+	1673015920; bh=0tRpqumuzD4A8ScE1T7chaSBsFg3IHBj12rmSPS7UQk=; b=Q
+	mQFZigQXsGb4r6btUJAczAkvrtBumokULURZYr9BGtsdKHGAhQuRmIsGKhhnbvC+
+	LjhBx/EnM5c1+Ov0HfGPAD2Mz8/6SPy0zV69+M7LDAr/n9H1dhINb5cQ5CrrL+4r
+	y1b+a8UCf/oFhnf832zSQcFvRKwGLXCjq9yi0vRlNA0IYVHfojbfw9DlqVO4b0SB
+	T6YI5eKHwcttLLGw6nIiT8JZ15cxtT4SgC32TXlFEU0lDlhb6BSWja79zAwMEqHe
+	gt9z8iWjSka1bTuLTQ8lk5aEQOd+ak+5EAaZBlEv3z6xka+1eGCOepNq+2ySMXLc
+	PIyaqHsm9Ss57ukPytCqw==
+X-ME-Sender: <xms:7-C2Y5pDpDdwzZ9i1c8ziDXeBnxnpPMJEv30DfLvp6tDjYJQIrNvQw>
+    <xme:7-C2Y7pAm2sM3PGdZZXvzn8WrKomMEc-zUSYuMvCvo4A9vc1OKr4HvfHTNfqNf4PC
+    1pUnki5hMqTbkAxEA>
+X-ME-Received: <xmr:7-C2Y2MDGjw_4EF4JjqLYeISZ9wH4Pz46PsKY12SANCHdYIiSDeZC45ei0IXcnNMzSoKN47vArjirjMi6kgFpv1Sw7iUUfh9KHGHC0GOleWUO0h1T2hrH8byEQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgdeikecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:7-C2Y07PRTSiCseNNHcdHN-fhBrwQUshcyconVZGhlx2XWYqiFxH8Q>
+    <xmx:7-C2Y44cJfaJdZEI7LHg5qIGEmGoOBe5DWlejR7aihYkkRlkrfS9GA>
+    <xmx:7-C2Y8hYQx225tPwiImxWhzHqlmVmoFMQ15_h04c-vsnwMmjY9xH-w>
+    <xmx:8OC2Y1O802ea8_p3G5yF6B-Pb7YVl7CFQQl1QE3UHG0IC2NxFoQd_g>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Jan 2023 09:38:37 -0500 (EST)
+Message-ID: <3b6ec431-70ac-cf68-6f46-9dc0affb1e68@sholland.org>
+Date: Thu, 5 Jan 2023 08:38:36 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nKy3H2Xqe6ArZJHS"
-Content-Disposition: inline
-In-Reply-To: <20221231164628.19688-2-samuel@sholland.org>
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
+Content-Language: en-US
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Conor Dooley <conor@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Maxime Ripard <mripard@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
+References: <20221231164628.19688-1-samuel@sholland.org>
+ <20221231164628.19688-5-samuel@sholland.org> <Y7aiZdjI8L5h1Ca3@aptenodytes>
+From: Samuel Holland <samuel@sholland.org>
+In-Reply-To: <Y7aiZdjI8L5h1Ca3@aptenodytes>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Paul,
 
---nKy3H2Xqe6ArZJHS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/5/23 04:11, Paul Kocialkowski wrote:
+> On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
+>> D1 contains a video engine which is supported by the Cedrus driver.
+> 
+> Does it work "outside the box" without power domain management?
+> If not, it might be a bit confusing to add the node at this point.
 
-Hi Samuel,
+Yes, it does. All of the power domains are enabled by default. However,
+if the PPU series is merged first, I will respin this to include the
+power-domains property from the beginning.
 
-On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
-> The Allwinner D1 SoC contains a separate power domain for its video
-> engine, controlled via the "PPU" power controller. Allow the
-> power-domains property so this can be represented in the devicetree.
+Regards,
+Samuel
 
-I've been looking around for information regarding the PPU and couldn't find
-anything about it. Do you have some reference where it is mentionned?
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
+>>  1 file changed, 11 insertions(+)
+>>
+>> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> index dff363a3c934..4bd374279155 100644
+>> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> @@ -34,6 +34,17 @@ soc {
+>>  		#address-cells = <1>;
+>>  		#size-cells = <1>;
+>>  
+>> +		ve: video-codec@1c0e000 {
+>> +			compatible = "allwinner,sun20i-d1-video-engine";
+>> +			reg = <0x1c0e000 0x2000>;
+>> +			interrupts = <SOC_PERIPHERAL_IRQ(66) IRQ_TYPE_LEVEL_HIGH>;
+>> +			clocks = <&ccu CLK_BUS_VE>,
+>> +				 <&ccu CLK_VE>,
+>> +				 <&ccu CLK_MBUS_VE>;
+>> +			clock-names = "ahb", "mod", "ram";
+>> +			resets = <&ccu RST_BUS_VE>;
+>> +		};
+>> +
+>>  		pio: pinctrl@2000000 {
+>>  			compatible = "allwinner,sun20i-d1-pinctrl";
+>>  			reg = <0x2000000 0x800>;
+>> -- 
+>> 2.37.4
+>>
+> 
 
-I do see a power domain driver (apparently for the GPU) on recent allwinner
-kernel releases but that seems to be for arm64 chips only.
-
-Cheers,
-
-Paul
-
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->=20
->  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-=
-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i=
--a10-video-engine.yaml
-> index 541325f900a1..d5be7f604e8c 100644
-> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
-ngine.yaml
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-e=
-ngine.yaml
-> @@ -63,6 +63,9 @@ properties:
->        CMA pool to use for buffers allocation instead of the default
->        CMA pool.
-> =20
-> +  power-domains:
-> +    maxItems: 1
-> +
->  required:
->    - compatible
->    - reg
-> --=20
-> 2.37.4
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---nKy3H2Xqe6ArZJHS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmO2qdkACgkQ3cLmz3+f
-v9FJkQgAodwHy0mR+AhNUcLpqjFBfhELdfQ6y6YJnDwkiGJJZDkXxAX7rpsAFGYu
-6CAoynkF3ve1u9SlMGMQtM4WNpCEX2sPMeAW1ljuTAdeNWIaalSMQS71fDEATuaZ
-MqxyQiO02r/9lqcWDGa9C3gkk3cQbIvfC/zK1tu3Gs2WUYOCFPerJUsmBKoucGdE
-Z+NHigkZJmHRQ7XDkhMzmcSoiSvDbKS7/pOC9O8A7icca6kdWudk/diC9MYkUYLD
-70Os3PUqUYB7e9llTG+sxpv5CQpSLe7uGvUx6e7cqNR59GZk8Tcy8gqcwitRxQkJ
-3bbS8sFAgj+6MhX/J02sf6SCFfnkmQ==
-=L1ge
------END PGP SIGNATURE-----
-
---nKy3H2Xqe6ArZJHS--
