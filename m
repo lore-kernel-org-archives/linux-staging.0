@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BF23FE1
-	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3A387C43392;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9B06FAD
+	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5C138C433A1;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1673115981;
-	bh=VwfafFJh85RTWNScBOqwx3qqZPO0h3ATlgYbyDEPC5c=;
+	bh=UgErG0ahXvin5KqprcP4yTzkDgUMgisxrCT5F6v9v3s=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Lztt/Lr87i5c5lExc8vdn4aZe8aWtC6RKTHYiRttCMz90bu5Ax1mdzomVNCwu7drn
-	 xP3k487BFOopcNf1kfC30z86+ItuByGgcoHCb2mp/e+aHZ/C4KGO2DKAagrjLVrj9a
-	 hqzJwM4QvyNOsOR8eRQg61WHXI+uu7fiI6j46dhoNBPK6y7NMLSh9Mflp7fsElyopH
-	 8tz4fBs4Ful6Dq4060z9n3U52FvXMkwKKi4MswVznK4MRtlX82iio03yHbYOYO8PQa
-	 CqXPOymgAQYQdhEOHtKShOvXYXFoR4EVvg5oDqUVdVaXNiBuVM9LXgy0iHpuTSvdJA
-	 Bc5YWuZUj1BOQ==
+	b=CQ5EFq+2BPJRiq3zf5snT1YX3p1YtwrJOo0UElQbxKCbR2zY/q0mm4QOeEwFbp0ob
+	 wUKiM7ao8aI3qoMlKhkOZyBDK30hY9q6LvDt3jfbG4Ze4T+I4UWSQYU+/vwLW9Qydd
+	 ZCx0Cp/78jutBDA25G5AXNmT4rc3GObY0qBV0Bxvv6OQGC4u19HXcqMGJXqNUiVHY1
+	 +T7FM2SaxNG7uxi0OfBE+WHStPObR8Mbj2CGH4o3xT4I7bChwIDdc2m26PTFcSomG/
+	 NeqTXSUoIeLn+P2wyPY0OZKk2JaTqOGlKH6Jzqsx70Yilgo+unfuPggd3lgcyKUjZo
+	 YePqEkpjt0sHQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27032C46467;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 475E3C64981;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 From:
  Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 07 Jan 2023 19:26:17 +0100
+Date: Sat, 07 Jan 2023 19:26:19 +0100
 Subject: 
- [PATCH 03/15] video: fbdev: nvidia: Introduce backlight_get_brightness()
+ [PATCH 05/15] video: fbdev: riva: Introduce backlight_get_brightness()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,7 +32,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Message-Id: 
- <20230107-sam-video-backlight-drop-fb_blank-v1-3-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-5-1bd9bafb351f@ravnborg.org>
 References: 
  <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
 In-Reply-To: 
@@ -53,11 +53,11 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linuxppc-dev@lists.ozlabs.org, Stephen Kitt <steve@sk2.org>,
  Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1193;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1045;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=RQWprkm6DY1nK1XlfLALnIqlG+B5HpXX5nbpp2tYP5w=; =?utf-8?q?b=3D6PTpxwIiFZKL?=
- =?utf-8?q?U7iAjk5SURSyOARWGJhvy9t+pxCYjyWSnVB5zn7lmv5isPTykC0kqbBVYgHfNrQN?=
- OZnhe0MqCfAtmCpuzISqqz7yPrFGies9O1YR3IhYNqqN2c2yJA35
+ bh=j+HG2wSYqKNwTOfMiYjFHzSzlk0PGcAa2iiQeKtebpY=; =?utf-8?q?b=3DevW/7HEX3Tem?=
+ =?utf-8?q?ZDTb3xs/18D5j66JRDk706eBMxDT6tdbE2dYtO9k/ExWbYOdsP9oRSxX+glDRK5M?=
+ rxyrw8CID7AkL98sYMTbditO+j8pldVv8MCsELvig9PWwKcqU/Rv
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received:
@@ -74,32 +74,28 @@ Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Antonino Daplas <adaplas@gmail.com>
 Cc: linux-fbdev@vger.kernel.org
 ---
- drivers/video/fbdev/nvidia/nv_backlight.c | 8 +-------
+ drivers/video/fbdev/riva/fbdev.c | 8 +-------
  1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/nvidia/nv_backlight.c b/drivers/video/fbdev/nvidia/nv_backlight.c
-index 2ce53529f636..503a7a683855 100644
---- a/drivers/video/fbdev/nvidia/nv_backlight.c
-+++ b/drivers/video/fbdev/nvidia/nv_backlight.c
-@@ -49,17 +49,11 @@ static int nvidia_bl_update_status(struct backlight_device *bd)
+diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
+index 644278146d3b..41edc6e79460 100644
+--- a/drivers/video/fbdev/riva/fbdev.c
++++ b/drivers/video/fbdev/riva/fbdev.c
+@@ -293,13 +293,7 @@ static int riva_bl_update_status(struct backlight_device *bd)
  {
- 	struct nvidia_par *par = bl_get_data(bd);
- 	u32 tmp_pcrt, tmp_pmc, fpcontrol;
+ 	struct riva_par *par = bl_get_data(bd);
+ 	U032 tmp_pcrt, tmp_pmc;
 -	int level;
-+	int level = backlight_get_brightness(bd);
- 
- 	if (!par->FlatPanel)
- 		return 0;
- 
+-
 -	if (bd->props.power != FB_BLANK_UNBLANK ||
 -	    bd->props.fb_blank != FB_BLANK_UNBLANK)
 -		level = 0;
 -	else
 -		level = bd->props.brightness;
--
- 	tmp_pmc = NV_RD32(par->PMC, 0x10F0) & 0x0000FFFF;
- 	tmp_pcrt = NV_RD32(par->PCRTC0, 0x081C) & 0xFFFFFFFC;
- 	fpcontrol = NV_RD32(par->PRAMDAC, 0x0848) & 0xCFFFFFCC;
++	int level = backlight_get_brightness(bd);
+ 
+ 	tmp_pmc = NV_RD32(par->riva.PMC, 0x10F0) & 0x0000FFFF;
+ 	tmp_pcrt = NV_RD32(par->riva.PCRTC0, 0x081C) & 0xFFFFFFFC;
 
 -- 
 2.34.1
