@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6008979C7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FECB79C8
 	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B24DAC43445;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E7C93C4331F;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1673115981;
-	bh=FpJgYKX0WvqOM6qXNZm3orw83KtE8CnVdKskuu7Bxj8=;
+	bh=k6GhPkgGzFPXhbpSbgYgfWurCn/PwPN46xikLiDVBGI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ibafoQF9RQ0654p7+XrOtYyy0N7e1+Wqbgurr/s3R0c31xlvWMaiv1rE43GmUD0ax
-	 1uKtvH80Di1rpSHQJe+XRgjTJHrofPadAh/ODHSirpNZAFmmMTVoFeMkhMqF2M+/Qu
-	 WixKllalmm7bZbY2IRu/nqJzf6pqWuaniQUtGDhj54eKNMlAEYrq6fZ1KlFl1OT+YX
-	 VlpA1g/VS6yYLtn1NxEKn3c6ox3/JuoX4jCkSLY1e0Gw/W5jtHzqrJqEjbuhLSPnHx
-	 vYPFsreIQl0LgDBkgFOOLtrp9vDAjIyfpPUWOJji2EM4Q4MDv7NkHov4t04dpqNoph
-	 XMqhiOwWLdVzg==
+	b=s2d5eUacCnjXmq03ZUK+XQNzk+qYMHUhpitWDD9vRY1/+gN3cnh5gH/smgeRXj+F4
+	 nY3qr4AhGIwfxGxaRbyOgVSz/z+JzDqqzGHD7FWlqsTI4oD+mpVhuAda7fAGZ+W8Ut
+	 No1zWZz3JQpUHMZHCIfnp0qNKBOWrISPtMSN7l0Y9C7kJGyAElAXgK2IChEpUVrcYf
+	 PDDXiScLEWvM2n1tXgPGhHMYmf/ic+JTvobZEU6b0EXNsz7r9Mjg5KFFnFQDs83Yoq
+	 CNvW7VkgZYu/ywR/LHe+a18zS1vnyY4gm9eEoKHTCPXeiaxzz80KSSQjx/8LHCiulz
+	 RYljxm6+3xXog==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC36C63797;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B19C54EBD;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 From:
  Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 07 Jan 2023 19:26:23 +0100
+Date: Sat, 07 Jan 2023 19:26:26 +0100
 Subject: 
- [PATCH 09/15] staging: fbtft: fb_ssd1351.c: Introduce backlight_is_blank()
+ [PATCH 12/15] auxdisplay: ht16k33: Introduce backlight_get_brightness()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,7 +32,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Message-Id: 
- <20230107-sam-video-backlight-drop-fb_blank-v1-9-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
 References: 
  <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
 In-Reply-To: 
@@ -51,14 +51,13 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
  linuxppc-dev@lists.ozlabs.org, Stephen Kitt <steve@sk2.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+ Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1470;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1102;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=G6rOZdtEwpeQEO+0r3oVVgedO7Rz1feTEQR8eX27nq4=; =?utf-8?q?b=3D+S7h4F0wUNPp?=
- =?utf-8?q?/JDzVLZhorRrHoeXoMU92DpeyUhmf+Ru9VbwxZ4HQL+EQ45PgrZJYvAfns99nGaz?=
- +nssZXN1Aj803PnEukV8/v1tXrrRhgpXnDQN/jH9brZR1cK2eNGw
+ bh=kjBoW0w8G4MLxd8tLQs7ggdCYZkvfjXTRMQ+r94GOdY=; =?utf-8?q?b=3D0kWokjMYRuMZ?=
+ =?utf-8?q?fLaCdD4imFEpA4wcUDa+Xj2qmv4HJ40saoFGwVXUtDMJ9OE5NEw8o8Fe16McI0pJ?=
+ f+So/WcWDu7T91QYTw2iTMWidajyr5qNRhSvSdK9HUs9qckprcMR
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received:
@@ -68,44 +67,37 @@ Reply-To: <sam@ravnborg.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-Avoiding direct access to backlight_properties.props.
-
-Access to the deprecated props.fb_blank replaced by backlight_is_blank().
-Access to props.power is dropped - it was only used for debug.
+Introduce backlight_get_brightness() to simplify logic
+and avoid direct access to backlight properties.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stephen Kitt <steve@sk2.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-fbdev@vger.kernel.org
+Cc: Robin van der Gracht <robin@protonic.nl>
+Cc: Miguel Ojeda <ojeda@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- drivers/staging/fbtft/fb_ssd1351.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/auxdisplay/ht16k33.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-index b8d55aa8c5c7..995fbd2f3dc6 100644
---- a/drivers/staging/fbtft/fb_ssd1351.c
-+++ b/drivers/staging/fbtft/fb_ssd1351.c
-@@ -190,15 +190,12 @@ static struct fbtft_display display = {
- static int update_onboard_backlight(struct backlight_device *bd)
+diff --git a/drivers/auxdisplay/ht16k33.c b/drivers/auxdisplay/ht16k33.c
+index 02425991c159..15ab118c80f5 100644
+--- a/drivers/auxdisplay/ht16k33.c
++++ b/drivers/auxdisplay/ht16k33.c
+@@ -314,14 +314,9 @@ static int ht16k33_initialize(struct ht16k33_priv *priv)
+ 
+ static int ht16k33_bl_update_status(struct backlight_device *bl)
  {
- 	struct fbtft_par *par = bl_get_data(bd);
--	bool on;
-+	bool blank = backlight_is_blank(bd);
+-	int brightness = bl->props.brightness;
++	int brightness = backlight_get_brightness(bl);
+ 	struct ht16k33_priv *priv = bl_get_data(bl);
  
--	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
--		      "%s: power=%d, fb_blank=%d\n",
--		      __func__, bd->props.power, bd->props.fb_blank);
-+	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: blank=%d\n", __func__, blank);
- 
--	on = !backlight_is_blank(bd);
- 	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
--	write_reg(par, 0xB5, on ? 0x03 : 0x02);
-+	write_reg(par, 0xB5, !blank ? 0x03 : 0x02);
- 
- 	return 0;
+-	if (bl->props.power != FB_BLANK_UNBLANK ||
+-	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
+-	    bl->props.state & BL_CORE_FBBLANK)
+-		brightness = 0;
+-
+ 	return ht16k33_brightness_set(priv, brightness);
  }
+ 
 
 -- 
 2.34.1
