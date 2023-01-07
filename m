@@ -1,157 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223B379D7
-	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 21BAEC43329;
-	Sat,  7 Jan 2023 18:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673115982;
-	bh=Mj/ShVgaaD92/Ge3l6JJSNYGpwa5ONVGtJTi9DaheiM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=W6qTiEub76a/pK7uR8XodmptNf4n268IEjWRX5tHRsNecbig79nemOGW1S5jR199O
-	 Q3WQsmeSNIaJJfu7vOG98wRK0Kga66L9A3OXc6bXqPicoNPdzvy9HpiAWYxV8NlFpJ
-	 u1PniEBpdTf47ZPtMK3G9cQoeX9ZwptPnR/NKLwOZNW13+iPurd73lc6cWwhNXLYIk
-	 29QzBUFZwiJQZ/3h7gkj4BbMKXV6KiNS34GTw5iOtrkK1aF39CD3Thb1co6OY3d7eC
-	 vEfh6XyWJT9ChjxCYx8Ykl4dL7dhcFJgon4aTum6ZpcxJHI0dj7Pn6CeToWPbbm607
-	 y4SN6r7mL7qjA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B31C63797;
-	Sat,  7 Jan 2023 18:26:22 +0000 (UTC)
-From:
- Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 07 Jan 2023 19:26:29 +0100
-Subject: 
- [PATCH 15/15] backlight: backlight: Drop the deprecated fb_blank property
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D83A47
+	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 20:54:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa2;
+	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+	 message-id:subject:cc:to:from:date:from;
+	bh=RV+O7cB5l+vaR5SO6XJa6RTpRYVy6GA4qJE6OAXy7jM=;
+	b=uqBjqGUZaw40K9daezgVaSHVAazfEdhdq+JcI2yeGkxOlNFTZpIFrUFk9XABsNvhmL+1pP+c2lsty
+	 Fi/30HkWP0cfz+KFCzbqIr/KGrCdW/29/A9qOOGzewzeaFTff3HpRc47oTq/JDYLJUfS8ZZUXFOmTY
+	 azBMO9ivKekwR/UiON6K6kWi1Gj4cbXkrtyGZ9T7dDTTn0DBgbLsLGNS6OYSpriPvzh8GbhHLaUpyB
+	 dHvxIRmsvOwDoOIvd4kGkpON115b5GxtLYJB/0xlLJ0U9QY+ALENfS6ycYcvcoAx/L+IU1v7E1TCXg
+	 U5p0JjIWM8blmp8UFnPHVXSsbDCeFJA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed2;
+	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+	 message-id:subject:cc:to:from:date:from;
+	bh=RV+O7cB5l+vaR5SO6XJa6RTpRYVy6GA4qJE6OAXy7jM=;
+	b=AadjSAWAhsd9s/NuxYyFEDx/hhJmkRh8x7bTEGYiRhB+J+8BsiLl49CfqGKNFHOtMHHLkdtDsLSml
+	 eZo40lsBw==
+X-HalOne-ID: 602b5661-8ecd-11ed-85e1-7703b0afff57
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay5 (Halon) with ESMTPSA
+	id 602b5661-8ecd-11ed-85e1-7703b0afff57;
+	Sat, 07 Jan 2023 20:53:47 +0000 (UTC)
+Date: Sat, 7 Jan 2023 21:53:46 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Stephen Kitt <steve@sk2.org>
+Cc: Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Helge Deller <deller@gmx.de>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Antonino Daplas <adaplas@gmail.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Robin van der Gracht <robin@protonic.nl>,
+	Miguel Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	Ludovic Desroches <ludovic.desroches@microchip.com>
+Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight
+ handling
+Message-ID: <Y7nb2q6SDota/rTU@ravnborg.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
+ <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: 
- <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
-References: 
- <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-In-Reply-To: 
- <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-To: Nicolas Ferre <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Antonino Daplas <adaplas@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robin van der Gracht <robin@protonic.nl>, Miguel Ojeda <ojeda@kernel.org>,
- Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, Stephen Kitt <steve@sk2.org>,
- Sam Ravnborg <sam@ravnborg.org>
-X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=3041;
- i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=1rlDGBQ8dUJZwm2QXjSfjVEGh6r7tPSOztASIhko1ZA=; =?utf-8?q?b=3DOWmPqlL1i8PO?=
- =?utf-8?q?CFlGwpKfdK0lpD04cBqvUemyqQ5rJT5jQQmDliYaJeqEzjRTaDdplBAFwN0P5fJy?=
- jwHOPNUKCeY0gAj2nPyPtvnKkGoHtq262p4+KBibi0oW4Iuegikn
-X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
- pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
-X-Endpoint-Received:
- by B4 Submission Endpoint for sam@ravnborg.org/20230107 with auth_id=22
-X-Original-From: Sam Ravnborg <sam@ravnborg.org>
-Reply-To: <sam@ravnborg.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+Hi Stephen.
 
-With all users gone remove the deprecated fb_blank member in
-backlight_properties.
+On Sat, Jan 07, 2023 at 09:36:47PM +0100, Stephen Kitt wrote:
+> On 7 January 2023 19:26:15 CET, Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org> wrote:
+> >From: Sam Ravnborg <sam@ravnborg.org>
+> >
+> >The atmel_lcdfb had code to save/restore power state.
+> >This is not needed so drop it.
+> >
+> >Introduce backlight_is_brightness() to make logic simpler.
+> >
+> >Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> >Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> >Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> >Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> >Cc: linux-fbdev@vger.kernel.org
+> >Cc: linux-arm-kernel@lists.infradead.org
+> >---
+> > drivers/video/fbdev/atmel_lcdfb.c | 24 +++---------------------
+> > 1 file changed, 3 insertions(+), 21 deletions(-)
+...
+> 
+> Hi Sam,
+> 
+> I’d submitted quite a few more of these previously (and you’d reviewed them), see e.g. the thread starting at https://lkml.org/lkml/2022/6/7/4365, and yesterday, https://lkml.org/lkml/2023/1/6/520, https://lkml.org/lkml/2023/1/6/656, https://lkml.org/lkml/2023/1/6/970, https://lkml.org/lkml/2023/1/6/643, and https://lkml.org/lkml/2023/1/6/680. There are a few more, I can find them if it’s any use.
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
----
- drivers/video/backlight/backlight.c |  2 --
- include/linux/backlight.h           | 22 ----------------------
- 2 files changed, 24 deletions(-)
+The patches from yesterday was what triggered me to resurrect an old
+branch of mine where I had done something similar. I had lost all
+memory of reviewing similar patches from you.
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index b788ff3d0f45..9b0557d094c5 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -118,14 +118,12 @@ static int fb_notifier_callback(struct notifier_block *self,
- 		bd->fb_bl_on[node] = true;
- 		if (!bd->use_count++) {
- 			bd->props.state &= ~BL_CORE_FBBLANK;
--			bd->props.fb_blank = FB_BLANK_UNBLANK;
- 			backlight_update_status(bd);
- 		}
- 	} else if (fb_blank != FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
- 		bd->fb_bl_on[node] = false;
- 		if (!(--bd->use_count)) {
- 			bd->props.state |= BL_CORE_FBBLANK;
--			bd->props.fb_blank = fb_blank;
- 			backlight_update_status(bd);
- 		}
- 	}
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 614653e07e3a..c8622d6cc8c5 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -218,25 +218,6 @@ struct backlight_properties {
- 	 */
- 	int power;
- 
--	/**
--	 * @fb_blank: The power state from the FBIOBLANK ioctl.
--	 *
--	 * When the FBIOBLANK ioctl is called @fb_blank is set to the
--	 * blank parameter and the update_status() operation is called.
--	 *
--	 * When the backlight device is enabled @fb_blank is set
--	 * to FB_BLANK_UNBLANK. When the backlight device is disabled
--	 * @fb_blank is set to FB_BLANK_POWERDOWN.
--	 *
--	 * Backlight drivers should avoid using this property. It has been
--	 * replaced by state & BL_CORE_FBLANK (although most drivers should
--	 * use backlight_is_blank() as the preferred means to get the blank
--	 * state).
--	 *
--	 * fb_blank is deprecated and will be removed.
--	 */
--	int fb_blank;
--
- 	/**
- 	 * @type: The type of backlight supported.
- 	 *
-@@ -366,7 +347,6 @@ static inline int backlight_enable(struct backlight_device *bd)
- 		return 0;
- 
- 	bd->props.power = FB_BLANK_UNBLANK;
--	bd->props.fb_blank = FB_BLANK_UNBLANK;
- 	bd->props.state &= ~BL_CORE_FBBLANK;
- 
- 	return backlight_update_status(bd);
-@@ -382,7 +362,6 @@ static inline int backlight_disable(struct backlight_device *bd)
- 		return 0;
- 
- 	bd->props.power = FB_BLANK_POWERDOWN;
--	bd->props.fb_blank = FB_BLANK_POWERDOWN;
- 	bd->props.state |= BL_CORE_FBBLANK;
- 
- 	return backlight_update_status(bd);
-@@ -403,7 +382,6 @@ static inline int backlight_disable(struct backlight_device *bd)
- static inline bool backlight_is_blank(const struct backlight_device *bd)
- {
- 	return bd->props.power != FB_BLANK_UNBLANK ||
--	       bd->props.fb_blank != FB_BLANK_UNBLANK ||
- 	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
- }
- 
 
--- 
-2.34.1
+Helge - could you pick the reviewed patches from:
+https://lore.kernel.org/all/20220607192335.1137249-1-steve@sk2.org/
+[This is the same mail as Stephen refer to above - looked up via lore].
+
+Stephen - I expect Daniel/Lee to take care of the patches from yesterday.
+If you can look up other pending patches from you please do so, so we
+can have them applied.
+Preferably with links to lore - as this makes it easier to apply them.
+
+Review of what is unique in this set would be appreciated.
+
+	Sam
