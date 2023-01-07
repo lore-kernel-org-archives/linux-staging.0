@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FFB46B8
-	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B12AC433F1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C4D6FC7
+	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 72536C433AC;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1673115981;
-	bh=depPTI0dNs82ApYntY0i9Fl7bNR8n2arzj755GfE+VQ=;
+	bh=CGUKurJK1iYSsqV7DCPY1kNfW8t884NAue0bEi2srQ8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=sqHpySDJ4n/IvhYXU+F523jhEHOhqF8OXLnJ1KVhBjw6MsYmVPxBA3GWpI4ZTxX/h
-	 3slaQf4N6FlYYLCMGS6SsHKcFqFm2iQN6yl0+uJ0YJrczFqN/mJdF6Xpq/esTZCiF8
-	 /sJ/XpUSZd5AX2SxI6Ae+AQPJjAmMwG3QEWFxkFxd5BmKij53BVTIXuPVdZLX4Z3M2
-	 ukQRhfuPmhzgFXr511aG/5FcFew0Dd8pkJ+bNkzge2sroS+TIULToXWF9DxidfQpx4
-	 5p04DVFnIXze6NSUxgCCWL97ZOwFRn+IYK5XEcKC2E+qEuU582m5EMDmpiU0XLowFI
-	 M+hlRGyJmclow==
+	b=kSLKP185ei3AEEFXwIPjE6QdJYPCRuPWWZvaRE10jNJrkmZelz1gq3fQ0Du4yaoWP
+	 Rn6vIKFT5nTUkWwS8HQK7A+D1JjcOyi2Qp+l997hHlO8UYi5KGumFH9Iv97Yoxosnf
+	 c5qEE5PEkasLF1dsL8AAhXWQUkvg5i4Se7up6Xi8uPsprJClqDFEcsxW25/7tbfsfS
+	 XuY7rH4o8KbpzSiR/pwIc638TR5aKUgelx94MH9TmTUjqYYTH0SnwhjE6nzRmFHnWE
+	 H0ZtguvJ6iOZPhsthGsTri3tuv5xSpovkt7K7vUiFzkkDSDs27VQo+1XAYZEl5hkxr
+	 lAcNIXVoJ11BA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A75C63797;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C3E7C46467;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 From:
  Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 07 Jan 2023 19:26:16 +0100
+Date: Sat, 07 Jan 2023 19:26:20 +0100
 Subject: 
- [PATCH 02/15] video: fbdev: atyfb: Introduce backlight_get_brightness()
+ [PATCH 06/15] video: fbdev: aty128fb: Introduce backlight_get_brightness()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,7 +32,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Message-Id: 
- <20230107-sam-video-backlight-drop-fb_blank-v1-2-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-6-1bd9bafb351f@ravnborg.org>
 References: 
  <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
 In-Reply-To: 
@@ -51,19 +51,13 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
  linuxppc-dev@lists.ozlabs.org, Stephen Kitt <steve@sk2.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Souptick Joarder <jrdr.linux@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jason Yan <yanaijie@huawei.com>, Jani Nikula <jani.nikula@intel.com>,
- Arnd Bergmann <arnd@arndb.de>
+ Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1311;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1162;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=/QbAHY615CfNfGpaP64/mhOeeFjzqofmnLkwjP8TdRk=; =?utf-8?q?b=3DpeFAXztHf+aX?=
- =?utf-8?q?nZ041+ByYlSGJcH0uIKJtmc9ze5LMo7+ev8qRdSy4KAZF/gFoJO2KCg5E2PIfxSr?=
- qiX2RHJjC5aAXbbBDBuJbQRpdONkZhL0a8wWkB85MFUIRjBShkmE
+ bh=n8Kx2XY+cYFmLkcdV5dyk6zjH/vhpqMDIzovg3Z1GFo=; =?utf-8?q?b=3DqvKdgsM7OlWq?=
+ =?utf-8?q?GoR/P13Xavz5UkNGEdv1D6H6ewY0ou7Vszpmyqw86Gyff1CGVv3rHRS/v1qiPegZ?=
+ IzxoKSMSBSuVXcEH8FTi9l2NNIUcaugLu4GMLSPyYepKLKiAsSsb
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received:
@@ -77,37 +71,36 @@ Introduce backlight_get_brightness() to simplify logic
 and avoid direct access to backlight properties.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Souptick Joarder <jrdr.linux@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Jason Yan <yanaijie@huawei.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linux-fbdev@vger.kernel.org
 ---
- drivers/video/fbdev/aty/atyfb_base.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/video/fbdev/aty/aty128fb.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index 0ccf5d401ecb..ca361e215904 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -2219,13 +2219,7 @@ static int aty_bl_update_status(struct backlight_device *bd)
+diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
+index dd31b9d7d337..736126cc5049 100644
+--- a/drivers/video/fbdev/aty/aty128fb.c
++++ b/drivers/video/fbdev/aty/aty128fb.c
+@@ -1764,17 +1764,10 @@ static int aty128_bl_update_status(struct backlight_device *bd)
  {
- 	struct atyfb_par *par = bl_get_data(bd);
- 	unsigned int reg = aty_ld_lcd(LCD_MISC_CNTL, par);
+ 	struct aty128fb_par *par = bl_get_data(bd);
+ 	unsigned int reg = aty_ld_le32(LVDS_GEN_CNTL);
 -	int level;
 -
 -	if (bd->props.power != FB_BLANK_UNBLANK ||
--	    bd->props.fb_blank != FB_BLANK_UNBLANK)
+-	    bd->props.fb_blank != FB_BLANK_UNBLANK ||
+-	    !par->lcd_on)
 -		level = 0;
 -	else
 -		level = bd->props.brightness;
 +	int level = backlight_get_brightness(bd);
  
- 	reg |= (BLMOD_EN | BIASMOD_EN);
- 	if (level > 0) {
+ 	reg |= LVDS_BL_MOD_EN | LVDS_BLON;
+-	if (level > 0) {
++	if (level > 0 || par->lcd_on) {
+ 		reg |= LVDS_DIGION;
+ 		if (!(reg & LVDS_ON)) {
+ 			reg &= ~LVDS_BLON;
 
 -- 
 2.34.1
