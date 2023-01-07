@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88E14C84
-	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 49F6AC433A0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5665779C4
+	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D6118C43396;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1673115981;
-	bh=stKQw4ypuM0c2CGPJsNtwm+f9+XYDr8crV+YAKDS7Qg=;
+	bh=NopO6/WDONQttpL/maFut1E5RlkJB2uOICrSmRTuvrs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=HXp0PrAmyat56OZcxRyrQ/u0BelQxizvXcSVJ/N3/uFmiUg6VQTRXJtGXsYB14EHz
-	 +nHBE4J5sNIy6jBDIClPyrBAZv3W/RoIFnJbLVPQ7ZAs3VfvliAlE6DuGOKl7zfLq4
-	 44Aif18Fp3M7Ph3Az3wBULTOOFWPfMFSHahDAygGGiAaD97eZnpk68RhtrZLLOzvlV
-	 Fx4tAS8UpfshZxo7EQCsGIB068l83dPE5lXJpxr2kxeeQQgEeeOJTWld2h3AY1U/dQ
-	 S//nSCeosL5beIgaC+DwF2MMBtoer1V9fbzl7ibWqEo+WbO2HJSpsK4zQDkQ9C2LcC
-	 9dU3qSq2Fb9Tg==
+	b=a+TGg0zalLu1IZUe0Dusx60kOUTAgJB6i2V0ntZSdpG5hA7ZzF9GFzb2Jzh5cLqTV
+	 udilmzFV/9GY2Q3+sJ1scx5kxvtRS4G/9uxntABwo7uUwhgf6vFzlxK7WJqaNC5zMo
+	 2N3akNeLX30I+ZVwfVcQoVc25k6ocdIxpIS3uirQJC6Ehp1L01MwXb9Exhe/1cLaPD
+	 6BQnOgaCjj1iWPKfalhHAuMKx/39xYumSGulqURz1zsjcovak9tmiWrsqRY/YJaXxL
+	 xZsAIM0ke+gx7atPRAuPhTvpBKHxO1nLnBlU+RrLEzUE+Ak8SXCQIo7SBDQpfYHPnz
+	 UFvQ6BGEyrU1g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 399B4C54EBD;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E09C54EBC;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 From:
  Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 07 Jan 2023 19:26:18 +0100
-Subject: 
- [PATCH 04/15] video: fbdev: radeon: Introduce backlight_get_brightness()
+Date: Sat, 07 Jan 2023 19:26:25 +0100
+Subject: [PATCH 11/15] powerpc: via-pmu-backlight: Introduce
+ backlight_get_brightness()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,7 +32,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Message-Id: 
- <20230107-sam-video-backlight-drop-fb_blank-v1-4-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-11-1bd9bafb351f@ravnborg.org>
 References: 
  <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
 In-Reply-To: 
@@ -53,11 +53,11 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linuxppc-dev@lists.ozlabs.org, Stephen Kitt <steve@sk2.org>,
  Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1304;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1090;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=Go6rR02iCXe+4kQHAFtFCxiJJyvkl/oj7VhzPcU0Z6Y=; =?utf-8?q?b=3DflqgadwX+l3X?=
- =?utf-8?q?JQBMurYVeZ5lw7jYwnq+fjSaCXLgDVsWCF4QeU+pM/JkNHOUd4eAe48lF762VyAl?=
- Zy46RGaUDUVM8Rn1neRnITDLjeGxeqHCDC0WSLnf3NCp1XdsYp8r
+ bh=lPqymbzfNTifpXa2QzoPI3zSglttX8N9s2/xbxu8aQ4=; =?utf-8?q?b=3DoM0VPahuDXBa?=
+ =?utf-8?q?8NICHQ0XEZfUD/cH3Cz8tGxqgZI94evf9mznv/gWoWJFlh9dpNlj1GiU49BWm0cl?=
+ g1Zmn+5lAV0k2VgXGHyPJ7cqtCg0PIxR/iXKZWAR3vZGmqh+vYaD
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received:
@@ -72,33 +72,30 @@ and avoid direct access to backlight properties.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: linux-fbdev@vger.kernel.org
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: linuxppc-dev@lists.ozlabs.org
 ---
- drivers/video/fbdev/aty/radeon_backlight.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/macintosh/via-pmu-backlight.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/aty/radeon_backlight.c b/drivers/video/fbdev/aty/radeon_backlight.c
-index d2c1263ad260..22a39fea7b89 100644
---- a/drivers/video/fbdev/aty/radeon_backlight.c
-+++ b/drivers/video/fbdev/aty/radeon_backlight.c
-@@ -54,14 +54,10 @@ static int radeon_bl_update_status(struct backlight_device *bd)
- 		return 0;
- 
- 	/* We turn off the LCD completely instead of just dimming the
--	 * backlight. This provides some greater power saving and the display
--	 * is useless without backlight anyway.
-+	 * backlight if level < 1. This provides some greater power saving
-+	 * and the display is useless without backlight anyway.
- 	 */
--        if (bd->props.power != FB_BLANK_UNBLANK ||
+diff --git a/drivers/macintosh/via-pmu-backlight.c b/drivers/macintosh/via-pmu-backlight.c
+index 2194016122d2..c2d87e7fa85b 100644
+--- a/drivers/macintosh/via-pmu-backlight.c
++++ b/drivers/macintosh/via-pmu-backlight.c
+@@ -71,12 +71,7 @@ static int pmu_backlight_get_level_brightness(int level)
+ static int __pmu_backlight_update_status(struct backlight_device *bd)
+ {
+ 	struct adb_request req;
+-	int level = bd->props.brightness;
+-
+-
+-	if (bd->props.power != FB_BLANK_UNBLANK ||
 -	    bd->props.fb_blank != FB_BLANK_UNBLANK)
 -		level = 0;
--	else
--		level = bd->props.brightness;
-+	level = backlight_get_brightness(bd);
++	int level = backlight_get_brightness(bd);
  
- 	del_timer_sync(&rinfo->lvds_timer);
- 	radeon_engine_idle();
+ 	if (level > 0) {
+ 		int pmulevel = pmu_backlight_get_level_brightness(level);
 
 -- 
 2.34.1
