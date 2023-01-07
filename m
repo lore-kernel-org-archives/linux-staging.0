@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66EC79C0
-	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A382C433AE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88E14C84
+	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 49F6AC433A0;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1673115981;
-	bh=5ij+2zt071FaFgXPs/8g9HMxpQ5Rvn4NOrg8o4aDjAA=;
+	bh=stKQw4ypuM0c2CGPJsNtwm+f9+XYDr8crV+YAKDS7Qg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=R0Vqm0kwLCUMC/FFA+SwZYvkyVvRCwUaU1sKttT/VJJBVNEHRFOf7VvRZzlHTJkZG
-	 jjwOFSnMDXFvNYr2SN2VsLrgU4CSuQ9MOmH7eo0WWSnwItqdjAYu/ZYW9aU81kUGBX
-	 R39CPgkrOZwFdoE7pNj4N9tPVvQEikdGY5kaJNMaW7A+TZIGW21KtIjU6OqRUwklQl
-	 S5JBCOzlHxApv1YqY1liRhR+fB9VwhN/rYiWd6Z2LUKDvnkbI+KBxZBmnEsLtO0Jfa
-	 l3RLZMdBIrygDW6z0hb8uQ5n1gN1WEahYBr1Nnd6gvEn+QRWEUAge3ELmYT1mbJaLT
-	 X6i2PWrdQxt1g==
+	b=HXp0PrAmyat56OZcxRyrQ/u0BelQxizvXcSVJ/N3/uFmiUg6VQTRXJtGXsYB14EHz
+	 +nHBE4J5sNIy6jBDIClPyrBAZv3W/RoIFnJbLVPQ7ZAs3VfvliAlE6DuGOKl7zfLq4
+	 44Aif18Fp3M7Ph3Az3wBULTOOFWPfMFSHahDAygGGiAaD97eZnpk68RhtrZLLOzvlV
+	 Fx4tAS8UpfshZxo7EQCsGIB068l83dPE5lXJpxr2kxeeQQgEeeOJTWld2h3AY1U/dQ
+	 S//nSCeosL5beIgaC+DwF2MMBtoer1V9fbzl7ibWqEo+WbO2HJSpsK4zQDkQ9C2LcC
+	 9dU3qSq2Fb9Tg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74EC0C54EBC;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 399B4C54EBD;
 	Sat,  7 Jan 2023 18:26:21 +0000 (UTC)
 From:
  Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 07 Jan 2023 19:26:21 +0100
+Date: Sat, 07 Jan 2023 19:26:18 +0100
 Subject: 
- [PATCH 07/15] video: fbdev: mx3fb: Introduce backlight_get_brightness()
+ [PATCH 04/15] video: fbdev: radeon: Introduce backlight_get_brightness()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,7 +32,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Message-Id: 
- <20230107-sam-video-backlight-drop-fb_blank-v1-7-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-4-1bd9bafb351f@ravnborg.org>
 References: 
  <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
 In-Reply-To: 
@@ -51,16 +51,13 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
  linuxppc-dev@lists.ozlabs.org, Stephen Kitt <steve@sk2.org>,
- Sam Ravnborg <sam@ravnborg.org>, Kate Stewart <kstewart@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Arnd Bergmann <arnd@arndb.de>, Jani Nikula <jani.nikula@intel.com>
+ Sam Ravnborg <sam@ravnborg.org>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1512;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673115978; l=1304;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=drvkdW0PBheGrMYY3qAlAUiLqN5UfH4VOwcA/aXugg0=; =?utf-8?q?b=3D8iTbagfWb1Lj?=
- =?utf-8?q?07cocG5qMfP8Ayj4BAQY4d64KWfzkOktfkyCN7IXzBwcj/9U/iJWYWB0GCaKShTH?=
- 0OiuscjyAkCEJdcJGgJQX9THB3GVRSWeiPGBowlxgEHvu9p/2eio
+ bh=Go6rR02iCXe+4kQHAFtFCxiJJyvkl/oj7VhzPcU0Z6Y=; =?utf-8?q?b=3DflqgadwX+l3X?=
+ =?utf-8?q?JQBMurYVeZ5lw7jYwnq+fjSaCXLgDVsWCF4QeU+pM/JkNHOUd4eAe48lF762VyAl?=
+ Zy46RGaUDUVM8Rn1neRnITDLjeGxeqHCDC0WSLnf3NCp1XdsYp8r
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received:
@@ -74,43 +71,34 @@ Introduce backlight_get_brightness() to simplify logic
 and avoid direct access to backlight properties.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: linux-fbdev@vger.kernel.org
 ---
- drivers/video/fbdev/mx3fb.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/video/fbdev/aty/radeon_backlight.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/mx3fb.c b/drivers/video/fbdev/mx3fb.c
-index b945b68984b9..bc35f664cbff 100644
---- a/drivers/video/fbdev/mx3fb.c
-+++ b/drivers/video/fbdev/mx3fb.c
-@@ -283,12 +283,7 @@ static int mx3fb_bl_get_brightness(struct backlight_device *bl)
- static int mx3fb_bl_update_status(struct backlight_device *bl)
- {
- 	struct mx3fb_data *fbd = bl_get_data(bl);
--	int brightness = bl->props.brightness;
--
--	if (bl->props.power != FB_BLANK_UNBLANK)
--		brightness = 0;
--	if (bl->props.fb_blank != FB_BLANK_UNBLANK)
--		brightness = 0;
-+	int brightness = backlight_get_brightness(bl);
+diff --git a/drivers/video/fbdev/aty/radeon_backlight.c b/drivers/video/fbdev/aty/radeon_backlight.c
+index d2c1263ad260..22a39fea7b89 100644
+--- a/drivers/video/fbdev/aty/radeon_backlight.c
++++ b/drivers/video/fbdev/aty/radeon_backlight.c
+@@ -54,14 +54,10 @@ static int radeon_bl_update_status(struct backlight_device *bd)
+ 		return 0;
  
- 	fbd->backlight_level = (fbd->backlight_level & ~0xFF) | brightness;
+ 	/* We turn off the LCD completely instead of just dimming the
+-	 * backlight. This provides some greater power saving and the display
+-	 * is useless without backlight anyway.
++	 * backlight if level < 1. This provides some greater power saving
++	 * and the display is useless without backlight anyway.
+ 	 */
+-        if (bd->props.power != FB_BLANK_UNBLANK ||
+-	    bd->props.fb_blank != FB_BLANK_UNBLANK)
+-		level = 0;
+-	else
+-		level = bd->props.brightness;
++	level = backlight_get_brightness(bd);
  
-@@ -325,7 +320,6 @@ static void mx3fb_init_backlight(struct mx3fb_data *fbd)
- 
- 	fbd->bl = bl;
- 	bl->props.power = FB_BLANK_UNBLANK;
--	bl->props.fb_blank = FB_BLANK_UNBLANK;
- 	bl->props.brightness = mx3fb_bl_get_brightness(bl);
- }
- 
+ 	del_timer_sync(&rinfo->lvds_timer);
+ 	radeon_engine_idle();
 
 -- 
 2.34.1
