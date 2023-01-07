@@ -1,108 +1,87 @@
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D83A47
-	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 20:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E1FA47
+	for <linux-staging@lists.linux.dev>; Sat,  7 Jan 2023 21:02:50 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-4c7d35b37e2so9479797b3.2
+        for <linux-staging@lists.linux.dev>; Sat, 07 Jan 2023 13:02:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:from;
-	bh=RV+O7cB5l+vaR5SO6XJa6RTpRYVy6GA4qJE6OAXy7jM=;
-	b=uqBjqGUZaw40K9daezgVaSHVAazfEdhdq+JcI2yeGkxOlNFTZpIFrUFk9XABsNvhmL+1pP+c2lsty
-	 Fi/30HkWP0cfz+KFCzbqIr/KGrCdW/29/A9qOOGzewzeaFTff3HpRc47oTq/JDYLJUfS8ZZUXFOmTY
-	 azBMO9ivKekwR/UiON6K6kWi1Gj4cbXkrtyGZ9T7dDTTn0DBgbLsLGNS6OYSpriPvzh8GbhHLaUpyB
-	 dHvxIRmsvOwDoOIvd4kGkpON115b5GxtLYJB/0xlLJ0U9QY+ALENfS6ycYcvcoAx/L+IU1v7E1TCXg
-	 U5p0JjIWM8blmp8UFnPHVXSsbDCeFJA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:from;
-	bh=RV+O7cB5l+vaR5SO6XJa6RTpRYVy6GA4qJE6OAXy7jM=;
-	b=AadjSAWAhsd9s/NuxYyFEDx/hhJmkRh8x7bTEGYiRhB+J+8BsiLl49CfqGKNFHOtMHHLkdtDsLSml
-	 eZo40lsBw==
-X-HalOne-ID: 602b5661-8ecd-11ed-85e1-7703b0afff57
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay5 (Halon) with ESMTPSA
-	id 602b5661-8ecd-11ed-85e1-7703b0afff57;
-	Sat, 07 Jan 2023 20:53:47 +0000 (UTC)
-Date: Sat, 7 Jan 2023 21:53:46 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Stephen Kitt <steve@sk2.org>
-Cc: Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Helge Deller <deller@gmx.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Antonino Daplas <adaplas@gmail.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Paul Mackerras <paulus@samba.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Robin van der Gracht <robin@protonic.nl>,
-	Miguel Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	Ludovic Desroches <ludovic.desroches@microchip.com>
-Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight
- handling
-Message-ID: <Y7nb2q6SDota/rTU@ravnborg.org>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
- <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JmL5h/5f9ZKkHhV7ji7KKVGJQTUq0yPHfnhiMRhXed0=;
+        b=IK5dGKTx88W2mfNkdSbqWACqkjubhVS9N14mCOb6xiNrTRTmnuplQafYC0im+wGspK
+         eOYeaF0MULlk8xs1MhOKyABR+2n5mu7ywO33aNQ9VX4GMkdSdCVqflFNfkdkPvE907aV
+         AbMRlhdfsnbXDXTGbNIAQfaGPRPsPMo8biAT31OQE9sPB82/31f0is5EfnCupoTz/Ke+
+         5qPrTwyq0HpYK24udJ89pRlkE2Z5QaSlpexv9uCe2Y49IpPc0IVSTp5co8YZkKYLFYOl
+         z+xqA+ASKB1ZQdTTr7sECFdnwcqnzJz4QBV2ycEBNoSYjk2aEYooKDaJopPZvE6w6Z6k
+         Ar3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JmL5h/5f9ZKkHhV7ji7KKVGJQTUq0yPHfnhiMRhXed0=;
+        b=UytvHN9FD/6C+XdXXIYkNd0v8/gc2jxyAp/w2OhEeyLbxo8rnOn2k6fRh03rTI71zm
+         FEg7Fdt9HdHKrOIzv3hRZPgF500rDPuyGoHpyMBR2ArOPNh6p9JsKNFGSz/bN1e60ahB
+         FIqMpiCiKfh2ASj9gd2vtDyBHTtiq0b2a97w9k2jNdGiMbM3h+uLdN+hqh1aRlwPVWnR
+         1TXhYq3d3AnB6lnqdlatnYx/79Xb9uGIeLTfpBu9n7uybmvn+Krieugz6uOVtERRilil
+         q6WU6tPIa7vD82Y/XsoQp/xr26QGM/k3c/d6pVbxgOZumSY8zcg7gRbz00WtFwwKb0E/
+         HAOg==
+X-Gm-Message-State: AFqh2kqTT9/18jNKPxtiQhx+To3SzFkaXLskm40o5M7fG0copdurs6NO
+	5yjGscpnYk3FpIhsB9JhCsg/3+WWp6+ZbRiE/6I=
+X-Google-Smtp-Source: AMrXdXvY/st+xuDrW4znKkHpZttsCvsZGZkx5Bw3ldG/KbixkSHtRzf/+VMAvkN/c9NxoWqjkDvGG4OpHXXkd75XJ3w=
+X-Received: by 2002:a81:484f:0:b0:3ed:90d2:2ab8 with SMTP id
+ v76-20020a81484f000000b003ed90d22ab8mr582273ywa.67.1673125369382; Sat, 07 Jan
+ 2023 13:02:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
+In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 7 Jan 2023 22:02:38 +0100
+Message-ID: <CANiq72mFMJuec+r=T6xYtLpuU+a1rOrAhrHiecy_1Jpj2m4J=g@mail.gmail.com>
+Subject: Re: [PATCH 12/15] auxdisplay: ht16k33: Introduce backlight_get_brightness()
+To: sam@ravnborg.org, Stephen Kitt <steve@sk2.org>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Antonino Daplas <adaplas@gmail.com>, 
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Robin van der Gracht <robin@protonic.nl>, 
+	Miguel Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Daniel Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>, 
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Stephen.
+On Sat, Jan 7, 2023 at 7:26 PM Sam Ravnborg via B4 Submission Endpoint
+<devnull+sam.ravnborg.org@kernel.org> wrote:
+>
+> Introduce backlight_get_brightness() to simplify logic
+> and avoid direct access to backlight properties.
 
-On Sat, Jan 07, 2023 at 09:36:47PM +0100, Stephen Kitt wrote:
-> On 7 January 2023 19:26:15 CET, Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org> wrote:
-> >From: Sam Ravnborg <sam@ravnborg.org>
-> >
-> >The atmel_lcdfb had code to save/restore power state.
-> >This is not needed so drop it.
-> >
-> >Introduce backlight_is_brightness() to make logic simpler.
-> >
-> >Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> >Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> >Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> >Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> >Cc: linux-fbdev@vger.kernel.org
-> >Cc: linux-arm-kernel@lists.infradead.org
-> >---
-> > drivers/video/fbdev/atmel_lcdfb.c | 24 +++---------------------
-> > 1 file changed, 3 insertions(+), 21 deletions(-)
-...
-> 
-> Hi Sam,
-> 
-> I’d submitted quite a few more of these previously (and you’d reviewed them), see e.g. the thread starting at https://lkml.org/lkml/2022/6/7/4365, and yesterday, https://lkml.org/lkml/2023/1/6/520, https://lkml.org/lkml/2023/1/6/656, https://lkml.org/lkml/2023/1/6/970, https://lkml.org/lkml/2023/1/6/643, and https://lkml.org/lkml/2023/1/6/680. There are a few more, I can find them if it’s any use.
+Note: Stephen sent this one too a while ago (with some more details in
+the commit message, which is always nice); and then he sent yesterday
+v2 [1] (to mention the functional change with `BL_CORE_SUSPENDED`
+[2]).
 
-The patches from yesterday was what triggered me to resurrect an old
-branch of mine where I had done something similar. I had lost all
-memory of reviewing similar patches from you.
+Anyway, if it goes via drm-misc, feel free to have my:
 
+    Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-Helge - could you pick the reviewed patches from:
-https://lore.kernel.org/all/20220607192335.1137249-1-steve@sk2.org/
-[This is the same mail as Stephen refer to above - looked up via lore].
+Though it would be nice to have Robin test the change.
 
-Stephen - I expect Daniel/Lee to take care of the patches from yesterday.
-If you can look up other pending patches from you please do so, so we
-can have them applied.
-Preferably with links to lore - as this makes it easier to apply them.
+Thanks!
 
-Review of what is unique in this set would be appreciated.
+[1] https://lore.kernel.org/lkml/20230106143002.1434266-1-steve@sk2.org/
+[2] https://lore.kernel.org/lkml/CANiq72kRhmT37H1FAGYGny83ONYXeqJuO8ZPbym0ajQOWKY4Kw@mail.gmail.com/
 
-	Sam
+Cheers,
+Miguel
