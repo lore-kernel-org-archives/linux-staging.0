@@ -1,139 +1,79 @@
-Received: from 18.mo581.mail-out.ovh.net (18.mo581.mail-out.ovh.net [188.165.56.163])
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com (mailrelay5-1.pub.mailoutpod2-cph3.one.com [46.30.211.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBF228F9
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 20:08:40 +0000 (UTC)
-Received: from director10.ghost.mail-out.ovh.net (unknown [10.109.143.249])
-	by mo581.mail-out.ovh.net (Postfix) with ESMTP id CA75F2365A
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 19:29:37 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-5zc6k (unknown [10.111.208.1])
-	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 256A21FF13;
-	Sun,  8 Jan 2023 19:29:33 +0000 (UTC)
-Received: from sk2.org ([37.59.142.102])
-	by ghost-submission-6684bf9d7b-5zc6k with ESMTPSA
-	id NzpKBp0Zu2OoSAEAosFdow
-	(envelope-from <steve@sk2.org>); Sun, 08 Jan 2023 19:29:33 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-102R00419398439-321a-44a9-9cd6-de394649d1c8,
-                    5128B599F7D401446F64D4771BE19AB2B9CD7A8B) smtp.auth=steve@sk2.org
-X-OVh-ClientIp:82.65.25.201
-Date: Sun, 8 Jan 2023 20:29:31 +0100
-From: Stephen Kitt <steve@sk2.org>
-To: Sam Ravnborg via B4 Submission Endpoint
- <devnull+sam.ravnborg.org@kernel.org>
-Cc: <sam@ravnborg.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Helge
- Deller <deller@gmx.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Antonino Daplas
- <adaplas@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Robin van der Gracht <robin@protonic.nl>,
- Miguel Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>, Daniel
- Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Javier Martinez
- Canillas <javierm@redhat.com>, Peter Suti <peter.suti@streamunlimited.com>
-Subject: Re: [PATCH 10/15] staging: fbtft: core: Introduce
- backlight_is_blank()
-Message-ID: <20230108202931.42c9ee66@heffalump.sk2.org>
-In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-10-1bd9bafb351f@ravnborg.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F012CA6
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 20:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=9OaC5fUVjOcmXpBQANWBWYj1FAjD2dw4nLoh5knK1rQ=;
+	b=a3Tr/5THw9+sAm+Z+Gy/e4LPnpKQjtoLtN8tz6vefonrvI2Pg0DkrGp7CRZv9nUmr2A1eqptG9QOW
+	 1f/HZoXSd3iAonj5rqD6hm8MfIqs+HGA74YZTEWBqQ8zPgFaXkRXZXdnxCyMaH5GiAqtxqK9Df6AX9
+	 3m+LbJKf5IvUctgd9+rBTMF5HCdyq41ptarJEFEIxZnSoPgNbm9JF71Uqwz6qa4eukWv6jkTxzMAYs
+	 0ekB9siEZdEjgGlQRCnZjJI9Gm+DPZrbVZFfhiiBbLrw2rGTdikvsqCerKtoliTSrMwPUfeZ8oSV+u
+	 SlL0aFFxR/YyVglkXoExkwRnS6zazdA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=9OaC5fUVjOcmXpBQANWBWYj1FAjD2dw4nLoh5knK1rQ=;
+	b=kycKAXjH4J9Dm+t0vV22ddvwFXvBpt2IbPP9ed4AbUh/FX4raML677FAsMHuNHPU0gcasnEY0VNwR
+	 z0AhnIABQ==
+X-HalOne-ID: 6e82c542-8f92-11ed-a2f5-7703b0afff57
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay5 (Halon) with ESMTPSA
+	id 6e82c542-8f92-11ed-a2f5-7703b0afff57;
+	Sun, 08 Jan 2023 20:24:21 +0000 (UTC)
+Date: Sun, 8 Jan 2023 21:24:20 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Stephen Kitt <steve@sk2.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-staging@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
+	Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Robin van der Gracht <robin@protonic.nl>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Jingoo Han <jingoohan1@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+	Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight
+ handling
+Message-ID: <Y7smdFs2xgJwwVQO@ravnborg.org>
 References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-	<20230107-sam-video-backlight-drop-fb_blank-v1-10-1bd9bafb351f@ravnborg.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
+ <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
+ <Y7nb2q6SDota/rTU@ravnborg.org>
+ <366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/BJ.jj8xoOBPKImJW1n2hw0J";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 1846757322849420934
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggdduvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepfeffgefhgfeuueeffeejieefieefgfefffethfdtudegvdejueelhffhfeegjeeinecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekuddpmhhouggvpehsmhhtphhouhht
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
 
---Sig_/BJ.jj8xoOBPKImJW1n2hw0J
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Stephen.
 
-On Sat, 07 Jan 2023 19:26:24 +0100, Sam Ravnborg via B4 Submission Endpoint
-<devnull+sam.ravnborg.org@kernel.org> wrote:
+ 
+> Here are my pending patches from last June on lore:
+> 
 
-> From: Sam Ravnborg <sam@ravnborg.org>
->=20
-> Avoiding direct access to backlight_properties.props.
->=20
-> Access to the deprecated props.fb_blank replaced by backlight_is_blank().
-> Access to props.power is dropped - it was only used for debug.
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stephen Kitt <steve@sk2.org>
-> Cc: Peter Suti <peter.suti@streamunlimited.com>
-> Cc: linux-fbdev@vger.kernel.org
-> ---
->  drivers/staging/fbtft/fbtft-core.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/staging/fbtft/fbtft-core.c
-> b/drivers/staging/fbtft/fbtft-core.c index afaba94d1d1c..1746327e1939 100=
-644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -132,15 +132,15 @@ static int fbtft_backlight_update_status(struct
-> backlight_device *bd) {
->  	struct fbtft_par *par =3D bl_get_data(bd);
->  	bool polarity =3D par->polarity;
-> +	bool blank =3D backlight_is_blank(bd);
-> =20
-> -	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
-> -		      "%s: polarity=3D%d, power=3D%d, fb_blank=3D%d\n",
-> -		      __func__, polarity, bd->props.power,
-> bd->props.fb_blank);
-> +	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: polarity=3D%d, blank=3D%d\n",
-> +		      __func__, polarity, blank);
-> =20
-> -	if (!backlight_is_blank(bd))
-> -		gpiod_set_value(par->gpio.led[0], polarity);
-> -	else
-> +	if (blank)
->  		gpiod_set_value(par->gpio.led[0], !polarity);
-> +	else
-> +		gpiod_set_value(par->gpio.led[0], polarity);
-> =20
->  	return 0;
->  }
->=20
-> --=20
-> 2.34.1
+All patches are handled I think except this:
+> * https://lore.kernel.org/lkml/20220608205623.2106113-1-steve@sk2.org/
 
-Reviewed-by: Stephen Kitt <steve@sk2.org>
+Can I ask you to drop the assignment that is not needed, and resend with
+the collected acks/r-b.
 
---Sig_/BJ.jj8xoOBPKImJW1n2hw0J
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+With this, then all fbdev patches are handled.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO7GZsACgkQgNMC9Yht
-g5wubw/+OjnQ4CEmY5Wjdqc5kVNQk3JFua1QNs/C0p6yt+0Z+jZGg/gsNAzlKXCI
-Gm1o0/JkT8sJ3Th8mMKikKDs8y8SiHfHkm7gR0HRcUwdML8RHDCDr4d0yBS/xLtP
-7fwQNf604rHXvP2Tlt/hZvM6r6gfGve+t9pFqwhToCARgZgEY08UEf4rfPTkBYBz
-vRcvriKaj9O59OBgG7QjSxKWNPyhYumnL1GRJZzbrOgu5zAk8zJUCxAy/LD3fMy6
-x+rePxWXUOQQtVlW4T/jMBADrnHgwoluBNA12CnsXBm14ZXrennS6bm0f3xjaHka
-KkreOCwMglpI1/UaLTwqlRUQALocxWsQypP5hlG2OO4FcnDUagGhj1M5KNC4OPF8
-rWi/LUWyLLs32FMZiq4Y561ev6OTCsqlgO1r8DVQAsaZVhPcn9TfiDOQp/HaCeRo
-DAsncfhZEk9Cm6/vsv3NijYTlHBXfgWd7AKYCiUEVFqdGqUZ+1RdFxdqcj0CM7Fp
-HNfcXRAcTA1b0EJrLKQK472vW38RhFzvfvWs5xnX4O/JHDxo0x9Mb4N8pUYMRcFb
-W2Md6wkDlESuYv8XD2cId/zmb36TyKSZQfBkuCmXxiG1zJK+phoNuUICF+a4ApRk
-cYG3xI2aM1ayPFQE+4njm3MuaS9/G+6XzyEn9qzeas4Kc1M1xiw=
-=e1F4
------END PGP SIGNATURE-----
-
---Sig_/BJ.jj8xoOBPKImJW1n2hw0J--
+	Sam
