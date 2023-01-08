@@ -1,102 +1,139 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 18.mo581.mail-out.ovh.net (18.mo581.mail-out.ovh.net [188.165.56.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4761228F9
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 19:57:42 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id g13so9946600lfv.7
-        for <linux-staging@lists.linux.dev>; Sun, 08 Jan 2023 11:57:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jwMbo3jZwfzrxPAlrx2iocMxlsap6lAjNhHYy958phg=;
-        b=B9LBMt+FOLmA/fahhqUqnasBWh4kgAk/a985k6HdSmC38eRp4yhdBaTl7sJjj6W5vG
-         25nAMGL7754E7ONiiB3KKGIXPKrT4S+1qpAiXrGCwSf8wSH8yUHyPIY1MNGqTV+eA2jy
-         pdKbZbbiS4ASIgfErAFDpRyCb1MnmIlPEyaQbvywTntiZ6R/nbygbxM1VvwHbUxxz+C/
-         70v8wPuju2kg373UmaTxY3b5uIUOCk8PbNR/oYFRh1ImjOzU+s3zs02BNa0IXdCjSYvT
-         +Zevjp/aFfw0Iz3U5sXMsM3KFzGtpX44dEwGIaOCYjPSOvMznerptwZYEyWp6w7e3Lq5
-         9Gaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jwMbo3jZwfzrxPAlrx2iocMxlsap6lAjNhHYy958phg=;
-        b=fpmspl6iXqgqPkis4L1b3JYQA9heU4rKpH2qgbGJP4fos0PQGUpBxveyRUg+nCHuvn
-         sjDe7nISfcFAaLGx7AIbRraGquyg+ixpn/2Hj1RcAoN7Js2omX2nokt4fixcDAewPsqO
-         ybj94mBrkl71zMu2dY6oUvLfJWDt10YaWn9UG+qcHbhIsznEhN6uEbCMtRwxGdaM+JkR
-         +8KaaED+SW2WRfa4nmeLpocMi78HO6NYhx9nRqGbe5LnZA1wXuluNGXUi0BA/1lxT7W/
-         fBr11zMqRR7YLY4ZGtQwsU0p93J0RYm6lYVHksA6d5Nf1161x+fSC2a9s1lA0inpr6Hs
-         bdLQ==
-X-Gm-Message-State: AFqh2ko8C7T8QYS/UfIpFv/JZrLFp0SeoxPSuEUYfmQOU5kKMEhu9n8K
-	lN8CcQ8lkIqwaTTloT0DzYA=
-X-Google-Smtp-Source: AMrXdXtqEIhK0FSbCGD0wd7TGiB+ySlFDihf2JNIwpAR3lEvvd28P1CZTgWFVgWB5vLgRs8ArWN05w==
-X-Received: by 2002:ac2:50d9:0:b0:4cb:2c19:ec21 with SMTP id h25-20020ac250d9000000b004cb2c19ec21mr8188083lfm.0.1673207860199;
-        Sun, 08 Jan 2023 11:57:40 -0800 (PST)
-Received: from ?IPV6:2a00:1370:8180:6b00:a1a8:4887:1af4:637a? ([2a00:1370:8180:6b00:a1a8:4887:1af4:637a])
-        by smtp.gmail.com with ESMTPSA id d7-20020ac25447000000b004b40c1f1c70sm1205176lfn.212.2023.01.08.11.57.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Jan 2023 11:57:39 -0800 (PST)
-Message-ID: <ab4727b9-69c1-ba8d-38d8-6a3c721ba2aa@gmail.com>
-Date: Sun, 8 Jan 2023 22:57:39 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBF228F9
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 20:08:40 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.109.143.249])
+	by mo581.mail-out.ovh.net (Postfix) with ESMTP id CA75F2365A
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 19:29:37 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-5zc6k (unknown [10.111.208.1])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 256A21FF13;
+	Sun,  8 Jan 2023 19:29:33 +0000 (UTC)
+Received: from sk2.org ([37.59.142.102])
+	by ghost-submission-6684bf9d7b-5zc6k with ESMTPSA
+	id NzpKBp0Zu2OoSAEAosFdow
+	(envelope-from <steve@sk2.org>); Sun, 08 Jan 2023 19:29:33 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-102R00419398439-321a-44a9-9cd6-de394649d1c8,
+                    5128B599F7D401446F64D4771BE19AB2B9CD7A8B) smtp.auth=steve@sk2.org
+X-OVh-ClientIp:82.65.25.201
+Date: Sun, 8 Jan 2023 20:29:31 +0100
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg via B4 Submission Endpoint
+ <devnull+sam.ravnborg.org@kernel.org>
+Cc: <sam@ravnborg.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Helge
+ Deller <deller@gmx.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>, Antonino Daplas
+ <adaplas@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Robin van der Gracht <robin@protonic.nl>,
+ Miguel Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>, Daniel
+ Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Javier Martinez
+ Canillas <javierm@redhat.com>, Peter Suti <peter.suti@streamunlimited.com>
+Subject: Re: [PATCH 10/15] staging: fbtft: core: Introduce
+ backlight_is_blank()
+Message-ID: <20230108202931.42c9ee66@heffalump.sk2.org>
+In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-10-1bd9bafb351f@ravnborg.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+	<20230107-sam-video-backlight-drop-fb_blank-v1-10-1bd9bafb351f@ravnborg.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 06/13] staging: r8188eu: make rtl8188eu_inirp_init a void
- function
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230108185738.597105-1-martin@kaiser.cx>
- <20230108185738.597105-7-martin@kaiser.cx>
-Content-Language: en-US
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20230108185738.597105-7-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/BJ.jj8xoOBPKImJW1n2hw0J";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Ovh-Tracer-Id: 1846757322849420934
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggdduvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepfeffgefhgfeuueeffeejieefieefgfefffethfdtudegvdejueelhffhfeegjeeinecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekuddpmhhouggvpehsmhhtphhouhht
 
-Hi Martin,
+--Sig_/BJ.jj8xoOBPKImJW1n2hw0J
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Martin Kaiser <martin@kaiser.cx> says:
-> rtl8188eu_inirp_init's return value is not checked by its caller. Make
-> rtl8188eu_inirp_init a void function.
-> 
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+On Sat, 07 Jan 2023 19:26:24 +0100, Sam Ravnborg via B4 Submission Endpoint
+<devnull+sam.ravnborg.org@kernel.org> wrote:
+
+> From: Sam Ravnborg <sam@ravnborg.org>
+>=20
+> Avoiding direct access to backlight_properties.props.
+>=20
+> Access to the deprecated props.fb_blank replaced by backlight_is_blank().
+> Access to props.power is dropped - it was only used for debug.
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stephen Kitt <steve@sk2.org>
+> Cc: Peter Suti <peter.suti@streamunlimited.com>
+> Cc: linux-fbdev@vger.kernel.org
 > ---
->   drivers/staging/r8188eu/hal/usb_halinit.c  | 14 +++-----------
->   drivers/staging/r8188eu/include/hal_intf.h |  2 +-
->   2 files changed, 4 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-> index d28b4dc2a767..afa24a59fbb3 100644
-> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
-> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-> @@ -851,29 +851,21 @@ u32 rtl8188eu_hal_deinit(struct adapter *Adapter)
->   	return _SUCCESS;
->    }
->   
-> -unsigned int rtl8188eu_inirp_init(struct adapter *Adapter)
-> +void rtl8188eu_inirp_init(struct adapter *Adapter)
+>  drivers/staging/fbtft/fbtft-core.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/staging/fbtft/fbtft-core.c
+> b/drivers/staging/fbtft/fbtft-core.c index afaba94d1d1c..1746327e1939 100=
+644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -132,15 +132,15 @@ static int fbtft_backlight_update_status(struct
+> backlight_device *bd) {
+>  	struct fbtft_par *par =3D bl_get_data(bd);
+>  	bool polarity =3D par->polarity;
+> +	bool blank =3D backlight_is_blank(bd);
+> =20
+> -	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+> -		      "%s: polarity=3D%d, power=3D%d, fb_blank=3D%d\n",
+> -		      __func__, polarity, bd->props.power,
+> bd->props.fb_blank);
+> +	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: polarity=3D%d, blank=3D%d\n",
+> +		      __func__, polarity, blank);
+> =20
+> -	if (!backlight_is_blank(bd))
+> -		gpiod_set_value(par->gpio.led[0], polarity);
+> -	else
+> +	if (blank)
+>  		gpiod_set_value(par->gpio.led[0], !polarity);
+> +	else
+> +		gpiod_set_value(par->gpio.led[0], polarity);
+> =20
+>  	return 0;
+>  }
+>=20
+> --=20
+> 2.34.1
 
-Hm, shouldn't we actually check return value on caller side?
+Reviewed-by: Stephen Kitt <steve@sk2.org>
 
-This thing is called from netdev_open and issues urbs to read data from 
-the device. So let's imagine that we fail on 1st iteration (for some 
-reason): netdev_open() says all is OK, but driver does not communicate 
-with the device.
+--Sig_/BJ.jj8xoOBPKImJW1n2hw0J
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
-Maybe these urbs are not that important, tho..
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO7GZsACgkQgNMC9Yht
+g5wubw/+OjnQ4CEmY5Wjdqc5kVNQk3JFua1QNs/C0p6yt+0Z+jZGg/gsNAzlKXCI
+Gm1o0/JkT8sJ3Th8mMKikKDs8y8SiHfHkm7gR0HRcUwdML8RHDCDr4d0yBS/xLtP
+7fwQNf604rHXvP2Tlt/hZvM6r6gfGve+t9pFqwhToCARgZgEY08UEf4rfPTkBYBz
+vRcvriKaj9O59OBgG7QjSxKWNPyhYumnL1GRJZzbrOgu5zAk8zJUCxAy/LD3fMy6
+x+rePxWXUOQQtVlW4T/jMBADrnHgwoluBNA12CnsXBm14ZXrennS6bm0f3xjaHka
+KkreOCwMglpI1/UaLTwqlRUQALocxWsQypP5hlG2OO4FcnDUagGhj1M5KNC4OPF8
+rWi/LUWyLLs32FMZiq4Y561ev6OTCsqlgO1r8DVQAsaZVhPcn9TfiDOQp/HaCeRo
+DAsncfhZEk9Cm6/vsv3NijYTlHBXfgWd7AKYCiUEVFqdGqUZ+1RdFxdqcj0CM7Fp
+HNfcXRAcTA1b0EJrLKQK472vW38RhFzvfvWs5xnX4O/JHDxo0x9Mb4N8pUYMRcFb
+W2Md6wkDlESuYv8XD2cId/zmb36TyKSZQfBkuCmXxiG1zJK+phoNuUICF+a4ApRk
+cYG3xI2aM1ayPFQE+4njm3MuaS9/G+6XzyEn9qzeas4Kc1M1xiw=
+=e1F4
+-----END PGP SIGNATURE-----
 
-
-With regards,
-Pavel Skripkin
+--Sig_/BJ.jj8xoOBPKImJW1n2hw0J--
