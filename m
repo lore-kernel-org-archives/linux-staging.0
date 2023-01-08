@@ -1,133 +1,99 @@
-Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com (mailrelay3-1.pub.mailoutpod2-cph3.one.com [46.30.211.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBAB2CA6
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 20:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43B51859
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 20:44:42 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id u19so15444107ejm.8
+        for <linux-staging@lists.linux.dev>; Sun, 08 Jan 2023 12:44:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=C5L2b3E9pjVq6LXYYYeAK09arnLn+mXAFAusyTiLYtM=;
-	b=nTKn+n4lgiTjfD2VKToU6axN8gPcd5e73M4vSy/k1XU2CvufB5JON0iGZJvaIYarKXKqjIrRjLqPT
-	 fgO+lP1o7WNzsgCVM1gX/vf8p3Srt1Sy3jrhbqWPbZmGwoPa6enaJUadZx/d2EVJwwnZgtYp8Hhzag
-	 HBk4z0Ezz5oy2Z/j535u3Ai9X21x1KWD+8aabzfZO1aWEJAnGqoYNq+GpslWX1UI0w+EmgO0ZIL3z6
-	 vNqUzPb5/3oxTINHKsqnHYrd59yl/g1SHxW7toatY4pDAonTch+LEuU2IWjH2taSfaXx9gAPrtdtCp
-	 O7cGm8wZ/D/5tQcp0iKSqHuJJcYCvgA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=C5L2b3E9pjVq6LXYYYeAK09arnLn+mXAFAusyTiLYtM=;
-	b=HWVUdLyZ5eUHvE79ubttUHLptrX9PXLmdILJ58ckRRwFt+J10zuBzp9HvE4mc7C2KbULY7jBKFPz7
-	 LChrDvIDA==
-X-HalOne-ID: 2f2d9a54-8f93-11ed-9409-ede074c87fad
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay3 (Halon) with ESMTPSA
-	id 2f2d9a54-8f93-11ed-9409-ede074c87fad;
-	Sun, 08 Jan 2023 20:29:45 +0000 (UTC)
-Date: Sun, 8 Jan 2023 21:29:43 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Stephen Kitt <steve@sk2.org>
-Cc: Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-staging@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Robin van der Gracht <robin@protonic.nl>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Jingoo Han <jingoohan1@gmail.com>, linuxppc-dev@lists.ozlabs.org,
-	Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 09/15] staging: fbtft: fb_ssd1351.c: Introduce
- backlight_is_blank()
-Message-ID: <Y7sntztwrNqw41+i@ravnborg.org>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-9-1bd9bafb351f@ravnborg.org>
- <20230108202817.7890f85c@heffalump.sk2.org>
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hHU34fbQrjB1Qqz5z5awRpIvUJ++jyxNnJsf9y8SvPo=;
+        b=fxDHseu/N/B28EDLadap2GVakUP7NDgCuUPIoHeR3xsP1p2G2ojrn1V52crgUKnLw1
+         wq8UXhddqtt36EtIUu/Dihvq68/kWAYWv0v574XCkvkoWOyzwfoFYxbrGne6kwq/Rv/b
+         Em2QqTMe8qgwp086FtQufxHQEfmaM8njaTlvwuoTkwtCA+FVc1BW+eUT70zRLImjCAQR
+         ckH7M6MpWZ+0WJJDau/fFuvH3Wv6huTWuViBb5gB5/XWKNNIJehn3s3YJ5OG6d8Z/okV
+         hnjhR4HwKWBTPN5O0FRyWAsvs048SY8VIM1UXZLRE0BLC5t15l90n11hjl6MP2FYthX4
+         BviA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hHU34fbQrjB1Qqz5z5awRpIvUJ++jyxNnJsf9y8SvPo=;
+        b=O3iQbHZx8IJ2TGKGfBIgsnCUJ90yWV4lZ4hwyHtZJNYjNtaT7BoK6oVWtrVU2ORwPG
+         YV11sg2YHLXCzRZy07zhhyxf8BDua3j9CSKTuHXYvTybze5ak1jzpwYcx0xSIvCGLtZX
+         ry9hdeRY+8qMkeXkWBeNqugrtZX7MnnW7ui/dv3obOFLEb1m5VCqajULQf0H2e/H2/XQ
+         ZjKXOWPt0qsBkxNcJZ172HuREDvdFpz6f06xJXEsfyHBRrNsPGKf2NlQCbEIAe3fh1n2
+         6iP6MJBeFMxgbFnXJ55IcTJpXfx9BxVGHDEQ0c8qg/POa7nUrDJgDcnhGTmPGMLSNMKo
+         Xu0Q==
+X-Gm-Message-State: AFqh2krIDJ/02mW0ui/wEAswhijmbcCydhVft6+ixz8SEd0zTjn6hViZ
+	unZJ+5bZmGz4JqAAFYzn8VQ=
+X-Google-Smtp-Source: AMrXdXusCFLDrSpf9WFllGE2rYwpAPpLwd/Z3OKX+HSxKkfxcX/yVcXKxDNInM+Ymgi/j6vjpk2HDQ==
+X-Received: by 2002:a17:906:5494:b0:841:e453:af80 with SMTP id r20-20020a170906549400b00841e453af80mr14443921ejo.5.1673210680941;
+        Sun, 08 Jan 2023 12:44:40 -0800 (PST)
+Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id bs3-20020a170906d1c300b008490dcae01asm2897283ejb.214.2023.01.08.12.44.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Jan 2023 12:44:40 -0800 (PST)
+Message-ID: <83a4a92f-6123-964b-6ca7-f50e7e60005a@gmail.com>
+Date: Sun, 8 Jan 2023 21:44:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230108202817.7890f85c@heffalump.sk2.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 00/13] staging: r8188eu: some more xmit cleanups
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20230108185738.597105-1-martin@kaiser.cx>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230108185738.597105-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Stephen,
-
-On Sun, Jan 08, 2023 at 08:28:17PM +0100, Stephen Kitt wrote:
-> On Sat, 07 Jan 2023 19:26:23 +0100, Sam Ravnborg via B4 Submission Endpoint
-> <devnull+sam.ravnborg.org@kernel.org> wrote:
+On 1/8/23 19:57, Martin Kaiser wrote:
+> Here's another set of xmit cleanups, based on my previous patches.
 > 
-> > From: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > Avoiding direct access to backlight_properties.props.
-> > 
-> > Access to the deprecated props.fb_blank replaced by backlight_is_blank().
-> > Access to props.power is dropped - it was only used for debug.
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Stephen Kitt <steve@sk2.org>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: linux-fbdev@vger.kernel.org
-> > ---
-> >  drivers/staging/fbtft/fb_ssd1351.c | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/staging/fbtft/fb_ssd1351.c
-> > b/drivers/staging/fbtft/fb_ssd1351.c index b8d55aa8c5c7..995fbd2f3dc6 100644
-> > --- a/drivers/staging/fbtft/fb_ssd1351.c
-> > +++ b/drivers/staging/fbtft/fb_ssd1351.c
-> > @@ -190,15 +190,12 @@ static struct fbtft_display display = {
-> >  static int update_onboard_backlight(struct backlight_device *bd)
-> >  {
-> >  	struct fbtft_par *par = bl_get_data(bd);
-> > -	bool on;
-> > +	bool blank = backlight_is_blank(bd);
-> >  
-> > -	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
-> > -		      "%s: power=%d, fb_blank=%d\n",
-> > -		      __func__, bd->props.power, bd->props.fb_blank);
-> > +	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: blank=%d\n", __func__,
-> > blank); 
-> > -	on = !backlight_is_blank(bd);
-> >  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
-> > -	write_reg(par, 0xB5, on ? 0x03 : 0x02);
-> > +	write_reg(par, 0xB5, !blank ? 0x03 : 0x02);
-> >  
-> >  	return 0;
-> >  }
-> > 
-> > -- 
-> > 2.34.1
+> Martin Kaiser (13):
+>    staging: r8188eu: beq_cnt is write-only
+>    staging: r8188eu: bkq_cnt is write-only
+>    staging: r8188eu: viq_cnt is write-only
+>    staging: r8188eu: voq_cnt is write-only
+>    staging: r8188eu: replace switch with if
+>    staging: r8188eu: make rtl8188eu_inirp_init a void function
+>    staging: r8188eu: dir_dev is unused
+>    staging: r8188eu: remove unused hal_xmit_handler define
+>    staging: r8188eu: txirp_cnt is write-only
+>    staging: r8188eu: remove unused QSLT defines
+>    staging: r8188eu: xmit_priv's vcs_type is not used
+>    staging: r8188eu: xmit_priv's vcs is not used
+>    staging: r8188eu: xmit_priv's vcs_setting is not used
 > 
-> For debugging purposes here, would there be any point in logging props.state?
-> As in
+>   drivers/staging/r8188eu/core/rtw_mlme.c       |  5 ---
+>   drivers/staging/r8188eu/core/rtw_xmit.c       | 42 -------------------
+>   drivers/staging/r8188eu/hal/usb_halinit.c     | 14 ++-----
+>   drivers/staging/r8188eu/include/drv_types.h   |  1 -
+>   drivers/staging/r8188eu/include/hal_intf.h    |  2 +-
+>   .../staging/r8188eu/include/rtl8188e_xmit.h   | 11 -----
+>   drivers/staging/r8188eu/include/rtw_xmit.h    | 10 -----
+>   drivers/staging/r8188eu/os_dep/os_intfs.c     |  3 --
+>   .../staging/r8188eu/os_dep/usb_ops_linux.c    | 23 +---------
+>   9 files changed, 5 insertions(+), 106 deletions(-)
 > 
->         fbtft_par_dbg(DEBUG_BACKLIGHT, par,
-> -                     "%s: power=%d, fb_blank=%d\n",
-> -                     __func__, bd->props.power, bd->props.fb_blank);
-> +                     "%s: power=%d, state=%u\n",
-> +                     __func__, bd->props.power, bd->props.state);
 
-Thanks for the suggestion - and the reviews!
+When applying first the 4 patche series and then the 20 patche series 
+this series is working.
 
-I was tempted to just remove the debugging.
-If we require debugging, then this could be added in the backlight core,
-thus everyone would benefit from it.
-
-The solution above avoid any direct use of backlight_properties
-which I consider a layer violation outside the backlight core.
-(We cannot avoid it today with the current interface - but we can
-minimize it).
-
-	Sam
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
