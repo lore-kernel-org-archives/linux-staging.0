@@ -1,45 +1,23 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891B4256A
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 16:43:50 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id fy8so14547893ejc.13
-        for <linux-staging@lists.linux.dev>; Sun, 08 Jan 2023 08:43:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1qSYeheKKTbQuWeKS3E1J2NUuqVJNCq9nE1pOULvlwM=;
-        b=aNuD7uCbHuJoZneb2RVkRnwWJdXhlI73o+lHiIYSEpgau+fmrV7l0Sdtmx3XqXRvav
-         bUhaxz1I4RFj9RCWNR9DKnybIi1XI/Dq5YPVQ0FoWwBUr2sgl/GSd9+f/5VqHjmBveiI
-         dE1ImhM0gY5IORmeyQX7F+BKSXp5sXhwCwdsaZse7TI8awAzR0vteiVE+w8FNn1big+t
-         9Z7sZR8WWcwYRMqMoc52AFAKeTt4ByAAH5ix84hoRVF92+6f5h7ZorjbJaicBaTsm+tx
-         errbaMIxMGeFEJ5sjyI0PgWqBgds0rpk/1ti3TXoydmnGS73SS/F3xdoEw9S8ne3/h/c
-         xrNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1qSYeheKKTbQuWeKS3E1J2NUuqVJNCq9nE1pOULvlwM=;
-        b=QSaq0C4URH902ydEzk74WXU/+8WOAYd709gv5cqJFkZPYopYeq4veikcLBCB5uvIGM
-         kt2rPnZTFY4fLWh0SrxU6whoV9ub2wfmyF0ZchPailSjDuYss65TbmWjSKZ7BT3Pcbyf
-         nrlRPbiIXsqiHvQAuihUk8JuT9uRov1Jctt79lS6kneOXcN2d6VGvRLWtpv+qSBDJGoh
-         kdeoUQcjuqO+0taVxtUfbjljD4eOkUHSmlPALmCaqNsTJFttflLbf4MVhNwvI1ZmBJLJ
-         MJ3Jr2wU4vQIIliNnGL8soZh5PQFGFQWlrfJQXRRrnoGnnd4v2ZRjljEV3LioAzUoy/G
-         2lEQ==
-X-Gm-Message-State: AFqh2koqkdwEhg0/GsbSo/Eei59ftuKqlhpWhNnqfRFNWIB5hWZ/VX7X
-	nQRPIhgLsNFMg+nUbg5HLo4=
-X-Google-Smtp-Source: AMrXdXuDaO6OKioHRedbTGXTeBvgg0JrRgP7fUZfb/Z6HiTyvxSnxUj7oQ5cRRAARl9Q4AZpcU1AAA==
-X-Received: by 2002:a17:907:9d0e:b0:7c1:6433:90ab with SMTP id kt14-20020a1709079d0e00b007c1643390abmr12791367ejc.5.1673196228600;
-        Sun, 08 Jan 2023 08:43:48 -0800 (PST)
-Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id ja25-20020a170907989900b0084d1160a19dsm2701040ejc.98.2023.01.08.08.43.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Jan 2023 08:43:48 -0800 (PST)
-Message-ID: <47aa174f-d284-6dad-c684-5ee42c736ada@gmail.com>
-Date: Sun, 8 Jan 2023 17:43:47 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952C5256A
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 17:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1673198777; bh=7v/7zj2Ysz+/w95b1kVq+oD2bzqjczc2L3mL7k87WRA=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mSEqKLllgfaugEUfwK1DpPrKag9byMTMLILVvzboSZPDzN7DwyzMSecpRQMcjBYxj
+	 pj0rdSo5U+fSPsljmVc1C0LFpIrSqT5w6GQQEg6m4+o2U+egvvGryWEidj9Z/drf/H
+	 guX99U+MmRRs1DE6MyCFachtRZamU6Can45Erl7Smo9trEl/NAdVk+l2hGvseDGxWv
+	 /M95xPilavrfcFC9obqbWatVy3RU29HQJA0QvQp6dbs8gwmdoRcNfNxZwWPiwgEfYu
+	 ca8AHIT5Aev1OAO29txxakpsD1NwmxZ6ZTlt+dRXHASiC7ZTMP/+PeeBVO1v5rH3Y7
+	 tDSPYx2XGQBjA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.135.194]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mel3n-1ogbfA2j3d-00amNL; Sun, 08
+ Jan 2023 18:26:17 +0100
+Message-ID: <811a392a-d634-5557-dd58-57f1580e28f2@gmx.de>
+Date: Sun, 8 Jan 2023 18:26:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,80 +25,113 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] staging: r8188eu: convert rtw_writeN() to common error
- logic
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight
+ handling
 Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230108123804.3754-1-straube.linux@gmail.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20230108123804.3754-1-straube.linux@gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>, Stephen Kitt <steve@sk2.org>
+Cc: Sam Ravnborg via B4 Submission Endpoint
+ <devnull+sam.ravnborg.org@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Antonino Daplas <adaplas@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robin van der Gracht <robin@protonic.nl>, Miguel Ojeda <ojeda@kernel.org>,
+ Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
+ <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
+ <Y7nb2q6SDota/rTU@ravnborg.org>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <Y7nb2q6SDota/rTU@ravnborg.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:T9uileinKOrfmfXULyUKIEJ7Q5sw2pWalYogfbz1gtzJSOq1Nnk
+ V1Zd+9ekAM/oEwNZj1ns1vPVvUAvy44ZTl/BH109UTdaVmWLFROcAvtyBj2aiXsnhpoNIYK
+ f6LsM16mV7xk2n5D7VSkS/fvq9QrFB+Qsr4JdY1dEhwACqZ+EY+1G3NYsfmX6ypM+wH5gFE
+ /7WyOoTkU98Aw7Eoh7DaA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:6EvwsDxHCUk=;/ufhnGN+zI+oDWZwCc4k4w2CiV6
+ QrBtAZx6984DADkmIhmphyAOMnO+EsKjlmNqXIClAaw7V8tj9JPpHNARsM246kng951NRk2oi
+ /byMbKSDYi8rsJz7nXc/8KdnxSv+1burzS9rBLLQM/SSTUMuQUByG7DylwBo981H4z994LqZg
+ KLx+5Rc+JTjZRTHm7FAkEiXfexyhIuoMWuFoc8+oJtEX8HPb5zhB5OYNiVjMNrPqGx2C+3K7v
+ sAZWfQ7gadJK+ycK0a+DF6ZK6q1LsCz+1WRS2kTIc9PJ8/LSLnFu85kOu+o+9tCNP4DY5zQ5p
+ NhGfVTn5bxnME9Sfjeg+9Tr9u6dO9obRYORwJqPjaDTe9+CZNal/yd1ZwaAro20jGQk4TVyDa
+ LkGBCsyMdaLmZYKdXXuZBayAMT8PyJ9HI4w/2Y3jeySKFTrrCPt2MgKeLt5Cqy6vUEvLdAXC6
+ y0Ril9BxeR4vpeFvuNrwd4GuHDQngvSxVPqvMgf9aMfVU/HTZ0ND9Ff0zHT5k+CYIfU9ozKXw
+ WAJ9oQAhGTIpHa1DGlP6FNxdU0ewRRtrxDez7r0n0fX2Zesqdwb93PvYFJUz/NaUPU2MoemBZ
+ PtnNHPXybe5g2TGiVP5ruaDYkd/2yG87qwT269V9l+B2aBIckWPR8RiFPdO+VgqKSSRILZAvu
+ Xcsx1fp/7/gviRZ9yGN1JlA8f+Dfko5WDu+R0kGU1IgSRGJ3aNB9IlxTKhDshTXZ446gME2//
+ HQlzmCrV6kWA+h8ISQpNIPgwhV/sb1/m7HSHW3yfdftuO+AaZA0FhJ/kKMk+6QHaigTShvBIA
+ dfiV4QG0v6WifGj7P5cbgofBhvUlZ3ZDqiloZyOB5ccr4M3sIufP2OCBfjm0AXFsWAIChC2Cg
+ bC7QBlhaNveFAmYsdFSSPtz2++nCIfoAnf+6cNmVDXN3eAGT4HtkCZDEmS/w+OGm4ZNZAzGPW
+ BztdIqZ4VB6gHHWaPzjmxy5jaag=
 
-On 1/8/23 13:38, Michael Straube wrote:
-> Convert the function rtw_writeN() away from returning _FAIL or
-> _SUCCESS which uses inverted error logic. Use the common error logic
-> instead. Return 0 for success and negative values for failure.
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
-> Tested on x86_64 with Inter-Tech DMG-02.
-> 
->   drivers/staging/r8188eu/core/rtw_fw.c       | 10 ++++------
->   drivers/staging/r8188eu/hal/usb_ops_linux.c |  7 ++-----
->   2 files changed, 6 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
-> index 682c65b1e04c..1e4baf74ecd5 100644
-> --- a/drivers/staging/r8188eu/core/rtw_fw.c
-> +++ b/drivers/staging/r8188eu/core/rtw_fw.c
-> @@ -89,9 +89,8 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
->   		addr = FW_8188E_START_ADDRESS + i * block_size;
->   		data = buffer + i * block_size;
->   
-> -		ret = rtw_writeN(padapter, addr, block_size, data);
-> -		if (ret == _FAIL)
-> -			goto exit;
-> +		if (rtw_writeN(padapter, addr, block_size, data))
-> +			return _FAIL;
->   	}
->   
->   	if (remain) {
-> @@ -105,9 +104,8 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
->   			addr = FW_8188E_START_ADDRESS + offset + i * block_size;
->   			data = buffer + offset + i * block_size;
->   
-> -			ret = rtw_writeN(padapter, addr, block_size, data);
-> -			if (ret == _FAIL)
-> -				goto exit;
-> +			if (rtw_writeN(padapter, addr, block_size, data))
-> +				return _FAIL;
->   		}
->   	}
->   
-> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> index 7c72f5e04d9b..f02f8568cdcf 100644
-> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> @@ -179,14 +179,11 @@ int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *data)
->   	struct io_priv *io_priv = &adapter->iopriv;
->   	struct intf_hdl *intf = &io_priv->intf;
->   	u16 value = addr & 0xffff;
-> -	int ret;
->   
->   	if (length > VENDOR_CMD_MAX_DATA_LEN)
-> -		return _FAIL;
-> +		return -EINVAL;
->   
-> -	ret = usb_write(intf, value, data, length);
-> -
-> -	return RTW_STATUS_CODE(ret);
-> +	return usb_write(intf, value, data, length);
->   }
->   
->   static void handle_txrpt_ccx_88e(struct adapter *adapter, u8 *buf)
+On 1/7/23 21:53, Sam Ravnborg wrote:
+> Hi Stephen.
+>
+> On Sat, Jan 07, 2023 at 09:36:47PM +0100, Stephen Kitt wrote:
+>> On 7 January 2023 19:26:15 CET, Sam Ravnborg via B4 Submission Endpoint=
+ <devnull+sam.ravnborg.org@kernel.org> wrote:
+>>> From: Sam Ravnborg <sam@ravnborg.org>
+>>>
+>>> The atmel_lcdfb had code to save/restore power state.
+>>> This is not needed so drop it.
+>>>
+>>> Introduce backlight_is_brightness() to make logic simpler.
+>>>
+>>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>>> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+>>> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>>> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+>>> Cc: linux-fbdev@vger.kernel.org
+>>> Cc: linux-arm-kernel@lists.infradead.org
+>>> ---
+>>> drivers/video/fbdev/atmel_lcdfb.c | 24 +++---------------------
+>>> 1 file changed, 3 insertions(+), 21 deletions(-)
+> ...
+>>
+>> Hi Sam,
+>>
+>> I=E2=80=99d submitted quite a few more of these previously (and you=E2=
+=80=99d reviewed them), see e.g. the thread starting at https://lkml.org/l=
+kml/2022/6/7/4365, and yesterday, https://lkml.org/lkml/2023/1/6/520, http=
+s://lkml.org/lkml/2023/1/6/656, https://lkml.org/lkml/2023/1/6/970, https:=
+//lkml.org/lkml/2023/1/6/643, and https://lkml.org/lkml/2023/1/6/680. Ther=
+e are a few more, I can find them if it=E2=80=99s any use.
+>
+> The patches from yesterday was what triggered me to resurrect an old
+> branch of mine where I had done something similar. I had lost all
+> memory of reviewing similar patches from you.
+>
+>
+> Helge - could you pick the reviewed patches from:
+> https://lore.kernel.org/all/20220607192335.1137249-1-steve@sk2.org/
+> [This is the same mail as Stephen refer to above - looked up via lore].
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+I just pulled those 7 patches into fbdev/for-next.
+If you need more, please let me know,
+
+Thanks!
+Helge
+
+
+>
+> Stephen - I expect Daniel/Lee to take care of the patches from yesterday=
+.
+> If you can look up other pending patches from you please do so, so we
+> can have them applied.
+> Preferably with links to lore - as this makes it easier to apply them.
+>
+> Review of what is unique in this set would be appreciated.
+>
+> 	Sam
+
