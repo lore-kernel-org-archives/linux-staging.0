@@ -1,143 +1,126 @@
-Received: from 1.mo582.mail-out.ovh.net (1.mo582.mail-out.ovh.net [46.105.56.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48AF23A9
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 16:42:35 +0000 (UTC)
-Received: from director10.ghost.mail-out.ovh.net (unknown [10.109.143.201])
-	by mo582.mail-out.ovh.net (Postfix) with ESMTP id 5499C208BE
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 07:47:29 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-p7xcs (unknown [10.110.208.152])
-	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 23C671FEA6;
-	Sun,  8 Jan 2023 07:47:24 +0000 (UTC)
-Received: from sk2.org ([37.59.142.102])
-	by ghost-submission-6684bf9d7b-p7xcs with ESMTPSA
-	id GxvpAgx1umMSjQcAO+84Ug
-	(envelope-from <steve@sk2.org>); Sun, 08 Jan 2023 07:47:24 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-102R004f3b2dc6e-40e0-46d7-b496-fab2440419aa,
-                    5128B599F7D401446F64D4771BE19AB2B9CD7A8B) smtp.auth=steve@sk2.org
-X-OVh-ClientIp:37.167.47.239
-Date: Sun, 08 Jan 2023 08:47:21 +0100
-From: Stephen Kitt <steve@sk2.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-CC: Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Antonino Daplas <adaplas@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robin van der Gracht <robin@protonic.nl>, Miguel Ojeda <ojeda@kernel.org>,
- Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- Ludovic Desroches <ludovic.desroches@microchip.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_01/15=5D_video=3A_fbdev=3A_atm?= =?US-ASCII?Q?el=5Flcdfb=3A_Rework_backlight_handling?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org> <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org> <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org> <Y7nb2q6SDota/rTU@ravnborg.org> <366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
-Message-ID: <0342789A-88E6-4A3C-84DF-0F1FEB21F25C@sk2.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891B4256A
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 16:43:50 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id fy8so14547893ejc.13
+        for <linux-staging@lists.linux.dev>; Sun, 08 Jan 2023 08:43:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1qSYeheKKTbQuWeKS3E1J2NUuqVJNCq9nE1pOULvlwM=;
+        b=aNuD7uCbHuJoZneb2RVkRnwWJdXhlI73o+lHiIYSEpgau+fmrV7l0Sdtmx3XqXRvav
+         bUhaxz1I4RFj9RCWNR9DKnybIi1XI/Dq5YPVQ0FoWwBUr2sgl/GSd9+f/5VqHjmBveiI
+         dE1ImhM0gY5IORmeyQX7F+BKSXp5sXhwCwdsaZse7TI8awAzR0vteiVE+w8FNn1big+t
+         9Z7sZR8WWcwYRMqMoc52AFAKeTt4ByAAH5ix84hoRVF92+6f5h7ZorjbJaicBaTsm+tx
+         errbaMIxMGeFEJ5sjyI0PgWqBgds0rpk/1ti3TXoydmnGS73SS/F3xdoEw9S8ne3/h/c
+         xrNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1qSYeheKKTbQuWeKS3E1J2NUuqVJNCq9nE1pOULvlwM=;
+        b=QSaq0C4URH902ydEzk74WXU/+8WOAYd709gv5cqJFkZPYopYeq4veikcLBCB5uvIGM
+         kt2rPnZTFY4fLWh0SrxU6whoV9ub2wfmyF0ZchPailSjDuYss65TbmWjSKZ7BT3Pcbyf
+         nrlRPbiIXsqiHvQAuihUk8JuT9uRov1Jctt79lS6kneOXcN2d6VGvRLWtpv+qSBDJGoh
+         kdeoUQcjuqO+0taVxtUfbjljD4eOkUHSmlPALmCaqNsTJFttflLbf4MVhNwvI1ZmBJLJ
+         MJ3Jr2wU4vQIIliNnGL8soZh5PQFGFQWlrfJQXRRrnoGnnd4v2ZRjljEV3LioAzUoy/G
+         2lEQ==
+X-Gm-Message-State: AFqh2koqkdwEhg0/GsbSo/Eei59ftuKqlhpWhNnqfRFNWIB5hWZ/VX7X
+	nQRPIhgLsNFMg+nUbg5HLo4=
+X-Google-Smtp-Source: AMrXdXuDaO6OKioHRedbTGXTeBvgg0JrRgP7fUZfb/Z6HiTyvxSnxUj7oQ5cRRAARl9Q4AZpcU1AAA==
+X-Received: by 2002:a17:907:9d0e:b0:7c1:6433:90ab with SMTP id kt14-20020a1709079d0e00b007c1643390abmr12791367ejc.5.1673196228600;
+        Sun, 08 Jan 2023 08:43:48 -0800 (PST)
+Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id ja25-20020a170907989900b0084d1160a19dsm2701040ejc.98.2023.01.08.08.43.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Jan 2023 08:43:48 -0800 (PST)
+Message-ID: <47aa174f-d284-6dad-c684-5ee42c736ada@gmail.com>
+Date: Sun, 8 Jan 2023 17:43:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 8435523578534069894
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeefgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevufgfjghfkfggtgfgsehtqhhmtddtreejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeevieelieekfeelhfduffdvgfduvdegkeeljeejhfdtkeeujeeileekgeeugefhhfenucffohhmrghinheplhhkmhhlrdhorhhgpdhkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehsthgvvhgvsehskhdvrdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmohehkedvpdhmohguvgepshhmthhpohhuth
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] staging: r8188eu: convert rtw_writeN() to common error
+ logic
+Content-Language: en-US
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230108123804.3754-1-straube.linux@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230108123804.3754-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 8 January 2023 08:45:46 CET, Stephen Kitt <steve@sk2=2Eorg> wrote:
->On 7 January 2023 21:53:46 CET, Sam Ravnborg <sam@ravnborg=2Eorg> wrote:
->>Hi Stephen=2E
->>
->>On Sat, Jan 07, 2023 at 09:36:47PM +0100, Stephen Kitt wrote:
->>> On 7 January 2023 19:26:15 CET, Sam Ravnborg via B4 Submission Endpoin=
-t <devnull+sam=2Eravnborg=2Eorg@kernel=2Eorg> wrote:
->>> >From: Sam Ravnborg <sam@ravnborg=2Eorg>
->>> >
->>> >The atmel_lcdfb had code to save/restore power state=2E
->>> >This is not needed so drop it=2E
->>> >
->>> >Introduce backlight_is_brightness() to make logic simpler=2E
->>> >
->>> >Signed-off-by: Sam Ravnborg <sam@ravnborg=2Eorg>
->>> >Cc: Nicolas Ferre <nicolas=2Eferre@microchip=2Ecom>
->>> >Cc: Alexandre Belloni <alexandre=2Ebelloni@bootlin=2Ecom>
->>> >Cc: Ludovic Desroches <ludovic=2Edesroches@microchip=2Ecom>
->>> >Cc: linux-fbdev@vger=2Ekernel=2Eorg
->>> >Cc: linux-arm-kernel@lists=2Einfradead=2Eorg
->>> >---
->>> > drivers/video/fbdev/atmel_lcdfb=2Ec | 24 +++---------------------
->>> > 1 file changed, 3 insertions(+), 21 deletions(-)
->>=2E=2E=2E
->>>=20
->>> Hi Sam,
->>>=20
->>> I=E2=80=99d submitted quite a few more of these previously (and you=E2=
-=80=99d reviewed them), see e=2Eg=2E the thread starting at https://lkml=2E=
-org/lkml/2022/6/7/4365, and yesterday, https://lkml=2Eorg/lkml/2023/1/6/520=
-, https://lkml=2Eorg/lkml/2023/1/6/656, https://lkml=2Eorg/lkml/2023/1/6/97=
-0, https://lkml=2Eorg/lkml/2023/1/6/643, and https://lkml=2Eorg/lkml/2023/1=
-/6/680=2E There are a few more, I can find them if it=E2=80=99s any use=2E
->>
->>The patches from yesterday was what triggered me to resurrect an old
->>branch of mine where I had done something similar=2E I had lost all
->>memory of reviewing similar patches from you=2E
->>
->>
->>Helge - could you pick the reviewed patches from:
->>https://lore=2Ekernel=2Eorg/all/20220607192335=2E1137249-1-steve@sk2=2Eo=
-rg/
->>[This is the same mail as Stephen refer to above - looked up via lore]=
-=2E
->>
->>Stephen - I expect Daniel/Lee to take care of the patches from yesterday=
-=2E
->>If you can look up other pending patches from you please do so, so we
->>can have them applied=2E
->>Preferably with links to lore - as this makes it easier to apply them=2E
->>
->>Review of what is unique in this set would be appreciated=2E
->>
->>	Sam
->
->Hi Sam,
->
->Here are my pending patches from last June on lore:
->
->* https://lore=2Ekernel=2Eorg/lkml/20220607190925=2E1134737-1-steve@sk2=
-=2Eorg/
->* https://lore=2Ekernel=2Eorg/lkml/20220608205623=2E2106113-1-steve@sk2=
-=2Eorg/
->* https://lore=2Ekernel=2Eorg/lkml/20220607192335=2E1137249-1-steve@sk2=
-=2Eorg/
->* https://lore=2Ekernel=2Eorg/lkml/20220616170425=2E1346081-1-steve@sk2=
-=2Eorg/
->
->I=E2=80=99ll send reviews of your other patches later today or tomorrow=
-=2E
->
->Regards,
->
->Stephen
+On 1/8/23 13:38, Michael Straube wrote:
+> Convert the function rtw_writeN() away from returning _FAIL or
+> _SUCCESS which uses inverted error logic. Use the common error logic
+> instead. Return 0 for success and negative values for failure.
+> 
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+> Tested on x86_64 with Inter-Tech DMG-02.
+> 
+>   drivers/staging/r8188eu/core/rtw_fw.c       | 10 ++++------
+>   drivers/staging/r8188eu/hal/usb_ops_linux.c |  7 ++-----
+>   2 files changed, 6 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
+> index 682c65b1e04c..1e4baf74ecd5 100644
+> --- a/drivers/staging/r8188eu/core/rtw_fw.c
+> +++ b/drivers/staging/r8188eu/core/rtw_fw.c
+> @@ -89,9 +89,8 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
+>   		addr = FW_8188E_START_ADDRESS + i * block_size;
+>   		data = buffer + i * block_size;
+>   
+> -		ret = rtw_writeN(padapter, addr, block_size, data);
+> -		if (ret == _FAIL)
+> -			goto exit;
+> +		if (rtw_writeN(padapter, addr, block_size, data))
+> +			return _FAIL;
+>   	}
+>   
+>   	if (remain) {
+> @@ -105,9 +104,8 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
+>   			addr = FW_8188E_START_ADDRESS + offset + i * block_size;
+>   			data = buffer + offset + i * block_size;
+>   
+> -			ret = rtw_writeN(padapter, addr, block_size, data);
+> -			if (ret == _FAIL)
+> -				goto exit;
+> +			if (rtw_writeN(padapter, addr, block_size, data))
+> +				return _FAIL;
+>   		}
+>   	}
+>   
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index 7c72f5e04d9b..f02f8568cdcf 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -179,14 +179,11 @@ int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *data)
+>   	struct io_priv *io_priv = &adapter->iopriv;
+>   	struct intf_hdl *intf = &io_priv->intf;
+>   	u16 value = addr & 0xffff;
+> -	int ret;
+>   
+>   	if (length > VENDOR_CMD_MAX_DATA_LEN)
+> -		return _FAIL;
+> +		return -EINVAL;
+>   
+> -	ret = usb_write(intf, value, data, length);
+> -
+> -	return RTW_STATUS_CODE(ret);
+> +	return usb_write(intf, value, data, length);
+>   }
+>   
+>   static void handle_txrpt_ccx_88e(struct adapter *adapter, u8 *buf)
 
-And the auxdisplay patch, v1:
-
-https://lore=2Ekernel=2Eorg/lkml/20220607180406=2E1116277-1-steve@sk2=2Eor=
-g/
-
-and v2:
-
-https://lore=2Ekernel=2Eorg/lkml/20230106143002=2E1434266-1-steve@sk2=2Eor=
-g/
-
-Regards,
-
-Stephen
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
