@@ -1,95 +1,143 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 1.mo582.mail-out.ovh.net (1.mo582.mail-out.ovh.net [46.105.56.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26C223A9
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 14:09:43 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id r26so8872885edc.5
-        for <linux-staging@lists.linux.dev>; Sun, 08 Jan 2023 06:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BUXuEljk/LxD9w4jO73XPIf1d37sjYsJSMSF4W9BlWA=;
-        b=jnIkfCI95i8V+nhOhVF+virknHy12j6qhnbXrPZk0xrs5NiQXHAlDaz6em67jwTvtG
-         GaFJY75ckI6IovPA2/darF2J5TUnJ6zPfl0nBbSzWc9epNb4ZbaPHesvi7NC3Fg49qdT
-         TVYKm0zQWUdOQ3/7OjooICgHtMCLB4HGKzdMT+u+1ZX83qzfKAJzxqQoYzb6Wyl31cf1
-         DcN22nf1RMq1+b5lNNKNxNBw6k62guo1XcpfbFbKkD/1QTnaTAcPzyFY00jSe4dT6YcK
-         bDszSGLDvwORmvMHZUenspf3XNs0sE3lmOocr+oltZEKQ/SQoYJFi+vMTaCkNnr771Fo
-         lAiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BUXuEljk/LxD9w4jO73XPIf1d37sjYsJSMSF4W9BlWA=;
-        b=CIic0MDzKQxtdctGRC8ZHBj3XHPbWEgNMS+Ek4Rl+gQypigZqhzRMZ5P2SUUGfPCxr
-         BF22/e22xQbdXJbgdSg1XzjnE0vh7A7jMF+o3DXRlzuuTJ3PMPTamvwODvCWXY9FXhAA
-         x5NvtsvvxyW/WN4gx/+luBTucMBuIf6MW0ZkLujoVmOVWXWteL+A1vWgWGAKFgKJvMNp
-         eQYSQbu9M39buj87MTCzZYc0iEodR47a4u3Mo+V0apwHxTR1CytWIRbcjC6MFvFacnxi
-         IukAHk2dQWoeLMha7f3/0IMZ7RD2N49oXp091XJoqIR7prE7amJAOIycH2vxE/qTgFvY
-         x0Mw==
-X-Gm-Message-State: AFqh2kpSiU8/4Fhs2tvsx9eNiDmIxn22xjmW+xfaLrwwbrlX73b9/zeQ
-	muDN8GY6Af46OUIapbdomeQ=
-X-Google-Smtp-Source: AMrXdXvYiQlOR+JD4TwSmEN10aKOeP2vFwYvzmplnw/e2DJDGRW3IYF9i+EGVlRNTAgKnEAvZUcw6w==
-X-Received: by 2002:a05:6402:5cf:b0:48d:3975:2d98 with SMTP id n15-20020a05640205cf00b0048d39752d98mr6314819edx.2.1673186981773;
-        Sun, 08 Jan 2023 06:09:41 -0800 (PST)
-Received: from ?IPV6:2003:c7:8f35:4b95:4409:6ca5:4fd4:216b? (p200300c78f354b9544096ca54fd4216b.dip0.t-ipconnect.de. [2003:c7:8f35:4b95:4409:6ca5:4fd4:216b])
-        by smtp.gmail.com with ESMTPSA id x13-20020aa7cd8d000000b0047e6fdbf81csm2572702edv.82.2023.01.08.06.09.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Jan 2023 06:09:41 -0800 (PST)
-Message-ID: <50111a6f-08de-1da8-0deb-50b0e7a172b7@gmail.com>
-Date: Sun, 8 Jan 2023 15:09:40 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48AF23A9
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 16:42:35 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.109.143.201])
+	by mo582.mail-out.ovh.net (Postfix) with ESMTP id 5499C208BE
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 07:47:29 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-p7xcs (unknown [10.110.208.152])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 23C671FEA6;
+	Sun,  8 Jan 2023 07:47:24 +0000 (UTC)
+Received: from sk2.org ([37.59.142.102])
+	by ghost-submission-6684bf9d7b-p7xcs with ESMTPSA
+	id GxvpAgx1umMSjQcAO+84Ug
+	(envelope-from <steve@sk2.org>); Sun, 08 Jan 2023 07:47:24 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-102R004f3b2dc6e-40e0-46d7-b496-fab2440419aa,
+                    5128B599F7D401446F64D4771BE19AB2B9CD7A8B) smtp.auth=steve@sk2.org
+X-OVh-ClientIp:37.167.47.239
+Date: Sun, 08 Jan 2023 08:47:21 +0100
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+CC: Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Antonino Daplas <adaplas@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robin van der Gracht <robin@protonic.nl>, Miguel Ojeda <ojeda@kernel.org>,
+ Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_01/15=5D_video=3A_fbdev=3A_atm?= =?US-ASCII?Q?el=5Flcdfb=3A_Rework_backlight_handling?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org> <20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org> <553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org> <Y7nb2q6SDota/rTU@ravnborg.org> <366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
+Message-ID: <0342789A-88E6-4A3C-84DF-0F1FEB21F25C@sk2.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 2/7] staging: rtl8192e: Rename TSSI_13dBm, Pwr_Track and
- NumTotalRFPath
-To: Dan Carpenter <error27@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
- <c7d3be41602e656170de46ea649b5bdf1081d5cf.1672330343.git.philipp.g.hortmann@gmail.com>
- <Y7Pni7tvFPhcz7bu@kadam>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <Y7Pni7tvFPhcz7bu@kadam>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 8435523578534069894
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeefgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevufgfjghfkfggtgfgsehtqhhmtddtreejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeevieelieekfeelhfduffdvgfduvdegkeeljeejhfdtkeeujeeileekgeeugefhhfenucffohhmrghinheplhhkmhhlrdhorhhgpdhkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehsthgvvhgvsehskhdvrdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmohehkedvpdhmohguvgepshhmthhpohhuth
 
-On 1/3/23 09:30, Dan Carpenter wrote:
-> On Thu, Dec 29, 2022 at 05:25:46PM +0100, Philipp Hortmann wrote:
->> Rename variable TSSI_13dBm to tssi_13dbm
-> 
-> I would probably have kept this one as-is.  It's not CamelCase, it's the
-> correct way to capitalize it.
-> 
-> regards,
-> dan carpenter
-> 
+On 8 January 2023 08:45:46 CET, Stephen Kitt <steve@sk2=2Eorg> wrote:
+>On 7 January 2023 21:53:46 CET, Sam Ravnborg <sam@ravnborg=2Eorg> wrote:
+>>Hi Stephen=2E
+>>
+>>On Sat, Jan 07, 2023 at 09:36:47PM +0100, Stephen Kitt wrote:
+>>> On 7 January 2023 19:26:15 CET, Sam Ravnborg via B4 Submission Endpoin=
+t <devnull+sam=2Eravnborg=2Eorg@kernel=2Eorg> wrote:
+>>> >From: Sam Ravnborg <sam@ravnborg=2Eorg>
+>>> >
+>>> >The atmel_lcdfb had code to save/restore power state=2E
+>>> >This is not needed so drop it=2E
+>>> >
+>>> >Introduce backlight_is_brightness() to make logic simpler=2E
+>>> >
+>>> >Signed-off-by: Sam Ravnborg <sam@ravnborg=2Eorg>
+>>> >Cc: Nicolas Ferre <nicolas=2Eferre@microchip=2Ecom>
+>>> >Cc: Alexandre Belloni <alexandre=2Ebelloni@bootlin=2Ecom>
+>>> >Cc: Ludovic Desroches <ludovic=2Edesroches@microchip=2Ecom>
+>>> >Cc: linux-fbdev@vger=2Ekernel=2Eorg
+>>> >Cc: linux-arm-kernel@lists=2Einfradead=2Eorg
+>>> >---
+>>> > drivers/video/fbdev/atmel_lcdfb=2Ec | 24 +++---------------------
+>>> > 1 file changed, 3 insertions(+), 21 deletions(-)
+>>=2E=2E=2E
+>>>=20
+>>> Hi Sam,
+>>>=20
+>>> I=E2=80=99d submitted quite a few more of these previously (and you=E2=
+=80=99d reviewed them), see e=2Eg=2E the thread starting at https://lkml=2E=
+org/lkml/2022/6/7/4365, and yesterday, https://lkml=2Eorg/lkml/2023/1/6/520=
+, https://lkml=2Eorg/lkml/2023/1/6/656, https://lkml=2Eorg/lkml/2023/1/6/97=
+0, https://lkml=2Eorg/lkml/2023/1/6/643, and https://lkml=2Eorg/lkml/2023/1=
+/6/680=2E There are a few more, I can find them if it=E2=80=99s any use=2E
+>>
+>>The patches from yesterday was what triggered me to resurrect an old
+>>branch of mine where I had done something similar=2E I had lost all
+>>memory of reviewing similar patches from you=2E
+>>
+>>
+>>Helge - could you pick the reviewed patches from:
+>>https://lore=2Ekernel=2Eorg/all/20220607192335=2E1137249-1-steve@sk2=2Eo=
+rg/
+>>[This is the same mail as Stephen refer to above - looked up via lore]=
+=2E
+>>
+>>Stephen - I expect Daniel/Lee to take care of the patches from yesterday=
+=2E
+>>If you can look up other pending patches from you please do so, so we
+>>can have them applied=2E
+>>Preferably with links to lore - as this makes it easier to apply them=2E
+>>
+>>Review of what is unique in this set would be appreciated=2E
+>>
+>>	Sam
+>
+>Hi Sam,
+>
+>Here are my pending patches from last June on lore:
+>
+>* https://lore=2Ekernel=2Eorg/lkml/20220607190925=2E1134737-1-steve@sk2=
+=2Eorg/
+>* https://lore=2Ekernel=2Eorg/lkml/20220608205623=2E2106113-1-steve@sk2=
+=2Eorg/
+>* https://lore=2Ekernel=2Eorg/lkml/20220607192335=2E1137249-1-steve@sk2=
+=2Eorg/
+>* https://lore=2Ekernel=2Eorg/lkml/20220616170425=2E1346081-1-steve@sk2=
+=2Eorg/
+>
+>I=E2=80=99ll send reviews of your other patches later today or tomorrow=
+=2E
+>
+>Regards,
+>
+>Stephen
 
-Hi Dan,
+And the auxdisplay patch, v1:
 
-sorry for late.
+https://lore=2Ekernel=2Eorg/lkml/20220607180406=2E1116277-1-steve@sk2=2Eor=
+g/
 
-No issue with keeping this variable as is. But can you tell me the rule 
-for the rest of the variables in this driver?
+and v2:
 
-Here just some examples: (I know that checkpatch is not always right)
-CHECK: Avoid CamelCase: <Avg_TSSI_Meas>
-CHECK: Avoid CamelCase: <TSSI_13dBm>
-CHECK: Avoid CamelCase: <Avg_TSSI_Meas_from_driver>
+https://lore=2Ekernel=2Eorg/lkml/20230106143002=2E1434266-1-steve@sk2=2Eor=
+g/
 
-Are those OK as well?
+Regards,
 
-I would like to do it the right way. I do not want to discuss every 
-variable change.
-
-Thanks for your support.
-
-Bye Philipp
+Stephen
