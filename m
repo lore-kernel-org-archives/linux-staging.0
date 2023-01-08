@@ -1,99 +1,177 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 6.mo550.mail-out.ovh.net (6.mo550.mail-out.ovh.net [46.105.43.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43B51859
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 20:44:42 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id u19so15444107ejm.8
-        for <linux-staging@lists.linux.dev>; Sun, 08 Jan 2023 12:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hHU34fbQrjB1Qqz5z5awRpIvUJ++jyxNnJsf9y8SvPo=;
-        b=fxDHseu/N/B28EDLadap2GVakUP7NDgCuUPIoHeR3xsP1p2G2ojrn1V52crgUKnLw1
-         wq8UXhddqtt36EtIUu/Dihvq68/kWAYWv0v574XCkvkoWOyzwfoFYxbrGne6kwq/Rv/b
-         Em2QqTMe8qgwp086FtQufxHQEfmaM8njaTlvwuoTkwtCA+FVc1BW+eUT70zRLImjCAQR
-         ckH7M6MpWZ+0WJJDau/fFuvH3Wv6huTWuViBb5gB5/XWKNNIJehn3s3YJ5OG6d8Z/okV
-         hnjhR4HwKWBTPN5O0FRyWAsvs048SY8VIM1UXZLRE0BLC5t15l90n11hjl6MP2FYthX4
-         BviA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hHU34fbQrjB1Qqz5z5awRpIvUJ++jyxNnJsf9y8SvPo=;
-        b=O3iQbHZx8IJ2TGKGfBIgsnCUJ90yWV4lZ4hwyHtZJNYjNtaT7BoK6oVWtrVU2ORwPG
-         YV11sg2YHLXCzRZy07zhhyxf8BDua3j9CSKTuHXYvTybze5ak1jzpwYcx0xSIvCGLtZX
-         ry9hdeRY+8qMkeXkWBeNqugrtZX7MnnW7ui/dv3obOFLEb1m5VCqajULQf0H2e/H2/XQ
-         ZjKXOWPt0qsBkxNcJZ172HuREDvdFpz6f06xJXEsfyHBRrNsPGKf2NlQCbEIAe3fh1n2
-         6iP6MJBeFMxgbFnXJ55IcTJpXfx9BxVGHDEQ0c8qg/POa7nUrDJgDcnhGTmPGMLSNMKo
-         Xu0Q==
-X-Gm-Message-State: AFqh2krIDJ/02mW0ui/wEAswhijmbcCydhVft6+ixz8SEd0zTjn6hViZ
-	unZJ+5bZmGz4JqAAFYzn8VQ=
-X-Google-Smtp-Source: AMrXdXusCFLDrSpf9WFllGE2rYwpAPpLwd/Z3OKX+HSxKkfxcX/yVcXKxDNInM+Ymgi/j6vjpk2HDQ==
-X-Received: by 2002:a17:906:5494:b0:841:e453:af80 with SMTP id r20-20020a170906549400b00841e453af80mr14443921ejo.5.1673210680941;
-        Sun, 08 Jan 2023 12:44:40 -0800 (PST)
-Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id bs3-20020a170906d1c300b008490dcae01asm2897283ejb.214.2023.01.08.12.44.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Jan 2023 12:44:40 -0800 (PST)
-Message-ID: <83a4a92f-6123-964b-6ca7-f50e7e60005a@gmail.com>
-Date: Sun, 8 Jan 2023 21:44:38 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8961859
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 20:49:51 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.108.4.80])
+	by mo550.mail-out.ovh.net (Postfix) with ESMTP id 6E62A241BF
+	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 19:32:53 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-47dbt (unknown [10.110.103.73])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 82FB61FDA8;
+	Sun,  8 Jan 2023 19:32:50 +0000 (UTC)
+Received: from sk2.org ([37.59.142.110])
+	by ghost-submission-6684bf9d7b-47dbt with ESMTPSA
+	id suVQGmIau2PZhg0A1/aQ0w
+	(envelope-from <steve@sk2.org>); Sun, 08 Jan 2023 19:32:50 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-110S004d95a66cd-0637-4714-9dc0-8c81f479a7fd,
+                    5128B599F7D401446F64D4771BE19AB2B9CD7A8B) smtp.auth=steve@sk2.org
+X-OVh-ClientIp:82.65.25.201
+Date: Sun, 8 Jan 2023 20:32:46 +0100
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg via B4 Submission Endpoint
+ <devnull+sam.ravnborg.org@kernel.org>
+Cc: <sam@ravnborg.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Helge
+ Deller <deller@gmx.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>, Antonino Daplas
+ <adaplas@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Robin van der Gracht <robin@protonic.nl>,
+ Miguel Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>, Daniel
+ Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 15/15] backlight: backlight: Drop the deprecated
+ fb_blank property
+Message-ID: <20230108203246.3ca507df@heffalump.sk2.org>
+In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+	<20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/13] staging: r8188eu: some more xmit cleanups
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230108185738.597105-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20230108185738.597105-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/yBkUQ5TN6WQX1gLgYbjZw/r";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Ovh-Tracer-Id: 1901926421308278406
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggdduvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepfeffgefhgfeuueeffeejieefieefgfefffethfdtudegvdejueelhffhfeegjeeinecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheehtddpmhhouggvpehsmhhtphhouhht
 
-On 1/8/23 19:57, Martin Kaiser wrote:
-> Here's another set of xmit cleanups, based on my previous patches.
-> 
-> Martin Kaiser (13):
->    staging: r8188eu: beq_cnt is write-only
->    staging: r8188eu: bkq_cnt is write-only
->    staging: r8188eu: viq_cnt is write-only
->    staging: r8188eu: voq_cnt is write-only
->    staging: r8188eu: replace switch with if
->    staging: r8188eu: make rtl8188eu_inirp_init a void function
->    staging: r8188eu: dir_dev is unused
->    staging: r8188eu: remove unused hal_xmit_handler define
->    staging: r8188eu: txirp_cnt is write-only
->    staging: r8188eu: remove unused QSLT defines
->    staging: r8188eu: xmit_priv's vcs_type is not used
->    staging: r8188eu: xmit_priv's vcs is not used
->    staging: r8188eu: xmit_priv's vcs_setting is not used
-> 
->   drivers/staging/r8188eu/core/rtw_mlme.c       |  5 ---
->   drivers/staging/r8188eu/core/rtw_xmit.c       | 42 -------------------
->   drivers/staging/r8188eu/hal/usb_halinit.c     | 14 ++-----
->   drivers/staging/r8188eu/include/drv_types.h   |  1 -
->   drivers/staging/r8188eu/include/hal_intf.h    |  2 +-
->   .../staging/r8188eu/include/rtl8188e_xmit.h   | 11 -----
->   drivers/staging/r8188eu/include/rtw_xmit.h    | 10 -----
->   drivers/staging/r8188eu/os_dep/os_intfs.c     |  3 --
->   .../staging/r8188eu/os_dep/usb_ops_linux.c    | 23 +---------
->   9 files changed, 5 insertions(+), 106 deletions(-)
-> 
+--Sig_/yBkUQ5TN6WQX1gLgYbjZw/r
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-When applying first the 4 patche series and then the 20 patche series 
-this series is working.
+On Sat, 07 Jan 2023 19:26:29 +0100, Sam Ravnborg via B4 Submission Endpoint
+<devnull+sam.ravnborg.org@kernel.org> wrote:
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+> From: Sam Ravnborg <sam@ravnborg.org>
+>=20
+> With all users gone remove the deprecated fb_blank member in
+> backlight_properties.
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> ---
+>  drivers/video/backlight/backlight.c |  2 --
+>  include/linux/backlight.h           | 22 ----------------------
+>  2 files changed, 24 deletions(-)
+>=20
+> diff --git a/drivers/video/backlight/backlight.c
+> b/drivers/video/backlight/backlight.c index b788ff3d0f45..9b0557d094c5
+> 100644 --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -118,14 +118,12 @@ static int fb_notifier_callback(struct notifier_blo=
+ck
+> *self, bd->fb_bl_on[node] =3D true;
+>  		if (!bd->use_count++) {
+>  			bd->props.state &=3D ~BL_CORE_FBBLANK;
+> -			bd->props.fb_blank =3D FB_BLANK_UNBLANK;
+>  			backlight_update_status(bd);
+>  		}
+>  	} else if (fb_blank !=3D FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
+>  		bd->fb_bl_on[node] =3D false;
+>  		if (!(--bd->use_count)) {
+>  			bd->props.state |=3D BL_CORE_FBBLANK;
+> -			bd->props.fb_blank =3D fb_blank;
+>  			backlight_update_status(bd);
+>  		}
+>  	}
+> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+> index 614653e07e3a..c8622d6cc8c5 100644
+> --- a/include/linux/backlight.h
+> +++ b/include/linux/backlight.h
+> @@ -218,25 +218,6 @@ struct backlight_properties {
+>  	 */
+>  	int power;
+> =20
+> -	/**
+> -	 * @fb_blank: The power state from the FBIOBLANK ioctl.
+> -	 *
+> -	 * When the FBIOBLANK ioctl is called @fb_blank is set to the
+> -	 * blank parameter and the update_status() operation is called.
+> -	 *
+> -	 * When the backlight device is enabled @fb_blank is set
+> -	 * to FB_BLANK_UNBLANK. When the backlight device is disabled
+> -	 * @fb_blank is set to FB_BLANK_POWERDOWN.
+> -	 *
+> -	 * Backlight drivers should avoid using this property. It has been
+> -	 * replaced by state & BL_CORE_FBLANK (although most drivers should
+> -	 * use backlight_is_blank() as the preferred means to get the blank
+> -	 * state).
+> -	 *
+> -	 * fb_blank is deprecated and will be removed.
+> -	 */
+> -	int fb_blank;
+> -
+>  	/**
+>  	 * @type: The type of backlight supported.
+>  	 *
+> @@ -366,7 +347,6 @@ static inline int backlight_enable(struct
+> backlight_device *bd) return 0;
+> =20
+>  	bd->props.power =3D FB_BLANK_UNBLANK;
+> -	bd->props.fb_blank =3D FB_BLANK_UNBLANK;
+>  	bd->props.state &=3D ~BL_CORE_FBBLANK;
+> =20
+>  	return backlight_update_status(bd);
+> @@ -382,7 +362,6 @@ static inline int backlight_disable(struct
+> backlight_device *bd) return 0;
+> =20
+>  	bd->props.power =3D FB_BLANK_POWERDOWN;
+> -	bd->props.fb_blank =3D FB_BLANK_POWERDOWN;
+>  	bd->props.state |=3D BL_CORE_FBBLANK;
+> =20
+>  	return backlight_update_status(bd);
+> @@ -403,7 +382,6 @@ static inline int backlight_disable(struct
+> backlight_device *bd) static inline bool backlight_is_blank(const struct
+> backlight_device *bd) {
+>  	return bd->props.power !=3D FB_BLANK_UNBLANK ||
+> -	       bd->props.fb_blank !=3D FB_BLANK_UNBLANK ||
+>  	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
+>  }
+> =20
+>=20
+> --=20
+> 2.34.1
+
+Reviewed-by: Stephen Kitt <steve@sk2.org>
+
+--Sig_/yBkUQ5TN6WQX1gLgYbjZw/r
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO7Gl4ACgkQgNMC9Yht
+g5y/2w//YCUl1TkgG93owd5rHJe5atRiC7gzYhi2cXiLb4frAyT/Sq738el5nh/Z
+6/kSEgZzvvj/iz1dFtHOpIyTANzgs3yBsojNX4ho8fkvt3J/dAKj30B14B0mJs0P
+mLGiJUxnW0fDk+fMdFcZnLoy2gf9urLiFq/p96r0lSehWJPXDisX/Me4DYjzbJq4
+UlhEPo4j3lqG8624kue9o8gTptP07mUVVs3O3dGvwTFXWw8PJmnyg3nsQ+rgpXUq
+iPbugQwwQf4AAnJQJ7UfYYeKEu/I5edKumccCgWwOC/oIh6JcJ9I0C1UUz2g32YD
+IU24rf9kRptTdECdkIHPD4h8EHN4PZa5IFKEQ6xXBb7vpyxCEMiuXw2ey3UcRLc3
+K/lsX1EBfzGEIgPVH0uSPyFyoIHrz8azEL2p9Eq+DnZfF5UKhXHFFQiL5vAVECiH
+RupGAdt83VvLAw4l7Lz2Pi3yFs109SBqHcM/mVQTVEn2Zl+0xmjrywo3Avnh2ECw
+87e12iSv8J2QckPFlzQDVHrmnNqk5Ue9dTLiYDnMW4aiYxVsiHzEC6cXlQtiOofE
+MS0UF5PBVgSc1BXa6v9tSVoHsPSNh/GWRTY6Mm74AHKjIxsOy/tLf9KFyDP+Lt2e
+M5T4OHPlMrKyE5e0ULdVRc9fF50cFsb/jbJHbdPiZ7lIKlKVUko=
+=PJeH
+-----END PGP SIGNATURE-----
+
+--Sig_/yBkUQ5TN6WQX1gLgYbjZw/r--
