@@ -1,92 +1,84 @@
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017B06108
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 18:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBDC8C09
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 19:08:19 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 18so14029959edw.7
+        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 11:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:from;
-	bh=wZxH/nDf40/5XX4K0N7bveQXBer/ZTbSo4stXhMD1MQ=;
-	b=xr+iUWmfOB1CLBr6Qsy2YZMDRotm12WBZ/zh+3qIGnqD+WW38gq16Rl6LS9taWAIgXP2llv2ueyF0
-	 fA3iIIxYnmuPGkwiK+SGk3l7yHRvIxggcTtT7x2q0+wwF6fVIQkEzPtcW04Q4A6X4SKS9m56vo7D0o
-	 hLzfG7GraTS31Ch8FAtoGue7T76SmYvTnNeZNZkj0/5oK6YNNivj7Wo0ExtjbmvCmHRBteAPdkj/Eg
-	 NkDkGI6lGIPAVh39LbMkR8Ej5M2GsnANIVRaeRashpzz54gdLod6v1ri7V6JrPjvdhVHIVaCwftjs+
-	 2rttIhFTMoveJDSDeM23dX3GpjUJUVw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:from;
-	bh=wZxH/nDf40/5XX4K0N7bveQXBer/ZTbSo4stXhMD1MQ=;
-	b=nxcQ2DNweooGl9o3PknXxmGKMXudrM7A8yocezPtlLEgBpQEu7WtSwjxUTWj2HhN7+D5H3vtKKz4P
-	 oB6b4GmAA==
-X-HalOne-ID: 5e23647e-904a-11ed-85ce-87783a957ad9
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay4 (Halon) with ESMTPSA
-	id 5e23647e-904a-11ed-85ce-87783a957ad9;
-	Mon, 09 Jan 2023 18:21:02 +0000 (UTC)
-Date: Mon, 9 Jan 2023 19:21:00 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Helge Deller <deller@gmx.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Antonino Daplas <adaplas@gmail.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Paul Mackerras <paulus@samba.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Robin van der Gracht <robin@protonic.nl>,
-	Miguel Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	"linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-	Stephen Kitt <steve@sk2.org>, Arnd Bergmann <arnd@arndb.de>,
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	Jason Yan <yanaijie@huawei.com>,
-	Souptick Joarder <jrdr.linux@gmail.com>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	"linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 02/15] video: fbdev: atyfb: Introduce
- backlight_get_brightness()
-Message-ID: <Y7xbDAwLEeCJ4L54@ravnborg.org>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-2-1bd9bafb351f@ravnborg.org>
- <04f0f8c7-43cd-f774-c952-eb1cf3494bd8@csgroup.eu>
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jT0Oz+3cAXi9MsBWfMsEAGfcOwY189DZFhtGxbqiu6k=;
+        b=i74hD6c0B4mxb2STWM/PpEPCub6GaziRLOYPHLIoa2zbv2PpwPLtN01V7ElTf171HW
+         T8IIR+xM7X2+gmmrVHG2zU8YpngBo+ob1KufO7mJP/Z42YILUyGQcKHS9uTwxPRGCIT/
+         QGDCVLGKyWN3fDLo1QMrPl2zatm5EzXK4+7Zr9eHmHVXVzBm6gBpJ1vHa5TjTs2pECBn
+         QrRTtO9t0SpobLVZCzF7JKjku15b+nyNersKNW32qtGUr/ha9sEYKgoXoph+pRhDQ5cj
+         80BY+LOhy5TUjVjbkjb5AJUY50o0dmcOFKMz04QYQIfnaVHewDwM3mGEaijBazjvMvvM
+         qOWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jT0Oz+3cAXi9MsBWfMsEAGfcOwY189DZFhtGxbqiu6k=;
+        b=2ba1gJnP4CiZ2AVLM1poNnOGAlrb4BT54KnAwSy6fJ9kGG9KMQ34O53twg9vKruqym
+         qsFUgsEGJG2+rB7lvYrlhRlzI9nT1w0Frwfc3ktdAn33egziES7uww5X22XqVNiqTrCR
+         TID7qe/+mtXk3zEPMbex7n7F+ab6SLKzoYcX8oIZxpqaBmxzhjVcvisoETnMIGLm+CAT
+         oUET6CbUiPI4vNW5X2OQ4YCB6tTrJGFo96arCnkb4ISWPCVN08Yl/R+HpxFVmrs1aDVL
+         i7IIgiKX2nX7NUBmSnGCPtmxqbBDvqAANDW7dAwlD6GfR8Eyq9fvJ7/AI385KeFFge8c
+         t76A==
+X-Gm-Message-State: AFqh2kr136QEhbfebrCBACSgK+vHoEwnGLb7hTgXG6Yyit+W9ySXdExe
+	0dOeex7E2+8T6wm1zODBlgs=
+X-Google-Smtp-Source: AMrXdXswuPq44IMreZvlfHay82vYyAUa7RxeKhJFOvI28aJakPgWh6URDQQ3l21lPgjn98EmEXX0hg==
+X-Received: by 2002:a05:6402:3603:b0:460:21e2:749a with SMTP id el3-20020a056402360300b0046021e2749amr13780038edb.3.1673291298223;
+        Mon, 09 Jan 2023 11:08:18 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id bt16-20020a0564020a5000b00482e0c55e2bsm4048389edb.93.2023.01.09.11.08.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 11:08:17 -0800 (PST)
+Date: Mon, 9 Jan 2023 20:08:15 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] staging: rtl8192e: Rename variables from r8192_priv
+ start with ChannelPlan
+Message-ID: <cover.1673290428.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <04f0f8c7-43cd-f774-c952-eb1cf3494bd8@csgroup.eu>
 
-Hi Christophe,
-On Mon, Jan 09, 2023 at 05:44:46PM +0000, Christophe Leroy wrote:
-> 
-> 
-> Le 07/01/2023 à 19:26, Sam Ravnborg via B4 Submission Endpoint a écrit :
-> > From: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > Introduce backlight_get_brightness() to simplify logic
-> > and avoid direct access to backlight properties.
-> 
-> When I read 'introduce' I understand that you are adding a new function.
-> 
-> In fact backlight_get_brightness() already exists, so maybe replace 
-> 'introduce' by 'use'
+Rename variables to avoid CamelCase which is not accepted by checkpatch.
 
-Thanks for your feedback. A similar patch is already applied to the
-fbdev tree, so this patch can be ignored.
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
+---
+V1 -> V2: In patch "Rename TSSI_13dBm, Pwr_Track and NumTotalRFPath"
+          Changed TSSI_13dBm to tssi_13dBm instead of tssi_13dbm
 
-	Sam
+Philipp Hortmann (7):
+  staging: rtl8192e: Rename ChannelPlan, eeprom_ChannelPlan and CckPwEnl
+  staging: rtl8192e: Rename TSSI_13dBm, Pwr_Track and NumTotalRFPath
+  staging: rtl8192e: Rename CCKPresentAtt...
+  staging: rtl8192e: Rename TxPowerLevelCCK...
+  staging: rtl8192e: Rename TxPowerLevelOFDM24G...
+  staging: rtl8192e: Rename MCSTxPowerL.., LegacyHTTxPowe.. and
+    AntennaTx..
+  staging: rtl8192e: Rename SetRFPowerSta.., RfReg0Value and
+    bTXPowerDa..
+
+ .../rtl8192e/rtl8192e/r8190P_rtl8256.c        |  14 +--
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  78 +++++++-------
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 100 +++++++++---------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  10 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  42 ++++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    |  30 +++---
+ 6 files changed, 137 insertions(+), 137 deletions(-)
+
+-- 
+2.39.0
+
