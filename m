@@ -1,110 +1,59 @@
-Received: from 6.mo581.mail-out.ovh.net (6.mo581.mail-out.ovh.net [188.165.39.218])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822A75221
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 20:48:52 +0000 (UTC)
-Received: from director1.ghost.mail-out.ovh.net (unknown [10.108.16.135])
-	by mo581.mail-out.ovh.net (Postfix) with ESMTP id 6A8F121F96
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 19:53:55 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-zhwml (unknown [10.110.208.112])
-	by director1.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 7EEE11FEED;
-	Mon,  9 Jan 2023 19:53:51 +0000 (UTC)
-Received: from sk2.org ([37.59.142.98])
-	by ghost-submission-6684bf9d7b-zhwml with ESMTPSA
-	id SIYmDM9wvGPphQEAR6C6Tg
-	(envelope-from <steve@sk2.org>); Mon, 09 Jan 2023 19:53:51 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-98R002dcb81ab0-aa44-4050-9c7a-c7c6d9d4b65a,
-                    796317D5D98EA53ED2B7ABF3FE0FDD27B7A2AA3D) smtp.auth=steve@sk2.org
-X-OVh-ClientIp:82.65.25.201
-Date: Mon, 9 Jan 2023 20:53:44 +0100
-From: Stephen Kitt <steve@sk2.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-staging@lists.linux.dev, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Paul
- Mackerras <paulus@samba.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>, Ludovic Desroches
- <ludovic.desroches@microchip.com>, Miguel Ojeda <ojeda@kernel.org>, Sam
- Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
- Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Robin van der Gracht
- <robin@protonic.nl>, Nicolas Ferre <nicolas.ferre@microchip.com>, Jingoo
- Han <jingoohan1@gmail.com>, linuxppc-dev@lists.ozlabs.org, Claudiu Beznea
- <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight
- handling
-Message-ID: <20230109205026.4c672dc8@heffalump.sk2.org>
-In-Reply-To: <Y7smdFs2xgJwwVQO@ravnborg.org>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-	<20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
-	<553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
-	<Y7nb2q6SDota/rTU@ravnborg.org>
-	<366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
-	<Y7smdFs2xgJwwVQO@ravnborg.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866D95221
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 21:24:26 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1pEzcr-0007gB-So; Mon, 09 Jan 2023 22:24:13 +0100
+Date: Mon, 9 Jan 2023 22:24:13 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/13] staging: r8188eu: make rtl8188eu_inirp_init a void
+ function
+Message-ID: <20230109212413.mcypwhpmtsj3rgj3@viti.kaiser.cx>
+References: <20230108185738.597105-1-martin@kaiser.cx>
+ <20230108185738.597105-7-martin@kaiser.cx>
+ <ab4727b9-69c1-ba8d-38d8-6a3c721ba2aa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/WkKI4pNhPlPhuyNdSzKYHjs";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 8129841754002130566
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeigdduvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepjeevgfeigfeukeeujeeghfefjeffjeffjeetffeludelgeevfeejtdekvdevvdevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekuddpmhhouggvpehsmhhtphhouhht
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab4727b9-69c1-ba8d-38d8-6a3c721ba2aa@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
---Sig_/WkKI4pNhPlPhuyNdSzKYHjs
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Pavel,
 
-Hi Sam,
+Thus wrote Pavel Skripkin (paskripkin@gmail.com):
 
-On Sun, 8 Jan 2023 21:24:20 +0100, Sam Ravnborg <sam@ravnborg.org> wrote:
-> > Here are my pending patches from last June on lore:
-> >  =20
->=20
-> All patches are handled I think except this:
-> > * https://lore.kernel.org/lkml/20220608205623.2106113-1-steve@sk2.org/ =
-=20
->=20
-> Can I ask you to drop the assignment that is not needed, and resend with
-> the collected acks/r-b.
->=20
-> With this, then all fbdev patches are handled.
+> Martin Kaiser <martin@kaiser.cx> says:
 
-Ah yes, it was revised as
-https://lore.kernel.org/lkml/20220609180440.3138625-1-steve@sk2.org/ which
-only got one ack (from you,
-https://lore.kernel.org/lkml/YqJCKQmQEuVsbspK@ravnborg.org/). Should I
-resend that or is that usable as-is? Or would it be better if I sent all the
-fbdev patches again (collecting all the acks and reviews)?
+> > rtl8188eu_inirp_init's return value is not checked by its caller. Make
+> > rtl8188eu_inirp_init a void function.
 
-Regards,
+> Hm, shouldn't we actually check return value on caller side?
 
-Stephen
+> This thing is called from netdev_open and issues urbs to read data from the
+> device. So let's imagine that we fail on 1st iteration (for some reason):
+> netdev_open() says all is OK, but driver does not communicate with the
+> device.
 
---Sig_/WkKI4pNhPlPhuyNdSzKYHjs
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+your're right. It makes sense to relay the return value to _netdev_open.
+We'd have to update/remove the intf_start pointer and usb_intf_start.
 
------BEGIN PGP SIGNATURE-----
+I'll resend the series without this patch and submit new patches for
+relaying the error code.
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO8cMgACgkQgNMC9Yht
-g5z/hg/+M/SIiugiRlPu8/75brBREB81GIjjW2/r/pcvIdkETebFoCKAFma2bIgo
-VljGHiYUQygcfAT+SNwI5wRrMKaNDug+L7iXVOpE9ouBd3SAk65zo8e3xcH6hTJV
-GV7tVbhrQQwIwYGE/xf8ndGBVbHriXm2TZlCV48cNGIK9Gm9mn2yo3791fF/HpLC
-iLJNAG0tEukItdoNh+0HaT3AFj6SQMZCz9mHLCJS6Jpcltr920pa9eeCxpmcMupK
-/hzGcQaMKbpClKn+2h0st9aC3pBcw9kresTlcFlvo7avT7OFqQkV5+YuntPA2SlC
-oY9vS0ztE9capaPic4fsESf4i44NW58vceg96Ill1ZrJyUcXDdq/gntBi3SfM05W
-+DDJaIQQfSsnaqsPGn3AB7CTOeW4cATaih197XFdUcUtoW5nIrSRsCDlpbEmjpwr
-bPsM0KyqJJ5qJXictFaBoD0LDHNHNVVfyn4qA24N/PsgHQxtTaSVZR6ASx9/WI9w
-L83/tK68OFp7m14Z5tvdMHOI7oOUJO6L67wVtP8UrH+YW2NfBwcECQbanhU4cinF
-EWR7e1UlYF2APGsvx/BPrY21rOW4tYnp5WlUqO/SD1sMCWPVjN6LeFIELCW3bIHw
-/jCr9HY2gX6KPDEqkI6grOB+ffgNGgKvPQEOeL+BGNcywWCZTtk=
-=EEPd
------END PGP SIGNATURE-----
+Thanks & best regards,
 
---Sig_/WkKI4pNhPlPhuyNdSzKYHjs--
+   Martin
