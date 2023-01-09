@@ -1,101 +1,115 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 11.mo583.mail-out.ovh.net (11.mo583.mail-out.ovh.net [46.105.47.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ED1523F
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 22:34:21 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id u19so23900538ejm.8
-        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 14:34:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qrfnj92qZV9YKD/X88FUYEhh1ZiUzM2jrGqzUrMkfuk=;
-        b=ZEz0LqnW0DVKY426fn/ys0ikA02+XSjrZKzdMdAtQJfKWrkT0Wza+pSTE4ESvfPpHm
-         UutkCwvBqV2/6Cf5dpx3HWzChM6Pvn6fPeonWBWZjsHxhsHwX6DTjSM9ugIqoMO/eXOd
-         OMRFe7e5QAZ4Zfo9V4wOB+MHm2C4Q+V6FsNPVIh7QIiuNQGdAUIAhp2oqfTRdaNYqdmY
-         Mi2E9hh5G3nBkziNjEFNRrkHOvCV6ItaEcVwKcqQEuEJIONWw1/QclfPb1JAQXYwVzNu
-         ustDqipzElqrSYOfsG0JJ63qQgY4DX8Pnkssac0MfkddoVFKi4Moo2UJi46Rn6e5Iw/p
-         /GSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qrfnj92qZV9YKD/X88FUYEhh1ZiUzM2jrGqzUrMkfuk=;
-        b=hxzuZohkgfrKJpxB+R45T3ZHzd93jVcHObjD1VKQ9YFs+10LK6FftpRa8+f/+ACHKS
-         MACGr0RnU5YVhXmvc7Kl8gq8vGOjUlJyClRh0qwjQJ3y/zs7W/aZPNxgmZAtp9XdQn5w
-         jGmjB8QRA1s0ILNbApD6T2PCSlBemlmRjA7UHrmZxTCt3R+eLw7Cwulu2YrT5hgS22vB
-         cP63eCZdmYq0eJ7LsTPUt365nIY4EOFy27ZiOUWI8FIEtBnCWjs7k8U/uy7z1oRhVOBh
-         s9x9sfdmx6xg8sykoh6M7uwpXw4niqUQZecyRgUIjG7hGGxEevvOJppAvNTlASSrMggG
-         IKMA==
-X-Gm-Message-State: AFqh2kptGHr6S/Q62tHzANV1+42dpVAZ1m563LgnE2uJbg+m960ZdpSL
-	xI3WiCFgIhhNDvvnePqDJpM=
-X-Google-Smtp-Source: AMrXdXsM+c1VHFzHaCsf3M6QGLEtt0pIt1VJcbyCJieByfpI6Uo/kcPt7H1vXOo2Cqe/b6zAgywJBA==
-X-Received: by 2002:a17:906:280d:b0:837:c290:eb83 with SMTP id r13-20020a170906280d00b00837c290eb83mr14496758ejc.2.1673303659631;
-        Mon, 09 Jan 2023 14:34:19 -0800 (PST)
-Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id d20-20020a170906305400b007c0d64c1886sm4203377ejd.33.2023.01.09.14.34.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jan 2023 14:34:18 -0800 (PST)
-Message-ID: <fcbe9f78-bd22-4ec0-9768-9320a1c946fd@gmail.com>
-Date: Mon, 9 Jan 2023 23:34:16 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05AC15A7
+	for <linux-staging@lists.linux.dev>; Tue, 10 Jan 2023 00:52:00 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.108.20.214])
+	by mo583.mail-out.ovh.net (Postfix) with ESMTP id A683824750
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 20:03:42 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-pr92n (unknown [10.109.156.168])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 007F61FEA6;
+	Mon,  9 Jan 2023 20:03:39 +0000 (UTC)
+Received: from sk2.org ([37.59.142.98])
+	by ghost-submission-6684bf9d7b-pr92n with ESMTPSA
+	id 2FQONhtzvGPhugEAufjBpQ
+	(envelope-from <steve@sk2.org>); Mon, 09 Jan 2023 20:03:39 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-98R002fae975b0-c3d6-495c-8602-a37db480a49a,
+                    796317D5D98EA53ED2B7ABF3FE0FDD27B7A2AA3D) smtp.auth=steve@sk2.org
+X-OVh-ClientIp:82.65.25.201
+Date: Mon, 9 Jan 2023 21:03:38 +0100
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-staging@lists.linux.dev, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Paul
+ Mackerras <paulus@samba.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>, Ludovic Desroches
+ <ludovic.desroches@microchip.com>, Miguel Ojeda <ojeda@kernel.org>, Sam
+ Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
+ Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Robin van der Gracht
+ <robin@protonic.nl>, Nicolas Ferre <nicolas.ferre@microchip.com>, Jingoo
+ Han <jingoohan1@gmail.com>, linuxppc-dev@lists.ozlabs.org, Claudiu Beznea
+ <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight
+ handling
+Message-ID: <20230109210338.42c993bd@heffalump.sk2.org>
+In-Reply-To: <20230109205026.4c672dc8@heffalump.sk2.org>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+	<20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
+	<553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
+	<Y7nb2q6SDota/rTU@ravnborg.org>
+	<366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
+	<Y7smdFs2xgJwwVQO@ravnborg.org>
+	<20230109205026.4c672dc8@heffalump.sk2.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 00/12] staging: r8188eu: some more xmit cleanups
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230108185738.597105-1-martin@kaiser.cx>
- <20230109212852.75612-1-martin@kaiser.cx>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20230109212852.75612-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/fAednxbP+nwMmsBkrG4.geO";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Ovh-Tracer-Id: 8295067564944492166
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeigdduvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepgedtieevheduudejjeelheetvdejudehvdejudfggfetteekffevvdehjeekkeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekfedpmhhouggvpehsmhhtphhouhht
 
-On 1/9/23 22:28, Martin Kaiser wrote:
-> Here's another set of xmit cleanups, based on my previous patches.
-> 
-> changes in v2:
-> - drop "make rtl8188eu_inirp_init a void function" patch
->    (we should relay the return value instead of discarding it)
-> 
-> Martin Kaiser (12):
->    staging: r8188eu: beq_cnt is write-only
->    staging: r8188eu: bkq_cnt is write-only
->    staging: r8188eu: viq_cnt is write-only
->    staging: r8188eu: voq_cnt is write-only
->    staging: r8188eu: replace switch with if
->    staging: r8188eu: dir_dev is unused
->    staging: r8188eu: remove unused hal_xmit_handler define
->    staging: r8188eu: txirp_cnt is write-only
->    staging: r8188eu: remove unused QSLT defines
->    staging: r8188eu: xmit_priv's vcs_type is not used
->    staging: r8188eu: xmit_priv's vcs is not used
->    staging: r8188eu: xmit_priv's vcs_setting is not used
-> 
->   drivers/staging/r8188eu/core/rtw_mlme.c       |  5 ---
->   drivers/staging/r8188eu/core/rtw_xmit.c       | 42 -------------------
->   drivers/staging/r8188eu/include/drv_types.h   |  1 -
->   .../staging/r8188eu/include/rtl8188e_xmit.h   | 11 -----
->   drivers/staging/r8188eu/include/rtw_xmit.h    | 10 -----
->   drivers/staging/r8188eu/os_dep/os_intfs.c     |  3 --
->   .../staging/r8188eu/os_dep/usb_ops_linux.c    | 23 +---------
->   7 files changed, 1 insertion(+), 94 deletions(-)
-> 
+--Sig_/fAednxbP+nwMmsBkrG4.geO
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-When applying first the 4 patch series and then the 20 patch series this 
-series is working.
+On Mon, 9 Jan 2023 20:53:44 +0100, Stephen Kitt <steve@sk2.org> wrote:
+> On Sun, 8 Jan 2023 21:24:20 +0100, Sam Ravnborg <sam@ravnborg.org> wrote:
+> > > Here are my pending patches from last June on lore:
+> > >    =20
+> >=20
+> > All patches are handled I think except this: =20
+> > > * https://lore.kernel.org/lkml/20220608205623.2106113-1-steve@sk2.org/
+> > >  =20
+> >=20
+> > Can I ask you to drop the assignment that is not needed, and resend with
+> > the collected acks/r-b.
+> >=20
+> > With this, then all fbdev patches are handled. =20
+>=20
+> Ah yes, it was revised as
+> https://lore.kernel.org/lkml/20220609180440.3138625-1-steve@sk2.org/ which
+> only got one ack (from you,
+> https://lore.kernel.org/lkml/YqJCKQmQEuVsbspK@ravnborg.org/). Should I
+> resend that or is that usable as-is? Or would it be better if I sent all =
+the
+> fbdev patches again (collecting all the acks and reviews)?
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Since the others are already in fbdev/for-next, I=E2=80=99ve just resent v2=
+ of this
+patch with your ack.
+
+Regards,
+
+Stephen
+
+--Sig_/fAednxbP+nwMmsBkrG4.geO
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO8cxoACgkQgNMC9Yht
+g5wz4BAAij/m9s80FJhymF6GFXJ6JFByUsTaGBWbmyRNRWMW+VPEh24jzlOXCT6m
+eTqP1bR1+D+4DEYqRUyD0X7cf+k6KclOs4h83NnXQmVUWJ4KxMffVGWaRaWg3BGD
+LgSgo62wCa/tODFoCLVZ9gmDsLfLvrU3ig0SefMgqZTKUNI63JJuVIY3v9upc9Xp
+6mrj8xsiB9V5/GMgTlpcaoqTA8wb/OrJb2IvCEhcjFO7gti3LSSQ27VdA2WfGSpD
+x+Uok2MBGoSbughl1Q0qD3oQxEkg3jvF94/gXfY40uedF1hBw+A2/mqQJ8XSumxI
+H8rUTNeyeYailjBeegv0vhQYXjY3M8NiCbra54kWTRkFaIlORW1empICudxDuMvI
+zB/DkEDAp86lpVuzovuUipwazxxbQCWxYDtEtebXKRE8xsai7Q1r6OYUSO0WN5k6
+W3wbivddvTD2RjDbs0habIvERgM+A3lfGR4xor2hKL+XUkuw1zMavgRw1f/7Gk2N
+J5KECYty3zKbugnM5uBtsnNUobmc1OnmyH7i2tgizTnKccF7Dd7N9WUWlatuEqFQ
++QIOt4j6Ii2FOuc/r122n8qNYePw/jyQZMpTBkUwAO6JH+Rv6NAnTOTCtBsT9lRq
+i3mEWOkkOot6W1vgAcoxmZjuFGyI8YLV1rlwGd1ceOkZvHsP8X0=
+=GTwo
+-----END PGP SIGNATURE-----
+
+--Sig_/fAednxbP+nwMmsBkrG4.geO--
