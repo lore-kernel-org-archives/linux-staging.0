@@ -1,43 +1,43 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF9C28E8
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 11:04:38 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id j7so2744144wrn.9
-        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 03:04:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECA928E8
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 11:06:39 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id o15so5968130wmr.4
+        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 03:06:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F1o1h0/8Z9CTd9JzV9HYcBGjMEGQHN88SqgrqMI3CKE=;
-        b=JfOf7Ybc+GU1nn8y1UcCvxhLZxdJnTmM6yTssoaGD6iHkSp9kw+vB/gkiSd9BYh1Ev
-         0QFxzWP/4tG540eJGRXWjtCmZaqkjyjagRDq8bBhASM3grdf91bjsYv4KgV91OB6++4s
-         YsO8YvQsF+0XVZ29S/f//4CfrmOe9Sy50FKX3juIAKrtyF082yVw33n51qKs/qdi7yYI
-         5jeqjXKki1UkPiZnTc5D0T6QLRHn9xrUgbQ09ydGm4qnjFUmkdixeoByKFU5eYtKy7FR
-         6A31HILTPPT2+/z7YlxLdMYcewFPN71b3Dgv09t0GfYu7LRrYZNWfX48SDylX3W4GzdP
-         ASMw==
+        bh=SjRwbpuBx9A4o4cRoFcJqEE5mXsy0UsyNYHbW5KtG4M=;
+        b=YnQ3fGmpuRUapOzbtVRlN3HBT8Iorta3LecpdB0log7XED7u1IJxEqQs0QccmZxOai
+         MfS/ZZSQ5WKDa9o6C1cGRqmSlALsDF7dYw8bC0mLYpQtTD17RkfW4+nHFkmXWXMpmBze
+         LZwVtCyv46vyu0ZifdpdHibLyN3SfkifcK+AXWfJG2T0iyPzAA9pLINli7HH1gS+p9g3
+         O+B5gLSVUqo8PEgDoBB9hhiNpI9OFz7Cq+mzvc+xnE3YYo3cKvbMrMpNiAgcOYu4257/
+         //cyEe3wFJV/FzRNJeYb81OLG4xcEJtdkHClXQjHgPbLWfvpN3QzLV2BDagvGkziL0gK
+         obhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F1o1h0/8Z9CTd9JzV9HYcBGjMEGQHN88SqgrqMI3CKE=;
-        b=1mwu63sFPlVynWzYYwop9e5Nv8Pf/vr2ww6Ah9PW471dVgmUfIn4N+Rq/89ScPBFf5
-         QVQOH4fHuEmykffL32D9uE8KfdyTYksh7RMgOxtBM+1n1d6I81PMqL2xmueD+705Z01Y
-         PHHkBVaZpFT99j1O40HpG2tmUaRzyenBL5c0ATvHALWDbp9UGLZsk0CJ4qJXODjzqveW
-         Q9BDW8Gkmz8LZX9vqTgcNaXVxKNozzqF6r6IoLei54VxHlRLZ90yjJElPnz/qhvYAXXO
-         EnITDLhPgcqE9/QFUbyK6TlzpatiQK0aMunxqptKIgkXBAbAQrZid6c8QTxHp7ApZIWW
-         +C8Q==
-X-Gm-Message-State: AFqh2kqQLNR3bNsm7nJe88GLUKJTID5uKxT6N17o7d8sVGy7Dzuw02E1
-	UZ1/4Ghgla3TQZlfQHz14Eyx3A==
-X-Google-Smtp-Source: AMrXdXt0sWws9FC7FmSd3zSlUGnJeOxvVL6lisTvf8bQ3vSNu8uoGcg+vPo7j6+ZFs9pmgtUvQuw9w==
-X-Received: by 2002:adf:d846:0:b0:29f:4e42:33c5 with SMTP id k6-20020adfd846000000b0029f4e4233c5mr14183491wrl.55.1673262277116;
-        Mon, 09 Jan 2023 03:04:37 -0800 (PST)
+        bh=SjRwbpuBx9A4o4cRoFcJqEE5mXsy0UsyNYHbW5KtG4M=;
+        b=zcz+iKwnx0ZMrxxoiWOWidN/T2Nov9hi9yfN9W8JnOeRdSx0NnZmMAJkvVn70xCCEf
+         lVD9+WLLakSoq0Ek8GGfgsSxl8+PthmvcWKa/TPPmpEkapwubB+NoxU7teJhuoTzmpFj
+         CTa7gkw7djGGiUXrW12+6uER+kOmh8LM5CVVOgRvglY7brxrbJIaUll//C6RjuxQLzNR
+         cMdlK8N/GyWobGUoi8944PEFWi49GMnz/2f+idjDM23h5sw79XigsBdXOlv9nGhYVOz7
+         noaR4Bs3Rvf3rfagmOhyyL+YxGnF4xwJV0Klou7HnmxH5/gzOOFVip1+PcrowSDsLNKN
+         hMcQ==
+X-Gm-Message-State: AFqh2kpxURdcAy8nnPC2AI2kyhTx73LDEHTTYqCYAYRL7cvKgOWjOCGt
+	rgLqwzIxgi20cegB9YHH2z9l5w==
+X-Google-Smtp-Source: AMrXdXshcTe7Yre9OY4C4E6jNr30wzlSQe0BxicvczyjAULATvXvRnPw2diLMpZVvSEBR8IGX/Vbtw==
+X-Received: by 2002:a05:600c:3550:b0:3d9:ed30:6a73 with SMTP id i16-20020a05600c355000b003d9ed306a73mr3129624wmq.9.1673262397923;
+        Mon, 09 Jan 2023 03:06:37 -0800 (PST)
 Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id z6-20020a5d6546000000b002bc371a08adsm2060413wrv.101.2023.01.09.03.04.35
+        by smtp.gmail.com with ESMTPSA id y7-20020a7bcd87000000b003d997e5e679sm12453314wmj.14.2023.01.09.03.06.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 03:04:36 -0800 (PST)
-Date: Mon, 9 Jan 2023 11:04:34 +0000
+        Mon, 09 Jan 2023 03:06:37 -0800 (PST)
+Date: Mon, 9 Jan 2023 11:06:35 +0000
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: sam@ravnborg.org
 Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
@@ -55,10 +55,11 @@ Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
 	linuxppc-dev@lists.ozlabs.org, Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH 14/15] backlight: tosa: Use backlight helper
-Message-ID: <Y7v0wiBHXy7lH6tz@aspen.lan>
+Subject: Re: [PATCH 15/15] backlight: backlight: Drop the deprecated fb_blank
+ property
+Message-ID: <Y7v1OxdowGdxgvUj@aspen.lan>
 References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-14-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,21 +68,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-14-1bd9bafb351f@ravnborg.org>
+In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
 
-On Sat, Jan 07, 2023 at 07:26:28PM +0100, Sam Ravnborg via B4 Submission Endpoint wrote:
-> From: Stephen Kitt <steve@sk2.org>
+On Sat, Jan 07, 2023 at 07:26:29PM +0100, Sam Ravnborg via B4 Submission Endpoint wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
 >
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
+> With all users gone remove the deprecated fb_blank member in
+> backlight_properties.
 >
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
 
-Just for completeness...
+
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
-Daniel.
+PS Please don't treat this like a maintainer Acked-by: and merge it
+   (Lee's not on holiday so work with Lee to figure out the merge
+   strategy ;-) ).
