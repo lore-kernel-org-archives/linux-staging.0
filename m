@@ -1,69 +1,101 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A6C5232
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 21:29:18 +0000 (UTC)
-Received: from dslb-188-096-147-178.188.096.pools.vodafone-ip.de ([188.96.147.178] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1pEzhh-0007iD-LU; Mon, 09 Jan 2023 22:29:13 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 12/12] staging: r8188eu: xmit_priv's vcs_setting is not used
-Date: Mon,  9 Jan 2023 22:28:52 +0100
-Message-Id: <20230109212852.75612-13-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230109212852.75612-1-martin@kaiser.cx>
-References: <20230108185738.597105-1-martin@kaiser.cx>
- <20230109212852.75612-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ED1523F
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 22:34:21 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id u19so23900538ejm.8
+        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 14:34:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qrfnj92qZV9YKD/X88FUYEhh1ZiUzM2jrGqzUrMkfuk=;
+        b=ZEz0LqnW0DVKY426fn/ys0ikA02+XSjrZKzdMdAtQJfKWrkT0Wza+pSTE4ESvfPpHm
+         UutkCwvBqV2/6Cf5dpx3HWzChM6Pvn6fPeonWBWZjsHxhsHwX6DTjSM9ugIqoMO/eXOd
+         OMRFe7e5QAZ4Zfo9V4wOB+MHm2C4Q+V6FsNPVIh7QIiuNQGdAUIAhp2oqfTRdaNYqdmY
+         Mi2E9hh5G3nBkziNjEFNRrkHOvCV6ItaEcVwKcqQEuEJIONWw1/QclfPb1JAQXYwVzNu
+         ustDqipzElqrSYOfsG0JJ63qQgY4DX8Pnkssac0MfkddoVFKi4Moo2UJi46Rn6e5Iw/p
+         /GSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qrfnj92qZV9YKD/X88FUYEhh1ZiUzM2jrGqzUrMkfuk=;
+        b=hxzuZohkgfrKJpxB+R45T3ZHzd93jVcHObjD1VKQ9YFs+10LK6FftpRa8+f/+ACHKS
+         MACGr0RnU5YVhXmvc7Kl8gq8vGOjUlJyClRh0qwjQJ3y/zs7W/aZPNxgmZAtp9XdQn5w
+         jGmjB8QRA1s0ILNbApD6T2PCSlBemlmRjA7UHrmZxTCt3R+eLw7Cwulu2YrT5hgS22vB
+         cP63eCZdmYq0eJ7LsTPUt365nIY4EOFy27ZiOUWI8FIEtBnCWjs7k8U/uy7z1oRhVOBh
+         s9x9sfdmx6xg8sykoh6M7uwpXw4niqUQZecyRgUIjG7hGGxEevvOJppAvNTlASSrMggG
+         IKMA==
+X-Gm-Message-State: AFqh2kptGHr6S/Q62tHzANV1+42dpVAZ1m563LgnE2uJbg+m960ZdpSL
+	xI3WiCFgIhhNDvvnePqDJpM=
+X-Google-Smtp-Source: AMrXdXsM+c1VHFzHaCsf3M6QGLEtt0pIt1VJcbyCJieByfpI6Uo/kcPt7H1vXOo2Cqe/b6zAgywJBA==
+X-Received: by 2002:a17:906:280d:b0:837:c290:eb83 with SMTP id r13-20020a170906280d00b00837c290eb83mr14496758ejc.2.1673303659631;
+        Mon, 09 Jan 2023 14:34:19 -0800 (PST)
+Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
+        by smtp.gmail.com with ESMTPSA id d20-20020a170906305400b007c0d64c1886sm4203377ejd.33.2023.01.09.14.34.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Jan 2023 14:34:18 -0800 (PST)
+Message-ID: <fcbe9f78-bd22-4ec0-9768-9320a1c946fd@gmail.com>
+Date: Mon, 9 Jan 2023 23:34:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 00/12] staging: r8188eu: some more xmit cleanups
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20230108185738.597105-1-martin@kaiser.cx>
+ <20230109212852.75612-1-martin@kaiser.cx>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230109212852.75612-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-vcs_setting in struct xmit_priv is not used any more. We can remove it.
+On 1/9/23 22:28, Martin Kaiser wrote:
+> Here's another set of xmit cleanups, based on my previous patches.
+> 
+> changes in v2:
+> - drop "make rtl8188eu_inirp_init a void function" patch
+>    (we should relay the return value instead of discarding it)
+> 
+> Martin Kaiser (12):
+>    staging: r8188eu: beq_cnt is write-only
+>    staging: r8188eu: bkq_cnt is write-only
+>    staging: r8188eu: viq_cnt is write-only
+>    staging: r8188eu: voq_cnt is write-only
+>    staging: r8188eu: replace switch with if
+>    staging: r8188eu: dir_dev is unused
+>    staging: r8188eu: remove unused hal_xmit_handler define
+>    staging: r8188eu: txirp_cnt is write-only
+>    staging: r8188eu: remove unused QSLT defines
+>    staging: r8188eu: xmit_priv's vcs_type is not used
+>    staging: r8188eu: xmit_priv's vcs is not used
+>    staging: r8188eu: xmit_priv's vcs_setting is not used
+> 
+>   drivers/staging/r8188eu/core/rtw_mlme.c       |  5 ---
+>   drivers/staging/r8188eu/core/rtw_xmit.c       | 42 -------------------
+>   drivers/staging/r8188eu/include/drv_types.h   |  1 -
+>   .../staging/r8188eu/include/rtl8188e_xmit.h   | 11 -----
+>   drivers/staging/r8188eu/include/rtw_xmit.h    | 10 -----
+>   drivers/staging/r8188eu/os_dep/os_intfs.c     |  3 --
+>   .../staging/r8188eu/os_dep/usb_ops_linux.c    | 23 +---------
+>   7 files changed, 1 insertion(+), 94 deletions(-)
+> 
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/include/rtw_xmit.h | 1 -
- drivers/staging/r8188eu/os_dep/os_intfs.c  | 1 -
- 2 files changed, 2 deletions(-)
+When applying first the 4 patch series and then the 20 patch series this 
+series is working.
 
-diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index abac0103b53a..cc32167fb4dc 100644
---- a/drivers/staging/r8188eu/include/rtw_xmit.h
-+++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -267,7 +267,6 @@ struct	xmit_priv {
- 	struct __queue free_xmit_queue;
- 	uint	frag_len;
- 	struct adapter	*adapter;
--	u8   vcs_setting;
- 	u64	tx_bytes;
- 	u64	tx_pkts;
- 	u64	tx_drop;
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index f022f6b1cf3e..cfc24420e70c 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -392,7 +392,6 @@ static void rtw_init_default_value(struct adapter *padapter)
- 	struct security_priv *psecuritypriv = &padapter->securitypriv;
- 
- 	/* xmit_priv */
--	pxmitpriv->vcs_setting = pregistrypriv->vrtl_carrier_sense;
- 	pxmitpriv->frag_len = pregistrypriv->frag_thresh;
- 
- 	/* mlme_priv */
--- 
-2.30.2
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
