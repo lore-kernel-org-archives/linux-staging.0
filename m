@@ -1,248 +1,142 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C820A8C09
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 19:09:15 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id i9so14059691edj.4
-        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 11:09:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZI4QNYHAsoqJCIbKwCF4KbxUOqKXYFqsYQ+1I8J7L9A=;
-        b=KeuCh0wCp6/fkrCV+b7lipshXbHWdWeLJLV+uyA0HVd7egVd5zzRkZ1LUeB7lJnW5b
-         JyktUsLZClLwML0jvBrLvMhX1gdZivmQ7lCz6cZZH19klIyoU9W7qtDivZXa9n47tbpp
-         ALMjq7YQp/pPoE4jrtGIEk+N5UTTdoF/YUnvSJYWC1hlK9IM3wjiaekqU8mqsIuAcezP
-         oXdYDlHShjkWLHwKF8pXchC+8ZDADZct4XAR9na8JLiovrjknRAYkJJ7ZCK2w1qpvJK2
-         iKZ0SUzhQLT9bccYgK8cl81sAeKbRWP+EzSf4d2Nlydjof3/QNXt3ObZJGmgu6IX8XVg
-         uBQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZI4QNYHAsoqJCIbKwCF4KbxUOqKXYFqsYQ+1I8J7L9A=;
-        b=slss8cOlcdAZWZs3A5wKHlCSwOakrpalLXIdb37WC/thqpvoYFILsTfCuwBXupDOrm
-         uk7a46GTvrzIqAXxLCmr3HMkXGwzO3wo8ZL6uNJzyXTuL1iJ1XJ+ktoDwjhOEaKSFPRp
-         DDGMpEIHSC2kPYCnGq3raGseW+gjHIMiFidhezs5HrPcWtpnIF49qvxpLh6e7jAYvY/C
-         qbrzx7ifsE2XDcsLHJMvI+nG8CUiVfHK+NmHW6TbPvYaYMlqmsV5hfco6cU2i738AXnL
-         N6htTL391nQ4o7X3tRYfkt/uH0cRJEz/sdU9X3BgH8kyAITDTG4h1IkaIu0mqZK6PvSH
-         1GXA==
-X-Gm-Message-State: AFqh2krJvIVwO+wBOT6zaux8Q4X03SxcAbYJYgjf6OScVkjl/XCiHu2t
-	9o77kPXn8j29MDknCoj2y8c=
-X-Google-Smtp-Source: AMrXdXuD4MlMKwuEwJVAD+D5BX/tAz1GAS6ckQ8kHmmpf93LnSQ8Q2N6IECunQt8abziuA7mJ+Bzlw==
-X-Received: by 2002:a05:6402:207c:b0:490:ff75:7aa with SMTP id bd28-20020a056402207c00b00490ff7507aamr3522527edb.1.1673291354140;
-        Mon, 09 Jan 2023 11:09:14 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id p9-20020aa7d309000000b0046776f98d0csm4062977edq.79.2023.01.09.11.09.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 11:09:13 -0800 (PST)
-Date: Mon, 9 Jan 2023 20:09:11 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/7] staging: rtl8192e: Rename SetRFPowerSta..,
- RfReg0Value and bTXPowerDa..
-Message-ID: <01ff54a2c135ba6e3d06255102679d496fd2aef1.1673290428.git.philipp.g.hortmann@gmail.com>
-References: <cover.1673290428.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979268C09
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 19:59:59 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8F74A6602D6A;
+	Mon,  9 Jan 2023 19:59:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1673294395;
+	bh=H174vEDV+J2zA47hFKfyVx3mBxvDGBXXMB4xDaIl3jc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=NMyv/Y0pm2WyOn7Fmeh4Zj4ilq/MCz8Fspuaq2lXBA2KeUFn/Jh9rVb0nMT7EPdLv
+	 0NmQVDpZlRv1aaCFV+IL3+JmsIf9S+38xEMBD2Jz9t1fkMZsCnu5JVQscghsmGHG4W
+	 cx4yr6WkIQ//0nIAFF5JLuLrlGyS2tZ27YlCQqDepMdUjND3FV5J9q1lw3Te2AXvrb
+	 HA3SNTaa1v9TLE8cLjQ+oT2HuB/dpqCxFksXtqaZMLPPmvyzhbjnbS34DDCS6TT4IX
+	 z8sV67orCNfBhj13An7SoSv/g/n+oNNrfRkA8K66ASXeNecMvQgK923WO10VNGHCMd
+	 Qyq4IXJPg9rrw==
+Message-ID: <8124d8751180393f8490fa3f754b1b674d7c06db.camel@collabora.com>
+Subject: Re: [PATCH v2 3/4] media: rkvdec: Re-enable H.264 error detection
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	kernel@collabora.com, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 09 Jan 2023 14:59:46 -0500
+In-Reply-To: <CAGXv+5GBhZ4U4y_KGrBdvgmy7odcVvH=ZJEMtsfjPvw4tQUV1A@mail.gmail.com>
+References: <20221223193807.914935-1-nicolas.dufresne@collabora.com>
+	 <20221223193807.914935-4-nicolas.dufresne@collabora.com>
+	 <CAGXv+5GBhZ4U4y_KGrBdvgmy7odcVvH=ZJEMtsfjPvw4tQUV1A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1673290428.git.philipp.g.hortmann@gmail.com>
 
-Rename variable SetRFPowerStateInProgress to set_rf_pwr_state_in_progress,
-RfReg0Value to rf_reg_0value and bTXPowerDataReadFromEEPORM to
-tx_pwr_data_read_from_eeprom to avoid CamelCase which is not accepted by
-checkpatch.
+Le lundi 26 d=C3=A9cembre 2022 =C3=A0 12:17 +0800, Chen-Yu Tsai a =C3=A9cri=
+t=C2=A0:
+> On Sat, Dec 24, 2022 at 3:39 AM Nicolas Dufresne
+> <nicolas.dufresne@collabora.com> wrote:
+> >=20
+> > This re-enable H.264 error detection, but using the other error mode.
+> > In that mode, the decoder will skip over the error macro-block or
+> > slices and complete the decoding. As a side effect, the error status
+> > is not set in the interrupt status register, and instead errors are
+> > detected per format. Using this mode workaround the issue that the
+> > HW get stuck in error state, and allow reporting that some corruption
+> > may be present in the buffer to userland.
+> >=20
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > ---
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
+> >  1 file changed, 20 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
+ng/media/rkvdec/rkvdec-h264.c
+> > index 4fc167b42cf0c..dfe3e235f099a 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > @@ -1162,14 +1162,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *c=
+tx)
+> >=20
+> >         schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(=
+2000));
+> >=20
+> > -       writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> > -       writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+> > +       writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> > +       writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+>=20
+> Use RKVDEC_H264_ERR_EN_HIGHBITS() here? Only lower 30 bits are valid.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  4 +-
- .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 40 +++++++++----------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  2 +-
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  6 +--
- 4 files changed, 26 insertions(+), 26 deletions(-)
+I was simply reverting back to the value it was before, I can try that too,=
+ you
+are likely right.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 06ab02230125..ebf1fa5ec295 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -345,9 +345,9 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
- 	}
- 
- 	if (priv->card_8192_version > VERSION_8190_BD)
--		priv->bTXPowerDataReadFromEEPORM = true;
-+		priv->tx_pwr_data_read_from_eeprom = true;
- 	else
--		priv->bTXPowerDataReadFromEEPORM = false;
-+		priv->tx_pwr_data_read_from_eeprom = false;
- 
- 	priv->rf_type = RTL819X_DEFAULT_RF_TYPE;
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index cc7e72f2a52c..2e9932a26382 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -101,17 +101,17 @@ static u32 _rtl92e_phy_rf_read(struct net_device *dev,
- 	if (priv->rf_chip == RF_8256) {
- 		rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter4, 0xf00, 0x0);
- 		if (Offset >= 31) {
--			priv->RfReg0Value[eRFPath] |= 0x140;
-+			priv->rf_reg_0value[eRFPath] |= 0x140;
- 			rtl92e_set_bb_reg(dev, pPhyReg->rf3wireOffset,
- 					  bMaskDWord,
--					  (priv->RfReg0Value[eRFPath]<<16));
-+					  (priv->rf_reg_0value[eRFPath] << 16));
- 			NewOffset = Offset - 30;
- 		} else if (Offset >= 16) {
--			priv->RfReg0Value[eRFPath] |= 0x100;
--			priv->RfReg0Value[eRFPath] &= (~0x40);
-+			priv->rf_reg_0value[eRFPath] |= 0x100;
-+			priv->rf_reg_0value[eRFPath] &= (~0x40);
- 			rtl92e_set_bb_reg(dev, pPhyReg->rf3wireOffset,
- 					  bMaskDWord,
--					  (priv->RfReg0Value[eRFPath]<<16));
-+					  (priv->rf_reg_0value[eRFPath] << 16));
- 
- 			NewOffset = Offset - 15;
- 		} else
-@@ -130,10 +130,10 @@ static u32 _rtl92e_phy_rf_read(struct net_device *dev,
- 				bLSSIReadBackData);
- 
- 	if (priv->rf_chip == RF_8256) {
--		priv->RfReg0Value[eRFPath] &= 0xebf;
-+		priv->rf_reg_0value[eRFPath] &= 0xebf;
- 
- 		rtl92e_set_bb_reg(dev, pPhyReg->rf3wireOffset, bMaskDWord,
--				  (priv->RfReg0Value[eRFPath] << 16));
-+				  (priv->rf_reg_0value[eRFPath] << 16));
- 
- 		rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter4, 0x300, 0x3);
- 	}
-@@ -156,17 +156,17 @@ static void _rtl92e_phy_rf_write(struct net_device *dev,
- 		rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter4, 0xf00, 0x0);
- 
- 		if (Offset >= 31) {
--			priv->RfReg0Value[eRFPath] |= 0x140;
-+			priv->rf_reg_0value[eRFPath] |= 0x140;
- 			rtl92e_set_bb_reg(dev, pPhyReg->rf3wireOffset,
- 					  bMaskDWord,
--					  (priv->RfReg0Value[eRFPath] << 16));
-+					  (priv->rf_reg_0value[eRFPath] << 16));
- 			NewOffset = Offset - 30;
- 		} else if (Offset >= 16) {
--			priv->RfReg0Value[eRFPath] |= 0x100;
--			priv->RfReg0Value[eRFPath] &= (~0x40);
-+			priv->rf_reg_0value[eRFPath] |= 0x100;
-+			priv->rf_reg_0value[eRFPath] &= (~0x40);
- 			rtl92e_set_bb_reg(dev, pPhyReg->rf3wireOffset,
- 					  bMaskDWord,
--					  (priv->RfReg0Value[eRFPath] << 16));
-+					  (priv->rf_reg_0value[eRFPath] << 16));
- 			NewOffset = Offset - 15;
- 		} else
- 			NewOffset = Offset;
-@@ -179,14 +179,14 @@ static void _rtl92e_phy_rf_write(struct net_device *dev,
- 	rtl92e_set_bb_reg(dev, pPhyReg->rf3wireOffset, bMaskDWord, DataAndAddr);
- 
- 	if (Offset == 0x0)
--		priv->RfReg0Value[eRFPath] = Data;
-+		priv->rf_reg_0value[eRFPath] = Data;
- 
- 	if (priv->rf_chip == RF_8256) {
- 		if (Offset != 0) {
--			priv->RfReg0Value[eRFPath] &= 0xebf;
-+			priv->rf_reg_0value[eRFPath] &= 0xebf;
- 			rtl92e_set_bb_reg(dev, pPhyReg->rf3wireOffset,
- 					  bMaskDWord,
--					  (priv->RfReg0Value[eRFPath] << 16));
-+					  (priv->rf_reg_0value[eRFPath] << 16));
- 		}
- 		rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter4, 0x300, 0x3);
- 	}
-@@ -306,7 +306,7 @@ void rtl92e_config_mac(struct net_device *dev)
- 	u32 *pdwArray = NULL;
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
--	if (priv->bTXPowerDataReadFromEEPORM) {
-+	if (priv->tx_pwr_data_read_from_eeprom) {
- 		dwArrayLen = MACPHY_Array_PGLength;
- 		pdwArray = Rtl819XMACPHY_Array_PG;
- 
-@@ -1309,9 +1309,9 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
- 	u8	i = 0, QueueID = 0;
- 	struct rtl8192_tx_ring  *ring = NULL;
- 
--	if (priv->SetRFPowerStateInProgress)
-+	if (priv->set_rf_pwr_state_in_progress)
- 		return false;
--	priv->SetRFPowerStateInProgress = true;
-+	priv->set_rf_pwr_state_in_progress = true;
- 
- 	switch (priv->rf_chip) {
- 	case RF_8256:
-@@ -1331,7 +1331,7 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
- 					netdev_err(dev,
- 						   "%s(): Failed to initialize Adapter.\n",
- 						   __func__);
--					priv->SetRFPowerStateInProgress = false;
-+					priv->set_rf_pwr_state_in_progress = false;
- 					return false;
- 				}
- 
-@@ -1438,7 +1438,7 @@ static bool _rtl92e_set_rf_power_state(struct net_device *dev,
- 		}
- 	}
- 
--	priv->SetRFPowerStateInProgress = false;
-+	priv->set_rf_pwr_state_in_progress = false;
- 	return bResult;
- }
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 92260d098eaa..050f0435ab6d 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -872,7 +872,7 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
- 	priv->rtllib->rf_off_reason = 0;
- 	priv->rf_change_in_progress = false;
- 	priv->hw_rf_off_action = 0;
--	priv->SetRFPowerStateInProgress = false;
-+	priv->set_rf_pwr_state_in_progress = false;
- 	priv->rtllib->pwr_save_ctrl.bLeisurePs = true;
- 	priv->rtllib->LPSDelayCnt = 0;
- 	priv->rtllib->sta_sleep = LPS_IS_WAKE;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index cc3e2816e657..ad34bef5660c 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -444,18 +444,18 @@ struct r8192_priv {
- 
- 	u8 nCur40MhzPrimeSC;
- 
--	u32 RfReg0Value[4];
-+	u32 rf_reg_0value[4];
- 	u8 num_total_rf_path;
- 	bool brfpath_rxenable[4];
- 
--	bool bTXPowerDataReadFromEEPORM;
-+	bool tx_pwr_data_read_from_eeprom;
- 
- 	u16 reg_chnl_plan;
- 	u16 chnl_plan;
- 	u8 hw_rf_off_action;
- 
- 	bool rf_change_in_progress;
--	bool SetRFPowerStateInProgress;
-+	bool set_rf_pwr_state_in_progress;
- 	bool bdisable_nic;
- 
- 	u8 DM_Type;
--- 
-2.39.0
+>=20
+> >         writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
+> >         writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+> >=20
+> >         /* Start decoding! */
+> >         writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
+> > -              RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
+> > +              RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
+> > +              RKVDEC_H264ORVP9_ERR_MODE,
+> >                rkvdec->regs + RKVDEC_REG_INTERRUPT);
+> >=20
+> >         return 0;
+> > @@ -1183,10 +1184,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_c=
+tx *ctx, struct v4l2_ctrl *ctrl)
+> >         return 0;
+> >  }
+> >=20
+> > +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
+> > +{
+> > +       struct rkvdec_dev *rkvdec =3D ctx->dev;
+> > +       int err;
+>=20
+> u32?
+
+Will do.
+
+>=20
+> Otherwise,
+>=20
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+>=20
+> > +
+> > +       err =3D readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
+> > +       if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
+> > +               pr_debug("Decoded picture have %i/%i slices with errors=
+.\n",
+> > +                        RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(e=
+rr));
+> > +               return VB2_BUF_STATE_ERROR;
+> > +       }
+> > +
+> > +       return VB2_BUF_STATE_DONE;
+> > +}
+> > +
+> >  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops =3D {
+> >         .adjust_fmt =3D rkvdec_h264_adjust_fmt,
+> >         .start =3D rkvdec_h264_start,
+> >         .stop =3D rkvdec_h264_stop,
+> >         .run =3D rkvdec_h264_run,
+> >         .try_ctrl =3D rkvdec_h264_try_ctrl,
+> > +       .check_error_info =3D rkvdec_h264_check_error_info,
+> >  };
+> > --
+> > 2.38.1
+> >=20
 
