@@ -1,59 +1,65 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866D95221
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 21:24:26 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1pEzcr-0007gB-So; Mon, 09 Jan 2023 22:24:13 +0100
-Date: Mon, 9 Jan 2023 22:24:13 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A93B5221
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 21:29:08 +0000 (UTC)
+Received: from dslb-188-096-147-178.188.096.pools.vodafone-ip.de ([188.96.147.178] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1pEzhX-0007iD-6X; Mon, 09 Jan 2023 22:29:03 +0100
 From: Martin Kaiser <martin@kaiser.cx>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/13] staging: r8188eu: make rtl8188eu_inirp_init a void
- function
-Message-ID: <20230109212413.mcypwhpmtsj3rgj3@viti.kaiser.cx>
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH v2 00/12] staging: r8188eu: some more xmit cleanups
+Date: Mon,  9 Jan 2023 22:28:40 +0100
+Message-Id: <20230109212852.75612-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230108185738.597105-1-martin@kaiser.cx>
 References: <20230108185738.597105-1-martin@kaiser.cx>
- <20230108185738.597105-7-martin@kaiser.cx>
- <ab4727b9-69c1-ba8d-38d8-6a3c721ba2aa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ab4727b9-69c1-ba8d-38d8-6a3c721ba2aa@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
+Content-Transfer-Encoding: 8bit
 
-Hi Pavel,
+Here's another set of xmit cleanups, based on my previous patches.
 
-Thus wrote Pavel Skripkin (paskripkin@gmail.com):
+changes in v2:
+- drop "make rtl8188eu_inirp_init a void function" patch
+  (we should relay the return value instead of discarding it)
 
-> Martin Kaiser <martin@kaiser.cx> says:
+Martin Kaiser (12):
+  staging: r8188eu: beq_cnt is write-only
+  staging: r8188eu: bkq_cnt is write-only
+  staging: r8188eu: viq_cnt is write-only
+  staging: r8188eu: voq_cnt is write-only
+  staging: r8188eu: replace switch with if
+  staging: r8188eu: dir_dev is unused
+  staging: r8188eu: remove unused hal_xmit_handler define
+  staging: r8188eu: txirp_cnt is write-only
+  staging: r8188eu: remove unused QSLT defines
+  staging: r8188eu: xmit_priv's vcs_type is not used
+  staging: r8188eu: xmit_priv's vcs is not used
+  staging: r8188eu: xmit_priv's vcs_setting is not used
 
-> > rtl8188eu_inirp_init's return value is not checked by its caller. Make
-> > rtl8188eu_inirp_init a void function.
+ drivers/staging/r8188eu/core/rtw_mlme.c       |  5 ---
+ drivers/staging/r8188eu/core/rtw_xmit.c       | 42 -------------------
+ drivers/staging/r8188eu/include/drv_types.h   |  1 -
+ .../staging/r8188eu/include/rtl8188e_xmit.h   | 11 -----
+ drivers/staging/r8188eu/include/rtw_xmit.h    | 10 -----
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  3 --
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    | 23 +---------
+ 7 files changed, 1 insertion(+), 94 deletions(-)
 
-> Hm, shouldn't we actually check return value on caller side?
+-- 
+2.30.2
 
-> This thing is called from netdev_open and issues urbs to read data from the
-> device. So let's imagine that we fail on 1st iteration (for some reason):
-> netdev_open() says all is OK, but driver does not communicate with the
-> device.
-
-your're right. It makes sense to relay the return value to _netdev_open.
-We'd have to update/remove the intf_start pointer and usb_intf_start.
-
-I'll resend the series without this patch and submit new patches for
-relaying the error code.
-
-Thanks & best regards,
-
-   Martin
