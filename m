@@ -1,42 +1,46 @@
-Received: from 18.mo561.mail-out.ovh.net (18.mo561.mail-out.ovh.net [87.98.172.162])
+Received: from 14.mo582.mail-out.ovh.net (14.mo582.mail-out.ovh.net [46.105.56.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34849163
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 00:19:04 +0000 (UTC)
-Received: from director9.ghost.mail-out.ovh.net (unknown [10.109.156.215])
-	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 703D724137
-	for <linux-staging@lists.linux.dev>; Sun,  8 Jan 2023 19:32:18 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-rxrrl (unknown [10.110.208.237])
-	by director9.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 531A61FED5;
-	Sun,  8 Jan 2023 19:32:17 +0000 (UTC)
-Received: from sk2.org ([37.59.142.102])
-	by ghost-submission-6684bf9d7b-rxrrl with ESMTPSA
-	id GQDvD0Eau2MQfAAAaOw9AQ
-	(envelope-from <steve@sk2.org>); Sun, 08 Jan 2023 19:32:17 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-102R004bd0c23e1-a184-484d-af6b-234daf9726ce,
-                    5128B599F7D401446F64D4771BE19AB2B9CD7A8B) smtp.auth=steve@sk2.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81E823CB
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 07:12:31 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.109.143.18])
+	by mo582.mail-out.ovh.net (Postfix) with ESMTP id D60ED242BF
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 07:04:17 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-vcj6j (unknown [10.110.208.152])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 114F81FE0E;
+	Mon,  9 Jan 2023 07:04:15 +0000 (UTC)
+Received: from sk2.org ([37.59.142.97])
+	by ghost-submission-6684bf9d7b-vcj6j with ESMTPSA
+	id VL7nAW+8u2NFIg8AanWh3Q
+	(envelope-from <steve@sk2.org>); Mon, 09 Jan 2023 07:04:15 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-97G002b1d9a515-bcd6-46a5-9747-d99bfac79232,
+                    796317D5D98EA53ED2B7ABF3FE0FDD27B7A2AA3D) smtp.auth=steve@sk2.org
 X-OVh-ClientIp:82.65.25.201
-Date: Sun, 8 Jan 2023 20:32:15 +0100
+Date: Mon, 9 Jan 2023 08:04:08 +0100
 From: Stephen Kitt <steve@sk2.org>
-To: Sam Ravnborg via B4 Submission Endpoint
- <devnull+sam.ravnborg.org@kernel.org>
-Cc: <sam@ravnborg.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Helge
- Deller <deller@gmx.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Antonino Daplas
- <adaplas@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Robin van der Gracht <robin@protonic.nl>,
- Miguel Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>, Daniel
- Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 13/15] backlight: omap1: Use backlight helpers
-Message-ID: <20230108203215.30037a70@heffalump.sk2.org>
-In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-13-1bd9bafb351f@ravnborg.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: Sam Ravnborg via B4 Submission Endpoint
+ <devnull+sam.ravnborg.org@kernel.org>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, linux-staging@lists.linux.dev, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Paul
+ Mackerras <paulus@samba.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Helge Deller
+ <deller@gmx.de>, Lee Jones <lee@kernel.org>, Miguel Ojeda
+ <ojeda@kernel.org>, Antonino Daplas <adaplas@gmail.com>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Robin van
+ der Gracht <robin@protonic.nl>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Jingoo Han <jingoohan1@gmail.com>,
+ linuxppc-dev@lists.ozlabs.org, Claudiu Beznea
+ <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH 09/15] staging: fbtft: fb_ssd1351.c: Introduce
+ backlight_is_blank()
+Message-ID: <20230109080408.318b9188@heffalump.sk2.org>
+In-Reply-To: <Y7sntztwrNqw41+i@ravnborg.org>
 References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-	<20230107-sam-video-backlight-drop-fb_blank-v1-13-1bd9bafb351f@ravnborg.org>
+	<20230107-sam-video-backlight-drop-fb_blank-v1-9-1bd9bafb351f@ravnborg.org>
+	<20230108202817.7890f85c@heffalump.sk2.org>
+	<Y7sntztwrNqw41+i@ravnborg.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -44,189 +48,117 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/GypAq4FXG4m.CwTF5BhTXQF";
+Content-Type: multipart/signed; boundary="Sig_/k5LKo+Vu6bf_gN1b.VvwaPq";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 1892074796039898758
+X-Ovh-Tracer-Id: 13578634353109337734
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeggdduvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepfeffgefhgfeuueeffeejieefieefgfefffethfdtudegvdejueelhffhfeegjeeinecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheeiuddpmhhouggvpehsmhhtphhouhht
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeehgddutdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepfeffgefhgfeuueeffeejieefieefgfefffethfdtudegvdejueelhffhfeegjeeinecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehsthgvvhgvsehskhdvrdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmohehkedvpdhmohguvgepshhmthhpohhuth
 
---Sig_/GypAq4FXG4m.CwTF5BhTXQF
+--Sig_/k5LKo+Vu6bf_gN1b.VvwaPq
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 07 Jan 2023 19:26:27 +0100, Sam Ravnborg via B4 Submission Endpoint
-<devnull+sam.ravnborg.org@kernel.org> wrote:
+Hi Sam,
 
-> From: Sam Ravnborg <sam@ravnborg.org>
+On Sun, 8 Jan 2023 21:29:43 +0100, Sam Ravnborg <sam@ravnborg.org> wrote:
+> On Sun, Jan 08, 2023 at 08:28:17PM +0100, Stephen Kitt wrote:
+> > On Sat, 07 Jan 2023 19:26:23 +0100, Sam Ravnborg via B4 Submission
+> > Endpoint <devnull+sam.ravnborg.org@kernel.org> wrote:
+> >  =20
+> > > From: Sam Ravnborg <sam@ravnborg.org>
+> > >=20
+> > > Avoiding direct access to backlight_properties.props.
+> > >=20
+> > > Access to the deprecated props.fb_blank replaced by
+> > > backlight_is_blank(). Access to props.power is dropped - it was only
+> > > used for debug.
+> > >=20
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Stephen Kitt <steve@sk2.org>
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > Cc: linux-fbdev@vger.kernel.org
+> > > ---
+> > >  drivers/staging/fbtft/fb_ssd1351.c | 9 +++------
+> > >  1 file changed, 3 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/drivers/staging/fbtft/fb_ssd1351.c
+> > > b/drivers/staging/fbtft/fb_ssd1351.c index b8d55aa8c5c7..995fbd2f3dc6
+> > > 100644 --- a/drivers/staging/fbtft/fb_ssd1351.c
+> > > +++ b/drivers/staging/fbtft/fb_ssd1351.c
+> > > @@ -190,15 +190,12 @@ static struct fbtft_display display =3D {
+> > >  static int update_onboard_backlight(struct backlight_device *bd)
+> > >  {
+> > >  	struct fbtft_par *par =3D bl_get_data(bd);
+> > > -	bool on;
+> > > +	bool blank =3D backlight_is_blank(bd);
+> > > =20
+> > > -	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+> > > -		      "%s: power=3D%d, fb_blank=3D%d\n",
+> > > -		      __func__, bd->props.power, bd->props.fb_blank);
+> > > +	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: blank=3D%d\n", __func__,
+> > > blank);=20
+> > > -	on =3D !backlight_is_blank(bd);
+> > >  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1
+> > > unused */
+> > > -	write_reg(par, 0xB5, on ? 0x03 : 0x02);
+> > > +	write_reg(par, 0xB5, !blank ? 0x03 : 0x02);
+> > > =20
+> > >  	return 0;
+> > >  }
+> > >=20
+> > > --=20
+> > > 2.34.1 =20
+> >=20
+> > For debugging purposes here, would there be any point in logging
+> > props.state? As in
+> >=20
+> >         fbtft_par_dbg(DEBUG_BACKLIGHT, par,
+> > -                     "%s: power=3D%d, fb_blank=3D%d\n",
+> > -                     __func__, bd->props.power, bd->props.fb_blank);
+> > +                     "%s: power=3D%d, state=3D%u\n",
+> > +                     __func__, bd->props.power, bd->props.state); =20
 >=20
-> Rework backlight handling to avoid access to the deprecated
-> backlight_properties.fb_blank member.
+> Thanks for the suggestion - and the reviews!
 >=20
-> The rework includes removal of get_brightness() operation,
-> because there was no read back from HW so no use for it.
+> I was tempted to just remove the debugging.
+> If we require debugging, then this could be added in the backlight core,
+> thus everyone would benefit from it.
 >=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> ---
->  drivers/video/backlight/omap1_bl.c | 67
-> +++++--------------------------------- 1 file changed, 9 insertions(+), 58
-> deletions(-)
->=20
-> diff --git a/drivers/video/backlight/omap1_bl.c
-> b/drivers/video/backlight/omap1_bl.c index 69a49384b3de..49f37da857e7 100=
-644
-> --- a/drivers/video/backlight/omap1_bl.c
-> +++ b/drivers/video/backlight/omap1_bl.c
-> @@ -20,9 +20,6 @@
->  #define OMAPBL_MAX_INTENSITY		0xff
-> =20
->  struct omap_backlight {
-> -	int powermode;
-> -	int current_intensity;
-> -
->  	struct device *dev;
->  	struct omap_backlight_config *pdata;
->  };
-> @@ -37,82 +34,40 @@ static inline void omapbl_send_enable(int enable)
->  	omap_writeb(enable, OMAP_PWL_CLK_ENABLE);
->  }
-> =20
-> -static void omapbl_blank(struct omap_backlight *bl, int mode)
-> -{
-> -	if (bl->pdata->set_power)
-> -		bl->pdata->set_power(bl->dev, mode);
-> -
-> -	switch (mode) {
-> -	case FB_BLANK_NORMAL:
-> -	case FB_BLANK_VSYNC_SUSPEND:
-> -	case FB_BLANK_HSYNC_SUSPEND:
-> -	case FB_BLANK_POWERDOWN:
-> -		omapbl_send_intensity(0);
-> -		omapbl_send_enable(0);
-> -		break;
-> -
-> -	case FB_BLANK_UNBLANK:
-> -		omapbl_send_intensity(bl->current_intensity);
-> -		omapbl_send_enable(1);
-> -		break;
-> -	}
-> -}
-> -
->  #ifdef CONFIG_PM_SLEEP
->  static int omapbl_suspend(struct device *dev)
->  {
->  	struct backlight_device *bl_dev =3D dev_get_drvdata(dev);
-> -	struct omap_backlight *bl =3D bl_get_data(bl_dev);
-> =20
-> -	omapbl_blank(bl, FB_BLANK_POWERDOWN);
-> +	backlight_disable(bl_dev);
->  	return 0;
->  }
-> =20
->  static int omapbl_resume(struct device *dev)
->  {
->  	struct backlight_device *bl_dev =3D dev_get_drvdata(dev);
-> -	struct omap_backlight *bl =3D bl_get_data(bl_dev);
-> =20
-> -	omapbl_blank(bl, bl->powermode);
-> +	backlight_enable(bl_dev);
->  	return 0;
->  }
->  #endif
-> =20
-> -static int omapbl_set_power(struct backlight_device *dev, int state)
-> -{
-> -	struct omap_backlight *bl =3D bl_get_data(dev);
-> -
-> -	omapbl_blank(bl, state);
-> -	bl->powermode =3D state;
-> -
-> -	return 0;
-> -}
-> -
->  static int omapbl_update_status(struct backlight_device *dev)
->  {
-> -	struct omap_backlight *bl =3D bl_get_data(dev);
-> +	int brightness =3D backlight_get_brightness(dev);
-> =20
-> -	if (bl->current_intensity !=3D dev->props.brightness) {
-> -		if (bl->powermode =3D=3D FB_BLANK_UNBLANK)
-> -			omapbl_send_intensity(dev->props.brightness);
-> -		bl->current_intensity =3D dev->props.brightness;
-> +	if (brightness > 0) {
-> +		omapbl_send_intensity(dev->props.brightness);
-> +		omapbl_send_enable(1);
-> +	} else {
-> +		omapbl_send_intensity(0);
-> +		omapbl_send_enable(0);
->  	}
-> =20
-> -	if (dev->props.fb_blank !=3D bl->powermode)
-> -		omapbl_set_power(dev, dev->props.fb_blank);
-> -
->  	return 0;
->  }
-> =20
-> -static int omapbl_get_intensity(struct backlight_device *dev)
-> -{
-> -	struct omap_backlight *bl =3D bl_get_data(dev);
-> -
-> -	return bl->current_intensity;
-> -}
-> -
->  static const struct backlight_ops omapbl_ops =3D {
-> -	.get_brightness =3D omapbl_get_intensity,
->  	.update_status  =3D omapbl_update_status,
->  };
-> =20
-> @@ -139,9 +94,6 @@ static int omapbl_probe(struct platform_device *pdev)
->  	if (IS_ERR(dev))
->  		return PTR_ERR(dev);
-> =20
-> -	bl->powermode =3D FB_BLANK_POWERDOWN;
-> -	bl->current_intensity =3D 0;
-> -
->  	bl->pdata =3D pdata;
->  	bl->dev =3D &pdev->dev;
-> =20
-> @@ -149,7 +101,6 @@ static int omapbl_probe(struct platform_device *pdev)
-> =20
->  	omap_cfg_reg(PWL);	/* Conflicts with UART3 */
-> =20
-> -	dev->props.fb_blank =3D FB_BLANK_UNBLANK;
->  	dev->props.brightness =3D pdata->default_intensity;
->  	omapbl_update_status(dev);
-> =20
->=20
-> --=20
-> 2.34.1
+> The solution above avoid any direct use of backlight_properties
+> which I consider a layer violation outside the backlight core.
+> (We cannot avoid it today with the current interface - but we can
+> minimize it).
 
-Wow that gets rid of a lot of unnecessary code!
+Ah yes, ideally backlight_properties should be viewed as an opaque structur=
+e,
+that makes sense.
 
-Reviewed-by: Stephen Kitt <steve@sk2.org>
+Regards,
 
---Sig_/GypAq4FXG4m.CwTF5BhTXQF
+Stephen
+
+--Sig_/k5LKo+Vu6bf_gN1b.VvwaPq
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO7GkAACgkQgNMC9Yht
-g5wbPw//Ss+kTsAfHvbPabK9dJV/X66aYDEyoOZ3yDLe6E2BoTflL+WrHBw8VFNa
-AJvgfHwrJ1T4yIWpz0T/hzHKeO1gx0bj+VMDMJnCwGueAAZoz3rE9NXDPclWfqzb
-LkSkCDgIu44dDRbvFE3Sd0azg0lN35evn+zyEqbpw+QKfsv5O3S+LX9iY2rkLXcv
-CkEynsPcOzfQSUBMgCvrvkDK0L0Gi0OghVh5WEnYfB0RMs31qFaEd8i+maho3DKP
-p78tgvWNxAw62OxEvlXK66XvibuCJpwsVmDCN6pLZXQCqmIUgUa3U6PS3kINzIVp
-vd0Mlca7QxaPrqWINi8SQhO8O9bVhQWK5FgPP719ay6QGtyR85FhNsW5DZQHG7yd
-kxrvExOJDvZ0GnrAvSNGPrPXqp/rlelpeHW4dyf67t8bQkpaUIsNYVha0XrhuZv9
-tFwdW5RA0Ay/uqReXzMn+qXJqcakZ0YBsRunzpSjvXC2ejg8K056tncizpvAFY6o
-B427h2bO5F1gZ83eXMFVNuhxk8ve2Bi4A62l2J0lJb1UZNuLy0I2YSTgvvOlHN/E
-GCsrQFZZc6T0ETq1STqS1b8yGFbB47xQTluCqOD5Pk91cisLsUL7uFAyI/6HnbrA
-gdlHJTW4bxnEHedzYUUIW40PlyoAW01YP3dvwrUSUgFvQqJQfAs=
-=WGiV
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO7vGgACgkQgNMC9Yht
+g5xpKw/+N/+V4N4YMTYfpGMKaFq+uDIg1giIEl9CWezI5BHkqwm7JGWbaeS23efZ
+UHblHcZJZHTVQEXdJB8WMyhR9dHbEuati13IWacBs5OpBnvdL9kp2cTyBaChErEO
+hMbeCaJVRmBEedoCVyGWPYp13KeX6CuYTqR/7/gTroZIK68bnTuwuIaeQlpgVXqL
+Lue5OQUM2VezQCOLTiHUTspj82Bd1bTPfZfm/W8HKNzC6L2wSIzLuVRMphomjnek
+Yb+lLKK45q++yxbI/5M1k8cXB626ooPXfFB8BSZlQVSjcye2Nxd4heB7EKD9bMTe
+9qS7EjKDjbjm1l/7M542TEIL8zelZ9kaFqTom6JpeIS6iQIlb9XQP0jq/QWXv+9T
+w7aCVB/ImS08kMVlW+uhCLmJudvc5Ro1XBnHMi+KvETzmr8j2kWBvw8WDtgxq76c
+/PgbkkZWE2Htehso+egiPYRTT+0QRX1EPk9SpyFgaQV9YwZupBlCwxh2uhlbCweV
+Ff/w5ZGTTZe/n1ZlgPPkAZWhPQotPFgkOzZpEACy2EOI5VIF7luIbXnPUyKvIEsE
+W85vEaPzGZNqcZw3WW0a1CqgEVUFxJg29oTuC4KKM6BfNe+4hFCJ0EzShLmo+DHk
+fXp1T3rFtAWKgcTEjK4vwxpSEZJPfQDx+JR5GESW204w2Accxiw=
+=aVeb
 -----END PGP SIGNATURE-----
 
---Sig_/GypAq4FXG4m.CwTF5BhTXQF--
+--Sig_/k5LKo+Vu6bf_gN1b.VvwaPq--
