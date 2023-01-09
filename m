@@ -1,68 +1,54 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74084291D
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 11:16:27 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id m3so6016915wmq.0
-        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 03:16:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A69B2F21
+	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 12:54:03 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id h16so8034684wrz.12
+        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 04:54:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IGLyI5wEcgXuRG4qKgW9nkQD5uda7Ch20RGMOQU2FOU=;
-        b=BpjMQVSSiInIzATUSKHKx/TB0PAgHuhGpwqrg0yOvpFaOf45mvS+GWvnx67CEXA3H3
-         OpJ86BZFVR7wQA+dlKnprx63GQ+n3TtIT3gNtfcwYquJrtGnekG3nzORos283svZUVJ1
-         gD/voD8Adfh6f/kRlsfptOQ3FzAtRI57WQUlj9somGfISffT5ucUlRw1oEWN9hMSp8+8
-         7Ymx/sq7ntQJ876T0aADIjQ39k6t/AHX2eKWzPuJzBVyDGLq9X87LBaBoOHW3GDSWjSu
-         LM5WVxU8BDTwndJbIqjxOt9sHE+yUYYLgWXJYDdzFtoZBGdEV5Y6eR7kko+fa21emUGA
-         j1kA==
+        bh=jpALXoXpCmM6Wx/GvS4p5SqoIuRwrqLRndRGfMcQdMo=;
+        b=jPVlcPDCpNm0wFe55b5nj3FOkyrYD0IM/QY80s6I8jKX205AHL26/y6nzKNScJRz3b
+         riYbtLc6nCb2F3HkR9fQf5bC/z4mAVmCjFRIalRj5I8Bp9inzcvs8qEd4WLKCwBZKU1j
+         va6Cysh5MUZXfzWuPaI+CCDf2Div9Xor8L8i9Gw9R5ca/BG+A+cOdICjDSayGFNJTfvO
+         LjVQiGdNxLT8EghskdJKez0ZZQuBCXlZhanYebj4bsOy/ijp4scwpI88vMccjY2mnmm9
+         FAMbL1XsP5QudgGZnexziTJBw/xFaeGuyY8itVbsUpYFZTf8rn+G9xWRqIZNq+cQE/sa
+         lEnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IGLyI5wEcgXuRG4qKgW9nkQD5uda7Ch20RGMOQU2FOU=;
-        b=eAkxcOc/aG8ohDzwXLEkCIPBtEocW4k8rcsmYqYM2qBqvokAImIx1Q4+RnZ2UK/QWE
-         3lnIc5sKKQYr7oSkRh56H1L+Nbjm5LzREshB5eY8BWDWepjFvpq57SHUCzZbw36uuM6w
-         lQ9tmk7eaef573mITydDgOROFLNaxTA/p0ALNrICylWvnHZ4a/XKKZdp9Hb8cpYgnbzf
-         PaT2n0aXCFnOx1RLXDQSZEZd882lNR8C6RBb4P2QgGN/StyHb0NdrXN8LCrz+kunG0PD
-         KhrtnJvbaJ2ST5N3rQwMgwNjMOiQ9WRXpLLw9S4D+wV9pRaThkUEdEFHN8/BzIgVesJR
-         LYrA==
-X-Gm-Message-State: AFqh2kqn6K51YBMrMcP3oLDARWzwTiZzcnk0GoXvHIvsIhK4q4enrX/f
-	7LhZyhZtcda2iAWdZ+R9Maz01w==
-X-Google-Smtp-Source: AMrXdXsoSB+aT78r/3TNZt8Dgl5bAgKCniDPaEeXXf//BrSKda/Imn7sAaZR+/qS1mLHNKNpC03pvA==
-X-Received: by 2002:a05:600c:4a90:b0:3d2:3ae8:886a with SMTP id b16-20020a05600c4a9000b003d23ae8886amr49681406wmp.17.1673262985605;
-        Mon, 09 Jan 2023 03:16:25 -0800 (PST)
-Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id u21-20020a7bc055000000b003d9aa76dc6asm18341780wmc.0.2023.01.09.03.16.24
+        bh=jpALXoXpCmM6Wx/GvS4p5SqoIuRwrqLRndRGfMcQdMo=;
+        b=a4+HS5o8qaveAYJh9rzBSUTw4OiHRQP66TSypyulI0vaHAHmEoxXaxDSf7+ZCHp0mF
+         J4IArezLo53pvY90/I5MyjfglAAsoC94aY5dcVbCGRvO2LZbZyzGny1+FJ5EgO3q6wlM
+         2pU6aZnFf9g8aRPIR8GwmI6UPefNnAImHOGAbrXVRxmpAK9nlz6gY3KuXD/JiLrNONR5
+         CPiEG+TdRthN6gEukLxq2260ePxqAG7u9aWipal7oFS8EWB2W1tbg2hJwIERWhCqrhZD
+         W+fbDfVY9idOuKQRyEg3RRLG93diniJgF/fHx2AK0sg6lBReyzorFw1wkVuzMRz+yyDX
+         HNGA==
+X-Gm-Message-State: AFqh2krphGffUxwxko1wRAtxhc8OFyTXbE/KEBnMhzjVlklfPhloASD3
+	FopS2cmgeC1pXzj98tKltsw=
+X-Google-Smtp-Source: AMrXdXs4Xe4cX/Ag+ggvmUxZJ/ShYF74MSOFZNVmuDL2d57KHfApHqnZ/NjGN6ZGjKU7iyWO4mg+IQ==
+X-Received: by 2002:a05:6000:816:b0:2a4:d913:b179 with SMTP id bt22-20020a056000081600b002a4d913b179mr13657093wrb.0.1673268842347;
+        Mon, 09 Jan 2023 04:54:02 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id u5-20020adfdb85000000b002ba2646fd30sm9910837wri.36.2023.01.09.04.54.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 03:16:24 -0800 (PST)
-Date: Mon, 9 Jan 2023 11:16:22 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stephen Kitt <steve@sk2.org>,
-	Sam Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-staging@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Robin van der Gracht <robin@protonic.nl>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Jingoo Han <jingoohan1@gmail.com>, linuxppc-dev@lists.ozlabs.org,
-	Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 09/15] staging: fbtft: fb_ssd1351.c: Introduce
- backlight_is_blank()
-Message-ID: <Y7v3hgcyGpXdlJcE@aspen.lan>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-9-1bd9bafb351f@ravnborg.org>
- <20230108202817.7890f85c@heffalump.sk2.org>
- <Y7sntztwrNqw41+i@ravnborg.org>
+        Mon, 09 Jan 2023 04:54:01 -0800 (PST)
+Date: Mon, 9 Jan 2023 15:53:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/7] staging: rtl8192e: Rename TSSI_13dBm, Pwr_Track and
+ NumTotalRFPath
+Message-ID: <Y7wOZ0tm7XiJ4Bhx@kadam>
+References: <cover.1672330343.git.philipp.g.hortmann@gmail.com>
+ <c7d3be41602e656170de46ea649b5bdf1081d5cf.1672330343.git.philipp.g.hortmann@gmail.com>
+ <Y7Pni7tvFPhcz7bu@kadam>
+ <50111a6f-08de-1da8-0deb-50b0e7a172b7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,80 +57,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y7sntztwrNqw41+i@ravnborg.org>
+In-Reply-To: <50111a6f-08de-1da8-0deb-50b0e7a172b7@gmail.com>
 
-On Sun, Jan 08, 2023 at 09:29:43PM +0100, Sam Ravnborg wrote:
-> Hi Stephen,
->
-> On Sun, Jan 08, 2023 at 08:28:17PM +0100, Stephen Kitt wrote:
-> > On Sat, 07 Jan 2023 19:26:23 +0100, Sam Ravnborg via B4 Submission Endpoint
-> > <devnull+sam.ravnborg.org@kernel.org> wrote:
-> >
-> > > From: Sam Ravnborg <sam@ravnborg.org>
-> > >
-> > > Avoiding direct access to backlight_properties.props.
-> > >
-> > > Access to the deprecated props.fb_blank replaced by backlight_is_blank().
-> > > Access to props.power is dropped - it was only used for debug.
-> > >
-> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > > Cc: Stephen Kitt <steve@sk2.org>
-> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > Cc: linux-fbdev@vger.kernel.org
-> > > ---
-> > >  drivers/staging/fbtft/fb_ssd1351.c | 9 +++------
-> > >  1 file changed, 3 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/fbtft/fb_ssd1351.c
-> > > b/drivers/staging/fbtft/fb_ssd1351.c index b8d55aa8c5c7..995fbd2f3dc6 100644
-> > > --- a/drivers/staging/fbtft/fb_ssd1351.c
-> > > +++ b/drivers/staging/fbtft/fb_ssd1351.c
-> > > @@ -190,15 +190,12 @@ static struct fbtft_display display = {
-> > >  static int update_onboard_backlight(struct backlight_device *bd)
-> > >  {
-> > >  	struct fbtft_par *par = bl_get_data(bd);
-> > > -	bool on;
-> > > +	bool blank = backlight_is_blank(bd);
-> > >
-> > > -	fbtft_par_dbg(DEBUG_BACKLIGHT, par,
-> > > -		      "%s: power=%d, fb_blank=%d\n",
-> > > -		      __func__, bd->props.power, bd->props.fb_blank);
-> > > +	fbtft_par_dbg(DEBUG_BACKLIGHT, par, "%s: blank=%d\n", __func__,
-> > > blank);
-> > > -	on = !backlight_is_blank(bd);
-> > >  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
-> > > -	write_reg(par, 0xB5, on ? 0x03 : 0x02);
-> > > +	write_reg(par, 0xB5, !blank ? 0x03 : 0x02);
-> > >
-> > >  	return 0;
-> > >  }
-> > >
-> > > --
-> > > 2.34.1
-> >
-> > For debugging purposes here, would there be any point in logging props.state?
-> > As in
-> >
-> >         fbtft_par_dbg(DEBUG_BACKLIGHT, par,
-> > -                     "%s: power=%d, fb_blank=%d\n",
-> > -                     __func__, bd->props.power, bd->props.fb_blank);
-> > +                     "%s: power=%d, state=%u\n",
-> > +                     __func__, bd->props.power, bd->props.state);
->
-> Thanks for the suggestion - and the reviews!
->
-> I was tempted to just remove the debugging.
-> If we require debugging, then this could be added in the backlight core,
-> thus everyone would benefit from it.
+On Sun, Jan 08, 2023 at 03:09:40PM +0100, Philipp Hortmann wrote:
+> On 1/3/23 09:30, Dan Carpenter wrote:
+> > On Thu, Dec 29, 2022 at 05:25:46PM +0100, Philipp Hortmann wrote:
+> > > Rename variable TSSI_13dBm to tssi_13dbm
+> > 
+> > I would probably have kept this one as-is.  It's not CamelCase, it's the
+> > correct way to capitalize it.
+> > 
+> > regards,
+> > dan carpenter
+> > 
+> 
+> Hi Dan,
+> 
+> sorry for late.
+> 
+> No issue with keeping this variable as is. But can you tell me the rule for
+> the rest of the variables in this driver?
+> 
+> Here just some examples: (I know that checkpatch is not always right)
+> CHECK: Avoid CamelCase: <Avg_TSSI_Meas>
+> CHECK: Avoid CamelCase: <TSSI_13dBm>
+> CHECK: Avoid CamelCase: <Avg_TSSI_Meas_from_driver>
+> 
+> Are those OK as well?
 
-I had the same instinct to remove the debug print here (esp. ones with
-__func__ in them) but I think that's probably a much more widely scoped
-clean up for fbtft ;-).
+You can change the others.  It's just dBm where the capitalization is
+correct in the original.
 
-On that basis:
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+https://en.wikipedia.org/wiki/DBm
 
+(Ironically it's capitalized incorrectly in the URL, but it's probably
+too late the fix the URL).
 
-Daniel.
+regards,
+dan carpenter
+
