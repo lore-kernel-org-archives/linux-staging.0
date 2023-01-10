@@ -1,115 +1,72 @@
-Received: from 11.mo583.mail-out.ovh.net (11.mo583.mail-out.ovh.net [46.105.47.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05AC15A7
-	for <linux-staging@lists.linux.dev>; Tue, 10 Jan 2023 00:52:00 +0000 (UTC)
-Received: from director10.ghost.mail-out.ovh.net (unknown [10.108.20.214])
-	by mo583.mail-out.ovh.net (Postfix) with ESMTP id A683824750
-	for <linux-staging@lists.linux.dev>; Mon,  9 Jan 2023 20:03:42 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-pr92n (unknown [10.109.156.168])
-	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 007F61FEA6;
-	Mon,  9 Jan 2023 20:03:39 +0000 (UTC)
-Received: from sk2.org ([37.59.142.98])
-	by ghost-submission-6684bf9d7b-pr92n with ESMTPSA
-	id 2FQONhtzvGPhugEAufjBpQ
-	(envelope-from <steve@sk2.org>); Mon, 09 Jan 2023 20:03:39 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-98R002fae975b0-c3d6-495c-8602-a37db480a49a,
-                    796317D5D98EA53ED2B7ABF3FE0FDD27B7A2AA3D) smtp.auth=steve@sk2.org
-X-OVh-ClientIp:82.65.25.201
-Date: Mon, 9 Jan 2023 21:03:38 +0100
-From: Stephen Kitt <steve@sk2.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-staging@lists.linux.dev, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Paul
- Mackerras <paulus@samba.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>, Ludovic Desroches
- <ludovic.desroches@microchip.com>, Miguel Ojeda <ojeda@kernel.org>, Sam
- Ravnborg via B4 Submission Endpoint <devnull+sam.ravnborg.org@kernel.org>,
- Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Robin van der Gracht
- <robin@protonic.nl>, Nicolas Ferre <nicolas.ferre@microchip.com>, Jingoo
- Han <jingoohan1@gmail.com>, linuxppc-dev@lists.ozlabs.org, Claudiu Beznea
- <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 01/15] video: fbdev: atmel_lcdfb: Rework backlight
- handling
-Message-ID: <20230109210338.42c993bd@heffalump.sk2.org>
-In-Reply-To: <20230109205026.4c672dc8@heffalump.sk2.org>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-	<20230107-sam-video-backlight-drop-fb_blank-v1-1-1bd9bafb351f@ravnborg.org>
-	<553AE999-CAF1-4E59-9F3F-68591ED192DE@sk2.org>
-	<Y7nb2q6SDota/rTU@ravnborg.org>
-	<366FC0B8-21E2-4642-A5A5-CF4B6AB046B0@sk2.org>
-	<Y7smdFs2xgJwwVQO@ravnborg.org>
-	<20230109205026.4c672dc8@heffalump.sk2.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FDD17E5
+	for <linux-staging@lists.linux.dev>; Tue, 10 Jan 2023 05:21:00 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id g19-20020a05600c4ed300b003d9eb1dbc0aso5965071wmq.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Jan 2023 21:21:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sNxTDu1tbYQEdXfie9Jbpp3SHUANSK0JEbtFP0ICaTM=;
+        b=ZLSOe8ClyEapVdx1yzs1T3U2/SqDyDt3KoGCn2te5FckQ9yAlUhx8qRkLL0pBnzDGS
+         ZVJg6Fi841QvWRa5thSZmohxgCJBgFueG+2Qbxz9TrfIOxzeUhL4vdO9uaqV4BiHpomW
+         1K7KcKNAkOJlNDOsOEfNuwIzT/HWbGaGKFABdUmz1SmSCkJ1TO8wPV+f+eMDJNYyA9Ha
+         frskjLCteUoRNAFL9C1/FmeSjrlMLAYMv4HC/NV4xYXvPk+EEm7HfrjI7ulTo+Bh01Hs
+         ixJwgQ2N8xhdbtxnfBbukKHNnnnd8+FsvCGIQnxzXL9UhuVggcAQkoAGQalgADeQWWhi
+         cLjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sNxTDu1tbYQEdXfie9Jbpp3SHUANSK0JEbtFP0ICaTM=;
+        b=7n0nbf9q0PRnM2nNu8I2e96C8GjPsCV1RjZue5A9wO2FsRrUlvkFTpY44GaqFpOIlR
+         hTy6oZg4+k9ZM/Ozalx/KVwxgOzDeZSB5Lng99akgo8qiHXGUal8+QnoYs1VXg7ipgrI
+         yy4pa/TzLiZtHaovQOc2/8jXZKz4aJjQh+4etRXbxfAJgs3RtED0sxW/JAUhzMrR/UVs
+         9R5oV9YimSsD81+AtrPKdlpnlxU8e+IkirrJzaUGtUtPZx/Y4S6UULrTzLiLDYZLFW+R
+         PcCDemlOmHp2g7+pdfHw9x/53/MNC9yXvVtqD7G3ha7Q1S4Ew0rUhfyA8k7C3LeaLUg3
+         FOVA==
+X-Gm-Message-State: AFqh2kqC4kLYeZLj/Rgfyyi7F/WFqta5zQS8T8F18A1ynNNUDnX0PDFo
+	x5ELIUfrFul3elzEfAoA6qw=
+X-Google-Smtp-Source: AMrXdXs2wO0EkVhPe1wvgzN/fFSh//nzHHbsOOacJjbjhK63xlNvKXiIN7TM5BHXN1erf+2pMrwhaw==
+X-Received: by 2002:a05:600c:4b1b:b0:3d2:1d51:2477 with SMTP id i27-20020a05600c4b1b00b003d21d512477mr58588101wmp.11.1673328059261;
+        Mon, 09 Jan 2023 21:20:59 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f19-20020a05600c155300b003d98a7aa12csm20277019wmg.16.2023.01.09.21.20.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 21:20:58 -0800 (PST)
+Date: Tue, 10 Jan 2023 08:20:46 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] staging: rtl8192e: Rename variables from
+ r8192_priv start with ChannelPlan
+Message-ID: <Y7z1rj+O0vUUJRM0@kadam>
+References: <cover.1673290428.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/fAednxbP+nwMmsBkrG4.geO";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 8295067564944492166
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrkeeigdduvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepgedtieevheduudejjeelheetvdejudehvdejudfggfetteekffevvdehjeekkeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekfedpmhhouggvpehsmhhtphhouhht
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1673290428.git.philipp.g.hortmann@gmail.com>
 
---Sig_/fAednxbP+nwMmsBkrG4.geO
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jan 09, 2023 at 08:08:15PM +0100, Philipp Hortmann wrote:
+> Rename variables to avoid CamelCase which is not accepted by checkpatch.
+> 
+> Tested with rtl8192e
+> Transferred this patch over wlan connection of rtl8192e
+> ---
+> V1 -> V2: In patch "Rename TSSI_13dBm, Pwr_Track and NumTotalRFPath"
+>           Changed TSSI_13dBm to tssi_13dBm instead of tssi_13dbm
 
-On Mon, 9 Jan 2023 20:53:44 +0100, Stephen Kitt <steve@sk2.org> wrote:
-> On Sun, 8 Jan 2023 21:24:20 +0100, Sam Ravnborg <sam@ravnborg.org> wrote:
-> > > Here are my pending patches from last June on lore:
-> > >    =20
-> >=20
-> > All patches are handled I think except this: =20
-> > > * https://lore.kernel.org/lkml/20220608205623.2106113-1-steve@sk2.org/
-> > >  =20
-> >=20
-> > Can I ask you to drop the assignment that is not needed, and resend with
-> > the collected acks/r-b.
-> >=20
-> > With this, then all fbdev patches are handled. =20
->=20
-> Ah yes, it was revised as
-> https://lore.kernel.org/lkml/20220609180440.3138625-1-steve@sk2.org/ which
-> only got one ack (from you,
-> https://lore.kernel.org/lkml/YqJCKQmQEuVsbspK@ravnborg.org/). Should I
-> resend that or is that usable as-is? Or would it be better if I sent all =
-the
-> fbdev patches again (collecting all the acks and reviews)?
+Thanks!
 
-Since the others are already in fbdev/for-next, I=E2=80=99ve just resent v2=
- of this
-patch with your ack.
+regards,
+dan carpenter
 
-Regards,
-
-Stephen
-
---Sig_/fAednxbP+nwMmsBkrG4.geO
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmO8cxoACgkQgNMC9Yht
-g5wz4BAAij/m9s80FJhymF6GFXJ6JFByUsTaGBWbmyRNRWMW+VPEh24jzlOXCT6m
-eTqP1bR1+D+4DEYqRUyD0X7cf+k6KclOs4h83NnXQmVUWJ4KxMffVGWaRaWg3BGD
-LgSgo62wCa/tODFoCLVZ9gmDsLfLvrU3ig0SefMgqZTKUNI63JJuVIY3v9upc9Xp
-6mrj8xsiB9V5/GMgTlpcaoqTA8wb/OrJb2IvCEhcjFO7gti3LSSQ27VdA2WfGSpD
-x+Uok2MBGoSbughl1Q0qD3oQxEkg3jvF94/gXfY40uedF1hBw+A2/mqQJ8XSumxI
-H8rUTNeyeYailjBeegv0vhQYXjY3M8NiCbra54kWTRkFaIlORW1empICudxDuMvI
-zB/DkEDAp86lpVuzovuUipwazxxbQCWxYDtEtebXKRE8xsai7Q1r6OYUSO0WN5k6
-W3wbivddvTD2RjDbs0habIvERgM+A3lfGR4xor2hKL+XUkuw1zMavgRw1f/7Gk2N
-J5KECYty3zKbugnM5uBtsnNUobmc1OnmyH7i2tgizTnKccF7Dd7N9WUWlatuEqFQ
-+QIOt4j6Ii2FOuc/r122n8qNYePw/jyQZMpTBkUwAO6JH+Rv6NAnTOTCtBsT9lRq
-i3mEWOkkOot6W1vgAcoxmZjuFGyI8YLV1rlwGd1ceOkZvHsP8X0=
-=GTwo
------END PGP SIGNATURE-----
-
---Sig_/fAednxbP+nwMmsBkrG4.geO--
