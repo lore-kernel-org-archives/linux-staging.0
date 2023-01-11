@@ -1,109 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F6E33D2
-	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 17:26:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEBF8C433D2;
-	Wed, 11 Jan 2023 17:26:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673457961;
-	bh=NP2y6S++5x5+MUjd094n7ofaKtyxtCts0E9o4Nm2WhA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fTRr1wKfHYmqMZ5v6bSHbTdMA2ka1a7Nnlw8K+fSSkbq5Nr2+xsgG8Vvz5DEPQD52
-	 XR2Cznr9+ibqxJEcnihsl/sg6Vh2djlx3pRKodDWjmQRIBlAKjzo7+kIlVPkgvQHMI
-	 yrw5+uzjR5x1ilAAvGAbjb6VtLqjULGI7zS64eanDyOLLjzf/PkwGczFQO7xcQqQjd
-	 FJmDKFouwNkx7lnnjYBz0EgNP2G6vmdBMkX0pkssT+PSVrx7K+jv8jWH2S94kyAu9L
-	 cBIRYZTienPKKu4yaJKGBFHwJd3LvTBTgHgoanYP7+r7vzXHHbGTegkozs3mIeN3J1
-	 y63M2Wkx05RMw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1pFerW-00047W-B0; Wed, 11 Jan 2023 18:26:06 +0100
-Date: Wed, 11 Jan 2023 18:26:06 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Samuel Iglesias =?utf-8?Q?Gons=C3=A1lvez?= <siglesias@igalia.com>,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ulf Hansson <ulf.hansson@linaro.org>,
-	David Lin <dtwlin@gmail.com>, Alex Elder <elder@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 07/13] tty: Convert ->dtr_rts() to take bool argument
-Message-ID: <Y77xLmLCbldH1VOX@hovoldconsulting.com>
-References: <20230111142331.34518-1-ilpo.jarvinen@linux.intel.com>
- <20230111142331.34518-8-ilpo.jarvinen@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2908A92A
+	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 19:56:56 +0000 (UTC)
+Received: from dslb-188-096-145-172.188.096.pools.vodafone-ip.de ([188.96.145.172] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1pFhDO-0005F2-Qo; Wed, 11 Jan 2023 20:56:50 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 00/20] staging: r8188eu: io cleanup
+Date: Wed, 11 Jan 2023 20:56:20 +0100
+Message-Id: <20230111195640.306748-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230111142331.34518-8-ilpo.jarvinen@linux.intel.com>
 
-On Wed, Jan 11, 2023 at 04:23:25PM +0200, Ilpo Järvinen wrote:
-> Convert the raise/on parameter in ->dtr_rts() to bool through the
-> callchain. The parameter is used like bool. In USB serial, there
-> remains a few implicit bool -> larger type conversions because some
-> devices use u8 in their control messages.
-> 
-> In moxa_tiocmget(), dtr variable was reused for line status which
-> requires int so use a separate variable for status.
-> 
-> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
-> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> ---
->  drivers/char/pcmcia/synclink_cs.c    |  4 +--
->  drivers/mmc/core/sdio_uart.c         |  4 +--
->  drivers/staging/greybus/uart.c       |  2 +-
->  drivers/tty/amiserial.c              |  2 +-
->  drivers/tty/hvc/hvc_console.c        |  4 +--
->  drivers/tty/hvc/hvc_console.h        |  2 +-
->  drivers/tty/hvc/hvc_iucv.c           |  4 +--
->  drivers/tty/moxa.c                   | 54 ++++++++++++++--------------
->  drivers/tty/mxser.c                  |  2 +-
->  drivers/tty/n_gsm.c                  |  2 +-
->  drivers/tty/serial/serial_core.c     |  8 ++---
->  drivers/tty/synclink_gt.c            |  2 +-
->  drivers/tty/tty_port.c               |  4 +--
->  drivers/usb/class/cdc-acm.c          |  2 +-
->  drivers/usb/serial/ch341.c           |  2 +-
->  drivers/usb/serial/cp210x.c          |  4 +--
->  drivers/usb/serial/cypress_m8.c      |  6 ++--
->  drivers/usb/serial/digi_acceleport.c |  6 ++--
->  drivers/usb/serial/f81232.c          |  2 +-
->  drivers/usb/serial/f81534.c          |  2 +-
->  drivers/usb/serial/ftdi_sio.c        |  2 +-
->  drivers/usb/serial/ipw.c             |  2 +-
->  drivers/usb/serial/keyspan.c         |  2 +-
->  drivers/usb/serial/keyspan_pda.c     |  2 +-
->  drivers/usb/serial/mct_u232.c        |  4 +--
->  drivers/usb/serial/mxuport.c         |  2 +-
->  drivers/usb/serial/pl2303.c          |  2 +-
->  drivers/usb/serial/quatech2.c        |  2 +-
->  drivers/usb/serial/sierra.c          |  2 +-
->  drivers/usb/serial/spcp8x5.c         |  2 +-
->  drivers/usb/serial/ssu100.c          |  2 +-
->  drivers/usb/serial/upd78f0730.c      |  6 ++--
->  drivers/usb/serial/usb-serial.c      |  2 +-
->  drivers/usb/serial/usb-wwan.h        |  2 +-
->  drivers/usb/serial/usb_wwan.c        |  2 +-
->  drivers/usb/serial/xr_serial.c       |  6 ++--
->  include/linux/tty_port.h             |  4 +--
->  include/linux/usb/serial.h           |  2 +-
->  38 files changed, 84 insertions(+), 82 deletions(-)
+Clean up structs and function prototypes related to hardware access.
 
-Same here. No need to lump the tty-port changes with USB-serial changes.
+There's a number of definitions which are not used for usb devices such as
+the r8188eu.
 
-Johan
+As usual, this is based on all the previous patches I sent. (I promise to
+send no more patches until the pending ones are merged ;-)
+
+Martin Kaiser (20):
+  staging: r8188eu: remove struct io_priv
+  staging: r8188eu: remove io function prototypes
+  staging: r8188eu: remove ioreq function prototypes
+  staging: r8188eu: remove async read function prototypes
+  staging: r8188eu: remove async write function prototypes
+  staging: r8188eu: remove struct io_queue
+  staging: r8188eu: remove attrib function prototypes
+  staging: r8188eu: remove rtw_write_scsi function prototype
+  staging: r8188eu: remove dev_power_down function prototype
+  staging: r8188eu: remove struct reg_protocol_rd
+  staging: r8188eu: remove struct reg_protocol_wt
+  staging: r8188eu: remove interface handler prototypes
+  staging: r8188eu: remove readmem and writemem prototypes
+  staging: r8188eu: remove IO defines
+  staging: r8188eu: remove struct io_req
+  staging: r8188eu: remove usb buffer macros
+  staging: r8188eu: pass struct adapter to usb_read
+  staging: r8188eu: pass struct adapter to usb_write
+  staging: r8188eu: remove struct intf_hdl
+  staging: r8188eu: remove struct intf_priv
+
+ drivers/staging/r8188eu/hal/usb_ops_linux.c  |  34 +--
+ drivers/staging/r8188eu/include/drv_types.h  |   1 -
+ drivers/staging/r8188eu/include/osdep_intf.h |  32 ---
+ drivers/staging/r8188eu/include/rtw_io.h     | 255 -------------------
+ drivers/staging/r8188eu/os_dep/usb_intf.c    |   9 -
+ 5 files changed, 9 insertions(+), 322 deletions(-)
+
+-- 
+2.30.2
+
