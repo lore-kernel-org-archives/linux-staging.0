@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C912FA931
-	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 19:57:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BED8A92A
+	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 19:57:05 +0000 (UTC)
 Received: from dslb-188-096-145-172.188.096.pools.vodafone-ip.de ([188.96.145.172] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1pFhDY-0005F2-8f; Wed, 11 Jan 2023 20:57:00 +0100
+	id 1pFhDZ-0005F2-0e; Wed, 11 Jan 2023 20:57:01 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 09/20] staging: r8188eu: remove dev_power_down function prototype
-Date: Wed, 11 Jan 2023 20:56:29 +0100
-Message-Id: <20230111195640.306748-10-martin@kaiser.cx>
+Subject: [PATCH 10/20] staging: r8188eu: remove struct reg_protocol_rd
+Date: Wed, 11 Jan 2023 20:56:30 +0100
+Message-Id: <20230111195640.306748-11-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230111195640.306748-1-martin@kaiser.cx>
 References: <20230111195640.306748-1-martin@kaiser.cx>
@@ -31,25 +31,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The dev_power_down function is not present in the r8188eu driver. Remove
-its prototype.
+Remove struct reg_protocol_rd. It's not used in the r8188eu driver.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/include/rtw_io.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/r8188eu/include/rtw_io.h | 43 ------------------------
+ 1 file changed, 43 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
-index 7c4fe273cc0d..4800c8249721 100644
+index 4800c8249721..858fd9cbb57a 100644
 --- a/drivers/staging/r8188eu/include/rtw_io.h
 +++ b/drivers/staging/r8188eu/include/rtw_io.h
-@@ -206,6 +206,4 @@ void _rtw_write_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
- u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
- void rtw_write_port_cancel(struct adapter *adapter);
+@@ -102,49 +102,6 @@ struct	intf_hdl {
+ 	struct dvobj_priv *pintf_dev;
+ };
  
--void dev_power_down(struct adapter *Adapter, u8 bpwrup);
+-struct reg_protocol_rd {
+-#ifdef __LITTLE_ENDIAN
+-	/* DW1 */
+-	u32		NumOfTrans:4;
+-	u32		Reserved1:4;
+-	u32		Reserved2:24;
+-	/* DW2 */
+-	u32		ByteCount:7;
+-	u32		WriteEnable:1;		/* 0:read, 1:write */
+-	u32		FixOrContinuous:1;	/* 0:continuous, 1: Fix */
+-	u32		BurstMode:1;
+-	u32		Byte1Access:1;
+-	u32		Byte2Access:1;
+-	u32		Byte4Access:1;
+-	u32		Reserved3:3;
+-	u32		Reserved4:16;
+-	/* DW3 */
+-	u32		BusAddress;
+-	/* DW4 */
+-	/* u32		Value; */
+-#else
+-/* DW1 */
+-	u32 Reserved1:4;
+-	u32 NumOfTrans:4;
+-	u32 Reserved2:24;
+-	/* DW2 */
+-	u32 WriteEnable:1;
+-	u32 ByteCount:7;
+-	u32 Reserved3:3;
+-	u32 Byte4Access:1;
 -
- #endif	/* _RTL8711_IO_H_ */
+-	u32 Byte2Access:1;
+-	u32 Byte1Access:1;
+-	u32 BurstMode:1;
+-	u32 FixOrContinuous:1;
+-	u32 Reserved4:16;
+-	/* DW3 */
+-	u32	BusAddress;
+-
+-	/* DW4 */
+-#endif
+-};
+-
+ struct reg_protocol_wt {
+ #ifdef __LITTLE_ENDIAN
+ 	/* DW1 */
 -- 
 2.30.2
 
