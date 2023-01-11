@@ -1,116 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03D13209
-	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 16:54:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EC4BC433D2;
-	Wed, 11 Jan 2023 16:54:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673456082;
-	bh=mXESQehV0wt8kRi6/+LpO/EWbusEEZr0NKPtbWhQXkk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NZ2n4T9WAfM31GVkMr0U+OYQ1Le0CO4szDFcbo43kBez/1J9qnZ9YKq8esW75ezAZ
-	 8JfUAS86yxHZ9RhJ0V0pNmj/VY/ORz9S6fCeFssGIrcuF1Xfq9yUTkn3I4Is0Wx2Mc
-	 NFzsNx9oyDWOwe61DNPL38/EqDVkfCeFJN2jUfno83iUYhu70LDJ+1tw4eGExWbpbY
-	 EOSUDeG+tMj/l65lE9dJr/seo+5C+OIm0cRJdutUZSTltGuxSufv6PYLoSM27KZI6v
-	 4KVn8oRKJo1GTkXYra54pA1zq+/IHJ9a5qCkOem0Z3aiYG9t9YXNKYj154cUDU8BE7
-	 E8CK13X7gSsBA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1pFeN6-0003YU-Rv; Wed, 11 Jan 2023 17:54:41 +0100
-Date: Wed, 11 Jan 2023 17:54:40 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Samuel Iglesias =?utf-8?Q?Gons=C3=A1lvez?= <siglesias@igalia.com>,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ulf Hansson <ulf.hansson@linaro.org>,
-	David Lin <dtwlin@gmail.com>, Alex Elder <elder@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 11/13] tty/serial: Call ->dtr_rts() parameter active
- consistently
-Message-ID: <Y77p0P9YaCwPArxv@hovoldconsulting.com>
-References: <20230111142331.34518-1-ilpo.jarvinen@linux.intel.com>
- <20230111142331.34518-12-ilpo.jarvinen@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EE033D2
+	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 17:24:40 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id j17so24628314lfr.3
+        for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 09:24:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BufMsqlOmmyRV+XDYJhsyo4WkH0AKxC4lBAUlIrdNpw=;
+        b=EjhiTHwgsLYT1dXXadNVuaLrEVqPaKDgcEk/n7llNSw4fOryw6ICtE72kHW7R4Nv1G
+         xPJhEk3Ul+t5OPL2no5zC6lqaGrTYmNcEIHe+9YAtUaaUrUraNfYIa7htYIQ0QpYL6hF
+         j/B4NujczzQGVUYvRfdA/NxTD5rHNJSiaXX6Sz7CE/Pm2S1+RRKv5YqKedMbvLKhZGsY
+         VlxRjb0hEAOTGYrk93bdIGQKKqSTmTEz0U2tec/q69YaUizsmuCM+HlX9G4fUCXAaTvG
+         rzB5CrEDDlzGtz23bsLMEkuzJdrZZuT2VHvvvnjMdcOY8u1U9t4JgHR8zdOpefZo5WVV
+         421g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BufMsqlOmmyRV+XDYJhsyo4WkH0AKxC4lBAUlIrdNpw=;
+        b=LtVvOUAp0RziToR+b8342z9lUqgujUTRXS3DE+qVXxFef13DOHoVJEc4P6eba01vND
+         iAf7xoGDnEQAWy2yy9jPpcLCTWnw0qw89nE4NtWDmwO6icTrH4R+knFt0x6hkK27oF4D
+         0msHtjPGyGxWS7/dk3goRFFzB62wxHbzSH+Z1tiO2CPu9QHmKh/yVVtiPkVTo+Dphnbm
+         SCQLqxv1Noc59HFb8QGGgEAJs60T1Tv11iegORtXSI0nfbcOKK3juqDLNFsoHqRLt7Xd
+         BqRjApBnWnKZuZ9Y+PCiotpn2y4d0M1Lo+qg9kvC+QSLnwArSdXL7BstER5FOWKfV2uW
+         7ljg==
+X-Gm-Message-State: AFqh2kol5tcXSGYugR9bu6aiySZXs/gqq2v/ohRbYJa/e1SWb0sgNwmG
+	N0/+7kfK/9Lqlf/ZLap4BeA=
+X-Google-Smtp-Source: AMrXdXujTyNtlst9+CBaQp6G4ZsaUKLRlM/diN5BcAsJA2TLQFc9R4ywslpUwNMPu5s6kDpNgBpuZg==
+X-Received: by 2002:ac2:43a4:0:b0:4cb:3a60:65cc with SMTP id t4-20020ac243a4000000b004cb3a6065ccmr9145712lfl.5.1673457878294;
+        Wed, 11 Jan 2023 09:24:38 -0800 (PST)
+Received: from ?IPV6:2a00:1370:8180:6b00:a1a8:4887:1af4:637a? ([2a00:1370:8180:6b00:a1a8:4887:1af4:637a])
+        by smtp.gmail.com with ESMTPSA id q6-20020a056512210600b004aa0870b5e5sm2817544lfr.147.2023.01.11.09.24.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Jan 2023 09:24:37 -0800 (PST)
+Message-ID: <bfbdb94f-c965-0b07-3539-c1a057e5b0b4@gmail.com>
+Date: Wed, 11 Jan 2023 20:24:37 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230111142331.34518-12-ilpo.jarvinen@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 4/4] staging: r8188eu: always process urb status
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20230110205626.183516-1-martin@kaiser.cx>
+ <20230110205626.183516-5-martin@kaiser.cx>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20230110205626.183516-5-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 11, 2023 at 04:23:29PM +0200, Ilpo Järvinen wrote:
-> Convert various parameter names for ->dtr_rts() and related functions
-> from onoff, on, and raise to active.
+Hi Martin,
+
+Martin Kaiser <martin@kaiser.cx> says:
+> Remove the if clause in usb_write_port_complete and process the urb
+> status regardless of bSurpriseRemoved, bDriverStopped and
+> bWritePortCancel.
 > 
-> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
-> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> The only possible results of urb status processing are updates to
+> bSurpriseRemoved and bDriverStopped. All of the three status variable are
+> set to true only if the whole USB processing has to be stopped (when the
+> driver is unloaded or when the system goes to sleep).
+> 
+
+Not sure if it matters but we still have that weird rule that after 5 
+failed usb read/writes bSurpriseRemoved will be set to true
+
+Maybe also worth removing above logic?
+
+
+> It's no problem if one of the "stop everything" variables is already set
+> and the urb status processing sets another one.
+> 
+> This patch removes the last goto in usb_write_port_complete. It's also
+> part of the ongoing effort to limit the use of the "stop everything"
+> variables.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->  drivers/char/pcmcia/synclink_cs.c | 6 +++---
->  drivers/mmc/core/sdio_uart.c      | 6 +++---
->  drivers/staging/greybus/uart.c    | 4 ++--
->  drivers/tty/amiserial.c           | 4 ++--
->  drivers/tty/hvc/hvc_console.h     | 2 +-
->  drivers/tty/hvc/hvc_iucv.c        | 6 +++---
->  drivers/tty/mxser.c               | 4 ++--
->  drivers/tty/n_gsm.c               | 4 ++--
->  drivers/tty/serial/serial_core.c  | 8 ++++----
->  drivers/tty/synclink_gt.c         | 4 ++--
->  include/linux/tty_port.h          | 4 ++--
->  include/linux/usb/serial.h        | 2 +-
->  12 files changed, 27 insertions(+), 27 deletions(-)
+>   drivers/staging/r8188eu/os_dep/usb_ops_linux.c | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+> index 3fd080091340..62106d2f82ad 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+> @@ -44,9 +44,6 @@ static void usb_write_port_complete(struct urb *purb)
+>   	if (pxmitbuf->flags == HIGH_QUEUE_INX)
+>   		rtw_chk_hi_queue_cmd(padapter);
+>   
+> -	if (padapter->bSurpriseRemoved || padapter->bDriverStopped || padapter->bWritePortCancel)
+> -		goto check_completion;
+> -
+>   	switch (purb->status) {
+>   	case 0:
+>   	case -EINPROGRESS:
+> @@ -63,7 +60,6 @@ static void usb_write_port_complete(struct urb *purb)
+>   		break;
+>   	}
+>   
+> -check_completion:
+>   	rtw_sctx_done_err(&pxmitbuf->sctx,
+>   			  purb->status ? RTW_SCTX_DONE_WRITE_PORT_ERR : RTW_SCTX_DONE_SUCCESS);
+>   	rtw_free_xmitbuf(pxmitpriv, pxmitbuf);
 
-> diff --git a/include/linux/tty_port.h b/include/linux/tty_port.h
-> index c44e489de0ff..edf685a24f7c 100644
-> --- a/include/linux/tty_port.h
-> +++ b/include/linux/tty_port.h
-> @@ -16,7 +16,7 @@ struct tty_struct;
->  /**
->   * struct tty_port_operations -- operations on tty_port
->   * @carrier_raised: return true if the carrier is raised on @port
-> - * @dtr_rts: raise the DTR line if @raise is true, otherwise lower DTR
-> + * @dtr_rts: raise the DTR line if @active is true, otherwise lower DTR
->   * @shutdown: called when the last close completes or a hangup finishes IFF the
->   *	port was initialized. Do not use to free resources. Turn off the device
->   *	only. Called under the port mutex to serialize against @activate and
-> @@ -32,7 +32,7 @@ struct tty_struct;
->   */
->  struct tty_port_operations {
->  	bool (*carrier_raised)(struct tty_port *port);
-> -	void (*dtr_rts)(struct tty_port *port, bool raise);
-> +	void (*dtr_rts)(struct tty_port *port, bool active);
->  	void (*shutdown)(struct tty_port *port);
->  	int (*activate)(struct tty_port *port, struct tty_struct *tty);
->  	void (*destruct)(struct tty_port *port);
-> diff --git a/include/linux/usb/serial.h b/include/linux/usb/serial.h
-> index bad343c5e8a7..33afd9f3ebbe 100644
-> --- a/include/linux/usb/serial.h
-> +++ b/include/linux/usb/serial.h
-> @@ -292,7 +292,7 @@ struct usb_serial_driver {
->  			struct serial_icounter_struct *icount);
->  	/* Called by the tty layer for port level work. There may or may not
->  	   be an attached tty at this point */
-> -	void (*dtr_rts)(struct usb_serial_port *port, bool on);
-> +	void (*dtr_rts)(struct usb_serial_port *port, bool active);
 
-This is not a tty_port callback so this change does not belong in this
-patch.
 
->  	bool (*carrier_raised)(struct usb_serial_port *port);
->  	/* Called by the usb serial hooks to allow the user to rework the
->  	   termios state */
 
-Johan
+
+With regards,
+Pavel Skripkin
