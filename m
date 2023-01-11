@@ -1,37 +1,46 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D71C3208
-	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 16:26:51 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC5884DD;
-	Wed, 11 Jan 2023 17:26:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1673454409;
-	bh=XcChrOCe2/CPzRm4LhKPTJOLcZhk/V1PHjwC3XbavZY=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03D13209
+	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 16:54:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EC4BC433D2;
+	Wed, 11 Jan 2023 16:54:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673456082;
+	bh=mXESQehV0wt8kRi6/+LpO/EWbusEEZr0NKPtbWhQXkk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W39L8WLLnnWyqGIk0zc+ZGVYnUCgVZ1pDnf7y7QPKzzGbHP9Jebduh2+CTlMWhveV
-	 B9Ny/ZlOxV4tLfy8E/9zbvDWPAUrK2abv/wgKw83Qe6KShBM3C2gysnVtve2cTIEd6
-	 Z5nVNYxgdQTLM9pr/5hB7VktuEAwuZstHbKZeuOo=
-Date: Wed, 11 Jan 2023 18:26:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Kees Cook <keescook@chromium.org>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
+	b=NZ2n4T9WAfM31GVkMr0U+OYQ1Le0CO4szDFcbo43kBez/1J9qnZ9YKq8esW75ezAZ
+	 8JfUAS86yxHZ9RhJ0V0pNmj/VY/ORz9S6fCeFssGIrcuF1Xfq9yUTkn3I4Is0Wx2Mc
+	 NFzsNx9oyDWOwe61DNPL38/EqDVkfCeFJN2jUfno83iUYhu70LDJ+1tw4eGExWbpbY
+	 EOSUDeG+tMj/l65lE9dJr/seo+5C+OIm0cRJdutUZSTltGuxSufv6PYLoSM27KZI6v
+	 4KVn8oRKJo1GTkXYra54pA1zq+/IHJ9a5qCkOem0Z3aiYG9t9YXNKYj154cUDU8BE7
+	 E8CK13X7gSsBA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1pFeN6-0003YU-Rv; Wed, 11 Jan 2023 17:54:41 +0100
+Date: Wed, 11 Jan 2023 17:54:40 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-serial@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v3 0/7] staging: vc04_services: Remove custom return
- values
-Message-ID: <Y77jR5i+q9Flu0si@pendragon.ideasonboard.com>
-References: <20221223122404.170585-1-umang.jain@ideasonboard.com>
- <ba52e6b4-33ec-622e-00b6-1b098f529a90@ideasonboard.com>
+	Jiri Slaby <jirislaby@kernel.org>,
+	Samuel Iglesias =?utf-8?Q?Gons=C3=A1lvez?= <siglesias@igalia.com>,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ulf Hansson <ulf.hansson@linaro.org>,
+	David Lin <dtwlin@gmail.com>, Alex Elder <elder@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 11/13] tty/serial: Call ->dtr_rts() parameter active
+ consistently
+Message-ID: <Y77p0P9YaCwPArxv@hovoldconsulting.com>
+References: <20230111142331.34518-1-ilpo.jarvinen@linux.intel.com>
+ <20230111142331.34518-12-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,56 +49,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ba52e6b4-33ec-622e-00b6-1b098f529a90@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230111142331.34518-12-ilpo.jarvinen@linux.intel.com>
 
-Hi Umang,
-
-On Wed, Jan 11, 2023 at 02:32:17PM +0530, Umang Jain wrote:
-> Hi all,
+On Wed, Jan 11, 2023 at 04:23:29PM +0200, Ilpo Järvinen wrote:
+> Convert various parameter names for ->dtr_rts() and related functions
+> from onoff, on, and raise to active.
 > 
-> Gentle ping for review, If it's needs more iterations or ready to be 
-> accepted...
+> Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> ---
+>  drivers/char/pcmcia/synclink_cs.c | 6 +++---
+>  drivers/mmc/core/sdio_uart.c      | 6 +++---
+>  drivers/staging/greybus/uart.c    | 4 ++--
+>  drivers/tty/amiserial.c           | 4 ++--
+>  drivers/tty/hvc/hvc_console.h     | 2 +-
+>  drivers/tty/hvc/hvc_iucv.c        | 6 +++---
+>  drivers/tty/mxser.c               | 4 ++--
+>  drivers/tty/n_gsm.c               | 4 ++--
+>  drivers/tty/serial/serial_core.c  | 8 ++++----
+>  drivers/tty/synclink_gt.c         | 4 ++--
+>  include/linux/tty_port.h          | 4 ++--
+>  include/linux/usb/serial.h        | 2 +-
+>  12 files changed, 27 insertions(+), 27 deletions(-)
 
-I see that Stefan has tested the whole series. Florian is listed as the
-maintainer for vc04_services. Florian, do you want to review this series
-further, or can we merge it in v6.3 ?
+> diff --git a/include/linux/tty_port.h b/include/linux/tty_port.h
+> index c44e489de0ff..edf685a24f7c 100644
+> --- a/include/linux/tty_port.h
+> +++ b/include/linux/tty_port.h
+> @@ -16,7 +16,7 @@ struct tty_struct;
+>  /**
+>   * struct tty_port_operations -- operations on tty_port
+>   * @carrier_raised: return true if the carrier is raised on @port
+> - * @dtr_rts: raise the DTR line if @raise is true, otherwise lower DTR
+> + * @dtr_rts: raise the DTR line if @active is true, otherwise lower DTR
+>   * @shutdown: called when the last close completes or a hangup finishes IFF the
+>   *	port was initialized. Do not use to free resources. Turn off the device
+>   *	only. Called under the port mutex to serialize against @activate and
+> @@ -32,7 +32,7 @@ struct tty_struct;
+>   */
+>  struct tty_port_operations {
+>  	bool (*carrier_raised)(struct tty_port *port);
+> -	void (*dtr_rts)(struct tty_port *port, bool raise);
+> +	void (*dtr_rts)(struct tty_port *port, bool active);
+>  	void (*shutdown)(struct tty_port *port);
+>  	int (*activate)(struct tty_port *port, struct tty_struct *tty);
+>  	void (*destruct)(struct tty_port *port);
+> diff --git a/include/linux/usb/serial.h b/include/linux/usb/serial.h
+> index bad343c5e8a7..33afd9f3ebbe 100644
+> --- a/include/linux/usb/serial.h
+> +++ b/include/linux/usb/serial.h
+> @@ -292,7 +292,7 @@ struct usb_serial_driver {
+>  			struct serial_icounter_struct *icount);
+>  	/* Called by the tty layer for port level work. There may or may not
+>  	   be an attached tty at this point */
+> -	void (*dtr_rts)(struct usb_serial_port *port, bool on);
+> +	void (*dtr_rts)(struct usb_serial_port *port, bool active);
 
-> On 12/23/22 5:53 PM, Umang Jain wrote:
-> > The series removes the custom return values from functions
-> > and replaces them with linux error codes. This address the TODO
-> >   vchiq interface:
-> > * Get rid of custom function return values
-> >
-> > Changes in v3:
-> > - Drop fixes tag for 5/7 as suggested in review
-> > - Add Tested-by: by Stefan Wahren to the series
-> >
-> > Changes in V2:
-> > - Patch 3/7 now reports for specific errors like -ENOMEM, -EHOSTDOWN
-> > - Patch 5/7 reports -ENOTCONN instead of -EINVAL and adds a "Fixes" tag
-> >
-> > Umang Jain (7):
-> >    staging: vc04_services: Replace vchiq_status return type to int
-> >    staging: vc04_services: Drop VCHIQ_SUCCESS usage
-> >    staging: vc04_services: Drop VCHIQ_ERROR usage
-> >    staging: vc04_services: Drop VCHIQ_RETRY usage
-> >    vc04_services: vchiq_arm: Drop VCHIQ_RETRY usage on disconnect
-> >    staging: vc04_services: Drop enum vchiq_status remnants
-> >    staging: vc04_services: vchiq: Drop custom return values from TODO
-> >
-> >   .../bcm2835-audio/bcm2835-vchiq.c             |  12 +-
-> >   .../include/linux/raspberrypi/vchiq.h         |  65 +++---
-> >   drivers/staging/vc04_services/interface/TODO  |   5 -
-> >   .../interface/vchiq_arm/vchiq_arm.c           | 124 +++++-----
-> >   .../interface/vchiq_arm/vchiq_arm.h           |  12 +-
-> >   .../interface/vchiq_arm/vchiq_core.c          | 216 +++++++++---------
-> >   .../interface/vchiq_arm/vchiq_core.h          |  18 +-
-> >   .../interface/vchiq_arm/vchiq_dev.c           |  36 +--
-> >   .../interface/vchiq_arm/vchiq_ioctl.h         |   8 +-
-> >   .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  11 +-
-> >   10 files changed, 246 insertions(+), 261 deletions(-)
+This is not a tty_port callback so this change does not belong in this
+patch.
 
--- 
-Regards,
+>  	bool (*carrier_raised)(struct usb_serial_port *port);
+>  	/* Called by the usb serial hooks to allow the user to rework the
+>  	   termios state */
 
-Laurent Pinchart
+Johan
