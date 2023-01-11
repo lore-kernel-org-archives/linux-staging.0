@@ -1,108 +1,74 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3824F17EF
-	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 09:25:54 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id y5so10946337pfe.2
-        for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 01:25:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=REWsaUl6PIGZxGjQDNsHgylq9u4efBb5hD+0H4Wo0bU=;
-        b=DAi6i88V4NfTBA3ydSUaOJpxJJQcem5npBHw5b3086UW5fnXJ68u+Vs8pEQU8R9ROk
-         r4xIwDOPH/fQH7p+0PvEm2d/7UvRk5OdWXb9NpoD9QqgIYsV1lIRRAU6rHWdWFhqSTI0
-         FJY5DtdqTtZdv1E3rFIZ881IS7D8PxfXyvSVlSjAIguTioFkzKfQ72weJN4QjY2C5VHe
-         SgufQFcQtn6K2pW/g2pe8zsO0WNcXsxgcUqY2YR1ewvZdk+FY6T4R8OFipAS0xSN3cZD
-         vU/sMbVESwZooe5CzKStfzZ8p03aQcmCFonFUtpmsayHUkJypjBu3r9NEBbZ1EdhmPxG
-         BeiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=REWsaUl6PIGZxGjQDNsHgylq9u4efBb5hD+0H4Wo0bU=;
-        b=FUzb46OkN2tfGEc8OtSOYisdfbjZMrA5LHjXpbGAftwtBFfCjfHPHve0wAkeeFEFeU
-         DGXJslQYr1uaOEuS3eU66DRZL1SBUqa+o2hqFVQOnhRLf8vS43FW2qcwRtee1fqf2B+W
-         q0mxwEEkCRykzcJ8sIYjdWJpMBz2Kf/mFhjCZnc3OIL6ZrZGlkxnYDaeGd5trdOss8KN
-         4B8wMxpGQViOKHQ29kBF1I8dTzPZ0OygwjoCbV/bsT5IhvoxI2IgNUk4lIChnzKHxBGZ
-         /L6vLp+VBWQPL+9cU2OA+XJi4cfJT4wYJnOD0yCSMHRmrRYReKUF5AGmBhIH+ip/Pamp
-         xc+w==
-X-Gm-Message-State: AFqh2kqkd46kSl9hM8OPGHXOeqpXQ6vsbT7VTAUDFwc7dwLLal74SyOy
-	z6Q9WWrkkGY/mVxTmMRHhnD27ti2Ly4/GCbM
-X-Google-Smtp-Source: AMrXdXuM/Sv1/zsrNTggBgsMKA2XF1F6XVWod6lpFBepCUuB6CxuG01EPVUGvRxXxUeN1XUhuCgiXA==
-X-Received: by 2002:a05:6a00:27a5:b0:583:63eb:581e with SMTP id bd37-20020a056a0027a500b0058363eb581emr17019609pfb.18.1673429153635;
-        Wed, 11 Jan 2023 01:25:53 -0800 (PST)
-Received: from gaurav-pc.bbrouter ([2402:e280:217b:6d8:bf67:b774:ee50:1dc5])
-        by smtp.gmail.com with ESMTPSA id v67-20020a622f46000000b00581ad007a9fsm9488599pfv.153.2023.01.11.01.25.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 01:25:53 -0800 (PST)
-Date: Wed, 11 Jan 2023 14:55:29 +0530
-From: Gaurav Pathak <gauravpathak129@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: f.fainelli@gmail.com, bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vchiq_arm.c: Declare vchiq_platform_init as
- static
-Message-ID: <Y76AiY2a02aSVp+r@gaurav-pc.bbrouter>
-References: <20230111080124.32274-1-gauravpathak129@gmail.com>
- <Y756tY0wRxl/jamp@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECBC17EF
+	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 10:02:21 +0000 (UTC)
+Received: from dslb-188-096-145-172.188.096.pools.vodafone-ip.de ([188.96.145.172] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1pFXvu-0000gP-3P; Wed, 11 Jan 2023 11:02:10 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH] staging: r8188eu: remove NULL check for usb_kill_urb
+Date: Wed, 11 Jan 2023 11:02:01 +0100
+Message-Id: <20230111100201.251905-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y756tY0wRxl/jamp@kroah.com>
+Content-Transfer-Encoding: 8bit
 
+usb_kill_urb handles a NULL parameter. There's no need for NULL checks
+before we call usb_kill_urb.
 
-Hi Greg,
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/os_dep/usb_ops_linux.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-After submitting the patch, I realized this is the duplicate patch of https://www.spinics.net/lists/arm-kernel/msg976512.html
-I am in the process of reproducing the issue reported by kernel test robot in the original patch submission. 
-If I am successful, I will try to fix other warnings.
+diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+index 62106d2f82ad..583533631133 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+@@ -29,8 +29,7 @@ void rtw_read_port_cancel(struct adapter *padapter)
+ 
+ 	for (i = 0; i < NR_RECVBUFF; i++) {
+ 		precvbuf->reuse = true;
+-		if (precvbuf->purb)
+-			usb_kill_urb(precvbuf->purb);
++		usb_kill_urb(precvbuf->purb);
+ 		precvbuf++;
+ 	}
+ }
+@@ -153,15 +152,13 @@ void rtw_write_port_cancel(struct adapter *padapter)
+ 	padapter->bWritePortCancel = true;
+ 
+ 	for (i = 0; i < NR_XMITBUFF; i++) {
+-		if (pxmitbuf->pxmit_urb)
+-			usb_kill_urb(pxmitbuf->pxmit_urb);
++		usb_kill_urb(pxmitbuf->pxmit_urb);
+ 		pxmitbuf++;
+ 	}
+ 
+ 	pxmitbuf = (struct xmit_buf *)padapter->xmitpriv.pxmit_extbuf;
+ 	for (i = 0; i < NR_XMIT_EXTBUFF; i++) {
+-		if (pxmitbuf->pxmit_urb)
+-			usb_kill_urb(pxmitbuf->pxmit_urb);
++		usb_kill_urb(pxmitbuf->pxmit_urb);
+ 		pxmitbuf++;
+ 	}
+ }
+-- 
+2.30.2
 
-Best,
-Gaurav
-
-On Wed, Jan 11, 2023 at 10:00:37AM +0100, Greg KH wrote:
-> On Wed, Jan 11, 2023 at 01:31:24PM +0530, Gaurav Pathak wrote:
-> > Modified vchiq_platform_init() as static to fix sparse warning
-> > > warning: symbol 'vchiq_platform_init' was not declared. Should it be
-> > > static?
-> 
-> Put the warning line all on one line, no need to wrap that.
-> 
-> > Signed-off-by: Gaurav Pathak <gauravpathak129@gmail.com>
-> > ---
-> >  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > index dc33490ba7fb..ffa517077b80 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > @@ -462,7 +462,7 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
-> >  	cleanup_pagelistinfo(instance, pagelistinfo);
-> >  }
-> >  
-> > -int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
-> > +static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
-> >  {
-> >  	struct device *dev = &pdev->dev;
-> >  	struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
-> > -- 
-> > 2.39.0
-> > 
-> > 
-> 
-> What changed to enable this version of the patch to work properly
-> compared to the previous submissions that broke the build?  Did you test
-> this and it now works properly?
-> 
-> thanks,
-> 
-> greg k-h
