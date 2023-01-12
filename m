@@ -1,29 +1,28 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531B36ABB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404486AB9
 	for <linux-staging@lists.linux.dev>; Thu, 12 Jan 2023 12:56:40 +0000 (UTC)
 Received: from localhost (89-26-75-29.goll.dyn.salzburg-online.at [89.26.75.29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sebastianfricke)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 9E63B6602DBA;
-	Thu, 12 Jan 2023 12:56:38 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2D0E86602DB9;
+	Thu, 12 Jan 2023 12:56:32 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1673528198;
-	bh=8FFms7ZFvtbGRTeN4REh/YGhyU+oeFdqYWO/CK2KT8c=;
+	s=mail; t=1673528192;
+	bh=w39uQHzOIPIO90WhRE4IjTj/4vTR7fwhKBVkNmGEQWM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=hXDggCyHhkjfeIswJAT/y/OZ3Uv10V8Cte6Wd/pyHY8rOY6dr9GSn0wpvJqTPLhAn
-	 huVgJgPug9zwf6cZosazKC86t1j54jjlPgFuIsy+QRuqZT1+iPX9piPWAJMlNjqjuG
-	 OScE+wYlc6cVvt/TBZahO964vjW3VE37MbhQ94bfU0QB+iyniOOy6KJEcIgZxSjqQK
-	 fotcKNvAIDnTYGKuQZXOYWdvsbeIDsUTfJ2+wAx0S2d8E1/NX8hW0NhtfMSaHK0Ur2
-	 Dao5hfPydn5QXY2ImcTCrAm24Q/K0DZKTPJECRS5W5DOD0MUySUoXpHHjb1QhUGGu/
-	 qieM9+NzZLXQg==
+	b=NBGxuiJVU2ZpQxkVaZeH5CCCS70AGYjTI2usSFgDYvqxG8S1aMWZyj8I5xBnf+XQa
+	 A9xd20BDkGD/y+dweWOYWDuG/iqx0M4ZSAXqhbiY4PCZp2ss/gdd6Cfi/J+h4/z0mV
+	 2v1arb4yPppKzNsKyLOPG3o05bVXUVQcqv1Nv8By09CsEXEW/82QCkhHyC9Qjii4UP
+	 9k1B/ZiCjsBeXmpBEtrf/CDIH6uVBePNk2JZ2P1sc1NheN7/vGI+tEkhYTAIWkht+T
+	 G1O14WBe3J1zzQFR6kwGybsbOWqEmRYVBqU4PCivCWju4bfEF1fAjb/HVCPDSdYg89
+	 bVDiRKaYnQPaw==
 From: Sebastian Fricke <sebastian.fricke@collabora.com>
-Date: Thu, 12 Jan 2023 13:56:18 +0100
-Subject:
- [PATCH v2 03/12] staging: media: rkvdec: Helper for buffer queue busy check
+Date: Thu, 12 Jan 2023 13:56:16 +0100
+Subject: [PATCH v2 01/12] media: v4l2: Add NV15 pixel format
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,7 +31,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230101-patch-series-v2-6-2-rc1-v2-3-fa1897efac14@collabora.com>
+Message-Id: <20230101-patch-series-v2-6-2-rc1-v2-1-fa1897efac14@collabora.com>
 References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
 In-Reply-To:
  <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
@@ -50,79 +49,174 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Sebastian Fricke <sebastian.fricke@collabora.com>
 X-Mailer: b4 0.11.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1673528186; l=2269;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673528186; l=6437;
  i=sebastian.fricke@collabora.com; s=linux-media; h=from:subject:message-id;
- bh=8FFms7ZFvtbGRTeN4REh/YGhyU+oeFdqYWO/CK2KT8c=;
- b=ub/wDdTpC9jeMsoCSRmmqPKTVKH8soQUtOakduE6Kmcgt/JvOwM+tMckRDcgsVcmdLW9umjznn05
- a7TSEWbUC2GDJJri/M43YYI86BB6vTZEyOuxzEaRrXkA+V76F2vz
+ bh=uy2g9GPcP+lRwPYfgkcuiU1U/soD1j3DQtWijfz/vHI=;
+ b=/pxqbPJRJoRG0ZRyvRot/+yIY4H7+UpAZVlvL+UZ7AKc8JtwF17tqhJfcI1anbbRdRkx4HIuWV2Q
+ xDA5Hg6pCybcCwPBMeJzHeOj63Bav5GFBGgjC+fTds/GMfujTawu
 X-Developer-Key: i=sebastian.fricke@collabora.com; a=ed25519;
  pk=pYXedPwrTtErcj7ERYeo/IpTrpe4QbJuEzSB52fslBg=
 
-Implement a helper function, wrapping around getting a vb2 queue and
-checking whether it is busy, to reduce the amount of code duplication in
-the driver.
+From: Jonas Karlman <jonas@kwiboo.se>
 
+Add the NV15 pixel format used by the Rockchip Video Decoder for 10-bit buffers.
+
+NV15 is a packed 10-bit 4:2:0 Y/CbCr format similar to P010 and P210 but has no
+padding between components. Instead, luminance and chrominance samples are grouped
+into 4s so that each group is packed into an integer number of bytes:
+
+YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
+
+The '15' suffix refers to the optimum effective bits per pixel
+which is achieved when the total number of luminance samples is a multiple
+of 8 for NV15.
+
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ .../userspace-api/media/v4l/pixfmt-yuv-planar.rst  | 75 ++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-common.c              |  2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
+ include/uapi/linux/videodev2.h                     |  1 +
+ 4 files changed, 79 insertions(+)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 7bab7586918c..c849f6c20279 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -27,6 +27,17 @@
- #include "rkvdec.h"
- #include "rkvdec-regs.h"
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+index f1d5bb7b806d..7d8d228f8063 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+@@ -79,6 +79,13 @@ All components are stored with the same number of bits per component.
+       - Cr, Cb
+       - Yes
+       - Linear
++    * - V4L2_PIX_FMT_NV15
++      - 'NV15'
++      - 15
++      - 4:2:0
++      - Cb, Cr
++      - Yes
++      - Linear
+     * - V4L2_PIX_FMT_NV12M
+       - 'NM12'
+       - 8
+@@ -183,6 +190,7 @@ horizontally.
  
-+static int rkvdec_queue_busy(struct rkvdec_ctx *ctx, enum v4l2_buf_type buf_type)
-+{
-+	struct vb2_queue *vq;
+ .. _V4L2-PIX-FMT-NV12:
+ .. _V4L2-PIX-FMT-NV21:
++.. _V4L2-PIX-FMT-NV15:
+ .. _V4L2-PIX-FMT-NV12M:
+ .. _V4L2-PIX-FMT-NV21M:
+ .. _V4L2-PIX-FMT-P010:
+@@ -586,6 +594,73 @@ Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian ord
+       - Cb\ :sub:`11`
+       - Cr\ :sub:`11`
+ 
++.. _V4L2_PIX_FMT_NV15:
 +
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, buf_type);
-+	if (vb2_is_busy(vq))
-+		return -EBUSY;
-+	else
-+		return 0;
-+}
++NV15
++----
 +
- static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-@@ -311,13 +322,10 @@ static int rkvdec_s_capture_fmt(struct file *file, void *priv,
- 				struct v4l2_format *f)
- {
- 	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
--	struct vb2_queue *vq;
- 	int ret;
++Similar to P010, a semi-planar 10-bit Y/CbCr format, but all components are
++packed without any padding between each other. As a side-effect, each group of
++4 components are stored over 5 bytes (YYYY or UVUV = 4 * 10 bits = 40 bits = 5
++bytes).
++
++.. flat-table:: Sample 4x4 NV15 Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start + 8:
++      - Y'\ :sub:`04`
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++    * - start + 16:
++      - Y'\ :sub:`13`
++      - Y'\ :sub:`14`
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++    * - start + 24:
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++      - Y'\ :sub:`24`
++      - Y'\ :sub:`30`
++    * - start + 32:
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++      - Y'\ :sub:`34`
++
++    * - start + 0:
++      - Cb\ :sub:`00`
++      - Cr\ :sub:`00`
++      - Cb\ :sub:`01`
++      - Cr\ :sub:`01`
++    * - start + 8:
++      - Cb\ :sub:`02`
++      - Cr\ :sub:`02`
++      - Cb\ :sub:`03`
++      - Cr\ :sub:`03`
++    * - start + 16:
++      - Cb\ :sub:`04`
++      - Cr\ :sub:`04`
++      - Cb\ :sub:`10`
++      - Cr\ :sub:`10`
++    * - start + 24:
++      - Cb\ :sub:`11`
++      - Cr\ :sub:`11`
++      - Cb\ :sub:`12`
++      - Cr\ :sub:`12`
++    * - start + 32:
++      - Cb\ :sub:`13`
++      - Cr\ :sub:`13`
++      - Cb\ :sub:`14`
++      - Cr\ :sub:`14`
++
++.. raw:: latex
  
- 	/* Change not allowed if queue is busy */
--	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
--	if (vb2_is_busy(vq))
-+	if (rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) != 0)
- 		return -EBUSY;
- 
- 	ret = rkvdec_try_capture_fmt(file, priv, f);
-@@ -335,7 +343,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
- 	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
- 	const struct rkvdec_coded_fmt_desc *desc;
- 	struct v4l2_format *cap_fmt;
--	struct vb2_queue *peer_vq, *vq;
-+	struct vb2_queue *vq;
- 	int ret;
- 
- 	/*
-@@ -354,8 +362,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
- 	 * queue, we can't allow doing so when the CAPTURE queue has buffers
- 	 * allocated.
- 	 */
--	peer_vq = v4l2_m2m_get_vq(m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
--	if (vb2_is_busy(peer_vq))
-+	if (rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) != 0)
- 		return -EBUSY;
- 
- 	ret = rkvdec_try_output_fmt(file, priv, f);
+ Fully Planar YUV Formats
+ ========================
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 40f56e044640..be23e319fb3a 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -262,6 +262,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		/* YUV planar formats */
+ 		{ .format = V4L2_PIX_FMT_NV12,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+ 		{ .format = V4L2_PIX_FMT_NV21,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
++		{ .format = V4L2_PIX_FMT_NV15,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 5, 0, 0 }, .hdiv = 2, .vdiv = 2,
++		  .block_w = { 4, 2, 0, 0 }, .block_h = { 1, 1, 0, 0 } },
+ 		{ .format = V4L2_PIX_FMT_NV16,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 8e0a0ff62a70..1c80ad78ef00 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1343,6 +1343,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 (M420)"; break;
+ 	case V4L2_PIX_FMT_NV12:		descr = "Y/UV 4:2:0"; break;
+ 	case V4L2_PIX_FMT_NV21:		descr = "Y/VU 4:2:0"; break;
++	case V4L2_PIX_FMT_NV15:		descr = "10-bit Y/UV 4:2:0 (Packed)"; break;
+ 	case V4L2_PIX_FMT_NV16:		descr = "Y/UV 4:2:2"; break;
+ 	case V4L2_PIX_FMT_NV61:		descr = "Y/VU 4:2:2"; break;
+ 	case V4L2_PIX_FMT_NV24:		descr = "Y/UV 4:4:4"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 1befd181a4cc..e9731286dc77 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -621,6 +621,7 @@ struct v4l2_pix_format {
+ /* two planes -- one Y, one Cr + Cb interleaved  */
+ #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
+ #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 4:2:0  */
++#define V4L2_PIX_FMT_NV15    v4l2_fourcc('N', 'V', '1', '5') /* 15  Y/CbCr 4:2:0 10-bit packed */
+ #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 4:2:2  */
+ #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
+ #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
 
 -- 
 2.25.1
