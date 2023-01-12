@@ -1,106 +1,187 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B1F17EA
-	for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 22:10:28 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id i15so24432491edf.2
-        for <linux-staging@lists.linux.dev>; Wed, 11 Jan 2023 14:10:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PWAq+7S4bzaL37NGYrLUy7knGvmGRAEXn1QIsa1PQRY=;
-        b=CUgRp903UFFuaWLUn/a+60HLECCzdq1iDRPTEpWvFFjT0tXI1/zyesxolB+LcIHSTo
-         J6aSm2JzR3ttzgLugbarxFvkaNTNrFupFeQu4rDh21lBwOya+ntguVCspgbnWclC+5dy
-         sX24s9v5InG7okISzbL9eXULQ+oFTWKfve+eCDx1eIzmdo2wCk//aqTtc5Mfit9fJDnw
-         KUGTgscm/iAof31wWPe+g6F5o+1YHQuJ0S9r+ytTI1fD3m67oGi2kwllx9MPBrZeRvdg
-         OEOo+MT8Mfq5YYS5l4UxvF93G3FCh0kYJorRwzu8JGwOXbX0WdLqmiCpobQ/qgW1K7qd
-         9Q4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PWAq+7S4bzaL37NGYrLUy7knGvmGRAEXn1QIsa1PQRY=;
-        b=SqrD+QJEWKdxRin7zt0wYiAkgQdk1G9qjPIXrDLdMn2/6/piRjVsjI5Jt32Q5DbBAP
-         SEDDYyhN1bOXyoSW1VMDAb290WmwPdG52rLQwcCxEacekVAwzc6z4XhghJvlnq2hRlfZ
-         7W59KU8n2E/dIgalYUAdElkzzsB86K7v5//H9PquU5HbQqTbOffjrjIsNurcy8Qo0Y4+
-         8MDsSkWhPsdFjbEhZF1aeE3Yf8niQZqmKZylEyxcgmVJlsEi9CA5//UOAKj1CvAW9ddU
-         JS+68KCpRczr2xXkyflt9zAwYH122KiAvZwJ53tL6Ye33SZHPLYRuoD5YxspMkdMoC59
-         eaIQ==
-X-Gm-Message-State: AFqh2kq4HEDugO/Vob6Lh1JT+foQFV49E6soA/TFeh+cssRTTMk9IgDe
-	yob5JBb2hFzZ+zXvsUaVZqc=
-X-Google-Smtp-Source: AMrXdXtvAef1hBS+dF8hlp7VXYkoK3dcpD1BulUM0G4eYmx9a5qBzf1ZttEk5UUGOUwYFYsT95Cl6w==
-X-Received: by 2002:a05:6402:207c:b0:490:ff75:7aa with SMTP id bd28-20020a056402207c00b00490ff7507aamr5274351edb.1.1673475027314;
-        Wed, 11 Jan 2023 14:10:27 -0800 (PST)
-Received: from [192.168.1.102] (p54a07888.dip0.t-ipconnect.de. [84.160.120.136])
-        by smtp.gmail.com with ESMTPSA id b20-20020aa7c6d4000000b004610899742asm6539866eds.13.2023.01.11.14.10.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 14:10:26 -0800 (PST)
-Message-ID: <8c0502f6-700a-e2f7-5b11-21cb647d6da4@gmail.com>
-Date: Wed, 11 Jan 2023 23:10:25 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EBA6AB6
+	for <linux-staging@lists.linux.dev>; Thu, 12 Jan 2023 12:56:36 +0000 (UTC)
+Received: from localhost (89-26-75-29.goll.dyn.salzburg-online.at [89.26.75.29])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 2E7356602DBC;
+	Thu, 12 Jan 2023 12:56:35 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1673528195;
+	bh=TMBuSYYQgufdE8ilX8+9MkfvSRLEsm/O1NHAsGj+B/Y=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=XOPL1XeRQInEt43srKZYrnrk2C/E2t6TlKO5p4bXvoEV/zBpFhHONeClKtTqj6JBz
+	 4o16E9P1tWHpCvOrfc/+9iIjNnCFUEt3alSQI9jpYrBa97dU0lspWglEQG7xskQ+Vh
+	 XgKtlMfpbzLXq5q5BhUkbtzWVHVDkvZEYFxOjhJNvkgCXtU1KoG3oR4M3PnfACexdl
+	 9q7Korw+75cBpygJm/0frQyYKChkqDwnB9NkXuNDQiZrBS9TrMrOaalV1OFgwXKasX
+	 moplnbm24XFPXMFZ9qSAmZAwk4rp/hYi5DzvT741iOfZxvOz2Ti1iZicgEHEOkRIEQ
+	 VFf5gm44ncdsA==
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+Date: Thu, 12 Jan 2023 13:56:17 +0100
+Subject: [PATCH v2 02/12] media: v4l2-common: Add helpers to calculate
+ bytesperline and sizeimage
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/20] staging: r8188eu: io cleanup
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230111195640.306748-1-martin@kaiser.cx>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20230111195640.306748-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20230101-patch-series-v2-6-2-rc1-v2-2-fa1897efac14@collabora.com>
+References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
+In-Reply-To:
+ <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ Jonas Karlman <jonas@kwiboo.se>, Alex Bee <knaerzche@gmail.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Collabora Kernel-domain <kernel@collabora.com>,
+ Robert Beckett <bob.beckett@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>
+X-Mailer: b4 0.11.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1673528186; l=4683;
+ i=sebastian.fricke@collabora.com; s=linux-media; h=from:subject:message-id;
+ bh=LcMmGvBIJq4nek85HGURC0+BOvaXuS5YxkC2HDnyM4I=;
+ b=21yB2ximJGHXO2qRmwC71wOACLdxQEDfraCFxz9My9OOeP/Bg30IT6qXnRdRmTEICA6UNWxjEJjI
+ 0AsKrLSDBeIJqIIhK3dU2M8+aYSDn/AyK7/xOhcyFbJLtFv1L49Z
+X-Developer-Key: i=sebastian.fricke@collabora.com; a=ed25519;
+ pk=pYXedPwrTtErcj7ERYeo/IpTrpe4QbJuEzSB52fslBg=
 
-On 1/11/23 20:56, Martin Kaiser wrote:
-> Clean up structs and function prototypes related to hardware access.
-> 
-> There's a number of definitions which are not used for usb devices such as
-> the r8188eu.
-> 
-> As usual, this is based on all the previous patches I sent. (I promise to
-> send no more patches until the pending ones are merged ;-)
-> 
-> Martin Kaiser (20):
->    staging: r8188eu: remove struct io_priv
->    staging: r8188eu: remove io function prototypes
->    staging: r8188eu: remove ioreq function prototypes
->    staging: r8188eu: remove async read function prototypes
->    staging: r8188eu: remove async write function prototypes
->    staging: r8188eu: remove struct io_queue
->    staging: r8188eu: remove attrib function prototypes
->    staging: r8188eu: remove rtw_write_scsi function prototype
->    staging: r8188eu: remove dev_power_down function prototype
->    staging: r8188eu: remove struct reg_protocol_rd
->    staging: r8188eu: remove struct reg_protocol_wt
->    staging: r8188eu: remove interface handler prototypes
->    staging: r8188eu: remove readmem and writemem prototypes
->    staging: r8188eu: remove IO defines
->    staging: r8188eu: remove struct io_req
->    staging: r8188eu: remove usb buffer macros
->    staging: r8188eu: pass struct adapter to usb_read
->    staging: r8188eu: pass struct adapter to usb_write
->    staging: r8188eu: remove struct intf_hdl
->    staging: r8188eu: remove struct intf_priv
-> 
->   drivers/staging/r8188eu/hal/usb_ops_linux.c  |  34 +--
->   drivers/staging/r8188eu/include/drv_types.h  |   1 -
->   drivers/staging/r8188eu/include/osdep_intf.h |  32 ---
->   drivers/staging/r8188eu/include/rtw_io.h     | 255 -------------------
->   drivers/staging/r8188eu/os_dep/usb_intf.c    |   9 -
->   5 files changed, 9 insertions(+), 322 deletions(-)
-> 
+From: Jonas Karlman <jonas@kwiboo.se>
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Add helper functions to calculate plane bytesperline and sizeimage, these
+new helpers consider block width and height when calculating plane
+bytesperline and sizeimage.
 
+This prepares support for a new pixel format added in next patch that makes
+use of block width and height.
+
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+---
+ drivers/media/v4l2-core/v4l2-common.c | 77 +++++++++++++++++------------------
+ 1 file changed, 38 insertions(+), 39 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index be23e319fb3a..12c1d2f409b0 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -340,6 +340,33 @@ static inline unsigned int v4l2_format_block_height(const struct v4l2_format_inf
+ 	return info->block_h[plane];
+ }
+ 
++static inline unsigned int v4l2_format_plane_width(const struct v4l2_format_info *info, int plane,
++						   unsigned int width)
++{
++	unsigned int hdiv = plane ? info->hdiv : 1;
++	unsigned int bytes = DIV_ROUND_UP(width * info->bpp[plane],
++				v4l2_format_block_width(info, plane) *
++				v4l2_format_block_height(info, plane));
++
++	return DIV_ROUND_UP(bytes, hdiv);
++}
++
++static inline unsigned int v4l2_format_plane_height(const struct v4l2_format_info *info, int plane,
++						    unsigned int height)
++{
++	unsigned int vdiv = plane ? info->vdiv : 1;
++	unsigned int lines = ALIGN(height, v4l2_format_block_height(info, plane));
++
++	return DIV_ROUND_UP(lines, vdiv);
++}
++
++static inline unsigned int v4l2_format_plane_size(const struct v4l2_format_info *info, int plane,
++						  unsigned int width, unsigned int height)
++{
++	return v4l2_format_plane_width(info, plane, width) *
++	       v4l2_format_plane_height(info, plane, height);
++}
++
+ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
+ 				    const struct v4l2_frmsize_stepwise *frmsize)
+ {
+@@ -375,37 +402,19 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+ 
+ 	if (info->mem_planes == 1) {
+ 		plane = &pixfmt->plane_fmt[0];
+-		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
++		plane->bytesperline = v4l2_format_plane_width(info, 0, width);
+ 		plane->sizeimage = 0;
+ 
+-		for (i = 0; i < info->comp_planes; i++) {
+-			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+-			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+-			unsigned int aligned_width;
+-			unsigned int aligned_height;
+-
+-			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+-			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+-
+-			plane->sizeimage += info->bpp[i] *
+-				DIV_ROUND_UP(aligned_width, hdiv) *
+-				DIV_ROUND_UP(aligned_height, vdiv);
+-		}
++		for (i = 0; i < info->comp_planes; i++)
++			plane->sizeimage +=
++				v4l2_format_plane_size(info, i, width, height);
+ 	} else {
+ 		for (i = 0; i < info->comp_planes; i++) {
+-			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+-			unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+-			unsigned int aligned_width;
+-			unsigned int aligned_height;
+-
+-			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+-			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+-
+ 			plane = &pixfmt->plane_fmt[i];
+ 			plane->bytesperline =
+-				info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv);
+-			plane->sizeimage =
+-				plane->bytesperline * DIV_ROUND_UP(aligned_height, vdiv);
++				v4l2_format_plane_width(info, i, width);
++			plane->sizeimage = plane->bytesperline *
++				v4l2_format_plane_height(info, i, height);
+ 		}
+ 	}
+ 	return 0;
+@@ -429,22 +438,12 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+ 	pixfmt->width = width;
+ 	pixfmt->height = height;
+ 	pixfmt->pixelformat = pixelformat;
+-	pixfmt->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
++	pixfmt->bytesperline = v4l2_format_plane_width(info, 0, width);
+ 	pixfmt->sizeimage = 0;
+ 
+-	for (i = 0; i < info->comp_planes; i++) {
+-		unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+-		unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
+-		unsigned int aligned_width;
+-		unsigned int aligned_height;
+-
+-		aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+-		aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+-
+-		pixfmt->sizeimage += info->bpp[i] *
+-			DIV_ROUND_UP(aligned_width, hdiv) *
+-			DIV_ROUND_UP(aligned_height, vdiv);
+-	}
++	for (i = 0; i < info->comp_planes; i++)
++		pixfmt->sizeimage +=
++			v4l2_format_plane_size(info, i, width, height);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+
+-- 
+2.25.1
