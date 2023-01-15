@@ -1,49 +1,49 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA02A46B5
-	for <linux-staging@lists.linux.dev>; Sun, 15 Jan 2023 20:20:21 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id vm8so63686626ejc.2
-        for <linux-staging@lists.linux.dev>; Sun, 15 Jan 2023 12:20:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC5E46B5
+	for <linux-staging@lists.linux.dev>; Sun, 15 Jan 2023 20:20:35 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id u9so63745111ejo.0
+        for <linux-staging@lists.linux.dev>; Sun, 15 Jan 2023 12:20:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=n9PMUN06RhbNHE4qDKcXN4Xb3hE+7IHkXvclZTL5rZs=;
-        b=UFwvfEY6RgPL6bTmbwMM6X804QbJ95a78/+fsEiD5IN1BGpQRN7OsCxJDytCyzjwwr
-         UaniCR6F9hseOhz3D74EkQQkron6+fHd6Fk06RT59CNiA4AoD0Ef8mlipOtkBQVu5q76
-         kGOTwN/hC8X2Hly5SlAwGRZRczxlB+VhJp12Iv7QHAVZ4SGi1sRnuJEjfdkLv4wdD4lG
-         nr+NFUnlkmgKRJS/iuTdkCSuDpyBzcjt/6h/e0Ns19aRr8RWSyvt3oBJlkoGwGvlWBCv
-         z65mRlOdhHj6dEonzrPklK8RgHXQPIM3opUOB+BIETQQeFH0OoBdhmJdmUIlme3+9Xvv
-         +CpQ==
+        bh=ouM6QWYCZ5t51yksCPB1b6uNMFDiFA56prLXy+81mDY=;
+        b=bz6qdByBJl4nrO56DtSFjRI5uHjLdjelXPwGBGlHPjJmBh1aGpLSZX50gurAfGgDlp
+         mnXToDbbWKk0hpSaKT3U5Xwr25/ZsvlxnFFDtnVQcwjkFFNh/Z/Pkb/C/vbl0HSy0lx+
+         Wlma522NjSsjL7WIupl891Lx7dPE9G0M1mvMTW3Z0/OK7NJs4/Jco5mkOjrqw97ikOje
+         w3xbZFQ6lMGHvaQZKY5GHOkH/cZ3q1VRWXfdzmO7r4+G4+oISFvk8U2bHwYrOhx5nhlW
+         agqtKvIB2x4HT5uNVS5mJ0WuHjt0/IExwV1csfolLAr4ArcshcHfYZRtXd/kzTZbvETD
+         ymMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=n9PMUN06RhbNHE4qDKcXN4Xb3hE+7IHkXvclZTL5rZs=;
-        b=AUKPN6Mv6EjZR89FiX4wdCOqpgvEm6SAwZF9XzUj3sGj8OIuOS9LyJkrNApnGa91ZC
-         JkcJKLEVL8jZOrpzt7w8Yk0iuqTnjwRRvKIfRUt2OwGJlTLT27BB25YMXDBLiAr4LrkF
-         Aa/LVoitbHeSJu/OqSE/PyBA9Y7yJ9qn+f3oiTJkpSWLX/6Y33KDtx8wr76qWBgiQEbG
-         ++WgeUqxjIyMUEJ5IrS1KWqJGQ9OHp13qta3D+WLoWeImQTXwnIy//dB3UDOu34YlDW6
-         L2OzKxGjPJRAZvclIu9uiHKRxN2ppvp5z9l1dn9TxWSCCMFjIvcbFApTDcFE/qJClV9r
-         hRXA==
-X-Gm-Message-State: AFqh2krP+7Rw1FBTvs0jFiNNICgSIrWuMldNT9Jlt0t6M2FSrtk6EAXa
-	CQsNuBCVplQv2V7TAr5nFA4=
-X-Google-Smtp-Source: AMrXdXvmY1wWNoeCogxM3MvtEhpje1snWXE5Hb+XnxmRK3ALTBI4yeNoKNzBxYRvEOAbq3kb4Ogi8w==
-X-Received: by 2002:a17:906:9c85:b0:7c0:d7af:fce3 with SMTP id fj5-20020a1709069c8500b007c0d7affce3mr16969500ejc.1.1673814020184;
-        Sun, 15 Jan 2023 12:20:20 -0800 (PST)
+        bh=ouM6QWYCZ5t51yksCPB1b6uNMFDiFA56prLXy+81mDY=;
+        b=4TmpOFkF3BRtSJSxDLobbSqOLGO3UoIeNpeCg55IsRp4/Zg8MLmVT5DTXJTqyj9/vq
+         k3XKTw+QJFXzD2jPg4ZXBHV6DIKmsyxzfLs/NJC3TQGSpLHTgR8JKtwMpUr+XhI4c0Hm
+         TKKkLcp4tlINZVAFO+kb3UT4l8oRBK0i+4or5RimCeBdLm7H5Z0ZeT+7OArLsNscteWs
+         H7KGlsyHx6Ya8rA3dUyB5D0rRgVUDldJfKQFK+KMRiGGescmeCb07PZDLaV6BfJmD+xA
+         /rsYsHzWQ+9lpdF1IUA8WngZdPMQLbS7UvsgULcMFAfr3o5quSHZqd9h/F2hSD6RAbPt
+         76MQ==
+X-Gm-Message-State: AFqh2korHt/RchOtdDgmBuOls8p/7oLp0rQadvEQts6PUf3m32/gKQWO
+	R3pkhFYUbiOFlBuqXwnK5X/WJjv4HAs=
+X-Google-Smtp-Source: AMrXdXs4Fw2//ebJi0/xGsf6QxY+j4Nw3up0fzIqYtAx0Q1bZZ++ipUDDPSbjkhdGZf1tWc4CiYW9w==
+X-Received: by 2002:a17:906:7255:b0:86e:2051:a514 with SMTP id n21-20020a170906725500b0086e2051a514mr1257362ejk.5.1673814034198;
+        Sun, 15 Jan 2023 12:20:34 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id p21-20020a056402045500b0048aff8b5b70sm10601967edw.67.2023.01.15.12.20.19
+        by smtp.gmail.com with ESMTPSA id 14-20020a170906308e00b0084d3acda5fasm9475529ejv.189.2023.01.15.12.20.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jan 2023 12:20:19 -0800 (PST)
-Date: Sun, 15 Jan 2023 21:20:18 +0100
+        Sun, 15 Jan 2023 12:20:33 -0800 (PST)
+Date: Sun, 15 Jan 2023 21:20:32 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/10] staging: rtl8192e: Rename rateCountDi.., ContinueDif..
- and TxCounter
-Message-ID: <c1e168e60a987ae64b64490c04ad79fd0f2f7583.1673812849.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 05/10] staging: rtl8192e: Rename bResetInPro.., framesyncMo..
+ and nCur40MhzPri..
+Message-ID: <dc9a6353e2342f524d8cbf0de6a6340990dc913b.1673812849.git.philipp.g.hortmann@gmail.com>
 References: <cover.1673812849.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,132 +55,191 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1673812849.git.philipp.g.hortmann@gmail.com>
 
-Rename variable rateCountDiffRecord to rate_count_diff_rec,
-ContinueDiffCount to continue_diff_count and TxCounter to tx_counter to
-avoid CamelCase which is not accepted by checkpatch.
+Rename variable bResetInProgress to reset_in_progress, framesyncMonitor to
+frame_sync_monitor and nCur40MhzPrimeSC to n_cur_40mhz_prime_sc to avoid
+CamelCase which is not accepted by checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  4 +--
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  6 ++---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 26 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  2 +-
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 10 +++++-----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 10 +++++-----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h   |  6 +++---
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 10 +++++-----
+ 5 files changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index ebf1fa5ec295..1f0c53dcbb2d 100644
+index 1f0c53dcbb2d..734a097ee268 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -2154,10 +2154,10 @@ bool rtl92e_is_tx_stuck(struct net_device *dev)
- 	bool	bStuck = false;
- 	u16	RegTxCounter = rtl92e_readw(dev, 0x128);
+@@ -1074,7 +1074,7 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
+ 			pTxFwInfo->TxSubCarrier = 0;
+ 		} else {
+ 			pTxFwInfo->TxBandwidth = 0;
+-			pTxFwInfo->TxSubCarrier = priv->nCur40MhzPrimeSC;
++			pTxFwInfo->TxSubCarrier = priv->n_cur_40mhz_prime_sc;
+ 		}
+ 	} else {
+ 		pTxFwInfo->TxBandwidth = 0;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+index a0233281ad94..59b2e8385ef7 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+@@ -1156,9 +1156,9 @@ static void _rtl92e_set_bw_mode_work_item(struct net_device *dev)
+ 		}
  
--	if (priv->TxCounter == RegTxCounter)
-+	if (priv->tx_counter == RegTxCounter)
- 		bStuck = true;
+ 		rtl92e_set_bb_reg(dev, rCCK0_System, bCCKSideBand,
+-				  (priv->nCur40MhzPrimeSC>>1));
++				  (priv->n_cur_40mhz_prime_sc>>1));
+ 		rtl92e_set_bb_reg(dev, rOFDM1_LSTF, 0xC00,
+-				  priv->nCur40MhzPrimeSC);
++				  priv->n_cur_40mhz_prime_sc);
  
--	priv->TxCounter = RegTxCounter;
-+	priv->tx_counter = RegTxCounter;
+ 		rtl92e_set_bb_reg(dev, rFPGA0_AnalogParameter1, 0x00100000, 0);
+ 		break;
+@@ -1208,11 +1208,11 @@ void rtl92e_set_bw_mode(struct net_device *dev, enum ht_channel_width bandwidth,
+ 	priv->CurrentChannelBW = bandwidth;
  
- 	return bStuck;
+ 	if (Offset == HT_EXTCHNL_OFFSET_LOWER)
+-		priv->nCur40MhzPrimeSC = HAL_PRIME_CHNL_OFFSET_UPPER;
++		priv->n_cur_40mhz_prime_sc = HAL_PRIME_CHNL_OFFSET_UPPER;
+ 	else if (Offset == HT_EXTCHNL_OFFSET_UPPER)
+-		priv->nCur40MhzPrimeSC = HAL_PRIME_CHNL_OFFSET_LOWER;
++		priv->n_cur_40mhz_prime_sc = HAL_PRIME_CHNL_OFFSET_LOWER;
+ 	else
+-		priv->nCur40MhzPrimeSC = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
++		priv->n_cur_40mhz_prime_sc = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
+ 
+ 	_rtl92e_set_bw_mode_work_item(dev);
+ 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 050f0435ab6d..8e1180b75d38 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -1138,7 +1138,7 @@ static void _rtl92e_if_silent_reset(struct net_device *dev)
+ 			goto END;
+ 		}
+ 		priv->rf_change_in_progress = true;
+-		priv->bResetInProgress = true;
++		priv->reset_in_progress = true;
+ 		spin_unlock_irqrestore(&priv->rf_ps_lock, flag);
+ 
+ RESET_START:
+@@ -1229,7 +1229,7 @@ static void _rtl92e_if_silent_reset(struct net_device *dev)
+ END:
+ 		priv->rst_progress = RESET_TYPE_NORESET;
+ 		priv->reset_count++;
+-		priv->bResetInProgress = false;
++		priv->reset_in_progress = false;
+ 
+ 		rtl92e_writeb(dev, UFWP, 1);
+ 	}
+@@ -1397,7 +1397,7 @@ static void _rtl92e_watchdog_wq_cb(void *data)
+ 	if ((priv->force_reset || ResetType == RESET_TYPE_SILENT))
+ 		_rtl92e_if_silent_reset(dev);
+ 	priv->force_reset = false;
+-	priv->bResetInProgress = false;
++	priv->reset_in_progress = false;
  }
+ 
+ static void _rtl92e_watchdog_timer_cb(struct timer_list *t)
+@@ -1486,7 +1486,7 @@ static void _rtl92e_hard_data_xmit(struct sk_buff *skb, struct net_device *dev,
+ 	u8 queue_index = tcb_desc->queue_index;
+ 
+ 	if ((priv->rtllib->rf_power_state == rf_off) || !priv->up ||
+-	     priv->bResetInProgress) {
++	     priv->reset_in_progress) {
+ 		kfree_skb(skb);
+ 		return;
+ 	}
+@@ -1519,7 +1519,7 @@ static int _rtl92e_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 
+ 	if (queue_index != TXCMD_QUEUE) {
+ 		if ((priv->rtllib->rf_power_state == rf_off) ||
+-		     !priv->up || priv->bResetInProgress) {
++		     !priv->up || priv->reset_in_progress) {
+ 			kfree_skb(skb);
+ 			return 0;
+ 		}
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index af377f7c7f7b..be87bb9da6cc 100644
+index be87bb9da6cc..ed9ddb2f987b 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -510,8 +510,8 @@ struct r8192_priv {
+@@ -442,7 +442,7 @@ struct r8192_priv {
+ 	u8 SwChnlStep;
+ 	u8 SetBWModeInProgress;
  
- 	bool		bfsync_processing;
- 	u32		rate_record;
--	u32		rateCountDiffRecord;
--	u32		ContinueDiffCount;
-+	u32		rate_count_diff_rec;
-+	u32		continue_diff_count;
+-	u8 nCur40MhzPrimeSC;
++	u8 n_cur_40mhz_prime_sc;
+ 
+ 	u32 rf_reg_0value[4];
+ 	u8 num_total_rf_path;
+@@ -515,14 +515,14 @@ struct r8192_priv {
  	bool		bswitch_fsync;
  	u8		framesync;
  	u32		framesyncC34;
-@@ -520,7 +520,7 @@ struct r8192_priv {
+-	u8		framesyncMonitor;
++	u8		frame_sync_monitor;
+ 
  	u32		reset_count;
  
  	enum reset_type rst_progress;
--	u16		TxCounter;
-+	u16		tx_counter;
+ 	u16		tx_counter;
  	u16		rx_ctr;
- 	bool		bResetInProgress;
+-	bool		bResetInProgress;
++	bool		reset_in_progress;
  	bool		force_reset;
+ 	bool		force_lps;
+ 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 9789cdd8ac15..2a570c28e694 100644
+index 2a570c28e694..0e278b872470 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -2008,31 +2008,31 @@ static void _rtl92e_dm_fsync_timer_callback(struct timer_list *t)
- 					  priv->rate_record;
- 		else
- 			rate_count_diff = rate_count - priv->rate_record;
--		if (rate_count_diff < priv->rateCountDiffRecord) {
-+		if (rate_count_diff < priv->rate_count_diff_rec) {
+@@ -640,7 +640,7 @@ static void _rtl92e_dm_tx_power_tracking_callback_tssi(struct net_device *dev)
+ 			if (Pwr_Flag == 0) {
+ 				mdelay(1);
  
--			u32 DiffNum = priv->rateCountDiffRecord -
-+			u32 DiffNum = priv->rate_count_diff_rec -
- 				      rate_count_diff;
- 			if (DiffNum >=
- 			    priv->rtllib->fsync_seconddiff_ratethreshold)
--				priv->ContinueDiffCount++;
-+				priv->continue_diff_count++;
- 			else
--				priv->ContinueDiffCount = 0;
-+				priv->continue_diff_count = 0;
+-				if (priv->bResetInProgress) {
++				if (priv->reset_in_progress) {
+ 					rtl92e_writeb(dev, Pw_Track_Flag, 0);
+ 					rtl92e_writeb(dev, FW_Busy_Flag, 0);
+ 					return;
+@@ -1969,7 +1969,7 @@ static void _rtl92e_dm_init_fsync(struct net_device *dev)
+ 	priv->rtllib->fsync_firstdiff_ratethreshold = 100;
+ 	priv->rtllib->fsync_seconddiff_ratethreshold = 200;
+ 	priv->rtllib->fsync_state = Default_Fsync;
+-	priv->framesyncMonitor = 1;
++	priv->frame_sync_monitor = 1;
  
--			if (priv->ContinueDiffCount >= 2) {
-+			if (priv->continue_diff_count >= 2) {
- 				bSwitchFromCountDiff = true;
--				priv->ContinueDiffCount = 0;
-+				priv->continue_diff_count = 0;
+ 	timer_setup(&priv->fsync_timer, _rtl92e_dm_fsync_timer_callback, 0);
+ }
+@@ -2196,7 +2196,7 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
+ 
  			}
- 		} else {
--			priv->ContinueDiffCount = 0;
-+			priv->continue_diff_count = 0;
+ 		}
+-		if (priv->framesyncMonitor) {
++		if (priv->frame_sync_monitor) {
+ 			if (reg_c38_State != RegC38_Fsync_AP_BCM) {
+ 				rtl92e_writeb(dev, rOFDM0_RxDetector3, 0x95);
+ 
+@@ -2218,7 +2218,7 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
+ 			break;
  		}
  
- 		if (rate_count_diff <=
- 		    priv->rtllib->fsync_firstdiff_ratethreshold) {
- 			bSwitchFromCountDiff = true;
--			priv->ContinueDiffCount = 0;
-+			priv->continue_diff_count = 0;
+-		if (priv->framesyncMonitor) {
++		if (priv->frame_sync_monitor) {
+ 			if (priv->rtllib->state == RTLLIB_LINKED) {
+ 				if (priv->undecorated_smoothed_pwdb <=
+ 				    RegC38_TH) {
+@@ -2249,7 +2249,7 @@ static void _rtl92e_dm_check_fsync(struct net_device *dev)
+ 			}
  		}
- 		priv->rate_record = rate_count;
--		priv->rateCountDiffRecord = rate_count_diff;
-+		priv->rate_count_diff_rec = rate_count_diff;
- 		if (priv->undecorated_smoothed_pwdb >
- 		    priv->rtllib->fsync_rssi_threshold &&
- 		    bSwitchFromCountDiff) {
-@@ -2073,7 +2073,7 @@ static void _rtl92e_dm_fsync_timer_callback(struct timer_list *t)
- 			rtl92e_writeb(dev, 0xC36, 0x5c);
- 			rtl92e_writeb(dev, 0xC3e, 0x96);
- 		}
--		priv->ContinueDiffCount = 0;
-+		priv->continue_diff_count = 0;
- 		rtl92e_writel(dev, rOFDM0_RxDetector2, 0x465c52cd);
  	}
- }
-@@ -2114,7 +2114,7 @@ static void _rtl92e_dm_end_sw_fsync(struct net_device *dev)
- 		rtl92e_writeb(dev, 0xC3e, 0x96);
- 	}
- 
--	priv->ContinueDiffCount = 0;
-+	priv->continue_diff_count = 0;
- 	rtl92e_writel(dev, rOFDM0_RxDetector2, 0x465c52cd);
- }
- 
-@@ -2125,8 +2125,8 @@ static void _rtl92e_dm_start_sw_fsync(struct net_device *dev)
- 	u32 rate_bitmap;
- 
- 	priv->rate_record = 0;
--	priv->ContinueDiffCount = 0;
--	priv->rateCountDiffRecord = 0;
-+	priv->continue_diff_count = 0;
-+	priv->rate_count_diff_rec = 0;
- 	priv->bswitch_fsync  = false;
- 
- 	if (priv->rtllib->mode == WIRELESS_MODE_N_24G) {
+-	if (priv->framesyncMonitor) {
++	if (priv->frame_sync_monitor) {
+ 		if (priv->reset_count != reset_cnt) {
+ 			rtl92e_writeb(dev, rOFDM0_RxDetector3,
+ 				       priv->framesync);
 -- 
 2.39.0
 
