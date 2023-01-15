@@ -1,162 +1,134 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEDDAD4A
-	for <linux-staging@lists.linux.dev>; Fri, 13 Jan 2023 17:38:18 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id v6so1568050ilq.3
-        for <linux-staging@lists.linux.dev>; Fri, 13 Jan 2023 09:38:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=T3QluTetdV+YgtL4mtxWKL/SoftBWLzWOCc5IlGFomY=;
-        b=S2WWyz9Tl1cu1ltyVU8RkUqPuupNm4osGOLugKoh1pfUm8qbQiyW9cIzOGPDwtMsYi
-         Omhq1/WrD5UwtFagU7QdVLcfTifswqCcIZSWIGXei253yC9C7o1Cixnpc1JOb969FrL5
-         L4KLBIY1g8B4wc7bPpReUjIU3l+AHN2N57wQBw2lzM43vUGosp0+iG519G5x+jioRSw+
-         x68GPCaULSNXWRTKMZ0VvxY3hFbIbuxraGYdIdwJPK2EPLA6pT8iUCUlrbj5YQurX2y4
-         bDuuklxpUnb/YE74i+xNdXXIy6enVqBVaspZa91pLYn4Y/pzFoDnb5uQA/j4XHuqsY/h
-         ls+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=T3QluTetdV+YgtL4mtxWKL/SoftBWLzWOCc5IlGFomY=;
-        b=epn/SkYB2MFcir62wP2ShVwlPd6dRgcrYAme/1LWfwcfIv0Gtc+wlXnqgT1JyxjF47
-         7fpBWR9f1gm8DcVHEA9VElWre0LSomKlcvHmlzr6Q5XaI+9FK4tcOctuFjK0V5cth7BE
-         NU3Kz2oWU+htVCHhhCGEovw0Y1B6n0oVhKIzx38redSBewiCXdfKPTXN0DVLXs0dCqHi
-         6imPdA2Rbei0jJ4X/cSlbqldhi8WTQ5Cv4hOvgrYO3ruHdg80eMtCZvP8xo/aw/JgMqQ
-         60wMI/JQi5ENWpiBDNfSt+G2v+jeNtpEid5LLFuaFPYlqFsT4uK7l/pAJEQq7FA/cUOO
-         Ixhg==
-X-Gm-Message-State: AFqh2kpwI+sS3LQST0QwCJCpj4a/kOBOkwrJo7eZ9VP+90hzpn238WGW
-	10M1tscaPN1sbkbEZ/+2ivs=
-X-Google-Smtp-Source: AMrXdXusUYDmBIZELTgRhWfwRSSOBAsKBIZ5vKDiVVoFs1b0YwGVf9LbIlZjJfTZ3sBeSk/G4fns8A==
-X-Received: by 2002:a92:de41:0:b0:30d:71a3:a90c with SMTP id e1-20020a92de41000000b0030d71a3a90cmr24537581ilr.32.1673631497584;
-        Fri, 13 Jan 2023 09:38:17 -0800 (PST)
-Received: from [192.168.1.119] ([216.130.59.33])
-        by smtp.gmail.com with ESMTPSA id a91-20020a029464000000b0039ea2dfebb3sm2681620jai.24.2023.01.13.09.38.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Jan 2023 09:38:17 -0800 (PST)
-Sender: Larry Finger <larry.finger@gmail.com>
-Content-Type: multipart/mixed; boundary="------------j7wlTKu34WgdGftaGdn2Aheg"
-Message-ID: <d4727587-6a8f-15ce-fa3e-683e104d487a@lwfinger.net>
-Date: Fri, 13 Jan 2023 11:38:16 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A367EC3
+	for <linux-staging@lists.linux.dev>; Sun, 15 Jan 2023 08:28:14 +0000 (UTC)
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30F8C3as002061;
+	Sun, 15 Jan 2023 08:28:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : mime-version : content-type; s=pp1;
+ bh=D2AuUBEnQvG+uMrw55zRl5b7IpGA9aBKm/wWWWr7Chg=;
+ b=MvfXMkwz++GPjKffTDRxnq1L/COrMkDkziP6V1QEs90Wjx6Enuo55VfvhmCETbvIR9oY
+ zyZ30Bd0+rMGWN42F3Z3AO3CG6yVEXKU/0vE+GxZuYNrOJyIo3WJr0JtrNfwWCmuQet1
+ p5IL61K5JUpSzoAd9l+3PivtvVhdtAiC1qypTjePipGiQ7ilWFJfDQ6Rw9aoW/WPIY5L
+ 2JCkr8DWhd0dTdXGryDc7PDOGJzxoetuyk4QnFEzBPlNSyP0kIV5cEwX0Muja55LpxQK
+ DkAzVh6csAKEXqzonAMOzdbXAMR9pHLhpHiX1mZ03V7kJeaO4ynR1X3xsvvKJ6TFl2UN Ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n4ds006wu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 15 Jan 2023 08:28:07 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30F8C3g2002073;
+	Sun, 15 Jan 2023 08:28:06 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n4ds006wc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 15 Jan 2023 08:28:06 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+	by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30F1dqPA004659;
+	Sun, 15 Jan 2023 08:28:04 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16h53u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 15 Jan 2023 08:28:04 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30F8S2Lg52756778
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 15 Jan 2023 08:28:02 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E5C5220049;
+	Sun, 15 Jan 2023 08:28:01 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8917020043;
+	Sun, 15 Jan 2023 08:28:00 +0000 (GMT)
+Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.70.252])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Sun, 15 Jan 2023 08:28:00 +0000 (GMT)
+Date: Sun, 15 Jan 2023 13:57:56 +0530
+From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+To: Martyn Welch <martyn@welchs.me.uk>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH v2 RESEND] staging: vme_user: Replace the "<<" with BIT macro
+Message-ID: <Y8O5DN9ehby8K487@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] staging: r8188eu: Used u16 instead of __le16 in
- rtl8188e_set_FwMediaStatus_cmd()
-Content-Language: en-US
-To: Gaurav Pathak <gauravpathak129@gmail.com>, paskripkin@gmail.com
-Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev
-References: <20230110135058.21364-1-gauravpathak129@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <20230110135058.21364-1-gauravpathak129@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IdJMrimkO2XEp34vioptTnP0S2M6QMdY
+X-Proofpoint-ORIG-GUID: 6fuzWXXMQoGD3wtUoa_FTSukWRUQlHqG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-15_05,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1011
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301150060
 
-This is a multi-part message in MIME format.
---------------j7wlTKu34WgdGftaGdn2Aheg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Replace the "<<" operator with BIT macro, in accordance to the
+checkpatch.pl script and Linux kernel coding-style guidelines.
 
-On 1/10/23 07:50, Gaurav Pathak wrote:
-> - Changed 2nd argument from __le16 to u16 to fix sparse warning
->    "warning: incorrect type in argument 2 (different base types)"
-> - Removed le16_to_cpu() in staging/r8188eu/hal/rtl8188e_cmd.c
+Signed-off-by: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+---
+Changes in v2:
+	- Replace the previously used "<<" operator with BIT macro
+ drivers/staging/vme_user/vme.h | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-The first change was correct; however the second was wrong. The 
-FillH2CCmd_88E(adapt() call sends information from the host to the computer on 
-the card, which must be little endian, but the argument to the routine is in CPU 
-order. See the commit message in the attached patch.
+diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
+index 98da8d039d60..faa9816046a9 100644
+--- a/drivers/staging/vme_user/vme.h
++++ b/drivers/staging/vme_user/vme.h
+@@ -2,6 +2,8 @@
+ #ifndef _VME_H_
+ #define _VME_H_
+ 
++#include <linux/bitops.h>
++
+ /* Resource Type */
+ enum vme_resource_type {
+ 	VME_MASTER,
+@@ -54,20 +56,20 @@ enum vme_resource_type {
+ #define VME_R_ROBIN_MODE	0x1
+ #define VME_PRIORITY_MODE	0x2
+ 
+-#define VME_DMA_PATTERN			(1<<0)
+-#define VME_DMA_PCI			(1<<1)
+-#define VME_DMA_VME			(1<<2)
++#define VME_DMA_PATTERN		BIT(0)
++#define VME_DMA_PCI			BIT(1)
++#define VME_DMA_VME			BIT(2)
+ 
+-#define VME_DMA_PATTERN_BYTE		(1<<0)
+-#define VME_DMA_PATTERN_WORD		(1<<1)
+-#define VME_DMA_PATTERN_INCREMENT	(1<<2)
++#define VME_DMA_PATTERN_BYTE		BIT(0)
++#define VME_DMA_PATTERN_WORD		BIT(1)
++#define VME_DMA_PATTERN_INCREMENT	BIT(2)
+ 
+-#define VME_DMA_VME_TO_MEM		(1<<0)
+-#define VME_DMA_MEM_TO_VME		(1<<1)
+-#define VME_DMA_VME_TO_VME		(1<<2)
+-#define VME_DMA_MEM_TO_MEM		(1<<3)
+-#define VME_DMA_PATTERN_TO_VME		(1<<4)
+-#define VME_DMA_PATTERN_TO_MEM		(1<<5)
++#define VME_DMA_VME_TO_MEM		BIT(0)
++#define VME_DMA_MEM_TO_VME		BIT(1)
++#define VME_DMA_VME_TO_VME		BIT(2)
++#define VME_DMA_MEM_TO_MEM		BIT(3)
++#define VME_DMA_PATTERN_TO_VME		BIT(4)
++#define VME_DMA_PATTERN_TO_MEM		BIT(5)
+ 
+ struct vme_dma_attr {
+ 	u32 type;
+-- 
+2.31.1
 
-I have no interest in submitting that patch upstream, but you might find it an 
-interesting read when you prepare V2 of this patch. Of particular note is that 
-even though the semantics were wrong, the previous code worked correctly because 
-cpu_to_le16() and le16_to_cpu() both byte swap a 16-bit word and their results 
-are the same.
-
-Larry
-
---------------j7wlTKu34WgdGftaGdn2Aheg
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-staging-r8188eu-Fix-some-endian-problems.patch"
-Content-Disposition: attachment;
- filename="0001-staging-r8188eu-Fix-some-endian-problems.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSAxYWE3YjllNWU2YzAyYjQ4Y2MwZTJjNDg3YjliNzkxMjk5OTIxYWYzIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBMYXJyeSBGaW5nZXIgPExhcnJ5LkZpbmdlckBsd2Zp
-bmdlci5uZXQ+CkRhdGU6IFRodSwgMTIgSmFuIDIwMjMgMjE6Mzg6MTMgLTA2MDAKU3ViamVj
-dDogW1BBVENIXSBzdGFnaW5nOiByODE4OGV1OiBGaXggc29tZSBlbmRpYW4gcHJvYmxlbXMK
-VG86IGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnCkNjOiBwaGlsQHBoaWxwb3R0ZXIuY28u
-dWsKClNwYXJzZSBsaXN0cyB0aGUgZm9sbG93aW5nIHdhcm5pbmdzOgoKICBDSEVDSyAgIGRy
-aXZlcnMvc3RhZ2luZy9yODE4OGV1L2NvcmUvcnR3X21sbWUuYwpkcml2ZXJzL3N0YWdpbmcv
-cjgxODhldS9jb3JlL3J0d19tbG1lLmM6MTE5Nzo0OTogd2FybmluZzogaW5jb3JyZWN0IHR5
-cGUgaW4KCQkJCQkgYXJndW1lbnQgMiAoZGlmZmVyZW50IGJhc2UgdHlwZXMpCmRyaXZlcnMv
-c3RhZ2luZy9yODE4OGV1L2NvcmUvcnR3X21sbWUuYzoxMTk3OjQ5OiAgICBleHBlY3RlZCBy
-ZXN0cmljdGVkCgkJCQkJIF9fbGUxNiBbdXNlcnR5cGVdIG1zdGF0dXNfcnB0CmRyaXZlcnMv
-c3RhZ2luZy9yODE4OGV1L2NvcmUvcnR3X21sbWUuYzoxMTk3OjQ5OiAgICBnb3QgdW5zaWdu
-ZWQgc2hvcnQKCQkJCQkgW2Fzc2lnbmVkXSBbdXNlcnR5cGVdIG1lZGlhX3N0YXR1c19ycHQK
-ZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfbWxtZS5jOjEyNzU6NTc6IHdhcm5p
-bmc6IGluY29ycmVjdCB0eXBlIGluCgkJCQkJIGFyZ3VtZW50IDIgKGRpZmZlcmVudCBiYXNl
-IHR5cGVzKQpkcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19tbG1lLmM6MTI3NTo1
-NzogICAgZXhwZWN0ZWQgcmVzdHJpY3RlZAoJCQkJCSBfX2xlMTYgW3VzZXJ0eXBlXSBtc3Rh
-dHVzX3JwdApkcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19tbG1lLmM6MTI3NTo1
-NzogICAgZ290IHVuc2lnbmVkIHNob3J0CgkJCQkJIFthc3NpZ25lZF0gW3VzZXJ0eXBlXSBt
-ZWRpYV9zdGF0dXMKICBDSEVDSyAgIGRyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2NvcmUvcnR3
-X21sbWVfZXh0LmMKZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfbWxtZV9leHQu
-Yzo2ODQyOjU4OiB3YXJuaW5nOiBpbmNvcnJlY3QgdHlwZQoJCQkJCSBpbiBhcmd1bWVudCAy
-IChkaWZmZXJlbnQgYmFzZSB0eXBlcykKZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9y
-dHdfbWxtZV9leHQuYzo2ODQyOjU4OiAgICBleHBlY3RlZCByZXN0cmljdGVkCgkJCQkJIF9f
-bGUxNiBbdXNlcnR5cGVdIG1zdGF0dXNfcnB0CmRyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2Nv
-cmUvcnR3X21sbWVfZXh0LmM6Njg0Mjo1ODogICAgZ290IHVuc2lnbmVkIHNob3J0CgkJCQkJ
-IFthc3NpZ25lZF0gW3VzZXJ0eXBlXSBtZWRpYV9zdGF0dXMKClRoZSBzZWNvbmQgYXJndW1l
-bnQgb2YgcnRsODE4OGVfc2V0X0Z3TWVkaWFTdGF0dXNfY21kKCkgbmVlZHMgdG8gYmUgaW4g
-Q1BVCm9yZGVyLCBub3QgbGl0dGxlLWVuZGlhbjsgaG93ZXZlciwgd2hlbiBpdCB1c2VzIHRo
-YXQgdmFsdWUgdG8gY2FsbApGaWxsSDJDQ21kXzg4RSgpIHRoZSBwYXJhbWV0ZXIgbXVzdCBi
-ZSBpbiBsaXR0bGUtZW5kaWFuIG9yZGVyIGFzIHRoYXQKdmFsdWUgd2lsbCBiZSBzZW50IHRv
-IHRoZSBmaXJtd2FyZS4gTm90ZSB0aGF0IHRoZSBjb252ZXJzaW9uIGZyb20gTEUgdG8gQ1BV
-Cm9yZGVyIHdhcyBsZTE2X3RvX2NwdSgpIHJhdGhlciB0aGFuIHRoZSBjb3JyZWN0IGNwdV90
-b19sZTE2LgoKVGhlIGRlZmluaXRpb24gb2YgRmlsbEgyQ0NtZF84OEUoKSBpcyByZXZpc2Vk
-LCBhbmQgdGhlIHByb3BlciBjb252ZXJzaW9uCnJvdXRpbmUgaXMgdXNlZC4KCk5vdGUgdGhh
-dCB0aGUgb3JpZ2luYWwgY29kZSBwZXJmb3JtZWQgb25lIGJ5dGUgc3dhcCBvbiB0aGUgc2Vj
-b25nIGFyZ3VtZW50Cm9mIEZpbGxIMkNDbWRfODhFKCksIGFuZCBnb3QgdGhlIGNvcnJlY3Qg
-YW5zd2VyIGV2ZW4gdGhvdWdoIHRoZSBzZW1hbnRpY3MKd2VyZSB2ZXJ5IHdyb25nLgoKU2ln
-bmVkLW9mZi1ieTogTGFycnkgRmluZ2VyIDxMYXJyeS5GaW5nZXJAbHdmaW5nZXIubmV0Pgot
-LS0KIGRyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2hhbC9ydGw4MTg4ZV9jbWQuYyAgICAgfCA0
-ICsrLS0KIGRyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2luY2x1ZGUvcnRsODE4OGVfY21kLmgg
-fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMo
-LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9oYWwvcnRsODE4OGVf
-Y21kLmMgYi9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9oYWwvcnRsODE4OGVfY21kLmMKaW5k
-ZXggODMxMGQ3ZjUzOTgyLi43ODg5MDRkNDY1NWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvc3Rh
-Z2luZy9yODE4OGV1L2hhbC9ydGw4MTg4ZV9jbWQuYworKysgYi9kcml2ZXJzL3N0YWdpbmcv
-cjgxODhldS9oYWwvcnRsODE4OGVfY21kLmMKQEAgLTE5Myw5ICsxOTMsOSBAQCB2b2lkIHJ0
-bDgxODhlX3NldF9Gd1B3ck1vZGVfY21kKHN0cnVjdCBhZGFwdGVyICphZGFwdCwgdTggTW9k
-ZSkKIAogfQogCi12b2lkIHJ0bDgxODhlX3NldF9Gd01lZGlhU3RhdHVzX2NtZChzdHJ1Y3Qg
-YWRhcHRlciAqYWRhcHQsIF9fbGUxNiBtc3RhdHVzX3JwdCkKK3ZvaWQgcnRsODE4OGVfc2V0
-X0Z3TWVkaWFTdGF0dXNfY21kKHN0cnVjdCBhZGFwdGVyICphZGFwdCwgdTE2IG1zdGF0dXNf
-cnB0KQogewotCXUxNiBtc3RfcnB0ID0gbGUxNl90b19jcHUobXN0YXR1c19ycHQpOworCV9f
-bGUxNiBtc3RfcnB0ID0gY3B1X3RvX2xlMTYobXN0YXR1c19ycHQpOwogCiAJRmlsbEgyQ0Nt
-ZF84OEUoYWRhcHQsIEgyQ19DT01fTUVESUFfU1RBVFVTX1JQVCwgc2l6ZW9mKG1zdF9ycHQp
-LCAodTggKikmbXN0X3JwdCk7CiB9CmRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvcjgx
-ODhldS9pbmNsdWRlL3J0bDgxODhlX2NtZC5oIGIvZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUv
-aW5jbHVkZS9ydGw4MTg4ZV9jbWQuaAppbmRleCAxZTAxYzE2NjJmOWEuLmM3ODVjZjhlZDY4
-MyAxMDA2NDQKLS0tIGEvZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvaW5jbHVkZS9ydGw4MTg4
-ZV9jbWQuaAorKysgYi9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9pbmNsdWRlL3J0bDgxODhl
-X2NtZC5oCkBAIC04NSw2ICs4NSw2IEBAIHZvaWQgcnRsODE4OGVfQWRkX1JhdGVBVGlkKHN0
-cnVjdCBhZGFwdGVyICpwYWRhcHRlciwgdTMyIGJpdG1hcCwgdTggYXJnLAogdm9pZCBydGw4
-MTg4ZV9zZXRfcDJwX3BzX29mZmxvYWRfY21kKHN0cnVjdCBhZGFwdGVyICphZGFwdCwgdTgg
-cDJwX3BzX3N0YXRlKTsKIAogdm9pZCBDaGVja0Z3UnN2ZFBhZ2VDb250ZW50KHN0cnVjdCBh
-ZGFwdGVyICphZGFwdCk7Ci12b2lkIHJ0bDgxODhlX3NldF9Gd01lZGlhU3RhdHVzX2NtZChz
-dHJ1Y3QgYWRhcHRlciAqYWRhcHQsIF9fbGUxNiBtc3RhdHVzX3JwdCk7Cit2b2lkIHJ0bDgx
-ODhlX3NldF9Gd01lZGlhU3RhdHVzX2NtZChzdHJ1Y3QgYWRhcHRlciAqYWRhcHQsIHUxNiBt
-c3RhdHVzX3JwdCk7CiAKICNlbmRpZi8qIF9fUlRMODE4OEVfQ01EX0hfXyAqLwotLSAKMi4z
-OS4wCgo=
-
---------------j7wlTKu34WgdGftaGdn2Aheg--
