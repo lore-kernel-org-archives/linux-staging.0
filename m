@@ -1,58 +1,48 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A367EC3
-	for <linux-staging@lists.linux.dev>; Sun, 15 Jan 2023 08:28:14 +0000 (UTC)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30F8C3as002061;
-	Sun, 15 Jan 2023 08:28:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : mime-version : content-type; s=pp1;
- bh=D2AuUBEnQvG+uMrw55zRl5b7IpGA9aBKm/wWWWr7Chg=;
- b=MvfXMkwz++GPjKffTDRxnq1L/COrMkDkziP6V1QEs90Wjx6Enuo55VfvhmCETbvIR9oY
- zyZ30Bd0+rMGWN42F3Z3AO3CG6yVEXKU/0vE+GxZuYNrOJyIo3WJr0JtrNfwWCmuQet1
- p5IL61K5JUpSzoAd9l+3PivtvVhdtAiC1qypTjePipGiQ7ilWFJfDQ6Rw9aoW/WPIY5L
- 2JCkr8DWhd0dTdXGryDc7PDOGJzxoetuyk4QnFEzBPlNSyP0kIV5cEwX0Muja55LpxQK
- DkAzVh6csAKEXqzonAMOzdbXAMR9pHLhpHiX1mZ03V7kJeaO4ynR1X3xsvvKJ6TFl2UN Ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n4ds006wu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 15 Jan 2023 08:28:07 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30F8C3g2002073;
-	Sun, 15 Jan 2023 08:28:06 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n4ds006wc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 15 Jan 2023 08:28:06 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-	by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30F1dqPA004659;
-	Sun, 15 Jan 2023 08:28:04 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16h53u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 15 Jan 2023 08:28:04 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30F8S2Lg52756778
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 15 Jan 2023 08:28:02 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E5C5220049;
-	Sun, 15 Jan 2023 08:28:01 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8917020043;
-	Sun, 15 Jan 2023 08:28:00 +0000 (GMT)
-Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.70.252])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Sun, 15 Jan 2023 08:28:00 +0000 (GMT)
-Date: Sun, 15 Jan 2023 13:57:56 +0530
-From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
-To: Martyn Welch <martyn@welchs.me.uk>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v2 RESEND] staging: vme_user: Replace the "<<" with BIT macro
-Message-ID: <Y8O5DN9ehby8K487@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9EE46B5
+	for <linux-staging@lists.linux.dev>; Sun, 15 Jan 2023 20:19:18 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id qx13so5328900ejb.13
+        for <linux-staging@lists.linux.dev>; Sun, 15 Jan 2023 12:19:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x4G80CZkEtDJ5S8nHN2azZRr/qBNRSSzTfZc/Vq/ilM=;
+        b=iuJpBybHuMlWTqaA2THUY8UH5zLu5bYXFfK+MLnSqBqQD3FXmHnRU4KYn5oryl75iA
+         i/YpfDS2JFjOtTZQEjKK6IlZxrPtdnshy7X+gUfy7r1erDLO7//+FyTUoKA/mrk8CVD1
+         FLx8C55Mp49mEtH5ssB7D5EZTQWB3lmzjnnh0iNQzP2A1FvrThv2Zvqtas1n8S4xwT6p
+         LW2bz9JG5v3BksIOqJxfqVsCeumGBAfZ7y5t4bVujV+5QE6IvwA2OH6juaquALx5KRkI
+         w0JbaRYVQro8QC7JlhNwdwg98z7YP5nEQMJUm4yVipBiKQm3dATpiPtI80W2rFbYgIyy
+         rt2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x4G80CZkEtDJ5S8nHN2azZRr/qBNRSSzTfZc/Vq/ilM=;
+        b=izAmEmF7srIa9UfG6MiTNJSgaRXm8gyxQboDcoxitM2pvNhbv/v9cBpEIzGsXzmIMv
+         sHEoWbBk2N0v+4kM8FdfL6r2cqG65BKJWbJVKlz3PDQY0hyQXGzVYNXwrIh8wYk4TtRl
+         B/yBJZs5wW/d4Sj1gRmYCdU7y7dAvG+5N1rIv3MmSWLRU6vgCqT8ve5RNn4cKFTBcmrx
+         ZOKeX8yNKSw2DjaQ3EZzpSUWNP17Q1coykWVpPGXkGIeVuwh4zJ001pvEaPQvp4qDcUc
+         8gBIe8WAFtZdl2B4e5lQDXZY5vCqtw8P/Uj0xrwvUMIuQgLh7kFdR5HFNcO80cqttLQ4
+         xTWA==
+X-Gm-Message-State: AFqh2kqz8ETrkRvC1eVRzAF+qYc1hX38Y6MFnSDxkLxvmhB9QkcOehF0
+	BfnSqNHgWI2DlESeE+o3hsE=
+X-Google-Smtp-Source: AMrXdXvWkZnCqKSawa+yWFdf6lcM288lPoTwtYAOjylBJu4j+yCdv+doI5wXP74gEclActakL9+xmQ==
+X-Received: by 2002:a17:906:d109:b0:870:839d:224f with SMTP id b9-20020a170906d10900b00870839d224fmr362331ejz.4.1673813956454;
+        Sun, 15 Jan 2023 12:19:16 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
+        by smtp.gmail.com with ESMTPSA id c23-20020a170906155700b007a9c3831409sm10966129ejd.137.2023.01.15.12.19.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Jan 2023 12:19:15 -0800 (PST)
+Date: Sun, 15 Jan 2023 21:19:14 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/10] staging: rtl8192e: Rename variables from r8192_priv
+ start with bDynamicTx..
+Message-ID: <cover.1673812849.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,74 +51,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IdJMrimkO2XEp34vioptTnP0S2M6QMdY
-X-Proofpoint-ORIG-GUID: 6fuzWXXMQoGD3wtUoa_FTSukWRUQlHqG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-15_05,2023-01-13_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- phishscore=0 bulkscore=0 spamscore=0 malwarescore=0 impostorscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1011
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301150060
 
-Replace the "<<" operator with BIT macro, in accordance to the
-checkpatch.pl script and Linux kernel coding-style guidelines.
+Rename variables to avoid CamelCase which is not accepted by checkpatch.
 
-Signed-off-by: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
----
-Changes in v2:
-	- Replace the previously used "<<" operator with BIT macro
- drivers/staging/vme_user/vme.h | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
-index 98da8d039d60..faa9816046a9 100644
---- a/drivers/staging/vme_user/vme.h
-+++ b/drivers/staging/vme_user/vme.h
-@@ -2,6 +2,8 @@
- #ifndef _VME_H_
- #define _VME_H_
- 
-+#include <linux/bitops.h>
-+
- /* Resource Type */
- enum vme_resource_type {
- 	VME_MASTER,
-@@ -54,20 +56,20 @@ enum vme_resource_type {
- #define VME_R_ROBIN_MODE	0x1
- #define VME_PRIORITY_MODE	0x2
- 
--#define VME_DMA_PATTERN			(1<<0)
--#define VME_DMA_PCI			(1<<1)
--#define VME_DMA_VME			(1<<2)
-+#define VME_DMA_PATTERN		BIT(0)
-+#define VME_DMA_PCI			BIT(1)
-+#define VME_DMA_VME			BIT(2)
- 
--#define VME_DMA_PATTERN_BYTE		(1<<0)
--#define VME_DMA_PATTERN_WORD		(1<<1)
--#define VME_DMA_PATTERN_INCREMENT	(1<<2)
-+#define VME_DMA_PATTERN_BYTE		BIT(0)
-+#define VME_DMA_PATTERN_WORD		BIT(1)
-+#define VME_DMA_PATTERN_INCREMENT	BIT(2)
- 
--#define VME_DMA_VME_TO_MEM		(1<<0)
--#define VME_DMA_MEM_TO_VME		(1<<1)
--#define VME_DMA_VME_TO_VME		(1<<2)
--#define VME_DMA_MEM_TO_MEM		(1<<3)
--#define VME_DMA_PATTERN_TO_VME		(1<<4)
--#define VME_DMA_PATTERN_TO_MEM		(1<<5)
-+#define VME_DMA_VME_TO_MEM		BIT(0)
-+#define VME_DMA_MEM_TO_VME		BIT(1)
-+#define VME_DMA_VME_TO_VME		BIT(2)
-+#define VME_DMA_MEM_TO_MEM		BIT(3)
-+#define VME_DMA_PATTERN_TO_VME		BIT(4)
-+#define VME_DMA_PATTERN_TO_MEM		BIT(5)
- 
- struct vme_dma_attr {
- 	u32 type;
+Philipp Hortmann (10):
+  staging: rtl8192e: Rename bDynamicTxHig.., bDynamicTxL.. and
+    bLastDTPF..
+  staging: rtl8192e: Rename bLastDTPFlag_Low, OFDM_index and CCK_index
+  staging: rtl8192e: Rename Record_CCK_2.., Record_CCK_4.. and
+    DefaultIn..
+  staging: rtl8192e: Rename rateCountDi.., ContinueDif.. and TxCounter
+  staging: rtl8192e: Rename bResetInPro.., framesyncMo.. and
+    nCur40MhzPri..
+  staging: rtl8192e: Rename SetBWModeIn.., SwChnlInPro.. and
+    ThermalMet..
+  staging: rtl8192e: Rename CrystalCap, EEPROMLegacyHTT.. and
+    EEPROMCrys..
+  staging: rtl8192e: Rename EEPROMTherma.., EEPROMAntPw.. and
+    EEPROMTxPow..
+  staging: rtl8192e: Rename EEPROMTxPower.., AutoloadF.. and
+    SilentReset..
+  staging: rtl8192e: Rename EEPROMTxPower.., AutoloadF.. and
+    SilentReset..
+
+ .../rtl8192e/rtl8192e/r8190P_rtl8256.c        |   4 +-
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |  92 +++++------
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  52 +++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  |  10 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  60 ++++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 144 +++++++++---------
+ 6 files changed, 181 insertions(+), 181 deletions(-)
+
 -- 
-2.31.1
+2.39.0
 
