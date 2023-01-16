@@ -1,27 +1,27 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7913B1363
-	for <linux-staging@lists.linux.dev>; Mon, 16 Jan 2023 07:55:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A1E1363
+	for <linux-staging@lists.linux.dev>; Mon, 16 Jan 2023 08:23:20 +0000 (UTC)
 Received: from [192.168.15.130] (unknown [194.152.46.21])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: andrzej.p)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id C55B56602D09;
-	Mon, 16 Jan 2023 07:54:58 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id D266B6602BBC;
+	Mon, 16 Jan 2023 08:23:17 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1673855699;
-	bh=VHAdl9bhBGxxREJcOK8QcHBboqqMjDLzA64zCLk2l4c=;
+	s=mail; t=1673857398;
+	bh=0oEXBLaXBkw2yiI3T0rNElgIM6GXeR/1APFK7PWIKIU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mmMzMDUxd1Uj7zkfzPCFVdPtwFr3bM70WpOweD7P6lrlWASLUg2VaWDDnlGz34TnY
-	 eP6yhnBIoYvznGtKkgMFvt/NDwMomiYL0d8Mwl3cbfKLL6u8AvVZ3RcJK7kuWYMcHx
-	 z2y12CndWrYuBga4rDfPHRd5rd1yKTOBy2VwKr6hsZb3Fd7DdLV0h4CR8O4Urzl098
-	 JhAhHEYdFxWNome5EFmx+TQWoN4fM+EuxtJDeC8m9e8bTMKeJrQO/Zz5CymOZK3XwL
-	 KPyOhyJPAX7jq0DxzzDSFDly0i7A4eRWgTQasoQO0YcfR6sBMchH/wFa1RDAb3ocp1
-	 yizjFpglTZjVw==
-Message-ID: <4cbfcbfb-4d77-83e9-f5f2-d8752d8860eb@collabora.com>
-Date: Mon, 16 Jan 2023 08:54:55 +0100
+	b=Q+wx2+LaBSyOuWoLDAuOqnRo3FT0DXhpU5z+BeOun7NQL7t5MKyLPaRPrXPahTtbV
+	 4ydtz5i9RsPiNd6DcB0TEaPfqdrMtXc3YfYRnOJh+F5JavHNarSJIVjo18WURIYu0i
+	 lSePYzJero/OMjWKuhybnqZ+hFHtzDbVVFPNywfIxa+TQ3RskXNPmmB5Eq99QM95no
+	 aWYb0qFUqqjKYTHHovbRVOHIXLn59HsnCMyKebLdWV2z59Ngq11GMQlIRl5RFWPWTx
+	 2bswoAW69vApp9Vg1FjHNFKIrpzafbLg+Fc6GK98qAAUywoJjQD3gbrNPklP/djusa
+	 00/t98Xosq+uA==
+Message-ID: <e154b22c-1cb4-dbb1-40e0-91fad130363d@collabora.com>
+Date: Mon, 16 Jan 2023 09:23:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,8 +30,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 03/12] staging: media: rkvdec: Helper for buffer queue
- busy check
+Subject: Re: [PATCH v2 04/12] staging: media: rkvdec: Block start streaming
+ until both queues run
+Content-Language: en-US
 To: Sebastian Fricke <sebastian.fricke@collabora.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -45,106 +46,64 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>
 References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
- <20230101-patch-series-v2-6-2-rc1-v2-3-fa1897efac14@collabora.com>
-Content-Language: en-US
+ <20230101-patch-series-v2-6-2-rc1-v2-4-fa1897efac14@collabora.com>
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-3-fa1897efac14@collabora.com>
+In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-4-fa1897efac14@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Hi Sebastian,
 
+Ezequiel and Dan have had some comments, they need addressing.
+
+If, as a result, the logic of this patch remains in place then:
+
 W dniu 12.01.2023 o 13:56, Sebastian Fricke pisze:
-> Implement a helper function, wrapping around getting a vb2 queue and
-> checking whether it is busy, to reduce the amount of code duplication in
-> the driver.
+> Ensure that both the CAPTURE and the OUTPUT queue are running (e.g. busy
+> -> have buffers allocated) before starting the actual streaming process.
 > 
 > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 > ---
->   drivers/staging/media/rkvdec/rkvdec.c | 21 ++++++++++++++-------
->   1 file changed, 14 insertions(+), 7 deletions(-)
+>   drivers/staging/media/rkvdec/rkvdec.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 > 
 > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 7bab7586918c..c849f6c20279 100644
+> index c849f6c20279..e0e95d06e216 100644
 > --- a/drivers/staging/media/rkvdec/rkvdec.c
 > +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -27,6 +27,17 @@
->   #include "rkvdec.h"
->   #include "rkvdec-regs.h"
+> @@ -562,6 +562,13 @@ static int rkvdec_start_streaming(struct vb2_queue *q, unsigned int count)
+>   	if (V4L2_TYPE_IS_CAPTURE(q->type))
+>   		return 0;
 >   
-> +static int rkvdec_queue_busy(struct rkvdec_ctx *ctx, enum v4l2_buf_type buf_type)
-> +{
-> +	struct vb2_queue *vq;
-> +
-> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, buf_type);
-> +	if (vb2_is_busy(vq))
-> +		return -EBUSY;
-> +	else
-> +		return 0;
+> +	/*
+> +	 * Make sure that both the output and the capture queue are running
+> +	 */
+> +	if (rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) == 0 ||
+> +	    rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) == 0)
 
-Optionally you can use the ternary operator:
+if you convert to a macro in PATCH 03/12 then the conditions can be rewritten as
 
-return vb2_is_busy(vg) ? -EBUSY : 0;
+!rkvdec_queue_busy(.....)
 
-But then this new function essentially becomes a wrapper around extracting
-the vq. The wrapper then encodes its result in the return value,
-which is later decoded at call site to only return -EBUSY if the wrapper
-returns -EBUSY and ignore the result if 0. This makes me think that
-maybe you want a macro instead:
+instead of comparing to 0. (actually, this can be done regardless, but makes 
+more sense if the result of rkvdec_queue_busy() is boolean which it is when
+it becomes a macro as suggested)
 
-#define rkvdec_queue_busy(ctx, type) \
-	vb2_is_busy(v4l2_m2m_get_vq((ctx)->fh.m2m_ctx, (type)))
+Then you can optionally follow De Morgan's law:
 
-and call it like this:
+if (!(rkvdec_queue_busy() && rkvdec_queue_busy()))
+	return -EAGAIN;
 
-if (rkvdec_queue_busy(c, t))
-	return -EBUSY;
-
-> +}
-> +
->   static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->   {
->   	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> @@ -311,13 +322,10 @@ static int rkvdec_s_capture_fmt(struct file *file, void *priv,
->   				struct v4l2_format *f)
->   {
->   	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> -	struct vb2_queue *vq;
->   	int ret;
->   
->   	/* Change not allowed if queue is busy */
-> -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> -			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> -	if (vb2_is_busy(vq))
-> +	if (rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) != 0)
-
-if you keep the current version you can drop the "!= 0"
+and you get one negation less.
 
 Regards,
 
 Andrzej
 
->   		return -EBUSY;
->   
->   	ret = rkvdec_try_capture_fmt(file, priv, f);
-> @@ -335,7 +343,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
->   	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
->   	const struct rkvdec_coded_fmt_desc *desc;
->   	struct v4l2_format *cap_fmt;
-> -	struct vb2_queue *peer_vq, *vq;
-> +	struct vb2_queue *vq;
->   	int ret;
->   
->   	/*
-> @@ -354,8 +362,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
->   	 * queue, we can't allow doing so when the CAPTURE queue has buffers
->   	 * allocated.
->   	 */
-> -	peer_vq = v4l2_m2m_get_vq(m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> -	if (vb2_is_busy(peer_vq))
-> +	if (rkvdec_queue_busy(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) != 0)
->   		return -EBUSY;
->   
->   	ret = rkvdec_try_output_fmt(file, priv, f);
+> +		return -EAGAIN;
+> +
+>   	desc = ctx->coded_fmt_desc;
+>   	if (WARN_ON(!desc))
+>   		return -EINVAL;
 > 
 
