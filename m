@@ -1,27 +1,27 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F291C06
-	for <linux-staging@lists.linux.dev>; Mon, 16 Jan 2023 10:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1631C07
+	for <linux-staging@lists.linux.dev>; Mon, 16 Jan 2023 10:42:20 +0000 (UTC)
 Received: from [192.168.0.192] (unknown [194.146.248.75])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: andrzej.p)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 80C0F6602B33;
-	Mon, 16 Jan 2023 10:27:59 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 1A84B6602B33;
+	Mon, 16 Jan 2023 10:42:18 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1673864880;
-	bh=3YLQCWLBDRjQgJbSK/lpCAaa+L3SonN+5HslDLGB3qM=;
+	s=mail; t=1673865738;
+	bh=xij3rwdRDRnxNe9fbFCug+kKCRkyGZuk5HRqHXMn734=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Mlb+R+XkZQ7rJVx4ylunSEEY3pqJ6rmMgXpP5RyVBHZHqv0+77TabesSr8ck1IIjw
-	 Ycdoh0WMX7DvIi6cM2jpTHXWPUil+ASzoLG0fAaiKaGgtuIk83T3Di8BlnjBroZ4uP
-	 Rt7JMdwlFIU+lSKYnJILJUB4RB/IQKHO9rO6f9BRCWFtNnjYkc86DyqBd86UYG8YCY
-	 +Gu7sP9H4yped3+Yn5Iwnbvl6PhIuvnxQgXt2Sx7flNuFaMQqyY4t2sfxhsCECdl5b
-	 dzEGo8sTY8gX84ZfJjxrQoL5eYLb1o7TkedgJbiTWmRXjaHBBdv/ZenHOxTPJaTVY6
-	 sbP6LWFyR7BPQ==
-Message-ID: <4d2347e4-7732-1352-5009-791362596e0b@collabora.com>
-Date: Mon, 16 Jan 2023 11:27:57 +0100
+	b=TuHE446oUwwn8hpiRvkBLfCFnRI5fZhkkArAP7gGM9Gl7YWLAkt4xWOTYx53RP9ni
+	 QrHGUTR0Bf1NRJZCjpXo5+SqPv4bU9yIOAFOm1hkZ5gtyenUlJWoFUNWbEyujnazv7
+	 c0VSl5ORgrj1QBkTyD6COgmtYLjzxQ24+FYYDxgvDjO9PF/bu5g5SbNF9MpJv1NUuQ
+	 gxUkZKoAHsYsC8wmsKSlLZw6OafJlTkQ6C/Qk4cQGS9SpDuC2LIjLwgaTxP1qHDC6G
+	 LHg6YvujLLrD8cgOaM3VHPNmI0d32tvaeUWddWSZX5f/VS9fxSjUNHhxnf0PmEd/8F
+	 y7ANx7rKh/OJg==
+Message-ID: <2835d8cb-2652-1ac5-fff1-23928c0e569c@collabora.com>
+Date: Mon, 16 Jan 2023 11:42:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,8 +30,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 07/12] staging: media: rkvdec: Add a routine to fetch
- SPS attributes as a callback
+Subject: Re: [PATCH v2 10/12] staging: media: rkvdec: Wrapper for pixel format
+ preparation
 Content-Language: en-US
 To: Sebastian Fricke <sebastian.fricke@collabora.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -46,84 +46,89 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>
 References: <20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com>
- <20230101-patch-series-v2-6-2-rc1-v2-7-fa1897efac14@collabora.com>
+ <20230101-patch-series-v2-6-2-rc1-v2-10-fa1897efac14@collabora.com>
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-7-fa1897efac14@collabora.com>
+In-Reply-To: <20230101-patch-series-v2-6-2-rc1-v2-10-fa1897efac14@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Hi Sebastian,
 
 W dniu 12.01.2023 o 13:56, Sebastian Fricke pisze:
-> Add a callback for each codec variant, that fetches basic information
-> like resolution, bit-depth and sub-sampling from a SPS structure. This
-> data is used to verify whether a new SPS structure is valid.
+> Reduce code duplication by creating a wrapper around the preparation of
+> the `v4l2_pix_format_mplane` structure and the calculation of the
+> image size.
 > 
 > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 > ---
->   drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++++++
->   drivers/staging/media/rkvdec/rkvdec.h | 10 ++++++++++
->   2 files changed, 20 insertions(+)
+>   drivers/staging/media/rkvdec/rkvdec.c | 29 +++++++++++++++--------------
+>   1 file changed, 15 insertions(+), 14 deletions(-)
 > 
 > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index a46f918926a2..e8c750a7343a 100644
+> index 8d948bcc4e46..b303c6e0286d 100644
 > --- a/drivers/staging/media/rkvdec/rkvdec.c
 > +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -52,6 +52,16 @@ static int rkvdec_get_valid_fmt(struct rkvdec_ctx *ctx)
->   	return ctx->coded_fmt_desc->decoded_fmts[0];
->   }
+> @@ -27,6 +27,17 @@
+>   #include "rkvdec.h"
+>   #include "rkvdec-regs.h"
 >   
-> +static int rkvdec_get_sps_attributes(struct rkvdec_ctx *ctx, void *sps,
-> +				     struct sps_attributes *attributes)
+> +static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
+> +				       struct v4l2_pix_format_mplane *pix_mp)
 > +{
-> +	const struct rkvdec_coded_fmt_desc *coded_desc = ctx->coded_fmt_desc;
+> +	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
+> +			    pix_mp->width, pix_mp->height);
+> +	pix_mp->plane_fmt[0].sizeimage += 128 *
+> +		DIV_ROUND_UP(pix_mp->width, 16) *
+> +		DIV_ROUND_UP(pix_mp->height, 16);
+> +	pix_mp->field = V4L2_FIELD_NONE;
+> +}
 > +
-> +	if (coded_desc->ops->get_sps_attributes)
-> +		return coded_desc->ops->get_sps_attributes(ctx, sps, attributes);
-> +	return 0;
+>   static int rkvdec_queue_busy(struct rkvdec_ctx *ctx, enum v4l2_buf_type buf_type)
+>   {
+>   	struct vb2_queue *vq;
+> @@ -248,13 +259,9 @@ static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
+>   
+>   	rkvdec_reset_fmt(ctx, f, valid_fmt);
+>   	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> -	v4l2_fill_pixfmt_mp(&f->fmt.pix_mp,
+> -			    ctx->coded_fmt_desc->decoded_fmts[0],
+> -			    ctx->coded_fmt.fmt.pix_mp.width,
+> -			    ctx->coded_fmt.fmt.pix_mp.height);
+> -	f->fmt.pix_mp.plane_fmt[0].sizeimage += 128 *
+> -		DIV_ROUND_UP(f->fmt.pix_mp.width, 16) *
+> -		DIV_ROUND_UP(f->fmt.pix_mp.height, 16);
+> +	f->fmt.pix_mp.width = ctx->coded_fmt.fmt.pix_mp.width;
+> +	f->fmt.pix_mp.height = ctx->coded_fmt.fmt.pix_mp.height;
+> +	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
 
-It seems that if there's no ->get_sps_attributes(), then even though
-"attributes" won't be filled in, the result is a success (as suggested
-by the returned 0). That's maybe confusing to potential users, especially,
-if they don't e.g. memset the attributes struct to zero - the function will
-report "success" but the struct will contain random data.
-
-In PATCH 09/12 you call the implementation directly (not through the ops
-struct), and there you actually ignore the return value.
+Strictly technically this function has _not_ been setting pix_mt->field
+to V4L2_FIELD_NONE, but after this change there exists such a "side effect".
+Maybe it is actually desired, or maybe it being missing in the not patched
+version was a mistake in the first place. Just letting you know so that
+you can make sure pix_mp->field being actually set now is ok in the context
+of rkvdec_queue_busy().
 
 Regards,
 
 Andrzej
 
-> +}
-> +
->   static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->   {
->   	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> index e353a4403e5b..7b6702c360fd 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.h
-> +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> @@ -63,10 +63,20 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
->   			    base.vb.vb2_buf);
 >   }
 >   
-> +struct sps_attributes {
-> +	unsigned int width;
-> +	unsigned int height;
-> +	unsigned int luma_bitdepth;
-> +	unsigned int chroma_bitdepth;
-> +	unsigned int subsampling;
-> +};
-> +
->   struct rkvdec_coded_fmt_ops {
->   	int (*adjust_fmt)(struct rkvdec_ctx *ctx,
->   			  struct v4l2_format *f);
->   	u32 (*valid_fmt)(struct rkvdec_ctx *ctx);
-> +	int (*get_sps_attributes)(struct rkvdec_ctx *ctx, void *sps,
-> +				  struct sps_attributes *attributes);
->   	int (*start)(struct rkvdec_ctx *ctx);
->   	void (*stop)(struct rkvdec_ctx *ctx);
->   	int (*run)(struct rkvdec_ctx *ctx);
+>   static int rkvdec_enum_framesizes(struct file *file, void *priv,
+> @@ -324,13 +331,7 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
+>   				       &pix_mp->height,
+>   				       &coded_desc->frmsize);
+>   
+> -	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
+> -			    pix_mp->width, pix_mp->height);
+> -	pix_mp->plane_fmt[0].sizeimage +=
+> -		128 *
+> -		DIV_ROUND_UP(pix_mp->width, 16) *
+> -		DIV_ROUND_UP(pix_mp->height, 16);
+> -	pix_mp->field = V4L2_FIELD_NONE;
+> +	rkvdec_fill_decoded_pixfmt(ctx, pix_mp);
+>   
+>   	return 0;
+>   }
 > 
 
