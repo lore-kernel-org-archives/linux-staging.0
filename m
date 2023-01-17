@@ -1,65 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from h7.fbrelay.privateemail.com (h7.fbrelay.privateemail.com [162.0.218.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CDCD52D
-	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 18:26:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263B0C433D2;
-	Tue, 17 Jan 2023 18:26:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1673979973;
-	bh=Q90VKPgW+JFewMBMzsuqXxzkJi00frMGuUon88lOkq4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WKUzgGiVxZPomNN4Vll7M7TaAlTGSxJlPBgepOpf9lT+Oim9Gn4s6/+RVIejzX3ji
-	 ClOaH5eELzunGqHvd8uW1lmpe1dsg5Ua2sgalCQ4GqrbxOUom/ex25fVlOsWQHSVH9
-	 wnZ2DGZ/n6Gz7YTYDNUCJEFzMVkHTExRnjKDuDVo=
-Date: Tue, 17 Jan 2023 19:26:11 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>
-Cc: manishc@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: qlge: remove unnecessary spaces before function
- pointer args
-Message-ID: <Y8boQ0T9yZ+78t7y@kroah.com>
-References: <20221214205147.2172-1-aldas60@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25241C13
+	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 18:32:24 +0000 (UTC)
+Received: from MTA-10-4.privateemail.com (mta-10.privateemail.com [68.65.122.20])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by h7.fbrelay.privateemail.com (Postfix) with ESMTPS id C429560579
+	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 13:32:22 -0500 (EST)
+Received: from mta-10.privateemail.com (localhost [127.0.0.1])
+	by mta-10.privateemail.com (Postfix) with ESMTP id 5022918000A2;
+	Tue, 17 Jan 2023 13:32:15 -0500 (EST)
+Received: from bpappas-XPS-13-9310.net.ucf.edu (unknown [132.170.212.18])
+	by mta-10.privateemail.com (Postfix) with ESMTPA id 156F9180009F;
+	Tue, 17 Jan 2023 13:32:02 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+	s=default; t=1673980335;
+	bh=9tfJHMfquKiMaSi0dIV592j2HgRcbJho137zYx7AinU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=m5m0mC81auHjGwcitxEiIW9qQZnWrm/aLrL5F6Vszpo803bmYPrx6OlmZpkvP3GBA
+	 jtr6lpaidV8qjwZnKQsRgK/IN9/VfGRCuFvArbUuEPqoNlp/ilH6fJf8H/t8h+0dB0
+	 Q+dZwhXl5MsqWiO5+3K6cfFbVNLRKHgUHQbZTKEGQMM3Q7MdgWNmAPpSGpO25Gnk5h
+	 Kzjug6I9Un70kzSl4q0Ntj4zdLUBNj/V7loq0afDt5bgWnaoWyBdEf+qHbwOngD16F
+	 9lPOJiVt5Cf9YObHfW/4LEFKvhJkh1dMOnDCZjVEzbLFmkMLUdE4KdELWOwWmhlUD6
+	 C8jMuh6ZeypFQ==
+From: Brent Pappas <bpappas@pappasbrent.com>
+To: andy.shevchenko@gmail.com
+Cc: ailus@linux.intel.com,
+	andy@kernel.org,
+	bpappas@pappasbrent.com,
+	error27@gmail.com,
+	gregkh@linuxfoundation.org,
+	hdegoede@redhat.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org
+Subject: [PATCH v3] media: atomisp: pci: Replace bytes macros with functions
+Date: Tue, 17 Jan 2023 13:31:52 -0500
+Message-Id: <20230117183152.6521-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CAHp75VcxaSXeMNmkPoMnA+zjp+JWmHp5aE+2yPhXaqxMC6QWEQ@mail.gmail.com>
+References: <CAHp75VcxaSXeMNmkPoMnA+zjp+JWmHp5aE+2yPhXaqxMC6QWEQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221214205147.2172-1-aldas60@gmail.com>
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-On Wed, Dec 14, 2022 at 10:51:47PM +0200, Aldas Taraškevičius wrote:
-> Remove unnecessary spaces before the function pointer arguments as
-> warned by checkpatch.
-> 
-> Signed-off-by: Aldas Taraškevičius <aldas60@gmail.com>
-> ---
->  drivers/staging/qlge/qlge.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
-> index fc8c5ca89..05e4f4744 100644
-> --- a/drivers/staging/qlge/qlge.h
-> +++ b/drivers/staging/qlge/qlge.h
-> @@ -2057,8 +2057,8 @@ enum {
->  };
->  
->  struct nic_operations {
-> -	int (*get_flash) (struct ql_adapter *);
-> -	int (*port_initialize) (struct ql_adapter *);
-> +	int (*get_flash)(struct ql_adapter *);
-> +	int (*port_initialize)(struct ql_adapter *);
->  };
->  
->  /*
-> -- 
-> 2.37.2
-> 
-> 
+Replace the function-like macros FPNTBL_BYTES, SCTBL_BYTES, and
+MORPH_PLANE_BYTES with static inline functions to comply with Linux coding
+style standards.
+Replace multiplication with calls to size_mul to prevent accidental
+arithmetic overflow.
 
-Does not apply to my tree :(
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+---
+Changelog:
+V1 -> V2: Use size_mul to perform size_t multiplication without risk of
+		  overflow.
+		  Remove the inline keyword from function definitions.
+
+V2 -> V3: Add commit message.
+
+ .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index f08564f58242..7e111df5c09d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -98,17 +98,27 @@
+ #include "sh_css_frac.h"
+ #include "ia_css_bufq.h"
+ 
+-#define FPNTBL_BYTES(binary) \
+-	(sizeof(char) * (binary)->in_frame_info.res.height * \
+-	 (binary)->in_frame_info.padded_width)
++static size_t fpntbl_bytes(const struct ia_css_binary *binary)
++{
++	return size_mul(sizeof(char),
++			size_mul(binary->in_frame_info.res.height,
++				 binary->in_frame_info.padded_width));
++}
+ 
+-#define SCTBL_BYTES(binary) \
+-	(sizeof(unsigned short) * (binary)->sctbl_height * \
+-	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
++static size_t sctbl_bytes(const struct ia_css_binary *binary)
++{
++	return size_mul(sizeof(unsigned short),
++				size_mul(binary->sctbl_height,
++					 size_mul(binary->sctbl_aligned_width_per_color,
++						  IA_CSS_SC_NUM_COLORS)));
++}
+ 
+-#define MORPH_PLANE_BYTES(binary) \
+-	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
+-	 (binary)->morph_tbl_height)
++static size_t morph_plane_bytes(const struct ia_css_binary *binary)
++{
++	return size_mul(SH_CSS_MORPH_TABLE_ELEM_BYTES,
++					size_mul(binary->morph_tbl_aligned_width,
++						 binary->morph_tbl_height));
++}
+ 
+ /* We keep a second copy of the ptr struct for the SP to access.
+    Again, this would not be necessary on the chip. */
+@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
+ 	if (binary->info->sp.enable.fpnr) {
+ 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
+ 						   &ddr_map_size->fpn_tbl,
+-						   (size_t)(FPNTBL_BYTES(binary)),
++						   fpntbl_bytes(binary),
+ 						   params->config_changed[IA_CSS_FPN_ID],
+ 						   &err);
+ 		if (err) {
+@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
+ 
+ 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
+ 						   &ddr_map_size->sc_tbl,
+-						   SCTBL_BYTES(binary),
++						   sctbl_bytes(binary),
+ 						   params->sc_table_changed,
+ 						   &err);
+ 		if (err) {
+@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_x[i],
+ 					    virt_size_tetra_x[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_y[i],
+ 					    virt_size_tetra_y[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+-- 
+2.34.1
+
