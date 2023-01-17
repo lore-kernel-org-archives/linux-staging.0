@@ -1,47 +1,36 @@
-Received: from h5.fbrelay.privateemail.com (h5.fbrelay.privateemail.com [162.0.218.228])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEF24C9A
-	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 16:17:35 +0000 (UTC)
-Received: from MTA-06-3.privateemail.com (mta-06.privateemail.com [68.65.122.16])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by h5.fbrelay.privateemail.com (Postfix) with ESMTPS id C67D5605C0
-	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 16:17:33 +0000 (UTC)
-Received: from mta-06.privateemail.com (localhost [127.0.0.1])
-	by mta-06.privateemail.com (Postfix) with ESMTP id C01FD18000A0;
-	Tue, 17 Jan 2023 11:17:25 -0500 (EST)
-Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
-	by mta-06.privateemail.com (Postfix) with ESMTPA id 33D7418000AA;
-	Tue, 17 Jan 2023 11:17:14 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-	s=default; t=1673972245;
-	bh=2SmQASqnGnVtA5Kz3u+Cb46Sf35Z/fNjuOekQAR+6fI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lFROjVOR69QpsJhr6SmMOchJrEhs1Zog59GnudKjzVLI8LcYH2khYP6v6y5NWngA0
-	 p/OFzS07M/QPDyyxlE1RAN8pk5wnf2f2XZV7+DssRBUrT6Kto8YRMl5diB/ttDMNnj
-	 IgHbQZ9F5n0sbgUJ6soy4hqIIkze9J50ctLimJtV4gPvJbPDoj6EjlIUOElzUHRmGd
-	 uvoGYX2ryVbmOrIFx7nRdkoFq+gq+vzHtlrInKRk9C3oBbOwRDOkxN802Bf/9nRV2M
-	 Maf3aMWhHXpT8hLdcyqKmpL4vBjxZdR3vV2kAI98vY+UJDBewN2q1RC8XdOT3TE3cQ
-	 MnKuXqhS5NEqw==
-From: Brent Pappas <bpappas@pappasbrent.com>
-To: andy@kernel.org
-Cc: ailus@linux.intel.com,
-	bpappas@pappasbrent.com,
-	error27@gmail.com,
-	gregkh@linuxfoundation.org,
-	hdegoede@redhat.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC6228EC
+	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 16:40:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE44CC433EF;
+	Tue, 17 Jan 2023 16:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673973602;
+	bh=8FfTQZrqyhnZxAAYd4VyprghfHyBrSE/ve6LyDRtWTk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oYoZOPhi7sLGeQdjqXEzkYfVO0oZyyN+isGYwClSsk+NynvndqE2R5OvvL0WQJA7p
+	 12mc3xH+iu3JVpQNY5qCVK4pIbscQApA99AE69u1PkAqjvSQoDbmOKwZxDsi+gVpuV
+	 a6PHnU3ZbXIGq7iRDi9o9w2qd8I2sBJX2k0mjZdce1UfLRoo4vqnlTF1ZIoIdDty5w
+	 RAnDaSyLmnHxKxQ5CaTvV7TMEpqbi0HpzzK5QtyJsVvZ+1qH5jVLMhhP3J5pEEIdwK
+	 17m5KoEweHls4uxnyKxcYaCbhddRzEUqiiwCvVptGyxOdjUGdzvTYQdLj8d/YyeUmc
+	 v1IuNVQblHQiQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
 	linux-staging@lists.linux.dev,
-	mchehab@kernel.org
-Subject: [PATCH v2] media: atomisp: pci: Replace bytes macros with functions
-Date: Tue, 17 Jan 2023 11:16:59 -0500
-Message-Id: <20230117161659.31232-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <Y8bARLuFubMVILIN@smile.fi.intel.com>
-References: <Y8bARLuFubMVILIN@smile.fi.intel.com>
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vchiq_arm: fix enum vchiq_status return types
+Date: Tue, 17 Jan 2023 17:39:32 +0100
+Message-Id: <20230117163957.1109872-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,104 +38,57 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
 
-Thank you for the advice Andy.
-I took a look in overflow.h and found the size_mul function, I assume this
-is what I should be using to prevent accidental overflow.
-I also removed the inline keyword from the function definitions because
-Dan (error27@gmail.com) recommended that I do so in reply to an earlier
-patch I submitted.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+gcc-13 notices a type mismatch between function declaration
+and definition for a few functions that have been converted
+from returning vchiq specific status values to regular error
+codes:
+
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:662:5: error: conflicting types for 'vchiq_initialise' due to enum/integer mismatch; have 'int(struct vchiq_instance **)' [-Werror=enum-int-mismatch]
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1411:1: error: conflicting types for 'vchiq_use_internal' due to enum/integer mismatch; have 'int(struct vchiq_state *, struct vchiq_service *, enum USE_TYPE_E)' [-Werror=enum-int-mismatch]
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1468:1: error: conflicting types for 'vchiq_release_internal' due to enum/integer mismatch; have 'int(struct vchiq_state *, struct vchiq_service *)' [-Werror=enum-int-mismatch]
+
+Change the declarations to match the actual function definition.
+
+Fixes: a9fbd828be7f ("staging: vchiq_arm: drop enum vchiq_status from vchiq_*_internal")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
-Changelog:
-V1 -> V2: Use size_mul to perform size_t multiplication without risk of
-		  overflow.
-		  Remove the inline keyword from function definitions.
+ .../staging/vc04_services/include/linux/raspberrypi/vchiq.h   | 2 +-
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
- .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
- 1 file changed, 23 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index f08564f58242..7e111df5c09d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -98,17 +98,27 @@
- #include "sh_css_frac.h"
- #include "ia_css_bufq.h"
+diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+index db1441c0cc66..690ab7165b2c 100644
+--- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
++++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+@@ -86,7 +86,7 @@ struct vchiq_service_params_kernel {
  
--#define FPNTBL_BYTES(binary) \
--	(sizeof(char) * (binary)->in_frame_info.res.height * \
--	 (binary)->in_frame_info.padded_width)
-+static size_t fpntbl_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(sizeof(char),
-+			size_mul(binary->in_frame_info.res.height,
-+				 binary->in_frame_info.padded_width));
-+}
+ struct vchiq_instance;
  
--#define SCTBL_BYTES(binary) \
--	(sizeof(unsigned short) * (binary)->sctbl_height * \
--	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
-+static size_t sctbl_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(sizeof(unsigned short),
-+				size_mul(binary->sctbl_height,
-+					 size_mul(binary->sctbl_aligned_width_per_color,
-+						  IA_CSS_SC_NUM_COLORS)));
-+}
+-extern enum vchiq_status vchiq_initialise(struct vchiq_instance **pinstance);
++extern int vchiq_initialise(struct vchiq_instance **pinstance);
+ extern enum vchiq_status vchiq_shutdown(struct vchiq_instance *instance);
+ extern enum vchiq_status vchiq_connect(struct vchiq_instance *instance);
+ extern enum vchiq_status vchiq_open_service(struct vchiq_instance *instance,
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+index 2851ef6b9cd0..cd20eb18f275 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+@@ -100,10 +100,10 @@ vchiq_dump_platform_use_state(struct vchiq_state *state);
+ extern void
+ vchiq_dump_service_use_state(struct vchiq_state *state);
  
--#define MORPH_PLANE_BYTES(binary) \
--	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
--	 (binary)->morph_tbl_height)
-+static size_t morph_plane_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(SH_CSS_MORPH_TABLE_ELEM_BYTES,
-+					size_mul(binary->morph_tbl_aligned_width,
-+						 binary->morph_tbl_height));
-+}
+-extern enum vchiq_status
++extern int
+ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+ 		   enum USE_TYPE_E use_type);
+-extern enum vchiq_status
++extern int
+ vchiq_release_internal(struct vchiq_state *state,
+ 		       struct vchiq_service *service);
  
- /* We keep a second copy of the ptr struct for the SP to access.
-    Again, this would not be necessary on the chip. */
-@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
- 	if (binary->info->sp.enable.fpnr) {
- 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
- 						   &ddr_map_size->fpn_tbl,
--						   (size_t)(FPNTBL_BYTES(binary)),
-+						   fpntbl_bytes(binary),
- 						   params->config_changed[IA_CSS_FPN_ID],
- 						   &err);
- 		if (err) {
-@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
- 
- 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
- 						   &ddr_map_size->sc_tbl,
--						   SCTBL_BYTES(binary),
-+						   sctbl_bytes(binary),
- 						   params->sc_table_changed,
- 						   &err);
- 		if (err) {
-@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
- 			buff_realloced |=
- 			    reallocate_buffer(virt_addr_tetra_x[i],
- 					    virt_size_tetra_x[i],
--					    (size_t)
--					    (MORPH_PLANE_BYTES(binary)),
-+					    morph_plane_bytes(binary),
- 					    params->morph_table_changed,
- 					    &err);
- 			if (err) {
-@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
- 			buff_realloced |=
- 			    reallocate_buffer(virt_addr_tetra_y[i],
- 					    virt_size_tetra_y[i],
--					    (size_t)
--					    (MORPH_PLANE_BYTES(binary)),
-+					    morph_plane_bytes(binary),
- 					    params->morph_table_changed,
- 					    &err);
- 			if (err) {
 -- 
-2.34.1
+2.39.0
 
