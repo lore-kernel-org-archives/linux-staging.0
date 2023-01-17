@@ -1,154 +1,59 @@
-Received: from h7.fbrelay.privateemail.com (h7.fbrelay.privateemail.com [162.0.218.230])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25241C13
-	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 18:32:24 +0000 (UTC)
-Received: from MTA-10-4.privateemail.com (mta-10.privateemail.com [68.65.122.20])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by h7.fbrelay.privateemail.com (Postfix) with ESMTPS id C429560579
-	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 13:32:22 -0500 (EST)
-Received: from mta-10.privateemail.com (localhost [127.0.0.1])
-	by mta-10.privateemail.com (Postfix) with ESMTP id 5022918000A2;
-	Tue, 17 Jan 2023 13:32:15 -0500 (EST)
-Received: from bpappas-XPS-13-9310.net.ucf.edu (unknown [132.170.212.18])
-	by mta-10.privateemail.com (Postfix) with ESMTPA id 156F9180009F;
-	Tue, 17 Jan 2023 13:32:02 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-	s=default; t=1673980335;
-	bh=9tfJHMfquKiMaSi0dIV592j2HgRcbJho137zYx7AinU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m5m0mC81auHjGwcitxEiIW9qQZnWrm/aLrL5F6Vszpo803bmYPrx6OlmZpkvP3GBA
-	 jtr6lpaidV8qjwZnKQsRgK/IN9/VfGRCuFvArbUuEPqoNlp/ilH6fJf8H/t8h+0dB0
-	 Q+dZwhXl5MsqWiO5+3K6cfFbVNLRKHgUHQbZTKEGQMM3Q7MdgWNmAPpSGpO25Gnk5h
-	 Kzjug6I9Un70kzSl4q0Ntj4zdLUBNj/V7loq0afDt5bgWnaoWyBdEf+qHbwOngD16F
-	 9lPOJiVt5Cf9YObHfW/4LEFKvhJkh1dMOnDCZjVEzbLFmkMLUdE4KdELWOwWmhlUD6
-	 C8jMuh6ZeypFQ==
-From: Brent Pappas <bpappas@pappasbrent.com>
-To: andy.shevchenko@gmail.com
-Cc: ailus@linux.intel.com,
-	andy@kernel.org,
-	bpappas@pappasbrent.com,
-	error27@gmail.com,
-	gregkh@linuxfoundation.org,
-	hdegoede@redhat.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org
-Subject: [PATCH v3] media: atomisp: pci: Replace bytes macros with functions
-Date: Tue, 17 Jan 2023 13:31:52 -0500
-Message-Id: <20230117183152.6521-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CAHp75VcxaSXeMNmkPoMnA+zjp+JWmHp5aE+2yPhXaqxMC6QWEQ@mail.gmail.com>
-References: <CAHp75VcxaSXeMNmkPoMnA+zjp+JWmHp5aE+2yPhXaqxMC6QWEQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AB21C13
+	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 18:33:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDFA0C433EF;
+	Tue, 17 Jan 2023 18:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1673980391;
+	bh=e6+ixn4nIUcp6w67VrVoVNFZYoA95xaJpxTzA72soMs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EXPgEMC7ZBnGliZkB1kiy2d5x5I/eaWQC41xWgGKT8tPcgAhcMCrky9lpjtbkHIvO
+	 K5fGHIf+nHYs0EfSJ2VlMWafeuM6pXCKeu6mND31oV5VnjEWUpcQ9UO3XMkxmHklu1
+	 uM1ed+HUGlPm+buGsiwJSK3dKCcfVBQIb01nWOX8=
+Date: Tue, 17 Jan 2023 19:33:08 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 20/20] staging: r8188eu: we use a constant number of
+ hw_xmit entries
+Message-ID: <Y8bp5BJIJBOwau0I@kroah.com>
+References: <20221230180646.91008-1-martin@kaiser.cx>
+ <20221230180646.91008-21-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221230180646.91008-21-martin@kaiser.cx>
 
-Replace the function-like macros FPNTBL_BYTES, SCTBL_BYTES, and
-MORPH_PLANE_BYTES with static inline functions to comply with Linux coding
-style standards.
-Replace multiplication with calls to size_mul to prevent accidental
-arithmetic overflow.
+On Fri, Dec 30, 2022 at 07:06:46PM +0100, Martin Kaiser wrote:
+> struct xmit_priv contains a pointer to an array of struct hw_xmit entries.
+> xmit_priv's (ill-named) hwxmit_entry component stores the size of this
+> array, i.e. the number of hw_xmit entries that are used.
+> 
+> The array size is constant, it's initialised to HWXMIT_ENTRY and never
+> updated. Simplify the code accordingly. Remove hwxmit_entry, do not pass
+> the array size as a function parameter and use HWXMIT_ENTRY in the code
+> that handles the array.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>  drivers/staging/r8188eu/core/rtw_xmit.c      | 8 +++-----
+>  drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 2 +-
+>  drivers/staging/r8188eu/include/rtw_xmit.h   | 3 +--
+>  3 files changed, 5 insertions(+), 8 deletions(-)
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
----
-Changelog:
-V1 -> V2: Use size_mul to perform size_t multiplication without risk of
-		  overflow.
-		  Remove the inline keyword from function definitions.
+This commit did not apply to my tree :(
 
-V2 -> V3: Add commit message.
+thanks,
 
- .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
- 1 file changed, 23 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index f08564f58242..7e111df5c09d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -98,17 +98,27 @@
- #include "sh_css_frac.h"
- #include "ia_css_bufq.h"
- 
--#define FPNTBL_BYTES(binary) \
--	(sizeof(char) * (binary)->in_frame_info.res.height * \
--	 (binary)->in_frame_info.padded_width)
-+static size_t fpntbl_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(sizeof(char),
-+			size_mul(binary->in_frame_info.res.height,
-+				 binary->in_frame_info.padded_width));
-+}
- 
--#define SCTBL_BYTES(binary) \
--	(sizeof(unsigned short) * (binary)->sctbl_height * \
--	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
-+static size_t sctbl_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(sizeof(unsigned short),
-+				size_mul(binary->sctbl_height,
-+					 size_mul(binary->sctbl_aligned_width_per_color,
-+						  IA_CSS_SC_NUM_COLORS)));
-+}
- 
--#define MORPH_PLANE_BYTES(binary) \
--	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
--	 (binary)->morph_tbl_height)
-+static size_t morph_plane_bytes(const struct ia_css_binary *binary)
-+{
-+	return size_mul(SH_CSS_MORPH_TABLE_ELEM_BYTES,
-+					size_mul(binary->morph_tbl_aligned_width,
-+						 binary->morph_tbl_height));
-+}
- 
- /* We keep a second copy of the ptr struct for the SP to access.
-    Again, this would not be necessary on the chip. */
-@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
- 	if (binary->info->sp.enable.fpnr) {
- 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
- 						   &ddr_map_size->fpn_tbl,
--						   (size_t)(FPNTBL_BYTES(binary)),
-+						   fpntbl_bytes(binary),
- 						   params->config_changed[IA_CSS_FPN_ID],
- 						   &err);
- 		if (err) {
-@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
- 
- 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
- 						   &ddr_map_size->sc_tbl,
--						   SCTBL_BYTES(binary),
-+						   sctbl_bytes(binary),
- 						   params->sc_table_changed,
- 						   &err);
- 		if (err) {
-@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
- 			buff_realloced |=
- 			    reallocate_buffer(virt_addr_tetra_x[i],
- 					    virt_size_tetra_x[i],
--					    (size_t)
--					    (MORPH_PLANE_BYTES(binary)),
-+					    morph_plane_bytes(binary),
- 					    params->morph_table_changed,
- 					    &err);
- 			if (err) {
-@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
- 			buff_realloced |=
- 			    reallocate_buffer(virt_addr_tetra_y[i],
- 					    virt_size_tetra_y[i],
--					    (size_t)
--					    (MORPH_PLANE_BYTES(binary)),
-+					    morph_plane_bytes(binary),
- 					    params->morph_table_changed,
- 					    &err);
- 			if (err) {
--- 
-2.34.1
-
+greg k-h
