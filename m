@@ -1,35 +1,29 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93F51C13
-	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 18:37:20 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="389279279"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="389279279"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2023 10:37:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="748138394"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; 
-   d="scan'208";a="748138394"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Jan 2023 10:37:17 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1pHqpf-00Aj8m-3D;
-	Tue, 17 Jan 2023 20:37:15 +0200
-Date: Tue, 17 Jan 2023 20:37:15 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Brent Pappas <bpappas@pappasbrent.com>
-Cc: ailus@linux.intel.com, error27@gmail.com, gregkh@linuxfoundation.org,
-	hdegoede@redhat.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	mchehab@kernel.org
-Subject: Re: [PATCH v3] media: atomisp: pci: Replace bytes macros with
- functions
-Message-ID: <Y8bq25jjRdgTTd7/@smile.fi.intel.com>
-References: <CAHp75VcxaSXeMNmkPoMnA+zjp+JWmHp5aE+2yPhXaqxMC6QWEQ@mail.gmail.com>
- <20230117183152.6521-1-bpappas@pappasbrent.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9477D532
+	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 18:39:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A23FC433D2;
+	Tue, 17 Jan 2023 18:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1673980746;
+	bh=vM2fqHktL0s7+JaqK1Vmzmomp2n2N/6TF7pZeT0CVy8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Go7Tgsc9fvKPhQV3ISeb9wf27R/HrBG7OyXZiIYs+WoaiHmZaJOIozYkvjp9o+dJb
+	 MtQrBcJU0IBs3tdMTWyaB5ishvDTLxVn67fOpFQAkPwoVwPvFD/B8bA6hV0M5usoe/
+	 VcHDT8f/QYQ9VCZiCFQtbp9kOInkjDt1aoEogMdk=
+Date: Tue, 17 Jan 2023 19:38:28 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/20] staging: r8188eu: pass struct adapter to usb_write
+Message-ID: <Y8brJFAjan6DuhwF@kroah.com>
+References: <20230111195640.306748-1-martin@kaiser.cx>
+ <20230111195640.306748-19-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,36 +32,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230117183152.6521-1-bpappas@pappasbrent.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20230111195640.306748-19-martin@kaiser.cx>
 
-On Tue, Jan 17, 2023 at 01:31:52PM -0500, Brent Pappas wrote:
-
-Read to the end this message, please!
-
-> Replace the function-like macros FPNTBL_BYTES, SCTBL_BYTES, and
-> MORPH_PLANE_BYTES with static inline functions to comply with Linux coding
-> style standards.
-> Replace multiplication with calls to size_mul to prevent accidental
-> arithmetic overflow.
-
-We refer to MACRO() and func() as depicted.
-Otherwise looks good.
-
-...
-
-> Changelog:
-> V1 -> V2: Use size_mul to perform size_t multiplication without risk of
-> 		  overflow.
-> 		  Remove the inline keyword from function definitions.
+On Wed, Jan 11, 2023 at 08:56:38PM +0100, Martin Kaiser wrote:
+> The usb_write function takes a struct intf_hdl only to extract the struct
+> adapter from it. We can pass struct adapter directly.
 > 
-> V2 -> V3: Add commit message.
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
 
-You missed my other comments. Please, read reply in full and address all
-reviewer's comments.
+This commit did not apply to my tree so I stopped here in the series.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Please rebase and resubmit the remaining ones.
 
+thanks,
 
+greg k-h
