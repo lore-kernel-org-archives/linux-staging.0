@@ -1,56 +1,102 @@
-Received: from MTA-11-3.privateemail.com (mta-11-3.privateemail.com [198.54.122.105])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EACF3C2D
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 17:41:55 +0000 (UTC)
-Received: from mta-11.privateemail.com (localhost [127.0.0.1])
-	by mta-11.privateemail.com (Postfix) with ESMTP id E9FC818000A4;
-	Wed, 18 Jan 2023 12:41:48 -0500 (EST)
-Received: from pappasbrent.com (050-088-208-136.res.spectrum.com [50.88.208.136])
-	by mta-11.privateemail.com (Postfix) with ESMTPA id F33A018000A8;
-	Wed, 18 Jan 2023 12:41:38 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-	s=default; t=1674063708;
-	bh=D7WHsXyXqtqJWxl+4AA+cbRa4gc8zNjQxP2TO71jpHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FKJ78MCIj8RQxUTJAJzyJonlBSXjGLX/1+BIy3ysTyJAUyYB/JdRj1e8GYa8zQpMm
-	 LNyfGg4qG/ukz4it8cTkmkqAFu6+jyq7YIG6GxfyN2tO3FNAjOPDPlho52sDRE5aQf
-	 Hru1Ri3XaDd8jgcsGf5xfoeswQDayvWcwmMlN/k6F5MLM223SizJPaTTsIZus5kLbQ
-	 LBVGoe6kpGBNBeHU6FJcM3USIrtPpJSZTPrm4eYxpn7G/f7y8NFJVEEqhVPbok/MRq
-	 d3C43QpdkqcK9K3UPktq7NoGYG9WkZPq5A30lghDkQKwLyIu3+PIXlWgx+U1v59Fk4
-	 o7/uLItoaMO4g==
-Date: Wed, 18 Jan 2023 12:41:36 -0500
-From: Brent Pappas <bpappas@pappasbrent.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: ailus@linux.intel.com, error27@gmail.com, gregkh@linuxfoundation.org,
-	hdegoede@redhat.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	mchehab@kernel.org
-Subject: Re: [PATCH v6] media: atomisp: pci: Replace bytes macros with
- functions
-Message-ID: <Y8gvUG6ncjZ0WG/v@pappasbrent.com>
-References: <CAHp75VcxvPZOZpGMSQXkCFv+WekHckMJkympfdR0ih72AjjkNw@mail.gmail.com>
- <20230118160739.26059-1-bpappas@pappasbrent.com>
- <CAHp75VeP42nhAnjWMXnsHpd7SQhJ2G1kqX6mbEHxnpFHhKWYHg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2621A3D64
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 17:55:10 +0000 (UTC)
+Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MLR5f-1p1UqQ3tIZ-00IXeC; Wed, 18 Jan 2023 18:54:58 +0100
+Message-ID: <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com>
+Date: Wed, 18 Jan 2023 18:54:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHp75VeP42nhAnjWMXnsHpd7SQhJ2G1kqX6mbEHxnpFHhKWYHg@mail.gmail.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 0/4] Drop custom logging
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>,
+ Phil Elwell <phil@raspberrypi.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-rpi-kernel@lists.infradead.org, Florian Fainelli
+ <f.fainelli@gmail.com>, Adrien Thierry <athierry@redhat.com>,
+ Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-kernel@vger.kernel.org
+References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20230118115810.21979-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:PPbgUQZFNUodbOa/IggBR+CuQHji8sAXXNDLVRn1143oRxT7xED
+ oBPVjhAXF+2WpKzkRm4MQNfrIjnzaJebYqOE/6rYL3j6lOz5jmJWSxyrAjaj1sGD2m0ETY6
+ iTe9JYVwS+M0pEMCx1zuHc0xGHJbUiNWQPjjosOz3DSRySOI1stuI/RuwSxOjSHMG6me5lq
+ /2JUSPHLjD+GAtFhwLEAg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:DWEOI3VL3Ug=;wI/vhD4uuwEVFEsH0pX9CDJFtYa
+ uWnuMR4vZvcCph2wMaDVAeHGw7tutiLNnsXoaL5wEC7Xhrweux6VyrbZbeuxPcBTWuO9Ia2f2
+ emFeNBgDNzxBxFLkxJyLCGyQtdJ83JFU0x0CGxRbicdQGU2/XnxX1zYeddRCna7ExVYdnUaaA
+ AnakOEj3ayX7pxKcV7zh1fZ8O8Sb6YWRUOWwkJpPTAmgVO6qtRRc8cBSZDlijQLG2FQ4r47lP
+ ASkwsgmhksnQyf+cngn4hCvCvQP6cuvicELX7j1VU+5tpyKocbq01niWMcP5bRghBserJxb+P
+ Wz6wtTInBxyrzi7zi+TNl29U7CnNEXIS4aY7a7Aa62ejUbE21aZymKOl5qKiWpRNXwR4K7AMn
+ zdJ6ApGksqEJg+Fx1ZXSAr9SUE5PsZcuJfx3PSVO+9VdCTrUy0JMYHVakQOeflkiTi5JjVVST
+ ygfk9iNGBqmSV7BJA7y18L9yyoKEDWk7dfndWoVf+w6FayYSiDWNUB1CMglSIpGbQ0NFS2P32
+ DyNRQSF5pk1ZOL1jtayWI/PoLJ5HizakEiXlc7k8u8YuDzYLDSJTOa3snLfkoj1P8KERwFnyl
+ nfvbJhxQNM6L3+//JEdBiUnZ07wHv0dhPz1fy3FXGOkY9nbCCuS+mHICw6hkCN9tbW/2K2MMJ
+ BOd33NuDl/1/K2RMP6zncYFLkebgxHvpjAL7Dibfrw==
 
-> In my MUA I don't clearly see if indentations are really being fixed,
-> assuming that
+Hi Umang,
 
-The issue I was having was that my editor had tabs set to size 4.
-I switched them to size 8 and could see the issues that Dan was seeing.
-I've ran checkpatch.pl on the patch and it passes, but if you see an
-issue I will address it.
+[add Phil]
 
-> Thank you and keep going!
+Am 18.01.23 um 12:58 schrieb Umang Jain:
+> Drop custom logging from the vchiq interface.
+> Mostly of them are replaced with dev_dbg and friends
+> and/or pr_info and friends.
+>
+> The debugfs log levels (in 4/4) are mapped to kernel
+> logs levels (coming from include/linux/kern_levels.h)
+> Would like some thoughts on it as I am not sure (hence
+> marking this is RFC)
+>
+>  From drivers/staging/vc04_services/interface/TODO:
+>
+> """
+> * Cleanup logging mechanism
+>
+> The driver should probably be using the standard kernel logging mechanisms
+> such as dev_info, dev_dbg, and friends.
 
-Thank you for your patience.
+i don't have any experience with vchiq logging/debug. So i'm not sure if 
+it's acceptable to lose the second log level dimension (like 
+vchiq_arm_log_level) completely. Complex drivers like brcmfmac have a 
+debug mask to avoid log spamming [1]. Maybe this is a compromise.
+
+Btw some loglevel locations has already been messed up during 
+refactoring :-(
+
+[1] - drivers/net/wireless/broadcom/brcm80211/brcmfmac/debug.h
+
+> """
+>
+> Umang Jain (4):
+>    staging: vc04_services: vchiq_core: Drop custom logging
+>    staging: vc04_services: vchiq_arm: Drop custom logging
+>    staging: vc04_services: Drop custom logging
+>    staging: vc04_services: Drop remnants of custom logging
+>
+>   .../interface/vchiq_arm/vchiq_arm.c           | 151 +++---
+>   .../interface/vchiq_arm/vchiq_connected.c     |   5 +-
+>   .../interface/vchiq_arm/vchiq_core.c          | 479 ++++++++----------
+>   .../interface/vchiq_arm/vchiq_core.h          |  39 --
+>   .../interface/vchiq_arm/vchiq_debugfs.c       |  26 +-
+>   .../interface/vchiq_arm/vchiq_dev.c           |  78 ++-
+>   6 files changed, 329 insertions(+), 449 deletions(-)
+>
