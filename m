@@ -1,90 +1,83 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE393205
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 15:30:28 +0000 (UTC)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nxq4g0XTrz6J9W6;
-	Wed, 18 Jan 2023 23:12:35 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 18 Jan
- 2023 15:12:58 +0000
-Date: Wed, 18 Jan 2023 15:12:57 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Brent Pappas <bpappas@pappasbrent.com>
-CC: <lars@metafoo.de>, <Michael.Hennerich@analog.com>, <jic23@kernel.org>,
-	<gregkh@linuxfoundation.org>, <linux-iio@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: iio: frequency: ad9832: Replace macro
- AD9832_PHASE() with function
-Message-ID: <20230118151257.0000663a@Huawei.com>
-In-Reply-To: <20230118150306.16448-1-bpappas@pappasbrent.com>
-References: <20230118150306.16448-1-bpappas@pappasbrent.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A5233C7
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 15:54:22 +0000 (UTC)
+Received: by mail-qv1-f45.google.com with SMTP id h10so24039756qvq.7
+        for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 07:54:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dp/FF/OlNcvD2TDo83pV39FfZ/33m8fmuUNBlmKGb1A=;
+        b=lnETeaMUTNuDwBg/aRYZXHd9v8+aK6tgbqCGA8aM9w0TW39275mAI+th2srtPCybxj
+         uf+W4QaUEenDlDJzsp8ezJ7AwY2cCFf2moaeoIloh/++r384Rl6d6Rp+dNh9oEQM46QL
+         BFHM77xNS1E+zqFrfG5CrxsrJVGqwZreaRRjV99hUWgc9wPUMKMpLFQlkCG250ACnNMi
+         r126XRMLt4Wsv2KO8KYZESE/D9MGFIgltQFuABSV7sOky1DxCogZv8holEs8dhEgHMF5
+         JPJnbJRsQj4P73gLnn6Y4vFaMYf8UrCCs7EersAss0MvjY/S3wdE6Y8Eagi2g2Evf7A9
+         1Urw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dp/FF/OlNcvD2TDo83pV39FfZ/33m8fmuUNBlmKGb1A=;
+        b=4i3wyLCzHc29OuSzlMH/eFbekqK5hy7325i/gZD4BjiTj63SZbDPdYopAMLppdoPxy
+         EFy6UbFhOHkzZaojmKU9LkSn4NgrqBj9TcQ3ANe63BZcZsfXrZIztjuQpZrU6wLX53v6
+         l7hfVG4lc5Ai31bEAWRRjBknEyOFDdbVq3MxD3zfsOJBflt9ubLG1iE8RO3vAfmhj8u+
+         nfHA90XEArxqN4LlP95U+znPHQgsNhRXU0bsiyUYljqw5jZaeVn7vuAbw9bolp4GBneb
+         4zWiKc0FrEMDVBE6NvXVsKvbJIjIyhUJJuQk3DY913zVkF8Hwchq0rfjSlxTXR9Bmdr8
+         c5Pg==
+X-Gm-Message-State: AFqh2kqtJVe7ujD5+Xx47J147qutzoePx3NcD3bCOddI3etK1o/uEtqK
+	/TyJBFB4T8IUt3dI5QhnjjnNXIKxtdE6A0f8vx4=
+X-Google-Smtp-Source: AMrXdXuyrdQ92kiDwWynQkXu3LhRr0aTzZX68EoFvg/xNQF0bdBeBJK4b3kzt1XggPD5xzBnMIVoL1vugEhWI7rq8/8=
+X-Received: by 2002:a0c:b208:0:b0:534:3c7d:97fc with SMTP id
+ x8-20020a0cb208000000b005343c7d97fcmr429300qvd.11.1674057261293; Wed, 18 Jan
+ 2023 07:54:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+References: <Y8gImBdR6YpEKZEb@kadam> <20230118151656.20558-1-bpappas@pappasbrent.com>
+In-Reply-To: <20230118151656.20558-1-bpappas@pappasbrent.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 18 Jan 2023 17:53:45 +0200
+Message-ID: <CAHp75VcxvPZOZpGMSQXkCFv+WekHckMJkympfdR0ih72AjjkNw@mail.gmail.com>
+Subject: Re: [PATCH v5] media: atomisp: pci: Replace bytes macros with functions
+To: Brent Pappas <bpappas@pappasbrent.com>
+Cc: error27@gmail.com, ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	hdegoede@redhat.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	mchehab@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 18 Jan 2023 10:03:06 -0500
-Brent Pappas <bpappas@pappasbrent.com> wrote:
+On Wed, Jan 18, 2023 at 5:17 PM Brent Pappas <bpappas@pappasbrent.com> wrote:
+>
+> Replace the function-like macros FPNTBL_BYTES(), SCTBL_BYTES(), and
+> MORPH_PLANE_BYTES() with functions to comply with Linux coding style
+> standards.
+> Replace multiplication with calls to array_size() and array3_size()
+> to prevent accidental arithmetic overflow.
 
-> Replace the macro AD9832_PHASE() with a static function to comply with
-> Linux coding style standards.
-> 
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+...
 
-Hi Brent,
+> +static size_t sctbl_bytes(const struct ia_css_binary *binary)
+> +{
+> +       return array_size(sizeof(unsigned short),
 
-I'd rather see this changed to FIELD_GET() / FIELD_PREP() along
-with all other similar cases in this driver.
+I would use size_mul() here, but either would work.
 
-That would mean defining just the field masks then using those
-to mask relevant bits out and put in the new value.
+> +                                         array3_size(binary->sctbl_height,
+> +                                                     binary->sctbl_aligned_width_per_color,
+> +                                                                 IA_CSS_SC_NUM_COLORS));
+> +}
 
-Thanks
+...
 
-Jonathan
+Please, fix indentations and patch will be good enough, thank you!
 
-
-> ---
->  drivers/staging/iio/frequency/ad9832.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 6f9eebd6c7ee..537825534a28 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -59,7 +59,9 @@
->  #define AD9832_CMD_SLEEPRESCLR	0xC
->  
->  #define AD9832_FREQ		BIT(11)
-> -#define AD9832_PHASE(x)		(((x) & 3) << 9)
-> +
-> +static unsigned short ad9832_phase(int x) { return (x & 3) << 9; }
-> +
->  #define AD9832_SYNC		BIT(13)
->  #define AD9832_SELSRC		BIT(12)
->  #define AD9832_SLEEP		BIT(13)
-> @@ -221,8 +223,8 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
->  			break;
->  		}
->  
-> -		st->ctrl_fp &= ~AD9832_PHASE(3);
-> -		st->ctrl_fp |= AD9832_PHASE(val);
-> +		st->ctrl_fp &= ~ad9832_phase(3);
-> +		st->ctrl_fp |= ad9832_phase(val);
->  
->  		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
->  					st->ctrl_fp);
-
+-- 
+With Best Regards,
+Andy Shevchenko
