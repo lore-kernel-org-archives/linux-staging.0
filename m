@@ -1,100 +1,72 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998A733F1
-	for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 20:32:43 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id fd15so18285214qtb.9
-        for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 12:32:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256557B
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 08:38:23 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id j34-20020a05600c1c2200b003da1b054057so845614wms.5
+        for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 00:38:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=22BxzJ1I2g5CT4PBXC4jtXMSZii+bF3n9yE6J2j4Nb0=;
+        b=fzgF8kdyThujN0e3XDBEFEVimxZI9UOjfDV0//Qk1I3gS6KDSAMYQX6VSO6y36WIK0
+         42kcpq0vvvcTXiml3K/76AbVpoNxTSyXIvUVZiTysWF51Ft8Mmfo9OsJwxCPvKfWENuV
+         z6DrWHId/BUBzgYSH5FHYQs/XEP5U5Thh+I7o+1Fdk1ACrWszVecl/WLe6Z1jOAuYFvh
+         oRrALOxAk7XtbHwfEQhZUrr/eZjhoBVU6hHgy0g/ziKm0lNdNfx8liP3Hcr6VN380Dyh
+         wyfKNCxK0lM7JuVzer5Fpotyoc6OqqnHT9KcJjcY6Hs/IhL8RS/bkw5R/K6aP6YykmRe
+         Guqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=80XVCGq03uPtsV/B6FIva6jAl8T2rvyiR6KKpMSI6gk=;
-        b=AUo3v8xi0qEL/vwET6vGICV/lujUZAhP1LVUDBTvFioT3eJs9L8RkV3T/8snIbg3qh
-         EDvpeqAU7QgBSvrNFzeVUKCDDEZJAgGONyMLTzcyvG9NHLXS3F4kZFogbSPpIURdjJv5
-         PJ6P4rtxnXNOc31kZ5Rip0v5bkYU00R42tTUxr+h4jFeuGz0ysOP+++rpT0s6Qt/nlqR
-         rrZyuv6WW2vzwo6z78cANJ9G0P+CEgVelFoupaW/Inzbdld4XpsSYHx8ZexdqeT3QNDn
-         A4HM+5tQLCozyZk/kBj+wo0kTTMWd5f3CFVMQykGA1CjG5yyXy4CkkEiN6nnKDLy/nVl
-         3cvg==
-X-Gm-Message-State: AFqh2koKJM0RA6u2xf52nPJv+B00X79b2cuCZ3wSfMKFal2YE1ZB/AGT
-	R1iZhUE6A0WxNCGzDD1P+QaVh2bPSRL8hQ==
-X-Google-Smtp-Source: AMrXdXubB8bkJfcpfr/FyLY4F4bO64CwCt7nYnz0/wL3r5l9bXXCEpFajNKuv7ta3xuFbrFENqnUzQ==
-X-Received: by 2002:ac8:12ca:0:b0:3a8:2d6:521e with SMTP id b10-20020ac812ca000000b003a802d6521emr40505891qtj.37.1673987562251;
-        Tue, 17 Jan 2023 12:32:42 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id z26-20020ac8711a000000b003b62dcbedb8sm4140554qto.74.2023.01.17.12.32.41
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Jan 2023 12:32:41 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id a9so18906547ybb.3
-        for <linux-staging@lists.linux.dev>; Tue, 17 Jan 2023 12:32:41 -0800 (PST)
-X-Received: by 2002:a25:9801:0:b0:7d5:b884:3617 with SMTP id
- a1-20020a259801000000b007d5b8843617mr449162ybo.380.1673987561135; Tue, 17 Jan
- 2023 12:32:41 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=22BxzJ1I2g5CT4PBXC4jtXMSZii+bF3n9yE6J2j4Nb0=;
+        b=sTMuF5Rop3D5lTxwZwSz1YKAfJWD2D8ZWubAVs2yOIGLXs4wHtSysH5zESorreY14v
+         H1lVeY+vjvb0nD0yqpROpSQJWeEC+Uz7SNfIwznKEviU8vIYzyJG6AwD9n/q6KUIk+zY
+         XnsgD48fJsYcR418ODhpi9y3NoIOEC1vpynhtckqm843NY9Ej593R9fBtDyu8sxPx2ha
+         GVryD8cfbhaWE6sPqG/9vY2Me+5z7Wde519ik9a9isfFc61J4hWbm5wrqZ51fOlrP+J8
+         L2kU0YB6KCRhgtTcuovSt5RwyO4VKh0EHdGFy9OXs8FfMksfD0matz6NWstHewqlVL9O
+         S8kA==
+X-Gm-Message-State: AFqh2kprYkFc9Xezq7EubKQK2VcUXwNNpZ5Q0lo94IM91cLgn9PCzG3+
+	JXUD314jX+E6dvYs2q1sw63VSPwXUFeXnA==
+X-Google-Smtp-Source: AMrXdXu8sggmhiVQbHcxiXko3AczajbXLKn7sftHuTG2wPYKrznfm6qkMVy2KgS5TC7GgPHQXwWbgw==
+X-Received: by 2002:a05:600c:510d:b0:3da:f6ae:faa9 with SMTP id o13-20020a05600c510d00b003daf6aefaa9mr11167805wms.29.1674031101319;
+        Wed, 18 Jan 2023 00:38:21 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h6-20020a05600c314600b003d99469ece1sm1297950wmo.24.2023.01.18.00.38.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jan 2023 00:38:20 -0800 (PST)
+Date: Wed, 18 Jan 2023 11:38:17 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Brent Pappas <bpappas@pappasbrent.com>
+Cc: rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: greybus: gpio: Replace macro
+ irq_data_to_gpio_chip with function
+Message-ID: <Y8ev+UNO0bQDoZTs@kadam>
+References: <20230117152857.22141-1-bpappas@pappasbrent.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221226094820.1157244-1-cuigaosheng1@huawei.com>
-In-Reply-To: <20221226094820.1157244-1-cuigaosheng1@huawei.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Jan 2023 21:32:29 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVT1d1V78o5fTiEP5RmbYCNqpKJR_1A7e_RJABA1STpYQ@mail.gmail.com>
-Message-ID: <CAMuHMdVT1d1V78o5fTiEP5RmbYCNqpKJR_1A7e_RJABA1STpYQ@mail.gmail.com>
-Subject: Re: [PATCH -next] media: staging: stkwebcam: Fix the build error with stkwebcam
-To: Gaosheng Cui <cuigaosheng1@huawei.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl, 
-	ribalda@chromium.org, neil.armstrong@linaro.org, geert+renesas@glider.be, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230117152857.22141-1-bpappas@pappasbrent.com>
 
-Hi Gaosheng,
+On Tue, Jan 17, 2023 at 10:28:57AM -0500, Brent Pappas wrote:
+> Replace the macro irq_data_to_gpio_chip with a static inline function to comply
+> with Linux coding style standards.
+> 
+> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
 
-On Mon, Dec 26, 2022 at 10:48 AM Gaosheng Cui <cuigaosheng1@huawei.com> wrote:
-> When I am building the kernel on arm64, set config CONFIG_USB=m &&
-> CONFIG_VIDEO_STKWEBCAM=y, I get some error reports as follows:
->   drivers/staging/media/deprecated/stkwebcam/stk-webcam.o: In
->     function `stk_v4l_dev_release':
->   stk-webcam.c:(.text+0x3e0): undefined reference to `usb_put_intf'
->   stk-webcam.c:(.text+0x3e8): undefined reference to `usb_put_dev'
->   drivers/staging/media/deprecated/stkwebcam/stk-webcam.o: In
->   function `stk_clean_iso':
->   stk-webcam.c:(.text+0xb0c): undefined reference to `usb_kill_urb'
->   stk-webcam.c:(.text+0xb14): undefined reference to `usb_free_urb'
->
-> Fix it by add dependency option on USB for VIDEO_STKWEBCAM.
->
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+Thanks!
 
-Thanks for your patch!
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
-> --- a/drivers/staging/media/deprecated/stkwebcam/Kconfig
-> +++ b/drivers/staging/media/deprecated/stkwebcam/Kconfig
-> @@ -2,7 +2,7 @@
->  config VIDEO_STKWEBCAM
->         tristate "USB Syntek DC1125 Camera support (DEPRECATED)"
->         depends on VIDEO_DEV
-> -       depends on MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
-> +       depends on USB && MEDIA_USB_SUPPORT && MEDIA_CAMERA_SUPPORT
->         help
->           Say Y here if you want to use this type of camera.
->           Supported devices are typically found in some Asus laptops,
+regards,
+dan carpenter
 
-I think Arnd's patch[1] is better, as it also fixes the modular
-MEDIA_SUPPORT case.
-
-[1] "[PATCH] staging: media: stkwebcam: add USB dependency"
-    https://lore.kernel.org/all/20230117165851.2300111-1-arnd@kernel.org
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
