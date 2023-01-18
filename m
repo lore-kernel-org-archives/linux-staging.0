@@ -1,92 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from h7.fbrelay.privateemail.com (h7.fbrelay.privateemail.com [162.0.218.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1028B2907
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 13:00:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 301ECC433D2;
-	Wed, 18 Jan 2023 13:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1674046811;
-	bh=dB/NGvr4e6SBdFkWga9MCfi5s6KUAAvOMvgaNcolWvY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vty3EysI6HXVcUWI7fHJz2My1cDucFgzu/mlSBVgU1GSZr5+maIpBQLab2rTn3Qs+
-	 DQLySWUTpYWu/JaE+Y/bdSCorJsN0Q7U2lS7y3rgt3wTaNaAD/hooTGc9CYDhJ15Zd
-	 E4wE+ImnFwRtLIOHT6JqdGAZcsJpR+Qrcy9COw88=
-Date: Wed, 18 Jan 2023 14:00:08 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, Arnd Bergmann <arnd@kernel.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vchiq_arm: fix enum vchiq_status return types
-Message-ID: <Y8ftWHG8Ek6Mjb3I@kroah.com>
-References: <20230117163957.1109872-1-arnd@kernel.org>
- <3a69e1fc-c266-d75c-32e3-9b5f655a8258@i2se.com>
- <d4e9fd51-6d22-d304-3eb0-e76c15dcb1da@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B9A15CA
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 14:42:55 +0000 (UTC)
+Received: from MTA-07-4.privateemail.com (unknown [198.54.122.141])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by h7.fbrelay.privateemail.com (Postfix) with ESMTPS id 3DB4E606CA
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 09:42:48 -0500 (EST)
+Received: from mta-07.privateemail.com (localhost [127.0.0.1])
+	by mta-07.privateemail.com (Postfix) with ESMTP id 404D41801119;
+	Wed, 18 Jan 2023 09:42:40 -0500 (EST)
+Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
+	by mta-07.privateemail.com (Postfix) with ESMTPA id CE0201801126;
+	Wed, 18 Jan 2023 09:42:28 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+	s=default; t=1674052960;
+	bh=FqDHCHvsB52HFi8bEmC/gtO/khX/839t5pQ/ZUuPeVI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nDX1ABUr4GRiT7rKx/G8R8mJ4M0QNyUby6oxCSCAIF8TZ59UJ4aBGuazu6aDiVKTj
+	 7JQ6ivf3fjLUcnHsVKDN2YOfFILVvLrXNTIJOjb6WtC57SZe5GViJxANiGVt2N46bk
+	 3V8m/8olN4+7A9jBysabb5U7Fq/gVWg7s49keBD3yONjEJE0LLD3WGtYUqFvxhEsT9
+	 mkqi690Mb2asL7jo6rnP8wT/oPcLK8HmEIVxy61RwGeJ70jbCMs7H+gxNyhmMJX+YY
+	 TZHyRzNnsP5Hyf002ikc9joVMOGp1YQZIZP1z0jfmYdRtTmOnChkjCkT8p4hLb4ztl
+	 YByZgGmFc6qrQ==
+From: Brent Pappas <bpappas@pappasbrent.com>
+To: andy.shevchenko@gmail.com
+Cc: ailus@linux.intel.com,
+	bpappas@pappasbrent.com,
+	error27@gmail.com,
+	gregkh@linuxfoundation.org,
+	hdegoede@redhat.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org
+Subject: [PATCH v4] media: atomisp: pci: Replace bytes macros with functions
+Date: Wed, 18 Jan 2023 09:42:26 -0500
+Message-Id: <20230118144226.13127-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <Y8bq25jjRdgTTd7/@smile.fi.intel.com>
+References: <Y8bq25jjRdgTTd7/@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d4e9fd51-6d22-d304-3eb0-e76c15dcb1da@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-On Wed, Jan 18, 2023 at 05:33:15PM +0530, Umang Jain wrote:
-> Hi,
-> 
-> On 1/18/23 5:08 PM, Stefan Wahren wrote:
-> > Hi Arnd,
-> > 
-> > Am 17.01.23 um 17:39 schrieb Arnd Bergmann:
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > > 
-> > > gcc-13 notices a type mismatch between function declaration
-> > > and definition for a few functions that have been converted
-> > > from returning vchiq specific status values to regular error
-> > > codes:
-> > > 
-> > > drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:662:5:
-> > > error: conflicting types for 'vchiq_initialise' due to enum/integer
-> > > mismatch; have 'int(struct vchiq_instance **)'
-> > > [-Werror=enum-int-mismatch]
-> > > drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1411:1:
-> > > error: conflicting types for 'vchiq_use_internal' due to
-> > > enum/integer mismatch; have 'int(struct vchiq_state *, struct
-> > > vchiq_service *, enum USE_TYPE_E)' [-Werror=enum-int-mismatch]
-> > > drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1468:1:
-> > > error: conflicting types for 'vchiq_release_internal' due to
-> > > enum/integer mismatch; have 'int(struct vchiq_state *, struct
-> > > vchiq_service *)' [-Werror=enum-int-mismatch]
-> > > 
-> > > Change the declarations to match the actual function definition.
-> > > 
-> > > Fixes: a9fbd828be7f ("staging: vchiq_arm: drop enum vchiq_status
-> > > from vchiq_*_internal")
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > thanks for fixing this.
-> > 
-> > Greg applied a series [1] from Umang which completely removes this enum
-> > completely. This series has been applied to today and will likely cause
-> > a conflict tomorrow in linux-next.
-> 
-> Yes, the series was applied today.
-> 
-> Has this patch (By Arnd) already applied to linux-next? I am not sure if I
-> understand where the conflict will get originated ..
+Replace the function-like macros FPNTBL_BYTES(), SCTBL_BYTES(), and
+MORPH_PLANE_BYTES() with functions to comply with Linux coding style
+standards.
+Replace multiplication with calls to functions/macros from overflow.h
+to prevent accidental arithmetic overflow.
 
-I've applied Arnd's patch to my staging-linus branch and it will go
-there for 6.2-final.  I'll handle the merge into my other branch when
-that happens.
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+---
+Changelog:
+V1 -> V2: Use size_mul() to perform size_t multiplication without risk of
+		  overflow.
+		  Remove the inline keyword from function definitions.
 
-thanks,
+V2 -> V3: Add commit message.
 
-greg k-h
+V3 -> V4: Use array_size() and array3_size() for multiplication.
+
+ .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index f08564f58242..7e111df5c09d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -98,17 +98,27 @@
+ #include "sh_css_frac.h"
+ #include "ia_css_bufq.h"
+ 
+-#define FPNTBL_BYTES(binary) \
+-	(sizeof(char) * (binary)->in_frame_info.res.height * \
+-	 (binary)->in_frame_info.padded_width)
++static size_t fpntbl_bytes(const struct ia_css_binary *binary)
++{
++	return array3_size(sizeof(char),
++			binary->in_frame_info.res.height,
++				 binary->in_frame_info.padded_width);
++}
+ 
+-#define SCTBL_BYTES(binary) \
+-	(sizeof(unsigned short) * (binary)->sctbl_height * \
+-	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
++static size_t sctbl_bytes(const struct ia_css_binary *binary)
++{
++	return array_size(sizeof(unsigned short),
++				array3_size(binary->sctbl_height,
++					    binary->sctbl_aligned_width_per_color,
++						  IA_CSS_SC_NUM_COLORS));
++}
+ 
+-#define MORPH_PLANE_BYTES(binary) \
+-	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
+-	 (binary)->morph_tbl_height)
++static size_t morph_plane_bytes(const struct ia_css_binary *binary)
++{
++	return array3_size(SH_CSS_MORPH_TABLE_ELEM_BYTES,
++					binary->morph_tbl_aligned_width,
++						 binary->morph_tbl_height);
++}
+ 
+ /* We keep a second copy of the ptr struct for the SP to access.
+    Again, this would not be necessary on the chip. */
+@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
+ 	if (binary->info->sp.enable.fpnr) {
+ 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
+ 						   &ddr_map_size->fpn_tbl,
+-						   (size_t)(FPNTBL_BYTES(binary)),
++						   fpntbl_bytes(binary),
+ 						   params->config_changed[IA_CSS_FPN_ID],
+ 						   &err);
+ 		if (err) {
+@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
+ 
+ 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
+ 						   &ddr_map_size->sc_tbl,
+-						   SCTBL_BYTES(binary),
++						   sctbl_bytes(binary),
+ 						   params->sc_table_changed,
+ 						   &err);
+ 		if (err) {
+@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_x[i],
+ 					    virt_size_tetra_x[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_y[i],
+ 					    virt_size_tetra_y[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+-- 
+2.34.1
+
