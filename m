@@ -1,174 +1,101 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10F43C16
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 16:18:04 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id x7so20101385qtv.13
-        for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 08:18:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OMMu3XovHqwLeu0gHfs9xCvQZaDl1KpPgg4sPO5JPY8=;
-        b=PTj+AMj1P8vRit+dcK05Jx2X7ySZUq8HNs0uBdGF9PwJlCw7bl8/YtzpVcJQIaLSoN
-         hD4uiIyyDFjsMYopDsmWa3wXKhJ/E7NO9MDYS98j3dtou+K0EMgTUk/iJUGHxEREzMwF
-         B8/XC84Lx/H2N9LFKlKc65cLuHrx4YrZwSjTuvsVQuyGGvbfvxC8myrZPo/pUkJM3vhW
-         XWV8RgCf3NjUkJGew7DYRaWZ3PujeIkxHQr4R8DFgcT5FYiUEw5RJ3yF/SJE1EWzKrLP
-         OS2F6JjJ+5wipzh764Y3CZDT2tDcnycNes+V4BwOKxxRFI/bhMktewv2wQuYGjpwLRqz
-         XiFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OMMu3XovHqwLeu0gHfs9xCvQZaDl1KpPgg4sPO5JPY8=;
-        b=vwtTzCGMAlRb/GHMM+Kpsf/JIV35CtG05p1v65nrvbSCHpismF8lGuxlo5fsO7dGg0
-         cM84LRcSKR183WNUIlc7yPOVCL8W+PZiPYiIPuTcVsWQd1XjGh1j7yxiDrGEFnidtJCM
-         JGPUdysAHz/AfW/jMRxjDzsk/5pFIbmOFt7R3UYpPwCuBwloy5Kg7gmeoUpyyyYvAq2Q
-         Jv/zGrsuqSSrVhJBAmrrKIuhfBzHzow93qpGJ6ub++GNeXoE4AMwKXtLMTb2c330XE7c
-         GbfJOrUaWLe7hoMW+W1pAezdBJIYSpesKnzJWKd1xIjxdP0zUXLO5rAuyiAHBdO0kaS7
-         MrZw==
-X-Gm-Message-State: AFqh2krRjNL9L2uc95k5/6ZJ6Ni2VHhguE89E8nIiEvSgsLJY9SfUqcs
-	iPSadOjYALKIWpHZVIySo9EEM8KauINuZTx5aMs=
-X-Google-Smtp-Source: AMrXdXvvmUfykE6Z5yGDFpO8mZ7rNMTtzVx/lK8I1taRVEeqLVqPLwwL4C+PuW1djDYIUxVLKjAj29X3QA5e/Oa+5sA=
-X-Received: by 2002:ac8:6e81:0:b0:3b6:3c45:ada4 with SMTP id
- c1-20020ac86e81000000b003b63c45ada4mr340174qtv.481.1674058683393; Wed, 18 Jan
- 2023 08:18:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE19A2F21
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 17:29:36 +0000 (UTC)
+Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MzTCy-1oW1VW1Hhg-00vQLu; Wed, 18 Jan 2023 18:29:26 +0100
+Message-ID: <89377474-bcd4-452a-973f-dd5092dea4d6@i2se.com>
+Date: Wed, 18 Jan 2023 18:29:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAHp75VcxvPZOZpGMSQXkCFv+WekHckMJkympfdR0ih72AjjkNw@mail.gmail.com>
- <20230118160739.26059-1-bpappas@pappasbrent.com>
-In-Reply-To: <20230118160739.26059-1-bpappas@pappasbrent.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 18 Jan 2023 18:17:27 +0200
-Message-ID: <CAHp75VeP42nhAnjWMXnsHpd7SQhJ2G1kqX6mbEHxnpFHhKWYHg@mail.gmail.com>
-Subject: Re: [PATCH v6] media: atomisp: pci: Replace bytes macros with functions
-To: Brent Pappas <bpappas@pappasbrent.com>
-Cc: ailus@linux.intel.com, error27@gmail.com, gregkh@linuxfoundation.org, 
-	hdegoede@redhat.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	mchehab@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 1/4] staging: vc04_services: vchiq_core: Drop custom
+ logging
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
+ <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
+ <20230118115810.21979-2-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20230118115810.21979-2-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:c9i/D17w64yXKdNX4GYL2ssWp34kom0i30U5afG6wwqxgpXdqhi
+ 1rIOQKRsuPAZltULVkvkcj+vsAfhnmYBXEXOZH1R8xJnLDv1X1Pk1U33zSBx8cqfgu7dth1
+ Pijywyamf+gBZJDuCT0uYu10sfEr20Us0TzrMZwU4xSvw6PDOzjxg1q0eqisTejQAL2yYA5
+ vijcLbazpZcrg6NzG8jMg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:2/yHPKPMUzY=;AX4aNqWm+UcOr38RvvoFo4+LBaH
+ 5i03g5b1GY2b81uiDhYPcXzdSilZwjHjPwz/me18F3l0rzllt9vPIM5p/RoZlzcGGUQ6lRlHJ
+ olfjLnxM0quAeM0w/cVZpQiDSSjQAm91cNhCWXMMIWmtGgwgzAp0VE6tB41Q4wi7nZnY6r3nj
+ cPuGqeb3Voq6FI1kfocQ7D6NajcY5qYIeapk84MItCEKJ9npkPc8WcdTEEt7c1s7z5ULWxBS7
+ i7M6ViDenl3bzSyvOUz8yASQ0Wux4H384miofvAmzuvNNcFD+74haLUNet4D4ee4JllHrEcb+
+ SJ9nZuC8e9jss7N1L5+y7gJTY1nIdgtPgm7cPnfUY3mpebBWUMjtfsMJ6Joio/U+8txyPEFub
+ uAi1OmWb9XoCb+ywifWTfxbtEvTliSK5d4FAima5iy2INq+i/3dPju0KCiUvg9Qc2LpBIIuXe
+ Cjejg1XyZw/IuF39Y4GZwB2GRzlAcvEN1gwm/eUgtBZi9DNavwV74KA3z14OMLJwfClWNmLpZ
+ HAQj8VlnonAiyuJE94UEkxCzSYpp/OGVfN8uQ6WE4hQ9jgXbom8XVOk5cwlykbX3qrI6UUWB5
+ dLoitT5DV1EdGkFS5dCymtzgi75DYHJHBF1mBeAANqDwCovagkyGIe91JqUvNKiDsQX3+nCXC
+ 45WB38MByLX6amyJ8+gMsNc/2MuR+Mp7UefeSgoLSg==
 
-On Wed, Jan 18, 2023 at 6:08 PM Brent Pappas <bpappas@pappasbrent.com> wrote:
+Hi Umang,
+
+Am 18.01.23 um 12:58 schrieb Umang Jain:
+> Drop custom logging from the vchiq_core.c and use standard kernel
+> logging infrastructure (dev_dbg() and friends for struct Device
+> stuff) and pr_info (and similar) for vchiq_services/instances things.
+i'm sorry but your "staging: vc04_services: vchiq: Register devices with 
+a custom bus_type" is still in my backlog. I was busy with some 
+regressions on bcm2835/bcm2711.
 >
-> Replace the function-like macros FPNTBL_BYTES(), SCTBL_BYTES(), and
-> MORPH_PLANE_BYTES() with functions to comply with Linux coding style
-> standards.
-> Replace multiplication with calls to array_size() and array3_size()
-> to prevent accidental arithmetic overflow.
-
-In my MUA I don't clearly see if indentations are really being fixed,
-assuming that
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Thank you and keep going!
-
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
-> Changelog:
-> V1 -> V2: Use size_mul() to perform size_t multiplication without risk of
->                   overflow.
->                   Remove the inline keyword from function definitions.
+>   .../interface/vchiq_arm/vchiq_core.c          | 450 ++++++++----------
+>   1 file changed, 204 insertions(+), 246 deletions(-)
 >
-> V2 -> V3: Add commit message.
->
-> V3 -> V4: Use array_size() and array3_size() for multiplication.
->
-> V4 -> V5: Fix indentation.
->
-> V5 -> V6: Try again to fix indentation (use tabs of size 8).
->
->  .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
->  1 file changed, 23 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> index f08564f58242..7e111df5c09d 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> @@ -98,17 +98,27 @@
->  #include "sh_css_frac.h"
->  #include "ia_css_bufq.h"
->
-> -#define FPNTBL_BYTES(binary) \
-> -       (sizeof(char) * (binary)->in_frame_info.res.height * \
-> -        (binary)->in_frame_info.padded_width)
-> +static size_t fpntbl_bytes(const struct ia_css_binary *binary)
-> +{
-> +       return array3_size(sizeof(char),
-> +                          binary->in_frame_info.res.height,
-> +                          binary->in_frame_info.padded_width);
-> +}
->
-> -#define SCTBL_BYTES(binary) \
-> -       (sizeof(unsigned short) * (binary)->sctbl_height * \
-> -        (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
-> +static size_t sctbl_bytes(const struct ia_css_binary *binary)
-> +{
-> +       return size_mul(sizeof(unsigned short),
-> +                         array3_size(binary->sctbl_height,
-> +                                     binary->sctbl_aligned_width_per_color,
-> +                                     IA_CSS_SC_NUM_COLORS));
-> +}
->
-> -#define MORPH_PLANE_BYTES(binary) \
-> -       (SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
-> -        (binary)->morph_tbl_height)
-> +static size_t morph_plane_bytes(const struct ia_css_binary *binary)
-> +{
-> +       return array3_size(SH_CSS_MORPH_TABLE_ELEM_BYTES,
-> +                          binary->morph_tbl_aligned_width,
-> +                          binary->morph_tbl_height);
-> +}
->
->  /* We keep a second copy of the ptr struct for the SP to access.
->     Again, this would not be necessary on the chip. */
-> @@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
->         if (binary->info->sp.enable.fpnr) {
->                 buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
->                                                    &ddr_map_size->fpn_tbl,
-> -                                                  (size_t)(FPNTBL_BYTES(binary)),
-> +                                                  fpntbl_bytes(binary),
->                                                    params->config_changed[IA_CSS_FPN_ID],
->                                                    &err);
->                 if (err) {
-> @@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
->
->                 buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
->                                                    &ddr_map_size->sc_tbl,
-> -                                                  SCTBL_BYTES(binary),
-> +                                                  sctbl_bytes(binary),
->                                                    params->sc_table_changed,
->                                                    &err);
->                 if (err) {
-> @@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
->                         buff_realloced |=
->                             reallocate_buffer(virt_addr_tetra_x[i],
->                                             virt_size_tetra_x[i],
-> -                                           (size_t)
-> -                                           (MORPH_PLANE_BYTES(binary)),
-> +                                           morph_plane_bytes(binary),
->                                             params->morph_table_changed,
->                                             &err);
->                         if (err) {
-> @@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
->                         buff_realloced |=
->                             reallocate_buffer(virt_addr_tetra_y[i],
->                                             virt_size_tetra_y[i],
-> -                                           (size_t)
-> -                                           (MORPH_PLANE_BYTES(binary)),
-> +                                           morph_plane_bytes(binary),
->                                             params->morph_table_changed,
->                                             &err);
->                         if (err) {
-> --
-> 2.34.1
->
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 4e705a447a62..7b3c57326d28 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -227,10 +227,11 @@ static const char *msg_type_str(unsigned int msg_type)
+>   static inline void
+>   set_service_state(struct vchiq_service *service, int newstate)
+>   {
+> -	vchiq_log_info(vchiq_core_log_level, "%d: srv:%d %s->%s",
+> -		       service->state->id, service->localport,
+> -		       srvstate_names[service->srvstate],
+> -		       srvstate_names[newstate]);
+> +	struct vchiq_state *state = service->state;
+> +
+> +	dev_info(state->dev, "%d: srv:%d %s->%s", state->id,
+> +		 service->localport, srvstate_names[service->srvstate],
+> +		 srvstate_names[newstate]);
+>   	service->srvstate = newstate;
+>   }
+>   
+> @@ -255,8 +256,7 @@ find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
+>   		return service;
+>   	}
+>   	rcu_read_unlock();
+> -	vchiq_log_info(vchiq_core_log_level,
+> -		       "Invalid service handle 0x%x", handle);
+> +	pr_info("vchiq: Invalid service handle 0x%x", handle);
 
+Some log levels like this here doesn't make sense. I would expect here a 
+warning or an error. Could you please have look at it in a separate patch?
 
--- 
-With Best Regards,
-Andy Shevchenko
+Thanks
+
