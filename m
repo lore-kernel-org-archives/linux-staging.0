@@ -1,101 +1,56 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+Received: from MTA-11-3.privateemail.com (mta-11-3.privateemail.com [198.54.122.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE19A2F21
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 17:29:36 +0000 (UTC)
-Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MzTCy-1oW1VW1Hhg-00vQLu; Wed, 18 Jan 2023 18:29:26 +0100
-Message-ID: <89377474-bcd4-452a-973f-dd5092dea4d6@i2se.com>
-Date: Wed, 18 Jan 2023 18:29:23 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EACF3C2D
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 17:41:55 +0000 (UTC)
+Received: from mta-11.privateemail.com (localhost [127.0.0.1])
+	by mta-11.privateemail.com (Postfix) with ESMTP id E9FC818000A4;
+	Wed, 18 Jan 2023 12:41:48 -0500 (EST)
+Received: from pappasbrent.com (050-088-208-136.res.spectrum.com [50.88.208.136])
+	by mta-11.privateemail.com (Postfix) with ESMTPA id F33A018000A8;
+	Wed, 18 Jan 2023 12:41:38 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+	s=default; t=1674063708;
+	bh=D7WHsXyXqtqJWxl+4AA+cbRa4gc8zNjQxP2TO71jpHU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FKJ78MCIj8RQxUTJAJzyJonlBSXjGLX/1+BIy3ysTyJAUyYB/JdRj1e8GYa8zQpMm
+	 LNyfGg4qG/ukz4it8cTkmkqAFu6+jyq7YIG6GxfyN2tO3FNAjOPDPlho52sDRE5aQf
+	 Hru1Ri3XaDd8jgcsGf5xfoeswQDayvWcwmMlN/k6F5MLM223SizJPaTTsIZus5kLbQ
+	 LBVGoe6kpGBNBeHU6FJcM3USIrtPpJSZTPrm4eYxpn7G/f7y8NFJVEEqhVPbok/MRq
+	 d3C43QpdkqcK9K3UPktq7NoGYG9WkZPq5A30lghDkQKwLyIu3+PIXlWgx+U1v59Fk4
+	 o7/uLItoaMO4g==
+Date: Wed, 18 Jan 2023 12:41:36 -0500
+From: Brent Pappas <bpappas@pappasbrent.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: ailus@linux.intel.com, error27@gmail.com, gregkh@linuxfoundation.org,
+	hdegoede@redhat.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	mchehab@kernel.org
+Subject: Re: [PATCH v6] media: atomisp: pci: Replace bytes macros with
+ functions
+Message-ID: <Y8gvUG6ncjZ0WG/v@pappasbrent.com>
+References: <CAHp75VcxvPZOZpGMSQXkCFv+WekHckMJkympfdR0ih72AjjkNw@mail.gmail.com>
+ <20230118160739.26059-1-bpappas@pappasbrent.com>
+ <CAHp75VeP42nhAnjWMXnsHpd7SQhJ2G1kqX6mbEHxnpFHhKWYHg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 1/4] staging: vc04_services: vchiq_core: Drop custom
- logging
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
- <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
- <20230118115810.21979-2-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20230118115810.21979-2-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:c9i/D17w64yXKdNX4GYL2ssWp34kom0i30U5afG6wwqxgpXdqhi
- 1rIOQKRsuPAZltULVkvkcj+vsAfhnmYBXEXOZH1R8xJnLDv1X1Pk1U33zSBx8cqfgu7dth1
- Pijywyamf+gBZJDuCT0uYu10sfEr20Us0TzrMZwU4xSvw6PDOzjxg1q0eqisTejQAL2yYA5
- vijcLbazpZcrg6NzG8jMg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:2/yHPKPMUzY=;AX4aNqWm+UcOr38RvvoFo4+LBaH
- 5i03g5b1GY2b81uiDhYPcXzdSilZwjHjPwz/me18F3l0rzllt9vPIM5p/RoZlzcGGUQ6lRlHJ
- olfjLnxM0quAeM0w/cVZpQiDSSjQAm91cNhCWXMMIWmtGgwgzAp0VE6tB41Q4wi7nZnY6r3nj
- cPuGqeb3Voq6FI1kfocQ7D6NajcY5qYIeapk84MItCEKJ9npkPc8WcdTEEt7c1s7z5ULWxBS7
- i7M6ViDenl3bzSyvOUz8yASQ0Wux4H384miofvAmzuvNNcFD+74haLUNet4D4ee4JllHrEcb+
- SJ9nZuC8e9jss7N1L5+y7gJTY1nIdgtPgm7cPnfUY3mpebBWUMjtfsMJ6Joio/U+8txyPEFub
- uAi1OmWb9XoCb+ywifWTfxbtEvTliSK5d4FAima5iy2INq+i/3dPju0KCiUvg9Qc2LpBIIuXe
- Cjejg1XyZw/IuF39Y4GZwB2GRzlAcvEN1gwm/eUgtBZi9DNavwV74KA3z14OMLJwfClWNmLpZ
- HAQj8VlnonAiyuJE94UEkxCzSYpp/OGVfN8uQ6WE4hQ9jgXbom8XVOk5cwlykbX3qrI6UUWB5
- dLoitT5DV1EdGkFS5dCymtzgi75DYHJHBF1mBeAANqDwCovagkyGIe91JqUvNKiDsQX3+nCXC
- 45WB38MByLX6amyJ8+gMsNc/2MuR+Mp7UefeSgoLSg==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHp75VeP42nhAnjWMXnsHpd7SQhJ2G1kqX6mbEHxnpFHhKWYHg@mail.gmail.com>
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-Hi Umang,
+> In my MUA I don't clearly see if indentations are really being fixed,
+> assuming that
 
-Am 18.01.23 um 12:58 schrieb Umang Jain:
-> Drop custom logging from the vchiq_core.c and use standard kernel
-> logging infrastructure (dev_dbg() and friends for struct Device
-> stuff) and pr_info (and similar) for vchiq_services/instances things.
-i'm sorry but your "staging: vc04_services: vchiq: Register devices with 
-a custom bus_type" is still in my backlog. I was busy with some 
-regressions on bcm2835/bcm2711.
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../interface/vchiq_arm/vchiq_core.c          | 450 ++++++++----------
->   1 file changed, 204 insertions(+), 246 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index 4e705a447a62..7b3c57326d28 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -227,10 +227,11 @@ static const char *msg_type_str(unsigned int msg_type)
->   static inline void
->   set_service_state(struct vchiq_service *service, int newstate)
->   {
-> -	vchiq_log_info(vchiq_core_log_level, "%d: srv:%d %s->%s",
-> -		       service->state->id, service->localport,
-> -		       srvstate_names[service->srvstate],
-> -		       srvstate_names[newstate]);
-> +	struct vchiq_state *state = service->state;
-> +
-> +	dev_info(state->dev, "%d: srv:%d %s->%s", state->id,
-> +		 service->localport, srvstate_names[service->srvstate],
-> +		 srvstate_names[newstate]);
->   	service->srvstate = newstate;
->   }
->   
-> @@ -255,8 +256,7 @@ find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
->   		return service;
->   	}
->   	rcu_read_unlock();
-> -	vchiq_log_info(vchiq_core_log_level,
-> -		       "Invalid service handle 0x%x", handle);
-> +	pr_info("vchiq: Invalid service handle 0x%x", handle);
+The issue I was having was that my editor had tabs set to size 4.
+I switched them to size 8 and could see the issues that Dan was seeing.
+I've ran checkpatch.pl on the patch and it passes, but if you see an
+issue I will address it.
 
-Some log levels like this here doesn't make sense. I would expect here a 
-warning or an error. Could you please have look at it in a separate patch?
+> Thank you and keep going!
 
-Thanks
-
+Thank you for your patience.
