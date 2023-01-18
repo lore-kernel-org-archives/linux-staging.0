@@ -1,72 +1,115 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256557B
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 08:38:23 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id j34-20020a05600c1c2200b003da1b054057so845614wms.5
-        for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 00:38:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=22BxzJ1I2g5CT4PBXC4jtXMSZii+bF3n9yE6J2j4Nb0=;
-        b=fzgF8kdyThujN0e3XDBEFEVimxZI9UOjfDV0//Qk1I3gS6KDSAMYQX6VSO6y36WIK0
-         42kcpq0vvvcTXiml3K/76AbVpoNxTSyXIvUVZiTysWF51Ft8Mmfo9OsJwxCPvKfWENuV
-         z6DrWHId/BUBzgYSH5FHYQs/XEP5U5Thh+I7o+1Fdk1ACrWszVecl/WLe6Z1jOAuYFvh
-         oRrALOxAk7XtbHwfEQhZUrr/eZjhoBVU6hHgy0g/ziKm0lNdNfx8liP3Hcr6VN380Dyh
-         wyfKNCxK0lM7JuVzer5Fpotyoc6OqqnHT9KcJjcY6Hs/IhL8RS/bkw5R/K6aP6YykmRe
-         Guqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=22BxzJ1I2g5CT4PBXC4jtXMSZii+bF3n9yE6J2j4Nb0=;
-        b=sTMuF5Rop3D5lTxwZwSz1YKAfJWD2D8ZWubAVs2yOIGLXs4wHtSysH5zESorreY14v
-         H1lVeY+vjvb0nD0yqpROpSQJWeEC+Uz7SNfIwznKEviU8vIYzyJG6AwD9n/q6KUIk+zY
-         XnsgD48fJsYcR418ODhpi9y3NoIOEC1vpynhtckqm843NY9Ej593R9fBtDyu8sxPx2ha
-         GVryD8cfbhaWE6sPqG/9vY2Me+5z7Wde519ik9a9isfFc61J4hWbm5wrqZ51fOlrP+J8
-         L2kU0YB6KCRhgtTcuovSt5RwyO4VKh0EHdGFy9OXs8FfMksfD0matz6NWstHewqlVL9O
-         S8kA==
-X-Gm-Message-State: AFqh2kprYkFc9Xezq7EubKQK2VcUXwNNpZ5Q0lo94IM91cLgn9PCzG3+
-	JXUD314jX+E6dvYs2q1sw63VSPwXUFeXnA==
-X-Google-Smtp-Source: AMrXdXu8sggmhiVQbHcxiXko3AczajbXLKn7sftHuTG2wPYKrznfm6qkMVy2KgS5TC7GgPHQXwWbgw==
-X-Received: by 2002:a05:600c:510d:b0:3da:f6ae:faa9 with SMTP id o13-20020a05600c510d00b003daf6aefaa9mr11167805wms.29.1674031101319;
-        Wed, 18 Jan 2023 00:38:21 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h6-20020a05600c314600b003d99469ece1sm1297950wmo.24.2023.01.18.00.38.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 00:38:20 -0800 (PST)
-Date: Wed, 18 Jan 2023 11:38:17 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Brent Pappas <bpappas@pappasbrent.com>
-Cc: rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: gpio: Replace macro
- irq_data_to_gpio_chip with function
-Message-ID: <Y8ev+UNO0bQDoZTs@kadam>
-References: <20230117152857.22141-1-bpappas@pappasbrent.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04216291D
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 11:39:28 +0000 (UTC)
+Received: from [192.168.1.139] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mzhf5-1oVDME2ySf-00vh3u; Wed, 18 Jan 2023 12:38:55 +0100
+Message-ID: <3a69e1fc-c266-d75c-32e3-9b5f655a8258@i2se.com>
+Date: Wed, 18 Jan 2023 12:38:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117152857.22141-1-bpappas@pappasbrent.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] staging: vchiq_arm: fix enum vchiq_status return types
+To: Arnd Bergmann <arnd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Adrien Thierry
+ <athierry@redhat.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20230117163957.1109872-1-arnd@kernel.org>
+Content-Language: en-US
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20230117163957.1109872-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:bE+E8XE68j3zl+0fnDlSb98h/UaHtTjyymUHTNvgiGdds9/oltj
+ 918u4SKlyhsiJibaNHwYuxy3fZvzWrx3UNut1u/M9TsZ42R/k/83eG9AsXRVdX6/ZTrccG3
+ z2sgl1HmAd4NMGEgbecVuY4jULanL8MF2J5WJHOprpRxPPGxVk9zGHe+5l7VpuahxAfHEB7
+ dHXjCfk9jK84ja9DT/GrA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:0ZAPRhgUbRg=;qisLkRvOSeHwlorjvSv8FYvYoQN
+ CzDnOGUE5PEtR6kInxGeFhJocuOxslMAf2YExgCG6xmz6IYaW2KcQsnJbUil6zvp+Zb//tS5q
+ cymXyGSVn6hb1TDbfWgTf7kKOk2vkc/1hsZcPzm+NI/G8z4sAbe1nSIt1g1/hjTOkEikBpov9
+ 62Q5/xEcDwM0tmC32apXiBdGyJUXbUQZxrhbbuNwskIU3Yh63e8b08ysO2tbrOA6NWntI/qBV
+ 1yh/e/y7HtxAMrKPm5yQSleq9KdBXfXeGjgh9E4MMPt5twduG1Co7Xvo2ZlnYAM4amiK2hM8f
+ emSOxkyl5RxuPOs62ZKxFITNdeeN5+lRxgzdWSUtYTu2QPZ+NDjVpdIpvZVenmofe3GIS5qxU
+ kiKl6T64oKh0hNoV8urMHvr44H/8V9DDR7SRW/S2pSmhupuSUj11SJ/JK8DRukFBvOAPE70C6
+ lOW0pINql7g0WLS5Uk0bcDDYaNMQO/hPJwRwlKVXd1/maoijSy+9PrI1F+0VJF1GdPWsUf7lc
+ YRUQRxrmyvCVRsvdL9J1vd7T+QhHoXTeojno2HwverFkzB24wrXo3jyYfhteolbzxdH3MGmQA
+ 7/K4ASA+EPstCUArQ6GpkZm1XghG6YIagARRrUASgd0QpBJRC+PATrR3lfDuwZwSVuUSrfHRR
+ oOYBiZU4dinYwluedNOwRbl5reTnS43mwH1NAAWUVA==
 
-On Tue, Jan 17, 2023 at 10:28:57AM -0500, Brent Pappas wrote:
-> Replace the macro irq_data_to_gpio_chip with a static inline function to comply
-> with Linux coding style standards.
-> 
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+Hi Arnd,
 
-Thanks!
+Am 17.01.23 um 17:39 schrieb Arnd Bergmann:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> gcc-13 notices a type mismatch between function declaration
+> and definition for a few functions that have been converted
+> from returning vchiq specific status values to regular error
+> codes:
+>
+> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:662:5: error: conflicting types for 'vchiq_initialise' due to enum/integer mismatch; have 'int(struct vchiq_instance **)' [-Werror=enum-int-mismatch]
+> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1411:1: error: conflicting types for 'vchiq_use_internal' due to enum/integer mismatch; have 'int(struct vchiq_state *, struct vchiq_service *, enum USE_TYPE_E)' [-Werror=enum-int-mismatch]
+> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1468:1: error: conflicting types for 'vchiq_release_internal' due to enum/integer mismatch; have 'int(struct vchiq_state *, struct vchiq_service *)' [-Werror=enum-int-mismatch]
+>
+> Change the declarations to match the actual function definition.
+>
+> Fixes: a9fbd828be7f ("staging: vchiq_arm: drop enum vchiq_status from vchiq_*_internal")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+thanks for fixing this.
 
-regards,
-dan carpenter
+Greg applied a series [1] from Umang which completely removes this enum 
+completely. This series has been applied to today and will likely cause 
+a conflict tomorrow in linux-next.
 
+[1] - 
+https://lore.kernel.org/linux-arm-kernel/ba52e6b4-33ec-622e-00b6-1b098f529a90@ideasonboard.com/T/
+
+> ---
+>   .../staging/vc04_services/include/linux/raspberrypi/vchiq.h   | 2 +-
+>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h | 4 ++--
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> index db1441c0cc66..690ab7165b2c 100644
+> --- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> +++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> @@ -86,7 +86,7 @@ struct vchiq_service_params_kernel {
+>   
+>   struct vchiq_instance;
+>   
+> -extern enum vchiq_status vchiq_initialise(struct vchiq_instance **pinstance);
+> +extern int vchiq_initialise(struct vchiq_instance **pinstance);
+>   extern enum vchiq_status vchiq_shutdown(struct vchiq_instance *instance);
+>   extern enum vchiq_status vchiq_connect(struct vchiq_instance *instance);
+>   extern enum vchiq_status vchiq_open_service(struct vchiq_instance *instance,
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> index 2851ef6b9cd0..cd20eb18f275 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> @@ -100,10 +100,10 @@ vchiq_dump_platform_use_state(struct vchiq_state *state);
+>   extern void
+>   vchiq_dump_service_use_state(struct vchiq_state *state);
+>   
+> -extern enum vchiq_status
+> +extern int
+>   vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+>   		   enum USE_TYPE_E use_type);
+> -extern enum vchiq_status
+> +extern int
+>   vchiq_release_internal(struct vchiq_state *state,
+>   		       struct vchiq_service *service);
+>   
