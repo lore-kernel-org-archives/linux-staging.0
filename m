@@ -1,85 +1,151 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MTA-12-4.privateemail.com (mta-12-4.privateemail.com [198.54.127.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4A82F22
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 15:10:15 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id b7so8262794wrt.3
-        for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 07:10:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I7lrvTAlA/3t43ULdgygOD2DvyJWRLH9rn+t5O59C4Y=;
-        b=TlXrrR3oLwQF0H1oQ8zO7QxSERWmDmVaeW5jHGErLAPhlCd466aElVeI12xdp3SR6X
-         lZ+xkj6WkFnkDAOV2QLRxuLeQRBVEH3mGF2hJprYhQGnuEZtKgPucXfL7dahyku4dM92
-         eyO6lzaoggWF1VqfV52FQprhhON0Tzew3P2ni0BZepGWZZnAtJ15kCViAKDfN+zSsbUf
-         LMlKM5guK4dXJ6Y66UiiVIKigLXznwsf/FCxvfa5fOuNHx6wP3bG/d4LiXAgy30izivP
-         aGWLMvzIjMbjnTo42+6pZsO0Zj6IFeG5vD+QOFrei0QrnPBWKM9i7NOvoa+MOh6JREUb
-         vQew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I7lrvTAlA/3t43ULdgygOD2DvyJWRLH9rn+t5O59C4Y=;
-        b=8G/m+G2/ZFZmv0XM7PTzxKeAh7HXXbIMFDQE/rtXtsRb3wFlc8+CMZ5AOVqPesSuWa
-         lKkQ+c5UviR2LxxFGKofKWFsVOyReRAQefrXQ93nno1U/nt+uLa0KEqoAXSrV8DuvSj6
-         K05rm6WEXj1uA8nVXzvEwe3ZR8re7o8qAxu5km4i6LeosT0jtgpAA5oRdxpIr0GN6oXk
-         HiQ9rred1lSzGv9CbGWr3xdiQCO9gPUkrOHCeDrjl1DtwHjVWxrid0Ij2Yv94hW17za7
-         ZeNVuxcldsG+KkZUQ5lrOfQ99q+b6b2zVVoPQST0flcMhvNsYSfbWw5QtUEeP/89mTst
-         /MsQ==
-X-Gm-Message-State: AFqh2kpiL/xbP+N1CKB2IQpiMjZFGftFd/6uFxjEgfIpNtV3applHg4m
-	i61j6NPraEsPKvXiSUwJryc=
-X-Google-Smtp-Source: AMrXdXud9Vgud1/nkgt+2pvzn+6PugO5Q1FOSENUGO2/6oCi+JrBipRvnA9IQQX9M4Ijt4HqaUHTrw==
-X-Received: by 2002:adf:edd1:0:b0:2bc:7d12:e736 with SMTP id v17-20020adfedd1000000b002bc7d12e736mr6296609wro.1.1674054613965;
-        Wed, 18 Jan 2023 07:10:13 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i15-20020a05600011cf00b00294176c2c01sm31123998wrx.86.2023.01.18.07.10.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 07:10:13 -0800 (PST)
-Date: Wed, 18 Jan 2023 18:10:09 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Brent Pappas <bpappas@pappasbrent.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: frequency: ad9832: Replace macro
- AD9832_PHASE() with function
-Message-ID: <Y8gL0XNYw5qbK82B@kadam>
-References: <20230118150306.16448-1-bpappas@pappasbrent.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8CF3205
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 15:17:59 +0000 (UTC)
+Received: from mta-12.privateemail.com (localhost [127.0.0.1])
+	by mta-12.privateemail.com (Postfix) with ESMTP id 10B6518000A1;
+	Wed, 18 Jan 2023 10:17:59 -0500 (EST)
+Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
+	by mta-12.privateemail.com (Postfix) with ESMTPA id 1F52F18000B0;
+	Wed, 18 Jan 2023 10:17:46 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+	s=default; t=1674055078;
+	bh=GaG5ivZ8Ij1QWHykTH32ER/QkBhR2QBhWKICtTznnZI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CAbaOxapoXd055Uvxx/ooLJSVtF0pxqk2IBHOdQlew1FSH4ErMeT9c54npu66n8K7
+	 ymgSOQWMNpCwPsy+dFnn2zXy04wjBALjuo3TXPeN0fHfYxEPtWr3OMIqtYcK36jNZ9
+	 XPlb7qWywlcQTUUm3V+w11h20CcLE8yYkuowdfz8gSRF4gnxIeQPcM8r/x/is3+I6W
+	 kZAJ7OUv5oRXeAqS5n7XbcPFME9fwpV01ZiYI5Vtuhjc/l8UDNg4t669TBD6b5t/ds
+	 YsZfFRnCxMglO9Obi5ThI0R+YBdgGG0ZOyDesnQHvyMt1k2Jkh170Ryo4H79PmL60u
+	 BUHU9FYVPBE5w==
+From: Brent Pappas <bpappas@pappasbrent.com>
+To: error27@gmail.com
+Cc: ailus@linux.intel.com,
+	andy.shevchenko@gmail.com,
+	bpappas@pappasbrent.com,
+	gregkh@linuxfoundation.org,
+	hdegoede@redhat.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org
+Subject: [PATCH v5] media: atomisp: pci: Replace bytes macros with functions
+Date: Wed, 18 Jan 2023 10:16:56 -0500
+Message-Id: <20230118151656.20558-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <Y8gImBdR6YpEKZEb@kadam>
+References: <Y8gImBdR6YpEKZEb@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118150306.16448-1-bpappas@pappasbrent.com>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-On Wed, Jan 18, 2023 at 10:03:06AM -0500, Brent Pappas wrote:
-> Replace the macro AD9832_PHASE() with a static function to comply with
-> Linux coding style standards.
-> 
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
-> ---
->  drivers/staging/iio/frequency/ad9832.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 6f9eebd6c7ee..537825534a28 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -59,7 +59,9 @@
->  #define AD9832_CMD_SLEEPRESCLR	0xC
->  
->  #define AD9832_FREQ		BIT(11)
-> -#define AD9832_PHASE(x)		(((x) & 3) << 9)
-> +
-> +static unsigned short ad9832_phase(int x) { return (x & 3) << 9; }
+Replace the function-like macros FPNTBL_BYTES(), SCTBL_BYTES(), and
+MORPH_PLANE_BYTES() with functions to comply with Linux coding style
+standards.
+Replace multiplication with calls to array_size() and array3_size()
+to prevent accidental arithmetic overflow.
 
-The original is fine here.  Just leave it as-is.
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+---
+Changelog:
+V1 -> V2: Use size_mul() to perform size_t multiplication without risk of
+		  overflow.
+		  Remove the inline keyword from function definitions.
 
-regards,
-dan carpenter
+V2 -> V3: Add commit message.
+
+V3 -> V4: Use array_size() and array3_size() for multiplication.
+
+V4 -> V5: Fix indentation.
+
+ .../staging/media/atomisp/pci/sh_css_params.c | 38 +++++++++++--------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index f08564f58242..7e111df5c09d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -98,17 +98,27 @@
+ #include "sh_css_frac.h"
+ #include "ia_css_bufq.h"
+ 
+-#define FPNTBL_BYTES(binary) \
+-	(sizeof(char) * (binary)->in_frame_info.res.height * \
+-	 (binary)->in_frame_info.padded_width)
++static size_t fpntbl_bytes(const struct ia_css_binary *binary)
++{
++	return array3_size(sizeof(char),
++					   binary->in_frame_info.res.height,
++					   binary->in_frame_info.padded_width);
++}
+ 
+-#define SCTBL_BYTES(binary) \
+-	(sizeof(unsigned short) * (binary)->sctbl_height * \
+-	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
++static size_t sctbl_bytes(const struct ia_css_binary *binary)
++{
++	return array_size(sizeof(unsigned short),
++					  array3_size(binary->sctbl_height,
++						      binary->sctbl_aligned_width_per_color,
++								  IA_CSS_SC_NUM_COLORS));
++}
+ 
+-#define MORPH_PLANE_BYTES(binary) \
+-	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
+-	 (binary)->morph_tbl_height)
++static size_t morph_plane_bytes(const struct ia_css_binary *binary)
++{
++	return array3_size(SH_CSS_MORPH_TABLE_ELEM_BYTES,
++					   binary->morph_tbl_aligned_width,
++					   binary->morph_tbl_height);
++}
+ 
+ /* We keep a second copy of the ptr struct for the SP to access.
+    Again, this would not be necessary on the chip. */
+@@ -3279,7 +3289,7 @@ sh_css_params_write_to_ddr_internal(
+ 	if (binary->info->sp.enable.fpnr) {
+ 		buff_realloced = reallocate_buffer(&ddr_map->fpn_tbl,
+ 						   &ddr_map_size->fpn_tbl,
+-						   (size_t)(FPNTBL_BYTES(binary)),
++						   fpntbl_bytes(binary),
+ 						   params->config_changed[IA_CSS_FPN_ID],
+ 						   &err);
+ 		if (err) {
+@@ -3304,7 +3314,7 @@ sh_css_params_write_to_ddr_internal(
+ 
+ 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
+ 						   &ddr_map_size->sc_tbl,
+-						   SCTBL_BYTES(binary),
++						   sctbl_bytes(binary),
+ 						   params->sc_table_changed,
+ 						   &err);
+ 		if (err) {
+@@ -3538,8 +3548,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_x[i],
+ 					    virt_size_tetra_x[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+@@ -3549,8 +3558,7 @@ sh_css_params_write_to_ddr_internal(
+ 			buff_realloced |=
+ 			    reallocate_buffer(virt_addr_tetra_y[i],
+ 					    virt_size_tetra_y[i],
+-					    (size_t)
+-					    (MORPH_PLANE_BYTES(binary)),
++					    morph_plane_bytes(binary),
+ 					    params->morph_table_changed,
+ 					    &err);
+ 			if (err) {
+-- 
+2.34.1
 
