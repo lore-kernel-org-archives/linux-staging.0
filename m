@@ -1,108 +1,69 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C351C53A7
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 20:00:21 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id k16so13676wms.2
-        for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 12:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XKHxjmN02i/BHbdj2UWJHSksRbf2ziy6vT0R/buc9Kw=;
-        b=I5FI9EU/z5BZ4/wpjNCc/vMEvZPZI6KnWjr9ycx26XKe1v+Wat2zoohBGrbayqUYRY
-         xAKlpfayi6Fdy//xjIpTh5EgECV1JH1/XcZ5B9AWNI6K7tq68o1NNnuS5QxkmBa78GRO
-         LDkIBMMPMNO0VugcwJUAEHMFvWad5CU03fKGxD83Ink33tfnPVrVAZzTfgHMWNJrwOp1
-         B5hUZqIJSRh9fbN5fpK6YohtKHepiTXU1QJ28K7sKp8U6qZXLTXyAXpILbteVl5gw+yT
-         G7joulItwvXIsbwlMQuci08Jrl+q+XMXS5ECAG9up8gwfVj+cxQwjma+0DZ3RT02BVPT
-         dH+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XKHxjmN02i/BHbdj2UWJHSksRbf2ziy6vT0R/buc9Kw=;
-        b=YrviIJloGsrYUSUBIanwKJxiVef3wm37c6aJm4OKRO5DzWZ7uh6mDC7aRBdDMMPXmD
-         7ysRiqsIQDOHioReyDlAga3aZyWyBSmM/uZoMxh19eC2DERlCNiaENNdnI56Ze6KuAaR
-         imjOpNrDEe/OxQyfs1/xSDrLOlJsw1O05S/PMQiRalvjU+vOpcZA1vU1zdwrh5O5v0Fj
-         HNWInTcDJ/PLwwud+8IhpmZVdn7UM88dLvPgrEMhq7h30Ji5A450WuLvE5HGt28RHn9j
-         8BPW/qu09+M5FU4AOonYhe8USAskZPb0zbzcbi6Gdw5QPQJhdEPbi8OZPE2/uVCW/Bod
-         pn1w==
-X-Gm-Message-State: AFqh2kortGF0gHqir4MbIRNc7GiGHR0seyE7VWJm22oQPFkSl1igI9lA
-	yiQuYf7ty/eCG657oFIhurQ=
-X-Google-Smtp-Source: AMrXdXtM6vpOEkGvWWDvDbC+610yIbibv+L0IS1JciOtIsHsPzq60bZVFNIVj8rFbJneozPo3mCOag==
-X-Received: by 2002:a05:600c:3b29:b0:3da:f7a9:50ca with SMTP id m41-20020a05600c3b2900b003daf7a950camr2017626wms.0.1674072020111;
-        Wed, 18 Jan 2023 12:00:20 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id e1-20020a5d65c1000000b002be15ee1377sm6184451wrw.22.2023.01.18.12.00.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 12:00:19 -0800 (PST)
-Date: Wed, 18 Jan 2023 21:00:17 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] staging: rtl8192e: Remove unused variable DM_Type
-Message-ID: <380fa2767d1f1cc32a5ad271057683d67ceb1b6f.1674071236.git.philipp.g.hortmann@gmail.com>
-References: <cover.1674071236.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA49E15A3
+	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 02:10:41 +0000 (UTC)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.57])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Ny5dr5CsZz16MhD;
+	Thu, 19 Jan 2023 10:08:48 +0800 (CST)
+Received: from [10.174.178.41] (10.174.178.41) by
+ dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 19 Jan 2023 10:10:33 +0800
+Message-ID: <96b806c5-ceed-7738-3d4e-241214183a2d@huawei.com>
+Date: Thu, 19 Jan 2023 10:10:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1674071236.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] staging: emxx_udc: Add checks for dma_alloc_coherent()
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <horms+renesas@verge.net.au>, <damm+renesas@opensource.se>,
+	<linux-staging@lists.linux.dev>
+References: <20221125083711.1837-1-yuancan@huawei.com>
+ <Y8bmXLwmq4b0kxE9@kroah.com>
+From: Yuan Can <yuancan@huawei.com>
+In-Reply-To: <Y8bmXLwmq4b0kxE9@kroah.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.41]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500024.china.huawei.com (7.185.36.10)
+X-CFilter-Loop: Reflected
 
-DM_Type is initialized and then never evaluated. Remove resulting dead
-code.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 2 --
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c   | 2 --
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.h   | 2 --
- 3 files changed, 6 deletions(-)
+在 2023/1/18 2:18, Greg KH 写道:
+> On Fri, Nov 25, 2022 at 08:37:11AM +0000, Yuan Can wrote:
+>> As the dma_alloc_coherent() may return NULL, the return value needs to be
+>> checked to avoid NULL poineter dereference.
+>>
+>> Fixes: 33aa8d45a4fe ("staging: emxx_udc: Add Emma Mobile USB Gadget driver")
+>> Signed-off-by: Yuan Can <yuancan@huawei.com>
+>> ---
+>>   drivers/staging/emxx_udc/emxx_udc.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+>> index b6abd3770e81..3c0c9c5eb733 100644
+>> --- a/drivers/staging/emxx_udc/emxx_udc.c
+>> +++ b/drivers/staging/emxx_udc/emxx_udc.c
+>> @@ -2594,6 +2594,10 @@ static int nbu2ss_ep_queue(struct usb_ep *_ep,
+>>   			ep->virt_buf = dma_alloc_coherent(udc->dev, PAGE_SIZE,
+>>   							  &ep->phys_buf,
+>>   							  GFP_ATOMIC | GFP_DMA);
+>> +		if (!ep->virt_buf) {
+>> +			spin_unlock_irqrestore(&udc->lock, flags);
+>> +			return -ENOMEM;
+>> +		}
+> This should be checked in the if statment, not outside of it, right?
+Yes, the next version will do the check just before the memcpy, thanks 
+for the suggestion.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 6662558e56fa..11f3f88491b2 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -457,8 +457,6 @@ struct r8192_priv {
- 	bool set_rf_pwr_state_in_progress;
- 	bool bdisable_nic;
- 
--	u8 DM_Type;
--
- 	u8 cck_pwr_enl;
- 	u16 tssi_13dBm;
- 	u32 pwr_track;
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index cb55b6645674..ba92dab682ec 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -203,8 +203,6 @@ void rtl92e_dm_init(struct net_device *dev)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
- 
--	priv->DM_Type = DM_Type_ByDriver;
--
- 	priv->undecorated_smoothed_pwdb = -1;
- 
- 	_rtl92e_dm_init_dynamic_tx_power(dev);
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-index 1d4d7d98a859..65d077dfee37 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-@@ -47,8 +47,6 @@
- #define		TX_RETRY_COUNT_REG		0x1ac
- #define		RegC38_TH				 20
- 
--#define		DM_Type_ByDriver		1
--
- /*--------------------------Define Parameters-------------------------------*/
- 
- 
 -- 
-2.39.0
+Best regards,
+Yuan Can
 
