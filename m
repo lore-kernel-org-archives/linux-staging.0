@@ -1,77 +1,92 @@
-Received: from zeeaster.vergenet.net (zeeaster.vergenet.net [206.189.110.174])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BE33C3E
-	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 10:55:03 +0000 (UTC)
-Received: from momiji.horms.nl (2a02-a46e-7b6b-703-d63d-7eff-fe99-ac9d.fixed6.kpn.net [IPv6:2a02:a46e:7b6b:703:d63d:7eff:fe99:ac9d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by zeeaster.vergenet.net (Postfix) with ESMTPSA id A067A20095;
-	Thu, 19 Jan 2023 10:47:48 +0000 (UTC)
-Received: by momiji.horms.nl (Postfix, from userid 7100)
-	id F2BF394047A; Thu, 19 Jan 2023 11:47:47 +0100 (CET)
-Date: Thu, 19 Jan 2023 11:47:47 +0100
-From: Simon Horman <horms@verge.net.au>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Yuan Can <yuancan@huawei.com>, gregkh@linuxfoundation.org,
-	drv@mailo.com, damm+renesas@opensource.se,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: emxx_udc: Add checks for dma_alloc_coherent()
-Message-ID: <Y8kf01SiZsqDqH/1@vergenet.net>
-References: <20230119023430.95919-1-yuancan@huawei.com>
- <Y8jSWCCZjGR9reA8@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605DE6FC2
+	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 11:55:23 +0000 (UTC)
+Received: from ideasonboard.com (unknown [IPv6:2401:4900:1c80:b229:a6c1:a673:925f:1ed6])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A9202B3;
+	Thu, 19 Jan 2023 12:55:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1674129319;
+	bh=9pAoOLTF7+Cw2506uroWXwqL72bQqS8dBuEzdJmN6mk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=EFBLzxwdWyogpOD+jkKNhGCeVQNIVIUwhdmwIeQT90jtFUyAUrpAH01zIH7UjmggZ
+	 naxjM5EsPyGZYb4zb0NPDJglBSL12ekfhZslZUyz5XD5MdO91Wvl5dnTFIreL1aoal
+	 MLPsKMNxWaMtNsdVu6/K6RvFrVq/RhxOvmTpLpUg=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v5 0/6] staging: vc04_services: vchiq: Register devices with a custom bus_type
+Date: Thu, 19 Jan 2023 17:24:57 +0530
+Message-Id: <20230119115503.268693-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8jSWCCZjGR9reA8@kadam>
-Organisation: Horms Solutions BV
-X-Virus-Scanned: clamav-milter 0.103.7 at zeeaster
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 19, 2023 at 08:17:12AM +0300, Dan Carpenter wrote:
-> On Thu, Jan 19, 2023 at 02:34:30AM +0000, Yuan Can wrote:
-> > As the dma_alloc_coherent may return NULL, the return value needs to be
-> > checked to avoid NULL poineter dereference.
-> > 
-> > Fixes: 33aa8d45a4fe ("staging: emxx_udc: Add Emma Mobile USB Gadget driver")
-> > Signed-off-by: Yuan Can <yuancan@huawei.com>
-> > ---
-> > changes in v2:
-> > - do the null pointer check right before the memcpy().
-> > 
-> 
-> No. No.  This should be:
-> 
-> diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-> index b4e19174bef2..f9765841c4aa 100644
-> --- a/drivers/staging/emxx_udc/emxx_udc.c
-> +++ b/drivers/staging/emxx_udc/emxx_udc.c
-> @@ -2587,10 +2587,15 @@ static int nbu2ss_ep_queue(struct usb_ep *_ep,
->  		req->unaligned = false;
->  
->  	if (req->unaligned) {
-> -		if (!ep->virt_buf)
-> +		if (!ep->virt_buf) {
->  			ep->virt_buf = dma_alloc_coherent(udc->dev, PAGE_SIZE,
->  							  &ep->phys_buf,
->  							  GFP_ATOMIC | GFP_DMA);
-> +			if (!ep->virt_buf) {
-> +				spin_unlock_irqrestore(&udc->lock, flags);
-> +				return -ENOMEM;
-> +			}
-> +		}
->  		if (ep->epnum > 0)  {
->  			if (ep->direct == USB_DIR_IN)
->  				memcpy(ep->virt_buf, req->req.buf,
-> 
+The main patch (6/6) is laregly unchanged from v3.
+Specific details are elaborated in its commit message.
 
-Yes, FWIIW, I think so too.
+This series just introduces five extra patches for dropping include
+directives from Makefiles (suggested by Greg KH) and rebased.
 
-Reviewed-by: Simon Horman <horms@verge.net.au>
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
+
+Changes in v4: 
+- Introduce patches to drop include directives from Makefile
+
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
+
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
+
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
+
+Umang Jain (6):
+  staging: vc04_services: Drop __VCCOREVER__ remnants
+  staging: vc04_services: bcm2835-audio: Drop include Makefile directive
+  staging: vc04_services: bcm2835-camera: Drop include Makefile
+    directive
+  staging: vc04_services: vchiq-mmal: Drop include Makefile directive
+  staging: vc04_services: interface: Drop include Makefile directive
+  staging: vc04_services: vchiq: Register devices with a custom bus_type
+
+ drivers/staging/vc04_services/Makefile        |   2 -
+ .../vc04_services/bcm2835-audio/Makefile      |   2 -
+ .../vc04_services/bcm2835-audio/bcm2835.c     |  19 ++-
+ .../vc04_services/bcm2835-audio/bcm2835.h     |   3 +-
+ .../vc04_services/bcm2835-camera/Makefile     |   5 -
+ .../bcm2835-camera/bcm2835-camera.c           |  27 ++--
+ .../vc04_services/bcm2835-camera/controls.c   |   6 +-
+ .../interface/vchiq_arm/vchiq_arm.c           | 121 +++++++++++++++---
+ .../interface/vchiq_arm/vchiq_arm.h           |   1 +
+ .../interface/vchiq_arm/vchiq_core.h          |   2 +-
+ .../interface/vchiq_arm/vchiq_ioctl.h         |   3 +-
+ .../staging/vc04_services/vchiq-mmal/Makefile |   5 -
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     |   2 +-
+ 13 files changed, 131 insertions(+), 67 deletions(-)
+
+-- 
+2.38.1
 
