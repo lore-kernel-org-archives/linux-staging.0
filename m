@@ -1,24 +1,26 @@
 Received: from zeeaster.vergenet.net (zeeaster.vergenet.net [206.189.110.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92B53232
-	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 10:49:42 +0000 (UTC)
-Received: from momiji.horms.nl (86-93-216-223.fixed.kpn.net [86.93.216.223])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BE33C3E
+	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 10:55:03 +0000 (UTC)
+Received: from momiji.horms.nl (2a02-a46e-7b6b-703-d63d-7eff-fe99-ac9d.fixed6.kpn.net [IPv6:2a02:a46e:7b6b:703:d63d:7eff:fe99:ac9d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by zeeaster.vergenet.net (Postfix) with ESMTPSA id 1A182200A3;
-	Thu, 19 Jan 2023 10:49:41 +0000 (UTC)
+	by zeeaster.vergenet.net (Postfix) with ESMTPSA id A067A20095;
+	Thu, 19 Jan 2023 10:47:48 +0000 (UTC)
 Received: by momiji.horms.nl (Postfix, from userid 7100)
-	id A69CC94047A; Thu, 19 Jan 2023 11:49:40 +0100 (CET)
-Date: Thu, 19 Jan 2023 11:49:40 +0100
+	id F2BF394047A; Thu, 19 Jan 2023 11:47:47 +0100 (CET)
+Date: Thu, 19 Jan 2023 11:47:47 +0100
 From: Simon Horman <horms@verge.net.au>
-To: Yuan Can <yuancan@huawei.com>
-Cc: gregkh@linuxfoundation.org, drv@mailo.com, damm+renesas@opensource.se,
-	error27@gmail.com, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: emxx_udc: Add checks for dma_alloc_coherent()
-Message-ID: <Y8kgRGvYdx+BlKij@vergenet.net>
-References: <20230119083119.16956-1-yuancan@huawei.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Yuan Can <yuancan@huawei.com>, gregkh@linuxfoundation.org,
+	drv@mailo.com, damm+renesas@opensource.se,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: emxx_udc: Add checks for dma_alloc_coherent()
+Message-ID: <Y8kf01SiZsqDqH/1@vergenet.net>
+References: <20230119023430.95919-1-yuancan@huawei.com>
+ <Y8jSWCCZjGR9reA8@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,33 +29,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119083119.16956-1-yuancan@huawei.com>
+In-Reply-To: <Y8jSWCCZjGR9reA8@kadam>
 Organisation: Horms Solutions BV
 X-Virus-Scanned: clamav-milter 0.103.7 at zeeaster
 X-Virus-Status: Clean
 
-On Thu, Jan 19, 2023 at 08:31:19AM +0000, Yuan Can wrote:
-> As the dma_alloc_coherent may return NULL, the return value needs to be
-> checked to avoid NULL poineter dereference.
+On Thu, Jan 19, 2023 at 08:17:12AM +0300, Dan Carpenter wrote:
+> On Thu, Jan 19, 2023 at 02:34:30AM +0000, Yuan Can wrote:
+> > As the dma_alloc_coherent may return NULL, the return value needs to be
+> > checked to avoid NULL poineter dereference.
+> > 
+> > Fixes: 33aa8d45a4fe ("staging: emxx_udc: Add Emma Mobile USB Gadget driver")
+> > Signed-off-by: Yuan Can <yuancan@huawei.com>
+> > ---
+> > changes in v2:
+> > - do the null pointer check right before the memcpy().
+> > 
 > 
-> Fixes: 33aa8d45a4fe ("staging: emxx_udc: Add Emma Mobile USB Gadget driver")
-> Signed-off-by: Yuan Can <yuancan@huawei.com>
-> ---
-> changes in v2:
-> - do the null pointer check right before the memcpy().
-> changes in v3:
-> - do the null pointer check right after the dma_alloc_coherent().
-> 
->  drivers/staging/emxx_udc/emxx_udc.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-
-I am no longer associated with Renesas, as I was when the patch
-that added this problem was accepted.
-
-But, FWIIW,
-
-Reviewed-by: Simon Horman <horms@verge.net.au>
-
+> No. No.  This should be:
 > 
 > diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
 > index b4e19174bef2..f9765841c4aa 100644
@@ -76,6 +69,9 @@ Reviewed-by: Simon Horman <horms@verge.net.au>
 >  		if (ep->epnum > 0)  {
 >  			if (ep->direct == USB_DIR_IN)
 >  				memcpy(ep->virt_buf, req->req.buf,
-> -- 
-> 2.17.1
 > 
+
+Yes, FWIIW, I think so too.
+
+Reviewed-by: Simon Horman <horms@verge.net.au>
+
