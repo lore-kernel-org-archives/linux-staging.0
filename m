@@ -1,82 +1,95 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C91A257E
-	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 14:32:01 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-4fbcda8ddfbso16298187b3.2
-        for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 06:32:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF85257E
+	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 14:32:29 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id iv8-20020a05600c548800b003db04a0a46bso3111457wmb.0
+        for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 06:32:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RxbmQQnppwWipwY+7UMUv45QxwTbva6H7m4OgO4CL+g=;
-        b=jAf0mB3bHlNaeYBduqwR1vVVqS+WYNlZmEDa2g59jQ1zQ5s4Rt73Et8LXdtllpnq4f
-         RAnPn83bUgVqODpdayn1j27M58kqRj04/J7DY75PTxSdZdfeAPhZbXR3XS9JpAOxc4lz
-         LABBEX47Tzb3k0Uxva9hJztJ4w7HEC4rKhDFcdvrLdLmS75odAOiqH0FC9hPShIFOhIa
-         duLs1ec89noN1qlI0didbv10lAKWO44VW7I4hCyhcPFam46gb3ZSQq82dXSMalz6T+wD
-         ZHNjkzdUT3XVoI70P+E4zcRFWtcN7o9Sy+CHL4m01advLhRlKb6fKpUZGmgFV9imI9Tv
-         BX8g==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wS7HSylCm9otocOdYBhDnMFqnI4PKH4nfYFHOFNvW3g=;
+        b=ZyeibTCU3dHPBSQm3WEHymYSJKlzsLGwKkfHxwUW+zHH042eB7+IP/Sj0sEQFz6Jcj
+         qu4v3JFderI0jEofEgqUdNuzs2JAeJgMZqswIkfxy32njBcZthC3qWipijH92mL4KqFr
+         +8sdV/pFoM6gcD4xk1Ql6rKYxJr19dAPyeJDJYd/yqx93L/crHwkdHENThnjCJptZ4u+
+         uk5ORYgoPKm7KD0QUqFC276bwEUOnYm7ap9lWdW3bEFX77L55hRkf02Z68of/uzFMdal
+         eoUdH52gXk0xreepJohtwXGYXwkv5zX4/k7+HKFW6/RuO7awltBN5yy01HaDHG4Iv5Sw
+         79jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RxbmQQnppwWipwY+7UMUv45QxwTbva6H7m4OgO4CL+g=;
-        b=fcAU0g5aNO0WvgLv8qFncgu/43CbJX3PvvPlBL/CIspg6oMuMshTGMV7hkxMzzUJR0
-         3BtYVfsn/Ny9qSXuUE83QV9n9iEycZoxCl1M56pWzPhWqxlDR/Kb+QUMLJMB3qhUOAf6
-         wWDkW7rKJ05hI1E6Nqe5lSdWaxUDZAmnXpZc5hz8KYpXnMOVTj1KbBhPz3igoBu+MXKh
-         zo45TpCVmyrCbVxyckudONieOEubzNwZkRFSl4QQDm+cT1330w/OwwD+SdPrqY9kNiAB
-         LOFEknYSQR0JNbXizRhQFuYRNqzNvnxLVVPme1eC4iopR+0cGuXVaFykox2YAHkWz3dG
-         NrTA==
-X-Gm-Message-State: AFqh2krH0DwhL8FI2DT5jk7u1kNXDZh8UVFbPPhSBU9xAkyJdQ8A6fYg
-	stTCJShKi5Y0vk7qeeWmLJQfWClGpgyXA4Zu6MzDqA==
-X-Google-Smtp-Source: AMrXdXtJ9W+vaXTePLu279j/F8U38ArAthhZLyHvsMhW95lavv0nHZWowqIK5iJxnWnP9Zyr4/2chS0gedQfh31Vy2w=
-X-Received: by 2002:a81:66d7:0:b0:4be:6d20:dc66 with SMTP id
- a206-20020a8166d7000000b004be6d20dc66mr1304877ywc.151.1674138720498; Thu, 19
- Jan 2023 06:32:00 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wS7HSylCm9otocOdYBhDnMFqnI4PKH4nfYFHOFNvW3g=;
+        b=OIvL4mmAWY5h+CVUkilt7fQtCpuQ0u/eRd0HTKTjTt4Jg4MSSL8IiPzw9JZpwju8f8
+         98jA/dAmmQ8G3jjl1XoOu8HOfQ4q57v45PD6speVXBLEm58DxMS6ZN17gsZh2Qpb4atX
+         qu/D5CpCkb83OdQ3P8fZ6/ZZ7ttLGhIGBVXR51t4VRVtpcWqAAgYJAMZBI2pvAv6l/cZ
+         UwrC2npy62p/DmTVka+niekVLfxTOktQ859Ayk7MPDp5v+KNTcc7mlX54AYeQGdMLV8c
+         wNHUez7dqMB1dCvPh4rQtZ/iM1WkI/H46voMpZeLG45tdMGI6IaBLhmsUgPmLPLmRVQU
+         lJug==
+X-Gm-Message-State: AFqh2koD3iF0eYJJS7LaMy1Y7mCDrhB2SYHauw+AoBnh5fK0O+e41hBj
+	EFi5foR+xpj1JchbVKDuA5s=
+X-Google-Smtp-Source: AMrXdXsk3J0ufP1mfd0P9SekZ3FFkzaf0xCJj0h4j/1DCaEarvPaz9ltTd8g8lO+rl2wWrcKN7nq4A==
+X-Received: by 2002:a05:600c:1e19:b0:3da:2ba4:b97 with SMTP id ay25-20020a05600c1e1900b003da2ba40b97mr17848869wmb.19.1674138748164;
+        Thu, 19 Jan 2023 06:32:28 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z4-20020a1cf404000000b003da2932bde0sm5701400wma.23.2023.01.19.06.32.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 06:32:27 -0800 (PST)
+Date: Thu, 19 Jan 2023 17:32:24 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [RFC PATCH 1/4] staging: vc04_services: vchiq_core: Drop custom
+ logging
+Message-ID: <Y8lUeDjGZfe+/Ap3@kadam>
+References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
+ <20230118115810.21979-2-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
- <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com> <CAMEGJJ1=dix7gWvV3Jxef-M-ExFZRTASQCr+6sn_dGsEQ=deYQ@mail.gmail.com>
- <Y8lHqd9FlxiXTLuW@kroah.com> <CAMEGJJ1oZ9XFw0609PrEABAgDwvapbc3hG4hJ=vBekUOepdiWw@mail.gmail.com>
- <Y8lS5eBliYw5EHBb@kadam>
-In-Reply-To: <Y8lS5eBliYw5EHBb@kadam>
-From: Phil Elwell <phil@raspberrypi.com>
-Date: Thu, 19 Jan 2023 14:31:50 +0000
-Message-ID: <CAMEGJJ2b1KFQY1m1eTcvf8_kGBBTjzrBD2i_M2uR+6v4gEcbVQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] Drop custom logging
-To: Dan Carpenter <error27@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stefan Wahren <stefan.wahren@i2se.com>, 
-	Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, Florian Fainelli <f.fainelli@gmail.com>, 
-	Adrien Thierry <athierry@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118115810.21979-2-umang.jain@ideasonboard.com>
 
-On Thu, 19 Jan 2023 at 14:25, Dan Carpenter <error27@gmail.com> wrote:
->
-> On Thu, Jan 19, 2023 at 01:47:44PM +0000, Phil Elwell wrote:
-> > > > I understand the desire to remove the custom logging. I don't welcome
-> > > > the loss of flexibility that comes with such a strategy
-> > >
-> > > What "loss of flexibility"?  You now have access to the full dynamic
-> > > debugging facilities that all of the rest of the kernel has.  What is
-> > > lacking?
-> >
-> > Perhaps I've missed something, either in this patch set or the kernel
-> > as a whole, but how is one supposed to set different logging levels on
-> > different facilities within a driver/module, or even for the module as
-> > a whole?
->
-> Yeah.  You will be still able to do that and more besides after the
-> transition.  Cleaning this up makes the code better in every way.
->
-> Documentation/admin-guide/dynamic-debug-howto.rst
+On Wed, Jan 18, 2023 at 05:28:07PM +0530, Umang Jain wrote:
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 4e705a447a62..7b3c57326d28 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -227,10 +227,11 @@ static const char *msg_type_str(unsigned int msg_type)
+>  static inline void
+>  set_service_state(struct vchiq_service *service, int newstate)
+>  {
+> -	vchiq_log_info(vchiq_core_log_level, "%d: srv:%d %s->%s",
+> -		       service->state->id, service->localport,
+> -		       srvstate_names[service->srvstate],
+> -		       srvstate_names[newstate]);
+> +	struct vchiq_state *state = service->state;
+> +
+> +	dev_info(state->dev, "%d: srv:%d %s->%s", state->id,
+> +		 service->localport, srvstate_names[service->srvstate],
+> +		 srvstate_names[newstate]);
 
-Are you saying this patch set gets us to that point?
+This should be a debug level printk.  Don't spam dmesg in the success
+path.  Success should not be noteworthy.
+
+>  	service->srvstate = newstate;
+>  }
+
+regards,
+dan carpenter
+
