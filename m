@@ -1,60 +1,50 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC66B23AE
-	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 05:11:05 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id r9so710736wrw.4
-        for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 21:11:05 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122D023AE
+	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 05:17:18 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id b5so759375wrn.0
+        for <linux-staging@lists.linux.dev>; Wed, 18 Jan 2023 21:17:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Tjbpu1SxuTEzHSu4hfhiQLazDPHI+RGvql9dhrL0NQ=;
-        b=BZHdfb3xC+QUE9x42xdBIAVgRdnD+oADJ+j2t4Lg6k78gutt71TMP9p8T+msJiZLIW
-         68FHTJK0KLA+8x8xskBC/94eRIK+woqo4c+qzMJ9LmNyJ4u3pMllBanunBPvsFnpuFeD
-         oZuY10iqQwhG5MKy8hFDgr1RjYdNSskxz4NMVGMsHKZ9Ki5TQOmf5zfnMvDcyW+Hrxbt
-         a0ddXCwV2bS+CxdnI6AooGaamiMFE/oji8rb7DFd8OIQYcJQTuRqMYenigUzUaWCeI7X
-         /VmWlrYtGA+JyOGyj3ms51Ccgq0EmxO3R6QTOBot5p6pFTLf1E/K0yXLEuZDhKnyd/1W
-         Ce8w==
+        bh=dX8+q180dHz7f4/ZBQ1ZuKBQ5gCr8mFRkjscfMvCgHE=;
+        b=lv4pg37MEsNSTvonv7rhKIoTAy2ufB6Sgk/K9kMS2nrPIxG+x433eEG6r4cHBiA7F+
+         GWnIwNur5ZQjaQndVCZUwAIusReE2G7wnyPk7EZKAaKzsJmWwJqlOkE08xnSiiBOiLP8
+         GoziuiYzUBZAtd9WL4l3vbLOGmxtQJLsb0q2azKa6lX5YMqczplTuwk+R7ZjqAYkWlUj
+         6YNfkwtlmbYXSbw14WA/xqgof4t/RiLmyk+aqkDvbEhAxRij/mQx3UEDeW4qVs9l/4QH
+         v6OKq1nVmThpuwFXUJ8vXs2/tZIPFd17V9D0mFRNGdmauRFzFxeUTCxisHPdVaJ00Pji
+         LelA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/Tjbpu1SxuTEzHSu4hfhiQLazDPHI+RGvql9dhrL0NQ=;
-        b=2wUqgQENm0kLlHM2htWUcm9h7grFGXqbU/2uQ8qfY01JNyGbXtbkel1SZqgyLaCFQa
-         yvXE3TCnMn43dJo4FgaBRLYVX1sCCYFGGdLfNsZUwZVrR5dzEagyTVd6ZaEf7ai5ZKhO
-         aneRkLQwhm8jxZJnMk2Hwiqhh19WqQoebCVFSU8aNT57p3wsi0XDn3dlBRZ4nrh5xiLM
-         mig6rpjDLFT4mSA6OV0qDmPZgVxbwmW/XXs5nSxM3txroj5moT5y0Lr/se9PA9asdlCw
-         OsO5L7IfGpGmTQBwvNlh5BJZC7f9w720fGQJ1dh6fM8Sg799W07BjIJeSV+c2ENMDA1X
-         fdMA==
-X-Gm-Message-State: AFqh2krRV0zoPXuYHn239LPY6mqRj7l0bAas4KkE7NTyY1gYmkLobgT7
-	WMPP7s6QvL2QxgyCHpN9sRU=
-X-Google-Smtp-Source: AMrXdXtJite6JKf4pGTxLI2ygDKj1sCVv+/+7k0s80+bC+EzVSmIycwrf+SCCakYVITW5cqgnqALEQ==
-X-Received: by 2002:adf:f085:0:b0:2bd:d4bd:581d with SMTP id n5-20020adff085000000b002bdd4bd581dmr4037847wro.53.1674105063778;
-        Wed, 18 Jan 2023 21:11:03 -0800 (PST)
+        bh=dX8+q180dHz7f4/ZBQ1ZuKBQ5gCr8mFRkjscfMvCgHE=;
+        b=hOgwls8h9WkTTmYkE1Ti84dx/hxyW+1OCKiKFZzxoMZrLUqKJF/elFrAwXdcWNKYHF
+         srK2iY+XprN0vmiLccdwiOHWw/Y+XuIziFIrxTrTebq4CQ0Y+c92UVlBQVLSAbj4Nweo
+         SR90SgrslSjVicBl/pSQF0Ds85Wwgz1E8LWcYpK00T3XCRu2jjm2SPXGTRxlM/g3qX2B
+         FhcMnuw16uU0nKE4Sed9+KdSawHrurF2JqIjLRNlb/MMLJsx0v091yW6inEAFVFpfRvx
+         pLAZYJ58BDD8ALyYSQ6zm4jkRyDnhJFOWY6FZ70roKvOliHoWWDG1vzusEzty+iv46OD
+         O+QA==
+X-Gm-Message-State: AFqh2kr6LfJjeGacfwg8IJNUtt+74uPw2Uka+wxcg+SQudX9voHw8Kuy
+	QYOGG5Nba2uQkwjIgEaz+l8=
+X-Google-Smtp-Source: AMrXdXvceIJRKHSvFhNROyJkTuC/lkr2+aSCUwMeFU13VOMXQt7b0GUcSxfv+Sek1h69SE7IKlr8Jg==
+X-Received: by 2002:a5d:5224:0:b0:2bd:bbf7:1f87 with SMTP id i4-20020a5d5224000000b002bdbbf71f87mr9392905wra.60.1674105436204;
+        Wed, 18 Jan 2023 21:17:16 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t13-20020adfe10d000000b002b6bcc0b64dsm20494305wrz.4.2023.01.18.21.11.02
+        by smtp.gmail.com with ESMTPSA id k2-20020a5d5182000000b00236545edc91sm33363447wrv.76.2023.01.18.21.17.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 21:11:03 -0800 (PST)
-Date: Thu, 19 Jan 2023 08:11:00 +0300
+        Wed, 18 Jan 2023 21:17:15 -0800 (PST)
+Date: Thu, 19 Jan 2023 08:17:12 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
-	Phil Elwell <phil@raspberrypi.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/4] Drop custom logging
-Message-ID: <Y8jQ5M1p5AN4LAMQ@kadam>
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
- <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com>
+To: Yuan Can <yuancan@huawei.com>
+Cc: gregkh@linuxfoundation.org, drv@mailo.com, damm+renesas@opensource.se,
+	horms+renesas@verge.net.au, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: emxx_udc: Add checks for dma_alloc_coherent()
+Message-ID: <Y8jSWCCZjGR9reA8@kadam>
+References: <20230119023430.95919-1-yuancan@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,57 +53,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com>
+In-Reply-To: <20230119023430.95919-1-yuancan@huawei.com>
 
-On Wed, Jan 18, 2023 at 06:54:56PM +0100, Stefan Wahren wrote:
-> Hi Umang,
+On Thu, Jan 19, 2023 at 02:34:30AM +0000, Yuan Can wrote:
+> As the dma_alloc_coherent may return NULL, the return value needs to be
+> checked to avoid NULL poineter dereference.
 > 
-> [add Phil]
-> 
-> Am 18.01.23 um 12:58 schrieb Umang Jain:
-> > Drop custom logging from the vchiq interface.
-> > Mostly of them are replaced with dev_dbg and friends
-> > and/or pr_info and friends.
-> > 
-> > The debugfs log levels (in 4/4) are mapped to kernel
-> > logs levels (coming from include/linux/kern_levels.h)
-> > Would like some thoughts on it as I am not sure (hence
-> > marking this is RFC)
-> > 
-> >  From drivers/staging/vc04_services/interface/TODO:
-> > 
-> > """
-> > * Cleanup logging mechanism
-> > 
-> > The driver should probably be using the standard kernel logging mechanisms
-> > such as dev_info, dev_dbg, and friends.
-> 
-> i don't have any experience with vchiq logging/debug. So i'm not sure if
-> it's acceptable to lose the second log level dimension (like
-> vchiq_arm_log_level) completely. Complex drivers like brcmfmac have a debug
-> mask to avoid log spamming [1]. Maybe this is a compromise.
-> 
-> Btw some loglevel locations has already been messed up during refactoring
-> :-(
-> 
-> [1] - drivers/net/wireless/broadcom/brcm80211/brcmfmac/debug.h
+> Fixes: 33aa8d45a4fe ("staging: emxx_udc: Add Emma Mobile USB Gadget driver")
+> Signed-off-by: Yuan Can <yuancan@huawei.com>
+> ---
+> changes in v2:
+> - do the null pointer check right before the memcpy().
 > 
 
-Kernel logging is actually has a bunch of features.  You can turn them
-on for just a module or function or enable a specific message.  See
-Documentation/admin-guide/dynamic-debug-howto.rst
-for more info.
+No. No.  This should be:
 
-This vchiq logging is a re-implementation of a subset of the features
-that normal kernel logging infrastructure provides.  Moving to normal
-logging will make it cleaner but also more flexible and powerful.  It's
-better in every way.
-
-The broadcom stuff is different and more complicated than what this
-module is trying to do.  They are sorting out their logging according to
-various components.  I understand the motivation, but they would
-probably have been better just use standard logging like everyone else.
-
-regards,
-dan carpenter
-
+diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+index b4e19174bef2..f9765841c4aa 100644
+--- a/drivers/staging/emxx_udc/emxx_udc.c
++++ b/drivers/staging/emxx_udc/emxx_udc.c
+@@ -2587,10 +2587,15 @@ static int nbu2ss_ep_queue(struct usb_ep *_ep,
+ 		req->unaligned = false;
+ 
+ 	if (req->unaligned) {
+-		if (!ep->virt_buf)
++		if (!ep->virt_buf) {
+ 			ep->virt_buf = dma_alloc_coherent(udc->dev, PAGE_SIZE,
+ 							  &ep->phys_buf,
+ 							  GFP_ATOMIC | GFP_DMA);
++			if (!ep->virt_buf) {
++				spin_unlock_irqrestore(&udc->lock, flags);
++				return -ENOMEM;
++			}
++		}
+ 		if (ep->epnum > 0)  {
+ 			if (ep->direct == USB_DIR_IN)
+ 				memcpy(ep->virt_buf, req->req.buf,
