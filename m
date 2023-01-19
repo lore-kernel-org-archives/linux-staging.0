@@ -1,108 +1,55 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D40B425;
-	Thu, 19 Jan 2023 18:59:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TMeyYE+Qb4iuC2Itd3drZ3ffHrIGC/pWSFW/0IGGikkjTkSKbN+WmEXa+yQxjoKb2z+byKJIbBmc9Yjw8nlVV906XRtRZBrNXs6UdSfsI8g7Wz3pI0O4cSRpO1qmmEXLzE2+GK0BhtR5ESB2oFr8CmbVOKYbhv6g6YKKDNQdVncwsieGmEjnPpYezR61pbH6Ze8pKsZCmUYB1OMFW+sPHEQvwT6Fp5Bp+No5rFNoB0HUGMdPnSPT8WFmgCUaaqUnqQQyXDehSFBu86FJv4gAF2oYGi9HTXcmkl87oVHkxc7MbU4+eBQP0xAXywOIEmSOa7iuYDFGcHUEeHOBwxwUDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ddMvLDT0J0fhvUiIo3eTl/IYAM9NaFqZsLmKBKi4lg=;
- b=bNvvW65zoaq1C/F+ISzwMx8kBpxrk59ktOZ+PHTr2nFSLrmkGgJr8RxGBF2pe6C7e2frUh+pSq2Uiy8Eu6tXXBHPr2blrGbT3/5mycE4bMQu0oT8nrTyZ9hAGXSp2qEHKwUAkehyhAwn5ntlWFftEa8kzVcSQLUb//UBJ+ZCWgThsheRwtyqV1oO0kdR/E2BZDThFMTknpGlFYGwnXY07FZ+pE/bxS1UcKePntDQCv6leoiI9pdmtyokS1gA70ylLKRs7DCJpOd7Ufp6gn5i6PU8Wpf/OTylEKeEZ+mIoaUsjDWNq3FHEnjBw2oZbk1CMKmrykv04YcQ8NCmJGeoXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ddMvLDT0J0fhvUiIo3eTl/IYAM9NaFqZsLmKBKi4lg=;
- b=jhOxSqjPWBSu1v/vX40Ev0z4wpyq3yTy6AAEogi7fEzLEskH/x2lsMl6HWnPSvWdW6HX7ytgnjL1b6u0+XUQSuf6fjURK8kFLX55DjfsLtYS+SE9KkAHHjvcMUqUnoIY/i3Oc3e5Jd4jvjPQwEyuuQaUc7K5qK/JDzaqyq2uKHY=
-Received: from BN9PR03CA0280.namprd03.prod.outlook.com (2603:10b6:408:f5::15)
- by PH7PR12MB7281.namprd12.prod.outlook.com (2603:10b6:510:208::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Thu, 19 Jan
- 2023 18:59:47 +0000
-Received: from BL02EPF0000C408.namprd05.prod.outlook.com
- (2603:10b6:408:f5:cafe::20) by BN9PR03CA0280.outlook.office365.com
- (2603:10b6:408:f5::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25 via Frontend
- Transport; Thu, 19 Jan 2023 18:59:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BL02EPF0000C408.mail.protection.outlook.com (10.167.241.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6002.11 via Frontend Transport; Thu, 19 Jan 2023 18:59:46 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
- 2023 12:59:46 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
- 2023 10:59:45 -0800
-Received: from xhdsneeli40.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Thu, 19 Jan 2023 12:59:20 -0600
-From: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-To: <broonie@kernel.org>, <miquel.raynal@bootlin.com>, <richard@nod.at>,
-	<vigneshr@ti.com>, <jic23@kernel.org>, <tudor.ambarus@microchip.com>,
-	<pratyush@kernel.org>, <sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>,
-	<clg@kaod.org>, <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>,
-	<rjui@broadcom.com>, <sbranden@broadcom.com>, <eajames@linux.ibm.com>,
-	<olteanv@gmail.com>, <han.xu@nxp.com>, <john.garry@huawei.com>,
-	<shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
-	<khilman@baylibre.com>, <matthias.bgg@gmail.com>, <haibo.chen@nxp.com>,
-	<linus.walleij@linaro.org>, <daniel@zonque.org>, <haojian.zhuang@gmail.com>,
-	<robert.jarzmik@free.fr>, <agross@kernel.org>, <bjorn.andersson@linaro.org>,
-	<heiko@sntech.de>, <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
-	<mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
-	<rostedt@goodmis.org>, <mingo@redhat.com>, <l.stelmach@samsung.com>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
-	<kvalo@kernel.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<skomatineni@nvidia.com>, <sumit.semwal@linaro.org>,
-	<christian.koenig@amd.com>, <j.neuschaefer@gmx.net>, <vireshk@kernel.org>,
-	<rmfrfs@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
-	<gregkh@linuxfoundation.org>
-CC: <git@amd.com>, <linux-spi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
-	<radu_nicolae.pirea@upb.ro>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <claudiu.beznea@microchip.com>,
-	<bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
-	<kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
-	<jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
-	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
-	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
-	<yogeshgaur.83@gmail.com>, <konrad.dybcio@somainline.org>,
-	<alim.akhtar@samsung.com>, <ldewangan@nvidia.com>, <michal.simek@amd.com>,
-	<linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-rpi-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-wpan@vger.kernel.org>, <libertas-dev@lists.infradead.org>,
-	<linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-	<lars@metafoo.de>, <Michael.Hennerich@analog.com>,
-	<linux-iio@vger.kernel.org>, <michael@walle.cc>, <palmer@dabbelt.com>,
-	<linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <greybus-dev@lists.linaro.org>,
-	<linux-staging@lists.linux.dev>, <amitrkcian2002@gmail.com>
-Subject: [PATCH v2 13/13] spi: spi-zynqmp-gqspi: Add parallel memories support in GQSPI driver
-Date: Fri, 20 Jan 2023 00:23:42 +0530
-Message-ID: <20230119185342.2093323-14-amit.kumar-mahapatra@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93C3B425
+	for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 19:12:35 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id r9so2479339oie.13
+        for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 11:12:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=9IUy7GLABZ5KCsScXO19g5oGUisQlGEvz/MbBgHRXn0=;
+        b=UpNfO+fLo0XtRNq+Zjx0IvXDu61ZVqKlEhHq5TH7jefsHQFH8m7qeJvJa5NBXqflIY
+         LiZStuvaYyz9nQAr/njjPZxgqSDCu2HSAA0mu3VEq1BBU2lq0NyzLus46sephBrBwZ+H
+         JB5Nr7nZpyDM4yN0fwHBHqwnWobnYP0T4rFNt0zC4HqfOx2RdoYZTeHyFwSKPbQHqE9Z
+         6Z8ZwBcJlTvUSdionPgEFDNkgujetb30X3cI8j7k7UUbwbrejSwU4cYF1BZSdbEOkbxK
+         PX4j5pT//oReOn/yhDleAzoB2jkD7ef2KKfTicRU3NDTUY4mXcvXo3VVnlJoqLXIofMy
+         Hf9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9IUy7GLABZ5KCsScXO19g5oGUisQlGEvz/MbBgHRXn0=;
+        b=JGNa5qr9gIESeFwIcBTpf9MrANeh00wuYubKC437Xay2uw8lYBhn9Af/+2yznfKINc
+         tK6Zc2ZZYH6xRJ5a9a+34DfzobQj/mI4jAIrQch7MlwP6gsBHWOu0cmlOeVzqkswR1Cb
+         jX4/ILTb1s4xDivzUBYCYggc+n2ZLbgHKxSkNF+cQgZPjDC5m2cma7npE4unllcSayQk
+         tVqEawrDHaRCLmxjXHN51jJkuonF7lLp0pdKglWYe/0ROe0PvSK10avBivgYRNbB0XXg
+         xoB1mfydTH99MNiJvk43iWJEceLEN9d06DFSFSspNmhNYoYisqlDsdPFXitFR+BqENvJ
+         SoEg==
+X-Gm-Message-State: AFqh2krEXHanMx6HLDZQEKCaeS4rQqhs4nBuclwlwzEyNsTmvhuGoCwC
+	8WkL1NVI/OhsZCzljABwgDY=
+X-Google-Smtp-Source: AMrXdXsz2qG9hNhQ2wRQBsd7Jr3zo+UJhvpVrm4FIJlPBrR9O/h7c7M4pfciMirVcNLa5MRC2rzPcg==
+X-Received: by 2002:aca:3402:0:b0:36a:3a8a:212d with SMTP id b2-20020aca3402000000b0036a3a8a212dmr4224163oia.45.1674155554544;
+        Thu, 19 Jan 2023 11:12:34 -0800 (PST)
+Received: from localhost.localdomain ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id o9-20020a0568080f8900b0035e461d9b1bsm18431209oiw.50.2023.01.19.11.12.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jan 2023 11:12:34 -0800 (PST)
+Sender: Larry Finger <larry.finger@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+To: gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Gaurav Pathak <gauravpathak129@gmail.com>
+Subject: [PATCH] staging: r8188eu: Fix some endian problems
+Date: Thu, 19 Jan 2023 13:12:19 -0600
+Message-Id: <20230119191219.12080-1-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -110,131 +57,85 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0000C408:EE_|PH7PR12MB7281:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e0b6c3f-7684-47a1-0cf7-08dafa4f5561
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Q+mWrfx8k8KBPJK1OEz8WZeYYNgb2xN5vQcY2Dy7rbPiGFnv+jzi7FgaaJMLl0wS5WqFsu6wCKJNXMahA8ew46sN7qRYS4WLHj7V5/8z2VvLaNhlRtsvlFqp/vW7OKvTo0IkYYpCn5snlf/r71RShSiVc8p7cRAa/zd2CfDDSk7j+4O/nNwdzOZnamcYqXp2ul1/58nY1O1powAxcRqAunpXD7s8fs3kKf8eJUnfxZowOj1C2MC3SXhcx8DdtiB2vnlxgzOd5SAsjR/baHxAjvkD45WX0FtKZ6v4wlIUWCbrr/Vh1/ihh8gTspAXBuUg04D9ps0gObChzpGbbetvLr+NBsDY70nWN2y2me8LHDnSqPSGn1oeYNL3j5JZLMeyRVNHyBMpW0ZNrs7vNtv3OnuMeBVc8NnRys8J+7pcGnYz98+MPfIi/lNbLzI2Ht7c0g+IdlJbOzOzixndyJAun+4fWzpv0Kir3oyj3QgHH5TpKBat79Vjj2AHI1Q8GcYj14G90VNh9zt/GDw/HjPhmvWS0NTnceEBGJ/r4sn0usUXgZzRkwUe1JA+xeiJl9P7dF3PPWf1NRpOiVmvTt2go8raS6y/cvHAErz3pYsYMIpDROb67VXz/GW7jytrRtLyAlkExI1QDhwT+D42FXFYnPG1krTwCCl6k+/NFc1fz63AyDMZXBvAjbBYnVlr5HFlPMRP/ovbYIeQAQCyKxdcjQJKhM6JTyt2EBKQl/41s+o+1/9rHKqpEhh2FLLtpcklKQdv8rM/RX9hKc4nlwkWDOQHoWhkDDk0BEBXcG1jsgID+xU5mvNHW+nqF7v3ORnK+qv4LNRfLFH1PF76feWM0zwJytouTwZ10JRWhhw5Fbw=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(136003)(396003)(376002)(451199015)(46966006)(36840700001)(40470700004)(1191002)(36756003)(110136005)(54906003)(478600001)(186003)(8936002)(1076003)(6666004)(2616005)(921005)(40480700001)(356005)(81166007)(82310400005)(86362001)(8676002)(26005)(83380400001)(426003)(5660300002)(7366002)(336012)(7406005)(7416002)(70206006)(7336002)(70586007)(7276002)(47076005)(40460700003)(41300700001)(316002)(4326008)(82740400003)(2906002)(36860700001)(41080700001)(2101003)(84006005)(83996005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 18:59:46.6411
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e0b6c3f-7684-47a1-0cf7-08dafa4f5561
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0000C408.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7281
 
-During GQSPI driver probe set ctlr->multi-cs-cap for enabling multi CS
-capability of the controller. In parallel mode the controller can either
-split the data between both the flash or can send the same data to both the
-flashes, this is determined by the STRIPE bit. While sending commands to
-the flashes the GQSPI driver send the same command to both the flashes by
-resetting the STRIPE bit, but while writing/reading data to & from the
-flash the GQSPI driver splits the data evenly between both the flashes by
-setting the STRIPE bit.
+Sparse lists the following warnings:
 
-Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+  CHECK   drivers/staging/r8188eu/core/rtw_mlme.c
+drivers/staging/r8188eu/core/rtw_mlme.c:1197:49: warning: incorrect type in
+					 argument 2 (different base types)
+drivers/staging/r8188eu/core/rtw_mlme.c:1197:49:    expected restricted
+					 __le16 [usertype] mstatus_rpt
+drivers/staging/r8188eu/core/rtw_mlme.c:1197:49:    got unsigned short
+					 [assigned] [usertype] media_status_rpt
+drivers/staging/r8188eu/core/rtw_mlme.c:1275:57: warning: incorrect type in
+					 argument 2 (different base types)
+drivers/staging/r8188eu/core/rtw_mlme.c:1275:57:    expected restricted
+					 __le16 [usertype] mstatus_rpt
+drivers/staging/r8188eu/core/rtw_mlme.c:1275:57:    got unsigned short
+					 [assigned] [usertype] media_status
+  CHECK   drivers/staging/r8188eu/core/rtw_mlme_ext.c
+drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58: warning: incorrect type
+					 in argument 2 (different base types)
+drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58:    expected restricted
+					 __le16 [usertype] mstatus_rpt
+drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58:    got unsigned short
+					 [assigned] [usertype] media_status
+
+The second argument of rtl8188e_set_FwMediaStatus_cmd() needs to be in CPU
+order, not little-endian; however, when it uses that value to call
+FillH2CCmd_88E() the parameter must be in little-endian order as that
+value will be sent to the firmware. Note that the conversion from LE to CPU
+order was le16_to_cpu() rather than the correct cpu_to_le16.
+
+The definition of FillH2CCmd_88E() is revised, and the proper conversion
+routine is used.
+
+Note that the original code performed one byte swap on the secong argument
+of FillH2CCmd_88E(), and got the correct answer even though the semantics
+were very wrong.
+
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+Reportewd-by: Gaurav Pathak <gauravpathak129@gmail.com>
 ---
- drivers/spi/spi-zynqmp-gqspi.c | 39 +++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+Greg,
 
-diff --git a/drivers/spi/spi-zynqmp-gqspi.c b/drivers/spi/spi-zynqmp-gqspi.c
-index 4759f704bf5c..9e44371bfda2 100644
---- a/drivers/spi/spi-zynqmp-gqspi.c
-+++ b/drivers/spi/spi-zynqmp-gqspi.c
-@@ -23,6 +23,7 @@
- #include <linux/spinlock.h>
- #include <linux/workqueue.h>
- #include <linux/spi/spi-mem.h>
-+#include <linux/mtd/spi-nor.h>
+I intended this patch as an example for Gaurav, but as it has not been
+resubmitted, I am sending it to you. If you thing he deserves to be the
+author, then please edit the patch before applying. Thanks, Larry
+---
+
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c     | 4 ++--
+ drivers/staging/r8188eu/include/rtl8188e_cmd.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+index 8310d7f53982..788904d4655c 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+@@ -193,9 +193,9 @@ void rtl8188e_set_FwPwrMode_cmd(struct adapter *adapt, u8 Mode)
  
- /* Generic QSPI register offsets */
- #define GQSPI_CONFIG_OFST		0x00000100
-@@ -192,6 +193,7 @@ struct qspi_platform_data {
-  * @op_lock:		Operational lock
-  * @speed_hz:          Current SPI bus clock speed in hz
-  * @has_tapdelay:	Used for tapdelay register available in qspi
-+ * @is_parallel:		Used for multi CS support
-  */
- struct zynqmp_qspi {
- 	struct spi_controller *ctlr;
-@@ -214,8 +216,33 @@ struct zynqmp_qspi {
- 	struct mutex op_lock;
- 	u32 speed_hz;
- 	bool has_tapdelay;
-+	bool is_parallel;
- };
+ }
  
-+/**
-+ * zynqmp_gqspi_update_stripe - For GQSPI controller data stripe capabilities
-+ * @op:	Pointer to mem ops
-+ * Return:      Status of the data stripe
-+ *
-+ * Returns true if data stripe need to be enabled, else returns false
-+ */
-+bool zynqmp_gqspi_update_stripe(const struct spi_mem_op *op)
-+{
-+	if (op->cmd.opcode ==  SPINOR_OP_BE_4K ||
-+	    op->cmd.opcode ==  SPINOR_OP_BE_32K ||
-+	    op->cmd.opcode ==  SPINOR_OP_CHIP_ERASE ||
-+	    op->cmd.opcode ==  SPINOR_OP_SE ||
-+	    op->cmd.opcode ==  SPINOR_OP_BE_32K_4B ||
-+	    op->cmd.opcode ==  SPINOR_OP_SE_4B ||
-+	    op->cmd.opcode == SPINOR_OP_BE_4K_4B ||
-+	    op->cmd.opcode ==  SPINOR_OP_WRSR ||
-+	    op->cmd.opcode ==  SPINOR_OP_BRWR ||
-+	    (op->cmd.opcode ==  SPINOR_OP_WRSR2 && !op->addr.nbytes))
-+		return false;
-+
-+	return true;
-+}
-+
- /**
-  * zynqmp_gqspi_read - For GQSPI controller read operation
-  * @xqspi:	Pointer to the zynqmp_qspi structure
-@@ -470,7 +497,14 @@ static void zynqmp_qspi_chipselect(struct spi_device *qspi, bool is_high)
+-void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, __le16 mstatus_rpt)
++void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, u16 mstatus_rpt)
+ {
+-	u16 mst_rpt = le16_to_cpu(mstatus_rpt);
++	__le16 mst_rpt = cpu_to_le16(mstatus_rpt);
  
- 	genfifoentry |= GQSPI_GENFIFO_MODE_SPI;
+ 	FillH2CCmd_88E(adapt, H2C_COM_MEDIA_STATUS_RPT, sizeof(mst_rpt), (u8 *)&mst_rpt);
+ }
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_cmd.h b/drivers/staging/r8188eu/include/rtl8188e_cmd.h
+index 1e01c1662f9a..c785cf8ed683 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_cmd.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_cmd.h
+@@ -85,6 +85,6 @@ void rtl8188e_Add_RateATid(struct adapter *padapter, u32 bitmap, u8 arg,
+ void rtl8188e_set_p2p_ps_offload_cmd(struct adapter *adapt, u8 p2p_ps_state);
  
--	if (qspi->cs_index_mask & GQSPI_SELECT_UPPER_CS) {
-+	if ((qspi->cs_index_mask & GQSPI_SELECT_LOWER_CS) &&
-+	    (qspi->cs_index_mask & GQSPI_SELECT_UPPER_CS)) {
-+		zynqmp_gqspi_selectslave(xqspi,
-+					 GQSPI_SELECT_FLASH_CS_BOTH,
-+					 GQSPI_SELECT_FLASH_BUS_BOTH);
-+		if (!xqspi->is_parallel)
-+			xqspi->is_parallel = true;
-+	} else if (qspi->cs_index_mask & GQSPI_SELECT_UPPER_CS) {
- 		zynqmp_gqspi_selectslave(xqspi,
- 					 GQSPI_SELECT_FLASH_CS_UPPER,
- 					 GQSPI_SELECT_FLASH_BUS_LOWER);
-@@ -1139,6 +1173,8 @@ static int zynqmp_qspi_exec_op(struct spi_mem *mem,
- 	}
+ void CheckFwRsvdPageContent(struct adapter *adapt);
+-void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, __le16 mstatus_rpt);
++void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, u16 mstatus_rpt);
  
- 	if (op->data.nbytes) {
-+		if (xqspi->is_parallel && zynqmp_gqspi_update_stripe(op))
-+			genfifoentry |= GQSPI_GENFIFO_STRIPE;
- 		reinit_completion(&xqspi->data_completion);
- 		if (op->data.dir == SPI_MEM_DATA_OUT) {
- 			xqspi->txbuf = (u8 *)op->data.buf.out;
-@@ -1334,6 +1370,7 @@ static int zynqmp_qspi_probe(struct platform_device *pdev)
- 	ctlr->bits_per_word_mask = SPI_BPW_MASK(8);
- 	ctlr->dev.of_node = np;
- 	ctlr->auto_runtime_pm = true;
-+	ctlr->multi_cs_cap = true;
- 
- 	ret = devm_spi_register_controller(&pdev->dev, ctlr);
- 	if (ret) {
+ #endif/* __RTL8188E_CMD_H__ */
 -- 
-2.17.1
+2.39.0
 
