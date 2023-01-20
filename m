@@ -1,37 +1,57 @@
-Received: from MTA-12-4.privateemail.com (mta-12-4.privateemail.com [198.54.127.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F3C3C38
-	for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 18:26:44 +0000 (UTC)
-Received: from mta-12.privateemail.com (localhost [127.0.0.1])
-	by mta-12.privateemail.com (Postfix) with ESMTP id 3B6EB18000AE;
-	Fri, 20 Jan 2023 13:26:38 -0500 (EST)
-Received: from bpappas-XPS-13-9310.. (rrcs-24-173-168-34.se.biz.rr.com [24.173.168.34])
-	by mta-12.privateemail.com (Postfix) with ESMTPA id BE92018000B1;
-	Fri, 20 Jan 2023 13:26:29 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-	s=default; t=1674239198;
-	bh=254NmRTKKpoPDDbLe8JkEKobrM4zw72lP3QGnoDEAjA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=D8RTm9mcholnkiKBj+Nepe6m4W+9L8jfvSJmEtJ+XlCZIyPNzKmup55Iua8wD/LVf
-	 tEs9v3nLPKGjuPputi28LHngKkiQ+EhMrx1mel4A1sLat38J332en/kXtNrpPTwLQN
-	 csGcOM7UP8X6EHy5V3JEE1N+JYEcBTeBPZs2HDRk7W+Zp58QW9E1o48hsOBUWsLNS2
-	 hMO/zkYf1DwJRnhuEBA3vmIr0/36vkPzFc0rSNdiUd/nz7w8+OwJofv+zr7z0973Hw
-	 91JxTA7mljja5Q/NyLLInwbX3btYABuqkiW6rNsOHFFzGs6TxakIe9Gd3QukmiDXGs
-	 tDq5ZxeTAl00Q==
-From: Brent Pappas <bpappas@pappasbrent.com>
-To: hdegoede@redhat.com
-Cc: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB4F569E
+	for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 19:11:25 +0000 (UTC)
+Received: by mail-oi1-f175.google.com with SMTP id p133so5219242oig.8
+        for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 11:11:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=BFyYTpVG5ZzCzfnTs8oNkGAEsfN9nPz+uDFLXCK3bOc=;
+        b=Ztw6p5ICi2lkwk8EqwAPw3IqQfXkqMLi7SBoOL1bqe8ExOT/EUCaUmLjxV3oPBf4yY
+         3FNRQEnf3v+ILni/t00bpVIOe+kXTAzEDqZKOVRQrzNNlaiDzcCtWazBZ42hlzH/Xpn2
+         MxTQr7zrtOgFN7yuR283M6S33WxgpVGggsdSvspaAYjemSUBozC9Crfg+MRkBI6xKCbJ
+         +E90pozRoRwAr6CWiPMp8WgFowZMjqEJyvNwjArvdgYACf/sEtEEIBwq58397t1VbtPd
+         6uMMBFrYnNsepKWCFajpnQfEkk8k/D11hzsT8RP2pt5l0lxvPeBNob+LADz81R35e8BE
+         S21Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BFyYTpVG5ZzCzfnTs8oNkGAEsfN9nPz+uDFLXCK3bOc=;
+        b=ONpBLniJ+zsOX9UOzrYVR9Nk5rMfIcnonsoAfDMdL7cVUvg1Hh6WS+peUzlTrUMc/S
+         5OVU5NDscdVql0Jvw3P5kJv0FAklPQCtSSqYK6VuB2nGcXayvHMulxj95+kYVAICHZsY
+         O5jJb7J5itMTwNwCOOKPpfsyveZO6OIeoRrSTGmsTl69jypfd5eO8wHx1nbp3IPiZCmO
+         HJ0/47l57AGB+zsVH1xqLB6MFdMvuzJGKqAMG4qv+YIZpZgVXLH+HiNGF+65tgKF22xS
+         K2lnUzRZ9u5C04tS4qD0N8ouH06n6uNsddLp+zdInSdxb8oJbemsmVT86fLZ5XhlLhu4
+         ffrw==
+X-Gm-Message-State: AFqh2kpayjz2NK2WnD1y/o9HBzzwp3uunqK8p4eAozKTX+SkuvIJzIs+
+	isvtoSYvLFZSpWjbPgHVwWc=
+X-Google-Smtp-Source: AMrXdXtXTrCPMZlTu+cC+8XlgcCVVJtyBbU5CtrCwyWsvX0/7hB7Rmtd51lEkRZkJOuLQ+8i+4g/Sg==
+X-Received: by 2002:a05:6808:3b0:b0:35e:2b7f:daa6 with SMTP id n16-20020a05680803b000b0035e2b7fdaa6mr6789297oie.28.1674241884248;
+        Fri, 20 Jan 2023 11:11:24 -0800 (PST)
+Received: from localhost.localdomain ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id c6-20020aca1c06000000b0035763a9a36csm3684463oic.44.2023.01.20.11.11.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 11:11:23 -0800 (PST)
+Sender: Larry Finger <larry.finger@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+To: gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Brent Pappas <bpappas@pappasbrent.com>
-Subject: [PATCH] media: atomisp: pci: hive_isp_css_common: host: vmem: Replace SUBWORD macros with functions
-Date: Fri, 20 Jan 2023 13:26:25 -0500
-Message-Id: <20230120182625.23227-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
+	linux-wireless@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Gaurav Pathak <gauravpathak129@gmail.com>
+Subject: [PATCH V2] staging: r8188eu: Fix some endian problems
+Date: Fri, 20 Jan 2023 13:11:19 -0600
+Message-Id: <20230120191119.13163-1-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,74 +59,89 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
 
-Replace the macros SUBWORD() and INV_SUBWORD() with functions to comply
-with Linux coding style standards.
+Sparse lists the following warnings:
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+  CHECK   drivers/staging/r8188eu/core/rtw_mlme.c
+drivers/staging/r8188eu/core/rtw_mlme.c:1197:49: warning: incorrect type in
+					 argument 2 (different base types)
+drivers/staging/r8188eu/core/rtw_mlme.c:1197:49:    expected restricted
+					 __le16 [usertype] mstatus_rpt
+drivers/staging/r8188eu/core/rtw_mlme.c:1197:49:    got unsigned short
+					 [assigned] [usertype] media_status_rpt
+drivers/staging/r8188eu/core/rtw_mlme.c:1275:57: warning: incorrect type in
+					 argument 2 (different base types)
+drivers/staging/r8188eu/core/rtw_mlme.c:1275:57:    expected restricted
+					 __le16 [usertype] mstatus_rpt
+drivers/staging/r8188eu/core/rtw_mlme.c:1275:57:    got unsigned short
+					 [assigned] [usertype] media_status
+  CHECK   drivers/staging/r8188eu/core/rtw_mlme_ext.c
+drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58: warning: incorrect type
+					 in argument 2 (different base types)
+drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58:    expected restricted
+					 __le16 [usertype] mstatus_rpt
+drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58:    got unsigned short
+					 [assigned] [usertype] media_status
+
+The second argument of rtl8188e_set_FwMediaStatus_cmd() needs to be in CPU
+order, not little-endian; however, when it uses that value to call
+FillH2CCmd_88E() the parameter must be in little-endian order as that
+value will be sent to the firmware. Note that the conversion from LE to CPU
+order was le16_to_cpu() rather than the correct cpu_to_le16.
+
+The definition of FillH2CCmd_88E() is revised, and the proper conversion
+routine is used.
+
+Note that the original code performed one byte swap on the secong argument
+of FillH2CCmd_88E(), and got the correct answer even though the semantics
+were very wrong.
+
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+Reviewed-by: Dan Carpenter <error27@gmail.com>
+Reported-by: Gaurav Pathak <gauravpathak129@gmail.com>
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 ---
-I am not sure if it would better to inline SUBWORD() or turn it into
-a function.
-On the one hand, SUBWORD() is only invoked once, so it may be better to
-to inline it.
-On the other hand, the macro defined beside it, INV_SUBWORD() should be
-turned into to a function because it is invoked multiple times, so it
-may make sense to turn SUBWORD() into a function as well.
-I have opted to turn SUBWORD() into a function.
+v1 -> v2: Fixed typo in the Reported line.
+---
+Greg,
 
- .../pci/hive_isp_css_common/host/vmem.c       | 21 +++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+I intended this patch as an example for Gaurav, but as it has not been
+resubmitted, I am sending it to you. If you thing he deserves to be the
+author, then please edit the patch before applying. Thanks, Larry
+---
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-index 6620f091442f..316abfb72a83 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-@@ -28,10 +28,19 @@ typedef hive_uedge *hive_wide;
- /* Copied from SDK: sim_semantics.c */
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c     | 4 ++--
+ drivers/staging/r8188eu/include/rtl8188e_cmd.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+index 8310d7f53982..788904d4655c 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+@@ -193,9 +193,9 @@ void rtl8188e_set_FwPwrMode_cmd(struct adapter *adapt, u8 Mode)
  
- /* subword bits move like this:         MSB[____xxxx____]LSB -> MSB[00000000xxxx]LSB */
--#define SUBWORD(w, start, end)     (((w) & (((1ULL << ((end) - 1)) - 1) << 1 | 1)) >> (start))
-+static inline hive_uedge
-+subword(hive_uedge w, unsigned int start, unsigned int end)
-+{
-+	return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
-+}
+ }
  
- /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xxxx0000xxxx]LSB */
--#define INV_SUBWORD(w, start, end) ((w) & (~(((1ULL << ((end) - 1)) - 1) << 1 | 1) | ((1ULL << (start)) - 1)))
-+static inline hive_uedge
-+inv_subword(hive_uedge w, unsigned int start, unsigned int end)
-+{
-+	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) |
-+		    ((1ULL << start) - 1));
-+}
+-void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, __le16 mstatus_rpt)
++void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, u16 mstatus_rpt)
+ {
+-	u16 mst_rpt = le16_to_cpu(mstatus_rpt);
++	__le16 mst_rpt = cpu_to_le16(mstatus_rpt);
  
- #define uedge_bits (8 * sizeof(hive_uedge))
- #define move_lower_bits(target, target_bit, src, src_bit) move_subword(target, target_bit, src, 0, src_bit)
-@@ -50,18 +59,18 @@ move_subword(
- 	unsigned int start_bit  = target_bit % uedge_bits;
- 	unsigned int subword_width = src_end - src_start;
+ 	FillH2CCmd_88E(adapt, H2C_COM_MEDIA_STATUS_RPT, sizeof(mst_rpt), (u8 *)&mst_rpt);
+ }
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_cmd.h b/drivers/staging/r8188eu/include/rtl8188e_cmd.h
+index 1e01c1662f9a..c785cf8ed683 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_cmd.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_cmd.h
+@@ -85,6 +85,6 @@ void rtl8188e_Add_RateATid(struct adapter *padapter, u32 bitmap, u8 arg,
+ void rtl8188e_set_p2p_ps_offload_cmd(struct adapter *adapt, u8 p2p_ps_state);
  
--	hive_uedge src_subword = SUBWORD(src, src_start, src_end);
-+	hive_uedge src_subword = subword(src, src_start, src_end);
+ void CheckFwRsvdPageContent(struct adapter *adapt);
+-void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, __le16 mstatus_rpt);
++void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, u16 mstatus_rpt);
  
- 	if (subword_width + start_bit > uedge_bits) { /* overlap */
- 		hive_uedge old_val1;
--		hive_uedge old_val0 = INV_SUBWORD(target[start_elem], start_bit, uedge_bits);
-+		hive_uedge old_val0 = inv_subword(target[start_elem], start_bit, uedge_bits);
- 
- 		target[start_elem] = old_val0 | (src_subword << start_bit);
--		old_val1 = INV_SUBWORD(target[start_elem + 1], 0,
-+		old_val1 = inv_subword(target[start_elem + 1], 0,
- 				       subword_width + start_bit - uedge_bits);
- 		target[start_elem + 1] = old_val1 | (src_subword >> (uedge_bits - start_bit));
- 	} else {
--		hive_uedge old_val = INV_SUBWORD(target[start_elem], start_bit,
-+		hive_uedge old_val = inv_subword(target[start_elem], start_bit,
- 						 start_bit + subword_width);
- 
- 		target[start_elem] = old_val | (src_subword << start_bit);
+ #endif/* __RTL8188E_CMD_H__ */
 -- 
-2.34.1
+2.39.0
 
