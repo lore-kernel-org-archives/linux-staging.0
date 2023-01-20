@@ -1,18 +1,18 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93736569E
-	for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 20:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F22E569E
+	for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 20:11:24 +0000 (UTC)
 Received: from umang.jainideasonboard.com (unknown [103.251.226.6])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89C13514;
-	Fri, 20 Jan 2023 21:11:11 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DB36558;
+	Fri, 20 Jan 2023 21:11:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1674245476;
-	bh=rV0RzFrPgZZu5H2m9myQYMHozrqwVyb+7LNA1fbwCZY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Hzgs14ikjisQdQx+Ia/rqr24jn+6b6OjhM9FEmAz+1geSWGMcFlX0MgE9abFe7dhF
-	 YOTbmdbATXHDXMA/3CBB50gOWKYkzFaoSiVYhE9IJVKf3FPu8SiBfZ3w1NfwFoqf/n
-	 iJPj3FKGX2lRMlbnZuGyMRQN5dTECB59tQNYplFA=
+	s=mail; t=1674245482;
+	bh=k77WTxAn/feFnTF+zmqDuZWd/SZKbGH7e+gY4VOai8Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=iOxKrguMlsRMJkNG6dE2FkEIoYWJSd5w/ONgleoVLQnA4Rp0+B5o6W3actR1vyBL+
+	 KAhzlrQECQ8P1+9qyuZYDV7Ec5xu1s3JX1HkWaS891ZpmVUfoj8U/Q7wB69jr3Rz6v
+	 xvjquxNJSpMVQKH7UW5/0NU1xpcDpo4pgIw6YKVo=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-staging@lists.linux.dev,
 	linux-rpi-kernel@lists.infradead.org,
@@ -29,10 +29,12 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Paul Elder <paul.elder@ideasonboard.com>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices with a custom bus_type
-Date: Sat, 21 Jan 2023 01:40:58 +0530
-Message-Id: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+Subject: [PATCH v6 1/6] staging: vc04_services: Drop __VCCOREVER__ remnants
+Date: Sat, 21 Jan 2023 01:40:59 +0530
+Message-Id: <20230120201104.606876-2-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,66 +43,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series just introduces five extra patches for dropping include
-directives from Makefiles (suggested by Greg KH) and rebased.
+Commit 8ba5f91bab63 ("staging: vc04_services: remove __VCCOREVER__")
+was meant to remove all of __VCCOREVER__ definitions but missed to
+remove a few. Hence, drop them now.
 
-The main patch (6/6) removes platform device/driver abuse and moves
-things to standard device/driver model using a custom_bus. Specific
-details are elaborated in the commit message.
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/staging/vc04_services/bcm2835-audio/Makefile  | 2 +-
+ drivers/staging/vc04_services/bcm2835-camera/Makefile | 3 +--
+ drivers/staging/vc04_services/vchiq-mmal/Makefile     | 3 +--
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-The patch series is based on top of d514392f17fd (tag: next-20230120)
-of linux-next.
-
-Changes in v6:
-- Split struct device and struct driver wrappers in vchiq_device.[ch]
-- Move vchiq_bus_type definition to vchiq_device.[ch] as well
-- return error on bus_register() failure
-- drop dma_set_mask_and_coherent
-- trivial variable name change
-
-Changes in v5:
-- Fixup missing "staging: " in commits' subject line
-- No code changes from v4
-
-Changes in v4: 
-- Introduce patches to drop include directives from Makefile
-
-Changes in v3:
-- Rework entirely to replace platform devices/driver model
-
--v2:
-https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
-
--v1:
-https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
-
-Umang Jain (6):
-  staging: vc04_services: Drop __VCCOREVER__ remnants
-  staging: vc04_services: bcm2835-audio: Drop include Makefile directive
-  staging: vc04_services: bcm2835-camera: Drop include Makefile
-    directive
-  staging: vc04_services: vchiq-mmal: Drop include Makefile directive
-  staging: vc04_services: interface: Drop include Makefile directive
-  staging: vc04_services: vchiq: Register devices with a custom bus_type
-
- drivers/staging/vc04_services/Makefile        |   3 +-
- .../vc04_services/bcm2835-audio/Makefile      |   2 -
- .../vc04_services/bcm2835-audio/bcm2835.c     |  27 +++--
- .../vc04_services/bcm2835-audio/bcm2835.h     |   3 +-
- .../vc04_services/bcm2835-camera/Makefile     |   5 -
- .../bcm2835-camera/bcm2835-camera.c           |  35 +++---
- .../vc04_services/bcm2835-camera/controls.c   |   6 +-
- .../interface/vchiq_arm/vchiq_arm.c           |  52 +++++----
- .../interface/vchiq_arm/vchiq_core.h          |   2 +-
- .../interface/vchiq_arm/vchiq_device.c        | 102 ++++++++++++++++++
- .../interface/vchiq_arm/vchiq_device.h        |  39 +++++++
- .../interface/vchiq_arm/vchiq_ioctl.h         |   3 +-
- .../staging/vc04_services/vchiq-mmal/Makefile |   5 -
- .../vc04_services/vchiq-mmal/mmal-vchiq.c     |   2 +-
- 14 files changed, 206 insertions(+), 80 deletions(-)
- create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
- create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
-
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/Makefile b/drivers/staging/vc04_services/bcm2835-audio/Makefile
+index d59fe4dde615..fc7ac6112a3e 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/Makefile
++++ b/drivers/staging/vc04_services/bcm2835-audio/Makefile
+@@ -2,4 +2,4 @@
+ obj-$(CONFIG_SND_BCM2835)	+= snd-bcm2835.o
+ snd-bcm2835-objs		:= bcm2835.o bcm2835-ctl.o bcm2835-pcm.o bcm2835-vchiq.o
+ 
+-ccflags-y += -I $(srctree)/$(src)/../include -D__VCCOREVER__=0x04000000
++ccflags-y += -I $(srctree)/$(src)/../include
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/Makefile b/drivers/staging/vc04_services/bcm2835-camera/Makefile
+index 3a76d6ade428..3494c82b271a 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/Makefile
++++ b/drivers/staging/vc04_services/bcm2835-camera/Makefile
+@@ -7,5 +7,4 @@ obj-$(CONFIG_VIDEO_BCM2835) += bcm2835-v4l2.o
+ 
+ ccflags-y += \
+ 	-I $(srctree)/$(src)/.. \
+-	-I $(srctree)/$(src)/../vchiq-mmal/ \
+-	-D__VCCOREVER__=0x04000000
++	-I $(srctree)/$(src)/../vchiq-mmal/
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/Makefile b/drivers/staging/vc04_services/vchiq-mmal/Makefile
+index b2a830f48acc..c7d3b06e17ce 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/Makefile
++++ b/drivers/staging/vc04_services/vchiq-mmal/Makefile
+@@ -5,5 +5,4 @@ obj-$(CONFIG_BCM2835_VCHIQ_MMAL) += bcm2835-mmal-vchiq.o
+ 
+ ccflags-y += \
+ 	-I$(srctree)/$(src)/.. \
+-	-I$(srctree)/$(src)/../include \
+-	-D__VCCOREVER__=0x04000000
++	-I$(srctree)/$(src)/../include
 -- 
 2.39.0
 
