@@ -1,48 +1,50 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D41C613A
-	for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 20:17:45 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so6624033wma.1
-        for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 12:17:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794F7613A
+	for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 20:17:54 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id r9so5831895wrw.4
+        for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 12:17:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y5Xkr2k/6Nx+TaITzPx/69q4zOkt44vc7RBSXgmnDGY=;
-        b=NRxR8B2Uz0daGdwYRqI63u1TDipu+pkE9xDEgEPBJNVuzu3upcqH7PZ4j+RdGksNUP
-         P1l9GdjNPKpbtdvzMxZTCrwW8k2Ti1S3Nrk2zlPkRazFEJkD8DaOoU3brjzSDLeCVwRa
-         j1bgbAKzCMmdoc5rPhJqNmjit7C6xLjD9HcsW6xpZnfbE/LJdv0e/aj+g94JLefpG7j6
-         xmimbU6OIN2s1U4dQ6qt3T7jqq7lvRZFZt8Ycr2stoGl50wMUf2T1knAM/QU8NSB6T47
-         98mMT1H2uLSMk8EM38xZYC0dYFcqCLbU9lLLDfPeqx4ynGzak5AWwfSoC4+pH8vLTyNN
-         bDeg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7EOF6sBpuGhuHA/s9uQZVEpVdnpfpby63eHc5MQV10o=;
+        b=bKw+hyonZwvdOtEcuIAl+Q81FXgLbybNyU7fzkiwmtX4n/ww57YCHua3t++ImQ7tGs
+         tJacpa/4rVctETWyNisGfsSVKCt5KklVHrTAVfTsh+pzrF2UhWE40esDBo5HPX+Npu3b
+         bI7eq2t76QwuhYqqUkfWYBDfxN/K1CgLZXAiuroZwmNSWyiiOm8QYYAj7bJgtS3ll3ua
+         biJaEKlxmu6DRKjBtOzHDyfnoyGxo9DSxuBGRYzHbmVIzQubrvt0tQdYgR5f/DtuNLH1
+         03XrUDOtz1DKoBa6xaagJkFJ9guI0SRB/X1GjZTNDXcezSfHkDD8EizNcu0E215uBG9u
+         N4ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y5Xkr2k/6Nx+TaITzPx/69q4zOkt44vc7RBSXgmnDGY=;
-        b=Ha38pWx2eMdAZZ4RmMHbmeI937NCSGR2qVqgW7nPgZBM4608hVF0Z1SCjsCYMq/lU9
-         bEQlwv8nZA4C02SXz9NcQEPOdqpgJ+lLDEZn/nIM08Qsg5XNAY8cXOfI0yC1Z0fN2kBR
-         GD60Pg+vnHWN4dUXuL4a8AQ3tqy8E3nZJ/WEd4+QvX3qWebLyMwLCUMWmfdrYFkiFDZm
-         r7FFQyJ/pZjAdO8/grBmvhb6dydSRPMr3Pfdb810ukAAHn9I8XHyjaQ+cRPLTFfDfITH
-         5ENZZScKuDdupK3fKWkQm7S69v2GZlDY4Kosbur/thFoUTSxAq2YhEYYNEF9u9KkQBT7
-         e5kQ==
-X-Gm-Message-State: AFqh2kp50SqXtXx28dBe2Rn1BvuP++5r5QRjWwqlDyxjZm8lT4+RAe8N
-	yALRCa4kEmfQFDfPdksYSYD82tZ438Q=
-X-Google-Smtp-Source: AMrXdXt0lGMqr8IVTTV0MweFD2dPpnfKB8X+zmi3fEg59TyNNM03xSK1TW6bj81zKQCWXrPkP7nxqw==
-X-Received: by 2002:a05:600c:3b0a:b0:3db:22a:1349 with SMTP id m10-20020a05600c3b0a00b003db022a1349mr4063921wms.2.1674245863454;
-        Fri, 20 Jan 2023 12:17:43 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7EOF6sBpuGhuHA/s9uQZVEpVdnpfpby63eHc5MQV10o=;
+        b=UIVc+FqLLoGMdXrAn67DrcaSasI7cm7+5I6N8YUTKYCPkxhXEaZyeObup/sL2DFncl
+         HUIDbGO9PdFwE0G2QK0c69Qz9M8lp7R30rqhOT9iYH4ihOB6sgx+aEM4CEnKsBBdiKKk
+         WRWSjlqjyxOcTPWjou0+E7vl5SuxbPKolbNHWyLAQSk6q0uJOhS31Tls2tediQEcXpyL
+         kCVVhqfxgO2e8hvOnMuok5PxoDNFK5YWWq2vDLz18zqqsrtPBOFTmX9nSua70LJFd4eC
+         ZglclMtG4/y1H0lqzL/ddnaEIhnbuiXs4oOn02BbtjFKwqRvK67UlqpaaGLCBqCQK2J7
+         6NDg==
+X-Gm-Message-State: AFqh2koLKhXJ3xaeTbGkKtztWp2gCxmhQqjMGxXt50w6/R7wchOe51Oo
+	LNTSA8NRa2Vlpc8SY661v74=
+X-Google-Smtp-Source: AMrXdXvmy02qc7sy3ncZEnMW7LArNaX1QryMNXdNAOvnsMjlzXtQkMR/27pkNQpFHpad78FayBBN3A==
+X-Received: by 2002:a05:6000:1088:b0:2be:5295:bd9e with SMTP id y8-20020a056000108800b002be5295bd9emr797718wrw.7.1674245872660;
+        Fri, 20 Jan 2023 12:17:52 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id bi16-20020a05600c3d9000b003daf89e01d3sm3242057wmb.11.2023.01.20.12.17.42
+        by smtp.gmail.com with ESMTPSA id f3-20020adfdb43000000b00236883f2f5csm37249409wrj.94.2023.01.20.12.17.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 12:17:42 -0800 (PST)
-Date: Fri, 20 Jan 2023 21:17:40 +0100
+        Fri, 20 Jan 2023 12:17:52 -0800 (PST)
+Date: Fri, 20 Jan 2023 21:17:50 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/6] Remove several variables that are zero from struct
- r8192_priv
-Message-ID: <cover.1674244819.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/6] staging: rtl8192e: Combine three loops to one to init
+ tx_pwr_level_...
+Message-ID: <c268ccf158997c65756b7b092ae79cc2b69bd47f.1674244819.git.philipp.g.hortmann@gmail.com>
+References: <cover.1674244819.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,30 +53,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1674244819.git.philipp.g.hortmann@gmail.com>
 
 The arrays EEPROMRfACCKChnl1TxPwLevel, EEPROMRfAOfdmChnlTxPwLevel,
 EEPROMRfCCCKChnl1TxPwLevel, EEPROMRfCOfdmChnlTxPwLevel are initialized to
-zero and never changed. These arrays are used to initialize other
-variables that are then also zero. Remove several variables set to zero
-to avoid camelCase and to remove dead code.
+zero and never changed. The three loops contain the same code. Only the
+index of the upper named arrays go from 0 to 2. Therefore the three loops
+can be combined to one loop from 0 to 13 which removes useless code.
 
-Tested with rtl8192e (But most of this code is not executed on my hardware)
-Transferred this patch over wlan connection of rtl8192e
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 22 +------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
 
-Philipp Hortmann (6):
-  staging: rtl8192e: Combine three loops to one to init tx_pwr_level_...
-  staging: rtl8192e: Init tx_pwr_level_cck_a and friends directly
-  staging: rtl8192e: Remove zeroed arrays tx_pwr_level_cck_a and friends
-  staging: rtl8192e: Remove ant_pwr_diff which is always zero
-  staging: rtl8192e: Remove u4RegValue which is always zero
-  staging: rtl8192e: Remove repeated set to zero of powerlevel and
-    friend
-
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 31 -------------------
- .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 24 ++------------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  8 -----
- 3 files changed, 3 insertions(+), 60 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index 227c13d552fc..7187ee4c75f6 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -426,7 +426,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 						     0xf0) >> 4;
+ 		} else if (priv->epromtype == EEPROM_93C56) {
+ 
+-			for (i = 0; i < 3; i++) {
++			for (i = 0; i < 14; i++) {
+ 				priv->tx_pwr_level_cck_a[i] =
+ 					 priv->EEPROMRfACCKChnl1TxPwLevel[0];
+ 				priv->tx_pwr_level_ofdm_24g_a[i] =
+@@ -436,26 +436,6 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 				priv->tx_pwr_level_ofdm_24g_c[i] =
+ 					 priv->EEPROMRfCOfdmChnlTxPwLevel[0];
+ 			}
+-			for (i = 3; i < 9; i++) {
+-				priv->tx_pwr_level_cck_a[i]  =
+-					 priv->EEPROMRfACCKChnl1TxPwLevel[1];
+-				priv->tx_pwr_level_ofdm_24g_a[i] =
+-					 priv->EEPROMRfAOfdmChnlTxPwLevel[1];
+-				priv->tx_pwr_level_cck_c[i] =
+-					 priv->EEPROMRfCCCKChnl1TxPwLevel[1];
+-				priv->tx_pwr_level_ofdm_24g_c[i] =
+-					 priv->EEPROMRfCOfdmChnlTxPwLevel[1];
+-			}
+-			for (i = 9; i < 14; i++) {
+-				priv->tx_pwr_level_cck_a[i]  =
+-					 priv->EEPROMRfACCKChnl1TxPwLevel[2];
+-				priv->tx_pwr_level_ofdm_24g_a[i] =
+-					 priv->EEPROMRfAOfdmChnlTxPwLevel[2];
+-				priv->tx_pwr_level_cck_c[i] =
+-					 priv->EEPROMRfCCCKChnl1TxPwLevel[2];
+-				priv->tx_pwr_level_ofdm_24g_c[i] =
+-					 priv->EEPROMRfCOfdmChnlTxPwLevel[2];
+-			}
+ 			priv->legacy_ht_tx_pwr_diff =
+ 				 priv->eeprom_legacy_ht_tx_pwr_diff;
+ 			priv->antenna_tx_pwr_diff[0] = 0;
 -- 
 2.39.0
 
