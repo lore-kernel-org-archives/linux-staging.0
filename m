@@ -1,52 +1,37 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5241C17C8
-	for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 05:07:32 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id f25-20020a1c6a19000000b003da221fbf48so2825765wmc.1
-        for <linux-staging@lists.linux.dev>; Thu, 19 Jan 2023 21:07:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HhMPVNs8pc5Gcf/TDLS+cJfOurg6Vice8ut9+SSmMY8=;
-        b=lPBcCni7LAwqOkrg3tNCH8jOSMnkyLgfAXhdSPuWk9jqGAy9XkKAhwTW8VXN/9cXFV
-         /EN0DPv42as4B6vtPxwtHVBwWplBaFE/xI5qQE1NXH2AxyMx+9gxLM6ptWd4KJEHRmzb
-         PWErnbqiYuGQMwvJmYfqM0L2mhGwa+odHughUHnkGdEyq6xKmjaDieso4h0auyn1xV0/
-         lBCEyQlbbCtZSbCcG8TVIhyA7/s3F7B1TPz8ZVSzu0Eb+ilsNuvhPuFTvNLaf5EP+9e8
-         SOaQlWzjm95h2IVLfV4LSD8eAOj5Q8/S5SKJDdPTZEuZbGPPrCSjmErCocWV6VcxF625
-         40sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HhMPVNs8pc5Gcf/TDLS+cJfOurg6Vice8ut9+SSmMY8=;
-        b=5Ec6qSV98rpkZqi2oHM8S7XHDOnoK7gQOhshnQUR9QeWJnPwZJ4uI7SOHZQWFssP4W
-         yOEqlmYpabK9VvJBa9KBg3r18ci7/kdRe6/XM5jDyanv5qwWL3X85Y0Y/dVDBpxy0Mx5
-         dABEer5Kxp2FBGeXrxIK10BZIfoozfvzLJmiobRCUbY9ovaNCZxzW9ZK2g0m5fs8xBnn
-         g8ZmJrFZDkMTgKAaZUp5uTCcJPh66q6JatYv8nbY/DDLvBkXsMYG2ybo57DwL0+pKBk/
-         c/EuHON8lxWBlN59fNZZoBPzJlcXBbIxaHCZJGHUW7oYfma3F22ZuaG+JqtAnL5ZzwSv
-         1kjQ==
-X-Gm-Message-State: AFqh2kpxOS9rxUqk/N5MLL17o6WqUF+wCkxSFmWtaWGyC7WV9gPPuuwv
-	ODO7EPvxW6lDHOOIVlL5YX4=
-X-Google-Smtp-Source: AMrXdXuIRvrqtfIdcYDBTulA2LssPIlvNF6wzU/SosHvPjy1IlAsQclQWt+6yA36sTmWOi1wqynaYg==
-X-Received: by 2002:a05:600c:3412:b0:3da:f678:1d47 with SMTP id y18-20020a05600c341200b003daf6781d47mr12556081wmp.14.1674191250364;
-        Thu, 19 Jan 2023 21:07:30 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x15-20020a05600c188f00b003db122d5ac2sm1036738wmp.15.2023.01.19.21.07.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 21:07:29 -0800 (PST)
-Date: Fri, 20 Jan 2023 08:07:26 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: gregkh@linuxfoundation.org, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	Gaurav Pathak <gauravpathak129@gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: Fix some endian problems
-Message-ID: <Y8ohjkgNjyQPD+Dd@kadam>
-References: <20230119191219.12080-1-Larry.Finger@lwfinger.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB298BD2A
+	for <linux-staging@lists.linux.dev>; Fri, 20 Jan 2023 06:57:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85E0C433D2;
+	Fri, 20 Jan 2023 06:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1674197830;
+	bh=iR8irKikdBBBq/MCs+R8NpDj23hq/KzA4TkNi6TBP8Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H0K24k7BAgiK7lxn63tFMmRcFoHwbkqE/Szqh/Q3W5ZEECuX1CTHdtYYXrDzUeApt
+	 NRIHT/qjW92gzrGNryJjZ+Ij4ixh52Zi2tEiLkYSbov0GltugTmO/uCepxbP5hLAfp
+	 WBTP9ESvUQo1ps9FfH8Nq0jkjzqq7/+DKThXqqeA=
+Date: Fri, 20 Jan 2023 07:57:06 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>
+Subject: Re: [PATCH v5 2/6] staging: vc04_services: bcm2835-audio: Drop
+ include Makefile directive
+Message-ID: <Y8o7Qrg8MhCgkALk@kroah.com>
+References: <20230119115503.268693-1-umang.jain@ideasonboard.com>
+ <20230119115503.268693-3-umang.jain@ideasonboard.com>
+ <Y8nuJfuzW9QBcSVd@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,52 +40,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119191219.12080-1-Larry.Finger@lwfinger.net>
+In-Reply-To: <Y8nuJfuzW9QBcSVd@pendragon.ideasonboard.com>
 
-On Thu, Jan 19, 2023 at 01:12:19PM -0600, Larry Finger wrote:
-> Sparse lists the following warnings:
+On Fri, Jan 20, 2023 at 03:28:05AM +0200, Laurent Pinchart wrote:
+> Hi Umang,
 > 
->   CHECK   drivers/staging/r8188eu/core/rtw_mlme.c
-> drivers/staging/r8188eu/core/rtw_mlme.c:1197:49: warning: incorrect type in
-> 					 argument 2 (different base types)
-> drivers/staging/r8188eu/core/rtw_mlme.c:1197:49:    expected restricted
-> 					 __le16 [usertype] mstatus_rpt
-> drivers/staging/r8188eu/core/rtw_mlme.c:1197:49:    got unsigned short
-> 					 [assigned] [usertype] media_status_rpt
-> drivers/staging/r8188eu/core/rtw_mlme.c:1275:57: warning: incorrect type in
-> 					 argument 2 (different base types)
-> drivers/staging/r8188eu/core/rtw_mlme.c:1275:57:    expected restricted
-> 					 __le16 [usertype] mstatus_rpt
-> drivers/staging/r8188eu/core/rtw_mlme.c:1275:57:    got unsigned short
-> 					 [assigned] [usertype] media_status
->   CHECK   drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58: warning: incorrect type
-> 					 in argument 2 (different base types)
-> drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58:    expected restricted
-> 					 __le16 [usertype] mstatus_rpt
-> drivers/staging/r8188eu/core/rtw_mlme_ext.c:6842:58:    got unsigned short
-> 					 [assigned] [usertype] media_status
+> Thank you for the patch.
 > 
-> The second argument of rtl8188e_set_FwMediaStatus_cmd() needs to be in CPU
-> order, not little-endian; however, when it uses that value to call
-> FillH2CCmd_88E() the parameter must be in little-endian order as that
-> value will be sent to the firmware. Note that the conversion from LE to CPU
-> order was le16_to_cpu() rather than the correct cpu_to_le16.
+> On Thu, Jan 19, 2023 at 05:24:59PM +0530, Umang Jain wrote:
+> > Drop the include directive they can break the build one only wants to
+> > build a subdirectory. Replace with "../" for the includes, in the
+> > bcm2835.h instead.
 > 
-> The definition of FillH2CCmd_88E() is revised, and the proper conversion
-> routine is used.
+> I assume you meant
 > 
-> Note that the original code performed one byte swap on the secong argument
-> of FillH2CCmd_88E(), and got the correct answer even though the semantics
-> were very wrong.
+> Drop the include directive. They can break the build, when one only
+> wants to build a subdirectory.
 > 
-> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
-> Reportewd-by: Gaurav Pathak <gauravpathak129@gmail.com>
-         ^
-Extra 'w'.
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > ---
+> >  drivers/staging/vc04_services/bcm2835-audio/Makefile  | 2 --
+> >  drivers/staging/vc04_services/bcm2835-audio/bcm2835.h | 3 ++-
+> >  2 files changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vc04_services/bcm2835-audio/Makefile b/drivers/staging/vc04_services/bcm2835-audio/Makefile
+> > index fc7ac6112a3e..01ceebdf88e7 100644
+> > --- a/drivers/staging/vc04_services/bcm2835-audio/Makefile
+> > +++ b/drivers/staging/vc04_services/bcm2835-audio/Makefile
+> > @@ -1,5 +1,3 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >  obj-$(CONFIG_SND_BCM2835)	+= snd-bcm2835.o
+> >  snd-bcm2835-objs		:= bcm2835.o bcm2835-ctl.o bcm2835-pcm.o bcm2835-vchiq.o
+> > -
+> > -ccflags-y += -I $(srctree)/$(src)/../include
+> 
+> The reason for this, I assume, is that the driver is in staging. The
+> vchiq.h file should live in include/linux/raspberrypi/, not
+> drivers/staging/vc04_services/include/linux/raspberrypi/, so an
+> additional include directory is added in order to use
+> 
+> #include <linux/raspberrypi/vchiq.h>
+> 
+> When the code will get out of staging, vchiq.h will go to
+> include/linux/raspberrypi/, the extra include directory will be dropped,
+> and all will be well without having to change any source file.
+> 
+> With this patch, we'll have to undo the change below to
+> drivers/staging/vc04_services/bcm2835-audio/bcm2835.h when vc04_services
+> will get out of staging.
+> 
+> Greg, is that what you prefer ?
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+I prefer the drivers to NOT use include ccflags in the kernel as it
+breaks the build when trying to build just a subdirectory.  If/when this
+code ever gets out of staging, then the include lines can be fixed up to
+point to the correct location of wherever the files move to.
 
-regards,
-dan carpenter
+So I like this patch, but as I couldn't take the first one, this and the
+rest did not apply so I'll wait for them to be resubmitted.
 
+thanks,
+
+greg k-h
