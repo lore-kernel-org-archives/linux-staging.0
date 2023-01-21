@@ -1,48 +1,49 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65385395
-	for <linux-staging@lists.linux.dev>; Sat, 21 Jan 2023 21:44:57 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id l41-20020a05600c1d2900b003daf986faaeso6028135wms.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Jan 2023 13:44:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C473C395
+	for <linux-staging@lists.linux.dev>; Sat, 21 Jan 2023 21:45:04 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id q5so3023919wrv.0
+        for <linux-staging@lists.linux.dev>; Sat, 21 Jan 2023 13:45:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/ZoNlyGEzH+kRtX90Fp6TGkEBqbyFKQBWafIzoqpx24=;
-        b=gULpFAAhxcluTbRql5M1HyxwCkBQDxBZ+Tag4Rz4pndbVmvE8u/2CMFIWVKRyP6Vn3
-         1IcTQL93KsokkQCdS+tueBh2wMTu6D8jIJbrHVpA6JB0ygKQyF6YeeL8E++WCkGqNNv/
-         5dA1aYTFhVSDHPjpvGZsknke1UmiEDDugBFrj1IiLKUOvoDEv9ChhuGemMVqp1zS9zF1
-         OZXasDcVb5x3+wYEjWdn9Ma+hSkJT1qqzSxit/XkWpk0gRXoOMBVLLBa7ORc52IWsXd2
-         sa3Uqp6tsbymBKZ+FVe6724c4vo9eMZVCHxmXlq5neHOjNSoddlS0+cqoE/HBDRJ2wEj
-         UwPg==
+        bh=HOjq/wSj4ryBWQj1clILRiIoFo7/d98llcbQTtn/TrQ=;
+        b=UjiSJtWuendmrcUDy4s+WBMI9ZMTln9rTrCvhPe0uKtB5fp8RV/sfS2KYikHlBWg8o
+         DZ/EWwrdQs7N+3H2qi7Hs7cKFpOTUfmj85rQao0BhDedGbGbVhalkpA1ZTJopIC+mz/X
+         JC6GBcNSZEH6aw3IR1q0s0W34Ypj6moddR9hy5rHI20czFVvp8C4wGLz35zQt93ZBy16
+         fGmFj72KLKLyEYI5bQXlLnXXOo1B/MdPMl2Fvd1Hjx+LjXM50ooc9zVGSfDg5lG+gIIi
+         vO5KBjRgqlblXh7ci6BeQ8m2+bpStovMRR81D3z9SNNf+3WjnYruDU468sWen6s+FdJo
+         iksQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/ZoNlyGEzH+kRtX90Fp6TGkEBqbyFKQBWafIzoqpx24=;
-        b=uEJTVi/K2fIjxwvvj9VqUPCGy8tyhtGYPrIQ91YXHKSxsblEJt9ba+X5pQH98dpOXI
-         /HNQ/1PHMZIV1bBCGIDPemFk7gNxRkWwz0hE6XGduGm4AuPwsK6XcIRn/8c4FBxB4w5u
-         IifB9pJd3W49BGArgQ3NEAtIqlI5IpSinsdbBgnmpMZwLWhvf8mo0lSJtQNjwYy09TiP
-         rmr/owncsGu4B6C/R2KYVxCnNkOkEEdSYTmy8p4YvjMI+S1b1EodRq448Z5/sSMmnakQ
-         e1DbkGJyw49+NQaNjmKOo/VO8uPnqzV8deCH4Nxh0dFM/8OeeKLq9DV/6/HJZWz+DXv/
-         FeVA==
-X-Gm-Message-State: AFqh2kp/SBc9LwjTF5DJMeSrb1Z1/ws2uniSESvwTJl+i5hhqsQ15hAd
-	O1mERNsh+THp1viOYaEBg2k=
-X-Google-Smtp-Source: AMrXdXuXHtG0IVkGciFWV03e7ox79YQN8u3OPYVVrHgR9UM1otsGKleDBu7N825XRzuAMj2yHt5Eow==
-X-Received: by 2002:a05:600c:3b06:b0:3d3:446a:b493 with SMTP id m6-20020a05600c3b0600b003d3446ab493mr5089729wms.4.1674337495560;
-        Sat, 21 Jan 2023 13:44:55 -0800 (PST)
+        bh=HOjq/wSj4ryBWQj1clILRiIoFo7/d98llcbQTtn/TrQ=;
+        b=SipbAECk8VNi2XJnastrPLhmr2NsjqZT9atMDlUCz5+lcIprtYY7wXLE/Wsj8kZeph
+         bYYg12dc8jX66GFqvWLvFDsMQprL+Y2J4Y+hxHAEuPsdS+24iLArItL9VjjabAzH9/v/
+         RVCApmOpULxyActSO+mDkhHjsay16NmDTF/+emr1ikUlJ18KMWXbsIgsSIFyyqUtqmvR
+         RsOnZCc2kqIRtEsJqu8/nGZJf8a/3AYs41L9EDqPkr6bZhhZqeA5l0qDWbbS2zlxHq5s
+         1CO0ZeHIdIzhyBdCoYq3xuq7JbdruVhE0NYY4I8Mhb8KHAXtK8rLkK4jGRgkcrCKBZUr
+         CD6g==
+X-Gm-Message-State: AFqh2kpzGmP4nSClTXVF77wjXo9wQ6PCDHjWfB6DMAy05I8bcbmNXct2
+	tGO03/q8llpgv1/89m3V5R9SrI/ksk0=
+X-Google-Smtp-Source: AMrXdXuqkjqGrmMBf1DAnqlFfdvPpMtdDPeB59Zf2H4RExxurqZQhJkvcwhfStlPkwGuLSkTODHgDw==
+X-Received: by 2002:a5d:5d0c:0:b0:2be:5402:18e7 with SMTP id ch12-20020a5d5d0c000000b002be540218e7mr1675873wrb.5.1674337503058;
+        Sat, 21 Jan 2023 13:45:03 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id m31-20020a05600c3b1f00b003dafadd2f77sm6956549wms.1.2023.01.21.13.44.54
+        by smtp.gmail.com with ESMTPSA id r11-20020a5d694b000000b002bb28209744sm559375wrw.31.2023.01.21.13.45.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jan 2023 13:44:54 -0800 (PST)
-Date: Sat, 21 Jan 2023 22:44:53 +0100
+        Sat, 21 Jan 2023 13:45:02 -0800 (PST)
+Date: Sat, 21 Jan 2023 22:44:59 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] staging: rtl8192e: Remove unused variable bfirst_init
-Message-ID: <d4f4552e5dbaa036a762590bf47bd5faff15b598.1674336211.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/3] staging: rtl8192e: Rename eeprom_CustomerID, SwChnlStage
+ and SwChnlStep
+Message-ID: <0d2e7bbd3a2f80d4652d4131c82294e172a2de30.1674336211.git.philipp.g.hortmann@gmail.com>
 References: <cover.1674336211.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,71 +55,98 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1674336211.git.philipp.g.hortmann@gmail.com>
 
-bfirst_init is six times set but never evaluated. Remove dead code.
+Rename variable eeprom_CustomerID to eeprom_customer_id, SwChnlStage to
+sw_chnl_stage and SwChnlStep to sw_chnl_step to avoid CamelCase which is
+not accepted by checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 ------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 1 -
- 2 files changed, 7 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 6 +++---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 8 ++++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 6 +++---
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 7a89381bae50..80450d46191c 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -692,16 +692,13 @@ static int _rtl92e_sta_up(struct net_device *dev, bool is_silent_reset)
- 	priv->rtllib->ieee_up = 1;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index b721bb72007d..6c570582479d 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -303,7 +303,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
  
- 	priv->up_first_time = 0;
--	priv->bfirst_init = true;
- 	init_status = priv->ops->initialize_adapter(dev);
- 	if (!init_status) {
- 		netdev_err(dev, "%s(): Initialization failed!\n", __func__);
--		priv->bfirst_init = false;
- 		return -1;
+ 		usValue = rtl92e_eeprom_read(dev,
+ 					     (EEPROM_Customer_ID >> 1)) >> 8;
+-		priv->eeprom_CustomerID = usValue & 0xff;
++		priv->eeprom_customer_id = usValue & 0xff;
+ 		usValue = rtl92e_eeprom_read(dev,
+ 					     EEPROM_ICVersion_ChannelPlan>>1);
+ 		priv->eeprom_chnl_plan = usValue&0xff;
+@@ -327,7 +327,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 		priv->card_8192_version = VERSION_8190_BD;
+ 		priv->eeprom_vid = 0;
+ 		priv->eeprom_did = 0;
+-		priv->eeprom_CustomerID = 0;
++		priv->eeprom_customer_id = 0;
+ 		priv->eeprom_chnl_plan = 0;
  	}
  
- 	RT_CLEAR_PS_LEVEL(psc, RT_RF_OFF_LEVL_HALT_NIC);
--	priv->bfirst_init = false;
+@@ -449,7 +449,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 	if (priv->eeprom_vid == 0x1186 &&  priv->eeprom_did == 0x3304)
+ 		priv->customer_id =  RT_CID_DLINK;
  
- 	if (priv->polling_timer_on == 0)
- 		rtl92e_check_rfctrl_gpio_timer(&priv->gpio_polling_timer);
-@@ -837,7 +834,6 @@ static void _rtl92e_init_priv_variable(struct net_device *dev)
- 	priv->blinked_ingpio = false;
- 	priv->being_init_adapter = false;
- 	priv->bdisable_nic = false;
--	priv->bfirst_init = false;
- 	priv->txringcount = 64;
- 	priv->rxbuffersize = 9100;
- 	priv->rxringcount = MAX_RX_COUNT;
-@@ -2423,7 +2419,6 @@ bool rtl92e_enable_nic(struct net_device *dev)
- 		return false;
- 	}
+-	switch (priv->eeprom_CustomerID) {
++	switch (priv->eeprom_customer_id) {
+ 	case EEPROM_CID_DEFAULT:
+ 		priv->customer_id = RT_CID_DEFAULT;
+ 		break;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+index 95a21859c7e0..ca10a14c63b4 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+@@ -907,8 +907,8 @@ static void _rtl92e_phy_switch_channel(struct net_device *dev, u8 channel)
+ 	u32 delay = 0;
  
--	priv->bfirst_init = true;
- 	init_status = priv->ops->initialize_adapter(dev);
- 	if (!init_status) {
- 		netdev_warn(dev, "%s(): Initialization failed!\n", __func__);
-@@ -2431,7 +2426,6 @@ bool rtl92e_enable_nic(struct net_device *dev)
- 		return false;
- 	}
- 	RT_CLEAR_PS_LEVEL(psc, RT_RF_OFF_LEVL_HALT_NIC);
--	priv->bfirst_init = false;
+ 	while (!_rtl92e_phy_switch_channel_step(dev, channel,
+-						&priv->SwChnlStage,
+-						&priv->SwChnlStep, &delay)) {
++						&priv->sw_chnl_stage,
++						&priv->sw_chnl_step, &delay)) {
+ 		if (delay > 0)
+ 			msleep(delay);
+ 		if (!priv->up)
+@@ -971,8 +971,8 @@ u8 rtl92e_set_channel(struct net_device *dev, u8 channel)
  
- 	rtl92e_irq_enable(dev);
- 	priv->bdisable_nic = false;
+ 	priv->chan = channel;
+ 
+-	priv->SwChnlStage = 0;
+-	priv->SwChnlStep = 0;
++	priv->sw_chnl_stage = 0;
++	priv->sw_chnl_step = 0;
+ 
+ 	if (priv->up)
+ 		_rtl92e_phy_switch_channel_work_item(dev);
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 59049ad349e0..e0f4a3b444ee 100644
+index e0f4a3b444ee..55a68bbe3861 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -298,7 +298,6 @@ struct r8192_priv {
- 	struct pci_dev *pdev;
- 	struct pci_dev *bridge_pdev;
+@@ -417,7 +417,7 @@ struct r8192_priv {
+ 	short	epromtype;
+ 	u16 eeprom_vid;
+ 	u16 eeprom_did;
+-	u8 eeprom_CustomerID;
++	u8 eeprom_customer_id;
+ 	u16 eeprom_chnl_plan;
  
--	bool		bfirst_init;
- 	bool		bfirst_after_down;
- 	bool		being_init_adapter;
+ 	u8 eeprom_tx_pwr_level_cck[14];
+@@ -432,8 +432,8 @@ struct r8192_priv {
+ 	u8 thermal_meter[2];
  
+ 	u8 sw_chnl_in_progress;
+-	u8 SwChnlStage;
+-	u8 SwChnlStep;
++	u8 sw_chnl_stage;
++	u8 sw_chnl_step;
+ 	u8 set_bw_mode_in_progress;
+ 
+ 	u8 n_cur_40mhz_prime_sc;
 -- 
 2.39.0
 
