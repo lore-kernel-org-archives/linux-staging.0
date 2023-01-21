@@ -1,53 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F3A3207
-	for <linux-staging@lists.linux.dev>; Sat, 21 Jan 2023 19:23:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5AE23C433A0;
-	Sat, 21 Jan 2023 19:23:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674329018;
-	bh=875/ZYrtYEjx3zhPRYUvX0my+LWCFXELKIgzPaC2jdE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=H3doU7mmg9TfIIXD+DWc6V2hUYLHKuRiipGMAFRZdML+8tUvZ5x0vYoJuf7u1u6l+
-	 GthgoTi9ECpWSYapeJHGAVpCcGdO0et04aeX3jvjgkS+pDfLlEiuh60Z+reygLBf8S
-	 /cMqGOHUWPOtMnn6OZvxiv+E+gdcD5jOVeGocj8WZOq7CxiWc+VyL9q4nt2Dol6DfE
-	 nL43uyjTup9dXm9W8qbJ7U750c3h4bEEPsi6KUUZ7oMmUmUykiNrSZeSKetlzuy88U
-	 qGR45dkQja24xyxGfaIoAfb7wBIBhj5bLQSnWnG2UhpapaTcN5dvbmW5NJI7tKEN1L
-	 c4j0D5FPZPDBw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 43A38C39564;
-	Sat, 21 Jan 2023 19:23:38 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fix for 6.2-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Y8wE3Tu3muhrYchq@kroah.com>
-References: <Y8wE3Tu3muhrYchq@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Y8wE3Tu3muhrYchq@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.2-rc5
-X-PR-Tracked-Commit-Id: 7d83299351fe7c812c529f5e39fe63b5312e4233
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: bb86d65775cc3835152c08882384c2534b56f1d3
-Message-Id: <167432901827.17568.17566802839838116779.pr-tracker-bot@kernel.org>
-Date: Sat, 21 Jan 2023 19:23:38 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9CC395
+	for <linux-staging@lists.linux.dev>; Sat, 21 Jan 2023 21:44:51 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id k16so6461334wms.2
+        for <linux-staging@lists.linux.dev>; Sat, 21 Jan 2023 13:44:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7JMz8jZOn4WuQGzxI1nWAGOXEamTbnJyR7XirPT2J+E=;
+        b=ldKvwFSrCl7hVwFot4l5iBMpc1sshkOnBhWyjZ8uXc2xtYz0k7xSrk/+QPZbUQ3PE1
+         simOTXey3Y/l2mb34EGSIXdOEBMAYIPHNSYR7yYcV/tbzw+Ue8jNUJCal2qM6fHvxkl7
+         F4EI6iiCNSeKo5NmIdPVOPtO4R1ldVF2wZUaYdF8nYQdwfpxq7DVMnaY7AfQtJAbBvfd
+         9gKr5mO3uEFn6/IjL2kID+8WL4UZ4NhqJMu44W7BOx39bF5hJ54mKcpa7GJBKt30kFnS
+         +gCwkroVuwTHyo8a6PDy7poR1ZHGn9oeT35lNasLH0tW8Heg76/KwNk4iylHCQKhCFS+
+         xQPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7JMz8jZOn4WuQGzxI1nWAGOXEamTbnJyR7XirPT2J+E=;
+        b=4WKOjl1DnTkVks11ENeU03uCZJul/QzzTx5pxZ2PNezt197m9e3kcBnLGeQ5256TWI
+         9fkTfI3fGppMWlD7LwlEmwVBspfr45IWT1hvOeWGyzRf8fR7X2+8CLWwDuDHNQ/BTbEs
+         8AROmxp/Q1UVl7gxSuGPmDyA/toB6uevLUmenScznaF6JxrLVC/g5n+ioLlLEzXDX3vw
+         22o2FmIRZXGRfeYZU0Qm8sP4Ey7EkP3AFS94cPW/5ZBB1QDnfKANHe5yDf4FrD0J2vy/
+         6yAMqJ/Kng7raGPGGuN9+tTDXZK3tL/N3LMB7V4OH81nmvKyctE2JASZXf9oSLqIW/Fh
+         1/tg==
+X-Gm-Message-State: AFqh2kr0ngEuujcItVF5bAICOlpkc4sJ2ogX6AUYGYyIlmrDxVLf033z
+	VQu7m6Fq43V4Gp7l2WcCJ2o=
+X-Google-Smtp-Source: AMrXdXuoH5txVOd/TjaR7XaiRSnW9Faj8rj8sRmdFETP1CNLIVrTZOkdrcOHYn7j0l1HHz8u94bRmg==
+X-Received: by 2002:a05:600c:5120:b0:3db:21b8:5f53 with SMTP id o32-20020a05600c512000b003db21b85f53mr2772897wms.1.1674337489431;
+        Sat, 21 Jan 2023 13:44:49 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
+        by smtp.gmail.com with ESMTPSA id h11-20020a05600c314b00b003db2e3f2c7csm8820956wmo.0.2023.01.21.13.44.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Jan 2023 13:44:48 -0800 (PST)
+Date: Sat, 21 Jan 2023 22:44:46 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] staging: rtl8192e: Rename CamelCase variables and remove
+ one from rtl_core.h
+Message-ID: <cover.1674336211.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The pull request you sent on Sat, 21 Jan 2023 16:29:33 +0100:
+Rename variables to avoid CamelCase which is not accepted by checkpatch.
+Remove unused variable.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.2-rc5
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/bb86d65775cc3835152c08882384c2534b56f1d3
+Can only be applied after the patch series from 20.01.2023.
 
-Thank you!
+Philipp Hortmann (3):
+  staging: rtl8192e: Remove unused variable bfirst_init
+  staging: rtl8192e: Rename eeprom_CustomerID, SwChnlStage and
+    SwChnlStep
+  staging: rtl8192e: Rename btxpower_trackin.., Slide_Beaco.. and
+    Slide_B..
+
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 16 ++++++++--------
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c |  8 ++++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c   |  6 ------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 13 ++++++-------
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 10 +++++-----
+ 5 files changed, 23 insertions(+), 30 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.39.0
+
