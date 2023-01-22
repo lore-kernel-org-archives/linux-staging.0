@@ -1,368 +1,85 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954633C1C
-	for <linux-staging@lists.linux.dev>; Sun, 22 Jan 2023 19:11:15 +0000 (UTC)
-Received: (Authenticated sender: didi.debian@cknow.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 89BFE60002;
-	Sun, 22 Jan 2023 19:11:06 +0000 (UTC)
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Diederik de Haas <didi.debian@cknow.org>
-Subject: [PATCH] staging: wlan-ng: Fix full name of the GPL
-Date: Sun, 22 Jan 2023 20:10:47 +0100
-Message-Id: <20230122191047.58769-1-didi.debian@cknow.org>
-X-Mailer: git-send-email 2.39.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F92320F
+	for <linux-staging@lists.linux.dev>; Sun, 22 Jan 2023 23:34:35 +0000 (UTC)
+Received: from [192.168.1.141] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MGxYh-1pXGEW2C0J-00E4jE; Mon, 23 Jan 2023 00:34:23 +0100
+Message-ID: <786df750-221e-82fc-a324-d30261296974@i2se.com>
+Date: Mon, 23 Jan 2023 00:34:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
+ <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>
+References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:pwEGleuOvkGVLFNdWT9r9sYPRFmBi28YBzSb3MFzEHeB1TTN5rj
+ FM0eWiaEqvlPxR21qTOtFP1AtqZwEyU11wvK3J1XRU0Pn7by/YTj5i0pguOBzYxUHtxTFtF
+ Q1RBLA4aWqisAuHIuvKN1p9gdGnXS8mbJvwCBjSDRr5AtFGMuY0yNN77US5cX6J7hLXmT/U
+ LBfZAQYeA4IcMe7SKMUGg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:plyGRzBlSb8=;cZnlOFBpGjubLlzObuZBDdxpC6x
+ SNgLXlBG1bTLzX72skd7WwDTriTVVa0sgFPTKk5bjE6mLZdFiDgiVqrNEn4fJZyYY1BPrnAyL
+ wmcDboRjmc+xqCGNbykozpQJDjZkJt2kUV/rn1c56IqKdde/r0+Lm2Koep4VawgxSZHbNRpUM
+ R5bPgVaiZDVbYPYLsSGuX74L3bfS3lEva8XHQ6W4MIgtWL+eXeVhBa3TFCvlqrXUrQxR39iqN
+ 7Cwf5SJ2NbzkU8bs0QUVO1nc4n8ORD+zA9yJFOe+EeR7lTHX+qO4ie5XmjL2NJCL/q4QPESal
+ KAICWzeBseL3mugJowfAfrY20NvSX9uvHo6WL5QLMAeQy6MCX1lc0RxYR+4Z5tMaXKPnmgQ0E
+ jV+ZZB/f/K2djwt2miAqdBWv4SL6kxs9HSwzk3Ee8QCg/mq954sMXJEbKL5PF+MIe1kOB6AnL
+ k/S5514lv160Y7ylYA6IKJpo23AV94CUhpKQX9Jbka4rRhpIfmYOl8T0xNPx5INKu86jtqhRd
+ uUhih5OvLvrSgInn/OqbtVzoB6dyFnhvizXiEnGOslxFLQjMmZWqumFwHlgKreP1MQF57PmIe
+ xnriMKhwzKqFMWFR6GuHdbBc3zWV++xsioBK9omP64gyg57tOJhAF3BTv3sfefHpcLzo84Ude
+ TQUCf3TVdVo3oniguaZ0pn7Xo69HgSfys0D1keB3TQ==
 
-Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
----
- drivers/staging/wlan-ng/hfa384x.h          | 4 ++--
- drivers/staging/wlan-ng/hfa384x_usb.c      | 4 ++--
- drivers/staging/wlan-ng/p80211conv.c       | 4 ++--
- drivers/staging/wlan-ng/p80211conv.h       | 4 ++--
- drivers/staging/wlan-ng/p80211hdr.h        | 4 ++--
- drivers/staging/wlan-ng/p80211ioctl.h      | 4 ++--
- drivers/staging/wlan-ng/p80211metadef.h    | 4 ++--
- drivers/staging/wlan-ng/p80211metastruct.h | 4 ++--
- drivers/staging/wlan-ng/p80211mgmt.h       | 4 ++--
- drivers/staging/wlan-ng/p80211msg.h        | 4 ++--
- drivers/staging/wlan-ng/p80211netdev.c     | 4 ++--
- drivers/staging/wlan-ng/p80211netdev.h     | 4 ++--
- drivers/staging/wlan-ng/p80211req.c        | 4 ++--
- drivers/staging/wlan-ng/p80211req.h        | 4 ++--
- drivers/staging/wlan-ng/p80211types.h      | 4 ++--
- drivers/staging/wlan-ng/p80211wep.c        | 4 ++--
- drivers/staging/wlan-ng/prism2fw.c         | 4 ++--
- drivers/staging/wlan-ng/prism2mgmt.c       | 4 ++--
- drivers/staging/wlan-ng/prism2mgmt.h       | 4 ++--
- drivers/staging/wlan-ng/prism2mib.c        | 4 ++--
- drivers/staging/wlan-ng/prism2sta.c        | 4 ++--
- 21 files changed, 42 insertions(+), 42 deletions(-)
+Hi Umang,
 
-diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
-index 0611e37df6ac..2ccca000df6d 100644
---- a/drivers/staging/wlan-ng/hfa384x.h
-+++ b/drivers/staging/wlan-ng/hfa384x.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
-index c7cd54171d99..464a124bcf40 100644
---- a/drivers/staging/wlan-ng/hfa384x_usb.c
-+++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211conv.c b/drivers/staging/wlan-ng/p80211conv.c
-index cd271b1da69f..ff6e88c573f4 100644
---- a/drivers/staging/wlan-ng/p80211conv.c
-+++ b/drivers/staging/wlan-ng/p80211conv.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211conv.h b/drivers/staging/wlan-ng/p80211conv.h
-index dfb762bce84d..54adbbcb51a9 100644
---- a/drivers/staging/wlan-ng/p80211conv.h
-+++ b/drivers/staging/wlan-ng/p80211conv.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211hdr.h b/drivers/staging/wlan-ng/p80211hdr.h
-index 93195a4c5b01..ecf00cab86a0 100644
---- a/drivers/staging/wlan-ng/p80211hdr.h
-+++ b/drivers/staging/wlan-ng/p80211hdr.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211ioctl.h b/drivers/staging/wlan-ng/p80211ioctl.h
-index b50ce11147dd..ea67ca7b77c6 100644
---- a/drivers/staging/wlan-ng/p80211ioctl.h
-+++ b/drivers/staging/wlan-ng/p80211ioctl.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211metadef.h b/drivers/staging/wlan-ng/p80211metadef.h
-index 1b91b64c12ed..3b659d31273b 100644
---- a/drivers/staging/wlan-ng/p80211metadef.h
-+++ b/drivers/staging/wlan-ng/p80211metadef.h
-@@ -17,8 +17,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211metastruct.h b/drivers/staging/wlan-ng/p80211metastruct.h
-index 4adc64580185..d8e44a61f568 100644
---- a/drivers/staging/wlan-ng/p80211metastruct.h
-+++ b/drivers/staging/wlan-ng/p80211metastruct.h
-@@ -17,8 +17,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211mgmt.h b/drivers/staging/wlan-ng/p80211mgmt.h
-index fc23fae5651b..3e891db768f0 100644
---- a/drivers/staging/wlan-ng/p80211mgmt.h
-+++ b/drivers/staging/wlan-ng/p80211mgmt.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211msg.h b/drivers/staging/wlan-ng/p80211msg.h
-index f68d8b7d5ad8..33ccf4079e8a 100644
---- a/drivers/staging/wlan-ng/p80211msg.h
-+++ b/drivers/staging/wlan-ng/p80211msg.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
-index 6bef419e8ad0..e498c050a99e 100644
---- a/drivers/staging/wlan-ng/p80211netdev.c
-+++ b/drivers/staging/wlan-ng/p80211netdev.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211netdev.h b/drivers/staging/wlan-ng/p80211netdev.h
-index 1cee51a1075e..10836a00da13 100644
---- a/drivers/staging/wlan-ng/p80211netdev.h
-+++ b/drivers/staging/wlan-ng/p80211netdev.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211req.c b/drivers/staging/wlan-ng/p80211req.c
-index 809cf3d480e9..000c7e9c1534 100644
---- a/drivers/staging/wlan-ng/p80211req.c
-+++ b/drivers/staging/wlan-ng/p80211req.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211req.h b/drivers/staging/wlan-ng/p80211req.h
-index bc45cd5f91e4..318c3142a426 100644
---- a/drivers/staging/wlan-ng/p80211req.h
-+++ b/drivers/staging/wlan-ng/p80211req.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211types.h b/drivers/staging/wlan-ng/p80211types.h
-index b2ed96960413..968afd69d0d4 100644
---- a/drivers/staging/wlan-ng/p80211types.h
-+++ b/drivers/staging/wlan-ng/p80211types.h
-@@ -20,8 +20,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/p80211wep.c b/drivers/staging/wlan-ng/p80211wep.c
-index 3ff7ee7011df..48762233b130 100644
---- a/drivers/staging/wlan-ng/p80211wep.c
-+++ b/drivers/staging/wlan-ng/p80211wep.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
-index 02a2191d5c4d..9f924734e627 100644
---- a/drivers/staging/wlan-ng/prism2fw.c
-+++ b/drivers/staging/wlan-ng/prism2fw.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.c b/drivers/staging/wlan-ng/prism2mgmt.c
-index 9030a8939a9b..b9bf3b0128bc 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.c
-+++ b/drivers/staging/wlan-ng/prism2mgmt.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
-index 7132cec2d7eb..21de6e1918ba 100644
---- a/drivers/staging/wlan-ng/prism2mgmt.h
-+++ b/drivers/staging/wlan-ng/prism2mgmt.h
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/prism2mib.c b/drivers/staging/wlan-ng/prism2mib.c
-index fcf8313870af..34e5a632401a 100644
---- a/drivers/staging/wlan-ng/prism2mib.c
-+++ b/drivers/staging/wlan-ng/prism2mib.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
-diff --git a/drivers/staging/wlan-ng/prism2sta.c b/drivers/staging/wlan-ng/prism2sta.c
-index daa7cc4e897c..033186b516f3 100644
---- a/drivers/staging/wlan-ng/prism2sta.c
-+++ b/drivers/staging/wlan-ng/prism2sta.c
-@@ -19,8 +19,8 @@
-  *   rights and limitations under the License.
-  *
-  *   Alternatively, the contents of this file may be used under the
-- *   terms of the GNU Public License version 2 (the "GPL"), in which
-- *   case the provisions of the GPL are applicable instead of the
-+ *   terms of the GNU General Public License version 2 (the "GPL"), in
-+ *   which case the provisions of the GPL are applicable instead of the
-  *   above.  If you wish to allow the use of your version of this file
-  *   only under the terms of the GPL and not to allow others to use
-  *   your version of this file under the MPL, indicate your decision
--- 
-2.39.0
+Am 20.01.23 um 21:10 schrieb Umang Jain:
+> This series just introduces five extra patches for dropping include
+> directives from Makefiles (suggested by Greg KH) and rebased.
+>
+> The main patch (6/6) removes platform device/driver abuse and moves
+> things to standard device/driver model using a custom_bus. Specific
+> details are elaborated in the commit message.
+>
+> The patch series is based on top of d514392f17fd (tag: next-20230120)
+> of linux-next.
+
+applied this series on top of linux-next and build it with 
+arm/multi_v7_defconfig plus the following:
+
+CONFIG_BCM_VIDEOCORE=y
+CONFIG_BCM2835_VCHIQ=m
+CONFIG_VCHIQ_CDEV=y
+CONFIG_SND_BCM2835=m
+CONFIG_VIDEO_BCM2835=m
+CONFIG_BCM2835_VCHIQ_MMAL=m
+
+and the devices doesn't register on Raspberry Pi 3 B Plus:
+
+[   25.523337] vchiq: module is from the staging directory, the quality 
+is unknown, you have been warned.
+[   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+bcm2835_audio vchiq device
+[   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+bcm2835-camera vchiq device
 
