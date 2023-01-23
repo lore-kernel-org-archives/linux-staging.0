@@ -1,221 +1,191 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8899A8479
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 18:02:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="390607424"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="390607424"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 10:02:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="694023074"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="694023074"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP; 23 Jan 2023 10:02:42 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andy@kernel.org>)
-	id 1pK19U-00DraS-2N;
-	Mon, 23 Jan 2023 20:02:40 +0200
-Date: Mon, 23 Jan 2023 20:02:40 +0200
-From: Andy Shevchenko <andy@kernel.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 27/57] media: atomisp: Remove isp_subdev_link_setup()
-Message-ID: <Y87LwAVr15QUl6U4@smile.fi.intel.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-28-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DDA847C;
+	Mon, 23 Jan 2023 18:03:06 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30NEJOGm009639;
+	Mon, 23 Jan 2023 18:16:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=R1aMUGjTbxhxY6hkyKRGBk4zxbzWjzxiNcedON6udFo=;
+ b=Zm5ggXoNZruq7Bb3b8N1qmVGlQxdkRIHa80INaPpZBBpXyjLW8eCZLOi26l5A6+RB5/w
+ Z+PZ3/cL4Va46yqtmJi5PORwYTY46FioxWKylbeuPxm436newkRnSC7hmZnYsKWHL2Kb
+ E8O4kMxS5/CdwDsQ4mM0v4xIMFleF1b25tB/cNt2YL3f/fwzgGAIWdrLxxMD8SuKdWQu
+ cPFgMv67SOjqXrPKNSoqvl1+YjTlQbFYmJvNya7GzzdG/j6Oyh9icv6JPWXR/j9Hrm2V
+ cNegJauCMm20Z1Gl+nUL+NtrY2i2G1zVxWNtOmY+nTZipz1phWQlTPi0LXd8tXF5+ztP QA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3n89epk4d4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Jan 2023 18:16:42 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 733D910002A;
+	Mon, 23 Jan 2023 18:16:37 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 89E49228A2B;
+	Mon, 23 Jan 2023 18:16:37 +0100 (CET)
+Received: from [10.201.21.26] (10.201.21.26) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Mon, 23 Jan
+ 2023 18:16:34 +0100
+Message-ID: <e068c541-b492-a513-6212-fd698e4fc9c4@foss.st.com>
+Date: Mon, 23 Jan 2023 18:16:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123125205.622152-28-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>,
+        <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
+        <jic23@kernel.org>, <tudor.ambarus@microchip.com>,
+        <pratyush@kernel.org>, <sanju.mehta@amd.com>,
+        <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>, <kdasu.kdev@gmail.com>,
+        <f.fainelli@gmail.com>, <rjui@broadcom.com>, <sbranden@broadcom.com>,
+        <eajames@linux.ibm.com>, <olteanv@gmail.com>, <han.xu@nxp.com>,
+        <john.garry@huawei.com>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
+        <khilman@baylibre.com>, <matthias.bgg@gmail.com>, <haibo.chen@nxp.com>,
+        <linus.walleij@linaro.org>, <daniel@zonque.org>,
+        <haojian.zhuang@gmail.com>, <robert.jarzmik@free.fr>,
+        <agross@kernel.org>, <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
+        <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+        <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+        <masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
+        <rostedt@goodmis.org>, <mingo@redhat.com>, <l.stelmach@samsung.com>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <alex.aring@gmail.com>,
+        <stefan@datenfreihafen.org>, <kvalo@kernel.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <skomatineni@nvidia.com>, <sumit.semwal@linaro.org>,
+        <christian.koenig@amd.com>, <j.neuschaefer@gmx.net>,
+        <vireshk@kernel.org>, <rmfrfs@gmail.com>, <johan@kernel.org>,
+        <elder@kernel.org>, <gregkh@linuxfoundation.org>
+CC: <git@amd.com>, <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <joel@jms.id.au>, <andrew@aj.id.au>, <radu_nicolae.pirea@upb.ro>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <claudiu.beznea@microchip.com>,
+        <bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
+        <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
+        <jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
+        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
+        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
+        <benjaminfair@google.com>, <yogeshgaur.83@gmail.com>,
+        <konrad.dybcio@somainline.org>, <alim.akhtar@samsung.com>,
+        <ldewangan@nvidia.com>, <michal.simek@amd.com>,
+        <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-wpan@vger.kernel.org>,
+        <libertas-dev@lists.infradead.org>, <linux-wireless@vger.kernel.org>,
+        <linux-mtd@lists.infradead.org>, <lars@metafoo.de>,
+        <Michael.Hennerich@analog.com>, <linux-iio@vger.kernel.org>,
+        <michael@walle.cc>, <palmer@dabbelt.com>,
+        <linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <greybus-dev@lists.linaro.org>,
+        <linux-staging@lists.linux.dev>, <amitrkcian2002@gmail.com>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+ <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+Content-Language: en-US
+From: Patrice CHOTARD <patrice.chotard@foss.st.com>
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.201.21.26]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
 
-On Mon, Jan 23, 2023 at 01:51:35PM +0100, Hans de Goede wrote:
-> Looking at isp_subdev_link_setup(), this function can never work,
-> it does a switch-case like this:
-> 
->  switch (local->index | is_media_entity_v4l2_subdev(remote->entity))
-> 
-> with cases like this:
-> 
->  case ATOMISP_SUBDEV_PAD_SINK | MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN
-> 
-> where ATOMISP_SUBDEV_PAD_SINK matches an index (0-4) and
-> MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN is 0x00020000, but
-> is_media_entity_v4l2_subdev(remote->entity) does not return
-> MEDIA_ENT_F_* values, it return a bool, so 0 or 1 which means
-> that non of the cases can ever match the input value.
-> 
-> Looking at the rest of the function all it ever does (if it
-> would actually hit one of the cases) is set the atomisp_sub_device
-> struct's input member.
-> 
-> And checking the rest of the atomisp code that member is never
-> read. Also userspace does not actually setup media-controller
-> links when using the atomisp /dev/video$ nodes since all the links
-> are fixed. So isp_subdev_link_setup() never runs.
-> 
-> Remove the unnecessary and broken isp_subdev_link_setup() function
-> and also remove the unused atomisp_sub_device struct's input member.
+Hi Amit
 
-(One of the) best patch(es) in the series!
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
+> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
+> members of struct spi_device to be an array. But changing the type of these
+> members to array would break the spi driver functionality. To make the
+> transition smoother introduced four new APIs to get/set the
+> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
+> spi->cs_gpiod references with get or set API calls.
+> While adding multi-cs support in further patches the chip_select & cs_gpiod
+> members of the spi_device structure would be converted to arrays & the
+> "idx" parameter of the APIs would be used as array index i.e.,
+> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+> 
+> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
 > ---
->  .../media/atomisp/pci/atomisp_subdev.c        | 79 -------------------
->  .../media/atomisp/pci/atomisp_subdev.h        | 13 ---
->  2 files changed, 92 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> index eb8f319fca5c..52d1936b8c87 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> @@ -714,85 +714,8 @@ static void isp_subdev_init_params(struct atomisp_sub_device *asd)
+
+[...]
+
+>  drivers/spi/spi-stm32-qspi.c      | 12 ++++++------
+
+[...]
+
+> diff --git a/drivers/spi/spi-stm32-qspi.c b/drivers/spi/spi-stm32-qspi.c
+> index 9131660c1afb..b9e61372dcfb 100644
+> --- a/drivers/spi/spi-stm32-qspi.c
+> +++ b/drivers/spi/spi-stm32-qspi.c
+> @@ -359,7 +359,7 @@ static int stm32_qspi_get_mode(u8 buswidth)
+>  static int stm32_qspi_send(struct spi_device *spi, const struct spi_mem_op *op)
+>  {
+>  	struct stm32_qspi *qspi = spi_controller_get_devdata(spi->master);
+> -	struct stm32_qspi_flash *flash = &qspi->flash[spi->chip_select];
+> +	struct stm32_qspi_flash *flash = &qspi->flash[spi_get_chipselect(spi, 0)];
+>  	u32 ccr, cr;
+>  	int timeout, err = 0, err_poll_status = 0;
+>  
+> @@ -564,7 +564,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
+>  	struct spi_mem_op op;
+>  	int ret = 0;
+>  
+> -	if (!spi->cs_gpiod)
+> +	if (!spi_get_csgpiod(spi, 0))
+>  		return -EOPNOTSUPP;
+>  
+>  	ret = pm_runtime_resume_and_get(qspi->dev);
+> @@ -573,7 +573,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
+>  
+>  	mutex_lock(&qspi->lock);
+>  
+> -	gpiod_set_value_cansleep(spi->cs_gpiod, true);
+> +	gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), true);
+>  
+>  	list_for_each_entry(transfer, &msg->transfers, transfer_list) {
+>  		u8 dummy_bytes = 0;
+> @@ -626,7 +626,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
 >  	}
->  }
 >  
-> -/*
-> -* isp_subdev_link_setup - Setup isp subdev connections
-> -* @entity: ispsubdev media entity
-> -* @local: Pad at the local end of the link
-> -* @remote: Pad at the remote end of the link
-> -* @flags: Link flags
-> -*
-> -* return -EINVAL or zero on success
-> -*/
-> -static int isp_subdev_link_setup(struct media_entity *entity,
-> -				 const struct media_pad *local,
-> -				 const struct media_pad *remote, u32 flags)
-> -{
-> -	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-> -	struct atomisp_sub_device *isp_sd = v4l2_get_subdevdata(sd);
-> -	struct atomisp_device *isp = isp_sd->isp;
-> -	unsigned int i;
-> -
-> -	switch (local->index | is_media_entity_v4l2_subdev(remote->entity)) {
-> -	case ATOMISP_SUBDEV_PAD_SINK | MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN:
-> -		/* Read from the sensor CSI2-ports. */
-> -		if (!(flags & MEDIA_LNK_FL_ENABLED)) {
-> -			isp_sd->input = ATOMISP_SUBDEV_INPUT_NONE;
-> -			break;
-> -		}
-> -
-> -		if (isp_sd->input != ATOMISP_SUBDEV_INPUT_NONE)
-> -			return -EBUSY;
-> -
-> -		for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++) {
-> -			if (remote->entity != &isp->csi2_port[i].subdev.entity)
-> -				continue;
-> -
-> -			isp_sd->input = ATOMISP_SUBDEV_INPUT_CSI2_PORT1 + i;
-> -			return 0;
-> -		}
-> -
-> -		return -EINVAL;
-> -
-> -	case ATOMISP_SUBDEV_PAD_SINK | MEDIA_ENT_F_OLD_BASE:
-> -		/* read from memory */
-> -		if (flags & MEDIA_LNK_FL_ENABLED) {
-> -			if (isp_sd->input >= ATOMISP_SUBDEV_INPUT_CSI2_PORT1 &&
-> -			    isp_sd->input < (ATOMISP_SUBDEV_INPUT_CSI2_PORT1
-> -					     + ATOMISP_CAMERA_NR_PORTS))
-> -				return -EBUSY;
-> -			isp_sd->input = ATOMISP_SUBDEV_INPUT_MEMORY;
-> -		} else {
-> -			if (isp_sd->input == ATOMISP_SUBDEV_INPUT_MEMORY)
-> -				isp_sd->input = ATOMISP_SUBDEV_INPUT_NONE;
-> -		}
-> -		break;
-> -
-> -	case ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW | MEDIA_ENT_F_OLD_BASE:
-> -		/* always write to memory */
-> -		break;
-> -
-> -	case ATOMISP_SUBDEV_PAD_SOURCE_VF | MEDIA_ENT_F_OLD_BASE:
-> -		/* always write to memory */
-> -		break;
-> -
-> -	case ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE | MEDIA_ENT_F_OLD_BASE:
-> -		/* always write to memory */
-> -		break;
-> -
-> -	case ATOMISP_SUBDEV_PAD_SOURCE_VIDEO | MEDIA_ENT_F_OLD_BASE:
-> -		/* always write to memory */
-> -		break;
-> -
-> -	default:
-> -		return -EINVAL;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  /* media operations */
->  static const struct media_entity_operations isp_subdev_media_ops = {
-> -	.link_setup = isp_subdev_link_setup,
->  	.link_validate = v4l2_subdev_link_validate,
->  	/*	 .set_power = v4l2_subdev_set_power,	*/
->  };
-> @@ -1071,8 +994,6 @@ static int isp_subdev_init_entities(struct atomisp_sub_device *asd)
->  	struct media_entity *me = &sd->entity;
->  	int ret;
+>  end_of_transfer:
+> -	gpiod_set_value_cansleep(spi->cs_gpiod, false);
+> +	gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), false);
 >  
-> -	asd->input = ATOMISP_SUBDEV_INPUT_NONE;
-> -
->  	v4l2_subdev_init(sd, &isp_subdev_v4l2_ops);
->  	sprintf(sd->name, "ATOMISP_SUBDEV_%d", asd->index);
->  	v4l2_set_subdevdata(sd, asd);
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-> index bd2872cbb50c..daa6077a83bd 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-> @@ -30,18 +30,6 @@
+>  	mutex_unlock(&qspi->lock);
 >  
->  /* EXP_ID's ranger is 1 ~ 250 */
->  #define ATOMISP_MAX_EXP_ID     (250)
-> -enum atomisp_subdev_input_entity {
-> -	ATOMISP_SUBDEV_INPUT_NONE,
-> -	ATOMISP_SUBDEV_INPUT_MEMORY,
-> -	ATOMISP_SUBDEV_INPUT_CSI2,
-> -	/*
-> -	 * The following enum for CSI2 port must go together in one row.
-> -	 * Otherwise it breaks the code logic.
-> -	 */
-> -	ATOMISP_SUBDEV_INPUT_CSI2_PORT1,
-> -	ATOMISP_SUBDEV_INPUT_CSI2_PORT2,
-> -	ATOMISP_SUBDEV_INPUT_CSI2_PORT3,
-> -};
+> @@ -669,8 +669,8 @@ static int stm32_qspi_setup(struct spi_device *spi)
 >  
->  #define ATOMISP_SUBDEV_PAD_SINK			0
->  /* capture output for still frames */
-> @@ -267,7 +255,6 @@ struct atomisp_sub_device {
->  	struct atomisp_pad_format fmt[ATOMISP_SUBDEV_PADS_NUM];
->  	u16 capture_pad; /* main capture pad; defines much of isp config */
+>  	presc = DIV_ROUND_UP(qspi->clk_rate, spi->max_speed_hz) - 1;
 >  
-> -	enum atomisp_subdev_input_entity input;
->  	unsigned int output;
->  	struct atomisp_video_pipe video_out_capture; /* capture output */
->  	struct atomisp_video_pipe video_out_vf;      /* viewfinder output */
-> -- 
-> 2.39.0
-> 
+> -	flash = &qspi->flash[spi->chip_select];
+> -	flash->cs = spi->chip_select;
+> +	flash = &qspi->flash[spi_get_chipselect(spi, 0)];
+> +	flash->cs = spi_get_chipselect(spi, 0);
+>  	flash->presc = presc;
+>  
+>  	mutex_lock(&qspi->lock);
 
--- 
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
 
-
+Thanks
+Patrice
