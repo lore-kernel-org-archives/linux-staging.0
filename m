@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CCD8818
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 20:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D968817
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 20:54:14 +0000 (UTC)
 Received: from ipservice-092-217-089-134.092.217.pools.vodafone-ip.de ([92.217.89.134] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1pK3pP-0000Lk-NC; Mon, 23 Jan 2023 21:54:07 +0100
+	id 1pK3pR-0000Lk-AX; Mon, 23 Jan 2023 21:54:09 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 16/23] staging: r8188eu: use list_head for xmitframe list
-Date: Mon, 23 Jan 2023 21:53:35 +0100
-Message-Id: <20230123205342.229589-17-martin@kaiser.cx>
+Subject: [PATCH 18/23] staging: r8188eu: use lists for hwxmits
+Date: Mon, 23 Jan 2023 21:53:37 +0100
+Message-Id: <20230123205342.229589-19-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230123205342.229589-1-martin@kaiser.cx>
 References: <20230123205342.229589-1-martin@kaiser.cx>
@@ -31,74 +31,127 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The r8188eu driver defines a struct __queue that contains a list_head and
-a spinlock.
+struct hw_xmit's sta_list points to one of vo, vi, be or bk_pending in
+struct xmit_priv. All of these are defined as struct __queue, which is a
+list plus a spinlock.
 
-struct tx_servq describes a station for which we have pending tx packets.
-This struct contains a __queue for the pending packets (a __queue of
-struct xmit_frame entries). In this particular case, the queue's spinlock
-is not used, we need only the list_head.
+For these components, the spinlock is unused, we need only the list.
 
-rtw_dequeue_xframe uses a local variable for such an xmit_frame queue.
-This patch replaces this variable with a list_head.
+This patch converts sta_list and vo, vi, be and bk_pending to struct
+list_head.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_xmit.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c    | 32 ++++++++++------------
+ drivers/staging/r8188eu/include/rtw_xmit.h | 10 +++----
+ 2 files changed, 19 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 79a1999ca809..6060a1832431 100644
+index cb0d8346ac10..ef6d3a9bffea 100644
 --- a/drivers/staging/r8188eu/core/rtw_xmit.c
 +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -1355,15 +1355,14 @@ s32 rtw_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitfram
- 	return _SUCCESS;
- }
+@@ -76,10 +76,10 @@ int _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
  
--static struct xmit_frame *dequeue_one_xmitframe(struct __queue *pframe_queue)
-+static struct xmit_frame *dequeue_one_xmitframe(struct list_head *xframe_list)
+ 	pxmitpriv->adapter = padapter;
+ 
+-	rtw_init_queue(&pxmitpriv->be_pending);
+-	rtw_init_queue(&pxmitpriv->bk_pending);
+-	rtw_init_queue(&pxmitpriv->vi_pending);
+-	rtw_init_queue(&pxmitpriv->vo_pending);
++	INIT_LIST_HEAD(&pxmitpriv->be_pending);
++	INIT_LIST_HEAD(&pxmitpriv->bk_pending);
++	INIT_LIST_HEAD(&pxmitpriv->vi_pending);
++	INIT_LIST_HEAD(&pxmitpriv->vo_pending);
+ 
+ 	rtw_init_queue(&pxmitpriv->free_xmit_queue);
+ 
+@@ -881,10 +881,10 @@ s32 rtw_txframes_pending(struct adapter *padapter)
  {
--	struct list_head *xmitframe_phead = get_list_head(pframe_queue);
- 	struct xmit_frame *pxmitframe;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
  
--	if (list_empty(xmitframe_phead))
-+	if (list_empty(xframe_list))
- 		return NULL;
- 
--	pxmitframe = container_of(xmitframe_phead->next, struct xmit_frame, list);
-+	pxmitframe = container_of(xframe_list->next, struct xmit_frame, list);
- 	list_del_init(&pxmitframe->list);
- 	return pxmitframe;
+-	return (!list_empty(&pxmitpriv->be_pending.queue) ||
+-			!list_empty(&pxmitpriv->bk_pending.queue) ||
+-			!list_empty(&pxmitpriv->vi_pending.queue) ||
+-			!list_empty(&pxmitpriv->vo_pending.queue));
++	return (!list_empty(&pxmitpriv->be_pending) ||
++		!list_empty(&pxmitpriv->bk_pending) ||
++		!list_empty(&pxmitpriv->vi_pending) ||
++		!list_empty(&pxmitpriv->vo_pending));
  }
-@@ -1373,7 +1372,7 @@ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmi
- 	struct list_head *sta_phead;
+ 
+ s32 rtw_txframes_sta_ac_pending(struct adapter *padapter, struct pkt_attrib *pattrib)
+@@ -1357,7 +1357,6 @@ s32 rtw_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitfram
+ 
+ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmit *phwxmit_i)
+ {
+-	struct list_head *sta_phead;
  	struct hw_xmit *phwxmit;
  	struct tx_servq *ptxservq, *tmp_txservq;
--	struct __queue *pframe_queue = NULL;
-+	struct list_head *xframe_list;
- 	struct xmit_frame *pxmitframe = NULL;
- 	struct adapter *padapter = pxmitpriv->adapter;
- 	struct registry_priv	*pregpriv = &padapter->registrypriv;
-@@ -1393,16 +1392,15 @@ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmi
+ 	struct list_head *xframe_list;
+@@ -1375,10 +1374,7 @@ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmi
  
- 		list_for_each_entry_safe(ptxservq, tmp_txservq, sta_phead, tx_pending) {
- 
--			pframe_queue = &ptxservq->sta_pending;
+ 	for (i = 0; i < HWXMIT_ENTRY; i++) {
+ 		phwxmit = phwxmit_i + inx[i];
 -
--			pxmitframe = dequeue_one_xmitframe(pframe_queue);
-+			xframe_list = get_list_head(&ptxservq->sta_pending);
-+			pxmitframe = dequeue_one_xmitframe(xframe_list);
+-		sta_phead = get_list_head(phwxmit->sta_queue);
+-
+-		list_for_each_entry_safe(ptxservq, tmp_txservq, sta_phead, tx_pending) {
++		list_for_each_entry_safe(ptxservq, tmp_txservq, phwxmit->sta_list, tx_pending) {
+ 			xframe_list = get_list_head(&ptxservq->sta_pending);
+ 			if (list_empty(xframe_list))
+ 				continue;
+@@ -1460,7 +1456,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 	ptxservq = rtw_get_sta_pending(padapter, psta, pattrib->priority, (u8 *)(&ac_index));
  
- 			if (pxmitframe) {
- 				phwxmit->accnt--;
- 				ptxservq->qcnt--;
+ 	if (list_empty(&ptxservq->tx_pending))
+-		list_add_tail(&ptxservq->tx_pending, get_list_head(phwxmits[ac_index].sta_queue));
++		list_add_tail(&ptxservq->tx_pending, phwxmits[ac_index].sta_list);
  
- 				/* Remove sta node when there are no pending packets. */
--				if (list_empty(&pframe_queue->queue))
-+				if (list_empty(xframe_list))
- 					list_del_init(&ptxservq->tx_pending);
- 				goto exit;
- 			}
+ 	list_add_tail(&pxmitframe->list, get_list_head(&ptxservq->sta_pending));
+ 	ptxservq->qcnt++;
+@@ -1481,10 +1477,10 @@ int rtw_alloc_hwxmits(struct adapter *padapter)
+ 
+ 	hwxmits = pxmitpriv->hwxmits;
+ 
+-	hwxmits[0].sta_queue = &pxmitpriv->vo_pending;
+-	hwxmits[1].sta_queue = &pxmitpriv->vi_pending;
+-	hwxmits[2].sta_queue = &pxmitpriv->be_pending;
+-	hwxmits[3].sta_queue = &pxmitpriv->bk_pending;
++	hwxmits[0].sta_list = &pxmitpriv->vo_pending;
++	hwxmits[1].sta_list = &pxmitpriv->vi_pending;
++	hwxmits[2].sta_list = &pxmitpriv->be_pending;
++	hwxmits[3].sta_list = &pxmitpriv->bk_pending;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
+index cc32167fb4dc..30f8000120b2 100644
+--- a/drivers/staging/r8188eu/include/rtw_xmit.h
++++ b/drivers/staging/r8188eu/include/rtw_xmit.h
+@@ -97,7 +97,7 @@ union txdesc {
+ };
+ 
+ struct	hw_xmit	{
+-	struct __queue *sta_queue;
++	struct list_head *sta_list;
+ 	int	accnt;
+ };
+ 
+@@ -257,10 +257,10 @@ struct agg_pkt_info {
+ 
+ struct	xmit_priv {
+ 	spinlock_t lock;
+-	struct __queue be_pending;
+-	struct __queue bk_pending;
+-	struct __queue vi_pending;
+-	struct __queue vo_pending;
++	struct list_head be_pending;
++	struct list_head bk_pending;
++	struct list_head vi_pending;
++	struct list_head vo_pending;
+ 	u8 *pallocated_frame_buf;
+ 	u8 *pxmit_frame_buf;
+ 	uint free_xmitframe_cnt;
 -- 
 2.30.2
 
