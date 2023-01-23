@@ -1,53 +1,59 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176017C
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:04:53 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id l41-20020a05600c1d2900b003daf986faaeso8377363wms.3
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 04:04:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AC07C
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:05:01 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id f25-20020a1c6a19000000b003da221fbf48so8374417wmc.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 04:05:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yEW+4BVZ5ANLLKSU6/pPWr+45B5glov6svDw8cCDQvI=;
-        b=RmFzJxAPOtZ8+xn00ZferYr7RB5rD7OufL3hGTVRHS4dvw83IRFiZDzmpQsv3UnxLT
-         tEMn+gpS1FdOKiCKS29Hb4mIi1Jnj6s2tMyLhkR866+3W/b+bhKLqlWharvxz6vaZsKU
-         J1re8wH1mLk9y5qZDZ8mIrhRUadvn5z5vFewkRXTaL3inZKPA6JDQGSzewNHvjc70TEh
-         kfP5jJgs8xitNRe8DsT74NXADTULkfkewhGUN62ABEMxMbicAV6whi2hSHj6OWQTOm/9
-         z8f/yKUZwmU8U1luOafA+nCnhICe10Z8dOKf5Rhf5ZXw9WAMOixts8ho05CzL4xUUYpR
-         YBsA==
+        bh=AMBmfoYya5PgXn4YZDfYUMtggySAK/HwKMtRK6plYP8=;
+        b=aCU33KhsnXFUu/IDemepIQPPaq2LWevf+0j8EsEsDOKcPezA+2LRMTWVj6e7OhCTof
+         74UbpHP/JGepMFB624HIud3lHqIYZ7ZTbcZ2rbBSRWQnegNZO8yeHwuSr99YMeyeHVJr
+         EyObPon+WO0wm2A7JXtjbdr7TZnPYK9oO3MARvQzG8g4982t7Vwt+KYNKduRnoCFfrng
+         RKugvQXK2NgH85j1FR1B8+7gDZYIKLI5mw25/eIwiaMR37J4PjB06vKn7+MNVR+Sr1BM
+         P3Gdj+KFebm4nRw40LsUcpmUdktHz/xwmbTxbAaTpmgB+Mg01XaT7FpXBTWfQAw74EzU
+         N/Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yEW+4BVZ5ANLLKSU6/pPWr+45B5glov6svDw8cCDQvI=;
-        b=QwVQPSQ2DcRdDjs0Ypmcrm0OzgwoW8ytVAvD1zGG6oqdFCbfDV0FfMW3scvn8ruPBf
-         A71yRPa9IAcb6sbfiVStguj9kSDkqe9v+jXTg6K0Q2m2LGrcyWPtKOoKLgiQzZFIfeBU
-         oyNcezhklYlD3cQobVEZxQ/34+KL4/ZbXA1q1SS4VkX4RjbPvwTXPy15RwkRoQqni+xP
-         o3MtterwC6NLYUGQW8KGYj9Y+ZyIJXEOXuUxuRML0UzpXT2vV32ficihOGKpPT8NJ+ux
-         LKTTc3SW/Lhqtji1ZG0iMdm6TmbZ2AJ4hMHa5u80L5PK9C3wivFY+saH2iA7ft5NbwvI
-         B/tg==
-X-Gm-Message-State: AFqh2kp1cracWd/+M0n+lnFYqgLk+XchQ1pRE4lwsQWkOueqzyUxLSD7
-	eA+OrPkfXVoDR2mdMwoec/w=
-X-Google-Smtp-Source: AMrXdXv5ZMGamm9R3AWrjyhn15xXR3YYflE3NfcWaD+iEm1LJp3aaueWtJibWE7ROr2kFZ2GA1xlyQ==
-X-Received: by 2002:a05:600c:5390:b0:3d9:a145:4d1a with SMTP id hg16-20020a05600c539000b003d9a1454d1amr20516589wmb.34.1674475492382;
-        Mon, 23 Jan 2023 04:04:52 -0800 (PST)
+        bh=AMBmfoYya5PgXn4YZDfYUMtggySAK/HwKMtRK6plYP8=;
+        b=x7a9RZy2kgUf+szFz20EhGi6xjZrRSVQIWqZKnlgxzIaEa4UM9a8d6EfZ2QpNIuzkK
+         S+3yayJlKRAfNVcP85X3TIzpQbo+pVlS3PLQihC+fkoT67CNjqC4duq/hVspdFsB3oCx
+         W3sTUGrMDKWM6b/lM2zvp2SiHBpTBUNuHYbpRKPaKNJCAvqwBqCyZ+H+pVkLC38mRctw
+         K+tAu0wDudA4iBqObd3GMiixmyMi79ckv/QDRoofAdfSX6R4ahBMiv3DhFuIa3vqdnzE
+         RjgItosKNVkQisnpYWsl0g/D5USaqO0e5tozEkZ2Ij5fAcUogVnRrGHDb/3w/cchPuAm
+         CdTg==
+X-Gm-Message-State: AFqh2kridhViPAU51IZt41uM/UZoxgw8GDvrl6uTcpfaWqkno2CXQzG/
+	l2UrDRZtLSVGt1OgJDqA5Ao=
+X-Google-Smtp-Source: AMrXdXtxDoap+d7zX3hP2ldTumD2iqOsEVcDveuuO4JcRCXk81Ogw0HNRqLo4TXJHw9H9gLnIDeBwg==
+X-Received: by 2002:a05:600c:4e4b:b0:3db:2e6d:9f79 with SMTP id e11-20020a05600c4e4b00b003db2e6d9f79mr12360642wmq.39.1674475500256;
+        Mon, 23 Jan 2023 04:05:00 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f14-20020a05600c154e00b003daff80f16esm14511122wmg.27.2023.01.23.04.04.51
+        by smtp.gmail.com with ESMTPSA id o21-20020a05600c4fd500b003c6f8d30e40sm11642757wmq.31.2023.01.23.04.04.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 04:04:51 -0800 (PST)
-Date: Mon, 23 Jan 2023 15:04:48 +0300
+        Mon, 23 Jan 2023 04:04:59 -0800 (PST)
+Date: Mon, 23 Jan 2023 15:04:56 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: wlan-ng: Fix full name of the GPL
-Message-ID: <Y8534H/2JvussfAh@kadam>
-References: <20230122191047.58769-1-didi.debian@cknow.org>
- <Y84wk+sw/gR7gNW4@kroah.com>
- <Y85Kkax5+U4AUedT@debian.me>
+To: Christian Hewitt <christianshewitt@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH] media: meson: vdec: esparser: check parsing state with
+ hardware write pointer
+Message-ID: <Y8536BzbbghJt0G2@kadam>
+References: <20230123094300.2816812-1-christianshewitt@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,26 +62,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y85Kkax5+U4AUedT@debian.me>
+In-Reply-To: <20230123094300.2816812-1-christianshewitt@gmail.com>
 
-On Mon, Jan 23, 2023 at 03:51:29PM +0700, Bagas Sanjaya wrote:
-> On Mon, Jan 23, 2023 at 08:00:35AM +0100, Greg Kroah-Hartman wrote:
-> > - You did not specify a description of why the patch is needed, or
-> >   possibly, any description at all, in the email body.  Please read the
-> >   section entitled "The canonical patch format" in the kernel file,
-> >   Documentation/process/submitting-patches.rst for what is needed in
-> >   order to properly describe the change.
-> > 
+On Mon, Jan 23, 2023 at 09:43:00AM +0000, Christian Hewitt wrote:
+> From: Neil Armstrong <narmstrong@baylibre.com>
 > 
-> Hi Greg,
+> Also check the hardware write pointer to check if ES Parser has stalled.
 > 
-> drivers/staging/wlan-ng/hfa384x.h (for example) has already SPDX identifier
-> that matches the verbose copyright notice below it. 
 
-Resend the patch with a better commit message.
+Presumably this is something which has happens in real life?  Say a user
+has this hardware and is wondering if this patch fixes their bug, what
+does this bug look like to them?
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+Please add a Fixes tag.
+
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+> ---
+>  drivers/staging/media/meson/vdec/esparser.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+> index df5956c6141d..41b705f999b2 100644
+> --- a/drivers/staging/media/meson/vdec/esparser.c
+> +++ b/drivers/staging/media/meson/vdec/esparser.c
+> @@ -300,6 +300,7 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+>  	u32 num_dst_bufs = 0;
+>  	u32 offset;
+>  	u32 pad_size;
+> +	u32 wp, wp2;
+>  
+>  	/*
+>  	 * When max ref frame is held by VP9, this should be -= 3 to prevent a
+> @@ -354,15 +355,21 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+>  	}
+>  
+>  	pad_size = esparser_pad_start_code(core, vb, payload_size);
+> +	wp = amvdec_read_parser(core, PARSER_VIDEO_WP);
+>  	ret = esparser_write_data(core, phy, payload_size + pad_size);
+> +	wp2 = amvdec_read_parser(core, PARSER_VIDEO_WP);
+>  
+
+Why is check not done inside the esparser_write_data() function?  It
+really feels like doing a write where nothing happens should be a bug
+for both callers...
+
+The esparser_write_data() function returns > 0 on success, 0 on timeout
+(I guess timeout is an error-ish) and negative if the user presses
+CTR-C.  There are no comments to explain the unusual returns.  Could we
+clean this up so it just returns negatives on error and zero on success
+or if not then let's add a comment explaining what's going on?
+
+>  	if (ret <= 0) {
+> -		dev_warn(core->dev, "esparser: input parsing error\n");
+> -		amvdec_remove_ts(sess, vb->timestamp);
+> -		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+>  		amvdec_write_parser(core, PARSER_FETCH_CMD, 0);
+>  
+> -		return 0;
+> +		if (ret < 0 || wp2 == wp) {
+
+So in this patch if there is a timeout but something was written then
+that's kind of a success path?
 
 regards,
 dan carpenter
+
+> +			dev_err(core->dev, "esparser: input parsing error ret %d (%x <=> %x)\n",
+> +				ret, wp, wp2);
+> +			amvdec_remove_ts(sess, vb->timestamp);
+> +			v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+> +
+> +			return 0;
+> +		}
+>  	}
+>  
+>  	atomic_inc(&sess->esparser_queued_bufs);
 
