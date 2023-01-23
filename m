@@ -1,51 +1,12 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B1B7C
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674476895;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gwrB5DR4dppCP7zf2C5pSCDKiFcT+mCcVne59nz/EJE=;
-	b=ZuErYm+tY5FfKg0MkORnKlkTn1JlpMMTfxwWaPLIvvZH5gdGrYKaTU28GR80Mk/q1xxCzr
-	OcyQuVZOYuoUbPHWw+dSlmF2mYvBtXALdaL41cd3uAB3G9lbpVyi2tgLVrGdqNf8dizGdR
-	2R6wWep0Bfl7Z9pw7o5Qvjmd3M7XkSQ=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-300-xFOVqEfHNTCi9030wYuvtg-1; Mon, 23 Jan 2023 07:28:13 -0500
-X-MC-Unique: xFOVqEfHNTCi9030wYuvtg-1
-Received: by mail-ej1-f72.google.com with SMTP id nb4-20020a1709071c8400b0084d4712780bso7646436ejc.18
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 04:28:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gwrB5DR4dppCP7zf2C5pSCDKiFcT+mCcVne59nz/EJE=;
-        b=0BnbSwQuPbpkaROd1jsm2tkYf6WVzKAME9WY0maO6IJbK24tMjKZUMX2H+mx+HFpNI
-         KsAzsKCJmoJ//ATa7DCOpL1jz0HZcJtwYhkmzNeLnpbJ/UL2M5JZqpkq7Vz3Qb7p8M/u
-         GaDS4dgkehR3gpES1h0VayVk7UBCjb4eavFDvNw4jVXiyv247e8WFrQTZaaCVKEWC3E1
-         9GQLtMzLY4mmwQXrMajifdInvLZYG0oB10Nc6aReoG1zL9tJdN267UPTQdve817mdL0t
-         IiIShOtHYXzEH7N1m/Tj9OHiE1rOHtMl+GZisbmA64NBdCp0cWlSAVWt+vuvSo3tdls4
-         pDmw==
-X-Gm-Message-State: AFqh2kqnWC7DQFOfSSoEQ7lk2kmMVp8Rs5aP9HJWtaOgPkeqrNS9xIvt
-	Cu3gLGdnWOIy04XXINNpR9VYwhgz3TSFCJPnHGM8bCfq32zp07y6sFrZr4gPvYsVw9RcO0o3i80
-	3yZGab1OyaMb4uKe9pkdDEe1HqA==
-X-Received: by 2002:a17:906:3399:b0:84d:335e:d136 with SMTP id v25-20020a170906339900b0084d335ed136mr23997575eja.48.1674476892778;
-        Mon, 23 Jan 2023 04:28:12 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvQIwGSVLqQBoMnlXQtKDLtQ8NDu9qs6GSx+/a/164XlynrR6nfDHixx1XgKfxSkS9HfswF0A==
-X-Received: by 2002:a17:906:3399:b0:84d:335e:d136 with SMTP id v25-20020a170906339900b0084d335ed136mr23997570eja.48.1674476892561;
-        Mon, 23 Jan 2023 04:28:12 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id 10-20020a170906218a00b0073d796a1043sm21781931eju.123.2023.01.23.04.28.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 04:28:12 -0800 (PST)
-Message-ID: <e72e4f4b-4e07-a57c-2a09-cbc93cfd89dc@redhat.com>
-Date: Mon, 23 Jan 2023 13:28:11 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E06A1391;
+	Mon, 23 Jan 2023 12:33:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9951C433EF;
+	Mon, 23 Jan 2023 12:33:29 +0000 (UTC)
+Message-ID: <0c411b60-1d12-1c34-0f35-5e38d38e2786@xs4all.nl>
+Date: Mon, 23 Jan 2023 13:33:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,77 +15,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v3] media: atomisp: pci: sh_css: Inline single invocation
- of macro STATS_ENABLED()
-To: Brent Pappas <bpappas@pappasbrent.com>, error27@gmail.com
-Cc: andy.shevchenko@gmail.com, andy@kernel.org, colin.i.king@gmail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- mchehab@kernel.org, sakari.ailus@linux.intel.com
-References: <Y8lZreSphK6DIkJg@kadam>
- <20230120171408.16099-1-bpappas@pappasbrent.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230120171408.16099-1-bpappas@pappasbrent.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 0/4] Allwinner D1 video engine support
 Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Maxime Ripard <mripard@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
+References: <20221231164628.19688-1-samuel@sholland.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20221231164628.19688-1-samuel@sholland.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Samuel,
 
-On 1/20/23 18:14, Brent Pappas wrote:
-> Inline the single invocation of the macro STATS_ENABLED().
-> The macro abstraction is not necessary because the logic behind it is only
-> used once.
-> 
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+What is the status of this series? It seems to be mostly OK, but I did see
+a few comments suggesting improvements.
 
+Does this series depend on your PPU work? That was not clear.
 
-Thank you.
-
-I have added this to my personal git tree now and I will include
-this in the atomisp driver pull-req which I will send to the
-media-subsystem maintainer in a couple of weeks.
+I do think there were enough small comments to warrant a v2, unless you disagree?
 
 Regards,
 
-Hans
+	Hans
 
-
-
-> ---
-> Changelog:
-> V1 -> V2: Inline macro instead of replacing it with a function.
+On 31/12/2022 17:46, Samuel Holland wrote:
+> This series finishes adding Cedrus support for Allwinner D1. I had
+> tested the hardware and documented the compatible string a while back,
+> but at the time I had a dummy SRAM section in the devicetree. Further
+> testing shows that there is no switchable SRAM section -- there is no
+> need for it, I was unable to guess the address, and the usual bits in
+> the SRAM controller register have no effect on the video engine. So that
+> needs to be made optional in the binding and driver.
 > 
-> V2 -> V3: Remove unnecessary check that stage is non-null.
+> With that done, the node can be added to the devicetree.
 > 
->  drivers/staging/media/atomisp/pci/sh_css.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-> index 726cb7aa4ecd..93789500416f 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-> @@ -97,9 +97,6 @@
->   */
->  #define JPEG_BYTES (16 * 1024 * 1024)
->  
-> -#define STATS_ENABLED(stage) (stage && stage->binary && stage->binary->info && \
-> -	(stage->binary->info->sp.enable.s3a || stage->binary->info->sp.enable.dis))
-> -
->  struct sh_css my_css;
->  
->  int  __printf(1, 0) (*sh_css_printf)(const char *fmt, va_list args) = NULL;
-> @@ -3743,7 +3740,9 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
->  			 * The SP will read the params after it got
->  			 * empty 3a and dis
->  			 */
-> -			if (STATS_ENABLED(stage)) {
-> +			if (stage->binary && stage->binary->info &&
-> +			    (stage->binary->info->sp.enable.s3a ||
-> +			     stage->binary->info->sp.enable.dis)) {
->  				/* there is a stage that needs it */
->  				return_err = ia_css_bufq_enqueue_buffer(thread_id,
->  									queue_id,
+> Samuel Holland (4):
+>   media: dt-bindings: cedrus: Allow power domain references
+>   media: dt-bindings: cedrus: Make allwinner,sram optional
+>   media: cedrus: Make SRAM section claiming optional
+>   riscv: dts: allwinner: d1: Add video engine node
+> 
+>  .../media/allwinner,sun4i-a10-video-engine.yaml       |  4 +++-
+>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi     | 11 +++++++++++
+>  drivers/staging/media/sunxi/cedrus/cedrus_hw.c        |  2 +-
+>  3 files changed, 15 insertions(+), 2 deletions(-)
+> 
 
