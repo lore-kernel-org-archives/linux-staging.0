@@ -1,148 +1,136 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C674663C4;
-	Mon, 23 Jan 2023 16:19:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674490762; x=1706026762;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lmu2v7OpTbu6dqk7bQ9CsXmK8c+nQata6XlQ8c9vCME=;
-  b=fRcHElqMEi/4o2Aenro818D6o3Ist4rPAUDfDu/Tq0xh9PfPVR8j1iWI
-   +j3QX8DGa20u+pVVqwgHG/EMxKhCgePPBnCMnCo5hLGbRbdKDWkEPDfyv
-   Sw5xIEGhZJVP0aTM+FLZY5WcMS0JRZFwDoXhunmmxPnVCIq+bDnI98WjG
-   b6UlZkjTmMK76ACFUUK8wIVpyDG0y3xJM0ZNFW6u/3wJ5tzFM9v/XtZ8T
-   PBZsuV0Rkw3dD++hlC3NQWY6IE+oC0Hgkxqo8sAYYgjaIweiRWU9wCV7G
-   dhqoUmbuLXGIe/j0N+ydHf56n73NX7yRgIa9k1UTJiuSbEnqAXrQKok9/
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="327340454"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="327340454"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:19:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="663690168"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="663690168"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Jan 2023 08:19:17 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pJzXN-0005lU-1V;
-	Mon, 23 Jan 2023 16:19:13 +0000
-Date: Tue, 24 Jan 2023 00:18:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Hewitt <christianshewitt@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Christian Hewitt <christianshewitt@gmail.com>,
-	Maxime Jourdan <mjourdan@baylibre.com>,
-	Benjamin Roszak <benjamin545@gmail.com>
-Subject: Re: [PATCH 2/2] media: meson: vdec: add HEVC decode codec
-Message-ID: <202301240007.NkZA19qq-lkp@intel.com>
-References: <20230123133113.3254659-3-christianshewitt@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F170B63C4
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 16:25:40 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 30NELWXp089410;
+	Mon, 23 Jan 2023 08:21:32 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1674483692;
+	bh=BlwQD0ARUqblb48RoEOI25OrVzMPGwg0R8vqptzkpJg=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=FvdWBlHevL+XhAXaPy6/J5HISPF/VxUYp4ghd1OWL43dNVfYvXx7g2ekBT5wQUebb
+	 Z/07W4YvJKF6TF7RTc4RvQAKzkBGhqILEYF+bDhNVaut9uibJTMsoi4PzBJtGFNdxQ
+	 U3G4OdSkYHOE3bCY4gA0ok7R5fHJd+5EAWcvuU0g=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 30NELW7M048257
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 23 Jan 2023 08:21:32 -0600
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 23
+ Jan 2023 08:21:31 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Mon, 23 Jan 2023 08:21:31 -0600
+Received: from [10.250.234.171] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 30NEKpI9018755;
+	Mon, 23 Jan 2023 08:20:53 -0600
+Message-ID: <90084f5f-6e9d-7b17-5487-3b4b01bd5e7d@ti.com>
+Date: Mon, 23 Jan 2023 19:50:50 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123133113.3254659-3-christianshewitt@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+Content-Language: en-US
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>,
+        <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
+        <jic23@kernel.org>, <tudor.ambarus@microchip.com>,
+        <pratyush@kernel.org>, <sanju.mehta@amd.com>,
+        <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>, <kdasu.kdev@gmail.com>,
+        <f.fainelli@gmail.com>, <rjui@broadcom.com>, <sbranden@broadcom.com>,
+        <eajames@linux.ibm.com>, <olteanv@gmail.com>, <han.xu@nxp.com>,
+        <john.garry@huawei.com>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
+        <khilman@baylibre.com>, <matthias.bgg@gmail.com>, <haibo.chen@nxp.com>,
+        <linus.walleij@linaro.org>, <daniel@zonque.org>,
+        <haojian.zhuang@gmail.com>, <robert.jarzmik@free.fr>,
+        <agross@kernel.org>, <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
+        <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+        <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+        <masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
+        <rostedt@goodmis.org>, <mingo@redhat.com>, <l.stelmach@samsung.com>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <alex.aring@gmail.com>,
+        <stefan@datenfreihafen.org>, <kvalo@kernel.org>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <skomatineni@nvidia.com>, <sumit.semwal@linaro.org>,
+        <christian.koenig@amd.com>, <j.neuschaefer@gmx.net>,
+        <vireshk@kernel.org>, <rmfrfs@gmail.com>, <johan@kernel.org>,
+        <elder@kernel.org>, <gregkh@linuxfoundation.org>
+CC: <git@amd.com>, <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <joel@jms.id.au>, <andrew@aj.id.au>, <radu_nicolae.pirea@upb.ro>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <claudiu.beznea@microchip.com>,
+        <bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
+        <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
+        <jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
+        <avifishman70@gmail.com>, <tmaimon77@gmail.com>,
+        <tali.perry1@gmail.com>, <venture@google.com>, <yuenn@google.com>,
+        <benjaminfair@google.com>, <yogeshgaur.83@gmail.com>,
+        <konrad.dybcio@somainline.org>, <alim.akhtar@samsung.com>,
+        <ldewangan@nvidia.com>, <michal.simek@amd.com>,
+        <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-wpan@vger.kernel.org>,
+        <libertas-dev@lists.infradead.org>, <linux-wireless@vger.kernel.org>,
+        <linux-mtd@lists.infradead.org>, <lars@metafoo.de>,
+        <Michael.Hennerich@analog.com>, <linux-iio@vger.kernel.org>,
+        <michael@walle.cc>, <palmer@dabbelt.com>,
+        <linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <greybus-dev@lists.linaro.org>,
+        <linux-staging@lists.linux.dev>, <amitrkcian2002@gmail.com>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+ <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+From: Dhruva Gole <d-gole@ti.com>
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Hi Christian,
+Hi Amit,
 
-Thank you for the patch! Perhaps something to improve:
+On 20/01/23 00:23, Amit Kumar Mahapatra wrote:
+> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
+> members of struct spi_device to be an array. But changing the type of these
+> members to array would break the spi driver functionality. To make the
+> transition smoother introduced four new APIs to get/set the
+> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
+> spi->cs_gpiod references with get or set API calls.
+> While adding multi-cs support in further patches the chip_select & cs_gpiod
+> members of the spi_device structure would be converted to arrays & the
+> "idx" parameter of the APIs would be used as array index i.e.,
+> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+>
+> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+> ---
+> [...]
+>  drivers/spi/spi-cadence-quadspi.c |  5 +++--
+>  drivers/spi/spi-cadence-xspi.c    |  4 ++--
+>  drivers/spi/spi-cadence.c         |  4 ++--
+[...]
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v6.2-rc5 next-20230123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230123-213323
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230123133113.3254659-3-christianshewitt%40gmail.com
-patch subject: [PATCH 2/2] media: meson: vdec: add HEVC decode codec
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240007.NkZA19qq-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/498d420e9c7cdc6e694be643c47ee69c8b5b2142
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230123-213323
-        git checkout 498d420e9c7cdc6e694be643c47ee69c8b5b2142
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/staging/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/staging/media/meson/vdec/codec_hevc.c: In function 'codec_hevc_set_mpred_mv':
->> drivers/staging/media/meson/vdec/codec_hevc.c:1002:13: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-    1002 |         u32 val;
-         |             ^~~
-
-
-vim +/val +1002 drivers/staging/media/meson/vdec/codec_hevc.c
-
-   990	
-   991	static void codec_hevc_set_mpred_mv(struct amvdec_core *core,
-   992					    struct codec_hevc *hevc,
-   993					    struct hevc_frame *frame,
-   994					    struct hevc_frame *col_frame)
-   995	{
-   996		union rpm_param *param = &hevc->rpm_param;
-   997		u32 lcu_size_log2 = ilog2(hevc->lcu_size);
-   998		u32 mv_mem_unit = lcu_size_log2 == 6 ? 0x200 :
-   999				  lcu_size_log2 == 5 ? 0x80 : 0x20;
-  1000		dma_addr_t col_mv_rd_start_addr, col_mv_rd_ptr, col_mv_rd_end_addr;
-  1001		dma_addr_t mpred_mv_wr_ptr;
-> 1002		u32 val;
-  1003	
-  1004		val = amvdec_read_dos(core, HEVC_MPRED_CURR_LCU);
-  1005	
-  1006		col_mv_rd_start_addr = codec_hevc_get_frame_mv_paddr(hevc, col_frame);
-  1007		mpred_mv_wr_ptr = codec_hevc_get_frame_mv_paddr(hevc, frame) +
-  1008				  (hevc->slice_addr * mv_mem_unit);
-  1009		col_mv_rd_ptr = col_mv_rd_start_addr +
-  1010				(hevc->slice_addr * mv_mem_unit);
-  1011		col_mv_rd_end_addr = col_mv_rd_start_addr +
-  1012				     (hevc->lcu_total * mv_mem_unit);
-  1013	
-  1014		amvdec_write_dos(core, HEVC_MPRED_MV_WR_START_ADDR,
-  1015				 codec_hevc_get_frame_mv_paddr(hevc, frame));
-  1016		amvdec_write_dos(core, HEVC_MPRED_MV_RD_START_ADDR,
-  1017				 col_mv_rd_start_addr);
-  1018	
-  1019		if (param->p.slice_segment_address == 0) {
-  1020			amvdec_write_dos(core, HEVC_MPRED_ABV_START_ADDR,
-  1021					 hevc->workspace_paddr + MPRED_ABV_OFFSET);
-  1022			amvdec_write_dos(core, HEVC_MPRED_MV_WPTR, mpred_mv_wr_ptr);
-  1023			amvdec_write_dos(core, HEVC_MPRED_MV_RPTR,
-  1024					 col_mv_rd_start_addr);
-  1025		} else {
-  1026			amvdec_write_dos(core, HEVC_MPRED_MV_RPTR, col_mv_rd_ptr);
-  1027		}
-  1028	
-  1029		amvdec_write_dos(core, HEVC_MPRED_MV_RD_END_ADDR, col_mv_rd_end_addr);
-  1030	}
-  1031	
+For SPI Cadence QSPI,
+Reviewed-by: Dhruva Gole <d-gole@ti.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Best regards,
+Dhruva Gole
+Texas Instruments Incorporated
+
