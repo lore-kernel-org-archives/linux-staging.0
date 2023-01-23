@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8E48816
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1F88817
 	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 20:54:01 +0000 (UTC)
 Received: from ipservice-092-217-089-134.092.217.pools.vodafone-ip.de ([92.217.89.134] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1pK3pD-0000Lk-Uh; Mon, 23 Jan 2023 21:53:56 +0100
+	id 1pK3pE-0000Lk-TD; Mon, 23 Jan 2023 21:53:56 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 01/23] staging: r8188eu: we use a constant number of hw_xmit entries
-Date: Mon, 23 Jan 2023 21:53:20 +0100
-Message-Id: <20230123205342.229589-2-martin@kaiser.cx>
+Subject: [PATCH 02/23] staging: r8188eu: pass struct adapter to usb_write
+Date: Mon, 23 Jan 2023 21:53:21 +0100
+Message-Id: <20230123205342.229589-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230123205342.229589-1-martin@kaiser.cx>
 References: <20230123205342.229589-1-martin@kaiser.cx>
@@ -31,89 +31,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-struct xmit_priv contains a pointer to an array of struct hw_xmit entries.
-xmit_priv's (ill-named) hwxmit_entry component stores the size of this
-array, i.e. the number of hw_xmit entries that are used.
-
-The array size is constant, it's initialised to HWXMIT_ENTRY and never
-updated. Simplify the code accordingly. Remove hwxmit_entry, do not pass
-the array size as a function parameter and use HWXMIT_ENTRY in the code
-that handles the array.
+The usb_write function takes a struct intf_hdl only to extract the struct
+adapter from it. We can pass struct adapter directly.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_xmit.c      | 8 +++-----
- drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 2 +-
- drivers/staging/r8188eu/include/rtw_xmit.h   | 3 +--
- 3 files changed, 5 insertions(+), 8 deletions(-)
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index c51f6eabef87..5f2426be6c11 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -1375,7 +1375,7 @@ static struct xmit_frame *dequeue_one_xmitframe(struct xmit_priv *pxmitpriv, str
- 	return pxmitframe;
+diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+index d82abfcd91f3..9f008e61a6f2 100644
+--- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+@@ -49,9 +49,8 @@ static int usb_read(struct adapter *adapt, u16 value, void *data, u8 size)
+ 	return status;
  }
  
--struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmit *phwxmit_i, int entry)
-+struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmit *phwxmit_i)
+-static int usb_write(struct intf_hdl *intf, u16 value, void *data, u8 size)
++static int usb_write(struct adapter *adapt, u16 value, void *data, u8 size)
  {
- 	struct list_head *sta_plist, *sta_phead;
- 	struct hw_xmit *phwxmit;
-@@ -1397,7 +1397,7 @@ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmi
+-	struct adapter *adapt = intf->padapter;
+ 	struct dvobj_priv *dvobjpriv = adapter_to_dvobj(adapt);
+ 	struct usb_device *udev = dvobjpriv->pusbdev;
+ 	int status;
+@@ -131,48 +130,44 @@ int __must_check rtw_read32(struct adapter *adapter, u32 addr, u32 *data)
  
- 	spin_lock_bh(&pxmitpriv->lock);
+ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
+ {
+-	struct intf_hdl *intf = &adapter->intf;
+ 	u16 value = addr & 0xffff;
+ 	int ret;
  
--	for (i = 0; i < entry; i++) {
-+	for (i = 0; i < HWXMIT_ENTRY; i++) {
- 		phwxmit = phwxmit_i + inx[i];
+-	ret = usb_write(intf, value, &val, 1);
++	ret = usb_write(adapter, value, &val, 1);
  
- 		sta_phead = get_list_head(phwxmit->sta_queue);
-@@ -1501,9 +1501,7 @@ int rtw_alloc_hwxmits(struct adapter *padapter)
- 	struct hw_xmit *hwxmits;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	return RTW_STATUS_CODE(ret);
+ }
  
--	pxmitpriv->hwxmit_entry = HWXMIT_ENTRY;
--
--	pxmitpriv->hwxmits = kcalloc(pxmitpriv->hwxmit_entry, sizeof(struct hw_xmit), GFP_KERNEL);
-+	pxmitpriv->hwxmits = kcalloc(HWXMIT_ENTRY, sizeof(struct hw_xmit), GFP_KERNEL);
- 	if (!pxmitpriv->hwxmits)
- 		return -ENOMEM;
+ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
+ {
+-	struct intf_hdl *intf = &adapter->intf;
+ 	u16 value = addr & 0xffff;
+ 	__le16 data = cpu_to_le16(val);
+ 	int ret;
  
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-index d1af76cc2091..e097fa14dc6e 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-@@ -398,7 +398,7 @@ bool rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmit
- 	if (!pxmitbuf)
- 		return false;
+-	ret = usb_write(intf, value, &data, 2);
++	ret = usb_write(adapter, value, &data, 2);
  
--	pxmitframe = rtw_dequeue_xframe(pxmitpriv, pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
-+	pxmitframe = rtw_dequeue_xframe(pxmitpriv, pxmitpriv->hwxmits);
- 	if (!pxmitframe) {
- 		/*  no more xmit frame, release xmit buffer */
- 		rtw_free_xmitbuf(pxmitpriv, pxmitbuf);
-diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index 883eacd98224..cc32167fb4dc 100644
---- a/drivers/staging/r8188eu/include/rtw_xmit.h
-+++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -273,7 +273,6 @@ struct	xmit_priv {
- 	u64	last_tx_bytes;
- 	u64	last_tx_pkts;
- 	struct hw_xmit *hwxmits;
--	u8	hwxmit_entry;
- 	u8	wmm_para_seq[4];/* sequence for wmm ac parameter strength
- 				 * from large to small. it's value is 0->vo,
- 				 * 1->vi, 2->be, 3->bk. */
-@@ -324,7 +323,7 @@ struct tx_servq *rtw_get_sta_pending(struct adapter *padapter,
- s32 rtw_xmitframe_enqueue(struct adapter *padapter,
- 			  struct xmit_frame *pxmitframe);
- struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv,
--				      struct hw_xmit *phwxmit_i, int entry);
-+				      struct hw_xmit *phwxmit_i);
+ 	return RTW_STATUS_CODE(ret);
+ }
  
- s32 rtw_xmit_classifier(struct adapter *padapter,
- 			struct xmit_frame *pxmitframe);
+ int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
+ {
+-	struct intf_hdl *intf = &adapter->intf;
+ 	u16 value = addr & 0xffff;
+ 	__le32 data = cpu_to_le32(val);
+ 	int ret;
+ 
+-	ret = usb_write(intf, value, &data, 4);
++	ret = usb_write(adapter, value, &data, 4);
+ 
+ 	return RTW_STATUS_CODE(ret);
+ }
+ 
+ int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *data)
+ {
+-	struct intf_hdl *intf = &adapter->intf;
+ 	u16 value = addr & 0xffff;
+ 
+ 	if (length > VENDOR_CMD_MAX_DATA_LEN)
+ 		return -EINVAL;
+ 
+-	return usb_write(intf, value, data, length);
++	return usb_write(adapter, value, data, length);
+ }
+ 
+ static void handle_txrpt_ccx_88e(struct adapter *adapter, u8 *buf)
 -- 
 2.30.2
 
