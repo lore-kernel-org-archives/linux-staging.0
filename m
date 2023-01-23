@@ -1,150 +1,87 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDE57C
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 11:46:23 +0000 (UTC)
-Received: from [192.168.1.141] ([37.4.248.41]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MF2YC-1pUsaB2IKe-00FSdM; Mon, 23 Jan 2023 12:46:11 +0100
-Message-ID: <912601ba-c60d-8d69-f061-62b854c5d9ce@i2se.com>
-Date: Mon, 23 Jan 2023 12:46:10 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754627C
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:04:36 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id bk16so10551258wrb.11
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 04:04:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SAtEBkgqCy7U3IrEI3QZwX/vSHv0Teqx5ckWVZpW0X4=;
+        b=lA8BsZaR0c/bqnrotg7waVOsF8i0g5/YNIyGhzUad3w0VweAu0r54Mt5GW6XxKb+LC
+         ka8amQS7uR513K3CfNa4GBTv8mcxVVNBrEDgZ3seLokULseDPL0Ve/BLnfjQEwjSrMz2
+         MD6sx6IY+2oh0DVuyicxl/mXZomxHGmLNvDOLtlvEAy8bvY4XGiFbX7R8hZPIYc+3PSR
+         /928xk4cWoZeLqhe39tDYNffJipCDIHJw7/PEm4jb8oyhfbWLJBsstj/ctKwB2Vnjbs5
+         kqHjdIUxvjL+EGzf3OMPQ3gA5p0Gtg4PubDsaa67qlvxvuwy5Gc7Yt3lcYvlCFLmNp2/
+         nGog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SAtEBkgqCy7U3IrEI3QZwX/vSHv0Teqx5ckWVZpW0X4=;
+        b=RZtlb+zwVhEhvKud+6SEQ1BZy9WCkgmb9jPB94qqubyouxBqrSYp/qfgtXvmLMdNNS
+         n9wzFFtdfww2Wnad9pSUwrNkstVQTP9LoZ6IgwDtEWMZoIRWTTYz369e5MjPi78pU+At
+         O/vxRFkFdNEok4yPWbkulKXyZdxAB6jDBn2V4pYsH4OLuOXZyIxN2xG2aHmKvjKckotk
+         gGgSOBASUzwNiXc1KLtlWGSnhpI8lGcbf+WiMqr3fseTfIwTLG6vWk6CmYKQXHW7RMVy
+         02XxAQ+xyRgOnGyWoS/RswAYCLdzBsct0BQInpE0bhIvUFPADEUKpr0z5QiH+6XhEctm
+         2k5g==
+X-Gm-Message-State: AFqh2koCdkz/Z4OYeVEsWQfRtc9vgAT9XsmU1fqyTQ1IJlmlyA9cjEAp
+	o6rjwYueQFk5cVs8N8ko2i8=
+X-Google-Smtp-Source: AMrXdXsDwMSnY/QaAwQHvsKx5pldjdAoB20ljjofuAsOL/wjkd4fq26Md81tgW+v5OXNZooIwtgpWw==
+X-Received: by 2002:a5d:4e83:0:b0:2bd:d857:f96 with SMTP id e3-20020a5d4e83000000b002bdd8570f96mr27417098wru.60.1674475474821;
+        Mon, 23 Jan 2023 04:04:34 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id w8-20020adf8bc8000000b002bdc39849d1sm30540126wra.44.2023.01.23.04.04.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 04:04:34 -0800 (PST)
+Date: Mon, 23 Jan 2023 15:04:31 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Phil Elwell <phil@raspberrypi.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/4] Drop custom logging
+Message-ID: <Y853z/ENGez4zlMz@kadam>
+References: <20230118115810.21979-1-umang.jain@ideasonboard.com>
+ <b1a26368-3753-0d32-434b-e220dd9c06b4@i2se.com>
+ <CAMEGJJ1=dix7gWvV3Jxef-M-ExFZRTASQCr+6sn_dGsEQ=deYQ@mail.gmail.com>
+ <Y8lHqd9FlxiXTLuW@kroah.com>
+ <CAMEGJJ1oZ9XFw0609PrEABAgDwvapbc3hG4hJ=vBekUOepdiWw@mail.gmail.com>
+ <Y8lS5eBliYw5EHBb@kadam>
+ <CAMEGJJ2b1KFQY1m1eTcvf8_kGBBTjzrBD2i_M2uR+6v4gEcbVQ@mail.gmail.com>
+ <Y8lVvHMIYeSOLM5q@kadam>
+ <Y8nl++1Mjd7xLqZe@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
- <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Paul Elder <paul.elder@ideasonboard.com>
-References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
- <786df750-221e-82fc-a324-d30261296974@i2se.com>
- <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+R3UJJt/WDOIvOqTLBRMd/AqBcSHfH+F/XGKM96E6xrUiQBcPLY
- 8PFbxnmz7u5V6B71A49jjMxtTdnjxJ32W+tojtnYK+pTQsyXsS++fMD+nfEJU9FIlC28pla
- MzXDdqmolWYD/rCGNS/fpERsBlmOIl/ICMiTy22axhT+6C5FcQF2Mi0Wb/WyfTEjRlfNBHg
- IhC68m5Tc+DOZb0lzcJUQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:5cKi6XN6ZU4=;cu78978R03AYtqAA5hH1Q9BJ452
- fuRW82dLyRjofuPJMETrLiEADChRpyBUYzyzsRDz2eKAj2vVBFC4A0WBlhr3rbV6vPQBOILiD
- kkEM5P6Px1iWGB7qxRUR2Uvbn/gJIPynR+dJCDvFq5gH5iuBMvfJHS316GsejK4L/R04V1JlP
- 5DvOBSQegue6/qfl5BICK0Aj4siPmAgiR9+J4yvQZmWpf3ndJqjbugsGz/CoionpCpFaCvble
- TCAs4Yva02BON3r7XiepjceJ4YRBH8BOaW6w1BacmcRlZZN0q56PhBpfWx5dFhaavFFsdzKLK
- aB590mC46zniwSHBW3smRGxGfWBUFchgEpR1E662mZGLnozFaIiw4/VY9L534bC+ZvLdVu9/h
- 4ARbVu9eHTrAMonvqidZVFZHAyJuUdG2nHk1/l5FOnH8KqrfmQ769iXwyeKSxzTHrEiqRI1HE
- 9jj8s97+dCMOHtG24UQV7RK0UxFGYVeDIHaZUQFlhlq8Tqfy2HCLLP4n/70uCfKXxUDpXsaCC
- K5EkBtiexEO3pF6Zi/JJGiJHLxMtCf6QsJ/4Zpu5k1HhZNa+mUfKYli/nrzlcNzZ1zbOVFASy
- rH9hRTxBQx0uril+jMBYvR+GsSdVwD1I4OYLFxvfAa6CnG64WbS87giAFnn9wTVEpx6CUzAN2
- m1zAnrF7hJeaeuOgweCmYpO79Yri6PQbh2yjOEValQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8nl++1Mjd7xLqZe@pendragon.ideasonboard.com>
 
-Hi Umang,
+On Fri, Jan 20, 2023 at 02:53:15AM +0200, Laurent Pinchart wrote:
+> Log categories are used to group messages in categories and control
+> their log level per category. As far as I know, dynamic debug doesn't
+> provide any such feature.
 
-Am 23.01.23 um 08:48 schrieb Umang Jain:
-> Hi Stefan,
->
-> Thank for the testing.
->
-> On 1/23/23 5:04 AM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 20.01.23 um 21:10 schrieb Umang Jain:
->>> This series just introduces five extra patches for dropping include
->>> directives from Makefiles (suggested by Greg KH) and rebased.
->>>
->>> The main patch (6/6) removes platform device/driver abuse and moves
->>> things to standard device/driver model using a custom_bus. Specific
->>> details are elaborated in the commit message.
->>>
->>> The patch series is based on top of d514392f17fd (tag: next-20230120)
->>> of linux-next.
->>
->> applied this series on top of linux-next and build it with 
->> arm/multi_v7_defconfig plus the following:
->>
->> CONFIG_BCM_VIDEOCORE=y
->> CONFIG_BCM2835_VCHIQ=m
->> CONFIG_VCHIQ_CDEV=y
->> CONFIG_SND_BCM2835=m
->> CONFIG_VIDEO_BCM2835=m
->> CONFIG_BCM2835_VCHIQ_MMAL=m
->>
->> and the devices doesn't register on Raspberry Pi 3 B Plus:
->>
->> [   25.523337] vchiq: module is from the staging directory, the 
->> quality is unknown, you have been warned.
->> [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
->> bcm2835_audio vchiq device
->> [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
->> bcm2835-camera vchiq device
->
-> I was able to reproduce and it seems the issue here is the change 
-> mentioned in the cover
->
-> - drop dma_set_mask_and_coherent
->
-> in V6.
->
-> (I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp 
-> applied so my branch has the DMA hunk included while I was testing V6)
+One idea is you could put the category in the format string.  Then you
+could just grep /proc/dynamic_debug/control for it and enable the printks
+like that.
 
-just to avoid misunderstandings, did you read 
-drivers/staging/vc04_services/interface/TESTING ?
+regards,
+dan carpenter
 
-The Raspberry Pi 4 is currently not fully supported for VCHIQ in 
-mainline. From my limited understanding the DMA controller driver needs 
-40 bit support, so VCHIQ on BCM2711 can use it. This part is currently 
-only available in the vendor tree. The reason why the driver is 
-unexpectedly probing is a historical issue in the devicetree :-(
-
-Raspberry Pi 4 support is not considered as necessary for moving out of 
-staging.
-
->
-> Below is the hunk which should resolve the issue.
->
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
-> @@ -6,6 +6,7 @@
->   */
->
->  #include <linux/device/bus.h>
-> +#include <linux/dma-mapping.h>
->  #include <linux/slab.h>
->  #include <linux/string.h>
->
-> @@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent, 
-> const char *name)
->         device->dev.type = &vchiq_device_type;
->         device->dev.release = vchiq_device_release;
->
-> +       ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
-> +       if (ret < 0) {
-> +               vchiq_device_release(&device->dev);
-> +               return ret;
-> +       }
-> +
->         ret = device_register(&device->dev);
->         if (ret) {
->                 put_device(&device->dev);
->
-> It seems we need to include the dma_set_mask_and_coherent() even if 
-> bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look 
-> into why is that/
->
->  Laurent, any thoughts on this please?
