@@ -1,24 +1,24 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB1E3224
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 17:41:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353369143"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7FB3224
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 17:42:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="313997890"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="353369143"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 09:41:16 -0800
+   d="scan'208";a="313997890"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 09:42:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="785750090"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="692308167"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="785750090"
+   d="scan'208";a="692308167"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 23 Jan 2023 09:41:04 -0800
+  by orsmga008.jf.intel.com with ESMTP; 23 Jan 2023 09:42:05 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
 	(envelope-from <andy@kernel.org>)
-	id 1pK0oY-00Dr6x-1X;
-	Mon, 23 Jan 2023 19:41:02 +0200
-Date: Mon, 23 Jan 2023 19:41:02 +0200
+	id 1pK0pX-00Dr8K-0m;
+	Mon, 23 Jan 2023 19:42:03 +0200
+Date: Mon, 23 Jan 2023 19:42:02 +0200
 From: Andy Shevchenko <andy@kernel.org>
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -28,11 +28,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
 	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 16/57] media: atomisp: Remove unnecessary memset(foo, 0,
- sizeof(foo)) calls
-Message-ID: <Y87GrtbFaVJYs95e@smile.fi.intel.com>
+Subject: Re: [PATCH 17/57] media: atomisp: Only set default_run_mode on first
+ open of a stream/asd
+Message-ID: <Y87G6jFRCy2dzrbg@smile.fi.intel.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-17-hdegoede@redhat.com>
+ <20230123125205.622152-18-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,37 +41,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123125205.622152-17-hdegoede@redhat.com>
+In-Reply-To: <20230123125205.622152-18-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Jan 23, 2023 at 01:51:24PM +0100, Hans de Goede wrote:
-> The memory for all of struct atomisp_video_pipe is kzalloc()-ed in
-> atomisp_subdev_init() so there is no need to memset parts of
-> struct atomisp_video_pipe to 0.
+On Mon, Jan 23, 2023 at 01:51:25PM +0100, Hans de Goede wrote:
+> Calling v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode) when
+> the stream is already active (through another /dev/video# node) causes
+> the stream to stop.
+> 
+> Move the call to set the default run-mode so that it is only done
+> on the first open of one of the 4 /dev/video# nodes of one of
+> the 2 streams (atomisp-sub-devices / asd-s).
+
+As mentioned before, perhaps move it closer to the beginning of the series?
 
 Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
+> Fixes: 2c45e343c581 ("media: atomisp: set per-device's default mode")
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/staging/media/atomisp/pci/atomisp_subdev.c | 5 -----
->  1 file changed, 5 deletions(-)
+>  drivers/staging/media/atomisp/pci/atomisp_fops.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> index c32db4ffb778..eb8f319fca5c 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-> @@ -1054,11 +1054,6 @@ static int atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
->  	INIT_LIST_HEAD(&pipe->activeq);
->  	INIT_LIST_HEAD(&pipe->buffers_waiting_for_param);
->  	INIT_LIST_HEAD(&pipe->per_frame_params);
-> -	memset(pipe->frame_request_config_id,
-> -	       0, VIDEO_MAX_FRAME * sizeof(unsigned int));
-> -	memset(pipe->frame_params,
-> -	       0, VIDEO_MAX_FRAME *
-> -	       sizeof(struct atomisp_css_params_with_list *));
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> index 7f4934ff9cab..78af97a64362 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> @@ -764,13 +764,13 @@ static int atomisp_open(struct file *file)
+>  		goto done;
+>  
+>  	atomisp_subdev_init_struct(asd);
+
++ Blank line?
+
+> +	/* Ensure that a mode is set */
+> +	v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode);
+>  
+>  done:
+>  	pipe->users++;
+>  	mutex_unlock(&isp->mutex);
+>  
+> -	/* Ensure that a mode is set */
+> -	v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode);
 >  
 >  	return 0;
->  }
+>  
 > -- 
 > 2.39.0
 > 
