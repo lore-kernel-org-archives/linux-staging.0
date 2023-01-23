@@ -1,165 +1,121 @@
-Received: from 6.mo552.mail-out.ovh.net (6.mo552.mail-out.ovh.net [188.165.49.222])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E1E8479
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 17:57:47 +0000 (UTC)
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
-	by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 731DB2B568;
-	Mon, 23 Jan 2023 13:10:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 23 Jan
- 2023 14:10:10 +0100
-Authentication-Results: garm.ovh; auth=pass (GARM-109S0035e8cf7e5-490b-4306-97b9-26c7bcdb01f8,
-                    A67B952EB2D8D9A0A9F9E7F867E869D975DF4B5D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <d1743abc-3d9f-cdf4-dfbe-67aac4b1b8cd@kaod.org>
-Date: Mon, 23 Jan 2023 14:10:05 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3108479
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 17:59:40 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="309681000"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="309681000"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 09:59:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639285890"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
+   d="scan'208";a="639285890"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 09:59:30 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andy@kernel.org>)
+	id 1pK16O-00DrVw-1G;
+	Mon, 23 Jan 2023 19:59:28 +0200
+Date: Mon, 23 Jan 2023 19:59:28 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 25/57] media: atomisp: Stop overriding padding w/h to 12
+ on BYT
+Message-ID: <Y87LAGnn+uenmkSV@smile.fi.intel.com>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-26-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-Content-Language: en-US
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>,
-	<miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
-	<jic23@kernel.org>, <tudor.ambarus@microchip.com>, <pratyush@kernel.org>,
-	<sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>,
-	<kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>, <rjui@broadcom.com>,
-	<sbranden@broadcom.com>, <eajames@linux.ibm.com>, <olteanv@gmail.com>,
-	<han.xu@nxp.com>, <john.garry@huawei.com>, <shawnguo@kernel.org>,
-	<s.hauer@pengutronix.de>, <narmstrong@baylibre.com>, <khilman@baylibre.com>,
-	<matthias.bgg@gmail.com>, <haibo.chen@nxp.com>, <linus.walleij@linaro.org>,
-	<daniel@zonque.org>, <haojian.zhuang@gmail.com>, <robert.jarzmik@free.fr>,
-	<agross@kernel.org>, <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
-	<krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
-	<mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
-	<rostedt@goodmis.org>, <mingo@redhat.com>, <l.stelmach@samsung.com>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <alex.aring@gmail.com>, <stefan@datenfreihafen.org>,
-	<kvalo@kernel.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-	<skomatineni@nvidia.com>, <sumit.semwal@linaro.org>,
-	<christian.koenig@amd.com>, <j.neuschaefer@gmx.net>, <vireshk@kernel.org>,
-	<rmfrfs@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
-	<gregkh@linuxfoundation.org>
-CC: <git@amd.com>, <linux-spi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
-	<radu_nicolae.pirea@upb.ro>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <claudiu.beznea@microchip.com>,
-	<bcm-kernel-feedback-list@broadcom.com>, <fancer.lancer@gmail.com>,
-	<kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
-	<jbrunet@baylibre.com>, <martin.blumenstingl@googlemail.com>,
-	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
-	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
-	<yogeshgaur.83@gmail.com>, <konrad.dybcio@somainline.org>,
-	<alim.akhtar@samsung.com>, <ldewangan@nvidia.com>, <michal.simek@amd.com>,
-	<linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-rpi-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-rockchip@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-wpan@vger.kernel.org>, <libertas-dev@lists.infradead.org>,
-	<linux-wireless@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-	<lars@metafoo.de>, <Michael.Hennerich@analog.com>,
-	<linux-iio@vger.kernel.org>, <michael@walle.cc>, <palmer@dabbelt.com>,
-	<linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <greybus-dev@lists.linaro.org>,
-	<linux-staging@lists.linux.dev>, <amitrkcian2002@gmail.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: d8c081e3-7749-496f-b92b-664d73f13c17
-X-Ovh-Tracer-Id: 9743537793859029808
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddukedgfeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghmihhtrdhkuhhmrghrqdhmrghhrghprghtrhgrsegrmhgurdgtohhmpdhkohhnrhgrugdrugihsggtihhosehsohhmrghinhhlihhnvgdrohhrghdphihoghgvshhhghgruhhrrdekfeesghhmrghilhdrtghomhdpsggvnhhjrghmihhnfhgrihhrsehgohhoghhlvgdrtghomhdphihuvghnnhesghhoohhglhgvrdgtohhmpdhvvghnthhurhgvsehgohhoghhlvgdrtghomhdpthgrlhhirdhpvghrrhihudesghhmrghilhdrtghomhdpthhmrghimhhonhejjeesghhmrghilhdrtg
- homhdprghvihhfihhshhhmrghnjedtsehgmhgrihhlrdgtohhmpdhmrghrthhinhdrsghluhhmvghnshhtihhnghhlsehgohhoghhlvghmrghilhdrtghomhdplhhinhhugidqihhmgiesnhigphdrtghomhdpfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdgrlhhimhdrrghkhhhtrghrsehsrghmshhunhhgrdgtohhmpdhkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdgstghmqdhkvghrnhgvlhdqfhgvvggusggrtghkqdhlihhsthessghrohgruggtohhmrdgtohhmpdgtlhgruhguihhurdgsvgiinhgvrgesmhhitghrohgthhhiphdrtghomhdprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhhitgholhgrshdrfhgvrhhrvgesmhhitghrohgthhhiphdrtghomhdprhgrughupghnihgtohhlrggvrdhpihhrvggrsehuphgsrdhrohdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqshhpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdpghhithesrghmugdrtghomhdpghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhfrghntggvrhdrlhgrnhgtvghrsehgmhgrihhlrdgtohhmpdhluggvfigrnhhgrghnsehnvhhiughirgdrtghomhdpmhhitghhrghlrdhsihhmvghksegrmhgurdgtohhmpdhlihhnuhigqdgrshhpvggvuge
- slhhishhtshdrohiilhgrsghsrdhorhhgpdhgrhgvhigsuhhsqdguvghvsehlihhsthhsrdhlihhnrghrohdrohhrghdpughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhmihgthhgrvghlseifrghllhgvrdgttgdplhhinhhugidqihhiohesvhhgvghrrdhkvghrnhgvlhdrohhrghdpofhitghhrggvlhdrjfgvnhhnvghrihgthhesrghnrghlohhgrdgtohhmpdhlrghrshesmhgvthgrfhhoohdruggvpdhlihhnuhigqdhmthgusehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdifihhrvghlvghsshesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhisggvrhhtrghsqdguvghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdifphgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhtvghgrhgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghvpdhlihhnuhigqdhsthhmfedvsehsthdqmhguqdhmrghilhhmrghnrdhsthhorhhmrhgvphhlhidrtghomhdplhhinhhugidqshgrmhhsuhhn
- ghdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrhhotghktghhihhpsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdplhhinhhugidqrghmlhhoghhitgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdplhhinhhugidqrhhpihdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpohhpvghnsghmtgeslhhishhtshdrohiilhgrsghsrdhorhhgpdgvlhguvghrsehkvghrnhgvlhdrohhrghdplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpjhhohhgrnheskhgvrhhnvghlrdhorhhgpdhvihhrvghshhhksehkvghrnhgvlhdrohhrghdphhgrohhjihgrnhdriihhuhgrnhhgsehgmhgrihhlrdgtohhmpdgurghnihgvlhesiihonhhquhgvrdhorhhgpdhlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdphhgrihgsohdrtghhvghnsehngihprdgtohhmpdhmrghtthhhihgrshdrsghgghesghhmrghilhdrtghomhdpshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhshhgrfihnghhuoheskhgvrhhnvghlrdhorhhgpdhjohhhnhdrghgrr
- hhrhieshhhurgifvghirdgtohhmpdhhrghnrdiguhesnhigphdrtghomhdpohhlthgvrghnvhesghhmrghilhdrtghomhdpvggrjhgrmhgvsheslhhinhhugidrihgsmhdrtghomhdprhhosggvrhhtrdhjrghriihmihhksehfrhgvvgdrfhhrpdhssghrrghnuggvnhessghrohgruggtohhmrdgtohhmpdhfrdhfrghinhgvlhhlihesghhmrghilhdrtghomhdpkhgurghsuhdrkhguvghvsehgmhgrihhlrdgtohhmpdgthhhinhdqthhinhhgpghkuhhosegrshhpvggvughtvggthhdrtghomhdpshgrnhhjuhdrmhgvhhhtrgesrghmugdrtghomhdpphhrrghthihushhhsehkvghrnhgvlhdrohhrghdpthhuughorhdrrghmsggrrhhushesmhhitghrohgthhhiphdrtghomhdpjhhitgdvfeeskhgvrhhnvghlrdhorhhgpdhvihhgnhgvshhhrhesthhirdgtohhmpdhrihgthhgrrhgusehnohgurdgrthdpmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrjhhuihessghrohgruggtohhmrdgtohhmpdgrghhrohhssheskhgvrhhnvghlrdhorhhgpdgsjhhorhhnrdgrnhguvghrshhsohhnsehlihhnrghrohdrohhrghdphhgvihhkohesshhnthgvtghhrdguvgdpjhdrnhgvuhhstghhrggvfhgvrhesghhmgidrnhgvthdptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhsuhhmihhtrdhsvghmfigrlheslhhinhgrrhhordhorhhgpdhskh
- homhgrthhinhgvnhhisehnvhhiughirgdrtghomhdpjhhonhgrthhhrghnhhesnhhvihguihgrrdgtohhmpdhthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomhdpkhhvrghloheskhgvrhhnvghlrdhorhhgpdhsthgvfhgrnhesuggrthgvnhhfrhgvihhhrghfvghnrdhorhhgpdgrlhgvgidrrghrihhnghesghhmrghilhdrtghomhdpphgrsggvnhhisehrvgguhhgrthdrtghomhdpkhhusggrsehkvghrnhgvlhdrohhrghdpvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdpuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdplhdrshhtvghlmhgrtghhsehsrghmshhunhhgrdgtohhmpdhmihhnghhosehrvgguhhgrthdrtghomhdprhhoshhtvgguthesghhoohgumhhishdrohhrghdpjhgrshifihhnuggvrhdrshhinhhghheslhhinhgrrhhordhorhhgpdhmrghsrghhihhsrgdrkhhojhhimhgrsehlihhnrghrohdrohhrghdpshgrmhhuvghlsehshhholhhlrghnugdrohhrghdpjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdifvghnshestghsihgvrdhorhhgpdgrlhgvgigrnhgurhgvrdhtohhrghhuvgesfhhoshhsrdhsthdrtghomhdpmhgtohhquhgvlhhinhdrshhtmhefvdesghhmrghilhdrtghomhdprghnughisegvthgviihirghnrdhorhhgpdhkrhiihihsiihtohhfrdhkohiilhhofihskhhisehlihhnrghrohdrohhrghdprhhmfhhrfhhssehgmhgrihhlrdgtohhmpdg
- rmhhithhrkhgtihgrnhdvtddtvdesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230123125205.622152-26-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
-> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-> index 873ff2cf72c9..b7a9ec550ba1 100644
-> --- a/drivers/spi/spi-aspeed-smc.c
-> +++ b/drivers/spi/spi-aspeed-smc.c
-> @@ -296,7 +296,7 @@ static const struct aspeed_spi_data ast2400_spi_data;
->   static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
-> -	struct aspeed_spi_chip *chip = &aspi->chips[mem->spi->chip_select];
-> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(mem->spi, 0)];
->   	u32 addr_mode, addr_mode_backup;
->   	u32 ctl_val;
->   	int ret = 0;
-> @@ -377,7 +377,8 @@ static const char *aspeed_spi_get_name(struct spi_mem *mem)
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
->   	struct device *dev = aspi->dev;
->   
-> -	return devm_kasprintf(dev, GFP_KERNEL, "%s.%d", dev_name(dev), mem->spi->chip_select);
-> +	return devm_kasprintf(dev, GFP_KERNEL, "%s.%d", dev_name(dev),
-> +			      spi_get_chipselect(mem->spi, 0));
->   }
->   
->   struct aspeed_spi_window {
-> @@ -553,7 +554,7 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip);
->   static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
-> -	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
-> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(desc->mem->spi, 0)];
->   	struct spi_mem_op *op = &desc->info.op_tmpl;
->   	u32 ctl_val;
->   	int ret = 0;
-> @@ -620,7 +621,7 @@ static ssize_t aspeed_spi_dirmap_read(struct spi_mem_dirmap_desc *desc,
->   				      u64 offset, size_t len, void *buf)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
-> -	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
-> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(desc->mem->spi, 0)];
->   
->   	/* Switch to USER command mode if mapping window is too small */
->   	if (chip->ahb_window_size < offset + len) {
-> @@ -670,7 +671,7 @@ static int aspeed_spi_setup(struct spi_device *spi)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(spi->master);
->   	const struct aspeed_spi_data *data = aspi->data;
-> -	unsigned int cs = spi->chip_select;
-> +	unsigned int cs = spi_get_chipselect(spi, 0);
->   	struct aspeed_spi_chip *chip = &aspi->chips[cs];
->   
->   	chip->aspi = aspi;
-> @@ -697,7 +698,7 @@ static int aspeed_spi_setup(struct spi_device *spi)
->   static void aspeed_spi_cleanup(struct spi_device *spi)
->   {
->   	struct aspeed_spi *aspi = spi_controller_get_devdata(spi->master);
-> -	unsigned int cs = spi->chip_select;
-> +	unsigned int cs = spi_get_chipselect(spi, 0);
->   
->   	aspeed_spi_chip_enable(aspi, cs, false);
->   
+On Mon, Jan 23, 2023 at 01:51:33PM +0100, Hans de Goede wrote:
+> atomisp_set_fmt() first does:
+> 
+> 	v4l2_fill_mbus_format(&vformat.format, ...);
+>         vformat.format.height += padding_h;
+>         vformat.format.width += padding_w;
+> 
+>         ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera, pad,
+>                                set_fmt, NULL, &vformat);
+>         if (ret)
+>                 return ret;
+> 
+> 	f->fmt.pix.width = vformat.format.width - padding_w;
+> 	f->fmt.pix.height = vformat.format.height - padding_h;
+> 
+> this happens with the original padding w/h = 16 values and then later
+> on it calls:
+> 
+>                 ret = atomisp_set_fmt_to_snr(vdev, &s_fmt,
+>                                              f->fmt.pix.pixelformat, padding_w,
+>                                              padding_h, dvs_env_w, dvs_env_h);
+> 
+> Which repeats the above structure. If at that point padding w/h are
+> changed to 12 then it will now request a different output-size of
+> the sensor driver.
+> 
+> The sensor drivers so far have actually been ignoring this since they use
+> v4l2_find_nearest_size() on a fixed resolution list and the nearest
+> resolution will be the one from the earlier calls where padding w/h
+> was 16.
+> 
+> But there really is no reason for sensor drivers to use a fixed
+> resolution list. They make lower resolutions using cropping so they
+> can make any resolution as long as width/height are even numbers.
+> 
+> Dropping the fixed-resolution list limit from sensors on BYT results
+> in trying to start streaming failing because the resolution set to
+> the sensor now no longer matches with the resolution used during
+> the initial part of the configuration done by atomisp_set_fmt().
+> 
+> Drop the BYT specific overriding of the padding_w/h to 12, so that
+> the padding in the first and second s_fmt calls made to the sensor
+> matches, to fix stream start failing when the fixed resolution list
+> is dropped.
 
-For the Aspeed driver,
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> index eb05288d8fb1..47f18ac5e40e 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> @@ -5163,9 +5163,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+>  	if (!atomisp_subdev_format_conversion(asd, source_pad)) {
+>  		padding_w = 0;
+>  		padding_h = 0;
+> -	} else if (IS_BYT) {
+> -		padding_w = 12;
+> -		padding_h = 12;
+>  	}
+>  
+>  	/* construct resolution supported by isp */
+> -- 
+> 2.39.0
+> 
 
-Thanks,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-C.
+
