@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AC12F45
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967822F2E
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674478479;
+	s=mimecast20190719; t=1674478483;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JbiIhWxIW4mUntgHqV9h8OhgT4CjJNdXrrGbXQ5di8Y=;
-	b=L6KKmOsg8tQmIwo9SwVo/fzCLuRCieHcrL2+VqkRHRg9wvzAOO/vxLkNy/aFhheVjf5Olf
-	THLNK4M1nrJVzO1XHD0/omI9FPvgoJ4e6XPhhfIcBrgojX/9j6HXWMlr2GAA2dVf5kICqO
-	iynlpx0oTLNqlrG7AOjgK+wT6RahEi8=
+	bh=3Tj9yV9iaIL01PeQ9tN5zdZrLKlXPfL3vEAN29ZZ+QM=;
+	b=Y+N3y9Fmuxtos0DQwp8nVjd5KkcOS/QdXfyZdFXqjTzTQevEQFkmePBCE3Y4o36ns/N5nq
+	oOO18V7PJtIxlyHJdVcsEDjvKh9jJZPmgCqiv3VsblAw0WvUq0qoSVHk2N4hAbJkzPA27C
+	xPoSaIiCUdptnJbMxpeT54dludElqR8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-FVJSWa-vPUuRM0WgV7k8vw-1; Mon, 23 Jan 2023 07:54:33 -0500
-X-MC-Unique: FVJSWa-vPUuRM0WgV7k8vw-1
+ us-mta-628-YMSTKFJNNNe0_MMdFFEEBA-1; Mon, 23 Jan 2023 07:54:38 -0500
+X-MC-Unique: YMSTKFJNNNe0_MMdFFEEBA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDFAD811E6E;
-	Mon, 23 Jan 2023 12:54:32 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F5DF885620;
+	Mon, 23 Jan 2023 12:54:38 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.13])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0064CC15BA0;
-	Mon, 23 Jan 2023 12:54:30 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 80435C15BA0;
+	Mon, 23 Jan 2023 12:54:35 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 48/57] media: atomisp: ov2680: s/dev/sensor/
-Date: Mon, 23 Jan 2023 13:51:56 +0100
-Message-Id: <20230123125205.622152-49-hdegoede@redhat.com>
+Subject: [PATCH 50/57] media: atomisp: ov2680: Switch over to ACPI powermanagement
+Date: Mon, 23 Jan 2023 13:51:58 +0100
+Message-Id: <20230123125205.622152-51-hdegoede@redhat.com>
 In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,217 +52,371 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 
-Using dev as name for variables pointing to struct ov2680_device is a bit
-unfortunate choice.
+The DSDT of all Windows BYT / CHT devices which I have seen has proper
+ACPI powermagement for the clk and regulators used by the sensors.
 
-All the recently added / rewritten code is already using sensor for this,
-replace the remaining usages of "struct ov2680_device *dev" with
-"struct ov2680_device *sensor".
+So there is no need for the whole custom atomisp_gmin custom code to
+disable the ACPI pm and directly poke at the PMIC for this.
 
-Note the power_up()/power_down() related functions are not changed as
-these will be removed in one of the next patches.
+Replace all the atomisp_gmin usage with using the new
+atomisp_register_sensor_no_gmin() / atomisp_unregister_subdev()
+helpers which allow registering a sensor with the atomisp code
+without using any of the atomisp_gmin power-management code.
+
+Note eventually these calls should be replaced by the standard
+v4l2_async_register_subdev_sensor() mechanism.
+
+But this first requires a bunch of work to the atomisp main code
+to make it set the necessary fwnodes up, similar to how
+drivers/media/pci/intel/ipu3/cio2-bridge.c does this.
+
+This has been tested on:
+-Trekstor Surftab duo W1 10.1, CHT, AXP288 PMIC, 2x ov2680 sensor
+-Asus T101HA, CHT, TI PMIC, 1x ov2680 sensor
+-MPMAN Converter 9, BYT, AXP288 PMIC, ov2680 back, gc0310 front sensor
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/i2c/atomisp-ov2680.c        | 74 +++++++++----------
- 1 file changed, 37 insertions(+), 37 deletions(-)
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 231 ++++--------------
+ drivers/staging/media/atomisp/i2c/ov2680.h    |   3 +-
+ 2 files changed, 53 insertions(+), 181 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 881340d7466f..5f26508a1e5a 100644
+index 2b4673092b6a..c5bd7ba1b502 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -472,7 +472,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 			  struct v4l2_subdev_state *sd_state,
- 			  struct v4l2_subdev_format *format)
- {
--	struct ov2680_device *dev = to_ov2680_sensor(sd);
-+	struct ov2680_device *sensor = to_ov2680_sensor(sd);
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct v4l2_mbus_framefmt *fmt;
- 	unsigned int width, height;
-@@ -485,17 +485,17 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 	width = min_t(unsigned int, ALIGN(format->format.width, 2), OV2680_NATIVE_WIDTH);
- 	height = min_t(unsigned int, ALIGN(format->format.height, 2), OV2680_NATIVE_HEIGHT);
+@@ -17,6 +17,8 @@
  
--	fmt = __ov2680_get_pad_format(dev, sd_state, format->pad, format->which);
--	ov2680_fill_format(dev, fmt, width, height);
-+	fmt = __ov2680_get_pad_format(sensor, sd_state, format->pad, format->which);
-+	ov2680_fill_format(sensor, fmt, width, height);
- 
- 	format->format = *fmt;
- 
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
- 		return 0;
- 
--	mutex_lock(&dev->input_lock);
--	ov2680_calc_mode(dev, fmt->width, fmt->height);
--	mutex_unlock(&dev->input_lock);
-+	mutex_lock(&sensor->input_lock);
-+	ov2680_calc_mode(sensor, fmt->width, fmt->height);
-+	mutex_unlock(&sensor->input_lock);
- 	return 0;
+ #include <linux/acpi.h>
+ #include <linux/device.h>
++#include <linux/gpio/consumer.h>
++#include <linux/gpio/machine.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
+@@ -184,145 +186,6 @@ static int ov2680_init_registers(struct v4l2_subdev *sd)
+ 	return ret;
  }
  
-@@ -503,10 +503,10 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
- 			  struct v4l2_subdev_state *sd_state,
- 			  struct v4l2_subdev_format *format)
- {
+-static int power_ctrl(struct v4l2_subdev *sd, bool flag)
+-{
+-	int ret = 0;
 -	struct ov2680_device *dev = to_ov2680_sensor(sd);
-+	struct ov2680_device *sensor = to_ov2680_sensor(sd);
- 	struct v4l2_mbus_framefmt *fmt;
- 
--	fmt = __ov2680_get_pad_format(dev, sd_state, format->pad, format->which);
-+	fmt = __ov2680_get_pad_format(sensor, sd_state, format->pad, format->which);
- 	format->format = *fmt;
- 	return 0;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-	if (!dev || !dev->platform_data)
+-		return -ENODEV;
+-
+-	dev_dbg(&client->dev, "%s: %s", __func__, flag ? "on" : "off");
+-
+-	if (flag) {
+-		ret |= dev->platform_data->v1p8_ctrl(sd, 1);
+-		ret |= dev->platform_data->v2p8_ctrl(sd, 1);
+-		usleep_range(10000, 15000);
+-	}
+-
+-	if (!flag || ret) {
+-		ret |= dev->platform_data->v1p8_ctrl(sd, 0);
+-		ret |= dev->platform_data->v2p8_ctrl(sd, 0);
+-	}
+-	return ret;
+-}
+-
+-static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
+-{
+-	int ret;
+-	struct ov2680_device *dev = to_ov2680_sensor(sd);
+-
+-	if (!dev || !dev->platform_data)
+-		return -ENODEV;
+-
+-	/*
+-	 * The OV2680 documents only one GPIO input (#XSHUTDN), but
+-	 * existing integrations often wire two (reset/power_down)
+-	 * because that is the way other sensors work.  There is no
+-	 * way to tell how it is wired internally, so existing
+-	 * firmwares expose both and we drive them symmetrically.
+-	 */
+-	if (flag) {
+-		ret = dev->platform_data->gpio0_ctrl(sd, 1);
+-		usleep_range(10000, 15000);
+-		/* Ignore return from second gpio, it may not be there */
+-		dev->platform_data->gpio1_ctrl(sd, 1);
+-		usleep_range(10000, 15000);
+-	} else {
+-		dev->platform_data->gpio1_ctrl(sd, 0);
+-		ret = dev->platform_data->gpio0_ctrl(sd, 0);
+-	}
+-	return ret;
+-}
+-
+-static int power_up(struct v4l2_subdev *sd)
+-{
+-	struct ov2680_device *dev = to_ov2680_sensor(sd);
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret;
+-
+-	if (!dev->platform_data) {
+-		dev_err(&client->dev,
+-			"no camera_sensor_platform_data");
+-		return -ENODEV;
+-	}
+-
+-	/* power control */
+-	ret = power_ctrl(sd, 1);
+-	if (ret)
+-		goto fail_power;
+-
+-	/* according to DS, at least 5ms is needed between DOVDD and PWDN */
+-	usleep_range(5000, 6000);
+-
+-	/* gpio ctrl */
+-	ret = gpio_ctrl(sd, 1);
+-	if (ret) {
+-		ret = gpio_ctrl(sd, 1);
+-		if (ret)
+-			goto fail_power;
+-	}
+-
+-	/* flis clock control */
+-	ret = dev->platform_data->flisclk_ctrl(sd, 1);
+-	if (ret)
+-		goto fail_clk;
+-
+-	/* according to DS, 20ms is needed between PWDN and i2c access */
+-	msleep(20);
+-
+-	ret = ov2680_init_registers(sd);
+-	if (ret)
+-		goto fail_init_registers;
+-
+-	return 0;
+-
+-fail_init_registers:
+-	dev->platform_data->flisclk_ctrl(sd, 0);
+-fail_clk:
+-	gpio_ctrl(sd, 0);
+-fail_power:
+-	power_ctrl(sd, 0);
+-	dev_err(&client->dev, "sensor power-up failed\n");
+-
+-	return ret;
+-}
+-
+-static int power_down(struct v4l2_subdev *sd)
+-{
+-	struct ov2680_device *dev = to_ov2680_sensor(sd);
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret = 0;
+-
+-	if (!dev->platform_data) {
+-		dev_err(&client->dev,
+-			"no camera_sensor_platform_data");
+-		return -ENODEV;
+-	}
+-
+-	ret = dev->platform_data->flisclk_ctrl(sd, 0);
+-	if (ret)
+-		dev_err(&client->dev, "flisclk failed\n");
+-
+-	/* gpio ctrl */
+-	ret = gpio_ctrl(sd, 0);
+-	if (ret) {
+-		ret = gpio_ctrl(sd, 0);
+-		if (ret)
+-			dev_err(&client->dev, "gpio failed 2\n");
+-	}
+-
+-	/* power control */
+-	ret = power_ctrl(sd, 0);
+-	if (ret) {
+-		dev_err(&client->dev, "vprog failed.\n");
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+ static struct v4l2_mbus_framefmt *
+ __ov2680_get_pad_format(struct ov2680_device *sensor,
+ 			struct v4l2_subdev_state *state,
+@@ -593,20 +456,10 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
+ 	return ret;
  }
-@@ -596,17 +596,17 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
- static int ov2680_s_config(struct v4l2_subdev *sd,
- 			   int irq, void *platform_data)
+ 
+-static int ov2680_s_config(struct v4l2_subdev *sd,
+-			   int irq, void *platform_data)
++static int ov2680_s_config(struct v4l2_subdev *sd)
  {
--	struct ov2680_device *dev = to_ov2680_sensor(sd);
-+	struct ov2680_device *sensor = to_ov2680_sensor(sd);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
  	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret = 0;
- 
- 	if (!platform_data)
- 		return -ENODEV;
- 
--	dev->platform_data =
-+	sensor->platform_data =
- 	    (struct camera_sensor_platform_data *)platform_data;
- 
--	mutex_lock(&dev->input_lock);
-+	mutex_lock(&sensor->input_lock);
+-	int ret = 0;
+-
+-	if (!platform_data)
+-		return -ENODEV;
+-
+-	sensor->platform_data =
+-	    (struct camera_sensor_platform_data *)platform_data;
+-
+-	mutex_lock(&sensor->input_lock);
++	int ret;
  
  	ret = pm_runtime_get_sync(&client->dev);
  	if (ret < 0) {
-@@ -614,7 +614,7 @@ static int ov2680_s_config(struct v4l2_subdev *sd,
+@@ -614,29 +467,13 @@ static int ov2680_s_config(struct v4l2_subdev *sd,
  		goto fail_power_on;
  	}
  
--	ret = dev->platform_data->csi_cfg(sd, 1);
-+	ret = sensor->platform_data->csi_cfg(sd, 1);
- 	if (ret)
- 		goto fail_csi_cfg;
+-	ret = sensor->platform_data->csi_cfg(sd, 1);
+-	if (ret)
+-		goto fail_csi_cfg;
+-
+ 	/* config & detect sensor */
+ 	ret = ov2680_detect(client);
+-	if (ret) {
++	if (ret)
+ 		dev_err(&client->dev, "ov2680_detect err s_config.\n");
+-		goto fail_csi_cfg;
+-	}
  
-@@ -627,16 +627,16 @@ static int ov2680_s_config(struct v4l2_subdev *sd,
- 
- 	/* turn off sensor, after probed */
- 	pm_runtime_put(&client->dev);
--	mutex_unlock(&dev->input_lock);
-+	mutex_unlock(&sensor->input_lock);
- 
- 	return 0;
- 
- fail_csi_cfg:
--	dev->platform_data->csi_cfg(sd, 0);
-+	sensor->platform_data->csi_cfg(sd, 0);
+-	/* turn off sensor, after probed */
+-	pm_runtime_put(&client->dev);
+-	mutex_unlock(&sensor->input_lock);
+-
+-	return 0;
+-
+-fail_csi_cfg:
+-	sensor->platform_data->csi_cfg(sd, 0);
  fail_power_on:
  	pm_runtime_put(&client->dev);
- 	dev_err(&client->dev, "sensor power-gating failed\n");
--	mutex_unlock(&dev->input_lock);
-+	mutex_unlock(&sensor->input_lock);
+-	dev_err(&client->dev, "sensor power-gating failed\n");
+-	mutex_unlock(&sensor->input_lock);
  	return ret;
  }
  
-@@ -770,35 +770,35 @@ static int ov2680_init_controls(struct ov2680_device *sensor)
- static void ov2680_remove(struct i2c_client *client)
- {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct ov2680_device *dev = to_ov2680_sensor(sd);
-+	struct ov2680_device *sensor = to_ov2680_sensor(sd);
+@@ -774,19 +611,32 @@ static void ov2680_remove(struct i2c_client *client)
  
  	dev_dbg(&client->dev, "ov2680_remove...\n");
  
--	dev->platform_data->csi_cfg(sd, 0);
-+	sensor->platform_data->csi_cfg(sd, 0);
- 
+-	sensor->platform_data->csi_cfg(sd, 0);
+-
++	atomisp_unregister_subdev(sd);
  	v4l2_device_unregister_subdev(sd);
--	media_entity_cleanup(&dev->sd.entity);
--	v4l2_ctrl_handler_free(&dev->ctrls.handler);
-+	media_entity_cleanup(&sensor->sd.entity);
-+	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+ 	media_entity_cleanup(&sensor->sd.entity);
+ 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
  	pm_runtime_disable(&client->dev);
--	kfree(dev);
-+	kfree(sensor);
  }
  
++/*
++ * Unlike other sensors which have both a rest and powerdown input pins,
++ * the OV2680 only has a powerdown input. But some ACPI tables still list
++ * 2 GPIOs for the OV2680 and it is unclear which to use. So try to get
++ * up to 2 GPIOs (1 mandatory, 1 optional) and control them in sync.
++ */
++static const struct acpi_gpio_params ov2680_first_gpio = { 0, 0, true };
++static const struct acpi_gpio_params ov2680_second_gpio = { 1, 0, true };
++
++static const struct acpi_gpio_mapping ov2680_gpio_mapping[] = {
++	{ "powerdown-gpios", &ov2680_first_gpio, 1 },
++	{ "powerdown-alt-gpios", &ov2680_second_gpio, 1 },
++	{ },
++};
++
  static int ov2680_probe(struct i2c_client *client)
  {
--	struct ov2680_device *dev;
-+	struct ov2680_device *sensor;
+ 	struct ov2680_device *sensor;
  	int ret;
- 	void *pdata;
+-	void *pdata;
  
--	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
--	if (!dev)
-+	sensor = kzalloc(sizeof(*sensor), GFP_KERNEL);
-+	if (!sensor)
- 		return -ENOMEM;
+ 	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
+ 	if (!sensor)
+@@ -797,18 +647,24 @@ static int ov2680_probe(struct i2c_client *client)
+ 	sensor->client = client;
+ 	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_ops);
  
--	mutex_init(&dev->input_lock);
-+	mutex_init(&sensor->input_lock);
+-	pdata = gmin_camera_platform_data(&sensor->sd,
+-					  ATOMISP_INPUT_FORMAT_RAW_10,
+-					  atomisp_bayer_order_bggr);
+-	if (!pdata)
+-		return -EINVAL;
++	ret = devm_acpi_dev_add_driver_gpios(&client->dev, ov2680_gpio_mapping);
++	if (ret)
++		return ret;
++
++	sensor->powerdown = devm_gpiod_get(&client->dev, "powerdown", GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->powerdown))
++		return dev_err_probe(&client->dev, PTR_ERR(sensor->powerdown), "getting powerdown GPIO\n");
++
++	sensor->powerdown_alt = devm_gpiod_get_optional(&client->dev, "powerdown-alt", GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->powerdown_alt))
++		return dev_err_probe(&client->dev, PTR_ERR(sensor->powerdown_alt), "getting powerdown-alt GPIO\n");
  
--	dev->client = client;
--	v4l2_i2c_subdev_init(&dev->sd, client, &ov2680_ops);
-+	sensor->client = client;
-+	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_ops);
- 
--	pdata = gmin_camera_platform_data(&dev->sd,
-+	pdata = gmin_camera_platform_data(&sensor->sd,
- 					  ATOMISP_INPUT_FORMAT_RAW_10,
- 					  atomisp_bayer_order_bggr);
- 	if (!pdata) {
-@@ -811,29 +811,29 @@ static int ov2680_probe(struct i2c_client *client)
+ 	pm_runtime_set_suspended(&client->dev);
+ 	pm_runtime_enable(&client->dev);
  	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
  	pm_runtime_use_autosuspend(&client->dev);
  
--	ret = ov2680_s_config(&dev->sd, client->irq, pdata);
-+	ret = ov2680_s_config(&sensor->sd, client->irq, pdata);
+-	ret = ov2680_s_config(&sensor->sd, client->irq, pdata);
++	ret = ov2680_s_config(&sensor->sd);
  	if (ret)
- 		goto out_free;
+ 		return ret;
  
--	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
--	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
--	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+@@ -830,7 +686,8 @@ static int ov2680_probe(struct i2c_client *client)
  
--	ret = ov2680_init_controls(dev);
-+	ret = ov2680_init_controls(sensor);
+ 	ov2680_fill_format(sensor, &sensor->mode.fmt, OV2680_NATIVE_WIDTH, OV2680_NATIVE_HEIGHT);
+ 
+-	ret = atomisp_register_i2c_module(&sensor->sd, pdata, RAW_CAMERA);
++	ret = atomisp_register_sensor_no_gmin(&sensor->sd, 1, ATOMISP_INPUT_FORMAT_RAW_10,
++					      atomisp_bayer_order_bggr);
  	if (ret) {
  		ov2680_remove(client);
  		return ret;
- 	}
+@@ -842,15 +699,29 @@ static int ov2680_probe(struct i2c_client *client)
+ static int ov2680_suspend(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct ov2680_device *sensor = to_ov2680_sensor(sd);
  
--	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
-+	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
- 	if (ret) {
- 		ov2680_remove(client);
- 		return ret;
- 	}
- 
--	ov2680_fill_format(dev, &dev->mode.fmt, OV2680_NATIVE_WIDTH, OV2680_NATIVE_HEIGHT);
-+	ov2680_fill_format(sensor, &sensor->mode.fmt, OV2680_NATIVE_WIDTH, OV2680_NATIVE_HEIGHT);
- 
--	ret = atomisp_register_i2c_module(&dev->sd, pdata, RAW_CAMERA);
-+	ret = atomisp_register_i2c_module(&sensor->sd, pdata, RAW_CAMERA);
- 	if (ret) {
- 		ov2680_remove(client);
- 		return ret;
-@@ -842,8 +842,8 @@ static int ov2680_probe(struct i2c_client *client)
- 	return 0;
- out_free:
- 	dev_dbg(&client->dev, "+++ out free\n");
--	v4l2_device_unregister_subdev(&dev->sd);
--	kfree(dev);
-+	v4l2_device_unregister_subdev(&sensor->sd);
-+	kfree(sensor);
- 	return ret;
+-	return power_down(sd);
++	gpiod_set_value_cansleep(sensor->powerdown, 1);
++	gpiod_set_value_cansleep(sensor->powerdown_alt, 1);
++	return 0;
  }
  
+ static int ov2680_resume(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct ov2680_device *sensor = to_ov2680_sensor(sd);
+ 
+-	return power_up(sd);
++	/* according to DS, at least 5ms is needed after DOVDD (enabled by ACPI) */
++	usleep_range(5000, 6000);
++
++	gpiod_set_value_cansleep(sensor->powerdown, 0);
++	gpiod_set_value_cansleep(sensor->powerdown_alt, 0);
++
++	/* according to DS, 20ms is needed between PWDN and i2c access */
++	msleep(20);
++
++	ov2680_init_registers(sd);
++	return 0;
+ }
+ 
+ static DEFINE_RUNTIME_DEV_PM_OPS(ov2680_pm_ops, ov2680_suspend, ov2680_resume, NULL);
+diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
+index 58593da50f6f..a2ed5a1edf35 100644
+--- a/drivers/staging/media/atomisp/i2c/ov2680.h
++++ b/drivers/staging/media/atomisp/i2c/ov2680.h
+@@ -119,7 +119,8 @@ struct ov2680_device {
+ 	struct media_pad pad;
+ 	struct mutex input_lock;
+ 	struct i2c_client *client;
+-	struct camera_sensor_platform_data *platform_data;
++	struct gpio_desc *powerdown;
++	struct gpio_desc *powerdown_alt;
+ 	bool is_streaming;
+ 
+ 	struct ov2680_mode {
 -- 
 2.39.0
 
