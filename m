@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D37880A
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 20:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DB6880A
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 20:57:35 +0000 (UTC)
 Received: from ipservice-092-217-089-134.092.217.pools.vodafone-ip.de ([92.217.89.134] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1pK3pV-0000Lk-Kt; Mon, 23 Jan 2023 21:54:13 +0100
+	id 1pK3pS-0000Lk-Rp; Mon, 23 Jan 2023 21:54:10 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 23/23] staging: r8188eu: merge rtw_free_hwxmits into its only caller
-Date: Mon, 23 Jan 2023 21:53:42 +0100
-Message-Id: <20230123205342.229589-24-martin@kaiser.cx>
+Subject: [PATCH 20/23] staging: r8188eu: remove rtw_xmitframe_enqueue
+Date: Mon, 23 Jan 2023 21:53:39 +0100
+Message-Id: <20230123205342.229589-21-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230123205342.229589-1-martin@kaiser.cx>
 References: <20230123205342.229589-1-martin@kaiser.cx>
@@ -31,56 +31,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_free_hwxmits is called only by _rtw_free_xmit_priv. We can merge the
-two functions and make the code a bit shorter.
+The rtw_xmitframe_enqueue function is only one line. We can remove it and
+call rtw_xmit_classifier directly.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_xmit.c    | 11 +----------
- drivers/staging/r8188eu/include/rtw_xmit.h |  1 -
- 2 files changed, 1 insertion(+), 11 deletions(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c      | 5 -----
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 2 +-
+ drivers/staging/r8188eu/include/rtw_xmit.h   | 2 --
+ 3 files changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 3752d4fddd11..f50e10f0d51f 100644
+index 4f9defdbe257..3752d4fddd11 100644
 --- a/drivers/staging/r8188eu/core/rtw_xmit.c
 +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -281,7 +281,7 @@ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv)
- 
- 	vfree(pxmitpriv->pallocated_xmit_extbuf);
- 
--	rtw_free_hwxmits(padapter);
-+	kfree(pxmitpriv->hwxmits);
- 
- 	mutex_destroy(&pxmitpriv->ack_tx_mutex);
- }
-@@ -1475,15 +1475,6 @@ int rtw_alloc_hwxmits(struct adapter *padapter)
- 	return 0;
+@@ -1345,11 +1345,6 @@ void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pfram
+ 	spin_unlock_bh(&pframequeue->lock);
  }
  
--void rtw_free_hwxmits(struct adapter *padapter)
+-s32 rtw_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe)
 -{
--	struct hw_xmit *hwxmits;
--	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
--
--	hwxmits = pxmitpriv->hwxmits;
--	kfree(hwxmits);
+-	return rtw_xmit_classifier(padapter, pxmitframe);
 -}
 -
- static int rtw_br_client_tx(struct adapter *padapter, struct sk_buff **pskb)
+ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmit *phwxmit_i)
  {
- 	struct sk_buff *skb = *pskb;
+ 	struct hw_xmit *phwxmit;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+index e067cc271686..18557738dbad 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+@@ -596,7 +596,7 @@ static s32 pre_xmitframe(struct adapter *adapt, struct xmit_frame *pxmitframe)
+ 	return true;
+ 
+ enqueue:
+-	res = rtw_xmitframe_enqueue(adapt, pxmitframe);
++	res = rtw_xmit_classifier(adapt, pxmitframe);
+ 	spin_unlock_bh(&pxmitpriv->lock);
+ 
+ 	if (res != _SUCCESS) {
 diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index 33c3031de2c4..d8808e68f778 100644
+index 30f8000120b2..4aa7833487c8 100644
 --- a/drivers/staging/r8188eu/include/rtw_xmit.h
 +++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -328,7 +328,6 @@ s32 rtw_txframes_sta_ac_pending(struct adapter *padapter,
- int _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter);
- void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv);
- int rtw_alloc_hwxmits(struct adapter *padapter);
--void rtw_free_hwxmits(struct adapter *padapter);
- s32 rtw_xmit(struct adapter *padapter, struct sk_buff **pkt);
+@@ -320,8 +320,6 @@ void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv,
+ 			      struct __queue *pframequeue);
+ struct tx_servq *rtw_get_sta_pending(struct adapter *padapter,
+ 				     struct sta_info *psta, int up, u8 *ac);
+-s32 rtw_xmitframe_enqueue(struct adapter *padapter,
+-			  struct xmit_frame *pxmitframe);
+ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv,
+ 				      struct hw_xmit *phwxmit_i);
  
- int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_frame *pxmitframe);
 -- 
 2.30.2
 
