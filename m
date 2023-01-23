@@ -1,45 +1,20 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1569A2F49
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 13:54:40 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id m3-20020a17090a414300b00229ef93c5b0so10367349pjg.2
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 05:54:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sD/8hfxYVyYFbu48JvxARFwdM5FdtUNz3QAClSONFs8=;
-        b=ppma43Q03TDBgXLjnuOWFQHxjBoTYuUORi1ipWmU7edjQPATRS5chMc1rzxUaZpUDJ
-         B1yBRYFUaK3VN9QxFtr74fVkqnuhYgh400Mwl618f8FJkv4dv3TGJB7xzx4BTf9w8qb3
-         GA9obxb5Uw/Bx64WFiZvElYw0wDJTAjN3Tv0xz1D2sfGW/17IcjbMB+J2SEsHqUI0rnd
-         M2O2yb/EfonrWAlygsqB24yrcRw8Z1zn5rQmdg9nhGtCqKbY/vy+yAfPcj++r8rAspGI
-         We6n1DMk71cPiSljfgpBLIVJeJ0SNV/LVZbppWi69HsNwsiO8DZpO5teZwLzzjY7TVN4
-         wTjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sD/8hfxYVyYFbu48JvxARFwdM5FdtUNz3QAClSONFs8=;
-        b=N0Z9RnG2LbC30x2UxXHoI36sfcGftusLhZ/D2fI23cqRxNiTyylyrX6xS5cOZIeyy/
-         GVPTEyp3mPcnrPHNMwkpkqsiiRvcFp2w3Jh5AjowL3TPCzfHc6yVWFsaT2EYmKhml9Ma
-         RiohgscQ/3R/Irl8IPbLFdaI25nzXIKcbdmokET90iM2zcTw0U23bsF0POG1yuLMpe2T
-         4OU9HraRClRWgnVt9nQLpe/64nAyeqo5uKKjULhLhqcY8jy9eJVcS3zwF5nO8Rp7F04z
-         7jEPhxcYJprQXHyzVrMktjPKtPXaC8+h03K6d+cx45j0NuJFdhYhHa9yYujhv54szmqs
-         lB0Q==
-X-Gm-Message-State: AFqh2krQmD0Ma6c+rWZc/AW5jln3lkUERMHT6tJXjQOEsgMrmp0jdkf2
-	LpvIRGITSMnnx8AioA8V+Ts=
-X-Google-Smtp-Source: AMrXdXuq2/aZ5Rnr9hiDBKqlsrJezA90JdQ7bHWWsCWg5s5AVc46ldmrSfnz4jbdis3ot8pQXrRJLw==
-X-Received: by 2002:a17:90a:5410:b0:226:de98:ee43 with SMTP id z16-20020a17090a541000b00226de98ee43mr25320247pjh.43.1674482079449;
-        Mon, 23 Jan 2023 05:54:39 -0800 (PST)
-Received: from [192.168.43.80] (subs09b-223-255-225-233.three.co.id. [223.255.225.233])
-        by smtp.gmail.com with ESMTPSA id n6-20020a17090a670600b002191e769546sm6536326pjj.4.2023.01.23.05.54.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 05:54:39 -0800 (PST)
-Message-ID: <cc4d80e2-2be8-046d-248a-caeddfaaafc0@gmail.com>
-Date: Mon, 23 Jan 2023 20:54:35 +0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8002F49
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 14:12:11 +0000 (UTC)
+Received: from [192.168.1.103] (unknown [103.86.18.176])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CB742B3;
+	Mon, 23 Jan 2023 15:12:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1674483128;
+	bh=0BkzISxc757mMUBzOur30v3iTeT+G7HwVUzaxPxnOng=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IBTX7ZuChXncZZfQVB24ksq47UOaSCAFX4z/Nbx2zKKs3ngSNItefjN5IlJhUQkg0
+	 fQPOcL1YV0McQHgRLHDz9L108lAkvag9s7p1dilxon5P/3QsZ6kEHWFoNGhRVZVjyZ
+	 f/dioPspDHsEWpjJWmN6b+QkQXNo6Q9kvPyevHuc=
+Message-ID: <4e4215a7-c733-9ea6-dad8-9bf53dc9e891@ideasonboard.com>
+Date: Mon, 23 Jan 2023 19:42:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,31 +22,135 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] staging: wlan-ng: Fix full name of the GPL
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
 Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Diederik de Haas <didi.debian@cknow.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230122191047.58769-1-didi.debian@cknow.org>
- <Y84wk+sw/gR7gNW4@kroah.com> <Y85Kkax5+U4AUedT@debian.me>
- <Y85Ux0uGYl0c//mz@kroah.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <Y85Ux0uGYl0c//mz@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Stefan Wahren <stefan.wahren@i2se.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
+ <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>
+References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+ <786df750-221e-82fc-a324-d30261296974@i2se.com>
+ <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+ <912601ba-c60d-8d69-f061-62b854c5d9ce@i2se.com>
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <912601ba-c60d-8d69-f061-62b854c5d9ce@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 1/23/23 16:35, Greg Kroah-Hartman wrote:
->> Hi Greg,
+Hi Stefan
+
+On 1/23/23 5:16 PM, Stefan Wahren wrote:
+> Hi Umang,
+>
+> Am 23.01.23 um 08:48 schrieb Umang Jain:
+>> Hi Stefan,
 >>
->> drivers/staging/wlan-ng/hfa384x.h (for example) has already SPDX identifier
->> that matches the verbose copyright notice below it. 
-> 
-> I have no context here at all, sorry.
+>> Thank for the testing.
+>>
+>> On 1/23/23 5:04 AM, Stefan Wahren wrote:
+>>> Hi Umang,
+>>>
+>>> Am 20.01.23 um 21:10 schrieb Umang Jain:
+>>>> This series just introduces five extra patches for dropping include
+>>>> directives from Makefiles (suggested by Greg KH) and rebased.
+>>>>
+>>>> The main patch (6/6) removes platform device/driver abuse and moves
+>>>> things to standard device/driver model using a custom_bus. Specific
+>>>> details are elaborated in the commit message.
+>>>>
+>>>> The patch series is based on top of d514392f17fd (tag: next-20230120)
+>>>> of linux-next.
+>>>
+>>> applied this series on top of linux-next and build it with 
+>>> arm/multi_v7_defconfig plus the following:
+>>>
+>>> CONFIG_BCM_VIDEOCORE=y
+>>> CONFIG_BCM2835_VCHIQ=m
+>>> CONFIG_VCHIQ_CDEV=y
+>>> CONFIG_SND_BCM2835=m
+>>> CONFIG_VIDEO_BCM2835=m
+>>> CONFIG_BCM2835_VCHIQ_MMAL=m
+>>>
+>>> and the devices doesn't register on Raspberry Pi 3 B Plus:
+>>>
+>>> [   25.523337] vchiq: module is from the staging directory, the 
+>>> quality is unknown, you have been warned.
+>>> [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+>>> bcm2835_audio vchiq device
+>>> [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+>>> bcm2835-camera vchiq device
+>>
+>> I was able to reproduce and it seems the issue here is the change 
+>> mentioned in the cover
+>>
+>> - drop dma_set_mask_and_coherent
+>>
+>> in V6.
+>>
+>> (I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp 
+>> applied so my branch has the DMA hunk included while I was testing V6)
+>
+> just to avoid misunderstandings, did you read 
+> drivers/staging/vc04_services/interface/TESTING ?
 
-Oh you mean context in the patch (surrounding text around
-the actual diff).
+Yes, but it's not geared towards the hardware I have (Rpi Model 4B)
+>
+> The Raspberry Pi 4 is currently not fully supported for VCHIQ in 
+> mainline. From my limited understanding the DMA controller driver 
+> needs 40 bit support, so VCHIQ on BCM2711 can use it. This part is 
+> currently only available in the vendor tree. The reason why the driver 
+> is unexpectedly probing is a historical issue in the devicetree :-(
+>
+> Raspberry Pi 4 support is not considered as necessary for moving out 
+> of staging.
+>
 
--- 
-An old man doll... just what I always wanted! - Clara
+While I am looking into what's the reason behind the hunk, without which 
+the devices cannot get registered... This is not related to the 40bit 
+support for DMA. I remember that it worked without it during the 
+bcm2835-isp development.
+
+Are you implying that I should not use RPi Model 4B for testing ? 
+Because that's the only RPi hardware I own.
+>>
+>> Below is the hunk which should resolve the issue.
+>>
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>> @@ -6,6 +6,7 @@
+>>   */
+>>
+>>  #include <linux/device/bus.h>
+>> +#include <linux/dma-mapping.h>
+>>  #include <linux/slab.h>
+>>  #include <linux/string.h>
+>>
+>> @@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent, 
+>> const char *name)
+>>         device->dev.type = &vchiq_device_type;
+>>         device->dev.release = vchiq_device_release;
+>>
+>> +       ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+>> +       if (ret < 0) {
+>> +               vchiq_device_release(&device->dev);
+>> +               return ret;
+>> +       }
+>> +
+>>         ret = device_register(&device->dev);
+>>         if (ret) {
+>>                 put_device(&device->dev);
+>>
+>> It seems we need to include the dma_set_mask_and_coherent() even if 
+>> bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look 
+>> into why is that/
+>>
+>>  Laurent, any thoughts on this please?
 
