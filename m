@@ -1,99 +1,97 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A9F630
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 08:49:29 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id g10so8389856wmo.1
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 00:49:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40B1A4F
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 08:51:35 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id s67so8428160pgs.3
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 00:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=soja83e34c2eLz9845rol6k2LZ7cLCXqZuSiTiSx964=;
-        b=SkRILWqFbm/CTcnfDATfLaDF5BJtzFA1CI607stoaDCCGOpOypRFQjEhH30g/INtaZ
-         yyt8orlvR+kuPJQObM77e1o7AKF+IGdiPjQ5XAyqJqeyBJk/wr+2gbampd3Ekng3GNqr
-         zt2wQ4Xr+mCyFehQdMguU/qA5p/N/wy7bcBs2kQ4NRrKwG1Skb2PmCJ8inlia+QZo0YB
-         AafwA0QDa9PsoFhszpYa7aOiWAxDGgWrqv0jS1a+dZn0szQG0FVKyWNxP3PrhX0+31KU
-         V41yWdPzLVE4labU5tdeOdb9SYajAJ1BIk57aQe1sDRQXtULIgSi9ZInbvDBxaUA7+Op
-         mDWQ==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WiISKER2cajYz2bCimExOXsQ5HAHxxouMwQAgy2HZyI=;
+        b=o2e4yRCob9Lq84tw2eyc3IGAPJWg1M40TrznoAKPdiucBrC1suvu9AbaL4Qmi3AGKa
+         cMhoOAhREuZKcTBT7k5j3B3E9MKENRJPctcizcvdBv5hZSw1cKMiaOl7kNo/AOokum6x
+         o5Zc7EGe2poi5/zaRpunao41udHvAIle2EOiAiauawE9AFGAvF8Z0XvmIdMK/EPHH7EQ
+         5WUwrTYN1AqMdIvy8ihMAVX1WqbfxXd9BCm+TVUK9F610nc/Usn/Qbd+++hqkqxj9iwF
+         wn2j57o0UQceEOcJLi1CxBofYe6TpoeYZI73LXc4S5B8hcMij/Op/DESYGGyuvx7tQHK
+         kfXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=soja83e34c2eLz9845rol6k2LZ7cLCXqZuSiTiSx964=;
-        b=G+gmITCSHgRAcNfyA9pQdI5F7xBxkc7WKb4ry3qfEqlJolwm67soBh6l47oRyxujm/
-         w6KsAQK7TtbI8pxyGoA86rDDoy/MwImEF5h3YJm8TYOm/uQFtdRs+eWSe2MRw68cxJxC
-         rBRLVaKsnACDA86LWlvXQeVfZgSJMwoD3f5ZwTMIUfHvlpH20WHBVRSsEd/qBp4/Y79W
-         4oK/D0CbNAFXiRSXwbEVfGXsvl0jx74Q8PasZw283+p6AteLh8alm2gwAD4G/bnRxHiI
-         C414X1XC0hclvclM99Z0nSeThPSPl7qZ4+X/kWuYh/qHpXDFPbSPDZ4VQsvCN9c6jW8d
-         i8Lw==
-X-Gm-Message-State: AFqh2krQhKef2AgfqDhIHuymwld8OrNPE9WS9lH12tAqVa5Jey0xo/fT
-	1i+6QeJ+W8VmmdTjO8V9csF/tg==
-X-Google-Smtp-Source: AMrXdXvwi8oXyhzxtSXMDorQp5ZuNfEJhKBQoqpgabUgwuOh93L8qUifFWtwT3ydPwQM1NZM2ssqCg==
-X-Received: by 2002:a1c:cc11:0:b0:3da:1d52:26b5 with SMTP id h17-20020a1ccc11000000b003da1d5226b5mr31095778wmb.14.1674463767626;
-        Mon, 23 Jan 2023 00:49:27 -0800 (PST)
-Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
-        by smtp.gmail.com with ESMTPSA id u13-20020a05600c19cd00b003cf71b1f66csm11144887wmq.0.2023.01.23.00.49.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Jan 2023 00:49:27 -0800 (PST)
-Message-ID: <6b4df841-6f8f-4c32-767c-8b8c34108272@linaro.org>
-Date: Mon, 23 Jan 2023 09:49:26 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WiISKER2cajYz2bCimExOXsQ5HAHxxouMwQAgy2HZyI=;
+        b=RdNBLDguMqfv2UDDr4HoaGk9or3w1syKXOuoqK0w6iq63CS6NFxez3bpzR0//p1iIk
+         O7Gjh7oO9OncYwL4+9XEgB3IN2WV+bLZNW4Pk0kTUBQbbSBXwh8J3OIwp4vtg79PBPXd
+         FLQyIeMShx04dQxisPyrtejiop44UhZRt+p4UrxlkHqSkvFVb4xAviuuU3j5zok7Vgi+
+         wiGUjZwXJW2iMyVXXIfa6loz0nUi2A1S/9zKuuSz/4xle/5fS5CFxrQOK11cxWnb15OZ
+         5nM75DiMeXrRcxCR/epoLOq+vNAkDzqjtlRfdnVM2uam30amI0ofMm/WtDVB706s9Jpw
+         ddtQ==
+X-Gm-Message-State: AFqh2kq70yba3pLsC8g0hQAnbLu5ocMvF91RrqC2i20Cf3VFKpdsONnO
+	ICv1o+Q8hwEPjTUwO/KEjPk=
+X-Google-Smtp-Source: AMrXdXuHK6w4cF3R/SFl7OpVG7zs3vYJISShgo/qm+Yx/BHz2XpY93T21ZtRInUnsxxy2YnaeG0Kfw==
+X-Received: by 2002:a05:6a00:f91:b0:583:319a:4413 with SMTP id ct17-20020a056a000f9100b00583319a4413mr25567175pfb.24.1674463895090;
+        Mon, 23 Jan 2023 00:51:35 -0800 (PST)
+Received: from debian.me (subs32-116-206-28-53.three.co.id. [116.206.28.53])
+        by smtp.gmail.com with ESMTPSA id u197-20020a6279ce000000b005855d204fd8sm30934316pfc.93.2023.01.23.00.51.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 00:51:34 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+	id 62D3610504D; Mon, 23 Jan 2023 15:51:30 +0700 (WIB)
+Date: Mon, 23 Jan 2023 15:51:29 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Diederik de Haas <didi.debian@cknow.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: wlan-ng: Fix full name of the GPL
+Message-ID: <Y85Kkax5+U4AUedT@debian.me>
+References: <20230122191047.58769-1-didi.debian@cknow.org>
+ <Y84wk+sw/gR7gNW4@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH] media: meson: vdec: remove redundant if statement
-To: Christian Hewitt <christianshewitt@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: Benjamin Roszak <benjamin545@gmail.com>
-References: <20230123071708.2670751-1-christianshewitt@gmail.com>
-Content-Language: en-US
-Organization: Linaro Developer Services
-In-Reply-To: <20230123071708.2670751-1-christianshewitt@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 23/01/2023 08:17, Christian Hewitt wrote:
-> From: Benjamin Roszak <benjamin545@gmail.com>
-> 
-> Checking if sess->fmt_out->pixfmt is V4L2_PIX_FMT_VP9 was already done as a
-> condition to enter the if statement where this additional check is made.
-> 
-> Signed-off-by: Benjamin Roszak <benjamin545@gmail.com>
-> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
-> ---
->   drivers/staging/media/meson/vdec/esparser.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-> index 86ccc8937afc..7b15fc54efe4 100644
-> --- a/drivers/staging/media/meson/vdec/esparser.c
-> +++ b/drivers/staging/media/meson/vdec/esparser.c
-> @@ -314,8 +314,7 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
->   			num_dst_bufs = codec_ops->num_pending_bufs(sess);
->   
->   		num_dst_bufs += v4l2_m2m_num_dst_bufs_ready(sess->m2m_ctx);
-> -		if (sess->fmt_out->pixfmt == V4L2_PIX_FMT_VP9)
-> -			num_dst_bufs -= 3;
-> +		num_dst_bufs -= 3;
->   
->   		if (esparser_vififo_get_free_space(sess) < payload_size ||
->   		    atomic_read(&sess->esparser_queued_bufs) >= num_dst_bufs)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ppj6caC0vtIGHezG"
+Content-Disposition: inline
+In-Reply-To: <Y84wk+sw/gR7gNW4@kroah.com>
 
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+--ppj6caC0vtIGHezG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jan 23, 2023 at 08:00:35AM +0100, Greg Kroah-Hartman wrote:
+> - You did not specify a description of why the patch is needed, or
+>   possibly, any description at all, in the email body.  Please read the
+>   section entitled "The canonical patch format" in the kernel file,
+>   Documentation/process/submitting-patches.rst for what is needed in
+>   order to properly describe the change.
+>=20
+
+Hi Greg,
+
+drivers/staging/wlan-ng/hfa384x.h (for example) has already SPDX identifier
+that matches the verbose copyright notice below it.=20
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--ppj6caC0vtIGHezG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY85KiwAKCRD2uYlJVVFO
+oyRsAP9r4fI1i+oYi5Wai/ioVqUCHtoFkiw37gNH//1ig2mrHAEAphOXT4HP2Ssy
+VyoweJSiY1uiYjBEDfwg1jtf7xuG+gU=
+=ij4J
+-----END PGP SIGNATURE-----
+
+--ppj6caC0vtIGHezG--
