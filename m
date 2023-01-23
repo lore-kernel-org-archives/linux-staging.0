@@ -1,31 +1,31 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C821C01
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:52:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8BF1C01
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674478336;
+	s=mimecast20190719; t=1674478346;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7EXKqOmQ6tBEmWnWsUTo/7iQPF4r/k3m/kS7MniM/So=;
-	b=PA03Fq90q4ZCbBe96l+2mtiedIxJIp87z+CJv95ZSM6MBR7IvJNBpfJSrEcaKegliwBmZ5
-	jJLef+6EiCYs2OJpGtsWzoq5HBC4Vtrz4eXVxRlyK5UGALGvTfIErRnb0gbU8TP2STLOBd
-	8Slz44R4vXqWSREkwNbC2gYsdleExho=
+	bh=ZOiLEgNt8V0MMRu99NAtZIsMApLnONu+A8O0onIE4TU=;
+	b=EqXggpcnKwn9lmqgUmwWYWMda9xUvWVVqVAeSRI8lVD9ve0KtVAhDVgo3WptoEaSm3ZNxR
+	7RZhaeYzH11K6PcuAJdsrtVuLcvAjMp7HGP+fRkwhGPNo1MAqk56zZBV8t/hHCBCc+yFVW
+	Qe5fM0GOnyhq1NClYn+ehifcPWWAcFI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-220-AtlCwY_GNfCdmNmcSjlzrg-1; Mon, 23 Jan 2023 07:52:13 -0500
-X-MC-Unique: AtlCwY_GNfCdmNmcSjlzrg-1
+ us-mta-671-PGG4YroHOX-sT086sd5fZw-1; Mon, 23 Jan 2023 07:52:22 -0500
+X-MC-Unique: PGG4YroHOX-sT086sd5fZw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 19EFA877CA3;
-	Mon, 23 Jan 2023 12:52:13 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD46218A6460;
+	Mon, 23 Jan 2023 12:52:21 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.13])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3DB33C15BA0;
-	Mon, 23 Jan 2023 12:52:10 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6A70FC15BA0;
+	Mon, 23 Jan 2023 12:52:19 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -37,11 +37,10 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	andrey.i.trufanov@gmail.com,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH 01/57] media: atomisp: fix videobuf2 Kconfig depenendency
-Date: Mon, 23 Jan 2023 13:51:09 +0100
-Message-Id: <20230123125205.622152-2-hdegoede@redhat.com>
+	linux-staging@lists.linux.dev
+Subject: [PATCH 04/57] media: atomisp: Move power-management over to a custom pm-domain
+Date: Mon, 23 Jan 2023 13:51:12 +0100
+Message-Id: <20230123125205.622152-5-hdegoede@redhat.com>
 In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -53,37 +52,177 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 
-From: Arnd Bergmann <arnd@arndb.de>
+The atomisp does not use standard PCI power-management through the
+PCI config space. Instead this driver directly tells the P-Unit to
+disable the ISP over the IOSF. The standard PCI subsystem pm_ops will
+try to access the config space before (resume) / after (suspend) this
+driver has turned the ISP on / off, resulting in the following errors:
 
-The recent conversion missed the Kconfig bit, so it can now
-end up in a link error on randconfig builds:
+ Unable to change power state from D0 to D3hot, device inaccessible
+ Unable to change power state from D3cold to D0, device inaccessible
 
-ld.lld: error: undefined symbol: vb2_vmalloc_memops
->>> referenced by atomisp_fops.c
->>>               drivers/staging/media/atomisp/pci/atomisp_fops.o:(atomisp_open) in archive vmlinux.a
+Getting logged into dmesg a whole bunch of time during boot as well as
+every time the camera is used.
 
-Fixes: cb48ae89be3b ("media: atomisp: Convert to videobuf2")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Link: https://lore.kernel.org/r/20230104082212.3770415-1-arnd@kernel.org
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+To avoid these errors use a custom pm_domain instead of standard driver
+pm-callbacks so that all the PCI subsys suspend / resume handling is
+skipped and call pci_save_state() / pci_restore_state() ourselves.
+
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../media/atomisp/pci/atomisp_internal.h      |  1 +
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 44 ++++++++++++++-----
+ 2 files changed, 33 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
-index 2c8d7fdcc5f7..c9bff98e5309 100644
---- a/drivers/staging/media/atomisp/Kconfig
-+++ b/drivers/staging/media/atomisp/Kconfig
-@@ -14,7 +14,7 @@ config VIDEO_ATOMISP
- 	depends on VIDEO_DEV && INTEL_ATOMISP
- 	depends on PMIC_OPREGION
- 	select IOSF_MBI
--	select VIDEOBUF_VMALLOC
-+	select VIDEOBUF2_VMALLOC
- 	select VIDEO_V4L2_SUBDEV_API
- 	help
- 	  Say Y here if your platform supports Intel Atom SoC
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 675007d7d9af..fa38d91420cf 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -210,6 +210,7 @@ struct atomisp_device {
+ 	void __iomem *base;
+ 	const struct firmware *firmware;
+ 
++	struct dev_pm_domain pm_domain;
+ 	struct pm_qos_request pm_qos;
+ 	s32 max_isr_latency;
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index e786b81921da..e994a4a5284e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -19,6 +19,7 @@
+  */
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/pm_domain.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/pm_qos.h>
+ #include <linux/timer.h>
+@@ -524,7 +525,7 @@ static int atomisp_save_iunit_reg(struct atomisp_device *isp)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused atomisp_restore_iunit_reg(struct atomisp_device *isp)
++static int atomisp_restore_iunit_reg(struct atomisp_device *isp)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 
+@@ -662,6 +663,7 @@ static void punit_ddr_dvfs_enable(bool enable)
+ 
+ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ {
++	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	unsigned long timeout;
+ 	u32 val = enable ? MRFLD_ISPSSPM0_IUNIT_POWER_ON :
+ 			   MRFLD_ISPSSPM0_IUNIT_POWER_OFF;
+@@ -703,6 +705,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ 		tmp = (tmp >> MRFLD_ISPSSPM0_ISPSSS_OFFSET) & MRFLD_ISPSSPM0_ISPSSC_MASK;
+ 		if (tmp == val) {
+ 			trace_ipu_cstate(enable);
++			pdev->current_state = enable ? PCI_D0 : PCI_D3cold;
+ 			return 0;
+ 		}
+ 
+@@ -743,6 +746,7 @@ int atomisp_power_off(struct device *dev)
+ 	pci_write_config_dword(pdev, MRFLD_PCI_CSI_CONTROL, reg);
+ 
+ 	cpu_latency_qos_update_request(&isp->pm_qos, PM_QOS_DEFAULT_VALUE);
++	pci_save_state(pdev);
+ 	return atomisp_mrfld_power(isp, false);
+ }
+ 
+@@ -756,6 +760,7 @@ int atomisp_power_on(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	pci_restore_state(to_pci_dev(dev));
+ 	cpu_latency_qos_update_request(&isp->pm_qos, isp->max_isr_latency);
+ 
+ 	/*restore register values for iUnit and iUnitPHY registers*/
+@@ -767,7 +772,7 @@ int atomisp_power_on(struct device *dev)
+ 	return atomisp_css_init(isp);
+ }
+ 
+-static int __maybe_unused atomisp_suspend(struct device *dev)
++static int atomisp_suspend(struct device *dev)
+ {
+ 	struct atomisp_device *isp = (struct atomisp_device *)
+ 				     dev_get_drvdata(dev);
+@@ -790,10 +795,12 @@ static int __maybe_unused atomisp_suspend(struct device *dev)
+ 	}
+ 	spin_unlock_irqrestore(&isp->lock, flags);
+ 
++	pm_runtime_resume(dev);
++
+ 	return atomisp_power_off(dev);
+ }
+ 
+-static int __maybe_unused atomisp_resume(struct device *dev)
++static int atomisp_resume(struct device *dev)
+ {
+ 	return atomisp_power_on(dev);
+ }
+@@ -1603,6 +1610,26 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	/* save the iunit context only once after all the values are init'ed. */
+ 	atomisp_save_iunit_reg(isp);
+ 
++	/*
++	 * The atomisp does not use standard PCI power-management through the
++	 * PCI config space. Instead this driver directly tells the P-Unit to
++	 * disable the ISP over the IOSF. The standard PCI subsystem pm_ops will
++	 * try to access the config space before (resume) / after (suspend) this
++	 * driver has turned the ISP on / off, resulting in the following errors:
++	 *
++	 * "Unable to change power state from D0 to D3hot, device inaccessible"
++	 * "Unable to change power state from D3cold to D0, device inaccessible"
++	 *
++	 * To avoid these errors override the pm_domain so that all the PCI
++	 * subsys suspend / resume handling is skipped.
++	 */
++	isp->pm_domain.ops.runtime_suspend = atomisp_power_off;
++	isp->pm_domain.ops.runtime_resume = atomisp_power_on;
++	isp->pm_domain.ops.suspend = atomisp_suspend;
++	isp->pm_domain.ops.resume = atomisp_resume;
++
++	dev_pm_domain_set(&pdev->dev, &isp->pm_domain);
++
+ 	pm_runtime_put_noidle(&pdev->dev);
+ 	pm_runtime_allow(&pdev->dev);
+ 
+@@ -1645,6 +1672,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ request_irq_fail:
+ 	hmm_cleanup();
+ 	pm_runtime_get_noresume(&pdev->dev);
++	dev_pm_domain_set(&pdev->dev, NULL);
+ 	atomisp_unregister_entities(isp);
+ register_entities_fail:
+ 	atomisp_uninitialize_modules(isp);
+@@ -1697,6 +1725,7 @@ static void atomisp_pci_remove(struct pci_dev *pdev)
+ 
+ 	pm_runtime_forbid(&pdev->dev);
+ 	pm_runtime_get_noresume(&pdev->dev);
++	dev_pm_domain_set(&pdev->dev, NULL);
+ 	cpu_latency_qos_remove_request(&isp->pm_qos);
+ 
+ 	atomisp_msi_irq_uninit(isp);
+@@ -1721,17 +1750,8 @@ static const struct pci_device_id atomisp_pci_tbl[] = {
+ 
+ MODULE_DEVICE_TABLE(pci, atomisp_pci_tbl);
+ 
+-static const struct dev_pm_ops atomisp_pm_ops = {
+-	.runtime_suspend = atomisp_power_off,
+-	.runtime_resume = atomisp_power_on,
+-	.suspend = atomisp_suspend,
+-	.resume = atomisp_resume,
+-};
+ 
+ static struct pci_driver atomisp_pci_driver = {
+-	.driver = {
+-		.pm = &atomisp_pm_ops,
+-	},
+ 	.name = "atomisp-isp2",
+ 	.id_table = atomisp_pci_tbl,
+ 	.probe = atomisp_pci_probe,
 -- 
 2.39.0
 
