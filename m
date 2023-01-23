@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740C21C14
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC77F1C01
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:52:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674478352;
+	s=mimecast20190719; t=1674478357;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5XYtcdXj+XG93FnkZUSXSf7r0zy7YW2dQ8xxWVppmtA=;
-	b=KPEE6mnE+SLJADJoDHB1caUL7MPh5cRiHeL25sUVbp/ZPOVni43U+hHx6ouFTGez2cVaNs
-	mowKnZcPOmCXM1NrU9Oaa+tvWs7piPSK0GqJrDEayQcKU1I78WFYMX8e4HIUgyw8gd5KpA
-	8tXdYJxDPQed2VB93pWViAUJx7W3smc=
+	bh=CZ12ejeYl100/U4BG3/nBetZC8aAp4eDcs4J6fKaeyE=;
+	b=T0qygjsMOKjLyKNyCZ7nEvVdcVrjW7X2RerAN2s0p2WyQncuZb2gI19AN3xTnHNcMc+v8A
+	l0Z7DWiCDsXPHse+DxMfW1JTEWi01M+h2/N41Ktqmm7IMr0HSRlhS0oSLIB5LbPtiO7Ovm
+	4hN6JB/GUDo1Hu3z41yC3c0JrA9T94A=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-437-OwON5N0hMUSEVPbE0n5XZw-1; Mon, 23 Jan 2023 07:52:31 -0500
-X-MC-Unique: OwON5N0hMUSEVPbE0n5XZw-1
+ us-mta-329-5w0J3MQGPPuXMH3r-F2eWw-1; Mon, 23 Jan 2023 07:52:28 -0500
+X-MC-Unique: 5w0J3MQGPPuXMH3r-F2eWw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95A49858F09;
-	Mon, 23 Jan 2023 12:52:30 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.13])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 095FCC15BAD;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D557811E6E;
 	Mon, 23 Jan 2023 12:52:27 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.194.13])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 10C5BC15BA0;
+	Mon, 23 Jan 2023 12:52:24 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 07/57] media: atomisp: Remove useless msleep(10) before power-on on BYT
-Date: Mon, 23 Jan 2023 13:51:15 +0100
-Message-Id: <20230123125205.622152-8-hdegoede@redhat.com>
+Subject: [PATCH 06/57] media: atomisp: Remove non working doorbell check from punit_ddr_dvfs_enable()
+Date: Mon, 23 Jan 2023 13:51:14 +0100
+Message-Id: <20230123125205.622152-7-hdegoede@redhat.com>
 In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,46 +52,73 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 
-On BYT on poweron/runtime-resume the code is doing:
+punit_ddr_dvfs_enable() is only used on CHT devices and there dmesg
+gets filled with: "DDR DVFS, door bell is not cleared within 3ms"
+messages, so clearly the doorbell checking is not working.
 
-1. Do nothing
-2. msleep(10)
-3. Start actual poweron sequence
+This check was added by:
+https://github.com/intel/ProductionKernelQuilts/blob/master/uefi/cht-m1stable/patches/cam-0340-atomisp-add-door-bell-for-ddr-dvfs-on-cht.patch
 
-Since the runtime resume can happen at any moment, waiting 10ms
-after it does not really make any sense.
+Which commit message says: "PUNIT interface added to check Req_ACK
+of freq status". This suggests that the doorbell mechanism may only
+be available with certain PUNIT fw versions and it seems that
+many CHT devices do not have this fw version; that or the doorbell
+mechanism is not working for other reasons.
 
-According to both the comment and to:
-https://github.com/intel/ProductionKernelQuilts/blob/master/uefi/cht-m1stable/patches/cam-0341-atomisp-WA-sleep-10ms-when-power-up-ISP-on-byt.patch
-
-Which is the patch which originally added this this was added
-as a workaround for a single test failing on a single model
-tablet/laptop. So lets just drop this.
+Revert cam-0340-atomisp-add-door-bell-for-ddr-dvfs-on-cht.patch,
+replacing the doorbell check with a msleep(20) this fixes dmesg
+getting filled with error messages.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 8 --------
- 1 file changed, 8 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_v4l2.c    | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 9eea8ffbc3d6..aa05c69a5c6b 100644
+index e994a4a5284e..9eea8ffbc3d6 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -665,14 +665,6 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
- 		msleep(20);
- 	}
+@@ -638,27 +638,16 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+ */
+ static void punit_ddr_dvfs_enable(bool enable)
+ {
+-	int door_bell = 1 << 8;
+-	int max_wait = 30;
+ 	int reg;
  
--	/*
--	 * FIXME:WA for ECS28A, with this sleep, CTS
--	 * android.hardware.camera2.cts.CameraDeviceTest#testCameraDeviceAbort
--	 * PASS, no impact on other platforms
--	 */
--	if (IS_BYT && enable)
--		msleep(10);
+ 	iosf_mbi_read(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSDVFS, &reg);
+ 	if (enable) {
+ 		reg &= ~(MRFLD_BIT0 | MRFLD_BIT1);
+ 	} else {
+-		reg |= (MRFLD_BIT1 | door_bell);
++		reg |= MRFLD_BIT1;
+ 		reg &= ~(MRFLD_BIT0);
+ 	}
+ 	iosf_mbi_write(BT_MBI_UNIT_PMC, MBI_REG_WRITE, MRFLD_ISPSSDVFS, reg);
 -
- 	/* Write to ISPSSPM0 bit[1:0] to power on/off the IUNIT */
- 	iosf_mbi_modify(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSPM0,
- 			val, MRFLD_ISPSSPM0_ISPSSC_MASK);
+-	/* Check Req_ACK to see freq status, wait until door_bell is cleared */
+-	while ((reg & door_bell) && max_wait--) {
+-		iosf_mbi_read(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSDVFS, &reg);
+-		usleep_range(100, 500);
+-	}
+-
+-	if (max_wait == -1)
+-		pr_info("DDR DVFS, door bell is not cleared within 3ms\n");
+ }
+ 
+ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+@@ -671,8 +660,10 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ 	dev_dbg(isp->dev, "IUNIT power-%s.\n", enable ? "on" : "off");
+ 
+ 	/* WA for P-Unit, if DVFS enabled, ISP timeout observed */
+-	if (IS_CHT && enable)
++	if (IS_CHT && enable) {
+ 		punit_ddr_dvfs_enable(false);
++		msleep(20);
++	}
+ 
+ 	/*
+ 	 * FIXME:WA for ECS28A, with this sleep, CTS
 -- 
 2.39.0
 
