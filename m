@@ -1,96 +1,144 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32193224
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 16:54:34 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F371D2D9;
-	Mon, 23 Jan 2023 17:54:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1674492867;
-	bh=DEIsYAdzjE5R62Z2EIoklE1UuDpML7s7ZziMIR2i0Tk=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=spZCZjqgWsIrZZ8DCDJgVSoz+o5bHQbhdEJSHZdi17ndQeSv68aJl8jFYraY+0U7c
-	 XVqRgFVcSs5MHwsvLK+bYyj48Fa8GqvjJ0E6JOTmz/NGIBmUdIxkkSmjkeYuhgcmjF
-	 PqFDkWYDXv199SXuQapuKlzksaPPh5dMS/wBqxHs=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4A03224
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 17:28:59 +0000 (UTC)
+Received: from [192.168.1.141] ([37.4.248.41]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1McpW8-1ok7ZX04pO-00ZuiV; Mon, 23 Jan 2023 18:28:37 +0100
+Message-ID: <53a8f159-22ab-b280-17b2-b80f59256342@i2se.com>
+Date: Mon, 23 Jan 2023 18:28:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <d4867882-4eff-e926-e1eb-3217e608f091@i2se.com>
-References: <20230118115810.21979-1-umang.jain@ideasonboard.com> <d5363f85-44e1-eee1-f7a5-61102637ef53@i2se.com> <167440481093.3533645.5465896340839457121@Monstersaurus> <d4867882-4eff-e926-e1eb-3217e608f091@i2se.com>
-Subject: Re: [RFC PATCH 0/4] Drop custom logging
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-arm-kernel@lists.infradead.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-media@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>, Umang Jain <umang.jain@ideasonboard.com>
-Date: Mon, 23 Jan 2023 16:54:24 +0000
-Message-ID: <167449286433.135671.17893045578331831111@Monstersaurus>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Adrien Thierry
+ <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>
+References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+ <786df750-221e-82fc-a324-d30261296974@i2se.com>
+ <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:7nTGGc5lX0c+L6/nAxWYVWYD4u9G64oQU2WhKE98wTjP7dTDi7r
+ kdmhtVJ8fB1A9KCpRupZP2fS4gelboHYpq4Ckzs98JDMHgyfTjWgNkNjACSKq6vZl6sptAz
+ +IcH0T3VrsIsyXNTwM+dmjTg1C/NazaD1N4uBQSnT0pTTWRWIxdWq/DhKMnHQcNvYwCFxzU
+ HlkFXi2OHCgZAt4quBAsQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:EVGuaTAFbUA=;KFEjkEtKNrpv8H13g0IwuLkXzUN
+ NaficCkLufcSy63olrRh2X6wo12VDYIls42pH0dnIlbXgyW/yz3vq+M78+rG/fXc6U1HrtLb9
+ i0huFGuCKngc9MQUyd42vZEMfKWkvchLE9BBDom1iPnEmYR+nMg5mjk7BGRhrF1Phvd8h1uh3
+ LhNgW0eMaYp0WSsFsCeKFdga4HEwRD/8itxAmvTe9CYn22ZkgGNeNrXe0/Tfee2VRZhQBoXL4
+ RFFbx9Smw6Oo91baDDnsdVG5EZq5ZmdUDFith/deIzQdXUIaxXPZdveD+bqYDKYioe8kI+YNu
+ zfWdviQPZc3jCEbuX8vdVaoYB/+Iiu+mHU1fr48wkLSl+V5+gBCHGCcs0uhiO9rWBa6m3QA71
+ ocsuUh5NSXf4gxcIPDzTC/0Ma47/r2hKqszMU/a5r14UtLkvbMaEXN95qgKSGLbYUEII4of2R
+ rJUDAKkCW8bzCnBKv7/JsMJ/Bi9y95hPl9q65ev84Q8Oj4V8EFVZ6YyA3vVRB5VpxJEi317v4
+ Xt9eW3hU7ow6djMr+4gyKTbsXtxKbndMh3phuCO4PPuGpf0P3zI3oXjdBF1WlLyxMDbfndfbR
+ G7IQ5MVI62vZra6wajKiWVhrtw6c9/TcTHCioGCEg2WgfXl+0WY+b9UVaOSHF3l9fv4OQy8vW
+ zWhnum4nmbNijxX+88SzQLPurJnU6LyuxFlNmaZ0JA==
 
-Hi Stefan,
+Hi Umang,
 
-Quoting Stefan Wahren (2023-01-22 18:07:03)
-> Hi Kieran,
->=20
-> Am 22.01.23 um 17:26 schrieb Kieran Bingham:
-> > Hi Stefan,
-> >
-> > Quoting Stefan Wahren (2023-01-22 14:21:05)
-> >> Hi Umang,
-> >>
-> >> Am 18.01.23 um 12:58 schrieb Umang Jain:
-> >>> Drop custom logging from the vchiq interface.
-> >>> Mostly of them are replaced with dev_dbg and friends
-> >>> and/or pr_info and friends.
-> >>>
-> >>> The debugfs log levels (in 4/4) are mapped to kernel
-> >>> logs levels (coming from include/linux/kern_levels.h)
-> >>> Would like some thoughts on it as I am not sure (hence
-> >>> marking this is RFC)
-> >>>
-> >>>   From drivers/staging/vc04_services/interface/TODO:
-> >>>
-> >>> """
-> >>> * Cleanup logging mechanism
-> >>>
-> >>> The driver should probably be using the standard kernel logging mecha=
-nisms
-> >>> such as dev_info, dev_dbg, and friends.
-> >>> """
-> >> at first i want to thank you for the work on vchiq so far.
-> >>
-> >> There is something which is not directly related to this series, but it
-> >> is also about debugging. The driver has a buffer which is accessed by
-> >> it's own DEBUG_* macros. The content of this debug buffer can be dumped
-> >> via the /dev/vchiq which is also used by ioctl. I would appreciate to
-> >> move this dump feature into a new debugfs entry.
-> > Do you have a full list of the tasks you'd like to see completed ?
-> > (including/or above drivers/staging/vc04_services/interface/TODO)
->=20
-> i consider every point except of point 1 (importing new drivers) as=20
-> necessary to leave staging.
-
-Thanks
-
-> Additionally there is the additional point (i can add them to the TODO)=20
-> above. Unfortunately i don't have a complete insight, how vchiq should=20
-> be to be acceptable. Sorry, if i can't help you further with possible=20
-> resource planning.
->=20
-> Are some points on the TODO list unclear?
-
-I believe the list is fine, but I was enquiring if there were anymore
-additional tasks above the scope listed in
-drivers/staging/vc04_services/interface/TODO which are required. I don't
-think you need to send a patch for the task above - unless there are a
-lot more tasks required, or it becomes too much to do now.
-
-The goal is to get the ISP upstream to support libcamera, and it would
-help to know how deep the rabbit hole really is ;-)
-
---
-Kieran
+Am 23.01.23 um 08:48 schrieb Umang Jain:
+> Hi Stefan,
+>
+> Thank for the testing.
+>
+> On 1/23/23 5:04 AM, Stefan Wahren wrote:
+>> Hi Umang,
+>>
+>> Am 20.01.23 um 21:10 schrieb Umang Jain:
+>>> This series just introduces five extra patches for dropping include
+>>> directives from Makefiles (suggested by Greg KH) and rebased.
+>>>
+>>> The main patch (6/6) removes platform device/driver abuse and moves
+>>> things to standard device/driver model using a custom_bus. Specific
+>>> details are elaborated in the commit message.
+>>>
+>>> The patch series is based on top of d514392f17fd (tag: next-20230120)
+>>> of linux-next.
+>>
+>> applied this series on top of linux-next and build it with 
+>> arm/multi_v7_defconfig plus the following:
+>>
+>> CONFIG_BCM_VIDEOCORE=y
+>> CONFIG_BCM2835_VCHIQ=m
+>> CONFIG_VCHIQ_CDEV=y
+>> CONFIG_SND_BCM2835=m
+>> CONFIG_VIDEO_BCM2835=m
+>> CONFIG_BCM2835_VCHIQ_MMAL=m
+>>
+>> and the devices doesn't register on Raspberry Pi 3 B Plus:
+>>
+>> [   25.523337] vchiq: module is from the staging directory, the 
+>> quality is unknown, you have been warned.
+>> [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+>> bcm2835_audio vchiq device
+>> [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
+>> bcm2835-camera vchiq device
+>
+> I was able to reproduce and it seems the issue here is the change 
+> mentioned in the cover
+>
+> - drop dma_set_mask_and_coherent
+>
+> in V6.
+>
+> (I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp 
+> applied so my branch has the DMA hunk included while I was testing V6)
+>
+> Below is the hunk which should resolve the issue.
+>
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> @@ -6,6 +6,7 @@
+>   */
+>
+>  #include <linux/device/bus.h>
+> +#include <linux/dma-mapping.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>
+> @@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent, 
+> const char *name)
+>         device->dev.type = &vchiq_device_type;
+>         device->dev.release = vchiq_device_release;
+>
+> +       ret = dma_set_mask_and_coherent(&device->dev, DMA_BIT_MASK(32));
+> +       if (ret < 0) {
+> +               vchiq_device_release(&device->dev);
+> +               return ret;
+> +       }
+> +
+>         ret = device_register(&device->dev);
+>         if (ret) {
+>                 put_device(&device->dev);
+Yes, this patch fixes the errors above. But i noticed that the series 
+also break autoprobing of bcm2835-audio and bcm2835-camera.
+>
+> It seems we need to include the dma_set_mask_and_coherent() even if 
+> bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look 
+> into why is that/
+>
+>  Laurent, any thoughts on this please?
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
