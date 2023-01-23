@@ -1,51 +1,59 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1208A2F2E
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:55:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674478503;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16MnBMk2IU1/t2ec244aWVhCzqiNnyAcC3F8mtqfB38=;
-	b=Cq/O8uceICOs9KP1BXt3HK3Y9x8OJnPs3zfRFbYHVeFriC9hRy7bv1ppvjMyIZUcKrNKGf
-	7HV8T8hhyQqNleXDDlVXU+9Uu2239cym0RJBINwxiK0Gzb+Y+dsu1W2gwinuKa8id9cfMZ
-	uP45HvvytpLPFuahkEu1nNuNFudCDxw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-386-sXXPwZ77MW6y-vZjVmJkNg-1; Mon, 23 Jan 2023 07:54:59 -0500
-X-MC-Unique: sXXPwZ77MW6y-vZjVmJkNg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F9471C07540;
-	Mon, 23 Jan 2023 12:54:59 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.13])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 00C62C15BA0;
-	Mon, 23 Jan 2023 12:54:55 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317152F49
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 13:31:20 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id j17so9049423wms.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 05:31:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IiQpuXpBb4cBOqCMVo/w9+06S5nTuiyPXun0t7GmDww=;
+        b=NVK//NF+MovBPm0sYrlCXYaPcNA6vLY38zW+/h3NHzA6cTR+clA2pTzSaa0eB//Lfr
+         g+3wN42AqhsFLlUMyBzD6JxHcLfBNgYwDbTzvwGY4YFTE3HUUsc/fk7ETR56/SirG2QL
+         sKwabKDl89npx3nJYFBb2puRkwZAl3tDD/b0Ukqs/j7MbwPWJ2XxvwA6M8KK0bGqr1pY
+         bC9T4VN+R1b22TegF+q1maCF1LLfsX60d92+Go7aVizwUYZASA6CNDVNiz8vlq3TeAPl
+         9pK6gXWsLJA5vd/8nPQWf6OAn3EyYy5mwFjHiALVbdro2fT7SjXnMpEydhzJNtOzTr8R
+         gk8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IiQpuXpBb4cBOqCMVo/w9+06S5nTuiyPXun0t7GmDww=;
+        b=2+fINLXmSJDnqZBgrw8MHugEZ7Cd21sz8F2RHJtH0z+3hMl5K5KUFVs5GWeBM3Qp7Y
+         dKqQJsBP+rh4DMKCTRvuaOt6QZwl+bRCzdmYJ7DDxaXl84VKvKWT7KlsOoom5qLR527M
+         o1KJzuIGckPs+pgyPAKp6OYXhV0LYv39hR78hI+Yv7D01EWByQfcGwTHq9UvCWvhrqNu
+         uZajOmF+TxDNznN/v1WnkkRCoWlcSIqsa4h3Ul/P7hmQUAGUpI3n2Mt+BrkrZpgpf1/C
+         i3qf6Zi3WsOhQAeV3y2fabLuRn49/42qsqH8JSgbaYmE+hpibipOjsOVHs02fEqD6Aaq
+         83BA==
+X-Gm-Message-State: AFqh2kqPGEzAXdsxnG9Xb2HxodXTYiU29tBrGcapyN5IDex+6Dq9KUlk
+	aCh0S2XtD9cFMX+FxkrmEnY=
+X-Google-Smtp-Source: AMrXdXvI5gYLj1NVCeuWSquycOAxs42i3j7nSK8uG5+v84VTM6E2hQJuJhbaAb1h+jgfeeiba/O4Lw==
+X-Received: by 2002:a05:600c:5d1:b0:3d0:761b:f86 with SMTP id p17-20020a05600c05d100b003d0761b0f86mr24205469wmd.28.1674480678338;
+        Mon, 23 Jan 2023 05:31:18 -0800 (PST)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id d28-20020adfa41c000000b00286ad197346sm4199253wra.70.2023.01.23.05.31.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 05:31:17 -0800 (PST)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
 	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	Brent Pappas <bpappas@pappasbrent.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Dan Carpenter <error27@gmail.com>
-Subject: [PATCH 57/57] media: atomisp: pci: sh_css: Inline single invocation of macro STATS_ENABLED()
-Date: Mon, 23 Jan 2023 13:52:05 +0100
-Message-Id: <20230123125205.622152-58-hdegoede@redhat.com>
-In-Reply-To: <20230123125205.622152-1-hdegoede@redhat.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Christian Hewitt <christianshewitt@gmail.com>
+Subject: [PATCH 0/2] media: meson: vdec: add HEVC decode codec
+Date: Mon, 23 Jan 2023 13:31:11 +0000
+Message-Id: <20230123133113.3254659-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,49 +61,51 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 
-From: Brent Pappas <bpappas@pappasbrent.com>
+This mini-series adds support for HEVC decoding. It combines the original codec
+work done by Maxime Jourdan in 2019 [0] and improvements by Benjamin Roszak in
+2021 [1]. Only GXBB/GXL/GXM are enabled as decoding currently crashes on G12A
+and later SoCs when trying to decode a 10-bit HEVC stream.
 
-Inline the single invocation of the macro STATS_ENABLED().
-The macro abstraction is not necessary because the logic behind it is only
-used once.
+The goal of upstreaming the driver in its current state is to encourage greater
+community contribution towards adding missing features, and fixing the bugs and
+conformance issues necessary to get out of staging.
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Dan Carpenter <error27@gmail.com>
-Link: https://lore.kernel.org/r/20230120171408.16099-1-bpappas@pappasbrent.com
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/staging/media/atomisp/pci/sh_css.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+The HEVC codec presented here is generally partnered with FFMpeg sources that
+are being maintained by the Raspberry Pi Foundation [2] and [3] that contain
+numerous improvements to v4l2_m2m (and v4l2_request) support. There is active
+work in progress to refine the changeset and send it upstream.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 726cb7aa4ecd..93789500416f 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -97,9 +97,6 @@
-  */
- #define JPEG_BYTES (16 * 1024 * 1024)
- 
--#define STATS_ENABLED(stage) (stage && stage->binary && stage->binary->info && \
--	(stage->binary->info->sp.enable.s3a || stage->binary->info->sp.enable.dis))
--
- struct sh_css my_css;
- 
- int  __printf(1, 0) (*sh_css_printf)(const char *fmt, va_list args) = NULL;
-@@ -3743,7 +3740,9 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
- 			 * The SP will read the params after it got
- 			 * empty 3a and dis
- 			 */
--			if (STATS_ENABLED(stage)) {
-+			if (stage->binary && stage->binary->info &&
-+			    (stage->binary->info->sp.enable.s3a ||
-+			     stage->binary->info->sp.enable.dis)) {
- 				/* there is a stage that needs it */
- 				return_err = ia_css_bufq_enqueue_buffer(thread_id,
- 									queue_id,
+Christian
+
+[0] https://github.com/Elyotna/linux/commits/4.20/v4l2-m2m-pr
+[1] https://gitlab.com/benjamin545/linux-amlogic/-/commits/aml-hevc
+[2] https://github.com/jc-kynesim/rpi-ffmpeg/commits/release/4.4/rpi_import_1
+[3] https://github.com/jc-kynesim/rpi-ffmpeg/tree/dev/5.1.2/rpi_import_1
+
+Benjamin Roszak (1):
+  media: meson: vdec: implement 10bit bitstream handling
+
+Maxime Jourdan (1):
+  media: meson: vdec: add HEVC decode codec
+
+ drivers/staging/media/meson/vdec/Makefile     |    2 +-
+ drivers/staging/media/meson/vdec/codec_h264.c |    3 +-
+ drivers/staging/media/meson/vdec/codec_hevc.c | 1463 +++++++++++++++++
+ drivers/staging/media/meson/vdec/codec_hevc.h |   13 +
+ .../media/meson/vdec/codec_hevc_common.c      |  161 +-
+ .../media/meson/vdec/codec_hevc_common.h      |    3 +-
+ drivers/staging/media/meson/vdec/codec_vp9.c  |   35 +-
+ drivers/staging/media/meson/vdec/esparser.c   |    4 +-
+ drivers/staging/media/meson/vdec/hevc_regs.h  |    1 +
+ drivers/staging/media/meson/vdec/vdec.h       |    1 +
+ .../staging/media/meson/vdec/vdec_helpers.c   |   44 +-
+ .../staging/media/meson/vdec/vdec_helpers.h   |   10 +-
+ .../staging/media/meson/vdec/vdec_platform.c  |   37 +
+ 13 files changed, 1678 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.c
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.h
+
 -- 
-2.39.0
+2.34.1
 
