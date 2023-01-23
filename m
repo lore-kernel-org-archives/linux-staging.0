@@ -1,69 +1,37 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE59EA5;
-	Mon, 23 Jan 2023 15:05:01 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id y25so18589876lfa.9;
-        Mon, 23 Jan 2023 07:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P3rqFJi0wYIMyx4eFEnrANXBYlUWFGjnlOrB4sJY0mc=;
-        b=VSvjd1+J+2hfVE0rK2aWfDA0OVUPFITcaGU/EEk+ovd3PB+LZoSIbLXjg/6O4g0QkX
-         wQSOdPQHW8ShVOvuv6K4ehak+/FUBZ6bBjlKapxHcHQImaA7q7t1gEwYZmwObqGrP/PP
-         CuO1Q1/NA1X4wba91SbkMkbJ02vBgbwFgxkUGAZz0utThM5EFRk4Y/dHFQrqiTC3T8XY
-         pxEaA9cykcbArWN/Q14sLzrf2oqArLVwTmvV0IHeWZXjaXfjdJS++GDWvaf9CtXKja5B
-         /+o8WCQ6Z8OG5i90gfUfiXJhw6rQk2gldlIFYsb4njbrpXyfD3NMkTBxEGrhoTwav/UE
-         HUzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P3rqFJi0wYIMyx4eFEnrANXBYlUWFGjnlOrB4sJY0mc=;
-        b=NmDdM3roc/mO5HHzuPLi8yYNI2mYTeZob1b+hnR/2AfS7mrLWA/Ci23qiG8Nih8f1u
-         7Dsfc7RsuRbFun7KA5Dk7ipSctwuX5EdaKu7iyimdyAkxZ9IrnbpJXkGpRWvEadZxW+8
-         5d9GeN5dldQpaEAwu1odBNvBl4Z+KpbqtAKU0yUhWZXNPT9WpL+Jp80CmyY6nwRD/A2P
-         /d/YkfZiVuYj2THGME54Pto2uLAuAMRQCsu9Ydvb0PrGqfOW22aEKUJvK3RpHfeKamdo
-         hP9fR65UXn54lTYU0bOEiZghDGCVE1fWHAaHaw7RpuKdbwXow2ZrUfS3qg0zc71wZsdf
-         5+qQ==
-X-Gm-Message-State: AFqh2krhAX5XAZ3KF8unzNNalhK1yUuaOpKzKaRiszICJn1SHwLyOOM4
-	otlEl0iAh38/FhCCml5wupM=
-X-Google-Smtp-Source: AMrXdXuHnINfpXEMI/5P6IHfO27xMrOaiT1cQnmYVDzQ2npYaq/u8eUakJKoBBnDu0eFJD/hs2QaqA==
-X-Received: by 2002:a05:6512:340a:b0:4d2:551e:3838 with SMTP id i10-20020a056512340a00b004d2551e3838mr7464162lfr.29.1674486299330;
-        Mon, 23 Jan 2023 07:04:59 -0800 (PST)
-Received: from mobilestation ([95.79.133.202])
-        by smtp.gmail.com with ESMTPSA id b8-20020a0565120b8800b004d593f218absm1011508lfv.108.2023.01.23.07.04.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 07:04:58 -0800 (PST)
-Date: Mon, 23 Jan 2023 18:04:56 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: broonie@kernel.org, miquel.raynal@bootlin.com, linus.walleij@linaro.org,
-	krzysztof.kozlowski@linaro.org, vireshk@kernel.org,
-	gregkh@linuxfoundation.org, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-	kernel@pengutronix.de, linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
-	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2D363B3
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 15:30:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="388416623"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="388416623"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 07:30:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="693941400"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="693941400"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP; 23 Jan 2023 07:30:07 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andy@kernel.org>)
+	id 1pJylq-00Dnkq-0E;
+	Mon, 23 Jan 2023 17:30:06 +0200
+Date: Mon, 23 Jan 2023 17:30:05 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-Message-ID: <20230123145953.ytaaq3x4tetgepyf@mobilestation>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+Subject: Re: [PATCH 15/57] media: atomisp: Drop atomisp_init_pipe()
+Message-ID: <Y86n/Wz5Ed45Ve1d@smile.fi.intel.com>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-16-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,69 +40,213 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+In-Reply-To: <20230123125205.622152-16-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Jan 20, 2023 at 12:23:31AM +0530, Amit Kumar Mahapatra wrote:
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+On Mon, Jan 23, 2023 at 01:51:23PM +0100, Hans de Goede wrote:
+> atomisp_init_pipe() does 3 things:
 > 
-> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+> 1. Init a bunch of list-heads / locks
+> 2. Init the vb_queue for the videodev (aka pipe)
+> 3. zero the per-frame parameters related variables of the pipe
+> 
+> 1. and 2. really should not be done at file-open time, but once at probe.
+> Currently the code is getting away with doing this on every videodev-open
+> because only 1 open is allowed at a time.
+> 
+> 1. is already done at probe time by atomisp_init_subdev_pipe(), move 2. to
+> atomisp_init_subdev_pipe() so that it is also done once at probe.
+> 
+> As for 3. The per-frame parameters can only be set from a qbuf ioctl,
+> which can only happen after a reqbufs ioctl and atomisp_buf_cleanup
+> already zeros the per-frame parameters when the buffers are released,
+> so 3. is not necessary at all.
+
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
+
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
-
-[nip]
-
->  drivers/spi/spi-dw-core.c         |  2 +-
->  drivers/spi/spi-dw-mmio.c         |  4 ++--
-
-[nip]
-
-> diff --git a/drivers/spi/spi-dw-core.c b/drivers/spi/spi-dw-core.c
-> index 99edddf9958b..4fd1aa800cc3 100644
-> --- a/drivers/spi/spi-dw-core.c
-> +++ b/drivers/spi/spi-dw-core.c
-> @@ -103,7 +103,7 @@ void dw_spi_set_cs(struct spi_device *spi, bool enable)
->  	 * support active-high or active-low CS level.
->  	 */
->  	if (cs_high == enable)
-> -		dw_writel(dws, DW_SPI_SER, BIT(spi->chip_select));
-> +		dw_writel(dws, DW_SPI_SER, BIT(spi_get_chipselect(spi, 0)));
->  	else
->  		dw_writel(dws, DW_SPI_SER, 0);
+>  .../staging/media/atomisp/pci/atomisp_fops.c  | 40 +--------------
+>  .../staging/media/atomisp/pci/atomisp_fops.h  |  1 +
+>  .../media/atomisp/pci/atomisp_subdev.c        | 49 +++++++++++++++----
+>  3 files changed, 41 insertions(+), 49 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> index 036ad339b344..7f4934ff9cab 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> @@ -624,7 +624,7 @@ static void atomisp_buf_cleanup(struct vb2_buffer *vb)
+>  	hmm_free(frame->data);
 >  }
-> diff --git a/drivers/spi/spi-dw-mmio.c b/drivers/spi/spi-dw-mmio.c
-> index 26c40ea6dd12..d511da766ce8 100644
-> --- a/drivers/spi/spi-dw-mmio.c
-> +++ b/drivers/spi/spi-dw-mmio.c
-> @@ -65,7 +65,7 @@ static void dw_spi_mscc_set_cs(struct spi_device *spi, bool enable)
->  	struct dw_spi *dws = spi_master_get_devdata(spi->master);
->  	struct dw_spi_mmio *dwsmmio = container_of(dws, struct dw_spi_mmio, dws);
->  	struct dw_spi_mscc *dwsmscc = dwsmmio->priv;
-> -	u32 cs = spi->chip_select;
-> +	u32 cs = spi_get_chipselect(spi, 0);
 >  
->  	if (cs < 4) {
->  		u32 sw_mode = MSCC_SPI_MST_SW_MODE_SW_PIN_CTRL_MODE;
-> @@ -138,7 +138,7 @@ static void dw_spi_sparx5_set_cs(struct spi_device *spi, bool enable)
->  	struct dw_spi *dws = spi_master_get_devdata(spi->master);
->  	struct dw_spi_mmio *dwsmmio = container_of(dws, struct dw_spi_mmio, dws);
->  	struct dw_spi_mscc *dwsmscc = dwsmmio->priv;
-> -	u8 cs = spi->chip_select;
-> +	u8 cs = spi_get_chipselect(spi, 0);
+> -static const struct vb2_ops atomisp_vb2_ops = {
+> +const struct vb2_ops atomisp_vb2_ops = {
+>  	.queue_setup		= atomisp_queue_setup,
+>  	.buf_init		= atomisp_buf_init,
+>  	.buf_cleanup		= atomisp_buf_cleanup,
+> @@ -633,40 +633,6 @@ static const struct vb2_ops atomisp_vb2_ops = {
+>  	.stop_streaming		= atomisp_stop_streaming,
+>  };
 >  
->  	if (!enable) {
->  		/* CS override drive enable */
+> -static int atomisp_init_pipe(struct atomisp_video_pipe *pipe)
+> -{
+> -	int ret;
+> -
+> -	/* init locks */
+> -	spin_lock_init(&pipe->irq_lock);
+> -	mutex_init(&pipe->vb_queue_mutex);
+> -
+> -	/* Init videobuf2 queue structure */
+> -	pipe->vb_queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> -	pipe->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR;
+> -	pipe->vb_queue.buf_struct_size = sizeof(struct ia_css_frame);
+> -	pipe->vb_queue.ops = &atomisp_vb2_ops;
+> -	pipe->vb_queue.mem_ops = &vb2_vmalloc_memops;
+> -	pipe->vb_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -	ret = vb2_queue_init(&pipe->vb_queue);
+> -	if (ret)
+> -		return ret;
+> -
+> -	pipe->vdev.queue = &pipe->vb_queue;
+> -	pipe->vdev.queue->lock = &pipe->vb_queue_mutex;
+> -
+> -	INIT_LIST_HEAD(&pipe->activeq);
+> -	INIT_LIST_HEAD(&pipe->buffers_waiting_for_param);
+> -	INIT_LIST_HEAD(&pipe->per_frame_params);
+> -	memset(pipe->frame_request_config_id, 0,
+> -	       VIDEO_MAX_FRAME * sizeof(unsigned int));
+> -	memset(pipe->frame_params, 0,
+> -	       VIDEO_MAX_FRAME *
+> -	       sizeof(struct atomisp_css_params_with_list *));
+> -
+> -	return 0;
+> -}
+> -
+>  static void atomisp_dev_init_struct(struct atomisp_device *isp)
+>  {
+>  	unsigned int i;
+> @@ -773,10 +739,6 @@ static int atomisp_open(struct file *file)
+>  		return -EBUSY;
+>  	}
+>  
+> -	ret = atomisp_init_pipe(pipe);
+> -	if (ret)
+> -		goto error;
+> -
+>  	if (atomisp_dev_users(isp)) {
+>  		dev_dbg(isp->dev, "skip init isp in open\n");
+>  		goto init_subdev;
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.h b/drivers/staging/media/atomisp/pci/atomisp_fops.h
+> index 2efc5245e571..883c1851c1c9 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.h
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.h
+> @@ -31,6 +31,7 @@ unsigned int atomisp_sub_dev_users(struct atomisp_sub_device *asd);
+>  
+>  int atomisp_qbuffers_to_css(struct atomisp_sub_device *asd);
+>  
+> +extern const struct vb2_ops atomisp_vb2_ops;
+>  extern const struct v4l2_file_operations atomisp_fops;
+>  
+>  #endif /* __ATOMISP_FOPS_H__ */
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> index fc9e07bf63ae..c32db4ffb778 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+> @@ -25,9 +25,11 @@
+>  
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-mediabus.h>
+> +#include <media/videobuf2-vmalloc.h>
+>  #include "atomisp_cmd.h"
+>  #include "atomisp_common.h"
+>  #include "atomisp_compat.h"
+> +#include "atomisp_fops.h"
+>  #include "atomisp_internal.h"
+>  
+>  const struct atomisp_in_fmt_conv atomisp_in_fmt_conv[] = {
+> @@ -1023,14 +1025,31 @@ static const struct v4l2_ctrl_config ctrl_depth_mode = {
+>  	.def = 0,
+>  };
+>  
+> -static void atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
+> -				     struct atomisp_video_pipe *pipe, enum v4l2_buf_type buf_type)
+> +static int atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
+> +				    struct atomisp_video_pipe *pipe, enum v4l2_buf_type buf_type)
+>  {
+> +	int ret;
+> +
+>  	pipe->type = buf_type;
+>  	pipe->asd = asd;
+>  	pipe->isp = asd->isp;
+>  	spin_lock_init(&pipe->irq_lock);
+>  	mutex_init(&pipe->vb_queue_mutex);
+> +
+> +	/* Init videobuf2 queue structure */
+> +	pipe->vb_queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +	pipe->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR;
+> +	pipe->vb_queue.buf_struct_size = sizeof(struct ia_css_frame);
+> +	pipe->vb_queue.ops = &atomisp_vb2_ops;
+> +	pipe->vb_queue.mem_ops = &vb2_vmalloc_memops;
+> +	pipe->vb_queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +	ret = vb2_queue_init(&pipe->vb_queue);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pipe->vdev.queue = &pipe->vb_queue;
+> +	pipe->vdev.queue->lock = &pipe->vb_queue_mutex;
+> +
+>  	INIT_LIST_HEAD(&pipe->buffers_in_css);
+>  	INIT_LIST_HEAD(&pipe->activeq);
+>  	INIT_LIST_HEAD(&pipe->buffers_waiting_for_param);
+> @@ -1040,6 +1059,8 @@ static void atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
+>  	memset(pipe->frame_params,
+>  	       0, VIDEO_MAX_FRAME *
+>  	       sizeof(struct atomisp_css_params_with_list *));
+> +
+> +	return 0;
+>  }
+>  
+>  /*
+> @@ -1085,17 +1106,25 @@ static int isp_subdev_init_entities(struct atomisp_sub_device *asd)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	atomisp_init_subdev_pipe(asd, &asd->video_out_preview,
+> -				 V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_preview,
+> +				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	if (ret)
+> +		return ret;
+>  
+> -	atomisp_init_subdev_pipe(asd, &asd->video_out_vf,
+> -				 V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_vf,
+> +				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	if (ret)
+> +		return ret;
+>  
+> -	atomisp_init_subdev_pipe(asd, &asd->video_out_capture,
+> -				 V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_capture,
+> +				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	if (ret)
+> +		return ret;
+>  
+> -	atomisp_init_subdev_pipe(asd, &asd->video_out_video_capture,
+> -				 V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_video_capture,
+> +				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
+> +	if (ret)
+> +		return ret;
+>  
+>  	ret = atomisp_video_init(&asd->video_out_capture, "CAPTURE",
+>  				 ATOMISP_RUN_MODE_STILL_CAPTURE);
+> -- 
+> 2.39.0
+> 
 
-For the DW SSI part:
-Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+-- 
+With Best Regards,
+Andy Shevchenko
 
--Serge(y)
 
-[nip]
