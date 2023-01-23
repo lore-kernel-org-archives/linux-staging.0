@@ -1,55 +1,53 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D747C
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:04:48 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id q5so5915513wrv.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 04:04:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176017C
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 12:04:53 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id l41-20020a05600c1d2900b003daf986faaeso8377363wms.3
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 04:04:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fISD/Oh7f7rfwyoXhffv2IBzPjVxst2oLjHNZ3zqbvY=;
-        b=bsFNkkE+AmRGZwOFLU6vo4nHH5vaJSggAKfQcACTiS5z2nThSUcvIrBIT1uyFfegFC
-         WPH0TXiUX8QgReBUgV9DiVo82Xz4GyOh9UxFUEIqqXOM1U+dw/yqsrLdsWUJ3D2tlT7P
-         JgU5ITbcs7zgJntXJ1dXmlInsCvq7C1hOOzxmGrUspNtr5IM7enrSCIPpbALknQ9I67n
-         e1IZ68nh/VCpH6N9f6CE9ZCh/VWEX/0W46FxEWy1/a3vGAFJ30sW3Um5AAHx8+FXNsGd
-         03p1Yq2K9fBIJLeLPcs8Mq3Mn/SIPS14UQRQQnTJDEb4/GGEm730ShDYvHNMsEr/Kq5a
-         4xIw==
+        bh=yEW+4BVZ5ANLLKSU6/pPWr+45B5glov6svDw8cCDQvI=;
+        b=RmFzJxAPOtZ8+xn00ZferYr7RB5rD7OufL3hGTVRHS4dvw83IRFiZDzmpQsv3UnxLT
+         tEMn+gpS1FdOKiCKS29Hb4mIi1Jnj6s2tMyLhkR866+3W/b+bhKLqlWharvxz6vaZsKU
+         J1re8wH1mLk9y5qZDZ8mIrhRUadvn5z5vFewkRXTaL3inZKPA6JDQGSzewNHvjc70TEh
+         kfP5jJgs8xitNRe8DsT74NXADTULkfkewhGUN62ABEMxMbicAV6whi2hSHj6OWQTOm/9
+         z8f/yKUZwmU8U1luOafA+nCnhICe10Z8dOKf5Rhf5ZXw9WAMOixts8ho05CzL4xUUYpR
+         YBsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fISD/Oh7f7rfwyoXhffv2IBzPjVxst2oLjHNZ3zqbvY=;
-        b=1UoX6TPcWGpWsOnWBdD1Dkijsp7YMJtibwTJOkqtMZBTil8TSP0uTeAzPEyox9/n75
-         xrPAZfYUvMw1d35ku2u0VeKuhOy8J0oQAHFVs2Ra3mT69BQU8v3FfFv4onM2UlqPeQOy
-         dJgQAik55cJOfnmbQyKFzg3WM1KoPItr45zt0CdMGiZhUuchrqgjQ3lP5hUwH/JK0r4f
-         a95cFXQitp8XuHY5dm9JoncF2AlA2HNiwP+Lxegrap/ETlhGfnuQKnxiu/QX52h5KM6y
-         7ia6YhbW0A8iIETGxkJIrEw6fthVvM9qrthyiWFfxER3Q6JU5VN7bgk0QhOSp80JK8VI
-         SkBw==
-X-Gm-Message-State: AFqh2kqYzwBDM6IrQryZ9476zncod+kJg89HKsQcW3j3YX4FFt8qaQ5W
-	/DD1adHFPoHE1NDYUkPxkUc=
-X-Google-Smtp-Source: AMrXdXtz9NS77O/I/Wca40ouoJ07XrkjM28zIcnW0OPop/rjoLw++G0AKR7A6dFxTiVx9ZULIg7VbQ==
-X-Received: by 2002:a5d:4528:0:b0:2bd:f155:a8b0 with SMTP id j8-20020a5d4528000000b002bdf155a8b0mr22056318wra.51.1674475486618;
-        Mon, 23 Jan 2023 04:04:46 -0800 (PST)
+        bh=yEW+4BVZ5ANLLKSU6/pPWr+45B5glov6svDw8cCDQvI=;
+        b=QwVQPSQ2DcRdDjs0Ypmcrm0OzgwoW8ytVAvD1zGG6oqdFCbfDV0FfMW3scvn8ruPBf
+         A71yRPa9IAcb6sbfiVStguj9kSDkqe9v+jXTg6K0Q2m2LGrcyWPtKOoKLgiQzZFIfeBU
+         oyNcezhklYlD3cQobVEZxQ/34+KL4/ZbXA1q1SS4VkX4RjbPvwTXPy15RwkRoQqni+xP
+         o3MtterwC6NLYUGQW8KGYj9Y+ZyIJXEOXuUxuRML0UzpXT2vV32ficihOGKpPT8NJ+ux
+         LKTTc3SW/Lhqtji1ZG0iMdm6TmbZ2AJ4hMHa5u80L5PK9C3wivFY+saH2iA7ft5NbwvI
+         B/tg==
+X-Gm-Message-State: AFqh2kp1cracWd/+M0n+lnFYqgLk+XchQ1pRE4lwsQWkOueqzyUxLSD7
+	eA+OrPkfXVoDR2mdMwoec/w=
+X-Google-Smtp-Source: AMrXdXv5ZMGamm9R3AWrjyhn15xXR3YYflE3NfcWaD+iEm1LJp3aaueWtJibWE7ROr2kFZ2GA1xlyQ==
+X-Received: by 2002:a05:600c:5390:b0:3d9:a145:4d1a with SMTP id hg16-20020a05600c539000b003d9a1454d1amr20516589wmb.34.1674475492382;
+        Mon, 23 Jan 2023 04:04:52 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bu3-20020a056000078300b002be505ab59asm8607749wrb.97.2023.01.23.04.04.45
+        by smtp.gmail.com with ESMTPSA id f14-20020a05600c154e00b003daff80f16esm14511122wmg.27.2023.01.23.04.04.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 04:04:45 -0800 (PST)
-Date: Mon, 23 Jan 2023 15:04:41 +0300
+        Mon, 23 Jan 2023 04:04:51 -0800 (PST)
+Date: Mon, 23 Jan 2023 15:04:48 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Brent Pappas <bpappas@pappasbrent.com>
-Cc: andy.shevchenko@gmail.com, andy@kernel.org, colin.i.king@gmail.com,
-	gregkh@linuxfoundation.org, hdegoede@redhat.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v3] media: atomisp: pci: sh_css: Inline single invocation
- of macro STATS_ENABLED()
-Message-ID: <Y8532S313qKhIme8@kadam>
-References: <Y8lZreSphK6DIkJg@kadam>
- <20230120171408.16099-1-bpappas@pappasbrent.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: wlan-ng: Fix full name of the GPL
+Message-ID: <Y8534H/2JvussfAh@kadam>
+References: <20230122191047.58769-1-didi.debian@cknow.org>
+ <Y84wk+sw/gR7gNW4@kroah.com>
+ <Y85Kkax5+U4AUedT@debian.me>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,24 +56,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230120171408.16099-1-bpappas@pappasbrent.com>
+In-Reply-To: <Y85Kkax5+U4AUedT@debian.me>
 
-On Fri, Jan 20, 2023 at 12:14:08PM -0500, Brent Pappas wrote:
-> Inline the single invocation of the macro STATS_ENABLED().
-> The macro abstraction is not necessary because the logic behind it is only
-> used once.
+On Mon, Jan 23, 2023 at 03:51:29PM +0700, Bagas Sanjaya wrote:
+> On Mon, Jan 23, 2023 at 08:00:35AM +0100, Greg Kroah-Hartman wrote:
+> > - You did not specify a description of why the patch is needed, or
+> >   possibly, any description at all, in the email body.  Please read the
+> >   section entitled "The canonical patch format" in the kernel file,
+> >   Documentation/process/submitting-patches.rst for what is needed in
+> >   order to properly describe the change.
+> > 
 > 
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
-> ---
-> Changelog:
-> V1 -> V2: Inline macro instead of replacing it with a function.
+> Hi Greg,
 > 
-> V2 -> V3: Remove unnecessary check that stage is non-null.
-> 
+> drivers/staging/wlan-ng/hfa384x.h (for example) has already SPDX identifier
+> that matches the verbose copyright notice below it. 
 
-Thanks!
+Resend the patch with a better commit message.
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
 regards,
 dan carpenter
