@@ -1,24 +1,24 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C92C7C
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 12:48:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="305948416"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C367C
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 12:50:46 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="412517349"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="305948416"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 04:47:59 -0800
+   d="scan'208";a="412517349"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 04:50:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="662131747"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="612035726"
 X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="662131747"
+   d="scan'208";a="612035726"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 24 Jan 2023 04:47:57 -0800
+  by orsmga003.jf.intel.com with ESMTP; 24 Jan 2023 04:50:43 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
 	(envelope-from <andy@kernel.org>)
-	id 1pKIiR-00ELMA-0k;
-	Tue, 24 Jan 2023 14:47:55 +0200
-Date: Tue, 24 Jan 2023 14:47:54 +0200
+	id 1pKIl6-00ELPr-33;
+	Tue, 24 Jan 2023 14:50:40 +0200
+Date: Tue, 24 Jan 2023 14:50:40 +0200
 From: Andy Shevchenko <andy@kernel.org>
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -28,12 +28,12 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
 	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y8/Tevwd4AiZ3YmO@smile.fi.intel.com>
+Subject: Re: [PATCH 33/57] media: atomisp: ov2680: Add test pattern control
+Message-ID: <Y8/UIGo3dVA5hysn@smile.fi.intel.com>
 References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y87NchQIfQ3zah+4@smile.fi.intel.com>
- <c5a0df74-d2a0-0795-5185-06582be7f0b6@redhat.com>
+ <20230123125205.622152-34-hdegoede@redhat.com>
+ <Y87WBHnxz7atGdge@smile.fi.intel.com>
+ <ed0aa535-d4c5-5d5a-1964-991cbd1d8d45@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,59 +42,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c5a0df74-d2a0-0795-5185-06582be7f0b6@redhat.com>
+In-Reply-To: <ed0aa535-d4c5-5d5a-1964-991cbd1d8d45@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Jan 24, 2023 at 12:21:50PM +0100, Hans de Goede wrote:
-> On 1/23/23 19:09, Andy Shevchenko wrote:
-> > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
-> >> The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
-> >> ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
-> >> ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
-> >>
-> >> as well as various "atomisp" sensor drivers in drivers/staging, *all*
-> >> use register access helpers with the following function prototypes:
-> >>
-> >> int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
-> >>                     unsigned int len, u32 *val);
-> >>
-> >> int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
-> >>                      unsigned int len, u32 val);
-> >>
-> >> To read/write registers on Omnivision OVxxxx image sensors wich expect
-> >> a 16 bit register address in big-endian format and which have 1-3 byte
-> >> wide registers, in big-endian format (for the higher width registers).
-> >>
-> >> Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> >> versions of these register access helpers, so that this code duplication
-> >> can be removed.
-
-...
-
-> >> +	msgs[1].buf = &data_buf[4 - len];
+On Tue, Jan 24, 2023 at 12:27:55PM +0100, Hans de Goede wrote:
+> On 1/23/23 19:46, Andy Shevchenko wrote:
+> > On Mon, Jan 23, 2023 at 01:51:41PM +0100, Hans de Goede wrote:
+> >> Add a test pattern control. This is a 1:1 copy of the test pattern
+> >> control in the main drivers/media/i2c/ov2680.c driver.
 > > 
-> > This trick I don't like. Can we have like other driver have it, i.e. switch
-> > case for the possible length and explicit usage of the endian conversion
-> > calls?
+> > Hmm... I'm not sure I understand the trend of the changes.
+> > We have two drivers of the same sensor, correct?
+> > So, the idea is to move the AtomISP-specific one to be like
+> > the generic and then kill it eventually?
 > 
-> This new header (which is intended to eventually be used in many other
-> ovXXXX drivers too) is modeled after the reg access helpers
-> in drivers/media/i2c/ov*.c
+> The goal is to kill one eventually yes. I'm not sure which
+> one to kill yet though. I have actually found a whole bunch
+> of bugs in the main drivers/media/i2c/ov2680.c code and
+> given its buggy-ness I wonder if anyone is actually using it.
 > 
-> And those do use be16 for the addr_buf in some cases, so I'm fine
-> with changing that. But non of them do a switch-case on len,
-> instead they all use similar tricks as this code (which was
-> copied from drivers/media/i2c/ov2680.c) does.
+> I need to start an email thread about this (and a couple of
+> other open questions which I have), I have a bunch of notes
+> which I need to turn into emails for this.
 > 
-> So I would prefer to keep this as is, so that the new
-> ovxxxx_16bit_addr_reg_helpers.h code is more like the code which
-> it intends to replace.
+> > If so, why do we add something here?
+> 
+> Because I suspect that the atomisp version might eventually
+> be the one we want to keep (and move to drivers/media/i2c).
 
-Yes, this is rather for the followup improvements when we have all drivers use
-these helpers.
+Fine, just add a few words into cover letter.
 
-But under "other drivers" I meant more or less IIO ones where similar
-(to what I suggest) approach is being used.
+Btw, do you use `b4` tool to handle patch(es) series?
+It has a nice feature to handle a series as a PR. In
+that case the cover letter becomes a merge-commit message
+which is cool feature in my opinion.
 
 -- 
 With Best Regards,
