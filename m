@@ -1,126 +1,206 @@
-Received: from MTA-06-3.privateemail.com (mta-06-3.privateemail.com [198.54.127.59])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7E463BF
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 13:56:49 +0000 (UTC)
-Received: from mta-06.privateemail.com (localhost [127.0.0.1])
-	by mta-06.privateemail.com (Postfix) with ESMTP id 9C2F818000A1;
-	Tue, 24 Jan 2023 08:56:47 -0500 (EST)
-Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
-	by mta-06.privateemail.com (Postfix) with ESMTPA id F257218000A2;
-	Tue, 24 Jan 2023 08:56:37 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
-	s=default; t=1674568607;
-	bh=hyywYj3YgpDSUr4+jW3lP2faP9U2ufaGmFKNvculv8g=;
-	h=From:To:Cc:Subject:Date:From;
-	b=NuVd+GWuVAjzvardhhN0mG2/HD3n/VJ5kZHU0qb8PjGzPqRh3a1e4x55EUa1jWovW
-	 xlY6jNmisP0TzpAuLHv8vfhm7X+Oz7IB/cikHyPHF7plq3c3ckhmHWSenYbrdSOqk7
-	 iCl8UofS05icJMqd3jTWvlT8na7l4oAuo8xL9H+0NBlryj6+5UF77faV5zCU3KY/uz
-	 yhr5L0g+LM6a8QRrD2u9fDEwQuGH3b+rK2m348pXlYYrj3jWap7yoOvkiSSP2UCNPz
-	 H8IBpxpBA+VYFO0qFPi1ivyZozx76rTG+wIYyITnfN068LMXlYxjixj0XrzDyvopH3
-	 7JeH8OVtCtJvA==
-From: Brent Pappas <bpappas@pappasbrent.com>
-To: sakari.ailus@linux.intel.com
-Cc: bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Brent Pappas <bpappas@pappasbrent.com>
-Subject: [PATCH] mdeia: ipu3: ipu33-mmu: Replace macro IPU3_ADDR2PTE() with a function
-Date: Tue, 24 Jan 2023 08:55:54 -0500
-Message-Id: <20230124135554.13787-1-bpappas@pappasbrent.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CF463BF
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 14:16:23 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E444D66018E4;
+	Tue, 24 Jan 2023 14:16:14 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1674569776;
+	bh=s47CGVJ4e+M+0waJGcv4TlZkKgbgs+1KN4fTvbSmCw4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=T5quUrXp5EMyS+m5En1TAtvR5bnV7h56/mMlGRbDIVb8fKHyJM8J4llOCgQOM0Oa8
+	 QyO15DDdK3DACIHrjbDozZc/ubjiKB/ht4WipqKrT0TqHt12Aoq9Y9iox/ZQFwn8LH
+	 pZIDRWLouYq6SIjK68Fo9hQyx5Mj0489Y8e0rzmruf9na0Vk86FwKtHZs+D3Bf6RUt
+	 qlrkeQOfTaQlVYilurRa+1eLgB3WJWEYUJYBwgB1Sczbsh3gQYhzNTCtDqGOadgoDL
+	 M3oMSTa0jBZ6DcWAXQtYiN8OFI8di113yfBn9w9O43oWFjAZQFerh28pjUr6i4QszG
+	 Dfr6WPpIZACAw==
+Message-ID: <b31a3327aa2a500c6509f8f54632954bf2cea19b.camel@collabora.com>
+Subject: Re: [PATCH v3 1/7] media: Add P010 tiled format
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ ezequiel@vanguardiasur.com.ar,  p.zabel@pengutronix.de
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
+	benjamin.gaignard@collabora.com, gregkh@linuxfoundation.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org
+Date: Tue, 24 Jan 2023 09:16:06 -0500
+In-Reply-To: <20220706182901.78949-2-jernej.skrabec@gmail.com>
+References: <20220706182901.78949-1-jernej.skrabec@gmail.com>
+	 <20220706182901.78949-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
 
-Replace the macro IPU3_ADDR2PTE() with a static function to match
-Linux coding style standards.
+Hi Ezequiel, Benjamin,
 
-Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
----
- drivers/staging/media/ipu3/ipu3-mmu.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+Le mercredi 06 juillet 2022 =C3=A0 20:28 +0200, Jernej Skrabec a =C3=A9crit=
+=C2=A0:
+> From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>=20
+> Add P010 tiled format
+>=20
+> Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-index cb9bf5fb29a5..d2d603c32773 100644
---- a/drivers/staging/media/ipu3/ipu3-mmu.c
-+++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-@@ -25,7 +25,11 @@
- #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
- #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
- 
--#define IPU3_ADDR2PTE(addr)	((addr) >> IPU3_PAGE_SHIFT)
-+static u32 ipu3_addr2pte(phys_addr_t addr)
-+{
-+	return addr >> IPU3_PAGE_SHIFT;
-+}
-+
- #define IPU3_PTE2ADDR(pte)	((phys_addr_t)(pte) << IPU3_PAGE_SHIFT)
- 
- #define IPU3_L2PT_SHIFT		IPU3_PT_BITS
-@@ -200,7 +204,7 @@ static u32 *imgu_mmu_get_l2pt(struct imgu_mmu *mmu, u32 l1pt_idx)
- 	l2pt = new_l2pt;
- 	mmu->l2pts[l1pt_idx] = new_l2pt;
- 
--	pteval = IPU3_ADDR2PTE(virt_to_phys(new_l2pt));
-+	pteval = ipu3_addr2pte(virt_to_phys(new_l2pt));
- 	mmu->l1pt[l1pt_idx] = pteval;
- 
- 	spin_unlock_irqrestore(&mmu->lock, flags);
-@@ -230,7 +234,7 @@ static int __imgu_mmu_map(struct imgu_mmu *mmu, unsigned long iova,
- 		return -EBUSY;
- 	}
- 
--	l2pt[l2pt_idx] = IPU3_ADDR2PTE(paddr);
-+	l2pt[l2pt_idx] = ipu3_addr2pte(paddr);
- 
- 	spin_unlock_irqrestore(&mmu->lock, flags);
- 
-@@ -447,7 +451,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
- 	mmu->dummy_page = (void *)__get_free_page(GFP_KERNEL);
- 	if (!mmu->dummy_page)
- 		goto fail_group;
--	pteval = IPU3_ADDR2PTE(virt_to_phys(mmu->dummy_page));
-+	pteval = ipu3_addr2pte(virt_to_phys(mmu->dummy_page));
- 	mmu->dummy_page_pteval = pteval;
- 
- 	/*
-@@ -457,7 +461,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
- 	mmu->dummy_l2pt = imgu_mmu_alloc_page_table(pteval);
- 	if (!mmu->dummy_l2pt)
- 		goto fail_dummy_page;
--	pteval = IPU3_ADDR2PTE(virt_to_phys(mmu->dummy_l2pt));
-+	pteval = ipu3_addr2pte(virt_to_phys(mmu->dummy_l2pt));
- 	mmu->dummy_l2pt_pteval = pteval;
- 
- 	/*
-@@ -473,7 +477,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
- 	if (!mmu->l1pt)
- 		goto fail_l2pts;
- 
--	pteval = IPU3_ADDR2PTE(virt_to_phys(mmu->l1pt));
-+	pteval = ipu3_addr2pte(virt_to_phys(mmu->l1pt));
- 	writel(pteval, mmu->base + REG_L1_PHYS);
- 	imgu_mmu_tlb_invalidate(mmu);
- 	imgu_mmu_set_halt(mmu, false);
-@@ -529,7 +533,7 @@ void imgu_mmu_resume(struct imgu_mmu_info *info)
- 
- 	imgu_mmu_set_halt(mmu, true);
- 
--	pteval = IPU3_ADDR2PTE(virt_to_phys(mmu->l1pt));
-+	pteval = ipu3_addr2pte(virt_to_phys(mmu->l1pt));
- 	writel(pteval, mmu->base + REG_L1_PHYS);
- 
- 	imgu_mmu_tlb_invalidate(mmu);
--- 
-2.34.1
+I just tested Hantro G2 myself, and that highlights that this was not reall=
+y
+tested. I believe no-one had written software detiler to verify this, so te=
+sted
+meant something like "its producing data". In fact, it seems that P010_4L4 =
+is
+not a pixel formats, at least not one covered by Hantro driver.
+
+I've dumped the tiled data, and the per tile format is not made of 16bit
+components, but instead its similar to Rockchip format, where 4 pixels are
+packed  over. As part of the AV1 driver writing, I made a detiler for that
+format.
+
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3447
+
+Let's be more careful next time, pixels formats are frozen into our API, an=
+d
+there is a lot of them already, lets not invent any.
+
+Hans, what should we do about this one ? I can split off the NV12_10LE40_4L=
+4
+format from the AV1 patchset, and port G2 to use that instead. That would l=
+eave
+behind P010_4L4 as unused (actually unexistant). Any better ideas ? Perhaps=
+ we
+could steal the fourcc, its not terribly meaningful, and make P010_4L4 an a=
+lias
+?
+
+Nicolas
+
+> Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> [rebased, updated pixel format name and added description]
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../media/v4l/pixfmt-yuv-planar.rst            | 18 +++++++++++++++---
+>  drivers/media/v4l2-core/v4l2-common.c          |  1 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c           |  1 +
+>  include/uapi/linux/videodev2.h                 |  1 +
+>  4 files changed, 18 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst =
+b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> index a900ff66911a..faba259a2b92 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> @@ -116,6 +116,13 @@ All components are stored with the same number of bi=
+ts per component.
+>        - Cb, Cr
+>        - Yes
+>        - Linear
+> +    * - V4L2_PIX_FMT_P010_4L4
+> +      - 'T010'
+> +      - 10
+> +      - 4:2:0
+> +      - Cb, Cr
+> +      - Yes
+> +      - 4x4 tiles
+>      * - V4L2_PIX_FMT_NV16
+>        - 'NV16'
+>        - 8
+> @@ -528,11 +535,12 @@ number of lines as the luma plane.
+>        - Cr\ :sub:`33`
+> =20
+>  .. _V4L2_PIX_FMT_P010:
+> +.. _V4L2-PIX-FMT-P010-4L4:
+> =20
+> -P010
+> -----
+> +P010 and tiled P010
+> +-------------------
+> =20
+> -Like NV12 with 10 bits per component, expanded to 16 bits.
+> +P010 is like NV12 with 10 bits per component, expanded to 16 bits.
+>  Data in the 10 high bits, zeros in the 6 low bits, arranged in little en=
+dian order.
+> =20
+>  .. flat-table:: Sample 4x4 P010 Image
+> @@ -570,6 +578,10 @@ Data in the 10 high bits, zeros in the 6 low bits, a=
+rranged in little endian ord
+>        - Cb\ :sub:`11`
+>        - Cr\ :sub:`11`
+> =20
+> +``V4L2_PIX_FMT_P010_4L4`` stores pixels in 4x4 tiles, and stores tiles l=
+inearly
+> +in memory. The line stride must be aligned to multiple of 8 and image he=
+ight to
+> +a multiple of 4. The layouts of the luma and chroma planes are identical=
+.
+> +
+>  .. raw:: latex
+> =20
+>      \endgroup
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 1e38ad8906a2..e0fbe6ba4b6c 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -278,6 +278,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+> =20
+>  		/* Tiled YUV formats */
+>  		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
+> +		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .hdiv =3D=
+ 2, .vdiv =3D 2 },
+> =20
+>  		/* YUV planar formats, non contiguous variant */
+>  		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .hdiv =3D =
+2, .vdiv =3D 2 },
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index e2526701294e..7aa3af389b51 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1310,6 +1310,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  	case V4L2_PIX_FMT_NV12_4L4:	descr =3D "Y/CbCr 4:2:0 (4x4 Linear)"; brea=
+k;
+>  	case V4L2_PIX_FMT_NV12_16L16:	descr =3D "Y/CbCr 4:2:0 (16x16 Linear)"; =
+break;
+>  	case V4L2_PIX_FMT_NV12_32L32:   descr =3D "Y/CbCr 4:2:0 (32x32 Linear)"=
+; break;
+> +	case V4L2_PIX_FMT_P010_4L4:	descr =3D "10-bit Y/CbCr 4:2:0 (4x4 Linear)=
+"; break;
+>  	case V4L2_PIX_FMT_NV12M:	descr =3D "Y/CbCr 4:2:0 (N-C)"; break;
+>  	case V4L2_PIX_FMT_NV21M:	descr =3D "Y/CrCb 4:2:0 (N-C)"; break;
+>  	case V4L2_PIX_FMT_NV16M:	descr =3D "Y/CbCr 4:2:2 (N-C)"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 5311ac4fde35..32bedeb04152 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -630,6 +630,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_NV12_4L4 v4l2_fourcc('V', 'T', '1', '2')   /* 12  Y=
+/CbCr 4:2:0  4x4 tiles */
+>  #define V4L2_PIX_FMT_NV12_16L16 v4l2_fourcc('H', 'M', '1', '2') /* 12  Y=
+/CbCr 4:2:0 16x16 tiles */
+>  #define V4L2_PIX_FMT_NV12_32L32 v4l2_fourcc('S', 'T', '1', '2') /* 12  Y=
+/CbCr 4:2:0 32x32 tiles */
+> +#define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  Y/C=
+bCr 4:2:0 10-bit 4x4 macroblocks */
+> =20
+>  /* Tiled YUV formats, non contiguous planes */
+>  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  Y/Cb=
+Cr 4:2:0 64x32 tiles */
 
