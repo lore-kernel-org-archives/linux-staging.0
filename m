@@ -1,84 +1,105 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E3BA31
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 04:18:52 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id r2so12656666wrv.7
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 20:18:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K4pDbcj74Wbcg/58B56E40yhsIDYcgblc7WuBVkYMZ4=;
-        b=eEJh06r4R2daIAfn1xURfmMwc6qN973syj6XOdabRBcw6azMQ5FfxwuCzR4zeVqkA8
-         3Wi+XkZG1BjPit6NU6Rm6W7jZboN0MVD9PJIIoCSevZZcf1Q6IvGUrJorvT+RhDbMs95
-         7sin78GW3njueM3IwlL9PByEEjeRW/XTEnmrbxtxwAsvYlPtsgSuI21VVKkjxvwpJIsx
-         Kat8B1UGTgTxBeMcBsUjbDE51ISlEc74rbNYGTluOJHgVfiZaOKat5aT/OjRrmDFF6EW
-         VQuNdyrHBWhMQ9Ma2gNd1plgI94qxscklnpCkCu4V8e6x91JreoOQzBuRkJMjrXAJWtl
-         mrwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K4pDbcj74Wbcg/58B56E40yhsIDYcgblc7WuBVkYMZ4=;
-        b=vE0tle8R9yraKsSP0r0QW3u44M7XJ3q3PxnrWnZBfDNmIlnXv60OWwkCu72qv+n3U4
-         thki+Y8nMLpSzhlExg3nvoEn7g23AbpEod/McONmewdxT3yBZJHx7ID+9PoryDdhpJqO
-         /O5GDz3hlTY1KcHOLgbV1JLW+B1QEKHC1G9d/WsvyU96qAsTk5b4ENOhW3eyCSW753rv
-         10RsCm33J40JR0cX9xcwrKe+ybuLsKp/n2UpmW7OBE2xtFLyVXJ9xv9HkCEldE/uo9fT
-         MmvJcbJ6rdQbxp+iAGmeqA6xmy2R7xIgNtLxdKCCzQLlI4sp4yXpbjmPPVYD6kPztmoH
-         fgcw==
-X-Gm-Message-State: AFqh2koafekL8HLs+fVri2TXu9zlNDVTUG2QrV7iyUVFJgCZTnu3Ro97
-	RZxshpVJ0OcNhQLRLlN2orY=
-X-Google-Smtp-Source: AMrXdXuU+RiiQVIsOLUuAcUY0r7W+UMek2Ck+OomzTAKLbAZyP7BRoLqhtHT6QAV56t8J/dUfiLDzQ==
-X-Received: by 2002:a05:6000:603:b0:26b:e7e1:ad03 with SMTP id bn3-20020a056000060300b0026be7e1ad03mr26304968wrb.55.1674533930714;
-        Mon, 23 Jan 2023 20:18:50 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bv17-20020a0560001f1100b002be2f18938csm823273wrb.41.2023.01.23.20.18.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 20:18:50 -0800 (PST)
-Date: Tue, 24 Jan 2023 07:18:46 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: Brent Pappas <bpappas@pappasbrent.com>, slongerbeam@gmail.com,
-	festevam@gmail.com, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, s.hauer@pengutronix.de,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-imx@nxp.com, kernel@pengutronix.de, mchehab@kernel.org,
-	shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: imx: imx-media-fim: Replace macro icap_enabled()
- with function
-Message-ID: <Y89cJvIYtg9fkczb@kadam>
-References: <20230123191714.22430-1-bpappas@pappasbrent.com>
- <20230123215105.fbfzxueegtnbu4ym@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5188A3C;
+	Tue, 24 Jan 2023 05:11:26 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 2A836320093F;
+	Tue, 24 Jan 2023 00:11:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 24 Jan 2023 00:11:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1674537083; x=
+	1674623483; bh=FL4EH6QJK+d1XgoAroJrgotEkmtGHshewgrLCi3uekw=; b=r
+	jtn/0FU/v56BlVNeisMMSPzODrC9lG+vIBgyK8yUBQYEnvi+NSW1PhRiWEWejf9y
+	DBMts3ZbhgxCteSsaNrAbsrx3Lxx1vD3+Q+vSVME2JDSjsD+dERvQV14dttsIhE5
+	4I5s9vH/amlpFzbVz03tX1gG2G5xbR5L9HQvKRYvQcxrzMBcTJ7GpKwDD//B5JHO
+	UxJ5bY8pXReNk+13UuaMxtYSW/rYhKkoMSLwiUz7iRz33r/ES8RC+0yN9XygSY2G
+	Baj/nMmnRVz+01qT+5NfcTRwO03mb2MSrC3QWFpuPqvioEM9lZaZ5u7utsp7Tg2W
+	fFFEwBKr0ikIxckS9/m3w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674537083; x=
+	1674623483; bh=FL4EH6QJK+d1XgoAroJrgotEkmtGHshewgrLCi3uekw=; b=i
+	odecc03ocFIbjUEYEowrzdz0krD8bba7o8+vnGpbpBYspcuqu02fQJaKkjIBxFsk
+	GsVLWdT74zXF/d2NvlNGi8BENIkVxR4a/d6FLEBRZhvhihCXPRp8Ky5GB7A4Ysd3
+	St8gM1tL03X1icXX9xEHlLplIubOWGv0+1ouPYmJYR5X64YObQzcDrjK6ZMJEttU
+	7tReJrl+url8zt6QsbTOsAmrMaev/MHJHKQpxejPR7P9oesjIkAycZpzxsfOQaS9
+	MYsD39/531WjGI30fHjyJQL3oNj9aK+hy7Tq1KKGZ/wu7FD/81fCWnK486mDmSQC
+	bp32Kj2BqLkYT3h3t+MXg==
+X-ME-Sender: <xms:e2jPY1iz9LZz-HZ8fMgwNQ1I9lgPn4QkKZ_bdijKT87dl3oSxbBdaQ>
+    <xme:e2jPY6CIZ6wKxGCD0qFydX-9PWjtGI5ROGEOOyf_eLVTFiQmh6RKGELOanG7IXLIf
+    Liz6ZgeAvv0FA0aWA>
+X-ME-Received: <xmr:e2jPY1FEtRewVLA-CseS80ahykYUqa7mNJt84yyMZIixWmKuBOPV3C6PSso7wHMqAlOsZtxWu7TlAp6yUWkGlQ8OC3LxJp-wge2d9Zv9fg_mGPRtoWEHuypYEQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduledgkeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepkfffgggfvfevfhfhufgjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeejgfffhfdujeeftdeuudeguedttefgieetffffheejuefguedv
+    heejteeftdfftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:e2jPY6RIHnG1EUqXaC3ACprutbwXrzsJkoSMFBvXOrE7FVFTVWkTcQ>
+    <xmx:e2jPYywKnMpkbb1B4hxUMyrqWP98vX9ORFVTLs90GVRcQbr7vkzpnA>
+    <xmx:e2jPYw55Cn94tS4s1iUFh1Eke49XtFb0udXx6Er5tEjsc0LeR1G5ug>
+    <xmx:e2jPYzomzZAebvz0EzYzrvupHjTo-qOA650_P1omIPpLDP9FJqGp3g>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Jan 2023 00:11:22 -0500 (EST)
+Message-ID: <9d61bda2-17ea-723d-7fee-e911061054bc@sholland.org>
+Date: Mon, 23 Jan 2023 23:11:23 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123215105.fbfzxueegtnbu4ym@pengutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Content-Language: en-US
+To: Hans Verkuil <hverkuil@xs4all.nl>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Maxime Ripard <mripard@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
+References: <20221231164628.19688-1-samuel@sholland.org>
+ <0c411b60-1d12-1c34-0f35-5e38d38e2786@xs4all.nl>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 0/4] Allwinner D1 video engine support
+In-Reply-To: <0c411b60-1d12-1c34-0f35-5e38d38e2786@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 23, 2023 at 10:51:05PM +0100, Marco Felsch wrote:
-> > -#define icap_enabled(fim) ((fim)->icap_flags != IRQ_TYPE_NONE)
-> > +static bool icap_enabled(struct imx_media_fim *fim)
-> > +{
-> > +	return fim->icap_flags != IRQ_TYPE_NONE;
-> > +}
+Hi Hans,
+
+On 1/23/23 06:33, Hans Verkuil wrote:
+> Hi Samuel,
 > 
-> Nit: I would make it inline but recent compiler may do the job for us.
+> What is the status of this series? It seems to be mostly OK, but I did see
+> a few comments suggesting improvements.
 > 
+> Does this series depend on your PPU work? That was not clear.
 
-Yeah.  These days we tend to not make things inline.
+The first three patches do not, but the actual DT node does, for
+completeness.
 
-regards,
-dan carpenter
+> I do think there were enough small comments to warrant a v2, unless you disagree?
 
-> Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
-> 
-> Regards,
->   Marco
+I agree, and plan to send a v2 with the binding/driver changes made
+compatible-specific.
+
+Regards,
+Samuel
 
