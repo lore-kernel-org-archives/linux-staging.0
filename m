@@ -1,59 +1,100 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4440E8F64
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 21:01:37 +0000 (UTC)
-Received: from dslb-188-096-139-204.188.096.pools.vodafone-ip.de ([188.96.139.204] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1pKQQ2-0001xR-NC; Tue, 24 Jan 2023 22:01:26 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/4] staging: r8188eu: remove unused defines
-Date: Tue, 24 Jan 2023 22:01:07 +0100
-Message-Id: <20230124210108.62170-4-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230124210108.62170-1-martin@kaiser.cx>
-References: <20230124210108.62170-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9958F63
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 21:14:27 +0000 (UTC)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 2917120003;
+	Tue, 24 Jan 2023 21:14:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1674594865;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MLO6IC4VLOlTEyFjq+sy4xgqFEeyoTwAMmJNZzryGtw=;
+	b=hHhy4kx7JrvVZA7Y931aeVeOn2yw7yaXASKNTPcZubHgXvRlHc2ZxV9s4aou1ozqXqJjlE
+	4VmrG7rkATwQfp17mAr8BWTYB6wAddayfw5Evn2DlsuGvG0s/LEpCvrivDsaFzefknZHRo
+	INIpXikmJvV0kBMAytwxAWQZpY0kODjRxKVSVVjoxye8N6830sGDXm0xfbycxmuD/flqTb
+	cyZHaD0nxKGBqS7Tks5ctbySaUwE/OASzleG9ZUeKhqV4tTCk6sQpHyRKKQq3T7Yv5EEB3
+	nKLIU/BRp/yBV8fUjJ4IyYka/n6kWVAea2dDJyrhceCZg2NUcwLJHfoZPcp8Sw==
+Date: Tue, 24 Jan 2023 22:14:21 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
+ linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>, Richard Leitner
+ <richard.leitner@skidata.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
+ property and example
+Message-ID: <20230124221421.2d45a532@booty>
+In-Reply-To: <cdc91bc4-aa76-f824-36c9-d2995c17fb18@collabora.com>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+	<20221229133205.981397-3-luca.ceresoli@bootlin.com>
+	<cdc91bc4-aa76-f824-36c9-d2995c17fb18@collabora.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Remove some unused defines from usb_ops_linux.h.
+Hi Dmitry,
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/include/usb_ops_linux.h | 5 -----
- 1 file changed, 5 deletions(-)
+On Tue, 24 Jan 2023 20:02:39 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-diff --git a/drivers/staging/r8188eu/include/usb_ops_linux.h b/drivers/staging/r8188eu/include/usb_ops_linux.h
-index c7a0dc482761..b149df7957dd 100644
---- a/drivers/staging/r8188eu/include/usb_ops_linux.h
-+++ b/drivers/staging/r8188eu/include/usb_ops_linux.h
-@@ -6,11 +6,6 @@
- 
- #define VENDOR_CMD_MAX_DATA_LEN	254
- 
--#define RTW_USB_CONTROL_MSG_TIMEOUT_TEST	10/* ms */
- #define RTW_USB_CONTROL_MSG_TIMEOUT	500/* ms */
- 
--#define MAX_USBCTRL_VENDORREQ_TIMES	10
--
--#define RTW_USB_BULKOUT_TIME	5000/* ms */
--
- #endif
+> On 12/29/22 16:31, Luca Ceresoli wrote:
+> > +        vip {
+> > +            compatible = "nvidia,tegra20-vip";
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            channel@0 {
+> > +                reg = <0>;
+> > +                ports {
+> > +                    #address-cells = <1>;
+> > +                    #size-cells = <0>;
+> > +                    port@0 {
+> > +                        reg = <0>;
+> > +                        vi_vip_in: endpoint {
+> > +                            remote-endpoint = <&mt9v111_out>;
+> > +                        };
+> > +                    };
+> > +                    port@1 {
+> > +                        reg = <1>;
+> > +                        vi_vip_out: endpoint {
+> > +                            remote-endpoint = <&vi_in>;
+> > +                        };
+> > +                    };
+> > +                };
+> > +            };  
+> 
+> In the changelog you said that the channel@0 node is removed
+
+Thanks, you are right, this is a leftover. I must have forgotten about
+updating the example. :-\
+
+It will be fixed in v4 obviously, I was waiting before sending it in
+case of any feedback on the other patches.
+
+Best regards.
 -- 
-2.30.2
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
