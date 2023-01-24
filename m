@@ -1,96 +1,87 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F92B8F63
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 21:19:14 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id jr19so13083066qtb.7
-        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 13:19:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162E68F70
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 22:03:00 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id q5so10613548wrv.0
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 14:03:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=K8tBkVDcR3cIjvCGSV7pCzotu/GYoRW4uPdPyTobpUU=;
-        b=q/9e3e2NeK80DecsM1DxuwcETnH6bT2rG52Bz4kbxpn9ZUDkALoLB/GXpmZoTETo3u
-         ZXWm/Y/fmSX/kQyrHvV20YZQMs6JQ6Sv9WnFxs0h8Vb/wNoXLt9n+bjCzB7Tu7QAtLZu
-         CphXsH2+n8rm0whA1MrKA/9G7ZIUvx5OyeW2yY1CL8d+ZudMrtoaVSPZgjTh6cjycO3K
-         CpQ+tnxejzvBgLmnrJjgTB2YCsA64fDR0qKx9NbotZOJrwSu4OEI+75HS8Q1t8Lip+h9
-         xx5k9FZo0LIWwoLSrE8fk5zFe2yJYpbldsvt0WmLZ7b3jbz6ggh+xGtIyvyT19rsgUiS
-         r3ZQ==
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h5xdmH8zlirHZvICJzGt4pGii8srq455Z/ItOrzAZQg=;
+        b=aHNklJ0HIJQwu4SkMQYfXjiHPeRgQXwJVpitL13qVMTnqYZ+vXHFQxnznYsfM81crp
+         HSi5+TIPAWqjgZ1hcyzaXDmKx8g4TybXtmEWZSp0pYZ2HvGiVkeBUSiOwP6L5ZkfA3gl
+         f6Bm0a0fSK3R593lmWhG+EBmXU6lc1O1ZZmj4KvjezIDwS2MzrRS6EsKEv8ovlWLU6eV
+         /KtVIP4qgMPRhUlHyuK+lZW5fWYTsJUYcAtB87No0R2M0r0K2C4EqtVEgLrawk/3xXXM
+         NXXeW7pKvhTW6HHeU/ML/2WCLecM3MmZm5Zqfh13+Dce7hbrlDjOZGXA/UD+n2Yie0ZL
+         qPzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K8tBkVDcR3cIjvCGSV7pCzotu/GYoRW4uPdPyTobpUU=;
-        b=NeTP3UotQyzo6bMspuIJ5HCDnVlyhclArkPR3NCBulnt9HFQ0y4Ua4iVFr9/FgLUiK
-         gKlszdVh3AEdW+suHYlFKiW9tUJByWpWxV9uSmiurorhwc9U0lw9BvUWUxv3aqMrg9JO
-         6hnBYvKif/RHhQ2S0yeCteE1r5dQqJsnleoQhZepHgExPXRmrfWxU4uis9nnh0yobg86
-         Qkxhu1BXw0TTKxHOYMPGSsmFlqKpjapxJDwDl8j6V2Tns7+EBcvfLN+xFb5AErg0XkAI
-         3GfpbgcreVZerpul+6FsmCetptVLOgAP0FiP69A0Pke+J+jsksLwK3DidBuTXXpNDmGa
-         a+eg==
-X-Gm-Message-State: AFqh2krEgP2D6Q3nvvCE4dprHUmKuZL5kv61sziXe+R8TBKp2317S0ee
-	sJ5W/BXVWjYIx99PoqWidx6LAw==
-X-Google-Smtp-Source: AMrXdXvVfqjmstskpsb+7KNHHK7XTOLpCh5jIf1Zf8VZzT8oMkYcJQXg4wGwRvhcYM63kTu9+3C+7Q==
-X-Received: by 2002:ac8:6792:0:b0:3a8:1793:76d6 with SMTP id b18-20020ac86792000000b003a8179376d6mr40904443qtp.68.1674595153462;
-        Tue, 24 Jan 2023 13:19:13 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id i7-20020ac84887000000b003b6a17e1996sm1965508qtq.83.2023.01.24.13.19.11
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h5xdmH8zlirHZvICJzGt4pGii8srq455Z/ItOrzAZQg=;
+        b=dYxr/x9kBdDBUW1ecAEeV1+FvxU1I9v5j/eceqke89Ha+oEqjnEQuq0v8mdYTiL+pE
+         Fuc/VuutaQN4Dfr0mHoTkIQHqgWaTAV8hvJ86HWf5Oc6c2tcNMeDMSN6ExB288fCkkad
+         J2joVQoOpPVleVbTCtbmeG0fG/Z/+icK5kTMTKVrdkPwe8cfK+hN85fX11lr1mEloiWz
+         A0MjyfiF82aAYwDGv/8hcWmgT7Em/G6ZfKmTu9NyVNsOoBpu51ZRQ4BMUtN6GDIfGr3a
+         6TvD8iAgSyePmuRP8LWsVJUEbCZ84+cbfkoGNfbiCs1iOfS9ml4kbRFvwe7vwS3MveXY
+         jBJQ==
+X-Gm-Message-State: AO0yUKUYtusjNtly+ibYB+7+71hDt+pSgxm9/BLjX+nwexTtUPHjbm+t
+	JOCIod99sqV9D7F9D3k0EmQ=
+X-Google-Smtp-Source: AK7set921/XwPrntnbplCcgKatUjdrG/tZQLt1MFSBg5TKP1SHI7hfy9vi341iOoUkdCQixGIxKLCQ==
+X-Received: by 2002:adf:d239:0:b0:2bf:b2fe:a2c4 with SMTP id k25-20020adfd239000000b002bfb2fea2c4mr408061wrh.7.1674597779150;
+        Tue, 24 Jan 2023 14:02:59 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
+        by smtp.gmail.com with ESMTPSA id c14-20020adffb0e000000b002b6bcc0b64dsm2897164wrr.4.2023.01.24.14.02.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 13:19:12 -0800 (PST)
-Message-ID: <40a7e1171d7777128c0728a28a029e6f3643145a.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 1/2] media: meson: vdec: implement 10bit bitstream
- handling
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: neil.armstrong@linaro.org, Christian Hewitt
- <christianshewitt@gmail.com>,  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kevin Hilman
- <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-media@vger.kernel.org,  linux-amlogic@lists.infradead.org,
- linux-staging@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: Benjamin Roszak <benjamin545@gmail.com>
-Date: Tue, 24 Jan 2023 16:19:11 -0500
-In-Reply-To: <95132025-8f0f-8179-40b7-8bf83458886a@linaro.org>
-References: <20230124034058.3407235-1-christianshewitt@gmail.com>
-	 <20230124034058.3407235-2-christianshewitt@gmail.com>
-	 <6ff68c4bea9d48980853e9af9db1fc0bf13976ae.camel@ndufresne.ca>
-	 <07933226-fbab-fa78-6b96-38e365577605@linaro.org>
-	 <478d5a7569b7879aa3410a5b3049d745867df780.camel@ndufresne.ca>
-	 <95132025-8f0f-8179-40b7-8bf83458886a@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.2 (3.46.2-1.fc37) 
+        Tue, 24 Jan 2023 14:02:58 -0800 (PST)
+Date: Tue, 24 Jan 2023 23:02:56 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/11] staging: rtl8192e: Remove unused variables from struct
+ rt_stats
+Message-ID: <cover.1674596722.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Neil,
+Remove unused variables from struct rt_stats.
 
-Le mardi 24 janvier 2023 =C3=A0 17:51 +0100, neil.armstrong@linaro.org a =
-=C3=A9crit=C2=A0:
-> We hoped we could use the same modifier as DRM, but it seems this is now =
-out of scope.
->=20
-> Neil
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-Its not out of scope, its just not being worked on. There is no infra to su=
-pport
-an extra 64bit modifier in V4L2 atm, or to use DRM formats in general. Folk=
-s
-form Qualcomm or Mediatek didn't want to do it, so they worked around by ad=
-ding
-their strictly needed subset of compressed formats. If you don't want this,=
- then
-fine, but I'm not aware of someone actively working on that today.
+Philipp Hortmann (11):
+  staging: rtl8192e: Remove unused variables rxrdu and rxok
+  staging: rtl8192e: Remove unused variables rxdatacrcerr and
+    rxmgmtcrcerr
+  staging: rtl8192e: Remove unused variables rxcrcerrmin and friends
+  staging: rtl8192e: Remove unused variables numpacket.. and
+    received_pre..
+  staging: rtl8192e: Remove unused variables numqry_..
+  staging: rtl8192e: Remove unused variables num_proc.., recei.. and
+    rxov..
+  staging: rtl8192e: Remove unused variables rxint, ints and shints
+  staging: rtl8192e: Remove unused variables txov.., txbeokint and
+    txbkokint
+  staging: rtl8192e: Remove unused variables txviok.., txvook.. and
+    txbea..
+  staging: rtl8192e: Remove unused variables txbeac.., txman.. and
+    txcmdp..
+  staging: rtl8192e: Remove unused variables txbytes.., txbyt.. and
+    signa..
 
-I was just curious if there was anything other then NV12 (something 10bit) =
-on
-the secondary buffer case, that was my initial question here ;-D.
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 25 -----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 44 ++-----------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  | 31 -------------
+ 3 files changed, 4 insertions(+), 96 deletions(-)
 
-Nicolas
+-- 
+2.39.1
 
