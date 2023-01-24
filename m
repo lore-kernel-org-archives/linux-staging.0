@@ -1,82 +1,114 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2034D33D8
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 21:51:12 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1pK4ia-0004ba-5k; Mon, 23 Jan 2023 22:51:08 +0100
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1pK4iX-00063k-F7; Mon, 23 Jan 2023 22:51:05 +0100
-Date: Mon, 23 Jan 2023 22:51:05 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Brent Pappas <bpappas@pappasbrent.com>
-Cc: slongerbeam@gmail.com, festevam@gmail.com, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, s.hauer@pengutronix.de,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-imx@nxp.com, kernel@pengutronix.de, mchehab@kernel.org,
-	shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: imx: imx-media-fim: Replace macro icap_enabled()
- with function
-Message-ID: <20230123215105.fbfzxueegtnbu4ym@pengutronix.de>
-References: <20230123191714.22430-1-bpappas@pappasbrent.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04552A31
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 03:41:04 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id f25-20020a1c6a19000000b003da221fbf48so9982239wmc.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jan 2023 19:41:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YW+j1R20ctI265KRNSOjTxDVRq8qUoJJnec9sKEjc5I=;
+        b=QacssvAIDku6BBhYk5HElUe/kzNss/+aIhsXY8hmtP+KEGGe0qI7X/+MARPfamJwAG
+         XTJv6wtwpO728nUqacxcsgC6T+eb6lhvHJ0CYT6lueg7SxxPxerA5cUQpG2bW1Z0gUtc
+         cvoSwfAwwTV4aj6AoRr2U0gHPXzOD4uU1zzA4lMS4oPxChIMfV10Sjiolq4gWqJlMYjw
+         Z3OjZAB8PT0sG0yaVwhd3wvFQhTrZLyGXcoG5WLLngsfV294biZZN1UwZ49JONXK2110
+         y+M9mg2tjE/kX+UF9AhnUHty3WbhGl2dtlY5PainLNb1LsDhn2HGMt5MUmor3rYFKEza
+         q0eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YW+j1R20ctI265KRNSOjTxDVRq8qUoJJnec9sKEjc5I=;
+        b=70OdKUX3mkyjCfS/dTWv9e7Iy/QTaapwi8H9RojWe8F+NBdIosv7hf7fGcUtLbsw+J
+         clapLXhnCfDA8v0ZC7hJBXTmTWKyHtUYFKwbtFWz3MmnkWcbKo18C1yz+h0rSniOuzDE
+         FCeSqUrqnX8Ye0OU9i1kAm996az3+1zXwJMcZXXPmeNsptT4XFFegMJEkfUdLW1p5UEX
+         gNacISlmC4hlY56KLfnz6+2KBtRwI/P5HG1Cswy3iOQzFZ9242NWgWcpcnWg4jCwz4eg
+         dMHul2OxF+eo8fvtUPUogJiGFKndJMsCkXxnvX0D+cPO/HCo5YgWBAh5Dx3XbZg0fELW
+         mqNQ==
+X-Gm-Message-State: AFqh2kolCsvOFMGzzWg7quqSNQYOKKzkRDv0qdMQdcdSVeoPhvZ2XGEk
+	6/o2jaEQAW0fPvf1lMl2V4E=
+X-Google-Smtp-Source: AMrXdXtpg88sRjLNXZmZB6PBI4TM0NJziEBJ3T2qGyFoH8GRcylSlT26sY+YVnwuzJOACkipiigiEA==
+X-Received: by 2002:a05:600c:ad4:b0:3db:11d0:21e2 with SMTP id c20-20020a05600c0ad400b003db11d021e2mr22920790wmr.29.1674531663179;
+        Mon, 23 Jan 2023 19:41:03 -0800 (PST)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id g12-20020a05600c310c00b003db012d49b7sm1085132wmo.2.2023.01.23.19.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 19:41:02 -0800 (PST)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Christian Hewitt <christianshewitt@gmail.com>
+Subject: [PATCH v2 0/2] media: meson: vdec: add HEVC decode codec
+Date: Tue, 24 Jan 2023 03:40:56 +0000
+Message-Id: <20230124034058.3407235-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123191714.22430-1-bpappas@pappasbrent.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This mini-series adds support for HEVC decoding. It combines the original codec
+work done by Maxime Jourdan in 2019 [0] and improvements by Benjamin Roszak in
+2021 [1]. Only GXBB/GXL/GXM are enabled as decoding currently crashes on G12A
+and later SoCs when trying to decode a 10-bit HEVC stream.
 
-thank you for the patch.
+The goal of upstreaming the driver in its current state is to encourage greater
+community contribution towards adding missing features, and fixing the bugs and
+conformance issues necessary to get out of staging.
 
-On 23-01-23, Brent Pappas wrote:
-> Replace the macro icap_enabled() with a static function to comply
-> with Linux coding style standards.
-> 
-> Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
-> ---
->  drivers/staging/media/imx/imx-media-fim.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-> index fb6590dcfc36..ccb35d098a19 100644
-> --- a/drivers/staging/media/imx/imx-media-fim.c
-> +++ b/drivers/staging/media/imx/imx-media-fim.c
-> @@ -68,7 +68,10 @@ struct imx_media_fim {
->  	bool              stream_on;
->  };
->  
-> -#define icap_enabled(fim) ((fim)->icap_flags != IRQ_TYPE_NONE)
-> +static bool icap_enabled(struct imx_media_fim *fim)
-> +{
-> +	return fim->icap_flags != IRQ_TYPE_NONE;
-> +}
+The HEVC codec presented here is generally partnered with FFMpeg sources that
+are being maintained by the Raspberry Pi Foundation [2] and [3] that contain
+numerous improvements to v4l2_m2m (and v4l2_request) support. There is active
+work in progress to refine the changeset and send it upstream.
 
-Nit: I would make it inline but recent compiler may do the job for us.
+Christian
 
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+[0] https://github.com/Elyotna/linux/commits/4.20/v4l2-m2m-pr
+[1] https://gitlab.com/benjamin545/linux-amlogic/-/commits/aml-hevc
+[2] https://github.com/jc-kynesim/rpi-ffmpeg/commits/release/4.4/rpi_import_1
+[3] https://github.com/jc-kynesim/rpi-ffmpeg/tree/dev/5.1.2/rpi_import_1
 
-Regards,
-  Marco
+Changes from v1:
+- Fix unused val warning reported by kernel test robot <lkp@intel.com>
 
->  static void update_fim_nominal(struct imx_media_fim *fim,
->  			       const struct v4l2_fract *fi)
-> -- 
-> 2.34.1
-> 
-> 
-> 
+Benjamin Roszak (1):
+  media: meson: vdec: implement 10bit bitstream handling
+
+Maxime Jourdan (1):
+  media: meson: vdec: add HEVC decode codec
+
+ drivers/staging/media/meson/vdec/Makefile     |    2 +-
+ drivers/staging/media/meson/vdec/codec_h264.c |    3 +-
+ drivers/staging/media/meson/vdec/codec_hevc.c | 1462 +++++++++++++++++
+ drivers/staging/media/meson/vdec/codec_hevc.h |   13 +
+ .../media/meson/vdec/codec_hevc_common.c      |  161 +-
+ .../media/meson/vdec/codec_hevc_common.h      |    3 +-
+ drivers/staging/media/meson/vdec/codec_vp9.c  |   35 +-
+ drivers/staging/media/meson/vdec/esparser.c   |    4 +-
+ drivers/staging/media/meson/vdec/hevc_regs.h  |    1 +
+ drivers/staging/media/meson/vdec/vdec.h       |    1 +
+ .../staging/media/meson/vdec/vdec_helpers.c   |   44 +-
+ .../staging/media/meson/vdec/vdec_helpers.h   |   10 +-
+ .../staging/media/meson/vdec/vdec_platform.c  |   37 +
+ 13 files changed, 1677 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.c
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.h
+
+-- 
+2.34.1
+
