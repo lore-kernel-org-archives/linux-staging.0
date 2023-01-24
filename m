@@ -1,113 +1,136 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E5B8F4B
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 19:01:49 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id t18so2041586wro.1
-        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 11:01:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6504E8F4B
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 19:47:20 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id t18so2149586wro.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 11:47:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S3KZqt7KtaJtK5kczaKVU8eo16OQrh5dnqNWX+toslk=;
-        b=Gi2gSj1gTc6WPkN0ntPl1Hby13U0YA5+3kKr4ge/7rUybcXruohTyC4GRk9zSlvBwL
-         5sEGcS26Od5vRzt6tfuXQFGxVKHjlFHR0X+jYnOrBn6CzNu8nr71EvzmNVvpqyeVT0I8
-         /ymm9KO4qd1yY8OSImzKdNSEMwOeHvBP8f0roGLntqLYQX9WZqe+PZeKyNDm0ITgL1xZ
-         YzQN++XUQ2xOggrvGU61/puwBoC0hYilPcHrxe+k7M6MIYUNIaiInwMhq4b7jikPUYtu
-         fQ8cvO2j6ytCC5lyJaQDG+3cH9LsPXtLB7xUjUSohhXorj8pgpFj/eHho384S84mUjku
-         HjSA==
+        d=raspberrypi.com; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nNr1LUPBn6inNA8VZVETp+QL4Mct4+taZ8R3vQRhgHU=;
+        b=Ku1KJyIH5iA0zb+ZLxSfwOMuGPi4LHYcc4LsFXU+tcttNuaRKEnrSgJq/ZgRsV8PU3
+         fwDgRTiFBzga3hHanZDh+Iimdby5yQYstdZIF9XE7mqmY83a4yeT7wo40VoHndy99CJZ
+         IjF2DdTHK+euJnh6+eXBawh++3suwxM7hI9qLRn4lXS0RePH6vjxa3dL4dx4G1j+V4om
+         o/h3WaOVmPXy3hJYLRn41wl91kAeCKq8yzz1TKcdExud9V6JyMkEhclFjJo4gpB4jqot
+         TYi2Jf/vskdmZi/EgjKpg9DXEBHGMWX+EGLwT0337BtkZcP4DN6ixBn9xoajHad+l/2B
+         F6lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S3KZqt7KtaJtK5kczaKVU8eo16OQrh5dnqNWX+toslk=;
-        b=sa2zgDgLG2TnklNN8zB8wlO5Ozp7Q+EXTdloz/w/niehHehrFWa7ARiy2IhJjfLNyO
-         zzOse0AbtrENiGrreladUXPBvtI/iIQrw9i/q+rdA/11ecVPdVNe7SREmU+cvmLSzZ9W
-         sGltziJAu8M7PWM2+za5rEbXrdZSa9D9qZAt2xg3eOgNTTpGRoT+uYGo00QBDUv57mxu
-         iGtgR1Dr13SS+EKy0tGpd85cyY0iMbvFYlKEkCMrtPflFKdAtp5YhZEGTFeMv38UVGNS
-         pvY2JKSfQ3HtXVzbRVVtkdJoeGXZNzorexAMsE3pm74OUWE6b33fOKR9o6sSa+IvDMYQ
-         1Dsw==
-X-Gm-Message-State: AFqh2kr8F2Fbry/GZLmY8E3IZP7op681TamOaAomJLm8y15to1n+UZ0o
-	gcwPuDe5zmeN6FY/5F31lZI=
-X-Google-Smtp-Source: AMrXdXux0xWZkh5VyjCZK+JTI7uxz2CN6V5IQ9/EHBMVf2Ua9yR9rJCYXjuI6Y8UbPIKCqkJcLBj/Q==
-X-Received: by 2002:a5d:6b50:0:b0:2bd:e204:9165 with SMTP id x16-20020a5d6b50000000b002bde2049165mr5162055wrw.1.1674586908111;
-        Tue, 24 Jan 2023 11:01:48 -0800 (PST)
-Received: from [192.168.1.102] (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id r3-20020a5d4e43000000b002be0b1e556esm2474097wrt.59.2023.01.24.11.01.46
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nNr1LUPBn6inNA8VZVETp+QL4Mct4+taZ8R3vQRhgHU=;
+        b=BKO4rwQj6IIRhJoCA5uwsMHrVY5Dj9YFTkCqga5ReKYs2iJUqKK7uImXHQqe7KKNka
+         LDAjB/KcDMNS5q/k1UFSNeEa9MxEtyZaRsV7S64qjwm2j779xMNcMjJMQG3KoiHWuXhS
+         jGr/LlMT73DSYaF1v6qW4JeRM1nj2NMKov7kEW98FHBKQnUUII2IkIKj2Cife/DdG/mc
+         6vvF7SlmkFWBbIlLEFg2JeInOePmGQNYV3HW3h9lipWJlm5c3/HQ08hiEvJG1H0mfqb6
+         UBkusHuR7eWwxFj+PaQn78fTlNLighH18Rs0tyzmI4Osq2cBAtVkl4MAYWgu2vaOW6c9
+         8oFA==
+X-Gm-Message-State: AFqh2koRZgTUDGhHBRXxAZEks/2OvAgct7X3DRQwzOiQ2gAlANrbLxq1
+	prhlIpIW81W94MmExoAYjjXHIA==
+X-Google-Smtp-Source: AMrXdXsdV1/c0K60ElxHx9ZlIhlW/1kAwg7hXgxSo71OqXQP9dAljVq/0xZ+x8ceYca8lju7MBsLGA==
+X-Received: by 2002:a5d:6b05:0:b0:2bd:cf99:e6ab with SMTP id v5-20020a5d6b05000000b002bdcf99e6abmr23775790wrw.65.1674589638559;
+        Tue, 24 Jan 2023 11:47:18 -0800 (PST)
+Received: from [192.168.187.211] ([86.12.200.143])
+        by smtp.gmail.com with ESMTPSA id f5-20020adffcc5000000b002bfae3f6802sm2459515wrs.58.2023.01.24.11.47.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 11:01:47 -0800 (PST)
-Message-ID: <4a827107-de14-f569-02fd-de7956317459@gmail.com>
-Date: Tue, 24 Jan 2023 20:01:46 +0100
+        Tue, 24 Jan 2023 11:47:18 -0800 (PST)
+Message-ID: <2ad50d65-9ce2-de4c-b14f-98c086b2d8c0@raspberrypi.com>
+Date: Tue, 24 Jan 2023 19:47:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 00/23] staging: r8188eu: some more xmit cleanups
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230123205342.229589-1-martin@kaiser.cx>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20230123205342.229589-1-martin@kaiser.cx>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
+ with a custom bus_type
+To: Stefan Wahren <stefan.wahren@i2se.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Florian Fainelli <f.fainelli@gmail.com>,
+ Adrien Thierry <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>
+References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
+ <786df750-221e-82fc-a324-d30261296974@i2se.com>
+ <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
+ <Y85MOdAVh/fv5HRt@pendragon.ideasonboard.com>
+ <39f438f8-c41b-17e6-42ba-9d87098a1eee@i2se.com>
+From: Phil Elwell <phil@raspberrypi.com>
+In-Reply-To: <39f438f8-c41b-17e6-42ba-9d87098a1eee@i2se.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-On 1/23/23 21:53, Martin Kaiser wrote:
-> Here's another series with cleanups of the xmit part. Amongst other
-> things, it replaces some __queue variables with standard list_heads.
-> 
-> This series also includes rebased versions of the patches that caused
-> conflicts during the last review cycle.
-> 
-> Martin Kaiser (23):
->    staging: r8188eu: we use a constant number of hw_xmit entries
->    staging: r8188eu: pass struct adapter to usb_write
->    staging: r8188eu: remove struct intf_hdl
->    staging: r8188eu: remove struct intf_priv
->    staging: r8188eu: simplify the sta loop in rtw_dequeue_xframe
->    staging: r8188eu: simplify the code to initialise inx
->    staging: r8188eu: remove an obsolete comment
->    staging: r8188eu: remove unused function parameter
->    staging: r8188eu: remove dead assignment
->    staging: r8188eu: use list_empty
->    staging: r8188eu: simplify dequeue_one_xmitframe
->    staging: r8188eu: remove redundant parameter
->    staging: r8188eu: make rtw_chk_hi_queue_cmd a void function
->    staging: r8188eu: decrement qcnt in rtw_dequeue_xframe
->    staging: r8188eu: simplify dequeue_one_xmitframe
->    staging: r8188eu: use list_head for xmitframe list
->    staging: r8188eu: merge dequeue_one_xmitframe into its caller
->    staging: r8188eu: use lists for hwxmits
->    staging: r8188eu: fix rtw_xmitframe_enqueue error handling
->    staging: r8188eu: remove rtw_xmitframe_enqueue
->    staging: r8188eu: struct agg_pkt_info is unused
->    staging: r8188eu: apsd_setting is unused
->    staging: r8188eu: merge rtw_free_hwxmits into its only caller
-> 
->   drivers/staging/r8188eu/core/rtw_cmd.c        |  16 +--
->   drivers/staging/r8188eu/core/rtw_xmit.c       | 119 +++++-------------
->   drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |   7 +-
->   drivers/staging/r8188eu/hal/usb_ops_linux.c   |  18 +--
->   drivers/staging/r8188eu/include/drv_types.h   |   1 -
->   drivers/staging/r8188eu/include/osdep_intf.h  |  32 -----
->   .../staging/r8188eu/include/rtl8188e_xmit.h   |   3 +-
->   drivers/staging/r8188eu/include/rtw_cmd.h     |   2 +-
->   drivers/staging/r8188eu/include/rtw_io.h      |   8 --
->   drivers/staging/r8188eu/include/rtw_xmit.h    |  23 +---
->   drivers/staging/r8188eu/os_dep/usb_intf.c     |   6 -
->   11 files changed, 57 insertions(+), 178 deletions(-)
-> 
-
-
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+T24gMjQvMDEvMjAyMyA4OjQxLCBTdGVmYW4gV2FocmVuIHdyb3RlOg0KPiBIaSBQaGlsLA0K
+PiANCj4gQW0gMjMuMDEuMjMgdW0gMDk6NTggc2NocmllYiBMYXVyZW50IFBpbmNoYXJ0Og0K
+Pj4gT24gTW9uLCBKYW4gMjMsIDIwMjMgYXQgMDE6MTg6MzBQTSArMDUzMCwgVW1hbmcgSmFp
+biB3cm90ZToNCj4+PiBIaSBTdGVmYW4sDQo+Pj4NCj4+PiBUaGFuayBmb3IgdGhlIHRlc3Rp
+bmcuDQo+Pj4NCj4+PiBPbiAxLzIzLzIzIDU6MDQgQU0sIFN0ZWZhbiBXYWhyZW4gd3JvdGU6
+DQo+Pj4+IEhpIFVtYW5nLA0KPj4+Pg0KPj4+PiBBbSAyMC4wMS4yMyB1bSAyMToxMCBzY2hy
+aWViIFVtYW5nIEphaW46DQo+Pj4+PiBUaGlzIHNlcmllcyBqdXN0IGludHJvZHVjZXMgZml2
+ZSBleHRyYSBwYXRjaGVzIGZvciBkcm9wcGluZyBpbmNsdWRlDQo+Pj4+PiBkaXJlY3RpdmVz
+IGZyb20gTWFrZWZpbGVzIChzdWdnZXN0ZWQgYnkgR3JlZyBLSCkgYW5kIHJlYmFzZWQuDQo+
+Pj4+Pg0KPj4+Pj4gVGhlIG1haW4gcGF0Y2ggKDYvNikgcmVtb3ZlcyBwbGF0Zm9ybSBkZXZp
+Y2UvZHJpdmVyIGFidXNlIGFuZCBtb3Zlcw0KPj4+Pj4gdGhpbmdzIHRvIHN0YW5kYXJkIGRl
+dmljZS9kcml2ZXIgbW9kZWwgdXNpbmcgYSBjdXN0b21fYnVzLiBTcGVjaWZpYw0KPj4+Pj4g
+ZGV0YWlscyBhcmUgZWxhYm9yYXRlZCBpbiB0aGUgY29tbWl0IG1lc3NhZ2UuDQo+Pj4+Pg0K
+Pj4+Pj4gVGhlIHBhdGNoIHNlcmllcyBpcyBiYXNlZCBvbiB0b3Agb2YgZDUxNDM5MmYxN2Zk
+ICh0YWc6IG5leHQtMjAyMzAxMjApDQo+Pj4+PiBvZiBsaW51eC1uZXh0Lg0KPj4+PiBhcHBs
+aWVkIHRoaXMgc2VyaWVzIG9uIHRvcCBvZiBsaW51eC1uZXh0IGFuZCBidWlsZCBpdCB3aXRo
+DQo+Pj4+IGFybS9tdWx0aV92N19kZWZjb25maWcgcGx1cyB0aGUgZm9sbG93aW5nOg0KPj4+
+Pg0KPj4+PiBDT05GSUdfQkNNX1ZJREVPQ09SRT15DQo+Pj4+IENPTkZJR19CQ00yODM1X1ZD
+SElRPW0NCj4+Pj4gQ09ORklHX1ZDSElRX0NERVY9eQ0KPj4+PiBDT05GSUdfU05EX0JDTTI4
+MzU9bQ0KPj4+PiBDT05GSUdfVklERU9fQkNNMjgzNT1tDQo+Pj4+IENPTkZJR19CQ00yODM1
+X1ZDSElRX01NQUw9bQ0KPj4+Pg0KPj4+PiBhbmQgdGhlIGRldmljZXMgZG9lc24ndCByZWdp
+c3RlciBvbiBSYXNwYmVycnkgUGkgMyBCIFBsdXM6DQo+Pj4+DQo+Pj4+IFvCoMKgIDI1LjUy
+MzMzN10gdmNoaXE6IG1vZHVsZSBpcyBmcm9tIHRoZSBzdGFnaW5nIGRpcmVjdG9yeSwgdGhl
+IHF1YWxpdHkgaXMgdW5rbm93biwgeW91IGhhdmUgYmVlbiB3YXJuZWQuDQo+Pj4+IFvCoMKg
+IDI1LjU0MTY0N10gYmNtMjgzNV92Y2hpcSAzZjAwYjg0MC5tYWlsYm94OiBGYWlsZWQgdG8g
+cmVnaXN0ZXIgYmNtMjgzNV9hdWRpbyB2Y2hpcSBkZXZpY2UNCj4+Pj4gW8KgwqAgMjUuNTUz
+NjkyXSBiY20yODM1X3ZjaGlxIDNmMDBiODQwLm1haWxib3g6IEZhaWxlZCB0byByZWdpc3Rl
+ciBiY20yODM1LWNhbWVyYSB2Y2hpcSBkZXZpY2UNCj4+PiBJIHdhcyBhYmxlIHRvIHJlcHJv
+ZHVjZSBhbmQgaXQgc2VlbXMgdGhlIGlzc3VlIGhlcmUgaXMgdGhlIGNoYW5nZQ0KPj4+IG1l
+bnRpb25lZCBpbiB0aGUgY292ZXINCj4+Pg0KPj4+IC0gZHJvcCBkbWFfc2V0X21hc2tfYW5k
+X2NvaGVyZW50DQo+Pj4NCj4+PiBpbiBWNi4NCj4+Pg0KPj4+IChJIHVzdWFsbHkgdGVzdCBw
+YXRjaGVzIG9uIFJQaSA0QiB3aXRoIHZjc20tY21hIGFuZCBiY20yODM1LWlzcCBhcHBsaWVk
+DQo+Pj4gc28gbXkgYnJhbmNoIGhhcyB0aGUgRE1BIGh1bmsgaW5jbHVkZWQgd2hpbGUgSSB3
+YXMgdGVzdGluZyBWNikNCj4+Pg0KPj4+IEJlbG93IGlzIHRoZSBodW5rIHdoaWNoIHNob3Vs
+ZCByZXNvbHZlIHRoZSBpc3N1ZS4NCj4+Pg0KPj4+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy92
+YzA0X3NlcnZpY2VzL2ludGVyZmFjZS92Y2hpcV9hcm0vdmNoaXFfZGV2aWNlLmMNCj4+PiAr
+KysgYi9kcml2ZXJzL3N0YWdpbmcvdmMwNF9zZXJ2aWNlcy9pbnRlcmZhY2UvdmNoaXFfYXJt
+L3ZjaGlxX2RldmljZS5jDQo+Pj4gQEAgLTYsNiArNiw3IEBADQo+Pj4gwqAgwqAgKi8NCj4+
+Pg0KPj4+IMKgIMKgI2luY2x1ZGUgPGxpbnV4L2RldmljZS9idXMuaD4NCj4+PiArI2luY2x1
+ZGUgPGxpbnV4L2RtYS1tYXBwaW5nLmg+DQo+Pj4gwqAgwqAjaW5jbHVkZSA8bGludXgvc2xh
+Yi5oPg0KPj4+IMKgIMKgI2luY2x1ZGUgPGxpbnV4L3N0cmluZy5oPg0KPj4+DQo+Pj4gQEAg
+LTcyLDYgKzczLDEyIEBAIGludCB2Y2hpcV9kZXZpY2VfcmVnaXN0ZXIoc3RydWN0IGRldmlj
+ZSAqcGFyZW50LA0KPj4+IGNvbnN0IGNoYXIgKm5hbWUpDQo+Pj4gwqAgwqDCoMKgwqDCoMKg
+wqAgZGV2aWNlLT5kZXYudHlwZSA9ICZ2Y2hpcV9kZXZpY2VfdHlwZTsNCj4+PiDCoCDCoMKg
+wqDCoMKgwqDCoCBkZXZpY2UtPmRldi5yZWxlYXNlID0gdmNoaXFfZGV2aWNlX3JlbGVhc2U7
+DQo+Pj4NCj4+PiArwqDCoMKgwqDCoMKgIHJldCA9IGRtYV9zZXRfbWFza19hbmRfY29oZXJl
+bnQoJmRldmljZS0+ZGV2LCBETUFfQklUX01BU0soMzIpKTsNCj4+PiArwqDCoMKgwqDCoMKg
+IGlmIChyZXQgPCAwKSB7DQo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdmNo
+aXFfZGV2aWNlX3JlbGVhc2UoJmRldmljZS0+ZGV2KTsNCj4+PiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Ow0KPj4+ICvCoMKgwqDCoMKgwqAgfQ0KPj4+ICsN
+Cj4+PiDCoCDCoMKgwqDCoMKgwqDCoCByZXQgPSBkZXZpY2VfcmVnaXN0ZXIoJmRldmljZS0+
+ZGV2KTsNCj4+PiDCoCDCoMKgwqDCoMKgwqDCoCBpZiAocmV0KSB7DQo+Pj4gwqAgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHB1dF9kZXZpY2UoJmRldmljZS0+ZGV2KTsNCj4+
+Pg0KPj4+IEl0IHNlZW1zIHdlIG5lZWQgdG8gaW5jbHVkZSB0aGUgZG1hX3NldF9tYXNrX2Fu
+ZF9jb2hlcmVudCgpIGV2ZW4gaWYNCj4+PiBiY20yODM1LWF1ZGlvLCBiY20yODM1LWNhbWVy
+YSBkZXZpY2UgZG9lc24ndCBkbyBETUE/IEkgbmVlZCB0byBsb29rIGludG8NCj4+PiB3aHkg
+aXMgdGhhdC8NCj4gDQo+IERvIHlvdSBoYXZlIGFuIGFuc3dlciBmb3IgdGhpcz8NCg0KVGhh
+dCdzIGJlY2F1c2UgdmNoaXEgZG9lcyB1c2UgRE1BIGZvciBidWxrIHRyYW5zZmVycywgaXQn
+cyBqdXN0IHRoYXQgdGhlIERNQSBoYXJkd2FyZQ0KaXMgZHJpdmVuIGZyb20gdGhlIFZQVSBz
+aWRlLiBBbmQgZXZlbiB0aG91Z2ggdGhlIFZQVSBjYW4gb25seSBhZGRyZXNzIDFHQiwgaXQg
+dXNlcyB0aGUNCnVwcGVyIGFkZHJlc3MgYml0cyB0byBkZXRlcm1pbmUgY2FjaGVhYmlsaXR5
+IG9mIGFjY2Vzc2VzLCBoZW5jZSB0aGUgbmVlZCBmb3IgMzItYml0DQpETUEgYWRkcmVzc2Vz
+Lg0KDQpQaGlsDQoNCg==
