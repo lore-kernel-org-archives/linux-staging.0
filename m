@@ -1,49 +1,49 @@
 Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF3C8F70
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 22:04:01 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id k16so12501136wms.2
-        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 14:04:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9278F70
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 22:04:07 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id k16so12501318wms.2
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 14:04:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=75/IjlhstHHhYWzsbQIR4Dd2QgIIp4238rHFb4NvJPg=;
-        b=AUJrtPJNhcoozirZE5FdY6iWPNtWlFrObe7Pouo+G3eNQt8ubArB/ugRI/EzBk9OSX
-         1aq6Z17HKeVHJ/q36qE9oS1RMEDv5jjAwcewxT63fnFkjsgfFANbeaC3arfNSH+yM7w2
-         xT7f7b4ycOCZWq8KFDadRPl3sUvStDTw/0DCHEhhkrbsPyqrywJjmLakQirMH9f56Nu1
-         d6ulFPt+bPPB/tuHOHKArqU+uU1/KlbWsy+JHfYYHQKIlxIL5g/E7Ok8V27Swx2PG+xI
-         1/hicgnaOETKo56WUCdj+ruFnlflR0QyzyQ7Dfnx1/hAKZq5jdVhJ55hXLmYCbtzS97/
-         osZg==
+        bh=RPkDVI+kwbAJ93P/3HO1c8dYxoMR9aHUJQ6dLWT3TnA=;
+        b=imbFKXgalkTRtXQTXS9Fs4SMJ1hEqVH6EWLyRtnqTVPrlhpWUUQ1u4lfEQ4WKeXpPF
+         NyjTcCzs9Ox6xMslre3S/woYwiqj4nzNXgFcgXHGS63XDCuz+pkXpIxpDB5BdePrk26R
+         bJMRM5w+gm/wyhyckDP+PRIzNmeLuIgKqLzfePKkhQWY7303AiOnNMnDtVgFi6bjEtur
+         25Urg82ec+AXJwjUti5PmgvdBnsmRMc+hbDyJ4VFolTl6kJsBe1L9v3BqXOGxfmaTQyY
+         Viiihktwgv/i6Ri9C02RyJ4SoDUcdb0lybTR+y7912gAGTeXk15k5Xdn28jO2dXD++QO
+         Pg/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=75/IjlhstHHhYWzsbQIR4Dd2QgIIp4238rHFb4NvJPg=;
-        b=j3P7s8XNHY9D23L0GId6TZT5Wx6GEoEaPPlc3XNd/n6ysYXXsFa5ewc1pSk/V9XaZo
-         Qr61LjF+PcjuCmFPi5b4RGKo9CRpxUGIWkrjAh8RVZ118gllW+rRIqttrSuatBJiBcqD
-         KCJL8o5JOdzDn+VcrKmzHvoruY5LWxusUEl1kcKZpF5TYwASw4BUZpXeq+T4tBrGW0CJ
-         NZlgTWOMQ+gOBOYwtDV7sGGJVqxwGsaysksHNySkDLNW20yC2RbIW8XutZBnyqUq/dNh
-         IXnc1de/tMsUBdK2/fI8Ky+wimDqLGaOYLB7hKtq7wmrCq46LHsqRIdCNng5UX2JlfY1
-         UmhQ==
-X-Gm-Message-State: AFqh2koW8F83QynrweL1T/6Z1V0KJkKsql5syAGp3QzlH9JkmrBNpxQG
-	hwJiSVW5TT80rDPG37SmXK3rEOEDDOU=
-X-Google-Smtp-Source: AMrXdXvPIiEYoW3FFnicK63HVnZ60Kn25+lMO0cy3c8fv9g/eF5VwtcTTBClDdTgkZLG/JiH5W4cxg==
-X-Received: by 2002:a05:600c:3b0a:b0:3db:22a:1349 with SMTP id m10-20020a05600c3b0a00b003db022a1349mr7678769wms.2.1674597839531;
-        Tue, 24 Jan 2023 14:03:59 -0800 (PST)
+        bh=RPkDVI+kwbAJ93P/3HO1c8dYxoMR9aHUJQ6dLWT3TnA=;
+        b=SwnOXtK6E99zrikiFU2nn+KbJUNp3/E1OKGM1kiYsBS4Oy2mmSSL9+d0uoebIN5lcR
+         g4uP832f7qvCi66aosL+2nNO/lfx3m4ARvyQ1rMOQPT71Y0FGL8IJch4CHAc+fD8hKf1
+         E9dTYI0l21LeApvgcMFYHafh4OuG0H9+S5a4eAf3m1zyRZF+i/Qc1MPmSY9MnLRYrLPY
+         IuGfW9i+YLEpkfLKSmMQETz+KpykeJ/+mdmd93xRymJLZ8ay4pl0bm5PAYb3ZAB5wvLf
+         A4fcPO1hbLE9hQQjKlFGsTG8NfD0iFll8142x1MUKfC7awHKoYwzuxGcCPMK1v541raF
+         pRXw==
+X-Gm-Message-State: AFqh2krrI6OU60JYqpABIkot3ZDUnmqXZ5VJ0s/Rk/Yv2z5EqUk21nsE
+	HOytQLxPXX9Tg6GPpdfGOUw=
+X-Google-Smtp-Source: AMrXdXvifvtEy3l/deRUmlTDNE1EmkSy5kS6GOnOYrhxNI5ZESiX/7mH7on8/PebqJynRwcVj74+Vw==
+X-Received: by 2002:a05:600c:5120:b0:3db:21b8:5f53 with SMTP id o32-20020a05600c512000b003db21b85f53mr5582344wms.1.1674597846842;
+        Tue, 24 Jan 2023 14:04:06 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id j20-20020a05600c489400b003db0f4e12c8sm22371wmp.34.2023.01.24.14.03.58
+        by smtp.gmail.com with ESMTPSA id p15-20020a5d4e0f000000b002bdc39849d1sm2791366wrt.44.2023.01.24.14.04.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 14:03:58 -0800 (PST)
-Date: Tue, 24 Jan 2023 23:03:56 +0100
+        Tue, 24 Jan 2023 14:04:06 -0800 (PST)
+Date: Tue, 24 Jan 2023 23:04:04 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/11] staging: rtl8192e: Remove unused variables num_proc..,
- recei.. and rxov..
-Message-ID: <67df12497bc6f93c6ef85b4dda7490b037f2a3da.1674596722.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 07/11] staging: rtl8192e: Remove unused variables rxint, ints
+ and shints
+Message-ID: <1ddfe407a0b93f991466ecba71741c5025fb6352.1674596722.git.philipp.g.hortmann@gmail.com>
 References: <cover.1674596722.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,69 +55,62 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1674596722.git.philipp.g.hortmann@gmail.com>
 
-num_process_phyinfo, received_bwtype and rxoverflow are initialized and
-increased but never read. Remove dead code.
+rxint, ints and shints are initialized and increased but never read.
+Remove dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 5 -----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 4 +---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 3 ---
- 3 files changed, 1 insertion(+), 11 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 7 +------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 3 ---
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 31b4823e6324..154d15b68b8e 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1469,10 +1469,6 @@ static void _rtl92e_query_rxphystatus(
- 		rxsc_sgien_exflg = pofdm_buf->rxsc_sgien_exflg;
- 		prxsc = (struct phy_ofdm_rx_status_rxsc_sgien_exintfflag *)
- 			&rxsc_sgien_exflg;
--		if (pdrvinfo->BW)
--			priv->stats.received_bwtype[1+prxsc->rxsc]++;
--		else
--			priv->stats.received_bwtype[0]++;
- 	}
- 
- 	if (is_cck_rate) {
-@@ -1535,7 +1531,6 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
- 	if (!bcheck)
- 		return;
- 
--	priv->stats.num_process_phyinfo++;
- 	if (!prev_st->bIsCCK && prev_st->bPacketToSelf) {
- 		for (rfpath = RF90_PATH_A; rfpath < RF90_PATH_C; rfpath++) {
- 			if (!rtl92e_is_legal_rf_path(priv->rtllib->dev, rfpath))
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index e0d0f4faeca7..c5fe8e0aa83f 100644
+index c5fe8e0aa83f..ff9dc06642f6 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -2183,10 +2183,8 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
- 		tasklet_schedule(&priv->irq_rx_tasklet);
+@@ -2123,7 +2123,6 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
+ 	spin_lock_irqsave(&priv->irq_th_lock, flags);
+ 
+ 	priv->ops->interrupt_recognized(dev, &inta, &intb);
+-	priv->stats.shints++;
+ 
+ 	if (!inta) {
+ 		spin_unlock_irqrestore(&priv->irq_th_lock, flags);
+@@ -2135,8 +2134,6 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
+ 		goto done;
  	}
  
--	if (inta & IMR_RXFOVW) {
--		priv->stats.rxoverflow++;
-+	if (inta & IMR_RXFOVW)
+-	priv->stats.ints++;
+-
+ 	if (!netif_running(dev)) {
+ 		spin_unlock_irqrestore(&priv->irq_th_lock, flags);
+ 		goto done;
+@@ -2169,10 +2166,8 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
+ 	if (inta & IMR_HIGHDOK)
+ 		_rtl92e_tx_isr(dev, HIGH_QUEUE);
+ 
+-	if (inta & IMR_ROK) {
+-		priv->stats.rxint++;
++	if (inta & IMR_ROK)
  		tasklet_schedule(&priv->irq_rx_tasklet);
 -	}
  
- 	if (inta & IMR_TXFOVW)
- 		priv->stats.txoverflow++;
+ 	if (inta & IMR_BcnInt)
+ 		tasklet_schedule(&priv->irq_prepare_beacon_tasklet);
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index e38de4d8a467..bb942283bc7a 100644
+index bb942283bc7a..2d1561a202d0 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 @@ -184,9 +184,6 @@ enum reset_type {
  
  struct rt_stats {
  	unsigned long received_rate_histogram[4][32];
--	unsigned long num_process_phyinfo;
--	unsigned long received_bwtype[5];
--	unsigned long rxoverflow;
- 	unsigned long rxint;
- 	unsigned long ints;
- 	unsigned long shints;
+-	unsigned long rxint;
+-	unsigned long ints;
+-	unsigned long shints;
+ 	unsigned long txoverflow;
+ 	unsigned long txbeokint;
+ 	unsigned long txbkokint;
 -- 
 2.39.1
 
