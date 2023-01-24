@@ -1,103 +1,126 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from MTA-06-3.privateemail.com (mta-06-3.privateemail.com [198.54.127.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A3663BF
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 13:37:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674567465;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ja1Boq6JcSFXCMZhXgFdCI/xjNx9lt77gCIPTTWiLqY=;
-	b=ftF7kB8AZfFg65puNqmub8G00X/eArgkSvLEd2rSD68f0nVn+IImfUVCKA/oDNE69FngG5
-	c/fYaXBZg12L0wzgCANboYuyTVj00H+q1fLn8Zo0E4KV39jkfY6UT3On3X4OG20spJ+raP
-	Ghv72qEnYi3odmGRdfQKLpLdgy4TmFs=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-204-U0HyRZa1PyGAb8wdVTgYBg-1; Tue, 24 Jan 2023 08:35:49 -0500
-X-MC-Unique: U0HyRZa1PyGAb8wdVTgYBg-1
-Received: by mail-ed1-f70.google.com with SMTP id m12-20020a056402430c00b0049e4ac58509so10719955edc.16
-        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 05:35:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ja1Boq6JcSFXCMZhXgFdCI/xjNx9lt77gCIPTTWiLqY=;
-        b=G9cJYQobjZIGYYy8UA0T+LJ1YRU/9Bp+uzMUsHLIvCAP25VQaok2GAdRQgGyqohuDB
-         jd7lWaGS+A88Alyezhnbw32GdRco6ZTnzNsjKHmSGcWPbe1J7V7JXHyJghJbCGx/7vXJ
-         Gl9PB3rdfNhSm6pdq+IQspvGtoV8ai7hToAC4h9rH0JHHwWhb757txC5KkUshnmRzbzM
-         4nP1896+pkNXYZkHVvb3im+PQEPQlb29Qlv/EhRcqTmSeatCfKLvjs28f8oGgX1jwXzX
-         bmOwdq8QqfoXgLoFTsQR6F1nxg9wjc3baG/PWbRpDXmsGFj31qhJysGyCshIE6HGsKcd
-         310w==
-X-Gm-Message-State: AFqh2ko8GrbMBKUZqIRpEviiWd6lJj+O7Effma0kG/Sgnmqbcy3OWgGQ
-	yPn2OE57LrFSXcidpNGUtlYM0s+8dobLvzhucy+hPfokl82smgIfPzSeReJ2pqUEKltL1A+Zp9g
-	blZxuoLusuoBtwGgJwK2YFIdLOw==
-X-Received: by 2002:a17:907:62a8:b0:86a:d385:81df with SMTP id nd40-20020a17090762a800b0086ad38581dfmr41535512ejc.3.1674567329582;
-        Tue, 24 Jan 2023 05:35:29 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt//+kuObY87nZxu3COedx8quy/73VjZYsYfGZKXBUbXcz+uJPJh4p54v4VFtWUDLdyM+d6xg==
-X-Received: by 2002:a17:907:62a8:b0:86a:d385:81df with SMTP id nd40-20020a17090762a800b0086ad38581dfmr41535502ejc.3.1674567329376;
-        Tue, 24 Jan 2023 05:35:29 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id rn3-20020a170906d92300b00877a9d2e5e1sm915695ejb.79.2023.01.24.05.35.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 05:35:28 -0800 (PST)
-Message-ID: <af5eed6c-7913-cd52-4d87-ce3029137f07@redhat.com>
-Date: Tue, 24 Jan 2023 14:35:28 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7E463BF
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 13:56:49 +0000 (UTC)
+Received: from mta-06.privateemail.com (localhost [127.0.0.1])
+	by mta-06.privateemail.com (Postfix) with ESMTP id 9C2F818000A1;
+	Tue, 24 Jan 2023 08:56:47 -0500 (EST)
+Received: from bpappas-XPS-13-9310.ucf.edu (050-088-208-136.res.spectrum.com [50.88.208.136])
+	by mta-06.privateemail.com (Postfix) with ESMTPA id F257218000A2;
+	Tue, 24 Jan 2023 08:56:37 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pappasbrent.com;
+	s=default; t=1674568607;
+	bh=hyywYj3YgpDSUr4+jW3lP2faP9U2ufaGmFKNvculv8g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NuVd+GWuVAjzvardhhN0mG2/HD3n/VJ5kZHU0qb8PjGzPqRh3a1e4x55EUa1jWovW
+	 xlY6jNmisP0TzpAuLHv8vfhm7X+Oz7IB/cikHyPHF7plq3c3ckhmHWSenYbrdSOqk7
+	 iCl8UofS05icJMqd3jTWvlT8na7l4oAuo8xL9H+0NBlryj6+5UF77faV5zCU3KY/uz
+	 yhr5L0g+LM6a8QRrD2u9fDEwQuGH3b+rK2m348pXlYYrj3jWap7yoOvkiSSP2UCNPz
+	 H8IBpxpBA+VYFO0qFPi1ivyZozx76rTG+wIYyITnfN068LMXlYxjixj0XrzDyvopH3
+	 7JeH8OVtCtJvA==
+From: Brent Pappas <bpappas@pappasbrent.com>
+To: sakari.ailus@linux.intel.com
+Cc: bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Brent Pappas <bpappas@pappasbrent.com>
+Subject: [PATCH] mdeia: ipu3: ipu33-mmu: Replace macro IPU3_ADDR2PTE() with a function
+Date: Tue, 24 Jan 2023 08:55:54 -0500
+Message-Id: <20230124135554.13787-1-bpappas@pappasbrent.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 46/57] media: atomisp: ov2680: Delay power-on till
- streaming is started
-To: Andy Shevchenko <andy@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tsuchiya Yuto <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
- Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
- Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-47-hdegoede@redhat.com>
- <Y8+4SZzMpgI1yNaU@smile.fi.intel.com>
- <1bd8ac47-03f8-245b-7708-defd150eff00@redhat.com>
- <Y8/UeKTin7fyUrLl@smile.fi.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y8/UeKTin7fyUrLl@smile.fi.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-Hi,
+Replace the macro IPU3_ADDR2PTE() with a static function to match
+Linux coding style standards.
 
-On 1/24/23 13:52, Andy Shevchenko wrote:
-> On Tue, Jan 24, 2023 at 12:31:14PM +0100, Hans de Goede wrote:
->> On 1/24/23 11:51, Andy Shevchenko wrote:
->>> On Mon, Jan 23, 2023 at 01:51:54PM +0100, Hans de Goede wrote:
-> 
-> ...
-> 
->>>> +	if (sensor->is_streaming == enable) {
->>>> +		dev_warn(&client->dev, "stream already %sed\n", enable ? "start" : "stopp");
->>>
->>> stopP ?!
->>
->> Yes the format string is "%sed" so "stopp" gives us "stopped".
-> 
-> Can we, please, use full words, so it will be easier to find a candidate for
-> including into string_choices.h or so?
+Signed-off-by: Brent Pappas <bpappas@pappasbrent.com>
+---
+ drivers/staging/media/ipu3/ipu3-mmu.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-Sure I'll update this before adding it to the PR.
-
-Regards,
-
-Hans
+diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+index cb9bf5fb29a5..d2d603c32773 100644
+--- a/drivers/staging/media/ipu3/ipu3-mmu.c
++++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+@@ -25,7 +25,11 @@
+ #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
+ #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
+ 
+-#define IPU3_ADDR2PTE(addr)	((addr) >> IPU3_PAGE_SHIFT)
++static u32 ipu3_addr2pte(phys_addr_t addr)
++{
++	return addr >> IPU3_PAGE_SHIFT;
++}
++
+ #define IPU3_PTE2ADDR(pte)	((phys_addr_t)(pte) << IPU3_PAGE_SHIFT)
+ 
+ #define IPU3_L2PT_SHIFT		IPU3_PT_BITS
+@@ -200,7 +204,7 @@ static u32 *imgu_mmu_get_l2pt(struct imgu_mmu *mmu, u32 l1pt_idx)
+ 	l2pt = new_l2pt;
+ 	mmu->l2pts[l1pt_idx] = new_l2pt;
+ 
+-	pteval = IPU3_ADDR2PTE(virt_to_phys(new_l2pt));
++	pteval = ipu3_addr2pte(virt_to_phys(new_l2pt));
+ 	mmu->l1pt[l1pt_idx] = pteval;
+ 
+ 	spin_unlock_irqrestore(&mmu->lock, flags);
+@@ -230,7 +234,7 @@ static int __imgu_mmu_map(struct imgu_mmu *mmu, unsigned long iova,
+ 		return -EBUSY;
+ 	}
+ 
+-	l2pt[l2pt_idx] = IPU3_ADDR2PTE(paddr);
++	l2pt[l2pt_idx] = ipu3_addr2pte(paddr);
+ 
+ 	spin_unlock_irqrestore(&mmu->lock, flags);
+ 
+@@ -447,7 +451,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
+ 	mmu->dummy_page = (void *)__get_free_page(GFP_KERNEL);
+ 	if (!mmu->dummy_page)
+ 		goto fail_group;
+-	pteval = IPU3_ADDR2PTE(virt_to_phys(mmu->dummy_page));
++	pteval = ipu3_addr2pte(virt_to_phys(mmu->dummy_page));
+ 	mmu->dummy_page_pteval = pteval;
+ 
+ 	/*
+@@ -457,7 +461,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
+ 	mmu->dummy_l2pt = imgu_mmu_alloc_page_table(pteval);
+ 	if (!mmu->dummy_l2pt)
+ 		goto fail_dummy_page;
+-	pteval = IPU3_ADDR2PTE(virt_to_phys(mmu->dummy_l2pt));
++	pteval = ipu3_addr2pte(virt_to_phys(mmu->dummy_l2pt));
+ 	mmu->dummy_l2pt_pteval = pteval;
+ 
+ 	/*
+@@ -473,7 +477,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
+ 	if (!mmu->l1pt)
+ 		goto fail_l2pts;
+ 
+-	pteval = IPU3_ADDR2PTE(virt_to_phys(mmu->l1pt));
++	pteval = ipu3_addr2pte(virt_to_phys(mmu->l1pt));
+ 	writel(pteval, mmu->base + REG_L1_PHYS);
+ 	imgu_mmu_tlb_invalidate(mmu);
+ 	imgu_mmu_set_halt(mmu, false);
+@@ -529,7 +533,7 @@ void imgu_mmu_resume(struct imgu_mmu_info *info)
+ 
+ 	imgu_mmu_set_halt(mmu, true);
+ 
+-	pteval = IPU3_ADDR2PTE(virt_to_phys(mmu->l1pt));
++	pteval = ipu3_addr2pte(virt_to_phys(mmu->l1pt));
+ 	writel(pteval, mmu->base + REG_L1_PHYS);
+ 
+ 	imgu_mmu_tlb_invalidate(mmu);
+-- 
+2.34.1
 
