@@ -1,120 +1,109 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012C48F70
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 22:04:41 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id f25-20020a1c6a19000000b003da221fbf48so40637wmc.1
-        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 14:04:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9S2rTJlEcWEor4NpjYK8tyE3FSBDpDNy8fvb6AVYPwo=;
-        b=SIvJKZtSi9jA4IyGpgIv4sKxGDXt1pKkXJImNFVlpqnh6ibkX4NdoisQ/vn3MQdfcD
-         1v21r0uxK7VPqKwXwdljp5Wz1LQgbyw/btPRrO3UGIIP8K+cIqe6Eu8p6os7/T3D4lp1
-         xfJMrNdC8SYDerb+12duC0uRbIq5juECHQPYv2TxA2n/x1Xvhkiei5iHWZz8RXYB/V0w
-         anirJHlKmrp+8m11dmVlxZD7969CRHBXXxj+fq3xZNB57pCL2CAlG9uuYI2Ohu2z2Dew
-         7FPJanGxfa6wGcuCeB9MTHY4x+2m8TimnwYHUrgUErLnqDDN/o9sjU7qdPgIIEJdEZ6U
-         xNUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9S2rTJlEcWEor4NpjYK8tyE3FSBDpDNy8fvb6AVYPwo=;
-        b=WsbE2H7rCDMMM7w2GJMC0fdY4kIZ9Pci6iyFxwO+HqlswywqPtdwijAgVU7sm4GLDy
-         qVUFLcf22Ezhcr7fD72w0J3bE+do9RlkNajJBcGbT7kdGkpkOc5HZVw1463WEOMwn5jq
-         AzK1mW//QjSdLvcAr4Jy+hzGpz1I+VpeNXNxnPoXLnh6W0cyF8V71YA/RoyCgihYB2hU
-         t3jS3NBJxbxc2HsWOfiEgOpL/04J6WClR6zsxOEix0QtNoDMV9I3K/xuxWdiD9NcC63H
-         fWdzBYuWPHeATArvtJfDlp+6E1E4yeD0ABve9GEBX++RgLzOJvfbZcBvpeuizF8yFCqo
-         RJ5A==
-X-Gm-Message-State: AFqh2kqsWt+Hdfs4Wq4Mw4+k4CxylKDimLa6HVWhW3XIptE50ODXQlsJ
-	/kM69wM2CQvnryHcZMeHDkw=
-X-Google-Smtp-Source: AMrXdXu7JUYAxrZW5Lg8rLz1tGb9Ru3lQNdWzxQQYLbCC6Ixt6NMfAEgI7yxBuztNcRLaA5y0BLnaQ==
-X-Received: by 2002:a05:600c:5120:b0:3db:21b8:5f53 with SMTP id o32-20020a05600c512000b003db21b85f53mr5582634wms.1.1674597880319;
-        Tue, 24 Jan 2023 14:04:40 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id g26-20020a7bc4da000000b003d96efd09b7sm38551wmk.19.2023.01.24.14.04.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 14:04:39 -0800 (PST)
-Date: Tue, 24 Jan 2023 23:04:37 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/11] staging: rtl8192e: Remove unused variables txbytes..,
- txbyt.. and signa..
-Message-ID: <bbfa1eb95b90476a5df40651343e3976e7742e5d.1674596722.git.philipp.g.hortmann@gmail.com>
-References: <cover.1674596722.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2518F70
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 22:09:12 +0000 (UTC)
+Received: from [192.168.2.197] (unknown [109.252.117.89])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dmitry.osipenko)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 817406602E22;
+	Tue, 24 Jan 2023 22:09:06 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1674598148;
+	bh=1zr7qfrQPqMx8+ESoAypSrnPHB7w9ZVQOi/B07+18JM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SDARVLb5YiWptwh6L3DVv0MFnmaAm45m1TQew0cK6L2fC/SlMd37DVjpBrEGvH9yV
+	 qW3E4riaTEwEeBUJGjh+8xbbyMceXQuN2XBDJooc1WsQubHF9E+NaKldlRqjv4ui/8
+	 NpSefHwxNO7lLlo/Sivx6+aGjBTqtRj7PiW9xViUS8HYYe691iOXfpQESk4pRUQ8Jz
+	 4/purXnCJu/tKKiR3PzmNBPrgrfSrcVlmff+DiCZqCOFsOOO3fu0JvAnRiq1XUsMPE
+	 pz87Zaaf7g7Qvy3UO9FhKBw914eGk/j7agbNG8bD410pT6xk9VHSORcfhEiSwezLHm
+	 FhyfVO1Tm+syQ==
+Message-ID: <90f005c1-effa-2117-8b57-fb8f2cf9d71b@collabora.com>
+Date: Wed, 25 Jan 2023 01:09:03 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1674596722.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
+ property and example
+Content-Language: en-US
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+ <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+ <cdc91bc4-aa76-f824-36c9-d2995c17fb18@collabora.com>
+ <20230124221421.2d45a532@booty>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230124221421.2d45a532@booty>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-txbytesmulticast, txbytesbroadcast and signal_quality are initialized and
-increased or set but never read. Remove dead code.
+On 1/25/23 00:14, Luca Ceresoli wrote:
+> Hi Dmitry,
+> 
+> On Tue, 24 Jan 2023 20:02:39 +0300
+> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> 
+>> On 12/29/22 16:31, Luca Ceresoli wrote:
+>>> +        vip {
+>>> +            compatible = "nvidia,tegra20-vip";
+>>> +            #address-cells = <1>;
+>>> +            #size-cells = <0>;
+>>> +            channel@0 {
+>>> +                reg = <0>;
+>>> +                ports {
+>>> +                    #address-cells = <1>;
+>>> +                    #size-cells = <0>;
+>>> +                    port@0 {
+>>> +                        reg = <0>;
+>>> +                        vi_vip_in: endpoint {
+>>> +                            remote-endpoint = <&mt9v111_out>;
+>>> +                        };
+>>> +                    };
+>>> +                    port@1 {
+>>> +                        reg = <1>;
+>>> +                        vi_vip_out: endpoint {
+>>> +                            remote-endpoint = <&vi_in>;
+>>> +                        };
+>>> +                    };
+>>> +                };
+>>> +            };  
+>>
+>> In the changelog you said that the channel@0 node is removed
+> 
+> Thanks, you are right, this is a leftover. I must have forgotten about
+> updating the example. :-\
+> 
+> It will be fixed in v4 obviously, I was waiting before sending it in
+> case of any feedback on the other patches.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 6 +-----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h   | 3 ---
- 3 files changed, 1 insertion(+), 9 deletions(-)
+The rest of the patches look okay. The patchset should get testing on
+T210 and then will be good to apply it, IMO. If nobody will volunteer to
+test T210 then should be good to apply it too, we can always fix the
+code later on.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 154d15b68b8e..7616486bb1ec 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -1619,7 +1619,6 @@ static void _rtl92e_process_phyinfo(struct r8192_priv *priv, u8 *buffer,
- 
- 			tmp_val = priv->stats.slide_evm_total /
- 				  slide_evm_statistics;
--			priv->stats.signal_quality = tmp_val;
- 			priv->stats.last_signal_strength_inpercent = tmp_val;
- 		}
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 2c5edda74e73..f8a8ece40ac1 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -1616,11 +1616,7 @@ static short _rtl92e_tx(struct net_device *dev, struct sk_buff *skb)
- 	type = WLAN_FC_GET_TYPE(fc);
- 	pda_addr = header->addr1;
- 
--	if (is_broadcast_ether_addr(pda_addr))
--		priv->stats.txbytesbroadcast += skb->len - fwinfo_size;
--	else if (is_multicast_ether_addr(pda_addr))
--		priv->stats.txbytesmulticast += skb->len - fwinfo_size;
--	else
-+	if (!is_broadcast_ether_addr(pda_addr) && !is_multicast_ether_addr(pda_addr))
- 		priv->stats.txbytesunicast += skb->len - fwinfo_size;
- 
- 	spin_lock_irqsave(&priv->irq_th_lock, flags);
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index c6a4ac6ce959..4cf776094ac0 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -184,8 +184,6 @@ enum reset_type {
- 
- struct rt_stats {
- 	unsigned long received_rate_histogram[4][32];
--	unsigned long txbytesmulticast;
--	unsigned long txbytesbroadcast;
- 	unsigned long txbytesunicast;
- 	unsigned long rxbytesunicast;
- 	unsigned long txretrycount;
-@@ -195,7 +193,6 @@ struct rt_stats {
- 	unsigned long	slide_rssi_total;
- 	unsigned long slide_evm_total;
- 	long signal_strength;
--	long signal_quality;
- 	long last_signal_strength_inpercent;
- 	long	recv_signal_power;
- 	u8 rx_rssi_percentage[4];
 -- 
-2.39.1
+Best regards,
+Dmitry
 
