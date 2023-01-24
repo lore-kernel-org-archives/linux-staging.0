@@ -1,51 +1,51 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A010110F9
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 11:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14DB10F9
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 11:21:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674558564;
+	s=mimecast20190719; t=1674559314;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AYWcGPAz6QIYZJJbGq0zOHIyyGv/CshPeC5FZEnQikw=;
-	b=E1Dky/haZxpiiH0lmpmej72jZARxtQ5RYy8gsoImQChxjCofZYYCAnUITm5aNGOtcQ3csR
-	m/6S7uOrd5DUKPGxf88tnPLASLLt2l6yulk641HwBjKasUNhxkEtpGWJSy8h2giYKaOcjZ
-	dN+YEpMPA301SXxROxU8X2uuebCDEsE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=YyWC9+iXp4qN29Yv+9Db1J8gLKkp9OA4jb9YKepjYqs=;
+	b=D8tEjoP6r8bZqmbAXk3IgvkQeKiupMswWcY6sRm62pnpp0cAw0bGP2FQVobRewiEgKaIcp
+	DtZ1sJZZHJEJ6TdzA2vonwyhgQrlQgIiyQEQrbWW0AiF2EXGGE6BD9jLfyCcfD9BCgs9Az
+	IpHw9M5/8DFD6isdrf2+4jdbvPBKdLA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-251-HKtWNhwjOXuy0Q6ak9Xe7A-1; Tue, 24 Jan 2023 06:09:23 -0500
-X-MC-Unique: HKtWNhwjOXuy0Q6ak9Xe7A-1
-Received: by mail-ej1-f69.google.com with SMTP id hc30-20020a170907169e00b0086d90ee8b17so9707776ejc.10
-        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 03:09:22 -0800 (PST)
+ us-mta-63-Yh-ovzqbNT2PLiLeM8cc2Q-1; Tue, 24 Jan 2023 06:21:53 -0500
+X-MC-Unique: Yh-ovzqbNT2PLiLeM8cc2Q-1
+Received: by mail-ed1-f69.google.com with SMTP id x5-20020a05640226c500b0049e840f68feso9188862edd.23
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 03:21:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AYWcGPAz6QIYZJJbGq0zOHIyyGv/CshPeC5FZEnQikw=;
-        b=Mc1rhnt6MGzGdac9pXRm1D5SugwRgKLaxhRmHCy8xGyQEDJPefyMc/bucv/iLrvGeF
-         8lRUckIDJ/hUlemHrKY+HIZJwm3iq/KXqsXG3YXSy9jTbKhQ6nLyN9aBHM5sKAibrX1D
-         t0METZI7PMnrGnvEwKOJqKyB3tsiClHox1o3W/dT/EbNxHtaO9ov482Zzn5vRHR1wXlE
-         LY+0yMSMfzB/r93BDJO+IEaPPcM2proF1dKIKo77o62belwIPIsp8kiKVO2c6mDxXdBG
-         dmcvFdQIJfE/XzRY7aNWvjpcdK/pCYDssiAZhKRzodI8ghfQpqqM+w9CqK7PI6js+ZRe
-         M64Q==
-X-Gm-Message-State: AFqh2kqfM3o59TPetKqWUF7TczP6RPsGXscQfQ0yFhJh4UymcE1mdNl5
-	40k1yyu/Ptahk8F0JI/Pbk1S3kkSLclB0gc0qWFRkhp0C6KZqTYbE3z3A+/U0S8m/DIeQ0swgD6
-	bjN/SzKyTGPIWLN5pu/FXR9xvmQ==
-X-Received: by 2002:a17:906:4a8f:b0:84d:3403:f4f4 with SMTP id x15-20020a1709064a8f00b0084d3403f4f4mr29129983eju.64.1674558562110;
-        Tue, 24 Jan 2023 03:09:22 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsFHNXVUfRaQzLzoCDaiVwwwHwen6bSo1ycB5sNIugxNbIRoF3kIXwYBVq4ttVjp3ACbTm2SQ==
-X-Received: by 2002:a17:906:4a8f:b0:84d:3403:f4f4 with SMTP id x15-20020a1709064a8f00b0084d3403f4f4mr29129967eju.64.1674558561910;
-        Tue, 24 Jan 2023 03:09:21 -0800 (PST)
+        bh=YyWC9+iXp4qN29Yv+9Db1J8gLKkp9OA4jb9YKepjYqs=;
+        b=Dd5/NTH2nwhO4V74bHajzX9GsCEssYAcSsLvuOPtZsct/nB14GmTHO9tZBgFa5HyQJ
+         xAUe8GLen05jl0WhWj/2hi4j0Jl+6BycvQ33oZcVwRVpFGfDYWOkoysy9xhzw2VzxeDZ
+         EHQIbq+jnuQnSANi6D/m+yj9hcJRNZP29iat4lz60OuRfMV3a+p7B4IGhYdLXCR6gvbo
+         1KtSCMHdHZqcC8ii+qJuocGdortkO9dgR8ZQs6zKKOwPqPivSNgm5WB3OWGYQe6z67GM
+         Ch0yf6KYVjCEz2BQt7hJ4/i1BNG97yVTZhdUabn56dnWdRsBS+V4N4IBJMu6tiM/Oquz
+         xCCw==
+X-Gm-Message-State: AFqh2kpBoSLss+SFyCQUl2wZdSi7tsU9k6F7Yrg0AsCSxXf3LctO9q1E
+	ZDupcrJnUZll5GOty46avZhIIy6LKdJpr54bcsu1otQEL8C9Gn22B9B73VQRptLgztLQPKKBAqV
+	6EGsXxc+CWxqy2DiNu7VAnKRP4g==
+X-Received: by 2002:a17:907:8b92:b0:877:6a03:9aa4 with SMTP id tb18-20020a1709078b9200b008776a039aa4mr24790437ejc.72.1674559312111;
+        Tue, 24 Jan 2023 03:21:52 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs07mfhckg9oKDq9eqCsiL6H4J/IkjunM1m7fYkT6F/3s7M4sH88IlW81bc7N6VlmsGdO7+Ig==
+X-Received: by 2002:a17:907:8b92:b0:877:6a03:9aa4 with SMTP id tb18-20020a1709078b9200b008776a039aa4mr24790421ejc.72.1674559311856;
+        Tue, 24 Jan 2023 03:21:51 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id gv41-20020a1709072be900b0080345493023sm735155ejc.167.2023.01.24.03.09.21
+        by smtp.gmail.com with ESMTPSA id a21-20020aa7d915000000b004a028d443f9sm781418edr.55.2023.01.24.03.21.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 03:09:21 -0800 (PST)
-Message-ID: <d8cd94a8-88a5-d169-636d-a5bfb8776869@redhat.com>
-Date: Tue, 24 Jan 2023 12:09:20 +0100
+        Tue, 24 Jan 2023 03:21:51 -0800 (PST)
+Message-ID: <c5a0df74-d2a0-0795-5185-06582be7f0b6@redhat.com>
+Date: Tue, 24 Jan 2023 12:21:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,8 +54,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 14/57] media: atomisp: Check buffer index is in range
- inside atomisp_qbuf_wrapper()
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
 To: Andy Shevchenko <andy@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -64,10 +63,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev
 References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-15-hdegoede@redhat.com>
- <Y86b86l5Bi1mb7oj@smile.fi.intel.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y87NchQIfQ3zah+4@smile.fi.intel.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y86b86l5Bi1mb7oj@smile.fi.intel.com>
+In-Reply-To: <Y87NchQIfQ3zah+4@smile.fi.intel.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
@@ -76,26 +75,92 @@ Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 1/23/23 15:38, Andy Shevchenko wrote:
-> On Mon, Jan 23, 2023 at 01:51:22PM +0100, Hans de Goede wrote:
->> Check buffer index is in range inside atomisp_qbuf_wrapper() before
->> using it do index pipe->frame_request_config_id[].
+On 1/23/23 19:09, Andy Shevchenko wrote:
+> On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
+>> The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
+>> ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
+>> ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
+>>
+>> as well as various "atomisp" sensor drivers in drivers/staging, *all*
+>> use register access helpers with the following function prototypes:
+>>
+>> int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
+>>                     unsigned int len, u32 *val);
+>>
+>> int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
+>>                      unsigned int len, u32 val);
+>>
+>> To read/write registers on Omnivision OVxxxx image sensors wich expect
+>> a 16 bit register address in big-endian format and which have 1-3 byte
+>> wide registers, in big-endian format (for the higher width registers).
+>>
+>> Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
+>> versions of these register access helpers, so that this code duplication
+>> can be removed.
 > 
 > ...
 > 
->>  	/* FIXME this abuse of buf->reserved2 comes from the original atomisp buffer handling */
+>> +#include <asm/unaligned.h>
 > 
-> Does the comment belong to this check?
+> Usually we put linux/* followed by asm/*.
 
-Yes and no, the whole reason we need a wrapper at all is because
-of the reserved2 abuse; and likewise the index check is also only
-necessary because of the code below using index. If it was not
-for that, then we could simply rely on the identical index check in 
-vb2_ioctl_qbuf() itself.
+Ack.
 
-Before sending this to Mauro I'll amend this to replace this comment
-with a comment above the entire wrapper function explaining that
-the entire wrapper should eventually be removed.
+> 
+>> +#include <linux/dev_printk.h>
+>> +#include <linux/i2c.h>
+>> +
+>> +static inline int ovxxxx_read_reg(struct i2c_client *client, u16 reg,
+>> +				  unsigned int len, u32 *val)
+>> +{
+>> +	struct i2c_msg msgs[2];
+> 
+>> +	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
+> 
+> Let's use unaligned.h or byteorder/generic.h?
+> 
+> 	__be16 addr_buf = cpu_to_be16(reg);
+
+Ack.
+
+> 
+>> +	u8 data_buf[4] = { 0, };
+> 
+> 0, is not needed.
+> 
+>> +	int ret;
+>> +
+>> +	if (len > 4)
+>> +		return -EINVAL;
+>> +
+>> +	msgs[0].addr = client->addr;
+>> +	msgs[0].flags = 0;
+>> +	msgs[0].len = ARRAY_SIZE(addr_buf);
+>> +	msgs[0].buf = addr_buf;
+> 
+> 	msgs[0].buf = &addr_buf;
+> 
+>> +	msgs[1].addr = client->addr;
+>> +	msgs[1].flags = I2C_M_RD;
+>> +	msgs[1].len = len;
+> 
+>> +	msgs[1].buf = &data_buf[4 - len];
+> 
+> This trick I don't like. Can we have like other driver have it, i.e. switch
+> case for the possible length and explicit usage of the endian conversion calls?
+
+This new header (which is intended to eventually be used in many other
+ovXXXX drivers too) is modeled after the reg access helpers
+in drivers/media/i2c/ov*.c
+
+And those do use be16 for the addr_buf in some cases, so I'm fine
+with changing that. But non of them do a switch-case on len,
+instead they all use similar tricks as this code (which was
+copied from drivers/media/i2c/ov2680.c) does.
+
+So I would prefer to keep this as is, so that the new
+ovxxxx_16bit_addr_reg_helpers.h code is more like the code which
+it intends to replace.
 
 Regards,
 
@@ -104,11 +169,66 @@ Hans
 
 
 > 
->> +	if (buf->index >= vdev->queue->num_buffers)
->> +		return -EINVAL;
+>> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+>> +	if (ret != ARRAY_SIZE(msgs)) {
+>> +		dev_err(&client->dev, "read error: reg=0x%4x: %d\n", reg, ret);
+>> +		return -EIO;
+>> +	}
 >> +
->>  	if (!atomisp_is_vf_pipe(pipe) &&
->>  	    (buf->reserved2 & ATOMISP_BUFFER_HAS_PER_FRAME_SETTING)) {
->>  		/* this buffer will have a per-frame parameter */
+>> +	*val = get_unaligned_be32(data_buf);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +#define ovxxxx_read_reg8(s, r, v)	ovxxxx_read_reg(s, r, 1, v)
+>> +#define ovxxxx_read_reg16(s, r, v)	ovxxxx_read_reg(s, r, 2, v)
+>> +#define ovxxxx_read_reg24(s, r, v)	ovxxxx_read_reg(s, r, 3, v)
+>> +
+>> +static inline int ovxxxx_write_reg(struct i2c_client *client, u16 reg,
+>> +				   unsigned int len, u32 val)
+>> +{
+>> +	u8 buf[6];
+>> +	int ret;
+>> +
+>> +	if (len > 4)
+>> +		return -EINVAL;
+> 
+>> +	put_unaligned_be16(reg, buf);
+>> +	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
+> 
+> Something similar here?
+> 
+>> +	ret = i2c_master_send(client, buf, len + 2);
+>> +	if (ret != len + 2) {
+>> +		dev_err(&client->dev, "write error: reg=0x%4x: %d\n", reg, ret);
+>> +		return -EIO;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +#define ovxxxx_write_reg8(s, r, v)	ovxxxx_write_reg(s, r, 1, v)
+>> +#define ovxxxx_write_reg16(s, r, v)	ovxxxx_write_reg(s, r, 2, v)
+>> +#define ovxxxx_write_reg24(s, r, v)	ovxxxx_write_reg(s, r, 3, v)
+>> +
+>> +static inline int ovxxxx_mod_reg(struct i2c_client *client, u16 reg, u8 mask, u8 val)
+>> +{
+>> +	u32 readval;
+>> +	int ret;
+>> +
+>> +	ret = ovxxxx_read_reg8(client, reg, &readval);
+>> +	if (ret < 0)
+>> +		return ret;
+> 
+>> +	readval &= ~mask;
+>> +	val &= mask;
+>> +	val |= readval;
+> 
+> Usual pattern:
+> 
+> 	val = (readval & ~mask) | (val & mask);
+> 
+>> +	return ovxxxx_write_reg8(client, reg, val);
+>> +}
 > 
 
