@@ -1,308 +1,282 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271F8A20;
-	Wed, 25 Jan 2023 00:14:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674605671; x=1706141671;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nvRmqvuX/VTxCARc9m06tiDhFyW+4qZpuVWJQLvD3dg=;
-  b=KqWsLSSYQsO1w3gPGhzPjf+92IdBgIhdLfXNMwtl8yzcpAH/8YQlMl/D
-   e7qDhecy4gNBWzj1OEnWgNNoBHXXG79bCMJHe8+HPRwa4ykA3j8qzY3ls
-   bpXkiJr3VTtKN/XxFyg3H62oP+ZUgKHVTptUSbEVfxk+iazancABz7y0t
-   wqwVUwxA8sCYNjMyoglU0t4IQKLtXTsKeqifr8CUdrglORPzXH90pGzfK
-   K7FPrNacS+ZBy/+/bAdqq14spyQQU81iLD+6TguspTIQKynYbFDMNrHBm
-   wb6i8EBuMxTlidaAmi/Nf9EK+DJ1JeEMgdJqQdui0X8N2PhnIcxqoVPIq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="328533356"
-X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="328533356"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 16:14:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="836169452"
-X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="836169452"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Jan 2023 16:14:27 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pKTQo-0006tY-2m;
-	Wed, 25 Jan 2023 00:14:26 +0000
-Date: Wed, 25 Jan 2023 08:13:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 06/11] staging: rtl8192e: Remove unused variables
- num_proc.., recei.. and rxov..
-Message-ID: <202301250813.dBvVqX7V-lkp@intel.com>
-References: <67df12497bc6f93c6ef85b4dda7490b037f2a3da.1674596722.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58207EC4
+	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 00:57:55 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id i188so18313832vsi.8
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jan 2023 16:57:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=cc:to:subject:message-id:date:thread-index:mime-version:in-reply-to
+         :references:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rr+Iac8PVevk69/W+k+4xDnE1wGyhNf6q48ez8XsUMI=;
+        b=MbNcRhpW0WIREcuDi1JkprEZQPbBGyNpOv7Rs9ugfh+CtRcTtN5HMdw8UTCCEFGZrR
+         tt3pVx2okwLd84vXkMJTf72tAiZ8p/qlYRtZeXpjloaf7G2Nd+yzHCZUjmOZScMwm4BH
+         RpyWG/OmPxiifisj6Fmr60NYFkT39thy4NjFU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:thread-index:mime-version:in-reply-to
+         :references:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rr+Iac8PVevk69/W+k+4xDnE1wGyhNf6q48ez8XsUMI=;
+        b=ppgkbRJMfGbS67EpF8hFeu2BQTYGFyf91TG36aBn1qG7CBaOmwEGlF2tzxjw3haI5/
+         A64NcVWPw/D8EWZ/xdx7tI5BSCwmnxC+jYZCcl6WfSN08JdeaGESwVqjWbXvaKBn2iur
+         onnDqKn/fbdwHrFA913tObWBIx6oaj0YR34Uo0duFOOxiNJfAJ1K8TY3Pr6KHbhteOYD
+         vzl5MMq+xg4hSe8wxsY6DaPA9zxrEG2Byj7qr1yEXVD6qaDiqW/ViHW5hsQsfQKW0kwM
+         hmWCdPklvhEUwwPK5cRdBAqG9Av2VndMoLoxQqdH/PSM7t8LxxmuEHgsHu3s81q7UcSk
+         xZLg==
+X-Gm-Message-State: AFqh2kq+vFU2zz0Fg+byGGhPe0JHbsgCAHYPebqukDUfcuTRjWRHmf+V
+	wzg1EYUBz6XxlS9wZF3xuaYWiWZXEM3097RaWx2Jrw==
+X-Google-Smtp-Source: AMrXdXu0WEVAHtkl/7WrGp7gsGmIxeNAjZACQY1znOQilpBjqALn5uFkSCuep3Y6cqMY533KDesP8Mmq99uNyBp2hTA=
+X-Received: by 2002:a67:f246:0:b0:3b1:5690:a240 with SMTP id
+ y6-20020a67f246000000b003b15690a240mr3921552vsm.68.1674608274113; Tue, 24 Jan
+ 2023 16:57:54 -0800 (PST)
+From: William Zhang <william.zhang@broadcom.com>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com> <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67df12497bc6f93c6ef85b4dda7490b037f2a3da.1674596722.git.philipp.g.hortmann@gmail.com>
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGsd40KKMSPSaowQedOCmq8Q0lhhQIBWekOAbfQgXk=
+Date: Tue, 24 Jan 2023 16:57:49 -0800
+Message-ID: <36840e0caeca5f53eef4fab615fc7976@mail.gmail.com>
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, broonie@kernel.org, 
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, jic23@kernel.org, 
+	tudor.ambarus@microchip.com, pratyush@kernel.org, sanju.mehta@amd.com, 
+	chin-ting_kuo@aspeedtech.com, clg@kaod.org, kdasu.kdev@gmail.com, 
+	f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com, 
+	eajames@linux.ibm.com, olteanv@gmail.com, han.xu@nxp.com, 
+	john.garry@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	narmstrong@baylibre.com, khilman@baylibre.com, matthias.bgg@gmail.com, 
+	haibo.chen@nxp.com, linus.walleij@linaro.org, daniel@zonque.org, 
+	haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org, 
+	bjorn.andersson@linaro.org, heiko@sntech.de, krzysztof.kozlowski@linaro.org, 
+	andi@etezian.org, mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, 
+	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	masahisa.kojima@linaro.org, jaswinder.singh@linaro.org, rostedt@goodmis.org, 
+	mingo@redhat.com, l.stelmach@samsung.com, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, alex.aring@gmail.com, 
+	stefan@datenfreihafen.org, kvalo@kernel.org, thierry.reding@gmail.com, 
+	jonathanh@nvidia.com, skomatineni@nvidia.com, sumit.semwal@linaro.org, 
+	christian.koenig@amd.com, j.neuschaefer@gmx.net, vireshk@kernel.org, 
+	rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org, 
+	gregkh@linuxfoundation.org
+Cc: git@amd.com, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	joel@jms.id.au, andrew@aj.id.au, radu_nicolae.pirea@upb.ro, 
+	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+	claudiu.beznea@microchip.com, bcm-kernel-feedback-list@broadcom.com, 
+	fancer.lancer@gmail.com, kernel@pengutronix.de, festevam@gmail.com, 
+	linux-imx@nxp.com, jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, 
+	avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com, 
+	venture@google.com, yuenn@google.com, benjaminfair@google.com, 
+	yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org, 
+	alim.akhtar@samsung.com, ldewangan@nvidia.com, michal.simek@amd.com, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-wpan@vger.kernel.org, 
+	libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, lars@metafoo.de, Michael.Hennerich@analog.com, 
+	linux-iio@vger.kernel.org, michael@walle.cc, palmer@dabbelt.com, 
+	linux-riscv@lists.infradead.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, amitrkcian2002@gmail.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000005667ee05f30c1f33"
 
-Hi Philipp,
+--0000000000005667ee05f30c1f33
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for the patch! Perhaps something to improve:
+On 01/19/2023 10:53 AM, 'Amit Kumar Mahapatra' via
+BCM-KERNEL-FEEDBACK-LIST,PDL wrote:
+> diff --git a/drivers/spi/spi-bcm63xx-hsspi.c
+> b/drivers/spi/spi-bcm63xx-hsspi.c
+> index b871fd810d80..dc179c4677d4 100644
+> --- a/drivers/spi/spi-bcm63xx-hsspi.c
+> +++ b/drivers/spi/spi-bcm63xx-hsspi.c
+> @@ -130,7 +130,7 @@ static void bcm63xx_hsspi_set_cs(struct bcm63xx_hsspi
+> *bs, unsigned int cs,
+>   static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi *bs,
+>   				  struct spi_device *spi, int hz)
+>   {
+> -	unsigned int profile = spi->chip_select;
+> +	unsigned int profile = spi_get_chipselect(spi, 0);
+>   	u32 reg;
+>
+>   	reg = DIV_ROUND_UP(2048, DIV_ROUND_UP(bs->speed_hz, hz));
+> @@ -157,7 +157,7 @@ static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi
+> *bs,
+>   static int bcm63xx_hsspi_do_txrx(struct spi_device *spi, struct
+> spi_transfer *t)
+>   {
+>   	struct bcm63xx_hsspi *bs = spi_master_get_devdata(spi->master);
+> -	unsigned int chip_select = spi->chip_select;
+> +	unsigned int chip_select = spi_get_chipselect(spi, 0);
+>   	u16 opcode = 0;
+>   	int pending = t->len;
+>   	int step_size = HSSPI_BUFFER_LEN;
+> @@ -165,7 +165,7 @@ static int bcm63xx_hsspi_do_txrx(struct spi_device
+> *spi, struct spi_transfer *t)
+>   	u8 *rx = t->rx_buf;
+>
+>   	bcm63xx_hsspi_set_clk(bs, spi, t->speed_hz);
+> -	bcm63xx_hsspi_set_cs(bs, spi->chip_select, true);
+> +	bcm63xx_hsspi_set_cs(bs, spi_get_chipselect(spi, 0), true);
+>
+>   	if (tx && rx)
+>   		opcode = HSSPI_OP_READ_WRITE;
+> @@ -228,14 +228,14 @@ static int bcm63xx_hsspi_setup(struct spi_device
+> *spi)
+>   	u32 reg;
+>
+>   	reg = __raw_readl(bs->regs +
+> -			  HSSPI_PROFILE_SIGNAL_CTRL_REG(spi->chip_select));
+> +			  HSSPI_PROFILE_SIGNAL_CTRL_REG(spi_get_chipselect(spi, 0)));
+>   	reg &= ~(SIGNAL_CTRL_LAUNCH_RISING | SIGNAL_CTRL_LATCH_RISING);
+>   	if (spi->mode & SPI_CPHA)
+>   		reg |= SIGNAL_CTRL_LAUNCH_RISING;
+>   	else
+>   		reg |= SIGNAL_CTRL_LATCH_RISING;
+>   	__raw_writel(reg, bs->regs +
+> -		     HSSPI_PROFILE_SIGNAL_CTRL_REG(spi->chip_select));
+> +		     HSSPI_PROFILE_SIGNAL_CTRL_REG(spi_get_chipselect(spi, 0)));
+>
+>   	mutex_lock(&bs->bus_mutex);
+>   	reg = __raw_readl(bs->regs + HSSPI_GLOBAL_CTRL_REG);
+> @@ -243,16 +243,16 @@ static int bcm63xx_hsspi_setup(struct spi_device
+> *spi)
+>   	/* only change actual polarities if there is no transfer */
+>   	if ((reg & GLOBAL_CTRL_CS_POLARITY_MASK) == bs->cs_polarity) {
+>   		if (spi->mode & SPI_CS_HIGH)
+> -			reg |= BIT(spi->chip_select);
+> +			reg |= BIT(spi_get_chipselect(spi, 0));
+>   		else
+> -			reg &= ~BIT(spi->chip_select);
+> +			reg &= ~BIT(spi_get_chipselect(spi, 0));
+>   		__raw_writel(reg, bs->regs + HSSPI_GLOBAL_CTRL_REG);
+>   	}
+>
+>   	if (spi->mode & SPI_CS_HIGH)
+> -		bs->cs_polarity |= BIT(spi->chip_select);
+> +		bs->cs_polarity |= BIT(spi_get_chipselect(spi, 0));
+>   	else
+> -		bs->cs_polarity &= ~BIT(spi->chip_select);
+> +		bs->cs_polarity &= ~BIT(spi_get_chipselect(spi, 0));
+>
+>   	mutex_unlock(&bs->bus_mutex);
+>
+> @@ -283,7 +283,7 @@ static int bcm63xx_hsspi_transfer_one(struct
+> spi_master *master,
+>   	 * e. At the end restore the polarities again to their default values.
+>   	 */
+>
+> -	dummy_cs = !spi->chip_select;
+> +	dummy_cs = !spi_get_chipselect(spi, 0);
+>   	bcm63xx_hsspi_set_cs(bs, dummy_cs, true);
+>
+>   	list_for_each_entry(t, &msg->transfers, transfer_list) {
+> @@ -296,7 +296,7 @@ static int bcm63xx_hsspi_transfer_one(struct
+> spi_master *master,
+>   		spi_transfer_delay_exec(t);
+>
+>   		if (t->cs_change)
+> -			bcm63xx_hsspi_set_cs(bs, spi->chip_select, false);
+> +			bcm63xx_hsspi_set_cs(bs, spi_get_chipselect(spi, 0), false);
+>   	}
+>
+>   	mutex_lock(&bs->bus_mutex);
 
-[auto build test WARNING on staging/staging-testing]
+For bcm63xx-hsspi driver,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Hortmann/staging-rtl8192e-Remove-unused-variables-rxrdu-and-rxok/20230125-060703
-patch link:    https://lore.kernel.org/r/67df12497bc6f93c6ef85b4dda7490b037f2a3da.1674596722.git.philipp.g.hortmann%40gmail.com
-patch subject: [PATCH 06/11] staging: rtl8192e: Remove unused variables num_proc.., recei.. and rxov..
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230125/202301250813.dBvVqX7V-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3d74e0475f452fadccfa0a14940734cbfdc31f64
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Philipp-Hortmann/staging-rtl8192e-Remove-unused-variables-rxrdu-and-rxok/20230125-060703
-        git checkout 3d74e0475f452fadccfa0a14940734cbfdc31f64
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/staging/rtl8192e/rtl8192e/
+Acked-by: William Zhang <william.zhang@broadcom.com>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+--0000000000005667ee05f30c1f33
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-All warnings (new ones prefixed by >>):
-
-   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c: In function '_rtl92e_query_rxphystatus':
->> drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:1299:58: warning: variable 'prxsc' set but not used [-Wunused-but-set-variable]
-    1299 |         struct phy_ofdm_rx_status_rxsc_sgien_exintfflag *prxsc;
-         |                                                          ^~~~~
-   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c: In function '_rtl92e_update_received_rate_histogram_stats':
-   drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:1693:13: warning: variable 'preamble_guardinterval' set but not used [-Wunused-but-set-variable]
-    1693 |         u32 preamble_guardinterval;
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/prxsc +1299 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1276  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1277  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1278  #define	 rx_hal_is_cck_rate(_pdrvinfo)\
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1279  			((_pdrvinfo->RxRate == DESC90_RATE1M ||\
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1280  			_pdrvinfo->RxRate == DESC90_RATE2M ||\
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1281  			_pdrvinfo->RxRate == DESC90_RATE5_5M ||\
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1282  			_pdrvinfo->RxRate == DESC90_RATE11M) &&\
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1283  			!_pdrvinfo->RxHT)
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1284  
-410bfd1d8f1c16 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-09-20  1285  static void _rtl92e_query_rxphystatus(
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1286  	struct r8192_priv *priv,
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1287  	struct rtllib_rx_stats *pstats,
-4f534b36afb6fe drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-18  1288  	struct rx_desc  *pdesc,
-6f22c62010122f drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-18  1289  	struct rx_fwinfo   *pdrvinfo,
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1290  	struct rtllib_rx_stats *precord_stats,
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1291  	bool bpacket_match_bssid,
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1292  	bool bpacket_toself,
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1293  	bool bPacketBeacon,
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1294  	bool bToSelfBA
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1295  	)
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1296  {
-2ae7ea8cf099f0 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-18  1297  	struct phy_sts_ofdm_819xpci *pofdm_buf;
-ececd694df70a7 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-18  1298  	struct phy_sts_cck_819xpci *pcck_buf;
-910d9e5c2deec0 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-18 @1299  	struct phy_ofdm_rx_status_rxsc_sgien_exintfflag *prxsc;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1300  	u8 *prxpkt;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1301  	u8 i, max_spatial_stream, tmp_rxsnr, tmp_rxevm, rxsc_sgien_exflg;
-5d5fd353740ffe drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Arnd Bergmann      2016-07-20  1302  	s8 rx_pwr[4], rx_pwr_all = 0;
-5d5fd353740ffe drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Arnd Bergmann      2016-07-20  1303  	s8 rx_snrX, rx_evmX;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1304  	u8 evm, pwdb_all;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1305  	u32 RSSI, total_rssi = 0;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1306  	u8 is_cck_rate = 0;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1307  	u8 rf_rx_num = 0;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1308  	static	u8 check_reg824;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1309  	static	u32 reg824_bit9;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1310  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1311  	is_cck_rate = rx_hal_is_cck_rate(pdrvinfo);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1312  	memset(precord_stats, 0, sizeof(struct rtllib_rx_stats));
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1313  	pstats->bPacketMatchBSSID = precord_stats->bPacketMatchBSSID =
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1314  				    bpacket_match_bssid;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1315  	pstats->bPacketToSelf = precord_stats->bPacketToSelf = bpacket_toself;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1316  	pstats->bIsCCK = precord_stats->bIsCCK = is_cck_rate;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1317  	pstats->bPacketBeacon = precord_stats->bPacketBeacon = bPacketBeacon;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1318  	pstats->bToSelfBA = precord_stats->bToSelfBA = bToSelfBA;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1319  	if (check_reg824 == 0) {
-3c351feca929e1 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-07-19  1320  		reg824_bit9 = rtl92e_get_bb_reg(priv->rtllib->dev,
-3c351feca929e1 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-07-19  1321  						rFPGA0_XA_HSSIParameter2,
-3c351feca929e1 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-07-19  1322  						0x200);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1323  		check_reg824 = 1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1324  	}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1325  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1326  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1327  	prxpkt = (u8 *)pdrvinfo;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1328  
-6f22c62010122f drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-18  1329  	prxpkt += sizeof(struct rx_fwinfo);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1330  
-ececd694df70a7 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-18  1331  	pcck_buf = (struct phy_sts_cck_819xpci *)prxpkt;
-2ae7ea8cf099f0 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-18  1332  	pofdm_buf = (struct phy_sts_ofdm_819xpci *)prxpkt;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1333  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1334  	pstats->RxMIMOSignalQuality[0] = -1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1335  	pstats->RxMIMOSignalQuality[1] = -1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1336  	precord_stats->RxMIMOSignalQuality[0] = -1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1337  	precord_stats->RxMIMOSignalQuality[1] = -1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1338  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1339  	if (is_cck_rate) {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1340  		u8 report;
-b1d5ee7004c855 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-07-13  1341  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1342  		if (!reg824_bit9) {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1343  			report = pcck_buf->cck_agc_rpt & 0xc0;
-0dbffe07b15d43 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Aya Mahfouz        2015-02-26  1344  			report >>= 6;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1345  			switch (report) {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1346  			case 0x3:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1347  				rx_pwr_all = -35 - (pcck_buf->cck_agc_rpt &
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1348  					     0x3e);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1349  				break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1350  			case 0x2:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1351  				rx_pwr_all = -23 - (pcck_buf->cck_agc_rpt &
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1352  					     0x3e);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1353  				break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1354  			case 0x1:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1355  				rx_pwr_all = -11 - (pcck_buf->cck_agc_rpt &
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1356  					     0x3e);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1357  				break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1358  			case 0x0:
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1359  				rx_pwr_all = 8 - (pcck_buf->cck_agc_rpt & 0x3e);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1360  				break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1361  			}
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1362  		} else {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1363  			report = pcck_buf->cck_agc_rpt & 0x60;
-0dbffe07b15d43 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Aya Mahfouz        2015-02-26  1364  			report >>= 5;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1365  			switch (report) {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1366  			case 0x3:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1367  				rx_pwr_all = -35 -
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1368  					((pcck_buf->cck_agc_rpt &
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1369  					0x1f) << 1);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1370  				break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1371  			case 0x2:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1372  				rx_pwr_all = -23 -
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1373  					((pcck_buf->cck_agc_rpt &
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1374  					 0x1f) << 1);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1375  				break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1376  			case 0x1:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1377  				rx_pwr_all = -11 -
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1378  					 ((pcck_buf->cck_agc_rpt &
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1379  					 0x1f) << 1);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1380  				break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1381  			case 0x0:
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1382  				rx_pwr_all = -8 -
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1383  					 ((pcck_buf->cck_agc_rpt &
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1384  					 0x1f) << 1);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1385  				break;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1386  			}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1387  		}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1388  
-aa804031831cfc drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-07-19  1389  		pwdb_all = rtl92e_rx_db_to_percent(rx_pwr_all);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1390  		pstats->RxPWDBAll = precord_stats->RxPWDBAll = pwdb_all;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1391  		pstats->RecvSignalPower = rx_pwr_all;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1392  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1393  		if (bpacket_match_bssid) {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1394  			u8	sq;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1395  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1396  			if (pstats->RxPWDBAll > 40) {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1397  				sq = 100;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1398  			} else {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1399  				sq = pcck_buf->sq_rpt;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1400  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1401  				if (pcck_buf->sq_rpt > 64)
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1402  					sq = 0;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1403  				else if (pcck_buf->sq_rpt < 20)
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1404  					sq = 100;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1405  				else
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1406  					sq = ((64-sq) * 100) / 44;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1407  			}
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1408  			pstats->SignalQuality = sq;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1409  			precord_stats->SignalQuality = sq;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1410  			pstats->RxMIMOSignalQuality[0] = sq;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1411  			precord_stats->RxMIMOSignalQuality[0] = sq;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1412  			pstats->RxMIMOSignalQuality[1] = -1;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1413  			precord_stats->RxMIMOSignalQuality[1] = -1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1414  		}
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1415  	} else {
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1416  		for (i = RF90_PATH_A; i < RF90_PATH_MAX; i++) {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1417  			if (priv->brfpath_rxenable[i])
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1418  				rf_rx_num++;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1419  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1420  			rx_pwr[i] = ((pofdm_buf->trsw_gain_X[i] & 0x3F) *
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1421  				     2) - 110;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1422  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1423  			tmp_rxsnr = pofdm_buf->rxsnr_X[i];
-5d5fd353740ffe drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Arnd Bergmann      2016-07-20  1424  			rx_snrX = (s8)(tmp_rxsnr);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1425  			rx_snrX /= 2;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1426  			priv->stats.rxSNRdB[i] = (long)rx_snrX;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1427  
-aa804031831cfc drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-07-19  1428  			RSSI = rtl92e_rx_db_to_percent(rx_pwr[i]);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1429  			if (priv->brfpath_rxenable[i])
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1430  				total_rssi += RSSI;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1431  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1432  			if (bpacket_match_bssid) {
-20400df1e48eeb drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Solomon Tan        2022-04-23  1433  				pstats->RxMIMOSignalStrength[i] = RSSI;
-20400df1e48eeb drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Solomon Tan        2022-04-23  1434  				precord_stats->RxMIMOSignalStrength[i] = RSSI;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1435  			}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1436  		}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1437  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1438  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1439  		rx_pwr_all = (((pofdm_buf->pwdb_all) >> 1) & 0x7f) - 106;
-aa804031831cfc drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-07-19  1440  		pwdb_all = rtl92e_rx_db_to_percent(rx_pwr_all);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1441  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1442  		pstats->RxPWDBAll = precord_stats->RxPWDBAll = pwdb_all;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1443  		pstats->RxPower = precord_stats->RxPower =	rx_pwr_all;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1444  		pstats->RecvSignalPower = rx_pwr_all;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1445  		if (pdrvinfo->RxHT && pdrvinfo->RxRate >= DESC90_RATEMCS8 &&
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1446  		    pdrvinfo->RxRate <= DESC90_RATEMCS15)
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1447  			max_spatial_stream = 2;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1448  		else
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1449  			max_spatial_stream = 1;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1450  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1451  		for (i = 0; i < max_spatial_stream; i++) {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1452  			tmp_rxevm = pofdm_buf->rxevm_X[i];
-5d5fd353740ffe drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Arnd Bergmann      2016-07-20  1453  			rx_evmX = (s8)(tmp_rxevm);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1454  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1455  			rx_evmX /= 2;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1456  
-6b89d0e7ceb733 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Mateusz Kulikowski 2015-07-19  1457  			evm = rtl92e_evm_db_to_percent(rx_evmX);
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1458  			if (bpacket_match_bssid) {
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1459  				if (i == 0) {
-4db665e50ccc75 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Gargi Sharma       2017-03-09  1460  					pstats->SignalQuality = evm & 0xff;
-4db665e50ccc75 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Gargi Sharma       2017-03-09  1461  					precord_stats->SignalQuality = evm & 0xff;
-4db665e50ccc75 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Gargi Sharma       2017-03-09  1462  				}
-4db665e50ccc75 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Gargi Sharma       2017-03-09  1463  				pstats->RxMIMOSignalQuality[i] = evm & 0xff;
-4db665e50ccc75 drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Gargi Sharma       2017-03-09  1464  				precord_stats->RxMIMOSignalQuality[i] = evm & 0xff;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1465  			}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1466  		}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1467  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1468  
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1469  		rxsc_sgien_exflg = pofdm_buf->rxsc_sgien_exflg;
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1470  		prxsc = (struct phy_ofdm_rx_status_rxsc_sgien_exintfflag *)
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1471  			&rxsc_sgien_exflg;
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1472  	}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1473  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1474  	if (is_cck_rate) {
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1475  		pstats->SignalStrength = precord_stats->SignalStrength =
-20400df1e48eeb drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Solomon Tan        2022-04-23  1476  					 _rtl92e_signal_scale_mapping(priv,
-20400df1e48eeb drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Solomon Tan        2022-04-23  1477  					 (long)pwdb_all);
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1478  
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1479  	} else {
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1480  		if (rf_rx_num != 0)
-526294770c72e9 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-25  1481  			pstats->SignalStrength = precord_stats->SignalStrength =
-20400df1e48eeb drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Solomon Tan        2022-04-23  1482  					 _rtl92e_signal_scale_mapping(priv,
-20400df1e48eeb drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c Solomon Tan        2022-04-23  1483  					 (long)(total_rssi /= rf_rx_num));
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1484  	}
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1485  }
-94a799425eee82 drivers/staging/rtl8192e/r8192E_dev.c          Larry Finger       2011-08-23  1486  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+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
+YDZuuBJwnyCzevMoPtVYPharioL5H3BRnQi8YoTXH7/uRo33dewYFm474yFjwwnt82TFtveVZkVq
+6h4WIQ4wTcwFfET8zMkELnGzS5SHCl8sPD+lNxxJ1JDZYwIDAQABo4IB2zCCAdcwDgYDVR0PAQH/
+BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9i
+YWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUF
+BzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAy
+MDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xv
+YmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRw
+Oi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAlBgNV
+HREEHjAcgRp3aWxsaWFtLnpoYW5nQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAf
+BgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUq65GzwZxydFHjjYEU/9h
+xHhPWlwwDQYJKoZIhvcNAQELBQADggEBAA2hGG3JPAdGPH0ZdohGUCIVjKz+U+EFuIDbS6A/5jqX
+VhYAxZlzj7tSjUIM7G7IhyfqPC46GKJ/4x+Amz1Z6YxNGy71L68kYD6hIbBcA5AM42QBUufly6Oa
+/ppSz3WoflVyFFQ5YXniZ+eU+2/cdnYZg4aVUnFjimOF5o3NfMLzOkhQNxbaDjFUfUYD8hKmU6v4
+0vUBj8KZ9Gi1LIagLKUREn8jku0lcLsRbnJ5Ey5ScajC/FESPyYWasOW8j8/1EoJksmhbYGKNS6C
+urb/KlmDGfVrIRYDbL0ckhGQIP5c6L+kSQZ2sHnQK0e0WgIaZYxaPYeY5u0GLCOze+3vyRMxggJt
+MIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYD
+VQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwxuh2XG3FXRL1W
+JOEwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIPV0GPci7PjhkOLQr5YYlwfjp9bZ
+8n4Nhqy3DqNgqzROMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIz
+MDEyNTAwNTc1NFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
+CWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFl
+AwQCATANBgkqhkiG9w0BAQEFAASCAQCDeRwW7sqpu5MnOyyvjxmJvRUbfI/L5CP1JkPtuA2BZ0WX
+P6pe/eXLFP9A//7IMZwRnMYubkHF2KOwoW3nTAZfFZU1MJtjpUcUMyAey4sODSCw78wnDub+b0R4
+rbtgWN26AOILOF9V7rUdA5hd4ZZZWrSVlZOxQOnkEnrrXwRMTZ6H4LILkENVRytDPX6WcNSzofVt
+bTZisKrK4TQRGwagjsH1XbjDJQy3in8wE53Bemw/woVR/U5dKkgH5bIc7O+yvfRkg3Dze87oKtUn
+0jlTOX7lGBKRqMHxDVl2SRBQXJ+ytWpT1WR9l3AFCBIp4QCo4isjywLpWTF5YramMP+j
+--0000000000005667ee05f30c1f33--
