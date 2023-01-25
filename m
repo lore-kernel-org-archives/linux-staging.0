@@ -1,91 +1,140 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A00D46B5
-	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 15:27:10 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id l8so14038012wms.3
-        for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 07:27:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DC73FC2
+	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 16:50:04 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-501c3a414acso207546537b3.7
+        for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 08:50:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yKNvukrUZVkfJrcLs35cGJYgMdjcalP+BqI+yH4alAs=;
-        b=PTCB9nDDuMHNEDQSJWfrYIQAO0gqzMZqtftPkaxooVDP22osj39QfBR1m5uQH5XpGP
-         0Zwj9clLcSJWUrbt4X1Uqb8KNGkMDuB9a/c5ck/0hQ4owznKASqVH60nkmkzeP/N+r3Q
-         ftIGL/PWngiSHBVbO05D47KHoZz2mCamhvp+K3SvRPitlNaY0ixRY6njdKVRwZ4fw4wq
-         Rwilhm1LgkNwLjYfVjJrHbwft7veb50uf9TfNgB/zH19WrqIwnxR/rxlaCZUAmSLdavV
-         41lH6nUKLpKpzDQZxjAuhy05e2K9kUyC63qeiMV8azz0Yw4aHdml4n3pEgJnYcMJkbry
-         MYGg==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9oBkpwDuDP6Raat/HRHsNpx8MqzIjjZSJojQEumXoyE=;
+        b=telMSbMEB1I/JdT8E+AOlYPkvLPDxj1UCnywL1f/zz+GxB6zyzUgN+Q3Q48l8AYc8X
+         qS5rmRFlzboD9JIVNM4srPZju+Dc0OvfYTnyPjpp4sHdEutwmKfLXtqzcN+4YmFBRVgu
+         A3oTpxaFO/E/7LaM1iu3pe6Iv0CmRV+MC10+sbVUAqr2eeBPD17IhS27buTMH3bCJoMu
+         fEQq5XzvwDAqtF1fp8r2H4g3vh98tijISo+CkjBRkXWvZWGfdkjpWZzF8VgIKtCc5sLs
+         +bZFNae0CmrxcmnBVuga8Dg0CQRlWnW+6m8p+riuFjzQ8BSrHATHKU3+MoO2RS3dWuby
+         cPfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yKNvukrUZVkfJrcLs35cGJYgMdjcalP+BqI+yH4alAs=;
-        b=iDJuOrVVFLh1ZKIDlMytC5+JhdynH40zEql1JvlqV3h2D7O+lcFIwJ1gItkcTs2VdX
-         WlMK3/jSOY/7xZv+N7sKdAqej8eM9vDzbBAMCZNvIoKDMPTc6GIuLeF6Hac+mPMv+mk6
-         wW5G4iShyFTvh0T9pYN8CzZ7N/OIRxuth6S9fSFJzfLY3rOtGCg2PfcS7tshC97zo4FK
-         e82fykiJad0wMflbMIq4kjJN0FDuyIQdhLgGAaf7lxl01rNhjAqv34xJtOGPKZqe9d2X
-         gX2AB6UwfQzQgdgKClsEaZqRbtHz8RDR3KMaXgoOGuJk2bZdmCmXsyJ+JPs6IRKaXl0e
-         1Lrw==
-X-Gm-Message-State: AFqh2kq+ci7Vh0WG8k3HQppnsSwcnQsbE1Jzm9wCexeqNHb1FXKq5sZP
-	GfBHqfwmFp/bqjlt8vS/Wmw=
-X-Google-Smtp-Source: AMrXdXt2M+tmqAUcwmI3R665W1S2ANiQS1SHnpB2bomoeMAf3o65vWXBYeRr1w24dRhukh7CO+u6ZA==
-X-Received: by 2002:a05:600c:4687:b0:3db:2e06:4091 with SMTP id p7-20020a05600c468700b003db2e064091mr22180602wmo.37.1674660428737;
-        Wed, 25 Jan 2023 07:27:08 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h20-20020a05600c351400b003dc1300eab0sm2456161wmq.33.2023.01.25.07.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 07:27:08 -0800 (PST)
-Date: Wed, 25 Jan 2023 18:27:01 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Brent Pappas <bpappas@pappasbrent.com>
-Cc: sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mdeia: ipu3: ipu33-mmu: Replace macro IPU3_ADDR2PTE()
- with a function
-Message-ID: <Y9FKRQiiUxCsidhe@kadam>
-References: <20230124135554.13787-1-bpappas@pappasbrent.com>
- <Y8/uTYK7qmYD5MSA@kadam>
- <Y9E+dGgQXFUQnIb8@pappasbrent.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9oBkpwDuDP6Raat/HRHsNpx8MqzIjjZSJojQEumXoyE=;
+        b=XNHvk0bX83k/0LAlD2uslKh74UDivWqaS90zW+10Go+GVoAQn0PluvU/aiJsVJQ3Rh
+         a/dkTAerJGVmRby63D3BrYGvhKhYX8Z7yOMYqqLfrcIX1UwOBAbz4gNELE4zRbQTGvji
+         BcZjx8Irznl9SmWWPouN+cftttAeOyx4hZPzkYR2d7lYVWS5yJGadOVyuSgJr93jMPz1
+         gEZbv6EI4BDMMrhRhqs6LuY0L2up+PQvvTPmVh0gXFtc8jfzoBL6N/oUA++KfTtuaCw2
+         zJVlK3vrE/Zc1RDOlGfqyr2wkfENI1xzP2xqCEA/TqVIz1ecxuFjJCiddHaBOUNUpINC
+         XGrQ==
+X-Gm-Message-State: AFqh2ko+66eGpHS80S9eksk76itzdcLahBv6iSHNZGfF7/8B/oeklYGX
+	YgXd5T9ITFkKjjlzAF/PEKW7rou6PRwKoZuHwOPh8Q==
+X-Google-Smtp-Source: AMrXdXsah5c2WKVW38d6ZSr7pPop+n/mEJC53KDRGLQOXrHcU20AK6F0ktCN8HrtzVAtxjIN7wyafP19A/nGyLOtNU8=
+X-Received: by 2002:a81:1d2:0:b0:433:f1c0:3f1c with SMTP id
+ 201-20020a8101d2000000b00433f1c03f1cmr4401576ywb.438.1674665403087; Wed, 25
+ Jan 2023 08:50:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9E+dGgQXFUQnIb8@pappasbrent.com>
+References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-2-surenb@google.com>
+ <Y9Dx0cPXF2yoLwww@hirez.programming.kicks-ass.net>
+In-Reply-To: <Y9Dx0cPXF2yoLwww@hirez.programming.kicks-ass.net>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 25 Jan 2023 08:49:50 -0800
+Message-ID: <CAJuCfpEcVCZaCGzc-Wim25eaV5e6YG1YJAAdKwZ6JHViB0z8aw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com, 
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, 
+	mgorman@techsingularity.net, dave@stgolabs.net, willy@infradead.org, 
+	liam.howlett@oracle.com, ldufour@linux.ibm.com, paulmck@kernel.org, 
+	luto@kernel.org, songliubraving@fb.com, peterx@redhat.com, david@redhat.com, 
+	dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de, 
+	kent.overstreet@linux.dev, punit.agrawal@bytedance.com, lstoakes@gmail.com, 
+	peterjung1337@gmail.com, rientjes@google.com, axelrasmussen@google.com, 
+	joelaf@google.com, minchan@google.com, jannh@google.com, shakeelb@google.com, 
+	tatashin@google.com, edumazet@google.com, gthelen@google.com, 
+	gurua@google.com, arjunroy@google.com, soheil@google.com, 
+	hughlynch@google.com, leewalsh@google.com, posk@google.com, will@kernel.org, 
+	aneesh.kumar@linux.ibm.com, npiggin@gmail.com, chenhuacai@kernel.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, richard@nod.at, anton.ivanov@cambridgegreys.com, 
+	johannes@sipsolutions.net, qianweili@huawei.com, wangzhou1@hisilicon.com, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org, 
+	airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, l.stach@pengutronix.de, 
+	krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com, 
+	matthias.bgg@gmail.com, robdclark@gmail.com, quic_abhinavk@quicinc.com, 
+	dmitry.baryshkov@linaro.org, tomba@kernel.org, hjc@rock-chips.com, 
+	heiko@sntech.de, ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org, 
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, tfiga@chromium.org, 
+	m.szyprowski@samsung.com, mchehab@kernel.org, dimitri.sivanich@hpe.com, 
+	zhangfei.gao@linaro.org, jejb@linux.ibm.com, martin.petersen@oracle.com, 
+	dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com, 
+	jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de, 
+	jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net, 
+	xiang@kernel.org, chao@kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	miklos@szeredi.hu, mike.kravetz@oracle.com, muchun.song@linux.dev, 
+	bhe@redhat.com, andrii@kernel.org, yoshfuji@linux-ipv6.org, 
+	dsahern@kernel.org, kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, 
+	tiwai@suse.com, haojian.zhuang@gmail.com, robert.jarzmik@free.fr, 
+	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, x86@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-graphics-maintainer@vmware.com, linux-ia64@vger.kernel.org, 
+	linux-arch@vger.kernel.org, loongarch@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev, 
+	dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
+	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org, 
+	linux-tegra@vger.kernel.org, virtualization@lists.linux-foundation.org, 
+	xen-devel@lists.xenproject.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev, 
+	target-devel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-aio@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
+	linux-ext4@vger.kernel.org, devel@lists.orangefs.org, 
+	kexec@lists.infradead.org, linux-xfs@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com, 
+	selinux@vger.kernel.org, alsa-devel@alsa-project.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 
-I'm sorry, but I don't think this is a worthwhile approach.
+On Wed, Jan 25, 2023 at 1:10 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
+>
+> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> > index 2d6d790d9bed..6c7c70bf50dd 100644
+> > --- a/include/linux/mm_types.h
+> > +++ b/include/linux/mm_types.h
+> > @@ -491,7 +491,13 @@ struct vm_area_struct {
+> >        * See vmf_insert_mixed_prot() for discussion.
+> >        */
+> >       pgprot_t vm_page_prot;
+> > -     unsigned long vm_flags;         /* Flags, see mm.h. */
+> > +
+> > +     /*
+> > +      * Flags, see mm.h.
+> > +      * WARNING! Do not modify directly.
+> > +      * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
+> > +      */
+> > +     unsigned long vm_flags;
+>
+> We have __private and ACCESS_PRIVATE() to help with enforcing this.
 
-If you created a tool to automatically re-write macros as functions,
-that's super impressive.  But the choice between using a macro and a
-function is just a style debate.  The note in Coding Style is more
-talking about complicated macros instead of these simple ones.  And
-anyway, when it comes to gray areas in the style guidelines, we
-generally defer to the original author because that's who is doing all
-the work.
+Thanks for pointing this out, Peter! I guess for that I'll need to
+convert all read accesses and provide get_vm_flags() too? That will
+cause some additional churt (a quick search shows 801 hits over 248
+files) but maybe it's worth it? I think Michal suggested that too in
+another patch. Should I do that while we are at it?
 
-There are some sorts of bugs associated with using macros like Macro
-Expansion Precedence Bugs where there isn't parentheses around a macro,
-or Double Evaluation Bugs where a parameter is evaluated twice.  But
-these sorts of bugs are very rare in the Linux kernel.  Generally kernel
-programmers have always been good about this sort of stuff.  Also
-checkpatch insists on parentheses.  And it's not like error paths where
-the bugs are difficult to find in testing.  Probably we get a macro
-bug every three years (compared to uninitialized variable bugs where we
-get several per week).  I have a Smatch check for both of these kinds of
-macro bugs.
-
-Another kind of bug would be type related bugs, because macros don't
-have type checking.  But I think those are caught in testing so they're
-extremely rare.  I don't think I have seen a real life example of one of
-those.
-
-regards,
-dan carpenter
-
+>
