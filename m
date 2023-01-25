@@ -1,49 +1,49 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82A16FB1
-	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 20:08:26 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id m7so4548496wru.8
-        for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 12:08:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7016FB1
+	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 20:08:35 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id d4-20020a05600c3ac400b003db1de2aef0so2135785wms.2
+        for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 12:08:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E3QUDM7lOv5vhtcSI90OpPSN2/l5dUarb+bY6Rv4FS0=;
-        b=EsA4nNT7fKM/RgL86Ec0d6j21wZFI6rqkqUVKwXTv/qCBhPLXnRsXqDfJBRyGewGcn
-         U5L+nc7rPhUomHI/JBCFiVhS0rMIHJMkvJq9uKVQu3m7kIT0LBt3gAZcAfW7SR3lf1kH
-         6i0wHyZHWlrhNu1PzmaDPNlxU/WQDi/fxhZT2g9DHDD2d6OBI1O3W5KTaMB0tVz2Ty3j
-         +FZWWYunXyEg3IcyxXGaJo0gcNGVMqg+GPNJaMX7SjNtdWzTr2JRNXpQuWGLR2H/Ypke
-         uXrpteTVjyxS5kqotOirCtArEMMxL9FJ4Dkfsz/cusaeCtOODeLxxejS3geGAZnFR06N
-         nOWw==
+        bh=bF+Lp+JDPbwdrmjIfQ0g/QFY3xJvOU79Nk3DY5MrQzU=;
+        b=lZjNXxnG0NwYLfZGiRVHlHOqlnjaMPZ1JSID3VMPnHtvUjKMLeD8kgH7GkoAlRPX/d
+         lZsrQftznCgl+6B9zFnjD0+R9mTZi5VWhbUqy+4Dn9yPmXaY6jyYgA05zUKIL4QREQK5
+         860WaQ3CHo79PSRDa601F2pA1CnldWLfwjFHehb6YLT3RlbdoLrWrgFfXYGOaht7gepv
+         INCRHLR1CmWe+DN+syp7s+t92FtOLxWMVgWyvQN3aeNBwzg5pTrvlQhgsWUr4Mnq5ALl
+         Pjus4IqrryktYkJ6L4HFew8xH3VG4y/sS7B0imQPMEb4osTROToIXx1df3catPY43Fdy
+         Wg9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E3QUDM7lOv5vhtcSI90OpPSN2/l5dUarb+bY6Rv4FS0=;
-        b=rBrxtGhmxxzy4V9xuC5W+MH0xiRfoFWH8TZpUApisc30OuffmraSdBkaBHABg4JRyd
-         qH2/Xjt79m4rNnKRQyL2/lfBnfI3K6kkdwaxL19hzgFncMGYGSYajWUeFCwWZbAX50pW
-         +CxijffehJih0YcMuFXI0rh5lDItWRIi3fObrwGhquWCI3yIV6qbQ4bbzK2Bn2ii4Neo
-         HdPCIA4JY+BT+Uvfb9Qx0prG7sozo/S/R21nBZs4wg52kHlQHg9Wj0j1jBbKSuWoqvPC
-         8um19xSpQwp0fzWDzzltnu2U+KVeTyxMbnfo2lUifLgFwDHaqoA+jVwi41z4857x2y0O
-         zb7g==
-X-Gm-Message-State: AFqh2kq8berixCt7M3SqGaO0RsVqVJveX3k9l1jTorLGzz2gHz2AHP1F
-	fPoK10dzSUV841voosFvrBw=
-X-Google-Smtp-Source: AMrXdXv0uHv236FNy6MmU6roGijeMmtfDbRsvZpQDZHkC8pSAM1AXkg2KKO9Dc+/Nrqu8t15i8vAZA==
-X-Received: by 2002:a05:6000:1088:b0:2be:5295:bd9e with SMTP id y8-20020a056000108800b002be5295bd9emr3999634wrw.7.1674677305155;
-        Wed, 25 Jan 2023 12:08:25 -0800 (PST)
+        bh=bF+Lp+JDPbwdrmjIfQ0g/QFY3xJvOU79Nk3DY5MrQzU=;
+        b=bnPbI0FWCmS0As32/pSdsHsU37f80Sw8xKgr6zbC7mhRv805sFXMc3H/5+jtbzOES1
+         /w5SzcSdbHAY7G8m7gaB3ymwGHo+5zGlmO9YVvpkh35E3XMpasAvS6dUTI3cEwI5i/NL
+         6NALPKlxUF56QRUtC5/XU6ZeqAALtwqdbCGzKyId/Tuzrm/AVfQXELf0lRQdDx2fE3ma
+         3kL2p1Neg3IsPgsPP3GcmsyRK6fGFVClyMTQ8b+Ilvwjee/kYS0HfKhxC5ruTDpPvpmM
+         7ZGHY4r8ojKsxiqtjr1K4zRK16Ump42lVl7mB/3bNP7IxoM9nIOTkn8INciVJdXhp1sM
+         I8zw==
+X-Gm-Message-State: AFqh2koZtODVNGLXBJ2it5FSs9siREH+9O3OkyXXFjlENCRuWT+gDh7h
+	Tyt4NUo6s+vMddhXtv6eHxzMJTR85Us=
+X-Google-Smtp-Source: AMrXdXuPLC9TNzoxh2qQMgwhJ2ZPBby8KQ2A7s3S3pJ34Cz3y7HlrsLZZ6qnvRp141wNiT4CSj68aQ==
+X-Received: by 2002:a05:600c:3ba8:b0:3d9:8635:a901 with SMTP id n40-20020a05600c3ba800b003d98635a901mr8573813wms.3.1674677314209;
+        Wed, 25 Jan 2023 12:08:34 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id bi24-20020a05600c3d9800b003d1d5a83b2esm2701098wmb.35.2023.01.25.12.08.24
+        by smtp.gmail.com with ESMTPSA id bi5-20020a05600c3d8500b003db0bb81b6asm2751098wmb.1.2023.01.25.12.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 12:08:24 -0800 (PST)
-Date: Wed, 25 Jan 2023 21:08:22 +0100
+        Wed, 25 Jan 2023 12:08:33 -0800 (PST)
+Date: Wed, 25 Jan 2023 21:08:31 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/11] staging: rtl8192e: Remove unused variables rxrdu
- and rxok
-Message-ID: <20738d339066e36f5347c7e5011bd3d1aa3e4f53.1674675808.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH v2 02/11] staging: rtl8192e: Remove unused variables
+ rxdatacrcerr and rxmgmtcrcerr
+Message-ID: <32c9183fa2f4edd24ae6f93d56b808eb1821832b.1674675808.git.philipp.g.hortmann@gmail.com>
 References: <cover.1674675808.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,48 +55,46 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1674675808.git.philipp.g.hortmann@gmail.com>
 
-rxrdu and rxok are initialized and increased but never read. Remove dead
-code.
+rxdatacrcerr and rxmgmtcrcerr are initialized and increased but never
+read. Remove dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 --
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 7 -------
  drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 2 --
- 2 files changed, 4 deletions(-)
+ 2 files changed, 9 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 80450d46191c..605146c840c7 100644
+index 605146c840c7..e0d0f4faeca7 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -1938,7 +1938,6 @@ static void _rtl92e_rx_normal(struct net_device *dev)
- 		if (!rtllib_rx(priv->rtllib, skb, &stats)) {
- 			dev_kfree_skb_any(skb);
- 		} else {
--			priv->stats.rxok++;
- 			if (unicast_packet)
- 				priv->stats.rxbytesunicast += skb_len;
- 		}
-@@ -2186,7 +2185,6 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
- 		tasklet_schedule(&priv->irq_prepare_beacon_tasklet);
+@@ -1926,13 +1926,6 @@ static void _rtl92e_rx_normal(struct net_device *dev)
+ 				priv->rtllib->LedControlHandler(dev,
+ 							LED_CTL_RX);
  
- 	if (inta & IMR_RDU) {
--		priv->stats.rxrdu++;
- 		rtl92e_writel(dev, INTA_MASK,
- 			      rtl92e_readl(dev, INTA_MASK) & ~IMR_RDU);
- 		tasklet_schedule(&priv->irq_rx_tasklet);
+-		if (stats.bCRC) {
+-			if (type != RTLLIB_FTYPE_MGMT)
+-				priv->stats.rxdatacrcerr++;
+-			else
+-				priv->stats.rxmgmtcrcerr++;
+-		}
+-
+ 		skb_len = skb->len;
+ 
+ 		if (!rtllib_rx(priv->rtllib, skb, &stats)) {
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 983bc663a570..82cbc7f5536a 100644
+index 82cbc7f5536a..f91a6f7a4e0a 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 @@ -183,8 +183,6 @@ enum reset_type {
  };
  
  struct rt_stats {
--	unsigned long rxrdu;
--	unsigned long rxok;
- 	unsigned long rxdatacrcerr;
- 	unsigned long rxmgmtcrcerr;
+-	unsigned long rxdatacrcerr;
+-	unsigned long rxmgmtcrcerr;
  	unsigned long rxcrcerrmin;
+ 	unsigned long rxcrcerrmid;
+ 	unsigned long rxcrcerrmax;
 -- 
 2.39.1
 
