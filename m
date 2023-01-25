@@ -1,135 +1,92 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131646FBF
-	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 19:22:51 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-50660e2d2ffso62236347b3.1
-        for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 11:22:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60DA6FB1
+	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 20:08:19 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id f19-20020a1c6a13000000b003db0ef4dedcso2011985wmc.4
+        for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 12:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PCnMypYs8jymH6Ufuva+9r/69Y/DZs8kYxwQEYrzQFk=;
-        b=hXTUs83qvSMCw0sqrewtph/1zyRGQA8EwV9VOqASoIhN1O27YlTeLHvU30LwpkaPKE
-         6ZtbduOBpeU0Mk6yScQyxHGjdOZ8W8NbAK7HCSbKR2qQVwpslpoP2Mqh8DnM60UrkSEV
-         Fy/rJx/xAj6ReR1yQheSDvUeiLsUOZe36GsXUe+/pA5dp4+pot+ScO1k5jhTafZOkoJo
-         vEjMe7B3/0BupSIQn5CSlkYjolaKBFMYB73xyId061H8p1ZYZbkvvK9SPdZltanRDpUl
-         vOuM+M/xFo7tmOP85pcv8h038+SVqlBqYWxO3Lgun0O5W06va+PJHK2pFsHgrhvmIiGL
-         lvow==
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UJOtoqsm0tyufNeV1ShS+S171FTUAh48RMkH3ha17v4=;
+        b=SlNm0NOnOU3D9X7z4QlCCYEGLZVjttOaDxsOR0rE9rAuzcuPmGHO1lMw4L1J25ih9r
+         1SY/55ujkNf/ZIpReEVsZ+Iegy+BPL0G9YVQbSJEEgHQAH0Zb/c5L9B5z1SjhHSgV+IG
+         lyTn9EkKYEL9hVLVw8PCm295Zh826wfd32QhWk1AXh8Laxvw64h+hd576gKGUpiKiDKW
+         cvk6iwPp3n6d3FriulPmVeD0a6UbAeiIuV88XhWpvuSv25qHyXBJuAo3hMjnXMM4/YtT
+         +JTvWszlvlfA5TV8gpi6MDPRy+HjmUexMmpbW2urkfq81AeHbnvb48GyaUL6AB6Tn89c
+         h4HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PCnMypYs8jymH6Ufuva+9r/69Y/DZs8kYxwQEYrzQFk=;
-        b=3evjBnl86F3s8fMiWQ6zU6wpxtcW8KGS0fwt9ExlWUkq6mUkw0Tdojwq8xrJkbwMIm
-         VVS6/C4N6GoUTSHl94IuTowB3eqPCi36dMRM6N7Kc9XFZGjtYmeoL36UzDOWwFFXpTzf
-         JkLZ9P/ZgOJNXulSzJMhbFjRYkQBKyBwioVW/MezTcYNWwVcTyTNj3Xv1jd6sBfp8kWL
-         fbNwvnRLFATn4t+EthGtykfBfvqQkhUwshxdCRnbLL2C3un1hl8eReh63Ymr/tbRtYUb
-         zNTago2nQXU1uy67WJeUfy/+IZfzr5W5xIZVcEHrVSLybJJfAT1/qx0xNkI727sf+nS9
-         BgsA==
-X-Gm-Message-State: AO0yUKX77gMw9maCPntJJI1Fkss82Z4CgQ/5OXLQG4CXOLCdHH/kvIfI
-	g2JCOT3ojcSg94smn0QOrRnwd8xW4uF8zfyqzx/yMw==
-X-Google-Smtp-Source: AK7set/Rj29H3r8vHaYccCmp943Un+QyMRF/w8dcRdt99GFw8apI+/L+5tSmXBTsBLdlTBniti7hA8kyFbpjr3H10kc=
-X-Received: by 2002:a0d:d456:0:b0:507:26dc:ebd with SMTP id
- w83-20020a0dd456000000b0050726dc0ebdmr298632ywd.455.1674674569763; Wed, 25
- Jan 2023 11:22:49 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UJOtoqsm0tyufNeV1ShS+S171FTUAh48RMkH3ha17v4=;
+        b=XnSTWDZuAgcGGLMDqXStUwVqWhTClsORvJpH9PWFKv/euw/AZoNSyaLH3qWc/oLn3S
+         QO5yN3OdljAnoZ7rUtF8N8dpfpKoZZPZnsUEs9t0lF3hF1RLnmWcSSuFTnWyCFC9xJ3S
+         oDASwtpxfIJ/AJ7mpOYNi0gL2appd40ZAsGP1c0ae28bWgTUL9GWuyOx9U1XDiixpkar
+         UGSCJVm/JJOtz2+l2FU5V8Lug/l8rCSRFR/o73kefRf63R9mjiEakCZPqQr7Uy1pAMHu
+         J/BvUmYc364ZeOIuF+1n6KIRrnOjQJ7C714fsLpj/NBfe2ja02h/GTMU9MlDG9zKJOqp
+         yO6w==
+X-Gm-Message-State: AFqh2kpxDWZrE+UM1awEwWxalHufs8xKVKVj/mvLI5abbvoDUM87BEnG
+	fh+cXhFto9f1fXmeljRNIec=
+X-Google-Smtp-Source: AMrXdXu0zZ33udh4WCWz0/jbl/UuD7jVjv9OZ1MwRXfkslyQvqHZnrnVhbnC0zchxd5xQUc59E2UBQ==
+X-Received: by 2002:a05:600c:3b8c:b0:3c6:c5d9:dad3 with SMTP id n12-20020a05600c3b8c00b003c6c5d9dad3mr8933429wms.0.1674677298048;
+        Wed, 25 Jan 2023 12:08:18 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
+        by smtp.gmail.com with ESMTPSA id g16-20020adffc90000000b002882600e8a0sm5493698wrr.12.2023.01.25.12.08.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jan 2023 12:08:17 -0800 (PST)
+Date: Wed, 25 Jan 2023 21:08:15 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/11] staging: rtl8192e: Remove unused variables from
+ struct rt_stats
+Message-ID: <cover.1674675808.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230125083851.27759-1-surenb@google.com> <20230125083851.27759-2-surenb@google.com>
- <Y9F19QEDX5d/44EV@casper.infradead.org>
-In-Reply-To: <Y9F19QEDX5d/44EV@casper.infradead.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 25 Jan 2023 11:22:38 -0800
-Message-ID: <CAJuCfpH+LMFX=TT04gSMA05cz_-CXMum6fobRrduWvzm1HWPmQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-To: Matthew Wilcox <willy@infradead.org>
-Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, 
-	mgorman@techsingularity.net, dave@stgolabs.net, liam.howlett@oracle.com, 
-	peterz@infradead.org, ldufour@linux.ibm.com, paulmck@kernel.org, 
-	luto@kernel.org, songliubraving@fb.com, peterx@redhat.com, david@redhat.com, 
-	dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de, 
-	kent.overstreet@linux.dev, punit.agrawal@bytedance.com, lstoakes@gmail.com, 
-	peterjung1337@gmail.com, rientjes@google.com, axelrasmussen@google.com, 
-	joelaf@google.com, minchan@google.com, jannh@google.com, shakeelb@google.com, 
-	tatashin@google.com, edumazet@google.com, gthelen@google.com, 
-	gurua@google.com, arjunroy@google.com, soheil@google.com, 
-	hughlynch@google.com, leewalsh@google.com, posk@google.com, will@kernel.org, 
-	aneesh.kumar@linux.ibm.com, npiggin@gmail.com, chenhuacai@kernel.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, richard@nod.at, anton.ivanov@cambridgegreys.com, 
-	johannes@sipsolutions.net, qianweili@huawei.com, wangzhou1@hisilicon.com, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org, 
-	airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, l.stach@pengutronix.de, 
-	krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com, 
-	matthias.bgg@gmail.com, robdclark@gmail.com, quic_abhinavk@quicinc.com, 
-	dmitry.baryshkov@linaro.org, tomba@kernel.org, hjc@rock-chips.com, 
-	heiko@sntech.de, ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org, 
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, tfiga@chromium.org, 
-	m.szyprowski@samsung.com, mchehab@kernel.org, dimitri.sivanich@hpe.com, 
-	zhangfei.gao@linaro.org, jejb@linux.ibm.com, martin.petersen@oracle.com, 
-	dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com, 
-	jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de, 
-	jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net, 
-	xiang@kernel.org, chao@kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca, 
-	miklos@szeredi.hu, mike.kravetz@oracle.com, muchun.song@linux.dev, 
-	bhe@redhat.com, andrii@kernel.org, yoshfuji@linux-ipv6.org, 
-	dsahern@kernel.org, kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, 
-	tiwai@suse.com, haojian.zhuang@gmail.com, robert.jarzmik@free.fr, 
-	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, x86@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-graphics-maintainer@vmware.com, linux-ia64@vger.kernel.org, 
-	linux-arch@vger.kernel.org, loongarch@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev, 
-	dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org, 
-	linux-tegra@vger.kernel.org, virtualization@lists.linux-foundation.org, 
-	xen-devel@lists.xenproject.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	target-devel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-aio@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
-	linux-ext4@vger.kernel.org, devel@lists.orangefs.org, 
-	kexec@lists.infradead.org, linux-xfs@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com, 
-	selinux@vger.kernel.org, alsa-devel@alsa-project.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Jan 25, 2023 at 10:33 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
-> > +/* Use when VMA is not part of the VMA tree and needs no locking */
-> > +static inline void init_vm_flags(struct vm_area_struct *vma,
-> > +                              unsigned long flags)
-> > +{
-> > +     vma->vm_flags = flags;
->
-> vm_flags are supposed to have type vm_flags_t.  That's not been
-> fully realised yet, but perhaps we could avoid making it worse?
->
-> >       pgprot_t vm_page_prot;
-> > -     unsigned long vm_flags;         /* Flags, see mm.h. */
-> > +
-> > +     /*
-> > +      * Flags, see mm.h.
-> > +      * WARNING! Do not modify directly.
-> > +      * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
-> > +      */
-> > +     unsigned long vm_flags;
->
-> Including changing this line to vm_flags_t
+Remove unused variables from struct rt_stats.
 
-Good point. Will make the change. Thanks!
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
+---
+V1-V2: Removed further unused variable preamble_guardinterval from
+       "Remove unused variables numpacket.. and received_pre.."
+       Removed further unused variables prxsc and rxsc_sgien_exflg
+       from "Remove unused variables num_proc.., recei.. and rxov.."
+
+Philipp Hortmann (11):
+  staging: rtl8192e: Remove unused variables rxrdu and rxok
+  staging: rtl8192e: Remove unused variables rxdatacrcerr and
+    rxmgmtcrcerr
+  staging: rtl8192e: Remove unused variables rxcrcerrmin and friends
+  staging: rtl8192e: Remove unused variables numpacket.. and
+    received_pre..
+  staging: rtl8192e: Remove unused variables numqry_..
+  staging: rtl8192e: Remove unused variables num_proc.., recei.. and
+    rxov..
+  staging: rtl8192e: Remove unused variables rxint, ints and shints
+  staging: rtl8192e: Remove unused variables txov.., txbeokint and
+    txbkokint
+  staging: rtl8192e: Remove unused variables txviok.., txvook.. and
+    txbea..
+  staging: rtl8192e: Remove unused variables txbeac.., txman.. and
+    txcmdp..
+  staging: rtl8192e: Remove unused variables txbytes.., txbyt.. and
+    signa..
+
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 39 +---------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c  | 44 ++-----------------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  | 31 -------------
+ 3 files changed, 5 insertions(+), 109 deletions(-)
+
+-- 
+2.39.1
+
