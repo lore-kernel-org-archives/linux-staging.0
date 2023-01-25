@@ -1,49 +1,49 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7E76FB1
-	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 20:09:23 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so2025612wmb.2
-        for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 12:09:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A8F6FB1
+	for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 20:09:30 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id y1so13733110wru.2
+        for <linux-staging@lists.linux.dev>; Wed, 25 Jan 2023 12:09:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gMf09+fC4QI99DmXPRyQuRL+tFfoSe44zXEcxxr3d1Q=;
-        b=pfhjKcsDMG0B6iYPy1uEpIfPgWWhr2EgYByXnBIKOjyeXxqKfvfk/XevDGkyN8CCTG
-         16TteLtHyrNqg3yu6p5xze1CVd3TY/TGKo4DSghVvYHCArXdJMQuu9mWRoiXXtqsDrn6
-         ohxv+G5zIn7LY0YrnCnNfKC83qiVIMcpYA6uuxogHZ/jcOlBJFYmV7lCe+sNR1dyCxfM
-         D1VC9PZQ9SjwFKdS3uakSJVG3z4+sSJretwpGLGSJzmaQjK4ngH+YDsZUQpH3KWFAuH4
-         ksYOHcqbqcEA/Bg8bBp6uAhwRgOG9y04bn4AnlgUOx/1UzZnErubqvtmvy0ZD/6R0hPr
-         pSYA==
+        bh=NDxe4oIJJSUOqPRwp3G0IGOgJo50hIDpNvcK0HbcW+I=;
+        b=qAtHh3HwGlWTIavwZBR9eHLTvK0r//m0TwA4Wf7MIK+sqNyRDS3PBTtmyYxSdDSyAz
+         0wCiETk9qiVzPJvSFoDDOueI0oJhHGQ5Lqa6G+DLURT6rn7UocCXrK2Pp5gYfhFFpOQc
+         Nnc21ecuBb/maD0nI2yjRXyHfVHCjFXU8sIq6WkU7w4r7e50X5c+27sGqh91QyW44z7N
+         qp5wDQqjntoRCjZ32ps2I21XkincXo2a7MgfTnSvvptA0UynoKz/F4ohixYTn9jQWKr3
+         3BgCXgoqm+RkgjaTMCe9F2TMhzCHvkOZd8F6RsN5TL5HBO2tckVNf6KlnSQsjQb7/MVv
+         ylxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gMf09+fC4QI99DmXPRyQuRL+tFfoSe44zXEcxxr3d1Q=;
-        b=Q8Kqdqdz7ZrxEOetYQUlnsEgO3AsufmygytgkXS3tQYLaEFyPfKVEtE/Z87OD8Cnsj
-         EYy4SaRvJMHawa+7PDnmTz8QUebWLuQ8yPoDraRs242og1tAVEFHXr6laXqFdAzQhSvF
-         w8rs4d1e//Io3hX0MvO00XPSkaw0fw7GPC4y+2QvPg89FVDkWc1w1PnG9OqLj8isSmLH
-         QfrSU1NKHGp3iekUoJl6O0EKQbN6JG9TGBCu49jLk/lmskOzqOgswx2pxBJN5L71rMek
-         bGDRCYPOOQdIFiDURAOXrxtYgJoTV9G9UPbM7k2ZoK2KF6QmShkhnBkWdtRLkr/G9RmL
-         4PYg==
-X-Gm-Message-State: AFqh2kpNBMmX+4DuEIEaijiPWm3enoX4n4dWCA7ZoJjXvU4cQ5YgJYJt
-	G+43OAQ1SrFVCkswn2mS2RI=
-X-Google-Smtp-Source: AMrXdXuRK3unvrxzTT2n3UwgPxByGkxRMh16tfnSW1GPMorniKmgRgivipCX6eq2+CH7VhJg8DoW2Q==
-X-Received: by 2002:a05:600c:3ba8:b0:3d9:8635:a901 with SMTP id n40-20020a05600c3ba800b003d98635a901mr8574306wms.3.1674677362197;
-        Wed, 25 Jan 2023 12:09:22 -0800 (PST)
+        bh=NDxe4oIJJSUOqPRwp3G0IGOgJo50hIDpNvcK0HbcW+I=;
+        b=L2Jw3dFx0swW0tHVg2jtuS0wEiNDBCyaobaymmd0KoG55xv+KEC98gzHqujK5P/zz8
+         P5vGmHM6HnhkXxdZM6t8P9XD9LAJdEMWBGrOaCfaVd0yY7h+cRDrZf7xSoPQj+zzAYIE
+         ddXR0waeuP744qFsQHK30NtTsaAA/TGybWh3BUf6k9n+s0Jo3QmuDPQub+/D+pE8mlco
+         WkTj4J2B3wA9E/508gBC9eFCs+1886YH8JPxh/KHPthyBxUVN7U0gVOJ5+3msGiQu/Xr
+         8xpAjnQxGXEWDjZphVy6JoxfUGdph4s8o2Hn+aW/EwG5BTi4X2wVq8Hl0yUdyUB+9Mmf
+         ytZw==
+X-Gm-Message-State: AO0yUKXKoRyguUFUUM3za8Wm6GJ/Z/dacd68GEReanbzSz/ceCvp33Ld
+	RRThY3sIIVFH58CyQ25RtgRfpFkyOCQ=
+X-Google-Smtp-Source: AK7set+gKyL1/EbwngB0SCDE5eQm9o64IfenrGX4+jjBe5iXQY2tEPg5qF3+P6yRQEdKGjIvZeijFg==
+X-Received: by 2002:adf:e3d0:0:b0:2bf:b41c:61de with SMTP id k16-20020adfe3d0000000b002bfb41c61demr1049378wrm.4.1674677368768;
+        Wed, 25 Jan 2023 12:09:28 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id t16-20020a05600c329000b003d35acb0fd7sm2685430wmp.34.2023.01.25.12.09.21
+        by smtp.gmail.com with ESMTPSA id f5-20020adffcc5000000b002bfae3f6802sm5124513wrs.58.2023.01.25.12.09.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 12:09:21 -0800 (PST)
-Date: Wed, 25 Jan 2023 21:09:20 +0100
+        Wed, 25 Jan 2023 12:09:28 -0800 (PST)
+Date: Wed, 25 Jan 2023 21:09:26 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 09/11] staging: rtl8192e: Remove unused variables
- txviok.., txvook.. and txbea..
-Message-ID: <c45501eee5fbf2cc3e5ad999bbbe8e071e341a2c.1674675808.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH v2 10/11] staging: rtl8192e: Remove unused variables
+ txbeac.., txman.. and txcmdp..
+Message-ID: <6c922591c48512692f77729ac91849ebb4e61bd1.1674675808.git.philipp.g.hortmann@gmail.com>
 References: <cover.1674675808.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,57 +55,57 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1674675808.git.philipp.g.hortmann@gmail.com>
 
-txviokint, txvookint and txbeaconokint are initialized and increased but
-never read. Remove dead code.
+txbeaconerr, txmanageokint and txcmdpktokint are initialized and increased
+but never read. Remove dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 5 -----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 8 +-------
  drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 3 ---
- 2 files changed, 8 deletions(-)
+ 2 files changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 768324cbe253..4cc90425fa4c 100644
+index 4cc90425fa4c..2c5edda74e73 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -2139,9 +2139,6 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
+@@ -2139,11 +2139,7 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
  		goto done;
  	}
  
--	if (inta & IMR_TBDOK)
--		priv->stats.txbeaconokint++;
+-	if (inta & IMR_TBDER)
+-		priv->stats.txbeaconerr++;
 -
- 	if (inta & IMR_TBDER)
- 		priv->stats.txbeaconerr++;
- 
-@@ -2192,13 +2189,11 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
+ 	if (inta  & IMR_MGNTDOK) {
+-		priv->stats.txmanageokint++;
+ 		_rtl92e_tx_isr(dev, MGNT_QUEUE);
+ 		spin_unlock_irqrestore(&priv->irq_th_lock, flags);
+ 		if (priv->rtllib->ack_tx_to_ieee) {
+@@ -2155,10 +2151,8 @@ static irqreturn_t _rtl92e_irq(int irq, void *netdev)
+ 		spin_lock_irqsave(&priv->irq_th_lock, flags);
  	}
  
- 	if (inta & IMR_VIDOK) {
--		priv->stats.txviokint++;
- 		priv->rtllib->link_detect_info.NumTxOkInPeriod++;
- 		_rtl92e_tx_isr(dev, VI_QUEUE);
- 	}
+-	if (inta & IMR_COMDOK) {
+-		priv->stats.txcmdpktokint++;
++	if (inta & IMR_COMDOK)
+ 		_rtl92e_tx_isr(dev, TXCMD_QUEUE);
+-	}
  
- 	if (inta & IMR_VODOK) {
--		priv->stats.txvookint++;
- 		priv->rtllib->link_detect_info.NumTxOkInPeriod++;
- 		_rtl92e_tx_isr(dev, VO_QUEUE);
- 	}
+ 	if (inta & IMR_HIGHDOK)
+ 		_rtl92e_tx_isr(dev, HIGH_QUEUE);
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 96d340f686e9..f8b2201ea288 100644
+index f8b2201ea288..c6a4ac6ce959 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 @@ -184,9 +184,6 @@ enum reset_type {
  
  struct rt_stats {
  	unsigned long received_rate_histogram[4][32];
--	unsigned long txviokint;
--	unsigned long txvookint;
--	unsigned long txbeaconokint;
- 	unsigned long txbeaconerr;
- 	unsigned long txmanageokint;
- 	unsigned long txcmdpktokint;
+-	unsigned long txbeaconerr;
+-	unsigned long txmanageokint;
+-	unsigned long txcmdpktokint;
+ 	unsigned long txbytesmulticast;
+ 	unsigned long txbytesbroadcast;
+ 	unsigned long txbytesunicast;
 -- 
 2.39.1
 
