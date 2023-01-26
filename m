@@ -1,125 +1,108 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868CA2594;
-	Thu, 26 Jan 2023 15:11:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=EH9adbDOpWNaGYEHl4xrAV40gwHDwqK76tq84Z0eyXc=; b=iqmwaHjxa8hZXZrYCzuWMxG2Kd
-	gUi1Y8eYsd0omFHjfmpVdNaehwIHED+H1VzLiTscJu/MXykaHjjIUo4/UeePSQ/3qO2Scxl5KBcbs
-	rwafzWiMp0gW54lDXpQNTGojrzBrhUSE24qBNrz9Eu8wZKUKM+VJeNVRGRDui4Mjh6zNrJRA9uXJe
-	2WKv1rttzI5041i+Ny9WQoRsYwvuy+Pu29+WLEfQrszB7lQZjKA+bZ/4URx7/yXNldScNG2l8YeYl
-	moQR7vt2oRKUKukioTBGNdLmNI+GiODuZUH9eGz4sLFdnhDHr8CijQAXVN9xNJqlnGwrCU0R4Kh9h
-	Kpe2WfSQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pL3s4-006q4a-Hd; Thu, 26 Jan 2023 15:09:00 +0000
-Date: Thu, 26 Jan 2023 15:09:00 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-	michel@lespinasse.org, jglisse@google.com, mhocko@suse.com,
-	vbabka@suse.cz, hannes@cmpxchg.org, mgorman@techsingularity.net,
-	dave@stgolabs.net, liam.howlett@oracle.com, peterz@infradead.org,
-	ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
-	songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
-	dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
-	kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
-	lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
-	axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
-	jannh@google.com, shakeelb@google.com, tatashin@google.com,
-	edumazet@google.com, gthelen@google.com, gurua@google.com,
-	arjunroy@google.com, soheil@google.com, hughlynch@google.com,
-	leewalsh@google.com, posk@google.com, will@kernel.org,
-	aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
-	chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-	qianweili@huawei.com, wangzhou1@hisilicon.com,
-	herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-	airlied@gmail.com, daniel@ffwll.ch,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, l.stach@pengutronix.de,
-	krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
-	matthias.bgg@gmail.com, robdclark@gmail.com,
-	quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
-	tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-	ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-	tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-	dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
-	jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
-	jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
-	xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-	adilger.kernel@dilger.ca, miklos@szeredi.hu,
-	mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
-	andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-	kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-	linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
-	linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
-	loongarch@lists.linux.dev, kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-	linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
-	dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	devel@lists.orangefs.org, kexec@lists.infradead.org,
-	linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
-	selinux@vger.kernel.org, alsa-devel@alsa-project.org,
-	kernel-team@android.com
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-Message-ID: <Y9KXjLaFFUvqqdd4@casper.infradead.org>
-References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-2-surenb@google.com>
- <Y9JFFYjfJf9uDijE@kernel.org>
- <Y9KTUw/04FmBVplw@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E27C3222
+	for <linux-staging@lists.linux.dev>; Thu, 26 Jan 2023 15:40:30 +0000 (UTC)
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 0BD0A3F204
+	for <linux-staging@lists.linux.dev>; Thu, 26 Jan 2023 15:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1674747224;
+	bh=QSepvCE+QvU8qyq2q6n9pYjju+rfRtTHn1zPijhNAtQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version;
+	b=ijgx39+VBq9sUrjt3SOa9rbWj7biMIbHpi0UNQwzVE1GxztYF3gkW5BTJR4J6zPvy
+	 MW28iwbGHEWV1g49SG7sKN/H5idazvjBGcg4aOl8OI0pctOpswugj68VArwuydZYhB
+	 3N89hNmMCnDh45VWG2jPpVO6dj9nw8Xz5fpIab+BBUs7xbz/1FwiSHyIjAPVDHwgfm
+	 3jBYZ8y/erspI4EahnHncVA+Oz0YGggxhEbm5GqYYUTv6BQUGhnmwyPqa/TlwKJDy+
+	 bW9QlOBfQWZIrKgT3Vlc5aUQHP0gA6dLRO7kEO1JaWz0Lni/LNuTeHSc5dX1RaVh+T
+	 iBKaybPTqNitA==
+Received: by mail-ed1-f72.google.com with SMTP id m7-20020a056402510700b00488d1fcdaebso1632825edd.9
+        for <linux-staging@lists.linux.dev>; Thu, 26 Jan 2023 07:33:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QSepvCE+QvU8qyq2q6n9pYjju+rfRtTHn1zPijhNAtQ=;
+        b=TLFhCxKYgdcenLem/920FhaFXslE0TDmLl/xOQ9ClPCoDjfNbHCshy2H/4paFKM8qc
+         xEpvb7Ho2hEkDr43ZLC4B8UMhlWyThnnqGtcaic8pDV6fSdwW/dIomZR9FJIjLgcY7ep
+         Dsqkk0uEd813kUitXZzXB9QvgL64ZPsHU8hTCrKJjweUHfwD3zJcKDNr9W272xNfx8Ks
+         woOSToGNnE0D3YYPfL+t8+ziC8D8SCfShcChCnWrTXBJfA8lA2rI/Xs6w4xkYsDuqcnA
+         nGWQq/7WPcK+3B/f7a/tR+km3DhyEhfbRt8oRTsuoyHyttx668rbgo5XZ5OVuxFgpyye
+         lapg==
+X-Gm-Message-State: AFqh2krHzGhsYTACt8FTt2VxTTgYbOn+BPaXEB2GCoPtHw+pd+1NyrRG
+	4NFfBGpQ5CqVRr/nEF3yeJq1NiJ5atAZ1yCQXDmNwXc+B3MiVfEu1A86mIV046wYw0YVI7IAfac
+	VJ9y4Ni2KPOQKsX1+sVPc0v2Xw9FPuxQrSf9PvZWNoqM=
+X-Received: by 2002:a17:906:25c5:b0:84d:47e3:fe49 with SMTP id n5-20020a17090625c500b0084d47e3fe49mr35905478ejb.39.1674747223480;
+        Thu, 26 Jan 2023 07:33:43 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsAha39SMJh+dIs31L8P5oRWYkNCJsasKCeyOKDBVSTao7E4ia4lwRK4rgCwDXA08+pLu3zqg==
+X-Received: by 2002:a17:906:25c5:b0:84d:47e3:fe49 with SMTP id n5-20020a17090625c500b0084d47e3fe49mr35905463ejb.39.1674747223261;
+        Thu, 26 Jan 2023 07:33:43 -0800 (PST)
+Received: from localhost.localdomain ([194.191.244.86])
+        by smtp.gmail.com with ESMTPSA id ec14-20020a0564020d4e00b0048c85c5ad30sm876174edb.83.2023.01.26.07.33.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jan 2023 07:33:42 -0800 (PST)
+From: Juerg Haefliger <juerg.haefliger@canonical.com>
+To: juerg.haefliger@canonical.com
+Cc: gregkh@linuxfoundation.org,
+	jbrunet@baylibre.com,
+	khilman@baylibre.com,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	martin.blumenstingl@googlemail.com,
+	mchehab@kernel.org,
+	narmstrong@baylibre.com
+Subject: [PATCH v2 resend] media: meson: vdec: Add MODULE_FIRMWARE macro
+Date: Thu, 26 Jan 2023 16:32:58 +0100
+Message-Id: <20230126153258.1558471-1-juerg.haefliger@canonical.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220818064810.17856-1-juerg.haefliger@canonical.com>
+References: <20220818064810.17856-1-juerg.haefliger@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9KTUw/04FmBVplw@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 26, 2023 at 04:50:59PM +0200, Mike Rapoport wrote:
-> On Thu, Jan 26, 2023 at 11:17:09AM +0200, Mike Rapoport wrote:
-> > On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
-> > > +/* Use when VMA is not part of the VMA tree and needs no locking */
-> > > +static inline void init_vm_flags(struct vm_area_struct *vma,
-> > > +				 unsigned long flags)
-> > 
-> > I'd suggest to make it vm_flags_init() etc.
-> 
-> Thinking more about it, it will be even clearer to name these vma_flags_xyz()
+The meson-vdec module loads firmware so add MODULE_FIRMWARE macros to
+provide that information via modinfo.
 
-Perhaps vma_VERB_flags()?
+Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 
-vma_init_flags()
-vma_reset_flags()
-vma_set_flags()
-vma_clear_flags()
-vma_mod_flags()
+---
+v2:
+  - Drop duplicates
+  - Add Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ drivers/staging/media/meson/vdec/vdec_platform.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
+index 88c9d72e1c83..70c9fd7c8bc5 100644
+--- a/drivers/staging/media/meson/vdec/vdec_platform.c
++++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+@@ -280,3 +280,12 @@ const struct vdec_platform vdec_platform_sm1 = {
+ 	.num_formats = ARRAY_SIZE(vdec_formats_sm1),
+ 	.revision = VDEC_REVISION_SM1,
+ };
++
++MODULE_FIRMWARE("meson/vdec/g12a_h264.bin");
++MODULE_FIRMWARE("meson/vdec/g12a_vp9.bin");
++MODULE_FIRMWARE("meson/vdec/gxbb_h264.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_h264.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_vp9.bin");
++MODULE_FIRMWARE("meson/vdec/gxm_h264.bin");
++MODULE_FIRMWARE("meson/vdec/sm1_vp9_mmu.bin");
+-- 
+2.34.1
 
