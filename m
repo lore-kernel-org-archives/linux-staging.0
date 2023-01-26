@@ -1,155 +1,72 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F299D256A
-	for <linux-staging@lists.linux.dev>; Thu, 26 Jan 2023 13:33:31 +0000 (UTC)
-Received: from [192.168.1.103] (unknown [103.238.109.11])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9C272B3;
-	Thu, 26 Jan 2023 14:33:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1674740003;
-	bh=YFa6+v6r11FTCig8slNbwx0QqVKWMnnrcN/kArlf3Es=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DKbSrDb+Kse0kQP2Ghc9KZAXIq8LWPn7Oh+UdoC/rqZDXr3jqK2Cj3GRBjkIb4exD
-	 hS8iUwzCny+F2mz9NMkH/nu8kb8WE/PL8ASvfs7/6Kzk03vTca24SZplL3R8tMRa8m
-	 Lvz22fHHYF0+VTTV/eByZnDxyPk58fueaH1X6AP4=
-Message-ID: <09309fe8-7cf3-72ea-5118-159e7a1ee302@ideasonboard.com>
-Date: Thu, 26 Jan 2023 19:03:16 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574BC256A
+	for <linux-staging@lists.linux.dev>; Thu, 26 Jan 2023 14:27:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FE03C433EF;
+	Thu, 26 Jan 2023 14:27:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674743255;
+	bh=kyg287jVxNn5KSlNEsVGJfYboudO4DBm+FJvwry/P14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KWMMZa3enFGjyBvR2geXY/y1os9YbC/Uq6fvpBx147xoAci6F2dWQUwOp5qev7dqv
+	 sDFzMt7hO6YpQHUbi6UXLJq/caD9FXOsVNgrL+IcDeaytcggK82q8G4TPARg46UQvR
+	 qp4uxp3LOCVaFqBaaCiwljX3GBc1l6jZqUd5AJMLb2hOnEyztqjAXwXmyWbJDEosk5
+	 fuPKSnnu2l0tBH3n5rSQm/zULLwOhCLeU2BQcHzouuw4T2jv6+uHjM+0xXK+iTmSzm
+	 vld+2pv3ErucYbDOohg29FfZIjY619rILYR8g/bpIZoRx6/QTcILHFraOIiC5DP3WZ
+	 c4HaAqCJIpw1A==
+Date: Thu, 26 Jan 2023 14:27:26 +0000
+From: Lee Jones <lee@kernel.org>
+To: sam@ravnborg.org
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Helge Deller <deller@gmx.de>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Antonino Daplas <adaplas@gmail.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Robin van der Gracht <robin@protonic.nl>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org, Stephen Kitt <steve@sk2.org>
+Subject: Re: [PATCH 15/15] backlight: backlight: Drop the deprecated fb_blank
+ property
+Message-ID: <Y9KNziZJxMjCffbs@google.com>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+ <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v6 0/6] staging: vc04_services: vchiq: Register devices
- with a custom bus_type
-To: Phil Elwell <phil@raspberrypi.com>, Stefan Wahren
- <stefan.wahren@i2se.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Florian Fainelli <f.fainelli@gmail.com>,
- Adrien Thierry <athierry@redhat.com>, Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Paul Elder <paul.elder@ideasonboard.com>
-References: <20230120201104.606876-1-umang.jain@ideasonboard.com>
- <786df750-221e-82fc-a324-d30261296974@i2se.com>
- <62644cd8-c871-aee0-30b7-2fbab097504c@ideasonboard.com>
- <Y85MOdAVh/fv5HRt@pendragon.ideasonboard.com>
- <39f438f8-c41b-17e6-42ba-9d87098a1eee@i2se.com>
- <2ad50d65-9ce2-de4c-b14f-98c086b2d8c0@raspberrypi.com>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <2ad50d65-9ce2-de4c-b14f-98c086b2d8c0@raspberrypi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230107-sam-video-backlight-drop-fb_blank-v1-15-1bd9bafb351f@ravnborg.org>
 
-Hi Phil,
+On Sat, 07 Jan 2023, Sam Ravnborg via B4 Submission Endpoint wrote:
 
-Thank you for the response
+> From: Sam Ravnborg <sam@ravnborg.org>
+> 
+> With all users gone remove the deprecated fb_blank member in
+> backlight_properties.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> ---
+>  drivers/video/backlight/backlight.c |  2 --
+>  include/linux/backlight.h           | 22 ----------------------
+>  2 files changed, 24 deletions(-)
 
-On 1/25/23 1:17 AM, Phil Elwell wrote:
-> On 24/01/2023 8:41, Stefan Wahren wrote:
->> Hi Phil,
->>
->> Am 23.01.23 um 09:58 schrieb Laurent Pinchart:
->>> On Mon, Jan 23, 2023 at 01:18:30PM +0530, Umang Jain wrote:
->>>> Hi Stefan,
->>>>
->>>> Thank for the testing.
->>>>
->>>> On 1/23/23 5:04 AM, Stefan Wahren wrote:
->>>>> Hi Umang,
->>>>>
->>>>> Am 20.01.23 um 21:10 schrieb Umang Jain:
->>>>>> This series just introduces five extra patches for dropping include
->>>>>> directives from Makefiles (suggested by Greg KH) and rebased.
->>>>>>
->>>>>> The main patch (6/6) removes platform device/driver abuse and moves
->>>>>> things to standard device/driver model using a custom_bus. Specific
->>>>>> details are elaborated in the commit message.
->>>>>>
->>>>>> The patch series is based on top of d514392f17fd (tag: 
->>>>>> next-20230120)
->>>>>> of linux-next.
->>>>> applied this series on top of linux-next and build it with
->>>>> arm/multi_v7_defconfig plus the following:
->>>>>
->>>>> CONFIG_BCM_VIDEOCORE=y
->>>>> CONFIG_BCM2835_VCHIQ=m
->>>>> CONFIG_VCHIQ_CDEV=y
->>>>> CONFIG_SND_BCM2835=m
->>>>> CONFIG_VIDEO_BCM2835=m
->>>>> CONFIG_BCM2835_VCHIQ_MMAL=m
->>>>>
->>>>> and the devices doesn't register on Raspberry Pi 3 B Plus:
->>>>>
->>>>> [   25.523337] vchiq: module is from the staging directory, the 
->>>>> quality is unknown, you have been warned.
->>>>> [   25.541647] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
->>>>> bcm2835_audio vchiq device
->>>>> [   25.553692] bcm2835_vchiq 3f00b840.mailbox: Failed to register 
->>>>> bcm2835-camera vchiq device
->>>> I was able to reproduce and it seems the issue here is the change
->>>> mentioned in the cover
->>>>
->>>> - drop dma_set_mask_and_coherent
->>>>
->>>> in V6.
->>>>
->>>> (I usually test patches on RPi 4B with vcsm-cma and bcm2835-isp 
->>>> applied
->>>> so my branch has the DMA hunk included while I was testing V6)
->>>>
->>>> Below is the hunk which should resolve the issue.
->>>>
->>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
->>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
->>>> @@ -6,6 +6,7 @@
->>>>     */
->>>>
->>>>    #include <linux/device/bus.h>
->>>> +#include <linux/dma-mapping.h>
->>>>    #include <linux/slab.h>
->>>>    #include <linux/string.h>
->>>>
->>>> @@ -72,6 +73,12 @@ int vchiq_device_register(struct device *parent,
->>>> const char *name)
->>>>           device->dev.type = &vchiq_device_type;
->>>>           device->dev.release = vchiq_device_release;
->>>>
->>>> +       ret = dma_set_mask_and_coherent(&device->dev, 
->>>> DMA_BIT_MASK(32));
->>>> +       if (ret < 0) {
->>>> +               vchiq_device_release(&device->dev);
->>>> +               return ret;
->>>> +       }
->>>> +
->>>>           ret = device_register(&device->dev);
->>>>           if (ret) {
->>>>                   put_device(&device->dev);
->>>>
->>>> It seems we need to include the dma_set_mask_and_coherent() even if
->>>> bcm2835-audio, bcm2835-camera device doesn't do DMA? I need to look 
->>>> into
->>>> why is that/
->>
->> Do you have an answer for this?
->
-> That's because vchiq does use DMA for bulk transfers, it's just that 
-> the DMA hardware
-> is driven from the VPU side. And even though the VPU can only address 
-> 1GB, it uses the
-> upper address bits to determine cacheability of accesses, hence the 
-> need for 32-bit
-> DMA addresses.
+Applied, thanks
 
-Is it worth recording this as a comment  in the patch?
->
-> Phil
->
-
+-- 
+Lee Jones [李琼斯]
