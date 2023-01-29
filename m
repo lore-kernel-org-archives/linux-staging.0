@@ -1,49 +1,49 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BFB23A3
-	for <linux-staging@lists.linux.dev>; Sun, 29 Jan 2023 14:58:34 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id r2so8910409wrv.7
-        for <linux-staging@lists.linux.dev>; Sun, 29 Jan 2023 06:58:34 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78CF23A3
+	for <linux-staging@lists.linux.dev>; Sun, 29 Jan 2023 14:58:40 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id f47-20020a05600c492f00b003dc584a7b7eso386100wmp.3
+        for <linux-staging@lists.linux.dev>; Sun, 29 Jan 2023 06:58:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9kObtkesHDp3/jvTg21bOv7yEj2AdVjYtEj97EYzt4U=;
-        b=nn0+dCEGm10fKkUm78VcoLjWaZpJwjB4bHUDywbWtUJCDHsf9ZMfrZn7txLxgBs9Ya
-         YdPXo9SQ+k8eD1CjU27DoAvh2/vmPaoFkA277Qc0y2rg4Ewzsvr5sOk/laThLk4gAxBk
-         jym2s4C2NBr4aRrilPO8hRrkt7V3l0UnqccpY4lMoecjNiGraLBAa6+B3m955BcFiqAI
-         QBJfndZQBZq96BZofLXKZR/poud2Issp72OvQYWgLBpwbaVfpPy2INosxL1JHX/qWDvA
-         lVcEtre89LNAim+itY+jAsdDYWfFftOJXJN7h+Co+1BY2lk8LkhBvpawJ2jsaM+LLZgo
-         4NlQ==
+        bh=MyvKP4txQ13hA3WgepX6K+C6nDjIWuymKszT6lxk42U=;
+        b=SqTC1lH9c+quHuDgGjFZOwgvbXTCJGzGUtee6cQENP2LMMrrqgbzbMqwDWWPcXZiI+
+         2LE2M+NFydezoE4SyPVKtdGQUaEvtDYgkm3/KWdGLgERRc25WA+LLrBjvko6qGwYacBS
+         6UpgSqicII3V5ehThNEZe5K97HD9NEiF5E+Z5ielQnsBjThnqiscfVoG7CWlwgKH67zB
+         TtBGQa/8CPiBhkDgMBieJmNa+tHqwT4sojmHhkv5R0/Q1Vi4WpTFJv+sk+nh83MgHKxz
+         Nv1IzhYJY+Vw59y5c0i6wbwOzamg0DdG0bjbsRFrU/VzQU2moIP1dLAUwbPm0TfaJCQs
+         jMyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9kObtkesHDp3/jvTg21bOv7yEj2AdVjYtEj97EYzt4U=;
-        b=5uKTntGtTCJIm8qyZdK+Nvb8ro/riZv2ty3QFTKI4s6Kra8uGa1leAK7Mk/aCWwhpb
-         llYqVeCA+/veK6Zrx+pESn8dSxaqUX8FcIA/q5cAybUJSXftEPst9Othj9zd2vL+4oUW
-         pJpgR4mp9nDl8GCIsq7x2qdt/6ks1oOb5jKgTNAZ05IT3/nDKTNcQDpgKJzPGm9vsAuG
-         uPf2Rb5zWkDZhRpShTC5YVYKulEux68Sd2eE/2jzECgYNlGnyFq96d1/nU9ojRzQyoy1
-         ASaNOkI5IWkt5GbHegL45zL10UtQ4AaRAltapEkI+IBt6jdo1yKqqJeuJfo46j8hc2qj
-         qRLg==
-X-Gm-Message-State: AO0yUKXxhyUz63FEgmSItgUocwD3bmdzSb+71HsgWz+0OMR6Sxgy+rFQ
-	KxXeRStGcTLALxHxxTil5EZjS1tF5jc=
-X-Google-Smtp-Source: AK7set8AHcPD4BiH1iMgc/5WOn6Ubc4u3IdJ3/2Oux877cLj7U+eeFDQzreKKiVTdpHqUxfPGzC7Tg==
-X-Received: by 2002:adf:ba4a:0:b0:2bf:dfd5:98c9 with SMTP id t10-20020adfba4a000000b002bfdfd598c9mr974249wrg.7.1675004312434;
-        Sun, 29 Jan 2023 06:58:32 -0800 (PST)
+        bh=MyvKP4txQ13hA3WgepX6K+C6nDjIWuymKszT6lxk42U=;
+        b=O+/+vKxOrJ/yVK44bIJB3MN/qNBMf+o8hjJv4M33ZdO0e6xgDsAw1PHKI0h+aed+Nr
+         V25EpfG0xicqmguJKxoHtcZTaQcJaVEKLJK8vuqhgx/psL8Dem1PrzuppaczQ7IZjvyh
+         mNDhfklT/DjAWSQzR/2aO62WWst3ApYedXR3ATfZWjp7VokoyIPRJXnNr6KXfu0UuQXC
+         AoaDy0oK2UcLo0mKSGD0m+qmRZQz+E02pqBQnq58USZCsq3yZYz5KILNznQLLD/Eo+5g
+         g+mX4IT+kbQwt21+SS1I3MjRMpNVxTfU0omSGqBR48M93CbjPeg5nHupK0mfkhavd0NX
+         3CdQ==
+X-Gm-Message-State: AO0yUKVxL6zRZUe8V3C1zpVlf7dm33eyD9Gkcn2GpW4tHZ7CL8eYNLYe
+	QAdDg+OA7uLhCvsJ9P5Xa8otlPVZ9Tk=
+X-Google-Smtp-Source: AK7set+PZCcyiCmeYuSRg30WqJc7QgxR+F2xwdzL5dzChR+UQMuHUKi1gcVCqqCFxb/4UF7Qgj2z3w==
+X-Received: by 2002:a05:600c:5008:b0:3dc:557f:6122 with SMTP id n8-20020a05600c500800b003dc557f6122mr386081wmr.1.1675004319099;
+        Sun, 29 Jan 2023 06:58:39 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id o4-20020a05600c2e0400b003dc4ecfc4d7sm3892938wmf.29.2023.01.29.06.58.31
+        by smtp.gmail.com with ESMTPSA id w16-20020a05600c099000b003daf681d05dsm10048927wmp.26.2023.01.29.06.58.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jan 2023 06:58:31 -0800 (PST)
-Date: Sun, 29 Jan 2023 15:58:30 +0100
+        Sun, 29 Jan 2023 06:58:38 -0800 (PST)
+Date: Sun, 29 Jan 2023 15:58:36 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] staging: rtl8192e: Rename BaseBand_Config_PHY_REG and
- BaseBand_Config_AGC_TAB
-Message-ID: <6d26690c7c2c68cc7c766c981293bd8e40999ed0.1675003608.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 06/10] staging: rtl8192e: Remove unused constants at
+ beginning of r8192E_hw.h
+Message-ID: <d01232f5ef10eac02abb3f31f2ac6f53614fa954.1675003608.git.philipp.g.hortmann@gmail.com>
 References: <cover.1675003608.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,66 +55,84 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1675003608.git.philipp.g.hortmann@gmail.com>
 
-Rename constants BaseBand_Config_PHY_REG to BB_CONFIG_PHY_REG and
-BaseBand_Config_AGC_TAB to BB_CONFIG_AGC_TAB to avoid CamelCase which is
-not accepted by checkpatch.
+Remove unused constants at beginning of r8192E_hw.h. A part of the
+constants would need to be renamed because of CamelCase on others spaces
+are missing before and after "<<".
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h  | 4 ++--
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h | 38 +------------------
+ 1 file changed, 1 insertion(+), 37 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-index 3e223151d4b7..858cfc203f13 100644
+index 858cfc203f13..cc1e62f7074d 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-@@ -8,8 +8,8 @@
- #define R8180_HW
- 
- enum baseband_config {
--	BaseBand_Config_PHY_REG = 0,
--	BaseBand_Config_AGC_TAB = 1,
-+	BB_CONFIG_PHY_REG = 0,
-+	BB_CONFIG_AGC_TAB = 1,
+@@ -12,63 +12,27 @@ enum baseband_config {
+ 	BB_CONFIG_AGC_TAB = 1,
  };
  
- #define	RTL8187_REQT_READ	0xc0
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index 456b7ca73073..cbda027656dc 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -342,13 +342,13 @@ static void _rtl92e_phy_config_bb(struct net_device *dev, u8 ConfigType)
- 		Rtl819XPHY_REGArray_Table = Rtl819XPHY_REG_1T2RArray;
- 	}
+-#define	RTL8187_REQT_READ	0xc0
+-#define	RTL8187_REQT_WRITE	0x40
+-#define	RTL8187_REQ_GET_REGS	0x05
+-#define	RTL8187_REQ_SET_REGS	0x05
+-
+-#define MAX_TX_URB 5
+-#define MAX_RX_URB 16
+-#define RX_URB_SIZE 9100
+-
+-#define BB_ANTATTEN_CHAN14	0x0c
+-#define BB_ANTENNA_B 0x40
+-
+-#define BB_HOST_BANG (1<<30)
+-#define BB_HOST_BANG_EN (1<<2)
+-#define BB_HOST_BANG_CLK (1<<1)
+-#define BB_HOST_BANG_RW (1<<3)
+-#define BB_HOST_BANG_DATA	 1
+-
+ #define RTL8190_EEPROM_ID	0x8129
+ #define EEPROM_VID		0x02
+ #define EEPROM_DID		0x04
+ #define EEPROM_NODE_ADDRESS_BYTE_0	0x0C
  
--	if (ConfigType == BaseBand_Config_PHY_REG) {
-+	if (ConfigType == BB_CONFIG_PHY_REG) {
- 		for (i = 0; i < PHY_REGArrayLen; i += 2) {
- 			rtl92e_set_bb_reg(dev, Rtl819XPHY_REGArray_Table[i],
- 					  bMaskDWord,
- 					  Rtl819XPHY_REGArray_Table[i+1]);
- 		}
--	} else if (ConfigType == BaseBand_Config_AGC_TAB) {
-+	} else if (ConfigType == BB_CONFIG_AGC_TAB) {
- 		for (i = 0; i < AGCTAB_ArrayLen; i += 2) {
- 			rtl92e_set_bb_reg(dev, Rtl819XAGCTAB_Array_Table[i],
- 					  bMaskDWord,
-@@ -526,12 +526,12 @@ static bool _rtl92e_bb_config_para_file(struct net_device *dev)
- 			return rtStatus;
- 	}
- 	rtl92e_set_bb_reg(dev, rFPGA0_RFMOD, bCCKEn|bOFDMEn, 0x0);
--	_rtl92e_phy_config_bb(dev, BaseBand_Config_PHY_REG);
-+	_rtl92e_phy_config_bb(dev, BB_CONFIG_PHY_REG);
+-#define EEPROM_TxPowerDiff	0x1F
+-
+-
+-#define EEPROM_PwDiff		0x21
+-#define EEPROM_CrystalCap	0x22
+-
+-
+-
+-#define EEPROM_TxPwIndex_CCK_V1		0x29
+-#define EEPROM_TxPwIndex_OFDM_24G_V1	0x2C
+-#define EEPROM_TxPwIndex_Ver		0x27
+-
+-#define EEPROM_Default_TxPowerDiff		0x0
+ #define EEPROM_Default_ThermalMeter		0x77
+ #define EEPROM_Default_AntTxPowerDiff		0x0
+ #define EEPROM_Default_TxPwDiff_CrystalCap	0x5
+-#define EEPROM_Default_PwDiff			0x4
+-#define EEPROM_Default_CrystalCap		0x5
+ #define EEPROM_Default_TxPower			0x1010
+ #define EEPROM_ICVersion_ChannelPlan	0x7C
+ #define EEPROM_Customer_ID			0x7B
+ #define EEPROM_RFInd_PowerDiff			0x28
++
+ #define EEPROM_ThermalMeter			0x29
+ #define EEPROM_TxPwDiff_CrystalCap		0x2A
+ #define EEPROM_TxPwIndex_CCK			0x2C
+ #define EEPROM_TxPwIndex_OFDM_24G	0x3A
+-#define EEPROM_Default_TxPowerLevel		0x10
+-#define EEPROM_IC_VER				0x7d
+-#define EEPROM_CRC				0x7e
  
- 	dwRegValue = rtl92e_readl(dev, CPU_GEN);
- 	rtl92e_writel(dev, CPU_GEN, (dwRegValue|CPU_GEN_BB_RST));
- 
--	_rtl92e_phy_config_bb(dev, BaseBand_Config_AGC_TAB);
-+	_rtl92e_phy_config_bb(dev, BB_CONFIG_AGC_TAB);
- 
- 	if (priv->ic_cut  > VERSION_8190_BD) {
- 		if (priv->rf_type == RF_2T4R)
+ #define EEPROM_CID_DEFAULT			0x0
+ #define EEPROM_CID_CAMEO				0x1
+ #define EEPROM_CID_RUNTOP				0x2
+-#define EEPROM_CID_Senao				0x3
+ #define EEPROM_CID_TOSHIBA				0x4
+ #define EEPROM_CID_NetCore				0x5
+ #define EEPROM_CID_Nettronix			0x6
 -- 
 2.39.1
 
