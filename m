@@ -1,173 +1,192 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC6446A7;
-	Thu, 26 Jan 2023 17:07:49 +0000 (UTC)
-Received: from mercury (dyndsl-037-138-191-219.ewe-ip-backbone.de [37.138.191.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 7FC3E6602E7D;
-	Thu, 26 Jan 2023 17:07:41 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1674752861;
-	bh=TJwB9xWefUtenAJhobcnuA3/dr44yh/1qZH05naV3dA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HIAeawkSMl4wLK9atphFO2PYIuQtn0mXWrQTGJkp27Vvwen4RmNJXIKy0KOcMN2qu
-	 MGji/BoqRh//5quIKkg+7Jg9a4rlT6zYnOxKnHRve8IRt32uZ0O2J9C6ByA7KSG9ni
-	 ooI+f+xDzdj/4Xv/XqAW1ZMOqMbxlnaE69Ns4AaVsCb09DHvVD+xjXrJ7HkcJ65ZDs
-	 0FKkR9qOOchTbFQKw+Lbe8GJsd/K96q/WWSPWtyPUY4G0yRJ/G34tsJUBI/vL5q95x
-	 a6dIJ/I/0Glk/75yhzfiBv6PLPN/HUTuWOcS4vpdAGRdicde5HTb77Vj3shLRE2rZN
-	 snAuQFm3yL5CQ==
-Received: by mercury (Postfix, from userid 1000)
-	id 8DAD710609C7; Thu, 26 Jan 2023 18:07:39 +0100 (CET)
-Date: Thu, 26 Jan 2023 18:07:39 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	mgorman@techsingularity.net, dave@stgolabs.net, willy@infradead.org,
-	liam.howlett@oracle.com, peterz@infradead.org,
-	ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
-	songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
-	dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
-	kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
-	lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
-	axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
-	jannh@google.com, shakeelb@google.com, tatashin@google.com,
-	edumazet@google.com, gthelen@google.com, gurua@google.com,
-	arjunroy@google.com, soheil@google.com, hughlynch@google.com,
-	leewalsh@google.com, posk@google.com, will@kernel.org,
-	aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
-	chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-	qianweili@huawei.com, wangzhou1@hisilicon.com,
-	herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-	airlied@gmail.com, daniel@ffwll.ch,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, l.stach@pengutronix.de,
-	krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
-	matthias.bgg@gmail.com, robdclark@gmail.com,
-	quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
-	tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-	ray.huang@amd.com, kraxel@redhat.com, mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com, tfiga@chromium.org,
-	m.szyprowski@samsung.com, mchehab@kernel.org,
-	dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
-	jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
-	jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
-	xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-	adilger.kernel@dilger.ca, miklos@szeredi.hu,
-	mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
-	andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-	kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-	linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
-	linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
-	loongarch@lists.linux.dev, kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-	linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
-	dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	devel@lists.orangefs.org, kexec@lists.infradead.org,
-	linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
-	selinux@vger.kernel.org, alsa-devel@alsa-project.org,
-	kernel-team@android.com
-Subject: Re: [PATCH v2 3/6] mm: replace vma->vm_flags direct modifications
- with modifier calls
-Message-ID: <20230126170739.mlka2jivn3mfstyf@mercury.elektranox.org>
-References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-4-surenb@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779AC15BD;
+	Sun, 29 Jan 2023 00:37:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674952625; x=1706488625;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ETG+RebHbnzPrGXQLj8pANSvLEAPGkpin0UbYbN0fpA=;
+  b=UWWEnr0szUur73Dc5WQrxkV5AxKyY75Z7acnBAo6r1NNwccZPdbHBog0
+   hYGu8ITkOcjB+SD+ki0s3JSHbch5v2YDioKCl9WEvBIDblHT62DKYYqka
+   HyBVk7luvg+sGlcNinZQFCcKdKFLq7h9uAN1FLKuetEAKri4g9kVegCYn
+   J/ayO9gWOoGlvtsdCqvxtY3iJl/sYTuMCD9QTmKoamLeQg530V9PVDlke
+   NO7PP96C4B75LA38zYrAHK7Oldk1HC9vRQ4eo+LHqfu8ixX0J2eqZZ6zT
+   1Nmef880klhf7Sfxk5AflYcFDhiqRar+y/dBnaifVMSWsGuQ1GcVs8/A6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="310970589"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="310970589"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 16:37:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="657019806"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
+   d="scan'208";a="657019806"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 28 Jan 2023 16:37:00 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pLvgp-0001Gk-2c;
+	Sun, 29 Jan 2023 00:36:59 +0000
+Date: Sun, 29 Jan 2023 08:36:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 30/57] media: atomisp: ov2680: Rework flip ctrls
+Message-ID: <202301290857.L5301E4z-lkp@intel.com>
+References: <20230123125205.622152-31-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qcyccrleajamxo75"
-Content-Disposition: inline
-In-Reply-To: <20230125083851.27759-4-surenb@google.com>
-
-
---qcyccrleajamxo75
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230123125205.622152-31-hdegoede@redhat.com>
 
-Hi,
+Hi Hans,
 
-On Wed, Jan 25, 2023 at 12:38:48AM -0800, Suren Baghdasaryan wrote:
-> Replace direct modifications to vma->vm_flags with calls to modifier
-> functions to be able to track flag changes and to keep vma locking
-> correctness.
->=20
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
-> [...]
->  drivers/hsi/clients/cmt_speech.c                   |  2 +-
->  120 files changed, 188 insertions(+), 199 deletions(-)
-> [...]
-> diff --git a/drivers/hsi/clients/cmt_speech.c b/drivers/hsi/clients/cmt_s=
-peech.c
-> index 8069f795c864..952a31e742a1 100644
-> --- a/drivers/hsi/clients/cmt_speech.c
-> +++ b/drivers/hsi/clients/cmt_speech.c
-> @@ -1264,7 +1264,7 @@ static int cs_char_mmap(struct file *file, struct v=
-m_area_struct *vma)
->  	if (vma_pages(vma) !=3D 1)
->  		return -EINVAL;
-> =20
-> -	vma->vm_flags |=3D VM_IO | VM_DONTDUMP | VM_DONTEXPAND;
-> +	set_vm_flags(vma, VM_IO | VM_DONTDUMP | VM_DONTEXPAND);
->  	vma->vm_ops =3D &cs_char_vm_ops;
->  	vma->vm_private_data =3D file->private_data;
-> =20
+I love your patch! Perhaps something to improve:
 
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/streams linus/master v6.2-rc5 next-20230127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
--- Sebastian
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-atomisp-fix-videobuf2-Kconfig-depenendency/20230123-205911
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230123125205.622152-31-hdegoede%40redhat.com
+patch subject: [PATCH 30/57] media: atomisp: ov2680: Rework flip ctrls
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230129/202301290857.L5301E4z-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/94a8aa6a6e07cfbfebce3e18938f0ec11e752b04
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hans-de-Goede/media-atomisp-fix-videobuf2-Kconfig-depenendency/20230123-205911
+        git checkout 94a8aa6a6e07cfbfebce3e18938f0ec11e752b04
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/ drivers/staging/media/atomisp/i2c/ kernel/sched/ net/mptcp/
 
---qcyccrleajamxo75
-Content-Type: application/pgp-signature; name="signature.asc"
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
------BEGIN PGP SIGNATURE-----
+All warnings (new ones prefixed by >>):
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmPSs1EACgkQ2O7X88g7
-+pquLBAAkw9lw9lxNRCI6jvqLy98JsUBgSQigNB6Eh8JVWsySHMm1OszFCcvTpoc
-vinC/VPMOa6JwEw5e9naXRF2UJahO+Cx+e5MYIKos3QyIUPfi0YM7Cv96h6+c4l/
-NdcxLS8+9ElitTuA47UVgPSeZwzdZ1kU5VUV1X2fx+6aGA+dBfWVBgWDqU6AB0Sa
-ehU4betso5Ypl26YEmLPHmY+8Xx2jXNwwBEgsHgO2/YjRn9YPDeMAqb4lWs99h0d
-nUV1VqwTClRrExtNDvidHryknmyCIBpYt38gn0i9+uIf9mFoBmUDN+/zAdRguGBT
-r1CQAwvRvHmEyGJ4dp1nijyt/PWxDBlCWytlmzXrK/rkeH8sQCRdCr9L83/d5DM0
-iU98ehmbH9kx8rD4y0L91xmsnegNYNKSfAvz3EP4KYFOHjTw2SOCYoazPu3z62bN
-d3HL+08LeZpm1XwVPydZqBd5UpBK8NaQYCJ3BjsLUefsSJE+SWzsnoYFnbUrL1X9
-1XfU6LGtVvjCPUsjk7oqh5PjtRGQsdtUhSZJLwNzTeh4I0nSzL1pj8vRFZ7UTcV4
-RmFYsjBbKhja2fC13eM4tKzfx53harnHVNuUPw2aoLKshpkQaOTUqWBnRXtbJZkb
-dSRKObxfPlHVI+awnfN6owpXF86Owew2+XJcXILOPxaBk8PI/Ns=
-=/0TB
------END PGP SIGNATURE-----
+>> drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:555:16: warning: variable 'fmt' is uninitialized when used here [-Wuninitialized]
+                   format->pad, fmt);
+                                ^~~
+   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:19: note: expanded from macro 'dynamic_dev_dbg'
+                              dev, fmt, ##__VA_ARGS__)
+                                          ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:59: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+                                                                    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:247:65: note: expanded from macro '_dynamic_func_call_cls'
+           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+                                                                          ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:223:15: note: expanded from macro '__dynamic_func_call_cls'
+                   func(&id, ##__VA_ARGS__);                       \
+                               ^~~~~~~~~~~
+   drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:548:32: note: initialize the variable 'fmt' to silence this warning
+           struct v4l2_mbus_framefmt *fmt;
+                                         ^
+                                          = NULL
+   1 warning generated.
 
---qcyccrleajamxo75--
+
+vim +/fmt +555 drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+
+94a8aa6a6e07cf Hans de Goede         2023-01-23  541  
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  542  static int ov2680_set_fmt(struct v4l2_subdev *sd,
+0d346d2a6f54f0 Tomi Valkeinen        2021-06-10  543  			  struct v4l2_subdev_state *sd_state,
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  544  			  struct v4l2_subdev_format *format)
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  545  {
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  546  	struct ov2680_device *dev = to_ov2680_sensor(sd);
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  547  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+94a8aa6a6e07cf Hans de Goede         2023-01-23  548  	struct v4l2_mbus_framefmt *fmt;
+b7573661282c92 Mauro Carvalho Chehab 2021-11-03  549  	struct ov2680_resolution *res;
+29400b5063db69 Hans de Goede         2021-11-07  550  	int vts, ret = 0;
+bdfe0beb95eebc Mauro Carvalho Chehab 2020-04-19  551  
+5589ea0745ef4f Mauro Carvalho Chehab 2020-05-19  552  	dev_dbg(&client->dev, "%s: %s: pad: %d, fmt: %p\n",
+5589ea0745ef4f Mauro Carvalho Chehab 2020-05-19  553  		__func__,
+5589ea0745ef4f Mauro Carvalho Chehab 2020-05-19  554  		(format->which == V4L2_SUBDEV_FORMAT_TRY) ? "try" : "set",
+5589ea0745ef4f Mauro Carvalho Chehab 2020-05-19 @555  		format->pad, fmt);
+5589ea0745ef4f Mauro Carvalho Chehab 2020-05-19  556  
+94a8aa6a6e07cf Hans de Goede         2023-01-23  557  	res = v4l2_find_nearest_size(ov2680_res_preview, ARRAY_SIZE(ov2680_res_preview),
+94a8aa6a6e07cf Hans de Goede         2023-01-23  558  				     width, height,
+94a8aa6a6e07cf Hans de Goede         2023-01-23  559  				     format->format.width, format->format.height);
+b7573661282c92 Mauro Carvalho Chehab 2021-11-03  560  	if (!res)
+b821cea597f84e Hans de Goede         2021-11-07  561  		res = &ov2680_res_preview[N_RES_PREVIEW - 1];
+b7573661282c92 Mauro Carvalho Chehab 2021-11-03  562  
+94a8aa6a6e07cf Hans de Goede         2023-01-23  563  	fmt = __ov2680_get_pad_format(dev, sd_state, format->pad, format->which);
+94a8aa6a6e07cf Hans de Goede         2023-01-23  564  	ov2680_fill_format(dev, fmt, res->width, res->height);
+94a8aa6a6e07cf Hans de Goede         2023-01-23  565  
+94a8aa6a6e07cf Hans de Goede         2023-01-23  566  	format->format = *fmt;
+b7573661282c92 Mauro Carvalho Chehab 2021-11-03  567  
+94a8aa6a6e07cf Hans de Goede         2023-01-23  568  	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  569  		return 0;
+b7573661282c92 Mauro Carvalho Chehab 2021-11-03  570  
+b7573661282c92 Mauro Carvalho Chehab 2021-11-03  571  	dev_dbg(&client->dev, "%s: %dx%d\n",
+b7573661282c92 Mauro Carvalho Chehab 2021-11-03  572  		__func__, fmt->width, fmt->height);
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  573  
+44a11920ac39fe Hans de Goede         2022-08-13  574  	mutex_lock(&dev->input_lock);
+44a11920ac39fe Hans de Goede         2022-08-13  575  
+12350633a8dbdc Hans de Goede         2021-11-07  576  	/* s_power has not been called yet for std v4l2 clients (camorama) */
+eda1310b4087d6 Mauro Carvalho Chehab 2020-05-19  577  	power_up(sd);
+b7573661282c92 Mauro Carvalho Chehab 2021-11-03  578  	ret = ov2680_write_reg_array(client, dev->res->regs);
+cbd5b438f8c2b5 Hans de Goede         2022-08-13  579  	if (ret) {
+5589ea0745ef4f Mauro Carvalho Chehab 2020-05-19  580  		dev_err(&client->dev,
+5589ea0745ef4f Mauro Carvalho Chehab 2020-05-19  581  			"ov2680 write resolution register err: %d\n", ret);
+cbd5b438f8c2b5 Hans de Goede         2022-08-13  582  		goto err;
+cbd5b438f8c2b5 Hans de Goede         2022-08-13  583  	}
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  584  
+22f2cac62dea73 Mauro Carvalho Chehab 2021-11-10  585  	vts = dev->res->lines_per_frame;
+22f2cac62dea73 Mauro Carvalho Chehab 2021-11-10  586  
+29400b5063db69 Hans de Goede         2021-11-07  587  	/* If necessary increase the VTS to match exposure + MARGIN */
+29400b5063db69 Hans de Goede         2021-11-07  588  	if (dev->exposure > vts - OV2680_INTEGRATION_TIME_MARGIN)
+29400b5063db69 Hans de Goede         2021-11-07  589  		vts = dev->exposure + OV2680_INTEGRATION_TIME_MARGIN;
+29400b5063db69 Hans de Goede         2021-11-07  590  
+bf46430efae7c2 Hans de Goede         2023-01-23  591  	ret = ovxxxx_write_reg16(client, OV2680_TIMING_VTS_H, vts);
+cbd5b438f8c2b5 Hans de Goede         2022-08-13  592  	if (ret) {
+29400b5063db69 Hans de Goede         2021-11-07  593  		dev_err(&client->dev, "ov2680 write vts err: %d\n", ret);
+cbd5b438f8c2b5 Hans de Goede         2022-08-13  594  		goto err;
+cbd5b438f8c2b5 Hans de Goede         2022-08-13  595  	}
+29400b5063db69 Hans de Goede         2021-11-07  596  
+f50559f0c9b43b Deepak R Varma        2021-04-28  597  	/*
+f50559f0c9b43b Deepak R Varma        2021-04-28  598  	 * recall flip functions to avoid flip registers
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  599  	 * were overridden by default setting
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  600  	 */
+94a8aa6a6e07cf Hans de Goede         2023-01-23  601  	ret = __v4l2_ctrl_handler_setup(&dev->ctrls.handler);
+94a8aa6a6e07cf Hans de Goede         2023-01-23  602  	if (ret < 0)
+94a8aa6a6e07cf Hans de Goede         2023-01-23  603  		goto err;
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  604  
+adea153b4f6537 Hans de Goede         2022-08-13  605  	dev->res = res;
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  606  err:
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  607  	mutex_unlock(&dev->input_lock);
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  608  	return ret;
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  609  }
+ad85094b293e40 Mauro Carvalho Chehab 2020-04-19  610  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
