@@ -1,49 +1,49 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F80323A3
-	for <linux-staging@lists.linux.dev>; Sun, 29 Jan 2023 14:58:54 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id m5-20020a05600c4f4500b003db03b2559eso6527740wmq.5
-        for <linux-staging@lists.linux.dev>; Sun, 29 Jan 2023 06:58:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8524323A3
+	for <linux-staging@lists.linux.dev>; Sun, 29 Jan 2023 14:59:01 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id bg26so602914wmb.0
+        for <linux-staging@lists.linux.dev>; Sun, 29 Jan 2023 06:59:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FlMjHgQlaK6FHnQDYx0IosytZPIxnHkiOAPvdi19oaQ=;
-        b=Y1HiMOEfkfEBI+WsKOWdGoVrlidn6m5IQOQ7p2ej9hLXLo9zhHSNSSNF4iUOPzpnnx
-         CG1w/FQv/WoaFNymuO8yY5jwia+d1/xZgMCP64GfZ3sDgWIPZXy29kAeoy354d474PZP
-         MfMMS0hn99o9c0/R9sHthbB+fQVryDRORZdd0X4OGROGOKraqe6mJ7y8ZRTRw/YI5XV5
-         doJGT1MIdxC8Re+2Swqjkl15hg2WW7g/0END+bUFDfmNAKExWI05MLGyc0XODxgxA9Zi
-         nP8Vx9r0ZPpAZ6eCJT7MxEyrmtY/JXX4pX/Yjwdq/SZKCJMPFxo3s24H2wBFocXb3Ok6
-         G7qg==
+        bh=U/gZ+8LIHmPXx4BBaPzt1UXYgMFGNlGYsRfi+PpxjVc=;
+        b=HSnJAIfHtBRC2LW9lr7J0a38laFODYBoE+evGrrIE2YsLLwsO7iUSZA59yHYf444U4
+         tmk6YyV+KBRx9IvpPPS05+RrIuF6WKvZhawwnkd5+OTww9eI8SAoYXy00PqO8QFfnZNG
+         zHSkS8d0yvdgbQnAVGeVhP0M5wC3uCDkQP8CqSoiAvjRwcF/B0YmAakbaSaeCSS+6rmM
+         B8oqZJnvvG8YioiOXp5hOQ+A01S/Vc4KWuqqoG9JsbP3U4pBBIWqUocwQj/btsKhF9Fv
+         sNo5U9f9TLlWs3UZcS7VY4nrjbkIvilPcK1IlbGbvZCh0f3WCCfLZyVUbblsY5bhRJoK
+         kr6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FlMjHgQlaK6FHnQDYx0IosytZPIxnHkiOAPvdi19oaQ=;
-        b=huhVMXwOCAdvUUloBfxRFVVtEnt1Q4LRtnOCh7s1RhXGGzYfzKNDbCNJv6jAsaguV2
-         XkGANQUQC95T3OL1oG1mq9niK3wcNkTXguCNq8UCuO+And+LLOOMP0CcklrTKLbyc6nw
-         WBLaBQXI6tioPHlZMLccnOvEl/Ay4Ws6xhiGXgLWAyC/MkQrwZ1g+dqDTNSayNRBnjJJ
-         CtDytGulLs/c3J1FZfAIGU47qElzjux8v+jzg6DQvjTYWt3rN8Piu/0e1tNGP2K5zzAD
-         waoFRrwemKejZjX2UhGyXTKx9B8xVyhuGt/xdY5P+aYvfL3qJs3Os4/izkVzqA90eXSL
-         BISw==
-X-Gm-Message-State: AO0yUKW3cjHNDYU4zJbDqRueLeBe3lYXFpZ5icdQJwwOHISKjuq6+Qzt
-	tbm7GCcknKibZ6S0MsqSmNA=
-X-Google-Smtp-Source: AK7set+qxVpifmz0dIEDahykJ0pSQb+uFrrV13ghZRNc++ZZ6vAOhi32MtausLLir6fnMeKL1ELkbg==
-X-Received: by 2002:a05:600c:1e02:b0:3dc:4234:fe89 with SMTP id ay2-20020a05600c1e0200b003dc4234fe89mr1793379wmb.2.1675004332439;
-        Sun, 29 Jan 2023 06:58:52 -0800 (PST)
+        bh=U/gZ+8LIHmPXx4BBaPzt1UXYgMFGNlGYsRfi+PpxjVc=;
+        b=gljw5A89Fr0oyo9Ir8d265Q+Z+Gy/94/tPxq8X5QAd3JkxHFbTaU9GsBiZF+RKPnVk
+         fIxI3TEh6u9no/jxY0OZGenx/97Oy7jesj+EeVoI3qFG6mYvPaZ7bv0eHWmUNKADBM11
+         pb2h1NO4sgNObPe8C4mpwkIZEtOVF9/V3LD/ZhGvALEmClC6KVscff4dEOYGL1BZK454
+         wG+Pi7HpnmZu7xgCxbuYQt7A1U9ezQ0ri05AWOhdpE1HkuAnMpo56eQt2TCjGTYQoCsA
+         zYmE5n1XgmwBWahGzZwQhTEmA42UQ1UJD7E4nBFRtkb54hjT4XIYtXCa2Jm8KovRzyR4
+         ibTQ==
+X-Gm-Message-State: AO0yUKXLfOii9m0APWFprGm8qZTqyjlkE6HbHNcyg6V0kFtfFbABkoBE
+	OrEYYuQnioLVkil2Qb7b5yg=
+X-Google-Smtp-Source: AK7set8U5Gn4k57RV4TvYBlDywpR7JcRw1jMdBt+bxBpAVtSOfX9W4ITgg1yjd+I1zsX6L4XD0nCyQ==
+X-Received: by 2002:a05:600c:1f18:b0:3dc:53fc:c8b3 with SMTP id bd24-20020a05600c1f1800b003dc53fcc8b3mr558789wmb.3.1675004339836;
+        Sun, 29 Jan 2023 06:58:59 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935ca5.dip0.t-ipconnect.de. [87.147.92.165])
-        by smtp.gmail.com with ESMTPSA id z3-20020a05600c078300b003db12112fcfsm9931608wmo.4.2023.01.29.06.58.51
+        by smtp.gmail.com with ESMTPSA id n17-20020a1c7211000000b003dc3f07c876sm6974466wmc.46.2023.01.29.06.58.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jan 2023 06:58:51 -0800 (PST)
-Date: Sun, 29 Jan 2023 15:58:49 +0100
+        Sun, 29 Jan 2023 06:58:59 -0800 (PST)
+Date: Sun, 29 Jan 2023 15:58:57 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/10] staging: rtl8192e: Remove used constants MSR_LINK_SH..
- and MSR_LINK_N..
-Message-ID: <46bd1f075d5e4d211e1fc827843933907f7fee29.1675003608.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 09/10] staging: rtl8192e: Rename _RTL8192Pci_HW,
+ MXDMA2_NoLimit and TPPoll
+Message-ID: <1911a2bf4dfe6633e778d86d3aad1553cb629eb3.1675003608.git.philipp.g.hortmann@gmail.com>
 References: <cover.1675003608.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,57 +55,85 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1675003608.git.philipp.g.hortmann@gmail.com>
 
-Remove used constants MSR_LINK_SHIFT = 0 and MSR_LINK_NONE = 0. Use rules
-a << 0 = a, 0 << 0 = 0 and msr | 0 = msr to remove dead code.
+Rename enum _RTL8192Pci_HW to _RTL8192PCI_HW and variable MXDMA2_NoLimit
+to MXDMA2_NO_LIMIT and TPPoll to TP_POLL to avoid CamelCase which is not
+accepted by checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 12 +++---------
- drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h  |  2 --
- 2 files changed, 3 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c | 2 +-
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c    | 4 ++--
+ drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h     | 6 +++---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c      | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
+index 8bf06f736ffb..374f61e931f5 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
+@@ -76,7 +76,7 @@ bool rtl92e_send_cmd_pkt(struct net_device *dev, u32 type, const void *data,
+ 
+ 	} while (frag_offset < len);
+ 
+-	rtl92e_writeb(dev, TPPoll, TPPoll_CQ);
++	rtl92e_writeb(dev, TP_POLL, TPPoll_CQ);
+ Failed:
+ 	return rt_status;
+ }
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 1677b6c5d363..62f179f2f174 100644
+index 62f179f2f174..37d304a0f4c1 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -54,22 +54,16 @@ static void _rtl92e_update_msr(struct net_device *dev)
- 	switch (priv->rtllib->iw_mode) {
- 	case IW_MODE_INFRA:
- 		if (priv->rtllib->state == RTLLIB_LINKED)
--			msr |= (MSR_LINK_MANAGED << MSR_LINK_SHIFT);
--		else
--			msr |= (MSR_LINK_NONE << MSR_LINK_SHIFT);
-+			msr |= MSR_LINK_MANAGED;
- 		LedAction = LED_CTL_LINK;
- 		break;
- 	case IW_MODE_ADHOC:
- 		if (priv->rtllib->state == RTLLIB_LINKED)
--			msr |= (MSR_LINK_ADHOC << MSR_LINK_SHIFT);
--		else
--			msr |= (MSR_LINK_NONE << MSR_LINK_SHIFT);
-+			msr |= MSR_LINK_ADHOC;
- 		break;
- 	case IW_MODE_MASTER:
- 		if (priv->rtllib->state == RTLLIB_LINKED)
--			msr |= (MSR_LINK_MASTER << MSR_LINK_SHIFT);
--		else
--			msr |= (MSR_LINK_NONE << MSR_LINK_SHIFT);
-+			msr |= MSR_LINK_MASTER;
- 		break;
- 	default:
- 		break;
+@@ -629,8 +629,8 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ 	_rtl92e_hwconfig(dev);
+ 	rtl92e_writeb(dev, CMDR, CR_RE | CR_TE);
+ 
+-	rtl92e_writeb(dev, PCIF, ((MXDMA2_NoLimit<<MXDMA2_RX_SHIFT) |
+-				  (MXDMA2_NoLimit<<MXDMA2_TX_SHIFT)));
++	rtl92e_writeb(dev, PCIF, ((MXDMA2_NO_LIMIT << MXDMA2_RX_SHIFT) |
++				  (MXDMA2_NO_LIMIT << MXDMA2_TX_SHIFT)));
+ 	rtl92e_writel(dev, MAC0, ((u32 *)dev->dev_addr)[0]);
+ 	rtl92e_writew(dev, MAC4, ((u16 *)(dev->dev_addr + 4))[0]);
+ 	rtl92e_writel(dev, RCR, priv->receive_config);
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-index 13c0e5218ecf..3782db125300 100644
+index 3782db125300..1cb723f71f43 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-@@ -172,8 +172,6 @@ enum _RTL8192Pci_HW {
- 	MSR			= 0x303,
- #define MSR_LINK_MASK      ((1<<0)|(1<<1))
- #define MSR_LINK_MANAGED   2
--#define MSR_LINK_NONE      0
--#define MSR_LINK_SHIFT     0
- #define MSR_LINK_ADHOC     1
- #define MSR_LINK_MASTER    3
+@@ -39,11 +39,11 @@ enum baseband_config {
+ #define EEPROM_CID_Pronet				0x7
+ #define EEPROM_CID_DLINK				0x8
+ #define EEPROM_CID_WHQL					0xFE
+-enum _RTL8192Pci_HW {
++enum _RTL8192PCI_HW {
+ 	MAC0			= 0x000,
+ 	MAC4			= 0x004,
+ 	PCIF			= 0x009,
+-#define MXDMA2_NoLimit		0x7
++#define MXDMA2_NO_LIMIT		0x7
+ 
+ #define	MXDMA2_RX_SHIFT		4
+ #define	MXDMA2_TX_SHIFT		0
+@@ -128,7 +128,7 @@ enum _RTL8192Pci_HW {
+ #define	IMR_VODOK			BIT1
+ #define	IMR_ROK				BIT0
+ 	ISR			= 0x0f8,
+-	TPPoll			= 0x0fd,
++	TP_POLL			= 0x0fd,
+ #define TPPoll_CQ		BIT5
+ 	PSR			= 0x0ff,
+ 	CPU_GEN			= 0x100,
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 26cf4b5165f5..104b16cfa979 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -1646,7 +1646,7 @@ static short _rtl92e_tx(struct net_device *dev, struct sk_buff *skb)
+ 	spin_unlock_irqrestore(&priv->irq_th_lock, flags);
+ 	netif_trans_update(dev);
+ 
+-	rtl92e_writew(dev, TPPoll, 0x01 << tcb_desc->queue_index);
++	rtl92e_writew(dev, TP_POLL, 0x01 << tcb_desc->queue_index);
+ 	return 0;
+ }
  
 -- 
 2.39.1
