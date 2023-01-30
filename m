@@ -1,24 +1,26 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9626D3229
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:17:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DEB3229
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:17:47 +0000 (UTC)
+Received: from relay11.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::231])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C4F8DC2C96
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:16:23 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPA id 8C948100026;
-	Mon, 30 Jan 2023 14:17:38 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPA id 90A34100017;
+	Mon, 30 Jan 2023 14:16:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1675088263;
+	t=1675088175;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+JiyEr0aLb/Un5/rTb5g/3dOFycMN8fKhuwYurKD+kM=;
-	b=Q2alLPKSjV0u7YeUhE92cBuyDDiYgGZ7rMrYJGcejPWB7xpuhP6BH6iz2N1D224W89yPZz
-	ZpY0k3YzZHEIUgfjaECAczCALAUPv3CULq+Vvzh97qKIRzA+htqowbdV0Ki/v2UhTEcpXf
-	QWWRxMAi4jxRCGCg4SaAB+t8T3Q5AfCupY0taQUYJ97HQh8YBpVBhpcIU38viNvLAb7gHJ
-	+7UcguIMwPQg8cy9LfV9+z7ObS5OjepPKeawpPp1fV395S31HMcGprROuA17/xObLA821l
-	0jXzdg/4fFBHo1ADNOnDaeULOgN05Otv6A342tdsWeDzKYVPmYOmTUmtQwRySg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Rgkt9RmHGu5iIMMh+v5dXJ/0yQCNwwwZxDNBKZc5lsM=;
+	b=bSoa7QupTmqtoY5fGs6B5C0keR0oAegzoBVwES+y4SpSVFREUxTpPuRJx1hBjPCV0FkUFs
+	FBaWWg+TIPAHxidNn1XRI+Wd6nIbU2R2ehKcCajhBBj1+uRfn80kMoaB92h+mbwFQhnm/h
+	3ZyX5YW0m1KW8wxSLRqNSHT9gh5ESSJ3QmuYqEQkXrqhdO71B6WErHq+yiBDTOrZLXusgu
+	lqzFVNvmt5GSHCDP98m0xZERYDc5lKbLQtM8Schjl2x5LxzgIw6SrRzJ21WWnurrH/h52R
+	wiIyZXmRricupenLUewCrVSAUiRy0YO2bMoV2Tv2l44Io+0ccMfw1P/1b11E7Q==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -41,12 +43,10 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH v4 16/21] staging: media: tegra-video: add a per-soc enable/disable op
-Date: Mon, 30 Jan 2023 15:15:58 +0100
-Message-Id: <20230130141603.323221-17-luca.ceresoli@bootlin.com>
+Subject: [PATCH v4 00/21] Add Tegra20 parallel video input capture
+Date: Mon, 30 Jan 2023 15:15:42 +0100
+Message-Id: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
-References: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,80 +55,133 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Tegra20 VI needs an additional operation to enable the VI, add an
-operation for that.
+Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
+receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
+and "VIP" in the documentation). The kernel currently has a staging driver
+for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
+capture.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Unfortunately I had no real documentation available to base this work on.
+I only had a working downstream 3.1 kernel, so I started with the driver
+found there and heavily reworked it to fit into the mainline tegra-video
+driver structure. The existing code appears written with the intent of
+being modular and allow adding new input mechanisms and new SoCs while
+keeping a unique VI core module. However its modularity and extensibility
+was not enough to add Tegra20 VIP support, so I added some hooks to turn
+hard-coded behaviour into per-SoC or per-bus customizable code. There are
+also a fix, some generic cleanups and DT bindings.
 
----
+Quick tour of the patches:
+
+ * Device tree bindings
+
+   01. dt-bindings: display: tegra: add Tegra20 VIP
+   02. dt-bindings: display: tegra: vi: add 'vip' property and example
+
+ * A fix
+
+   03. staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return all formats
+
+ * Minor improvements to logging, comments, cleanups
+
+   04. staging: media: tegra-video: improve documentation of tegra_video_format fields
+   05. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
+   06. staging: media: tegra-video: fix typos in comment
+   07. staging: media: tegra-video: improve error messages
+   08. staging: media: tegra-video: slightly simplify cleanup on errors
+   09. staging: media: tegra-video: move private struct declaration to C file
+   10. staging: media: tegra-video: move tegra210_csi_soc to C file
+   11. staging: media: tegra-video: remove unneeded include
+
+ * Preparation to make the VI module generic enough to host Tegra20 and VIP
+
+   12. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+   13. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
+   14. staging: media: tegra-video: move default format to soc-specific data
+   15. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
+   16. staging: media: tegra-video: add a per-soc enable/disable op
+   17. staging: media: tegra-video: move syncpt init/free to a per-soc op
+   18. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
+   19. staging: media: tegra-video: add hooks for planar YUV and H/V flip
+   20. staging: media: tegra-video: add H/V flip controls
+
+ * Implementation of VIP and Tegra20
+
+   21. staging: media: tegra-video: add support for Tegra20 parallel input
+
+Enjoy!
 
 Changed in v4:
- - Added review tags
+- fixed the leftovers after the removal of 'channel@0' in DT
+- added review tags by Dimtry
 
-No changes in v3
-No changes in v2
----
- drivers/staging/media/tegra-video/vi.c | 7 +++++++
- drivers/staging/media/tegra-video/vi.h | 4 ++++
- 2 files changed, 11 insertions(+)
+Changed in v3:
+- removed the 'channel@0' node from the device tree representation of vip
+- squashed the last two patches (VIP + T20) into one
+- small cleanups
+- rebase on v6.2-rc1
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index a26eb1ca869f..22f6d6478d3e 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1853,6 +1853,9 @@ static int tegra_vi_probe(struct platform_device *pdev)
- 	vi->client.ops = &vi_client_ops;
- 	vi->client.dev = &pdev->dev;
- 
-+	if (vi->ops->vi_enable)
-+		vi->ops->vi_enable(vi, true);
-+
- 	ret = host1x_client_register(&vi->client);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev,
-@@ -1863,6 +1866,8 @@ static int tegra_vi_probe(struct platform_device *pdev)
- 	return 0;
- 
- rpm_disable:
-+	if (vi->ops->vi_enable)
-+		vi->ops->vi_enable(vi, false);
- 	pm_runtime_disable(&pdev->dev);
- 	return ret;
- }
-@@ -1879,6 +1884,8 @@ static int tegra_vi_remove(struct platform_device *pdev)
- 		return err;
- 	}
- 
-+	if (vi->ops->vi_enable)
-+		vi->ops->vi_enable(vi, false);
- 	pm_runtime_disable(&pdev->dev);
- 
- 	return 0;
-diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index 879547073371..851c4f3fcb91 100644
---- a/drivers/staging/media/tegra-video/vi.h
-+++ b/drivers/staging/media/tegra-video/vi.h
-@@ -37,8 +37,11 @@ enum tegra_vi_pg_mode {
- 	TEGRA_VI_PG_PATCH,
- };
- 
-+struct tegra_vi;
-+
- /**
-  * struct tegra_vi_ops - Tegra VI operations
-+ * @vi_enable: soc-specific operations needed to enable/disable the VI peripheral
-  * @vi_fmt_align: modify `pix` to fit the hardware alignment
-  *		requirements and fill image geometry
-  * @vi_start_streaming: starts media pipeline, subdevice streaming, sets up
-@@ -48,6 +51,7 @@ enum tegra_vi_pg_mode {
-  *		back any queued buffers.
-  */
- struct tegra_vi_ops {
-+	int (*vi_enable)(struct tegra_vi *vi, bool on);
- 	void (*vi_fmt_align)(struct v4l2_pix_format *pix, unsigned int bpp);
- 	int (*vi_start_streaming)(struct vb2_queue *vq, u32 count);
- 	void (*vi_stop_streaming)(struct vb2_queue *vq);
+Changed in v2:
+- improved dt-bindings patches based on reviews
+- removed patches 3 and 4 adding DT labels without a mainline user
+- two small fixes to the last patch
+
+[v3] https://lore.kernel.org/linux-media/20221229133205.981397-1-luca.ceresoli@bootlin.com/
+[v2] https://lore.kernel.org/linux-tegra/20221222100328.6e341874@booty/T/#t
+[v1] https://lore.kernel.org/linux-tegra/20221124155634.5bc2a423@booty/T/#t
+
+Luca
+
+Luca Ceresoli (21):
+  dt-bindings: display: tegra: add Tegra20 VIP
+  dt-bindings: display: tegra: vi: add 'vip' property and example
+  staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return
+    all formats
+  staging: media: tegra-video: improve documentation of
+    tegra_video_format fields
+  staging: media: tegra-video: document
+    tegra_channel_get_remote_source_subdev
+  staging: media: tegra-video: fix typos in comment
+  staging: media: tegra-video: improve error messages
+  staging: media: tegra-video: slightly simplify cleanup on errors
+  staging: media: tegra-video: move private struct declaration to C file
+  staging: media: tegra-video: move tegra210_csi_soc to C file
+  staging: media: tegra-video: remove unneeded include
+  staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+  staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
+    op
+  staging: media: tegra-video: move default format to soc-specific data
+  staging: media: tegra-video: move MIPI calibration calls from VI to
+    CSI
+  staging: media: tegra-video: add a per-soc enable/disable op
+  staging: media: tegra-video: move syncpt init/free to a per-soc op
+  staging: media: tegra-video: add syncpts for Tegra20 to struct
+    tegra_vi
+  staging: media: tegra-video: add hooks for planar YUV and H/V flip
+  staging: media: tegra-video: add H/V flip controls
+  staging: media: tegra-video: add support for Tegra20 parallel input
+
+ .../display/tegra/nvidia,tegra20-vi.yaml      |  59 ++
+ .../display/tegra/nvidia,tegra20-vip.yaml     |  41 ++
+ MAINTAINERS                                   |   3 +
+ drivers/staging/media/tegra-video/Kconfig     |   1 +
+ drivers/staging/media/tegra-video/Makefile    |   2 +
+ drivers/staging/media/tegra-video/csi.c       |  48 ++
+ drivers/staging/media/tegra-video/csi.h       |   4 -
+ drivers/staging/media/tegra-video/tegra20.c   | 661 ++++++++++++++++++
+ drivers/staging/media/tegra-video/tegra210.c  |  97 ++-
+ drivers/staging/media/tegra-video/vi.c        | 321 ++-------
+ drivers/staging/media/tegra-video/vi.h        |  75 +-
+ drivers/staging/media/tegra-video/video.c     |   5 +
+ drivers/staging/media/tegra-video/video.h     |   2 +-
+ drivers/staging/media/tegra-video/vip.c       | 290 ++++++++
+ drivers/staging/media/tegra-video/vip.h       |  68 ++
+ 15 files changed, 1387 insertions(+), 290 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ create mode 100644 drivers/staging/media/tegra-video/tegra20.c
+ create mode 100644 drivers/staging/media/tegra-video/vip.c
+ create mode 100644 drivers/staging/media/tegra-video/vip.h
+
 -- 
 2.34.1
 
