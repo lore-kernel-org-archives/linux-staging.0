@@ -1,54 +1,28 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F3C3D7E
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 16:42:56 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id z1so4674233plg.6
-        for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 08:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TzKgtfEc0ohQa7f3DsZuEWAMUYB0HyYaM3dGsqVSfL8=;
-        b=HfF7TWdIKute70ON2In56NdnVrAwUW1HhHyRXuzUXEUsNLFR1PNEFcvXZEAZ8M6/ry
-         7WF4DUUYOWUuz3XwDWE3BRmiih+xzZlZNO6azT0o6jdn/dFA4uzV25ipKNUfnHd4hNG5
-         7mY4ti4lRtb88MCHPP3y72nalaImLL86noQm7PQZ+0PoJ1hHdMuxUzay8vOAaFpiVCPV
-         YePImVqfXqBXc7Ey3BVW3BEUZeAdGjlBFY7gDqQ5W5hnzaswX4y2F1HHl4vHUysHk8nG
-         G61KlO9NugINKYbZIxnEM0JkCVNmDXuvHk+xcaEt3fLlxOEdIu376TU4JiOgxR7G4fjp
-         rLiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TzKgtfEc0ohQa7f3DsZuEWAMUYB0HyYaM3dGsqVSfL8=;
-        b=7gI2VylsZ3jCi2r4gxN2YwbEnVbjTJ2EgG8gi1ysAGurWxDViHwq3amHrOk+XuKei8
-         npN0kR4xvxe39xXZVw93DRDk+M5DVl+UQUzRekLBvwfj5E4MwS9xN/njrVXox+numqm5
-         FFZZ2/mVrR3y2oKXo6xUayIHbD9SGlyx4mcsIkzlQ3a0inEUHaHsrpnEvgl2uGzQdWIT
-         eSFb18s1vBqHhfbTYPYeW13J8oMegEukQh3rDMCuryYvIhNSJeQ4aS7q57/w4a2Fo/Jk
-         vm1lDeieJPhi6aoGOQ0co0hVP7OhAPr7M7eMFMOLL6IbAzrc89ai4a0lf2O3pPK6p2HY
-         1ZLw==
-X-Gm-Message-State: AFqh2kry9Fk8h/Dpj/GhiDpIq3bZnK3EXza4rruOqa2pmqehBdjdSz6e
-	4qTJlSvYyWxOV3alr+3tc7s=
-X-Google-Smtp-Source: AMrXdXt0JMfIqIJ4CDg+8B2A/00c1B/OlOxBFtRrYz4PzFur1p+kF2G1V1RwdOObxHz3So+FXz56oA==
-X-Received: by 2002:a05:6a20:c183:b0:9d:efd3:66df with SMTP id bg3-20020a056a20c18300b0009defd366dfmr55786541pzb.38.1675096976148;
-        Mon, 30 Jan 2023 08:42:56 -0800 (PST)
-Received: from localhost.localdomain ([112.212.226.173])
-        by smtp.gmail.com with ESMTPSA id v25-20020a63b959000000b004b1b9e23790sm6991864pgo.92.2023.01.30.08.42.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 08:42:55 -0800 (PST)
-From: Jongwoo Han <jongwooo.han@gmail.com>
-To: f.fainelli@gmail.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	gregkh@linuxfoundation.org,
-	jongwooo.han@gmail.com
-Cc: linux-rpi-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C674279D5
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 19:53:27 +0000 (UTC)
+Received: from dslb-188-097-040-029.188.097.pools.vodafone-ip.de ([188.97.40.29] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1pMaDN-0007S2-5D; Mon, 30 Jan 2023 20:53:17 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH V2] vc04_services: mmal-vchiq: fix typo in comment
-Date: Tue, 31 Jan 2023 01:42:50 +0900
-Message-Id: <20230130164250.51877-1-jongwooo.han@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 1/9] staging: r8188eu: rtw_free_xmitframe_queue needs no spinlock
+Date: Mon, 30 Jan 2023 20:52:55 +0100
+Message-Id: <20230130195303.138941-2-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230130195303.138941-1-martin@kaiser.cx>
+References: <20230130195303.138941-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,28 +31,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Correct typo from 'witin' to 'within' in comment.
+There's no need for a spinlock in rtw_free_xmitframe_queue.
 
-Signed-off-by: Jongwoo Han <jongwooo.han@gmail.com>
+This function is called only from rtw_free_stainfo. rtw_free_stainfo holds
+pxmitpriv->lock during all rtw_free_xmitframe_queue calls.
+
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
-PATCH -> PATCH: Add changelog text to commit
-PATCH -> V2: Add description of changes from previous version
- drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-index 294b184d4..e318f3609 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-@@ -245,7 +245,7 @@ static void event_to_host_cb(struct vchiq_mmal_instance *instance,
- /* workqueue scheduled callback
-  *
-  * we do this because it is important we do not call any other vchiq
-- * sync calls from witin the message delivery thread
-+ * sync calls from within the message delivery thread
-  */
- static void buffer_work_cb(struct work_struct *work)
- {
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index f50e10f0d51f..4e49f1d49eb5 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -1330,8 +1330,6 @@ void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pfram
+ 	struct list_head *plist, *phead;
+ 	struct	xmit_frame	*pxmitframe;
+ 
+-	spin_lock_bh(&pframequeue->lock);
+-
+ 	phead = get_list_head(pframequeue);
+ 	plist = phead->next;
+ 
+@@ -1342,7 +1340,6 @@ void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pfram
+ 
+ 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
+ 	}
+-	spin_unlock_bh(&pframequeue->lock);
+ }
+ 
+ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv, struct hw_xmit *phwxmit_i)
 -- 
-2.34.1
+2.30.2
 
