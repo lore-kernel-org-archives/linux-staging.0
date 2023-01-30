@@ -1,26 +1,24 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DEB3229
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:17:47 +0000 (UTC)
-Received: from relay11.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::231])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id C4F8DC2C96
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9273323C
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:17:49 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPA id 90A34100017;
-	Mon, 30 Jan 2023 14:16:11 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPA id 7E9A9100010;
+	Mon, 30 Jan 2023 14:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1675088175;
+	t=1675088268;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Rgkt9RmHGu5iIMMh+v5dXJ/0yQCNwwwZxDNBKZc5lsM=;
-	b=bSoa7QupTmqtoY5fGs6B5C0keR0oAegzoBVwES+y4SpSVFREUxTpPuRJx1hBjPCV0FkUFs
-	FBaWWg+TIPAHxidNn1XRI+Wd6nIbU2R2ehKcCajhBBj1+uRfn80kMoaB92h+mbwFQhnm/h
-	3ZyX5YW0m1KW8wxSLRqNSHT9gh5ESSJ3QmuYqEQkXrqhdO71B6WErHq+yiBDTOrZLXusgu
-	lqzFVNvmt5GSHCDP98m0xZERYDc5lKbLQtM8Schjl2x5LxzgIw6SrRzJ21WWnurrH/h52R
-	wiIyZXmRricupenLUewCrVSAUiRy0YO2bMoV2Tv2l44Io+0ccMfw1P/1b11E7Q==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eAvKkQlWuYYr6YxU/goHqRoXYfDwpGVohln81j6K6R8=;
+	b=UI5cnFCfIUjT/GqMYeurMP35jPOrRVhgACTwSEZpn6bkTpE0pf9cbwz+F+spd17y/iyMAF
+	4IFq750N/q61DeGfq283uhNgrFalgBLm5o3rKtW/Mgy83LjhEF51H33eowojW/jp0VE3vS
+	WV+fsvnHsMwqAAZ4cMZWR9XUft0B5+sOz0vf0ouK/saDXWcQLJ+iV0C5xx1He7a3SxQinK
+	e1S5jSPfQuDMXZI49eLjEcU5Qy4ZBBvM2Rze7Mdk5L1OMTsRlOxsyWsuS4ZnlogJkAEDk5
+	joLhXdvzFsEGIsYCmaxqggg4SfrXGlpzw7eafpiYkSk8b2KgUM3+riuDpI7qOA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -43,10 +41,12 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH v4 00/21] Add Tegra20 parallel video input capture
-Date: Mon, 30 Jan 2023 15:15:42 +0100
-Message-Id: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
+Subject: [PATCH v4 17/21] staging: media: tegra-video: move syncpt init/free to a per-soc op
+Date: Mon, 30 Jan 2023 15:15:59 +0100
+Message-Id: <20230130141603.323221-18-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
+References: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,133 +55,217 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Tegra20 and other Tegra SoCs have a video input (VI) peripheral that can
-receive from either MIPI CSI-2 or parallel video (called respectively "CSI"
-and "VIP" in the documentation). The kernel currently has a staging driver
-for Tegra210 CSI capture. This patch set adds support for Tegra20 VIP
-capture.
+tegra_channel_host1x_syncpt_init() gets the host1x syncpts needed for the
+Tegra210 implementation, and tegra_channel_host1x_syncpts_free() puts
+them.
 
-Unfortunately I had no real documentation available to base this work on.
-I only had a working downstream 3.1 kernel, so I started with the driver
-found there and heavily reworked it to fit into the mainline tegra-video
-driver structure. The existing code appears written with the intent of
-being modular and allow adding new input mechanisms and new SoCs while
-keeping a unique VI core module. However its modularity and extensibility
-was not enough to add Tegra20 VIP support, so I added some hooks to turn
-hard-coded behaviour into per-SoC or per-bus customizable code. There are
-also a fix, some generic cleanups and DT bindings.
+Tegra20 needs to get and put a different syncpt. In preparation for adding
+Tegra20 support, move these functions to new ops in the soc-specific
+`struct tegra_vi_ops` .
 
-Quick tour of the patches:
+No functional changes.
 
- * Device tree bindings
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
-   01. dt-bindings: display: tegra: add Tegra20 VIP
-   02. dt-bindings: display: tegra: vi: add 'vip' property and example
-
- * A fix
-
-   03. staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return all formats
-
- * Minor improvements to logging, comments, cleanups
-
-   04. staging: media: tegra-video: improve documentation of tegra_video_format fields
-   05. staging: media: tegra-video: document tegra_channel_get_remote_source_subdev
-   06. staging: media: tegra-video: fix typos in comment
-   07. staging: media: tegra-video: improve error messages
-   08. staging: media: tegra-video: slightly simplify cleanup on errors
-   09. staging: media: tegra-video: move private struct declaration to C file
-   10. staging: media: tegra-video: move tegra210_csi_soc to C file
-   11. staging: media: tegra-video: remove unneeded include
-
- * Preparation to make the VI module generic enough to host Tegra20 and VIP
-
-   12. staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
-   13. staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc op
-   14. staging: media: tegra-video: move default format to soc-specific data
-   15. staging: media: tegra-video: move MIPI calibration calls from VI to CSI
-   16. staging: media: tegra-video: add a per-soc enable/disable op
-   17. staging: media: tegra-video: move syncpt init/free to a per-soc op
-   18. staging: media: tegra-video: add syncpts for Tegra20 to struct tegra_vi
-   19. staging: media: tegra-video: add hooks for planar YUV and H/V flip
-   20. staging: media: tegra-video: add H/V flip controls
-
- * Implementation of VIP and Tegra20
-
-   21. staging: media: tegra-video: add support for Tegra20 parallel input
-
-Enjoy!
+---
 
 Changed in v4:
-- fixed the leftovers after the removal of 'channel@0' in DT
-- added review tags by Dimtry
+ - Added review tags
 
-Changed in v3:
-- removed the 'channel@0' node from the device tree representation of vip
-- squashed the last two patches (VIP + T20) into one
-- small cleanups
-- rebase on v6.2-rc1
+No changes in v3
+No changes in v2
+---
+ drivers/staging/media/tegra-video/tegra210.c | 52 ++++++++++++++++++++
+ drivers/staging/media/tegra-video/vi.c       | 52 ++------------------
+ drivers/staging/media/tegra-video/vi.h       |  5 ++
+ 3 files changed, 60 insertions(+), 49 deletions(-)
 
-Changed in v2:
-- improved dt-bindings patches based on reviews
-- removed patches 3 and 4 adding DT labels without a mainline user
-- two small fixes to the last patch
-
-[v3] https://lore.kernel.org/linux-media/20221229133205.981397-1-luca.ceresoli@bootlin.com/
-[v2] https://lore.kernel.org/linux-tegra/20221222100328.6e341874@booty/T/#t
-[v1] https://lore.kernel.org/linux-tegra/20221124155634.5bc2a423@booty/T/#t
-
-Luca
-
-Luca Ceresoli (21):
-  dt-bindings: display: tegra: add Tegra20 VIP
-  dt-bindings: display: tegra: vi: add 'vip' property and example
-  staging: media: tegra-video: fix .vidioc_enum_fmt_vid_cap to return
-    all formats
-  staging: media: tegra-video: improve documentation of
-    tegra_video_format fields
-  staging: media: tegra-video: document
-    tegra_channel_get_remote_source_subdev
-  staging: media: tegra-video: fix typos in comment
-  staging: media: tegra-video: improve error messages
-  staging: media: tegra-video: slightly simplify cleanup on errors
-  staging: media: tegra-video: move private struct declaration to C file
-  staging: media: tegra-video: move tegra210_csi_soc to C file
-  staging: media: tegra-video: remove unneeded include
-  staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
-  staging: media: tegra-video: move tegra_channel_fmt_align to a per-soc
-    op
-  staging: media: tegra-video: move default format to soc-specific data
-  staging: media: tegra-video: move MIPI calibration calls from VI to
-    CSI
-  staging: media: tegra-video: add a per-soc enable/disable op
-  staging: media: tegra-video: move syncpt init/free to a per-soc op
-  staging: media: tegra-video: add syncpts for Tegra20 to struct
-    tegra_vi
-  staging: media: tegra-video: add hooks for planar YUV and H/V flip
-  staging: media: tegra-video: add H/V flip controls
-  staging: media: tegra-video: add support for Tegra20 parallel input
-
- .../display/tegra/nvidia,tegra20-vi.yaml      |  59 ++
- .../display/tegra/nvidia,tegra20-vip.yaml     |  41 ++
- MAINTAINERS                                   |   3 +
- drivers/staging/media/tegra-video/Kconfig     |   1 +
- drivers/staging/media/tegra-video/Makefile    |   2 +
- drivers/staging/media/tegra-video/csi.c       |  48 ++
- drivers/staging/media/tegra-video/csi.h       |   4 -
- drivers/staging/media/tegra-video/tegra20.c   | 661 ++++++++++++++++++
- drivers/staging/media/tegra-video/tegra210.c  |  97 ++-
- drivers/staging/media/tegra-video/vi.c        | 321 ++-------
- drivers/staging/media/tegra-video/vi.h        |  75 +-
- drivers/staging/media/tegra-video/video.c     |   5 +
- drivers/staging/media/tegra-video/video.h     |   2 +-
- drivers/staging/media/tegra-video/vip.c       | 290 ++++++++
- drivers/staging/media/tegra-video/vip.h       |  68 ++
- 15 files changed, 1387 insertions(+), 290 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
- create mode 100644 drivers/staging/media/tegra-video/tegra20.c
- create mode 100644 drivers/staging/media/tegra-video/vip.c
- create mode 100644 drivers/staging/media/tegra-video/vip.h
-
+diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
+index 28d3d05c12c4..d47ba79bac75 100644
+--- a/drivers/staging/media/tegra-video/tegra210.c
++++ b/drivers/staging/media/tegra-video/tegra210.c
+@@ -179,6 +179,56 @@ static u32 vi_csi_read(struct tegra_vi_channel *chan, u8 portno,
+ /*
+  * Tegra210 VI channel capture operations
+  */
++
++static int tegra210_channel_host1x_syncpt_init(struct tegra_vi_channel *chan)
++{
++	struct tegra_vi *vi = chan->vi;
++	unsigned long flags = HOST1X_SYNCPT_CLIENT_MANAGED;
++	struct host1x_syncpt *fs_sp;
++	struct host1x_syncpt *mw_sp;
++	int ret, i;
++
++	for (i = 0; i < chan->numgangports; i++) {
++		fs_sp = host1x_syncpt_request(&vi->client, flags);
++		if (!fs_sp) {
++			dev_err(vi->dev, "failed to request frame start syncpoint\n");
++			ret = -ENOMEM;
++			goto free_syncpts;
++		}
++
++		mw_sp = host1x_syncpt_request(&vi->client, flags);
++		if (!mw_sp) {
++			dev_err(vi->dev, "failed to request memory ack syncpoint\n");
++			host1x_syncpt_put(fs_sp);
++			ret = -ENOMEM;
++			goto free_syncpts;
++		}
++
++		chan->frame_start_sp[i] = fs_sp;
++		chan->mw_ack_sp[i] = mw_sp;
++		spin_lock_init(&chan->sp_incr_lock[i]);
++	}
++
++	return 0;
++
++free_syncpts:
++	for (i = 0; i < chan->numgangports; i++) {
++		host1x_syncpt_put(chan->mw_ack_sp[i]);
++		host1x_syncpt_put(chan->frame_start_sp[i]);
++	}
++	return ret;
++}
++
++static void tegra210_channel_host1x_syncpt_free(struct tegra_vi_channel *chan)
++{
++	int i;
++
++	for (i = 0; i < chan->numgangports; i++) {
++		host1x_syncpt_put(chan->mw_ack_sp[i]);
++		host1x_syncpt_put(chan->frame_start_sp[i]);
++	}
++}
++
+ static void tegra210_fmt_align(struct v4l2_pix_format *pix, unsigned int bpp)
+ {
+ 	unsigned int min_bpl;
+@@ -758,6 +808,8 @@ static const struct tegra_video_format tegra210_video_formats[] = {
+ 
+ /* Tegra210 VI operations */
+ static const struct tegra_vi_ops tegra210_vi_ops = {
++	.channel_host1x_syncpt_init = tegra210_channel_host1x_syncpt_init,
++	.channel_host1x_syncpt_free = tegra210_channel_host1x_syncpt_free,
+ 	.vi_fmt_align = tegra210_fmt_align,
+ 	.vi_start_streaming = tegra210_vi_start_streaming,
+ 	.vi_stop_streaming = tegra210_vi_stop_streaming,
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 22f6d6478d3e..760606c65a97 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -973,21 +973,11 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+ 	return 0;
+ }
+ 
+-static void tegra_channel_host1x_syncpts_free(struct tegra_vi_channel *chan)
+-{
+-	int i;
+-
+-	for (i = 0; i < chan->numgangports; i++) {
+-		host1x_syncpt_put(chan->mw_ack_sp[i]);
+-		host1x_syncpt_put(chan->frame_start_sp[i]);
+-	}
+-}
+-
+ static void tegra_channel_cleanup(struct tegra_vi_channel *chan)
+ {
+ 	v4l2_ctrl_handler_free(&chan->ctrl_handler);
+ 	media_entity_cleanup(&chan->video.entity);
+-	tegra_channel_host1x_syncpts_free(chan);
++	chan->vi->ops->channel_host1x_syncpt_free(chan);
+ 	mutex_destroy(&chan->video_lock);
+ }
+ 
+@@ -1005,42 +995,6 @@ void tegra_channels_cleanup(struct tegra_vi *vi)
+ 	}
+ }
+ 
+-static int tegra_channel_host1x_syncpt_init(struct tegra_vi_channel *chan)
+-{
+-	struct tegra_vi *vi = chan->vi;
+-	unsigned long flags = HOST1X_SYNCPT_CLIENT_MANAGED;
+-	struct host1x_syncpt *fs_sp;
+-	struct host1x_syncpt *mw_sp;
+-	int ret, i;
+-
+-	for (i = 0; i < chan->numgangports; i++) {
+-		fs_sp = host1x_syncpt_request(&vi->client, flags);
+-		if (!fs_sp) {
+-			dev_err(vi->dev, "failed to request frame start syncpoint\n");
+-			ret = -ENOMEM;
+-			goto free_syncpts;
+-		}
+-
+-		mw_sp = host1x_syncpt_request(&vi->client, flags);
+-		if (!mw_sp) {
+-			dev_err(vi->dev, "failed to request memory ack syncpoint\n");
+-			host1x_syncpt_put(fs_sp);
+-			ret = -ENOMEM;
+-			goto free_syncpts;
+-		}
+-
+-		chan->frame_start_sp[i] = fs_sp;
+-		chan->mw_ack_sp[i] = mw_sp;
+-		spin_lock_init(&chan->sp_incr_lock[i]);
+-	}
+-
+-	return 0;
+-
+-free_syncpts:
+-	tegra_channel_host1x_syncpts_free(chan);
+-	return ret;
+-}
+-
+ static int tegra_channel_init(struct tegra_vi_channel *chan)
+ {
+ 	struct tegra_vi *vi = chan->vi;
+@@ -1066,7 +1020,7 @@ static int tegra_channel_init(struct tegra_vi_channel *chan)
+ 	chan->format.sizeimage = chan->format.bytesperline * TEGRA_DEF_HEIGHT;
+ 	vi->ops->vi_fmt_align(&chan->format, chan->fmtinfo->bpp);
+ 
+-	ret = tegra_channel_host1x_syncpt_init(chan);
++	ret = vi->ops->channel_host1x_syncpt_init(chan);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1129,7 +1083,7 @@ static int tegra_channel_init(struct tegra_vi_channel *chan)
+ cleanup_media:
+ 	media_entity_cleanup(&chan->video.entity);
+ free_syncpts:
+-	tegra_channel_host1x_syncpts_free(chan);
++	vi->ops->channel_host1x_syncpt_free(chan);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
+index 851c4f3fcb91..8fadca33bcc9 100644
+--- a/drivers/staging/media/tegra-video/vi.h
++++ b/drivers/staging/media/tegra-video/vi.h
+@@ -38,10 +38,13 @@ enum tegra_vi_pg_mode {
+ };
+ 
+ struct tegra_vi;
++struct tegra_vi_channel;
+ 
+ /**
+  * struct tegra_vi_ops - Tegra VI operations
+  * @vi_enable: soc-specific operations needed to enable/disable the VI peripheral
++ * @channel_host1x_syncpt_init: initialize synchronization points
++ * @channel_host1x_syncpt_free: free all synchronization points
+  * @vi_fmt_align: modify `pix` to fit the hardware alignment
+  *		requirements and fill image geometry
+  * @vi_start_streaming: starts media pipeline, subdevice streaming, sets up
+@@ -52,6 +55,8 @@ struct tegra_vi;
+  */
+ struct tegra_vi_ops {
+ 	int (*vi_enable)(struct tegra_vi *vi, bool on);
++	int (*channel_host1x_syncpt_init)(struct tegra_vi_channel *chan);
++	void (*channel_host1x_syncpt_free)(struct tegra_vi_channel *chan);
+ 	void (*vi_fmt_align)(struct v4l2_pix_format *pix, unsigned int bpp);
+ 	int (*vi_start_streaming)(struct vb2_queue *vq, u32 count);
+ 	void (*vi_stop_streaming)(struct vb2_queue *vq);
 -- 
 2.34.1
 
