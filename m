@@ -1,155 +1,153 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13E02560
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 13:28:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675085297;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66B128F3
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:16:30 +0000 (UTC)
+Received: from booty.fritz.box (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPA id 8967E100014;
+	Mon, 30 Jan 2023 14:16:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1675088188;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BAMPPrar8OAIvnPipq/Mby6BJP4m+tsjTfvNt2nu5yY=;
-	b=Aa4/xwVHM3mm0p6hGV3WbjIAOYs7lc9whLts1MEucXhsXx1FkmcvR9nqZy4Z7qq4bm+FMd
-	1hD8FheAlH52Rbi3+BZZoua8pCUJ8E1kuBVwKD9Zm3ou1AWwHMxb4KJgu9nU+ciKK1MwFr
-	LbsPbzn1gPv3TQiVuvQBdT76OMSFX2Q=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-599-ryZIrf6JPPSdLBO4xcNlYw-1; Mon, 30 Jan 2023 08:28:16 -0500
-X-MC-Unique: ryZIrf6JPPSdLBO4xcNlYw-1
-Received: by mail-ej1-f70.google.com with SMTP id xj11-20020a170906db0b00b0077b6ecb23fcso7430777ejb.5
-        for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 05:28:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BAMPPrar8OAIvnPipq/Mby6BJP4m+tsjTfvNt2nu5yY=;
-        b=PI8GnSdtbZmgG8Zp+1PqLgE8vCiE5f3x9o5MNpANBTGidqqoiP7ZvSEFeCP2BMzbd9
-         /H+wBNcGXXcG8ZY03LFAveVwqsgqbSRDHtki/r+y6MKya6g+jRWRAV/4h5Cf8DBpzwU/
-         gr6iXdx2956iVxcd2ka6yWHymyWOV32jG4jXXJMZVyIJ1PKBXNszxxIuMThUAMEuv+wb
-         CrpJkIf1L/kBzdIXbeLqlddXKoMOZJhu9kL4Ltll/ANnYl/ZN2I3allyA9k1c8wEC7ES
-         pWv55Evpq+G4VQKPsgGhs5PwK/kkDR9CVGSTwYGePOoqzwdabbYGb2u590cTZOc+7RsA
-         zIgA==
-X-Gm-Message-State: AFqh2kpzoLCi9TOvSl2UoiLwtVutrBImNDdzb2o5VnuijstMOonLO+JQ
-	agAegng/2k/k0+uHsi7i+9bGaRanjyNCGwTudqxLsA+cV9j/4ClGuB6FwrcDLU/96Y9F6pJt2P6
-	QKhl/CXHQz/lkhC1ohgVdafOhiA==
-X-Received: by 2002:a17:907:6f18:b0:84d:4e4f:1f85 with SMTP id sy24-20020a1709076f1800b0084d4e4f1f85mr51466008ejc.59.1675085295108;
-        Mon, 30 Jan 2023 05:28:15 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvkJUOVVr34vm+zmg/PWqvYKnlznq2hZ3URz42Cd9fuhjNyt2zqjNQQSbqM6nPUBQR5mwpvXA==
-X-Received: by 2002:a17:907:6f18:b0:84d:4e4f:1f85 with SMTP id sy24-20020a1709076f1800b0084d4e4f1f85mr51465985ejc.59.1675085294943;
-        Mon, 30 Jan 2023 05:28:14 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id kl13-20020a170907994d00b00882f9130eafsm3774140ejc.26.2023.01.30.05.28.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Jan 2023 05:28:14 -0800 (PST)
-Message-ID: <b6eca5e1-2340-cd09-ede9-116350bca346@redhat.com>
-Date: Mon, 30 Jan 2023 14:28:13 +0100
+	bh=yckFIY93u4F86IWY12zWqYvF4URZaDP4YtutjeyqpwU=;
+	b=Q4sJG2JXEjO4qRmKUMiAsBcDbHceEZZtPg5u5UMfhoyr2t1qo/qqKODqG+yZEW98pTjPak
+	VNmUhhJJSqXR//GYNOBrSn7yAW3kqMwUV0h2PQhdnkHkI31l28bYKf+SjhucdaKugKBAsv
+	nnl06ON3N4TIN1JS7OWcIhRJuQR04jk5NuEhdh02kNN2BXf2hMraZVVW8mzigm7GH6hE9M
+	aSkzgA5hs0wv0VmPZ0FAh2UnjsKr3kC/3rJqYi2BWuIx/UqeD2xxk0EcKUzFe1bWOOuEdR
+	Us85/TH1W8TnihKTSduFfX3D7wQaUI+DOm2AV1zcjOT/3WXf/SAjiL9p23/YdA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Richard Leitner <richard.leitner@skidata.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 01/21] dt-bindings: display: tegra: add Tegra20 VIP
+Date: Mon, 30 Jan 2023 15:15:43 +0100
+Message-Id: <20230130141603.323221-2-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
+References: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 0/9] HID: Constify lowlevel HID drivers
-To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>
-Cc: Basavaraj Natikar <basavaraj.natikar@amd.com>,
- Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, =?UTF-8?Q?Filipe_La=c3=adns?=
- <lains@riseup.net>, Srinivas Pandruvada
- <srinivas.pandruvada@linux.intel.com>,
- Maximilian Luz <luzmaximilian@gmail.com>,
- Corentin Chary <corentin.chary@gmail.com>, Mark Gross
- <markgross@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev
-References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
- <0937b9a5-0caa-2a73-33c4-82e6cab02ef0@redhat.com>
- <20230130132620.3cmmq5ga3uebazwf@t-8ch.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230130132620.3cmmq5ga3uebazwf@t-8ch.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+VIP is the parallel video capture component within the video input
+subsystem of Tegra20 (and other Tegra chips, apparently).
 
-On 1/30/23 14:26, Thomas Weißschuh wrote:
-> Hi Hans,
-> 
-> On Mon, Jan 30, 2023 at 09:36:32AM +0100, Hans de Goede wrote:
->> Hi,
->>
->> On 1/30/23 04:59, Thomas Weißschuh wrote:
->>> Since 52d225346904 ("HID: Make lowlevel driver structs const") the
->>> lowlevel HID drivers are only exposed as const.
->>>
->>> Take advantage of this to constify the underlying structures, too.
->>>
->>> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
->>
->> Thanks, series looks good to me:
->>
->> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->>
->> I'll also pick up / merge patches 7 + 8 into pdx86/for-next
->> sometime this week.
-> 
-> Please note that patch 7 depends on commit 52d225346904
-> ("HID: Make lowlevel driver structs const") which is not yet in Linus'
-> tree, only in the HID tree (branch for-6.3/hid-core).
-> 
-> Maybe it's better to take it via the HID tree or I can resend when the
-> prerequisites are in Linus' tree.
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
-Ah yes then it would be better to take the entire set through the HID tree,
-here is my ack for that:
+---
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Changed in v4:
+ - Added review tags
+ - remove leftover lines after removal of 'channel@0'
 
-Regards,
+Changed in v3:
+ - remove channel@0 node (Krzysztof, Rob, Dmitry)
+ - add myself as a maintainer of the whole Tegra video driver (Dmitry)
 
-Hans
+Changed in v2 (suggested by Krzysztof Kozlowski):
+ - remove redundant "bindings" from subject line
+ - remove $nodename
+ - add channel@0 description
+ - add reg: const: 0
+---
+ .../display/tegra/nvidia,tegra20-vip.yaml     | 41 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
 
-
->>> ---
->>> Thomas Weißschuh (9):
->>>       HID: amd_sfh: Constify lowlevel HID driver
->>>       HID: hyperv: Constify lowlevel HID driver
->>>       HID: logitech-dj: Constify lowlevel HID driver
->>>       HID: steam: Constify lowlevel HID driver
->>>       HID: intel-ish-hid: Constify lowlevel HID driver
->>>       HID: surface-hid: Constify lowlevel HID driver
->>>       platform/x86: asus-tf103c-dock: Constify lowlevel HID driver
->>>       platform/x86: asus-tf103c-dock: Constify toprow keymap
->>>       staging: greybus: hid: Constify lowlevel HID driver
->>>
->>>  drivers/hid/amd-sfh-hid/amd_sfh_hid.c      | 2 +-
->>>  drivers/hid/hid-hyperv.c                   | 2 +-
->>>  drivers/hid/hid-logitech-dj.c              | 4 ++--
->>>  drivers/hid/hid-steam.c                    | 2 +-
->>>  drivers/hid/intel-ish-hid/ishtp-hid.c      | 2 +-
->>>  drivers/hid/surface-hid/surface_hid_core.c | 2 +-
->>>  drivers/platform/x86/asus-tf103c-dock.c    | 4 ++--
->>>  drivers/staging/greybus/hid.c              | 2 +-
->>>  8 files changed, 10 insertions(+), 10 deletions(-)
->>> ---
->>> base-commit: e04955db6a7c3fc4a1e6978649b61a6f5f8028e3
->>> change-id: 20230130-hid-const-ll-driver-fcfdd3af11b8
->>>
->>> Best regards,
->>
-> 
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+new file mode 100644
+index 000000000000..14294edb8d8c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra VIP (parallel video capture) controller
++
++maintainers:
++  - Luca Ceresoli <luca.ceresoli@bootlin.com>
++
++properties:
++  compatible:
++    enum:
++      - nvidia,tegra20-vip
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Port receiving the video stream from the sensor
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Port sending the video stream to the VI
++
++    required:
++      - port@0
++      - port@1
++
++unevaluatedProperties: false
++
++required:
++  - compatible
++  - ports
++
++# see nvidia,tegra20-vi.yaml for an example
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8a5c25c20d00..5dc335adee46 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20588,10 +20588,12 @@ TEGRA VIDEO DRIVER
+ M:	Thierry Reding <thierry.reding@gmail.com>
+ M:	Jonathan Hunter <jonathanh@nvidia.com>
+ M:	Sowjanya Komatineni <skomatineni@nvidia.com>
++M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
+ L:	linux-media@vger.kernel.org
+ L:	linux-tegra@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
++F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ F:	drivers/staging/media/tegra-video/
+ 
+ TEGRA XUSB PADCTL DRIVER
+-- 
+2.34.1
 
