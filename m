@@ -1,18 +1,19 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C324390
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDEE391
 	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 03:59:57 +0000 (UTC)
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
 	s=mail; t=1675051189;
-	bh=CeE4LFDYquttLQyjdPuIA0yJAhL1uKGNNm1YrWRTAXo=;
+	bh=mMjfLcnVZF0dexendGDLr6JYFK0dx6mt/NJcsDV8H4Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jaobbKlMg6u5gdaxw5uGqJWbiCgvqun6lx1rEZYJufIvUp4ZXEzHQqAgvpGGP4pwn
-	 46ZVIbbDyqQA3y8hpqFOef7CA3jKP5XPh37d7rJIeRAwBGQkBQdrgSPvUe8ORs9dwG
-	 NkHNbSWmwq3hcZDtaM0+4RBZ6uO7IsMoYtIkskKI=
-Date: Mon, 30 Jan 2023 03:59:45 +0000
-Subject: [PATCH 9/9] staging: greybus: hid: Constify lowlevel HID driver
+	b=rFOgO8ba4msbhCZB2HpPHLLslEHAUK1mUaTQT0J/NsYvFRy6C7BKJNkmoKLPie0SR
+	 DdwIFUbWqlT81h9iTTh75VTMNS8I9rnLBw0eFbMnUlZqqozdz+xnlI82nVR1ahIfnr
+	 C4QZ6j7kBFLi8NW4eANXgRNE82H6WcFTYXOIj4UU=
+Date: Mon, 30 Jan 2023 03:59:43 +0000
+Subject: [PATCH 7/9] platform/x86: asus-tf103c-dock: Constify lowlevel HID
+ driver
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -21,7 +22,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230130-hid-const-ll-driver-v1-9-3fc282b3b1d0@weissschuh.net>
+Message-Id: <20230130-hid-const-ll-driver-v1-7-3fc282b3b1d0@weissschuh.net>
 References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
 In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
 To: Basavaraj Natikar <basavaraj.natikar@amd.com>, 
@@ -44,11 +45,11 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=861;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=949;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=CeE4LFDYquttLQyjdPuIA0yJAhL1uKGNNm1YrWRTAXo=;
- b=SQUZOk9LKgSTETWY2YqlC8x+hEL9fvydNvVkE6petc6xt8Y5mvKz320j0CJb8DILZGDzcF9A74aC
- /T98d7JHADiph9vBYy0ilCKP+bmJauMaefm3e9xlClK6LSByfdHS
+ bh=mMjfLcnVZF0dexendGDLr6JYFK0dx6mt/NJcsDV8H4Y=;
+ b=uIrnpEXHlY673uTfeecek1YDTL/FNinG4H9nwb5N5A214b/jy314g0O+eRlNKMjYCcm8AMlofqEh
+ C9p/Wc9ZA6GBSkRH1dKgC4Z+xcBlnJQF8Qi93zJVT3Xo4H3bPXDm
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
@@ -59,22 +60,22 @@ Take advantage of this to constify the underlying structure, too.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/staging/greybus/hid.c | 2 +-
+ drivers/platform/x86/asus-tf103c-dock.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/hid.c b/drivers/staging/greybus/hid.c
-index adb91286803a..15335c38cb26 100644
---- a/drivers/staging/greybus/hid.c
-+++ b/drivers/staging/greybus/hid.c
-@@ -381,7 +381,7 @@ static int gb_hid_power(struct hid_device *hid, int lvl)
+diff --git a/drivers/platform/x86/asus-tf103c-dock.c b/drivers/platform/x86/asus-tf103c-dock.c
+index 62310e06282b..84c45e8f51ad 100644
+--- a/drivers/platform/x86/asus-tf103c-dock.c
++++ b/drivers/platform/x86/asus-tf103c-dock.c
+@@ -250,7 +250,7 @@ static int tf103c_dock_hid_raw_request(struct hid_device *hid, u8 reportnum,
+ 	return 0;
  }
  
- /* HID structure to pass callbacks */
--static struct hid_ll_driver gb_hid_ll_driver = {
-+static const struct hid_ll_driver gb_hid_ll_driver = {
- 	.parse = gb_hid_parse,
- 	.start = gb_hid_start,
- 	.stop = gb_hid_stop,
+-static struct hid_ll_driver tf103c_dock_hid_ll_driver = {
++static const struct hid_ll_driver tf103c_dock_hid_ll_driver = {
+ 	.parse = tf103c_dock_hid_parse,
+ 	.start = tf103c_dock_hid_start,
+ 	.stop = tf103c_dock_hid_stop,
 
 -- 
 2.39.1
