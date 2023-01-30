@@ -1,90 +1,83 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A05E28EB
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:17:23 +0000 (UTC)
-Received: from booty.fritz.box (unknown [77.244.183.192])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB4E291F
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:17:24 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 95B62CA689
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:09:47 +0000 (UTC)
+Received: from booty (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPA id D5E5E10001F;
-	Mon, 30 Jan 2023 14:17:17 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 003BA1C0018;
+	Mon, 30 Jan 2023 14:09:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1675088241;
+	t=1675087780;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LS5vomXjVpVy5vUxgvr9Snjb35gKgVrb13Y7ThCyles=;
-	b=emZ5wujSkaPd0exc6AXIQkqtPyXwJ9O8rIZmAm/m/BFeYRIiwngcZz9tBGlpij3WNh9+0k
-	FYGT6OPw6xk63kpdtMTAxJxwjcV9KiF6L5nzgfjcFWF2iVd1odV/AYKgjlpChSyePmKjF6
-	rwOXaPNu0ufQ4cQug2JP9Sto8b/KzfJrfFopWkKKFrFUgN61v0oWVl/Gkbkk4rNnla7OfN
-	Y2+AQRu2hx3/fRxbTfC0Y4Z4qYWOZw5OytoTIdP14lIQIQ93vGCMacBJLbXW9lnNtS9/68
-	EjAxKfYGpDoRme0G/haV1rXsDVvDbTUjAN4uM/1d1Hmi6XodIjL8g22v9nd4Jw==
+	bh=KD4t6AFD7zWRuav/9wfKI/33NlxRT+vOROmFd5NS47E=;
+	b=ldhsz/T6pvQk9zJ+osMNoqfhUEntk27/80Ft3G6zKe2Roz+Zgcx4HSuwH9VWfGvcYwxyJu
+	2Uf43LiYczJZQDCWMzegUMOZTV2SIdik3qb64ONTophqff7ObdB4h6ExKbvomDlI6ThUTA
+	67TCnClen+rBEHirq2hf333lEG1G25vOO/tx0S0Us51dcnGGQD77xjbdnrtL5p9ucchTtQ
+	qc8TMEF7BBdhaJ5chrEB/qgkpr3PgIIqcFQgYrHmqCKpbW1oBB6+kmGxZxByQLiSnuYWni
+	T8NziJRpHdFAgJl620jTp42QKKDTrxvonvf1DLsGah582qWwPbbNtshBXE9XYA==
+Date: Mon, 30 Jan 2023 15:09:36 +0100
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH v4 12/21] staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
-Date: Mon, 30 Jan 2023 15:15:54 +0100
-Message-Id: <20230130141603.323221-13-luca.ceresoli@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
-References: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
+ linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>, Richard Leitner
+ <richard.leitner@skidata.com>
+Subject: Re: [PATCH v3 01/21] dt-bindings: display: tegra: add Tegra20 VIP
+Message-ID: <20230130150936.381f4008@booty>
+In-Reply-To: <e426497b-0421-1bc1-2a72-871b0e2d48a4@collabora.com>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+	<20221229133205.981397-2-luca.ceresoli@bootlin.com>
+	<e426497b-0421-1bc1-2a72-871b0e2d48a4@collabora.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-We are about to add support for the Tegra20 parallel video capture, which
-has no TPG. In preparation for that, limit the VIDEO_TEGRA_TPG option to
-Tegra210 which is the only implementation currently provided by this
-driver.
+Hi Dmitry,
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+On Wed, 25 Jan 2023 01:15:22 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
----
+> On 12/29/22 16:31, Luca Ceresoli wrote:
+> > VIP is the parallel video capture component within the video input
+> > subsystem of Tegra20 (and other Tegra chips, apparently).
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Changed in v4:
- - Added review tags
+...
 
-No changes in v3
-No changes in v2
----
- drivers/staging/media/tegra-video/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> 
+> Please feel free to add my r-b to the rest of the patches. I looked
+> though them and haven't noticed anything suspicious.
 
-diff --git a/drivers/staging/media/tegra-video/Kconfig b/drivers/staging/media/tegra-video/Kconfig
-index df1b2cff2417..c53441822fdf 100644
---- a/drivers/staging/media/tegra-video/Kconfig
-+++ b/drivers/staging/media/tegra-video/Kconfig
-@@ -15,5 +15,6 @@ config VIDEO_TEGRA
- config VIDEO_TEGRA_TPG
- 	bool "NVIDIA Tegra VI driver TPG mode"
- 	depends on VIDEO_TEGRA
-+	depends on ARCH_TEGRA_210_SOC
- 	help
- 	  Say yes here to enable Tegra internal TPG mode
+Thanks you very much, I have applied your r-b tag to all patches except
+patch 2 where you spotted a mistake. v4 coming soon.
+
 -- 
-2.34.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
