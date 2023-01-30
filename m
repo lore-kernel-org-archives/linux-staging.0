@@ -1,18 +1,18 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CC6376
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C324390
 	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 03:59:57 +0000 (UTC)
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
 	s=mail; t=1675051189;
-	bh=ZVx6naOMYxZrL7gFQy2uPLdj4XvZCzz8L2TujyTgXkg=;
+	bh=CeE4LFDYquttLQyjdPuIA0yJAhL1uKGNNm1YrWRTAXo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=m08eIYfzdGMLssh27zrA7VH/mZuLABQJCPXeSLk3osH6tSmCYF08BOqlJel7sTCON
-	 0bY91rvZJvghShk+ZI6yzofv8Wl1lCfN3z6A8zIGOZVteerzuvkMS0ZGHkFyFKjPZm
-	 N3VbEh3ObCW58opk56OV5d9HTGQbwamNIpCazDcA=
-Date: Mon, 30 Jan 2023 03:59:42 +0000
-Subject: [PATCH 6/9] HID: surface-hid: Constify lowlevel HID driver
+	b=jaobbKlMg6u5gdaxw5uGqJWbiCgvqun6lx1rEZYJufIvUp4ZXEzHQqAgvpGGP4pwn
+	 46ZVIbbDyqQA3y8hpqFOef7CA3jKP5XPh37d7rJIeRAwBGQkBQdrgSPvUe8ORs9dwG
+	 NkHNbSWmwq3hcZDtaM0+4RBZ6uO7IsMoYtIkskKI=
+Date: Mon, 30 Jan 2023 03:59:45 +0000
+Subject: [PATCH 9/9] staging: greybus: hid: Constify lowlevel HID driver
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -21,7 +21,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230130-hid-const-ll-driver-v1-6-3fc282b3b1d0@weissschuh.net>
+Message-Id: <20230130-hid-const-ll-driver-v1-9-3fc282b3b1d0@weissschuh.net>
 References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
 In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
 To: Basavaraj Natikar <basavaraj.natikar@amd.com>, 
@@ -44,11 +44,11 @@ Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=969;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=861;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=ZVx6naOMYxZrL7gFQy2uPLdj4XvZCzz8L2TujyTgXkg=;
- b=2WGCbXrUuOpHu5oaa0XrA0GX6gD4aiJxvNflnQnh3nfJF6hdlI9e4yzKod5PWOeZilyzVwTmBxyz
- g3AEpPIkCEkndkzI00I3FXQDZe0uwGzpBrv+RNeqQDSjeaDDhqxO
+ bh=CeE4LFDYquttLQyjdPuIA0yJAhL1uKGNNm1YrWRTAXo=;
+ b=SQUZOk9LKgSTETWY2YqlC8x+hEL9fvydNvVkE6petc6xt8Y5mvKz320j0CJb8DILZGDzcF9A74aC
+ /T98d7JHADiph9vBYy0ilCKP+bmJauMaefm3e9xlClK6LSByfdHS
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
@@ -59,22 +59,22 @@ Take advantage of this to constify the underlying structure, too.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/hid/surface-hid/surface_hid_core.c | 2 +-
+ drivers/staging/greybus/hid.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/surface-hid/surface_hid_core.c b/drivers/hid/surface-hid/surface_hid_core.c
-index 87637f813de2..a3e9cceddfac 100644
---- a/drivers/hid/surface-hid/surface_hid_core.c
-+++ b/drivers/hid/surface-hid/surface_hid_core.c
-@@ -174,7 +174,7 @@ static int surface_hid_raw_request(struct hid_device *hid, unsigned char reportn
- 	return -EIO;
+diff --git a/drivers/staging/greybus/hid.c b/drivers/staging/greybus/hid.c
+index adb91286803a..15335c38cb26 100644
+--- a/drivers/staging/greybus/hid.c
++++ b/drivers/staging/greybus/hid.c
+@@ -381,7 +381,7 @@ static int gb_hid_power(struct hid_device *hid, int lvl)
  }
  
--static struct hid_ll_driver surface_hid_ll_driver = {
-+static const struct hid_ll_driver surface_hid_ll_driver = {
- 	.start       = surface_hid_start,
- 	.stop        = surface_hid_stop,
- 	.open        = surface_hid_open,
+ /* HID structure to pass callbacks */
+-static struct hid_ll_driver gb_hid_ll_driver = {
++static const struct hid_ll_driver gb_hid_ll_driver = {
+ 	.parse = gb_hid_parse,
+ 	.start = gb_hid_start,
+ 	.stop = gb_hid_stop,
 
 -- 
 2.39.1
