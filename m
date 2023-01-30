@@ -1,24 +1,24 @@
 Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F160E28EB
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:17:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A05E28EB
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 14:17:23 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPA id 26558100012;
-	Mon, 30 Jan 2023 14:17:10 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPA id D5E5E10001F;
+	Mon, 30 Jan 2023 14:17:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1675088237;
+	t=1675088241;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DdRp15j/k4XeYmQe3luSEncUUhUk/h4Frh9ooM2yWbA=;
-	b=Q8WhROlthGHK/2AZ/i9Yxfprq74k23Aw3p/ev/bgICcHm8+IXTYFujWp+udaF95h2AJTJo
-	K3hHqwGX0335uwRjxG8k2h+AXBIpBNwuptu93KaVsn1+g4uEEN4+r5M9JW5GC0eWODHwMi
-	VS5pJnq6FSQkKxPpmClPX73vzk77D5EOwzOrHZc2tDzjGe+n0zvdnYPC2+pd0RVpBNCx9c
-	xCeOLuN7HupLMVQISVI4eObb1nVkyCPGQfbn8Rhu5k/LS3l53FpMmm3+amQ7KQaiL+TqU+
-	psolECL52lrzwL+2By+JLS7W846v0d5xTJGHWfbh6VndDAEKPiBVUPpbS0ccXA==
+	bh=LS5vomXjVpVy5vUxgvr9Snjb35gKgVrb13Y7ThCyles=;
+	b=emZ5wujSkaPd0exc6AXIQkqtPyXwJ9O8rIZmAm/m/BFeYRIiwngcZz9tBGlpij3WNh9+0k
+	FYGT6OPw6xk63kpdtMTAxJxwjcV9KiF6L5nzgfjcFWF2iVd1odV/AYKgjlpChSyePmKjF6
+	rwOXaPNu0ufQ4cQug2JP9Sto8b/KzfJrfFopWkKKFrFUgN61v0oWVl/Gkbkk4rNnla7OfN
+	Y2+AQRu2hx3/fRxbTfC0Y4Z4qYWOZw5OytoTIdP14lIQIQ93vGCMacBJLbXW9lnNtS9/68
+	EjAxKfYGpDoRme0G/haV1rXsDVvDbTUjAN4uM/1d1Hmi6XodIjL8g22v9nd4Jw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -41,9 +41,9 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH v4 11/21] staging: media: tegra-video: remove unneeded include
-Date: Mon, 30 Jan 2023 15:15:53 +0100
-Message-Id: <20230130141603.323221-12-luca.ceresoli@bootlin.com>
+Subject: [PATCH v4 12/21] staging: media: tegra-video: Kconfig: allow TPG only on Tegra210
+Date: Mon, 30 Jan 2023 15:15:54 +0100
+Message-Id: <20230130141603.323221-13-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
 References: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
@@ -55,8 +55,10 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is only a pointer reference to struct tegra_vi in video.h, thus vi.h
-is not needed.
+We are about to add support for the Tegra20 parallel video capture, which
+has no TPG. In preparation for that, limit the VIDEO_TEGRA_TPG option to
+Tegra210 which is the only implementation currently provided by this
+driver.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
@@ -69,21 +71,20 @@ Changed in v4:
 No changes in v3
 No changes in v2
 ---
- drivers/staging/media/tegra-video/video.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/media/tegra-video/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/media/tegra-video/video.h b/drivers/staging/media/tegra-video/video.h
-index fadaf2189dc9..1e9be1474a9c 100644
---- a/drivers/staging/media/tegra-video/video.h
-+++ b/drivers/staging/media/tegra-video/video.h
-@@ -12,7 +12,6 @@
- #include <media/v4l2-device.h>
- 
- #include "vi.h"
--#include "csi.h"
- 
- struct tegra_video_device {
- 	struct v4l2_device v4l2_dev;
+diff --git a/drivers/staging/media/tegra-video/Kconfig b/drivers/staging/media/tegra-video/Kconfig
+index df1b2cff2417..c53441822fdf 100644
+--- a/drivers/staging/media/tegra-video/Kconfig
++++ b/drivers/staging/media/tegra-video/Kconfig
+@@ -15,5 +15,6 @@ config VIDEO_TEGRA
+ config VIDEO_TEGRA_TPG
+ 	bool "NVIDIA Tegra VI driver TPG mode"
+ 	depends on VIDEO_TEGRA
++	depends on ARCH_TEGRA_210_SOC
+ 	help
+ 	  Say yes here to enable Tegra internal TPG mode
 -- 
 2.34.1
 
