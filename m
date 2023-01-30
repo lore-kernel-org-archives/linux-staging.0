@@ -1,90 +1,133 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56194394
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 04:09:52 +0000 (UTC)
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-	s=mail; t=1675051187;
-	bh=wWKFYgFhVzpvhYIRwOMjSib0YpKzgvkigV7Zrc6HeW8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=hoz3HgsJzR0HTU0L5O2nJpYL3V+6uM21jhOK1b4Z6Q5YB0tD/2S75VKCMvXkhX+Jz
-	 F7KhGTndvpYZ8k68Nvi8nzXpe/NiEb1bG68yl+M75HlybfPqgkl9Hs6OS+3AzzrAZ5
-	 LEaOJDGgmawvwrcGShwZqTKndDA8MV/CL/Lo9cy8=
-Date: Mon, 30 Jan 2023 03:59:39 +0000
-Subject: [PATCH 3/9] HID: logitech-dj: Constify lowlevel HID driver
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8547E364
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 08:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1675067798;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4d/SMT2oPu4pWDgGmvW3ooby0A6gn9g87bNk00NILRw=;
+	b=ZnO3GNKI7QfMtNVfCTX4LiTnDzJJMppgtAnDFZrgXO7+Xtl0fbLBmSvlNmPFNnyfpTfAbj
+	FO8ATd7juWWfQcjRDogw2bYg2owVhlJuO0BjbF6oaM3PrsaeT2yWlQXI/jeS5ZGkF0ZgFr
+	hVybVNBB+dxWHuSQx/dcPIJqnw5UOTo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-377-afuOX35xMVyZZyvBWK-T8g-1; Mon, 30 Jan 2023 03:36:35 -0500
+X-MC-Unique: afuOX35xMVyZZyvBWK-T8g-1
+Received: by mail-ed1-f72.google.com with SMTP id q20-20020a056402519400b0049e5b8c71b3so7665452edd.17
+        for <linux-staging@lists.linux.dev>; Mon, 30 Jan 2023 00:36:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4d/SMT2oPu4pWDgGmvW3ooby0A6gn9g87bNk00NILRw=;
+        b=t544Tl1RZWk7iMIzm9GVdo9hJyF4iQ6U3AMLqxKj2PoQW9ifBMdUIY0eVn1pYl2Pxl
+         ucWhBPuXsIqgZ+/fi4T3026Yp5b9aVvnBq4f7CVqFAwvkQNztsR3duBg+ZS654idoqOi
+         WtT/Vn1OoxrwW0SfSx8AG2aATG/K6UOHLHn46nFt5eyvch0fDCg+bXCGLa/SYhXcndri
+         /DsiGrPuXWF4ULb3Xxg7s11WQFMefS4vigQMRt/aEcGEOSef+ikwkjhFYPsyJQeJZn9D
+         pa1LTZ19hYI4ojLZxgCM50jYXmFkhUUGD3aQK0QgYM6ds6KeeFFiSb6VAs8XIwerxCHo
+         Os4g==
+X-Gm-Message-State: AO0yUKXa2QDJM2f80FLySf8Em4Q4BucvIKYhy6K8KwqKfD5l/5Oea9M1
+	EsQzidT7kVRR8xTHJHvc2uFi8Uyw14go6N0oYZ2rxZpnG8K2ReG1Vl4uLt6fn2fI77bCvEGZFkr
+	uyasWY5ZuPKDUwJ9XAel5AOOdrQ==
+X-Received: by 2002:a17:906:475a:b0:887:981:5f7c with SMTP id j26-20020a170906475a00b0088709815f7cmr5019121ejs.11.1675067794095;
+        Mon, 30 Jan 2023 00:36:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set/0R+gvMcJBFdYRnrzzxOkxWBZLXr5z/Tqk0BP+fIcTMCHK94EHX6VpDr3nSMq6rTGD5CNmOQ==
+X-Received: by 2002:a17:906:475a:b0:887:981:5f7c with SMTP id j26-20020a170906475a00b0088709815f7cmr5019103ejs.11.1675067793927;
+        Mon, 30 Jan 2023 00:36:33 -0800 (PST)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id z2-20020a170906714200b00888161349desm1582823ejj.182.2023.01.30.00.36.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jan 2023 00:36:33 -0800 (PST)
+Message-ID: <0937b9a5-0caa-2a73-33c4-82e6cab02ef0@redhat.com>
+Date: Mon, 30 Jan 2023 09:36:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230130-hid-const-ll-driver-v1-3-3fc282b3b1d0@weissschuh.net>
-References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
-In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
-To: Basavaraj Natikar <basavaraj.natikar@amd.com>, 
- Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, 
- =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Maximilian Luz <luzmaximilian@gmail.com>, 
- Corentin Chary <corentin.chary@gmail.com>, 
- Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>, 
- Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 0/9] HID: Constify lowlevel HID drivers
+To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
+ Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri Kosina
+ <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, =?UTF-8?Q?Filipe_La=c3=adns?=
+ <lains@riseup.net>, Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>,
+ Maximilian Luz <luzmaximilian@gmail.com>,
+ Corentin Chary <corentin.chary@gmail.com>, Mark Gross
+ <markgross@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hyperv@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org, 
- linux-staging@lists.linux.dev, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=1277;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=wWKFYgFhVzpvhYIRwOMjSib0YpKzgvkigV7Zrc6HeW8=;
- b=gHbhnd+URi4q5m2WIF53+0lFoz9hkcicfRZ9MlD4AWMcgO2mt1jPTSl50kDCl6ERuZDRGRfFwG8U
- SqNvJZPhDzF9MWbKxyaUPTAkJdQC/v0+f3n1IAj0D489WHHxZ6bg
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev
+References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Since commit 52d225346904 ("HID: Make lowlevel driver structs const")
-the lowlevel HID drivers are only exposed as const.
+Hi,
 
-Take advantage of this to constify the underlying structure, too.
+On 1/30/23 04:59, Thomas Weißschuh wrote:
+> Since 52d225346904 ("HID: Make lowlevel driver structs const") the
+> lowlevel HID drivers are only exposed as const.
+> 
+> Take advantage of this to constify the underlying structures, too.
+> 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/hid/hid-logitech-dj.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks, series looks good to me:
 
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index c358778e070b..62180414efcc 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -554,7 +554,7 @@ static const u8 hid_reportid_size_map[NUMBER_OF_HID_REPORTS] = {
- 
- #define LOGITECH_DJ_INTERFACE_NUMBER 0x02
- 
--static struct hid_ll_driver logi_dj_ll_driver;
-+static const struct hid_ll_driver logi_dj_ll_driver;
- 
- static int logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev);
- static void delayedwork_callback(struct work_struct *work);
-@@ -1506,7 +1506,7 @@ static bool logi_dj_ll_may_wakeup(struct hid_device *hid)
- 	return hid_hw_may_wakeup(djrcv_dev->hidpp);
- }
- 
--static struct hid_ll_driver logi_dj_ll_driver = {
-+static const struct hid_ll_driver logi_dj_ll_driver = {
- 	.parse = logi_dj_ll_parse,
- 	.start = logi_dj_ll_start,
- 	.stop = logi_dj_ll_stop,
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
--- 
-2.39.1
+I'll also pick up / merge patches 7 + 8 into pdx86/for-next
+sometime this week.
+
+Regards,
+
+Hans
+
+
+
+> ---
+> Thomas Weißschuh (9):
+>       HID: amd_sfh: Constify lowlevel HID driver
+>       HID: hyperv: Constify lowlevel HID driver
+>       HID: logitech-dj: Constify lowlevel HID driver
+>       HID: steam: Constify lowlevel HID driver
+>       HID: intel-ish-hid: Constify lowlevel HID driver
+>       HID: surface-hid: Constify lowlevel HID driver
+>       platform/x86: asus-tf103c-dock: Constify lowlevel HID driver
+>       platform/x86: asus-tf103c-dock: Constify toprow keymap
+>       staging: greybus: hid: Constify lowlevel HID driver
+> 
+>  drivers/hid/amd-sfh-hid/amd_sfh_hid.c      | 2 +-
+>  drivers/hid/hid-hyperv.c                   | 2 +-
+>  drivers/hid/hid-logitech-dj.c              | 4 ++--
+>  drivers/hid/hid-steam.c                    | 2 +-
+>  drivers/hid/intel-ish-hid/ishtp-hid.c      | 2 +-
+>  drivers/hid/surface-hid/surface_hid_core.c | 2 +-
+>  drivers/platform/x86/asus-tf103c-dock.c    | 4 ++--
+>  drivers/staging/greybus/hid.c              | 2 +-
+>  8 files changed, 10 insertions(+), 10 deletions(-)
+> ---
+> base-commit: e04955db6a7c3fc4a1e6978649b61a6f5f8028e3
+> change-id: 20230130-hid-const-ll-driver-fcfdd3af11b8
+> 
+> Best regards,
 
