@@ -1,74 +1,59 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63859808
-	for <linux-staging@lists.linux.dev>; Tue, 31 Jan 2023 09:01:08 +0000 (UTC)
-Received: from dslb-188-096-143-205.188.096.pools.vodafone-ip.de ([188.96.143.205] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1pMmVh-00052y-H3; Tue, 31 Jan 2023 10:01:01 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH] staging: r8188eu: fix NULL check for rcu pointer
-Date: Tue, 31 Jan 2023 10:00:57 +0100
-Message-Id: <20230131090057.241779-1-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796C1A4A
+	for <linux-staging@lists.linux.dev>; Tue, 31 Jan 2023 10:16:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93A54C4339B;
+	Tue, 31 Jan 2023 10:16:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1675160161;
+	bh=1pkJs2jkaOkE6Qmfs+EJL7dI3laoOBYaUoEx2DL2DAQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JeUCAMhotOYwRP97EU1HcJrCThrmOa5XN5RReHodKijjavC31Ovbrsqto0qcNy/Sl
+	 y/QCoWqB7nj2mUGjSzyb63xaCRU5hUlSt1dKhEs6mo7Z2608k80HCl7mPZH6nhP499
+	 SD1PuTM5tPeXyQziiqU+gvpWyRZEfhfoXMbXxawo=
+Date: Tue, 31 Jan 2023 11:15:58 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mark Gross <markgross@kernel.org>,
+	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 9/9] staging: greybus: hid: Constify lowlevel HID driver
+Message-ID: <Y9jqXklnj44XiZ93@kroah.com>
+References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
+ <20230130-hid-const-ll-driver-v1-9-3fc282b3b1d0@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230130-hid-const-ll-driver-v1-9-3fc282b3b1d0@weissschuh.net>
 
-Fix the NULL check for padapter->pnetdev->rx_handler_data.
+On Mon, Jan 30, 2023 at 03:59:45AM +0000, Thomas Weiﬂschuh wrote:
+> Since commit 52d225346904 ("HID: Make lowlevel driver structs const")
+> the lowlevel HID drivers are only exposed as const.
+> 
+> Take advantage of this to constify the underlying structure, too.
+> 
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
 
-The current code calls rcu_dereference while it holds the rcu read lock
-and checks the pointer after releasing the lock. An rcu pointer may only be
-used between calls to rcu_read_lock and rcu_read_unlock.
-
-Replace the check with rcu_access_pointer. My understanding is that this
-function returns the value of the pointer and needs no locking. We can
-then check the pointer but we must not dereference it.
-
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_xmit.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 91f92ec5ef69..18941320e70e 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -1631,18 +1631,14 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct xmit_frame *pxmitframe = NULL;
- 	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
--	void *br_port = NULL;
- 	s32 res;
- 
- 	pxmitframe = rtw_alloc_xmitframe(pxmitpriv);
- 	if (!pxmitframe)
- 		return -1;
- 
--	rcu_read_lock();
--	br_port = rcu_dereference(padapter->pnetdev->rx_handler_data);
--	rcu_read_unlock();
--
--	if (br_port && check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_ADHOC_STATE)) {
-+	if (rcu_access_pointer(padapter->pnetdev->rx_handler_data) &&
-+	    check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_ADHOC_STATE)) {
- 		res = rtw_br_client_tx(padapter, ppkt);
- 		if (res == -1) {
- 			rtw_free_xmitframe(pxmitpriv, pxmitframe);
--- 
-2.30.2
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
