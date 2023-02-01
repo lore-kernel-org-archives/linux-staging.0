@@ -1,87 +1,77 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FCEA45
-	for <linux-staging@lists.linux.dev>; Wed,  1 Feb 2023 12:34:54 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-194-5Zea5NvWMKWWFd2YUm9l9A-1; Wed, 01 Feb 2023 12:34:51 +0000
-X-MC-Unique: 5Zea5NvWMKWWFd2YUm9l9A-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.45; Wed, 1 Feb
- 2023 12:34:50 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.045; Wed, 1 Feb 2023 12:34:50 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Guru Mehar Rachaputi' <gurumeharrachaputi@gmail.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CB92F32
+	for <linux-staging@lists.linux.dev>; Wed,  1 Feb 2023 13:22:49 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id y1so17316185wru.2
+        for <linux-staging@lists.linux.dev>; Wed, 01 Feb 2023 05:22:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yQsTT7vzEv2btlkh6hAE9R2TMqftLVwRfIlZmCyBNZ4=;
+        b=ObeEnKk3ZN9uzXVtLvh0MFNQR/+WxPcY4FvzCab4X0MGlPdZSUy3gmObjKOve07PE7
+         YPJtuFqgvXnaEnnQizzr8+FdlJsb3Pftjy6r6xbalhpTRev+5eRW7gUS8D0MBRhYswGG
+         qj/1WpLyBJM1GD43luSHyr1wPMU1kWM/kztHhr0B+dUpjIqRlaki3dBYZM3zdfwRez5h
+         0rflqUrAgUbJwGiDYHgEsGKl+/Otdwxo+G2XWLEDpGjkCDXpdDbvvpvfbTRa29mP5lV5
+         jftA5JfCWHiR4Yk86Iq59W77u6BTRG3yeh684RzhVP5i6Q71WgJ4n/ZWDoHoDsGC+cbk
+         DYKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yQsTT7vzEv2btlkh6hAE9R2TMqftLVwRfIlZmCyBNZ4=;
+        b=XyrNVNA8tuylT7pW0NV/uDUnOlCoLm47q2t7sN8Y+qC+BJj/ZsKRBmW8ZBdy8sF0VW
+         v7KfJDiqsp6BXLV3jxy9apiVPT0DTQzNlDzNrCxifsEvJHLLh57lPIuBnuwEmyojd0bT
+         /AYnQCZ/boNJ1IVhZxZpaRg7jOpDmdPyi3eEBcTBpmxSlN85+8w1uFrVHj6YpcLqWuIa
+         GLajxOVoaVNLnNhWuPSsS6UD1VplGSRFcq0IW5Sfmiw4AIGHzlc96yr3RMHXjr9/4LF4
+         J++le+RsPGwhzgHUnLyI1b8V76tjV2TbpCtM0H+omc4nkQ84DpKZSsPBuEmT6KP4/M00
+         /Q1A==
+X-Gm-Message-State: AO0yUKX71WqtDr08aIXRLVzLOLKELEeJGPd5A46JZNIcUwfYxuGGXkFy
+	DDHUr+3Ok2fwyQyRBeE8bJk=
+X-Google-Smtp-Source: AK7set8617xhhvfVL6x561L03xUlErWEyI0KsbQ4bh1o9aPwd8pdzJJQUkKMSnlzhu9d3E4JWEeJwQ==
+X-Received: by 2002:a5d:4103:0:b0:2c3:733e:cec3 with SMTP id l3-20020a5d4103000000b002c3733ecec3mr2292900wrp.15.1675257768176;
+        Wed, 01 Feb 2023 05:22:48 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m17-20020a7bce11000000b003dc492e4430sm1789256wmc.28.2023.02.01.05.22.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Feb 2023 05:22:47 -0800 (PST)
+Date: Wed, 1 Feb 2023 16:22:43 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: David Laight <David.Laight@aculab.com>
+Cc: 'Guru Mehar Rachaputi' <gurumeharrachaputi@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] staging: pi433: modify bit_rate from u16 to u32
-Thread-Topic: [PATCH] staging: pi433: modify bit_rate from u16 to u32
-Thread-Index: AQHZNV2KzQ5LmfuLeUG1rTftT0qCPq66BnZA
-Date: Wed, 1 Feb 2023 12:34:50 +0000
-Message-ID: <19e492521b4a4d31aa13c45e8616689b@AcuMS.aculab.com>
+Subject: Re: [PATCH] staging: pi433: modify bit_rate from u16 to u32
+Message-ID: <Y9pno7gZHa+r/Rg3@kadam>
 References: <Y9h42l/8EcPqn63x@combine-ThinkPad-S1-Yoga>
- <Y9ilj812USHrSXe+@kroah.com> <Y9jrOKMGl7ITKxhP@combine-ThinkPad-S1-Yoga>
-In-Reply-To: <Y9jrOKMGl7ITKxhP@combine-ThinkPad-S1-Yoga>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ <Y9ilj812USHrSXe+@kroah.com>
+ <Y9jrOKMGl7ITKxhP@combine-ThinkPad-S1-Yoga>
+ <19e492521b4a4d31aa13c45e8616689b@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <19e492521b4a4d31aa13c45e8616689b@AcuMS.aculab.com>
 
-From: Guru Mehar Rachaputi
-> Sent: 31 January 2023 10:20
-...
-> > >  struct pi433_tx_cfg {
-> > >  =09__u32=09=09=09frequency;
-> > > -=09__u16=09=09=09bit_rate;
-> > > +=09__u32=09=09=09bit_rate;
-> > >  =09__u32=09=09=09dev_frequency;
-> > >  =09enum modulation=09=09modulation;
-> > >  =09enum mod_shaping=09mod_shaping;
-> >
-> > And didn't you just break existing userspace code?  If not, how?  If so=
-,
-> > how did you test this?
-> >
-> My apologies, I did not study code. While testing, the probe function of
-> pi433 driver didn't appear in the lsmod operation. I suspected my
-> testing was wrong.
+On Wed, Feb 01, 2023 at 12:34:50PM +0000, David Laight wrote:
+> In reality having a uapi structure with embedded padding should
+> be banned.
+> But that would need a compiler attribute to enforce it.
 
-You don't need to study any code, just the structure you changed.
+It would be simple enough to grep the names of all the UAPI struct and
+use pahole to make a list of the existing structs which have holes.
+Then re-run the script every week and complain when new holey struct
+types are added.
 
-On all architectures (except m68k) there is a two byte pad
-after the bit_rate field, this is likely to be filled with
-random data from the applications stack.
+You could do a similar thing with Smatch looking at copy_to/from_user()
+struct types.
 
-On little-endian architectures the low byte is in the same place,
-so if the 'random data' is zero it will happen to work.
-
-However, on big-endian architectures, the low byte moves so
-the value passed (by old applications) will always be wrong.
-
-In reality having a uapi structure with embedded padding should
-be banned.
-But that would need a compiler attribute to enforce it.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+regards,
+dan carpenter
