@@ -1,75 +1,87 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C087F4
-	for <linux-staging@lists.linux.dev>; Wed,  1 Feb 2023 06:16:12 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id d14so16237726wrr.9
-        for <linux-staging@lists.linux.dev>; Tue, 31 Jan 2023 22:16:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=43QZSGZeU/cV5AUl6DL3ZEkjlzFe9GKndh8lRkabxOs=;
-        b=by/kQctD1VEeCskvu0Qs94/FFwDrKfWv766kkqiUy8Oly1jomKj0ooirqkNjAWzSnu
-         CViRBXEkJCxwhWzsDj0givTbl1dLdjqborUXckrrkD4ix7H0EawA1dm+9ZuTn2ajmMfq
-         amU77FfeJ2HtlUhYWHqEZih3J/qk4M5vkZHnaTdWYBN7lLzZytJ6t6+nyfWz2UH5Apmu
-         ki+2+IL0cg1J/9iJiKO6EPW2DfcsxIlV5SQQkvOF798/ICCcDbkGWRVROerrFJh0+MZp
-         xgbR99fhm/O5s4MD3iEAo2BFV28kos9PXYguZx1wne7QiJdqpffBd0QNf8kH4kYGjl2q
-         CJrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=43QZSGZeU/cV5AUl6DL3ZEkjlzFe9GKndh8lRkabxOs=;
-        b=ZThx9Ou2/z8NJ0XbWMvAnkpiJCw9PDMjOD5OK5WYeZ+IwTtoc4Zqgwa7/ARJh+WOIw
-         ViRi+Ud/0zJUDbhjLDoeHXILLBgqTSFofPiEVUn+OLf1ZqcRMQ9uclhxL9XikVFTgAdd
-         /yvTaP9fyGXwJ2CCCOd0umjxGbuq8KwFvL+pknV5RLjtVWwj+Eef8dzyg3NOeGAE7R98
-         RvMhECriDxYFE3g1EcP813IL/xBJ/JYKlzj0Hw7iXkyMYZjWZZucXMbvMCR0oL9tVlEV
-         bj6K87BSCm+7rx6K4kzK7GL7tPhPNSIn6a6Ys0gQJR5stBBqjS+vIVtcllk1ylJ+sjti
-         ld3Q==
-X-Gm-Message-State: AO0yUKVcB0HbVWGrexWisgr4jVXbkWza3fNtMpZQmIX9ukpYHONpiXbi
-	ub1YsoBSx+/sgxy+3RdfRK4=
-X-Google-Smtp-Source: AK7set9TArx9hwV4sIFA7TxpurE4lv+V0FhZ0CkKESKuyyrgRc/j7kutLtRz0Lkblse0PBblIiuyPQ==
-X-Received: by 2002:a05:6000:68b:b0:2bf:c1f7:45a8 with SMTP id bo11-20020a056000068b00b002bfc1f745a8mr1503541wrb.4.1675232171295;
-        Tue, 31 Jan 2023 22:16:11 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q2-20020a056000136200b002bfad438811sm16660963wrz.74.2023.01.31.22.16.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Jan 2023 22:16:10 -0800 (PST)
-Date: Wed, 1 Feb 2023 09:16:07 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: Added information about bit_rate
- configuration
-Message-ID: <Y9oDp4X6cO8iB6vW@kadam>
-References: <Y9laj+z0TuasBRx5@combine-ThinkPad-S1-Yoga>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FCEA45
+	for <linux-staging@lists.linux.dev>; Wed,  1 Feb 2023 12:34:54 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-194-5Zea5NvWMKWWFd2YUm9l9A-1; Wed, 01 Feb 2023 12:34:51 +0000
+X-MC-Unique: 5Zea5NvWMKWWFd2YUm9l9A-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.45; Wed, 1 Feb
+ 2023 12:34:50 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.045; Wed, 1 Feb 2023 12:34:50 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Guru Mehar Rachaputi' <gurumeharrachaputi@gmail.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] staging: pi433: modify bit_rate from u16 to u32
+Thread-Topic: [PATCH] staging: pi433: modify bit_rate from u16 to u32
+Thread-Index: AQHZNV2KzQ5LmfuLeUG1rTftT0qCPq66BnZA
+Date: Wed, 1 Feb 2023 12:34:50 +0000
+Message-ID: <19e492521b4a4d31aa13c45e8616689b@AcuMS.aculab.com>
+References: <Y9h42l/8EcPqn63x@combine-ThinkPad-S1-Yoga>
+ <Y9ilj812USHrSXe+@kroah.com> <Y9jrOKMGl7ITKxhP@combine-ThinkPad-S1-Yoga>
+In-Reply-To: <Y9jrOKMGl7ITKxhP@combine-ThinkPad-S1-Yoga>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9laj+z0TuasBRx5@combine-ThinkPad-S1-Yoga>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 31, 2023 at 07:14:39PM +0100, Guru Mehar Rachaputi wrote:
-> Information in the TODO file for bit_rate configuration is
-> insufficient.
-> 
-> This patch adds information on how to approach when considering
-> to modify bit_rate to support upto 300kbps.
-> 
-> Signed-off-by: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-> ---
+From: Guru Mehar Rachaputi
+> Sent: 31 January 2023 10:20
+...
+> > >  struct pi433_tx_cfg {
+> > >  =09__u32=09=09=09frequency;
+> > > -=09__u16=09=09=09bit_rate;
+> > > +=09__u32=09=09=09bit_rate;
+> > >  =09__u32=09=09=09dev_frequency;
+> > >  =09enum modulation=09=09modulation;
+> > >  =09enum mod_shaping=09mod_shaping;
+> >
+> > And didn't you just break existing userspace code?  If not, how?  If so=
+,
+> > how did you test this?
+> >
+> My apologies, I did not study code. While testing, the probe function of
+> pi433 driver didn't appear in the lsmod operation. I suspected my
+> testing was wrong.
 
-Thanks!
+You don't need to study any code, just the structure you changed.
 
-Acked-by: Dan Carpenter <error27@gmail.com>
+On all architectures (except m68k) there is a two byte pad
+after the bit_rate field, this is likely to be filled with
+random data from the applications stack.
 
-regards,
-dan carpenter
+On little-endian architectures the low byte is in the same place,
+so if the 'random data' is zero it will happen to work.
+
+However, on big-endian architectures, the low byte moves so
+the value passed (by old applications) will always be wrong.
+
+In reality having a uapi structure with embedded padding should
+be banned.
+But that would need a compiler attribute to enforce it.
+
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
