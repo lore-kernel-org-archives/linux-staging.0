@@ -1,42 +1,56 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27667E
-	for <linux-staging@lists.linux.dev>; Wed,  1 Feb 2023 01:41:11 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1442977d77dso21739784fac.6
-        for <linux-staging@lists.linux.dev>; Tue, 31 Jan 2023 17:41:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C657F4
+	for <linux-staging@lists.linux.dev>; Wed,  1 Feb 2023 05:06:43 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so480518wmb.2
+        for <linux-staging@lists.linux.dev>; Tue, 31 Jan 2023 21:06:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aICBJrKVWPHeedxD0FVA8WOU0XSPMA5Nridqt13rtlk=;
+        b=h4vZW0GhGYie/hJSB99EfkUDdaNWQ2L9Wl0h/Gg04fWaEfzSwCC+i9Nz7pGlXH5fmQ
+         A0pPDBEnNzFIckAG0xlcGc0u0ViV/dkZo32NDPqRC/jehUDgHz2zwje0wYDTedmpXtOk
+         FiQKb0b4KP86pmde5iS/rO1xqor7e3hSQ4h6bSNK38I1uZGXty6WtQV/1QW7E6/cMJwc
+         MNZldPJ9F+qhjo5RYq7dv1LUDOwgYr/XmqDs88seq88rSVF33STO+CfI56ARfUBQWLLJ
+         YzddvIQvPVqW6eednLlhLKdpgoCRkZeDfW4rejM50gucZX2B8IHqMUs5k7z1BzUu4t+d
+         qH8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ARcpraQzdyShL/3uOhJbU55iw6ZjqLdVd5dZPXUPPKs=;
-        b=0LkBJXsj8s4vKwefHLx0FYm0bMAWW47MBoI0U5aUBCy5alxXHnDHA2p7mGHC9LuGJ7
-         f0G0t90AolDaH1AGJLOgOFI0X9olKQgCLoUqJxHUJadlJLAKLk3QVBluNKxd/iPoFdKx
-         9XWOPusuC50XIXLd4g4UgyJDuCzOsGpQgT0N3Gkl86HBDNZyAXXrM/0ppty6T0DzR0oB
-         4jTQRjb9r/VgbzYIXXCFp0La2b7QT0KKXGaziM7q+jw7NpKae0ShyL6NX9n2s69trT7P
-         3+p2FubJpoR+Vzyfo3ZHc1Mr4bp3SkG60B0yyeEdZd9dj4j6VN4p0mLsFdOgM8OaTJoW
-         5m2w==
-X-Gm-Message-State: AO0yUKXBtC6P3I0XZoSG1+t95calZREUy6B0mMiweQv0JUwno8huDm0K
-	k9c8cFo3r9n7gshrLg2Efg==
-X-Google-Smtp-Source: AK7set+7vdv8wCpcZTaEjMIlQXTj5qX8pbN6bW9oRbbgZSH7MorUaN+g7rqVEpjZGOJmdPN5Wr2Oyg==
-X-Received: by 2002:a05:6870:315:b0:15f:b59a:55f1 with SMTP id m21-20020a056870031500b0015fb59a55f1mr123340oaf.16.1675215670603;
-        Tue, 31 Jan 2023 17:41:10 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id lm27-20020a0568703d9b00b0015f83e16a10sm7267887oab.44.2023.01.31.17.41.09
+        bh=aICBJrKVWPHeedxD0FVA8WOU0XSPMA5Nridqt13rtlk=;
+        b=m6zkiY2RoBlpubmGNihXJeAX8sed2mG9bl1bNXVXZrESsXnhZ6shrEvFQEIndKNE6M
+         8KF4gFZ4sggRUeyfhY/1yEbw3SlEuZqBHqsCG+pAFEqdxBrQkx1YkcNy+R7zYKuczNe2
+         kOuFRwf4yXh1hp/gThN/LVBLSsodi13DSm5rqOw/iVBTN4nhdxv9hrkizpND2AWEZzRz
+         XgvTtuQk3uYRLVGPbPWrLQFNuPAn7HCYEP+1MUlxqp5HsryzAf691cx17fqCOl0xLFqv
+         fzORtFvLxtWD9H/WggvFA2QjiytKAt55CQV3WIZcqZdD1Dcn49i+5X2/cGP8EvmGp5Ay
+         EROA==
+X-Gm-Message-State: AO0yUKXsy1v0zYaNE5K9Mi3JhSp0ntKOWh7XKF489hYUeeJO4xyhZBV1
+	Raxym/f9Gs4M5Kfz7QKz98c=
+X-Google-Smtp-Source: AK7set/KReGr4XP1Lixp7Q+J0OK/uexI/rucZoin9FOfNPCTOQP/g/RvjPZpLCsHA0uNOBkBpZzqTA==
+X-Received: by 2002:a05:600c:4fd2:b0:3dc:523c:22b4 with SMTP id o18-20020a05600c4fd200b003dc523c22b4mr587346wmq.27.1675228001614;
+        Tue, 31 Jan 2023 21:06:41 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j25-20020a05600c1c1900b003daf6e3bc2fsm1580004wms.1.2023.01.31.21.06.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Jan 2023 17:41:10 -0800 (PST)
-Received: (nullmailer pid 2293844 invoked by uid 1000);
-	Wed, 01 Feb 2023 01:41:09 -0000
-Date: Tue, 31 Jan 2023 19:41:09 -0600
-From: Rob Herring <robh@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>, Sowjanya Komatineni <skomatineni@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Thierry Reding <thierry.reding@gmail.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Richard Leitner <richard.leitner@skidata.com>, Rob Herring <robh+dt@kernel.org>, Dmitry Osipenko <digetx@gmail.com>, David Airlie <airlied@gmail.com>, linux-staging@lists.linux.dev, Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v4 02/21] dt-bindings: display: tegra: vi: add 'vip'
- property and example
-Message-ID: <167521566867.2293789.16573974181219415861.robh@kernel.org>
-References: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
- <20230130141603.323221-3-luca.ceresoli@bootlin.com>
+        Tue, 31 Jan 2023 21:06:36 -0800 (PST)
+Date: Wed, 1 Feb 2023 08:06:31 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: fix NULL check for rcu pointer
+Message-ID: <Y9nzV1CSCh3PvDt9@kadam>
+References: <20230131090057.241779-1-martin@kaiser.cx>
+ <Y9kvF0C1kiDctEUw@kroah.com>
+ <20230131171613.mubqpogkk5e6lnrk@viti.kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,33 +59,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230130141603.323221-3-luca.ceresoli@bootlin.com>
+In-Reply-To: <20230131171613.mubqpogkk5e6lnrk@viti.kaiser.cx>
 
+On Tue, Jan 31, 2023 at 06:16:13PM +0100, Martin Kaiser wrote:
+> Hello Greg and all,
+> 
+> Thus wrote Greg Kroah-Hartman (gregkh@linuxfoundation.org):
+> 
+> > On Tue, Jan 31, 2023 at 10:00:57AM +0100, Martin Kaiser wrote:
+> > > Fix the NULL check for padapter->pnetdev->rx_handler_data.
+> 
+> > > The current code calls rcu_dereference while it holds the rcu read lock
+> > > and checks the pointer after releasing the lock. An rcu pointer may only be
+> > > used between calls to rcu_read_lock and rcu_read_unlock.
+> 
+> > > Replace the check with rcu_access_pointer. My understanding is that this
+> > > function returns the value of the pointer and needs no locking. We can
+> > > then check the pointer but we must not dereference it.
+> 
+> > > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> 
+> > What commit id does this fix?
+> 
+> the code that checks br_port has been around since the driver was
+> imported into staging.
+> 
+> If the patch is considered as a fix, it should have
+> 
+> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
 
-On Mon, 30 Jan 2023 15:15:44 +0100, Luca Ceresoli wrote:
-> The Tegra20 VI peripheral can receive parallel input from the VIP parallel
-> input module. Add it to the allowed properties and augment the existing
-> nvidia,tegra20-vi example to show a 'vip' property.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> Changed in v4:
->  - complete the removal of 'channel@0'
-> 
-> Changed in v3 (suggested by Rob Herring):
->  - drop 'endpoint', unneeded as there's no extra properties in the
->    endpoints
-> 
-> Changed in v2 (suggested by Krzysztof Kozlowski):
->  - rename "i2c3" -> "ic2"
->  - add review tag
-> ---
->  .../display/tegra/nvidia,tegra20-vi.yaml      | 59 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 60 insertions(+)
-> 
+I don't think it is a fix as we discuss later in the thread.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+But if it were then it's still really useful to record that.  I normally
+don't record when Fixes are from before the git era because one time,
+ten years ago, one person said not to do that.  But really even there I
+personally think Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2") is useful.
+
+It tells the tools how far to backport things.  It tells us if most of
+our bugs come from the very start or if we're introducing them later.
+
+regards,
+dan carpenter
 
