@@ -1,130 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C718483;
-	Wed,  1 Feb 2023 16:57:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B4DFC433D2;
-	Wed,  1 Feb 2023 16:57:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1675270673;
-	bh=wgoFWDzet3MEnQEk+UbM8HUIOsFtAK8npPJ49HGAO1o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=u9X4Gr7TjZ6UkgVwjSehC9yfCUt//67EjPYTXTHnJ+aTE6aXNoDaG/fZz03jXnElM
-	 c315hFd6D+lNgE3Ekgg0QaNB3z7pxxWqm4plvstpHb14GQ0FGDiib2q7//3OZr4/JT
-	 i0jWp+SqAe/OVftlr6AN17B1kIJdLkIF0i/EuIo2IVSpqxiD6qKmMLkB+1ogV6NLc6
-	 JidEOiKwk15fIiFO+dc5Qsvoe66Y0tsqMeopIu++n7efbaGm5W5Uc31U7fqGait52w
-	 WnE8sOF8lc6h19Dd3hynSSTPWQGh4Vapzj+sPUAC+hBsgiEQz8Z/aI5T8L99Afd+Hr
-	 1f40qveSqB9TQ==
-From: Mark Brown <broonie@kernel.org>
-To: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
- jic23@kernel.org, tudor.ambarus@microchip.com, pratyush@kernel.org, 
- sanju.mehta@amd.com, chin-ting_kuo@aspeedtech.com, clg@kaod.org, 
- kdasu.kdev@gmail.com, f.fainelli@gmail.com, rjui@broadcom.com, 
- sbranden@broadcom.com, eajames@linux.ibm.com, olteanv@gmail.com, 
- han.xu@nxp.com, john.garry@huawei.com, shawnguo@kernel.org, 
- s.hauer@pengutronix.de, khilman@baylibre.com, matthias.bgg@gmail.com, 
- haibo.chen@nxp.com, linus.walleij@linaro.org, daniel@zonque.org, 
- haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org, 
- heiko@sntech.de, krzysztof.kozlowski@linaro.org, andi@etezian.org, 
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org, 
- jernej.skrabec@gmail.com, samuel@sholland.org, masahisa.kojima@linaro.org, 
- jaswinder.singh@linaro.org, rostedt@goodmis.org, mingo@redhat.com, 
- l.stelmach@samsung.com, davem@davemloft.net, edumazet@google.com, 
- kuba@kernel.org, pabeni@redhat.com, alex.aring@gmail.com, 
- stefan@datenfreihafen.org, kvalo@kernel.org, thierry.reding@gmail.com, 
- jonathanh@nvidia.com, skomatineni@nvidia.com, sumit.semwal@linaro.org, 
- christian.koenig@amd.com, j.neuschaefer@gmx.net, vireshk@kernel.org, 
- rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org, 
- gregkh@linuxfoundation.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: git@amd.com, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- joel@jms.id.au, andrew@aj.id.au, radu_nicolae.pirea@upb.ro, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- claudiu.beznea@microchip.com, bcm-kernel-feedback-list@broadcom.com, 
- fancer.lancer@gmail.com, kernel@pengutronix.de, festevam@gmail.com, 
- linux-imx@nxp.com, jbrunet@baylibre.com, martin.blumenstingl@googlemail.com, 
- avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com, 
- venture@google.com, yuenn@google.com, benjaminfair@google.com, 
- yogeshgaur.83@gmail.com, konrad.dybcio@somainline.org, 
- alim.akhtar@samsung.com, ldewangan@nvidia.com, michal.simek@amd.com, 
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
- netdev@vger.kernel.org, linux-wpan@vger.kernel.org, 
- libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, 
- linux-mtd@lists.infradead.org, lars@metafoo.de, 
- Michael.Hennerich@analog.com, linux-iio@vger.kernel.org, michael@walle.cc, 
- palmer@dabbelt.com, linux-riscv@lists.infradead.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
- amitrkcian2002@gmail.com
-In-Reply-To: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
-Subject: Re: (subset) [PATCH v2 00/13] spi: Add support for
- stacked/parallel memories
-Message-Id: <167527065195.537421.10361370461620477483.b4-ty@kernel.org>
-Date: Wed, 01 Feb 2023 16:57:31 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4980963B7
+	for <linux-staging@lists.linux.dev>; Thu,  2 Feb 2023 14:11:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D28FC433EF;
+	Thu,  2 Feb 2023 14:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1675347101;
+	bh=975b4kPA+NLq0YmeXLwxMZvqYcj3aaM9QWDIE/DupWk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SXvYC5vW2/L1O1Nmo3J3G2R2uHvLHPxvr+dq4MsIg5JINzOumTQvcanJNMoRNI6kc
+	 au35FOqbILogiDGy/cksnHKxUE41nkziisq/3G3XgOEexLL9+9hsIB6/PZOf6oNyQT
+	 f/ygnynDxAqGmFnATDmvaxW/V98Q7bHemdVr3LLc=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-staging@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Sidong Yang <realwakka@gmail.com>,
+	Liu Shixin <liushixin2@huawei.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: pi433: fix memory leak with using debugfs_lookup()
+Date: Thu,  2 Feb 2023 15:11:38 +0100
+Message-Id: <20230202141138.2291946-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2772; i=gregkh@linuxfoundation.org; h=from:subject; bh=975b4kPA+NLq0YmeXLwxMZvqYcj3aaM9QWDIE/DupWk=; b=owGbwMvMwCRo6H6F97bub03G02pJDMm3j8zytqh9Wbmqb4ewgPrVYxwNlXwHpz9ft/HQw8lLV/aL L1X42BHLwiDIxCArpsjyZRvP0f0VhxS9DG1Pw8xhZQIZwsDFKQATMQ9gWHBL+vyp15oGrUJyT9rm5l 1gfMhg/Jphnl3WP23VaZxSEhErxFp5J53ucV9xHwA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Fri, 20 Jan 2023 00:23:29 +0530, Amit Kumar Mahapatra wrote:
-> This patch is in the continuation to the discussions which happened on
-> 'commit f89504300e94 ("spi: Stacked/parallel memories bindings")' for
-> adding dt-binding support for stacked/parallel memories.
-> 
-> This patch series updated the spi-nor, spi core and the spi drivers
-> to add stacked and parallel memories support.
-> 
-> [...]
+When calling debugfs_lookup() the result must have dput() called on it,
+otherwise the memory will leak over time.  To make things simpler, just
+call debugfs_lookup_and_remove() instead which handles all of the logic
+at once.  This requires saving off the root directory dentry to make
+creation of individual device subdirectories easier.
 
-Applied to
+Cc: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Cc: Dan Carpenter <error27@gmail.com>
+Cc: Sidong Yang <realwakka@gmail.com>
+Cc: Liu Shixin <liushixin2@huawei.com>
+Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+Cc: linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/pi433/pi433_if.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-
-Thanks!
-
-[01/13] spi: Add APIs in spi core to set/get spi->chip_select and spi->cs_gpiod
-        commit: 303feb3cc06ac0665d0ee9c1414941200e60e8a3
-[02/13] spi: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[03/13] net: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[04/13] iio: imu: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[05/13] mtd: devices: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[06/13] staging: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-[07/13] platform/x86: serial-multi-instantiate: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index d4e06a3929f3..b59f6a4cb611 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -55,6 +55,7 @@
+ static dev_t pi433_dev;
+ static DEFINE_IDR(pi433_idr);
+ static DEFINE_MUTEX(minor_lock); /* Protect idr accesses */
++static struct dentry *root_dir;	/* debugfs root directory for the driver */
+ 
+ static struct class *pi433_class; /* mainly for udev to create /dev/pi433 */
+ 
+@@ -1306,8 +1307,7 @@ static int pi433_probe(struct spi_device *spi)
+ 	/* spi setup */
+ 	spi_set_drvdata(spi, device);
+ 
+-	entry = debugfs_create_dir(dev_name(device->dev),
+-				   debugfs_lookup(KBUILD_MODNAME, NULL));
++	entry = debugfs_create_dir(dev_name(device->dev), root_dir);
+ 	debugfs_create_file("regs", 0400, entry, device, &pi433_debugfs_regs_fops);
+ 
+ 	return 0;
+@@ -1333,9 +1333,8 @@ static int pi433_probe(struct spi_device *spi)
+ static void pi433_remove(struct spi_device *spi)
+ {
+ 	struct pi433_device	*device = spi_get_drvdata(spi);
+-	struct dentry *mod_entry = debugfs_lookup(KBUILD_MODNAME, NULL);
+ 
+-	debugfs_remove(debugfs_lookup(dev_name(device->dev), mod_entry));
++	debugfs_lookup_and_remove(dev_name(device->dev), root_dir);
+ 
+ 	/* free GPIOs */
+ 	free_gpio(device);
+@@ -1408,7 +1407,7 @@ static int __init pi433_init(void)
+ 		return PTR_ERR(pi433_class);
+ 	}
+ 
+-	debugfs_create_dir(KBUILD_MODNAME, NULL);
++	root_dir = debugfs_create_dir(KBUILD_MODNAME, NULL);
+ 
+ 	status = spi_register_driver(&pi433_spi_driver);
+ 	if (status < 0) {
+@@ -1427,7 +1426,7 @@ static void __exit pi433_exit(void)
+ 	spi_unregister_driver(&pi433_spi_driver);
+ 	class_destroy(pi433_class);
+ 	unregister_chrdev(MAJOR(pi433_dev), pi433_spi_driver.driver.name);
+-	debugfs_remove_recursive(debugfs_lookup(KBUILD_MODNAME, NULL));
++	debugfs_remove(root_dir);
+ }
+ module_exit(pi433_exit);
+ 
+-- 
+2.39.1
 
