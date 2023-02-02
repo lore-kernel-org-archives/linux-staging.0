@@ -1,87 +1,76 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB418F7D
-	for <linux-staging@lists.linux.dev>; Thu,  2 Feb 2023 21:40:39 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 888C332007F1;
-	Thu,  2 Feb 2023 16:40:37 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 02 Feb 2023 16:40:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1675374037; x=1675460437; bh=DDfcc2rjMs
-	Ww3IOfSJ0qffIQzoNY80OiBacRdlNiNBA=; b=CA3qgblvftrjd7Hb+PjMXQSRzj
-	qcYfPwrpe1Yf7VdgtCRxiEx45dvjoFxhgvmMYIN5VmqrwAFKIQ0UIo+tzRSyDXbH
-	Z/2WqFK/EOPzHIEuGdQTFR9fpyw1QYq81aWHtwY7Xy4yXccMxrgTv0EHz8sgnSbv
-	0Xavifu2v/rFQ6yhqAjU/Ovl8UGVwWXL2I4V8ngUDC+XP3rs5QHe+oUFScUAmevd
-	zE75nMU2Zaj+v2S+J5gscvNNsCrJ46/tfqpagMWsP5dygpU9+eE7/QWsACuTkpvD
-	kX0d36ZNQtMPGFiyp64px13qWoLTiVkAhvu4mwpj9vXfrczKqKwz31CGVJZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1675374037; x=1675460437; bh=DDfcc2rjMsWw3IOfSJ0qffIQzoNY
-	80OiBacRdlNiNBA=; b=RaLgUlsUYok9usfx+FS2csyDJUWssZAOwtvyKmdZ8ojv
-	VfJbR/4QGcusVEDtmA1E0aSWqMRCgsPfl1GeiIDiPt6pha09/XCAzxXrdxoU5VOD
-	6dtDQ+tGLto2j+wvCB8ZrnnbsOKsiY7yZxBS06QorH1iIWXJZWPs6sX+t1siIIaq
-	f1470xC3zq4joiC7i8lr+5jfPCaRzbB/mOqr2nnROObFJGlIgiDUFpMfl5paHPA+
-	CSEEaq3Snax4vlBeN7q0M9j5OHwopmUBfD/Ut9huCV7FuDSUdkIon1Sh2ew7gXLY
-	EDf4iRiipRjhdr1hYhn1z0/M/JfN052H3DuoJLH+dQ==
-X-ME-Sender: <xms:1C3cY0qx2CHlrVbDilb06LTgB9k2aZnrslDODgFj0SNoE8Lz24jsGA>
-    <xme:1C3cY6oUuvwcV1RGH7dl7r4n--ghdYh_pPcPcGp5Z3g5mTblLBDzp6jPjgq8sYHwV
-    QcVmYU4FchtBKYRgQs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefkedgudeglecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeu
-    feehudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:1C3cY5Pg4znUAZoo5GcHVZXtu89zXiNMFMwZrp81MraR_RS2FTqcyw>
-    <xmx:1C3cY74cMihizykFkvFl-HAjqs6ZoKQxEpdS5mZp8s35xG1nrCBOUw>
-    <xmx:1C3cYz61lKJBb785tbiR6CEoVlWRZZLTfUnYgInLNqtQLtm9Z_1tCg>
-    <xmx:1S3cY5RRGTxTrayOZJDYkAf4Q-jdQxN4GOyp3jYh_Sa8dJ6-GM2rsA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 4B30AB60450; Thu,  2 Feb 2023 16:40:36 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-107-g82c3c54364-fm-20230131.002-g82c3c543
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58A08F7D
+	for <linux-staging@lists.linux.dev>; Thu,  2 Feb 2023 22:02:29 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-12-478z_lYPOei3OtwiRyw-yA-1; Thu, 02 Feb 2023 22:02:26 +0000
+X-MC-Unique: 478z_lYPOei3OtwiRyw-yA-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.45; Thu, 2 Feb
+ 2023 22:02:25 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.045; Thu, 2 Feb 2023 22:02:25 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Dan Carpenter' <error27@gmail.com>
+CC: 'Guru Mehar Rachaputi' <gurumeharrachaputi@gmail.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] staging: pi433: modify bit_rate from u16 to u32
+Thread-Topic: [PATCH] staging: pi433: modify bit_rate from u16 to u32
+Thread-Index: AQHZNV2KzQ5LmfuLeUG1rTftT0qCPq66BnZAgAAPVoCAAiKyIA==
+Date: Thu, 2 Feb 2023 22:02:25 +0000
+Message-ID: <08b38578bb0f4088aeedbf4b179d9c59@AcuMS.aculab.com>
+References: <Y9h42l/8EcPqn63x@combine-ThinkPad-S1-Yoga>
+ <Y9ilj812USHrSXe+@kroah.com> <Y9jrOKMGl7ITKxhP@combine-ThinkPad-S1-Yoga>
+ <19e492521b4a4d31aa13c45e8616689b@AcuMS.aculab.com> <Y9pno7gZHa+r/Rg3@kadam>
+In-Reply-To: <Y9pno7gZHa+r/Rg3@kadam>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <a648eee8-62a3-4a92-b2bd-1e0d8d2fa6a3@app.fastmail.com>
-In-Reply-To: <2b11d9f4-f32b-7214-3181-a49a8d190f0a@redhat.com>
-References: <20230202210312.544277-1-arnd@kernel.org>
- <2b11d9f4-f32b-7214-3181-a49a8d190f0a@redhat.com>
-Date: Thu, 02 Feb 2023 22:40:17 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Hans de Goede" <hdegoede@redhat.com>, "Arnd Bergmann" <arnd@kernel.org>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>
-Cc: "Sakari Ailus" <sakari.ailus@linux.intel.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: add I2C dependency
-Content-Type: text/plain
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 2, 2023, at 22:34, Hans de Goede wrote:
-> On 2/2/23 22:02, Arnd Bergmann wrote:
->
-> Actually the i2c_get_adapter() call is gone in the atomisp pull-req
-> which I send to Mauro for 6.3, it is removed by this patch.
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=media-atomisp-6.3-1&id=4f205ce7a915ffa4ae0fb24f48714604d39baa29
->
-> So adding the I2C dependency is no longer necessary.
+From: Dan Carpenter
+> Sent: 01 February 2023 13:23
+>=20
+> On Wed, Feb 01, 2023 at 12:34:50PM +0000, David Laight wrote:
+> > In reality having a uapi structure with embedded padding should
+> > be banned.
+> > But that would need a compiler attribute to enforce it.
+>=20
+> It would be simple enough to grep the names of all the UAPI struct and
+> use pahole to make a list of the existing structs which have holes.
+> Then re-run the script every week and complain when new holey struct
+> types are added.
+>=20
+> You could do a similar thing with Smatch looking at copy_to/from_user()
+> struct types.
 
-Ok, nice timing then, I must have done thousands of randconfig builds
-with atomisp enabled without ever hitting it until today ;-)
+Would it be possible to add aa attribute and check to sparse?
 
-     Arnd
+Might persuade people to use it instead of 'packed' for structures
+that map defined byte layouts and so mustn't be holey - but are
+never actually misaligned in memory.
+
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
