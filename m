@@ -1,109 +1,124 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82704C60
-	for <linux-staging@lists.linux.dev>; Fri,  3 Feb 2023 12:30:10 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id q8so3740648wmo.5
-        for <linux-staging@lists.linux.dev>; Fri, 03 Feb 2023 04:30:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oliUtLWESo3lQu6iHKqwx+2QOwN2sNCjDu921E6eImU=;
-        b=PC6jnhprbBOYA5gQ8hht4uhJybrq7/0C64ACU2Gt9qfbW1pk9VfapwtzsEQiHMXbWG
-         1JppW/crId+0Ce/5NY+vbYD8aQrWah3VOr/cgyiKfrz+CsV1xjGADT9tWMUyPppehNBX
-         SC0wy/PcQSuekQwM7g/y6t2SL8B/Gkosz5mtmibN43bNv0b1mD4tCXB0banPcItFJwfc
-         i54CE0XoHTzA+jAmoTtBHleO+mnp2xAR7FyjhdHzEDNwwY9TdNXm+ghb8j6ArobpiwRR
-         9hn30hxFYj4ol+bMYzOz9KNKlsouP5G6WIVr/nA+qavbwuBMicrP2QKe1d5rCLF7jiXP
-         ViLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oliUtLWESo3lQu6iHKqwx+2QOwN2sNCjDu921E6eImU=;
-        b=kK39xJ5kHMII05yzlydqc5wc9eCV5PqTf8YKYBTzmvWQgQAbVpDQ176tVJwlnRxYP8
-         2viOH8v0WSN5tw2XanUCuwjnKWwGu65WOyKobVgxTK/jKRNNMMMGeMRhuA9bBQi6uc3h
-         i9zchOPKAStkmBQsl5xpTaIn3g027ATMduQPgEbQAfrBq0g8D3CoIzF/ZZXy2t0JXMmn
-         P4RZgRcGNuwNQc0fPYqPHdGBremNCPG5M4t6vXwV6Jlu99m2CpVC1kTKOKe78Rxp8Lod
-         lSZ7zE7WJk3A+4E04amS+SZUS2iG26orFBJqIFcJdg9cGuLAgNCPMAs3Nt7eME3cKZbv
-         stwQ==
-X-Gm-Message-State: AO0yUKWulkxSpaZKBd/WeFRYUjnTNoWO8WZK5wQzN+hXf1PMtWS7SHfJ
-	gygc1T578ZQ3Jy7y2vW3ajtVbA==
-X-Google-Smtp-Source: AK7set8hvfzN5yvSx0vn3SHDYBE0Cu37jFl12DeSADMr5lTBdrNCrV6wJaZ+esFXBrp8t+sFKTfd2w==
-X-Received: by 2002:a05:600c:4395:b0:3df:9858:c02c with SMTP id e21-20020a05600c439500b003df9858c02cmr4411370wmn.1.1675427409090;
-        Fri, 03 Feb 2023 04:30:09 -0800 (PST)
-Received: from [192.168.2.104] ([79.115.63.122])
-        by smtp.gmail.com with ESMTPSA id h27-20020a05600c2cbb00b003db12112fcfsm2871505wmc.4.2023.02.03.04.30.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Feb 2023 04:30:08 -0800 (PST)
-Message-ID: <e50fe7d3-0c73-d4af-9a61-74d1279202cc@linaro.org>
-Date: Fri, 3 Feb 2023 12:30:06 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1D5D51B
+	for <linux-staging@lists.linux.dev>; Fri,  3 Feb 2023 23:31:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C98DC433D2;
+	Fri,  3 Feb 2023 23:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1675467094;
+	bh=SEQiN1FXnyRmTAzODDJiAbEbmAR87JugLAgVlHlTLHo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qRZw/n2dwl7bKxjh1eW7SudjQchV6bYN7Ikq6OtCcDTYgQqL5YWggBuxXtSsfa23d
+	 791buxLOr+jVu6VtcCjp2TbL5BrqeLskaOK6/AaFcyRsRmU/Q7Hi0El/7MmriRS5ir
+	 RJkeQexSO5H+RJ1HYk62meA7HbXFHaietuBZGMsgteOdZvuknmSS76FHuBIhivUhYO
+	 iGRPucy7IByscMpMGKqREQJ9qtB1QAk0l0gYz35zbmfvDQ8+b2ipcHpA2Vtvks/0CL
+	 f6CPlvfGbwFahL0mfJfftmHeaS2GrV4P8Jzq/E7gm2aJ0UATTjW1cX+wjiOFCqcE8L
+	 VkWEm9K+ZSFNA==
+From: Jakub Kicinski <kuba@kernel.org>
+To: mchehab@kernel.org
+Cc: netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	hverkuil@xs4all.nl,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: drop unnecessary networking includes
+Date: Fri,  3 Feb 2023 15:31:29 -0800
+Message-Id: <20230203233129.3413367-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] tree-wide: trivial: s/ a SPI/ an SPI/
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: trivial@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-mips@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-wireless@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-rtc@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-usb@vger.kernel.org
-References: <20230203101624.474611-1-tudor.ambarus@linaro.org>
- <CAMuHMdVeDbTGLBAk5QWGQGf=o6g25t341FjGTmNsHw0_sDOceg@mail.gmail.com>
- <Y9z0bQ8TeFROA0Fj@sirena.org.uk>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <Y9z0bQ8TeFROA0Fj@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+dvb_net.h includes a bunch of core networking headers which increases
+the number of objects rebuilt when we touch them. They are unnecessary
+for the header itself and only one driver has an indirect dependency.
 
+tveeprom.h includes if_packet to gain access to ETH_ALEN. This
+is a bit of an overkill because if_packet.h pulls in skbuff.h.
+The definition of ETH_ALEN is in the uAPI header, which is
+very rarely touched, so switch to including that.
 
-On 2/3/23 11:47, Mark Brown wrote:
-> On Fri, Feb 03, 2023 at 11:28:03AM +0100, Geert Uytterhoeven wrote:
->> On Fri, Feb 3, 2023 at 11:17 AM Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
-> 
->>> The deciding factor for when a/an should be used is the sound
->>> that begins the word which follows these indefinite articles,
->>> rather than the letter which does. Use "an SPI" (SPI begins
->>> with the consonant letter S, but the S is pronounced with its
->>> letter name, "es.").
-> 
->> While I agree with your pronunciation, I believe the SPI maintainer
->> (which you forgot to CC) pronounces it in James Bond-style, i.e. rhymes
->> with "spy" ;-)
-> 
-> Yes, I do.  To the best of my knowledge most people just say "spy"
-> rather than pronouncing the letters or anything.
-> 
-> In any case as I said in reply to one of the individual patches English
-> isn't regular enough to go with hard and fast rules on anything, and the
-> letter rule is much more commonly used where something is needed.  Using
-> an here looks wrong to me, and the fact that a is so widely used does
-> suggest that usage has escaped whatever rule there is.
+This results in roughly 250 fewer objects built when skbuff.h
+is touched (6028 -> 5788).
 
-Indeed:
-$ git grep " a SPI" | wc -l
-131
-$ git grep " an SPI" | wc -l
-88
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: mchehab@kernel.org
+CC: hverkuil@xs4all.nl
+CC: gregkh@linuxfoundation.org
+CC: linux-media@vger.kernel.org
+CC: linux-staging@lists.linux.dev
+---
+ drivers/media/usb/dvb-usb/pctv452e.c                       | 2 ++
+ drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c | 1 +
+ include/media/dvb_net.h                                    | 6 ++----
+ include/media/tveeprom.h                                   | 2 +-
+ 4 files changed, 6 insertions(+), 5 deletions(-)
 
-Ok, let's drop this patch.
+diff --git a/drivers/media/usb/dvb-usb/pctv452e.c b/drivers/media/usb/dvb-usb/pctv452e.c
+index f0794c68c622..da42c989e071 100644
+--- a/drivers/media/usb/dvb-usb/pctv452e.c
++++ b/drivers/media/usb/dvb-usb/pctv452e.c
+@@ -26,6 +26,8 @@
+ #include <media/dvb_ca_en50221.h>
+ #include "ttpci-eeprom.h"
+ 
++#include <linux/etherdevice.h>
++
+ static int debug;
+ module_param(debug, int, 0644);
+ MODULE_PARM_DESC(debug, "Turn on/off debugging (default:off).");
+diff --git a/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c b/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
+index 0c61a2dec221..3cc762100498 100644
+--- a/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
++++ b/drivers/staging/media/deprecated/saa7146/ttpci/budget-av.c
+@@ -31,6 +31,7 @@
+ #include "dvb-pll.h"
+ #include "../common/saa7146_vv.h"
+ #include <linux/module.h>
++#include <linux/etherdevice.h>
+ #include <linux/errno.h>
+ #include <linux/slab.h>
+ #include <linux/interrupt.h>
+diff --git a/include/media/dvb_net.h b/include/media/dvb_net.h
+index 5e31d37f25fa..9980b1dd750b 100644
+--- a/include/media/dvb_net.h
++++ b/include/media/dvb_net.h
+@@ -19,13 +19,11 @@
+ #define _DVB_NET_H_
+ 
+ #include <linux/module.h>
+-#include <linux/netdevice.h>
+-#include <linux/inetdevice.h>
+-#include <linux/etherdevice.h>
+-#include <linux/skbuff.h>
+ 
+ #include <media/dvbdev.h>
+ 
++struct net_device;
++
+ #define DVB_NET_DEVICES_MAX 10
+ 
+ #ifdef CONFIG_DVB_NET
+diff --git a/include/media/tveeprom.h b/include/media/tveeprom.h
+index b56eaee82aa5..f37c9b15ffdb 100644
+--- a/include/media/tveeprom.h
++++ b/include/media/tveeprom.h
+@@ -5,7 +5,7 @@
+  *	      eeproms.
+  */
+ 
+-#include <linux/if_ether.h>
++#include <uapi/linux/if_ether.h>
+ 
+ /**
+  * enum tveeprom_audio_processor - Specifies the type of audio processor
+-- 
+2.39.1
 
-Cheers,
-ta
