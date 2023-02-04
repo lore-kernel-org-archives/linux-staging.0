@@ -1,76 +1,116 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AFE7C
-	for <linux-staging@lists.linux.dev>; Sat,  4 Feb 2023 04:25:42 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id be12so6911027edb.4
-        for <linux-staging@lists.linux.dev>; Fri, 03 Feb 2023 20:25:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7A21C27
+	for <linux-staging@lists.linux.dev>; Sat,  4 Feb 2023 07:40:46 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id a5so2213554pfv.10
+        for <linux-staging@lists.linux.dev>; Fri, 03 Feb 2023 23:40:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9G3QUt2CZ40pzuAm4fiIJj6Z+bCnrgF77LZgEjYe48w=;
-        b=iRJm/OF4OIg6buiz5H5huDa0PGax7cBMIrBgyyrVyS0MvGyxkyiVK47Qkt97U9g20H
-         /MdmuUkqGBcLeXcRliOm8Ov8U+EpOTpZs1wgK9OmFbHmRu1A7qEhVDgt2/PZTTY4kPA3
-         I5CwkT/iuSg7UgHfyvWWywtCDS2xtj8sZmeLZfEN6SvrFos6XjiL2ZzFx60bMCGC3NWb
-         NO1tMonKD14OyNBxfGWu5aNpuiFs9GAq1fy6WW822sLVb1AZnhpMbEqyFNrqqmgJOI7N
-         NFthUt2/R3paC8ZXp+9Un9fQ/s2k/ls5g7dPaDr1m67QfyUI3eVH0JfNQhrenrbnv1AL
-         beDg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YzBD3RjkEQVXJjAd0KjuXJvflPQdSU1uG45LcQ+axyA=;
+        b=RENpDL0ormsJ7IFq6XOd33iTswafvREQmPa21GqLxJNFQC37/1N13rjNCBT7deojSy
+         ZbkMTw3VYSxFIlnCvRVDCRqmvYxg68C0rMnCqqvSMY6tKd0gjbSZLrOxlV0npZSCLx4G
+         Ki8QZYdm9dQAdoN3atlUHhLhnr9NXrxlPPdlLj5A76ECh2Mr4FA1cTf9wJTvyS6xrLEe
+         OBL10SqFxg2t7+yDgsVwcb7YaNiCcWxJLYmVFL2bJNVYsFdXd4Ri8/Ob6i9Rp4qjPrq5
+         8JDx1Q7ItLHT4lznnpPdXR9/ymGt/jRDwtfMQ0dgUmkmMsJAOPvZMMhavafPvIC2MIOD
+         3zOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9G3QUt2CZ40pzuAm4fiIJj6Z+bCnrgF77LZgEjYe48w=;
-        b=lWypHY5IVoypnA9Pkinszvtj56p4mw2QZ9YvNDEXweqA/XAeIS4JUPV6p+O18s3RbY
-         kb0Np3LO36Nyom/ZleGKzrETmlMagLmLK6jxQFXynR+6FavUqq4d/6GHatGCvN46nrx7
-         bI1s2ztDVhOkj8wToyOk30en78yoq+8TJ7U+GOTe5TJBSkW8EVIoN0NG8eyQr+MOUSG5
-         6LfUsNKZtwdNG1OeIe5d/6kux1ljAAt/YeWBUM/GCfowuuNme7Yg5LYgD0b0041JBwms
-         vuS2ij7jsdpcnz0/NPa2eEhxQl+lXknQJQJ9cFCY1giyAdfLY1JBYVdbiumZxfl0pbnL
-         84ow==
-X-Gm-Message-State: AO0yUKWfVyjAtKI05j6JezHmsthNEinrQUqO9BY+fCQtPlmNvuRpDBx3
-	LLU830W+5gfRr147QHw+ukY=
-X-Google-Smtp-Source: AK7set/a2WPcdqUXNuXetopO/q6Z6vb1L07WV1jGDrOPEMYKN4voTJpuum1pmaeQbYgHwv6nhQHN8g==
-X-Received: by 2002:a05:6402:520e:b0:4a0:8ea1:cce with SMTP id s14-20020a056402520e00b004a08ea10ccemr15984249edd.25.1675484740600;
-        Fri, 03 Feb 2023 20:25:40 -0800 (PST)
-Received: from combine-ThinkPad-S1-Yoga (c-8ff371d5.879159-0-69706f6e6c79.bbcust.telenor.se. [213.113.243.143])
-        by smtp.gmail.com with ESMTPSA id v4-20020a056402348400b0049ef04ad502sm1957923edc.40.2023.02.03.20.25.39
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YzBD3RjkEQVXJjAd0KjuXJvflPQdSU1uG45LcQ+axyA=;
+        b=BfBqcyT2iNfDG7w2/JfQFyqkKcNW2nsHYMrGIOdhrgyWaD4Gv4QFRNzbsph9GzQy80
+         HYUSpZ5k0zCvPJK6+BRpvS0susWepCxds0LjEX6ALBk63eMnBbRdO3FCMB4rbbV/dijD
+         pwzVI5NStyan40TEGFOCa9Z7wPMxNM5h6mP4g8eQsX4lGkNHaxc7LiCMMJFUipcES+BC
+         DDtb3coa2Vn7R/us/rKolVOpaUlQYmT8MRqpq7FIElXtE63f3fYcrQJfliPDclCKTBPY
+         9E0jwfgHoLaT2/lyGEkWt91yk93HFf1Rof2oLJ4kElsZJK9MBdb958kEdJ+P6UPsfCIN
+         VU1w==
+X-Gm-Message-State: AO0yUKX7Et/rdt9aMnNteTKtENJePTDOmWDxAgKI82Bf90As3Vgiga8V
+	+aJjQF837hikjr8LYsde4uM=
+X-Google-Smtp-Source: AK7set8f0i9EA2P3Rw+dA8chIk/luv7g0KrwFPb+ge3eiVKIkln864swiKltUWk2WX1RAHyR31htCA==
+X-Received: by 2002:a05:6a00:1493:b0:593:92b5:d99f with SMTP id v19-20020a056a00149300b0059392b5d99fmr15602140pfu.32.1675496445847;
+        Fri, 03 Feb 2023 23:40:45 -0800 (PST)
+Received: from debian.me (subs28-116-206-12-54.three.co.id. [116.206.12.54])
+        by smtp.gmail.com with ESMTPSA id h1-20020a056a00170100b00593c1c5bd0esm3047340pfc.164.2023.02.03.23.40.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Feb 2023 20:25:40 -0800 (PST)
-Date: Sat, 4 Feb 2023 05:25:38 +0100
-From: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
+        Fri, 03 Feb 2023 23:40:45 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+	id 245E310544C; Sat,  4 Feb 2023 14:40:41 +0700 (WIB)
+Date: Sat, 4 Feb 2023 14:40:41 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>,
+	Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Regarding checkpatch camelcase issues
-Message-ID: <Y93eQqaYdL146Z65@combine-ThinkPad-S1-Yoga>
+Subject: Re: Regarding checkpatch camelcase issues
+Message-ID: <Y94L+WNGGfvrg6Mg@debian.me>
+References: <Y93eQqaYdL146Z65@combine-ThinkPad-S1-Yoga>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ivj1S5qjuJSsAg1Z"
 Content-Disposition: inline
-
-Thanks for your support.
-
-I wanted to confirm if each checkpatch encounter for camelcase issue should
-be fixed in a new patch?
-
-For example: If the issue is with same variable, then multiple
-modifications can be made in one patch.
-
-  -> above example is OK
+In-Reply-To: <Y93eQqaYdL146Z65@combine-ThinkPad-S1-Yoga>
 
 
-For example: If the issue is with multiple variables, then multiple
-modifications can be made in one patch.
+--ivj1S5qjuJSsAg1Z
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  -> above example is NOT OK / NG
+On Sat, Feb 04, 2023 at 05:25:38AM +0100, Guru Mehar Rachaputi wrote:
+> Thanks for your support.
+>=20
+> I wanted to confirm if each checkpatch encounter for camelcase issue shou=
+ld
+> be fixed in a new patch?
+>=20
+> For example: If the issue is with same variable, then multiple
+> modifications can be made in one patch.
+>=20
+>   -> above example is OK
+>=20
+>=20
+> For example: If the issue is with multiple variables, then multiple
+> modifications can be made in one patch.
+>=20
+>   -> above example is NOT OK / NG
+>=20
+>=20
+> Please confirm me if my understanding is correct?
+>=20
 
+I guess you have generated a patch series, then check it through
+checkpatch.
 
-Please confirm me if my understanding is correct?
+Indeed, if checkpatch complains at a particular patch, you need to do
+interactive rebase. Make sure that rebase todo list contains "edit"
+lines on commit you want to fix up. After that, fix these complaints.
 
--- 
-Thanks & Regards,
-Guru
+When you're done, regenerate the patch series and make sure that there
+are no checkpatch complains on it.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--ivj1S5qjuJSsAg1Z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY94L8wAKCRD2uYlJVVFO
+o7jzAP95k4n/aGC4fwMnL9mTEDmSh8/gjE0F7vHOUPzIevrIlQEA7sQ+Q5aaZuxp
+dmk2UwL1HJVw+rJcqhwTcl41yGmDYQs=
+=pqbf
+-----END PGP SIGNATURE-----
+
+--ivj1S5qjuJSsAg1Z--
