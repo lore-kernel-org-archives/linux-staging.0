@@ -1,136 +1,77 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A3B1FB5
-	for <linux-staging@lists.linux.dev>; Sat,  4 Feb 2023 10:17:02 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id me3so21707467ejb.7
-        for <linux-staging@lists.linux.dev>; Sat, 04 Feb 2023 02:17:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF2823A9
+	for <linux-staging@lists.linux.dev>; Sat,  4 Feb 2023 14:10:27 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id q8so5759888wmo.5
+        for <linux-staging@lists.linux.dev>; Sat, 04 Feb 2023 06:10:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vvcz/YyCGtXoD5oGFLtUkYy0diaSuTeqxFRDCLmhIXc=;
-        b=pXvfIB0Cbl+zg+3jyWscDCAcdybMl4jllRa1XNHVpVaICIe036QuFut6fX/my11LzX
-         A29v2nBimcRhtWLjUq5fw79RqgtyHABYKzKmE0KalCMHnN5c1CjMnJgx+F2lxucQ8UTf
-         KqKS8AndMwq3wphzn4/3QFajNcqwIFp4enopvQ0SLJv60TaOj+U1Ov1iVIjsXOQXI0zP
-         4ZveSSV3Ts4PrpZypEWqHRuIiCYwWD/MRROHOG3gRAzVXWdRuhnU8t3WmelmBiF5zA3z
-         Vs1ZgMrlT+89J5lHR13FyOLzn6F0Ch9vkZILAqUXZQS7vvHx3mZZ69nBErzW7x7PJLzJ
-         j2fg==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9s6NAgqAsAyHqRtokq9Jv8AryOH+kxl/jYELgXGXAzY=;
+        b=T/SRexPCns1O7QUBs/9ErL2CeaAIrG4f04lu/Rtibpf7cwRjIElH79gWb72Z2bY0jf
+         ZwKyxeD/nyhFDQ+vxUsgz3ZaiTS5ohEflzRvYdVdYIpuP0YOvbnZDL/AmM7wGaf/05gy
+         rWdK0urERezP99X0z0oL/GOyP+MZA+mA8MyYYNe6PNhiouZHrzywN1MIrdVwkAp6d05J
+         MXGntrNcDgOHhnKE2vMJ/2cEG+RbmDUJm+T0p5g2E/7mg5lBer5uotaX7jKmi2eyydQK
+         E7oZjmUEL/k4E2pR+m+S5+dtHHhd/XACcp8qgb3PoVJhErkcLRxGjEf0F8yrWaeYt+mT
+         vrwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vvcz/YyCGtXoD5oGFLtUkYy0diaSuTeqxFRDCLmhIXc=;
-        b=ANClva+YAYmgXQh0/Zsthme74q25k73VfqGztK8+hADXZ1YBJqPJX25kyfyPERZrJP
-         aOrOxlXDHykMU/tNAK7GpHIhgKjIL1AmkZp0FToOI7VZfWzmdQtByzQf0ubmIQ9TW2NF
-         jXMn8qB7jtpLMZa1Q1U93xd7UcaS4iZiJSotGqu9wAnT0J289XD28VxwfXYn4BMPN99b
-         8hdw3JOL9IYfEgaK0uzY6d09CRpk3TZGEsChwoC5keoBHUYehUjkkfgbZlyzzhCQpvkM
-         EmxfVQvhy6TIABKB6pkZ69yKGAlEJO9BYGvO3Gqgss1K07SnBIF09zQT+ouWzQbGL0Au
-         nT3g==
-X-Gm-Message-State: AO0yUKXzF+Q8m6a8vet3cU4q8tIhKSnRr6GnR00pplKKR7vGQi/WJzvN
-	bXmTls+Ir/fakXOqmOf2yNM=
-X-Google-Smtp-Source: AK7set+rsaWMwiBAhfM47aGYDWg49bocoSDLXaiAy4k7sANOvYkoIuM7c25hQ31xllHhBe/bSPS2Rw==
-X-Received: by 2002:a17:907:1308:b0:88a:bb13:7329 with SMTP id vj8-20020a170907130800b0088abb137329mr12274825ejb.53.1675505821296;
-        Sat, 04 Feb 2023 02:17:01 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abbf9.dynamic.kabel-deutschland.de. [95.90.187.249])
-        by smtp.gmail.com with ESMTPSA id m19-20020a1709061ed300b0088ed7de4821sm2632378ejj.158.2023.02.04.02.17.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Feb 2023 02:17:01 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: correct error logic of _rtw_init_recv_priv()
-Date: Sat,  4 Feb 2023 11:16:54 +0100
-Message-Id: <20230204101654.10232-3-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230204101654.10232-1-straube.linux@gmail.com>
-References: <20230204101654.10232-1-straube.linux@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9s6NAgqAsAyHqRtokq9Jv8AryOH+kxl/jYELgXGXAzY=;
+        b=1fFvN+rYrzznNhSvUUl2aFXG9QGlwymRdJ75XpkCa+iFbshSFAwCdI8F1PpQDWsVCD
+         UMkwGGHVf0ZLL2askefnm3WJ2Cm1ecnEgxwiipRX7TOoY0F44CKOKeARVbFabml0wFuP
+         n11xHwwqraamSqGW9Ir5iNc7Ap7d4Qc6J5xgb3+g9FpW5CGSnIzhz5sPawbivBio0D5k
+         7WjIvgBf17JP+/V0qkEsoCdgrH2oFFPswXpcDG7Z7fUKao2ip5Bb3zdX3JtJ4Gvd7ZcU
+         Isbl1NfRNHde0Tb6Pk5bZ9H0vXBziM8Jixt4UtrZELxhglp2XrLneAgejVIl44o2dAYd
+         BlwA==
+X-Gm-Message-State: AO0yUKVu+hylHTp8f0xm2SojbbBymos+SlTmcF1BAEpPuSRHSgvi473S
+	UqCIgCnMMxh//hEd9uO/dYs=
+X-Google-Smtp-Source: AK7set+N5x+cDjKx1IEGv1oZD6a5qD4dqZc7/THmEw2/IWEVZY1DxHpqNbMhkJR2rqL7qtrupPiA0w==
+X-Received: by 2002:a05:600c:4e0a:b0:3dc:3398:cf6e with SMTP id b10-20020a05600c4e0a00b003dc3398cf6emr12591146wmq.2.1675519825850;
+        Sat, 04 Feb 2023 06:10:25 -0800 (PST)
+Received: from [192.168.1.102] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id y13-20020a1c4b0d000000b003dc4aae4739sm10587795wma.27.2023.02.04.06.10.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Feb 2023 06:10:25 -0800 (PST)
+Message-ID: <86e96ed1-365a-7cf7-9e7a-140db15b35e4@gmail.com>
+Date: Sat, 4 Feb 2023 15:10:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 0/2] staging: r8188eu: correct error logic of two
+ functions
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230204101654.10232-1-straube.linux@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230204101654.10232-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Convert the function _rtw_init_recv_priv() away from returning _FAIL
-and _SUCCESS, which uses inverted error logic. Return 0 for success
-and negative values for failure instead.
-
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_recv.c   | 17 +++++------------
- drivers/staging/r8188eu/os_dep/os_intfs.c |  2 +-
- 2 files changed, 6 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 70d43c10e53d..4c823bbcc22b 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -99,10 +99,8 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
- int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
- {
- 	int i;
--
- 	struct recv_frame *precvframe;
--
--	int	res = _SUCCESS;
-+	int err = 0;
- 
- 	spin_lock_init(&precvpriv->lock);
- 
-@@ -115,11 +113,8 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
- 	precvpriv->free_recvframe_cnt = NR_RECVFRAME;
- 
- 	precvpriv->pallocated_frame_buf = vzalloc(NR_RECVFRAME * sizeof(struct recv_frame) + RXFRAME_ALIGN_SZ);
--
--	if (!precvpriv->pallocated_frame_buf) {
--		res = _FAIL;
--		goto exit;
--	}
-+	if (!precvpriv->pallocated_frame_buf)
-+		return -ENOMEM;
- 
- 	precvpriv->precv_frame_buf = (u8 *)ALIGN((size_t)(precvpriv->pallocated_frame_buf), RXFRAME_ALIGN_SZ);
- 
-@@ -139,16 +134,14 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
- 	}
- 	precvpriv->rx_pending_cnt = 1;
- 
--	if (rtl8188eu_init_recv_priv(padapter))
--		res = _FAIL;
-+	err = rtl8188eu_init_recv_priv(padapter);
- 
- 	timer_setup(&precvpriv->signal_stat_timer, rtw_signal_stat_timer_hdl, 0);
- 	precvpriv->signal_stat_sampling_interval = 1000; /* ms */
- 
- 	rtw_set_signal_stat_timer(precvpriv);
--exit:
- 
--	return res;
-+	return err;
- }
- 
- static void rtl8188eu_free_recv_priv(struct adapter *padapter)
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index cfc24420e70c..4130e8fe2952 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -482,7 +482,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 		goto free_mlme_ext;
- 	}
- 
--	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
-+	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter)) {
- 		dev_err(dvobj_to_dev(padapter->dvobj), "_rtw_init_recv_priv failed\n");
- 		goto free_xmit_priv;
- 	}
--- 
-2.39.1
-
+On 2/4/23 11:16, Michael Straube wrote:
+> This series converts two functions away from returning _SUCCESS and
+> _FAIL. Another tiny step to get rid of _FAIL / _SUCCESS someday.
+> 
+> Tested on x86_64 with Inter-Tech DMG 02.
+> 
+> Michael Straube (2):
+>    staging: r8188eu: correct error logic of rtl8188eu_init_recv_priv()
+>    staging: r8188eu: correct error logic of _rtw_init_recv_priv()
+> 
+>   drivers/staging/r8188eu/core/rtw_recv.c   | 30 +++++++++--------------
+>   drivers/staging/r8188eu/os_dep/os_intfs.c |  2 +-
+>   2 files changed, 12 insertions(+), 20 deletions(-)
+> 
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
