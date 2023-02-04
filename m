@@ -1,43 +1,43 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3B61FB3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A3B1FB5
 	for <linux-staging@lists.linux.dev>; Sat,  4 Feb 2023 10:17:02 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id me3so21707439ejb.7
+Received: by mail-ej1-f48.google.com with SMTP id me3so21707467ejb.7
         for <linux-staging@lists.linux.dev>; Sat, 04 Feb 2023 02:17:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7RXm6Lsoznyg1+l0w/MAUy9nfuZ+z0HNP/nxhYlCK60=;
-        b=jDQR2YXBY0vow0iYqDSlsL/5aCNCEeXev2H38cUYTDwmI7nDy+HUF69bToCKQgrmlb
-         5T74kOp5VvKhzuTapNB6oj6uC00CFOlYcw8R5pzeY/9wi/PoOo3yjrjzYp3CORNTxzhS
-         pomlTYRsMYj5cZJZwGJEukf4uf8IJ/7dohuANCAqrilAVXWYA5twsbLM9rERkezq3oIU
-         GeJvoh3cneNmBQ+xTqR7i0g2F1+j7G0+exwBGyKHJFg2lRZHIbU9RtelYaTuIF7zwSNW
-         +hs0ox6l7D4JgzQa3B9D3+qITF0p+tRkgrMO2pdqHqN+h1ONkwE5TaNoBl9YZyhsle1U
-         PnKw==
+        bh=vvcz/YyCGtXoD5oGFLtUkYy0diaSuTeqxFRDCLmhIXc=;
+        b=pXvfIB0Cbl+zg+3jyWscDCAcdybMl4jllRa1XNHVpVaICIe036QuFut6fX/my11LzX
+         A29v2nBimcRhtWLjUq5fw79RqgtyHABYKzKmE0KalCMHnN5c1CjMnJgx+F2lxucQ8UTf
+         KqKS8AndMwq3wphzn4/3QFajNcqwIFp4enopvQ0SLJv60TaOj+U1Ov1iVIjsXOQXI0zP
+         4ZveSSV3Ts4PrpZypEWqHRuIiCYwWD/MRROHOG3gRAzVXWdRuhnU8t3WmelmBiF5zA3z
+         Vs1ZgMrlT+89J5lHR13FyOLzn6F0Ch9vkZILAqUXZQS7vvHx3mZZ69nBErzW7x7PJLzJ
+         j2fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7RXm6Lsoznyg1+l0w/MAUy9nfuZ+z0HNP/nxhYlCK60=;
-        b=ebWtEVhnFHowPZH1a5D7XSiQap9Fd3h/3HDf09CDROeJQeJjUhLWj9AVaOSlnVF5Mh
-         1pmvpw4hxBqBBdUk5iDBIrmkhnQMZM/7PWrdh0HHKmKEW9ATSKkZfq/CyggYAcs3tfbc
-         1HBVvSbqg8LBVkhI0BRRRJQxDt+mGzSGJReiMXtF6SfXTJEoU65pPmxTMH3uDxtv8/yV
-         LKGbByzr7EGMKk8TdL/vCbvGr5DP4Gy1txufg7VpXY9qPCMra1JQUEmg7HhgyniMXWak
-         uZoH7tdIXOdF2/QEmRvADnRoFs3fC+8m0D7CQucyLOV/nuTL0HXR5dljExxLQv281yP5
-         o+Jg==
-X-Gm-Message-State: AO0yUKXH8CfGyKZo4KoRBLZfI459n4ZZVuqghBEpv0WR4sKVOhFt5u4t
-	ZyTRWhGzbA0/z9ln1R6DQU4=
-X-Google-Smtp-Source: AK7set+gTHDdvdjvnSR1lvMyEf6oJzMST6F4DGgd9RoQt4+ql1Hwm7WlSWnmQ/u9ST7VV1bbKBQJ1g==
-X-Received: by 2002:a17:906:4993:b0:88a:b6ca:7d3d with SMTP id p19-20020a170906499300b0088ab6ca7d3dmr13003608eju.8.1675505820728;
-        Sat, 04 Feb 2023 02:17:00 -0800 (PST)
+        bh=vvcz/YyCGtXoD5oGFLtUkYy0diaSuTeqxFRDCLmhIXc=;
+        b=ANClva+YAYmgXQh0/Zsthme74q25k73VfqGztK8+hADXZ1YBJqPJX25kyfyPERZrJP
+         aOrOxlXDHykMU/tNAK7GpHIhgKjIL1AmkZp0FToOI7VZfWzmdQtByzQf0ubmIQ9TW2NF
+         jXMn8qB7jtpLMZa1Q1U93xd7UcaS4iZiJSotGqu9wAnT0J289XD28VxwfXYn4BMPN99b
+         8hdw3JOL9IYfEgaK0uzY6d09CRpk3TZGEsChwoC5keoBHUYehUjkkfgbZlyzzhCQpvkM
+         EmxfVQvhy6TIABKB6pkZ69yKGAlEJO9BYGvO3Gqgss1K07SnBIF09zQT+ouWzQbGL0Au
+         nT3g==
+X-Gm-Message-State: AO0yUKXzF+Q8m6a8vet3cU4q8tIhKSnRr6GnR00pplKKR7vGQi/WJzvN
+	bXmTls+Ir/fakXOqmOf2yNM=
+X-Google-Smtp-Source: AK7set+rsaWMwiBAhfM47aGYDWg49bocoSDLXaiAy4k7sANOvYkoIuM7c25hQ31xllHhBe/bSPS2Rw==
+X-Received: by 2002:a17:907:1308:b0:88a:bb13:7329 with SMTP id vj8-20020a170907130800b0088abb137329mr12274825ejb.53.1675505821296;
+        Sat, 04 Feb 2023 02:17:01 -0800 (PST)
 Received: from localhost.localdomain (ip5f5abbf9.dynamic.kabel-deutschland.de. [95.90.187.249])
         by smtp.gmail.com with ESMTPSA id m19-20020a1709061ed300b0088ed7de4821sm2632378ejj.158.2023.02.04.02.17.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Feb 2023 02:17:00 -0800 (PST)
+        Sat, 04 Feb 2023 02:17:01 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/2] staging: r8188eu: correct error logic of rtl8188eu_init_recv_priv()
-Date: Sat,  4 Feb 2023 11:16:53 +0100
-Message-Id: <20230204101654.10232-2-straube.linux@gmail.com>
+Subject: [PATCH 2/2] staging: r8188eu: correct error logic of _rtw_init_recv_priv()
+Date: Sat,  4 Feb 2023 11:16:54 +0100
+Message-Id: <20230204101654.10232-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230204101654.10232-1-straube.linux@gmail.com>
 References: <20230204101654.10232-1-straube.linux@gmail.com>
@@ -59,71 +59,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the function rtl8188eu_init_recv_priv() away from returning
-_FAIL and _SUCCESS, which uses inverted error logic. Return 0 for
-success and negative values for failure instead.
+Convert the function _rtw_init_recv_priv() away from returning _FAIL
+and _SUCCESS, which uses inverted error logic. Return 0 for success
+and negative values for failure instead.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c   | 17 +++++------------
+ drivers/staging/r8188eu/os_dep/os_intfs.c |  2 +-
+ 2 files changed, 6 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 631c500dda42..70d43c10e53d 100644
+index 70d43c10e53d..4c823bbcc22b 100644
 --- a/drivers/staging/r8188eu/core/rtw_recv.c
 +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -38,7 +38,7 @@ void _rtw_init_sta_recv_priv(struct sta_recv_priv *psta_recvpriv)
- static int rtl8188eu_init_recv_priv(struct adapter *padapter)
+@@ -99,10 +99,8 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
+ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
  {
- 	struct recv_priv *precvpriv = &padapter->recvpriv;
--	int i, res = _SUCCESS;
-+	int i, err = 0;
- 	struct recv_buf *precvbuf;
+ 	int i;
+-
+ 	struct recv_frame *precvframe;
+-
+-	int	res = _SUCCESS;
++	int err = 0;
  
- 	tasklet_init(&precvpriv->recv_tasklet,
-@@ -50,10 +50,8 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
+ 	spin_lock_init(&precvpriv->lock);
  
- 	precvpriv->pallocated_recv_buf = kzalloc(NR_RECVBUFF * sizeof(struct recv_buf) + 4,
- 						 GFP_KERNEL);
--	if (!precvpriv->pallocated_recv_buf) {
+@@ -115,11 +113,8 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
+ 	precvpriv->free_recvframe_cnt = NR_RECVFRAME;
+ 
+ 	precvpriv->pallocated_frame_buf = vzalloc(NR_RECVFRAME * sizeof(struct recv_frame) + RXFRAME_ALIGN_SZ);
+-
+-	if (!precvpriv->pallocated_frame_buf) {
 -		res = _FAIL;
 -		goto exit;
 -	}
-+	if (!precvpriv->pallocated_recv_buf)
++	if (!precvpriv->pallocated_frame_buf)
 +		return -ENOMEM;
  
- 	precvpriv->precv_buf = (u8 *)ALIGN((size_t)(precvpriv->pallocated_recv_buf), 4);
+ 	precvpriv->precv_frame_buf = (u8 *)ALIGN((size_t)(precvpriv->pallocated_frame_buf), RXFRAME_ALIGN_SZ);
  
-@@ -64,7 +62,7 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
- 		precvbuf->reuse = false;
- 		precvbuf->purb = usb_alloc_urb(0, GFP_KERNEL);
- 		if (!precvbuf->purb) {
--			res = _FAIL;
-+			err = -ENOMEM;
- 			break;
- 		}
- 		precvbuf->adapter = padapter;
-@@ -94,8 +92,8 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
- 			pskb = NULL;
- 		}
- 	}
--exit:
--	return res;
-+
-+	return err;
- }
- 
- int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
-@@ -141,7 +139,8 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
+@@ -139,16 +134,14 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
  	}
  	precvpriv->rx_pending_cnt = 1;
  
--	res = rtl8188eu_init_recv_priv(padapter);
-+	if (rtl8188eu_init_recv_priv(padapter))
-+		res = _FAIL;
+-	if (rtl8188eu_init_recv_priv(padapter))
+-		res = _FAIL;
++	err = rtl8188eu_init_recv_priv(padapter);
  
  	timer_setup(&precvpriv->signal_stat_timer, rtw_signal_stat_timer_hdl, 0);
  	precvpriv->signal_stat_sampling_interval = 1000; /* ms */
+ 
+ 	rtw_set_signal_stat_timer(precvpriv);
+-exit:
+ 
+-	return res;
++	return err;
+ }
+ 
+ static void rtl8188eu_free_recv_priv(struct adapter *padapter)
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index cfc24420e70c..4130e8fe2952 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -482,7 +482,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ 		goto free_mlme_ext;
+ 	}
+ 
+-	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
++	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter)) {
+ 		dev_err(dvobj_to_dev(padapter->dvobj), "_rtw_init_recv_priv failed\n");
+ 		goto free_xmit_priv;
+ 	}
 -- 
 2.39.1
 
