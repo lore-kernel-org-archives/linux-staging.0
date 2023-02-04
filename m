@@ -1,77 +1,107 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF2823A9
-	for <linux-staging@lists.linux.dev>; Sat,  4 Feb 2023 14:10:27 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id q8so5759888wmo.5
-        for <linux-staging@lists.linux.dev>; Sat, 04 Feb 2023 06:10:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E121B107A5
+	for <linux-staging@lists.linux.dev>; Sat,  4 Feb 2023 23:46:29 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id gr7so24902846ejb.5
+        for <linux-staging@lists.linux.dev>; Sat, 04 Feb 2023 15:46:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9s6NAgqAsAyHqRtokq9Jv8AryOH+kxl/jYELgXGXAzY=;
-        b=T/SRexPCns1O7QUBs/9ErL2CeaAIrG4f04lu/Rtibpf7cwRjIElH79gWb72Z2bY0jf
-         ZwKyxeD/nyhFDQ+vxUsgz3ZaiTS5ohEflzRvYdVdYIpuP0YOvbnZDL/AmM7wGaf/05gy
-         rWdK0urERezP99X0z0oL/GOyP+MZA+mA8MyYYNe6PNhiouZHrzywN1MIrdVwkAp6d05J
-         MXGntrNcDgOHhnKE2vMJ/2cEG+RbmDUJm+T0p5g2E/7mg5lBer5uotaX7jKmi2eyydQK
-         E7oZjmUEL/k4E2pR+m+S5+dtHHhd/XACcp8qgb3PoVJhErkcLRxGjEf0F8yrWaeYt+mT
-         vrwg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SU4sr6Rv4JHucUmKgKWNj4LgU27LyAb+SvnHwp1wjd4=;
+        b=V5kpmwW+rSp1Sjx5X9cmrwhFbSO45xrFyDqi5LgSXI+RAC+0JJ2Sg1u180Nx+lslcE
+         br9tsNInhbPx8HjYjKWw+cYoAIAKgDGFQU3sGlSqcyCVi00OF61/f+vwTc9afcWOM08U
+         N7V/rHRH06P23VMNsJN3Ezjjf2UhH2ZMMJKwWDrqJf+o3o8DULRKOP9WYiCI69Btg1Mu
+         Mf12965sbE9rJY2PcH4JzW97OkYHH1bnvAYUQROCB5lXKwgx0BkwvgRgmL3XgA/bUiDO
+         5wqRVqHigILDdsPQi1v0Zw1vI1rqAO9M5+x2whXJjtadJv+Mt6dQRWD/NtLIGiM782Yy
+         l0Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9s6NAgqAsAyHqRtokq9Jv8AryOH+kxl/jYELgXGXAzY=;
-        b=1fFvN+rYrzznNhSvUUl2aFXG9QGlwymRdJ75XpkCa+iFbshSFAwCdI8F1PpQDWsVCD
-         UMkwGGHVf0ZLL2askefnm3WJ2Cm1ecnEgxwiipRX7TOoY0F44CKOKeARVbFabml0wFuP
-         n11xHwwqraamSqGW9Ir5iNc7Ap7d4Qc6J5xgb3+g9FpW5CGSnIzhz5sPawbivBio0D5k
-         7WjIvgBf17JP+/V0qkEsoCdgrH2oFFPswXpcDG7Z7fUKao2ip5Bb3zdX3JtJ4Gvd7ZcU
-         Isbl1NfRNHde0Tb6Pk5bZ9H0vXBziM8Jixt4UtrZELxhglp2XrLneAgejVIl44o2dAYd
-         BlwA==
-X-Gm-Message-State: AO0yUKVu+hylHTp8f0xm2SojbbBymos+SlTmcF1BAEpPuSRHSgvi473S
-	UqCIgCnMMxh//hEd9uO/dYs=
-X-Google-Smtp-Source: AK7set+N5x+cDjKx1IEGv1oZD6a5qD4dqZc7/THmEw2/IWEVZY1DxHpqNbMhkJR2rqL7qtrupPiA0w==
-X-Received: by 2002:a05:600c:4e0a:b0:3dc:3398:cf6e with SMTP id b10-20020a05600c4e0a00b003dc3398cf6emr12591146wmq.2.1675519825850;
-        Sat, 04 Feb 2023 06:10:25 -0800 (PST)
-Received: from [192.168.1.102] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id y13-20020a1c4b0d000000b003dc4aae4739sm10587795wma.27.2023.02.04.06.10.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Feb 2023 06:10:25 -0800 (PST)
-Message-ID: <86e96ed1-365a-7cf7-9e7a-140db15b35e4@gmail.com>
-Date: Sat, 4 Feb 2023 15:10:23 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SU4sr6Rv4JHucUmKgKWNj4LgU27LyAb+SvnHwp1wjd4=;
+        b=ayQ/vHesOIwbpzOrAjYLELptt7bYDnJ6/B3XTG8yABEHN1mVA8zEmZPm6pHOpMyknK
+         4fi1wu2rz9FKS5RIely11wsqDr49tyNDpJZv/tHpR8zfULFNYdr4WSlRlGtVpTX0er4L
+         lFotvuUDiIoeEypQRApeL18hEXsYSbfoGnzu1oeWq4sSxJ17FiOZ6f2xjkDAfMkhE9VZ
+         HeUsvM5UXbX8SCeae2cxEac6+Tl6fMUyjWG0HR8vezuRxbPUw6Gj9PSBijbclC6CZQF/
+         qWHy+nHVIZpvrXFcTwkH8EiWS5gXYE2njkhJPwLw32cNn5FS3AyfadSA5ePGvQCsecyV
+         cvMg==
+X-Gm-Message-State: AO0yUKXPIzaR373TNJNTXsuMZjIsVDG0V2NR9hYIkHW4s8aMl6jKSi/Y
+	PjHiHat9xfTXt1Rb549dZak=
+X-Google-Smtp-Source: AK7set/mu5BHwC+20dHoMIeyFfe1BxAb06FRLKjRkUAs8EQ7fr2uhQO6lLYWg7qn8mkJBuP7S2kHCQ==
+X-Received: by 2002:a17:907:72c1:b0:871:178d:fc1e with SMTP id du1-20020a17090772c100b00871178dfc1emr18460669ejc.77.1675554388139;
+        Sat, 04 Feb 2023 15:46:28 -0800 (PST)
+Received: from combine-ThinkPad-S1-Yoga (c-8ff371d5.879159-0-69706f6e6c79.bbcust.telenor.se. [213.113.243.143])
+        by smtp.gmail.com with ESMTPSA id me17-20020a170906aed100b0083f91a32131sm3414516ejb.0.2023.02.04.15.46.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Feb 2023 15:46:27 -0800 (PST)
+Date: Sun, 5 Feb 2023 00:46:25 +0100
+From: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: Regarding checkpatch camelcase issues
+Message-ID: <Y97uUeB6OfO469SY@combine-ThinkPad-S1-Yoga>
+References: <Y93eQqaYdL146Z65@combine-ThinkPad-S1-Yoga>
+ <Y94L+WNGGfvrg6Mg@debian.me>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 0/2] staging: r8188eu: correct error logic of two
- functions
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230204101654.10232-1-straube.linux@gmail.com>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20230204101654.10232-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y94L+WNGGfvrg6Mg@debian.me>
 
-On 2/4/23 11:16, Michael Straube wrote:
-> This series converts two functions away from returning _SUCCESS and
-> _FAIL. Another tiny step to get rid of _FAIL / _SUCCESS someday.
+On Sat, Feb 04, 2023 at 02:40:41PM +0700, Bagas Sanjaya wrote:
+> On Sat, Feb 04, 2023 at 05:25:38AM +0100, Guru Mehar Rachaputi wrote:
+> > Thanks for your support.
+> > 
+> > I wanted to confirm if each checkpatch encounter for camelcase issue should
+> > be fixed in a new patch?
+> > 
+> > For example: If the issue is with same variable, then multiple
+> > modifications can be made in one patch.
+> > 
+> >   -> above example is OK
+> > 
+> > 
+> > For example: If the issue is with multiple variables, then multiple
+> > modifications can be made in one patch.
+> > 
+> >   -> above example is NOT OK / NG
+> > 
+> > 
+> > Please confirm me if my understanding is correct?
+> > 
 > 
-> Tested on x86_64 with Inter-Tech DMG 02.
+> I guess you have generated a patch series, then check it through
+> checkpatch.
 > 
-> Michael Straube (2):
->    staging: r8188eu: correct error logic of rtl8188eu_init_recv_priv()
->    staging: r8188eu: correct error logic of _rtw_init_recv_priv()
+> Indeed, if checkpatch complains at a particular patch, you need to do
+> interactive rebase. Make sure that rebase todo list contains "edit"
+> lines on commit you want to fix up. After that, fix these complaints.
 > 
->   drivers/staging/r8188eu/core/rtw_recv.c   | 30 +++++++++--------------
->   drivers/staging/r8188eu/os_dep/os_intfs.c |  2 +-
->   2 files changed, 12 insertions(+), 20 deletions(-)
+> When you're done, regenerate the patch series and make sure that there
+> are no checkpatch complains on it.
 > 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
+> Thanks.
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
+
+Thanks for the reply
+I guess I was not clear. When I run checkpatch on a driver there
+were so many camelcase issues in each file. So I wanted to know if I
+proceed to fix them, should I submit each change as a patch or each file
+as a patch?
+Since each file has many camelcase issue and the driver has morethan one
+such file.
+
+-- 
+Thanks & Regards,
+Guru
