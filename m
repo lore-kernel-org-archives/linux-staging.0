@@ -1,26 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809E72F43
-	for <linux-staging@lists.linux.dev>; Sun,  5 Feb 2023 13:16:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA86BC433EF;
-	Sun,  5 Feb 2023 13:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1675603014;
-	bh=gfb7EUkxJTdKxi4HiHtIpiCABzHObkm5GGkpfIm+MZQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TDaZiae5jGCpCX0Y9voEUmcocpwGOXBAblZWgOi8IXNc21kfIpz4pWYVeb6la8bgS
-	 7gNWCn5rMQhNLMVpOSrzW8Qqpu5AacwGOWO7oGv9LmvCG0VVyZLFoaJrF+hBcwnfQJ
-	 ujC/MsDW7xrXmE9RNA6EvJHuCzzcTQSXSl8RjBM0=
-Date: Sun, 5 Feb 2023 14:16:50 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446612F43
+	for <linux-staging@lists.linux.dev>; Sun,  5 Feb 2023 13:31:03 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id z11so9260012ede.1
+        for <linux-staging@lists.linux.dev>; Sun, 05 Feb 2023 05:31:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QLOZbnoCDNRNOtYQJDtOvwaLMzxcbt+wzlYkwFe3eSg=;
+        b=q4yhNTBM2D/nrFmVHF2B5oWAV/zZiLDlBbI+DmhZ2jQZTScnZNpnzF0u9Al8xFeH+L
+         WXrxf2v25M5EIfPyGDV8CLzrRqs8vGbaSnNuEachvI4wIKh//dTjzBAsFGkFQbgASNeM
+         zN12OQy065vNJfbDDv3C+N6eON9l/Jo098I6e62WutcOIv4VGCGIEZdoxehFQcGDRV2R
+         wmkaYxfFIha+4xj1HREzRJqQ4ysujvFBNCvL4MumIspMuaK+dIHuSfs5LHgdlWdK8Ayc
+         sQgx9hseHHA/PIRX7rZdIfsMvHahLehmJsXbFChE+Nr/4am6QSHEZNJqcUcsqqARiSqR
+         +fjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QLOZbnoCDNRNOtYQJDtOvwaLMzxcbt+wzlYkwFe3eSg=;
+        b=xos82eRlKP6DjwTYTXXcyDLyJrMmTN5pVhpXyekhXTdeQ51c+2eXNcTIkJXrqDZY7d
+         RvUvnvS+bHPn/s4elDEofG5NOYxvWko2SbunAKsdeydSii46oFKlOn+m1m3HLiZ2Bcgg
+         Qi2vAro2zNWfaOkeTBI7o8b1+Z3Nqal1nTMKhTLiYphB2UgbbtasRU/qBjaHEDR4toJH
+         rF5+5+IE3qgxIeRBcgvfip3qYkjZaWviPM/8c2CiMxa+Z7Q1rjNxX0i6hNHlOZoEKgb3
+         B/HyTNuiL1n2906smgSh8cN7kiZKkBKg14PwKclFgFw1qcBsASwqjddjt90y+mbkZZTm
+         xdnA==
+X-Gm-Message-State: AO0yUKXZ9+IqV+lu/6yHjphYvvO17Hfdg3vB7H4ByNWGbNlo3Wd+8aQB
+	DsssRot6LvCo+bbXaNe81QQ=
+X-Google-Smtp-Source: AK7set+uE+I8Jb1ciCZYk7NWwCvJRLpwU24mwlZSACXV2JOxIHioDO9SXhbb7ma7xVSDoEAqBICHLQ==
+X-Received: by 2002:a05:6402:1f06:b0:4a2:358e:e734 with SMTP id b6-20020a0564021f0600b004a2358ee734mr16174976edb.7.1675603861484;
+        Sun, 05 Feb 2023 05:31:01 -0800 (PST)
+Received: from combine-ThinkPad-S1-Yoga (c-8ff371d5.879159-0-69706f6e6c79.bbcust.telenor.se. [213.113.243.143])
+        by smtp.gmail.com with ESMTPSA id r18-20020aa7cb92000000b004954c90c94bsm3820584edt.6.2023.02.05.05.31.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Feb 2023 05:31:01 -0800 (PST)
+Date: Sun, 5 Feb 2023 14:30:59 +0100
+From: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
  inline function
-Message-ID: <Y9+sQr1v9IfapvJW@kroah.com>
+Message-ID: <Y9+vkwYfQzYTbIIo@combine-ThinkPad-S1-Yoga>
 References: <Y9+qMqYD2zGWRurD@combine-ThinkPad-S1-Yoga>
+ <Y9+sFw0rviTAJNMf@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,110 +55,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y9+qMqYD2zGWRurD@combine-ThinkPad-S1-Yoga>
+In-Reply-To: <Y9+sFw0rviTAJNMf@kroah.com>
 
-On Sun, Feb 05, 2023 at 02:08:02PM +0100, Guru Mehar Rachaputi wrote:
-> This patch is to fix checkpatch warning: "Macro argument 'iobase' may be better
-> as '(iobase)' to avoid precedence issues"
+On Sun, Feb 05, 2023 at 02:16:07PM +0100, Greg Kroah-Hartman wrote:
+> On Sun, Feb 05, 2023 at 02:08:02PM +0100, Guru Mehar Rachaputi wrote:
+> > This patch is to fix checkpatch warning: "Macro argument 'iobase' may be better
+> > as '(iobase)' to avoid precedence issues"
+> > 
+> > ---
+> > Changes in v3:
+> > 	- Whitespace error from checkpatch fixed
+> > 
+> > Changes in v2:
+> > 	- Macros with one statement that is to call 'iowrite8' function changed
+> > 	to inline function as reviewed by gregkh@linuxfoundation.org.
+> > 	In relation to this, names of the callers of macro are also modified
+> > 	to call this function.
+> > 
+> > Signed-off-by: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
 > 
-> ---
-> Changes in v3:
-> 	- Whitespace error from checkpatch fixed
+> Try to take this patch and apply it to a tree, and see that everything
+> below the --- line is thrown away, including your signed-off-by: line :(
 > 
-> Changes in v2:
-> 	- Macros with one statement that is to call 'iowrite8' function changed
-> 	to inline function as reviewed by gregkh@linuxfoundation.org.
-> 	In relation to this, names of the callers of macro are also modified
-> 	to call this function.
-> 
-> Signed-off-by: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-> ---
->  drivers/staging/vt6655/card.c    | 3 +--
->  drivers/staging/vt6655/channel.c | 2 +-
->  drivers/staging/vt6655/mac.h     | 4 ++--
->  3 files changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-> index a6ff496b01b6..d2d122dc16d8 100644
-> --- a/drivers/staging/vt6655/card.c
-> +++ b/drivers/staging/vt6655/card.c
-> @@ -643,8 +643,7 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
->  				   &byRsvTime);
->  	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_72);
->  	/* Set to Page0 */
-> -        vt6655_mac_select_page0(priv->port_offset);
-> -
-> +	vt6655_mac_select_page0(priv->port_offset);
->  
->  	spin_unlock_irqrestore(&priv->lock, flags);
->  }
-> diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
-> index e9a44bcebe32..60b445c38424 100644
-> --- a/drivers/staging/vt6655/channel.c
-> +++ b/drivers/staging/vt6655/channel.c
-> @@ -121,7 +121,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
->  		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWRCCK);
->  		RFbSetPower(priv, RATE_6M, priv->byCurrentCh);
->  		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
-> -	        vt6655_mac_select_page0(priv->port_offset);
-> +		vt6655_mac_select_page0(priv->port_offset);
->  
->  		spin_unlock_irqrestore(&priv->lock, flags);
->  	}
-> diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-> index b9a7ca0fe604..ae3064303691 100644
-> --- a/drivers/staging/vt6655/mac.h
-> +++ b/drivers/staging/vt6655/mac.h
-> @@ -539,12 +539,12 @@
->  
->  static inline void vt6655_mac_select_page0(void __iomem *iobase)
->  {
-> -        iowrite8(0, iobase + MAC_REG_PAGE1SEL);
-> +	iowrite8(0, iobase + MAC_REG_PAGE1SEL);
->  }
->  
->  static inline void  vt6655_mac_select_page1(void __iomem *iobase)
->  {
-> -        iowrite8(1, iobase + MAC_REG_PAGE1SEL);
-> +	iowrite8(1, iobase + MAC_REG_PAGE1SEL);
->  }
->  
->  #define MAKEWORD(lb, hb) \
-> -- 
-> 2.34.1
-> 
-> 
-> -- 
-> Thanks & Regards,
-> Guru
-> 
+Sorry, should not a patch contain signed-off-by: line?
+I did not understand.
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did not apply to any known trees that Greg is in control
-  of.  Possibly this is because you made it against Linus's tree, not
-  the linux-next tree, which is where all of the development for the
-  next version of the kernel is at.  Please refresh your patch against
-  the linux-next tree, or even better yet, the development tree
-  specified in the MAINTAINERS file for the subsystem you are submitting
-  a patch for, and resend it.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+-- 
+Thanks & Regards,
+Guru
