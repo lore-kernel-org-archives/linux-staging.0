@@ -1,129 +1,170 @@
-Received: from smtp.smtpout.orange.fr (smtp-11.smtpout.orange.fr [80.12.242.11])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12D302F21
-	for <linux-staging@lists.linux.dev>; Sun,  5 Feb 2023 19:42:50 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id OkRHpob81a0qgOkRHpwFuQ; Sun, 05 Feb 2023 20:12:36 +0100
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 05 Feb 2023 20:12:36 +0100
-X-ME-IP: 86.243.2.178
-Message-ID: <3cb45313-209a-8190-12f8-6a2d49e4173b@wanadoo.fr>
-Date: Sun, 5 Feb 2023 20:12:31 +0100
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF292772E
+	for <linux-staging@lists.linux.dev>; Sun,  5 Feb 2023 23:39:12 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id mf7so29662301ejc.6
+        for <linux-staging@lists.linux.dev>; Sun, 05 Feb 2023 15:39:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PWuWsZM39bUXwfvV+mE+c8HaXpPK0kUbfUyDhM2lnpI=;
+        b=UwV7HjXhEIWOwPVMs4jyXvikTMeH2OCs48EnIeBs+AUb0n5dTxf5kbDjajhm8LqH/4
+         VMVfYLxxnRY3LHj5eOR+VN4Fq3ej4f5MCgho5kQNa5vEz1rfOY6rUPovaKG0wQEY27mh
+         tT/99xR90WmHArWyAuLhYHqdb6rARSPu6I7aD4MZmsFI8fc+6As4Sp8O03gvjlABMw6r
+         iLspryHGzcD+BeZRd9Cq2njzyZwb47WuA5Y5+zqNwzpSwqND4C0a5GjXUhtOZ5Liw2nZ
+         ZGl0J0g3Vqf/qbRRoSBjNv573Z7RBaCRX7MzshR/0GIGrEOXi8YVM6L0r5lJIzjOq8lp
+         ysQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PWuWsZM39bUXwfvV+mE+c8HaXpPK0kUbfUyDhM2lnpI=;
+        b=6dXDnrEM0ty6K39zLEHQlT19lf+PbPhebFgpb0LwzOIDA546dsgjuXX/xUf/88gNz4
+         0LWqQPgqKDpA0DbSY8o2mCbMjgSSeGUG1HJ03Q8EQEBDh1fOsMmHypzcEHVywXtkpVzu
+         udN7t97nWBMz+MOPqCZ9mpEdrpJcUJerhUu0osci003bHE8QOsUV4KI/zE3vXjj4ist9
+         gWMyZ+D2sucNO9noqdwhx368DK7Xbd3GxwY3y6DOog6WjqmHnwlbxB5M9W5cUJPmsyaW
+         Bn7tyh/IJGmTknt55sv08iT13sVhVkdnWOB6bQTPNX2O5dKakXsURou/rH82uepQZ9Is
+         UuJg==
+X-Gm-Message-State: AO0yUKXJaAbNHFbXNqpNJy+KMoFe3WvkaXfrzqHZ3jGNSD+4jGc3VsN6
+	V17482/A+bM/aVh1wLqyS6M=
+X-Google-Smtp-Source: AK7set8z7Hiw9gkweCqS/mS3UXiV0FnY+h9kHYs+fVqrFE6N7xKAkB6S9KqvFfp+Dmyl1LsTLLxJHg==
+X-Received: by 2002:a17:906:230f:b0:844:d342:3566 with SMTP id l15-20020a170906230f00b00844d3423566mr17691530eja.22.1675640350894;
+        Sun, 05 Feb 2023 15:39:10 -0800 (PST)
+Received: from combine-ThinkPad-S1-Yoga (c-8ff371d5.879159-0-69706f6e6c79.bbcust.telenor.se. [213.113.243.143])
+        by smtp.gmail.com with ESMTPSA id jo10-20020a170906f6ca00b00878812a8d14sm4666954ejb.85.2023.02.05.15.39.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Feb 2023 15:39:10 -0800 (PST)
+Date: Mon, 6 Feb 2023 00:39:08 +0100
+From: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
+ inline function
+Message-ID: <Y+A+HF1vDeRIqye5@combine-ThinkPad-S1-Yoga>
+References: <Y9/xXHvOAwfqoDxn@combine-ThinkPad-S1-Yoga>
+ <3cb45313-209a-8190-12f8-6a2d49e4173b@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
- inline function
-To: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>,
- Forest Bond <forest@alittletooquiet.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <Y9/xXHvOAwfqoDxn@combine-ThinkPad-S1-Yoga>
-Content-Language: fr, en-US
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <Y9/xXHvOAwfqoDxn@combine-ThinkPad-S1-Yoga>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <3cb45313-209a-8190-12f8-6a2d49e4173b@wanadoo.fr>
 
-Le 05/02/2023 Ã  19:11, Guru Mehar Rachaputi a Ã©critÂ :
-> This patch is to fix checkpatch warning: "Macro argument 'iobase' may be better
-> as '(iobase)' to avoid precedence issues" changed to inline function. In
-> relation to this, names of the callers of macro are also modified to call
-> this function.
+On Sun, Feb 05, 2023 at 08:12:31PM +0100, Christophe JAILLET wrote:
+> Le 05/02/2023 à 19:11, Guru Mehar Rachaputi a écrit :
+> > This patch is to fix checkpatch warning: "Macro argument 'iobase' may be better
+> > as '(iobase)' to avoid precedence issues" changed to inline function. In
+> > relation to this, names of the callers of macro are also modified to call
+> > this function.
+> > 
+> > Signed-off-by: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
 > 
-> Signed-off-by: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-
-Hi,
-
-this patch should be v4.
-You re-sent it with a modified commit message (the position of your S-o-b)
-
-The idea behind patch versions is to help maintainer. With the way you 
-did, now 2 patches stating v3 are available.
-Which one is the correct one?
-The maintainer would need to look at both, search for differences, maybe 
-look at the date of the mails.
-A v4 would be much easier for him.
-
-
-Also, when you send an updated version of a patch, it should always be 
-"complete". I mean that the patch below seems to need v2, and maybe even 
-v1 (which is apparently not on the linux-kernel mailing list).
-
-A maintainer can't know by himself what is needed and what is not.
-
-So you should resend a new patch.
-It should be a v4, and it should include what is needed from (v1?), v2 
-and v3 all together.
-
-CJ
-
-
-> ---
-> Changes in v3:
-> 	- Whitespace error from checkpatch fixed
+> Hi,
 > 
-> Changes in v2:
-> 	- Macros with one statement that is to call 'iowrite8' function changed
-> 	to inline function as reviewed by gregkh@linuxfoundation.org.
-> 	In relation to this, names of the callers of macro are also modified
-> 	to call this function.
-> ---
->   drivers/staging/vt6655/card.c    | 3 +--
->   drivers/staging/vt6655/channel.c | 2 +-
->   drivers/staging/vt6655/mac.h     | 4 ++--
->   3 files changed, 4 insertions(+), 5 deletions(-)
+> this patch should be v4.
+> You re-sent it with a modified commit message (the position of your S-o-b)
 > 
-> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-> index a6ff496b01b6..d2d122dc16d8 100644
-> --- a/drivers/staging/vt6655/card.c
-> +++ b/drivers/staging/vt6655/card.c
-> @@ -643,8 +643,7 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
->   				   &byRsvTime);
->   	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_72);
->   	/* Set to Page0 */
-> -        vt6655_mac_select_page0(priv->port_offset);
-> -
-> +	vt6655_mac_select_page0(priv->port_offset);
->   
->   	spin_unlock_irqrestore(&priv->lock, flags);
->   }
-> diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
-> index e9a44bcebe32..60b445c38424 100644
-> --- a/drivers/staging/vt6655/channel.c
-> +++ b/drivers/staging/vt6655/channel.c
-> @@ -121,7 +121,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
->   		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWRCCK);
->   		RFbSetPower(priv, RATE_6M, priv->byCurrentCh);
->   		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
-> -	        vt6655_mac_select_page0(priv->port_offset);
-> +		vt6655_mac_select_page0(priv->port_offset);
->   
->   		spin_unlock_irqrestore(&priv->lock, flags);
->   	}
-> diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-> index b9a7ca0fe604..ae3064303691 100644
-> --- a/drivers/staging/vt6655/mac.h
-> +++ b/drivers/staging/vt6655/mac.h
-> @@ -539,12 +539,12 @@
->   
->   static inline void vt6655_mac_select_page0(void __iomem *iobase)
->   {
-> -        iowrite8(0, iobase + MAC_REG_PAGE1SEL);
-> +	iowrite8(0, iobase + MAC_REG_PAGE1SEL);
->   }
->   
->   static inline void  vt6655_mac_select_page1(void __iomem *iobase)
->   {
-> -        iowrite8(1, iobase + MAC_REG_PAGE1SEL);
-> +	iowrite8(1, iobase + MAC_REG_PAGE1SEL);
->   }
->   
->   #define MAKEWORD(lb, hb) \
+> The idea behind patch versions is to help maintainer. With the way you did,
+> now 2 patches stating v3 are available.
+> Which one is the correct one?
+> The maintainer would need to look at both, search for differences, maybe
+> look at the date of the mails.
+> A v4 would be much easier for him.
+> 
+> 
+> Also, when you send an updated version of a patch, it should always be
+> "complete". I mean that the patch below seems to need v2, and maybe even v1
+> (which is apparently not on the linux-kernel mailing list).
+> 
+> A maintainer can't know by himself what is needed and what is not.
+> 
+> So you should resend a new patch.
+> It should be a v4, and it should include what is needed from (v1?), v2 and
+> v3 all together.
+> 
+> CJ
+> 
+> 
+> > ---
+> > Changes in v3:
+> > 	- Whitespace error from checkpatch fixed
+> > 
+> > Changes in v2:
+> > 	- Macros with one statement that is to call 'iowrite8' function changed
+> > 	to inline function as reviewed by gregkh@linuxfoundation.org.
+> > 	In relation to this, names of the callers of macro are also modified
+> > 	to call this function.
+> > ---
+> >   drivers/staging/vt6655/card.c    | 3 +--
+> >   drivers/staging/vt6655/channel.c | 2 +-
+> >   drivers/staging/vt6655/mac.h     | 4 ++--
+> >   3 files changed, 4 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+> > index a6ff496b01b6..d2d122dc16d8 100644
+> > --- a/drivers/staging/vt6655/card.c
+> > +++ b/drivers/staging/vt6655/card.c
+> > @@ -643,8 +643,7 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
+> >   				   &byRsvTime);
+> >   	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_72);
+> >   	/* Set to Page0 */
+> > -        vt6655_mac_select_page0(priv->port_offset);
+> > -
+> > +	vt6655_mac_select_page0(priv->port_offset);
+> >   	spin_unlock_irqrestore(&priv->lock, flags);
+> >   }
+> > diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
+> > index e9a44bcebe32..60b445c38424 100644
+> > --- a/drivers/staging/vt6655/channel.c
+> > +++ b/drivers/staging/vt6655/channel.c
+> > @@ -121,7 +121,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
+> >   		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWRCCK);
+> >   		RFbSetPower(priv, RATE_6M, priv->byCurrentCh);
+> >   		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
+> > -	        vt6655_mac_select_page0(priv->port_offset);
+> > +		vt6655_mac_select_page0(priv->port_offset);
+> >   		spin_unlock_irqrestore(&priv->lock, flags);
+> >   	}
+> > diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+> > index b9a7ca0fe604..ae3064303691 100644
+> > --- a/drivers/staging/vt6655/mac.h
+> > +++ b/drivers/staging/vt6655/mac.h
+> > @@ -539,12 +539,12 @@
+> >   static inline void vt6655_mac_select_page0(void __iomem *iobase)
+> >   {
+> > -        iowrite8(0, iobase + MAC_REG_PAGE1SEL);
+> > +	iowrite8(0, iobase + MAC_REG_PAGE1SEL);
+> >   }
+> >   static inline void  vt6655_mac_select_page1(void __iomem *iobase)
+> >   {
+> > -        iowrite8(1, iobase + MAC_REG_PAGE1SEL);
+> > +	iowrite8(1, iobase + MAC_REG_PAGE1SEL);
+> >   }
+> >   #define MAKEWORD(lb, hb) \
+> 
 
+Thanks for the explaination.
+Since I amended commit message and thought as there is no new commit it
+should still be the same patch.
+
+Is it ok if I send a new patchset based on the previous conversations?
+I have four commits now, 4th commit being just the commit message and
+this patchset doesn't have s-o-b issue.
+
+or
+
+should I undo all the amends?
+
+-- 
+Thanks & Regards,
+Guru
