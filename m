@@ -1,100 +1,129 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CFF107B8
-	for <linux-staging@lists.linux.dev>; Sun,  5 Feb 2023 18:21:18 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id me3so28396461ejb.7
-        for <linux-staging@lists.linux.dev>; Sun, 05 Feb 2023 10:21:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i63w/pV88DLO03mXliw8xYbIqTY9OqCF6qi2JifxJgg=;
-        b=UjBHK6w6zZRkUaf8Bv6/PD0Vnx7BBG2ON4xhzbvdzpD8iRGNOI50WVi4jEANcWQmqP
-         xozQq3qXk0Hr46jh9fiG1+g+u4CkfsoyUmM2gHWVr5we9KptIByDd0yj2OIK1bT+juuo
-         qpfGG4rOUwkJFVryU5cDCo+Jje/+EgBFo9sdG0uWt4sSbllrv330LM0/S4C8H7S7sdS6
-         YMB46GJwMOYJ4eyNu08K7NlskuvwfyDzjEtLE3rBpGhXxU59MIHL9Om6CeJf1PfFetqC
-         F29jf0KrNFh2h+lP5rr4QkvS/NQ2mbIAJEmwbWfEYUT12/se++/QJPJV7MQwowzRS6JV
-         cH8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i63w/pV88DLO03mXliw8xYbIqTY9OqCF6qi2JifxJgg=;
-        b=vZfX5LCYYUE7ElT4YU0VxFplfQLyKK6T5emePOOYhvh4FY6nXBfwgfFBHpMo91pA5/
-         Bd3sYS70f/pYQmSwSnVPVXcebbe16oaG1FJCCJIsUsqq6+axKT+4/vNUfKRQ2sNnP2VM
-         iAcnIh0tsUThWWCe5AK4o0o6E+9KqiuMdtAvzawHZUYcRPXgswV65L6Ct9cz44sfv/I1
-         YxctBqQC6o/hxgr2d419Ds/OaOYxhpmR77stMd3dcl73mSmgsAmmS/y5IRJpyflSjXfR
-         PRwOiUirYPhf9Jq5x4hPXVXtaYoAhQNM0iDA//wTtvVHjUyHNkSvOqosJVm/Gb9a5jl9
-         iLAA==
-X-Gm-Message-State: AO0yUKUde0gQD+0gEG9b2uxtPTrEgpDoyR+nSI5woP3rupAeJAM/abp3
-	Gk57cYMGl0RWgD9mhr5dbus=
-X-Google-Smtp-Source: AK7set+CALiS3x2OAR+iXb85KCT92QwReNI/aP9r1T5bggcmlXY8f6S4gscfACoO5PG1orCsM6MoZg==
-X-Received: by 2002:a17:906:ae4f:b0:877:962f:be0a with SMTP id lf15-20020a170906ae4f00b00877962fbe0amr15272422ejb.37.1675621277114;
-        Sun, 05 Feb 2023 10:21:17 -0800 (PST)
-Received: from combine-ThinkPad-S1-Yoga (c-8ff371d5.879159-0-69706f6e6c79.bbcust.telenor.se. [213.113.243.143])
-        by smtp.gmail.com with ESMTPSA id bj11-20020a170906b04b00b0088e9bbae7ecsm4335843ejb.165.2023.02.05.10.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Feb 2023 10:21:16 -0800 (PST)
-Date: Sun, 5 Feb 2023 19:21:14 +0100
-From: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-To: Nam Cao <namcaov@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
- inline function
-Message-ID: <Y9/zml6iPvoBBVXx@combine-ThinkPad-S1-Yoga>
-References: <Y9+qMqYD2zGWRurD@combine-ThinkPad-S1-Yoga>
- <Y9+sFw0rviTAJNMf@kroah.com>
- <Y9+vkwYfQzYTbIIo@combine-ThinkPad-S1-Yoga>
- <Y9/MhS3pJ/Es0sGa@nam-dell>
+Received: from smtp.smtpout.orange.fr (smtp-11.smtpout.orange.fr [80.12.242.11])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12D302F21
+	for <linux-staging@lists.linux.dev>; Sun,  5 Feb 2023 19:42:50 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.2.178])
+	by smtp.orange.fr with ESMTPA
+	id OkRHpob81a0qgOkRHpwFuQ; Sun, 05 Feb 2023 20:12:36 +0100
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 05 Feb 2023 20:12:36 +0100
+X-ME-IP: 86.243.2.178
+Message-ID: <3cb45313-209a-8190-12f8-6a2d49e4173b@wanadoo.fr>
+Date: Sun, 5 Feb 2023 20:12:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9/MhS3pJ/Es0sGa@nam-dell>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
+ inline function
+To: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>,
+ Forest Bond <forest@alittletooquiet.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <Y9/xXHvOAwfqoDxn@combine-ThinkPad-S1-Yoga>
+Content-Language: fr, en-US
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <Y9/xXHvOAwfqoDxn@combine-ThinkPad-S1-Yoga>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Feb 05, 2023 at 04:34:29PM +0100, Nam Cao wrote:
-> On Sun, Feb 05, 2023 at 02:30:59PM +0100, Guru Mehar Rachaputi wrote:
-> > On Sun, Feb 05, 2023 at 02:16:07PM +0100, Greg Kroah-Hartman wrote:
-> > > On Sun, Feb 05, 2023 at 02:08:02PM +0100, Guru Mehar Rachaputi wrote:
-> > > > This patch is to fix checkpatch warning: "Macro argument 'iobase' may be better
-> > > > as '(iobase)' to avoid precedence issues"
-> > > > 
-> > > > ---
-> > > > Changes in v3:
-> > > > 	- Whitespace error from checkpatch fixed
-> > > > 
-> > > > Changes in v2:
-> > > > 	- Macros with one statement that is to call 'iowrite8' function changed
-> > > > 	to inline function as reviewed by gregkh@linuxfoundation.org.
-> > > > 	In relation to this, names of the callers of macro are also modified
-> > > > 	to call this function.
-> > > > 
-> > > > Signed-off-by: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-> > > 
-> > > Try to take this patch and apply it to a tree, and see that everything
-> > > below the --- line is thrown away, including your signed-off-by: line :(
-> > > 
-> > Sorry, should not a patch contain signed-off-by: line?
-> > I did not understand.
+Le 05/02/2023 à 19:11, Guru Mehar Rachaputi a écrit :
+> This patch is to fix checkpatch warning: "Macro argument 'iobase' may be better
+> as '(iobase)' to avoid precedence issues" changed to inline function. In
+> relation to this, names of the callers of macro are also modified to call
+> this function.
 > 
-> Patches must include signed-off-by. However your patch has it below the
-> --- line, and git will throw it away. You can try "git am <your patch>"
-> and see for yourself.
-> 
-> Best regards,
-> Nam
-I made my current working branch track origin/staging-testing and
-modified the commit message and sent the patch again. I hope there won't
-be any issue.
+> Signed-off-by: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
 
--- 
-Thanks & Regards,
-Guru
+Hi,
+
+this patch should be v4.
+You re-sent it with a modified commit message (the position of your S-o-b)
+
+The idea behind patch versions is to help maintainer. With the way you 
+did, now 2 patches stating v3 are available.
+Which one is the correct one?
+The maintainer would need to look at both, search for differences, maybe 
+look at the date of the mails.
+A v4 would be much easier for him.
+
+
+Also, when you send an updated version of a patch, it should always be 
+"complete". I mean that the patch below seems to need v2, and maybe even 
+v1 (which is apparently not on the linux-kernel mailing list).
+
+A maintainer can't know by himself what is needed and what is not.
+
+So you should resend a new patch.
+It should be a v4, and it should include what is needed from (v1?), v2 
+and v3 all together.
+
+CJ
+
+
+> ---
+> Changes in v3:
+> 	- Whitespace error from checkpatch fixed
+> 
+> Changes in v2:
+> 	- Macros with one statement that is to call 'iowrite8' function changed
+> 	to inline function as reviewed by gregkh@linuxfoundation.org.
+> 	In relation to this, names of the callers of macro are also modified
+> 	to call this function.
+> ---
+>   drivers/staging/vt6655/card.c    | 3 +--
+>   drivers/staging/vt6655/channel.c | 2 +-
+>   drivers/staging/vt6655/mac.h     | 4 ++--
+>   3 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+> index a6ff496b01b6..d2d122dc16d8 100644
+> --- a/drivers/staging/vt6655/card.c
+> +++ b/drivers/staging/vt6655/card.c
+> @@ -643,8 +643,7 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
+>   				   &byRsvTime);
+>   	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_72);
+>   	/* Set to Page0 */
+> -        vt6655_mac_select_page0(priv->port_offset);
+> -
+> +	vt6655_mac_select_page0(priv->port_offset);
+>   
+>   	spin_unlock_irqrestore(&priv->lock, flags);
+>   }
+> diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
+> index e9a44bcebe32..60b445c38424 100644
+> --- a/drivers/staging/vt6655/channel.c
+> +++ b/drivers/staging/vt6655/channel.c
+> @@ -121,7 +121,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
+>   		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWRCCK);
+>   		RFbSetPower(priv, RATE_6M, priv->byCurrentCh);
+>   		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
+> -	        vt6655_mac_select_page0(priv->port_offset);
+> +		vt6655_mac_select_page0(priv->port_offset);
+>   
+>   		spin_unlock_irqrestore(&priv->lock, flags);
+>   	}
+> diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+> index b9a7ca0fe604..ae3064303691 100644
+> --- a/drivers/staging/vt6655/mac.h
+> +++ b/drivers/staging/vt6655/mac.h
+> @@ -539,12 +539,12 @@
+>   
+>   static inline void vt6655_mac_select_page0(void __iomem *iobase)
+>   {
+> -        iowrite8(0, iobase + MAC_REG_PAGE1SEL);
+> +	iowrite8(0, iobase + MAC_REG_PAGE1SEL);
+>   }
+>   
+>   static inline void  vt6655_mac_select_page1(void __iomem *iobase)
+>   {
+> -        iowrite8(1, iobase + MAC_REG_PAGE1SEL);
+> +	iowrite8(1, iobase + MAC_REG_PAGE1SEL);
+>   }
+>   
+>   #define MAKEWORD(lb, hb) \
+
