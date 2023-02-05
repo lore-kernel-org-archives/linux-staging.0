@@ -1,42 +1,43 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DC67B
-	for <linux-staging@lists.linux.dev>; Sun,  5 Feb 2023 08:06:12 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id q19so8855046edd.2
-        for <linux-staging@lists.linux.dev>; Sun, 05 Feb 2023 00:06:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3816923AD
+	for <linux-staging@lists.linux.dev>; Sun,  5 Feb 2023 08:06:13 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id fi26so8828589edb.7
+        for <linux-staging@lists.linux.dev>; Sun, 05 Feb 2023 00:06:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cf43ZAC9d9vV87Brf749qwDNEbTSGBab1FS9DyewXkE=;
-        b=IYzxAnFf7wdql5pNk1TmzsC9UPQ7Cwt72Sz7/xF0jPG2kf2CTMAE+6qsUjmcs75YFm
-         gwYr9dCg+Fvih+BixjfsA69bk5FMag3n88eqUg/QxrcTvHs1Jt8tAtuc37Ln3pk0Wg1d
-         ZPkoP1Ft5Y9Q501jx7BOlqX9ZJjxGkGK3t2hxnG4rql05HsfbWRumyn0MFlbongnY4eF
-         gs6FtfWbF7y1MU8jOx72EQGG59RdV0oin6Tq5Esh3jMk9z6a6rit4qFE1MFpftq1XKIb
-         xO8RDtbygHZ16oLbLGgtCFUM5uzIVHq33VqfHFVGjwEZ70GQcIr8z5NInXZg2TZ9aZUw
-         pBNg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2qziGg2cSFU5vnpf88of+jda4n8gpF/R4RPkurqZxdw=;
+        b=Bq4lNcFeMqwx8VXJ1FRr0MF65ZNSu2CaIR/OqWDdfZ2tSFEE9s3VLCGICyvbRhk28q
+         pwpj5lwOiVIK8DV9TEEWHy/5UaSQNXqezvNwQu5ibuXrgdVY14ajHD9FLUq1XjQLkPlt
+         AS6MRm9t7lERH1hjm48I3qrXq/RohGd9I3/cBfbgA2ieDaN7I9GEa021YiyKM5ARYabv
+         v3uy9g7If4rzB/dXmGxS54YHjdUja0kNaP+guHOKyQgnS8leg0xGZoLIOTED73/g7rPY
+         /LryiHeO6O+SV4Tc9kDirM38MW7LohrEUUQdaIm823ule0ys3tG0pd8RHIQdQQYHdXy9
+         8QnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Cf43ZAC9d9vV87Brf749qwDNEbTSGBab1FS9DyewXkE=;
-        b=mP8wqoqu9+jFzcIgX8ARvbrjAAqDR5tq9MKpL9HnU6bucj0NNrwiq8rvv7UpgfBcE1
-         W/323gKqBQee3Hwr1Zc3s7hdq3JHDh7keR2TErxcHOVBFiDiZLqKKWwWMaRZ63z+SU4H
-         pa63hj4VcV1jLk5ijt+kHrzRUSSHwPlrKvuGo5qfvJm1lQYfFAzDtEks9IeDg6DXPklM
-         IvA5x7SuJM3iOjPapz/AM+KiKCg4yYjxn+WTX95YN1e2OS8sJcQ62rJkzLaNT5W5LwqA
-         NWGezH6EhxPraK8FeeqFpGPjdij1y1YlSsfPaUUbTUDoixbZ+38AnX7FysRXKxK9GWXQ
-         KNJA==
-X-Gm-Message-State: AO0yUKUGhyRAX7MOxUN+j/AOnnmBHaQ8KQgA/7dBnM4W/3sIvK2hO20H
-	Jo8/PkXk5XKv0L6I5g11m00=
-X-Google-Smtp-Source: AK7set+lpuCEhSj4zOH3rTqwYf9bgUaGTOBRuaqkByOp1hB9QuOm75UJDzH5A4fNA1RTxwUlLfXXfQ==
-X-Received: by 2002:a05:6402:2206:b0:4a2:1b97:228c with SMTP id cq6-20020a056402220600b004a21b97228cmr13979648edb.28.1675584370914;
-        Sun, 05 Feb 2023 00:06:10 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2qziGg2cSFU5vnpf88of+jda4n8gpF/R4RPkurqZxdw=;
+        b=zZmf6jyu8rGZbIzetPFHj3jk6IyLogkz+RSYygxsZih85s9QQPidcFv/zCmQZg5Ztg
+         nW8VDaD+Pi0VUz3DKAyEVuJi6SigyPaYlXINotm1LgNa/XrWDoFpHKX0mxJovJ/p8e/k
+         od+KG4t09l6h/dsZshGJnrJEe58Cu1IBq61dY7iFnFyO3tPgORqdo+o2mFeqLijQBitx
+         Jd3wPRu/4RQZToib22Pt/kqfqub0OWN29R4CHJ6r09oiQRtGNCVSBjx4Bt994guki4xb
+         sFzXywTNoBQ4IiFUMohJbp+1p4S8U2rojPGhUfYhP2MdQpxI+UP6ilPL3Wa1OYNcVbRr
+         Sytg==
+X-Gm-Message-State: AO0yUKUNQQynQdFIwf4A9DKzyjEldCelASmUywSn2eK6NvqfPH1nUjB7
+	z3LHTRNMYGsjONdWMUIUmuc=
+X-Google-Smtp-Source: AK7set82cocJLwg7jKmHkAnixiqqMkQbGSEdEbxeR7NAHASHAVwBj7PQs1ZU1TJyFEqPpH351NaLWA==
+X-Received: by 2002:a50:9f26:0:b0:4aa:a216:c15 with SMTP id b35-20020a509f26000000b004aaa2160c15mr4058858edf.10.1675584371450;
+        Sun, 05 Feb 2023 00:06:11 -0800 (PST)
 Received: from localhost.localdomain (ip5f5abbf9.dynamic.kabel-deutschland.de. [95.90.187.249])
         by smtp.gmail.com with ESMTPSA id q10-20020a056402518a00b00463bc1ddc76sm3441379edd.28.2023.02.05.00.06.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Feb 2023 00:06:10 -0800 (PST)
+        Sun, 05 Feb 2023 00:06:11 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -44,10 +45,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 0/2] staging: r8188eu: correct error logic of two functions
-Date: Sun,  5 Feb 2023 09:05:57 +0100
-Message-Id: <20230205080559.8319-1-straube.linux@gmail.com>
+Subject: [PATCH v2 1/2] staging: r8188eu: correct error logic of rtl8188eu_init_recv_priv()
+Date: Sun,  5 Feb 2023 09:05:58 +0100
+Message-Id: <20230205080559.8319-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230205080559.8319-1-straube.linux@gmail.com>
+References: <20230205080559.8319-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,23 +59,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series converts two functions away from returning _SUCCESS and
-_FAIL. Another tiny step to get rid of _FAIL / _SUCCESS someday.
+Convert the function rtl8188eu_init_recv_priv() away from returning
+_FAIL and _SUCCESS, which uses inverted error logic. Return 0 for
+success and negative values for failure instead.
 
-Tested on x86_64 with Inter-Tech DMG 02.
-
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
 v2:
-Removed the initialization of the variable err in _rtw_init_recv_priv()
-since it's not needed.
+no changes
 
-Michael Straube (2):
-  staging: r8188eu: correct error logic of rtl8188eu_init_recv_priv()
-  staging: r8188eu: correct error logic of _rtw_init_recv_priv()
+ drivers/staging/r8188eu/core/rtw_recv.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
- drivers/staging/r8188eu/core/rtw_recv.c   | 30 +++++++++--------------
- drivers/staging/r8188eu/os_dep/os_intfs.c |  2 +-
- 2 files changed, 12 insertions(+), 20 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 631c500dda42..70d43c10e53d 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -38,7 +38,7 @@ void _rtw_init_sta_recv_priv(struct sta_recv_priv *psta_recvpriv)
+ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
+ {
+ 	struct recv_priv *precvpriv = &padapter->recvpriv;
+-	int i, res = _SUCCESS;
++	int i, err = 0;
+ 	struct recv_buf *precvbuf;
+ 
+ 	tasklet_init(&precvpriv->recv_tasklet,
+@@ -50,10 +50,8 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
+ 
+ 	precvpriv->pallocated_recv_buf = kzalloc(NR_RECVBUFF * sizeof(struct recv_buf) + 4,
+ 						 GFP_KERNEL);
+-	if (!precvpriv->pallocated_recv_buf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
++	if (!precvpriv->pallocated_recv_buf)
++		return -ENOMEM;
+ 
+ 	precvpriv->precv_buf = (u8 *)ALIGN((size_t)(precvpriv->pallocated_recv_buf), 4);
+ 
+@@ -64,7 +62,7 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
+ 		precvbuf->reuse = false;
+ 		precvbuf->purb = usb_alloc_urb(0, GFP_KERNEL);
+ 		if (!precvbuf->purb) {
+-			res = _FAIL;
++			err = -ENOMEM;
+ 			break;
+ 		}
+ 		precvbuf->adapter = padapter;
+@@ -94,8 +92,8 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
+ 			pskb = NULL;
+ 		}
+ 	}
+-exit:
+-	return res;
++
++	return err;
+ }
+ 
+ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
+@@ -141,7 +139,8 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
+ 	}
+ 	precvpriv->rx_pending_cnt = 1;
+ 
+-	res = rtl8188eu_init_recv_priv(padapter);
++	if (rtl8188eu_init_recv_priv(padapter))
++		res = _FAIL;
+ 
+ 	timer_setup(&precvpriv->signal_stat_timer, rtw_signal_stat_timer_hdl, 0);
+ 	precvpriv->signal_stat_sampling_interval = 1000; /* ms */
 -- 
 2.39.1
 
