@@ -1,149 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED322F47
-	for <linux-staging@lists.linux.dev>; Mon,  6 Feb 2023 09:43:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9B0C4339C;
-	Mon,  6 Feb 2023 09:43:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657722F47
+	for <linux-staging@lists.linux.dev>; Mon,  6 Feb 2023 09:47:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB7CC433EF;
+	Mon,  6 Feb 2023 09:47:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1675676639;
-	bh=BLBlNcQq7iMAgQJd1jPGiu4pcQKBixJyR1fnAst7nOo=;
+	s=korg; t=1675676853;
+	bh=F1zVXNR0pCBjMMQRJ8RZFHCDx+mRQOAL4BbWy1HOY7k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UWq7tDV8MbPN/xGCWTaNxObOk86UcoHR/Imxk25zvxp6XRZ6aXkXtIFRqb/IT5SEs
-	 lMfabDhNBpFrortm/BlVDphE1HlgpNysK1nLK35cRnG53y94+mRt8Q6I9Mlo2j5icU
-	 677CdNQhCQshrEeSJ2DibJ2Gnp04iF/7cMpIyOvU=
-Date: Mon, 6 Feb 2023 10:43:56 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Forest Bond <forest@alittletooquiet.net>,
+	b=MmtYlDvBA+icC7EHF91v2UQqj137PRgCJeR0R7irElNN2XAQRWYkoPLjOF7YTvLhV
+	 d/TyiSSJWOj6PHx822sJRVsxxraMjugfbi/I+hJnpQAtam3RlTnKGg2j+ggl5Gk1xz
+	 0yJL0hyh6jgQeOPU1ReWhrmc6yX8gKROOGFPU8r0=
+Date: Mon, 6 Feb 2023 10:47:29 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
- inline function
-Message-ID: <Y+DL3O5lcMyZ/aNR@kroah.com>
-References: <Y9/xXHvOAwfqoDxn@combine-ThinkPad-S1-Yoga>
- <3cb45313-209a-8190-12f8-6a2d49e4173b@wanadoo.fr>
- <Y+A+HF1vDeRIqye5@combine-ThinkPad-S1-Yoga>
+Subject: Re: [PATCH 2/2] staging: r8188eu: correct error logic of
+ _rtw_init_recv_priv()
+Message-ID: <Y+DMsdD4l2qPpKjM@kroah.com>
+References: <20230204101654.10232-1-straube.linux@gmail.com>
+ <20230204101654.10232-3-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+A+HF1vDeRIqye5@combine-ThinkPad-S1-Yoga>
+In-Reply-To: <20230204101654.10232-3-straube.linux@gmail.com>
 
-On Mon, Feb 06, 2023 at 12:39:08AM +0100, Guru Mehar Rachaputi wrote:
-> On Sun, Feb 05, 2023 at 08:12:31PM +0100, Christophe JAILLET wrote:
-> > Le 05/02/2023 à 19:11, Guru Mehar Rachaputi a écrit :
-> > > This patch is to fix checkpatch warning: "Macro argument 'iobase' may be better
-> > > as '(iobase)' to avoid precedence issues" changed to inline function. In
-> > > relation to this, names of the callers of macro are also modified to call
-> > > this function.
-> > > 
-> > > Signed-off-by: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-> > 
-> > Hi,
-> > 
-> > this patch should be v4.
-> > You re-sent it with a modified commit message (the position of your S-o-b)
-> > 
-> > The idea behind patch versions is to help maintainer. With the way you did,
-> > now 2 patches stating v3 are available.
-> > Which one is the correct one?
-> > The maintainer would need to look at both, search for differences, maybe
-> > look at the date of the mails.
-> > A v4 would be much easier for him.
-> > 
-> > 
-> > Also, when you send an updated version of a patch, it should always be
-> > "complete". I mean that the patch below seems to need v2, and maybe even v1
-> > (which is apparently not on the linux-kernel mailing list).
-> > 
-> > A maintainer can't know by himself what is needed and what is not.
-> > 
-> > So you should resend a new patch.
-> > It should be a v4, and it should include what is needed from (v1?), v2 and
-> > v3 all together.
-> > 
-> > CJ
-> > 
-> > 
-> > > ---
-> > > Changes in v3:
-> > > 	- Whitespace error from checkpatch fixed
-> > > 
-> > > Changes in v2:
-> > > 	- Macros with one statement that is to call 'iowrite8' function changed
-> > > 	to inline function as reviewed by gregkh@linuxfoundation.org.
-> > > 	In relation to this, names of the callers of macro are also modified
-> > > 	to call this function.
-> > > ---
-> > >   drivers/staging/vt6655/card.c    | 3 +--
-> > >   drivers/staging/vt6655/channel.c | 2 +-
-> > >   drivers/staging/vt6655/mac.h     | 4 ++--
-> > >   3 files changed, 4 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-> > > index a6ff496b01b6..d2d122dc16d8 100644
-> > > --- a/drivers/staging/vt6655/card.c
-> > > +++ b/drivers/staging/vt6655/card.c
-> > > @@ -643,8 +643,7 @@ void CARDvSetRSPINF(struct vnt_private *priv, u8 bb_type)
-> > >   				   &byRsvTime);
-> > >   	iowrite16(MAKEWORD(byTxRate, byRsvTime), priv->port_offset + MAC_REG_RSPINF_A_72);
-> > >   	/* Set to Page0 */
-> > > -        vt6655_mac_select_page0(priv->port_offset);
-> > > -
-> > > +	vt6655_mac_select_page0(priv->port_offset);
-> > >   	spin_unlock_irqrestore(&priv->lock, flags);
-> > >   }
-> > > diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
-> > > index e9a44bcebe32..60b445c38424 100644
-> > > --- a/drivers/staging/vt6655/channel.c
-> > > +++ b/drivers/staging/vt6655/channel.c
-> > > @@ -121,7 +121,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
-> > >   		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWRCCK);
-> > >   		RFbSetPower(priv, RATE_6M, priv->byCurrentCh);
-> > >   		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
-> > > -	        vt6655_mac_select_page0(priv->port_offset);
-> > > +		vt6655_mac_select_page0(priv->port_offset);
-> > >   		spin_unlock_irqrestore(&priv->lock, flags);
-> > >   	}
-> > > diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-> > > index b9a7ca0fe604..ae3064303691 100644
-> > > --- a/drivers/staging/vt6655/mac.h
-> > > +++ b/drivers/staging/vt6655/mac.h
-> > > @@ -539,12 +539,12 @@
-> > >   static inline void vt6655_mac_select_page0(void __iomem *iobase)
-> > >   {
-> > > -        iowrite8(0, iobase + MAC_REG_PAGE1SEL);
-> > > +	iowrite8(0, iobase + MAC_REG_PAGE1SEL);
-> > >   }
-> > >   static inline void  vt6655_mac_select_page1(void __iomem *iobase)
-> > >   {
-> > > -        iowrite8(1, iobase + MAC_REG_PAGE1SEL);
-> > > +	iowrite8(1, iobase + MAC_REG_PAGE1SEL);
-> > >   }
-> > >   #define MAKEWORD(lb, hb) \
-> > 
+On Sat, Feb 04, 2023 at 11:16:54AM +0100, Michael Straube wrote:
+> Convert the function _rtw_init_recv_priv() away from returning _FAIL
+> and _SUCCESS, which uses inverted error logic. Return 0 for success
+> and negative values for failure instead.
 > 
-> Thanks for the explaination.
-> Since I amended commit message and thought as there is no new commit it
-> should still be the same patch.
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_recv.c   | 17 +++++------------
+>  drivers/staging/r8188eu/os_dep/os_intfs.c |  2 +-
+>  2 files changed, 6 insertions(+), 13 deletions(-)
 > 
-> Is it ok if I send a new patchset based on the previous conversations?
-> I have four commits now, 4th commit being just the commit message and
-> this patchset doesn't have s-o-b issue.
+> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+> index 70d43c10e53d..4c823bbcc22b 100644
+> --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> @@ -99,10 +99,8 @@ static int rtl8188eu_init_recv_priv(struct adapter *padapter)
+>  int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
+>  {
+>  	int i;
+> -
+>  	struct recv_frame *precvframe;
+> -
+> -	int	res = _SUCCESS;
+> +	int err = 0;
+>  
+>  	spin_lock_init(&precvpriv->lock);
+>  
+> @@ -115,11 +113,8 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
+>  	precvpriv->free_recvframe_cnt = NR_RECVFRAME;
+>  
+>  	precvpriv->pallocated_frame_buf = vzalloc(NR_RECVFRAME * sizeof(struct recv_frame) + RXFRAME_ALIGN_SZ);
+> -
+> -	if (!precvpriv->pallocated_frame_buf) {
+> -		res = _FAIL;
+> -		goto exit;
+> -	}
+> +	if (!precvpriv->pallocated_frame_buf)
+> +		return -ENOMEM;
+>  
+>  	precvpriv->precv_frame_buf = (u8 *)ALIGN((size_t)(precvpriv->pallocated_frame_buf), RXFRAME_ALIGN_SZ);
+>  
+> @@ -139,16 +134,14 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
+>  	}
+>  	precvpriv->rx_pending_cnt = 1;
+>  
+> -	if (rtl8188eu_init_recv_priv(padapter))
+> -		res = _FAIL;
+> +	err = rtl8188eu_init_recv_priv(padapter);
 
-Look at other submissions on the mailing lists.  When you submit a new
-version of a patch, it is stand-alone, with no dependancies on anything
-else, otherwise tracking that would be impossible, right?
+You are keeping the original logic here, but this is odd, nothing
+actually changes if this is an error except you return it?  That seems
+wrong, and you might want to fix that up in further patches.
 
-I suggest reading through the kernelnewbies.org "first patch submission"
-tutorial first as I think it will answer questions like this.
-
-good luck!
+thanks,
 
 greg k-h
