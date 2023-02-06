@@ -1,94 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7244E3D75
-	for <linux-staging@lists.linux.dev>; Mon,  6 Feb 2023 15:24:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675697092;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UeRsUwXraH00cd2sE5Kq7ZYAcSvC5OMPd9fEpRmgyQk=;
-	b=SENYgnakRJhx/uNe3a8pMjJAVC7mnf0NqW59TnQRnupUIGn01AVsYTSqhH8lhT3PvbWc0y
-	tfqjdvEofjMBjK/b+Ns056kOON8Pr2zW7MEIf5v1Q6AdC1f1GSEsG3jSk7ogJ3eDyp/0YF
-	PNUt2KUC8qEqUjsf/jDhoypBO+Kwne8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-352-RJztv-YbNHGzSkzF7vckjg-1; Mon, 06 Feb 2023 10:24:51 -0500
-X-MC-Unique: RJztv-YbNHGzSkzF7vckjg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A01A1885627;
-	Mon,  6 Feb 2023 15:24:49 +0000 (UTC)
-Received: from plouf.local (ovpn-192-160.brq.redhat.com [10.40.192.160])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A5D9FC15BA0;
-	Mon,  6 Feb 2023 15:24:45 +0000 (UTC)
-From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To: Basavaraj Natikar <basavaraj.natikar@amd.com>, 
- Jiri Kosina <jikos@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, 
- =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Maximilian Luz <luzmaximilian@gmail.com>, 
- Corentin Chary <corentin.chary@gmail.com>, 
- Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>, 
- Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hyperv@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- acpi4asus-user@lists.sourceforge.net, greybus-dev@lists.linaro.org, 
- linux-staging@lists.linux.dev
-In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
-References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
-Subject: Re: [PATCH 0/9] HID: Constify lowlevel HID drivers
-Message-Id: <167569708530.2863874.629972838322099394.b4-ty@redhat.com>
-Date: Mon, 06 Feb 2023 16:24:45 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6972610A
+	for <linux-staging@lists.linux.dev>; Mon,  6 Feb 2023 20:18:17 +0000 (UTC)
+Received: from ipservice-092-217-084-033.092.217.pools.vodafone-ip.de ([92.217.84.33] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1pP7wE-0007ps-Sz; Mon, 06 Feb 2023 21:18:06 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/6] staging: r8188eu: remove intf_start and intf_stop
+Date: Mon,  6 Feb 2023 21:17:54 +0100
+Message-Id: <20230206201800.139195-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 
-On Mon, 30 Jan 2023 03:59:36 +0000, Thomas Weißschuh wrote:
-> Since 52d225346904 ("HID: Make lowlevel driver structs const") the
-> lowlevel HID drivers are only exposed as const.
-> 
-> Take advantage of this to constify the underlying structures, too.
-> 
-> 
+Remove the two pointers to media-specific start and stop functions. The
+r8188eu driver supports only usb.
 
-Applied to hid/hid.git (for-6.3/hid-core), thanks!
+Update some of the functions in the start and stop paths to return
+standard error codes instead of _SUCCESS and _FAIL.
 
-[1/9] HID: amd_sfh: Constify lowlevel HID driver
-      https://git.kernel.org/hid/hid/c/65b7015bfe16
-[2/9] HID: hyperv: Constify lowlevel HID driver
-      https://git.kernel.org/hid/hid/c/d38213a911c5
-[3/9] HID: logitech-dj: Constify lowlevel HID driver
-      https://git.kernel.org/hid/hid/c/662eee8d46df
-[4/9] HID: steam: Constify lowlevel HID driver
-      https://git.kernel.org/hid/hid/c/ddb6792f0ef2
-[5/9] HID: intel-ish-hid: Constify lowlevel HID driver
-      https://git.kernel.org/hid/hid/c/3352c3e0bf9b
-[6/9] HID: surface-hid: Constify lowlevel HID driver
-      https://git.kernel.org/hid/hid/c/dd350afc1757
-[7/9] platform/x86: asus-tf103c-dock: Constify lowlevel HID driver
-      https://git.kernel.org/hid/hid/c/63509b149f1b
-[8/9] platform/x86: asus-tf103c-dock: Constify toprow keymap
-      https://git.kernel.org/hid/hid/c/783c3394b493
-[9/9] staging: greybus: hid: Constify lowlevel HID driver
-      https://git.kernel.org/hid/hid/c/ff17bb876014
+Martin Kaiser (6):
+  staging: r8188eu: pass a struct recv_buf to rtw_read_port
+  staging: r8188eu: use standard error codes in rtw_read_port
+  staging: r8188eu: use standard error codes in rtl8188eu_inirp_init
+  staging: r8188eu: remove intf_start pointer
+  staging: r8188eu: handle rtl8188eu_inirp_init errors
+  staging: r8188eu: remove intf_stop pointer
 
-Cheers,
+ drivers/staging/r8188eu/hal/usb_halinit.c   | 16 ++++++--------
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 20 ++++++++---------
+ drivers/staging/r8188eu/include/drv_types.h |  2 --
+ drivers/staging/r8188eu/include/hal_intf.h  |  2 +-
+ drivers/staging/r8188eu/include/rtw_io.h    |  2 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c   | 12 +++++------
+ drivers/staging/r8188eu/os_dep/usb_intf.c   | 24 +++------------------
+ 7 files changed, 26 insertions(+), 52 deletions(-)
+
 -- 
-Benjamin Tissoires <benjamin.tissoires@redhat.com>
+2.30.2
 
