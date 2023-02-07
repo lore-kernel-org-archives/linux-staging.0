@@ -1,49 +1,49 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C987470
-	for <linux-staging@lists.linux.dev>; Tue,  7 Feb 2023 18:17:04 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so13828824wmb.2
-        for <linux-staging@lists.linux.dev>; Tue, 07 Feb 2023 10:17:04 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0F87470
+	for <linux-staging@lists.linux.dev>; Tue,  7 Feb 2023 18:17:11 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id j29-20020a05600c1c1d00b003dc52fed235so12184792wms.1
+        for <linux-staging@lists.linux.dev>; Tue, 07 Feb 2023 10:17:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WGwqZUsDnGRvbERNE55E/iqBGAJKPmXKHucUfptNjuE=;
-        b=g4cKbTwaTW/Mk5IWf4FL266QBdQso0Ex5EBXUrFXqWcrYoNG/HcXJ68UIrAMBSWqHG
-         sKj1UWvYDrOKvNxXGJZp8u4Ezt5d/ibzzo1qwq6zuXXXDXHiL9wwHm5X9vKLJarNwA5Q
-         vSPYKgURQ3gDIiPq2cHtCEG/s1cekORMmz2oplfXRgmq1JqVnHxnPmeY+LDIYWNR5YYi
-         qOBX0Gz9qZtYYpRLjvNHynjS5V1lOZH797bRdUU3roBukgckqqi3W1bU+BMaAyxJcU4a
-         GWSd86LUDgYDyF2lZFWlluqU5k3WtliPorl2WZtNnUFSARTrvRgWGUoXY1/0p0eK0QM+
-         ju5g==
+        bh=i70DTnDEYlAPFNMlsy77ER5Ex4KrEjMwWGefFgQrQXI=;
+        b=PyWvU7nUk2rGi22Zc5hlgfbaq38OGk+lrbZrXef06Pf0n283Ees61QTioCzRNMmVYC
+         vUtQPFICskJtu5vnsMbQMLg2ESOyNUL/PR2DUpPSpBUVjzuM+WL58n93hjUMkS+q1QP5
+         QMHj43kBMyTnWJ1GlEk1a9g/KspmfdQoVOSC+QkNfAo0AD77SsjmzdO4bhncJvZDyLBP
+         hLfQRG/RcyY6lENvAfBFCWr4N5h+hqj1VB+b/P7biV+1QOAZoYM5Xys4mYdsuT3Mregp
+         PTnAEd0Up2WigfNhHVTWE2mDGTMUSibYk61cgAfhMuNm3M1gBK29MI5v+/6QWsNKSXIt
+         4ITw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WGwqZUsDnGRvbERNE55E/iqBGAJKPmXKHucUfptNjuE=;
-        b=XDTQBX2VyugQDL6y/A1gfL0Wn2l3K8NQIAF5+UWsHTHqgHynI5Ua6ThycYwHQ48Cve
-         FGiy5xYueL4Cw520UA0ah6BmJJtRTe+1YIx4uv3tr8NvYobA2Or5K6EZgfGUgzAviN8g
-         K+7obHjHes25g1WRa044JQH+UYVsCxNRxbvE6xnpW7d4OQVG4B4tJLFIeEFIbpQSDs2t
-         GillhHrN83TpVH+JEq2iZAJRONtNyS5sGFc++7R+gktWRjzginOTuWJ705cMzfKaX9yr
-         qWe7t9dIF4fB6OZ4gbtmNepbQq4fv1apdWjPL+0hdjJPM8SpaBjMDQtGuzZrIHwmOoOm
-         Zu0g==
-X-Gm-Message-State: AO0yUKUB+qDI4WSPuVGYeuiZXB6ryGfdmcyfliwspou81QXs5jz1zOlN
-	/oX92f/pG2PmBFkObMCSKFrJX9BJOnA=
-X-Google-Smtp-Source: AK7set9FfqUA9hTHe2Ir6IOwB6OVABkct9dUWH3zjza2f7QZbPKgi87IEl2HI+d+Q5C4YMCZKSDvHQ==
-X-Received: by 2002:a05:600c:35c5:b0:3d2:231a:cb30 with SMTP id r5-20020a05600c35c500b003d2231acb30mr5185165wmq.3.1675793823149;
-        Tue, 07 Feb 2023 10:17:03 -0800 (PST)
+        bh=i70DTnDEYlAPFNMlsy77ER5Ex4KrEjMwWGefFgQrQXI=;
+        b=wN4KEC7dur4SjkaxNdShwyXY5E9iIsUGyxCMsUND41Fabqgg2XNHDDzcMjZKIirw1P
+         WwwMF+IfKpM+8uddHfg1tXLl7kCgk0sx3U3yPAUos0unKoK1sV8stLdKdmZH1ghxC+s2
+         CPE1vQzGbXxKSBQ22ngEiqes9hq/Uepj0WLVySffS4lflPdrR5Vs7tknEGB+rj5smzAL
+         MfQDgFComxfwiuIwX1lUTTLTp1Cwtc80iDqO3ulyP53aISRHOK/yGdjsgSIXg+/nNMPN
+         eXLSKwD/DGIP6YeSmmfC4rUx+YwQnFfb2H01/2saGVnwWD31EpY/tAobECTHObkiudkd
+         VMuA==
+X-Gm-Message-State: AO0yUKXqovy7grz2WxQTF/vawC4Yx5RNSpJCYar+bk8e8nfDZol7Qv56
+	azzCxOQ/RwI5Ss88E+bRUE8=
+X-Google-Smtp-Source: AK7set8tFu75GALUJtIt9nqTGUR3s1qDUrafgpvKFIxSk1/S4omOLfCGJh0pNgB8HYq/UUo1h7gdCw==
+X-Received: by 2002:a05:600c:1d06:b0:3db:2063:425e with SMTP id l6-20020a05600c1d0600b003db2063425emr4689402wms.1.1675793829439;
+        Tue, 07 Feb 2023 10:17:09 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id r12-20020a05600c35cc00b003d9fba3c7a4sm21260423wmq.16.2023.02.07.10.17.02
+        by smtp.gmail.com with ESMTPSA id g10-20020a05600c310a00b003de77597f16sm15428928wmo.21.2023.02.07.10.17.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 10:17:02 -0800 (PST)
-Date: Tue, 7 Feb 2023 19:17:00 +0100
+        Tue, 07 Feb 2023 10:17:08 -0800 (PST)
+Date: Tue, 7 Feb 2023 19:17:07 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/10] staging: rtl8192e: Rename RateAdaptiveTH..,
- VeryLowRSSI and WAIotTHVal
-Message-ID: <ebca576cae161442e51cd5b73930dc53f8ae26ba.1675792435.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 08/10] staging: rtl8192e: Rename Enable, cck_Rx_path and
+ SS_TH_low
+Message-ID: <740487e2fd8b98bfcaa8af2e398b9aa7e320fef8.1675792435.git.philipp.g.hortmann@gmail.com>
 References: <cover.1675792435.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,87 +55,90 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1675792435.git.philipp.g.hortmann@gmail.com>
 
-Rename constants RateAdaptiveTH_Low_40M to RATE_ADAPTIVE_TH_LOW_40M,
-VeryLowRSSI to VERY_LOW_RSSI and WAIotTHVal to WA_IOT_TH_VAL to avoid
-CamelCase which is not accepted by checkpatch.
+Rename variables Enable to enable, cck_Rx_path to cck_rx_path and
+SS_TH_low to ss_th_low to avoid CamelCase which is not accepted by
+checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 6 +++---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 6 +++---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.h     | 6 +++---
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 14 +++++++-------
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.h |  6 +++---
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 7e445a168daa..0b5b2ae27f9e 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -2021,17 +2021,17 @@ bool rtl92e_is_rx_stuck(struct net_device *dev)
- 		rx_chk_cnt = 0;
- 	} else if ((priv->undecorated_smoothed_pwdb < (RATE_ADAPTIVE_TH_HIGH + 5))
- 	  && (((priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) &&
--	  (priv->undecorated_smoothed_pwdb >= RateAdaptiveTH_Low_40M))
-+	  (priv->undecorated_smoothed_pwdb >= RATE_ADAPTIVE_TH_LOW_40M))
- 	  || ((priv->current_chnl_bw == HT_CHANNEL_WIDTH_20) &&
- 	  (priv->undecorated_smoothed_pwdb >= RATE_ADAPTIVE_TH_LOW_20M)))) {
- 		if (rx_chk_cnt < 2)
- 			return bStuck;
- 		rx_chk_cnt = 0;
- 	} else if ((((priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) &&
--		  (priv->undecorated_smoothed_pwdb < RateAdaptiveTH_Low_40M)) ||
-+		  (priv->undecorated_smoothed_pwdb < RATE_ADAPTIVE_TH_LOW_40M)) ||
- 		((priv->current_chnl_bw == HT_CHANNEL_WIDTH_20) &&
- 		 (priv->undecorated_smoothed_pwdb < RATE_ADAPTIVE_TH_LOW_20M))) &&
--		priv->undecorated_smoothed_pwdb >= VeryLowRSSI) {
-+		priv->undecorated_smoothed_pwdb >= VERY_LOW_RSSI) {
- 		if (rx_chk_cnt < 4)
- 			return bStuck;
- 		rx_chk_cnt = 0;
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 739f7c512831..55e03eaf9219 100644
+index 55e03eaf9219..5e9a0e9653de 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -284,11 +284,11 @@ void rtl92e_init_adaptive_rate(struct net_device *dev)
- 	pra->ratr_state = DM_RATR_STA_MAX;
- 	pra->high2low_rssi_thresh_for_ra = RATE_ADAPTIVE_TH_HIGH;
- 	pra->low2high_rssi_thresh_for_ra20M = RATE_ADAPTIVE_TH_LOW_20M + 5;
--	pra->low2high_rssi_thresh_for_ra40M = RateAdaptiveTH_Low_40M+5;
-+	pra->low2high_rssi_thresh_for_ra40M = RATE_ADAPTIVE_TH_LOW_40M + 5;
+@@ -1720,7 +1720,7 @@ void rtl92e_dm_rf_pathcheck_wq(void *data)
+ 		else
+ 			priv->brfpath_rxenable[i] = false;
+ 	}
+-	if (!DM_RxPathSelTable.Enable)
++	if (!DM_RxPathSelTable.enable)
+ 		return;
  
- 	pra->high_rssi_thresh_for_ra = RATE_ADAPTIVE_TH_HIGH + 5;
- 	pra->low_rssi_thresh_for_ra20M = RATE_ADAPTIVE_TH_LOW_20M;
--	pra->low_rssi_thresh_for_ra40M = RateAdaptiveTH_Low_40M;
-+	pra->low_rssi_thresh_for_ra40M = RATE_ADAPTIVE_TH_LOW_40M;
+ 	_rtl92e_dm_rx_path_sel_byrssi(dev);
+@@ -1731,8 +1731,8 @@ static void _rtl92e_dm_init_rx_path_selection(struct net_device *dev)
+ 	u8 i;
+ 	struct r8192_priv *priv = rtllib_priv(dev);
  
+-	DM_RxPathSelTable.Enable = 1;
+-	DM_RxPathSelTable.SS_TH_low = RX_PATH_SEL_SS_TH_LOW;
++	DM_RxPathSelTable.enable = 1;
++	DM_RxPathSelTable.ss_th_low = RX_PATH_SEL_SS_TH_LOW;
+ 	DM_RxPathSelTable.diff_TH = RX_PATH_SEL_DIFF_TH;
  	if (priv->customer_id == RT_CID_819X_NETCORE)
- 		pra->ping_rssi_enable = 1;
-@@ -1649,7 +1649,7 @@ static void _rtl92e_dm_init_wa_broadcom_iot(struct net_device *dev)
- 	struct rt_hi_throughput *ht_info = priv->rtllib->ht_info;
+ 		DM_RxPathSelTable.cck_method = CCK_Rx_Version_2;
+@@ -1769,7 +1769,7 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
+ 		return;
  
- 	ht_info->bWAIotBroadcom = false;
--	ht_info->WAIotTH = WAIotTHVal;
-+	ht_info->WAIotTH = WA_IOT_TH_VAL;
- }
+ 	if (!cck_Rx_Path_initialized) {
+-		DM_RxPathSelTable.cck_Rx_path = (rtl92e_readb(dev, 0xa07)&0xf);
++		DM_RxPathSelTable.cck_rx_path = (rtl92e_readb(dev, 0xa07)&0xf);
+ 		cck_Rx_Path_initialized = 1;
+ 	}
  
- static void _rtl92e_dm_check_rf_ctrl_gpio(void *data)
+@@ -1901,7 +1901,7 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
+ 			update_cck_rx_path = 1;
+ 	}
+ 
+-	if (tmp_min_rssi < DM_RxPathSelTable.SS_TH_low && disabled_rf_cnt < 2) {
++	if (tmp_min_rssi < DM_RxPathSelTable.ss_th_low && disabled_rf_cnt < 2) {
+ 		if ((tmp_max_rssi - tmp_min_rssi) >=
+ 		     DM_RxPathSelTable.diff_TH) {
+ 			DM_RxPathSelTable.rf_enable_rssi_th[min_rssi_index] =
+@@ -1921,10 +1921,10 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
+ 	}
+ 
+ 	if (update_cck_rx_path) {
+-		DM_RxPathSelTable.cck_Rx_path = (cck_default_Rx<<2) |
++		DM_RxPathSelTable.cck_rx_path = (cck_default_Rx<<2) |
+ 						(cck_optional_Rx);
+ 		rtl92e_set_bb_reg(dev, rCCK0_AFESetting, 0x0f000000,
+-				  DM_RxPathSelTable.cck_Rx_path);
++				  DM_RxPathSelTable.cck_rx_path);
+ 	}
+ 
+ 	if (DM_RxPathSelTable.disabledRF) {
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-index ea698e894146..86974abea19c 100644
+index 86974abea19c..a9fa984c25ac 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-@@ -30,10 +30,10 @@
+@@ -125,11 +125,11 @@ enum dm_dig_cs_ratio {
+ };
  
- #define		RATE_ADAPTIVE_TH_HIGH			50
- #define		RATE_ADAPTIVE_TH_LOW_20M		30
--#define		RateAdaptiveTH_Low_40M		10
--#define		VeryLowRSSI					15
-+#define		RATE_ADAPTIVE_TH_LOW_40M		10
-+#define		VERY_LOW_RSSI				15
+ struct drx_path_sel {
+-	u8		Enable;
++	u8		enable;
+ 	u8		cck_method;
+-	u8		cck_Rx_path;
++	u8		cck_rx_path;
  
--#define		WAIotTHVal						25
-+#define		WA_IOT_TH_VAL				25
- 
- #define		E_FOR_TX_POWER_TRACK	       300
- #define		TX_POWER_NEAR_FIELD_THRESH_HIGH		68
+-	u8		SS_TH_low;
++	u8		ss_th_low;
+ 	u8		diff_TH;
+ 	u8		disabledRF;
+ 	u8		reserved;
 -- 
 2.39.1
 
