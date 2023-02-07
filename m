@@ -1,36 +1,48 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67ED720E8
-	for <linux-staging@lists.linux.dev>; Tue,  7 Feb 2023 09:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1675763243; bh=g4/MlD54hoVlfb5f3+4otpbQ8xO7M7nknqIn4LbkbkE=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=C67X4R2n+Mt4EeUsnRtHLrDrwYZ95u3CuFuEv0gpoSWaU7OYzVUzd1CQKxcBri2YG
-	 M3qffdx/6fOUAcLzD9TMLSZ0xfVPZU/Wf8IW1O5n/n9TdIlxjijDyvXfq7c0RV6/wF
-	 5OAKyQRqAJjaoHimtEQiPpMSrisR0M0POCFDIIGQ=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Tue,  7 Feb 2023 10:47:23 +0100 (CET)
-X-EA-Auth: NarrQd7/0A2KqSoT3GYKGjyvJjywhpIQ4Ri8lz6vF5RChioLaik+B2udxnD5Qk887Dk/jYjk6RkUsOBV0E1aUglJh4pLTfEw
-Date: Tue, 7 Feb 2023 15:17:19 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Forest Bond <forest@alittletooquiet.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DEE5682
+	for <linux-staging@lists.linux.dev>; Tue,  7 Feb 2023 18:16:15 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id j29-20020a05600c1c1d00b003dc52fed235so12182743wms.1
+        for <linux-staging@lists.linux.dev>; Tue, 07 Feb 2023 10:16:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OKb3TZUek2HqmZm24nIdjxpAgxRn7zyw1dpq0C4JxaM=;
+        b=UADcJhenEukdNJPsH4qL18yi0P8qdk4xW5PT23pPNSbkWqV2fdU+ExgcHN9jLTd5DJ
+         5fiolyeCDgJDw+J6dr9i1xrq+dhNYimAEUHjzRQBM+gGSoxqeefSAcFAwLWd+YspprIB
+         Jaca/QMdvdf7XUIZ/wRobwyhVYfUtEv1KXSxt1EtduJGnmSpv5j1ccmgrI+18xlZPPgG
+         1snABnIaRsElD24rZJ1AaReHKcKj9SzWjg0vTC3ebPt/XDLuo9Wouv0ybOL/J1V1jD5W
+         jdQpjSKGZqsGUNIDJpoOEH/zZmMCq8Ycpy8fXyE3Ra0Talslh01bI3KC9OtIB8+qPljh
+         Kfrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OKb3TZUek2HqmZm24nIdjxpAgxRn7zyw1dpq0C4JxaM=;
+        b=r1M2OFpMv1K9vak3y+sgdKH5WJf33T0+EKrOhvozRbFw9D4v14wbUIYDDmxiMGKTAy
+         fbRZdKDM6sRPItf8X0sfVQrHKMhxl8HsAIn8+nY2pqF+ZScHU/zRywGuPIkucdwRN43D
+         I5xzfnchxnDb6Gmr8MA3idnDu6Zf8/CLGlEfoyORtYB8hrMH9PgZH4zYUK22QyBU/Aci
+         FcRLvM0s6vConZ0Ygb7EoM7gTpW0fHggn6872lr5/TT6vOHc9Zxoi0DAVArLF/ZAnh/T
+         d4jxxeAfAMSeAC2L4zqcCa2pHFOXTNSwVzVc7hL+ixuoj6/L9Gh+97Y/TwC1VEQfOC2D
+         NaNg==
+X-Gm-Message-State: AO0yUKXY49YKtbwvjcQV3vYUZXAnoe0ulNTEbw9F8rzyyqbZNZ+6cO5W
+	Sa5R/9m+O2RGeKKIaxZZKWw=
+X-Google-Smtp-Source: AK7set8ATmtKImeOQFkQuVpNj8JmYvU2ELUB1+tOeaIgJOI9rzZF5uMA/mUPeFVIXerXL3FERcortg==
+X-Received: by 2002:a05:600c:1c1b:b0:3dc:4234:fe89 with SMTP id j27-20020a05600c1c1b00b003dc4234fe89mr5185724wms.2.1675793773412;
+        Tue, 07 Feb 2023 10:16:13 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id bd16-20020a05600c1f1000b003db0ee277b2sm19706599wmb.5.2023.02.07.10.16.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 10:16:12 -0800 (PST)
+Date: Tue, 7 Feb 2023 19:16:09 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
- inline function
-Message-ID: <Y+IeJ/j2fUqO4zKh@ubun2204.myguest.virtualbox.org>
-References: <Y9/xXHvOAwfqoDxn@combine-ThinkPad-S1-Yoga>
- <3cb45313-209a-8190-12f8-6a2d49e4173b@wanadoo.fr>
- <Y+A+HF1vDeRIqye5@combine-ThinkPad-S1-Yoga>
- <Y+DL3O5lcMyZ/aNR@kroah.com>
- <Y+H9BT8Am4Ik2ZDA@combine-ThinkPad-S1-Yoga>
- <Y+IJgxF52lpgk0RC@ubun2204.myguest.virtualbox.org>
- <Y+IQs0sDfJ+rxsmq@combine-ThinkPad-S1-Yoga>
+Subject: [PATCH 00/10] staging: rtl8192e: Rename constants and variables from
+ rtl_dm.h
+Message-ID: <cover.1675792435.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,60 +51,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y+IQs0sDfJ+rxsmq@combine-ThinkPad-S1-Yoga>
 
-On Tue, Feb 07, 2023 at 09:49:55AM +0100, Guru Mehar Rachaputi wrote:
-> On Tue, Feb 07, 2023 at 01:49:15PM +0530, Deepak R Varma wrote:
-> > On Tue, Feb 07, 2023 at 08:25:57AM +0100, Guru Mehar Rachaputi wrote:
-> > > On Mon, Feb 06, 2023 at 10:43:56AM +0100, Greg Kroah-Hartman wrote:
-> > > > On Mon, Feb 06, 2023 at 12:39:08AM +0100, Guru Mehar Rachaputi wrote:
-> > > > good luck!
-> > > > 
-> > > > greg k-h
-> > > 
-> > > Thanks for taking time.
-> > > 
-> > > If my understanding is correct, every version of the patch should
-> > > include all the patches/patchfiles and it should explain what happened in each
-> > > version(in decrement order) through a coverletter. Please correct me otherwise.
-> > 
-> > Hi Guru,
-> > Other than the cover letter, each individual patch should also include the patch
-> > version history in the descending order. If a specific patch(es) that is/are
-> > part of a patch-set, did not have any change, we should still increment its
-> > version and record "none" as the change in current version for such patches.
-> > 
-> > However, from the patch-set, any patches that are acked, do not need to be
-> > resent along with other patches that are still under revision. But do mentioned
-> > about such accepted/acked patches in the cover letter.
-> > 
-> > Hope this helps.
-> > 
-> > Thanks,
-> > deepak.
-> > 
-> > > 
-> > > I do refer "first patch submission" and above is my current
-> > > understanding.
-> > > 
-> > > -- 
-> > > Thanks & Regards,
-> > > Guru
-> > > 
-> > 
-> > 
-> Thanks for the info, deepak.
-> Is is possible for you to share some reference that is easy to
-> understand. It would be helpful.
+Rename constants and variables mainly from rtl_dm.h to fix checkpatch
+issues as CamelCase, missing spaces and double line breaks.
+Remove dead code in case of double definition.
 
-Please read this: https://kernelnewbies.org/FirstKernelPatch#SubmitPatchSet
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-./drv
+Philipp Hortmann (10):
+  staging: rtl8192e: Rename AcmHw_ViqEn, AcmHw_VoqEn and
+    ANAPAR_FOR_8192PciE
+  staging: rtl8192e: Calculate definition of MSR_LINK_MASK
+  staging: rtl8192e: Remove blank lines in r8192E_hw.h, rtl_core.h and
+    ..
+  staging: rtl8192e: Rename MacBlkCtrl and remove double definition
+  staging: rtl8192e: Rename OFDM_Table.., CCK_Table_.. and
+    RxPathSelecti..
+  staging: rtl8192e: Rename RxPathSelectio.., RateAdaptive.. and
+    RateAdap..
+  staging: rtl8192e: Rename RateAdaptiveTH.., VeryLowRSSI and WAIotTHVal
+  staging: rtl8192e: Rename Enable, cck_Rx_path and SS_TH_low
+  staging: rtl8192e: Rename diff_TH and disabledRF
+  staging: rtl8192e: Rename DM_RxPathSelTable
 
-> 
-> -- 
-> Thanks & Regards,
-> Guru
-> 
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    | 22 ++---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h | 15 ++-
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  2 +-
+ .../staging/rtl8192e/rtl8192e/r8192E_phyreg.h |  2 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h  |  3 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 96 +++++++++----------
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.h    | 37 +++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_pm.c    |  2 +-
+ 8 files changed, 82 insertions(+), 97 deletions(-)
 
+-- 
+2.39.1
 
