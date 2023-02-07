@@ -1,49 +1,49 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1627470
-	for <linux-staging@lists.linux.dev>; Tue,  7 Feb 2023 18:16:51 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id m16-20020a05600c3b1000b003dc4050c94aso12164204wms.4
-        for <linux-staging@lists.linux.dev>; Tue, 07 Feb 2023 10:16:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0DC7470
+	for <linux-staging@lists.linux.dev>; Tue,  7 Feb 2023 18:16:57 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id l21-20020a05600c1d1500b003dfe462b7e4so1433617wms.0
+        for <linux-staging@lists.linux.dev>; Tue, 07 Feb 2023 10:16:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dRXlbuHWIqEI2LZL4Y/EiSrD0H+SiFzYSzy68+DpRcI=;
-        b=AvFAsLg76DNcqBL5Ki9pWEbflh5k18Z9it0vGcETw+2Hw17NsmeXaTnnbJb0vgeC7x
-         OaII1I4jEhMMv+p81cDzt6JVm9Eb8bzf9pKjGFAWqpHvChUcAAsO7OhGsJGcU/fiIA2t
-         JxdVhqua+VpEFXqnzqQVdoRdlGe3jbL5s1fi77GpGSrkn2erSUFUp2QVxudXZhPmq/HG
-         vAkuhg6wb3zgdj3/9YRcj9UnOGWcXpDD/gGyICzyp9Vp8v1zLcojo2oJSRIwJfFSLPUr
-         RUJOCCUyIK0eTt3gFK2vxaASBPNTLOPkBBRaPZmeA8LvOrJcGPvEHKjr1DrrAhdPjUol
-         WTSw==
+        bh=doEhSZ1ZWSbiqK6262/Gppr2vN+zJ+4OHWK0fM/t0m4=;
+        b=qAxhseizMgzVK8VNabQYUHFA3ziy/vYcvzH8KWSUsaUo3DYLl1shUNE+sr+2fzRmH7
+         KYKS4lnpBTjhYII9b/fK1L/Aemdod+1Gm9WSIp0/96YUkbM3r5hSxXBqF9ed4GblzWLa
+         panLNSe+F53DdZQ0jltsFTUhbXyDPlygRpi3twccEV9tF5ChjncnM25l7/P0CvsBeqL3
+         vbySATfC57/aO5KHGy8ghTZsVtravMlSGaCE+FQS7Pdm7fjUEWVvlOwITmEbx2Ntl6I4
+         MPIex30S99clE+DnLpMHvGEfp5HBYbn7+8u87USQuIFLf58VQewbklnaPiiO2razeOE8
+         3gYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dRXlbuHWIqEI2LZL4Y/EiSrD0H+SiFzYSzy68+DpRcI=;
-        b=H15/8IuTtbxCI8I37cXzoJlwURiHwKlLQshDtgWRdFcQAAftPnrmd4Ai8OxGiIHBVS
-         gfgkXetTiSO9NKFyaIw8gGRZrj9H2w+GL5+w1eIp5lLUZwYxAjwjT2Qhv4heCGbgG6NS
-         n474VH+/uv4EC8AnVQPW+1XkXcbK2OTM67m3fYPOKgbc1pYB843KzLPHQpz+w5qLKolw
-         2gh2uDltBDVL/8S6p+2RlKCg6eQ4GOI2MecvIo75WNusK/BYZh7nMTAZRMKMGcS7+Xz+
-         nMFo0bH5SOLTatvxg7Z/tF3DXAvgwpMFuhHgvbUp86OJWEoK4YTZqvTK5Zrob8t2zKmP
-         b2tw==
-X-Gm-Message-State: AO0yUKXe8VUCGYVNIyGim8wni+rMBMvqb+G/ktE/3LLg785UMlmZQxsA
-	sFTHed/cmwvCe3heEkXGmsU=
-X-Google-Smtp-Source: AK7set8yJYJ1txXDOyS9E2+5Baq4azg1KX5SHxPfKMUj5bTiFlyAO6J5FpGbSQUYH9lEmbwl6nK/WA==
-X-Received: by 2002:a05:600c:511c:b0:3dc:3398:cf65 with SMTP id o28-20020a05600c511c00b003dc3398cf65mr4841197wms.2.1675793809441;
-        Tue, 07 Feb 2023 10:16:49 -0800 (PST)
+        bh=doEhSZ1ZWSbiqK6262/Gppr2vN+zJ+4OHWK0fM/t0m4=;
+        b=dUv+mntWVK/him5GzzKjnU2LkkIZjuNFoqMS1Mp9ZHet8GiJRyPgw3xzKO2OYUtAA+
+         0lQZ7An0HBpxJKUp7QxsY6FTtZe/m1+Pj6eSW3nU8PtKGu3xgL8FTqNBFIQXas6pwxId
+         Lud1oB5lG9ZLLuPCpimm0ExOhMAJQ/c96SR31qzmyX+z8WhX5BM+UZlF8H3Z856BefFr
+         gg7IsxFbRcKxKmlhJkFgZ792nbiHjanF0mUb44zUf4mQudH47aUItdlm3SOfC2p5mNFt
+         iomAUSSWn8+G6j/ovniZEwVpnhsYkW1K9TyQkmT9Excp5MA4oqkOLwZe1GDJpFUECH/w
+         wVFw==
+X-Gm-Message-State: AO0yUKUuxo9lmze7hP+t3ZsO1mpTNNDM1U1n2wU0PItuMwr7Fve4F3s7
+	a0hznAHFE0+WTq30ixEA2Gg=
+X-Google-Smtp-Source: AK7set9Nz/9NyyHVkS+wJWMskZhfFaxuUgxeV0zGY79BnbchMKm3M1HjI23WwasptuaSS2XNOR8SEg==
+X-Received: by 2002:a05:600c:3b9d:b0:3dc:54da:ba3e with SMTP id n29-20020a05600c3b9d00b003dc54daba3emr4837964wms.3.1675793815912;
+        Tue, 07 Feb 2023 10:16:55 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id ip20-20020a05600ca69400b003dd19baf45asm13784914wmb.40.2023.02.07.10.16.48
+        by smtp.gmail.com with ESMTPSA id x14-20020a5d650e000000b002c3f0e94e94sm3019066wru.14.2023.02.07.10.16.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 10:16:48 -0800 (PST)
-Date: Tue, 7 Feb 2023 19:16:47 +0100
+        Tue, 07 Feb 2023 10:16:55 -0800 (PST)
+Date: Tue, 7 Feb 2023 19:16:53 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] staging: rtl8192e: Rename OFDM_Table.., CCK_Table_..
- and RxPathSelecti..
-Message-ID: <197e98073922ec14d56e4a516c493188c88e11c1.1675792435.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 06/10] staging: rtl8192e: Rename RxPathSelectio..,
+ RateAdaptive.. and RateAdap..
+Message-ID: <3fb44a7f8020b898d3f589f16e9be4f555aa9e1e.1675792435.git.philipp.g.hortmann@gmail.com>
 References: <cover.1675792435.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,115 +55,95 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1675792435.git.philipp.g.hortmann@gmail.com>
 
-Rename constants OFDM_Table_Length to OFDM_TABLE_LEN, CCK_Table_length to
-CCK_TABLE_LEN and RxPathSelection_SS_TH_low to RX_PATH_SEL_SS_TH_LOW to
-avoid CamelCase which is not accepted by checkpatch.
+Rename constants RxPathSelection_diff_TH to RX_PATH_SEL_DIFF_TH,
+RateAdaptiveTH_High to RATE_ADAPTIVE_TH_HIGH and RateAdaptiveTH_Low_20M
+to RATE_ADAPTIVE_TH_LOW_20M to avoid CamelCase which is not accepted by
+checkpatch.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 24 +++++++++++-----------
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.h |  6 +++---
- 2 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  8 ++++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 10 +++++-----
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.h     |  6 +++---
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index a2587300a47a..7e445a168daa 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -2017,20 +2017,20 @@ bool rtl92e_is_rx_stuck(struct net_device *dev)
+ 	u8		SilentResetRxSoltNum = 4;
+ 
+ 	rx_chk_cnt++;
+-	if (priv->undecorated_smoothed_pwdb >= (RateAdaptiveTH_High+5)) {
++	if (priv->undecorated_smoothed_pwdb >= (RATE_ADAPTIVE_TH_HIGH + 5)) {
+ 		rx_chk_cnt = 0;
+-	} else if ((priv->undecorated_smoothed_pwdb < (RateAdaptiveTH_High + 5))
++	} else if ((priv->undecorated_smoothed_pwdb < (RATE_ADAPTIVE_TH_HIGH + 5))
+ 	  && (((priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) &&
+ 	  (priv->undecorated_smoothed_pwdb >= RateAdaptiveTH_Low_40M))
+ 	  || ((priv->current_chnl_bw == HT_CHANNEL_WIDTH_20) &&
+-	  (priv->undecorated_smoothed_pwdb >= RateAdaptiveTH_Low_20M)))) {
++	  (priv->undecorated_smoothed_pwdb >= RATE_ADAPTIVE_TH_LOW_20M)))) {
+ 		if (rx_chk_cnt < 2)
+ 			return bStuck;
+ 		rx_chk_cnt = 0;
+ 	} else if ((((priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) &&
+ 		  (priv->undecorated_smoothed_pwdb < RateAdaptiveTH_Low_40M)) ||
+ 		((priv->current_chnl_bw == HT_CHANNEL_WIDTH_20) &&
+-		 (priv->undecorated_smoothed_pwdb < RateAdaptiveTH_Low_20M))) &&
++		 (priv->undecorated_smoothed_pwdb < RATE_ADAPTIVE_TH_LOW_20M))) &&
+ 		priv->undecorated_smoothed_pwdb >= VeryLowRSSI) {
+ 		if (rx_chk_cnt < 4)
+ 			return bStuck;
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 5d77baf7df64..40e6194c6687 100644
+index 40e6194c6687..739f7c512831 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -455,7 +455,7 @@ static void _rtl92e_dm_bandwidth_autoswitch(struct net_device *dev)
- 	}
- }
+@@ -282,12 +282,12 @@ void rtl92e_init_adaptive_rate(struct net_device *dev)
+ 	struct rate_adaptive *pra = &priv->rate_adaptive;
  
--static u32 OFDMSwingTable[OFDM_Table_Length] = {
-+static u32 OFDMSwingTable[OFDM_TABLE_LEN] = {
- 	0x7f8001fe,
- 	0x71c001c7,
- 	0x65400195,
-@@ -477,7 +477,7 @@ static u32 OFDMSwingTable[OFDM_Table_Length] = {
- 	0x10000040
- };
+ 	pra->ratr_state = DM_RATR_STA_MAX;
+-	pra->high2low_rssi_thresh_for_ra = RateAdaptiveTH_High;
+-	pra->low2high_rssi_thresh_for_ra20M = RateAdaptiveTH_Low_20M+5;
++	pra->high2low_rssi_thresh_for_ra = RATE_ADAPTIVE_TH_HIGH;
++	pra->low2high_rssi_thresh_for_ra20M = RATE_ADAPTIVE_TH_LOW_20M + 5;
+ 	pra->low2high_rssi_thresh_for_ra40M = RateAdaptiveTH_Low_40M+5;
  
--static u8	CCKSwingTable_Ch1_Ch13[CCK_Table_length][8] = {
-+static u8	CCKSwingTable_Ch1_Ch13[CCK_TABLE_LEN][8] = {
- 	{0x36, 0x35, 0x2e, 0x25, 0x1c, 0x12, 0x09, 0x04},
- 	{0x30, 0x2f, 0x29, 0x21, 0x19, 0x10, 0x08, 0x03},
- 	{0x2b, 0x2a, 0x25, 0x1e, 0x16, 0x0e, 0x07, 0x03},
-@@ -492,7 +492,7 @@ static u8	CCKSwingTable_Ch1_Ch13[CCK_Table_length][8] = {
- 	{0x0f, 0x0f, 0x0d, 0x0b, 0x08, 0x05, 0x03, 0x01}
- };
+-	pra->high_rssi_thresh_for_ra = RateAdaptiveTH_High+5;
+-	pra->low_rssi_thresh_for_ra20M = RateAdaptiveTH_Low_20M;
++	pra->high_rssi_thresh_for_ra = RATE_ADAPTIVE_TH_HIGH + 5;
++	pra->low_rssi_thresh_for_ra20M = RATE_ADAPTIVE_TH_LOW_20M;
+ 	pra->low_rssi_thresh_for_ra40M = RateAdaptiveTH_Low_40M;
  
--static u8	CCKSwingTable_Ch14[CCK_Table_length][8] = {
-+static u8	CCKSwingTable_Ch14[CCK_TABLE_LEN][8] = {
- 	{0x36, 0x35, 0x2e, 0x1b, 0x00, 0x00, 0x00, 0x00},
- 	{0x30, 0x2f, 0x29, 0x18, 0x00, 0x00, 0x00, 0x00},
- 	{0x2b, 0x2a, 0x25, 0x15, 0x00, 0x00, 0x00, 0x00},
-@@ -771,13 +771,13 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
- 	if (!priv->tx_pwr_tracking_init) {
- 		tmpRegA = rtl92e_get_bb_reg(dev, rOFDM0_XATxIQImbalance,
- 					    bMaskDWord);
--		for (i = 0; i < OFDM_Table_Length; i++) {
-+		for (i = 0; i < OFDM_TABLE_LEN; i++) {
- 			if (tmpRegA == OFDMSwingTable[i])
- 				priv->ofdm_index[0] = i;
- 		}
- 
- 		TempCCk = rtl92e_get_bb_reg(dev, rCCK0_TxFilter1, bMaskByte2);
--		for (i = 0; i < CCK_Table_length; i++) {
-+		for (i = 0; i < CCK_TABLE_LEN; i++) {
- 			if (TempCCk == (u32)CCKSwingTable_Ch1_Ch13[i][0]) {
- 				priv->cck_index = i;
- 				break;
-@@ -799,12 +799,12 @@ static void _rtl92e_dm_tx_power_tracking_cb_thermal(struct net_device *dev)
- 		tmpOFDMindex = tmpCCK20Mindex = 6+(priv->thermal_meter[0] -
- 			      (u8)tmpRegA);
- 		tmpCCK40Mindex = tmpCCK20Mindex - 6;
--		if (tmpOFDMindex >= OFDM_Table_Length)
--			tmpOFDMindex = OFDM_Table_Length-1;
--		if (tmpCCK20Mindex >= CCK_Table_length)
--			tmpCCK20Mindex = CCK_Table_length-1;
--		if (tmpCCK40Mindex >= CCK_Table_length)
--			tmpCCK40Mindex = CCK_Table_length-1;
-+		if (tmpOFDMindex >= OFDM_TABLE_LEN)
-+			tmpOFDMindex = OFDM_TABLE_LEN - 1;
-+		if (tmpCCK20Mindex >= CCK_TABLE_LEN)
-+			tmpCCK20Mindex = CCK_TABLE_LEN - 1;
-+		if (tmpCCK40Mindex >= CCK_TABLE_LEN)
-+			tmpCCK40Mindex = CCK_TABLE_LEN - 1;
- 	} else {
- 		tmpval = (u8)tmpRegA - priv->thermal_meter[0];
- 		if (tmpval >= 6) {
-@@ -1732,7 +1732,7 @@ static void _rtl92e_dm_init_rx_path_selection(struct net_device *dev)
- 	struct r8192_priv *priv = rtllib_priv(dev);
+ 	if (priv->customer_id == RT_CID_819X_NETCORE)
+@@ -1733,7 +1733,7 @@ static void _rtl92e_dm_init_rx_path_selection(struct net_device *dev)
  
  	DM_RxPathSelTable.Enable = 1;
--	DM_RxPathSelTable.SS_TH_low = RxPathSelection_SS_TH_low;
-+	DM_RxPathSelTable.SS_TH_low = RX_PATH_SEL_SS_TH_LOW;
- 	DM_RxPathSelTable.diff_TH = RxPathSelection_diff_TH;
+ 	DM_RxPathSelTable.SS_TH_low = RX_PATH_SEL_SS_TH_LOW;
+-	DM_RxPathSelTable.diff_TH = RxPathSelection_diff_TH;
++	DM_RxPathSelTable.diff_TH = RX_PATH_SEL_DIFF_TH;
  	if (priv->customer_id == RT_CID_819X_NETCORE)
  		DM_RxPathSelTable.cck_method = CCK_Rx_Version_2;
+ 	else
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-index a0c4006c7726..c41490850713 100644
+index c41490850713..ea698e894146 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.h
-@@ -8,8 +8,8 @@
- #define __R8192UDM_H__
- 
- /*--------------------------Define Parameters-------------------------------*/
--#define			OFDM_Table_Length	19
--#define		CCK_Table_length	12
-+#define		OFDM_TABLE_LEN				19
-+#define		CCK_TABLE_LEN				12
- 
- #define		DM_DIG_THRESH_HIGH					40
- #define		DM_DIG_THRESH_LOW					35
-@@ -25,7 +25,7 @@
- #define		DM_DIG_MIN					0x1c
+@@ -26,10 +26,10 @@
  #define		DM_DIG_MIN_Netcore			0x12
  
--#define		RxPathSelection_SS_TH_low		30
-+#define		RX_PATH_SEL_SS_TH_LOW			30
- #define		RxPathSelection_diff_TH			18
+ #define		RX_PATH_SEL_SS_TH_LOW			30
+-#define		RxPathSelection_diff_TH			18
++#define		RX_PATH_SEL_DIFF_TH			18
  
- #define		RateAdaptiveTH_High			50
+-#define		RateAdaptiveTH_High			50
+-#define		RateAdaptiveTH_Low_20M		30
++#define		RATE_ADAPTIVE_TH_HIGH			50
++#define		RATE_ADAPTIVE_TH_LOW_20M		30
+ #define		RateAdaptiveTH_Low_40M		10
+ #define		VeryLowRSSI					15
+ 
 -- 
 2.39.1
 
