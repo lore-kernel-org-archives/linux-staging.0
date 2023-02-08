@@ -1,182 +1,84 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBE29457
-	for <linux-staging@lists.linux.dev>; Wed,  8 Feb 2023 09:52:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (233.56-78-194.adsl-static.isp.belgacom.be [194.78.56.233])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76122496;
-	Wed,  8 Feb 2023 10:52:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1675849953;
-	bh=WveqdO5eNIVUmUK6G4qv4Ws7cmir9rPCQX2NNIXVURg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AkxnV/BlHKVq07aki7CX/oD7UOAMEXet08VkpJJEevExrSJlCl9p/1D3FmdjImKe2
-	 BRKy3o+5WexRlVGEgX35oV0gVdNc0IuRZ7/QeaOJVQkKhzkonNdwY+HMMhhK8dWobS
-	 oez2xkvgo0xVH2DJiqm43I2HHPaWxO/0IqsepE/M=
-Date: Wed, 8 Feb 2023 11:52:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A773B2560
+	for <linux-staging@lists.linux.dev>; Wed,  8 Feb 2023 11:28:14 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id 5so10317682qtp.9
+        for <linux-staging@lists.linux.dev>; Wed, 08 Feb 2023 03:28:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=J7YpfNmkAKeiQRbYqt6rvLG7n/PQqFPtfmCT30QU4IU=;
+        b=HtYsaoBpdOlbY8Y/b0VGrVOb6VoCm0SqSgiczMXLiJaeTc+04jtzQMskjCYB5C5OcF
+         GEXov6ehfj+3N27qvZJH1yGjVe4bS/LxnBeDqlup7mvtgnDiJGO/svLv5QaOUxvj9u1L
+         snLUJWFulzRh0Jlse/Yx3IUPcXKOd1yoBUG4rNEy2Bd96CgegybuSzb2fgGFplwladqp
+         VdBYtxQRUTCMYT1ER6bA4gHXGKAaqt3B5YpXQlFjA/VG9JBzivZioaOFTpVbqaMIMuPI
+         pgl25io1KqoV+BCjj225IdxMROPdJxIFK5D9U7rnMndGcSCO5jfJc0lK+Cv4SKfqhkOU
+         8qZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J7YpfNmkAKeiQRbYqt6rvLG7n/PQqFPtfmCT30QU4IU=;
+        b=NLVbYhfzTgI4RPdoDWYyT/O3cRDMTrzu2s5Wua+ScYmh6fdmo3m0Yp6k/No5QCwCPI
+         eW2piMH1Kx/O+3g8I0LjFb1O9bUnUCse5+RHvtp4ynwRVHU7kEhlU4BHE6VNQqQIjFxd
+         aLhb1H53xjyfopa7+4m0bTzEd/rV4mjQ/fWjj+UavPcQK27+euDm9yDV+Kp3NEKXdqcH
+         4vsPumSu7ZG4uetVKSaExtEJ781ITWMXyw0dKKztfRU6JPMEogjvzP9cK9P7z3F1N21d
+         1SojSPL4P+P8p6N03L7qednC006mjy+7SK/qiZN66QSJI+P6rTCbHWIIPYnXvXXA4F30
+         s2zw==
+X-Gm-Message-State: AO0yUKUVnxsgPtxn0dtGhQse51miajl+H8ejePIHVrKdbm69I8d4dpni
+	y4mwor8z4Bf43V/AZQs5QJ+DIWtw50Cg190WI1g=
+X-Google-Smtp-Source: AK7set8jaCUipbc0hNu7gRUHgc2ylVfsf9/2wYfCf3Q8JN0SrFk+CmXhpHcX3sA3e7jkR4OQup2uADLHUHAsZvZTHMk=
+X-Received: by 2002:a05:622a:1456:b0:3b9:a4ee:be1c with SMTP id
+ v22-20020a05622a145600b003b9a4eebe1cmr1241819qtx.391.1675855693515; Wed, 08
+ Feb 2023 03:28:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230123125205.622152-29-hdegoede@redhat.com>
+References: <20230123125205.622152-1-hdegoede@redhat.com> <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+In-Reply-To: <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 8 Feb 2023 13:27:37 +0200
+Message-ID: <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Andy Shevchenko <andy@kernel.org>, Yury Luneff <yury.lunev@gmail.com>, 
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, 
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Hans,
+On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
 
-Thank you for the patch.
+...
 
-On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
-> The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
-> ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
-> ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
-> 
-> as well as various "atomisp" sensor drivers in drivers/staging, *all*
-> use register access helpers with the following function prototypes:
-> 
-> int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
->                     unsigned int len, u32 *val);
-> 
-> int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
->                      unsigned int len, u32 val);
-> 
-> To read/write registers on Omnivision OVxxxx image sensors wich expect
-> a 16 bit register address in big-endian format and which have 1-3 byte
-> wide registers, in big-endian format (for the higher width registers).
-> 
-> Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> versions of these register access helpers, so that this code duplication
-> can be removed.
+> > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
+> > versions of these register access helpers, so that this code duplication
+> > can be removed.
+>
+> Any reason to hand-roll those instead of using regmap ? Also, may I
+> suggest to have a look at drivers/media/i2c/imx290.c
 
-Any reason to hand-roll those instead of using regmap ? Also, may I
-suggest to have a look at drivers/media/i2c/imx290.c for an example of
-how registers of different sizes can be handled in a less error-prone
-way, using single read/write functions that adapt to the size
-automatically ?
+While this is a bit error prone example, a patch is on its way, ...
 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  include/media/ovxxxx_16bit_addr_reg_helpers.h | 93 +++++++++++++++++++
->  1 file changed, 93 insertions(+)
->  create mode 100644 include/media/ovxxxx_16bit_addr_reg_helpers.h
-> 
-> diff --git a/include/media/ovxxxx_16bit_addr_reg_helpers.h b/include/media/ovxxxx_16bit_addr_reg_helpers.h
-> new file mode 100644
-> index 000000000000..e2ffee3d797a
-> --- /dev/null
-> +++ b/include/media/ovxxxx_16bit_addr_reg_helpers.h
-> @@ -0,0 +1,93 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * I2C register access helpers for Omnivision OVxxxx image sensors which expect
-> + * a 16 bit register address in big-endian format and which have 1-3 byte
-> + * wide registers, in big-endian format (for the higher width registers).
-> + *
-> + * Based on the register helpers from drivers/media/i2c/ov2680.c which is:
-> + * Copyright (C) 2018 Linaro Ltd
-> + */
-> +#ifndef __OVXXXX_16BIT_ADDR_REG_HELPERS_H
-> +#define __OVXXXX_16BIT_ADDR_REG_HELPERS_H
-> +
-> +#include <asm/unaligned.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/i2c.h>
-> +
-> +static inline int ovxxxx_read_reg(struct i2c_client *client, u16 reg,
-> +				  unsigned int len, u32 *val)
-> +{
-> +	struct i2c_msg msgs[2];
-> +	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
-> +	u8 data_buf[4] = { 0, };
-> +	int ret;
-> +
-> +	if (len > 4)
-> +		return -EINVAL;
-> +
-> +	msgs[0].addr = client->addr;
-> +	msgs[0].flags = 0;
-> +	msgs[0].len = ARRAY_SIZE(addr_buf);
-> +	msgs[0].buf = addr_buf;
-> +
-> +	msgs[1].addr = client->addr;
-> +	msgs[1].flags = I2C_M_RD;
-> +	msgs[1].len = len;
-> +	msgs[1].buf = &data_buf[4 - len];
-> +
-> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (ret != ARRAY_SIZE(msgs)) {
-> +		dev_err(&client->dev, "read error: reg=0x%4x: %d\n", reg, ret);
-> +		return -EIO;
-> +	}
-> +
-> +	*val = get_unaligned_be32(data_buf);
-> +
-> +	return 0;
-> +}
-> +
-> +#define ovxxxx_read_reg8(s, r, v)	ovxxxx_read_reg(s, r, 1, v)
-> +#define ovxxxx_read_reg16(s, r, v)	ovxxxx_read_reg(s, r, 2, v)
-> +#define ovxxxx_read_reg24(s, r, v)	ovxxxx_read_reg(s, r, 3, v)
-> +
-> +static inline int ovxxxx_write_reg(struct i2c_client *client, u16 reg,
-> +				   unsigned int len, u32 val)
-> +{
-> +	u8 buf[6];
-> +	int ret;
-> +
-> +	if (len > 4)
-> +		return -EINVAL;
-> +
-> +	put_unaligned_be16(reg, buf);
-> +	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
-> +	ret = i2c_master_send(client, buf, len + 2);
-> +	if (ret != len + 2) {
-> +		dev_err(&client->dev, "write error: reg=0x%4x: %d\n", reg, ret);
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +#define ovxxxx_write_reg8(s, r, v)	ovxxxx_write_reg(s, r, 1, v)
-> +#define ovxxxx_write_reg16(s, r, v)	ovxxxx_write_reg(s, r, 2, v)
-> +#define ovxxxx_write_reg24(s, r, v)	ovxxxx_write_reg(s, r, 3, v)
-> +
-> +static inline int ovxxxx_mod_reg(struct i2c_client *client, u16 reg, u8 mask, u8 val)
-> +{
-> +	u32 readval;
-> +	int ret;
-> +
-> +	ret = ovxxxx_read_reg8(client, reg, &readval);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	readval &= ~mask;
-> +	val &= mask;
-> +	val |= readval;
-> +
-> +	return ovxxxx_write_reg8(client, reg, val);
-> +}
-> +
-> +#endif
+>  for an example of
+> how registers of different sizes can be handled in a less error-prone
+> way, using single read/write functions that adapt to the size
+> automatically ?
+
+...with regmap fields I believe you can avoid even that and use proper
+regmap accessors directly.
 
 -- 
-Regards,
-
-Laurent Pinchart
+With Best Regards,
+Andy Shevchenko
