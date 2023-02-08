@@ -1,106 +1,84 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736DC6AAD
-	for <linux-staging@lists.linux.dev>; Wed,  8 Feb 2023 17:32:20 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id p16so8465536qki.9
-        for <linux-staging@lists.linux.dev>; Wed, 08 Feb 2023 09:32:20 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F517474
+	for <linux-staging@lists.linux.dev>; Wed,  8 Feb 2023 18:56:49 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so2186874wmb.2
+        for <linux-staging@lists.linux.dev>; Wed, 08 Feb 2023 10:56:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ab1RjUdxvP17+YGwr2cWF8s+ENzo57KFBShZI3lUZaA=;
-        b=dfxnruPINjNPupZYXweFRu5h9z2HOASWI2s5bsoyRZLaIuhKPy783w+jBOyUYwKL1f
-         4ga5HhDOj9gT4nSGM2uFITLBXvsOVfPSdHWvm185EwXzPRVDMDwAzUvvdj07oKl4TopS
-         ErRuK9b6kbUv9+HVR7/Yv13SvTzfMv93oUO6BqmnxAL6TJGpbm+f9zTKULXV2guJWx3C
-         DmkFMXbsVEUmhc5Iir3S2gY1tMkJxjDFePZWEHLOBIfFNtDbYfLYY/GXvPMVpo/tbB61
-         Ffv7lbLzhUCDNhqVf9iteS3AL7aSOjqsiJYzSsyhwaRjdLp6CGHRdgc3HaVdVjsKY7jd
-         x5Pw==
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XIo7KpMDaRfgRZgMFrjY9BiU3ZghspQ14enw5m/OmAA=;
+        b=OTaIzU5p4Vm1ss7vcxGXZ3O5xVEX3TMR7EvPLga0WhoDWNy3jIevXkrXc9T6IOQjjh
+         9GaCCaN2SV9daZjVsmSs3EIR4Q9hkBamEM21uUfYBpsqF/JEM8SnL8NE2Nxd/4j6aeMC
+         /g8LyRMMqJDBZgkaq+9r5dtP+ZFPqK+81bhGGvatxqZigVHIOX2CkbsaNRAN6OBe2uJU
+         Cpp47s6HpS03YlhyTX28n2wpGWf9bqWaiDsdWmBOwfkmLsrt0bZrTAHxD4v7sKuEtvOS
+         qcY5NI++ZIqwQpjMEWQYYXsysgFm095LWGKuqGqtuekvzM1WCU41QqeIKXNS+vmNCF1a
+         khcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ab1RjUdxvP17+YGwr2cWF8s+ENzo57KFBShZI3lUZaA=;
-        b=v2giMvidFjsuPa8bT2WgTHhUlqgbEUbWRpM3nRQNEco8jBuhHBs6oPOp3EPBedemPg
-         lo7DUcYwTl/+VHOniTCAERaMYE4LDKuJZbGHd7W4DSrvFEep9JD+cp8UlaJJ83UILzHW
-         KuSW+ToBK23OJMAieapXuigW5sK+BaGgsR/E++m9IsCbr7i0//mWZZ+QUUJEiCzQ+Gnm
-         6mWADrBLsYDTDmUOK1AGc8Mqs03O1D6NaZHwD1N0hWjyFoAfk7LRB8BeF2bQIWSlUSF5
-         Gq/j/xrAtT74WK9PVEfcBTq8+tchJG7fFK3RlFZHmAmcvTxfcE2iC7CdiO3NuMf4jHPg
-         Tdcg==
-X-Gm-Message-State: AO0yUKVjHJNFK2QWueHNpInmt+Dk6e8tZCPx7Anrk/4YdmJ5QoolUPr7
-	fGe45WQNHEcAzz2AysfS2jM37ukwaul8+yu6Cgo=
-X-Google-Smtp-Source: AK7set/8yzHFxOA1zz0vOqmp7SOH2rfQnyZiVpjaexktNnocUhy7OEJ4UUxky8bxv3T5hufGAI+Z5ijT9lzJEpFMVVw=
-X-Received: by 2002:a37:9a97:0:b0:706:7bf0:3440 with SMTP id
- c145-20020a379a97000000b007067bf03440mr753000qke.9.1675877539199; Wed, 08 Feb
- 2023 09:32:19 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XIo7KpMDaRfgRZgMFrjY9BiU3ZghspQ14enw5m/OmAA=;
+        b=UT3NDTVEoefYnS9AWvPd6kSe7AMoKuCN3Efyaay9/uiyD+L0d+Wk/ledEhWfXy4djy
+         FRoy35H0Wfenu0GH3nvzHryzIq0WN+33P9i3pgVF8brrhcqGHCtBVFbokvg+dOTiDkhO
+         klChXdcWL1rM7B505xS6jRrGJoIPsbfuytaeK21DNkBneFTroHqcCZccBuQAacxUce0P
+         FeTL7b7nkYDxJU9nJn0buWoz6hSWU+dOGeGD814cb2aygnwJoAhQNNE/ICz7TF6zUH4G
+         WZZnnMmhdOEiuWLaesLBF7jeQAWZG2c9e3YVAW7QvA5XUlZww6futSJlptdiADnGNOmd
+         hZrg==
+X-Gm-Message-State: AO0yUKX5x+eOxAOQoFivCOWwRoOBFq9MXrLvw70R62Z95HE9Kf0dlvXW
+	pxM6iiZsJia3r4aa9uCUqx8=
+X-Google-Smtp-Source: AK7set/uBlZSZYh1C+IATXeS4vCMbRtg1YBmyDu6zO7dNNFDogmatg3TZeg0mxOsh9xPeAuLQt2d4A==
+X-Received: by 2002:a05:600c:3ca3:b0:3dc:5ae4:c13d with SMTP id bg35-20020a05600c3ca300b003dc5ae4c13dmr10206985wmb.4.1675882607938;
+        Wed, 08 Feb 2023 10:56:47 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id r13-20020a05600c35cd00b003dc433355aasm2698984wmq.18.2023.02.08.10.56.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Feb 2023 10:56:47 -0800 (PST)
+Date: Wed, 8 Feb 2023 19:56:45 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: rtl8192e: Use BIT() instead of << for bit field
+ MSR_LINK_MASK
+Message-ID: <20230208185645.GA14681@matrix-ESPRIMO-P710>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230123125205.622152-1-hdegoede@redhat.com> <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com> <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
- <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com> <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
- <Y+PH7V9vggOLDybV@pendragon.ideasonboard.com>
-In-Reply-To: <Y+PH7V9vggOLDybV@pendragon.ideasonboard.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 8 Feb 2023 19:31:43 +0200
-Message-ID: <CAHp75VeC8UM8WA-EECB98n+DZQ5J5kgdx5yrxnpYjpBRQjtQ-g@mail.gmail.com>
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
-	Andy Shevchenko <andy@kernel.org>, Yury Luneff <yury.lunev@gmail.com>, 
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com, 
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Feb 8, 2023 at 6:04 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Wed, Feb 08, 2023 at 05:50:26PM +0200, Andy Shevchenko wrote:
-> > On Wed, Feb 8, 2023 at 5:41 PM Laurent Pinchart wrote:
-> > > On Wed, Feb 08, 2023 at 01:27:37PM +0200, Andy Shevchenko wrote:
-> > > > On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart wrote:
-> > > > > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
+Use commonly used BIT() macro to define MSR_LINK_MASK. Equation is
+not accepted by checkpatch because of missing spaces. Therefore line
+needs to change anyhow.
 
-...
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+V1->V2: Changed patch, title and description
+        Calculate MSR_LINK_MASK ((1<<0)|(1<<1)) = 3 is not wanted for
+        bit fields
+        Old patch name: Calculate definition of MSR_LINK_MASK
+---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > > > > > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> > > > > > versions of these register access helpers, so that this code duplication
-> > > > > > can be removed.
-> > > > >
-> > > > > Any reason to hand-roll those instead of using regmap ? Also, may I
-> > > > > suggest to have a look at drivers/media/i2c/imx290.c
-> > > >
-> > > > While this is a bit error prone example, a patch is on its way, ...
-> > >
-> > > The two cleanups are nice, but they're cleanup, not error fixes :-)
-> >
-> > It depends on which side you look at it. I admit I haven't dug into
-> > the code to see if endianess can be an issue there, but the code
-> > itself is not written well, esp. when one offers it as an example. So
-> > definitely there is a fix on the upper layer.
->
-> Did I miss something ? Your two patches replace a tiny amount of code
-> with helper functions that don't change any behaviour. It's nicer with
-> those helpers, no question about that, but "not written well" is a bit
-> of a stretch and feels quite insulting.
-
-Sorry for your feelings, what I meant is the pure educational purposes
-of the example. When one takes the mentioned driver as an example and
-uses the code in a slightly different environment the endianess issue
-may become a real one. That's why we have helpers in kernel to improve
-robustness against blind copy'n'paste approach. It does not mean your
-code is broken per se.
-
-> Feel free to submit patches that
-> add new "well-written" helpers.
-
-
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
+index 8b8a870fcbbd..99640c4779f7 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
+@@ -170,7 +170,7 @@ enum _RTL8192PCI_HW {
+ #define	BW_OPMODE_20MHZ			BIT2
+ 	IC_VERRSION		= 0x301,
+ 	MSR			= 0x303,
+-#define MSR_LINK_MASK      ((1<<0)|(1<<1))
++#define MSR_LINK_MASK		(BIT(1) | BIT(0))
+ #define MSR_LINK_MANAGED   2
+ #define MSR_LINK_ADHOC     1
+ #define MSR_LINK_MASTER    3
 -- 
-With Best Regards,
-Andy Shevchenko
+2.39.1
+
