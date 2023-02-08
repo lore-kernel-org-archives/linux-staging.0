@@ -1,79 +1,62 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFB733FF
-	for <linux-staging@lists.linux.dev>; Wed,  8 Feb 2023 16:04:01 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F33E7E79;
-	Wed,  8 Feb 2023 17:03:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1675872239;
-	bh=W5FlBut5KJo/QH50PBih7EOEQ3pSML1vBYRZQcv94fM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uzeO/WpWKpqcJpvwVbb0nn2opjpkw6CxbXVW4jDOF1h3RADnRpZwdc/yrjqaxEbB4
-	 VusP/d6TzT+hiHs/GeilNQAJ6uhJs8dXZsjOpPlNTafSzwTo+xcGuvGbrylJSv0kPL
-	 AfgCbVitEPdR2Skyit2Xm8EqVkfVI5pUOio099K0=
-Date: Wed, 8 Feb 2023 18:03:57 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+PH7V9vggOLDybV@pendragon.ideasonboard.com>
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
- <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
- <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com>
- <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D175E33C9
+	for <linux-staging@lists.linux.dev>; Wed,  8 Feb 2023 16:32:26 +0000 (UTC)
+Received: from omf02.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 6A872160E9C;
+	Wed,  8 Feb 2023 15:56:08 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf02.hostedemail.com (Postfix) with ESMTPA id E6E608000E;
+	Wed,  8 Feb 2023 15:56:04 +0000 (UTC)
+Message-ID: <38b6c1a63909a1ce207e26deaf212588a83dd0ff.camel@perches.com>
+Subject: Re: [PATCH 02/10] staging: rtl8192e: Calculate definition of
+ MSR_LINK_MASK
+From: Joe Perches <joe@perches.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Philipp Hortmann
+	 <philipp.g.hortmann@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Wed, 08 Feb 2023 07:56:03 -0800
+In-Reply-To: <Y+OWFsZD3m+VsnYS@kroah.com>
+References: <cover.1675792435.git.philipp.g.hortmann@gmail.com>
+	 <8c8a126a83683bae69d0fd20a93bdea8f810f6d0.1675792435.git.philipp.g.hortmann@gmail.com>
+	 <Y+OWFsZD3m+VsnYS@kroah.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
+X-Rspamd-Queue-Id: E6E608000E
+X-Spam-Status: No, score=-2.65
+X-Rspamd-Server: rspamout01
+X-Stat-Signature: sdz1zomcpn663nbbfi9ptcuis5y6yeda
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/fSsBryfjjaGUCa+HpXN59kaiPfLrMA/s=
+X-HE-Tag: 1675871764-307607
+X-HE-Meta: U2FsdGVkX19tK0JYzcNwivO0LT+dSMogUTn/ODefw6fPABfzdAQqTLjLy3nQRhkmwLg0kbH+wSLVkLHrxegk9A==
 
-On Wed, Feb 08, 2023 at 05:50:26PM +0200, Andy Shevchenko wrote:
-> On Wed, Feb 8, 2023 at 5:41 PM Laurent Pinchart wrote:
-> > On Wed, Feb 08, 2023 at 01:27:37PM +0200, Andy Shevchenko wrote:
-> > > On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart wrote:
-> > > > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
-> 
-> ...
-> 
-> > > > > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
-> > > > > versions of these register access helpers, so that this code duplication
-> > > > > can be removed.
-> > > >
-> > > > Any reason to hand-roll those instead of using regmap ? Also, may I
-> > > > suggest to have a look at drivers/media/i2c/imx290.c
-> > >
-> > > While this is a bit error prone example, a patch is on its way, ...
-> >
-> > The two cleanups are nice, but they're cleanup, not error fixes :-)
-> 
-> It depends on which side you look at it. I admit I haven't dug into
-> the code to see if endianess can be an issue there, but the code
-> itself is not written well, esp. when one offers it as an example. So
-> definitely there is a fix on the upper layer.
+On Wed, 2023-02-08 at 13:31 +0100, Greg Kroah-Hartman wrote:
+> On Tue, Feb 07, 2023 at 07:16:22PM +0100, Philipp Hortmann wrote:
+> > Calculate definition of MSR_LINK_MASK ((1<<0)|(1<<1)) =3D 3. Equation i=
+s not
+> > accepted by checkpatch because of missing spaces.
+[]
+> > diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h b/drivers/st=
+aging/rtl8192e/rtl8192e/r8192E_hw.h
+[]
+> > @@ -170,7 +170,7 @@ enum _RTL8192PCI_HW {
+> >  #define	BW_OPMODE_20MHZ			BIT2
+> >  	IC_VERRSION		=3D 0x301,
+> >  	MSR			=3D 0x303,
+> > -#define MSR_LINK_MASK      ((1<<0)|(1<<1))
+> > +#define MSR_LINK_MASK      3
+>=20
+> This is a bit field, it should be:
+> 	#define MSR_LINK_MASK	(BIT(1) | BIT(0))
+> right?
 
-Did I miss something ? Your two patches replace a tiny amount of code
-with helper functions that don't change any behaviour. It's nicer with
-those helpers, no question about that, but "not written well" is a bit
-of a stretch and feels quite insulting. Feel free to submit patches that
-add new "well-written" helpers.
+Perhaps better as GENMASK(1, 0)
 
--- 
-Regards,
-
-Laurent Pinchart
