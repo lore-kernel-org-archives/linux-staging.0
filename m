@@ -1,84 +1,97 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F517474
-	for <linux-staging@lists.linux.dev>; Wed,  8 Feb 2023 18:56:49 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so2186874wmb.2
-        for <linux-staging@lists.linux.dev>; Wed, 08 Feb 2023 10:56:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XIo7KpMDaRfgRZgMFrjY9BiU3ZghspQ14enw5m/OmAA=;
-        b=OTaIzU5p4Vm1ss7vcxGXZ3O5xVEX3TMR7EvPLga0WhoDWNy3jIevXkrXc9T6IOQjjh
-         9GaCCaN2SV9daZjVsmSs3EIR4Q9hkBamEM21uUfYBpsqF/JEM8SnL8NE2Nxd/4j6aeMC
-         /g8LyRMMqJDBZgkaq+9r5dtP+ZFPqK+81bhGGvatxqZigVHIOX2CkbsaNRAN6OBe2uJU
-         Cpp47s6HpS03YlhyTX28n2wpGWf9bqWaiDsdWmBOwfkmLsrt0bZrTAHxD4v7sKuEtvOS
-         qcY5NI++ZIqwQpjMEWQYYXsysgFm095LWGKuqGqtuekvzM1WCU41QqeIKXNS+vmNCF1a
-         khcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XIo7KpMDaRfgRZgMFrjY9BiU3ZghspQ14enw5m/OmAA=;
-        b=UT3NDTVEoefYnS9AWvPd6kSe7AMoKuCN3Efyaay9/uiyD+L0d+Wk/ledEhWfXy4djy
-         FRoy35H0Wfenu0GH3nvzHryzIq0WN+33P9i3pgVF8brrhcqGHCtBVFbokvg+dOTiDkhO
-         klChXdcWL1rM7B505xS6jRrGJoIPsbfuytaeK21DNkBneFTroHqcCZccBuQAacxUce0P
-         FeTL7b7nkYDxJU9nJn0buWoz6hSWU+dOGeGD814cb2aygnwJoAhQNNE/ICz7TF6zUH4G
-         WZZnnMmhdOEiuWLaesLBF7jeQAWZG2c9e3YVAW7QvA5XUlZww6futSJlptdiADnGNOmd
-         hZrg==
-X-Gm-Message-State: AO0yUKX5x+eOxAOQoFivCOWwRoOBFq9MXrLvw70R62Z95HE9Kf0dlvXW
-	pxM6iiZsJia3r4aa9uCUqx8=
-X-Google-Smtp-Source: AK7set/uBlZSZYh1C+IATXeS4vCMbRtg1YBmyDu6zO7dNNFDogmatg3TZeg0mxOsh9xPeAuLQt2d4A==
-X-Received: by 2002:a05:600c:3ca3:b0:3dc:5ae4:c13d with SMTP id bg35-20020a05600c3ca300b003dc5ae4c13dmr10206985wmb.4.1675882607938;
-        Wed, 08 Feb 2023 10:56:47 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id r13-20020a05600c35cd00b003dc433355aasm2698984wmq.18.2023.02.08.10.56.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 10:56:47 -0800 (PST)
-Date: Wed, 8 Feb 2023 19:56:45 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8192e: Use BIT() instead of << for bit field
- MSR_LINK_MASK
-Message-ID: <20230208185645.GA14681@matrix-ESPRIMO-P710>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710F033EA
+	for <linux-staging@lists.linux.dev>; Thu,  9 Feb 2023 10:31:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED6879CA;
+	Thu,  9 Feb 2023 11:31:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1675938708;
+	bh=IFH57KJA3pDUcEpYqg9pcwc55BqbfsSm4P7fDGdt1i8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mFsBNgLUiK7bvy5e3afQww0e7Bmeyw41OXFxFB1x1YuDD2ogManAcaAC+OunDmCLN
+	 XOlrkzHlVjmgFntA8sOiaJkS9VN7hRBx/acXVv8nHok7+LlG5gDlWQYttu9C/Ziz2Q
+	 9+gbtHN37rmZJX1Y+zsCX3i2FZKYid/5viGaZ6bA=
+Date: Thu, 9 Feb 2023 12:31:47 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Message-ID: <Y+TLk4Oyb4QkJr22@pendragon.ideasonboard.com>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+ <CAHp75VcyvON1-yoBsTsZDmjsA-527xyvF+weEXWcXjO3Y2hBrA@mail.gmail.com>
+ <Y+PCulPVN7GGz2T7@pendragon.ideasonboard.com>
+ <CAHp75VcEaEwFVyAm1QijXjw0tF+D9JSr2JET0RJUNMea4nGMew@mail.gmail.com>
+ <Y+PH7V9vggOLDybV@pendragon.ideasonboard.com>
+ <CAHp75VeC8UM8WA-EECB98n+DZQ5J5kgdx5yrxnpYjpBRQjtQ-g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <CAHp75VeC8UM8WA-EECB98n+DZQ5J5kgdx5yrxnpYjpBRQjtQ-g@mail.gmail.com>
 
-Use commonly used BIT() macro to define MSR_LINK_MASK. Equation is
-not accepted by checkpatch because of missing spaces. Therefore line
-needs to change anyhow.
+Hi Andy,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-V1->V2: Changed patch, title and description
-        Calculate MSR_LINK_MASK ((1<<0)|(1<<1)) = 3 is not wanted for
-        bit fields
-        Old patch name: Calculate definition of MSR_LINK_MASK
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Feb 08, 2023 at 07:31:43PM +0200, Andy Shevchenko wrote:
+> On Wed, Feb 8, 2023 at 6:04 PM Laurent Pinchart wrote:
+> > On Wed, Feb 08, 2023 at 05:50:26PM +0200, Andy Shevchenko wrote:
+> > > On Wed, Feb 8, 2023 at 5:41 PM Laurent Pinchart wrote:
+> > > > On Wed, Feb 08, 2023 at 01:27:37PM +0200, Andy Shevchenko wrote:
+> > > > > On Wed, Feb 8, 2023 at 11:52 AM Laurent Pinchart wrote:
+> > > > > > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
+> 
+> ...
+> 
+> > > > > > > Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
+> > > > > > > versions of these register access helpers, so that this code duplication
+> > > > > > > can be removed.
+> > > > > >
+> > > > > > Any reason to hand-roll those instead of using regmap ? Also, may I
+> > > > > > suggest to have a look at drivers/media/i2c/imx290.c
+> > > > >
+> > > > > While this is a bit error prone example, a patch is on its way, ...
+> > > >
+> > > > The two cleanups are nice, but they're cleanup, not error fixes :-)
+> > >
+> > > It depends on which side you look at it. I admit I haven't dug into
+> > > the code to see if endianess can be an issue there, but the code
+> > > itself is not written well, esp. when one offers it as an example. So
+> > > definitely there is a fix on the upper layer.
+> >
+> > Did I miss something ? Your two patches replace a tiny amount of code
+> > with helper functions that don't change any behaviour. It's nicer with
+> > those helpers, no question about that, but "not written well" is a bit
+> > of a stretch and feels quite insulting.
+> 
+> Sorry for your feelings, what I meant is the pure educational purposes
+> of the example. When one takes the mentioned driver as an example and
+> uses the code in a slightly different environment the endianess issue
+> may become a real one. That's why we have helpers in kernel to improve
+> robustness against blind copy'n'paste approach. It does not mean your
+> code is broken per se.
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-index 8b8a870fcbbd..99640c4779f7 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_hw.h
-@@ -170,7 +170,7 @@ enum _RTL8192PCI_HW {
- #define	BW_OPMODE_20MHZ			BIT2
- 	IC_VERRSION		= 0x301,
- 	MSR			= 0x303,
--#define MSR_LINK_MASK      ((1<<0)|(1<<1))
-+#define MSR_LINK_MASK		(BIT(1) | BIT(0))
- #define MSR_LINK_MANAGED   2
- #define MSR_LINK_ADHOC     1
- #define MSR_LINK_MASTER    3
+Reference code should be pristine as much as possible, no disagreement
+there. That's why I think your two patches are good :-)
+
+> > Feel free to submit patches that
+> > add new "well-written" helpers.
+
 -- 
-2.39.1
+Regards,
 
+Laurent Pinchart
