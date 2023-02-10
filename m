@@ -1,48 +1,69 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BAF2F45
-	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 13:31:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676035887; x=1707571887;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Bs76Daq806vEWzq8FqACTwmKbFz2Iy3Ud1YqIx/XmRQ=;
-  b=kGBQ7msVG8/cjI/nnwjiW3Makm6gbFmIPFAm0lgf9SpY2PpLHMbndbGN
-   AQJfYGmtwHy5Y1VWDMhAt35vUlDoCw5D7FBY5vM8QHUP5bf5H6kXho9X+
-   o9+IuWYE1VvLu2INmqUaevJ+wqwVcFNtP3RpJhqYsudLDPncDJp5OY0ZM
-   LceAfgSkHcQo3tmkAlEVn72l8u/2rH7NreF54cELS1o1ZOXyLOmTw6OLg
-   IucMHB+43whUxxApHX5EOrO6BzloBzyPt0MNvPqM80tjLx8130WuROwdP
-   +cZt+4m6z28swU77PV5uXz4Jp60xlK37p2GVxgpolp8tdvcFg8NBGBS2w
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="392823023"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="392823023"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 05:31:26 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="645627451"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="645627451"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 05:31:23 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 27AD21218A4;
-	Fri, 10 Feb 2023 15:31:20 +0200 (EET)
-Date: Fri, 10 Feb 2023 15:31:20 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C532F62A
+	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 14:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1676040235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fg7isv25GsAJhW7P8I98ofFRurVeZvcIJwmS+sUa6uQ=;
+	b=CKDsvcm+LTwBmDAC9eZDbf69/7fTBaUMUsdj0nrYdtPrgvdykUSbynz4Xf+xpKSWL3FOdR
+	tDpbZMli/aEzWmhuIif3QqQfSUk9oThUHLx0hoaYAUk3F4RiZSqycCaQcXM9ajMc/4Q301
+	U2jl5NdCOfCchqgj/qxrY/3WC7AdnWI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-629-8qFczd7MPtCBeQAlA6ITLw-1; Fri, 10 Feb 2023 09:43:54 -0500
+X-MC-Unique: 8qFczd7MPtCBeQAlA6ITLw-1
+Received: by mail-ed1-f70.google.com with SMTP id j10-20020a05640211ca00b0049e385d5830so3701324edw.22
+        for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 06:43:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fg7isv25GsAJhW7P8I98ofFRurVeZvcIJwmS+sUa6uQ=;
+        b=DHs55D6USWOru5MFWzNUoB8GvqEa02uYqZNYW3W4/JUYCIubAm3iC3aiN/gF7StWHc
+         ejHGM4KSi0WUsX2qRlLRTZCgUA/9520skPd5CuIIT/s+WiIKgXHOOb3GhcZ2ht6SvqN2
+         GcbG5UkQ1EtG3tNNOfHKM7Y9TMpH+/pw7DMMcV1KsKfenWBUBXFbL/RWBucbmGw0yAAg
+         h38SmVBiIWZmsXRmV0d90mpVXvNz6ZZSr5VXzQ701Jc1ljxYCT67qOJkXDzsstfN2zTm
+         hjL4vhswvcecIUmINXhFBG0e77bmkXFwF6NGu3k/lc100dJaLc5o6q6abIvSBbwqgP1X
+         M/sw==
+X-Gm-Message-State: AO0yUKXx84owJ2HF/ol3pIYsyiuRUs47HyJrrVRD2AzkfjuBHgRBKEDV
+	pnqKVhX5hTkRN1sjoORQV0SMpX5uYhpc0VtmO4NenJx6uoP84KX0lscHNliN4updSnkkG+Bsos7
+	WTRu49ymogq3t8bWilz4qJmx8/w==
+X-Received: by 2002:a17:907:3f91:b0:8ae:bb1d:45e4 with SMTP id hr17-20020a1709073f9100b008aebb1d45e4mr10554283ejc.26.1676040233245;
+        Fri, 10 Feb 2023 06:43:53 -0800 (PST)
+X-Google-Smtp-Source: AK7set8lKNPlEXwDw4UvbUeFXHmZ3VhLvmfcP20Mv0bTY+FYar2+bmnddVZKMDwJLQVszoWOSrnaNw==
+X-Received: by 2002:a17:907:3f91:b0:8ae:bb1d:45e4 with SMTP id hr17-20020a1709073f9100b008aebb1d45e4mr10554263ejc.26.1676040233033;
+        Fri, 10 Feb 2023 06:43:53 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id c20-20020a50f614000000b004ac089bb600sm434218edn.0.2023.02.10.06.43.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 06:43:52 -0800 (PST)
+Message-ID: <8e4813ea-06a4-4e8a-4401-9d05af767377@redhat.com>
+Date: Fri, 10 Feb 2023 15:43:51 +0100
+Precedence: bulk
+X-Mailing-List: linux-staging@lists.linux.dev
+List-Id: <linux-staging.lists.linux.dev>
+List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
 Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+ZHKFsocJX2h3GV@kekkonen.localdomain>
-References: <20230123125205.622152-29-hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tsuchiya Yuto
+ <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>,
+ Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>,
+ andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
  <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
  <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
  <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
@@ -50,108 +71,71 @@ References: <20230123125205.622152-29-hdegoede@redhat.com>
  <Y+YuRuHbs8kDZPNP@pendragon.ideasonboard.com>
  <3be27a04-21e5-5929-88a1-0159f554a36f@redhat.com>
  <Y+Yz3qPY3aiJ+bYZ@pendragon.ideasonboard.com>
- <Y+Y1yWCGg5ORJEoh@kekkonen.localdomain>
- <59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com>
-Precedence: bulk
-X-Mailing-List: linux-staging@lists.linux.dev
-List-Id: <linux-staging.lists.linux.dev>
-List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com>
+ <30181cf6-7dc8-d75c-5d7a-93f483d4f045@redhat.com>
+ <Y+ZEMTJZcbPAj+yk@kekkonen.localdomain>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Y+ZEMTJZcbPAj+yk@kekkonen.localdomain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+Hi,
 
-On Fri, Feb 10, 2023 at 01:59:07PM +0100, Hans de Goede wrote:
-> > Who will now write the patches for this? :-)
+On 2/10/23 14:18, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> I have already more or less volunteered / I opened this can of worms,
-> so that would be me...
-
-:-)
-
-Thank you, this is much appreciated, and will allow factoring out ~ 50
-lines of code from almost all sensor (as well as a few other) drivers.
-
+> On Fri, Feb 10, 2023 at 01:47:49PM +0100, Hans de Goede wrote:
+>>> And if someone dislikes having to pass NULL for the last argument, we
+>>> could use some macro magic to accept both the 3 arguments and 4
+>>> arguments variants.
+>>>
+>>> int __cci_write3(struct cci *cci, u32 reg, u32 val);
+>>> int __cci_write4(struct cci *cci, u32 reg, u32 val, int *err);
+>>>
+>>> #define __cci_write(_1, _2, _3, _4, NAME, ...) NAME
+>>> #define cci_write(...) __cci_write(__VA_ARGS__, __cci_write4, __cci_write3)(__VA_ARGS__)
+>>
+>> TBH this just feels like code obfuscation to me and it is also going
+>> to write havoc with various smarted code-editors / IDEs which give
+>> proptype info to the user while typing the function name.
+>>
+>> Having the extra ", NULL" there in calls which don't use / need
+>> the *err thingie really is not a big deal IMHO.
 > 
-> I see in your other reply that you are fine with going without
-> wrappers for the fixed width accesses for now, good. TBH I don't
-> think these will add much value.
+> It's still an eyesore if the driver doesn't use that pattern of register
+> access error handling. I also prioritise source code itself rather than try
+> to make it fit for a particular editor (which is neither Emacs nor Vim I
+> suppose?).
 
-We can get back to this topic when converting drivers. These are
-convenience wrappers after all and they're easy to add if needed, there's
-no connection to the underlying implementation which is the important part.
+vim and emacs also both have support for showing function prototypes,
+but this is not only about breaking tooling like that.
 
-> 
-> I'll try to make some time to work on this somewhere the next
-> couple of weeks.
-> 
-> Here is a rough sketch of the API for initial discussion:
-> 
-> /*
->  * Note cci_reg_8 deliberately is 0, not 1, so that raw
->  * (not wrapped in a CCI_REG*() macro) register addresses
->  * do 8 bit wide accesses. This allows unchanged use of register
->  * initialization lists of raw address, value pairs which only
->  * do 8 bit width accesses.
->  */
-> enum cci_reg_type {
-> 	cci_reg_8 = 0,
-> 	cci_reg_16,
-> 	cci_reg_24,
-> 	cci_reg_32,
+My main objection is not that it confuses various tooling, it also confuses
+me as a human if I'm trying to figure out what is going on. The kernel's
+internal API documentation generally isn't great so I'm used to just look
+at a functions implementation as an alternative. These sort of dark-magic
+pre-compiler macros make it very hard for me *as a human* to figure out
+what is going on.
 
-I'd use capital letters for these as they are macro-like. Or define them as
-macros.
+So to me personally this level of code-obfuscation just to avoid 6 chars
+", NULL" per function calls is very much not worth the making things
+harder to understand level it adds.
 
-> };
-> 
-> /*
->  * Macros to define register address with the register width encoded
->  * into the higher bits. CCI_REG8() is a no-op so its use is optional.
->  */
-> #define CCI_REG_SIZE_SHIFT		16
-> #define CCI_REG_ADDR_MASK		GENMASK(15, 0)
-> 
-> #define CCI_REG8(x)			((cci_reg_8 << CCI_REG_SIZE_SHIFT) | (x))
-> #define CCI_REG16(x)			((cci_reg_16 << CCI_REG_SIZE_SHIFT) | (x))
-> #define CCI_REG24(x)			((cci_reg_24 << CCI_REG_SIZE_SHIFT) | (x))
-> #define CCI_REG32(x)			((cci_reg_32 << CCI_REG_SIZE_SHIFT) | (x))
+I mean this will even allow mixing the 3 and 4 parameter variants
+in a single .c file! That is just very very confusing and anti KISS.
 
-The top 8 bits could be used for flags in the future, for driver's use.
-The CCS driver stores register's properties (value format) there.
+Who knows maybe iso-c2023 or whatever will give us default function
+arguments values? That would be a nice way to do this, the above
+not so much IMHO.
 
-> 
-> int cci_read(struct regmap *regmap, u32 reg, u32 *val, int *err);
-> int cci_write(struct regmap *regmap, u32 reg, u32 val, int *err);
-> int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err);
-> int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err);
+So I won't be adding this per-processor (dark) magic to my patch-set
+for this.
 
-We should also have a bulk data write function, although drivers could use
-regmap directly to do this. Not needed now, nor this is a common need. Just
-a note.
+If people really want this they can add this in a follow-up patch-set.
 
-> 
-> Note the regmap here is intended to be a regmap with 16 bit register-address
-> width and 8 bit register-data width. I'll add a helper to get the regmap
-> from an i2c_client to the initial implementation.
+Regards,
 
-CCI also supports 8-bit register addresses (virtually all lens VCM and
-flash drivers as well as some sensor drivers) so this should be a
-parameter.
+Hans
 
-I expect some drivers to support CCI via both I²C and I3C. We don't need
-I3C now as all sensors are I²C, but I²C should be visible in the API only
-when it's about making the connection to an I²C client.
-
-> 
-> Also note that all the function names have been chosen to be 1:1 mirrors
-> of the matching regmap functions with the addition of the *err argument.
-
--- 
-Kind regards,
-
-Sakari Ailus
