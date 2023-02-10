@@ -1,65 +1,159 @@
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1126D1B
-	for <linux-staging@lists.linux.dev>; Thu,  9 Feb 2023 16:19:28 +0000 (UTC)
-Received: from localhost.179.lan (unknown [94.29.124.73])
-	by mail.ispras.ru (Postfix) with ESMTPSA id BF6E740737CD;
-	Thu,  9 Feb 2023 16:19:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru BF6E740737CD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1675959555;
-	bh=tLZo/bcb1EOssw17se/FP5c6fL7fMLC93o2ouQs+qsk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bBg7GYv0wHRcC3LFE1fVPT3Gv3QsaH89vfq4pXj+33wNmIDh+5iJBb9dCRSMvUGuw
-	 oZEJHmWKcoqY2j6MlWhn6QYdb/QfCJKIzczHGQpS7SJ2HkadjKPZloUZ2VrqSp1xb/
-	 kHpEuVFUNRGgYIxwizlj1jmnuQuX7rloX+QXZB+I=
-From: Anton Gusev <aagusev@ispras.ru>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Anton Gusev <aagusev@ispras.ru>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] staging/wlan-ng: Check hfa384x_dowmem result in hfa384x_drvr_flashdl_write
-Date: Thu,  9 Feb 2023 19:18:36 +0300
-Message-Id: <20230209161836.29991-1-aagusev@ispras.ru>
-X-Mailer: git-send-email 2.39.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2AA2588
+	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 10:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676024482; x=1707560482;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=W85ywjlpyv5ce4zcqbb50fTeYj/4QrGsNfd2xaOmY4w=;
+  b=gKKcay/ZbTm5Ej3j7HFCq8ChD9VoToldetWw+Lz1+7vml5Co8Nhu3O6a
+   VTvG3fbw68aazxMiuCSyn5e57Hra7TlnTjjGoEtNySKKkpx8GbejnzXDT
+   jUhrLpu3/H65KnsJdeuKZobSLlrb20WuzyCSs7UG8WX/O+Q5+BLYmYwYu
+   wUjWxHVBtojsN3GjrN1FOX1QzEh9NyYrgKEXCFHka+0nbsL8dEQVnC0wf
+   v3NecFI7LDzBp2N60yBq+zwpxaH/BykvsCEU8QRaQDpMJmJ63U9saEJfj
+   1CCWl0oEJqDZpjDX8cH2+DIzmsbgsXlkPdNpvN+HkUe5O+HFXIHADCo85
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="314031600"
+X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
+   d="scan'208";a="314031600"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 02:21:22 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="700427647"
+X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
+   d="scan'208";a="700427647"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 02:21:19 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id ED24A11F9EF;
+	Fri, 10 Feb 2023 12:21:15 +0200 (EET)
+Date: Fri, 10 Feb 2023 12:21:15 +0200
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Message-ID: <Y+YamxehIUdF5aU7@kekkonen.localdomain>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+ <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
+ <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
 
-In hfa384x_drvr_flashdl_write, hfa384x_dowmem is called in a cycle
-without checking the result. Ignoring an error there may lead to an
-incorrect flash download buffer value during the consequent write.
+Hi Laurent,
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+On Thu, Feb 09, 2023 at 06:11:12PM +0200, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Thu, Feb 09, 2023 at 04:03:22PM +0100, Hans de Goede wrote:
+> > On 2/8/23 10:52, Laurent Pinchart wrote:
+> > > On Mon, Jan 23, 2023 at 01:51:36PM +0100, Hans de Goede wrote:
+> > >> The following drivers under drivers/media/i2c: ov08x40.c, ov13858.c,
+> > >> ov13b10.c, ov2680.c, ov2685.c, ov2740.c, ov4689.c, ov5670.c,
+> > >> ov5675.c, ov5695.c, ov8856.c, ov9282.c and ov9734.c,
+> > >>
+> > >> as well as various "atomisp" sensor drivers in drivers/staging, *all*
+> > >> use register access helpers with the following function prototypes:
+> > >>
+> > >> int ovxxxx_read_reg(struct ovxxxx_dev *sensor, u16 reg,
+> > >>                     unsigned int len, u32 *val);
+> > >>
+> > >> int ovxxxx_write_reg(struct ovxxxx_dev *sensor, u16 reg,
+> > >>                      unsigned int len, u32 val);
+> > >>
+> > >> To read/write registers on Omnivision OVxxxx image sensors wich expect
+> > >> a 16 bit register address in big-endian format and which have 1-3 byte
+> > >> wide registers, in big-endian format (for the higher width registers).
+> > >>
+> > >> Add a new ovxxxx_16bit_addr_reg_helpers.h header file with static inline
+> > >> versions of these register access helpers, so that this code duplication
+> > >> can be removed.
+> > > 
+> > > Any reason to hand-roll those instead of using regmap ?
+> > 
+> > These devices have a mix of 8 + 16 + 24 bit registers which regmap
+> > appears to not handle, a regmap has a single regmap_config struct
+> > with a single "@reg_bits: Number of bits in a register address, mandatory",
+> > so we would still need wrappers around regmap, at which point it
+> > really offers us very little.
+> 
+> We could extend regmap too, although that may be too much yak shaving.
+> It would be nice, but I won't push hard for it.
 
-Signed-off-by: Anton Gusev <aagusev@ispras.ru>
----
- drivers/staging/wlan-ng/hfa384x_usb.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+I took a look at this some time ago, too, and current regmap API is a poor
+fit for CCI devices. CCI works on top of e.g. both I²C and I3C so something
+on top of regmap is a better approach indeed.
 
-diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
-index c7cd54171d99..baac5c02f904 100644
---- a/drivers/staging/wlan-ng/hfa384x_usb.c
-+++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-@@ -1880,6 +1880,12 @@ int hfa384x_drvr_flashdl_write(struct hfa384x *hw, u32 daddr,
- 						writepage,
- 						writeoffset,
- 						writebuf, writelen);
-+			if (result) {
-+				netdev_err(hw->wlandev->netdev,
-+					   "dowmem(page=%x,offset=%x,data=%p,len=%d) failed, result=%d. Aborting d/l\n",
-+					   writepage, writeoffset, writebuf, writelen, result);
-+				return result;
-+			}
- 		}
- 
- 		/* set the download 'write flash' mode */
+Nearly all other devices have a fixed register width, so the regmap API
+makes sense.
+
+> 
+> > Also I'm moving duplicate code present in many of the
+> > drivers/media/i2c/ov*.c files into a common header to remove
+> > duplicate code. The handrolling was already there before :)
+> > 
+> > My goal with the new ovxxxx_16bit_addr_reg_helpers.h file was to
+> > offer something which is as much of a drop-in replacement of the
+> > current handrolled code as possible (usable with just a few
+> > search-n-replaces) as possible.
+> > 
+> > Basically my idea here was to factor out code which I noticed was
+> > being repeated over and over again. My goal was not to completely
+> > redo how register accesses are done in these drivers.
+> > 
+> > I realize I have not yet converted any other drivers, that is because
+> > I don't really have a way to test most of the other drivers. OTOH
+> > with the current helpers most conversions should be fairly simply
+> > and remove a nice amount of code. So maybe I should just only compile
+> > test the conversions ?
+> 
+> Before you spend time converting drivers, I'd like to complete the
+> discussion regarding the design of those helpers. I'd rather avoid
+> mass-patching drivers now and doing it again in the next kernel release.
+> 
+> Sakari mentioned CCI (part of the CSI-2 specification). I think that
+> would be a good name to replace ov* here, as none of this is specific to
+> OmniVision.
+> 
+> > > Also, may I
+> > > suggest to have a look at drivers/media/i2c/imx290.c for an example of
+> > > how registers of different sizes can be handled in a less error-prone
+> > > way, using single read/write functions that adapt to the size
+> > > automatically ?
+> > 
+> > Yes I have seen this pattern in drivers/media/i2c/ov5693.c too
+> > (at least I assume it is the same pattern you are talking about).
+> 
+> Correct. Can we use something like that to merge all the ov*_write_reg()
+> variants into a single function ? Having to select the size manually in
+> each call (either by picking the function variant, or by passing a size
+> as a function parameter) is error-prone. Encoding the size in the
+> register macro is much safer, easing both development and review.
+
+I think so, too.
+
+That doesn't mean we shouldn't have function variants for specific register
+sizes (taking just register addresses) though.
+
 -- 
-2.39.1
+Regards,
 
+Sakari Ailus
