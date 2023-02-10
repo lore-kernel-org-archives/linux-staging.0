@@ -1,26 +1,56 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B9A2F31
-	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 11:26:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76DFDC4339E;
-	Fri, 10 Feb 2023 11:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1676028369;
-	bh=AQlWuKp6toHoLgza03+Gx7b3g0pV0/0mKTYxTl8YFhM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b+mP8HkhbtmhF5s08T2hM30orJorut8sLG55i29/duuhac3y/PqtUDgRC9Ywfu5sD
-	 R+jYqoLyGTY02GmuTgUQqx1H0QUaugGMclQGyHEgEYJhbBz1EEo6EZW5oPEq1FSz8m
-	 Ru0DRW/6FjdmRtjAO9ZfTDv017mN4kuIACrhqLgk=
-Date: Fri, 10 Feb 2023 12:26:06 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Anton Gusev <aagusev@ispras.ru>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH] staging/wlan-ng: Check hfa384x_dowmem result in
- hfa384x_drvr_flashdl_write
-Message-ID: <Y+YpzpZ7SXOp2Neu@kroah.com>
-References: <20230209161836.29991-1-aagusev@ispras.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8232D2F31
+	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 11:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676028425; x=1707564425;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DzXHqz2CeYe24S17PY8CbWRmhq9uaL6YfcGl+VJL8e8=;
+  b=MbTAv0y5v+ie2Wz9hn6FojHIU7iGe2xGvvLGm7fHVWeHuTkjiGXjMEYw
+   zInyccjaYWIpc3wSNi40nlb+fCt1p6YsBRKQ6wsnxd773pyueISljR6/i
+   8TEa/8QnUMiP+w8jQOR4q45DhE/sXuULmtfRvBXxIZnuVdgcPNVLzQm24
+   uyskt1sdSL1cxmn81ad4D6ZFM9oicKVNlWdMaU6DBx3Za1yIaQadz5G/q
+   Usxv3s4nAwzz2q2Aa5ZF/qLTnzDpL/BqRx5CrPwy+pMKPAN0TDuTlPa++
+   QmK2qvq9+EBGOx3lXzApXiyEPv3sa/bsV061wARYMz/ba3nywKkuQHr0t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="314042667"
+X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
+   d="scan'208";a="314042667"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 03:27:04 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="669972152"
+X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
+   d="scan'208";a="669972152"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 03:27:01 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3FB9111F9EF;
+	Fri, 10 Feb 2023 13:18:12 +0200 (EET)
+Date: Fri, 10 Feb 2023 13:18:12 +0200
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Message-ID: <Y+Yn9JRsZOb6ZuzW@kekkonen.localdomain>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+ <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
+ <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
+ <Y+YamxehIUdF5aU7@kekkonen.localdomain>
+ <Y+Ycf4SpMaUfdR5m@pendragon.ideasonboard.com>
+ <Y+Yg217HSEi4c+mP@kekkonen.localdomain>
+ <Y+Yk0IaBghjj18C8@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,55 +59,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230209161836.29991-1-aagusev@ispras.ru>
+In-Reply-To: <Y+Yk0IaBghjj18C8@pendragon.ideasonboard.com>
 
-On Thu, Feb 09, 2023 at 07:18:36PM +0300, Anton Gusev wrote:
-> In hfa384x_drvr_flashdl_write, hfa384x_dowmem is called in a cycle
-> without checking the result. Ignoring an error there may lead to an
-> incorrect flash download buffer value during the consequent write.
+Hi Laurent,
 
-Did you reproduce this on a running system?
-
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-How was this tested?  If not tested you HAVE TO SAY SO!  Especially when
-dealing with random tools that we know nothing about.
-
+On Fri, Feb 10, 2023 at 01:04:48PM +0200, Laurent Pinchart wrote:
+> > > > > > > Also, may I
+> > > > > > > suggest to have a look at drivers/media/i2c/imx290.c for an example of
+> > > > > > > how registers of different sizes can be handled in a less error-prone
+> > > > > > > way, using single read/write functions that adapt to the size
+> > > > > > > automatically ?
+> > > > > > 
+> > > > > > Yes I have seen this pattern in drivers/media/i2c/ov5693.c too
+> > > > > > (at least I assume it is the same pattern you are talking about).
+> > > > > 
+> > > > > Correct. Can we use something like that to merge all the ov*_write_reg()
+> > > > > variants into a single function ? Having to select the size manually in
+> > > > > each call (either by picking the function variant, or by passing a size
+> > > > > as a function parameter) is error-prone. Encoding the size in the
+> > > > > register macro is much safer, easing both development and review.
+> > > > 
+> > > > I think so, too.
+> > > > 
+> > > > That doesn't mean we shouldn't have function variants for specific register
+> > > > sizes (taking just register addresses) though.
+> > > 
+> > > I don't see why we should have multiple APIs when a single one works.
+> > 
+> > Yes, it "works", but the purpose of the API is to avoid driver code. A
+> > driver accessing fixed width registers is likely to use a helper function
+> > with an API that requires encoding the width into the register address.
 > 
-> Signed-off-by: Anton Gusev <aagusev@ispras.ru>
-> ---
->  drivers/staging/wlan-ng/hfa384x_usb.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
-> index c7cd54171d99..baac5c02f904 100644
-> --- a/drivers/staging/wlan-ng/hfa384x_usb.c
-> +++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-> @@ -1880,6 +1880,12 @@ int hfa384x_drvr_flashdl_write(struct hfa384x *hw, u32 daddr,
->  						writepage,
->  						writeoffset,
->  						writebuf, writelen);
-> +			if (result) {
-> +				netdev_err(hw->wlandev->netdev,
-> +					   "dowmem(page=%x,offset=%x,data=%p,len=%d) failed, result=%d. Aborting d/l\n",
-> +					   writepage, writeoffset, writebuf, writelen, result);
-> +				return result;
-> +			}
->  		}
->  
->  		/* set the download 'write flash' mode */
-> -- 
-> 2.39.1
-> 
-> 
+> Why not ? I don't see anything wrong with having that as a single API,
+> it doesn't make life more complicated for driver authors or reviewers.
 
-Please fix up your tool, this patch does not follow the pattern of the
-rest of the "exit on error" paths in this function so of course I'm not
-going to accept this.
+Given that the reviewers (at least me) haven't had noteworthy issues when
+each driver implements their own register access functions, I'm not
+concerned having ~ six register read functions instead of one or two.
+Driver authors should pick the one that fits the purpose best, and not be
+required to implement wrappers in drivers --- which is exactly the
+situation we have today.
 
-At this point, it really really feels like something needs to change
-with your submissions, they are not working well :(
+-- 
+Regards,
 
-{sigh}
-
-greg k-h
+Sakari Ailus
