@@ -1,141 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C532F62A
-	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 14:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676040235;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fg7isv25GsAJhW7P8I98ofFRurVeZvcIJwmS+sUa6uQ=;
-	b=CKDsvcm+LTwBmDAC9eZDbf69/7fTBaUMUsdj0nrYdtPrgvdykUSbynz4Xf+xpKSWL3FOdR
-	tDpbZMli/aEzWmhuIif3QqQfSUk9oThUHLx0hoaYAUk3F4RiZSqycCaQcXM9ajMc/4Q301
-	U2jl5NdCOfCchqgj/qxrY/3WC7AdnWI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-629-8qFczd7MPtCBeQAlA6ITLw-1; Fri, 10 Feb 2023 09:43:54 -0500
-X-MC-Unique: 8qFczd7MPtCBeQAlA6ITLw-1
-Received: by mail-ed1-f70.google.com with SMTP id j10-20020a05640211ca00b0049e385d5830so3701324edw.22
-        for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 06:43:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fg7isv25GsAJhW7P8I98ofFRurVeZvcIJwmS+sUa6uQ=;
-        b=DHs55D6USWOru5MFWzNUoB8GvqEa02uYqZNYW3W4/JUYCIubAm3iC3aiN/gF7StWHc
-         ejHGM4KSi0WUsX2qRlLRTZCgUA/9520skPd5CuIIT/s+WiIKgXHOOb3GhcZ2ht6SvqN2
-         GcbG5UkQ1EtG3tNNOfHKM7Y9TMpH+/pw7DMMcV1KsKfenWBUBXFbL/RWBucbmGw0yAAg
-         h38SmVBiIWZmsXRmV0d90mpVXvNz6ZZSr5VXzQ701Jc1ljxYCT67qOJkXDzsstfN2zTm
-         hjL4vhswvcecIUmINXhFBG0e77bmkXFwF6NGu3k/lc100dJaLc5o6q6abIvSBbwqgP1X
-         M/sw==
-X-Gm-Message-State: AO0yUKXx84owJ2HF/ol3pIYsyiuRUs47HyJrrVRD2AzkfjuBHgRBKEDV
-	pnqKVhX5hTkRN1sjoORQV0SMpX5uYhpc0VtmO4NenJx6uoP84KX0lscHNliN4updSnkkG+Bsos7
-	WTRu49ymogq3t8bWilz4qJmx8/w==
-X-Received: by 2002:a17:907:3f91:b0:8ae:bb1d:45e4 with SMTP id hr17-20020a1709073f9100b008aebb1d45e4mr10554283ejc.26.1676040233245;
-        Fri, 10 Feb 2023 06:43:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set8lKNPlEXwDw4UvbUeFXHmZ3VhLvmfcP20Mv0bTY+FYar2+bmnddVZKMDwJLQVszoWOSrnaNw==
-X-Received: by 2002:a17:907:3f91:b0:8ae:bb1d:45e4 with SMTP id hr17-20020a1709073f9100b008aebb1d45e4mr10554263ejc.26.1676040233033;
-        Fri, 10 Feb 2023 06:43:53 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id c20-20020a50f614000000b004ac089bb600sm434218edn.0.2023.02.10.06.43.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 06:43:52 -0800 (PST)
-Message-ID: <8e4813ea-06a4-4e8a-4401-9d05af767377@redhat.com>
-Date: Fri, 10 Feb 2023 15:43:51 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AFF829B2
+	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 15:35:56 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="314089900"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="314089900"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 07:35:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="731743405"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="731743405"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP; 10 Feb 2023 07:35:53 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andy@kernel.org>)
+	id 1pQVRH-0056b7-0h;
+	Fri, 10 Feb 2023 17:35:51 +0200
+Date: Fri, 10 Feb 2023 17:35:50 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
+Message-ID: <Y+ZkVlzV7qY0K4gS@smile.fi.intel.com>
+References: <20230123125205.622152-1-hdegoede@redhat.com>
+ <20230123125205.622152-29-hdegoede@redhat.com>
+ <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
+ <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
+ <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
+ <Y+YamxehIUdF5aU7@kekkonen.localdomain>
+ <Y+Ycf4SpMaUfdR5m@pendragon.ideasonboard.com>
+ <Y+Yg217HSEi4c+mP@kekkonen.localdomain>
+ <Y+YiNyC7TeOEn/Hi@smile.fi.intel.com>
+ <Y+YlELz9C61HQE0x@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tsuchiya Yuto
- <kitakar@gmail.com>, Andy Shevchenko <andy@kernel.org>,
- Yury Luneff <yury.lunev@gmail.com>, Nable <nable.maininbox@googlemail.com>,
- andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230123125205.622152-1-hdegoede@redhat.com>
- <20230123125205.622152-29-hdegoede@redhat.com>
- <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
- <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
- <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
- <4e501e71-a226-a022-83e2-f53686ca07a7@redhat.com>
- <Y+YuRuHbs8kDZPNP@pendragon.ideasonboard.com>
- <3be27a04-21e5-5929-88a1-0159f554a36f@redhat.com>
- <Y+Yz3qPY3aiJ+bYZ@pendragon.ideasonboard.com>
- <30181cf6-7dc8-d75c-5d7a-93f483d4f045@redhat.com>
- <Y+ZEMTJZcbPAj+yk@kekkonen.localdomain>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Y+ZEMTJZcbPAj+yk@kekkonen.localdomain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y+YlELz9C61HQE0x@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi,
+On Fri, Feb 10, 2023 at 01:05:52PM +0200, Laurent Pinchart wrote:
+> On Fri, Feb 10, 2023 at 12:53:43PM +0200, Andy Shevchenko wrote:
+> > On Fri, Feb 10, 2023 at 12:47:55PM +0200, Sakari Ailus wrote:
+> > > On Fri, Feb 10, 2023 at 12:29:19PM +0200, Laurent Pinchart wrote:
+> > > > On Fri, Feb 10, 2023 at 12:21:15PM +0200, Sakari Ailus wrote:
+> > > > > On Thu, Feb 09, 2023 at 06:11:12PM +0200, Laurent Pinchart wrote:
 
-On 2/10/23 14:18, Sakari Ailus wrote:
-> Hi Hans,
+...
+
+> > > > > I took a look at this some time ago, too, and current regmap API is a poor
+> > > > > fit for CCI devices. CCI works on top of e.g. both I²C and I3C so something
+> > > > > on top of regmap is a better approach indeed.
+> > > > 
+> > > > I'm confused, is regmap a poor fit, or a better approach ?
+> > > 
+> > > I'm proposing having something on top of regmap, but not changing regmap
+> > > itself.
+> > 
+> > I don't understand why we can't change regmap? regmap has a facility called
+> > regmap bus which we can provide specifically for these types of devices. What's
+> > wrong to see it done?
 > 
-> On Fri, Feb 10, 2023 at 01:47:49PM +0100, Hans de Goede wrote:
->>> And if someone dislikes having to pass NULL for the last argument, we
->>> could use some macro magic to accept both the 3 arguments and 4
->>> arguments variants.
->>>
->>> int __cci_write3(struct cci *cci, u32 reg, u32 val);
->>> int __cci_write4(struct cci *cci, u32 reg, u32 val, int *err);
->>>
->>> #define __cci_write(_1, _2, _3, _4, NAME, ...) NAME
->>> #define cci_write(...) __cci_write(__VA_ARGS__, __cci_write4, __cci_write3)(__VA_ARGS__)
->>
->> TBH this just feels like code obfuscation to me and it is also going
->> to write havoc with various smarted code-editors / IDEs which give
->> proptype info to the user while typing the function name.
->>
->> Having the extra ", NULL" there in calls which don't use / need
->> the *err thingie really is not a big deal IMHO.
-> 
-> It's still an eyesore if the driver doesn't use that pattern of register
-> access error handling. I also prioritise source code itself rather than try
-> to make it fit for a particular editor (which is neither Emacs nor Vim I
-> suppose?).
+> How would that work ?
 
-vim and emacs also both have support for showing function prototypes,
-but this is not only about breaking tooling like that.
+If I'm not mistaken, you may introduce something like regmal CCI and then
 
-My main objection is not that it confuses various tooling, it also confuses
-me as a human if I'm trying to figure out what is going on. The kernel's
-internal API documentation generally isn't great so I'm used to just look
-at a functions implementation as an alternative. These sort of dark-magic
-pre-compiler macros make it very hard for me *as a human* to figure out
-what is going on.
+	regmap_init_cci();
 
-So to me personally this level of code-obfuscation just to avoid 6 chars
-", NULL" per function calls is very much not worth the making things
-harder to understand level it adds.
 
-I mean this will even allow mixing the 3 and 4 parameter variants
-in a single .c file! That is just very very confusing and anti KISS.
+	regmap_read()/regmap_write()
+	regmap_update_bits()
+	regmap_bulk_*()
 
-Who knows maybe iso-c2023 or whatever will give us default function
-arguments values? That would be a nice way to do this, the above
-not so much IMHO.
+at your service without changing a bit in the drivers (they will use plain
+regmap APIs instead of custom ones).
 
-So I won't be adding this per-processor (dark) magic to my patch-set
-for this.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-If people really want this they can add this in a follow-up patch-set.
-
-Regards,
-
-Hans
 
