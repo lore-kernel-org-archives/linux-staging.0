@@ -1,22 +1,38 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548CE63AB
-	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 16:43:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D222C904;
-	Fri, 10 Feb 2023 17:43:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1676047435;
-	bh=Bx0RW8eetzo/7eHBUne+BXLb1YWCcBppPN/gMqlYop0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rcRhtGmNFgJv5zlxlzj+NI4Wyly4UK8bTKo60dtstjrYhvyptkKT5P3/OQAVpSY8o
-	 sYPGIQCdlfqw0fWsaJuFB1YNoegO/cxe0czHABN/uAtUmQDPiaoMytv2IplurHWQi2
-	 Ca76IeCTcEhHr1cSsHfbPN8iKHWTUpgLNKOlS0Hw=
-Date: Fri, 10 Feb 2023 18:43:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96C28483
+	for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 20:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676060173; x=1707596173;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=17GJZ1NO2ymVZYO20+ZLQYft1Xj7M4uGY8kZbVCznjk=;
+  b=lfU8qtQuaa4zIR1bStFul7r1gJZpgAS4dDNH6GD9hOCQOug63gKz63hA
+   TTEL275OTnPpBzmbqI5ckHNtobCFOtsx1nyUOTmP5C8zDeK6FN16kIomj
+   +zKS8EoiXtj+WEi6zKsK52ttNcq+Q71FO0RL8IBFoTPyhKqEWz/Zi3wbB
+   hc3C1+znzYaabfMFn/3M8DkUk1i5Jt6a7dZyqLvcPkLz/+g0xC9R+9Q+x
+   5glwJLGrELsocHyhm14weBnPCANHnXdRMdDcmF041RRACAdIPKW+IBeEp
+   6R72qnwozLnP0NfuaRYCQhmDHZsdp5kwmoxDoBx3M8eynvG2Mh3fL86+t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="314161164"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="314161164"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 12:16:13 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="700595624"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
+   d="scan'208";a="700595624"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 12:16:10 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4BE4C1218A3;
+	Fri, 10 Feb 2023 22:16:07 +0200 (EET)
+Date: Fri, 10 Feb 2023 22:16:07 +0200
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Tsuchiya Yuto <kitakar@gmail.com>,
 	Andy Shevchenko <andy@kernel.org>,
@@ -25,7 +41,7 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Subject: Re: [PATCH 28/57] media: Add ovxxxx_16bit_addr_reg_helpers.h
-Message-ID: <Y+Z0SEfZsRC/y+Ju@pendragon.ideasonboard.com>
+Message-ID: <Y+amB+54n3o558ip@kekkonen.localdomain>
 References: <Y+Nw32EZUZtq3esL@pendragon.ideasonboard.com>
  <026272d3-88d7-a67f-4942-5cba6c3eab86@redhat.com>
  <Y+UbIAVQZ5U0/U5U@pendragon.ideasonboard.com>
@@ -42,14 +58,18 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <8e4813ea-06a4-4e8a-4401-9d05af767377@redhat.com>
 
 Hi Hans,
 
 On Fri, Feb 10, 2023 at 03:43:51PM +0100, Hans de Goede wrote:
+> Hi,
+> 
 > On 2/10/23 14:18, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
 > > On Fri, Feb 10, 2023 at 01:47:49PM +0100, Hans de Goede wrote:
 > >>> And if someone dislikes having to pass NULL for the last argument, we
 > >>> could use some macro magic to accept both the 3 arguments and 4
@@ -67,7 +87,7 @@ On Fri, Feb 10, 2023 at 03:43:51PM +0100, Hans de Goede wrote:
 > >>
 > >> Having the extra ", NULL" there in calls which don't use / need
 > >> the *err thingie really is not a big deal IMHO.
-> >
+> > 
 > > It's still an eyesore if the driver doesn't use that pattern of register
 > > access error handling. I also prioritise source code itself rather than try
 > > to make it fit for a particular editor (which is neither Emacs nor Vim I
@@ -93,22 +113,21 @@ On Fri, Feb 10, 2023 at 03:43:51PM +0100, Hans de Goede wrote:
 > Who knows maybe iso-c2023 or whatever will give us default function
 > arguments values? That would be a nice way to do this, the above
 > not so much IMHO.
-
-The macro-based code I proposed is a poor man's workaround to the lack
-of both default argument values and function override in plain C. It
-could be nicer with dedicated language constructs for those, but that
-won't change how the callers look like (you'll still be able to mix the
-3 and 4 parameters variants in a single .c file), only the
-implementation.
-
+> 
 > So I won't be adding this per-processor (dark) magic to my patch-set
 > for this.
 > 
 > If people really want this they can add this in a follow-up patch-set.
 
-I don't mind much either way personally.
+Your arguments are entirely reasonable, but I still prefer to have what is
+a best fit for most sensor drivers.
+
+Although this, as well as other fixed size register access helpers, can be
+added later as needed. The core functionality is what interests me the most
+now. Even with one function for read and another (or a few, for bulk data?)
+for write is a huge improvement over the current situation IMO.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
