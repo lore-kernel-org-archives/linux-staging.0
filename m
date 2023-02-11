@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB5C4408
-	for <linux-staging@lists.linux.dev>; Sat, 11 Feb 2023 16:51:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734E84408
+	for <linux-staging@lists.linux.dev>; Sat, 11 Feb 2023 17:02:35 +0000 (UTC)
 Received: from dslb-094-219-036-079.094.219.pools.vodafone-ip.de ([94.219.36.79] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1pQt5Y-0006wA-Mp; Sat, 11 Feb 2023 17:51:00 +0100
+	id 1pQtGf-0006zn-Mt; Sat, 11 Feb 2023 18:02:29 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH] staging: r8188eu: merge _rtw_enqueue_cmd into its caller
-Date: Sat, 11 Feb 2023 17:50:45 +0100
-Message-Id: <20230211165045.414424-1-martin@kaiser.cx>
+Subject: [PATCH] staging: r8188eu: replace hand coded loop with list_for_each_entry
+Date: Sat, 11 Feb 2023 18:02:23 +0100
+Message-Id: <20230211170223.419205-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -29,93 +29,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The _rtw_enqueue_cmd function is called only by rtw_enqueue_cmd.
-
-When _rtw_enqueue_cmd is called, the caller has already checked that the
-obj parameter is not NULL. _rtw_enqueue_cmd returns _SUCCESS in any case.
-
-We can merge the two functions and simplify the error handling.
+In function rtw_get_stainfo, we can use list_for_each_entry to iterate
+over the list of stations and make the code a bit simpler.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c | 47 +++++---------------------
- 1 file changed, 9 insertions(+), 38 deletions(-)
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index d57360a68fb3..ca9e3d4ee7f4 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -28,32 +28,6 @@ void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
- 	}
- }
- 
--/* Calling Context:
-- *
-- * rtw_enqueue_cmd can only be called between kernel thread,
-- * since only spin_lock is used.
-- *
-- * ISR/Call-Back functions can't call this sub-function.
-- */
--
--static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
--{
--	unsigned long flags;
--
--	if (!obj)
--		goto exit;
--
--	spin_lock_irqsave(&queue->lock, flags);
--
--	list_add_tail(&obj->list, &queue->queue);
--
--	spin_unlock_irqrestore(&queue->lock, flags);
--
--exit:
--
--	return _SUCCESS;
--}
--
- int rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index a9c29b2bf230..e1ae1859686e 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -391,8 +391,7 @@ void rtw_free_all_stainfo(struct adapter *padapter)
+ /* any station allocated can be searched by hash list */
+ struct sta_info *rtw_get_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
  {
- 	init_completion(&pcmdpriv->enqueue_cmd);
-@@ -125,28 +99,25 @@ static int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+-	struct list_head *plist, *phead;
+-	struct sta_info *psta = NULL;
++	struct sta_info *ploop, *psta = NULL;
+ 	u32	index;
+ 	u8 *addr;
+ 	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+@@ -409,18 +408,11 @@ struct sta_info *rtw_get_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
  
- u32 rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- {
--	int res = _FAIL;
-+	unsigned long flags;
- 	struct adapter *padapter = pcmdpriv->padapter;
+ 	spin_lock_bh(&pstapriv->sta_hash_lock);
  
- 	if (!cmd_obj)
--		goto exit;
-+		return _FAIL;
- 
- 	cmd_obj->padapter = padapter;
- 
--	res = rtw_cmd_filter(pcmdpriv, cmd_obj);
--	if (res == _FAIL) {
-+	if (rtw_cmd_filter(pcmdpriv, cmd_obj) == _FAIL) {
- 		rtw_free_cmd_obj(cmd_obj);
--		goto exit;
-+		return _FAIL;
+-	phead = &pstapriv->sta_hash[index];
+-	plist = phead->next;
+-
+-	while (phead != plist) {
+-		psta = container_of(plist, struct sta_info, hash_list);
+-
+-		if ((!memcmp(psta->hwaddr, addr, ETH_ALEN))) {
+-			/*  if found the matched address */
++	list_for_each_entry(ploop, &pstapriv->sta_hash[index], hash_list) {
++		if (!memcmp(ploop->hwaddr, addr, ETH_ALEN)) {
++			psta = ploop;
+ 			break;
+ 		}
+-		psta = NULL;
+-		plist = plist->next;
  	}
  
--	res = _rtw_enqueue_cmd(&pcmdpriv->cmd_queue, cmd_obj);
--
--	if (res == _SUCCESS)
--		complete(&pcmdpriv->enqueue_cmd);
-+	spin_lock_irqsave(&pcmdpriv->cmd_queue.lock, flags);
-+	list_add_tail(&cmd_obj->list, &pcmdpriv->cmd_queue.queue);
-+	spin_unlock_irqrestore(&pcmdpriv->cmd_queue.lock, flags);
- 
--exit:
--
--	return res;
-+	complete(&pcmdpriv->enqueue_cmd);
-+	return _SUCCESS;
- }
- 
- struct	cmd_obj	*rtw_dequeue_cmd(struct cmd_priv *pcmdpriv)
+ 	spin_unlock_bh(&pstapriv->sta_hash_lock);
 -- 
 2.30.2
 
