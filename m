@@ -1,142 +1,95 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE11CEBF
-	for <linux-staging@lists.linux.dev>; Sat, 11 Feb 2023 14:46:40 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id fj20so7694407edb.1
-        for <linux-staging@lists.linux.dev>; Sat, 11 Feb 2023 06:46:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=At5WvDKkNcOWkplR/dJTsQKEuzD9hrUAo21A4/rUxec=;
-        b=wfwH0Bfi2CpxdAUmncYHWglK+QFVlyrKwkmpa1qPPxx9ajZdWsWH4EQpFdon9JRIic
-         4+2aJ3omS1g0NQzjjOqOhx3i92p+j77VY+BcNXHGyITeMcjzx+K8pkU93Zw898YEzX5R
-         lYhK9OOJowHUQZsAjAG/pW1XkVogwAkI7b2FAsnWRi6QDPhjfcsOp+gaGksN6jRVML8C
-         WLrAqCo6Qo9zGVf0eRk7QcF2pTZsb1v82hgv9hJpxxYmcU5TpZ+bUM23dJTKYmDB1BV+
-         r5vCB1YFAi8cVgTNdI7BIzcCGvGzYgzQbh4824g0yghUQtlaIwT49/qPHpxQxFsiCWVi
-         2VlQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9102F27
+	for <linux-staging@lists.linux.dev>; Sat, 11 Feb 2023 15:29:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1676129345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vnewwx5BEEx6q0ZK/xXbQu7RnpiAewRN9TE3zelH0io=;
+	b=TMCi11nPGsD+aoXwgVIfJ9pcPSMLC/WILouncyvZsRdIifACoSNqmTwgzTnIjTqUuXgaDo
+	0E/mHr2X5cb0g/Z4V6FUpH6qPjQBTADb6S5yxJf0Dcr9Gf0PRflfwPrlHIaABTyCBNPD/g
+	MxO8YAKz0gAAXCet4TWMY9RsFMsfprA=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-592-LModsysVOFC35yve2OYk3Q-1; Sat, 11 Feb 2023 10:29:03 -0500
+X-MC-Unique: LModsysVOFC35yve2OYk3Q-1
+Received: by mail-qk1-f198.google.com with SMTP id 130-20020a370588000000b0072fcbe20069so5177053qkf.22
+        for <linux-staging@lists.linux.dev>; Sat, 11 Feb 2023 07:29:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=At5WvDKkNcOWkplR/dJTsQKEuzD9hrUAo21A4/rUxec=;
-        b=kcuroGZZXUFx/F4AAbN6Hku3xiF5t5l1epq13XxD47ZBXDsNwgOzMm8sv3qjV5IzUc
-         Lzp7RlkGreaBk8FPQzy5NlcmfVNgGbW2yKBz/zHKqNz5rU1kWxq1TAsS7epvbWBMy8rq
-         VgTNKo3K2ejuLjtIEIReoNf8hA42IS653UkZ0l3EnRXzx3d68TocBZDb9+uODhW0di0W
-         G45/aKhdu/ZsbR9I9kPnIJZHG9JDzY0Zyl2dXSbokvDptkJLF0buPX3NpKpqDDeSaOBs
-         frNfi5n0Gsfzs4YWPGeNle4ZqrP76ulKfhi9z/DS/AoaPmxDhyDJ/Pvg2GpnBk3Cw+X6
-         BYuQ==
-X-Gm-Message-State: AO0yUKXd8R68VRF7HPH79S0W0rLSG7ns0q7HRPLjaWfX0mDV5MdEGOK/
-	CWsoFxJdKEMcwWT2qmn33Kz29A==
-X-Google-Smtp-Source: AK7set/74y9Mm210hoh6SmKH7HmluvFaWhx+S99Alej+1fs9ucdMCg9NaNGI/J4bYQCWlPYUPyu1XQ==
-X-Received: by 2002:a50:d719:0:b0:4ac:bdf7:dffd with SMTP id t25-20020a50d719000000b004acbdf7dffdmr239261edi.12.1676126798966;
-        Sat, 11 Feb 2023 06:46:38 -0800 (PST)
-Received: from sleipner.berto.se (p54ac5802.dip0.t-ipconnect.de. [84.172.88.2])
-        by smtp.googlemail.com with ESMTPSA id s6-20020a50d486000000b004aab36ad060sm3802854edi.92.2023.02.11.06.46.38
+        bh=vnewwx5BEEx6q0ZK/xXbQu7RnpiAewRN9TE3zelH0io=;
+        b=JEwsG42UFscoeLlQOLSCSB1Fop0Nh1xFicFSKril34551yAIavbpULiMFOzy+5GhE6
+         CIP4pOvXO1ldT0wB1yGAZmOVTjnkX1NSMJpUT003a08FkVTK93++juuV1pVVjCfW58s4
+         r+YAlfbF4ZIq+0IUu52JioT6U7N6K3MBpUv+uBn/HJm2a68g1SGbaM7naiSFzwwQLIB0
+         7qR8AhoMUIL+SZXpU+Q5GnX7FZbylbvN7HDwDpolMUs9BWHeNtSLX4fvkwOsY8C5tGub
+         lUv9zwmVDdFDb4WO94uG6LDiOz2n2tKR9kH78g+NMWCWojsOMogeRLyuhBWqbug8pO8O
+         FuTg==
+X-Gm-Message-State: AO0yUKXZrFbDNhhZ26Rg3U+I78bLUfPe5L7h0O7uo89y4v2v+t/9uNpC
+	HZXxD8CzkQGX7QO5FrxEtGetyAwUgOXEwnWzrP0tOf9EqvO8oyDwG8eg2REZrT2X0lmzeEnucOZ
+	tx9jEe1qZ78MdgUbwUgeqvzRUTw==
+X-Received: by 2002:a05:6214:19ec:b0:56e:9cf7:770e with SMTP id q12-20020a05621419ec00b0056e9cf7770emr4878173qvc.38.1676129343068;
+        Sat, 11 Feb 2023 07:29:03 -0800 (PST)
+X-Google-Smtp-Source: AK7set+laBPz4EUeiyMJzQAIrxTFZNbvmVxan4PQhSxa+Fh3lCfCJDceEIUr3+ynEqcHI9SLUJTjmA==
+X-Received: by 2002:a05:6214:19ec:b0:56e:9cf7:770e with SMTP id q12-20020a05621419ec00b0056e9cf7770emr4878147qvc.38.1676129342855;
+        Sat, 11 Feb 2023 07:29:02 -0800 (PST)
+Received: from borg.redhat.com (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id 9-20020a05620a048900b006fec1c0754csm5830350qkr.87.2023.02.11.07.29.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 06:46:38 -0800 (PST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: staging: max96712: Add support for 3-lane C-PHY
-Date: Sat, 11 Feb 2023 15:46:14 +0100
-Message-Id: <20230211144614.3816247-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.39.1
+        Sat, 11 Feb 2023 07:29:02 -0800 (PST)
+From: Tom Rix <trix@redhat.com>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	dragan.m.cvetic@gmail.com,
+	wjsota@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tom Rix <trix@redhat.com>
+Subject: [PATCH] staging: rtl8192e: set dm_rx_path_sel_table storage-class-specifier to static
+Date: Sat, 11 Feb 2023 07:28:56 -0800
+Message-Id: <20230211152856.2129062-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Add basic support for outputting the test patterns on a 3-lane CSI-2
-C-PHY bus. As the driver only can output frames form its internal test
-pattern generator, enabling C-PHY output is as simple as setting the
-output mode to C-PHY instead of D-PHY.
+smatch reports
+drivers/staging/rtl8192e/rtl8192e/rtl_dm.c:147:21:
+  warning: symbol 'dm_rx_path_sel_table' was not declared. Should it be static?
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+dm_rx_path_sel_table is only used in rtl_dm.c, so it should be static
+
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/staging/media/max96712/max96712.c | 36 +++++++++++++++++++----
- 1 file changed, 30 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-index 99b333b68198..d93dd985fb27 100644
---- a/drivers/staging/media/max96712/max96712.c
-+++ b/drivers/staging/media/max96712/max96712.c
-@@ -30,6 +30,7 @@ struct max96712_priv {
- 	struct regmap *regmap;
- 	struct gpio_desc *gpiod_pwdn;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+index d8455b23e555..3bc5dabf2e2c 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+@@ -144,7 +144,7 @@ const u8 dm_cck_tx_bb_gain_ch14[CCK_TX_BB_GAIN_TABLE_LEN][8] = {
+ /*------------------------Define global variable-----------------------------*/
+ struct dig_t dm_digtable;
  
-+	bool cphy;
- 	struct v4l2_mbus_config_mipi_csi2 mipi;
+-struct drx_path_sel dm_rx_path_sel_table;
++static struct drx_path_sel dm_rx_path_sel_table;
+ /*------------------------Define global variable-----------------------------*/
  
- 	struct v4l2_subdev sd;
-@@ -127,10 +128,18 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
- 	/* Select 2x4 mode. */
- 	max96712_write(priv, 0x8a0, 0x04);
- 
--	/* Configure a 4-lane DPHY using PHY0 and PHY1. */
- 	/* TODO: Add support for 2-lane and 1-lane configurations. */
--	/* TODO: Add support CPHY mode. */
--	max96712_write(priv, 0x94a, 0xc0);
-+	if (priv->cphy) {
-+		/* Configure a 3-lane C-PHY using PHY0 and PHY1. */
-+		max96712_write(priv, 0x94a, 0xa0);
-+
-+		/* Configure C-PHY timings. */
-+		max96712_write(priv, 0x8ad, 0x3f);
-+		max96712_write(priv, 0x8ae, 0x7d);
-+	} else {
-+		/* Configure a 4-lane D-PHY using PHY0 and PHY1. */
-+		max96712_write(priv, 0x94a, 0xc0);
-+	}
- 
- 	/* Configure lane mapping for PHY0 and PHY1. */
- 	/* TODO: Add support for lane swapping. */
-@@ -332,8 +341,9 @@ static int max96712_parse_dt(struct max96712_priv *priv)
- {
- 	struct fwnode_handle *ep;
- 	struct v4l2_fwnode_endpoint v4l2_ep = {
--		.bus_type = V4L2_MBUS_CSI2_DPHY
-+		.bus_type = V4L2_MBUS_UNKNOWN,
- 	};
-+	unsigned int supported_lanes;
- 	int ret;
- 
- 	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(&priv->client->dev), 4,
-@@ -350,8 +360,22 @@ static int max96712_parse_dt(struct max96712_priv *priv)
- 		return -EINVAL;
- 	}
- 
--	if (v4l2_ep.bus.mipi_csi2.num_data_lanes != 4) {
--		dev_err(&priv->client->dev, "Only 4 data lanes supported\n");
-+	switch (v4l2_ep.bus_type) {
-+	case V4L2_MBUS_CSI2_DPHY:
-+		supported_lanes = 4;
-+		priv->cphy = false;
-+		break;
-+	case V4L2_MBUS_CSI2_CPHY:
-+		supported_lanes = 3;
-+		priv->cphy = true;
-+		break;
-+	default:
-+		dev_err(&priv->client->dev, "Unsupported bus-type %u\n", v4l2_ep.bus_type);
-+		return -EINVAL;
-+	}
-+
-+	if (v4l2_ep.bus.mipi_csi2.num_data_lanes != supported_lanes) {
-+		dev_err(&priv->client->dev, "Only %u data lanes supported\n", supported_lanes);
- 		return -EINVAL;
- 	}
  
 -- 
-2.39.1
+2.26.3
 
