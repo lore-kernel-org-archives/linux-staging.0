@@ -1,103 +1,156 @@
 Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3439A1C26
-	for <linux-staging@lists.linux.dev>; Mon, 13 Feb 2023 05:27:43 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id m20-20020a05600c3b1400b003e1e754657aso1978841wms.2
-        for <linux-staging@lists.linux.dev>; Sun, 12 Feb 2023 21:27:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6235290B
+	for <linux-staging@lists.linux.dev>; Mon, 13 Feb 2023 19:23:18 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id n13so9404915wmr.4
+        for <linux-staging@lists.linux.dev>; Mon, 13 Feb 2023 11:23:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d0i8yyIm+gGF9ZBg2Jv4kyt1WO1dq4pAI/4blUIxBss=;
-        b=FwrbHQrd1rLSIbDm6SzojQjzwesCLRr61Pm5udUaORLjg6Oa4zW5UDChv0XHXhp2QN
-         KWgDvHbORXtH90Ot9w7C1DY0827qQxUfiE3lvEn1MLP5f2/zz4+gHiS1aFaVozW/OOOd
-         S83r+Dz7IMyHbCyfa2bJ7xIWq2cXizWEoPSH4EuKT81hBobeTZcKQew5J8S2BwSSCSCH
-         Y1C5XQfymXwu2Z3wf2EZ7JakkH6mpm6mIh9CwB8LhN5IJ4NgNbH0Ma8tWt4RjTX5dsUV
-         FNA14mZW5+YI3ynIAfGCz8hTnvryEKigZdXhuUIwZWIYI9mEzlfTpxytUIOqzoJzD+dq
-         SHNw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y+56iSYR4yr3TVMO6fYxyxMGF4cwUsOWWeZJxgHnAgQ=;
+        b=PWF/PNnrW5/pcyZ0n/V1M29o35ZZQy818zhMbXbNYFiTnOAOpMWlXvnQiZiVbbuB2k
+         vDzj/R/XS5vnNImPCY/kYZMo7s2BDQ586r1Wf5oF2XjFdtBtTF79xA/ObYtOUJoWpJ0+
+         G82HefH1PM1E8EskRsMVX43Wx//AeRLf/Xe7R0gEBWJwMAMw0QaY0pRH+BviHtxMC4UC
+         R6PajOZ07rjHdbmV1aLqkPgkkvMjS9rOiy9ABHlbGHqwscV6Q283s5k01V7IksStqjAp
+         6NOmtDHxJlujDXdU5Kew1LWC5gNaOeBahPA0HCUiaKhT75wAEX6LCb76D6PRyYT2aZCq
+         HgHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d0i8yyIm+gGF9ZBg2Jv4kyt1WO1dq4pAI/4blUIxBss=;
-        b=SHpd2M9iO854jSnVi3CL1p2frGKlNeuWDJD/96joCS2WX8QjjcxSTLGBiNtiK0YOgs
-         8rOdvj+ib+4NzWGvscpvH/hh3Etu1VfKQQv4UVr1X7P1/JrvLLS4ggic34eiDbi5uhgS
-         qqwxFBif2dEfE4sFGjQP4cdsA5AXMak0T1dKm+s1Cmqfo0XuEACQJZBJ2eGIswc13OMm
-         RzMZuaVPGAgAOGOCglmzf+oB7n1DxUEdoIjKykQP/1ekenu6Uc+ar2AMNdS+KsYY+IIe
-         DToxjsswziqDtRYeTTbXo1Xwy0+BQUZH8F6ow+mfNi9pLVwSt8aPIWE9MYKEHe0VjMVY
-         c2MA==
-X-Gm-Message-State: AO0yUKUnK5c4mMzw9YjWDUi6zYT7IMHqYOh51hcj97gRcW/nKRncEdTW
-	FyHKfD5uq3rtN1/8GJ7G9Co=
-X-Google-Smtp-Source: AK7set+B6jDm2d1ZqDtLGONP9jZueVno76liDBoh/Hm6c2bxVtjLXpZIiQHTXG9nMYbtx1h6KC6yYQ==
-X-Received: by 2002:a05:600c:a295:b0:3dd:1bcc:eb17 with SMTP id hu21-20020a05600ca29500b003dd1bcceb17mr17970915wmb.28.1676266061450;
-        Sun, 12 Feb 2023 21:27:41 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n22-20020a05600c4f9600b003dcc82ce53fsm13960099wmq.38.2023.02.12.21.27.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 21:27:40 -0800 (PST)
-Date: Mon, 13 Feb 2023 08:27:37 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Revert "staging: r8188eu: simplify rtw_get_ff_hwaddr"
-Message-ID: <Y+nKSc6fPf4E1Y2S@kadam>
-References: <20230211183205.426820-1-martin@kaiser.cx>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y+56iSYR4yr3TVMO6fYxyxMGF4cwUsOWWeZJxgHnAgQ=;
+        b=m4QW6JtxYuOkSN/3AaWPmR37xkfJF+wQGLy/hsDZo6CU3+vhVb87v1iaxLkMqtwL/d
+         v/+Jw+NdMH/QUC67CX464p+M7uPF+VUjnTYtl4JYwMsXh+vBIin5yKdRRmI081Wjrdf/
+         +C2gGRqNEmMctNQFMKBW+wTbX/zov+FKEUi0JiRiQSBUkAivtJt0tzRbSoUaMKVfbnk5
+         B3rcXZ2/CCG25sAnqWI9R1IMNmyefiH53/NGmg/H24zSaXojMR4umVIdGw/GCvmU/5cv
+         RTzf+WiiNrwGXtGa/A8qpcinwbuKLHc2yEaUGqNS++gg8a5kzjWK8QuT/VI1Qe2DeWbH
+         thCg==
+X-Gm-Message-State: AO0yUKVkSv1O25jbBNLkhSG5+xVZrUCp3IMJfBPUBXJGeHw1ypOSaTIc
+	pXhaSD6sgPCwTGhG0osWR7s=
+X-Google-Smtp-Source: AK7set9mW7XbdLOhDfKx2EylmpC6Mvn8DuZjVcZwd+ZwVe+IUWFvYx+ut3SmwTdw3jVmtKoamkyLrQ==
+X-Received: by 2002:a05:600c:3ca3:b0:3dc:5ae4:c13d with SMTP id bg35-20020a05600c3ca300b003dc5ae4c13dmr26176962wmb.4.1676316196857;
+        Mon, 13 Feb 2023 11:23:16 -0800 (PST)
+Received: from [192.168.0.102] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id f26-20020a5d58fa000000b002c5526680cbsm5553695wrd.92.2023.02.13.11.23.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Feb 2023 11:23:16 -0800 (PST)
+Message-ID: <befeaafe-357f-ad0f-a2a3-b45a836b2734@gmail.com>
+Date: Mon, 13 Feb 2023 20:23:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230211183205.426820-1-martin@kaiser.cx>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] staging: r8188eu: merge _rtw_enqueue_cmd into its caller
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20230211165045.414424-1-martin@kaiser.cx>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230211165045.414424-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Feb 11, 2023 at 07:32:05PM +0100, Martin Kaiser wrote:
-> This reverts commit fd48124e09825797bdc8ff0120f2401030c618ee.
+On 2/11/23 17:50, Martin Kaiser wrote:
+> The _rtw_enqueue_cmd function is called only by rtw_enqueue_cmd.
 > 
-> The cleanup in this commit removes the qsel to addr mappings in
-> rtw_get_ff_hwaddr. The underlying assumption is that rtw_write_port
-> uses its addr parameter only for the high_queue check.
+> When _rtw_enqueue_cmd is called, the caller has already checked that the
+> obj parameter is not NULL. _rtw_enqueue_cmd returns _SUCCESS in any case.
 > 
-> This is obviously incorrect as rtw_write_port calls
-> ffaddr2pipehdl(pdvobj, addr);
-> where addr is mapped to a usb bulk endpoint.
-> 
-> Unfortunately, testing did not show any problems. The Edimax V2 on which I
-> tested has two bulk out endpoints. I guess that with the incorrect patch,
-> addr could only be 0 (no high queue) or 6 (high queue), both of which were
-> mapped to the first bulk out endpoint. Data transfers did still work...
+> We can merge the two functions and simplify the error handling.
 > 
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
+>   drivers/staging/r8188eu/core/rtw_cmd.c | 47 +++++---------------------
+>   1 file changed, 9 insertions(+), 38 deletions(-)
 > 
-> Hello Greg,
-> 
-> sorry for introducing a regression in commit fd48124e0982 ("staging:
-> r8188eu: simplify rtw_get_ff_hwaddr").
-> 
-> Could you take this revert before the 6.3 pull request?
-> 
-> Thanks,
-> Martin
-> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+> index d57360a68fb3..ca9e3d4ee7f4 100644
+> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
+> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+> @@ -28,32 +28,6 @@ void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+>   	}
+>   }
+>   
+> -/* Calling Context:
+> - *
+> - * rtw_enqueue_cmd can only be called between kernel thread,
+> - * since only spin_lock is used.
+> - *
+> - * ISR/Call-Back functions can't call this sub-function.
+> - */
+> -
+> -static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+> -{
+> -	unsigned long flags;
+> -
+> -	if (!obj)
+> -		goto exit;
+> -
+> -	spin_lock_irqsave(&queue->lock, flags);
+> -
+> -	list_add_tail(&obj->list, &queue->queue);
+> -
+> -	spin_unlock_irqrestore(&queue->lock, flags);
+> -
+> -exit:
+> -
+> -	return _SUCCESS;
+> -}
+> -
+>   int rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+>   {
+>   	init_completion(&pcmdpriv->enqueue_cmd);
+> @@ -125,28 +99,25 @@ static int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+>   
+>   u32 rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+>   {
+> -	int res = _FAIL;
+> +	unsigned long flags;
+>   	struct adapter *padapter = pcmdpriv->padapter;
+>   
+>   	if (!cmd_obj)
+> -		goto exit;
+> +		return _FAIL;
+>   
+>   	cmd_obj->padapter = padapter;
+>   
+> -	res = rtw_cmd_filter(pcmdpriv, cmd_obj);
+> -	if (res == _FAIL) {
+> +	if (rtw_cmd_filter(pcmdpriv, cmd_obj) == _FAIL) {
+>   		rtw_free_cmd_obj(cmd_obj);
+> -		goto exit;
+> +		return _FAIL;
+>   	}
+>   
+> -	res = _rtw_enqueue_cmd(&pcmdpriv->cmd_queue, cmd_obj);
+> -
+> -	if (res == _SUCCESS)
+> -		complete(&pcmdpriv->enqueue_cmd);
+> +	spin_lock_irqsave(&pcmdpriv->cmd_queue.lock, flags);
+> +	list_add_tail(&cmd_obj->list, &pcmdpriv->cmd_queue.queue);
+> +	spin_unlock_irqrestore(&pcmdpriv->cmd_queue.lock, flags);
+>   
+> -exit:
+> -
+> -	return res;
+> +	complete(&pcmdpriv->enqueue_cmd);
+> +	return _SUCCESS;
+>   }
+>   
+>   struct	cmd_obj	*rtw_dequeue_cmd(struct cmd_priv *pcmdpriv)
 
-I feel like the ancient `git revert` script is not at all in line with
-current standards and sets people up for failure.  This one at least
-has a commit message.  But
-1) The subject doesn't have a correct patch prefix.
-2) "commit fd48124e09825797bdc8ff0120f2401030c618ee" is not human
-   readable or how we describe commits these days with a 12 char hash.
-3) There is no fixes tag.
-
-regards,
-dan carpenter
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
 
