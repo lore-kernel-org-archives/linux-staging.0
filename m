@@ -1,56 +1,51 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4039A2CAB
-	for <linux-staging@lists.linux.dev>; Tue, 14 Feb 2023 07:07:56 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id bk16so14575850wrb.11
-        for <linux-staging@lists.linux.dev>; Mon, 13 Feb 2023 23:07:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F4E3C02
+	for <linux-staging@lists.linux.dev>; Tue, 14 Feb 2023 08:25:40 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id z13so10407945wmp.2
+        for <linux-staging@lists.linux.dev>; Tue, 14 Feb 2023 00:25:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2CrTfSdCZ8kL9Y45Dpaj6OWp5Cgjxivq7kfQiy/YkcU=;
-        b=PeWqRzzvm0ugtXQYxWSFo8ZVorGdIZZljysgCm3eYjurJcaIWpSn8GwMtTPYRJHsNv
-         PtP3q/m54YcM1A28lJkwfD3oKK77uCmcCo5CS0NX1fbtTUlme3NSrq2fc/ngj1ro1ySi
-         +8LoHJhQV1S3kDa2Y7OoUVyPan1wl7fWPHttYnhmCCOdT0JF9tYw3drFEvDW8ALBF/Rs
-         gTSAa430eVUqHGO5aNnU+kgVaebS9S/39riM/N+edh1f+j5OKGUlZTW8UmtCXbVYKxAM
-         I3CbUm1kGZen7DB3knjEgHSd4YfsUvVCimoRx9RLHN7E3tb+7lvU/doisOLYl4NBYv/R
-         b4tw==
+        bh=hZn1g1BxSoyDoGO08JTTlZgpJYzAyAHcNUx33niXmng=;
+        b=JDcLbhmYNfsn0i8C2ASO7x8qyQmYjnCZgP4WoyveSnnqCkDb+KzJD+Z2fhOsrGPJgf
+         W1w9kf2KB6BJxKsJ0HfA52crgUjmbG8xqALdbVztTxXkx295e6tu0ZtR/7uMTFDswSir
+         tKf/awKE3bHfAtWTpqiCptrXWn8sj9lqhxab9G+1sSRwb7CcL+GFvw1Sij2694SVIEXc
+         Mi6zejpHVDdUxtzzyERRDzp7i0ihUvLBbQFUw3qPYseBhUoVTkJSIFPE1e5miosyuJPV
+         2YvJVE5Pt54SuQ3wkHy6TU0rUTCkFLtn4ZRULSlAhiug+3BwX56fyJo9ZY4dbQbSs+J6
+         Lt8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2CrTfSdCZ8kL9Y45Dpaj6OWp5Cgjxivq7kfQiy/YkcU=;
-        b=0C2u/dZKoMNOooVa88HT9ZeRB6JjdkKVwbasq6fcwTMEGAKu1I6BWaRYhW9n0bTv8B
-         TYAKi88qGNT5r9HoAOZz16/Oc+hwSs6blIRG4pxYUSDclm4iFnXHYQr0OkcInww2CKgL
-         fz9VIpVMCakXU2zP2Ee8dYW5n2qaNWdAkE2FWRUNQxEHt8UFzP2zXvjZN2s568TCAOGn
-         ec8iTQgR6t1eqz+gX/+RsHHi6w5IBTBqYknUBh7ffMl8LEmFSBwt3tidv6RAh+vsdlZD
-         SARB2bSMj4M6xtySBsNoXdT2bfc0hVOfzGOGJbXAl/tscufUIbA+Xm4Uh5PnZPheOWls
-         XKQA==
-X-Gm-Message-State: AO0yUKVLzebJKZ7Ui9pEe4QrgVbJW9G5yrljGCksCiW6HmnZSZCRdSQM
-	x/NWZ69TqWXnHrA25y6C+VQ=
-X-Google-Smtp-Source: AK7set/u/EeB7g/2bx9z/lATJMIlaAtUQfjrmqR25IF5wouTdISjba3Bb4V91UDgzB/5S5dbZ2bOJg==
-X-Received: by 2002:a5d:6091:0:b0:2c5:5847:7374 with SMTP id w17-20020a5d6091000000b002c558477374mr1143867wrt.67.1676358474534;
-        Mon, 13 Feb 2023 23:07:54 -0800 (PST)
+        bh=hZn1g1BxSoyDoGO08JTTlZgpJYzAyAHcNUx33niXmng=;
+        b=1DSXPvFo9ZHHaFN1n28ssOWkkfy2FVUdOB+EWar6J5ccn0Hf0wk+6TnIpzq9JOORTb
+         svaf/pifYAbVwg7ATXqa+92MwfYvcZEwmoyCQXXpiKTfpoqe9bCjCrE3gBYxzLbUPkqr
+         ILcn4Uv/x5Rl2TiFzRm5ErMjxe0WZ8U1WKNE6V5Esddz5BjyOp4QL337aLwnBN9Vi54a
+         LU7J/RJTp0OWf32y1yAOsl9QpKMtkssTL1e4jF4WkUtGvueuSir49A6K07y7U6Zc3r95
+         MS/ZiviYTJ8sXtZd10HlJLMGiHvVXsA/34rxAJMZYJdz4ih1JoF1iEDlaU3ZItIzTKcS
+         Mo2A==
+X-Gm-Message-State: AO0yUKUkYG9dd17VlXRCoEwma6f082nyagAfV+BeACliAac1j88r5NB9
+	K1AUKVsheROkWyJAfvjrVjZL+0p/rROMaQ==
+X-Google-Smtp-Source: AK7set/c2JLILyjKx+i3J70UUW0NrcG/g0aClo+B8mFWjoofK5i7EFowng0H8MoZbhDJRliCBv6R2A==
+X-Received: by 2002:a05:600c:4d92:b0:3dc:51f6:8f58 with SMTP id v18-20020a05600c4d9200b003dc51f68f58mr1252117wmp.6.1676363138950;
+        Tue, 14 Feb 2023 00:25:38 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id d13-20020adfe88d000000b002c54f4d0f71sm7246984wrm.38.2023.02.13.23.07.53
+        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b003db12112fcfsm18055916wmo.4.2023.02.14.00.25.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 23:07:53 -0800 (PST)
-Date: Tue, 14 Feb 2023 10:07:50 +0300
+        Tue, 14 Feb 2023 00:25:38 -0800 (PST)
+Date: Tue, 14 Feb 2023 11:25:35 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Martin Kaiser <martin@kaiser.cx>
+To: Jacob Bai <jacob.bai.au@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: Revert "staging: r8188eu: simplify
- rtw_get_ff_hwaddr"
-Message-ID: <Y+szRoaj2rEz/0KN@kadam>
-References: <20230211183205.426820-1-martin@kaiser.cx>
- <20230213195407.15085-1-martin@kaiser.cx>
+Subject: Re: [PATCH] staging: pi433: change (struct pi433_tx_cfg)->bit_rate
+ to be a u32
+Message-ID: <Y+tFf3dFR812iVbj@kadam>
+References: <Y+srSuTdGmzmXG1I@jacob-Ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,34 +54,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230213195407.15085-1-martin@kaiser.cx>
+In-Reply-To: <Y+srSuTdGmzmXG1I@jacob-Ubuntu>
 
-On Mon, Feb 13, 2023 at 08:54:08PM +0100, Martin Kaiser wrote:
-> This reverts commit fd48124e0982 ("staging: r8188eu: simplify
-> rtw_get_ff_hwaddr").
+On Tue, Feb 14, 2023 at 05:33:46PM +1100, Jacob Bai wrote:
+> Based on the TODO file and datasheet of pi433, the maximum bit rate for
+> transmitter is 300kbps when modulation been set to FSK. Hence, the size
+> should be u32 rather than u16.
 > 
-> The cleanup in this commit removes the qsel to addr mappings in
-> rtw_get_ff_hwaddr. The underlying assumption is that rtw_write_port
-> uses its addr parameter only for the high_queue check.
-> 
-> This is obviously incorrect as rtw_write_port calls
-> ffaddr2pipehdl(pdvobj, addr);
-> where addr is mapped to a usb bulk endpoint.
-> 
-> Unfortunately, testing did not show any problems. The Edimax V2 on which I
-> tested has two bulk out endpoints. I guess that with the incorrect patch,
-> addr could only be 0 (no high queue) or 6 (high queue), both of which were
-> mapped to the first bulk out endpoint. Data transfers did still work...
-> 
-> Fixes: fd48124e0982 ("staging: r8188eu: simplify rtw_get_ff_hwaddr")
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> Signed-off-by: Jacob Bai <jacob.bai.au@gmail.com>
 > ---
-> v2:
->  - use correct patch prefix
->  - add a Fixes tag
->  - use 12-digit hash to refer to the reverted commit
 
-Thanks, Martin!
+This breaks the user space API.
+
+The TODO was updated recently to explain how to do this properly.
 
 regards,
 dan carpenter
