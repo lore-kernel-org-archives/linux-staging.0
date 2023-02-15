@@ -1,50 +1,132 @@
-Received: from mail.workercentrum.pl (mail.workercentrum.pl [51.89.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A1C7C
-	for <linux-staging@lists.linux.dev>; Tue, 14 Feb 2023 10:15:12 +0000 (UTC)
-Received: by mail.workercentrum.pl (Postfix, from userid 1002)
-	id 80F34ACB45; Fri, 10 Feb 2023 08:35:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=workercentrum.pl;
-	s=mail; t=1676018134;
-	bh=DQrvNxV4sbMtkGDNj/C7a2f11q8dNrBm5UPp1jE5GkY=;
-	h=Date:From:To:Subject:From;
-	b=jbT5MSMdzfAecG9JnjpOG1A8CjG6D9zfA6m0m6OLk6K2XNNLCbzQJERGZtKysBDhg
-	 gFsE0l6EsXZc6xBddbYiFvlZNJmRtXAEfnAkm1rz4G338/KeYkRuLuL+NX1SFINcaL
-	 +chQctiiUyjPj1kCKQHbawXtMU/fVBNETtI9H6/z9/Rt/jHRLUbgsqQW8zAIRJ3uni
-	 CppMlBW4TH3aNmgv3Fjw8wxYBCdXisXVDTEpqhbX57cUH/xEGPQOds3+rcY+syHO/X
-	 8eqBD4O0O68Bq/c+ygVF5leQvjnqy1dfovP8AqxF7C71wyMMP02Ihhip41BG9lHZ0x
-	 qgXo5h6HVS34Q==
-Received: by mail.workercentrum.pl for <linux-staging@lists.linux.dev>; Fri, 10 Feb 2023 08:35:31 GMT
-Message-ID: <20230210074500-0.1.7d.it38.0.wh40ng85p2@workercentrum.pl>
-Date: Fri, 10 Feb 2023 08:35:31 GMT
-From: "Piotr Werner" <piotr.werner@workercentrum.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Panele fotowaltaiczne
-X-Mailer: mail.workercentrum.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C8718E
+	for <linux-staging@lists.linux.dev>; Wed, 15 Feb 2023 00:25:50 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id r18so11383377pgr.12
+        for <linux-staging@lists.linux.dev>; Tue, 14 Feb 2023 16:25:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=13xGsV2jjmQG8zQgYM+MlutjbCojfUR9ZAZxMQUAu6A=;
+        b=VbDHSuKi2kZRWENSk2pFNf3FMtXUOOe3VDfIEKUiwUU2+nF2+OCaaPOuXdYtNyUpLQ
+         9Xd6EO7n+xMbaBqmbVbZrsA/QZ0yVnFFzEFzoEbgloRQvcRU+Ki24BDOV+MfdQ2jBar5
+         eiZqKerrZbTyGjo6xBnZQi2ut6PhyieHf/h2xGezwbRP9mthdu/8cMTCBWAzZXPR2gdR
+         PiN1UI8bVN+UgiaeNJCUWgfamW6ad7EVUNUwK7ChPOaz9F0R9pHDUsTzhgm5s+peYflE
+         7CBDOVmIbnPaWF8jdyyrURj3MGG7bRXnNdgk62B6mB12/0Wng4KDkH5wFr2fI4oR7OxN
+         joRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=13xGsV2jjmQG8zQgYM+MlutjbCojfUR9ZAZxMQUAu6A=;
+        b=pordYBphG8duxoG0UwZPRl04AIxp4jVU+9bcPIDLLlZVKBPaLEYeqD5fMJUz536JzG
+         41L3RZdst2zKOrCzoI44oJBl8T5dTDGkRRc/a52n6lCC2Wyc9NFHGqK0kRHsobOcFQMg
+         JeLr8knQrl5NJ5KysSIxXUUSufsdP5ZjhMCiqS18kKkUQTACYba0oGU5BdcvrAYJpimM
+         Md1wF5jbQwEfpFF85id9cXNk+I7Iok5zz8TUJNEjSTMihIhhO/5hN9cQTanNIwQ3TIB8
+         8DmESFplZbuknjTMQxON9rgFehiVJMbAyAKUR1zeFSsLwt9f0SXI9lmFjvpVsMhidqhL
+         Xs8Q==
+X-Gm-Message-State: AO0yUKUJ9NxrF4VRUDfXhibDKYVI9SnA8mL6BW/0Q+CJrnneXQjU5zyY
+	+aGzuVsZqgrnp3l528GmnPa36A==
+X-Google-Smtp-Source: AK7set/RfDAmrDwKus+3EwyrpiXyachl6rM8SdJg8/oDC0GOfqqp5AasjoE8kO/Zq+15hhwXvqWA4Q==
+X-Received: by 2002:aa7:9581:0:b0:5a8:65e4:aba9 with SMTP id z1-20020aa79581000000b005a865e4aba9mr55940pfj.18.1676420750261;
+        Tue, 14 Feb 2023 16:25:50 -0800 (PST)
+Received: from localhost ([135.180.226.51])
+        by smtp.gmail.com with ESMTPSA id i22-20020aa787d6000000b005998a75dbc5sm10351038pfo.2.2023.02.14.16.25.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Feb 2023 16:25:49 -0800 (PST)
+Date: Tue, 14 Feb 2023 16:25:49 -0800 (PST)
+X-Google-Original-Date: Tue, 14 Feb 2023 16:25:45 PST (-0800)
+Subject:     Re: [PATCH 4/4] riscv: dts: allwinner: d1: Add video engine node
+In-Reply-To: <4767366.GXAFRqVoOG@jernej-laptop>
+CC: paul.kocialkowski@bootlin.com, samuel@sholland.org, wens@csie.org,
+  mchehab@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, aou@eecs.berkeley.edu,
+  Conor Dooley <conor@kernel.org>, Greg KH <gregkh@linuxfoundation.org>, mripard@kernel.org,
+  Paul Walmsley <paul.walmsley@sifive.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-riscv@lists.infradead.org,
+  linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: jernej.skrabec@gmail.com
+Message-ID: <mhng-e29729d8-6f1e-42a5-bff6-852a16626cd4@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Dzie=C5=84 dobry,
+On Thu, 05 Jan 2023 08:21:58 PST (-0800), jernej.skrabec@gmail.com wrote:
+> Dne četrtek, 05. januar 2023 ob 15:38:36 CET je Samuel Holland napisal(a):
+>> Hi Paul,
+>> 
+>> On 1/5/23 04:11, Paul Kocialkowski wrote:
+>> > On Sat 31 Dec 22, 10:46, Samuel Holland wrote:
+>> >> D1 contains a video engine which is supported by the Cedrus driver.
+>> > 
+>> > Does it work "outside the box" without power domain management?
+>> > If not, it might be a bit confusing to add the node at this point.
+>> 
+>> Yes, it does. All of the power domains are enabled by default. However,
+>> if the PPU series is merged first, I will respin this to include the
+>> power-domains property from the beginning.
+>
+> I would rather see that merged before and having complete node right away.
+>
+> I've been away, but I'll merge everything that's ready for sunxi tree until 
+> end of the weekend.
 
-Jeste=C5=9Bmy firm=C4=85 z wieloletnim do=C5=9Bwiadczeniem, kt=C3=B3ra sp=
-rawnie przygotuje dla Pa=C5=84stwa ofert=C4=99 i wszelkie formalno=C5=9Bc=
-i. Sam monta=C5=BC zaplanujemy na wiosn=C4=99.
+Just checking up on this one, as it's still in the RISC-V patchwork but 
+I don't see it in linux-next.  No big deal on my end, I just don't want 
+to be dropping the ball here.
 
-O samych plusach fotowoltaiki czy pompach ciep=C5=82a na pewno ju=C5=BC P=
-a=C5=84stwo s=C5=82yszeli, dlatego teraz prosimy o zostawienie kontaktu, =
-aby nasz specjalista m=C3=B3g=C5=82 przedstawi=C4=87 ofert=C4=99 zgodn=C4=
-=85 z Waszymi potrzebami.
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-Kiedy mogliby=C5=9Bmy z Pa=C5=84stwem um=C3=B3wi=C4=87 si=C4=99 na rozmow=
-=C4=99 w celu zbadania potrzeb?
+In case you were waiting for it (in which case sorry).
 
-
-Pozdrawiam,
-Piotr Werner
+>
+> Best regards,
+> Jernej
+>
+>> 
+>> Regards,
+>> Samuel
+>> 
+>> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> >> ---
+>> >> 
+>> >>  arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi | 11 +++++++++++
+>> >>  1 file changed, 11 insertions(+)
+>> >> 
+>> >> diff --git a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> >> b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi index
+>> >> dff363a3c934..4bd374279155 100644
+>> >> --- a/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> >> +++ b/arch/riscv/boot/dts/allwinner/sunxi-d1s-t113.dtsi
+>> >> @@ -34,6 +34,17 @@ soc {
+>> >> 
+>> >>  		#address-cells = <1>;
+>> >>  		#size-cells = <1>;
+>> >> 
+>> >> +		ve: video-codec@1c0e000 {
+>> >> +			compatible = "allwinner,sun20i-d1-video-
+> engine";
+>> >> +			reg = <0x1c0e000 0x2000>;
+>> >> +			interrupts = <SOC_PERIPHERAL_IRQ(66) 
+> IRQ_TYPE_LEVEL_HIGH>;
+>> >> +			clocks = <&ccu CLK_BUS_VE>,
+>> >> +				 <&ccu CLK_VE>,
+>> >> +				 <&ccu CLK_MBUS_VE>;
+>> >> +			clock-names = "ahb", "mod", "ram";
+>> >> +			resets = <&ccu RST_BUS_VE>;
+>> >> +		};
+>> >> +
+>> >> 
+>> >>  		pio: pinctrl@2000000 {
+>> >>  		
+>> >>  			compatible = "allwinner,sun20i-d1-pinctrl";
+>> >>  			reg = <0x2000000 0x800>;
