@@ -1,49 +1,49 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B19322E
-	for <linux-staging@lists.linux.dev>; Sun, 19 Feb 2023 21:16:16 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id et7so5039663edb.9
-        for <linux-staging@lists.linux.dev>; Sun, 19 Feb 2023 13:16:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EB9322E
+	for <linux-staging@lists.linux.dev>; Sun, 19 Feb 2023 21:16:22 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id s24so4883114edw.2
+        for <linux-staging@lists.linux.dev>; Sun, 19 Feb 2023 13:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1676841374;
+        d=gmail.com; s=20210112; t=1676841381;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pVhtpko5aJjNQpaFyeGt6sBZfnruBHfevG3pGWCXzvQ=;
-        b=E0+1lh9fgR63sYkEUG12n82xztyEF2mIUB2VCsYRfqSmQ9rwFhoLCgG2RuIRO/aKJu
-         UomG4HMkNGZ7U9b+lItckEorsmT/JTswquBS7dYfyaBSDi7P4CO1zhP2x2jpaup9P8/N
-         y8VXYF2gdn51GjPBhp4+ZHaSHFtS5X/5mJKktJzmnTtupOBg4+ihV+cqRtpoXQJYKj6F
-         h+ZU6igApAyTbpgA9P2aSjV/MOdf+LyUASWpJbrLS5flN8kf2HggnIn/jcDDCTg1fSb0
-         vKagVFl9Vy9KnIPr3qxfktxk7dAQEuC+FNBMFZJT9mJIJmHowFPoz7ItmKAzNX0hblQt
-         +5GA==
+        bh=UkQuOoYWrqHzF7sqnR/KeVzMvcxOpAsOg249BRbujhQ=;
+        b=eTwBnBmDfQoWeS10EDjwky+rA+UGnxGDFOZhIcHFvWQTCIIKV30OlrzdZAlQHEQA5X
+         O6Eg1OP0bujKVNOnRyZuikUHSLjI5kamQeJkX/urCLcSrEVaNG74uQmUAiBA0weYAawG
+         yi+YZAxSDRMECPxz1NfT+jGU5dibsJQe0exstoIQ+vAuESkeXhp5ddtBZFIUYWOGzNgF
+         qeGboymTNGlTo9HCjkAmimIlsxLZGBYF3lmTP2Io9ecqHN0Pifgm8I8po5yzmIW8rpzA
+         AYbFi04H0k6kaGWbI+P9EmtbaBCXv4oTqTXOqxJfBkovr6QUDQ8n2nDxn24gMNQjbRYO
+         5iAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1676841374;
+        d=1e100.net; s=20210112; t=1676841381;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pVhtpko5aJjNQpaFyeGt6sBZfnruBHfevG3pGWCXzvQ=;
-        b=5/K/6kxMjzX0RHeHkCv/oBMt7y4eAjrgED0mvpfNGh0IA+x/p+zr0kvB4fa/mD1QJN
-         GfzuSrtc1SB+RMYBX5jlDcG7KCdWcFSuNP7dfS7gotS529djP6wYy7apJM9Mko/QLzD8
-         dB59d8im1lxIjSSQs/WhAP5dM7pVV9rJIjXtkokF5oCRnXJVjYIvMdWStMjbcsRuuAl7
-         fWZuAgOVFky3xdJaQSJ3sKqtg7oOIhv7UnkiWfwQ016cB2ZuL+aJJvVH+gczYZWLR62i
-         SxHZjpujf/FokF41naSSpAmDMeIzKOAlJVmproIj+coA+zjv/csD0YSxwPKVVYubMzxu
-         zD+A==
-X-Gm-Message-State: AO0yUKVBC6PSBDUVYVrhcNVSgVqqI7eSyAOqL3A8IAlhD1t3eZO2rkeF
-	UY/Wo4Yn3cX5FOyv5mIRzxQ=
-X-Google-Smtp-Source: AK7set9aa4cdjXAUrKqVFERqPYCoYym/qY0qlYADCivYMNENUR7uanjzr60p1biiSsjLvVVe1bToYw==
-X-Received: by 2002:a05:6402:34d5:b0:4ac:8e63:300a with SMTP id w21-20020a05640234d500b004ac8e63300amr1360747edc.3.1676841374662;
-        Sun, 19 Feb 2023 13:16:14 -0800 (PST)
+        bh=UkQuOoYWrqHzF7sqnR/KeVzMvcxOpAsOg249BRbujhQ=;
+        b=n2YlC1JYz7goZGn+MuxteUJJk4qpu2NamkbzTZ5hUTJyeAjpyLtzUIa2bQhV107OAm
+         /gLzJk/ImJgD04/qsd8BPzaC9fnk8NI4q4xhf6P7wumuVF54sw6H1lMYXdm0RkmpWQNs
+         oOH0wEw4bmxv1P7fhUYQ5ZdlDumtSqZx1OPOCNn8Tpi1J7Kep6sO1XsDhhpx5K59gIcx
+         TOC5vMvgNX/WwvSh7kGY8j397npF7CmIdAdpnQYFV7GCDXTbFDFwBoiR8rZgomAUgUXG
+         cRQXcpJPDc2jp0Xd8e5qfSZ5RJEplFEt6fs2cTsb4BwuHtPvbM2uff3tvmooRBGEZcNv
+         38AQ==
+X-Gm-Message-State: AO0yUKVInIU5d5Et2BewmnZTpfzzUk2egHMdLlZ6LKA8ReFEGgmaRDCW
+	AkCFPlAc6SDQ/lQ1scSgfBw=
+X-Google-Smtp-Source: AK7set9RxbcbXqVJEalEi/Dn8n3BHyB8HCN8IPRF8iKOMldXQfL00wr8VIAHqgNVB+0NzcqxvvdJGQ==
+X-Received: by 2002:a17:906:291:b0:8b1:7ae9:7332 with SMTP id 17-20020a170906029100b008b17ae97332mr9167337ejf.6.1676841381725;
+        Sun, 19 Feb 2023 13:16:21 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id g17-20020aa7c591000000b004acc1374849sm392354edq.82.2023.02.19.13.16.13
+        by smtp.gmail.com with ESMTPSA id x7-20020a170906804700b008b138641f37sm4820169ejw.24.2023.02.19.13.16.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 13:16:14 -0800 (PST)
-Date: Sun, 19 Feb 2023 22:16:12 +0100
+        Sun, 19 Feb 2023 13:16:20 -0800 (PST)
+Date: Sun, 19 Feb 2023 22:16:19 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/11] staging: rtl8192e: Remove entry .rx_query_stat.. from
+Subject: [PATCH 07/11] staging: rtl8192e: Remove entry .stop_adapter from
  struct rtl819x_ops
-Message-ID: <889c557f6e312645eb40173b7ffa210cabf10110.1676840647.git.philipp.g.hortmann@gmail.com>
+Message-ID: <87f874eae22027956b9f1140b8d460ed8b63a9f9.1676840647.git.philipp.g.hortmann@gmail.com>
 References: <cover.1676840647.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,52 +55,66 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1676840647.git.philipp.g.hortmann@gmail.com>
 
-Remove entry .rx_query_status_descriptor and replace it with function
-name rtl92e_get_rx_stats. This increases readability of the code.
+Remove entry .stop_adapter and replace it with function name
+rtl92e_stop_adapter. This increases readability of the code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 4 +---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 4 ----
- 2 files changed, 1 insertion(+), 7 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 7 +++----
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 1 -
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 372bb4810c31..a4796330f86d 100644
+index a4796330f86d..566513338089 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -28,7 +28,6 @@ static char *ifname = "wlan%d";
- static const struct rtl819x_ops rtl819xp_ops = {
+@@ -29,7 +29,6 @@ static const struct rtl819x_ops rtl819xp_ops = {
  	.nic_type			= NIC_8192E,
  	.link_change			= rtl92e_link_change,
--	.rx_query_status_descriptor	= rtl92e_get_rx_stats,
  	.rx_command_packet_handler = NULL,
- 	.stop_adapter			= rtl92e_stop_adapter,
+-	.stop_adapter			= rtl92e_stop_adapter,
  	.update_ratr_table		= rtl92e_update_ratr_table,
-@@ -1885,8 +1884,7 @@ static void _rtl92e_rx_normal(struct net_device *dev)
+ 	.irq_enable			= rtl92e_enable_irq,
+ 	.irq_disable			= rtl92e_disable_irq,
+@@ -756,7 +755,7 @@ static int _rtl92e_sta_down(struct net_device *dev, bool shutdownrf)
+ 	}
+ 	priv->rf_change_in_progress = true;
+ 	spin_unlock_irqrestore(&priv->rf_ps_lock, flags);
+-	priv->ops->stop_adapter(dev, false);
++	rtl92e_stop_adapter(dev, false);
+ 	spin_lock_irqsave(&priv->rf_ps_lock, flags);
+ 	priv->rf_change_in_progress = false;
+ 	spin_unlock_irqrestore(&priv->rf_ps_lock, flags);
+@@ -2055,7 +2054,7 @@ void rtl92e_commit(struct net_device *dev)
+ 		return;
+ 	rtllib_softmac_stop_protocol(priv->rtllib, 0, true);
+ 	rtl92e_irq_disable(dev);
+-	priv->ops->stop_adapter(dev, true);
++	rtl92e_stop_adapter(dev, true);
+ 	_rtl92e_up(dev, false);
+ }
  
- 		if (pdesc->OWN)
- 			return;
--		if (!priv->ops->rx_query_status_descriptor(dev, &stats,
--		pdesc, skb))
-+		if (!rtl92e_get_rx_stats(dev, &stats, pdesc, skb))
- 			goto done;
- 		new_skb = dev_alloc_skb(priv->rxbuffersize);
- 		/* if allocation of new skb failed - drop current packet
+@@ -2401,7 +2400,7 @@ bool rtl92e_disable_nic(struct net_device *dev)
+ 	_rtl92e_cancel_deferred_work(priv);
+ 	rtl92e_irq_disable(dev);
+ 
+-	priv->ops->stop_adapter(dev, false);
++	rtl92e_stop_adapter(dev, false);
+ 	return true;
+ }
+ 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index 5af14837df31..d83af5f8ce82 100644
+index d83af5f8ce82..083bba3dc51b 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -207,10 +207,6 @@ struct rtl819x_ops {
- 	enum nic_t nic_type;
- 	void (*init_before_adapter_start)(struct net_device *dev);
- 	void (*link_change)(struct net_device *dev);
--	bool (*rx_query_status_descriptor)(struct net_device *dev,
--					   struct rtllib_rx_stats *stats,
--					   struct rx_desc *pdesc,
--					   struct sk_buff *skb);
+@@ -210,7 +210,6 @@ struct rtl819x_ops {
  	bool (*rx_command_packet_handler)(struct net_device *dev,
  					  struct sk_buff *skb,
  					  struct rx_desc *pdesc);
+-	void (*stop_adapter)(struct net_device *dev, bool reset);
+ 	void (*update_ratr_table)(struct net_device *dev);
+ 	void (*irq_enable)(struct net_device *dev);
+ 	void (*irq_disable)(struct net_device *dev);
 -- 
 2.39.2
 
