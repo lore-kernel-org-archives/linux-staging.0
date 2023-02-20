@@ -1,15 +1,15 @@
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.198])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7D041119
-	for <linux-staging@lists.linux.dev>; Mon, 20 Feb 2023 08:41:29 +0000 (UTC)
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.199])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6178C46AF
+	for <linux-staging@lists.linux.dev>; Mon, 20 Feb 2023 14:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=h/aAa
-	aC7c/ohEfkD+Hrucvp+WtGSFaDOTasUGz6eYMw=; b=GFcpcbMh4+aKpffWokQKJ
-	NauHrbiATP0mrbFB12fj6GFPLInrukSUb34FVgEs34isz93jPL1u17av1QwCtEYV
-	YxGlQ/rgiHtB+hVvHYp5BnGE6Vu3LjoqI8oSqky+lEupQXBndMQ/Wkm9U2icm/Lp
-	zxZwt7mj7N+NOKmCiU3Bes=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Q9zHG
+	0kXKM7EYS1+RRwfxxlcds8xLakH1kfaDLZ5UTI=; b=TiCMVWrajKD84+4Lopo11
+	MBbTKXVBvS9qg9QHqL4kJMOSDp+hy3XsWKL/xY5NTrVH98REuuJwQhwJsisQyDFu
+	vvUwG9h7FW7ol7cec9KFCeiBk55eZp/vgfLbJVvO6OMgvpCivOJj1JYXny5tnkkq
+	HmKZ/eO3d1Ck8eOEPBNGMM=
 Received: from localhost (unknown [122.206.190.60])
-	by zwqz-smtp-mta-g2-1 (Coremail) with SMTP id _____wCnzwckMvNj7WHyAQ--.60572S2;
-	Mon, 20 Feb 2023 16:41:08 +0800 (CST)
+	by zwqz-smtp-mta-g0-0 (Coremail) with SMTP id _____wD3SnTKhfNjP8MQAg--.33396S2;
+	Mon, 20 Feb 2023 22:38:02 +0800 (CST)
 From: Shibo Li <zzutcyha@163.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
@@ -17,9 +17,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Shibo Li <zzutcyha@163.com>
-Subject: [PATCH] staging: rtl8712: Fix multiple line dereference
-Date: Mon, 20 Feb 2023 08:40:50 +0000
-Message-Id: <20230220084050.18459-1-zzutcyha@163.com>
+Subject: [PATCH] staging: rtl8712: Fix Sparse warnings in rtl871x_ioctl_linux.c
+Date: Mon, 20 Feb 2023 14:37:58 +0000
+Message-Id: <20230220143758.4396-1-zzutcyha@163.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -28,38 +28,56 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCnzwckMvNj7WHyAQ--.60572S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Gw45AFW5Aw1ruF15Kw1rZwb_yoWDZrg_Cw
-	n2vrnrGrnru3s3G3W7Arn3ZryvgFZ7Xwn29rW8KrykArsxZas8Ja4UtFyUCFWUZa4akr9r
-	Aw1xKr1agr1kWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sR_Ta07UUUUU==
+X-CM-TRANSID:_____wD3SnTKhfNjP8MQAg--.33396S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WFWDZFy3Xr43JryDKF1Utrb_yoW8WrW7pr
+	s8Wa4qyr4kWFnIg3ykJFn5ur15WF10grnYk3s7t34agF1rAr1agr4Iva4IqrsxGry3Z3WY
+	yF1UJr4Yq34YkFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRnZ2xUUUUU=
 X-Originating-IP: [122.206.190.60]
-X-CM-SenderInfo: x22x3ux1kdqiywtou0bp/1tbiZRwcbF8ZW-fPWQACs3
+X-CM-SenderInfo: x22x3ux1kdqiywtou0bp/1tbiZQ8cbF8ZW-54lgAAsX
 
-This patch fixes the following warning in rtl871x_mlme.c
+This patch fixes the following warning in rtl871x_ioctl_linux.c
 
-WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.PrivacyAlgrthm'
+WARNING: Avoid multiple line dereference - prefer 'pnetwork->network.InfrastructureMode'
++                                       if (pnetwork->network.
++                                               InfrastructureMode
+
+WARNING: Avoid multiple line dereference - prefer 'padapter->mlmepriv.cur_network.network'
++                                               padapter->mlmepriv.
++                                               cur_network.network.
+
+WARNING: Avoid multiple line dereference - prefer 'cur_network.network.InfrastructureMode'
++                                               cur_network.network.
++                                               InfrastructureMode)
 
 Signed-off-by: Shibo Li <zzutcyha@163.com>
 ---
- drivers/staging/rtl8712/rtl871x_mlme.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-index 63e12b157001..cc47c1cedd4e 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.c
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -773,8 +773,8 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
- 						adapter->securitypriv.busetkipkey = false;
- 						adapter->securitypriv.bgrpkey_handshake = false;
- 						ptarget_sta->ieee8021x_blocked = true;
--						ptarget_sta->XPrivacy = adapter->
--						securitypriv.PrivacyAlgrthm;
-+						ptarget_sta->XPrivacy =
-+							adapter->securitypriv.PrivacyAlgrthm;
- 						memset((u8 *)&ptarget_sta->x_UncstKey,
- 							 0,
- 							 sizeof(union Keytype));
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+index 36f6904d25ab..6673befeb2f0 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+@@ -1268,14 +1268,11 @@ static int r8711_wx_set_essid(struct net_device *dev,
+ 			if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.SsidLength))
+ 			    && (pnetwork->network.Ssid.SsidLength ==
+ 			     ndis_ssid.SsidLength)) {
+-				if (check_fwstate(pmlmepriv,
+-							WIFI_ADHOC_STATE)) {
+-					if (pnetwork->network.
+-						InfrastructureMode
++				if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
++					if (pnetwork->network.configurationInfrastructureMode
+ 						!=
+-						padapter->mlmepriv.
+-						cur_network.network.
+-						InfrastructureMode)
++						padapter->mlmepriv.assoc_by_rssi.
++						cur_network.network.InfrastructureMode)
+ 						continue;
+ 				}
+ 
 -- 
 2.39.2
 
