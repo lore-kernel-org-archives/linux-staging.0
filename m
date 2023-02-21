@@ -1,43 +1,43 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5D48C0D
-	for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 18:32:32 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id f13so20463728edz.6
-        for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 10:32:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC2C8C0B
+	for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 18:32:33 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id cq23so20730879edb.1
+        for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 10:32:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L9otEBsT6k51szcPeR0kTauQC7TYJHg3vZcCUlJI+pc=;
-        b=P2rP1loDB9zDzKlPh8AUJXtkTwSG1jgp86DgcAWNlj14I1aKsyb/hY0cEu1mK/Em6v
-         2VbL/pm9rgAIQGZXIqeZ3VRz3/sRqwnBOLwwjX6tj+LYaVa31idu512iPJmBe75R5Wy0
-         SHMkE1qGCiJBrg2Gf02BCmoBRxVgHAlWM1zJlC9JnTXYn3+P4Ampb59c7Zzw/5cdbBag
-         sJ4RJNxoRZC1or0mkhU6Ufi0LxIV6RMY7a/dQtOaww8wdtsMTPuVABcsplPD6FOlKXZa
-         /9gYkT7e7/zI/eXBoS6cOqF3OfzoOGvRFtUgI6rucRtMP366vsS7/8HpZkIzrMF96XuD
-         o77Q==
+        bh=L7LUck7NKntyvJrTtA9Mcdll1GuNCKTVdIZE+EmCgf0=;
+        b=aY7iZeMyl0Yy8TJGNzIOWQT4yV4aIZcrA3QtuCr/sgIo+n/gxDCoTdT9Spqa1B+tu8
+         /dJfWEwQ8nRKNBY8rRsKdfrHGSQzyCwfP6ZSshom4XAj+TMDHalSV1W9TTZQHMcGdGCe
+         eWc0zIx+9X6n+te+u0x5OogQyDQcuHXiOWhLH1qR0H8+5rk+1J5lwTSslKQed70+2oUv
+         LtxzXfOGmlkPMkzy5mR8E4tYbnF3VlfYWTUPidZu7xM8P5wSWX6ODOQ9S0z8/zB9dw8Q
+         npin8zoTuVWLndrSehCYNM0jkKFHaKlOHfDeQghz1wksvpNKfl3AYwwzGfrXxUt70g8h
+         5rlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=L9otEBsT6k51szcPeR0kTauQC7TYJHg3vZcCUlJI+pc=;
-        b=rcZkz/xFokK8T6ocuIwpB6dKWacS6adrpSQtQWMz+QHl6Af4S+Jk2kfm4CIvgGEqS7
-         xs+MjiFr3dFDGOcj9cg+qqzlgI/RvQptU85SWWRbRDRgvD/Y5MavNbDCpG34xs2Fnw3/
-         25dGxn18JBzK7wafYqqEwoMaBpTAYpRt0iblYoLL1OKcHXpAbAnt8QpNbrAWgr+UFXrc
-         PJQ03pB4varXitiS8Bvl0sqp1JPwojRbZGZgdLmDhKelbxnyzUVcgPJ5YceA2Uu4Otzg
-         Ticx/qCWv7yI5wdNfNz7wh1ZKs5bYY4tNt91Dk3ang47mGEEck+D4SWVNkpWw7XYoBZ9
-         0aRw==
-X-Gm-Message-State: AO0yUKWnD5knPtQo2M4p2+WCmp8oRBxjlLMEkN94rphTXCmb1+vEc482
-	dQyL6yjlenR1K2yzUHJKJWo=
-X-Google-Smtp-Source: AK7set9t015eh91cqytauqJuSGOe9dRZJXr9U0AD04dYgH1iSSbPBCvAVw0DCAFgr2PSjfdFh6Zvnw==
-X-Received: by 2002:a05:6402:164c:b0:4ad:7c30:25a3 with SMTP id s12-20020a056402164c00b004ad7c3025a3mr6436926edx.1.1677004350203;
-        Tue, 21 Feb 2023 10:32:30 -0800 (PST)
+        bh=L7LUck7NKntyvJrTtA9Mcdll1GuNCKTVdIZE+EmCgf0=;
+        b=hjB2BdfDT8yiblNsw9ORwamSCpOEqROg8SnCZiMJjZiq3xu5nz9FQXu8XXiZm7MVH1
+         TpzZPykgBRnW5M0NP761cMl/x7LYk2YbVNsWzlVf5tU5McF0+3neazlFCO79k/UpZ3Ek
+         Ht7GJwlNya2d+1h2SucIREff4eCdgsKfqPvGI/Gbo8zHx8R8PLD8gQckZjqp1zdXW+Do
+         65thnb9mH3gmsHBgZDLBgzS7Iv8+k69+hbQvOKyyMQ6weLSFZsnSdh3WQs114VycLcEy
+         Z4RMarfNC+/HibO3T1jM2pS1BBWFAshQXSJaBNGTz2SNxTYx8aDh9CJU/BQ4bf+wZ0BM
+         6zaw==
+X-Gm-Message-State: AO0yUKVJ7s473cqhXBL9wLM0X6WMwgRdF5PpApqFL3B/nGw6I41aR26+
+	iugPGnWeFCNX478odU/RcL4=
+X-Google-Smtp-Source: AK7set9Sdi1je3qVvo0qJXZlUkQyErQ4YoQjaz7cj/on0XVdGldV/BpKlkhyI10FlvJ9jEcLz1Kylg==
+X-Received: by 2002:a05:6402:31fb:b0:4ac:d2bc:32f9 with SMTP id dy27-20020a05640231fb00b004acd2bc32f9mr5753304edb.4.1677004352701;
+        Tue, 21 Feb 2023 10:32:32 -0800 (PST)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id i3-20020a50c3c3000000b004af5aa16fcasm169102edf.66.2023.02.21.10.32.29
+        by smtp.gmail.com with ESMTPSA id i3-20020a50c3c3000000b004af5aa16fcasm169102edf.66.2023.02.21.10.32.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 10:32:29 -0800 (PST)
+        Tue, 21 Feb 2023 10:32:32 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -56,9 +56,9 @@ Cc: devicetree@vger.kernel.org,
 	alsa-devel@alsa-project.org,
 	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 06/10] ASoC: tegra: Support MAX9808x by machine driver
-Date: Tue, 21 Feb 2023 20:32:07 +0200
-Message-Id: <20230221183211.21964-7-clamor95@gmail.com>
+Subject: [PATCH v1 08/10] dt-bindings: dsp: add Fortemedia FM34 DSP
+Date: Tue, 21 Feb 2023 20:32:09 +0200
+Message-Id: <20230221183211.21964-9-clamor95@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230221183211.21964-1-clamor95@gmail.com>
 References: <20230221183211.21964-1-clamor95@gmail.com>
@@ -70,127 +70,115 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add Maxim MAX9808x codec support to the Tegra ASoC machine driver.
-This codec is found on LG T30 devices like Optimus 4X HD and
-Optimus Vu.
+Add dt-binding for Fortemedia FM34NE DSP.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- sound/soc/tegra/Kconfig              |  9 ++++++
- sound/soc/tegra/tegra_asoc_machine.c | 46 +++++++++++++++++++++++++---
- 2 files changed, 51 insertions(+), 4 deletions(-)
+ .../bindings/dsp/fortemedia,dsp.yaml          | 95 +++++++++++++++++++
+ 1 file changed, 95 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/dsp/fortemedia,dsp.yaml
 
-diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
-index ff905e5dcd86..950f490b8d54 100644
---- a/sound/soc/tegra/Kconfig
-+++ b/sound/soc/tegra/Kconfig
-@@ -263,6 +263,15 @@ config SND_SOC_TEGRA_MAX98090
- 	  Say Y or M here if you want to add support for SoC audio on Tegra
- 	  boards using the MAX98090 codec, such as Venice2.
- 
-+config SND_SOC_TEGRA_MAX98088
-+	tristate "SoC Audio support for Tegra boards using a MAX9808x codec"
-+	depends on I2C && GPIOLIB
-+	select SND_SOC_TEGRA_MACHINE_DRV
-+	select SND_SOC_MAX98088
-+	help
-+	  Say Y or M here if you want to add support for SoC audio on Tegra
-+	  boards using the MAX98088 codec, such as LG X3.
+diff --git a/Documentation/devicetree/bindings/dsp/fortemedia,dsp.yaml b/Documentation/devicetree/bindings/dsp/fortemedia,dsp.yaml
+new file mode 100644
+index 000000000000..78f30969d9bf
+--- /dev/null
++++ b/Documentation/devicetree/bindings/dsp/fortemedia,dsp.yaml
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/dsp/fortemedia,dsp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- config SND_SOC_TEGRA_RT5677
- 	tristate "SoC Audio support for Tegra boards using a RT5677 codec"
- 	depends on I2C && GPIOLIB
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index 607800ec07a6..fa0627ea20d7 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -86,11 +86,11 @@ static int tegra_machine_event(struct snd_soc_dapm_widget *w,
- 		gpiod_set_value_cansleep(machine->gpiod_spkr_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
--	if (!strcmp(w->name, "Mic Jack"))
-+	if (!strcmp(w->name, "Mic Jack") || !strcmp(w->name, "Headset Mic"))
- 		gpiod_set_value_cansleep(machine->gpiod_ext_mic_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
--	if (!strcmp(w->name, "Int Mic"))
-+	if (!strcmp(w->name, "Int Mic") || !strcmp(w->name, "Internal Mic 2"))
- 		gpiod_set_value_cansleep(machine->gpiod_int_mic_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
-@@ -108,11 +108,12 @@ static const struct snd_soc_dapm_widget tegra_machine_dapm_widgets[] = {
- 	SND_SOC_DAPM_HP("Headphones", NULL),
- 	SND_SOC_DAPM_SPK("Speakers", tegra_machine_event),
- 	SND_SOC_DAPM_SPK("Int Spk", tegra_machine_event),
-+	SND_SOC_DAPM_SPK("Earpiece", NULL),
- 	SND_SOC_DAPM_MIC("Int Mic", tegra_machine_event),
- 	SND_SOC_DAPM_MIC("Mic Jack", tegra_machine_event),
- 	SND_SOC_DAPM_MIC("Internal Mic 1", NULL),
--	SND_SOC_DAPM_MIC("Internal Mic 2", NULL),
--	SND_SOC_DAPM_MIC("Headset Mic", NULL),
-+	SND_SOC_DAPM_MIC("Internal Mic 2", tegra_machine_event),
-+	SND_SOC_DAPM_MIC("Headset Mic", tegra_machine_event),
- 	SND_SOC_DAPM_MIC("Digital Mic", NULL),
- 	SND_SOC_DAPM_MIC("Mic", NULL),
- 	SND_SOC_DAPM_LINE("Line In Jack", NULL),
-@@ -123,6 +124,7 @@ static const struct snd_soc_dapm_widget tegra_machine_dapm_widgets[] = {
- static const struct snd_kcontrol_new tegra_machine_controls[] = {
- 	SOC_DAPM_PIN_SWITCH("Speakers"),
- 	SOC_DAPM_PIN_SWITCH("Int Spk"),
-+	SOC_DAPM_PIN_SWITCH("Earpiece"),
- 	SOC_DAPM_PIN_SWITCH("Int Mic"),
- 	SOC_DAPM_PIN_SWITCH("Headset Mic"),
- 	SOC_DAPM_PIN_SWITCH("Internal Mic 1"),
-@@ -713,6 +715,40 @@ static const struct tegra_asoc_data tegra_max98090_data = {
- 	.add_hp_jack = true,
- };
- 
-+/* MAX98088 machine */
++title: Fortemedia DSP core
 +
-+SND_SOC_DAILINK_DEFS(max98088_hifi,
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()),
-+	DAILINK_COMP_ARRAY(COMP_CODEC(NULL, "HiFi")),
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()));
++maintainers:
++  - Svyatoslav Ryhel <clamor95@gmail.com>
 +
-+static struct snd_soc_dai_link tegra_max98088_dai = {
-+	.name = "MAX98088",
-+	.stream_name = "MAX98088 PCM",
-+	.init = tegra_asoc_machine_init,
-+	.dai_fmt = SND_SOC_DAIFMT_I2S |
-+		   SND_SOC_DAIFMT_NB_NF |
-+		   SND_SOC_DAIFMT_CBS_CFS,
-+	SND_SOC_DAILINK_REG(max98088_hifi),
-+};
++description: |
++  Asus Transformer T20/T30 tablet family contains a DSP core
++  used for advanced noise cancellation.
 +
-+static struct snd_soc_card snd_soc_tegra_max98088 = {
-+	.components = "codec:max98088",
-+	.dai_link = &tegra_max98088_dai,
-+	.num_links = 1,
-+	.fully_routed = true,
-+};
++properties:
++  compatible:
++    items:
++      - enum:
++          - asus,tf101-dsp
++          - asus,tf201-dsp
++          - asus,tf300t-dsp
++          - asus,tf700t-dsp
++          - pegatron,chagall-dsp
 +
-+static const struct tegra_asoc_data tegra_max98088_data = {
-+	.mclk_rate = tegra_machine_mclk_rate_12mhz,
-+	.card = &snd_soc_tegra_max98088,
-+	.add_common_dapm_widgets = true,
-+	.add_common_controls = true,
-+	.add_common_snd_ops = true,
-+	.add_mic_jack = true,
-+	.add_hp_jack = true,
-+};
++      - const: fortemedia,fm34
 +
- /* SGTL5000 machine */
- 
- SND_SOC_DAILINK_DEFS(sgtl5000_hifi,
-@@ -941,6 +977,8 @@ static const struct tegra_asoc_data tegra_rt5631_data = {
- static const struct of_device_id tegra_machine_of_match[] = {
- 	{ .compatible = "nvidia,tegra-audio-trimslice", .data = &tegra_trimslice_data },
- 	{ .compatible = "nvidia,tegra-audio-max98090", .data = &tegra_max98090_data },
-+	{ .compatible = "nvidia,tegra-audio-max98088", .data = &tegra_max98088_data },
-+	{ .compatible = "nvidia,tegra-audio-max98089", .data = &tegra_max98088_data },
- 	{ .compatible = "nvidia,tegra-audio-sgtl5000", .data = &tegra_sgtl5000_data },
- 	{ .compatible = "nvidia,tegra-audio-wm9712", .data = &tegra_wm9712_data },
- 	{ .compatible = "nvidia,tegra-audio-wm8753", .data = &tegra_wm8753_data },
++  reg:
++    maxItems: 1
++
++  bypass-gpios:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  vdd-supply: true
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: mclk
++
++  assigned-clocks:
++    maxItems: 1
++
++  assigned-clock-parents:
++    maxItems: 1
++
++  assigned-clock-rates:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - vdd-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/tegra30-car.h>
++    #include <dt-bindings/soc/tegra-pmc.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        dsp@60 {
++            compatible = "asus,tf201-dsp", "fortemedia,fm34";
++            reg = <0x60>;
++
++            bypass-gpios = <&gpio 222 0>;
++            reset-gpios = <&gpio 115 1>;
++
++            vdd-supply = <&vdd_1v8_dsp>;
++
++            clocks = <&tegra_pmc TEGRA_PMC_CLK_OUT_1>;
++            clock-names = "mclk";
++
++            assigned-clocks = <&tegra_pmc TEGRA_PMC_CLK_OUT_1>;
++            assigned-clock-parents = <&tegra_car TEGRA30_CLK_EXTERN1>;
++        };
++    };
++
++    vdd_1v8_dsp: regulator-dsp {
++        compatible = "regulator-fixed";
++        regulator-name = "vdd_1v8_dsp";
++        regulator-min-microvolt = <1800000>;
++        regulator-max-microvolt = <1800000>;
++        gpio = <&gpio 165 0>;
++        enable-active-high;
++    };
 -- 
 2.37.2
 
