@@ -1,43 +1,43 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F8D8C0C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5D48C0D
 	for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 18:32:32 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id eg37so17184786edb.12
+Received: by mail-ed1-f47.google.com with SMTP id f13so20463728edz.6
         for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 10:32:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E6kk1KEQ/IVeQbAn9G08dCn7f0VBqM2RVSZE4nU8tG8=;
-        b=ZLcktQw2yWXCWMLb+r8k3efgMJdd79CTAIDnmVywqDznjLEw7xRrl+1MN5bg3O9APj
-         rxgt1EBGlzVHpz2UKl91tl9NqLvKa8ZN8onCQC0xPgxACvaPaRT2dG0OisdIPFfDegwe
-         HPlqUrtQXwINZYZXwaWsVr64ce43UOrB/JyyrJ7isp/56MEvMArY/wOmTfbYiGGxvwll
-         QcAwvI9570rgvn8J76VKSf3V9m1ttMHrCwH69JeLOdrePrwvoZYHsJNMl/fyKmV89mpn
-         RLwy5dmrX5ezd85Uey7M786lydd2/IFPLkNgI3HbIyNm5dIStee4ktUKPnj2XKqoqH+W
-         XE8Q==
+        bh=L9otEBsT6k51szcPeR0kTauQC7TYJHg3vZcCUlJI+pc=;
+        b=P2rP1loDB9zDzKlPh8AUJXtkTwSG1jgp86DgcAWNlj14I1aKsyb/hY0cEu1mK/Em6v
+         2VbL/pm9rgAIQGZXIqeZ3VRz3/sRqwnBOLwwjX6tj+LYaVa31idu512iPJmBe75R5Wy0
+         SHMkE1qGCiJBrg2Gf02BCmoBRxVgHAlWM1zJlC9JnTXYn3+P4Ampb59c7Zzw/5cdbBag
+         sJ4RJNxoRZC1or0mkhU6Ufi0LxIV6RMY7a/dQtOaww8wdtsMTPuVABcsplPD6FOlKXZa
+         /9gYkT7e7/zI/eXBoS6cOqF3OfzoOGvRFtUgI6rucRtMP366vsS7/8HpZkIzrMF96XuD
+         o77Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E6kk1KEQ/IVeQbAn9G08dCn7f0VBqM2RVSZE4nU8tG8=;
-        b=ixvYqwJPJKbz5xsuEUUFjgR876N7M0kI/3xgTs5M5Gx5vVQ5xR3CCqoSH7LrWfc1jM
-         F/vJfJTV88iT/F6kAexbiSm8DI2XiI3z9aHfJ844wCyu/3zrM4l49lkI4z8pFCLdU/ll
-         gQgE7p4A7unK9QgA5nFAjhW6NkgW66xrCDCRbEBd04FTjWcMafYUip8PVYY/UG6o1JoE
-         O9pqdKcqEAf8GYMjcMzlawlmq/OcRAEmyhtA7463CUAYUYeZ/m/20CbqVkHDGB1rxiKa
-         hGf/POefKByRlkwIFMOJreWV3AX/JuoteMiFRPxjhyeccZmuvofqPY7dhKmVxb7PmLSS
-         B8Ig==
-X-Gm-Message-State: AO0yUKWEXitMCca50+MlGH8Scc/4Bl5rrLs4IPOb5KREGzDNkhRHpzeA
-	wKakNcRyZ/bnBI/5N5Z1b/I=
-X-Google-Smtp-Source: AK7set/E+SxHoaq2fIGnYaXslbfvlnMH0WhFAMr8EmmsfbBnfuTToK9OvYA29COaSsoBwpvFXPsCfA==
-X-Received: by 2002:aa7:c908:0:b0:4af:502b:4437 with SMTP id b8-20020aa7c908000000b004af502b4437mr4090015edt.34.1677004351477;
-        Tue, 21 Feb 2023 10:32:31 -0800 (PST)
+        bh=L9otEBsT6k51szcPeR0kTauQC7TYJHg3vZcCUlJI+pc=;
+        b=rcZkz/xFokK8T6ocuIwpB6dKWacS6adrpSQtQWMz+QHl6Af4S+Jk2kfm4CIvgGEqS7
+         xs+MjiFr3dFDGOcj9cg+qqzlgI/RvQptU85SWWRbRDRgvD/Y5MavNbDCpG34xs2Fnw3/
+         25dGxn18JBzK7wafYqqEwoMaBpTAYpRt0iblYoLL1OKcHXpAbAnt8QpNbrAWgr+UFXrc
+         PJQ03pB4varXitiS8Bvl0sqp1JPwojRbZGZgdLmDhKelbxnyzUVcgPJ5YceA2Uu4Otzg
+         Ticx/qCWv7yI5wdNfNz7wh1ZKs5bYY4tNt91Dk3ang47mGEEck+D4SWVNkpWw7XYoBZ9
+         0aRw==
+X-Gm-Message-State: AO0yUKWnD5knPtQo2M4p2+WCmp8oRBxjlLMEkN94rphTXCmb1+vEc482
+	dQyL6yjlenR1K2yzUHJKJWo=
+X-Google-Smtp-Source: AK7set9t015eh91cqytauqJuSGOe9dRZJXr9U0AD04dYgH1iSSbPBCvAVw0DCAFgr2PSjfdFh6Zvnw==
+X-Received: by 2002:a05:6402:164c:b0:4ad:7c30:25a3 with SMTP id s12-20020a056402164c00b004ad7c3025a3mr6436926edx.1.1677004350203;
+        Tue, 21 Feb 2023 10:32:30 -0800 (PST)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id i3-20020a50c3c3000000b004af5aa16fcasm169102edf.66.2023.02.21.10.32.30
+        by smtp.gmail.com with ESMTPSA id i3-20020a50c3c3000000b004af5aa16fcasm169102edf.66.2023.02.21.10.32.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 10:32:31 -0800 (PST)
+        Tue, 21 Feb 2023 10:32:29 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -56,9 +56,9 @@ Cc: devicetree@vger.kernel.org,
 	alsa-devel@alsa-project.org,
 	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 07/10] ARM: tegra: transformers: update bindings of sound graph
-Date: Tue, 21 Feb 2023 20:32:08 +0200
-Message-Id: <20230221183211.21964-8-clamor95@gmail.com>
+Subject: [PATCH v1 06/10] ASoC: tegra: Support MAX9808x by machine driver
+Date: Tue, 21 Feb 2023 20:32:07 +0200
+Message-Id: <20230221183211.21964-7-clamor95@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230221183211.21964-1-clamor95@gmail.com>
 References: <20230221183211.21964-1-clamor95@gmail.com>
@@ -70,199 +70,127 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- fix headset detection in common device tree;
-- diverge control and detect elements for mic;
-- use GPIO mic detection on wm8903 devices;
+Add Maxim MAX9808x codec support to the Tegra ASoC machine driver.
+This codec is found on LG T30 devices like Optimus 4X HD and
+Optimus Vu.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- arch/arm/boot/dts/tegra20-asus-tf101.dts        |  8 +++++---
- arch/arm/boot/dts/tegra30-asus-tf201.dts        | 17 +++++++++++++++++
- arch/arm/boot/dts/tegra30-asus-tf300t.dts       |  5 ++---
- arch/arm/boot/dts/tegra30-asus-tf300tg.dts      | 17 +++++++++++++++++
- arch/arm/boot/dts/tegra30-asus-tf700t.dts       | 17 +++++++++++++++++
- .../dts/tegra30-asus-transformer-common.dtsi    |  9 +++++----
- arch/arm/boot/dts/tegra30-pegatron-chagall.dts  |  2 +-
- 7 files changed, 64 insertions(+), 11 deletions(-)
+ sound/soc/tegra/Kconfig              |  9 ++++++
+ sound/soc/tegra/tegra_asoc_machine.c | 46 +++++++++++++++++++++++++---
+ 2 files changed, 51 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra20-asus-tf101.dts b/arch/arm/boot/dts/tegra20-asus-tf101.dts
-index c39ddb462ad0..8d0613567e82 100644
---- a/arch/arm/boot/dts/tegra20-asus-tf101.dts
-+++ b/arch/arm/boot/dts/tegra20-asus-tf101.dts
-@@ -1179,15 +1179,17 @@ sound {
- 			"Int Spk", "RON",
- 			"Int Spk", "LOP",
- 			"Int Spk", "LON",
--			"Mic Jack", "MICBIAS",
--			"IN1L", "Mic Jack";
-+			"IN1L", "Headset Mic",
-+			"IN2L", "Headset Mic",
-+			"DMICDAT", "Int Mic";
+diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
+index ff905e5dcd86..950f490b8d54 100644
+--- a/sound/soc/tegra/Kconfig
++++ b/sound/soc/tegra/Kconfig
+@@ -263,6 +263,15 @@ config SND_SOC_TEGRA_MAX98090
+ 	  Say Y or M here if you want to add support for SoC audio on Tegra
+ 	  boards using the MAX98090 codec, such as Venice2.
  
- 		nvidia,i2s-controller = <&tegra_i2s1>;
- 		nvidia,audio-codec = <&wm8903>;
++config SND_SOC_TEGRA_MAX98088
++	tristate "SoC Audio support for Tegra boards using a MAX9808x codec"
++	depends on I2C && GPIOLIB
++	select SND_SOC_TEGRA_MACHINE_DRV
++	select SND_SOC_MAX98088
++	help
++	  Say Y or M here if you want to add support for SoC audio on Tegra
++	  boards using the MAX98088 codec, such as LG X3.
++
+ config SND_SOC_TEGRA_RT5677
+ 	tristate "SoC Audio support for Tegra boards using a RT5677 codec"
+ 	depends on I2C && GPIOLIB
+diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
+index 607800ec07a6..fa0627ea20d7 100644
+--- a/sound/soc/tegra/tegra_asoc_machine.c
++++ b/sound/soc/tegra/tegra_asoc_machine.c
+@@ -86,11 +86,11 @@ static int tegra_machine_event(struct snd_soc_dapm_widget *w,
+ 		gpiod_set_value_cansleep(machine->gpiod_spkr_en,
+ 					 SND_SOC_DAPM_EVENT_ON(event));
  
- 		nvidia,spkr-en-gpios = <&wm8903 2 GPIO_ACTIVE_HIGH>;
- 		nvidia,hp-det-gpios = <&gpio TEGRA_GPIO(W, 2) GPIO_ACTIVE_LOW>;
--		nvidia,headset;
-+		nvidia,mic-det-gpios = <&gpio TEGRA_GPIO(X, 1) GPIO_ACTIVE_HIGH>;
-+		nvidia,coupled-mic-hp-det;
+-	if (!strcmp(w->name, "Mic Jack"))
++	if (!strcmp(w->name, "Mic Jack") || !strcmp(w->name, "Headset Mic"))
+ 		gpiod_set_value_cansleep(machine->gpiod_ext_mic_en,
+ 					 SND_SOC_DAPM_EVENT_ON(event));
  
- 		clocks = <&tegra_car TEGRA20_CLK_PLL_A>,
- 			 <&tegra_car TEGRA20_CLK_PLL_A_OUT0>,
-diff --git a/arch/arm/boot/dts/tegra30-asus-tf201.dts b/arch/arm/boot/dts/tegra30-asus-tf201.dts
-index 315c6dc068c5..47865deeb88a 100644
---- a/arch/arm/boot/dts/tegra30-asus-tf201.dts
-+++ b/arch/arm/boot/dts/tegra30-asus-tf201.dts
-@@ -605,6 +605,23 @@ haptic-feedback {
- 		enable-gpios = <&gpio TEGRA_GPIO(H, 7) GPIO_ACTIVE_HIGH>;
- 		vcc-supply = <&vdd_3v3_sys>;
- 	};
-+
-+	sound {
-+		compatible = "asus,tegra-audio-rt5631-tf201",
-+			     "nvidia,tegra-audio-rt5631";
-+		nvidia,model = "Asus Transformer Prime TF201 RT5631";
-+
-+		nvidia,audio-routing =
-+			"Headphone Jack", "HPOL",
-+			"Headphone Jack", "HPOR",
-+			"Int Spk", "SPOL",
-+			"Int Spk", "SPOR",
-+			"MIC1", "MIC Bias1",
-+			"MIC Bias1", "Headset Mic",
-+			"DMIC", "Int Mic";
-+
-+		nvidia,audio-codec = <&rt5631>;
-+	};
+-	if (!strcmp(w->name, "Int Mic"))
++	if (!strcmp(w->name, "Int Mic") || !strcmp(w->name, "Internal Mic 2"))
+ 		gpiod_set_value_cansleep(machine->gpiod_int_mic_en,
+ 					 SND_SOC_DAPM_EVENT_ON(event));
+ 
+@@ -108,11 +108,12 @@ static const struct snd_soc_dapm_widget tegra_machine_dapm_widgets[] = {
+ 	SND_SOC_DAPM_HP("Headphones", NULL),
+ 	SND_SOC_DAPM_SPK("Speakers", tegra_machine_event),
+ 	SND_SOC_DAPM_SPK("Int Spk", tegra_machine_event),
++	SND_SOC_DAPM_SPK("Earpiece", NULL),
+ 	SND_SOC_DAPM_MIC("Int Mic", tegra_machine_event),
+ 	SND_SOC_DAPM_MIC("Mic Jack", tegra_machine_event),
+ 	SND_SOC_DAPM_MIC("Internal Mic 1", NULL),
+-	SND_SOC_DAPM_MIC("Internal Mic 2", NULL),
+-	SND_SOC_DAPM_MIC("Headset Mic", NULL),
++	SND_SOC_DAPM_MIC("Internal Mic 2", tegra_machine_event),
++	SND_SOC_DAPM_MIC("Headset Mic", tegra_machine_event),
+ 	SND_SOC_DAPM_MIC("Digital Mic", NULL),
+ 	SND_SOC_DAPM_MIC("Mic", NULL),
+ 	SND_SOC_DAPM_LINE("Line In Jack", NULL),
+@@ -123,6 +124,7 @@ static const struct snd_soc_dapm_widget tegra_machine_dapm_widgets[] = {
+ static const struct snd_kcontrol_new tegra_machine_controls[] = {
+ 	SOC_DAPM_PIN_SWITCH("Speakers"),
+ 	SOC_DAPM_PIN_SWITCH("Int Spk"),
++	SOC_DAPM_PIN_SWITCH("Earpiece"),
+ 	SOC_DAPM_PIN_SWITCH("Int Mic"),
+ 	SOC_DAPM_PIN_SWITCH("Headset Mic"),
+ 	SOC_DAPM_PIN_SWITCH("Internal Mic 1"),
+@@ -713,6 +715,40 @@ static const struct tegra_asoc_data tegra_max98090_data = {
+ 	.add_hp_jack = true,
  };
  
- &emc_icc_dvfs_opp_table {
-diff --git a/arch/arm/boot/dts/tegra30-asus-tf300t.dts b/arch/arm/boot/dts/tegra30-asus-tf300t.dts
-index f47434871a5c..78f78cca337a 100644
---- a/arch/arm/boot/dts/tegra30-asus-tf300t.dts
-+++ b/arch/arm/boot/dts/tegra30-asus-tf300t.dts
-@@ -1011,13 +1011,12 @@ sound {
- 			"Int Spk", "RON",
- 			"Int Spk", "LOP",
- 			"Int Spk", "LON",
--			"IN1L", "Mic Jack",
--			"IN2L", "Mic Jack",
-+			"IN1L", "Headset Mic",
-+			"IN2L", "Headset Mic",
- 			"DMICDAT", "Int Mic";
- 
- 		nvidia,audio-codec = <&wm8903>;
- 		nvidia,spkr-en-gpios = <&wm8903 2 GPIO_ACTIVE_HIGH>;
--		nvidia,headset;
- 	};
- };
- 
-diff --git a/arch/arm/boot/dts/tegra30-asus-tf300tg.dts b/arch/arm/boot/dts/tegra30-asus-tf300tg.dts
-index 96345f821c3d..82c51e177a70 100644
---- a/arch/arm/boot/dts/tegra30-asus-tf300tg.dts
-+++ b/arch/arm/boot/dts/tegra30-asus-tf300tg.dts
-@@ -1072,6 +1072,23 @@ timing-667000000 {
- 	display-panel {
- 		compatible = "innolux,g101ice-l01";
- 	};
++/* MAX98088 machine */
 +
-+	sound {
-+		compatible = "asus,tegra-audio-rt5631-tf300tg",
-+			     "nvidia,tegra-audio-rt5631";
-+		nvidia,model = "Asus Transformer Pad TF300TG RT5631";
++SND_SOC_DAILINK_DEFS(max98088_hifi,
++	DAILINK_COMP_ARRAY(COMP_EMPTY()),
++	DAILINK_COMP_ARRAY(COMP_CODEC(NULL, "HiFi")),
++	DAILINK_COMP_ARRAY(COMP_EMPTY()));
 +
-+		nvidia,audio-routing =
-+			"Headphone Jack", "HPOL",
-+			"Headphone Jack", "HPOR",
-+			"Int Spk", "SPOL",
-+			"Int Spk", "SPOR",
-+			"MIC1", "MIC Bias1",
-+			"MIC Bias1", "Headset Mic",
-+			"DMIC", "Int Mic";
++static struct snd_soc_dai_link tegra_max98088_dai = {
++	.name = "MAX98088",
++	.stream_name = "MAX98088 PCM",
++	.init = tegra_asoc_machine_init,
++	.dai_fmt = SND_SOC_DAIFMT_I2S |
++		   SND_SOC_DAIFMT_NB_NF |
++		   SND_SOC_DAIFMT_CBS_CFS,
++	SND_SOC_DAILINK_REG(max98088_hifi),
++};
 +
-+		nvidia,audio-codec = <&rt5631>;
-+	};
- };
- 
- &emc_icc_dvfs_opp_table {
-diff --git a/arch/arm/boot/dts/tegra30-asus-tf700t.dts b/arch/arm/boot/dts/tegra30-asus-tf700t.dts
-index 1a331dec3cfe..766225ebdeab 100644
---- a/arch/arm/boot/dts/tegra30-asus-tf700t.dts
-+++ b/arch/arm/boot/dts/tegra30-asus-tf700t.dts
-@@ -812,6 +812,23 @@ vdd_1v2_mipi: regulator-mipi {
- 		enable-active-high;
- 		vin-supply = <&vdd_3v3_sys>;
- 	};
++static struct snd_soc_card snd_soc_tegra_max98088 = {
++	.components = "codec:max98088",
++	.dai_link = &tegra_max98088_dai,
++	.num_links = 1,
++	.fully_routed = true,
++};
 +
-+	sound {
-+		compatible = "asus,tegra-audio-rt5631-tf700t",
-+			     "nvidia,tegra-audio-rt5631";
-+		nvidia,model = "Asus Transformer Infinity TF700T RT5631";
++static const struct tegra_asoc_data tegra_max98088_data = {
++	.mclk_rate = tegra_machine_mclk_rate_12mhz,
++	.card = &snd_soc_tegra_max98088,
++	.add_common_dapm_widgets = true,
++	.add_common_controls = true,
++	.add_common_snd_ops = true,
++	.add_mic_jack = true,
++	.add_hp_jack = true,
++};
 +
-+		nvidia,audio-routing =
-+			"Headphone Jack", "HPOL",
-+			"Headphone Jack", "HPOR",
-+			"Int Spk", "SPOL",
-+			"Int Spk", "SPOR",
-+			"MIC1", "MIC Bias1",
-+			"MIC Bias1", "Headset Mic",
-+			"DMIC", "Int Mic";
-+
-+		nvidia,audio-codec = <&rt5631>;
-+	};
- };
+ /* SGTL5000 machine */
  
- &emc_icc_dvfs_opp_table {
-diff --git a/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi b/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-index 08ea9cb32d0e..42dae0f4759e 100644
---- a/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-+++ b/arch/arm/boot/dts/tegra30-asus-transformer-common.dtsi
-@@ -550,7 +550,7 @@ spi1_mosi_px4 {
- 				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
- 			};
- 
--			spi2_cs1_n_pw2 {
-+			hp_detect {
- 				nvidia,pins = "spi2_cs1_n_pw2";
- 				nvidia,function = "spi2";
- 				nvidia,pull = <TEGRA_PIN_PULL_UP>;
-@@ -558,10 +558,10 @@ spi2_cs1_n_pw2 {
- 				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
- 			};
- 
--			spi2_sck_px2 {
-+			mic_detect {
- 				nvidia,pins = "spi2_sck_px2";
- 				nvidia,function = "spi2";
--				nvidia,pull = <TEGRA_PIN_PULL_NONE>;
-+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
- 				nvidia,tristate = <TEGRA_PIN_DISABLE>;
- 				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
- 			};
-@@ -1674,7 +1674,8 @@ sound {
- 		nvidia,i2s-controller = <&tegra_i2s1>;
- 
- 		nvidia,hp-det-gpios = <&gpio TEGRA_GPIO(W, 2) GPIO_ACTIVE_LOW>;
--		nvidia,hp-mute-gpios = <&gpio TEGRA_GPIO(X, 2) GPIO_ACTIVE_LOW>;
-+		nvidia,mic-det-gpios = <&gpio TEGRA_GPIO(X, 2) GPIO_ACTIVE_LOW>;
-+		nvidia,coupled-mic-hp-det;
- 
- 		clocks = <&tegra_car TEGRA30_CLK_PLL_A>,
- 			 <&tegra_car TEGRA30_CLK_PLL_A_OUT0>,
-diff --git a/arch/arm/boot/dts/tegra30-pegatron-chagall.dts b/arch/arm/boot/dts/tegra30-pegatron-chagall.dts
-index d9408a90653a..6e24b095713b 100644
---- a/arch/arm/boot/dts/tegra30-pegatron-chagall.dts
-+++ b/arch/arm/boot/dts/tegra30-pegatron-chagall.dts
-@@ -2731,7 +2731,7 @@ sound {
- 			"Int Spk", "RON",
- 			"Int Spk", "LOP",
- 			"Int Spk", "LON",
--			"IN1R", "Mic Jack",
-+			"IN1R", "Headset Mic",
- 			"DMICDAT", "Int Mic";
- 
- 		nvidia,i2s-controller = <&tegra_i2s1>;
+ SND_SOC_DAILINK_DEFS(sgtl5000_hifi,
+@@ -941,6 +977,8 @@ static const struct tegra_asoc_data tegra_rt5631_data = {
+ static const struct of_device_id tegra_machine_of_match[] = {
+ 	{ .compatible = "nvidia,tegra-audio-trimslice", .data = &tegra_trimslice_data },
+ 	{ .compatible = "nvidia,tegra-audio-max98090", .data = &tegra_max98090_data },
++	{ .compatible = "nvidia,tegra-audio-max98088", .data = &tegra_max98088_data },
++	{ .compatible = "nvidia,tegra-audio-max98089", .data = &tegra_max98088_data },
+ 	{ .compatible = "nvidia,tegra-audio-sgtl5000", .data = &tegra_sgtl5000_data },
+ 	{ .compatible = "nvidia,tegra-audio-wm9712", .data = &tegra_wm9712_data },
+ 	{ .compatible = "nvidia,tegra-audio-wm8753", .data = &tegra_wm8753_data },
 -- 
 2.37.2
 
