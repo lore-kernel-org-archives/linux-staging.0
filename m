@@ -1,172 +1,82 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC478F78;
-	Tue, 21 Feb 2023 21:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677014925; x=1708550925;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e1AvhqAmH47az8SqU2RGLxJvxgBybQJt540Qgkz6sK0=;
-  b=EV4zoX5Afb4p8EzXEQbPwN9KbY2mLGsaLNdZ6hH4ozi7pEU/TE+eQ4kr
-   NOlk4Et5OPk2CgZp4AMFZpwGcdrfwZj7em70VB1a+4FmVlaMUov0m6q1j
-   89uS6gO+86mmCsrtdB2ffn8jAyThx9zi/f77k6UYkS3FA6TgkccoK/Dzk
-   yEAcSDc68FQCZ6lf45QPcO50yoXb58i1bwp4QRp1f8DI+GEClKy8UnGyF
-   GsPtclxu+eXZqr3quksmgRNkKpO3MVQAFdNtnJLtY9kQ+mvce8OTABN3J
-   kdmwVO3geEoqUohMbEs10rXxtgaA8uqoHwoOu7+jUgN6kkSh6UISBTDC0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="332760688"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="332760688"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 13:28:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="735627967"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="735627967"
-Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Feb 2023 13:28:42 -0800
-Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUaBm-0000GH-0D;
-	Tue, 21 Feb 2023 21:28:42 +0000
-Date: Wed, 22 Feb 2023 05:27:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shibo Li <zzutcyha@163.com>, Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51378F78
+	for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 22:08:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18985C433EF;
+	Tue, 21 Feb 2023 22:08:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1677017311;
+	bh=0bDCc37RZMk8RynOgZTjNXQJhNd6CT6r7FfzrYYttJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T5XPxWPbMbW/tAdU7Hqb28QdxCL1IVodMYfmI8ay7BzUDUAJZ6Axl4ZcbD6afo4pg
+	 ys4yY4zghy3oURzE9fmYdKTmYPJUYThI+PkJ7a1932jWj/HS01EAlmzTDFuoDi+UVz
+	 kqZE1DMUmbi0dKNATsCKtfSEJhp8iopo+aYOwHfTpEYPeu7wcKt3IfdamagVxVSelv
+	 Vl4OJiznG2PO5eeC5oYMnsahSix0a/Gb85PPMVH/wREH4AHlvBqLb/O5DhmP8QGIJb
+	 Sj9Ve0z4sc0UnRSET29GL025luO8c6Ee45ITWbXJNUoKMK2f2osP83/qXgQtYdhpGf
+	 OCxh6nhmp7ecw==
+Date: Tue, 21 Feb 2023 22:08:28 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Shibo Li <zzutcyha@163.com>
-Subject: Re: [PATCH] staging: rtl8712: Fix Sparse warnings in
- rtl871x_ioctl_linux.c
-Message-ID: <202302220531.dtbdFw8w-lkp@intel.com>
-References: <20230220143758.4396-1-zzutcyha@163.com>
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Maxim Schwalm <maxim.schwalm@gmail.com>,
+	Dmitry Osipenko <digetx@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 02/10] sound: soc: jack: allow multiple interrupt per
+ gpio
+Message-ID: <Y/VA3HK/jGVPbrqb@sirena.org.uk>
+References: <20230221183211.21964-1-clamor95@gmail.com>
+ <20230221183211.21964-3-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qmxly6Gn0iLCwqrs"
+Content-Disposition: inline
+In-Reply-To: <20230221183211.21964-3-clamor95@gmail.com>
+X-Cookie: Serving suggestion.
+
+
+--qmxly6Gn0iLCwqrs
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230220143758.4396-1-zzutcyha@163.com>
 
-Hi Shibo,
+On Tue, Feb 21, 2023 at 08:32:03PM +0200, Svyatoslav Ryhel wrote:
+> This feature is required for coupled hp-mic quirk used
+> by some Nvidia Tegra 3 based devices work properly.
 
-Thank you for the patch! Yet something to improve:
+Please submit this separately, there's no meaningful dependency
+on the rest of the series.
 
-[auto build test ERROR on staging/staging-testing]
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
-patch link:    https://lore.kernel.org/r/20230220143758.4396-1-zzutcyha%40163.com
-patch subject: [PATCH] staging: rtl8712: Fix Sparse warnings in rtl871x_ioctl_linux.c
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230222/202302220531.dtbdFw8w-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7117082894534ef14c409d6a9070fa051a84f619
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
-        git checkout 7117082894534ef14c409d6a9070fa051a84f619
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+--qmxly6Gn0iLCwqrs
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302220531.dtbdFw8w-lkp@intel.com/
+-----BEGIN PGP SIGNATURE-----
 
-All errors (new ones prefixed by >>):
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmP1QNsACgkQJNaLcl1U
+h9DWeQf/VRGoxVKrQTgsSjSQxv1jc70l5vn+sMEJB2VkseJw0TvSyTVBDvQlAvrP
+y+gKeYz10KvANtdVfgXhWqeUnZv6criGYBX/aoT35qkboa0fk+eMz8Pmj2C+G3LB
+YWRa+Q+Qy7MI3vF3vAYVBl8ElSzym4MKc5jAccVeFZGDIKC14nEKaPNDWC/odv7g
+NXapa17rA/uezOIATkgqOmWfDZq3pj6WJM/IgIyJB7s/1EOF3RXUasX/BLbMer2u
+rYr5sV7RWK47W9zqyXkFcTnLbwRfLBocJnuS39GSipXbRBHTuJLKfN0p17JYhEzY
+2I/4OHcaaNxAMATbKQAt7rmK7MOmjw==
+=BGs8
+-----END PGP SIGNATURE-----
 
->> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1272:28: error: no member named 'configurationInfrastructureMode' in 'struct wlan_bssid_ex'
-                                           if (pnetwork->network.configurationInfrastructureMode
-                                               ~~~~~~~~~~~~~~~~~ ^
->> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1274:39: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
-                                                   padapter->mlmepriv.assoc_by_rssi.
-                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-   2 errors generated.
-
-
-vim +1272 drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-
-  1218	
-  1219	/* set ssid flow
-  1220	 * s1. set_802_11_infrastructure_mode()
-  1221	 * s2. set_802_11_authenticaion_mode()
-  1222	 * s3. set_802_11_encryption_mode()
-  1223	 * s4. set_802_11_ssid()
-  1224	 *
-  1225	 * This function intends to handle the Set ESSID command.
-  1226	 * Currently, the request comes via the Wireless Extensions' SIOCSIWESSID ioctl.
-  1227	 *
-  1228	 * For this operation to succeed, there is no need for the interface to be Up.
-  1229	 *
-  1230	 */
-  1231	static int r8711_wx_set_essid(struct net_device *dev,
-  1232					struct iw_request_info *a,
-  1233					union iwreq_data *wrqu, char *extra)
-  1234	{
-  1235		struct _adapter *padapter = netdev_priv(dev);
-  1236		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-  1237		struct  __queue *queue = &pmlmepriv->scanned_queue;
-  1238		struct wlan_network *pnetwork = NULL;
-  1239		enum NDIS_802_11_AUTHENTICATION_MODE	authmode;
-  1240		struct ndis_802_11_ssid ndis_ssid;
-  1241		u8 *dst_ssid, *src_ssid;
-  1242		struct list_head *phead;
-  1243		u32 len;
-  1244	
-  1245		if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
-  1246			return -EBUSY;
-  1247		if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
-  1248			return 0;
-  1249		if (wrqu->essid.length > IW_ESSID_MAX_SIZE)
-  1250			return -E2BIG;
-  1251		authmode = padapter->securitypriv.ndisauthtype;
-  1252		if (wrqu->essid.flags && wrqu->essid.length) {
-  1253			len = (wrqu->essid.length < IW_ESSID_MAX_SIZE) ?
-  1254			       wrqu->essid.length : IW_ESSID_MAX_SIZE;
-  1255			memset(&ndis_ssid, 0, sizeof(struct ndis_802_11_ssid));
-  1256			ndis_ssid.SsidLength = len;
-  1257			memcpy(ndis_ssid.Ssid, extra, len);
-  1258			src_ssid = ndis_ssid.Ssid;
-  1259			phead = &queue->queue;
-  1260			pmlmepriv->pscanned = phead->next;
-  1261			while (1) {
-  1262				if (end_of_queue_search(phead, pmlmepriv->pscanned))
-  1263					break;
-  1264				pnetwork = container_of(pmlmepriv->pscanned,
-  1265							struct wlan_network, list);
-  1266				pmlmepriv->pscanned = pmlmepriv->pscanned->next;
-  1267				dst_ssid = pnetwork->network.Ssid.Ssid;
-  1268				if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.SsidLength))
-  1269				    && (pnetwork->network.Ssid.SsidLength ==
-  1270				     ndis_ssid.SsidLength)) {
-  1271					if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
-> 1272						if (pnetwork->network.configurationInfrastructureMode
-  1273							!=
-> 1274							padapter->mlmepriv.assoc_by_rssi.
-  1275							cur_network.network.InfrastructureMode)
-  1276							continue;
-  1277					}
-  1278	
-  1279					r8712_set_802_11_infrastructure_mode(
-  1280					     padapter,
-  1281					     pnetwork->network.InfrastructureMode);
-  1282					break;
-  1283				}
-  1284			}
-  1285			r8712_set_802_11_authentication_mode(padapter, authmode);
-  1286			r8712_set_802_11_ssid(padapter, &ndis_ssid);
-  1287		}
-  1288		return -EINPROGRESS;
-  1289	}
-  1290	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--qmxly6Gn0iLCwqrs--
