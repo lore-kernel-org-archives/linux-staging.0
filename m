@@ -1,50 +1,48 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04679446
-	for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 20:53:47 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id da10so23607387edb.3
-        for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 12:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677012826;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CmIDpU8pXZhC5aYh2hMJFzJrfUi2LzepJbDTKpZAl1o=;
-        b=XjuV/lDfgltw3xurK4bBzbpOfF1oUP0uTjshEwMJ+4UE33ReKtVH0jGMKQHocn+vGT
-         4A/VraDNjjbOk85kkyH5pau1Dpc2vIfajzemO1Q+zGl3JuYn26HlUdLDEGbu0Bj4OTNd
-         0QapTGdHfhGtl+9Y+33UtZWnfC1ji09isd+ShbWFUQomICj36xcpkXkc8ZAFHeMcTUDE
-         Il+Orwqcx446ACIGcaXck/XoJrpC5sUu/n/jXq4ldTyhKxOG3XTkEN2q7DR8qAfGwKUV
-         gRz920QzCH5DqzBfg97Aj09qr4C3lRU2NiPq322RA2GC9YTqYdiATBPnIrOlHO5AmhCU
-         b7ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677012826;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CmIDpU8pXZhC5aYh2hMJFzJrfUi2LzepJbDTKpZAl1o=;
-        b=4c1RelGf2+q9yczwAzkALP4TOesiOh1Nm8PL3MwKgrVT3O3ULcZjtGDDBSvBgp/NWq
-         M9zIE4z6rHubGd5bKRBspWHD5VdTOoROYbc7xYqqwdGKdnMVgWjjJyXmRFfjcu/rRBFw
-         hu0YphcscNNAj7d/0Mkotu/S1xbqbiZrviN17g1JMsiUjdYzBc4ixbO3C1VT4bFAzXqG
-         sejiAhzB0TVvrHgELm0bhdQzNmf/89r3dhe81jN428iScgNUwA8o+giFOt00eFPAwbmw
-         PZqGthOBqrtLcCEEO6tqYj3VJgG2gM5hppCmKFl9b+cnrQ1FXSldDU9fEoEl3vF3mHbm
-         JXmg==
-X-Gm-Message-State: AO0yUKWv+4NnRLuAkVquHN+Rn6PZrPBLYAaY+SSBfRAJTEq9t/mL3CsG
-	hFGTLGr+Tc03KQ7eStkOInrBW1eebvI=
-X-Google-Smtp-Source: AK7set+knyD7lerXdj8a4NvreqfY6fcZTZgSR/Hds2LOTR2lobqL6+4VKAXBcfc60flR+xGjUBRnTg==
-X-Received: by 2002:a17:906:150:b0:894:4341:77d6 with SMTP id 16-20020a170906015000b00894434177d6mr13256655ejh.1.1677012825929;
-        Tue, 21 Feb 2023 12:53:45 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id v18-20020a1709060b5200b008a9e585786dsm7576480ejg.64.2023.02.21.12.53.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 12:53:45 -0800 (PST)
-Date: Tue, 21 Feb 2023 21:53:43 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC478F78;
+	Tue, 21 Feb 2023 21:28:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677014925; x=1708550925;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e1AvhqAmH47az8SqU2RGLxJvxgBybQJt540Qgkz6sK0=;
+  b=EV4zoX5Afb4p8EzXEQbPwN9KbY2mLGsaLNdZ6hH4ozi7pEU/TE+eQ4kr
+   NOlk4Et5OPk2CgZp4AMFZpwGcdrfwZj7em70VB1a+4FmVlaMUov0m6q1j
+   89uS6gO+86mmCsrtdB2ffn8jAyThx9zi/f77k6UYkS3FA6TgkccoK/Dzk
+   yEAcSDc68FQCZ6lf45QPcO50yoXb58i1bwp4QRp1f8DI+GEClKy8UnGyF
+   GsPtclxu+eXZqr3quksmgRNkKpO3MVQAFdNtnJLtY9kQ+mvce8OTABN3J
+   kdmwVO3geEoqUohMbEs10rXxtgaA8uqoHwoOu7+jUgN6kkSh6UISBTDC0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="332760688"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="332760688"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 13:28:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="735627967"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="735627967"
+Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 21 Feb 2023 13:28:42 -0800
+Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pUaBm-0000GH-0D;
+	Tue, 21 Feb 2023 21:28:42 +0000
+Date: Wed, 22 Feb 2023 05:27:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shibo Li <zzutcyha@163.com>, Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] staging: rtl8192e: Remove entry .nic_type from struct
- rtl819x_ops
-Message-ID: <f1fd37a2d2b90bef8caac31a98f3eeff404b3095.1677010997.git.philipp.g.hortmann@gmail.com>
-References: <cover.1677010997.git.philipp.g.hortmann@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Shibo Li <zzutcyha@163.com>
+Subject: Re: [PATCH] staging: rtl8712: Fix Sparse warnings in
+ rtl871x_ioctl_linux.c
+Message-ID: <202302220531.dtbdFw8w-lkp@intel.com>
+References: <20230220143758.4396-1-zzutcyha@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,68 +51,122 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1677010997.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230220143758.4396-1-zzutcyha@163.com>
 
-Remove unchanged entry .nic_type and replace it with constant NIC_8192E.
-This increases readability of the code.
+Hi Shibo,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 1 -
- drivers/staging/rtl8192e/rtl8192e/rtl_pci.c  | 6 +++---
- 3 files changed, 3 insertions(+), 5 deletions(-)
+Thank you for the patch! Yet something to improve:
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 2d2f9d4a0ff5..044cab649ff1 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -26,7 +26,6 @@ int hwwep = 1;
- static char *ifname = "wlan%d";
- 
- static const struct rtl819x_ops rtl819xp_ops = {
--	.nic_type			= NIC_8192E,
- };
- 
- static struct pci_device_id rtl8192_pci_id_tbl[] = {
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index fa72f8891409..f75cc96052d9 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -204,7 +204,6 @@ struct rtl8192_tx_ring {
- };
- 
- struct rtl819x_ops {
--	enum nic_t nic_type;
- };
- 
- struct r8192_priv {
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-index 81e1bb856c60..0bc3e013001e 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_pci.c
-@@ -39,7 +39,7 @@ bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev)
- 	revision_id = pdev->revision;
- 	pci_read_config_word(pdev, 0x3C, &irq_line);
- 
--	priv->card_8192 = priv->ops->nic_type;
-+	priv->card_8192 = NIC_8192E;
- 
- 	if (device_id == 0x8192) {
- 		switch (revision_id) {
-@@ -64,10 +64,10 @@ bool rtl92e_check_adapter(struct pci_dev *pdev, struct net_device *dev)
- 		}
- 	}
- 
--	if (priv->ops->nic_type != priv->card_8192) {
-+	if (priv->card_8192 != NIC_8192E) {
- 		dev_info(&pdev->dev,
- 			 "Detect info(%x) and hardware info(%x) not match!\n",
--			 priv->ops->nic_type, priv->card_8192);
-+			 NIC_8192E, priv->card_8192);
- 		dev_info(&pdev->dev,
- 			 "Please select proper driver before install!!!!\n");
- 		return false;
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
+patch link:    https://lore.kernel.org/r/20230220143758.4396-1-zzutcyha%40163.com
+patch subject: [PATCH] staging: rtl8712: Fix Sparse warnings in rtl871x_ioctl_linux.c
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230222/202302220531.dtbdFw8w-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7117082894534ef14c409d6a9070fa051a84f619
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
+        git checkout 7117082894534ef14c409d6a9070fa051a84f619
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302220531.dtbdFw8w-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1272:28: error: no member named 'configurationInfrastructureMode' in 'struct wlan_bssid_ex'
+                                           if (pnetwork->network.configurationInfrastructureMode
+                                               ~~~~~~~~~~~~~~~~~ ^
+>> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1274:39: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+                                                   padapter->mlmepriv.assoc_by_rssi.
+                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+   2 errors generated.
+
+
+vim +1272 drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+
+  1218	
+  1219	/* set ssid flow
+  1220	 * s1. set_802_11_infrastructure_mode()
+  1221	 * s2. set_802_11_authenticaion_mode()
+  1222	 * s3. set_802_11_encryption_mode()
+  1223	 * s4. set_802_11_ssid()
+  1224	 *
+  1225	 * This function intends to handle the Set ESSID command.
+  1226	 * Currently, the request comes via the Wireless Extensions' SIOCSIWESSID ioctl.
+  1227	 *
+  1228	 * For this operation to succeed, there is no need for the interface to be Up.
+  1229	 *
+  1230	 */
+  1231	static int r8711_wx_set_essid(struct net_device *dev,
+  1232					struct iw_request_info *a,
+  1233					union iwreq_data *wrqu, char *extra)
+  1234	{
+  1235		struct _adapter *padapter = netdev_priv(dev);
+  1236		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+  1237		struct  __queue *queue = &pmlmepriv->scanned_queue;
+  1238		struct wlan_network *pnetwork = NULL;
+  1239		enum NDIS_802_11_AUTHENTICATION_MODE	authmode;
+  1240		struct ndis_802_11_ssid ndis_ssid;
+  1241		u8 *dst_ssid, *src_ssid;
+  1242		struct list_head *phead;
+  1243		u32 len;
+  1244	
+  1245		if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
+  1246			return -EBUSY;
+  1247		if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+  1248			return 0;
+  1249		if (wrqu->essid.length > IW_ESSID_MAX_SIZE)
+  1250			return -E2BIG;
+  1251		authmode = padapter->securitypriv.ndisauthtype;
+  1252		if (wrqu->essid.flags && wrqu->essid.length) {
+  1253			len = (wrqu->essid.length < IW_ESSID_MAX_SIZE) ?
+  1254			       wrqu->essid.length : IW_ESSID_MAX_SIZE;
+  1255			memset(&ndis_ssid, 0, sizeof(struct ndis_802_11_ssid));
+  1256			ndis_ssid.SsidLength = len;
+  1257			memcpy(ndis_ssid.Ssid, extra, len);
+  1258			src_ssid = ndis_ssid.Ssid;
+  1259			phead = &queue->queue;
+  1260			pmlmepriv->pscanned = phead->next;
+  1261			while (1) {
+  1262				if (end_of_queue_search(phead, pmlmepriv->pscanned))
+  1263					break;
+  1264				pnetwork = container_of(pmlmepriv->pscanned,
+  1265							struct wlan_network, list);
+  1266				pmlmepriv->pscanned = pmlmepriv->pscanned->next;
+  1267				dst_ssid = pnetwork->network.Ssid.Ssid;
+  1268				if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.SsidLength))
+  1269				    && (pnetwork->network.Ssid.SsidLength ==
+  1270				     ndis_ssid.SsidLength)) {
+  1271					if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
+> 1272						if (pnetwork->network.configurationInfrastructureMode
+  1273							!=
+> 1274							padapter->mlmepriv.assoc_by_rssi.
+  1275							cur_network.network.InfrastructureMode)
+  1276							continue;
+  1277					}
+  1278	
+  1279					r8712_set_802_11_infrastructure_mode(
+  1280					     padapter,
+  1281					     pnetwork->network.InfrastructureMode);
+  1282					break;
+  1283				}
+  1284			}
+  1285			r8712_set_802_11_authentication_mode(padapter, authmode);
+  1286			r8712_set_802_11_ssid(padapter, &ndis_ssid);
+  1287		}
+  1288		return -EINPROGRESS;
+  1289	}
+  1290	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
