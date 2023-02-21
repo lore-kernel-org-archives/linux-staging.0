@@ -1,89 +1,107 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965F58497
-	for <linux-staging@lists.linux.dev>; Mon, 20 Feb 2023 19:13:27 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id ay9so2393260qtb.9
-        for <linux-staging@lists.linux.dev>; Mon, 20 Feb 2023 11:13:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1676920406;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2x/ZnGEIutJz/ohk0y7JjrYHPKC556kirwfWjoI34Jw=;
-        b=PzQ0DM3wYomL4jJe/hIApWXOa3Q9wtEiApGNHzzkVKHcOG4soR2g0iUSfZLxWwmDcK
-         IpA4AB14pGwBJ08ikH29yzkR1Kic6KBXMrI7HecxJjuB6DcpGG47wfUCTP/tOqpGG2sT
-         3m9MSm8E0yMIRW3OSR/HCSawaP5S+PTdzCkf8Oe5j53X5bjlOfJ6zkyXOaeeNzCIM69L
-         P16o/5zY0mB1r1mBOTKbMhO5T/u9PgpMq9tyO+GbnKDdEQqgaUl/CYOrLjbHwrVpCPqA
-         pdDbh3iFgIv9E/TuxdskMr8Tju8nW/1B093t4NtTWERkHCtaZEA1YprYaZQIWQ/LIMxh
-         yjYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1676920406;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2x/ZnGEIutJz/ohk0y7JjrYHPKC556kirwfWjoI34Jw=;
-        b=hqNSfYOYul5bxu77DXtVKltVReO0x6+Mu5pJm0npuxBBN3x5Krr+sFSN21qW2vZz/s
-         IC4ALX0c13ID+rJqW5d/u2ebM2RVTB6z9/ve4BZVeG5htHqWkRFnKMvqRFbLhfCKn7G+
-         EIPRDXUlBVoNWcxbU+safX/5Zm2f+ehroP3+gV/HL7M+VVVVoLLzPMlqG8MqcuCN80V9
-         5RPgNuz/l0gZQz49xQQOZJ1nBTBkVgR850aeuJFCbsI/9DAPQnH7onCA/syejsMDRKMR
-         Dxtq4eDmBrnu4J2qoNw0pULJeccxKCgoLyBvP1yN/z2JKPrgpp0UMMxRu/kiGnZTNAKZ
-         Cqkg==
-X-Gm-Message-State: AO0yUKU7m31FQSbXxzCDxf8HAAKIcGP37ufPZziX/iy21EvjexIv8Dro
-	T5MVkEmNIq+dUB1Y0JQKReE=
-X-Google-Smtp-Source: AK7set9gipoyr+L5ZQ3MNWg6+3BKYxxqXVC+zmWaQRvfllT7fSoIriCXX8+Vvh80eIJfNBEnSFOJ+Q==
-X-Received: by 2002:a05:622a:2c2:b0:3b8:5dfe:c3dc with SMTP id a2-20020a05622a02c200b003b85dfec3dcmr4042525qtx.3.1676920406371;
-        Mon, 20 Feb 2023 11:13:26 -0800 (PST)
-Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id y6-20020ac87086000000b003be56bdd3b1sm924231qto.92.2023.02.20.11.13.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 11:13:25 -0800 (PST)
-Message-ID: <2d045c1a-5947-1ce4-b5cd-a1684761a812@gmail.com>
-Date: Mon, 20 Feb 2023 20:13:23 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2D82F31
+	for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 14:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1676991213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lz+kuCx3fUCyqGaj7U5BHelzvDcWbYIyQAYw3yATLuY=;
+	b=QkSPSW9KGA6cKD5ZXdfm9p2g3ytu+5FsPC5QvrWoi2SrPvePMiqtk4JZU0cLVIMtBxMqG3
+	bSkgaGt/bWJ9UxIzmPRp3ILVQpRTAn+vnhgvvmogbC3JI3JV5iLuWorHJaSEGP5aLVs+Mv
+	U0hs23SNyLZ44xr/DQJuuRlKlL885vo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-91-X29BUcaBNP6bpHRXOjbfQQ-1; Tue, 21 Feb 2023 09:53:31 -0500
+X-MC-Unique: X29BUcaBNP6bpHRXOjbfQQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49ABE858F09;
+	Tue, 21 Feb 2023 14:53:30 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.195.177])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 77316140EBF4;
+	Tue, 21 Feb 2023 14:53:28 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	linux-staging@lists.linux.dev,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH 1/4] drivers: staging: rtl8723bs: Fix locking in _rtw_join_timeout_handler()
+Date: Tue, 21 Feb 2023 15:53:23 +0100
+Message-Id: <20230221145326.7808-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] staging: rtl8712: Fix multiple line dereference
-Content-Language: en-US
-To: Shibo Li <zzutcyha@163.com>, Larry Finger <Larry.Finger@lwfinger.net>,
- Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230220084050.18459-1-zzutcyha@163.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <20230220084050.18459-1-zzutcyha@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On 2/20/23 09:40, Shibo Li wrote:
-> This patch fixes the following warning in rtl871x_mlme.c
-> 
-> WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.PrivacyAlgrthm'
-> 
-> Signed-off-by: Shibo Li <zzutcyha@163.com>
-> ---
->   drivers/staging/rtl8712/rtl871x_mlme.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-> index 63e12b157001..cc47c1cedd4e 100644
-> --- a/drivers/staging/rtl8712/rtl871x_mlme.c
-> +++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-> @@ -773,8 +773,8 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
->   						adapter->securitypriv.busetkipkey = false;
->   						adapter->securitypriv.bgrpkey_handshake = false;
->   						ptarget_sta->ieee8021x_blocked = true;
-> -						ptarget_sta->XPrivacy = adapter->
-> -						securitypriv.PrivacyAlgrthm;
-> +						ptarget_sta->XPrivacy =
-> +							adapter->securitypriv.PrivacyAlgrthm;
->   						memset((u8 *)&ptarget_sta->x_UncstKey,
->   							 0,
->   							 sizeof(union Keytype));
+Commit 041879b12ddb ("drivers: staging: rtl8192bs: Fix deadlock in
+rtw_joinbss_event_prehandle()") besides fixing the deadlock also
+modified _rtw_join_timeout_handler() to use spin_[un]lock_irq()
+instead of spin_[un]lock_bh().
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> AW-NU120
+_rtw_join_timeout_handler() calls rtw_do_join() which takes
+pmlmepriv->scanned_queue.lock using spin_[un]lock_bh(). This
+spin_unlock_bh() call re-enables softirqs which triggers an oops in
+kernel/softirq.c: __local_bh_enable_ip() when it calls
+lockdep_assert_irqs_enabled():
+
+[  244.506087] WARNING: CPU: 2 PID: 0 at kernel/softirq.c:376 __local_bh_enable_ip+0xa6/0x100
+...
+[  244.509022] Call Trace:
+[  244.509048]  <IRQ>
+[  244.509100]  _rtw_join_timeout_handler+0x134/0x170 [r8723bs]
+[  244.509468]  ? __pfx__rtw_join_timeout_handler+0x10/0x10 [r8723bs]
+[  244.509772]  ? __pfx__rtw_join_timeout_handler+0x10/0x10 [r8723bs]
+[  244.510076]  call_timer_fn+0x95/0x2a0
+[  244.510200]  __run_timers.part.0+0x1da/0x2d0
+
+This oops is causd by the switch to spin_[un]lock_irq() which disables
+the IRQs for the entire duration of _rtw_join_timeout_handler().
+
+Disabling the IRQs is not necessary since all code taking this lock
+runs from either user contexts or from softirqs, switch back to
+spin_[un]lock_bh() to fix this.
+
+Fixes: 041879b12ddb ("drivers: staging: rtl8192bs: Fix deadlock in rtw_joinbss_event_prehandle()")
+Cc: Duoming Zhou <duoming@zju.edu.cn>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index c6fd6cf741ef..ea2a6566e51b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1549,7 +1549,7 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+ 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
+ 		return;
+ 
+-	spin_lock_irq(&pmlmepriv->lock);
++	spin_lock_bh(&pmlmepriv->lock);
+ 
+ 	if (rtw_to_roam(adapter) > 0) { /* join timeout caused by roaming */
+ 		while (1) {
+@@ -1577,7 +1577,7 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+ 
+ 	}
+ 
+-	spin_unlock_irq(&pmlmepriv->lock);
++	spin_unlock_bh(&pmlmepriv->lock);
+ }
+ 
+ /*
+-- 
+2.39.1
+
