@@ -1,42 +1,43 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E196EC7
-	for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 18:32:24 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id eg37so17183211edb.12
-        for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 10:32:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12BB8C0B
+	for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 18:32:25 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id g1so20750225edz.7
+        for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 10:32:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0EeJlO8QUl1DZMAlcd+EODPEJDc+DBbZZnZ+JDzoEdg=;
-        b=kWq4ecHFuWXMSQZOzGBaSB3TZctWJCNGUWIu8P3VK24KihWheD/Hkgnz3BhcjBm+Ov
-         z8eahBqmrp2SwL0wBFOCTd+8Knk4Nx90ZwYEY03DeTfn6M/VqR6QPOqhy5+242r9yDzt
-         Ebj1teN7A4oA8YgIQe8byK5O6YanmP4Rk4ZeqmJR7xKaFSbu8E7tfn3utJjUFoZ988os
-         QEbB2xHc3wW1X2WPp4qC8P+OOaY4c9nDtBXBo3LdSxRv8OmHfXrfBf1SVw9icnA4wePn
-         SA8PnAH5xFwF8CR18LYgwYpvbCp28OMh9f4PgaM5DxNZ/D9Fk68DmsvDr2FtOiXzVAsJ
-         Jbqg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wVgROdQULqVTm5cZsK90w6/mn8hCbHN5YbVIzDSMgeI=;
+        b=XthLSfsJ3sDWeedA3vMFgH+nYyTWffN3ykvdKMIgZCII5Lp0jEbv1STD7zYnHiAXsu
+         HbvRZ0JONBH3SVuVB+D0CU+OjLkg8WrvZOXAe8YXc7Xs3p4civ1HOb80g6Tv3mnRfP95
+         9sDvNh3FXGQz+/yu7FB5/GsOZLhL+JO0XCqNK3uF8VLDnB+TJ8TX/6mn2YAqLu0HIxIX
+         vr7d7tzQV75/NlCycYQmnXfYXZPj+dE/8KeQcg69mWpegtRdxTHv4Pr/act1AhAqOqY7
+         cgGIryvz4WE5E7Q5hzUSNbz7aYTdhQBOuwDn4qbY+NnweeqjJBM0oFLTCbhT/5SFR52S
+         VNBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0EeJlO8QUl1DZMAlcd+EODPEJDc+DBbZZnZ+JDzoEdg=;
-        b=olif533kH9p5x7H2EfIRJ9A9M0CH5mYqhDj7UP454zadZGLwYeFKg8+87tYBxsbQ7z
-         SMvSRocQWXjZV1Oiw9KLygpt1nBUBUTpxDnB/8oGzca7uc+UDgq4Iqw4xJgJ16GlflU4
-         /k/7nBdkqDVgFFWVbIz64kpQE07S85FYVF3BuIbsRJy7Vut9on4bu4VyxH7HoG+B+XbQ
-         pabtyP0tU1p21B5FENjyGk8dsjxUdV89iMOIwmemG4ykmEx3QnMvXNrEiy+iwoDWbG+j
-         nLWHVpOB+Du5IdmJadeSceHXXLd006IvQ5S6MlFN9hcBdTRxrWTN8U+Cd2vBF/Gk24qO
-         2/pg==
-X-Gm-Message-State: AO0yUKVuZvA7cBkIPIfJwsS6ERFzyJn0qeb2VlXfUfVLjX+417hO77nk
-	3PGtDUZkLW0xMNjGj7yLzkI=
-X-Google-Smtp-Source: AK7set86GBsI14U6VEaKmjm3BNimI8/ZzoK6Ek4xMuPyAJKltWK2m8xRKjLbpVGkaLUsc2k/7+79Yw==
-X-Received: by 2002:a05:6402:215:b0:4af:515d:5658 with SMTP id t21-20020a056402021500b004af515d5658mr2968051edv.35.1677004342754;
-        Tue, 21 Feb 2023 10:32:22 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wVgROdQULqVTm5cZsK90w6/mn8hCbHN5YbVIzDSMgeI=;
+        b=BvSSj3u2F+71CQkbarcM3S0bK8Hf8ZM9ordGFRWrBTU8ZLm0N8W8SE8gjpx9mjw4Xn
+         I4sh7m0gJ/6R3z6VFoEnM9JVyg3XYJXZT3oimRk7/Ysg5AJwRR/fuKiwitr7ILp1RQZJ
+         zlXQpLxn/aaoSLsgVeFmP3h4VhVzyHtclaQ46tzmLo9n0ULLO8qFqUuO9XxZSI3LTdsF
+         cSeQILam4+0eEmXEIApgJS8F/yWmLt3KbYKlFcvQbkj72dvqnfPAaITdazS03ZAwz/YW
+         od8RelavRU6/t9aTBN2+jdBlofF7J6SpAqnMkeR6EdW+LFiz5Jf+nw/DUj4/RuwvI281
+         4upg==
+X-Gm-Message-State: AO0yUKWhOdCXGTdi0phGjJhUC6Dg8e0E/3cvHe46zS94LZ3vrCYW095C
+	CKafJ+i3UR8YJhV056YiFBU=
+X-Google-Smtp-Source: AK7set+jQ+9BvsQ5gp+9b4ZiiTcgH/+mt6qbyEDN5u7cOiJ5nhFbV8IA7F8K4+TrBiJSTmaG8DqX7Q==
+X-Received: by 2002:a05:6402:406:b0:4ac:b8eb:e398 with SMTP id q6-20020a056402040600b004acb8ebe398mr4582455edv.6.1677004343982;
+        Tue, 21 Feb 2023 10:32:23 -0800 (PST)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id i3-20020a50c3c3000000b004af5aa16fcasm169102edf.66.2023.02.21.10.32.21
+        by smtp.gmail.com with ESMTPSA id i3-20020a50c3c3000000b004af5aa16fcasm169102edf.66.2023.02.21.10.32.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 10:32:22 -0800 (PST)
+        Tue, 21 Feb 2023 10:32:23 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -55,10 +56,12 @@ Cc: devicetree@vger.kernel.org,
 	alsa-devel@alsa-project.org,
 	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 00/10] Fix sound on ASUS Transformers
-Date: Tue, 21 Feb 2023 20:32:01 +0200
-Message-Id: <20230221183211.21964-1-clamor95@gmail.com>
+Subject: [PATCH v1 01/10] dt-bindings: sound: nvidia,tegra-audio-common: add new property
+Date: Tue, 21 Feb 2023 20:32:02 +0200
+Message-Id: <20230221183211.21964-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230221183211.21964-1-clamor95@gmail.com>
+References: <20230221183211.21964-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,56 +70,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- add quirk for headset detection used by some T30 devices
-  (ASUS Transformers, LG Optimus 4X HD and Vu);
-- add RT5631 and MAX9808x machine drivers
-- add Fortemedia FM34NE DSP driver used by ASUS Transformers
-  and mandatory for correct sound work
-- bind everything into working configuration
+Add nvidia,coupled-mic-hp-det property to use Mic detect GPIO only
+if HP GPIO is in active state.
 
-David Heidelberg (1):
-  dt-bindings: sound: nvidia,tegra-audio: add RT5631 CODEC
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ .../devicetree/bindings/sound/nvidia,tegra-audio-common.yaml  | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Svyatoslav Ryhel (9):
-  dt-bindings: sound: nvidia,tegra-audio-common: add new property
-  sound: soc: jack: allow multiple interrupt per gpio
-  ASoC: tegra: Support RT5631 by machine driver
-  dt-bindings: sound: nvidia,tegra-audio: add MAX9808x CODEC
-  ASoC: tegra: Support MAX9808x by machine driver
-  ARM: tegra: transformers: update bindings of sound graph
-  dt-bindings: dsp: add Fortemedia FM34 DSP
-  staging: dsp: add support for Fortemedia FM34NE DSP
-  ARM: tegra: transformers: bind FM34NE DSP on supported devices
-
- .../bindings/dsp/fortemedia,dsp.yaml          |  95 ++
- .../sound/nvidia,tegra-audio-common.yaml      |   4 +
- .../sound/nvidia,tegra-audio-max9808x.yaml    |  93 ++
- .../sound/nvidia,tegra-audio-rt5631.yaml      |  88 ++
- arch/arm/boot/dts/tegra20-asus-tf101.dts      |  22 +-
- arch/arm/boot/dts/tegra30-asus-tf201.dts      |  46 +
- arch/arm/boot/dts/tegra30-asus-tf300t.dts     |  34 +-
- arch/arm/boot/dts/tegra30-asus-tf300tg.dts    |  36 +
- arch/arm/boot/dts/tegra30-asus-tf700t.dts     |  36 +
- .../dts/tegra30-asus-transformer-common.dtsi  |   9 +-
- .../arm/boot/dts/tegra30-pegatron-chagall.dts |  29 +-
- drivers/staging/Kconfig                       |   2 +
- drivers/staging/Makefile                      |   1 +
- drivers/staging/dsp/Kconfig                   |   7 +
- drivers/staging/dsp/Makefile                  |   2 +
- drivers/staging/dsp/dsp-fm34ne.c              | 364 ++++++++
- drivers/staging/dsp/dsp-fm34ne.h              | 845 ++++++++++++++++++
- sound/soc/soc-jack.c                          |   1 +
- sound/soc/tegra/Kconfig                       |  18 +
- sound/soc/tegra/tegra_asoc_machine.c          | 120 ++-
- 20 files changed, 1837 insertions(+), 15 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/dsp/fortemedia,dsp.yaml
- create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra-audio-max9808x.yaml
- create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml
- create mode 100644 drivers/staging/dsp/Kconfig
- create mode 100644 drivers/staging/dsp/Makefile
- create mode 100644 drivers/staging/dsp/dsp-fm34ne.c
- create mode 100644 drivers/staging/dsp/dsp-fm34ne.h
-
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-common.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-common.yaml
+index 82801b4f46dd..7c1e9895ce85 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-common.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-common.yaml
+@@ -80,4 +80,8 @@ properties:
+     type: boolean
+     description: The Mic Jack represents state of the headset microphone pin
+ 
++  nvidia,coupled-mic-hp-det:
++    type: boolean
++    description: The Mic detect GPIO is viable only if HP detect GPIO is active
++
+ additionalProperties: true
 -- 
 2.37.2
 
