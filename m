@@ -1,48 +1,91 @@
-Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7D323A5
-	for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 09:16:37 +0000 (UTC)
-Received: by mail.corrib.pl (Postfix, from userid 1001)
-	id 19C07A365B; Wed, 22 Feb 2023 09:10:49 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
-	t=1677057071; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
-	h=Date:From:To:Subject:From;
-	b=ktIxd6NgdXS/YzDmplD4RAEcAs1mMc3U3C1wAv6hJe5ypavdw68YpOFiQRyfmzCX4
-	 RVC09tXWISyARLBNqBr9Ewp+UOW+KYfud+ZIU8QfDu9vPqh/2JNw4A4expV+qYs7o6
-	 awBkXMOzEE6EpDlb6s+tVih9qgUmjuK+wa1UQI6x4niJjqu6ZUYKrmN3o1VYS3HGaI
-	 YFdl+grQdyFB0zY3vz1yMJ+FQugu+0PUwUzIVxXpUg62DKVPI/snKPe3VWY6sniCaI
-	 Of04YtNvYoUUPxO6zzOT43o0RELgTaj++RF352jur2wK88uvXTtg6YgobRhmynsS83
-	 mDhROrx4QVU2w==
-Received: by mail.corrib.pl for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 09:10:40 GMT
-Message-ID: <20230222074502-0.1.5n.hcsp.0.neohwg6mti@corrib.pl>
-Date: Wed, 22 Feb 2023 09:10:40 GMT
-From: =?UTF-8?Q?"Szczepan_Kie=C5=82basa"?= <szczepan.kielbasa@corrib.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Faktoring
-X-Mailer: mail.corrib.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF4D23A5
+	for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 09:21:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE8BC433EF;
+	Wed, 22 Feb 2023 09:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1677057665;
+	bh=TgIaH9NMwPd4IhHNqQrT8ss2+K0UDdLN1lq1CLdEZCQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=w1SvIo8TA/ZkeGpPbu4v1va1H22ECi2GS/Kb6d3Y+5sxapIw0kZYFBUWTzJetBkwd
+	 qXnzkkqXCQzjsCwmS+UnCzOapWwSpROaY3AUeTHvlaAurUoVyye5MREZkerH8Z06Pe
+	 XxsAVLaZoKjjjgDSX6y81ebjN5UrdKXW6QZ8Oqss=
+Date: Wed, 22 Feb 2023 10:21:02 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Maxim Schwalm <maxim.schwalm@gmail.com>,
+	Dmitry Osipenko <digetx@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 09/10] staging: dsp: add support for Fortemedia FM34NE
+ DSP
+Message-ID: <Y/Xefn/76JW1C03d@kroah.com>
+References: <20230221183211.21964-1-clamor95@gmail.com>
+ <20230221183211.21964-10-clamor95@gmail.com>
+ <Y/UbMH5tXDgsvSbD@kroah.com>
+ <CAPVz0n2-giCF9Z9fMimTFQnGk73HAdfU4SitGn58iZapLjeuTQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n2-giCF9Z9fMimTFQnGk73HAdfU4SitGn58iZapLjeuTQ@mail.gmail.com>
 
-Dzie=C5=84 dobry,
+On Wed, Feb 22, 2023 at 10:19:47AM +0200, Svyatoslav Ryhel wrote:
+> вт, 21 лют. 2023 р. о 21:27 Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> пише:
+> >
+> > On Tue, Feb 21, 2023 at 08:32:10PM +0200, Svyatoslav Ryhel wrote:
+> > > FM34NE is digital sound processing chip used for active
+> > > noise suppression mainly on ASUS Transformers.
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  drivers/staging/Kconfig          |   2 +
+> > >  drivers/staging/Makefile         |   1 +
+> > >  drivers/staging/dsp/Kconfig      |   7 +
+> > >  drivers/staging/dsp/Makefile     |   2 +
+> > >  drivers/staging/dsp/dsp-fm34ne.c | 364 +++++++++++++
+> > >  drivers/staging/dsp/dsp-fm34ne.h | 845 +++++++++++++++++++++++++++++++
+> > >  6 files changed, 1221 insertions(+)
+> > >  create mode 100644 drivers/staging/dsp/Kconfig
+> > >  create mode 100644 drivers/staging/dsp/Makefile
+> > >  create mode 100644 drivers/staging/dsp/dsp-fm34ne.c
+> > >  create mode 100644 drivers/staging/dsp/dsp-fm34ne.h
+> >
+> >
+> > Sorry, but why is this going into drivers/staging/ at all?  What is
+> > needed to be done to get this out of staging?  Why not do that work
+> > right now?  At the least, we need a TODO file in the directory that
+> > lists what needs to be done and who is responsible for it.
+> 
+> Because this driver sets up fm34 and switches it to bypass mode allowing
+> sound to work on the device. There is no dsp framework in kernel which could
+> be called to operate dsp from the actual sound codec. (If there is, I
+> would be glad
+> if you show me). Fm34 must be active only on DMIC use, all other cases require
+> it to be in bypass.
 
-rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
-ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
-wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
+That does not explain at all why this needs to go into drivers/staging/
+and not the normal portion of the kernel.  Why this specific location?
+What is wrong with it that requires it to go here?
 
-Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
-stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
-z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
- kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
-adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
-Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
+In other words, you need to document _WHY_ it must go here as it is not
+obvious at all.
 
+thanks,
 
-Pozdrawiam
-Szczepan Kie=C5=82basa
+greg k-h
