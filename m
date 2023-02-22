@@ -1,52 +1,47 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238CA1C02;
-	Wed, 22 Feb 2023 04:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DFF1C3F;
+	Wed, 22 Feb 2023 05:35:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677039545; x=1708575545;
+  t=1677044100; x=1708580100;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=foVqbNwsSaT/XbSq2L56LbM/ErXYBob5z7eeWcgIvMs=;
-  b=n4FwRSvE+e09VXw8q1yqFxE8Qenb+DymE0uEPpOFQrsV5dV8U+7GzQZg
-   TXxnw/7j2d52SmtusrzrcTMgjhsWF9AcWexeMCHnUdFeG5ZxcNw2HORRB
-   A+w8gGqzr6AlDCFStbHw8ccqKS7rpUggkxjlljrQueDI0iIEiGDOCOArq
-   lofl84OsnGPPayaolf0du1DioTAR2CO58O35lAtUO5LjnKysMPZ/qtdaj
-   0u/5a5Ws7JF+Yd8JiXso4BooJa7qi39EZV945j8BPa+SXUc2yKB66UP63
-   pMoqtUmLY+wtXcS/67KdTMae9h5Q04d5lLldhM1MqQjud6tCXMWRAXl0Z
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="395314728"
+  bh=c+NPOUZdVR+EOq3CpFB0IxbMJMQPa7X3cq5jJue4q7g=;
+  b=A9uoOM8EYw8Q3SPQy9AOqMYiUJH7nsYRPNeIEzF5tU9kJh+ecpuUP7Gm
+   +8yoIxQFySPy0k+PP1lKnR191FJWNiQDHUfOQ6lp6fbbtAFfI3dGJZ9Wz
+   vpaK8NF3oy7R/oQv9nIBRDc8AE6LeBEyl80uB5Gsa4xfveeO8izhE/coY
+   b/Il8eMft0fWzVx1/qLvoDno6+5I70eN6BE1knr/5nwqeS7NKnqCR+O05
+   O8KEZUYm39J3UdWNpDb2efq5yWFiKOO0zhU8kmbA93skwr2+LF7mQA4mG
+   TwMGJAjL06mbruFIb58TjQYG/XmwG7E3Qp1ckZDrip50vqg3Oi5rXaJki
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="330565368"
 X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
-   d="scan'208";a="395314728"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 20:19:04 -0800
+   d="scan'208";a="330565368"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 21:34:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="1000851954"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="814792614"
 X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; 
-   d="scan'208";a="1000851954"
-Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Feb 2023 20:19:00 -0800
-Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
+   d="scan'208";a="814792614"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2023 21:34:56 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUgaq-0000bB-0u;
-	Wed, 22 Feb 2023 04:19:00 +0000
-Date: Wed, 22 Feb 2023 12:18:17 +0800
+	id 1pUhmJ-00001b-2p;
+	Wed, 22 Feb 2023 05:34:55 +0000
+Date: Wed, 22 Feb 2023 13:34:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 02/10] media: atomisp: Remove continuous mode support
-Message-ID: <202302221210.tOVPwauV-lkp@intel.com>
-References: <20230221145906.8113-3-hdegoede@redhat.com>
+To: Shibo Li <zzutcyha@163.com>, Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Shibo Li <zzutcyha@163.com>
+Subject: Re: [PATCH] staging: rtl8712: Fix Sparse warnings in
+ rtl871x_ioctl_linux.c
+Message-ID: <202302221320.dttJ7Puv-lkp@intel.com>
+References: <20230220143758.4396-1-zzutcyha@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,120 +50,119 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230221145906.8113-3-hdegoede@redhat.com>
+In-Reply-To: <20230220143758.4396-1-zzutcyha@163.com>
 
-Hi Hans,
+Hi Shibo,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Yet something to improve:
 
-[auto build test WARNING on media-tree/master]
-[cannot apply to linus/master v6.2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-atomisp-Remove-depth-mode-support/20230221-230417
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230221145906.8113-3-hdegoede%40redhat.com
-patch subject: [PATCH 02/10] media: atomisp: Remove continuous mode support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230222/202302221210.tOVPwauV-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
+patch link:    https://lore.kernel.org/r/20230220143758.4396-1-zzutcyha%40163.com
+patch subject: [PATCH] staging: rtl8712: Fix Sparse warnings in rtl871x_ioctl_linux.c
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230222/202302221320.dttJ7Puv-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/130cc40ea8b4d6e5d3a752313fcffe29b63c46a5
+        # https://github.com/intel-lab-lkp/linux/commit/7117082894534ef14c409d6a9070fa051a84f619
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hans-de-Goede/media-atomisp-Remove-depth-mode-support/20230221-230417
-        git checkout 130cc40ea8b4d6e5d3a752313fcffe29b63c46a5
+        git fetch --no-tags linux-review Shibo-Li/staging-rtl8712-Fix-Sparse-warnings-in-rtl871x_ioctl_linux-c/20230220-224057
+        git checkout 7117082894534ef14c409d6a9070fa051a84f619
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/media/atomisp/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/rtl8712/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302221210.tOVPwauV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302221320.dttJ7Puv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/staging/media/atomisp/pci/atomisp_cmd.c: In function 'atomisp_get_dvs2_bq_resolutions':
->> drivers/staging/media/atomisp/pci/atomisp_cmd.c:1919:44: warning: variable 'input_config' set but not used [-Wunused-but-set-variable]
-    1919 |         struct ia_css_stream_input_config *input_config = NULL;
-         |                                            ^~~~~~~~~~~~
-   drivers/staging/media/atomisp/pci/atomisp_cmd.c: In function 'atomisp_set_fmt':
->> drivers/staging/media/atomisp/pci/atomisp_cmd.c:4673:36: warning: variable 'isp_sink_fmt' set but not used [-Wunused-but-set-variable]
-    4673 |         struct v4l2_mbus_framefmt *isp_sink_fmt;
-         |                                    ^~~~~~~~~~~~
+   drivers/staging/rtl8712/rtl871x_ioctl_linux.c: In function 'r8711_wx_set_essid':
+>> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1272:62: error: 'struct wlan_bssid_ex' has no member named 'configurationInfrastructureMode'
+    1272 |                                         if (pnetwork->network.configurationInfrastructureMode
+         |                                                              ^
+>> drivers/staging/rtl8712/rtl871x_ioctl_linux.c:1274:81: error: request for member 'cur_network' in something not a structure or union
+    1274 |                                                 padapter->mlmepriv.assoc_by_rssi.
+         |                                                                                 ^
 
 
-vim +/input_config +1919 drivers/staging/media/atomisp/pci/atomisp_cmd.c
+vim +1272 drivers/staging/rtl8712/rtl871x_ioctl_linux.c
 
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1910  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1911  /*
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1912   * Function to get DVS2 BQ resolution settings
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1913   */
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1914  int atomisp_get_dvs2_bq_resolutions(struct atomisp_sub_device *asd,
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1915  				    struct atomisp_dvs2_bq_resolutions *bq_res)
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1916  {
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1917  	struct ia_css_pipe_config *pipe_cfg = NULL;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1918  	struct ia_css_stream_config *stream_cfg = NULL;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19 @1919  	struct ia_css_stream_input_config *input_config = NULL;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1920  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1921  	struct ia_css_stream *stream =
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1922  		    asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1923  	if (!stream) {
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1924  		dev_warn(asd->isp->dev, "stream is not created");
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1925  		return -EAGAIN;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1926  	}
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1927  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1928  	pipe_cfg = &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
-c01d5546773e3a drivers/staging/media/atomisp/pci/atomisp_cmd.c          Mauro Carvalho Chehab 2020-05-21  1929  		   .pipe_configs[IA_CSS_PIPE_ID_VIDEO];
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1930  	stream_cfg = &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL]
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1931  		     .stream_config;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1932  	input_config = &stream_cfg->input_config;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1933  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1934  	if (!bq_res)
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1935  		return -EINVAL;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1936  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1937  	/* the GDC output resolution */
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1938  	bq_res->output_bq.width_bq = pipe_cfg->output_info[0].res.width / 2;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1939  	bq_res->output_bq.height_bq = pipe_cfg->output_info[0].res.height / 2;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1940  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1941  	bq_res->envelope_bq.width_bq = 0;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1942  	bq_res->envelope_bq.height_bq = 0;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1943  	/* the GDC input resolution */
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1944  	bq_res->source_bq.width_bq = bq_res->output_bq.width_bq +
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1945  				     pipe_cfg->dvs_envelope.width / 2;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1946  	bq_res->source_bq.height_bq = bq_res->output_bq.height_bq +
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1947  				      pipe_cfg->dvs_envelope.height / 2;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1948  	/*
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1949  	 * Bad pixels caused by spatial filter processing
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1950  	 * ISP filter resolution should be given by CSS/FW, but for now
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1951  	 * there is not such API to query, and it is fixed value, so
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1952  	 * hardcoded here.
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1953  	 */
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1954  	bq_res->ispfilter_bq.width_bq = 12 / 2;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1955  	bq_res->ispfilter_bq.height_bq = 12 / 2;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1956  	/* spatial filter shift, always 4 pixels */
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1957  	bq_res->gdc_shift_bq.width_bq = 4 / 2;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1958  	bq_res->gdc_shift_bq.height_bq = 4 / 2;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1959  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1960  	if (asd->params.video_dis_en) {
-130cc40ea8b4d6 drivers/staging/media/atomisp/pci/atomisp_cmd.c          Hans de Goede         2023-02-21  1961  		bq_res->envelope_bq.width_bq = pipe_cfg->dvs_envelope.width / 2 -
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1962  					       bq_res->ispfilter_bq.width_bq;
-130cc40ea8b4d6 drivers/staging/media/atomisp/pci/atomisp_cmd.c          Hans de Goede         2023-02-21  1963  		bq_res->envelope_bq.height_bq = pipe_cfg->dvs_envelope.height / 2 -
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1964  						bq_res->ispfilter_bq.height_bq;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1965  	}
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1966  
-eaa399eb542cdf drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1967  	dev_dbg(asd->isp->dev,
-eaa399eb542cdf drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1968  		"source_bq.width_bq %d, source_bq.height_bq %d,\nispfilter_bq.width_bq %d, ispfilter_bq.height_bq %d,\ngdc_shift_bq.width_bq %d, gdc_shift_bq.height_bq %d,\nenvelope_bq.width_bq %d, envelope_bq.height_bq %d,\noutput_bq.width_bq %d, output_bq.height_bq %d\n",
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1969  		bq_res->source_bq.width_bq, bq_res->source_bq.height_bq,
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1970  		bq_res->ispfilter_bq.width_bq, bq_res->ispfilter_bq.height_bq,
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1971  		bq_res->gdc_shift_bq.width_bq, bq_res->gdc_shift_bq.height_bq,
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1972  		bq_res->envelope_bq.width_bq, bq_res->envelope_bq.height_bq,
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1973  		bq_res->output_bq.width_bq, bq_res->output_bq.height_bq);
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1974  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1975  	return 0;
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1976  }
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_cmd.c Mauro Carvalho Chehab 2020-04-19  1977  
+  1218	
+  1219	/* set ssid flow
+  1220	 * s1. set_802_11_infrastructure_mode()
+  1221	 * s2. set_802_11_authenticaion_mode()
+  1222	 * s3. set_802_11_encryption_mode()
+  1223	 * s4. set_802_11_ssid()
+  1224	 *
+  1225	 * This function intends to handle the Set ESSID command.
+  1226	 * Currently, the request comes via the Wireless Extensions' SIOCSIWESSID ioctl.
+  1227	 *
+  1228	 * For this operation to succeed, there is no need for the interface to be Up.
+  1229	 *
+  1230	 */
+  1231	static int r8711_wx_set_essid(struct net_device *dev,
+  1232					struct iw_request_info *a,
+  1233					union iwreq_data *wrqu, char *extra)
+  1234	{
+  1235		struct _adapter *padapter = netdev_priv(dev);
+  1236		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+  1237		struct  __queue *queue = &pmlmepriv->scanned_queue;
+  1238		struct wlan_network *pnetwork = NULL;
+  1239		enum NDIS_802_11_AUTHENTICATION_MODE	authmode;
+  1240		struct ndis_802_11_ssid ndis_ssid;
+  1241		u8 *dst_ssid, *src_ssid;
+  1242		struct list_head *phead;
+  1243		u32 len;
+  1244	
+  1245		if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
+  1246			return -EBUSY;
+  1247		if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+  1248			return 0;
+  1249		if (wrqu->essid.length > IW_ESSID_MAX_SIZE)
+  1250			return -E2BIG;
+  1251		authmode = padapter->securitypriv.ndisauthtype;
+  1252		if (wrqu->essid.flags && wrqu->essid.length) {
+  1253			len = (wrqu->essid.length < IW_ESSID_MAX_SIZE) ?
+  1254			       wrqu->essid.length : IW_ESSID_MAX_SIZE;
+  1255			memset(&ndis_ssid, 0, sizeof(struct ndis_802_11_ssid));
+  1256			ndis_ssid.SsidLength = len;
+  1257			memcpy(ndis_ssid.Ssid, extra, len);
+  1258			src_ssid = ndis_ssid.Ssid;
+  1259			phead = &queue->queue;
+  1260			pmlmepriv->pscanned = phead->next;
+  1261			while (1) {
+  1262				if (end_of_queue_search(phead, pmlmepriv->pscanned))
+  1263					break;
+  1264				pnetwork = container_of(pmlmepriv->pscanned,
+  1265							struct wlan_network, list);
+  1266				pmlmepriv->pscanned = pmlmepriv->pscanned->next;
+  1267				dst_ssid = pnetwork->network.Ssid.Ssid;
+  1268				if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.SsidLength))
+  1269				    && (pnetwork->network.Ssid.SsidLength ==
+  1270				     ndis_ssid.SsidLength)) {
+  1271					if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
+> 1272						if (pnetwork->network.configurationInfrastructureMode
+  1273							!=
+> 1274							padapter->mlmepriv.assoc_by_rssi.
+  1275							cur_network.network.InfrastructureMode)
+  1276							continue;
+  1277					}
+  1278	
+  1279					r8712_set_802_11_infrastructure_mode(
+  1280					     padapter,
+  1281					     pnetwork->network.InfrastructureMode);
+  1282					break;
+  1283				}
+  1284			}
+  1285			r8712_set_802_11_authentication_mode(padapter, authmode);
+  1286			r8712_set_802_11_ssid(padapter, &ndis_ssid);
+  1287		}
+  1288		return -EINPROGRESS;
+  1289	}
+  1290	
 
 -- 
 0-DAY CI Kernel Test Service
