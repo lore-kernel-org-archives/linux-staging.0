@@ -1,53 +1,54 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5241FB5
-	for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 08:01:11 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id f13so26329804edz.6
-        for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 00:01:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D5A1FB5
+	for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 08:02:22 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id h16so27064097edz.10
+        for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 00:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dlCUWg0V7l7YUSFlT2P4WSzL8o1xqPnxClcbe1tdHhY=;
-        b=Rl94logtw4OVPqPkZoH4YHWPBNT3fyRn557I+IuZXOjTQ6+SNRJv/yPjxTH7tqT/cX
-         XqdgxXSF/K1SIOSpT5NOUEsjlxlfJTVryaZ8b3sFcDTPV9o8Fs3G8E/p3Din+nmvhwqG
-         jnsU1pAYzmwAb3+YnPpteyIFwj2G9PbmIyBN0Zb+8u7c3TOF3sEdQo9R9UMBzdZJ4AHm
-         kIwc732yOVbngdGgQ7+OnHhqc5PeGrLNBbQ5NP6yJPKA1628qh2WKYMJRKCktkL09INm
-         1UypSen/+pfeV4QsLVudfBjaayKL7+Zuwo3lWCdZRQU+jfGd4vfDBM+byg01SzdluKKV
-         wZKg==
+        bh=tkBz8xtUcsBFti4NW0wUs7te3xGjoS+Aw/KAsmCJ7/U=;
+        b=MtyB+AwDLBdx3hrWfMn72VuqABmErzodmuE1i59W7Hi0sCCtatLSn2V72gLtfFWuFZ
+         Ck5bK8u5m3j5hVQb2vYZuoQnMwjQjDe+wkFGGGd2g5xq9tzFN1PgFQ1LohiPQNAOCtA3
+         RGe03Y9ZkxGsnvcHBbKKA2s1MuvllsWVAWOB2XmcFjR+uJ3YKs/hOJhbFj3hvY7xMhPh
+         tE6IIcOVl1jpvw3mVRBXc35nVN/N3PHS8ijqgnH8JHO2TrcBY0eKddLAEaOQJxNuR109
+         JNFIvJLFfr+qenqBUShCSHs58EE0rWrkVN2ZlfS+WzxwoT+AhKeAY8xWDLtxps/6pQIc
+         g/1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dlCUWg0V7l7YUSFlT2P4WSzL8o1xqPnxClcbe1tdHhY=;
-        b=HOQbVGdjpnIJNR6T/iL7fHJX/0SgeMp+9qxXIa200cFvdrLGj5agMRQWwd4sEynoeE
-         FTrAUmMYqPgInzO11uX01Bl6nPUwVOKTj9WUPS9oisdfNAPtkCpRhKftP7BkhEHZNqou
-         QjR9/Spapg/SolS87vxBGpV/KKwPsC327oPSZ0cE8+OG2rNfcNqjY/FyTdCroxQotfGQ
-         ezI5WHO/5jP3R1DzTJi59UuMQ8tvlP8lmLbirr6zP38eL/UgUoCPEVwi9utf+/DvMQhC
-         yNvEiLhotzalI9ulqSlPhM5QNs1qBHEAudgqsAUBqMV9JsMIhPab3LiKo7GgoNsgs2ze
-         3xCg==
-X-Gm-Message-State: AO0yUKXFZQSpKecKXCJiSp17ZQcxCsI9YV7Mfk72fBgVRI1eaF1gBuV/
-	c+goOXTRGJ9m3iYBp2oMYs5jADqYx/1pDXNb3/I=
-X-Google-Smtp-Source: AK7set8xj9lBdPeX62Xma1nch2YV8vlnSz2QDZ40dpKo54vg1GEVrx1VOsdhxrUMU5EtCKQf3KkPFyAZRbFUahGuKdI=
-X-Received: by 2002:a17:906:4c49:b0:87b:fa21:7953 with SMTP id
- d9-20020a1709064c4900b0087bfa217953mr7243891ejw.8.1677052869804; Wed, 22 Feb
- 2023 00:01:09 -0800 (PST)
+        bh=tkBz8xtUcsBFti4NW0wUs7te3xGjoS+Aw/KAsmCJ7/U=;
+        b=Xuz7Mh+fezUkSt7CBFEOCcXmyE/7Tl8SAWZ8Vn+u0A8b+QS4+Mf9T+6a9Ql6CAzpyc
+         M2H7T1V92m2nNoChYSPQFU+5X0SfvZmkSOkftkdE/InHdSGWT6EwhJwLXtc8r6Kz+VzA
+         fE/67XT8gfZ9LAz82mUiWu5EEJ64YeYm/9Nr3DDVCU7rnMQB3ya5DqadeioqlRz+TTMC
+         bhzUJ92YHPDGw5+3qUKDVav9Lh0khZwQTHFrZBbJ6Z219JAtDEgYI/psCA4xF7iGjeEb
+         GR8iW2U2EKsTZ0aiT9BTkJ59AbYdwmhnpRNyMR1borpoQmVUf2iHNavE9bBthsmcqudz
+         J+9g==
+X-Gm-Message-State: AO0yUKXKsyh2iZ14MZkbfxMYzf52oMDls+7DLoAt6h9KQfiuqe0f+UgR
+	kSR8QrpLliMeicy4hhiddggPojtP8zvJwaa7/mw=
+X-Google-Smtp-Source: AK7set+OD7llSTDXwShjal7nbjqlkhW7eI4nbra80LETlZs6z3mfM3l2ArA/FXd6lVClZCtzfeiiDMO4Tr8r58qn+Z4=
+X-Received: by 2002:a17:906:5e5a:b0:877:747c:9745 with SMTP id
+ b26-20020a1709065e5a00b00877747c9745mr7240950eju.8.1677052940625; Wed, 22 Feb
+ 2023 00:02:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230221183211.21964-1-clamor95@gmail.com> <20230221183211.21964-5-clamor95@gmail.com>
- <Y/VEUaOIE1mk1utt@sirena.org.uk>
-In-Reply-To: <Y/VEUaOIE1mk1utt@sirena.org.uk>
+References: <20230221183211.21964-1-clamor95@gmail.com> <20230221183211.21964-8-clamor95@gmail.com>
+ <Y/VFMl5Darm7YEK1@sirena.org.uk>
+In-Reply-To: <Y/VFMl5Darm7YEK1@sirena.org.uk>
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 22 Feb 2023 10:00:58 +0200
-Message-ID: <CAPVz0n1kkXQDNhzFoa8xwqaFErNDTHSaqM07TDUHRPSnH+PvkQ@mail.gmail.com>
-Subject: Re: [PATCH v1 04/10] ASoC: tegra: Support RT5631 by machine driver
+Date: Wed, 22 Feb 2023 10:02:09 +0200
+Message-ID: <CAPVz0n072v3XVt-Ogcx1QwBfEfOG4O7e8Ge9f3rpWOqU=44Qkw@mail.gmail.com>
+Subject: Re: [PATCH v1 07/10] ARM: tegra: transformers: update bindings of
+ sound graph
 To: Mark Brown <broonie@kernel.org>
 Cc: Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
@@ -60,55 +61,16 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=D1=81=D1=80, 22 =D0=BB=D1=8E=D1=82. 2023 =D1=80. =D0=BE 00:23 Mark Brown <=
+=D1=81=D1=80, 22 =D0=BB=D1=8E=D1=82. 2023 =D1=80. =D0=BE 00:27 Mark Brown <=
 broonie@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> On Tue, Feb 21, 2023 at 08:32:05PM +0200, Svyatoslav Ryhel wrote:
+> On Tue, Feb 21, 2023 at 08:32:08PM +0200, Svyatoslav Ryhel wrote:
+> > - fix headset detection in common device tree;
 >
-> > Add Realtek ALC5631/RT5631 codec support to the Tegra ASoC machine driv=
-er.
-> > The RT5631 codec is found on devices like ASUS Transformer TF201, TF700=
-T
-> > and other Tegra-based Android tablets.
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > Signed-off-by: Ion Agorria <ion@agorria.com>
->
-> Your signoff should be last if you're the one sending this.
+> At least this should probably be split out as a separate change
+> so it can be backported as a fix.
 
-Thanks
+It should not be backported anywhere.
 
-> > +static unsigned int tegra_machine_mclk_rate_6mhz(unsigned int srate)
-> > +{
-> > +     unsigned int mclk;
-> > +
-> > +     switch (srate) {
-> > +     case 64000:
-> > +     case 88200:
-> > +     case 96000:
-> > +             mclk =3D 128 * srate;
-> > +             break;
-> > +     default:
-> > +             mclk =3D 256 * srate;
-> > +             break;
-> > +     }
-> > +     /* FIXME: Codec only requires >=3D 3MHz if OSR=3D=3D0 */
-> > +     while (mclk < 6000000)
-> > +             mclk *=3D 2;
->
-> It feels like this is complicated enough and looks like the
-> clocking is flexible enough that it might be easier to just have
-> a table of values or otherwise enumerate standard rates, seeing
-> the code I feel like I need to worry about what happens if we
-> pick a clock rate over 6MHz (the loop could give a value over
-> that), and it's not clear why we have the switch statement rather
-> than just starting at a multiple of 128 and looping an extra time.
->
-> I suspect there's going to be no meaningful downside for having
-> the clock held at over 3MHz on a tablet form factor, the usual
-> issue would be power consumption but between the larger battery
-> size you tend to have on a tablet and the power draw of the
-> screen if that's on it's likely to be into the noise practially
-> speaking.
-
-This is how downstream handled mclk rate for RT5631.
+> > - diverge control and detect elements for mic;
+> > - use GPIO mic detection on wm8903 devices;
