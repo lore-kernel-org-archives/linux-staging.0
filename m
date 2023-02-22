@@ -1,81 +1,102 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750981FB5
-	for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 07:53:41 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id i34so1504837eda.7
-        for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 23:53:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7DB1FB5
+	for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 07:56:05 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id ck15so28058234edb.0
+        for <linux-staging@lists.linux.dev>; Tue, 21 Feb 2023 23:56:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s85ej20o57EVIAZFbWgvrgnN0SkPXWj9xUiifHsTHZg=;
-        b=AFb76RWl0qx095lTG9TFJYrGSOSHsEId33Ft2ZTbU4DUX7kfqyIOv+8xnezBuHPYa1
-         yCDyIMnOZridhY9SjLWjr1yuNZYnjaiDKIytq7JCdL+N8e506wpoMBmPQ+Nx2YMRsLCu
-         RRtl75WuqhpLkXGr0F0kndHrxQhk2RMlFm7xAokmbPGAm3S9VcVvTGXs8s0X7W6B3quc
-         iBAczBLHfa2OGqN+whJaqLMPDVyvjY+Rz82MsXi7wcio17ZKeVdqIP/uP8fX/9ulnnZo
-         UmNtML76sovEkZBCTsHM6GkdL1/9B01pBEx4vUno8bi3hdeCaOdoTyfq6hkTa34gmft4
-         03oA==
+        bh=pgFg4u82TvD5fQ/qkOIk8bqnfcsUdnb5ri794YsSIUk=;
+        b=We04ug736s7NZz1w+LsI1A/zzq9lsygNQuEg8sDER1ENddmP57YgH0DhF73Y+JWZxv
+         /tQkKOc1NJciSK2RTuI9V9ykmKhcLNUXLPp/odXiLkvoEmpFg1DYZ6WAbYX1lMB+Vf0J
+         HcdpcRJElLHrax2orAiwALCfMsmsxddxsg5PxDti9agbKf9O3aUf+DX3mnCPOx2VQdwU
+         rrC7HM5M6bmAn942zaRhuBMnqlQfiDp1aEDZDCT2xhX3XyxQwrWeoVwvSeeVGPaFnIEx
+         trrHweLwcgvBvDHgxmGZBfzpruBbrGfw59+rgvrHdp6HzT4NvbsiB7MDDLsQZdulvBF5
+         gAOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s85ej20o57EVIAZFbWgvrgnN0SkPXWj9xUiifHsTHZg=;
-        b=ESh/fQ3qt2a4B4pJx3FEKR8/nxkHRxEWrRRb8YPVzNJHnGIDftgz2fHmhkryVO6O9W
-         pTqT3IviSyZ+1Hgl9j/+OIfbBqqlS+z1iPrH/T30QnNuvXvw+WBbnjr51M+g+rkiEaiY
-         2nGbRbsQeve0ZsCi7iSoCNv+2hBT8aLZR4e0lN0kMjqQyMqA5dDqAlukKK57AXPntEyp
-         5WAXbsBGY869Ndd+YsuuFsYFI6Ca6lCPi+8keXUsoKzpX5vB/rZNTYRbJxT/ZPsFqhpu
-         GFSdu8aZhP24I+CCL8HwldQRsj3wqCaRYfo9qjwFtDuIWe2DpEtOc2egsyY17Wyk1KwF
-         SvaQ==
-X-Gm-Message-State: AO0yUKW/eE5S/1gQ7xakx+jHR1x0+rMngub79ptfQCAPvFL/4ulPdum+
-	FSVv1Q0KxzShWxo8zFex7YdI8RAYo8n4r0pwJiM=
-X-Google-Smtp-Source: AK7set+0c5IFVbo5S3RjC5aOGFuL8Zs9WlbR6blsKJepl2XbT7Oc5hgv5WTV0x4z8gzWNJGZhNesPqm9d1b5s6s1HSQ=
-X-Received: by 2002:a17:907:6025:b0:877:7480:c568 with SMTP id
- fs37-20020a170907602500b008777480c568mr6954732ejc.8.1677052419551; Tue, 21
- Feb 2023 23:53:39 -0800 (PST)
+        bh=pgFg4u82TvD5fQ/qkOIk8bqnfcsUdnb5ri794YsSIUk=;
+        b=Twje+ZCNBUgfbEZ7H2d5CrFF3A9Mca4WOn7iSEhZ3TujUrxikzj86j8LlycHYMEa37
+         xw7gyDkWDy9ugfaRNWsKGr423DYUC1gSW0JAMEhQhyaTUs5RHHByYeT4/6xwyg6IDGqI
+         jK9//Itz/RUPfoSArSGEzX9IsGSvTrwxoxRpLveR2kUQL7dvvsNWX117KXphZ95POiV0
+         93MSfYg+buNNgDbeopBurRb4x3s6XZea+w5b5aWWXx2ul/DgESgLpGsFC83K2Yka/YCf
+         ZIKI2jI9+fj5FTwk6iPu8y1MuOd5k/ssXgkdjLXrRpsFpnzxHwD9pbusAM+DqH7l4zIX
+         N+Qg==
+X-Gm-Message-State: AO0yUKX3DbW/yubR8Gy4Lic9YipE3EOafo/IGzpuCfyIDkPAIpZyAyxg
+	BENPNf6mxw4vHzpvxU8KpLkpU/RCyMuwDHNIYlww0a4s6XiHYg==
+X-Google-Smtp-Source: AK7set86EqLJbVtLPn+eFpQhyilCpoGiEYS+jNbNtWWgWpm5ic8N1YNya+4HDkYqa1aZTpjG14F9tumdchiAIzrcXZo=
+X-Received: by 2002:a50:9f08:0:b0:4ab:4b85:a6a8 with SMTP id
+ b8-20020a509f08000000b004ab4b85a6a8mr3408901edf.4.1677052563525; Tue, 21 Feb
+ 2023 23:56:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230221183211.21964-1-clamor95@gmail.com> <20230221183211.21964-3-clamor95@gmail.com>
- <Y/VA3HK/jGVPbrqb@sirena.org.uk>
-In-Reply-To: <Y/VA3HK/jGVPbrqb@sirena.org.uk>
+References: <20230221183211.21964-1-clamor95@gmail.com> <20230221183211.21964-5-clamor95@gmail.com>
+ <Y/UcXNueAmrrhWG0@kadam>
+In-Reply-To: <Y/UcXNueAmrrhWG0@kadam>
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 22 Feb 2023 09:53:28 +0200
-Message-ID: <CAPVz0n2cHvKfez6=ydR8HQfAfM_bipmAzav76Gxmp6pF4wLuhw@mail.gmail.com>
-Subject: Re: [PATCH v1 02/10] sound: soc: jack: allow multiple interrupt per gpio
-To: Mark Brown <broonie@kernel.org>
+Date: Wed, 22 Feb 2023 09:55:52 +0200
+Message-ID: <CAPVz0n01YWQ6FY9RDsa1rw_36n=NKpRLokFiVTxLsMDpQEd4YA@mail.gmail.com>
+Subject: Re: [PATCH v1 04/10] ASoC: tegra: Support RT5631 by machine driver
+To: Dan Carpenter <error27@gmail.com>
 Cc: Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Maxim Schwalm <maxim.schwalm@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Maxim Schwalm <maxim.schwalm@gmail.com>, 
 	Dmitry Osipenko <digetx@gmail.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org, 
 	linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=D1=81=D1=80, 22 =D0=BB=D1=8E=D1=82. 2023 =D1=80. =D0=BE 00:08 Mark Brown <=
-broonie@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+=D0=B2=D1=82, 21 =D0=BB=D1=8E=D1=82. 2023 =D1=80. =D0=BE 21:32 Dan Carpente=
+r <error27@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> On Tue, Feb 21, 2023 at 08:32:03PM +0200, Svyatoslav Ryhel wrote:
-> > This feature is required for coupled hp-mic quirk used
-> > by some Nvidia Tegra 3 based devices work properly.
+> On Tue, Feb 21, 2023 at 08:32:05PM +0200, Svyatoslav Ryhel wrote:
+> > diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/teg=
+ra_asoc_machine.c
+> > index 78faa8bcae27..607800ec07a6 100644
+> > --- a/sound/soc/tegra/tegra_asoc_machine.c
+> > +++ b/sound/soc/tegra/tegra_asoc_machine.c
+> > @@ -51,6 +51,17 @@ static struct snd_soc_jack_gpio tegra_machine_headse=
+t_jack_gpio =3D {
+> >  };
+> >
+> >  /* Mic Jack */
 >
-> Please submit this separately, there's no meaningful dependency
-> on the rest of the series.
+> This comment doesn't make sense now.  It was never super useful, though.
+> Just delete it.
 
-RT5631 by machine driver commit contains a coupled hp-mic quirk which
-requires this commit to work properly. In v2 RT5631 machine driver bringup
-and coupled hp-mic quirk may be split into separate commits.
+It does. Headset is Mic Jack + Headphones combined. headset_check function
+performs check for a Mic Jack component in plugged Jack 3.5
 
-> Please submit patches using subject lines reflecting the style for the
-> subsystem, this makes it easier for people to identify relevant patches.
-> Look at what existing commits in the area you're changing are doing and
-> make sure your subject lines visually resemble what they're doing.
-> There's no need to resubmit to fix this alone.
+> > +static int headset_check(void *data)
+> > +{
+> > +     struct tegra_machine *machine =3D (struct tegra_machine *)data;
+> > +
+> > +     /* Detect mic insertion only if 3.5 jack is in */
+> > +     if (gpiod_get_value_cansleep(machine->gpiod_hp_det) &&
+> > +         gpiod_get_value_cansleep(machine->gpiod_mic_det))
+> > +             return SND_JACK_MICROPHONE;
+> > +
+> > +     return 0;
+> > +}
+> >
+> >  static struct snd_soc_jack tegra_machine_mic_jack;
+> >
+> > @@ -183,8 +194,15 @@ int tegra_asoc_machine_init(struct snd_soc_pcm_run=
+time *rtd)
+>
+> regards,
+> dan carpenter
