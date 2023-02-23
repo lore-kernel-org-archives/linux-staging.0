@@ -1,120 +1,99 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A241FB5
-	for <linux-staging@lists.linux.dev>; Thu, 23 Feb 2023 06:47:32 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id ee7so23836450edb.2
-        for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 22:47:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604711FB5
+	for <linux-staging@lists.linux.dev>; Thu, 23 Feb 2023 07:00:53 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id h16so39145405edz.10
+        for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 23:00:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677134850;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6CjMSX3fCv/Qr1M0aeSG/e+l/GblnDne7N25TnEl9vI=;
-        b=MAwUCEBEIh7x0Lr0V2oLN8HKK9Nn5ZwZbIFA//ovhuOIgajx6fkWg56JTkjQrQbr9t
-         L/WXYNqVV2McAS71EAQB3Oo63SZOXkxPMEZTnDRn1kjmtCytieBTNbkYu7RwpXp2A7Vs
-         TaDYpPzcRqwaCxu47TH/JDCV+SwjIc7PGhyJPFPNHb2FBTEH8ASwhJyY+mQsOGW6G7lr
-         YSkm4xBhXb/W9eGRCH41G14c2QaQ8nmPlypW7Wnwu2GQzk9K2DMVpV6U5P5HK5iDPK0c
-         +8lQwbpLbxcBUEmXnmbkb1QHbPp2kyBnUqZpWt5CNRoNdasziBejSfiGYIvHIPhBnn0X
-         4rFQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6V1kgFkz+2nmuQRL3q8czZyEspOUTUcUgYJRLDxG5Jo=;
+        b=h8jtJEetutWZ+CFqdIFBLdMLgBt/HsmmoreRRsSiEFyjsfNAQ+2h3Jogr0VJZDiz71
+         SdBLFosZ61lDdEzPyUFgJOjv+HB1IMwTFn+FZT2WefFyvUwp1m9CtMVaObnZEZ6lV6PG
+         LP2oAkOPgSJcAYaWIdt3HSWCrcp6qUdrcBYgl9O4QwdWHmsv2UlDp6hinz2OaEmrAqiR
+         AAUrQEoBC4TzbfUblLFrgEoVvp8DhnZjXhG0ZCqQJVByWtu8OkT7CvLxxPjbdxCwmnZ5
+         Tfedo+dmciYzcX9EmSJ70cd0IbGv1hkKcvxJnP3g3+k0M8qjhKkiRz2X5fAs9q3iNzI0
+         L9Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677134850;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6CjMSX3fCv/Qr1M0aeSG/e+l/GblnDne7N25TnEl9vI=;
-        b=vqWwLBFVahdZs3scGMNiSHsODPljxqwlWZd+SAN/F0xBfS7dWyDZJW3/krpsuP5UZc
-         bNY6THyRJcpbumv7d/vMKfpuqwU2x+NsQCxf3lqMJ8o96Q9oq4ypSG2AaebqbbJNy4O0
-         SjbVMjKBOwQ3rNwxD7KLY5jE7rqnAPqWC1GqZuc3JUeeb6AhRDg4Ae/BONjK8e1N0YjQ
-         fsNhXK9KhZDGYLy2zcywQ7oDSu9vQqPdPuZDD3BbI3vG1/+I7JzAIOiKG+4AOkubNiZZ
-         fFdTxMn/0k2B6Ghv3W1x8qmtAjAlMQt/I0PqwZLsZmm5tXX3nQNtpW0CMa/eHZuMhs6w
-         IGmQ==
-X-Gm-Message-State: AO0yUKXCRJn9yenDjc5LGOxfjETJnLDQRmtTM+o9hq2ockdJXVC/Owvh
-	ZoWucSLBAXmazD42xSZ6pfs=
-X-Google-Smtp-Source: AK7set89d0/XCAaY6TDRJ0GNgheYEinTgayLhXErICIVlYtWFn5N4+TqzuXiuKgyZjytwk16GCoecg==
-X-Received: by 2002:a05:6402:1e8e:b0:4ad:de7:253f with SMTP id f14-20020a0564021e8e00b004ad0de7253fmr11531165edf.3.1677134850536;
-        Wed, 22 Feb 2023 22:47:30 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id h21-20020a50cdd5000000b004af5968cb3bsm2614654edj.17.2023.02.22.22.47.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 22:47:29 -0800 (PST)
-Date: Thu, 23 Feb 2023 07:47:28 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: rtl8192e: Remove empty struct rtl819x_ops
-Message-ID: <31b5b0ba88d7b07b0407956d56446e8f0e62e3e7.1677133271.git.philipp.g.hortmann@gmail.com>
-References: <cover.1677133271.git.philipp.g.hortmann@gmail.com>
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6V1kgFkz+2nmuQRL3q8czZyEspOUTUcUgYJRLDxG5Jo=;
+        b=lBK22q+fon6k05EyqG6JDHVFg52SiBI5E+DxNLSo4K2oUwuC22Yo0zDQXOvFW0t5Ub
+         c5l67bEWezvUV1nsPV39fKHfHQMLyzhGcGOYO77yjRnPY5Tb3zX6v4nJ4/SGQ/lWX7pu
+         xPtyWbSVzt6paiXND1W7i2oqXga1LEVMa0TpVJHlFVSVHwLm20oKajkTaDEuh/Y5lcwZ
+         chnXFwYGd+Mg08nr5u4Sk/eUINBCA/cgNE48IEai0mgfxhdl0KYuBboLgZoT9wsXaBs+
+         nrNu8NuZ1M6J0jO9k8JXiXvRrEJhIcS3ns9ecnqu1GMZkSYqovejh0v8aCcWaWCMBeGP
+         OjmA==
+X-Gm-Message-State: AO0yUKXhvwb6Izjz9BqvJ5+rQmHH4YKBPzERYE7/+Lhqp7mHCVTzbK0Y
+	KAU+9GyZo9v39VP5ZFRsgtQ=
+X-Google-Smtp-Source: AK7set8ZuKaSbrQBJ3a8M+xYxT2z6oxVHpwoR5gtoCZW2lx53fTy63X3CNCbD1dMJt4V9SMvFl3Phg==
+X-Received: by 2002:a17:906:7394:b0:8b1:2614:dea6 with SMTP id f20-20020a170906739400b008b12614dea6mr17645055ejl.1.1677135651535;
+        Wed, 22 Feb 2023 23:00:51 -0800 (PST)
+Received: from [192.168.0.100] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id me19-20020a170906aed300b008b17662e1f7sm8764897ejb.53.2023.02.22.23.00.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Feb 2023 23:00:50 -0800 (PST)
+Message-ID: <0893bcc8-a06d-1f99-8887-3731b8e5a9f8@gmail.com>
+Date: Thu, 23 Feb 2023 08:00:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1677133271.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] staging: r8188eu: fix a potential integer underflow bug
+To: Dan Carpenter <error27@gmail.com>, Phillip Potter <phil@philpotter.co.uk>
+Cc: Pavel Skripkin <paskripkin@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Deepak R Varma <drv@mailo.com>, Charlie Sands
+ <sandsch@northvilleschools.net>, Mahak Gupta <mahak_g@cs.iitr.ac.in>,
+ Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>,
+ linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
+References: <Y/YfzZeFCAPiZ6RV@kili>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <Y/YfzZeFCAPiZ6RV@kili>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove empty struct rtl819x_ops as it is dead code.
+On 2/22/23 14:59, Dan Carpenter wrote:
+> Here the code is testing to see if skb->len meets a minimum size
+> requirement.  However if skb->len is very small then the ETH_HLEN
+> subtraction will result in a negative which is then type promoted
+> to an unsigned int and the condition will be true.
+> 
+> Generally, when you have an untrusted variable like skb->len, you
+> should move all the math to the other side of the comparison.
+> 
+> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+> Signed-off-by: Dan Carpenter <error27@gmail.com>
+> ---
+> Compile tested only.  This is basic algebra of moving parts of the
+> equation from one side to the other and I am surprisingly bad at
+> something that I was supposed to have learned in 9th grade.
+> 
+>   drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index a7c67014dde0..f49e32c33372 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -538,7 +538,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+>   		/*------------------------------------------------*/
+>   		struct ipv6hdr *iph = (struct ipv6hdr *)(skb->data + ETH_HLEN);
+>   
+> -		if (sizeof(*iph) >= (skb->len - ETH_HLEN))
+> +		if (skb->len <= sizeof(*iph) + ETH_HLEN)
+>   			return -1;
+>   
+>   		switch (method) {
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 ------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 4 ----
- 2 files changed, 10 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index f5a155d1a81a..718d69b4ce16 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -25,9 +25,6 @@
- int hwwep = 1;
- static char *ifname = "wlan%d";
- 
--static const struct rtl819x_ops rtl819xp_ops = {
--};
--
- static struct pci_device_id rtl8192_pci_id_tbl[] = {
- 	{PCI_DEVICE(0x10ec, 0x8192)},
- 	{PCI_DEVICE(0x07aa, 0x0044)},
-@@ -2190,7 +2187,6 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
- 	unsigned long ioaddr = 0;
- 	struct net_device *dev = NULL;
- 	struct r8192_priv *priv = NULL;
--	struct rtl819x_ops *ops = (struct rtl819x_ops *)(id->driver_data);
- 	unsigned long pmem_start, pmem_len, pmem_flags;
- 	int err = -ENOMEM;
- 	u8 revision_id;
-@@ -2257,8 +2253,6 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
- 	if (pdev->device == 0x8192 && revision_id == 0x10)
- 		goto err_unmap;
- 
--	priv->ops = ops;
--
- 	if (!rtl92e_check_adapter(pdev, dev))
- 		goto err_unmap;
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index c2a4b2ae6a81..c8816c44ca51 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -198,9 +198,6 @@ struct rtl8192_tx_ring {
- 	struct sk_buff_head queue;
- };
- 
--struct rtl819x_ops {
--};
--
- struct r8192_priv {
- 	struct pci_dev *pdev;
- 	struct pci_dev *bridge_pdev;
-@@ -218,7 +215,6 @@ struct r8192_priv {
- 	struct delayed_work		txpower_tracking_wq;
- 	struct delayed_work		rfpath_check_wq;
- 	struct delayed_work		gpio_change_rf_wq;
--	struct rtl819x_ops			*ops;
- 	struct rtllib_device			*rtllib;
- 
- 	struct work_struct				reset_wq;
--- 
-2.39.2
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
