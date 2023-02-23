@@ -1,48 +1,50 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818B415B2
-	for <linux-staging@lists.linux.dev>; Thu, 23 Feb 2023 06:47:17 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id cq23so38641395edb.1
-        for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 22:47:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D071FB5
+	for <linux-staging@lists.linux.dev>; Thu, 23 Feb 2023 06:47:25 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id f13so38392207edz.6
+        for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 22:47:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bsmNc0LW7KgPfnQR1pgTAG9e2DXG8L7W1cjt0n+8dxo=;
-        b=X80BSI6zDmDav3I62Y4AZ6scW7/BNN44H3/n8Vms8apOHaFSQjMa6Mwd8iJ/B/ftrK
-         yt3qqRuIkWvlVdOSudFYCWCpLp9aHTRaEwFYJUbxTqO1+VzQagMPscUqhUSDbDp1xGYB
-         YrNvIbwiBpa5iUv8DkHILYQAjsp8VRl1ptdGYsH/eBIBkfJzNxEAIPPEyB0ZIM5A+XPx
-         6utu8vHe32XZFwxhR+1sZfvk9ucNxoG3yS9VfsrFp3FqtoqLAe8VGje6YYaemTA7Q4nC
-         QbNqJdf31G4Rjv6as/iIFzt9j2BjsCupWfCUQLRLZ3QQQR5IRYJqm0NrtSUkvs8OSyFm
-         FFuA==
+        d=gmail.com; s=20210112; t=1677134844;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u4jucbORZ+OZR8pDS3QMC3YnlP5eW/j0vhDGVkYwBMg=;
+        b=mOyCavMhBDV9ktxq0ihr3nMvVRXYEwbcgd7mHrheqcejTJuhS9d9saed1e5qorfmAX
+         CgsfjvT+NjoT6T3xkU97FRzsGbzvYdOhBJsq8b19im+yxc0teuUtMYuUplsq1+zc4deZ
+         R6cHN60ZGIRVk3VN4sV09qkwA2MdUkCCAiuaLU26PQuSIe8D8pEbqBDzY9mJdhF14EpY
+         in10GwO0VpOUQG+PN/FybJ1npmiQChsW8/82kCUYGSg5rAttc9uF5Yh6PikeMIugHcKX
+         afEyKDNgiAHyGOxFNSCvy+fecEptsyAwSuTcXMFjpePFeVAIQQLUeImSlG75/rnnMbUi
+         qHlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bsmNc0LW7KgPfnQR1pgTAG9e2DXG8L7W1cjt0n+8dxo=;
-        b=CnIBUANS682twlti+LQ0Ltt14kLniFKTCVlYedFLtH5rVHCiNjenQwzNeEEyqwUP0w
-         VMkGYrrDGiaYjo7sjd3TJT7XD6VC9qm5wgNmR/IM2aPYQSQrSnUwDO8L16GOhAvgU3iG
-         725It4o3kXUC6lT+opCNQfPcxDWuV6moae9gqMeVfx+LFiGA3XXxCzWbJjPu3Ri91TYR
-         iASvx/UmvxR+IBTWfdIDIiP5D9HTeMyapmp0z+SnZYHE8T6uhNw5ic2IlEWbKKNyUuBD
-         Zki+k4liiyoW10XX0t3979iMju5J/fqh7MAYkoXqdZ7WcuGsA9vDzDH9yWWZsOLZpEi5
-         vf0g==
-X-Gm-Message-State: AO0yUKWDXbIYdKPCKcoUMiyN17rIaKy1D6vFovnEuoyfLvbnIUoNY+vl
-	M6ME7f40J92pI+a05ypT/Yw=
-X-Google-Smtp-Source: AK7set9rLeQQkEXuu1lHTL35o5OMi3rhw2FbznJ9KMnfsDrHRz79J525D+1Ed4I7JjC8t5KnPiflLA==
-X-Received: by 2002:a17:906:2cf:b0:878:5fa4:7443 with SMTP id 15-20020a17090602cf00b008785fa47443mr17928861ejk.3.1677134835553;
-        Wed, 22 Feb 2023 22:47:15 -0800 (PST)
+        d=1e100.net; s=20210112; t=1677134844;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u4jucbORZ+OZR8pDS3QMC3YnlP5eW/j0vhDGVkYwBMg=;
+        b=yO8EP6oAKNUCnOZEPmkAh5MfA0pkM8FX8v9XpO5XogDx61HQ/TTu6BOUvhtIXUJ3Tv
+         zAK7gRpCDaSPnap4aoLnpgJNGJqyBnmwujCM5jyGN1UyeZMVG4fe1EnxvvK9VHh87Y0R
+         XueLLeE2FEfof4ufZ3/QSHgjVCUdkRZIDg6SSc/NQYsr7OVVNtQChAr3Qwv899GkN2d2
+         LQXIvTxc1aQQdE69VXW5JulK7zABPiNtqVDWz30S7cmko7Ymp6AyfkGrEUX3WBFE6F0z
+         nwY+mRStTdP69xkOBDtoDBJuivHlrf8yCvy64v7ubAuTQWxNnZbMlX16DJ12QG8CaygZ
+         vGzw==
+X-Gm-Message-State: AO0yUKUYZb/K8euMWGnpJJkMdlAlH+WXbHhJJmvQU6KY6CAQAd0Pip3m
+	45chW0fHMnGtlm0eJjgkAF0=
+X-Google-Smtp-Source: AK7set+Gf870jQFuMUaGV3IHvHCyeLL7S+D6Rm9PqbiQPJvOXR5/Ba+wsr9YcXQ+itwqXBgDJsGAvQ==
+X-Received: by 2002:a17:906:73d2:b0:87c:c1:111 with SMTP id n18-20020a17090673d200b0087c00c10111mr14654512ejl.4.1677134843927;
+        Wed, 22 Feb 2023 22:47:23 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id a26-20020a170906685a00b008b1b86bf668sm8125522ejs.4.2023.02.22.22.47.14
+        by smtp.gmail.com with ESMTPSA id p12-20020a1709060dcc00b008c1f68ba0e2sm6435870eji.85.2023.02.22.22.47.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 22:47:14 -0800 (PST)
-Date: Thu, 23 Feb 2023 07:47:12 +0100
+        Wed, 22 Feb 2023 22:47:23 -0800 (PST)
+Date: Thu, 23 Feb 2023 07:47:21 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] staging: rtl8192e: Remove struct rtl819x_ops that has no
- entries
-Message-ID: <cover.1677133271.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/2] staging: rtl8192e: Replace macro RTL_PCI_DEVICE with
+ PCI_DEVICE
+Message-ID: <8b45ee783fa91196b7c9d6fc840a189496afd2f4.1677133271.git.philipp.g.hortmann@gmail.com>
+References: <cover.1677133271.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,25 +53,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1677133271.git.philipp.g.hortmann@gmail.com>
 
-Replace macro RTL_PCI_DEVICE with PCI_DEVICE to get rid of struct
-rtl819x_ops in this macro. Remove empty struct rtl819x_ops from
-driver as it has no entries and is dead code.
+Replace macro RTL_PCI_DEVICE with PCI_DEVICE to get rid of rtl819xp_ops
+which is empty.
 
-Tested with rtl8192e
-Transferred this patch over wlan connection of rtl8192e
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 +++---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 5 -----
+ 2 files changed, 3 insertions(+), 8 deletions(-)
 
-This patch series requires the this patch series:
-"[PATCH 0/7] staging: rtl8192e: Remove entries from struct rtl819x_ops start with .tx_enable"
-
-Philipp Hortmann (2):
-  staging: rtl8192e: Replace macro RTL_PCI_DEVICE with PCI_DEVICE
-  staging: rtl8192e: Remove empty struct rtl819x_ops
-
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 12 +++---------
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h |  9 ---------
- 2 files changed, 3 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index 044cab649ff1..f5a155d1a81a 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -29,9 +29,9 @@ static const struct rtl819x_ops rtl819xp_ops = {
+ };
+ 
+ static struct pci_device_id rtl8192_pci_id_tbl[] = {
+-	{RTL_PCI_DEVICE(0x10ec, 0x8192, rtl819xp_ops)},
+-	{RTL_PCI_DEVICE(0x07aa, 0x0044, rtl819xp_ops)},
+-	{RTL_PCI_DEVICE(0x07aa, 0x0047, rtl819xp_ops)},
++	{PCI_DEVICE(0x10ec, 0x8192)},
++	{PCI_DEVICE(0x07aa, 0x0044)},
++	{PCI_DEVICE(0x07aa, 0x0047)},
+ 	{}
+ };
+ 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index f75cc96052d9..c2a4b2ae6a81 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -55,11 +55,6 @@
+ #define IS_HARDWARE_TYPE_8192SE(_priv)		\
+ 	(((struct r8192_priv *)rtllib_priv(dev))->card_8192 == NIC_8192SE)
+ 
+-#define RTL_PCI_DEVICE(vend, dev, cfg) \
+-	.vendor = (vend), .device = (dev), \
+-	.subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, \
+-	.driver_data = (kernel_ulong_t)&(cfg)
+-
+ #define TOTAL_CAM_ENTRY		32
+ #define CAM_CONTENT_COUNT	8
+ 
 -- 
 2.39.2
 
