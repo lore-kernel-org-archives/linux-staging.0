@@ -1,49 +1,48 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D071FB5
-	for <linux-staging@lists.linux.dev>; Thu, 23 Feb 2023 06:47:25 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id f13so38392207edz.6
-        for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 22:47:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A241FB5
+	for <linux-staging@lists.linux.dev>; Thu, 23 Feb 2023 06:47:32 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id ee7so23836450edb.2
+        for <linux-staging@lists.linux.dev>; Wed, 22 Feb 2023 22:47:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677134844;
+        d=gmail.com; s=20210112; t=1677134850;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u4jucbORZ+OZR8pDS3QMC3YnlP5eW/j0vhDGVkYwBMg=;
-        b=mOyCavMhBDV9ktxq0ihr3nMvVRXYEwbcgd7mHrheqcejTJuhS9d9saed1e5qorfmAX
-         CgsfjvT+NjoT6T3xkU97FRzsGbzvYdOhBJsq8b19im+yxc0teuUtMYuUplsq1+zc4deZ
-         R6cHN60ZGIRVk3VN4sV09qkwA2MdUkCCAiuaLU26PQuSIe8D8pEbqBDzY9mJdhF14EpY
-         in10GwO0VpOUQG+PN/FybJ1npmiQChsW8/82kCUYGSg5rAttc9uF5Yh6PikeMIugHcKX
-         afEyKDNgiAHyGOxFNSCvy+fecEptsyAwSuTcXMFjpePFeVAIQQLUeImSlG75/rnnMbUi
-         qHlA==
+        bh=6CjMSX3fCv/Qr1M0aeSG/e+l/GblnDne7N25TnEl9vI=;
+        b=MAwUCEBEIh7x0Lr0V2oLN8HKK9Nn5ZwZbIFA//ovhuOIgajx6fkWg56JTkjQrQbr9t
+         L/WXYNqVV2McAS71EAQB3Oo63SZOXkxPMEZTnDRn1kjmtCytieBTNbkYu7RwpXp2A7Vs
+         TaDYpPzcRqwaCxu47TH/JDCV+SwjIc7PGhyJPFPNHb2FBTEH8ASwhJyY+mQsOGW6G7lr
+         YSkm4xBhXb/W9eGRCH41G14c2QaQ8nmPlypW7Wnwu2GQzk9K2DMVpV6U5P5HK5iDPK0c
+         +8lQwbpLbxcBUEmXnmbkb1QHbPp2kyBnUqZpWt5CNRoNdasziBejSfiGYIvHIPhBnn0X
+         4rFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677134844;
+        d=1e100.net; s=20210112; t=1677134850;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u4jucbORZ+OZR8pDS3QMC3YnlP5eW/j0vhDGVkYwBMg=;
-        b=yO8EP6oAKNUCnOZEPmkAh5MfA0pkM8FX8v9XpO5XogDx61HQ/TTu6BOUvhtIXUJ3Tv
-         zAK7gRpCDaSPnap4aoLnpgJNGJqyBnmwujCM5jyGN1UyeZMVG4fe1EnxvvK9VHh87Y0R
-         XueLLeE2FEfof4ufZ3/QSHgjVCUdkRZIDg6SSc/NQYsr7OVVNtQChAr3Qwv899GkN2d2
-         LQXIvTxc1aQQdE69VXW5JulK7zABPiNtqVDWz30S7cmko7Ymp6AyfkGrEUX3WBFE6F0z
-         nwY+mRStTdP69xkOBDtoDBJuivHlrf8yCvy64v7ubAuTQWxNnZbMlX16DJ12QG8CaygZ
-         vGzw==
-X-Gm-Message-State: AO0yUKUYZb/K8euMWGnpJJkMdlAlH+WXbHhJJmvQU6KY6CAQAd0Pip3m
-	45chW0fHMnGtlm0eJjgkAF0=
-X-Google-Smtp-Source: AK7set+Gf870jQFuMUaGV3IHvHCyeLL7S+D6Rm9PqbiQPJvOXR5/Ba+wsr9YcXQ+itwqXBgDJsGAvQ==
-X-Received: by 2002:a17:906:73d2:b0:87c:c1:111 with SMTP id n18-20020a17090673d200b0087c00c10111mr14654512ejl.4.1677134843927;
-        Wed, 22 Feb 2023 22:47:23 -0800 (PST)
+        bh=6CjMSX3fCv/Qr1M0aeSG/e+l/GblnDne7N25TnEl9vI=;
+        b=vqWwLBFVahdZs3scGMNiSHsODPljxqwlWZd+SAN/F0xBfS7dWyDZJW3/krpsuP5UZc
+         bNY6THyRJcpbumv7d/vMKfpuqwU2x+NsQCxf3lqMJ8o96Q9oq4ypSG2AaebqbbJNy4O0
+         SjbVMjKBOwQ3rNwxD7KLY5jE7rqnAPqWC1GqZuc3JUeeb6AhRDg4Ae/BONjK8e1N0YjQ
+         fsNhXK9KhZDGYLy2zcywQ7oDSu9vQqPdPuZDD3BbI3vG1/+I7JzAIOiKG+4AOkubNiZZ
+         fFdTxMn/0k2B6Ghv3W1x8qmtAjAlMQt/I0PqwZLsZmm5tXX3nQNtpW0CMa/eHZuMhs6w
+         IGmQ==
+X-Gm-Message-State: AO0yUKXCRJn9yenDjc5LGOxfjETJnLDQRmtTM+o9hq2ockdJXVC/Owvh
+	ZoWucSLBAXmazD42xSZ6pfs=
+X-Google-Smtp-Source: AK7set89d0/XCAaY6TDRJ0GNgheYEinTgayLhXErICIVlYtWFn5N4+TqzuXiuKgyZjytwk16GCoecg==
+X-Received: by 2002:a05:6402:1e8e:b0:4ad:de7:253f with SMTP id f14-20020a0564021e8e00b004ad0de7253fmr11531165edf.3.1677134850536;
+        Wed, 22 Feb 2023 22:47:30 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id p12-20020a1709060dcc00b008c1f68ba0e2sm6435870eji.85.2023.02.22.22.47.23
+        by smtp.gmail.com with ESMTPSA id h21-20020a50cdd5000000b004af5968cb3bsm2614654edj.17.2023.02.22.22.47.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 22:47:23 -0800 (PST)
-Date: Thu, 23 Feb 2023 07:47:21 +0100
+        Wed, 22 Feb 2023 22:47:29 -0800 (PST)
+Date: Thu, 23 Feb 2023 07:47:28 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] staging: rtl8192e: Replace macro RTL_PCI_DEVICE with
- PCI_DEVICE
-Message-ID: <8b45ee783fa91196b7c9d6fc840a189496afd2f4.1677133271.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/2] staging: rtl8192e: Remove empty struct rtl819x_ops
+Message-ID: <31b5b0ba88d7b07b0407956d56446e8f0e62e3e7.1677133271.git.philipp.g.hortmann@gmail.com>
 References: <cover.1677133271.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,48 +54,67 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1677133271.git.philipp.g.hortmann@gmail.com>
 
-Replace macro RTL_PCI_DEVICE with PCI_DEVICE to get rid of rtl819xp_ops
-which is empty.
+Remove empty struct rtl819x_ops as it is dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 +++---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 5 -----
- 2 files changed, 3 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 6 ------
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 4 ----
+ 2 files changed, 10 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 044cab649ff1..f5a155d1a81a 100644
+index f5a155d1a81a..718d69b4ce16 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -29,9 +29,9 @@ static const struct rtl819x_ops rtl819xp_ops = {
- };
+@@ -25,9 +25,6 @@
+ int hwwep = 1;
+ static char *ifname = "wlan%d";
  
+-static const struct rtl819x_ops rtl819xp_ops = {
+-};
+-
  static struct pci_device_id rtl8192_pci_id_tbl[] = {
--	{RTL_PCI_DEVICE(0x10ec, 0x8192, rtl819xp_ops)},
--	{RTL_PCI_DEVICE(0x07aa, 0x0044, rtl819xp_ops)},
--	{RTL_PCI_DEVICE(0x07aa, 0x0047, rtl819xp_ops)},
-+	{PCI_DEVICE(0x10ec, 0x8192)},
-+	{PCI_DEVICE(0x07aa, 0x0044)},
-+	{PCI_DEVICE(0x07aa, 0x0047)},
- 	{}
- };
+ 	{PCI_DEVICE(0x10ec, 0x8192)},
+ 	{PCI_DEVICE(0x07aa, 0x0044)},
+@@ -2190,7 +2187,6 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
+ 	unsigned long ioaddr = 0;
+ 	struct net_device *dev = NULL;
+ 	struct r8192_priv *priv = NULL;
+-	struct rtl819x_ops *ops = (struct rtl819x_ops *)(id->driver_data);
+ 	unsigned long pmem_start, pmem_len, pmem_flags;
+ 	int err = -ENOMEM;
+ 	u8 revision_id;
+@@ -2257,8 +2253,6 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
+ 	if (pdev->device == 0x8192 && revision_id == 0x10)
+ 		goto err_unmap;
+ 
+-	priv->ops = ops;
+-
+ 	if (!rtl92e_check_adapter(pdev, dev))
+ 		goto err_unmap;
  
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-index f75cc96052d9..c2a4b2ae6a81 100644
+index c2a4b2ae6a81..c8816c44ca51 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
-@@ -55,11 +55,6 @@
- #define IS_HARDWARE_TYPE_8192SE(_priv)		\
- 	(((struct r8192_priv *)rtllib_priv(dev))->card_8192 == NIC_8192SE)
+@@ -198,9 +198,6 @@ struct rtl8192_tx_ring {
+ 	struct sk_buff_head queue;
+ };
  
--#define RTL_PCI_DEVICE(vend, dev, cfg) \
--	.vendor = (vend), .device = (dev), \
--	.subvendor = PCI_ANY_ID, .subdevice = PCI_ANY_ID, \
--	.driver_data = (kernel_ulong_t)&(cfg)
+-struct rtl819x_ops {
+-};
 -
- #define TOTAL_CAM_ENTRY		32
- #define CAM_CONTENT_COUNT	8
+ struct r8192_priv {
+ 	struct pci_dev *pdev;
+ 	struct pci_dev *bridge_pdev;
+@@ -218,7 +215,6 @@ struct r8192_priv {
+ 	struct delayed_work		txpower_tracking_wq;
+ 	struct delayed_work		rfpath_check_wq;
+ 	struct delayed_work		gpio_change_rf_wq;
+-	struct rtl819x_ops			*ops;
+ 	struct rtllib_device			*rtllib;
  
+ 	struct work_struct				reset_wq;
 -- 
 2.39.2
 
