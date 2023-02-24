@@ -1,56 +1,53 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64EE7E
-	for <linux-staging@lists.linux.dev>; Thu, 23 Feb 2023 19:36:38 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id z5so11943848ljc.8
-        for <linux-staging@lists.linux.dev>; Thu, 23 Feb 2023 11:36:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B88CD2F2
+	for <linux-staging@lists.linux.dev>; Fri, 24 Feb 2023 10:50:59 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id l15so17492796pls.1
+        for <linux-staging@lists.linux.dev>; Fri, 24 Feb 2023 02:50:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qk+cDCcz2CVt0ThfX9BY25TGDL0RI1Xa6b4kLFjXY2o=;
-        b=QoSM0+1dwluesL8imzF5TA/C1dlhofcJJ982B2XLpjkuJOjOIXop0NaPfao9JJa5Wj
-         RJKQv1JU37jBGfMA3uCgwTUjjG0ko5NI6PV0gbGGmSy4DT6KTmpqvoFKW1bnArEqZnNh
-         OlUVIT5fglfoBZzc0JQWvJUqm3ZyaWddaeKtAhIknvGKteHq7sdMoj7Zjx5BQ6M9NahU
-         ynkrxpdlonGzBZAemFUsOcegS86ts7hSIRv9XXM4hbxxgi9MxcNngI/d9iEMB15yhvWm
-         UKAb0bA4I8QcY1FjeouakSqMGNHKVvafa7G+9GqOZ5LcEiN16Eey3D0pJq0Mc2qOEI0+
-         LtxA==
+        bh=dW3qXQYpmNKcqlh4A0ERoGNSnFf2SSyTXbPFz2Oak8Y=;
+        b=ks/XSPw525h+Cz4ygu0GbROT6kca0MC6o5cU/AR01Dv5hyZpWjF80YHJBuakUdTUjE
+         NPObc8ulfp41MfLiOgPbbcLfi1qsLGHA4bAKFYAq/9WKpLshkLVNHEX1maRZy45vvQOd
+         /K+Xp/Of+dwZjFSHrB4HdtFjiOx181IHaoT0zNCfIWkRyGtSr83ewtz8j/uiwCvoHR6Q
+         SO5TQbZa4jgqrQnaVk9k9GvwAZxVWFLTGjxiAf0D8zTj+BxWuMwBUz5CyKGtuvy9FUT/
+         PJ+3mrzzHIvpd93Jk296ibq8EDyn/IgTRbdy+ht484QIglJAuMrzMAkKfteFZndxmqW+
+         M5kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Qk+cDCcz2CVt0ThfX9BY25TGDL0RI1Xa6b4kLFjXY2o=;
-        b=XxralbSjL3ouq2uwFZMNWM7j1SfSXxHCTyweWcPNYgt0qS9DoZykQEoOoUXO2U66vq
-         8P+R7QeQI2TRs1oeIAxCArcfd8r8UPixZEEslFK0ScqCz0+aCm7tnfs+8jW4A5VxZEqP
-         d/WQfpiS+8eeibX6A38uBXSJ2MVRza4ifo+AogIxKeWWDdY8I7NY0x7T1qBVEMd54sAn
-         Wx6r0dRg1ON9qrBrhWfn1vm/jc/NYEhne7uAksp/ev9QP7r8y5JAJD6iofeMtfER6Ayd
-         PDTP2W1giGwGTDODFrNrp4mNmGjZLhMiXdEdbMZaHK1gYEFnVqZK46wyk+sqSKKSRrw4
-         F0uA==
-X-Gm-Message-State: AO0yUKWanav1vA0dZZORGQQClqthv7bOTPo3ZrMlfYIJdfZFPhX3zuCo
-	WxwAWzTzvMJWCmWJXgksKz0=
-X-Google-Smtp-Source: AK7set/c6lm9czTl0xw0+ysZMiL6iurd+kFscmhxC7LVZXslMR9fEAOxekMYiiObSDDdcfL0fJutWg==
-X-Received: by 2002:a2e:b893:0:b0:293:4fda:22d1 with SMTP id r19-20020a2eb893000000b002934fda22d1mr6134008ljp.46.1677180996613;
-        Thu, 23 Feb 2023 11:36:36 -0800 (PST)
-Received: from localhost.localdomain ([2a00:1370:81ae:2572:38e9:e6ee:6827:29dd])
-        by smtp.gmail.com with ESMTPSA id f7-20020a2e3807000000b0029343fe58e3sm1422209lja.130.2023.02.23.11.36.35
+        bh=dW3qXQYpmNKcqlh4A0ERoGNSnFf2SSyTXbPFz2Oak8Y=;
+        b=mxS+ozZ1k2N1LMGFB9yVLRHYyHb6sF1kUCandhJHRlYy4Sy3nNOWozMVM2XdME0R3o
+         17bKRz93SoJsWgDBjGDBuEX2/9WZjRfRYA7zavx3n7agt4wdUeC7FvWJmruOHIJc7KTx
+         0wF/ftao42u/kyiolI+erwRZ5i7FP8pcolBapeU0daO/x/BPL+sInPCKeMQgDskDbcAg
+         sLW2dI+xF0WHV6bQSPDlpn477GcRBMdXMPzVPEiL86C2NjUY93+A9Y+IHmfetH3wa+tu
+         Rq7w81hnDpxkql/D/inSRRCNRV9y5TEs5Q8iCJ7jubxtclVE+T5Zxkh9kx2MZOwz+Th8
+         IRWw==
+X-Gm-Message-State: AO0yUKUzWI6shFCkprokASsy7TR9KnLZ6bNuAsuumz7cg99LTQ0OdxZN
+	aQ4tQFhfe5KgnHUR6kk0dAo=
+X-Google-Smtp-Source: AK7set/Wm8ZkZur4lZZ/ZSqtkJF98/L27AWp2UMInfRwraO3lAO9xpUHtwt95ROYV3/Y6bEpftzFBg==
+X-Received: by 2002:a17:902:ce8d:b0:19c:da68:337b with SMTP id f13-20020a170902ce8d00b0019cda68337bmr775918plg.16.1677235859176;
+        Fri, 24 Feb 2023 02:50:59 -0800 (PST)
+Received: from XHD-CHAVAN-L1.amd.com ([103.115.201.82])
+        by smtp.gmail.com with ESMTPSA id be1-20020a170902aa0100b00194d14d8e54sm7827461plb.96.2023.02.24.02.50.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Feb 2023 11:36:36 -0800 (PST)
-From: Leonid Pershin <leonid.pershin@gmail.com>
-To: 
-Cc: Leonid Pershin <leonid.pershin@gmail.com>,
+        Fri, 24 Feb 2023 02:50:58 -0800 (PST)
+From: Rohit Chavan <roheetchavan@gmail.com>
+To: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Tong Zhang <ztong0001@gmail.com>,
-	Rebecca Mckeever <remckee0@gmail.com>,
-	Deepak R Varma <drv@mailo.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8192u: remove split in user-visible string
-Date: Thu, 23 Feb 2023 22:35:57 +0300
-Message-Id: <20230223193559.157880-1-leonid.pershin@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Rohit Chavan <roheetchavan@gmail.com>
+Subject: [PATCH] staging: vme: remove unnecessary parentheses
+Date: Fri, 24 Feb 2023 16:20:48 +0530
+Message-Id: <20230224105048.758-1-roheetchavan@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,41 +56,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-According to coding style, user-visible strings in printk()
-function calls cannot be split across multiple lines.
-Issue found with checkpatch.pl.
+This patch removes unnecessary parentheses in order to fix a checkpatch issue.
 
-Signed-off-by: Leonid Pershin <leonid.pershin@gmail.com>
+Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
 ---
-Changes in v2:
-  - Replace printk(KERN_DEBUG...) with pr_debug()
+ drivers/staging/vme_user/vme_user.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-index 9bfd24ad46b6..c378bdff453b 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-@@ -72,16 +72,14 @@ static void *ieee80211_tkip_init(int key_idx)
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index 4e533c0bfe6d..5027d91d7038 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -506,7 +506,7 @@ static int vme_user_match(struct vme_dev *vdev)
+ 	int cur_slot = vme_slot_num(vdev);
  
- 	priv->tx_tfm_michael = crypto_alloc_shash("michael_mic", 0, 0);
- 	if (IS_ERR(priv->tx_tfm_michael)) {
--		printk(KERN_DEBUG "ieee80211_crypt_tkip: could not allocate "
--				"crypto API michael_mic\n");
-+		pr_debug("ieee80211_crypt_tkip: could not allocate crypto API michael_mic\n");
- 		priv->tx_tfm_michael = NULL;
- 		goto fail;
- 	}
+ 	for (i = 0; i < bus_num; i++)
+-		if ((cur_bus == bus[i]) && (cur_slot == vdev->num))
++		if (cur_bus == bus[i] && cur_slot == vdev->num)
+ 			return 1;
  
- 	priv->rx_tfm_michael = crypto_alloc_shash("michael_mic", 0, 0);
- 	if (IS_ERR(priv->rx_tfm_michael)) {
--		printk(KERN_DEBUG "ieee80211_crypt_tkip: could not allocate "
--				"crypto API michael_mic\n");
-+		pr_debug("ieee80211_crypt_tkip: could not allocate crypto API michael_mic\n");
- 		priv->rx_tfm_michael = NULL;
- 		goto fail;
- 	}
+ 	return 0;
 -- 
-2.39.2
+2.30.2
 
