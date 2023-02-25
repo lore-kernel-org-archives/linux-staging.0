@@ -1,53 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D8053A0
-	for <linux-staging@lists.linux.dev>; Fri, 24 Feb 2023 21:16:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CD912C433D2;
-	Fri, 24 Feb 2023 21:16:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677273361;
-	bh=UCQ5+yrUKQiX0Wgpv8hPDgfqITKwjMENPSTKvcAPR+U=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=LNo0It+7Qdz3fqZ6gYdSUzXnFFT/B+8Zmz6JBN5FlBCYr2pBuHe8UUMTYzdwcHQ38
-	 89WDW+nNmlH11nv+XFjaVOEDl3W1JlCgUk/S7Nv/2L6ePqVK2QsRL8dngTh07wknN5
-	 36eaCLAWh4VXr0WoRf+erbhdcBaSsB3AvWmMmdvG+E1XaVZfF6ioINRMWemc7j3ZzM
-	 M/IJzbQk35w908p1GCE22PIaHr3YV4O+tVhupjDBr7i1TFsZbX6ml4NIN4sIy2iLiR
-	 rJOOAupfPg9ZHgK9LExwxCUAvHK2x0LOIGqoZP3Tf6pht/oUPGc1COxRO77Ua94Oa8
-	 k62GN0POGjVuQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BBF84E68D2D;
-	Fri, 24 Feb 2023 21:16:01 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver updates for 6.3-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Y/iy1MgXVLkmtOQP@kroah.com>
-References: <Y/iy1MgXVLkmtOQP@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Y/iy1MgXVLkmtOQP@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.3-rc1
-X-PR-Tracked-Commit-Id: b5929325f06300d28696b9a030539a4009154788
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0601f25d1c4937c678db786961705ce56fbd6bb6
-Message-Id: <167727336176.26367.10402166456450454236.pr-tracker-bot@kernel.org>
-Date: Fri, 24 Feb 2023 21:16:01 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41824566E
+	for <linux-staging@lists.linux.dev>; Sat, 25 Feb 2023 18:20:19 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id p23-20020a05600c1d9700b003ead4835046so2709778wms.0
+        for <linux-staging@lists.linux.dev>; Sat, 25 Feb 2023 10:20:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677349217;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ttL7bgAKkimESUSg8lrqpEXaEc6mFGIu/p94BALCC84=;
+        b=QYbLU95BiQMPQCnYSF6BJa3l6wGsNwmTAnJH6xdMAvB7LEAQJiz06uclR+rhkYeN7M
+         fh3WifeHJ+5dAXJRp+Lp/YJRpf/R+ePhfe+T2FxIq9B0PnxDAVhR1KgD2YM0w4lpggy/
+         lPfAvFI0X75T4P5pju7CPKP+koZMg/0Mkapyml/rAnjC9OGE54X5oMBNAs5cVzD1fTNu
+         dd3Jdcub6C6KjMgOpKD8t4J28bbnc9j5DSF0SaPX5rM/VqEkuZPVFrVq1hT4AYk27nar
+         u6ysFfZeBCAIG0ZjXakJbRGdF0JKIAe3bC50dh1IE3M1MI8cIdDYJ3mPI3zudeVlEspv
+         VQWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677349217;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ttL7bgAKkimESUSg8lrqpEXaEc6mFGIu/p94BALCC84=;
+        b=fNx+va08fLoJe/KGO7ddUAN/aJcmwVFIdP1YnxNPvRh2kMrBS/V4SLarKQUqosuM2z
+         NzpWjqShwGJWsfEg1903KwgyQ3Z8hV61V1hiBdc3Ptqbm90PTo4qj0zzqQSAvhEUnuEA
+         vDFUXVRMrB1KbRgJJKJI2YZrHvWajFw6A61HFukqrJSZRTk26S2DKE87beE4DroIVI9a
+         ox4A0+UmB6VSO8sJZweYOXqbPTYVgWS4swexnk+SrgwO4QD8ySwJOV6rysIRx7IL6AeN
+         IJkCADM/znpBeaS8kZ3K2VFAL1FH389tRIl/pjVDhSdwxZC+H9/FicNBa4xw24+jVl0M
+         IDsw==
+X-Gm-Message-State: AO0yUKWJ4VhfuzbhrhJ/sh6lG7DAbtiUxbfXvYXhKZXrXzBqfWKo90Si
+	arzMozRcm9fWAhn4bj7aqyA=
+X-Google-Smtp-Source: AK7set+RtCfbk4VjUMDkjOPwOW0sgAhnhpm1abdqWOm1IOU/uYyvjIwW1rgZ/rd+LLEPRM45N8DQVw==
+X-Received: by 2002:a05:600c:3b8c:b0:3ea:c86e:4377 with SMTP id n12-20020a05600c3b8c00b003eac86e4377mr7381893wms.0.1677349217279;
+        Sat, 25 Feb 2023 10:20:17 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id y7-20020a05600c364700b003e2096da239sm7072561wmq.7.2023.02.25.10.20.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Feb 2023 10:20:16 -0800 (PST)
+Date: Sat, 25 Feb 2023 19:20:14 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] staging: rtl8192e: Remove NULL checks of function
+ pointers - struct rtllib_device
+Message-ID: <cover.1677345331.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The pull request you sent on Fri, 24 Feb 2023 13:51:32 +0100:
+Remove NULL checks of function pointers from struct rtllib_device. This
+checks are unnecessary because the function pointers are set right when
+the driver is loaded.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.3-rc1
+Here the flow when function pointers are set: 
+.probe	= _rtl92e_pci_probe
+In _rtl92e_pci_probe the function _rtl92e_init is called. In the second
+line of _rtl92e_init is _rtl92e_init_priv_handler called that sets all
+the required function calls.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0601f25d1c4937c678db786961705ce56fbd6bb6
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-Thank you!
+This patch series requires the patch series:
+"[PATCH 0/2] staging: rtl8192e: Remove struct rtl819x_ops that has no entries"
+
+Philipp Hortmann (4):
+  staging: rtl8192e: Remove checks of pointer to handle_a.. and
+    handle_b..
+  staging: rtl8192e: Remove checks of pointer to LeisureP.. and
+    start_se..
+  staging: rtl8192e: Remove checks of pointer to stop_send.. and
+    rtllib_..
+  staging: rtl8192e: Remove checks of pointer to rtllib.. and
+    ScanOpera..
+
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  3 +--
+ drivers/staging/rtl8192e/rtl8192e/rtl_wx.c   |  8 ++-----
+ drivers/staging/rtl8192e/rtllib_rx.c         |  7 ++----
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 24 +++++++-------------
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c |  9 +++-----
+ 5 files changed, 16 insertions(+), 35 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.39.2
+
