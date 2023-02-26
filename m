@@ -1,83 +1,62 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850D02119
-	for <linux-staging@lists.linux.dev>; Sun, 26 Feb 2023 13:25:06 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id 16so2044225pge.11
-        for <linux-staging@lists.linux.dev>; Sun, 26 Feb 2023 05:25:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WIdIsNJqgjcgtgkT28wQ/X13SL46siMQE4Wb+rfuVYs=;
-        b=OFF+HS/j6e9XUDNsULpXyIrj1eeG0iuwwuEALp/mbz2yZYlgxUAu0sX7OPAgcKb6cc
-         lLkx/0/GsRl/ZE4Mx5Op2bD8xnPCv2H1ZDl88IflWmZTgybi0Du1hHzoH4m/u+L3B9TZ
-         db/pxVcUKqkMLg3yXeXZ5IJBJtwr9+cGXIlDyZ67grF2ImzdKoQOQynWvyndBp69IbIN
-         DDt4sxONV10oHhm/ht+54Xq3Wwz8YjkHC/xz1X2BnQtX8f8GLVmi6ENh7ZLsK2wBZt0E
-         OfUiAaNvZTYzeGf+ZG6KFDZEIY/XPLweqy2Vlb6fIKtVkMN+mobgU8sCdbk2srskg7ho
-         9d7w==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556263D61
+	for <linux-staging@lists.linux.dev>; Sun, 26 Feb 2023 19:35:24 +0000 (UTC)
+Received: by mail-il1-f180.google.com with SMTP id l2so2901791ilg.7
+        for <linux-staging@lists.linux.dev>; Sun, 26 Feb 2023 11:35:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WIdIsNJqgjcgtgkT28wQ/X13SL46siMQE4Wb+rfuVYs=;
-        b=xUqW6VwXv7EqZVQi768PCrpRkLlEpwNfpnCoacLk4AGRh4CEeVv6Ma70GcwdpGphfN
-         t4Ne8JBpgzekJg4GgzXbXiQMcCKPa4eoJjrzByziq662L7vejJ9psxM5k86F+WhD25XY
-         PV6pBXNXNOdjuy3KOsAelnacrNub7W+BzcDiYourKOXr8cZD3clXoxCzNWkpN7XYVJyN
-         QEo3NnH66juJ6pxHC/o9rjEqSpRohwGYFXEUyeOTHkT+rLJKLj5+CciGJ4pBluKpNOaF
-         htMoYE90odSkyBojcX/IzfK8fUcHGXaLxXR90ElStz9wnWl45gPZ6wigh+j11cDnNmq2
-         uPqQ==
-X-Gm-Message-State: AO0yUKUjc4mIWfr1fa5aTLqtvJiEsMvd+zFkhVLgM2sT+C5hNPcOwP1O
-	1QrPwxOGtHP9UdpLkdDZe9k=
-X-Google-Smtp-Source: AK7set+cLoNNrU1K3IL3FiBj8M7xOsOAR4VcJfsntkyKZJDBUtf9dogiTalemjQAwLMS7WRPmTwRYQ==
-X-Received: by 2002:a62:790f:0:b0:593:befd:848c with SMTP id u15-20020a62790f000000b00593befd848cmr20422654pfc.16.1677417905841;
-        Sun, 26 Feb 2023 05:25:05 -0800 (PST)
-Received: from passwd123-ThinkStation-P920.. ([222.20.94.23])
-        by smtp.gmail.com with ESMTPSA id e13-20020aa78c4d000000b005a75d85c0c7sm2495932pfd.51.2023.02.26.05.25.03
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=66rKgYfZ0JLlcjc08pOa7T5lBmt7OeLV5Mls9m6P4To=;
+        b=kfwmXBXyMnP1MYB5Ig1BrT74qDINOeVwX90wBRDFNCIl/LI2S6CmEWvmlM2YW+nAZj
+         UcCwxyUJ61YJfhcPE/eMYz8A/KlaBJVGwYKf8nReNotptRi7TI5ujXKB8MdlRKdVnKFo
+         1vMh7gRbP4oRKkYr+MwLPbWt0N/39j98PHJ8JMMCM2Y0K3bmqsKtkPJEFPCZOEXIo7ah
+         9fkORH73kP228UZGaUIgJ42ITczZCS4NFK1s073nX+I6OfjNQlFnqTre8BWNhHSILlQv
+         4rvmtJTNhNVWs+zJ9uc2BQ6GEiLAGtYxoBh9rU2XOKT9tKR+N/igWeytlCFXEwrw4Y3D
+         mj3w==
+X-Gm-Message-State: AO0yUKVSVdxecW2IqVSiTxgaK2g44wOza8bZjK0K+CBqGXrd3tEwxb7D
+	vxB8d94PrPYu2b3wuE5OrA==
+X-Google-Smtp-Source: AK7set8Bj7b1HrLAuEwFy1Z07OGWlcmrCj32SezzjBkYQCTEExRPs577ubZoQrkIYamfFRL3si5Dxw==
+X-Received: by 2002:a05:6e02:1a6f:b0:315:3d25:231b with SMTP id w15-20020a056e021a6f00b003153d25231bmr22091467ilv.9.1677440123270;
+        Sun, 26 Feb 2023 11:35:23 -0800 (PST)
+Received: from robh_at_kernel.org ([2605:ef80:8069:8ddf:ff6b:c94c:94fd:4442])
+        by smtp.gmail.com with ESMTPSA id z12-20020a92cecc000000b003154f7c11f7sm1417544ilq.39.2023.02.26.11.35.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 05:25:05 -0800 (PST)
-From: Kang Chen <void0red@gmail.com>
-To: paskripkin@gmail.com
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kang Chen <void0red@gmail.com>
-Subject: [PATCH] staging: r8188eu: add a null check of kzalloc in go_add_group_info_attr
-Date: Sun, 26 Feb 2023 21:25:00 +0800
-Message-Id: <20230226132500.3933232-1-void0red@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sun, 26 Feb 2023 11:35:22 -0800 (PST)
+Received: (nullmailer pid 187425 invoked by uid 1000);
+	Sun, 26 Feb 2023 19:35:19 -0000
+Date: Sun, 26 Feb 2023 13:35:19 -0600
+From: Rob Herring <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-staging@lists.linux.dev, Maxim Schwalm <maxim.schwalm@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v1 01/10] dt-bindings: sound: nvidia,tegra-audio-common:
+ add new property
+Message-ID: <167744011865.187365.15488649749142004179.robh@kernel.org>
+References: <20230221183211.21964-1-clamor95@gmail.com>
+ <20230221183211.21964-2-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230221183211.21964-2-clamor95@gmail.com>
 
-kzalloc may fails, pdata_attr might be null and will cause
-illegal address access later.
 
-Signed-off-by: Kang Chen <void0red@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_p2p.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Tue, 21 Feb 2023 20:32:02 +0200, Svyatoslav Ryhel wrote:
+> Add nvidia,coupled-mic-hp-det property to use Mic detect GPIO only
+> if HP GPIO is in active state.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../devicetree/bindings/sound/nvidia,tegra-audio-common.yaml  | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
 
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index 93d3c9c43..802e1170a 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -31,6 +31,8 @@ static u32 go_add_group_info_attr(struct wifidirect_info *pwdinfo, u8 *pbuf)
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 
- 	pdata_attr = kzalloc(MAX_P2P_IE_LEN, GFP_KERNEL);
-+	if (!pdata_attr)
-+		return 0;
- 
- 	pstart = pdata_attr;
- 	pcur = pdata_attr;
--- 
-2.34.1
+Acked-by: Rob Herring <robh@kernel.org>
 
