@@ -1,88 +1,154 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ED1659
-	for <linux-staging@lists.linux.dev>; Mon, 27 Feb 2023 07:23:17 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id l1so2040667wry.12
-        for <linux-staging@lists.linux.dev>; Sun, 26 Feb 2023 23:23:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B692583
+	for <linux-staging@lists.linux.dev>; Tue, 28 Feb 2023 08:15:16 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id h14so8769126wru.4
+        for <linux-staging@lists.linux.dev>; Tue, 28 Feb 2023 00:15:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=InPnkM8NHOwVAlAHVMP17m0ZROfItRQFV6JlGSsqPgc=;
-        b=eN+YM348oSNBYu9bE+/139yGNbbjYtmLJeppjYOfFZZbb8OSKaLsGSkFo9kX5BJa8M
-         DDTTWrEjolLEA5419o9Mkyu8+an2B0lp2whNihFGZvMu3DBQL5wMoS6Whs7qONzYRxkQ
-         w2WploIg8rUCuJ/SXjD2JDWCtDvCBGfa76CWUjBqqueGPXdPjw8VmrAvBMelhgN8PNAP
-         GnXYSRsSqdkbLhmxr+xdxhclIorhPMQ58h4T9Pmi03akqfkLW+8cV3Caf8+o0ulpeerI
-         hlgyGma8g5VtRtHbATubVOA2wYNZ+zUjQTMa/T6ed5+HEEFD3baelCgtjXFN17EMFzcr
-         8XTQ==
+        d=linaro.org; s=google; t=1677572114;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=azxM/SMAWi+5Y+8kP4W8b45r/c639Rvk9h64PbJkv1E=;
+        b=EzHU25BuMEUwIZo0ZM03zEoP1TDcjArIY7QjyqP7DDk64d455X7mVS7BLjjjX7RRZJ
+         D6tRQdZ24N4rWhI037MwGUvOVAysjBvfRlnRfU3Sz0M6xUhowA2MDKy3QTMDiVOyDchi
+         /uM/7RFfR5r+z300QeyaYfIcJnnLImMqnsxQVa7WISDrzMMAbCSaP95ZFx7TurlpMSaJ
+         Bx+0Ysds+l6+RiqqTy5iXl2E+rvSl2AXxmffRQAkooFZ70VZkbSh5bohvxxjk9M0fLrk
+         duguOisYvwhECBnF+hhJL1nXHkfkTLt0vJ0pNm5WqQs+cRj+LeeeqT8ZI3UgxFpsbciH
+         1BZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=InPnkM8NHOwVAlAHVMP17m0ZROfItRQFV6JlGSsqPgc=;
-        b=p9zRnk4rOaMY8VGXgb865ZpZKYsYF6FUn4N2wK4YQ0hYZjs7rFOFbroXi86r5fYif/
-         JRniTU0EVGRdMVscC1iNWwoh/cwItFJCa8l6leKPfj/gUEZDbMAofsU2eYRo+AjNccc2
-         ZTdYmxk7eFeBBt7Tti5tWXGllrZddqEQ6j6lRdhuwwi4j5yWA/RKA5nT1wB0r+2oVB/3
-         R8vDCu8/7+soCiEfO5VNkNWxUiybpBjSBZz1aMFDnb+sGFb0ZEs787znQyB7Q8cL54xQ
-         gAy2Mg0QIfsIcabeBX7Is0JUqAE+niHhikRCYZg1+TIxqWtWae/WlgpiLmhdUOCW/hVS
-         EjFA==
-X-Gm-Message-State: AO0yUKUufD9usAKC6T0Hej+Ah/OQyCaCZc8lfh1WIsMlelJU2ypJlVtC
-	WhkRP0OGgi0r7C+zf2hbZEw=
-X-Google-Smtp-Source: AK7set8zUmOM7r6ONEZ/XM/ecICQnd5Os6zYo6/uphRo+BijSp8jj7AaZy56b26n+Zt01cA0ZwQ5UA==
-X-Received: by 2002:a5d:4ccf:0:b0:2c9:c90d:6869 with SMTP id c15-20020a5d4ccf000000b002c9c90d6869mr5551277wrt.42.1677482595823;
-        Sun, 26 Feb 2023 23:23:15 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q10-20020adfea0a000000b002c567b58e9asm6262303wrm.56.2023.02.26.23.23.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 23:23:15 -0800 (PST)
-Date: Mon, 27 Feb 2023 10:23:11 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Kang Chen <void0red@gmail.com>
-Cc: paskripkin@gmail.com, Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: add a null check of kzalloc in
- go_add_group_info_attr
-Message-ID: <Y/xaXw9LAOizJEBL@kadam>
-References: <20230226132500.3933232-1-void0red@gmail.com>
- <Y/w16PI4klfJaeXA@kadam>
- <CANE+tVpqZusCq4EXi7UV+jY0XBG+9x6UWh_JGCWKs3pZRMFBXA@mail.gmail.com>
+        d=1e100.net; s=20210112; t=1677572114;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=azxM/SMAWi+5Y+8kP4W8b45r/c639Rvk9h64PbJkv1E=;
+        b=RlO/zTbSBkaF77Xj2cuqaPYjj6infWRwAX7wx3aWwPKZfJdedi8qPTaqWlCQJ2dw6v
+         g/zaJ/lgQqDKdzVSH45Trm9Q7rbK+4l1rG74IqPcoHukZX7n/Ey8RkfFXg4rE6+ojXRj
+         ByFeHZ91eEPL+C5U91oDTvvMnojqJ4k+RN4g4QvyNbwg3RT8VEuuZX3Q+0ighSfGoJ7v
+         whalo5OxBUTDnLuTPq0VXhmvwEfNQiZKXFOPHnHYp4TaEbXO1jMuby39jHiznM5MuclF
+         gJ8Ja2SI7kikHgWM+Q+2Wnf/g8bYMNSOMRQwM25HNYuQSMHbtuTdtrAiUkA10YFitVXe
+         L88g==
+X-Gm-Message-State: AO0yUKUo568Q4FgCwTg0CZvx2iSvsROjc4rYAbSvpzGe+JMHcinZq+pv
+	4agAtLypzFcjUEcWvEyzKvdk7w==
+X-Google-Smtp-Source: AK7set9Am2h32Fsn/6toLjOljad6mPQ8tBB42OOqm1NJP0uXtXTRRGqgQTSUfJQyXOdmgvWImFuqIw==
+X-Received: by 2002:adf:f204:0:b0:2c7:76a:31ff with SMTP id p4-20020adff204000000b002c7076a31ffmr1700105wro.18.1677572114389;
+        Tue, 28 Feb 2023 00:15:14 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id x6-20020adff646000000b002c56046a3b5sm8891695wrp.53.2023.02.28.00.15.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Feb 2023 00:15:13 -0800 (PST)
+Message-ID: <43fb6355-9a94-fabe-156e-8706ece97f9f@linaro.org>
+Date: Tue, 28 Feb 2023 09:15:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANE+tVpqZusCq4EXi7UV+jY0XBG+9x6UWh_JGCWKs3pZRMFBXA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v1 03/10] dt-bindings: sound: nvidia,tegra-audio: add
+ RT5631 CODEC
+Content-Language: en-US
+To: Svyatoslav Ryhel <clamor95@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Maxim Schwalm <maxim.schwalm@gmail.com>, Dmitry Osipenko <digetx@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20230221183211.21964-1-clamor95@gmail.com>
+ <20230221183211.21964-4-clamor95@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230221183211.21964-4-clamor95@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 27, 2023 at 03:11:21PM +0800, Kang Chen wrote:
-> Hi, Dan,
+On 21/02/2023 19:32, Svyatoslav Ryhel wrote:
+> From: David Heidelberg <david@ixit.cz>
 > 
-> Thanks for your review.
-> I noticed there is no error handling in the origin design (this call chain).
-> go_add_group_info_attr returns a len-like value indicating the length
-> of pbuf.
-> I don't think throwing an error to the caller is a good idea, the caller
-> doesn't seem to care about it.
-> So inserting a netdev_dbg or pr_debug here might be enough.
-> Do you have a better idea?
+> Add dt-binding for RT5631 CODEC.
 > 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  .../sound/nvidia,tegra-audio-rt5631.yaml      | 88 +++++++++++++++++++
+>  1 file changed, 88 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml
+> new file mode 100644
+> index 000000000000..b347f34c47f2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml
+> @@ -0,0 +1,88 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/nvidia,tegra-audio-rt5631.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra audio complex with RT5631 CODEC
+> +
+> +maintainers:
+> +  - Jon Hunter <jonathanh@nvidia.com>
+> +  - Thierry Reding <thierry.reding@gmail.com>
+> +
+> +allOf:
+> +  - $ref: nvidia,tegra-audio-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - pattern: '^[a-z0-9]+,tegra-audio-rt5631(-[a-z0-9]+)+$'
+> +      - const: nvidia,tegra-audio-rt5631
+> +
+> +  nvidia,audio-routing:
+> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
+> +    description: |
+> +      A list of the connections between audio components.
+> +      Each entry is a pair of strings, the first being the connection's sink,
+> +      the second being the connection's source. Valid names for sources and
+> +      sinks are the pins (documented in the binding document),
+> +      and the jacks on the board.
+> +    minItems: 2
+> +    items:
+> +      enum:
+> +        # Board Connectors
+> +        - "Int Spk"
+> +        - "Headphone Jack"
+> +        - "Mic Jack"
+> +        - "Int Mic"
+> +
+> +        # CODEC Pins
+> +        - MIC1
+> +        - MIC2
+> +        - AXIL
+> +        - AXIR
+> +        - MONOIN_RXN
+> +        - MONOIN_RXP
+> +        - DMIC
+> +        - MIC Bias1
+> +        - MIC Bias2
+> +        - MONO_IN
+> +        - AUXO1
+> +        - AUXO2
+> +        - SPOL
+> +        - SPOR
+> +        - HPOL
+> +        - HPOR
+> +        - MONO
+> +
+> +required:
+> +  - nvidia,i2s-controller
 
-The bug is real, yes.  But you have your static checker which can detect
-it and I also have an unpublished static checker test which detects this
-bug.
+By convention we always require compatible (and your common schema does
+not require it, I think). The same for your other patches.
 
-drivers/staging/r8188eu/core/rtw_p2p.c:106 go_add_group_info_attr() warn: 'pdata_attr' was never checked for NULL
-
-If we just hide the bug enough for so that the static checker cannot
-find the bug then we're taking a step backward.  When this driver is
-ready to leave staging then normally I review every static checker
-warning.  But if we hide the warning then it will never be fixed.
-
-regards,
-dan carpenter
+Best regards,
+Krzysztof
 
