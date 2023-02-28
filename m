@@ -1,154 +1,125 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B692583
-	for <linux-staging@lists.linux.dev>; Tue, 28 Feb 2023 08:15:16 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id h14so8769126wru.4
-        for <linux-staging@lists.linux.dev>; Tue, 28 Feb 2023 00:15:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FEE9459
+	for <linux-staging@lists.linux.dev>; Tue, 28 Feb 2023 20:29:01 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id i34so45161568eda.7
+        for <linux-staging@lists.linux.dev>; Tue, 28 Feb 2023 12:29:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677572114;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1677616140;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=azxM/SMAWi+5Y+8kP4W8b45r/c639Rvk9h64PbJkv1E=;
-        b=EzHU25BuMEUwIZo0ZM03zEoP1TDcjArIY7QjyqP7DDk64d455X7mVS7BLjjjX7RRZJ
-         D6tRQdZ24N4rWhI037MwGUvOVAysjBvfRlnRfU3Sz0M6xUhowA2MDKy3QTMDiVOyDchi
-         /uM/7RFfR5r+z300QeyaYfIcJnnLImMqnsxQVa7WISDrzMMAbCSaP95ZFx7TurlpMSaJ
-         Bx+0Ysds+l6+RiqqTy5iXl2E+rvSl2AXxmffRQAkooFZ70VZkbSh5bohvxxjk9M0fLrk
-         duguOisYvwhECBnF+hhJL1nXHkfkTLt0vJ0pNm5WqQs+cRj+LeeeqT8ZI3UgxFpsbciH
-         1BZA==
+        bh=3QtVJrWXC9rGmnnc7M284yV9DN6nBtrJT7HUgADRWDs=;
+        b=C/G2C4DVX2bGqJJUEz6VqNG1FmT5cewYqbcHX8sBNLCdYALG3RHO+5ToBh9LXcgtjf
+         ctTMPXYcLWDvEg8di09qPjCdXvxvxReRYrKFFwL107leynYPYoQADs2HygD3SR7crrI3
+         Ch0gsNPRUL9mCZLY6Unt6vlj7/IQB/2NpIZYKxrXXaCh4x/+vJjIX6ed8qclTvPhqAmx
+         lMYkKuytiTlnZfLCrOn57MNjSp7ZUPUTQl2k03kRvZEKoBS7vB2E+d9iSLN/X4gedDfa
+         TtCHk5OMvxz+1/4SHiIcr7XMdZi4zRPhgAb/x+O61Gu2vV9ZABcjJK7V0D1CFcnhbYM1
+         XZGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677572114;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1677616140;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=azxM/SMAWi+5Y+8kP4W8b45r/c639Rvk9h64PbJkv1E=;
-        b=RlO/zTbSBkaF77Xj2cuqaPYjj6infWRwAX7wx3aWwPKZfJdedi8qPTaqWlCQJ2dw6v
-         g/zaJ/lgQqDKdzVSH45Trm9Q7rbK+4l1rG74IqPcoHukZX7n/Ey8RkfFXg4rE6+ojXRj
-         ByFeHZ91eEPL+C5U91oDTvvMnojqJ4k+RN4g4QvyNbwg3RT8VEuuZX3Q+0ighSfGoJ7v
-         whalo5OxBUTDnLuTPq0VXhmvwEfNQiZKXFOPHnHYp4TaEbXO1jMuby39jHiznM5MuclF
-         gJ8Ja2SI7kikHgWM+Q+2Wnf/g8bYMNSOMRQwM25HNYuQSMHbtuTdtrAiUkA10YFitVXe
-         L88g==
-X-Gm-Message-State: AO0yUKUo568Q4FgCwTg0CZvx2iSvsROjc4rYAbSvpzGe+JMHcinZq+pv
-	4agAtLypzFcjUEcWvEyzKvdk7w==
-X-Google-Smtp-Source: AK7set9Am2h32Fsn/6toLjOljad6mPQ8tBB42OOqm1NJP0uXtXTRRGqgQTSUfJQyXOdmgvWImFuqIw==
-X-Received: by 2002:adf:f204:0:b0:2c7:76a:31ff with SMTP id p4-20020adff204000000b002c7076a31ffmr1700105wro.18.1677572114389;
-        Tue, 28 Feb 2023 00:15:14 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id x6-20020adff646000000b002c56046a3b5sm8891695wrp.53.2023.02.28.00.15.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 00:15:13 -0800 (PST)
-Message-ID: <43fb6355-9a94-fabe-156e-8706ece97f9f@linaro.org>
-Date: Tue, 28 Feb 2023 09:15:11 +0100
+        bh=3QtVJrWXC9rGmnnc7M284yV9DN6nBtrJT7HUgADRWDs=;
+        b=iCwEzcddi+FJWflEANLgI/WwwY4dcoADG/kn037jiidjtD55OS7b9Vp98p2eoKwQQo
+         WrOmc9eiPav75z9sVSltBIqpZRMycvvpoV43nvF4WsiLcal9VPtarOayel2eBVMjbrlT
+         xRTF8YF+OrPnrhZlrRdnpWekjHhK2mexyRH3PkDnTfsDFEVNxGDLL+RLsb0eKxfZ6JZq
+         qrgJriGEQ2ftGnpXOXohmVrR6rpmW6QhYzOovHV9YJwOOaTvkHXLmbiY+HT+4zVwfj6x
+         LSKa3EzoCUXLHyikgBd9JKegGui7Hwlgc0nfvOpl9OhnlC52alM9kM8lhBvwf0y4WOdS
+         KLyw==
+X-Gm-Message-State: AO0yUKWXLBrwyX7RgzE/lSTGeCTDemNpepDIRY9LO8KtDqbo0/eC+zpM
+	2RR/nfrQ8ckDB2Zl5HaNRTo=
+X-Google-Smtp-Source: AK7set9zoo+TtHubqBJwmOt0qb1kPXXRmSV9dMnMd7bcIxofX2ktlVf9srCD6WTwISP3DlfCJ+kyQw==
+X-Received: by 2002:a17:906:251:b0:8b1:94cc:10b1 with SMTP id 17-20020a170906025100b008b194cc10b1mr3956372ejl.7.1677616140132;
+        Tue, 28 Feb 2023 12:29:00 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id t6-20020a17090616c600b008d356cafaedsm4778427ejd.40.2023.02.28.12.28.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Feb 2023 12:28:59 -0800 (PST)
+Date: Tue, 28 Feb 2023 21:28:57 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Remove function ..dm_check_ac_dc_power
+ calling a script
+Message-ID: <20230228202857.GA16442@matrix-ESPRIMO-P710>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v1 03/10] dt-bindings: sound: nvidia,tegra-audio: add
- RT5631 CODEC
-Content-Language: en-US
-To: Svyatoslav Ryhel <clamor95@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Maxim Schwalm <maxim.schwalm@gmail.com>, Dmitry Osipenko <digetx@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20230221183211.21964-1-clamor95@gmail.com>
- <20230221183211.21964-4-clamor95@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230221183211.21964-4-clamor95@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 21/02/2023 19:32, Svyatoslav Ryhel wrote:
-> From: David Heidelberg <david@ixit.cz>
-> 
-> Add dt-binding for RT5631 CODEC.
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->  .../sound/nvidia,tegra-audio-rt5631.yaml      | 88 +++++++++++++++++++
->  1 file changed, 88 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml
-> new file mode 100644
-> index 000000000000..b347f34c47f2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-rt5631.yaml
-> @@ -0,0 +1,88 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/nvidia,tegra-audio-rt5631.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NVIDIA Tegra audio complex with RT5631 CODEC
-> +
-> +maintainers:
-> +  - Jon Hunter <jonathanh@nvidia.com>
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +
-> +allOf:
-> +  - $ref: nvidia,tegra-audio-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - pattern: '^[a-z0-9]+,tegra-audio-rt5631(-[a-z0-9]+)+$'
-> +      - const: nvidia,tegra-audio-rt5631
-> +
-> +  nvidia,audio-routing:
-> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> +    description: |
-> +      A list of the connections between audio components.
-> +      Each entry is a pair of strings, the first being the connection's sink,
-> +      the second being the connection's source. Valid names for sources and
-> +      sinks are the pins (documented in the binding document),
-> +      and the jacks on the board.
-> +    minItems: 2
-> +    items:
-> +      enum:
-> +        # Board Connectors
-> +        - "Int Spk"
-> +        - "Headphone Jack"
-> +        - "Mic Jack"
-> +        - "Int Mic"
-> +
-> +        # CODEC Pins
-> +        - MIC1
-> +        - MIC2
-> +        - AXIL
-> +        - AXIR
-> +        - MONOIN_RXN
-> +        - MONOIN_RXP
-> +        - DMIC
-> +        - MIC Bias1
-> +        - MIC Bias2
-> +        - MONO_IN
-> +        - AUXO1
-> +        - AUXO2
-> +        - SPOL
-> +        - SPOR
-> +        - HPOL
-> +        - HPOR
-> +        - MONO
-> +
-> +required:
-> +  - nvidia,i2s-controller
+Remove function _rtl92e_dm_check_ac_dc_power calling a script
+/etc/acpi/wireless-rtl-ac-dc-power.sh that is not available. This script
+is not part of the kernel and it is not available on the www. The result
+is that this function is just dead code.
 
-By convention we always require compatible (and your common schema does
-not require it, I think). The same for your other patches.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+I found a hint in this blog about the content of the script:
+https://www.kubuntuforums.net/forum/archives/eol-releases/-9-10/network-
+support-ai/41269-realtek-lan-connection-timeout
 
-Best regards,
-Krzysztof
+If you know more about the purpose and the need for this script please
+respond.
+
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 23 ----------------------
+ 1 file changed, 23 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+index d8455b23e555..c04eb15c4044 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+@@ -185,7 +185,6 @@ static void _rtl92e_dm_init_fsync(struct net_device *dev);
+ static void _rtl92e_dm_deinit_fsync(struct net_device *dev);
+ 
+ static	void _rtl92e_dm_check_txrateandretrycount(struct net_device *dev);
+-static  void _rtl92e_dm_check_ac_dc_power(struct net_device *dev);
+ static void _rtl92e_dm_check_fsync(struct net_device *dev);
+ static void _rtl92e_dm_check_rf_ctrl_gpio(void *data);
+ static void _rtl92e_dm_fsync_timer_callback(struct timer_list *t);
+@@ -236,8 +235,6 @@ void rtl92e_dm_watchdog(struct net_device *dev)
+ 	if (priv->being_init_adapter)
+ 		return;
+ 
+-	_rtl92e_dm_check_ac_dc_power(dev);
+-
+ 	_rtl92e_dm_check_txrateandretrycount(dev);
+ 	_rtl92e_dm_check_edca_turbo(dev);
+ 
+@@ -255,26 +252,6 @@ void rtl92e_dm_watchdog(struct net_device *dev)
+ 	_rtl92e_dm_cts_to_self(dev);
+ }
+ 
+-static void _rtl92e_dm_check_ac_dc_power(struct net_device *dev)
+-{
+-	struct r8192_priv *priv = rtllib_priv(dev);
+-	static const char ac_dc_script[] = "/etc/acpi/wireless-rtl-ac-dc-power.sh";
+-	char *argv[] = {(char *)ac_dc_script, DRV_NAME, NULL};
+-	static char *envp[] = {"HOME=/",
+-			"TERM=linux",
+-			"PATH=/usr/bin:/bin",
+-			 NULL};
+-
+-	if (priv->rst_progress == RESET_TYPE_SILENT)
+-		return;
+-	if (priv->rtllib->state != RTLLIB_LINKED)
+-		return;
+-	call_usermodehelper(ac_dc_script, argv, envp, UMH_WAIT_PROC);
+-
+-	return;
+-};
+-
+-
+ void rtl92e_init_adaptive_rate(struct net_device *dev)
+ {
+ 
+-- 
+2.39.2
 
