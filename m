@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C11BA938
-	for <linux-staging@lists.linux.dev>; Fri,  3 Mar 2023 21:47:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0588EC4339C;
-	Fri,  3 Mar 2023 21:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CC9A938
+	for <linux-staging@lists.linux.dev>; Fri,  3 Mar 2023 21:48:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C39C4339C;
+	Fri,  3 Mar 2023 21:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677880047;
-	bh=oW3PLUurxnAbO9TmfiyWo7lsT6I+gdqcCeefskfrKxE=;
+	s=k20201202; t=1677880099;
+	bh=cbWO7an7DylfP+mWKJycr3q9q9kP6l5spTuHFzL5k9Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RbED6ezg4VRYM091rVCmF37Cxe14EYcc+7/o2dgDE5Gflvr/QNQ5CX+apwsHkzfrk
-	 SzWWs3eeYft5G05kEBwTzK0UquwpQ9+rDdz/89+5jJxuJm7VZYjmgjOojw8px4kGRw
-	 bimXEtndiW193+Oi/VtAOf21IWWU35iANSB3Gkh1hRa+Bi9yk3NdqB6WOFczPRRaIT
-	 ugRq4spbJ1dLQo/CRZeFIAAfBZDkoXr0hetsoTCGbSixyxyXryLrnqOt95KmMsnzzh
-	 UYDcxWANJRxOMHPpIaXs4lawVwHk1DQtK46EautoGb5z6DFUm8cUnoy/yDSK5mI2xM
-	 rDCX+lqYkz9dQ==
+	b=tur+lxfaWS2PEfHqhXCSCqorn0loYFDgF/ysu2nA3Y89cf4bydvogiyKsP8wgrKp2
+	 ++6/CwpTJ1Kam3WHl37LtzKwKoTj4WP/bfsgMIpINtvKS/xVwZV2mEaykufRt2VOvy
+	 rQKrAJ7IbE+b4fLuhcVVobHkxPbYDzCedd1So0rUN465yGD7kxoEqFa51KKmQw6D8N
+	 04zH4H/spilGOGb1EQKnfYPsAr3mhkMu4DLP3PIv/FBq/0U9C5n4SeHVYnqR7ORAKN
+	 DKBprDImMjHVFQuYzTkJxeiksIjZxgqcGnE9mEATN8Ukh70fT1LoQaDLHJqvLEt3Na
+	 gUs/u7bb1s7Xg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -24,12 +24,12 @@ Cc: Yuan Can <yuancan@huawei.com>,
 	Sasha Levin <sashal@kernel.org>,
 	drv@mailo.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 07/30] staging: emxx_udc: Add checks for dma_alloc_coherent()
-Date: Fri,  3 Mar 2023 16:46:52 -0500
-Message-Id: <20230303214715.1452256-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 06/20] staging: emxx_udc: Add checks for dma_alloc_coherent()
+Date: Fri,  3 Mar 2023 16:47:52 -0500
+Message-Id: <20230303214806.1453287-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303214715.1452256-1-sashal@kernel.org>
-References: <20230303214715.1452256-1-sashal@kernel.org>
+In-Reply-To: <20230303214806.1453287-1-sashal@kernel.org>
+References: <20230303214806.1453287-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,10 +57,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-index 3897f8e8f5e0d..6870a33d4ccf3 100644
+index cc4c18c3fb36d..7d18ad68be264 100644
 --- a/drivers/staging/emxx_udc/emxx_udc.c
 +++ b/drivers/staging/emxx_udc/emxx_udc.c
-@@ -2591,10 +2591,15 @@ static int nbu2ss_ep_queue(struct usb_ep *_ep,
+@@ -2593,10 +2593,15 @@ static int nbu2ss_ep_queue(struct usb_ep *_ep,
  		req->unaligned = false;
  
  	if (req->unaligned) {
