@@ -1,48 +1,82 @@
-Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAF01FB3
-	for <linux-staging@lists.linux.dev>; Fri,  3 Mar 2023 09:16:31 +0000 (UTC)
-Received: by mail.corrib.pl (Postfix, from userid 1001)
-	id 988BBA3D6B; Fri,  3 Mar 2023 09:11:06 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
-	t=1677834684; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
-	h=Date:From:To:Subject:From;
-	b=IwJFGH5+wj8rkN15kEZmjjspPNG3zYWNlGEQhAiwePTGsWc/yKz8RkrqCxEZ/YW34
-	 vUNUKq5vJCWF4V+HV+kojgvo6BbVRCiCRT+7Lg3tMgEz8VEX/DcBmnR3vBdfaM8PgL
-	 Bm3LE+BSmQpeIhw3y5aEfrxMHVDQP3d0FqWmR86IS6ljgyuXqF3QZuDi0B0AkD48Hu
-	 Oh6h2vgSxfM8Oyo98Xy1KtvF/hZXCKJQr/o3mxI+M4o1f4GojdrExOv93LvEzbEFri
-	 4FC26K9EP1VCwIGLYxp8aM4hwYUkL/EvhNIbsXRXvs8iEDlxIssqYudmt9mneuvffO
-	 10HNvdAXPLIJA==
-Received: by mail.corrib.pl for <linux-staging@lists.linux.dev>; Fri,  3 Mar 2023 09:10:55 GMT
-Message-ID: <20230303074501-0.1.5u.hcsp.0.9q29an87e9@corrib.pl>
-Date: Fri,  3 Mar 2023 09:10:55 GMT
-From: =?UTF-8?Q?"Szczepan_Kie=C5=82basa"?= <szczepan.kielbasa@corrib.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Faktoring
-X-Mailer: mail.corrib.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B7E8F7B
+	for <linux-staging@lists.linux.dev>; Fri,  3 Mar 2023 21:41:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ABCFC433D2;
+	Fri,  3 Mar 2023 21:41:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1677879691;
+	bh=gBacpPObbsTaKF3BXzGCiOFfFP+HyV+HIQY11zBlvIQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nAOb6oLFiGzDtBkBamylnS38hU8AzlRc1LpetJRClSTjdR7qhASIWw3H0LOmRciRY
+	 ZIh0Dhqv5e2GPJ08qJkU7KWK8qweF3FLbuxAlt66fD/QQGIbUPo6PN365LBXxROI4u
+	 gdD/7b0FMZadGniRJ89R8vt7NUS96tKJd0RoRI+Q6zh2dxiQ8tjHNKaDC0l7rFywlN
+	 DuJb/t1oXXdFPywaB9bwAD3uUPIH31uoByMiljm9ueIM8PhoPRt4K2GurpBw+djaId
+	 9EHb6QH1Hik3NkMnFTPiT9p2KHbCMYpdFYExqKSQpkapW+GkeY2pwe1kdLm3js2qx9
+	 sp4A0rpKNEVAg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Yuan Can <yuancan@huawei.com>,
+	Simon Horman <horms@verge.net.au>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	drv@mailo.com,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.2 14/64] staging: emxx_udc: Add checks for dma_alloc_coherent()
+Date: Fri,  3 Mar 2023 16:40:16 -0500
+Message-Id: <20230303214106.1446460-14-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230303214106.1446460-1-sashal@kernel.org>
+References: <20230303214106.1446460-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-Dzie=C5=84 dobry,
+From: Yuan Can <yuancan@huawei.com>
 
-rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
-ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
-wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
+[ Upstream commit f6510a93cfd8c6c79b4dda0f2967cdc6df42eff4 ]
 
-Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
-stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
-z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
- kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
-adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
-Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
+As the dma_alloc_coherent may return NULL, the return value needs to be
+checked to avoid NULL poineter dereference.
 
+Signed-off-by: Yuan Can <yuancan@huawei.com>
+Reviewed-by: Simon Horman <horms@verge.net.au>
+Link: https://lore.kernel.org/r/20230119083119.16956-1-yuancan@huawei.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/emxx_udc/emxx_udc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Pozdrawiam
-Szczepan Kie=C5=82basa
+diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+index b4e19174bef2e..f9765841c4aa3 100644
+--- a/drivers/staging/emxx_udc/emxx_udc.c
++++ b/drivers/staging/emxx_udc/emxx_udc.c
+@@ -2587,10 +2587,15 @@ static int nbu2ss_ep_queue(struct usb_ep *_ep,
+ 		req->unaligned = false;
+ 
+ 	if (req->unaligned) {
+-		if (!ep->virt_buf)
++		if (!ep->virt_buf) {
+ 			ep->virt_buf = dma_alloc_coherent(udc->dev, PAGE_SIZE,
+ 							  &ep->phys_buf,
+ 							  GFP_ATOMIC | GFP_DMA);
++			if (!ep->virt_buf) {
++				spin_unlock_irqrestore(&udc->lock, flags);
++				return -ENOMEM;
++			}
++		}
+ 		if (ep->epnum > 0)  {
+ 			if (ep->direct == USB_DIR_IN)
+ 				memcpy(ep->virt_buf, req->req.buf,
+-- 
+2.39.2
+
