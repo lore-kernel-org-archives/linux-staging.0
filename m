@@ -1,47 +1,50 @@
 Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21961FCF
-	for <linux-staging@lists.linux.dev>; Sat,  4 Mar 2023 19:12:56 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id j11so3573717edq.4
-        for <linux-staging@lists.linux.dev>; Sat, 04 Mar 2023 11:12:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B0C28F7
+	for <linux-staging@lists.linux.dev>; Sat,  4 Mar 2023 19:13:26 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id i34so23079321eda.7
+        for <linux-staging@lists.linux.dev>; Sat, 04 Mar 2023 11:13:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677957175;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wix47mHK0JiUR1csrqiZkjc5mC3uJiOQ3Vzx3f1g+ig=;
-        b=PaLIUQwss3xHYhvRzDWUskLnpvLXeTygdlDzzhMD0fbUvkEbsZxG1ek8tl5Fo+Mkdd
-         0rHDmkXf3or51oChn+UBtHWrOKY1yz8GbwVrEA1MX0w5EXBHO/mhRTcSRUE4XAg6c5md
-         guIz/GDLADsbJrO1MgVFB1lNw+hZk9Sz5O8jwLw9FRftPHohULmhbxFm/GbKKzPQviLp
-         RCSlN3Yo/0M4ft4QTb2fIc3PaMZLFhzrMnhH5R4cdjzfRC1D+KhQA2ipQeAA8KvD8j4j
-         A53jAsF7SEuaucu8vENeC9dPU8jEPOcdL3B5CGWD0sqJrub95kyzWSbSitKG1SqCzgxb
-         4Dsg==
+        d=gmail.com; s=20210112; t=1677957204;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BcfDUA/sRgLUGaoFssKZvpjlOGcLsgZTKveJXBBBB9Q=;
+        b=OJ5LxVkTl0ik38c6evn6jp+2Bz+7B5jqusA7T/ZI9PAwylXurqk2a99LPFTXevG5rW
+         xyic2RrO/yqSNGLgPMRFer64ZADdVend4YLITF8/thnybUPfTArkF29vWQYkP6YprJoa
+         dDT7oQb7p+lTi/p3hnJZL/gjxmNoFDCvG0wlIKMjuRaOs3xmVsaA18APF8Zve+HaKnak
+         VFDEB7RRqKkgc9yQHXeQW5VddcJrLT0qErLNhUFZ38bqvr8JpzFk4/dGLSChztE9Tdy4
+         CtFkZf+73Ee1/eUve7GSJkOM1SqR/X3SYD6pB4wxheKcnmtXn6pkLAEVzNs04WazOR7n
+         tXvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677957175;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wix47mHK0JiUR1csrqiZkjc5mC3uJiOQ3Vzx3f1g+ig=;
-        b=fTd1XRyGGCWD9QLSRlJIHmO4LzsETXma6NP4xCO4eeucIss57cPXtqsKKAQw/ftPwW
-         Wgh4LawCK/9sFjEwjE2NBXQaKLGx3+drwjWiuVOzi/KdzSsyNtwacvxTkv8h1/pgKLtN
-         DbLhNJtWVa0eQcdiFqBGeALWN8vmIPgRgMVxIn6bLTeZRDjbEQQsi2vhO2KNaVKOr9uX
-         8/ZVtjpjAbOrqjLQiczoRddbmpF0L32jYRVo8+E1QnEhZQWxWp6OneTuYX+WjpB6eDKa
-         6RN3XILmmSTSUZ0v7A4pD9D6qugZxdwo/3g/cdwLfn1PWE3VSHHnxjx1ZcELJQeSqcr5
-         q/hg==
-X-Gm-Message-State: AO0yUKWn4PDwvSiNOvlwSJwNXQY1JkQ/F/htuPK6pNHZ+UMG+mUyVf3h
-	sKRjGBX9Cj6rZMOKisy4T5Q=
-X-Google-Smtp-Source: AK7set8MCwgrMCv1RkmWlIs/GhUpLqQeTbCzBu7Uq/tSb8/yCCEzHF0heJKlhhgpHYdJvOC1pPrLPg==
-X-Received: by 2002:a17:906:3f5d:b0:8b1:94cc:10b1 with SMTP id f29-20020a1709063f5d00b008b194cc10b1mr5417384ejj.7.1677957174699;
-        Sat, 04 Mar 2023 11:12:54 -0800 (PST)
+        d=1e100.net; s=20210112; t=1677957204;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BcfDUA/sRgLUGaoFssKZvpjlOGcLsgZTKveJXBBBB9Q=;
+        b=JrVbAM9onpQIIbVV7796AsDjdjvon29hLTGJAJemAl3ta4e91jFAKpx5aW+7vlNHdZ
+         eXkTDr+QxSkwYqZ0fl/KdpAVPUGcMTZWjxegHawxSYNwqMlC+N7/G5S9izH7o1D4DUoo
+         Ci+HuX8zZ5l4xH3hst7JkWWfW1BfQco8LG2QyCdp9FbZfgI1ydnelNdl68qNk4DCWNOB
+         wkaGOCqLFvxD1+wyxNWsLQ1Os10LcxgEl9UaGa2asIeztny4kj7LKIL+bVnID54tGxsQ
+         nfDUTOZqMw8I9XSwYTHlGhZezbBNTn4HxwjLG+gzT5hp5PDI8gnfNrY2NfxTuEUhtK+C
+         yieg==
+X-Gm-Message-State: AO0yUKW9+X1T5IvV0mgCtsmpvLyaBf8uU2NKuEcI3zLvDrUu+vWU1Okg
+	oqyEmnm06T+do6ygt/BuQHQ=
+X-Google-Smtp-Source: AK7set+SbLZITSzqWhSY7W6Hx/wQkZPrsDvjs7X4Ag6xyy6IB71ByFNZnKcM+z3vFIYGX9bfApuCbA==
+X-Received: by 2002:a05:6402:26d4:b0:4af:81f1:5b02 with SMTP id x20-20020a05640226d400b004af81f15b02mr6984046edd.2.1677957204589;
+        Sat, 04 Mar 2023 11:13:24 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id ot19-20020a170906ccd300b008b9d2da5343sm2338450ejb.210.2023.03.04.11.12.53
+        by smtp.gmail.com with ESMTPSA id v5-20020a50d085000000b004af5968cb3bsm2744136edd.17.2023.03.04.11.13.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Mar 2023 11:12:54 -0800 (PST)
-Date: Sat, 4 Mar 2023 20:12:52 +0100
+        Sat, 04 Mar 2023 11:13:24 -0800 (PST)
+Date: Sat, 4 Mar 2023 20:13:22 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] staging: rtl8192e: Removing rf_type RF_2T4R from driver
-Message-ID: <cover.1677955334.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 1/2] staging: rtl8192e: Remove empty Array
+ Rtl8192PciEPHY_REGArray
+Message-ID: <511bd239bf033dca3efcc64a640d5343c98fa897.1677955334.git.philipp.g.hortmann@gmail.com>
+References: <cover.1677955334.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,39 +53,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1677955334.git.philipp.g.hortmann@gmail.com>
 
-Removing rf_type RF_2T4R from driver as it is dead code.
+Remove empty array Rtl8192PciEPHY_REGArray and the code where it is used
+because it is dead code.
 
-First reason:
-The following table is used to configure the phy base band:
-u32 Rtl8192PciEPHY_REGArray[PHY_REGArrayLengthPciE] = {0x0,};
-A valid array has at least two columns.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 5 +----
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h | 2 --
+ drivers/staging/rtl8192e/rtl8192e/table.c      | 2 --
+ drivers/staging/rtl8192e/rtl8192e/table.h      | 2 --
+ 4 files changed, 1 insertion(+), 10 deletions(-)
 
-Second reason:
-According to a list of devices from wiki the seven shown devices do only support
-MIMO config: 1x2:2 in phy modes b,g,n. The only rf chip that is used is RTL8256.
-
-Tested with rtl8192e
-Transferred this patch over wlan connection of rtl8192e
-
-This patch series requires the patches:
-"[PATCH] staging: rtl8192e: Change filename r8192E_hwimg.x to table.x"
-"[PATCH] staging: rtl8192e: Remove call_usermodehelper starting RadioPower.sh"
-"[PATCH] staging: rtl8192e: Remove function ..dm_check_ac_dc_power calling a script"
-
-Philipp Hortmann (2):
-  staging: rtl8192e: Remove empty Array Rtl8192PciEPHY_REGArray
-  staging: rtl8192e: Remove conditions for RF_2T4R
-
- .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |   3 +-
- .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  26 +----
- .../staging/rtl8192e/rtl8192e/r8192E_phy.h    |   2 -
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 109 ++++--------------
- drivers/staging/rtl8192e/rtl8192e/table.c     |   2 -
- drivers/staging/rtl8192e/rtl8192e/table.h     |   2 -
- drivers/staging/rtl8192e/rtllib.h             |   1 -
- 7 files changed, 26 insertions(+), 119 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+index 6388f1220575..385ceb3a9636 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+@@ -334,10 +334,7 @@ static void _rtl92e_phy_config_bb(struct net_device *dev, u8 ConfigType)
+ 
+ 	AGCTAB_ArrayLen = AGCTAB_ArrayLength;
+ 	Rtl819XAGCTAB_Array_Table = Rtl819XAGCTAB_Array;
+-	if (priv->rf_type == RF_2T4R) {
+-		PHY_REGArrayLen = PHY_REGArrayLength;
+-		Rtl819XPHY_REGArray_Table = Rtl819XPHY_REGArray;
+-	} else if (priv->rf_type == RF_1T2R) {
++	if (priv->rf_type == RF_1T2R) {
+ 		PHY_REGArrayLen = PHY_REG_1T2RArrayLength;
+ 		Rtl819XPHY_REGArray_Table = Rtl819XPHY_REG_1T2RArray;
+ 	}
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
+index 75629f5df954..561a4c874fe3 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
+@@ -16,7 +16,6 @@
+ #define MACPHY_Array_PGLength			MACPHY_Array_PGLengthPciE
+ #define RadioC_ArrayLength			RadioC_ArrayLengthPciE
+ #define RadioD_ArrayLength			RadioD_ArrayLengthPciE
+-#define PHY_REGArrayLength			PHY_REGArrayLengthPciE
+ #define PHY_REG_1T2RArrayLength			PHY_REG_1T2RArrayLengthPciE
+ 
+ #define Rtl819XMACPHY_Array_PG			Rtl8192PciEMACPHY_Array_PG
+@@ -26,7 +25,6 @@
+ #define Rtl819XRadioC_Array			Rtl8192PciERadioC_Array
+ #define Rtl819XRadioD_Array			Rtl8192PciERadioD_Array
+ #define Rtl819XAGCTAB_Array			Rtl8192PciEAGCTAB_Array
+-#define Rtl819XPHY_REGArray			Rtl8192PciEPHY_REGArray
+ #define Rtl819XPHY_REG_1T2RArray		Rtl8192PciEPHY_REG_1T2RArray
+ 
+ extern u32 rtl819XAGCTAB_Array[];
+diff --git a/drivers/staging/rtl8192e/rtl8192e/table.c b/drivers/staging/rtl8192e/rtl8192e/table.c
+index 1f80dbeb17b5..d04608d99cbf 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/table.c
++++ b/drivers/staging/rtl8192e/rtl8192e/table.c
+@@ -6,8 +6,6 @@
+  */
+ #include "table.h"
+ 
+-u32 Rtl8192PciEPHY_REGArray[PHY_REGArrayLengthPciE] = {0x0,};
+-
+ u32 Rtl8192PciEPHY_REG_1T2RArray[PHY_REG_1T2RArrayLengthPciE] = {
+ 	0x800, 0x00000000,
+ 	0x804, 0x00000001,
+diff --git a/drivers/staging/rtl8192e/rtl8192e/table.h b/drivers/staging/rtl8192e/rtl8192e/table.h
+index 7d63f5a5c1b7..177fe2173430 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/table.h
++++ b/drivers/staging/rtl8192e/rtl8192e/table.h
+@@ -11,8 +11,6 @@
+ 
+ #include <linux/types.h>
+ 
+-#define PHY_REGArrayLengthPciE 1
+-extern u32 Rtl8192PciEPHY_REGArray[PHY_REGArrayLengthPciE];
+ #define PHY_REG_1T2RArrayLengthPciE 296
+ extern u32 Rtl8192PciEPHY_REG_1T2RArray[PHY_REG_1T2RArrayLengthPciE];
+ #define RadioA_ArrayLengthPciE 246
 -- 
 2.39.2
 
