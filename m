@@ -1,49 +1,48 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B0C28F7
-	for <linux-staging@lists.linux.dev>; Sat,  4 Mar 2023 19:13:26 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id i34so23079321eda.7
-        for <linux-staging@lists.linux.dev>; Sat, 04 Mar 2023 11:13:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4186B28F7
+	for <linux-staging@lists.linux.dev>; Sat,  4 Mar 2023 19:13:45 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id o12so23032672edb.9
+        for <linux-staging@lists.linux.dev>; Sat, 04 Mar 2023 11:13:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677957204;
+        d=gmail.com; s=20210112; t=1677957223;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BcfDUA/sRgLUGaoFssKZvpjlOGcLsgZTKveJXBBBB9Q=;
-        b=OJ5LxVkTl0ik38c6evn6jp+2Bz+7B5jqusA7T/ZI9PAwylXurqk2a99LPFTXevG5rW
-         xyic2RrO/yqSNGLgPMRFer64ZADdVend4YLITF8/thnybUPfTArkF29vWQYkP6YprJoa
-         dDT7oQb7p+lTi/p3hnJZL/gjxmNoFDCvG0wlIKMjuRaOs3xmVsaA18APF8Zve+HaKnak
-         VFDEB7RRqKkgc9yQHXeQW5VddcJrLT0qErLNhUFZ38bqvr8JpzFk4/dGLSChztE9Tdy4
-         CtFkZf+73Ee1/eUve7GSJkOM1SqR/X3SYD6pB4wxheKcnmtXn6pkLAEVzNs04WazOR7n
-         tXvw==
+        bh=eyAMcrub/JIPykeTPHmpekVXU2bApz4nuWRFoRhDAj8=;
+        b=MnpetaVXvVS1PiobuSoJmb+zGIwqDEQXkoUW01YENNbgyYSzrKUImTRUVa6xGiisyu
+         wnyM4Na6TDg3SJ8qxU5U0UK49tPNXrjZCOiTlVHEwM27e4AMYwsQTYZqSPaYmpqBXHrx
+         8nNnG4q4vs2EG1bX1vLAJ1SXDck3UqHdt9BynfcN2S5eY9Q1z04HGHL/M1W7QsM05vvJ
+         InRXkXhRw0742V2Z3y30BT9RW0vJUlDE5PYFqYoovEz714Xu5vJL3TbEZBdI1o+ez6W0
+         iTk1/9DLcYlFtlS0NAt2s+CikDvyFOHoENyUpIFCsmJfg9VV9h6nMj/KRUzxhXWJH6L4
+         UmZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677957204;
+        d=1e100.net; s=20210112; t=1677957223;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BcfDUA/sRgLUGaoFssKZvpjlOGcLsgZTKveJXBBBB9Q=;
-        b=JrVbAM9onpQIIbVV7796AsDjdjvon29hLTGJAJemAl3ta4e91jFAKpx5aW+7vlNHdZ
-         eXkTDr+QxSkwYqZ0fl/KdpAVPUGcMTZWjxegHawxSYNwqMlC+N7/G5S9izH7o1D4DUoo
-         Ci+HuX8zZ5l4xH3hst7JkWWfW1BfQco8LG2QyCdp9FbZfgI1ydnelNdl68qNk4DCWNOB
-         wkaGOCqLFvxD1+wyxNWsLQ1Os10LcxgEl9UaGa2asIeztny4kj7LKIL+bVnID54tGxsQ
-         nfDUTOZqMw8I9XSwYTHlGhZezbBNTn4HxwjLG+gzT5hp5PDI8gnfNrY2NfxTuEUhtK+C
-         yieg==
-X-Gm-Message-State: AO0yUKW9+X1T5IvV0mgCtsmpvLyaBf8uU2NKuEcI3zLvDrUu+vWU1Okg
-	oqyEmnm06T+do6ygt/BuQHQ=
-X-Google-Smtp-Source: AK7set+SbLZITSzqWhSY7W6Hx/wQkZPrsDvjs7X4Ag6xyy6IB71ByFNZnKcM+z3vFIYGX9bfApuCbA==
-X-Received: by 2002:a05:6402:26d4:b0:4af:81f1:5b02 with SMTP id x20-20020a05640226d400b004af81f15b02mr6984046edd.2.1677957204589;
-        Sat, 04 Mar 2023 11:13:24 -0800 (PST)
+        bh=eyAMcrub/JIPykeTPHmpekVXU2bApz4nuWRFoRhDAj8=;
+        b=cvii6J8jaod9HO8rgb6Dn8QLcxOVuvj5/VvoOiAw3VZGieIJ0oydeo6P12ktxbLdL7
+         KXDu4dWShhmNBfp7BU5DfCWdGdaZNJCYadp99yynbk46iHhfPalabN8rCzoCTUM2+4lM
+         WKlykudyeSvA0dOPKy5u6Vlryb6SL+xKJ71mkQ5mWkBrGGs0s3gYFD2Cg3hIO7Wmuw0H
+         WLfLozuQGZd2jjGgBBmvubl7zfreugRiTazBqlwtRxT6vB35g5wxcCiH+8fYHvl+Rn3B
+         V4S0R1IUTwZzP/sYdkZwgM6XMkygbGTlhM4W6KLgrafVB3nZWV6WCeg6Eu8qfO1q8Xt+
+         spwg==
+X-Gm-Message-State: AO0yUKVblKYWqkeI8NhENxoRnX7/COHt/h/dhRf65rrAQZbwsXdr1EMd
+	afcsA+0tBG/qgfeMtfo4/Ys=
+X-Google-Smtp-Source: AK7set/MxLsnE9m/taL4toCgHQWvN2+DonG9XbVNgeKMi+BwQIUopnyOQG+0GXPzvjnjGdKLD6Il4g==
+X-Received: by 2002:a17:906:1043:b0:882:bffc:f2d2 with SMTP id j3-20020a170906104300b00882bffcf2d2mr6153384ejj.2.1677957223419;
+        Sat, 04 Mar 2023 11:13:43 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id v5-20020a50d085000000b004af5968cb3bsm2744136edd.17.2023.03.04.11.13.23
+        by smtp.gmail.com with ESMTPSA id e25-20020a170906081900b008eb2a1474d0sm2342797ejd.77.2023.03.04.11.13.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Mar 2023 11:13:24 -0800 (PST)
-Date: Sat, 4 Mar 2023 20:13:22 +0100
+        Sat, 04 Mar 2023 11:13:43 -0800 (PST)
+Date: Sat, 4 Mar 2023 20:13:41 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] staging: rtl8192e: Remove empty Array
- Rtl8192PciEPHY_REGArray
-Message-ID: <511bd239bf033dca3efcc64a640d5343c98fa897.1677955334.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/2] staging: rtl8192e: Remove conditions for RF_2T4R
+Message-ID: <af7dcd620fdad63b2f324d626f1c97601895823a.1677955334.git.philipp.g.hortmann@gmail.com>
 References: <cover.1677955334.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,79 +54,242 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1677955334.git.philipp.g.hortmann@gmail.com>
 
-Remove empty array Rtl8192PciEPHY_REGArray and the code where it is used
-because it is dead code.
+Remove conditions for RF_2T4R because hardware that uses RF_2T4R does not
+exist.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 5 +----
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h | 2 --
- drivers/staging/rtl8192e/rtl8192e/table.c      | 2 --
- drivers/staging/rtl8192e/rtl8192e/table.h      | 2 --
- 4 files changed, 1 insertion(+), 10 deletions(-)
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |   3 +-
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  21 +---
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 109 ++++--------------
+ drivers/staging/rtl8192e/rtllib.h             |   1 -
+ 4 files changed, 25 insertions(+), 109 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index 1e307789ee93..8edfaaeda910 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -353,8 +353,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 
+ 			if (tempval&0x80)
+ 				priv->rf_type = RF_1T2R;
+-			else
+-				priv->rf_type = RF_2T4R;
++
+ 		} else {
+ 			priv->eeprom_legacy_ht_tx_pwr_diff = 0x04;
+ 		}
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index 6388f1220575..385ceb3a9636 100644
+index 385ceb3a9636..35ca01ab65ff 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -334,10 +334,7 @@ static void _rtl92e_phy_config_bb(struct net_device *dev, u8 ConfigType)
+@@ -52,9 +52,7 @@ u8 rtl92e_is_legal_rf_path(struct net_device *dev, u32 eRFPath)
+ 	u8 ret = 1;
+ 	struct r8192_priv *priv = rtllib_priv(dev);
  
- 	AGCTAB_ArrayLen = AGCTAB_ArrayLength;
- 	Rtl819XAGCTAB_Array_Table = Rtl819XAGCTAB_Array;
+-	if (priv->rf_type == RF_2T4R)
+-		ret = 0;
+-	else if (priv->rf_type == RF_1T2R) {
++	if (priv->rf_type == RF_1T2R) {
+ 		if (eRFPath == RF90_PATH_A || eRFPath == RF90_PATH_B)
+ 			ret = 1;
+ 		else if (eRFPath == RF90_PATH_C || eRFPath == RF90_PATH_D)
+@@ -531,12 +529,7 @@ static bool _rtl92e_bb_config_para_file(struct net_device *dev)
+ 	_rtl92e_phy_config_bb(dev, BB_CONFIG_AGC_TAB);
+ 
+ 	if (priv->ic_cut  > VERSION_8190_BD) {
+-		if (priv->rf_type == RF_2T4R)
+-			dwRegValue = priv->antenna_tx_pwr_diff[2] << 8 |
+-				      priv->antenna_tx_pwr_diff[1] << 4 |
+-				      priv->antenna_tx_pwr_diff[0];
+-		else
+-			dwRegValue = 0x0;
++		dwRegValue = 0x0;
+ 		rtl92e_set_bb_reg(dev, rFPGA0_TxGainStage,
+ 				  (bXBTxAGC|bXCTxAGC|bXDTxAGC), dwRegValue);
+ 
+@@ -587,16 +580,8 @@ void rtl92e_set_tx_power(struct net_device *dev, u8 channel)
+ 	if (priv->epromtype == EEPROM_93C46) {
+ 		powerlevel = priv->tx_pwr_level_cck[channel - 1];
+ 		powerlevelOFDM24G = priv->tx_pwr_level_ofdm_24g[channel - 1];
+-	} else if (priv->epromtype == EEPROM_93C56) {
+-		if (priv->rf_type == RF_2T4R) {
+-			priv->antenna_tx_pwr_diff[2] = 0;
+-			priv->antenna_tx_pwr_diff[1] = 0;
+-			priv->antenna_tx_pwr_diff[0] = 0;
+-
+-			rtl92e_set_bb_reg(dev, rFPGA0_TxGainStage,
+-					  (bXBTxAGC | bXCTxAGC | bXDTxAGC), 0);
+-		}
+ 	}
++
+ 	switch (priv->rf_chip) {
+ 	case RF_8225:
+ 		break;
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+index d8408acfc763..eb54f8cbee76 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
+@@ -274,14 +274,7 @@ void rtl92e_init_adaptive_rate(struct net_device *dev)
+ 	pra->ping_rssi_thresh_for_ra = 15;
+ 
+ 
 -	if (priv->rf_type == RF_2T4R) {
--		PHY_REGArrayLen = PHY_REGArrayLength;
--		Rtl819XPHY_REGArray_Table = Rtl819XPHY_REGArray;
+-		pra->upper_rssi_threshold_ratr		=	0x8f0f0000;
+-		pra->middle_rssi_threshold_ratr		=	0x8f0ff000;
+-		pra->low_rssi_threshold_ratr		=	0x8f0ff001;
+-		pra->low_rssi_threshold_ratr_40M	=	0x8f0ff005;
+-		pra->low_rssi_threshold_ratr_20M	=	0x8f0ff001;
+-		pra->ping_rssi_ratr	=	0x0000000d;
 -	} else if (priv->rf_type == RF_1T2R) {
 +	if (priv->rf_type == RF_1T2R) {
- 		PHY_REGArrayLen = PHY_REG_1T2RArrayLength;
- 		Rtl819XPHY_REGArray_Table = Rtl819XPHY_REG_1T2RArray;
- 	}
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-index 75629f5df954..561a4c874fe3 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-@@ -16,7 +16,6 @@
- #define MACPHY_Array_PGLength			MACPHY_Array_PGLengthPciE
- #define RadioC_ArrayLength			RadioC_ArrayLengthPciE
- #define RadioD_ArrayLength			RadioD_ArrayLengthPciE
--#define PHY_REGArrayLength			PHY_REGArrayLengthPciE
- #define PHY_REG_1T2RArrayLength			PHY_REG_1T2RArrayLengthPciE
+ 		pra->upper_rssi_threshold_ratr		=	0x000fc000;
+ 		pra->middle_rssi_threshold_ratr		=	0x000ff000;
+ 		pra->low_rssi_threshold_ratr		=	0x000ff001;
+@@ -495,47 +488,18 @@ static void _rtl92e_dm_tx_update_tssi_weak_signal(struct net_device *dev,
+ {
+ 	struct r8192_priv *p = rtllib_priv(dev);
  
- #define Rtl819XMACPHY_Array_PG			Rtl8192PciEMACPHY_Array_PG
-@@ -26,7 +25,6 @@
- #define Rtl819XRadioC_Array			Rtl8192PciERadioC_Array
- #define Rtl819XRadioD_Array			Rtl8192PciERadioD_Array
- #define Rtl819XAGCTAB_Array			Rtl8192PciEAGCTAB_Array
--#define Rtl819XPHY_REGArray			Rtl8192PciEPHY_REGArray
- #define Rtl819XPHY_REG_1T2RArray		Rtl8192PciEPHY_REG_1T2RArray
- 
- extern u32 rtl819XAGCTAB_Array[];
-diff --git a/drivers/staging/rtl8192e/rtl8192e/table.c b/drivers/staging/rtl8192e/rtl8192e/table.c
-index 1f80dbeb17b5..d04608d99cbf 100644
---- a/drivers/staging/rtl8192e/rtl8192e/table.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/table.c
-@@ -6,8 +6,6 @@
-  */
- #include "table.h"
- 
--u32 Rtl8192PciEPHY_REGArray[PHY_REGArrayLengthPciE] = {0x0,};
+-	if (RF_Type == RF_2T4R) {
+-		if ((p->rfa_txpowertrackingindex > 0) &&
+-		    (p->rfc_txpowertrackingindex > 0)) {
+-			p->rfa_txpowertrackingindex--;
+-			if (p->rfa_txpowertrackingindex_real > 4) {
+-				p->rfa_txpowertrackingindex_real--;
+-				rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
+-						  bMaskDWord,
+-						  dm_tx_bb_gain[p->rfa_txpowertrackingindex_real]);
+-			}
 -
- u32 Rtl8192PciEPHY_REG_1T2RArray[PHY_REG_1T2RArrayLengthPciE] = {
- 	0x800, 0x00000000,
- 	0x804, 0x00000001,
-diff --git a/drivers/staging/rtl8192e/rtl8192e/table.h b/drivers/staging/rtl8192e/rtl8192e/table.h
-index 7d63f5a5c1b7..177fe2173430 100644
---- a/drivers/staging/rtl8192e/rtl8192e/table.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/table.h
-@@ -11,8 +11,6 @@
+-			p->rfc_txpowertrackingindex--;
+-			if (p->rfc_txpowertrackingindex_real > 4) {
+-				p->rfc_txpowertrackingindex_real--;
+-				rtl92e_set_bb_reg(dev,
+-						  rOFDM0_XCTxIQImbalance,
+-						  bMaskDWord,
+-						  dm_tx_bb_gain[p->rfc_txpowertrackingindex_real]);
+-			}
+-		} else {
+-			rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
+-					  bMaskDWord,
+-					  dm_tx_bb_gain[4]);
++	if (p->rfa_txpowertrackingindex > 0) {
++		p->rfa_txpowertrackingindex--;
++		if (p->rfa_txpowertrackingindex_real > 4) {
++			p->rfa_txpowertrackingindex_real--;
+ 			rtl92e_set_bb_reg(dev,
+-					  rOFDM0_XCTxIQImbalance,
+-					  bMaskDWord, dm_tx_bb_gain[4]);
++					  rOFDM0_XATxIQImbalance,
++					  bMaskDWord,
++					  dm_tx_bb_gain[p->rfa_txpowertrackingindex_real]);
+ 		}
+ 	} else {
+-		if (p->rfa_txpowertrackingindex > 0) {
+-			p->rfa_txpowertrackingindex--;
+-			if (p->rfa_txpowertrackingindex_real > 4) {
+-				p->rfa_txpowertrackingindex_real--;
+-				rtl92e_set_bb_reg(dev,
+-						  rOFDM0_XATxIQImbalance,
+-						  bMaskDWord,
+-						  dm_tx_bb_gain[p->rfa_txpowertrackingindex_real]);
+-			}
+-		} else {
+-			rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
+-					  bMaskDWord, dm_tx_bb_gain[4]);
+-		}
++		rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
++				  bMaskDWord, dm_tx_bb_gain[4]);
+ 	}
+ }
  
- #include <linux/types.h>
+@@ -544,39 +508,16 @@ static void _rtl92e_dm_tx_update_tssi_strong_signal(struct net_device *dev,
+ {
+ 	struct r8192_priv *p = rtllib_priv(dev);
  
--#define PHY_REGArrayLengthPciE 1
--extern u32 Rtl8192PciEPHY_REGArray[PHY_REGArrayLengthPciE];
- #define PHY_REG_1T2RArrayLengthPciE 296
- extern u32 Rtl8192PciEPHY_REG_1T2RArray[PHY_REG_1T2RArrayLengthPciE];
- #define RadioA_ArrayLengthPciE 246
+-	if (RF_Type == RF_2T4R) {
+-		if ((p->rfa_txpowertrackingindex < TX_BB_GAIN_TABLE_LEN - 1) &&
+-		    (p->rfc_txpowertrackingindex < TX_BB_GAIN_TABLE_LEN - 1)) {
+-			p->rfa_txpowertrackingindex++;
+-			p->rfa_txpowertrackingindex_real++;
+-			rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
+-					  bMaskDWord,
+-					  dm_tx_bb_gain[p->rfa_txpowertrackingindex_real]);
+-			p->rfc_txpowertrackingindex++;
+-			p->rfc_txpowertrackingindex_real++;
+-			rtl92e_set_bb_reg(dev, rOFDM0_XCTxIQImbalance,
+-					  bMaskDWord,
+-					  dm_tx_bb_gain[p->rfc_txpowertrackingindex_real]);
+-		} else {
+-			rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
+-					  bMaskDWord,
+-					  dm_tx_bb_gain[TX_BB_GAIN_TABLE_LEN - 1]);
+-			rtl92e_set_bb_reg(dev, rOFDM0_XCTxIQImbalance,
+-					  bMaskDWord,
+-					  dm_tx_bb_gain[TX_BB_GAIN_TABLE_LEN - 1]);
+-		}
++	if (p->rfa_txpowertrackingindex < (TX_BB_GAIN_TABLE_LEN - 1)) {
++		p->rfa_txpowertrackingindex++;
++		p->rfa_txpowertrackingindex_real++;
++		rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
++				  bMaskDWord,
++				  dm_tx_bb_gain[p->rfa_txpowertrackingindex_real]);
+ 	} else {
+-		if (p->rfa_txpowertrackingindex < (TX_BB_GAIN_TABLE_LEN - 1)) {
+-			p->rfa_txpowertrackingindex++;
+-			p->rfa_txpowertrackingindex_real++;
+-			rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
+-					  bMaskDWord,
+-					  dm_tx_bb_gain[p->rfa_txpowertrackingindex_real]);
+-		} else {
+-			rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
+-					  bMaskDWord,
+-					  dm_tx_bb_gain[TX_BB_GAIN_TABLE_LEN - 1]);
+-		}
++		rtl92e_set_bb_reg(dev, rOFDM0_XATxIQImbalance,
++				  bMaskDWord,
++				  dm_tx_bb_gain[TX_BB_GAIN_TABLE_LEN - 1]);
+ 	}
+ }
+ 
+@@ -682,13 +623,8 @@ static void _rtl92e_dm_tx_power_tracking_callback_tssi(struct net_device *dev)
+ 			else
+ 				_rtl92e_dm_tx_update_tssi_strong_signal(dev, RF_Type);
+ 
+-			if (RF_Type == RF_2T4R) {
+-				priv->cck_present_attn_diff
+-					= priv->rfa_txpowertrackingindex - priv->rfa_txpowertracking_default;
+-			} else {
+-				priv->cck_present_attn_diff
+-					= priv->rfa_txpowertrackingindex_real - priv->rfa_txpowertracking_default;
+-			}
++			priv->cck_present_attn_diff
++				= priv->rfa_txpowertrackingindex_real - priv->rfa_txpowertracking_default;
+ 
+ 			if (priv->current_chnl_bw == HT_CHANNEL_WIDTH_20)
+ 				priv->cck_present_attn =
+@@ -1730,9 +1666,6 @@ static void _rtl92e_dm_rx_path_sel_byrssi(struct net_device *dev)
+ 	static u8 disabled_rf_cnt, cck_Rx_Path_initialized;
+ 	u8 update_cck_rx_path;
+ 
+-	if (priv->rf_type != RF_2T4R)
+-		return;
+-
+ 	if (!cck_Rx_Path_initialized) {
+ 		dm_rx_path_sel_table.cck_rx_path = (rtl92e_readb(dev, 0xa07)&0xf);
+ 		cck_Rx_Path_initialized = 1;
+diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
+index 1152fbf43383..8e5e29ce8f0d 100644
+--- a/drivers/staging/rtl8192e/rtllib.h
++++ b/drivers/staging/rtl8192e/rtllib.h
+@@ -451,7 +451,6 @@ enum led_ctl_mode {
+ 
+ enum rt_rf_type_def {
+ 	RF_1T2R = 0,
+-	RF_2T4R,
+ };
+ 
+ enum wireless_mode {
 -- 
 2.39.2
 
