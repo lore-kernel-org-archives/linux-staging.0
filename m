@@ -1,82 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CC9A938
-	for <linux-staging@lists.linux.dev>; Fri,  3 Mar 2023 21:48:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C39C4339C;
-	Fri,  3 Mar 2023 21:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677880099;
-	bh=cbWO7an7DylfP+mWKJycr3q9q9kP6l5spTuHFzL5k9Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tur+lxfaWS2PEfHqhXCSCqorn0loYFDgF/ysu2nA3Y89cf4bydvogiyKsP8wgrKp2
-	 ++6/CwpTJ1Kam3WHl37LtzKwKoTj4WP/bfsgMIpINtvKS/xVwZV2mEaykufRt2VOvy
-	 rQKrAJ7IbE+b4fLuhcVVobHkxPbYDzCedd1So0rUN465yGD7kxoEqFa51KKmQw6D8N
-	 04zH4H/spilGOGb1EQKnfYPsAr3mhkMu4DLP3PIv/FBq/0U9C5n4SeHVYnqR7ORAKN
-	 DKBprDImMjHVFQuYzTkJxeiksIjZxgqcGnE9mEATN8Ukh70fT1LoQaDLHJqvLEt3Na
-	 gUs/u7bb1s7Xg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Yuan Can <yuancan@huawei.com>,
-	Simon Horman <horms@verge.net.au>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	drv@mailo.com,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 06/20] staging: emxx_udc: Add checks for dma_alloc_coherent()
-Date: Fri,  3 Mar 2023 16:47:52 -0500
-Message-Id: <20230303214806.1453287-6-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303214806.1453287-1-sashal@kernel.org>
-References: <20230303214806.1453287-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21961FCF
+	for <linux-staging@lists.linux.dev>; Sat,  4 Mar 2023 19:12:56 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id j11so3573717edq.4
+        for <linux-staging@lists.linux.dev>; Sat, 04 Mar 2023 11:12:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677957175;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wix47mHK0JiUR1csrqiZkjc5mC3uJiOQ3Vzx3f1g+ig=;
+        b=PaLIUQwss3xHYhvRzDWUskLnpvLXeTygdlDzzhMD0fbUvkEbsZxG1ek8tl5Fo+Mkdd
+         0rHDmkXf3or51oChn+UBtHWrOKY1yz8GbwVrEA1MX0w5EXBHO/mhRTcSRUE4XAg6c5md
+         guIz/GDLADsbJrO1MgVFB1lNw+hZk9Sz5O8jwLw9FRftPHohULmhbxFm/GbKKzPQviLp
+         RCSlN3Yo/0M4ft4QTb2fIc3PaMZLFhzrMnhH5R4cdjzfRC1D+KhQA2ipQeAA8KvD8j4j
+         A53jAsF7SEuaucu8vENeC9dPU8jEPOcdL3B5CGWD0sqJrub95kyzWSbSitKG1SqCzgxb
+         4Dsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677957175;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wix47mHK0JiUR1csrqiZkjc5mC3uJiOQ3Vzx3f1g+ig=;
+        b=fTd1XRyGGCWD9QLSRlJIHmO4LzsETXma6NP4xCO4eeucIss57cPXtqsKKAQw/ftPwW
+         Wgh4LawCK/9sFjEwjE2NBXQaKLGx3+drwjWiuVOzi/KdzSsyNtwacvxTkv8h1/pgKLtN
+         DbLhNJtWVa0eQcdiFqBGeALWN8vmIPgRgMVxIn6bLTeZRDjbEQQsi2vhO2KNaVKOr9uX
+         8/ZVtjpjAbOrqjLQiczoRddbmpF0L32jYRVo8+E1QnEhZQWxWp6OneTuYX+WjpB6eDKa
+         6RN3XILmmSTSUZ0v7A4pD9D6qugZxdwo/3g/cdwLfn1PWE3VSHHnxjx1ZcELJQeSqcr5
+         q/hg==
+X-Gm-Message-State: AO0yUKWn4PDwvSiNOvlwSJwNXQY1JkQ/F/htuPK6pNHZ+UMG+mUyVf3h
+	sKRjGBX9Cj6rZMOKisy4T5Q=
+X-Google-Smtp-Source: AK7set8MCwgrMCv1RkmWlIs/GhUpLqQeTbCzBu7Uq/tSb8/yCCEzHF0heJKlhhgpHYdJvOC1pPrLPg==
+X-Received: by 2002:a17:906:3f5d:b0:8b1:94cc:10b1 with SMTP id f29-20020a1709063f5d00b008b194cc10b1mr5417384ejj.7.1677957174699;
+        Sat, 04 Mar 2023 11:12:54 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id ot19-20020a170906ccd300b008b9d2da5343sm2338450ejb.210.2023.03.04.11.12.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Mar 2023 11:12:54 -0800 (PST)
+Date: Sat, 4 Mar 2023 20:12:52 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] staging: rtl8192e: Removing rf_type RF_2T4R from driver
+Message-ID: <cover.1677955334.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Yuan Can <yuancan@huawei.com>
+Removing rf_type RF_2T4R from driver as it is dead code.
 
-[ Upstream commit f6510a93cfd8c6c79b4dda0f2967cdc6df42eff4 ]
+First reason:
+The following table is used to configure the phy base band:
+u32 Rtl8192PciEPHY_REGArray[PHY_REGArrayLengthPciE] = {0x0,};
+A valid array has at least two columns.
 
-As the dma_alloc_coherent may return NULL, the return value needs to be
-checked to avoid NULL poineter dereference.
+Second reason:
+According to a list of devices from wiki the seven shown devices do only support
+MIMO config: 1x2:2 in phy modes b,g,n. The only rf chip that is used is RTL8256.
 
-Signed-off-by: Yuan Can <yuancan@huawei.com>
-Reviewed-by: Simon Horman <horms@verge.net.au>
-Link: https://lore.kernel.org/r/20230119083119.16956-1-yuancan@huawei.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/staging/emxx_udc/emxx_udc.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-index cc4c18c3fb36d..7d18ad68be264 100644
---- a/drivers/staging/emxx_udc/emxx_udc.c
-+++ b/drivers/staging/emxx_udc/emxx_udc.c
-@@ -2593,10 +2593,15 @@ static int nbu2ss_ep_queue(struct usb_ep *_ep,
- 		req->unaligned = false;
- 
- 	if (req->unaligned) {
--		if (!ep->virt_buf)
-+		if (!ep->virt_buf) {
- 			ep->virt_buf = dma_alloc_coherent(udc->dev, PAGE_SIZE,
- 							  &ep->phys_buf,
- 							  GFP_ATOMIC | GFP_DMA);
-+			if (!ep->virt_buf) {
-+				spin_unlock_irqrestore(&udc->lock, flags);
-+				return -ENOMEM;
-+			}
-+		}
- 		if (ep->epnum > 0)  {
- 			if (ep->direct == USB_DIR_IN)
- 				memcpy(ep->virt_buf, req->req.buf,
+This patch series requires the patches:
+"[PATCH] staging: rtl8192e: Change filename r8192E_hwimg.x to table.x"
+"[PATCH] staging: rtl8192e: Remove call_usermodehelper starting RadioPower.sh"
+"[PATCH] staging: rtl8192e: Remove function ..dm_check_ac_dc_power calling a script"
+
+Philipp Hortmann (2):
+  staging: rtl8192e: Remove empty Array Rtl8192PciEPHY_REGArray
+  staging: rtl8192e: Remove conditions for RF_2T4R
+
+ .../staging/rtl8192e/rtl8192e/r8192E_dev.c    |   3 +-
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    |  26 +----
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.h    |   2 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c    | 109 ++++--------------
+ drivers/staging/rtl8192e/rtl8192e/table.c     |   2 -
+ drivers/staging/rtl8192e/rtl8192e/table.h     |   2 -
+ drivers/staging/rtl8192e/rtllib.h             |   1 -
+ 7 files changed, 26 insertions(+), 119 deletions(-)
+
 -- 
 2.39.2
 
