@@ -1,49 +1,49 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1623D60
-	for <linux-staging@lists.linux.dev>; Sun,  5 Mar 2023 22:33:09 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id a25so31590881edb.0
-        for <linux-staging@lists.linux.dev>; Sun, 05 Mar 2023 14:33:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AEC524F
+	for <linux-staging@lists.linux.dev>; Sun,  5 Mar 2023 22:33:21 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id da10so31421584edb.3
+        for <linux-staging@lists.linux.dev>; Sun, 05 Mar 2023 14:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678055588;
+        d=gmail.com; s=20210112; t=1678055600;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WP9Y1Qp/ynuiCDbnGI065WOW+LZSB7xSPmQ2TQrQ8rM=;
-        b=ZTtLSCTNJ4lJ2R4/LQC9kx8pMcZemEjVWin6foSdB3IaaAKKNhSk8vqmTeODaPz1wg
-         OxZF05sXAf8rs+UMeCXhC+Wbhz0GXOktc52v+8ScAgQuyM1DxTTInR9QSlXCgQL67CtO
-         m1B4HjeOAu6ooLRteBrgfQiu1YF0FNMbF+/iPut/jFw9fwHHvrrCm8tW1fy0uocz/761
-         8DO/ZKfc3BNP/NIwqXg3zD4Ej9WFVCPAhxUSShIUYyYs197wD8ioIyM+HYsQIKb0nsSh
-         DZO2lsEFtpKg9RwCHAxlQ+BvlDxP47Q/hJ1bBLMozQK/+cHfFiHWVzPRJE1VRAbJ0ubi
-         EJgg==
+        bh=v+faGcyrcjggVSJi7hxIupggyB5hed7usIcPhK71OdM=;
+        b=I33mrdbRoDE/yTqiYTUaY2x6eBs/13PiCZUxAndrAZB+YE4HL54bVw/a30JnKaDW5I
+         NGtstuPKrROarY5efhla6aDmBTp6wYF4IaqTzds/7qxdlVyZC3autjctZdmetbGZtCqo
+         31cS8KDu8L4NG+Uw4+kuHOAtB9pkyH21cwv1nGs53bU7ytqt+3uOZ/Wvf5uQB1cxhvd5
+         svFXVlcehn155CwKL7cnMnCDrng60KDtTGJH+uaayvh7F0iwP1YOSFvv3T+MEbBVUwHz
+         qzMAMLMdCe88ie1Ep7gG0sWl5g5rFLNUbfUv/7PBHgUrwVhLgJT4EMe2iTAamitytS74
+         NQRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678055588;
+        d=1e100.net; s=20210112; t=1678055600;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WP9Y1Qp/ynuiCDbnGI065WOW+LZSB7xSPmQ2TQrQ8rM=;
-        b=5sfDDbti13jkE6CVX1qP/9I+A8ruQY04WWUDlS7J3uI+0jEPpyL6n0+AK4TZl6bpd5
-         EAwkySEWcT9QUH0TYqUJVgr990xNpPz2mO4X78vBF8C7S/wOjcQV8Gro/QmavlesMh6z
-         LLFvqbIPRCuZgYIWH4DtP7c+iA3vNngSuJbp3a3KnD7zXU500uh7MrrcmHZcJeZNmSie
-         T0V9aZNej+XWtzpHgt7rVzCytw/5LjGHox0GUsUH1bK4fd3Ve62PWaJJprRVvf2SPDpS
-         p6cajHhKhYNYlxji+j/RFKhx+UwywOeK7RSHOfUNFBcMeRgPMeWAgzFn2DB473P4XmBt
-         bdog==
-X-Gm-Message-State: AO0yUKW+n/MZAiRJV+hdsjQbyT2y9kXJ4ph4tADQfTwTRrAZlOMueHGh
-	96sEgLjhEURxIK2TCSszyU4=
-X-Google-Smtp-Source: AK7set+F0bFgk8VMfo3c7wt2qjebd8nAFl3hQ4MxuAM2oXBNSDr7zd9mwkKbvYt0MdChNwqlongwYA==
-X-Received: by 2002:a17:906:1043:b0:878:4bda:2011 with SMTP id j3-20020a170906104300b008784bda2011mr8178867ejj.4.1678055587705;
-        Sun, 05 Mar 2023 14:33:07 -0800 (PST)
+        bh=v+faGcyrcjggVSJi7hxIupggyB5hed7usIcPhK71OdM=;
+        b=AATa5R/4h9/05oWQF+Of0yK818IEEN1xY8LbEXH4qZvmjr48bpj2setcMqPX9dqBDG
+         mUouxd1hRsDNLK9bTBxYlcL85R8h/dT5YyGFoGISIdxCbQFiSQHBDpMU7IKtu5+DIRcE
+         mJw4XrVoa8hZmDmm7nEd2bNt3lw6rgtWSW4Lf0TmZbQk1iDeIrvDKluYEQardkehvijQ
+         AttzOUFIYTmIHRshzRxFSRhnj30P53TOb4nhmsDzb/+NkgEP2qJ1dS4NKQj8piMQNkcu
+         xhgNX3T1LdXXGdghm3DlBtq2cp5BCY/C+Aqd3Tv8EzqrtAUnNHVWY2bIo/efQkJgEGTy
+         3LAQ==
+X-Gm-Message-State: AO0yUKVWH/WTJW1oM6re7koIneBF58nGMfU0klSexuN8cxarlfmRtw6+
+	fRYVLgbDGFgVz9WLd5DaJTWgr0svFMs=
+X-Google-Smtp-Source: AK7set8O1hWoozyZKnBPsG4nR4jDb1QQApe+/6ptnoJKYW0YDJlaT2Hh0XhOZisU40zu4GaqNNaW5w==
+X-Received: by 2002:a17:906:154:b0:8ae:cd8e:3957 with SMTP id 20-20020a170906015400b008aecd8e3957mr7785048ejh.4.1678055600291;
+        Sun, 05 Mar 2023 14:33:20 -0800 (PST)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id k17-20020a170906a39100b008b17fe9ac6csm3753348ejz.178.2023.03.05.14.33.06
+        by smtp.gmail.com with ESMTPSA id p23-20020a170906615700b008d5d721f8a4sm3676089ejl.197.2023.03.05.14.33.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Mar 2023 14:33:07 -0800 (PST)
-Date: Sun, 5 Mar 2023 23:33:05 +0100
+        Sun, 05 Mar 2023 14:33:19 -0800 (PST)
+Date: Sun, 5 Mar 2023 23:33:18 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] staging: rtl8192e: Remove empty Array
- Rtl8192PciERadioC_Array
-Message-ID: <d8f0e8c7ee6dd820b56636db8d891012aa3ab263.1678051460.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/2] staging: rtl8192e: Remove empty Array
+ Rtl8192PciERadioD_Array
+Message-ID: <e8842422d34fd19592047ad821c0dbe2eb4bcdc9.1678051461.git.philipp.g.hortmann@gmail.com>
 References: <cover.1678051460.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,7 +55,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1678051460.git.philipp.g.hortmann@gmail.com>
 
-Remove empty array Rtl8192PciERadioC_Array and the code where it is used
+Remove empty array Rtl8192PciERadioD_Array and the code where it is used
 because it is dead code.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
@@ -67,7 +67,7 @@ Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
  4 files changed, 19 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index 35ca01ab65ff..fe0ef52c163a 100644
+index fe0ef52c163a..a9e83ba811b0 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
 @@ -649,18 +649,6 @@ u8 rtl92e_config_rf_path(struct net_device *dev, enum rf90_radio_path eRFPath)
@@ -76,66 +76,65 @@ index 35ca01ab65ff..fe0ef52c163a 100644
  
 -		}
 -		break;
--	case RF90_PATH_C:
--		for (i = 0; i < RadioC_ArrayLength; i += 2) {
--			if (Rtl819XRadioC_Array[i] == 0xfe) {
+-	case RF90_PATH_D:
+-		for (i = 0; i < RadioD_ArrayLength; i += 2) {
+-			if (Rtl819XRadioD_Array[i] == 0xfe) {
 -				msleep(100);
 -				continue;
 -			}
--			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioC_Array[i],
+-			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioD_Array[i],
 -					  bMask12Bits,
--					  Rtl819XRadioC_Array[i+1]);
+-					  Rtl819XRadioD_Array[i+1]);
 -
  		}
  		break;
- 	case RF90_PATH_D:
+ 	default:
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-index 561a4c874fe3..6772ed300591 100644
+index 6772ed300591..ac640033e843 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-@@ -14,7 +14,6 @@
+@@ -14,14 +14,12 @@
  #define RadioA_ArrayLength			RadioA_ArrayLengthPciE
  #define RadioB_ArrayLength			RadioB_ArrayLengthPciE
  #define MACPHY_Array_PGLength			MACPHY_Array_PGLengthPciE
--#define RadioC_ArrayLength			RadioC_ArrayLengthPciE
- #define RadioD_ArrayLength			RadioD_ArrayLengthPciE
+-#define RadioD_ArrayLength			RadioD_ArrayLengthPciE
  #define PHY_REG_1T2RArrayLength			PHY_REG_1T2RArrayLengthPciE
  
-@@ -22,7 +21,6 @@
+ #define Rtl819XMACPHY_Array_PG			Rtl8192PciEMACPHY_Array_PG
  #define Rtl819XMACPHY_Array			Rtl8192PciEMACPHY_Array
  #define Rtl819XRadioA_Array			Rtl8192PciERadioA_Array
  #define Rtl819XRadioB_Array			Rtl8192PciERadioB_Array
--#define Rtl819XRadioC_Array			Rtl8192PciERadioC_Array
- #define Rtl819XRadioD_Array			Rtl8192PciERadioD_Array
+-#define Rtl819XRadioD_Array			Rtl8192PciERadioD_Array
  #define Rtl819XAGCTAB_Array			Rtl8192PciEAGCTAB_Array
  #define Rtl819XPHY_REG_1T2RArray		Rtl8192PciEPHY_REG_1T2RArray
+ 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/table.c b/drivers/staging/rtl8192e/rtl8192e/table.c
-index d04608d99cbf..4e97ad4b8fd7 100644
+index 4e97ad4b8fd7..7101061e3519 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/table.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/table.c
 @@ -325,9 +325,6 @@ u32 Rtl8192PciERadioB_Array[RadioB_ArrayLengthPciE] = {
  	0x007, 0x00000700,
  };
  
--u32 Rtl8192PciERadioC_Array[RadioC_ArrayLengthPciE] = {
--	0x0,  };
+-u32 Rtl8192PciERadioD_Array[RadioD_ArrayLengthPciE] = {
+-	0x0, };
 -
- u32 Rtl8192PciERadioD_Array[RadioD_ArrayLengthPciE] = {
- 	0x0, };
- 
+ u32 Rtl8192PciEMACPHY_Array[] = {
+ 	0x03c, 0xffff0000, 0x00000f0f,
+ 	0x340, 0xffffffff, 0x161a1a1a,
 diff --git a/drivers/staging/rtl8192e/rtl8192e/table.h b/drivers/staging/rtl8192e/rtl8192e/table.h
-index 177fe2173430..981e8b57d3de 100644
+index 981e8b57d3de..b6d4e9696452 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/table.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/table.h
 @@ -17,8 +17,6 @@ extern u32 Rtl8192PciEPHY_REG_1T2RArray[PHY_REG_1T2RArrayLengthPciE];
  extern u32 Rtl8192PciERadioA_Array[RadioA_ArrayLengthPciE];
  #define RadioB_ArrayLengthPciE 78
  extern u32 Rtl8192PciERadioB_Array[RadioB_ArrayLengthPciE];
--#define RadioC_ArrayLengthPciE 2
--extern u32 Rtl8192PciERadioC_Array[RadioC_ArrayLengthPciE];
- #define RadioD_ArrayLengthPciE 2
- extern u32 Rtl8192PciERadioD_Array[RadioD_ArrayLengthPciE];
+-#define RadioD_ArrayLengthPciE 2
+-extern u32 Rtl8192PciERadioD_Array[RadioD_ArrayLengthPciE];
  #define MACPHY_ArrayLengthPciE 18
+ extern u32 Rtl8192PciEMACPHY_Array[MACPHY_ArrayLengthPciE];
+ #define MACPHY_Array_PGLengthPciE 30
 -- 
 2.39.2
 
