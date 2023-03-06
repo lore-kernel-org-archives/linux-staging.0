@@ -1,75 +1,230 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1980553B8
-	for <linux-staging@lists.linux.dev>; Mon,  6 Mar 2023 15:51:12 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id C1270C8D9F
-	for <linux-staging@lists.linux.dev>; Mon,  6 Mar 2023 15:40:35 +0000 (UTC)
-Received: (Authenticated sender: hadess@hadess.net)
-	by mail.gandi.net (Postfix) with ESMTPSA id 0D9784000F;
-	Mon,  6 Mar 2023 15:40:26 +0000 (UTC)
-Message-ID: <f23d6700b79500e2da9875964aee356c60a60529.camel@hadess.net>
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: Fix key-store index handling
-From: Bastien Nocera <hadess@hadess.net>
-To: Hans de Goede <hdegoede@redhat.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, stable@vger.kernel.org
-Date: Mon, 06 Mar 2023 16:40:26 +0100
-In-Reply-To: <20230306153512.162104-1-hdegoede@redhat.com>
-References: <20230306153512.162104-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981A433C1
+	for <linux-staging@lists.linux.dev>; Mon,  6 Mar 2023 20:43:53 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id u9so44144552edd.2
+        for <linux-staging@lists.linux.dev>; Mon, 06 Mar 2023 12:43:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678135432;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HOLgvSHzKn8+tEFxw5Ix+wflDWiRU8fkXBHzHjj9Cu0=;
+        b=VNVWrO4jBVpPby0IbDLhzbrF2Wl3+gP7isXJ0RZPtx/yne2a51ThScOB4nVDCLiGx+
+         QLmOTiArDaVoDAYe5+JAJQt+5wusiOURTMzgR8SbokOJFcR8+/V1Uzn6dyDTrubfR30u
+         2FmKr8u3JaYovfMSGXK1mEfbx81cGTq9V+RxwKSIWKLk7CpPnMdJlpaZcvL19pBc/IWb
+         P2roY0o4oosmSn6o/5d5nEkRL0Se15RuQh8Fxfh52KztgiXx5lR6FfXLjrdAuYDuI1gs
+         4b1hKbUAwospm+w6Bf6Ao2qysa5Rn/rj+wrcw+/me6+wLLIjmvb523QSeSKv3sG814AV
+         RyqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678135432;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HOLgvSHzKn8+tEFxw5Ix+wflDWiRU8fkXBHzHjj9Cu0=;
+        b=MAtijObH45Y3yHT8QaGGfuqTtIuUnbtN9trBVQTEhwHyeoSKXA+uxxKpMOx371+AHn
+         H1lPbpMp8djYClFLq+Ia+ZcBf2dhuQCFgTDCCZ9TB8EAWOXzM63AnBAxQHxrqCDImMRE
+         hfnNeg+F2oe9EPqxm5I5UtapY0tXLQoJ3tkLbvv9Py5pvmEQZkF3DMYPRLanvG8uPhDY
+         bv+9hNhgDbQwalAWYCxXGDeek9oDCtW2RwqRu2IiwiBynpGm5BnOduevGWBRDYQMjITq
+         BKeW7AKFjbTlbxF6ghOD6zD7x0bDuWP79PnKQKQ45JPDiV6/3Os8CF1BmDR+jRWrQZpn
+         dCUw==
+X-Gm-Message-State: AO0yUKVYOeNKr5TKVSIii5d34gfNZdUHNu/kdmKk9Ms96bmY5qZDHEsS
+	bPa9Af5kYIFou6Vfkk3VFyKXhJ6KSN0=
+X-Google-Smtp-Source: AK7set9FIVv1ZeAKHQSVi+LBnVXKHzw2TvNR7WtSwb3kRKTYIgu3FkK6xfB7undDvnhi6F9E5sagoQ==
+X-Received: by 2002:a05:6402:4409:b0:4be:9ca:a677 with SMTP id y9-20020a056402440900b004be09caa677mr14739536eda.3.1678135431628;
+        Mon, 06 Mar 2023 12:43:51 -0800 (PST)
+Received: from [192.168.0.102] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id kt21-20020a170906aad500b008d398a4e687sm4997435ejb.158.2023.03.06.12.43.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Mar 2023 12:43:50 -0800 (PST)
+Message-ID: <de4266bf-a2b5-0b34-1802-7886fbd8351a@gmail.com>
+Date: Mon, 6 Mar 2023 21:43:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] staging: rtl8192e: Remove empty Array
+ Rtl8192PciERadioC_Array
+To: Dan Carpenter <error27@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1678051460.git.philipp.g.hortmann@gmail.com>
+ <d8f0e8c7ee6dd820b56636db8d891012aa3ab263.1678051460.git.philipp.g.hortmann@gmail.com>
+ <51b147e6-d502-461d-9c29-647ec67e0d38@kili.mountain>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <51b147e6-d502-461d-9c29-647ec67e0d38@kili.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2023-03-06 at 16:35 +0100, Hans de Goede wrote:
-> There are 2 issues with the key-store index handling
->=20
-> 1. The non WEP key stores can store keys with indexes 0 -
-> BIP_MAX_KEYID,
-> =C2=A0=C2=A0 this means that they should be an array with BIP_MAX_KEYID +=
- 1
-> =C2=A0=C2=A0 entries. But some of the arrays where just BIP_MAX_KEYID ent=
-ries
-> =C2=A0=C2=A0 big. While one other array was hardcoded to a size of 6 entr=
-ies,
-> =C2=A0=C2=A0 instead of using the BIP_MAX_KEYID define.
->=20
-> 2. The rtw_cfg80211_set_encryption() and wpa_set_encryption()
-> functions
-> =C2=A0=C2=A0 index check where checking that the passed in key-index woul=
-d fit
-> =C2=A0=C2=A0 inside both the WEP key store (which only has 4 entries) as =
-well
-> as
-> =C2=A0=C2=A0 in the non WEP key stores. This breaks any attempts to set n=
-on WEP
-> =C2=A0=C2=A0 keys with index 4 or 5.
->=20
-> Issue 2. specifically breaks wifi connection with some access points
-> which advertise PMF support. Without this fix connecting to these
-> access points fails with the following wpa_supplicant messages:
->=20
-> =C2=A0nl80211: kernel reports: key addition failed
-> =C2=A0wlan0: WPA: Failed to configure IGTK to the driver
-> =C2=A0wlan0: RSN: Failed to configure IGTK
-> =C2=A0wlan0: CTRL-EVENT-DISCONNECTED bssid=3D... reason=3D1
-> locally_generated=3D1
->=20
-> Fix 1. by using the right size for the key-stores. After this 2. can
-> safely be fixed by checking the right max-index value depending on
-> the
-> used algorithm, fixing wifi not working with some PMF capable APs.
+On 3/6/23 10:12, Dan Carpenter wrote:
+> On Sun, Mar 05, 2023 at 11:33:05PM +0100, Philipp Hortmann wrote:
+>> Remove empty array Rtl8192PciERadioC_Array and the code where it is used
+>> because it is dead code.
+>>
+>> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+>> ---
+>>   drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 12 ------------
+>>   drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h |  2 --
+>>   drivers/staging/rtl8192e/rtl8192e/table.c      |  3 ---
+>>   drivers/staging/rtl8192e/rtl8192e/table.h      |  2 --
+>>   4 files changed, 19 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+>> index 35ca01ab65ff..fe0ef52c163a 100644
+>> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+>> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
+>> @@ -649,18 +649,6 @@ u8 rtl92e_config_rf_path(struct net_device *dev, enum rf90_radio_path eRFPath)
+>>   					  bMask12Bits,
+>>   					  Rtl819XRadioB_Array[i+1]);
+>>   
+>> -		}
+>> -		break;
+>> -	case RF90_PATH_C:
+>> -		for (i = 0; i < RadioC_ArrayLength; i += 2) {
+>> -			if (Rtl819XRadioC_Array[i] == 0xfe) {
+>> -				msleep(100);
+>> -				continue;
+>> -			}
+>> -			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioC_Array[i],
+>> -					  bMask12Bits,
+>> -					  Rtl819XRadioC_Array[i+1]);
+>> -
+> 
+> Why is this dead code?  So far as I can see "== 0xfe" is always false
+> so this calls rtl92e_set_rf_reg() on every iteration through the loop.
+> It only does one iteration through the loop.
+> 
+> Is it dead code because case RF90_PATH_C is always false?  If so then
+> that needs to be explained in the commit message.
+> 
+> regards,
+> dan carpenter
+> 
 
-Good job on both those patches.
+Hi Dan,
 
-Can you please also CC: the maintainer of r8188eu which looks like it
-has similar code?
+thanks for the review. Here some answers to your questions:
 
-Cheers
+With patch: "[PATCH] staging: rtl8192e: Change filename r8192E_hwimg.x 
+to table.x" I changed the filename of r8192E_hwimg.c to table.c and 
+r8192E_hwimg.h to table.h to adapt filenames from 
+drivers/net/wireless/realtek/rtlwifi rtl8192ee and rtl8192se. Task is 
+from TODO file.
+
+The explanation from the cover letter of this patch series was:
+
+Rtl8192PciERadioC_Array and Rtl8192PciERadioD_Array contain only two
+values set to 0. Reviewing the other Arrays in table.c and looking into
+other realtek drivers (rtl8192se and rtl8192ee) this arrays are not
+containing valid data.
+
+Here some more examples of my thoughts:
+
+A valid filled array is looking like this:
+u32 Rtl8192PciERadioA_Array[RadioA_ArrayLengthPciE] = {
+	0x019, 0x00000003,
+	0x000, 0x000000bf,
+	0x001, 0x00000ee0,
+	...
+	over 100 lines but no 0x000, 0x00000000,
+	...
+	0x004, 0x00000975,
+	0x007, 0x00000700,
+};
+
+u32 Rtl8192PciERadioB_Array[RadioB_ArrayLengthPciE] = {
+	0x019, 0x00000003,
+	0x000, 0x000000bf,
+	0x001, 0x000006e0,
+	...
+	over 30 lines but no 0x000, 0x00000000,
+	...
+	0x004, 0x00000975,
+	0x007, 0x00000700,
+};
+
+The empty (it is not empty but compared to the ones filled with data it 
+is empty) one is looking like this:
+u32 Rtl8192PciERadioC_Array[RadioC_ArrayLengthPciE] = {
+	0x0,  };
+
+Looking into other cleaned up drivers from the same family:
+Example: drivers/net/wireless/realtek/rtlwifi/rtl8192se
+Arrays RadioA and RadioB are filled RadioC and RadioD do not exist.
+Example: drivers/net/wireless/realtek/rtlwifi/rtl8192ee
+Arrays RadioA and RadioB are filled RadioC and RadioD do not exist.
+Example: drivers/net/wireless/realtek/rtlwifi/rtl8192de
+Arrays RadioA and RadioB are filled RadioC and RadioD do not exist.
+
+
+In Example: drivers/net/wireless/realtek/rtlwifi/rtl8192cu
+I can find a RadioB Array that is just filled with one 0 which is odd:
+#define RTL8192CURADIOB_1TARRAYLENGTH	1
+
+u32 RTL8192CU_RADIOB_1TARRAY[RTL8192CURADIOB_1TARRAYLENGTH] = {
+	0x0,
+};
+
+Here it is written to a variable:
+
+		rtlphy->hwparam_tables[RADIOB_1T].length =
+			RTL8192CURADIOB_1TARRAYLENGTH;
+		rtlphy->hwparam_tables[RADIOB_1T].pdata =
+			RTL8192CU_RADIOB_1TARRAY;
+
+Written to an another variable:
+
+		radiob_arraylen = rtlphy->hwparam_tables[RADIOB_1T].length;
+		radiob_array_table = rtlphy->hwparam_tables[RADIOB_1T].pdata;
+
+
+And then accessed after with i + 1 the element that is random/undefined.
+
+
+	case RF90_PATH_B:
+		for (i = 0; i < radiob_arraylen; i = i + 2) {
+			rtl_rfreg_delay(hw, rfpath, radiob_array_table[i],
+					RFREG_OFFSET_MASK,
+					radiob_array_table[i + 1]);
+		}
+
+May be another patch.
+
+I hope this can convince you that Arrays for RadioX that do only contain 
+one or two 0 are not in use.
+
+Please let me know your thoughts.
+
+Thanks
+
+Philipp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
