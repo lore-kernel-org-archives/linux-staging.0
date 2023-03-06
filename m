@@ -1,77 +1,91 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB7733C1;
-	Mon,  6 Mar 2023 20:52:45 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso9090335wmq.1;
-        Mon, 06 Mar 2023 12:52:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045417473;
+	Mon,  6 Mar 2023 21:08:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678135963;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5aJCxiJZWerGesLMxoiHiSQbzXq2ZZwY7rYAIRdf2Ow=;
-        b=gcUrahBEEiK3lB9tcDO/XZO8WeBNXUpgDFlATbPAT5MXeiSwMCN6aklVbGYYHiF1WN
-         ryuaitWiehrmvmA2eJZGm6zXEam7Hf0uvUCxNaVqczc8WGNtq9lVqU9nRcD0cV78vV2V
-         arQurw56NnxeKsJsh053moE14OtP2kuiYSKEDJmDkI7dsB9aS3JhzOnHKkIyfmidxid4
-         QEzZVAFZr00OO/wfycjW/n0scmZH1bU2sHbuhBYu0+dkPOlKANPwk3Ryjl1+bR7dNtof
-         L9j5IZMvkskqjq8ogJhEvTKYgZqx6QDnCvjCrs+iBtCdZYqF6Ft4RpfberVlGg7r41wu
-         CEtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678135963;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5aJCxiJZWerGesLMxoiHiSQbzXq2ZZwY7rYAIRdf2Ow=;
-        b=MqIi3kH11Tjz5d8Yz6/h07lyQOJhTbecAoLWmXW0euTWYVjvkB6R6sVL+IfOa3meis
-         gCgpCMmjhZFejSP6cQ1NzBt5mtP28bCHzrIr1e0xbE+VRIHVIbtzzb52hZkuEKkpo51x
-         5yUsSSTdLBVsCX5yRYxfpfqdBN1lSkGvdJU6u4TF7Vzb1Axc6Agf29qf47YIY3Bxph7m
-         wA8UXcY13E3OcLj34LH8tdSeRFKx1rSMnes/i5R1Vmfv2AUfKtUIg7ooG/10SiM+IIxI
-         LqJo/FSywJwluUhZm5WwX24ANwK3/3iiXRvQ8vzD8CvPuJOR+feSpmN6QO0cujB1YU5u
-         l0Zg==
-X-Gm-Message-State: AO0yUKUu2imBH49dV7whp17llFBEzY+hIXesjzcv546fPvw+GNTNVxMZ
-	ZL8JqM02n4sjcbQ3wveXiww=
-X-Google-Smtp-Source: AK7set9ckL59axzNSlfpGNFK4YFTFflF6EN7ZhEsDsE98Hg8WI/WSPJBBXK0tTDbPjsN73pI6QUY5g==
-X-Received: by 2002:a05:600c:3c90:b0:3eb:2b69:c3c6 with SMTP id bg16-20020a05600c3c9000b003eb2b69c3c6mr10510232wmb.1.1678135963365;
-        Mon, 06 Mar 2023 12:52:43 -0800 (PST)
-Received: from khadija-virtual-machine ([39.41.45.115])
-        by smtp.gmail.com with ESMTPSA id m18-20020a05600c3b1200b003db0ad636d1sm16213303wms.28.2023.03.06.12.52.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 12:52:43 -0800 (PST)
-Date: Tue, 7 Mar 2023 01:52:40 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev, linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: axis-fifo: alignment should match opening
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Myq4oW0FNya1g2HlnuWwn+aBlWwPfsZwgZBVa+Mj0+Y=;
+  b=GAEXEMtJ/xd8nOEm5BB5kwL43wnEqTOGdjLCknmWLCcLqM7qJBbXVQKe
+   uDppI9NsCl3E5825UEm1okaRRKCsP/PXjzRGk9UeYU0aJrfz3IrmAgj2z
+   m5Oy7wzaDsVvI6Rdq7wMQjCZlh+DM12eWq7e86YLt3r+SHRJqyjP7TLFB
+   0=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,238,1673910000"; 
+   d="scan'208";a="95740869"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 22:08:19 +0100
+Date: Mon, 6 Mar 2023 22:08:21 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
+    gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: alignment should match opening
  parenthesis in axis-fifo.c
-Message-ID: <ZAZSmPpB6fcozGa4@khadija-virtual-machine>
+In-Reply-To: <ZAZSmPpB6fcozGa4@khadija-virtual-machine>
+Message-ID: <alpine.DEB.2.22.394.2303062202500.3050@hadrien>
+References: <ZAZSmPpB6fcozGa4@khadija-virtual-machine>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-In file drivers/staging/axis-fifo/axis-fifo.c the alignment did not match the opening parenthesis. So, a few tabs were added to match the alignment to exactly where the parenthesis started.
 
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index dfd2b357f484..6e959224add0 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -383,7 +383,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 		 */
- 		mutex_lock(&fifo->read_lock);
- 		ret = wait_event_interruptible_timeout(fifo->read_queue,
--			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-+						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
- 				 (read_timeout >= 0) ?
- 				  msecs_to_jiffies(read_timeout) :
- 				  MAX_SCHEDULE_TIMEOUT);
--- 
-2.34.1
+On Tue, 7 Mar 2023, Khadija Kamran wrote:
 
+> In file drivers/staging/axis-fifo/axis-fifo.c the alignment did not match the opening parenthesis. So, a few tabs were added to match the alignment to exactly where the parenthesis started.
+
+Hello Khadija,
+
+Thanks for plunging in and being the first participant!
+
+However, there are a number of issues with the proposed patch.
+
+1.  The log message should be at most around 70 characters wide.  You have
+one long line.
+
+2.  The log message should be written in the imperative.  Instead of "a
+few tabs were added", ay "add a few tabs".
+
+3.  I'm not sure that it is worth creating a very long line to respect the
+rule about (.  On the other hand, the way the code is written at the
+moment seems to be very misleading, because the third argument to
+wait_event_interruptible_timeout is written as though it is the second
+argument to ioread32.  So you can adjust the argument list of
+wait_event_interruptible_timeout so that at least all of the arguments
+that are not on the same line as the function call are lined up.
+
+julia
+
+>
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> ---
+>  drivers/staging/axis-fifo/axis-fifo.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index dfd2b357f484..6e959224add0 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -383,7 +383,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+>  		 */
+>  		mutex_lock(&fifo->read_lock);
+>  		ret = wait_event_interruptible_timeout(fifo->read_queue,
+> -			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+> +						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+>  				 (read_timeout >= 0) ?
+>  				  msecs_to_jiffies(read_timeout) :
+>  				  MAX_SCHEDULE_TIMEOUT);
+> --
+> 2.34.1
+>
+>
+>
