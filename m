@@ -1,50 +1,58 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AEC524F
-	for <linux-staging@lists.linux.dev>; Sun,  5 Mar 2023 22:33:21 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id da10so31421584edb.3
-        for <linux-staging@lists.linux.dev>; Sun, 05 Mar 2023 14:33:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980A51362
+	for <linux-staging@lists.linux.dev>; Mon,  6 Mar 2023 04:52:55 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id f18so11091404lfa.3
+        for <linux-staging@lists.linux.dev>; Sun, 05 Mar 2023 20:52:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678055600;
+        d=gmail.com; s=20210112; t=1678078373;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v+faGcyrcjggVSJi7hxIupggyB5hed7usIcPhK71OdM=;
-        b=I33mrdbRoDE/yTqiYTUaY2x6eBs/13PiCZUxAndrAZB+YE4HL54bVw/a30JnKaDW5I
-         NGtstuPKrROarY5efhla6aDmBTp6wYF4IaqTzds/7qxdlVyZC3autjctZdmetbGZtCqo
-         31cS8KDu8L4NG+Uw4+kuHOAtB9pkyH21cwv1nGs53bU7ytqt+3uOZ/Wvf5uQB1cxhvd5
-         svFXVlcehn155CwKL7cnMnCDrng60KDtTGJH+uaayvh7F0iwP1YOSFvv3T+MEbBVUwHz
-         qzMAMLMdCe88ie1Ep7gG0sWl5g5rFLNUbfUv/7PBHgUrwVhLgJT4EMe2iTAamitytS74
-         NQRA==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bIKcuXaJtu9JPlsmlDrsee9SwufGBzc6NChAPOq/9sM=;
+        b=qsO/L2EfzQ+zk4Wf+LFY92Yl8ubRwp8n0WGHpk32ZoiwYd+CCUlWJOeHRoVFXyMHGr
+         XlHMvlzq4i3mrFa/ptdVuZhJqSfXhWGlUDPQwswBT4NuTYpnnBFDsswYqyhTCu+CNSv6
+         YpGLjgtKKACY94BCcAdNimHLWvVn9MBkzDVSHNwt/WxZ43WhDqYYG27ubnRVYe8gl14Y
+         6z461L9c40AcczFQZga1yg+yyb3emrdIEIlK54dH3IX67unSEEpykNjBlWEkEn3YZ4kj
+         WswTD5zqt+oy6N5z9bwYlRmBisLarxmdzbsLS4jo4h/6U8Ffn29o4zX811g58NzLAC/A
+         dvOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678055600;
+        d=1e100.net; s=20210112; t=1678078373;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v+faGcyrcjggVSJi7hxIupggyB5hed7usIcPhK71OdM=;
-        b=AATa5R/4h9/05oWQF+Of0yK818IEEN1xY8LbEXH4qZvmjr48bpj2setcMqPX9dqBDG
-         mUouxd1hRsDNLK9bTBxYlcL85R8h/dT5YyGFoGISIdxCbQFiSQHBDpMU7IKtu5+DIRcE
-         mJw4XrVoa8hZmDmm7nEd2bNt3lw6rgtWSW4Lf0TmZbQk1iDeIrvDKluYEQardkehvijQ
-         AttzOUFIYTmIHRshzRxFSRhnj30P53TOb4nhmsDzb/+NkgEP2qJ1dS4NKQj8piMQNkcu
-         xhgNX3T1LdXXGdghm3DlBtq2cp5BCY/C+Aqd3Tv8EzqrtAUnNHVWY2bIo/efQkJgEGTy
-         3LAQ==
-X-Gm-Message-State: AO0yUKVWH/WTJW1oM6re7koIneBF58nGMfU0klSexuN8cxarlfmRtw6+
-	fRYVLgbDGFgVz9WLd5DaJTWgr0svFMs=
-X-Google-Smtp-Source: AK7set8O1hWoozyZKnBPsG4nR4jDb1QQApe+/6ptnoJKYW0YDJlaT2Hh0XhOZisU40zu4GaqNNaW5w==
-X-Received: by 2002:a17:906:154:b0:8ae:cd8e:3957 with SMTP id 20-20020a170906015400b008aecd8e3957mr7785048ejh.4.1678055600291;
-        Sun, 05 Mar 2023 14:33:20 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id p23-20020a170906615700b008d5d721f8a4sm3676089ejl.197.2023.03.05.14.33.19
+        bh=bIKcuXaJtu9JPlsmlDrsee9SwufGBzc6NChAPOq/9sM=;
+        b=i0GajYCP+9koAy9AAndhNNvc9VvcYMr5F8CTwBI77k/GcGoWWPpocXjgEjNFgcKwmf
+         c7axJ0Iwst77tDQ+et54Em3/1cVRIIWBnFd8TpXZBADsfFvf3bP4f/sWwDd9oA5nobiz
+         Emzxltjh/Xd2/+fQ8MlGoqcbqimCj0/AbbRXtk8A7YzCxSF0Kyt6vwzV8nXAXMtEXG2/
+         wZLMkY01NkWpFukKn2sLF6sLUA3jzpDFKzE6tw4SawhIOHPZgdypKXeSYHqUv0mlAk/T
+         PX1iEeubo7GtYOLYfsj456S30iY3dxUuYNuA65gAbD/iAyb/CODlFzOm/Yu9EdF6aEqt
+         uG0Q==
+X-Gm-Message-State: AO0yUKWsPiE7gG+UVz833z9yXJ/PSjO0icZmxaF9hShf4bDRJuvY7sFm
+	36X1RqR4UEoqPFRhsD1+GCc=
+X-Google-Smtp-Source: AK7set/vP4+Z1tMqzZfYIzwRxTr5IHthrmMgqhRH7gMWkSo4e+UBJjz0g0k5gXRR4orAcukkRETuKA==
+X-Received: by 2002:ac2:5969:0:b0:4d8:65c5:8684 with SMTP id h9-20020ac25969000000b004d865c58684mr3041043lfp.58.1678078373487;
+        Sun, 05 Mar 2023 20:52:53 -0800 (PST)
+Received: from combine-ThinkPad-S1-Yoga (c-8ff371d5.879159-0-69706f6e6c79.bbcust.telenor.se. [213.113.243.143])
+        by smtp.gmail.com with ESMTPSA id m17-20020a195211000000b004d57fc74f2csm1470982lfb.266.2023.03.05.20.52.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Mar 2023 14:33:19 -0800 (PST)
-Date: Sun, 5 Mar 2023 23:33:18 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sun, 05 Mar 2023 20:52:53 -0800 (PST)
+Date: Mon, 6 Mar 2023 05:52:51 +0100
+From: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Forest Bond <forest@alittletooquiet.net>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: rtl8192e: Remove empty Array
- Rtl8192PciERadioD_Array
-Message-ID: <e8842422d34fd19592047ad821c0dbe2eb4bcdc9.1678051461.git.philipp.g.hortmann@gmail.com>
-References: <cover.1678051460.git.philipp.g.hortmann@gmail.com>
+Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
+ inline function
+Message-ID: <ZAVxo6WHGu3kO1nl@combine-ThinkPad-S1-Yoga>
+References: <Y9/xXHvOAwfqoDxn@combine-ThinkPad-S1-Yoga>
+ <3cb45313-209a-8190-12f8-6a2d49e4173b@wanadoo.fr>
+ <Y+A+HF1vDeRIqye5@combine-ThinkPad-S1-Yoga>
+ <Y+DL3O5lcMyZ/aNR@kroah.com>
+ <Y+H9BT8Am4Ik2ZDA@combine-ThinkPad-S1-Yoga>
+ <Y+IJgxF52lpgk0RC@ubun2204.myguest.virtualbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,88 +61,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1678051460.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <Y+IJgxF52lpgk0RC@ubun2204.myguest.virtualbox.org>
 
-Remove empty array Rtl8192PciERadioD_Array and the code where it is used
-because it is dead code.
+On Tue, Feb 07, 2023 at 01:49:15PM +0530, Deepak R Varma wrote:
+> On Tue, Feb 07, 2023 at 08:25:57AM +0100, Guru Mehar Rachaputi wrote:
+> > On Mon, Feb 06, 2023 at 10:43:56AM +0100, Greg Kroah-Hartman wrote:
+> > > On Mon, Feb 06, 2023 at 12:39:08AM +0100, Guru Mehar Rachaputi wrote:
+> > > good luck!
+> > > 
+> > > greg k-h
+> > 
+> > Thanks for taking time.
+> > 
+> > If my understanding is correct, every version of the patch should
+> > include all the patches/patchfiles and it should explain what happened in each
+> > version(in decrement order) through a coverletter. Please correct me otherwise.
+> 
+> Hi Guru,
+> Other than the cover letter, each individual patch should also include the patch
+> version history in the descending order. If a specific patch(es) that is/are
+> part of a patch-set, did not have any change, we should still increment its
+> version and record "none" as the change in current version for such patches.
+> 
+> However, from the patch-set, any patches that are acked, do not need to be
+> resent along with other patches that are still under revision. But do mentioned
+> about such accepted/acked patches in the cover letter.
+> 
+> Hope this helps.
+> 
+> Thanks,
+> deepak.
+> 
+> > 
+> > I do refer "first patch submission" and above is my current
+> > understanding.
+> > 
+> > -- 
+> > Thanks & Regards,
+> > Guru
+> > 
+> 
+> 
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 12 ------------
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h |  2 --
- drivers/staging/rtl8192e/rtl8192e/table.c      |  3 ---
- drivers/staging/rtl8192e/rtl8192e/table.h      |  2 --
- 4 files changed, 19 deletions(-)
+Hej Deepak,
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index fe0ef52c163a..a9e83ba811b0 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -649,18 +649,6 @@ u8 rtl92e_config_rf_path(struct net_device *dev, enum rf90_radio_path eRFPath)
- 					  bMask12Bits,
- 					  Rtl819XRadioB_Array[i+1]);
- 
--		}
--		break;
--	case RF90_PATH_D:
--		for (i = 0; i < RadioD_ArrayLength; i += 2) {
--			if (Rtl819XRadioD_Array[i] == 0xfe) {
--				msleep(100);
--				continue;
--			}
--			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioD_Array[i],
--					  bMask12Bits,
--					  Rtl819XRadioD_Array[i+1]);
--
- 		}
- 		break;
- 	default:
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-index 6772ed300591..ac640033e843 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-@@ -14,14 +14,12 @@
- #define RadioA_ArrayLength			RadioA_ArrayLengthPciE
- #define RadioB_ArrayLength			RadioB_ArrayLengthPciE
- #define MACPHY_Array_PGLength			MACPHY_Array_PGLengthPciE
--#define RadioD_ArrayLength			RadioD_ArrayLengthPciE
- #define PHY_REG_1T2RArrayLength			PHY_REG_1T2RArrayLengthPciE
- 
- #define Rtl819XMACPHY_Array_PG			Rtl8192PciEMACPHY_Array_PG
- #define Rtl819XMACPHY_Array			Rtl8192PciEMACPHY_Array
- #define Rtl819XRadioA_Array			Rtl8192PciERadioA_Array
- #define Rtl819XRadioB_Array			Rtl8192PciERadioB_Array
--#define Rtl819XRadioD_Array			Rtl8192PciERadioD_Array
- #define Rtl819XAGCTAB_Array			Rtl8192PciEAGCTAB_Array
- #define Rtl819XPHY_REG_1T2RArray		Rtl8192PciEPHY_REG_1T2RArray
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/table.c b/drivers/staging/rtl8192e/rtl8192e/table.c
-index 4e97ad4b8fd7..7101061e3519 100644
---- a/drivers/staging/rtl8192e/rtl8192e/table.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/table.c
-@@ -325,9 +325,6 @@ u32 Rtl8192PciERadioB_Array[RadioB_ArrayLengthPciE] = {
- 	0x007, 0x00000700,
- };
- 
--u32 Rtl8192PciERadioD_Array[RadioD_ArrayLengthPciE] = {
--	0x0, };
--
- u32 Rtl8192PciEMACPHY_Array[] = {
- 	0x03c, 0xffff0000, 0x00000f0f,
- 	0x340, 0xffffffff, 0x161a1a1a,
-diff --git a/drivers/staging/rtl8192e/rtl8192e/table.h b/drivers/staging/rtl8192e/rtl8192e/table.h
-index 981e8b57d3de..b6d4e9696452 100644
---- a/drivers/staging/rtl8192e/rtl8192e/table.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/table.h
-@@ -17,8 +17,6 @@ extern u32 Rtl8192PciEPHY_REG_1T2RArray[PHY_REG_1T2RArrayLengthPciE];
- extern u32 Rtl8192PciERadioA_Array[RadioA_ArrayLengthPciE];
- #define RadioB_ArrayLengthPciE 78
- extern u32 Rtl8192PciERadioB_Array[RadioB_ArrayLengthPciE];
--#define RadioD_ArrayLengthPciE 2
--extern u32 Rtl8192PciERadioD_Array[RadioD_ArrayLengthPciE];
- #define MACPHY_ArrayLengthPciE 18
- extern u32 Rtl8192PciEMACPHY_Array[MACPHY_ArrayLengthPciE];
- #define MACPHY_Array_PGLengthPciE 30
+I have a problem in sending patchset through mutt.
+I have been trying sending to my own mail address but it won't work.
+
+When sending patchset I think we should use "In-Reply-To" flag and
+include "Message-ID" to which we want this to be in series to. I tried
+both "git send-email" feature and mutt "forwarding feature".
+
+Another issue is, how to attach patch file from inside mutt(for example: 
+"mutt -H x.patch" from command line is used to extract header and body of a 
+mail in mutt)?
+
+
 -- 
-2.39.2
-
+Thanks & Regards,
+Guru
