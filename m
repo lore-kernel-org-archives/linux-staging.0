@@ -1,97 +1,97 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DE22C9C
-	for <linux-staging@lists.linux.dev>; Tue,  7 Mar 2023 08:50:10 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id j11so29759736edq.4
-        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 00:50:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4542733C9
+	for <linux-staging@lists.linux.dev>; Tue,  7 Mar 2023 10:00:30 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id cw28so49983502edb.5
+        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 02:00:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678179009;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mBfKXBJBDHVK+Yn8iTiZud/hY3U7WgMo73YMptZicWs=;
-        b=TOAuHtZjM3Ijc0PfNTcNtMrGRTmPJYiEm1CvHah72QXea4yC2xxYX1TNeuMNhRIGkj
-         +lUwq3preMtRpKrJlkkuetb2G69HAiO1Ryr9AFLiFbY1LCEFiYzWyAyWYn8T6Bi0taRK
-         bh+2KKVrQVXqPzbaQZyUdn9XD7X6QJL/5op9mBP93ruy+K0PSWhSOJpdOosJyfyA8yUN
-         WMoYmuclPwU2wGd0UJhoTPt7NJ1R7pNTSr1FMW2a7SESYAGIFm5ahgK7vRuDa8v7RUM9
-         stZoT83PLOeNfrytDNfQtSps3HuXvxa+OQOR7jNWSs2Cq0S2Gx8jCJj/Yzgw5yM5cwkN
-         zmgA==
+        d=gmail.com; s=20210112; t=1678183228;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bW3imLrGp8WnT6vZrMOHCljPinwG95AEioNHWio/7vQ=;
+        b=L8FEZOA8koMilcVz3cjTV/TbCnAocXh7L/8qUd1x16qbmEZzfksfcMY1XtBXiszSMV
+         MutxCKvuzckqOVVh4ZNkhEzZr/Hnl3LQvJ9SxQ1jcGi7AAxWE+VbF3SdHeqnMTvbs/y7
+         S3jvNl/i0tSg+nQUGYU+8AcLss+SEWBu4wh9ihDpSbqC7qNAUL6JSmw3DPmzi+RSUIYV
+         YWig7z7jztccm3jvIWLisKb3qvLNMib/gYjlAik6f9P809Y9qWQcmbobGPPhE10oOzwq
+         4a6wFnRSnMLcKJ8vfumWJT7y3U5/3cYXbhERoS7wmRm4+NfvB5mWDJDNT5hfoDJMCVx8
+         I3NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678179009;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mBfKXBJBDHVK+Yn8iTiZud/hY3U7WgMo73YMptZicWs=;
-        b=z08DURkKUmgZMn3UjLJuwRvNywB4ddi9wNLnlSOpu2tREULfLItBUd5cpSb07LK9mU
-         vAFhPlNOJGHGt0OWzzirTiRux8oSP8XpccNqnG8D1BJ6PU5/HBGRgCy9nJfvzS3ewYEY
-         It7c+6cAjZ5pJI0UmAJld6/TEjpaiRIIOzdDDRTianEeOAqwCj5G30R0d0NkxMFU449d
-         nx0+aDSsoXOYVbMFF7rOj6YrZRnmy5nbtDc/wyUwavGhIkr0kj8ehbJNooYyExAV/T4b
-         M/zcUIN3Xou2IGy7FZFfwb6JjXkGou6dB1ak4IHJYAY/ujRcy8blunbaBYUh7ROMOosP
-         oVvg==
-X-Gm-Message-State: AO0yUKWbXpijtc90BXy76kZyaUJdu9nc3EPS3TaedE1IdDxhRIYjfda3
-	YGNUCi3IekLyayY5lcChdCM=
-X-Google-Smtp-Source: AK7set+d7BQhzAjk+VOU4jNGvOWZM9Pq8YoLYabn9OR+7Wyszv3kiRx9jH4I00B7UWgnMuD2/MYQNQ==
-X-Received: by 2002:a17:907:8691:b0:8b1:3009:536b with SMTP id qa17-20020a170907869100b008b13009536bmr16987639ejc.29.1678179009200;
-        Tue, 07 Mar 2023 00:50:09 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abbe7.dynamic.kabel-deutschland.de. [95.90.187.231])
-        by smtp.gmail.com with ESMTPSA id o21-20020a170906289500b008ef42f9cf48sm5707402ejd.82.2023.03.07.00.50.08
+        d=1e100.net; s=20210112; t=1678183228;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bW3imLrGp8WnT6vZrMOHCljPinwG95AEioNHWio/7vQ=;
+        b=SSFG5vku3BypC7HvLlBF8i2wrvtEB/OctdIF4mpO8nC1gnSZmotGMDD/7didWSk2wh
+         tivOzM1OWS7CPJFnJ38Z70ANWYY10/ugmEVW+EyhBIJ4uq8p9pMLyDxhLv5OtXR9Vzfm
+         j0kRBdeWBi5UZeuTXl7Xj0wt5txuN3wZbb94kWXjaF5mB/lu5s3sKrdWUnSODT2IyC2k
+         hM/ojUiWUA4f/rw5dC7PYbEnkSCxoUVXHqv9AP8myQuTTjgEA/mMEU5gKqS7qH+0EL17
+         rdAEA8lh2opjDvrA6AWeLtSWSGz0hm7v7NDq3EmPCGTQP+IjdUM/WjJELVTNP9cHyoz2
+         eRSg==
+X-Gm-Message-State: AO0yUKWd0SiSkA/wmmY7Z4/9/xEe2T3V46K1IkhcsmU3pc7IEeO+bQqW
+	byY0l0nvRIm+ME558HMgogg=
+X-Google-Smtp-Source: AK7set+Mu0sSz5kh5LcUFRENpxc7AFUW6iMQai3ePX6vLZBpQmKw5SrwMprhdA8xotXGanAeNWGcwg==
+X-Received: by 2002:a17:906:1410:b0:8f6:76da:90dd with SMTP id p16-20020a170906141000b008f676da90ddmr12794941ejc.64.1678183228457;
+        Tue, 07 Mar 2023 02:00:28 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m26-20020a50999a000000b004af73333d6esm6502618edb.53.2023.03.07.02.00.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 00:50:09 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: bgrpkey_handshake is set but never used
-Date: Tue,  7 Mar 2023 09:50:03 +0100
-Message-Id: <20230307085003.5025-3-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230307085003.5025-1-straube.linux@gmail.com>
-References: <20230307085003.5025-1-straube.linux@gmail.com>
+        Tue, 07 Mar 2023 02:00:28 -0800 (PST)
+Date: Tue, 7 Mar 2023 13:00:23 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Oliver Endriss <o.endriss@gmx.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Husni Faiz <ahamedhusni73@gmail.com>,
+	Li zeming <zeming@nfschina.com>, Oliver Endriss <o.endriss@gmx.de>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org, lwn@lwn.net, smatch@ver.kernel.org
+Subject: [PATCH] media: av7110: prevent underflow in write_ts_to_decoder()
+Message-ID: <9dbe6804-7fac-4ee1-9e70-c3648cb60ec8@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-The field bgrpkey_handshake of struct security_priv is set but never
-used. Remove it.
+The buf[4] value comes from the user via ts_play().  It is a value in
+the u8 range.  The final length we pass to av7110_ipack_instant_repack()
+is "len - (buf[4] + 1) - 4" so add a check to ensure that the length is
+not negative.  It's not clear that passing a negative len value does
+anything bad necessarily, but it's not best practice.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+With the new bounds checking the "if (!len)" condition is no longer
+possible or required so remove that.
+
+Fixes: fd46d16d602a ("V4L/DVB (11759): dvb-ttpci: Add TS replay capability")
+Signed-off-by: Dan Carpenter <error27@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c        | 1 -
- drivers/staging/r8188eu/include/rtw_security.h | 1 -
- 2 files changed, 2 deletions(-)
+This is from static analysis and not tested.  I debated whether to
+return 0 or -1.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index fb7d0e161fdd..809ac0317db2 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -944,7 +944,6 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
- 		if (padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X) {
- 			padapter->securitypriv.binstallGrpkey = false;
- 			padapter->securitypriv.busetkipkey = false;
--			padapter->securitypriv.bgrpkey_handshake = false;
- 			psta->ieee8021x_blocked = true;
- 			psta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
- 			memset((u8 *)&psta->dot118021x_UncstKey, 0, sizeof(union Keytype));
-diff --git a/drivers/staging/r8188eu/include/rtw_security.h b/drivers/staging/r8188eu/include/rtw_security.h
-index 783ae18a122a..8c187de7a522 100644
---- a/drivers/staging/r8188eu/include/rtw_security.h
-+++ b/drivers/staging/r8188eu/include/rtw_security.h
-@@ -116,7 +116,6 @@ struct security_priv {
- 	u8	binstallGrpkey;
- 	u8	busetkipkey;
- 	u8	bcheck_grpkey;
--	u8	bgrpkey_handshake;
- 	s32	sw_encrypt;/* from registry_priv */
- 	s32	sw_decrypt;/* from registry_priv */
- 	s32	hw_decrypted;/* if the rx packets is hw_decrypted==false,i
+ drivers/staging/media/av7110/av7110_av.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
+index 0bf513c26b6b..a5c5bebad306 100644
+--- a/drivers/staging/media/av7110/av7110_av.c
++++ b/drivers/staging/media/av7110/av7110_av.c
+@@ -823,10 +823,10 @@ static int write_ts_to_decoder(struct av7110 *av7110, int type, const u8 *buf, s
+ 		av7110_ipack_flush(ipack);
+ 
+ 	if (buf[3] & ADAPT_FIELD) {
++		if (buf[4] > len - 1 - 4)
++			return 0;
+ 		len -= buf[4] + 1;
+ 		buf += buf[4] + 1;
+-		if (!len)
+-			return 0;
+ 	}
+ 
+ 	av7110_ipack_instant_repack(buf + 4, len - 4, ipack);
 -- 
-2.39.2
+2.39.1
 
