@@ -1,76 +1,72 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045417473;
-	Mon,  6 Mar 2023 21:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736E020EE;
+	Tue,  7 Mar 2023 07:13:11 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id da10so48538252edb.3;
+        Mon, 06 Mar 2023 23:13:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Myq4oW0FNya1g2HlnuWwn+aBlWwPfsZwgZBVa+Mj0+Y=;
-  b=GAEXEMtJ/xd8nOEm5BB5kwL43wnEqTOGdjLCknmWLCcLqM7qJBbXVQKe
-   uDppI9NsCl3E5825UEm1okaRRKCsP/PXjzRGk9UeYU0aJrfz3IrmAgj2z
-   m5Oy7wzaDsVvI6Rdq7wMQjCZlh+DM12eWq7e86YLt3r+SHRJqyjP7TLFB
-   0=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,238,1673910000"; 
-   d="scan'208";a="95740869"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 22:08:19 +0100
-Date: Mon, 6 Mar 2023 22:08:21 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
+        d=gmail.com; s=20210112; t=1678173189;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/Zm7VLfvc/LZ8fV8dJrpBs77JoX+4gvTkNsNk9slxrA=;
+        b=f4ifeYFN1uE/+TmGqxxuUenoNBn9IeERD8SLLTgBAF/C+jQH3ykMn/4cgpuvXEH8sJ
+         bkVWamV8aUqpDS6poCRCpCariL99xSw2hs9mz9uPwsjetAF6CqoODdivbykNXmYN8OsY
+         TJCbVKCpHJGUdqSmNCdAB3uB7/Q2PmrDU9TdEwmUTEXLmrwNMNFqF3RFhGpYv2pW1LVC
+         MErp6U7lFAsAcaVGjUuhUgIwDHw6l4diT6v6hk9f0P2VmN1JD4PUbrqDNj0OWdOr4r40
+         jRsMQy822hJlCx+rPcIVEECYJS5TJNuuTK14qBL4pRzGfNVs7d2vi7tvXKehhU11Fxku
+         d9Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678173189;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/Zm7VLfvc/LZ8fV8dJrpBs77JoX+4gvTkNsNk9slxrA=;
+        b=x/E3+hoRPWRIyUMnodTUDQsSk4JLutrG0nYetlfDs8EXL44+61xYN3qi9+eIv1pMHj
+         YqewNYM2jSWDfib7BYY8fYe2dvz6RRQJE/LBzs0cgRUtlbmtJ9O8ZIcSTFTy3DpQc8/u
+         GMpatAspKSFdPjl2OHceJv1uW9StcRxojlM8Z4F4nSsk5pGtePLIbExLDFTJo+RA7b+a
+         xCwn56Uh8glOM4yl+tiO83GzViAUnGlM2e0yXXHm3Na/ZiERhA23kzWsSME38PwI6ZGw
+         SHxgnVvSXv3hHdNFg7fSGsXQ8BvCm0Iad+0Z3Ubh3wT9Mee9X8pL4JJ29jy0xlxmn/sD
+         AAFw==
+X-Gm-Message-State: AO0yUKXwuuMwIXG/sybNfpzaxiHaJ/+zxqADrq7knjrcHQrgrxpPbflQ
+	DqCwpIXSwlYqS5NYONahXLE=
+X-Google-Smtp-Source: AK7set/ZkaXxcAzXMmAJWtfYqKGZ2dGkYPmnrtMIvCs5sfPgVAkTtx7KDiXFMPFHCsiv0tf+PB6eyA==
+X-Received: by 2002:a17:906:6a1e:b0:8b1:fc58:a4ad with SMTP id qw30-20020a1709066a1e00b008b1fc58a4admr18342715ejc.11.1678173189660;
+        Mon, 06 Mar 2023 23:13:09 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id ot18-20020a170906ccd200b008e40853a712sm5626807ejb.97.2023.03.06.23.13.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 23:13:09 -0800 (PST)
+Date: Tue, 7 Mar 2023 10:13:05 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: Khadija Kamran <kamrankhadijadj@gmail.com>
-cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
-    gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: axis-fifo: alignment should match opening
  parenthesis in axis-fifo.c
-In-Reply-To: <ZAZSmPpB6fcozGa4@khadija-virtual-machine>
-Message-ID: <alpine.DEB.2.22.394.2303062202500.3050@hadrien>
+Message-ID: <9543f943-759f-4e87-8f88-4eba7c1e4785@kili.mountain>
 References: <ZAZSmPpB6fcozGa4@khadija-virtual-machine>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZAZSmPpB6fcozGa4@khadija-virtual-machine>
 
-
-
-On Tue, 7 Mar 2023, Khadija Kamran wrote:
-
+On Tue, Mar 07, 2023 at 01:52:40AM +0500, Khadija Kamran wrote:
 > In file drivers/staging/axis-fifo/axis-fifo.c the alignment did not match the opening parenthesis. So, a few tabs were added to match the alignment to exactly where the parenthesis started.
+> 
 
-Hello Khadija,
+Run checkpatch on your patches.  ;)
 
-Thanks for plunging in and being the first participant!
-
-However, there are a number of issues with the proposed patch.
-
-1.  The log message should be at most around 70 characters wide.  You have
-one long line.
-
-2.  The log message should be written in the imperative.  Instead of "a
-few tabs were added", ay "add a few tabs".
-
-3.  I'm not sure that it is worth creating a very long line to respect the
-rule about (.  On the other hand, the way the code is written at the
-moment seems to be very misleading, because the third argument to
-wait_event_interruptible_timeout is written as though it is the second
-argument to ioread32.  So you can adjust the argument list of
-wait_event_interruptible_timeout so that at least all of the arguments
-that are not on the same line as the function call are lined up.
-
-julia
-
->
 > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
 > ---
 >  drivers/staging/axis-fifo/axis-fifo.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
+> 
 > diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
 > index dfd2b357f484..6e959224add0 100644
 > --- a/drivers/staging/axis-fifo/axis-fifo.c
@@ -84,8 +80,12 @@ julia
 >  				 (read_timeout >= 0) ?
 >  				  msecs_to_jiffies(read_timeout) :
 >  				  MAX_SCHEDULE_TIMEOUT);
-> --
-> 2.34.1
->
->
->
+
+Checkpatch is just guidelines not rules.  wait_event_interruptible_timeout()
+is a very long name so sometimes aligning it up with the parentheses
+doesn't work very well.  The most important thing is not checkpatch but
+how the code looks to humans.
+
+regards,
+dan carpenter
+
