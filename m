@@ -1,126 +1,306 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A062C33C9
-	for <linux-staging@lists.linux.dev>; Tue,  7 Mar 2023 10:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678184781;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LJ3a4OKd2xsWg0ZM/2W4mQQK3PnmS/QZqFHDCgSJxCI=;
-	b=PBZohkIYgD4Ceyr8CMprrWIu3fztFxWGIjcW/VqVaE77jAQtNC0y0fqz4/HK3KJ+hJxGNL
-	gcdR7X1Qs/bqhwT0uQN046WwR8qSrHvxJEZJtZsxTLoBX84LTVrzEOZEKST7uR82KD6VDC
-	0UusFwuSpu4tx/Teezi6ajb5gqD0oN4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-663--FwklPBaN9-8GvnHkeVdhw-1; Tue, 07 Mar 2023 05:26:20 -0500
-X-MC-Unique: -FwklPBaN9-8GvnHkeVdhw-1
-Received: by mail-ed1-f69.google.com with SMTP id v11-20020a056402348b00b004ce34232666so14951211edc.3
-        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 02:26:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678184779;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LJ3a4OKd2xsWg0ZM/2W4mQQK3PnmS/QZqFHDCgSJxCI=;
-        b=PlLt+S58/eG/jmV8yvxreZgIzdZng+/O+XPVZaM6NY/iyLmS5ldplpTC+MjXMX0DAr
-         AqVAxsyQ5gwoCfRGGci7Dt0N47WnJS/lP8BDE/66BqD/5eoPqvnHQwxY8pNDVOjzwfEq
-         dSIsVrlFjbhLIHww+LqBoI3AEdPIBtRo9F+b2rJQC5FJg3c/JKMfv2B6ebctI8zruEGn
-         KnpWliK5n6Rw7q+rKuMU6cyYg3KjLMgQiAJZiiaTUxB11Fw3yeK0qpj0Zivnw+p3jg1k
-         gtPH7U7Xexz4rPGjfJJobpzVzofUgtd5WtEZ9JOFlIDElV8J0pLWZtPVBQSODofWm2X7
-         wU0Q==
-X-Gm-Message-State: AO0yUKWzGO6zx8oIoNOnSoimLZ8nIocXLs8dSh0tmW3VKICCzLri0Gyz
-	KHfl0Mj6hAkNAP2S96vtLIb8fsY5yp0xp4bHG4+nyEHUTuq75jT2khjD+x8GUbICadfV5W9sy17
-	u66oefQ41zh6/KH+mcARVm3M3Uw==
-X-Received: by 2002:a17:906:3f5d:b0:871:178d:fc1e with SMTP id f29-20020a1709063f5d00b00871178dfc1emr12925487ejj.77.1678184779300;
-        Tue, 07 Mar 2023 02:26:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set/KN4FcVBjwnLlfJUlXjaVjCuuB4IYPkMvYuB1ZbjJt89ZJWQB50LDzIKdonI2nx9CIUPAkeg==
-X-Received: by 2002:a17:906:3f5d:b0:871:178d:fc1e with SMTP id f29-20020a1709063f5d00b00871178dfc1emr12925476ejj.77.1678184779072;
-        Tue, 07 Mar 2023 02:26:19 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id g8-20020a17090613c800b008e45d7055f8sm5815373ejc.198.2023.03.07.02.26.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Mar 2023 02:26:18 -0800 (PST)
-Message-ID: <3a17dd23-c396-7cfb-3cfa-19cdec39f2ff@redhat.com>
-Date: Tue, 7 Mar 2023 11:26:17 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE6D6135
+	for <linux-staging@lists.linux.dev>; Tue,  7 Mar 2023 12:24:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 323F8FD70E;
+	Tue,  7 Mar 2023 04:17:54 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kmKDXsAWeIhi; Tue,  7 Mar 2023 04:17:53 -0800 (PST)
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1678191473; bh=dUedRV4fSMe1xwSmq3u1x260PLI/0nWsLJYXAoGxVic=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DbSLxUJfF1Oui8t1l0lxpj0PGd9v6NzHaZW81DNI73NzQ+PLGzaoeow9tJvuiunN7
+	 D9VwZS13ill/EvmIg7L4ZHxscb2a5kWUtxXVGoA+7Pm1bsUb/R5m7bp8pPGMmP16o+
+	 1L2tolB2BrN/Txliq5p47Ebz2M7KJceciFwYhbPz9USqMwfQ4yEL0vpZwYwWlNmmIy
+	 PhvVbOvJmzdl7C5sL9Lva//buUHMu5dsUfvxa0ZKKZD8ShSlG1i0YQ16v2nEUVDpSp
+	 deFy07KNmqbvHFj2f64e81iVafM/aEv98iKSlXYXBgcJjAC9WLcLepJdUam2PA/h0k
+	 DoPjPvwH8OFwQ==
+To: laurent.pinchart@ideasonboard.com,
+	slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	shawnguo@kernel.org
+Cc: kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kernel@puri.sm,
+	Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH] media: imx: imx8mq-mipi-csi2: Use V4L2 subdev active state
+Date: Tue,  7 Mar 2023 13:17:29 +0100
+Message-Id: <20230307121729.1419120-1-martin.kepplinger@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: Fix key-store index handling
-To: Bastien Nocera <hadess@hadess.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>
-Cc: linux-staging@lists.linux.dev, stable@vger.kernel.org
-References: <20230306153512.162104-1-hdegoede@redhat.com>
- <f23d6700b79500e2da9875964aee356c60a60529.camel@hadess.net>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <f23d6700b79500e2da9875964aee356c60a60529.camel@hadess.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Simplify the driver by using the V4L2 subdev active state API to store
+the active format.
 
-On 3/6/23 16:40, Bastien Nocera wrote:
-> On Mon, 2023-03-06 at 16:35 +0100, Hans de Goede wrote:
->> There are 2 issues with the key-store index handling
->>
->> 1. The non WEP key stores can store keys with indexes 0 -
->> BIP_MAX_KEYID,
->>    this means that they should be an array with BIP_MAX_KEYID + 1
->>    entries. But some of the arrays where just BIP_MAX_KEYID entries
->>    big. While one other array was hardcoded to a size of 6 entries,
->>    instead of using the BIP_MAX_KEYID define.
->>
->> 2. The rtw_cfg80211_set_encryption() and wpa_set_encryption()
->> functions
->>    index check where checking that the passed in key-index would fit
->>    inside both the WEP key store (which only has 4 entries) as well
->> as
->>    in the non WEP key stores. This breaks any attempts to set non WEP
->>    keys with index 4 or 5.
->>
->> Issue 2. specifically breaks wifi connection with some access points
->> which advertise PMF support. Without this fix connecting to these
->> access points fails with the following wpa_supplicant messages:
->>
->>  nl80211: kernel reports: key addition failed
->>  wlan0: WPA: Failed to configure IGTK to the driver
->>  wlan0: RSN: Failed to configure IGTK
->>  wlan0: CTRL-EVENT-DISCONNECTED bssid=... reason=1
->> locally_generated=1
->>
->> Fix 1. by using the right size for the key-stores. After this 2. can
->> safely be fixed by checking the right max-index value depending on
->> the
->> used algorithm, fixing wifi not working with some PMF capable APs.
-> 
-> Good job on both those patches.
-> 
-> Can you please also CC: the maintainer of r8188eu which looks like it
-> has similar code?
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+---
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c | 108 +++++++------------
+ 1 file changed, 37 insertions(+), 71 deletions(-)
 
-Done (added to the To: of this reply).
-
-Note I have heard that the r8188eu is now (starting with 6.2 ?) supported
-by one of the non staging realtek wifi drivers. So I think that maybe it
-can just be removed from staging altogether ?
-
-Regards,
-
-Hans
-
-
-
+diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+index c0d0bf770096..066409782058 100644
+--- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
++++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+@@ -119,9 +119,7 @@ struct csi_state {
+ 
+ 	struct v4l2_mbus_config_mipi_csi2 bus;
+ 
+-	struct mutex lock; /* Protect csi2_fmt, format_mbus, state, hs_settle */
+-	const struct csi2_pix_format *csi2_fmt;
+-	struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
++	struct mutex lock; /* Protect state and hs_settle */
+ 	u32 state;
+ 	u32 hs_settle;
+ 
+@@ -328,10 +326,18 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
+ 	u32 lane_rate;
+ 	unsigned long esc_clk_rate;
+ 	u32 min_ths_settle, max_ths_settle, ths_settle_ns, esc_clk_period_ns;
++	const struct v4l2_mbus_framefmt *fmt;
++	const struct csi2_pix_format *csi2_fmt;
++	struct v4l2_subdev_state *sd_state;
+ 
+ 	/* Calculate the line rate from the pixel rate. */
++
++	sd_state = v4l2_subdev_lock_and_get_active_state(&state->sd);
++	fmt = v4l2_subdev_get_pad_format(&state->sd, sd_state, MIPI_CSI2_PAD_SINK);
++	csi2_fmt = find_csi2_format(fmt->code);
++
+ 	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
+-				       state->csi2_fmt->width,
++				       csi2_fmt->width,
+ 				       state->bus.num_data_lanes * 2);
+ 	if (link_freq < 0) {
+ 		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
+@@ -455,29 +461,14 @@ static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
+ 	return ret;
+ }
+ 
+-static struct v4l2_mbus_framefmt *
+-imx8mq_mipi_csi_get_format(struct csi_state *state,
+-			   struct v4l2_subdev_state *sd_state,
+-			   enum v4l2_subdev_format_whence which,
+-			   unsigned int pad)
+-{
+-	if (which == V4L2_SUBDEV_FORMAT_TRY)
+-		return v4l2_subdev_get_try_format(&state->sd, sd_state, pad);
+-
+-	return &state->format_mbus[pad];
+-}
+-
+ static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
+ 				    struct v4l2_subdev_state *sd_state)
+ {
+-	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+ 	struct v4l2_mbus_framefmt *fmt_sink;
+ 	struct v4l2_mbus_framefmt *fmt_source;
+-	enum v4l2_subdev_format_whence which;
+ 
+-	which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
+-	fmt_sink = imx8mq_mipi_csi_get_format(state, sd_state, which,
+-					      MIPI_CSI2_PAD_SINK);
++	fmt_sink = v4l2_subdev_get_pad_format(sd, sd_state, MIPI_CSI2_PAD_SINK);
++	fmt_source = v4l2_subdev_get_pad_format(sd, sd_state, MIPI_CSI2_PAD_SOURCE);
+ 
+ 	fmt_sink->code = MEDIA_BUS_FMT_SGBRG10_1X10;
+ 	fmt_sink->width = MIPI_CSI2_DEF_PIX_WIDTH;
+@@ -491,38 +482,15 @@ static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
+ 		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink->colorspace,
+ 					      fmt_sink->ycbcr_enc);
+ 
+-	fmt_source = imx8mq_mipi_csi_get_format(state, sd_state, which,
+-						MIPI_CSI2_PAD_SOURCE);
+ 	*fmt_source = *fmt_sink;
+ 
+ 	return 0;
+ }
+ 
+-static int imx8mq_mipi_csi_get_fmt(struct v4l2_subdev *sd,
+-				   struct v4l2_subdev_state *sd_state,
+-				   struct v4l2_subdev_format *sdformat)
+-{
+-	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+-	struct v4l2_mbus_framefmt *fmt;
+-
+-	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+-					 sdformat->pad);
+-
+-	mutex_lock(&state->lock);
+-
+-	sdformat->format = *fmt;
+-
+-	mutex_unlock(&state->lock);
+-
+-	return 0;
+-}
+-
+ static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
+ 					  struct v4l2_subdev_state *sd_state,
+ 					  struct v4l2_subdev_mbus_code_enum *code)
+ {
+-	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+-
+ 	/*
+ 	 * We can't transcode in any way, the source format is identical
+ 	 * to the sink format.
+@@ -533,8 +501,7 @@ static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
+ 		if (code->index > 0)
+ 			return -EINVAL;
+ 
+-		fmt = imx8mq_mipi_csi_get_format(state, sd_state, code->which,
+-						 code->pad);
++		fmt = v4l2_subdev_get_pad_format(sd, sd_state, code->pad);
+ 		code->code = fmt->code;
+ 		return 0;
+ 	}
+@@ -554,8 +521,7 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+ 				   struct v4l2_subdev_state *sd_state,
+ 				   struct v4l2_subdev_format *sdformat)
+ {
+-	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+-	struct csi2_pix_format const *csi2_fmt;
++	const struct csi2_pix_format *csi2_fmt;
+ 	struct v4l2_mbus_framefmt *fmt;
+ 
+ 	/*
+@@ -563,7 +529,7 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+ 	 * modified.
+ 	 */
+ 	if (sdformat->pad == MIPI_CSI2_PAD_SOURCE)
+-		return imx8mq_mipi_csi_get_fmt(sd, sd_state, sdformat);
++		return v4l2_subdev_get_fmt(sd, sd_state, sdformat);
+ 
+ 	if (sdformat->pad != MIPI_CSI2_PAD_SINK)
+ 		return -EINVAL;
+@@ -572,10 +538,7 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+ 	if (!csi2_fmt)
+ 		csi2_fmt = &imx8mq_mipi_csi_formats[0];
+ 
+-	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+-					 sdformat->pad);
+-
+-	mutex_lock(&state->lock);
++	fmt = v4l2_subdev_get_pad_format(sd, sd_state, sdformat->pad);
+ 
+ 	fmt->code = csi2_fmt->code;
+ 	fmt->width = sdformat->format.width;
+@@ -584,16 +547,9 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+ 	sdformat->format = *fmt;
+ 
+ 	/* Propagate the format from sink to source. */
+-	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+-					 MIPI_CSI2_PAD_SOURCE);
++	fmt = v4l2_subdev_get_pad_format(sd, sd_state, MIPI_CSI2_PAD_SOURCE);
+ 	*fmt = sdformat->format;
+ 
+-	/* Store the CSI2 format descriptor for active formats. */
+-	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-		state->csi2_fmt = csi2_fmt;
+-
+-	mutex_unlock(&state->lock);
+-
+ 	return 0;
+ }
+ 
+@@ -604,7 +560,7 @@ static const struct v4l2_subdev_video_ops imx8mq_mipi_csi_video_ops = {
+ static const struct v4l2_subdev_pad_ops imx8mq_mipi_csi_pad_ops = {
+ 	.init_cfg		= imx8mq_mipi_csi_init_cfg,
+ 	.enum_mbus_code		= imx8mq_mipi_csi_enum_mbus_code,
+-	.get_fmt		= imx8mq_mipi_csi_get_fmt,
++	.get_fmt		= v4l2_subdev_get_fmt,
+ 	.set_fmt		= imx8mq_mipi_csi_set_fmt,
+ };
+ 
+@@ -821,6 +777,7 @@ static const struct dev_pm_ops imx8mq_mipi_csi_pm_ops = {
+ static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
+ {
+ 	struct v4l2_subdev *sd = &state->sd;
++	int ret;
+ 
+ 	v4l2_subdev_init(sd, &imx8mq_mipi_csi_subdev_ops);
+ 	sd->owner = THIS_MODULE;
+@@ -834,15 +791,22 @@ static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
+ 
+ 	sd->dev = state->dev;
+ 
+-	state->csi2_fmt = &imx8mq_mipi_csi_formats[0];
+-	imx8mq_mipi_csi_init_cfg(sd, NULL);
+-
+ 	state->pads[MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
+ 					 | MEDIA_PAD_FL_MUST_CONNECT;
+ 	state->pads[MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE
+ 					   | MEDIA_PAD_FL_MUST_CONNECT;
+-	return media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
+-				      state->pads);
++	ret = media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
++				     state->pads);
++	if (ret)
++		return ret;
++
++	ret = v4l2_subdev_init_finalize(sd);
++	if (ret) {
++		media_entity_cleanup(&sd->entity);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static void imx8mq_mipi_csi_release_icc(struct platform_device *pdev)
+@@ -949,6 +913,10 @@ static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto mutex;
+ 
++	ret = imx8mq_mipi_csi_async_register(state);
++	if (ret < 0)
++		goto cleanup;
++
+ 	/* Enable runtime PM. */
+ 	pm_runtime_enable(dev);
+ 	if (!pm_runtime_enabled(dev)) {
+@@ -957,10 +925,6 @@ static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
+ 			goto icc;
+ 	}
+ 
+-	ret = imx8mq_mipi_csi_async_register(state);
+-	if (ret < 0)
+-		goto cleanup;
+-
+ 	return 0;
+ 
+ cleanup:
+@@ -968,6 +932,7 @@ static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
+ 	imx8mq_mipi_csi_runtime_suspend(&pdev->dev);
+ 
+ 	media_entity_cleanup(&state->sd.entity);
++	v4l2_subdev_cleanup(&state->sd);
+ 	v4l2_async_nf_unregister(&state->notifier);
+ 	v4l2_async_nf_cleanup(&state->notifier);
+ 	v4l2_async_unregister_subdev(&state->sd);
+@@ -991,6 +956,7 @@ static int imx8mq_mipi_csi_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ 	imx8mq_mipi_csi_runtime_suspend(&pdev->dev);
+ 	media_entity_cleanup(&state->sd.entity);
++	v4l2_subdev_cleanup(&state->sd);
+ 	mutex_destroy(&state->lock);
+ 	pm_runtime_set_suspended(&pdev->dev);
+ 	imx8mq_mipi_csi_release_icc(pdev);
+-- 
+2.30.2
 
