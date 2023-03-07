@@ -1,159 +1,78 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5653AAD49
-	for <linux-staging@lists.linux.dev>; Tue,  7 Mar 2023 15:01:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id EF347FDA7E;
-	Tue,  7 Mar 2023 07:01:34 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kw7ysgBL9VYr; Tue,  7 Mar 2023 07:01:33 -0800 (PST)
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-	t=1678201293; bh=jlx4mkYv8DWYEk8wvjS1oACmUl5j+kfP5YErl2ThcKQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BQ+JaQmH+kCmbzeAvnKQ9GbiSzv1VOPFzi4IrjiRt/0+x+twMiYXWSoT4BZAiEZyW
-	 7v0BhUXXqbGjjSmwCGJ42+/2u19XXjQl6vmz5loLuNTQFLCKBKw+PZtXfrD0amZK74
-	 r5DHaAXxG+o0BzOYM/xqIb5HLD3K5/0thDY44VuStdOt4ho6OQ1WLR1v30IF3PwoCy
-	 1TGJ0eEh3ASMaWseGxO4rnq4/VXE8tykUlAN7m9hNDvj/pbUhypyQGdDcjcoB2uFGu
-	 M0TElc6F/SIMtXo62+T+SPK1qghqJXK0wefIKaqdDj2dyFfCruRD9nmynx5vuU/+FB
-	 LXb7G414LHPHg==
-To: laurent.pinchart@ideasonboard.com,
-	slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org
-Cc: kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kernel@puri.sm,
-	Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: [PATCH v2 2/2] media: imx: imx8mq-mipi-csi2: remove unneeded state variable and function
-Date: Tue,  7 Mar 2023 16:00:47 +0100
-Message-Id: <20230307150047.1486186-3-martin.kepplinger@puri.sm>
-In-Reply-To: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
-References: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC0CBA52
+	for <linux-staging@lists.linux.dev>; Tue,  7 Mar 2023 19:11:57 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id cy23so56465178edb.12
+        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 11:11:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678216316;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cjGDHfradnreRo6UYfZKEzLKIIACc35OFmOSBsjm060=;
+        b=FtJ1nYeuEz41S28/CR0DwKgcS398lgjovYepPHPKp9REZv4pwacwpzKBowOlb/zq8P
+         adPOda1T8fLngDaP4vRSMC3nwRat4Lbh6K9btiJa5KKevsugQzv/GAalZ4by6wr6JLUC
+         RM4mjj36zaN1ItOo6B+ecrIBKC1PnbsrGCTFG86YMIjaIcIA+Aqy2DezL2dw2lVAR+Y1
+         VhLFEVdJO4FICq0q9bdSLa37Bwed/WqYWD+8TNDgQ4clG7NMUdsXQyXoUPINW2gy1pc2
+         JCdhLUys7EmGtH+aUs52VeY3UkIv3/ql8Y8OiXiYVanLylXpzcR5Z+AGzAc9cBNPVtrl
+         us0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678216316;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cjGDHfradnreRo6UYfZKEzLKIIACc35OFmOSBsjm060=;
+        b=Cad6wRwMT2E86wjDI2qrkIbLXi7on2ZUxDR3EfGDqCorlE4GSE1BMK6gdIDZCFvvov
+         P7ntJ2xKogVIjiFIBZLrjB7UttIAY/x7+zdHhu3tXCbsh7GuZlo8bSvm9m1Wlb0msmbp
+         T0O4ge6N8kjob6UXElaYHzGGtZNiMl/8sjKeXYzWZx8NYzgjWknRQ6aiVnMG9VukiW9P
+         eTqbrdYt62POoKXMJxlC2HF/oxCNb9J80Bkpmn4Y1QSoxuONjaB8RmWzejVHRgxk1c+p
+         2i6IXmXzWAuu2ssDa4FBKeL2716yHmACFgABT9cOmZpirzBqS+MTmM9bwLWJ+2mLN3Q6
+         Fxlw==
+X-Gm-Message-State: AO0yUKViFtmwHdSZY0w1m10Digw4u7j2VPZUiZCK4WfaipUOJuN75wwv
+	tTkDR7rDMHBcL2pniJ18b04=
+X-Google-Smtp-Source: AK7set9TV4xCaOp6dxMSitSrkqtkZx3mwXks/3BaV44OP6uLvLbewHjyan74xGKvfAIhn55BLzehrQ==
+X-Received: by 2002:a05:6402:26d4:b0:4af:81f1:5af0 with SMTP id x20-20020a05640226d400b004af81f15af0mr17211932edd.2.1678216315642;
+        Tue, 07 Mar 2023 11:11:55 -0800 (PST)
+Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id mb3-20020a170906eb0300b008e772c97db6sm6433990ejb.128.2023.03.07.11.11.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Mar 2023 11:11:55 -0800 (PST)
+Message-ID: <11dafbf3-9ee3-515e-c4ec-e33020501097@gmail.com>
+Date: Tue, 7 Mar 2023 20:11:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 0/2] staging: r8188eu: two simple cleanups
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230307085003.5025-1-straube.linux@gmail.com>
+Content-Language: en-US
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20230307085003.5025-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Clean up the driver a bit by inlining the imx8mq_mipi_csi_system_enable()
-function to the callsites and removing the hs_settle variable from the
-driver state.
+On 3/7/23 09:50, Michael Straube wrote:
+> This series contains two simple cleanups.
+> 
+> Tested on x86_64 with Inter-Tech DMG-02.
+> 
+> Michael Straube (2):
+>    staging: r8188eu: busetkipkey is boolean
+>    staging: r8188eu: bgrpkey_handshake is set but never used
+> 
+>   drivers/staging/r8188eu/core/rtw_mlme.c        | 1 -
+>   drivers/staging/r8188eu/core/rtw_recv.c        | 2 +-
+>   drivers/staging/r8188eu/core/rtw_xmit.c        | 2 +-
+>   drivers/staging/r8188eu/include/rtw_security.h | 1 -
+>   4 files changed, 2 insertions(+), 4 deletions(-)
+> 
 
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
- drivers/staging/media/imx/imx8mq-mipi-csi2.c | 41 ++++++++------------
- 1 file changed, 16 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-index 1aa8622a3bae..f10b59b8f1c0 100644
---- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-@@ -119,9 +119,8 @@ struct csi_state {
- 
- 	struct v4l2_mbus_config_mipi_csi2 bus;
- 
--	struct mutex lock; /* Protect state and hs_settle */
-+	struct mutex lock; /* Protect state */
- 	u32 state;
--	u32 hs_settle;
- 
- 	struct regmap *phy_gpr;
- 	u8 phy_gpr_reg;
-@@ -264,23 +263,6 @@ static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
- 	return 0;
- }
- 
--static void imx8mq_mipi_csi_system_enable(struct csi_state *state, int on)
--{
--	if (!on) {
--		imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
--		return;
--	}
--
--	regmap_update_bits(state->phy_gpr,
--			   state->phy_gpr_reg,
--			   0x3fff,
--			   GPR_CSI2_1_RX_ENABLE |
--			   GPR_CSI2_1_VID_INTFC_ENB |
--			   GPR_CSI2_1_HSEL |
--			   GPR_CSI2_1_CONT_CLK_MODE |
--			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(state->hs_settle));
--}
--
- static void imx8mq_mipi_csi_set_params(struct csi_state *state)
- {
- 	int lanes = state->bus.num_data_lanes;
-@@ -321,7 +303,8 @@ static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
- }
- 
- static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
--					  struct v4l2_subdev_state *sd_state)
-+					  struct v4l2_subdev_state *sd_state,
-+					  u32 *hs_settle)
- {
- 	s64 link_freq;
- 	u32 lane_rate;
-@@ -377,10 +360,10 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
- 	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
- 	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
- 
--	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
-+	*hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
- 
- 	dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle %u\n",
--		lane_rate, ths_settle_ns, state->hs_settle);
-+		lane_rate, ths_settle_ns, *hs_settle);
- 
- 	return 0;
- }
-@@ -389,24 +372,32 @@ static int imx8mq_mipi_csi_start_stream(struct csi_state *state,
- 					struct v4l2_subdev_state *sd_state)
- {
- 	int ret;
-+	u32 hs_settle;
- 
- 	ret = imx8mq_mipi_csi_sw_reset(state);
- 	if (ret)
- 		return ret;
- 
- 	imx8mq_mipi_csi_set_params(state);
--	ret = imx8mq_mipi_csi_calc_hs_settle(state, sd_state);
-+	ret = imx8mq_mipi_csi_calc_hs_settle(state, sd_state, &hs_settle);
- 	if (ret)
- 		return ret;
- 
--	imx8mq_mipi_csi_system_enable(state, true);
-+	regmap_update_bits(state->phy_gpr,
-+			   state->phy_gpr_reg,
-+			   0x3fff,
-+			   GPR_CSI2_1_RX_ENABLE |
-+			   GPR_CSI2_1_VID_INTFC_ENB |
-+			   GPR_CSI2_1_HSEL |
-+			   GPR_CSI2_1_CONT_CLK_MODE |
-+			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(hs_settle));
- 
- 	return 0;
- }
- 
- static void imx8mq_mipi_csi_stop_stream(struct csi_state *state)
- {
--	imx8mq_mipi_csi_system_enable(state, false);
-+	imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
- }
- 
- /* -----------------------------------------------------------------------------
--- 
-2.30.2
-
+Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
