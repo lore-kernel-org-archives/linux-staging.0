@@ -1,195 +1,82 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463FD814
-	for <linux-staging@lists.linux.dev>; Wed,  8 Mar 2023 07:35:34 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id u9so62139892edd.2
-        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 23:35:34 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6397B
+	for <linux-staging@lists.linux.dev>; Wed,  8 Mar 2023 07:58:38 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id j2so14443187wrh.9
+        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 23:58:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678260932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uwmnzBCq63isuXl3Q6C2EI4fASZ8/CUk+jrNqzYxJ44=;
-        b=VbzEV/VvOn0aSQHQgw9+0pNrIzr+/yH5ubUhN1HKeSmTXf94BdvU0QAKeTG/UexecP
-         ZICikcpLbHW2e0fYNwJ1vyGRLpXhwmMMlXD9YP4uO+DI5vvTfwVk203z/MAYV7iNWyaM
-         LzAP5cU4wfatBnoKPgcGA8qelmXohuXnpZcu1lSeTbjjW3JnQg7Lwe2dS93Db7T778FE
-         cBvDSoBmgp6dMUeoYjAojgWZRchmdsvquJU223oHpOImJgsuy1k8R4gIJQ1WmoZmx8pJ
-         N8S7zxDTRsGGvpgIvE+YkAOd2Hsg6lQsjUcJTHv2ZjlZBM3GeR1S2dA9jZ8xNEj38m4l
-         TbHQ==
+        d=gmail.com; s=20210112; t=1678262316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ftAkY/HAGWtPCN42i8FnBrPED03jDD/hiuSkO/UJIE8=;
+        b=EnB3/ts3oG7afKJNMAGj9b0Rj3KVKl/ymfjBm1l2KtLvnEiMUTFeRfmWDKTkguMqIm
+         B4sKebVI0QwfaYwm4TV/kGzgbxLNlCaP65LZunLkt+ZgI+XZkwyItnCAlmpOaNoLFiD5
+         icu/aaw60mX4QJHCbMbfp+16z8jD/myfbeQjuUylRwcXEHwTBDcSmxTuamTL83W1qNLu
+         Xw0gc7aYX+tzBPl7QPM7Wv0yZH3ieMK+wke2V16w0tgKex0RpPRXx+cuEgFEN7Q4q1Pe
+         X1K18nNHMaRGbqp8AsyCjy8utjvjv0Wv8jvGMsjoQdMKBsz4M719GiKxCvRy/4MLV8wG
+         p11A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678260932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uwmnzBCq63isuXl3Q6C2EI4fASZ8/CUk+jrNqzYxJ44=;
-        b=ET0g78bTAqnYT0KykjeUgYwSnaMf275voFIIAT1RgmZluMq7A8KCDGWkvmxF3pHvY9
-         zM3RHNUpSQlT44E11EA+NN9IRuV/zg9VFGRE9/CGXcWUkJ2ifcHMnPVXGD8jpPOzT+Ic
-         eUqQN92uuv7vIspBelTixQt61HMV+Vs2+c1Svyr/ITN+hBGQKjK7TOqWOVEFeerHdDCk
-         AJyAnMj+XRV0Hh+SVpNjjJwiIPgl9qnVAYK7rqFADUxmrdP+ZUTPAP1Ga/glrkn+2V2v
-         ADMylFMbeyhggnOW5bzAHL/u1Zk/rqWcX/F4NI+mM1SBPPqh6L/TZv9K2K6IgDlleIab
-         Am/A==
-X-Gm-Message-State: AO0yUKV3DSlyeBPggGtpdr4Qy1C5SaUFQ+vn9V24yzcLPD8oydFJIbsm
-	cw9ljKRWwrfLXnKsizLmyZw=
-X-Google-Smtp-Source: AK7set8yXe5XLI1jn/5JXFxjt5s2N24GAa37Qe0PvcVxhvZdWMgW9+5PjfaVT0zEhW3uEJtj78YZ1w==
-X-Received: by 2002:a17:907:6f18:b0:8f8:5779:f1af with SMTP id sy24-20020a1709076f1800b008f85779f1afmr18421549ejc.15.1678260932432;
-        Tue, 07 Mar 2023 23:35:32 -0800 (PST)
-Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id h15-20020a1709062dcf00b008dffda52d71sm7051880eji.124.2023.03.07.23.35.31
+        d=1e100.net; s=20210112; t=1678262316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ftAkY/HAGWtPCN42i8FnBrPED03jDD/hiuSkO/UJIE8=;
+        b=JcqpcH4DDFoPlR6xSGypZRy/wa+nzEtcVlhBWDpuyRbkNBW5WkBfXxwitufQnb/QqY
+         CN1dE0u94YiKnOz/Di+xkJbQFkDwmaFDnP9hmOle3liotUc8HYvqDOtJFtnBM9rdiUq6
+         AeEgnA6PZ487YWzKybFsTgPssyJ73d0+DeMjhtfVBLyPHul1HVqkAj3wcnYoVIdw7Cfn
+         s4uElNx3mE4ncaBwJMDcUL9IhsOSpRa/YthyW07j0KXK8R47IPPLGwUoDZgl2zjCyV9o
+         iDd/I3DIlhZJMvh22KbAVDe2bN8BSppw5ZeckopCAVL5okHc88HoF2fBQ9mA1mJvkEGA
+         eiMA==
+X-Gm-Message-State: AO0yUKUVnZPcRTBiRX0EwV0Chf9NqYjVNNCktQ7xpqdieA5ie307ZMOL
+	i8zFaEKuHN1Sytmucu+M3fo=
+X-Google-Smtp-Source: AK7set8SW3QHYbwXotcXcSpGeoafSW3v8MoqXi0Lx268197z+LenVKqaA21glL+GqJf4mKDEYA+75g==
+X-Received: by 2002:adf:dec8:0:b0:2c7:454:cee3 with SMTP id i8-20020adfdec8000000b002c70454cee3mr10386981wrn.7.1678262316282;
+        Tue, 07 Mar 2023 23:58:36 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p7-20020a5d4e07000000b002c5694aef92sm14530016wrt.21.2023.03.07.23.58.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 23:35:32 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	Maxim Schwalm <maxim.schwalm@gmail.com>,
-	Dmitry Osipenko <digetx@gmail.com>
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 8/8] ASoC: tegra: Support MAX9808x by machine driver
-Date: Wed,  8 Mar 2023 09:35:02 +0200
-Message-Id: <20230308073502.5421-9-clamor95@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230308073502.5421-1-clamor95@gmail.com>
-References: <20230308073502.5421-1-clamor95@gmail.com>
+        Tue, 07 Mar 2023 23:58:35 -0800 (PST)
+Date: Wed, 8 Mar 2023 10:58:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] staging: rtl8192e: Remove unused Array
+ Rtl8192PciERadioC_Array
+Message-ID: <5c6eae1d-1593-40c1-96b6-8dcdf0b0799c@kili.mountain>
+References: <cover.1678222487.git.philipp.g.hortmann@gmail.com>
+ <ed1e0df7ed677c335340f42c1108e7b5c0f18462.1678222487.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed1e0df7ed677c335340f42c1108e7b5c0f18462.1678222487.git.philipp.g.hortmann@gmail.com>
 
-Add Maxim MAX9808x codec support to the Tegra ASoC machine driver.
-This codec is found on LG T30 devices like Optimus 4X HD and
-Optimus Vu.
+On Tue, Mar 07, 2023 at 10:01:06PM +0100, Philipp Hortmann wrote:
+> The array Rtl8192PciERadioC_Array is only used in function
+> rtl92e_config_rf_path which is only called in function rtl92e_config_rf.
+> In function rtl92e_config_rf a termination condition for the loop is set
+> to priv->num_total_rf_path = RTL819X_TOTAL_RF_PATH = 2. The loop is only
+> executed with numbers 0 and 1 for eRFPath. So the function
+> rtl92e_config_rf_path is only called with eRFPath for 0 and 1 and never
+> with 2 that would make the "case RF90_PATH_C:" be called. Remove
+> resulting dead code.
+> 
+> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> ---
+> V1->V2: Changed argumentation in the description and subject
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- sound/soc/tegra/Kconfig              |  9 ++++++
- sound/soc/tegra/tegra_asoc_machine.c | 46 +++++++++++++++++++++++++---
- 2 files changed, 51 insertions(+), 4 deletions(-)
+Thanks.  This explanation is very good.  I was expecting that the issue
+was in a completely different place so this explanation really helps a
+lot.
 
-diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
-index ff905e5dcd86..950f490b8d54 100644
---- a/sound/soc/tegra/Kconfig
-+++ b/sound/soc/tegra/Kconfig
-@@ -263,6 +263,15 @@ config SND_SOC_TEGRA_MAX98090
- 	  Say Y or M here if you want to add support for SoC audio on Tegra
- 	  boards using the MAX98090 codec, such as Venice2.
- 
-+config SND_SOC_TEGRA_MAX98088
-+	tristate "SoC Audio support for Tegra boards using a MAX9808x codec"
-+	depends on I2C && GPIOLIB
-+	select SND_SOC_TEGRA_MACHINE_DRV
-+	select SND_SOC_MAX98088
-+	help
-+	  Say Y or M here if you want to add support for SoC audio on Tegra
-+	  boards using the MAX98088 codec, such as LG X3.
-+
- config SND_SOC_TEGRA_RT5677
- 	tristate "SoC Audio support for Tegra boards using a RT5677 codec"
- 	depends on I2C && GPIOLIB
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index 020f03349373..cc08325d523b 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -86,11 +86,11 @@ static int tegra_machine_event(struct snd_soc_dapm_widget *w,
- 		gpiod_set_value_cansleep(machine->gpiod_spkr_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
--	if (!strcmp(w->name, "Mic Jack"))
-+	if (!strcmp(w->name, "Mic Jack") || !strcmp(w->name, "Headset Mic"))
- 		gpiod_set_value_cansleep(machine->gpiod_ext_mic_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
--	if (!strcmp(w->name, "Int Mic"))
-+	if (!strcmp(w->name, "Int Mic") || !strcmp(w->name, "Internal Mic 2"))
- 		gpiod_set_value_cansleep(machine->gpiod_int_mic_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
-@@ -108,11 +108,12 @@ static const struct snd_soc_dapm_widget tegra_machine_dapm_widgets[] = {
- 	SND_SOC_DAPM_HP("Headphones", NULL),
- 	SND_SOC_DAPM_SPK("Speakers", tegra_machine_event),
- 	SND_SOC_DAPM_SPK("Int Spk", tegra_machine_event),
-+	SND_SOC_DAPM_SPK("Earpiece", NULL),
- 	SND_SOC_DAPM_MIC("Int Mic", tegra_machine_event),
- 	SND_SOC_DAPM_MIC("Mic Jack", tegra_machine_event),
- 	SND_SOC_DAPM_MIC("Internal Mic 1", NULL),
--	SND_SOC_DAPM_MIC("Internal Mic 2", NULL),
--	SND_SOC_DAPM_MIC("Headset Mic", NULL),
-+	SND_SOC_DAPM_MIC("Internal Mic 2", tegra_machine_event),
-+	SND_SOC_DAPM_MIC("Headset Mic", tegra_machine_event),
- 	SND_SOC_DAPM_MIC("Digital Mic", NULL),
- 	SND_SOC_DAPM_MIC("Mic", NULL),
- 	SND_SOC_DAPM_LINE("Line In Jack", NULL),
-@@ -123,6 +124,7 @@ static const struct snd_soc_dapm_widget tegra_machine_dapm_widgets[] = {
- static const struct snd_kcontrol_new tegra_machine_controls[] = {
- 	SOC_DAPM_PIN_SWITCH("Speakers"),
- 	SOC_DAPM_PIN_SWITCH("Int Spk"),
-+	SOC_DAPM_PIN_SWITCH("Earpiece"),
- 	SOC_DAPM_PIN_SWITCH("Int Mic"),
- 	SOC_DAPM_PIN_SWITCH("Headset Mic"),
- 	SOC_DAPM_PIN_SWITCH("Internal Mic 1"),
-@@ -718,6 +720,40 @@ static const struct tegra_asoc_data tegra_max98090_data = {
- 	.add_hp_jack = true,
- };
- 
-+/* MAX98088 machine */
-+
-+SND_SOC_DAILINK_DEFS(max98088_hifi,
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()),
-+	DAILINK_COMP_ARRAY(COMP_CODEC(NULL, "HiFi")),
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()));
-+
-+static struct snd_soc_dai_link tegra_max98088_dai = {
-+	.name = "MAX98088",
-+	.stream_name = "MAX98088 PCM",
-+	.init = tegra_asoc_machine_init,
-+	.dai_fmt = SND_SOC_DAIFMT_I2S |
-+		   SND_SOC_DAIFMT_NB_NF |
-+		   SND_SOC_DAIFMT_CBS_CFS,
-+	SND_SOC_DAILINK_REG(max98088_hifi),
-+};
-+
-+static struct snd_soc_card snd_soc_tegra_max98088 = {
-+	.components = "codec:max98088",
-+	.dai_link = &tegra_max98088_dai,
-+	.num_links = 1,
-+	.fully_routed = true,
-+};
-+
-+static const struct tegra_asoc_data tegra_max98088_data = {
-+	.mclk_rate = tegra_machine_mclk_rate_12mhz,
-+	.card = &snd_soc_tegra_max98088,
-+	.add_common_dapm_widgets = true,
-+	.add_common_controls = true,
-+	.add_common_snd_ops = true,
-+	.add_mic_jack = true,
-+	.add_hp_jack = true,
-+};
-+
- /* SGTL5000 machine */
- 
- SND_SOC_DAILINK_DEFS(sgtl5000_hifi,
-@@ -946,6 +982,8 @@ static const struct tegra_asoc_data tegra_rt5631_data = {
- static const struct of_device_id tegra_machine_of_match[] = {
- 	{ .compatible = "nvidia,tegra-audio-trimslice", .data = &tegra_trimslice_data },
- 	{ .compatible = "nvidia,tegra-audio-max98090", .data = &tegra_max98090_data },
-+	{ .compatible = "nvidia,tegra-audio-max98088", .data = &tegra_max98088_data },
-+	{ .compatible = "nvidia,tegra-audio-max98089", .data = &tegra_max98088_data },
- 	{ .compatible = "nvidia,tegra-audio-sgtl5000", .data = &tegra_sgtl5000_data },
- 	{ .compatible = "nvidia,tegra-audio-wm9712", .data = &tegra_wm9712_data },
- 	{ .compatible = "nvidia,tegra-audio-wm8753", .data = &tegra_wm8753_data },
--- 
-2.37.2
+Reviewed-by: Dan Carpenter <error27@gmail.com>
+
+regards,
+dan carpenter
 
