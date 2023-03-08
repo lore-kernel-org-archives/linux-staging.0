@@ -1,189 +1,91 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E03479F5
-	for <linux-staging@lists.linux.dev>; Wed,  8 Mar 2023 17:23:13 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id h3so17312875lja.12
-        for <linux-staging@lists.linux.dev>; Wed, 08 Mar 2023 09:23:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF05A8462;
+	Wed,  8 Mar 2023 18:22:49 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-176b90e14a9so12026870fac.9;
+        Wed, 08 Mar 2023 10:22:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678296191;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LNWXfkA/VElZCzTndG/AybBAJC3S60n0GhnxwQn3ifE=;
-        b=L+UhgUknsSlFSx3k5GPRw0HrOa2sfjA+rj3RFkCBTKQN1q7X+7XuICwojfnnTr89TN
-         GkYE2R+iU0d5ITkRHZd50ER+dK8xUbj+c7/+UfyPfx0daquRxYskiEnIoO8fmXd3waI1
-         bLfavBvh8JuFjLJZUbg/24MBkAYDRdZ6GUseOrw6yDE7S8ckLeUyYB035gnaUc8ZkDPQ
-         jtXkMSs+NAT7DdFXQVgKkCGy7JeG5M7mY7Q/lME3O3OeFb8m6wnGbzPZyoUbKwoAIysg
-         DotZPXvuWNS6IIi4ulQ52pknFd/WFbVDbuKkdiA2J/CFEIFEmS9v+Vj/fh/0c6ck8nC+
-         ssEg==
+        d=gmail.com; s=20210112; t=1678299769;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=8z6n4C9XCAy5Bw4ajsCdMIph1S7zKL5qZxtL5AjXJBo=;
+        b=FQemDoLY2ZXL9MuSOsQ1LEnLoobDl7UTBOXq5NhxdYdBygo/MHA4FIyoM9OX4v0djM
+         NJoWvM8SaxmFdz2Nv48yn1z2d3ITwHIRvV3efQKEQ4B/ectCd6z+caMem4x1CVw6xUHO
+         6gloshNqIDzg5AE8AAepQBGk1bIMLxCFGJZDf/aFWDNhq34sJcJZpes5ea5V6QH6vuvx
+         PyUZlMdfnZvxvOf2+IkU5lbMVUx4h4kYcYdNcmLyItCfxRHQP6lzViOaB4Ndhm5mkD6x
+         tFd5B2kN5fjG01kbsw8jwpBK2G3JSDLDheF869pBpoEN5oR1QDG1bAGwR22MykVNW2Ve
+         tEfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678296191;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LNWXfkA/VElZCzTndG/AybBAJC3S60n0GhnxwQn3ifE=;
-        b=Wwp/fx4VYSeXqDuTm5oiR14e+kVk3KBgPLzTb9bRu7mTMGuZAGx90zDdFnBLIeJdpN
-         7SdrmwL8nPPxmGR8ibm9UVVwRa74F1GpQOQoYK0GG9LElVdpaVhspPfXG984+q7rOFkE
-         jEvkwuzfDugxozAawxPvy65nRugqaHkt5SPGG3to6N0TWPYoxb+4Y85HqhH2fGwYQAC/
-         BaubdP9Dhxq/A6Ugc395Hbzjz3Wu5jktFbKIKieG0Svswra9JlmstY8g0+sOcU7mXxz+
-         EpX3JJB8LnDBZT0R+OZryaSPNnHTKqwAjI26MVo6UozY6v0PAklV4+Gzk7dXDSmpDvq7
-         Uing==
-X-Gm-Message-State: AO0yUKUtEFqZtPWlBLK54GmvA6ME3JpgdUlKZVxEn3x2bCeg5d7dQRq3
-	52oAcGvz8n4Rt593m//reOo=
-X-Google-Smtp-Source: AK7set9BNVu5g6ur1sR1cQDSj+MlkYxsQyQy/76CpCZVD1HRAgebiobKTBK6lBz/TkrkRXH+z0a8gQ==
-X-Received: by 2002:a2e:be0b:0:b0:298:592e:5646 with SMTP id z11-20020a2ebe0b000000b00298592e5646mr3391350ljq.32.1678296191190;
-        Wed, 08 Mar 2023 09:23:11 -0800 (PST)
-Received: from combine-ThinkPad-S1-Yoga (gw.combine.ideon.se. [85.235.7.115])
-        by smtp.gmail.com with ESMTPSA id h15-20020ac250cf000000b004a0589786ddsm2408182lfm.69.2023.03.08.09.23.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 09:23:10 -0800 (PST)
-Date: Wed, 8 Mar 2023 18:23:09 +0100
-From: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
-To: Deepak R Varma <drv@mailo.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Forest Bond <forest@alittletooquiet.net>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
- inline function
-Message-ID: <ZAjEffh/wKeaagcN@combine-ThinkPad-S1-Yoga>
-References: <Y+A+HF1vDeRIqye5@combine-ThinkPad-S1-Yoga>
- <Y+DL3O5lcMyZ/aNR@kroah.com>
- <Y+H9BT8Am4Ik2ZDA@combine-ThinkPad-S1-Yoga>
- <Y+IJgxF52lpgk0RC@ubun2204.myguest.virtualbox.org>
- <ZAVxo6WHGu3kO1nl@combine-ThinkPad-S1-Yoga>
- <ZAV7xvr3BCqByjy6@ubun2204.myguest.virtualbox.org>
- <ZAWAyyNt0rgrpA1l@combine-ThinkPad-S1-Yoga>
- <ZAWPk12Fz0gxaqzB@ubun2204.myguest.virtualbox.org>
- <ZAWa5NpBHrPhaNWA@combine-ThinkPad-S1-Yoga>
- <ZAWkzuCF9GaqnnaJ@ubun2204.myguest.virtualbox.org>
+        d=1e100.net; s=20210112; t=1678299769;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8z6n4C9XCAy5Bw4ajsCdMIph1S7zKL5qZxtL5AjXJBo=;
+        b=B4T6FjO0snjWS1xTx5ScaD6oGTdyy7pXQDyfAdPcJ+YoZMz+zArxL6mRFb3bxg6FF0
+         qQcZz0UhHlWRHC+7jJcH8Zuvz+NzhH21QqaCzKUxqKaDSYf9drKOFrxsYhIflbsnl30h
+         8eaT/w+ebZwCnDXjrN6Z7G/Oqyanwrh88Xxk9GxyucKkLrRcmdaWLi/s1n4kXZR/9+k4
+         +S1qCvnkqj+67FLwU1YVwoBwEKy5812hFIEr1IoPFEpGQ6r+tx7e+InSWVi9AqAv/tA/
+         ebdYWHxyKenwTZLgWMapbVT/n/6zFtMFQKPwrdG48GWSkSk3dDFM3E81M+G9igLrbnur
+         PsBw==
+X-Gm-Message-State: AO0yUKUOkOjggemg0OjQA/QbgO/ciGKZ4MoLvC/jdUvP/rPlez8M94TK
+	12pwb/S4tv/Dxs2+O7ddR3A=
+X-Google-Smtp-Source: AK7set+w1q0e+Y/3UYZQjFrI2TwtL046YUtJOne6Q9BeFnre51uAeHILEQb48rkjPcwNZUbG2XqdJQ==
+X-Received: by 2002:a05:6870:73cc:b0:176:4920:bf8c with SMTP id a12-20020a05687073cc00b001764920bf8cmr12070018oan.55.1678299768839;
+        Wed, 08 Mar 2023 10:22:48 -0800 (PST)
+Received: from [192.168.1.119] ([216.130.59.33])
+        by smtp.gmail.com with ESMTPSA id v2-20020a05687105c200b0017299192eb1sm6391758oan.25.2023.03.08.10.22.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 10:22:48 -0800 (PST)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <c5721099-ef49-feaa-1624-813ba2034cd2@lwfinger.net>
+Date: Wed, 8 Mar 2023 12:22:47 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZAWkzuCF9GaqnnaJ@ubun2204.myguest.virtualbox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] staging: r8188eu: delete driver
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ Hans de Goede <hdegoede@redhat.com>, Martin Kaiser <martin@kaiser.cx>,
+ Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>
+References: <20230308131934.380395-1-gregkh@linuxfoundation.org>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <20230308131934.380395-1-gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 06, 2023 at 02:01:10PM +0530, Deepak R Varma wrote:
-> On Mon, Mar 06, 2023 at 08:48:52AM +0100, Guru Mehar Rachaputi wrote:
-> > On Mon, Mar 06, 2023 at 12:30:35PM +0530, Deepak R Varma wrote:
-> > > On Mon, Mar 06, 2023 at 06:57:31AM +0100, Guru Mehar Rachaputi wrote:
-> > > > On Mon, Mar 06, 2023 at 11:06:06AM +0530, Deepak R Varma wrote:
-> > > > > On Mon, Mar 06, 2023 at 05:52:51AM +0100, Guru Mehar Rachaputi wrote:
-> > > > > > On Tue, Feb 07, 2023 at 01:49:15PM +0530, Deepak R Varma wrote:
-> > > > > > 
-> > > > > > Hej Deepak,
-> > > > > > 
-> > > > > > I have a problem in sending patchset through mutt.
-> > > > > > I have been trying sending to my own mail address but it won't work.
-> > > > > 
-> > > > > This could be because of mutt configuration. There are some additional checks if
-> > > > > you are trying to use mutt with gmail. Search over google or lore old posts to
-> > > > > know more about it. The important aspect is to configure and test mutt well
-> > > > > before you use it for sending out patches.
-> > > > > 
-> > > > > > 
-> > > > > > When sending patchset I think we should use "In-Reply-To" flag and
-> > > > > > include "Message-ID" to which we want this to be in series to. I tried
-> > > > > > both "git send-email" feature and mutt "forwarding feature".
-> > > > > 
-> > > > > I have not used "git send-email", so can't help you there. But mutt has worked
-> > > > > very well for me. Ensure you are reading and following the instructions from
-> > > > > this page well: https://kernelnewbies.org/Outreachyfirstpatch
-> > > > >
-> > > > 
-> > > > So for example from these patches: 0.patch, 1.patch
-> > > > how to use "mutt -H" to send patches in one thread?
-> > > > 
-> > > > if first one is: mutt -H 0.patch
-> > > > then should second one be: mutt -H 1.patch In-Reply-To: Message-ID?
-> > > 
-> > > Try this out by sending to yourself and you will know :)
-> > > 
-> > > There is a section "Using git format-patch to send patchsets" in the link I sent
-> > > in my last email. Please read that.
-> > > 
-> > > Deepak.
-> > >
-> > 
-> > I tried it and it won't work.
-> > My question itself was how to use mutt to send patchset? which is not
-> > clear on the site.
-> > 
-> > I have no problem in sending one single patch through mutt.
-> > 
-> > To be more clear:
-> > https://lore.kernel.org/lkml/cover.1666299151.git.drv@mailo.com/
-> > at above link, you submitted patchset.
-> > 
-> > How to send this series using mutt?
-> > If I use "mutt -H x.patch" for every patch file they are seperate emails
-> > in my inbox.
+On 3/8/23 07:19, Greg Kroah-Hartman wrote:
+> Now that the same hardware that the r8188eu driver supported is
+> supported by the real wireless driver rtl8xxxu, the r8188eu driver can
+> be deleted.
 > 
-> The following command creates cover letter and patches as a threads
+> Also the rtl8xxxu driver supports way more devices, and is a fraction of
+> the overall size, making this a much better overall solution.
 > 
-> git format-patch -o /tmp/ --cover-letter -n --thread=shallow commitIDx^..commitIDy
+> Thanks to the r8188eu developers and maintainers and reviewers over the
+> years, your work allowed Linux users to use their hardware before the
+> real driver was implemented properly.
 > 
-> Send cover-letter and patches with mutt -H XXXXX command
-> 
-> Note: Cover letter us optional. If you do not have one, the patches will still
-> be threaded.
-> 
-> HTH
-> Deepak.
-> 
->
-I get it now, thank you deepak :)
-> 
-> 
-> > 
-> > > > 
-> > > > 
-> > > > > > 
-> > > > > > Another issue is, how to attach patch file from inside mutt(for example: 
-> > > > > > "mutt -H x.patch" from command line is used to extract header and body of a 
-> > > > > > mail in mutt)?
-> > > > > 
-> > > > > Why do you want to do that?
-> > > > > Build a patch file using "git format-patch" and then use "mutt -H" to send the
-> > > > > patch. Both the commands work directly from the command line. If there is a need 
-> > > > > for any additional attachments in support of your patch [configs, logs, trace as
-> > > > > evidence, test outcomes etc], you can attach those from within the "mutt -H"
-> > > > > execution context.
-> > > > > 
-> > > > > I suggest testing mutt well before you start sending any patches out by sending
-> > > > > the patches to yourself. Do not use any kernel mailing list for testing.
-> > > > > 
-> > > > > 
-> > > > > Regards,
-> > > > > Deepak.
-> > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > > -- 
-> > > > > > Thanks & Regards,
-> > > > > > Guru
-> > > > > > 
-> > > > > 
-> > > > > 
-> > > > 
-> > > > -- 
-> > > > Thanks & Regards,
-> > > > Guru
-> > > > 
-> > > 
-> > > 
-> > 
-> > -- 
-> > Thanks & Regards,
-> > Guru
-> > 
-> 
-> 
+> Reported-by: Hans de Goede<hdegoede@redhat.com>
+> Cc: Martin Kaiser<martin@kaiser.cx>
+> Cc: Larry Finger<Larry.Finger@lwfinger.net>
+> Cc: Phillip Potter<phil@philpotter.co.uk>
+> Cc: Pavel Skripkin<paskripkin@gmail.com>
+> Signed-off-by: Greg Kroah-Hartman<gregkh@linuxfoundation.org>
 
--- 
-Thanks & Regards,
-Guru
+Acked-by: Larry Finger <LarryFinger@lwfinger.net>
+
+This staging driver satisfied a need at the time it was first added to the 
+kernel, but that time is over!
+
+Larry
+
