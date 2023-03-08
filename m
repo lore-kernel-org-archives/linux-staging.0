@@ -1,148 +1,83 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC23110790
-	for <linux-staging@lists.linux.dev>; Tue,  7 Mar 2023 21:01:28 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id da10so57775235edb.3
-        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 13:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678222888;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gIXSorTFAYKTNJM7z/IL0aUuWF162xbbFTav7RI/Z10=;
-        b=MnyFJBJSxZ8i3I01ug1cTYZ7Q4PhmKGhRxGU9s3UK+ReZD7m2YF025j+KpvuUsjf1/
-         fibjuaTB41CjNezj/Xy3Ax2I3P187iOGXvmjZZaf8SWhyM8fQhIgv3Fm5VD+wU6o6rPn
-         wEHb7ZxIciyVG9dBEU86jqTRLBKVcoOgAoRQoHIOyGmy2ckGHVhfGgKAeMzzHIjZqlpk
-         Tmp/dGMdYr2NnapNtzdXv0xMxLcuBR5kD7QO/nUSMBFvtEdNFQScKusOxgjJG5BtANhW
-         58XuGwZDW4mW2WVHCy4v7RpQi5nO57cKoQfkuXiWeu7alz4Y5MuaqIPTyXkWDhMjhiZD
-         7g7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678222888;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gIXSorTFAYKTNJM7z/IL0aUuWF162xbbFTav7RI/Z10=;
-        b=BDsos5c5LGO6MEIqOvS3/HEhlTwyX/ocqwAnmO2ZZWp4YGcmgI+vRpXrn3GxRQzE9c
-         /KLs04JKuBj8ceuEVuQyxHoLwWQDh7DMysTD+1sMPfxwcwtI0EkudPalNK17Sv2/mMgG
-         J5yfIr/yjjj62vbEss5WLq4YYgsWf1ZnsyQHbCFQVez7sJ4dYBRlVon96sgSco7fEzyv
-         mqCKxHuhnoZkn7+I1t9co7sjlU/+RSeBy0bK3DoqxPRGaVLXCTu0BDzrbdesQJ5vZ9KV
-         C6LjCiOOwkNbTRoKlur+UpgIusvwoU8igXH3tQt+ApB8rpMXYuG2vvwRxpdU84AxqPhz
-         gIXw==
-X-Gm-Message-State: AO0yUKVuVpwIAJszk911i7fm4aZ/PiESXWYIqYdWAQTG92sO2SrTifD6
-	ZcdQH48RYV1rNTaVjnSTFMrCGGsvBr8=
-X-Google-Smtp-Source: AK7set9bArSFzIR/CoqbFlchV95RX/tZbI3+aIiIzmVZT1ty/0Xb9IYjdzG0haC/tQ+0hxzVZsjwPA==
-X-Received: by 2002:a17:906:5199:b0:8ae:ea08:3842 with SMTP id y25-20020a170906519900b008aeea083842mr14275038ejk.7.1678222887993;
-        Tue, 07 Mar 2023 13:01:27 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id r17-20020a50aad1000000b004bfa4f747d2sm7269585edc.54.2023.03.07.13.01.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 13:01:27 -0800 (PST)
-Date: Tue, 7 Mar 2023 22:01:25 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] staging: rtl8192e: Remove unused Array
- Rtl8192PciERadioD_Array
-Message-ID: <608ced17b85ca321fdc0026c686e3c62a9d6d8cd.1678222487.git.philipp.g.hortmann@gmail.com>
-References: <cover.1678222487.git.philipp.g.hortmann@gmail.com>
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.197])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 981F562B;
+	Wed,  8 Mar 2023 03:23:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ntwhd
+	jE/sHLAxtS+ZiRSctZFsw4NJ79vU/OFPfulIjI=; b=VNWeQte1QssCEBc7lDlJ5
+	zLJ1gAnOqZQhj9IM04BGP29hgBrPD5mYgLyYM8DnFBhSJh0CTJGXGLkSWP+0JmPH
+	Q6kC4vV5WakrC9nIh/yMW5ppc5jbXs0pHhgJ+KW7ncJCFuuTwWm5olAeepN0Ghig
+	HQSnwlaqKtdX/QgNll/sf0=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+	by zwqz-smtp-mta-g0-4 (Coremail) with SMTP id _____wCn1V22_wdkytYmCg--.7170S2;
+	Wed, 08 Mar 2023 11:23:34 +0800 (CST)
+From: Zheng Wang <zyytlz.wz@163.com>
+To: mchehab@kernel.org
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	hackerzheng666@gmail.com,
+	1395428693sheep@gmail.com,
+	alex000young@gmail.com,
+	Zheng Wang <zyytlz.wz@163.com>
+Subject: [PATCH] media: cedrus: fix use after free bug in cedrus_remove due to race condition
+Date: Wed,  8 Mar 2023 11:23:33 +0800
+Message-Id: <20230308032333.1893394-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1678222487.git.philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wCn1V22_wdkytYmCg--.7170S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uw15uF4fAw45Wry5GF45KFg_yoW8JFykpa
+	y5Ka4UCayUtF4Yg3y7Ar18ZF15W34I93WSg34xJwn2qas5Jr1xXr1rta47Jw1DZa9Ykw4a
+	vF15J340qws7AF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziaZXrUUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXRcsU1WBo1oioQAAsb
 
-The array Rtl8192PciERadioD_Array is only used in function
-rtl92e_config_rf_path which is only called in function rtl92e_config_rf.
-In function rtl92e_config_rf a termination condition for the loop is set
-to priv->num_total_rf_path = RTL819X_TOTAL_RF_PATH = 2. The loop is only
-executed with numbers 0 and 1 for eRFPath. So the function
-rtl92e_config_rf_path is only called with eRFPath for 0 and 1 and never
-with 3 that would make the "case RF90_PATH_D:" be called. Remove
-resulting dead code.
+In cedrus_probe, dev->watchdog_work is bound with cedrus_watchdog function.
+In cedrus_device_run, it will started by schedule_delayed_work. If there is
+unfinished work in cedrus_remove, there may be a race condition and trigger
+UAF bug.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+CPU0                  CPU1
+
+                    |cedrus_watchdog
+cedrus_remove       |
+  v4l2_m2m_release  |
+  kfree(m2m_dev)    |
+                    |
+                    | v4l2_m2m_get_curr_priv
+                    |   m2m_dev //use
+
+Fix it by canceling the worker in cedrus_remove.
+
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 ---
-V1->V2: Changed argumentation in the description and subject
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 12 ------------
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h |  2 --
- drivers/staging/rtl8192e/rtl8192e/table.c      |  3 ---
- drivers/staging/rtl8192e/rtl8192e/table.h      |  2 --
- 4 files changed, 19 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index fe0ef52c163a..a9e83ba811b0 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -649,18 +649,6 @@ u8 rtl92e_config_rf_path(struct net_device *dev, enum rf90_radio_path eRFPath)
- 					  bMask12Bits,
- 					  Rtl819XRadioB_Array[i+1]);
- 
--		}
--		break;
--	case RF90_PATH_D:
--		for (i = 0; i < RadioD_ArrayLength; i += 2) {
--			if (Rtl819XRadioD_Array[i] == 0xfe) {
--				msleep(100);
--				continue;
--			}
--			rtl92e_set_rf_reg(dev, eRFPath, Rtl819XRadioD_Array[i],
--					  bMask12Bits,
--					  Rtl819XRadioD_Array[i+1]);
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index a43d5ff66716..c95d011c0817 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -546,7 +546,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ static int cedrus_remove(struct platform_device *pdev)
+ {
+ 	struct cedrus_dev *dev = platform_get_drvdata(pdev);
 -
- 		}
- 		break;
- 	default:
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-index 6772ed300591..ac640033e843 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-@@ -14,14 +14,12 @@
- #define RadioA_ArrayLength			RadioA_ArrayLengthPciE
- #define RadioB_ArrayLength			RadioB_ArrayLengthPciE
- #define MACPHY_Array_PGLength			MACPHY_Array_PGLengthPciE
--#define RadioD_ArrayLength			RadioD_ArrayLengthPciE
- #define PHY_REG_1T2RArrayLength			PHY_REG_1T2RArrayLengthPciE
- 
- #define Rtl819XMACPHY_Array_PG			Rtl8192PciEMACPHY_Array_PG
- #define Rtl819XMACPHY_Array			Rtl8192PciEMACPHY_Array
- #define Rtl819XRadioA_Array			Rtl8192PciERadioA_Array
- #define Rtl819XRadioB_Array			Rtl8192PciERadioB_Array
--#define Rtl819XRadioD_Array			Rtl8192PciERadioD_Array
- #define Rtl819XAGCTAB_Array			Rtl8192PciEAGCTAB_Array
- #define Rtl819XPHY_REG_1T2RArray		Rtl8192PciEPHY_REG_1T2RArray
- 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/table.c b/drivers/staging/rtl8192e/rtl8192e/table.c
-index 4e97ad4b8fd7..7101061e3519 100644
---- a/drivers/staging/rtl8192e/rtl8192e/table.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/table.c
-@@ -325,9 +325,6 @@ u32 Rtl8192PciERadioB_Array[RadioB_ArrayLengthPciE] = {
- 	0x007, 0x00000700,
- };
- 
--u32 Rtl8192PciERadioD_Array[RadioD_ArrayLengthPciE] = {
--	0x0, };
--
- u32 Rtl8192PciEMACPHY_Array[] = {
- 	0x03c, 0xffff0000, 0x00000f0f,
- 	0x340, 0xffffffff, 0x161a1a1a,
-diff --git a/drivers/staging/rtl8192e/rtl8192e/table.h b/drivers/staging/rtl8192e/rtl8192e/table.h
-index 981e8b57d3de..b6d4e9696452 100644
---- a/drivers/staging/rtl8192e/rtl8192e/table.h
-+++ b/drivers/staging/rtl8192e/rtl8192e/table.h
-@@ -17,8 +17,6 @@ extern u32 Rtl8192PciEPHY_REG_1T2RArray[PHY_REG_1T2RArrayLengthPciE];
- extern u32 Rtl8192PciERadioA_Array[RadioA_ArrayLengthPciE];
- #define RadioB_ArrayLengthPciE 78
- extern u32 Rtl8192PciERadioB_Array[RadioB_ArrayLengthPciE];
--#define RadioD_ArrayLengthPciE 2
--extern u32 Rtl8192PciERadioD_Array[RadioD_ArrayLengthPciE];
- #define MACPHY_ArrayLengthPciE 18
- extern u32 Rtl8192PciEMACPHY_Array[MACPHY_ArrayLengthPciE];
- #define MACPHY_Array_PGLengthPciE 30
++	cancel_delayed_work(&dev->watchdog_work);
+ 	if (media_devnode_is_registered(dev->mdev.devnode)) {
+ 		media_device_unregister(&dev->mdev);
+ 		v4l2_m2m_unregister_media_controller(dev->m2m_dev);
 -- 
-2.39.2
+2.25.1
 
