@@ -1,43 +1,43 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAD881A
-	for <linux-staging@lists.linux.dev>; Wed,  8 Mar 2023 07:35:29 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id a25so62257877edb.0
-        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 23:35:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B102C814
+	for <linux-staging@lists.linux.dev>; Wed,  8 Mar 2023 07:35:31 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id da10so62106338edb.3
+        for <linux-staging@lists.linux.dev>; Tue, 07 Mar 2023 23:35:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678260929;
+        d=gmail.com; s=20210112; t=1678260930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kRurDuvuLcJjquBqSnwjPCy2E5AO2aJIW97iErA9sM4=;
-        b=DXEy2PFJOzpqN104cccK6uYxR5c1174ZSer35zVcmfd97DYrcnuPs3IRxB/v6YC/wp
-         oQDwktYZ/tbk79vXnE/ptfBSdhZsGjkcyJSrOm0pmNvXfQ1jyPc+GdTPA4Jtu+zh41Hu
-         yajCjd28Dzvc5phqM0C1jybRX3odJZkM0tOIkefL9FgQoD+xjXvnphD0krYUU0bzw+Yb
-         ADkOmnBfAgjkaa4iteoGxFXY1Fsrdldf3qxJtIckCoOpWsuYobTnVzc/21hN9RdadyJK
-         toink2EWE4nBO2lnA04I4nKOjeYa6wK2oSFnI/QdJUZDbVQ+iZDQ3jyNAirNr3gVO0rW
-         RhrQ==
+        bh=39MKY2PBggsOqLz16dtI8J1bAyc0BT5d5OTGVqhjQKs=;
+        b=QHNf0aLV0JBCmKc7lo9CAcdqetX0+L7WO5mOJT6e1MG2iD5mPktKd8CpCvITismNE8
+         nAZbon1hMTDWH09FXCFpkBeJiqt4LhWe0frq9/LtZIhSMrd8Er0+VvpimR8KbJtjHFZe
+         ShlFEbH/K7Vpz65ubEXRTnjKglid7YAbP9NQGR+tKBzWZX8mv1S7YANnYTRcJ7fh6OhS
+         NyHDOUMasETq8xtiwNndMKQlL24TffXN4qtUUmF1S97ASdNp57vJTJ5a5yUYaWsouYCS
+         Nq94fWqucEqCW9D9ZJLVLFlL6HRf2w01sjBcWaUZtNoVQ+Tkcv5U6QGtKjsyMAFomo6p
+         /ogQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678260929;
+        d=1e100.net; s=20210112; t=1678260930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kRurDuvuLcJjquBqSnwjPCy2E5AO2aJIW97iErA9sM4=;
-        b=QRal+eZiKW4DUMPgJ4/YPv0MlxgYeN71Stxgb6mL3OfwPv4SzZo4F1bzcdAFpOnpmY
-         l3sQjegQoTl9zbHUCj0yj70aUTHTS2OW2jJJiK5PtiUHZYw4agvr8NeWfRaSXZ+nBis5
-         kWCWYqhHibAaU9uBn7+7bs3+iwHn1szg5DKCh/QEvOf8LetYW7rU+YSFUpj6ibo2m400
-         hg27CacM84x8iGF7vmVFu/Fn+CDHJ7zb9+FtVlsh0xBS0DNN9mGo2ltvf/eAP6dJuILB
-         c4u/Nyh46ieUViKXxwYB/QM35mQRNygw2b46WO7zoiUJLoGjfx4pEGg9FXEWorGYvY76
-         GHYg==
-X-Gm-Message-State: AO0yUKX2SiK99a3S1SucPW4+v4U19Sn7MR8nqmsPW0APUBcYH42nKyZg
-	dR6IQ7NpddlFJPxXJY9tS9I=
-X-Google-Smtp-Source: AK7set8OCHzKkKrxJBrlox5O6l8IP+cyJzu0bSo+yF3mlv6CqL1SNkvM823PHr4dyRGdi2ZNr/Blhg==
-X-Received: by 2002:a17:907:7fa7:b0:8d7:6699:3bae with SMTP id qk39-20020a1709077fa700b008d766993baemr20690292ejc.57.1678260928840;
-        Tue, 07 Mar 2023 23:35:28 -0800 (PST)
+        bh=39MKY2PBggsOqLz16dtI8J1bAyc0BT5d5OTGVqhjQKs=;
+        b=4R2YIPGDP4AGA5BF7nP8+vyBjfSANOyRFJHDxryutUTI4xnvPXCYhUIdqJOv3u2h3d
+         g+ZwZXlKwmj/oJQl8GrW0i4P4TlSIsmn/qjyT9RTxlafAZIaVo8LgL94YSVvgdnP+nk0
+         aS0QeNWWmDcKsUXm25InHQxuQeUuDUgFuXgChp2LqXhrmnpYIKDGpT20vY/h04K1KN8w
+         cnsSMXzvNYJzCla+FAeTtUB7TBvulOt9+m3Sqg8dXSSIcsRaVZ03EEIu5STdx+jlQamA
+         e+OhHg2rdl7g2K27WEVO/fLm0njUNjuoq/PVA/l1c6PyDfnU10Nmq9Rgz73I00zT43mC
+         Dz0g==
+X-Gm-Message-State: AO0yUKUhUPWUuy7TPHdXMWtaW4aH6EtFRwHQo84ZMdd8u4Jby65BahRb
+	BVinMXSFkwE02qGARAXLeuw=
+X-Google-Smtp-Source: AK7set8ZGa8fQHr0KjSuQKfjIPJyG5o7GhZibY+r358ltED0FvEzlU0aKzEoqt3sLzCE8W9a4IOqnw==
+X-Received: by 2002:a05:6402:1810:b0:4ab:ec2:3cd1 with SMTP id g16-20020a056402181000b004ab0ec23cd1mr15708604edy.25.1678260930042;
+        Tue, 07 Mar 2023 23:35:30 -0800 (PST)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id h15-20020a1709062dcf00b008dffda52d71sm7051880eji.124.2023.03.07.23.35.27
+        by smtp.gmail.com with ESMTPSA id h15-20020a1709062dcf00b008dffda52d71sm7051880eji.124.2023.03.07.23.35.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 23:35:28 -0800 (PST)
+        Tue, 07 Mar 2023 23:35:29 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -55,9 +55,9 @@ Cc: devicetree@vger.kernel.org,
 	alsa-devel@alsa-project.org,
 	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 5/8] ASoC: tegra: Support RT5631 by machine driver
-Date: Wed,  8 Mar 2023 09:34:59 +0200
-Message-Id: <20230308073502.5421-6-clamor95@gmail.com>
+Subject: [PATCH v2 6/8] ARM: tegra: transformers: bind RT5631 sound nodes
+Date: Wed,  8 Mar 2023 09:35:00 +0200
+Message-Id: <20230308073502.5421-7-clamor95@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230308073502.5421-1-clamor95@gmail.com>
 References: <20230308073502.5421-1-clamor95@gmail.com>
@@ -69,123 +69,99 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add Realtek ALC5631/RT5631 codec support to the Tegra ASoC machine driver.
-The RT5631 codec is found on devices like ASUS Transformer TF201, TF700T
-and other Tegra-based Android tablets.
+TF201, TF300TG and TF700T support RT5631 codec.
 
-Signed-off-by: Ion Agorria <ion@agorria.com>
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- sound/soc/tegra/Kconfig              |  9 ++++
- sound/soc/tegra/tegra_asoc_machine.c | 61 ++++++++++++++++++++++++++++
- 2 files changed, 70 insertions(+)
+ arch/arm/boot/dts/tegra30-asus-tf201.dts   | 17 +++++++++++++++++
+ arch/arm/boot/dts/tegra30-asus-tf300tg.dts | 17 +++++++++++++++++
+ arch/arm/boot/dts/tegra30-asus-tf700t.dts  | 17 +++++++++++++++++
+ 3 files changed, 51 insertions(+)
 
-diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
-index b6712a3d1fa1..ff905e5dcd86 100644
---- a/sound/soc/tegra/Kconfig
-+++ b/sound/soc/tegra/Kconfig
-@@ -189,6 +189,15 @@ config SND_SOC_TEGRA_AUDIO_GRAPH_CARD
- config SND_SOC_TEGRA_MACHINE_DRV
- 	tristate
- 
-+config SND_SOC_TEGRA_RT5631
-+	tristate "SoC Audio support for Tegra boards using an RT5631 codec"
-+	depends on SND_SOC_TEGRA && I2C && GPIOLIB
-+	select SND_SOC_TEGRA_MACHINE_DRV
-+	select SND_SOC_RT5631
-+	help
-+	  Say Y or M here if you want to add support for SoC audio on Tegra
-+	  boards using the RT5631 codec, such as Transformer.
+diff --git a/arch/arm/boot/dts/tegra30-asus-tf201.dts b/arch/arm/boot/dts/tegra30-asus-tf201.dts
+index 315c6dc068c5..47865deeb88a 100644
+--- a/arch/arm/boot/dts/tegra30-asus-tf201.dts
++++ b/arch/arm/boot/dts/tegra30-asus-tf201.dts
+@@ -605,6 +605,23 @@ haptic-feedback {
+ 		enable-gpios = <&gpio TEGRA_GPIO(H, 7) GPIO_ACTIVE_HIGH>;
+ 		vcc-supply = <&vdd_3v3_sys>;
+ 	};
 +
- config SND_SOC_TEGRA_RT5640
- 	tristate "SoC Audio support for Tegra boards using an RT5640 codec"
- 	depends on I2C && GPIOLIB
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index 7b6d5d90c3a2..020f03349373 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -256,6 +256,32 @@ static unsigned int tegra_machine_mclk_rate_12mhz(unsigned int srate)
- 	return mclk;
- }
- 
-+static unsigned int tegra_machine_mclk_rate_6mhz(unsigned int srate)
-+{
-+	unsigned int mclk;
++	sound {
++		compatible = "asus,tegra-audio-rt5631-tf201",
++			     "nvidia,tegra-audio-rt5631";
++		nvidia,model = "Asus Transformer Prime TF201 RT5631";
 +
-+	switch (srate) {
-+	case 8000:
-+	case 16000:
-+	case 64000:
-+		mclk = 8192000;
-+		break;
-+	case 11025:
-+	case 22050:
-+	case 88200:
-+		mclk = 11289600;
-+		break;
-+	case 96000:
-+		mclk = 12288000;
-+		break;
-+	default:
-+		mclk = 256 * srate;
-+		break;
-+	}
++		nvidia,audio-routing =
++			"Headphone Jack", "HPOL",
++			"Headphone Jack", "HPOR",
++			"Int Spk", "SPOL",
++			"Int Spk", "SPOR",
++			"MIC1", "MIC Bias1",
++			"MIC Bias1", "Headset Mic",
++			"DMIC", "Int Mic";
 +
-+	return mclk;
-+}
-+
- static int tegra_machine_hw_params(struct snd_pcm_substream *substream,
- 				   struct snd_pcm_hw_params *params)
- {
-@@ -883,6 +909,40 @@ static const struct tegra_asoc_data tegra_rt5632_data = {
- 	.add_headset_jack = true,
++		nvidia,audio-codec = <&rt5631>;
++	};
  };
  
-+/* RT5631 machine */
+ &emc_icc_dvfs_opp_table {
+diff --git a/arch/arm/boot/dts/tegra30-asus-tf300tg.dts b/arch/arm/boot/dts/tegra30-asus-tf300tg.dts
+index 96345f821c3d..82c51e177a70 100644
+--- a/arch/arm/boot/dts/tegra30-asus-tf300tg.dts
++++ b/arch/arm/boot/dts/tegra30-asus-tf300tg.dts
+@@ -1072,6 +1072,23 @@ timing-667000000 {
+ 	display-panel {
+ 		compatible = "innolux,g101ice-l01";
+ 	};
 +
-+SND_SOC_DAILINK_DEFS(rt5631_hifi,
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()),
-+	DAILINK_COMP_ARRAY(COMP_CODEC(NULL, "rt5631-hifi")),
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()));
++	sound {
++		compatible = "asus,tegra-audio-rt5631-tf300tg",
++			     "nvidia,tegra-audio-rt5631";
++		nvidia,model = "Asus Transformer Pad TF300TG RT5631";
 +
-+static struct snd_soc_dai_link tegra_rt5631_dai = {
-+	.name = "RT5631",
-+	.stream_name = "RT5631 PCM",
-+	.init = tegra_asoc_machine_init,
-+	.dai_fmt = SND_SOC_DAIFMT_I2S |
-+		   SND_SOC_DAIFMT_NB_NF |
-+		   SND_SOC_DAIFMT_CBS_CFS,
-+	SND_SOC_DAILINK_REG(rt5631_hifi),
-+};
++		nvidia,audio-routing =
++			"Headphone Jack", "HPOL",
++			"Headphone Jack", "HPOR",
++			"Int Spk", "SPOL",
++			"Int Spk", "SPOR",
++			"MIC1", "MIC Bias1",
++			"MIC Bias1", "Headset Mic",
++			"DMIC", "Int Mic";
 +
-+static struct snd_soc_card snd_soc_tegra_rt5631 = {
-+	.components = "codec:rt5631",
-+	.dai_link = &tegra_rt5631_dai,
-+	.num_links = 1,
-+	.fully_routed = true,
-+};
-+
-+static const struct tegra_asoc_data tegra_rt5631_data = {
-+	.mclk_rate = tegra_machine_mclk_rate_6mhz,
-+	.card = &snd_soc_tegra_rt5631,
-+	.add_common_dapm_widgets = true,
-+	.add_common_controls = true,
-+	.add_common_snd_ops = true,
-+	.add_mic_jack = true,
-+	.add_hp_jack = true,
-+};
-+
- static const struct of_device_id tegra_machine_of_match[] = {
- 	{ .compatible = "nvidia,tegra-audio-trimslice", .data = &tegra_trimslice_data },
- 	{ .compatible = "nvidia,tegra-audio-max98090", .data = &tegra_max98090_data },
-@@ -892,6 +952,7 @@ static const struct of_device_id tegra_machine_of_match[] = {
- 	{ .compatible = "nvidia,tegra-audio-rt5677", .data = &tegra_rt5677_data },
- 	{ .compatible = "nvidia,tegra-audio-rt5640", .data = &tegra_rt5640_data },
- 	{ .compatible = "nvidia,tegra-audio-alc5632", .data = &tegra_rt5632_data },
-+	{ .compatible = "nvidia,tegra-audio-rt5631", .data = &tegra_rt5631_data },
- 	{},
++		nvidia,audio-codec = <&rt5631>;
++	};
  };
- MODULE_DEVICE_TABLE(of, tegra_machine_of_match);
+ 
+ &emc_icc_dvfs_opp_table {
+diff --git a/arch/arm/boot/dts/tegra30-asus-tf700t.dts b/arch/arm/boot/dts/tegra30-asus-tf700t.dts
+index 1a331dec3cfe..766225ebdeab 100644
+--- a/arch/arm/boot/dts/tegra30-asus-tf700t.dts
++++ b/arch/arm/boot/dts/tegra30-asus-tf700t.dts
+@@ -812,6 +812,23 @@ vdd_1v2_mipi: regulator-mipi {
+ 		enable-active-high;
+ 		vin-supply = <&vdd_3v3_sys>;
+ 	};
++
++	sound {
++		compatible = "asus,tegra-audio-rt5631-tf700t",
++			     "nvidia,tegra-audio-rt5631";
++		nvidia,model = "Asus Transformer Infinity TF700T RT5631";
++
++		nvidia,audio-routing =
++			"Headphone Jack", "HPOL",
++			"Headphone Jack", "HPOR",
++			"Int Spk", "SPOL",
++			"Int Spk", "SPOR",
++			"MIC1", "MIC Bias1",
++			"MIC Bias1", "Headset Mic",
++			"DMIC", "Int Mic";
++
++		nvidia,audio-codec = <&rt5631>;
++	};
+ };
+ 
+ &emc_icc_dvfs_opp_table {
 -- 
 2.37.2
 
