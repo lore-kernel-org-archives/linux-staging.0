@@ -1,27 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116EF79F5
-	for <linux-staging@lists.linux.dev>; Wed,  8 Mar 2023 16:53:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 497C3C433EF;
-	Wed,  8 Mar 2023 16:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1678294416;
-	bh=4+zJsyme2mSgSvWgH8oHJzEqeQsM0feQlu1GnzXc8z4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oYSc9bs3VPUQ/mScOwSc6RoWVddMaySx5+wqI86Tt13Do0qy5mBmljMP+4l+zD15T
-	 ZY1ziadz309957otbGSRSYnUdaBVmXQ5VmyW2QUH9uQjbdb37qa8A3QKvyIjYyKLzX
-	 pz9zuZfGYoaIkyR4vbKLgNNcO/LE64l86ub1sS4I=
-Date: Wed, 8 Mar 2023 17:53:33 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Leonid Pershin <leonid.pershin@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>, Tong Zhang <ztong0001@gmail.com>,
-	Rebecca Mckeever <remckee0@gmail.com>,
-	Deepak R Varma <drv@mailo.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8192u: remove split in user-visible string
-Message-ID: <ZAi9jb9Po09FoSI1@kroah.com>
-References: <20230223193559.157880-1-leonid.pershin@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E03479F5
+	for <linux-staging@lists.linux.dev>; Wed,  8 Mar 2023 17:23:13 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id h3so17312875lja.12
+        for <linux-staging@lists.linux.dev>; Wed, 08 Mar 2023 09:23:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678296191;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LNWXfkA/VElZCzTndG/AybBAJC3S60n0GhnxwQn3ifE=;
+        b=L+UhgUknsSlFSx3k5GPRw0HrOa2sfjA+rj3RFkCBTKQN1q7X+7XuICwojfnnTr89TN
+         GkYE2R+iU0d5ITkRHZd50ER+dK8xUbj+c7/+UfyPfx0daquRxYskiEnIoO8fmXd3waI1
+         bLfavBvh8JuFjLJZUbg/24MBkAYDRdZ6GUseOrw6yDE7S8ckLeUyYB035gnaUc8ZkDPQ
+         jtXkMSs+NAT7DdFXQVgKkCGy7JeG5M7mY7Q/lME3O3OeFb8m6wnGbzPZyoUbKwoAIysg
+         DotZPXvuWNS6IIi4ulQ52pknFd/WFbVDbuKkdiA2J/CFEIFEmS9v+Vj/fh/0c6ck8nC+
+         ssEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678296191;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LNWXfkA/VElZCzTndG/AybBAJC3S60n0GhnxwQn3ifE=;
+        b=Wwp/fx4VYSeXqDuTm5oiR14e+kVk3KBgPLzTb9bRu7mTMGuZAGx90zDdFnBLIeJdpN
+         7SdrmwL8nPPxmGR8ibm9UVVwRa74F1GpQOQoYK0GG9LElVdpaVhspPfXG984+q7rOFkE
+         jEvkwuzfDugxozAawxPvy65nRugqaHkt5SPGG3to6N0TWPYoxb+4Y85HqhH2fGwYQAC/
+         BaubdP9Dhxq/A6Ugc395Hbzjz3Wu5jktFbKIKieG0Svswra9JlmstY8g0+sOcU7mXxz+
+         EpX3JJB8LnDBZT0R+OZryaSPNnHTKqwAjI26MVo6UozY6v0PAklV4+Gzk7dXDSmpDvq7
+         Uing==
+X-Gm-Message-State: AO0yUKUtEFqZtPWlBLK54GmvA6ME3JpgdUlKZVxEn3x2bCeg5d7dQRq3
+	52oAcGvz8n4Rt593m//reOo=
+X-Google-Smtp-Source: AK7set9BNVu5g6ur1sR1cQDSj+MlkYxsQyQy/76CpCZVD1HRAgebiobKTBK6lBz/TkrkRXH+z0a8gQ==
+X-Received: by 2002:a2e:be0b:0:b0:298:592e:5646 with SMTP id z11-20020a2ebe0b000000b00298592e5646mr3391350ljq.32.1678296191190;
+        Wed, 08 Mar 2023 09:23:11 -0800 (PST)
+Received: from combine-ThinkPad-S1-Yoga (gw.combine.ideon.se. [85.235.7.115])
+        by smtp.gmail.com with ESMTPSA id h15-20020ac250cf000000b004a0589786ddsm2408182lfm.69.2023.03.08.09.23.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 09:23:10 -0800 (PST)
+Date: Wed, 8 Mar 2023 18:23:09 +0100
+From: Guru Mehar Rachaputi <gurumeharrachaputi@gmail.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Forest Bond <forest@alittletooquiet.net>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: vt6655: Macro with braces issue change to
+ inline function
+Message-ID: <ZAjEffh/wKeaagcN@combine-ThinkPad-S1-Yoga>
+References: <Y+A+HF1vDeRIqye5@combine-ThinkPad-S1-Yoga>
+ <Y+DL3O5lcMyZ/aNR@kroah.com>
+ <Y+H9BT8Am4Ik2ZDA@combine-ThinkPad-S1-Yoga>
+ <Y+IJgxF52lpgk0RC@ubun2204.myguest.virtualbox.org>
+ <ZAVxo6WHGu3kO1nl@combine-ThinkPad-S1-Yoga>
+ <ZAV7xvr3BCqByjy6@ubun2204.myguest.virtualbox.org>
+ <ZAWAyyNt0rgrpA1l@combine-ThinkPad-S1-Yoga>
+ <ZAWPk12Fz0gxaqzB@ubun2204.myguest.virtualbox.org>
+ <ZAWa5NpBHrPhaNWA@combine-ThinkPad-S1-Yoga>
+ <ZAWkzuCF9GaqnnaJ@ubun2204.myguest.virtualbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,53 +65,125 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230223193559.157880-1-leonid.pershin@gmail.com>
+In-Reply-To: <ZAWkzuCF9GaqnnaJ@ubun2204.myguest.virtualbox.org>
 
-On Thu, Feb 23, 2023 at 10:35:57PM +0300, Leonid Pershin wrote:
-> According to coding style, user-visible strings in printk()
-> function calls cannot be split across multiple lines.
-> Issue found with checkpatch.pl.
+On Mon, Mar 06, 2023 at 02:01:10PM +0530, Deepak R Varma wrote:
+> On Mon, Mar 06, 2023 at 08:48:52AM +0100, Guru Mehar Rachaputi wrote:
+> > On Mon, Mar 06, 2023 at 12:30:35PM +0530, Deepak R Varma wrote:
+> > > On Mon, Mar 06, 2023 at 06:57:31AM +0100, Guru Mehar Rachaputi wrote:
+> > > > On Mon, Mar 06, 2023 at 11:06:06AM +0530, Deepak R Varma wrote:
+> > > > > On Mon, Mar 06, 2023 at 05:52:51AM +0100, Guru Mehar Rachaputi wrote:
+> > > > > > On Tue, Feb 07, 2023 at 01:49:15PM +0530, Deepak R Varma wrote:
+> > > > > > 
+> > > > > > Hej Deepak,
+> > > > > > 
+> > > > > > I have a problem in sending patchset through mutt.
+> > > > > > I have been trying sending to my own mail address but it won't work.
+> > > > > 
+> > > > > This could be because of mutt configuration. There are some additional checks if
+> > > > > you are trying to use mutt with gmail. Search over google or lore old posts to
+> > > > > know more about it. The important aspect is to configure and test mutt well
+> > > > > before you use it for sending out patches.
+> > > > > 
+> > > > > > 
+> > > > > > When sending patchset I think we should use "In-Reply-To" flag and
+> > > > > > include "Message-ID" to which we want this to be in series to. I tried
+> > > > > > both "git send-email" feature and mutt "forwarding feature".
+> > > > > 
+> > > > > I have not used "git send-email", so can't help you there. But mutt has worked
+> > > > > very well for me. Ensure you are reading and following the instructions from
+> > > > > this page well: https://kernelnewbies.org/Outreachyfirstpatch
+> > > > >
+> > > > 
+> > > > So for example from these patches: 0.patch, 1.patch
+> > > > how to use "mutt -H" to send patches in one thread?
+> > > > 
+> > > > if first one is: mutt -H 0.patch
+> > > > then should second one be: mutt -H 1.patch In-Reply-To: Message-ID?
+> > > 
+> > > Try this out by sending to yourself and you will know :)
+> > > 
+> > > There is a section "Using git format-patch to send patchsets" in the link I sent
+> > > in my last email. Please read that.
+> > > 
+> > > Deepak.
+> > >
+> > 
+> > I tried it and it won't work.
+> > My question itself was how to use mutt to send patchset? which is not
+> > clear on the site.
+> > 
+> > I have no problem in sending one single patch through mutt.
+> > 
+> > To be more clear:
+> > https://lore.kernel.org/lkml/cover.1666299151.git.drv@mailo.com/
+> > at above link, you submitted patchset.
+> > 
+> > How to send this series using mutt?
+> > If I use "mutt -H x.patch" for every patch file they are seperate emails
+> > in my inbox.
 > 
-> Signed-off-by: Leonid Pershin <leonid.pershin@gmail.com>
-> ---
-> Changes in v2:
->   - Replace printk(KERN_DEBUG...) with pr_debug()
-
-Now you are doing two different things, please only do one thing per
-patch.
-
+> The following command creates cover letter and patches as a threads
 > 
->  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+> git format-patch -o /tmp/ --cover-letter -n --thread=shallow commitIDx^..commitIDy
 > 
-> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-> index 9bfd24ad46b6..c378bdff453b 100644
-> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
-> @@ -72,16 +72,14 @@ static void *ieee80211_tkip_init(int key_idx)
->  
->  	priv->tx_tfm_michael = crypto_alloc_shash("michael_mic", 0, 0);
->  	if (IS_ERR(priv->tx_tfm_michael)) {
-> -		printk(KERN_DEBUG "ieee80211_crypt_tkip: could not allocate "
-> -				"crypto API michael_mic\n");
-> +		pr_debug("ieee80211_crypt_tkip: could not allocate crypto API michael_mic\n");
+> Send cover-letter and patches with mutt -H XXXXX command
+> 
+> Note: Cover letter us optional. If you do not have one, the patches will still
+> be threaded.
+> 
+> HTH
+> Deepak.
+> 
+>
+I get it now, thank you deepak :)
+> 
+> 
+> > 
+> > > > 
+> > > > 
+> > > > > > 
+> > > > > > Another issue is, how to attach patch file from inside mutt(for example: 
+> > > > > > "mutt -H x.patch" from command line is used to extract header and body of a 
+> > > > > > mail in mutt)?
+> > > > > 
+> > > > > Why do you want to do that?
+> > > > > Build a patch file using "git format-patch" and then use "mutt -H" to send the
+> > > > > patch. Both the commands work directly from the command line. If there is a need 
+> > > > > for any additional attachments in support of your patch [configs, logs, trace as
+> > > > > evidence, test outcomes etc], you can attach those from within the "mutt -H"
+> > > > > execution context.
+> > > > > 
+> > > > > I suggest testing mutt well before you start sending any patches out by sending
+> > > > > the patches to yourself. Do not use any kernel mailing list for testing.
+> > > > > 
+> > > > > 
+> > > > > Regards,
+> > > > > Deepak.
+> > > > > 
+> > > > > > 
+> > > > > > 
+> > > > > > -- 
+> > > > > > Thanks & Regards,
+> > > > > > Guru
+> > > > > > 
+> > > > > 
+> > > > > 
+> > > > 
+> > > > -- 
+> > > > Thanks & Regards,
+> > > > Guru
+> > > > 
+> > > 
+> > > 
+> > 
+> > -- 
+> > Thanks & Regards,
+> > Guru
+> > 
+> 
+> 
 
-Are you sure you need the prefix now that you are using pr_debug()?  And
-as this is a driver, why not use the networking debug macros instead?
-
->  		priv->tx_tfm_michael = NULL;
->  		goto fail;
->  	}
->  
->  	priv->rx_tfm_michael = crypto_alloc_shash("michael_mic", 0, 0);
->  	if (IS_ERR(priv->rx_tfm_michael)) {
-> -		printk(KERN_DEBUG "ieee80211_crypt_tkip: could not allocate "
-> -				"crypto API michael_mic\n");
-> +		pr_debug("ieee80211_crypt_tkip: could not allocate crypto API michael_mic\n");
-
-Same here, do you still need the prefix and why not dev_dbg() or the
-network version?
-
-thanks,
-
-greg k-h
+-- 
+Thanks & Regards,
+Guru
