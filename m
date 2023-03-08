@@ -1,45 +1,45 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F2E657;
-	Wed,  8 Mar 2023 20:33:47 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id p26so10556231wmc.4;
-        Wed, 08 Mar 2023 12:33:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9AA36D;
+	Wed,  8 Mar 2023 22:36:05 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id i34so71833472eda.7;
+        Wed, 08 Mar 2023 14:36:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678307626;
+        d=gmail.com; s=20210112; t=1678314964;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=V0PHdmmNJusG1epclYYmQTbwEIZkKSzfpFAnnbOVxlE=;
-        b=TtKOv1V1408AuF6vuwpZW+5EVawzPS6WnKGiHr0wVcJgvgDHDr5ajirvjs+VWAnwe+
-         GCpAUXbvT3ooT+CzEoIbT6N+FobLF0B58By4KQCaGvW7mj9Au+Jy1UiT/+Lju75AU+3O
-         l0NhQR6ownk8BvgolOKoC9isVmK/bQX5DT5DEDvlMxcCrZwOb1fhP1ckt7RShSO05+Ly
-         lupVNHp55CwRIq3FCFYpfQ17ZNi5KyYW/DpLXDyb6etnXe032YMOTSAENYDoAF0v0GBb
-         h5wMIvM394arqjAL0aE+mGNk6oWWAdK9Xy3dcxAYGAsMG9snoixqXOZWDEdC22YZ2yZ8
-         59mA==
+        bh=jzDf4+4sG/Th13nL0Nk+rTjw3K6s3TCf1TZrS78TwVk=;
+        b=TKYPU3ZRnNzZcIrmpbFdrOELb3qHa4Mmd5uxjy5Awp0yXXXvcwOqQf7P4LJRy6hkvm
+         356DfYqVabeiY6tfx37KrcRPlwazFBeFFB9Tfnx+EGs0XQr2QklDBe15O3uLbQEeDkAH
+         JmAbzE6hh+DjMf80YADuMmOQEB+qci9YSSMdgo0AIOXb5GeAeoAx5z2V/5hfke90LAtN
+         4HhBVyxVkWoEeVADYD4Ktn11RWIcpUdql83m+s3RlPW/v5kQ1tvko9IhKGHHdQcs5GRS
+         tH19/5tiBmopZIsq2eiEuXXp73MF6ezkSL6HYF1SHmoSgQJ7NYIHmtkVH/LK0IG3dBK1
+         7Lsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678307626;
+        d=1e100.net; s=20210112; t=1678314964;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V0PHdmmNJusG1epclYYmQTbwEIZkKSzfpFAnnbOVxlE=;
-        b=GjVYdwnX+8Dv97YcqYRaEhjV1WbNQPfFlAox+F8eIvWunburoI5utCKHCDNAva4Jyd
-         mus7cYOnCd6QTewNMDgPGOc3rjD0yBdg0+PPXXvs2pF68YWpVUjQM8ntMjMWWALkilPx
-         qlROxvhzBAOl1jNyjm6Q9SJBSftzKT4D48D7E0RWrq9MzekzRNysJx9qISBr+OoSrkKC
-         VU08KL5J8MzkaLVbPtGnJRamOE6lI0ziV528pB1aqj3blI8U6I7Z3R/DO6UtjbpPU+W9
-         92QyrRuyubhQtfRWbhj+eyoQapL4aSNvca3ice3+sCIRfwJvtGMUiXt9BypyoGhtcR0r
-         LhpA==
-X-Gm-Message-State: AO0yUKXYGlUEV6pPLDTWcFgYvkQKmXgcaTPAp9xkLap43AcWiw/ZIkAr
-	UtHl0qc0xkrWbfUAXm4eNyM=
-X-Google-Smtp-Source: AK7set9mrwvbQ2AGOynSLhzAtgvFkMELvmNU5TzXvABg6Hplqti24OdZXB3ofyF0E5kns3kzi3NV3A==
-X-Received: by 2002:a05:600c:3b07:b0:3eb:2e2a:be82 with SMTP id m7-20020a05600c3b0700b003eb2e2abe82mr16380951wms.2.1678307625757;
-        Wed, 08 Mar 2023 12:33:45 -0800 (PST)
-Received: from [192.168.0.103] (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id n5-20020a05600c4f8500b003e2096da239sm512795wmq.7.2023.03.08.12.33.44
+        bh=jzDf4+4sG/Th13nL0Nk+rTjw3K6s3TCf1TZrS78TwVk=;
+        b=v449lZ5i+rxjYap1bKcrZtO1TPq37dZe0LMBhom125r98H5Zeaq4TEgAstuX/Qp+7O
+         tVtU8braG0Gbyo/qt3VCuFqCgaa05EyNlvbtXR7KMvSRO8AeyQRTz7HFtW1ft0fba1zb
+         1shlAIect1BrQtgghCq0Bjh8I9GfRkDibJC9GCJG8OB9aesv1pRHNo604diiGcPh6f1K
+         0dZU2AoGOe2GIwr6QHRW9BkwskltJ+HW9kFJ8+6FuuO342ppCuZwHPxgZY0TTiv4ujZ3
+         AKL0Wt9F2qq8bssUjRCSoUWa3eUOAS/MJzmpfXpucKzqy5hWjum6ZhwEXvTgH22J7Dsl
+         2a4A==
+X-Gm-Message-State: AO0yUKWJ+XoBO0rbj8dgmUETKXdNccOWV8IoN4erAYDCh8M3bMuDbmrK
+	eaqXFCG+yRmsPU0sbR0FV1Q=
+X-Google-Smtp-Source: AK7set/8kMxm9e7Ww76G9dAgDiHgWhS+pXwdbv/atF+1sdRH7bnZyj6ZiiACFFD6T7xTA7L5lspPLA==
+X-Received: by 2002:a17:907:7748:b0:8e8:6b69:2093 with SMTP id kx8-20020a170907774800b008e86b692093mr22362157ejc.25.1678314963862;
+        Wed, 08 Mar 2023 14:36:03 -0800 (PST)
+Received: from [192.168.0.151] (ip5f5abbd3.dynamic.kabel-deutschland.de. [95.90.187.211])
+        by smtp.gmail.com with ESMTPSA id q1-20020a50c341000000b004bbb691a334sm8862127edb.2.2023.03.08.14.36.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Mar 2023 12:33:45 -0800 (PST)
-Message-ID: <9578ec97-bca8-6335-4f84-9b6fa6c59522@gmail.com>
-Date: Wed, 8 Mar 2023 21:33:43 +0100
+        Wed, 08 Mar 2023 14:36:03 -0800 (PST)
+Message-ID: <9e4d7f04-3114-8240-341b-1fff5ae69b0b@gmail.com>
+Date: Wed, 8 Mar 2023 23:36:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,7 +47,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
+ Thunderbird/102.8.0
 Subject: Re: [PATCH] staging: r8188eu: delete driver
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-staging@lists.linux.dev
@@ -57,7 +57,7 @@ Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev,
  Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>
 References: <20230308131934.380395-1-gregkh@linuxfoundation.org>
 Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+From: Michael Straube <straube.linux@gmail.com>
 In-Reply-To: <20230308131934.380395-1-gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -74,17 +74,15 @@ On 3/8/23 14:19, Greg Kroah-Hartman wrote:
 > years, your work allowed Linux users to use their hardware before the
 > real driver was implemented properly.
 > 
-> Reported-by: Hans de Goede<hdegoede@redhat.com>
-> Cc: Martin Kaiser<martin@kaiser.cx>
-> Cc: Larry Finger<Larry.Finger@lwfinger.net>
-> Cc: Phillip Potter<phil@philpotter.co.uk>
-> Cc: Pavel Skripkin<paskripkin@gmail.com>
-> Signed-off-by: Greg Kroah-Hartman<gregkh@linuxfoundation.org>
+> Reported-by: Hans de Goede <hdegoede@redhat.com>
+> Cc: Martin Kaiser <martin@kaiser.cx>
+> Cc: Larry Finger <Larry.Finger@lwfinger.net>
+> Cc: Phillip Potter <phil@philpotter.co.uk>
+> Cc: Pavel Skripkin <paskripkin@gmail.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
 
+The rtl8xxxu driver works well for me.
 
-New driver rtl8xxxu is working fine for me.
-r8188eu is gone.
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
-Thanks for your support.
-
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Edimax N150
