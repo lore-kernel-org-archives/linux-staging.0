@@ -1,25 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A056321E
-	for <linux-staging@lists.linux.dev>; Thu,  9 Mar 2023 09:09:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B929AC4339C;
-	Thu,  9 Mar 2023 09:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2238F321E
+	for <linux-staging@lists.linux.dev>; Thu,  9 Mar 2023 09:09:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74427C433EF;
+	Thu,  9 Mar 2023 09:09:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1678352960;
-	bh=6JkwDwIBOjJvV3pHXczF/8PiWm/zS9WFKQmM05KEwBo=;
+	s=korg; t=1678352981;
+	bh=BJpDLLGSbf0JY409g2Z5Y3znzLrkWGN8coeHCLZfjtQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MPu0mRbG0n6e1rc+v9Eu6URKofWRoQ6nVw9QE+vsRrcV4bEj3MXLmJPYyAuVRwHrO
-	 vuEeApv/ApScbMK1UgRQmxcE9K//0r0+D/fceEEKP2o0mipvFwWtEzg3tZDKaAvPdD
-	 gubUSIW6A39Kxs/3WnTtHEcnAUhS6rVKfwI8I6KE=
-Date: Thu, 9 Mar 2023 10:09:17 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] staging: r8188eu: two simple cleanups
-Message-ID: <ZAmiPce50Srp47Na@kroah.com>
-References: <20230307085003.5025-1-straube.linux@gmail.com>
+	b=F6S0Zx6rtJfft77ADuWW12+28sV/emIjyiCH3kHnx1zQHcvOAsBJyEpxcz9TIAkil
+	 rJs6+Siw+ZcGWVXp36GLcYjWTFsfwX2h12YCYFwowCsEc63PWGSJNMV2pesxJX/ulb
+	 JdzmWgA+jvgPvGi7BK6cOnuls9Hh/bSYMMiunni4=
+Date: Thu, 9 Mar 2023 10:09:38 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Deepak R Varma <drv@mailo.com>,
+	Charlie Sands <sandsch@northvilleschools.net>,
+	Mahak Gupta <mahak_g@cs.iitr.ac.in>,
+	Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>,
+	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: fix a potential integer underflow bug
+Message-ID: <ZAmiUmR2qRJhitds@kroah.com>
+References: <Y/YfzZeFCAPiZ6RV@kili>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,28 +33,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230307085003.5025-1-straube.linux@gmail.com>
+In-Reply-To: <Y/YfzZeFCAPiZ6RV@kili>
 
-On Tue, Mar 07, 2023 at 09:50:01AM +0100, Michael Straube wrote:
-> This series contains two simple cleanups.
+On Wed, Feb 22, 2023 at 04:59:41PM +0300, Dan Carpenter wrote:
+> Here the code is testing to see if skb->len meets a minimum size
+> requirement.  However if skb->len is very small then the ETH_HLEN
+> subtraction will result in a negative which is then type promoted
+> to an unsigned int and the condition will be true.
 > 
-> Tested on x86_64 with Inter-Tech DMG-02.
+> Generally, when you have an untrusted variable like skb->len, you
+> should move all the math to the other side of the comparison.
 > 
-> Michael Straube (2):
->   staging: r8188eu: busetkipkey is boolean
->   staging: r8188eu: bgrpkey_handshake is set but never used
+> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+> Signed-off-by: Dan Carpenter <error27@gmail.com>
+> ---
+> Compile tested only.  This is basic algebra of moving parts of the
+> equation from one side to the other and I am surprisingly bad at
+> something that I was supposed to have learned in 9th grade.
 > 
->  drivers/staging/r8188eu/core/rtw_mlme.c        | 1 -
->  drivers/staging/r8188eu/core/rtw_recv.c        | 2 +-
->  drivers/staging/r8188eu/core/rtw_xmit.c        | 2 +-
->  drivers/staging/r8188eu/include/rtw_security.h | 1 -
->  4 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.39.2
-> 
-> 
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sorry, but I've now deleted this driver, so these patches do not apply.
+This driver is now deleted, so no need to worry about this anymore.
+
+thanks,
 
 greg k-h
