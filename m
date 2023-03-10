@@ -1,93 +1,140 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7F2DABA
-	for <linux-staging@lists.linux.dev>; Fri, 10 Mar 2023 21:00:33 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id y15-20020a17090aa40f00b00237ad8ee3a0so6331421pjp.2
-        for <linux-staging@lists.linux.dev>; Fri, 10 Mar 2023 13:00:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3696BC957;
+	Fri, 10 Mar 2023 21:33:06 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id c4so4534827pfl.0;
+        Fri, 10 Mar 2023 13:33:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678482033;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=psAfFNiNpsSuK9qPrYRt16o4yVGy2q9JMyLhfhmh/2E=;
-        b=d3XycDFJZBTfWTZeFu62MLKE94A6drSWmoU2a9Q7t0ZxlIoWlro3cmmG9SsE3vOvfA
-         SNzV9t5gzSbhj3YEA2iuZkyDXyUrbFucr/Ta4J1G3+6bw5KG8/bb5h8YXuYr/Z6li/WZ
-         lyeWahPCe50A7SoHCLp3SR4P81BII5CBnzI5Onz4LcecKtvr+PYq9gv2wi2XX3+kltAv
-         hqe6NasRc/efnJvGr640CgVCCfePDspVY/bT1LiB/aC5yAimDhxMglnUR4zcr83B88N/
-         CB0wKdtQBkbRUOmf0RrxR3ay0JB9iF2EWl4Jv7Q2kNNmTQ6/I8vdSCl8z25/u9d2iZe3
-         uOiw==
+        d=gmail.com; s=20210112; t=1678483985;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MoaC0QiQ/9QcOQ36YWPBiC9jUnAlg67n+4UaCtTxLVw=;
+        b=bLxj6b7Qgt9s1e3O4FjFVTogIcSBM18UR17GYQs72arAv4JZHt5b46HYRzakpM7+1G
+         MpBv3mpmwkLgfEKcv58MrYMXQz91SCemZqOoYDZjY4BMwbcTtF2XzDpN9oC/+mRqitOm
+         6ma7gU7I41xeCJFjnnzfhhnl6Vj09TydFqoVE6S7yl3wAgWYloi4730Pk0WAv2q+I899
+         Zatoa6VWRzgpSiGdFppU/9sjezH1NsKWnbo+FElccAuq59DnRdwPxyCbk+90eG0sKtes
+         74RlW5wHsQFrjtO5r21o+mvVZxy23kRPW/Lx/wLszZAGS9UlDRPuqVsTx/8M38rDqDs0
+         tSrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678482033;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=psAfFNiNpsSuK9qPrYRt16o4yVGy2q9JMyLhfhmh/2E=;
-        b=nK6bxR2GHBVr7sMvUC6kpwyKo3wyRO3keA6NiPWe0mIZVF81DVsEg5cJ20dGS1tpy/
-         +QdVsbzS6I78HvbLm3L6II2neRLUc52OtCck/El0NpQVF9M412Z5OF6+y7zY6GElRDLT
-         GMHg1MMeF3jaJUuSrH+afzsKBKyLZh7vbDMRIYtHgu9cj5OL6Iv/xPVnR0RkHgmnuzvT
-         /+7wPqon48u4R5ABdLiNkho4KKLf/h+e7YXJ+p0JGE2sHNGdjiKlet17Om48QZaPGOXl
-         fG913g7dTRTEE4lPqRaFIosmU8KQDpqwlbUNeEaLj8Fj5/ENL8FQQ/99ER/eqWlHCQ2q
-         X/wA==
-X-Gm-Message-State: AO0yUKWGP2GZuhZJU3lYysC0yyMHY5/JvToRYBzzQ92HF5F0DTbwfyvD
-	/daUiMwerEORYXdUxppqteg=
-X-Google-Smtp-Source: AK7set8aW7VH/d/65ZiW2hocw9bd0UceyZJMXX/UHGdCjGBIdsnnkCnRTFCM9vi+FMWruH4+q7qR4A==
-X-Received: by 2002:a05:6a21:78a6:b0:cc:5f27:d003 with SMTP id bf38-20020a056a2178a600b000cc5f27d003mr6253936pzc.56.1678482033091;
-        Fri, 10 Mar 2023 13:00:33 -0800 (PST)
-Received: from craechal ([20.230.228.239])
-        by smtp.gmail.com with ESMTPSA id x18-20020aa79192000000b00592543d7363sm255145pfa.1.2023.03.10.13.00.32
+        d=1e100.net; s=20210112; t=1678483985;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MoaC0QiQ/9QcOQ36YWPBiC9jUnAlg67n+4UaCtTxLVw=;
+        b=y2yBed+uoHxQ+5UyEhT/MwAcH+uSbZjHphno5A7w52ekQgydGP371xio9HuYaI1kNP
+         Y3vNr4Cd5ecRWJBD3iDVE/NPkdHsouIHXnwyYG/KmInqRb9kuqoubiP+u+GCojv561kW
+         Drm5PZgqHyoQ7Ioyyz5I42224YQQnajVP4yzjr/ng4ehQfFSZR60uCaBNtJjUwm8eMNn
+         Uq+67sN5CfpB5AXht+LN7WWvcIpZznsDu2UsOVE/7baW1q2sBEBz55ZkIhoPBQm0vAU5
+         ilnIYpD/mHxONA+pMgAxItSbwko4TyIPT7oW0Le++0jyBGbTSkoCSma7gJ6LV9fWWpQ7
+         Zt0w==
+X-Gm-Message-State: AO0yUKVjk4gIkOh7/uhfsrW7DM6EhkSHGo5uWAPR8YI/JsvS8E0qa+G1
+	Ecdla4hvqKWmCD+M6d47ars=
+X-Google-Smtp-Source: AK7set/seiXL46DulSZFllvj/Q29a2aaDl7sexo6g7bgSAEdGr+iYL92z7JkeIq2vEWkYuwGMQXZrA==
+X-Received: by 2002:aa7:941d:0:b0:5ce:ef1b:a86 with SMTP id x29-20020aa7941d000000b005ceef1b0a86mr24480973pfo.2.1678483985579;
+        Fri, 10 Mar 2023 13:33:05 -0800 (PST)
+Received: from CloudiRingWorld ([122.231.69.163])
+        by smtp.gmail.com with ESMTPSA id h3-20020aa786c3000000b005cc52ea452csm243525pfo.100.2023.03.10.13.33.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 13:00:32 -0800 (PST)
-Received: by craechal (Postfix, from userid 1000)
-	id 352307F66; Fri, 10 Mar 2023 21:00:32 +0000 (UTC)
-From: Archana <craechal@gmail.com>
-To: drv@mailo.com,
-	linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org
-Cc: Archana <craechal@gmail.com>
-Subject: [PATCH 2/2] staging: wlan-ng: remove else statement
-Date: Fri, 10 Mar 2023 20:59:17 +0000
-Message-Id: <20230310205917.2161-2-craechal@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230310205917.2161-1-craechal@gmail.com>
-References: <20230310205917.2161-1-craechal@gmail.com>
+        Fri, 10 Mar 2023 13:33:05 -0800 (PST)
+Date: Sat, 11 Mar 2023 05:33:01 +0800
+From: Kloudifold <cloudifold.3125@gmail.com>
+To: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: sm750: Rename camel case functions in sm750_cursor.*
+Message-ID: <ZAuiDTDT8dmBcRoH@CloudiRingWorld>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-else block is not needed if j is set to -1
-before if block
+This patch fixes the "CHECK: Avoid CamelCase" reported by
+checkpatch.pl by renaming camel case functions.
 
-Signed-off-by: Archana <craechal@gmail.com>
+Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
 ---
- drivers/staging/wlan-ng/prism2fw.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
+ drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
-index 98ed9bb9192c..11658865ca50 100644
---- a/drivers/staging/wlan-ng/prism2fw.c
-+++ b/drivers/staging/wlan-ng/prism2fw.c
-@@ -689,6 +689,7 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
- 	for (i = 0; i < ns3plug; i++) {
- 		pstart = s3plug[i].addr;
- 		pend = s3plug[i].addr + s3plug[i].len;
-+		j = -1;
- 		/* find the matching PDR (or filename) */
- 		if (s3plug[i].itemcode != 0xffffffffUL) { /* not filename */
- 			for (j = 0; j < pda->nrec; j++) {
-@@ -696,8 +697,6 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
- 				    le16_to_cpu(pda->rec[j]->code))
- 					break;
- 			}
--		} else {
--			j = -1;
- 		}
- 		if (j >= pda->nrec && j != -1) { /*  if no matching PDR, fail */
- 			pr_warn("warning: Failed to find PDR for plugrec 0x%04x.\n",
+diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+index 43e6f52c2..ff643e33f 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.c
++++ b/drivers/staging/sm750fb/sm750_cursor.c
+@@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
+ 	poke32(HWC_ADDRESS, 0);
+ }
+ 
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
+ {
+ 	cursor->w = w;
+ 	cursor->h = h;
+ }
+ 
+-void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
++void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
+ {
+ 	u32 reg;
+ 
+@@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
+ 	poke32(HWC_LOCATION, reg);
+ }
+ 
+-void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
++void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
+ {
+ 	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
+ 		HWC_COLOR_12_2_RGB565_MASK;
+@@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
+ 	poke32(HWC_COLOR_3, 0xffe0);
+ }
+ 
+-void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+-			     const u8 *pcol, const u8 *pmsk)
++void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
++			      const u8 *pcol, const u8 *pmsk)
+ {
+ 	int i, j, count, pitch, offset;
+ 	u8 color, mask, opr;
+@@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+ 	}
+ }
+ 
+-void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
+-			      const u8 *pcol, const u8 *pmsk)
++void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
++			       const u8 *pcol, const u8 *pmsk)
+ {
+ 	int i, j, count, pitch, offset;
+ 	u8 color, mask;
+diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+index b59643dd6..88fa02f63 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.h
++++ b/drivers/staging/sm750fb/sm750_cursor.h
+@@ -5,11 +5,11 @@
+ /* hw_cursor_xxx works for voyager,718 and 750 */
+ void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+ void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
+-void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
+-void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
+-void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+-			     const u8 *data, const u8 *mask);
+-void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
++void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
++void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
++void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+ 			      const u8 *data, const u8 *mask);
++void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
++			       const u8 *data, const u8 *mask);
+ #endif
 -- 
-2.34.1
+2.39.2
 
