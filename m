@@ -1,42 +1,43 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42EB2882C;
-	Fri, 10 Mar 2023 15:51:37 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id bx12so5452751wrb.11;
-        Fri, 10 Mar 2023 07:51:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA3D883B;
+	Fri, 10 Mar 2023 15:51:38 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id h14so5479791wru.4;
+        Fri, 10 Mar 2023 07:51:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678463495;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7rAHD7fKN+d5LXJmYh701SPQypdto2hSUjcoVGtRUMU=;
-        b=cYjWkG0i0JfbUWP2Y+8Ik/AMlSn1huUyNXYTvDdE6RHDKFhVt2nokYIRF0DWg4dLF/
-         9R0+rGx7j0+MavmlFqN6xyYU+e+9B+KBLBQefEMLgrpo393qK+XoMmBhipvHVfaXaR9G
-         u6VmWiqKMHxd67/ALrTg3GwhF8m8BI1hEU11L7YDtWCO2c+TQECZrH6TPg5FG7Mue8Yl
-         bg4cpxSAbUnTkRMYHZtPwoGfQeOgKsFx2YArU8B1yW4VHbuafP6jUc2qZH4+SCIO5deR
-         hcwtgHYNCKewkThTCjYS88drnP/JOSrqX+/AKm5ML6Z6aiyGT6RdO8oxgkzefYE2179v
-         m5Yw==
+        d=gmail.com; s=20210112; t=1678463496;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jpuN32VQrGcv/3Pj2zsLc3BfvbthJh4eelemNP67L9M=;
+        b=EjgPufN/cGkNJlNHqYKe7Dvb0DPZVDoUQfE7cCDnzHUy5HZaHZxrDsNAUzRwAQrUL1
+         i/DNPGm/Z4VM2zl0DJ936UNJEm4qO2uunUmPxw1Nyw7k1nH3csue+QAqkTJEpKNjVkz9
+         bvXQtggu+bIZZ7pQ8mJ0rhogOJBh0VB+3gWsZCxs6Q+SRxwk1t7O7yKKBso8Z2urhAKY
+         l4dPXw9Hs8vlhZDQjL80h/uJmxsngN3bvRzX6UckLTmjoKUpiQSS0H0rCrrLZXHEHkGK
+         JbKgtiuN6nx7pkcIsCSJYuZAlqSlBiDbrffsaUcMfe/uN00BL+S8+pRHWLGR8Aw4UuuQ
+         AQWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678463495;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7rAHD7fKN+d5LXJmYh701SPQypdto2hSUjcoVGtRUMU=;
-        b=o9AWi/HywiAXrnraeQYBC3UqTIor0di1QCkNBtrBd/oR4RTzHW/zPuHOFl0pp0Qa9l
-         dA1XTT58iOcNbOEWOH52UOqsFp49p6jmEEQk0HfSMM1nUj2Kc4hLzcNEeHgLnJ6yU0d0
-         idOGsD7/EArgNHg2pQnmWpyqCvOEDRa0GvbxhOMzvs9dJ2CKgOgLVedH79UWPyaTNOla
-         rjt6KkxDDu1HLkrF7XLNlemPceTN8roLfjSdlpiFLV8ttarN6gs/jIISNl5ZcY+Zb0e1
-         uG7aJS6hj31ukdoIAeqGnTXgc8bk2rDmnzJesbMFmnuer7wtwtpsNA8exTxZ9m/4LJy0
-         +sAA==
-X-Gm-Message-State: AO0yUKVstWxjV6WGNuciCfP9kcjd/CQk7nbB1iSbJl4fwCSB/icGu6O9
-	emQ6VsimC2Mv3oUpAH1ZKuXIj5PpupO3N1Zj
-X-Google-Smtp-Source: AK7set+d7Q+0h2RUYMfZYXj6ucr0U0beV4MqE4yhacgerLbbG6Q064+eN+N6+rJ+eBQA10OxLrmbjA==
-X-Received: by 2002:adf:cc8f:0:b0:2c9:23c4:8f93 with SMTP id p15-20020adfcc8f000000b002c923c48f93mr16353992wrj.57.1678463495023;
-        Fri, 10 Mar 2023 07:51:35 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678463496;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jpuN32VQrGcv/3Pj2zsLc3BfvbthJh4eelemNP67L9M=;
+        b=0EwoLmtytCc4nvBeF+az8f4RNjfK44ZsqTHbuz25syKZFVLPj2ZnkSAtSdgamp0c5z
+         bpnh0pue8OIpYVMqqlMetjn4LrjJLtXnq0/z2ebjJWE5NNsmHdOTfrAhfkZi+GzAGs9H
+         b01mXk0gx9ZgSOYufqYKsz6qcFzK5O+4NhNE5xALbfhxmxw+pBb3w3MtmN8tao/MZaJl
+         ESwLhvMfBgWyJDOeEOOMg7OzHhF1UdHWKdMnzAMI+Pa2s0FsiVZAt7lCH7sV9FtCWbrp
+         0VTHCRHmvrKNNXVWu4mvNnKIUPmx+7CwK9uRJHoeXd30h4XGEa3I/+BmTbgrixMBtAXc
+         ++Sw==
+X-Gm-Message-State: AO0yUKUF4Q5fNSSSwYMHjSzsBQf//MSzwnPa8AybLPA85GFJMixCJahR
+	H1/rD+I9RAmywynHmsTO63svb1svlYpnFg==
+X-Google-Smtp-Source: AK7set+aFnP5rMPRo/m99shb4IMy/aI/Wc8HeEJBX8YkAaBNdpjimiY4SO5S8m3LRlXa0ZEhtAJyTQ==
+X-Received: by 2002:adf:ee8c:0:b0:2c7:9931:4f7d with SMTP id b12-20020adfee8c000000b002c799314f7dmr16660450wro.18.1678463496288;
+        Fri, 10 Mar 2023 07:51:36 -0800 (PST)
 Received: from alaa-emad.. ([41.42.191.171])
-        by smtp.gmail.com with ESMTPSA id t8-20020a05600001c800b002c7e1a39adcsm140139wrx.23.2023.03.10.07.51.33
+        by smtp.gmail.com with ESMTPSA id t8-20020a05600001c800b002c7e1a39adcsm140139wrx.23.2023.03.10.07.51.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 07:51:34 -0800 (PST)
+        Fri, 10 Mar 2023 07:51:35 -0800 (PST)
 From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: vireshk@kernel.org,
@@ -47,10 +48,12 @@ Cc: vireshk@kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	eng.mennamahmoud.mm@gmail.com
-Subject: [PATCH 1/2] staging: greybus: Fix Alignment with parenthesis
-Date: Fri, 10 Mar 2023 17:51:24 +0200
-Message-Id: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
+Subject: [PATCH 2/2] staging: greybus: Fix Alignment with parenthesis
+Date: Fri, 10 Mar 2023 17:51:25 +0200
+Message-Id: <ccd27442c1ad9a33b0b7564176fa68f7b153fa20.1678462486.git.eng.mennamahmoud.mm@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
+References: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,18 +71,18 @@ Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/greybus/fw-core.c
-index 57bebf24636b..f562cb12d5ad 100644
+index f562cb12d5ad..0fb15a60412f 100644
 --- a/drivers/staging/greybus/fw-core.c
 +++ b/drivers/staging/greybus/fw-core.c
-@@ -89,7 +89,7 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+@@ -110,7 +110,7 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
  			}
  
  			connection = gb_connection_create(bundle, cport_id,
--						gb_fw_mgmt_request_handler);
-+							  gb_fw_mgmt_request_handler);
+-						gb_fw_download_request_handler);
++							  gb_fw_download_request_handler);
  			if (IS_ERR(connection)) {
- 				ret = PTR_ERR(connection);
- 				dev_err(&bundle->dev,
+ 				dev_err(&bundle->dev, "failed to create download connection (%ld)\n",
+ 					PTR_ERR(connection));
 -- 
 2.34.1
 
