@@ -1,88 +1,72 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA3D883B;
-	Fri, 10 Mar 2023 15:51:38 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id h14so5479791wru.4;
-        Fri, 10 Mar 2023 07:51:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0C7882C;
+	Fri, 10 Mar 2023 16:01:29 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id m25-20020a7bcb99000000b003e7842b75f2so3759115wmi.3;
+        Fri, 10 Mar 2023 08:01:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678463496;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jpuN32VQrGcv/3Pj2zsLc3BfvbthJh4eelemNP67L9M=;
-        b=EjgPufN/cGkNJlNHqYKe7Dvb0DPZVDoUQfE7cCDnzHUy5HZaHZxrDsNAUzRwAQrUL1
-         i/DNPGm/Z4VM2zl0DJ936UNJEm4qO2uunUmPxw1Nyw7k1nH3csue+QAqkTJEpKNjVkz9
-         bvXQtggu+bIZZ7pQ8mJ0rhogOJBh0VB+3gWsZCxs6Q+SRxwk1t7O7yKKBso8Z2urhAKY
-         l4dPXw9Hs8vlhZDQjL80h/uJmxsngN3bvRzX6UckLTmjoKUpiQSS0H0rCrrLZXHEHkGK
-         JbKgtiuN6nx7pkcIsCSJYuZAlqSlBiDbrffsaUcMfe/uN00BL+S8+pRHWLGR8Aw4UuuQ
-         AQWg==
+        d=gmail.com; s=20210112; t=1678464088;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jCSTFN7mHgYxqSe921dWL62i2uQGD0s88NiYVgn9G08=;
+        b=osPTfAiC5HcnDd9ph3ekTh6WI1G27RKdxywNkX5VeLNk24rrwgmPDg1zfL+HAhSc6W
+         RHAdS6C9Or3N5+xLYOQ0t75d+rkQMXZGMovBiFEoCfUa4tL39re7+ShvJVhJIZ/Ye2/M
+         ZOPsq+ucc7Emp7FHits70eOi7L5/Jjlz+2iaBnX8wOMCTKVzNojEgvyb+auP4shpEngu
+         RDp+dtBuDF5+jo7Vx89OJBo90bI6zybcjyTgegMTM9tiiD+mO2pjhanLiqBaOGBnEQk/
+         NHFp4b1qSuXM+Dsmn4nsecC9jPc8CimhdjwXrQnDgJZEzGY/kD6ePnDb2NHuWCg+B8Uh
+         9W9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678463496;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jpuN32VQrGcv/3Pj2zsLc3BfvbthJh4eelemNP67L9M=;
-        b=0EwoLmtytCc4nvBeF+az8f4RNjfK44ZsqTHbuz25syKZFVLPj2ZnkSAtSdgamp0c5z
-         bpnh0pue8OIpYVMqqlMetjn4LrjJLtXnq0/z2ebjJWE5NNsmHdOTfrAhfkZi+GzAGs9H
-         b01mXk0gx9ZgSOYufqYKsz6qcFzK5O+4NhNE5xALbfhxmxw+pBb3w3MtmN8tao/MZaJl
-         ESwLhvMfBgWyJDOeEOOMg7OzHhF1UdHWKdMnzAMI+Pa2s0FsiVZAt7lCH7sV9FtCWbrp
-         0VTHCRHmvrKNNXVWu4mvNnKIUPmx+7CwK9uRJHoeXd30h4XGEa3I/+BmTbgrixMBtAXc
-         ++Sw==
-X-Gm-Message-State: AO0yUKUF4Q5fNSSSwYMHjSzsBQf//MSzwnPa8AybLPA85GFJMixCJahR
-	H1/rD+I9RAmywynHmsTO63svb1svlYpnFg==
-X-Google-Smtp-Source: AK7set+aFnP5rMPRo/m99shb4IMy/aI/Wc8HeEJBX8YkAaBNdpjimiY4SO5S8m3LRlXa0ZEhtAJyTQ==
-X-Received: by 2002:adf:ee8c:0:b0:2c7:9931:4f7d with SMTP id b12-20020adfee8c000000b002c799314f7dmr16660450wro.18.1678463496288;
-        Fri, 10 Mar 2023 07:51:36 -0800 (PST)
-Received: from alaa-emad.. ([41.42.191.171])
-        by smtp.gmail.com with ESMTPSA id t8-20020a05600001c800b002c7e1a39adcsm140139wrx.23.2023.03.10.07.51.35
+        d=1e100.net; s=20210112; t=1678464088;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jCSTFN7mHgYxqSe921dWL62i2uQGD0s88NiYVgn9G08=;
+        b=X1qmgTFVOtnImnFO5dJKfE710mw4mqmxtWYe1ZsQsn4h2XBM5pCsoY25ymX7scAa59
+         5CSzW7dLHuWU2HVrI5XU9jZfJJrw1010Mg8LoSfrTEGCeXBq2Sbi5ZJs9Nwsj7A7v5wq
+         JcL5fcPk2IdOPM+P3howu/jXpiTmxN6+7W7xMgpkpdqU4RF6w1ZlRsG1OqCda9N2bU/s
+         pGmvOdb0VnzdaG4kgMdd3fxoBhzQQXohb7XM7sE7UvLhFqtK5Obxq3DBXjF3RG58RNRi
+         m5qzUeRj6WzsdYY3OAsH51EeNFPVSwRA6WFeRKlYUc667COdex/gN2LR1WRZTDbBAf7W
+         bTVw==
+X-Gm-Message-State: AO0yUKWG45cIfC986sVbRjNpxqOrgCdhuvaUFGN34ftxadjSDCNgdfvH
+	a6IBmPF0yPyaDPeTxR3uDyKYXVDE2aZdBlEt
+X-Google-Smtp-Source: AK7set+ScHzGOVj25/070zjmtWV+caFfAtH10FVf+Rg4IsndE27XAGe7wxc7BiNXhzYLuUjVk5Lzlw==
+X-Received: by 2002:a05:600c:1c28:b0:3de:1d31:1042 with SMTP id j40-20020a05600c1c2800b003de1d311042mr3132413wms.23.1678464087576;
+        Fri, 10 Mar 2023 08:01:27 -0800 (PST)
+Received: from khadija-virtual-machine ([39.41.45.115])
+        by smtp.gmail.com with ESMTPSA id v7-20020a05600c444700b003e204fdb160sm360234wmn.3.2023.03.10.08.01.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 07:51:35 -0800 (PST)
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: vireshk@kernel.org,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.mennamahmoud.mm@gmail.com
-Subject: [PATCH 2/2] staging: greybus: Fix Alignment with parenthesis
-Date: Fri, 10 Mar 2023 17:51:25 +0200
-Message-Id: <ccd27442c1ad9a33b0b7564176fa68f7b153fa20.1678462486.git.eng.mennamahmoud.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
-References: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
+        Fri, 10 Mar 2023 08:01:27 -0800 (PST)
+Date: Fri, 10 Mar 2023 21:01:24 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: alignment should match opening
+ parenthesis in axis-fifo.c
+Message-ID: <ZAtUVBbyMw7ine2e@khadija-virtual-machine>
+References: <ZAZSmPpB6fcozGa4@khadija-virtual-machine>
+ <alpine.DEB.2.22.394.2303062202500.3050@hadrien>
+ <CACcTnM5GR0ZM5WBaL+BDEK_0QJGr6h2t4tnsnjerHta_nq6Tmg@mail.gmail.com>
+ <ab0fd80-22c-d982-2f4-6fa5f43f858@inria.fr>
+ <CACcTnM4OHFiGrEez6dMzd4jO4YuQZzqpUK86UBMzhd+nFDWezA@mail.gmail.com>
+ <e06f57e6-2a3a-7fde-742d-9d5dd8dd49b0@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e06f57e6-2a3a-7fde-742d-9d5dd8dd49b0@inria.fr>
 
-Fix " CHECK: Alignment should match open parenthesis "
-Reported by checkpath
+On Tue, Mar 07, 2023 at 09:13:49AM +0100, Julia Lawall wrote:
+> There are actually two similar issues in axis-fifo.c.  You could fix them
+> both at once.
 
-Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
----
- drivers/staging/greybus/fw-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/greybus/fw-core.c
-index f562cb12d5ad..0fb15a60412f 100644
---- a/drivers/staging/greybus/fw-core.c
-+++ b/drivers/staging/greybus/fw-core.c
-@@ -110,7 +110,7 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
- 			}
- 
- 			connection = gb_connection_create(bundle, cport_id,
--						gb_fw_download_request_handler);
-+							  gb_fw_download_request_handler);
- 			if (IS_ERR(connection)) {
- 				dev_err(&bundle->dev, "failed to create download connection (%ld)\n",
- 					PTR_ERR(connection));
--- 
-2.34.1
+Hey Julia!
+I have a question. Should I send the two fixes as a patchset of two
+patches, and should I send it as [PATCH v2]?
+Thank you.
 
