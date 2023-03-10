@@ -1,97 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D46C979
-	for <linux-staging@lists.linux.dev>; Fri, 10 Mar 2023 10:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678443978;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zSYT9NdKeIbjdIT8S3/yTKu9A/BiOzhczLFXXBYF9tk=;
-	b=MYVnxnphoDJD98CZgDLfxhXGjMIP7xTZ3zcq3kJpLlK6ihgi2ejPunrXO6duW3aEG+p983
-	mJ7vch39wvrcM+QsdrCsNpZxLkYnNL4+lWULIK/Tr8AkcSMiYBLnHTf1pj3w4zQ1i0iDK8
-	SJc3qDD2y44jX3/asxUfZnDCbg1DuFU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-96-h-F_E5h1O-yckOjR-DjoVw-1; Fri, 10 Mar 2023 05:26:17 -0500
-X-MC-Unique: h-F_E5h1O-yckOjR-DjoVw-1
-Received: by mail-ed1-f71.google.com with SMTP id r9-20020a05640251c900b004d4257341c2so7064658edd.19
-        for <linux-staging@lists.linux.dev>; Fri, 10 Mar 2023 02:26:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29372F49;
+	Fri, 10 Mar 2023 11:52:59 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso3265253wmo.0;
+        Fri, 10 Mar 2023 03:52:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678449177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vnnitKm8ItU8z8UrLfELFTzSkVG2XnAG/fMiiC7+9Kw=;
+        b=Wz0mqDYqd17E6Wn7L3/29NOx03d1Pqhz9S3gEmC6srrIH0w/inGiKDVH3OW99iGsp1
+         idNHqx0KLHxiXvRmEHMzkKoqLslBjgBc10bciShO7DJkyKrlPGB2Q9Gh5bX+vGXWPRCi
+         aW8Ol13JUNUlH26E+f7SobZSoMAFRunTcTLBwucLlY7NJXC4+qDa0k3k/e/eUdiNA3mN
+         twyMAjC2MZCdO2GX173ex6jxe6/RmfdOCDL/oNlOWScn2AGbL0m2/Ex8hbDs+UrHyVXe
+         955auGgApdlM29wm439j7ukwW5qlz6PqnPxvtj2IuRPoGy5lDpK5gSVGN74xdVv2odCK
+         XUzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678443976;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zSYT9NdKeIbjdIT8S3/yTKu9A/BiOzhczLFXXBYF9tk=;
-        b=XouzXf3x4v4qdNO0n8ZjX3v68qc+R7ACTqC13lPR7lXS0mCVwkDKwzU9UmDcKWYzH/
-         uYoNElcb+HezltkcfbTkPBaJ7jDu+pfJcCMH/POGsls8cw3h07EV7spSxAYq4HRyGs61
-         Q92iTgmpCK1Ye7iut6inr3NSGuQd+VzX15GDnvUSKbfZno/3N1rOIp7Q+V9hEwAtPTUc
-         hd6ugN14mBaVclTlb3pQMABSCvC8xzDrZI5OM3cNIH1kVssGhMcU89aX7aSQdKaZHlKV
-         r4BovrmuL21xtS1PGkcspwIfThGHGg6a4kbCGv0xFzBPXuwBjlGUTw2ig2P0jkA9Vy8S
-         UKEA==
-X-Gm-Message-State: AO0yUKWhPXbr3DTDFTU4nErxDqwd9VcXMBj8ZJKD53KSxYDDmY30rdWq
-	JiJcjKaB2QkJO6YmqBsjyESL0MPHlB1/wAqZiqL/VWx1bqfjW1DAOpFZQFgt6qJ7SRFxspoPxS4
-	1XZxe7oW0/tzHWDK4JXNkU99RsQ==
-X-Received: by 2002:a17:906:4756:b0:8ed:5af8:d4ba with SMTP id j22-20020a170906475600b008ed5af8d4bamr1557175ejs.38.1678443976130;
-        Fri, 10 Mar 2023 02:26:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set+xHrvOFHbxAWQ1eD/jbBpVJSXkKAk6Q7FFe6t2ghKJjQXr/bZkp4vlYrU3T86K9j2Y0urShg==
-X-Received: by 2002:a17:906:4756:b0:8ed:5af8:d4ba with SMTP id j22-20020a170906475600b008ed5af8d4bamr1557163ejs.38.1678443975907;
-        Fri, 10 Mar 2023 02:26:15 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id m25-20020a170906235900b008ca52f7fbcbsm789348eja.1.2023.03.10.02.26.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Mar 2023 02:26:15 -0800 (PST)
-Message-ID: <9d0bbfb3-cb7f-15f9-0e84-172dd08c6148@redhat.com>
-Date: Fri, 10 Mar 2023 11:26:14 +0100
+        d=1e100.net; s=20210112; t=1678449177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vnnitKm8ItU8z8UrLfELFTzSkVG2XnAG/fMiiC7+9Kw=;
+        b=myEdHU2Gr4KGJq5ifccYLX2NMKQA7bHYqlCaHNb8eik5FOCce/1mMDX1VYolIUw9y2
+         nf/NZcmnu/J1I09axLhlOpFxSPz0KrB+P/oKepJSh6uR8eQKlvBHonUdvxTTlW9q0dIj
+         vsB/QpUHSdwStq0pbeZc/gw0Pnxa4cctsBunr0R3JUdKXxQ+HEAUzwy6s4bunEg0MEOU
+         7PoFktGXTRi+ijJuYeuXJ6p34zL0ptRyzSwZavMapAmIiRLHa6r0Trmu7lklioi8afkM
+         xHRkP6zHDYLFTG4pPZfRkV0ebLCOW9CyXlPA12H1pxbJIz1QPHfwS0EksiHze0EyuKM5
+         mZmQ==
+X-Gm-Message-State: AO0yUKX9N3FEjDakd1YM8wH7X90vc8TgvPa6u4HH6Z2FujX+gd47i+kx
+	Hug+HwaZmuvxJkOnbCZjtJGo7NJotjp7MA==
+X-Google-Smtp-Source: AK7set8E+XSGSa2CFpzjmVNdJGqPvK4JPcy5i1Xt68mjbNUB8UxMiBGww5GdmStnIKmwkCL2gZQ7KA==
+X-Received: by 2002:a05:600c:5104:b0:3ea:dbdd:66df with SMTP id o4-20020a05600c510400b003eadbdd66dfmr2458024wms.2.1678449177369;
+        Fri, 10 Mar 2023 03:52:57 -0800 (PST)
+Received: from suse.localnet (host-95-235-93-126.retail.telecomitalia.it. [95.235.93.126])
+        by smtp.gmail.com with ESMTPSA id r26-20020a05600c2f1a00b003e11f280b8bsm2801519wmn.44.2023.03.10.03.52.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 03:52:56 -0800 (PST)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, paskripkin@gmail.com,
+ gregkh@linuxfoundation.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] Staging: r8188eu: Fixed block comment
+Date: Fri, 10 Mar 2023 12:52:55 +0100
+Message-ID: <10238267.qUNvkh4Gvn@suse>
+In-Reply-To: <Y+8p7Hyaf4LhO/Sw@khadija-virtual-machine>
+References: <Y+8p7Hyaf4LhO/Sw@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 0/5] staging: rtl8723bs: remove some unused functions
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20230310083449.23775-1-straube.linux@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230310083449.23775-1-straube.linux@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hi,
+On venerd=EC 17 febbraio 2023 08:17:00 CET Khadija Kamran wrote:
+> Fixed block comment by adding '*' in each line. The Check message was
+> shown by using checkpatch.pl script.
+>=20
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+>=20
 
-On 3/10/23 09:34, Michael Straube wrote:
-> This series removes some unused functions from hal/hal_com.c.
+Hi Khadija,
 
-Thanks, the entire series looks good to me:
+As Greg said this driver is not here any longer. This makes me think that y=
+ou=20
+forgot at least two things...
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+1) Please pull and rebase the staging tree every day while working on patch=
+es=20
+during this period of the Outreachy project. If you had done so, you would=
+=20
+have noticed that your patch cannot any more be applied.
 
-for the series.
+2) I saw this patch by pure luck because you forgot to Cc the Outreachy lis=
+t.=20
+Therefore, please don't ever forget to Cc that list. Most mentors don't=20
+subscribe the linux-staging list.
 
-Regards,
+Thanks,
 
-Hans
+=46abio
 
-> 
-> Michael Straube (5):
->   staging: rtl8723bs: MapCharToHexDigit() is not used
->   staging: rtl8723bs: ParseQualifiedString() is not used
->   staging: rtl8723bs: isAllSpaceOrTab() is not used
->   staging: rtl8723bs: linked_info_dump() is not used
->   staging: rtl8723bs: rtw_get_raw_rssi_info() is not used
-> 
->  drivers/staging/rtl8723bs/hal/hal_com.c     | 108 --------------------
->  drivers/staging/rtl8723bs/include/hal_com.h |   9 --
->  2 files changed, 117 deletions(-)
-> 
+P.S.: Please use an imperative tone, both in the subject and in the commit=
+=20
+message. For example this patch could have been written the following way:
+
+staging: axis-fifo: Add "*" to multi-line comment
+
+Add asterisks to each line of a multi-line comment to conform to the Linux=
+=20
+development guidelines. Warning reported by checkpatch.pl.
+
+Signed-off-by: [...]
+
+
+
 
