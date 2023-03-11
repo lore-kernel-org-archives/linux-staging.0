@@ -1,98 +1,103 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E067B
-	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 12:14:48 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so12473047pjg.4
-        for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 04:14:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5787B;
+	Sat, 11 Mar 2023 12:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678536888;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aEwimVpSA5+970dCFAmfCv72yDJ+ahuHEICR9gkyZtA=;
-        b=dr18+cb+NSAMQJXGcNX4s3r4zdp2qSaZFnBlM5A91bznYDjgJCBxIcL+cKdlcWDMwf
-         9zlXTYXf01s0IwpLenABfSJiaJsAiH5oqjCZ2MlbbqQTNfYaY7IHoQ+NRJnIhZOgDfIX
-         XKeNm3ZlVATQJoezLNP7GJ6ceYznLRoyqDe5Ko1mk+aWojCHm4dGVtq/iWZoRoM0jNMN
-         lslERbJZ7O+3NYRAcuPekLtXKPHnsmrrDIFElThunIbtP8HuMWnyYm6VCGkvqzXkTn+Y
-         /TCAxGeilZ0ptLLJ9khavqClDtg16zsvQ4Qma+wOo6JHMzhK+aGRcPnfAHabqSHJDUeg
-         k4wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678536888;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aEwimVpSA5+970dCFAmfCv72yDJ+ahuHEICR9gkyZtA=;
-        b=2iM1/Kc8KxIrXEUZUmBHxEG8IaEhxn6JlO3aEqDamOH/G4nAXzESo8E3k82BWhuAgg
-         loddvELP3sOSxv7cP/f20i4wyYJVzKjOQtpHYDD36qoTyFBnk7WiNGbk7Pqjs5i4dgIN
-         ZYBsbl77oUX2HJRn84HAhYF1/pSi47mEE/hKf8OVvbIcas0ec1yzQSBAMOwgIbg9L4+M
-         N5KbDQV2N52zOm5NImGzZDk9vROuvZJamH7VsX9l1GzJYxWDNfJOxLCN0e/6il7eni2G
-         t6U14OV/m9jKnJClRqtZ4dW1R/APxWsWXNfPi6nYB681uftwxi9dcUnNxfcGnMpwyedB
-         GH0w==
-X-Gm-Message-State: AO0yUKXc2ELT+z7xget47Hh9tbJk3Ifgtj5awTOgWk2wS94z7KqRzGzy
-	FrlUPtqxnlSqnVlCf6LUtQMFNN3d7DcXiQ==
-X-Google-Smtp-Source: AK7set8A5CAC5xeh54Prq3IdEpmt+ydibThCsjL5sfgOpoW/ePW+I0sP1droRmUn19DvF5INWfB5hw==
-X-Received: by 2002:a17:903:2341:b0:19c:d5c7:e3df with SMTP id c1-20020a170903234100b0019cd5c7e3dfmr33408804plh.8.1678536888068;
-        Sat, 11 Mar 2023 04:14:48 -0800 (PST)
-Received: from craechal ([20.230.228.239])
-        by smtp.gmail.com with ESMTPSA id 4-20020a17090a174400b00233aeec339fsm1489764pjm.1.2023.03.11.04.14.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 04:14:47 -0800 (PST)
-Received: by craechal (Postfix, from userid 1000)
-	id 2F624C62; Sat, 11 Mar 2023 12:14:47 +0000 (UTC)
-From: Archana <craechal@gmail.com>
-To: gregkh@linuxfoundation.org,
-	drv@mailo.com,
-	linux-staging@lists.linux.dev,
-	error27@gmail.com
-Cc: Archana <craechal@gmail.com>
-Subject: [PATCH v2 2/2] staging: wlan-ng: small cleanup in plugimage()
-Date: Sat, 11 Mar 2023 12:12:53 +0000
-Message-Id: <20230311121253.10225-2-craechal@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230311121253.10225-1-craechal@gmail.com>
-References: <ZAwwRnthlPFta9oL@kroah.com>
- <20230311121253.10225-1-craechal@gmail.com>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=b03HwkZ2a14zZdvvpOUvIPLLqWM5o2fF6Q3gk4QF67E=;
+  b=LvsWNL8+mYwmo77wwIfzoxbddMcnYN4LdHna9xQ/3E7Y/i/fJbzQ3W1Q
+   AqI9hCxh1qf5kdPbgNHxb3hVIBpn0gn4p2AujPO4YAeWdiSsXnfFiZiSt
+   cZGUSoHJnncIYOXQc2CZVVUunZajr8nyNmPFn86/bE4NdC4mCCcwfTL4d
+   g=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
+   d="scan'208";a="96640212"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 13:15:00 +0100
+Date: Sat, 11 Mar 2023 13:15:00 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+cc: outreachy@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: axis-fifo: remove tabs to align arguments
+In-Reply-To: <ZAxsyX8n7G92nlJh@khadija-virtual-machine>
+Message-ID: <alpine.DEB.2.22.394.2303111312540.2802@hadrien>
+References: <ZAxsyX8n7G92nlJh@khadija-virtual-machine>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-It's cleaner to set "j = -1;" before the if block and remove the else
-statement.
 
-Signed-off-by: Archana <craechal@gmail.com>
----
-Changes in v2:
-  - Make the commit message more clearer.
 
- drivers/staging/wlan-ng/prism2fw.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Sat, 11 Mar 2023, Khadija Kamran wrote:
 
-diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
-index 98ed9bb9192c..11658865ca50 100644
---- a/drivers/staging/wlan-ng/prism2fw.c
-+++ b/drivers/staging/wlan-ng/prism2fw.c
-@@ -689,6 +689,7 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
- 	for (i = 0; i < ns3plug; i++) {
- 		pstart = s3plug[i].addr;
- 		pend = s3plug[i].addr + s3plug[i].len;
-+		j = -1;
- 		/* find the matching PDR (or filename) */
- 		if (s3plug[i].itemcode != 0xffffffffUL) { /* not filename */
- 			for (j = 0; j < pda->nrec; j++) {
-@@ -696,8 +697,6 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
- 				    le16_to_cpu(pda->rec[j]->code))
- 					break;
- 			}
--		} else {
--			j = -1;
- 		}
- 		if (j >= pda->nrec && j != -1) { /*  if no matching PDR, fail */
- 			pr_warn("warning: Failed to find PDR for plugrec 0x%04x.\n",
--- 
-2.34.1
+> In file drivers/staging/axis-fifo/axis-fifo.c, in line 386 and 529, the
+> last argument is indented as if it were an argument of the second
+> argument. Remove tabs to align the arguments.
 
+You don't need the file name or the line numbers.  That information is
+sufficiently obvious in the patch itself.  On the other hand, it could be
+helpful rto point out that these are calls to
+wait_event_interruptible_timeout and indeed that it is the timeout
+argument that is misplaced.  That would help the reader know what to look
+for in reading the patch.
+
+julia
+
+>
+> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> ---
+> Changes in v3:
+>  - Do not align the line 530 since it is not part of the last argument.
+
+You can keep the entire history here.
+
+julia
+
+>  drivers/staging/axis-fifo/axis-fifo.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index dfd2b357f484..b119cec25a60 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -384,9 +384,9 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+>  		mutex_lock(&fifo->read_lock);
+>  		ret = wait_event_interruptible_timeout(fifo->read_queue,
+>  			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+> -				 (read_timeout >= 0) ?
+> -				  msecs_to_jiffies(read_timeout) :
+> -				  MAX_SCHEDULE_TIMEOUT);
+> +			(read_timeout >= 0) ?
+> +			msecs_to_jiffies(read_timeout) :
+> +			MAX_SCHEDULE_TIMEOUT);
+>
+>  		if (ret <= 0) {
+>  			if (ret == 0) {
+> @@ -528,9 +528,9 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+>  		ret = wait_event_interruptible_timeout(fifo->write_queue,
+>  			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+>  				 >= words_to_write,
+> -				 (write_timeout >= 0) ?
+> -				  msecs_to_jiffies(write_timeout) :
+> -				  MAX_SCHEDULE_TIMEOUT);
+> +			(write_timeout >= 0) ?
+> +			msecs_to_jiffies(write_timeout) :
+> +			MAX_SCHEDULE_TIMEOUT);
+>
+>  		if (ret <= 0) {
+>  			if (ret == 0) {
+> --
+> 2.34.1
+>
+>
+>
