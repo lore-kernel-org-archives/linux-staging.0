@@ -1,51 +1,51 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFEB7B
-	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 04:34:31 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id j2so6821269wrh.9
-        for <linux-staging@lists.linux.dev>; Fri, 10 Mar 2023 20:34:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57187B;
+	Sat, 11 Mar 2023 04:42:07 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so7443208wmb.5;
+        Fri, 10 Mar 2023 20:42:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678509270;
+        d=gmail.com; s=20210112; t=1678509726;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dOcaj2VgQgUfN6zBtbhzdtrOPUOvgaYMHqMxs0tI/I0=;
-        b=NpbjceENrwn9DTlnwg+sdU0u3g+3ZIjU4++tFCqXCv9Sik0pK/gvM8trRb6XyGOJpj
-         7uPFrZQ4f3SCa6roJirMILFNq9CcU2lS4E/3wg5QGn56fKEjPepPX9mFlcCxH7rJUPnk
-         99NOmqHH6n/cracFd4/39H3/cofXsu6LQ8qYltYLSX465qaxabwLYKf1EZtZodFs1ys9
-         QVgS85/mlk4xT2P/y7h3z8eYpY2Qh/z6BtoO0yj9qaeuesY/X8CWsQcVnQrnCdXf8jbY
-         jvNkMPG6+AR0tXZ3ATCnkMpUm4K/ZXSJmT+sDcY3NvNb/8SYmswg6B4ysT3n62KE7t0S
-         AO1w==
+        bh=4YQ71uLbPQ+0NSiHPqb24cst2BHjUEN6kSJWZmwaWJo=;
+        b=Bq8b7mTIFzwHOwPOde1GyJishXztXmfsitoRQ3lhua+7pQ9xoFSHPP85xUHQs4cx7A
+         hiOt3Z2HxMZEwFUne6RQi8y6F70kb69ZDmsH+EonYYVcKKvsczTPmM1aXa7PMLqj2SMo
+         U6tBXi3xwJ69RyWDcNSYUy310EOc/cp8RdBc44Mjkg5O7pbgmFkw5KX/SpocBQwwYNcc
+         wU5oKYU6OWseS5GFapKxK6HBd8jI0xkk1iZeJwE7EXDJC17s2sn0AIPJtMfEbnR0qwA2
+         ugZDXT/7Tk7irL1CEAyT+uHIzDiWNp77x3nrcoq6N3oaAJxoiMYfuw4WXzt+Njre0+/l
+         o+9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678509270;
+        d=1e100.net; s=20210112; t=1678509726;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dOcaj2VgQgUfN6zBtbhzdtrOPUOvgaYMHqMxs0tI/I0=;
-        b=OVynD8sQM/RztX230Tb8UXor5K0QslXc0c2ilMG6AKpWDFJCwkPM5GDuz888I78g5m
-         cfH44w7MFQpDil/Ye/2YzFe8oSBBaeYrU6+379BqlS9peuFCNCbL0JBIUYMptgPe3rFN
-         qNqGtcUGTBjBd0KQhx2Pa9MzwBGeglT7/sNZxV8Mbr37VIkncgLsoS2eSGqo9SR0GjfY
-         d8iNz7msRUA+STTrUO1EWHBMHZVH3zI9dnR7wNw2+mktVFSrNveoirFW7mpbBBS++tr7
-         WNSkdA2vVW4QudhTT+C29oTkNY01WWxS+WWjivfuVThgIDry6yJIB/XDXa4VEGO8VZIt
-         NiCg==
-X-Gm-Message-State: AO0yUKUC6cU4dq34qF0nvXv8bLLzB+k0eytBmGZ7Bv8Xt2ftD2fpedsj
-	rJxB1a7pe3aYysFhORZz2hc=
-X-Google-Smtp-Source: AK7set+wTMHlCrHHPZ8bqyJ8xVk6w6RKq8Z1T30ImLl1acNcF1PCeLG/bXzqucha6xAuGpVAnsk7+A==
-X-Received: by 2002:adf:db05:0:b0:2c5:5ee9:6b27 with SMTP id s5-20020adfdb05000000b002c55ee96b27mr3283631wri.13.1678509269828;
-        Fri, 10 Mar 2023 20:34:29 -0800 (PST)
+        bh=4YQ71uLbPQ+0NSiHPqb24cst2BHjUEN6kSJWZmwaWJo=;
+        b=vHq7+TpNIG3PDd762GnwGH08lqhFNmanfiZUi1f0eyUZnn+TTbe5gjk3iu+Ob7W9Y7
+         d7HAT3W8TdYKXhD/k+c7/+VJ+vp0Fy5I4YkkSIyZOHqgy4UaFQn26mWSIzJzdK5DNPw7
+         W7ZZKW25kbAl0mubRLJE4alVMFhp5tKVsspq1QeZEDVeJSDUYCrf4z1AGqaN0dKGR4pG
+         9VHqlcQbbjKpW5RRbT5ypImHvTGPCJ2LNJ59w4yoAEJ7C8+LtjEOstFVTKCddGuPTeVg
+         SZWSogmp6Ww+x7WX1peGpzaCV8BK0L0l9hwSp/eg68nSH0FQt2NzRqpA0J8lljlFmCc6
+         cMLw==
+X-Gm-Message-State: AO0yUKUMIxX/AxXK8n1EDQJZoVp34NOQaNR3+G5FSHqfotbM/FQcFFyX
+	GkiJ13TueZ8uRqTKxLlN8EA=
+X-Google-Smtp-Source: AK7set+8ZlNuTVV28ZK4blflxk3xqYb8clby4Wi5OWnXuV1LVCofgaa6vYSpcPg0wHG8AFB5IfmBhA==
+X-Received: by 2002:a05:600c:3585:b0:3eb:2b88:5af1 with SMTP id p5-20020a05600c358500b003eb2b885af1mr4727616wmq.18.1678509726074;
+        Fri, 10 Mar 2023 20:42:06 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h16-20020adffd50000000b002c56af32e8csm1342913wrs.35.2023.03.10.20.34.28
+        by smtp.gmail.com with ESMTPSA id k26-20020a05600c1c9a00b003dfe549da4fsm1798671wms.18.2023.03.10.20.42.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 20:34:29 -0800 (PST)
-Date: Sat, 11 Mar 2023 07:34:25 +0300
+        Fri, 10 Mar 2023 20:42:05 -0800 (PST)
+Date: Sat, 11 Mar 2023 07:42:01 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Archana <craechal@gmail.com>
-Cc: drv@mailo.com, linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH 2/2] staging: wlan-ng: remove else statement
-Message-ID: <a4096cdc-97d1-4265-8ce4-b8021ecf5933@kili.mountain>
-References: <20230310205917.2161-1-craechal@gmail.com>
- <20230310205917.2161-2-craechal@gmail.com>
+To: Kloudifold <cloudifold.3125@gmail.com>
+Cc: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750: Rename camel case functions
+Message-ID: <ba534c24-83ed-460d-984d-e915e090aff6@kili.mountain>
+References: <ZAvk8SGjwdYlHEU6@CloudiRingWorld>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,37 +54,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230310205917.2161-2-craechal@gmail.com>
+In-Reply-To: <ZAvk8SGjwdYlHEU6@CloudiRingWorld>
 
-On Fri, Mar 10, 2023 at 08:59:17PM +0000, Archana wrote:
-> else block is not needed if j is set to -1
-> before if block
+On Sat, Mar 11, 2023 at 10:18:25AM +0800, Kloudifold wrote:
+> This patch fixes the "CHECK: Avoid CamelCase" reported by
+> checkpatch.pl by renaming camel case functions in
+> sm750_cursor.c and sm750_cursor.h.
+> Modified calls to functions declared in sm750_cursor.h in sm750.c.
 > 
-> Signed-off-by: Archana <craechal@gmail.com>
+> Fixed issue in [PATCH] staging: sm750: Rename camel case functions in sm750_cursor.*
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+> 
+> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
 > ---
 
-Is Archana your full legal name that you would write on a legal document?
+No, you're going to need to resend a v2 patch.
 
-I feel like the patch is nice and I like that it's based on reading the
-code instead of checkpatch.  The commit message isn't great.  Here is my
-suggestion on that:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
-Subject: [PATCH 2/2] staging: wlan-ng: small clean up in plugimage()
-
-It's cleaner to set "j = -1;" before the if block and remove the else
-statement.
-
-The main differences are:
-1: It says that the motivation for the patch is a clean up.
-2: Capital letter at the start of the sentence.
-3: Period at the end.
-
-I try not to be too picky about commit messages but the issue with your
-legal name is important so you were going to have to resend anyway.
-Also everyone can use capital letters and periods even if English is not
-their first language.  We could figure out the motivation for the patch
-easily enough but we like to be extra strict with new people so they
-develop good habbits.
+Please slow down.  It's explained in my blog, but you should not send
+any more patches until tomorrow.  It gives people more time to respond
+to the original patch.  Also if you wait until tomorrow everyone will
+assume you are testing everything overnight.
 
 regards,
 dan carpenter
+
