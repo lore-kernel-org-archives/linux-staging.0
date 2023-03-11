@@ -1,78 +1,206 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983987B
-	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 04:58:58 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id bw19so6842231wrb.13
-        for <linux-staging@lists.linux.dev>; Fri, 10 Mar 2023 20:58:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7D17B;
+	Sat, 11 Mar 2023 06:12:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678510737;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yWrYWGEWJpm9K9yfT9nzGGJ5sy1Of9IhiPOVpfzpCHQ=;
-        b=KHXFkWBQMG7BaAB7JAEIBcqUIldt995YKSFwkZVZdUBkysGqtmso+PJgP8aMKODmqe
-         xIM1LVDHnSrZsdTEZQebGmmPEx+fPxJF8KmRbkWHm098yYYCP/pxh3VAj+tU5+uHmABc
-         rv19DYx01nuArytOTEcYq7BjE2KENYFlah71B92UWyb9Mbearn6+vbTyImK1+iHqls9B
-         Ydm0lzNK9X7iKGe8mKPUY5r95zt8DG9WWv6ijKBXMHpRij/kXpaZiNJEdiXGJewbqCir
-         66IKYtFid1yMeH7tu0PzV4ihCPXtbEnNh+z8BBC+f6N4mSPdwxEaSTRl8hCyHBMJ+U3H
-         iHkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678510737;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yWrYWGEWJpm9K9yfT9nzGGJ5sy1Of9IhiPOVpfzpCHQ=;
-        b=jketvAunobHse+NvjuA+RbTWukdpcPNWhrhICCZJeXm65L5+0XgtPcpKSOFz8dyFZ5
-         PwapiJSWdgzPpW44mN/P+hE9M7JTZgLGwcsL56srNoLbQkJOURotW/Ll85Ycb91e5rJ6
-         BWsL6eiHyD96Lr6JQ20V80Ff33wvseQ/2bHPTQPuLf7mNgnpjm5azmQSxxeLA9lu2J3e
-         vo//bWMAUcjcrOrahnRcmUi2YqxBIlrsf6Z2CMAtMOkqNTiVHCuR20kkXCJ4ixnkwEAZ
-         j6KYjjjFRJa3Q1jf+VKTcskRKC8HpgEeyuwhKNE/Y45uczYKcYSrze4RDH8StTucPyJx
-         JSYw==
-X-Gm-Message-State: AO0yUKXyFtcTWVCRSopwlKjFMULJBmfQAGYOHMP8NqaHdaFz0yl8Rtnc
-	xwhtZSrD/9BAVizea/4aH90=
-X-Google-Smtp-Source: AK7set8kplnzo8WYidik7/RrrVtWZzKZqQvmTL3l+ZktpYC3uic36j8nMqu85W0NJJjh72EkaQCKdw==
-X-Received: by 2002:adf:f852:0:b0:2c5:68a9:843f with SMTP id d18-20020adff852000000b002c568a9843fmr3354082wrq.4.1678510736744;
-        Fri, 10 Mar 2023 20:58:56 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l26-20020a1c791a000000b003eb68bb61c8sm1631485wme.3.2023.03.10.20.58.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 20:58:55 -0800 (PST)
-Date: Sat, 11 Mar 2023 07:58:51 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Archana <craechal@gmail.com>
-Cc: drv@mailo.com, linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH 2/2] staging: wlan-ng: remove else statement
-Message-ID: <14be11a8-722c-4520-9e1b-5b147bb3d3fc@kili.mountain>
-References: <20230310205917.2161-1-craechal@gmail.com>
- <20230310205917.2161-2-craechal@gmail.com>
- <a4096cdc-97d1-4265-8ce4-b8021ecf5933@kili.mountain>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=OWb8tP6K5co0u3PaVnKCiie/VSwnLAbMcy7MmkS6nxM=;
+  b=gLdaYAhxborpRn/jE5SXDQpLEDXlk5H+thO+x98lw4WCq6UXm/YTQ6Y8
+   7m+yoohLsMbz3mfK63I/sJnlHEK43uWhIFy3dAO5rHxKgQ3OFiNl8MTtW
+   7Fov+Y5Fx04tO+vW2OusSvZ3kc6waqEPhd0F2obCiPmgGwGs2UfLgrXiO
+   Y=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
+   d="scan'208";a="96618311"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 07:12:29 +0100
+Date: Sat, 11 Mar 2023 07:12:30 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Kloudifold <cloudifold.3125@gmail.com>
+cc: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750: Rename camel case functions
+In-Reply-To: <ZAvk8SGjwdYlHEU6@CloudiRingWorld>
+Message-ID: <alpine.DEB.2.22.394.2303110706180.2948@hadrien>
+References: <ZAvk8SGjwdYlHEU6@CloudiRingWorld>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a4096cdc-97d1-4265-8ce4-b8021ecf5933@kili.mountain>
+Content-Type: text/plain; charset=US-ASCII
 
-On Sat, Mar 11, 2023 at 07:34:25AM +0300, Dan Carpenter wrote:
-> On Fri, Mar 10, 2023 at 08:59:17PM +0000, Archana wrote:
-> > else block is not needed if j is set to -1
-> > before if block
-> > 
-> > Signed-off-by: Archana <craechal@gmail.com>
-> > ---
-> 
-> Is Archana your full legal name that you would write on a legal document?
 
-Ah, never mind.  Apparently this policy has been updated.  Pseudonyms
-are allowed for people concerned about privacy but anonymous
-contributions are not allowed.
 
-https://lore.kernel.org/all/ZAoMxSPKNLoLg7Wl@aschofie-mobl2/
+On Sat, 11 Mar 2023, Kloudifold wrote:
 
-regards,
-dan carpenter
+> This patch fixes the "CHECK: Avoid CamelCase" reported by
+> checkpatch.pl by renaming camel case functions in
+> sm750_cursor.c and sm750_cursor.h.
+> Modified calls to functions declared in sm750_cursor.h in sm750.c.
 
+Kloudifold,
+
+Please go back and read the entire Outreachy patch tutorial.  It explains
+clearly how to update a patch when you have gotten some feedback about it.
+It also explains how to write a good log message.
+
+With respect to your log message here, you never need to say "This patch".
+It's clear that wat you are talking about a patch.  Please try to avoid
+the word "fix".  As in this case, it naturally leads one to not actually
+explaining what is done.  It is useful to acknowledge that checkpatch
+helped you find the problem, and perhaps useful to provide the checkpatch
+warning, but put all that at the end.  Explain what you have done and why
+first, because that is most interesting to the reader.  There is no need
+to mention the file names in the log message.  That information is easily
+available in the diffstat below.  And the log message should be written in
+the imperative (eg Modify) not the past tense (Modified).
+
+You may find it helpful to look at other patches (git log -p) to get a
+feel for the expected style.
+
+julia
+
+
+>
+> Fixed issue in [PATCH] staging: sm750: Rename camel case functions in sm750_cursor.*
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+>
+> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
+> ---
+>  drivers/staging/sm750fb/sm750.c        | 22 +++++++++++-----------
+>  drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
+>  drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
+>  3 files changed, 24 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index effc7fcc3..5d7249e82 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -121,14 +121,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+>
+>  	sm750_hw_cursor_disable(cursor);
+>  	if (fbcursor->set & FB_CUR_SETSIZE)
+> -		sm750_hw_cursor_setSize(cursor,
+> -					fbcursor->image.width,
+> -					fbcursor->image.height);
+> +		sm750_hw_cursor_set_size(cursor,
+> +					 fbcursor->image.width,
+> +					 fbcursor->image.height);
+>
+>  	if (fbcursor->set & FB_CUR_SETPOS)
+> -		sm750_hw_cursor_setPos(cursor,
+> -				       fbcursor->image.dx - info->var.xoffset,
+> -				       fbcursor->image.dy - info->var.yoffset);
+> +		sm750_hw_cursor_set_pos(cursor,
+> +					fbcursor->image.dx - info->var.xoffset,
+> +					fbcursor->image.dy - info->var.yoffset);
+>
+>  	if (fbcursor->set & FB_CUR_SETCMAP) {
+>  		/* get the 16bit color of kernel means */
+> @@ -142,14 +142,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+>  		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
+>  		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
+>
+> -		sm750_hw_cursor_setColor(cursor, fg, bg);
+> +		sm750_hw_cursor_set_color(cursor, fg, bg);
+>  	}
+>
+>  	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
+> -		sm750_hw_cursor_setData(cursor,
+> -					fbcursor->rop,
+> -					fbcursor->image.data,
+> -					fbcursor->mask);
+> +		sm750_hw_cursor_set_data(cursor,
+> +					 fbcursor->rop,
+> +					 fbcursor->image.data,
+> +					 fbcursor->mask);
+>  	}
+>
+>  	if (fbcursor->enable)
+> diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+> index 43e6f52c2..ff643e33f 100644
+> --- a/drivers/staging/sm750fb/sm750_cursor.c
+> +++ b/drivers/staging/sm750fb/sm750_cursor.c
+> @@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
+>  	poke32(HWC_ADDRESS, 0);
+>  }
+>
+> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
+> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
+>  {
+>  	cursor->w = w;
+>  	cursor->h = h;
+>  }
+>
+> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
+> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
+>  {
+>  	u32 reg;
+>
+> @@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
+>  	poke32(HWC_LOCATION, reg);
+>  }
+>
+> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
+> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
+>  {
+>  	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
+>  		HWC_COLOR_12_2_RGB565_MASK;
+> @@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
+>  	poke32(HWC_COLOR_3, 0xffe0);
+>  }
+>
+> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+> -			     const u8 *pcol, const u8 *pmsk)
+> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+> +			      const u8 *pcol, const u8 *pmsk)
+>  {
+>  	int i, j, count, pitch, offset;
+>  	u8 color, mask, opr;
+> @@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+>  	}
+>  }
+>
+> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
+> -			      const u8 *pcol, const u8 *pmsk)
+> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
+> +			       const u8 *pcol, const u8 *pmsk)
+>  {
+>  	int i, j, count, pitch, offset;
+>  	u8 color, mask;
+> diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+> index b59643dd6..88fa02f63 100644
+> --- a/drivers/staging/sm750fb/sm750_cursor.h
+> +++ b/drivers/staging/sm750fb/sm750_cursor.h
+> @@ -5,11 +5,11 @@
+>  /* hw_cursor_xxx works for voyager,718 and 750 */
+>  void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+>  void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
+> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
+> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
+> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+> -			     const u8 *data, const u8 *mask);
+> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
+> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
+> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
+> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
+> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+>  			      const u8 *data, const u8 *mask);
+> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
+> +			       const u8 *data, const u8 *mask);
+>  #endif
+> --
+> 2.39.2
+>
+>
+>
