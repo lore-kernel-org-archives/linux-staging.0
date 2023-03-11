@@ -1,94 +1,84 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF937B;
-	Sat, 11 Mar 2023 14:59:11 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id l25so7609005wrb.3;
-        Sat, 11 Mar 2023 06:59:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DE97B;
+	Sat, 11 Mar 2023 15:01:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678546749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GXU++RTy/QtfoFNBTLNutZqfPQRVbzLlMVHk9uJLiYo=;
-        b=CyltH56tbofEBHJs90HfHYPpH/Rqd3JnnW2npTYK6MZBgKw1/OrbbH9kXQ3p6o1CXo
-         KtXGIk+bMs5X3eU+iTGqdK8n63Ba/jwR6EsjEYecjR4hIvCrtgbixjufaCBgpCjcg18Q
-         fKtShj+VNh/jNC1bbP5gbn42k8DfrFpKuZsyRShRC+c+x98YlgR82ol/xxKKzf9lMPsu
-         yuRSLG+LelCvCCuAo/ZBsCE4y49dPUOCbmXktDonq2d/4jCtPEiT9tm6JpmEtHmL5/1U
-         O7XTSAgh5bPcJp3f1pt3RfI1S4G8snuYXwAhDnLmk8TiQwXuiJMkiElNYuOS+JZixkUu
-         ZkVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678546749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GXU++RTy/QtfoFNBTLNutZqfPQRVbzLlMVHk9uJLiYo=;
-        b=cG65zOi3lPdsW5ndABnVFYr/axQ8hYz+ILRDyVWLpzZpK60d3FuXTnLcJztWnC/8Wt
-         nkQayk0Utb7T53tp/xFKFWO07Mq2NArErTG4Q8hA97gg2osemFa/9mno/0Rslfs0o3ok
-         QguL3NWXgxJRaAoDbnsgcjXcAuFf2Dls1zWrkYr7MExlgJ47okuoI+4iKC+1FTQ0JSqM
-         z5QBoPRJcZfhNA/U2TwdIs+3Wqd3msqrssZ7M3dAOO+MZBur6RD4I5KlaQkIfv0E2+xh
-         EdfrIJvx4pJd7JcYhDTAskxYWxAw+Fm4B3+z6AkaK/5xjawdQTYOxokUgOmDvi9Glwhd
-         SDwg==
-X-Gm-Message-State: AO0yUKXlxNb9AfuPtwDaIcjcCpwAOrjejmqvcUihl+sZNBgmR+5vZxtW
-	IZOLQBX9VCCpnOG121xwIKI=
-X-Google-Smtp-Source: AK7set+63NHyHBs7nWxhV2Bzacldo5xiBJaVU7ynv9KB+PBrnKDxwp9eTSA6FQSFJLuWZZjBYCNP8w==
-X-Received: by 2002:adf:e682:0:b0:2c5:5641:d1ba with SMTP id r2-20020adfe682000000b002c55641d1bamr5021030wrm.3.1678546749650;
-        Sat, 11 Mar 2023 06:59:09 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e2-20020a5d5002000000b002c567b58e9asm2646782wrt.56.2023.03.11.06.59.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 06:59:09 -0800 (PST)
-Date: Sat, 11 Mar 2023 17:59:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Sumitra Sharma <sumitraartsy@gmail.com>
-Cc: GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, manishc@marvell.com,
-	netdev@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] Staging: qlge: Remove parenthesis around single condition
-Message-ID: <20838efc-e8ef-4696-9a27-958bc5aab19e@kili.mountain>
-References: <e4caf380-bac5-4df3-bb98-529f5703a410@kili.mountain>
- <20230311144318.GC14247@ubuntu>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=YBUynlOgBjxt0gAz68NH0YicKE7loSO8V0u9I7YN1Es=;
+  b=eTeZwr7PtjHXE7dM/E9YuM00QTvMzyhs+uJe6TFMuqrlxG6TwugZsj+N
+   P+tmFLA6wLSFS04HeenButOp928cENkhmF92KZfCXtonIH5jBgmKfa5cl
+   GNVLwgRzi/PbCJC/Ouh2p8NEEF3URDPepWfwRV+00POF+gvQ4Yr6JoxHm
+   8=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
+   d="scan'208";a="96650250"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 16:00:58 +0100
+Date: Sat, 11 Mar 2023 16:00:59 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+cc: Dan Carpenter <error27@gmail.com>, outreachy@lists.linux.dev, 
+    pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org, 
+    gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: eclose macro in a do - while loop
+In-Reply-To: <c9ae27dc-3538-5432-6a6d-3e2ff034f467@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2303111600330.2802@hadrien>
+References: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com> <10d2c15b-ff9f-4634-a013-7640c93435a7@kili.mountain> <c9ae27dc-3538-5432-6a6d-3e2ff034f467@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230311144318.GC14247@ubuntu>
+Content-Type: multipart/mixed; boundary="8323329-1157779403-1678546859=:2802"
 
-On Sat, Mar 11, 2023 at 06:43:18AM -0800, Sumitra Sharma wrote:
-> Hi Dan,
-> 
-> Your suggestion for correcting the indentation to
-> "[tab][tab][space][space][space][space](i ==." conflicts with the 
-> statement "Outside of comments, documentation and except in Kconfig, 
-> spaces are never used for indentation" written in 
-> https://elixir.bootlin.com/linux/latest/source/Documentation/process/coding-style.rst
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Huh...  That documentation is very wrong.  Maybe you are not the only
-person who has read that and been confused.  Not only do we use spaces,
-but checkpatch will complain if you don't use spaces to align function
-parameters.
+--8323329-1157779403-1678546859=:2802
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Aligning conditions is not universal but it's generally prefered. There
-isn't a checkpatch warning for misaligned conditions, but I think that's
-because it's much trickier to parse conditions correctly.  Aligning
-conditions is much more subtle.
 
-What this means is that maybe you should consult with your mentor and
-try to fix the documentation.  Maybe say something to the effect of "You
-can use spaces for micro alignments to function parameters and
-conditions in an if statement".
 
-> 
-> However, If you still recommend to correct the indentation in the manner
-> "[tab][tab][space][space][space][space](i ==." Should I create a
-> patch for the same? 
+On Sat, 11 Mar 2023, Menna Mahmoud wrote:
 
-I'm not going to tell you what to do with your life.  :P  But if you
-send that patch then we will merge it.
+>
+> On ١١/٣/٢٠٢٣ ١٦:٠٦, Dan Carpenter wrote:
+> > On Sat, Mar 11, 2023 at 03:59:19PM +0200, Menna Mahmoud wrote:
+> > > " ERROR: Macros with multiple statements should be enclosed in a do -
+> > > while loop"
+> > >
+> > > Reported by checkpath.
+> > >
+> > > do loop with the conditional expression set to a constant
+> > > value of zero (0).This creates a loop that
+> > > will execute exactly one time.This is a coding idiom that
+> > > allows a multi-line macro to be used anywhere
+> > > that a single statement can be used.
+> > >
+> > > So, enclose `gb_loopback_stats_attrs` macro in do - while (0) to
+> > > fix checkpath error
+> > >
+> > > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+> > > ---
+> > This breaks the build.  You need to compile the code before sending a
+> > patch.
+> >
+> > regards,
+> > dan carpenter
+>
+>
+> I see, I thought building the file only enough. appreciate your feedback.
 
-regards,
-dan carpenter
+The outreachy tutorial explains how to compile everything in a
+subdirectory.
+
+julia
+--8323329-1157779403-1678546859=:2802--
