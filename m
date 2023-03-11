@@ -1,54 +1,46 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED572F32;
-	Fri, 10 Mar 2023 22:39:25 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id p4so206195wre.11;
-        Fri, 10 Mar 2023 14:39:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678487964;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5PuvKOvfLUjyVO4mPIX/XjsIPQ+ajMnbP2SJqNrL1cI=;
-        b=oXFqjObqygxkHRfqqAMKRIVwozsa0l3DRG6a6G7slqeC+CHe384vkDLPFFrgbGeydG
-         kOyWZjR1179dMQJLO+/tAshkv3m/fLIQ9GVzY+IpruvMWcjLnEFkfdIjGzLuE3mCpzMl
-         pPcnQljNsdvoaKgdB+l6cu1hkxG9Itfx6XfTpL8ZJAzK+z6tsEy4BMFChg/kwBhWE2PD
-         VXznHjVeZosZojk7dMs3t3JzdXmlhdhS3gtM8Uht7t5EjvAM2UYmD2GidzVMbs6gI2A6
-         h86Y9mL27HXXz9sUl3QlbAPk4Gq8EuD74Mu7I5Ox+Z05pfIyMha48spVo9zCnOxh5f0B
-         dosw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678487964;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5PuvKOvfLUjyVO4mPIX/XjsIPQ+ajMnbP2SJqNrL1cI=;
-        b=sDtK0ZF7vaLSpJaeEfeyZ6LeD4AXjiKuDUBRE0HYldIdICh7aoSu7ziyTTmh0i9VeY
-         IQNtc6iWDWj9PUVr3/i1pjW6JrhEnzVhxgaGCaBrvyemVxd1vHGbl4mxq0cTy92xc7m4
-         xf5huk5ji85t/I6ao01oUN7j1dDZ1xaplPmsUMgCu5fhcyXJJKGZkQKbXsPvGREs/7Et
-         r1o/BubxT1/eZFuwj7eDa3sYYt7otgQr6+3bfiRrdtRI5bvYdP6ipLSZf6a1OaroiPU1
-         Q/mzZb0lN0raIdPlhoIFa4t0zkyc0l5DlwmN8O0Nhj03leioEDhYE4Xm6ncl4fOHwkPm
-         vzyw==
-X-Gm-Message-State: AO0yUKWkoa22pzzS/b7Vn2uHILe9gCKNA8LBIZK8twuENZfd966hJiVS
-	s8VgckbFwxRrnY9S5GJQ3lQ=
-X-Google-Smtp-Source: AK7set/7u/SY1mUQXvz+1eJcT8g0IyPHytdodVx6/Y9NnoSmRa1Uw6b/LVVnXac95BUA3XmVBqxmqQ==
-X-Received: by 2002:a5d:474b:0:b0:2c5:a38f:ca3a with SMTP id o11-20020a5d474b000000b002c5a38fca3amr2557906wrs.10.1678487963664;
-        Fri, 10 Mar 2023 14:39:23 -0800 (PST)
-Received: from khadija-virtual-machine ([39.41.45.115])
-        by smtp.gmail.com with ESMTPSA id f16-20020a7bcd10000000b003dfe5190376sm1095707wmj.35.2023.03.10.14.39.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 14:39:23 -0800 (PST)
-Date: Sat, 11 Mar 2023 03:39:20 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Dan Carpenter <error27@gmail.com>, julia.lawall@inria.fr, drv@mailo.com
-Cc: outreachy@lists.linux.dev, Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: fix exceeds line length
-Message-ID: <ZAuxmGmVQMSwig44@khadija-virtual-machine>
-References: <ZAtkW6g6DwPg/pDp@khadija-virtual-machine>
- <eb7475da-7548-4820-a2b6-ff0f6cf4be71@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9158A5C;
+	Sat, 11 Mar 2023 01:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678496799; x=1710032799;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LFlIn+JZ3z1wP1i72hr4lJuGlwH1uBFpybV7Fncs9cY=;
+  b=agWdhWAV4XxHLbePMKEsWQhqsNNo8MwSRXxc8scuJsUpcqQ8IEaEEJ7Z
+   TknIfsfv7PeVeXEuqull6BVyT9aerq3RbVvJFsaIMMFHREY07RlpTzmwY
+   g7eqctx0GHH++oIkz2Zg4s7YeNOarUVgxukbnuQxlDqvYXx9/K/BVW4vk
+   eqz8vv7py93r+fHMmg51JsXCeY72AxhUZ6ncCm17anbhqGV5OLOygVPw1
+   no0I9xEhtLXeLulkjt0PFzDcoJEVHb1tHvSIIBpSXaESykY/sKoNA/dT7
+   bwiF28pXuiU9egbS/MIfLIKPBMJWNRwv4ZilsUHlGBBMI+Gzp/jlgzJWS
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="317252722"
+X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
+   d="scan'208";a="317252722"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 17:06:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="746943351"
+X-IronPort-AV: E=Sophos;i="5.98,251,1673942400"; 
+   d="scan'208";a="746943351"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 10 Mar 2023 17:06:37 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pangy-0004F3-0i;
+	Sat, 11 Mar 2023 01:06:36 +0000
+Date: Sat, 11 Mar 2023 09:06:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kloudifold <cloudifold.3125@gmail.com>, teddy.wang@siliconmotion.com,
+	sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750: Rename camel case functions in
+ sm750_cursor.*
+Message-ID: <202303110849.X24WnHnM-lkp@intel.com>
+References: <ZAuiDTDT8dmBcRoH@CloudiRingWorld>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,12 +49,117 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <eb7475da-7548-4820-a2b6-ff0f6cf4be71@kili.mountain>
+In-Reply-To: <ZAuiDTDT8dmBcRoH@CloudiRingWorld>
 
-Hey! 
-Sorry, I am unable to understand this enough. Since it is mentioned that
-the patch raises another checkpatch warning, should I stop working on
-this patch and look for some other files? Kindly let me know.
+Hi Kloudifold,
 
-As for now, I have submitted another revision of this patch.
-Thank you.
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kloudifold/staging-sm750-Rename-camel-case-functions-in-sm750_cursor/20230311-053447
+patch link:    https://lore.kernel.org/r/ZAuiDTDT8dmBcRoH%40CloudiRingWorld
+patch subject: [PATCH] staging: sm750: Rename camel case functions in sm750_cursor.*
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303110849.X24WnHnM-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c82f66fbd5902ae486c4e2227e5071a59c49a05a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kloudifold/staging-sm750-Rename-camel-case-functions-in-sm750_cursor/20230311-053447
+        git checkout c82f66fbd5902ae486c4e2227e5071a59c49a05a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/staging/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_ops_cursor':
+>> drivers/staging/sm750fb/sm750.c:124:17: error: implicit declaration of function 'sm750_hw_cursor_setSize'; did you mean 'sm750_hw_cursor_set_size'? [-Werror=implicit-function-declaration]
+     124 |                 sm750_hw_cursor_setSize(cursor,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 sm750_hw_cursor_set_size
+>> drivers/staging/sm750fb/sm750.c:129:17: error: implicit declaration of function 'sm750_hw_cursor_setPos'; did you mean 'sm750_hw_cursor_set_pos'? [-Werror=implicit-function-declaration]
+     129 |                 sm750_hw_cursor_setPos(cursor,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 sm750_hw_cursor_set_pos
+>> drivers/staging/sm750fb/sm750.c:145:17: error: implicit declaration of function 'sm750_hw_cursor_setColor'; did you mean 'sm750_hw_cursor_set_color'? [-Werror=implicit-function-declaration]
+     145 |                 sm750_hw_cursor_setColor(cursor, fg, bg);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                 sm750_hw_cursor_set_color
+>> drivers/staging/sm750fb/sm750.c:149:17: error: implicit declaration of function 'sm750_hw_cursor_setData'; did you mean 'sm750_hw_cursor_set_data'? [-Werror=implicit-function-declaration]
+     149 |                 sm750_hw_cursor_setData(cursor,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 sm750_hw_cursor_set_data
+   cc1: some warnings being treated as errors
+
+
+vim +124 drivers/staging/sm750fb/sm750.c
+
+81dee67e215b23 Sudip Mukherjee      2015-03-03  104  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  105  /* no hardware cursor supported under version 2.6.10, kernel bug */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  106  static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+81dee67e215b23 Sudip Mukherjee      2015-03-03  107  {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  108  	struct lynxfb_par *par;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  109  	struct lynxfb_crtc *crtc;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  110  	struct lynx_cursor *cursor;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  111  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  112  	par = info->par;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  113  	crtc = &par->crtc;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  114  	cursor = &crtc->cursor;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  115  
+39f9137268ee3d Benjamin Philip      2021-07-26  116  	if (fbcursor->image.width > cursor->max_w ||
+cfdafb7608b4cf Benjamin Philip      2021-07-26  117  	    fbcursor->image.height > cursor->max_h ||
+81dee67e215b23 Sudip Mukherjee      2015-03-03  118  	    fbcursor->image.depth > 1) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  119  		return -ENXIO;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  120  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  121  
+52d0744d751d8f Arnd Bergmann        2016-11-09  122  	sm750_hw_cursor_disable(cursor);
+f46a04c75605fd Michel von Czettritz 2015-03-27  123  	if (fbcursor->set & FB_CUR_SETSIZE)
+52d0744d751d8f Arnd Bergmann        2016-11-09 @124  		sm750_hw_cursor_setSize(cursor,
+3318bb5e945f70 Michel von Czettritz 2015-03-26  125  					fbcursor->image.width,
+3318bb5e945f70 Michel von Czettritz 2015-03-26  126  					fbcursor->image.height);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  127  
+3318bb5e945f70 Michel von Czettritz 2015-03-26  128  	if (fbcursor->set & FB_CUR_SETPOS)
+52d0744d751d8f Arnd Bergmann        2016-11-09 @129  		sm750_hw_cursor_setPos(cursor,
+3318bb5e945f70 Michel von Czettritz 2015-03-26  130  				       fbcursor->image.dx - info->var.xoffset,
+81dee67e215b23 Sudip Mukherjee      2015-03-03  131  				       fbcursor->image.dy - info->var.yoffset);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  132  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  133  	if (fbcursor->set & FB_CUR_SETCMAP) {
+81dee67e215b23 Sudip Mukherjee      2015-03-03  134  		/* get the 16bit color of kernel means */
+81dee67e215b23 Sudip Mukherjee      2015-03-03  135  		u16 fg, bg;
+876e5a701f17e4 Michel von Czettritz 2015-03-26  136  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  137  		fg = ((info->cmap.red[fbcursor->image.fg_color] & 0xf800)) |
+81dee67e215b23 Sudip Mukherjee      2015-03-03  138  		     ((info->cmap.green[fbcursor->image.fg_color] & 0xfc00) >> 5) |
+81dee67e215b23 Sudip Mukherjee      2015-03-03  139  		     ((info->cmap.blue[fbcursor->image.fg_color] & 0xf800) >> 11);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  140  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  141  		bg = ((info->cmap.red[fbcursor->image.bg_color] & 0xf800)) |
+81dee67e215b23 Sudip Mukherjee      2015-03-03  142  		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
+81dee67e215b23 Sudip Mukherjee      2015-03-03  143  		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  144  
+52d0744d751d8f Arnd Bergmann        2016-11-09 @145  		sm750_hw_cursor_setColor(cursor, fg, bg);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  146  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  147  
+70407df77665c0 Michel von Czettritz 2015-03-26  148  	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
+52d0744d751d8f Arnd Bergmann        2016-11-09 @149  		sm750_hw_cursor_setData(cursor,
+81dee67e215b23 Sudip Mukherjee      2015-03-03  150  					fbcursor->rop,
+81dee67e215b23 Sudip Mukherjee      2015-03-03  151  					fbcursor->image.data,
+81dee67e215b23 Sudip Mukherjee      2015-03-03  152  					fbcursor->mask);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  153  	}
+81dee67e215b23 Sudip Mukherjee      2015-03-03  154  
+f46a04c75605fd Michel von Czettritz 2015-03-27  155  	if (fbcursor->enable)
+52d0744d751d8f Arnd Bergmann        2016-11-09  156  		sm750_hw_cursor_enable(cursor);
+81dee67e215b23 Sudip Mukherjee      2015-03-03  157  
+81dee67e215b23 Sudip Mukherjee      2015-03-03  158  	return 0;
+81dee67e215b23 Sudip Mukherjee      2015-03-03  159  }
+81dee67e215b23 Sudip Mukherjee      2015-03-03  160  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
