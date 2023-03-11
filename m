@@ -1,74 +1,60 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A317B;
-	Sat, 11 Mar 2023 14:43:24 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id k2so632325pll.8;
-        Sat, 11 Mar 2023 06:43:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366A57B;
+	Sat, 11 Mar 2023 14:49:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678545804;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nXM/UF5GgRup6jMt6h+LtaT6QVXEZj0KXMptbShshHE=;
-        b=E40t+zgvZHCVKrNiHeVevkeIBFXt6i7FUBglkpE3LbyP3kQToKv7UGIlA0fuw90AQJ
-         Z8ycKySARL3yraVxMwdcrGohyv+D1Vt/bPJq0T3Sfrmrk+QWdH+dDZITKpMEwjOZa+wG
-         mZWtYUIgt7VHJ5f/L62Xm7U6EFsfDEKuVVHJV7xbeT8khQbVk2oMAKdJn+if+2miRKi/
-         jqy+jyJNQmmCMN2JL2lXP+hZyunW2Jc905Lt9PHRu9C8JSMOsao+S3OCy9Yur62cnaYC
-         jmf6s7bFbd8xkQmSx8rXPaMDV2nFOHElzrqddd+TzXf2KB17sYKZcezQXYl7FH4HvYLj
-         6I9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678545804;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nXM/UF5GgRup6jMt6h+LtaT6QVXEZj0KXMptbShshHE=;
-        b=pigI6Yk1RtPylHorQPHKKWkXOOTLUKEcaXUUAvsQ5jT3ARoYkbMsLMCan595noSxsE
-         vbJ5+t5ts9SIapFTZCcYVnUAvhXvjybIqgYs9KXUwkLS4T+J79dBS7LsyuqWlCVby8yC
-         9ILJXIlHIbWWPH80CwaENtJ495D4EMie+hzCMpKq8nHTs3dqxuJ+CrBBRmcyKNNQg0kW
-         muhGSetgvnep898+cuGbd/eUDP3jcvjDt2wbE4+IuV9bnHoNjeFvxLxv08tMO4Qvakbk
-         0mbbEmKuE9//oURS0B7AEW4pc0cq2EUnrfQhqc6Of02X6BcGvWcNka/VxuVd1/LH4zrQ
-         SoLw==
-X-Gm-Message-State: AO0yUKWAMho376CkXCemOW8lAC5+3fxNHYWFhQ78KJb8RlOmz6oEnwKQ
-	DItodfllXp8ZDKYVceOMeEXop2ctYFngdQ==
-X-Google-Smtp-Source: AK7set9voO5GMcwrRcvfHrGLQVHExBuHPtdo+Kpw/RjvPtE8MU6m/kk4cyI3ss5Oyeea+j2xYefQdA==
-X-Received: by 2002:a17:902:da91:b0:19c:d7a9:8bf0 with SMTP id j17-20020a170902da9100b0019cd7a98bf0mr6351397plx.10.1678545804050;
-        Sat, 11 Mar 2023 06:43:24 -0800 (PST)
-Received: from ubuntu ([117.199.152.23])
-        by smtp.gmail.com with ESMTPSA id ld5-20020a170902fac500b0019f3095ae28sm727554plb.157.2023.03.11.06.43.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 06:43:23 -0800 (PST)
-Date: Sat, 11 Mar 2023 06:43:18 -0800
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: error27@gmail.com
-Cc: GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, manishc@marvell.com,
-	netdev@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] Staging: qlge: Remove parenthesis around single condition
-Message-ID: <20230311144318.GC14247@ubuntu>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=mnBoXWCWc8GTA6EussKi3kzGkFsly/2hTA8VBPAoaQo=;
+  b=jodawiDvrX0oP7vrwzWvZWWHyISWGU7N221Bf9fAM+a5K2zt8hATeL8m
+   Der+1hrP4LfSfoMp+gKNeBpyzDCOovSIOEzhTcZihqQeqfa6yc7deY66f
+   ZJYniCDvlqlaWdQvZ+C76N0G9LR/3edqBmXULOTSX3KW3i8WevMt7pODE
+   U=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
+   d="scan'208";a="96649826"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 15:49:03 +0100
+Date: Sat, 11 Mar 2023 15:49:03 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+cc: error27@gmail.com, GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com, 
+    gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+    linux-staging@lists.linux.dev, manishc@marvell.com, netdev@vger.kernel.org, 
+    outreachy@lists.linux.dev
+Subject: Re: [PATCH] Staging: qlge: Remove parenthesis around single
+ condition
+In-Reply-To: <20230311144318.GC14247@ubuntu>
+Message-ID: <alpine.DEB.2.22.394.2303111547520.2802@hadrien>
+References: <20230311144318.GC14247@ubuntu>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e4caf380-bac5-4df3-bb98-529f5703a410@kili.mountain>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Dan,
 
-Your suggestion for correcting the indentation to
-"[tab][tab][space][space][space][space](i ==." conflicts with the 
-statement "Outside of comments, documentation and except in Kconfig, 
-spaces are never used for indentation" written in 
-https://elixir.bootlin.com/linux/latest/source/Documentation/process/coding-style.rst
 
-However, If you still recommend to correct the indentation in the manner
-"[tab][tab][space][space][space][space](i ==." Should I create a
-patch for the same? 
+On Sat, 11 Mar 2023, Sumitra Sharma wrote:
 
-Regards,
+> Hi Dan,
+>
+> Your suggestion for correcting the indentation to
+> "[tab][tab][space][space][space][space](i ==." conflicts with the
+> statement "Outside of comments, documentation and except in Kconfig,
+> spaces are never used for indentation" written in
+> https://elixir.bootlin.com/linux/latest/source/Documentation/process/coding-style.rst
 
-Sumitra
+You can use spaces at the end of an indentation if it allows lining up
+things with a similar purpose.
 
+Look around at other examples of kernel code, outside of staging, to see
+what others have done.
+
+julia
