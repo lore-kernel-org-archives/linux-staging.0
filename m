@@ -1,96 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487547B
-	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 07:40:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EDA0C433EF;
-	Sat, 11 Mar 2023 07:40:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1678520452;
-	bh=p/ePXgGwwQ4V3LCHxl/qnUoHPik+bZDVnHW4K+HqRuM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BCLH+xyWqY5ceBcStzWLc32MjO8kRw/BJDE0Apjcg5KFfzx1it5VEc6C5wNWR2xqK
-	 9AVnOkAk8PSzQly/7Fqn3kyZs1qI/Vz9goFmpuWSL8B0zzUNle8muY81RoDraVjBDI
-	 UbRRPIk1YgMs4GiE8jMzfYpopOj+495h6H1+rfwE=
-Date: Sat, 11 Mar 2023 08:40:50 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Archana <craechal@gmail.com>
-Cc: drv@mailo.com, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] staging: wlan-ng: remove unnecessary kfree statements
-Message-ID: <ZAwwgsZd+2OAD1DM@kroah.com>
-References: <20230310205917.2161-1-craechal@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21E97B;
+	Sat, 11 Mar 2023 08:48:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=vxFDoEkmYm4fRNtCrXSAyIIoifg5XvMVqwsWgt4pM4w=;
+  b=hRooKtA4P4371CXHG+QqkG17tqUa8lHG0uaE2bw9+8YNXY0wKdL4OlUj
+   F5jFW8aSMmETGSf5MCcnoi9RGOX/1+Rs6hBAdPKH8fXx9sFXXEMXoIilb
+   pKRGH9ay/BH48o4KfcfHYFVYA0HIgZrFFEW69rip2fEQgwrU9lCsV4t3K
+   w=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
+   d="scan'208";a="96627374"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 09:48:09 +0100
+Date: Sat, 11 Mar 2023 09:48:09 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+cc: Deepak R Varma <drv@mailo.com>, Dan Carpenter <error27@gmail.com>, 
+    outreachy@lists.linux.dev, Vaibhav Hiremath <hvaibhav.linux@gmail.com>, 
+    Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: greybus: remove tabs to fix line length and
+ merge lines
+In-Reply-To: <ZAwqzPeLh1Dm10EJ@khadija-virtual-machine>
+Message-ID: <alpine.DEB.2.22.394.2303110947230.2802@hadrien>
+References: <ZAusnKYVTGvO5zoi@khadija-virtual-machine> <6e9fd119-6566-4778-899e-bc5a7ee7830c@kili.mountain> <ZAwelPOv45zThK6j@khadija-virtual-machine> <ZAwoTVeMDGu/44Ln@ubun2204.myguest.virtualbox.org> <ZAwqzPeLh1Dm10EJ@khadija-virtual-machine>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230310205917.2161-1-craechal@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri, Mar 10, 2023 at 08:59:16PM +0000, Archana wrote:
-> The function uses goto free_result in rest of its implementation.
-> 
-> Signed-off-by: Archana <craechal@gmail.com>
-> ---
->  drivers/staging/wlan-ng/prism2fw.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
-> index 02a2191d5c4d..98ed9bb9192c 100644
-> --- a/drivers/staging/wlan-ng/prism2fw.c
-> +++ b/drivers/staging/wlan-ng/prism2fw.c
-> @@ -1008,12 +1008,11 @@ static int writeimage(struct wlandevice *wlandev, struct imgchunk *fchunk,
->  	rstmsg = kzalloc(sizeof(*rstmsg), GFP_KERNEL);
->  	rwrmsg = kzalloc(sizeof(*rwrmsg), GFP_KERNEL);
->  	if (!rstmsg || !rwrmsg) {
-> -		kfree(rstmsg);
-> -		kfree(rwrmsg);
->  		netdev_err(wlandev->netdev,
->  			   "%s: no memory for firmware download, aborting download\n",
->  			   __func__);
-> -		return -ENOMEM;
-> +		result = -ENOMEM;
-> +		goto free_result;
->  	}
->  
->  	/* Initialize the messages */
-> -- 
-> 2.34.1
-> 
-> 
 
-Hi,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+On Sat, 11 Mar 2023, Khadija Kamran wrote:
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+> On Sat, Mar 11, 2023 at 12:35:49PM +0530, Deepak R Varma wrote:
+> > On Sat, Mar 11, 2023 at 11:24:20AM +0500, Khadija Kamran wrote:
+> > > On Sat, Mar 11, 2023 at 07:16:19AM +0300, Dan Carpenter wrote:
+> > > > On Sat, Mar 11, 2023 at 03:18:04AM +0500, Khadija Kamran wrote:
+> > > > > In file drivers/staging/greybus/arche-platform.c,
+> > > > > - Length of line 181 exceeds 100 columns, fix by removing tabs from the
+> > > > >   line.
+> > > > > - If condition and spin_unlock_...() call is split into two lines, join
+> > > > > them to form a single line.
+> > > > >
+> > > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > > > > ---
+> > > > > Changes in v2:
+> > > > >  - Change the subject and log message
+> > > > >  - Merge if condition and spin_unlock...() from two lines to one
+> > > >
+> > > > Apply your patch and then re-run checkpatch.pl -f on the file.  You will
+> > > > see the problem.
+> > >
+> > > Hey Dan!
+> > > When I run checkpatch.pl on my file, I can see that my old CHECK no
+> > > longer exists instead a new CHECK is mentioned saying 'Alignment should
+> > > match open parenthesis'. I understand this from your previous email.
+> > > Should I stop working on this file and leave it as is?
+> >
+> > Hi Dan,
+> > Not trying to speak for you, so please override my message if this is
+> > inaccurate.
+> >
+> > Hi Khadija,
+> > Yes. It is not useful to resolve one warning and introduce another. Tomorrow
+> > someone else is going to try and revert it. So do not make the "remove tab"
+> > change. I still like the merging of the split lines. It appears to improve code
+> > readability. You can send in a v3 with just that merge change and wait for
+> > feedback.
+> >
+> Hey Deepak,
+> Thank you for the feedback. Before sending a patch v3, I think I should
+> wait for more feedback.
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
+Khadija,
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Please put some blank lines around your responses so they are easier to
+find.
 
 thanks,
+julia
 
-greg k-h's patch email bot
+> > Also, remember to check your change with checkpatch. There is a section about
+> > post-commit hooks on the tutorials page. This will allow you to integrate
+> > checkpatch as part of your git commit step and do the job for you.
+> >
+> > And also, always build your change locally on your machine. No new warnings or
+> > errors should arise.
+> >
+> Yes I will keep that in mind for next patches. Thank you!
+> > Hope that helps.
+> > Deepak.
+> >
+> >
+> > > Thank you!
+> > > >
+> > > > regards,
+> > > > dan carpenter
+> > >
+> >
+> >
+>
+>
