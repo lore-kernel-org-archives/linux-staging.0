@@ -1,137 +1,103 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CEA7B;
-	Sat, 11 Mar 2023 20:35:45 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id r18so8034274wrx.1;
-        Sat, 11 Mar 2023 12:35:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AAE7B
+	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 21:50:08 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id ek18so3317248edb.6
+        for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 13:50:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678566943;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B9SEaDPKriAiDKyfkIslt2zjnxJG5SwQ9dwP0X6YQpw=;
-        b=P17DKkJxPQ9l1ObzWD8RqtwNAAyx5Jclhvbf4ojZYLSUAqy6tM/Xb0kUCIUhD3eGCw
-         u9kl6JCvWwxH5iWTMz4K0UaUzqMmfb+A7wtdWVP7d9vJnSCx8nqd43IADJsRgcmITOK9
-         tIKibCilEyhns2bFJsilp+KpLRYhIboYUWBPVyd27Wu0pyBBMQ/Q60clpTp8g/CVxo+Y
-         dXcgALHFby7wR0mM7oj8kvSODHZodutjTBxhMYDRyI6zxBdACNEe5JCT+gpuBHg/Iw4i
-         zXHlTnoAtQjDizFQ51DvlYU7+PbhONhzpUuB9hTZfgXVh0klDjMMQi6dN8NTsFKvg5Va
-         LByg==
+        d=gmail.com; s=20210112; t=1678571407;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9dlfB5JbVu/U11Cp+nQwAL8qvcirLFzR8pf4WiBE+k8=;
+        b=ScEFLFjkZ1gjXw9Gna6siYpeeSjllKpiE7BmMib3pkK+9DpPlyUQC1O+pBzCJa9bJP
+         aP2+sr3hcOahGYs1FHbkBl6nNtywTQ9sVbhedpA2sxalKydU77zf+uwYgjzVrywW8hwR
+         dMzjKmh49bTRfceAIhvxz5D5nbzk/wvmmnJY4H+LWAbQ9YCdUYdRw43mAnep9CX2K4vn
+         +67s1G9A0YFgPQovftdvUv2eFLcBYB1yZrLwWoUmeY/AkdIp8a6j/470LDXhz6KBmbrv
+         lFUMraDTmGkJ8yPLGA26P1Xk5KSwmPc/YdXd48wKPg7ovIXodcozYWro/XJsI926+uOs
+         BnLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678566943;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B9SEaDPKriAiDKyfkIslt2zjnxJG5SwQ9dwP0X6YQpw=;
-        b=VzzBpoy22AM93ltBPKHPe/ixRv2fnBo9+Zvxwgu6ubd3ChjPji+5Ww1OXtRtwzs1yi
-         i0v95JwX6xrs+pWEdgaQb0Y9AteoxgJweBA8Jrkzk9HtilrD/Um6BfwfTZ+ntVVssVk0
-         ava77WcweCyNsvr7mq29udnUESsAf6U9Hpz1c/n4RZ3A9bdClwOAN6Sg92dPM6BjmIf1
-         3dW8lEfc0STQqZXxhxM0fmxrdNQu2ZZvoZf8XO4SqznA5QU07/JXYMBhFGQA616racvy
-         jm2eeCAvnN9m9jAnVukfMCm21FxFGZ7syGrHisQodA95nxJcahznqPD5EFhbsr8VzLop
-         6d0w==
-X-Gm-Message-State: AO0yUKVkMsl9uWDFUz9PAqMSx+6pC1GyPPAT6Xmcw+DztUqdKUN5rWCs
-	VP83jHucy7GbSxPUOGQa5QM=
-X-Google-Smtp-Source: AK7set99MMxWgK/IQCvaGY4dgmRdox1pfzG2vmBzGe7HwmF6uoQMjL09Ni97QHEGy55MDtsIiuk9ow==
-X-Received: by 2002:adf:edc8:0:b0:2c7:adb:db9 with SMTP id v8-20020adfedc8000000b002c70adb0db9mr18668917wro.63.1678566943294;
-        Sat, 11 Mar 2023 12:35:43 -0800 (PST)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id z17-20020a5d44d1000000b002c5691f13eesm3232321wrr.50.2023.03.11.12.35.41
+        d=1e100.net; s=20210112; t=1678571407;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9dlfB5JbVu/U11Cp+nQwAL8qvcirLFzR8pf4WiBE+k8=;
+        b=IZGmkYZbqWLujadVfpIi7mfmy1ur4OJAklItNECt2KYhbCfCjsLJ86rcqWqmLhKnx8
+         rR9mV365vM3Y+zMYX/JXqWwKvzm1/reseMcBzD2JReJlx3eplQ6Tzu1NfYkQcxVt3YJq
+         Y5S1gFcDQ9TZnPDR48xrBTR4pin1SUcam0aGiZncjZ4M4nsKJvaIBgMyRxT4EHhKhkHY
+         M/DYLQlxB84hZ7mLnTkZtuN3iKIjSmFkEHk7cuPpgqw4VUF6VCMEJCc+XKG2/zqPK+p1
+         hRZynY3qTw06MvgrExy7OuM+0Nid4l4tvkiff20K0gJ7I9bgics+/F9hdxWjKy3XdG4R
+         Q6FQ==
+X-Gm-Message-State: AO0yUKX5D5cEevYIjg2F9hSDcBHx54+zSJrRxvoCKS1SwzAmAM8TYh2g
+	ejUH5i8LD5+Hpc2DqnOWhLQ=
+X-Google-Smtp-Source: AK7set+XthPov3/TN8NFgrA1vj+sTF4ZWxHctnskm4C99VcbJM+r2VmVIo5zqaqd/J1u80TezNcQTA==
+X-Received: by 2002:a17:906:d4:b0:878:5fa4:7443 with SMTP id 20-20020a17090600d400b008785fa47443mr5802283eji.3.1678571406766;
+        Sat, 11 Mar 2023 13:50:06 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id jw11-20020a17090776ab00b008d53ea69227sm1497680ejc.224.2023.03.11.13.50.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 12:35:42 -0800 (PST)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: error27@gmail.com, Sumitra Sharma <sumitraartsy@gmail.com>
-Cc: GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, manishc@marvell.com, netdev@vger.kernel.org,
- outreachy@lists.linux.dev
-Subject: Re: [PATCH] Staging: qlge: Remove parenthesis around single condition
-Date: Sat, 11 Mar 2023 21:35:41 +0100
-Message-ID: <1713523.QkHrqEjB74@suse>
-In-Reply-To: <20230311144318.GC14247@ubuntu>
-References: <20230311144318.GC14247@ubuntu>
+        Sat, 11 Mar 2023 13:50:06 -0800 (PST)
+Date: Sat, 11 Mar 2023 22:50:04 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/12] staging: rtl8192e: Remove unused RF90_PATH_C and ..D
+ starting .._phyreg.h
+Message-ID: <cover.1678569965.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On sabato 11 marzo 2023 15:43:18 CET Sumitra Sharma wrote:
-> Hi Dan,
-> 
-> Your suggestion for correcting the indentation to
-> "[tab][tab][space][space][space][space](i ==." conflicts with the
-> statement "Outside of comments, documentation and except in Kconfig,
-> spaces are never used for indentation" written in
-> https://elixir.bootlin.com/linux/latest/source/Documentation/process/coding-style.rst
->
+Remove unused RF90_PATH_C and RF90_PATH_D. Justification can be quite
+complex. Some variables are unused then those are completely removed. 
 
-I just saw that you use to read .rst files. Attention!
-These are source files from which human readable documentation is made.
+The following code lines are mandatory:
+enum rf90_radio_path {
+	RF90_PATH_A = 0,
+	RF90_PATH_B = 1,
+	RF90_PATH_C = 2,
+	RF90_PATH_D = 3,
+	RF90_PATH_MAX
+};
 
-They may contain directives which don't show a large part of the content you 
-are interested in, which is only included when you run "make html", "make pdf" 
-and similar commands.
+Index is saved in variable name: eRFPath
 
-Obviously, I'm talking about something that is _not_ related to your patch or 
-this thread. I'm just concerned that candidates won't be able to find the 
-information they're looking for and thus miss out on important information 
-that Ira and I have asked candidates to study (if they're interested in 
-applying to our project). 
+Code likes to shorten variable name to the array with this line:
+pPhyReg = &priv->phy_reg_def[eRFPath];
 
-In any case, the study of a certain number of pages of the Kernel 
-documentation is always necessary, whatever project one wishes to undertake.
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-To better understand what I'm talking about, take the Highmem documentation as 
-an example and compare the .rst file and the .html file. You will understand 
-why I am strongly encouraging you and all other applicants not to use 
-elixir.bootlin.com for study.
+Philipp Hortmann (12):
+  staging: rtl8192e: Remove unused RF90_PATH_C and ..D in
+    rtl92e_config_rf
+  staging: rtl8192e: Remove unused RF90_PATH_C and ..D for rfintfs
+  staging: rtl8192e: Remove unused variable rfintfi
+  staging: rtl8192e: Remove unused RF90_PATH_C and ..D for rfintfo and
+    ..fe
+  staging: rtl8192e: Remove unused RF90_PATH_C and ..D for rf3wireOffset
+  staging: rtl8192e: Remove unused variable rfLSSI_Select and
+    rfTxGainStage
+  staging: rtl8192e: Remove unused variable rfHSSIPara1 and
+    rfSwitchControl
+  staging: rtl8192e: Remove unused variable rfAGCControl1 and
+    rfAGCControl2
+  staging: rtl8192e: Remove unused variable rfRxIQImbalance and rfRxAFE
+  staging: rtl8192e: Remove unused variable rfTxIQImbalance and rfTxAFE
+  staging: rtl8192e: Remove unused RF90_PATH_C and ..D for
+    rfLSSIReadBack
+  staging: rtl8192e: Remove unused RF90_PATH_C and ..D for rfHSSIPara2
 
-Please compare the content (or at least the number of sections and lines) of 
-following .rst file at
+ .../staging/rtl8192e/rtl8192e/r8190P_def.h    | 11 ---
+ .../rtl8192e/rtl8192e/r8190P_rtl8256.c        |  4 --
+ .../staging/rtl8192e/rtl8192e/r8192E_phy.c    | 68 -------------------
+ .../staging/rtl8192e/rtl8192e/r8192E_phyreg.h | 37 ----------
+ 4 files changed, 120 deletions(-)
 
-https://elixir.bootlin.com/linux/v6.3-rc1/source/Documentation/mm/highmem.rst
-
-with the human readable counterpart at 
-
-https://docs.kernel.org/mm/highmem.html
-
-Can you see how many information you may miss by reading an .rst file without 
-any knowledge of its syntax?
-
-Thanks,
-
-Fabio
-
-PS: I don't know why you went to the documentation source files. I see no 
-reason other than the need to work on patches for the source document.
-
-I'd like to invite you to patch the style guide that Dan suggested to you in 
-this same thread.
-
-But I'm not asking you to spend time on that patch during this contribution 
-period because you still have a lot to do before the period expires.
-
-If you want, you could take care of that patch after the contribution period 
-has ended and while you are waiting for the outcome of the selection. If so, 
-study the syntax of the .rst format carefully.
-
-In the "real" kernel (I mean anywhere outside of drivers/staging), you might 
-not always get the custom help of the same kind you can count on here. 
-However, those who intend to go further, regardless of the current project, 
-sooner or later will have to face the world outside :-)
-
->
-> However, If you still recommend to correct the indentation in the manner
-> "[tab][tab][space][space][space][space](i ==." Should I create a
-> patch for the same?
-> 
-> Regards,
-> 
-> Sumitra
-
-
-
+-- 
+2.39.2
 
