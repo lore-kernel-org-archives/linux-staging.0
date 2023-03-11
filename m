@@ -1,45 +1,45 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05AF7B;
-	Sat, 11 Mar 2023 14:57:33 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id t15so7589929wrz.7;
-        Sat, 11 Mar 2023 06:57:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E19B7B;
+	Sat, 11 Mar 2023 14:58:14 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so8034563wmb.5;
+        Sat, 11 Mar 2023 06:58:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678546652;
+        d=gmail.com; s=20210112; t=1678546693;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GC6gxLkSt5uTZ0ymTf46wy5yL9s9aDluG3wBqWBs5Ao=;
-        b=mwrsq1VcC7yLQT2peO2jhfVyQfYoiHwH/7siU/J2z79i1jFLG4uz/471lo1ufUlIxf
-         We0Vk2fyJoJoAPmlkC8+S/7rVPLKc5WTVkSBjUNmw2TrTVEssuZF81WrVVEgi04tDTbZ
-         EcuPZdbhDBjMJzQWeSKV0gHqK+KlEL02TW6xgXA6k5clPzSqUKHIo/d331SlI+GUXrDd
-         UyhlCgvpyEuNAa/D2FkDOoG0XjZ3kuIjQvA9CZWLI1JqujotyAxFxJpMnFWFd67PB78O
-         5cBKSPKafMskDRL6iA2WjzjHSA0WeZhitgr+e8Hc7zNcPoiDCAYQ4h1w9g/vJSYy6JKX
-         fqbQ==
+        bh=PHMcirR/d0kseQKUwfhmLV8C1xKi97ZsvINp73wm0WE=;
+        b=BFDli0m4yLqGA6cjuaqJUZIXSBMXawkQCw+cH6P4/54xB07/I/M1OtP/b2WfoufIDO
+         j00g4aTzYtiO+HYL2a4INamzXPUhEx0JpZC387prnOyaN4tOI0dv0tFNN+5RpM9r7b+J
+         J2FGmBMAHSlb/vICDCqFCaGDMcgkDTa3Hb/iyeRn2wiw0R3gA7eA+V4T/ddKd1I1CsPv
+         0DAwntz2S876jn5xbwr281svxc5AAOHLrl9b4/W5EKur4iLH4So3oyDMTLxLkCx1sdxO
+         n5oV+uPbVyszALE851sgbwnTE3QoyEoq4lHaG3zEnQ1Q3i8Zr4jKyzXIqNtiEFAkAqYp
+         TsNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678546652;
+        d=1e100.net; s=20210112; t=1678546693;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GC6gxLkSt5uTZ0ymTf46wy5yL9s9aDluG3wBqWBs5Ao=;
-        b=IwKkK7MLli3/KN9mqS7JHRNOIIJgNbmhQg9QNY5uUmssqSzT2QK2tKE6EgMSu4ec5J
-         i51+ZZYEib+t9Tnf3dwuIIFMgmPz4mEjGr5LU+bms6vv9paVk/rmo0jzz+t0TAeU0H7k
-         gGZQ3Q4gFttkc2TZFo+tI7w/C8Dbpolnse73ZsxTqeA08rr0v6MQJMiBPq1S+pvPIn72
-         +IZwFpggdqkqOQNS0mDCwrz4HhmxRlj/dMG3Vbhlcg8Cy37Lh6l47IS9iOfQBI7FcwLl
-         LRVck7b3Tibe4FWoLBL6lskcEJIJj5JqODw0patPDNrP52Ox9j2zC61cVtr4TtHykzmA
-         CAvg==
-X-Gm-Message-State: AO0yUKVljCHpRyRzTHWh+o7dR7hHOgGgpoVDRHwx6FEWwlb5irpKNWy3
-	Z/SCee+GdxETgSsA/58IVl4=
-X-Google-Smtp-Source: AK7set/Q3Vr4JzSplTmjuQ/xbzBkpAmKAmEVXbj4GktdLASUu6uqDjE9uVWntvD/iu2IJncPWvOsfQ==
-X-Received: by 2002:a5d:4e85:0:b0:2c7:1aaa:2b49 with SMTP id e5-20020a5d4e85000000b002c71aaa2b49mr20838137wru.23.1678546652156;
-        Sat, 11 Mar 2023 06:57:32 -0800 (PST)
+        bh=PHMcirR/d0kseQKUwfhmLV8C1xKi97ZsvINp73wm0WE=;
+        b=5eJ7ndhjuxXZwnimxlp9nrfZ5YSw8Khj1MEaP8ouJhSHwbuG6PZpnY4e8i23NtEPsi
+         gyDbpQfvNqZrp/5PaRvaXJshUxrOu3jWSVwsO+9vKjmuM09x47bBjZGkGrcr8u6/CH7g
+         lyA/c7WzP3sfFBsfMucapYfUw4rowfLNTmb0MNz7beXUf/I+YWtk4R8AwXat6eswVreD
+         dVGWffxGl7r11zaKDiEgyDeVoozaFBDaBpV2He8Kue4W/7h2LkSAlDOY4MjGdUODEdrW
+         u6odxaeJuvkHvdQ7v+IQDikLQdyHDIihy7lLck7PqwpS0KpPFjmaxkxn9p9iKSgsg5+I
+         58JQ==
+X-Gm-Message-State: AO0yUKX+k8SYwp4paBGGKmBbipDhw8po6dS87c7iF/Z9RbtaRz11QOti
+	ukgZ2WKoVEsnjw/71I/sZ832Y3YRdU47Sg==
+X-Google-Smtp-Source: AK7set+mQmPFifs0KWevNYp+Yp9EVN+4oNFdxjduyjxiOzzeU0Y3yT2QwK/SxBiyf73sBNaN1c1UXw==
+X-Received: by 2002:a05:600c:3c8f:b0:3ea:bc08:b63e with SMTP id bg15-20020a05600c3c8f00b003eabc08b63emr6133252wmb.2.1678546692848;
+        Sat, 11 Mar 2023 06:58:12 -0800 (PST)
 Received: from [192.168.1.16] ([41.42.191.171])
-        by smtp.gmail.com with ESMTPSA id j28-20020a5d6e5c000000b002c551f7d452sm2520623wrz.98.2023.03.11.06.57.30
+        by smtp.gmail.com with ESMTPSA id w7-20020a05600c474700b003e1202744f2sm3205826wmo.31.2023.03.11.06.58.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Mar 2023 06:57:31 -0800 (PST)
-Message-ID: <59077252-02e4-dd43-77b5-2d2cfd114762@gmail.com>
-Date: Sat, 11 Mar 2023 16:57:29 +0200
+        Sat, 11 Mar 2023 06:58:12 -0800 (PST)
+Message-ID: <fe97c33f-536a-5951-73bd-169b67d9b8d8@gmail.com>
+Date: Sat, 11 Mar 2023 16:58:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,10 +50,9 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
 Subject: Re: [PATCH 1/2] staging: greybus: Fix Alignment with parenthesis
 Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>
-Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev,
- vireshk@kernel.org, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev, vireshk@kernel.org, johan@kernel.org,
+ elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
  <alpine.DEB.2.22.394.2303110958250.2802@hadrien>
@@ -61,15 +60,50 @@ References: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennama
  <alpine.DEB.2.22.394.2303111354490.2802@hadrien>
  <61dab579-f10b-5538-8b61-ebe73ae5b4f1@gmail.com>
  <27dfe880-35f7-cbc1-cf8b-7bbd7f1c7301@gmail.com>
- <e0d7928e-854e-4d10-a90f-db87a7d60569@kili.mountain>
+ <alpine.DEB.2.22.394.2303111537430.2802@hadrien>
 From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-In-Reply-To: <e0d7928e-854e-4d10-a90f-db87a7d60569@kili.mountain>
+In-Reply-To: <alpine.DEB.2.22.394.2303111537430.2802@hadrien>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
-On ١١‏/٣‏/٢٠٢٣ ١٦:٢٣, Dan Carpenter wrote:
-> On Sat, Mar 11, 2023 at 04:06:51PM +0200, Menna Mahmoud wrote:
+On ١١‏/٣‏/٢٠٢٣ ١٦:٣٨, Julia Lawall wrote:
+>
+> On Sat, 11 Mar 2023, Menna Mahmoud wrote:
+>
+>> On ١١/٣/٢٠٢٣ ١٤:٥٧, Menna Mahmoud wrote:
+>>> On ١١/٣/٢٠٢٣ ١٤:٥٥, Julia Lawall wrote:
+>>>> On Sat, 11 Mar 2023, Menna Mahmoud wrote:
+>>>>
+>>>>> On ١١/٣/٢٠٢٣ ١٠:٥٩, Julia Lawall wrote:
+>>>>>> On Fri, 10 Mar 2023, Menna Mahmoud wrote:
+>>>>>>
+>>>>>>> Fix " CHECK: Alignment should match open parenthesis "
+>>>>>>> Reported by checkpath
+>>>>>> See the message in the other mail about the log message.
+>>>>>>
+>>>>>> Also, you should not have two patches with the same subject.  Here,
+>>>>>> the
+>>>>>> changes are on the same file and are essentially the same, even
+>>>>>> involving
+>>>>>> the same function call.  So they can be together in one patch.
+>>>>>>
+>>>>>> julia
+>>>>> okay, I will. appreciate your feedback. thanks.
+>>>> Please put some blank lines around your response, so it is easier to find.
+>>>>
+>>>> thanks,
+>>>> julia
+>>>
+>>> Okay, I will.
+>>>
+>>> thanks,
+>>>
+>>> Menna
+>>
+>>
+>> Hi Julia,
+>>
 >> according to Alex feedback
 >>
 >> " I think this type of alignment is not a major problem,
@@ -78,24 +112,44 @@ On ١١‏/٣‏/٢٠٢٣ ١٦:٢٣, Dan Carpenter wrote:
 >>
 >>
 >> ,I won't resubmit these patches, right?
-> Yeah.  Find something else to fix.
+> The existing code indeed looks better to me.  So you can skip this issue.
 >
-> I feel like in outreachy and similar that people send a first patch and
-> then they get a bunch of different feedback.  And it's like checkpatch
-> is complaining and it's staging code so probably the code is actually
-> ugly in a way.  But often it's better to abandon the project instead of
-> getting obsessed with it.  Zoom out a bit.  Find something else where
-> it's obvious how to improve the code from a readability perspective.
->
-> People are giving you feedback to help you and not because they are
-> about that particular line of code.  They won't care if you work on
-> something else instead.
->
-> regards,
-> dan carpenter
+> julia
 
 
-Got it, thanks Dan.
+Okay, thanks Julia.
 
 
 >
+>>
+>>   -Menna
+>>
+>>
+>>>
+>>>>>>> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+>>>>>>> ---
+>>>>>>>     drivers/staging/greybus/fw-core.c | 2 +-
+>>>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/staging/greybus/fw-core.c
+>>>>>>> b/drivers/staging/greybus/fw-core.c
+>>>>>>> index 57bebf24636b..f562cb12d5ad 100644
+>>>>>>> --- a/drivers/staging/greybus/fw-core.c
+>>>>>>> +++ b/drivers/staging/greybus/fw-core.c
+>>>>>>> @@ -89,7 +89,7 @@ static int gb_fw_core_probe(struct gb_bundle
+>>>>>>> *bundle,
+>>>>>>>                 }
+>>>>>>>
+>>>>>>>                 connection = gb_connection_create(bundle, cport_id,
+>>>>>>> -                        gb_fw_mgmt_request_handler);
+>>>>>>> +
+>>>>>>> gb_fw_mgmt_request_handler);
+>>>>>>>                 if (IS_ERR(connection)) {
+>>>>>>>                     ret = PTR_ERR(connection);
+>>>>>>>                     dev_err(&bundle->dev,
+>>>>>>> --
+>>>>>>> 2.34.1
+>>>>>>>
+>>>>>>>
+>>>>>>>
+> >
