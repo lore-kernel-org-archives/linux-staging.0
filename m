@@ -1,121 +1,126 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8677B;
-	Sat, 11 Mar 2023 18:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84EF4C62
+	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 19:11:02 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id h5so881397ile.13
+        for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 11:11:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=3rR5OQ3sQVLhWBUYWdY6yHLdxX91kXaMtSzohwuA2Pk=;
-  b=T+hAK6PHgMt5hYr8fSfAUi/kToM3unyYNFIksHQ85NP6E5Ps81uZ3oof
-   +3JwFvgiY1WX1/mhAxx0bzH5VEmgeCuU84ZTUWbdO1bpnNOEp8URdlpnf
-   vkg4rcqJlumaoAiOirXBtlXZcpJfDD+fIux/DZb1F88830qM7UwM7zZ1U
-   k=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,253,1673910000"; 
-   d="scan'208";a="49892577"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 19:15:34 +0100
-Date: Sat, 11 Mar 2023 19:15:33 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: axis-fifo: remove tabs to align arguments
-In-Reply-To: <ZAy69T5sYZiyL4TJ@khadija-virtual-machine>
-Message-ID: <alpine.DEB.2.22.394.2303111914050.2802@hadrien>
-References: <ZAxsyX8n7G92nlJh@khadija-virtual-machine> <ZAxzfiOoW0SfW5qD@kroah.com> <ZAy69T5sYZiyL4TJ@khadija-virtual-machine>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=ieee.org; s=google; t=1678561861;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZioCoGuL3YwXw+MF3EM2JL8+qTfBwtfLWGaTl6x5jLQ=;
+        b=RSUbKjognkBRT7p3e1tVQPIGZl9arZtcDYGbJaoXy6BqceesIPes4j93Uv080aXPBu
+         7FQlilSshBPQgh9IjPIHnv7FVhBS9UCO4DpR+0XrBwcAAmh+wKaY0pFNfmUcBeLQYtIx
+         ahWPJlHDFdXuO8DpKxxi918MyEIGsAB6zGRDw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678561861;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZioCoGuL3YwXw+MF3EM2JL8+qTfBwtfLWGaTl6x5jLQ=;
+        b=n7tXVeLdZ71iNxR4BE3VMe7BmCZ9KRP72B4yc+xoDCauI7MSxh1ycM1Qtgu3UsY0Ec
+         p6R8L4hNKq1mUeULfRjqVQyfehYL5mlsUJEeq0pOApjvaKHDyZzrdVqUXZ1XRKs7L/79
+         IFh82TQPQMubVzKPLbW9srCIlDDxw2FKA9Wuc9Nw6Y9fgCwksTnzZANJxABeS8ao3wMt
+         pK3aRivuyTUyBxw22BzMjBTjakT47qojYxyEiE37yig6u65EkpnV5DVLetiMEfOJl/kX
+         A1eW6KduDUV/1RgSmqLB3WVwtaOlocx/OqIfIBVBwphvIjvvDppBlIUeaZYKWmwWSsoz
+         2fdw==
+X-Gm-Message-State: AO0yUKWPJLuGzXru+4enHUB4D5Yh4R/rkPM2UvjcdnsiaydZC2h21aCQ
+	FnZxrUzz9lV/ATB/7cNNJYHISQ==
+X-Google-Smtp-Source: AK7set+hLSi+8GKGLrS7dhry3Tso3uhQ0yeYV59tBjqFsQ6XrMFobp350RtzrBzd6EJJQErg+COZ1A==
+X-Received: by 2002:a92:d305:0:b0:322:fb69:e47f with SMTP id x5-20020a92d305000000b00322fb69e47fmr1071573ila.15.1678561861525;
+        Sat, 11 Mar 2023 11:11:01 -0800 (PST)
+Received: from [172.22.22.4] ([98.61.227.136])
+        by smtp.googlemail.com with ESMTPSA id g13-20020a056e020d0d00b0031796c6d735sm1044391ilj.41.2023.03.11.11.11.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Mar 2023 11:11:01 -0800 (PST)
+Message-ID: <e34f96c7-eee0-6dd6-7662-ffbf04034e27@ieee.org>
+Date: Sat, 11 Mar 2023 13:10:59 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] staging: greybus: eclose macro in a do - while loop
+To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>, outreachy@lists.linux.dev
+Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+ gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 3/11/23 7:59 AM, Menna Mahmoud wrote:
+> " ERROR: Macros with multiple statements should be enclosed in a do -
+> while loop"
+> 
+> Reported by checkpath.
 
+This is also not an issue that should be "fixed."
 
-On Sat, 11 Mar 2023, Khadija Kamran wrote:
+If you look at where that macro is expanded, you see
+that its purpose is simply to reduce the possibility
+of some errors by enclosing some much-duplicated code
+in this macro.  The expansion is at the top level of
+the source file, so a "do...while" loop ends up being
+an error.
 
-> On Sat, Mar 11, 2023 at 01:26:38PM +0100, Greg Kroah-Hartman wrote:
-> > On Sat, Mar 11, 2023 at 04:58:01PM +0500, Khadija Kamran wrote:
-> > > In file drivers/staging/axis-fifo/axis-fifo.c, in line 386 and 529, the
-> > > last argument is indented as if it were an argument of the second
-> > > argument. Remove tabs to align the arguments.
-> > >
-> > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > ---
-> > > Changes in v3:
-> > >  - Do not align the line 530 since it is not part of the last argument.
-> > >
-> > >  drivers/staging/axis-fifo/axis-fifo.c | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> > > index dfd2b357f484..b119cec25a60 100644
-> > > --- a/drivers/staging/axis-fifo/axis-fifo.c
-> > > +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> > > @@ -384,9 +384,9 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
-> > >  		mutex_lock(&fifo->read_lock);
-> > >  		ret = wait_event_interruptible_timeout(fifo->read_queue,
-> > >  			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-> > > -				 (read_timeout >= 0) ?
-> > > -				  msecs_to_jiffies(read_timeout) :
-> > > -				  MAX_SCHEDULE_TIMEOUT);
-> > > +			(read_timeout >= 0) ?
-> > > +			msecs_to_jiffies(read_timeout) :
-> > > +			MAX_SCHEDULE_TIMEOUT);
-> >
-> > People have been trying to "polish" this mess for a long time, and I
-> > think it's better to step back and see what is really needed here.
-> >
-> > There is a module parameter, read_timeout, that can only be set at
-> > loading time.  As it can only be modified once, why are we doing an if
-> > statement each and every time it is read from?
-> >
-> > Instead, in the module probe function, how about doing something like:
-> > 	if (read_timeout >= 0)
-> > 		read_timeout = msecs_to_jiffies(read_timeout);
-> > 	else
-> > 		read_timeout = MAX_SCHEDULE_TIMEOUT;
-> >
->
->
-> Hi Greg!
-> Thank you for the reply. Before sending the patch I just wanted to
-> confirm if I have understood this right. Should I write the above
-> mentioned code before the wait_event_interruptible_timeout() call, and
-> pass read_timeout as the last argument to wait_event_interruptible()?
-> And same for write_timeout.
+When looking at the output of checkpatch, assume it's
+giving you clues about problems that one *might* like to
+fix.  Its suggestions are most often reasonable, but in
+some cases (like this one) it's just not smart enough
+to recognize the problem that comes from following its
+advice.
 
-Greg suggests to do the initialization of read_timeout only once in the
-probe function.  That is the function in which the driver figures out some
-information about the environment in which it is running. It is only
-called once, at startup time.  Then there will not be this if on every
-wait_event_interruptible_timeout call.
+Make sure you understand exactly what happens when
+you make a change.  That means understanding the
+code, and then it means ensuring that the fix passes
+at least a compile test, and if possible an actual
+execution test.
 
-julia
+					-Alex
 
+> 
+> do loop with the conditional expression set to a constant
+> value of zero (0).This creates a loop that
+> will execute exactly one time.This is a coding idiom that
+> allows a multi-line macro to be used anywhere
+> that a single statement can be used.
+> 
+> So, enclose `gb_loopback_stats_attrs` macro in do - while (0) to
+> fix checkpath error
+> 
+> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+> ---
+>   drivers/staging/greybus/loopback.c | 10 ++++++----
+>   1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> index 1a61fce98056..e86d50638cb5 100644
+> --- a/drivers/staging/greybus/loopback.c
+> +++ b/drivers/staging/greybus/loopback.c
+> @@ -162,10 +162,12 @@ static ssize_t name##_avg_show(struct device *dev,		\
+>   }									\
+>   static DEVICE_ATTR_RO(name##_avg)
+>   
+> -#define gb_loopback_stats_attrs(field)				\
+> -	gb_loopback_ro_stats_attr(field, min, u);		\
+> -	gb_loopback_ro_stats_attr(field, max, u);		\
+> -	gb_loopback_ro_avg_attr(field)
+> +#define gb_loopback_stats_attrs(field)					\
+> +	do { \
+> +		gb_loopback_ro_stats_attr(field, min, u);		\
+> +		gb_loopback_ro_stats_attr(field, max, u);		\
+> +		gb_loopback_ro_avg_attr(field);				\
+> +	} while (0)
+>   
+>   #define gb_loopback_attr(field, type)					\
+>   static ssize_t field##_show(struct device *dev,				\
 
->
->
-> > and then only ever use "read_timeout" here in the
-> > wait_event_interruptiable() call?  That should simplify this much more
-> > overall, and hopefully allow us to just get rid of the module parameter
-> > eventually as that's not how drivers should be working at all anymore.
-> >
-> > Same goes for write_timeout.
-> >
-> > Overall the code should be much simpler and easier to understand, which
-> > is the end goal here.
-> >
-> > Can you try doing that instead?
-> >
-> > thanks,
-> >
-> > greg k-h
->
->
