@@ -1,84 +1,113 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DE97B;
-	Sat, 11 Mar 2023 15:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853367B;
+	Sat, 11 Mar 2023 15:24:59 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id h8so8568991plf.10;
+        Sat, 11 Mar 2023 07:24:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=YBUynlOgBjxt0gAz68NH0YicKE7loSO8V0u9I7YN1Es=;
-  b=eTeZwr7PtjHXE7dM/E9YuM00QTvMzyhs+uJe6TFMuqrlxG6TwugZsj+N
-   P+tmFLA6wLSFS04HeenButOp928cENkhmF92KZfCXtonIH5jBgmKfa5cl
-   GNVLwgRzi/PbCJC/Ouh2p8NEEF3URDPepWfwRV+00POF+gvQ4Yr6JoxHm
-   8=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
-   d="scan'208";a="96650250"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 16:00:58 +0100
-Date: Sat, 11 Mar 2023 16:00:59 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-cc: Dan Carpenter <error27@gmail.com>, outreachy@lists.linux.dev, 
-    pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org, 
-    gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: eclose macro in a do - while loop
-In-Reply-To: <c9ae27dc-3538-5432-6a6d-3e2ff034f467@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2303111600330.2802@hadrien>
-References: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com> <10d2c15b-ff9f-4634-a013-7640c93435a7@kili.mountain> <c9ae27dc-3538-5432-6a6d-3e2ff034f467@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112; t=1678548298;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=crbZwDhWuP19Nx72AN6LNeVP5R+Lb57Ts6T9QLS5tCU=;
+        b=OkfZQ/o6x6eDZRPH/ukLKDjV6f5jsB5Wreq2S6MRZ5hsv60SvPx8APXlXifFFG7M/z
+         hdYG+M+fH2/GJC4Cw97edH5DfWc2YAZGBHFdqhJFeFi7UOvQO9JqAeBla7ImEe1t1Ikt
+         5HLoQYeHHfi4A/l/PMjGYtA7qUoPUDv9b3cebQDvMT1QIOX7aGPaLEHFSOHDbcRmrmTD
+         qEcGwB32rn6fmqh0k3ZQnq9FYwlj7VnIGmINwmZw1E4XrgJm/sQsC81CpBrppzxsVFvu
+         PeXUO5Bxm0ahfiFfNzlI9lZT00F62bkWHZgElIV8l3b6O7KH2qORgK5HBvjAcihD4U1o
+         HumQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678548298;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=crbZwDhWuP19Nx72AN6LNeVP5R+Lb57Ts6T9QLS5tCU=;
+        b=wKxpZSe5B+QyRPjh2Jm2RCZHE0dK2Ks1/U3SaEuTwaPFsQnulc+f27820kVOBL9Uka
+         2USPeBoGklKrkHFP7At8U3AWS5uecEcYO1nEsx5ndebgpJSIv82Dd5QVY5mQ6LoNqy6W
+         V9HZhHYYBU55aUhLDGIGwoLOxfEb+dR0eQllr5roloI8Sm0LTxOdXA10Zb5nPSAT9qpo
+         byuCzV9v91n6Ww9Q/RlpiCVrZyBKxC8bttKlEGMhAwBBQAMDn8ON1CIyRGXoB22lVs/g
+         1wsm/d5/MIPO1Vc9/0GxXiQQKUMCi8LWYY09MUqlmg3NiHNqPpC6FjknjvAPH69noxqk
+         waCA==
+X-Gm-Message-State: AO0yUKUAvY8pb1o69R7w8G9xUqikYGuxUD0S5A9FA1q9Yjryz3EXDtAY
+	2NaFyS4yRcIdJvcDA2Qn7N8Fy1bCl5M6IQ==
+X-Google-Smtp-Source: AK7set9gJeRH76pCp0p9bue1wncgBaSpopayuwbdmPZQmpYlrWzMwSL3rPYeT1Kb0Zg4tS+QenKLJw==
+X-Received: by 2002:a17:90a:52:b0:233:b20f:e646 with SMTP id 18-20020a17090a005200b00233b20fe646mr29110601pjb.0.1678548298653;
+        Sat, 11 Mar 2023 07:24:58 -0800 (PST)
+Received: from ubuntu ([117.199.152.23])
+        by smtp.gmail.com with ESMTPSA id kb12-20020a170903338c00b0019906c4c9dcsm1713823plb.98.2023.03.11.07.24.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 07:24:58 -0800 (PST)
+Date: Sat, 11 Mar 2023 07:24:53 -0800
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: outreachy@lists.linux.dev, manishc@marvell.com,
+	GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
+	gregkh@linuxfoundation.org, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH] Staging: qlge: Fix indentation in conditional statement
+Message-ID: <20230311152453.GA23588@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1157779403-1678546859=:2802"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Add tabs/spaces in conditional statements in qlge_dbg.c to fix the
+indentation.
 
---8323329-1157779403-1678546859=:2802
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+---
+ drivers/staging/qlge/qlge_dbg.c | 35 +++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 19 deletions(-)
 
-
-
-On Sat, 11 Mar 2023, Menna Mahmoud wrote:
-
->
-> On ١١/٣/٢٠٢٣ ١٦:٠٦, Dan Carpenter wrote:
-> > On Sat, Mar 11, 2023 at 03:59:19PM +0200, Menna Mahmoud wrote:
-> > > " ERROR: Macros with multiple statements should be enclosed in a do -
-> > > while loop"
-> > >
-> > > Reported by checkpath.
-> > >
-> > > do loop with the conditional expression set to a constant
-> > > value of zero (0).This creates a loop that
-> > > will execute exactly one time.This is a coding idiom that
-> > > allows a multi-line macro to be used anywhere
-> > > that a single statement can be used.
-> > >
-> > > So, enclose `gb_loopback_stats_attrs` macro in do - while (0) to
-> > > fix checkpath error
-> > >
-> > > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> > > ---
-> > This breaks the build.  You need to compile the code before sending a
-> > patch.
-> >
-> > regards,
-> > dan carpenter
->
->
-> I see, I thought building the file only enough. appreciate your feedback.
-
-The outreachy tutorial explains how to compile everything in a
-subdirectory.
-
-julia
---8323329-1157779403-1678546859=:2802--
+diff --git a/drivers/staging/qlge/qlge_dbg.c b/drivers/staging/qlge/qlge_dbg.c
+index b190a2993033..c7e865f515cf 100644
+--- a/drivers/staging/qlge/qlge_dbg.c
++++ b/drivers/staging/qlge/qlge_dbg.c
+@@ -351,26 +351,23 @@ static int qlge_get_xgmac_regs(struct qlge_adapter *qdev, u32 *buf,
+ 		/* We're reading 400 xgmac registers, but we filter out
+ 		 * several locations that are non-responsive to reads.
+ 		 */
+-		if (i == 0x00000114 ||
+-		    i == 0x00000118 ||
+-			i == 0x0000013c ||
+-			i == 0x00000140 ||
+-			(i > 0x00000150 && i < 0x000001fc) ||
+-			(i > 0x00000278 && i < 0x000002a0) ||
+-			(i > 0x000002c0 && i < 0x000002cf) ||
+-			(i > 0x000002dc && i < 0x000002f0) ||
+-			(i > 0x000003c8 && i < 0x00000400) ||
+-			(i > 0x00000400 && i < 0x00000410) ||
+-			(i > 0x00000410 && i < 0x00000420) ||
+-			(i > 0x00000420 && i < 0x00000430) ||
+-			(i > 0x00000430 && i < 0x00000440) ||
+-			(i > 0x00000440 && i < 0x00000450) ||
+-			(i > 0x00000450 && i < 0x00000500) ||
+-			(i > 0x0000054c && i < 0x00000568) ||
+-			(i > 0x000005c8 && i < 0x00000600)) {
++		if ((i == 0x00000114) || (i == 0x00000118) ||
++		    (i == 0x0000013c) || (i == 0x00000140) ||
++		    (i > 0x00000150 && i < 0x000001fc) ||
++		    (i > 0x00000278 && i < 0x000002a0) ||
++		    (i > 0x000002c0 && i < 0x000002cf) ||
++		    (i > 0x000002dc && i < 0x000002f0) ||
++		    (i > 0x000003c8 && i < 0x00000400) ||
++		    (i > 0x00000400 && i < 0x00000410) ||
++		    (i > 0x00000410 && i < 0x00000420) ||
++		    (i > 0x00000420 && i < 0x00000430) ||
++		    (i > 0x00000430 && i < 0x00000440) ||
++		    (i > 0x00000440 && i < 0x00000450) ||
++		    (i > 0x00000450 && i < 0x00000500) ||
++		    (i > 0x0000054c && i < 0x00000568) ||
++		    (i > 0x000005c8 && i < 0x00000600)) {
+ 			if (other_function)
+-				status =
+-				qlge_read_other_func_xgmac_reg(qdev, i, buf);
++				status = qlge_read_other_func_xgmac_reg(qdev, i, buf);
+ 			else
+ 				status = qlge_read_xgmac_reg(qdev, i, buf);
+ 
+-- 
+2.25.1
