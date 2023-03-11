@@ -1,104 +1,89 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4357B;
-	Sat, 11 Mar 2023 13:59:28 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id l1so7499587wry.12;
-        Sat, 11 Mar 2023 05:59:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B4C7B;
+	Sat, 11 Mar 2023 14:04:16 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id ce8-20020a17090aff0800b0023a61cff2c6so10004546pjb.0;
+        Sat, 11 Mar 2023 06:04:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678543166;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LJRQANhCEGiforjUF4Wz2oYn+hKUyKWCbODGuMeniSQ=;
-        b=JIiZNE3piZTJCsdED37IIm8XMSp9EX72kmtzwU+J7mdYahgbVAMXowLQYViHJ7h9us
-         98UEpwBDucgBmIApBqTPNHqtZm4vCsrtJQeGmKZUZ+v+aE2QpS0XMG+TEaXvZfPgrChj
-         G888iVy92TQEqtYbGEZAv3suMTzOaLMl+YYCh4qSBOdMCfUkfmJbUAI53MFtCHTYHP7t
-         9BgSpNHefw8483mdbzuReU2/fOupzw4AlnJxaNf5ZY/h3o6U3KgWUL5drplcszGqsCWU
-         9yLw7G+Ew7BZn5C79OHCJsSB2ooeC8oynkEAqt2gMZluxQ2gVoB3obLIhjApQSQKrA//
-         cZAg==
+        d=gmail.com; s=20210112; t=1678543455;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kYqoBUUyzsIk/ss9ywgxsMkPFqWgNfKL1ixz5F8qfn8=;
+        b=KuLW6ZaIq2jIlOSyU+lDH80+1cZqTRKsURnlgH7HOJviqbyZQNCcKt29SMXa0CuYdp
+         AbvvDznDDdg3RDoiN+1yFq9o7CNi6Cse3kDjff/w8cIaFUkaeNFmtjgA7QaNDuGsXwMl
+         vLjDkubrR853/pBK4v0gi4QHUPWZ2vtg6QpJmVjpfWFK3J58iSGMfwia+4GdpAVL+ILa
+         mCBmGqwGSqdzTc+kIe1eF2eHtgYyT0MPYWxT8rn5YawwAJuRumCxq5VRsUOYn5unrwK1
+         oeda246IfeqPw63cCWokkG7iQJpEv2KnXfCuLRsJmxb8fRS+9Clb7TRIMgJaKt0TtPvs
+         fXPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678543166;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LJRQANhCEGiforjUF4Wz2oYn+hKUyKWCbODGuMeniSQ=;
-        b=zOmlF0hmbvgQhLEITSNWGZgSD4Ja1VXxHWDHXOtMFqJlfULwg/qyJf9O2TYZSrI43J
-         XfwqIzXxc0bm/Z1HmDpof7YF5ssI1T1mzLOcHW09vO6HClogyWE1zuKLN/lpsN+GLmcb
-         YN7ctbXigB0JZXVdtMPHOJHL7f7xEPaXvqo8I1IBZMLG7lpPAkXXiOyA1quZe0D1T65W
-         qCvKbwM+yVuwTDjzVdFRYk85dVNRu3GJ/WykewLjdH2LjU7CAZLbaLmXsBnR4vePECrn
-         lypvQ58DQrX4LkOrc18hLHV0HUX9xtXWnfel+9PjQ27xmWmqEW3Am4+FnBCOXiRshqy5
-         eAfQ==
-X-Gm-Message-State: AO0yUKWVu7MhINj1Y4XN/xqIdteKe7+WhPMtGdyhTsnzTp1cLi5Wp5Q8
-	W9r7VD6nrRQUpdHCrA0C8FYClC/s9x/UFw==
-X-Google-Smtp-Source: AK7set+flWmWv1HNs5ZSs/7+QBbG9EVcruCl00JPP/7DWKMEE8Tg5+ucOu2vofksMgs5muQs2jBs2g==
-X-Received: by 2002:a5d:4b04:0:b0:2c5:3cfa:f7dc with SMTP id v4-20020a5d4b04000000b002c53cfaf7dcmr20930026wrq.7.1678543165955;
-        Sat, 11 Mar 2023 05:59:25 -0800 (PST)
-Received: from alaa-emad.. ([41.42.191.171])
-        by smtp.gmail.com with ESMTPSA id s9-20020a5d5109000000b002cea8e3bd54sm245257wrt.53.2023.03.11.05.59.23
+        d=1e100.net; s=20210112; t=1678543455;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kYqoBUUyzsIk/ss9ywgxsMkPFqWgNfKL1ixz5F8qfn8=;
+        b=NCBeia08oleEXTTG83HTvKAzZsoFr7H6hGFpBDdnOoeUKpny630IKLRY9zSltTm6mm
+         3h/OKBHorTlYJA05fTSyFBrbSaXEia+X5GOY5Su9eoVVh9i5dgqapeuMRoCLsD/oPfKo
+         KHbKcp8G1xUynC+p++BHxrw2P0mUqvYw1dIU9hT4dF0wgbMTiW/vh8kXKqXmy8eg6QkM
+         IU+HiRk1tHpFbFJPilmH1+pTMELfRl84MzLWdzZSGjmiM4vwUN9fwzN4NfpCdNEkVUs7
+         TOQxAWbAhvlPKI2WOEGkPm0oZWvBb3InVNmLXZgR5xvyJAIJxGkLl+okzwXGFm5nkiUF
+         7XYg==
+X-Gm-Message-State: AO0yUKVE7Z5oKI4lRAUFh9BbL1Q4zTT+vpw5xidoOwoyJQ71xjClPany
+	E/UEZ2xGbIlI2mNTIKrUOzvPqHyam5JJ7Q==
+X-Google-Smtp-Source: AK7set+5gcskv9cOYnEoWY0Belgr0Oa8Cx7t4Z/HyjU8BwbL/Lb8ms/J+2WRyYx9/NfjFQiS/aDMAg==
+X-Received: by 2002:a05:6a20:3d26:b0:cb:c276:5879 with SMTP id y38-20020a056a203d2600b000cbc2765879mr31859030pzi.32.1678543455193;
+        Sat, 11 Mar 2023 06:04:15 -0800 (PST)
+Received: from ubuntu ([117.199.152.23])
+        by smtp.gmail.com with ESMTPSA id c4-20020a62e804000000b005a8de0f4c64sm1545649pfi.82.2023.03.11.06.04.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 05:59:25 -0800 (PST)
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: pure.logic@nexus-software.ie,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.mennamahmoud.mm@gmail.com
-Subject: [PATCH] staging: greybus: eclose macro in a do - while loop
-Date: Sat, 11 Mar 2023 15:59:19 +0200
-Message-Id: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 11 Mar 2023 06:04:14 -0800 (PST)
+Date: Sat, 11 Mar 2023 06:04:09 -0800
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: outreachy@lists.linux.dev, manishc@marvell.com,
+	GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
+	gregkh@linuxfoundation.org, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH] Staging: qlge: Remove parenthesis around single condition
+Message-ID: <20230311140409.GA22831@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-" ERROR: Macros with multiple statements should be enclosed in a do -
-while loop"
+At line #354 checkpatch.pl:
+CHECK: Unnecessary parentheses around 'i == 0x00000114'
+CHECK: Unnecessary parentheses around 'i == 0x00000118'
+CHECK: Unnecessary parenthesis around 'i == 0x00000140'
+CHECK: Unnecessary parentheses around 'i == 0x0000013c'
 
-Reported by checkpath.
-
-do loop with the conditional expression set to a constant
-value of zero (0).This creates a loop that
-will execute exactly one time.This is a coding idiom that
-allows a multi-line macro to be used anywhere
-that a single statement can be used.
-
-So, enclose `gb_loopback_stats_attrs` macro in do - while (0) to
-fix checkpath error
-
-Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 ---
- drivers/staging/greybus/loopback.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/staging/qlge/qlge_dbg.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index 1a61fce98056..e86d50638cb5 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -162,10 +162,12 @@ static ssize_t name##_avg_show(struct device *dev,		\
- }									\
- static DEVICE_ATTR_RO(name##_avg)
- 
--#define gb_loopback_stats_attrs(field)				\
--	gb_loopback_ro_stats_attr(field, min, u);		\
--	gb_loopback_ro_stats_attr(field, max, u);		\
--	gb_loopback_ro_avg_attr(field)
-+#define gb_loopback_stats_attrs(field)					\
-+	do { \
-+		gb_loopback_ro_stats_attr(field, min, u);		\
-+		gb_loopback_ro_stats_attr(field, max, u);		\
-+		gb_loopback_ro_avg_attr(field);				\
-+	} while (0)
- 
- #define gb_loopback_attr(field, type)					\
- static ssize_t field##_show(struct device *dev,				\
+diff --git a/drivers/staging/qlge/qlge_dbg.c b/drivers/staging/qlge/qlge_dbg.c
+index 66d28358342f..b190a2993033 100644
+--- a/drivers/staging/qlge/qlge_dbg.c
++++ b/drivers/staging/qlge/qlge_dbg.c
+@@ -351,10 +351,10 @@ static int qlge_get_xgmac_regs(struct qlge_adapter *qdev, u32 *buf,
+ 		/* We're reading 400 xgmac registers, but we filter out
+ 		 * several locations that are non-responsive to reads.
+ 		 */
+-		if ((i == 0x00000114) ||
+-		    (i == 0x00000118) ||
+-			(i == 0x0000013c) ||
+-			(i == 0x00000140) ||
++		if (i == 0x00000114 ||
++		    i == 0x00000118 ||
++			i == 0x0000013c ||
++			i == 0x00000140 ||
+ 			(i > 0x00000150 && i < 0x000001fc) ||
+ 			(i > 0x00000278 && i < 0x000002a0) ||
+ 			(i > 0x000002c0 && i < 0x000002cf) ||
 -- 
-2.34.1
+2.25.1
 
