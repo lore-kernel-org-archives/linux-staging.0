@@ -1,126 +1,137 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84EF4C62
-	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 19:11:02 +0000 (UTC)
-Received: by mail-il1-f181.google.com with SMTP id h5so881397ile.13
-        for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 11:11:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CEA7B;
+	Sat, 11 Mar 2023 20:35:45 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id r18so8034274wrx.1;
+        Sat, 11 Mar 2023 12:35:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1678561861;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZioCoGuL3YwXw+MF3EM2JL8+qTfBwtfLWGaTl6x5jLQ=;
-        b=RSUbKjognkBRT7p3e1tVQPIGZl9arZtcDYGbJaoXy6BqceesIPes4j93Uv080aXPBu
-         7FQlilSshBPQgh9IjPIHnv7FVhBS9UCO4DpR+0XrBwcAAmh+wKaY0pFNfmUcBeLQYtIx
-         ahWPJlHDFdXuO8DpKxxi918MyEIGsAB6zGRDw=
+        d=gmail.com; s=20210112; t=1678566943;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B9SEaDPKriAiDKyfkIslt2zjnxJG5SwQ9dwP0X6YQpw=;
+        b=P17DKkJxPQ9l1ObzWD8RqtwNAAyx5Jclhvbf4ojZYLSUAqy6tM/Xb0kUCIUhD3eGCw
+         u9kl6JCvWwxH5iWTMz4K0UaUzqMmfb+A7wtdWVP7d9vJnSCx8nqd43IADJsRgcmITOK9
+         tIKibCilEyhns2bFJsilp+KpLRYhIboYUWBPVyd27Wu0pyBBMQ/Q60clpTp8g/CVxo+Y
+         dXcgALHFby7wR0mM7oj8kvSODHZodutjTBxhMYDRyI6zxBdACNEe5JCT+gpuBHg/Iw4i
+         zXHlTnoAtQjDizFQ51DvlYU7+PbhONhzpUuB9hTZfgXVh0klDjMMQi6dN8NTsFKvg5Va
+         LByg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678561861;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZioCoGuL3YwXw+MF3EM2JL8+qTfBwtfLWGaTl6x5jLQ=;
-        b=n7tXVeLdZ71iNxR4BE3VMe7BmCZ9KRP72B4yc+xoDCauI7MSxh1ycM1Qtgu3UsY0Ec
-         p6R8L4hNKq1mUeULfRjqVQyfehYL5mlsUJEeq0pOApjvaKHDyZzrdVqUXZ1XRKs7L/79
-         IFh82TQPQMubVzKPLbW9srCIlDDxw2FKA9Wuc9Nw6Y9fgCwksTnzZANJxABeS8ao3wMt
-         pK3aRivuyTUyBxw22BzMjBTjakT47qojYxyEiE37yig6u65EkpnV5DVLetiMEfOJl/kX
-         A1eW6KduDUV/1RgSmqLB3WVwtaOlocx/OqIfIBVBwphvIjvvDppBlIUeaZYKWmwWSsoz
-         2fdw==
-X-Gm-Message-State: AO0yUKWPJLuGzXru+4enHUB4D5Yh4R/rkPM2UvjcdnsiaydZC2h21aCQ
-	FnZxrUzz9lV/ATB/7cNNJYHISQ==
-X-Google-Smtp-Source: AK7set+hLSi+8GKGLrS7dhry3Tso3uhQ0yeYV59tBjqFsQ6XrMFobp350RtzrBzd6EJJQErg+COZ1A==
-X-Received: by 2002:a92:d305:0:b0:322:fb69:e47f with SMTP id x5-20020a92d305000000b00322fb69e47fmr1071573ila.15.1678561861525;
-        Sat, 11 Mar 2023 11:11:01 -0800 (PST)
-Received: from [172.22.22.4] ([98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id g13-20020a056e020d0d00b0031796c6d735sm1044391ilj.41.2023.03.11.11.11.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Mar 2023 11:11:01 -0800 (PST)
-Message-ID: <e34f96c7-eee0-6dd6-7662-ffbf04034e27@ieee.org>
-Date: Sat, 11 Mar 2023 13:10:59 -0600
+        d=1e100.net; s=20210112; t=1678566943;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B9SEaDPKriAiDKyfkIslt2zjnxJG5SwQ9dwP0X6YQpw=;
+        b=VzzBpoy22AM93ltBPKHPe/ixRv2fnBo9+Zvxwgu6ubd3ChjPji+5Ww1OXtRtwzs1yi
+         i0v95JwX6xrs+pWEdgaQb0Y9AteoxgJweBA8Jrkzk9HtilrD/Um6BfwfTZ+ntVVssVk0
+         ava77WcweCyNsvr7mq29udnUESsAf6U9Hpz1c/n4RZ3A9bdClwOAN6Sg92dPM6BjmIf1
+         3dW8lEfc0STQqZXxhxM0fmxrdNQu2ZZvoZf8XO4SqznA5QU07/JXYMBhFGQA616racvy
+         jm2eeCAvnN9m9jAnVukfMCm21FxFGZ7syGrHisQodA95nxJcahznqPD5EFhbsr8VzLop
+         6d0w==
+X-Gm-Message-State: AO0yUKVkMsl9uWDFUz9PAqMSx+6pC1GyPPAT6Xmcw+DztUqdKUN5rWCs
+	VP83jHucy7GbSxPUOGQa5QM=
+X-Google-Smtp-Source: AK7set99MMxWgK/IQCvaGY4dgmRdox1pfzG2vmBzGe7HwmF6uoQMjL09Ni97QHEGy55MDtsIiuk9ow==
+X-Received: by 2002:adf:edc8:0:b0:2c7:adb:db9 with SMTP id v8-20020adfedc8000000b002c70adb0db9mr18668917wro.63.1678566943294;
+        Sat, 11 Mar 2023 12:35:43 -0800 (PST)
+Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
+        by smtp.gmail.com with ESMTPSA id z17-20020a5d44d1000000b002c5691f13eesm3232321wrr.50.2023.03.11.12.35.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 12:35:42 -0800 (PST)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: error27@gmail.com, Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, manishc@marvell.com, netdev@vger.kernel.org,
+ outreachy@lists.linux.dev
+Subject: Re: [PATCH] Staging: qlge: Remove parenthesis around single condition
+Date: Sat, 11 Mar 2023 21:35:41 +0100
+Message-ID: <1713523.QkHrqEjB74@suse>
+In-Reply-To: <20230311144318.GC14247@ubuntu>
+References: <20230311144318.GC14247@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] staging: greybus: eclose macro in a do - while loop
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>, outreachy@lists.linux.dev
-Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 3/11/23 7:59 AM, Menna Mahmoud wrote:
-> " ERROR: Macros with multiple statements should be enclosed in a do -
-> while loop"
+On sabato 11 marzo 2023 15:43:18 CET Sumitra Sharma wrote:
+> Hi Dan,
 > 
-> Reported by checkpath.
+> Your suggestion for correcting the indentation to
+> "[tab][tab][space][space][space][space](i ==." conflicts with the
+> statement "Outside of comments, documentation and except in Kconfig,
+> spaces are never used for indentation" written in
+> https://elixir.bootlin.com/linux/latest/source/Documentation/process/coding-style.rst
+>
 
-This is also not an issue that should be "fixed."
+I just saw that you use to read .rst files. Attention!
+These are source files from which human readable documentation is made.
 
-If you look at where that macro is expanded, you see
-that its purpose is simply to reduce the possibility
-of some errors by enclosing some much-duplicated code
-in this macro.  The expansion is at the top level of
-the source file, so a "do...while" loop ends up being
-an error.
+They may contain directives which don't show a large part of the content you 
+are interested in, which is only included when you run "make html", "make pdf" 
+and similar commands.
 
-When looking at the output of checkpatch, assume it's
-giving you clues about problems that one *might* like to
-fix.  Its suggestions are most often reasonable, but in
-some cases (like this one) it's just not smart enough
-to recognize the problem that comes from following its
-advice.
+Obviously, I'm talking about something that is _not_ related to your patch or 
+this thread. I'm just concerned that candidates won't be able to find the 
+information they're looking for and thus miss out on important information 
+that Ira and I have asked candidates to study (if they're interested in 
+applying to our project). 
 
-Make sure you understand exactly what happens when
-you make a change.  That means understanding the
-code, and then it means ensuring that the fix passes
-at least a compile test, and if possible an actual
-execution test.
+In any case, the study of a certain number of pages of the Kernel 
+documentation is always necessary, whatever project one wishes to undertake.
 
-					-Alex
+To better understand what I'm talking about, take the Highmem documentation as 
+an example and compare the .rst file and the .html file. You will understand 
+why I am strongly encouraging you and all other applicants not to use 
+elixir.bootlin.com for study.
 
+Please compare the content (or at least the number of sections and lines) of 
+following .rst file at
+
+https://elixir.bootlin.com/linux/v6.3-rc1/source/Documentation/mm/highmem.rst
+
+with the human readable counterpart at 
+
+https://docs.kernel.org/mm/highmem.html
+
+Can you see how many information you may miss by reading an .rst file without 
+any knowledge of its syntax?
+
+Thanks,
+
+Fabio
+
+PS: I don't know why you went to the documentation source files. I see no 
+reason other than the need to work on patches for the source document.
+
+I'd like to invite you to patch the style guide that Dan suggested to you in 
+this same thread.
+
+But I'm not asking you to spend time on that patch during this contribution 
+period because you still have a lot to do before the period expires.
+
+If you want, you could take care of that patch after the contribution period 
+has ended and while you are waiting for the outcome of the selection. If so, 
+study the syntax of the .rst format carefully.
+
+In the "real" kernel (I mean anywhere outside of drivers/staging), you might 
+not always get the custom help of the same kind you can count on here. 
+However, those who intend to go further, regardless of the current project, 
+sooner or later will have to face the world outside :-)
+
+>
+> However, If you still recommend to correct the indentation in the manner
+> "[tab][tab][space][space][space][space](i ==." Should I create a
+> patch for the same?
 > 
-> do loop with the conditional expression set to a constant
-> value of zero (0).This creates a loop that
-> will execute exactly one time.This is a coding idiom that
-> allows a multi-line macro to be used anywhere
-> that a single statement can be used.
+> Regards,
 > 
-> So, enclose `gb_loopback_stats_attrs` macro in do - while (0) to
-> fix checkpath error
-> 
-> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> ---
->   drivers/staging/greybus/loopback.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index 1a61fce98056..e86d50638cb5 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -162,10 +162,12 @@ static ssize_t name##_avg_show(struct device *dev,		\
->   }									\
->   static DEVICE_ATTR_RO(name##_avg)
->   
-> -#define gb_loopback_stats_attrs(field)				\
-> -	gb_loopback_ro_stats_attr(field, min, u);		\
-> -	gb_loopback_ro_stats_attr(field, max, u);		\
-> -	gb_loopback_ro_avg_attr(field)
-> +#define gb_loopback_stats_attrs(field)					\
-> +	do { \
-> +		gb_loopback_ro_stats_attr(field, min, u);		\
-> +		gb_loopback_ro_stats_attr(field, max, u);		\
-> +		gb_loopback_ro_avg_attr(field);				\
-> +	} while (0)
->   
->   #define gb_loopback_attr(field, type)					\
->   static ssize_t field##_show(struct device *dev,				\
+> Sumitra
+
+
+
 
