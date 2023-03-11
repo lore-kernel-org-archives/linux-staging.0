@@ -1,57 +1,58 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680957B
-	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 12:14:07 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so12472138pjg.4
-        for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 04:14:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E067B
+	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 12:14:48 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so12473047pjg.4
+        for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 04:14:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678536847;
+        d=gmail.com; s=20210112; t=1678536888;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XX8RTWxAvabifNZUJPcnMcGrQjU2yF4SQkpqYulWMxQ=;
-        b=eTcWRfPFyNbSMnYem0fedkyahVUensaFgbBczmh4gAsbNrYdqFM3crhFTWlQYM9Rgd
-         Za+fKez1N8bY6M3hzRZMZ7jYF7qpfLIRBYBdy5xVs/Sh3OljHvxh5qjfuUOnDCQOjVxy
-         DJdp+1gygvkkvftRzCqvZMhqkrYnWlbRRLMMAQGT76nrloM17YBnQKcDyvFQ9v6IJhhh
-         NLNg/kLtswDJRykHlhjxg28SrGkGgV06gQ7orDU9lDt3K122b+fNXLa4609AGFGLwPh5
-         KdI6d/SMU08iqZCb/oFGpZC4CdH31zgkzIj4jjXS6CWnx5THXZUvJXY74QAnJM3094QX
-         tDHA==
+        bh=aEwimVpSA5+970dCFAmfCv72yDJ+ahuHEICR9gkyZtA=;
+        b=dr18+cb+NSAMQJXGcNX4s3r4zdp2qSaZFnBlM5A91bznYDjgJCBxIcL+cKdlcWDMwf
+         9zlXTYXf01s0IwpLenABfSJiaJsAiH5oqjCZ2MlbbqQTNfYaY7IHoQ+NRJnIhZOgDfIX
+         XKeNm3ZlVATQJoezLNP7GJ6ceYznLRoyqDe5Ko1mk+aWojCHm4dGVtq/iWZoRoM0jNMN
+         lslERbJZ7O+3NYRAcuPekLtXKPHnsmrrDIFElThunIbtP8HuMWnyYm6VCGkvqzXkTn+Y
+         /TCAxGeilZ0ptLLJ9khavqClDtg16zsvQ4Qma+wOo6JHMzhK+aGRcPnfAHabqSHJDUeg
+         k4wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678536847;
+        d=1e100.net; s=20210112; t=1678536888;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XX8RTWxAvabifNZUJPcnMcGrQjU2yF4SQkpqYulWMxQ=;
-        b=Cua586OVBoooho+N0HkWII3U5b1K1lv4Uf0i6Y2xb6aryhfUrkuubPRH+/xKmVCbNV
-         uUUhWW7r5pXR3qlzbs69KZZFhLayuQCWbcqHxjcRY3+RwOI7vzlTVS7e2eyi+dP47+zg
-         ivjXfIlStMAcYmNyLYpjzrACfzl20NUYOSfDS9F+8HoUo3Sqrp5Algl9/ge9JRHJ3GyJ
-         j/NETollIN88RBo8lrEIj3w60UBBlDB2H6fYi1PvNSmFZM/9dvM3tjIbtud3/Fb/p5MF
-         I/sKc/DIL3hIaFnn69jWDyxUc4JVV0NoW0bFJ68Mn7dPZJghVcPm3RZrJSGYeGoGp/3X
-         Fqsg==
-X-Gm-Message-State: AO0yUKXLmDCBONPxlhj4pO0x7W3ivpxlsABl0J8o+IpnjUGVIVVe/oux
-	XIb6tTdt9EZORV9ka3KcSNk=
-X-Google-Smtp-Source: AK7set8EfJwKgUbIa+rLeBsopuhdW5Hl1fyjiudJ31IVEqixczK8YIpJdslbjgaeE/wEtsw0pPW7rQ==
-X-Received: by 2002:a05:6a20:394c:b0:d0:61ff:8534 with SMTP id r12-20020a056a20394c00b000d061ff8534mr16284913pzg.1.1678536846718;
-        Sat, 11 Mar 2023 04:14:06 -0800 (PST)
+        bh=aEwimVpSA5+970dCFAmfCv72yDJ+ahuHEICR9gkyZtA=;
+        b=2iM1/Kc8KxIrXEUZUmBHxEG8IaEhxn6JlO3aEqDamOH/G4nAXzESo8E3k82BWhuAgg
+         loddvELP3sOSxv7cP/f20i4wyYJVzKjOQtpHYDD36qoTyFBnk7WiNGbk7Pqjs5i4dgIN
+         ZYBsbl77oUX2HJRn84HAhYF1/pSi47mEE/hKf8OVvbIcas0ec1yzQSBAMOwgIbg9L4+M
+         N5KbDQV2N52zOm5NImGzZDk9vROuvZJamH7VsX9l1GzJYxWDNfJOxLCN0e/6il7eni2G
+         t6U14OV/m9jKnJClRqtZ4dW1R/APxWsWXNfPi6nYB681uftwxi9dcUnNxfcGnMpwyedB
+         GH0w==
+X-Gm-Message-State: AO0yUKXc2ELT+z7xget47Hh9tbJk3Ifgtj5awTOgWk2wS94z7KqRzGzy
+	FrlUPtqxnlSqnVlCf6LUtQMFNN3d7DcXiQ==
+X-Google-Smtp-Source: AK7set8A5CAC5xeh54Prq3IdEpmt+ydibThCsjL5sfgOpoW/ePW+I0sP1droRmUn19DvF5INWfB5hw==
+X-Received: by 2002:a17:903:2341:b0:19c:d5c7:e3df with SMTP id c1-20020a170903234100b0019cd5c7e3dfmr33408804plh.8.1678536888068;
+        Sat, 11 Mar 2023 04:14:48 -0800 (PST)
 Received: from craechal ([20.230.228.239])
-        by smtp.gmail.com with ESMTPSA id u20-20020aa78494000000b005d3399efd80sm1363555pfn.136.2023.03.11.04.14.06
+        by smtp.gmail.com with ESMTPSA id 4-20020a17090a174400b00233aeec339fsm1489764pjm.1.2023.03.11.04.14.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 04:14:06 -0800 (PST)
+        Sat, 11 Mar 2023 04:14:47 -0800 (PST)
 Received: by craechal (Postfix, from userid 1000)
-	id A7EBCC62; Sat, 11 Mar 2023 12:14:05 +0000 (UTC)
+	id 2F624C62; Sat, 11 Mar 2023 12:14:47 +0000 (UTC)
 From: Archana <craechal@gmail.com>
 To: gregkh@linuxfoundation.org,
 	drv@mailo.com,
 	linux-staging@lists.linux.dev,
 	error27@gmail.com
 Cc: Archana <craechal@gmail.com>
-Subject: [PATCH v2 1/2] staging: wlan-ng: small cleanup in writeimage()
-Date: Sat, 11 Mar 2023 12:12:52 +0000
-Message-Id: <20230311121253.10225-1-craechal@gmail.com>
+Subject: [PATCH v2 2/2] staging: wlan-ng: small cleanup in plugimage()
+Date: Sat, 11 Mar 2023 12:12:53 +0000
+Message-Id: <20230311121253.10225-2-craechal@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ZAwwRnthlPFta9oL@kroah.com>
+In-Reply-To: <20230311121253.10225-1-craechal@gmail.com>
 References: <ZAwwRnthlPFta9oL@kroah.com>
+ <20230311121253.10225-1-craechal@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,37 +61,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It is cleaner to use "goto free_result;" as is being followed
-in rest of the implementation of writeimage function, and
-remove unnecessary kfree statements.
+It's cleaner to set "j = -1;" before the if block and remove the else
+statement.
 
 Signed-off-by: Archana <craechal@gmail.com>
 ---
 Changes in v2:
   - Make the commit message more clearer.
 
- drivers/staging/wlan-ng/prism2fw.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/wlan-ng/prism2fw.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/prism2fw.c
-index 02a2191d5c4d..98ed9bb9192c 100644
+index 98ed9bb9192c..11658865ca50 100644
 --- a/drivers/staging/wlan-ng/prism2fw.c
 +++ b/drivers/staging/wlan-ng/prism2fw.c
-@@ -1008,12 +1008,11 @@ static int writeimage(struct wlandevice *wlandev, struct imgchunk *fchunk,
- 	rstmsg = kzalloc(sizeof(*rstmsg), GFP_KERNEL);
- 	rwrmsg = kzalloc(sizeof(*rwrmsg), GFP_KERNEL);
- 	if (!rstmsg || !rwrmsg) {
--		kfree(rstmsg);
--		kfree(rwrmsg);
- 		netdev_err(wlandev->netdev,
- 			   "%s: no memory for firmware download, aborting download\n",
- 			   __func__);
--		return -ENOMEM;
-+		result = -ENOMEM;
-+		goto free_result;
- 	}
- 
- 	/* Initialize the messages */
+@@ -689,6 +689,7 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
+ 	for (i = 0; i < ns3plug; i++) {
+ 		pstart = s3plug[i].addr;
+ 		pend = s3plug[i].addr + s3plug[i].len;
++		j = -1;
+ 		/* find the matching PDR (or filename) */
+ 		if (s3plug[i].itemcode != 0xffffffffUL) { /* not filename */
+ 			for (j = 0; j < pda->nrec; j++) {
+@@ -696,8 +697,6 @@ static int plugimage(struct imgchunk *fchunk, unsigned int nfchunks,
+ 				    le16_to_cpu(pda->rec[j]->code))
+ 					break;
+ 			}
+-		} else {
+-			j = -1;
+ 		}
+ 		if (j >= pda->nrec && j != -1) { /*  if no matching PDR, fail */
+ 			pr_warn("warning: Failed to find PDR for plugrec 0x%04x.\n",
 -- 
 2.34.1
 
