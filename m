@@ -1,33 +1,35 @@
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C01D7B;
-	Sat, 11 Mar 2023 14:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8577B;
+	Sat, 11 Mar 2023 14:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=jMouezBBL3soxbH8ICdrUfcoEX4o/23uUVRU1belL5g=;
-  b=GlR/HC9kkXXaCptGLEXGraiUmvEnantMZ+bt+V1FCAVQEXVbs0ztVP1o
-   uJgIqdmw2aE5Njv0KuVAIZsXZqEFSoiMyTyXc1EJaoVo0MmFVmYiNDMlg
-   lKDSVceKin35Lt8rHYta2Idi2pCFAn5NjgNrLidLaWLclhyKpIIDEwHoo
-   s=;
+  bh=70ULOWvNZDhIBg4vnstMVFwRyoxPMpkyu+flXX6WHg8=;
+  b=oBBDl5JEgQh2HilqASq9c6QFzZ0YysFeqdmYczgig5W3R6UZk+6Zu0Tr
+   VgTqQA6sy6p65pYgatxx5IhD9i7X0X73v/b+trvXrOHAgCHlSb+2fLZCl
+   3qhwIlkFS4Xk+qQbpqF5rusMXFbzjYj/NOrzNCNzeccJK0yxsw+Bz95jX
+   g=;
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
-   d="scan'208";a="96649449"
+   d="scan'208";a="96649566"
 Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 15:36:01 +0100
-Date: Sat, 11 Mar 2023 15:36:01 +0100 (CET)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 15:38:59 +0100
+Date: Sat, 11 Mar 2023 15:38:59 +0100 (CET)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
 To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-cc: outreachy@lists.linux.dev, pure.logic@nexus-software.ie, johan@kernel.org, 
-    elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
+cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev, 
+    vireshk@kernel.org, johan@kernel.org, elder@kernel.org, 
+    gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
     linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: eclose macro in a do - while loop
-In-Reply-To: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2303111532220.2802@hadrien>
-References: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com>
+Subject: Re: [PATCH 1/2] staging: greybus: Fix Alignment with parenthesis
+In-Reply-To: <27dfe880-35f7-cbc1-cf8b-7bbd7f1c7301@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2303111537430.2802@hadrien>
+References: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com> <alpine.DEB.2.22.394.2303110958250.2802@hadrien> <71211670-60f9-11f4-1ee7-f94d4d9df4fb@gmail.com> <alpine.DEB.2.22.394.2303111354490.2802@hadrien>
+ <61dab579-f10b-5538-8b61-ebe73ae5b4f1@gmail.com> <27dfe880-35f7-cbc1-cf8b-7bbd7f1c7301@gmail.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -35,71 +37,104 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/mixed; boundary="8323329-72012524-1678545539=:2802"
 
-Menna,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-There is a typo in the subject line.
+--8323329-72012524-1678545539=:2802
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+
 
 On Sat, 11 Mar 2023, Menna Mahmoud wrote:
 
-> " ERROR: Macros with multiple statements should be enclosed in a do -
-> while loop"
 >
-> Reported by checkpath.
+> On ١١/٣/٢٠٢٣ ١٤:٥٧, Menna Mahmoud wrote:
+> >
+> > On ١١/٣/٢٠٢٣ ١٤:٥٥, Julia Lawall wrote:
+> > >
+> > > On Sat, 11 Mar 2023, Menna Mahmoud wrote:
+> > >
+> > > > On ١١/٣/٢٠٢٣ ١٠:٥٩, Julia Lawall wrote:
+> > > > > On Fri, 10 Mar 2023, Menna Mahmoud wrote:
+> > > > >
+> > > > > > Fix " CHECK: Alignment should match open parenthesis "
+> > > > > > Reported by checkpath
+> > > > > See the message in the other mail about the log message.
+> > > > >
+> > > > > Also, you should not have two patches with the same subject.  Here,
+> > > > > the
+> > > > > changes are on the same file and are essentially the same, even
+> > > > > involving
+> > > > > the same function call.  So they can be together in one patch.
+> > > > >
+> > > > > julia
+> > > > okay, I will. appreciate your feedback. thanks.
+> > > Please put some blank lines around your response, so it is easier to find.
+> > >
+> > > thanks,
+> > > julia
+> >
+> >
+> > Okay, I will.
+> >
+> > thanks,
+> >
+> > Menna
 >
-> do loop with the conditional expression set to a constant
-> value of zero (0).This creates a loop that
-> will execute exactly one time.This is a coding idiom that
-> allows a multi-line macro to be used anywhere
-> that a single statement can be used.
 >
-> So, enclose `gb_loopback_stats_attrs` macro in do - while (0) to
-> fix checkpath error
+>
+> Hi Julia,
+>
+> according to Alex feedback
+>
+> " I think this type of alignment is not a major problem,
+> and alignment isn't done this way in general in this
+> driver, it's probably OK to keep it that way. - Alex "
+>
+>
+> ,I won't resubmit these patches, right?
 
-The log message should focus on what is done and why.  The checkpatch
-warning text and the fact that the problem was detected using checkpatch
-is useful, but less, so it should come last, not first.
-
-Here, what is done is to enclose a sequence of statements in a macro
-definition in a do-while loop with a test expression 0.
-
-The reason why is to make it safe to use the sequence anywhere a single
-statement can be used.
-
-A period at the end of a sentence should be followed by some whitespace
-before starting the next sentence.
+The existing code indeed looks better to me.  So you can skip this issue.
 
 julia
 
-> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> ---
->  drivers/staging/greybus/loopback.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index 1a61fce98056..e86d50638cb5 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -162,10 +162,12 @@ static ssize_t name##_avg_show(struct device *dev,		\
->  }									\
->  static DEVICE_ATTR_RO(name##_avg)
->
-> -#define gb_loopback_stats_attrs(field)				\
-> -	gb_loopback_ro_stats_attr(field, min, u);		\
-> -	gb_loopback_ro_stats_attr(field, max, u);		\
-> -	gb_loopback_ro_avg_attr(field)
-> +#define gb_loopback_stats_attrs(field)					\
-> +	do { \
-> +		gb_loopback_ro_stats_attr(field, min, u);		\
-> +		gb_loopback_ro_stats_attr(field, max, u);		\
-> +		gb_loopback_ro_avg_attr(field);				\
-> +	} while (0)
->
->  #define gb_loopback_attr(field, type)					\
->  static ssize_t field##_show(struct device *dev,				\
-> --
-> 2.34.1
+
 >
 >
+>  -Menna
 >
+>
+> >
+> >
+> > > > > > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+> > > > > > ---
+> > > > > >    drivers/staging/greybus/fw-core.c | 2 +-
+> > > > > >    1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/drivers/staging/greybus/fw-core.c
+> > > > > > b/drivers/staging/greybus/fw-core.c
+> > > > > > index 57bebf24636b..f562cb12d5ad 100644
+> > > > > > --- a/drivers/staging/greybus/fw-core.c
+> > > > > > +++ b/drivers/staging/greybus/fw-core.c
+> > > > > > @@ -89,7 +89,7 @@ static int gb_fw_core_probe(struct gb_bundle
+> > > > > > *bundle,
+> > > > > >                }
+> > > > > >
+> > > > > >                connection = gb_connection_create(bundle, cport_id,
+> > > > > > -                        gb_fw_mgmt_request_handler);
+> > > > > > +
+> > > > > > gb_fw_mgmt_request_handler);
+> > > > > >                if (IS_ERR(connection)) {
+> > > > > >                    ret = PTR_ERR(connection);
+> > > > > >                    dev_err(&bundle->dev,
+> > > > > > --
+> > > > > > 2.34.1
+> > > > > >
+> > > > > >
+> > > > > >
+> > > >
+>
+--8323329-72012524-1678545539=:2802--
