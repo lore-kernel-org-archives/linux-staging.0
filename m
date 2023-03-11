@@ -1,25 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AE77B;
-	Sat, 11 Mar 2023 12:26:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02895C433EF;
-	Sat, 11 Mar 2023 12:26:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD617B;
+	Sat, 11 Mar 2023 12:31:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFDCC433D2;
+	Sat, 11 Mar 2023 12:31:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1678537601;
-	bh=9YpHoplazewHr1nZXu365XUjLxsDneDUTbn5yRvSytw=;
+	s=korg; t=1678537900;
+	bh=C1v9FkUHgXoYcA4yxukKYLrevBXZQGYDW7QFKTnMK4w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BYJq0EIKX3uSEZkC2fdRfFBZuMvdQYIhMVW1L7SQPCSGDShMEEQxqbFN4MXDSVl2E
-	 YsEvkbTuX0whYqqU+BAFKoTbKVcxCWNwGtaD9mrC1knfI905PPJTsxiJlAJ1OTX9ig
-	 s1r+vfvOinxaFdGzr9nRGY7XepH44URSvrR0CJGM=
-Date: Sat, 11 Mar 2023 13:26:38 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
+	b=UOiE9wU+iihACt6MQMjXpS8xMRdJuYNk5fm5alFEH6v4GkAcsmUtxgBms8qgxVKQq
+	 0/gGSaLsQvTzPAR8zTWWPXcF19n9+fJyY/2A33/KdOv0pTkc2zSh8gju+l2xkePsPr
+	 Art/PGMV3gWOgNTdigfvbOT+mxc9NJuvDAKu4+7g=
+Date: Sat, 11 Mar 2023 13:31:32 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
 Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: axis-fifo: remove tabs to align arguments
-Message-ID: <ZAxzfiOoW0SfW5qD@kroah.com>
-References: <ZAxsyX8n7G92nlJh@khadija-virtual-machine>
+Subject: Re: [PATCH] Staging: pi433: Change bit_rate type from u16 to u32
+Message-ID: <ZAx0pN4Xza/mWq4O@kroah.com>
+References: <20230311122346.GA21752@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,61 +28,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZAxsyX8n7G92nlJh@khadija-virtual-machine>
+In-Reply-To: <20230311122346.GA21752@ubuntu>
 
-On Sat, Mar 11, 2023 at 04:58:01PM +0500, Khadija Kamran wrote:
-> In file drivers/staging/axis-fifo/axis-fifo.c, in line 386 and 529, the
-> last argument is indented as if it were an argument of the second
-> argument. Remove tabs to align the arguments.
+On Sat, Mar 11, 2023 at 04:23:46AM -0800, Sumitra Sharma wrote:
+> Change bit_rate type from u16 to u32 inside struct pi433_tx_cfg to
+> support bit rates up to 300kbps as per the spec.
 > 
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 > ---
-> Changes in v3:
->  - Do not align the line 530 since it is not part of the last argument.
+>  drivers/staging/pi433/pi433_if.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  drivers/staging/axis-fifo/axis-fifo.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
+> index 25ee0b77a32c..1f8ffaf02d99 100644
+> --- a/drivers/staging/pi433/pi433_if.h
+> +++ b/drivers/staging/pi433/pi433_if.h
+> @@ -51,7 +51,7 @@ enum option_on_off {
+>  #define PI433_TX_CFG_IOCTL_NR	0
+>  struct pi433_tx_cfg {
+>  	__u32			frequency;
+> -	__u16			bit_rate;
+> +	__u32			bit_rate;
+>  	__u32			dev_frequency;
+>  	enum modulation		modulation;
+>  	enum mod_shaping	mod_shaping;
+> -- 
+> 2.25.1
 > 
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> index dfd2b357f484..b119cec25a60 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -384,9 +384,9 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
->  		mutex_lock(&fifo->read_lock);
->  		ret = wait_event_interruptible_timeout(fifo->read_queue,
->  			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-> -				 (read_timeout >= 0) ?
-> -				  msecs_to_jiffies(read_timeout) :
-> -				  MAX_SCHEDULE_TIMEOUT);
-> +			(read_timeout >= 0) ?
-> +			msecs_to_jiffies(read_timeout) :
-> +			MAX_SCHEDULE_TIMEOUT);
+> 
 
-People have been trying to "polish" this mess for a long time, and I
-think it's better to step back and see what is really needed here.
+Hi,
 
-There is a module parameter, read_timeout, that can only be set at
-loading time.  As it can only be modified once, why are we doing an if
-statement each and every time it is read from?
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Instead, in the module probe function, how about doing something like:
-	if (read_timeout >= 0)
-		read_timeout = msecs_to_jiffies(read_timeout);
-	else
-		read_timeout = MAX_SCHEDULE_TIMEOUT;
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-and then only ever use "read_timeout" here in the
-wait_event_interruptiable() call?  That should simplify this much more
-overall, and hopefully allow us to just get rid of the module parameter
-eventually as that's not how drivers should be working at all anymore.
+- You sent a patch that has been sent multiple times in the past few
+  days, and is identical to ones that has been recently rejected.
+  Please always look at the mailing list traffic to determine if you are
+  duplicating other people's work.
 
-Same goes for write_timeout.
-
-Overall the code should be much simpler and easier to understand, which
-is the end goal here.
-
-Can you try doing that instead?
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
