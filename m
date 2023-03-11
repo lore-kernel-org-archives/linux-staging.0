@@ -1,140 +1,74 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8577B;
-	Sat, 11 Mar 2023 14:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A317B;
+	Sat, 11 Mar 2023 14:43:24 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id k2so632325pll.8;
+        Sat, 11 Mar 2023 06:43:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=70ULOWvNZDhIBg4vnstMVFwRyoxPMpkyu+flXX6WHg8=;
-  b=oBBDl5JEgQh2HilqASq9c6QFzZ0YysFeqdmYczgig5W3R6UZk+6Zu0Tr
-   VgTqQA6sy6p65pYgatxx5IhD9i7X0X73v/b+trvXrOHAgCHlSb+2fLZCl
-   3qhwIlkFS4Xk+qQbpqF5rusMXFbzjYj/NOrzNCNzeccJK0yxsw+Bz95jX
-   g=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
-   d="scan'208";a="96649566"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 15:38:59 +0100
-Date: Sat, 11 Mar 2023 15:38:59 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev, 
-    vireshk@kernel.org, johan@kernel.org, elder@kernel.org, 
-    gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: greybus: Fix Alignment with parenthesis
-In-Reply-To: <27dfe880-35f7-cbc1-cf8b-7bbd7f1c7301@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2303111537430.2802@hadrien>
-References: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com> <alpine.DEB.2.22.394.2303110958250.2802@hadrien> <71211670-60f9-11f4-1ee7-f94d4d9df4fb@gmail.com> <alpine.DEB.2.22.394.2303111354490.2802@hadrien>
- <61dab579-f10b-5538-8b61-ebe73ae5b4f1@gmail.com> <27dfe880-35f7-cbc1-cf8b-7bbd7f1c7301@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112; t=1678545804;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nXM/UF5GgRup6jMt6h+LtaT6QVXEZj0KXMptbShshHE=;
+        b=E40t+zgvZHCVKrNiHeVevkeIBFXt6i7FUBglkpE3LbyP3kQToKv7UGIlA0fuw90AQJ
+         Z8ycKySARL3yraVxMwdcrGohyv+D1Vt/bPJq0T3Sfrmrk+QWdH+dDZITKpMEwjOZa+wG
+         mZWtYUIgt7VHJ5f/L62Xm7U6EFsfDEKuVVHJV7xbeT8khQbVk2oMAKdJn+if+2miRKi/
+         jqy+jyJNQmmCMN2JL2lXP+hZyunW2Jc905Lt9PHRu9C8JSMOsao+S3OCy9Yur62cnaYC
+         jmf6s7bFbd8xkQmSx8rXPaMDV2nFOHElzrqddd+TzXf2KB17sYKZcezQXYl7FH4HvYLj
+         6I9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678545804;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nXM/UF5GgRup6jMt6h+LtaT6QVXEZj0KXMptbShshHE=;
+        b=pigI6Yk1RtPylHorQPHKKWkXOOTLUKEcaXUUAvsQ5jT3ARoYkbMsLMCan595noSxsE
+         vbJ5+t5ts9SIapFTZCcYVnUAvhXvjybIqgYs9KXUwkLS4T+J79dBS7LsyuqWlCVby8yC
+         9ILJXIlHIbWWPH80CwaENtJ495D4EMie+hzCMpKq8nHTs3dqxuJ+CrBBRmcyKNNQg0kW
+         muhGSetgvnep898+cuGbd/eUDP3jcvjDt2wbE4+IuV9bnHoNjeFvxLxv08tMO4Qvakbk
+         0mbbEmKuE9//oURS0B7AEW4pc0cq2EUnrfQhqc6Of02X6BcGvWcNka/VxuVd1/LH4zrQ
+         SoLw==
+X-Gm-Message-State: AO0yUKWAMho376CkXCemOW8lAC5+3fxNHYWFhQ78KJb8RlOmz6oEnwKQ
+	DItodfllXp8ZDKYVceOMeEXop2ctYFngdQ==
+X-Google-Smtp-Source: AK7set9voO5GMcwrRcvfHrGLQVHExBuHPtdo+Kpw/RjvPtE8MU6m/kk4cyI3ss5Oyeea+j2xYefQdA==
+X-Received: by 2002:a17:902:da91:b0:19c:d7a9:8bf0 with SMTP id j17-20020a170902da9100b0019cd7a98bf0mr6351397plx.10.1678545804050;
+        Sat, 11 Mar 2023 06:43:24 -0800 (PST)
+Received: from ubuntu ([117.199.152.23])
+        by smtp.gmail.com with ESMTPSA id ld5-20020a170902fac500b0019f3095ae28sm727554plb.157.2023.03.11.06.43.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 06:43:23 -0800 (PST)
+Date: Sat, 11 Mar 2023 06:43:18 -0800
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: error27@gmail.com
+Cc: GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, manishc@marvell.com,
+	netdev@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] Staging: qlge: Remove parenthesis around single condition
+Message-ID: <20230311144318.GC14247@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-72012524-1678545539=:2802"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e4caf380-bac5-4df3-bb98-529f5703a410@kili.mountain>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Dan,
 
---8323329-72012524-1678545539=:2802
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Your suggestion for correcting the indentation to
+"[tab][tab][space][space][space][space](i ==." conflicts with the 
+statement "Outside of comments, documentation and except in Kconfig, 
+spaces are never used for indentation" written in 
+https://elixir.bootlin.com/linux/latest/source/Documentation/process/coding-style.rst
 
+However, If you still recommend to correct the indentation in the manner
+"[tab][tab][space][space][space][space](i ==." Should I create a
+patch for the same? 
 
+Regards,
 
-On Sat, 11 Mar 2023, Menna Mahmoud wrote:
+Sumitra
 
->
-> On ١١/٣/٢٠٢٣ ١٤:٥٧, Menna Mahmoud wrote:
-> >
-> > On ١١/٣/٢٠٢٣ ١٤:٥٥, Julia Lawall wrote:
-> > >
-> > > On Sat, 11 Mar 2023, Menna Mahmoud wrote:
-> > >
-> > > > On ١١/٣/٢٠٢٣ ١٠:٥٩, Julia Lawall wrote:
-> > > > > On Fri, 10 Mar 2023, Menna Mahmoud wrote:
-> > > > >
-> > > > > > Fix " CHECK: Alignment should match open parenthesis "
-> > > > > > Reported by checkpath
-> > > > > See the message in the other mail about the log message.
-> > > > >
-> > > > > Also, you should not have two patches with the same subject.  Here,
-> > > > > the
-> > > > > changes are on the same file and are essentially the same, even
-> > > > > involving
-> > > > > the same function call.  So they can be together in one patch.
-> > > > >
-> > > > > julia
-> > > > okay, I will. appreciate your feedback. thanks.
-> > > Please put some blank lines around your response, so it is easier to find.
-> > >
-> > > thanks,
-> > > julia
-> >
-> >
-> > Okay, I will.
-> >
-> > thanks,
-> >
-> > Menna
->
->
->
-> Hi Julia,
->
-> according to Alex feedback
->
-> " I think this type of alignment is not a major problem,
-> and alignment isn't done this way in general in this
-> driver, it's probably OK to keep it that way. - Alex "
->
->
-> ,I won't resubmit these patches, right?
-
-The existing code indeed looks better to me.  So you can skip this issue.
-
-julia
-
-
->
->
->  -Menna
->
->
-> >
-> >
-> > > > > > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> > > > > > ---
-> > > > > >    drivers/staging/greybus/fw-core.c | 2 +-
-> > > > > >    1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/drivers/staging/greybus/fw-core.c
-> > > > > > b/drivers/staging/greybus/fw-core.c
-> > > > > > index 57bebf24636b..f562cb12d5ad 100644
-> > > > > > --- a/drivers/staging/greybus/fw-core.c
-> > > > > > +++ b/drivers/staging/greybus/fw-core.c
-> > > > > > @@ -89,7 +89,7 @@ static int gb_fw_core_probe(struct gb_bundle
-> > > > > > *bundle,
-> > > > > >                }
-> > > > > >
-> > > > > >                connection = gb_connection_create(bundle, cport_id,
-> > > > > > -                        gb_fw_mgmt_request_handler);
-> > > > > > +
-> > > > > > gb_fw_mgmt_request_handler);
-> > > > > >                if (IS_ERR(connection)) {
-> > > > > >                    ret = PTR_ERR(connection);
-> > > > > >                    dev_err(&bundle->dev,
-> > > > > > --
-> > > > > > 2.34.1
-> > > > > >
-> > > > > >
-> > > > > >
-> > > >
->
---8323329-72012524-1678545539=:2802--
