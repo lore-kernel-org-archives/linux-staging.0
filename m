@@ -1,81 +1,100 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8385A7B
-	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 12:45:55 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so89844pjb.0
-        for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 04:45:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1037B;
+	Sat, 11 Mar 2023 12:50:44 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id l7-20020a05600c4f0700b003e79fa98ce1so5098744wmq.2;
+        Sat, 11 Mar 2023 04:50:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678538755;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3j8ks3vfE8OUvi8OJ7FLwinz41gLFvcGI1tfcUxOy4E=;
-        b=lmWcqQKa0ad0CCJUGL9rhXfmg/81IpEczMZFU1UycuOfdX4PNDi62lKfZt62x2lyHB
-         WuLhF9/9Yu5uwnQm+SMV63Xoxk+kcPWekJtMPUbU61AIOz1UFI3QjI8mMRk3pJBu2T1x
-         dUp+4SfWMslzJj9tZwNIj27K2sk4NQv2oyEe0m7n2tIkuoaZ91PVOKuxTnX23BfUndn4
-         85bDU9m3GN9fmDj2eYvs5/aBi6801t4LcxBN8zRzTnkBZ74WPANEiaKki1Cf8okvPvxe
-         iYbId3xLr9JwI7O1HZTHVgqzmoluYawsIytkYyMDFfxZ0ABaQnqVHGRsmygkT13YWcB3
-         PrYQ==
+        d=gmail.com; s=20210112; t=1678539043;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F2VdX4B2dld6wqCG5ZYqlFsLHmtCsviZq3SzvbHDBPs=;
+        b=ZfYzmvLpq056KSe0wR6z4s3lzk4PhtaVkXSEToFZYVD2Yj760N7KNPhkJgqfv4m18L
+         Xu0lAVTfbJt35TthbdG6zWvBUT5p1F1EzO7WsYmS7TgHvZmtKjjKkHVT2dw4u45+92ej
+         Gm9RjAkkPRK6RtlDqgr/MOxUB+0lWAyWyRwS3yy7n+l5dpxSe2ODI3XF2q1PV4Agab26
+         UWcALghrZIYngj6OKxgNp7l4+fN0Dm0douW7eN//mOY6KOHwQPwH9l5dhKU9ndfsK/Ha
+         +5whzgXkAUaI49XXG+Xl1f4OwCZ2LQMylEkpDCM+VIHoF+ebqcsBvWV5dFqcGV0ttOZC
+         yi7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678538755;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3j8ks3vfE8OUvi8OJ7FLwinz41gLFvcGI1tfcUxOy4E=;
-        b=D49Lm+LOUWh75yclE+WzBgLKDzpaS9ZQpWwt5u/cfE6j7DnbuRsZopXxS49z/22LaS
-         uUWB8PLRH+0B3hAgfXviMtWskjEUrBWvBxNMh4lnaT2pRvIdmy/y2DT7y/AZPB5N3VI7
-         1z2+NK7KgDtVpfisanzFgrb66xTdxqD8knDP9W3PJXi1NDsNHjnZwXJMX1eXmm5oo45+
-         jg/dUrDHu/7TBRe2zTVC8OXidQUOYxR7t0nUu0kFxDQZLOu7tdsZXhL4EGA19kUzgYaF
-         slVRJNV9kMQNM5y50RrTZmTmIw3Wwjkv/VnLGnIPTOsqoxXbp5sEoqq3LzgzNMCS3Tyz
-         3csg==
-X-Gm-Message-State: AO0yUKXDn5E3OymRe8ETjlcwyLBOrOlgYf6qr3ygPSZo0ozqXBElnGPD
-	c/vk0dKk0l5s/5UG7XaBh3k=
-X-Google-Smtp-Source: AK7set+3PeDUSpK86x45ZkUxPLSFDHcEP/kMjVEmc5mwZozYZ0js3RSVo2/iNiWGEREq1XDc6MdVxQ==
-X-Received: by 2002:a17:903:18a:b0:19c:df6e:6aec with SMTP id z10-20020a170903018a00b0019cdf6e6aecmr5295158plg.7.1678538754964;
-        Sat, 11 Mar 2023 04:45:54 -0800 (PST)
-Received: from gmail.com ([20.230.228.239])
-        by smtp.gmail.com with ESMTPSA id s19-20020a170902989300b0019e76a99cdbsm1482291plp.243.2023.03.11.04.45.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 04:45:54 -0800 (PST)
-Date: Sat, 11 Mar 2023 12:45:52 +0000
-From: Archana <craechal@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>, drv@mailo.com,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] staging: wlan-ng: remove else statement
-Message-ID: <ZAx4AB5DC9Ok5Pdu@gmail.com>
-References: <20230310205917.2161-1-craechal@gmail.com>
- <20230310205917.2161-2-craechal@gmail.com>
- <a4096cdc-97d1-4265-8ce4-b8021ecf5933@kili.mountain>
- <14be11a8-722c-4520-9e1b-5b147bb3d3fc@kili.mountain>
- <ZAwwRnthlPFta9oL@kroah.com>
+        d=1e100.net; s=20210112; t=1678539043;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F2VdX4B2dld6wqCG5ZYqlFsLHmtCsviZq3SzvbHDBPs=;
+        b=Q12SMVo7PwL6e5aB+3B1TxHj9aIvn5PQwfb7EK1N4pmJi99ZOnTWAE37lW1WaUkrPr
+         xiZ5u1SDf/ighSdECnltyIvajMtdCwRizz2FPAHs7rDtekryKBPl9ibu3zs0tOPgEWEG
+         EtHEpc8MvsjG4bi+bB8JhnXVhDVENaSH7UgjZ5iJJmE+agaJXADwS8pULqOMQh5mO5pV
+         FVB0FzcDsDHXgvNH8q0TyR1faNDwvmpNpcGFSnkrUV1WoUZRzlxE8Xe2TKlSY4eZdDXb
+         tir2yzsBa8GqD1F01XiFbG9fVMAENbV7aJphYf6qq5tAC61n1kN0B6qUZN7SDIrVLCLs
+         UfsA==
+X-Gm-Message-State: AO0yUKVCb+FoyfsI2m0O0Jz+1Inx7OPD7VV2BIXezy0H/yFzAooqOVC3
+	1Kgl3wpPKe/dbJ7Qy9rvwKpw7rwWCSNlnQ==
+X-Google-Smtp-Source: AK7set+DiHVrKM3fDR7GG4dpN6xZ67nadAC84Vqy3UVBeouj5FR1ozUtQTmdo+/DFkAKzt4C0RHmhQ==
+X-Received: by 2002:a05:600c:5009:b0:3eb:39c9:ecb0 with SMTP id n9-20020a05600c500900b003eb39c9ecb0mr5630622wmr.8.1678539042876;
+        Sat, 11 Mar 2023 04:50:42 -0800 (PST)
+Received: from [192.168.1.16] ([41.42.191.171])
+        by smtp.gmail.com with ESMTPSA id d21-20020a1c7315000000b003dc521f336esm2771887wmb.14.2023.03.11.04.50.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Mar 2023 04:50:42 -0800 (PST)
+Message-ID: <7590a38f-4be2-b237-71db-6b5bc620d9de@gmail.com>
+Date: Sat, 11 Mar 2023 14:50:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZAwwRnthlPFta9oL@kroah.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 2/2] staging: greybus: Fix Alignment with parenthesis
+Content-Language: en-US
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev, vireshk@kernel.org, johan@kernel.org,
+ elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
+ <ccd27442c1ad9a33b0b7564176fa68f7b153fa20.1678462486.git.eng.mennamahmoud.mm@gmail.com>
+ <alpine.DEB.2.22.394.2303110956591.2802@hadrien>
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+In-Reply-To: <alpine.DEB.2.22.394.2303110956591.2802@hadrien>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 11, 2023 at 08:39:50AM +0100, Greg KH wrote:
-> On Sat, Mar 11, 2023 at 07:58:51AM +0300, Dan Carpenter wrote:
-> > On Sat, Mar 11, 2023 at 07:34:25AM +0300, Dan Carpenter wrote:
-> > > On Fri, Mar 10, 2023 at 08:59:17PM +0000, Archana wrote:
-> > > > else block is not needed if j is set to -1
-> > > > before if block
-> > > > 
-> > > > Signed-off-by: Archana <craechal@gmail.com>
-> > > > ---
-> > > 
-> > > Is Archana your full legal name that you would write on a legal document?
 
-Yes, Archana is my full legal name.
-
-Thank you for your feedbacks.
-
-I have sent revised patch.
-
-Regards,
-Archana
+On ١١‏/٣‏/٢٠٢٣ ١٠:٥٧, Julia Lawall wrote:
+>
+> On Fri, 10 Mar 2023, Menna Mahmoud wrote:
+>
+>> Fix " CHECK: Alignment should match open parenthesis "
+>> Reported by checkpath
+> The log message could be better, to explain what you have done and why.
+> The word "fix" doesn't express any of that, and should be avoided if
+> possible.
+>
+> julia
+got it, thank you
+>> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+>> ---
+>>   drivers/staging/greybus/fw-core.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/greybus/fw-core.c
+>> index f562cb12d5ad..0fb15a60412f 100644
+>> --- a/drivers/staging/greybus/fw-core.c
+>> +++ b/drivers/staging/greybus/fw-core.c
+>> @@ -110,7 +110,7 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
+>>   			}
+>>
+>>   			connection = gb_connection_create(bundle, cport_id,
+>> -						gb_fw_download_request_handler);
+>> +							  gb_fw_download_request_handler);
+>>   			if (IS_ERR(connection)) {
+>>   				dev_err(&bundle->dev, "failed to create download connection (%ld)\n",
+>>   					PTR_ERR(connection));
+>> --
+>> 2.34.1
+>>
+>>
+>>
