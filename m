@@ -1,78 +1,90 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC637B;
-	Sat, 11 Mar 2023 08:59:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46627B;
+	Sat, 11 Mar 2023 09:21:23 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id g3so7158618wri.6;
+        Sat, 11 Mar 2023 01:21:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=9vMClXHgKKDUNctqNLx3NLcZgB2P32JxxIQV8C/UNS8=;
-  b=iKizZpBCciyOswxjQCZxfB8Fg3AKqwit5zC0L8H3hrJD2vvJA9bMOrZB
-   GyNsU9pPkU4Wo9x6SmQl0MIOpcRFpe+qCwqFZzLCX9fv3jOkoc98feXbr
-   d8pXcH/wlQrPsR+7ThFRv0TZeHRl3IQmGn0opO5je4vyDDW89OAMXqlN4
-   4=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
-   d="scan'208";a="96628191"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 09:59:34 +0100
-Date: Sat, 11 Mar 2023 09:59:34 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-cc: outreachy@lists.linux.dev, vireshk@kernel.org, johan@kernel.org, 
-    elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: greybus: Fix Alignment with parenthesis
-In-Reply-To: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2303110958250.2802@hadrien>
-References: <b6521b9a75a4088d621246b436c7ec5d35365690.1678462486.git.eng.mennamahmoud.mm@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112; t=1678526482;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1UEFJUf/50XPFbZEbBNrHNelwsNaADqXuPbC30RmvYQ=;
+        b=g/ZsSoibFZdSKaHfzXOViB3vtB61x6tuHDtI9yXxIdNkrPofn4FGnLgiHOybo8L0sy
+         mceXXWdzVsgBjjNs8ben4OHGwaF5xMgctEC1JA0MAhRA7345mHy2CzGZNWzLBaoft9yi
+         nYhUI+dAFek2sLzyDv56pfweGsN7Bvbgk13oxUqMiijhEJ1+IqpF7XKkIAhjkPdGHo3R
+         rk77YIk3/t7IXwOEsB12xD04NIzuQ1aRrTWhPVNNyAapShlSUThLMigGNhhcthij/ddL
+         aoy8QniqhC/cQm9/aAcORfuTzv/y8JHA0LpAJjCQeW8nOmnSz+7+aih/YddoqfrQQBE6
+         Mmjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678526482;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1UEFJUf/50XPFbZEbBNrHNelwsNaADqXuPbC30RmvYQ=;
+        b=UJW/z2iDaU9KJES9S7DH/8TPG5adgv+YGiuYA+3khRu33LokaFiRtPOHHLJqDO/Nae
+         Txlt3S8oVEfb1MOSZoVnQCWOl6QjR9Sa5ZbwkDit2wvuoGWqGQl17zJr4fot18MjrWVz
+         QWUEcNd36Y8VP3eHFN6O6R29qGpdfwZwIshVbrXs6j2I0XIVQGXA6K1jpw6RuBZDwFen
+         2EqR2DgZDHPWx+QyhiaiIApdf4MfotBMTSwS+GPi8ymsb6HIxVFSrG5jqNAfom4x86rR
+         Hr3KrIdXokD1vCMFQX6oY4UBH30F8goTY09/iYXiSqyHtXAowajyl7QTkX1fty3jruxD
+         IRdw==
+X-Gm-Message-State: AO0yUKWB06+4gMzj2hSc1tnIfqLw7oWJZIIsxni0ZuzHn2hztthwJDX7
+	IaFxm7Mm70Ig7HmTxEzQds0=
+X-Google-Smtp-Source: AK7set+t2FM614grpTygcTYixhja40uodoYHqbuI6lhG5n5TuBSgKsfYCR87cgp1yI6dgos0nf7FJg==
+X-Received: by 2002:a5d:5447:0:b0:2c7:a55:bef2 with SMTP id w7-20020a5d5447000000b002c70a55bef2mr15780331wrv.46.1678526481777;
+        Sat, 11 Mar 2023 01:21:21 -0800 (PST)
+Received: from khadija-virtual-machine ([39.41.45.115])
+        by smtp.gmail.com with ESMTPSA id a14-20020adffb8e000000b002c561805a4csm1974358wrr.45.2023.03.11.01.21.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 01:21:21 -0800 (PST)
+Date: Sat, 11 Mar 2023 14:21:18 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: alignment should match opening
+ parenthesis in axis-fifo.c
+Message-ID: <ZAxIDlfL/+n4Pkyo@khadija-virtual-machine>
+References: <ZAZSmPpB6fcozGa4@khadija-virtual-machine>
+ <alpine.DEB.2.22.394.2303062202500.3050@hadrien>
+ <CACcTnM5GR0ZM5WBaL+BDEK_0QJGr6h2t4tnsnjerHta_nq6Tmg@mail.gmail.com>
+ <ab0fd80-22c-d982-2f4-6fa5f43f858@inria.fr>
+ <CACcTnM4OHFiGrEez6dMzd4jO4YuQZzqpUK86UBMzhd+nFDWezA@mail.gmail.com>
+ <e06f57e6-2a3a-7fde-742d-9d5dd8dd49b0@inria.fr>
+ <ZAtUVBbyMw7ine2e@khadija-virtual-machine>
+ <alpine.DEB.2.22.394.2303110954590.2802@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2303110954590.2802@hadrien>
 
+On Sat, Mar 11, 2023 at 09:56:06AM +0100, Julia Lawall wrote:
+> 
+> 
+> On Fri, 10 Mar 2023, Khadija Kamran wrote:
+> 
+> > On Tue, Mar 07, 2023 at 09:13:49AM +0100, Julia Lawall wrote:
+> > > There are actually two similar issues in axis-fifo.c.  You could fix them
+> > > both at once.
+> >
+> > Hey Julia!
+> > I have a question. Should I send the two fixes as a patchset of two
+> > patches, and should I send it as [PATCH v2]?
+> > Thank you.
+> 
+> The two issues in axis-fifo.c are very similar.  They could be in a single
+> patch.  And that patch could be the v2 of your previous patch.  Just note
+> that you have fixed another instance of the same problem in the message
+> under the ---.
+> 
+> julia
 
-
-On Fri, 10 Mar 2023, Menna Mahmoud wrote:
-
-> Fix " CHECK: Alignment should match open parenthesis "
-> Reported by checkpath
-
-See the message in the other mail about the log message.
-
-Also, you should not have two patches with the same subject.  Here, the
-changes are on the same file and are essentially the same, even involving
-the same function call.  So they can be together in one patch.
-
-julia
-
->
-> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> ---
->  drivers/staging/greybus/fw-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/greybus/fw-core.c b/drivers/staging/greybus/fw-core.c
-> index 57bebf24636b..f562cb12d5ad 100644
-> --- a/drivers/staging/greybus/fw-core.c
-> +++ b/drivers/staging/greybus/fw-core.c
-> @@ -89,7 +89,7 @@ static int gb_fw_core_probe(struct gb_bundle *bundle,
->  			}
->
->  			connection = gb_connection_create(bundle, cport_id,
-> -						gb_fw_mgmt_request_handler);
-> +							  gb_fw_mgmt_request_handler);
->  			if (IS_ERR(connection)) {
->  				ret = PTR_ERR(connection);
->  				dev_err(&bundle->dev,
-> --
-> 2.34.1
->
->
->
+Thank you Julia!
+I am sorry about sending another patch before this one got fixed. I
+misundertood and wrongly assumed that someone else had fixed it already.
+Sorry about the confusion.
