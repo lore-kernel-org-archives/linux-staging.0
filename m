@@ -1,50 +1,54 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831D77B;
-	Sat, 11 Mar 2023 12:39:34 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id j2so7395384wrh.9;
-        Sat, 11 Mar 2023 04:39:34 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8385A7B
+	for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 12:45:55 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id fy10-20020a17090b020a00b0023b4bcf0727so89844pjb.0
+        for <linux-staging@lists.linux.dev>; Sat, 11 Mar 2023 04:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678538373;
+        d=gmail.com; s=20210112; t=1678538755;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=X5ymF9kHOMLefiz12Rv98z0NE1tYU6jJ7RUypvP5at8=;
-        b=hzC9H8UxblqYsyDYYldUy71UHauWYeyuts9a8n4EThQhv5UC9NU8Qtz1oiLRy+sDRZ
-         4g0KEk59TObxpk+ZRf1jhAzazA/X7abc6oRFbwdrzGOGqsBNpJdutw8wk1KWe0hSV8DT
-         Em6unX0jZwpsjdmZ8dxCbxs6iP+jORwrXGGjD7UfJwO5mHcqYLTyda8Ti/lpntuXFKxj
-         j4iUNJD5B8pcE6li8tnjuoHBJ5SFaF1UK7GTVhNQiVqczODwq/lYP+PbdTjRzLoi1Dpb
-         W/4zNed8Z0io9MZXrtwgb3gk+3u3eGEw+Zgl43xamtofMx79BeqHxKQ2krIwalSLdrFN
-         74dg==
+        bh=3j8ks3vfE8OUvi8OJ7FLwinz41gLFvcGI1tfcUxOy4E=;
+        b=lmWcqQKa0ad0CCJUGL9rhXfmg/81IpEczMZFU1UycuOfdX4PNDi62lKfZt62x2lyHB
+         WuLhF9/9Yu5uwnQm+SMV63Xoxk+kcPWekJtMPUbU61AIOz1UFI3QjI8mMRk3pJBu2T1x
+         dUp+4SfWMslzJj9tZwNIj27K2sk4NQv2oyEe0m7n2tIkuoaZ91PVOKuxTnX23BfUndn4
+         85bDU9m3GN9fmDj2eYvs5/aBi6801t4LcxBN8zRzTnkBZ74WPANEiaKki1Cf8okvPvxe
+         iYbId3xLr9JwI7O1HZTHVgqzmoluYawsIytkYyMDFfxZ0ABaQnqVHGRsmygkT13YWcB3
+         PrYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678538373;
+        d=1e100.net; s=20210112; t=1678538755;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X5ymF9kHOMLefiz12Rv98z0NE1tYU6jJ7RUypvP5at8=;
-        b=o/FQOkQfwxAPPgmLqC7E9xGy3+sVgdK+TTkUycFA06Ch3KW0d3CwLHzhOLgduCIZcV
-         4lP4N/zGg9TbbfMiB/owtciIMd5tHoEg5tA9/MSeJIHHq3CowCJgZq4GcEeg0ZXmWu01
-         fquT9/BeLKOkLlCgO4Yr4RLOTP/diFNVchEuqGH2ukZUvm+pEGlNz1LZyFlbOuhsVCHc
-         RcX5CZcKcd7HDuSe13elml4np/CTa8kWvGm2JMxRtGhWHhMCxYxKeNKZVkLPKn7zFx8D
-         BOY5t5HuRXVbsb8xWXYZcI7H2s4NtN2Ywy/I7NbJVKTnMsKJJ39E2Js8ON9TTJfhiEbO
-         DErg==
-X-Gm-Message-State: AO0yUKUu1NYY75e2USOn+zU5vlhpgeNYfqZiI2cyfymWvhWViw22xBLa
-	l7xHDcueDAHQazOE06UvFPHg0xoQA85GGpsi
-X-Google-Smtp-Source: AK7set95Bp+Ah6AoER0cNsasdr8Hl3ZBhIu0SL0nSrVtjCEuu7Dd8p4QxUaM3MdHn2HgezDdd9QawA==
-X-Received: by 2002:a5d:4a51:0:b0:2c7:778:5da6 with SMTP id v17-20020a5d4a51000000b002c707785da6mr18782112wrs.42.1678538372768;
-        Sat, 11 Mar 2023 04:39:32 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s6-20020a5d6a86000000b002c3f03d8851sm2448270wru.16.2023.03.11.04.39.30
+        bh=3j8ks3vfE8OUvi8OJ7FLwinz41gLFvcGI1tfcUxOy4E=;
+        b=D49Lm+LOUWh75yclE+WzBgLKDzpaS9ZQpWwt5u/cfE6j7DnbuRsZopXxS49z/22LaS
+         uUWB8PLRH+0B3hAgfXviMtWskjEUrBWvBxNMh4lnaT2pRvIdmy/y2DT7y/AZPB5N3VI7
+         1z2+NK7KgDtVpfisanzFgrb66xTdxqD8knDP9W3PJXi1NDsNHjnZwXJMX1eXmm5oo45+
+         jg/dUrDHu/7TBRe2zTVC8OXidQUOYxR7t0nUu0kFxDQZLOu7tdsZXhL4EGA19kUzgYaF
+         slVRJNV9kMQNM5y50RrTZmTmIw3Wwjkv/VnLGnIPTOsqoxXbp5sEoqq3LzgzNMCS3Tyz
+         3csg==
+X-Gm-Message-State: AO0yUKXDn5E3OymRe8ETjlcwyLBOrOlgYf6qr3ygPSZo0ozqXBElnGPD
+	c/vk0dKk0l5s/5UG7XaBh3k=
+X-Google-Smtp-Source: AK7set+3PeDUSpK86x45ZkUxPLSFDHcEP/kMjVEmc5mwZozYZ0js3RSVo2/iNiWGEREq1XDc6MdVxQ==
+X-Received: by 2002:a17:903:18a:b0:19c:df6e:6aec with SMTP id z10-20020a170903018a00b0019cdf6e6aecmr5295158plg.7.1678538754964;
+        Sat, 11 Mar 2023 04:45:54 -0800 (PST)
+Received: from gmail.com ([20.230.228.239])
+        by smtp.gmail.com with ESMTPSA id s19-20020a170902989300b0019e76a99cdbsm1482291plp.243.2023.03.11.04.45.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 04:39:32 -0800 (PST)
-Date: Sat, 11 Mar 2023 15:39:28 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Sumitra Sharma <sumitraartsy@gmail.com>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: pi433: Change bit_rate type from u16 to u32
-Message-ID: <b9d62635-b968-4dfd-aa10-e34e38a114a5@kili.mountain>
-References: <20230311122346.GA21752@ubuntu>
+        Sat, 11 Mar 2023 04:45:54 -0800 (PST)
+Date: Sat, 11 Mar 2023 12:45:52 +0000
+From: Archana <craechal@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <error27@gmail.com>, drv@mailo.com,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] staging: wlan-ng: remove else statement
+Message-ID: <ZAx4AB5DC9Ok5Pdu@gmail.com>
+References: <20230310205917.2161-1-craechal@gmail.com>
+ <20230310205917.2161-2-craechal@gmail.com>
+ <a4096cdc-97d1-4265-8ce4-b8021ecf5933@kili.mountain>
+ <14be11a8-722c-4520-9e1b-5b147bb3d3fc@kili.mountain>
+ <ZAwwRnthlPFta9oL@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,19 +57,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230311122346.GA21752@ubuntu>
+In-Reply-To: <ZAwwRnthlPFta9oL@kroah.com>
 
-On Sat, Mar 11, 2023 at 04:23:46AM -0800, Sumitra Sharma wrote:
-> Change bit_rate type from u16 to u32 inside struct pi433_tx_cfg to
-> support bit rates up to 300kbps as per the spec.
-> 
-> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
-> ---
+On Sat, Mar 11, 2023 at 08:39:50AM +0100, Greg KH wrote:
+> On Sat, Mar 11, 2023 at 07:58:51AM +0300, Dan Carpenter wrote:
+> > On Sat, Mar 11, 2023 at 07:34:25AM +0300, Dan Carpenter wrote:
+> > > On Fri, Mar 10, 2023 at 08:59:17PM +0000, Archana wrote:
+> > > > else block is not needed if j is set to -1
+> > > > before if block
+> > > > 
+> > > > Signed-off-by: Archana <craechal@gmail.com>
+> > > > ---
+> > > 
+> > > Is Archana your full legal name that you would write on a legal document?
 
-That's not right.  Read this for more information:
+Yes, Archana is my full legal name.
 
-https://lore.kernel.org/all/?q=pi433_tx_cfg%20bit_rate
+Thank you for your feedbacks.
 
-regards,
-dan carpenter
+I have sent revised patch.
 
+Regards,
+Archana
