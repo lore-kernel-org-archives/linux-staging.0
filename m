@@ -1,62 +1,51 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AFA7B;
-	Sat, 11 Mar 2023 11:59:10 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id ce7so5156034pfb.9;
-        Sat, 11 Mar 2023 03:59:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4313C7B;
+	Sat, 11 Mar 2023 12:12:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678535950;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2iWle2iP7O3ZzMcsGe+0E5W+ig5LC5QHh8IHUW1H3Jc=;
-        b=XlAACvVsh8o0oJq5MC2Ui8zZZ9sLrvE9lEyiOnJnU22GkXitISIwo4Rhe2WwY/ztw+
-         kermuC0CyNlbXy1ByYHBlOIZVYJzaMl+cgDPXwmcisYLyE4ej/HPD73djVeBRFiMMFWQ
-         pvzcetLGvvx28D0NLwdBvqRD5rb58H7lJNIrAp39f6vSNGzbvBi4qPBT6nfrBdYE+TH3
-         ULtYK2/bU2Yh6lY+o46pVbphvR0cmSuroHMU82q+mFBywbOELsnsiUPFFmoiGg39oA+0
-         GTRL/zkEo2wXZbWOUjTI+4MRAcj/EN7wD7oWCvm62OSVjT2F5Tfx/Gh/eIVSRu/qYK8K
-         QpCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678535950;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2iWle2iP7O3ZzMcsGe+0E5W+ig5LC5QHh8IHUW1H3Jc=;
-        b=yrVGtK9zUV1mhjCgTxhbrXeFRQtiyLp4ck5Dq+9K/5Rw6sjdavy2cvKuNISzjarsmA
-         07ExuqOW8VDZe0njON4jNxLMRRkm08hD6dUdcHewk2Qm/iNtIO1w10Vb/njALYzuKeMT
-         OkMxv9Jn3YCQcB/NA7vlEPvG3P1jJHlOezLK3Dlx1gaiXtF0UCvpn6r6o1l2pXuOmotK
-         Mv+MoEqtBz0rY+XWpSFwJRoXMlxSaGbNQ7DhqGdG33P+3JOkRwujwAdABwbXDGRJA9xm
-         /pd+g6tPq1SEo1yoTstalUd40aL6y4WlR483JeHl0U4+JmMx+i47/ziF9ho2pz2aWSS1
-         /d3A==
-X-Gm-Message-State: AO0yUKVp/sMqB+AQ0LxRCdzwmkGdD9z/PaRdCkqWMWcHaI8Az8cmD4X9
-	7sLzoDQwxi0BJY6kiS98qdscoPm2eT3oEw==
-X-Google-Smtp-Source: AK7set/aSX0gDnhBk8gzrT+67aejJXVNC+B/+C1QwsR6NmE9hSRqQUCsm58FQKBalM4nzbI7zbA+9Q==
-X-Received: by 2002:a62:8458:0:b0:622:feed:c36d with SMTP id k85-20020a628458000000b00622feedc36dmr241718pfd.31.1678535950266;
-        Sat, 11 Mar 2023 03:59:10 -0800 (PST)
-Received: from ubuntu ([117.199.152.23])
-        by smtp.gmail.com with ESMTPSA id j22-20020a632316000000b00508e7bd761fsm921101pgj.87.2023.03.11.03.59.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 03:59:09 -0800 (PST)
-Date: Sat, 11 Mar 2023 03:59:04 -0800
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: julia.lawall@inria.fr, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=32bL0mYWtM+3ID3jj1jtKti6IGliY5pwZ9oi3Yv3bSQ=;
+  b=RACmxyM+m4LMNfuXauexo38mZw9CPTu2TuJ1RO7FaihRjR1x53sT5Lgy
+   aX5YF7817W8EeYnuimglODVoziAYUnTWIaCRnrFztT4EQFSSa1mlvLstN
+   Xmsi7I/PVDip/RasaQ4mQbN7j8bjstb/mTn97KmAHuEOd0586vLNQYhQx
+   c=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,252,1673910000"; 
+   d="scan'208";a="96640125"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 13:12:28 +0100
+Date: Sat, 11 Mar 2023 13:12:28 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+cc: outreachy@lists.linux.dev, julia.lawall@inria.fr, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Staging: pi433: Change bit_rate type from u16 to u32
-Message-ID: <20230311115904.GA21529@ubuntu>
+In-Reply-To: <20230311115904.GA21529@ubuntu>
+Message-ID: <alpine.DEB.2.22.394.2303111312070.2802@hadrien>
+References: <20230311115904.GA21529@ubuntu>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2303111249470.2802@hadrien>
-
-Hi julia,
-
-I forgot to Cc the maintainers of the code of the above patch. I have Cc
-in this mail. Do let me know if there is a need of recreating the patch.
+Content-Type: text/plain; charset=US-ASCII
 
 
+
+On Sat, 11 Mar 2023, Sumitra Sharma wrote:
+
+> Hi julia,
+>
+> I forgot to Cc the maintainers of the code of the above patch. I have Cc
+> in this mail. Do let me know if there is a need of recreating the patch.
+
+You need to send the patch to all of the relevant people/mailing lists.
+
+julia
