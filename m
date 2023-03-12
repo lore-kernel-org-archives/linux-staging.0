@@ -1,140 +1,285 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564CF468A;
-	Sun, 12 Mar 2023 14:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=OHbediLC+v3sB2oFfyvI7wEyP9TeOQGxdPxK8a2esRg=;
-  b=UCDM2s/qi9A3S/EQxRny/aR1glDkkQdIkSliYzHRtk+/o8aM05R3qtRL
-   tqMPhsMDehpn2+3djcRR5JX2mP3EpwkIPcVkkDEgWulkn9WpqParYaiCh
-   fzmyzq86h6rY+rvIR+ldcCQBANuUJ4a2UNTlHWxpU3mAE6yOz7HxiICP1
-   s=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,254,1673910000"; 
-   d="scan'208";a="49927824"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2023 15:25:37 +0100
-Date: Sun, 12 Mar 2023 15:25:37 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-cc: Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev, 
-    lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
-    gregkh@linuxfoundation.org, linux-iio@vger.kernel.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: meter: enclose Macros with complex values
- in parentheses
-In-Reply-To: <174e4d14-8b3e-67f7-d901-bd77b054f7c3@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2303121525270.2865@hadrien>
-References: <20230312133347.120944-1-eng.mennamahmoud.mm@gmail.com> <alpine.DEB.2.22.394.2303121507450.2865@hadrien> <174e4d14-8b3e-67f7-d901-bd77b054f7c3@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E4D2F37
+	for <linux-staging@lists.linux.dev>; Sun, 12 Mar 2023 14:49:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E54A4C433EF;
+	Sun, 12 Mar 2023 14:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1678632564;
+	bh=6YJ6cvkJ5xWO1cgzrT+bExN3B0TW5zJoLw4RKLfHXoU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=mUAMrES+WtZdPLxuXea8aRlP1cja48utorYKa/tdMZ6WZF3qWFkP+xbALVbXsTwal
+	 wv1/nAVKc5SsQv4Rks1hIgXb557mdDmn6whdnOPmFxjS8LwKxfK68HojTIOXDsshz0
+	 lvAiMquG74uymc1rzIty7aQIdz0+6MqeJ/NxrElI=
+Date: Sun, 12 Mar 2023 15:49:21 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes and removal for 6.3-rc2
+Message-ID: <ZA3mcVDC3sMrgTxE@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1402912152-1678631138=:2865"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
 
---8323329-1402912152-1678631138=:2865
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+  Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
 
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.3-rc2
 
-On Sun, 12 Mar 2023, Menna Mahmoud wrote:
+for you to fetch changes up to fdf6c2309f425509cddd002f278c650ad0b7e34b:
 
->
-> On ١٢/٣/٢٠٢٣ ١٦:١٢, Julia Lawall wrote:
-> >
-> > On Sun, 12 Mar 2023, Menna Mahmoud wrote:
-> >
-> > > enclose Macros with complex values in parentheses is especially useful
-> > > in making macro definitions “safe” (so that they
-> > > evaluate each operand exactly once).
-> > enclose -> Enclose, and Macros -> macros
-> >
-> > I don't understand the above comment though.  How does adding parentheses
-> > around the body of a macro cause the operands to be evaluated only once?
-> > And the macros that you have changed don't have any operands.
-> >
-> > The value of adding parentheses is normally to ensure that the body of the
-> > macro doesn't interact with the context in a weird way.  For example, you
-> > could have
-> >
-> > #define ADD 3 + 4
-> >
-> > Then if you use your macro as 6 * ADD, you will end up evaluating
-> > 6 * 3 + 4, ie 18 + 4, when you might have expected 6 * 7.  The issue is
-> > that * has higher precedence than +.
->
->
-> yes, I mean that but i couldn't explain it well, thanks for your feedback.
->
->
-> >
-> > But I don't think that such a problem can arise with a cast expression, so
-> > parentheses around it should not be necessary.
->
->
-> So, no need for this patch?
+  staging: r8188eu: delete driver (2023-03-09 10:06:28 +0100)
 
-No, I don't think so.
+----------------------------------------------------------------
+Staging driver fixes and removal for 6.3-rc2
 
-julia
+Here are 4 small staging driver fixes, and one big staging driver
+deletion for 6.3-rc2.
 
->
->
-> > > this error reported by chechpatch.pl
-> > this error is reported by checkpatch.
-> >
-> > > "ERROR: Macros with complex values should be enclosed in parentheses"
-> > >
-> > > for ADE7854_SPI_SLOW, ADE7854_SPI_BURST and ADE7854_SPI_FAST
-> > > macros and this error fixed by enclose these macros in parentheses.
-> > The last two lines aren't needed.  One can easily see that from looking at
-> > the patch.
->
->
-> Got it, Thank you.
->
-> Menna
->
-> > julia
-> >
-> > > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-> > > ---
-> > >   drivers/staging/iio/meter/ade7854.h | 6 +++---
-> > >   1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/iio/meter/ade7854.h
-> > > b/drivers/staging/iio/meter/ade7854.h
-> > > index 7a49f8f1016f..41eeedef569b 100644
-> > > --- a/drivers/staging/iio/meter/ade7854.h
-> > > +++ b/drivers/staging/iio/meter/ade7854.h
-> > > @@ -139,9 +139,9 @@
-> > >   #define ADE7854_MAX_RX    7
-> > >   #define ADE7854_STARTUP_DELAY 1000
-> > >
-> > > -#define ADE7854_SPI_SLOW	(u32)(300 * 1000)
-> > > -#define ADE7854_SPI_BURST	(u32)(1000 * 1000)
-> > > -#define ADE7854_SPI_FAST	(u32)(2000 * 1000)
-> > > +#define ADE7854_SPI_SLOW	((u32)(300 * 1000))
-> > > +#define ADE7854_SPI_BURST	((u32)(1000 * 1000))
-> > > +#define ADE7854_SPI_FAST	((u32)(2000 * 1000))
-> > >
-> > >   /**
-> > >    * struct ade7854_state - device instance specific data
-> > > --
-> > > 2.34.1
-> > >
-> > >
-> > >
->
---8323329-1402912152-1678631138=:2865--
+The fixes are:
+  - rtl8192e driver fixes for where the driver was attempting to execute
+    various programs directly from the disk for unknown reasons
+  - rtl8723bs driver fixes for issues found by Hans in testing
+
+The deleted driver is the removal of the r8188eu wireless driver as now
+in 6.3-rc1 we have a "real" wifi driver for one that includes support
+for many many more devices than this old driver did.  So it's time to
+remove it as it is no longer needed.  The maintainers of this driver all
+have acked its removal.  Many thanks to them over the years for working
+to clean it up and keep it working while the real driver was being
+developed.
+
+All of these have been in linux-next this week with no reported
+problems.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Greg Kroah-Hartman (1):
+      staging: r8188eu: delete driver
+
+Hans de Goede (2):
+      staging: rtl8723bs: Fix key-store index handling
+      staging: rtl8723bs: Pass correct parameters to cfg80211_get_bss()
+
+Philipp Hortmann (2):
+      staging: rtl8192e: Remove function ..dm_check_ac_dc_power calling a script
+      staging: rtl8192e: Remove call_usermodehelper starting RadioPower.sh
+
+ MAINTAINERS                                        |    7 -
+ drivers/staging/Kconfig                            |    2 -
+ drivers/staging/Makefile                           |    1 -
+ drivers/staging/r8188eu/Kconfig                    |   16 -
+ drivers/staging/r8188eu/Makefile                   |   48 -
+ drivers/staging/r8188eu/TODO                       |   16 -
+ drivers/staging/r8188eu/core/rtw_ap.c              | 1181 ---
+ drivers/staging/r8188eu/core/rtw_br_ext.c          |  658 --
+ drivers/staging/r8188eu/core/rtw_cmd.c             | 1529 ----
+ drivers/staging/r8188eu/core/rtw_efuse.c           |   74 -
+ drivers/staging/r8188eu/core/rtw_fw.c              |  335 -
+ drivers/staging/r8188eu/core/rtw_ieee80211.c       | 1150 ---
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c       |  479 --
+ drivers/staging/r8188eu/core/rtw_iol.c             |  160 -
+ drivers/staging/r8188eu/core/rtw_led.c             |  255 -
+ drivers/staging/r8188eu/core/rtw_mlme.c            | 2067 ------
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c        | 7817 --------------------
+ drivers/staging/r8188eu/core/rtw_p2p.c             | 1918 -----
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c         |  445 --
+ drivers/staging/r8188eu/core/rtw_recv.c            | 2010 -----
+ drivers/staging/r8188eu/core/rtw_rf.c              |   29 -
+ drivers/staging/r8188eu/core/rtw_security.c        | 1374 ----
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c         |  490 --
+ drivers/staging/r8188eu/core/rtw_wlan_util.c       | 1551 ----
+ drivers/staging/r8188eu/core/rtw_xmit.c            | 2179 ------
+ drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c |  654 --
+ drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c     |  733 --
+ drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c    |  212 -
+ drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c     |  269 -
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c       |  900 ---
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c         |  149 -
+ drivers/staging/r8188eu/hal/hal_com.c              |  139 -
+ drivers/staging/r8188eu/hal/hal_intf.c             |   50 -
+ drivers/staging/r8188eu/hal/odm.c                  |  821 --
+ drivers/staging/r8188eu/hal/odm_HWConfig.c         |  349 -
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c         |  264 -
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c         |  694 --
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c          |  146 -
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c    |  922 ---
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c      |  705 --
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c      |  405 -
+ drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c      |  161 -
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c       |  627 --
+ drivers/staging/r8188eu/hal/usb_halinit.c          | 1069 ---
+ drivers/staging/r8188eu/hal/usb_ops_linux.c        |  476 --
+ drivers/staging/r8188eu/include/Hal8188EPhyCfg.h   |   97 -
+ drivers/staging/r8188eu/include/Hal8188EPhyReg.h   | 1072 ---
+ .../staging/r8188eu/include/Hal8188ERateAdaptive.h |   49 -
+ drivers/staging/r8188eu/include/HalHWImg8188E_BB.h |   27 -
+ .../staging/r8188eu/include/HalHWImg8188E_MAC.h    |   12 -
+ drivers/staging/r8188eu/include/HalHWImg8188E_RF.h |   13 -
+ drivers/staging/r8188eu/include/HalPhyRf_8188e.h   |   36 -
+ drivers/staging/r8188eu/include/HalPwrSeqCmd.h     |   18 -
+ drivers/staging/r8188eu/include/HalVerDef.h        |   42 -
+ drivers/staging/r8188eu/include/drv_types.h        |  224 -
+ drivers/staging/r8188eu/include/hal_com.h          |  146 -
+ drivers/staging/r8188eu/include/hal_intf.h         |   44 -
+ drivers/staging/r8188eu/include/ieee80211.h        |  817 --
+ drivers/staging/r8188eu/include/odm.h              |  416 --
+ drivers/staging/r8188eu/include/odm_HWConfig.h     |   69 -
+ drivers/staging/r8188eu/include/odm_RTL8188E.h     |   35 -
+ drivers/staging/r8188eu/include/odm_RegDefine11N.h |   47 -
+ drivers/staging/r8188eu/include/osdep_intf.h       |   30 -
+ drivers/staging/r8188eu/include/osdep_service.h    |  153 -
+ drivers/staging/r8188eu/include/rtl8188e_cmd.h     |   90 -
+ drivers/staging/r8188eu/include/rtl8188e_dm.h      |   28 -
+ drivers/staging/r8188eu/include/rtl8188e_hal.h     |  181 -
+ drivers/staging/r8188eu/include/rtl8188e_recv.h    |   40 -
+ drivers/staging/r8188eu/include/rtl8188e_rf.h      |   18 -
+ drivers/staging/r8188eu/include/rtl8188e_spec.h    | 1142 ---
+ drivers/staging/r8188eu/include/rtl8188e_xmit.h    |  130 -
+ drivers/staging/r8188eu/include/rtw_ap.h           |   34 -
+ drivers/staging/r8188eu/include/rtw_br_ext.h       |   43 -
+ drivers/staging/r8188eu/include/rtw_cmd.h          |  925 ---
+ drivers/staging/r8188eu/include/rtw_eeprom.h       |   15 -
+ drivers/staging/r8188eu/include/rtw_efuse.h        |   11 -
+ drivers/staging/r8188eu/include/rtw_event.h        |   97 -
+ drivers/staging/r8188eu/include/rtw_fw.h           |   17 -
+ drivers/staging/r8188eu/include/rtw_ht.h           |   28 -
+ drivers/staging/r8188eu/include/rtw_io.h           |   33 -
+ drivers/staging/r8188eu/include/rtw_ioctl.h        |   13 -
+ drivers/staging/r8188eu/include/rtw_ioctl_set.h    |   25 -
+ drivers/staging/r8188eu/include/rtw_iol.h          |   55 -
+ drivers/staging/r8188eu/include/rtw_led.h          |   57 -
+ drivers/staging/r8188eu/include/rtw_mlme.h         |  574 --
+ drivers/staging/r8188eu/include/rtw_mlme_ext.h     |  753 --
+ drivers/staging/r8188eu/include/rtw_p2p.h          |  118 -
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h      |  111 -
+ drivers/staging/r8188eu/include/rtw_recv.h         |  347 -
+ drivers/staging/r8188eu/include/rtw_rf.h           |   80 -
+ drivers/staging/r8188eu/include/rtw_security.h     |  231 -
+ drivers/staging/r8188eu/include/rtw_xmit.h         |  334 -
+ drivers/staging/r8188eu/include/sta_info.h         |  313 -
+ drivers/staging/r8188eu/include/usb_ops.h          |   57 -
+ drivers/staging/r8188eu/include/usb_osintf.h       |   21 -
+ drivers/staging/r8188eu/include/wifi.h             |  773 --
+ drivers/staging/r8188eu/include/wlan_bssdef.h      |  272 -
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c       | 3775 ----------
+ drivers/staging/r8188eu/os_dep/os_intfs.c          |  807 --
+ drivers/staging/r8188eu/os_dep/osdep_service.c     |  227 -
+ drivers/staging/r8188eu/os_dep/usb_intf.c          |  445 --
+ drivers/staging/r8188eu/os_dep/usb_ops_linux.c     |  136 -
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c         |   35 -
+ drivers/staging/rtl8723bs/include/rtw_security.h   |    8 +-
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c  |   32 +-
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c     |   33 +-
+ 106 files changed, 39 insertions(+), 51308 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/Kconfig
+ delete mode 100644 drivers/staging/r8188eu/Makefile
+ delete mode 100644 drivers/staging/r8188eu/TODO
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_ap.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_br_ext.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_cmd.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_efuse.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_fw.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_ieee80211.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_ioctl_set.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_iol.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_led.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_mlme.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_mlme_ext.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_p2p.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_pwrctrl.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_recv.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_rf.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_security.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_sta_mgt.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_wlan_util.c
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_xmit.c
+ delete mode 100644 drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
+ delete mode 100644 drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
+ delete mode 100644 drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
+ delete mode 100644 drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+ delete mode 100644 drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+ delete mode 100644 drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+ delete mode 100644 drivers/staging/r8188eu/hal/hal_com.c
+ delete mode 100644 drivers/staging/r8188eu/hal/hal_intf.c
+ delete mode 100644 drivers/staging/r8188eu/hal/odm.c
+ delete mode 100644 drivers/staging/r8188eu/hal/odm_HWConfig.c
+ delete mode 100644 drivers/staging/r8188eu/hal/odm_RTL8188E.c
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_dm.c
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+ delete mode 100644 drivers/staging/r8188eu/hal/usb_halinit.c
+ delete mode 100644 drivers/staging/r8188eu/hal/usb_ops_linux.c
+ delete mode 100644 drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+ delete mode 100644 drivers/staging/r8188eu/include/Hal8188EPhyReg.h
+ delete mode 100644 drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
+ delete mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_BB.h
+ delete mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_MAC.h
+ delete mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_RF.h
+ delete mode 100644 drivers/staging/r8188eu/include/HalPhyRf_8188e.h
+ delete mode 100644 drivers/staging/r8188eu/include/HalPwrSeqCmd.h
+ delete mode 100644 drivers/staging/r8188eu/include/HalVerDef.h
+ delete mode 100644 drivers/staging/r8188eu/include/drv_types.h
+ delete mode 100644 drivers/staging/r8188eu/include/hal_com.h
+ delete mode 100644 drivers/staging/r8188eu/include/hal_intf.h
+ delete mode 100644 drivers/staging/r8188eu/include/ieee80211.h
+ delete mode 100644 drivers/staging/r8188eu/include/odm.h
+ delete mode 100644 drivers/staging/r8188eu/include/odm_HWConfig.h
+ delete mode 100644 drivers/staging/r8188eu/include/odm_RTL8188E.h
+ delete mode 100644 drivers/staging/r8188eu/include/odm_RegDefine11N.h
+ delete mode 100644 drivers/staging/r8188eu/include/osdep_intf.h
+ delete mode 100644 drivers/staging/r8188eu/include/osdep_service.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_cmd.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_dm.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_hal.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_recv.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_rf.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_spec.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_xmit.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_ap.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_br_ext.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_cmd.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_eeprom.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_efuse.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_event.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_fw.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_ht.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_io.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_ioctl.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_ioctl_set.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_iol.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_led.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_mlme.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_mlme_ext.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_p2p.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_pwrctrl.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_recv.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_rf.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_security.h
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_xmit.h
+ delete mode 100644 drivers/staging/r8188eu/include/sta_info.h
+ delete mode 100644 drivers/staging/r8188eu/include/usb_ops.h
+ delete mode 100644 drivers/staging/r8188eu/include/usb_osintf.h
+ delete mode 100644 drivers/staging/r8188eu/include/wifi.h
+ delete mode 100644 drivers/staging/r8188eu/include/wlan_bssdef.h
+ delete mode 100644 drivers/staging/r8188eu/os_dep/ioctl_linux.c
+ delete mode 100644 drivers/staging/r8188eu/os_dep/os_intfs.c
+ delete mode 100644 drivers/staging/r8188eu/os_dep/osdep_service.c
+ delete mode 100644 drivers/staging/r8188eu/os_dep/usb_intf.c
+ delete mode 100644 drivers/staging/r8188eu/os_dep/usb_ops_linux.c
