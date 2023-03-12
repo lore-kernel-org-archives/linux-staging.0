@@ -1,98 +1,162 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2171FC5;
-	Sun, 12 Mar 2023 13:34:00 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id p4so2815211wre.11;
-        Sun, 12 Mar 2023 06:34:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678628038;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eiPifvN1XyvobUmqZyfiK5INxKhDqGlZtgkMioL3vMo=;
-        b=GD6j0vNGy5Lk6teLi7snFXICeRLvcvAeHQgKz0wMKKq51ZXiBSetiG1myusJCpWqVe
-         MCbUrIEUent2OpbRaxrwkbESipcSRMf0O54/mi2vOxROjfEbdnMdZhOiWn3RvMY7H1s8
-         RmkgPL6SsjyEdNMajkghtLSIz5+I1ObSj5m/cfnSaLwlT3Lvqej8N0secVKSpfU1Ei4V
-         /jJM9HTgGarrtGxNwo1RWQgHcnB+qkeJXQhQ6z6h+MxUtyVICwYD9VTZPrw5SoNFt+Js
-         zIjJ0qTAykb4W5c0GPQS/MKs17RVVFfND2owpMimAUJMdQdNFmhVZ9PXrEwBX9hLn2eq
-         zpqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678628038;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eiPifvN1XyvobUmqZyfiK5INxKhDqGlZtgkMioL3vMo=;
-        b=WbC+vkhyovjy2WI4jHev7S266obxaSdeKZLYzBKtS9rn19kGxtC+D/evInTWIvKGJ9
-         hdIDsZvFYNPbll/1640uXB/7d+hAagHB2GwDJSmSIQUbxBZWu+cfgv8tjIK0pSusT5X8
-         ImhA37flGngLNzU7mlT5Nq4jnDsSrB4UNM9BjStNPHFrX0zAwVpx8lLY+NH4mRMtBchs
-         kZXwoxE3jjeNWeXGL9nxYGg6qqGW5t1IC3g3CY581zaHEqPzFxRdyoxjaOwjHBM5FzpO
-         iQUwyhy72CCaq6U8M5Dkxbpap4Ag1Yc0PRVyIzDkITE+3bhhraLrMAOgOLEHMwJnygpg
-         g3Bw==
-X-Gm-Message-State: AO0yUKU9cw/qodSnMYrDbOHLJpE3FitsxOxl5tK0gX/RtOP1x7JztLan
-	Zz2okT6beti9m/B/8ehUnCTOMP+FABw=
-X-Google-Smtp-Source: AK7set/puNB5iYM3sVYz/qm/8L3NnuFuYKU862+lC/uC5s4YoS4lGRh4xVvFdbe9kTag0BdON6cycA==
-X-Received: by 2002:adf:df8f:0:b0:2ce:a758:d6fb with SMTP id z15-20020adfdf8f000000b002cea758d6fbmr3149122wrl.1.1678628038167;
-        Sun, 12 Mar 2023 06:33:58 -0700 (PDT)
-Received: from alaa-emad.. ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id x3-20020a5d6503000000b002c55306f6edsm5144594wru.54.2023.03.12.06.33.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 06:33:57 -0700 (PDT)
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	jic23@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.mennamahmoud.mm@gmail.com
-Subject: [PATCH] staging: iio: meter: enclose Macros with complex values in parentheses
-Date: Sun, 12 Mar 2023 15:33:47 +0200
-Message-Id: <20230312133347.120944-1-eng.mennamahmoud.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5871FC5
+	for <linux-staging@lists.linux.dev>; Sun, 12 Mar 2023 13:37:30 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-76-21-162-nat.elisa-mobile.fi [85.76.21.162])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 025D1814;
+	Sun, 12 Mar 2023 14:37:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1678628248;
+	bh=FbcA1Ew/FpHmmXM4Ifjz7Cw8tzLhiv2Rw9S2vFvrMms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QsDXEn4Z6RdFHv8EtGBmVQbQ15qOVw0DTs9uxoHN9F9dJaDGDFM6jRFpzz18epDtT
+	 v5Ct0nyNg+pxEjjbQ/FU2IRixCsrTT5xi0HPbA/g4b1/SvEACwyFW8bGBYZJnrMv6t
+	 n3hL2VyWixK9riz//O1nw5GE8t1qgS02kbI3iw4o=
+Date: Sun, 12 Mar 2023 15:37:06 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, shawnguo@kernel.org,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kernel@puri.sm
+Subject: Re: [PATCH v2 2/2] media: imx: imx8mq-mipi-csi2: remove unneeded
+ state variable and function
+Message-ID: <20230312133706.GJ2545@pendragon.ideasonboard.com>
+References: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
+ <20230307150047.1486186-3-martin.kepplinger@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230307150047.1486186-3-martin.kepplinger@puri.sm>
 
-enclose Macros with complex values in parentheses is especially useful
-in making macro definitions “safe” (so that they
-evaluate each operand exactly once).
+Hi Martin,
 
-this error reported by chechpatch.pl
+Thank you for the patch.
 
-"ERROR: Macros with complex values should be enclosed in parentheses"
+On Tue, Mar 07, 2023 at 04:00:47PM +0100, Martin Kepplinger wrote:
+> Clean up the driver a bit by inlining the imx8mq_mipi_csi_system_enable()
+> function to the callsites and removing the hs_settle variable from the
+> driver state.
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 
-for ADE7854_SPI_SLOW, ADE7854_SPI_BURST and ADE7854_SPI_FAST
-macros and this error fixed by enclose these macros in parentheses.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
----
- drivers/staging/iio/meter/ade7854.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Could I volunteer you to also drop the struct csi_state state field ?
+:-)
 
-diff --git a/drivers/staging/iio/meter/ade7854.h b/drivers/staging/iio/meter/ade7854.h
-index 7a49f8f1016f..41eeedef569b 100644
---- a/drivers/staging/iio/meter/ade7854.h
-+++ b/drivers/staging/iio/meter/ade7854.h
-@@ -139,9 +139,9 @@
- #define ADE7854_MAX_RX    7
- #define ADE7854_STARTUP_DELAY 1000
- 
--#define ADE7854_SPI_SLOW	(u32)(300 * 1000)
--#define ADE7854_SPI_BURST	(u32)(1000 * 1000)
--#define ADE7854_SPI_FAST	(u32)(2000 * 1000)
-+#define ADE7854_SPI_SLOW	((u32)(300 * 1000))
-+#define ADE7854_SPI_BURST	((u32)(1000 * 1000))
-+#define ADE7854_SPI_FAST	((u32)(2000 * 1000))
- 
- /**
-  * struct ade7854_state - device instance specific data
+> ---
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 41 ++++++++------------
+>  1 file changed, 16 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> index 1aa8622a3bae..f10b59b8f1c0 100644
+> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> @@ -119,9 +119,8 @@ struct csi_state {
+>  
+>  	struct v4l2_mbus_config_mipi_csi2 bus;
+>  
+> -	struct mutex lock; /* Protect state and hs_settle */
+> +	struct mutex lock; /* Protect state */
+>  	u32 state;
+> -	u32 hs_settle;
+>  
+>  	struct regmap *phy_gpr;
+>  	u8 phy_gpr_reg;
+> @@ -264,23 +263,6 @@ static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
+>  	return 0;
+>  }
+>  
+> -static void imx8mq_mipi_csi_system_enable(struct csi_state *state, int on)
+> -{
+> -	if (!on) {
+> -		imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
+> -		return;
+> -	}
+> -
+> -	regmap_update_bits(state->phy_gpr,
+> -			   state->phy_gpr_reg,
+> -			   0x3fff,
+> -			   GPR_CSI2_1_RX_ENABLE |
+> -			   GPR_CSI2_1_VID_INTFC_ENB |
+> -			   GPR_CSI2_1_HSEL |
+> -			   GPR_CSI2_1_CONT_CLK_MODE |
+> -			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(state->hs_settle));
+> -}
+> -
+>  static void imx8mq_mipi_csi_set_params(struct csi_state *state)
+>  {
+>  	int lanes = state->bus.num_data_lanes;
+> @@ -321,7 +303,8 @@ static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
+>  }
+>  
+>  static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+> -					  struct v4l2_subdev_state *sd_state)
+> +					  struct v4l2_subdev_state *sd_state,
+> +					  u32 *hs_settle)
+>  {
+>  	s64 link_freq;
+>  	u32 lane_rate;
+> @@ -377,10 +360,10 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+>  	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
+>  	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
+>  
+> -	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
+> +	*hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
+>  
+>  	dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle %u\n",
+> -		lane_rate, ths_settle_ns, state->hs_settle);
+> +		lane_rate, ths_settle_ns, *hs_settle);
+>  
+>  	return 0;
+>  }
+> @@ -389,24 +372,32 @@ static int imx8mq_mipi_csi_start_stream(struct csi_state *state,
+>  					struct v4l2_subdev_state *sd_state)
+>  {
+>  	int ret;
+> +	u32 hs_settle;
+>  
+>  	ret = imx8mq_mipi_csi_sw_reset(state);
+>  	if (ret)
+>  		return ret;
+>  
+>  	imx8mq_mipi_csi_set_params(state);
+> -	ret = imx8mq_mipi_csi_calc_hs_settle(state, sd_state);
+> +	ret = imx8mq_mipi_csi_calc_hs_settle(state, sd_state, &hs_settle);
+>  	if (ret)
+>  		return ret;
+>  
+> -	imx8mq_mipi_csi_system_enable(state, true);
+> +	regmap_update_bits(state->phy_gpr,
+> +			   state->phy_gpr_reg,
+> +			   0x3fff,
+> +			   GPR_CSI2_1_RX_ENABLE |
+> +			   GPR_CSI2_1_VID_INTFC_ENB |
+> +			   GPR_CSI2_1_HSEL |
+> +			   GPR_CSI2_1_CONT_CLK_MODE |
+> +			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(hs_settle));
+>  
+>  	return 0;
+>  }
+>  
+>  static void imx8mq_mipi_csi_stop_stream(struct csi_state *state)
+>  {
+> -	imx8mq_mipi_csi_system_enable(state, false);
+> +	imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
