@@ -1,140 +1,192 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDC01FC5;
-	Sun, 12 Mar 2023 13:43:53 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id o5-20020a05600c510500b003ec0e4ec6deso3102301wms.3;
-        Sun, 12 Mar 2023 06:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678628632;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jdTS0oXcqOPShopOCv9dsbnq2ZuDXh8kuvCrXKP9vNg=;
-        b=PwlIKtLggba+ofgRaiD/18TchGLzFtem23w7SepKAbL9dwz7sZIiu1CpcK1k0f8RyO
-         RxlVw2boDEGQUljuvYbVlw8AOkjoJp6BoqI2ztd5YBojuDTnhHlUu8XcMbTgejUZt3xc
-         p6fnB/1B63Fri+hrMd2h0Iy9xVRk7PRlZ6OK3/LGVh+PLmST/T8Cn29YDUQRymgtOeSL
-         EG+RgaPUE6G7zUrrNOeR+ktAqBG3k/7SORL8W/LIfgtn1A20E+UmY7Avg8ltWCOoWspW
-         6xnKsxxF0Op4iv941dSFEJt2tcyf0d8t9L+MpK4oxWiooMDclBtVPqkcW58aXrFPEkql
-         szUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678628632;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jdTS0oXcqOPShopOCv9dsbnq2ZuDXh8kuvCrXKP9vNg=;
-        b=dQiXDY55pEQVEZ8WGDdoZsp8PDPCSV7c/ieYqwsuwImKBOfT4v4sFPYkNjiWXPG7Xo
-         7jwMmBs5ny1jYtNX14t4/9hfC9Mdw1BvxxbDzGL3yguEbfuspYlEvgi+Xp25IFqeqiHN
-         lMP4ZWQvKv8lC19eLynDXp6YLokFTR9LlqueI1Ae+Df7qdsGtBWQVursj2x+eGYDV9xc
-         RiEgh9zRfnieq+wy8Vjf2xIEXWV3bZcXjrzdb+ikus5Oo9NBj/bBtqpT1RQTRGIg+v7o
-         hgCuv2uKYCHPqR6j552gxu6vRBGPhVqkKozsx6GLCrhKmGguqxG8rbQSRV+ogBFUS2gv
-         +rVA==
-X-Gm-Message-State: AO0yUKVjLAAWmzgh6HFBgunfcO1m1jMDs4QORG0U86uhAI9B4zzTjzQ2
-	v4vY7XVYAduuj0iq0JPjFb8=
-X-Google-Smtp-Source: AK7set/kMMY5aSTbCT8WnZwJTg7gtojOqzvxlmr7YrgwkOG0dQTnJA13ODG3EYY1AHeDmJPKSbYQXA==
-X-Received: by 2002:a05:600c:4e90:b0:3df:fcbd:3159 with SMTP id f16-20020a05600c4e9000b003dffcbd3159mr6059972wmq.3.1678628631752;
-        Sun, 12 Mar 2023 06:43:51 -0700 (PDT)
-Received: from [192.168.1.16] ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id o1-20020a05600c4fc100b003e2096da239sm6615732wmq.7.2023.03.12.06.43.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Mar 2023 06:43:51 -0700 (PDT)
-Message-ID: <f6e87327-856d-7bfe-bbc8-65ac490a2868@gmail.com>
-Date: Sun, 12 Mar 2023 15:43:49 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249651FC5
+	for <linux-staging@lists.linux.dev>; Sun, 12 Mar 2023 14:04:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id B287EDFD58;
+	Sun, 12 Mar 2023 07:04:14 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Ka9XBUHarGxD; Sun, 12 Mar 2023 07:04:13 -0700 (PDT)
+Message-ID: <25ed971e90324ad596353ba6aade2e14c40c7183.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1678629853; bh=t035979amfITjZRqgqTKWrJc10CGLu8KaSMBfmOi8yM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=bslNF/i1wt9nof/SaOLLyAPqtVbTHzPNKJzZZWBFkVn2PfyrDf0ojKm2PjVl+cJqS
+	 0MVRB4hNTifDnJSSY3Jft0FssaEq7AqptaE2kZVh+qCDMas92fv4go7VRZqPFSPWXj
+	 USVbh3diBv1vgBXtnaVYFijEOmeDA9tWObcfAy0W1PFjbohskJDbuHbqOCwPHMROfV
+	 wioBFHVELUDqxwGV6oaCOKFJZ3dsvS5BAUpuq1wpL2nnqdynTEJvHaHPVXVwb88law
+	 epBQGrorlAOREd5Maj0ASmjf9twc1riCXmwJDR/kWKm1GCE5nCQNqDNTgwXZ2z6wFw
+	 wevl/blziNkZQ==
+Subject: Re: [PATCH v2 2/2] media: imx: imx8mq-mipi-csi2: remove unneeded
+ state variable and function
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org, 
+	gregkh@linuxfoundation.org, shawnguo@kernel.org, kernel@pengutronix.de, 
+	festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kernel@puri.sm
+Date: Sun, 12 Mar 2023 15:04:09 +0100
+In-Reply-To: <20230312133706.GJ2545@pendragon.ideasonboard.com>
+References: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
+	 <20230307150047.1486186-3-martin.kepplinger@puri.sm>
+	 <20230312133706.GJ2545@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] staging: greybus: eclose macro in a do - while loop
-Content-Language: en-US
-To: Alex Elder <elder@ieee.org>, outreachy@lists.linux.dev
-Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20230311135919.9129-1-eng.mennamahmoud.mm@gmail.com>
- <e34f96c7-eee0-6dd6-7662-ffbf04034e27@ieee.org>
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-In-Reply-To: <e34f96c7-eee0-6dd6-7662-ffbf04034e27@ieee.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Am Sonntag, dem 12.03.2023 um 15:37 +0200 schrieb Laurent Pinchart:
+> Hi Martin,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Mar 07, 2023 at 04:00:47PM +0100, Martin Kepplinger wrote:
+> > Clean up the driver a bit by inlining the
+> > imx8mq_mipi_csi_system_enable()
+> > function to the callsites and removing the hs_settle variable from
+> > the
+> > driver state.
+> > 
+> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Could I volunteer you to also drop the struct csi_state state field ?
+> :-)
 
-On ١١‏/٣‏/٢٠٢٣ ٢١:١٠, Alex Elder wrote:
-> On 3/11/23 7:59 AM, Menna Mahmoud wrote:
->> " ERROR: Macros with multiple statements should be enclosed in a do -
->> while loop"
->>
->> Reported by checkpath.
->
-> This is also not an issue that should be "fixed."
->
-> If you look at where that macro is expanded, you see
-> that its purpose is simply to reduce the possibility
-> of some errors by enclosing some much-duplicated code
-> in this macro.  The expansion is at the top level of
-> the source file, so a "do...while" loop ends up being
-> an error.
->
-> When looking at the output of checkpatch, assume it's
-> giving you clues about problems that one *might* like to
-> fix.  Its suggestions are most often reasonable, but in
-> some cases (like this one) it's just not smart enough
-> to recognize the problem that comes from following its
-> advice.
->
-> Make sure you understand exactly what happens when
-> you make a change.  That means understanding the
-> code, and then it means ensuring that the fix passes
-> at least a compile test, and if possible an actual
-> execution test.
->
->                     -Alex
+sure :) it can become at least a bit more tricky than this patch. I'll
+take the time after this is merged.
+
+thanks for the fast reviewing
+
+> 
+> > ---
+> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 41 ++++++++--------
+> > ----
+> >  1 file changed, 16 insertions(+), 25 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > index 1aa8622a3bae..f10b59b8f1c0 100644
+> > --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > @@ -119,9 +119,8 @@ struct csi_state {
+> >  
+> >         struct v4l2_mbus_config_mipi_csi2 bus;
+> >  
+> > -       struct mutex lock; /* Protect state and hs_settle */
+> > +       struct mutex lock; /* Protect state */
+> >         u32 state;
+> > -       u32 hs_settle;
+> >  
+> >         struct regmap *phy_gpr;
+> >         u8 phy_gpr_reg;
+> > @@ -264,23 +263,6 @@ static int imx8mq_mipi_csi_sw_reset(struct
+> > csi_state *state)
+> >         return 0;
+> >  }
+> >  
+> > -static void imx8mq_mipi_csi_system_enable(struct csi_state *state,
+> > int on)
+> > -{
+> > -       if (!on) {
+> > -               imx8mq_mipi_csi_write(state,
+> > CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
+> > -               return;
+> > -       }
+> > -
+> > -       regmap_update_bits(state->phy_gpr,
+> > -                          state->phy_gpr_reg,
+> > -                          0x3fff,
+> > -                          GPR_CSI2_1_RX_ENABLE |
+> > -                          GPR_CSI2_1_VID_INTFC_ENB |
+> > -                          GPR_CSI2_1_HSEL |
+> > -                          GPR_CSI2_1_CONT_CLK_MODE |
+> > -                          GPR_CSI2_1_S_PRG_RXHS_SETTLE(state-
+> > >hs_settle));
+> > -}
+> > -
+> >  static void imx8mq_mipi_csi_set_params(struct csi_state *state)
+> >  {
+> >         int lanes = state->bus.num_data_lanes;
+> > @@ -321,7 +303,8 @@ static int imx8mq_mipi_csi_clk_get(struct
+> > csi_state *state)
+> >  }
+> >  
+> >  static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+> > -                                         struct v4l2_subdev_state
+> > *sd_state)
+> > +                                         struct v4l2_subdev_state
+> > *sd_state,
+> > +                                         u32 *hs_settle)
+> >  {
+> >         s64 link_freq;
+> >         u32 lane_rate;
+> > @@ -377,10 +360,10 @@ static int
+> > imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+> >         max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
+> >         ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
+> >  
+> > -       state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
+> > +       *hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
+> >  
+> >         dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle
+> > %u\n",
+> > -               lane_rate, ths_settle_ns, state->hs_settle);
+> > +               lane_rate, ths_settle_ns, *hs_settle);
+> >  
+> >         return 0;
+> >  }
+> > @@ -389,24 +372,32 @@ static int
+> > imx8mq_mipi_csi_start_stream(struct csi_state *state,
+> >                                         struct v4l2_subdev_state
+> > *sd_state)
+> >  {
+> >         int ret;
+> > +       u32 hs_settle;
+> >  
+> >         ret = imx8mq_mipi_csi_sw_reset(state);
+> >         if (ret)
+> >                 return ret;
+> >  
+> >         imx8mq_mipi_csi_set_params(state);
+> > -       ret = imx8mq_mipi_csi_calc_hs_settle(state, sd_state);
+> > +       ret = imx8mq_mipi_csi_calc_hs_settle(state, sd_state,
+> > &hs_settle);
+> >         if (ret)
+> >                 return ret;
+> >  
+> > -       imx8mq_mipi_csi_system_enable(state, true);
+> > +       regmap_update_bits(state->phy_gpr,
+> > +                          state->phy_gpr_reg,
+> > +                          0x3fff,
+> > +                          GPR_CSI2_1_RX_ENABLE |
+> > +                          GPR_CSI2_1_VID_INTFC_ENB |
+> > +                          GPR_CSI2_1_HSEL |
+> > +                          GPR_CSI2_1_CONT_CLK_MODE |
+> > +                         
+> > GPR_CSI2_1_S_PRG_RXHS_SETTLE(hs_settle));
+> >  
+> >         return 0;
+> >  }
+> >  
+> >  static void imx8mq_mipi_csi_stop_stream(struct csi_state *state)
+> >  {
+> > -       imx8mq_mipi_csi_system_enable(state, false);
+> > +       imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES,
+> > 0xf);
+> >  }
+> >  
+> >  /* ---------------------------------------------------------------
+> > --------------
+> 
 
 
-I see, Thanks Alex for explaining. I will check the code before making 
-any change.
-
-Menna
-
-
->
->>
->> do loop with the conditional expression set to a constant
->> value of zero (0).This creates a loop that
->> will execute exactly one time.This is a coding idiom that
->> allows a multi-line macro to be used anywhere
->> that a single statement can be used.
->>
->> So, enclose `gb_loopback_stats_attrs` macro in do - while (0) to
->> fix checkpath error
->>
->> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
->> ---
->>   drivers/staging/greybus/loopback.c | 10 ++++++----
->>   1 file changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/staging/greybus/loopback.c 
->> b/drivers/staging/greybus/loopback.c
->> index 1a61fce98056..e86d50638cb5 100644
->> --- a/drivers/staging/greybus/loopback.c
->> +++ b/drivers/staging/greybus/loopback.c
->> @@ -162,10 +162,12 @@ static ssize_t name##_avg_show(struct device 
->> *dev,        \
->>   }                                    \
->>   static DEVICE_ATTR_RO(name##_avg)
->>   -#define gb_loopback_stats_attrs(field)                \
->> -    gb_loopback_ro_stats_attr(field, min, u);        \
->> -    gb_loopback_ro_stats_attr(field, max, u);        \
->> -    gb_loopback_ro_avg_attr(field)
->> +#define gb_loopback_stats_attrs(field)                    \
->> +    do { \
->> +        gb_loopback_ro_stats_attr(field, min, u);        \
->> +        gb_loopback_ro_stats_attr(field, max, u);        \
->> +        gb_loopback_ro_avg_attr(field);                \
->> +    } while (0)
->>     #define gb_loopback_attr(field, type)                    \
->>   static ssize_t field##_show(struct device *dev, \
->
