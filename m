@@ -1,132 +1,369 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3AB1FA3;
-	Sun, 12 Mar 2023 10:39:21 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id o5-20020a05600c510500b003ec0e4ec6deso2921323wms.3;
-        Sun, 12 Mar 2023 03:39:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678617560;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BMdTgmpU8RaTXA//vhJdqgYfI33DbAxolT01iaaMnF8=;
-        b=pCGswXdFmHJH+dr8+szeLEHwQNYX8ET2a3OHSS/G8oF/8qbP8mKwzsgnsxtBayCsjc
-         BBZOIoyTvqp5gi/IypPEhxQ9OGZZtEa/K7cJuHQNI7PAPgW55TUWGXAlqjJOARvN+Z6z
-         tt3A8VKAgHTTDynuN+3iA90bXpIeymj3WhXsm/+anVfXbAM7ygr8iMfcg87Syw/ctlRe
-         08IhRSREHuYU9Qg25DKm4Jh0j9mkmrLa0jUbnHMtzEbwc/qpDDzUJcJe5YlvHHyzUKvh
-         1otXzINKim+g1sGZwIK5jnZcgpj/KGNNAS/vGSs0CySNZoDUAJVS7jE8IW4FBe+YV20x
-         HfCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678617560;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BMdTgmpU8RaTXA//vhJdqgYfI33DbAxolT01iaaMnF8=;
-        b=RyR4WOkPx66rYXKrlIvwy+fXnHK9Nt8PPnH68Jeb/G0K2N1FspwguXR27Je5KqN3d0
-         GJlZTdg30ZGtVqckOup/SZu3rvZeDrtxrEYZ6TogtAnfPCCDbiD1UejdsrtrfxKGFoPS
-         yMfy7XAmfmJmJTUzB6M6nq4OR0XmreqJf87t7exHtgViS+8ETEU+YRq1jzuu2G2sIyop
-         MgIaXdypzdAgB/zSTrVV2VA+lAFsOuK6hpGhXsjCOB0aHvQ2ACVwg5i9q435Cp5xbN6O
-         mJZmMh1qTmdqB5T/lnkB5VfvMRcydECP0joPLuWNw1hGT2TIozsKy9fE9liXYxQgvJGY
-         9MPA==
-X-Gm-Message-State: AO0yUKWuSq6jmxwtZFmQLSHDnf/+PQPmVK9SjYcjZb6fVyA8aacuyLwt
-	vFU+WKpqkfn7Z0yAnKZW6Hg=
-X-Google-Smtp-Source: AK7set9IoxJPNhRQ5r3XdnH3a/Nu6R/fpnkyVf5q9ZINBmzJZV10lkgST376i0Rd/NNGLPb0pFnBGw==
-X-Received: by 2002:a05:600c:4e4f:b0:3eb:2de8:b74e with SMTP id e15-20020a05600c4e4f00b003eb2de8b74emr7751723wmq.27.1678617559501;
-        Sun, 12 Mar 2023 03:39:19 -0700 (PDT)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id h6-20020a1ccc06000000b003e22508a343sm5757893wmb.12.2023.03.12.03.39.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 03:39:18 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Sumitra Sharma <sumitraartsy@gmail.com>
-Cc: GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com, error27@gmail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, manishc@marvell.com, netdev@vger.kernel.org,
- outreachy@lists.linux.dev, julia.lawall@inria.fr
-Subject: Re: [PATCH] Staging: qlge: Remove parenthesis around single condition
-Date: Sun, 12 Mar 2023 11:39:17 +0100
-Message-ID: <5367184.29KlJPOoH8@suse>
-In-Reply-To: <20230312071700.GH14247@ubuntu>
-References: <20230312071700.GH14247@ubuntu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7C91FC5
+	for <linux-staging@lists.linux.dev>; Sun, 12 Mar 2023 13:31:25 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-76-21-162-nat.elisa-mobile.fi [85.76.21.162])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFA51814;
+	Sun, 12 Mar 2023 14:31:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1678627877;
+	bh=fxyiMGT7DkWQLqJAY/GZMEQBj54+vButKnwCQmNC+sw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p3S1pCetpnmC2oBobEFG7Nam8UW2IjLri4KxWTQTH1JyBndfNdz/UfAseT8F14fG4
+	 k7KrdgisGoP+7i3nce1iPUJqdVsvXVK4Shli05e8HN0S6JYB8cKTMSc+2G6xQjjwaz
+	 0as3vHBiRHJSTBGpti0WwY3POn2ziEIxKkG1eHb8=
+Date: Sun, 12 Mar 2023 15:31:12 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, shawnguo@kernel.org,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kernel@puri.sm
+Subject: Re: [PATCH v2 1/2] media: imx: imx8mq-mipi-csi2: Use V4L2 subdev
+ active state
+Message-ID: <20230312133112.GH2545@pendragon.ideasonboard.com>
+References: <20230307150047.1486186-1-martin.kepplinger@puri.sm>
+ <20230307150047.1486186-2-martin.kepplinger@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230307150047.1486186-2-martin.kepplinger@puri.sm>
 
-On domenica 12 marzo 2023 08:17:00 CET Sumitra Sharma wrote:
-> Hi Fabio,
+Hi Martin,
+
+Thank you for the patch.
+
+On Tue, Mar 07, 2023 at 04:00:46PM +0100, Martin Kepplinger wrote:
+> Simplify the driver by using the V4L2 subdev active state API to store
+> the active format.
 > 
-> Thank you for the insights.
-
-Hi Sumitra,
-
-Please pay attention to the suggestions that Julia kindly provides to you.
-
-A moment ago I read these other words from her to you: "Sorry to press the 
-point, but you should be doing it now, not promising to do it in the future.".
-
-She is sorry to press because of her special attitudes. I've been helped 
-uncountable times by Julia who, despite her major role and commitments, is so 
-kind to spend time here in a Sunday morning. 
-
-I think that it's you who should be sorry for pushing her that way... 
-
-You are doing it again and again: in your last message you did not provide the 
-necessary context. You are asking me to recall which "insights" you are 
-talking about. I know for sure that here there is someone who read hundreds of 
-emails per day.
-
-> I went to the .rst files because they are directly
-> linked in the first-patch document. I also noticed the difference between a
-> ".rst" file and its counter human readable ".html" file. You were right that
-> many information is being missed when anyone will read the .rst instead of
-> .html/.pdf.
-
-Don't summarize my own words in order to make me understand what question you 
-are answering. Just put my question/objection/comment inline while replying.
-
-Most mentors here read several tens of emails per day. You should not expect 
-them to skim the whole thread. Just reply inline, so they find all the 
-necessary context in one place and so there is no need to traverse the thread 
-to understand what you are referring to. 
-
-You have been told so several times. You risk that someone starts to ignore 
-your messages in order to save time for other applicants.
-
-> I would like to suggest that the links that redirect to the .rst
-> source files in the first-patch document must be changed to the links that
-> redirect to there corresponding human readable format. Let me know if I 
-could
-> do it under the [KERNEL NEWBIEs ACCESS].
-
-This is a great idea and I fully agree with you.
-Please ask Alison to grant access to change that documentation (it's not 
-something I can do myself).
-
-> Apart from this I will be happy to patch the style guide after this
-> contribution period.
-
-Best applicants go on with further contributions after the end of these 
-period. This fact has been observed several times in the other rounds.
-I'd like to see more people who are seriously willing to be part of this 
-Community, regardless of the Outreachy project's deadlines. 
-
-> Regards,
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> ---
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 118 ++++++++-----------
+>  1 file changed, 46 insertions(+), 72 deletions(-)
 > 
-> Sumitra
+> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> index c0d0bf770096..1aa8622a3bae 100644
+> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> @@ -119,9 +119,7 @@ struct csi_state {
+>  
+>  	struct v4l2_mbus_config_mipi_csi2 bus;
+>  
+> -	struct mutex lock; /* Protect csi2_fmt, format_mbus, state, hs_settle */
+> -	const struct csi2_pix_format *csi2_fmt;
+> -	struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
+> +	struct mutex lock; /* Protect state and hs_settle */
+>  	u32 state;
+>  	u32 hs_settle;
+>  
+> @@ -322,16 +320,23 @@ static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
+>  	return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state->clks);
+>  }
+>  
+> -static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
+> +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+> +					  struct v4l2_subdev_state *sd_state)
+>  {
+>  	s64 link_freq;
+>  	u32 lane_rate;
+>  	unsigned long esc_clk_rate;
+>  	u32 min_ths_settle, max_ths_settle, ths_settle_ns, esc_clk_period_ns;
+> +	const struct v4l2_mbus_framefmt *fmt;
+> +	const struct csi2_pix_format *csi2_fmt;
+>  
+>  	/* Calculate the line rate from the pixel rate. */
+> +
+> +	fmt = v4l2_subdev_get_pad_format(&state->sd, sd_state, MIPI_CSI2_PAD_SINK);
+> +	csi2_fmt = find_csi2_format(fmt->code);
+> +
+>  	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
+> -				       state->csi2_fmt->width,
+> +				       csi2_fmt->width,
+>  				       state->bus.num_data_lanes * 2);
+>  	if (link_freq < 0) {
+>  		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
+> @@ -380,7 +385,8 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
+>  	return 0;
+>  }
+>  
+> -static int imx8mq_mipi_csi_start_stream(struct csi_state *state)
+> +static int imx8mq_mipi_csi_start_stream(struct csi_state *state,
+> +					struct v4l2_subdev_state *sd_state)
+>  {
+>  	int ret;
+>  
+> @@ -389,7 +395,7 @@ static int imx8mq_mipi_csi_start_stream(struct csi_state *state)
+>  		return ret;
+>  
+>  	imx8mq_mipi_csi_set_params(state);
+> -	ret = imx8mq_mipi_csi_calc_hs_settle(state);
+> +	ret = imx8mq_mipi_csi_calc_hs_settle(state, sd_state);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -415,6 +421,7 @@ static struct csi_state *mipi_sd_to_csi2_state(struct v4l2_subdev *sdev)
+>  static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct v4l2_subdev_state *sd_state;
+>  	int ret = 0;
+>  
+>  	if (enable) {
+> @@ -431,7 +438,9 @@ static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
+>  			goto unlock;
+>  		}
+>  
+> -		ret = imx8mq_mipi_csi_start_stream(state);
+> +		sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+> +
+> +		ret = imx8mq_mipi_csi_start_stream(state, sd_state);
+>  		if (ret < 0)
+>  			goto unlock;
 
-Thanks,
+You're leaving the state locked here. I would write
 
-Fabio
+		sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+		ret = imx8mq_mipi_csi_start_stream(state, sd_state);
+		v4l2_subdev_unlock_state(sd_state);
 
-P.S.: I probably went a bit too far in the first part of this email. I am 
-sorry about it. However, please demonstrate that you finally got it, not with 
-further promises but with actual changes in the way you communicate :-)
+		if (ret < 0)
+			goto unlock;
 
+and drop the v4l2_subdev_unlock_state() call below. Apart from that,
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+>  
+> @@ -440,6 +449,8 @@ static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
+>  			goto unlock;
+>  
+>  		state->state |= ST_STREAMING;
+> +
+> +		v4l2_subdev_unlock_state(sd_state);
+>  	} else {
+>  		v4l2_subdev_call(state->src_sd, video, s_stream, 0);
+>  		imx8mq_mipi_csi_stop_stream(state);
+> @@ -455,29 +466,14 @@ static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
+>  	return ret;
+>  }
+>  
+> -static struct v4l2_mbus_framefmt *
+> -imx8mq_mipi_csi_get_format(struct csi_state *state,
+> -			   struct v4l2_subdev_state *sd_state,
+> -			   enum v4l2_subdev_format_whence which,
+> -			   unsigned int pad)
+> -{
+> -	if (which == V4L2_SUBDEV_FORMAT_TRY)
+> -		return v4l2_subdev_get_try_format(&state->sd, sd_state, pad);
+> -
+> -	return &state->format_mbus[pad];
+> -}
+> -
+>  static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
+>  				    struct v4l2_subdev_state *sd_state)
+>  {
+> -	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+>  	struct v4l2_mbus_framefmt *fmt_sink;
+>  	struct v4l2_mbus_framefmt *fmt_source;
+> -	enum v4l2_subdev_format_whence which;
+>  
+> -	which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
+> -	fmt_sink = imx8mq_mipi_csi_get_format(state, sd_state, which,
+> -					      MIPI_CSI2_PAD_SINK);
+> +	fmt_sink = v4l2_subdev_get_pad_format(sd, sd_state, MIPI_CSI2_PAD_SINK);
+> +	fmt_source = v4l2_subdev_get_pad_format(sd, sd_state, MIPI_CSI2_PAD_SOURCE);
+>  
+>  	fmt_sink->code = MEDIA_BUS_FMT_SGBRG10_1X10;
+>  	fmt_sink->width = MIPI_CSI2_DEF_PIX_WIDTH;
+> @@ -491,38 +487,15 @@ static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
+>  		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink->colorspace,
+>  					      fmt_sink->ycbcr_enc);
+>  
+> -	fmt_source = imx8mq_mipi_csi_get_format(state, sd_state, which,
+> -						MIPI_CSI2_PAD_SOURCE);
+>  	*fmt_source = *fmt_sink;
+>  
+>  	return 0;
+>  }
+>  
+> -static int imx8mq_mipi_csi_get_fmt(struct v4l2_subdev *sd,
+> -				   struct v4l2_subdev_state *sd_state,
+> -				   struct v4l2_subdev_format *sdformat)
+> -{
+> -	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> -	struct v4l2_mbus_framefmt *fmt;
+> -
+> -	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+> -					 sdformat->pad);
+> -
+> -	mutex_lock(&state->lock);
+> -
+> -	sdformat->format = *fmt;
+> -
+> -	mutex_unlock(&state->lock);
+> -
+> -	return 0;
+> -}
+> -
+>  static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
+>  					  struct v4l2_subdev_state *sd_state,
+>  					  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> -
+>  	/*
+>  	 * We can't transcode in any way, the source format is identical
+>  	 * to the sink format.
+> @@ -533,8 +506,7 @@ static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
+>  		if (code->index > 0)
+>  			return -EINVAL;
+>  
+> -		fmt = imx8mq_mipi_csi_get_format(state, sd_state, code->which,
+> -						 code->pad);
+> +		fmt = v4l2_subdev_get_pad_format(sd, sd_state, code->pad);
+>  		code->code = fmt->code;
+>  		return 0;
+>  	}
+> @@ -554,8 +526,7 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+>  				   struct v4l2_subdev_state *sd_state,
+>  				   struct v4l2_subdev_format *sdformat)
+>  {
+> -	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> -	struct csi2_pix_format const *csi2_fmt;
+> +	const struct csi2_pix_format *csi2_fmt;
+>  	struct v4l2_mbus_framefmt *fmt;
+>  
+>  	/*
+> @@ -563,7 +534,7 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+>  	 * modified.
+>  	 */
+>  	if (sdformat->pad == MIPI_CSI2_PAD_SOURCE)
+> -		return imx8mq_mipi_csi_get_fmt(sd, sd_state, sdformat);
+> +		return v4l2_subdev_get_fmt(sd, sd_state, sdformat);
+>  
+>  	if (sdformat->pad != MIPI_CSI2_PAD_SINK)
+>  		return -EINVAL;
+> @@ -572,10 +543,7 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+>  	if (!csi2_fmt)
+>  		csi2_fmt = &imx8mq_mipi_csi_formats[0];
+>  
+> -	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+> -					 sdformat->pad);
+> -
+> -	mutex_lock(&state->lock);
+> +	fmt = v4l2_subdev_get_pad_format(sd, sd_state, sdformat->pad);
+>  
+>  	fmt->code = csi2_fmt->code;
+>  	fmt->width = sdformat->format.width;
+> @@ -584,16 +552,9 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+>  	sdformat->format = *fmt;
+>  
+>  	/* Propagate the format from sink to source. */
+> -	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
+> -					 MIPI_CSI2_PAD_SOURCE);
+> +	fmt = v4l2_subdev_get_pad_format(sd, sd_state, MIPI_CSI2_PAD_SOURCE);
+>  	*fmt = sdformat->format;
+>  
+> -	/* Store the CSI2 format descriptor for active formats. */
+> -	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> -		state->csi2_fmt = csi2_fmt;
+> -
+> -	mutex_unlock(&state->lock);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -604,7 +565,7 @@ static const struct v4l2_subdev_video_ops imx8mq_mipi_csi_video_ops = {
+>  static const struct v4l2_subdev_pad_ops imx8mq_mipi_csi_pad_ops = {
+>  	.init_cfg		= imx8mq_mipi_csi_init_cfg,
+>  	.enum_mbus_code		= imx8mq_mipi_csi_enum_mbus_code,
+> -	.get_fmt		= imx8mq_mipi_csi_get_fmt,
+> +	.get_fmt		= v4l2_subdev_get_fmt,
+>  	.set_fmt		= imx8mq_mipi_csi_set_fmt,
+>  };
+>  
+> @@ -732,6 +693,7 @@ static int imx8mq_mipi_csi_pm_resume(struct device *dev)
+>  {
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
+> +	struct v4l2_subdev_state *sd_state;
+>  	int ret = 0;
+>  
+>  	mutex_lock(&state->lock);
+> @@ -741,7 +703,9 @@ static int imx8mq_mipi_csi_pm_resume(struct device *dev)
+>  		ret = imx8mq_mipi_csi_clk_enable(state);
+>  	}
+>  	if (state->state & ST_STREAMING) {
+> -		ret = imx8mq_mipi_csi_start_stream(state);
+> +		sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+> +		ret = imx8mq_mipi_csi_start_stream(state, sd_state);
+> +		v4l2_subdev_unlock_state(sd_state);
+>  		if (ret)
+>  			goto unlock;
+>  	}
+> @@ -821,6 +785,7 @@ static const struct dev_pm_ops imx8mq_mipi_csi_pm_ops = {
+>  static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
+>  {
+>  	struct v4l2_subdev *sd = &state->sd;
+> +	int ret;
+>  
+>  	v4l2_subdev_init(sd, &imx8mq_mipi_csi_subdev_ops);
+>  	sd->owner = THIS_MODULE;
+> @@ -834,15 +799,22 @@ static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
+>  
+>  	sd->dev = state->dev;
+>  
+> -	state->csi2_fmt = &imx8mq_mipi_csi_formats[0];
+> -	imx8mq_mipi_csi_init_cfg(sd, NULL);
+> -
+>  	state->pads[MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
+>  					 | MEDIA_PAD_FL_MUST_CONNECT;
+>  	state->pads[MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE
+>  					   | MEDIA_PAD_FL_MUST_CONNECT;
+> -	return media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
+> -				      state->pads);
+> +	ret = media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
+> +				     state->pads);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = v4l2_subdev_init_finalize(sd);
+> +	if (ret) {
+> +		media_entity_cleanup(&sd->entity);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+>  }
+>  
+>  static void imx8mq_mipi_csi_release_icc(struct platform_device *pdev)
+> @@ -968,6 +940,7 @@ static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
+>  	imx8mq_mipi_csi_runtime_suspend(&pdev->dev);
+>  
+>  	media_entity_cleanup(&state->sd.entity);
+> +	v4l2_subdev_cleanup(&state->sd);
+>  	v4l2_async_nf_unregister(&state->notifier);
+>  	v4l2_async_nf_cleanup(&state->notifier);
+>  	v4l2_async_unregister_subdev(&state->sd);
+> @@ -991,6 +964,7 @@ static int imx8mq_mipi_csi_remove(struct platform_device *pdev)
+>  	pm_runtime_disable(&pdev->dev);
+>  	imx8mq_mipi_csi_runtime_suspend(&pdev->dev);
+>  	media_entity_cleanup(&state->sd.entity);
+> +	v4l2_subdev_cleanup(&state->sd);
+>  	mutex_destroy(&state->lock);
+>  	pm_runtime_set_suspended(&pdev->dev);
+>  	imx8mq_mipi_csi_release_icc(pdev);
+
+-- 
+Regards,
+
+Laurent Pinchart
