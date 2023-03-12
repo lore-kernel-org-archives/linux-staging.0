@@ -1,53 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE484C97
-	for <linux-staging@lists.linux.dev>; Sun, 12 Mar 2023 16:20:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 993FAC433EF;
-	Sun, 12 Mar 2023 16:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678638056;
-	bh=ly5v95DrHgVXvigKRijO+MFiLUtRh64uwKPJzhYtHAU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=F+1uj3REIw1YX4VXi8+z5jLqzcAzc0aspkFlq2QQePHYEAZVcp/K20kLw54fkiuFu
-	 /x64NWUjwMdqaDqkQlNdoXhJ8EtbrxjbdJ9qx1ZwSHamAmuLS8QlKVlkNlclTSzuT5
-	 LL14tu5C1CUVp18JIyK+y5rtwyec4atHSPny01ye4oH01VFM9YQ6pHiWWaCBuIcJNB
-	 1+tssqrFvMnVSTgKttQVP4bh3sacHXBiPFEziCG63VQMTEEGH76a6j6XxU8V4ct3HX
-	 eU9IKdfmTvaONy2A31tvu16GeUSngmMUT7qCVML+5LNnI0BvsGJAeFE0oVl06So1KQ
-	 xgmyZTZQKx9ng==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 88297C59A4C;
-	Sun, 12 Mar 2023 16:20:56 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fixes and removal for 6.3-rc2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <ZA3mcVDC3sMrgTxE@kroah.com>
-References: <ZA3mcVDC3sMrgTxE@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <ZA3mcVDC3sMrgTxE@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.3-rc2
-X-PR-Tracked-Commit-Id: fdf6c2309f425509cddd002f278c650ad0b7e34b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 134231664868e163580cfe79e8c923560d7de302
-Message-Id: <167863805655.16000.4918935907573538730.pr-tracker-bot@kernel.org>
-Date: Sun, 12 Mar 2023 16:20:56 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70E4538A;
+	Sun, 12 Mar 2023 17:33:23 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so9412181wms.2;
+        Sun, 12 Mar 2023 10:33:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678642402;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SYkkS+oZSSfD9zGRsvgAy1sxi0/N+dGDM4TdmGz9U18=;
+        b=HW+MTca27uXJN+ak1iLSRAeq6brTVBups1xzLy7LB6cenwEBkLZPJATE81gKsCehmG
+         nVHpyWtEHl7ob/WDwjY81BC1Oyl5TUg323NewaOmGEURAP0p8vdcvPosLdtxGPJMZX6z
+         Yq8doMZKqbIOnXwadY/tlO+09l88MR/tNLmTyk1ptkpSN3El3xQ4O4Y/gbReIh4h9hIB
+         xTlbS+zj6nUEjXgbA6eFpAjRG0oTgjlBF6JsoBGfWSoAY1Bf68Kb1gZHA4rs0Sw4+yCa
+         /vi3VQvktpIVEgK5Oa9GT7fioq2D7NOnvrXnkPfxQc+yE5wMs+YITdxtYruUZLlVvYwb
+         4Dlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678642402;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SYkkS+oZSSfD9zGRsvgAy1sxi0/N+dGDM4TdmGz9U18=;
+        b=1CwC2PcKGhw7fD81oTL0/i7LAY/9DU/l0Z/HyVKoeN/pr+BTmy/odAk00+Pg8/rbKo
+         i8NiNJoRR7rd6hxMbX2MOTLhQXj5S/75VGRRtwV+XDqfaVNzaGU2ALH9tVcWMu3qM10O
+         ZNb7eOAmKPBxTcGbaK1OHs/hSGFlkujru9H4VkcuMSqchk6oO4ezRUXTIsqkw75SEh5B
+         8iNYa2TlDdq1AARs+c/hRak9mPVx4WdaxwC4l5EEBXGAoLHrOw9An1KByUU13eole8+0
+         pHmG1bFNUL6+37cDa1oo6Va1KLH2OiY3XiS6ITSknO5WqVlZ7Kpq01sNWgJEDuT0sBiK
+         mvcA==
+X-Gm-Message-State: AO0yUKVwoDF1vEC2N4P+gv2HU4DkBzx2EIDVVbkNkOs7XBBcG9wK5ceU
+	DnQqff0UZGPt+SlCPE7+9gJubO2qgg+xYWHl
+X-Google-Smtp-Source: AK7set8soss/y1o1J91swWqCXh1d4gLr/l28MxM+9gqizZwNxPUiFxGus8uZNNCu04oXMRtdZ/vK0g==
+X-Received: by 2002:a05:600c:4751:b0:3ea:f73e:9d8a with SMTP id w17-20020a05600c475100b003eaf73e9d8amr8551875wmo.30.1678642401806;
+        Sun, 12 Mar 2023 10:33:21 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.45.115])
+        by smtp.gmail.com with ESMTPSA id 17-20020a05600c021100b003ed2002fa6dsm2937890wmi.17.2023.03.12.10.33.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 10:33:21 -0700 (PDT)
+Date: Sun, 12 Mar 2023 22:33:19 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] staging: axis-fifo: initialize read_timeout and
+ write_timeout once in probe function
+Message-ID: <ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The pull request you sent on Sun, 12 Mar 2023 15:49:21 +0100:
+Module parameter, read_timeout, can only be set at loading time. As it
+can only be modified once, initialize read_timeout once in the probe
+function.
+As a result, only use read_timeout as the last argument in
+wait_event_interruptible_timeout() call.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.3-rc2
+Same goes for write_timeout.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/134231664868e163580cfe79e8c923560d7de302
+Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-Thank you!
-
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index b119cec25a60..7ec8722cef7d 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -384,9 +384,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 		mutex_lock(&fifo->read_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->read_queue,
+ 			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+-			(read_timeout >= 0) ?
+-			msecs_to_jiffies(read_timeout) :
+-			MAX_SCHEDULE_TIMEOUT);
++			read_timeout);
+ 
+ 		if (ret <= 0) {
+ 			if (ret == 0) {
+@@ -528,9 +526,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		ret = wait_event_interruptible_timeout(fifo->write_queue,
+ 			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+ 				 >= words_to_write,
+-			(write_timeout >= 0) ?
+-			msecs_to_jiffies(write_timeout) :
+-			MAX_SCHEDULE_TIMEOUT);
++			write_timeout);
+ 
+ 		if (ret <= 0) {
+ 			if (ret == 0) {
+@@ -814,6 +810,16 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	struct axis_fifo *fifo = NULL;
+ 	char *device_name;
+ 	int rc = 0; /* error return value */
++	
++	if (read_timeout >= 0)
++		read_timeout = msecs_to_jiffies(read_timeout);
++	else
++		read_timeout = MAX_SCHEDULE_TIMEOUT;
++	
++	if (write_timeout >= 0)
++		write_timeout = msecs_to_jiffies(write_timeout);
++	else
++		write_timeout = MAX_SCHEDULE_TIMEOUT;
+ 
+ 	/* ----------------------------
+ 	 *     init wrapper device
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.34.1
+
