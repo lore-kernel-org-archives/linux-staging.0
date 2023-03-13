@@ -1,55 +1,56 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5463628F2;
-	Mon, 13 Mar 2023 15:04:52 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id j2so11608181wrh.9;
-        Mon, 13 Mar 2023 08:04:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4D028F2;
+	Mon, 13 Mar 2023 15:18:26 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id da10so50250429edb.3;
+        Mon, 13 Mar 2023 08:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678719890;
+        d=gmail.com; s=20210112; t=1678720705;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ntw4NswkvkQ8h4CSwsdP0fvCQYzjvQ4rhoDvE1FRNiA=;
-        b=j10p2JFxLeoHLyUKBSeFyBDKP8szefabaernl+MIsCTI4EsJ0TjMK7xKZ1W5wUwk6T
-         51ojoE0tgrdxgXvREnMJPWzo0iGFEV7FmeEYmlLSKRIyJaBlUkyWFlE4cKtLLhxfMgKs
-         PY54x3NkgVGUvTMxZ+jaEjEakk2abQv78cLmqNkxfVWOPk33HKjrWeQv0x0lSt6nBpWx
-         ATG74d+DjAzGBWQ0Fa6qquq0FLm46glGf2mSuSfiXP1Y6erKo1R6lVqcCiZCe/QPXYRO
-         AYku9cgirKzxb5QvocIfW2hcaXjH4f1x3An32WVACgIMC+ilsYW/BtbNDqmDROTXquKq
-         mM/g==
+        bh=MkKHmqcfbmJH/dgkn01ZifvD9vX4NKoyZbN+sv0bg4g=;
+        b=SFCB9GSWjTgriIT2vT1e10gKYkJ42rNvR7IweNASU8StzW8KQpH0KQFUkrnFH0cmpj
+         cH8iS83Un5I3Cc63uCV4WQJuOo9sOGO/0FxOFvxwnAMza7htXchBVuZC/fozqb/ksYeO
+         TxlW5OsGTea1map2W4LXuIZfh4IWmE4XSQDJ0QuUaEKKjtWW5fIWxhANbBM5OProb3/W
+         IL0PbIorMhA8Vmd2fxd/09Fd1seF635Uybmyjss7dHg6k90jeuc+Dvp1jomzo2q5GcCN
+         FrU/Z7Wwj9LeQIC9BYGD84JUTB+H+/Z8+qLe0/nhDf8ULTyBMRb275rSDIgLiHyg2P6A
+         LnMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678719890;
+        d=1e100.net; s=20210112; t=1678720705;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ntw4NswkvkQ8h4CSwsdP0fvCQYzjvQ4rhoDvE1FRNiA=;
-        b=JURMoCOdCYCW4vtPs8axQv1p2AliAe0l9IJe40ipI2x7jVGax8qm1Y0xLEDaKv+Nta
-         M/+M1YJ6eKOQf3Fj3eTNBh5qZ8xCe0W+yY5ECogbp2qbx/tcBt5mh3DWPvgrEB0S9wZj
-         VkeT79O2o3uw8c7YY8PIYIdib+KWoy6sGgFgZxrxSzXQVMk3AeBjiN314cMNmkxo9GAg
-         JI3Ll5PIOsWHevxN4R3CKLji67p9NX39v/vXhbo7gTUV8pxjWFo4yE/2Z38YhQoQLfdc
-         DLpdbZJB5xnfKF8HYKqZXn1jax+m0lJkL3lT7Bp5i4MeYpfJWCwrzZgPBWeoZMGdh5Y7
-         SO6Q==
-X-Gm-Message-State: AO0yUKVcXkXtB+LzjLgDpH8Cv8gX3KUbmUZNZV8gWFe3YMBXd/q0E1uI
-	1S6IopDHqmwux5i9liP7kVE6HSzkEno7SQ==
-X-Google-Smtp-Source: AK7set/gCQvm68a5pe7NSAw/Kg7jjyn4kTIWaXE6wPFgiLpBwBQ8F+KtE0HSFSLXBouSVD6vahFiPg==
-X-Received: by 2002:a5d:684d:0:b0:2cf:e739:9fbb with SMTP id o13-20020a5d684d000000b002cfe7399fbbmr482116wrw.22.1678719890408;
-        Mon, 13 Mar 2023 08:04:50 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s16-20020a5d4250000000b002c56179d39esm4438264wrr.44.2023.03.13.08.04.49
+        bh=MkKHmqcfbmJH/dgkn01ZifvD9vX4NKoyZbN+sv0bg4g=;
+        b=RxXvAl0KFV5942H/bjS2brwHTAZQX7aNn1tqQuErSOZGucFUdUYu2V6cSMXw0YvcRv
+         Jg7kCjCCEHRyVP1R1HVW4avIBSE85uNeifnaf9j/2CkMw80cJklMg81UYk1aO2sYb3Ux
+         lJmY5JiNDpqo3Or5lIXOOB86LtLz4PrCFi3Ik4Q9q1/S3Zr1doRoDC7n6ELPNvoe3Us0
+         uL7GfvHnwY5c+5Xmc6+I48B/mRqXRrNbaLwNUCm0ZpYh2tjB++mq/JBe2V1w2zaDXUQT
+         DNjDuIj+GhMhVdIV/HFVfDPoLRwszm6Se/pU/8mJyhdjaqCxU4NqIX5DwphlkSWe6R5J
+         hXHw==
+X-Gm-Message-State: AO0yUKXormNAHpSj0lfX2LAkRfiQQh467evly7nydsCDeS8dLDDbubBs
+	btQEt7DFxUIJeKbVSSbngh3EVO/uCFZYRyPF
+X-Google-Smtp-Source: AK7set+Awvfu1l6DgJOJxMipMw0IWmFDrqV3siwzDsfGuYnU2syyHJHoky40qbZtpSajQgAxvY1lng==
+X-Received: by 2002:a17:906:2d51:b0:8b0:f58c:e87f with SMTP id e17-20020a1709062d5100b008b0f58ce87fmr32879265eji.33.1678720704962;
+        Mon, 13 Mar 2023 08:18:24 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.45.115])
+        by smtp.gmail.com with ESMTPSA id l1-20020a50c101000000b004af5968cb3bsm3384049edf.17.2023.03.13.08.18.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 08:04:49 -0700 (PDT)
-Date: Mon, 13 Mar 2023 18:04:45 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
+        Mon, 13 Mar 2023 08:18:24 -0700 (PDT)
+Date: Mon, 13 Mar 2023 20:18:20 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
 	outreachy@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4] staging: axis-fifo: initialize read_timeout and
  write_timeout once in probe function
-Message-ID: <f545dc88-717b-4fa0-851a-733dd5fc2eff@kili.mountain>
+Message-ID: <ZA8+vC0e6EUdm9q/@khadija-virtual-machine>
 References: <ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine>
  <9938109.ZD9C4EEAuf@suse>
  <ZA83yzPTq+nQF9Dd@khadija-virtual-machine>
+ <f545dc88-717b-4fa0-851a-733dd5fc2eff@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,18 +59,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZA83yzPTq+nQF9Dd@khadija-virtual-machine>
+In-Reply-To: <f545dc88-717b-4fa0-851a-733dd5fc2eff@kili.mountain>
 
-On Mon, Mar 13, 2023 at 07:48:43PM +0500, Khadija Kamran wrote:
-> Also, I had one question. Is it okay to write a long subject as I have
-> used in this patch?
+On Mon, Mar 13, 2023 at 06:04:45PM +0300, Dan Carpenter wrote:
+> On Mon, Mar 13, 2023 at 07:48:43PM +0500, Khadija Kamran wrote:
+> > Also, I had one question. Is it okay to write a long subject as I have
+> > used in this patch?
+> 
+> People say subject should be 50 chars (I forget the exact limit) but
+> there is a little bit of flexibility.  This subject is too long though.
+> Perhaps I would use something like:
+> 
+> [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+>
 
-People say subject should be 50 chars (I forget the exact limit) but
-there is a little bit of flexibility.  This subject is too long though.
-Perhaps I would use something like:
+Thanks Dan,
+I am going to use this for the next patch  O:)
 
-[PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-
-regards,
-dan carpenter
-
+> regards,
+> dan carpenter
+> 
