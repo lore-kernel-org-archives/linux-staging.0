@@ -1,81 +1,91 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4D028F2;
-	Mon, 13 Mar 2023 15:18:26 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id da10so50250429edb.3;
-        Mon, 13 Mar 2023 08:18:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678720705;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MkKHmqcfbmJH/dgkn01ZifvD9vX4NKoyZbN+sv0bg4g=;
-        b=SFCB9GSWjTgriIT2vT1e10gKYkJ42rNvR7IweNASU8StzW8KQpH0KQFUkrnFH0cmpj
-         cH8iS83Un5I3Cc63uCV4WQJuOo9sOGO/0FxOFvxwnAMza7htXchBVuZC/fozqb/ksYeO
-         TxlW5OsGTea1map2W4LXuIZfh4IWmE4XSQDJ0QuUaEKKjtWW5fIWxhANbBM5OProb3/W
-         IL0PbIorMhA8Vmd2fxd/09Fd1seF635Uybmyjss7dHg6k90jeuc+Dvp1jomzo2q5GcCN
-         FrU/Z7Wwj9LeQIC9BYGD84JUTB+H+/Z8+qLe0/nhDf8ULTyBMRb275rSDIgLiHyg2P6A
-         LnMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678720705;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MkKHmqcfbmJH/dgkn01ZifvD9vX4NKoyZbN+sv0bg4g=;
-        b=RxXvAl0KFV5942H/bjS2brwHTAZQX7aNn1tqQuErSOZGucFUdUYu2V6cSMXw0YvcRv
-         Jg7kCjCCEHRyVP1R1HVW4avIBSE85uNeifnaf9j/2CkMw80cJklMg81UYk1aO2sYb3Ux
-         lJmY5JiNDpqo3Or5lIXOOB86LtLz4PrCFi3Ik4Q9q1/S3Zr1doRoDC7n6ELPNvoe3Us0
-         uL7GfvHnwY5c+5Xmc6+I48B/mRqXRrNbaLwNUCm0ZpYh2tjB++mq/JBe2V1w2zaDXUQT
-         DNjDuIj+GhMhVdIV/HFVfDPoLRwszm6Se/pU/8mJyhdjaqCxU4NqIX5DwphlkSWe6R5J
-         hXHw==
-X-Gm-Message-State: AO0yUKXormNAHpSj0lfX2LAkRfiQQh467evly7nydsCDeS8dLDDbubBs
-	btQEt7DFxUIJeKbVSSbngh3EVO/uCFZYRyPF
-X-Google-Smtp-Source: AK7set+Awvfu1l6DgJOJxMipMw0IWmFDrqV3siwzDsfGuYnU2syyHJHoky40qbZtpSajQgAxvY1lng==
-X-Received: by 2002:a17:906:2d51:b0:8b0:f58c:e87f with SMTP id e17-20020a1709062d5100b008b0f58ce87fmr32879265eji.33.1678720704962;
-        Mon, 13 Mar 2023 08:18:24 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.45.115])
-        by smtp.gmail.com with ESMTPSA id l1-20020a50c101000000b004af5968cb3bsm3384049edf.17.2023.03.13.08.18.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 08:18:24 -0700 (PDT)
-Date: Mon, 13 Mar 2023 20:18:20 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: axis-fifo: initialize read_timeout and
- write_timeout once in probe function
-Message-ID: <ZA8+vC0e6EUdm9q/@khadija-virtual-machine>
-References: <ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine>
- <9938109.ZD9C4EEAuf@suse>
- <ZA83yzPTq+nQF9Dd@khadija-virtual-machine>
- <f545dc88-717b-4fa0-851a-733dd5fc2eff@kili.mountain>
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.216])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9073428FC
+	for <linux-staging@lists.linux.dev>; Mon, 13 Mar 2023 16:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=39Xf9
+	ZCAokng5zx5EHKJyi5I1FpmWCObH+80VGR+3Fc=; b=LL9L3M7H5q7z1LfesmT5d
+	Jndz0co5jyxSDfOI+ndvIM/i6L40TEpdFpRsSjU8ejx8cwNGjWBhThLin4sWgGm3
+	1WWO/gQcro/fPCU/u3xDhdlykezjStMlT5r4b6+X+IxgMi+MTyv+0Iro70ipT8NM
+	7OkpwqCRIGd97RIVoFlBdo=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+	by zwqz-smtp-mta-g3-0 (Coremail) with SMTP id _____wDn7yNtUg9kfkYUAA--.18807S2;
+	Tue, 14 Mar 2023 00:42:21 +0800 (CST)
+From: Zheng Wang <zyytlz.wz@163.com>
+To: ezequiel@vanguardiasur.com.ar
+Cc: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	hackerzheng666@gmail.com,
+	1395428693sheep@gmail.com,
+	alex000young@gmail.com,
+	Zheng Wang <zyytlz.wz@163.com>
+Subject: [PATCH v2] media: rkvdec: fix use after free bug in rkvdec_remove
+Date: Tue, 14 Mar 2023 00:42:20 +0800
+Message-Id: <20230313164220.3753961-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f545dc88-717b-4fa0-851a-733dd5fc2eff@kili.mountain>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDn7yNtUg9kfkYUAA--.18807S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw4kWFWrZF4rKr45ury8Krg_yoW8Gw4Upr
+	W3ta45Cay5JF4UKFnrtr4xZa4rGryUKFykKr9rXa43ZryfJFnrJ3sYyF1UCFWxXrZ3Z3y3
+	CFyYqw1rXw4qyrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziID73UUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXA8xU1Xl56P-uQAAsD
 
-On Mon, Mar 13, 2023 at 06:04:45PM +0300, Dan Carpenter wrote:
-> On Mon, Mar 13, 2023 at 07:48:43PM +0500, Khadija Kamran wrote:
-> > Also, I had one question. Is it okay to write a long subject as I have
-> > used in this patch?
-> 
-> People say subject should be 50 chars (I forget the exact limit) but
-> there is a little bit of flexibility.  This subject is too long though.
-> Perhaps I would use something like:
-> 
-> [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
->
+In rkvdec_probe, rkvdec->watchdog_work is bound with
+rkvdec_watchdog_func. Then rkvdec_vp9_run may
+be called to start the work.
 
-Thanks Dan,
-I am going to use this for the next patch  O:)
+If we remove the module which will call rkvdec_remove
+ to make cleanup, there may be a unfinished work.
+ The possible sequence is as follows, which will
+ cause a typical UAF bug.
 
-> regards,
-> dan carpenter
-> 
+Fix it by canceling the work before cleanup in rkvdec_remove.
+
+CPU0                  CPU1
+
+                    |rkvdec_watchdog_func
+rkvdec_remove       |
+ rkvdec_v4l2_cleanup|
+  v4l2_m2m_release  |
+    kfree(m2m_dev); |
+                    |
+                    | v4l2_m2m_get_curr_priv
+                    |   m2m_dev->curr_ctx //use
+
+Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+---
+v2:
+- use cancel_delayed_work_sync instead of cancel_delayed_work suggested Hans Verkuil
+---
+ drivers/staging/media/rkvdec/rkvdec.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 7bab7586918c..82806f198074 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -1066,6 +1066,8 @@ static int rkvdec_remove(struct platform_device *pdev)
+ {
+ 	struct rkvdec_dev *rkvdec = platform_get_drvdata(pdev);
+ 
++	cancel_delayed_work_sync(&rkvdec->watchdog_work);
++
+ 	rkvdec_v4l2_cleanup(rkvdec);
+ 	pm_runtime_disable(&pdev->dev);
+ 	pm_runtime_dont_use_autosuspend(&pdev->dev);
+-- 
+2.25.1
+
