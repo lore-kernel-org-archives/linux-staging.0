@@ -1,278 +1,129 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD9615B1;
-	Mon, 13 Mar 2023 04:30:43 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id j11so43566320edq.4;
-        Sun, 12 Mar 2023 21:30:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BF2184F;
+	Mon, 13 Mar 2023 04:36:44 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id ay8so1726446wmb.1;
+        Sun, 12 Mar 2023 21:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678681841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fG9OxMjZ468dHtvGkBjVBEAErcJNTsnIw9OpKzejQ+s=;
-        b=mlSynKIYrRF2v9+rBJb0xAyGdnn/QRx6JNfANSlTDI4ulPVBM8MBPL2FcVHReMH/8q
-         8h5VinUrPslkCUsEixaMvQTZCAzne4DD4xekiPh+5hvg73oedtuDupJ/58rQ+0YGb7AC
-         3An2fS+g7nMQsRg4TjgfHldRtBeCCxc0fW4j5EnmuCQag04seZ1aD57i9Z/PStHFQ4MI
-         ROH4+9Q5Mi5rozMRqduHGjLEFJr8VDdtQ2h4R0iJAkUe3ux8u+8lKtWfFIpMFkZ0ZQra
-         UGi5Xkb++Os7pkCepxiL56X72X7sHohOlimQwcfQtlvVqRynpqBAiTyXIa9NYmj7fqVJ
-         WuMw==
+        d=gmail.com; s=20210112; t=1678682203;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RPkjKDsBb71nKpudtxtcqtlqrtUYMaoaA2+YW5pgk20=;
+        b=o8UFDtry4uG1JbWAltEud3mIbYrFjovuA16M/p1MxxmdZzNiBEhexzUGojCZBwEFlp
+         fJcPjpPXs4mQeTB5Yr+z85ztvyu4LL3T8+KrUqp5t5GDqI910fvVlZ878MJuAH2qCKKf
+         NCeklxFow7mAXbMUVIRT0gH1UY0HjcyZnRehs6Q+NCloAR4y5fSOZL/H4dLqf13/Mmc4
+         XLlfwl6mgJSvFVcLtRvQzrQqbC8IAB8qBDGwoaye5gbsF8iS8wSeMETb31PfD17oiI03
+         6TxCm900m+1G5hzyf28lu2ozkICGb0eUnEPUZH8s+qNCB0M2Tqz3AZJzl9Y/ZC6+Pc2P
+         WIWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678681841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fG9OxMjZ468dHtvGkBjVBEAErcJNTsnIw9OpKzejQ+s=;
-        b=bXSZx/ZC5PIUTSF3nFUMNqc6pmsqh/McEVdj6ZUcjEKiXZHc+U4lLz6YF6Gnb/5nTh
-         pgju/Ppu2zI2GZtX9QQ0ej0ovQQknoEem75Xku/DXn1Z7PcJbtu7dvBCKsMSTvXdFFyW
-         q9KoNu5+ELTtLTi/atv871Yhd4hkVm6qzT8HJ50RCuT/Ksm4/VHhmoUhcgHbAo7zoujY
-         qKv7hicTf6oElgfI7XkobKScG+WXk5TIpS1+EhxTCY2lgNQZH7aRH7EV8xvBhRlXEGxS
-         /Bk8dgqpSNJa86xLotw/Oxjlx71qJyZ5IUTbr7s7kJTuKnslQegND6pKfT3Oj0ypBB2O
-         iK5g==
-X-Gm-Message-State: AO0yUKUg0dJmyv3BPrUXSGSx6wQhSmjESd9vrhiGgL9g5T0k7bkx8+IB
-	q3/bQ0amdwWXUbZyBPeiMqO8i1JXqsf1Oq9b+5Y=
-X-Google-Smtp-Source: AK7set9ftJFZqxFZw8KlH9fUxrHJNsIyoM61u8fPeAdOZU2uoSOQ9HCqOk8q7wHZxkujLT2CAh2ApsK7hdy0XZ73r0Q=
-X-Received: by 2002:a17:906:6d98:b0:8ab:b606:9728 with SMTP id
- h24-20020a1709066d9800b008abb6069728mr16938287ejt.5.1678681841432; Sun, 12
- Mar 2023 21:30:41 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678682203;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RPkjKDsBb71nKpudtxtcqtlqrtUYMaoaA2+YW5pgk20=;
+        b=OTtgWu12RTPOi/u6IcrTYu/oB1luiCXwZYwMyjDNhP+GDZ3dg2FE+Pd7p0qE5kYpeY
+         i292zdvpd5u9atiXrqDT/iwjuMs0Fj21ghkcFlHEht8VurzyJcAhv2k/fHWg2gWIjTT3
+         RxOOcg0QFDQLj8iN24wXYgQkU1VjxnYbYV0ypOeOAoJNuBaK7efCLV3pqVJFmF1qxCeL
+         P/v0OBVXk26OKhaH9AgkRSWTBHVwVJb+i/83evZfmuOwmpQng4JIAF+GujIBOc4O4LOI
+         urPjTjd311MiorWNukr4kqcpYsNkzou+0fwuigBMVFvywdiLv536ThK1Vjl3PaE0caYv
+         kyKg==
+X-Gm-Message-State: AO0yUKUucysch7qhMFAWAnSRrs2jfOE6IAt+IaAyblVmjCdA5mdB5DoK
+	OiDDMcQ0vrG6DYZWh6kFnuStllswoU8=
+X-Google-Smtp-Source: AK7set+92T7zGiAWcx1G/zea8syZ/x/ZAOEQVX1oETWHiO4OPz7n5Ubnyu927iW/B/MnO5SdkvhlxQ==
+X-Received: by 2002:a05:600c:4751:b0:3ea:f0d6:5d36 with SMTP id w17-20020a05600c475100b003eaf0d65d36mr9722929wmo.29.1678682202670;
+        Sun, 12 Mar 2023 21:36:42 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l26-20020a1c791a000000b003eb68bb61c8sm7659421wme.3.2023.03.12.21.36.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 21:36:42 -0700 (PDT)
+Date: Mon, 13 Mar 2023 07:36:39 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
+	Benjamin Roszak <benjamin545@gmail.com>
+Subject: Re: [PATCH v2 2/2] media: meson: vdec: add HEVC decode codec
+Message-ID: <84114d96-87ac-4fc1-842d-aefb1da49914@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ZAtkW6g6DwPg/pDp@khadija-virtual-machine> <eb7475da-7548-4820-a2b6-ff0f6cf4be71@kili.mountain>
-In-Reply-To: <eb7475da-7548-4820-a2b6-ff0f6cf4be71@kili.mountain>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 13 Mar 2023 05:30:30 +0100
-Message-ID: <CAKXUXMx+v_X2QGw4gqByWyGiyyJ+Cdecw_K+Wc=Edk4XrAM3zw@mail.gmail.com>
-Subject: Re: [PATCH] staging: greybus: fix exceeds line length
-To: Dan Carpenter <error27@gmail.com>
-Cc: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev, 
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold <johan@kernel.org>, 
-	Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124034058.3407235-3-christianshewitt@gmail.com>
 
-On Fri, Mar 10, 2023 at 8:40=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
-rote:
->
-> On Fri, Mar 10, 2023 at 10:09:47PM +0500, Khadija Kamran wrote:
-> > Length of line 182 exceeds 100 columns in file
-> > drivers/staging/grebus/arche-platform.c, fix by removing tabs from the
-> > line.
-> >
-> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > ---
-> >  drivers/staging/greybus/arche-platform.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging=
-/greybus/arche-platform.c
-> > index fcbd5f71eff2..0f0fbc263f8a 100644
-> > --- a/drivers/staging/greybus/arche-platform.c
-> > +++ b/drivers/staging/greybus/arche-platform.c
-> > @@ -179,7 +179,7 @@ static irqreturn_t arche_platform_wd_irq(int irq, v=
-oid *devid)
-> >                               if (arche_pdata->wake_detect_state !=3D
-> >                                               WD_STATE_COLDBOOT_START) =
-{
-> >                                       arche_platform_set_wake_detect_st=
-ate(arche_pdata,
-> > -                                                                      =
-    WD_STATE_COLDBOOT_TRIG);
-> > +                                             WD_STATE_COLDBOOT_TRIG);
->
-> The original line was done deliberately so that it lines up.  If we
-> apply your patch and re-run checkpatch -f on the file then it has a new
-> warning:
->
-> CHECK: Alignment should match open parenthesis
-> #182: FILE: drivers/staging/greybus/arche-platform.c:182:
-> +                                       arche_platform_set_wake_detect_st=
-ate(arche_pdata,
-> +                                               WD_STATE_COLDBOOT_TRIG);
->
-> Always try to think about the bigger picture.  Why did the original
-> author do it that way?  The change makes checkpatch happy, but does it
-> make the code more readable?  Is there a more important readability
-> improvement to be done here?
->
-> For example, you could re-arrange the if statements like this and pull
-> everything in a few tabs.  Don't necessarily do that.  Just think about
-> doing it.  I write quite a few cleanup patches that I don't send because
-> the next day I just decide it's not worth it.
->
-> When I look at this file, the style is not bad at all.  But at the start
-> of the file there is #if IS_ENABLED(CONFIG_USB_HSIC_USB3613).  What is
-> that?  The CONFIG doesn't exist and the header doesn't exits.  Probably
-> it can be deleted.
->
-> But that raises a new question.  Lukas Bulwahn is always looking for
-> CONFIG_ entries which don't exist.  I would have expected him to find
-> this already.
->
+Hi Christian,
 
-True, and my (private) random linux notes of the checkkconfigsymbols
-effort on this config states:
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-USB_HSIC_USB3613: Reported and maintenance of dead code is fine for
-staging maintainer
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230124-114201
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230124034058.3407235-3-christianshewitt%40gmail.com
+patch subject: [PATCH v2 2/2] media: meson: vdec: add HEVC decode codec
+config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230312/202303120441.YFGHDOya-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
-So, I did report it, and a quick search on lore.kernel.org
-(https://lore.kernel.org/all/?q=3DUSB_HSIC_USB3613) will give us some
-more insight and refresh Greg's and my memory:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303120441.YFGHDOya-lkp@intel.com/
 
-I reported the issue here:
-https://lore.kernel.org/all/CAKXUXMym0M1UNuNGUVpFr2yUwOwjkZ_sQpCD0jC8YB+hs=
-=3Dj-bA@mail.gmail.com/
+smatch warnings:
+drivers/staging/media/meson/vdec/codec_hevc.c:734 codec_hevc_prepare_new_frame() warn: possible memory leak of 'new_frame'
 
-And Greg responded:
+vim +/new_frame +734 drivers/staging/media/meson/vdec/codec_hevc.c
 
-"... It's a good example driver for those wanting to create a greybus
-host controller driver so it's nice to have in the tree..."
+015f7814a5a991 Maxime Jourdan 2023-01-24  718  static struct hevc_frame *
+015f7814a5a991 Maxime Jourdan 2023-01-24  719  codec_hevc_prepare_new_frame(struct amvdec_session *sess)
+015f7814a5a991 Maxime Jourdan 2023-01-24  720  {
+015f7814a5a991 Maxime Jourdan 2023-01-24  721  	struct amvdec_core *core = sess->core;
+015f7814a5a991 Maxime Jourdan 2023-01-24  722  	struct hevc_frame *new_frame = NULL;
+015f7814a5a991 Maxime Jourdan 2023-01-24  723  	struct codec_hevc *hevc = sess->priv;
+015f7814a5a991 Maxime Jourdan 2023-01-24  724  	struct vb2_v4l2_buffer *vbuf;
+015f7814a5a991 Maxime Jourdan 2023-01-24  725  	union rpm_param *params = &hevc->rpm_param;
+015f7814a5a991 Maxime Jourdan 2023-01-24  726  
+015f7814a5a991 Maxime Jourdan 2023-01-24  727  	new_frame = kzalloc(sizeof(*new_frame), GFP_KERNEL);
+015f7814a5a991 Maxime Jourdan 2023-01-24  728  	if (!new_frame)
+015f7814a5a991 Maxime Jourdan 2023-01-24  729  		return NULL;
+015f7814a5a991 Maxime Jourdan 2023-01-24  730  
+015f7814a5a991 Maxime Jourdan 2023-01-24  731  	vbuf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx);
+015f7814a5a991 Maxime Jourdan 2023-01-24  732  	if (!vbuf) {
+015f7814a5a991 Maxime Jourdan 2023-01-24  733  		dev_err(sess->core->dev, "No dst buffer available\n");
+015f7814a5a991 Maxime Jourdan 2023-01-24 @734  		return NULL;
 
-So, even though the code is dead, it is a nice example of some driver
-code. So, we keep it.
+kfree(new_frame);
 
+015f7814a5a991 Maxime Jourdan 2023-01-24  735  	}
+015f7814a5a991 Maxime Jourdan 2023-01-24  736  
+015f7814a5a991 Maxime Jourdan 2023-01-24  737  	new_frame->vbuf = vbuf;
+015f7814a5a991 Maxime Jourdan 2023-01-24  738  	new_frame->referenced = 1;
+015f7814a5a991 Maxime Jourdan 2023-01-24  739  	new_frame->show = 1;
+015f7814a5a991 Maxime Jourdan 2023-01-24  740  	new_frame->poc = hevc->curr_poc;
+015f7814a5a991 Maxime Jourdan 2023-01-24  741  	new_frame->cur_slice_type = params->p.slice_type;
+015f7814a5a991 Maxime Jourdan 2023-01-24  742  	new_frame->num_reorder_pic = params->p.sps_num_reorder_pics_0;
+015f7814a5a991 Maxime Jourdan 2023-01-24  743  	new_frame->offset = amvdec_read_dos(core, HEVC_SHIFT_BYTE_COUNT);
+015f7814a5a991 Maxime Jourdan 2023-01-24  744  
+015f7814a5a991 Maxime Jourdan 2023-01-24  745  	list_add_tail(&new_frame->list, &hevc->ref_frames_list);
+015f7814a5a991 Maxime Jourdan 2023-01-24  746  	hevc->frames_num++;
+015f7814a5a991 Maxime Jourdan 2023-01-24  747  
+015f7814a5a991 Maxime Jourdan 2023-01-24  748  	return new_frame;
+015f7814a5a991 Maxime Jourdan 2023-01-24  749  }
 
-> Anyway, we can write our own scripts to make a list of stuff inside
-> IS_ENABLED():
->
-> git grep IS_ENABLED | \
->         perl -ne 'if (/IS_ENABLED\((.+?)\)/){ print "$1\n"}' | \
->         sort -u | tee CONFIG_list
->
-> Then we can go through the CONFIG_list file and see which other stuff
-> doesn't exist.
->
-> for i in $(grep ^CONFIG CONFIG_list  | cut -d '_' -f 2-) ; do \
->         grep -q -w "config $i$" $(find -name Kconfig) || echo $i ; \
-> done | tee CONFIG_not_found
->
-> I have never done this before so I don't know what you'll find.  But
-> everywhere you look if you just look closer then it raises questions
-> which raise more questions.  So it's interesting to explore.  Anyway,
-> look closely at each line in the file and follow the rabbit holes until
-> you find something interesting to work on.
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
-@Dan, Thanks for pointing out my clean-up activity here!
-
-Yes, I agree with Dan. That is certainly an interesting task to
-explore. If you search the mailing list, you will find another bash
-script of similar length that Joe Perches used a few years back. I
-personally use the script ./scripts/checkkconfigsymbols.py. They may
-differ a bit on what they report, but I fear at this point, most of
-its reports are false positives. I have looked at all of them, I am
-checking the new ones introduced, and sending out patches to clean up
-stuff. There are a few on my todo list, like cleaning up the
-definition of CONFIG_CAAM_QI. If you want to assist, please let me
-know. I can certainly give you a few things that are at least worth a
-deeper investigation and maybe also some clean up.
-
-Lukas
-
-> regards,
-> dan carpenter
->
-> diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/g=
-reybus/arche-platform.c
-> index fcbd5f71eff2..2d9e0c41b5e3 100644
-> --- a/drivers/staging/greybus/arche-platform.c
-> +++ b/drivers/staging/greybus/arche-platform.c
-> @@ -165,43 +165,39 @@ static irqreturn_t arche_platform_wd_irq(int irq, v=
-oid *devid)
->                  * 30msec, then standby boot sequence is initiated, which=
- is not
->                  * supported/implemented as of now. So ignore it.
->                  */
-> -               if (arche_pdata->wake_detect_state =3D=3D WD_STATE_BOOT_I=
-NIT) {
-> -                       if (time_before(jiffies,
-> -                                       arche_pdata->wake_detect_start +
-> -                                       msecs_to_jiffies(WD_COLDBOOT_PULS=
-E_WIDTH_MS))) {
-> -                               arche_platform_set_wake_detect_state(arch=
-e_pdata,
-> -                                                                    WD_S=
-TATE_IDLE);
-> -                       } else {
-> -                               /*
-> -                                * Check we are not in middle of irq thre=
-ad
-> -                                * already
-> -                                */
-> -                               if (arche_pdata->wake_detect_state !=3D
-> -                                               WD_STATE_COLDBOOT_START) =
-{
-> -                                       arche_platform_set_wake_detect_st=
-ate(arche_pdata,
-> -                                                                        =
-    WD_STATE_COLDBOOT_TRIG);
-> -                                       spin_unlock_irqrestore(&arche_pda=
-ta->wake_lock,
-> -                                                              flags);
-> -                                       return IRQ_WAKE_THREAD;
-> -                               }
-> -                       }
-> -               }
-> -       } else {
-> -               /* wake/detect falling */
-> -               if (arche_pdata->wake_detect_state =3D=3D WD_STATE_IDLE) =
-{
-> -                       arche_pdata->wake_detect_start =3D jiffies;
-> +               if (arche_pdata->wake_detect_state !=3D WD_STATE_BOOT_INI=
-T)
-> +                       goto out_unlock;
-> +
-> +               if (time_before(jiffies,
-> +                               arche_pdata->wake_detect_start +
-> +                               msecs_to_jiffies(WD_COLDBOOT_PULSE_WIDTH_=
-MS))) {
-> +                       arche_platform_set_wake_detect_state(arche_pdata,
-> +                                                            WD_STATE_IDL=
-E);
-> +               } else if (arche_pdata->wake_detect_state !=3D WD_STATE_C=
-OLDBOOT_START) {
->                         /*
-> -                        * In the beginning, when wake/detect goes low
-> -                        * (first time), we assume it is meant for coldbo=
-ot
-> -                        * and set the flag. If wake/detect line stays lo=
-w
-> -                        * beyond 30msec, then it is coldboot else fallba=
-ck
-> -                        * to standby boot.
-> +                        * Check we are not in middle of irq thread
-> +                        * already
->                          */
->                         arche_platform_set_wake_detect_state(arche_pdata,
-> -                                                            WD_STATE_BOO=
-T_INIT);
-> +                                                            WD_STATE_COL=
-DBOOT_TRIG);
-> +                       spin_unlock_irqrestore(&arche_pdata->wake_lock, f=
-lags);
-> +                       return IRQ_WAKE_THREAD;
->                 }
-> +       } else if (arche_pdata->wake_detect_state =3D=3D WD_STATE_IDLE) {
-> +               /* wake/detect falling */
-> +               arche_pdata->wake_detect_start =3D jiffies;
-> +               /*
-> +                * In the beginning, when wake/detect goes low
-> +                * (first time), we assume it is meant for coldboot
-> +                * and set the flag. If wake/detect line stays low
-> +                * beyond 30msec, then it is coldboot else fallback
-> +                * to standby boot.
-> +                */
-> +               arche_platform_set_wake_detect_state(arche_pdata,
-> +                                                    WD_STATE_BOOT_INIT);
->         }
->
-> +out_unlock:
->         spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
->
->         return IRQ_HANDLED;
