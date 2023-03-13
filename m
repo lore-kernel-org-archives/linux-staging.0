@@ -1,56 +1,45 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D2C3C35;
-	Mon, 13 Mar 2023 18:26:07 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id ek18so21285430edb.6;
-        Mon, 13 Mar 2023 11:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678731966;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZNpONYyMLc+O1cKJ44IbWyBUFtwAAv8E60RL7W04AJs=;
-        b=TvMwO/eRVJjtB5Li/d+OdXqri6XouTMznM1hLlNq+N1QlMcq5ib4hDjeR8W2r/Bu6F
-         husjX1IJLLGago3Ee0Sxi1ZJZVDJjno//1cZPO3pABr5lUDq6gvx0o3YtbRNXwLJgoFD
-         f+tDflU1C3bidWnVdF9zqqx43WogpaF4CTL7czigncnO0AZquvqjQ4kXZayjWteAKO2+
-         YZORJe3tr6kTIM3ubTaK4YxnRRZDhb7VxW5/WdqHRagLtCnyy8XVEUd62ma/1EY9TYVb
-         6SAb6wY9mbbdLKi4xh8mDrDyY3BlN3tiJo1GshOnl46swXN+oHEFrQqd324xuJKNAfUD
-         AAKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678731966;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZNpONYyMLc+O1cKJ44IbWyBUFtwAAv8E60RL7W04AJs=;
-        b=qN/FrhYHaj1k5KqrWL5l3SPDFjk9L9B77SFXaTf1lFNBMkFD0/xZ11oGQdUneHFrK+
-         Ol4aOojXAbuhm0J/tukJmEZ5TObXDLor+n0Jd5xWpE+YCT4Xpj8aPvXUVxOXS8U296qi
-         oKWYguqKEmxGiInu4josnKWjaO02uSFCpmjy4AQ03Az9BZFbsS6vImnr0vJq2dkxk3mL
-         hkqIi1Tk9mTxqvCVndIiS1g3+flOuPK/WsLux/D7gD4sfen+G2KuFXolhaKsT1V7k+Zj
-         11uSRvlqVtBwAQ2jpmTD8Ah+DJQsVjWvUavLXq3otL5YWTTq8qTjyg30wbdaioIPbja3
-         xQwA==
-X-Gm-Message-State: AO0yUKXUfRnk+7DVBpz7t+K1W0+LYHe1+LS8ApAcbtmoJfkomlwrWBJ9
-	rtSmaAiijcrDAnxNVmktkDk=
-X-Google-Smtp-Source: AK7set+Z8ronD1GN+O2t9fXb5cb2hJc2oxsGuVi0IlG9McCgm+whf9GReA9jIB1G/rvu3znojVY/3A==
-X-Received: by 2002:a17:907:3186:b0:92b:dff4:f8e9 with SMTP id xe6-20020a170907318600b0092bdff4f8e9mr1804273ejb.8.1678731965814;
-        Mon, 13 Mar 2023 11:26:05 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.45.115])
-        by smtp.gmail.com with ESMTPSA id x5-20020a1709064a8500b008e7916f0bdesm102538eju.138.2023.03.13.11.26.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 11:26:05 -0700 (PDT)
-Date: Mon, 13 Mar 2023 23:26:03 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	outreachy@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815CD3D7A;
+	Mon, 13 Mar 2023 19:00:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678734041; x=1710270041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f+VSeNz27rcTgOCdWE+PjGAqFqgtaImjieT21IBpCMQ=;
+  b=ltqEb6EFO/9/NalTiQHE5HGYZ0n8VY611QW4IkHLvfcaxP95f2flU1E/
+   yIie8j8COAFzLEK5yM6EsrAm2x9YFTVuYGebLv15PyOzUHYyBsHhAHR6F
+   LxVFrHfvYFU5WDZWJxXedKQUHhC1hXAu908qloBCayZmuQlekXdfSdXqi
+   qEAkoOgyA5x8BA4NNx3LaTCcWfNx4DBk083gyc2iOIY7JnPJ/Pq6WEFyc
+   6gMpxa6wId1qvXWJyzLbtlZMQvxtPbzSNjSn7DCzbwghWy9kJqLM4V4uu
+   J3mMbF52ibRFXUa5e8A42UNxRfJW1XsEwpGx+d1Hxb3s817coZ2nP1rjK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399827097"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="399827097"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 12:00:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="628741978"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
+   d="scan'208";a="628741978"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 13 Mar 2023 12:00:39 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pbnPS-00061U-1p;
+	Mon, 13 Mar 2023 19:00:38 +0000
+Date: Tue, 14 Mar 2023 03:00:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: axis-fifo: initialize read_timeout and
- write_timeout once in probe function
-Message-ID: <ZA9qu+E/gPZ68mw4@khadija-virtual-machine>
-References: <ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine>
- <9938109.ZD9C4EEAuf@suse>
- <ZA83yzPTq+nQF9Dd@khadija-virtual-machine>
- <ZA9ZY91K8iQtn0ev@aschofie-mobl2>
+Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <202303140222.Ku4vFjgO-lkp@intel.com>
+References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,55 +48,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZA9ZY91K8iQtn0ev@aschofie-mobl2>
+In-Reply-To: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
 
-On Mon, Mar 13, 2023 at 10:12:03AM -0700, Alison Schofield wrote:
-> 
-> It sounds like the git commit hook for checkpatch, suggested in
-> the tutorial, would have saved you here. Please look that up.
->
+Hi Khadija,
 
-Hey Alison!
-I had set up git post-commit hook following the tutorial. The script
-showed the errors, but I ignored them before. I have submitted another
-patch. I had 'trailing white spaces' errors in my code and removed them
-in the new patch after consultation from 'coding-style.rst' file.
+Thank you for the patch! Perhaps something to improve:
 
-> Also see the section "Following the Driver commit style"
-> And, there are sections on revising patchsets too.
-> 
-> Much of the info in the tutorial doesn't make sense until you
-> need it. So, keep reviewing it to catch more useful info.
->
+[auto build test WARNING on staging/staging-testing]
 
-Yes!! No matter how many times I read the tutorial, I still end up
-getting back to it! :)
-Thank you!
+url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
+patch link:    https://lore.kernel.org/r/ZA9mThZ7NyRrQAMX%40khadija-virtual-machine
+patch subject: [PATCH] staging: axis-fifo: initialize timeouts in probe only
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230314/202303140222.Ku4vFjgO-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
+        git checkout 9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/staging/
 
-Regards,
-Khadija
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303140222.Ku4vFjgO-lkp@intel.com/
 
-> More on running checkpatch:
-> - Add that git commmit hook.
-> - The final checkpatch run can be on the formatted patches.
->   After you've done git format-patch and have a .patch file you
->   are thinking of sending, run it again. 
-> 
-> Something like this:
-> scripts/checkpatch.pl --no-tree --strict --codespellfile=/usr/bin/codespell ~/my_patches/*.patch
-> 
-> > 
-> > Also, I had one question. Is it okay to write a long subject as I have
-> > used in this patch? 
-> This is in the tutorial. section "Following the Driver commit style"
->
-> > 
-> > Regards,
-> > Khadija
-> > 
-> > > >  drivers/staging/axis-fifo/axis-fifo.c | 18 ++++++++++++------
-> > > >  1 file changed, 12 insertions(+), 6 deletions(-)
-> > > 
-> > > 
-> > > 
-> > 
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/limits.h:7,
+                    from include/linux/kernel.h:16,
+                    from drivers/staging/axis-fifo/axis-fifo.c:17:
+   drivers/staging/axis-fifo/axis-fifo.c: In function 'axis_fifo_probe':
+>> include/vdso/limits.h:11:25: warning: overflow in conversion from 'long int' to 'int' changes value from '9223372036854775807' to '-1' [-Woverflow]
+      11 | #define LONG_MAX        ((long)(~0UL >> 1))
+         |                         ^
+   include/linux/sched.h:296:41: note: in expansion of macro 'LONG_MAX'
+     296 | #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
+         |                                         ^~~~~~~~
+   drivers/staging/axis-fifo/axis-fifo.c:817:32: note: in expansion of macro 'MAX_SCHEDULE_TIMEOUT'
+     817 |                 read_timeout = MAX_SCHEDULE_TIMEOUT;
+         |                                ^~~~~~~~~~~~~~~~~~~~
+>> include/vdso/limits.h:11:25: warning: overflow in conversion from 'long int' to 'int' changes value from '9223372036854775807' to '-1' [-Woverflow]
+      11 | #define LONG_MAX        ((long)(~0UL >> 1))
+         |                         ^
+   include/linux/sched.h:296:41: note: in expansion of macro 'LONG_MAX'
+     296 | #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
+         |                                         ^~~~~~~~
+   drivers/staging/axis-fifo/axis-fifo.c:822:33: note: in expansion of macro 'MAX_SCHEDULE_TIMEOUT'
+     822 |                 write_timeout = MAX_SCHEDULE_TIMEOUT;
+         |                                 ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +11 include/vdso/limits.h
+
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   4  
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   5  #define USHRT_MAX	((unsigned short)~0U)
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   6  #define SHRT_MAX	((short)(USHRT_MAX >> 1))
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   7  #define SHRT_MIN	((short)(-SHRT_MAX - 1))
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   8  #define INT_MAX		((int)(~0U >> 1))
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   9  #define INT_MIN		(-INT_MAX - 1)
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  10  #define UINT_MAX	(~0U)
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20 @11  #define LONG_MAX	((long)(~0UL >> 1))
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  12  #define LONG_MIN	(-LONG_MAX - 1)
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  13  #define ULONG_MAX	(~0UL)
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  14  #define LLONG_MAX	((long long)(~0ULL >> 1))
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  15  #define LLONG_MIN	(-LLONG_MAX - 1)
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  16  #define ULLONG_MAX	(~0ULL)
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  17  #define UINTPTR_MAX	ULONG_MAX
+3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  18  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
