@@ -1,45 +1,49 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815CD3D7A;
-	Mon, 13 Mar 2023 19:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678734041; x=1710270041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f+VSeNz27rcTgOCdWE+PjGAqFqgtaImjieT21IBpCMQ=;
-  b=ltqEb6EFO/9/NalTiQHE5HGYZ0n8VY611QW4IkHLvfcaxP95f2flU1E/
-   yIie8j8COAFzLEK5yM6EsrAm2x9YFTVuYGebLv15PyOzUHYyBsHhAHR6F
-   LxVFrHfvYFU5WDZWJxXedKQUHhC1hXAu908qloBCayZmuQlekXdfSdXqi
-   qEAkoOgyA5x8BA4NNx3LaTCcWfNx4DBk083gyc2iOIY7JnPJ/Pq6WEFyc
-   6gMpxa6wId1qvXWJyzLbtlZMQvxtPbzSNjSn7DCzbwghWy9kJqLM4V4uu
-   J3mMbF52ibRFXUa5e8A42UNxRfJW1XsEwpGx+d1Hxb3s817coZ2nP1rjK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399827097"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="399827097"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 12:00:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="628741978"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="628741978"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 13 Mar 2023 12:00:39 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pbnPS-00061U-1p;
-	Mon, 13 Mar 2023 19:00:38 +0000
-Date: Tue, 14 Mar 2023 03:00:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <202303140222.Ku4vFjgO-lkp@intel.com>
-References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D847D8C17;
+	Mon, 13 Mar 2023 20:43:23 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id p20so14331416plw.13;
+        Mon, 13 Mar 2023 13:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678740203;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mXNyoC5arQMWtEnkrxAYqtf8v6fk65HvAH7Ge8NW0Ls=;
+        b=aivckMtAvfk9rnr+NDQFEbNkV2snhcv1sf6FN6hSWIbLc20VA2uy1pAXllcRKSl/De
+         Ao2ri32AEGLMRDxGmkY3d9I7m9sraaLJVJw/+HbkbJN8zVkoTyusV757GrMfgv6j7Ozv
+         kRP13MJDgdQQP3MNqyGErUw88D7hGfi6+BbLizs0b8dGP5pRehyOOGtpUYLmfSsVx1Bb
+         Upc5mcCHYkoxzTfpxo5DhcHMDbzf70XcRFLAJ0lJrpKdej3b+Zb6+MTH+bVnznGPAbrI
+         A3V6Pxa5iyQfsBU9tqIMu4wyCVfHeyrABgymcJWL0nWKuhYQNJw5TeZzV0pUKaL1CQUP
+         cOKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678740203;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mXNyoC5arQMWtEnkrxAYqtf8v6fk65HvAH7Ge8NW0Ls=;
+        b=kVNEmAXPRVPtFR2YgPt1lYVnTF7YEst/sniYf8KBueSTunPCLTl6/6cOmVG+V1DVZu
+         hut/aFYFF/cZtkbrbL2zWMOuxYmUpX9XSkDzmQUg3y0nBN9GGhszPOT9FtZWdxiPIfib
+         wrzzzq8q80YhYkwnNQ9SYFK5WIwm6Q2N+43EZb3rGIsZQv0kMzemQPh7Hge+QTtoaEWH
+         oV6uZ2QCsBqRg8lst//lft8L/rUTVB5gVB24ME2p7iRP66TjNb60JflMlsf8qzZbitMM
+         JzxubZ1WK5zhic7d6A3MmxlkxiqFXghm6vKxh85WhABXqP0WAeWKYO+nq7XGJpXq0t+u
+         EJqg==
+X-Gm-Message-State: AO0yUKUfGdHgQgPFApQOZRY0TR1XHXoDtI6fxOKPpDPtKs2tnERjNjlr
+	XllfK4puQLt6H8PLyLOnIIg=
+X-Google-Smtp-Source: AK7set+AwAUBkbBSMXgInsDpsiW/Q6+WMMeD9QVpKujfjrdOhX2yAtowqcnvLRwifK2mPGfG4j4LNw==
+X-Received: by 2002:a17:902:ea0c:b0:19f:3aff:dcfd with SMTP id s12-20020a170902ea0c00b0019f3affdcfdmr6174185plg.6.1678740203271;
+        Mon, 13 Mar 2023 13:43:23 -0700 (PDT)
+Received: from CloudiRingWorld ([115.227.138.102])
+        by smtp.gmail.com with ESMTPSA id l15-20020a17090a4d4f00b00232cf6186fdsm275421pjh.30.2023.03.13.13.43.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Mar 2023 13:43:23 -0700 (PDT)
+Date: Tue, 14 Mar 2023 04:43:20 +0800
+From: Kloudifold <cloudifold.3125@gmail.com>
+To: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: sm750: Rename function to avoid CamelCase
+Message-ID: <ZA+K6OdPe21k8F2k@CloudiRingWorld>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,79 +52,142 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
 
-Hi Khadija,
+The sm750 driver had some functions named in CamelCase,
+which violates the kernel's naming convention.
+In this patch, I rename these functions to snake case,
+which is the expected style.
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
-patch link:    https://lore.kernel.org/r/ZA9mThZ7NyRrQAMX%40khadija-virtual-machine
-patch subject: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230314/202303140222.Ku4vFjgO-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
-        git checkout 9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/staging/
-
-If you fix the issue, kindly add following tag where applicable
+This v2 patch was prompted by an error reported by the
+Linux test robot, which detected the compile error.
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303140222.Ku4vFjgO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.c        | 22 +++++++++++-----------
+ drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
+ drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
+ 3 files changed, 24 insertions(+), 24 deletions(-)
 
-   In file included from include/linux/limits.h:7,
-                    from include/linux/kernel.h:16,
-                    from drivers/staging/axis-fifo/axis-fifo.c:17:
-   drivers/staging/axis-fifo/axis-fifo.c: In function 'axis_fifo_probe':
->> include/vdso/limits.h:11:25: warning: overflow in conversion from 'long int' to 'int' changes value from '9223372036854775807' to '-1' [-Woverflow]
-      11 | #define LONG_MAX        ((long)(~0UL >> 1))
-         |                         ^
-   include/linux/sched.h:296:41: note: in expansion of macro 'LONG_MAX'
-     296 | #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
-         |                                         ^~~~~~~~
-   drivers/staging/axis-fifo/axis-fifo.c:817:32: note: in expansion of macro 'MAX_SCHEDULE_TIMEOUT'
-     817 |                 read_timeout = MAX_SCHEDULE_TIMEOUT;
-         |                                ^~~~~~~~~~~~~~~~~~~~
->> include/vdso/limits.h:11:25: warning: overflow in conversion from 'long int' to 'int' changes value from '9223372036854775807' to '-1' [-Woverflow]
-      11 | #define LONG_MAX        ((long)(~0UL >> 1))
-         |                         ^
-   include/linux/sched.h:296:41: note: in expansion of macro 'LONG_MAX'
-     296 | #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
-         |                                         ^~~~~~~~
-   drivers/staging/axis-fifo/axis-fifo.c:822:33: note: in expansion of macro 'MAX_SCHEDULE_TIMEOUT'
-     822 |                 write_timeout = MAX_SCHEDULE_TIMEOUT;
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +11 include/vdso/limits.h
-
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   4  
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   5  #define USHRT_MAX	((unsigned short)~0U)
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   6  #define SHRT_MAX	((short)(USHRT_MAX >> 1))
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   7  #define SHRT_MIN	((short)(-SHRT_MAX - 1))
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   8  #define INT_MAX		((int)(~0U >> 1))
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20   9  #define INT_MIN		(-INT_MAX - 1)
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  10  #define UINT_MAX	(~0U)
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20 @11  #define LONG_MAX	((long)(~0UL >> 1))
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  12  #define LONG_MIN	(-LONG_MAX - 1)
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  13  #define ULONG_MAX	(~0UL)
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  14  #define LLONG_MAX	((long long)(~0ULL >> 1))
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  15  #define LLONG_MIN	(-LLONG_MAX - 1)
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  16  #define ULLONG_MAX	(~0ULL)
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  17  #define UINTPTR_MAX	ULONG_MAX
-3e0e9f8c6e3ca9 Vincenzo Frascino 2020-03-20  18  
-
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index effc7fcc3..9ddcd7b7d 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -121,14 +121,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 
+ 	sm750_hw_cursor_disable(cursor);
+ 	if (fbcursor->set & FB_CUR_SETSIZE)
+-		sm750_hw_cursor_setSize(cursor,
+-					fbcursor->image.width,
+-					fbcursor->image.height);
++		sm750_hw_cursor_set_size(cursor,
++					 fbcursor->image.width,
++					 fbcursor->image.height);
+ 
+ 	if (fbcursor->set & FB_CUR_SETPOS)
+-		sm750_hw_cursor_setPos(cursor,
+-				       fbcursor->image.dx - info->var.xoffset,
+-				       fbcursor->image.dy - info->var.yoffset);
++		sm750_hw_cursor_set_pos(cursor,
++				        fbcursor->image.dx - info->var.xoffset,
++				        fbcursor->image.dy - info->var.yoffset);
+ 
+ 	if (fbcursor->set & FB_CUR_SETCMAP) {
+ 		/* get the 16bit color of kernel means */
+@@ -142,14 +142,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
+ 		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
+ 
+-		sm750_hw_cursor_setColor(cursor, fg, bg);
++		sm750_hw_cursor_set_color(cursor, fg, bg);
+ 	}
+ 
+ 	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
+-		sm750_hw_cursor_setData(cursor,
+-					fbcursor->rop,
+-					fbcursor->image.data,
+-					fbcursor->mask);
++		sm750_hw_cursor_set_data(cursor,
++					 fbcursor->rop,
++					 fbcursor->image.data,
++					 fbcursor->mask);
+ 	}
+ 
+ 	if (fbcursor->enable)
+diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+index 43e6f52c2..ff643e33f 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.c
++++ b/drivers/staging/sm750fb/sm750_cursor.c
+@@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
+ 	poke32(HWC_ADDRESS, 0);
+ }
+ 
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
+ {
+ 	cursor->w = w;
+ 	cursor->h = h;
+ }
+ 
+-void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
++void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
+ {
+ 	u32 reg;
+ 
+@@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
+ 	poke32(HWC_LOCATION, reg);
+ }
+ 
+-void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
++void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
+ {
+ 	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
+ 		HWC_COLOR_12_2_RGB565_MASK;
+@@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
+ 	poke32(HWC_COLOR_3, 0xffe0);
+ }
+ 
+-void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+-			     const u8 *pcol, const u8 *pmsk)
++void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
++			      const u8 *pcol, const u8 *pmsk)
+ {
+ 	int i, j, count, pitch, offset;
+ 	u8 color, mask, opr;
+@@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+ 	}
+ }
+ 
+-void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
+-			      const u8 *pcol, const u8 *pmsk)
++void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
++			       const u8 *pcol, const u8 *pmsk)
+ {
+ 	int i, j, count, pitch, offset;
+ 	u8 color, mask;
+diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+index b59643dd6..88fa02f63 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.h
++++ b/drivers/staging/sm750fb/sm750_cursor.h
+@@ -5,11 +5,11 @@
+ /* hw_cursor_xxx works for voyager,718 and 750 */
+ void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+ void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
+-void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
+-void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
+-void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+-			     const u8 *data, const u8 *mask);
+-void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
++void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
++void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
++void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+ 			      const u8 *data, const u8 *mask);
++void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
++			       const u8 *data, const u8 *mask);
+ #endif
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.39.2
+
