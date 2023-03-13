@@ -1,200 +1,82 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4141C8C17;
-	Mon, 13 Mar 2023 20:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFE5ED8
+	for <linux-staging@lists.linux.dev>; Mon, 13 Mar 2023 22:46:23 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id y4so25470037edo.2
+        for <linux-staging@lists.linux.dev>; Mon, 13 Mar 2023 15:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=xMd74+/ONdTCuz+2e1f+Q/89W414OVApGi6FFyFngXQ=;
-  b=n4UNjjea45ekjrnjO+t2nw4q9LWnyCWLOGhTkISmCz4CSl3AxhadYSMM
-   4nhiMOcTOiKXjmDeSXRWwJAGNs+HsZ7u777QS9nekyUbXHMs1FA43Bnqz
-   SwotloN1fzBwWJ0LR9/ZUtTGQzwBiyhzxrUPnbrrFwg/xcwwvJLE5kvew
-   s=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,257,1673910000"; 
-   d="scan'208";a="96962919"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 21:54:39 +0100
-Date: Mon, 13 Mar 2023 21:54:39 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Kloudifold <cloudifold.3125@gmail.com>
-cc: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com, 
-    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: sm750: Rename function to avoid CamelCase
-In-Reply-To: <ZA+K6OdPe21k8F2k@CloudiRingWorld>
-Message-ID: <alpine.DEB.2.22.394.2303132149440.3007@hadrien>
-References: <ZA+K6OdPe21k8F2k@CloudiRingWorld>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112; t=1678747581; x=1681339581;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=47X2EKjMMA636t88pLDlxyLev9K8VQs9ssTsZmf02sY=;
+        b=eAzvYazXSWovL7Mb9yNKn0qGvam3k6FYzSa5czH0RlfUO37WzySSSqAJJ3EeWzc9d1
+         /ISwPc3hMa9ZVeaRhvD6djscLJxGCIDTUPOYyk3nNSXQreT89ZMDYIsKRs4wafCMAZQN
+         D5VWy52E3pTl14UXIMI8BnBpLcZbgPHV7jaxuwraIKdU8wH+XfU3IklJCJw4Ikv2ehB9
+         tmKYdFVT1Dg5YVnc2oa5qcCqiZ/MknnPfroBd+rDKvgMlFbe2XhTcoRaZBn+ntjv0aUi
+         mT6H05VVO9sdl9gjfu/xVxzCt3uc5p6qmnHYoARHhCz6ulSVL3s9FX/XXw6INQvHzFaF
+         rlXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678747581; x=1681339581;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=47X2EKjMMA636t88pLDlxyLev9K8VQs9ssTsZmf02sY=;
+        b=uCafRbz5dvewmxyNBDDE3I+OoaRL3TjDPb+JdRa5T8I5Ae/5tdrIH5AUVCKiJtQlq+
+         PebYeFhGlOXHNJc0LPM649sSrCc8S/2KH0LdbUhHAWAV+BLU6SF4JIaL2p51Ok/k+f6J
+         wYuSn7s00zmPHTgr5BSzaLN1BPqt4X5JyDKzexRm1TCixGo+d+ff0vIdtquvLVNeY1OT
+         udh1HwCwKaF/3AA7CECCx7hn2n1nGXKbcSQ+on09yCA/Adv1GXqctoe5afuCksHj4K2b
+         93lrUXFUZsbjHyxxAqQ1u6bEgl1U+s4O28S7FPNaRU4/dLD3Ijj8Wz9mzkmbOQGN28Ox
+         Lg8A==
+X-Gm-Message-State: AO0yUKUQFr2n9G22N5AhWE9ajPVoLGHB/U1XM/gjJPvw6krl3Mvk6xxd
+	EgsszAjNhPXnXLsA8mMhxYI=
+X-Google-Smtp-Source: AK7set9a02G10VT3epJzDUC4nOr7vJEIsy5pPNgtD4A+8wNIKvk5wpfxZ3ZBqQwOusDVSEk1MlrbHg==
+X-Received: by 2002:a05:6402:5207:b0:4fb:c8b4:698d with SMTP id s7-20020a056402520700b004fbc8b4698dmr7785989edd.4.1678747581369;
+        Mon, 13 Mar 2023 15:46:21 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
+        by smtp.gmail.com with ESMTPSA id y97-20020a50bb6a000000b004c19f1891fasm279887ede.59.2023.03.13.15.46.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Mar 2023 15:46:20 -0700 (PDT)
+Date: Mon, 13 Mar 2023 23:46:19 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] staging: rtl8192e: Remove unused RF90_PATH_C and ..D
+Message-ID: <cover.1678740713.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Remove unused RF90_PATH_C and RF90_PATH_D. Justification can be quite
+complex.
 
+The following code lines are mandatory to keep in mind when reading the
+patches:
+enum rf90_radio_path {
+	RF90_PATH_A = 0,
+	RF90_PATH_B = 1,
+	RF90_PATH_C = 2,
+	RF90_PATH_D = 3,
+	RF90_PATH_MAX
+};
 
-On Tue, 14 Mar 2023, Kloudifold wrote:
+Tested with rtl8192e
+Transferred this patch over wlan connection of rtl8192e
 
-> The sm750 driver had some functions named in CamelCase,
-> which violates the kernel's naming convention.
-> In this patch, I rename these functions to snake case,
-> which is the expected style.
+Philipp Hortmann (2):
+  staging: rtl8192e: Replace RF90_PATH_C in test expression of for loop
+  staging: rtl8192e: Remove function rtl92e_is_legal_rf_path
 
-Please go back and read the Outreachy tutorial, specifically the Patch
-Philosophy page:
+ .../staging/rtl8192e/rtl8192e/r8190P_rtl8256.c |  6 ------
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  4 +---
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 18 ------------------
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h |  1 -
+ 4 files changed, 1 insertion(+), 28 deletions(-)
 
-https://kernelnewbies.org/PatchPhilosophy
+-- 
+2.39.2
 
-The log message should be in the imperative.  You should try to avoid the
-use of "I".  "In this patch" is not necessary.  Mentioning the name of the
-driver is not necessary, since it appears in the subject line and in the
-list of changed files below.
-
-> This v2 patch was prompted by an error reported by the
-> Linux test robot, which detected the compile error.
-
-This is not easy to understand.  What do you mean by a compile error.
-Normally the use or non use of Camel case would be a coding style
-violation, but would not provoke a compiler error.
-
-julia
-
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
->
-> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
-> ---
->  drivers/staging/sm750fb/sm750.c        | 22 +++++++++++-----------
->  drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
->  drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
->  3 files changed, 24 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index effc7fcc3..9ddcd7b7d 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -121,14 +121,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
->
->  	sm750_hw_cursor_disable(cursor);
->  	if (fbcursor->set & FB_CUR_SETSIZE)
-> -		sm750_hw_cursor_setSize(cursor,
-> -					fbcursor->image.width,
-> -					fbcursor->image.height);
-> +		sm750_hw_cursor_set_size(cursor,
-> +					 fbcursor->image.width,
-> +					 fbcursor->image.height);
->
->  	if (fbcursor->set & FB_CUR_SETPOS)
-> -		sm750_hw_cursor_setPos(cursor,
-> -				       fbcursor->image.dx - info->var.xoffset,
-> -				       fbcursor->image.dy - info->var.yoffset);
-> +		sm750_hw_cursor_set_pos(cursor,
-> +				        fbcursor->image.dx - info->var.xoffset,
-> +				        fbcursor->image.dy - info->var.yoffset);
->
->  	if (fbcursor->set & FB_CUR_SETCMAP) {
->  		/* get the 16bit color of kernel means */
-> @@ -142,14 +142,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
->  		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
->  		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
->
-> -		sm750_hw_cursor_setColor(cursor, fg, bg);
-> +		sm750_hw_cursor_set_color(cursor, fg, bg);
->  	}
->
->  	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
-> -		sm750_hw_cursor_setData(cursor,
-> -					fbcursor->rop,
-> -					fbcursor->image.data,
-> -					fbcursor->mask);
-> +		sm750_hw_cursor_set_data(cursor,
-> +					 fbcursor->rop,
-> +					 fbcursor->image.data,
-> +					 fbcursor->mask);
->  	}
->
->  	if (fbcursor->enable)
-> diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
-> index 43e6f52c2..ff643e33f 100644
-> --- a/drivers/staging/sm750fb/sm750_cursor.c
-> +++ b/drivers/staging/sm750fb/sm750_cursor.c
-> @@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
->  	poke32(HWC_ADDRESS, 0);
->  }
->
-> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
-> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
->  {
->  	cursor->w = w;
->  	cursor->h = h;
->  }
->
-> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
-> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
->  {
->  	u32 reg;
->
-> @@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
->  	poke32(HWC_LOCATION, reg);
->  }
->
-> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
-> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
->  {
->  	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
->  		HWC_COLOR_12_2_RGB565_MASK;
-> @@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
->  	poke32(HWC_COLOR_3, 0xffe0);
->  }
->
-> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
-> -			     const u8 *pcol, const u8 *pmsk)
-> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
-> +			      const u8 *pcol, const u8 *pmsk)
->  {
->  	int i, j, count, pitch, offset;
->  	u8 color, mask, opr;
-> @@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
->  	}
->  }
->
-> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
-> -			      const u8 *pcol, const u8 *pmsk)
-> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
-> +			       const u8 *pcol, const u8 *pmsk)
->  {
->  	int i, j, count, pitch, offset;
->  	u8 color, mask;
-> diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
-> index b59643dd6..88fa02f63 100644
-> --- a/drivers/staging/sm750fb/sm750_cursor.h
-> +++ b/drivers/staging/sm750fb/sm750_cursor.h
-> @@ -5,11 +5,11 @@
->  /* hw_cursor_xxx works for voyager,718 and 750 */
->  void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
->  void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
-> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
-> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
-> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
-> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
-> -			     const u8 *data, const u8 *mask);
-> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
-> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
-> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
-> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
-> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
->  			      const u8 *data, const u8 *mask);
-> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
-> +			       const u8 *data, const u8 *mask);
->  #endif
-> --
-> 2.39.2
->
->
->
