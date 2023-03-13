@@ -1,113 +1,137 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643102569;
-	Mon, 13 Mar 2023 14:13:05 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id p23-20020a05600c1d9700b003ead4835046so7578542wms.0;
-        Mon, 13 Mar 2023 07:13:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5C228F2;
+	Mon, 13 Mar 2023 14:48:48 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id r18so11591804wrx.1;
+        Mon, 13 Mar 2023 07:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678716783;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jXaW8X+ac0AfXs+wrChmgieQwlcGySHkeR7jml2OA0M=;
-        b=f0BFPyRjQxXQtbi4EGq+BuwolnN9PQOD2FCLFshZTCltqYO+wJ+DINIgKDAhH+ob8i
-         gu472eu6RjbYAIyRQUKf4RUlxXguonfJtU9ZwEn6nzJg935V4cAf8yQbBgCvTWraAwCc
-         WIj8enYbQGG4fEeoJFs0NW4XMgvUMPAPIDz5+KjdspyFvLlXdJg+Wb51vK0CWyZFtiVj
-         GBRvkA2WLhI4qxAO20hELh+UBP0GHV+MVp5iu7yv49X9U1IBsj5SRkQhyx4b6Rv8+AgO
-         38taThJcBDx4L8xOTSxrLJTKTLSSlM6TgbdMGT8aTi7FpGoNYBVgm6hUAG646wCU77nj
-         AMTA==
+        d=gmail.com; s=20210112; t=1678718927;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OC4qmyG6g1A7okZrF0ddKzxpXP8qdE3lMwHPw3wEBSI=;
+        b=VXzMnqWupLPRT1hCjJjI1b7Y6hTsdzSsgGbw+sel0lZiemwL/YhxyT7Cc53dZDdcO+
+         HdnfaBrzSsQ5Zj84M2h5xO/iBR2Hu00r77qBgSfkSKS5LAFHXJdkRsWNaJ9PdBkvBMwH
+         Q43+17MikTk/NZvluYXKF4d85ZfJZvIC6xbvjywQvo/NYCCLH0ez4ytx54u5VFPUDdCd
+         ymqrwWYPmBHlucr/X+7LCdKTRfUX7U4BkC/0c0Zq5xdG26sC/9qKoSYaG4ocQLLbIuOj
+         NLTtl6/kLRt6PwHsINtx/YIwAbI5QEsubsx4lswEYnniQh0ULClpyrA+yoYlyGpeWkz8
+         FSUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678716783;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jXaW8X+ac0AfXs+wrChmgieQwlcGySHkeR7jml2OA0M=;
-        b=TB0/NNytvmiypM4gY5lqpG9E6XQdBL4N/2mWjHfFc4htQzxJ2rmKpVv81n/p5O/7M7
-         Wt9/VbceGWa3JWIpKslLGYP1Hkw9J73wWYhWAz6zk/p0DnYuFoN9IE9o+Qh6ucYi3E/Z
-         KYC+vSyt0lUZgunEFk2XFaaCadG7y8nDszELtCtk+zoUfO//715VZyphM9BQ7/2axYtd
-         HLiOuBYi9QQjh5lacqyhcJV2I9VsZZIGMGorRVOKZip6TfaCrv4wImiJmlfHssysRzuN
-         j63cFBeTM4QQ6j+TZ3kteT+u0LzGApfvVwNx96YFjo/F1weBKFsCSTeAMnjq3l2gS2nn
-         jUIg==
-X-Gm-Message-State: AO0yUKXpUp8bgVlROR+eMNUW+YzRykJoJbeJq8oLZjaSAheIEMHbjgmA
-	XFRq447KmOkIgyBmZi88v1kHWZ2kKyA5qQ==
-X-Google-Smtp-Source: AK7set+rp1NYJgQoTgFazlVqG+Xn5xixjgbICPOdFskd+rd+k0vmsC/M4z4PDnyPp1WLYAYfwMzNyg==
-X-Received: by 2002:a05:600c:1c8d:b0:3df:d8c5:ec18 with SMTP id k13-20020a05600c1c8d00b003dfd8c5ec18mr11093367wms.13.1678716783032;
-        Mon, 13 Mar 2023 07:13:03 -0700 (PDT)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id v7-20020a05600c470700b003e8dc7a03basm9643310wmo.41.2023.03.13.07.13.01
+        d=1e100.net; s=20210112; t=1678718927;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OC4qmyG6g1A7okZrF0ddKzxpXP8qdE3lMwHPw3wEBSI=;
+        b=F4ns8J6hKMk/enX3uIfJvM6BhWabRZ6RN7HR51WYCHe9zfMQeIp755yL8BoswSoebW
+         DzC38m94ebAg3nPyVoLCc+Ad7+ZEQHqB5gPjFMdloXnZpoeHG2JdTn2/e0oiA9I4GwJ1
+         KU26CqOWZykdGJF77EVtaDql1stD+OeoginAH43HKLoZQ1KbAInIgvl9J+1ZGU2EKUz9
+         3Orlaw/UxXLLuMpIxjqK0VQBtwHprMNpiR+xydB3VWKGcKxEEcyWIxxdk1irLmhYTdip
+         WSpDo+yg5VCoXECODzZyRp9MWmUfFvmIGQ5iMiHhPeJITN9W/ocKtif8y8/t2QhwhtvO
+         6Tqg==
+X-Gm-Message-State: AO0yUKUdjPPBJfCxgXoAdq9wRqhwj5366ZRamxpU8m5IKW4rnUo5ryfI
+	f5I20RXlfetR5VBh4gSQgE0=
+X-Google-Smtp-Source: AK7set/t+m87UsAPQdttnXrcdRRIwn5mONFsFczNYU9L8nIkv0Il7v9Zv/KMKO/7vWI8uw1LkD6kRw==
+X-Received: by 2002:adf:ef84:0:b0:2ce:b781:b1e5 with SMTP id d4-20020adfef84000000b002ceb781b1e5mr2291713wro.19.1678718926695;
+        Mon, 13 Mar 2023 07:48:46 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.45.115])
+        by smtp.gmail.com with ESMTPSA id x1-20020adff641000000b002c70c99db74sm8149250wrp.86.2023.03.13.07.48.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 07:13:02 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy@lists.linux.dev, Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v4] staging: axis-fifo: initialize read_timeout and write_timeout
- once in probe function
-Date: Mon, 13 Mar 2023 15:13:01 +0100
-Message-ID: <9938109.ZD9C4EEAuf@suse>
-In-Reply-To: <ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine>
+        Mon, 13 Mar 2023 07:48:46 -0700 (PDT)
+Date: Mon, 13 Mar 2023 19:48:43 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] staging: axis-fifo: initialize read_timeout and
+ write_timeout once in probe function
+Message-ID: <ZA83yzPTq+nQF9Dd@khadija-virtual-machine>
 References: <ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine>
+ <9938109.ZD9C4EEAuf@suse>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9938109.ZD9C4EEAuf@suse>
 
-On domenica 12 marzo 2023 18:33:19 CET Khadija Kamran wrote:
-> Module parameter, read_timeout, can only be set at loading time. As it
-> can only be modified once, initialize read_timeout once in the probe
-> function.
-> As a result, only use read_timeout as the last argument in
-> wait_event_interruptible_timeout() call.
+On Mon, Mar 13, 2023 at 03:13:01PM +0100, Fabio M. De Francesco wrote:
+> On domenica 12 marzo 2023 18:33:19 CET Khadija Kamran wrote:
+> > Module parameter, read_timeout, can only be set at loading time. As it
+> > can only be modified once, initialize read_timeout once in the probe
+> > function.
+> > As a result, only use read_timeout as the last argument in
+> > wait_event_interruptible_timeout() call.
+> > 
+> > Same goes for write_timeout.
+> > 
 > 
-> Same goes for write_timeout.
+> Nice idea... But it's not yours :-)
+> 
+> Therefore, you should give credit to Greg with the following tag:
+> 
+> Suggested-by: Greg Kroah-Hartman <...> 
+> 
+> Place the above-mentioned tag a line before the "Signed-off-by:" (which is 
+> always the last line, whatever other tags you might need to add).
+>
+
+Hey Fabio!
+Thank you for letting me know. I was confused as to where should I
+mention that this change was recommended by Greg.
+
+> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > ---
+> 
+> If this patch was a v4 you should have put a log right here, after the three 
+> dashes, explaining what changed from one release to another, release after 
+> release. Please read some other well formatted and accepted patches for real 
+> world examples of how to write version logs.
 > 
 
-Nice idea... But it's not yours :-)
+Okay, got it! I shouldn't have missed it.
 
-Therefore, you should give credit to Greg with the following tag:
+> However, this patch is _not_ a v4 (so no version log is needed after the three 
+> dashes). This is your _first_ patch that addresses Greg's suggested 
+> refactoring. Therefore, just put [PATCH] in the subject line.
+> 
+> That inappropriate "v4" seems to explain the second error showed by the patch-
+> bot. Thus, read carefully its message and ask for further explanations if 
+> something is still unclear.
+> 
 
-Suggested-by: Greg Kroah-Hartman <...> 
+Thank you! It is clear. I will send this again as first_patch. 
 
-Place the above-mentioned tag a line before the "Signed-off-by:" (which is 
-always the last line, whatever other tags you might need to add).
+> Thanks,
+> 
+> Fabio
+> 
+> P.S.: The code looks good but I could not apply it in mainline tree. I don't 
+> know whether this patch is somehow broken or the driver's files differ between 
+> the most recent staging tree and mainline.
+> 
+> However, does it work for you on the most recent staging tree? Did you run 
+> checkpatch on your own patch? (I'm also asking this question because of the 
+> first error showed by the patch-bot). Can you git-reset to a previous state 
+> and reapply your own patches to your local work branch?
+> 
 
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> ---
+Yes,  I did run checkpatch on my patch as suggested by Dan before. It
+showed errors regarding trailing white spaces. Sorry, I ignored them
+thinking that they were present before in the code. I will correct them
+in the next patch submission.
 
-If this patch was a v4 you should have put a log right here, after the three 
-dashes, explaining what changed from one release to another, release after 
-release. Please read some other well formatted and accepted patches for real 
-world examples of how to write version logs.
+Also, I had one question. Is it okay to write a long subject as I have
+used in this patch? 
 
-However, this patch is _not_ a v4 (so no version log is needed after the three 
-dashes). This is your _first_ patch that addresses Greg's suggested 
-refactoring. Therefore, just put [PATCH] in the subject line.
+Regards,
+Khadija
 
-That inappropriate "v4" seems to explain the second error showed by the patch-
-bot. Thus, read carefully its message and ask for further explanations if 
-something is still unclear.
-
-Thanks,
-
-Fabio
-
-P.S.: The code looks good but I could not apply it in mainline tree. I don't 
-know whether this patch is somehow broken or the driver's files differ between 
-the most recent staging tree and mainline.
-
-However, does it work for you on the most recent staging tree? Did you run 
-checkpatch on your own patch? (I'm also asking this question because of the 
-first error showed by the patch-bot). Can you git-reset to a previous state 
-and reapply your own patches to your local work branch?
-
->  drivers/staging/axis-fifo/axis-fifo.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
-
-
-
+> >  drivers/staging/axis-fifo/axis-fifo.c | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
+> 
+> 
+> 
