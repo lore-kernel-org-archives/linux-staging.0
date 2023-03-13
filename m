@@ -1,48 +1,56 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B7D3C35;
-	Mon, 13 Mar 2023 18:07:15 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id k10so52092734edk.13;
-        Mon, 13 Mar 2023 11:07:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D2C3C35;
+	Mon, 13 Mar 2023 18:26:07 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id ek18so21285430edb.6;
+        Mon, 13 Mar 2023 11:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678730833;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TGt5AxMHWQcOiTCB8nZSOBEYxGxgT5H6m9rVSzLuKI4=;
-        b=JXTiJ57Ywbul0B08SiM+XnEt6Pa1sTLB/25UXpln6gBFs342vnPy6faBkgbZD9aZ6K
-         zdJPvBkHdRPB/+R34jjvcpeimzkjkgQEcyingq9+beEJU1BJQvqjCXafJYlddy+jqZav
-         3o23JYyggVRmh/wPN9taOWd+LZwgzdp+4EDYmt4VhG1UcjWcOReJHFqs17V8+Pfq8cwU
-         1+DQJzd0FkxrRsJd+Ynd0Fc+lyVRez9wNljm62bCnjI9q7qdYZx39B645LI/BVktmXez
-         tNq42cXhJ4O9+D2bTd5ncsQdiZiRoTIAH4fjcljdanXMtSsUXYAUvWegxFrmHZUn7OTy
-         kfVA==
+        d=gmail.com; s=20210112; t=1678731966;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZNpONYyMLc+O1cKJ44IbWyBUFtwAAv8E60RL7W04AJs=;
+        b=TvMwO/eRVJjtB5Li/d+OdXqri6XouTMznM1hLlNq+N1QlMcq5ib4hDjeR8W2r/Bu6F
+         husjX1IJLLGago3Ee0Sxi1ZJZVDJjno//1cZPO3pABr5lUDq6gvx0o3YtbRNXwLJgoFD
+         f+tDflU1C3bidWnVdF9zqqx43WogpaF4CTL7czigncnO0AZquvqjQ4kXZayjWteAKO2+
+         YZORJe3tr6kTIM3ubTaK4YxnRRZDhb7VxW5/WdqHRagLtCnyy8XVEUd62ma/1EY9TYVb
+         6SAb6wY9mbbdLKi4xh8mDrDyY3BlN3tiJo1GshOnl46swXN+oHEFrQqd324xuJKNAfUD
+         AAKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678730833;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TGt5AxMHWQcOiTCB8nZSOBEYxGxgT5H6m9rVSzLuKI4=;
-        b=hoZb/qFeoQH+CQXm2URbKrgVVE28Nr18k/JW6CNnY7mvqCKgD7461GF4OHJQkEr2hV
-         7P8pkfPMw/4NEpEdqWhmbtR0Pf09wbn4XERUEqHvs8BsULKmK4tBf7bYjDZoWA8aH+4C
-         PYa3hJ2GaBvG4l4aTjPhV09t5Nr9D0ZlhnmZLyAI/G6CvYyrdPFfyxLBBgaqXChs02Nx
-         tNIfZ1SgcTMchZStOBCk33qtje6bKWNx+HqDECKz7y+0Xwe/YrGfnoorSer8nxReh3XP
-         fLW25g5uJinBBkgdft5y8IRVZDK0eUBpGP4y7MXlgp5wtULPZNrXLZ78M7rMtE3jRPm+
-         OCDg==
-X-Gm-Message-State: AO0yUKXAFEgOdVDTiQA+nMgiNu+tOTF5HPZq0f7TckhJjjCXhzXg7wHv
-	Z1hIuaIUASQr4qzjSjMFGVo=
-X-Google-Smtp-Source: AK7set+84wZUkWvYChMNBkCBuAos3Wl9EAsOrYDZZzeMF2RPD63heLxQOk3Sh0lAGFjq4GQLOkZc8w==
-X-Received: by 2002:a17:907:dab:b0:8ae:11ca:81de with SMTP id go43-20020a1709070dab00b008ae11ca81demr43476604ejc.34.1678730833384;
-        Mon, 13 Mar 2023 11:07:13 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678731966;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZNpONYyMLc+O1cKJ44IbWyBUFtwAAv8E60RL7W04AJs=;
+        b=qN/FrhYHaj1k5KqrWL5l3SPDFjk9L9B77SFXaTf1lFNBMkFD0/xZ11oGQdUneHFrK+
+         Ol4aOojXAbuhm0J/tukJmEZ5TObXDLor+n0Jd5xWpE+YCT4Xpj8aPvXUVxOXS8U296qi
+         oKWYguqKEmxGiInu4josnKWjaO02uSFCpmjy4AQ03Az9BZFbsS6vImnr0vJq2dkxk3mL
+         hkqIi1Tk9mTxqvCVndIiS1g3+flOuPK/WsLux/D7gD4sfen+G2KuFXolhaKsT1V7k+Zj
+         11uSRvlqVtBwAQ2jpmTD8Ah+DJQsVjWvUavLXq3otL5YWTTq8qTjyg30wbdaioIPbja3
+         xQwA==
+X-Gm-Message-State: AO0yUKXUfRnk+7DVBpz7t+K1W0+LYHe1+LS8ApAcbtmoJfkomlwrWBJ9
+	rtSmaAiijcrDAnxNVmktkDk=
+X-Google-Smtp-Source: AK7set+Z8ronD1GN+O2t9fXb5cb2hJc2oxsGuVi0IlG9McCgm+whf9GReA9jIB1G/rvu3znojVY/3A==
+X-Received: by 2002:a17:907:3186:b0:92b:dff4:f8e9 with SMTP id xe6-20020a170907318600b0092bdff4f8e9mr1804273ejb.8.1678731965814;
+        Mon, 13 Mar 2023 11:26:05 -0700 (PDT)
 Received: from khadija-virtual-machine ([39.41.45.115])
-        by smtp.gmail.com with ESMTPSA id u26-20020a1709064ada00b008e125ee7be4sm81663ejt.176.2023.03.13.11.07.12
+        by smtp.gmail.com with ESMTPSA id x5-20020a1709064a8500b008e7916f0bdesm102538eju.138.2023.03.13.11.26.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 11:07:12 -0700 (PDT)
-Date: Mon, 13 Mar 2023 23:07:10 +0500
+        Mon, 13 Mar 2023 11:26:05 -0700 (PDT)
+Date: Mon, 13 Mar 2023 23:26:03 +0500
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
+Subject: Re: [PATCH v4] staging: axis-fifo: initialize read_timeout and
+ write_timeout once in probe function
+Message-ID: <ZA9qu+E/gPZ68mw4@khadija-virtual-machine>
+References: <ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine>
+ <9938109.ZD9C4EEAuf@suse>
+ <ZA83yzPTq+nQF9Dd@khadija-virtual-machine>
+ <ZA9ZY91K8iQtn0ev@aschofie-mobl2>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,64 +59,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZA9ZY91K8iQtn0ev@aschofie-mobl2>
 
-Module parameter, read_timeout, can only be set at the loading time. As
-it can only be modified once, initialize read_timeout once in the probe
-function.
-As a result, only use read_timeout as the last argument in
-wait_event_interruptible_timeout() call.
+On Mon, Mar 13, 2023 at 10:12:03AM -0700, Alison Schofield wrote:
+> 
+> It sounds like the git commit hook for checkpatch, suggested in
+> the tutorial, would have saved you here. Please look that up.
+>
 
-Same goes for write_timeout.
+Hey Alison!
+I had set up git post-commit hook following the tutorial. The script
+showed the errors, but I ignored them before. I have submitted another
+patch. I had 'trailing white spaces' errors in my code and removed them
+in the new patch after consultation from 'coding-style.rst' file.
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+> Also see the section "Following the Driver commit style"
+> And, there are sections on revising patchsets too.
+> 
+> Much of the info in the tutorial doesn't make sense until you
+> need it. So, keep reviewing it to catch more useful info.
+>
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index dfd2b357f484..563caf155713 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -384,9 +384,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 		mutex_lock(&fifo->read_lock);
- 		ret = wait_event_interruptible_timeout(fifo->read_queue,
- 			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
--				 (read_timeout >= 0) ?
--				  msecs_to_jiffies(read_timeout) :
--				  MAX_SCHEDULE_TIMEOUT);
-+			read_timeout);
- 
- 		if (ret <= 0) {
- 			if (ret == 0) {
-@@ -528,9 +526,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		ret = wait_event_interruptible_timeout(fifo->write_queue,
- 			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
- 				 >= words_to_write,
--				 (write_timeout >= 0) ?
--				  msecs_to_jiffies(write_timeout) :
--				  MAX_SCHEDULE_TIMEOUT);
-+			write_timeout);
- 
- 		if (ret <= 0) {
- 			if (ret == 0) {
-@@ -815,6 +811,16 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	char *device_name;
- 	int rc = 0; /* error return value */
- 
-+	if (read_timeout >= 0)
-+		read_timeout = msecs_to_jiffies(read_timeout);
-+	else
-+		read_timeout = MAX_SCHEDULE_TIMEOUT;
-+
-+	if (write_timeout >= 0)
-+		write_timeout = msecs_to_jiffies(write_timeout);
-+	else
-+		write_timeout = MAX_SCHEDULE_TIMEOUT;
-+
- 	/* ----------------------------
- 	 *     init wrapper device
- 	 * ----------------------------
--- 
-2.34.1
+Yes!! No matter how many times I read the tutorial, I still end up
+getting back to it! :)
+Thank you!
 
+Regards,
+Khadija
+
+> More on running checkpatch:
+> - Add that git commmit hook.
+> - The final checkpatch run can be on the formatted patches.
+>   After you've done git format-patch and have a .patch file you
+>   are thinking of sending, run it again. 
+> 
+> Something like this:
+> scripts/checkpatch.pl --no-tree --strict --codespellfile=/usr/bin/codespell ~/my_patches/*.patch
+> 
+> > 
+> > Also, I had one question. Is it okay to write a long subject as I have
+> > used in this patch? 
+> This is in the tutorial. section "Following the Driver commit style"
+>
+> > 
+> > Regards,
+> > Khadija
+> > 
+> > > >  drivers/staging/axis-fifo/axis-fifo.c | 18 ++++++++++++------
+> > > >  1 file changed, 12 insertions(+), 6 deletions(-)
+> > > 
+> > > 
+> > > 
+> > 
