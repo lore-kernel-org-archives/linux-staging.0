@@ -1,61 +1,51 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BF2184F;
-	Mon, 13 Mar 2023 04:36:44 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id ay8so1726446wmb.1;
-        Sun, 12 Mar 2023 21:36:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D062D184F
+	for <linux-staging@lists.linux.dev>; Mon, 13 Mar 2023 04:55:17 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id q16so10088502wrw.2
+        for <linux-staging@lists.linux.dev>; Sun, 12 Mar 2023 21:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678682203;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RPkjKDsBb71nKpudtxtcqtlqrtUYMaoaA2+YW5pgk20=;
-        b=o8UFDtry4uG1JbWAltEud3mIbYrFjovuA16M/p1MxxmdZzNiBEhexzUGojCZBwEFlp
-         fJcPjpPXs4mQeTB5Yr+z85ztvyu4LL3T8+KrUqp5t5GDqI910fvVlZ878MJuAH2qCKKf
-         NCeklxFow7mAXbMUVIRT0gH1UY0HjcyZnRehs6Q+NCloAR4y5fSOZL/H4dLqf13/Mmc4
-         XLlfwl6mgJSvFVcLtRvQzrQqbC8IAB8qBDGwoaye5gbsF8iS8wSeMETb31PfD17oiI03
-         6TxCm900m+1G5hzyf28lu2ozkICGb0eUnEPUZH8s+qNCB0M2Tqz3AZJzl9Y/ZC6+Pc2P
-         WIWA==
+        d=gmail.com; s=20210112; t=1678683316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zp3ofHoONwt43Lfi5ZwTAJ8DiKIiYOSsMfYFCAAYeDk=;
+        b=Nm5R9gRnQc6vf0SAea9CmMhuYv3czapS4TiPXvyhgD8Zi95tlnjzt7TsaWEjj9TF/c
+         oY10ev9XSaq9ATQS4SxI/0UlxXZnfm/BqVRoV5JI4N05dN5J/qLYvHCOtN5u0+OpjxhL
+         bNYxriKIRej1BO7rhU/2DD3+JQK8ugbZAGE408fW92MovlxwXu38ckad4Q460mcnu9ar
+         vAscONzI3PjdsNQPUltNNRl5FZzJ260G0MvFBiM2S24vWMr3btjY5WBp1DqgDrETazTH
+         a0cuO1DIm+xOnUJZ8DDJ3tHD2jIi4c/kHQ4AIY8MQV78MHW6+yuXxXyDLc1Dq80EWOp0
+         Iycg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678682203;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RPkjKDsBb71nKpudtxtcqtlqrtUYMaoaA2+YW5pgk20=;
-        b=OTtgWu12RTPOi/u6IcrTYu/oB1luiCXwZYwMyjDNhP+GDZ3dg2FE+Pd7p0qE5kYpeY
-         i292zdvpd5u9atiXrqDT/iwjuMs0Fj21ghkcFlHEht8VurzyJcAhv2k/fHWg2gWIjTT3
-         RxOOcg0QFDQLj8iN24wXYgQkU1VjxnYbYV0ypOeOAoJNuBaK7efCLV3pqVJFmF1qxCeL
-         P/v0OBVXk26OKhaH9AgkRSWTBHVwVJb+i/83evZfmuOwmpQng4JIAF+GujIBOc4O4LOI
-         urPjTjd311MiorWNukr4kqcpYsNkzou+0fwuigBMVFvywdiLv536ThK1Vjl3PaE0caYv
-         kyKg==
-X-Gm-Message-State: AO0yUKUucysch7qhMFAWAnSRrs2jfOE6IAt+IaAyblVmjCdA5mdB5DoK
-	OiDDMcQ0vrG6DYZWh6kFnuStllswoU8=
-X-Google-Smtp-Source: AK7set+92T7zGiAWcx1G/zea8syZ/x/ZAOEQVX1oETWHiO4OPz7n5Ubnyu927iW/B/MnO5SdkvhlxQ==
-X-Received: by 2002:a05:600c:4751:b0:3ea:f0d6:5d36 with SMTP id w17-20020a05600c475100b003eaf0d65d36mr9722929wmo.29.1678682202670;
-        Sun, 12 Mar 2023 21:36:42 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678683316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zp3ofHoONwt43Lfi5ZwTAJ8DiKIiYOSsMfYFCAAYeDk=;
+        b=V0MHi9RzeyBH9V5hQdGlxg5h+bUKop8HvB8RRtDHX6zBEMnI8ydGST0vF5G7h0JEoy
+         ObluVA5WGS6J7dAf+xW9xScWx1Yce/J8PQwe2wJAEsITSd9IMQ9+WiP+9uMFu5A2UEWr
+         kkmDMcz1NPIf2WyBjH2KaXGrXjABmFSU3P/MxE5TtvC62u0dP7mIX2HXrq8QdUbrRS4S
+         zTtlddKwFhiQlxovVfVKt1TiW9PB/zjE2VptGHysbPNZMPZ9/wwu/nVxC8dF1eAdCtWB
+         xfl3VhUhl45qPJapXA5hBgWj2wRmws9r5uRUuoqV5PY0io++JvJR/zb1RyqwifU08SfH
+         v+vw==
+X-Gm-Message-State: AO0yUKXFjzk9Vj8NBIRENB4ios3jpNJ9RZvm3LkewO1cdVVkkA5JXjCG
+	3pqk89barX79bfz/6D33IV0=
+X-Google-Smtp-Source: AK7set8hFYIqyB+wzu9yJz7taWP4OoxdzEHmnNVkBX3ilfZLDyXjlJF1T+tBZqELmFyLRGRvY64+3Q==
+X-Received: by 2002:adf:e40b:0:b0:2ce:e571:5cc7 with SMTP id g11-20020adfe40b000000b002cee5715cc7mr1422502wrm.56.1678683315990;
+        Sun, 12 Mar 2023 21:55:15 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l26-20020a1c791a000000b003eb68bb61c8sm7659421wme.3.2023.03.12.21.36.41
+        by smtp.gmail.com with ESMTPSA id a18-20020adffad2000000b002ceb7a11eb9sm2249591wrs.42.2023.03.12.21.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Mar 2023 21:36:42 -0700 (PDT)
-Date: Mon, 13 Mar 2023 07:36:39 +0300
+        Sun, 12 Mar 2023 21:55:15 -0700 (PDT)
+Date: Mon, 13 Mar 2023 07:55:07 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Christian Hewitt <christianshewitt@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Christian Hewitt <christianshewitt@gmail.com>,
-	Maxime Jourdan <mjourdan@baylibre.com>,
-	Benjamin Roszak <benjamin545@gmail.com>
-Subject: Re: [PATCH v2 2/2] media: meson: vdec: add HEVC decode codec
-Message-ID: <84114d96-87ac-4fc1-842d-aefb1da49914@kili.mountain>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/12] staging: rtl8192e: Remove unused RF90_PATH_C and
+ ..D starting .._phyreg.h
+Message-ID: <9da125e9-55f9-40a5-8e35-3d44062eab0a@kili.mountain>
+References: <cover.1678569965.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,66 +54,12 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230124034058.3407235-3-christianshewitt@gmail.com>
+In-Reply-To: <cover.1678569965.git.philipp.g.hortmann@gmail.com>
 
-Hi Christian,
+Looks good!
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230124-114201
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230124034058.3407235-3-christianshewitt%40gmail.com
-patch subject: [PATCH v2 2/2] media: meson: vdec: add HEVC decode codec
-config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230312/202303120441.YFGHDOya-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303120441.YFGHDOya-lkp@intel.com/
-
-smatch warnings:
-drivers/staging/media/meson/vdec/codec_hevc.c:734 codec_hevc_prepare_new_frame() warn: possible memory leak of 'new_frame'
-
-vim +/new_frame +734 drivers/staging/media/meson/vdec/codec_hevc.c
-
-015f7814a5a991 Maxime Jourdan 2023-01-24  718  static struct hevc_frame *
-015f7814a5a991 Maxime Jourdan 2023-01-24  719  codec_hevc_prepare_new_frame(struct amvdec_session *sess)
-015f7814a5a991 Maxime Jourdan 2023-01-24  720  {
-015f7814a5a991 Maxime Jourdan 2023-01-24  721  	struct amvdec_core *core = sess->core;
-015f7814a5a991 Maxime Jourdan 2023-01-24  722  	struct hevc_frame *new_frame = NULL;
-015f7814a5a991 Maxime Jourdan 2023-01-24  723  	struct codec_hevc *hevc = sess->priv;
-015f7814a5a991 Maxime Jourdan 2023-01-24  724  	struct vb2_v4l2_buffer *vbuf;
-015f7814a5a991 Maxime Jourdan 2023-01-24  725  	union rpm_param *params = &hevc->rpm_param;
-015f7814a5a991 Maxime Jourdan 2023-01-24  726  
-015f7814a5a991 Maxime Jourdan 2023-01-24  727  	new_frame = kzalloc(sizeof(*new_frame), GFP_KERNEL);
-015f7814a5a991 Maxime Jourdan 2023-01-24  728  	if (!new_frame)
-015f7814a5a991 Maxime Jourdan 2023-01-24  729  		return NULL;
-015f7814a5a991 Maxime Jourdan 2023-01-24  730  
-015f7814a5a991 Maxime Jourdan 2023-01-24  731  	vbuf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx);
-015f7814a5a991 Maxime Jourdan 2023-01-24  732  	if (!vbuf) {
-015f7814a5a991 Maxime Jourdan 2023-01-24  733  		dev_err(sess->core->dev, "No dst buffer available\n");
-015f7814a5a991 Maxime Jourdan 2023-01-24 @734  		return NULL;
-
-kfree(new_frame);
-
-015f7814a5a991 Maxime Jourdan 2023-01-24  735  	}
-015f7814a5a991 Maxime Jourdan 2023-01-24  736  
-015f7814a5a991 Maxime Jourdan 2023-01-24  737  	new_frame->vbuf = vbuf;
-015f7814a5a991 Maxime Jourdan 2023-01-24  738  	new_frame->referenced = 1;
-015f7814a5a991 Maxime Jourdan 2023-01-24  739  	new_frame->show = 1;
-015f7814a5a991 Maxime Jourdan 2023-01-24  740  	new_frame->poc = hevc->curr_poc;
-015f7814a5a991 Maxime Jourdan 2023-01-24  741  	new_frame->cur_slice_type = params->p.slice_type;
-015f7814a5a991 Maxime Jourdan 2023-01-24  742  	new_frame->num_reorder_pic = params->p.sps_num_reorder_pics_0;
-015f7814a5a991 Maxime Jourdan 2023-01-24  743  	new_frame->offset = amvdec_read_dos(core, HEVC_SHIFT_BYTE_COUNT);
-015f7814a5a991 Maxime Jourdan 2023-01-24  744  
-015f7814a5a991 Maxime Jourdan 2023-01-24  745  	list_add_tail(&new_frame->list, &hevc->ref_frames_list);
-015f7814a5a991 Maxime Jourdan 2023-01-24  746  	hevc->frames_num++;
-015f7814a5a991 Maxime Jourdan 2023-01-24  747  
-015f7814a5a991 Maxime Jourdan 2023-01-24  748  	return new_frame;
-015f7814a5a991 Maxime Jourdan 2023-01-24  749  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+regards,
+dan carpenter
 
