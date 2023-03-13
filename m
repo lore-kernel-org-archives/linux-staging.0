@@ -1,203 +1,76 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B9A15A6;
-	Mon, 13 Mar 2023 01:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678669270; x=1710205270;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=B244j7HIVBu10nigSkedsQ1pNJYK9MvC9cQr3X2nFT0=;
-  b=Cl4vHnTWedt/Wrq7IzV6EBZEqef3AHp+COq8n6HETX4dJv9hQmHu3nDJ
-   lGwNvf2u+qvtsE2iSIShC0OMw/m/WWxruDPjkDmKIcOlZG8DQKLSWY5ke
-   Ble3r7YmG4BOzswa/2xZ7ZX1vFXIwxWiMSUXgCD2TktRMo2O1NdG3NlzP
-   6quhEB2sxSMcb+r7jgaP7cqIovoPubrrAh1Ow1yPD+L0ke2zRJtuMhet2
-   R3cj2gt6yVwU1llaVUlECEecAOItmN+DchTTJ/H08cO072OP47n2s5Ot2
-   ebu6d7icVpRlnHubD4HjIUkDdzW8dA0ShN0CZeYNJF9PDrR895+VRLY+H
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="334508080"
-X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="334508080"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2023 18:01:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10647"; a="767519184"
-X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; 
-   d="scan'208";a="767519184"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Mar 2023 18:01:09 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Sun, 12 Mar 2023 18:01:08 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Sun, 12 Mar 2023 18:01:08 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.103)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Sun, 12 Mar 2023 18:01:08 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BqkJbMJZ7OHUP42IXPbjXdT5sMnIZqB43yG2M/6RzopN0+TnMn7SyunKt8hRJvGECek761Z4iieAX+1aXwo2XaUEA7JMNTPihn7YnL5fRlDRooxsRGYyRwpSS4BMdPSzbi++8Rm9ppdSZZBFnmlE5lxby6usKymRGRmOb1u3jvfCtZa41i4tbVnAQ4riCnFQK9QGE2WS5UGGlrkJ3Vht/sBeE2q0XNWoMwmP8jqTgIJJ/H9+Jyu6/ne/sNB/fsIg3sty4GKh5N2asJUkxn+LHZqifRS9qfN5mho+9A3C/oLb1RkGIEteYbm+ci5R98FrD7cuWRGMImutmh1puqki/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1D61WWpaUdShBzdtsbyt/aaLsTyCuIVIxdMtvkITiWg=;
- b=J6jwN01ncoGyaMidHb1ublVAo2/u2ORX04AIbEUXYR/iGL9WemsycC20OVG9uChcVyrkar23oZBuIywZPEQ2CpdiE7XTL4zVkjEMMyDpqAeQuSgMunt19ukQmfdB1ngADVeBB4sJ/wV5ALBm4GffCEOVGpZGCrwkDxzBgQTPoEwGJPGS4ONvP7pDlTWajPfc4qpffP7Sx4iACVDAe17zk8Yr2O2acGy/6stlEaqH9D4N/hU1gcLevPSNt4EsSuigPVsoZuwwzp6RaWgxb6xdD6Pir7IVaTmOkLKxVkTngH8atjKs2e2nDsf9Opxr4qwHBNbqZDOuS/q/GWvyXe2AMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by MW3PR11MB4716.namprd11.prod.outlook.com (2603:10b6:303:53::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
- 2023 01:01:06 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::84dd:d3f2:6d99:d7ff]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::84dd:d3f2:6d99:d7ff%7]) with mapi id 15.20.6178.024; Mon, 13 Mar 2023
- 01:01:06 +0000
-Date: Sun, 12 Mar 2023 18:01:03 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>, <outreachy@lists.linux.dev>
-CC: Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold
-	<johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, <greybus-dev@lists.linaro.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] staging: greybus: remove tabs to fix line length and
- merge lines
-Message-ID: <640e75cfd8fc_229a89294a3@iweiny-mobl.notmuch>
-References: <ZAusnKYVTGvO5zoi@khadija-virtual-machine>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZAusnKYVTGvO5zoi@khadija-virtual-machine>
-X-ClientProxiedBy: SJ0PR03CA0193.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::18) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4A915CA;
+	Mon, 13 Mar 2023 04:08:05 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id l12so1743993wrm.10;
+        Sun, 12 Mar 2023 21:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678680484;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RXawRAIx6eV02ZRwEf548kRyk9SYqMQfx4NlySQytTE=;
+        b=T2Mu5LLg9zR4w6aWywuDnjoLsVB4yDtMBxPBqdwyxu7Nt2WOi1/kJhHzXtcvqybDGS
+         5iDfKFaICH9zfDB5doQqMk0bS0uReZ8kocbni52uHh6vpbFuBSAsHGslHd4LjJdfvGtM
+         DAYERWYHbYlgXniKC+RtBXtk/vziyUng21FAAXzzEjPa+9nM4REORWAR/m/K/xCMS8nu
+         hZ61EmbfuuENAc0TolbgpAvyCFwp9CNMubIGWRwV/dTmChlHBlk6YQ295ZoQCLImkAGY
+         7qQQ8eItjIzLhB0GhGhQnNy5uSEToLu3sbOpARRPhxlGcV1P6HWWnUUl/jbxztILHNeO
+         V9xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678680484;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RXawRAIx6eV02ZRwEf548kRyk9SYqMQfx4NlySQytTE=;
+        b=Po+Skz5Yrnc7RvLQfBDUH1aA6pJoOO63LYjuBQkNVAdgk889IZ8ws3tK3wrWU1+W93
+         u8QQQuf6QGl3tAioF9suvYbbl0wCu/JVjalX8ly/waYy3uvfo1rUn7rIUxI8tVSFqhIF
+         PxRrAEPo7qPUmu9M+RK6bqJ1fTK7wuYaLRiquxHr9ignv00c00gOh2e6UMRcoZOGCNQw
+         IWE3FgtY92gYtdXrl7p3Z07f2uamNcb3130v5DAkgLKj8bU5RfHfTUbTCjXnipgybsp8
+         Ux79AXapFs8BO63gAzA8da4QKN7CauAlQHxWpAr92rKZMUz5sj9Yl5L6UWPzxp98DYTK
+         Nc3Q==
+X-Gm-Message-State: AO0yUKUmvvQ3m9N7mO9as1bmrTt1NcUfgijiyQVG/M0LZYcsbfMUMfrv
+	Zc06USOVmeKZ3//Nf5pe/6Q=
+X-Google-Smtp-Source: AK7set9+WsyZG21rsmESra4j4bSnsngTAgejgwTYjtFpDitqwE9s2K61t/ygvGVNn18m0Falc0sVfQ==
+X-Received: by 2002:adf:dbc3:0:b0:2ca:e856:5a4 with SMTP id e3-20020adfdbc3000000b002cae85605a4mr6552429wrj.26.1678680483923;
+        Sun, 12 Mar 2023 21:08:03 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x1-20020adff641000000b002c70c99db74sm6639829wrp.86.2023.03.12.21.08.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 21:08:03 -0700 (PDT)
+Date: Mon, 13 Mar 2023 07:07:58 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: outreachy@lists.linux.dev, GR-Linux-NIC-Dev@marvell.com,
+	coiby.xu@gmail.com, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	manishc@marvell.com, netdev@vger.kernel.org
+Subject: Re: [PATCH v2] Staging: qlge: Fix indentation in conditional
+ statement
+Message-ID: <87174bba-201f-42f1-9e36-5c330351201a@kili.mountain>
+References: <20230311172540.GA24832@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|MW3PR11MB4716:EE_
-X-MS-Office365-Filtering-Correlation-Id: b83f0385-de1f-4e83-1253-08db235e6cce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IJWoy6FuDGpS3Br6CS00/oTKxyrXzXC1u43eKB5qAo62u1EC0Bw+bjfgySHMu3VK5HmMFvISLx6nc/9lxxuYfM1yWjDwdZ7zx++tqizW4qz/tEaUYb3mHRjbktwNPFiT3PrR2/VYeC/pYXoYPV7pnVMgutEMaqmLIREIqYfGoOsni/7jC0gAksqLYL2wH6SUU2MylBjM6yYavNBqc45g6Fgxavt7jpZ3TWy76KXkDsnPJOAjKsNYaHq41yQAJMAjwM8eku0nUGrGGQQBv6dH4+uw/qTUPfc2TzrhJekoPi0IPdPlHQlUHvas968lEQ3X05Vf4zRxO77f0e/JzDhE6PKO1GJcVwiMvOTFwMx1EQqzETugYmts9SQ2nM27KimjferaMHZMIRHstJYZLjvCZoCcfnB5ScCG6Ye+OH2Gu67siHDnUxvp3YSC51a2MbwH/TGNzd2wh5P3x/UwJ4qcZgqsSPRp80YmVea52sTX4r+PjqtkItGcF9xaRedWpt0/vzJRUk8+HRbrIRFsrRahW1ordQHqq5cEYTvfZyV9K3UyJd8ExBegCQEDogSJRuNC+GBETCsiWi8Cxc3ETjW3D+NNli4CxXeZptkjqhQJoa+yGHAMrsrhKiNaAOWVXhR2enAyhmmO6Gy5Ldl8gU+DtxlwWJu8dltGlcZvOKt8hu8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(366004)(346002)(39860400002)(136003)(376002)(451199018)(82960400001)(2906002)(83380400001)(44832011)(5660300002)(66556008)(66946007)(41300700001)(8936002)(4326008)(8676002)(66476007)(38100700002)(54906003)(86362001)(316002)(478600001)(186003)(9686003)(6506007)(26005)(6666004)(6512007)(6486002)(966005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WE82aXlBeVQ3ODlpNTNRcExHN2ordlFVUStxSHJialhTS05Qc25QZnVXYXR1?=
- =?utf-8?B?UUdJYXJWamQ1SzhsZjlVYUlzQ1JFWWtiRUUvMnFyZ3BIVm1PY3gweHZLNGor?=
- =?utf-8?B?RTNzU3lIODhSMXdZSDRma0x1YXRQZWJCZ2JMVzZxM25INUw3SEdvYitadGN4?=
- =?utf-8?B?YTNPVFJ2enJMSU1Ia3hZRUJuV2Jkb0lZSldLT2NqR3FRSjFqVVF0dGpjeGdi?=
- =?utf-8?B?aThUNjBhRExyenNBVHFRYXVJb3pRMFpNWnZML0RhN1N4dFBXQTRZYXc0Z0s3?=
- =?utf-8?B?UFgrWW51bDM5RmVHY2RBK1VEMHNaVE1WMWZiS2dES3NiV3lwbGg1d2czUlZa?=
- =?utf-8?B?NmEwcmVyQkNTS2YvdDJ6dHMwRll2YUYrdGhoL1dVZ2pUUTd6Y1FFZmJrQ2Nu?=
- =?utf-8?B?aEM5NmUzVG5OWitmamM4WXRYQVFrVkhJU2hrVVZOeExudTkyVFdjdU56YTRs?=
- =?utf-8?B?RTJVSGJZMzM4Z1pxTnl1N0MzRmlBVUZvNVFIZjY3Uy8xWTU1Nk1SL2czeWN4?=
- =?utf-8?B?TTN3L0dVbjh4dEdRMGN2WDFocEdYTXlrelBhQVhERVhHZ0FGcVQ3Ykh2aTkx?=
- =?utf-8?B?aHFjcVdxcnkwaTZhNGNUT0NreHlNMzdzMklzMXlmN05oZEtGMjVNR29iOHBo?=
- =?utf-8?B?MFJDSE1FVXZyb0xSNlBUYW9CclhZQjNsSWVRUnNoSTdKV1NPOGlSWHQ3UTRu?=
- =?utf-8?B?dlFYaUowajBKTjdMV2VvSkVPZ0dDNGMva0RhRXNIaVJoRE1aVDNsWE44K1hJ?=
- =?utf-8?B?NEpLczhSL2g4b25QbWpRc3BqMGJYL2FyZzlERGdpQjNVeC9pL3lhakRrTFBP?=
- =?utf-8?B?L2pFYlZaY0t0azhxRUVjZGxDR2FVK2kzMFp2U2xHWXIvWGoxRFZTcThuK2R4?=
- =?utf-8?B?NW12akJKTHJXcmMrNWsrcUJJTXlNMHFCb1ltWS93OEZsc1RqWlM2cWo5S3ZC?=
- =?utf-8?B?VFdUbUFRUE8wOW9yVTA1SUJFMC9qbDZaNXR3SGxyUStvV2s1N1VnMWlLUUs1?=
- =?utf-8?B?RkVKWTcwVGpjb3VjaTY5TVZxNU9PM2s4Sk92U0V4TnJvektaZ3dKVkhKRDMv?=
- =?utf-8?B?Nk0wZmM4NHphK0lwZmQ1Z29wMXo0dVVySFJ4b2trSDl2Sm9VRUJ4L0c2OFIy?=
- =?utf-8?B?dVlYRmZ0a1RmWmpxWmxnNTVXL1pqQndMU1ZpVElRdXA5MGh2Qkd4bmEvRW0v?=
- =?utf-8?B?eGQ5eXYvcGROVGNESjZtSTdZUWFReFhyN1NYcytiZ042cnA1aTRnbnhlVHN2?=
- =?utf-8?B?MUxlUkhxcVVNNHU3YTFxSHJHSkVSQjhON0EyWDF2V0FvSVVzTDQzRlQ4YzhQ?=
- =?utf-8?B?ZEJZTmtPRUVFMzVJVnFRd0x2cUdJbTg0SzZsSFgyZDJKSUczWEY3M284Z0do?=
- =?utf-8?B?dkVJM2ZvSlZYWUtzN2txTDJyUzhURERsc1QxTlFUam9aMHdMMXpkdWdLVzFU?=
- =?utf-8?B?V0gxSVRReXRVdGROVjBZYk4zYVYwUWtnSlJySWdEM2RMUGo0RHVMQlBKcnFu?=
- =?utf-8?B?enA1SjVkVDJ3M1h6cVBianZJbmFJY3g1bmloU3hucTJpTzBwZEYrQUhkbWxE?=
- =?utf-8?B?NXJDR3h4RktHQXIyb2VCRHZmbDlQckNwVlptcjZtNkhCbzFwbnhtbm5vMUNK?=
- =?utf-8?B?RE1UU2g3RnNPWGFKSnFXaEpKWW5pQ3Q2dkU2S2tGMWhXUWVyYXlwSG9lbUhJ?=
- =?utf-8?B?MFVvQVRwaVRJajJtSmZiRW02WFA0aU9iRDBxZWJkZDdWL2h6UzBGTWZrby9F?=
- =?utf-8?B?WlBqQS9xL2pObGRQSVBPSWlCVXVaOU1VUmtHYTlkYUxUTVNIditVZTcvZ0hl?=
- =?utf-8?B?K29EejlDV0dCeTlwOXNodEN4V3ZNWVpVSnNIMVhEejJmMkJCbXUwVU93ZThN?=
- =?utf-8?B?bUJEZWE0M01YclpxUGtsU3NHU3BKOWcvc3k0enVIR203YW9HVXV3QTdxVjhs?=
- =?utf-8?B?dHFTbFRybm95TlEzSTN5SGgzY2tOMStJM0VsOTRGcVV4VnVzK1VaTEZvNFRr?=
- =?utf-8?B?bGFzenFFSlNScm4zRVlMLzE4K25YU3V3YmwrbGlaNUhLZDRsRjF3dENHbzZZ?=
- =?utf-8?B?MXh4NnlWTVlEY2NEeEdWK1ZJTXEyYWhVT29pR3RuY0cxNlJ0ZG5BN2N3R3dF?=
- =?utf-8?Q?3+DACBNe1k2Pj2ltBe18iSQmY?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b83f0385-de1f-4e83-1253-08db235e6cce
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 01:01:06.4442
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xhifhUhpqJ01djh3+A+DCj1J6LiMWlT0oG8vRW9hw43X/QMy61lgCajCQ78kwObH6JebMYetcnq4X75KO4oHpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4716
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230311172540.GA24832@ubuntu>
 
-Khadija Kamran wrote:
-> In file drivers/staging/greybus/arche-platform.c,
-> - Length of line 181 exceeds 100 columns, fix by removing tabs from the
->   line.
-> - If condition and spin_unlock_...() call is split into two lines, join
-> them to form a single line.
+On Sat, Mar 11, 2023 at 09:25:40AM -0800, Sumitra Sharma wrote:
+> Add tabs/spaces in conditional statements in qlge_dbg.c to fix the
+> indentation.
 > 
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-
-Fundamentally the problem with arche_platform_wd_irq() is that the
-indentation is too great.
-
-"... if you need more than 3 levels of indentation, you’re screwed anyway,
-and should fix your program."
-
-	-- https://www.kernel.org/doc/html/v4.10/process/coding-style.html#indentation
-
-I think a better solution would be to refactor the entire function.  This
-would make the logic of the function more clear as well IMHO.
-
-Here is another tip to help:
-
-https://www.kernel.org/doc/html/v4.10/process/coding-style.html#centralized-exiting-of-functions
-
-Do you think you could try that?
-Ira
-
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 > ---
-> Changes in v2:
->  - Change the subject and log message
->  - Merge if condition and spin_unlock...() from two lines to one 
->  drivers/staging/greybus/arche-platform.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> index fcbd5f71eff2..00ed5dfd7915 100644
-> --- a/drivers/staging/greybus/arche-platform.c
-> +++ b/drivers/staging/greybus/arche-platform.c
-> @@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
->  				 * Check we are not in middle of irq thread
->  				 * already
->  				 */
-> -				if (arche_pdata->wake_detect_state !=
-> -						WD_STATE_COLDBOOT_START) {
-> +				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
->  					arche_platform_set_wake_detect_state(arche_pdata,
-> -									     WD_STATE_COLDBOOT_TRIG);
-> -					spin_unlock_irqrestore(&arche_pdata->wake_lock,
-> -							       flags);
-> +						WD_STATE_COLDBOOT_TRIG);
-> +					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
->  					return IRQ_WAKE_THREAD;
->  				}
->  			}
-> -- 
-> 2.34.1
-> 
-> 
+>  v2: Fix indentation in conditional statement, noted by Dan Carpenter
+>  <error27@gmail.com>
+>  
 
+This doesn't apply.  You need to start from a fresh git tree.  Please
+read my whole earlier email again.
+
+regards,
+dan carpenter
 
