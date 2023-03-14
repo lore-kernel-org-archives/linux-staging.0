@@ -1,74 +1,118 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061E52565;
-	Tue, 14 Mar 2023 08:07:01 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id h3so15076358lja.12;
-        Tue, 14 Mar 2023 01:07:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56CA33EC
+	for <linux-staging@lists.linux.dev>; Tue, 14 Mar 2023 11:43:24 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id ay8so4818395wmb.1
+        for <linux-staging@lists.linux.dev>; Tue, 14 Mar 2023 04:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678781220;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iwDokkDCp3gvd4WNjn3p9IwIzF1O1UFas2ZgKmXkVJI=;
-        b=BnpTt+CwtlFY0mm8gOhspRyImXLr2eyZ/8mVMFuQBCPLXA7cgKRp5FDKgWxU2om0Cn
-         DaVCITLeQBWUgPNQLBOyXgmsXeXm3RuzC22bj+DeBxUw0kqNJKaa18QbhPaTSXPMFRzF
-         4m9N3/ffmAPfMfcXLqwetrZWe3qW80RyPPp3dh3N/AjblVvsR66tle0XyX6BvPJqs9W0
-         muyM5KEcEezxwN45H3z43xdKGb3gK06bkCnoS9Tawhi3hGBdNO1i6kqC3hfufzQsToEY
-         fNFjW6asyErZQdSYv0FOLw9CKDYlOk/2lCD9iS77cHUm0AMfOOGtKU4WKdFuvyxomDVE
-         Oq2Q==
+        d=gmail.com; s=20210112; t=1678794203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ooBUhVhCqisZJ8iFuqAxT4qE8PBELCGSQnXBwgwo9FQ=;
+        b=jrvesbJQwoSIRLAzVMo01IbkpsdrM0EQDt8iOZB8IWYVcA7NSDtMBnzu4TjhBAgEeg
+         RazP0UPxBHxBJ33oJZ2rdAlqN+9sVAN27fVDHEiEtkNyljrAYHRESiRZBJpw+Z7sxUhI
+         QEiEPD0dV7sXAy/FGKbNTmKJYpabkxzk1K4tBkiOT0rDeOzXgFZAi7frM8bcOPJW1aKC
+         pSrVf2gJo92dg7G9UHS5Vzjt5d5XPSm25BXe7cU9lI9CyoWLg9Wkxq/AlOdWdHJq7NEc
+         4zXYNBvCW8oOcZrwdU3PQSWpkZZJxSNagFRiijVAv+JEgM9prPcaYkCxfZYlhm7xOnzq
+         wgRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678781220;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iwDokkDCp3gvd4WNjn3p9IwIzF1O1UFas2ZgKmXkVJI=;
-        b=MqzECkzu7aBDa5/LLDcEJDEtG4O6WeGMndu3jLmxcOjNhpEhQN1KxOo9l6ZoNqFI9D
-         JJsBSwAxPTlX6UP2fcepn8TQrwS2PxsMQrjbQYUSAFVr5/e4Zy64yUw033m7iLF6vcSJ
-         Fq7DoBSt9Bkc99gOx5PMieTS5aktJr+5z4Qqw8KrDp3g1l90rmdYu80ShBy9VAGXoNSv
-         kIm60whCKCioi6h9UJ05/yNcHZbOcGOL8J9Jw5X4OXITca7sxbtU6XILW3jPeW7wHTOx
-         ZyQVGRDorGeBte8MPkJvNuIsUUVxSnJyVnsZle1n4P7GS4/N8H5QUCv83gU4zWH+31hc
-         cOaA==
-X-Gm-Message-State: AO0yUKWbUOxj1ujIyLVn1qnnDXA3rEL21yPWEOzEpN63TIs255TwhY96
-	GT4nrDftGGww/M/bgwjIeiJrE97WT6mEtDVas/0=
-X-Google-Smtp-Source: AK7set8ikbfZwHpd0zd3uhb8WhF1wXT9RDCk4Kevrrp3L4QFWYrViPVbZZ4pvMSKv6L1Ml/llbqKy/R0trZedVRhsW8=
-X-Received: by 2002:a2e:7011:0:b0:295:ba28:a43 with SMTP id
- l17-20020a2e7011000000b00295ba280a43mr5249701ljc.4.1678781219868; Tue, 14 Mar
- 2023 01:06:59 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1678794203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ooBUhVhCqisZJ8iFuqAxT4qE8PBELCGSQnXBwgwo9FQ=;
+        b=zbF69G5ktYT3nYNi91Wmakqapdnzv1STF71aOg8nqmSljFTK4oS8us1pxWk7clXU0f
+         RcdnABWqpDvJrL7wUTtdzAhTBpazuy9ninMUDbucbRI1R6saNp064fcpww8lXELYj/Wt
+         nSpH58dv01jNQZ4ZF71NrkH09s/f5/hnbrlQzTgBoyWGhE+BeeDcGBaQK0yjGfvlK86n
+         3Qzc6yEPTc8VYguHpqUxtPJCOT1aWnWXzF10csizlXYDDTPizmRBrEWE4/IzHyugEneO
+         a7Y1ooK/Vw/IpFKvtoniROj4etnxLdX37HPbTXlVnEKQvC4dxLXFyYS18PDHVaIrimBN
+         LQJA==
+X-Gm-Message-State: AO0yUKUG4ubif6zY61tvvQoIRLmlgu/Ssa6WXQg/u5K2mcsd6waIFXW8
+	rIBMLSMEjoYZIU9CUQZ5Xag=
+X-Google-Smtp-Source: AK7set9RIIQlNtVhSOoG4lHHjC76XZo3/vmwVv6WFjbYYf+QoYb0pNd1mdUJwo8feqwrICAb65T/Ww==
+X-Received: by 2002:a05:600c:470a:b0:3e1:bfc:d16e with SMTP id v10-20020a05600c470a00b003e10bfcd16emr13901241wmo.39.1678794202958;
+        Tue, 14 Mar 2023 04:43:22 -0700 (PDT)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id v7-20020a05600c470700b003ed2a458a7asm2710590wmo.44.2023.03.14.04.43.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 04:43:22 -0700 (PDT)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Christian Hewitt <christianshewitt@gmail.com>
+Subject: [PATCH v3 0/2] media: meson: vdec: add HEVC decode codec
+Date: Tue, 14 Mar 2023 11:43:16 +0000
+Message-Id: <20230314114318.4057353-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230308131934.380395-1-gregkh@linuxfoundation.org>
- <660ef0b7-fb09-5a72-57b1-3b57ddee924e@gmail.com> <ZAxZCJn7AN/yWSRh@equinox> <ZAxx1kYjVKFRE3kz@kroah.com>
-In-Reply-To: <ZAxx1kYjVKFRE3kz@kroah.com>
-From: Richard Weinberger <richard.weinberger@gmail.com>
-Date: Tue, 14 Mar 2023 09:06:46 +0100
-Message-ID: <CAFLxGvwKaXviF=5OTtm+pPHwdtXTX6A2e_aRTUraOsxKOL3-4A@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: delete driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Hans de Goede <hdegoede@redhat.com>, Martin Kaiser <martin@kaiser.cx>, 
-	Larry Finger <Larry.Finger@lwfinger.net>, linux-wireless@vger.kernel.org, 
-	Jes.Sorensen@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 11, 2023 at 1:25=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> > > > Also the rtl8xxxu driver supports way more devices, and is a fracti=
-on of
-> > > > the overall size, making this a much better overall solution.
-> > > >
-> > > > Thanks to the r8188eu developers and maintainers and reviewers over=
- the
-> > > > years, your work allowed Linux users to use their hardware before t=
-he
-> > > > real driver was implemented properly.
+This mini-series adds support for HEVC decoding. It combines the original codec
+work done by Maxime Jourdan in 2019 [0] and improvements by Benjamin Roszak in
+2021 [1]. Only GXBB/GXL/GXM are enabled as decoding currently crashes on G12A
+and later SoCs when trying to decode a 10-bit HEVC stream.
 
-Both r8188eu and rtl8188eu had support for access point mode but
-rtl8xxxu has none AFAICT.
-Is there something in the pipes to have AP mode supported?
+The goal of upstreaming the driver in its current state is to encourage greater
+community contribution towards adding missing features, and fixing the bugs and
+conformance issues necessary to get out of staging.
+
+The HEVC codec presented here is generally partnered with FFMpeg sources that
+are being maintained by the Raspberry Pi Foundation [2] and [3] that contain
+numerous improvements to v4l2_m2m (and v4l2_request) support. There is active
+work in progress to refine the FFMpeg changeset and send it upstream.
+
+Christian
+
+Changes from v2:
+- fix memory leak reported by smatch [4]
+
+Changes from v1:
+- Fix unused val warning reported by kernel test robot <lkp@intel.com>
+
+[0] https://github.com/Elyotna/linux/commits/4.20/v4l2-m2m-pr
+[1] https://gitlab.com/benjamin545/linux-amlogic/-/commits/aml-hevc
+[2] https://github.com/jc-kynesim/rpi-ffmpeg/commits/release/4.4/rpi_import_1
+[3] https://github.com/jc-kynesim/rpi-ffmpeg/tree/dev/5.1.2/rpi_import_1
+[4] https://lore.kernel.org/r/202303120441.YFGHDOya-lkp@intel.com/
+
+Benjamin Roszak (1):
+  media: meson: vdec: implement 10bit bitstream handling
+
+Maxime Jourdan (1):
+  media: meson: vdec: add HEVC decode codec
+
+ drivers/staging/media/meson/vdec/Makefile     |    2 +-
+ drivers/staging/media/meson/vdec/codec_h264.c |    3 +-
+ drivers/staging/media/meson/vdec/codec_hevc.c | 1463 +++++++++++++++++
+ drivers/staging/media/meson/vdec/codec_hevc.h |   13 +
+ .../media/meson/vdec/codec_hevc_common.c      |  161 +-
+ .../media/meson/vdec/codec_hevc_common.h      |    3 +-
+ drivers/staging/media/meson/vdec/codec_vp9.c  |   35 +-
+ drivers/staging/media/meson/vdec/esparser.c   |    4 +-
+ drivers/staging/media/meson/vdec/hevc_regs.h  |    1 +
+ drivers/staging/media/meson/vdec/vdec.h       |    1 +
+ .../staging/media/meson/vdec/vdec_helpers.c   |   44 +-
+ .../staging/media/meson/vdec/vdec_helpers.h   |   10 +-
+ .../staging/media/meson/vdec/vdec_platform.c  |   37 +
+ 13 files changed, 1678 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.c
+ create mode 100644 drivers/staging/media/meson/vdec/codec_hevc.h
+
+-- 
+2.34.1
+
