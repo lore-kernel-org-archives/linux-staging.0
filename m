@@ -1,196 +1,271 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2B58F69
-	for <linux-staging@lists.linux.dev>; Tue, 14 Mar 2023 15:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD268F69;
+	Tue, 14 Mar 2023 15:14:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1678806190; x=1710342190;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=2VemP/wU1KePQDHuzIhNJqrDtPwrPh3VVX8fNn4P5QQ=;
-  b=uKMlwgsT4BxVI/I8yaLXx8rmktgDvOFwy4JIk6e1f0HEjDZWxDQjqrYM
-   98EAPy1dLn+I1WikcLw4qO8D4sT28EEoFFtQ/Qp/0FwzTdI5vC+B3veDp
-   5+swvvSpgN0NkUjbkbiE0KcqpeCiHTSF+IwzDOfOBiz4EOptmjritMXYm
-   vuTSTKgS/9ZdOGQaW5djIZc3Fwre/hwY5wYoTkDvwo/WEPav1mtayF4AM
-   4bcL1TEc4uTk54yYKPDV1qOIHTmuAH5ArzkdYoQl7+ZWQvgKhFNguh676
-   moBpsVpb7zUJQoNnP9leIFKP9G/fWhdF2NU2CeIGcvdy+0rbqX/cW2Ibm
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678806855; x=1710342855;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K6Vdzp8KjBCuYcLJXxHVlkQzUyS+zE/ruzxJSurp4Mc=;
+  b=DTutvieq7PHw+raew10tYBeHKMHN3Is2fWZVrAcHwKDMvne+lhYkC1F8
+   LclFvpXWT1buyXTat/NTh7Z7xzIJxOfVWnL1/dqvSkP4yofP5it6me4GN
+   S3Qdd+TAvi3oKbnW5sBrFexMD8SFS3yPECYz3eXUEdZhXejP1FlNxY8w2
+   JzjH7sKPBtUsb8T0UH1iiV+Um0QK4DaCTQzfwqmR4OM9uxx5nR6fOa5mC
+   boEyxS02FQv/vfXhch1rCGRVetKf8QrhAYFiThwpLWxK4iu42AXeZ+t5Q
+   QMOMDc/eeNawFYqMWq0HmjnP5sngLi4pbkZVKg/V234Nys1+PZPVs4cAv
    g==;
-X-IronPort-AV: E=Sophos;i="5.98,260,1673938800"; 
-   d="scan'208";a="205068953"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 14 Mar 2023 08:01:59 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 14 Mar 2023 08:01:58 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Tue, 14 Mar 2023 08:01:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ta+HIbgWLzBV0FZX01fKccmtxymCCbgFIkn007Vb6Z94qBw5LmrV6/l7fx86MHpxgmYJYUvFrNeHo+6jrWGZYVVqsstlIugQm1MlRBehsoeEjyPIngViuHxgQNb/+4WMQCh3ve8XgchTUDYAU/1cCuwKppFQvC9C35bJJsbksI578yE8QAXP307VZWxojCxk60cTTBf7fK+8PcvYJWvWM5yicZQHVETdQewGXmFtPRGMnUtLlBNKlmataeH1d7CfYaixDRPYDts8C8XyDIPdsxF2WPEcuHjpeGJbQXLXAKbuDVVLSsQwEvAbyaDc3Fvb9s0SdJdLVG59slDX7GeiqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2VemP/wU1KePQDHuzIhNJqrDtPwrPh3VVX8fNn4P5QQ=;
- b=denZOfMN+nJUlvyk99zRg2wTyBpGe/YEidWsqaE1X5i/iL93rRlw7gpVn/6L8oIdKKpwmJvT6CojDZ00SvySvlUidRp4AMSJNVcVBiPe2nBaiQh0VYRW5g1hD0NSWV+ASUVtRLAEU+Uuz45eb3H9xJj2pJGV7kfqXlFM6nsZHPVaISQ0stfcKiY+ma1GTpO+VpX0/N3IqAvFuQd4ph6eNaZFEWSdApHlJdbIu03IjeBVOHScqpjnzEXL+vSXWHey9DZYINzeLv7O6JdsjcSdiykzkVCebjc36NSkjKCfmybNc3Ng6bIATs0jjRjdgxN25oVXJJR243/tuUyYu0AATA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2VemP/wU1KePQDHuzIhNJqrDtPwrPh3VVX8fNn4P5QQ=;
- b=qURQ+JdOsT9C8NP5AZKKWeBNopHW/6qbcxqZUDpCgjTsv09ZhW8wkeHETNhlEVaWAeYkK9Hnk8eesvtGtVtQWWzCF/GOf5qm++xswhXcuQ3/NLxgBkRBLbXjGlusYgf30qgCBBSvfpaQaXVT1iEWB3SEXaihwL9vQ2dR6yRcC/k=
-Received: from BN6PR11MB1953.namprd11.prod.outlook.com (2603:10b6:404:105::14)
- by DM4PR11MB8092.namprd11.prod.outlook.com (2603:10b6:8:184::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Tue, 14 Mar
- 2023 15:01:56 +0000
-Received: from BN6PR11MB1953.namprd11.prod.outlook.com
- ([fe80::6eb8:36cd:3f97:ab32]) by BN6PR11MB1953.namprd11.prod.outlook.com
- ([fe80::6eb8:36cd:3f97:ab32%5]) with mapi id 15.20.6178.026; Tue, 14 Mar 2023
- 15:01:56 +0000
-From: <Claudiu.Beznea@microchip.com>
-To: <yang.lee@linux.alibaba.com>, <mchehab@kernel.org>
-CC: <eugen.hristev@collabora.com>, <Nicolas.Ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <gregkh@linuxfoundation.org>,
-	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH -next] media: atmel: atmel-isc: Use
- devm_platform_ioremap_resource()
-Thread-Topic: [PATCH -next] media: atmel: atmel-isc: Use
- devm_platform_ioremap_resource()
-Thread-Index: AQHZVoXrR2ZNdVebOk63w8E2SYJsMw==
-Date: Tue, 14 Mar 2023 15:01:56 +0000
-Message-ID: <5fbd369d-03f0-8d48-d944-1e1953454dde@microchip.com>
-References: <20230314055826.103682-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20230314055826.103682-1-yang.lee@linux.alibaba.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN6PR11MB1953:EE_|DM4PR11MB8092:EE_
-x-ms-office365-filtering-correlation-id: 335e1661-440a-41c9-5fa1-08db249d0dbc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MYE32PY9X4zjd5AVWk2woHWtshubPg7c3rKK3DtsOR1Pxl6cJBBV4maEpbxyX0i5rH/U3CRtBb0nY3d66WLurPLEQDXFdIgfFWH3/9LAMSXe+dhFNgIkgLgk13z9RLsCqqBwIAhT/THE5Am+8qJqXsvWabA59feXQwq0gFlJnOZ/a1wyci5349CIZ/wspn307LBkHdcvwnTxARK/b5PZH0aybz9he26HdQolHxFlV2N5vak+wekM/1X+DMHgj4ZOKd45Y+K2m249BIVqaII3TA17WdBm72Mn4TLlbIwbyrFG72wGnEAs7ZvpYKLWq0Fq9u9+ItbhrAw7djEmL3HoC0R8ly0ISVs0HirJjq+QNG17UUH+8Oz7OeOaNsj4ivQynDERRBotrySGY8MFMPbRQrjukJhzm/jhuL6C0lyu6OwEimAIewh1GHCtJqZFGOihzZj+jr2V+Rl/mSe5PbwNjaLdMtndxFd7YziudvfnKmf24+Pb9jAAAaYBI4LzFxl2Mm9sLfAirUv9BWHpnHqHGP0OX1hDuTRU/KxuLdwu31dslREiek3rdypCsup6onmgaSmxwlTRtuCh0oPCbd0zh18t8hkrjZtZTlL2tFVV70Lps68QpL82gUFdwyuG3Uckg6mpwUwUoxFUuJ8E20JErm2CVykv2SFqZNYmtO4w+4/1S6urzM3gG0gISGlcUjCFHEksuPFANF7wDvrb2Bfq0oDFHtePGWD0x16RIWuURUvgrPSXDmrnO6vpteG20LGF9WwA3uS3BsKJRu6NHRStgA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB1953.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(396003)(376002)(346002)(136003)(366004)(451199018)(86362001)(31696002)(38070700005)(36756003)(38100700002)(122000001)(2906002)(41300700001)(5660300002)(8936002)(4326008)(2616005)(6512007)(6506007)(53546011)(186003)(26005)(83380400001)(54906003)(316002)(110136005)(66556008)(66476007)(64756008)(8676002)(91956017)(66446008)(66946007)(6486002)(71200400001)(478600001)(76116006)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OFZlTjVhUXVUQ1pSRVpydi8vaWRycUhqRUNUS2xVOTlRbjZkOFZ0Y2gyd0FQ?=
- =?utf-8?B?WGpjZU9EMkRaUnRGcmY5eHBrVnVsN2FUN2hsTGV3bU83VFMwQ09tY0tORTU4?=
- =?utf-8?B?NTVRamw0TVZUelYzZ2pmNGk2aWdySkNwNWNNOVVud3d1Y2dYWFNYazdqYlU5?=
- =?utf-8?B?U295bXd6ZlJKWmVWSDhWb0IvSEg1MmdLbzE1NTBOZWs0RnpNaXdVRnJOWTFH?=
- =?utf-8?B?cVBmV3JuUVFoaGFrUEQ2eHJzVGZ0TlhERUZPZDN0UHZpeUY3SDhoNkJnRDlw?=
- =?utf-8?B?VzJsbUw0UWhSM1NqbHhidXlxVEdTMXhHdmZIT05oNmdIQ1ZqSDh5TGNFeWFs?=
- =?utf-8?B?andoVU85aGpHdnpzQVF5TWl0RFlVS3I5T0xFM3c0THFEZy9RbzRzWW8zMkVX?=
- =?utf-8?B?QkpkZVBQbHgrZlpZcDg0ZEVON2RIc0Exd2EyVGtYeDZGdEIrWE1sSXoxR3V2?=
- =?utf-8?B?cFJOUXExeGlPeGtoZElYTEo3YmVsVHlqemRMOWdwTzFyVHUzMnZieG43MjUr?=
- =?utf-8?B?OEIzVjlyZENGbGpuc1hUZTBIQVRxUk1QN2M4ZWx3ejdtdUdYL1J6dm5VaGRo?=
- =?utf-8?B?Z0d5cWJHUjc0N2xJem5sU3dxS0doNzNjRmFYWVkyM0FUT3FoWmN5VVpKQWF5?=
- =?utf-8?B?a0dvSEkvREJBeUQ3djI1OUpZWVgyaVBNMnF5cTN0bW9rbGhteUh0ZTVtVFhM?=
- =?utf-8?B?MlM4MHdTcDBJQnI1MmV4ZkhVcWtvbEhDdDR5a1kwQzNaSlNJZTJod0lValdK?=
- =?utf-8?B?ZmlIU05LbU5RYjBOVEdGaUtmeVN0MWxpcjF1NnBjOUwreHhLR2lkUzJaQzVI?=
- =?utf-8?B?bGJjL3RxUi9Hd25IQlBaQjVPS2pOelBJZ3FPSCtydEFOVEJXT3ZxRnUwelNz?=
- =?utf-8?B?N2J2MGJjMzg3MDdGRFZGZXJadkVwUUxXR0IzcWQzWmRCL05RQ2tzcUQraE92?=
- =?utf-8?B?Vi9kbEQyTUxuZjMrLytNbTJOQTBzZ25XN2pZUHVTZnE5Z2JxWmt3cFBzMmFl?=
- =?utf-8?B?N0dMSlgzQ0xYcVpBSzhPRHJnSmRxWWRvRnpwdVRFZ2prZ3pYN1Q2WXFmRDM5?=
- =?utf-8?B?MG10SXNyRzZhZEQ1OWdsZXBmR2l0M2lOd0FkTGVWOE5aUEYxSGgrMXphMWdo?=
- =?utf-8?B?VVRlbktkU3hqaTNDOVFOK1dMVTFsTXN5NGcrNWJLME9nYjlHOEo3SlY4ZExm?=
- =?utf-8?B?aVBneVMrQmxRZHhpYlZVN3dWQnN2N3FDVHJZUW91ejFKZ09KTVlOMi95WUhz?=
- =?utf-8?B?dHp0SGZHTlpHN05MOFJCWXFzcTRXOHpZRjFYTUFUWVE2dmZqaFBETTJSNDZj?=
- =?utf-8?B?a2NkM254VW1nSm43b04ramhrY2xYQXJ6alVxUjViUDVnMnBiWWVjVi9YeDA0?=
- =?utf-8?B?UXY2bFJyQkcyTzdKSXdoZ2F0WkNOZ1VHblM2TXA1eWhWNzNuV0R3czF0WXlV?=
- =?utf-8?B?VXR6TUg3Nmt4anNteWgwVEpMeGRheHFmanJRNkJpQ1ZZSlVXWlhOK1YzZzh3?=
- =?utf-8?B?QVBkN0ZwQUVQQXF5QzdZckRzcTlVS095aU5wMmE3enduWDdvaHVDVENwdC9y?=
- =?utf-8?B?OG9YalgvWTJIYWcraXphSjlSbmt4Z2hKUDhwOFVTbE1BMXNQTXlPampiR1ZO?=
- =?utf-8?B?bWNlam93eDhDV2hlUE50LzlFUSt1OGNrSENTZ09qRHV3L3d5QUtqVEkrSkcx?=
- =?utf-8?B?K3ZoSDMvMnI1T1Z2ZGVzMEtTZUtLbW03MnBMcWlKL0pvRHZPTUpYMWk0OUdO?=
- =?utf-8?B?UjAvVmpxWmk3WUR1UUZVQkJRSHZmYk1KbGFpbWVRa2ZTb2EvYjUzcjlkOHo3?=
- =?utf-8?B?eHlrY0d2NEUzU01Wa1FWbitybklPZWtOemx4ZWZReWpXQk81VUt0YXdOKzRV?=
- =?utf-8?B?ak9SekhBZmxEN1hrWWN5eDZVd2Nwc1JtVjhXaHNqaWxaUzVoc2tWYTlXbFBX?=
- =?utf-8?B?WnR1bjlGWkYzSmgrMHFhMytuTEFjMnpmdzVJWmpLalYzUUg2d1hud2VGcldH?=
- =?utf-8?B?dEhxOTZjaHo2UE5BNUttWGxDZnoxNmhqZzd4Q29MSC9Vd3h6Ymk1Zk9QUDZ5?=
- =?utf-8?B?cGtsbVFvOEJkSC9PTGd5WG53bjd6YWhnZHdiZG9VeVJjbmhiUEkyWjZYdmIz?=
- =?utf-8?B?Umk1SXpCV3VQN1IrcUw4V2NUSWx0TXJiQWo5L3YzZllXRlFRZzQxL2ZFRW02?=
- =?utf-8?B?dVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6795A0A45BD2AD4A9EC7D845F42A6067@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="337478297"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="337478297"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 08:13:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="822410486"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
+   d="scan'208";a="822410486"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.140.184])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 08:13:55 -0700
+Date: Tue, 14 Mar 2023 08:13:53 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <ZBCPMVFvjodeUbGF@aschofie-mobl2>
+References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
+ <202303141159.6wN9HNP9-lkp@intel.com>
+ <ZBB/30ZBW9EU1QfK@khadija-virtual-machine>
+ <20230314144207.GA4106922@dev-arch.thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB1953.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 335e1661-440a-41c9-5fa1-08db249d0dbc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2023 15:01:56.1659
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JhuPubTxtE0s+VTHhhBOaC6XNTbR5hVaALE9ri8aJvjaYQosgXERm3+fO1BZAnaFImkQWJGORhUPvFEvNfu22L/TiElIe29+1s8OL1FzZlM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB8092
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230314144207.GA4106922@dev-arch.thelio-3990X>
 
-T24gMTQuMDMuMjAyMyAwNzo1OCwgWWFuZyBMaSB3cm90ZToNCj4gRVhURVJOQUwgRU1BSUw6IERv
-IG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25vdyB0aGUg
-Y29udGVudCBpcyBzYWZlDQo+IA0KPiBBY2NvcmRpbmcgdG8gY29tbWl0IDc5NDVmOTI5ZjFhNyAo
-ImRyaXZlcnM6IHByb3ZpZGUNCj4gZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKCkiKSwg
-Y29udmVydCBwbGF0Zm9ybV9nZXRfcmVzb3VyY2UoKSwNCj4gZGV2bV9pb3JlbWFwX3Jlc291cmNl
-KCkgdG8gYSBzaW5nbGUgY2FsbCB0byBVc2UNCg0Kcy9Vc2UvdXNlDQoNCndpdGggdGhpczoNCg0K
-UmV2aWV3ZWQtYnk6IENsYXVkaXUgQmV6bmVhIDxjbGF1ZGl1LmJlem5lYUBtaWNyb2NoaXAuY29t
-Pg0KDQo+IGRldm1fcGxhdGZvcm1faW9yZW1hcF9yZXNvdXJjZSgpLCBhcyB0aGlzIGlzIGV4YWN0
-bHkgd2hhdCB0aGlzIGZ1bmN0aW9uDQo+IGRvZXMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBZYW5n
-IExpIDx5YW5nLmxlZUBsaW51eC5hbGliYWJhLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL3N0YWdp
-bmcvbWVkaWEvZGVwcmVjYXRlZC9hdG1lbC9hdG1lbC1zYW1hNWQyLWlzYy5jIHwgNCArLS0tDQo+
-ICBkcml2ZXJzL3N0YWdpbmcvbWVkaWEvZGVwcmVjYXRlZC9hdG1lbC9hdG1lbC1zYW1hN2c1LWlz
-Yy5jIHwgNCArLS0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNiBkZWxl
-dGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvZGVwcmVj
-YXRlZC9hdG1lbC9hdG1lbC1zYW1hNWQyLWlzYy5jIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL2Rl
-cHJlY2F0ZWQvYXRtZWwvYXRtZWwtc2FtYTVkMi1pc2MuYw0KPiBpbmRleCBiYTA2MTRmOTgxYTIu
-LmVlYmIzMzZlZmNlNyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL2RlcHJl
-Y2F0ZWQvYXRtZWwvYXRtZWwtc2FtYTVkMi1pc2MuYw0KPiArKysgYi9kcml2ZXJzL3N0YWdpbmcv
-bWVkaWEvZGVwcmVjYXRlZC9hdG1lbC9hdG1lbC1zYW1hNWQyLWlzYy5jDQo+IEBAIC0zODksNyAr
-Mzg5LDYgQEAgc3RhdGljIGludCBhdG1lbF9pc2NfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2Rldmlj
-ZSAqcGRldikNCj4gIHsNCj4gICAgICAgICBzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmcGRldi0+ZGV2
-Ow0KPiAgICAgICAgIHN0cnVjdCBpc2NfZGV2aWNlICppc2M7DQo+IC0gICAgICAgc3RydWN0IHJl
-c291cmNlICpyZXM7DQo+ICAgICAgICAgdm9pZCBfX2lvbWVtICppb19iYXNlOw0KPiAgICAgICAg
-IHN0cnVjdCBpc2Nfc3ViZGV2X2VudGl0eSAqc3ViZGV2X2VudGl0eTsNCj4gICAgICAgICBpbnQg
-aXJxOw0KPiBAQCAtNDAzLDggKzQwMiw3IEBAIHN0YXRpYyBpbnQgYXRtZWxfaXNjX3Byb2JlKHN0
-cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgICAgICAgcGxhdGZvcm1fc2V0X2RydmRh
-dGEocGRldiwgaXNjKTsNCj4gICAgICAgICBpc2MtPmRldiA9IGRldjsNCj4gDQo+IC0gICAgICAg
-cmVzID0gcGxhdGZvcm1fZ2V0X3Jlc291cmNlKHBkZXYsIElPUkVTT1VSQ0VfTUVNLCAwKTsNCj4g
-LSAgICAgICBpb19iYXNlID0gZGV2bV9pb3JlbWFwX3Jlc291cmNlKGRldiwgcmVzKTsNCj4gKyAg
-ICAgICBpb19iYXNlID0gZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKHBkZXYsIDApOw0K
-PiAgICAgICAgIGlmIChJU19FUlIoaW9fYmFzZSkpDQo+ICAgICAgICAgICAgICAgICByZXR1cm4g
-UFRSX0VSUihpb19iYXNlKTsNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvbWVk
-aWEvZGVwcmVjYXRlZC9hdG1lbC9hdG1lbC1zYW1hN2c1LWlzYy5jIGIvZHJpdmVycy9zdGFnaW5n
-L21lZGlhL2RlcHJlY2F0ZWQvYXRtZWwvYXRtZWwtc2FtYTdnNS1pc2MuYw0KPiBpbmRleCAwMWFi
-YWJkZmNiZDkuLmJlZWQ0MGZlM2Y5MSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL21l
-ZGlhL2RlcHJlY2F0ZWQvYXRtZWwvYXRtZWwtc2FtYTdnNS1pc2MuYw0KPiArKysgYi9kcml2ZXJz
-L3N0YWdpbmcvbWVkaWEvZGVwcmVjYXRlZC9hdG1lbC9hdG1lbC1zYW1hN2c1LWlzYy5jDQo+IEBA
-IC0zNzgsNyArMzc4LDYgQEAgc3RhdGljIGludCBtaWNyb2NoaXBfeGlzY19wcm9iZShzdHJ1Y3Qg
-cGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgew0KPiAgICAgICAgIHN0cnVjdCBkZXZpY2UgKmRl
-diA9ICZwZGV2LT5kZXY7DQo+ICAgICAgICAgc3RydWN0IGlzY19kZXZpY2UgKmlzYzsNCj4gLSAg
-ICAgICBzdHJ1Y3QgcmVzb3VyY2UgKnJlczsNCj4gICAgICAgICB2b2lkIF9faW9tZW0gKmlvX2Jh
-c2U7DQo+ICAgICAgICAgc3RydWN0IGlzY19zdWJkZXZfZW50aXR5ICpzdWJkZXZfZW50aXR5Ow0K
-PiAgICAgICAgIGludCBpcnE7DQo+IEBAIC0zOTIsOCArMzkxLDcgQEAgc3RhdGljIGludCBtaWNy
-b2NoaXBfeGlzY19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgICAgICAg
-IHBsYXRmb3JtX3NldF9kcnZkYXRhKHBkZXYsIGlzYyk7DQo+ICAgICAgICAgaXNjLT5kZXYgPSBk
-ZXY7DQo+IA0KPiAtICAgICAgIHJlcyA9IHBsYXRmb3JtX2dldF9yZXNvdXJjZShwZGV2LCBJT1JF
-U09VUkNFX01FTSwgMCk7DQo+IC0gICAgICAgaW9fYmFzZSA9IGRldm1faW9yZW1hcF9yZXNvdXJj
-ZShkZXYsIHJlcyk7DQo+ICsgICAgICAgaW9fYmFzZSA9IGRldm1fcGxhdGZvcm1faW9yZW1hcF9y
-ZXNvdXJjZShwZGV2LCAwKTsNCj4gICAgICAgICBpZiAoSVNfRVJSKGlvX2Jhc2UpKQ0KPiAgICAg
-ICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIoaW9fYmFzZSk7DQo+IA0KPiAtLQ0KPiAyLjIwLjEu
-Ny5nMTUzMTQ0Yw0KPiANCg0K
+On Tue, Mar 14, 2023 at 07:42:07AM -0700, Nathan Chancellor wrote:
+> Hi Khadija,
+> 
+> On Tue, Mar 14, 2023 at 07:08:31PM +0500, Khadija Kamran wrote:
+> > On Tue, Mar 14, 2023 at 11:45:51AM +0800, kernel test robot wrote:
+> > > Hi Khadija,
+> > > 
+> > > Thank you for the patch! Perhaps something to improve:
+> > > 
+> > > [auto build test WARNING on staging/staging-testing]
+> > > 
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
+> > > patch link:    https://lore.kernel.org/r/ZA9mThZ7NyRrQAMX%40khadija-virtual-machine
+> > > patch subject: [PATCH] staging: axis-fifo: initialize timeouts in probe only
+> > > config: arm64-randconfig-r012-20230313 (https://download.01.org/0day-ci/archive/20230314/202303141159.6wN9HNP9-lkp@intel.com/config)
+> > > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+> > > reproduce (this is a W=1 build):
+> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > >         chmod +x ~/bin/make.cross
+> > >         # install arm64 cross compiling tool for clang build
+> > >         # apt-get install binutils-aarch64-linux-gnu
+> > >         # https://github.com/intel-lab-lkp/linux/commit/9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
+> > >         git remote add linux-review https://github.com/intel-lab-lkp/linux
+> > >         git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
+> > >         git checkout 9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
+> > >         # save the config file
+> > >         mkdir build_dir && cp config build_dir/.config
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/staging/axis-fifo/
+> > > 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Link: https://lore.kernel.org/oe-kbuild-all/202303141159.6wN9HNP9-lkp@intel.com/
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > > >> drivers/staging/axis-fifo/axis-fifo.c:817:18: warning: implicit conversion from 'long' to 'int' changes value from 9223372036854775807 to -1 [-Wconstant-conversion]
+> > >                    read_timeout = MAX_SCHEDULE_TIMEOUT;
+> > >                                 ~ ^~~~~~~~~~~~~~~~~~~~
+> > >    include/linux/sched.h:296:31: note: expanded from macro 'MAX_SCHEDULE_TIMEOUT'
+> > >    #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
+> > >                                            ^~~~~~~~
+> > >    include/vdso/limits.h:11:19: note: expanded from macro 'LONG_MAX'
+> > >    #define LONG_MAX        ((long)(~0UL >> 1))
+> > >                             ^~~~~~~~~~~~~~~~~
+> > >    drivers/staging/axis-fifo/axis-fifo.c:822:19: warning: implicit conversion from 'long' to 'int' changes value from 9223372036854775807 to -1 [-Wconstant-conversion]
+> > >                    write_timeout = MAX_SCHEDULE_TIMEOUT;
+> > >                                  ~ ^~~~~~~~~~~~~~~~~~~~
+> > >    include/linux/sched.h:296:31: note: expanded from macro 'MAX_SCHEDULE_TIMEOUT'
+> > >    #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
+> > >                                            ^~~~~~~~
+> > >    include/vdso/limits.h:11:19: note: expanded from macro 'LONG_MAX'
+> > >    #define LONG_MAX        ((long)(~0UL >> 1))
+> > >                             ^~~~~~~~~~~~~~~~~
+> > >    2 warnings generated.
+> > >
+> > 
+> > Hi everyone!
+> > Kindly let me know if I should look into these warnings.
+> > Thank you!
+> 
+> You should always avoid introducing new warnings whenever possible. In
+> this case, it appears that read_timeout and write_timeout should be
+> changed from 'int' to 'long' to account for the fact that
+> MAX_SCHEDULE_TIMEOUT is being assigned to it directly now, versus being
+> passed as a parameter to wait_event_interruptible_timeout(), which
+> assigned it to 'long' anyways.
+> 
+> If you have any other questions or need further help, let me know :)
+> 
+> Cheers,
+> Nathan
+
+Hi Khadaji,
+
+Echoing Nathan's feedback - yes, you need to correct these.
+
+Do you see these warnings when you compiled?  If yes, then your path to
+fixing them is easier. Make sure it recompiles with no warnings.
+
+If you don't see these warnings, then you need to follow the steps to
+reproduce in the lkp email. You have to be able to 'see the warning'
+make a change and 'see it go away'.
+
+Alison
+
+> 
+> > > vim +817 drivers/staging/axis-fifo/axis-fifo.c
+> > > 
+> > >    805	
+> > >    806	static int axis_fifo_probe(struct platform_device *pdev)
+> > >    807	{
+> > >    808		struct resource *r_mem; /* IO mem resources */
+> > >    809		struct device *dev = &pdev->dev; /* OS device (from device tree) */
+> > >    810		struct axis_fifo *fifo = NULL;
+> > >    811		char *device_name;
+> > >    812		int rc = 0; /* error return value */
+> > >    813	
+> > >    814		if (read_timeout >= 0)
+> > >    815			read_timeout = msecs_to_jiffies(read_timeout);
+> > >    816		else
+> > >  > 817			read_timeout = MAX_SCHEDULE_TIMEOUT;
+> > >    818	
+> > >    819		if (write_timeout >= 0)
+> > >    820			write_timeout = msecs_to_jiffies(write_timeout);
+> > >    821		else
+> > >    822			write_timeout = MAX_SCHEDULE_TIMEOUT;
+> > >    823	
+> > >    824		/* ----------------------------
+> > >    825		 *     init wrapper device
+> > >    826		 * ----------------------------
+> > >    827		 */
+> > >    828	
+> > >    829		device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+> > >    830		if (!device_name)
+> > >    831			return -ENOMEM;
+> > >    832	
+> > >    833		/* allocate device wrapper memory */
+> > >    834		fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+> > >    835		if (!fifo)
+> > >    836			return -ENOMEM;
+> > >    837	
+> > >    838		dev_set_drvdata(dev, fifo);
+> > >    839		fifo->dt_device = dev;
+> > >    840	
+> > >    841		init_waitqueue_head(&fifo->read_queue);
+> > >    842		init_waitqueue_head(&fifo->write_queue);
+> > >    843	
+> > >    844		mutex_init(&fifo->read_lock);
+> > >    845		mutex_init(&fifo->write_lock);
+> > >    846	
+> > >    847		/* ----------------------------
+> > >    848		 *   init device memory space
+> > >    849		 * ----------------------------
+> > >    850		 */
+> > >    851	
+> > >    852		/* get iospace for the device */
+> > >    853		r_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > >    854		if (!r_mem) {
+> > >    855			dev_err(fifo->dt_device, "invalid address\n");
+> > >    856			rc = -ENODEV;
+> > >    857			goto err_initial;
+> > >    858		}
+> > >    859	
+> > >    860		/* request physical memory */
+> > >    861		fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
+> > >    862		if (IS_ERR(fifo->base_addr)) {
+> > >    863			rc = PTR_ERR(fifo->base_addr);
+> > >    864			goto err_initial;
+> > >    865		}
+> > >    866	
+> > >    867		dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+> > >    868	
+> > >    869		/* create unique device name */
+> > >    870		snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
+> > >    871		dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
+> > >    872	
+> > >    873		/* ----------------------------
+> > >    874		 *          init IP
+> > >    875		 * ----------------------------
+> > >    876		 */
+> > >    877	
+> > >    878		rc = axis_fifo_parse_dt(fifo);
+> > >    879		if (rc)
+> > >    880			goto err_initial;
+> > >    881	
+> > >    882		reset_ip_core(fifo);
+> > >    883	
+> > >    884		/* ----------------------------
+> > >    885		 *    init device interrupts
+> > >    886		 * ----------------------------
+> > >    887		 */
+> > >    888	
+> > >    889		/* get IRQ resource */
+> > >    890		rc = platform_get_irq(pdev, 0);
+> > >    891		if (rc < 0)
+> > >    892			goto err_initial;
+> > >    893	
+> > >    894		/* request IRQ */
+> > >    895		fifo->irq = rc;
+> > >    896		rc = devm_request_irq(fifo->dt_device, fifo->irq, &axis_fifo_irq, 0,
+> > >    897				      DRIVER_NAME, fifo);
+> > >    898		if (rc) {
+> > >    899			dev_err(fifo->dt_device, "couldn't allocate interrupt %i\n",
+> > >    900				fifo->irq);
+> > >    901			goto err_initial;
+> > >    902		}
+> > >    903	
+> > >    904		/* ----------------------------
+> > >    905		 *      init char device
+> > >    906		 * ----------------------------
+> > >    907		 */
+> > >    908	
+> > >    909		/* create character device */
+> > >    910		fifo->miscdev.fops = &fops;
+> > >    911		fifo->miscdev.minor = MISC_DYNAMIC_MINOR;
+> > >    912		fifo->miscdev.name = device_name;
+> > >    913		fifo->miscdev.groups = axis_fifo_attrs_groups;
+> > >    914		fifo->miscdev.parent = dev;
+> > >    915		rc = misc_register(&fifo->miscdev);
+> > >    916		if (rc < 0)
+> > >    917			goto err_initial;
+> > >    918	
+> > >    919		dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%pa, irq=%i\n",
+> > >    920			 &r_mem->start, &fifo->base_addr, fifo->irq);
+> > >    921	
+> > >    922		return 0;
+> > >    923	
+> > >    924	err_initial:
+> > >    925		dev_set_drvdata(dev, NULL);
+> > >    926		return rc;
+> > >    927	}
+> > >    928	
+> > > 
+> > > -- 
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests
+> > 
+> 
