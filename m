@@ -1,138 +1,117 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1D9A939;
-	Tue, 14 Mar 2023 19:07:14 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id p16so11089424wmq.5;
-        Tue, 14 Mar 2023 12:07:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A45A939;
+	Tue, 14 Mar 2023 19:53:25 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id da10so66852487edb.3;
+        Tue, 14 Mar 2023 12:53:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678820832;
+        d=gmail.com; s=20210112; t=1678823604;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DmMsS72DrhmKHSRbr2NFMNW5CLIkt+u/jgJhqvsUU+k=;
-        b=ZKESy222bvgLEzuBCchTHrEsX6V83Zf1v22/U6gUrCbWClgbyvNGjwjldnKLh8W81m
-         M9MQYp77Xjr6Qh7Sdxu5TbWbLmHuIgiW+NZby4h4TnR4wbfG1O+W7qCLGOnDUAL0c7TZ
-         a4fl2WUDFSbqBl3Xr7V+AQF4E7qUde1WY9NvZ5bNQLd9Z4rgt9zVFGfp8AqH90JpygtG
-         Rcle2yv2NU/sWKVvMxFuaEqtCApXWuGfOyEuczVBOI4yuHLdUslasDo1LuBXrNO+emG/
-         t+BJSOJwitbbIHx6Di63cJAYMX/aBqVpmSYVTRkDEV5EoOPKtUE+fF57SxFIQUQ9dP27
-         N7Pg==
+        bh=Vsp8Tj0Vktuf9bbrjDiQaJ9V5M9finhOPDw8dAUIlFQ=;
+        b=QRy9UBfQi/bmZP2AMa6LauQh1VorDM8ZrVcpeEFJYZ0LnAdvOX5JcghVGOPDf9/TCR
+         Xlk2evnPwBe60SCL69UtvMbHoKjI8gItlfvKSKOUzlFyhzZT01xFoux8YD20tQTXYEX3
+         c6QlWOR9qWYRN4QLaTLo+cJlnTO1sRmnUOm3au7yxfk9EkmGVge91mhj0KHUV5TfILZa
+         kbof++5IA8CBHsvpSOONobt2u4aPz3OyyubfLNXApoUzYEEBms6jR1RANbdfRpW0LcrQ
+         7NiGinbujqirCtCbGGGLsTi48KwMpfqyUF2YtVAjd9gizGEAGeTmoq9uxYdAeVZ3+s4B
+         v4qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678820832;
+        d=1e100.net; s=20210112; t=1678823604;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DmMsS72DrhmKHSRbr2NFMNW5CLIkt+u/jgJhqvsUU+k=;
-        b=4kLXNI/+MJd3l9IEt2WpH5yrDFd96OrbtOfTaKYsz46a+HX9mUA33U2E2GURpXXRo2
-         1SkUvtL68JD8MtmFIUAtY+BbOvaVdf/+FdSVhvMEfj+DbrAMq4U6qbY0DbgTA8rNU2V5
-         scnHw3wHEtTbk245CtmLr0bN27W5XKhDEC0hDhek0AU8flaA3Glt+dIIBbuZcgqG823C
-         yKh4oOAVAzz9KgC6y07i1uQzq+veh66Fed3KpcvIAgLobWdblFHm1SgaLr+CZex4gIZS
-         oa59hlLhpp+rTItxrefA2577z9yNsc3UoPcLBimgTvaCYuNwuBIpwP+50qY43mbpV9c8
-         /xrw==
-X-Gm-Message-State: AO0yUKVpLVo8C879/DAE4TsIyBYmkn0FgJJ16BZ2qGQpCPKyAA9PDLjA
-	N/D5564MmPKB9pxP9rHZJJ0=
-X-Google-Smtp-Source: AK7set8v+ja22gvJX3YpINvF+53LIkLKWQPeXL/mCNvDScclBCyrySvPPEjBZ7ejUE6QeaVYS6lxGA==
-X-Received: by 2002:a05:600c:5028:b0:3eb:a4e:a2b2 with SMTP id n40-20020a05600c502800b003eb0a4ea2b2mr15172610wmr.4.1678820832262;
-        Tue, 14 Mar 2023 12:07:12 -0700 (PDT)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id v18-20020a1cf712000000b003e91b9a92c9sm3522646wmh.24.2023.03.14.12.07.10
+        bh=Vsp8Tj0Vktuf9bbrjDiQaJ9V5M9finhOPDw8dAUIlFQ=;
+        b=kuyWaFsHW5cCrrbKaWTfQd+XtW21IfjZU8f3USVxG+md3v2cJwI697HlTo72uZu08j
+         Ru28ZYvO9PxRWkwON4+e4dh+D6Pm9GA0w1/H9abDEokJUvVV7sPw/NGi1G5So+HfYdCl
+         mLj/Rvy8xaDfvH1/AZ8fkvN0hR7t8oV8gKxHDKyifp12LB6BQ/rXHtPD6EReWRylMB8L
+         ikR82TsVpGWjtNSG6UjbsChO9cs7MJfBqjgG5Z6csYMI2pIv8QM6Ns3STBaDAqCxMXKx
+         yiTD8i/RJcwNHSX0MP38Q12jzhIY/+oz2d8gCXBrGa6sX0taoZqBUzKMUd5+IMlP11Pq
+         x9sA==
+X-Gm-Message-State: AO0yUKUY0iW309bNOZk1WFMRUUNJ+WxrzlgwKDy6go7/wKeM38cinFzA
+	kagqwrWO41J75JHtrmQ2Zbg=
+X-Google-Smtp-Source: AK7set/aZQdUOqZ2pfdQ1/SmUcMim+rOjI0ri/3qpQg1f1JZzTN0Sb5PQFFOEMQcK+x6rxZijFw+9w==
+X-Received: by 2002:a17:906:dc3:b0:839:74cf:7c4f with SMTP id p3-20020a1709060dc300b0083974cf7c4fmr4344319eji.8.1678823603740;
+        Tue, 14 Mar 2023 12:53:23 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id rq4-20020a17090788c400b00927341bf69dsm1523827ejc.88.2023.03.14.12.53.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Mar 2023 12:07:11 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Alison Schofield <alison.schofield@intel.com>, outreachy@lists.linux.dev,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Date: Tue, 14 Mar 2023 20:07:07 +0100
-Message-ID: <2510576.EEEGcR9oU2@suse>
-In-Reply-To: <ZBCPMVFvjodeUbGF@aschofie-mobl2>
-References:
- <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
- <20230314144207.GA4106922@dev-arch.thelio-3990X>
- <ZBCPMVFvjodeUbGF@aschofie-mobl2>
+        Tue, 14 Mar 2023 12:53:23 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, Zheng Wang <zyytlz.wz@163.com>
+Cc: hverkuil@xs4all.nl, wens@csie.org, samuel@sholland.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
+ 1395428693sheep@gmail.com, alex000young@gmail.com,
+ Zheng Wang <zyytlz.wz@163.com>
+Subject:
+ Re: [PATCH v2] media: cedrus: fix use after free bug in cedrus_remove due to
+ race condition
+Date: Tue, 14 Mar 2023 20:53:22 +0100
+Message-ID: <2274018.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20230313163120.3741811-1-zyytlz.wz@163.com>
+References: <20230313163120.3741811-1-zyytlz.wz@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On marted=EC 14 marzo 2023 16:13:53 CET Alison Schofield wrote:
-> On Tue, Mar 14, 2023 at 07:42:07AM -0700, Nathan Chancellor wrote:
-> > Hi Khadija,
-> >=20
-> > On Tue, Mar 14, 2023 at 07:08:31PM +0500, Khadija Kamran wrote:
-> > > On Tue, Mar 14, 2023 at 11:45:51AM +0800, kernel test robot wrote:
-> > > >
-> > > > [...]
-> > >=20
-> > > Hi everyone!
-> > > Kindly let me know if I should look into these warnings.
-> > > Thank you!
-> >=20
-> > You should always avoid introducing new warnings whenever possible. In
-> > this case, it appears that read_timeout and write_timeout should be
-> > changed from 'int' to 'long' to account for the fact that
-> > MAX_SCHEDULE_TIMEOUT is being assigned to it directly now, versus being
-> > passed as a parameter to wait_event_interruptible_timeout(), which
-> > assigned it to 'long' anyways.
-> >=20
-> > If you have any other questions or need further help, let me know :)
-> >=20
-> > Cheers,
-> > Nathan
->=20
-> Hi Khadija,
->=20
-> Echoing Nathan's feedback - yes, you need to correct these.
->=20
-> Do you see these warnings when you compiled?  If yes, then your path to
-> fixing them is easier. Make sure it recompiles with no warnings.
->=20
-> If you don't see these warnings, then you need to follow the steps to
-> reproduce in the lkp email. You have to be able to 'see the warning'
-> make a change and 'see it go away'.
->=20
-> Alison
->=20
+Dne ponedeljek, 13. marec 2023 ob 17:31:20 CET je Zheng Wang napisal(a):
+> In cedrus_probe, dev->watchdog_work is bound with cedrus_watchdog function.
+> In cedrus_device_run, it will started by schedule_delayed_work. If there is
+> an unfinished work in cedrus_remove, there may be a race condition and
+> trigger UAF bug.
+> 
+> CPU0                  CPU1
+> 
+>                     |cedrus_watchdog
+> 
+> cedrus_remove       |
+>   v4l2_m2m_release  |
+>   kfree(m2m_dev)    |
+> 
+>                     | v4l2_m2m_get_curr_priv
+>                     | 
+>                     |   m2m_dev //use
+> 
+> Fix it by canceling the worker in cedrus_remove.
+> 
+> Fixes: 7c38a551bda1 ("media: cedrus: Add watchdog for job completion")
+> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> ---
+> v2:
+> - use cancel_delayed_work_sync instead and add Fixes
+> label suggested by Hans Verkuil
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Hi Khadija,
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-I would suggest trying to recompile using "make W=3D1 -j...". Not sure if y=
-ou'll=20
-see the warnings (depends on your compiler, version and target architecture=
-).=20
-However, it's worth a try as it may save you the time it takes to go throug=
-h=20
-the steps for reproduction.
+Best regards,
+Jernej
 
-Anyway, as Nathan said, that warning is triggered by assigning 'long' to 'i=
-nt'=20
-(i.e., "MAX_SCHEDULE_TIMEOUT" is cast to 'long', while the types of=20
-"read_timeout" and "write_timeout " are both 'int'). Obviously, these kinds=
- of =20
-assignments overflow wherever the representation of type 'long' uses more b=
-its=20
-than the type 'int'.
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> a43d5ff66716..a50a4d0a8f71 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -547,6 +547,7 @@ static int cedrus_remove(struct platform_device *pdev)
+>  {
+>  	struct cedrus_dev *dev = platform_get_drvdata(pdev);
+> 
+> +	cancel_delayed_work_sync(&dev->watchdog_work);
+>  	if (media_devnode_is_registered(dev->mdev.devnode)) {
+>  		media_device_unregister(&dev->mdev);
+>  		v4l2_m2m_unregister_media_controller(dev->m2m_dev);
 
-That implies that you should try to understand where the module's parameter=
-s=20
-are defined and how to work with the related macros.
-
-I hope it helps.
-
-=46abio
-
-P.S.: If you don't know yet what to do, take a look at the following docume=
-nt:
-https://sysprog21.github.io/lkmpg/ (The Linux Kernel Module Programming=20
-Guide).
-  =20
 
 
 
