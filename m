@@ -1,129 +1,251 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A233C23
-	for <linux-staging@lists.linux.dev>; Tue, 14 Mar 2023 12:13:06 +0000 (UTC)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32EC4se3026408;
-	Tue, 14 Mar 2023 12:12:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=110L6We+tErq++uBNoBN1uJF511fqR2i9Hu6nLMCfFM=;
- b=Mt6Rr/j3t3w4ggzEwsdRu1l72SgDSPQfveO9/1GuYZNxoMYKTAOv53duIONjuIv33MOw
- suJ0O+gdtwALXiKXnChkZiq/eYFNUY2Wag43GscIFCJ7TFtLlBVK13oJbt5g8q4FaYnM
- HPuMupg7W7sdP82ijz6fRlBV5urIDIceHgyyf4Yl9Y8gzWbsQL1QDweAR1kOjGbeojIr
- rvaPOx6U1H5F2z3LqlCUcm7vExNWYMEgsCc5ZcKVxiJOXVJ4n6jMZVV2xA3mm5sPzk9X
- FMzyR01Biu0nINqkwYEoXRHSArPGnYJkLQaBnL9+hkawLLVBslJVy9m9smhKU0PU9DQ/ mQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3paptr3cfn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Mar 2023 12:12:56 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32EBMXcC008392;
-	Tue, 14 Mar 2023 12:12:56 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3paptr3ce1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Mar 2023 12:12:55 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-	by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32E5qENP020629;
-	Tue, 14 Mar 2023 12:12:53 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3p8h96krsr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Mar 2023 12:12:53 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32ECCoU65571078
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Mar 2023 12:12:51 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CC7462007C;
-	Tue, 14 Mar 2023 12:12:50 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 515642007A;
-	Tue, 14 Mar 2023 12:12:50 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 14 Mar 2023 12:12:50 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Arnd Bergmann <arnd@arndb.de>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Teddy Wang <teddy.wang@siliconmotion.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Forest Bond <forest@alittletooquiet.net>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH v3 32/38] staging: add HAS_IOPORT dependencies
-Date: Tue, 14 Mar 2023 13:12:10 +0100
-Message-Id: <20230314121216.413434-33-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230314121216.413434-1-schnelle@linux.ibm.com>
-References: <20230314121216.413434-1-schnelle@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C824F3D8C;
+	Tue, 14 Mar 2023 14:08:36 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id eg48so3315296edb.13;
+        Tue, 14 Mar 2023 07:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678802915;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2fh50q0+/HEalk1h1oQC2pXaNeew6AKaitkp7RgML7Q=;
+        b=J1G5R1YnRKN2hzDDJInJdLGi2sJjFHgYNB/uDk3DMY1eqELgKvyT78qq1VUN3anRAY
+         7bQSxtcGc/J2RWnxz9XLdnE6L2mMC+St1n4XEuYo5fqdTxQqDTgiG32m1SHSOkSyf2Fx
+         N2tQmCPw42aVW6+WXa6j4dzCYdEFvXA/s0bwrCWY/vbjBJzILEPQU4YckdkJ1kc7zVpo
+         FOrPmSS5JHhOD0ddM3fuhoJHzS3RdXzs89cFbifyy/8R/Ah3f/Sf9HO99/WwuM0dSMPh
+         ucVk8oMa4kZ2wxA+wDl00F0MiojdNoiQlAa4SfM1Hg9a//XOuUbXMSIyGxdJCDCho1ZA
+         Ts2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678802915;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2fh50q0+/HEalk1h1oQC2pXaNeew6AKaitkp7RgML7Q=;
+        b=AKLduPtYFXIE0n7A6Rvs/lXmAwiKSDAyWZMla3ynllPI6fyrHy/C0yKr9MQvqk8ZYE
+         rpayoavfY29vfJgMUxIwPtgU974HLIl9lZqUJ2DUvuLUNychzSZSSCIPtfv4posSFrbe
+         PIoCpwOb20S72XB4tJHZ/cHKZVGmuqRduayXZbq8KstDrN2oDOjeq+0hoSMiCfh7gfaW
+         qzunDNGni959Hg4y/PBm/+nI4ZmTKcA558xQkiuIdPuAv3MupdfZl3bPVlzo6bzFT6QG
+         zmOcpCt+PQtK039Vk13eHicgKinKUE8fatULnzIzgb+bKk6MaD8nh7bAxIUsgaGdteIB
+         Y5+A==
+X-Gm-Message-State: AO0yUKWX6dLIV0WrAFhyJtfMrLL01C0W0zZPNwmd/OYnf9IRczlILnob
+	FQUQT7Tt3+U85ZcBtJQW/z4=
+X-Google-Smtp-Source: AK7set86cuDzNUeHz96tiWnCTlYRXr331XXgSySDYske0mghcxOZyatZQSOnYpKOjpb3zG7dWQVokw==
+X-Received: by 2002:a05:6402:516a:b0:4fc:c7c8:e78d with SMTP id d10-20020a056402516a00b004fcc7c8e78dmr6730921ede.31.1678802914820;
+        Tue, 14 Mar 2023 07:08:34 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.111.116])
+        by smtp.gmail.com with ESMTPSA id kk1-20020a170907766100b0092b8c1f41ebsm1198352ejc.24.2023.03.14.07.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 07:08:34 -0700 (PDT)
+Date: Tue, 14 Mar 2023 19:08:31 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <ZBB/30ZBW9EU1QfK@khadija-virtual-machine>
+References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
+ <202303141159.6wN9HNP9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: hnkazr0opZd4QQF523POHF3UESF0GPSK
-X-Proofpoint-ORIG-GUID: S73sDsYIGFdLK5od1hDfJyvEahioh_Rb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-14_04,2023-03-14_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 clxscore=1011 malwarescore=0 suspectscore=0
- adultscore=0 mlxlogscore=990 mlxscore=0 spamscore=0 bulkscore=0
- impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2303140103
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202303141159.6wN9HNP9-lkp@intel.com>
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers using them.
+On Tue, Mar 14, 2023 at 11:45:51AM +0800, kernel test robot wrote:
+> Hi Khadija,
+> 
+> Thank you for the patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on staging/staging-testing]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
+> patch link:    https://lore.kernel.org/r/ZA9mThZ7NyRrQAMX%40khadija-virtual-machine
+> patch subject: [PATCH] staging: axis-fifo: initialize timeouts in probe only
+> config: arm64-randconfig-r012-20230313 (https://download.01.org/0day-ci/archive/20230314/202303141159.6wN9HNP9-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install arm64 cross compiling tool for clang build
+>         # apt-get install binutils-aarch64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230314-020827
+>         git checkout 9d186f6c9f9bf467b48da3e28b0e9aa31fc3faf3
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/staging/axis-fifo/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303141159.6wN9HNP9-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/staging/axis-fifo/axis-fifo.c:817:18: warning: implicit conversion from 'long' to 'int' changes value from 9223372036854775807 to -1 [-Wconstant-conversion]
+>                    read_timeout = MAX_SCHEDULE_TIMEOUT;
+>                                 ~ ^~~~~~~~~~~~~~~~~~~~
+>    include/linux/sched.h:296:31: note: expanded from macro 'MAX_SCHEDULE_TIMEOUT'
+>    #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
+>                                            ^~~~~~~~
+>    include/vdso/limits.h:11:19: note: expanded from macro 'LONG_MAX'
+>    #define LONG_MAX        ((long)(~0UL >> 1))
+>                             ^~~~~~~~~~~~~~~~~
+>    drivers/staging/axis-fifo/axis-fifo.c:822:19: warning: implicit conversion from 'long' to 'int' changes value from 9223372036854775807 to -1 [-Wconstant-conversion]
+>                    write_timeout = MAX_SCHEDULE_TIMEOUT;
+>                                  ~ ^~~~~~~~~~~~~~~~~~~~
+>    include/linux/sched.h:296:31: note: expanded from macro 'MAX_SCHEDULE_TIMEOUT'
+>    #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
+>                                            ^~~~~~~~
+>    include/vdso/limits.h:11:19: note: expanded from macro 'LONG_MAX'
+>    #define LONG_MAX        ((long)(~0UL >> 1))
+>                             ^~~~~~~~~~~~~~~~~
+>    2 warnings generated.
+>
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/staging/sm750fb/Kconfig | 2 +-
- drivers/staging/vt6655/Kconfig  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Hi everyone!
+Kindly let me know if I should look into these warnings.
+Thank you!
 
-diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kconfig
-index 1461c89701c3..ab3d9b057d56 100644
---- a/drivers/staging/sm750fb/Kconfig
-+++ b/drivers/staging/sm750fb/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- config FB_SM750
- 	tristate "Silicon Motion SM750 framebuffer support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_MODE_HELPERS
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
-diff --git a/drivers/staging/vt6655/Kconfig b/drivers/staging/vt6655/Kconfig
-index d1cd5de46dcf..077f62ebe80c 100644
---- a/drivers/staging/vt6655/Kconfig
-+++ b/drivers/staging/vt6655/Kconfig
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- config VT6655
-    tristate "VIA Technologies VT6655 support"
--   depends on PCI && MAC80211 && m
-+   depends on PCI && HAS_IOPORT && MAC80211 && m
-    help
-      This is a vendor-written driver for VIA VT6655.
--- 
-2.37.2
+Regards,
+Khadija
 
+
+> 
+> vim +817 drivers/staging/axis-fifo/axis-fifo.c
+> 
+>    805	
+>    806	static int axis_fifo_probe(struct platform_device *pdev)
+>    807	{
+>    808		struct resource *r_mem; /* IO mem resources */
+>    809		struct device *dev = &pdev->dev; /* OS device (from device tree) */
+>    810		struct axis_fifo *fifo = NULL;
+>    811		char *device_name;
+>    812		int rc = 0; /* error return value */
+>    813	
+>    814		if (read_timeout >= 0)
+>    815			read_timeout = msecs_to_jiffies(read_timeout);
+>    816		else
+>  > 817			read_timeout = MAX_SCHEDULE_TIMEOUT;
+>    818	
+>    819		if (write_timeout >= 0)
+>    820			write_timeout = msecs_to_jiffies(write_timeout);
+>    821		else
+>    822			write_timeout = MAX_SCHEDULE_TIMEOUT;
+>    823	
+>    824		/* ----------------------------
+>    825		 *     init wrapper device
+>    826		 * ----------------------------
+>    827		 */
+>    828	
+>    829		device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+>    830		if (!device_name)
+>    831			return -ENOMEM;
+>    832	
+>    833		/* allocate device wrapper memory */
+>    834		fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+>    835		if (!fifo)
+>    836			return -ENOMEM;
+>    837	
+>    838		dev_set_drvdata(dev, fifo);
+>    839		fifo->dt_device = dev;
+>    840	
+>    841		init_waitqueue_head(&fifo->read_queue);
+>    842		init_waitqueue_head(&fifo->write_queue);
+>    843	
+>    844		mutex_init(&fifo->read_lock);
+>    845		mutex_init(&fifo->write_lock);
+>    846	
+>    847		/* ----------------------------
+>    848		 *   init device memory space
+>    849		 * ----------------------------
+>    850		 */
+>    851	
+>    852		/* get iospace for the device */
+>    853		r_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>    854		if (!r_mem) {
+>    855			dev_err(fifo->dt_device, "invalid address\n");
+>    856			rc = -ENODEV;
+>    857			goto err_initial;
+>    858		}
+>    859	
+>    860		/* request physical memory */
+>    861		fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
+>    862		if (IS_ERR(fifo->base_addr)) {
+>    863			rc = PTR_ERR(fifo->base_addr);
+>    864			goto err_initial;
+>    865		}
+>    866	
+>    867		dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+>    868	
+>    869		/* create unique device name */
+>    870		snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
+>    871		dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
+>    872	
+>    873		/* ----------------------------
+>    874		 *          init IP
+>    875		 * ----------------------------
+>    876		 */
+>    877	
+>    878		rc = axis_fifo_parse_dt(fifo);
+>    879		if (rc)
+>    880			goto err_initial;
+>    881	
+>    882		reset_ip_core(fifo);
+>    883	
+>    884		/* ----------------------------
+>    885		 *    init device interrupts
+>    886		 * ----------------------------
+>    887		 */
+>    888	
+>    889		/* get IRQ resource */
+>    890		rc = platform_get_irq(pdev, 0);
+>    891		if (rc < 0)
+>    892			goto err_initial;
+>    893	
+>    894		/* request IRQ */
+>    895		fifo->irq = rc;
+>    896		rc = devm_request_irq(fifo->dt_device, fifo->irq, &axis_fifo_irq, 0,
+>    897				      DRIVER_NAME, fifo);
+>    898		if (rc) {
+>    899			dev_err(fifo->dt_device, "couldn't allocate interrupt %i\n",
+>    900				fifo->irq);
+>    901			goto err_initial;
+>    902		}
+>    903	
+>    904		/* ----------------------------
+>    905		 *      init char device
+>    906		 * ----------------------------
+>    907		 */
+>    908	
+>    909		/* create character device */
+>    910		fifo->miscdev.fops = &fops;
+>    911		fifo->miscdev.minor = MISC_DYNAMIC_MINOR;
+>    912		fifo->miscdev.name = device_name;
+>    913		fifo->miscdev.groups = axis_fifo_attrs_groups;
+>    914		fifo->miscdev.parent = dev;
+>    915		rc = misc_register(&fifo->miscdev);
+>    916		if (rc < 0)
+>    917			goto err_initial;
+>    918	
+>    919		dev_info(fifo->dt_device, "axis-fifo created at %pa mapped to 0x%pa, irq=%i\n",
+>    920			 &r_mem->start, &fifo->base_addr, fifo->irq);
+>    921	
+>    922		return 0;
+>    923	
+>    924	err_initial:
+>    925		dev_set_drvdata(dev, NULL);
+>    926		return rc;
+>    927	}
+>    928	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
