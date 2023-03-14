@@ -1,114 +1,102 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9FB2CA6;
-	Tue, 14 Mar 2023 20:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678826623; x=1710362623;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ga2eu3CIk3Nt8VVwDK0rgtUMidyK+BHycf/u5ccxd0g=;
-  b=RKPs0yXpxRVAeKsHXkbsD+Clm8XDXhWuGPNGIZURoL0vhEiM740NTsXC
-   a9V2NZhQixFlRPA/iMQhb22eHbi0GDyp4k25tuQTQogCpnbNZg/vlDkt4
-   rpHI7XINBqrb2+6UK+VmoNUS9Zdn6DWXSkWfq+G4EPtPEJMrNvj2UvSir
-   a73rye3xm2nRL/3bmtcqCKTW1S0sFtdvDDBJmEq81arryS27YX5vS5WuW
-   wUOBGMyPKJdopuI01AHUwRrXTbnyWyep/DHkbvkN3Tu5k/ODagvOjTE7J
-   5+xIEN8Ba1EWdVvDdCu+w3GzhvUjXPHDJrFoxp0qqwcghc5e3036SvEz1
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="400120042"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="400120042"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 13:43:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="1008572533"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="1008572533"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.140.184])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 13:43:41 -0700
-Date: Tue, 14 Mar 2023 13:43:40 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C15B2CA6;
+	Tue, 14 Mar 2023 21:31:25 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso11137137wmo.0;
+        Tue, 14 Mar 2023 14:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678829483;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3kosGJCuIsihwp7ZxBszW88vqGjIeKCLRbMuquEChy4=;
+        b=HUOEJ5wA0yJ5PRwx0qukCBhFgKN2xGPawh/iC/MFtyTHMcrBq/Ekxa4mWByyM71mFd
+         GquEWoz0UpyAwyDay9Jxm6qAnoSvkyWQLY4g5DkCxzx4jsQns9O7u1jmHnksoQa2rBgu
+         JNEJQjMUhvdHgdKw9GYvWFWoYluzM6HPtLuJZqtItuqHgnuU74mjoOHM3PZnOzaf6Ubb
+         zSUMyRu8BzgKsesW8hhKylsYfkA9+KJPlVPSu0HeWXeZFjMeuIg2PCRxf4gy/YpAfZBI
+         MggcplOCWEYU+Ji3Gl6sukiPqUQ0RKyDmHftnVjqyAxHf85+fzmrOto6741Ezo2C73V/
+         MtqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678829483;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3kosGJCuIsihwp7ZxBszW88vqGjIeKCLRbMuquEChy4=;
+        b=CeEm33OSVbxIrMCU4Hj9LNHatUgPK5hS2RsV2bpkWZt/IDM9UIzyhD4UNIuM9bK9eS
+         HkKnaamc5ADR1CibGPgCpkH73MxfXHoWPv3FS/OBVpvYOyvDJpBA6i9IMxi1G0HPITP7
+         LLimCIX5BgQsejTwYEIWVPRnUPzfR2aJ+g4MhalURIi32CHWYYG8ZKRaLJwLZhR7LfJC
+         N5kgqFEOjeq8+aQ/wCHQ/e7HJ6N0E2IcDoqZsL0+CBkIoIoNe83NcwpTds2Yh4bnElPj
+         59BAet8m7Nf2Cag7bNfBUiijVuIUqqjEOElLTIzI2vegCu1j3nbdCvpzVeyVYgVHVRvE
+         xbSQ==
+X-Gm-Message-State: AO0yUKW4YN7/AJPCOlLZ5ih3NkgEXtdrb/A+kipZqkzwAnnv9tFaSwU5
+	mEWdFSb7usICPmufkosDCgQ=
+X-Google-Smtp-Source: AK7set9BMJIZWSpt2LeZg/JqmFIeOdAsbFqIMnDbl2gMHqQiodypTbMJRPuoI3GhGhoBCBi6tCGY6w==
+X-Received: by 2002:a05:600c:4f91:b0:3ed:2c92:9f4f with SMTP id n17-20020a05600c4f9100b003ed2c929f4fmr3277198wmq.10.1678829483291;
+        Tue, 14 Mar 2023 14:31:23 -0700 (PDT)
+Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
+        by smtp.gmail.com with ESMTPSA id z4-20020adff744000000b002c55de1c72bsm3058708wrp.62.2023.03.14.14.31.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Mar 2023 14:31:22 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>,
+ Alison Schofield <alison.schofield@intel.com>
 Cc: outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <ZBDcfNOXmGeN2tlb@aschofie-mobl2>
-References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
+Date: Tue, 14 Mar 2023 22:31:21 +0100
+Message-ID: <3376017.mWHT0XuiSF@suse>
+In-Reply-To: <ZBDcfNOXmGeN2tlb@aschofie-mobl2>
+References:
+ <ZA9mThZ7NyRrQAMX@khadija-virtual-machine> <ZBDcfNOXmGeN2tlb@aschofie-mobl2>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Mon, Mar 13, 2023 at 11:07:10PM +0500, Khadija Kamran wrote:
-> Module parameter, read_timeout, can only be set at the loading time. As
-> it can only be modified once, initialize read_timeout once in the probe
-> function.
-> As a result, only use read_timeout as the last argument in
-> wait_event_interruptible_timeout() call.
-> 
-> Same goes for write_timeout.
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> ---
+On marted=EC 14 marzo 2023 21:43:40 CET Alison Schofield wrote:
+> On Mon, Mar 13, 2023 at 11:07:10PM +0500, Khadija Kamran wrote:
+> > Module parameter, read_timeout, can only be set at the loading time. As
+> > it can only be modified once, initialize read_timeout once in the probe
+> > function.
+> > As a result, only use read_timeout as the last argument in
+> > wait_event_interruptible_timeout() call.
+> >=20
+> > Same goes for write_timeout.
+> >=20
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > ---
+>=20
+> Looks like this is [PATCH v5] and needs a changelog.
+>
+Alison,
 
-Looks like this is [PATCH v5] and needs a changelog.
+In fact, this is only the second patch that addresses Greg's suggested=20
+refactoring.=20
+
+Khadija moved from v3 of "staging: axis-fifo: remove tabs to align argument=
+s"=20
+to v4 of this completely independent patch. And then back to v1, because (a=
+t=20
+the time of v4) I pointed out to her that she had started working on a proj=
+ect=20
+that has a completely different purpose than the previous one.
+
+The best course of action would have been to ask Greg to drop the previous=
+=20
+patches and then reset the numbering of the new job to v1. Unfortunately I =
+did=20
+not pay attention to how she then managed the numbering following my=20
+observation.
+
+What would be the best course of action at this point?
+
+=46abio
 
 
->  drivers/staging/axis-fifo/axis-fifo.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> index dfd2b357f484..563caf155713 100644
-> --- a/drivers/staging/axis-fifo/axis-fifo.c
-> +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> @@ -384,9 +384,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
->  		mutex_lock(&fifo->read_lock);
->  		ret = wait_event_interruptible_timeout(fifo->read_queue,
->  			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-> -				 (read_timeout >= 0) ?
-> -				  msecs_to_jiffies(read_timeout) :
-> -				  MAX_SCHEDULE_TIMEOUT);
-> +			read_timeout);
->  
->  		if (ret <= 0) {
->  			if (ret == 0) {
-> @@ -528,9 +526,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
->  		ret = wait_event_interruptible_timeout(fifo->write_queue,
->  			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
->  				 >= words_to_write,
-> -				 (write_timeout >= 0) ?
-> -				  msecs_to_jiffies(write_timeout) :
-> -				  MAX_SCHEDULE_TIMEOUT);
-> +			write_timeout);
->  
->  		if (ret <= 0) {
->  			if (ret == 0) {
-> @@ -815,6 +811,16 @@ static int axis_fifo_probe(struct platform_device *pdev)
->  	char *device_name;
->  	int rc = 0; /* error return value */
->  
-> +	if (read_timeout >= 0)
-> +		read_timeout = msecs_to_jiffies(read_timeout);
-> +	else
-> +		read_timeout = MAX_SCHEDULE_TIMEOUT;
-> +
-> +	if (write_timeout >= 0)
-> +		write_timeout = msecs_to_jiffies(write_timeout);
-> +	else
-> +		write_timeout = MAX_SCHEDULE_TIMEOUT;
-> +
->  	/* ----------------------------
->  	 *     init wrapper device
->  	 * ----------------------------
-> -- 
-> 2.34.1
-> 
-> 
