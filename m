@@ -1,106 +1,162 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D02D2F6;
-	Tue, 14 Mar 2023 23:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDBC7E;
+	Wed, 15 Mar 2023 00:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678838270; x=1710374270;
+  t=1678839997; x=1710375997;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=xXyjZXsRkHq+WtyB+CeEXuj+S0q71iqnRVIqvixN/bk=;
-  b=S92sYlOT8VNPJzQs7WP3GSbzCma638m794JrpNWuAkj3PuKwKwRjivYF
-   Pl2875aSwp41qrd8SsJYhSfVRZirDNkrGJyea0D/rLup80OcskKzYoRLR
-   XvYZSjJC+gmOapy/jew0AUvxfAgKaVQ9WAsfSsHganRy286ZRcQIY0K87
-   52ZkLBMmmlDUwSGByNt/xg/MZo3HVJSXfRxzAVo65b0mdofl7c2W+Slqm
-   1EZTatj1/dlXrFpb3IkdZ3X3WR2W7YrFkgX6fCvz8c2deU3vmT21P+yI+
-   Lmtnxh8XFRxLpk/sMp01wwB0Oys7KAtFi5AHoPb1sOnRSHCc7HVusmNRg
+  bh=U1zdj8Dquc6MZUtI6kfFO20iWgohrm20xN5v1gR/6P0=;
+  b=KA0LznXkfDLAHrg7LnyEErpk7GrX0pgQtugv43qa2KCpWDq/IgA9ytpg
+   38bYmyoGhAaIZltRcmhQvbNnpdyL18i3UM9H7UOw1MaynYA/nj+Sqr0hn
+   BT2Ia4R/RNb5MKotomMSL8Z3Pbpl8uWLzAmuStQbRJ1Fqp+g7SUioa6+3
+   +EWYBs7YBNuW9bHM6rWjadQOUSOQGuq33Oh5ujtHocnFAN0Z22WvDyawD
+   KrJDo9tcDXpYEWSjU9v/2MTMc19ATzPxVWsBTZ1gtLMxBaOfOK1XobMd1
+   4zhQrWyggst/31l6ytad63Lf5phWVx0WLWw3Gbxv8hxIGYDo6JI9GBfVm
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="317966686"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="400157893"
 X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="317966686"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 16:57:49 -0700
+   d="scan'208";a="400157893"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 17:25:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="768296116"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="709480399"
 X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; 
-   d="scan'208";a="768296116"
+   d="scan'208";a="709480399"
 Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.140.184])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 16:57:49 -0700
-Date: Tue, 14 Mar 2023 16:57:47 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 17:25:07 -0700
+Date: Tue, 14 Mar 2023 17:25:06 -0700
 From: Alison Schofield <alison.schofield@intel.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Julia Lawall <julia.lawall@inria.fr>, Dan Carpenter <error27@gmail.com>
+Cc: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>,
+	outreachy@lists.linux.dev, lars@metafoo.de,
+	Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <ZBEJ+8DbhADSBTLr@aschofie-mobl2>
-References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
- <ZBDcfNOXmGeN2tlb@aschofie-mobl2>
- <3376017.mWHT0XuiSF@suse>
+Subject: Re: [PATCH] staging: iio: meter: enclose Macros with complex values
+ in parentheses
+Message-ID: <ZBEQYp/z+C/JeR98@aschofie-mobl2>
+References: <20230312133347.120944-1-eng.mennamahmoud.mm@gmail.com>
+ <alpine.DEB.2.22.394.2303121507450.2865@hadrien>
+ <174e4d14-8b3e-67f7-d901-bd77b054f7c3@gmail.com>
+ <alpine.DEB.2.22.394.2303121525270.2865@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3376017.mWHT0XuiSF@suse>
+In-Reply-To: <alpine.DEB.2.22.394.2303121525270.2865@hadrien>
 
-On Tue, Mar 14, 2023 at 10:31:21PM +0100, Fabio wrote:
-> On marted� 14 marzo 2023 21:43:40 CET Alison Schofield wrote:
-> > On Mon, Mar 13, 2023 at 11:07:10PM +0500, Khadija Kamran wrote:
-> > > Module parameter, read_timeout, can only be set at the loading time. As
-> > > it can only be modified once, initialize read_timeout once in the probe
-> > > function.
-> > > As a result, only use read_timeout as the last argument in
-> > > wait_event_interruptible_timeout() call.
-> > > 
-> > > Same goes for write_timeout.
-> > > 
-> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > ---
-> > 
-> > Looks like this is [PATCH v5] and needs a changelog.
+On Sun, Mar 12, 2023 at 03:25:37PM +0100, Julia Lawall wrote:
+> 
+> 
+> On Sun, 12 Mar 2023, Menna Mahmoud wrote:
+> 
 > >
-> Alison,
+> > On ١٢/٣/٢٠٢٣ ١٦:١٢, Julia Lawall wrote:
+> > >
+> > > On Sun, 12 Mar 2023, Menna Mahmoud wrote:
+> > >
+> > > > enclose Macros with complex values in parentheses is especially useful
+> > > > in making macro definitions “safe” (so that they
+> > > > evaluate each operand exactly once).
+> > > enclose -> Enclose, and Macros -> macros
+> > >
+> > > I don't understand the above comment though.  How does adding parentheses
+> > > around the body of a macro cause the operands to be evaluated only once?
+> > > And the macros that you have changed don't have any operands.
+> > >
+> > > The value of adding parentheses is normally to ensure that the body of the
+> > > macro doesn't interact with the context in a weird way.  For example, you
+> > > could have
+> > >
+> > > #define ADD 3 + 4
+> > >
+> > > Then if you use your macro as 6 * ADD, you will end up evaluating
+> > > 6 * 3 + 4, ie 18 + 4, when you might have expected 6 * 7.  The issue is
+> > > that * has higher precedence than +.
+> >
+> >
+> > yes, I mean that but i couldn't explain it well, thanks for your feedback.
+> >
+> >
+> > >
+> > > But I don't think that such a problem can arise with a cast expression, so
+> > > parentheses around it should not be necessary.
+> >
+> >
+> > So, no need for this patch?
 > 
-> In fact, this is only the second patch that addresses Greg's suggested 
-> refactoring. 
+> No, I don't think so.
 > 
-> Khadija moved from v3 of "staging: axis-fifo: remove tabs to align arguments" 
-> to v4 of this completely independent patch. And then back to v1, because (at 
-> the time of v4) I pointed out to her that she had started working on a project 
-> that has a completely different purpose than the previous one.
-> 
-> The best course of action would have been to ask Greg to drop the previous 
-> patches and then reset the numbering of the new job to v1. Unfortunately I did 
-> not pay attention to how she then managed the numbering following my 
-> observation.
-> 
-> What would be the best course of action at this point?
+> julia
 
-My guess is that this patch gets ignored because it has a lower version
-number than a previous patch.
+Looping in Dan C explicitly.
 
-Take the feedback given here, and rev to
-[PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+Can we revisit this one?  It actually leads to a checkpatch ERROR.
+So, anyone hoping to get an error free checkpatch run on this file,
+is out of luck.
 
-Be sure the Changelog, below the --- explains the journey.
+Is this something that checkpatch can learn about and allow, or
+should we add the parens here, to dare I say, appease the checkpatch
+god ;)
 
-Changes in v5:
-
-Changes in v4:
-
-Changes in v3:
-
-Changes in v2:
+Alison
 
 
 > 
-> Fabio
-> 
-> 
+> >
+> >
+> > > > this error reported by chechpatch.pl
+> > > this error is reported by checkpatch.
+> > >
+> > > > "ERROR: Macros with complex values should be enclosed in parentheses"
+> > > >
+> > > > for ADE7854_SPI_SLOW, ADE7854_SPI_BURST and ADE7854_SPI_FAST
+> > > > macros and this error fixed by enclose these macros in parentheses.
+> > > The last two lines aren't needed.  One can easily see that from looking at
+> > > the patch.
+> >
+> >
+> > Got it, Thank you.
+> >
+> > Menna
+> >
+> > > julia
+> > >
+> > > > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+> > > > ---
+> > > >   drivers/staging/iio/meter/ade7854.h | 6 +++---
+> > > >   1 file changed, 3 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/iio/meter/ade7854.h
+> > > > b/drivers/staging/iio/meter/ade7854.h
+> > > > index 7a49f8f1016f..41eeedef569b 100644
+> > > > --- a/drivers/staging/iio/meter/ade7854.h
+> > > > +++ b/drivers/staging/iio/meter/ade7854.h
+> > > > @@ -139,9 +139,9 @@
+> > > >   #define ADE7854_MAX_RX    7
+> > > >   #define ADE7854_STARTUP_DELAY 1000
+> > > >
+> > > > -#define ADE7854_SPI_SLOW	(u32)(300 * 1000)
+> > > > -#define ADE7854_SPI_BURST	(u32)(1000 * 1000)
+> > > > -#define ADE7854_SPI_FAST	(u32)(2000 * 1000)
+> > > > +#define ADE7854_SPI_SLOW	((u32)(300 * 1000))
+> > > > +#define ADE7854_SPI_BURST	((u32)(1000 * 1000))
+> > > > +#define ADE7854_SPI_FAST	((u32)(2000 * 1000))
+> > > >
+> > > >   /**
+> > > >    * struct ade7854_state - device instance specific data
+> > > > --
+> > > > 2.34.1
+> > > >
+> > > >
+> > > >
+> >
+
