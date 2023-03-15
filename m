@@ -1,31 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D459120EB;
-	Wed, 15 Mar 2023 04:54:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 279AAC433EF;
-	Wed, 15 Mar 2023 04:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1678856096;
-	bh=O6RvoiLqHVNWRlSjoPOvDZ5ZcrH3mZW23TYkGULvn3I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U15aTW7BWM4GlSJ5BzvFARwMFMG05aoqqP/ez5goSdwMrrp45aOkyOsp52/xmXXTS
-	 AdJdJzKg2oNEiB0lQ6PFJvLrUezvjy86NUf1LkFDboQCQj4YyWpD1fDGxc/mfHueSd
-	 a44h7EzshjETQuloFfVCUD63NCHBYdoeLACvnSUs=
-Date: Wed, 15 Mar 2023 05:54:53 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Alison Schofield <alison.schofield@intel.com>,
-	Kloudifold <cloudifold.3125@gmail.com>,
-	teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com,
-	linux-staging@lists.linux.dev, outreachy@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: sm750: Rename function to avoid CamelCase
-Message-ID: <ZBFPnZbvdI46Ah6r@kroah.com>
-References: <ZA+K6OdPe21k8F2k@CloudiRingWorld>
- <ZA/+JlgWfdg2wH8B@debian.me>
- <ZBCS7DR9dZH1yds8@aschofie-mobl2>
- <5fd67671-8e21-ffa8-8571-d8b5533b4758@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178AA23A3;
+	Wed, 15 Mar 2023 07:47:29 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id m18-20020a05600c3b1200b003ed2a3d635eso507483wms.4;
+        Wed, 15 Mar 2023 00:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678866448;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7jivhOMF2Dp5QIJkx8toAZguDtgmdufs2dThkF05/Cc=;
+        b=gYOesFjImuZKGkOWZLdnq694h6tVVEdT0BCh4sYKY/cIiA33hRhjo9bkgApd4kx1zz
+         yUt5KGZTRU8cbHrQumF8iKfMCnIKDU6OeN+JZ2bEjaSWaL1azxpzk3sWxxZ913t7DtsV
+         lVlnJ4bhehuTMkqXZiwggJFu3IoXooxwtDT3NhCHxrIGVCQv/+XVb6jzxBWfHtzabh+3
+         EbvROOmPNv3Y4ldf3YbaafAj3nsH6IMbBvdcWtnUBRUoyCq13ltxQVQnJ/ETGn51Y8cx
+         wvHQOaYL8jY2EoaJVzjpfldFlEwxdQrniQe37tUC2uf+7Wun4AIWAp22L+c4a2Cl2RbS
+         +s9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678866448;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7jivhOMF2Dp5QIJkx8toAZguDtgmdufs2dThkF05/Cc=;
+        b=8LDY3vBY003TXOWQklwwopukkHv/kLvMZSVdSAk0/D/lAzQaWWIPV4ImZ1H1arDjIr
+         aLWKqhjii9XAUaNw96nPE/TTIjLngllbfXig8Z8z63lyqez5ZLKMD718zohOluA+FKL5
+         gAxoHnLnnkX053Zzbyr8r9BZBzIFeNTpKQGCPW946IbWvz+BpqDCsHCzfyM7p/GyCdxS
+         6uMeeVbrZT93MzSOtxVqI2W68KUE08dkoUj4IMKo96m0ytroL5bs8oud93WsbLa+Qfih
+         qd6ASiAXu4gw8J2C/HAU2UE+NWmii2cr2F2C8VKhHssvlKAHcyQN1OcsoeNK9wzAzTAV
+         8dCg==
+X-Gm-Message-State: AO0yUKWw0MdJjgvEJpyOS/pqNEZhnsDXXrgI3ateiZaUNmmcaY7EESah
+	E32S1gHWHjwYStzdqUz/gvo=
+X-Google-Smtp-Source: AK7set8IdII9/ujkq6fv8gNRveyl1MOjV31vY9KaLeBL6Ky2dpNemQxB7223epsYE0anRCJQcS4yFA==
+X-Received: by 2002:a05:600c:198e:b0:3ea:4af0:3475 with SMTP id t14-20020a05600c198e00b003ea4af03475mr17299381wmq.1.1678866448152;
+        Wed, 15 Mar 2023 00:47:28 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t8-20020a05600c450800b003daf6e3bc2fsm4842127wmo.1.2023.03.15.00.47.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 00:47:26 -0700 (PDT)
+Date: Wed, 15 Mar 2023 10:47:21 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: outreachy@lists.linux.dev, manishc@marvell.com,
+	GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
+	gregkh@linuxfoundation.org, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Staging: qlge: Fix indentation in conditional
+ statement
+Message-ID: <6e12c373-2bfd-48d8-b77d-17f710c094f7@kili.mountain>
+References: <20230314121152.GA38979@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,19 +56,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5fd67671-8e21-ffa8-8571-d8b5533b4758@gmail.com>
+In-Reply-To: <20230314121152.GA38979@sumitra.com>
 
-On Wed, Mar 15, 2023 at 10:08:27AM +0700, Bagas Sanjaya wrote:
-> On 3/14/23 22:29, Alison Schofield wrote:
-> >> Fixes: <commit that introduces these camelcase function>
-> >> ```
-> > 
-> > Why are you asking for a Fixes tag on this? 
-> > Seems unusual for a staging driver cleanup.
-> > 
+On Tue, Mar 14, 2023 at 05:11:52AM -0700, Sumitra Sharma wrote:
+> Add tabs/spaces in conditional statements in to fix the
+> indentation.
 > 
-> I thought this style cleanup also warrants Fixes: since
-> it fixes coding style problem on existing code (see
-> Documentation/process/submitting-patches.rst).
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> 
+> ---
+> v2: Fix indentation in conditional statement, noted by Dan Carpenter
+>  <error27@gmail.com>
+> v3: Apply changes to fresh git tree
+> 
 
-No, sorry, Fixes: is for real bugs, not style issues.
+Thanks!
+
+Reviewed-by: Dan Carpenter <error27@gmail.com>
+
+regards,
+dan carpenter
+
