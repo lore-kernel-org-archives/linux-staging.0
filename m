@@ -1,162 +1,122 @@
 Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775A2538D;
-	Wed, 15 Mar 2023 13:56:35 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id cy23so75775329edb.12;
-        Wed, 15 Mar 2023 06:56:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6C1538D;
+	Wed, 15 Mar 2023 13:57:23 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id w9so5124503edc.3;
+        Wed, 15 Mar 2023 06:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678888593;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=nWcxS/EnvsLY1IslnqQwR8YGTUM/z30Xu2wGXtyYax8=;
-        b=UvpjdUcRE2QxWAoApUwwUh5gucn4fOVtUOW/gD+1R0tIX1iVPEDXA1p/t+o0x7boAi
-         rNaGgfKhEI1Sx7IpDHI/RVyvwKnxQKdcQ28W27a92enqWIuJHMEparZ7M0WD5bIGMGUH
-         GtRjQMO2SHrWkNfQwljwyOQVUv6GLTCkQoz4QBjG8pCc8m0WNvnRME31LDiMvOjmZ06t
-         Vad4Ge8UKoRaV0ZuYv3uPeu4K3vChLrR7MscDNtdiIb8U+Q5Ugryd6wk7XUHvCZCCUsL
-         lrV10LhfPaeFQ+jYmb2XvIZhicO6SgaLbTSod0AH0TbZ1MDw209dv8MhAEnbXCJulPlw
-         GhZg==
+        d=gmail.com; s=20210112; t=1678888641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EJDmE8nLtNAwqzKNS3st8xzMZ28J8twt+9hFH7I9HWg=;
+        b=qHaYVdwuHPj8qpV9Xal5hHjRjnbdzUQlXAra9/kKJ+L/8O9NWj5DAU7ZHrE/hI1tGv
+         BAa+bqgVRr3987ebUhUYHFxwI6emihyFM/RhLaJCrkHaULqlRwnIC/x+UOmBGAP4mjwc
+         vzYCcU06QAbB2l5NHzKMM8+8+5mG4KCLUTxQvAvBPZHtmRFbDqYmXY1fG4msgfqK/YA6
+         BUiHBCOiGbu9UYhFxcvgjjsSuSS/JuW2cDWqMRhVya//uh00YwDBF9NYfqTRdCKreeBU
+         jaNcUEx2YfEHptqDvgCFrw6aic4XgERCa+uvuJ3kOUyAh9w3H6UvNSxlyDn9ySsbz9bN
+         dXyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678888593;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWcxS/EnvsLY1IslnqQwR8YGTUM/z30Xu2wGXtyYax8=;
-        b=oRt7g5zJJyTkUZ/jNQldQxO1gcHXinl714KMXzQltx0lRpamM3+y0bblXZJiCLUg0i
-         Bye0GLiJ7Urb4xa05SRFsLD7pkfd1KQr6fIzGQ2etqM/aJENRWhaReDolbLtV8Q8hzd1
-         8xenPQ/9k/6DwLSV+tZ+I9315tWOKIiQk4Fvb83MChFLsc9O30GbAbhY8btL2vAouqNZ
-         PdeDbjTvqDdclu0M0OmZyZagxTcAf0B52ii9QQJj5LEPNYY5P2TMO/XhR0bai0fCABP6
-         Qj9fIG3GSwRz+LSJiyvS5cruc3/hPdJkT3rRwsOCaApA52Qz4rpdINNpDwGNgZP6ZJDW
-         ayUA==
-X-Gm-Message-State: AO0yUKWWDnfQCuBelHDv0/gtnOOIwzTdI0xY/gZfHRPuguvZM+D0ehKi
-	u9iQ/R+L+NznsBL2SYEYXqE=
-X-Google-Smtp-Source: AK7set8AMAin/XSiz2ZLaC/2ZSZc9C6cMoFNsm2CXzTzcjxidKYEqxUGCJTl0V4o0p8UfFOk45u8fw==
-X-Received: by 2002:a17:906:6782:b0:928:d4f6:6f77 with SMTP id q2-20020a170906678200b00928d4f66f77mr6917677ejp.29.1678888593534;
-        Wed, 15 Mar 2023 06:56:33 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.209.88])
-        by smtp.gmail.com with ESMTPSA id h11-20020a17090619cb00b008b30e2a450csm2568698ejd.144.2023.03.15.06.56.32
+        d=1e100.net; s=20210112; t=1678888641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EJDmE8nLtNAwqzKNS3st8xzMZ28J8twt+9hFH7I9HWg=;
+        b=BCr2epbFZeFWYsPiLqe4Ns32UiTaKGd+KgotRLGlJaqNYwivPqFD1g2gJZipO4RjqI
+         g+NiK8RzLdDPTcmdUebB81W0rsrV9qPARZUEdeWbwMMNg1TIgCl3xVfhJ9/2g8sypkGd
+         mH8UBXGWNQlaM8rLVNNKndA10cBCHcWoVvQAOlldETgOKRF7EZ7ZoxmAU0i6ritdR11c
+         4B8dkhMfb7+NEUvWa+peKQdjA5zK9y+5K55SV1TuIlA6FFL5qMWi6HhCmBdvgwaTStFL
+         PMBewYabZAJHc3hODFjAs9xJMlIL5yHYNJBjlxnqYIR3rP06LXuYJkK/nr8iyXTXj0IT
+         do0w==
+X-Gm-Message-State: AO0yUKVam9lBr73u3DZicGPVm9dFAG7QfMze80WOV3PI2zBad8mzD2s6
+	Nhb7tHc7MIXTI2HvuVbMU/w=
+X-Google-Smtp-Source: AK7set/pGW6K2Z8PjEPnatxCW7d6XUOxH4b4CCCzt6vSXSnp6bNCmW0nCHC4KdpOLQHk+462ckcFcg==
+X-Received: by 2002:a17:906:f8cb:b0:885:d02f:d4ad with SMTP id lh11-20020a170906f8cb00b00885d02fd4admr5863877ejb.43.1678888641386;
+        Wed, 15 Mar 2023 06:57:21 -0700 (PDT)
+Received: from alaa-emad.. ([41.42.177.251])
+        by smtp.gmail.com with ESMTPSA id jz14-20020a17090775ee00b00926f89e2213sm2529441ejc.190.2023.03.15.06.57.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 06:56:33 -0700 (PDT)
-Date: Wed, 15 Mar 2023 18:56:27 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Alison Schofield <alison.schofield@intel.com>,
-	outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <ZBHOi8vA/LpCyLTJ@khadija-virtual-machine>
-References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
- <ZBEJ+8DbhADSBTLr@aschofie-mobl2>
- <ZBG699SriXWy1I2K@khadija-virtual-machine>
- <2168386.Az4OtozEo7@suse>
+        Wed, 15 Mar 2023 06:57:20 -0700 (PDT)
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: outreachy@lists.linux.dev,
+	martyn@welchs.me.uk,
+	manohar.vanga@gmail.com,
+	zoo868e@gmail.com,
+	jerrykang026@gmail.com,
+	cuigaosheng1@huawei.com,
+	arnd@arndb.de,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	eng.mennamahmoud.mm@gmail.com
+Subject: [PATCH v3 1/2] staging: vme_user: add space around operators
+Date: Wed, 15 Mar 2023 15:57:08 +0200
+Message-Id: <078be1ba242950f31d0aa13fe9815d92fe96468b.1678888612.git.eng.mennamahmoud.mm@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2168386.Az4OtozEo7@suse>
 
-On Wed, Mar 15, 2023 at 02:13:51PM +0100, Fabio M. De Francesco wrote:
-> On mercoledì 15 marzo 2023 13:32:55 CET Khadija Kamran wrote:
-> > On Tue, Mar 14, 2023 at 04:57:47PM -0700, Alison Schofield wrote:
-> > > My guess is that this patch gets ignored because it has a lower version
-> > > number than a previous patch.
-> > > 
-> > > Take the feedback given here, and rev to
-> > > [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-> > > 
-> > > Be sure the Changelog, below the --- explains the journey.
-> > > 
-> > > Changes in v5:
-> > > 
-> > > Changes in v4:
-> > > 
-> > > Changes in v3:
-> > 
-> > > Changes in v2:
-> > Hey Alison!
-> 
-> Hi Khadija,
-> 
-> Please put one or two blank lines between the last message you are replying 
-> and the new you are writing (exactly as I'm doing here between "Hey Alison!" 
-> and "Hi Khadija").
->
+add a space before and after the operator, for readability.
 
-Hey Fabio!
+Reported By checkpatch script:
 
-Sorry about that. This was pointed by Alison before and I have been
-adding spaces since then. Hopefully I am doing it right this time.
+" CHECK: spaces preferred around that '+', '<<' and '>>' ".
 
-> > Based on Nathan's feedback I am trying to recompile and send a patch
-> > without any warnings.
-> 
-> Great!
-> 
-> > As suggested by Fabio, I am running "make w=1 -jX" command to see if I
-> > get any warnings.
-> 
-> I suppose that "w=1" is a typo. The option is enabled with "W=1" (capital 
-> case, Linux and all UNIX-like are case-sensitive). 
->
+Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+---
+change in v2:
+        edit commit message
+---
+change in v3:
+        edit commit message
+---
+ drivers/staging/vme_user/vme_tsi148.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Okay. I should re-run it with "W=1".
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 482049cfc664..bfa604043355 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -737,7 +737,7 @@ static int tsi148_alloc_resource(struct vme_master_resource *image,
+ 		return 0;
+ 
+ 	if (!image->bus_resource.name) {
+-		image->bus_resource.name = kmalloc(VMENAMSIZ+3, GFP_ATOMIC);
++		image->bus_resource.name = kmalloc(VMENAMSIZ + 3, GFP_ATOMIC);
+ 		if (!image->bus_resource.name) {
+ 			retval = -ENOMEM;
+ 			goto err_name;
+@@ -983,7 +983,7 @@ static int tsi148_master_set(struct vme_master_resource *image, int enabled,
+ 		goto err_aspace;
+ 	}
+ 
+-	temp_ctl &= ~(3<<4);
++	temp_ctl &= ~(3 << 4);
+ 	if (cycle & VME_SUPER)
+ 		temp_ctl |= TSI148_LCSR_OTAT_SUP;
+ 	if (cycle & VME_PROG)
+@@ -2187,14 +2187,14 @@ static int tsi148_crcsr_init(struct vme_bridge *tsi148_bridge,
+ 
+ 	/* Ensure that the CR/CSR is configured at the correct offset */
+ 	cbar = ioread32be(bridge->base + TSI148_CBAR);
+-	cbar = (cbar & TSI148_CRCSR_CBAR_M)>>3;
++	cbar = (cbar & TSI148_CRCSR_CBAR_M) >> 3;
+ 
+ 	vstat = tsi148_slot_get(tsi148_bridge);
+ 
+ 	if (cbar != vstat) {
+ 		cbar = vstat;
+ 		dev_info(tsi148_bridge->parent, "Setting CR/CSR offset\n");
+-		iowrite32be(cbar<<3, bridge->base + TSI148_CBAR);
++		iowrite32be(cbar << 3, bridge->base + TSI148_CBAR);
+ 	}
+ 	dev_info(tsi148_bridge->parent, "CR/CSR Offset: %d\n", cbar);
+ 
+-- 
+2.34.1
 
-> > But it is taking a lot of time, is there any way of
-> > speeding it up?
-> 
-> What is you choice for 'X' in "-jX"?
-
-I used "-j4".
-
-> Did you try with the exact number of logical cores?
-> Are you building into a VM with enough logical cores? 
-> If you are building into a VM, did you reserve enough RAM?
-
-I am using Ubuntu 22.04.01 with the help of VM on VMware.
-My machine has 13GB RAM and 2 processors(4 cores each).
-
-
-> Please read carefully my questions above and try to understand your 
-> environment and reply, so that I can help you more effectively.
-> 
-> > If this doesn't work then I have to follow the steps to reproduce in lkp
-> > mail as you said before.
-> 
-> The steps to reproduce will take your precious time and use more resources. 
-> Again, try to respond my questions.
-> 
-> > After dealing with these warnings I will send a [PATCH v5], following
-> > your instructions above.
-> 
-> Sorry for inadvertently overlooking to warn you about to send a message to 
-> Greg and ask him to drop your first 3 + 1 patches. Now you are doing good by 
-> following what Alison suggested: send v5 and write the log of revisions under 
-> the three dashes (exactly how Alison explained).
-> 
-> > Kindly, let me know if I am on the wrong track.
-> > Thank you!
-> > 
-> 
-> I think you are in the right track.
-> Let's try to speed up your builds because you'll need to build again your 
-> kernel many, many times for future works.  
->
-
-Okay great! Thank you.
-
-Regards,
-Khadija
-
-> Thanks,
-> 
-> Fabio
-> 
-> 
