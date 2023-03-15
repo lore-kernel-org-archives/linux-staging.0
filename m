@@ -1,95 +1,95 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77062538D;
-	Wed, 15 Mar 2023 14:22:44 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id fd5so42356459edb.7;
-        Wed, 15 Mar 2023 07:22:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678890162;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yyMDQCOfBAZusZX5jSmhyE2oTgujKm5FjLZ6IDt+eWw=;
-        b=Lhf966giEYD7DdgGJ+Tz1IuYvaioY68FS6sfbPCAREGADGZFyDV32s+eTuDrrgcreZ
-         mi/qz9Hn+sfnFj9f9650ii2tB9jHqfi2hZJzYA+x2lYPGk0HtgOqilDYUykpypoxF+2P
-         tn8nYH/mo6sUqGyzdxzURP839qlrCT4V4CFcSQiiRsQQkO+ESY+zWwJL7eIrolvamIFO
-         VJq5uyb5YtxoojAAo40Q/bwdDkJMt8s3laEDaukNqI13/Ds8aRIaLn0WsFv+kMN/nkAu
-         +cLZ3g1t85lsHNczlGLyWzleyyS7W5lVNZNjO0fEsT5Cjcml9Pf2NFfJg0IKh4M1MOiA
-         +pHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678890162;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yyMDQCOfBAZusZX5jSmhyE2oTgujKm5FjLZ6IDt+eWw=;
-        b=4p+f7mHiAABJAbvDl5/RNw9WHQYnCin0FmUegMldaVu32sGJGQ6CZtk6LLJF6KW7ll
-         dU3PEwoCU5ppnoYWtFeX/9op/wECPiYnjJB88A/KVzK/1RVGjPReZOmqTAj0oDfb0/xV
-         S6Uc7YtqWPpuBGjInH+HgtoIZYH5UMYs0VkfTVXQPKRw89tDCHkyxkkgJCy5vnEntkW/
-         t74uRjyGRnV/5XrM0p3mniWjc6tQET3nBJ9Lf7a8iQ0ktdsW+4qmY57m0V2lOkD26/uH
-         VcYiV1X3GdSDs25uejjPLGmCItxA9/awQqXxburOARS0s2mAOPgsu/kuQu0dfEh8Ows0
-         OcwA==
-X-Gm-Message-State: AO0yUKXsvFWeC3IT12NaHzET6MbJaKxvuscvldBXW11TfkVHTJeQPZI+
-	epOsDDxgQEqdJYqIXXrhxeA=
-X-Google-Smtp-Source: AK7set/cq7DV7NTF6kHldxZalTeU1yLLUdwXpYOBY3rGJHSRtrA5447S7BksGJ6MrvGukEvzmE+UHA==
-X-Received: by 2002:a05:6402:4d1:b0:4fa:ba60:8188 with SMTP id n17-20020a05640204d100b004faba608188mr3149556edw.8.1678890162551;
-        Wed, 15 Mar 2023 07:22:42 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.209.88])
-        by smtp.gmail.com with ESMTPSA id 18-20020a508e12000000b004fa380a14e7sm2531501edw.77.2023.03.15.07.22.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 07:22:42 -0700 (PDT)
-Date: Wed, 15 Mar 2023 19:22:39 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Alison Schofield <alison.schofield@intel.com>,
-	outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <ZBHUr7bANuhnOnIV@khadija-virtual-machine>
-References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
- <ZBEJ+8DbhADSBTLr@aschofie-mobl2>
- <ZBG699SriXWy1I2K@khadija-virtual-machine>
- <16148020.1MiD057Pog@suse>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34165538D
+	for <linux-staging@lists.linux.dev>; Wed, 15 Mar 2023 14:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=7ZNK08MerGzRX2ZaSmuVczeFjiWX83v3VJCjASMeBtc=; b=tln7V1X7eVe2a/4sanzpC3mYAt
+	EUSdqOCOovKT90F+2SeDKPwqMJHq9fFOHxRx7uJOcCJaWvHH0wIJ27t21QmKbgWdzNjxHLVmyZ7fL
+	4451Q8YffAZoRx9S0R6gtxbnUEmH0FPsgiYFxuJgHS/OqMN5Yoqh/eTLhYzlBO2wESxEp8Ei0lGqE
+	rraeYxyWNATk7MbupvFXozSeaAj3xhhazU5aVHa17h3DMuhu6eHnavgM1emoK1+DtWpheV4O0xlLI
+	oEVkkUfWCdbOBDjetBZ83Ki54HqdMCU14a8B8fvr1qXENR14x4BaIWHRwhkpSCwRh4R3ptiJ7zD0o
+	262IquLQ==;
+Received: from [2601:1c2:980:9ec0::21b4]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pcSVM-00DgIT-1Z;
+	Wed, 15 Mar 2023 14:53:28 +0000
+Message-ID: <64f9d9a6-0acb-f65e-18a1-44fd4cb56ece@infradead.org>
+Date: Wed, 15 Mar 2023 07:53:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <16148020.1MiD057Pog@suse>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] Documentation: kernel-parameters: Remove meye entry
+Content-Language: en-US
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Staging Drivers <linux-staging@lists.linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>, Borislav Petkov <bp@suse.de>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Kim Phillips <kim.phillips@amd.com>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ kernel test robot <lkp@intel.com>
+References: <20230315100246.62324-1-bagasdotme@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230315100246.62324-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 15, 2023 at 02:34:31PM +0100, Fabio M. De Francesco wrote:
-> Aside from what I said and asked for with the other message of this same 
-> thread, please take note that you can build a specific module if you prefer 
-> not to re-build the whole kernel and other modules at the same time. 
+
+
+On 3/15/23 03:02, Bagas Sanjaya wrote:
+> Commit ba47652ba65523 ("media: meye: remove this deprecated driver")
+> removes meye driver but forgets to purge its kernel-parameters.txt
+> entry, hence broken reference.
 > 
-> I'm pretty sure that the instructions to do so are in the OutreachyFirstPatch 
-> tutorial.
+> Remove the entry.
 > 
-> If they are not there, please let us know.
+> Link: https://lore.kernel.org/all/202302070341.OVqstpMM-lkp@intel.com/
+> Fixes: ba47652ba65523 ("media: meye: remove this deprecated driver")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  This patch is based on staging-next tree, because the driver removal
+>  touched drivers/staging/.
 > 
-> Fabio
-
-Hey Fabio!
-
-In the Outreachy FirstPatchTutorial under the 'Compiling only part of
-the kernel' section there are ways to compile only some part of the
-kernel.
-
-I have tried using "make W=1 drivers/staging/axis-fifo/" and it says
-'nothing to be done for'. 
-
-Should I start with the steps to reproduce? :'(
-
-Thank you!
-
-Regards,
-Khadija
-
-
+>  Documentation/admin-guide/kernel-parameters.txt | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 6221a1d057dd58..e54d4ce7870c00 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3184,9 +3184,6 @@
+>  			deep    - Suspend-To-RAM or equivalent (if supported)
+>  			See Documentation/admin-guide/pm/sleep-states.rst.
+>  
+> -	meye.*=		[HW] Set MotionEye Camera parameters
+> -			See Documentation/admin-guide/media/meye.rst.
+> -
+>  	mfgpt_irq=	[IA-32] Specify the IRQ to use for the
+>  			Multi-Function General Purpose Timers on AMD Geode
+>  			platforms.
 > 
-> 
+> base-commit: 458219ca9246076971961d695eef9eb56e05fcf7
+
+-- 
+~Randy
