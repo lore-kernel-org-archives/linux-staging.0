@@ -1,67 +1,108 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0B92919
-	for <linux-staging@lists.linux.dev>; Wed, 15 Mar 2023 09:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6618D2F25
+	for <linux-staging@lists.linux.dev>; Wed, 15 Mar 2023 10:02:53 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id f6-20020a17090ac28600b0023b9bf9eb63so1351599pjt.5
+        for <linux-staging@lists.linux.dev>; Wed, 15 Mar 2023 03:02:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MP1L1kZAaysXUeL2NiJnvDJlsldUV5D8hJj4fTXBLAg=;
-  b=qQQ5QxU+RKTbYCtFpC0w+eFvfiiZ1Pyh1M9Ae2gLl2Ok0pqCc4Ky/Inp
-   dLr2R5L0fCkrKQNYqc+OhyQ22tvtp4oZDxypnnQTY9TK4d7dUuIgcYQvI
-   7h0eKZjVeoGnAFotV9NqybWdyOdU4rbAIs4wJVNleOa9apZsxgsIHtywz
-   g=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,262,1673910000"; 
-   d="scan'208";a="97303132"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 10:09:09 +0100
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: kernel-janitors@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+        d=gmail.com; s=20210112; t=1678874573;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E6BuA3/IaA3KWYlTwYpc4ySsD7kuUXxU+Kj5w0UtdhE=;
+        b=SLTsblRQDj3hkyp3w7oJr7oob7FDAHKjv2+Mreuy9faOMpQ7icqe5dw5uCylZCciyJ
+         Xx7cvS6o7nhMbC6NBIS4bqtP+Wo3In5uefBukxOSquIk1W73whijpnXXEYAF3evfY2oA
+         15PBs1SkBZorbn3pGJz6dNwsdRAmW2A26fuZjQkUW1cgAcq0vQjauOmpEjhmVpNXxsia
+         NWNA1MulpyMl9p1oqL741Kt9ZJCk5oLTHOId2Njqp0O5tbrTPHKVO1KyAsLCDG36o1za
+         85dtDX7pDAbZH4kxejKGLPsBMtzlYMc6RQcmpik72VDm4Ed1eX5ee0gwLONpgrn2gr4k
+         ssKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678874573;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E6BuA3/IaA3KWYlTwYpc4ySsD7kuUXxU+Kj5w0UtdhE=;
+        b=o7Rcd262gUs3+98pRYNMj9+xkurdW2r6nZgZI3LCL3MRlvHBGjV0KQIUzTI6I1pcOv
+         dogaWu2XX6JgwgJ+OC/MFCQGSmyaHABV6kb10FiHuvs1D0Uxz7FZAB1kq7NbCu3TWk+5
+         gxf+HoHULuXfeUEuKrdkmz8Uedv8Bvo++TF7a7gPSP8YnLJEUQ1M2aUhSBPJxAkqPtPH
+         IfYeqx8fgDcUbirxziPqRQ4QoKmOnuHS1NMHQrJxivcGTHeqTTEjdo/uJs+OssHtgm1L
+         q8bLT/Gpscef+jpcxRLJKm+5lqfWUYkvlosKpW3lN2HWCG1w3vkOqHfaudP6wWJ5JQfe
+         G7dg==
+X-Gm-Message-State: AO0yUKXVnxpJZotLFBTUOF6XrgUH5FMUQ2SzwC7TchHmz0pMmFIArhBY
+	1dKC6yIRU65AdRBbFtnTxIo=
+X-Google-Smtp-Source: AK7set81/JklFphaEtwIIoFmsuM5gRmI6FUFj9z2LVAn9V3Ecdj2lCJC9Wnd8qKsGwmL3O9zPhtvAQ==
+X-Received: by 2002:a17:902:f687:b0:19c:e440:9256 with SMTP id l7-20020a170902f68700b0019ce4409256mr2673849plg.35.1678874572753;
+        Wed, 15 Mar 2023 03:02:52 -0700 (PDT)
+Received: from debian.me (subs09b-223-255-225-224.three.co.id. [223.255.225.224])
+        by smtp.gmail.com with ESMTPSA id kc13-20020a17090333cd00b0019a82ff8c38sm3269378plb.29.2023.03.15.03.02.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 03:02:52 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id 0925510653F; Wed, 15 Mar 2023 17:02:48 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Borislav Petkov <bp@suse.de>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Kim Phillips <kim.phillips@amd.com>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: atomisp-mt9m114: adjust macro parameter name
-Date: Wed, 15 Mar 2023 10:09:04 +0100
-Message-Id: <20230315090904.20092-1-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] Documentation: kernel-parameters: Remove meye entry
+Date: Wed, 15 Mar 2023 17:02:46 +0700
+Message-Id: <20230315100246.62324-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1388; i=bagasdotme@gmail.com; h=from:subject; bh=avfJeM8iBKx7EY1UHi3pTSAbm1wMcUWal73uKqAUeY8=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCmC0/d8vt5u6LT2o/pedX42YbZ6FW79kzLX3rDVGuxst PM1UWrtKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwEQ6uxj+Kbs9OSl663765V3r 5qTnhPJcLvvya077/29avGd+9QVLFzH84Zef/42Le5Wrp87unKJb/x0ffrBP3278Y7PLy8v5s/Y p8AEA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-The macro parameter name, sd, captures the field name in the third
-argument of container_of.  Fortunately, the argument at all uses is
-actually sd.  But change the macro parameter name anyway, for a little
-added safety.
+Commit ba47652ba65523 ("media: meye: remove this deprecated driver")
+removes meye driver but forgets to purge its kernel-parameters.txt
+entry, hence broken reference.
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+Remove the entry.
 
+Link: https://lore.kernel.org/all/202302070341.OVqstpMM-lkp@intel.com/
+Fixes: ba47652ba65523 ("media: meye: remove this deprecated driver")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
+ This patch is based on staging-next tree, because the driver removal
+ touched drivers/staging/.
 
-An alternative would be to make an inline function.
+ Documentation/admin-guide/kernel-parameters.txt | 3 ---
+ 1 file changed, 3 deletions(-)
 
- drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6221a1d057dd58..e54d4ce7870c00 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3184,9 +3184,6 @@
+ 			deep    - Suspend-To-RAM or equivalent (if supported)
+ 			See Documentation/admin-guide/pm/sleep-states.rst.
+ 
+-	meye.*=		[HW] Set MotionEye Camera parameters
+-			See Documentation/admin-guide/media/meye.rst.
+-
+ 	mfgpt_irq=	[IA-32] Specify the IRQ to use for the
+ 			Multi-Function General Purpose Timers on AMD Geode
+ 			platforms.
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-index 0e5a981dd331..b47d0882041b 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-@@ -35,7 +35,7 @@
- 
- #include "mt9m114.h"
- 
--#define to_mt9m114_sensor(sd) container_of(sd, struct mt9m114_device, sd)
-+#define to_mt9m114_sensor(s) container_of(s, struct mt9m114_device, sd)
- 
- /*
-  * TODO: use debug parameter to actually define when debug messages should
+base-commit: 458219ca9246076971961d695eef9eb56e05fcf7
+-- 
+An old man doll... just what I always wanted! - Clara
 
