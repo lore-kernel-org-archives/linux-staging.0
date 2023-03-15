@@ -1,172 +1,214 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9A45669;
-	Wed, 15 Mar 2023 16:42:30 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id cy23so77834854edb.12;
-        Wed, 15 Mar 2023 09:42:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F6D5669;
+	Wed, 15 Mar 2023 16:44:50 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id p16so12994100wmq.5;
+        Wed, 15 Mar 2023 09:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678898549;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s2zZ+qS7JXhqAHFfOrjSrvxFCZYvAc/AtrFDzlHxzgQ=;
-        b=C44ZNFkrw/cC3QvoPM0ptdhPv3/AF19dgxA5CtW9UEaV/5gWUX1XMUBbehM9EX551W
-         3kc5mSzwiO1sOohsBT9mrzjJ+Y7jYAwDmb1ApDvraDeLapzmAtoRAaJerDCVak0bf2rl
-         VOANyjsyE+mno6joaHywe+TiGkLvlQUPHX211Hiyjes1b19Y8m70XGwrdbg8B6eJkVoU
-         gE2vq/wDKDLHXKyJEZG9O2whHKqJGUrUJ6+r3Xd4hkxi6PhNA8aGuYt8kqFysO4Ij0I+
-         xF/o8S2LCUdGbvkrK5XrFxZF9FTLN24LHNYY5eSFgwWPp4me/Mgv74rAWUTu8rXhekGu
-         /1gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678898549;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20210112; t=1678898689;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s2zZ+qS7JXhqAHFfOrjSrvxFCZYvAc/AtrFDzlHxzgQ=;
-        b=ehbRDe7QN4H+V3icmWqZ7zE3GDfHAIL2jdwwqy+Wx7Hr5+6WJ4SrQ1oVqVtbTU2NFR
-         dPNrjDytnU54w+ZXiBUjODl+1nZg/zgWHItukvo4Rsh6CyijL/Wsd94Fbn+bCc+NRPS8
-         CkqD3eXqVq57yr/IhsP8xUA0/VnHDRZCnVR7XluBpZwFObfox63509OI4GjutFWLU5rW
-         8Delmbo/+V+zKUrOO0mEspBsry+YUR9IjEfjConhzi7m2rGMKhR0CdrvEu3ras/6QAMO
-         AF9zIFvklpBtnFxH7VLi+exuXhM8XsfpwkNYeGnirXEJKv/uffYfOHWeyAtSB6I/Dxnz
-         YVOw==
-X-Gm-Message-State: AO0yUKU4b+UwqIg0g61rWKhjL0MxetGjDbhXEcBMBy7VgHgCo9zszWQP
-	mWJ0tsTeFFywmbcQQgijsz4=
-X-Google-Smtp-Source: AK7set+KiEq4DeAanZxaTVwhRvEVxe+7sEdv+cArt2WJQ7Eon9DS2b90wTpN13CsYuiJEl0ERadPWw==
-X-Received: by 2002:a17:906:e206:b0:8b1:bab0:aa3d with SMTP id gf6-20020a170906e20600b008b1bab0aa3dmr7170114ejb.8.1678898548907;
-        Wed, 15 Mar 2023 09:42:28 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.209.88])
-        by smtp.gmail.com with ESMTPSA id z19-20020a170906271300b008cda6560404sm2729912ejc.193.2023.03.15.09.42.28
+        bh=04oAu1Epo9SQhPM4NVXULqyDXSz3JDl9X8av4pk+WzQ=;
+        b=DglSPjvA+jcxtiMiYO/y0FHAIg4I10LeDXGECLg9vElT1kVFTHvBhtNQJxs0mGzlLB
+         /TcrjGiPxOUXeynnARVo7HhDckn/ynBIFzRFVYI/prYtreWruSSxnTEGKkITqPgc7k4q
+         gDhZXtXWSuGhadsHat5S8AIxdOkOLYf18APceo5kJMZZ184OYDd6rANjka6onTPzzDlb
+         UGAxXNlRSQirMijzGUBC90crz/dpRpIdrG2f26iKKW4Q5ck/TZ+VK4HkyjV0bd4paeTZ
+         fTDOB4h9K9e92m9FYq6q4JGXfoEGXVso3h9tUxrhVqxz5T2/aXbBDpPPFH7BAO5tYbUj
+         ybgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678898689;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=04oAu1Epo9SQhPM4NVXULqyDXSz3JDl9X8av4pk+WzQ=;
+        b=uwWbgC/fNEBevfIGKwp3IZKaDAPvvasvn8uzzOHKDfTIOL9z1gOwk5EGVIZlenFT2Z
+         zAIFEbgnr6yZw1j5w00llslNh0kVYXxqUojnprR1Zm64RcG/7YCf3lsaF51W3aQ15v7s
+         e90pDZrI5rDUuJlalBOajbdKUkBB8/G7Q40dNsNTucYGJtk3jdNx48T7/yhOmiYyn9FT
+         Mw2HqCPTbrwHnU6NSPCQHmpnJyeDREKcGZ8ZEyeRjwKIiSc6TVFX6tGecZsCbGhBvvFx
+         iaGddakbrOmKpf2qmo2eOl7wYiC33WX9PG6LnYd4slagDIHCK4DqL050PeHYIZ3bGsdw
+         +jIQ==
+X-Gm-Message-State: AO0yUKXqMfc2WrojHs86cRB80wYw8Pm+JSp7vqr0OP6U0qepHwRNuVW1
+	WFJYXj0ffVvVLcmgrKj98mq9Q1FN2wftvA==
+X-Google-Smtp-Source: AK7set/aYkfdm0wcbNd6sEi+oBNKfDmIEBe6EQO935Og7raishZkqyy76N9BebVWQuKE9sqimk+LQg==
+X-Received: by 2002:a05:600c:468e:b0:3ea:f73e:9d8c with SMTP id p14-20020a05600c468e00b003eaf73e9d8cmr18568999wmo.16.1678898689062;
+        Wed, 15 Mar 2023 09:44:49 -0700 (PDT)
+Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
+        by smtp.gmail.com with ESMTPSA id az40-20020a05600c602800b003e2096da239sm2570663wmb.7.2023.03.15.09.44.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 09:42:28 -0700 (PDT)
-Date: Wed, 15 Mar 2023 21:42:26 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>
+        Wed, 15 Mar 2023 09:44:48 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: Alison Schofield <alison.schofield@intel.com>, outreachy@lists.linux.dev,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Nathan Chancellor <nathan@kernel.org>
 Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <ZBH1cmB2dVAi42Gs@khadija-virtual-machine>
-References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
- <ZBEJ+8DbhADSBTLr@aschofie-mobl2>
- <ZBG699SriXWy1I2K@khadija-virtual-machine>
- <16148020.1MiD057Pog@suse>
- <ZBHUr7bANuhnOnIV@khadija-virtual-machine>
- <ZBHtrGjgKOiVwjSF@aschofie-mobl2>
+Date: Wed, 15 Mar 2023 17:44:47 +0100
+Message-ID: <3096768.uvML7RA1vL@suse>
+In-Reply-To: <ZBHOi8vA/LpCyLTJ@khadija-virtual-machine>
+References:
+ <ZA9mThZ7NyRrQAMX@khadija-virtual-machine> <2168386.Az4OtozEo7@suse>
+ <ZBHOi8vA/LpCyLTJ@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBHtrGjgKOiVwjSF@aschofie-mobl2>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Wed, Mar 15, 2023 at 09:09:16AM -0700, Alison Schofield wrote:
-> On Wed, Mar 15, 2023 at 07:22:39PM +0500, Khadija Kamran wrote:
-> > On Wed, Mar 15, 2023 at 02:34:31PM +0100, Fabio M. De Francesco wrote:
-> > > Aside from what I said and asked for with the other message of this same 
-> > > thread, please take note that you can build a specific module if you prefer 
-> > > not to re-build the whole kernel and other modules at the same time. 
-> > > 
-> > > I'm pretty sure that the instructions to do so are in the OutreachyFirstPatch 
-> > > tutorial.
-> > > 
-> > > If they are not there, please let us know.
-> > > 
-> > > Fabio
-> > 
-> > Hey Fabio!
-> > 
-> > In the Outreachy FirstPatchTutorial under the 'Compiling only part of
-> > the kernel' section there are ways to compile only some part of the
-> > kernel.
-> > 
-> > I have tried using "make W=1 drivers/staging/axis-fifo/" and it says
-> > 'nothing to be done for'. 
-> > 
-> > Should I start with the steps to reproduce? :'(
-> 
-> Khadija,
-> 
-> I've applied your patch and it fails to compile with the warnings
-> that LKP reports.
-> 
-> If you are doing: $ make drivers/staging/axis-fifo/
-> 
-> and it is saying 'nothing to be done...'
-> 
-> You either have not changed anything since the last compile, or you
-> do not have the module configured.
-
-
-Hey Alison!
-I might've written the statement wrong. Actually, here is the output of
-make drivers/staging/axis-fifo
-
-YACC    scripts/genksyms/parse.tab.[ch]
-  HOSTCC  scripts/genksyms/parse.tab.o
-  HOSTCC  scripts/genksyms/lex.lex.o
-  HOSTLD  scripts/genksyms/genksyms
-  CC      scripts/mod/empty.o
-  MKELF   scripts/mod/elfconfig.h
-  HOSTCC  scripts/mod/modpost.o
-  CC      scripts/mod/devicetable-offsets.s
-  HOSTCC  scripts/mod/file2alias.o
-  HOSTCC  scripts/mod/sumversion.o
-  HOSTLD  scripts/mod/modpost
-  CC      kernel/bounds.s
-  CC      arch/x86/kernel/asm-offsets.s
-  CALL    scripts/checksyscalls.sh
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  DESCEND bpf/resolve_btfids
-  INSTALL libsubcmd_headers
-make[3]: Nothing to be done for 'drivers/staging/axis-fifo/'.
-
-
-> 
-> I suspect it has never compiled for you and you need to look at
-> the direction in the tutorial for 'Recompiling the driver' section
-> and learn how to use make menuconfig.
+On mercoled=EC 15 marzo 2023 14:56:27 CET Khadija Kamran wrote:
+> On Wed, Mar 15, 2023 at 02:13:51PM +0100, Fabio M. De Francesco wrote:
+> > On mercoled=EC 15 marzo 2023 13:32:55 CET Khadija Kamran wrote:
+> > > On Tue, Mar 14, 2023 at 04:57:47PM -0700, Alison Schofield wrote:
+> > > > My guess is that this patch gets ignored because it has a lower=20
+version
+> > > > number than a previous patch.
+> > > >=20
+> > > > Take the feedback given here, and rev to
+> > > > [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+> > > >=20
+> > > > Be sure the Changelog, below the --- explains the journey.
+> > > >=20
+> > > > Changes in v5:
+> > > >=20
+> > > > Changes in v4:
+> > > >=20
+> > > > Changes in v3:
+> > >=20
+> > > > Changes in v2:
+> > > Hey Alison!
+> >=20
+> > Hi Khadija,
+> >=20
+> > Please put one or two blank lines between the last message you are=20
+replying
+> > and the new you are writing (exactly as I'm doing here between "Hey=20
+Alison!"
+> > and "Hi Khadija").
+>=20
+> Hey Fabio!
+>=20
+> Sorry about that. This was pointed by Alison before and I have been
+> adding spaces since then. Hopefully I am doing it right this time.
+>=20
+You are doing right this time :-)
 >
-> This driver has a couple of dependencies described in the Kconfig
-> file. You will not even see the 'XIL_AXIS_FIFO' option until you
-> turn on 'OF' and HAS_'IOMEM'.
-> 
-> See the drivers/staging/axis-fifo/Kconfig
-> 
-> Please confirm that you have compiled the driver before chasing
-> after the build env that lkp reports.
->
+> > > Based on Nathan's feedback I am trying to recompile and send a patch
+> > > without any warnings.
+> >=20
+> > Great!
+> >=20
+> > > As suggested by Fabio, I am running "make w=3D1 -jX" command to see i=
+f I
+> > > get any warnings.
+> >=20
+> > I suppose that "w=3D1" is a typo. The option is enabled with "W=3D1" (c=
+apital
+> > case, Linux and all UNIX-like are case-sensitive).
+>=20
+> Okay. I should re-run it with "W=3D1".
+>=20
+> > > But it is taking a lot of time, is there any way of
+> > > speeding it up?
+> >=20
+> > What is you choice for 'X' in "-jX"?
+>=20
+> I used "-j4".
+>=20
+> > Did you try with the exact number of logical cores?
+> > Are you building into a VM with enough logical cores?
+> > If you are building into a VM, did you reserve enough RAM?
+>=20
+> I am using Ubuntu 22.04.01 with the help of VM on VMware.
+> My machine has 13GB RAM and 2 processors(4 cores each).
 
-Sorry, I made a mistake here.
+Therefore, you are using a Linux guest on a Linux host. This is a wise choi=
+ce.=20
+However, you didn't say where you are running your builds...
 
-I did not change the driver 'Xilinx AXI-Stream FIFO IP core driver' to
-being compiled as a module by typing 'm'. 
-Is that the problem here?
+I mean, the better things to do are the following steps:
 
-Also, now when I try to change it by pressing 'm', it is not working.
-And I have tried many times but I cannot change the driver from '*' to
-'m'.
+1) Your workspace with the staging tree should stay in the host.
+2) Shut down your guest in order to have all RAM and all logical processors=
+=20
+available for the build.
+3) Run "make -j8" in the host. Since you shutdown your guest VM you can use=
+=20
+all 8 logical cores and the maximum available RAM (without the VM draining=
+=20
+resources while building)
+4) When the build is done, switch on your VM on VMware with at least 4 logi=
+cal=20
+cores and 6GB of reserved RAM.
+5) Mount your cloned base directory as a shared folder between host and gue=
+st.
+6) In the guest, 'cd' to the shared folder and then run "make modules_insta=
+ll=20
+install" (in the guest, attention). This will install and configure the=20
+kernel, the modules, GRUB2 and everything else in your guest VM.
+7) Reboot the VM and test your patches.
 
-Thank you!
-Regards,
-Khadija
+This procedure will speed up your next builds.
+The fundamental point is that you don't need to partition precious resource=
+s=20
+while building, Do everything without running the VM and switch it on only =
+for=20
+install and tests. Since you only build in the host but never install and b=
+oot=20
+in it, you don't risk any system's damage.
+
+This is what I do for Kernel development purposes.
+
+I hope it helps to answer your question about how to run fast recompilation.
+
+=46abio =20
 
 
-> Thanks,
-> Alison
-> 
-> 
-> > 
-> > Thank you!
-> > 
-> > Regards,
-> > Khadija
-> > 
-> > 
-> > > 
-> > > 
-> > > 
+>=20
+> > Please read carefully my questions above and try to understand your
+> > environment and reply, so that I can help you more effectively.
+> >=20
+> > > If this doesn't work then I have to follow the steps to reproduce in =
+lkp
+> > > mail as you said before.
+> >=20
+> > The steps to reproduce will take your precious time and use more=20
+resources.
+> > Again, try to respond my questions.
+> >=20
+> > > After dealing with these warnings I will send a [PATCH v5], following
+> > > your instructions above.
+> >=20
+> > Sorry for inadvertently overlooking to warn you about to send a message=
+ to
+> > Greg and ask him to drop your first 3 + 1 patches. Now you are doing go=
+od=20
+by
+> > following what Alison suggested: send v5 and write the log of revisions
+> > under
+> > the three dashes (exactly how Alison explained).
+> >=20
+> > > Kindly, let me know if I am on the wrong track.
+> > > Thank you!
+> >=20
+> > I think you are in the right track.
+> > Let's try to speed up your builds because you'll need to build again yo=
+ur
+> > kernel many, many times for future works.
+>=20
+> Okay great! Thank you.
+>=20
+> Regards,
+> Khadija
+>=20
+> > Thanks,
+> >=20
+> > Fabio
+
+
+
+
