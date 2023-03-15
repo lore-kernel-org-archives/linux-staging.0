@@ -1,48 +1,67 @@
-Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB9C28E2
-	for <linux-staging@lists.linux.dev>; Wed, 15 Mar 2023 09:06:34 +0000 (UTC)
-Received: by mail.corrib.pl (Postfix, from userid 1001)
-	id 8ED83A3AD8; Wed, 15 Mar 2023 09:00:39 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
-	t=1678870843; bh=X6IEpSISwJiYlJ3uA866lskXve3r+4o2hf4z7VM6m5o=;
-	h=Date:From:To:Subject:From;
-	b=Af1nVwjTIcHbPJRDRHHnskhiXF+lImW63Y8U8QWhRznMt9Z5q/sZTfg7CzXco6CAh
-	 7laYnEBKQ+7AWMPVjJ5e4bHkrQZ8fQ7Bdpgz6p1STStl73lUMy91KAnUwrhKnEtvvq
-	 M2uUc+gniEKqOrP7ga/5puDN1T7iOlE9Ko0vfaRSkXXlN72sv+9rwrPWQzwQUkjQ+Z
-	 8x5Xhdum/6mY3r/I7IUeDxYltq4qsojgXpeEEYdjG7odfZJ7jEL6RIC9nisbuF2ZES
-	 yFnZHu9ZtForBD+7rNLFYZoSnk92rnnzNqCOY2wKHoq/GoHVlZVif48La9AIDDP5p1
-	 Kr1ojwbMBukWA==
-Received: by mail.corrib.pl for <linux-staging@lists.linux.dev>; Wed, 15 Mar 2023 09:00:35 GMT
-Message-ID: <20230315074501-0.1.62.ivwg.0.j3embchtph@corrib.pl>
-Date: Wed, 15 Mar 2023 09:00:35 GMT
-From: =?UTF-8?Q?"Szczepan_Kie=C5=82basa"?= <szczepan.kielbasa@corrib.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Faktoring
-X-Mailer: mail.corrib.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0B92919
+	for <linux-staging@lists.linux.dev>; Wed, 15 Mar 2023 09:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MP1L1kZAaysXUeL2NiJnvDJlsldUV5D8hJj4fTXBLAg=;
+  b=qQQ5QxU+RKTbYCtFpC0w+eFvfiiZ1Pyh1M9Ae2gLl2Ok0pqCc4Ky/Inp
+   dLr2R5L0fCkrKQNYqc+OhyQ22tvtp4oZDxypnnQTY9TK4d7dUuIgcYQvI
+   7h0eKZjVeoGnAFotV9NqybWdyOdU4rbAIs4wJVNleOa9apZsxgsIHtywz
+   g=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,262,1673910000"; 
+   d="scan'208";a="97303132"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 10:09:09 +0100
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: kernel-janitors@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp-mt9m114: adjust macro parameter name
+Date: Wed, 15 Mar 2023 10:09:04 +0100
+Message-Id: <20230315090904.20092-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Dzie=C5=84 dobry,
+The macro parameter name, sd, captures the field name in the third
+argument of container_of.  Fortunately, the argument at all uses is
+actually sd.  But change the macro parameter name anyway, for a little
+added safety.
 
-rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
-ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
-wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
-stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
-z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
- kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
-adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
-Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
+---
 
+An alternative would be to make an inline function.
 
-Pozdrawiam
-Szczepan Kie=C5=82basa
+ drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+index 0e5a981dd331..b47d0882041b 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+@@ -35,7 +35,7 @@
+ 
+ #include "mt9m114.h"
+ 
+-#define to_mt9m114_sensor(sd) container_of(sd, struct mt9m114_device, sd)
++#define to_mt9m114_sensor(s) container_of(s, struct mt9m114_device, sd)
+ 
+ /*
+  * TODO: use debug parameter to actually define when debug messages should
+
