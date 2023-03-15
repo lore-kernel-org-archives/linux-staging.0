@@ -1,79 +1,77 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178AA23A3;
-	Wed, 15 Mar 2023 07:47:29 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id m18-20020a05600c3b1200b003ed2a3d635eso507483wms.4;
-        Wed, 15 Mar 2023 00:47:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8612563;
+	Wed, 15 Mar 2023 08:27:38 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso169429pjb.3;
+        Wed, 15 Mar 2023 01:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678866448;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7jivhOMF2Dp5QIJkx8toAZguDtgmdufs2dThkF05/Cc=;
-        b=gYOesFjImuZKGkOWZLdnq694h6tVVEdT0BCh4sYKY/cIiA33hRhjo9bkgApd4kx1zz
-         yUt5KGZTRU8cbHrQumF8iKfMCnIKDU6OeN+JZ2bEjaSWaL1azxpzk3sWxxZ913t7DtsV
-         lVlnJ4bhehuTMkqXZiwggJFu3IoXooxwtDT3NhCHxrIGVCQv/+XVb6jzxBWfHtzabh+3
-         EbvROOmPNv3Y4ldf3YbaafAj3nsH6IMbBvdcWtnUBRUoyCq13ltxQVQnJ/ETGn51Y8cx
-         wvHQOaYL8jY2EoaJVzjpfldFlEwxdQrniQe37tUC2uf+7Wun4AIWAp22L+c4a2Cl2RbS
-         +s9Q==
+        d=gmail.com; s=20210112; t=1678868858;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GvusehUWrfc+/66ASlnNjlCPuPY5wXOImDMvoYp/fQ0=;
+        b=b0+CCgmuim/LJMpI+1XEMUV+egXJuxybJv47FXV6QaM5cQ6eGSui32XGbEIXO7Fl1O
+         ls2azq9pMBcSoNmho287e6ZKCLBWjFb2QAFTdAdphWSeQjDWEL5YpHa6uQysglgg0YC9
+         UgCKhy1mffMMqgipSAglwGVrjfSc7xIwcrEaacXjc02GxiTFToZhRMmqY1dVp+fffmjg
+         09ofhKqwk6sTzvUDfrTdjtU5CumLFYh71DmsAxMBUY0RXsxD6O5eAGAfsPps6hniPDCA
+         FOIHV7863+GyCtjwZPKO5Keo/gNMIn4gfay3pHLNsR3YEeixOVW+hNy3BIZHRFVSIyNX
+         3hXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678866448;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7jivhOMF2Dp5QIJkx8toAZguDtgmdufs2dThkF05/Cc=;
-        b=8LDY3vBY003TXOWQklwwopukkHv/kLvMZSVdSAk0/D/lAzQaWWIPV4ImZ1H1arDjIr
-         aLWKqhjii9XAUaNw96nPE/TTIjLngllbfXig8Z8z63lyqez5ZLKMD718zohOluA+FKL5
-         gAxoHnLnnkX053Zzbyr8r9BZBzIFeNTpKQGCPW946IbWvz+BpqDCsHCzfyM7p/GyCdxS
-         6uMeeVbrZT93MzSOtxVqI2W68KUE08dkoUj4IMKo96m0ytroL5bs8oud93WsbLa+Qfih
-         qd6ASiAXu4gw8J2C/HAU2UE+NWmii2cr2F2C8VKhHssvlKAHcyQN1OcsoeNK9wzAzTAV
-         8dCg==
-X-Gm-Message-State: AO0yUKWw0MdJjgvEJpyOS/pqNEZhnsDXXrgI3ateiZaUNmmcaY7EESah
-	E32S1gHWHjwYStzdqUz/gvo=
-X-Google-Smtp-Source: AK7set8IdII9/ujkq6fv8gNRveyl1MOjV31vY9KaLeBL6Ky2dpNemQxB7223epsYE0anRCJQcS4yFA==
-X-Received: by 2002:a05:600c:198e:b0:3ea:4af0:3475 with SMTP id t14-20020a05600c198e00b003ea4af03475mr17299381wmq.1.1678866448152;
-        Wed, 15 Mar 2023 00:47:28 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t8-20020a05600c450800b003daf6e3bc2fsm4842127wmo.1.2023.03.15.00.47.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 00:47:26 -0700 (PDT)
-Date: Wed, 15 Mar 2023 10:47:21 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Sumitra Sharma <sumitraartsy@gmail.com>
-Cc: outreachy@lists.linux.dev, manishc@marvell.com,
-	GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
-	gregkh@linuxfoundation.org, netdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Staging: qlge: Fix indentation in conditional
- statement
-Message-ID: <6e12c373-2bfd-48d8-b77d-17f710c094f7@kili.mountain>
-References: <20230314121152.GA38979@sumitra.com>
+        d=1e100.net; s=20210112; t=1678868858;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GvusehUWrfc+/66ASlnNjlCPuPY5wXOImDMvoYp/fQ0=;
+        b=4O7kE0jDywFrxr4z2IOvaTNHaiw4OL8LChhHtJwBQj8YFKTpP92hdU/AT75zp4LvNO
+         JJUbCSBQ0TRK9/HEy2h01J+LpMWFmscZoZP2viYHDCrRdEKTX+2+aXPref+SiCFFBaRD
+         J4baHNxMfvzY8Y8eGG63uu4J+tLkT5bAjg4sI/LtI8hj9jAsahHAnTt6SJvp5T8iLmY/
+         V3lsgBsEna/XFax+mHOi4Ihj5TjfjI4Ov2KocN+sWBDfLtbqeFnMycjjWH4SIqDoWsb2
+         8P1+sKqK9sGwIykNcXY0tR6j7UNH2QoSkKMe+8g+nNTtBMlkVe2bqi6uo9or/gR9lb4c
+         fRPw==
+X-Gm-Message-State: AO0yUKXu17KMjDb0EOMvlolxEIATTiVkHY3/W904RX5Y+LzzBTaPNMYn
+	t/O3GclVXeGMjDdbeBGyd0Q=
+X-Google-Smtp-Source: AK7set/s9DyM1IvIoJZp/5FCKzk1RL4bAAZfu6rRARRGJOJc8MnUCdLhy0CFwafIHI2dxVOoP6eOVQ==
+X-Received: by 2002:a17:903:2311:b0:1a0:7446:ed98 with SMTP id d17-20020a170903231100b001a07446ed98mr2175603plh.47.1678868858342;
+        Wed, 15 Mar 2023 01:27:38 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-41.three.co.id. [116.206.28.41])
+        by smtp.gmail.com with ESMTPSA id o12-20020a1709026b0c00b0019a97f180fcsm3048943plk.37.2023.03.15.01.27.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Mar 2023 01:27:38 -0700 (PDT)
+Message-ID: <32c49665-73a7-b506-172e-975d55f423ba@gmail.com>
+Date: Wed, 15 Mar 2023 15:27:34 +0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230314121152.GA38979@sumitra.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] staging: sm750: Rename function to avoid CamelCase
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Alison Schofield <alison.schofield@intel.com>,
+ Kloudifold <cloudifold.3125@gmail.com>, teddy.wang@siliconmotion.com,
+ sudipm.mukherjee@gmail.com, linux-staging@lists.linux.dev,
+ outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <ZA+K6OdPe21k8F2k@CloudiRingWorld> <ZA/+JlgWfdg2wH8B@debian.me>
+ <ZBCS7DR9dZH1yds8@aschofie-mobl2>
+ <5fd67671-8e21-ffa8-8571-d8b5533b4758@gmail.com> <ZBFPnZbvdI46Ah6r@kroah.com>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <ZBFPnZbvdI46Ah6r@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 14, 2023 at 05:11:52AM -0700, Sumitra Sharma wrote:
-> Add tabs/spaces in conditional statements in to fix the
-> indentation.
+On 3/15/23 11:54, Greg KH wrote:
+>> I thought this style cleanup also warrants Fixes: since
+>> it fixes coding style problem on existing code (see
+>> Documentation/process/submitting-patches.rst).
 > 
-> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
-> 
-> ---
-> v2: Fix indentation in conditional statement, noted by Dan Carpenter
->  <error27@gmail.com>
-> v3: Apply changes to fresh git tree
-> 
+> No, sorry, Fixes: is for real bugs, not style issues.
 
-Thanks!
+OK, renouncing the tag.
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
-
-regards,
-dan carpenter
+-- 
+An old man doll... just what I always wanted! - Clara
 
