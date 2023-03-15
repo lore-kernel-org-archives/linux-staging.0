@@ -1,157 +1,119 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7AC525D;
-	Wed, 15 Mar 2023 13:34:34 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id m18-20020a05600c3b1200b003ed2a3d635eso1232471wms.4;
-        Wed, 15 Mar 2023 06:34:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81723538D;
+	Wed, 15 Mar 2023 13:43:46 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id eg48so16508487edb.13;
+        Wed, 15 Mar 2023 06:43:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678887273;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w+IN+0w9H9a4+otP7ZW52d0IIe4ikF35g1Dk7apewm8=;
-        b=CFesjd9v5SM0U0dyyqbIZC9h4Equ3ylFSxE7o/FT5L+lkaEVjbswT9OTZhDD/gLnw1
-         2d+MZ6H0upkI3TwPRIliYCl1/AFoyPkr7zPjfiY4NcZ3O8Cbib6kkThSyLnVrisEc4SY
-         V2CD4RPid+IbFec/1eqzaE40sg1MgKWTOAaDv/TIKKjc1GCNNBmwjniQi59HO/epJ7/W
-         n9rMdfQVZ051rxgw6q1uiaH9dwgapJa9gj7zq5TLEcgArPoVkVtRFX6AxudHBPfgjeJ4
-         vqsR6DMs9tNmwGyVw/COJzMB7/4IE4nHMCy3Qm7Epty/9zOqbOkafqIQgQlqifFLVGwU
-         FbcQ==
+        d=gmail.com; s=20210112; t=1678887824;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xoJ32fY2U6onu2XeTo5DX618tP1s6+s3YRLKr7wGres=;
+        b=J8dt7NZabR68uwiqryISbGu/PmcQUqJcNVHirreVXGHQUT9Ii8iVdq9OKF9FbJjwBl
+         RRyeo4gsBUnR9xhbGineny22Zr9mnGQrpgS4Lj9KLYuA2J0jy506Jo2i/LEnOQxEvhKG
+         yPoh9OTapSyKgkm/dWNRO01CFAJZ0Q23PSTiPeO2ruqzEDvwrPGua3VhOOZJF3W2JVaV
+         Z/QZwlbFltztyL2t0yoNVn59euJ/JFQDBw3ZWwuOaByG9z7A1kRDEUjSw14Z6286drFE
+         trbfgagLphAAb0dAmj6qj7MTMytVtGyltigOJHk6jIhb8oZMJyPU566wDVKrNHt8xl2I
+         KsIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678887273;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w+IN+0w9H9a4+otP7ZW52d0IIe4ikF35g1Dk7apewm8=;
-        b=V9xsVDdav3WD2mofwi0pWWhu1UX5U7VlgxyETBjggpsI4MYcmMCIZVGZCbbTLMDEcx
-         jEog9xG3CVn8VudyiCuaddXMsHG8Gbm9xbHHOfb5/vXKpR9B2gBGVhIKCgHGh2UdlQ9F
-         zRD4iFi8SMRJxtSPx6AQ9lI8tGM4xlT4o2y9Xulur8i+XdtJX5jHtn7xJGsMu9GOvfcL
-         FT/c4VjxH6kMPURil+JER2Hj278n9tU14h9wLyHTaX3zvDssnPkwOO+OkwIJzd+u/YR+
-         pd5v+YBf7Ngbl1827oeCE6LHE0ZJjAlJJ0cPDT9w43tEWxaORKEuiPD8eiIge0/wCVlt
-         uoPA==
-X-Gm-Message-State: AO0yUKVFC11pFdvyjXkPrk73CnxOrEUvwb4rwrgxbUWYCqbr031CuN3X
-	iEg7PMJYeNfyUySx+n5wqFc=
-X-Google-Smtp-Source: AK7set9Bzw+No5SlaJ+OfOgSKIo8hvzFPztkh8ZEhCQZlhSOh5WiPqg2c86ZkBsFGgyM8rLBSiQ6Fg==
-X-Received: by 2002:a05:600c:1e0b:b0:3ea:d610:f059 with SMTP id ay11-20020a05600c1e0b00b003ead610f059mr19596586wmb.4.1678887273092;
-        Wed, 15 Mar 2023 06:34:33 -0700 (PDT)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id 1-20020a05600c234100b003e00c453447sm1830725wmq.48.2023.03.15.06.34.31
+        d=1e100.net; s=20210112; t=1678887824;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xoJ32fY2U6onu2XeTo5DX618tP1s6+s3YRLKr7wGres=;
+        b=3mCXuG3G4IuLIFCQlNtu0JRqljqftyOQHoiPO4EoW+Jpi+Xbz8tGDuNO20f7CLi9wi
+         ZFMVRtnRwCE7t/MwkU3Ih8g3fPyl4ypKqwjyRKs85xJEhwABr2y/SX5W38FsR/pREzcx
+         ZBa2pz0XSMQppq+JkccEUhaqAXnjGM0I+QgsZUQ3WGIROGuQ1rl3MTha1kSSdW7+DJld
+         S88yF2/qUYCmnotxQkTvZqn8RuDCl962OKCHf6EvbBRXJt3ZDOg3/sBKX8JQWWkHI8ys
+         AhQIIlqZo4lvYDxq+Ll+0GfoD5xnb0bRL3hw1iDywzWsJ/pHGmBMqdB8Gis5MUILakXl
+         /1bg==
+X-Gm-Message-State: AO0yUKVt8Y2DB/DtojsxI0JON8AWDJJb/Lrb93GWdSdZLTv6zlPRlIa3
+	n2G4WC4wCh7AUx/DlKmVhzU=
+X-Google-Smtp-Source: AK7set9/6OO+1HqP1LXwHDjU1sOWrZZQXj88e8j9SHocwupKAN7znEQ7DkAzhaTwJwsXpTwyVCnCdQ==
+X-Received: by 2002:a17:907:6e23:b0:92e:eecf:b742 with SMTP id sd35-20020a1709076e2300b0092eeecfb742mr2982706ejc.2.1678887824610;
+        Wed, 15 Mar 2023 06:43:44 -0700 (PDT)
+Received: from alaa-emad.. ([41.42.177.251])
+        by smtp.gmail.com with ESMTPSA id a12-20020a1709066d4c00b00914001c91fcsm2546201ejt.86.2023.03.15.06.43.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 06:34:32 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>,
- Khadija Kamran <kamrankhadijadj@gmail.com>
+        Wed, 15 Mar 2023 06:43:44 -0700 (PDT)
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: outreachy@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Date: Wed, 15 Mar 2023 14:34:31 +0100
-Message-ID: <16148020.1MiD057Pog@suse>
-In-Reply-To: <ZBG699SriXWy1I2K@khadija-virtual-machine>
-References:
- <ZA9mThZ7NyRrQAMX@khadija-virtual-machine> <ZBEJ+8DbhADSBTLr@aschofie-mobl2>
- <ZBG699SriXWy1I2K@khadija-virtual-machine>
+	martyn@welchs.me.uk,
+	manohar.vanga@gmail.com,
+	zoo868e@gmail.com,
+	jerrykang026@gmail.com,
+	cuigaosheng1@huawei.com,
+	arnd@arndb.de,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	eng.mennamahmoud.mm@gmail.com
+Subject: [PATCH v2 1/2] staging: vme_user: add space around operators
+Date: Wed, 15 Mar 2023 15:43:28 +0200
+Message-Id: <4bdfd864b573c164df30ec738afc93b06ce0d573.1678887330.git.eng.mennamahmoud.mm@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8bit
 
-On mercoled=EC 15 marzo 2023 13:32:55 CET Khadija Kamran wrote:
-> On Tue, Mar 14, 2023 at 04:57:47PM -0700, Alison Schofield wrote:
-> > On Tue, Mar 14, 2023 at 10:31:21PM +0100, Fabio wrote:
-> > > On marted=EC 14 marzo 2023 21:43:40 CET Alison Schofield wrote:
-> > > > On Mon, Mar 13, 2023 at 11:07:10PM +0500, Khadija Kamran wrote:
-> > > > > Module parameter, read_timeout, can only be set at the loading ti=
-me.
-> > > > > As
-> > > > > it can only be modified once, initialize read_timeout once in the
-> > > > > probe
-> > > > > function.
-> > > > > As a result, only use read_timeout as the last argument in
-> > > > > wait_event_interruptible_timeout() call.
-> > > > >=20
-> > > > > Same goes for write_timeout.
-> > > > >=20
-> > > > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > > > ---
-> > > >=20
-> > > > Looks like this is [PATCH v5] and needs a changelog.
-> > >=20
-> > > Alison,
-> > >=20
-> > > In fact, this is only the second patch that addresses Greg's suggested
-> > > refactoring.
-> > >=20
-> > > Khadija moved from v3 of "staging: axis-fifo: remove tabs to align
-> > > arguments"
-> > > to v4 of this completely independent patch. And then back to v1, beca=
-use
-> > > (at
-> > > the time of v4) I pointed out to her that she had started working on a
-> > > project that has a completely different purpose than the previous one.
-> > >=20
-> > > The best course of action would have been to ask Greg to drop the=20
-previous
-> > > patches and then reset the numbering of the new job to v1. Unfortunat=
-ely=20
-I
-> > > did not pay attention to how she then managed the numbering following=
- my
-> > > observation.
-> > >=20
-> > > What would be the best course of action at this point?
-> >=20
-> > My guess is that this patch gets ignored because it has a lower version
-> > number than a previous patch.
-> >=20
-> > Take the feedback given here, and rev to
-> > [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-> >=20
-> > Be sure the Changelog, below the --- explains the journey.
-> >=20
-> > Changes in v5:
-> >=20
-> > Changes in v4:
-> >=20
-> > Changes in v3:
->=20
-> > Changes in v2:
-> Hey Alison!
-> Based on Nathan's feedback I am trying to recompile and send a patch
-> without any warnings.
-> As suggested by Fabio, I am running "make w=3D1 -jX" command to see if I
-> get any warnings. But it is taking a lot of time, is there any way of
-> speeding it up?
-> If this doesn't work then I have to follow the steps to reproduce in lkp
-> mail as you said before.
-> After dealing with these warnings I will send a [PATCH v5], following
-> your instructions above.
-> Kindly, let me know if I am on the wrong track.
-> Thank you!
->=20
-> Regards,
-> Khadija
->=20
-> > > Fabio
+add a space before and after the operator, for readability.
 
-Aside from what I said and asked for with the other message of this same=20
-thread, please take note that you can build a specific module if you prefer=
-=20
-not to re-build the whole kernel and other modules at the same time.=20
+Reported By checkpatch script:
 
-I'm pretty sure that the instructions to do so are in the OutreachyFirstPat=
-ch=20
-tutorial.
+" CHECK: spaces preferred around that '+', '<<' and '>>' ".
 
-If they are not there, please let us know.
+Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+----
+changes in v2:
+        edit commit message
+---
+ drivers/staging/vme_user/vme_tsi148.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-=46abio
-
-
+diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
+index 482049cfc664..bfa604043355 100644
+--- a/drivers/staging/vme_user/vme_tsi148.c
++++ b/drivers/staging/vme_user/vme_tsi148.c
+@@ -737,7 +737,7 @@ static int tsi148_alloc_resource(struct vme_master_resource *image,
+ 		return 0;
+ 
+ 	if (!image->bus_resource.name) {
+-		image->bus_resource.name = kmalloc(VMENAMSIZ+3, GFP_ATOMIC);
++		image->bus_resource.name = kmalloc(VMENAMSIZ + 3, GFP_ATOMIC);
+ 		if (!image->bus_resource.name) {
+ 			retval = -ENOMEM;
+ 			goto err_name;
+@@ -983,7 +983,7 @@ static int tsi148_master_set(struct vme_master_resource *image, int enabled,
+ 		goto err_aspace;
+ 	}
+ 
+-	temp_ctl &= ~(3<<4);
++	temp_ctl &= ~(3 << 4);
+ 	if (cycle & VME_SUPER)
+ 		temp_ctl |= TSI148_LCSR_OTAT_SUP;
+ 	if (cycle & VME_PROG)
+@@ -2187,14 +2187,14 @@ static int tsi148_crcsr_init(struct vme_bridge *tsi148_bridge,
+ 
+ 	/* Ensure that the CR/CSR is configured at the correct offset */
+ 	cbar = ioread32be(bridge->base + TSI148_CBAR);
+-	cbar = (cbar & TSI148_CRCSR_CBAR_M)>>3;
++	cbar = (cbar & TSI148_CRCSR_CBAR_M) >> 3;
+ 
+ 	vstat = tsi148_slot_get(tsi148_bridge);
+ 
+ 	if (cbar != vstat) {
+ 		cbar = vstat;
+ 		dev_info(tsi148_bridge->parent, "Setting CR/CSR offset\n");
+-		iowrite32be(cbar<<3, bridge->base + TSI148_CBAR);
++		iowrite32be(cbar << 3, bridge->base + TSI148_CBAR);
+ 	}
+ 	dev_info(tsi148_bridge->parent, "CR/CSR Offset: %d\n", cbar);
+ 
+-- 
+2.34.1
 
