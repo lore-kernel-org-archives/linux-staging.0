@@ -1,145 +1,162 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFE8538D;
-	Wed, 15 Mar 2023 13:50:23 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id eh3so19904964edb.11;
-        Wed, 15 Mar 2023 06:50:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775A2538D;
+	Wed, 15 Mar 2023 13:56:35 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id cy23so75775329edb.12;
+        Wed, 15 Mar 2023 06:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678888221;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8OM8iJRNFplJfGDi4un2hc/7xXTYet+KS5NXp7xD/8I=;
-        b=TCMpPIMy+V8GC+lP8WKb689w22DJ48ExAeHDzMwBkioka5Cuhafa6iwjp3LzsOQEy9
-         zfAMUnTyP2PXeYd5U91LFaYJ/KXLXmFpL9RK6bNSFBxpAzC/c34QsrazZDdtowfbfEYT
-         kzey//Q7ilzDRvf7G+hzh0q09bDiFlJaeqQRaOT+8uUiYPUQCiQ+MK7xP1Svr4cXQzdS
-         AGplAWbWkn4PQMNtYt/o0XA4V9xC9BlPxAZlZbS9LoZJlAUTdc7pgSpTfiIYu8I8GBj/
-         6HlLXOB6c6y0wlXtpRCYwP3whzJOynMBVPAvw8Xzjl0IVBChMoDS4fAbmNBrLp8IWByr
-         52cQ==
+        d=gmail.com; s=20210112; t=1678888593;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nWcxS/EnvsLY1IslnqQwR8YGTUM/z30Xu2wGXtyYax8=;
+        b=UvpjdUcRE2QxWAoApUwwUh5gucn4fOVtUOW/gD+1R0tIX1iVPEDXA1p/t+o0x7boAi
+         rNaGgfKhEI1Sx7IpDHI/RVyvwKnxQKdcQ28W27a92enqWIuJHMEparZ7M0WD5bIGMGUH
+         GtRjQMO2SHrWkNfQwljwyOQVUv6GLTCkQoz4QBjG8pCc8m0WNvnRME31LDiMvOjmZ06t
+         Vad4Ge8UKoRaV0ZuYv3uPeu4K3vChLrR7MscDNtdiIb8U+Q5Ugryd6wk7XUHvCZCCUsL
+         lrV10LhfPaeFQ+jYmb2XvIZhicO6SgaLbTSod0AH0TbZ1MDw209dv8MhAEnbXCJulPlw
+         GhZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678888221;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1678888593;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8OM8iJRNFplJfGDi4un2hc/7xXTYet+KS5NXp7xD/8I=;
-        b=vhOmO1YgYZz7UowTbkpT4XAYtymWT7nnbuno17MMMKMHz9m5SRq+yiJWgDg0XJcKLK
-         zS+an7u1kbvV/MvIOfI9J0DQp6NzGBS9XzX+x2Na1kcgyAiCGJu1MGYnoNAo5cj/GVfW
-         EBthMFJNeDM1AVzoL0sJ8KQgQFc3TlCjp6KqRaOtPgXQmEnPWosm2uUhb1Pq3ulflvK2
-         /WQS/OSAqFT9La/VTuTvawHxPKst0NcKj8UI3fLfsX6+vex0m5HnkvNuc+KzlC/n2CWd
-         Q07f7BShIk+EVARLOUUQqseNxrZMEjwUq5AvisdNxJXrsnlaEBIL8qePAICCi/lS10F9
-         iaPg==
-X-Gm-Message-State: AO0yUKV75vzk9qy53vPr9UTsh7PQZqt7ane86riJIsl3VZ6fYTAoLROe
-	osl7QPuKsoqB3e+CmyIFNPo=
-X-Google-Smtp-Source: AK7set8runYUr6M/EemckAjqEAVmBSBrJd8vikbkDem5o9wVKRmOLFb2AGjgmhcI4wzdr2D70GNNKQ==
-X-Received: by 2002:aa7:cd8d:0:b0:4fb:5fe1:bc3b with SMTP id x13-20020aa7cd8d000000b004fb5fe1bc3bmr2996679edv.0.1678888221468;
-        Wed, 15 Mar 2023 06:50:21 -0700 (PDT)
-Received: from [192.168.1.16] ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id i23-20020a17090639d700b009262198d096sm2554193eje.38.2023.03.15.06.50.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Mar 2023 06:50:21 -0700 (PDT)
-Message-ID: <b37352ef-959e-d950-c0c6-32e1c7268b79@gmail.com>
-Date: Wed, 15 Mar 2023 15:50:19 +0200
+        bh=nWcxS/EnvsLY1IslnqQwR8YGTUM/z30Xu2wGXtyYax8=;
+        b=oRt7g5zJJyTkUZ/jNQldQxO1gcHXinl714KMXzQltx0lRpamM3+y0bblXZJiCLUg0i
+         Bye0GLiJ7Urb4xa05SRFsLD7pkfd1KQr6fIzGQ2etqM/aJENRWhaReDolbLtV8Q8hzd1
+         8xenPQ/9k/6DwLSV+tZ+I9315tWOKIiQk4Fvb83MChFLsc9O30GbAbhY8btL2vAouqNZ
+         PdeDbjTvqDdclu0M0OmZyZagxTcAf0B52ii9QQJj5LEPNYY5P2TMO/XhR0bai0fCABP6
+         Qj9fIG3GSwRz+LSJiyvS5cruc3/hPdJkT3rRwsOCaApA52Qz4rpdINNpDwGNgZP6ZJDW
+         ayUA==
+X-Gm-Message-State: AO0yUKWWDnfQCuBelHDv0/gtnOOIwzTdI0xY/gZfHRPuguvZM+D0ehKi
+	u9iQ/R+L+NznsBL2SYEYXqE=
+X-Google-Smtp-Source: AK7set8AMAin/XSiz2ZLaC/2ZSZc9C6cMoFNsm2CXzTzcjxidKYEqxUGCJTl0V4o0p8UfFOk45u8fw==
+X-Received: by 2002:a17:906:6782:b0:928:d4f6:6f77 with SMTP id q2-20020a170906678200b00928d4f66f77mr6917677ejp.29.1678888593534;
+        Wed, 15 Mar 2023 06:56:33 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.209.88])
+        by smtp.gmail.com with ESMTPSA id h11-20020a17090619cb00b008b30e2a450csm2568698ejd.144.2023.03.15.06.56.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Mar 2023 06:56:33 -0700 (PDT)
+Date: Wed, 15 Mar 2023 18:56:27 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Alison Schofield <alison.schofield@intel.com>,
+	outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <ZBHOi8vA/LpCyLTJ@khadija-virtual-machine>
+References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
+ <ZBEJ+8DbhADSBTLr@aschofie-mobl2>
+ <ZBG699SriXWy1I2K@khadija-virtual-machine>
+ <2168386.Az4OtozEo7@suse>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] staging: vme_user: remove unnecessary blank lines
-Content-Language: en-US
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
- martyn@welchs.me.uk, manohar.vanga@gmail.com, zoo868e@gmail.com,
- jerrykang026@gmail.com, cuigaosheng1@huawei.com, arnd@arndb.de,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <4bdfd864b573c164df30ec738afc93b06ce0d573.1678887330.git.eng.mennamahmoud.mm@gmail.com>
- <15b80b699315993d7f0da638f805446f6dc0b480.1678887330.git.eng.mennamahmoud.mm@gmail.com>
- <dcd9b79-bbd5-f160-317b-7fdd6ca6fc64@inria.fr>
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-In-Reply-To: <dcd9b79-bbd5-f160-317b-7fdd6ca6fc64@inria.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <2168386.Az4OtozEo7@suse>
 
-
-On ١٥‏/٣‏/٢٠٢٣ ١٥:٤٥, Julia Lawall wrote:
+On Wed, Mar 15, 2023 at 02:13:51PM +0100, Fabio M. De Francesco wrote:
+> On mercoled� 15 marzo 2023 13:32:55 CET Khadija Kamran wrote:
+> > On Tue, Mar 14, 2023 at 04:57:47PM -0700, Alison Schofield wrote:
+> > > My guess is that this patch gets ignored because it has a lower version
+> > > number than a previous patch.
+> > > 
+> > > Take the feedback given here, and rev to
+> > > [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+> > > 
+> > > Be sure the Changelog, below the --- explains the journey.
+> > > 
+> > > Changes in v5:
+> > > 
+> > > Changes in v4:
+> > > 
+> > > Changes in v3:
+> > 
+> > > Changes in v2:
+> > Hey Alison!
+> 
+> Hi Khadija,
+> 
+> Please put one or two blank lines between the last message you are replying 
+> and the new you are writing (exactly as I'm doing here between "Hey Alison!" 
+> and "Hi Khadija").
 >
-> On Wed, 15 Mar 2023, Menna Mahmoud wrote:
+
+Hey Fabio!
+
+Sorry about that. This was pointed by Alison before and I have been
+adding spaces since then. Hopefully I am doing it right this time.
+
+> > Based on Nathan's feedback I am trying to recompile and send a patch
+> > without any warnings.
+> 
+> Great!
+> 
+> > As suggested by Fabio, I am running "make w=1 -jX" command to see if I
+> > get any warnings.
+> 
+> I suppose that "w=1" is a typo. The option is enabled with "W=1" (capital 
+> case, Linux and all UNIX-like are case-sensitive). 
 >
->> remove unnecessary blank lines before a close brace
->> as reported by checkpatch script
->>
->> "CHECK: Blank lines aren't necessary before a close brace '}'"
->>
->> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
->> ----
-> This should be three -s, not four.
+
+Okay. I should re-run it with "W=1".
+
+> > But it is taking a lot of time, is there any way of
+> > speeding it up?
+> 
+> What is you choice for 'X' in "-jX"?
+
+I used "-j4".
+
+> Did you try with the exact number of logical cores?
+> Are you building into a VM with enough logical cores? 
+> If you are building into a VM, did you reserve enough RAM?
+
+I am using Ubuntu 22.04.01 with the help of VM on VMware.
+My machine has 13GB RAM and 2 processors(4 cores each).
+
+
+> Please read carefully my questions above and try to understand your 
+> environment and reply, so that I can help you more effectively.
+> 
+> > If this doesn't work then I have to follow the steps to reproduce in lkp
+> > mail as you said before.
+> 
+> The steps to reproduce will take your precious time and use more resources. 
+> Again, try to respond my questions.
+> 
+> > After dealing with these warnings I will send a [PATCH v5], following
+> > your instructions above.
+> 
+> Sorry for inadvertently overlooking to warn you about to send a message to 
+> Greg and ask him to drop your first 3 + 1 patches. Now you are doing good by 
+> following what Alison suggested: send v5 and write the log of revisions under 
+> the three dashes (exactly how Alison explained).
+> 
+> > Kindly, let me know if I am on the wrong track.
+> > Thank you!
+> > 
+> 
+> I think you are in the right track.
+> Let's try to speed up your builds because you'll need to build again your 
+> kernel many, many times for future works.  
 >
->> changes in v2:
->> 	edit commit message
->> ---
-> -s aren't needed here.
->
-> julia
 
+Okay great! Thank you.
 
-I see, Thanks Julia
+Regards,
+Khadija
 
-Menna
-
-
->
->>   drivers/staging/vme_user/vme_tsi148.c | 5 -----
->>   1 file changed, 5 deletions(-)
->>
->> diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
->> index bfa604043355..2f5eafd50934 100644
->> --- a/drivers/staging/vme_user/vme_tsi148.c
->> +++ b/drivers/staging/vme_user/vme_tsi148.c
->> @@ -1023,7 +1023,6 @@ static int tsi148_master_set(struct vme_master_resource *image, int enabled,
->>   err_res:
->>   err_window:
->>   	return retval;
->> -
->>   }
->>
->>   /*
->> @@ -1741,7 +1740,6 @@ static int tsi148_dma_list_add(struct vme_dma_list *list,
->>   				  list);
->>   		prev->descriptor.dnlau = cpu_to_be32(address_high);
->>   		prev->descriptor.dnlal = cpu_to_be32(address_low);
->> -
->>   	}
->>
->>   	return 0;
->> @@ -1773,7 +1771,6 @@ static int tsi148_dma_busy(struct vme_bridge *tsi148_bridge, int channel)
->>   		return 0;
->>   	else
->>   		return 1;
->> -
->>   }
->>
->>   /*
->> @@ -2220,7 +2217,6 @@ static int tsi148_crcsr_init(struct vme_bridge *tsi148_bridge,
->>   	}
->>
->>   	return 0;
->> -
->>   }
->>
->>   static void tsi148_crcsr_exit(struct vme_bridge *tsi148_bridge,
->> @@ -2530,7 +2526,6 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>   	kfree(tsi148_bridge);
->>   err_struct:
->>   	return retval;
->> -
->>   }
->>
->>   static void tsi148_remove(struct pci_dev *pdev)
->> --
->> 2.34.1
->>
->>
->>
+> Thanks,
+> 
+> Fabio
+> 
+> 
