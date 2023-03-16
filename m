@@ -1,261 +1,175 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EBC569D;
-	Thu, 16 Mar 2023 16:17:50 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id o2so650313wro.12;
-        Thu, 16 Mar 2023 09:17:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EDA3D7B;
+	Thu, 16 Mar 2023 16:26:19 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id x3so9827584edb.10;
+        Thu, 16 Mar 2023 09:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678983469;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YnGsU6JFSIeWNdID12FB+3lEn0m2JgcfHHD3meIAZsI=;
-        b=PYadP9ekyEGCylW2GRQ3pf/LJjZDFaUkMC57ZAUny5IFk50dpwV9+LIyXxyHhvKtFn
-         sFcgt8/IVKDRc82/7IApBddQ8UWl6WGOlL8IFeDwOaj5ppywY/03mYtQUIgP82cCRq3a
-         xF/mQyQX/RqulcevEU/2bOxHcYMaYaET9m6ayB4FoW70f9E7iC3FDqHG5Itb6dsAY+UK
-         nHg/ziNzxGHbTPUnp+3REZaD6/XeozvcPts5F4Nf1lvoI29ZDwyNZ6zmjZagAObe6a6i
-         UXwiZ0619w2j72D4lfc2PPYQMOX0eRG4BXe5bGSCin0n3DyE2709QO0CnfPEpqCbIvNR
-         tslg==
+        d=gmail.com; s=20210112; t=1678983978;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tq9EloIOrvY5/fg4afrdweAWwminMwCYXdVtfBekJJE=;
+        b=cw3rjSEGK+0p/49S3Xj1+e7O2ekfejgTU5RjO5XdZQtqtn33Yh/B3oKpY3XDhJwkV4
+         yFRH45tK1yixf57tFZwFOAmujjqqwUrBSAOQvu83BrSCZEbBC3PDC4BnswQt5YSAOYxd
+         eywb4L+27uqmoQIZeb5Yn2uSV+yUvXyix+TUlWALlSn1GI3mzVQmHrGXrjnDPzzpMtTV
+         bKRILpSGTVSvJd1YGmIhz8ZT05cW6BKCxvZqhAAE5sm4yzeiRw3+hkzyOt+hSWcxQreo
+         AfLUeOwBxxpMHJd7gL8ujcycVPG3mXvY7lhCOzLopMAQU7C78g7lhB87qc8UZqgb381H
+         gJrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678983469;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YnGsU6JFSIeWNdID12FB+3lEn0m2JgcfHHD3meIAZsI=;
-        b=lmDKrsy/KL6wDiqrrLgVycw9tR8YHv4Xbj7wStCCe/UtmSvy6cAA+nnuoMD2jc7iQJ
-         /6sGRtrIp5F6W/m5e9HpU14qJYtq+xF/VsewpAQrNfrze0G0E094HC7Tj5C2MFvksn3V
-         FW8yWYEMUWUrbb7QHqMcENzm8r7lklxHoLs3pxlE9ht1demSP4adPDrYNOSqgoun9jil
-         /M3fNbGqf7IK+swoYj/k//BBTM+uAKcwCgn3PaF5v+OJEsIC4xcusThHhi53M7flz5So
-         BTRXtCc/C9LD2HKmTOWcmWI9imk65ukeq5/9SfW0L3Zr7FknXuYmg5OXIsh9MyeiaOXd
-         P6DA==
-X-Gm-Message-State: AO0yUKWyqVuLun4MO8BdBkw+43UIJOUZuC1XMD/80TQ0YT4yxQ4d9/rq
-	JYNTU+ghrSZxW99hBKxhko4=
-X-Google-Smtp-Source: AK7set+LRzqs2N8gMWUgRQG3LYs3C3OUN1xkRS4/cfU0uOfWZ7R01rti5F198UP9X2ffWpyi3fqhpA==
-X-Received: by 2002:a5d:6306:0:b0:2d1:531f:a90b with SMTP id i6-20020a5d6306000000b002d1531fa90bmr3639115wru.39.1678983468901;
-        Thu, 16 Mar 2023 09:17:48 -0700 (PDT)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id a11-20020a5d508b000000b002c55b0e6ef1sm7756941wrt.4.2023.03.16.09.17.47
+        d=1e100.net; s=20210112; t=1678983978;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tq9EloIOrvY5/fg4afrdweAWwminMwCYXdVtfBekJJE=;
+        b=kYQ2DKgIDla/uPLhgB9jktyUAblBW01y4dWkYfWX3yyfKbLflCVnv9oRChjlyzviWp
+         uPWW7wNPU0YDBJ0Wr9GfYjskFJRD0CfwlYHS+mDndNqJN1SC/I6RmavZa3bxNtPR1Rcf
+         K7+uXTFAH4QIpRsL3MpVyST/5nR6xW22DvwcyTfNgX0nJCPOhHzDEqhSwvmHDSB6VG6V
+         KwI30o41qyE0SiIgLYNcBQCZiVEF3MKkk7ctvCMAAquH3vcnBeXDbcgOG09u0OP3nTNa
+         QYL5d+nXPgWCPxUcvWhCFbv06l2Y/9hPHSgvLKWSJhdFEdks54cXUcEW3QjTp6/GgkDd
+         6MNg==
+X-Gm-Message-State: AO0yUKXs7VFwR1dzSIccodAf+8Y+nvGp6dZKYdJJMgW+qk911/pBi/eB
+	fyCK8wzpHf2MUowjLBpTPsM=
+X-Google-Smtp-Source: AK7set9Vw7B+XWw8ayTWXYyKCvtT84Uld87Ok1F8mAjj713LfTnYbPEZxxmNfkipMvifLKsr+DgUxQ==
+X-Received: by 2002:a05:6402:1507:b0:4fa:4a27:adba with SMTP id f7-20020a056402150700b004fa4a27adbamr164329edw.22.1678983977591;
+        Thu, 16 Mar 2023 09:26:17 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.209.88])
+        by smtp.gmail.com with ESMTPSA id g24-20020a50d0d8000000b004fd29e87535sm4052660edf.14.2023.03.16.09.26.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 09:17:48 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-Date: Thu, 16 Mar 2023 17:17:47 +0100
-Message-ID: <2162728.C4sosBPzcN@suse>
-In-Reply-To: <ZBMxFLtW2ekCvm/s@khadija-virtual-machine>
-References:
- <ZBMR4s8xyHGqMm72@khadija-virtual-machine> <2626731.BddDVKsqQX@suse>
- <ZBMxFLtW2ekCvm/s@khadija-virtual-machine>
+        Thu, 16 Mar 2023 09:26:17 -0700 (PDT)
+Date: Thu, 16 Mar 2023 21:26:15 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v6] staging: axis-fifo: initialize timeouts in init only
+Message-ID: <ZBNDJwFHE3vIFS3+@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On gioved=EC 16 marzo 2023 16:09:08 CET Khadija Kamran wrote:
-> On Thu, Mar 16, 2023 at 03:38:03PM +0100, Fabio M. De Francesco wrote:
-> > Khadija,
-> >=20
-> > Just saw your v5 patch and Greg's two replies.
-> >=20
-> > For v6 you will need to change the subject to "[PATCH v6] staging:
-> > axis-fifo:
-> > initialize timeouts in init only" to indicate that you are doing=20
-assignments
-> > in axis_fifo_init().
-> >=20
-> > Don't forget to extend the version log with "Changes in v6:" and clarify
-> > that
-> > v5 had a different "Object" (you should probably also add a link to the=
- v5
-> > patch in lore: https://lore.kernel.org/lkml
-> > /ZBMR4s8xyHGqMm72@khadija-virtual- machine/). When the "Subject" change=
-s,
-> > readers may not find the previous versions easily.
-> >=20
-> > On gioved=EC 16 marzo 2023 13:56:02 CET Khadija Kamran wrote:
-> > > Module parameter, read_timeout, can only be set at the loading time. =
-As
-> > > it can only be modified once, initialize read_timeout once in the pro=
-be
-> >=20
-> > Substitute "probe" with "init".
-> >=20
-> > > function.
-> > >=20
-> > > As a result, only use read_timeout as the last argument in
-> > > wait_event_interruptible_timeout() call.
-> >=20
-> > This two sentences are not much clear. I'd merge and rework:
-> >=20
-> > "Initialize the module parameters read_timeout and write_timeout once in
-> > init().
-> >=20
-> > Module parameters can only be set once and cannot be modified later, so=
- we
-> > don't need to evaluate them again when passing the parameters to
-> > wait_event_interruptible_timeout()."
-> >=20
-> > > Convert datatpe
-> >=20
-> > s/datatpe/type/
-> >=20
-> > > of read_timeout
-> >=20
-> > of {read,write}_timeout
-> >=20
-> > > from 'int' to 'long int' because
-> > > implicit conversion of 'long int' to 'int' in statement 'read_timeout=
- =3D
-> > > MAX_SCHEDULE_TIMEOUT' results in an overflow warning.
-> >=20
-> > We don't care too much about the warning themselves: I mean, it overflo=
-ws
-> > and
-> > you must avoid it to happen (as you are doing with the changes of types=
-),
-> > not
-> > merely be interested in avoiding the warning. "[] results in an overflo=
-w."
-> > is
-> > all we care about.
->=20
-> Hey Fabio!
-> Thank you for your feedback. I have understood it and will make sure to
-> send them in the next PATCH v6.
-
-Great to hear it!
-
-> > Add also the previous paragraph in the last part of the commit message.
-> >=20
-> > > Perform same steps formodule parameter, write_timeout.
-> >=20
-> > And instead delete the this last phrase.
->=20
-> Can you please explain the above feedback. I am confused. What should I
-> use instead of this last phrase?
-
-Sorry, I made a typo in the sentence above and that may confuse you :-(
-
-I just intended to suggest to delete "Perform same steps formodule paramete=
-r,=20
-write_timeout.".
-
-In the previous lines I suggested you to merge and rework your entire commi=
-t=20
-message. If you like it you are left with the following text (that I put fo=
-r=20
-you between two '"'):
-
-"Initialize the module parameters read_timeout and write_timeout once in
+Initialize the module parameters, read_timeout and write_timeout once in
 init().
 
 Module parameters can only be set once and cannot be modified later, so we
 don't need to evaluate them again when passing the parameters to
 wait_event_interruptible_timeout().
 
-Convert the type of {read,write}_timeout from 'int' to 'long int' because=20
-implicit conversion of 'long int' to 'int' in statement 'read_timeout =3D=20
-MAX_SCHEDULE_TIMEOUT' results in an overflow.".
+Convert datatype of {read,write}_timeout from 'int' to 'long int' because
+implicit conversion of 'long int' to 'int' in statement
+'{read,write}_timeout = MAX_SCHEDULE_TIMEOUT' results in an overflow.
 
-Just three small sentences are all you need (and don't forget to change the=
-=20
-Subject - "probe()" -> "init()".
+Change format specifier for {read,write}_timeout from %i to %li.
 
-I hope I have been clearer this time.
-If not, please ask for further clarification.
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+---
 
-Thanks,
+Changes in v6:
+ - Initialize module parameters in init instead of probe function.
+ - Change the subject and description
+ - Change format specifiers of module parameters to "%li"
 
-=46abio=20
+Changes in v5:
+ - Convert module parameters's datatype from int to long.
+ - Link to patch: 
+ https://lore.kernel.org/outreachy/ZBMR4s8xyHGqMm72@khadija-virtual-machine/
 
-> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > > ---
-> > >=20
-> > > Changes in v5:
-> > >  - Convert timeout's datatype from int to long.
-> > >=20
-> > > Changes in v4:
-> > >  - Initialize timeouts once as suggested by Greg; this automatically
-> > > =20
-> > >    fixes the indentation problems.
-> > > =20
-> > >  - Change the subject and description.
-> > >=20
-> > > Changes in v3:
-> > >  - Fix grammatical mistakes
-> > >  - Do not change the second argument's indentation in split lines
-> > >=20
-> > > Changes in v2:
-> > >  - Instead of matching alignment to open parenthesis, align second and
-> > > =20
-> > >    the last argument instead.
-> > > =20
-> > >  - Change the subject to 'remove tabs to align arguments'.
-> > >  - Use imperative language in subject and description
-> > > =20
-> > >  drivers/staging/axis-fifo/axis-fifo.c | 26 ++++++++++++++++----------
-> > >  1 file changed, 16 insertions(+), 10 deletions(-)
+Changes in v4:
+ - Initialize timeouts once as suggested by Greg; this automatically
+   fixes the indentation problems.
+ - Change the subject and description.
+ - Link to patch:
+ https://lore.kernel.org/outreachy/ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine/
 
-[snip]
+Changes in v3:
+ - Correct grammatical mistakes
+ - Do not change the second argument's indentation in split lines
 
-> > >  		=09
-> > >  				 >=3D words_to_write,
-> >=20
-> > What is this? You haven't yet compiled your patch.
-> > Any further problems with enabling axis-fifo as a module?
->=20
-> Sorry, my bad.  Instead of fixing the menuconfig I used this command to
-> remove the warnings:
-> make -j"$(nproc)" ARCH=3Darm64 LLVM=3D1 drivers/staging/axis-fifo/
-> I thought it is compiling my module correctly.
-> But I am working on your feedback. And before sending my next patch I
-> will make sure to compile it properly.
+Changes in v2:
+ - Instead of matching alignment to open parenthesis, align second and
+   the last argument.
+ - Change the subject and use imperative language.
+ - Link to patch:
+ https://lore.kernel.org/outreachy/ZAxNYw2rFQkrdtKl@khadija-virtual-machine/
 
-When you are done with build, install, and final reboot to test if your mod=
-ule=20
-can "modprobe" or "insmod" (i.e. link with the running custom kernel you=20
-built, installed and boot), try to compare the output of the following=20
-commands:
+Link to first patch:
+ https://lore.kernel.org/outreachy/ZAZSmPpB6fcozGa4@khadija-virtual-machine/
 
-# uname -a
-Linux suse 6.2.2-1-default #1 SMP PREEMPT_DYNAMIC Thu Mar  9 06:06:13 UTC 2=
-023=20
-(44ca817) x86_64 x86_64 x86_64 GNU/Linux
+drivers/staging/axis-fifo/axis-fifo.c | 28 ++++++++++++++++-----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
-AND
-
-# modinfo <name of the module you are testing here>
-
-I'm running "modinfo kvm" (but showing only two of many lines):
-
-# modinfo kvm=20
-filename:       /lib/modules/6.2.2-1-default/kernel/arch/x86/kvm/kvm.ko.zst
-vermagic:       6.2.2-1-default SMP preempt mod_unload modversions=20
-
-Can you see that the kernel in "uname -a" and the filename and vermagic hav=
-e=20
-the same "6.2.2-1-default"? Well, so I'm sure I'm running the right Kernel =
-and=20
-inserted the appropriate "kvm" module.=20
-
-=46urthermore, before rebooting your custom kernel, you may also look at th=
-e=20
-directory in the Kernel where you compiled your module and search for "*.o"=
-=20
-"*mod*" and "*.ko" files. If you have them, you built your module properly.
-
-Thanks,
-
-=46abio
-
-
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index dfd2b357f484..0a85ea667a1b 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -103,17 +103,17 @@
+  *           globals
+  * ----------------------------
+  */
+-static int read_timeout = 1000; /* ms to wait before read() times out */
+-static int write_timeout = 1000; /* ms to wait before write() times out */
++static long read_timeout = 1000; /* ms to wait before read() times out */
++static long write_timeout = 1000; /* ms to wait before write() times out */
+ 
+ /* ----------------------------
+  * module command-line arguments
+  * ----------------------------
+  */
+ 
+-module_param(read_timeout, int, 0444);
++module_param(read_timeout, long, 0444);
+ MODULE_PARM_DESC(read_timeout, "ms to wait before blocking read() timing out; set to -1 for no timeout");
+-module_param(write_timeout, int, 0444);
++module_param(write_timeout, long, 0444);
+ MODULE_PARM_DESC(write_timeout, "ms to wait before blocking write() timing out; set to -1 for no timeout");
+ 
+ /* ----------------------------
+@@ -384,9 +384,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 		mutex_lock(&fifo->read_lock);
+ 		ret = wait_event_interruptible_timeout(fifo->read_queue,
+ 			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
+-				 (read_timeout >= 0) ?
+-				  msecs_to_jiffies(read_timeout) :
+-				  MAX_SCHEDULE_TIMEOUT);
++			read_timeout);
+ 
+ 		if (ret <= 0) {
+ 			if (ret == 0) {
+@@ -528,9 +526,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		ret = wait_event_interruptible_timeout(fifo->write_queue,
+ 			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+ 				 >= words_to_write,
+-				 (write_timeout >= 0) ?
+-				  msecs_to_jiffies(write_timeout) :
+-				  MAX_SCHEDULE_TIMEOUT);
++			write_timeout);
+ 
+ 		if (ret <= 0) {
+ 			if (ret == 0) {
+@@ -948,7 +944,17 @@ static struct platform_driver axis_fifo_driver = {
+ 
+ static int __init axis_fifo_init(void)
+ {
+-	pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
++	if (read_timeout >= 0)
++		read_timeout = msecs_to_jiffies(read_timeout);
++	else
++		read_timeout = MAX_SCHEDULE_TIMEOUT;
++
++	if (write_timeout >= 0)
++		write_timeout = msecs_to_jiffies(write_timeout);
++	else
++		write_timeout = MAX_SCHEDULE_TIMEOUT;
++
++	pr_info("axis-fifo driver loaded with parameters read_timeout = %li, write_timeout = %li\n",
+ 		read_timeout, write_timeout);
+ 	return platform_driver_register(&axis_fifo_driver);
+ }
+-- 
+2.34.1
 
