@@ -1,45 +1,25 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C5933CC;
-	Thu, 16 Mar 2023 14:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678975734; x=1710511734;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=st3XNtfhg5o86Dx/8Z5ncGm7eToP7n/Ee0w0PIniNPA=;
-  b=jdCAoAkdeOyX+jqUnffelLTZJfWgTHfg4w6FmlIjL8dHkd0jsA365B60
-   ci3vr5sd5UkCZOUgCt7KTo3YMgqyXMJcLI13Z6KBeL02U7Lam2RUULFAP
-   1P6MQldA7T7fzaO++DLebutI9gX4SHmZ5GAV6zbbtKDN9XcW39J27Sx3/
-   7ijJxl4r+C4n6r04LP+Hhf2ulRB+k/dZYf4HQXPCvZHd8x849Ypu4t3/p
-   IZ/PLcpbPipiizglGXkV7XdKCrkcv63C9EsjZ2D7oisQYZpkeR37AbTj6
-   egg8LlKLPwyyWnd+/Wpl55IGNkY8SWiIqvJ4Ll8zU5NJnZ3Af0Jma/D8s
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318388080"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="318388080"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 07:08:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="768964342"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
-   d="scan'208";a="768964342"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Mar 2023 07:08:32 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pcoHP-0008Yg-0d;
-	Thu, 16 Mar 2023 14:08:31 +0000
-Date: Thu, 16 Mar 2023 22:07:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <202303162137.a6Y0CjU8-lkp@intel.com>
-References: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98642362;
+	Thu, 16 Mar 2023 14:30:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6D2FC433EF;
+	Thu, 16 Mar 2023 14:30:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1678977003;
+	bh=JhkESV526pzCMfXYIVB0sC2lcuQvYPbJky11zSTcTHY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Py6CjtegcA/pB97b3EXPuY/bgdUkddGxTiSk4sU+J/5pyfuS0DIMd60o36+49M8VG
+	 jn0jd8zUYofxz4t30hPbYE33PjTxzRyX1m9dwu9X+VlxNV4c889J9sbz5Ot/qNxRZp
+	 VcVKz2r8kXy+IAQvCySaLCyi2iQ8UjYgYP4QkRKY=
+Date: Thu, 16 Mar 2023 15:30:00 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] Staging: octeon: Fix Lines should not end with a '('
+Message-ID: <ZBMn6H3RPW+TgMeQ@kroah.com>
+References: <20230316130647.GA81281@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,85 +28,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
+In-Reply-To: <20230316130647.GA81281@sumitra.com>
 
-Hi Khadija,
+On Thu, Mar 16, 2023 at 06:06:47AM -0700, Sumitra Sharma wrote:
+> checkpatch.pl CHECK: Lines should not end with a '('
+> 
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> ---
+>  drivers/staging/octeon/octeon-stubs.h | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+> index 7a02e59e283f..3e7b92cd2e35 100644
+> --- a/drivers/staging/octeon/octeon-stubs.h
+> +++ b/drivers/staging/octeon/octeon-stubs.h
+> @@ -1372,9 +1372,7 @@ static inline void cvmx_fau_async_fetch_and_add32(uint64_t scraddr,
+>  						  int32_t value)
+>  { }
+>  
+> -static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(
+> -	int interface,
+> -	int port)
+> +static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interface, int port)
+>  {
+>  	union cvmx_gmxx_rxx_rx_inbnd r;
+>  
+> -- 
+> 2.25.1
+> 
+> 
 
-Thank you for the patch! Perhaps something to improve:
+Hi,
 
-[auto build test WARNING on staging/staging-testing]
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
-patch link:    https://lore.kernel.org/r/ZBMR4s8xyHGqMm72%40khadija-virtual-machine
-patch subject: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303162137.a6Y0CjU8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7e359baa2318b55e12a0c099b75fbd0d799907cf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
-        git checkout 7e359baa2318b55e12a0c099b75fbd0d799907cf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/staging/
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303162137.a6Y0CjU8-lkp@intel.com/
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
 
-All warnings (new ones prefixed by >>):
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
 
-   In file included from include/linux/kernel.h:29,
-                    from drivers/staging/axis-fifo/axis-fifo.c:17:
-   drivers/staging/axis-fifo/axis-fifo.c: In function 'axis_fifo_init':
->> include/linux/kern_levels.h:5:25: warning: format '%i' expects argument of type 'int', but argument 2 has type 'long int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
-     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
-         |                         ^~~~~~~~
-   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
-     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   drivers/staging/axis-fifo/axis-fifo.c:957:9: note: in expansion of macro 'pr_info'
-     957 |         pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
-         |         ^~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%i' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
-     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
-         |                         ^~~~~~~~
-   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
-     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   drivers/staging/axis-fifo/axis-fifo.c:957:9: note: in expansion of macro 'pr_info'
-     957 |         pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
-         |         ^~~~~~~
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
+thanks,
 
-vim +5 include/linux/kern_levels.h
-
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+greg k-h's patch email bot
