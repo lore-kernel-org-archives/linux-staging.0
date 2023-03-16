@@ -1,48 +1,45 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DCC33C1;
-	Thu, 16 Mar 2023 13:06:54 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id ix20so1675408plb.3;
-        Thu, 16 Mar 2023 06:06:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678972013;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B3jNhyipEJNd1RcWn3fkcuOoTx5a36p3R6zN6vOVqKQ=;
-        b=Evo9R0ySjqFSsO0Q1wkSnr5TIDObQf1nYFzYGrG8hfk8Ut9e6+llwzTtyvFb04mlok
-         XFv7nZqfqldR1WqAGOtPPg/hwblRHyi0eG+DWps1uut/R7qgpOHGfycS08Thnj/TwgJJ
-         F5dwXMAg/SyTCmtL9rFVdleHNyDoqf49VNge1iMsjGbD7RSgZNAXArFe0m1JUkM0Z6Mz
-         EUJG6R/CO+L2yuVfVhCcAkUF/t5CyuecTq7q+buBpKGk70EzLlN0jPT2tbXVuqSHO36k
-         EB1/+2fRpwxdkXmK8znmbSgve//4xT0Jnd2UqK/Jxpbxh0fCNgA7QQ+Ls+Q4ns+5wYx2
-         VxVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678972013;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B3jNhyipEJNd1RcWn3fkcuOoTx5a36p3R6zN6vOVqKQ=;
-        b=2Ni2LpSJzXSzDIWCLo2qWKiJSGZd4QejZAvWvVUUJIy4YJbUFjmGCzPr7veoSqihI5
-         5lW5jNVSvR3sSUFb6u+GnSBVKSFr9KteYU1zvrn7zsQb93PR1spZ7+F66PO0lOWkCy3g
-         H8R89bY9xLPtOrcpilphV+k1+HzY1ZwQfYxHRl6RnipHwr4YJ2B/NhVcrz5/moZZ/Wqe
-         9YbGUM1pyaiaDHKtWMojlehm3j2aD7C6jSS5l1fu/ffyI0UJqmpon0hjXUlZLxQvstwx
-         sgD81QUpjbnRXhrhujIf8SSTB0WC/bBUVLBjQns/8OB7ZFDc6WXXAB5bH7tOt6pejFzD
-         QJEw==
-X-Gm-Message-State: AO0yUKXRnpv7YXQwVZNaJeE+mVk7QbCcupXU1E++bbF/4rQZ4LrnKT/g
-	xV548cv7mLBXyMI+kAvJk6PrOjtcbqNMHw==
-X-Google-Smtp-Source: AK7set9ffK4oj3vlyvp+fsYfFTZLfEjsp7v8S2ow5emHdiAPvAlPzOLxxmcwjNzpY84hXqt9t9geyg==
-X-Received: by 2002:a17:902:e551:b0:1a0:65d3:bae4 with SMTP id n17-20020a170902e55100b001a065d3bae4mr3658192plf.38.1678972013303;
-        Thu, 16 Mar 2023 06:06:53 -0700 (PDT)
-Received: from sumitra.com ([117.245.254.247])
-        by smtp.gmail.com with ESMTPSA id j12-20020a170903028c00b0019f3cc3fc99sm5580221plr.16.2023.03.16.06.06.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 06:06:52 -0700 (PDT)
-Date: Thu, 16 Mar 2023 06:06:47 -0700
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: outreachy@lists.linux.dev
-Subject: [PATCH] Staging: octeon: Fix Lines should not end with a '('
-Message-ID: <20230316130647.GA81281@sumitra.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C5933CC;
+	Thu, 16 Mar 2023 14:08:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678975734; x=1710511734;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=st3XNtfhg5o86Dx/8Z5ncGm7eToP7n/Ee0w0PIniNPA=;
+  b=jdCAoAkdeOyX+jqUnffelLTZJfWgTHfg4w6FmlIjL8dHkd0jsA365B60
+   ci3vr5sd5UkCZOUgCt7KTo3YMgqyXMJcLI13Z6KBeL02U7Lam2RUULFAP
+   1P6MQldA7T7fzaO++DLebutI9gX4SHmZ5GAV6zbbtKDN9XcW39J27Sx3/
+   7ijJxl4r+C4n6r04LP+Hhf2ulRB+k/dZYf4HQXPCvZHd8x849Ypu4t3/p
+   IZ/PLcpbPipiizglGXkV7XdKCrkcv63C9EsjZ2D7oisQYZpkeR37AbTj6
+   egg8LlKLPwyyWnd+/Wpl55IGNkY8SWiIqvJ4Ll8zU5NJnZ3Af0Jma/D8s
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318388080"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
+   d="scan'208";a="318388080"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 07:08:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="768964342"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; 
+   d="scan'208";a="768964342"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Mar 2023 07:08:32 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pcoHP-0008Yg-0d;
+	Thu, 16 Mar 2023 14:08:31 +0000
+Date: Thu, 16 Mar 2023 22:07:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <202303162137.a6Y0CjU8-lkp@intel.com>
+References: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,29 +48,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
 
-checkpatch.pl CHECK: Lines should not end with a '('
+Hi Khadija,
 
-Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
----
- drivers/staging/octeon/octeon-stubs.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 7a02e59e283f..3e7b92cd2e35 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -1372,9 +1372,7 @@ static inline void cvmx_fau_async_fetch_and_add32(uint64_t scraddr,
- 						  int32_t value)
- { }
- 
--static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(
--	int interface,
--	int port)
-+static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interface, int port)
- {
- 	union cvmx_gmxx_rxx_rx_inbnd r;
- 
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
+patch link:    https://lore.kernel.org/r/ZBMR4s8xyHGqMm72%40khadija-virtual-machine
+patch subject: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303162137.a6Y0CjU8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7e359baa2318b55e12a0c099b75fbd0d799907cf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
+        git checkout 7e359baa2318b55e12a0c099b75fbd0d799907cf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/staging/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303162137.a6Y0CjU8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:29,
+                    from drivers/staging/axis-fifo/axis-fifo.c:17:
+   drivers/staging/axis-fifo/axis-fifo.c: In function 'axis_fifo_init':
+>> include/linux/kern_levels.h:5:25: warning: format '%i' expects argument of type 'int', but argument 2 has type 'long int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/staging/axis-fifo/axis-fifo.c:957:9: note: in expansion of macro 'pr_info'
+     957 |         pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
+         |         ^~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%i' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   drivers/staging/axis-fifo/axis-fifo.c:957:9: note: in expansion of macro 'pr_info'
+     957 |         pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
+         |         ^~~~~~~
+
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
