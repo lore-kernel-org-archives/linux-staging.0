@@ -1,193 +1,164 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6D52C9C;
-	Thu, 16 Mar 2023 11:39:35 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id m18-20020a05600c3b1200b003ed2a3d635eso879420wms.4;
-        Thu, 16 Mar 2023 04:39:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD67D2F25;
+	Thu, 16 Mar 2023 11:42:02 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id eh3so6294068edb.11;
+        Thu, 16 Mar 2023 04:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678966773;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kc+TKhkWgBxkIa6rZa0UbU5xS8M4xJrUEtCCPts6psA=;
-        b=B+5HKVjQ8mqaMShUiMvGvciIUQfBmk2sKuXFiO0jRY7B4pN81pcvxjrp3CGPMA+DWW
-         ABYjfzkZkx+Rkzl6tcq+vU8cykbsE+C+SXugvPo+yaMkomHf0k05lr/PG9g0JTmnAf5q
-         NtvVb7ZQ4ImBbaCUwogqfDWYshoR/mvjQxWIpV95EFXQlVy+tF4mm47XtGLAT5CH8UKS
-         AwY3rD10Jtuj4w+knkTcShcDwzBDypoPy9nz7EDHJ2eK9twKH1pe6vVztC3vjZvchXEp
-         aJ0Ymx0RrtjhzuZieo8OVp540TaHoProQLVSDvlVV4xU+oETu5J0ku92y7IE0uUq6Azb
-         uLZw==
+        d=gmail.com; s=20210112; t=1678966921;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yMr7/L6ld7SqDWFk0PhUo8yDjIH51evoeIgT4UWaiFI=;
+        b=DPX9wCK5DX9dDuFSFQxaOuW9KzEqwSBAneILt8bA3qCS4zodt+NsbmYpUUi5ITnflZ
+         Ryu2r3kUpFrV4vYquR5v1u5yieoxJElcAbENLrg2zelpLyfhVvpZvXTNAjepClMrVPyJ
+         BqI0MOAAzSh1/lMMUm/Aild4RNM6YsrEiMfKzJYvCqurXzBn3puOAaSS0lky7SI15trU
+         eBSzi8lM2ewtvR1xMZeHgh1eEmvMS7+lRSAyGFR0z5ihHhgxIh+0LGQxy3kBMrPJxjUY
+         JGIdfEmBt6kYhKSfAZ9xlC1AobiIeq0+UWkt7wIup78ln4SrqWIJf55ktEEouhtuMytd
+         lIjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678966773;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kc+TKhkWgBxkIa6rZa0UbU5xS8M4xJrUEtCCPts6psA=;
-        b=6vFPdmWM6sE39qDC04wD+DLyVnmBuLJyb9UQYkZ4FS9G6tLTRcloKhfq1S4gccqRZu
-         ODCx/Xf6Yka9GW/dwZSdD4gDC69OIeQIhZiCfO7k+XCndcpuwOh3x3ifNQ9kHaDANe5x
-         5jdTsinqHSYYUSaghGMCk5dpxbBCyyBs3M/9osxC7To4DjFKztyxsGU9HGPMSYyQJMXx
-         /Ki96hMYWbGixc78lsCNwD4hUJhyrODgIgZxAR97euqeHvPFweaDATXOtJVZHX5NiTcN
-         p9ZGlzeAzaic5xccOKpDy7vQnMD5cCSrEI2q33LG4OfLBmegvw3A9QfNZHAlNTH9VWIt
-         DH8Q==
-X-Gm-Message-State: AO0yUKUtPwI/745KVi+DetnC+5M8YotSSBaMXFu7uEChYuEh2mPDcgmy
-	GdbVICnetTK0iFKGAO9w0qoCDO+W06CNag==
-X-Google-Smtp-Source: AK7set9t7Ni42RcKhVlDgKuW0vQm8VjNXJNze9Kjqr2Zp/LPYHq/TjiqOUEQAFJlJr4eTogJHxcynQ==
-X-Received: by 2002:a05:600c:354d:b0:3ed:340e:afbe with SMTP id i13-20020a05600c354d00b003ed340eafbemr4696790wmq.20.1678966773095;
-        Thu, 16 Mar 2023 04:39:33 -0700 (PDT)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id c3-20020a7bc843000000b003db0bb81b6asm4803346wml.1.2023.03.16.04.39.31
+        d=1e100.net; s=20210112; t=1678966921;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yMr7/L6ld7SqDWFk0PhUo8yDjIH51evoeIgT4UWaiFI=;
+        b=msXNqwFEgzB1BOpa2f8/4YZQybRXfHiuQh8d+toP+xhtiARADr/5rcIira7OS5muQF
+         p0+68E+1d61dv8YepzxK6hRPqEWEhm9vXNXKrdwYJvd/RKu0Dtb5uh1I57Z7oYJjWom6
+         GNfeRIN4uV7Mku0f2hiWb16ekyptpq+MT25WsSwEtD67MRPn8Ua9ISdyWRABS+7wjwfD
+         eVX/Fjol8Umr/gtA6V73HvqSQwyQWKaL9jtFCQDGNKtF9hZriW+xbKZyXiVqP42hAFh7
+         nNs8OHZm1AV2XRMQT0mjFOFmQc4yqPUGdv1Svd/gNu2Ltn0J2ID1HWSF081R/z5GUs8k
+         XStA==
+X-Gm-Message-State: AO0yUKUmfu77iZDPzoARQT+BisLpLTqdfWBcie/i+j3fa/WcrJXuO3F4
+	XQJfO4gWjZpO0Zm02XVZH3k=
+X-Google-Smtp-Source: AK7set/nlcqfPSTpurU3LMoT4iZh16mGQ/VZfrEQNXgvk7cUgBg7lctz8Gz+E/J8o5VJghzlKgRVVQ==
+X-Received: by 2002:a05:6402:495:b0:4fd:2363:16fa with SMTP id k21-20020a056402049500b004fd236316famr5657912edv.41.1678966920943;
+        Thu, 16 Mar 2023 04:42:00 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.209.88])
+        by smtp.gmail.com with ESMTPSA id t10-20020a50c24a000000b004c0057b478bsm3732454edf.34.2023.03.16.04.42.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 04:39:32 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Alison Schofield <alison.schofield@intel.com>, outreachy@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+        Thu, 16 Mar 2023 04:42:00 -0700 (PDT)
+Date: Thu, 16 Mar 2023 16:41:58 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	outreachy@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Date: Thu, 16 Mar 2023 12:39:31 +0100
-Message-ID: <1902746.IobQ9Gjlxr@suse>
-In-Reply-To: <ZBLsoTBeKbuYbhCi@khadija-virtual-machine>
-References:
- <ZA9mThZ7NyRrQAMX@khadija-virtual-machine> <279821116.9N5E1g01tA@suse>
- <ZBLsoTBeKbuYbhCi@khadija-virtual-machine>
+Message-ID: <ZBMAhld/NOG93pcs@khadija-virtual-machine>
+References: <ZA9mThZ7NyRrQAMX@khadija-virtual-machine>
+ <ZBEJ+8DbhADSBTLr@aschofie-mobl2>
+ <ZBG699SriXWy1I2K@khadija-virtual-machine>
+ <16148020.1MiD057Pog@suse>
+ <ZBHUr7bANuhnOnIV@khadija-virtual-machine>
+ <20230315150656.GA2938956@dev-arch.thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230315150656.GA2938956@dev-arch.thelio-3990X>
 
-On gioved=EC 16 marzo 2023 11:17:05 CET Khadija Kamran wrote:
-> On Wed, Mar 15, 2023 at 05:24:23PM +0100, Fabio M. De Francesco wrote:
-> > On mercoled=EC 15 marzo 2023 16:06:56 CET Nathan Chancellor wrote:
-> > > Hi Khadija,
-> > >=20
-> > > On Wed, Mar 15, 2023 at 07:22:39PM +0500, Khadija Kamran wrote:
-> > > > On Wed, Mar 15, 2023 at 02:34:31PM +0100, Fabio M. De Francesco wro=
-te:
-> > > > > Aside from what I said and asked for with the other message of th=
-is
-> > > > > same
-> > > > > thread, please take note that you can build a specific module if =
-you
-> > > > > prefer
-> > > > > not to re-build the whole kernel and other modules at the same ti=
-me.
-> > > > >=20
-> > > > > I'm pretty sure that the instructions to do so are in the
-> > > > > OutreachyFirstPatch
-> > > > > tutorial.
-> > > > >=20
-> > > > > If they are not there, please let us know.
-> > > > >=20
-> > > > > Fabio
-> > > >=20
-> > > > Hey Fabio!
-> > > >=20
-> > > > In the Outreachy FirstPatchTutorial under the 'Compiling only part =
-of
-> > > > the kernel' section there are ways to compile only some part of the
-> > > > kernel.
-> > > >=20
-> > > > I have tried using "make W=3D1 drivers/staging/axis-fifo/" and it s=
-ays
-> > > > 'nothing to be done for'.
-> > >=20
-> > > Is CONFIG_XIL_AXIS_FIFO enabled in your configuration?
-> >=20
-> > @Khadija:
-> >=20
-> > Maybe that you won't find CONFIG_XIL_AXIS_FIFO among the staging drivers
-> > entries while using "make menuconfig" (or the other similar commands for
-> > working with the configuration).
-> >=20
-> > In that case, first enable the CONFIG_OF option if disabled.
-> > CONFIG_XIL_AXIS_FIFO depends on the former.
-> >=20
-> > For "CONFIG_XIL_AXIS_FIFO depends on CONFIG_OF" we mean that you can the
-> > former if and only if the latter is already enabled.
-> >=20
-> > Actually, CONFIG_XIL_AXIS_FIFO depends also on two other options. Howev=
-er
-> > you
-> > shouldn't worry about those others because they are commonly enabled in=
-=20
-more
-> > than 99% of PC distributions.
->=20
-> Hey Fabio!
->=20
-> I have checked in my .config file and both options are enabled. The file
-> says,
-> CONFIG_OF=3Dy
-> CONFIG_HAS_IOMEM=3Dy
->=20
-> The "make menuconfig" shows 'Xilinx AXI-Stream FIFO IP core driver' with
-> built-in selection [*].
-> The problem I am having here is that in the OutreachyFirstPatch
-> tutorial, it asks you to change [*] -> [m], but I cannot change it.
->=20
-> Kindly help me with this!
+On Wed, Mar 15, 2023 at 08:06:56AM -0700, Nathan Chancellor wrote:
+> Hi Khadija,
+> 
+> On Wed, Mar 15, 2023 at 07:22:39PM +0500, Khadija Kamran wrote:
+> > On Wed, Mar 15, 2023 at 02:34:31PM +0100, Fabio M. De Francesco wrote:
+> > > Aside from what I said and asked for with the other message of this same 
+> > > thread, please take note that you can build a specific module if you prefer 
+> > > not to re-build the whole kernel and other modules at the same time. 
+> > > 
+> > > I'm pretty sure that the instructions to do so are in the OutreachyFirstPatch 
+> > > tutorial.
+> > > 
+> > > If they are not there, please let us know.
+> > > 
+> > > Fabio
+> > 
+> > Hey Fabio!
+> > 
+> > In the Outreachy FirstPatchTutorial under the 'Compiling only part of
+> > the kernel' section there are ways to compile only some part of the
+> > kernel.
+> > 
+> > I have tried using "make W=1 drivers/staging/axis-fifo/" and it says
+> > 'nothing to be done for'. 
+> 
+> Is CONFIG_XIL_AXIS_FIFO enabled in your configuration?
+> 
+> > Should I start with the steps to reproduce? :'(
+> 
+> I did see a report of this same warning occurring with GCC but the
+> report I commented on cane from clang/LLVM; using that toolchain may
+> make it easier for you to reproduce this issue. The robot's reproduction
+> instructions are fine but I think doing it manually is actually simpler.
+> 
+> Ubuntu 22.04 should have a pretty modern version of clang/LLVM, which
+> you can install via 'sudo apt install clang lld llvm'.
+> https://apt.llvm.org is another resource.
+> 
+> First, we will grab the configuration that was provided in the report:
+> 
+> $ wget -O .config https://download.01.org/0day-ci/archive/20230314/202303141159.6wN9HNP9-lkp@intel.com/config
+> 
+> Next, we want to make sure the configuration is synced, since we are
+> technically changing compilers:
+> 
+> $ make -j"$(nproc)" ARCH=arm64 LLVM=1 olddefconfig
+> 
+> Finally, you should be able to build that object file and see the
+> warning:
+> 
+> $ make -j"$(nproc)" ARCH=arm64 LLVM=1 drivers/staging/axis-fifo/
+> ...
+> drivers/staging/axis-fifo/axis-fifo.c:817:18: warning: implicit conversion from 'long' to 'int' changes value from 9223372036854775807 to -1 [-Wconstant-conversion]
+>                 read_timeout = MAX_SCHEDULE_TIMEOUT;
+>                              ~ ^~~~~~~~~~~~~~~~~~~~
+> ./include/linux/sched.h:296:31: note: expanded from macro 'MAX_SCHEDULE_TIMEOUT'
+> #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
+>                                         ^~~~~~~~
+> ./include/vdso/limits.h:11:19: note: expanded from macro 'LONG_MAX'
+> #define LONG_MAX        ((long)(~0UL >> 1))
+>                          ^~~~~~~~~~~~~~~~~
+> drivers/staging/axis-fifo/axis-fifo.c:822:19: warning: implicit conversion from 'long' to 'int' changes value from 9223372036854775807 to -1 [-Wconstant-conversion]
+>                 write_timeout = MAX_SCHEDULE_TIMEOUT;
+>                               ~ ^~~~~~~~~~~~~~~~~~~~
+> ./include/linux/sched.h:296:31: note: expanded from macro 'MAX_SCHEDULE_TIMEOUT'
+> #define MAX_SCHEDULE_TIMEOUT            LONG_MAX
+>                                         ^~~~~~~~
+> ./include/vdso/limits.h:11:19: note: expanded from macro 'LONG_MAX'
+> #define LONG_MAX        ((long)(~0UL >> 1))
+>                          ^~~~~~~~~~~~~~~~~
+> 2 warnings generated.
+> 
+> Just repeat the last step as you investigate. If you have any further
+> issues or questions, please let me know. For the record, I am not
+> associated with Outreachy (I am one of the maintainers of clang/LLVM
+> support in the kernel), so if I have messed something up or overstepped
+> some boundary, I do apologize.
+> 
+> Cheers,
+> Nathan
 
-Hi Khadija,
+Hi Nathan! 
 
-Sorry for being here so late.
+Sorry about the last email where I said that this is not working. I was
+working in the wrong branch, my bad. 
 
-I just saw also your other messages with further help requests.
-Please do other work while waiting for help on a specific issue.=20
+This works! And it has helped me remove the warnings too. I have
+replaced int datatype with long and the two warnings that were showing
+are no longer there. 
 
-If I understand you correctly, you are saying that you can only build axis-
-fifo in-kernel because you cannot change the '*' to 'm'. Correct?
+I am working on [PATCH v5] and I will submit it in no time.
 
-If so, you have probably touched other configuration options in a way that=
-=20
-forces that driver to work only if compiled in-kernel). Therefore, I'd rest=
-art=20
-from scratch.
+This was great help. :)
 
-Please delete your current .config and make a copy of the one from your=20
-running kernel. Then check the three options Alison and I were talking abou=
-t.=20
-
-Remember that you cannot see the axis-fifo module entry (CONFIG_XIL_AXIS_FI=
-=46O)=20
-in "Device Drivers" -> "Staging Drivers" section if you have not yet enable=
-d =20
-(either with 'm' or 'y') CONFIG_OF and CONFIG_HAS_IOMEM.=20
-
-Now you should end up with a visible CONFIG_XIL_AXIS_FIFO that can be enabl=
-ed=20
-as a module with 'm'.=20
-
-Let me know if this procedure works.
-
-=46abio
-
-> Thank you!
-> Regards,
-> Khadija
->=20
-> > > > Should I start with the steps to reproduce? :'(
-> > >=20
-> > > I did see a report of this same warning occurring with GCC but the
-> > > report I commented on cane from clang/LLVM; using that toolchain may
-> > > make it easier for you to reproduce this issue. The robot's reproduct=
-ion
-> > > instructions are fine but I think doing it manually is actually simpl=
-er.
-> > >=20
-> > > Ubuntu 22.04 should have a pretty modern version of clang/LLVM, which
-> > > you can install via 'sudo apt install clang lld llvm'.
-> > > https://apt.llvm.org is another resource.
-> >=20
-> > @Nathan: Congratulations, you now have another clang/LLVM adept!
-> > (Obviously, I'm just kidding :-))
-> >=20
-> > Fabio
-
-
+Thank you!
+Regards,
+Khadija
 
 
