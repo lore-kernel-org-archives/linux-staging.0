@@ -1,172 +1,197 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B88329A5;
-	Thu, 16 Mar 2023 11:13:27 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id bi20so958139wmb.2;
-        Thu, 16 Mar 2023 04:13:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C131729A5
+	for <linux-staging@lists.linux.dev>; Thu, 16 Mar 2023 11:15:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1678965338; x=1710501338;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=XQVwQqQN+u7pHbmoSMsyFI2uk2sZLWOvcH5tFDKLBFA=;
+  b=E3ri/I2QwwT1bW7xET1ZYeoDd1iYd265i0ZJXseb11suIAFSC/bBo4mV
+   v0iEbO45agxkrxtNfTDdE0dCh4xAQA7+/uFC6v5u9bLktOPgQI4W5c1ht
+   EyHd7F/jDs3IYkIq9cDSh5Kq3JUxDdUwcVXmAGUj4PyZAXHJA+JccaEdU
+   /CHAdivKDwRQ+zkewjDUd6PpYhsVevzwBM84T07DkE1l9vZMI0c9M1pfw
+   8kLU65Zecyydj64fd1W/a2FJbI5NJvBW4OrKkGcZ71Sm5bscXWC6BhVnO
+   eAQjAr5XabnquTMhcD7tw98tSErjHq96hOGs/vve1ubjTP2PK7bWmzkvH
+   A==;
+X-IronPort-AV: E=Sophos;i="5.98,265,1673938800"; 
+   d="scan'208";a="205027460"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 16 Mar 2023 04:15:37 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 16 Mar 2023 04:15:37 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Thu, 16 Mar 2023 04:15:37 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W+mo8RII7y3pQ21fFEl5oSBu+SWvj497aHTFfaFFxFscaZHU+GW6paziR51bxRJABWpCS8laxElNzEKAXMIl1eoW+YXtbTRBcbtbA10RP2/Z0ZBmJ5kRuToQzhp1i+w5IYmz0u1MtZNRdEbR9EpdZ7zCNBxpiC/NEDucIVoNQPPbm/cRJ6fql8WnHkpNQOKZHlynNyP37j7HA8TiM2Q9G5Gfu7ZcYkfnqT29t0c6iz4i80gYjJ8jLm9RelSoTSYAi5pnQQPnQGSWMqkPWl41SLk++VcGpXPaTmvnA/4xlsM623rpmU7hAumxqK+jcGy45Fba4Ig38RjDrD6M7I6j6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XQVwQqQN+u7pHbmoSMsyFI2uk2sZLWOvcH5tFDKLBFA=;
+ b=l7Bwzo3Fc44cqz2M42S/fLZCBV15EDtQmSwo39tMfB8hsmhamu1BHf7ckgsc4hCZyDepl8kEYcXvTVaqYTTyfQlSmZwDuEsX611P2P8EQxzoCv5aBZiANyGIojn+jJev6lhSUY9qAS2t7DagiS2uJbTRwLEKYE0xTRvTFnXNwT1AV3tnOAcrmjuF5BZl6EIB359s7bKxOHwRpsOldTI2o41pCVblfPQ6OZ13svFPlD/7ELxyW0rl0rwjHP3O7xAvJM55DWR7FFahuSBkKsI5VVuXlnBKTbUngz7O2jBFAQ3GODBBlG87tNaCgePQLQFcUExZXuLYwKp0/c96aJuAUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678965205;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tTuzaEtkdad3SduDOVpM+9N/ZmAnSzF8vvyumGkuLF4=;
-        b=Cpa+nq0CzvtmFmE69T/iPZ6OVlFndUFiNVmjbOV8xzoiqyyv4EDfSiA+BLlOvoj5S3
-         +EhTvIksk5X8Sn10oPxNv+2SnceF3dF9YEIKuCTSM3QMECCWZYE6FsWu1x1FJuOdQfeb
-         ARNndVdNW7q42AkZ53SPzMAGQom4REgbSdKUOZBQI05yOoq7c0cy0imO8vTbU0esn0O2
-         TSKDYPunkV1UlvLBxH/RC27ICvbHgD85Xi4oj5DZUaQEiRwAjPUSo4nZrt4O2/opP0ex
-         3bXjc9Bejdfr5wNVmhwOR4ZP/RQh9oFvywc58EWlJzSiWNI3GZ6+bRebkgZWekBgUmKP
-         20mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678965205;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tTuzaEtkdad3SduDOVpM+9N/ZmAnSzF8vvyumGkuLF4=;
-        b=SZDE1McPXSwlZeqx5qkzot6l8YLRPo7HhA95GXZB1EtRrWFTvSuA3H7zpbxeHpWaiF
-         GMKRr4MilpaqKQ6kdWrb2bbT4H8qXQJYyPnXkIIFNQr6NjaQ+HOWKkd55ROlelmCbrVW
-         pE+jSWAIQJef9V4kneES85m7JVQ1lFGS7Dwn1Ap6c77YylzAnGneiSu6bje+AAr9r4yE
-         JqUo6JcJIkTYqrS5ZhEhjHM8xbYHmJXlSyzqNv+uFwq2BPOqCzeOIkS8npLZ0BqzT4/4
-         0EHaN9QyJ6AmlHCfhGd9/+0f4NNDwfJo0GNjCuupseBvxeBZODWs34wjx/z6pKm4eitY
-         ouKw==
-X-Gm-Message-State: AO0yUKXn7w1bFiRrNSaBiw2xq5D/ZfHwEEQGmTXnsd0xr+Fy08HLVdgG
-	Dx1FYmtoLGcFKh4ypJpb1uM=
-X-Google-Smtp-Source: AK7set/H2duo12KyBsoS0hMmwXxkNb7VuKuY/1BxrCfP7+ga4GEby607n7kYdKjgd04g47RThZEOmw==
-X-Received: by 2002:a05:600c:3113:b0:3e2:24a0:ba26 with SMTP id g19-20020a05600c311300b003e224a0ba26mr21354109wmo.16.1678965205397;
-        Thu, 16 Mar 2023 04:13:25 -0700 (PDT)
-Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
-        by smtp.gmail.com with ESMTPSA id u25-20020a7bc059000000b003e21f959453sm4576877wmc.32.2023.03.16.04.13.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 04:13:24 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: Alison Schofield <alison.schofield@intel.com>, outreachy@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH] staging: axis-fifo: initialize timeouts in probe only
-Date: Thu, 16 Mar 2023 12:13:23 +0100
-Message-ID: <1797409.3VsfAaAtOV@suse>
-In-Reply-To: <ZBLmev7BaIhYQXIz@khadija-virtual-machine>
-References:
- <ZA9mThZ7NyRrQAMX@khadija-virtual-machine> <3096768.uvML7RA1vL@suse>
- <ZBLmev7BaIhYQXIz@khadija-virtual-machine>
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XQVwQqQN+u7pHbmoSMsyFI2uk2sZLWOvcH5tFDKLBFA=;
+ b=Ji5RlOkPO4g0a80jjHYwxF9YC89Z/GMAubm23zCt5+eOAROumM0mqsxaVgxE+vtueMhwgCKcx4aEtLrpzXP5rxIYqhMue1015tKtRn3n2/gJ72FJRS7uScFUEB59vL5/0GICB5VjTFhZc59WEed3H8Q328DjM9nQdhhvzaFiKAc=
+Received: from BN6PR11MB1953.namprd11.prod.outlook.com (2603:10b6:404:105::14)
+ by SA2PR11MB4937.namprd11.prod.outlook.com (2603:10b6:806:118::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.33; Thu, 16 Mar
+ 2023 11:15:35 +0000
+Received: from BN6PR11MB1953.namprd11.prod.outlook.com
+ ([fe80::6eb8:36cd:3f97:ab32]) by BN6PR11MB1953.namprd11.prod.outlook.com
+ ([fe80::6eb8:36cd:3f97:ab32%5]) with mapi id 15.20.6178.031; Thu, 16 Mar 2023
+ 11:15:35 +0000
+From: <Claudiu.Beznea@microchip.com>
+To: <yang.lee@linux.alibaba.com>, <mchehab@kernel.org>
+CC: <eugen.hristev@collabora.com>, <Nicolas.Ferre@microchip.com>,
+	<alexandre.belloni@bootlin.com>, <gregkh@linuxfoundation.org>,
+	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH -next v2] media: atmel: atmel-isc: Use
+ devm_platform_ioremap_resource()
+Thread-Topic: [PATCH -next v2] media: atmel: atmel-isc: Use
+ devm_platform_ioremap_resource()
+Thread-Index: AQHZV/ihOMQ6NNC5xE+GeyWZertmgA==
+Date: Thu, 16 Mar 2023 11:15:35 +0000
+Message-ID: <12764b50-8eaf-dd9d-a9ff-d2f1b9d35063@microchip.com>
+References: <20230315003009.123827-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230315003009.123827-1-yang.lee@linux.alibaba.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN6PR11MB1953:EE_|SA2PR11MB4937:EE_
+x-ms-office365-filtering-correlation-id: d4fc624a-6349-4c31-1334-08db260fc3da
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: lyY2H6iKxgd4VGo+y38iNZj4Nak+zfslbar7L3l+viD9qzyzhrKCpAeuwvfCMIXH5fyuuzCIRY4dvFbNqM09XJ9wZVxkp8WjJ1YRDWtKt5PxaFTmOGIFE8I7T9zj3+3EnJTRtAjPdx5L1Zwy9Jl4cLX6bc3dfsgsv6ctFqqHIQ0t4FiJKA39Mv6/mBUU/KX6wDRPOkT5jp1JDs6u60Um+3Ib5y/r1waEIbGlywAZ3qZDxUdwDCUy2uxGCsXRxactaf937xOrGUsljn8k6BTiHAH7SfdqjZlfoy+Nl1sdUpNSsSM44y6k5fn1yL7PjEoiaU1hVZ3jheYp7EKTRBpRAwRC/yj31gxNBwO+yM7vYtl/WV33SgoVDZywb8/nFyHD5saKJiRwWhLVVDs0NwIdtBzSWIpVtz9vbvTUs8RnfnTQfXtpLgVL4xjBwSizk+yIKVJFHjT9SpRyxtt/wbFExCeyloPO5L5o/2xZ/h6Ag7amZMTTezS8I8/bD6yIoFByP0D1CCX2juRHD7siYf0y6d0eISgwcZT/yECibTW3MpMLMenM/6uiPc8khHMVRTfODVsGJySXEAjq6wz8E2yZ+7p1hJbUFl70ylQDslk/b0UXITHwfynbv1q2jNu3YUlSwJLdEq/G12S8Uo0dpmpyPbjgi1QGpm3qhlPvFhzmIKhTHgrsKZ+t9SMzYQOwMhf4Nq1BVT13FRfKFqJDpmL4TgpNYxVdZnuXcvz42mxNCUs8obXZ/3fesZJzhHz9/B2tfpb8ty6NUlYGW902ep18gw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB1953.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199018)(31686004)(86362001)(31696002)(38100700002)(83380400001)(122000001)(38070700005)(2616005)(53546011)(6512007)(6506007)(186003)(71200400001)(6486002)(110136005)(478600001)(26005)(66556008)(66946007)(66476007)(4326008)(5660300002)(76116006)(41300700001)(91956017)(316002)(66446008)(64756008)(8676002)(2906002)(36756003)(8936002)(54906003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cFQ4NDZVNDBwNzFEL09xNlpLVHNzSTI1bXdmenMyVFlUUWt6clhiNjRjcDBT?=
+ =?utf-8?B?ekxNU3JqVzNheTVRRTI2bmxId1Q0Nm5XZVpYWFBxcnFXUDRqRkJCZDJJU00x?=
+ =?utf-8?B?N3FsRTZNeHZ0R0UyaUZtL1pQVE1EZXdKMzdHSUNxQUtzUXQva0k4TGpNLzlw?=
+ =?utf-8?B?STNjTE1aK2YxalowVjhkZTBuN2E2M3B3dlBvS2s1RGdmWU1nWFhpUzFNVjFq?=
+ =?utf-8?B?UTlHSFc1NHFLRW5HOGZPYUxXWUVLMi9sR1J5ZnlJakVpamFpYWV3ZEVtaG9X?=
+ =?utf-8?B?ZWw4ZGJ0d2FrUWtsWVcvQnpSelVMZFhXWE1UV2JxUzc4TnQvaFREaHloc3py?=
+ =?utf-8?B?bU1nbTRWdkczaGJvV1NPdkwrTVZjekRFek9weWRCTzg5d2s2ZWZpOXBKUWxK?=
+ =?utf-8?B?OC9hbUZXdXFrTERmWituM0JSQmlkeHFrek9qYXg2YVBSWVd2TFcyVUNOKzlL?=
+ =?utf-8?B?RWU1VDg5UjBXemNvS210c0VCZUlsamFxWER6QUVlektyQkZpaVlDOXVkcWph?=
+ =?utf-8?B?NzRkMVd4dkZWcTFiQlhDNklZWWhTTjVYSUcyNmZkYUgyQjVWdmRoaFA0TEg2?=
+ =?utf-8?B?aVRTTitMRjE2RDlBNHh3dXJKdUV2V0VqQ0hPWFJpdis0elM1cDZsM1dQTEs1?=
+ =?utf-8?B?LzJPaWFIbGMybGdqMVlibFRJS096UmFaaXJYVE5FS1hKeWN6ZmxEdy9TUTlB?=
+ =?utf-8?B?Rm0wME9tdG9pTmV3eUt4a3JUakJuMXNaQlhrMlRkQzlESHJBcmJoUG9yK0xS?=
+ =?utf-8?B?OVpGYU5SNUhsTHBwcDVBeHpLQk1BbHByUzV4MEFqV2dGZkZUZ2oxcXQwUmVt?=
+ =?utf-8?B?MklkMllvSjRiUzZXMEZWZnZ3aUNYeHNJLzRxREdCYW9FK2o4SmJFUFlNM1B1?=
+ =?utf-8?B?TW4xcUxTWG5JbUZqeEhMRm9hQUJJU0NVUXJSVm5pT2hrZ2dzYWJqQ1FRWnVN?=
+ =?utf-8?B?K2QxMGE4SWhPbTdqRmE1Z2VYbVIvR05SbXhwelFaaTBKbThzRlZWTGdWb294?=
+ =?utf-8?B?T2oyOVI2Q0tJNWdNRUdDZzlxVWZqRVRGaDIwNEZnbnNMZ1NXeDdGcTV4Qm5q?=
+ =?utf-8?B?WVRJWEFYczEya2IvbGM3VnhpT2tXY0h5QjNRWVF4UDhGZnlmdVhIdUYwekZq?=
+ =?utf-8?B?dVJUelB3TU4zUVRFV2h4RThyZE1hWThDdlNPTkxjTmIvN1djTEdHQ1VueU1l?=
+ =?utf-8?B?T0lDNC9CelQ5WVlHRmwzdUF4VDh1L1UvbjZ3R2pLTWk4eDU2OFhEUjUyREts?=
+ =?utf-8?B?RzlkbE03SG85a1BBTFJxOU41Ynl2ZlJFRFIvTEhOODNFbW8rVW5JU25nMWVZ?=
+ =?utf-8?B?OVJtWWE2WnRhQUg2SE8wOUltdm93K0ZjUmJYby81T1NOcXBlM0FUdlNvSzM4?=
+ =?utf-8?B?UTNSVjJnUzNMMFlsZXdZRXFaaHBsWGdGRVgwV0dsNGt2bXJQUUhmY2tISEw4?=
+ =?utf-8?B?TG04bnIvQm9tSGhhMDRPRnZRL21zMGdvSlV3WndnbWFlZ2E5M0NoYVViR3cx?=
+ =?utf-8?B?VEF3SjhUaXZNS3JhM1g1RXpSZjZvWlJxYitpbW1WM3dVRmZxN3lycDdvbkZW?=
+ =?utf-8?B?dDZxR29GSDY2MFAwbTdKQisrVTlwVFFoOFNDUmw2NWRYMi9TSEZxWHhtck1s?=
+ =?utf-8?B?UnpPSXFCdWt4Rk41T21EZmdyTTdBOXUrQWtNaWxKSHNpN0QxRHpHVFpDU2hE?=
+ =?utf-8?B?d3Z2MThsanhoN3RHc2Rzd2x6WUR4ajhMbUI5dVVacGFJMUh2SWJTUmo3WDdJ?=
+ =?utf-8?B?cThhelVNeXIvQzNVUENVc3FWczlKQnVmVGFHcDFwQzNoZEFLNklPNDZPT2lh?=
+ =?utf-8?B?SGRJcGY0ZVRyUHZ0WnowMXRielNLV0NFR1pZeFl4M2pCc2lHUDFFYTc1aUx5?=
+ =?utf-8?B?Y09iMnRrYUpmRHM2cS9aZ2NrSHR5dm5FVXk5WCtONmE5R2R4K1RmdmNYVWxX?=
+ =?utf-8?B?T2d4SWU2YjNKcU9HZTdycHVUTXBTVXhBZ08vRkMzbWtnOHF2dUp6UDdXUW1s?=
+ =?utf-8?B?ZTJGS3RXbTN0bjA0WlBqa2VDSUcwVU1vYlpWY0gvUDhDc0VXK0RaeFVCMm5R?=
+ =?utf-8?B?Z1RCa1VmUmRPbzhzQ1c3ZlkyTVgwdXZFL3g3cU5NUjZXVEJjNU5SKzVrMlZn?=
+ =?utf-8?B?SVRLcFBZQW91ZStDVkhlTmVBbTNtcWFSK08rclAwT0FXb254dlh2MFRMSEp3?=
+ =?utf-8?B?S2c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <43B714DF06710C4A81B9C0CE279B36CF@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB1953.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4fc624a-6349-4c31-1334-08db260fc3da
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2023 11:15:35.5114
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GBA2MWZURbQW027UlbU3IBmAHc+f3la08rekVK8BzTMHuFSr0Yqt18yJGi+CjbIwAz57fC1CQBIse1uZWInKzJulkU42vct5sAT4L7S36K4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4937
 
-On gioved=EC 16 marzo 2023 10:50:50 CET Khadija Kamran wrote:
-> On Wed, Mar 15, 2023 at 05:44:47PM +0100, Fabio M. De Francesco wrote:
-> > On mercoled=EC 15 marzo 2023 14:56:27 CET Khadija Kamran wrote:
-> > > On Wed, Mar 15, 2023 at 02:13:51PM +0100, Fabio M. De Francesco wrote:
-> > > > On mercoled=EC 15 marzo 2023 13:32:55 CET Khadija Kamran wrote:
-
-[snip]
-
-> > > > I suppose that "w=3D1" is a typo. The option is enabled with "W=3D1"
-> > > > (capital
-> > > > case, Linux and all UNIX-like are case-sensitive).
-> > >=20
-> > > Okay. I should re-run it with "W=3D1".
-> > >=20
-> > > > > But it is taking a lot of time, is there any way of
-> > > > > speeding it up?
-> > > >=20
-> > > > What is you choice for 'X' in "-jX"?
-> > >=20
-> > > I used "-j4".
-> > >=20
-> > > > Did you try with the exact number of logical cores?
-> > > > Are you building into a VM with enough logical cores?
-> > > > If you are building into a VM, did you reserve enough RAM?
-> > >=20
-> > > I am using Ubuntu 22.04.01 with the help of VM on VMware.
-> > > My machine has 13GB RAM and 2 processors(4 cores each).
-> >=20
-> > Therefore, you are using a Linux guest on a Linux host. This is a wise
-> > choice. However, you didn't say where you are running your builds...
->=20
-> Hey Fabio!
->=20
-> I am not using a Linux guest on Linux host. Sorry if I did not explain
-> it right. I am using Windows 10 and in order to run Ubuntu, I have
-> created a VM(on VMWare). This VM has 13GB RAM and 2 processors(4 cores
-> each).
-> Thank you!
->=20
-> Regards,
-> Khadija
-
-Khadija,
-
-I'm not yet sure whether or not you are doing well with reserving 13GB to a=
-=20
-VM. First of all you should better use multiples of 2GB. Furthermore it loo=
-ks=20
-too much memory unless you have a total "real" RAM in your host exceeding=20
-18GB. You must be sure you are leaving enough room for the Windows host to =
-run=20
-smoothly and avoid too much swapping to/from disk.
-
-At the same time I doubt that you can reserve 8 logical cores (2x4) for=20
-running the VM on VMWare.
-
-However, we have time to investigate and adjust your configuration (if it=20
-really needs to be fine tuned). I'll try to reach you on IRC, open a privat=
-e=20
-window, and assist with this task ASAP.
-
-At the moment I'd prefer to see you focusing on getting your first patch=20
-accepted by Greg.
-
-Thanks,
-
-=46abio=20
-=20
-> > I mean, the better things to do are the following steps:
-> >=20
-> > 1) Your workspace with the staging tree should stay in the host.
-> > 2) Shut down your guest in order to have all RAM and all logical=20
-processors
-> > available for the build.
-> > 3) Run "make -j8" in the host. Since you shutdown your guest VM you can=
-=20
-use
-> > all 8 logical cores and the maximum available RAM (without the VM drain=
-ing
-> > resources while building)
-> > 4) When the build is done, switch on your VM on VMware with at least 4
-> > logical cores and 6GB of reserved RAM.
-> > 5) Mount your cloned base directory as a shared folder between host and
-> > guest. 6) In the guest, 'cd' to the shared folder and then run "make
-> > modules_install install" (in the guest, attention). This will install a=
-nd
-> > configure the kernel, the modules, GRUB2 and everything else in your gu=
-est
-> > VM.
-> > 7) Reboot the VM and test your patches.
-> >=20
-> > This procedure will speed up your next builds.
-> > The fundamental point is that you don't need to partition precious=20
-resources
-> > while building, Do everything without running the VM and switch it on o=
-nly
-> > for install and tests. Since you only build in the host but never insta=
-ll
-> > and boot in it, you don't risk any system's damage.
-> >=20
-> > This is what I do for Kernel development purposes.
-> >=20
-> > I hope it helps to answer your question about how to run fast=20
-recompilation.
-> >=20
-> > Fabio
-> >=20
-
-
-
+T24gMTUuMDMuMjAyMyAwMjozMCwgWWFuZyBMaSB3cm90ZToNCj4gRVhURVJOQUwgRU1BSUw6IERv
+IG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25vdyB0aGUg
+Y29udGVudCBpcyBzYWZlDQo+IA0KPiBBY2NvcmRpbmcgdG8gY29tbWl0IDc5NDVmOTI5ZjFhNyAo
+ImRyaXZlcnM6IHByb3ZpZGUNCj4gZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKCkiKSwg
+Y29udmVydCBwbGF0Zm9ybV9nZXRfcmVzb3VyY2UoKSwNCj4gZGV2bV9pb3JlbWFwX3Jlc291cmNl
+KCkgdG8gYSBzaW5nbGUgY2FsbCB0byB1c2UNCj4gZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291
+cmNlKCksIGFzIHRoaXMgaXMgZXhhY3RseSB3aGF0IHRoaXMgZnVuY3Rpb24NCj4gZG9lcy4NCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IFlhbmcgTGkgPHlhbmcubGVlQGxpbnV4LmFsaWJhYmEuY29tPg0K
+DQpSZXZpZXdlZC1ieTogQ2xhdWRpdSBCZXpuZWEgPGNsYXVkaXUuYmV6bmVhQG1pY3JvY2hpcC5j
+b20+DQoNCg0KPiAtLS0NCj4gDQo+IGNoYW5nZSBpbiB2MjoNCj4gQWNjb3JkaW5nIHRvIENsYXVk
+aXUncyBzdWdnZXN0aW9uLCBtYWtlIHRoZSAnVXNlJyB0byAndXNlJ2luICB0aGUgY29tbWl0IGRl
+c2NyaXB0aW9uLg0KPiANCj4gIGRyaXZlcnMvc3RhZ2luZy9tZWRpYS9kZXByZWNhdGVkL2F0bWVs
+L2F0bWVsLXNhbWE1ZDItaXNjLmMgfCA0ICstLS0NCj4gIGRyaXZlcnMvc3RhZ2luZy9tZWRpYS9k
+ZXByZWNhdGVkL2F0bWVsL2F0bWVsLXNhbWE3ZzUtaXNjLmMgfCA0ICstLS0NCj4gIDIgZmlsZXMg
+Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9kZXByZWNhdGVkL2F0bWVsL2F0bWVsLXNhbWE1ZDIt
+aXNjLmMgYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvZGVwcmVjYXRlZC9hdG1lbC9hdG1lbC1zYW1h
+NWQyLWlzYy5jDQo+IGluZGV4IGJhMDYxNGY5ODFhMi4uZWViYjMzNmVmY2U3IDEwMDY0NA0KPiAt
+LS0gYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvZGVwcmVjYXRlZC9hdG1lbC9hdG1lbC1zYW1hNWQy
+LWlzYy5jDQo+ICsrKyBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9kZXByZWNhdGVkL2F0bWVsL2F0
+bWVsLXNhbWE1ZDItaXNjLmMNCj4gQEAgLTM4OSw3ICszODksNiBAQCBzdGF0aWMgaW50IGF0bWVs
+X2lzY19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgew0KPiAgICAgICAg
+IHN0cnVjdCBkZXZpY2UgKmRldiA9ICZwZGV2LT5kZXY7DQo+ICAgICAgICAgc3RydWN0IGlzY19k
+ZXZpY2UgKmlzYzsNCj4gLSAgICAgICBzdHJ1Y3QgcmVzb3VyY2UgKnJlczsNCj4gICAgICAgICB2
+b2lkIF9faW9tZW0gKmlvX2Jhc2U7DQo+ICAgICAgICAgc3RydWN0IGlzY19zdWJkZXZfZW50aXR5
+ICpzdWJkZXZfZW50aXR5Ow0KPiAgICAgICAgIGludCBpcnE7DQo+IEBAIC00MDMsOCArNDAyLDcg
+QEAgc3RhdGljIGludCBhdG1lbF9pc2NfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
+dikNCj4gICAgICAgICBwbGF0Zm9ybV9zZXRfZHJ2ZGF0YShwZGV2LCBpc2MpOw0KPiAgICAgICAg
+IGlzYy0+ZGV2ID0gZGV2Ow0KPiANCj4gLSAgICAgICByZXMgPSBwbGF0Zm9ybV9nZXRfcmVzb3Vy
+Y2UocGRldiwgSU9SRVNPVVJDRV9NRU0sIDApOw0KPiAtICAgICAgIGlvX2Jhc2UgPSBkZXZtX2lv
+cmVtYXBfcmVzb3VyY2UoZGV2LCByZXMpOw0KPiArICAgICAgIGlvX2Jhc2UgPSBkZXZtX3BsYXRm
+b3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwgMCk7DQo+ICAgICAgICAgaWYgKElTX0VSUihpb19i
+YXNlKSkNCj4gICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGlvX2Jhc2UpOw0KPiANCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9kZXByZWNhdGVkL2F0bWVsL2F0bWVs
+LXNhbWE3ZzUtaXNjLmMgYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvZGVwcmVjYXRlZC9hdG1lbC9h
+dG1lbC1zYW1hN2c1LWlzYy5jDQo+IGluZGV4IDAxYWJhYmRmY2JkOS4uYmVlZDQwZmUzZjkxIDEw
+MDY0NA0KPiAtLS0gYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvZGVwcmVjYXRlZC9hdG1lbC9hdG1l
+bC1zYW1hN2c1LWlzYy5jDQo+ICsrKyBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9kZXByZWNhdGVk
+L2F0bWVsL2F0bWVsLXNhbWE3ZzUtaXNjLmMNCj4gQEAgLTM3OCw3ICszNzgsNiBAQCBzdGF0aWMg
+aW50IG1pY3JvY2hpcF94aXNjX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+
+ICB7DQo+ICAgICAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gJnBkZXYtPmRldjsNCj4gICAgICAg
+ICBzdHJ1Y3QgaXNjX2RldmljZSAqaXNjOw0KPiAtICAgICAgIHN0cnVjdCByZXNvdXJjZSAqcmVz
+Ow0KPiAgICAgICAgIHZvaWQgX19pb21lbSAqaW9fYmFzZTsNCj4gICAgICAgICBzdHJ1Y3QgaXNj
+X3N1YmRldl9lbnRpdHkgKnN1YmRldl9lbnRpdHk7DQo+ICAgICAgICAgaW50IGlycTsNCj4gQEAg
+LTM5Miw4ICszOTEsNyBAQCBzdGF0aWMgaW50IG1pY3JvY2hpcF94aXNjX3Byb2JlKHN0cnVjdCBw
+bGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgICAgICAgcGxhdGZvcm1fc2V0X2RydmRhdGEocGRl
+diwgaXNjKTsNCj4gICAgICAgICBpc2MtPmRldiA9IGRldjsNCj4gDQo+IC0gICAgICAgcmVzID0g
+cGxhdGZvcm1fZ2V0X3Jlc291cmNlKHBkZXYsIElPUkVTT1VSQ0VfTUVNLCAwKTsNCj4gLSAgICAg
+ICBpb19iYXNlID0gZGV2bV9pb3JlbWFwX3Jlc291cmNlKGRldiwgcmVzKTsNCj4gKyAgICAgICBp
+b19iYXNlID0gZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKHBkZXYsIDApOw0KPiAgICAg
+ICAgIGlmIChJU19FUlIoaW9fYmFzZSkpDQo+ICAgICAgICAgICAgICAgICByZXR1cm4gUFRSX0VS
+Uihpb19iYXNlKTsNCj4gDQo+IC0tDQo+IDIuMjAuMS43LmcxNTMxNDRjDQo+IA0KDQo=
