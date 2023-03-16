@@ -1,60 +1,68 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5740F3D61;
-	Thu, 16 Mar 2023 16:10:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=LBXYyc16/5pKDM5euOk0KleI9z9fdOz7J7qGrgTPaO4=; b=P7gTP1QPRqunmO4touha00AnAg
-	zYOjYKmLfQIMQ1LrXZ5Qc2B6BBVyLDtLsryHOW8tnRPnROCVxhFQIRFKePTT7V4ahKQPUxpIil3x6
-	O6EwTqZcgp4ltKW/SdA9ajr0bg40f0lXCQwebWg8+u6AwpSPj5jDMwrqRPCwbr8x8MiNr7Zz0OrQI
-	SxqpHXkssMp/pEarLF9vwIahKGkwmWtzo9VFckUbQb90Gi0nQbaZO+O98RUDZlOizoa9vvV53HbUO
-	mxSpyX2c54FTcdDlsBF2I5sj87XeX8jaEmpLMG+qwJXBwhdT7uACZ+yMDWUCUSGHm009EJ+S66YO2
-	PtZl5jhw==;
-Received: from [2601:1c2:980:9ec0::21b4]
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pcqBL-00Gx6z-2t;
-	Thu, 16 Mar 2023 16:10:23 +0000
-Message-ID: <bc047600-4e40-5d7b-980c-bdab28324057@infradead.org>
-Date: Thu, 16 Mar 2023 09:10:23 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5EF569D;
+	Thu, 16 Mar 2023 16:16:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1678983329; bh=dO+ZMH6qjgplEx6nSU5n6rmwyk4FtUwjUTO3YAmYrSA=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=czetI19z036f9xoHox+85+Sns5BVqVEzyRoOQTDHsTw/LJ9qWoyXJBd86kyFqVKAn
+	 6D5RIFHg+KuQMfbPEWMoo5IXG9Nva0ZLSc46lf9KVKABEKysEbnNcnzVU+2IagKgZN
+	 gnoG3BT+5HqHer8nIcIYOJgtyPdXo27vQEtpksQM=
+Received: by b221-4.in.mailobj.net [192.168.90.24] with ESMTP
+	via ip-20.mailobj.net [213.182.54.20]
+	Thu, 16 Mar 2023 17:15:24 +0100 (CET)
+X-EA-Auth: eRMUx2J/pwtZS8PYOuWWYXRGDO+tJA8apJU774lQkFdOLH758ShCUPWz7omWuQwUyvXilBYISUqp5dyavZ64mtV+N6K/AeKh
+Date: Thu, 16 Mar 2023 21:45:13 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] Staging: octeon: Fix line ending with '('
+Message-ID: <ZBNAkYSO3ARPbjKU@ubun2204.myguest.virtualbox.org>
+References: <20230316155202.GA82100@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] Staging: octeon: Fix line ending with '('
-Content-Language: en-US
-To: Sumitra Sharma <sumitraartsy@gmail.com>, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- outreachy@lists.linux.dev
-References: <20230316155202.GA82100@sumitra.com>
-From: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20230316155202.GA82100@sumitra.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi--
-
-On 3/16/23 08:52, Sumitra Sharma wrote:
+On Thu, Mar 16, 2023 at 08:52:02AM -0700, Sumitra Sharma wrote:
 > Adhere to coding-style.
+
+Hi Sumitra,
+Quick background: Linux Kernel coding style required developers to limit the
+code within 80 columns per line. This resulted in splitting the long lines into
+more than one lines. Some splits were unwillingly poor causing checkpatch error
+[e.g. this one that you are attempting to address].
+Recently, the 80 column limit was relaxed to 100 columns. This now will allow to
+merge some poorly split lines resulting in improved readability and avoid
+checkpath complaints.
+
+Now, can you use this information to convert your live above a little more
+descriptive. Remember a well written "why" explanation is almost always
+necessary.
+
 > 
 > Checkpatch has reported code style warning:
 > CHECK: Lines should not end with a '('.
 > 
-
-Not to complain about the patch, but where is this documented
-in coding-style?  I searched for it and cannot find it.
-
-
-Thanks.
-
 > Enhance the design of a function header:
 > Align the function parameters immediately after '(' in a single line.
+
+This is the "what" part and not so useful for such a simple change. You need not
+write this. However for complex changes or tricky code optimization, the "what"
+part will be very useful as well.
+
+Hope this helps.
+
+Deepak.
+
 > 
 > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 > ---
@@ -79,6 +87,9 @@ Thanks.
 >  {
 >  	union cvmx_gmxx_rxx_rx_inbnd r;
 >  
+> -- 
+> 2.25.1
+> 
+> 
 
--- 
-~Randy
+
