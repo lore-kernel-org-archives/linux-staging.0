@@ -1,48 +1,29 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EDA3D7B;
-	Thu, 16 Mar 2023 16:26:19 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id x3so9827584edb.10;
-        Thu, 16 Mar 2023 09:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678983978;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tq9EloIOrvY5/fg4afrdweAWwminMwCYXdVtfBekJJE=;
-        b=cw3rjSEGK+0p/49S3Xj1+e7O2ekfejgTU5RjO5XdZQtqtn33Yh/B3oKpY3XDhJwkV4
-         yFRH45tK1yixf57tFZwFOAmujjqqwUrBSAOQvu83BrSCZEbBC3PDC4BnswQt5YSAOYxd
-         eywb4L+27uqmoQIZeb5Yn2uSV+yUvXyix+TUlWALlSn1GI3mzVQmHrGXrjnDPzzpMtTV
-         bKRILpSGTVSvJd1YGmIhz8ZT05cW6BKCxvZqhAAE5sm4yzeiRw3+hkzyOt+hSWcxQreo
-         AfLUeOwBxxpMHJd7gL8ujcycVPG3mXvY7lhCOzLopMAQU7C78g7lhB87qc8UZqgb381H
-         gJrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678983978;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tq9EloIOrvY5/fg4afrdweAWwminMwCYXdVtfBekJJE=;
-        b=kYQ2DKgIDla/uPLhgB9jktyUAblBW01y4dWkYfWX3yyfKbLflCVnv9oRChjlyzviWp
-         uPWW7wNPU0YDBJ0Wr9GfYjskFJRD0CfwlYHS+mDndNqJN1SC/I6RmavZa3bxNtPR1Rcf
-         K7+uXTFAH4QIpRsL3MpVyST/5nR6xW22DvwcyTfNgX0nJCPOhHzDEqhSwvmHDSB6VG6V
-         KwI30o41qyE0SiIgLYNcBQCZiVEF3MKkk7ctvCMAAquH3vcnBeXDbcgOG09u0OP3nTNa
-         QYL5d+nXPgWCPxUcvWhCFbv06l2Y/9hPHSgvLKWSJhdFEdks54cXUcEW3QjTp6/GgkDd
-         6MNg==
-X-Gm-Message-State: AO0yUKXs7VFwR1dzSIccodAf+8Y+nvGp6dZKYdJJMgW+qk911/pBi/eB
-	fyCK8wzpHf2MUowjLBpTPsM=
-X-Google-Smtp-Source: AK7set9Vw7B+XWw8ayTWXYyKCvtT84Uld87Ok1F8mAjj713LfTnYbPEZxxmNfkipMvifLKsr+DgUxQ==
-X-Received: by 2002:a05:6402:1507:b0:4fa:4a27:adba with SMTP id f7-20020a056402150700b004fa4a27adbamr164329edw.22.1678983977591;
-        Thu, 16 Mar 2023 09:26:17 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.209.88])
-        by smtp.gmail.com with ESMTPSA id g24-20020a50d0d8000000b004fd29e87535sm4052660edf.14.2023.03.16.09.26.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 09:26:17 -0700 (PDT)
-Date: Thu, 16 Mar 2023 21:26:15 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v6] staging: axis-fifo: initialize timeouts in init only
-Message-ID: <ZBNDJwFHE3vIFS3+@khadija-virtual-machine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51899569E;
+	Thu, 16 Mar 2023 16:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1678984687; bh=Kti0gAcbr59Xg+6okdBU+uD+W9xf9sDWRStCrAcOJ4s=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=MpYMyj3h+WRHsz5m/3dSCHqHcdsQqcU3iipwsS5ST06faAeCUENQH0FKMnmLp3Hau
+	 A6SV+tumrNAD+6gbnnoMFqD6FwgVcSM5Cpb9optdmbrC1Pzb/ZrU8lswMb0mxzD3qE
+	 UmqOReO9/jU2u0+/WqT3NQJCXD4oq08ZlUNV83rA=
+Received: by b221-1.in.mailobj.net [192.168.90.21] with ESMTP
+	via ip-20.mailobj.net [213.182.54.20]
+	Thu, 16 Mar 2023 17:38:07 +0100 (CET)
+X-EA-Auth: xS5K6sMJyZB5C4Xo8c0qOvU9JMnb3RCzRI4ueGQqMOL0OEgihcPYCVFynBD70bzxim6YtGVEOL1XkPsZhPyx6OVzWCTi9MQ6
+Date: Thu, 16 Mar 2023 22:07:57 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] Staging: octeon: Fix line ending with '('
+Message-ID: <ZBNF5YY/a3msg78k@ubun2204.myguest.virtualbox.org>
+References: <20230316155202.GA82100@sumitra.com>
+ <ZBNAkYSO3ARPbjKU@ubun2204.myguest.virtualbox.org>
+ <20230316162442.GA82267@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,125 +32,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230316162442.GA82267@sumitra.com>
 
-Initialize the module parameters, read_timeout and write_timeout once in
-init().
+On Thu, Mar 16, 2023 at 09:24:42AM -0700, Sumitra Sharma wrote:
+> On Thu, Mar 16, 2023 at 09:45:13PM +0530, Deepak R Varma wrote:
+> > On Thu, Mar 16, 2023 at 08:52:02AM -0700, Sumitra Sharma wrote:
+> > > Adhere to coding-style.
+> > 
+> > Hi Sumitra,
+> > Quick background: Linux Kernel coding style required developers to limit the
+> > code within 80 columns per line. This resulted in splitting the long lines into
+> > more than one lines. Some splits were unwillingly poor causing checkpatch error
+> > [e.g. this one that you are attempting to address].
+> > Recently, the 80 column limit was relaxed to 100 columns. This now will allow to
+> > merge some poorly split lines resulting in improved readability and avoid
+> > checkpath complaints.
+> >
+> Hi Deepak
+> 
+> Since, you mentioned that the 80 column limit has been relaxed to 100
+> columns. So will then this patch be useful??
 
-Module parameters can only be set once and cannot be modified later, so we
-don't need to evaluate them again when passing the parameters to
-wait_event_interruptible_timeout().
+Yes, that change from 80 to 100 makes way for your patch.
 
-Convert datatype of {read,write}_timeout from 'int' to 'long int' because
-implicit conversion of 'long int' to 'int' in statement
-'{read,write}_timeout = MAX_SCHEDULE_TIMEOUT' results in an overflow.
+Also always do a "reply-all". You can add more recipients to the email if
+necessary, but you should not remove anyone.
 
-Change format specifier for {read,write}_timeout from %i to %li.
+> 
+> > Now, can you use this information to convert your live above a little more
+> > descriptive. Remember a well written "why" explanation is almost always
+> > necessary.
+> 
+> Okay!
+> 
+> > 
+> > > 
+> > > Checkpatch has reported code style warning:
+> > > CHECK: Lines should not end with a '('.
+> > > 
+> > > Enhance the design of a function header:
+> > > Align the function parameters immediately after '(' in a single line.
+> > 
+> > This is the "what" part and not so useful for such a simple change. You need not
+> > write this. However for complex changes or tricky code optimization, the "what"
+> > part will be very useful as well.
+> >
+> 
+> I will keep this in mind.
+> 
+> > Hope this helps.
+> > 
+> > Deepak.
+> > 
+> > > 
+> 
+> Regards
+> 
+> SUmitra
+> > > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> > > ---
+> > > 
+> > > v2: Change patch subject and description.
+> > > 
+> > >  drivers/staging/octeon/octeon-stubs.h | 4 +---
+> > >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+> > > index 7a02e59e283f..3e7b92cd2e35 100644
+> > > --- a/drivers/staging/octeon/octeon-stubs.h
+> > > +++ b/drivers/staging/octeon/octeon-stubs.h
+> > > @@ -1372,9 +1372,7 @@ static inline void cvmx_fau_async_fetch_and_add32(uint64_t scraddr,
+> > >  						  int32_t value)
+> > >  { }
+> > >  
+> > > -static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(
+> > > -	int interface,
+> > > -	int port)
+> > > +static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interface, int port)
+> > >  {
+> > >  	union cvmx_gmxx_rxx_rx_inbnd r;
+> > >  
+> > > -- 
+> > > 2.25.1
+> > > 
+> > > 
+> > 
+> > 
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
-
-Changes in v6:
- - Initialize module parameters in init instead of probe function.
- - Change the subject and description
- - Change format specifiers of module parameters to "%li"
-
-Changes in v5:
- - Convert module parameters's datatype from int to long.
- - Link to patch: 
- https://lore.kernel.org/outreachy/ZBMR4s8xyHGqMm72@khadija-virtual-machine/
-
-Changes in v4:
- - Initialize timeouts once as suggested by Greg; this automatically
-   fixes the indentation problems.
- - Change the subject and description.
- - Link to patch:
- https://lore.kernel.org/outreachy/ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine/
-
-Changes in v3:
- - Correct grammatical mistakes
- - Do not change the second argument's indentation in split lines
-
-Changes in v2:
- - Instead of matching alignment to open parenthesis, align second and
-   the last argument.
- - Change the subject and use imperative language.
- - Link to patch:
- https://lore.kernel.org/outreachy/ZAxNYw2rFQkrdtKl@khadija-virtual-machine/
-
-Link to first patch:
- https://lore.kernel.org/outreachy/ZAZSmPpB6fcozGa4@khadija-virtual-machine/
-
-drivers/staging/axis-fifo/axis-fifo.c | 28 ++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index dfd2b357f484..0a85ea667a1b 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -103,17 +103,17 @@
-  *           globals
-  * ----------------------------
-  */
--static int read_timeout = 1000; /* ms to wait before read() times out */
--static int write_timeout = 1000; /* ms to wait before write() times out */
-+static long read_timeout = 1000; /* ms to wait before read() times out */
-+static long write_timeout = 1000; /* ms to wait before write() times out */
- 
- /* ----------------------------
-  * module command-line arguments
-  * ----------------------------
-  */
- 
--module_param(read_timeout, int, 0444);
-+module_param(read_timeout, long, 0444);
- MODULE_PARM_DESC(read_timeout, "ms to wait before blocking read() timing out; set to -1 for no timeout");
--module_param(write_timeout, int, 0444);
-+module_param(write_timeout, long, 0444);
- MODULE_PARM_DESC(write_timeout, "ms to wait before blocking write() timing out; set to -1 for no timeout");
- 
- /* ----------------------------
-@@ -384,9 +384,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 		mutex_lock(&fifo->read_lock);
- 		ret = wait_event_interruptible_timeout(fifo->read_queue,
- 			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
--				 (read_timeout >= 0) ?
--				  msecs_to_jiffies(read_timeout) :
--				  MAX_SCHEDULE_TIMEOUT);
-+			read_timeout);
- 
- 		if (ret <= 0) {
- 			if (ret == 0) {
-@@ -528,9 +526,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		ret = wait_event_interruptible_timeout(fifo->write_queue,
- 			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
- 				 >= words_to_write,
--				 (write_timeout >= 0) ?
--				  msecs_to_jiffies(write_timeout) :
--				  MAX_SCHEDULE_TIMEOUT);
-+			write_timeout);
- 
- 		if (ret <= 0) {
- 			if (ret == 0) {
-@@ -948,7 +944,17 @@ static struct platform_driver axis_fifo_driver = {
- 
- static int __init axis_fifo_init(void)
- {
--	pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
-+	if (read_timeout >= 0)
-+		read_timeout = msecs_to_jiffies(read_timeout);
-+	else
-+		read_timeout = MAX_SCHEDULE_TIMEOUT;
-+
-+	if (write_timeout >= 0)
-+		write_timeout = msecs_to_jiffies(write_timeout);
-+	else
-+		write_timeout = MAX_SCHEDULE_TIMEOUT;
-+
-+	pr_info("axis-fifo driver loaded with parameters read_timeout = %li, write_timeout = %li\n",
- 		read_timeout, write_timeout);
- 	return platform_driver_register(&axis_fifo_driver);
- }
--- 
-2.34.1
 
