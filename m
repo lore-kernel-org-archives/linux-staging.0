@@ -1,25 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABFA7F1;
-	Fri, 17 Mar 2023 07:13:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27925C433D2;
-	Fri, 17 Mar 2023 07:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679037220;
-	bh=EMox3uAJdc454qzosMEHyqhK1IpB/SyLPpxJcdBDMJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RoDHeXffgYoGLwNwon+Lc6Bnl+yTo4PTXHv8ZHsZbCIsWF1u/Y82MILsxpobukDD6
-	 UXMmrExB81yHrf1nQwwxasJ4V/T0+depmydn2uOH97S1M8aGHgy64gbGtQsfR+BHTM
-	 IHrTvLePspIq/y8SsTQ0QBDU4BZmAuXuIrVIEH+w=
-Date: Fri, 17 Mar 2023 08:13:37 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>
-Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] staging: axis-fifo: initialize timeouts in init only
-Message-ID: <ZBQTIVk0zsgv1hMH@kroah.com>
-References: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4098B7F1;
+	Fri, 17 Mar 2023 07:14:02 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id p20so4394872plw.13;
+        Fri, 17 Mar 2023 00:14:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679037241;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vRnYDcnKGtoBZkuiq/lt8z18fHea+PPaGqCtFysWiDM=;
+        b=Nu7S65ypJG2PIfGNW0iHhiUGstx6Bvqkj4/u3/WGGd+wT60t6X66xPg1wP3DZfo9pW
+         0h5NptbuVJITIdJHK81E9YPL7ZAmmYhrmdsdAs32GwDtfRNqwt13CTTDGfNfbNuj3SPo
+         R/TrpXgmbu50h6jZGAKOFDwefacpNgCbEl1LvP2MKcm5iGpFxWQuxvt3k8DZJ3AHXA8h
+         bFmVZMWlaxrqI/0XbNAlj5Dz/6XixjSqu8VVw9Aq4aYpgwbkCO0h7usP8DcPulRIjPXL
+         3w/pu4McmQ8dZdbZMk6yAw6D/NOlxvsYUI30nvA5wf6mhALvau3IosRdyHtWHgz5vf/s
+         EdqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679037241;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vRnYDcnKGtoBZkuiq/lt8z18fHea+PPaGqCtFysWiDM=;
+        b=u+ET7E2GWXa7pMSdjW2vBu0ZhFlCI8U92Lj4WQ66uxArgFwW3uOUXwgdmTbvg3ks1x
+         uhfsVaE9w3Ep8hkJkA5umu9wjgGhR3xG7oE5eWFdllZU2f5H3u1ItxJYdk/lQERpWZar
+         xO9ioabmEfq5cn/uYihxAIcQY4YNiFtUa3+/dNI6k2EXmUlCp7rJ4h2DnNIOpf1kaQYg
+         Z53mo5k9hq/Vaxn4PYsKQ+Sqj4QBjHi//WTrWOtogZOnPH/SvU0Xo/AclWnUq23E+hGd
+         7bRl2P/kd9TZfeycP/0/sLsjjU6RaW0ZG0k7SA9qBA1NDu+HPSTQ/17vFiqC++4QsWxT
+         EkUg==
+X-Gm-Message-State: AO0yUKVYuDp6J9thvggaBIvFe9k1x/AggU6XtAPCyTGwBEufaYfzOzkw
+	LHJtq1OdFo/MWQ04YdOWojg=
+X-Google-Smtp-Source: AK7set/bVwRCYhq47jmjk2ofdd77sALIsCyt/iRjdk71zK5ugzcRKSKf5IKBF9BprY4TafrIYOiQ2g==
+X-Received: by 2002:a05:6a20:7351:b0:b8:a0e1:2739 with SMTP id v17-20020a056a20735100b000b8a0e12739mr7859667pzc.3.1679037241480;
+        Fri, 17 Mar 2023 00:14:01 -0700 (PDT)
+Received: from sumitra.com ([14.139.226.12])
+        by smtp.gmail.com with ESMTPSA id p18-20020a62ab12000000b005a8f1d76d46sm864281pff.13.2023.03.17.00.13.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Mar 2023 00:14:00 -0700 (PDT)
+Date: Fri, 17 Mar 2023 00:13:52 -0700
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: drv@mailo.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH v4] Staging: octeon: Fix line ending with '('
+Message-ID: <20230317071352.GA83845@sumitra.com>
+References: <20230317052455.GA83442@sumitra.com>
+ <alpine.DEB.2.22.394.2303170700270.3105@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,56 +54,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
+In-Reply-To: <alpine.DEB.2.22.394.2303170700270.3105@hadrien>
 
-On Fri, Mar 17, 2023 at 01:09:00AM +0500, Khadija Kamran wrote:
-> Initialize the module parameters, read_timeout and write_timeout once in
-> init().
+On Fri, Mar 17, 2023 at 07:03:08AM +0100, Julia Lawall wrote:
 > 
-> Module parameters can only be set once and cannot be modified later, so we
-> don't need to evaluate them again when passing the parameters to
-> wait_event_interruptible_timeout().
-
-I feel like we are being too picky here, but this isn't the correct
-wording.  It is possible for module parameters to be modified "later",
-if the permissions on the parameter are set to allow this.  But that's
-not what this driver does here, so this might be better phrased as:
-
-  The module parameters in this driver can not be modified after
-  loading, so they can be evaluated once at module load and set to
-  default values if needed at that time.
-
-> Convert datatype of {read,write}_timeout from 'int' to 'long int' because
-> implicit conversion of 'long int' to 'int' in statement
-> '{read,write}_timeout = MAX_SCHEDULE_TIMEOUT' results in an overflow.
 > 
-> Change format specifier for {read,write}_timeout from %i to %li.
+> On Thu, 16 Mar 2023, Sumitra Sharma wrote:
+> 
+> > Since the coding style limited the code to 80 columns per line which caused
+> > splitting the function header into two lines resulted in the first line
+> > ending with a '('. This caused the checkpatch error.
+> 
+> The first sentence is still not really grammatical.  Something like:
+> 
+> The coding style used to limit lines to 80 characters, which led to
+> splitting this function header into multiple lines, and ending thie first
+> line with a (.
+> 
+> For checkpatch, is it an error or a warning?
+>
 
-You are listing all of _what_ you do here, not really _why_ you are
-doing any of this.
+HI julia, 
 
-Anyway, if I were writing this, here's what I would say as a changelog
-text:
+Yes, you are correct, I did the mistake its not the error but a check. 
 
-  The module parameters, read_timeout and write_timeout, are only ever
-  evaluated at module load time, so set the default values then if
-  needed so as to not recompute the timeout values every time the driver
-  reads or writes data.
+How about this...
+
+###
+The coding style used to limit lines to 80 characters, which led to splitting 
+this function header into multiple lines and ending the first line with a '('. 
+This split causes a check reported by the checkpatch.
+
+Place the function parameters immediately after '(' in a single line to
+align the function header.
+###
 
 
-And that's it, short, concise, and it explains why you are doing this.
+Thank you for your reviews.
 
-Writing changelog comments are almost always harder than actually
-writing the patch (at least for me.)  So don't feel bad, it take a lot
-of experience doing it.
+Regards, 
+Sumitra
 
-All that being said, I think we are just polishing something that
-doesn't need to really be polished anymore, so let me go just apply this
-patch as-is to the tree now so you can move on to a different change.
-You've put in the effort here, and I don't want you to get bogged down
-in specifics that really do not matter at all overall (like the memory
-size of your vm...)
-
-thanks,
-
-greg k-h
+> julia
+> 
+> >
+> > Place the function parameters immediately after '(' in a single
+> > line to align the function header.
+> >
+> > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> > ---
+> > v2: Change patch subject and description
+> >
+> > v3: Change patch description, noted by Deepak R Varma
+> > <drv@mailo.com>
+> >
+> > v4: Correct grammartical mistakes, noted by Julia Lawall
+> > <julia.lawall@inria.fr>
+> >
+> >
+> >
+> >  drivers/staging/octeon/octeon-stubs.h | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+> > index 7a02e59e283f..3e7b92cd2e35 100644
+> > --- a/drivers/staging/octeon/octeon-stubs.h
+> > +++ b/drivers/staging/octeon/octeon-stubs.h
+> > @@ -1372,9 +1372,7 @@ static inline void cvmx_fau_async_fetch_and_add32(uint64_t scraddr,
+> >  						  int32_t value)
+> >  { }
+> >
+> > -static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(
+> > -	int interface,
+> > -	int port)
+> > +static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interface, int port)
+> >  {
+> >  	union cvmx_gmxx_rxx_rx_inbnd r;
+> >
+> > --
+> > 2.25.1
+> >
+> >
+> >
