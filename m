@@ -1,49 +1,49 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6599779C5
-	for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 19:13:17 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id x3so24185288edb.10
-        for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 12:13:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD0E79C5
+	for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 19:13:24 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id z21so24298149edb.4
+        for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 12:13:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679080395;
+        d=gmail.com; s=20210112; t=1679080402; x=1681672402;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UKzOWshBPa05sAfciXrKvOW4wl1rl1vuNJiyeVc0GTM=;
-        b=g62TFrehsNWj46XzWopy/vG91KbP9iseFu9asa7oEBELOPeEhPkTWdw1bNPo1Jj3KU
-         ld2WGBlrCFpEcZghiSkrvH/IMlG+cdq3XdAI2eozvqqg2R0iv/2r2RP7zQABWqLHRaVh
-         0/CUz4Awh+OK8d1Je9sBZvKSACUkqnCIJSqnr8fOhGM4MZ5ZFDOPzmRC8ki3yBTEZrxS
-         4FRd5KK3lVICHBBSSYqZNFqxyaS8xl4g8on9sf/LvUrJ3shnTy4IJL+iw8VFPQEdtkl7
-         Zx+AxM7X8PlBANtP4M2b8sgiWbWbNDKvsn/KLvjPd994U+KhDrP2XqqD6fDcc/8RF576
-         4jkA==
+        bh=0/tOVTwHPYMxKxFkN8GBzVBBS/KLVnVcYggCNSJXFWM=;
+        b=RVjSi1xlwcd297KIx/onBcV5sHO7ipIEUYocW6s5jq8wBgoF7WpY3fT0US4SJbZrJm
+         lkRUFWPSwqtNp92YqK8FMO5Hycg/irXxfVG4YWNsIZsbKjBvEHNxJfNZ3lLvWFZRBJ4q
+         YSOFPhGI6bzwww/0gUS2lWrtQXeBL6PhHwpDaNyj5cpdinc6iuKpcHmTvGrIeDXq9IFL
+         oLjSpL11E2RjS8XJe8aWBwi70KmxaYKpzJcD+TMwPMs6tavePcQ8v2pU54phJn8UU0cE
+         YiHvY3vuw4p9A+iqGXBU6EHjm0Ya8c/pRtFTAGgiFcbkX3YqFzHfHSJ0SsVm+T0a2OiH
+         bh4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679080395;
+        d=1e100.net; s=20210112; t=1679080402; x=1681672402;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UKzOWshBPa05sAfciXrKvOW4wl1rl1vuNJiyeVc0GTM=;
-        b=ERPnRlmtLqorwzrGJ0REP8gXlbKPHBnTuFFeOldYxsbtjtDtgVZfIEj4k5d7/R/D/q
-         JesHtq7e9yYyoxxq5JRxeKACqOneiysaFWzKDokzdnzK6F4bCjrX+DghN3yw0pxR7Ryp
-         WBLS5naZKO5z3iw3nfGP4Va3Ajom+3J1s3zQNGJNqFMeUqCqQXyqAJ1ssvwJTGxCBRB+
-         0i/l1PrVzVsmH0vIsFB2hQBhZDMKMrxONYW9jzrilddGMwOS/RQl65kNFWAkdfMVbjUp
-         let1LoqZDuarjx+1aqxUDUCxw6ydjKC4UPriXbYTNMHRPDD7lDkwazyH0KgGVZDwTb/U
-         a92g==
-X-Gm-Message-State: AO0yUKV0s6s70U1yw7FEjoPH2Yo+aDgECzByJssIwkqUj2QTUwb8dUAS
-	PunVqs6sICODuJjVps60iYo=
-X-Google-Smtp-Source: AK7set/Z9+Om3DT9CgVQJbSu9C/o4KcLpjmlPrzxTsYMNEDJhB3lQ/AGLj1ie1bzM5ex5RHVuj5d6g==
-X-Received: by 2002:a17:906:1016:b0:931:5145:c51d with SMTP id 22-20020a170906101600b009315145c51dmr4697756ejm.0.1679080395458;
-        Fri, 17 Mar 2023 12:13:15 -0700 (PDT)
+        bh=0/tOVTwHPYMxKxFkN8GBzVBBS/KLVnVcYggCNSJXFWM=;
+        b=5/BpydPcrIZnfvcc2r1egBC4Dj9Z0rByV714QwG4TGdqvYOKxsotLC9QzEaw/RGmRh
+         QCJQzbqQ2vUE39IlbRkGOrC4pgblf52qdPZwzHQJPfMifZH+Vc8RK/7aUvy5wSnYQIas
+         3Ph0uKvni6Ty5v5DZn2nVrzsvtmQywl5CICb4pE3e0/4gkFdPf1MNCErKv69hp1cu+JW
+         Na6EThQThBbno7HCBxghXPDHKnTTcnXP/QCDDKOOn0SZhayNuUZT0qVcd88S5kY5A2Zb
+         /RsvE56VNv5Fpby7Cx2fRTTYCZ3tSxMYhc1TD8eZWj3i0C45F1mwOEsl3huA2ORzpgdk
+         Bc0A==
+X-Gm-Message-State: AO0yUKW/ytooQ9d80RJfcYNIuzkQuPiQvdFgZvn7CkqpUilydmGgOwX8
+	5g7iV6H8ZlRBgKn9KSP5PBXjxVqezIU=
+X-Google-Smtp-Source: AK7set/NM5I8jwU6OK/iN27zYtM/IBsgcURe652ZEyUFDnx2xN4V4Xgjs4Tqvcl8yhFPoLCqT5TT3A==
+X-Received: by 2002:a17:906:518e:b0:929:b101:937d with SMTP id y14-20020a170906518e00b00929b101937dmr6646857ejk.1.1679080402391;
+        Fri, 17 Mar 2023 12:13:22 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id kx1-20020a170907774100b0091fdd2ee44bsm1280097ejc.197.2023.03.17.12.13.14
+        by smtp.gmail.com with ESMTPSA id lx12-20020a170906af0c00b008e57b5e0ce9sm1272413ejb.108.2023.03.17.12.13.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 12:13:14 -0700 (PDT)
-Date: Fri, 17 Mar 2023 20:13:13 +0100
+        Fri, 17 Mar 2023 12:13:21 -0700 (PDT)
+Date: Fri, 17 Mar 2023 20:13:20 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/9] staging: rtl8192e: Remove unused variable
- rtl819XAGCTAB_Array
-Message-ID: <0733800b195d4f63cce2ef2ac114943c8c30f587.1679077522.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/9] staging: rtl8192e: Remove double defined constants
+ bMaskBytex and bMask..
+Message-ID: <b12364a090a0ff2fd717cfe0e93eefc839cce937.1679077522.git.philipp.g.hortmann@gmail.com>
 References: <cover.1679077522.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,26 +55,32 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1679077522.git.philipp.g.hortmann@gmail.com>
 
-Remove unused variable rtl819XAGCTAB_Array.
+Remove double defined constants.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-index 6723fcce8954..fd34756e450f 100644
+index fd34756e450f..498da6be3e4e 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.h
-@@ -9,8 +9,6 @@
+@@ -25,14 +25,6 @@ enum rf90_radio_path {
+ 	RF90_PATH_MAX
+ };
  
- #define MAX_DOZE_WAITING_TIMES_9x 64
- 
--extern u32 rtl819XAGCTAB_Array[];
+-#define bMaskByte0                0xff
+-#define bMaskByte1                0xff00
+-#define bMaskByte2                0xff0000
+-#define bMaskByte3                0xff000000
+-#define bMaskHWord                0xffff0000
+-#define bMaskLWord                0x0000ffff
+-#define bMaskDWord                0xffffffff
 -
- enum hw90_block {
- 	HW90_BLOCK_MAC = 0,
- 	HW90_BLOCK_PHY0 = 1,
+ void rtl92e_set_bb_reg(struct net_device *dev, u32 dwRegAddr,
+ 		       u32 dwBitMask, u32 dwData);
+ u32 rtl92e_get_bb_reg(struct net_device *dev, u32 dwRegAddr, u32 dwBitMask);
 -- 
 2.39.2
 
