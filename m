@@ -1,116 +1,155 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C529665D
-	for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 06:50:50 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id w9so16664516edc.3
-        for <linux-staging@lists.linux.dev>; Thu, 16 Mar 2023 23:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679035849;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vsabCMN0jVXQwz5SLXDNmhQC+MOhJm5LHTpIIA+t6Qo=;
-        b=UdS4eGISzJzHT/LF8yroXOCbDwHnve5JXf1pWBusOrBy2ytJVdMeHJujkpReG2+1zD
-         J/9kOwHT5dZ01kGEQHbBcJvAUfmRMxR6rty88hiPLkQFHnCbRS9pfeDCaA9gStfeGue2
-         JQEJo81n160sPj0nwt4KFBMX0jxPUn//V2Kvbx2q7tKQ22AtxfkHBCy+ge5iiyUN/gFf
-         AQKlm+LrDr9Z0Thp895siT3bKQl8nEdnOpdqW0khh0j7QOwE870NLIIbnmUNOC6vHpWh
-         efkCKOgx0Td0IzxEPsD53+GGti271joQKlnxD6i7TLzhTHymvUqcSIFinM6saO3O+l9Q
-         J4Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679035849;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vsabCMN0jVXQwz5SLXDNmhQC+MOhJm5LHTpIIA+t6Qo=;
-        b=l7U5szmFvavh9YqAxZkoNHHPLPNV8lv56/uTObDpzfyN2TCd2+rrCfMS3WzsYVi+MY
-         gab2oSBSVELkT/e6MQbJDaGjzsR6oXYxGa8jE4yGs2BK6DYAAPbidwcVAX0xxK1MYamc
-         m7l3M4Pky10FVjT+64W6y1GaFaMzDHs1owWoO5cOoQtgroMFk7JzW/zMN6vuThTpRhkI
-         EhWTx7CXopWIOyJdPJVJvarJx80MxmfWQVR9efoYOTmdX6EsMDroVmxLBJ2Y1KUKsI1w
-         pJXAf1kxTpNMKq3kAK+NH+rDS7gs4yaaB5sYWLeu3T2rQ29RQh09fTcsHhU+3u8DQEcZ
-         JWDg==
-X-Gm-Message-State: AO0yUKXZvPhtuPZvZ7mSB0hXILSp+mLGuo5ATGlMBl6T3C1xXvq9d3Oq
-	cYRhXZ5IW5ulMGh5XleiQvc=
-X-Google-Smtp-Source: AK7set/nd1glzlt6Z9M5cWM/ndx6NmSuRKnBc0iy5Kk/tLAeqM8NjAzT9uvTQthctAzKYm3+FJqUUA==
-X-Received: by 2002:a17:906:20c3:b0:927:6e70:e245 with SMTP id c3-20020a17090620c300b009276e70e245mr11785010ejc.63.1679035849007;
-        Thu, 16 Mar 2023 23:50:49 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abbef.dynamic.kabel-deutschland.de. [95.90.187.239])
-        by smtp.gmail.com with ESMTPSA id z24-20020a17090674d800b009289de993e2sm577438ejl.216.2023.03.16.23.50.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 23:50:48 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: vt6655: remove unused bb_power_save_mode_off() function
-Date: Fri, 17 Mar 2023 07:50:41 +0100
-Message-Id: <20230317065041.16635-3-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230317065041.16635-1-straube.linux@gmail.com>
-References: <20230317065041.16635-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9753E65A;
+	Fri, 17 Mar 2023 07:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679036407; x=1710572407;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HmUuQQWsDjqrwKPydo5APzukhRwHmoaeu4nkVvVcBhE=;
+  b=JCIrw8mJ7eBvxj/eHw5z8/YZt112hX2YViRle/di4VrBg3tcFgP6iVS5
+   3T3yfH9nx69l17uv6O/Hw/F1/bV1cyjV+dkEJFyjJ3NYVmDkQDtvXdlyE
+   i5Cu8UO2lA4gsJfgjCZbaeOpsE2DIfuwWYoZTFWS8QiABNwgLgJwjgekl
+   LdUIkWXb6FL32AfpG0TrKLG5pVBlgPU4as/toPOCPiSx2lQM/MgeR+46N
+   z19gtq7AHvUFbA5sSXCZpK9XeaE/eGMRvHsUS/M7aRxtXbfo7Jdeb2nup
+   xeAKgxP6tp148fwgrSReibnNkUhdjfDwKvgSwZ8NRP3fmQSRH5g6x/D64
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318592995"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
+   d="scan'208";a="318592995"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 00:00:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="657456549"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
+   d="scan'208";a="657456549"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 17 Mar 2023 00:00:00 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pd44F-0009AH-1l;
+	Fri, 17 Mar 2023 06:59:59 +0000
+Date: Fri, 17 Mar 2023 14:59:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <202303171454.sScrVVOh-lkp@intel.com>
+References: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
 
-The function bb_power_save_mode_off() is not used anywhere, remove it.
+Hi Khadija,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/vt6655/baseband.c | 22 ----------------------
- drivers/staging/vt6655/baseband.h |  1 -
- 2 files changed, 23 deletions(-)
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index d7c3e4bec560..0e135af8316b 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -2171,28 +2171,6 @@ bb_software_reset(struct vnt_private *priv)
- 	bb_write_embedded(priv, 0x9C, 0);
- }
- 
--/*
-- * Description: Baseband Power Save Mode OFF
-- *
-- * Parameters:
-- *  In:
-- *      iobase      - I/O base address
-- *  Out:
-- *      none
-- *
-- * Return Value: none
-- *
-- */
--void
--bb_power_save_mode_off(struct vnt_private *priv)
--{
--	unsigned char by_org_data;
--
--	bb_read_embedded(priv, 0x0D, &by_org_data);
--	by_org_data &= ~(BIT(0));
--	bb_write_embedded(priv, 0x0D, by_org_data);
--}
--
- /*
-  * Description: Set Tx Antenna mode
-  *
-diff --git a/drivers/staging/vt6655/baseband.h b/drivers/staging/vt6655/baseband.h
-index d1128d050ac5..e4a02c240a1c 100644
---- a/drivers/staging/vt6655/baseband.h
-+++ b/drivers/staging/vt6655/baseband.h
-@@ -63,7 +63,6 @@ void bb_set_vga_gain_offset(struct vnt_private *priv, unsigned char by_data);
- /* VT3253 Baseband */
- bool bb_vt3253_init(struct vnt_private *priv);
- void bb_software_reset(struct vnt_private *priv);
--void bb_power_save_mode_off(struct vnt_private *priv);
- void bb_set_tx_antenna_mode(struct vnt_private *priv,
- 			    unsigned char by_antenna_mode);
- void bb_set_rx_antenna_mode(struct vnt_private *priv,
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
+patch link:    https://lore.kernel.org/r/ZBMR4s8xyHGqMm72%40khadija-virtual-machine
+patch subject: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+config: hexagon-randconfig-r033-20230312 (https://download.01.org/0day-ci/archive/20230317/202303171454.sScrVVOh-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7e359baa2318b55e12a0c099b75fbd0d799907cf
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
+        git checkout 7e359baa2318b55e12a0c099b75fbd0d799907cf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/staging/axis-fifo/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303171454.sScrVVOh-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/staging/axis-fifo/axis-fifo.c:958:3: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
+                   read_timeout, write_timeout);
+                   ^~~~~~~~~~~~
+   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+                                   ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   drivers/staging/axis-fifo/axis-fifo.c:958:17: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
+                   read_timeout, write_timeout);
+                                 ^~~~~~~~~~~~~
+   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+                                   ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                       ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                           ~~~~    ^~~~~~~~~~~
+   8 warnings generated.
+
+
+vim +958 drivers/staging/axis-fifo/axis-fifo.c
+
+4a965c5f89decd Jacob Feder 2018-07-22  954  
+4a965c5f89decd Jacob Feder 2018-07-22  955  static int __init axis_fifo_init(void)
+4a965c5f89decd Jacob Feder 2018-07-22  956  {
+4a965c5f89decd Jacob Feder 2018-07-22  957  	pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
+4a965c5f89decd Jacob Feder 2018-07-22 @958  		read_timeout, write_timeout);
+4a965c5f89decd Jacob Feder 2018-07-22  959  	return platform_driver_register(&axis_fifo_driver);
+4a965c5f89decd Jacob Feder 2018-07-22  960  }
+4a965c5f89decd Jacob Feder 2018-07-22  961  
+
 -- 
-2.40.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
