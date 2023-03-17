@@ -1,49 +1,49 @@
 Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11FB79C5
-	for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 19:13:47 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id r11so24278381edd.5
-        for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 12:13:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8235E79C5
+	for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 19:13:55 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id r11so24279637edd.5
+        for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 12:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679080427;
+        d=gmail.com; s=20210112; t=1679080435;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JECvJ/K7E4yzQQFzJdiJ4lI6M7UJm3etUVtp/7RJfO0=;
-        b=ZDQWi+ruPIg0G7N1WLOmgrTJdAETbuUbp4EiT0FBT5d3uj8cz9XfxioQJct/kgjey7
-         V9LV+gBmkKwAdUNJOhaE3ONqW/g8mqs/kIcdx1Hih6grFgSTjNrtlE60sQanMmygQ/dA
-         6LmWKzAuUG9tie6ce9+xkz1dIS8gAUBRjPkPJyJaqBeYH1zZlO8E8T6ubR0iyUal/dCj
-         72zCQKu0yX2qnLP30sh35ku3XpKcpGZs3EXdoHICfcOLAHMSapBEto6B6iVvA9GptXOS
-         2ct6k+7w9ztNOZ0U9BJTCo89RdiDe/dW+i+a/AGY7hiIjpKf5RMaxTmJxBmYaBhRv+Bj
-         8AJA==
+        bh=Toyfbf+SoovM/Ffd1wohbkyOgiucLUqCVM5bj6+KSwQ=;
+        b=P8CxN2t50zW4sh14dk+9j5eTgQg32NMyiv6U8kkgMQLC4bR/jtw9+wmNXHnqx8gS7E
+         t4DpMRZyR1Zu2xahz4BmIxZXOusyiZ1/W1S1gPGNSp8LxrvYSEX2zrPfMzoDxl4qRjUI
+         ouWK+qESjcCcJRpgwbE+j4FY8cYQxZXmSf/t3t2sdDHoqFjwY/5Ucp3qIgFFgNAwNS6e
+         ttZ4Y/Y041latFqYcvj5zq1oDIISju8Z7FjaERojtbVldrs/TLlgG/Ma6bOqfeRjQLLH
+         nZQTZbTYVhBmyncePjHa7LgInBm/PCinzJ8oP0ioObTBalz9ouw8rHkprMxOrJZPn7XC
+         bE4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679080427;
+        d=1e100.net; s=20210112; t=1679080435;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JECvJ/K7E4yzQQFzJdiJ4lI6M7UJm3etUVtp/7RJfO0=;
-        b=RSODFRF+ObwO2bbn7wFhAI1ETfs1z15Prg7IyY6K1P3CtZL2hFPYok/WFn4u8Mn5gk
-         SxODwt1WyLJA/59zytdwMoYXeyxiXsgy6B0Cj6tOdyvUNXE5eK3pYckhUQOs3FTNZ/Wg
-         G8NUujEJpi1cDJDEMu19PCqTLsVH7DRb3NGsujHW3hK/JsflR6Uvgkh3zyvyDqKDClJX
-         QDAQA7uSKZquA5Om9OIA/yvJYfEH5ZIlD9VxCeRiEGXY7PL2IHOTsK0OI9slMwqH7jRY
-         02jMawyOLYeYmHRyKWOimOCMHURSMOpBL13VW1LnKioHHN0Dm2RtucfSM20NEeKCx3SF
-         /Yjw==
-X-Gm-Message-State: AO0yUKXWg19aJ9ZQ4bn5euNvACPdVI0/dUi/eb6ZTmIYdasyIMvsN9ni
-	i8tH90WoJnCN+UfFvJRUoI3qNbOdveY=
-X-Google-Smtp-Source: AK7set+6WGaX3+K8SqvjOOr6mdSz1pu0Gi63sVU1IaTvReUtHihVDxDNZkVRk/Y71DE5TV/ejgC3cA==
-X-Received: by 2002:a05:6402:4413:b0:4bb:afe3:e0a with SMTP id y19-20020a056402441300b004bbafe30e0amr9497125eda.3.1679080427128;
-        Fri, 17 Mar 2023 12:13:47 -0700 (PDT)
+        bh=Toyfbf+SoovM/Ffd1wohbkyOgiucLUqCVM5bj6+KSwQ=;
+        b=KUXNL9b7kY5ykxaB/+83A9X5Mrg4wM8vnIh4TsNv4eTYRgHFb+lbhELvkoK3gCuYOt
+         bY24YW84MuHzQ80i8vi6ODpb2+rrh7FzuQtl1Gx1IgEBIdA0Wghr3aEroAQPb2Pp407G
+         tWDzTLBP6nHosGpnkryzNPSFvMS++PppbqLHfuTQ6VXplgbbYwBbaaAGgLoxd12iyEbX
+         opTak8u70olEmQBSLsiLeUPBFUls7OtcIaneSbQEKJGKuBfbtvPYGljkKJj8U8SROpgb
+         ziUUSL7nRCdSmn6meBNzqiKj7Qz+zVd8N8DCMmlrBmx6Iaq7xBmIyBJ5zAraXG7Qs4r7
+         awMg==
+X-Gm-Message-State: AO0yUKW0VBehcf2ieiG81R7R4za1HLXJMxGPeCgMj6sIGILD29gN7Pzo
+	k4SCpoD2FCTV7qxFcJXOvzg=
+X-Google-Smtp-Source: AK7set/wdsH6FlZkPBPD2JR2ngRz2Neejya28b62B4zMgKKReOcRu4htp6mJKOJ3jZkOd+mac9c8vA==
+X-Received: by 2002:a17:906:7399:b0:92b:dd20:16f5 with SMTP id f25-20020a170906739900b0092bdd2016f5mr7994154ejl.7.1679080434958;
+        Fri, 17 Mar 2023 12:13:54 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935146.dip0.t-ipconnect.de. [87.147.81.70])
-        by smtp.gmail.com with ESMTPSA id u6-20020a50d506000000b004fd2aab4953sm1458761edi.45.2023.03.17.12.13.46
+        by smtp.gmail.com with ESMTPSA id k8-20020a17090627c800b008d1693c212csm1273935ejc.8.2023.03.17.12.13.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Mar 2023 12:13:46 -0700 (PDT)
-Date: Fri, 17 Mar 2023 20:13:45 +0100
+        Fri, 17 Mar 2023 12:13:54 -0700 (PDT)
+Date: Fri, 17 Mar 2023 20:13:52 +0100
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/9] staging: rtl8192e: Replace macro INIT_WORK_RSL with
- standard macro
-Message-ID: <56290976510575f3b17ded786c452a9f6a52a7ee.1679077522.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 7/9] staging: rtl8192e: Replace macro container_of_work_rsl
+ with standard f.
+Message-ID: <58fa53b80fd866f2057d236f78144dda34d6f263.1679077522.git.philipp.g.hortmann@gmail.com>
 References: <cover.1679077522.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,71 +55,105 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1679077522.git.philipp.g.hortmann@gmail.com>
 
-Replace macro INIT_WORK_RSL with standard macro INIT_WORK to increase
-readability.
+Replace macro container_of_work_rsl with standard function container_of
+to increase readability.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 7 +++----
- drivers/staging/rtl8192e/rtllib.h            | 2 --
- drivers/staging/rtl8192e/rtllib_softmac.c    | 6 ++----
- 3 files changed, 5 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 9 +++------
+ drivers/staging/rtl8192e/rtl8192e/rtl_ps.c   | 3 +--
+ drivers/staging/rtl8192e/rtllib.h            | 1 -
+ drivers/staging/rtl8192e/rtllib_softmac.c    | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 3 +--
+ 5 files changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index a2263c41c6c8..ea07b350b62a 100644
+index ea07b350b62a..3244aef12c05 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -890,14 +890,13 @@ static void _rtl92e_init_priv_task(struct net_device *dev)
- {
- 	struct r8192_priv *priv = rtllib_priv(dev);
+@@ -311,8 +311,7 @@ static const struct rtllib_qos_parameters def_qos_parameters = {
  
--	INIT_WORK_RSL(&priv->reset_wq, (void *)_rtl92e_restart, dev);
--	INIT_WORK_RSL(&priv->rtllib->ips_leave_wq, (void *)rtl92e_ips_leave_wq,
--		      dev);
-+	INIT_WORK(&priv->reset_wq, (void *)_rtl92e_restart);
-+	INIT_WORK(&priv->rtllib->ips_leave_wq, (void *)rtl92e_ips_leave_wq);
- 	INIT_DELAYED_WORK(&priv->watch_dog_wq, (void *)_rtl92e_watchdog_wq_cb);
- 	INIT_DELAYED_WORK(&priv->txpower_tracking_wq, (void *)rtl92e_dm_txpower_tracking_wq);
- 	INIT_DELAYED_WORK(&priv->rfpath_check_wq, (void *)rtl92e_dm_rf_pathcheck_wq);
- 	INIT_DELAYED_WORK(&priv->update_beacon_wq, (void *)_rtl92e_update_beacon);
--	INIT_WORK_RSL(&priv->qos_activate, (void *)_rtl92e_qos_activate, dev);
-+	INIT_WORK(&priv->qos_activate, (void *)_rtl92e_qos_activate);
- 	INIT_DELAYED_WORK(&priv->rtllib->hw_wakeup_wq, (void *)rtl92e_hw_wakeup_wq);
- 	INIT_DELAYED_WORK(&priv->rtllib->hw_sleep_wq, (void *)rtl92e_hw_sleep_wq);
- 	tasklet_setup(&priv->irq_rx_tasklet, _rtl92e_irq_rx_tasklet);
+ static void _rtl92e_update_beacon(void *data)
+ {
+-	struct r8192_priv *priv = container_of_work_rsl(data, struct r8192_priv,
+-				  update_beacon_wq.work);
++	struct r8192_priv *priv = container_of(data, struct r8192_priv, update_beacon_wq.work);
+ 	struct net_device *dev = priv->rtllib->dev;
+ 	struct rtllib_device *ieee = priv->rtllib;
+ 	struct rtllib_network *net = &ieee->current_network;
+@@ -326,8 +325,7 @@ static void _rtl92e_update_beacon(void *data)
+ 
+ static void _rtl92e_qos_activate(void *data)
+ {
+-	struct r8192_priv *priv = container_of_work_rsl(data, struct r8192_priv,
+-				  qos_activate);
++	struct r8192_priv *priv = container_of(data, struct r8192_priv, qos_activate);
+ 	struct net_device *dev = priv->rtllib->dev;
+ 	int i;
+ 
+@@ -2033,8 +2031,7 @@ void rtl92e_commit(struct net_device *dev)
+ 
+ static void _rtl92e_restart(void *data)
+ {
+-	struct r8192_priv *priv = container_of_work_rsl(data, struct r8192_priv,
+-				  reset_wq);
++	struct r8192_priv *priv = container_of(data, struct r8192_priv, reset_wq);
+ 	struct net_device *dev = priv->rtllib->dev;
+ 
+ 	mutex_lock(&priv->wx_mutex);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+index ef4f736ce325..5a1cd22f5e25 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_ps.c
+@@ -142,8 +142,7 @@ void rtl92e_ips_leave(struct net_device *dev)
+ 
+ void rtl92e_ips_leave_wq(void *data)
+ {
+-	struct rtllib_device *ieee = container_of_work_rsl(data,
+-				     struct rtllib_device, ips_leave_wq);
++	struct rtllib_device *ieee = container_of(data, struct rtllib_device, ips_leave_wq);
+ 	struct net_device *dev = ieee->dev;
+ 	struct r8192_priv *priv = (struct r8192_priv *)rtllib_priv(dev);
+ 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 8cbefa6dfd6e..aa39f8b2bf09 100644
+index aa39f8b2bf09..669a9d9a5d18 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -62,8 +62,6 @@
+@@ -62,7 +62,6 @@
  #define IW_CUSTOM_MAX	256	/* In bytes */
  #endif
  
--#define INIT_WORK_RSL(x, y, z) INIT_WORK(x, y)
--
- #define container_of_work_rsl(x, y, z) container_of(x, y, z)
+-#define container_of_work_rsl(x, y, z) container_of(x, y, z)
  #define container_of_dwork_rsl(x, y, z)				\
  	container_of(to_delayed_work(x), y, z)
+ 
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index c442fc98283d..91fb5f150a00 100644
+index 91fb5f150a00..b9886e83a6dc 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -2998,13 +2998,11 @@ int rtllib_softmac_init(struct rtllib_device *ieee)
+@@ -1498,7 +1498,7 @@ static void rtllib_associate_step2(struct rtllib_device *ieee)
+ static void rtllib_associate_complete_wq(void *data)
+ {
+ 	struct rtllib_device *ieee = (struct rtllib_device *)
+-				     container_of_work_rsl(data,
++				     container_of(data,
+ 				     struct rtllib_device,
+ 				     associate_complete_wq);
+ 	struct rt_pwr_save_ctrl *psc = &ieee->pwr_save_ctrl;
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index 06f1d6de5cc7..1f2fa711e60b 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -326,8 +326,7 @@ EXPORT_SYMBOL(rtllib_wx_set_mode);
  
- 	INIT_DELAYED_WORK(&ieee->link_change_wq, (void *)rtllib_link_change_wq);
- 	INIT_DELAYED_WORK(&ieee->start_ibss_wq, (void *)rtllib_start_ibss_wq);
--	INIT_WORK_RSL(&ieee->associate_complete_wq,
--		      (void *)rtllib_associate_complete_wq, ieee);
-+	INIT_WORK(&ieee->associate_complete_wq, (void *)rtllib_associate_complete_wq);
- 	INIT_DELAYED_WORK(&ieee->associate_procedure_wq, (void *)rtllib_associate_procedure_wq);
- 	INIT_DELAYED_WORK(&ieee->softmac_scan_wq, (void *)rtllib_softmac_scan_wq);
- 	INIT_DELAYED_WORK(&ieee->associate_retry_wq, (void *)rtllib_associate_retry_wq);
--	INIT_WORK_RSL(&ieee->wx_sync_scan_wq, (void *)rtllib_wx_sync_scan_wq,
--		      ieee);
-+	INIT_WORK(&ieee->wx_sync_scan_wq, (void *)rtllib_wx_sync_scan_wq);
- 
- 	mutex_init(&ieee->wx_mutex);
- 	mutex_init(&ieee->scan_mutex);
+ void rtllib_wx_sync_scan_wq(void *data)
+ {
+-	struct rtllib_device *ieee = container_of_work_rsl(data,
+-				     struct rtllib_device, wx_sync_scan_wq);
++	struct rtllib_device *ieee = container_of(data, struct rtllib_device, wx_sync_scan_wq);
+ 	short chan;
+ 	enum ht_extchnl_offset chan_offset = 0;
+ 	enum ht_channel_width bandwidth = 0;
 -- 
 2.39.2
 
