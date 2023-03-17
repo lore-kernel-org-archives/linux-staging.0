@@ -1,45 +1,25 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9753E65A;
-	Fri, 17 Mar 2023 07:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679036407; x=1710572407;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HmUuQQWsDjqrwKPydo5APzukhRwHmoaeu4nkVvVcBhE=;
-  b=JCIrw8mJ7eBvxj/eHw5z8/YZt112hX2YViRle/di4VrBg3tcFgP6iVS5
-   3T3yfH9nx69l17uv6O/Hw/F1/bV1cyjV+dkEJFyjJ3NYVmDkQDtvXdlyE
-   i5Cu8UO2lA4gsJfgjCZbaeOpsE2DIfuwWYoZTFWS8QiABNwgLgJwjgekl
-   LdUIkWXb6FL32AfpG0TrKLG5pVBlgPU4as/toPOCPiSx2lQM/MgeR+46N
-   z19gtq7AHvUFbA5sSXCZpK9XeaE/eGMRvHsUS/M7aRxtXbfo7Jdeb2nup
-   xeAKgxP6tp148fwgrSReibnNkUhdjfDwKvgSwZ8NRP3fmQSRH5g6x/D64
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318592995"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="318592995"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 00:00:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="657456549"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="657456549"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 17 Mar 2023 00:00:00 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pd44F-0009AH-1l;
-	Fri, 17 Mar 2023 06:59:59 +0000
-Date: Fri, 17 Mar 2023 14:59:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Khadija Kamran <kamrankhadijadj@gmail.com>, outreachy@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <202303171454.sScrVVOh-lkp@intel.com>
-References: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABFA7F1;
+	Fri, 17 Mar 2023 07:13:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27925C433D2;
+	Fri, 17 Mar 2023 07:13:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1679037220;
+	bh=EMox3uAJdc454qzosMEHyqhK1IpB/SyLPpxJcdBDMJU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RoDHeXffgYoGLwNwon+Lc6Bnl+yTo4PTXHv8ZHsZbCIsWF1u/Y82MILsxpobukDD6
+	 UXMmrExB81yHrf1nQwwxasJ4V/T0+depmydn2uOH97S1M8aGHgy64gbGtQsfR+BHTM
+	 IHrTvLePspIq/y8SsTQ0QBDU4BZmAuXuIrVIEH+w=
+Date: Fri, 17 Mar 2023 08:13:37 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8] staging: axis-fifo: initialize timeouts in init only
+Message-ID: <ZBQTIVk0zsgv1hMH@kroah.com>
+References: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,108 +28,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
+In-Reply-To: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
 
-Hi Khadija,
+On Fri, Mar 17, 2023 at 01:09:00AM +0500, Khadija Kamran wrote:
+> Initialize the module parameters, read_timeout and write_timeout once in
+> init().
+> 
+> Module parameters can only be set once and cannot be modified later, so we
+> don't need to evaluate them again when passing the parameters to
+> wait_event_interruptible_timeout().
 
-Thank you for the patch! Perhaps something to improve:
+I feel like we are being too picky here, but this isn't the correct
+wording.  It is possible for module parameters to be modified "later",
+if the permissions on the parameter are set to allow this.  But that's
+not what this driver does here, so this might be better phrased as:
 
-[auto build test WARNING on staging/staging-testing]
+  The module parameters in this driver can not be modified after
+  loading, so they can be evaluated once at module load and set to
+  default values if needed at that time.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
-patch link:    https://lore.kernel.org/r/ZBMR4s8xyHGqMm72%40khadija-virtual-machine
-patch subject: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-config: hexagon-randconfig-r033-20230312 (https://download.01.org/0day-ci/archive/20230317/202303171454.sScrVVOh-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7e359baa2318b55e12a0c099b75fbd0d799907cf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Khadija-Kamran/staging-axis-fifo-initialize-timeouts-in-probe-only/20230316-205814
-        git checkout 7e359baa2318b55e12a0c099b75fbd0d799907cf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/staging/axis-fifo/
+> Convert datatype of {read,write}_timeout from 'int' to 'long int' because
+> implicit conversion of 'long int' to 'int' in statement
+> '{read,write}_timeout = MAX_SCHEDULE_TIMEOUT' results in an overflow.
+> 
+> Change format specifier for {read,write}_timeout from %i to %li.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303171454.sScrVVOh-lkp@intel.com/
+You are listing all of _what_ you do here, not really _why_ you are
+doing any of this.
 
-All warnings (new ones prefixed by >>):
+Anyway, if I were writing this, here's what I would say as a changelog
+text:
 
-   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/staging/axis-fifo/axis-fifo.c:25:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/staging/axis-fifo/axis-fifo.c:958:3: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
-                   read_timeout, write_timeout);
-                   ^~~~~~~~~~~~
-   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-                                   ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   drivers/staging/axis-fifo/axis-fifo.c:958:17: warning: format specifies type 'int' but the argument has type 'long' [-Wformat]
-                   read_timeout, write_timeout);
-                                 ^~~~~~~~~~~~~
-   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-                                   ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   8 warnings generated.
+  The module parameters, read_timeout and write_timeout, are only ever
+  evaluated at module load time, so set the default values then if
+  needed so as to not recompute the timeout values every time the driver
+  reads or writes data.
 
 
-vim +958 drivers/staging/axis-fifo/axis-fifo.c
+And that's it, short, concise, and it explains why you are doing this.
 
-4a965c5f89decd Jacob Feder 2018-07-22  954  
-4a965c5f89decd Jacob Feder 2018-07-22  955  static int __init axis_fifo_init(void)
-4a965c5f89decd Jacob Feder 2018-07-22  956  {
-4a965c5f89decd Jacob Feder 2018-07-22  957  	pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
-4a965c5f89decd Jacob Feder 2018-07-22 @958  		read_timeout, write_timeout);
-4a965c5f89decd Jacob Feder 2018-07-22  959  	return platform_driver_register(&axis_fifo_driver);
-4a965c5f89decd Jacob Feder 2018-07-22  960  }
-4a965c5f89decd Jacob Feder 2018-07-22  961  
+Writing changelog comments are almost always harder than actually
+writing the patch (at least for me.)  So don't feel bad, it take a lot
+of experience doing it.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+All that being said, I think we are just polishing something that
+doesn't need to really be polished anymore, so let me go just apply this
+patch as-is to the tree now so you can move on to a different change.
+You've put in the effort here, and I don't want you to get bogged down
+in specifics that really do not matter at all overall (like the memory
+size of your vm...)
+
+thanks,
+
+greg k-h
