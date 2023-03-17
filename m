@@ -1,95 +1,119 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAE1641;
-	Fri, 17 Mar 2023 06:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DDA65C
+	for <linux-staging@lists.linux.dev>; Fri, 17 Mar 2023 06:48:12 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id er8so4837064edb.0
+        for <linux-staging@lists.linux.dev>; Thu, 16 Mar 2023 23:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=fZE3ggHJNsZfkLW7wCYCJRh4/54CE8SDzqVvpVQdM3Y=;
-  b=LJkeq2I14MVqryaYlY9CP1yklyuvm1sNFGGWjoCPZ8B+xGbKuhjBYq3j
-   Cd4hfMPd55R7NL7i/tOD4IvN2kn1BXSz+d5uwPfo7VUpD6umCl3qOhkVn
-   1VMxk8QUioEnQedMiZc7uzTskt/KKIsfK9Jf4iTlJ8mkGl1g+STDsNkOc
-   Q=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,268,1673910000"; 
-   d="scan'208";a="97675621"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 07:03:08 +0100
-Date: Fri, 17 Mar 2023 07:03:08 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Sumitra Sharma <sumitraartsy@gmail.com>
-cc: drv@mailo.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-    linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH v4] Staging: octeon: Fix line ending with '('
-In-Reply-To: <20230317052455.GA83442@sumitra.com>
-Message-ID: <alpine.DEB.2.22.394.2303170700270.3105@hadrien>
-References: <20230317052455.GA83442@sumitra.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112; t=1679035691;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CTh0F21TwbjU88Bbz1hq5ZE+hy838Tvfzn8yCnXFty4=;
+        b=pSj+KwElbb+2jzq501JA/pCh4CkyH4uILIM30gt0mkNF1CHnLVHVUFh5KvHOQzUB44
+         B2qE44/QUblHAppjMP1lXcbQFFAmvkDY+P5uPB2UvJuF408n7UYzV07JThP0FIEAGFB2
+         EfyIE4vlmzuE4ywRBmBKI/ttNnnre9MulnxynTd6z/EfMPhMzCj2uz0W3sIPif/ewoT/
+         svrrxDMsJyE6qU3oDKXPhgXtG8PhX729DBpRrJ0kHcNOrmJiDs7DgFnifynSXvMuhNe5
+         I8miJcmowHWZHlVbAi00+t66Z7sNPLKhppI0jtOQvYkdqSHDNNdR4f7C3U+32VmxNCFi
+         LzOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679035691;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CTh0F21TwbjU88Bbz1hq5ZE+hy838Tvfzn8yCnXFty4=;
+        b=Hj1qLCYMDs3YV1+HvLp4fKzq8VWf/jJUqu0MDQ4KpJYF5qxjw0mkt4Ozj2ARunYtWV
+         1CFPHoBpYCf7Ina7E2xL4QIxylokxom90mjqW0M6KfNRExaU1vZM+9ZtX9L8kL398I8F
+         hJ00jOwy0qKZVT2SyAmYNvZkC008TlIfc5fTT/xE2C3HT38Hy12JqTlKW2nkno1r+Uku
+         TxFe/qw6UQiR4DCawrIv8KYhhSIR9iMXhV0X5f2aHIvumlGwCngNdGTgnG6XwX77uTwL
+         CgFjVXH6jZC1wNw7dAEdhU6C+shZLJ9j8qUFDfmwKFcP9P3DlMi4tde0E6FlykDKihbY
+         ku2g==
+X-Gm-Message-State: AO0yUKU5RGYOZFBJ4jEG2sFsaiI0HyIIOjPwuhKcVFYZbSOwMmv8eJRR
+	0rjvv9o+ENtCHTkaY1zeUfDghOWSZ1Y=
+X-Google-Smtp-Source: AK7set/4N1GHVyF2fZkorcLa7fn9Z9JiQJjZIJuc6IJOPPpzB1sUKnTvLjiZaHYFRjeE+yD/X0IAKw==
+X-Received: by 2002:aa7:cc15:0:b0:500:47ed:9784 with SMTP id q21-20020aa7cc15000000b0050047ed9784mr231767edt.14.1679035690850;
+        Thu, 16 Mar 2023 23:48:10 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abbef.dynamic.kabel-deutschland.de. [95.90.187.239])
+        by smtp.gmail.com with ESMTPSA id y43-20020a50bb2e000000b004f9ca99cf5csm601963ede.92.2023.03.16.23.48.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Mar 2023 23:48:10 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: vt6656: remove unused vnt_get_current_tsf() function
+Date: Fri, 17 Mar 2023 07:48:00 +0100
+Message-Id: <20230317064800.12276-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+The function vnt_get_current_tsf() is not used anywhere, remove it.
 
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/vt6656/card.c | 21 ---------------------
+ drivers/staging/vt6656/card.h |  1 -
+ 2 files changed, 22 deletions(-)
 
-On Thu, 16 Mar 2023, Sumitra Sharma wrote:
+diff --git a/drivers/staging/vt6656/card.c b/drivers/staging/vt6656/card.c
+index 7827e579ef3d..b9dc0d13c00c 100644
+--- a/drivers/staging/vt6656/card.c
++++ b/drivers/staging/vt6656/card.c
+@@ -11,7 +11,6 @@
+  *      vnt_add_basic_rate - Add to BasicRateSet
+  *      vnt_ofdm_min_rate - Check if any OFDM rate is in BasicRateSet
+  *      vnt_get_tsf_offset - Calculate TSFOffset
+- *      vnt_get_current_tsf - Read Current NIC TSF counter
+  *      vnt_get_next_tbtt - Calculate Next Beacon TSF counter
+  *      vnt_reset_next_tbtt - Set NIC Beacon time
+  *      vnt_update_next_tbtt - Sync. NIC Beacon time
+@@ -230,26 +229,6 @@ int vnt_adjust_tsf(struct vnt_private *priv, u8 rx_rate,
+ 			       MESSAGE_REQUEST_TSF, 0, 8, data);
+ }
+ 
+-/*
+- * Description: Read NIC TSF counter
+- *              Get local TSF counter
+- *
+- * Parameters:
+- *  In:
+- *	priv		- The adapter to be read
+- *  Out:
+- *	current_tsf	- Current TSF counter
+- *
+- * Return Value: true if success; otherwise false
+- *
+- */
+-bool vnt_get_current_tsf(struct vnt_private *priv, u64 *current_tsf)
+-{
+-	*current_tsf = priv->current_tsf;
+-
+-	return true;
+-}
+-
+ /*
+  * Description: Clear NIC TSF counter
+  *              Clear local TSF counter
+diff --git a/drivers/staging/vt6656/card.h b/drivers/staging/vt6656/card.h
+index be32c25c95de..eb01f7cc871f 100644
+--- a/drivers/staging/vt6656/card.h
++++ b/drivers/staging/vt6656/card.h
+@@ -30,7 +30,6 @@ void vnt_update_top_rates(struct vnt_private *priv);
+ bool vnt_ofdm_min_rate(struct vnt_private *priv);
+ int vnt_adjust_tsf(struct vnt_private *priv, u8 rx_rate,
+ 		   u64 time_stamp, u64 local_tsf);
+-bool vnt_get_current_tsf(struct vnt_private *priv, u64 *current_tsf);
+ bool vnt_clear_current_tsf(struct vnt_private *priv);
+ int vnt_reset_next_tbtt(struct vnt_private *priv, u16 beacon_interval);
+ int vnt_update_next_tbtt(struct vnt_private *priv, u64 tsf,
+-- 
+2.40.0
 
-> Since the coding style limited the code to 80 columns per line which caused
-> splitting the function header into two lines resulted in the first line
-> ending with a '('. This caused the checkpatch error.
-
-The first sentence is still not really grammatical.  Something like:
-
-The coding style used to limit lines to 80 characters, which led to
-splitting this function header into multiple lines, and ending thie first
-line with a (.
-
-For checkpatch, is it an error or a warning?
-
-julia
-
->
-> Place the function parameters immediately after '(' in a single
-> line to align the function header.
->
-> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
-> ---
-> v2: Change patch subject and description
->
-> v3: Change patch description, noted by Deepak R Varma
-> <drv@mailo.com>
->
-> v4: Correct grammartical mistakes, noted by Julia Lawall
-> <julia.lawall@inria.fr>
->
->
->
->  drivers/staging/octeon/octeon-stubs.h | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-> index 7a02e59e283f..3e7b92cd2e35 100644
-> --- a/drivers/staging/octeon/octeon-stubs.h
-> +++ b/drivers/staging/octeon/octeon-stubs.h
-> @@ -1372,9 +1372,7 @@ static inline void cvmx_fau_async_fetch_and_add32(uint64_t scraddr,
->  						  int32_t value)
->  { }
->
-> -static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(
-> -	int interface,
-> -	int port)
-> +static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interface, int port)
->  {
->  	union cvmx_gmxx_rxx_rx_inbnd r;
->
-> --
-> 2.25.1
->
->
->
