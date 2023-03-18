@@ -1,42 +1,49 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3932F30;
-	Sat, 18 Mar 2023 20:35:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7127494;
+	Sat, 18 Mar 2023 20:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679171700; x=1710707700;
+  t=1679172599; x=1710708599;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6y8LFFRF3tMIFwo9AMznWXbdSQtpcBHpc7OlfhPf4qE=;
-  b=kqvSJVX1TcakFFG6NCAQhvodsmCAuVMj6Zimh67CZU8NuTSpTR2vr6XD
-   HZdHC/NBg8stmTi7hb0Z6Pirqh1Spbz+FD3oagHFfkv7p0PeEN2/Ykx44
-   Ymvafkk5EnvUp49rTRA/fQQOWCRrGXZAJ05HytZrLc/y7Cwui7vM5EHsH
-   bG6k7nb5bDm6Oxlxfdx8ye+l7K361B2sPIhYALS7aIi3I8ElmAohYn9sy
-   C1kV8NjymJlkcgpMB7hvGNbecvCAOqb/0NCHnuGturOyHRknhgzBdt4Lm
-   JEUWl7BG5cpo+mCWB90JDy5TCkNLgUw2blempZTlXlSU0SYB0aFzAs+um
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="401036621"
+  bh=o8z2PeaN3WAvssy4e3LxOy8ukDZJheMvUjBaqQOXlSI=;
+  b=lK1vVmk7aYj/OVacwuFUNF4wxnBod0tdYfG5kTf3HrPwIm9D1a7+zAQC
+   7gHxodejOY+6QZZSfG3o8jpA0ZEBiPZsqsw+qcosqqNTNuHjttiog29nW
+   zPLyBa7JZTQX5OYWy99np6/l7DXj+a564E2z42gJ5XmoP80GtHrieqeZ2
+   E5Q7OPIjzjn4LqPmGyeatBTpY+3kHrIL1sLSIK7DPBxqfePOYWFiFwhUk
+   MnUPwTzCe8P8MWi6A4TILSoDYAY9Y0BounLZ5W7h7vfrgopzoS+mUsuHQ
+   QhPUMLSAo1K/5z5FyXsAD7bx8bwskh+vwXSA1hzI99TTbLmu30N/DClic
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="322307185"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="401036621"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 13:34:59 -0700
+   d="scan'208";a="322307185"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 13:49:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="854828093"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="657923988"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="854828093"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2) ([10.212.197.194])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 13:34:59 -0700
-Date: Sat, 18 Mar 2023 13:34:57 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Kloudifold <cloudifold.3125@gmail.com>
-Cc: outreachy@lists.linux.dev, teddy.wang@siliconmotion.com,
-	sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: sm750: Rename sm750_hw_cursor_* functions to
- snake_case
-Message-ID: <ZBYgccw+QH+5UKgW@aschofie-mobl2>
-References: <ZBW+NX4SLaCyEnJd@CloudiRingWorld>
+   d="scan'208";a="657923988"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 18 Mar 2023 13:49:54 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pddUv-000AGa-25;
+	Sat, 18 Mar 2023 20:49:53 +0000
+Date: Sun, 19 Mar 2023 04:48:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>,
+	Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] Staging: nvec: Change container_of macro to an inline
+ function.
+Message-ID: <202303190432.kRoDGmiE-lkp@intel.com>
+References: <20230318170514.GA49181@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,185 +52,114 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBW+NX4SLaCyEnJd@CloudiRingWorld>
+In-Reply-To: <20230318170514.GA49181@sumitra.com>
 
-On Sat, Mar 18, 2023 at 09:35:49PM +0800, Kloudifold wrote:
-> sm750 driver has sm750_hw_cursor_* functions, which are named in
-> camelcase. Rename them to snake case to follow the function naming
-> convention.
-> 
-> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
-> 
-> ---
-> Changes in v3:
-> - Add this changelog (Philipp)
-> - Move lkp tags and link to the correct location in commit log (Alison)
+Hi Sumitra,
 
-Hi Kloudifold,
+Thank you for the patch! Yet something to improve:
 
-Good to include tags, but let's get them to the 'TAG' location.
+[auto build test ERROR on staging/staging-testing]
 
-The message you received from lkp is:
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumitra-Sharma/Staging-nvec-Change-container_of-macro-to-an-inline-function/20230319-010628
+patch link:    https://lore.kernel.org/r/20230318170514.GA49181%40sumitra.com
+patch subject: [PATCH] Staging: nvec: Change container_of macro to an inline function.
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230319/202303190432.kRoDGmiE-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e58807d27f0ba705144bce72751f5cb0a75b9682
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sumitra-Sharma/Staging-nvec-Change-container_of-macro-to-an-inline-function/20230319-010628
+        git checkout e58807d27f0ba705144bce72751f5cb0a75b9682
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/staging/
+
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303171454.sScrVVOh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202303190432.kRoDGmiE-lkp@intel.com/
 
-So, you take those 2 lines, and put them above your Signed-off-by:
+All errors (new ones prefixed by >>):
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202303171454.sScrVVOh-lkp@intel.com/
-Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/staging/nvec/nvec_paz00.c:10:
+   drivers/staging/nvec/nvec_paz00.c: In function 'to_nvec_led':
+>> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct nvec_led'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/staging/nvec/nvec_paz00.c:19:16: note: in expansion of macro 'container_of'
+      19 |         return container_of(led_cdev, struct nvec_led, cdev);
+         |                ^~~~~~~~~~~~
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/staging/nvec/nvec_paz00.c:19:16: note: in expansion of macro 'container_of'
+      19 |         return container_of(led_cdev, struct nvec_led, cdev);
+         |                ^~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/arm/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:247,
+                    from include/linux/build_bug.h:5:
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct nvec_led'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   drivers/staging/nvec/nvec_paz00.c:19:16: note: in expansion of macro 'container_of'
+      19 |         return container_of(led_cdev, struct nvec_led, cdev);
+         |                ^~~~~~~~~~~~
+   drivers/staging/nvec/nvec_paz00.c:20:1: error: control reaches end of non-void function [-Werror=return-type]
+      20 | }
+         | ^
+   cc1: some warnings being treated as errors
 
-This is documented, but it's also a pattern that you can search for in
-the lore archives to see how folks before you did it.
 
+vim +20 include/linux/container_of.h
 
-> - Update the commit msg (Philip)
-> - Update the commit log (Bagas, Julia)
-> 
-> Changes in v2:
-> - Use new function names in call sites (LKP)
-> 
-> This v2 patch was prompted by an error reported by the Linux test
-> robot, which detected the compile error.
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08   9  
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  10  /**
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  11   * container_of - cast a member of a structure out to the containing structure
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  12   * @ptr:	the pointer to the member.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  13   * @type:	the type of the container struct this is embedded in.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  14   * @member:	the name of the member within the struct.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  15   *
+7376e561fd2e01 Sakari Ailus     2022-10-24  16   * WARNING: any const qualifier of @ptr is lost.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  17   */
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  18  #define container_of(ptr, type, member) ({				\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  19  	void *__mptr = (void *)(ptr);					\
+e1edc277e6f6df Rasmus Villemoes 2021-11-08 @20  	static_assert(__same_type(*(ptr), ((type *)0)->member) ||	\
+e1edc277e6f6df Rasmus Villemoes 2021-11-08  21  		      __same_type(*(ptr), void),			\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  22  		      "pointer type mismatch in container_of()");	\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  23  	((type *)(__mptr - offsetof(type, member))); })
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  24  
 
-So - the above lines, starting with 'This v2 patch...' can be removed,
-since you've stated it as a Change in v2.
-
-wrt the other feedback about checkpatch failing - test you git commit
-hook (per the first patch tutorial) and be sure you're doing a final
-checkpatch on the formatted patch.
-
-Keep at it Kloudifold :)
-Alison
-
-> ---
-> ---
->  drivers/staging/sm750fb/sm750.c        | 22 +++++++++++-----------
->  drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
->  drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
->  3 files changed, 24 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index effc7fcc3..a1254f693 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -121,14 +121,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
->  
->  	sm750_hw_cursor_disable(cursor);
->  	if (fbcursor->set & FB_CUR_SETSIZE)
-> -		sm750_hw_cursor_setSize(cursor,
-> -					fbcursor->image.width,
-> -					fbcursor->image.height);
-> +		sm750_hw_cursor_set_size(cursor,
-> +					 fbcursor->image.width,
-> +					 fbcursor->image.height);
->  
->  	if (fbcursor->set & FB_CUR_SETPOS)
-> -		sm750_hw_cursor_setPos(cursor,
-> -				       fbcursor->image.dx - info->var.xoffset,
-> -				       fbcursor->image.dy - info->var.yoffset);
-> +		sm750_hw_cursor_set_pos(cursor,
-> +				       	fbcursor->image.dx - info->var.xoffset,
-> +				       	fbcursor->image.dy - info->var.yoffset);
->  
->  	if (fbcursor->set & FB_CUR_SETCMAP) {
->  		/* get the 16bit color of kernel means */
-> @@ -142,14 +142,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
->  		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
->  		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
->  
-> -		sm750_hw_cursor_setColor(cursor, fg, bg);
-> +		sm750_hw_cursor_set_color(cursor, fg, bg);
->  	}
->  
->  	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
-> -		sm750_hw_cursor_setData(cursor,
-> -					fbcursor->rop,
-> -					fbcursor->image.data,
-> -					fbcursor->mask);
-> +		sm750_hw_cursor_set_data(cursor,
-> +					 fbcursor->rop,
-> +					 fbcursor->image.data,
-> +					 fbcursor->mask);
->  	}
->  
->  	if (fbcursor->enable)
-> diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
-> index 43e6f52c2..ff643e33f 100644
-> --- a/drivers/staging/sm750fb/sm750_cursor.c
-> +++ b/drivers/staging/sm750fb/sm750_cursor.c
-> @@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
->  	poke32(HWC_ADDRESS, 0);
->  }
->  
-> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
-> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
->  {
->  	cursor->w = w;
->  	cursor->h = h;
->  }
->  
-> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
-> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
->  {
->  	u32 reg;
->  
-> @@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
->  	poke32(HWC_LOCATION, reg);
->  }
->  
-> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
-> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
->  {
->  	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
->  		HWC_COLOR_12_2_RGB565_MASK;
-> @@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
->  	poke32(HWC_COLOR_3, 0xffe0);
->  }
->  
-> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
-> -			     const u8 *pcol, const u8 *pmsk)
-> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
-> +			      const u8 *pcol, const u8 *pmsk)
->  {
->  	int i, j, count, pitch, offset;
->  	u8 color, mask, opr;
-> @@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
->  	}
->  }
->  
-> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
-> -			      const u8 *pcol, const u8 *pmsk)
-> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
-> +			       const u8 *pcol, const u8 *pmsk)
->  {
->  	int i, j, count, pitch, offset;
->  	u8 color, mask;
-> diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
-> index b59643dd6..88fa02f63 100644
-> --- a/drivers/staging/sm750fb/sm750_cursor.h
-> +++ b/drivers/staging/sm750fb/sm750_cursor.h
-> @@ -5,11 +5,11 @@
->  /* hw_cursor_xxx works for voyager,718 and 750 */
->  void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
->  void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
-> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
-> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
-> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
-> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
-> -			     const u8 *data, const u8 *mask);
-> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
-> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
-> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
-> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
-> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
->  			      const u8 *data, const u8 *mask);
-> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
-> +			       const u8 *data, const u8 *mask);
->  #endif
-> -- 
-> 2.40.0
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
