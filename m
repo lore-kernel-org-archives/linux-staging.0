@@ -1,89 +1,143 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387EE137C;
-	Sun, 19 Mar 2023 11:42:04 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id h8so36622856ede.8;
-        Sun, 19 Mar 2023 04:42:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707931373;
+	Sun, 19 Mar 2023 11:46:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679226122;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1ZHVKRyqUkVQgHIPcnrjM4VftHtoW1MPmlfE9Rq46vI=;
-        b=etS4Y9P+MAqZ3qeshJXE0XPH+xaAZBuPj4c71JZtAato2AI3nreH1nf4wnA0tNb+xw
-         gVHys/1ORXAAjsH+xlz+Dcspth2rhy9K2CosWWypIh1Y+hdgjATjQHqbNPl1E/dF2gLZ
-         aTks6NhBVYWrNEUoDnAfoG+LDzXhEGXOEvOz7aL/pOvDHUZUpFR557fkXs4F2/WTBLXw
-         np7hqqyascOpbq+ULLutE58tkJriUC3SR1jFYFDFZD2eWkSKwupDep5tRPUNMeYS2OPv
-         f4G5jgXfWyFanrEVYy8TWL5cFsboV5qlxZh6U4pqRMRb6SCqqyJzEJh/5xbgtIo4unHs
-         VeDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679226122;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1ZHVKRyqUkVQgHIPcnrjM4VftHtoW1MPmlfE9Rq46vI=;
-        b=cRB02htPvqXMiJav2/PMEkvHdh6uBcUj77erVpepqrKu3OF6cbMLaiLXYWExGnaKSp
-         j6kWDRUTvms2rl9XgDu6tBm1kOPcJFxMQ5/HS+tiPtltHGZseZfXGIWoAzYBZCuaJUxv
-         3FPgZGdTX+Hwm3SeTWUu/9eHq/WEUNrDfkiocNWx/C/LIN4fBtnZb0U5Y2gpy6fK8gdf
-         5O+UdNjTzDwZi/XzOeRmhGgiUMKgLOQ9j608DGCvxlOz0V3CR0JtOv0YaPfk/wuplRFp
-         jCrOFqfZhy86paFJ0Nxz29ylFWkar7vzGnV1+5Tkc4O+zWTtnoVZZpigeoQtGPQmzLTD
-         PA3g==
-X-Gm-Message-State: AO0yUKWl5NLC4Rg1Gpk5mm/ezvE2tYFR/Zk0i6ql70lJSUHq9lxTGHkH
-	hiRVTMYeD+/gxwbQAhdgx/0=
-X-Google-Smtp-Source: AK7set8+73Y1DR8RnHNNwoEuwKsFRyWb+UaHr5kq7a7sMnBvoZ80trvGxqWUKIIEcGTvSQ2sdd3A1Q==
-X-Received: by 2002:a17:907:7642:b0:8f3:8bfd:a8e with SMTP id kj2-20020a170907764200b008f38bfd0a8emr5351877ejc.26.1679226122490;
-        Sun, 19 Mar 2023 04:42:02 -0700 (PDT)
-Received: from alaa-emad.. ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id b7-20020a1709063f8700b008eddbd46d7esm3180681ejj.31.2023.03.19.04.42.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 04:42:02 -0700 (PDT)
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: outreachy@lists.linux.dev,
-	vireshk@kernel.org,
-	johan@kernel.org,
-	elder@kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	eng.mennamahmoud.mm@gmail.com
-Subject: [PATCH] staging: greybus: remove unnecessary blank line
-Date: Sun, 19 Mar 2023 13:41:55 +0200
-Message-Id: <20230319114155.42148-2-eng.mennamahmoud.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230319114155.42148-1-eng.mennamahmoud.mm@gmail.com>
-References: <20230319114155.42148-1-eng.mennamahmoud.mm@gmail.com>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=1IZ/KAw5saCbQvg06OT7S25vtZZN9V8w6z1PpAAdwxc=;
+  b=KEtefP0PNcPwq6E4Xc+0+EplzDXLqBzyHWTGunZyFXUPMQgB1noFZhYN
+   tQmHHISy8FVu4FBYovEGleWX+PGdQhtYckggzdwh8t0pk3jHObWi+Nt5m
+   yNLxK+V/XkmYyEZkFE9Msnbpdv6mFOPr1USw788p888LYAwQa74cNeO/l
+   s=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,273,1673910000"; 
+   d="scan'208";a="50605869"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 12:46:42 +0100
+Date: Sun, 19 Mar 2023 12:46:41 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org, 
+    elder@kernel.org, greybus-dev@lists.linaro.org, 
+    linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: add blank line after struct
+In-Reply-To: <6cc1e2f7-e971-b195-acba-9b4c136aa16b@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2303191246190.2867@hadrien>
+References: <20230319110831.39931-1-eng.mennamahmoud.mm@gmail.com> <alpine.DEB.2.22.394.2303191216240.2867@hadrien> <15e81411-e40f-43c5-bb7f-907d6d5f93c5@gmail.com> <alpine.DEB.2.22.394.2303191235580.2867@hadrien>
+ <6cc1e2f7-e971-b195-acba-9b4c136aa16b@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323329-996529056-1679226402=:2867"
 
-Remove unnecessary blank line before struct as reported
-by checkpatch:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-" CHECK: Please don't use multiple blank lines "
+--8323329-996529056-1679226402=:2867
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
----
- drivers/staging/greybus/greybus_authentication.h | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/greybus_authentication.h b/drivers/staging/greybus/greybus_authentication.h
-index 7edc7295b7ab..48b4a9794d3c 100644
---- a/drivers/staging/greybus/greybus_authentication.h
-+++ b/drivers/staging/greybus/greybus_authentication.h
-@@ -41,7 +41,6 @@
- #define CAP_AUTH_RESULT_CR_NO_KEY	0x03
- #define CAP_AUTH_RESULT_CR_SIG_FAIL	0x04
- 
--
- /* IOCTL support */
- struct cap_ioc_get_endpoint_uid {
- 	__u8			uid[8];
--- 
-2.34.1
 
+On Sun, 19 Mar 2023, Menna Mahmoud wrote:
+
+>
+> On ١٩/٣/٢٠٢٣ ١٣:٣٦, Julia Lawall wrote:
+> >
+> > On Sun, 19 Mar 2023, Menna Mahmoud wrote:
+> >
+> > > On ١٩/٣/٢٠٢٣ ١٣:١٩, Julia Lawall wrote:
+> > > > On Sun, 19 Mar 2023, Menna Mahmoud wrote:
+> > > >
+> > > > > add blank line after struct for readability as
+> > > > The log message should start with a capital letter, so "Add".
+> > >
+> > > Okay, I will fix it.
+> > >
+> > > > > reported by checkpatch script
+> > > > "reported by checkpatch" or "reported by the checkpatch script".
+> > > > The first is more concise, and it doesn't really matter whether
+> > > > checkpatch
+> > > > is a script or something else.
+> > >
+> > > got it.
+> > >
+> > > > > " CHECK: Please use a blank line after function/struct/union/enum
+> > > > > declarations"
+> > > > I guess the #define was concatenated to the end of the definition to
+> > > > show
+> > > > that it is closely related to the definition.  With the #define, it
+> > > > seems
+> > > > rather natural, but the better soltution would be to make a static
+> > > > inline
+> > > > function in both cases.  There would naturally be a blank line before a
+> > > > function definition as well.
+> > >
+> > > got your point, so, should i ignore this?
+> > Not sure what you mean by ignore.  If you rewrite the #define as a
+> > function, an use the natural placement for a function definition, then the
+> > checkpatch warning will go away as a side effect.
+>
+>
+> I mean ignore this patch and make another patch with rewrite #define as you
+> suggested.
+
+Yes :)  That's fine ("drop" would be better than "ignore").
+
+julia
+
+>
+>
+> Menna
+>
+> >
+> > julia
+> >
+> > >
+> > > Menna
+> > >
+> > > > julia
+> > > >
+> > > > > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+> > > > > ---
+> > > > >    drivers/staging/greybus/gbphy.h | 2 ++
+> > > > >    1 file changed, 2 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/staging/greybus/gbphy.h
+> > > > > b/drivers/staging/greybus/gbphy.h
+> > > > > index d4a225b76338..1de510499480 100644
+> > > > > --- a/drivers/staging/greybus/gbphy.h
+> > > > > +++ b/drivers/staging/greybus/gbphy.h
+> > > > > @@ -15,6 +15,7 @@ struct gbphy_device {
+> > > > >    	struct list_head list;
+> > > > >    	struct device dev;
+> > > > >    };
+> > > > > +
+> > > > >    #define to_gbphy_dev(d) container_of(d, struct gbphy_device, dev)
+> > > > >
+> > > > >    static inline void *gb_gbphy_get_data(struct gbphy_device *gdev)
+> > > > > @@ -43,6 +44,7 @@ struct gbphy_driver {
+> > > > >
+> > > > >    	struct device_driver driver;
+> > > > >    };
+> > > > > +
+> > > > >    #define to_gbphy_driver(d) container_of(d, struct gbphy_driver,
+> > > > > driver)
+> > > > >
+> > > > >    int gb_gbphy_register_driver(struct gbphy_driver *driver,
+> > > > > --
+> > > > > 2.34.1
+> > > > >
+> > > > >
+> > > > >
+> > >
+>
+--8323329-996529056-1679226402=:2867--
