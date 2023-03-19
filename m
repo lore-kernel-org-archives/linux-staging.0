@@ -1,95 +1,92 @@
-Received: from 1.mo576.mail-out.ovh.net (1.mo576.mail-out.ovh.net [178.33.251.173])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE301846
-	for <linux-staging@lists.linux.dev>; Sun, 19 Mar 2023 14:03:36 +0000 (UTC)
-Received: from director10.ghost.mail-out.ovh.net (unknown [10.108.4.98])
-	by mo576.mail-out.ovh.net (Postfix) with ESMTP id 93EFC23238
-	for <linux-staging@lists.linux.dev>; Sun, 19 Mar 2023 13:44:13 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-vk2nn (unknown [10.110.103.232])
-	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id A395D1FE33;
-	Sun, 19 Mar 2023 13:44:09 +0000 (UTC)
-Received: from sk2.org ([37.59.142.105])
-	by ghost-submission-6684bf9d7b-vk2nn with ESMTPSA
-	id IxRwI6kRF2SLKQEA5A//1w
-	(envelope-from <steve@sk2.org>); Sun, 19 Mar 2023 13:44:09 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-105G006adb33e03-d5be-4371-a698-f6a54d8109e0,
-                    9CCC51F2D7DAB1FB7350B438D1071C8867680B66) smtp.auth=steve@sk2.org
-X-OVh-ClientIp:82.65.25.201
-Date: Sun, 19 Mar 2023 14:44:08 +0100
-From: Stephen Kitt <steve@sk2.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Robin van der Gracht <robin@protonic.nl>, Miguel Ojeda
- <miguel.ojeda.sandonis@gmail.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Antonino Daplas <adaplas@gmail.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras
- <paulus@samba.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel
- Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>, Daniel Thompson
- <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 12/15] auxdisplay: ht16k33: Introduce
- backlight_get_brightness()
-Message-ID: <20230319144408.03045c50@heffalump.sk2.org>
-In-Reply-To: <2857575f6ec206f79cc21d423fde7d17@protonic.nl>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
-	<20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
-	<CANiq72mFMJuec+r=T6xYtLpuU+a1rOrAhrHiecy_1Jpj2m4J=g@mail.gmail.com>
-	<Y7qM+ZlG5gQiOW4K@ravnborg.org>
-	<2857575f6ec206f79cc21d423fde7d17@protonic.nl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056F31846;
+	Sun, 19 Mar 2023 14:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=+bB39nUXZUXpT8dmSspChqOQmmtdTybwZ09z47fWgHc=;
+  b=YrWcZpXE2w+Hk0Eew9gV7SHYeUUQuy0nTGdgtp6Pdjc6Z0qUMGKJ9X2G
+   8KZNdI/nQ8mF55xcfC+qH6/AZ/CrXnqqI0X0WpI9PkKxLz2fCJN50jBiF
+   rGRPqkgK5p+U4IJFAvd44e3ThNmwI7oUrBfa53dtgIiagFwLEyrUSTLBY
+   o=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,273,1673910000"; 
+   d="scan'208";a="50609676"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 15:13:05 +0100
+Date: Sun, 19 Mar 2023 15:13:04 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, namcaov@gmail.com, 
+    straube.linux@gmail.com, hdegoede@redhat.com, linux-kernel@vger.kernel.org, 
+    linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: include: use inline functions for
+ dvobj_to_dev
+In-Reply-To: <20230319131030.151170-3-eng.mennamahmoud.mm@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2303191509330.2867@hadrien>
+References: <20230319131030.151170-3-eng.mennamahmoud.mm@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 1273674272938165894
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefiedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeludetkeehffejieetveeltddttdeftedtvdegkeffueefvefgieetvddtieehfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheejiedpmhhouggvpehsmhhtphhouhht
+Content-Type: text/plain; charset=US-ASCII
 
-Hi,
+How have you chosen the names at the beginning of the subject line?  The
+other patches on this file don't have the word "include:" in the subject.
+Please see the section "Following the Driver commit style" of the tutorial
+to see what to do.
 
-On Mon, 09 Jan 2023 11:12:02 +0100, Robin van der Gracht <robin@protonic.nl>
-wrote:
-> On 2023-01-08 10:29, Sam Ravnborg wrote:
-> > On Sat, Jan 07, 2023 at 10:02:38PM +0100, Miguel Ojeda wrote: =20
-> >> On Sat, Jan 7, 2023 at 7:26 PM Sam Ravnborg via B4 Submission Endpoint
-> >> <devnull+sam.ravnborg.org@kernel.org> wrote: =20
-> >> >
-> >> > Introduce backlight_get_brightness() to simplify logic
-> >> > and avoid direct access to backlight properties. =20
-> >>=20
-> >> Note: Stephen sent this one too a while ago (with some more details in
-> >> the commit message, which is always nice); and then he sent yesterday
-> >> v2 [1] (to mention the functional change with `BL_CORE_SUSPENDED`
-> >> [2]). =20
-> > Thanks for the pointers. I will try to move forward with Stephen's
-> > patches. =20
-> >>=20
-> >> Anyway, if it goes via drm-misc, feel free to have my:
-> >>=20
-> >>     Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> >>=20
-> >> Though it would be nice to have Robin test the change. =20
-> >=20
-> > Robin - can I get your ack to apply Stephen's original v2 patch to
-> > drm-misc? =20
->=20
-> done! see:=20
-> https://lore.kernel.org/lkml/0b16391f997e6ed005a326e4e48f2033@protonic.nl/
 
-As far as I can tell, this never got applied to drm-misc, and I don=E2=80=
-=99t see it
-anywhere else. I guess it slipped through the cracks ;-)
+On Sun, 19 Mar 2023, Menna Mahmoud wrote:
 
-Regards,
+> Convert `dvobj_to_dev` macro into static inline function,
 
-Stephen
+"into a static inline function"
+
+But the message is a bit too verbose.  Please see my suggestion on another
+similar patch that was recently proposed.
+
+julia
+
+> because it is not great to have macro that use `container_of` macro,
+> because from looking at the definition one cannot tell what type it applies to.
+>
+> One can get the same benefit from an efficiency point of view by making an
+> inline function (concretely, typically a static inline function, because
+> the definition only needs to be visible in the current file, or in the
+> case of a header file in the file that includes the header file).
+>
+> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/include/drv_types.h | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+> index 82159e1c7f9b..ea6bb44c5e1d 100644
+> --- a/drivers/staging/rtl8723bs/include/drv_types.h
+> +++ b/drivers/staging/rtl8723bs/include/drv_types.h
+> @@ -305,7 +305,11 @@ struct sdio_data intf_data;
+>  };
+>
+>  #define dvobj_to_pwrctl(dvobj) (&(dvobj->pwrctl_priv))
+> -#define pwrctl_to_dvobj(pwrctl) container_of(pwrctl, struct dvobj_priv, pwrctl_priv)
+> +
+> +static inline struct dvobj_priv *pwrctl_to_dvobj(struct pwrctrl_priv *pwrctl_priv)
+> +{
+> +	return container_of(pwrctl_priv, struct dvobj_priv, pwrctl_priv);
+> +}
+>
+>  static inline struct device *dvobj_to_dev(struct dvobj_priv *dvobj)
+>  {
+> --
+> 2.34.1
+>
+>
