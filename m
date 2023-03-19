@@ -1,107 +1,98 @@
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com (mailrelay1-1.pub.mailoutpod2-cph3.one.com [46.30.211.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B93A10E8
-	for <linux-staging@lists.linux.dev>; Sun, 19 Mar 2023 18:45:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58F41C39;
+	Sun, 19 Mar 2023 20:11:52 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id t5so2510746edd.7;
+        Sun, 19 Mar 2023 13:11:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:from;
-	bh=55TQw3vmH2ewB+u+Nx+NoaqSvHlaHxAFdFOoflwM9FY=;
-	b=cFGyvjChe1mTdtFdX6pdqz0ATMgdpW3fT1KkwUrUkpNalQQDaqFU5vN7VKBddGpYLXta2DpkFI55w
-	 MogWKlXdSXzNrrC5bGiSlpq5Do4A2sQNeWaCmqIlEimeq9x1gl80wZc6zJUzkUhAOW1N6R5wz8ZVPd
-	 leZt4y4mpQn+ssBwEd/MBYswMDehgShJ7ooPBMIBmdbptpzJcDOW8EWJG0l7LOHAdSdye4j/hTjl2J
-	 OAiIf/mCrmSOrSub6eIq5J9qMPc36zFTeLyCvrYO7OvVztiKoy8rmG/+Gwak6H+EiJ+PByU8MKo+X5
-	 +j1pgZ4jnJU00weICutVZqABC1PMCAw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:from;
-	bh=55TQw3vmH2ewB+u+Nx+NoaqSvHlaHxAFdFOoflwM9FY=;
-	b=z5JZS1uRC8yuO9NKyeQdfLOOcdSuevOdrmWZPSc3Ui+aGG0zuuit9OrsPex0yW9dEql1YHNHq7Q2U
-	 ZbTuEn0DQ==
-X-HalOne-ID: 0b8d9806-c686-11ed-a42d-11abd97b9443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay1 (Halon) with ESMTPSA
-	id 0b8d9806-c686-11ed-a42d-11abd97b9443;
-	Sun, 19 Mar 2023 18:44:15 +0000 (UTC)
-Date: Sun, 19 Mar 2023 19:44:13 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Stephen Kitt <steve@sk2.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Paul Mackerras <paulus@samba.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Antonino Daplas <adaplas@gmail.com>, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Robin van der Gracht <robin@protonic.nl>,
-	linuxppc-dev@lists.ozlabs.org,
-	Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH 12/15] auxdisplay: ht16k33: Introduce
- backlight_get_brightness()
-Message-ID: <ZBdX/YlexhyVzIRf@ravnborg.org>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
- <CANiq72mFMJuec+r=T6xYtLpuU+a1rOrAhrHiecy_1Jpj2m4J=g@mail.gmail.com>
- <Y7qM+ZlG5gQiOW4K@ravnborg.org>
- <2857575f6ec206f79cc21d423fde7d17@protonic.nl>
- <20230319144408.03045c50@heffalump.sk2.org>
+        d=gmail.com; s=20210112; t=1679256711;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=svh5CkV4qACNpUCwXOfTX98jsnzrQxv/pZHbsNshCOc=;
+        b=EVcbTdW5IYaNkMNpQnzNmrShhEP0qdg43W5Tt9P6S09645P8qIqkcaKgWiEQPN+xqw
+         L4O7/xbXPEliBNoMtmsgRIejlV4OfW/sIXo3huqciB5YLIAQFuaUUFO3iTGr20U8GDMF
+         VcSCiGEqvWIgD0ZYvI2MKzC6OW1vvORVcDbKZ7q1flHBZd1iZ3uA1TiXT6DmCzTlUpMA
+         Jh3xePPHpiJCycwth3CMn9kt5xeS1Gtfn4rrceQ4FKcqu4e8bJSdZaUcTWNy9NZ570fE
+         jjzD50GyQOVlvraQ32pDnAVADU+IXKM6sDQLIXuXh6XX8BxrXsQXe3Zh0LuP08weiN9W
+         zl+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679256711;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=svh5CkV4qACNpUCwXOfTX98jsnzrQxv/pZHbsNshCOc=;
+        b=NGmK+eo2sl0wUCM63kAYJg2CPYgdRDYgGjgI8/RkLFBqwNgrzzgbmsjyLKf106JVtX
+         T71IwfpRxy3wcCh+DOSvgmtjdEaXj81HCDYGkQ4PaMEZx9MRo8gNvq62eoyiBrBOSKth
+         B+X5hRRU6dMTeBo6ZCuTbcgXhN4Cp471bRBYX+aEpTCqz4bjbPlkseQjAEHZw0O+UPHo
+         kATRwrKU9EIKSIXcRj0c6V8EyUeT7SEJscB83ODCPPs4zdf9ZouWD7EmFivo0SlksCGv
+         oZpjm1UNHJWdr2ku0m2/a1yXNNrYtIinfs3uyycqf79bA4BnNp0UQkFSWLParBB2aKbu
+         IvFA==
+X-Gm-Message-State: AO0yUKUMptSFuYk2AUmEwudivbOfKHSiJ1wKdxHHgmok7U3HD/HiwGDH
+	8pcllvyMdrCvFdbOyZOmBhc=
+X-Google-Smtp-Source: AK7set/whmvn0pqWy5DPK6yzol3eRDFiLnkL9GeN4rBtwkl+KdiB53Gky2xHCyG5dfIotQCTtD95iQ==
+X-Received: by 2002:aa7:c2d7:0:b0:4bb:e80c:5667 with SMTP id m23-20020aa7c2d7000000b004bbe80c5667mr10227024edp.10.1679256710991;
+        Sun, 19 Mar 2023 13:11:50 -0700 (PDT)
+Received: from alaa-emad.. ([41.42.177.251])
+        by smtp.gmail.com with ESMTPSA id i23-20020a508717000000b004af6c5f1805sm3898695edb.52.2023.03.19.13.11.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Mar 2023 13:11:50 -0700 (PDT)
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: outreachy@lists.linux.dev,
+	namcaov@gmail.com,
+	hdegoede@redhat.com,
+	straube.linux@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	eng.mennamahmoud.mm@gmail.com,
+	Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH v2] staging: rtl8723bs: use inline functions for dvobj_to_dev
+Date: Sun, 19 Mar 2023 22:11:34 +0200
+Message-Id: <20230319201134.253839-1-eng.mennamahmoud.mm@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230319144408.03045c50@heffalump.sk2.org>
 
-On Sun, Mar 19, 2023 at 02:44:08PM +0100, Stephen Kitt wrote:
-> Hi,
-> 
-> On Mon, 09 Jan 2023 11:12:02 +0100, Robin van der Gracht <robin@protonic.nl>
-> wrote:
-> > On 2023-01-08 10:29, Sam Ravnborg wrote:
-> > > On Sat, Jan 07, 2023 at 10:02:38PM +0100, Miguel Ojeda wrote:  
-> > >> On Sat, Jan 7, 2023 at 7:26 PM Sam Ravnborg via B4 Submission Endpoint
-> > >> <devnull+sam.ravnborg.org@kernel.org> wrote:  
-> > >> >
-> > >> > Introduce backlight_get_brightness() to simplify logic
-> > >> > and avoid direct access to backlight properties.  
-> > >> 
-> > >> Note: Stephen sent this one too a while ago (with some more details in
-> > >> the commit message, which is always nice); and then he sent yesterday
-> > >> v2 [1] (to mention the functional change with `BL_CORE_SUSPENDED`
-> > >> [2]).  
-> > > Thanks for the pointers. I will try to move forward with Stephen's
-> > > patches.  
-> > >> 
-> > >> Anyway, if it goes via drm-misc, feel free to have my:
-> > >> 
-> > >>     Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> > >> 
-> > >> Though it would be nice to have Robin test the change.  
-> > > 
-> > > Robin - can I get your ack to apply Stephen's original v2 patch to
-> > > drm-misc?  
-> > 
-> > done! see: 
-> > https://lore.kernel.org/lkml/0b16391f997e6ed005a326e4e48f2033@protonic.nl/
-> 
-> As far as I can tell, this never got applied to drm-misc, and I don’t see it
-> anywhere else. I guess it slipped through the cracks ;-)
+Convert `dvobj_to_dev` macro into a static inline function.
+it is not great to have macro that use `container_of` macro,
+because from looking at the definition one cannot tell
+what type it applies to.
 
-Yes, I have been busy with a lot of other stuff lately, and cannot
-promise when I get back to do Linux work.
-So if someone else could pick it up that would be nice.
+One can get the same benefit from an efficiency point of view
+by making an inline function.
 
-	Sam
+Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+---
+change in v2:
+	edit commit message.
+---
+ drivers/staging/rtl8723bs/include/drv_types.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+index 82159e1c7f9b..ea6bb44c5e1d 100644
+--- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -305,7 +305,11 @@ struct sdio_data intf_data;
+ };
+ 
+ #define dvobj_to_pwrctl(dvobj) (&(dvobj->pwrctl_priv))
+-#define pwrctl_to_dvobj(pwrctl) container_of(pwrctl, struct dvobj_priv, pwrctl_priv)
++
++static inline struct dvobj_priv *pwrctl_to_dvobj(struct pwrctrl_priv *pwrctl_priv)
++{
++	return container_of(pwrctl_priv, struct dvobj_priv, pwrctl_priv);
++}
+ 
+ static inline struct device *dvobj_to_dev(struct dvobj_priv *dvobj)
+ {
+-- 
+2.34.1
+
