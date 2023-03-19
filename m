@@ -1,86 +1,95 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 1.mo576.mail-out.ovh.net (1.mo576.mail-out.ovh.net [178.33.251.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BBDE4C2;
-	Sun, 19 Mar 2023 13:25:50 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id er8so25460358edb.0;
-        Sun, 19 Mar 2023 06:25:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679232348;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ZHVKRyqUkVQgHIPcnrjM4VftHtoW1MPmlfE9Rq46vI=;
-        b=mNQgmGbT+HVA15+DOSJlLUEnpBIvOyX+j5cvdZStAMH3VF92O9PT06RNqnKRcLovaL
-         P30ex7z0Rp9MyvhsrqrkReKNRvyDU8AwDnEANAvLUiQ6kvbh9Uru5Up9soTO/7BSyub8
-         Sd58TAIV1/wEw/MjVS5H4ulLp8ToU4GBHkw/APoVrk4OPB9rBU1ml8FlRR1IicVjvqnU
-         TIVfbOmEHMt2YTG0rr16Qxh3pVdfbKIs0nVC4oMTf0MSbp0tnoRKdErZji/f+qQ2jf0u
-         WXpQJjZ/5ob5O6P+f2bPFt6qcqoEEpnPUkHalWUkXthEOEMawcOA2WqTCGknztflUuhD
-         /FJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679232348;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1ZHVKRyqUkVQgHIPcnrjM4VftHtoW1MPmlfE9Rq46vI=;
-        b=agjBHQkCjegvkwCu5ayOwRBLEx/+kRwv4sGNCP4Xp321lS7waKhq+5SPnZSwAS7Me5
-         pD3TCIgtosmHVLQ+zGjurksOsyeVatVyaAoHNJunDw26UvVh9rpPpqmLaYs3C0ygNXFU
-         725sC65GGXjKQ843Wub8HKhdS6OKVQvK/Z7jdPfiOxY2t2xhxgrB7uIH+eoF/D2VUp3f
-         2419rl6TfOCwtOjmzaIWKf8ceHUCe4Fc9Y6KSWfog4v/AvYLJFVwL9C/vIgWLbsKXCuN
-         QMxspkAffoUWKsd1aY7PbzAL6w8ILwz9jNXQCv1ClWFq4+4GMZrwXMTWYoUmafCO4wGG
-         CBHA==
-X-Gm-Message-State: AO0yUKVOFIFPJYLVDimgnXFZm/gwZOXPIyCldPdCOapYU7pIkc2WADBU
-	7qzonx+U4KY107hx0Cork5yU5gWa/1A=
-X-Google-Smtp-Source: AK7set/2uQPzlmU1OHFq9zDhnY7GnvreG7DHR7u3GAV4giydFft8V9GEoMXX+yqrcLSXhEr6GQVUyw==
-X-Received: by 2002:a17:906:2e91:b0:931:7c20:f75a with SMTP id o17-20020a1709062e9100b009317c20f75amr5049951eji.53.1679232348497;
-        Sun, 19 Mar 2023 06:25:48 -0700 (PDT)
-Received: from alaa-emad.. ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id by22-20020a170906a2d600b008cecb8f374asm3235200ejb.0.2023.03.19.06.25.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 06:25:48 -0700 (PDT)
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: outreachy@lists.linux.dev,
-	vireshk@kernel.org,
-	johan@kernel.org,
-	elder@kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	eng.mennamahmoud.mm@gmail.com
-Subject: [PATCH RESEND] staging: greybus: remove unnecessary blank line
-Date: Sun, 19 Mar 2023 15:24:51 +0200
-Message-Id: <20230319132452.151877-2-eng.mennamahmoud.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE301846
+	for <linux-staging@lists.linux.dev>; Sun, 19 Mar 2023 14:03:36 +0000 (UTC)
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.108.4.98])
+	by mo576.mail-out.ovh.net (Postfix) with ESMTP id 93EFC23238
+	for <linux-staging@lists.linux.dev>; Sun, 19 Mar 2023 13:44:13 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-vk2nn (unknown [10.110.103.232])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id A395D1FE33;
+	Sun, 19 Mar 2023 13:44:09 +0000 (UTC)
+Received: from sk2.org ([37.59.142.105])
+	by ghost-submission-6684bf9d7b-vk2nn with ESMTPSA
+	id IxRwI6kRF2SLKQEA5A//1w
+	(envelope-from <steve@sk2.org>); Sun, 19 Mar 2023 13:44:09 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-105G006adb33e03-d5be-4371-a698-f6a54d8109e0,
+                    9CCC51F2D7DAB1FB7350B438D1071C8867680B66) smtp.auth=steve@sk2.org
+X-OVh-ClientIp:82.65.25.201
+Date: Sun, 19 Mar 2023 14:44:08 +0100
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: Robin van der Gracht <robin@protonic.nl>, Miguel Ojeda
+ <miguel.ojeda.sandonis@gmail.com>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Helge Deller <deller@gmx.de>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Antonino Daplas <adaplas@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras
+ <paulus@samba.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel
+ Ojeda <ojeda@kernel.org>, Lee Jones <lee@kernel.org>, Daniel Thompson
+ <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 12/15] auxdisplay: ht16k33: Introduce
+ backlight_get_brightness()
+Message-ID: <20230319144408.03045c50@heffalump.sk2.org>
+In-Reply-To: <2857575f6ec206f79cc21d423fde7d17@protonic.nl>
+References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
+	<20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
+	<CANiq72mFMJuec+r=T6xYtLpuU+a1rOrAhrHiecy_1Jpj2m4J=g@mail.gmail.com>
+	<Y7qM+ZlG5gQiOW4K@ravnborg.org>
+	<2857575f6ec206f79cc21d423fde7d17@protonic.nl>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 1273674272938165894
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefiedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeludetkeehffejieetveeltddttdeftedtvdegkeffueefvefgieetvddtieehfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheejiedpmhhouggvpehsmhhtphhouhht
 
-Remove unnecessary blank line before struct as reported
-by checkpatch:
+Hi,
 
-" CHECK: Please don't use multiple blank lines "
+On Mon, 09 Jan 2023 11:12:02 +0100, Robin van der Gracht <robin@protonic.nl>
+wrote:
+> On 2023-01-08 10:29, Sam Ravnborg wrote:
+> > On Sat, Jan 07, 2023 at 10:02:38PM +0100, Miguel Ojeda wrote: =20
+> >> On Sat, Jan 7, 2023 at 7:26 PM Sam Ravnborg via B4 Submission Endpoint
+> >> <devnull+sam.ravnborg.org@kernel.org> wrote: =20
+> >> >
+> >> > Introduce backlight_get_brightness() to simplify logic
+> >> > and avoid direct access to backlight properties. =20
+> >>=20
+> >> Note: Stephen sent this one too a while ago (with some more details in
+> >> the commit message, which is always nice); and then he sent yesterday
+> >> v2 [1] (to mention the functional change with `BL_CORE_SUSPENDED`
+> >> [2]). =20
+> > Thanks for the pointers. I will try to move forward with Stephen's
+> > patches. =20
+> >>=20
+> >> Anyway, if it goes via drm-misc, feel free to have my:
+> >>=20
+> >>     Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> >>=20
+> >> Though it would be nice to have Robin test the change. =20
+> >=20
+> > Robin - can I get your ack to apply Stephen's original v2 patch to
+> > drm-misc? =20
+>=20
+> done! see:=20
+> https://lore.kernel.org/lkml/0b16391f997e6ed005a326e4e48f2033@protonic.nl/
 
-Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
----
- drivers/staging/greybus/greybus_authentication.h | 1 -
- 1 file changed, 1 deletion(-)
+As far as I can tell, this never got applied to drm-misc, and I don=E2=80=
+=99t see it
+anywhere else. I guess it slipped through the cracks ;-)
 
-diff --git a/drivers/staging/greybus/greybus_authentication.h b/drivers/staging/greybus/greybus_authentication.h
-index 7edc7295b7ab..48b4a9794d3c 100644
---- a/drivers/staging/greybus/greybus_authentication.h
-+++ b/drivers/staging/greybus/greybus_authentication.h
-@@ -41,7 +41,6 @@
- #define CAP_AUTH_RESULT_CR_NO_KEY	0x03
- #define CAP_AUTH_RESULT_CR_SIG_FAIL	0x04
- 
--
- /* IOCTL support */
- struct cap_ioc_get_endpoint_uid {
- 	__u8			uid[8];
--- 
-2.34.1
+Regards,
 
+Stephen
