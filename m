@@ -1,171 +1,167 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884B4E4E0;
-	Sun, 19 Mar 2023 16:15:59 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id eh3so38030719edb.11;
-        Sun, 19 Mar 2023 09:15:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B9CE4E3;
+	Sun, 19 Mar 2023 16:45:29 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id iw3so10153854plb.6;
+        Sun, 19 Mar 2023 09:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679242558;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1679244329;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0xI1vkDtYqpmWRObk2pbvA9d3XpNb4E7+cR3cNxuUGM=;
-        b=hwuVkLBhnHrpbY9ZY5W98JgUaQyt8diEeixiUjLgrDWtTr2KFyjaT4krv8nXhbWzFi
-         ZiHEyE9tzE1XYJbObJNr4vaDeJWxLFZ7rWT2Iav0uiYji49M8Og9RHmQVu/4k58oXgSl
-         cO1/suFFf0BiHWRl6CwUwcbggTtR/aPafz6rL48WdisXTLMbS4XBo8VcjlRthw3VYbSI
-         ODAp2RRbuGvn1KL7urCirBAvQBATrZlRQnHB8hoX+G+Tbqkj5DJxcRFeNdtA+JCTcxP5
-         ggX5HJkjYXhuWzwGyvnzPkDxZuq2XgSKLfzi3HemDlcF1yYI9QoNriBq6D7iNFNDcMyw
-         UL3A==
+        bh=wmtLzAp7TAfFzU4Wal3aHOCAS9vHX2uOg0KnFqhgfOg=;
+        b=LXs9nIjHeLGc4vvNlmA23A/cSABl8I0XqAC1aUqw4CUby9pvLsTuK+E/TA3D3Bz5a9
+         3iBf1J/ArqNespEhEmmrBwb444AgD9APc8yDQD/YiU/+E7/9CqeSgSIpE2bb/pZPTp7B
+         wOOh6SiAnC7qlePvsPYEk7H6nmZqnYJy/3vtJhd31RFDVkHgXhAptaQhgsLadb+W5IhE
+         A8MNpfPa1HdDhAHNTK6BN6qKHHBc/L3qWrLpK8BVbtWJov/xFFcxWOihgu44cA736mo1
+         5LeUWymaryZOHNVb6weW14aeEn+feYT7V4VMYlavnQB/0pEGMJ5jXxx6P6VpsU0zt3oo
+         Lcbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679242558;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1679244329;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0xI1vkDtYqpmWRObk2pbvA9d3XpNb4E7+cR3cNxuUGM=;
-        b=eQgRD/lBjSGT+LKqKQ+yO/QrQgo8Hmse9sZ+A4ZRUxAdaeQ8sV0Cudk763HB+8Wh6g
-         thGudyt90/LbGaiSnv8aarISBHMq76qo8cHBfeIcVM/Ru4LrAZcNQzE6KpQ7oPjhIp1V
-         ef7E/Fq75EutJ2yeVqcJmUSPidIzKudouYgNHstth9CSTt4MTTfRGTT54n3IjiS8vqml
-         gYNBbsM2lr+mKVV6Ih6O/OU/WjnHA23pj53+1C+lPJ3Xvov99g+YwpKtaFyIFcKWecFk
-         ZrgUHwwI3ZqzxAOi/d1tW609rjKLJCcoTgutJUOEmrimAbI/ZS59iHypMDDTKqWQMv7t
-         NXfg==
-X-Gm-Message-State: AO0yUKUzsmbJpMnkFXe6phAqR8jgK9Hql9+ll0R16Y0nsBk4bOlhiaOn
-	3Ip1McFVLrpHDfujB5G0fEA=
-X-Google-Smtp-Source: AK7set96Ivpm+WBhrxE96fHK/LO1ZrgJ4Tuo6cof2W656SK6cHb7owkm0Sy2Pqq/myU8WE596lUkmQ==
-X-Received: by 2002:a05:6402:3da:b0:4af:81f1:5afb with SMTP id t26-20020a05640203da00b004af81f15afbmr10509083edw.14.1679242557700;
-        Sun, 19 Mar 2023 09:15:57 -0700 (PDT)
-Received: from [192.168.1.16] ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id y94-20020a50bb67000000b004be11e97ca2sm3663921ede.90.2023.03.19.09.15.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Mar 2023 09:15:57 -0700 (PDT)
-Message-ID: <62070f52-1600-1a6f-b7e5-6fb6850840c4@gmail.com>
-Date: Sun, 19 Mar 2023 18:15:55 +0200
+        bh=wmtLzAp7TAfFzU4Wal3aHOCAS9vHX2uOg0KnFqhgfOg=;
+        b=4ujs9iIxqs3YBwxGMZK+0NbCBUHXDZ1xSL4dduYu6WSe3XPXjlhtRkrsMtgmS0jVgT
+         wJ9Qb2/9BwUZkDzNzfJI2JmKNtNt9OQIJeFboVRdv+k6yDvDrfTXAQQBZwG3SJV2sCD1
+         qxw2eINSVmCLlpybX0fys0Hz9hL9JtEzhilcrpRP96Yvy4IdfcZqacp1MNlt1OdLUrLG
+         Cwnm5EtgvbdoM8hVCNqxb8AfRWk3qb56WvTMk1Fegjw9OVfIPsREnWD5MIap6ZxJbT14
+         X44ukSCeuNL3YBa7rywL9SVCiKpawdoVQa7nD2Aij4Qm3Pp7iq1JJIbbDBgDmPK/M+dw
+         cdxQ==
+X-Gm-Message-State: AO0yUKWDlSktK7ycXKNOzFNZJ0UJH5Axh/tPa5pSXJasQSDi5Uyxrjv6
+	rB/tRI8ZS5kONdQ7u/Y0QXk=
+X-Google-Smtp-Source: AK7set89cJ4rq6OJEYq0Uljx9YEOr8CfmsGk8+Y5TyoZookPRhjaGAooHa6/vi5uZaiShmz6OVcAzQ==
+X-Received: by 2002:a05:6a20:7aa2:b0:d9:1ec8:e9bb with SMTP id u34-20020a056a207aa200b000d91ec8e9bbmr2242327pzh.28.1679244329269;
+        Sun, 19 Mar 2023 09:45:29 -0700 (PDT)
+Received: from sumitra.com ([117.209.117.91])
+        by smtp.gmail.com with ESMTPSA id m5-20020aa79005000000b00627f1efd470sm1091128pfo.135.2023.03.19.09.45.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Mar 2023 09:45:28 -0700 (PDT)
+Date: Sun, 19 Mar 2023 09:45:20 -0700
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: outreachy@lists.linux.dev
+Subject: [PATCH] Staging: greybus: Fix lines ending with '('
+Message-ID: <20230319164520.GA125117@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] staging: greybus: remove unnecessary blank line
-Content-Language: en-US
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
- elder@kernel.org, thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
- greybus-dev@lists.linaro.org, linux-pwm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230319152909.163598-1-eng.mennamahmoud.mm@gmail.com>
- <1775403.TLkxdtWsSY@suse>
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-In-Reply-To: <1775403.TLkxdtWsSY@suse>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+The coding style used to limit lines to 80 characters,
+which led to splitting of these function headers into multiple
+lines and ends the first line with a '('.
+Such splits causes checks reported by the checkpatch.
 
-On ١٩‏/٣‏/٢٠٢٣ ١٨:٠٩, Fabio M. De Francesco wrote:
->
-> On domenica 19 marzo 2023 16:29:09 CET Menna Mahmoud wrote:
->
-> > Remove unnecessary blank line before struct as reported
->
-> > by checkpatch:
->
-> >
->
-> > " CHECK: Please don't use multiple blank lines "
->
-> >
->
-> > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
->
-> > ---
->
-> > drivers/staging/greybus/pwm.c | 1 -
->
-> > 1 file changed, 1 deletion(-)
->
-> >
->
-> > diff --git a/drivers/staging/greybus/pwm.c 
-> b/drivers/staging/greybus/pwm.c
->
-> > index 3fda172239d2..26d39e08c3b6 100644
->
-> > --- a/drivers/staging/greybus/pwm.c
->
-> > +++ b/drivers/staging/greybus/pwm.c
->
-> > @@ -24,7 +24,6 @@ struct gb_pwm_chip {
->
-> > #define pwm_chip_to_gb_pwm_chip(chip) \
->
-> >     container_of(chip, struct gb_pwm_chip, chip)
->
-> >
->
-> > -
->
-> > static int gb_pwm_count_operation(struct gb_pwm_chip *pwmc)
->
-> > {
->
-> >     struct gb_pwm_count_response response;
->
-> > --
->
-> > 2.34.1
->
->
-> Hi Menna,
->
->
-Hi Fabio,
+Place the function parameters of each function immediately after
+'(' in a single line to align the function headers.
 
+Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+---
+ .../staging/greybus/audio_manager_module.c    | 40 +++++++++----------
+ 1 file changed, 18 insertions(+), 22 deletions(-)
 
-> I just saw that today you sent this patch at least three times:
->
->
-> https://lore.kernel.org/linux-staging/20230319114155.42148-2-eng.mennamahmoud.mm@gmail.com/
->
-
-This for different file, and the below I sent it with other patch so I 
-resend it again.
-
->
-> https://lore.kernel.org/linux-staging/20230319152909.163598-1-eng.mennamahmoud.mm@gmail.com/
->
->
-> https://lore.kernel.org/linux-staging/20230319132452.151877-2-eng.mennamahmoud.mm@gmail.com/
->
->
-> Why are you doing so?
->
-
-sorry for this.
-
->
-> Please send your patches only once and wait at least a week without 
-> any replies before resending. Furthermore, when resending, please 
-> explain under the three dashes ("---") why you are doing so. Patches 
-> may get lost, but this is not your case for sending them again and 
-> again in a single day.
->
-got your point.
-
->
-> Is there anything I'm missing?
->
->
-> Thanks,
->
->
-> Fabio
->
->
->
-
-Thanks,
-
-Menna
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index 0a0f0a394c84..81b4ba607a0e 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -70,9 +70,8 @@ static void gb_audio_module_release(struct kobject *kobj)
+ 	kfree(module);
+ }
+ 
+-static ssize_t gb_audio_module_name_show(
+-	struct gb_audio_manager_module *module,
+-	struct gb_audio_manager_module_attribute *attr, char *buf)
++static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
++					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+ 	return sprintf(buf, "%s", module->desc.name);
+ }
+@@ -80,9 +79,8 @@ static ssize_t gb_audio_module_name_show(
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ 	__ATTR(name, 0664, gb_audio_module_name_show, NULL);
+ 
+-static ssize_t gb_audio_module_vid_show(
+-	struct gb_audio_manager_module *module,
+-	struct gb_audio_manager_module_attribute *attr, char *buf)
++static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
++					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+ 	return sprintf(buf, "%d", module->desc.vid);
+ }
+@@ -90,9 +88,8 @@ static ssize_t gb_audio_module_vid_show(
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ 	__ATTR(vid, 0664, gb_audio_module_vid_show, NULL);
+ 
+-static ssize_t gb_audio_module_pid_show(
+-	struct gb_audio_manager_module *module,
+-	struct gb_audio_manager_module_attribute *attr, char *buf)
++static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
++					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+ 	return sprintf(buf, "%d", module->desc.pid);
+ }
+@@ -100,9 +97,9 @@ static ssize_t gb_audio_module_pid_show(
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+ 	__ATTR(pid, 0664, gb_audio_module_pid_show, NULL);
+ 
+-static ssize_t gb_audio_module_intf_id_show(
+-	struct gb_audio_manager_module *module,
+-	struct gb_audio_manager_module_attribute *attr, char *buf)
++static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *module,
++					    struct gb_audio_manager_module_attribute *attr,
++					    char *buf)
+ {
+ 	return sprintf(buf, "%d", module->desc.intf_id);
+ }
+@@ -111,9 +108,9 @@ static struct gb_audio_manager_module_attribute
+ 					gb_audio_module_intf_id_attribute =
+ 	__ATTR(intf_id, 0664, gb_audio_module_intf_id_show, NULL);
+ 
+-static ssize_t gb_audio_module_ip_devices_show(
+-	struct gb_audio_manager_module *module,
+-	struct gb_audio_manager_module_attribute *attr, char *buf)
++static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *module,
++					       struct gb_audio_manager_module_attribute *attr,
++					       char *buf)
+ {
+ 	return sprintf(buf, "0x%X", module->desc.ip_devices);
+ }
+@@ -122,9 +119,9 @@ static struct gb_audio_manager_module_attribute
+ 					gb_audio_module_ip_devices_attribute =
+ 	__ATTR(ip_devices, 0664, gb_audio_module_ip_devices_show, NULL);
+ 
+-static ssize_t gb_audio_module_op_devices_show(
+-	struct gb_audio_manager_module *module,
+-	struct gb_audio_manager_module_attribute *attr, char *buf)
++static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *module,
++					       struct gb_audio_manager_module_attribute *attr,
++					       char *buf)
+ {
+ 	return sprintf(buf, "0x%X", module->desc.op_devices);
+ }
+@@ -181,10 +178,9 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
+ 	kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
+ }
+ 
+-int gb_audio_manager_module_create(
+-	struct gb_audio_manager_module **module,
+-	struct kset *manager_kset,
+-	int id, struct gb_audio_manager_module_descriptor *desc)
++int gb_audio_manager_module_create(struct gb_audio_manager_module **module,
++				   struct kset *manager_kset,
++				   int id, struct gb_audio_manager_module_descriptor *desc)
+ {
+ 	int err;
+ 	struct gb_audio_manager_module *m;
+-- 
+2.25.1
 
