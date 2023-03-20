@@ -1,105 +1,217 @@
-Received: from lithium.sammserver.com (lithium.sammserver.com [168.119.122.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C95EEA1
-	for <linux-staging@lists.linux.dev>; Mon, 20 Mar 2023 01:51:15 +0000 (UTC)
-Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by lithium.sammserver.com (Postfix) with ESMTPS id 2F39031181CC;
-	Mon, 20 Mar 2023 02:47:14 +0100 (CET)
-Received: from mail.sammserver.com (localhost.localdomain [127.0.0.1])
-	by mail.sammserver.com (Postfix) with ESMTP id CD23635E3C;
-	Mon, 20 Mar 2023 02:47:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-	t=1679276833; bh=pC4qvrrK/n9fka/sqI1Yp3RNW0hirkEvh7yvqE7rqXI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Hf+5u2neIxkqhJimC7+VGAmEA0gmSS8+wRYjRLD9BP/IPlSJxpTxfm51f/UShFr/5
-	 Ru5sw9BozbNptmpJ0PSWO69lqI/QEssU8jgn3NEZlJPg1Ir9mBQSbaQXQB4vq/vr3Z
-	 ZzrwbcI9LgqIK/7suVlk0rGRW9KRG7kRJz8ScxOs=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A03310E5;
+	Mon, 20 Mar 2023 05:14:14 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id p13-20020a17090a284d00b0023d2e945aebso12649026pjf.0;
+        Sun, 19 Mar 2023 22:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679289254;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XwohmK57i/90pCNr/XO2uCZZcnhhUHJXFuwW9Sz8iVM=;
+        b=Q2aWrn5eHZ3nj5q0rTaVZZiRadPo5ih6lnO98OgIJFHdj0mN1yDXpPp0hThuWlZ9Sk
+         /ZRPZvVd21n+Lq2tqqFVnrsstC5a/8gWYLwNlHb6o9Nsh3PuYLVD6NVfnuIS0P52wZoa
+         FxnrXNNmUpNmp9t6QiagEVRwxe3In/Sp3FXWY807fvZVxdpKnRmKhki/VpexT1IkjD6e
+         R3xBDOFCWRVGouca76lOKNqXqltjng7oVKLh/HipRJlflA3PuZkoJymnC7wNeP7JK5EU
+         JzzakHPJi62HB5K6Gc3CJrmuaBnZzy1Kg6AFGULkJdOebTTWzwjrYDN0owHpk74WDRSH
+         Gsig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679289254;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XwohmK57i/90pCNr/XO2uCZZcnhhUHJXFuwW9Sz8iVM=;
+        b=Lah9Sz2PrBIKEifSKJAm6ddkhwKsnw99crp65ChAz2BEQdARv9mW4TT70IdboPOn9P
+         VT5pW0O9i17TxWlw6L0c2UA3NQ/OxqL0muXe3y+YARVs6v6W2ukxMakvc4sjlORArnA8
+         2mcCgYYmNc/urDNDCNmCKdM6nK8cCDmjsZi2oRH4Xhxx3WjQ/np/QFWzJdo19KEsNzl2
+         +XXkllIVIcnilQoANmV4JrhrZ9M7FOV4Rk0rSt6o5zkFAiunpn+Zp0A/ZrFdrjHyhQAE
+         8xgsRfA9Y9OrW/+Jy9eaeiWXLE5GlyUNyyf+AwChqtkeptVFR7/JGTBJbXQgaQ2tzJ/M
+         JoVg==
+X-Gm-Message-State: AO0yUKUt1Du+AMyDXnNxJwevHtszA2M9tepp0GXKos/RULpCQV2tL+dI
+	AwU2Jx59jK4FWJxQ7c1WO7lBd4oE789DYdS/
+X-Google-Smtp-Source: AK7set+r63vKirc/vKZYT8T/aDJJJ/np7SOCSoG9ZCvQyoCA79sYbQvWzbebmPMQiSxrYRIxdqNBYw==
+X-Received: by 2002:a17:90a:1a01:b0:23d:39e0:13b with SMTP id 1-20020a17090a1a0100b0023d39e0013bmr17383093pjk.43.1679289254348;
+        Sun, 19 Mar 2023 22:14:14 -0700 (PDT)
+Received: from CloudiRingWorld ([125.121.39.5])
+        by smtp.gmail.com with ESMTPSA id p7-20020a1709028a8700b001a1860da968sm5575096plo.178.2023.03.19.22.14.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Mar 2023 22:14:14 -0700 (PDT)
+Date: Mon, 20 Mar 2023 13:14:11 +0800
+From: Kloudifold <cloudifold.3125@gmail.com>
+To: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Subject: [PATCH v4] staging: sm750: Rename sm750_hw_cursor_* functions to
+ snake_case
+Message-ID: <ZBfro5U4s0lWA6tl@CloudiRingWorld>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 20 Mar 2023 01:47:13 +0000
-From: =?UTF-8?Q?Samuel_=C4=8Cavoj?= <samuel@cavoj.net>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: javierm@redhat.com, deller@gmx.de, daniel@ffwll.ch, sam@ravnborg.org,
- maxime@cerno.tech, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Zack Rusin <zackr@vmware.com>, Daniel
- Vetter <daniel.vetter@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Zhen Lei <thunder.leizhen@huawei.com>, Changcheng Deng
- <deng.changcheng@zte.com.cn>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
- devices via aperture helpers
-In-Reply-To: <20220718072322.8927-8-tzimmermann@suse.de>
-References: <20220718072322.8927-1-tzimmermann@suse.de>
- <20220718072322.8927-8-tzimmermann@suse.de>
-Message-ID: <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
-X-Sender: samuel@cavoj.net
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Cc: linux-kernel@vger.kernel.org 
+Bcc: 
+Subject: [PATCH v4] staging: sm750: Rename sm750_hw_cursor_* functions to snake_case
+Reply-To: 
 
-> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-> index f42a0d8bc211..101e13c2cf41 100644
-> --- a/drivers/video/aperture.c
-> +++ b/drivers/video/aperture.c
-> @@ -8,6 +8,7 @@
->  #include <linux/pci.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
-> +#include <linux/sysfb.h>
->  #include <linux/types.h>
->  #include <linux/vgaarb.h>
-> 
-> @@ -286,7 +287,20 @@ int 
-> aperture_remove_conflicting_devices(resource_size_t base, 
-> resource_size_t si
->  #if IS_REACHABLE(CONFIG_FB)
->  	struct apertures_struct *a;
->  	int ret;
-> +#endif
-> +
-> +	/*
-> +	 * If a driver asked to unregister a platform device registered by
-> +	 * sysfb, then can be assumed that this is a driver for a display
-> +	 * that is set up by the system firmware and has a generic driver.
-> +	 *
-> +	 * Drivers for devices that don't have a generic driver will never
-> +	 * ask for this, so let's assume that a real driver for the display
-> +	 * was already probed and prevent sysfb to register devices later.
-> +	 */
-> +	sysfb_disable();
+sm750 driver has sm750_hw_cursor_* functions, which are named in
+camelcase. Rename them to snake case to follow the function naming
+convention.
 
-This call to sysfb_disable() has been causing trouble with regard to
-VFIO. VFIO has been calling aperture_remove_conflicting_pci_devices to
-get rid of any console drivers (d173780620792c) using the device in
-question, but now even unrelated drivers are getting killed. Example
-situation:
+- sm750_hw_cursor_setSize  => sm750_hw_cursor_set_size
+- sm750_hw_cursor_setPos   => sm750_hw_cursor_set_pos
+- sm750_hw_cursor_setColor => sm750_hw_cursor_set_color
+- sm750_hw_cursor_setData  => sm750_hw_cursor_set_data
+- sm750_hw_cursor_setData2 => sm750_hw_cursor_set_data2
 
-Machine has two GPUs and uses efifb for the console. Efifb registers
-with the aperture system the efi framebuffer region, which is covered
-by a BAR resource of GPU 1. VFIO grabs GPU 2 and calls
-aperture_remove_conflicting_pci_devices(GPU 2). GPU 2 has no overlap
-with the efifb on GPU1 but the efifb is killed regardless due to
-the unconditional call to sysfb_disable(). The console switches
-to dummy and locks up from the user perspective.
-This seems unnecessary, as the device is unrelated.
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
 
-I do not quite understand the comment justifying the call.
+---
+Changes in v4:
+- Update the commit msg (Deepak)
+- Use tabs replace 8 spaces
 
-Some discussions with workarounds:
-https://old.reddit.com/r/VFIO/comments/11qei4t/framebuffer_doesnt_work_anymore_after_passthrough/
-https://bbs.archlinux.org/viewtopic.php?id=280512
+This v4 patch was prompted by 2 errors, 2 warnings and 1 checks reported
+by the scripts/checkpatch.pl, which detected the style problem.
 
+Changes in v3:
+- Add this changelog (Philipp)
+- Move lkp tags and link to the correct location in commit log (Alison)
+- Update the commit msg (Philip)
+- Update the commit log (Bagas, Julia)
 
-Thanks,
-Samuel
+Changes in v2:
+- Use new function names in call sites (LKP)
+
+ drivers/staging/sm750fb/sm750.c        | 22 +++++++++++-----------
+ drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
+ drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
+ 3 files changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index effc7fcc3..5d7249e82 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -121,14 +121,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 
+ 	sm750_hw_cursor_disable(cursor);
+ 	if (fbcursor->set & FB_CUR_SETSIZE)
+-		sm750_hw_cursor_setSize(cursor,
+-					fbcursor->image.width,
+-					fbcursor->image.height);
++		sm750_hw_cursor_set_size(cursor,
++					 fbcursor->image.width,
++					 fbcursor->image.height);
+ 
+ 	if (fbcursor->set & FB_CUR_SETPOS)
+-		sm750_hw_cursor_setPos(cursor,
+-				       fbcursor->image.dx - info->var.xoffset,
+-				       fbcursor->image.dy - info->var.yoffset);
++		sm750_hw_cursor_set_pos(cursor,
++					fbcursor->image.dx - info->var.xoffset,
++					fbcursor->image.dy - info->var.yoffset);
+ 
+ 	if (fbcursor->set & FB_CUR_SETCMAP) {
+ 		/* get the 16bit color of kernel means */
+@@ -142,14 +142,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
+ 		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
+ 
+-		sm750_hw_cursor_setColor(cursor, fg, bg);
++		sm750_hw_cursor_set_color(cursor, fg, bg);
+ 	}
+ 
+ 	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
+-		sm750_hw_cursor_setData(cursor,
+-					fbcursor->rop,
+-					fbcursor->image.data,
+-					fbcursor->mask);
++		sm750_hw_cursor_set_data(cursor,
++					 fbcursor->rop,
++					 fbcursor->image.data,
++					 fbcursor->mask);
+ 	}
+ 
+ 	if (fbcursor->enable)
+diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+index 43e6f52c2..ff643e33f 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.c
++++ b/drivers/staging/sm750fb/sm750_cursor.c
+@@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
+ 	poke32(HWC_ADDRESS, 0);
+ }
+ 
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
+ {
+ 	cursor->w = w;
+ 	cursor->h = h;
+ }
+ 
+-void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
++void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
+ {
+ 	u32 reg;
+ 
+@@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
+ 	poke32(HWC_LOCATION, reg);
+ }
+ 
+-void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
++void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
+ {
+ 	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
+ 		HWC_COLOR_12_2_RGB565_MASK;
+@@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
+ 	poke32(HWC_COLOR_3, 0xffe0);
+ }
+ 
+-void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+-			     const u8 *pcol, const u8 *pmsk)
++void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
++			      const u8 *pcol, const u8 *pmsk)
+ {
+ 	int i, j, count, pitch, offset;
+ 	u8 color, mask, opr;
+@@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+ 	}
+ }
+ 
+-void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
+-			      const u8 *pcol, const u8 *pmsk)
++void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
++			       const u8 *pcol, const u8 *pmsk)
+ {
+ 	int i, j, count, pitch, offset;
+ 	u8 color, mask;
+diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+index b59643dd6..88fa02f63 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.h
++++ b/drivers/staging/sm750fb/sm750_cursor.h
+@@ -5,11 +5,11 @@
+ /* hw_cursor_xxx works for voyager,718 and 750 */
+ void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+ void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+-void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
+-void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
+-void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
+-void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+-			     const u8 *data, const u8 *mask);
+-void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
++void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
++void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
++void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
++void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+ 			      const u8 *data, const u8 *mask);
++void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
++			       const u8 *data, const u8 *mask);
+ #endif
+-- 
+2.40.0
+
