@@ -1,214 +1,101 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0744A1104;
-	Mon, 20 Mar 2023 07:45:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331201380;
+	Mon, 20 Mar 2023 08:26:31 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id o12so43350634edb.9;
+        Mon, 20 Mar 2023 01:26:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=3VxkIZ4f4DjjfenQ958uT4HoXJYvgGNcZXiqMv/3wHg=;
-  b=Gz81mD2JpouuLvcgEJRQC+bu/CokOtFC5ZbGmcIalnZnvL5tN6dtKaa+
-   42KGcqTA8/OUik82g8JPP+OlXHnQGF/fCWyAvy9XtzGELJdPFdP1Zlond
-   JroM82tsiPQyq0qjz9sRj9upg8z7o0YKjZuPVstl3I1KWWf5DsLL9U3gc
-   A=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,274,1673910000"; 
-   d="scan'208";a="97994568"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 08:45:50 +0100
-Date: Mon, 20 Mar 2023 08:45:50 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Kloudifold <cloudifold.3125@gmail.com>
-cc: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com, 
-    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    outreachy@lists.linux.dev
-Subject: Re: [PATCH v4] staging: sm750: Rename sm750_hw_cursor_* functions
- to snake_case
-In-Reply-To: <ZBfro5U4s0lWA6tl@CloudiRingWorld>
-Message-ID: <dd52109f-75e5-2777-cafe-4e70e8ddf2db@inria.fr>
-References: <ZBfro5U4s0lWA6tl@CloudiRingWorld>
+        d=gmail.com; s=20210112; t=1679300789;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MLz3hRBfX2H9kEvnXukqy9ngVwHdXnfaWeWONnLje10=;
+        b=VwD/cTCpK2eod5z/7muOl6+J7Tq9jX8bgEJzMWuM6UWdUmscthpSF17CqC/LzichUE
+         SnhGfHT3d9QJyGIwg6NbGJREF+XzogXguXf3m4V43gTbbQktn8vI7sfgR0TG0wVa0wHj
+         8n1mI24Uwvcrq2flFXFJVIWpz6D7BM6UMlpgi8JyzIeDYq3CkpO5SsPCtqB9NiVmx0v9
+         BnznADdg7QWsC9s5wJLQAeJ3wFST5xoFhEfxr9scPqIje/qO5mjWKT9SHp3zO1GAxVkh
+         lhphJpVsfuTfdvSxHNiAu7Y6xtYuza+RgWWMmdvMLn/a4C1Qn0jKnBcRl5XpkLNp5UQy
+         uzJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679300789;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MLz3hRBfX2H9kEvnXukqy9ngVwHdXnfaWeWONnLje10=;
+        b=jONlRoVWyCjJdOcDpCF626Q1kQgntN0WlSJo38GJhMS5SyyIJUutIVeC1XJ1DXk/rc
+         XD0HBiZIqHOrnGlV+LjVuhxcWxQWGs3T1+XeQZA2UoHYYNp6Jxa9WI6s+D3+bNs0YBIs
+         5mKO/Gcz6A83HEQ9p1tUY+3DZ6oJa5EXCJpFFsyC2znKMNuEE1TRnvefEucAQMKiYpa7
+         yEIZEyuLQL6CoyOlQIEFx2AhJ+8tE6y3znySDq80pNASTm7pD/MjHXyA2PTHvNWzKYic
+         jkPKdQEzm2pQFMgqLe6i3POMiFtay4I9C+RA0SVqhoaczPbJB9ErRPmcIDLp5ov8oqV5
+         83Yg==
+X-Gm-Message-State: AO0yUKWRQaDfdf11AV+BKJrD7fBnyKcNeNuAVlcGfUeFI9a8rRa0XPGb
+	hyYLFulXdzGFmbSpal9Ztdk=
+X-Google-Smtp-Source: AK7set8d9sgILfZHW+akuoOmIEj/S+YtcQwxysXg+R+z+yF04NSZlFIinm9t2bQRA4dZlz+2IKBR3A==
+X-Received: by 2002:a17:906:3c4b:b0:886:7e24:82eb with SMTP id i11-20020a1709063c4b00b008867e2482ebmr7155552ejg.21.1679300789202;
+        Mon, 20 Mar 2023 01:26:29 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id hf8-20020a1709072c4800b0092b65c54379sm4100679ejc.104.2023.03.20.01.26.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 01:26:28 -0700 (PDT)
+Date: Mon, 20 Mar 2023 13:26:26 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: greybus: merge split lines
+Message-ID: <ZBgYsqkpdYpGQniB@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+If condition and spin_unlock_...() call is split into two lines, merge
+them to form a single line.
 
+Suggested-by: Deepak R Varma drv@mailo.com
+Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+---
 
-On Mon, 20 Mar 2023, Kloudifold wrote:
+Changes in v3:
+ - Removing tab to fix line length results in a new checkpatch warning,
+   so let the fix length be as it is.
+Changes in v2:
+ - Rephrased he subject and description
+ - Merged if_condition() and spin_unlock...() into one line
+ - Link to patch:
+ https://lore.kernel.org/outreachy/ZAusnKYVTGvO5zoi@khadija-virtual-machine/
 
-> Cc: linux-kernel@vger.kernel.org
-> Bcc:
-> Subject: [PATCH v4] staging: sm750: Rename sm750_hw_cursor_* functions to snake_case
-> Reply-To:
+Link to first patch:
+https://lore.kernel.org/outreachy/ZAtkW6g6DwPg%2FpDp@khadija-virtual-machine/
 
-This information should not be part of the message.  I received another
-message that didn't have this information.  If you sent that one to fix up
-this one, then that one should have benn labelled v5, so that one would
-know that this message should be ignored.
+ drivers/staging/greybus/arche-platform.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-julia
+diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+index fcbd5f71eff2..6890710afdfc 100644
+--- a/drivers/staging/greybus/arche-platform.c
++++ b/drivers/staging/greybus/arche-platform.c
+@@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
+ 				 * Check we are not in middle of irq thread
+ 				 * already
+ 				 */
+-				if (arche_pdata->wake_detect_state !=
+-						WD_STATE_COLDBOOT_START) {
++				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
+ 					arche_platform_set_wake_detect_state(arche_pdata,
+ 									     WD_STATE_COLDBOOT_TRIG);
+-					spin_unlock_irqrestore(&arche_pdata->wake_lock,
+-							       flags);
++					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
+ 					return IRQ_WAKE_THREAD;
+ 				}
+ 			}
+--
+2.34.1
 
->
-> sm750 driver has sm750_hw_cursor_* functions, which are named in
-> camelcase. Rename them to snake case to follow the function naming
-> convention.
->
-> - sm750_hw_cursor_setSize  => sm750_hw_cursor_set_size
-> - sm750_hw_cursor_setPos   => sm750_hw_cursor_set_pos
-> - sm750_hw_cursor_setColor => sm750_hw_cursor_set_color
-> - sm750_hw_cursor_setData  => sm750_hw_cursor_set_data
-> - sm750_hw_cursor_setData2 => sm750_hw_cursor_set_data2
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
-> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
->
-> ---
-> Changes in v4:
-> - Update the commit msg (Deepak)
-> - Use tabs replace 8 spaces
->
-> This v4 patch was prompted by 2 errors, 2 warnings and 1 checks reported
-> by the scripts/checkpatch.pl, which detected the style problem.
->
-> Changes in v3:
-> - Add this changelog (Philipp)
-> - Move lkp tags and link to the correct location in commit log (Alison)
-> - Update the commit msg (Philip)
-> - Update the commit log (Bagas, Julia)
->
-> Changes in v2:
-> - Use new function names in call sites (LKP)
->
->  drivers/staging/sm750fb/sm750.c        | 22 +++++++++++-----------
->  drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
->  drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
->  3 files changed, 24 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index effc7fcc3..5d7249e82 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -121,14 +121,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
->
->  	sm750_hw_cursor_disable(cursor);
->  	if (fbcursor->set & FB_CUR_SETSIZE)
-> -		sm750_hw_cursor_setSize(cursor,
-> -					fbcursor->image.width,
-> -					fbcursor->image.height);
-> +		sm750_hw_cursor_set_size(cursor,
-> +					 fbcursor->image.width,
-> +					 fbcursor->image.height);
->
->  	if (fbcursor->set & FB_CUR_SETPOS)
-> -		sm750_hw_cursor_setPos(cursor,
-> -				       fbcursor->image.dx - info->var.xoffset,
-> -				       fbcursor->image.dy - info->var.yoffset);
-> +		sm750_hw_cursor_set_pos(cursor,
-> +					fbcursor->image.dx - info->var.xoffset,
-> +					fbcursor->image.dy - info->var.yoffset);
->
->  	if (fbcursor->set & FB_CUR_SETCMAP) {
->  		/* get the 16bit color of kernel means */
-> @@ -142,14 +142,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
->  		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
->  		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
->
-> -		sm750_hw_cursor_setColor(cursor, fg, bg);
-> +		sm750_hw_cursor_set_color(cursor, fg, bg);
->  	}
->
->  	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
-> -		sm750_hw_cursor_setData(cursor,
-> -					fbcursor->rop,
-> -					fbcursor->image.data,
-> -					fbcursor->mask);
-> +		sm750_hw_cursor_set_data(cursor,
-> +					 fbcursor->rop,
-> +					 fbcursor->image.data,
-> +					 fbcursor->mask);
->  	}
->
->  	if (fbcursor->enable)
-> diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
-> index 43e6f52c2..ff643e33f 100644
-> --- a/drivers/staging/sm750fb/sm750_cursor.c
-> +++ b/drivers/staging/sm750fb/sm750_cursor.c
-> @@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
->  	poke32(HWC_ADDRESS, 0);
->  }
->
-> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
-> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
->  {
->  	cursor->w = w;
->  	cursor->h = h;
->  }
->
-> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
-> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
->  {
->  	u32 reg;
->
-> @@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
->  	poke32(HWC_LOCATION, reg);
->  }
->
-> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
-> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
->  {
->  	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
->  		HWC_COLOR_12_2_RGB565_MASK;
-> @@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
->  	poke32(HWC_COLOR_3, 0xffe0);
->  }
->
-> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
-> -			     const u8 *pcol, const u8 *pmsk)
-> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
-> +			      const u8 *pcol, const u8 *pmsk)
->  {
->  	int i, j, count, pitch, offset;
->  	u8 color, mask, opr;
-> @@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
->  	}
->  }
->
-> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
-> -			      const u8 *pcol, const u8 *pmsk)
-> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
-> +			       const u8 *pcol, const u8 *pmsk)
->  {
->  	int i, j, count, pitch, offset;
->  	u8 color, mask;
-> diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
-> index b59643dd6..88fa02f63 100644
-> --- a/drivers/staging/sm750fb/sm750_cursor.h
-> +++ b/drivers/staging/sm750fb/sm750_cursor.h
-> @@ -5,11 +5,11 @@
->  /* hw_cursor_xxx works for voyager,718 and 750 */
->  void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
->  void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
-> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
-> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
-> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
-> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
-> -			     const u8 *data, const u8 *mask);
-> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
-> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
-> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
-> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
-> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
->  			      const u8 *data, const u8 *mask);
-> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
-> +			       const u8 *data, const u8 *mask);
->  #endif
-> --
-> 2.40.0
->
->
->
