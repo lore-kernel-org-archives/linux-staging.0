@@ -1,148 +1,94 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556277C;
-	Mon, 20 Mar 2023 17:05:52 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id y4so49576510edo.2;
-        Mon, 20 Mar 2023 10:05:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC52A7C;
+	Mon, 20 Mar 2023 18:26:26 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id eg48so50337138edb.13;
+        Mon, 20 Mar 2023 11:26:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679331950;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zQkTB0/4ldrNaO9D1BgQTCKKXr2Ih0+bSHKLWiX446E=;
-        b=KVVsRwmUXiVQ7NDcj2WO9wVepkc8LHmIY62hwNyQTYVeF9T2LbbRcDkduzcaIw/F6r
-         ouWGoUAE2HmsCmB1napvDOx/jtPS3NlGSsPoDi4ibo+zDxXp4d7hs7/ZXqN23P9HmrGy
-         qpaW3QldJqwPqsGsrZcv9ie8ndOQoWtz5fXrkF8+G67ikA1qY8Buo+pNM8uofDJhOJnA
-         j4HYAb2ePYmpfVgtADy/wxbqJnuq29cOyXj+ngP8h/y3GxodSrI1yJ+v33QbOkDeovEd
-         ScVBPuAomG8S3D2hYOiaYmbjba0+kdZK94EMN4YNeYzSffdO/EH4E1Rm6Od2uJRljKyd
-         LZow==
+        d=gmail.com; s=20210112; t=1679336785;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ke5Pvg/9Rb8NrDFmi8QzBDeEQQqLN9WRKIG9dOyYDRU=;
+        b=MxXJK3tBhvSIhlqyvZ10EOx5Dg9FRFzDR3XIrL2SkBQoMWlC21hgWdL6/+Aqp1wvER
+         Hsen1NCwT0d7KB3yOWczmJxsYua8deLqf1I2MtCodajd5TkdM1QHVLpbg9YFx6wX3g3T
+         or0sMq2FVtfoShbTHd+MSvkZkTzjkmQ+WpGHQ15S0xWOnb0JA769RxiC8f5NRfgsFZQQ
+         hkxulEWcWn2MJv3mgn7IoFOoBN0r7j5ZwAYKoltLhlxO7YQKhxgP4hKcMbUbZ6yuFDvF
+         8QDLYeaxgX6XotBmV4CVAFJX7dYsy/HIvOWiaLsZVfLr72wBbYtPvgVMzoGi9EvV68v6
+         KmiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679331950;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20210112; t=1679336785;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zQkTB0/4ldrNaO9D1BgQTCKKXr2Ih0+bSHKLWiX446E=;
-        b=i7v3W91uMmwSMW4Ssic1g/tUkgWRpM25lQi65P5ulqhYlGcNiXu8ialKOmnAEndZ9O
-         ogmBNeVuePM3MZeXIEhSr/QucBTA9RHG+0vDOHAuVLJgY0Kjl/TcqHc++n2yw6kc8Y4c
-         XBmAzS6KS+UrFcbc1QqFfc6pFYsQVB3d4rLux8DWIlMwRi0TBNPMLUoFnCuusizN+mVj
-         NkEbKCsSpUZIcJNAHC76qVEwfUHZKLH6abgdgJG5KRUmIAavLWKFdY+mPdX3O2zjP23j
-         k4mdIVEkSc8VDZ2m7oOTD+ni/65EC78aCz1lhAyNf2PxC6ipj7ac4jFpgUGFZ9+ktzyV
-         5K6Q==
-X-Gm-Message-State: AO0yUKVkkND93K1z1uHbnL8HCY0XBcfWlejkxvehxXsBDXUrchd497Uy
-	VBFOND86EFfDlhjw/rpyX0w=
-X-Google-Smtp-Source: AK7set9WuCwjM7YHHnOJ4tr3crBgY7rHMv9FyaxWn8wPIAKTViDb1Fntb/c87wgMVcnao59hO8rYYQ==
-X-Received: by 2002:a17:906:eb5a:b0:8af:2d2e:5d31 with SMTP id mc26-20020a170906eb5a00b008af2d2e5d31mr10140219ejb.31.1679331950060;
-        Mon, 20 Mar 2023 10:05:50 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.111.78])
-        by smtp.gmail.com with ESMTPSA id gy24-20020a170906f25800b00930445428acsm4746151ejb.14.2023.03.20.10.05.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 10:05:49 -0700 (PDT)
-Date: Mon, 20 Mar 2023 22:05:47 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] staging: axis-fifo: initialize timeouts in init only
-Message-ID: <ZBiSa5BJXZXcV6N0@khadija-virtual-machine>
-References: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
- <3180435.l52yBJDM9G@suse>
- <ZBhvU/USP0es8e4P@khadija-virtual-machine>
- <3648719.TKLx3GfHUD@suse>
+        bh=ke5Pvg/9Rb8NrDFmi8QzBDeEQQqLN9WRKIG9dOyYDRU=;
+        b=NTXPXAtF9821w58hDQR6yJdts8oD0ZJWMnPW0WELYLMtVf7rVHeR9aJXrRrFfoTsFV
+         m4oSjlG75D5QsamEVq+KToo/bqAW7nFwsqV65fo1+bSlxpWXmEkzAFIgAqLReN3PBl9B
+         WFVFPewEZlmOZCkiY2EachbkGURAJS6Hve3WQpYE4WxAZNprT3WtAaJo8hQdHuwwJ99W
+         CWLUtLkD5xykhM+XgOPm5nFUQl8AJa7l+/eeDnBUH25zAcscPuDcnKjzpJ30C8tVQPsQ
+         IxL2VuBCJsiWCIHw5U+kR5TjDGZDSYhEwo1ze/vfvdDDkCPXQAIHPKPZZYo8jTedBdmx
+         1iPA==
+X-Gm-Message-State: AO0yUKWCSNzi6jGwvH5HB+gUbugk84ytzNvTIbu+c3ditgkcjb29TCsE
+	jgiSfSGw9Ggf3v4KhuemZV0=
+X-Google-Smtp-Source: AK7set+lohy4Wja2XvtAg6ZPuHkUKL2VoCJocj7y2VARevzarO6pMjMjX3cmg6W8EFxk0PwMG72jmQ==
+X-Received: by 2002:a17:906:7043:b0:92a:11be:1a40 with SMTP id r3-20020a170906704300b0092a11be1a40mr9276452ejj.11.1679336785053;
+        Mon, 20 Mar 2023 11:26:25 -0700 (PDT)
+Received: from [192.168.1.16] ([41.42.177.251])
+        by smtp.gmail.com with ESMTPSA id d14-20020a1709064c4e00b009336df45226sm2354245ejw.64.2023.03.20.11.26.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Mar 2023 11:26:24 -0700 (PDT)
+Message-ID: <d0ba154b-c975-574e-657e-c9c7098231af@gmail.com>
+Date: Mon, 20 Mar 2023 20:26:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] staging: most: use inline functions for iface_to_hdm
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev, parthiban.veerasooran@microchip.com,
+ christian.gromm@microchip.com, drv@mailo.com, dave@stgolabs.net,
+ yang.lee@linux.alibaba.com, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
+References: <20230320103335.6479-1-eng.mennamahmoud.mm@gmail.com>
+ <ZBh/Yw49fubf1GDb@kroah.com>
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+In-Reply-To: <ZBh/Yw49fubf1GDb@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3648719.TKLx3GfHUD@suse>
 
-On Mon, Mar 20, 2023 at 05:55:20PM +0100, Fabio M. De Francesco wrote:
-> On luned� 20 marzo 2023 15:36:03 CET Khadija Kamran wrote:
-> > On Mon, Mar 20, 2023 at 02:38:24PM +0100, Fabio M. De Francesco wrote:
-> > > On luned� 20 marzo 2023 07:34:04 CET Khadija Kamran wrote:
-> > > > On Fri, Mar 17, 2023 at 11:29:25AM +0100, Fabio M. De Francesco wrote:
-> > > > > Khadija,
-> > > > > 
-> > > > > Congratulations for having your first patch in Linux, via Greg's 
-> staging
-> > > > > tree.
-> > > > > 
-> > > > > It will take some time before it reaches mainline, although it is
-> > > > > already on its way to get upstream.
-> > > > 
-> > > > [snip]
-> > > >
-> > > I'm confused by this statement. Can you please rephrase?
-> > > 
-> > > > Am I getting it right?
-> > > 
-> > > Not sure, it depends on what you meant with the previous phrase.
-> > 
-> > As you said above that the commit message makes the reader miss the
-> > permission details, so should we write more about permissions in the
-> > description?
-> 
-> No. Greg took your patch as is.
-> No new versions for patches that Maintainers (i.e., Greg Kroah-Hartman for 
-> drivers/staging and several other subsystems and drivers) already applied.
-> 
-> We've been discussing this topic after Greg had already taken your patch only 
-> for the purpose to clarify to you why he suggested a better commit message. 
-> However, he suggested that better message while stating that he prefers to 
-> take your patch as is to give you time to work on something new.
-> 
 
-Hey Fabio!
-Okay understood. 
-
-> I suppose that you received the two automated messages, the first which 
-> communicates that your patch has been applied to his staging-test tree and the 
-> second which says that it has moved forward to the next step, which is the 
-> staging-next tree. I saw those messages in Cc because I put my "Reviewed-by" 
-> tag to your patch, so I know you had them.
+On ٢٠‏/٣‏/٢٠٢٣ ١٧:٤٤, Greg KH wrote:
+> On Mon, Mar 20, 2023 at 12:33:35PM +0200, Menna Mahmoud wrote:
+>> Convert `iface_to_hdm` macro into a static inline function.
+>> it is not great to have macro that use `container_of` macro,
+>> because from looking at the definition one cannot tell
+>> what type it applies to.
+>>
+>> One can get the same benefit from an efficiency point of view
+>> by making an inline function.
+>>
+>> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+>> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+>> ---
+>>   drivers/staging/most/dim2/dim2.c | 5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
+> Your subject line has a "  " when it should have just a " " :(
+I see, I will fix it.
 >
-
-Yes, I did receive the messages. 
-
-> Fabio
-> 
-> P.S.: Today I sent you an off-list message. Please locate it and reply.
+> Please fix up and send a v2.
+I will.
 >
+> thanks,
+>
+> greg k-h
 
-Okay Thank you for your help.
+Thanks,
 
-Regards,
-Khadija
+Menna
 
-> > > > Thank you!
-> > > > 
-> > > > Regards,
-> > > > Khadija
-> > > 
-> > > You're welcome!
-> > > 
-> > > So, thanks for working on this patch as long as it takes to get it done.
-> > > 
-> > > I think the lesson to be learned is that in our community there are 
-> barriers
-> > > to the entry of substandard products and therefore people have to do their
-> > > best if they really want to see their work applied.
-> > 
-> > Yes, you are right. Due to this reason, the whole process is making me
-> > learn a lot. I am really glad to be a part of it ^-^
-> > 
-> > > These tasks are not for the "faints of heart" :-)
-> > > 
-> > > Fabio
-> > 
-> > Regards,
-> > Khadija :)
-> 
-> 
-> 
-> 
