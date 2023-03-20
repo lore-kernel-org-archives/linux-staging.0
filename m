@@ -1,182 +1,170 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD60C1846;
-	Mon, 20 Mar 2023 09:33:47 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id ek18so44055591edb.6;
-        Mon, 20 Mar 2023 02:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679304826;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=e3QdF0wMkBTmtVBS8ynp8ovaXMshD0DpAnNchV77vtY=;
-        b=UesMPWRFpR2JX5vPVbvxYR1zQ+M+IhSMpWZH2lIpwZ0WZoIufebUX5DzgeExhxsh7f
-         2ANido3DAEPiekrASioV8YH/Jgcw3esOfddOi4zUrFGfwZH+R7TNm67sArqs/cA7Zz5F
-         A7AyqxWgJjo8G9/PU64k17rMzERIA8qXy56VI5gym42uXNTsm/mpiul0NW5VkB4AhCiI
-         4Kyo+ano9ElnW2faIL27Uj7bGtTQbDO4kn+9y4GHB2ELbwX5BjABnNaG0vWTvrEkjcu1
-         q/HiAokTchc8jfj0QCgB/f8Zcm/suqr7eLzE29iRGb5WnLKftKTj1VuEUDJ0dBI48GyS
-         cozg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679304826;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e3QdF0wMkBTmtVBS8ynp8ovaXMshD0DpAnNchV77vtY=;
-        b=jnX9Jag5w4PlrCWNIiQKQDxVCZytINK01YOgFfVs3YI5CKlXIHT9isuMXQhZI5g15O
-         zw8jZSzVbrF2jeFMJCVmOLITTLl7WbPqZDYfPVJSMNyTenw0bH31KPiXn6qrpuOr8df+
-         vaZo1ZQqeg+xiWq8ryMbiZUl0QNmZd4B592vdidQfM9ThAIhNVYYdLNN7X6EnNRyAjJA
-         MHcbwdCp82WbHLC1b41wdLyzB6p9x94kERoMbHEkaXsVt5Pj5lOMVrZuJYHyCPlaZMai
-         Q+ut7p84aRIaCHw6R99z2KZJpD3GpaO7fS/cOiKMgsPnuGVe1s1y/J4OliSlomnksvxe
-         dPTw==
-X-Gm-Message-State: AO0yUKXwBsHs9cqJ1wWJbgMZfqgJiraq/Z54ofVQj8vtsauCGRo/5FHu
-	d/8FTjFs5rMEXbzupdCgnEQHkAkzF2kyaad4TSA=
-X-Google-Smtp-Source: AK7set8Qn657Y7DA+BYuCWXB4qfbuxFmPEcongWcCbMjvnz5MP4Uux0KQPqqqU1zWuDfyZSENqbyDw==
-X-Received: by 2002:a17:906:f193:b0:933:868:413a with SMTP id gs19-20020a170906f19300b009330868413amr8046651ejb.15.1679304825710;
-        Mon, 20 Mar 2023 02:33:45 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id p25-20020a17090653d900b009333b82f061sm2492372ejo.80.2023.03.20.02.33.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 02:33:45 -0700 (PDT)
-Date: Mon, 20 Mar 2023 14:33:43 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sumitra Sharma <sumitraartsy@gmail.com>
-Subject: Re: [PATCH] Staging: greybus: Fix lines ending with '('
-Message-ID: <ZBgod938/PJX1xsE@khadija-virtual-machine>
-References: <20230319164520.GA125117@sumitra.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242471846
+	for <linux-staging@lists.linux.dev>; Mon, 20 Mar 2023 09:47:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 615371F45F;
+	Mon, 20 Mar 2023 09:46:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1679305618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ryJN6nyMsBI4dTDnpcnuwnm2LidX60A3gO/ACot2SjQ=;
+	b=k63Xc4Hx9xOYVz5gvZvRBqRnJv63FVvqaiW30YjFOr4XjNS8ic7bPGlqopdPKFVZN1lVZ6
+	v22yWFcSIOFypEAWV1gzyizUf9W+KkEe4mAW4J/5YxIwmIOTIPN00eZOpoLeYpDkkdGfut
+	JX1z9oghFP9u1CN3qKCMv0MqS1CIk7s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1679305618;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ryJN6nyMsBI4dTDnpcnuwnm2LidX60A3gO/ACot2SjQ=;
+	b=qBjzm9ZRdsqPTtcsIZA8eyakwXRTxC3q3upW9s0YeWgC62Bb/+OtEacEvNkPiSCLbCVLEu
+	NbxylEMfiWA7QwBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0A11A13A00;
+	Mon, 20 Mar 2023 09:46:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id CUgdL5ErGGTtegAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 20 Mar 2023 09:46:57 +0000
+Message-ID: <e881f6d6-0d2b-5775-68f2-35cc4d666d63@suse.de>
+Date: Mon, 20 Mar 2023 10:46:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230319164520.GA125117@sumitra.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
+ devices via aperture helpers
+To: =?UTF-8?Q?Samuel_=c4=8cavoj?= <samuel@cavoj.net>
+Cc: javierm@redhat.com, deller@gmx.de, daniel@ffwll.ch, sam@ravnborg.org,
+ maxime@cerno.tech, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Zack Rusin <zackr@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20220718072322.8927-1-tzimmermann@suse.de>
+ <20220718072322.8927-8-tzimmermann@suse.de>
+ <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xnpeKByV8t1F9ODVmz7UUn99"
 
-On Sun, Mar 19, 2023 at 09:45:20AM -0700, Sumitra Sharma wrote:
-> The coding style used to limit lines to 80 characters,
-> which led to splitting of these function headers into multiple
-> lines and ends the first line with a '('.
-> Such splits causes checks reported by the checkpatch.
-> 
-> Place the function parameters of each function immediately after
-> '(' in a single line to align the function headers.
-> 
-> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
-> ---
->  .../staging/greybus/audio_manager_module.c    | 40 +++++++++----------
->  1 file changed, 18 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-> index 0a0f0a394c84..81b4ba607a0e 100644
-> --- a/drivers/staging/greybus/audio_manager_module.c
-> +++ b/drivers/staging/greybus/audio_manager_module.c
-> @@ -70,9 +70,8 @@ static void gb_audio_module_release(struct kobject *kobj)
->  	kfree(module);
->  }
->  
-> -static ssize_t gb_audio_module_name_show(
-> -	struct gb_audio_manager_module *module,
-> -	struct gb_audio_manager_module_attribute *attr, char *buf)
-> +static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
-> +					 struct gb_audio_manager_module_attribute *attr, char *buf)
->  {
->  	return sprintf(buf, "%s", module->desc.name);
->  }
-> @@ -80,9 +79,8 @@ static ssize_t gb_audio_module_name_show(
->  static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
->  	__ATTR(name, 0664, gb_audio_module_name_show, NULL);
->  
-> -static ssize_t gb_audio_module_vid_show(
-> -	struct gb_audio_manager_module *module,
-> -	struct gb_audio_manager_module_attribute *attr, char *buf)
-> +static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
-> +					struct gb_audio_manager_module_attribute *attr, char *buf)
->  {
->  	return sprintf(buf, "%d", module->desc.vid);
->  }
-> @@ -90,9 +88,8 @@ static ssize_t gb_audio_module_vid_show(
->  static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
->  	__ATTR(vid, 0664, gb_audio_module_vid_show, NULL);
->  
-> -static ssize_t gb_audio_module_pid_show(
-> -	struct gb_audio_manager_module *module,
-> -	struct gb_audio_manager_module_attribute *attr, char *buf)
-> +static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
-> +					struct gb_audio_manager_module_attribute *attr, char *buf)
->  {
->  	return sprintf(buf, "%d", module->desc.pid);
->  }
-> @@ -100,9 +97,9 @@ static ssize_t gb_audio_module_pid_show(
->  static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
->  	__ATTR(pid, 0664, gb_audio_module_pid_show, NULL);
->  
-> -static ssize_t gb_audio_module_intf_id_show(
-> -	struct gb_audio_manager_module *module,
-> -	struct gb_audio_manager_module_attribute *attr, char *buf)
-> +static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *module,
-> +					    struct gb_audio_manager_module_attribute *attr,
-> +					    char *buf)
->  {
->  	return sprintf(buf, "%d", module->desc.intf_id);
->  }
-> @@ -111,9 +108,9 @@ static struct gb_audio_manager_module_attribute
->  					gb_audio_module_intf_id_attribute =
->  	__ATTR(intf_id, 0664, gb_audio_module_intf_id_show, NULL);
->  
-> -static ssize_t gb_audio_module_ip_devices_show(
-> -	struct gb_audio_manager_module *module,
-> -	struct gb_audio_manager_module_attribute *attr, char *buf)
-> +static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *module,
-> +					       struct gb_audio_manager_module_attribute *attr,
-> +					       char *buf)
->  {
->  	return sprintf(buf, "0x%X", module->desc.ip_devices);
->  }
-> @@ -122,9 +119,9 @@ static struct gb_audio_manager_module_attribute
->  					gb_audio_module_ip_devices_attribute =
->  	__ATTR(ip_devices, 0664, gb_audio_module_ip_devices_show, NULL);
->  
-> -static ssize_t gb_audio_module_op_devices_show(
-> -	struct gb_audio_manager_module *module,
-> -	struct gb_audio_manager_module_attribute *attr, char *buf)
-> +static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *module,
-> +					       struct gb_audio_manager_module_attribute *attr,
-> +					       char *buf)
->  {
->  	return sprintf(buf, "0x%X", module->desc.op_devices);
->  }
-> @@ -181,10 +178,9 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
->  	kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
->  }
->  
-> -int gb_audio_manager_module_create(
-> -	struct gb_audio_manager_module **module,
-> -	struct kset *manager_kset,
-> -	int id, struct gb_audio_manager_module_descriptor *desc)
-> +int gb_audio_manager_module_create(struct gb_audio_manager_module **module,
-> +				   struct kset *manager_kset,
-> +				   int id, struct gb_audio_manager_module_descriptor *desc)
->  {
->  	int err;
->  	struct gb_audio_manager_module *m;
-> -- 
-> 2.25.1
-> 
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xnpeKByV8t1F9ODVmz7UUn99
+Content-Type: multipart/mixed; boundary="------------9G0JSQJfuGFGMVTgqrADj50t";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Samuel_=c4=8cavoj?= <samuel@cavoj.net>
+Cc: javierm@redhat.com, deller@gmx.de, daniel@ffwll.ch, sam@ravnborg.org,
+ maxime@cerno.tech, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Zack Rusin <zackr@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+Message-ID: <e881f6d6-0d2b-5775-68f2-35cc4d666d63@suse.de>
+Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
+ devices via aperture helpers
+References: <20220718072322.8927-1-tzimmermann@suse.de>
+ <20220718072322.8927-8-tzimmermann@suse.de>
+ <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
+In-Reply-To: <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
 
-Hi Mentors,
+--------------9G0JSQJfuGFGMVTgqrADj50t
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I came across a same check error in greybus/audio_topology file.
-Would it be okay to send a patch similar to this one?
+SGkNCg0KQW0gMjAuMDMuMjMgdW0gMDI6NDcgc2NocmllYiBTYW11ZWwgxIxhdm9qOg0KPiBI
+aSwNCj4gDQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9hcGVydHVyZS5jIGIvZHJp
+dmVycy92aWRlby9hcGVydHVyZS5jDQo+PiBpbmRleCBmNDJhMGQ4YmMyMTEuLjEwMWUxM2My
+Y2Y0MSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvdmlkZW8vYXBlcnR1cmUuYw0KPj4gKysr
+IGIvZHJpdmVycy92aWRlby9hcGVydHVyZS5jDQo+PiBAQCAtOCw2ICs4LDcgQEANCj4+IMKg
+I2luY2x1ZGUgPGxpbnV4L3BjaS5oPg0KPj4gwqAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1f
+ZGV2aWNlLmg+DQo+PiDCoCNpbmNsdWRlIDxsaW51eC9zbGFiLmg+DQo+PiArI2luY2x1ZGUg
+PGxpbnV4L3N5c2ZiLmg+DQo+PiDCoCNpbmNsdWRlIDxsaW51eC90eXBlcy5oPg0KPj4gwqAj
+aW5jbHVkZSA8bGludXgvdmdhYXJiLmg+DQo+Pg0KPj4gQEAgLTI4Niw3ICsyODcsMjAgQEAg
+aW50IA0KPj4gYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX2RldmljZXMocmVzb3VyY2Vf
+c2l6ZV90IGJhc2UsIA0KPj4gcmVzb3VyY2Vfc2l6ZV90IHNpDQo+PiDCoCNpZiBJU19SRUFD
+SEFCTEUoQ09ORklHX0ZCKQ0KPj4gwqDCoMKgwqAgc3RydWN0IGFwZXJ0dXJlc19zdHJ1Y3Qg
+KmE7DQo+PiDCoMKgwqDCoCBpbnQgcmV0Ow0KPj4gKyNlbmRpZg0KPj4gKw0KPj4gK8KgwqDC
+oCAvKg0KPj4gK8KgwqDCoMKgICogSWYgYSBkcml2ZXIgYXNrZWQgdG8gdW5yZWdpc3RlciBh
+IHBsYXRmb3JtIGRldmljZSByZWdpc3RlcmVkIGJ5DQo+PiArwqDCoMKgwqAgKiBzeXNmYiwg
+dGhlbiBjYW4gYmUgYXNzdW1lZCB0aGF0IHRoaXMgaXMgYSBkcml2ZXIgZm9yIGEgZGlzcGxh
+eQ0KPj4gK8KgwqDCoMKgICogdGhhdCBpcyBzZXQgdXAgYnkgdGhlIHN5c3RlbSBmaXJtd2Fy
+ZSBhbmQgaGFzIGEgZ2VuZXJpYyBkcml2ZXIuDQo+PiArwqDCoMKgwqAgKg0KPj4gK8KgwqDC
+oMKgICogRHJpdmVycyBmb3IgZGV2aWNlcyB0aGF0IGRvbid0IGhhdmUgYSBnZW5lcmljIGRy
+aXZlciB3aWxsIG5ldmVyDQo+PiArwqDCoMKgwqAgKiBhc2sgZm9yIHRoaXMsIHNvIGxldCdz
+IGFzc3VtZSB0aGF0IGEgcmVhbCBkcml2ZXIgZm9yIHRoZSBkaXNwbGF5DQo+PiArwqDCoMKg
+wqAgKiB3YXMgYWxyZWFkeSBwcm9iZWQgYW5kIHByZXZlbnQgc3lzZmIgdG8gcmVnaXN0ZXIg
+ZGV2aWNlcyBsYXRlci4NCj4+ICvCoMKgwqDCoCAqLw0KPj4gK8KgwqDCoCBzeXNmYl9kaXNh
+YmxlKCk7DQo+IA0KPiBUaGlzIGNhbGwgdG8gc3lzZmJfZGlzYWJsZSgpIGhhcyBiZWVuIGNh
+dXNpbmcgdHJvdWJsZSB3aXRoIHJlZ2FyZCB0bw0KPiBWRklPLiBWRklPIGhhcyBiZWVuIGNh
+bGxpbmcgYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9kZXZpY2VzIHRvDQo+IGdl
+dCByaWQgb2YgYW55IGNvbnNvbGUgZHJpdmVycyAoZDE3Mzc4MDYyMDc5MmMpIHVzaW5nIHRo
+ZSBkZXZpY2UgaW4NCj4gcXVlc3Rpb24sIGJ1dCBub3cgZXZlbiB1bnJlbGF0ZWQgZHJpdmVy
+cyBhcmUgZ2V0dGluZyBraWxsZWQuIEV4YW1wbGUNCj4gc2l0dWF0aW9uOg0KDQpXaGljaCBk
+cml2ZXJzIGRvIHlvdSB1c2U/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IE1h
+Y2hpbmUgaGFzIHR3byBHUFVzIGFuZCB1c2VzIGVmaWZiIGZvciB0aGUgY29uc29sZS4gRWZp
+ZmIgcmVnaXN0ZXJzDQo+IHdpdGggdGhlIGFwZXJ0dXJlIHN5c3RlbSB0aGUgZWZpIGZyYW1l
+YnVmZmVyIHJlZ2lvbiwgd2hpY2ggaXMgY292ZXJlZA0KPiBieSBhIEJBUiByZXNvdXJjZSBv
+ZiBHUFUgMS4gVkZJTyBncmFicyBHUFUgMiBhbmQgY2FsbHMNCj4gYXBlcnR1cmVfcmVtb3Zl
+X2NvbmZsaWN0aW5nX3BjaV9kZXZpY2VzKEdQVSAyKS4gR1BVIDIgaGFzIG5vIG92ZXJsYXAN
+Cj4gd2l0aCB0aGUgZWZpZmIgb24gR1BVMSBidXQgdGhlIGVmaWZiIGlzIGtpbGxlZCByZWdh
+cmRsZXNzIGR1ZSB0bw0KPiB0aGUgdW5jb25kaXRpb25hbCBjYWxsIHRvIHN5c2ZiX2Rpc2Fi
+bGUoKS4gVGhlIGNvbnNvbGUgc3dpdGNoZXMNCj4gdG8gZHVtbXkgYW5kIGxvY2tzIHVwIGZy
+b20gdGhlIHVzZXIgcGVyc3BlY3RpdmUuDQo+IFRoaXMgc2VlbXMgdW5uZWNlc3NhcnksIGFz
+IHRoZSBkZXZpY2UgaXMgdW5yZWxhdGVkLg0KPiANCj4gSSBkbyBub3QgcXVpdGUgdW5kZXJz
+dGFuZCB0aGUgY29tbWVudCBqdXN0aWZ5aW5nIHRoZSBjYWxsLg0KPiANCj4gU29tZSBkaXNj
+dXNzaW9ucyB3aXRoIHdvcmthcm91bmRzOg0KPiBodHRwczovL29sZC5yZWRkaXQuY29tL3Iv
+VkZJTy9jb21tZW50cy8xMXFlaTR0L2ZyYW1lYnVmZmVyX2RvZXNudF93b3JrX2FueW1vcmVf
+YWZ0ZXJfcGFzc3Rocm91Z2gvDQo+IGh0dHBzOi8vYmJzLmFyY2hsaW51eC5vcmcvdmlld3Rv
+cGljLnBocD9pZD0yODA1MTINCj4gDQo+IA0KPiBUaGFua3MsDQo+IFNhbXVlbA0KDQotLSAN
+ClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNv
+ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
+vHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0
+c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Regards,
-Khadija
+--------------9G0JSQJfuGFGMVTgqrADj50t--
 
+--------------xnpeKByV8t1F9ODVmz7UUn99
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQYK5AFAwAAAAAACgkQlh/E3EQov+Dv
+qBAA0BnqOu5qzZgy3VMJzoT18J6zhO54Lv9mrJExurzfsW14ZlSJFnBTz3uDs51CGvnuiAdoPfwY
+VTtvLkII3LguqIlXEZ9eiCEGHzrvO5lKKlnnG0B5KYH3Z+AQK+I5Yf0X2fUPzNugwEHj5rBa1uH0
+CuJShCC/HJ6gvET11NjqvykHZuSgSqCtewk3rwims3xHeHjFgMIqNIKSQnuNNBrCg0RW1LzHosan
+SHCqSjf1GwYOO0sQYgsarBnxZy7Yd19tXQ28oteBh3TNCayr4fSYF/5jg9IqU8203uap4KMi29oz
+vPRnydDTr3p+7knjeEHg7FSAyCMBFNyveAD7fGXihdWknJBE54iy07JXOMVEAuV3vJgh9jc3RbxC
+6SxIsNHgp3zTUsmsvR+kCLQln/QHMq7mNLdsBKRV0IcNnNadHs3EBwtO5mjotJA25dJODDeXpr4j
+rJTc/SP1CUq57JgJUJh5YbuU+Ay+Csz9o5jgNUJVCL/IXBreCgd/MjKD+ou/hA8Y97EKHzXhc8So
+Fn2qS5LrvbeI5qZeFVAeQIHG3rij5zGG8Yec+6PHQsIYCcZxNixGOzmLwqQcdVHvbp7e4/mFvQ4B
+tbljPK5OBHPR8QgnAL4yEyzTljb5fjmoHfRg08ztdqIvf8BtWPKq7NlEDgZ1wxa9Iwt09LMTqy1c
+lBM=
+=FLCc
+-----END PGP SIGNATURE-----
+
+--------------xnpeKByV8t1F9ODVmz7UUn99--
