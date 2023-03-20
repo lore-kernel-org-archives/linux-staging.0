@@ -1,26 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AC41C32;
-	Mon, 20 Mar 2023 15:42:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 812EEC433D2;
-	Mon, 20 Mar 2023 15:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893071C32;
+	Mon, 20 Mar 2023 15:44:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D42DBC4339B;
+	Mon, 20 Mar 2023 15:44:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679326949;
-	bh=AZDfh3YjXnOORQifCX1A9Zi+Ke86D7+DHnwmz7SWMkM=;
+	s=korg; t=1679327078;
+	bh=jVotV7PCuo3EryZ0m72dclvZaKdhsKt6vWYQUGWl+Rg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LxFKTA9DCJ68FwMFyvHkg89kkx9iXcciTs2Dj8rU/ApvVRfQ/1gNcRlEm4XgNpaVD
-	 rRBgOobGURRC+59mb6mfS19ydozuTpxQ1q+ZRTnM9M/DClRzEpjFf6KEYXtA7MHAiI
-	 c2GLBSW6W1a+tQjCxtX8ZeqQvVDzGbVGYida0RNk=
-Date: Mon, 20 Mar 2023 16:42:21 +0100
+	b=lIErnD8Dlq7lahLhcQ2DSNbfuMCt3VOzs/F1c769vyiZeqQLydKac4C1Gv/jKwmHF
+	 9gx6TyrE5SWEx9mJumQM9lMc/gatI5rUOBN0rEbwwRje1Q9o/JGq0h+z0R3ZYp39C2
+	 ulsWZO+N4uLWS1inS5KdJg96dWWfP0MeLBLNNGyY=
+Date: Mon, 20 Mar 2023 16:44:35 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-Cc: outreachy@lists.linux.dev, johan@kernel.org, elder@kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v3] staging: greybus: use inline function for macros
-Message-ID: <ZBh+3W4eTL9IMW3n@kroah.com>
-References: <20230320103258.6461-1-eng.mennamahmoud.mm@gmail.com>
+Cc: outreachy@lists.linux.dev, parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com, drv@mailo.com, dave@stgolabs.net,
+	yang.lee@linux.alibaba.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH] staging: most:  use inline functions for iface_to_hdm
+Message-ID: <ZBh/Yw49fubf1GDb@kroah.com>
+References: <20230320103335.6479-1-eng.mennamahmoud.mm@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,15 +30,13 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230320103258.6461-1-eng.mennamahmoud.mm@gmail.com>
+In-Reply-To: <20230320103335.6479-1-eng.mennamahmoud.mm@gmail.com>
 
-On Mon, Mar 20, 2023 at 12:32:58PM +0200, Menna Mahmoud wrote:
-> Convert `to_gbphy_dev` and `to_gbphy_driver` macros into a
-> static inline function.
-> 
+On Mon, Mar 20, 2023 at 12:33:35PM +0200, Menna Mahmoud wrote:
+> Convert `iface_to_hdm` macro into a static inline function.
 > it is not great to have macro that use `container_of` macro,
-> because from looking at the definition one cannot tell what type
-> it applies to.
+> because from looking at the definition one cannot tell
+> what type it applies to.
 > 
 > One can get the same benefit from an efficiency point of view
 > by making an inline function.
@@ -45,18 +44,12 @@ On Mon, Mar 20, 2023 at 12:32:58PM +0200, Menna Mahmoud wrote:
 > Suggested-by: Julia Lawall <julia.lawall@inria.fr>
 > Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
 > ---
-> change in v2:
-> 	remove newlines added in previous patch.
-> 
-> change in v3:
-> 	fix the patch to be against Greg's tree.
+>  drivers/staging/most/dim2/dim2.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-I am lost in a twisty maze of patches from you for the greybus code that
-all seem alike but are different :(
+Your subject line has a "  " when it should have just a " " :(
 
-Can you send a patch series of the latest changes you have made, as I
-really don't know what is, and is not, the latest versions at all, so
-I'm going to have to drop them all from my review queue right now.
+Please fix up and send a v2.
 
 thanks,
 
