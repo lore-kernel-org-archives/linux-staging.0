@@ -1,82 +1,84 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA4C8477;
-	Mon, 20 Mar 2023 21:04:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FCE8477;
+	Mon, 20 Mar 2023 21:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679346259; x=1710882259;
+  t=1679346650; x=1710882650;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=k1kEEYzxcteur9FhqFxW6TSpgrf0rK0Y3YruqmLPAPo=;
-  b=IsNmxM7mEFP9VbRnOY9/syZl/aJm3PHtFi8TTzuvOBH3QpWVHrGMgXxg
-   h83eALbTuZU8ceLcJy6Xu4pVVWKMKlqFBQBTuLJAHlDSnLkQvQlQcqCvA
-   s1KWuSQowzd8CJ4PwS97QN0265fmgvguRFovNnyhiJOepatcClbD96Ehh
-   UWujJp4CECR8g2QymllLbSJzDW0zqrnYLPTa+KayC44Iaue2KTlKpZrkP
-   br9G8JSkyZOFcKgMG7tBceq0qA4xf6Z9ryEjJd9WOKLaRAfHYYSQPRdtW
-   2JVkL7Ma5J29lFowx7P9bLaLY6o3rubsxPlui8b8tVN+soXk/78CWeQQG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322620443"
+  bh=AuyMGEn/LKntExlz0/427+egqC/JX2IpiKTx9tqg5+A=;
+  b=ZStj8KGWdv4/L8XU1A8kgmetrZmzOHBk5CZGH/B43gh4P2wab2ZAx7Z6
+   OL1kOSzwL4W+Q+OUnCU456rAwjYPtB0q+4AYWLJ9kk4NirBi5D5H+08Yi
+   v/2PYqHtfAOSo3k5qrB6FeN3P7p0qoTUlvNJlxBcfsJgFf26FgZt6lIPE
+   6Y5q9sqUfE1dPJjLfTS++GyzwE1NJ6fsk4IiURrPbwlXxYvwQJPPAkuvH
+   UwuI3ngkxDgPdDyKPOzwNpqR8YDQBMfhoMxsn6A690rQBDV5BslKG1Oei
+   G6Zy6t0uXUtQLvUPx3ZovTRD3Bn8bEUWJeaweBV+EZRD4is9JTSaNJMCw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322622738"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="322620443"
+   d="scan'208";a="322622738"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 14:04:14 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 14:10:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="713696581"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="713700539"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="713696581"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga001.jf.intel.com with ESMTP; 20 Mar 2023 14:04:11 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+   d="scan'208";a="713700539"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga001.jf.intel.com with ESMTP; 20 Mar 2023 14:10:39 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 20 Mar 2023 14:04:11 -0700
+ 15.1.2507.21; Mon, 20 Mar 2023 14:10:38 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Mon, 20 Mar 2023 14:04:11 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
+ 15.1.2507.21 via Frontend Transport; Mon, 20 Mar 2023 14:10:38 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
  by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Mon, 20 Mar 2023 14:04:10 -0700
+ 15.1.2507.21; Mon, 20 Mar 2023 14:10:38 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f3dgxdIza/qLgyUPhz152X1BvhUPYHbh2sPtto9sQXY9EL8NdUSU6Jis5cORbr8ZcsELDPkyNu5YNjz/JrfB0UQP7R+81jKKnJTdCkzipyXt50tZB6cet/YQnmqvAsRCNXpB0EQmOJ4rdFLo8eRpQWCWD56ugJ57tqwSfkH277hJJT22Su30L1P8c74wls72cxMup1+4ArAQ+q8FTsBLLhg5CMjrBFEpxSY4apaPvgpdlvK5etX3PGPqXuJX5oMwMtxesF5Ht2R7mwDD0qBqG04dMXg+e61TfsGZd4gLmy3Xsho3I3Il7emtKfn3PHKXSlW4JerDGxetQOkxT70KPg==
+ b=bG3DD7kOYlV33ZHMNrX2zI/jiDv8tPSoswpmZm/Q1E7a19J47mlo88Shz0bkjPY77wpGajZJuHy9NsaQZl+kGiQ0NgFLrrv1aaQyMUHDk2arE0AS9wSSAaD5FJfDoe+KGCh8IE2Esg+hK0Ruou3BfZ87x/MnHDkahrJrfCCWZLGnGwEBuhK7FEvGPXDB/+vLfDkFsQLF+Ejn3SIxKnIMLgv0KRe83SKIALCf9cP/wdbIG/Yat8kg+6th87/mv8h/eaGFqmI/G7CphPcP4dKXXkkM0IvqUgVH14Q0E87+BACJmtci/Psmki0576yFtNrzqn9Gw7nsjBDl7K6PfMiI6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l+p1WKd8GTL79muxvehl/06LvuOS7QKuxvexv9Lb51o=;
- b=FHwhmV0MPrhvCEZOrRL6XCyEZ44lCMZlS99mnRTbiVaaIXAGB3G58P6p6GNOHUmoETbm+p2cSNKMsLp5m4fVBaQCDqWtH2mXwdL3/htOvTdn5T7qO6kDnP74SCYm7xfA94Jbt48EwSutpUFSSIkbCnBvTcjWa8rdxkNXXYxXBtkUZC6jiugPL1lDIbvS48En/WU6t72w8SP1lAEa+pdgJ/g1oUINXRdvv8ZPlu0nUWCWg3h4nCCiNJKmQK3r9N8hYUeJtupJ84yAnDy6w/Kz7F0Dr4G8fbfaCUsuUxrHcWFj0DJeiOzJZ2251W2IFv53FC+YeUTPXcqmIxoQLLQefA==
+ bh=1Gx2OtRiBM6yV0RuQx6owqSVBgTO+e32MPWCK/Qo1H4=;
+ b=GiOhAKoeOWLbQ7i6yrGKYVAE2eIXBNb+AWzzXMIt/7moEiIG4Oh/27g6k0yuZhsQlXF0b6HfmSUE/TFJQTzrfhk/QzwruhnVbkWCJcPoW8v1BUWmHZmzsBx3r78ma9uj6qbVI+zlz2Pxv+c9x+fSDBdLG6cghtQi/vP9by+WnE94I38SQr2OqYAp1S5qpgjTJXcTiXyB8X9AQM1DDmKQW1mPMlMj7deYwt7T455C0okrhQ6pWyilEoVbzVAlLEktJuvFTFqzs+0k2byQkII+gQeDd42VamGcau1iOiy4tEbe2UmtqBgs48mYQDXOunh2tjzVbkwvbK8GN3QsYZ6N2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by DM4PR11MB5454.namprd11.prod.outlook.com (2603:10b6:5:399::22) with
+ by SJ0PR11MB5008.namprd11.prod.outlook.com (2603:10b6:a03:2d5::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 20 Mar
- 2023 21:04:08 +0000
+ 2023 21:10:37 +0000
 Received: from SA1PR11MB6733.namprd11.prod.outlook.com
  ([fe80::84dd:d3f2:6d99:d7ff]) by SA1PR11MB6733.namprd11.prod.outlook.com
  ([fe80::84dd:d3f2:6d99:d7ff%7]) with mapi id 15.20.6178.037; Mon, 20 Mar 2023
- 21:04:08 +0000
-Date: Mon, 20 Mar 2023 14:04:03 -0700
+ 21:10:36 +0000
+Date: Mon, 20 Mar 2023 14:10:33 -0700
 From: Ira Weiny <ira.weiny@intel.com>
-To: Dan Carpenter <error27@gmail.com>, Kloudifold <cloudifold.3125@gmail.com>
-CC: <outreachy@lists.linux.dev>, <teddy.wang@siliconmotion.com>,
-	<sudipm.mukherjee@gmail.com>, <gregkh@linuxfoundation.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<alison.schofield@intel.com>
-Subject: Re: [PATCH v3] staging: sm750: Rename sm750_hw_cursor_* functions to
- snake_case
-Message-ID: <6418ca43e651b_2c274e294ae@iweiny-mobl.notmuch>
-References: <ZBW+NX4SLaCyEnJd@CloudiRingWorld>
- <dd1e1fcc-2a4e-438f-ad61-ef7640b8e423@kili.mountain>
+To: Sumitra Sharma <sumitraartsy@gmail.com>, Julia Lawall
+	<julia.lawall@inria.fr>
+CC: Marc Dietrich <marvin24@gmx.de>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, <ac100@lists.launchpad.net>,
+	<linux-tegra@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <outreachy@lists.linux.dev>
+Subject: Re: [PATCH] Staging: nvec: Change container_of macro to an inline
+ function.
+Message-ID: <6418cbc98b225_2c274e29437@iweiny-mobl.notmuch>
+References: <20230318170514.GA49181@sumitra.com>
+ <alpine.DEB.2.22.394.2303181811260.2914@hadrien>
+ <20230318175532.GA49651@sumitra.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <dd1e1fcc-2a4e-438f-ad61-ef7640b8e423@kili.mountain>
-X-ClientProxiedBy: SJ0PR13CA0240.namprd13.prod.outlook.com
- (2603:10b6:a03:2c1::35) To SA1PR11MB6733.namprd11.prod.outlook.com
+In-Reply-To: <20230318175532.GA49651@sumitra.com>
+X-ClientProxiedBy: BY3PR10CA0016.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::21) To SA1PR11MB6733.namprd11.prod.outlook.com
  (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -85,301 +87,86 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|DM4PR11MB5454:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91ee47b5-0719-4f2b-bb54-08db2986a58d
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SJ0PR11MB5008:EE_
+X-MS-Office365-Filtering-Correlation-Id: 922ee535-0183-4c33-8ecc-08db29878cf4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QTYpBs6zYzqlKB/D17amPNnz3pEym9QlQqkn74GXVkQI6nfBNSn3JTEwKZ9tEH6jWNL9hzzHJgLAjL5Vm2s+BAFln1KL2PWMGFPz15n1lWkmDs9Oxntif8ePunANKvx3WpSnrNd1fsuw0if88KSSwDIGNB6iSbBPirDhPCBItVEQGA4sFK6BoXZ2kbg3j6G1N6NEx02G10Cgk8jQA4wsT+hTYwxhmO6Uzab6oCcflFnYOAaDbFETcU4kOBb6EFwBIYTMK23+gAC9X4xBIghiw9dWWJDAuIw9bAr1AFb7rkwtPjf/qpxYXQ5O6lST7cL3gWruQQrFULtOCFHjcrI5hKTr6PSlxEwNAxDrCinK/4G6Yfgp3/pZGpWTWg4x1VZAyD7aff0lC1kQMZlP6qN8K0qObqA2lJiVcHSxQeNccbQQXrScW01N7nCPIrU2ejd/aOf/RHVwU2P4Nc5GnJCRuSNFmn+uBugChjsjR+JT9jWZwXA2XhWJ3DPiCXzKzdMZK5D9iYOGDYDkeKUxGush8H/fsSjUzyv37NC9MrAQ1c0uZPQSWESnD3gCmfAc7kIV9G0Udf5296+E4FWO/9effK4Gb6vm0yTWy9svwJIJvaTree++6L5GWCq5CD2nVuyY
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(39860400002)(366004)(376002)(346002)(136003)(451199018)(66556008)(6506007)(26005)(6512007)(110136005)(107886003)(9686003)(966005)(6486002)(6666004)(8676002)(4326008)(83380400001)(316002)(66476007)(66946007)(478600001)(186003)(5660300002)(8936002)(82960400001)(44832011)(2906002)(41300700001)(38100700002)(86362001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: Vg3/PvN0pqqNhrGNWExwiFjcv9rRV0n3lD51lq/X0/i8vnTRP4nwqWb81n1a7QAy9xFuIIvnFzBK0PEFBWtlibQxUYw1N3oyRV9dCHwnNdGSN5BseX3CXkcmbvgz0sHBwnTpD5kkRNHR4kLannJxyKOcCdKgqF5bN1x3m428s+bEZz+0Z7LIx8Xkoq35fg7RnPTjdWvkCvqoy+DcbeaRu1z7djgkNre7BnEJaR/4r1SdkYYmrGBoW/f4zB2PkVAhxuE4hCScYEaZYGjaZgvTKmMlABlyhqp88fCIyq/JNKfFe53iA295jdLDkXaZom0FjfKiRi6zuI/75pdyFQtm+G1DVeG135QN4SyfsS2+AGx0/A+qGSAcb9/3ajpo7gfw4LoGzCUsR2VBDREA0EoxGUQ8oLR6bnYKdM0ExxRdcQezGE8LqG+ARBsA17WfBvHhR8PPdyNsFE31TngscyPEQCFH1su5IeT6+AsgKuZsdtsZRJMlsQaYxvoQPZYRMSl9gMndeDmLqnGB4+QwVjPbypYvhI9DN1uBXFqKBUDDSJd6IKTr5KCGTlcM2moytKI80EKn2mPNYoSEjBiF/yruDhAsYv3tdLpwWYgVXT6t8U7cU3ZOsgFXicjMSpab/BTqyVp1lYTUxhudq8kbT8ZEZg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(346002)(136003)(366004)(39860400002)(376002)(451199018)(41300700001)(186003)(6486002)(4326008)(6666004)(478600001)(83380400001)(8676002)(316002)(110136005)(66476007)(66556008)(66946007)(6506007)(26005)(6512007)(9686003)(54906003)(44832011)(8936002)(5660300002)(38100700002)(82960400001)(2906002)(86362001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+YZmdrmyii05KoaUX1WwE4R857dEI17FAXqjR/3xP4gFsTV1ssU67/8jTM1v?=
- =?us-ascii?Q?2Bo1bJl8ursHSEXr/UFO6zuU/ActjHbLIvsXl1H6ksQxq83o8CEzaEtg9FJd?=
- =?us-ascii?Q?EQ2wY4KlOZMafnFoRruSynyjKGPdtf0O3Ku9AFpj5vt2t0VyT5JvmynaOvsA?=
- =?us-ascii?Q?v/oZViv3xbYGGsKXYWS/s0S0x97hkC2gG8tn31qB4LTxAcNPHZ910Uzwaf9R?=
- =?us-ascii?Q?xrPGpbCRsZqOgt9E9iK2f3WJaYB65xvFjzSH7VcKtJGYsN3IUdAyVlwOJQYM?=
- =?us-ascii?Q?QLh3y/YR46S+4ViQKKZ3IYx723DHum5IxmReAOoANceo5WZPEaVkrc8euudm?=
- =?us-ascii?Q?84pMF4xRVUWjQoAvbagkbuwSUALeYOOnmxbIF5d28VelQ/YQOmQQC+wNrstG?=
- =?us-ascii?Q?JmjUH5zk5/MUHg7+Zs5uEoHBTdOgZfm1/bLWs+OR0UXF5m+xlkJyl0wspnDl?=
- =?us-ascii?Q?426nDyc2vTJYbugts7pAPcsdJ2h/fPAGYC6o4NxeSf74fJZ1m1iXRhmE+Iq8?=
- =?us-ascii?Q?BiVfoCVD9aqG9mSE9iGH0gk+1qKF1bHH7zjrylDoeCgu1jvODY/Ae9VWkWyg?=
- =?us-ascii?Q?zfSozZ9YPZq81n12T3juy+UoUp4ct3S87VywAL3SyDbALKIvDrUjgoEQhdq6?=
- =?us-ascii?Q?L4M9s9CEVonkEiWOVtnahg7Yu0q5pEN6twAlo5/5lHXelwNpHVQPy9LmwaDz?=
- =?us-ascii?Q?mzsXdq4eSh/SKm8Z3paGnV73XTy4e7K/p2LHIX1S/crpAzWgA+xl8cbGQsew?=
- =?us-ascii?Q?fZHg/l6y86UyUEkZmmvh7mdLe0eAbd+1nmEFJXLTG106lvTbUXQn8wrAMs65?=
- =?us-ascii?Q?RXlON5Q6K45qpcps+NXcqdGgk/LeIY3E5CIOqfVMsYLdgsUEJknIiarFnG2z?=
- =?us-ascii?Q?VKqfQmsLQCkbKArpual2SC9sA00SBi0dE1tS5xRYyMLNct0K0Pr3rjDrePLf?=
- =?us-ascii?Q?zijyQs5HTeSMHRY4LDGoALWUhqS8UwrBfGdIctIICwnSvFls9z5j0A/Q0ouM?=
- =?us-ascii?Q?i+ZUFdbUfRi2qQ3xeshEr9xVNv1cSr5K1+gPcfbArs6CUScfHtQcJd/gXW4D?=
- =?us-ascii?Q?1iMSdrQ0McTWkuig+jinakqkI6BOyzHh8fXvqg9EsF1OInWx6vIy7U1aAI5R?=
- =?us-ascii?Q?XGaxiZ/kwCzuY5XVK4PESlS/+4mo5Z3iahH8joaR4LF++DwAgEkQNsNl1FsA?=
- =?us-ascii?Q?840fu0z+Xfb1sJygwcn0fnuqh1EamMZYeF69c7ugWDZa1i4pzv+eo6h0Qnv5?=
- =?us-ascii?Q?0ehqLSxIZo0PlL7Tfl2/yNOyXMvqIOdDY6zoQ7tAQO/DOuvEuU32drnjZaeU?=
- =?us-ascii?Q?2Jfg4kmUDQXjEb7IGtBWAq91syjoCYLImMZ9SvIwXs2efFbqNFyeYVKYwgHn?=
- =?us-ascii?Q?4bMEkx0zX5YZk2W+6FOeD9WEtcPN6lsJSoTm7IJEvjQ1bO+0m9Nx9Jj4ne6J?=
- =?us-ascii?Q?D/Ys+y9bVfSkVL9H1Uyi3230MTeVw8FcPhLPPXsTeWlmRmkIIU+WKYUcWEAD?=
- =?us-ascii?Q?zAGI75f6G+muc9rL8V/1JqgVOCCXAg8mV5vRQ2fiiLO5dmppcG86NANERSVx?=
- =?us-ascii?Q?5Dqd4x1Buu/e4VgW9BNZwc3b6JoMWJlNFUHuCEWG?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91ee47b5-0719-4f2b-bb54-08db2986a58d
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6ck2RHVD/PgyBcaJOw9tnWUCJk7LHLFP1E0kAzgeNeWYk16CeIgiyi+JxhlC?=
+ =?us-ascii?Q?4CFkWlNZbbHFw+ccdBkMkWRDsVSVjW7B2mWIaXw7KyvFr0T5T22kpVJ+6ucz?=
+ =?us-ascii?Q?ZFw82oIOfyg8NxDZoZCj55YEkQU7tl+vRrWr5dsGF2rK1xfprhRSjDcF9Z+M?=
+ =?us-ascii?Q?s0sp/Kj/1aIfDfBIum+21FIFRLN+ENCTEFs/JXvGqpz9VWk+V788TussrXm9?=
+ =?us-ascii?Q?K73QDNYlOw745qiupny6ukyOK/rN2yzyNeP4jZv48UFIZuYKL3sxnn1RnOy+?=
+ =?us-ascii?Q?194/y4sTOZBeQX51WvYsBimgqy5wORq1i2n1tqozSckOXVexVmBRqf21msQj?=
+ =?us-ascii?Q?We1OGq076Lp1IlDYlYZXvr9t13Kr1/1zDlXOaY/aWb5jgjxqyIDB2mx8C1Oe?=
+ =?us-ascii?Q?7dj2GKyAGyrshXP99qrAsILwLA1Qkx9r13j0jtD6+uQXzCtZBdYcRWVVonYV?=
+ =?us-ascii?Q?xu0w9HmLHlS0d2Y9i5zAMoTctAA+fAPPvSV5PpSOj8ZMId/ON+QKxLSkTIxF?=
+ =?us-ascii?Q?Ke+TLoxWDmyeUZIRqDi7VyjW6RwwjnTrRsNTvoJoHSghF+e/l1qsPMSuowvo?=
+ =?us-ascii?Q?DhBl6hW1J22bRIUXuPExsmNwfNejX06c6h5UcAqTmOyuY2+TLBmnEJZEJu/Y?=
+ =?us-ascii?Q?yJ6L2u5ll/bqMTqsB+ZT8JTx0lrTyiiPcxl8Z3jvG+5kgKyplt+NmO8vpFMa?=
+ =?us-ascii?Q?pQ9OjAGivPNF7LYAIfM53H++ZMXscpFn4N7X06LUqwpiFgfcaX33GnNlAqRO?=
+ =?us-ascii?Q?+MsBnEOIj1VD9D2j8UKW2HijEw4XPQvIS8jSzVU3qjxVCjMMQ8gbfEMtvi5r?=
+ =?us-ascii?Q?Hncixlczr0KOlxDiS9poA3sIBVMrZlZGrpQoYiwpVQiFSTMqABxSG5EtCToF?=
+ =?us-ascii?Q?D1GUIxru8zbawxEeYobjGzMFBrTxmheTor4l39gXV/mc9YqPz7bcASp6nNaT?=
+ =?us-ascii?Q?DtTisiMQwNVB1BaXpC6ZVSlbq+8teekxp4hZNwdtyWUXOUMwP/CDBqjMRvxS?=
+ =?us-ascii?Q?49Iy11r7VUNi5XnMLi42l0C1drY8xzvpcm7HP1ByX6n+XsfGIGlKgw0ug/od?=
+ =?us-ascii?Q?/jlG6/bEOEpPrxBwn+QG0gm7tYT1hsM5HHjWR5B0xkMUix7vMhAg8wHYLu98?=
+ =?us-ascii?Q?a3CtYErRtEDdDCVPQfwqBn58lkdSG0IRzAsl8xQ7kiXhd2UxqdEt6axBg8ES?=
+ =?us-ascii?Q?0V5Es61144KorwIZECUuW5ubF00frkjgFQNO9c4NKUg2lu4m6/IwThQcjlaK?=
+ =?us-ascii?Q?bppCvMP0m3jDXppOYQjJkdUVIW/LjcfKPdv/JP2jp9r3lUVC5sfDv9JSlqXP?=
+ =?us-ascii?Q?AyujL75XhtL1rZC/lX1U/HSjXE1PYcW4gpp2mYzCnNqHlWkmAkTp467dqBaf?=
+ =?us-ascii?Q?hUlyxn9DxjQQleXLZVN/KtkveKvFuG3rCNUDFko+Ye78Aerf/nm1Reuzffb2?=
+ =?us-ascii?Q?FYBtgu6x/zJeIAv/vL2w385XT8NkeK3jcCIXl3hK0+03Ny0RCKmhtp1Pg5ra?=
+ =?us-ascii?Q?Ii0iiUGefQn/0shC9qWPSO4hW4U62Z9yB3kXbsXyLfM+tM1hy7DUsY5b0ShR?=
+ =?us-ascii?Q?I8x4XrfsOOha9vNxlArQFrgrjEDf88kq0SzX7iI8?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 922ee535-0183-4c33-8ecc-08db29878cf4
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 21:04:08.6686
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 21:10:36.7887
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CLh1y+/bAJA/8jIwOTzvUNh2+5dRrgdt9mHhYjHsR4b9s3oFFcbk1st6HDR4nqgoX2soNtFKrLP5yMEgfTTQxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5454
+X-MS-Exchange-CrossTenant-UserPrincipalName: dheW8l1OKb4EiKuIQ7GM+BQFBsk2MDqIpCECqijLc0wYim1jiXsM6HWMXvkUjG1tbQePzyKefevhJbuIUq8eWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5008
 X-OriginatorOrg: intel.com
 
-Dan Carpenter wrote:
-> On Sat, Mar 18, 2023 at 09:35:49PM +0800, Kloudifold wrote:
-
-[...]
-
-> 
-> > ---
-> > Changes in v3:
-> > - Add this changelog (Philipp)
-> > - Move lkp tags and link to the correct location in commit log (Alison)
-> > - Update the commit msg (Philip)
-> > - Update the commit log (Bagas, Julia)
+Sumitra Sharma wrote:
+> On Sat, Mar 18, 2023 at 06:14:50PM +0100, Julia Lawall wrote:
 > > 
-> > Changes in v2:
-> > - Use new function names in call sites (LKP)
 > > 
-> > This v2 patch was prompted by an error reported by the Linux test
-> > robot, which detected the compile error.
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
-> > ---
-> > ---
+> > On Sat, 18 Mar 2023, Sumitra Sharma wrote:
+> > 
+> > > The macro has the drawback that one cannot determine
+> > > what type it applies to by looking at the definition.
+> > > Hence this macro definition is not type-safe.
+> > >
+> > > The inline function gives the same benefits as the
+> > > macro and only accepts the specific type of arguments.
+> > > Use static because the definition only requires it to be
+> > > visible in the current file.
+> > 
+> > Sumitra,
+> > 
+> > The subject line and log message could be a little less generic.  For the
+> > subject line, one has the impression that you are changing the definition
+> > of container_of itself.
+> > 
+> > The log message is also a bit wordy.  Something like the following would
+> > be more concise and still present the issue:
+> >
 > 
-> Delete these two --- lines.
-> 
+> Okay. I will focus more on writing better patch subject and description.
 
-Yes the 2 --- lines are not needed but...
+Sumitra,
 
-I'd like to clarify because I think some of the tools insert these
-automatically.  I've included a bunch of examples below and the patches they
-generate as examples.  Please follow along if you are not sure what I mean.
+I can't tell for sure via email if you are getting discouraged.  But if you are
+don't feel bad.  Writing good commit messages is hard.
 
-To summarize you should only insert 1 '---' line in your manually created
-commit message.  Do not add one to the cover letter either.  Any other lines
-which are created by the tools are fine.  Just leave them.
-
-So for this example...
-
-_This_ is _wrong_[1]
-
-_This_ is _correct_[2]
-
-The correct example [2] results in a patch like [3].
-
-But notice how B4 has added my 'cover' into the single patch, patch?  And it
-has a bunch of '---' lines?
-
-
-Specifically:
-
-<quote>
----
-Nothing really to be said here.  This would be a cover letter if the
-patch series had more than 1 patch in it...
----
-Changes in v2:
-        show version info example.
----
-</quote>
-
-
-This is because b4 defaults to using the cover letter as part of the single
-patch background information.  When using b4 to send a single patch I leave my
-cover letter blank.
-
-
-So if you leave the b4 cover letter blank[4] you get a correctly formatted
-patch as in [5].
-
-But _please_ _note_ that there are still 3 '---' lines in the final patch
-output.  2 of which are around the changes section.  The following quote is
-perfectly fine.
-
-
-<quote>
----
-Changes in v2:
-        show version info example.
----
-</quote>
-
-I hope this helps clarify because I'm worried that folks may be trying to edit
-the emails that the tools are generating and I don't think that is required.
+That said, I see a couple of build errors from 0day on this patch.  Do use the
+tools to correct things like that before submitting.
 
 Ira
-
-
-
-[1]
-13:39:43 > git sh
-commit b513858163640433f7938ff93848a5af1e675383 (HEAD -> b4/outreachy-demo)
-Author: Ira Weiny <ira.weiny@intel.com>
-Date:   Mon Mar 20 13:14:51 2023 -0700
-
-    Documentation: Example staging doc change
-    
-    Update the documentation with an example showing how to update the
-    documentation.
-    
-    Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-    
-    ---
-    Changes in v2:
-            show version info example.
-    ---
-
-diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-index ded8254bc0d7..2de034ddd059 100644
---- a/Documentation/staging/index.rst
-+++ b/Documentation/staging/index.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+Fixing staging documentation somehow.
-+
- Unsorted Documentation
- ======================
- 
-
-
-
-[2]
-13:41:03 > git sh
-commit 352cbf83a2da890ba974c043ae6047a625210ea2 (HEAD -> b4/outreachy-demo)
-Author: Ira Weiny <ira.weiny@intel.com>
-Date:   Mon Mar 20 13:14:51 2023 -0700
-
-    Documentation: Example staging doc change
-    
-    Update the documentation with an example showing how to update the
-    documentation.
-    
-    Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-    ---
-    Changes in v2:
-            show version info example.
-
-diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-index ded8254bc0d7..2de034ddd059 100644
---- a/Documentation/staging/index.rst
-+++ b/Documentation/staging/index.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+Fixing staging documentation somehow.
-+
- Unsorted Documentation
- ======================
- 
-
-
-[3]
-<email headers>
-...
-Subject: [PATCH] Documentation: Example staging doc change
-...
-</email headers>
-
-Update the documentation with an example showing how to update the
-documentation.
-
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
----
-Nothing really to be said here.  This would be a cover letter if the
-patch series had more than 1 patch in it...
----
-Changes in v2:
-        show version info example.
----
- Documentation/staging/index.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-index ded8254bc0d7..2de034ddd059 100644
---- a/Documentation/staging/index.rst
-+++ b/Documentation/staging/index.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+Fixing staging documentation somehow.
-+
- Unsorted Documentation
- ======================
- 
-
----
-base-commit: 38e04b3e4240a6d8fb43129ebad41608db64bc6f
-change-id: 20230320-outreachy-demo-bfa128532a93
-
-Best regards,
--- 
-Ira Weiny <ira.weiny@intel.com>
-
-
-[4]
-Cover example
-
-# Lines starting with # will be removed from the cover letter. You can
-# use them to add notes or reminders to yourself. If you want to use
-# markdown headers in your cover letter, start the line with ">#".
-
-# You can add trailers to the cover letter. Any email addresses found in
-# these trailers will be added to the addresses specified/generated
-# during the b4 send stage. You can also run "b4 prep --auto-to-cc" to
-# auto-populate the To: and Cc: trailers based on the code being
-# modified.
-
-To: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-
-
-[5]
-<email headers>
-...
-Subject: [PATCH] Documentation: Example staging doc change
-...
-</email headers>
-
-Update the documentation with an example showing how to update the
-documentation.
-
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
----
-Changes in v2:
-        show version info example.
----
- Documentation/staging/index.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/staging/index.rst b/Documentation/staging/index.rst
-index ded8254bc0d7..2de034ddd059 100644
---- a/Documentation/staging/index.rst
-+++ b/Documentation/staging/index.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+Fixing staging documentation somehow.
-+
- Unsorted Documentation
- ======================
- 
-
----
-base-commit: 38e04b3e4240a6d8fb43129ebad41608db64bc6f
-change-id: 20230320-outreachy-demo-bfa128532a93
-
-Best regards,
--- 
-Ira Weiny <ira.weiny@intel.com>
-
