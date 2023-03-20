@@ -1,87 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144E02F36
-	for <linux-staging@lists.linux.dev>; Mon, 20 Mar 2023 18:31:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F56C433EF;
-	Mon, 20 Mar 2023 18:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679337106;
-	bh=UX0KNBrfaHWjg27sM+jbAaSTv4YTjtaGVwsG4hFjvOo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gKknHFPcLo78NnBNJVeeZKcUzj8MRPZY8qxbRLHQW22jfEyhQLFgVJS1SFP8WepUE
-	 rSQXKxzoSCLrfjZjufMNQzGzTBRO+E2x7w3sBpb0gzaB2BCBHo6197kKyTGiP7CyCX
-	 fsSFnNfudxnPxJ0v2lDDXAiIYMyNbj+SV/y1AOfVmsbvFzBA4rzr37EqcTmD4SppmO
-	 rWpv9IS1xSqOydS0av20N01i/OmTyABTIC7nS22408X3RXVl7AmvLhgoBBgTqG3RhY
-	 kjESvV0/k+kbdfV/zKx6/vgkc+Uk3RJfGkBE5/4VyDaFLuY9h41AYS9g+MzkbH9x+u
-	 hSz4YO/zKfbmA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Maxim Schwalm <maxim.schwalm@gmail.com>, 
- Dmitry Osipenko <digetx@gmail.com>, Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-tegra@vger.kernel.org, 
- linux-staging@lists.linux.dev
-In-Reply-To: <20230308073502.5421-1-clamor95@gmail.com>
-References: <20230308073502.5421-1-clamor95@gmail.com>
-Subject: Re: (subset) [PATCH v2 0/8] Fix sound on ASUS Transformers
-Message-Id: <167933710348.198283.16107220354236772396.b4-ty@kernel.org>
-Date: Mon, 20 Mar 2023 18:31:43 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93113C0A
+	for <linux-staging@lists.linux.dev>; Mon, 20 Mar 2023 18:39:26 +0000 (UTC)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32KGnlZu012201;
+	Mon, 20 Mar 2023 18:39:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=87jA3nP94Gt3W8XLBgknFsevDqKzwkS3hRx0AdG0Uu4=;
+ b=mdBtlEUV3XYE9Xbm+lb8mRsvabLK7tEEAupvPNpVRMnF7WCx+/8brHn9stgDZ+MneZRL
+ fALJWX0Ug1kOqP9QTx/D5ld7xQKcOEn9ynYLzDdUjZ74xOiX/fzo5nMysEoZ8D1v8tdp
+ wLFMIRw63foQ/cPwJ8kOrf+zzrLj7GH9q/Ppb5/8dQQtdRwQzqkTsFUWL/dHScrESbKB
+ LCB3HtIpR2E2IiMFpRmqvwLo2rOJ2bxZbvNA42Oq+XFOEUmN9DJw47dIvPnIorGBgDI3
+ hiJshEl+ibyxwLm1iGv07iIX+AL5jPJT1t0JTRXVtkY+KnFqpIrkiXGGwtZZl4s09kz6 CA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pessywvqv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Mar 2023 18:39:19 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32KGq0fY023204;
+	Mon, 20 Mar 2023 18:39:19 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pessywvp2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Mar 2023 18:39:18 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+	by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32KBQwEu018107;
+	Mon, 20 Mar 2023 18:39:17 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3pd4jfb1qv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Mar 2023 18:39:16 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32KIdE9r57803248
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 20 Mar 2023 18:39:14 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 678642004B;
+	Mon, 20 Mar 2023 18:39:14 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C932020043;
+	Mon, 20 Mar 2023 18:39:12 +0000 (GMT)
+Received: from li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com (unknown [9.43.70.55])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 20 Mar 2023 18:39:12 +0000 (GMT)
+Date: Tue, 21 Mar 2023 00:08:47 +0530
+From: Abhirup Deb <abhirupdeb@linux.vnet.ibm.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
+        Manohar Vanga <manohar.vanga@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: vme_user: Replace "<<" with BIT macro
+Message-ID: <ZBioN46Imb07RQP2@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
+References: <ZBVhmU+5dVoExIH9@li-27defe4c-32e1-11b2-a85c-e202e9981075.ibm.com>
+ <6d78fc9c-59e2-4748-b6a8-65c937b111a2@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-bd1bf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6d78fc9c-59e2-4748-b6a8-65c937b111a2@kili.mountain>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: nRb6Bx4NWkMMcY66MJM4oQp25Q53GMUn
+X-Proofpoint-ORIG-GUID: Y4YkIJhplNOFhANycvicLuThPNL5mIV3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-20_16,2023-03-20_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ spamscore=0 mlxlogscore=723 impostorscore=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303200156
 
-On Wed, 08 Mar 2023 09:34:54 +0200, Svyatoslav Ryhel wrote:
-> - add quirk for headset detection used by some T30 devices
->   (ASUS Transformers, LG Optimus 4X HD and Vu);
-> - add RT5631 and MAX9808x machine drivers
-> - update bindings
+On Sat, Mar 18, 2023 at 10:51:00AM +0300, Dan Carpenter wrote:
+> On Sat, Mar 18, 2023 at 12:30:41PM +0530, Abhirup Deb wrote:
+> > -#define TSI148_PCFS_STAT_SELTIM        (3<<9)	/* DELSEL Timing */
+> > +#define TSI148_PCFS_STAT_SELTIM        BIT(9)	/* DELSEL Timing */
 > 
+> This patch is buggy.
+> 
+> regards,
+> dan carpenter
 
-Applied to
+Dan,
+Thank you for your help! I will be amending the changes in a v2 of the patch.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/8] dt-bindings: sound: nvidia,tegra-audio-common: add coupled-mic-hp-detect property
-      commit: 2a7a8ebe85e1fa7e929f6f986a61f10321093c43
-[2/8] ASoC: tegra: Support coupled mic-hp detection
-      commit: eb0b8481c2e03a5ae01f6bea60b42109bd12b6fe
-[4/8] dt-bindings: sound: nvidia,tegra-audio: add RT5631 CODEC
-      commit: 2060c9b8ae2a1f6abec483709f4209b6e3602b89
-[5/8] ASoC: tegra: Support RT5631 by machine driver
-      commit: 44b2fc2edb61e956885b4305bddaaec7f05d93d2
-[7/8] dt-bindings: sound: nvidia,tegra-audio: add MAX9808x CODEC
-      commit: 85a375fe8df906b2701346e03e71501e6861a75a
-[8/8] ASoC: tegra: Support MAX9808x by machine driver
-      commit: d007a87bd7d181854b53b3e7fcbcf66c4bef86b2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Regards,
+Abhirup Deb
