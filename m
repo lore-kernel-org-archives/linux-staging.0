@@ -1,107 +1,86 @@
-Received: from lithium.sammserver.com (lithium.sammserver.com [168.119.122.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA137E4D2
-	for <linux-staging@lists.linux.dev>; Mon, 20 Mar 2023 11:08:15 +0000 (UTC)
-Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by lithium.sammserver.com (Postfix) with ESMTPS id 80EA431181CC;
-	Mon, 20 Mar 2023 12:08:13 +0100 (CET)
-Received: from mail.sammserver.com (localhost.localdomain [127.0.0.1])
-	by mail.sammserver.com (Postfix) with ESMTP id 293123627D;
-	Mon, 20 Mar 2023 12:08:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-	t=1679310493; bh=0jP3D3BZL68xe5B5D2b80NpReBfe6GPfvVjUNfacUbQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kpt6Ql8kbkfDS+tXED4XbdBTPyvaXOo0ZYMUX/Ee9AD7jGBalMDdh3r5iH+Pu3tib
-	 eotxR8eXf10HWKPgYyuMabFt8Y/6BE4tdbqbc8okHdwT62Y+QNUnvlY6WVqDZsQAfw
-	 XGdDhJ+NmQF0lDV2lViexqKZLDd8jnxO+MsuydB4=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E074E4EB;
+	Mon, 20 Mar 2023 12:10:39 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id o12so45780843edb.9;
+        Mon, 20 Mar 2023 05:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679314237;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lejGXvtxYXPbRbirbLrzty70j8ZQG2QJS1aPe94BDQ0=;
+        b=JsaW7C+nAECp/HhGauljm8wmqVzAsC/nrlVXgaaVojvuNY08+jfmVumCbRqCi1cShv
+         D46LiHX02jZ1AhFY4aRc6qhjdoNU/v1xjyt6RYmFGMNn7cz56B53GUIomyHDc1ZhIFT1
+         a0ly2IFDqA8zI3nZdGNvM70XSD+lX4BMAgndCw1pC68obu20QjYQBxC9KFtEwgbKuTVI
+         FyJko3QWQwu49mF3HzXJB8ojP+ec9Jp5nK1vnLPURfrQft5jkDbn3CyLho3FxZ9BUVza
+         mqZD+m/s5KnSGn1QVZ8dhHSDdFHHOEIaPDj6NI/PMOGYLL5SUiUsJoAPbSOs/bUPoAuM
+         6WFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679314237;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lejGXvtxYXPbRbirbLrzty70j8ZQG2QJS1aPe94BDQ0=;
+        b=glgz6UJ9JNLQx3jUVe0T+8EeEZ/XHx/nUVTv+M57YcSNI3IN1o9Ihely/JyhVlFfWZ
+         QJhs4GL8j+EVx43XFB1T8ScwhUeeoWnFkmN43ZEFf2S/78Ezfb7gHMPZ9xDvZWPq/PDH
+         iS90syEAjqrK5x4uCBy/W7zoiWJDEHykk5+rbwAu+6g4PTHa/7edfhXeKZbh3SZxL4jF
+         lED5G9hHajKPnMLbcZHeA13igvmlYwLIy39fCfRoZ59vlIauDLrk5A1tYXb/yn5BDfDo
+         bdTqngzY7nlFlvJIWjTjMMlkwa2Yab6/wRdCUk3UJXef31AWqwLlGeMwddhw1VYoeSTO
+         zy7g==
+X-Gm-Message-State: AO0yUKVWTwCMt13LO3ZSAIt6KqMC/P8zsW2rsA3Q+ZYb4wpfUuQEE9/b
+	g+puLeYaied7iJrykHpr2oU=
+X-Google-Smtp-Source: AK7set9IVH1ZPd+u+qXJXskzpIA4kaSshW23le6se8QUxh4nKLX0DNUggBx6rPK4R2KEJ8bchoKneg==
+X-Received: by 2002:a17:906:bcf4:b0:920:7a99:dcd4 with SMTP id op20-20020a170906bcf400b009207a99dcd4mr9151233ejb.62.1679314237193;
+        Mon, 20 Mar 2023 05:10:37 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id e14-20020a170906044e00b0093204090617sm4059402eja.36.2023.03.20.05.10.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 05:10:36 -0700 (PDT)
+Date: Mon, 20 Mar 2023 17:10:34 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: greybus: fix line ending with '('
+Message-ID: <ZBhNOkQbG4ygNF98@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 20 Mar 2023 12:08:13 +0100
-From: =?UTF-8?Q?Samuel_=C4=8Cavoj?= <samuel@cavoj.net>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
- sam@ravnborg.org, maxime@cerno.tech, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org, Zack Rusin
- <zackr@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, Alex Deucher
- <alexander.deucher@amd.com>, Zhen Lei <thunder.leizhen@huawei.com>,
- Changcheng Deng <deng.changcheng@zte.com.cn>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
- devices via aperture helpers
-In-Reply-To: <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
-References: <20220718072322.8927-1-tzimmermann@suse.de>
- <20220718072322.8927-8-tzimmermann@suse.de>
- <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
- <e881f6d6-0d2b-5775-68f2-35cc4d666d63@suse.de>
- <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
-Message-ID: <87706a167c1e490a12371e2edf0f34e3@cavoj.net>
-X-Sender: samuel@cavoj.net
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023-03-20 11:13, Javier Martinez Canillas wrote:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
-> 
-> [...]
-> 
->>>> +    /*
->>>> +     * If a driver asked to unregister a platform device registered 
->>>> by
->>>> +     * sysfb, then can be assumed that this is a driver for a 
->>>> display
->>>> +     * that is set up by the system firmware and has a generic 
->>>> driver.
->>>> +     *
->>>> +     * Drivers for devices that don't have a generic driver will 
->>>> never
->>>> +     * ask for this, so let's assume that a real driver for the 
->>>> display
->>>> +     * was already probed and prevent sysfb to register devices 
->>>> later.
->>>> +     */
->>>> +    sysfb_disable();
->>> 
->>> This call to sysfb_disable() has been causing trouble with regard to
->>> VFIO. VFIO has been calling aperture_remove_conflicting_pci_devices 
->>> to
->>> get rid of any console drivers (d173780620792c) using the device in
->>> question, but now even unrelated drivers are getting killed. Example
->>> situation:
->> 
->> Which drivers do you use?
+Splitting function header to multiple lines because of 80 characters per
+line limit, results in ending the function call line with '('.
+This leads to CHECK reported by checkpatch.pl
 
-This happens with either no drivers loaded or the proprietary nvidia
-driver. Nouveau is fine as it doesn't rely on efifb but brings its own.
+Move the first parameter right after the '(' in the function call line.
+Align the rest of the parameters to the opening parenthesis.
 
->> 
-> 
-> Also, what kernel version?
+Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+---
+ drivers/staging/greybus/audio_topology.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-I tried with 6.2.6, can build mainline and test there as well.
+diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+index 62d7674852be..08e6a807c132 100644
+--- a/drivers/staging/greybus/audio_topology.c
++++ b/drivers/staging/greybus/audio_topology.c
+@@ -24,9 +24,8 @@ struct gbaudio_ctl_pvt {
+ 	struct gb_audio_ctl_elem_info *info;
+ };
 
-Thanks for help!
+-static struct gbaudio_module_info *find_gb_module(
+-					struct gbaudio_codec_info *codec,
+-					char const *name)
++static struct gbaudio_module_info *find_gb_module(struct gbaudio_codec_info *codec,
++						  char const *name)
+ {
+ 	int dev_id;
+ 	char begin[NAME_SIZE];
+--
+2.34.1
 
-> 
-> [...]
-> 
->>> 
->>> Machine has two GPUs and uses efifb for the console. Efifb registers
->>> with the aperture system the efi framebuffer region, which is covered
->>> by a BAR resource of GPU 1. VFIO grabs GPU 2 and calls
->>> aperture_remove_conflicting_pci_devices(GPU 2). GPU 2 has no overlap
->>> with the efifb on GPU1 but the efifb is killed regardless due to
->>> the unconditional call to sysfb_disable(). The console switches
->>> to dummy and locks up from the user perspective.
->>> This seems unnecessary, as the device is unrelated.
->>> 
-> 
-> That's a bug indeed but I thought that was already fixed...
