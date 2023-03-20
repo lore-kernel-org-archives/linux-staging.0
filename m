@@ -1,175 +1,214 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6A1A23;
-	Mon, 20 Mar 2023 06:37:51 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id er8so30740602edb.0;
-        Sun, 19 Mar 2023 23:37:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0744A1104;
+	Mon, 20 Mar 2023 07:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679294269;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=043cJL8M7bmhja0804XphdavMgq23OL+4hcE4H+oIJA=;
-        b=RlpKESwHE3eu8MkwEeNa/I+o0GrPq17cPNTpkDCW8pO25wB5GkuFfZguuIuqqu7W+2
-         gp/ya3dM8CTaO/o9Xw1ivg63pEaKV8kKGrmU/eQ9uHblr9TWOJn3urlWsHpxQu9dB/W+
-         Fl03xdyYZRQgBMNs8xThVa7P1sa79uwKd5BycLm8l7w+Rk2sAKG2G4kg4i9OfzruFkYh
-         MLFdqO5RQfMlDEgi2jvFDE253red7ydcAbZ9RBfyynPDUpkUINUQ6qBgwidycel0n9Bp
-         cdX3QLrBg/b/dvkigQPd4C7uTvypshpvS1Jc86//QDSNyf6qJjac+HTjKPtuTm9quAFj
-         bOjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679294269;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=043cJL8M7bmhja0804XphdavMgq23OL+4hcE4H+oIJA=;
-        b=dfiuBZ5keVEkMv4ZfjWseZdd6mAvM22jitmv3Efn8UYumk2gIFTf9rPRdmo0/IKSVd
-         h+4wpx9C3hn0UEFH6WepLIvgXdYtm6xfev6z4ROKxAr2qsHJ8qmkXldMM3h7P20cDeBH
-         BmmvBsF9zSqxhO4wrjZ0hyzTAzRd4qq19cBghsSc4T5Nm+IgSQoEpx4TvzqBxIoWfQmA
-         I/1EB7+kMBjFSb/3/zUB7SlzJKzENbVQeE2rhAzLg4Z3jf4Qt9I4sDWTw0fApCMbvfxX
-         L4ryRAIw7OcZqgequlYarUl0DWFtyTeIkSD3kXKASyTFGYl7BE7VOX0bbJ4bEkl2G5rC
-         B/4w==
-X-Gm-Message-State: AO0yUKVVqKYkzTfA9JOz0N5wl+fek8nlhv07nbXmuaVMh6/wSD6GcuGC
-	EIRq8YtVfKChv1nvOuOPBYk=
-X-Google-Smtp-Source: AK7set87I0UPLQeLtuvVamN9YVClfZk/eJRdtJC6LAJX7LFhk7VmTloSaJI8JdCbscvOSwQf7usdvg==
-X-Received: by 2002:aa7:c650:0:b0:4fd:14d5:bb47 with SMTP id z16-20020aa7c650000000b004fd14d5bb47mr9992523edr.38.1679294269298;
-        Sun, 19 Mar 2023 23:37:49 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id f23-20020a1709064dd700b00931536d461fsm3983267ejw.20.2023.03.19.23.37.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 23:37:48 -0700 (PDT)
-Date: Mon, 20 Mar 2023 11:37:46 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
-Message-ID: <ZBf/OuuUUeharrXp@khadija-virtual-machine>
-References: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
- <2162728.C4sosBPzcN@suse>
- <ZBNhXc3sVVLdibUF@khadija-virtual-machine>
- <2599595.k3LOHGUjKi@suse>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=3VxkIZ4f4DjjfenQ958uT4HoXJYvgGNcZXiqMv/3wHg=;
+  b=Gz81mD2JpouuLvcgEJRQC+bu/CokOtFC5ZbGmcIalnZnvL5tN6dtKaa+
+   42KGcqTA8/OUik82g8JPP+OlXHnQGF/fCWyAvy9XtzGELJdPFdP1Zlond
+   JroM82tsiPQyq0qjz9sRj9upg8z7o0YKjZuPVstl3I1KWWf5DsLL9U3gc
+   A=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.98,274,1673910000"; 
+   d="scan'208";a="97994568"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 08:45:50 +0100
+Date: Mon, 20 Mar 2023 08:45:50 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Kloudifold <cloudifold.3125@gmail.com>
+cc: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    outreachy@lists.linux.dev
+Subject: Re: [PATCH v4] staging: sm750: Rename sm750_hw_cursor_* functions
+ to snake_case
+In-Reply-To: <ZBfro5U4s0lWA6tl@CloudiRingWorld>
+Message-ID: <dd52109f-75e5-2777-cafe-4e70e8ddf2db@inria.fr>
+References: <ZBfro5U4s0lWA6tl@CloudiRingWorld>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2599595.k3LOHGUjKi@suse>
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Mar 16, 2023 at 09:07:09PM +0100, Fabio M. De Francesco wrote:
-> On giovedì 16 marzo 2023 19:35:09 CET Khadija Kamran wrote:
-> > On Thu, Mar 16, 2023 at 05:17:47PM +0100, Fabio M. De Francesco wrote:
-> > > On giovedì 16 marzo 2023 16:09:08 CET Khadija Kamran wrote:
-> 
-> [snip]
-> 
-> > Hey Fabio!
-> > 
-> > Hope you are doing well. After  spending a lot of time on this I am
-> > stuck now. Kindly help me resolve this issue or understand it better.
-> > 
-> > Following your instructions I deleted my config file and copied one from
-> > the /boot/ directory. After that I enabled the dependencies(CONFIG_OF=y
-> > and CONFIG_HAS_IOMEM=y). I was successfully able to enable axis-fifo as
-> > a module.
-> > 
-> > I then ran the following commands:
-> >  - make drivers/staging/axis-fifo/
-> 
-> No, this is not the right command... you are not invoking the linker to make 
-> the .ko object.
-> 
-> Use "make M=drivers/staging/axis-fifo/"
-> or "make M=drivers/staging/axis-fifo/ W=1 -j8" (the latter to enable level '1' 
-> warning and run on your 2 * 4 logical cores).
-> 
-> >  - sudo make modules_install install(this command took hours) :'(
-> 
-> This is odd, it shouldn't :-/
-> 
-> As I said in another message, I'll set aside some time to help you check if 
-> you need to fine tune your VM and Hypervisor configuration. 
-> 
-> I'm returning on the same subject we have been talked about because you said 
-> at least twice that your builds and install are too slow. We'll try to 
-> diagnose it in an IRC session on #kernel-outreachy (I'm pretty sure for the 
-> first days of next week - I'll send an invite).
-> 
-> > > When you are done with build, install, and final reboot to test if your
-> > > module can "modprobe" or "insmod" (i.e. link with the running custom 
-> kernel
-> > > you built, installed and boot), try to compare the output of the following
-> > > commands:
-> > > 
-> > > # uname -a
-> > > Linux suse 6.2.2-1-default #1 SMP PREEMPT_DYNAMIC Thu Mar  9 06:06:13 UTC
-> > > 2023 (44ca817) x86_64 x86_64 x86_64 GNU/Linux
-> > 
-> > The above command works
-> > 
-> > > AND
-> > > 
-> > > # modinfo <name of the module you are testing here>
-> > 
-> > On running 'modinfo axis-fifo' I get error saying module axis-fifo not
-> > found.
-> 
-> Try again after building with "M=drivers/staging" (as said above). Don't 
-> forget to run "make modules_install install" and then reboot into your custom 
-> built Kernel, not the distribution's kernel.
-> 
-> While you are there, run "lsmod" to see all loaded modules. Pick one randomly 
-> from the output list and run "modinfo name_of_the_module_you_want_info_about".
->  
-> > > I'm running "modinfo kvm" (but showing only two of many lines):
-> > > 
-> > > # modinfo kvm
-> > > filename:       /lib/modules/6.2.2-1-default/kernel/arch/x86/kvm/
-> kvm.ko.zst
-> > > vermagic:       6.2.2-1-default SMP preempt mod_unload modversions
-> > > 
-> > > Can you see that the kernel in "uname -a" and the filename and vermagic 
-> have
-> > > the same "6.2.2-1-default"? Well, so I'm sure I'm running the right Kernel
-> > > and inserted the appropriate "kvm" module.
-> > > 
-> > > Furthermore, before rebooting your custom kernel, you may also look at the
-> > > directory in the Kernel where you compiled your module and search for 
-> "*.o"
-> > > "*mod*" and "*.ko" files. If you have them, you built your module 
-> properly.
-> > 
-> > There is a "*.o" file and "*.mod" file but there is no "*.ko" file in
-> > the axis-fifo directory.
-> > 
-> > Kindly help me with this.
-> > 
-> > Regards,
-> > Khadija
-> > 
-> > > Thanks,
-> > > 
-> > > Fabio
-> 
-> Let me know if this time it works.
-> 
-> Fabio
-> 
-> P.S.: Have you had time to read that "Linux Kernel Module Programming" guide I 
-> sent you the link of? You can find a lot of information about modules there. 
-> I'd strongly recommend you to read it. 
+
+
+On Mon, 20 Mar 2023, Kloudifold wrote:
+
+> Cc: linux-kernel@vger.kernel.org
+> Bcc:
+> Subject: [PATCH v4] staging: sm750: Rename sm750_hw_cursor_* functions to snake_case
+> Reply-To:
+
+This information should not be part of the message.  I received another
+message that didn't have this information.  If you sent that one to fix up
+this one, then that one should have benn labelled v5, so that one would
+know that this message should be ignored.
+
+julia
+
 >
-
-Fabio,
-
-I have not read it yet. But it is in my mind and as soon as I get some
-free time I will start reading it :)
-
-Thank you!
-
-> 
+> sm750 driver has sm750_hw_cursor_* functions, which are named in
+> camelcase. Rename them to snake case to follow the function naming
+> convention.
+>
+> - sm750_hw_cursor_setSize  => sm750_hw_cursor_set_size
+> - sm750_hw_cursor_setPos   => sm750_hw_cursor_set_pos
+> - sm750_hw_cursor_setColor => sm750_hw_cursor_set_color
+> - sm750_hw_cursor_setData  => sm750_hw_cursor_set_data
+> - sm750_hw_cursor_setData2 => sm750_hw_cursor_set_data2
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
+> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
+>
+> ---
+> Changes in v4:
+> - Update the commit msg (Deepak)
+> - Use tabs replace 8 spaces
+>
+> This v4 patch was prompted by 2 errors, 2 warnings and 1 checks reported
+> by the scripts/checkpatch.pl, which detected the style problem.
+>
+> Changes in v3:
+> - Add this changelog (Philipp)
+> - Move lkp tags and link to the correct location in commit log (Alison)
+> - Update the commit msg (Philip)
+> - Update the commit log (Bagas, Julia)
+>
+> Changes in v2:
+> - Use new function names in call sites (LKP)
+>
+>  drivers/staging/sm750fb/sm750.c        | 22 +++++++++++-----------
+>  drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
+>  drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
+>  3 files changed, 24 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index effc7fcc3..5d7249e82 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -121,14 +121,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+>
+>  	sm750_hw_cursor_disable(cursor);
+>  	if (fbcursor->set & FB_CUR_SETSIZE)
+> -		sm750_hw_cursor_setSize(cursor,
+> -					fbcursor->image.width,
+> -					fbcursor->image.height);
+> +		sm750_hw_cursor_set_size(cursor,
+> +					 fbcursor->image.width,
+> +					 fbcursor->image.height);
+>
+>  	if (fbcursor->set & FB_CUR_SETPOS)
+> -		sm750_hw_cursor_setPos(cursor,
+> -				       fbcursor->image.dx - info->var.xoffset,
+> -				       fbcursor->image.dy - info->var.yoffset);
+> +		sm750_hw_cursor_set_pos(cursor,
+> +					fbcursor->image.dx - info->var.xoffset,
+> +					fbcursor->image.dy - info->var.yoffset);
+>
+>  	if (fbcursor->set & FB_CUR_SETCMAP) {
+>  		/* get the 16bit color of kernel means */
+> @@ -142,14 +142,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+>  		     ((info->cmap.green[fbcursor->image.bg_color] & 0xfc00) >> 5) |
+>  		     ((info->cmap.blue[fbcursor->image.bg_color] & 0xf800) >> 11);
+>
+> -		sm750_hw_cursor_setColor(cursor, fg, bg);
+> +		sm750_hw_cursor_set_color(cursor, fg, bg);
+>  	}
+>
+>  	if (fbcursor->set & (FB_CUR_SETSHAPE | FB_CUR_SETIMAGE)) {
+> -		sm750_hw_cursor_setData(cursor,
+> -					fbcursor->rop,
+> -					fbcursor->image.data,
+> -					fbcursor->mask);
+> +		sm750_hw_cursor_set_data(cursor,
+> +					 fbcursor->rop,
+> +					 fbcursor->image.data,
+> +					 fbcursor->mask);
+>  	}
+>
+>  	if (fbcursor->enable)
+> diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+> index 43e6f52c2..ff643e33f 100644
+> --- a/drivers/staging/sm750fb/sm750_cursor.c
+> +++ b/drivers/staging/sm750fb/sm750_cursor.c
+> @@ -58,13 +58,13 @@ void sm750_hw_cursor_disable(struct lynx_cursor *cursor)
+>  	poke32(HWC_ADDRESS, 0);
+>  }
+>
+> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h)
+> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h)
+>  {
+>  	cursor->w = w;
+>  	cursor->h = h;
+>  }
+>
+> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
+> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y)
+>  {
+>  	u32 reg;
+>
+> @@ -73,7 +73,7 @@ void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y)
+>  	poke32(HWC_LOCATION, reg);
+>  }
+>
+> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
+> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg)
+>  {
+>  	u32 reg = (fg << HWC_COLOR_12_2_RGB565_SHIFT) &
+>  		HWC_COLOR_12_2_RGB565_MASK;
+> @@ -82,8 +82,8 @@ void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg)
+>  	poke32(HWC_COLOR_3, 0xffe0);
+>  }
+>
+> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+> -			     const u8 *pcol, const u8 *pmsk)
+> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+> +			      const u8 *pcol, const u8 *pmsk)
+>  {
+>  	int i, j, count, pitch, offset;
+>  	u8 color, mask, opr;
+> @@ -132,8 +132,8 @@ void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+>  	}
+>  }
+>
+> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
+> -			      const u8 *pcol, const u8 *pmsk)
+> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
+> +			       const u8 *pcol, const u8 *pmsk)
+>  {
+>  	int i, j, count, pitch, offset;
+>  	u8 color, mask;
+> diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+> index b59643dd6..88fa02f63 100644
+> --- a/drivers/staging/sm750fb/sm750_cursor.h
+> +++ b/drivers/staging/sm750fb/sm750_cursor.h
+> @@ -5,11 +5,11 @@
+>  /* hw_cursor_xxx works for voyager,718 and 750 */
+>  void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+>  void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+> -void sm750_hw_cursor_setSize(struct lynx_cursor *cursor, int w, int h);
+> -void sm750_hw_cursor_setPos(struct lynx_cursor *cursor, int x, int y);
+> -void sm750_hw_cursor_setColor(struct lynx_cursor *cursor, u32 fg, u32 bg);
+> -void sm750_hw_cursor_setData(struct lynx_cursor *cursor, u16 rop,
+> -			     const u8 *data, const u8 *mask);
+> -void sm750_hw_cursor_setData2(struct lynx_cursor *cursor, u16 rop,
+> +void sm750_hw_cursor_set_size(struct lynx_cursor *cursor, int w, int h);
+> +void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
+> +void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
+> +void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+>  			      const u8 *data, const u8 *mask);
+> +void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
+> +			       const u8 *data, const u8 *mask);
+>  #endif
+> --
+> 2.40.0
+>
+>
+>
