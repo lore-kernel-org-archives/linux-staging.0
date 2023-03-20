@@ -1,78 +1,182 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA74F1383;
-	Mon, 20 Mar 2023 09:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD60C1846;
+	Mon, 20 Mar 2023 09:33:47 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id ek18so44055591edb.6;
+        Mon, 20 Mar 2023 02:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=GBv7ohh4eAd8VZ4Smlvg1i1r1lXvCYRK2nqEANMOmNk=;
-  b=igZsDkb1a3gPK3dUvg2b1a69grlfkLqTQJ80JcWVMscQzDUnxVvG0hf7
-   8N2mDx6uVcZWKUtLOg2VYevsjRB1D8bvOFZSkuQLS9n8mg7el+aKfac50
-   rB3hGltj07KQIwWgb9muDmqcPFeHJVSD3m/DIRl8ZjUrI6yqWey9kgwOQ
-   s=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.98,274,1673910000"; 
-   d="scan'208";a="98018589"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 10:07:03 +0100
-Date: Mon, 20 Mar 2023 10:07:04 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Sumitra Sharma <sumitraartsy@gmail.com>
-cc: Dan Carpenter <error27@gmail.com>, Marc Dietrich <marvin24@gmx.de>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ac100@lists.launchpad.net, 
-    linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] Staging: nvec: Convert to_nvec_led from a macro to
- an inline function
-In-Reply-To: <20230320084422.GA126429@sumitra.com>
-Message-ID: <f9274ae0-2279-4a5b-5350-12ea5da3872a@inria.fr>
-References: <20230318175250.GA49618@sumitra.com> <417e944c-4653-43ef-b492-c82c536e4d87@kili.mountain> <20230320084422.GA126429@sumitra.com>
+        d=gmail.com; s=20210112; t=1679304826;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e3QdF0wMkBTmtVBS8ynp8ovaXMshD0DpAnNchV77vtY=;
+        b=UesMPWRFpR2JX5vPVbvxYR1zQ+M+IhSMpWZH2lIpwZ0WZoIufebUX5DzgeExhxsh7f
+         2ANido3DAEPiekrASioV8YH/Jgcw3esOfddOi4zUrFGfwZH+R7TNm67sArqs/cA7Zz5F
+         A7AyqxWgJjo8G9/PU64k17rMzERIA8qXy56VI5gym42uXNTsm/mpiul0NW5VkB4AhCiI
+         4Kyo+ano9ElnW2faIL27Uj7bGtTQbDO4kn+9y4GHB2ELbwX5BjABnNaG0vWTvrEkjcu1
+         q/HiAokTchc8jfj0QCgB/f8Zcm/suqr7eLzE29iRGb5WnLKftKTj1VuEUDJ0dBI48GyS
+         cozg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679304826;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e3QdF0wMkBTmtVBS8ynp8ovaXMshD0DpAnNchV77vtY=;
+        b=jnX9Jag5w4PlrCWNIiQKQDxVCZytINK01YOgFfVs3YI5CKlXIHT9isuMXQhZI5g15O
+         zw8jZSzVbrF2jeFMJCVmOLITTLl7WbPqZDYfPVJSMNyTenw0bH31KPiXn6qrpuOr8df+
+         vaZo1ZQqeg+xiWq8ryMbiZUl0QNmZd4B592vdidQfM9ThAIhNVYYdLNN7X6EnNRyAjJA
+         MHcbwdCp82WbHLC1b41wdLyzB6p9x94kERoMbHEkaXsVt5Pj5lOMVrZuJYHyCPlaZMai
+         Q+ut7p84aRIaCHw6R99z2KZJpD3GpaO7fS/cOiKMgsPnuGVe1s1y/J4OliSlomnksvxe
+         dPTw==
+X-Gm-Message-State: AO0yUKXwBsHs9cqJ1wWJbgMZfqgJiraq/Z54ofVQj8vtsauCGRo/5FHu
+	d/8FTjFs5rMEXbzupdCgnEQHkAkzF2kyaad4TSA=
+X-Google-Smtp-Source: AK7set8Qn657Y7DA+BYuCWXB4qfbuxFmPEcongWcCbMjvnz5MP4Uux0KQPqqqU1zWuDfyZSENqbyDw==
+X-Received: by 2002:a17:906:f193:b0:933:868:413a with SMTP id gs19-20020a170906f19300b009330868413amr8046651ejb.15.1679304825710;
+        Mon, 20 Mar 2023 02:33:45 -0700 (PDT)
+Received: from khadija-virtual-machine ([39.41.14.14])
+        by smtp.gmail.com with ESMTPSA id p25-20020a17090653d900b009333b82f061sm2492372ejo.80.2023.03.20.02.33.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 02:33:45 -0700 (PDT)
+Date: Mon, 20 Mar 2023 14:33:43 +0500
+From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sumitra Sharma <sumitraartsy@gmail.com>
+Subject: Re: [PATCH] Staging: greybus: Fix lines ending with '('
+Message-ID: <ZBgod938/PJX1xsE@khadija-virtual-machine>
+References: <20230319164520.GA125117@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230319164520.GA125117@sumitra.com>
 
+On Sun, Mar 19, 2023 at 09:45:20AM -0700, Sumitra Sharma wrote:
+> The coding style used to limit lines to 80 characters,
+> which led to splitting of these function headers into multiple
+> lines and ends the first line with a '('.
+> Such splits causes checks reported by the checkpatch.
+> 
+> Place the function parameters of each function immediately after
+> '(' in a single line to align the function headers.
+> 
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> ---
+>  .../staging/greybus/audio_manager_module.c    | 40 +++++++++----------
+>  1 file changed, 18 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+> index 0a0f0a394c84..81b4ba607a0e 100644
+> --- a/drivers/staging/greybus/audio_manager_module.c
+> +++ b/drivers/staging/greybus/audio_manager_module.c
+> @@ -70,9 +70,8 @@ static void gb_audio_module_release(struct kobject *kobj)
+>  	kfree(module);
+>  }
+>  
+> -static ssize_t gb_audio_module_name_show(
+> -	struct gb_audio_manager_module *module,
+> -	struct gb_audio_manager_module_attribute *attr, char *buf)
+> +static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+> +					 struct gb_audio_manager_module_attribute *attr, char *buf)
+>  {
+>  	return sprintf(buf, "%s", module->desc.name);
+>  }
+> @@ -80,9 +79,8 @@ static ssize_t gb_audio_module_name_show(
+>  static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+>  	__ATTR(name, 0664, gb_audio_module_name_show, NULL);
+>  
+> -static ssize_t gb_audio_module_vid_show(
+> -	struct gb_audio_manager_module *module,
+> -	struct gb_audio_manager_module_attribute *attr, char *buf)
+> +static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+> +					struct gb_audio_manager_module_attribute *attr, char *buf)
+>  {
+>  	return sprintf(buf, "%d", module->desc.vid);
+>  }
+> @@ -90,9 +88,8 @@ static ssize_t gb_audio_module_vid_show(
+>  static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+>  	__ATTR(vid, 0664, gb_audio_module_vid_show, NULL);
+>  
+> -static ssize_t gb_audio_module_pid_show(
+> -	struct gb_audio_manager_module *module,
+> -	struct gb_audio_manager_module_attribute *attr, char *buf)
+> +static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+> +					struct gb_audio_manager_module_attribute *attr, char *buf)
+>  {
+>  	return sprintf(buf, "%d", module->desc.pid);
+>  }
+> @@ -100,9 +97,9 @@ static ssize_t gb_audio_module_pid_show(
+>  static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+>  	__ATTR(pid, 0664, gb_audio_module_pid_show, NULL);
+>  
+> -static ssize_t gb_audio_module_intf_id_show(
+> -	struct gb_audio_manager_module *module,
+> -	struct gb_audio_manager_module_attribute *attr, char *buf)
+> +static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *module,
+> +					    struct gb_audio_manager_module_attribute *attr,
+> +					    char *buf)
+>  {
+>  	return sprintf(buf, "%d", module->desc.intf_id);
+>  }
+> @@ -111,9 +108,9 @@ static struct gb_audio_manager_module_attribute
+>  					gb_audio_module_intf_id_attribute =
+>  	__ATTR(intf_id, 0664, gb_audio_module_intf_id_show, NULL);
+>  
+> -static ssize_t gb_audio_module_ip_devices_show(
+> -	struct gb_audio_manager_module *module,
+> -	struct gb_audio_manager_module_attribute *attr, char *buf)
+> +static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *module,
+> +					       struct gb_audio_manager_module_attribute *attr,
+> +					       char *buf)
+>  {
+>  	return sprintf(buf, "0x%X", module->desc.ip_devices);
+>  }
+> @@ -122,9 +119,9 @@ static struct gb_audio_manager_module_attribute
+>  					gb_audio_module_ip_devices_attribute =
+>  	__ATTR(ip_devices, 0664, gb_audio_module_ip_devices_show, NULL);
+>  
+> -static ssize_t gb_audio_module_op_devices_show(
+> -	struct gb_audio_manager_module *module,
+> -	struct gb_audio_manager_module_attribute *attr, char *buf)
+> +static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *module,
+> +					       struct gb_audio_manager_module_attribute *attr,
+> +					       char *buf)
+>  {
+>  	return sprintf(buf, "0x%X", module->desc.op_devices);
+>  }
+> @@ -181,10 +178,9 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
+>  	kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
+>  }
+>  
+> -int gb_audio_manager_module_create(
+> -	struct gb_audio_manager_module **module,
+> -	struct kset *manager_kset,
+> -	int id, struct gb_audio_manager_module_descriptor *desc)
+> +int gb_audio_manager_module_create(struct gb_audio_manager_module **module,
+> +				   struct kset *manager_kset,
+> +				   int id, struct gb_audio_manager_module_descriptor *desc)
+>  {
+>  	int err;
+>  	struct gb_audio_manager_module *m;
+> -- 
+> 2.25.1
+> 
+>
 
+Hi Mentors,
 
-On Mon, 20 Mar 2023, Sumitra Sharma wrote:
+I came across a same check error in greybus/audio_topology file.
+Would it be okay to send a patch similar to this one?
 
-> On Mon, Mar 20, 2023 at 08:39:49AM +0300, Dan Carpenter wrote:
-> > On Sat, Mar 18, 2023 at 10:52:50AM -0700, Sumitra Sharma wrote:
-> > > Convert to_nvec_led from a macro to a static inline function, to make the
-> > > relevant types apparent in the definition and to benefit from the type
-> > > checking performed by the compiler at call sites.
-> > >
-> > > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
-> > > ---
-> >
-> > You need to compile test your changes.
-> >
->
-> Hi dan,
->
-> I am facing problems in creating modules and in compiling them.
+Regards,
+Khadija
 
-Note that unless the code is under an ifdef for a module, you don't
-specifically need the driver to be configured as for a module either.
-Since you don't have the device, you aren't going to be able to test it
-anyway.  So 'y' is fine.
-
-julia
-
->
-> Any help in this would be appreciated. Here is the link to the thread https://lore.kernel.org/outreachy/alpine.DEB.2.22.394.2303191336090.2867@hadrien/T/#t
->
-> Regards,
->
-> Sumitra
->
-> > regards,
-> > dan carpenter
-> >
->
->
