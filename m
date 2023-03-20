@@ -1,114 +1,107 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lithium.sammserver.com (lithium.sammserver.com [168.119.122.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7A11846;
-	Mon, 20 Mar 2023 10:46:25 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id b20so11899209edd.1;
-        Mon, 20 Mar 2023 03:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679309184;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QE4spIUhieywTPmbfU5JkyQsvGJhPjI5IlXn9hUlyMg=;
-        b=kSbyDQSDa9jw+RK3Cwwnsv8iwMfCrBT5KPAbXGEUWz8YFFLIE0g5Sbj5uFYNhIjM3t
-         vrspPZse/wL3z/ANq52hXK0oJjf87+AlXJOog5nWkyx0KirJKXpuSaSaqh6eZ2C12/fa
-         oW+E8KVxwsjJsqeU0mdmw8DuTk8qxpcdmyXQFtfCeMp7KwgTf4qk5e/dpQR7AkfQTEs0
-         dP5xc1Bi4HGuQpQdHr1rwP8P0wj1ciWgKiCDSlCWEmA3Wc7/b+4CBTVDVUfU4Io1Om6/
-         3lhHRB6Ea01qo2q0oIDTwluPYBykkFUjN25QdGt7FCuiphvnFFIjpEFkRVNiQ74nmXOE
-         7bsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679309184;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QE4spIUhieywTPmbfU5JkyQsvGJhPjI5IlXn9hUlyMg=;
-        b=UjrlqXRkyfXg/mEtu4317gciAdvu5SFUdNrYSJYBsWsGNCY79XYDG6EtUttFT6sspK
-         sBNF6yxxN/7+mF92E01DCbcfH95k3Ws4sWGX15RxpDk6CimxVw9DnG1J/VZUAGB464Qv
-         gkrOQq+hhh1ZntxPG3T3fzJvAASWhjpYBontvF29e4M3hBeAU31semN2EfLWMwJ+bMxi
-         fMgU4yO+3pUhhyHzQkIs1yds0XDIFa1pxfIYYk3BuqtjZexjuEukE3KpQxUFUVPJrJqi
-         lMzlBitiXGkwTZ/nlv6OpMFBmEa/PJVQ2vVQLTQiZmBSTzHIxyOC14Ux8MDspb91Mj66
-         tSOA==
-X-Gm-Message-State: AO0yUKVZI6DI7gTA6iMhBFWB69LR+x57UwQHcFeBhvHnd9tmlDM84sr1
-	b3oF3FDrisDZzqYOo/LrJkg=
-X-Google-Smtp-Source: AK7set9foj5JTf3GpQW2uMkxmSxrU69hOx1A+Sbbm6/DmpdIlp/WVoyJqf0+SvMKxiwVLxIloqbwxQ==
-X-Received: by 2002:aa7:c857:0:b0:4fb:d10e:d9b4 with SMTP id g23-20020aa7c857000000b004fbd10ed9b4mr12028226edt.16.1679309183843;
-        Mon, 20 Mar 2023 03:46:23 -0700 (PDT)
-Received: from [192.168.1.16] ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id w3-20020a50c443000000b004ac54d4da22sm4726760edf.71.2023.03.20.03.46.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 03:46:23 -0700 (PDT)
-Message-ID: <3d433474-93bd-b62c-1de5-7b029b1353f9@gmail.com>
-Date: Mon, 20 Mar 2023 12:46:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA137E4D2
+	for <linux-staging@lists.linux.dev>; Mon, 20 Mar 2023 11:08:15 +0000 (UTC)
+Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by lithium.sammserver.com (Postfix) with ESMTPS id 80EA431181CC;
+	Mon, 20 Mar 2023 12:08:13 +0100 (CET)
+Received: from mail.sammserver.com (localhost.localdomain [127.0.0.1])
+	by mail.sammserver.com (Postfix) with ESMTP id 293123627D;
+	Mon, 20 Mar 2023 12:08:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
+	t=1679310493; bh=0jP3D3BZL68xe5B5D2b80NpReBfe6GPfvVjUNfacUbQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kpt6Ql8kbkfDS+tXED4XbdBTPyvaXOo0ZYMUX/Ee9AD7jGBalMDdh3r5iH+Pu3tib
+	 eotxR8eXf10HWKPgYyuMabFt8Y/6BE4tdbqbc8okHdwT62Y+QNUnvlY6WVqDZsQAfw
+	 XGdDhJ+NmQF0lDV2lViexqKZLDd8jnxO+MsuydB4=
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] staging: rtl8723bs: use inline functions for
- dev_to_sdio_func
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: outreachy@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
-References: <20230320103441.6537-1-eng.mennamahmoud.mm@gmail.com>
- <ZBg4tGlY+Epz0Vhd@kroah.com>
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-In-Reply-To: <ZBg4tGlY+Epz0Vhd@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Date: Mon, 20 Mar 2023 12:08:13 +0100
+From: =?UTF-8?Q?Samuel_=C4=8Cavoj?= <samuel@cavoj.net>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
+ sam@ravnborg.org, maxime@cerno.tech, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org, Zack Rusin
+ <zackr@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, Alex Deucher
+ <alexander.deucher@amd.com>, Zhen Lei <thunder.leizhen@huawei.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
+ devices via aperture helpers
+In-Reply-To: <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
+References: <20220718072322.8927-1-tzimmermann@suse.de>
+ <20220718072322.8927-8-tzimmermann@suse.de>
+ <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
+ <e881f6d6-0d2b-5775-68f2-35cc4d666d63@suse.de>
+ <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
+Message-ID: <87706a167c1e490a12371e2edf0f34e3@cavoj.net>
+X-Sender: samuel@cavoj.net
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
 
+On 2023-03-20 11:13, Javier Martinez Canillas wrote:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+> 
+> [...]
+> 
+>>>> +    /*
+>>>> +     * If a driver asked to unregister a platform device registered 
+>>>> by
+>>>> +     * sysfb, then can be assumed that this is a driver for a 
+>>>> display
+>>>> +     * that is set up by the system firmware and has a generic 
+>>>> driver.
+>>>> +     *
+>>>> +     * Drivers for devices that don't have a generic driver will 
+>>>> never
+>>>> +     * ask for this, so let's assume that a real driver for the 
+>>>> display
+>>>> +     * was already probed and prevent sysfb to register devices 
+>>>> later.
+>>>> +     */
+>>>> +    sysfb_disable();
+>>> 
+>>> This call to sysfb_disable() has been causing trouble with regard to
+>>> VFIO. VFIO has been calling aperture_remove_conflicting_pci_devices 
+>>> to
+>>> get rid of any console drivers (d173780620792c) using the device in
+>>> question, but now even unrelated drivers are getting killed. Example
+>>> situation:
+>> 
+>> Which drivers do you use?
 
-On ٢٠‏/٣‏/٢٠٢٣ ١٢:٤٣, Greg KH wrote:
-> On Mon, Mar 20, 2023 at 12:34:41PM +0200, Menna Mahmoud wrote:
->> Convert `dev_to_sdio_func` macro into a static inline function.
->> it is not great to have macro that use `container_of` macro,
->> because from looking at the definition one cannot tell
->> what type it applies to.
->>
->> One can get the same benefit from an efficiency point of view
->> by making an inline function.
->>
->> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
->> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
->> ---
->>   drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
->> index 490431484524..7ee821dbbae0 100644
->> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
->> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
->> @@ -10,7 +10,10 @@
->>   #include <linux/jiffies.h>
->>   
->>   #ifndef dev_to_sdio_func
->> -#define dev_to_sdio_func(d)     container_of(d, struct sdio_func, dev)
->> +static inline struct sdio_func *dev_to_sdio_func(struct device *d)
->> +{
->> +	return container_of(d, struct sdio_func, dev);
->> +}
->>   #endif
-> Why is the "#ifndef" check still needed now?  Really it was never
-> needed, but now would be a great time to remove it as it doubly does not
-> make any sense here.
->
-> Oh wait, no, this whole thing can just be removed entirely, right?
-> There already is a dev_to_sdio_func macro defined, so the #ifndef check
-> catches that so your change doesn't actually modify any code that is
-> used.  So this should all be removed, not changed to an inline function.
+This happens with either no drivers loaded or the proprietary nvidia
+driver. Nouveau is fine as it doesn't rely on efifb but brings its own.
 
-yes, got it.
+>> 
+> 
+> Also, what kernel version?
 
+I tried with 6.2.6, can build mainline and test there as well.
 
-Thanks,
+Thanks for help!
 
-Menna
-
->
-> thanks,
->
-> greg k-h
+> 
+> [...]
+> 
+>>> 
+>>> Machine has two GPUs and uses efifb for the console. Efifb registers
+>>> with the aperture system the efi framebuffer region, which is covered
+>>> by a BAR resource of GPU 1. VFIO grabs GPU 2 and calls
+>>> aperture_remove_conflicting_pci_devices(GPU 2). GPU 2 has no overlap
+>>> with the efifb on GPU1 but the efifb is killed regardless due to
+>>> the unconditional call to sysfb_disable(). The console switches
+>>> to dummy and locks up from the user perspective.
+>>> This seems unnecessary, as the device is unrelated.
+>>> 
+> 
+> That's a bug indeed but I thought that was already fixed...
