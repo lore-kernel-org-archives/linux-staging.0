@@ -1,52 +1,54 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA5310E5;
-	Mon, 20 Mar 2023 05:31:38 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id az3-20020a05600c600300b003ed2920d585so8390175wmb.2;
-        Sun, 19 Mar 2023 22:31:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B136E10E5;
+	Mon, 20 Mar 2023 05:39:55 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id w11so5598548wmo.2;
+        Sun, 19 Mar 2023 22:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679290297;
+        d=gmail.com; s=20210112; t=1679290794;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=D9H0D6Byu/mJM0n17NZTVQVrl7cA2wUN5os6K8b6ICE=;
-        b=V+I7MIPBjGanpI6KYuGsYzJKdiTyWuSzMYbQbPmBMcSN9oR4WLYo3OgImdHAHbdQtS
-         WcqIz5ZMqcDIyXHm5/EC78c42/e2E24awI4KYFGfC6dbwchE7J227cvrabo0Ga8Y3jJM
-         IvleqfCE//RbQIk489Rfnw638mx++r6BbXkoo9DD+C9rfCU8lEhrzfsYJY+QU0RqN5SW
-         umAU/+5CxJ63h4wcNxEKswCIhfFFPSoITKxTVeYcSAVEj5X4R0ypHVbeL7EW3hYsKvfu
-         Hu1pmppsWelJQpAbZBcECnKs57JUlil9W/t1YZYHoTpvd0ntXAQKgJxozHpW6Ihmlbkp
-         n11A==
+        bh=6Lj6TKm1siAlVTYsFucnGuumrrgiwekYs8gSqZFYaV8=;
+        b=fZI2qVAzQGYMO6G0NASDX9+1KvajA3fFlO1ariJDasW5tyS+HLPZAoC4bRjACtsWY7
+         nqXKXiWpPmuFp0deXotDzlBoeCaHFfcljWkr17blXd1MORE3TM2JKfsz6Bg/r4ycdIcM
+         k30uEL6UKHc9I23PWLu6ykFzkcKWOpKvcJ1kRUOhKII2fNDyIOX4+tfFLoFzoTXUa8IS
+         napxa67A1NZtgg8e25KPR3c/Is+rIYdPd8ycocY36DGF5kSojkxw2V1gWC4+Hv1/EXVK
+         5EZ71lZbytf5lQ0kzLxmL5d7oPOzWGIBmrs9KgRUhtzEVScDhiPx4RqlE3lVTJBJJADB
+         8wkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679290297;
+        d=1e100.net; s=20210112; t=1679290794;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D9H0D6Byu/mJM0n17NZTVQVrl7cA2wUN5os6K8b6ICE=;
-        b=JxN4UQWRl75sENeHiBQjkHxdFM6iwKv6kGd6qBZg/9BIQdckrsUS3nmR7BC2G3JWMI
-         cHweb3BF1BCHId6+6WyUoWK/7na9ADxHmtwLdScncHpM83fMFs5JQRa+DvwtUyD21gzk
-         Rbz3qdxJcFdDqQbGSvv+CtJjsBr6ISzLHLRnsgu1zd/psCXSTjru98ZWT7HeGl3wMRfY
-         X7d32Hd4P1sEDEZ/vQHXE/QoZabzYv8UuK+u/qoHth97kjx5Dyc9pHdxf8SrF3dYprpR
-         d6TjeaZURuXgOPYpYniHLUSOvy11MuZ83vigORw6HU80khSS72uqm6UpguUB/N6P3FAP
-         sJtg==
-X-Gm-Message-State: AO0yUKWOI+tKl3s//uDPXEBHwpxMwm+GyjwH0UG04GTv25YH8AbbI+qQ
-	ElNYxFh3Msjjrs/5T6fApik=
-X-Google-Smtp-Source: AK7set/EC7/RjQaNkIpua22qI/Hgfn3eBlOlnXK8XJ4ygBQaifCnNq0xMoHvupWok3T6ct96Y/pLuw==
-X-Received: by 2002:a05:600c:a05:b0:3eb:29fe:f922 with SMTP id z5-20020a05600c0a0500b003eb29fef922mr31776516wmp.29.1679290296774;
-        Sun, 19 Mar 2023 22:31:36 -0700 (PDT)
+        bh=6Lj6TKm1siAlVTYsFucnGuumrrgiwekYs8gSqZFYaV8=;
+        b=J3v7V+QCrFUV5jl/AiuK4MzsXUWsqa3Xg5PINnDFMNQ1BM2mZTcBkB/hHOMx25ysLy
+         CDhOMCkyGcYGdlTtOMLQVb8zI43Dm6vh8VKKKVei2tZJvyNx8wJ/6uuVtCabdbeGyFFn
+         zLBhYovz21N/Oy8EmjZ1N5XUjQ/KlHpAzf9lNkBHBaL4uuWysxkgbMmT9eoRvIw2CI8m
+         4IbgWmrcsaPhjPqPC1qqyAqduLFqJDhod3ndDOMw2f3Q9ZCd3gcFjnHleafilCY6DPaE
+         L1/XPoDraqMVEpoECOWPTxNbTdEn38f3AJPTUsgODbgBJxyWvRiDM3wbBJg4fqUpdtu5
+         IeUg==
+X-Gm-Message-State: AO0yUKUBYdLtGTsqseNYO8VuIq++Wfhz0R/GVuS/i1po8Ex79vnt0Bsb
+	oYppS4l8ayOQJpwC9YFoazQ=
+X-Google-Smtp-Source: AK7set9N8yJewWvbi35ASjy42fSpc8tcEcxT987snWMSBAZsoGxAAeI0352w3LhXWRv1177Y/Ij+Gg==
+X-Received: by 2002:a1c:7c01:0:b0:3e5:4fb9:ea60 with SMTP id x1-20020a1c7c01000000b003e54fb9ea60mr8568452wmc.9.1679290793862;
+        Sun, 19 Mar 2023 22:39:53 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k14-20020a7bc40e000000b003ee0d191539sm315942wmi.10.2023.03.19.22.31.35
+        by smtp.gmail.com with ESMTPSA id k16-20020a7bc310000000b003ed2433aa4asm9314376wmj.41.2023.03.19.22.39.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 22:31:36 -0700 (PDT)
-Date: Mon, 20 Mar 2023 08:31:30 +0300
+        Sun, 19 Mar 2023 22:39:53 -0700 (PDT)
+Date: Mon, 20 Mar 2023 08:39:49 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Kloudifold <cloudifold.3125@gmail.com>
-Cc: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: Marc Dietrich <marvin24@gmx.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Subject: Re: [PATCH v4] staging: sm750: Rename sm750_hw_cursor_* functions to
- snake_case
-Message-ID: <12042537-206d-45d9-af48-b52c3f355cbc@kili.mountain>
-References: <ZBfro5U4s0lWA6tl@CloudiRingWorld>
+Subject: Re: [PATCH v2] Staging: nvec: Convert to_nvec_led from a macro to an
+ inline function
+Message-ID: <417e944c-4653-43ef-b492-c82c536e4d87@kili.mountain>
+References: <20230318175250.GA49618@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,31 +57,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZBfro5U4s0lWA6tl@CloudiRingWorld>
+In-Reply-To: <20230318175250.GA49618@sumitra.com>
 
-On Mon, Mar 20, 2023 at 01:14:11PM +0800, Kloudifold wrote:
-> Cc: linux-kernel@vger.kernel.org 
-> Bcc: 
-> Subject: [PATCH v4] staging: sm750: Rename sm750_hw_cursor_* functions to snake_case
-> Reply-To: 
+On Sat, Mar 18, 2023 at 10:52:50AM -0700, Sumitra Sharma wrote:
+> Convert to_nvec_led from a macro to a static inline function, to make the
+> relevant types apparent in the definition and to benefit from the type
+> checking performed by the compiler at call sites.
 > 
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> ---
 
-These email headers were accidentally included in the body of the email.
+You need to compile test your changes.
 
 regards,
 dan carpenter
-
-> sm750 driver has sm750_hw_cursor_* functions, which are named in
-> camelcase. Rename them to snake case to follow the function naming
-> convention.
-> 
-> - sm750_hw_cursor_setSize  => sm750_hw_cursor_set_size
-> - sm750_hw_cursor_setPos   => sm750_hw_cursor_set_pos
-> - sm750_hw_cursor_setColor => sm750_hw_cursor_set_color
-> - sm750_hw_cursor_setData  => sm750_hw_cursor_set_data
-> - sm750_hw_cursor_setData2 => sm750_hw_cursor_set_data2
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/oe-kbuild-all/202303110849.X24WnHnM-lkp@intel.com/
-> Signed-off-by: Kloudifold <cloudifold.3125@gmail.com>
 
