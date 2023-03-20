@@ -1,257 +1,140 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D0F7C;
-	Mon, 20 Mar 2023 16:53:48 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id b20so16389613edd.1;
-        Mon, 20 Mar 2023 09:53:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91A07C;
+	Mon, 20 Mar 2023 16:55:23 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id p34so2960366wms.3;
+        Mon, 20 Mar 2023 09:55:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679331227;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zQaiq3c8AErj46+nAd9bRzysZn6Nit9oKxFF/uzA6ZY=;
-        b=XLXGznIWTse4g72jBalGTVuO4XVQHWbXpsblQKs5+TIPDlg66QC7IA+FW7z/BsiMUF
-         nXkeXODui8DUaAlVk8ZOJWP0AHvcta+yZA0dYhh+6JWP7gicCghZQe7qnppFrZfNz+OA
-         CsWNtaK24mf6ksmuXrPI0/V4uzRzNa4Psze6iwqwR38CFv2WPxE+YsLPFhNKUfwMQt70
-         F46u7xXqjebCBg92KHY3WpSgWgIiWZVfzJnj0rr1XIimaSPkoLX4v3MTyEKI3FZBun9J
-         KtHlAze8/Qf1q3vzFLHI61mxcRcQ7ed99phZ/gUXKvqCdUnUK7cwYRcysw5uT/mVlcYn
-         TIwQ==
+        d=gmail.com; s=20210112; t=1679331322;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M4MAFHvhcmlrcPH3sYssVqROTTKEF34EPFaIHEWRMl4=;
+        b=NTGXwBhvJeTgfd6rP8NYN1icgUYjkP4zDOPKyCaMSseKC1tPKPYVDimg7zgu6KBrKo
+         eu/S1Vy4KBvpVEgcmOM3ZPJ9KPN9yHyUmsSIZG4PG/9dU9QmPloOU29G2KC6kalhP7Lp
+         +nU6DQf3Nx7ErnPG2HnqU/ahcLkSvMHFYP2EFEQqxAKD6pm+cfkPG6d2jGSn1ppbphWN
+         GPLI86c1j0WI1wPU0OFIJNsdfnc/hG8JKiZW68U8heqFeuofRAu4prGTMcIAQxCgNXFG
+         RxW29d0hDtfCgj7IGqhGEwvjP8NVZUREmad0moR3td//YQ/dEC2VWFOAFEKeufJ5Y7tZ
+         rqaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679331227;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zQaiq3c8AErj46+nAd9bRzysZn6Nit9oKxFF/uzA6ZY=;
-        b=AJ1maLUmmJ8UkndFGvYuwmDM6CQPFLFmUz3R9f8BnvNOPFwFFXuILHAfYjOIOpOaA8
-         byYIXPtSSRIyEGbFQLDNwxPxNjpcdRmpqSWSIQlPFQ4i1u5yRWxxKuO1M373lyc3IDbc
-         hpzLypV2s0syXZkWeTueEcN5Z5Wy6nqg4lC+qssnv8HEA3rv4q+UxrlpnQ7fQ4tbxxnm
-         8SmTFPn6/bVTIeNKKH8xHWhY2EWseODbD+CMgEOgwG3SnLesUtaNZFn7E1/eww0EqlNh
-         X2V45k/RhJU9tcGrAb2x752NIU0YZKJzuyFKaSFlEkoCZ5QpXzMVRTQUiW9XMnoPBhTB
-         046Q==
-X-Gm-Message-State: AO0yUKUeHtVRrqSwDIiMiwCGeSaeffaAXFdNbUvH+/VmSPHGUT/Zs7Ls
-	S8mfYYhNhfYcG97T0kcd/OM=
-X-Google-Smtp-Source: AK7set/ZrOQcudlVdkbdkFSyZG3bMOhCixbmhOUTO0k0dkNKA+rdjkOjyMHtmLOpNKXmX/lJg/HElQ==
-X-Received: by 2002:a17:906:5915:b0:931:99b5:5a23 with SMTP id h21-20020a170906591500b0093199b55a23mr12109184ejq.44.1679331226796;
-        Mon, 20 Mar 2023 09:53:46 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.111.78])
-        by smtp.gmail.com with ESMTPSA id o23-20020a170906289700b00922547486f9sm4735417ejd.146.2023.03.20.09.53.45
+        d=1e100.net; s=20210112; t=1679331322;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M4MAFHvhcmlrcPH3sYssVqROTTKEF34EPFaIHEWRMl4=;
+        b=FSgfAewxqoLrdh1U4G0D0MZa7MvI3p286frFQW+zuedw0+D3w+wpyEQHSi3yu3qMEb
+         tU8jjCxQsoMD0NUhE7OlJTDBmtBqtmvBk0wprPKuiZuYOC2kGbOCgswaujHFcPDDYFb4
+         etQ+6VdG+Tecf80DWzpJhLRjZpSTvgkKRUOp7BJM3x/iY6Ilt+RjT0+ExOpFeOVl9qTx
+         yddjI8PAFDKWlpWziyTRIT2xK+8GPtLi5hA/3hHlZwOdRITOQqMTtzhhtnx6pJH4EX6K
+         qBChlgIj4Z0z4muIkerGKdKIqyTYbLi5QcH2ijHoNyBp+g99lntyd/ntLcUBK0ek6cRt
+         1ZrQ==
+X-Gm-Message-State: AO0yUKWR9zy1FhcuqLjX/YqneqIjGFzMhWgjcNFoU9Z74cSBYOVSVy/v
+	4TISw5KoUrxFxBDBSeKApI0=
+X-Google-Smtp-Source: AK7set9cBmFURZEUYI/v690q27dcZcgNTxzCflXP/W4l3GRqoCXnwbyobFD7bDdfZ0J0HMUtxzkVng==
+X-Received: by 2002:a05:600c:214:b0:3e2:1368:e3a0 with SMTP id 20-20020a05600c021400b003e21368e3a0mr186323wmi.18.1679331321937;
+        Mon, 20 Mar 2023 09:55:21 -0700 (PDT)
+Received: from suse.localnet (host-79-35-102-94.retail.telecomitalia.it. [79.35.102.94])
+        by smtp.gmail.com with ESMTPSA id j22-20020a05600c1c1600b003e9ded91c27sm17438247wms.4.2023.03.20.09.55.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 09:53:46 -0700 (PDT)
-Date: Mon, 20 Mar 2023 21:53:42 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: remove camel case
-Message-ID: <ZBiPlhkqHUegMRAb@khadija-virtual-machine>
+        Mon, 20 Mar 2023 09:55:21 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Khadija Kamran <kamrankhadijadj@gmail.com>
+Cc: outreachy@lists.linux.dev,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8] staging: axis-fifo: initialize timeouts in init only
+Date: Mon, 20 Mar 2023 17:55:20 +0100
+Message-ID: <3648719.TKLx3GfHUD@suse>
+In-Reply-To: <ZBhvU/USP0es8e4P@khadija-virtual-machine>
+References:
+ <ZBN3XAsItCiTk7CV@khadija-virtual-machine> <3180435.l52yBJDM9G@suse>
+ <ZBhvU/USP0es8e4P@khadija-virtual-machine>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Several variables and functions were named Camel Case. This resulted in
-checks pointed by checkpatch.pl
+On luned=EC 20 marzo 2023 15:36:03 CET Khadija Kamran wrote:
+> On Mon, Mar 20, 2023 at 02:38:24PM +0100, Fabio M. De Francesco wrote:
+> > On luned=EC 20 marzo 2023 07:34:04 CET Khadija Kamran wrote:
+> > > On Fri, Mar 17, 2023 at 11:29:25AM +0100, Fabio M. De Francesco wrote:
+> > > > Khadija,
+> > > >=20
+> > > > Congratulations for having your first patch in Linux, via Greg's=20
+staging
+> > > > tree.
+> > > >=20
+> > > > It will take some time before it reaches mainline, although it is
+> > > > already on its way to get upstream.
+> > >=20
+> > > [snip]
+> > >
+> > I'm confused by this statement. Can you please rephrase?
+> >=20
+> > > Am I getting it right?
+> >=20
+> > Not sure, it depends on what you meant with the previous phrase.
+>=20
+> As you said above that the commit message makes the reader miss the
+> permission details, so should we write more about permissions in the
+> description?
 
-Avoid camel case by changing names.
+No. Greg took your patch as is.
+No new versions for patches that Maintainers (i.e., Greg Kroah-Hartman for=
+=20
+drivers/staging and several other subsystems and drivers) already applied.
 
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
- drivers/staging/iio/addac/adt7316.c | 64 ++++++++++++++---------------
- 1 file changed, 32 insertions(+), 32 deletions(-)
+We've been discussing this topic after Greg had already taken your patch on=
+ly=20
+for the purpose to clarify to you why he suggested a better commit message.=
+=20
+However, he suggested that better message while stating that he prefers to=
+=20
+take your patch as is to give you time to work on something new.
 
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index 79467f056a05..49702beeac30 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -672,7 +672,7 @@ static IIO_DEVICE_ATTR(da_high_resolution, 0644,
- 		adt7316_store_da_high_resolution,
- 		0);
+I suppose that you received the two automated messages, the first which=20
+communicates that your patch has been applied to his staging-test tree and =
+the=20
+second which says that it has moved forward to the next step, which is the=
+=20
+staging-next tree. I saw those messages in Cc because I put my "Reviewed-by=
+"=20
+tag to your patch, so I know you had them.
 
--static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
-+static ssize_t adt7316_show_AIN_internal_vref(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -686,7 +686,7 @@ static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
- 		!!(chip->config3 & ADT7516_AIN_IN_VREF));
- }
+=46abio
 
--static ssize_t adt7316_store_AIN_internal_Vref(struct device *dev,
-+static ssize_t adt7316_store_AIN_internal_vref(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -713,9 +713,9 @@ static ssize_t adt7316_store_AIN_internal_Vref(struct device *dev,
- 	return len;
- }
+P.S.: Today I sent you an off-list message. Please locate it and reply.
 
--static IIO_DEVICE_ATTR(AIN_internal_Vref, 0644,
--		adt7316_show_AIN_internal_Vref,
--		adt7316_store_AIN_internal_Vref,
-+static IIO_DEVICE_ATTR(AIN_internal_vref, 0644,
-+		adt7316_show_AIN_internal_vref,
-+		adt7316_store_AIN_internal_vref,
- 		0);
+> > > Thank you!
+> > >=20
+> > > Regards,
+> > > Khadija
+> >=20
+> > You're welcome!
+> >=20
+> > So, thanks for working on this patch as long as it takes to get it done.
+> >=20
+> > I think the lesson to be learned is that in our community there are=20
+barriers
+> > to the entry of substandard products and therefore people have to do th=
+eir
+> > best if they really want to see their work applied.
+>=20
+> Yes, you are right. Due to this reason, the whole process is making me
+> learn a lot. I am really glad to be a part of it ^-^
+>=20
+> > These tasks are not for the "faints of heart" :-)
+> >=20
+> > Fabio
+>=20
+> Regards,
+> Khadija :)
 
- static ssize_t adt7316_show_enable_prop_DACA(struct device *dev,
-@@ -796,7 +796,7 @@ static IIO_DEVICE_ATTR(enable_proportion_DACB, 0644,
- 		       adt7316_store_enable_prop_DACB,
- 		       0);
 
--static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct device *dev,
-+static ssize_t adt7316_show_DAC_2vref_ch_mask(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -807,7 +807,7 @@ static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct device *dev,
- 		chip->dac_config & ADT7316_DA_2VREF_CH_MASK);
- }
 
--static ssize_t adt7316_store_DAC_2Vref_ch_mask(struct device *dev,
-+static ssize_t adt7316_store_DAC_2vref_ch_mask(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -834,9 +834,9 @@ static ssize_t adt7316_store_DAC_2Vref_ch_mask(struct device *dev,
- 	return len;
- }
-
--static IIO_DEVICE_ATTR(DAC_2Vref_channels_mask, 0644,
--		       adt7316_show_DAC_2Vref_ch_mask,
--		       adt7316_store_DAC_2Vref_ch_mask,
-+static IIO_DEVICE_ATTR(DAC_2vref_channels_mask, 0644,
-+		       adt7316_show_DAC_2vref_ch_mask,
-+		       adt7316_store_DAC_2vref_ch_mask,
- 		       0);
-
- static ssize_t adt7316_show_DAC_update_mode(struct device *dev,
-@@ -957,7 +957,7 @@ static IIO_DEVICE_ATTR(update_DAC, 0644,
- 		       adt7316_store_update_DAC,
- 		       0);
-
--static ssize_t adt7316_show_DA_AB_Vref_bypass(struct device *dev,
-+static ssize_t adt7316_show_DA_AB_vref_bypass(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -968,7 +968,7 @@ static ssize_t adt7316_show_DA_AB_Vref_bypass(struct device *dev,
- 		!!(chip->dac_config & ADT7316_VREF_BYPASS_DAC_AB));
- }
-
--static ssize_t adt7316_store_DA_AB_Vref_bypass(struct device *dev,
-+static ssize_t adt7316_store_DA_AB_vref_bypass(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -991,12 +991,12 @@ static ssize_t adt7316_store_DA_AB_Vref_bypass(struct device *dev,
- 	return len;
- }
-
--static IIO_DEVICE_ATTR(DA_AB_Vref_bypass, 0644,
--		       adt7316_show_DA_AB_Vref_bypass,
--		       adt7316_store_DA_AB_Vref_bypass,
-+static IIO_DEVICE_ATTR(DA_AB_vref_bypass, 0644,
-+		       adt7316_show_DA_AB_vref_bypass,
-+		       adt7316_store_DA_AB_vref_bypass,
- 		       0);
-
--static ssize_t adt7316_show_DA_CD_Vref_bypass(struct device *dev,
-+static ssize_t adt7316_show_DA_CD_vref_bypass(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -1007,7 +1007,7 @@ static ssize_t adt7316_show_DA_CD_Vref_bypass(struct device *dev,
- 		!!(chip->dac_config & ADT7316_VREF_BYPASS_DAC_CD));
- }
-
--static ssize_t adt7316_store_DA_CD_Vref_bypass(struct device *dev,
-+static ssize_t adt7316_store_DA_CD_vref_bypass(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -1030,12 +1030,12 @@ static ssize_t adt7316_store_DA_CD_Vref_bypass(struct device *dev,
- 	return len;
- }
-
--static IIO_DEVICE_ATTR(DA_CD_Vref_bypass, 0644,
--		       adt7316_show_DA_CD_Vref_bypass,
--		       adt7316_store_DA_CD_Vref_bypass,
-+static IIO_DEVICE_ATTR(DA_CD_vref_bypass, 0644,
-+		       adt7316_show_DA_CD_vref_bypass,
-+		       adt7316_store_DA_CD_vref_bypass,
- 		       0);
-
--static ssize_t adt7316_show_DAC_internal_Vref(struct device *dev,
-+static ssize_t adt7316_show_DAC_internal_vref(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -1050,7 +1050,7 @@ static ssize_t adt7316_show_DAC_internal_Vref(struct device *dev,
- 		       !!(chip->ldac_config & ADT7316_DAC_IN_VREF));
- }
-
--static ssize_t adt7316_store_DAC_internal_Vref(struct device *dev,
-+static ssize_t adt7316_store_DAC_internal_vref(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -1091,9 +1091,9 @@ static ssize_t adt7316_store_DAC_internal_Vref(struct device *dev,
- 	return len;
- }
-
--static IIO_DEVICE_ATTR(DAC_internal_Vref, 0644,
--		       adt7316_show_DAC_internal_Vref,
--		       adt7316_store_DAC_internal_Vref,
-+static IIO_DEVICE_ATTR(DAC_internal_vref, 0644,
-+		       adt7316_show_DAC_internal_vref,
-+		       adt7316_store_DAC_internal_vref,
- 		       0);
-
- static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
-@@ -1653,13 +1653,13 @@ static struct attribute *adt7316_attributes[] = {
- 	&iio_dev_attr_da_high_resolution.dev_attr.attr,
- 	&iio_dev_attr_enable_proportion_DACA.dev_attr.attr,
- 	&iio_dev_attr_enable_proportion_DACB.dev_attr.attr,
--	&iio_dev_attr_DAC_2Vref_channels_mask.dev_attr.attr,
-+	&iio_dev_attr_DAC_2vref_channels_mask.dev_attr.attr,
- 	&iio_dev_attr_DAC_update_mode.dev_attr.attr,
- 	&iio_dev_attr_all_DAC_update_modes.dev_attr.attr,
- 	&iio_dev_attr_update_DAC.dev_attr.attr,
--	&iio_dev_attr_DA_AB_Vref_bypass.dev_attr.attr,
--	&iio_dev_attr_DA_CD_Vref_bypass.dev_attr.attr,
--	&iio_dev_attr_DAC_internal_Vref.dev_attr.attr,
-+	&iio_dev_attr_DA_AB_vref_bypass.dev_attr.attr,
-+	&iio_dev_attr_DA_CD_vref_bypass.dev_attr.attr,
-+	&iio_dev_attr_DAC_internal_vref.dev_attr.attr,
- 	&iio_dev_attr_VDD.dev_attr.attr,
- 	&iio_dev_attr_in_temp.dev_attr.attr,
- 	&iio_dev_attr_ex_temp.dev_attr.attr,
-@@ -1693,15 +1693,15 @@ static struct attribute *adt7516_attributes[] = {
- 	&iio_dev_attr_enable_smbus_timeout.dev_attr.attr,
- 	&iio_dev_attr_powerdown.dev_attr.attr,
- 	&iio_dev_attr_fast_ad_clock.dev_attr.attr,
--	&iio_dev_attr_AIN_internal_Vref.dev_attr.attr,
-+	&iio_dev_attr_AIN_internal_vref.dev_attr.attr,
- 	&iio_dev_attr_da_high_resolution.dev_attr.attr,
- 	&iio_dev_attr_enable_proportion_DACA.dev_attr.attr,
- 	&iio_dev_attr_enable_proportion_DACB.dev_attr.attr,
--	&iio_dev_attr_DAC_2Vref_channels_mask.dev_attr.attr,
-+	&iio_dev_attr_DAC_2vref_channels_mask.dev_attr.attr,
- 	&iio_dev_attr_DAC_update_mode.dev_attr.attr,
- 	&iio_dev_attr_all_DAC_update_modes.dev_attr.attr,
- 	&iio_dev_attr_update_DAC.dev_attr.attr,
--	&iio_dev_attr_DAC_internal_Vref.dev_attr.attr,
-+	&iio_dev_attr_DAC_internal_vref.dev_attr.attr,
- 	&iio_dev_attr_VDD.dev_attr.attr,
- 	&iio_dev_attr_in_temp.dev_attr.attr,
- 	&iio_dev_attr_ex_temp_AIN1.dev_attr.attr,
---
-2.34.1
 
