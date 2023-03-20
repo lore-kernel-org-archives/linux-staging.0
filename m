@@ -1,53 +1,55 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358FAA23;
-	Mon, 20 Mar 2023 06:34:09 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id h8so42434017ede.8;
-        Sun, 19 Mar 2023 23:34:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6A1A23;
+	Mon, 20 Mar 2023 06:37:51 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id er8so30740602edb.0;
+        Sun, 19 Mar 2023 23:37:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679294047;
+        d=gmail.com; s=20210112; t=1679294269;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=pJHvlqs1E3IZOSc4LBd6IECUObELcDFGMeYOHFWKVto=;
-        b=PZX5bAk5F6ckB7vcIs0wXMYn3xd1BCWiPDcpO505/DzkuonoNu61w897NeC3Xqzjh7
-         8fWoHyhZHRy/UhnnrHSLwq9ENl/u38XBpy+xH1TRiuQr+rVySX8lcD21W33oWGjwIU3x
-         jJXgWfemlwOqaaEdIqCuF7TlHa/0QGV2mrgnXEZhUYA1nczCuMAPkXp3DdWWsRKVhFPD
-         mwUm+SJzlrNRziw/l3PB1D71fd1QHGECXVAWSRZ0uyMiOQePPBxJdwZU9CoaCzIAkfm2
-         cXebc6yESJcKFN/g29qlrlXW/EsWY5uKuMJ8R8+LW4grkmP+tw1qInQnbc8IyQz44+OG
-         rF6w==
+        bh=043cJL8M7bmhja0804XphdavMgq23OL+4hcE4H+oIJA=;
+        b=RlpKESwHE3eu8MkwEeNa/I+o0GrPq17cPNTpkDCW8pO25wB5GkuFfZguuIuqqu7W+2
+         gp/ya3dM8CTaO/o9Xw1ivg63pEaKV8kKGrmU/eQ9uHblr9TWOJn3urlWsHpxQu9dB/W+
+         Fl03xdyYZRQgBMNs8xThVa7P1sa79uwKd5BycLm8l7w+Rk2sAKG2G4kg4i9OfzruFkYh
+         MLFdqO5RQfMlDEgi2jvFDE253red7ydcAbZ9RBfyynPDUpkUINUQ6qBgwidycel0n9Bp
+         cdX3QLrBg/b/dvkigQPd4C7uTvypshpvS1Jc86//QDSNyf6qJjac+HTjKPtuTm9quAFj
+         bOjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679294047;
+        d=1e100.net; s=20210112; t=1679294269;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pJHvlqs1E3IZOSc4LBd6IECUObELcDFGMeYOHFWKVto=;
-        b=dUGSieVzhg2M5j+WuAkMibaG6ISoI4ju2iSC97878tXI3t+a6Kg4GxzYq8mn5XWLIK
-         e+odzza7TQyuEIAm/SNx5cYd6YaaZFBcTSKfw/ZSm36P5ml/1/vxcaWcZd6Nv36HIEcE
-         EsZx3XGxDLlyR/X+sJuaP/cc4JUQbv2QsPecgwr3dYITUFB07eqmzGAasWZ5Ih4QxUzX
-         aACTicmq+jjYWGQpgp3pXRa+O3ZGEQA/dyzm86T2NyaTUSHqw2vpX/qAW41K3QQMzluK
-         ZuWHg/pWd9yB8C+Xwaq7qEX1ybfbsgLHC1EIxy4YVyEkiO2CMo5CTnowewYo4sn4IF7U
-         wkSQ==
-X-Gm-Message-State: AO0yUKXk8bGTgEwleL4Ljt3zErxk7uukAFX7Z3y4S+BBFLc7Q9TVEE25
-	+ppQGO+FdstYeZ530lVPAFRDGGwqLPbrZ/Y4
-X-Google-Smtp-Source: AK7set+WxSEvQ70ODVjdrp9oA75w+1BbD9UJRq8rtQsh9SLt6a6szK+v8GKc/pyvBL5X1wRW53oJQQ==
-X-Received: by 2002:a17:906:538f:b0:92d:44ca:1137 with SMTP id g15-20020a170906538f00b0092d44ca1137mr7753076ejo.43.1679294047321;
-        Sun, 19 Mar 2023 23:34:07 -0700 (PDT)
+        bh=043cJL8M7bmhja0804XphdavMgq23OL+4hcE4H+oIJA=;
+        b=dfiuBZ5keVEkMv4ZfjWseZdd6mAvM22jitmv3Efn8UYumk2gIFTf9rPRdmo0/IKSVd
+         h+4wpx9C3hn0UEFH6WepLIvgXdYtm6xfev6z4ROKxAr2qsHJ8qmkXldMM3h7P20cDeBH
+         BmmvBsF9zSqxhO4wrjZ0hyzTAzRd4qq19cBghsSc4T5Nm+IgSQoEpx4TvzqBxIoWfQmA
+         I/1EB7+kMBjFSb/3/zUB7SlzJKzENbVQeE2rhAzLg4Z3jf4Qt9I4sDWTw0fApCMbvfxX
+         L4ryRAIw7OcZqgequlYarUl0DWFtyTeIkSD3kXKASyTFGYl7BE7VOX0bbJ4bEkl2G5rC
+         B/4w==
+X-Gm-Message-State: AO0yUKVVqKYkzTfA9JOz0N5wl+fek8nlhv07nbXmuaVMh6/wSD6GcuGC
+	EIRq8YtVfKChv1nvOuOPBYk=
+X-Google-Smtp-Source: AK7set87I0UPLQeLtuvVamN9YVClfZk/eJRdtJC6LAJX7LFhk7VmTloSaJI8JdCbscvOSwQf7usdvg==
+X-Received: by 2002:aa7:c650:0:b0:4fd:14d5:bb47 with SMTP id z16-20020aa7c650000000b004fd14d5bb47mr9992523edr.38.1679294269298;
+        Sun, 19 Mar 2023 23:37:49 -0700 (PDT)
 Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id p25-20020a50cd99000000b004bf76fdfdb3sm4341043edi.26.2023.03.19.23.34.06
+        by smtp.gmail.com with ESMTPSA id f23-20020a1709064dd700b00931536d461fsm3983267ejw.20.2023.03.19.23.37.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 23:34:06 -0700 (PDT)
-Date: Mon, 20 Mar 2023 11:34:04 +0500
+        Sun, 19 Mar 2023 23:37:48 -0700 (PDT)
+Date: Mon, 20 Mar 2023 11:37:46 +0500
 From: Khadija Kamran <kamrankhadijadj@gmail.com>
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Cc: outreachy@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] staging: axis-fifo: initialize timeouts in init only
-Message-ID: <ZBf+XDN8GM0xDDCq@khadija-virtual-machine>
-References: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
- <2222576.3ZeAukHxDK@suse>
+Subject: Re: [PATCH v5] staging: axis-fifo: initialize timeouts in probe only
+Message-ID: <ZBf/OuuUUeharrXp@khadija-virtual-machine>
+References: <ZBMR4s8xyHGqMm72@khadija-virtual-machine>
+ <2162728.C4sosBPzcN@suse>
+ <ZBNhXc3sVVLdibUF@khadija-virtual-machine>
+ <2599595.k3LOHGUjKi@suse>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,188 +59,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2222576.3ZeAukHxDK@suse>
+In-Reply-To: <2599595.k3LOHGUjKi@suse>
 
-On Fri, Mar 17, 2023 at 11:29:25AM +0100, Fabio M. De Francesco wrote:
-> Khadija,
+On Thu, Mar 16, 2023 at 09:07:09PM +0100, Fabio M. De Francesco wrote:
+> On giovedì 16 marzo 2023 19:35:09 CET Khadija Kamran wrote:
+> > On Thu, Mar 16, 2023 at 05:17:47PM +0100, Fabio M. De Francesco wrote:
+> > > On giovedì 16 marzo 2023 16:09:08 CET Khadija Kamran wrote:
 > 
-> Congratulations for having your first patch in Linux, via Greg's staging tree.
+> [snip]
 > 
-> It will take some time before it reaches mainline, although it is already on 
-> its way to get upstream.
-
-Thank you! :)
-
-> 
-> On giovedì 16 marzo 2023 21:09:00 CET Khadija Kamran wrote:
-> > Initialize the module parameters, read_timeout and write_timeout once in
-> > init().
+> > Hey Fabio!
 > > 
-> > Module parameters can only be set once and cannot be modified later, so we
-> > don't need to evaluate them again when passing the parameters to
-> > wait_event_interruptible_timeout().
+> > Hope you are doing well. After  spending a lot of time on this I am
+> > stuck now. Kindly help me resolve this issue or understand it better.
+> > 
+> > Following your instructions I deleted my config file and copied one from
+> > the /boot/ directory. After that I enabled the dependencies(CONFIG_OF=y
+> > and CONFIG_HAS_IOMEM=y). I was successfully able to enable axis-fifo as
+> > a module.
+> > 
+> > I then ran the following commands:
+> >  - make drivers/staging/axis-fifo/
 > 
-> Greg made you (and indirectly me notice) that the statement above is a kind of 
-> short-circuit because it misses to make the readers notice that you are 
-> dealing with specific permissions granted to these two module's parameters.
->
-> Please take a look at the permissions associated with those parameters:
+> No, this is not the right command... you are not invoking the linker to make 
+> the .ko object.
 > 
-> module_param(write_timeout, long, 0444);
-> module_param(read_timeout, long, 0444);
+> Use "make M=drivers/staging/axis-fifo/"
+> or "make M=drivers/staging/axis-fifo/ W=1 -j8" (the latter to enable level '1' 
+> warning and run on your 2 * 4 logical cores).
 > 
-> Can you understand what '0444' stands for? What if their permissions were  
-> instead something like '0666' or '0664'?
->
-
-Hey Fabio!
-
-I understand that 0444 shows read permissions only.
-I am trying to make sense of this. As the permissions do not allow
-write, so the value cannot be configured afterwards. 
-Instead of saying 'cannot be modified later', we should talk more about
-permissions here too.
-Am I getting it right?
-
-Thank you!
-
-Regards,
-Khadija
-
-
-> (I'm not asking you to answer these questions, instead I am only asking you to 
-> learn how it works if you don't know it yet).
+> >  - sudo make modules_install install(this command took hours) :'(
+> 
+> This is odd, it shouldn't :-/
+> 
+> As I said in another message, I'll set aside some time to help you check if 
+> you need to fine tune your VM and Hypervisor configuration. 
+> 
+> I'm returning on the same subject we have been talked about because you said 
+> at least twice that your builds and install are too slow. We'll try to 
+> diagnose it in an IRC session on #kernel-outreachy (I'm pretty sure for the 
+> first days of next week - I'll send an invite).
+> 
+> > > When you are done with build, install, and final reboot to test if your
+> > > module can "modprobe" or "insmod" (i.e. link with the running custom 
+> kernel
+> > > you built, installed and boot), try to compare the output of the following
+> > > commands:
+> > > 
+> > > # uname -a
+> > > Linux suse 6.2.2-1-default #1 SMP PREEMPT_DYNAMIC Thu Mar  9 06:06:13 UTC
+> > > 2023 (44ca817) x86_64 x86_64 x86_64 GNU/Linux
+> > 
+> > The above command works
+> > 
+> > > AND
+> > > 
+> > > # modinfo <name of the module you are testing here>
+> > 
+> > On running 'modinfo axis-fifo' I get error saying module axis-fifo not
+> > found.
+> 
+> Try again after building with "M=drivers/staging" (as said above). Don't 
+> forget to run "make modules_install install" and then reboot into your custom 
+> built Kernel, not the distribution's kernel.
+> 
+> While you are there, run "lsmod" to see all loaded modules. Pick one randomly 
+> from the output list and run "modinfo name_of_the_module_you_want_info_about".
+>  
+> > > I'm running "modinfo kvm" (but showing only two of many lines):
+> > > 
+> > > # modinfo kvm
+> > > filename:       /lib/modules/6.2.2-1-default/kernel/arch/x86/kvm/
+> kvm.ko.zst
+> > > vermagic:       6.2.2-1-default SMP preempt mod_unload modversions
+> > > 
+> > > Can you see that the kernel in "uname -a" and the filename and vermagic 
+> have
+> > > the same "6.2.2-1-default"? Well, so I'm sure I'm running the right Kernel
+> > > and inserted the appropriate "kvm" module.
+> > > 
+> > > Furthermore, before rebooting your custom kernel, you may also look at the
+> > > directory in the Kernel where you compiled your module and search for 
+> "*.o"
+> > > "*mod*" and "*.ko" files. If you have them, you built your module 
+> properly.
+> > 
+> > There is a "*.o" file and "*.mod" file but there is no "*.ko" file in
+> > the axis-fifo directory.
+> > 
+> > Kindly help me with this.
+> > 
+> > Regards,
+> > Khadija
+> > 
+> > > Thanks,
+> > > 
+> > > Fabio
+> 
+> Let me know if this time it works.
 > 
 > Fabio
 > 
-> > Convert datatype of {read,write}_timeout from 'int' to 'long int' because
-> > implicit conversion of 'long int' to 'int' in statement
-> > '{read,write}_timeout = MAX_SCHEDULE_TIMEOUT' results in an overflow.
-> > 
-> > Change format specifier for {read,write}_timeout from %i to %li.
-> > 
-> > Reviewed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
-> > ---
-> > 
-> > Changes in v8:
-> >  - Fixed a spelling mistake
-> > 
-> > Changes in v7:
-> >  - Fixed a grammatical error
-> > 
-> > Changes in v6:
-> >  - Initialize module parameters in init instead of probe function.
-> >  - Change the subject and description
-> >  - Change format specifiers of module parameters to "%li"
-> > 
-> > Changes in v5:
-> >  - Convert module parameters datatype from int to long.
-> >  - Link to patch:
-> >  https://lore.kernel.org/outreachy/ZBMR4s8xyHGqMm72@khadija-virtual-machine/
-> > 
-> > Changes in v4:
-> >  - Initialize timeouts once as suggested by Greg; this automatically
-> >    fixes the indentation problems.
-> >  - Change the subject and description.
-> >  - Link to patch:
-> >  https://lore.kernel.org/outreachy/ZA4M3+ZeB1Rl2fbs@khadija-virtual-machine/
-> > 
-> > Changes in v3:
-> >  - Correct grammatical mistakes
-> >  - Do not change the second argument's indentation in split lines
-> > 
-> > Changes in v2:
-> >  - Instead of matching alignment to open parenthesis, align second and
-> >    the last argument.
-> >  - Change the subject and use imperative language.
-> >  - Link to patch:
-> >  https://lore.kernel.org/outreachy/ZAxNYw2rFQkrdtKl@khadija-virtual-machine/
-> > 
-> > Link to first patch:
-> >  https://lore.kernel.org/outreachy/ZAZSmPpB6fcozGa4@khadija-virtual-machine/
-> > 
-> >  drivers/staging/axis-fifo/axis-fifo.c | 28 ++++++++++++++++-----------
-> >  1 file changed, 17 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/staging/axis-fifo/axis-fifo.c
-> > b/drivers/staging/axis-fifo/axis-fifo.c index dfd2b357f484..0a85ea667a1b
-> > 100644
-> > --- a/drivers/staging/axis-fifo/axis-fifo.c
-> > +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> > @@ -103,17 +103,17 @@
-> >   *           globals
-> >   * ----------------------------
-> >   */
-> > -static int read_timeout = 1000; /* ms to wait before read() times out */
-> > -static int write_timeout = 1000; /* ms to wait before write() times out */
-> > +static long read_timeout = 1000; /* ms to wait before read() times out */
-> > +static long write_timeout = 1000; /* ms to wait before write() times out */
-> > 
-> >  /* ----------------------------
-> >   * module command-line arguments
-> >   * ----------------------------
-> >   */
-> > 
-> > -module_param(read_timeout, int, 0444);
-> > +module_param(read_timeout, long, 0444);
-> >  MODULE_PARM_DESC(read_timeout, "ms to wait before blocking read() timing 
-> out;
-> > set to -1 for no timeout"); -module_param(write_timeout, int, 0444);
-> > +module_param(write_timeout, long, 0444);
-> >  MODULE_PARM_DESC(write_timeout, "ms to wait before blocking write() timing
-> > out; set to -1 for no timeout");
-> > 
-> >  /* ----------------------------
-> > @@ -384,9 +384,7 @@ static ssize_t axis_fifo_read(struct file *f, char 
-> __user
-> > *buf, mutex_lock(&fifo->read_lock);
-> >  		ret = wait_event_interruptible_timeout(fifo->read_queue,
-> >  			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-> > -				 (read_timeout >= 0) ?
-> > -				  msecs_to_jiffies(read_timeout) :
-> > -				  MAX_SCHEDULE_TIMEOUT);
-> > +			read_timeout);
-> > 
-> >  		if (ret <= 0) {
-> >  			if (ret == 0) {
-> > @@ -528,9 +526,7 @@ static ssize_t axis_fifo_write(struct file *f, const 
-> char
-> > __user *buf, ret = wait_event_interruptible_timeout(fifo->write_queue,
-> >  			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
-> > 
-> >  				 >= words_to_write,
-> > 
-> > -				 (write_timeout >= 0) ?
-> > -				  msecs_to_jiffies(write_timeout) :
-> > -				  MAX_SCHEDULE_TIMEOUT);
-> > +			write_timeout);
-> > 
-> >  		if (ret <= 0) {
-> >  			if (ret == 0) {
-> > @@ -948,7 +944,17 @@ static struct platform_driver axis_fifo_driver = {
-> > 
-> >  static int __init axis_fifo_init(void)
-> >  {
-> > -	pr_info("axis-fifo driver loaded with parameters read_timeout = %i,
-> > write_timeout = %i\n", +	if (read_timeout >= 0)
-> > +		read_timeout = msecs_to_jiffies(read_timeout);
-> > +	else
-> > +		read_timeout = MAX_SCHEDULE_TIMEOUT;
-> > +
-> > +	if (write_timeout >= 0)
-> > +		write_timeout = msecs_to_jiffies(write_timeout);
-> > +	else
-> > +		write_timeout = MAX_SCHEDULE_TIMEOUT;
-> > +
-> > +	pr_info("axis-fifo driver loaded with parameters read_timeout = %li,
-> > write_timeout = %li\n", read_timeout, write_timeout);
-> >  	return platform_driver_register(&axis_fifo_driver);
-> >  }
-> > --
-> > 2.34.1
-> 
-> 
-> 
+> P.S.: Have you had time to read that "Linux Kernel Module Programming" guide I 
+> sent you the link of? You can find a lot of information about modules there. 
+> I'd strongly recommend you to read it. 
+>
+
+Fabio,
+
+I have not read it yet. But it is in my mind and as soon as I get some
+free time I will start reading it :)
+
+Thank you!
+
 > 
