@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893071C32;
-	Mon, 20 Mar 2023 15:44:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D42DBC4339B;
-	Mon, 20 Mar 2023 15:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67D61C32;
+	Mon, 20 Mar 2023 15:45:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F402C4339C;
+	Mon, 20 Mar 2023 15:45:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1679327078;
-	bh=jVotV7PCuo3EryZ0m72dclvZaKdhsKt6vWYQUGWl+Rg=;
+	s=korg; t=1679327158;
+	bh=naN7vYGGVLWCjR2kPZSIxwtVmyaeIFB9eQqFu3TA8Nw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lIErnD8Dlq7lahLhcQ2DSNbfuMCt3VOzs/F1c769vyiZeqQLydKac4C1Gv/jKwmHF
-	 9gx6TyrE5SWEx9mJumQM9lMc/gatI5rUOBN0rEbwwRje1Q9o/JGq0h+z0R3ZYp39C2
-	 ulsWZO+N4uLWS1inS5KdJg96dWWfP0MeLBLNNGyY=
-Date: Mon, 20 Mar 2023 16:44:35 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-Cc: outreachy@lists.linux.dev, parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com, drv@mailo.com, dave@stgolabs.net,
-	yang.lee@linux.alibaba.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH] staging: most:  use inline functions for iface_to_hdm
-Message-ID: <ZBh/Yw49fubf1GDb@kroah.com>
-References: <20230320103335.6479-1-eng.mennamahmoud.mm@gmail.com>
+	b=OA5fKq0LDPfIHqSiT7B7jys6/bCyUxVBCoN80b72LItAJT+xQ2+ieD3dPo/KS7FQP
+	 QhybIzKoHGyx9vkLDRwqNXDIN9SETtLzAkvBVcFHEBKrJhBfbGjErJIccqT4u7WG8p
+	 NVxFF4UwkIheXKTfKitXGeui0iITJUctw0bAU3iA=
+Date: Mon, 20 Mar 2023 16:45:55 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: Marc Dietrich <marvin24@gmx.de>, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] Staging: nvec: Convert to_nvec_led from a macro to an
+ inline function
+Message-ID: <ZBh/s5lyONaF37gs@kroah.com>
+References: <20230318175250.GA49618@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,26 +30,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230320103335.6479-1-eng.mennamahmoud.mm@gmail.com>
+In-Reply-To: <20230318175250.GA49618@sumitra.com>
 
-On Mon, Mar 20, 2023 at 12:33:35PM +0200, Menna Mahmoud wrote:
-> Convert `iface_to_hdm` macro into a static inline function.
-> it is not great to have macro that use `container_of` macro,
-> because from looking at the definition one cannot tell
-> what type it applies to.
+On Sat, Mar 18, 2023 at 10:52:50AM -0700, Sumitra Sharma wrote:
+> Convert to_nvec_led from a macro to a static inline function, to make the
+> relevant types apparent in the definition and to benefit from the type
+> checking performed by the compiler at call sites.
 > 
-> One can get the same benefit from an efficiency point of view
-> by making an inline function.
-> 
-> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 > ---
->  drivers/staging/most/dim2/dim2.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> v2: Change patch subject and description, noted by 
+> Julia Lawall <julia.lawall@inria.fr> 
+> 
+>  drivers/staging/nvec/nvec_paz00.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/nvec/nvec_paz00.c b/drivers/staging/nvec/nvec_paz00.c
+> index 8b4da95081c8..9573ba762cdd 100644
+> --- a/drivers/staging/nvec/nvec_paz00.c
+> +++ b/drivers/staging/nvec/nvec_paz00.c
+> @@ -14,8 +14,10 @@
+>  #include <linux/platform_device.h>
+>  #include "nvec.h"
+>  
+> -#define to_nvec_led(led_cdev) \
+> -	container_of(led_cdev, struct nvec_led, cdev)
+> +static inline struct nvec_led *to_nvec_led(struct led_classdev *led_cdev)
+> +{
+> +	return container_of(led_cdev, struct nvec_led, cdev);
+> +}
 
-Your subject line has a "  " when it should have just a " " :(
-
-Please fix up and send a v2.
+There is no need for a function, or a macro, for this, as it is only
+used once.  Please just open-code it in the one place it is used
+instead.
 
 thanks,
 
