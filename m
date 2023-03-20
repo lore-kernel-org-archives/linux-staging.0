@@ -1,94 +1,113 @@
 Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A524D1846;
-	Mon, 20 Mar 2023 10:14:58 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id w9so44542764edc.3;
-        Mon, 20 Mar 2023 03:14:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D6C7E7;
+	Mon, 20 Mar 2023 10:33:08 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id o12so44666727edb.9;
+        Mon, 20 Mar 2023 03:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679307297;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HvoaCsxD8j+MlDGCUL2UcBhM2jG+i14Rfbl7/FhMycg=;
-        b=FGb8HHAG4Qm7kRI4qls4jY8N7C0C3sZoNOglCJSYipb2PSMj0u5OmqG0XkuwtkDTPj
-         HsYq9S5eyOAp5gfinLuagefvgsF+M5bKbstRIeSUPryos57DD2b1FItRrRkEzbkeWlia
-         UBMoBKr2hAo/PoTmaJ+42Iex9PVKGwSmU88IbvpTz4TRk4ozmNPgLvufiF2PSOl3gxJE
-         Wvh8kmTukLMkTgxeoqtk6My/+wmJIaXioPxeLKmPqc7DQM8RgWaJXrkEvm2n/EjoK5Qv
-         ey9FdKDove8Mc6WHwEMWmtIcbcL5UbKlUagRhxLcGuzQbEVXLqRMXZXsH+QVSJCNLelD
-         wFIQ==
+        d=gmail.com; s=20210112; t=1679308386;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mr0fy3RU+wSUMXeuF88E6gyhPRRcPTFwOnXTbRWfaXo=;
+        b=aCbA4RP1J5CoTUmpfEbynhhut9tzNMcG1jV0v1aCiBlHxJoqmSwqGn5qoA6DG654LB
+         gQkyfVnAqahye2fSKuADUHvifZDvLyyTao+8fhX57via0XTw2G7/t/OCjVcAbf1RRKiu
+         aL7+aQN9hjf5gpY6yZS0l9SGhuQPUiDxBWXgHj7fC5dhOc/lvCVGdePlnMM0QTYObuVL
+         1Vjr7o8k+mBGJ0GjL4mtecZXFUfpKEPKU7QxOryCh+cP8LaWkT6KLN24GMWPigvagDnw
+         NmLeeGCDivqZAOTuved8X252Up+g/+r8NqRBQOi79l2XRAYO20Lg5UYkyKZPV4x22MbV
+         s/IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679307297;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HvoaCsxD8j+MlDGCUL2UcBhM2jG+i14Rfbl7/FhMycg=;
-        b=k/zOrQfWy0GXXJJZ4TtnRM9uk22UZ0ywZrLFY9awQuPIGBJfFHDm6w7jRPZbCDbSrS
-         hLyNt45WKc0k6NKqnF1n/V/0uyudX7xKM3Jjg5y6cILSmmI+0q2o7AFfClp+oXnXX3n8
-         JyU4bcFYPzUFWLcZ2/ZecI4tJrHYazy8alpRxEqW2Xb3ZXWSzp/DhgnsHrlAw9U+uhfz
-         cMrTLB74DBPUzXcb239+UaZ2CRRJ65wjPXO12J1Mi14mg4B+d+AJZ66s2BH42salvw0q
-         +VN/uKQ7bEV8IStNd/AoaLrKli72ZnNrriVgYtKS4iutZZ+7SES/jLfjtewRewuMKg80
-         iwmQ==
-X-Gm-Message-State: AO0yUKU6+/ZF3RHMGVR1uEVDcgphKr33FVojhDOz6rCMaaHUaxqWnVPC
-	k8zDv/a96zicWqRAnDwoOhs=
-X-Google-Smtp-Source: AK7set+TM0hC3s6i6HZiMrQ7bJN49IFKhhZ+d/Yhr4dJenpButGzu2Z8VUe+Szsa7sAlNsUVWBjyEw==
-X-Received: by 2002:a17:906:51d0:b0:885:a62c:5a5c with SMTP id v16-20020a17090651d000b00885a62c5a5cmr9709042ejk.46.1679307296787;
-        Mon, 20 Mar 2023 03:14:56 -0700 (PDT)
-Received: from [192.168.1.16] ([41.42.177.251])
-        by smtp.gmail.com with ESMTPSA id z1-20020a1709064e0100b00931baabe36csm4150848eju.63.2023.03.20.03.14.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 03:14:56 -0700 (PDT)
-Message-ID: <3c9e2fd0-fec8-2aa7-0e68-601b13cc86dd@gmail.com>
-Date: Mon, 20 Mar 2023 12:14:54 +0200
+        d=1e100.net; s=20210112; t=1679308386;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mr0fy3RU+wSUMXeuF88E6gyhPRRcPTFwOnXTbRWfaXo=;
+        b=ukk17eiBdJ1Knl0L2jGNFziiqoGq/IkVC/s75WYyABf9AljwH6KJ2/PZbRe/2BrhJB
+         Glfs3jbfclYvq6WCTIg5IlwwMlnnC27AyBWWZJ4htV2rH16bLmuFblZ7wRyyKS0+y0t+
+         7mbhDnABKEMYJlE0aqYhj8fGLlY5Mnhd4v3bIdXXu4RTZiIoeY7Tf73IPPdttga29XAd
+         gge15PYEHN+4X6CdtgBMPl5hTv4Hpr9iiriFJYWO7Xq1rG29t4iAh/OwBRubghahwkqE
+         698njkcX4Jc79Arumc4qVpGmlJXp3PLXxrw/xngaHHihMGZhR9miQbVtsMS4APrVtlLe
+         rMaw==
+X-Gm-Message-State: AO0yUKW8x8qJz/5vR8pyfToUXNbl5Fm8P2TrAHH2hUmaXovelDo0yDaT
+	rdjSaLBP/qWXTQKIynj7aCw=
+X-Google-Smtp-Source: AK7set94Y+qlvBrb1DY+OByQKGaeiXGowIIS7OMRkV92BxPpjenE3RFLtDEtAplqeRG1ZWGY34sBng==
+X-Received: by 2002:a17:907:2be4:b0:930:fe49:5383 with SMTP id gv36-20020a1709072be400b00930fe495383mr7062637ejc.76.1679308386562;
+        Mon, 20 Mar 2023 03:33:06 -0700 (PDT)
+Received: from alaa-emad.. ([41.42.177.251])
+        by smtp.gmail.com with ESMTPSA id k6-20020a17090632c600b00924d38bbdc0sm4199621ejk.105.2023.03.20.03.33.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 03:33:06 -0700 (PDT)
+From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: outreachy@lists.linux.dev,
+	johan@kernel.org,
+	elder@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	eng.mennamahmoud.mm@gmail.com,
+	Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH v3] staging: greybus: use inline function for macros
+Date: Mon, 20 Mar 2023 12:32:58 +0200
+Message-Id: <20230320103258.6461-1-eng.mennamahmoud.mm@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] staging: greybus: use inline function for macros
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, johan@kernel.org,
- elder@kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230319201324.253874-1-eng.mennamahmoud.mm@gmail.com>
- <alpine.DEB.2.22.394.2303192121170.2867@hadrien>
- <0f02a3ff-801b-1e1f-5c03-009a05708709@gmail.com>
- <alpine.DEB.2.22.394.2303192151330.2867@hadrien>
- <402ffcbe-bb29-7035-68f4-2741532a6d67@gmail.com>
- <alpine.DEB.2.22.394.2303192225590.2867@hadrien>
- <649afe06-e069-e046-21ec-0d86243a4bfa@gmail.com>
- <alpine.DEB.2.22.394.2303192303130.2867@hadrien>
- <8e9724a0-226d-eb81-69c3-d59889e37e1f@gmail.com>
- <alpine.DEB.2.22.394.2303200659280.2940@hadrien>
-Content-Language: en-US
-From: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
-In-Reply-To: <alpine.DEB.2.22.394.2303200659280.2940@hadrien>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Convert `to_gbphy_dev` and `to_gbphy_driver` macros into a
+static inline function.
 
-On ٢٠‏/٣‏/٢٠٢٣ ٠٨:٠٠, Julia Lawall wrote:
->>>> and version that I have submitted, should I do anything about it as you
->>>> said
->>>> it is wrong solution?
->>> My concern was the blank line after each of the structure definitions,
->>> which is not in Greg's tree, so he can't apply the patch.  Other than
->>> that, if the code compiles it is at least going in the right direction.
->>>
->>> Please fix the newlines issue, and then send the patch again.
->>>
->>> julia
->>
->> Okay I will fix it, but will send it as a new patch not v3, right?
-> Why as a new patch?  The change is the same as in v2, and sending v3 makes
-> it clear that v2 should be ignored.
->
-> julia
+it is not great to have macro that use `container_of` macro,
+because from looking at the definition one cannot tell what type
+it applies to.
 
+One can get the same benefit from an efficiency point of view
+by making an inline function.
 
-Okay, thanks.
+Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+Signed-off-by: Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+---
+change in v2:
+	remove newlines added in previous patch.
 
-Menna
+change in v3:
+	fix the patch to be against Greg's tree.
+---
+ drivers/staging/greybus/gbphy.h | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/gbphy.h b/drivers/staging/greybus/gbphy.h
+index d4a225b76338..03a977056637 100644
+--- a/drivers/staging/greybus/gbphy.h
++++ b/drivers/staging/greybus/gbphy.h
+@@ -15,7 +15,10 @@ struct gbphy_device {
+ 	struct list_head list;
+ 	struct device dev;
+ };
+-#define to_gbphy_dev(d) container_of(d, struct gbphy_device, dev)
++static inline struct gbphy_device *to_gbphy_dev(const struct device *d)
++{
++	return container_of(d, struct gbphy_device, dev);
++}
+ 
+ static inline void *gb_gbphy_get_data(struct gbphy_device *gdev)
+ {
+@@ -43,7 +46,10 @@ struct gbphy_driver {
+ 
+ 	struct device_driver driver;
+ };
+-#define to_gbphy_driver(d) container_of(d, struct gbphy_driver, driver)
++static inline struct gbphy_driver *to_gbphy_driver(struct device_driver *d)
++{
++	return container_of(d, struct gbphy_driver, driver);
++}
+ 
+ int gb_gbphy_register_driver(struct gbphy_driver *driver,
+ 			     struct module *owner, const char *mod_name);
+-- 
+2.34.1
 
