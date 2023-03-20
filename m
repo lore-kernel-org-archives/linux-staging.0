@@ -1,86 +1,115 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E074E4EB;
-	Mon, 20 Mar 2023 12:10:39 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id o12so45780843edb.9;
-        Mon, 20 Mar 2023 05:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679314237;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lejGXvtxYXPbRbirbLrzty70j8ZQG2QJS1aPe94BDQ0=;
-        b=JsaW7C+nAECp/HhGauljm8wmqVzAsC/nrlVXgaaVojvuNY08+jfmVumCbRqCi1cShv
-         D46LiHX02jZ1AhFY4aRc6qhjdoNU/v1xjyt6RYmFGMNn7cz56B53GUIomyHDc1ZhIFT1
-         a0ly2IFDqA8zI3nZdGNvM70XSD+lX4BMAgndCw1pC68obu20QjYQBxC9KFtEwgbKuTVI
-         FyJko3QWQwu49mF3HzXJB8ojP+ec9Jp5nK1vnLPURfrQft5jkDbn3CyLho3FxZ9BUVza
-         mqZD+m/s5KnSGn1QVZ8dhHSDdFHHOEIaPDj6NI/PMOGYLL5SUiUsJoAPbSOs/bUPoAuM
-         6WFg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E75184C
+	for <linux-staging@lists.linux.dev>; Mon, 20 Mar 2023 12:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1679314364;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XDRN9XADCHW4KobnBjZyGXmUoJLZGTdT1A6DRUh7Iug=;
+	b=AnamrtCy0ec9Jjrq4nAb2ognJwUBYo//j6Zgv8qtemnQbSUZVLZZjlPGPaUckt3XUk0wJa
+	A05bPkaFBOorfgXOAX3g9qy85k1E/7RFoGj6g+Cy4XHq8UJKSwyKnAwt6dmQLcw4p/RFCp
+	haMj9VxFswiKcPh6CIZZth9xBj5iZdg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-88-LyGK68_jPXOcwE5A7jqY1A-1; Mon, 20 Mar 2023 08:12:43 -0400
+X-MC-Unique: LyGK68_jPXOcwE5A7jqY1A-1
+Received: by mail-wr1-f71.google.com with SMTP id c3-20020adfa303000000b002d5737d3835so362557wrb.21
+        for <linux-staging@lists.linux.dev>; Mon, 20 Mar 2023 05:12:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679314237;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lejGXvtxYXPbRbirbLrzty70j8ZQG2QJS1aPe94BDQ0=;
-        b=glgz6UJ9JNLQx3jUVe0T+8EeEZ/XHx/nUVTv+M57YcSNI3IN1o9Ihely/JyhVlFfWZ
-         QJhs4GL8j+EVx43XFB1T8ScwhUeeoWnFkmN43ZEFf2S/78Ezfb7gHMPZ9xDvZWPq/PDH
-         iS90syEAjqrK5x4uCBy/W7zoiWJDEHykk5+rbwAu+6g4PTHa/7edfhXeKZbh3SZxL4jF
-         lED5G9hHajKPnMLbcZHeA13igvmlYwLIy39fCfRoZ59vlIauDLrk5A1tYXb/yn5BDfDo
-         bdTqngzY7nlFlvJIWjTjMMlkwa2Yab6/wRdCUk3UJXef31AWqwLlGeMwddhw1VYoeSTO
-         zy7g==
-X-Gm-Message-State: AO0yUKVWTwCMt13LO3ZSAIt6KqMC/P8zsW2rsA3Q+ZYb4wpfUuQEE9/b
-	g+puLeYaied7iJrykHpr2oU=
-X-Google-Smtp-Source: AK7set9IVH1ZPd+u+qXJXskzpIA4kaSshW23le6se8QUxh4nKLX0DNUggBx6rPK4R2KEJ8bchoKneg==
-X-Received: by 2002:a17:906:bcf4:b0:920:7a99:dcd4 with SMTP id op20-20020a170906bcf400b009207a99dcd4mr9151233ejb.62.1679314237193;
-        Mon, 20 Mar 2023 05:10:37 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id e14-20020a170906044e00b0093204090617sm4059402eja.36.2023.03.20.05.10.36
+        d=1e100.net; s=20210112; t=1679314361;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XDRN9XADCHW4KobnBjZyGXmUoJLZGTdT1A6DRUh7Iug=;
+        b=uGiAqdHNwBI6oferrTzNUwrQubOZwVvCr126GJL4pHmF4rvA2nbMkzxJYziyYPnkS8
+         AqVU84oh2a+yD4OZDotj4/2CdFz10iw9nzHVL1iFTpP2MsCasbTOjh3n75MYw3WgFEFD
+         e+tIh8qDwSwZJhsb0K7YT3yvzZRLzQfzbfTOD2sFCO+KikkXQsDnOqeD76NAJPEX5eZl
+         rQAVSN56XoejzqocDGknofM+8Dhvl9UZvTOmWqkyjtFiYK71MsnqHrVhTwqWaAuA+3qj
+         SYv1ZbwC3JqWfGuwumaf+iX5yFihOO016pZjtgx8kdSJtx3f3IEb64JeKd+sVC56DyJB
+         pNJA==
+X-Gm-Message-State: AO0yUKWJuQAw6R4o6T5ZFWV9juY1SZP+jJ9lTFuZj15iT0RZKQKLoavB
+	nSXlF32xSMY8G36kl85j/1KinaO3u77L1DAXmtZjeN4g8HuFSaiTxiNMVoTgg/p0xMxc2z1BvjZ
+	IEDLi54xw/7h6WSjQbmeRN1eMRQ==
+X-Received: by 2002:a05:600c:2299:b0:3ee:da1:135f with SMTP id 25-20020a05600c229900b003ee0da1135fmr1095247wmf.7.1679314361794;
+        Mon, 20 Mar 2023 05:12:41 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+umOOuG5X2xVwy2+bTR0qTb8LXpCVn0AZ49wk1ROM/wu6oxM+7I2UIaZAV5omtJqUkTfXqew==
+X-Received: by 2002:a05:600c:2299:b0:3ee:da1:135f with SMTP id 25-20020a05600c229900b003ee0da1135fmr1095226wmf.7.1679314361535;
+        Mon, 20 Mar 2023 05:12:41 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id f20-20020a7bcd14000000b003e203681b26sm10324306wmj.29.2023.03.20.05.12.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 05:10:36 -0700 (PDT)
-Date: Mon, 20 Mar 2023 17:10:34 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: fix line ending with '('
-Message-ID: <ZBhNOkQbG4ygNF98@khadija-virtual-machine>
+        Mon, 20 Mar 2023 05:12:41 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Samuel =?utf-8?Q?=C4=8Cavoj?= <samuel@cavoj.net>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, daniel@ffwll.ch,
+ sam@ravnborg.org, maxime@cerno.tech, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org, Zack Rusin
+ <zackr@vmware.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, Alex Deucher
+ <alexander.deucher@amd.com>, Zhen Lei <thunder.leizhen@huawei.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
+ devices via aperture helpers
+In-Reply-To: <87706a167c1e490a12371e2edf0f34e3@cavoj.net>
+References: <20220718072322.8927-1-tzimmermann@suse.de>
+ <20220718072322.8927-8-tzimmermann@suse.de>
+ <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
+ <e881f6d6-0d2b-5775-68f2-35cc4d666d63@suse.de>
+ <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
+ <87706a167c1e490a12371e2edf0f34e3@cavoj.net>
+Date: Mon, 20 Mar 2023 13:12:40 +0100
+Message-ID: <87v8ivoc3r.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Splitting function header to multiple lines because of 80 characters per
-line limit, results in ending the function call line with '('.
-This leads to CHECK reported by checkpatch.pl
+Samuel =C4=8Cavoj <samuel@cavoj.net> writes:
 
-Move the first parameter right after the '(' in the function call line.
-Align the rest of the parameters to the opening parenthesis.
+[...]
 
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
- drivers/staging/greybus/audio_topology.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+>>>> This call to sysfb_disable() has been causing trouble with regard to
+>>>> VFIO. VFIO has been calling aperture_remove_conflicting_pci_devices=20
+>>>> to
+>>>> get rid of any console drivers (d173780620792c) using the device in
+>>>> question, but now even unrelated drivers are getting killed. Example
+>>>> situation:
+>>>=20
+>>> Which drivers do you use?
+>
+> This happens with either no drivers loaded or the proprietary nvidia
+> driver. Nouveau is fine as it doesn't rely on efifb but brings its own.
+>
 
-diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
-index 62d7674852be..08e6a807c132 100644
---- a/drivers/staging/greybus/audio_topology.c
-+++ b/drivers/staging/greybus/audio_topology.c
-@@ -24,9 +24,8 @@ struct gbaudio_ctl_pvt {
- 	struct gb_audio_ctl_elem_info *info;
- };
+Which is what all DRM drivers should do. If they want to make sure that a
+fbdev will be present after the DRM driver probes, then should register an
+emulated fbdev.
 
--static struct gbaudio_module_info *find_gb_module(
--					struct gbaudio_codec_info *codec,
--					char const *name)
-+static struct gbaudio_module_info *find_gb_module(struct gbaudio_codec_info *codec,
-+						  char const *name)
- {
- 	int dev_id;
- 	char begin[NAME_SIZE];
---
-2.34.1
+There was an attempt to workaround that in [0], in particular patch [1]
+but that effort was not continued since the only DRM driver that would be
+affected is the Nvidia proprietary driver that relies on efifb/simpledrm
+to have a VT.
+
+[0]: https://patchwork.kernel.org/project/dri-devel/list/?series=3D711019&a=
+rchive=3Dboth
+[1]: https://patchwork.kernel.org/project/dri-devel/patch/20230111154112.90=
+575-11-daniel.vetter@ffwll.ch/
+
+--=20
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
