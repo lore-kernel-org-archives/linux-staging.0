@@ -1,138 +1,108 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CF11383;
-	Mon, 20 Mar 2023 08:53:22 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id er8so31903979edb.0;
-        Mon, 20 Mar 2023 01:53:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6ED81383;
+	Mon, 20 Mar 2023 08:58:22 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id o7so9548001wrg.5;
+        Mon, 20 Mar 2023 01:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679302401;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CSur2724Mrb+t2O165F/BN6jWN51XTSV+JAwdxRyZN0=;
-        b=HtN7OaOaVn8D25XKoV7oyiJWUZl790qSN5SbGGws1TIykkdNweRUTVRhIB1VmtUHbG
-         X3rrND9fEoKsd/V7KKgqV6RcENuMAsQr73/zK/LBj8GIm4HoXflUn23Ai61cybHckB+w
-         0qr5VHUA9vmZt8PzmV6iprXrXFKSAcLdec1MYeMZ48JmItqa6MgoXhf3zULptmQ1Cw54
-         7l7Q6KISU3yCkbwMJ9yt1yDP2uAx0zK+1gCnuH8dN1gdXsB7Votre8aOzJb9O51w4iPg
-         03GR5VaLw1HMmHyS+EtWTfGV2aCDLonOuX57risk7aoDMYJVomfhlwgMdaMt6AV8SEM+
-         F0Lw==
+        d=gmail.com; s=20210112; t=1679302701;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DzJeoTbKWKmIBwgQA0Y6y/DCv+ZaiOaeERybU2fweUE=;
+        b=QDRO/di0+W4wO0US7hLYQPt0JtqrXuz+l1/4iXt4x4pSqH1+Up7aPBXLgzauOOdr4t
+         R4aV7r0anl4+aiGVdthztkDvMh13STej0atvbniaW+ZYi1AuLxQT5WD3x3pVlG7yVf4e
+         dL9R2uq6DQsa2EfgQZg4XciDUjCT9prIVtNyNDpH16tFUnnVVIxox7ieHMFD1iRNu159
+         wcjrALUHtCKlnPBrU5mZrtSyc1sfF5Jb+rXHsJDZYnytWbso+d/DnRzzr7cZ5I/dLNCk
+         00u8YFwtqnSwRObn4iDBzgVlb/VBTi5k99cT2a4XC7oGphqujkc1lFpZ37nqP/ubyIgi
+         MxBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679302401;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CSur2724Mrb+t2O165F/BN6jWN51XTSV+JAwdxRyZN0=;
-        b=1m4tb68BlUkDuKhU7rbkea70q7zOXdpVUezN0+hzVvEQzcFROZzSNhs/lxbqieCVa3
-         TkbFgKF+11fhtoqf2iJ0/jmGjHe1OXidcO1wB0pcKhhQ1sxZmCI69lf83WzQACMIipdK
-         +gcmM7pZ/Wy/EharfFdtD48sY5D9mRQ/ZYxJtyyCdIPz87HZkttPVL7ijy0ppqp9jKRi
-         rYKAtO+wv0kHka5UpWlCorjKfx6CounTdaBXEe9N4Bm21uJECidfUnAfhf/zcrQIvXC9
-         V3ZkOXRGnC8I8WKf6ZLL+H4mEtw052Eg+nuH62ovIc9shMBP5wCmXAIqSeu+2lUY8leA
-         /S6w==
-X-Gm-Message-State: AO0yUKUUfIHrkZr9nn79tDiBZmHYEoK74n2XSKT9KcKf8kLhWsfZ20VI
-	ycgYXAQF8b4cZLAR6WmX+ok=
-X-Google-Smtp-Source: AK7set9pXllFdkoHzA8sdpIZJzcBcpJTv8PFDi87umJRA+YksZIIVd0ezRSV46JAJnTPD1fWINCqjQ==
-X-Received: by 2002:aa7:c049:0:b0:4fd:21a6:a649 with SMTP id k9-20020aa7c049000000b004fd21a6a649mr11200682edo.40.1679302400922;
-        Mon, 20 Mar 2023 01:53:20 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id j30-20020a508a9e000000b004af5968cb3bsm4474230edj.17.2023.03.20.01.53.19
+        d=1e100.net; s=20210112; t=1679302701;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DzJeoTbKWKmIBwgQA0Y6y/DCv+ZaiOaeERybU2fweUE=;
+        b=njgrfCPQcvhNNXeJeO6+F2V3ZzzwD9tQNH4Ki0+/5ZilObB9Wcm82vMFkaE633UfTA
+         CUCmmXWZQx55SD+WnJMpHaATdh1x4OmUbqmToXzqcWpv4WgpMyPV1H4wFTP29TizAVE1
+         zGhRoznmEAHHt1O2QmthtKZxm8Fw1/Lzd45CfN/PPB2JHCGkl+fkTAQduXSH1zTkLuLf
+         YB/yJL5pSvwGL3yBjDMnrCKX3ao7vWtFdsbGeWjMXBRbFYy6W7QB4+uVg0aEYaK/nNRS
+         JPx3EAoBbFAsbDolWl5gF640Qd/W1hmTR6WBNBrIXKzAVbcMTj23yNyqoR+j6Rom8gTz
+         AWmQ==
+X-Gm-Message-State: AO0yUKVzFf7ZQcUPPGx3fcj+PLIQo9fk7jxs6sUzOrnpAkTOCJfaBhgU
+	xVdqbV/8U0tTcu/2H551rbV58RnESF4=
+X-Google-Smtp-Source: AK7set+KLxobAAO+fehPbXx6zZ9HiCLEkSn44tcxAykkKqp8FeNPy5vK22tOMa9HFICZsPo+2mWv2A==
+X-Received: by 2002:a5d:6512:0:b0:2ce:9c6b:4fc5 with SMTP id x18-20020a5d6512000000b002ce9c6b4fc5mr8838497wru.16.1679302700800;
+        Mon, 20 Mar 2023 01:58:20 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m23-20020a056000181700b002c5694aef92sm8312838wrh.21.2023.03.20.01.58.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 01:53:20 -0700 (PDT)
-Date: Mon, 20 Mar 2023 13:53:18 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: outreachy@lists.linux.dev, Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+        Mon, 20 Mar 2023 01:58:20 -0700 (PDT)
+Date: Mon, 20 Mar 2023 11:58:16 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>
+Cc: Marc Dietrich <marvin24@gmx.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: remove tabs to fix line length and
- merge lines
-Message-ID: <ZBge/v/K/BOVkl2V@khadija-virtual-machine>
-References: <ZAusnKYVTGvO5zoi@khadija-virtual-machine>
- <640e75cfd8fc_229a89294a3@iweiny-mobl.notmuch>
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] Staging: nvec: Convert to_nvec_led from a macro to an
+ inline function
+Message-ID: <256ee298-e34e-4ff4-94ba-e4a0102ef2ac@kili.mountain>
+References: <20230318175250.GA49618@sumitra.com>
+ <417e944c-4653-43ef-b492-c82c536e4d87@kili.mountain>
+ <20230320084422.GA126429@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <640e75cfd8fc_229a89294a3@iweiny-mobl.notmuch>
+In-Reply-To: <20230320084422.GA126429@sumitra.com>
 
-On Sun, Mar 12, 2023 at 06:01:03PM -0700, Ira Weiny wrote:
-> Khadija Kamran wrote:
-> > In file drivers/staging/greybus/arche-platform.c,
-> > - Length of line 181 exceeds 100 columns, fix by removing tabs from the
-> >   line.
-> > - If condition and spin_unlock_...() call is split into two lines, join
-> > them to form a single line.
+On Mon, Mar 20, 2023 at 01:44:22AM -0700, Sumitra Sharma wrote:
+> On Mon, Mar 20, 2023 at 08:39:49AM +0300, Dan Carpenter wrote:
+> > On Sat, Mar 18, 2023 at 10:52:50AM -0700, Sumitra Sharma wrote:
+> > > Convert to_nvec_led from a macro to a static inline function, to make the
+> > > relevant types apparent in the definition and to benefit from the type
+> > > checking performed by the compiler at call sites.
+> > > 
+> > > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> > > ---
 > > 
-> > Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
+> > You need to compile test your changes.
+> >
 > 
-> Fundamentally the problem with arche_platform_wd_irq() is that the
-> indentation is too great.
+> Hi dan,
 > 
-> "... if you need more than 3 levels of indentation, you’re screwed anyway,
-> and should fix your program."
+> I am facing problems in creating modules and in compiling them.
 > 
-> 	-- https://www.kernel.org/doc/html/v4.10/process/coding-style.html#indentation
-> 
-> I think a better solution would be to refactor the entire function.  This
-> would make the logic of the function more clear as well IMHO.
-> 
-> Here is another tip to help:
-> 
-> https://www.kernel.org/doc/html/v4.10/process/coding-style.html#centralized-exiting-of-functions
-> 
-> Do you think you could try that?
+> Any help in this would be appreciated. Here is the link to the thread
+> https://lore.kernel.org/outreachy/alpine.DEB.2.22.394.2303191336090.2867@hadrien/T/#t
 
-Hey Ira!
+If you're editing a .h file then you need to compile all the stuff which
+includes it.  It's slightly complicated.  But if you're just editing a
+.c file like here then what I do is I have use my Smatch script to try
+compile it.
 
-Sorry about the late reply. Thank you for your feedback. I have looked
-into the above link. Are you referring to the use of goto statements in
-arche_platform_wd_irq() call?
+In Debian run:
+apt-get install gcc make sqlite3 libsqlite3-dev libdbd-sqlite3-perl libssl-dev libtry-tiny-perl
+Or in Fedora run:
+yum install gcc make sqlite3 sqlite-devel sqlite perl-DBD-SQLite openssl-devel perl-Try-Tiny
 
-Thank you!
+git clone https://github.com/error27/smatch.git
+cd smatch
+make
 
-Regards,
-Khadija
+cd /path/to/kernel_src/
+~/smatch/smatch_scripts/kchecker drivers/staging/nvec/nvec_paz00.c
 
+Also I run Sparse on the file.
+~/smatch/smatch_scripts/kchecker --sparse drivers/staging/nvec/nvec_paz00.c
 
-> Ira
-> 
-> > ---
-> > Changes in v2:
-> >  - Change the subject and log message
-> >  - Merge if condition and spin_unlock...() from two lines to one 
-> >  drivers/staging/greybus/arche-platform.c | 8 +++-----
-> >  1 file changed, 3 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-> > index fcbd5f71eff2..00ed5dfd7915 100644
-> > --- a/drivers/staging/greybus/arche-platform.c
-> > +++ b/drivers/staging/greybus/arche-platform.c
-> > @@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
-> >  				 * Check we are not in middle of irq thread
-> >  				 * already
-> >  				 */
-> > -				if (arche_pdata->wake_detect_state !=
-> > -						WD_STATE_COLDBOOT_START) {
-> > +				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
-> >  					arche_platform_set_wake_detect_state(arche_pdata,
-> > -									     WD_STATE_COLDBOOT_TRIG);
-> > -					spin_unlock_irqrestore(&arche_pdata->wake_lock,
-> > -							       flags);
-> > +						WD_STATE_COLDBOOT_TRIG);
-> > +					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
-> >  					return IRQ_WAKE_THREAD;
-> >  				}
-> >  			}
-> > -- 
-> > 2.34.1
-> > 
-> > 
-> 
-> 
+When I'm patching a file, then I like to look at any other issues I
+might want to fix and deal with that as well.
+
+regards,
+dan carpenter
