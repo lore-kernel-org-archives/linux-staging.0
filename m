@@ -1,51 +1,55 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331201380;
-	Mon, 20 Mar 2023 08:26:31 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id o12so43350634edb.9;
-        Mon, 20 Mar 2023 01:26:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C17E1383;
+	Mon, 20 Mar 2023 08:44:29 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id l9-20020a17090a3f0900b0023d32684e7fso12964239pjc.1;
+        Mon, 20 Mar 2023 01:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679300789;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MLz3hRBfX2H9kEvnXukqy9ngVwHdXnfaWeWONnLje10=;
-        b=VwD/cTCpK2eod5z/7muOl6+J7Tq9jX8bgEJzMWuM6UWdUmscthpSF17CqC/LzichUE
-         SnhGfHT3d9QJyGIwg6NbGJREF+XzogXguXf3m4V43gTbbQktn8vI7sfgR0TG0wVa0wHj
-         8n1mI24Uwvcrq2flFXFJVIWpz6D7BM6UMlpgi8JyzIeDYq3CkpO5SsPCtqB9NiVmx0v9
-         BnznADdg7QWsC9s5wJLQAeJ3wFST5xoFhEfxr9scPqIje/qO5mjWKT9SHp3zO1GAxVkh
-         lhphJpVsfuTfdvSxHNiAu7Y6xtYuza+RgWWMmdvMLn/a4C1Qn0jKnBcRl5XpkLNp5UQy
-         uzJQ==
+        d=gmail.com; s=20210112; t=1679301869;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gs8rcm/d7d5rUf8zE5Zuo/A8IdhoZtRoqNxyEktI7DU=;
+        b=D1Zmcz+v1MK/aSof4oDyzd7q1lx9K9HTk27r+LV6Lh1C3y/VPTkYrWUQMA/OMPpcKU
+         we08QnxWPTFCyvkjbDwhE3gvfDeg2Jn0RzBP4V+/2fH0eNEg36YInV9OONtM4o6Dh3x5
+         qXABGpInu9pkf6OBcanjeGCD6sMY50g9QkfUk2RT3Igek5ixe3O75VESxkXnrq00JXyr
+         9Cs6qlykNDGCbrYqav6bfOyJ82b9huN0+x0ahdhTu3wnkJNC2whpCfZf6e0MOZHAtgBi
+         VO8GxL4tZ1h9YYEM6GnojpOykTBVhIcWmpVO+SHsjNgsnvFU+NBzkK4GWrBATqH6zCwk
+         gUzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679300789;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MLz3hRBfX2H9kEvnXukqy9ngVwHdXnfaWeWONnLje10=;
-        b=jONlRoVWyCjJdOcDpCF626Q1kQgntN0WlSJo38GJhMS5SyyIJUutIVeC1XJ1DXk/rc
-         XD0HBiZIqHOrnGlV+LjVuhxcWxQWGs3T1+XeQZA2UoHYYNp6Jxa9WI6s+D3+bNs0YBIs
-         5mKO/Gcz6A83HEQ9p1tUY+3DZ6oJa5EXCJpFFsyC2znKMNuEE1TRnvefEucAQMKiYpa7
-         yEIZEyuLQL6CoyOlQIEFx2AhJ+8tE6y3znySDq80pNASTm7pD/MjHXyA2PTHvNWzKYic
-         jkPKdQEzm2pQFMgqLe6i3POMiFtay4I9C+RA0SVqhoaczPbJB9ErRPmcIDLp5ov8oqV5
-         83Yg==
-X-Gm-Message-State: AO0yUKWRQaDfdf11AV+BKJrD7fBnyKcNeNuAVlcGfUeFI9a8rRa0XPGb
-	hyYLFulXdzGFmbSpal9Ztdk=
-X-Google-Smtp-Source: AK7set8d9sgILfZHW+akuoOmIEj/S+YtcQwxysXg+R+z+yF04NSZlFIinm9t2bQRA4dZlz+2IKBR3A==
-X-Received: by 2002:a17:906:3c4b:b0:886:7e24:82eb with SMTP id i11-20020a1709063c4b00b008867e2482ebmr7155552ejg.21.1679300789202;
-        Mon, 20 Mar 2023 01:26:29 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id hf8-20020a1709072c4800b0092b65c54379sm4100679ejc.104.2023.03.20.01.26.28
+        d=1e100.net; s=20210112; t=1679301869;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gs8rcm/d7d5rUf8zE5Zuo/A8IdhoZtRoqNxyEktI7DU=;
+        b=uyF/ouiu2TBNKsfEso78pw6P3CPhbnkPJlPoo5jaNi0ZwNkPehikDmgvrGSghu9oed
+         X18ztQm+vtLYcTwgKOBiCVegb7bAGVjqnZYoeyMi2+nkztN5v1j47BT9OkMtcPU8wcPQ
+         wg7UjeROifAH2h86M2qnW9MvvX51TR1/QODlRNqpj74nxbjxLfCjEqaF7FwQS0Obz2QQ
+         qaJiBKJHwnaw+n+FrkVgkqHvVtK5u0GXwPQshJSyGtCv6DrFe1W6GFp1h0lu1vYwzlQH
+         /5kTschXCJ5+9ZXIy/pLoC9n2AnH/GO65/JmBWXjUm26slLFglNyjnLiqh4eOF/9huO+
+         HmZw==
+X-Gm-Message-State: AO0yUKV7/yq51sn5zioHAZNyCm0mXZJbKE0C8CP5X3jol0Y0A8lANZ7H
+	1ESB74t833E1XSoNOEIt980=
+X-Google-Smtp-Source: AK7set/c7pstRRWuhurf3gUuxnXwtKb1375FG/fOeRr1dGCOpfdeRb7/xUqrWb2ye0HQRVT8Xbwv3w==
+X-Received: by 2002:a17:902:e742:b0:19f:7977:c9d6 with SMTP id p2-20020a170902e74200b0019f7977c9d6mr18905610plf.28.1679301869033;
+        Mon, 20 Mar 2023 01:44:29 -0700 (PDT)
+Received: from sumitra.com ([210.212.97.176])
+        by smtp.gmail.com with ESMTPSA id d4-20020a170902b70400b001a1c2eb3950sm2847455pls.22.2023.03.20.01.44.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 01:26:28 -0700 (PDT)
-Date: Mon, 20 Mar 2023 13:26:26 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+        Mon, 20 Mar 2023 01:44:27 -0700 (PDT)
+Date: Mon, 20 Mar 2023 01:44:22 -0700
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Marc Dietrich <marvin24@gmx.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: greybus: merge split lines
-Message-ID: <ZBgYsqkpdYpGQniB@khadija-virtual-machine>
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] Staging: nvec: Convert to_nvec_led from a macro to an
+ inline function
+Message-ID: <20230320084422.GA126429@sumitra.com>
+References: <20230318175250.GA49618@sumitra.com>
+ <417e944c-4653-43ef-b492-c82c536e4d87@kili.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,48 +58,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <417e944c-4653-43ef-b492-c82c536e4d87@kili.mountain>
 
-If condition and spin_unlock_...() call is split into two lines, merge
-them to form a single line.
+On Mon, Mar 20, 2023 at 08:39:49AM +0300, Dan Carpenter wrote:
+> On Sat, Mar 18, 2023 at 10:52:50AM -0700, Sumitra Sharma wrote:
+> > Convert to_nvec_led from a macro to a static inline function, to make the
+> > relevant types apparent in the definition and to benefit from the type
+> > checking performed by the compiler at call sites.
+> > 
+> > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> > ---
+> 
+> You need to compile test your changes.
+>
 
-Suggested-by: Deepak R Varma drv@mailo.com
-Signed-off-by: Khadija Kamran <kamrankhadijadj@gmail.com>
----
+Hi dan,
 
-Changes in v3:
- - Removing tab to fix line length results in a new checkpatch warning,
-   so let the fix length be as it is.
-Changes in v2:
- - Rephrased he subject and description
- - Merged if_condition() and spin_unlock...() into one line
- - Link to patch:
- https://lore.kernel.org/outreachy/ZAusnKYVTGvO5zoi@khadija-virtual-machine/
+I am facing problems in creating modules and in compiling them.
 
-Link to first patch:
-https://lore.kernel.org/outreachy/ZAtkW6g6DwPg%2FpDp@khadija-virtual-machine/
+Any help in this would be appreciated. Here is the link to the thread https://lore.kernel.org/outreachy/alpine.DEB.2.22.394.2303191336090.2867@hadrien/T/#t
 
- drivers/staging/greybus/arche-platform.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Regards,
 
-diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-index fcbd5f71eff2..6890710afdfc 100644
---- a/drivers/staging/greybus/arche-platform.c
-+++ b/drivers/staging/greybus/arche-platform.c
-@@ -176,12 +176,10 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
- 				 * Check we are not in middle of irq thread
- 				 * already
- 				 */
--				if (arche_pdata->wake_detect_state !=
--						WD_STATE_COLDBOOT_START) {
-+				if (arche_pdata->wake_detect_state != WD_STATE_COLDBOOT_START) {
- 					arche_platform_set_wake_detect_state(arche_pdata,
- 									     WD_STATE_COLDBOOT_TRIG);
--					spin_unlock_irqrestore(&arche_pdata->wake_lock,
--							       flags);
-+					spin_unlock_irqrestore(&arche_pdata->wake_lock, flags);
- 					return IRQ_WAKE_THREAD;
- 				}
- 			}
---
-2.34.1
+Sumitra
 
+> regards,
+> dan carpenter
+> 
