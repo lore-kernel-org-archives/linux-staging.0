@@ -1,153 +1,165 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDDC7E3;
-	Mon, 20 Mar 2023 14:36:08 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id w9so47638780edc.3;
-        Mon, 20 Mar 2023 07:36:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679322967;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+bhKdJGctfgNktjxuVj2so7dX31mlyALoONZ3xTxQAo=;
-        b=h8UPhcIEH39Ywj5eMgZz0xyTP3unUC/KUfkRJw0CqfGPlEKN6SwKqG2gqt1qfYfKz8
-         UCy6FmSEU6W7FJdpoEKE5cBmfQuvwRdvomX+bZRIIUpHIwRsKgXNLAuaQvndtkd17GzJ
-         HJK4SKYWulZhCWvfwkMozsbjVthDUgWwl2fold1owMQTDwa6vsG6ivVxdFTu/iTccaRy
-         RRH/I+NOLyu0XndnjKft6VjQ7okAs7qb9X4s60zwKW+2jmFN/ty7U3NqEOSZxHkV379c
-         mhV4P2VKedk0b7yxKVEddlF89/2DHCvGPs959aXjJOrEPBZjE/RrqN2xIicXLCYG+AUy
-         4lLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679322967;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+bhKdJGctfgNktjxuVj2so7dX31mlyALoONZ3xTxQAo=;
-        b=tbRe5wLnf8/zkw3t2lDFst4D9wX27sB1ILhbVXid9eeksxrgekJLy5MxrbLb86uG3g
-         TzQf3ZCGAflH2oBGNh+sjPqdDaTV15cXd7M0FxsX8gJunA5xrj7zXZoPYlxmv4Iye/oG
-         6OZyMSpDsOPyjB44Y+lOyYwX5pAwuWiL/8BrpcoWEeQia0Ndi2QFs6piqSdPbZyMh1/O
-         iKsEon8d8fMag9Wr306efsWUbRgB99NvhyAYAAm0AIFva+kMR3sbuO5AAT0fqXuG5/4u
-         hI37y8jKE9Tw0Ei77EJ6zUm6Ckbz14alNF/DhtKaKv7n1Vo3FbBGOmhUAivMYvO3p4er
-         ywsQ==
-X-Gm-Message-State: AO0yUKXqYenebvguFH0G9j4fL3ssQzA8IrCHk4ssDy5o2AmXCh0IWMyE
-	6s9wNKk3ZcI6VpjZoPU8q10=
-X-Google-Smtp-Source: AK7set8jbwJ62Rb4/CWNBz2G/at5rbfmgI979Xo7rDZoF8x9yzaT6t4b5n/rH43xpuzCDJQl76yolQ==
-X-Received: by 2002:aa7:c658:0:b0:4fb:e14:c25b with SMTP id z24-20020aa7c658000000b004fb0e14c25bmr12070380edr.33.1679322966785;
-        Mon, 20 Mar 2023 07:36:06 -0700 (PDT)
-Received: from khadija-virtual-machine ([39.41.14.14])
-        by smtp.gmail.com with ESMTPSA id b44-20020a509f2f000000b004c09527d62dsm4969535edf.30.2023.03.20.07.36.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 07:36:06 -0700 (PDT)
-Date: Mon, 20 Mar 2023 19:36:03 +0500
-From: Khadija Kamran <kamrankhadijadj@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC4C1C29;
+	Mon, 20 Mar 2023 15:27:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679326080; x=1710862080;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/fRnRCW+Rd918Lokio/1z6rWnclRA6bccd8kJtT6fQI=;
+  b=FA+1oQUSArwZGiCLgKZP6ru73FP0ngmKYAJtPZ+aHnT51R+szSczvwZL
+   aRRAxFen68Yl3asmhYWzwLRHhstHiC00/8QczmnpvzsStViIRBClj6m3V
+   7mSy96eq7r7qdRmGgOLuIKA541/uzj2SLEhCHB7/aNn5zb5l6sR2IbOhU
+   VZRFIHkbhCQ4KInvLnEOvdQ9/rroLUDzFYnw5IFfovkxrjIc8qYCpnKDz
+   CbFYHDnwiQzBcUrknrhe44mu6/SCYdZslbiMeXyYcMSA8Qqbwa+f1y0Pj
+   ePiIf5EMFyl1d7b9aFsd76A8RB6PA/mkqcDBNbAgyoBJY7fQxf1pU0C4C
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338718184"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
+   d="scan'208";a="338718184"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 08:27:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="750148546"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
+   d="scan'208";a="750148546"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 20 Mar 2023 08:27:47 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peHQI-000B74-28;
+	Mon, 20 Mar 2023 15:27:46 +0000
+Date: Mon, 20 Mar 2023 23:27:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>,
+	Marc Dietrich <marvin24@gmx.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] staging: axis-fifo: initialize timeouts in init only
-Message-ID: <ZBhvU/USP0es8e4P@khadija-virtual-machine>
-References: <ZBN3XAsItCiTk7CV@khadija-virtual-machine>
- <2222576.3ZeAukHxDK@suse>
- <ZBf+XDN8GM0xDDCq@khadija-virtual-machine>
- <3180435.l52yBJDM9G@suse>
+	ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] Staging: nvec: Convert to_nvec_led from a macro to an
+ inline function
+Message-ID: <202303202327.ojGuSQqT-lkp@intel.com>
+References: <20230318175250.GA49618@sumitra.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3180435.l52yBJDM9G@suse>
+In-Reply-To: <20230318175250.GA49618@sumitra.com>
 
-On Mon, Mar 20, 2023 at 02:38:24PM +0100, Fabio M. De Francesco wrote:
-> On lunedì 20 marzo 2023 07:34:04 CET Khadija Kamran wrote:
-> > On Fri, Mar 17, 2023 at 11:29:25AM +0100, Fabio M. De Francesco wrote:
-> > > Khadija,
-> > > 
-> > > Congratulations for having your first patch in Linux, via Greg's staging
-> > > tree.
-> > > 
-> > > It will take some time before it reaches mainline, although it is already 
-> on
-> > > its way to get upstream.
-> > 
-> > Thank you! :)
-> > 
-> > > On giovedì 16 marzo 2023 21:09:00 CET Khadija Kamran wrote:
-> > > > Initialize the module parameters, read_timeout and write_timeout once in
-> > > > init().
-> > > > 
-> > > > Module parameters can only be set once and cannot be modified later, so 
-> we
-> > > > don't need to evaluate them again when passing the parameters to
-> > > > wait_event_interruptible_timeout().
-> > >
+Hi Sumitra,
 
+Thank you for the patch! Yet something to improve:
 
-Hey Fabio,
-I am talking about this below:
+[auto build test ERROR on staging/staging-testing]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumitra-Sharma/Staging-nvec-Convert-to_nvec_led-from-a-macro-to-an-inline-function/20230319-015434
+patch link:    https://lore.kernel.org/r/20230318175250.GA49618%40sumitra.com
+patch subject: [PATCH v2] Staging: nvec: Convert to_nvec_led from a macro to an inline function
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230320/202303202327.ojGuSQqT-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/5bb6b930cab3ac631310d3bbf40c9decf91dfd38
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sumitra-Sharma/Staging-nvec-Convert-to_nvec_led-from-a-macro-to-an-inline-function/20230319-015434
+        git checkout 5bb6b930cab3ac631310d3bbf40c9decf91dfd38
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/staging/
 
-> > > Greg made you (and indirectly me notice) that the statement above is a 
-> kind
-> > > of short-circuit because it misses to make the readers notice that you are
-> > > dealing with specific permissions granted to these two module's 
-> parameters.
-> 
-> Only "read" permissions for owner, group, others.
-> Obviously, when the module is initialized, "insmod" can pass actual values to 
-> the arguments. The point is that from that moment onward nobody is allowed to 
-> change the initial values associated with this variables, but they can still 
-> be read at will.
-> 
-> > I am trying to make sense of this. As the permissions do not allow
-> > write, so the value cannot be configured afterwards.
-> 
-> Yes, if with "afterwards" you are intending after they are set at insmod runs. 
-> 
-> > Instead of saying 'cannot be modified later', we should talk more about
-> > permissions here too.
-> 
-> I'm confused by this statement. Can you please rephrase?
-> 
-> > Am I getting it right?
-> 
-> Not sure, it depends on what you meant with the previous phrase.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303202327.ojGuSQqT-lkp@intel.com/
 
-As you said above that the commit message makes the reader miss the
-permission details, so should we write more about permissions in the
-description?
+All errors (new ones prefixed by >>):
 
-
->  
-> > Thank you!
-> > 
-> > Regards,
-> > Khadija
-> 
-> You're welcome!
-> 
-> So, thanks for working on this patch as long as it takes to get it done. 
-> 
-> I think the lesson to be learned is that in our community there are barriers 
-> to the entry of substandard products and therefore people have to do their 
-> best if they really want to see their work applied.
-
-
-Yes, you are right. Due to this reason, the whole process is making me
-learn a lot. I am really glad to be a part of it ^-^ 
-
-
-> These tasks are not for the "faints of heart" :-)
-> 
-> Fabio
->
-
-Regards,
-Khadija :)
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/staging/nvec/nvec_paz00.c:10:
+   drivers/staging/nvec/nvec_paz00.c: In function 'to_nvec_led':
+>> include/linux/container_of.h:20:54: error: invalid use of undefined type 'struct nvec_led'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/staging/nvec/nvec_paz00.c:19:16: note: in expansion of macro 'container_of'
+      19 |         return container_of(led_cdev, struct nvec_led, cdev);
+         |                ^~~~~~~~~~~~
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/staging/nvec/nvec_paz00.c:19:16: note: in expansion of macro 'container_of'
+      19 |         return container_of(led_cdev, struct nvec_led, cdev);
+         |                ^~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/arm/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:247,
+                    from include/linux/build_bug.h:5:
+>> include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct nvec_led'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   drivers/staging/nvec/nvec_paz00.c:19:16: note: in expansion of macro 'container_of'
+      19 |         return container_of(led_cdev, struct nvec_led, cdev);
+         |                ^~~~~~~~~~~~
+   drivers/staging/nvec/nvec_paz00.c:20:1: error: control reaches end of non-void function [-Werror=return-type]
+      20 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-> 
-> 
+vim +20 include/linux/container_of.h
+
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08   9  
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  10  /**
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  11   * container_of - cast a member of a structure out to the containing structure
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  12   * @ptr:	the pointer to the member.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  13   * @type:	the type of the container struct this is embedded in.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  14   * @member:	the name of the member within the struct.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  15   *
+7376e561fd2e01 Sakari Ailus     2022-10-24  16   * WARNING: any const qualifier of @ptr is lost.
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  17   */
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  18  #define container_of(ptr, type, member) ({				\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  19  	void *__mptr = (void *)(ptr);					\
+e1edc277e6f6df Rasmus Villemoes 2021-11-08 @20  	static_assert(__same_type(*(ptr), ((type *)0)->member) ||	\
+e1edc277e6f6df Rasmus Villemoes 2021-11-08  21  		      __same_type(*(ptr), void),			\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  22  		      "pointer type mismatch in container_of()");	\
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  23  	((type *)(__mptr - offsetof(type, member))); })
+d2a8ebbf8192b8 Andy Shevchenko  2021-11-08  24  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
